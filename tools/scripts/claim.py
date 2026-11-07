@@ -7,7 +7,7 @@ own the same shard. Work happens on that branch; `land` puts it on the main bran
 
 usage: claim.py status                   shards with work left, drafts (yellow) first, and who owns them
        claim.py take AGENT [SHARD]       claim SHARD (or the first free one) and switch to shard/NNN
-       claim.py land                     rebase on main (dropping the claim commit), make compare, push to main
+       claim.py land                     rebase on main, check compare + nonmatching, push to main
                                          (retries when main moved); the shard stays claimed
        claim.py pr                       same checks, but push shard/NNN and open a pull request (gh) instead
        claim.py who FUNC                 which shard owns FUNC and who claimed it (check before touching anything)
@@ -163,9 +163,13 @@ def cmd_who(func):
 
 
 def make_compare():
-    r = subprocess.run(["make", "-j%d" % (os.cpu_count() or 4), "compare"], cwd=ROOT, capture_output=True, text=True)
-    if "OK" not in r.stdout:
-        sys.exit("make compare FAILED: fix it before landing\n" + (r.stdout + r.stderr)[-2000:])
+    """Validate the matching ROM and all C drafts in the rebased delivery tree."""
+    for target in ("compare", "nonmatching"):
+        r = subprocess.run(["make", "-j%d" % (os.cpu_count() or 4), target],
+                           cwd=ROOT, capture_output=True, text=True)
+        if r.returncode or (target == "compare" and "OK" not in r.stdout):
+            sys.exit("make %s FAILED: fix it before delivery\n" % target
+                     + (r.stdout + r.stderr)[-2000:])
 
 
 def current_shard():
@@ -227,13 +231,13 @@ def cmd_take(agent, want=None):
 
 def cmd_land():
     b = current_shard()
-    verified = None  # main commit our last successful make compare was based on
+    verified = None  # main commit our last successful normal and draft builds used
     for attempt in range(12):
         mb = rebase_on_main()
         guard(b, mb)
         base = git("rev-parse", "origin/" + mb)
-        # CI's "progress: update" commits only touch docs/progress; they cannot change the ROM,
-        # so a compare verified on an earlier main stays valid and we just retry the push.
+        # CI's "progress: update" commits only touch docs/progress, so both builds
+        # verified on an earlier main stay valid and we just retry the push.
         moved = git("diff", "--name-only", verified, base).splitlines() if verified else ["?"]
         if any(not p.startswith("docs/progress/") for p in moved):
             make_compare()
