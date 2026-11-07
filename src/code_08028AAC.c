@@ -1706,18 +1706,17 @@ found27scan_51:
                     (*(u16*)((u8*)(var_r2_2)+(0x1A))) = 4;
                     (*(u32*)((u8*)(var_r2_2)+(0x3C))) = (s32) ((*(u32*)((u8*)(var_r2_2)+(0x3C))) | 0x10);
                 }
+                scanCallback27 = (u32)&sub_0802F578;
                 var_r1_2 = stateAA28 + 0x7A4;
                 var_r2_3 = 0;
-loop_57:
-                if (*(s32*)var_r1_2 != var_r8) {
+                do {
+                    if (*(s32*)var_r1_2 == var_r8) {
+                        goto block_61;
+                    }
                     var_r2_3 += 1;
                     var_r1_2 += 0x70;
-                    if (var_r2_3 > 0xEU) {
-                        goto block_73;
-                    }
-                    goto loop_57;
-                }
-                goto block_61;
+                } while (var_r2_3 <= 0xEU);
+                goto block_73;
             }
             var_r8 = sub_080289C0(0x20, 0x5D, 0x52);
             var_r1_3 = stateAA28 + 0x7A4;
@@ -1738,25 +1737,25 @@ found27scan_65:
                 (*(u16*)((u8*)(var_r2_5)+(0x1A))) = 4;
                 (*(u32*)((u8*)(var_r2_5)+(0x3C))) = (s32) ((*(u32*)((u8*)(var_r2_5)+(0x3C))) | 0x10);
             }
+            scanCallback27 = (u32)&sub_0802F578;
             var_r1_2 = stateAA28 + 0x7A4;
             var_r2_6 = 0;
-loop_71:
-            if (*(s32*)var_r1_2 != var_r8) {
+            do {
+                if (*(s32*)var_r1_2 == var_r8) {
+                    goto block_61;
+                }
                 var_r2_6 += 1;
                 var_r1_2 += 0x70;
-                if (var_r2_6 > 0xEU) {
+            } while (var_r2_6 <= 0xEU);
 block_73:
-                    sub_080003F0();
-                    var_r0_3 = ((void *)0);
-                } else {
-                    goto loop_71;
-                }
-            } else {
+            sub_080003F0();
+            var_r0_3 = ((void *)0);
+            goto found27scan_shared;
 block_61:
-                var_r0_3 = var_r1_2;
-            }
+            var_r0_3 = var_r1_2;
+found27scan_shared:
             if (var_r0_3 != ((void *)0)) {
-                (*(u32*)((u8*)(var_r0_3)+(0x44))) = &sub_0802F578;
+                (*(u32*)((u8*)(var_r0_3)+(0x44))) = scanCallback27;
             }
             sp0 = sub_080289C0(0x1F, 0x93, 0x52);
             var_r1_4 = stateAA28 + 0x7A4;
