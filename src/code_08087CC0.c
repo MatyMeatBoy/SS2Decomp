@@ -2434,7 +2434,7 @@ done:
     i = sub_080008C8() % 3;
     stateAF91->w40 = 1;
     stateAF91->h36 = (i << 8) | sel | 0x8000;
-    stateAF91->rec = *(struct RecAF91 *)((u8 *)records + ((sel + selectionStride + i) << 4));
+    stateAF91->rec = *(struct RecAF91 *)((u8 *)records + ((i + sel + selectionStride) << 4));
     sub_08000420(0x02688420);
 }
 #else
