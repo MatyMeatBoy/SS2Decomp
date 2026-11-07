@@ -3270,8 +3270,8 @@ done82:
     case 1:
         if (gMgr82->cursor != gMgr82->prev) {
             base = gMgr82->cursor / 3 * 3;
-            gMgr82->posX = gUnk_084ECBBC_82[gMgr82->cursor - base].x + 0x38;
-            gMgr82->posY = gUnk_084ECBBC_82[gMgr82->cursor - base].y + 0x10;
+            gMgr82->posX = gUnk_084ECBBC[(gMgr82->cursor - base) * 2] + 0x38;
+            gMgr82->posY = (&gUnk_084ECBBC[1])[(gMgr82->cursor - base) * 2] + 0x10;
             gMgr82->prev = gMgr82->cursor;
             gMgr82->f6C = 0;
         }
@@ -3337,9 +3337,10 @@ done82:
         break;
     case 8:
         if (gMgr82->cursor != gMgr82->prev) {
-            base = gMgr82->cursor / 3 * 3 + 3;
-            gMgr82->posX = gUnk_084ECBB0_82[base - (gMgr82->cursor + 1)].x + 0xB8;
-            gMgr82->posY = gUnk_084ECBB0_82[base - (gMgr82->cursor + 1)].y + 0x10;
+            base = gMgr82->cursor / 3 * 3;
+            idx = base + 3;
+            gMgr82->posX = gUnk_084ECBB0[(idx - (gMgr82->cursor + 1)) * 2] + 0xB8;
+            gMgr82->posY = (&gUnk_084ECBB0[1])[(idx - (gMgr82->cursor + 1)) * 2] + 0x10;
             gMgr82->prev = gMgr82->cursor;
             gMgr82->f6C = 0;
         }
