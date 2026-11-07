@@ -4175,13 +4175,17 @@ struct DetailEntry815F4 { u16 kind, value; };
 /* These callers pass sub_0801DE60() in r2. */
 u16 local815F4_sub_0801E378(s32, u16, u8) asm("sub_0801E378");
 u16 local815F4_sub_0801E3D8(s32, u16, u8) asm("sub_0801E3D8");
-/* Expanded twelve times: each block-local v_ gets its own frame slot (0x20C..0x238 in code order). */
+/* Expanded twelve times: each block-local v_ gets its own frame slot (0x20C..0x238 in code order).
+   res85 is one function-scope pointer shared by every resource lookup, so global-alloc keeps
+   the ROM's `adds r2, r0, #0` copy after each sub_08007290 call. */
 #define FMT815F4(LEN, DST, ID, VALUE)                                  \
     {                                                                  \
-        u8 *res_ = (u8 *)sub_08007290(ID);                             \
-        u32 val_ = (VALUE);                                            \
-        u8 *s_ = res_ + 2;                                             \
+        u8 *s_;                                                        \
+        u32 val_;                                                      \
         u32 v_;                                                        \
+        res85 = (u8 *)sub_08007290(ID);                                \
+        val_ = (VALUE);                                                \
+        s_ = res85 + 2;                                                \
         LEN = 0;                                                       \
         for (; *s_ != 0xFD; s_++) {                                    \
             if (*s_ == 0xF7) {                                         \
@@ -4208,23 +4212,25 @@ u16 local815F4_sub_0801E3D8(s32, u16, u8) asm("sub_0801E3D8");
         }                                                              \
         (DST)[LEN] = 0xFD;                                             \
     }
-static inline void Split815F4(u8 *src)
-{
-    u32 line = 0;
-    u32 col = 0;
-    while (*src != 0xFD) {
-        if (*src == 0xFF) {
-            text85[line * 0x20 + col] = 0xFD;
-            line++;
-            col = 0;
-        } else {
-            text85[line * 0x20 + col] = *src;
-            col++;
-        }
-        src++;
+#define SPLIT815F4(ID)                                                 \
+    {                                                                  \
+        res85 = (u8 *)sub_08007290(ID);                                \
+        var_r6 = res85 + 2;                                            \
+        var_r8 = 0;                                                    \
+        var_r7 = 0;                                                    \
+        while (*var_r6 != 0xFD) {                                      \
+            if (*var_r6 == 0xFF) {                                     \
+                text85[var_r7 + var_r8 * 0x20] = 0xFD;                 \
+                var_r8++;                                              \
+                var_r7 = 0;                                            \
+            } else {                                                   \
+                text85[var_r7 + var_r8 * 0x20] = *var_r6;              \
+                var_r7++;                                              \
+            }                                                          \
+            var_r6++;                                                  \
+        }                                                              \
+        text85[var_r7 + var_r8 * 0x20] = 0xFD;                         \
     }
-    text85[line * 0x20 + col] = 0xFD;
-}
 void sub_080815F4(void *arg0) {
     struct Icon815F4 {
         u32 field0, field4, field8, palette, resource, index, count;
@@ -4232,6 +4238,7 @@ void sub_080815F4(void *arg0) {
         s16 field2C, field2E, field30, field32;
     } icons[10];
     u32 callFlag;
+    u8 *res85;
     void *sp23C;
     s32 sp240;
     s32 sp244;
@@ -4310,7 +4317,6 @@ void sub_080815F4(void *arg0) {
     u32 var_r8_20;
     u32 var_r9;
     u8 *temp_r4_12;
-    u8 *temp_r4_13;
     u8 *temp_r5_10;
     u8 *temp_r5_11;
     u8 *temp_r5_2;
@@ -4346,50 +4352,34 @@ void sub_080815F4(void *arg0) {
         temp_r0_2 = sub_08007290((*((u16 *)((u8 *)(sp23C) + (2)))) | 0x100000);
         sp254 = 0;
         sp250 = temp_r0_2 + 0xA0;
-        var_r6 = sub_08007290((*((u16 *)((u8 *)(temp_r0_2) + (0xAA)))) | 0x140000) + 2;
+        res85 = (u8 *)sub_08007290((*((u16 *)((u8 *)(temp_r0_2) + (0xAA)))) | 0x140000);
+        var_r6 = res85 + 2;
         (*((u8 *)((u8 *)(text85) + (0)))) = sp254;
         (*((u8 *)((u8 *)(text85) + (0x20)))) = (u8) sp254;
-        var_r7 = 0;
-        var_r4 = text85;
-        var_r5 = 0;
-        var_r9 = 0xB0000;
-loop_4:
-        var_r8 = 0;
-        var_r1 = *var_r6;
-        if (var_r1 != 0xFD) {
-            var_r2 = &(text85)[var_r5];
-loop_6:
-            *var_r2 = var_r1;
-            if (var_r1 == 0xFF) {
-                var_r6 += 1;
-            } else {
-                var_r2 += 1;
-                var_r8 += 1;
-                var_r6 += 1;
-                var_r1 = *var_r6;
-                if (var_r1 != 0xFD) {
-                    goto loop_6;
-                }
+        for (var_r7 = 0, var_r4 = text85, var_r5 = 0, var_r9 = 0xB0000; var_r7 <= 1;
+             var_r4 += 0x20, var_r5 += 0x20, var_r9 += 0x20000, var_r7++) {
+            var_r8 = 0;
+            var_r1 = *var_r6;
+            if (var_r1 != 0xFD) {
+                var_r2 = &text85[var_r5];
+                do {
+                    *var_r2 = var_r1;
+                    if (var_r1 == 0xFF) {
+                        var_r6++;
+                        break;
+                    }
+                    var_r2++;
+                    var_r8++;
+                    var_r6++;
+                    var_r1 = *var_r6;
+                } while (var_r1 != 0xFD);
             }
-        }
-        (text85)[var_r8 + var_r5] = 0xFD;
-        if (var_r8 == 0) {
-
-        } else {
+            text85[var_r8 + var_r5] = 0xFD;
+            if (var_r8 == 0)
+                break;
             sub_0801A3D0(var_r4, (u16) (0xF - ((u32) sub_0801A638(var_r4) >> 1)), var_r9 >> 0x10);
-            if (*var_r6 == 0xFD) {
-
-            } else {
-                var_r4 += 0x20;
-                var_r5 += 0x20;
-                var_r9 += 0x20000;
-                var_r7 += 1;
-                if (var_r7 > 1U) {
-
-                } else {
-                    goto loop_4;
-                }
-            }
+            if (*var_r6 == 0xFD)
+                break;
         }
         goto block_46;
     case 1:                                         /* switch 1 */
@@ -4432,8 +4422,9 @@ loop_6:
         temp_r0_26 = sub_08007290((*((u16 *)((u8 *)(sp23C) + (2)))) | 0x110000);
         sp254 = 0xFF;
         sp250 = NULL;
-        temp_r4_13 = sub_08007290((*((u16 *)((u8 *)(temp_r0_26) + (0xAA)))) | 0x140000) + 2;
-        sub_0801A3D0(temp_r4_13, (u16) (0xF - ((u32) sub_0801A638(temp_r4_13) >> 1)), 7U);
+        res85 = (u8 *)sub_08007290((*((u16 *)((u8 *)(temp_r0_26) + (0xAA)))) | 0x140000);
+        temp_r4_12 = res85 + 2;
+        sub_0801A3D0(temp_r4_12, (u16) (0xF - ((u32) sub_0801A638(temp_r4_12) >> 1)), 7U);
         goto block_46;
     case 4:                                         /* switch 1 */
         temp_r0_27 = sub_08007290((*((u16 *)((u8 *)(sp23C) + (2)))) | 0xE0000);
@@ -4456,7 +4447,7 @@ loop_6:
         temp_r0_29 = sub_08007290((*((u16 *)((u8 *)(sp23C) + (2)))) | 0x150000);
         sp254 = 0;
         sp250 = NULL;
-        Split815F4((u8 *)sub_08007290((*((s32 *)((u8 *)(temp_r0_29) + (0xA4)))) | 0x140000) + 2);
+        SPLIT815F4((*((s32 *)((u8 *)(temp_r0_29) + (0xA4)))) | 0x140000);
         sub_0801A3D0(text85, (u16) (0xF - ((u32) sub_0801A638(text85) >> 1)), 9U);
         temp_r5_10 = text85 + 0x20;
         sub_0801A3D0(temp_r5_10, (u16) (0xF - ((u32) sub_0801A638(temp_r5_10) >> 1)), 0xBU);
@@ -4469,7 +4460,7 @@ loop_6:
         temp_r0_31 = sub_08007290((*((u16 *)((u8 *)(sp23C) + (2)))) | 0x120000);
         sp254 = 0;
         sp250 = NULL;
-        Split815F4((u8 *)sub_08007290((*((u16 *)((u8 *)(temp_r0_31) + (0xA2)))) | 0x140000) + 2);
+        SPLIT815F4((*((u16 *)((u8 *)(temp_r0_31) + (0xA2)))) | 0x140000);
         sub_0801A3D0(text85, (u16) (0xF - ((u32) sub_0801A638(text85) >> 1)), 9U);
         temp_r5_11 = text85 + 0x20;
         sub_0801A3D0(temp_r5_11, (u16) (0xF - ((u32) sub_0801A638(temp_r5_11) >> 1)), 0xBU);
@@ -4543,7 +4534,7 @@ block_46:
                     }
                 goto icons;
             case 10:
-                        Split815F4((u8 *)sub_08007290(var_sl | 0x140000) + 2);
+                        SPLIT815F4(var_sl | 0x140000);
                         sub_0801A3D0(text85, (u16) (0xF - ((u32) sub_0801A638(text85) >> 1)), 7U);
                         temp_r5_8 = text85 + 0x20;
                         sub_0801A3D0(temp_r5_8, (u16) (0xF - ((u32) sub_0801A638(temp_r5_8) >> 1)), 9U);
@@ -4819,7 +4810,8 @@ icons:
                     }
                 }
             } else {
-                temp_r4_12 = sub_08007290(0x140365) + 2;
+                res85 = (u8 *)sub_08007290(0x140365);
+                temp_r4_12 = res85 + 2;
                 sub_0801A3D0(temp_r4_12, (u16) (0xF - ((u32) sub_0801A638(temp_r4_12) >> 1)), 9U);
             }
             break;

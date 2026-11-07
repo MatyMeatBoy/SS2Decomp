@@ -24,3 +24,16 @@ claude-nov07-w85 (2026-11-07), sub_080815F4 (code_0807A5D4.c, NONMATCHING). Land
   sl), `src++` before the digit loop (1824), inline function forms (1512-1666, bigger frame).
   Next: make text85 not loop-invariant-hoisted in the number loop (more insns in the outer loop body?), then
   revisit the kind-1 two-line loop (len should be in r8, the old m2c gotos are still there).
+claude-nov07-w85 (2026-11-07, follow-up): filtered nmdiff 1698 -> 1513, size 4940 -> 4968, frame stays 0x2AC.
+  - Most of the missing 32 bytes were the ROM `adds r2, r0, #0` after each sub_08007290 text lookup
+    (kind 1, kind 6, 0x140365, splits, all twelve number templates). It appears when the lookup result
+    is one function-scope pointer (`res85`) shared by every site: a multi-block pseudo goes to global-alloc,
+    so combine/local-alloc no longer fold it into r0. It first landed in r4 (preference from the
+    local-alloc'd `temp_r4_13 = res85 + 2` in kind 6); sharing one variable for the kind-6 and 0x140365
+    centred text removes that preference, and res85 takes r2 as in ROM. Binding res85 to r2 with
+    register asm makes combine drop the copy again (4848 bytes), rejected.
+  - The 0xFF line splitter is now a macro reusing var_r6/var_r8/var_r7 (src/line/col), and its index is
+    `text85[col + line * 0x20]` (ROM adds col first). Kind 1 is a plain for loop (same code as the gotos).
+  - Still open: kind-1 `adds r0, r1, #0` copy before `cmp #255` and text85 hoisted above the if (no source
+    shape tried changed it: u8/u16/s16/u32 c, `*d == 0xFF`, `(*d = c) == 0xFF`); kind-2/kind-5 item
+    pointers in high regs instead of stack, var_sl spilled.
