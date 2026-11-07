@@ -183,9 +183,9 @@ block_c:
 #ifdef NONMATCHING
 static inline u16 D368_Level(u8 *p) {
     s32 i;
-    s32 d = (s8)p[0x6C] * 10;
+    s32 h = (s8)p[0x6C] * 5;
     for (i = 7; i >= 0; i--) {
-        u16 t = d + gUnk_0847ACE8[i];
+        u16 t = h * 2 + gUnk_0847ACE8[i];
         if ((s16)t < 0)
             t = 0;
         if (*(s16 *)(p + 0xC2) >= (s16)t)
@@ -1679,7 +1679,7 @@ block_197:
                     directionD36874 = 5;
                 }
                 temp_r2_7 = ((struct PlayerD368 *)arg0)->f18;
-                if (!(temp_r2_7 & temp_r1_17) || (sp154 += 1, ((temp_r2_7 & ((struct PlayerD368 *)arg0)->f14) != 0))) {
+                if (!(temp_r2_7 & temp_r1_17) || (temp_r2_7 &= ((struct PlayerD368 *)arg0)->f14, sp154 += 1, temp_r2_7 != 0)) {
                     sp154 = 0;
                 }
                 temp_r2_8 = ((struct PlayerD368 *)arg0)->f1A;
@@ -1799,7 +1799,7 @@ block_447:
                     }
                 }
                 temp_r2_10 = ((struct PlayerD368 *)arg0)->f18;
-                if (!(temp_r2_10 & temp_r1_20) || (sp154 += 1, ((temp_r2_10 & ((struct PlayerD368 *)arg0)->f14) != 0))) {
+                if (!(temp_r2_10 & temp_r1_20) || (temp_r2_10 &= ((struct PlayerD368 *)arg0)->f14, sp154 += 1, temp_r2_10 != 0)) {
                     sp154 = 0;
                 }
                 temp_r2_11 = ((struct PlayerD368 *)arg0)->f1A;
