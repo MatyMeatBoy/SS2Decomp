@@ -300,9 +300,102 @@ source. Diagnose with RTL dumps (`-dl -dg` for local/global alloc, `-dL` loop,
   bit-field expansion, whose mask zero CSE then shares
   ([PR490](https://github.com/MatyMeatBoy/SS2Decomp/pull/490)).
 
+## agbcc mechanisms confirmed (2026-11-07)
+
+Closed or explained during the 2026-11-07 Claude push (18 matches). Same caveat:
+these are compiler decisions to diagnose with dumps, not recipes.
+
+**Register class and allocation.**
+- A pseudo whose only uses are `(plus reg const)` gets regclass preference
+  STACK_REG (addsi3 `k` alternative); the preference spreads through copies and
+  local-alloc then skips the source temp. An empty `asm("" : : "l"(x));` use
+  restores LO_REGS with no code emitted (sub_080567D4). `asm("" : : "r"(x));`
+  only adds a reference, raising global priority (sub_0808AFE8).
+- `global.c::find_reg` builds exclusion masks from register classes, conflicts,
+  fixed registers and calls crossed. Its first pass also excludes registers not
+  yet used in the function and registers preferred by other pseudos; its second
+  pass relaxes those extra exclusions. Both scans include eligible high registers,
+  and copy/general preferences can change the selection. Only if no register is
+  found does the optional, profitable caller-save retry admit call-clobbered
+  registers. Inspect the actual masks and preferences rather than assuming a
+  low/caller/high sequence. Before blaming a REG_EQUIV reload,
+  check whether a ROM `mov rX, hi` is a plain source copy: in sub_0807C29C
+  case 13 an explicit copy of `s*16` restored the ROM reload order (the 100000
+  constant had a normal register), while in case 0 the same `mov` really was a
+  reload.
+- In the observed sub_080567D4 and sub_080624D8 forms, a function-scope pointer
+  with a constant equivalence remains unallocated and reload rematerializes it
+  at its uses. This can advance the scratch-register rotation. Confirm
+  `REG_EQUIV`, allocation and reload behavior in dumps; scope alone does not
+  guarantee this result. A keep-alive
+  `register u32 z asm("rN"); asm("" : "=r"(z)); ... asm("" : : "r"(z));`
+  keeps rN busy to steer rotation and local-alloc ties (sub_08075778, sub_0801801C).
+  This is a narrowly audited allocation constraint, not a C initializer or a way
+  to manufacture a value. Every input must be defined; an output-only unknown
+  register value must not flow into C arithmetic, control flow or memory. Audit
+  calls and live ranges, prefer ordinary C, and require full-module/ROM proof.
+- The set of spill registers changes every reload pick: if the ROM rotates over
+  r0-r4,r7, find the insn that needs r7 as a reload reg (e.g. an unhoisted
+  constant folded into an add in a goto loop); a patched compiler forcing it
+  first confirms the theory (sub_080245CC).
+
+**Pseudo numbering, PRE and spill slots.**
+- Spill-slot order for these unallocated pseudos follows pseudo number.
+  GCSE-PRE reaching registers are created in hash-bucket order, which depends on
+  expression operands and table size. A real local receives its pseudo when its
+  block is expanded, so declaring it at the beginning of its genuine scope can
+  change slot order (sub_080855D4). Representations of real, required values can
+  also affect numbering (sub_08093BAC). Keep diagnostic dummy-variable probes out
+  of production and confirm full-module bytes and relocations.
+
+**Loops, switches and tails.**
+- Turn goto loops into real `for`/`do` loops so loop.c hoists invariants into
+  reload-rematerialized pseudos (sub_08093BAC, sub_0808C0C4, sub_08078BCC).
+  The hoisting threshold drops when the loop contains a call.
+- When a shared `goto` changes the original tail/reload layout, compare it with
+  equivalent case-local copies of the same real operations. Cross-jumping and
+  case order can alter tail sharing, reload rotation and pools (sub_0805FFBC,
+  sub_080245CC). Confirm the actual CFG and complete function; neither shape is
+  universally correct.
+- Wrongly allocated block-local loop counter: reuse an existing function-scope
+  counter of the same type. `end - -~i` keeps ROM's `asrs; adds #1; subs`
+  without fold reassociation (sub_08060E44).
+
+**Constants, CSE and stores.**
+- `asm("" : "=r"(z) : "0"(0))` hides a constant from CSE;
+  `{ u16 z; asm("" : "=r"(z) : "0"(0)); a = z; b = z; }` makes zero stores take
+  a register value (sub_08025890, sub_08003984).
+- A genuinely `const` call can leave memory expressions available to GCSE;
+  inlining may drop `CONST_CALL_P` in this compiler. Use the attribute only after
+  proving that the callee has no side effects and its result depends exclusively
+  on its arguments and constant data. An `asm("sub_...")` alias does not establish
+  that proof. A callee that reads mutable globals, such as `sub_0800CE30`, must
+  not be declared `const` merely to preserve pool loads.
+- Direct array refs (`a->arr[i]`) keep the ROM's non-reassociated
+  `(base+off)+i*k`; pointer locals reassociate (sub_080855D4).
+- Some aggregate/field expansion paths initially represent a narrow store as a
+  masked read-modify-write expression; a correctly typed pointer access can take
+  a direct-store path. Check RTL and access widths for the actual type rather
+  than assuming every u16 struct field behaves this way.
+
+**Big m2c drafts.**
+- m2c names encode ROM registers (`var_r8_17` = r8). Families that m2c split
+  are usually one source variable kept in one callee-saved register: merge them
+  (sub_080815F4 exact size; sub_0800D368 normalized diff 364 -> 245).
+- A bounded lifetime experiment can test which real variable holds a value:
+  scope one local around its genuine uses or reuse an existing value after its
+  prior lifetime ends. Diagnose one compiler hypothesis, verify an unchanged
+  full-module control, and audit every affected later use (sub_0807C29C;
+  historical experiments are in the shard82 notes). Do not run broad ranking
+  sweeps or select candidates by size/score alone.
+- Always judge with the full module, not standalone (CSE/GCSE hash symbol
+  strings), and confirm a zero aligned diff with a strict byte compare: diff
+  tools that normalize branch targets can hide mismatches.
+
 **Tooling pitfalls (Spanish-locale Windows).** `make compare` prints
 `La suma coincide`, which `claim.py pr`/`land` treat as a failure because they
-look for `OK`; verify the checksum yourself and open the PR with `gh pr create`.
+look for `OK`. Set `LC_ALL=C` and rerun the normal delivery checks, including
+both `make compare` and `make nonmatching`; do not bypass a failed delivery gate.
 `claim.py` has no help flag: `claim.py take -h` claims the first free shard
 under the agent name `-h`. `claim.py who` shows the shard head's subject
 parenthetical as the owner, so a PR commit title can appear there.
