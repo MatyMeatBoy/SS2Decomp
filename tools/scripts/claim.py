@@ -22,6 +22,7 @@ import os
 import re
 import subprocess
 import sys
+import tempfile
 import time
 from pathlib import Path
 
@@ -252,7 +253,20 @@ def cmd_pr():
     guard(b, mb)
     make_compare()
     git("push", "-q", "--force-with-lease", "origin", "%s:refs/heads/%s" % (b, remote_shard(b)))
-    r = subprocess.run(["gh", "pr", "create", "--fill", "--base", mb, "--head", remote_shard(b)], cwd=ROOT)
+    command = ["gh", "pr", "create", "--base", mb, "--head", remote_shard(b)]
+    if b == remote_shard(b):
+        r = subprocess.run(command + ["--fill"], cwd=ROOT)
+    else:
+        # gh --fill resolves --head locally, where the canonical ref may be stale
+        # or checked out in a different worktree. Read the rebased active HEAD.
+        body = git("log", "--reverse", "--format=%B", "origin/%s..HEAD" % mb)
+        if not body:
+            sys.exit("push done; no new commits to describe in the PR")
+        title = git("log", "-1", "--format=%s", "HEAD")
+        with tempfile.TemporaryDirectory(prefix="ss2-claim-pr-") as td:
+            body_file = Path(td, "body.md")
+            body_file.write_text(body + "\n", encoding="utf-8")
+            r = subprocess.run(command + ["--title", title, "--body-file", str(body_file)], cwd=ROOT)
     if r.returncode:
         print("push done; open the PR by hand: %s -> %s" % (b, mb))
 
