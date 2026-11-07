@@ -33,3 +33,31 @@ registers. Keep X, Y and the bounds index local to the active-slot block.
 Dropping the redundant index constraint lets the compiler load the bounds
 base before moving the index, as in the ROM. No executable ASM added.
 Normal ROM comparison and NONMATCHING build pass with C active, tree0.
+
+2026-11-07 claude-nov07-wA (shard 135): sub_0805E0C4 NONMATCHING draft,
+filtered nmdiff 1066 -> 715 (size 3508 vs ROM 3496, frame 236 unchanged).
+Landed: case 3 tests read *script directly instead of a function-scope c
+(CSE keeps the load in r0 with r1/r3 copies like the ROM; c across calls had
+forced r5); separate u8 cf for the fast loop and fastName declared before
+fastNum (ip = name, SP+0xE8 = num as in ROM); num/name terminators written as
+k = i + 1; buf[k] = 0 (ROM adds i+1 into a temp); the 0x1404DF name copy
+indexes s[j] with j = 2 (j reused from the fill loop: 977 -> 732; a block-local
+counter gives 1012); the row draw ORs task->x with attr, a var set to 0 once
+(ROM keeps `movs r2,#0; orrs`, literal | 0 folds); calls take &value.
+Diagnosis of what remains: (1) fill loop: ROM has j in r5 and a reduced
+j*30 giv (r2, copied to r1 per row, k += 30 / j++ in place at the bottom).
+Every nested-loop form tried (2D/explicit k/kk copy/goto/while/u8 j) gets
+k+30 and j+1 hoisted above the inner loop by gcse LCM (compute_delayinout
+starts delayout at zero, so a self-loop block blocks delay), which also kills
+the biv and the giv reduction; +4 insns and the later .short pads come from
+here. (2) the PRE copy of &value (insert at end of bb0) gets r4 ahead of
+next; ROM leaves it unallocated and rematerializes `add r4,sp,#144`.
+(3) case 3 PRE regs: ROM &task->col in r5 and line<<4 in r3 (no copy),
+ours r6/r4 with an extra copy per branch.
+Rejected: num[i] form in the 0..8 digit loop (locally right reload and
+pointer order, globally 1016); s[2] with s++ (no giv); fast vars assigned
+inside the loop or a while-loop fast path (725); u8 cc copy (no change);
+reusing c for the fast loop (774); *pValue for s[7] (728, keeps r4 copy).
+Next: find a fill-loop shape that keeps j++/k+=30 below the inner loop
+(e.g. a second exit path out of the inner loop that makes j+1 not
+anticipatable), then recheck R/next allocation.
