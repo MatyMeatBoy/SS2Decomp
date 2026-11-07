@@ -2934,9 +2934,8 @@ afterPlayerBounds245CC2: ;
                     spD0 = (s32) temp_r0_8;
                     temp_r0_9 = (s16) sp90;
                     temp_r7 = &sp7E;
-                    sp0 = (u32)0x30;
                     sp4 = (void *)temp_r0_7;
-                    local245CC_sub_0800BC08(temp_r0_8, temp_r0_9, &sp7C, temp_r7, sp0, (s32)sp4);
+                    local245CC_sub_0800BC08(temp_r0_8, temp_r0_9, &sp7C, temp_r7, 0x30, (s32)sp4);
                     if (local245CC_gUnk_03002344 & 1) {
                         sp0 = temp_r0_7;
                         sp4 = &sp44.data[0];
@@ -2949,9 +2948,8 @@ afterPlayerBounds245CC2: ;
                         spBC = 0;
                     }
                     temp_r6_3 = (u8)local245CC_sub_0800BC44(sp8C, sp90, 0);
-                    sp0 = (u32)0x30;
                     sp4 = (void *)temp_r0_7;
-                    local245CC_sub_0800BC08((s16) spD0, temp_r0_9, &sp7C, temp_r7, sp0, (s32)sp4);
+                    local245CC_sub_0800BC08((s16) spD0, temp_r0_9, &sp7C, temp_r7, 0x30, (s32)sp4);
                     if (spCC->wE != 0) {
                         sp0 = (u32) temp_r6_3;
                         sp4 = &sp10.data[0];
