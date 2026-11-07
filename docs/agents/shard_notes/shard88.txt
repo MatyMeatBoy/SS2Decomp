@@ -9,3 +9,112 @@ Shard 88 notes (sub_080855D4).
   r = rand() & 0xFF in r5 and the hoisted zero in r6 (ours zero r5, r in r0);
   "u32 r = f() & 0xFF", "(u8)f()" and s32 forms do not change it. The other 400+ aligned lines
   are register allocation across the rest of the function.
+
+2026-11-07 (claude-nov07-w85): sub_080855D4
+  Filtered nmdiff 823 -> 702 (aligned 440 -> 368, register-blind aligned 166 -> 149); size 4616
+  (ROM 4620).
+  - Table gUnk_084ECC2C is read as u16 halfwords: cat = tab[i * 2 + 1], id = tab[i * 2]. The ROM
+    computes (i << 2) + 2 before adding the base, and every "find cat" loop's induction pointer starts
+    at base + 2 (`adds r1, #2`), then `ldrh [r1, #0]`. With the struct form the +2 stayed in the
+    addressing mode. That made the duplicated entry test of the `count` loop identical to the bottom
+    test, so cross-jumping turned it back into "b test", and the constant pool was dumped at that
+    barrier (+44 bytes there).
+  - Random-point loop: `j = rand() & 0xFF` into the function-scope j (not a block-local u8): the AND
+    stays an `ands` with a rematerialised 0xFF and r/zero land in r5/r6 as in ROM.
+  - memcpy destination is L.win.item (ROM `add r0, sp, #0x2d4`), not win->item.
+  Remaining: n is in r9 and item in sl (ROM: item r9, n sl). In global-alloc a gcse pointer
+  (item + 0xD4, 4 refs / 36 insns) takes r9 before item and conflicts with it; in ROM that pointer is
+  spilled. pts/pos/speed addresses: ROM forms sp + off before the scaled index (we compute i << 3
+  first); a 2-D `s32 pts[25][2]` and `(&L.pts[0])[i]` did not change it.
+  Follow-up (same day): filtered 702 -> 676, register-blind aligned 149 -> 132, size 4604.
+  - The table is u16 rows `gTab855D4[][2]` ([x][1] = cat, [x][0] = id). With a flat u16 array,
+    (x * 2 + 1) * 2 is not folded when x is a sum (lsl/add/lsl); the 2-D form gives the ROM
+    `lsls #2; adds #2; adds base`. Byte-offset forms fold the +2 into the symbol (worse).
+  - item->unk22 dispatch is `if (unk22 != 0) { switch { case 1: ...; break; case 2: ...; break; }
+    draw }`. A two-case switch gives the ROM's linear cmp 0/1/2 chain; the old 0/1/2 switch was a
+    balanced tree.
+  - Still open: the first animation loop has a &L.pos[i] pointer induction variable in ROM (two
+    `adds #4`), and ROM forms sp+off before the scaled index everywhere (pts/pos/speed). This suggests
+    the arrays aren't members of one frame struct at the same nesting, or their address is a variable.
+    `(cursor + 1) + index` keeps ROM's order only in some variants. Frame slots 0x5E8.. are shifted by
+    one (L.use pointer / count / last).
+  Follow-up 2: filtered 676 -> 573, register-blind aligned 132 -> 101, size 4588.
+  - The frame aggregate `struct Frame855D4 L` is gone: name, desc, pad, winBuf, spriteB, spriteA, use,
+    pts, speed, pos and state are now separate locals in the same order, at the same frame offsets.
+    As separate VAR_DECL arrays the loops get ROM's address forms: sp+off before the scaled index,
+    the &pos[i] pointer induction variable in the first animation loop. Making only pts..state
+    separate gave 656.
+  Follow-up 3: filtered 573 -> 560, register-blind aligned 101 -> 83, frame now 0x5FC vs ROM 0x604.
+  - The function is void: the ROM epilogue is `pop {r0}; bx r0`, but an s32 function that falls off
+    the end pops r1. The definition and include/functions.h are now `void`; the one other use is
+    `(u32)sub_080855D4` as a task pointer.
+  - Spill-slot order: declaring count, last, text, win first puts them at 0x5E4/0x5E8/0x5EC/0x5F0
+    as in ROM.
+  Remaining: 2 spill slots (ROM uses 0x5F4..0x600; the &use pointer is at 0x600, ours 0x5F8). After the
+  memcpy, ROM spills the item+0xD4/+0xD6 pointers to slots and keeps &winBuf.atk in sl and name in r8;
+  we keep item+0xD4 in a register. Copies after calls (`adds rX, r0, #0`) differ in a few places, and
+  n/item hi-reg choice is still swapped.
+  Rejected (2026-11-07):
+  - counts[] spellings `((u8 *)gSave)[0xC10 + id]` and `(&gSave->counts[0])[id]` (register-blind
+    diff 83 -> 133). ROM loads gSave before the table index in mode-1/3 lookups; ours loads it after.
+  - `asm("" : : "r"(item))` once or twice in the main loop: no change to the n/item r9/sl swap.
+  - `(void *)(sub_08007290(id) + 0x1E0)` with the s32 prototype: no change to the post-call copy.
+  - `L.pts` as `s32 [25][2]` and `(&L.pts[0])[i]` inside the aggregate: no change (superseded by
+    the split locals).
+
+2026-11-07 (claude-nov07-w63): sub_080855D4 filtered nmdiff 560 -> 130, size 4596 -> 4620 = ROM
+  (full-module aligned diff 246 -> 16). Located the missing 24 bytes with a per-call offset drift
+  (bl targets aligned between ROM and candidate), then fixed region by region:
+  - win->atk / win->def are read as winBuf.atk / winBuf.def: GCSE hoists sp+0x29C / sp+0x29E like
+    the ROM (atk address in sl, def address spilled), and the extra spill slots bring the frame to
+    0x604. With the size back over 2 KB the mode switch's far jump (`bl _0808673C`) reappears.
+  - bg is `union { struct { u32 cnt:16; u32 spare:16; } bits; u16 half; u32 word; }` (as in
+    code_08009088) and every write is `bg.bits.cnt = K`: the bit-field store loads K in SImode
+    (`ldr r0,=K; strh r0`), where `*(u16 *)&bg = K` loaded it in HImode through a reload copy.
+  - `j = 0;` right after f855_009C0(0x1F00, ...), with `for (; j <= 7; ...)`: j becomes the canonical
+    zero for the gShop stores (ROM `movs r5,#0` before the bg writes).
+  - counts[] lookups take the table index inline (`counts[gTab[...][0]]`, id re-read for the call
+    and the switch): the ROM loads gSave before the index.
+  - One function-scope `u8 *data` for every resFF63 result (mode 0, mode 1 and the description
+    lookup `data = f855_07290(...); text = f855_07290(*(u16 *)(data + 0xA2) | 0x140000)`). A
+    block-local data was local-allocated to r4 and gave `s` (via s = data + lang*31) an r4
+    preference, which put s in r4 instead of r6 and pushed desc into r6.
+  - `s = text + 2;` before the unk22 counts test, and the description loops test `*s == 0xFF`
+    (ROM `adds r0,r1,#0; cmp r0,#255`).
+  Remaining (16 aligned lines): (1) both `f855_00AF0(0xF, f855_07290(K) + 0x1E0, 1)` sites: ours ties
+  the call result to the sum (`adds r1,r0,#0; adds r1,r1,r3`), ROM `adds r1,r0,r3`. local-alloc
+  combine_regs ties them whenever the result dies in the add; a block-local pointer or an s32
+  prototype doesn't change it. (2) `cursor + index + 1` argument: ROM computes cursor+1 first and
+  adds it to index (index's reg is the destination); `-~cursor + index` gets the load order but
+  not the register. (3) item+0xD4 / item+0xD6 GCSE pointers are in swapped spill slots (ROM:
+  +0xD6 at 0x5F8). They are PRE reaching regs created in hash-bucket order (hashes 672/674 in a
+  953-bucket table), so the table size or item's regno would have to change to flip them.
+  Dummy locals and moving item's declaration had no effect.
+  Follow-up (same day, claude-nov07-w63): aligned diff 16 -> 8, filtered nmdiff 130 -> 116.
+  - Palette calls: one function-scope `u8 *pal` assigned at both sites
+    (`pal = f855_07290(K); f855_00AF0(0xF, pal + 0x1E0, 1);`). pal is live in two blocks, so it is
+    a global allocno, and local-alloc's combine_regs never ties it to the sum. pal gets r0 (the call
+    value) and the sum gets r1, matching ROM `adds r1,r0,r3`. An asm("" : "+r") copy did not help
+    (the pseudo still dies in the add).
+  - Count display: `{ s32 t = gShop855D4->cursor + 1; f855_5FB7C(0xE, 0x13, gShop855D4->index + t, 0); }`
+    gives ROM's cursor+1 first, then index + t into index's register.
+  Remaining: only the item+0xD4 / item+0xD6 spill-slot swap (PRE reaching regs 1947/1948; hash
+  (plus item 212) = 14014 mod table size; 953 buckets now). A flip needs a table size N with
+  N | 14015+r or N | 14016+r (r = shift of item's regno), e.g. N = 935 with item's regno +9/+10.
+  A batch of 30 local type changes (count/last/n/i/j/c/zero/ox/oy/g/t/k) never flipped it.
+
+2026-11-07 (claude-nov07-w88N): sub_080855D4 MATCH (aligned diff 8 -> 0, strict rcmp 0).
+  - Diagnosis correction: the three spill slots are not a D4/D6 swap but a rotation. Slots are
+    assigned upward in pseudo order (win 0x5F0, then the PRE temps). Ours numbered def (sp+0x29E,
+    PRE reg 1940) < D4 (1947) < D6 (1948) -> 0x5F4/0x5F8/0x5FC; the ROM has D4 0x5F4, D6 0x5F8,
+    def 0x5FC, i.e. D4 < D6 < def. PRE reaching regs are created in pre_delete in hash-bucket
+    order, with hash(plus r7 1488) = 15267, (plus r7 662) = 14441, (plus item 212) = 14014 + r.
+    No table size near 953 with a small regno shift works; at N = 953 item's regno must be
+    in 331..454 (D4/D6 buckets between 19 and 146).
+  - Fix: declare item in a block that starts at `win = &winBuf;` and closes after the shop loop
+    (item is only used inside it). Its pseudo becomes 405 (buckets 94/96), the temps are
+    numbered D4, D6, atk, def, and the slots match. No other code changes; N stays 953.
+    (Scoping the block to the shop loop alone gives regno 638, too late; starting it at
+    f855_020F4/pal/switch/f855_009F8 gives 502..553, also too late.)
+  - Lesson: a block-local declaration is a free way to set a pseudo's number anywhere in the
+    function's expansion order (it is created when the block is expanded).
