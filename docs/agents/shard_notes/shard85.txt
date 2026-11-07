@@ -37,3 +37,10 @@ claude-nov07-w85 (2026-11-07, follow-up): filtered nmdiff 1698 -> 1513, size 494
   - Still open: kind-1 `adds r0, r1, #0` copy before `cmp #255` and text85 hoisted above the if (no source
     shape tried changed it: u8/u16/s16/u32 c, `*d == 0xFF`, `(*d = c) == 0xFF`); kind-2/kind-5 item
     pointers in high regs instead of stack, var_sl spilled.
+  - Number-loop allocation: ROM's text85 handling is per site. In the case-3 template it is hoisted into
+    sl (`ldr r0, =gUnk_03000128; mov sl, r0`). In the case-2 9-body, sl holds the item+0xAC pointer and
+    text85 is a REG_EQUIV pseudo with no hard reg, so it is reloaded at each use. item+0xAC and +0xA7 sit just
+    before the template's `cmp #0xFD`, i.e. gcse/PRE insertions, so whether text85 gets sl is purely priority.
+    A function-scope `tb85 = text85` passed as DST cut the register-insensitive diff 1015 -> 421, but
+    filtered nmdiff only reached 1477 and size dropped to 4920; setting tb85 right before each template call
+    gave 4972 bytes and filtered 1775. Neither landed. Next: tune tb85 placement/scope per call site.
