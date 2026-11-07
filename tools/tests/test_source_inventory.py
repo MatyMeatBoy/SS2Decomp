@@ -41,6 +41,23 @@ class NameCatalogTests(unittest.TestCase):
                 nodes = function_names.identify(self.entries(), [], defined_names=aliases)
                 self.assertEqual(nodes[0]["name_status"], "unidentified")
 
+    def test_mechanical_definition_aliases_do_not_inflate_identification(self):
+        for alias in ("sub_0800023C_v", "sub_0800023C_c", "sub_0800023C_u32_v",
+                      "t47B2C", "task834", "taskE468", "t48implB", "t53_impl0E48",
+                      "c7b8_void", "e0c4Impl", "t107MainD", "t109Run68B0"):
+            with self.subTest(alias=alias):
+                aliases = {"sub_0800023C": [{"name": alias, "source": "src/s.c", "line": 2}]}
+                node = function_names.identify(self.entries(), [], defined_names=aliases)[0]
+                self.assertEqual(node["name_status"], "unidentified")
+
+    def test_semantic_definition_names_keep_digits_and_task_prefixes(self):
+        for alias in ("TaskLinkLobbyReadyGo", "DrawEnemy42", "t24_gate25890",
+                      "sub_0800023C_scheduler", "Run68B0EnemyAI", "taskFade", "FaceImpl"):
+            with self.subTest(alias=alias):
+                aliases = {"sub_0800023C": [{"name": alias, "source": "src/s.c", "line": 2}]}
+                node = function_names.identify(self.entries(), [], defined_names=aliases)[0]
+                self.assertEqual(node["name_status"], "existing")
+
     def test_proposals_do_not_count_as_identified(self):
         records = [{"address": "0x0800023C", "display_name": "MaybeInit", "status": "proposed", "evidence": [{"source": "asm/sched.s", "detail": "needs confirmation"}]}]
         nodes = function_names.identify(self.entries(), records)

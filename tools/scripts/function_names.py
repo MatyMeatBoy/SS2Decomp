@@ -12,7 +12,10 @@ def descriptive_alias(name):
     if re.fullmatch(r'.*_(?:impl|[0-9A-Fa-f]{4,8})', name):
         return False
     suffix = re.fullmatch(r'(?:sub|arm)_[0-9A-Fa-f]{8}_(.*)', name)
-    if suffix and all(part in {"", "void", "ptr", "int", "uint", "bool", "impl", "u8", "u16", "u32", "u64", "s8", "s16", "s32", "s64"} for part in suffix[1].split('_')):
+    if suffix and all(part in {"", "void", "ptr", "int", "uint", "bool", "impl", "v", "c", "u8", "u16", "u32", "u64", "s8", "s16", "s32", "s64"} for part in suffix[1].split('_')):
+        return False
+    # Address fragments and generic task/implementation tags do not describe behavior.
+    if re.fullmatch(r'(?:t(?:ask)?(?=[0-9A-Fa-f]*[0-9])[0-9A-Fa-f]{3,8}|(?=[0-9A-Fa-f]*[0-9])[0-9A-Fa-f]{4,8}(?:Impl|_void)|t[0-9]+(?:_?impl[0-9A-Fa-f]*|Main[A-Fa-f]|Run[0-9A-Fa-f]{4,8}))', name):
         return False
     return True
 

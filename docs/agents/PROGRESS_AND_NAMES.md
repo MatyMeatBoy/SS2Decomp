@@ -68,7 +68,9 @@ Name statuses:
   definition has an `asm("canonical")` alias. This recognizes an existing name;
   it does not independently re-prove its semantic meaning. Extern-only call aliases,
   register aliases, anonymous address labels and mechanical suffixes such as
-  `_impl`, `_void`, `_u32`, `_u16`, `_ptr` or `_` do not identify a function.
+  `_impl`, `_void`, `_u32`, `_u16`, `_ptr`, `_v`, `_c` or `_` do not identify a
+  function. Pure address fragments combined only with generic task/implementation
+  tags (for example `task026E4` or `e0c4Impl`) also supply no semantic identity.
 - `confirmed`: catalog identity supported by specific source/ASM or existing
   research documentation. Evidence must explain the behavior, not just say match.
 - `proposed`: useful hypothesis whose semantic interpretation still needs review.

@@ -2557,6 +2557,321 @@
           "hash_scope": "Public revision file bytes (Git LF), text verified against local source"
         }
       ]
+    },
+    {
+      "address": "0x0800208C",
+      "canonical_symbol": "sub_0800208C",
+      "display_name": "StartLinkOrLoopbackSessionTask",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08001A50.c",
+          "line": 366,
+          "revision": "e181cfee8400da03f9084ff7635d0277fee491f3",
+          "detail": "Mode0 selects callback022A4 (copies local24-byte block into receive slot0 and status0x101); mode1 selects01BE4 (MultiSioMain-backed link task). Allocates0x400-byte task stack and registers task at03002740. No behavior for unsupported modes is inferred."
+        },
+        {
+          "source": "src/code_08002118.c",
+          "line": 137,
+          "revision": "e181cfee8400da03f9084ff7635d0277fee491f3",
+          "detail": "022A4 is the loopback callback; existing LinkSessionTask name and source01BE4 establish the other branch."
+        }
+      ]
+    },
+    {
+      "address": "0x080020E0",
+      "canonical_symbol": "sub_080020E0",
+      "display_name": "RequestLinkSessionStop",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08001A50.c",
+          "line": 382,
+          "revision": "e181cfee8400da03f9084ff7635d0277fee491f3",
+          "detail": "Sets030027D0 bit0x40000000. Session callbacks01BE4 and022A4 test that bit and terminate; this helper does not wait for termination."
+        }
+      ]
+    },
+    {
+      "address": "0x080021A8",
+      "canonical_symbol": "sub_080021A8",
+      "display_name": "LinkHasErrorFlag",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08002118.c",
+          "line": 59,
+          "revision": "e181cfee8400da03f9084ff7635d0277fee491f3",
+          "detail": "Returns030027D0 bit3 only in link mode (bit1); otherwise returns0.01BE4 sets bit3 when its error-handling path runs. Does not return raw hardware error status."
+        }
+      ]
+    },
+    {
+      "address": "0x080021C4",
+      "canonical_symbol": "sub_080021C4",
+      "display_name": "EnableLinkErrorWaits",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08002118.c",
+          "line": 74,
+          "revision": "e181cfee8400da03f9084ff7635d0277fee491f3",
+          "detail": "Sets030027D0 bit2.01BE4 gates waiting on error signal0x1F40 on this flag, for repeated hardware error or a peer receive counter above0300272C. Lobby066BC sets it after successful GO handshake."
+        },
+        {
+          "source": "src/code_08001A50.c",
+          "line": 159,
+          "revision": "e181cfee8400da03f9084ff7635d0277fee491f3",
+          "detail": "Error count greater than5 plus bit2 enters error wait; peer counter above timeout plus bit2 does likewise."
+        }
+      ]
+    },
+    {
+      "address": "0x080021D4",
+      "canonical_symbol": "sub_080021D4",
+      "display_name": "DisableLinkErrorWaits",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08002118.c",
+          "line": 77,
+          "revision": "e181cfee8400da03f9084ff7635d0277fee491f3",
+          "detail": "Clears030027D0 bit2; inverse operation of021C4. Does not stop MultiSio or the session task."
+        }
+      ]
+    },
+    {
+      "address": "0x080021E8",
+      "canonical_symbol": "sub_080021E8",
+      "display_name": "LinkHasMissingPeerDataFlag",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08002118.c",
+          "line": 80,
+          "revision": "e181cfee8400da03f9084ff7635d0277fee491f3",
+          "detail": "Returns030027D0 bit4 only in link mode; otherwise0.01BE4 clears bit4 every frame, then sets it immediately when any counted peer lacks its receive-success bit. This does not itself imply the timeout threshold was crossed."
+        },
+        {
+          "source": "src/code_08001A50.c",
+          "line": 171,
+          "revision": "e181cfee8400da03f9084ff7635d0277fee491f3",
+          "detail": "Per-peer loop sets0x10on any missing receive-success flag, separately from the later timeout test."
+        }
+      ]
+    },
+    {
+      "address": "0x08002204",
+      "canonical_symbol": "sub_08002204",
+      "display_name": "LinkIsParentOrLoopback",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08002118.c",
+          "line": 99,
+          "revision": "e181cfee8400da03f9084ff7635d0277fee491f3",
+          "detail": "Returns1 when link-mode flag is absent, otherwise returns03002730 status bit7 (MultiSio parent flag). It is not simply local ID==0."
+        },
+        {
+          "source": "src/code_08001A50.c",
+          "line": 124,
+          "revision": "e181cfee8400da03f9084ff7635d0277fee491f3",
+          "detail": "01BE4 stores MultiSioMain return status in03002730."
+        }
+      ]
+    },
+    {
+      "address": "0x08002228",
+      "canonical_symbol": "sub_08002228",
+      "display_name": "LinkIsSessionActive",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08002118.c",
+          "line": 110,
+          "revision": "e181cfee8400da03f9084ff7635d0277fee491f3",
+          "detail": "Returns030027D0 bit0.01BE4 and022A4 set active during their loops and clear it by replacing flags with0x80000000 at exit."
+        }
+      ]
+    },
+    {
+      "address": "0x0800224C",
+      "canonical_symbol": "sub_0800224C",
+      "display_name": "LinkWaitAllConnectedReceiveFlags",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08002118.c",
+          "line": 116,
+          "revision": "e181cfee8400da03f9084ff7635d0277fee491f3",
+          "detail": "In link mode captures status bits8..11 as wanted peer mask, yields signal1 and waits until status bits0..3 exactly equal it. Loopback returns immediately. No conventional barrier tag or timeout is supplied here."
+        }
+      ]
+    },
+    {
+      "address": "0x080022F4",
+      "canonical_symbol": "sub_080022F4",
+      "display_name": "LinkIsCableMode",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08002118.c",
+          "line": 148,
+          "revision": "e181cfee8400da03f9084ff7635d0277fee491f3",
+          "detail": "Returns030027D0 bit1, the mode flag set by01BE4 and absent from022A4 loopback."
+        }
+      ]
+    },
+    {
+      "address": "0x08002304",
+      "canonical_symbol": "sub_08002304",
+      "display_name": "LinkClearErrorAndWakeWaiters",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08002118.c",
+          "line": 151,
+          "revision": "e181cfee8400da03f9084ff7635d0277fee491f3",
+          "detail": "In link mode clears030027D0 bit3 and calls TaskWakeBySignal(0x1F40). Outside link mode does nothing. No broader recovery guarantee is inferred."
+        }
+      ]
+    },
+    {
+      "address": "0x08002694",
+      "canonical_symbol": "sub_08002694",
+      "display_name": "TaskTitleModeSelection",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08002118.c",
+          "line": 361,
+          "revision": "e181cfee8400da03f9084ff7635d0277fee491f3",
+          "detail": "Persistent menu task waits for signal0x14, handles Start/A/Up/Down, draws title/menu resources, stores mode selection03002838. Mode0 stops cable session and starts loopback; mode1 uses cable session; both start save-slot screen065B0. Modes2/3 invoke88914/920E4. Exact visible option strings remain unverified."
+        },
+        {
+          "source": "src/code_08002118.c",
+          "line": 493,
+          "revision": "e181cfee8400da03f9084ff7635d0277fee491f3",
+          "detail": "Switch on selected mode explicitly distinguishes single/loopback from cable flow and calls065B0."
+        }
+      ]
+    },
+    {
+      "address": "0x08002A54",
+      "canonical_symbol": "sub_08002A54",
+      "display_name": "StartTitleModeSelectionTask",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08002118.c",
+          "line": 517,
+          "revision": "e181cfee8400da03f9084ff7635d0277fee491f3",
+          "detail": "Allocates0x200-byte stack, registers task03002810 callback02694."
+        }
+      ]
+    },
+    {
+      "address": "0x08002B70",
+      "canonical_symbol": "sub_08002B70",
+      "display_name": "TaskSelectSavedCharacter",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08002118.c",
+          "line": 682,
+          "revision": "e181cfee8400da03f9084ff7635d0277fee491f3",
+          "detail": "Loads eight saved-character records with7A378; displays class sprites, names, level and stats; supports slot selection, creation/edit tasks and erase7A2E0; writes selection with7A4B4. Final selected mode1 starts multiplayer lobby06B2C, mode0 continues0CB3C(0). No save-record field beyond observed usage is renamed."
+        },
+        {
+          "source": "src/code_08002118.c",
+          "line": 1129,
+          "revision": "e181cfee8400da03f9084ff7635d0277fee491f3",
+          "detail": "Final mode switch calls0CB3C(0) for0 and06B2C for1."
+        }
+      ]
+    },
+    {
+      "address": "0x080065B0",
+      "canonical_symbol": "sub_080065B0",
+      "display_name": "StartSavedCharacterSelectionTask",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08002118.c",
+          "line": 2997,
+          "revision": "e181cfee8400da03f9084ff7635d0277fee491f3",
+          "detail": "Cancels existing03002840 task if active, allocates0x1000-byte stack, registers02B70 callback."
+        }
+      ]
+    },
+    {
+      "address": "0x080066BC",
+      "canonical_symbol": "sub_080066BC",
+      "display_name": "TaskLinkLobbyReadyGo",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08002118.c",
+          "line": 3061,
+          "revision": "e181cfee8400da03f9084ff7635d0277fee491f3",
+          "detail": "Lobby uses24-byte blocks via02118. Clients advertise ASCII OK at bytes8/9; host requires all connected peers ready and A press, then advertises GO for six iterations. Host byte10 publishes two options; clients mirror them. B cancels; client cancel waits more than60iterations. Success enables021C4 and continues0CB3C(1); cancel requests020E0, waits70yields and wakes title signal0x14. Function is matching C at this revision; no runtime trace has been collected."
+        },
+        {
+          "source": "src/code_08002118.c",
+          "line": 3132,
+          "revision": "e181cfee8400da03f9084ff7635d0277fee491f3",
+          "detail": "Host readiness test, A press and GO stores."
+        },
+        {
+          "source": "src/code_08002118.c",
+          "line": 3178,
+          "revision": "e181cfee8400da03f9084ff7635d0277fee491f3",
+          "detail": "Client OK stores, GO detection and option mirroring."
+        },
+        {
+          "source": "src/code_08002118.c",
+          "line": 3228,
+          "revision": "e181cfee8400da03f9084ff7635d0277fee491f3",
+          "detail": "Exit branches distinguish cancellation and successful lobby."
+        },
+        {
+          "source": "asm/nonmatchings/code_08002118/sub_080066BC.s",
+          "line": 175,
+          "revision": "97d9f36db07ca28ee9ad9528570273ec2f470edf",
+          "detail": "Original ASM compares0x4F/0x4B at lines175/178; host stores0x47/0x4F at246/248, client stores0x4F/0x4B at325/327 and tests0x47/0x4F at333/336; calls020E0,021C4 and0CB3C at510,521,531. The original ASM path exists at the recorded revision."
+        }
+      ]
+    },
+    {
+      "address": "0x08006B2C",
+      "canonical_symbol": "sub_08006B2C",
+      "display_name": "StartLinkLobbyReadyGoTask",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08002118.c",
+          "line": 3257,
+          "revision": "e181cfee8400da03f9084ff7635d0277fee491f3",
+          "detail": "Allocates0x400-byte stack, registers066BC callback on task030061E0. Called by02B70 after multiplayer character selection."
+        }
+      ]
     }
   ]
 }
