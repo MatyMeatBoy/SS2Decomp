@@ -997,7 +997,7 @@ static inline void Wait567D4(void)
 }
 void sub_080567D4(s32 id)
 {
-    u32 hw, hh, x, y, n, i, player, item, kind, count;
+    u32 hw, hh, x, y, n, i, player, item, needed, kind, count;
     s32 ret;
     u8 *flags;
     u16 *slot;
@@ -1064,8 +1064,9 @@ void sub_080567D4(s32 id)
             ret = 5;
             { struct StatePlayer567D4 *p = &statePlayers567D4[sub_080020F4()]; p->state = ret; }
             item = gates567D4[id].item;
+            needed = gates567D4[id].need;
             kind = gates567D4[id].kind;
-            count = gates567D4[id].need;
+            count = needed;
             for (i = 0; i <= 24; i++) {
                 if (inv567D4->slots[i].item == item && inv567D4->slots[i].kind == kind) {
                     /* Extra pre-combine operations keep loop.c from hoisting 0x150. */
