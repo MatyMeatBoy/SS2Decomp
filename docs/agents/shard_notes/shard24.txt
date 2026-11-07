@@ -35,3 +35,29 @@ Later attempts (2026-10-12, after main merge with revalidated tree):
   A clean unconstrained version gives1004/152. A new r7 limit gives1032/140;
   reusing the count for the limit gives1024/80 and binding it r7 gives1024/138.
   A local signed-halfword projection prototype has no effect. All rejected.
+
+2026-11-07 claude-nov07-wB, sub_08025890:
+  Rewrote the m2c draft as structured C. Filtered nmdiff 717 -> 95 (size 2704 -> 2732
+  vs 2728). Still NONMATCHING. What closed most of it:
+  - u16 ph[3][3], fr[3][3] at sp+0x8C/0xA0 (2-D arrays: the draw loop then indexes
+    fr[0][i]/fr[1][i] without a strength-reduced giv, like the original; separate
+    4-aligned arrays shift the frame, a flat u16[10] merges the two givs). 717 -> 532.
+  - Literal 0 for the 5th draw argument instead of an `odd` variable (CSE reuses the
+    tested register), sibling sub_08026858's grid-clear loop verbatim, and the
+    (s32)(unk7 << 0x1B) < 0 test. 532 -> 275.
+  - Block-local `s32 t = sub_0800CD8C()` per draw section (a function-scope t was
+    forced into r6 and displaced the constant-1 pseudo). 275 -> 125.
+  - Player-array aliases at gUnk_03003D10 (.flags) and gUnk_03003E28 (.net) give the
+    original literal names. 125 -> 121.
+  - 60-frame loop as for (count = 1; ; count++) { ...; if (count > 0x3B) break; }:
+    121 -> 95, but the frame shrinks to 0x124. The original is the do-while
+    (count++ <= 0x3B) form (121): loop.c makes the count+1 pseudo, the original
+    gives it a hard reg and reload spills it to 0x11C; here global alloc leaves it
+    unallocated, so it takes slot 0xFC and shifts the array-base slots by 4.
+  Remaining: (a) the &x pseudo (loop copy, reg 1188) gets r6 and the payload pointer
+  (1173, priority ~1.5) takes r4; the original has them swapped. (b) The init-loop
+  givs for dyA and vyB swap between sl and r9. (c) The count+1 slot described above.
+  (d) frame = phase = 0 order (movs r0,#0 before add r5).
+  Rejected: explicit s16 *px = &x pointers (430), T24_ABS ternary (795), separate
+  ph/fr arrays (768), explicit next/old temps for the count loop (163), several
+  vyB abs and shift spellings (no change).
