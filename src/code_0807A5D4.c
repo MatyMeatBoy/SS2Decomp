@@ -1354,15 +1354,16 @@ void sub_0807C29C(void) {
                 sub_0805865C(0x62);
             }
         } else if ((down = keys29_03001308 & 0x80) != 0) {
-            cur = gMgr82->cursor;
-            if (cur < 20) {
-                gMgr82->prev = cur;
-                gMgr82->cursor = cur + 5;
+            u32 cdn;
+            cdn = gMgr82->cursor;
+            if (cdn < 20) {
+                gMgr82->prev = cdn;
+                gMgr82->cursor = cdn + 5;
                 sub_0805865C(0x62);
             } else if (gMgr82->heldFrom == 0x16) {
                 gMgr82->prev = 20;
                 gMgr82->state = 7;
-                switch (cur) {
+                switch (cdn) {
                 case 20 ... 21:
                     gMgr82->cursor = 1;
                     sub_0805865C(0x62);
@@ -1484,6 +1485,7 @@ void sub_0807C29C(void) {
                         break;
                     }
                     switch (from) {
+                        struct Item82 *dit; /* block-local item (ROM keeps it in r1, not in the function-level item reg) */
                     case 0:
                     case 13:
                         *(struct Item82 *)sp4 = gInv82->items[gMgr82->cursor];
@@ -1495,13 +1497,13 @@ void sub_0807C29C(void) {
                     case 6:
                         break;
                     default:
-                        item = (struct Item82 *)((u8 *)gInv82 + gMgr82->cursor * 16 + 0x150);
-                        if (gMgr82->held.kind != item->kind) {
+                        dit = (struct Item82 *)((u8 *)gInv82 + gMgr82->cursor * 16 + 0x150);
+                        if (gMgr82->held.kind != dit->kind) {
                             sub_0805865C(0x61);
                             break;
                         }
                         ok = 0;
-                        switch (item->kind) {
+                        switch (dit->kind) {
                         case 2:
                             if (sub_0805AE34((void *)&gInv82->items[gMgr82->cursor]))
                                 ok = 1;
@@ -1613,10 +1615,11 @@ void sub_0807C29C(void) {
                 DROP82();
                 sub_0805865C(0x5F);
             } else {
-                item = gMgr82->cur;
-                if (item->kind != 0) switch (item->kind) {
+                struct Item82 *cit;
+                cit = gMgr82->cur;
+                if (cit->kind != 0) switch (cit->kind) {
                 case 2 ... 5:
-                    if (item->flag == 0)
+                    if (cit->flag == 0)
                         break;
                     have = sub_0805B0F0();
                     if (have < sub_0805B068(gMgr82->cur)) {
@@ -2240,9 +2243,10 @@ void sub_0807C29C(void) {
                 u32 ok6, nn;
                 ok6 = 0;
                 if (gPlayers82[sub_080020F4()].f77 > 3) {
+                    u32 bi;
                     nn = gPlayers82[sub_080020F4()].f77;
-                    for (i = 3; i < nn; i++) {
-                        if (gInv82->belt[i].kind == 2) {
+                    for (bi = 3; bi < nn; bi++) {
+                        if (gInv82->belt[bi].kind == 2) {
                             ok6++;
                             break;
                         }
