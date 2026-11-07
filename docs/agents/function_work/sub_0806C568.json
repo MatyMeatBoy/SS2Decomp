@@ -1,7 +1,7 @@
 {
   "address": "0x0806C568",
-  "updated_utc": "2026-11-07T04:06:59Z",
-  "checkpoint": "Verified frame recovery after 147ee967a1ec4e91bca4f6c8eeb57f0758a4633c; C-body SHA-256 c7d440c2c615b32198feec18b97218e48799ab2f6cfbf3d864a5663c31ab1763. The original 168-byte frame is restored, with size 2208 versus original 2184. Heuristic 563 versus prior 549 is an explicit diagnostic tradeoff; both improve the earlier 576 checkpoint. All 50 static call targets remain in original order. Still NONMATCHING; no matching-byte credit.",
+  "updated_utc": "2026-11-07T08:44:43.868821+00:00",
+  "checkpoint": "claude-nov07-wB shard 140: active C matches (PR #596 merged); make compare OK with sub_0806C568.s removed.",
   "areas": [
     {
       "id": "compile",
@@ -12,20 +12,20 @@
     {
       "id": "target_traversal",
       "label": "Recover target traversal and completion effects",
-      "state": "active",
-      "evidence": "The earlier r7-pinned final counter emitted a player-target list read from address 0x34; its ordinary-counter repair remains. The frame-restored checkpoint passes 276 immediate-completion and 276 delayed/drawing original-ROM comparisons under clobbering external stubs: call arguments, request snapshots, EWRAM/IWRAM effects, saved registers and SP agree. Another 144 enemy-owner prefix cases agree on calls and non-stack RAM through resource subtraction, stopping at the first RNG call or a normal resource-cost abort. Those prefix tests cover owners 4/6/8, local IDs 0/2, modes 0/1/6/7 and energy 0/1/10/50/32767/65535; they do not prove full enemy-owner continuation or register restoration on an intentionally stopped prefix. Removing two redundant register pins and the unused initial-mode declaration/assignment produces exactly identical normalized bytes and relocations to that audited frame-restored function. Full enemy-owner continuation and arbitrary game states remain unproven."
+      "state": "done",
+      "evidence": "Resolved by the exact match in PR #596: sub_0806C568 is active C (NONMATCHING wrapper and .s removed); make compare, make nonmatching and check_tree pass."
     },
     {
       "id": "types_abi",
       "label": "Audit widths, aliases and call lifetimes",
-      "state": "active",
-      "evidence": "The phase guard now reads the still-unmodified u16 level directly; the later 7-to-6 clamp remains after target collection. Its equivalent initial-mode copy and unused home are removed. Strict compiled controls also permit removal of the local resource result r1 pin and cost-result r0 pin without changing the audited function bytes or relocations. The earlier ordinary enemy pointer, signed enemy cost, saved-request reload, u16 world flags/delays, pre-loop mask, field rereads and owner-dependent filters/callbacks remain. No new hard-register binding or empty constraint was added. Two narrow timer r0 bindings, the existing real-value cost constraint and the full enemy-owner/player-pointer contract remain for audit."
+      "state": "done",
+      "evidence": "Resolved by the exact match in PR #596: sub_0806C568 is active C (NONMATCHING wrapper and .s removed); make compare, make nonmatching and check_tree pass."
     },
     {
       "id": "layout",
       "label": "Recover stack homes and register allocation",
-      "state": "active",
-      "evidence": "Current source removes the redundant initial-mode home and restores frame 168, equal to the original, with size 2208 versus original 2184. Compared with the preceding 2208/frame172/heuristic549 checkpoint, the ordered heuristic is 563 and normalized differing halfwords are 925 instead of 918. Compared with the earlier 2228/frame168/576 checkpoint, code size and heuristic remain improved (halfwords 1043 to 925). Prefer the simpler source and recovered frame over the small diagnostic regression; the 549/frame172 source is preserved privately as a control. Exact frame size does not prove original spill homes or register allocation. Owner still takes sl; mode and several scalar homes remain different. All 50 static call targets retain original order. Source variants, full-module objects/diffs, allocation dumps and bounded reproducer remain under .local/c568 in the exclusive worker checkout."
+      "state": "done",
+      "evidence": "Resolved by the exact match in PR #596: sub_0806C568 is active C (NONMATCHING wrapper and .s removed); make compare, make nonmatching and check_tree pass."
     },
     {
       "id": "static_call_order",
@@ -36,8 +36,8 @@
     {
       "id": "full_match",
       "label": "Verify matching normal C and the exact ROM",
-      "state": "pending",
-      "evidence": "Strict NO MATCH. Original ASM remains the normal-build implementation. Bounded emulation, heuristic scores and frame milestones are not full equivalence or matching proofs."
+      "state": "done",
+      "evidence": "Resolved by the exact match in PR #596: sub_0806C568 is active C (NONMATCHING wrapper and .s removed); make compare, make nonmatching and check_tree pass."
     }
   ],
   "regions": []
