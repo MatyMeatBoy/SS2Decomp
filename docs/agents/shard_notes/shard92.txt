@@ -20,3 +20,30 @@ Shard 92, sub_0808C0C4 (code_08087CC0)
   Next: merge loop_24's var_r9 and off2 into one function-scope offset, or give off2 a
   function-wide live range, so global alloc leaves it unallocated. Note ROM also reloads
   gPlayers (ldr r6) on every loopC iteration.
+
+2026-11-07 (claude-nov07-wC): sub_0808C0C4
+  Landed: filtered nmdiff 159 -> 56 (difflib-aligned instruction diff 108 -> 40); frame now
+  0x170 = ROM; size 2704 vs 2708. Still NONMATCHING.
+  Diagnosis/fixes:
+  - loopC `off` is not unallocated: it is caller-saved r2 (global.c tries caller-saves in the
+    preferred class before the hi-reg alternate class; needs refs > 4*calls = 9 > 8). Two blockers:
+    (a) `(plus off 328)` made off's preferred class STACK_REG (the add-sp alternative); computing
+    `b148 = base + 0x148` first and `pit = b148 + off` gives LO_REGS. (b) off still beat cnt for r7:
+    update_equiv_regs doubles a reg's live length when its first set carries REG_EQUAL (off = 0),
+    so prio(off) = 27/86; a do{}while(0) around the unk1C-arm `cnt[ix] += 1` lifts cnt to 7 refs.
+  - Portrait base `add r5, sp, #0x80`: GCSE PRE made all six draw sites redundant with the init
+    loop's portraitBaseC0 (computed in bb0). A natural `for` init loop with the base set in the
+    body removes the PRE. Base vs product (r5/r4) is local-alloc priority, which depends on loop
+    depth: depth 3 gives the ROM product-first order. Hence do-do-while(0) around loop_24 and one
+    do-while(0) around the block_94 C0_DRAW_ALL. countTripletC0's r3 binding is then unneeded.
+  - loopB clear loop counter is var_r5_2 (same pseudo as loopC j, r5).
+  Remaining (40 lines): loopB hoists (ROM: seat r8, counts sp+336 r9, k sl, seat+2 inline,
+  r7 = gItems set after the movables => r7 is probably an SR giv of a natural slot index; ours
+  hoists seat+2 into sl and loop.c finds counts "not desirable"); reload reg r2 vs r3 for the
+  ldrsh #28 constant (held 0x20 path, selection); selection mult operand order; unk90 store
+  (ROM product in r1, ours tied to the call result r0).
+  Rejected: natural gSlotsC0[i].item / gPlayersC0[i].unk148 in loopB (no SR: 332 constant
+  "not desirable"), seat-table macro shapes in loopB, explicit seat/cnt user vars (size 2668),
+  alternative unk90/selection spellings.
+  Tooling: evaluate inside the full module (standalone files differ: CSE/GCSE hash symbol
+  pointers); scratch scripts in nov07-wC (ck2.sh builds the module with the draft unwrapped).
