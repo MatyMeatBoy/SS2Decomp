@@ -242,9 +242,9 @@ digraph calls {
   "sub_0800CC48" [label="sub_0800CC48"];
   "sub_0800CC68" [label="sub_0800CC68"];
   "sub_0800CC88" [label="sub_0800CC88"];
-  "sub_0800CC98" [label="sub_0800CC98"];
-  "sub_0800CCA8" [label="sub_0800CCA8"];
-  "sub_0800CCB8" [label="sub_0800CCB8"];
+  "sub_0800CC98" [label="IsFullScreenMenuActive"];
+  "sub_0800CCA8" [label="MarkFullScreenMenuActive"];
+  "sub_0800CCB8" [label="MarkFullScreenMenuInactive"];
   "sub_0800CCCC" [label="sub_0800CCCC"];
   "sub_0800CCDC" [label="sub_0800CCDC"];
   "sub_0800CCEC" [label="sub_0800CCEC"];
@@ -266,9 +266,9 @@ digraph calls {
   "sub_0800CE08" [label="sub_0800CE08"];
   "sub_0800CE1C" [label="sub_0800CE1C"];
   "sub_0800CE30" [label="sub_0800CE30"];
-  "sub_0800CE40" [label="sub_0800CE40"];
-  "sub_0800CE54" [label="sub_0800CE54"];
-  "sub_0800CE68" [label="sub_0800CE68"];
+  "sub_0800CE40" [label="MarkMenuFadeTransitionActive"];
+  "sub_0800CE54" [label="MarkMenuFadeTransitionInactive"];
+  "sub_0800CE68" [label="IsMenuFadeTransitionActive"];
   "sub_0800CE78" [label="sub_0800CE78"];
   "sub_0800CE88" [label="sub_0800CE88"];
   "sub_0800CE9C" [label="sub_0800CE9C"];
@@ -885,7 +885,7 @@ digraph calls {
   "sub_080576E0" [label="sub_080576E0"];
   "sub_080576EC" [label="sub_080576EC"];
   "sub_08057780" [label="sub_08057780"];
-  "sub_0805782C" [label="sub_0805782C"];
+  "sub_0805782C" [label="RunFadedFullScreenMenu"];
   "sub_080578BC" [label="sub_080578BC"];
   "sub_0805790C" [label="sub_0805790C"];
   "sub_08057934" [label="sub_08057934"];

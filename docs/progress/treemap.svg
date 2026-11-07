@@ -14,8 +14,8 @@
 <text x="269.0" y="86" fill="#e6edf3" font-size="10">940 bytes; not decompiled C</text>
 <rect x="506.0" y="30" width="235.0" height="66" rx="5" fill="#161b22"/>
 <text x="516.0" y="46" fill="#e6edf3" font-size="11">Identification</text>
-<text x="516.0" y="69" fill="#3fb950" font-size="21" font-weight="600">36.17%</text>
-<text x="516.0" y="86" fill="#e6edf3" font-size="10">736 / 2035 registered names</text>
+<text x="516.0" y="69" fill="#3fb950" font-size="21" font-weight="600">36.51%</text>
+<text x="516.0" y="86" fill="#e6edf3" font-size="10">743 / 2035 registered names</text>
 <rect x="753.0" y="30" width="235.0" height="66" rx="5" fill="#161b22"/>
 <text x="763.0" y="46" fill="#e6edf3" font-size="11">Historical C + linked</text>
 <text x="763.0" y="69" fill="#e6edf3" font-size="21" font-weight="600">92.96%</text>
@@ -1852,7 +1852,7 @@
 <rect x="726.88" y="424.63" width="35.42" height="41.95" fill="#0d1117"/>
 <rect x="727.88" y="425.63" width="9.71" height="8.38" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08057780 | sub_08057780 | unidentified  0x08057780  172 bytes  [done]</title></rect>
 <rect x="737.59" y="425.63" width="8.36" height="8.38" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_080576EC | sub_080576EC | unidentified  0x080576EC  148 bytes  [done]</title></rect>
-<rect x="745.95" y="425.63" width="8.13" height="8.38" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0805782C | sub_0805782C | unidentified  0x0805782C  144 bytes  [done]</title></rect>
+<rect x="745.95" y="425.63" width="8.13" height="8.38" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>RunFadedFullScreenMenu | sub_0805782C | confirmed  0x0805782C  144 bytes  [done]</title></rect>
 <rect x="754.08" y="425.63" width="7.23" height="8.38" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>StartGuardedSceneCallbackTask | sub_08057430 | confirmed  0x08057430  128 bytes  [done]</title></rect>
 <rect x="727.88" y="434.01" width="7.19" height="7.63" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>StartSceneCallbackTaskAndWait | sub_080573B0 | confirmed  0x080573B0  116 bytes  [done]</title></rect>
 <rect x="727.88" y="441.64" width="7.19" height="6.84" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>StartSceneCallbackTask | sub_08057328 | confirmed  0x08057328  104 bytes  [done]</title></rect>
@@ -2053,7 +2053,7 @@
 <rect x="794.75" y="478.09" width="3.43" height="4.01" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0800CC18 | sub_0800CC18 | unidentified  0x0800CC18  32 bytes  [done]</title></rect>
 <rect x="798.18" y="478.09" width="3.43" height="4.01" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0800CC48 | sub_0800CC48 | unidentified  0x0800CC48  32 bytes  [done]</title></rect>
 <rect x="787.88" y="482.09" width="3.92" height="3.50" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0800CC68 | sub_0800CC68 | unidentified  0x0800CC68  32 bytes  [done]</title></rect>
-<rect x="791.80" y="482.09" width="2.45" height="3.50" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0800CCB8 | sub_0800CCB8 | unidentified  0x0800CCB8  20 bytes  [done]</title></rect>
+<rect x="791.80" y="482.09" width="2.45" height="3.50" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>MarkFullScreenMenuInactive | sub_0800CCB8 | confirmed  0x0800CCB8  20 bytes  [done]</title></rect>
 <rect x="794.26" y="482.09" width="2.45" height="3.50" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0800CCEC | sub_0800CCEC | unidentified  0x0800CCEC  20 bytes  [done]</title></rect>
 <rect x="796.71" y="482.09" width="2.45" height="3.50" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0800CD20 | sub_0800CD20 | unidentified  0x0800CD20  20 bytes  [done]</title></rect>
 <rect x="799.16" y="482.09" width="2.45" height="3.50" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0800CD54 | sub_0800CD54 | unidentified  0x0800CD54  20 bytes  [done]</title></rect>
@@ -2063,8 +2063,8 @@
 <rect x="796.12" y="485.60" width="2.75" height="3.13" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>ClearWorldTaskSuspendRequest | sub_0800CDE4 | confirmed  0x0800CDE4  20 bytes  [done]</title></rect>
 <rect x="798.86" y="485.60" width="2.75" height="3.13" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0800CE08 | sub_0800CE08 | unidentified  0x0800CE08  20 bytes  [done]</title></rect>
 <rect x="787.88" y="488.73" width="2.75" height="3.13" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0800CE1C | sub_0800CE1C | unidentified  0x0800CE1C  20 bytes  [done]</title></rect>
-<rect x="790.63" y="488.73" width="2.75" height="3.13" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0800CE40 | sub_0800CE40 | unidentified  0x0800CE40  20 bytes  [done]</title></rect>
-<rect x="793.37" y="488.73" width="2.75" height="3.13" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0800CE54 | sub_0800CE54 | unidentified  0x0800CE54  20 bytes  [done]</title></rect>
+<rect x="790.63" y="488.73" width="2.75" height="3.13" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>MarkMenuFadeTransitionActive | sub_0800CE40 | confirmed  0x0800CE40  20 bytes  [done]</title></rect>
+<rect x="793.37" y="488.73" width="2.75" height="3.13" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>MarkMenuFadeTransitionInactive | sub_0800CE54 | confirmed  0x0800CE54  20 bytes  [done]</title></rect>
 <rect x="796.12" y="488.73" width="2.75" height="3.13" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0800CE88 | sub_0800CE88 | unidentified  0x0800CE88  20 bytes  [done]</title></rect>
 <rect x="798.86" y="488.73" width="2.75" height="3.13" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0800CE9C | sub_0800CE9C | unidentified  0x0800CE9C  20 bytes  [done]</title></rect>
 <rect x="787.88" y="491.86" width="2.75" height="3.13" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0800CEB0 | sub_0800CEB0 | unidentified  0x0800CEB0  20 bytes  [done]</title></rect>
@@ -2076,8 +2076,8 @@
 <rect x="787.88" y="497.85" width="3.00" height="2.29" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>IncrementCoordinatedActionParticipantCount | sub_0800CBBC | confirmed  0x0800CBBC  16 bytes  [done]</title></rect>
 <rect x="787.88" y="500.13" width="3.00" height="2.29" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0800CC38 | sub_0800CC38 | unidentified  0x0800CC38  16 bytes  [done]</title></rect>
 <rect x="787.88" y="502.42" width="3.00" height="2.29" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0800CC88 | sub_0800CC88 | unidentified  0x0800CC88  16 bytes  [done]</title></rect>
-<rect x="787.88" y="504.71" width="3.00" height="2.29" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0800CC98 | sub_0800CC98 | unidentified  0x0800CC98  16 bytes  [done]</title></rect>
-<rect x="790.88" y="494.98" width="2.68" height="2.56" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0800CCA8 | sub_0800CCA8 | unidentified  0x0800CCA8  16 bytes  [done]</title></rect>
+<rect x="787.88" y="504.71" width="3.00" height="2.29" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>IsFullScreenMenuActive | sub_0800CC98 | confirmed  0x0800CC98  16 bytes  [done]</title></rect>
+<rect x="790.88" y="494.98" width="2.68" height="2.56" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>MarkFullScreenMenuActive | sub_0800CCA8 | confirmed  0x0800CCA8  16 bytes  [done]</title></rect>
 <rect x="793.57" y="494.98" width="2.68" height="2.56" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0800CCCC | sub_0800CCCC | unidentified  0x0800CCCC  16 bytes  [done]</title></rect>
 <rect x="796.25" y="494.98" width="2.68" height="2.56" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0800CCDC | sub_0800CCDC | unidentified  0x0800CCDC  16 bytes  [done]</title></rect>
 <rect x="798.93" y="494.98" width="2.68" height="2.56" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0800CD00 | sub_0800CD00 | unidentified  0x0800CD00  16 bytes  [done]</title></rect>
@@ -2090,7 +2090,7 @@
 <rect x="799.00" y="497.55" width="2.61" height="2.64" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0800CDC0 | sub_0800CDC0 | unidentified  0x0800CDC0  16 bytes  [done]</title></rect>
 <rect x="793.79" y="500.19" width="3.03" height="2.27" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>IsWorldTaskSuspendRequested | sub_0800CDF8 | confirmed  0x0800CDF8  16 bytes  [done]</title></rect>
 <rect x="793.79" y="502.46" width="3.03" height="2.27" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0800CE30 | sub_0800CE30 | unidentified  0x0800CE30  16 bytes  [done]</title></rect>
-<rect x="793.79" y="504.73" width="3.03" height="2.27" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0800CE68 | sub_0800CE68 | unidentified  0x0800CE68  16 bytes  [done]</title></rect>
+<rect x="793.79" y="504.73" width="3.03" height="2.27" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>IsMenuFadeTransitionActive | sub_0800CE68 | confirmed  0x0800CE68  16 bytes  [done]</title></rect>
 <rect x="796.82" y="500.19" width="2.40" height="2.87" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0800CE78 | sub_0800CE78 | unidentified  0x0800CE78  16 bytes  [done]</title></rect>
 <rect x="799.21" y="500.19" width="2.40" height="2.87" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0800CED8 | sub_0800CED8 | unidentified  0x0800CED8  16 bytes  [done]</title></rect>
 <rect x="796.82" y="503.05" width="3.48" height="1.97" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0800CF10 | sub_0800CF10 | unidentified  0x0800CF10  16 bytes  [done]</title></rect>

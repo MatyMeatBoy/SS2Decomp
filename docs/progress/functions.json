@@ -6775,10 +6775,35 @@
       "canonical_symbol": "sub_0800CC98",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_0800CC98",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "IsFullScreenMenuActive",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_0800CBBC.c",
+          "line": 45,
+          "revision": "90a9312e8d9f9cc7e03d6090953fcc2fd311960c",
+          "detail": "Returns bit 2 of scene-flags word 0x03003478 as 0 or 1."
+        },
+        {
+          "source": "src/code_08097E28.c",
+          "line": 591,
+          "revision": "90a9312e8d9f9cc7e03d6090953fcc2fd311960c",
+          "detail": "The matched actor-render path at lines 579..592 draws its actor and floating damage only when this query and scene-bit 3/5 queries are zero. Matched flash-save task 64E14 waits for this flag to clear at code_0805FB7C.c:3081 before its own screen sequence. These are observed draw/wait gates, not proof that every world task is suspended or that a particular menu is open."
+        },
+        {
+          "source": "src/code_080571A4.c",
+          "line": 345,
+          "revision": "90a9312e8d9f9cc7e03d6090953fcc2fd311960c",
+          "detail": "Matched wrapper 5782C sets bit 2 immediately before saving scroll and starting its menu task, then clears it after the completion-signal wait and scroll restoration. This caller anchors menu activity; the complete scene-flags word can also be reset or restored independently of this accessor pair."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 245,
+          "revision": "90a9312e8d9f9cc7e03d6090953fcc2fd311960c",
+          "detail": "Original 0CC98..0CCA2 loads the word at 03003478, shifts right by 2 and masks with 1. Complete original bytes checked against EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc and linked original ELF. Static instruction evidence only."
+        }
+      ]
     },
     {
       "name": "sub_0800CCA8",
@@ -6792,10 +6817,35 @@
       "canonical_symbol": "sub_0800CCA8",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_0800CCA8",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "MarkFullScreenMenuActive",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_0800CBBC.c",
+          "line": 48,
+          "revision": "90a9312e8d9f9cc7e03d6090953fcc2fd311960c",
+          "detail": "Sets bit 2 (0x4) of scene-flags word 0x03003478, preserving all other bits. Paired clear sub_0800CCB8."
+        },
+        {
+          "source": "src/code_080571A4.c",
+          "line": 345,
+          "revision": "90a9312e8d9f9cc7e03d6090953fcc2fd311960c",
+          "detail": "Matched wrapper 5782C sets scene bit 10, requests transition mode 6 through 1ABE8 and waits for 1AAE0. It requests map-background reload, performs four scheduler signal-1 waits, sets bit 2, saves the signed map-scroll halfwords and starts 84F9C with its unchanged 32-bit argument. After waiting on signal 0x11201100, it restores scroll, clears bit 2, wakes signal 0x514C8 and clears bit 10 before polling transition idle again. These are scheduler waits, not an elapsed-frame guarantee; the flags do not themselves prove rendering or task completion."
+        },
+        {
+          "source": "src/code_0805FB7C.c",
+          "line": 1989,
+          "revision": "90a9312e8d9f9cc7e03d6090953fcc2fd311960c",
+          "detail": "Observed matched paths here bracket sibling menu starters 84EAC/84F24 with bit 2 and signal 0x11201100. Another matched path at code_0808D4A8.c:1907..1912 sets it around starter 8D05C and waits on signal 0x02688420 before clearing it. These examples do not establish universal set/wait/clear pairing: 0CB30 resets the whole flags word, and code_08021DC4.c:670/:681/:4234 restores saved words."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 246,
+          "revision": "90a9312e8d9f9cc7e03d6090953fcc2fd311960c",
+          "detail": "Original 0CCA8..0CCB2 reads the word at 03003478, ORs 4 and stores it back. Complete original bytes checked against EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc and linked original ELF. Static instruction evidence only."
+        }
+      ]
     },
     {
       "name": "sub_0800CCB8",
@@ -6809,10 +6859,29 @@
       "canonical_symbol": "sub_0800CCB8",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_0800CCB8",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "MarkFullScreenMenuInactive",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_0800CBBC.c",
+          "line": 51,
+          "revision": "90a9312e8d9f9cc7e03d6090953fcc2fd311960c",
+          "detail": "Clears bit 2 (0x4) of scene-flags word 0x03003478 with mask 0xFFFFFFFB, preserving other bits. Inverse of MarkFullScreenMenuActive."
+        },
+        {
+          "source": "src/code_080571A4.c",
+          "line": 345,
+          "revision": "90a9312e8d9f9cc7e03d6090953fcc2fd311960c",
+          "detail": "In matched wrapper 5782C, the menu completion-signal wait and saved-scroll restoration precede this clear, and waking signal 0x514C8 follows it. This helper changes only the flag; it does not terminate or wait for menu tasks. Whole-word reset/restore paths can change the same bit independently."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 247,
+          "revision": "90a9312e8d9f9cc7e03d6090953fcc2fd311960c",
+          "detail": "Original 0CCB8..0CCC4 reads the word at 03003478, ANDs with -5 and stores it back. Complete original bytes checked against EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc and linked original ELF. Static instruction evidence only."
+        }
+      ]
     },
     {
       "name": "sub_0800CCCC",
@@ -7246,10 +7315,35 @@
       "canonical_symbol": "sub_0800CE40",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_0800CE40",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "MarkMenuFadeTransitionActive",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_0800CBBC.c",
+          "line": 117,
+          "revision": "90a9312e8d9f9cc7e03d6090953fcc2fd311960c",
+          "detail": "Sets bit 10 (0x400) of the 32-bit scene-flags word at 03003478, preserving other bits. Paired clear 0CE54 and query 0CE68 operate on the same bit. This helper only marks the flag; it does not request a fade, change transition-engine state or wait."
+        },
+        {
+          "source": "src/code_080571A4.c",
+          "line": 345,
+          "revision": "90a9312e8d9f9cc7e03d6090953fcc2fd311960c",
+          "detail": "Matched wrapper 5782C sets scene bit 10, requests transition mode 6 through 1ABE8 and waits for 1AAE0. It requests map-background reload, performs four scheduler signal-1 waits, sets bit 2, saves the signed map-scroll halfwords and starts 84F9C with its unchanged 32-bit argument. After waiting on signal 0x11201100, it restores scroll, clears bit 2, wakes signal 0x514C8 and clears bit 10 before polling transition idle again. These are scheduler waits, not an elapsed-frame guarantee; the flags do not themselves prove rendering or task completion. In this wrapper, the flag brackets transition setup and the menu wait but is already clear during the final idle polling. Its lifetime is not the complete fade-in interval."
+        },
+        {
+          "source": "src/code_0802FEA0.c",
+          "line": 807,
+          "revision": "90a9312e8d9f9cc7e03d6090953fcc2fd311960c",
+          "detail": "Selected matched NPC menu wrappers, including the sequence beginning at this line, set this flag before requesting mode 6 and clear it after the menu/scroll-restoration path. Other caller paths need their own lifetime audit; this evidence does not assert that all menus or all fade engine activity use this bit."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 269,
+          "revision": "90a9312e8d9f9cc7e03d6090953fcc2fd311960c",
+          "detail": "Original 0CE40..0CE4C reads the word at 03003478, ORs 0x400 and stores it back. Complete original bytes checked against EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc and linked original ELF. Static instruction evidence only."
+        }
+      ]
     },
     {
       "name": "sub_0800CE54",
@@ -7263,10 +7357,29 @@
       "canonical_symbol": "sub_0800CE54",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_0800CE54",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "MarkMenuFadeTransitionInactive",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_0800CBBC.c",
+          "line": 120,
+          "revision": "90a9312e8d9f9cc7e03d6090953fcc2fd311960c",
+          "detail": "Clears scene-flags bit 10 with 32-bit mask 0xFFFFFBFF, preserving other bits. Counterpart of MarkMenuFadeTransitionActive. It does not stop a transition, wait for idle or clear other scene gates."
+        },
+        {
+          "source": "src/code_080571A4.c",
+          "line": 345,
+          "revision": "90a9312e8d9f9cc7e03d6090953fcc2fd311960c",
+          "detail": "Matched wrapper 5782C clears this flag at source line 366 before its final idle poll. The matched restore path in code_08021DC4.c:670..674 first restores the complete flags word, then calls ClearWorldTaskSuspendRequest (0CDE4) and this helper. That is an observed restore cleanup, not a guarantee that all world tasks resume. Complete-word reset/restore paths can change bit 10 independently."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 270,
+          "revision": "90a9312e8d9f9cc7e03d6090953fcc2fd311960c",
+          "detail": "Original 0CE54..0CE5E reads the word at 03003478, ANDs with 0xFFFFFBFF and stores it back. Complete original bytes checked against EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc and linked original ELF. Static instruction evidence only."
+        }
+      ]
     },
     {
       "name": "sub_0800CE68",
@@ -7280,10 +7393,29 @@
       "canonical_symbol": "sub_0800CE68",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_0800CE68",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "IsMenuFadeTransitionActive",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_0800CBBC.c",
+          "line": 123,
+          "revision": "90a9312e8d9f9cc7e03d6090953fcc2fd311960c",
+          "detail": "Returns scene-flags bit 10 as exactly 0 or 1. It reports the menu-transition marker, not transition-engine idle or an elapsed fade duration."
+        },
+        {
+          "source": "src/code_080A3D2C.c",
+          "line": 1440,
+          "revision": "90a9312e8d9f9cc7e03d6090953fcc2fd311960c",
+          "detail": "Matched examples in this module combine this query with IsFullScreenMenuActive: source line 1440 sets scene bit 23 through 0D038 when either flag is set, while lines 1071..1072 call 15C38 only when both are clear. Further examples at lines 1532 and 1896 use the same pair. These selected consumers support a menu/transition gate without proving a universal pairing or whole-game suspension."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 271,
+          "revision": "90a9312e8d9f9cc7e03d6090953fcc2fd311960c",
+          "detail": "Original 0CE68..0CE72 loads the word at 03003478, shifts right by 10 and masks with 1. Complete original bytes checked against EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc and linked original ELF. Static instruction evidence only."
+        }
+      ]
     },
     {
       "name": "sub_0800CE78",
@@ -19764,10 +19896,29 @@
       "canonical_symbol": "sub_0805782C",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_0805782C",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "RunFadedFullScreenMenu",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_080571A4.c",
+          "line": 345,
+          "revision": "90a9312e8d9f9cc7e03d6090953fcc2fd311960c",
+          "detail": "Matched wrapper 5782C sets scene bit 10, requests transition mode 6 through 1ABE8 and waits for 1AAE0. It requests map-background reload, performs four scheduler signal-1 waits, sets bit 2, saves the signed map-scroll halfwords and starts 84F9C with its unchanged 32-bit argument. After waiting on signal 0x11201100, it restores scroll, clears bit 2, wakes signal 0x514C8 and clears bit 10 before polling transition idle again. These are scheduler waits, not an elapsed-frame guarantee; the flags do not themselves prove rendering or task completion."
+        },
+        {
+          "source": "src/code_0807A5D4.c",
+          "line": 7397,
+          "revision": "90a9312e8d9f9cc7e03d6090953fcc2fd311960c",
+          "detail": "Matched starter 84F9C retries allocation of the 0x624-byte manager at 03006440 and a 0xA00-byte stack, then starts control 03006450 with callback 82BB0, destructor 85518 and flags/state word 0x64 at task +8. This does not independently establish a scheduler priority or order key. Matched ordinary C alias sub_08082BB0_u32 is defined at lines 5094..5638 and wakes signal 0x11201100 at line 5637. The starter forwards the complete argument as the callback menu-mode selector; this wrapper performs no domain check or direct result test."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 888,
+          "revision": "90a9312e8d9f9cc7e03d6090953fcc2fd311960c",
+          "detail": "Original 08057834 sets bit 10; 5783A requests mode 6, 57860 sets bit 2 and 57878 forwards the original R0 word to 84F9C. After signal wait 5787E, halfword stores 57884/57886 restore scroll. 57888 clears bit 2, 5788E wakes 0x514C8, and 57892 clears bit 10 before final idle poll 578A8. Original EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc; complete original function bytes independently checked against the linked original ELF. No runtime or whole-caller equivalence claim."
+        }
+      ]
     },
     {
       "name": "sub_080578BC",
@@ -44849,12 +45000,12 @@
   "identification": {
     "game": {
       "total": 1880,
-      "identified": 581,
+      "identified": 588,
       "existing": 26,
-      "confirmed": 555,
+      "confirmed": 562,
       "proposed": 0,
-      "unidentified": 1299,
-      "percent_identified": 30.904255319148938
+      "unidentified": 1292,
+      "percent_identified": 31.27659574468085
     },
     "sdk": {
       "total": 155,
@@ -44867,12 +45018,12 @@
     },
     "all": {
       "total": 2035,
-      "identified": 736,
+      "identified": 743,
       "existing": 155,
-      "confirmed": 581,
+      "confirmed": 588,
       "proposed": 0,
-      "unidentified": 1299,
-      "percent_identified": 36.16707616707617
+      "unidentified": 1292,
+      "percent_identified": 36.51105651105651
     }
   },
   "limitations": "Configured function address intervals, including alignment/literal pools; inventory includes original assembly and linked libraries. Existing descriptive identifiers are recognized, not independently semantically re-proven."
