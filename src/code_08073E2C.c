@@ -865,7 +865,6 @@ void sub_080756EC(u32 who)
     sub_08000274_3((u32)t, who, i);
     gMasks5494[who] |= 1 << i;
 }
-#ifdef NONMATCHING
 struct Arg5778 { u32 who; u32 slot; u16 target; u16 pad; u32 fC; u32 count; u32 flags; };
 struct Spr5778 { u32 f0, f4, f8, fC; u8 pad10[16]; u8 f20; u8 pad21[19]; };
 struct Ent5778 { u16 xRaw, yRaw; };
@@ -882,7 +881,6 @@ extern u8 *inv5778 asm("gUnk_030034E0");
 extern u16 dir5778[] asm("gUnk_0847AD0A");
 extern s16 sin5778[] asm("gUnk_080B9704");
 extern s16 offX5778[][2] asm("gUnk_084EBEBC");
-extern s16 offY5778[][2] asm("gUnk_084EBEBE");
 extern void init5778(void *, u32, u32, s32, u32) asm("sub_08065158");
 extern u16 step5778(void *, u32, u16 *, u16 *, u32) asm("sub_08065370");
 extern void pos5778(s32, s32, s16 *, s16 *, u32, u32) asm("sub_0800BC08");
@@ -1017,6 +1015,11 @@ void sub_08075778(struct Arg5778 *arg)
                 if (sa < 0)
                     ang = sa + 0x100;
             }
+            {
+                s16 sb = ang;
+                if (sb > 0x100)
+                    ang = sb - 0x100;
+            }
         } else {
             struct Ent5778 *te = p5778[target].entity;
             dx = (te->xRaw >> 4) - (x >> 8);
@@ -1031,17 +1034,24 @@ void sub_08075778(struct Arg5778 *arg)
                 if (sa < 0)
                     ang = sa + 0x100;
             }
-        }
-        {
-            s16 sb = ang;
-            if (sb > 0x100)
-                ang = sb - 0x100;
+            {
+                s16 sb = ang;
+                if (sb > 0x100)
+                    ang = sb - 0x100;
+            }
         }
     } else {
         ang = dir5778[((u8 *)p->entity)[3] >> 4];
     }
-    if (target == 0xFFFF)
-        target = arg->target;
+    {
+        /* FAKE: an empty value held in r4 across the target check keeps r4 out of the reload
+           rotation there (the ROM reloads target into r6 and arg into r0). */
+        register u32 z asm("r4");
+        asm("" : "=r"(z));
+        if (target == 0xFFFF)
+            target = arg->target;
+        asm("" : : "r"(z));
+    }
     x += move5778(sin5778[(s16)ang + 0x40] * 2, spd);
     y += move5778(sin5778[(s16)ang] * 2, spd);
     if (wait5778(p, 1))
@@ -1169,7 +1179,11 @@ void sub_08075778(struct Arg5778 *arg)
                     if (big)
                         p->flags &= ~0x200000;
                 } else {
-                    register u32 b asm("r1") = sub_0800086C() & 1;
+                    /* FAKE: the call result stays live in r0 (a hard reg), so reload copies the
+                       constant 1 (r7) into the and destination instead of the call result. */
+                    register u32 r asm("r0") = sub_0800086C();
+                    u32 b = r & 1;
+                    asm("" : : "r"(r));
                     if (!b) {
                         if (who == sub_080020F4()) {
                             u16 s = p->state;
@@ -1202,13 +1216,18 @@ void sub_08075778(struct Arg5778 *arg)
         c = sub_0800AE50(x, y, 0);
         if ((c & 0xF) && !(c & 0x10))
             break;
+        /* FAKE: c stays live past the 0x10 test, so regmove ties that and to the constant. */
+        asm("" : : "r"(c));
         x += move5778(sin5778[(s16)ang + 0x40], spd);
         y += move5778(sin5778[(s16)ang], spd);
         if (!sub_0800CC98() && !sub_0800CD8C() && !sub_0800CCCC()) {
             pos5778((s16)(shade = x >> 8), (s16)(sy = y >> 8), &dx, &dy, 0x30, 0);
             shade = (u8)sub_0800BC44(shade, sy, 0);
             d = dirIdx;
-            step5778(&spr, 0x40 | d, &frame, &timer, 1);
+            /* FAKE: c (a global pseudo) holds the mode bit so d gets no r1 preference from the
+               step argument; otherwise ang inherits it at `ang = d` and takes r1 instead of r3. */
+            c = 0x40;
+            step5778(&spr, c | d, &frame, &timer, 1);
             if (gUnk_03003170.curLevel == 4 && sub_0800CDC0())
                 shade = 0;
             if (sub_0800CB9C()) {
@@ -1223,9 +1242,6 @@ void sub_08075778(struct Arg5778 *arg)
 end:
     m5778[who] &= ~(1 << slot);
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_08073E2C", sub_08075778);
-#endif
 struct Task60E8 { u32 f0, f4, f8, fC, f10, f14, f18, f1C, f20, f24; };
 struct Info60E8 { u32 who, i, a, pad, c, b; };
 extern u32 gMasks60E8[] asm("gUnk_030063E0");
