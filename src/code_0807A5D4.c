@@ -1148,6 +1148,7 @@ struct Mgr82 {
     struct Item82 *cur; struct Item82 held; struct Item82 stock[75]; struct { u8 pad[0x136]; u16 f136[6]; } *f5B4; u8 sprite[4];
 };
 struct Pos82 { s16 x, y; };
+struct C82 { u32 c; }; /* one u32 field: stores through it stay MEM_IN_STRUCT_P */
 extern struct Pos82 gUnk_084ECBBC_82[] asm("gUnk_084ECBBC");
 extern struct Pos82 gUnk_084ECBB0_82[] asm("gUnk_084ECBB0");
 extern struct Mgr82 *gMgr82 asm("gUnk_03006440");
@@ -2794,15 +2795,16 @@ void sub_0807C29C(void) {
                     /* (gMgr82 + s*16) + 0x104: ROM keeps s*16 (sl) for the count address too */
                     it = (struct Item82 *)((u8 *)gMgr82 + s * 16 + 0x104);
                     if (it->kind == 10) {
-                        u32 lim;
-                        /* lim set before vv: the following reloads then rotate like the ROM (ldr r6 / mov r7, r8, DROP
-                           gMgr82 reloads r2/r3, zero r4). Still differs: lim sits in sl, s*16 in ip (ROM: s*16 in sl,
-                           100000 reloaded into r5). */
-                        lim = 100000;
-                        vv = gMgr82->stock[s].count + gMgr82->held.count;
-                        if (vv <= lim) {
+                        /* ROM's `mov r0, sl` before the count address is a real copy of s*16 (sl), not a reload, so
+                           the reload rotation after the 100000 compare continues from r5 (ldr r6 / mov r7, r8, DROP
+                           gMgr82 reloads r2/r3, zero r4). The asm copy keeps that move; C82 keeps the stores in-struct
+                           (so gMgr82 stays known in the BD78 call). */
+                        struct C82 *pc;
+                        { u32 t; u8 *b; b = (u8 *)&gMgr82->stock[0].count; asm("" : "=r"(t) : "0"(s * 16)); pc = (struct C82 *)(b + t); }
+                        vv = pc->c + gMgr82->held.count;
+                        if (vv <= 100000) {
                             if (gMgr82->heldIdx != s) {
-                                gMgr82->stock[s].count = vv;
+                                pc->c = vv;
                                 sub_0807BD78(gMgr82->heldFrom, gMgr82->heldIdx);
                             }
                         } else if (gMgr82->heldIdx != s) {
