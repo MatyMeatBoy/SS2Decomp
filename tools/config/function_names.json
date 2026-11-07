@@ -6034,6 +6034,864 @@
           "detail": "Original Thumb boundary 0x0801AC78..0x0801ACB8; EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc. Original leaf predicate/body is decoded in the private evidence artifact. Function boundaries and SDK call-target names are pinned by this configuration. Static evidence, not runtime coverage."
         }
       ]
+    },
+    {
+      "address": "0x0801A508",
+      "canonical_symbol": "sub_0801A508",
+      "display_name": "InitTextTilemapStateAndCommonTiles",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08017F7C.c",
+          "line": 1306,
+          "revision": "e181cfee8400da03f9084ff7635d0277fee491f3",
+          "detail": "Resets text state, clears flagged rows through 1A558, copies common tiles from 080B9AD0 to VRAM 0600C000 with CpuFastSet, and marks all 20 text rows. Font resource descriptors are initialized separately by 1A70C."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 412,
+          "revision": "47dde703fb3749813bd4cdb783c8fc5b2b5d9d6b",
+          "detail": "Original Thumb boundary 0x0801A508..0x0801A558; EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc. Original direct calls: 0x0801A51A->sub_0801A558(0x0801A558), 0x0801A526->CpuFastSet(0x080B8574). This is static original-byte evidence, not runtime coverage."
+        }
+      ]
+    },
+    {
+      "address": "0x0801A558",
+      "canonical_symbol": "sub_0801A558",
+      "display_name": "ClearFlaggedTextTilemapRows",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08017F7C.c",
+          "line": 1317,
+          "revision": "e181cfee8400da03f9084ff7635d0277fee491f3",
+          "detail": "Clears 64 bytes for each flagged row of RAM tilemap 03005740 with CpuFastSet fill, clears each row flag, and resets 03005C54 and 03005C98. It does not directly clear VRAM."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 413,
+          "revision": "47dde703fb3749813bd4cdb783c8fc5b2b5d9d6b",
+          "detail": "Original Thumb boundary 0x0801A558..0x0801A5A8; EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc. Original direct calls: 0x0801A574->CpuFastSet(0x080B8574). This is static original-byte evidence, not runtime coverage."
+        }
+      ]
+    },
+    {
+      "address": "0x0801A5A8",
+      "canonical_symbol": "sub_0801A5A8",
+      "display_name": "WriteZeroTerminatedUiTileString",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08017F7C.c",
+          "line": 1332,
+          "revision": "e181cfee8400da03f9084ff7635d0277fee491f3",
+          "detail": "Writes bytes as tile indices plus 0x200 and palette bits into the RAM tilemap, queues rows through 1A664, and stops at zero. The newline comparison follows tile/palette composition; conventional newline behavior is not established."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 414,
+          "revision": "47dde703fb3749813bd4cdb783c8fc5b2b5d9d6b",
+          "detail": "Original Thumb boundary 0x0801A5A8..0x0801A628; EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc. Original direct calls: 0x0801A5EA->sub_0801A664(0x0801A664), 0x0801A610->sub_0801A664(0x0801A664). This is static original-byte evidence, not runtime coverage."
+        }
+      ]
+    },
+    {
+      "address": "0x0801A638",
+      "canonical_symbol": "sub_0801A638",
+      "display_name": "CountRenderableScriptGlyphs",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08017F7C.c",
+          "line": 1363,
+          "revision": "e181cfee8400da03f9084ff7635d0277fee491f3",
+          "detail": "Counts bytes until 0xFD or a value above 0xF1. Zero counts as a glyph; this is not a zero-terminated string length."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 417,
+          "revision": "47dde703fb3749813bd4cdb783c8fc5b2b5d9d6b",
+          "detail": "Original Thumb boundary 0x0801A638..0x0801A650; EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc. Original leaf body has no direct function calls. This is static original-byte evidence, not runtime coverage."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 417,
+          "revision": "47dde703fb3749813bd4cdb783c8fc5b2b5d9d6b",
+          "detail": "0x0801A642 tests 0xFD and0x0801A646 tests 0xF1; 0x0801A63C increments count. There is no zero-byte terminator test."
+        },
+        {
+          "source": "src/code_080659B0.c",
+          "line": 125,
+          "revision": "47dde703fb3749813bd4cdb783c8fc5b2b5d9d6b",
+          "detail": "Matched65BD0 follows Player[index]+0x148 packet coordinates and draws Player+2 ten-byte name through1A764, centering it with1A638.65838 assigns65BD0 to the03006208 task pool. This anchors name-display and script-glyph roles; no actor-effect pool equivalence or exact elapsed-frame timing is claimed."
+        }
+      ]
+    },
+    {
+      "address": "0x0801A664",
+      "canonical_symbol": "sub_0801A664",
+      "display_name": "MarkAndQueueTextTilemapRows",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08017F7C.c",
+          "line": 1382,
+          "revision": "e181cfee8400da03f9084ff7635d0277fee491f3",
+          "detail": "Marks previously unflagged rows in 03005C40 and queues RAM tilemap spans from 03005740 to VRAM 0600E000 through 01348 in 64-byte row units. The original index progression does not establish arbitrary-range bounds safety."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 419,
+          "revision": "47dde703fb3749813bd4cdb783c8fc5b2b5d9d6b",
+          "detail": "Original Thumb boundary 0x0801A664..0x0801A6D4; EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc. Original direct calls: 0x0801A69E->sub_08001348(0x08001348), 0x0801A6C0->sub_08001348(0x08001348). This is static original-byte evidence, not runtime coverage."
+        }
+      ]
+    },
+    {
+      "address": "0x0801A764",
+      "canonical_symbol": "sub_0801A764",
+      "display_name": "DrawScriptGlyphStringAsSprites",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08017F7C.c",
+          "line": 1430,
+          "revision": "e181cfee8400da03f9084ff7635d0277fee491f3",
+          "detail": "Walks bytes until 0xFD or a value above 0xF1, passes frame (u16)(byte - 1) to 65230 using descriptor 03005C60, and advances X by 8 with 16-bit wrap. Byte zero passes frame 65535 rather than terminating the string."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 422,
+          "revision": "47dde703fb3749813bd4cdb783c8fc5b2b5d9d6b",
+          "detail": "Original Thumb boundary 0x0801A764..0x0801A7AC; EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc. Original direct calls: 0x0801A786->sub_08065230(0x08065230). This is static original-byte evidence, not runtime coverage."
+        },
+        {
+          "source": "src/code_080659B0.c",
+          "line": 125,
+          "revision": "47dde703fb3749813bd4cdb783c8fc5b2b5d9d6b",
+          "detail": "Matched65BD0 follows Player[index]+0x148 packet coordinates and draws Player+2 ten-byte name through1A764, centering it with1A638.65838 assigns65BD0 to the03006208 task pool. This anchors name-display and script-glyph roles; no actor-effect pool equivalence or exact elapsed-frame timing is claimed."
+        }
+      ]
+    },
+    {
+      "address": "0x0805D37C",
+      "canonical_symbol": "sub_0805D37C",
+      "display_name": "FindNearbyFieldItemByKey",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_0805D094.c",
+          "line": 123,
+          "revision": "e181cfee8400da03f9084ff7635d0277fee491f3",
+          "detail": "Scans 16 field-item records of 32 bytes at 03005D58 for active flag bit 0 at +0xA, matching key +8, and absolute((query - record position) >> 8) <= 7 on both axes. Returns the first match or null. The arithmetic shift precedes absolute value."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 1109,
+          "revision": "47dde703fb3749813bd4cdb783c8fc5b2b5d9d6b",
+          "detail": "Original Thumb boundary 0x0805D37C..0x0805D3D4; EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc. Original leaf body has no direct function calls. This is static original-byte evidence, not runtime coverage."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 1109,
+          "revision": "47dde703fb3749813bd4cdb783c8fc5b2b5d9d6b",
+          "detail": "0x0805D38A.. 0x0805D392 check active bit0; 0x0805D398/0x0805D3A4 shift coordinate differences before absolute values. 0x0805D3AC/0x0805D3B0 compare each with7 and0x0805D3B4 checks key+8."
+        },
+        {
+          "source": "src/code_080659B0.c",
+          "line": 1269,
+          "revision": "47dde703fb3749813bd4cdb783c8fc5b2b5d9d6b",
+          "detail": "Matched link receiver6690C uses5D37C to avoid duplicate field-item spawns,5D460 to find pickup IDs,5D498 after host reservation at flags2, and5D4C4 to deactivate acknowledged pickups. Case0x19 passes item payload+0x10 into inventory5AB20. This anchors field-item record semantics independently of helper aliases; the exact whole-flags2 test remains explicit."
+        }
+      ]
+    },
+    {
+      "address": "0x0805D434",
+      "canonical_symbol": "sub_0805D434",
+      "display_name": "FindFreeFieldItemRecord",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_0805D094.c",
+          "line": 177,
+          "revision": "e181cfee8400da03f9084ff7635d0277fee491f3",
+          "detail": "Returns the first of 16 field-item records whose flags at +0xA have both low bits clear, or null. It does not reserve or initialize the record."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 1112,
+          "revision": "47dde703fb3749813bd4cdb783c8fc5b2b5d9d6b",
+          "detail": "Original Thumb boundary 0x0805D434..0x0805D460; EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc. Original leaf body has no direct function calls. This is static original-byte evidence, not runtime coverage."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 1112,
+          "revision": "47dde703fb3749813bd4cdb783c8fc5b2b5d9d6b",
+          "detail": "0x0805D43E reads flags+A; 0x0805D442 masks3 and0x0805D444 tests zero before returning. 0x0805D454 limits scan to16 records."
+        },
+        {
+          "source": "src/code_080659B0.c",
+          "line": 1269,
+          "revision": "47dde703fb3749813bd4cdb783c8fc5b2b5d9d6b",
+          "detail": "Matched link receiver6690C uses5D37C to avoid duplicate field-item spawns,5D460 to find pickup IDs,5D498 after host reservation at flags2, and5D4C4 to deactivate acknowledged pickups. Case0x19 passes item payload+0x10 into inventory5AB20. This anchors field-item record semantics independently of helper aliases; the exact whole-flags2 test remains explicit."
+        }
+      ]
+    },
+    {
+      "address": "0x0805D460",
+      "canonical_symbol": "sub_0805D460",
+      "display_name": "FindActiveFieldItemById",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_0805D094.c",
+          "line": 186,
+          "revision": "e181cfee8400da03f9084ff7635d0277fee491f3",
+          "detail": "Returns the first of 16 field-item records with flag bit 0 at +0xA set and matching 16-bit ID at +0xC, or null."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 1113,
+          "revision": "47dde703fb3749813bd4cdb783c8fc5b2b5d9d6b",
+          "detail": "Original Thumb boundary 0x0805D460..0x0805D498; EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc. Original leaf body has no direct function calls. This is static original-byte evidence, not runtime coverage."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 1113,
+          "revision": "47dde703fb3749813bd4cdb783c8fc5b2b5d9d6b",
+          "detail": "0x0805D46E.. 0x0805D476 check active bit0; 0x0805D478/0x0805D47A compare ID+C. 0x0805D48C limits scan to16 records."
+        },
+        {
+          "source": "src/code_080659B0.c",
+          "line": 1269,
+          "revision": "47dde703fb3749813bd4cdb783c8fc5b2b5d9d6b",
+          "detail": "Matched link receiver6690C uses5D37C to avoid duplicate field-item spawns,5D460 to find pickup IDs,5D498 after host reservation at flags2, and5D4C4 to deactivate acknowledged pickups. Case0x19 passes item payload+0x10 into inventory5AB20. This anchors field-item record semantics independently of helper aliases; the exact whole-flags2 test remains explicit."
+        }
+      ]
+    },
+    {
+      "address": "0x0805D498",
+      "canonical_symbol": "sub_0805D498",
+      "display_name": "FindFieldItemByIdInStateTwo",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_0805D094.c",
+          "line": 200,
+          "revision": "e181cfee8400da03f9084ff7635d0277fee491f3",
+          "detail": "Scans 16 field-item records for flags at +0xA equal to exactly 2 and ID at +0xC equal to the input. Receiver 6690C uses it after pickup reservation; the name preserves the whole-flags test without assigning a universal state meaning."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 1114,
+          "revision": "47dde703fb3749813bd4cdb783c8fc5b2b5d9d6b",
+          "detail": "Original Thumb boundary 0x0805D498..0x0805D4C4; EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc. Original leaf body has no direct function calls. This is static original-byte evidence, not runtime coverage."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 1114,
+          "revision": "47dde703fb3749813bd4cdb783c8fc5b2b5d9d6b",
+          "detail": "0x0805D4A4 compares entire flags+A with2; 0x0805D4A8/0x0805D4AA compare ID+C. 0x0805D4BC limits scan to16 records."
+        },
+        {
+          "source": "src/code_080659B0.c",
+          "line": 1269,
+          "revision": "47dde703fb3749813bd4cdb783c8fc5b2b5d9d6b",
+          "detail": "Matched link receiver6690C uses5D37C to avoid duplicate field-item spawns,5D460 to find pickup IDs,5D498 after host reservation at flags2, and5D4C4 to deactivate acknowledged pickups. Case0x19 passes item payload+0x10 into inventory5AB20. This anchors field-item record semantics independently of helper aliases; the exact whole-flags2 test remains explicit."
+        }
+      ]
+    },
+    {
+      "address": "0x0805D4C4",
+      "canonical_symbol": "sub_0805D4C4",
+      "display_name": "DeactivateFieldItemsById",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_0805D094.c",
+          "line": 214,
+          "revision": "e181cfee8400da03f9084ff7635d0277fee491f3",
+          "detail": "Clears flags at +0xA and ID at +0xC on every matching-ID record among 16 field-item records and returns whether any matched. It requires no active flag and retains positions and payload."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 1115,
+          "revision": "47dde703fb3749813bd4cdb783c8fc5b2b5d9d6b",
+          "detail": "Original Thumb boundary 0x0805D4C4..0x0805D4F4; EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc. Original leaf body has no direct function calls. This is static original-byte evidence, not runtime coverage."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 1115,
+          "revision": "47dde703fb3749813bd4cdb783c8fc5b2b5d9d6b",
+          "detail": "0x0805D4D4/0x0805D4D6 compare ID+C; 0x0805D4DA/0x0805D4DC clear only flags+A and ID+C. 0x0805D4E4 bounds16 records; scan continues after matching."
+        },
+        {
+          "source": "src/code_080659B0.c",
+          "line": 1269,
+          "revision": "47dde703fb3749813bd4cdb783c8fc5b2b5d9d6b",
+          "detail": "Matched link receiver6690C uses5D37C to avoid duplicate field-item spawns,5D460 to find pickup IDs,5D498 after host reservation at flags2, and5D4C4 to deactivate acknowledged pickups. Case0x19 passes item payload+0x10 into inventory5AB20. This anchors field-item record semantics independently of helper aliases; the exact whole-flags2 test remains explicit."
+        }
+      ]
+    },
+    {
+      "address": "0x0805D4F4",
+      "canonical_symbol": "sub_0805D4F4",
+      "display_name": "ResetFieldItemRecordsAndIdCounter",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_0805D094.c",
+          "line": 233,
+          "revision": "e181cfee8400da03f9084ff7635d0277fee491f3",
+          "detail": "Sets field-item ID counter 03005D5C to 1 and clears flags and IDs on 16 records, retaining positions, keys and payload."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 1116,
+          "revision": "47dde703fb3749813bd4cdb783c8fc5b2b5d9d6b",
+          "detail": "Original Thumb boundary 0x0805D4F4..0x0805D518; EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc. Original leaf body has no direct function calls. This is static original-byte evidence, not runtime coverage."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 1116,
+          "revision": "47dde703fb3749813bd4cdb783c8fc5b2b5d9d6b",
+          "detail": "0x0805D4FC sets global IDcounter03005D5C to1; 0x0805D502/0x0805D504 clear flags+A and ID+C; 0x0805D50A bounds16 records."
+        },
+        {
+          "source": "src/code_080659B0.c",
+          "line": 1269,
+          "revision": "47dde703fb3749813bd4cdb783c8fc5b2b5d9d6b",
+          "detail": "Matched link receiver6690C uses5D37C to avoid duplicate field-item spawns,5D460 to find pickup IDs,5D498 after host reservation at flags2, and5D4C4 to deactivate acknowledged pickups. Case0x19 passes item payload+0x10 into inventory5AB20. This anchors field-item record semantics independently of helper aliases; the exact whole-flags2 test remains explicit."
+        }
+      ]
+    },
+    {
+      "address": "0x0805D518",
+      "canonical_symbol": "sub_0805D518",
+      "display_name": "DeactivateFieldItemsWithoutRetainFlag",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_0805D094.c",
+          "line": 246,
+          "revision": "e181cfee8400da03f9084ff7635d0277fee491f3",
+          "detail": "Clears flags and IDs on records whose key at +8 lacks bit 0x20. Retention describes this operation only; no particular map or save lifetime is inferred."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 1117,
+          "revision": "47dde703fb3749813bd4cdb783c8fc5b2b5d9d6b",
+          "detail": "Original Thumb boundary 0x0805D518..0x0805D548; EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc. Original leaf body has no direct function calls. This is static original-byte evidence, not runtime coverage."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 1117,
+          "revision": "47dde703fb3749813bd4cdb783c8fc5b2b5d9d6b",
+          "detail": "0x0805D522 reads key+8 and0x0805D526 masks 0x20; only zero-mask records reach flags/ID clears at 0x0805D530/0x0805D532."
+        },
+        {
+          "source": "src/code_080659B0.c",
+          "line": 1269,
+          "revision": "47dde703fb3749813bd4cdb783c8fc5b2b5d9d6b",
+          "detail": "Matched link receiver6690C uses5D37C to avoid duplicate field-item spawns,5D460 to find pickup IDs,5D498 after host reservation at flags2, and5D4C4 to deactivate acknowledged pickups. Case0x19 passes item payload+0x10 into inventory5AB20. This anchors field-item record semantics independently of helper aliases; the exact whole-flags2 test remains explicit."
+        }
+      ]
+    },
+    {
+      "address": "0x0805D580",
+      "canonical_symbol": "sub_0805D580",
+      "display_name": "ClearInventoryItemKindAtIndex",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_0805D094.c",
+          "line": 280,
+          "revision": "e181cfee8400da03f9084ff7635d0277fee491f3",
+          "detail": "For index <= 24, clears only the kind halfword in the 16-byte inventory slot at 030034E0 + 0x150 + index * 16. ID, amount and remaining bytes are retained."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 1119,
+          "revision": "47dde703fb3749813bd4cdb783c8fc5b2b5d9d6b",
+          "detail": "Original Thumb boundary 0x0805D580..0x0805D5A0; EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc. Original leaf body has no direct function calls. This is static original-byte evidence, not runtime coverage."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 1119,
+          "revision": "47dde703fb3749813bd4cdb783c8fc5b2b5d9d6b",
+          "detail": "0x0805D582 bounds input index<=24; 0x0805D58A scales index16,0x0805D58E.. 0x0805D592 add save+0x150 and0x0805D596 clears only one halfword."
+        },
+        {
+          "source": "src/code_0807A5D4.c",
+          "line": 1016,
+          "revision": "47dde703fb3749813bd4cdb783c8fc5b2b5d9d6b",
+          "detail": "Matched7C014 scans25 inventory slots at current-save+0x150 in16-byte steps, updates quantity+4 and calls5D580 when the selected quantity reaches zero, or before continuing after exhausting a slot. This independently anchors inventory-slot deletion behavior."
+        }
+      ]
+    },
+    {
+      "address": "0x0805D854",
+      "canonical_symbol": "sub_0805D854",
+      "display_name": "TaskAnimateTextWindowFrame",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_0805D094.c",
+          "line": 502,
+          "revision": "e181cfee8400da03f9084ff7635d0277fee491f3",
+          "detail": "Matching window task opens width and height, configures window shadows, palette and frame tiles, holds state 3, then closes on state 4 and clears its used-slot bit before task exit. Dialogue interpreter 5E0C4 is separate."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 1125,
+          "revision": "47dde703fb3749813bd4cdb783c8fc5b2b5d9d6b",
+          "detail": "Original Thumb boundary 0x0805D854..0x0805DC1C; EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc. Original direct calls: 0x0805D8C2->sub_0800035C(0x0800035C), 0x0805D8F8->sub_08000B38(0x08000B38), 0x0805D8FE->sub_0805865C(0x0805865C), 0x0805D91C->sub_0800CC98(0x0800CC98), 0x0805D932->sub_080009C0(0x080009C0), 0x0805D94E->sub_08000B38(0x08000B38), 0x0805D9B0->sub_0800CC98(0x0800CC98), 0x0805D9C8->sub_080009C0(0x080009C0), 0x0805DA5C->sub_0800CC98(0x0800CC98), 0x0805DA72->sub_080009F8(0x080009F8), 0x0805DA8A->sub_08000B38(0x08000B38), 0x0805DAA2->sub_0801A664(0x0801A664), 0x0805DB0A->sub_0800CC98(0x0800CC98), 0x0805DBEE->sub_0801A664(0x0801A664), 0x0805DBF2->sub_080003F0(0x080003F0). This is static original-byte evidence, not runtime coverage."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 1125,
+          "revision": "47dde703fb3749813bd4cdb783c8fc5b2b5d9d6b",
+          "detail": "0x0805D86A initializes window state1; 0x0805D994 chooses steady state3 after width/height completion. 0x0805DA24.. 0x0805DA5A shrink dimensions for close. 0x0805D8C0 clears used-slot bit and0x0805D8C2 ends the task."
+        }
+      ]
+    },
+    {
+      "address": "0x0805DF38",
+      "canonical_symbol": "sub_0805DF38",
+      "display_name": "StartFixedLayoutDialogueTask",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_0805D094.c",
+          "line": 743,
+          "revision": "e181cfee8400da03f9084ff7635d0277fee491f3",
+          "detail": "Finds one of four free 0x88-byte dialogue tasks, starts a window at fixed layout (0, 14, 27, 3), initializes script, timing and selection, allocates a 0x800-byte stack, and starts 5E0C4. The first four parameters are unused. Positive duration becomes 140; duration -2 selects a special UI sprite."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 1128,
+          "revision": "47dde703fb3749813bd4cdb783c8fc5b2b5d9d6b",
+          "detail": "Original Thumb boundary 0x0805DF38..0x0805E0C4; EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc. Original direct calls: 0x0805DF8A->sub_0805D720(0x0805D720), 0x0805E00A->sub_08065158(0x08065158), 0x0805E03A->sub_08007290(0x08007290), 0x0805E078->sub_080003F0(0x080003F0), 0x0805E080->sub_08001494(0x08001494), 0x0805E09E->sub_08000274(0x08000274). This is static original-byte evidence, not runtime coverage."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 1128,
+          "revision": "47dde703fb3749813bd4cdb783c8fc5b2b5d9d6b",
+          "detail": "0x0805DF82.. 0x0805DF88 set fixed window arguments(0,14,27,3) before0x0805DF8A calls5D720. 0x0805E018 substitutes140 for positive duration. 0x0805E068 writes5E0C4 task entry,0x0805E080 allocates0x800 and0x0805E09E starts it."
+        }
+      ]
+    },
+    {
+      "address": "0x0805EE6C",
+      "canonical_symbol": "sub_0805EE6C",
+      "display_name": "TryRequestDialogueWindowClose",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_0805D094.c",
+          "line": 1416,
+          "revision": "e181cfee8400da03f9084ff7635d0277fee491f3",
+          "detail": "Returns 1 for null. For window state 3, requests state 4 when its used bit is set, plays sound 0xDD, sets dialogue state +0x74 to 7, and returns 1. Window state 0 also returns 1; other states return 0."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 1130,
+          "revision": "47dde703fb3749813bd4cdb783c8fc5b2b5d9d6b",
+          "detail": "Original Thumb boundary 0x0805EE6C..0x0805EEDC; EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc. Original direct calls: 0x0805EEB6->sub_0805865C(0x0805865C). This is static original-byte evidence, not runtime coverage."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 1130,
+          "revision": "47dde703fb3749813bd4cdb783c8fc5b2b5d9d6b",
+          "detail": "0x0805EE7E checks window state3; 0x0805EEB2 requests state4 and0x0805EEBC writes dialogue state7. Null returns1 through0x0805EED4; nonzero intermediate window states return0."
+        }
+      ]
+    },
+    {
+      "address": "0x0805EEDC",
+      "canonical_symbol": "sub_0805EEDC",
+      "display_name": "TextWindowIsFullyOpen",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_0805D094.c",
+          "line": 1455,
+          "revision": "e181cfee8400da03f9084ff7635d0277fee491f3",
+          "detail": "Returns whether window byte +0x30 equals 3, the steady open state established by matching task 5D854. Requires a nonnull input."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 1131,
+          "revision": "47dde703fb3749813bd4cdb783c8fc5b2b5d9d6b",
+          "detail": "Original Thumb boundary 0x0805EEDC..0x0805EEEC; EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc. Original leaf body has no direct function calls. This is static original-byte evidence, not runtime coverage."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 1131,
+          "revision": "47dde703fb3749813bd4cdb783c8fc5b2b5d9d6b",
+          "detail": "0x0805EEDE selects byte+0x30 and0x0805EEE2 tests state3."
+        }
+      ]
+    },
+    {
+      "address": "0x0805EEEC",
+      "canonical_symbol": "sub_0805EEEC",
+      "display_name": "TextWindowIsClosed",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_0805D094.c",
+          "line": 1462,
+          "revision": "e181cfee8400da03f9084ff7635d0277fee491f3",
+          "detail": "Returns whether window byte +0x30 equals 0, the exit/closed state in matching task 5D854. Requires a nonnull input."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 1132,
+          "revision": "47dde703fb3749813bd4cdb783c8fc5b2b5d9d6b",
+          "detail": "Original Thumb boundary 0x0805EEEC..0x0805EEFC; EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc. Original leaf body has no direct function calls. This is static original-byte evidence, not runtime coverage."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 1132,
+          "revision": "47dde703fb3749813bd4cdb783c8fc5b2b5d9d6b",
+          "detail": "0x0805EEEE selects byte+0x30 and0x0805EEF2 tests state0; scheduler activity is not checked."
+        }
+      ]
+    },
+    {
+      "address": "0x0805EEFC",
+      "canonical_symbol": "sub_0805EEFC",
+      "display_name": "DialogueStateIsComplete",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_0805D094.c",
+          "line": 1469,
+          "revision": "e181cfee8400da03f9084ff7635d0277fee491f3",
+          "detail": "Returns 0 for null; otherwise tests whether dialogue state word +0x74 is zero. It does not inspect scheduler activity or the used-slot bitmap."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 1133,
+          "revision": "47dde703fb3749813bd4cdb783c8fc5b2b5d9d6b",
+          "detail": "Original Thumb boundary 0x0805EEFC..0x0805EF14; EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc. Original leaf body has no direct function calls. This is static original-byte evidence, not runtime coverage."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 1133,
+          "revision": "47dde703fb3749813bd4cdb783c8fc5b2b5d9d6b",
+          "detail": "0x0805EEFC rejects null; 0x0805EF06 reads dialogue+0x74 and0x0805EF08 tests zero."
+        }
+      ]
+    },
+    {
+      "address": "0x0805EF14",
+      "canonical_symbol": "sub_0805EF14",
+      "display_name": "DialogueSelectionIsZero",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_0805D094.c",
+          "line": 1479,
+          "revision": "e181cfee8400da03f9084ff7635d0277fee491f3",
+          "detail": "Returns 0 for null; otherwise tests whether selection halfword +0x80 is zero. It does not return the selected index or a general accept/cancel result."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 1134,
+          "revision": "47dde703fb3749813bd4cdb783c8fc5b2b5d9d6b",
+          "detail": "Original Thumb boundary 0x0805EF14..0x0805EF2C; EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc. Original leaf body has no direct function calls. This is static original-byte evidence, not runtime coverage."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 1134,
+          "revision": "47dde703fb3749813bd4cdb783c8fc5b2b5d9d6b",
+          "detail": "0x0805EF14 rejects null; 0x0805EF1E.. 0x0805EF22 select halfword+0x80 and test zero."
+        }
+      ]
+    },
+    {
+      "address": "0x0805EF84",
+      "canonical_symbol": "sub_0805EF84",
+      "display_name": "SetDialogueSelectionIndex",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_0805D094.c",
+          "line": 1509,
+          "revision": "e181cfee8400da03f9084ff7635d0277fee491f3",
+          "detail": "For a nonnull pointer, truncates the input to 16 bits and writes dialogue selection +0x80 without checking the option count."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 1136,
+          "revision": "47dde703fb3749813bd4cdb783c8fc5b2b5d9d6b",
+          "detail": "Original Thumb boundary 0x0805EF84..0x0805EF90; EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc. Original leaf body has no direct function calls. This is static original-byte evidence, not runtime coverage."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 1136,
+          "revision": "47dde703fb3749813bd4cdb783c8fc5b2b5d9d6b",
+          "detail": "0x0805EF84 guards null; 0x0805EF88 adds 0x80 and0x0805EF8A stores input via STRH without option-count validation."
+        }
+      ]
+    },
+    {
+      "address": "0x0805EF90",
+      "canonical_symbol": "sub_0805EF90",
+      "display_name": "IsAnyTextWindowSlotUsed",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_0805D094.c",
+          "line": 1514,
+          "revision": "e181cfee8400da03f9084ff7635d0277fee491f3",
+          "detail": "Tests the low four used bits of window bitmap 03005D70. Dialogue tasks have a separate bitmap at 03005D6C."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 1137,
+          "revision": "47dde703fb3749813bd4cdb783c8fc5b2b5d9d6b",
+          "detail": "Original Thumb boundary 0x0805EF90..0x0805EFBC; EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc. Original leaf body has no direct function calls. This is static original-byte evidence, not runtime coverage."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 1137,
+          "revision": "47dde703fb3749813bd4cdb783c8fc5b2b5d9d6b",
+          "detail": "0x0805EF94 reads window bitmap03005D70,0x0805EF9A.. 0x0805EF9E test each bit and0x0805EFB2 bounds index3."
+        }
+      ]
+    },
+    {
+      "address": "0x0805F0C4",
+      "canonical_symbol": "sub_0805F0C4",
+      "display_name": "FindFreeTextWindowSlot",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_0805D094.c",
+          "line": 1561,
+          "revision": "e181cfee8400da03f9084ff7635d0277fee491f3",
+          "detail": "Returns the first clear bit index among the low four bits of window bitmap 03005D70, or 0xFF. It does not reserve the slot."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 1141,
+          "revision": "47dde703fb3749813bd4cdb783c8fc5b2b5d9d6b",
+          "detail": "Original Thumb boundary 0x0805F0C4..0x0805F0F0; EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc. Original leaf body has no direct function calls. This is static original-byte evidence, not runtime coverage."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 1141,
+          "revision": "47dde703fb3749813bd4cdb783c8fc5b2b5d9d6b",
+          "detail": "0x0805F0C8 reads window bitmap03005D70; first clear bit returns through0x0805F0D6. 0x0805F0E6 bounds index3 and0x0805F0EA supplies 0xFF on exhaustion."
+        }
+      ]
+    },
+    {
+      "address": "0x0805F134",
+      "canonical_symbol": "sub_0805F134",
+      "display_name": "AllocateDialogueTaskPool",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_0805D094.c",
+          "line": 1582,
+          "revision": "e181cfee8400da03f9084ff7635d0277fee491f3",
+          "detail": "Allocates 0x220 bytes at 03005D68 for four 0x88-byte dialogue records and clears their used bitmap 03005D6C. It does not initialize the entire allocation."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 1143,
+          "revision": "47dde703fb3749813bd4cdb783c8fc5b2b5d9d6b",
+          "detail": "Original Thumb boundary 0x0805F134..0x0805F158; EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc. Original direct calls: 0x0805F13C->sub_08001494(0x08001494). This is static original-byte evidence, not runtime coverage."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 1143,
+          "revision": "47dde703fb3749813bd4cdb783c8fc5b2b5d9d6b",
+          "detail": "0x0805F138.. 0x0805F13C request 0x220 bytes,0x0805F140 stores pool03005D68 and0x0805F146 clears dialogue bitmap03005D6C."
+        }
+      ]
+    },
+    {
+      "address": "0x0805F158",
+      "canonical_symbol": "sub_0805F158",
+      "display_name": "FindFreeDialogueTaskSlot",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_0805D094.c",
+          "line": 1587,
+          "revision": "e181cfee8400da03f9084ff7635d0277fee491f3",
+          "detail": "Returns the first clear bit index among the low four bits of dialogue bitmap 03005D6C, or 0xFF. It does not reserve the slot."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 1144,
+          "revision": "47dde703fb3749813bd4cdb783c8fc5b2b5d9d6b",
+          "detail": "Original Thumb boundary 0x0805F158..0x0805F184; EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc. Original leaf body has no direct function calls. This is static original-byte evidence, not runtime coverage."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 1144,
+          "revision": "47dde703fb3749813bd4cdb783c8fc5b2b5d9d6b",
+          "detail": "0x0805F15C reads dialogue bitmap03005D6C; first clear bit returns through0x0805F16A. 0x0805F17A bounds index3 and0x0805F17E supplies 0xFF on exhaustion."
+        }
+      ]
+    },
+    {
+      "address": "0x0805F184",
+      "canonical_symbol": "sub_0805F184",
+      "display_name": "IsAnyDialogueTaskSlotUsed",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_0805D094.c",
+          "line": 1600,
+          "revision": "e181cfee8400da03f9084ff7635d0277fee491f3",
+          "detail": "Tests whether any low-four used bit of dialogue bitmap 03005D6C is set, separately from window bitmap 03005D70."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 1145,
+          "revision": "47dde703fb3749813bd4cdb783c8fc5b2b5d9d6b",
+          "detail": "Original Thumb boundary 0x0805F184..0x0805F1B0; EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc. Original leaf body has no direct function calls. This is static original-byte evidence, not runtime coverage."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 1145,
+          "revision": "47dde703fb3749813bd4cdb783c8fc5b2b5d9d6b",
+          "detail": "0x0805F188 reads dialogue bitmap03005D6C; 0x0805F18E.. 0x0805F192 test each bit and0x0805F1A6 bounds index3."
+        }
+      ]
+    },
+    {
+      "address": "0x08065838",
+      "canonical_symbol": "sub_08065838",
+      "display_name": "StartPlayerNameDisplayTask",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_0805FB7C.c",
+          "line": 3494,
+          "revision": "e181cfee8400da03f9084ff7635d0277fee491f3",
+          "detail": "Scans four task slots at 03006208 for an inactive slot, attempts one 0x400-byte stack allocation, and starts name-display callback 65BD0 with player index and frame arguments. Allocation failure returns immediately. This pool differs from actor effects at 03006030."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 1191,
+          "revision": "47dde703fb3749813bd4cdb783c8fc5b2b5d9d6b",
+          "detail": "Original Thumb boundary 0x08065838..0x080658A0; EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc. Original direct calls: 0x0806585A->sub_08000470(0x08000470), 0x08065868->sub_08001494(0x08001494), 0x0806588C->sub_08000274(0x08000274). This is static original-byte evidence, not runtime coverage."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 1191,
+          "revision": "47dde703fb3749813bd4cdb783c8fc5b2b5d9d6b",
+          "detail": "0x08065854 bounds four task slots,0x08065868 allocates0x400 and0x0806587A stores callback65BD0 from literal0x0806589C; 0x0806588C starts with player/count arguments."
+        },
+        {
+          "source": "src/code_080659B0.c",
+          "line": 125,
+          "revision": "47dde703fb3749813bd4cdb783c8fc5b2b5d9d6b",
+          "detail": "Matched65BD0 follows Player[index]+0x148 packet coordinates and draws Player+2 ten-byte name through1A764, centering it with1A638.65838 assigns65BD0 to the03006208 task pool. This anchors name-display and script-glyph roles; no actor-effect pool equivalence or exact elapsed-frame timing is claimed."
+        }
+      ]
+    },
+    {
+      "address": "0x080658A0",
+      "canonical_symbol": "sub_080658A0",
+      "display_name": "AllocatePlayerNameTaskSlots",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_0805FB7C.c",
+          "line": 3517,
+          "revision": "e181cfee8400da03f9084ff7635d0277fee491f3",
+          "detail": "Allocates four 0x28-byte task slots at 03006208 and clears field +8 of each. Starter 65838 installs name-display callback 65BD0 into this pool."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 1192,
+          "revision": "47dde703fb3749813bd4cdb783c8fc5b2b5d9d6b",
+          "detail": "Original Thumb boundary 0x080658A0..0x080658CC; EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc. Original direct calls: 0x080658A6->sub_08001494(0x08001494). This is static original-byte evidence, not runtime coverage."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 1192,
+          "revision": "47dde703fb3749813bd4cdb783c8fc5b2b5d9d6b",
+          "detail": "0x080658A4.. 0x080658AA allocate0xA0 at03006208; 0x080658B6 clears task+8 at stride0x28, bounded to four entries at 0x080658BC."
+        },
+        {
+          "source": "src/code_080659B0.c",
+          "line": 125,
+          "revision": "47dde703fb3749813bd4cdb783c8fc5b2b5d9d6b",
+          "detail": "Matched65BD0 follows Player[index]+0x148 packet coordinates and draws Player+2 ten-byte name through1A764, centering it with1A638.65838 assigns65BD0 to the03006208 task pool. This anchors name-display and script-glyph roles; no actor-effect pool equivalence or exact elapsed-frame timing is claimed."
+        }
+      ]
+    },
+    {
+      "address": "0x080658CC",
+      "canonical_symbol": "sub_080658CC",
+      "display_name": "WaitAndFreePlayerNameTaskSlots",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_0805FB7C.c",
+          "line": 3524,
+          "revision": "e181cfee8400da03f9084ff7635d0277fee491f3",
+          "detail": "Yields until all four name-display task slots at 03006208 are inactive, frees the pool, and clears the global using the final zero activity result. It does not cancel tasks."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 1193,
+          "revision": "47dde703fb3749813bd4cdb783c8fc5b2b5d9d6b",
+          "detail": "Original Thumb boundary 0x080658CC..0x08065918; EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc. Original direct calls: 0x080658E4->sub_080003F0(0x080003F0), 0x080658EE->sub_08000470(0x08000470), 0x08065902->sub_08001538(0x08001538). This is static original-byte evidence, not runtime coverage."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 1193,
+          "revision": "47dde703fb3749813bd4cdb783c8fc5b2b5d9d6b",
+          "detail": "0x080658EE polls task activity, yielding at 0x080658E4 until inactive; 0x080658FA bounds four slots,0x08065902 frees pool and0x08065906 writes final zero result to global03006208."
+        },
+        {
+          "source": "src/code_080659B0.c",
+          "line": 125,
+          "revision": "47dde703fb3749813bd4cdb783c8fc5b2b5d9d6b",
+          "detail": "Matched65BD0 follows Player[index]+0x148 packet coordinates and draws Player+2 ten-byte name through1A764, centering it with1A638.65838 assigns65BD0 to the03006208 task pool. This anchors name-display and script-glyph roles; no actor-effect pool equivalence or exact elapsed-frame timing is claimed."
+        }
+      ]
     }
   ]
 }
