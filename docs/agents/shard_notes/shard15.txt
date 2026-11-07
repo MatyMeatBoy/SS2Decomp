@@ -193,3 +193,36 @@ agbcc -da (fn dumps .cse/.gcse) which pass merges them in the draft. Dumps: buil
   Other leads: tail countdown `local128 = (u32)((local128 << 16) + 0xFFFF0000) >> 16` gives the
   ROM shape but loop.c hoists the 0xFFFF0000 constant (ROM reloads it in the loop);
   case-12 `ldr r1,[r7,#48]` (ROM r1, ours r0) unexplained.
+
+2026-11-07 claude-nov07-w15v (sub_0801801C MATCH, follow-up on PR610):
+  Landed: full match (7132 bytes, frame 0x168); NONMATCHING wrapper and asm file removed.
+  Diagnosis and fixes, in order of effect (filtered nmdiff 499 -> 0):
+  - Init block 22 (f74 .. count*12): ROM's r6 is unavailable to every block-22 local qty.
+    A no-code hard-reg keep-alive `register u32 blk asm("r6"); asm("" : "=r"(blk));` before
+    `local120 = 0xFFFF` and `asm("" : : "r"(blk));` after the count>1 block reproduces it
+    (with w15's block-scoped `u32 off` and sl-bound NULL zero): 499 -> 352, size 7132.
+  - Local-alloc priority (floor_log2(refs)*refs/life): &phase (3 refs, life 48) outranked
+    &phase2/&f60/&step, so it took a hi reg. `do { ... } while (0)` around the step, f60,
+    phase2, rng and count statements doubles their set/use weights (rng 2173 < count 2380), so
+    the order becomes count r4, rng r5, phase2 r8, f60 r9, step sl, phase/state/f74 unallocated
+    = ROM slots 0x130-0x13C. Adding refs with asm("" : : "r"(&x)) instead keeps the hi-reg
+    copies visible (rejected).
+  - With the init right, w15N's anim->f8 (all DRAW main calls) and anim->fC (AF0) now apply.
+  - f60 reset: literal `arg0->f60 = 0` lets cse reuse the sub_08056E90 loop-test result (ROM
+    `adds r4,r0,#0; cmp r4,#0` ... `strh r4,[r0]`); the `zero` var then needs a second,
+    no-code use `asm("" : : "g"(zero));` so update_equiv_regs keeps the exit-flag reload.
+  - f1D4: `((f4 << 1) * 4 + (f4 << 1)) * 2` makes the sum's op1 the x<<3 reg (ROM r0) and lets
+    reload derive F7A's address as `adds r1,#28`.
+  - Draw case 10 auxB.f8: fp+128 is not a legitimate thumb word offset (>124), so a direct
+    field access forces `add r2,sp,#144; ldr`; a block pointer `b = &stack.auxB; b->f8` keeps
+    the REG_EQUIV address and reload folds it to `ldr r2,[sp,#0x90]`.
+  - &auxB -> sl: in ROM, local-alloc gave &auxB r6 and reload moved it to sl. Reproduced with
+    an r6 keep-alive around the three sub_08065158 calls (auxA r8, base r9 by priority) plus a
+    `pb = &stack.auxB` pointer whose life is extended into the next block by
+    `asm("" : : "g"(pb));` so it becomes a global allocno; global then has only sl left.
+  - fE case 8: ROM tests f30 in r1. A no-code r0 keep-alive across the test (`register s32 z
+    asm("r0")`, used in both arms) reproduces it (verified first with patched LABLK=213:0).
+  - Tail countdown: `s32 m1 = -1;` before the loop and `(s16)(local128 = (u32)((local128 <<
+    16) + 0xFFFF0000) >> 16) != m1`; with a literal -1, cse derives -1 from the -65536 reg,
+    loop.c then hoists both (ROM hoists only -1).
+  Patched compilers used: nov07-w88N agb (LADBG, LABLK, RLDBG, FSPILL), all FAKE asm are no-code.
