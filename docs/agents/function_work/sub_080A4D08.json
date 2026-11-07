@@ -1,0 +1,38 @@
+{
+  "address": "0x080A4D08",
+  "updated_utc": "2026-11-07T05:21:32Z",
+  "checkpoint": "Replace the goto main cycle with a real for-loop, preserve 32-bit initial health products until their halfword stores, and stage four paired player-id calls before reading actor coordinates. C-body SHA-256 e3fb46cd1158bb84eee5e0fd975efab255b631af9263b8ad4cbb0221e8a15570. Candidate 5442 to 5366 bytes versus original 5454; frame 184 to 152 versus original 148; approximate normal-module heuristic 1472 to 1294. Still NONMATCHING; no matching-byte credit.",
+  "areas": [
+    {
+      "id": "compile",
+      "label": "Preserve a complete compiling actor draft",
+      "state": "done",
+      "evidence": "The existing plain C draft compiles with normal code_080A3D2C module flags. Normal compare prints shiningsoul2_eu.gba: OK with the original ASM fallback, the complete NONMATCHING build succeeds, check_tree reports zero errors and the diff check passes. These are baseline integrity checks, not equivalent-C proof."
+    },
+    {
+      "id": "initialization",
+      "label": "Recover actor and rendering initialization",
+      "state": "active",
+      "evidence": "The original stores two halfword health products derived from signed resource fields. Keeping the products in s32 removes premature narrowing before the two stores. The second product uses the doubled terms from matched sub_080A3D2C, with an unsigned partial shift; its normalized bytes and relocations equal the audited signed-shift control. A literal multiply by 20 compiles four heuristic points worse and is preserved as a control. Both current control and candidate pass 384 bounded initialization/first-frame comparisons across palette results 0/3/15/FFFF, ready waits 0/2, pause and drawing controls, shadow selection, two X positions and three signed resource-value pairs including -32768/32767. They compare stubbed call arguments and non-stack RAM with scratch-register clobbers and an A5 stack seed. No function return or later actor states are proved."
+    },
+    {
+      "id": "main_cycle",
+      "label": "Recover the real main loop and transient homes",
+      "state": "active",
+      "evidence": "The original main cycle enters its test at 080A5C7A and branches back to the body at 080A4F44. The real for-loop preserves the two exit checks and death latch while enabling ordinary loop analysis, reducing the frame from 184 to 156. Staging the player-id calls then reduces it to 152, still four bytes above original 148. Two disjoint transient ranges, player stride 0x14C and ground Y 0x68 across helper calls, now share SP+0x94. Neither is fully eliminated. A natural XY pair for the ground position regresses to frame 160 and size 5382 and is rejected. No new bindings, barriers, volatile homes, padding or fake outgoing arguments are added. The inherited extra outgoing zero words at sub_0800BC08 reproduce caller shape; its matched callee consumes four arguments, so they are not claimed as semantic parameters."
+    },
+    {
+      "id": "player_transfer",
+      "label": "Recover four player coordinate read sequences",
+      "state": "done",
+      "evidence": "At four original source-corresponding pairs of sub_080020F4 calls, both player-id calls precede the actor coordinate load. The draft previously read X or Y before the second call at four corresponding sites. Explicit second-id staging restores the emitted order and retains destination stores 94 before 8C, and 98 before 90. Sixty-four forced phase-9 stable-call comparisons pass on both unchanged control and candidate. Another 64 comparisons perturb actor X at the second id-call boundary and Y at the fourth; the candidate agrees with the original, while a retained old-control case has four stale player-coordinate words. This adversarial stub checks observation order; it does not assert the real player-id function writes actor coordinates. Other three repaired sites have emitted-order evidence, not equivalent dynamic branch coverage. Neither first-frame scope establishes register restoration or a complete scheduler."
+    },
+    {
+      "id": "full_match",
+      "label": "Verify exact active C and linked ROM",
+      "state": "pending",
+      "evidence": "Strict normalized bytes/relocations remain NO MATCH. Original/candidate sizes are 5454/5366 and frames 148/152. Original has 219 external call sites versus 218 in both the unchanged draft and candidate; all 69 unique targets remain, with one fewer static sub_08067C18 site. This discrepancy remains unresolved and is not dismissed as a proven tail merge. Normal ROM integrity, bounded traces and heuristic improvements are not full equivalence or matching proofs. Original ASM remains active."
+    }
+  ],
+  "regions": []
+}
