@@ -1,25 +1,25 @@
 {
   "address": "0x080567D4",
-  "updated_utc": "2026-11-04T07:33:44.174397+00:00",
-  "checkpoint": "codex-solo structural NONMATCHING checkpoint: call-block order restored,26 external-call targets/order equal; candidate1112/original1248, frame0x18/original0x14.",
+  "updated_utc": "2026-11-06T23:59:00+00:00",
+  "checkpoint": "claude-nov06-wA20 rewrite: plain gates[id] accesses with a real retry loop, split bit/flag test helpers, shared ret temp; filtered nmdiff 450 -> 220, candidate 1256 bytes / original 1248, frame 0x14 equal.",
   "areas": [
     {
       "id": "stack_abi",
       "label": "Match stack homes and frame",
-      "state": "active",
-      "evidence": "Entry index now stored atSP0. Candidate frame0x18 still differs from original0x14; pointer spill layout remains pending."
+      "state": "done",
+      "evidence": "Without volatile locals the entry index is spilled to sp+0 and loop.c hoists the gate base, &h, &kind and &param into sp+4..sp+0x10 as in the ROM; frame 0x14 matches."
     },
     {
       "id": "cfg_registers",
       "label": "Match control flow and register allocation",
       "state": "active",
-      "evidence": "Already-completed message and missing-item retry blocks moved to original tail order. All26 external-call targets/order match. Same-module score509->424, but candidate1112 bytes remains below original1248. Normal ASM fallback retained."
+      "evidence": "Block order, wait loops, gate tests and call order match. Remaining: r6/r7 role swap (gate copy / half height), loop 1 does not hoist &gUnk_03003D70 into r9, the removal loop is peeled once (a struct-indexed form keeps the ROM loop shape but hoists 0x150 and folds gates+0x1C, filtered diff 266), and the item/need/kind load interleave before the removal loop."
     },
     {
       "id": "full_match",
       "label": "Verify matching C in the normal ROM build",
       "state": "pending",
-      "evidence": "Strict NO MATCH. Normal make compare OK with original ASM fallback; NONMATCHING builds; check_tree0. No matching bytes credited."
+      "evidence": "Strict NO MATCH. Normal make compare OK with original ASM fallback; NONMATCHING builds; check_tree 0. No matching bytes credited."
     }
   ]
 }

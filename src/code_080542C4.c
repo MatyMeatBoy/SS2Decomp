@@ -958,133 +958,129 @@ extern u8 playerX567D4[] asm("gUnk_03003D6C");
 extern u8 playerY567D4[] asm("gUnk_03003D70");
 void callback56CB4(u32) asm("sub_08056CB4");
 void callback5990C56(u32) asm("sub_0805990C");
+static inline s32 TestBit567D4(u32 key)
+{
+    u32 byte;
+    u8 *flags;
+    byte = key >> 3;
+    key &= 7;
+    if (sub_0800CE30() != 0)
+        flags = gUnk_03005CF4 + 0x1C3;
+    else
+        flags = gUnk_03005CF4 + 0x1B7;
+    return (flags[byte] >> key) & 1;
+}
+static inline s32 TestFlag567D4(u32 key)
+{
+    return (*(u32 *)(gUnk_03005CF4 + 0x38) & (1 << key)) != 0;
+}
 static inline s32 Done567D4(s32 id)
 {
-    u32 key, byte;
-    u8 *flags;
-    s32 value;
-    if (gates567D4[id].bitflag != 0) {
-        key = gates567D4[id].flag;
-        byte = key >> 3;
-        key &= 7;
-        if (sub_0800CE30() != 0)
-            flags = gUnk_03005CF4 + 0x1C3;
-        else
-            flags = gUnk_03005CF4 + 0x1B7;
-        value = flags[byte];
-        value = (value >> key) & 1;
-    } else {
-        value = *(u32 *)(gUnk_03005CF4 + 0x38) & (1U << gates567D4[id].flag);
-        if (value != 0) value = 1;
-    }
-    return value;
+    if (gates567D4[id].bitflag != 0)
+        return TestBit567D4(gates567D4[id].flag);
+    else
+        return TestFlag567D4(gates567D4[id].flag);
 }
 static inline void Wait567D4(void)
 {
-    u16 wait = 1;
-    goto body;
-    do {
-        wait--;
-        if (wait == 0) break;
-    body:
+    u16 wait;
+    for (wait = 1; wait != 0; wait--) {
         sub_080003F0();
-    } while (sub_080021A8() == 0);
+        if (sub_080021A8() != 0)
+            break;
+    }
 }
-void sub_080567D4(s32 arg0)
+void sub_080567D4(s32 id)
 {
-    volatile s32 id = arg0;
-    u8 * volatile base;
-    u32 *height, *kind, *param;
-    s32 offset;
-    s32 ix;
-    u32 hw, hh, x, y, cx, cy, n, i, player, key, item, count, requiredKind;
-    u16 *slot;
+    u32 hw, hh, x, y, n, i, player, item, kind, count, key;
+    s32 result, ret;
     u8 *flags;
-    u8 result;
-    u32 playerState;
-    struct Player *current;
-    if (Done567D4(id)) goto already;
-    base = (u8 *)gates567D4;
-    offset = id * 0x2C;
-    height = (u32 *)(base + 0xC + offset);
-    kind = (u32 *)(base + 0x14 + offset);
-    param = (u32 *)(base + 0x24 + offset);
-retry:
-    hw = *(u32 *)(base + 8 + offset) >> 1;
-    hh = *height >> 1;
-    do {
-        Wait567D4();
-        x = *(s32 *)(playerX567D4 + 0x14C * sub_080020F4()) >> 8;
-        y = *(s32 *)(playerY567D4 + 0x14C * sub_080020F4()) >> 8;
-        ix = id;
-        cx = gates567D4[ix].x;
-        if (x < cx - hw || x > cx + hw) break;
-        cy = gates567D4[ix].y;
-    } while (y >= cy - hh && y <= cy + hh);
-    do {
-        Wait567D4();
-        x = *(s32 *)(playerX567D4 + sub_080020F4() * 0x14C) >> 8;
-        y = *(s32 *)(playerY567D4 + sub_080020F4() * 0x14C) >> 8;
-        ix = id;
-        cx = gates567D4[ix].x;
-        if (x < cx - hw || x > cx + hw) continue;
-        cy = gates567D4[ix].y;
-        if (y >= cy - hh && y <= cy + hh) break;
-    } while (1);
-    if (sub_0800CCCC() == 1) return;
-    if (Done567D4(id)) return;
-    item = *(u32 *)(base + 0x10 + offset);
-    requiredKind = *kind;
-    n = 0;
-    slot = (u16 *)(gUnk_030034E0 + 0x150);
-    for (i = 0; i <= 24; i++, slot += 8)
-        if (slot[0] == item && slot[1] == requiredKind) n++;
-    if (n < *(u32 *)(base + 0x18 + offset)) goto missing;
-    player = sub_080020F4();
-    sub_08068070((u32)callback56CB4, player);
-    do {
-        Wait567D4();
-        if (sub_0800CE30() != 0) flags = gUnk_03005CF4 + 0x1C1;
-        else flags = gUnk_03005CF4 + 0x1B5;
-        result = *flags;
-    } while (result <= 7);
-    if ((result & 3) != player) return;
-    if (Done567D4(id)) {
-        if (sub_0800CE30() != 0) *(u8 *)(gUnk_03005CF4 + 0x1C1) = 0;
-        else *(u8 *)(gUnk_03005CF4 + 0x1B5) = 0;
-        return;
-    }
-    sub_08068070((u32)sub_0805A43C, 0);
-    playerState = 5;
-    current = &gUnk_03003CE0[sub_080020F4()];
-    *(u16 *)((u8 *)current + 0x11E) = playerState;
-    item = *(u32 *)(base + 0x10 + offset);
-    requiredKind = *kind;
-    count = *(u32 *)(base + 0x18 + offset);
-    for (i = 0; i <= 24; i++) {
-        slot = (u16 *)(gUnk_030034E0 + i * 16 + 0x150);
-        if (slot[0] == item && slot[1] == requiredKind) {
-            count--;
-            slot[0] = 0;
-            slot[1] = 0;
-            if (count == 0) break;
+    u16 *slot;
+    ret = Done567D4(id);
+    if (ret)
+        goto already;
+    for (;;) {
+        hw = gates567D4[id].w >> 1;
+        hh = gates567D4[id].h >> 1;
+        do {
+            Wait567D4();
+            x = *(s32 *)(playerX567D4 + sub_080020F4() * 0x14C) >> 8;
+            y = *(s32 *)(playerY567D4 + sub_080020F4() * 0x14C) >> 8;
+        } while (x >= gates567D4[id].x - hw && x <= gates567D4[id].x + hw
+              && y >= gates567D4[id].y - hh && y <= gates567D4[id].y + hh);
+        do {
+            Wait567D4();
+            x = *(s32 *)(playerX567D4 + sub_080020F4() * 0x14C) >> 8;
+            y = *(s32 *)(playerY567D4 + sub_080020F4() * 0x14C) >> 8;
+        } while (x < gates567D4[id].x - hw || x > gates567D4[id].x + hw
+              || y < gates567D4[id].y - hh || y > gates567D4[id].y + hh);
+        ret = sub_0800CCCC();
+        if (ret == 1)
+            return;
+        ret = Done567D4(id);
+        if (ret)
+            return;
+        item = gates567D4[id].item;
+        kind = gates567D4[id].kind;
+        n = 0;
+        slot = (u16 *)(gUnk_030034E0 + 0x150);
+        for (i = 0; i <= 24; i++, slot += 8)
+            if (slot[0] == item && slot[1] == kind)
+                n++;
+        if (n >= gates567D4[id].need) {
+            player = sub_080020F4();
+            sub_08068070((u32)callback56CB4, player);
+            do {
+                Wait567D4();
+                if (sub_0800CE30() != 0)
+                    flags = gUnk_03005CF4 + 0x1C1;
+                else
+                    flags = gUnk_03005CF4 + 0x1B5;
+                result = *flags;
+            } while (result <= 7);
+            if ((result & 3) != player)
+                return;
+            ret = Done567D4(id);
+            if (ret) {
+                if (sub_0800CE30() != 0)
+                    *(u8 *)(gUnk_03005CF4 + 0x1C1) = 0;
+                else
+                    *(u8 *)(gUnk_03005CF4 + 0x1B5) = 0;
+                return;
+            }
+            sub_08068070((u32)sub_0805A43C, 0);
+            ret = 5;
+            *(u16 *)((u8 *)&gUnk_03003CE0[sub_080020F4()] + 0x11E) = ret;
+            item = gates567D4[id].item;
+            kind = gates567D4[id].kind;
+            count = gates567D4[id].need;
+            for (i = 0; i <= 24; i++) {
+                slot = (u16 *)(gUnk_030034E0 + i * 16 + 0x150);
+                if (slot[0] == item && slot[1] == kind) {
+                    count--;
+                    slot[0] = 0;
+                    slot[1] = 0;
+                    if (count == 0)
+                        break;
+                }
+            }
+            key = gates567D4[id].flag;
+            if (gates567D4[id].bitflag != 0)
+                sub_08068070((u32)callback5990C56, key);
+            else
+                sub_08068070((u32)sub_08059954, key);
+            sub_08068820(sub_0805A474, gates567D4[id].event + 5, gates567D4[id].param);
+            return;
         }
+        if (!(gUnk_030027D0 & 0x20))
+            sub_08006D08(0x61);
+        ret = 6;
+        *(u16 *)((u8 *)&gUnk_03003CE0[sub_080020F4()] + 0x11E) = ret;
     }
-    key = *(u32 *)(base + 0x1C + offset);
-    if (*(u32 *)(base + 0x20 + offset) != 0)
-        sub_08068070((u32)callback5990C56, key);
-    else sub_08068070((u32)sub_08059954, key);
-    sub_08068820(sub_0805A474, *(u32 *)(base + 0x28 + offset) + 5, *param);
-    return;
-missing:
-    if (!(gUnk_030027D0 & 0x20)) sub_08006D08(0x61);
-    playerState = 6;
-    current = &gUnk_03003CE0[sub_080020F4()];
-    *(u16 *)((u8 *)current + 0x11E) = playerState;
-    goto retry;
 already:
     sub_08028AAC(gates567D4[id].event + 5, 0x270F, 0x270F, 0);
 }
+
 #else
 INCLUDE_ASM("asm/nonmatchings/code_080542C4", sub_080567D4);
 #endif
