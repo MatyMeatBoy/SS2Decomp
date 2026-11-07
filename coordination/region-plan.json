@@ -15,6 +15,14 @@
       "candidate": null,
       "evidence": "",
       "region": "initial-four"
+    },
+    {
+      "action": "take",
+      "actor": "sol-match-b-eu",
+      "at": "2026-11-07T11:35:14+00:00",
+      "candidate": null,
+      "evidence": "",
+      "region": "phase-five-core"
     }
   ],
   "module": "code_0808FB5C",
@@ -69,11 +77,11 @@
         "Owner-managed outside literals relative724 limit,728/72C/730 cache/low/high original versus low/high/cache baseline;734 v250,738 v254. No pool relocation or preheader edits in production by worker."
       ],
       "start": "0x0809295A",
-      "state": "free",
+      "state": "claimed",
       "types": [
         "accum s16 semantic wrap with zero-extended32 home, d s32, globals low/high stored16 and compared signed16, shake s16 for arithmetic but existing u16 carrier. cache4xu16, offsets/source values u16 loads. Preserve all existing helper widths and C89 declarations."
       ],
-      "worker": null
+      "worker": "sol-match-b-eu"
     }
   ],
   "shared_declarations": [
