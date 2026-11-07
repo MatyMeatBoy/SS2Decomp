@@ -2351,14 +2351,10 @@ found27scan_336:
                     goto block_357;
                 }
                         } else {
-                var_r4_2 = 1;
-loop_360:
-                sub_080003F0();
-                if (sub_080021A8() == 0) {
-                    var_r4_2 -= 1;
-                    if (var_r4_2 != 0) {
-                        goto loop_360;
-                    }
+                for (var_r4_2 = 1; var_r4_2 != 0; --var_r4_2) {
+                    sub_080003F0();
+                    if (sub_080021A8() != 0)
+                        break;
                 }
                 if (sub_0800CC98() == 0) {
                     temp_r0_4 = sub_0801AB24();
