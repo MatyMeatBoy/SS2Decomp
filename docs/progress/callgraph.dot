@@ -231,7 +231,7 @@ digraph calls {
   "sub_0800CB3C" [label="StartWorldSceneLifetimeTask"];
   "sub_0800CB78" [label="IsWorldSceneStopRequested"];
   "sub_0800CB88" [label="ClearWorldSceneStopRequest"];
-  "sub_0800CB9C" [label="sub_0800CB9C"];
+  "sub_0800CB9C" [label="IsMultiplayerWorldScene"];
   "sub_0800CBAC" [label="RequestWorldSceneStop"];
   "sub_0800CBBC" [label="IncrementCoordinatedActionParticipantCount"];
   "sub_0800CBCC" [label="GetClampedCoordinatedActionParticipantCount"];
@@ -260,9 +260,9 @@ digraph calls {
   "sub_0800CD9C" [label="sub_0800CD9C"];
   "sub_0800CDAC" [label="sub_0800CDAC"];
   "sub_0800CDC0" [label="sub_0800CDC0"];
-  "sub_0800CDD0" [label="sub_0800CDD0"];
-  "sub_0800CDE4" [label="sub_0800CDE4"];
-  "sub_0800CDF8" [label="sub_0800CDF8"];
+  "sub_0800CDD0" [label="RequestWorldTaskSuspend"];
+  "sub_0800CDE4" [label="ClearWorldTaskSuspendRequest"];
+  "sub_0800CDF8" [label="IsWorldTaskSuspendRequested"];
   "sub_0800CE08" [label="sub_0800CE08"];
   "sub_0800CE1C" [label="sub_0800CE1C"];
   "sub_0800CE30" [label="sub_0800CE30"];
@@ -300,9 +300,9 @@ digraph calls {
   "sub_0800D084" [label="sub_0800D084"];
   "sub_0800D098" [label="sub_0800D098"];
   "sub_0800D0A8" [label="sub_0800D0A8"];
-  "sub_0800D0F4" [label="sub_0800D0F4"];
-  "sub_0800D108" [label="sub_0800D108"];
-  "sub_0800D11C" [label="sub_0800D11C"];
+  "sub_0800D0F4" [label="BeginLocalPlayerEventLock"];
+  "sub_0800D108" [label="EndLocalPlayerEventLock"];
+  "sub_0800D11C" [label="IsLocalPlayerEventLockActive"];
   "sub_0800D12C" [label="sub_0800D12C"];
   "sub_0800D140" [label="sub_0800D140"];
   "sub_0800D154" [label="sub_0800D154"];
@@ -978,7 +978,7 @@ digraph calls {
   "sub_08058B74" [label="sub_08058B74"];
   "sub_08058C08" [label="sub_08058C08"];
   "sub_08058C74" [label="sub_08058C74"];
-  "sub_08058C8C" [label="sub_08058C8C"];
+  "sub_08058C8C" [label="StartTrackedSongUnlessMultiplayer"];
   "sub_08058CC4" [label="sub_08058CC4"];
   "sub_08058D4C" [label="sub_08058D4C"];
   "sub_08058D8C" [label="sub_08058D8C"];

@@ -14,8 +14,8 @@
 <text x="269.0" y="86" fill="#e6edf3" font-size="10">940 bytes; not decompiled C</text>
 <rect x="506.0" y="30" width="235.0" height="66" rx="5" fill="#161b22"/>
 <text x="516.0" y="46" fill="#e6edf3" font-size="11">Identification</text>
-<text x="516.0" y="69" fill="#3fb950" font-size="21" font-weight="600">35.77%</text>
-<text x="516.0" y="86" fill="#e6edf3" font-size="10">728 / 2035 registered names</text>
+<text x="516.0" y="69" fill="#3fb950" font-size="21" font-weight="600">36.17%</text>
+<text x="516.0" y="86" fill="#e6edf3" font-size="10">736 / 2035 registered names</text>
 <rect x="753.0" y="30" width="235.0" height="66" rx="5" fill="#161b22"/>
 <text x="763.0" y="46" fill="#e6edf3" font-size="11">Historical C + linked</text>
 <text x="763.0" y="69" fill="#e6edf3" font-size="21" font-weight="600">92.96%</text>
@@ -386,8 +386,8 @@
 <rect x="412.63" y="149.69" width="3.08" height="3.32" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0800D04C | sub_0800D04C | unidentified  0x0800D04C  20 bytes  [done]</title></rect>
 <rect x="415.71" y="149.69" width="3.08" height="3.32" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0800D070 | sub_0800D070 | unidentified  0x0800D070  20 bytes  [done]</title></rect>
 <rect x="406.48" y="153.01" width="3.24" height="3.15" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0800D084 | sub_0800D084 | unidentified  0x0800D084  20 bytes  [done]</title></rect>
-<rect x="406.48" y="156.17" width="3.24" height="3.15" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0800D0F4 | sub_0800D0F4 | unidentified  0x0800D0F4  20 bytes  [done]</title></rect>
-<rect x="406.48" y="159.32" width="3.24" height="3.15" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0800D108 | sub_0800D108 | unidentified  0x0800D108  20 bytes  [done]</title></rect>
+<rect x="406.48" y="156.17" width="3.24" height="3.15" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>BeginLocalPlayerEventLock | sub_0800D0F4 | confirmed  0x0800D0F4  20 bytes  [done]</title></rect>
+<rect x="406.48" y="159.32" width="3.24" height="3.15" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>EndLocalPlayerEventLock | sub_0800D108 | confirmed  0x0800D108  20 bytes  [done]</title></rect>
 <rect x="409.72" y="153.01" width="3.24" height="3.15" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0800D12C | sub_0800D12C | unidentified  0x0800D12C  20 bytes  [done]</title></rect>
 <rect x="412.96" y="153.01" width="3.24" height="3.15" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0800D140 | sub_0800D140 | unidentified  0x0800D140  20 bytes  [done]</title></rect>
 <rect x="416.20" y="153.01" width="2.59" height="3.15" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>ArePlayerBattleRulesEnabled | sub_0800CF80 | confirmed  0x0800CF80  16 bytes  [done]</title></rect>
@@ -396,7 +396,7 @@
 <rect x="412.31" y="156.17" width="2.59" height="3.15" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0800D028 | sub_0800D028 | unidentified  0x0800D028  16 bytes  [done]</title></rect>
 <rect x="412.31" y="159.32" width="2.59" height="3.15" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0800D060 | sub_0800D060 | unidentified  0x0800D060  16 bytes  [done]</title></rect>
 <rect x="414.90" y="156.17" width="3.88" height="2.10" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0800D098 | sub_0800D098 | unidentified  0x0800D098  16 bytes  [done]</title></rect>
-<rect x="414.90" y="158.27" width="3.88" height="2.10" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0800D11C | sub_0800D11C | unidentified  0x0800D11C  16 bytes  [done]</title></rect>
+<rect x="414.90" y="158.27" width="3.88" height="2.10" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>IsLocalPlayerEventLockActive | sub_0800D11C | confirmed  0x0800D11C  16 bytes  [done]</title></rect>
 <rect x="414.90" y="160.37" width="3.88" height="2.10" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0800D154 | sub_0800D154 | unidentified  0x0800D154  16 bytes  [done]</title></rect>
 <rect x="289.2" y="29.0" width="78.8" height="13" fill="#0d1117" fill-opacity="0.75"/>
 <text x="292.2" y="39.0" fill="#e6edf3" font-size="10">code_0800CF58</text>
@@ -1033,7 +1033,7 @@
 <rect x="813.43" y="206.10" width="3.57" height="2.82" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>SetMapLayerCameraRelativeMode | sub_0800BD48 | confirmed  0x0800BD48  20 bytes  [done]</title></rect>
 <rect x="809.87" y="208.92" width="3.21" height="3.13" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>ClearWorldSceneStopRequest | sub_0800CB88 | confirmed  0x0800CB88  20 bytes  [done]</title></rect>
 <rect x="809.87" y="212.05" width="3.21" height="2.51" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>IsWorldSceneStopRequested | sub_0800CB78 | confirmed  0x0800CB78  16 bytes  [done]</title></rect>
-<rect x="813.08" y="208.92" width="3.92" height="2.05" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0800CB9C | sub_0800CB9C | unidentified  0x0800CB9C  16 bytes  [done]</title></rect>
+<rect x="813.08" y="208.92" width="3.92" height="2.05" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>IsMultiplayerWorldScene | sub_0800CB9C | confirmed  0x0800CB9C  16 bytes  [done]</title></rect>
 <rect x="813.08" y="210.97" width="2.24" height="3.59" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>RequestWorldSceneStop | sub_0800CBAC | confirmed  0x0800CBAC  16 bytes  [done]</title></rect>
 <rect x="815.32" y="210.97" width="1.68" height="3.59" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>ResetWorldSceneFlags | sub_0800CB30 | confirmed  0x0800CB30  12 bytes  [done]</title></rect>
 <rect x="726.9" y="130.0" width="78.8" height="13" fill="#0d1117" fill-opacity="0.75"/>
@@ -1773,7 +1773,7 @@
 <rect x="703.56" y="459.92" width="5.58" height="4.80" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08058934 | sub_08058934 | unidentified  0x08058934  56 bytes  [done]</title></rect>
 <rect x="703.56" y="464.72" width="5.58" height="4.80" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_080589A0 | sub_080589A0 | unidentified  0x080589A0  56 bytes  [done]</title></rect>
 <rect x="709.14" y="448.95" width="5.72" height="4.68" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08058AD0 | sub_08058AD0 | unidentified  0x08058AD0  56 bytes  [done]</title></rect>
-<rect x="714.86" y="448.95" width="5.72" height="4.68" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08058C8C | sub_08058C8C | unidentified  0x08058C8C  56 bytes  [done]</title></rect>
+<rect x="714.86" y="448.95" width="5.72" height="4.68" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>StartTrackedSongUnlessMultiplayer | sub_08058C8C | confirmed  0x08058C8C  56 bytes  [done]</title></rect>
 <rect x="720.57" y="448.95" width="5.31" height="4.68" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08058844 | sub_08058844 | unidentified  0x08058844  52 bytes  [done]</title></rect>
 <rect x="709.14" y="453.64" width="4.70" height="5.29" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08058900 | sub_08058900 | unidentified  0x08058900  52 bytes  [done]</title></rect>
 <rect x="709.14" y="458.93" width="4.70" height="5.29" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0805896C | sub_0805896C | unidentified  0x0805896C  52 bytes  [done]</title></rect>
@@ -2059,8 +2059,8 @@
 <rect x="799.16" y="482.09" width="2.45" height="3.50" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0800CD54 | sub_0800CD54 | unidentified  0x0800CD54  20 bytes  [done]</title></rect>
 <rect x="787.88" y="485.60" width="2.75" height="3.13" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0800CD78 | sub_0800CD78 | unidentified  0x0800CD78  20 bytes  [done]</title></rect>
 <rect x="790.63" y="485.60" width="2.75" height="3.13" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0800CDAC | sub_0800CDAC | unidentified  0x0800CDAC  20 bytes  [done]</title></rect>
-<rect x="793.37" y="485.60" width="2.75" height="3.13" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0800CDD0 | sub_0800CDD0 | unidentified  0x0800CDD0  20 bytes  [done]</title></rect>
-<rect x="796.12" y="485.60" width="2.75" height="3.13" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0800CDE4 | sub_0800CDE4 | unidentified  0x0800CDE4  20 bytes  [done]</title></rect>
+<rect x="793.37" y="485.60" width="2.75" height="3.13" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>RequestWorldTaskSuspend | sub_0800CDD0 | confirmed  0x0800CDD0  20 bytes  [done]</title></rect>
+<rect x="796.12" y="485.60" width="2.75" height="3.13" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>ClearWorldTaskSuspendRequest | sub_0800CDE4 | confirmed  0x0800CDE4  20 bytes  [done]</title></rect>
 <rect x="798.86" y="485.60" width="2.75" height="3.13" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0800CE08 | sub_0800CE08 | unidentified  0x0800CE08  20 bytes  [done]</title></rect>
 <rect x="787.88" y="488.73" width="2.75" height="3.13" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0800CE1C | sub_0800CE1C | unidentified  0x0800CE1C  20 bytes  [done]</title></rect>
 <rect x="790.63" y="488.73" width="2.75" height="3.13" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0800CE40 | sub_0800CE40 | unidentified  0x0800CE40  20 bytes  [done]</title></rect>
@@ -2088,7 +2088,7 @@
 <rect x="793.79" y="497.55" width="2.61" height="2.64" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0800CD8C | sub_0800CD8C | unidentified  0x0800CD8C  16 bytes  [done]</title></rect>
 <rect x="796.40" y="497.55" width="2.61" height="2.64" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0800CD9C | sub_0800CD9C | unidentified  0x0800CD9C  16 bytes  [done]</title></rect>
 <rect x="799.00" y="497.55" width="2.61" height="2.64" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0800CDC0 | sub_0800CDC0 | unidentified  0x0800CDC0  16 bytes  [done]</title></rect>
-<rect x="793.79" y="500.19" width="3.03" height="2.27" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0800CDF8 | sub_0800CDF8 | unidentified  0x0800CDF8  16 bytes  [done]</title></rect>
+<rect x="793.79" y="500.19" width="3.03" height="2.27" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>IsWorldTaskSuspendRequested | sub_0800CDF8 | confirmed  0x0800CDF8  16 bytes  [done]</title></rect>
 <rect x="793.79" y="502.46" width="3.03" height="2.27" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0800CE30 | sub_0800CE30 | unidentified  0x0800CE30  16 bytes  [done]</title></rect>
 <rect x="793.79" y="504.73" width="3.03" height="2.27" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0800CE68 | sub_0800CE68 | unidentified  0x0800CE68  16 bytes  [done]</title></rect>
 <rect x="796.82" y="500.19" width="2.40" height="2.87" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0800CE78 | sub_0800CE78 | unidentified  0x0800CE78  16 bytes  [done]</title></rect>
