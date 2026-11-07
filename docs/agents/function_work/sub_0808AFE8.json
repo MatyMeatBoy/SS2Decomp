@@ -1,0 +1,38 @@
+{
+  "address": "0x0808AFE8",
+  "updated_utc": "2026-11-07T08:50:15.753157+00:00",
+  "checkpoint": "Remove inherited fixed-register and empty-asm allocator constraints using ordinary stage-save source and the two real halfword columns of one table. Candidate 2440/original 2448 bytes; frames 716/716; 104 original external calls in order. Heuristic 235 to 245 is a small regression. Strict NO MATCH; original ASM retained.",
+  "areas": [
+    {
+      "id": "compile",
+      "label": "Complete compiling draft",
+      "state": "done",
+      "evidence": "Serial normal make compare prints shiningsoul2_eu.gba: OK using the original ASM fallback; complete make nonmatching succeeds; check_tree reports 0 errors and git diff --check passes. Formatted selected full-module output strictly equals its tested control under the normal flags. No active-C ROM match or new matching credit."
+    },
+    {
+      "id": "ordinary_source",
+      "label": "Remove artificial allocator constraints",
+      "state": "done",
+      "evidence": "The stage-index read, stage-table lookup and save-field write use ordinary C locals instead of five fixed-register bindings and an empty asm input. The record value column uses the actual four-byte table record base plus its second-halfword offset 2, replacing the remaining empty asm va reference. Linked ELF symbols confirm B10+2 equals B12. Original and selected retain 104 external targets in the same order. Against the inherited 2440-byte linked NM function, only eight halfwords at offsets 0x48, 0x4E, 0x50, 0x52, 0x58, 0x5C, 0x5E and 0x60 change in the initial stage-save block; every other linked function byte is identical. Frame remains 716. This is a source cleanup, not an allocator/matching improvement or a proof of arbitrary-input equivalence."
+    },
+    {
+      "id": "bounded_prefix",
+      "label": "Validate initialization prefix",
+      "state": "done",
+      "evidence": "160 original-ROM comparisons pass through the first frame yield: stage indices 0..9, CE30 return 0/1, four synthetic record-completion patterns, and stack seeds 00/A5. Checks meaningful external-call arguments and background payloads, all 30 record-init calls, 480 record bytes, background word and nonstack RAM. Helpers are stubbed and clobber caller-save registers. A negative-control linked ROM changing only the second-column literal from B10+2 to B10+4 fails the first case on record payload, confirming sensitivity. This scope excludes menu input, drawing, completion, full return and actual helper/scheduler behavior."
+    },
+    {
+      "id": "layout",
+      "label": "Recover remaining register and control-flow layout",
+      "state": "active",
+      "evidence": "The existing record-init loop improvement is retained. Candidate 2440 versus original 2448 bytes; frame 716 equals original. Scoped nmscore 235 to 245, with the extra difference in the now ordinary stage-save block and normalized table relocation identity. Remaining inherited main-loop register/rotation differences and the initial block are unresolved. Direct access through both table fields merged the column cursors, shortened the function/frame and worsened the diff, so it was rejected. Plain pin/asm removal without the real second-column relationship lost a stack home and regressed; also rejected. Historical table-base identities, row staging, early symbol loads and declaration matrices were read and not repeated."
+    },
+    {
+      "id": "match",
+      "label": "Verify exact active C and linked ROM",
+      "state": "pending",
+      "evidence": "Strict normalized module bytes and relocations still differ from original. The function remains NONMATCHING with its original ASM fallback. Bounded tests, matching frames, retained calls and byte-identical unaffected regions do not establish a full C match."
+    }
+  ],
+  "regions": []
+}
