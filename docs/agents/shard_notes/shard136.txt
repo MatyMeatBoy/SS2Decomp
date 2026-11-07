@@ -1,0 +1,25 @@
+2026-11-07 (claude-nov07-w136): sub_080624D8 MATCHED (src/code_0805FB7C.c, last INCLUDE_ASM there)
+  Earlier history of this function is in shard064.txt (nov03-w4, 2026-11-06 notes).
+  Start: aligned NDIFF 72, 3720 vs 3716 bytes. Steps (full-module NDIFF after each):
+  - PLAYER_FLAGS() as gUnk_03003CE0[sub_080020F4()].flags everywhere (not a
+    gUnk_03003D10 u32 array): one pool rtx, so the final wait loop's load is
+    hoisted and shares the slide-out literal; the muls/ldr order also matches. 98, size ok.
+  - Slide-out1 computes next/u inside the inner for loop (like slide-out2): loop.c
+    hoists the 0x400 constant out of the real do-while, so it becomes a spilled
+    REG_EQUIV pseudo and reload rematerializes it (ROM's `mov r2,r8; movs r1,#128...`). 37.
+  - `*c` wrap: `u32 n = *c + 1; u32 zero = 0; *c = n; if ((u16)n > 7) *c = zero;`
+    puts the zero in r2 before the strh like the ROM. 34.
+  - Slide-in as a real do-while (const hoisted like the slide-outs) with the x
+    destination read through a function-scope `struct Pt624 *d = dst624` and the
+    y destination through `s32 *dy = dstY624` (both spilled, rematerialized as
+    reloads). That keeps the dst base out of the local-alloc tie with the address
+    (ROM `ldr r0,=EBE34; adds r3,r2,r0`), so i*4 gets r0 and t1 stays in r8. 12.
+  - The menu draws use dy[i * 2] for y too (both DrawScaled and Draw paths). MATCH.
+  Diagnosis notes: the remaining 12 lines before the last step were reload-rotation
+  phase differences caused by the menu's dstY loads; once the pointer reloads
+  matched, everything else fell in. Also verified to match with the sibling PRs
+  (#609 sub_08060E44, #618 sub_0805FFBC) applied to the module.
+  Rejected on the way: goto slide-in with dst624[i].y (size 3720), a real do-while
+  without d/dy (t1 moves to r5), (src624 + 4)/tbl[2][4] forms (both bases reloaded),
+  pointer-parameter Lerp, register-asm hard regs for the dst base (works for the x part
+  only, not needed).

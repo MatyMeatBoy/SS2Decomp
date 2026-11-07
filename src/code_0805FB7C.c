@@ -1607,16 +1607,18 @@ block_101:
 block_104:
     sub_0800CDE4();
 }
-#ifdef NONMATCHING
 /*
- * sub_080624D8 draft (GNU diff 653 -> 126 lines, same size as the ROM function).
+ * sub_080624D8: pause menu. The four option icons slide in, one is picked,
+ * they slide out and the choice runs.
  * Shape notes: the sprite helpers are the module's static inline wrappers
  * (load62-style Load624, sub_080653B8-style Scale624, sub_08065230-style Draw624,
  * sub_08065370-style Size624); m.text / m.spr.remap are written in place so gcse
- * PRE produces the ROM's per-case texts spill and remap in sl; the slide-in loop
- * is goto-shaped with its own t1; the level switch sets ok = 0 in ROM case order;
- * scroll x/y go through s16 pointers off a TileSys base. Remaining: register
- * choice in the slide/menu loops.
+ * PRE produces the ROM's per-case texts spill and remap in sl. The slide-in reads
+ * the on-screen positions through the function-scope pointers d / dy (spilled,
+ * rematerialized from their constant equivalences), which keeps the destination
+ * base out of the address register. Each slide loop computes u inside a real loop
+ * so loop.c hoists the 0x400 constant out of it. The player flags are read as
+ * gUnk_03003CE0[].flags (one pool entry, hoisted in the final wait loop).
  */
 struct Pt624 { s32 x, y; };
 struct Spr624 {
@@ -1638,7 +1640,6 @@ extern struct Pt624 dst624[] asm("gUnk_084EBE34");
 extern s32 dstY624[] asm("gUnk_084EBE38");
 extern s32 msg624[] asm("gUnk_084EBE54");
 extern u8 res624[] asm("gUnk_08518938");
-extern u32 flags624[] asm("gUnk_03003D10");
 extern u16 keys624 asm("gUnk_03001324");
 extern u16 held624 asm("gUnk_03001308");
 extern u8 *party624 asm("gUnk_030034E0");
@@ -1709,7 +1710,7 @@ static inline void DrawScaled624(struct Spr624 *p, s32 x, s32 y, u16 id, u16 fra
     drawScaled624(x, y, id, frame, 0, p->remap, p->data, p->base, p->scale, p->scale, 0xFF);
 }
 
-#define PLAYER_FLAGS() flags624[sub_080020F4() * (0x14C / 4)]
+#define PLAYER_FLAGS() gUnk_03003CE0[sub_080020F4()].flags
 
 #define BUSY() (sub_0800CDF8() || sub_0800D11C() || (sub_0801DF8C() && !sub_0800CCCC()) || sub_0805F184() || sub_0800D060())
 #define BUSY2() (sub_0800CDF8() || sub_0800D11C() || (sub_0801DF8C() && !sub_0800CCCC()) || (PLAYER_FLAGS() & 0x2000) || sub_0805F184() || sub_0800D060())
@@ -1733,6 +1734,8 @@ void sub_080624D8_(void)
     s16 *px, *py;
     u32 ok;
     u8 *p;
+    struct Pt624 *d;
+    s32 *dy;
 
     if (sub_0800CD8C() || sub_0800D11C() || sub_0805EF90())
         goto out;
@@ -1760,16 +1763,15 @@ void sub_080624D8_(void)
         sub_080003F0();
     sub_0800CE40();
     t1 = 0;
+    d = dst624;
+    dy = dstY624;
     sub_0805865C(0x12);
-slidein:
-    {
+    do {
         sub_08015C14();
-
-
         for (i = 0; i <= 3; i++) {
             u = 0x400 - t1;
-            Lerp624(&m.x[i], src624[i].x, dst624[i].x, t1, u);
-            Lerp624(&m.y[i], src624[i].y, dstY624[i * 2], t1, u);
+            Lerp624(&m.x[i], src624[i].x, d[i].x, t1, u);
+            Lerp624(&m.y[i], src624[i].y, dy[i * 2], t1, u);
             if (i == 1 && (PLAYER_FLAGS() & 8))
                 Draw624(&m.spr, m.x[1] >> 8, m.y[1] >> 8, 7, 0);
             else
@@ -1777,9 +1779,7 @@ slidein:
         }
         t1 += 0x80;
         sub_080003F0();
-    }
-    if (t1 <= 0x3FF)
-        goto slidein;
+    } while (t1 <= 0x3FF);
 
     sub_0801A664(0x12, 2);
     win = window624(9, 0xF, 9, 1);
@@ -1802,12 +1802,12 @@ slidein:
                 if (i == 1 && (PLAYER_FLAGS() & 8))
                     DrawScaled624(&m.spr, dst624[1].x >> 8, dst624[1].y >> 8, 7, m.w[1]);
                 else
-                    DrawScaled624(&m.spr, dst624[i].x >> 8, dstY624[i * 2] >> 8, i, m.w[i]);
+                    DrawScaled624(&m.spr, dst624[i].x >> 8, dy[i * 2] >> 8, i, m.w[i]);
             } else {
-                    if (i == 1 && (PLAYER_FLAGS() & 8))
-                        Draw624(&m.spr, dst624[1].x >> 8, dst624[1].y >> 8, 7, m.w[1]);
-                    else
-                        Draw624(&m.spr, dst624[i].x >> 8, dstY624[i * 2] >> 8, i, m.w[i]);
+                if (i == 1 && (PLAYER_FLAGS() & 8))
+                    Draw624(&m.spr, dst624[1].x >> 8, dst624[1].y >> 8, 7, m.w[1]);
+                else
+                    Draw624(&m.spr, dst624[i].x >> 8, dy[i * 2] >> 8, i, m.w[i]);
             }
         }
         w = sub_0801A638(m.text[sel] + 2);
@@ -1823,8 +1823,11 @@ slidein:
         if (keys624 & 1) {
             if (sel > 2) {
                 u16 *c = (u16 *)(state624 + 0x14A);
-                if (++*c > 7)
-                    *c = 0;
+                u32 n = *c + 1;
+                u32 zero = 0;
+                *c = n;
+                if ((u16)n > 7)
+                    *c = zero;
                 sub_0805865C(0xF);
                 continue;
             }
@@ -1836,9 +1839,9 @@ slidein:
             if (sub_0800CDF8() == 0) {
                 t = 0x400;
                 do {
-                    next = t - 0x80;
-                    u = 0x400 - t;
                     for (i = 0; i <= 3; i++) {
+                        next = t - 0x80;
+                        u = 0x400 - t;
                         Lerp624(&m.x[i], src624[i].x, dst624[i].x, t, u);
                         Lerp624(&m.y[i], src624[i].y, dst624[i].y, t, u);
                         if (i == 1 && (PLAYER_FLAGS() & 8))
@@ -1953,8 +1956,6 @@ confirm:
         sub_0801ABE8(6);
     t = 0x400;
     do {
-
-
         for (i = 0; i <= 3; i++) {
             next = t - 0x80;
             u = 0x400 - t;
@@ -1971,7 +1972,7 @@ confirm:
         sub_080003F0();
     } while (t > 0 || sub_0801AAE0() == 0);
     while (sub_0805EEEC(win) == 0) {
-        if (sub_0800CDF8() || sub_0800D11C() || (sub_0801DF8C() && !sub_0800CCCC()) || (gUnk_03003CE0[sub_080020F4()].flags & 0x2000) || sub_0805F184() || sub_0800D060())
+        if (BUSY2())
             sel = 4;
         sub_080003F0();
     }
@@ -2050,9 +2051,6 @@ confirm:
     sub_0800D04C();
     sub_0800CE54();
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_0805FB7C", sub_080624D8);
-#endif
 struct T65Draw { u32 base; u32 unk4; u8 *data; u32 unkC; u8 pad[12]; u8 style; u8 rest[23]; };
 struct T65Level { u16 count; u8 pad[114]; };
 extern struct T65Level t65_levels[] asm("gUnk_0847846C");
