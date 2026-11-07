@@ -2377,7 +2377,8 @@ void sub_0808AFE8_v(void)
             break;
         case 1:
             keysAF91[4] = 0x100;
-            rec = &records[sel][col];
+            rec = &records[sel][0];
+            rec += col;
             sub_0805FFBC(0xF, 0x12, rec, 0x80000000);
             sub_080815F4(rec);
             break;
