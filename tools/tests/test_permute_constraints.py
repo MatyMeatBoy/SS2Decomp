@@ -113,9 +113,9 @@ class PermuterControlGate(unittest.TestCase):
              mock.patch.object(sys,'argv',['permute.py','target','input.c','--dir',td]), \
              mock.patch.object(permute,'setup',return_value=[]), \
              mock.patch.object(permute,'validate_control',create=True,side_effect=SystemExit('baseline changed')), \
-             mock.patch.object(permute.subprocess,'run',return_value=subprocess.CompletedProcess([],0,'','')) as run:
+             mock.patch.object(permute,'run_in_process_tree') as run:
             with self.assertRaisesRegex(SystemExit,'baseline changed'):
                 permute.main()
-            self.assertFalse(any(any(str(a).endswith('permuter.py') for a in c.args[0]) for c in run.call_args_list))
+            run.assert_not_called()
 
 if __name__=='__main__':unittest.main()

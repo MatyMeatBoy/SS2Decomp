@@ -26,6 +26,7 @@ import tempfile
 
 sys.path.insert(0, os.path.dirname(__file__))
 import decomp  # noqa: E402
+from process_tree import run_in_process_tree  # noqa: E402
 from source_index import ALIASES, functions, mask_noncode  # noqa: E402
 
 ROOT = decomp.ROOT
@@ -262,8 +263,8 @@ def main():
     aliases = setup(args.func, args.cfile, d)
     validate_control(d, args.cfile, args.allow_control_diff)
     try:
-        result = subprocess.run([sys.executable, os.path.join(PERMUTER, "permuter.py"), d, "-j", str(args.jobs),
-                                 "--stop-on-zero", "--best-only", "--quiet"], timeout=args.time)
+        result = run_in_process_tree([sys.executable, os.path.join(PERMUTER, "permuter.py"), d, "-j", str(args.jobs),
+                                      "--stop-on-zero", "--best-only", "--quiet"], timeout=args.time)
         if result.returncode:
             raise SystemExit("permuter failed (exit %d); no result accepted" % result.returncode)
     except subprocess.TimeoutExpired:
