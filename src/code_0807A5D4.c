@@ -2787,7 +2787,7 @@ void sub_0807C29C(void) {
                     gMgr82->stock[gMgr82->cursor + gMgr82->page * 15].count = 100000;
                     sub_0807BEA0(gMgr82->heldFrom, gMgr82->heldIdx, (void *)held);
                 }
-                DROP82();
+                Drop82Sep(&sp14);
                 sub_0805865C(0x5F);
                 break;
             case 0:
@@ -2806,7 +2806,7 @@ void sub_0807C29C(void) {
                         gMgr82->stock[gMgr82->cursor + gMgr82->page * 15].count = 100000;
                         sub_0807BEA0(gMgr82->heldFrom, gMgr82->heldIdx, (void *)held);
                     }
-                    DROP82();
+                    Drop82Sep(&sp14);
                     sub_0805865C(0x5F);
                     break;
                 }
@@ -2819,7 +2819,7 @@ void sub_0807C29C(void) {
                     gMgr82->stock[gMgr82->cursor + gMgr82->page * 15].count = 100000;
                     sub_0807BEA0(gMgr82->heldFrom, gMgr82->heldIdx, (void *)held);
                 }
-                DROP82();
+                Drop82Sep(&sp14);
                 sub_0805865C(0x5F);
                 break;
             }
