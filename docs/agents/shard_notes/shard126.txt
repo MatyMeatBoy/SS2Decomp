@@ -110,3 +110,37 @@ shard 126 notes
   - 0x1D8C-0x1F60 (switch-4 case 3 else branch): the ROM computes &fD8, direction-1 (to
     sl) and &f40 (to r9) in each of the four predecessors of the level/f24 join; ours
     computes them once after the join.
+
+2026-11-07 (claude-nov07-w126c, third pass): sub_0800D368
+  Start: register-normalized diff 364, filtered nmdiff 6238, raw (unnormalized, no-autojunk)
+  diff 5372, 24996 bytes, frame 476. End: register-normalized 303, filtered nmdiff 4071,
+  raw 2745, 24968 bytes, frame 476 (ROM 472).
+  What landed:
+  - D368_Level: h = (s8)p[0x6C] * 5 before the loop, h * 2 + table[i] inside. loop.c hoists
+    the *2 after i = 7 and the table load (ROM order), and the byte load gets ldrb/lsl/asr
+    (dest == address reg). Sites 3/4 (switch-4 cases 3 and 4) use a D368_Level2 copy with
+    table[i] + h * 2: there the table symbol is already CSE'd from the f26 lookup, which flips
+    the movable order.
+  - f18 tests (switch-4 cases 0/1): `temp &= f14, sp154 += 1, temp != 0` (the and comes
+    before the increment in the ROM).
+  - var_r5 is one function-scope variable in the ROM: the peer-propagation counter, both
+    level/limit temporaries in cases 3/4 (var_r5_4, temp_r5_6/7), the actor-loop match count
+    (var_r5_11), var_r5_12 and var_r5_13 are now that same variable. The merged pseudo gets a
+    different hard reg and that changes the reload register choices across the function: the
+    raw diff halves (0x0-0x800 and 0x3C00-0x6000 are now nearly register-exact).
+  - Effect loop: the owner-table f30 tests (cases 2/3/5) and the f68 if-chains (cases 2/5) are
+    wrapped in do { } while (0). The loop-depth ref weight raises the GCSE base pseudo above
+    the p+40 latch PRE pseudo, so (as in the ROM) the base gets r5 and p+40 gets r3
+    (caller-saved, saved at 0x1CC).
+  Diagnosis / measured:
+  - Cases 2 and 5 of the effect-loop owner switch are identical C; in the ROM they differ only
+    in reload registers (case 2 r4/r5, case 5 r1/r4/r5/r0), so cross-jumping keeps both. Ours
+    gives case 2 the case-5 registers and the two blocks merge (about -45 normalized lines,
+    -130 bytes). Reload rotation is still off in the peer loop: ROM keeps `found` in r4 and
+    spills the exit-test copy (0x1D0); ours spills found (prio 0.43 < p+40 0.67).
+  - lookupStats (sub_08007290 result, 0xB4E) lives in r8 in the ROM (`mov r8, r0` then the
+    use reloads through r0). Assigning it to var_r8 gives the copy but in r3 (+1); not kept.
+  - Merging var_r5_7/var_r5_8 into var_r5 is worse (+14).
+  Tools (scratchpad nov07-w126c): rawr.py (per-region raw register mismatches), rawl.py
+  (list raw/struct diffs in a ROM range), conf.py (conflicting pseudos of a pseudo in given
+  hard regs, from a -dg dump), kmk.py (merge variables).
