@@ -2174,6 +2174,7 @@ void sub_0808AFE8_v(void)
     struct RecAF91 *rec;
     struct EntryAF91 *e;
     u8 *text;
+    struct TypeAF91 (*va)[3], (*vb)[3];
 
     keysAF91[0] = 0;
     keysAF91[1] = 0xFFFD;
@@ -2199,21 +2200,22 @@ void sub_0808AFE8_v(void)
     off10 = sub_0800CE30() ? 10 : 0;
     for (i = 0; i <= 9; i++) {
         for (j = 0; j <= 2; j++) {
-            struct TypeAF91 *pa, *pb;
             records[i][j].time = 0;
-            pb = &recordVals0AF91[off10 + i][j];
-            pa = &recordTypesAF91[off10 + i][j];
+            /* table pointers set per record: loop.c hoists B10 into sl, B12 stays in the row body */
+            va = recordTypesAF91;
+            vb = recordVals0AF91;
             if (sub_08058878(i, j) != 0) {
                 records[i][j].type = 1;
                 records[i][j].val = 0;
             } else {
                 records[i][j].b8 = 0;
                 records[i][j].b9 = 0;
-                records[i][j].type = pa->a;
-                records[i][j].val = pb->a;
+                records[i][j].type = ((struct TypeAF91 *)((u8 *)va + ((off10 + i) * 12 + j * 4)))->a;
+                records[i][j].val = vb[off10 + i][j].a;
             }
         }
     }
+    asm("" : : "r"(va)); /* one more ref: va outranks off10 for sl in global alloc */
     col = 0;
     flag = 0;
     mode = 0;
