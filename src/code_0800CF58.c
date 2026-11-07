@@ -443,7 +443,7 @@ void sub_0800D368(void *arg0) {
     s32 sp1A8;
     u32 propagationBitD368, propagationMaskD368;
     void *lookupStats;
-    u32 recordCallValue0, recordCallValue1, recordCallValue2;
+    u32 recordCallValue1, recordCallValue2;
     s32 availableCount0, availableCount1;
     s16 *temp_r0;
     s16 *var_r1_16;
@@ -3567,10 +3567,13 @@ retry63_1_done:
                 ((union RecordD368 *)temp_r3_17)->w1_b6_n4.value = ((struct PlayerD368 *)arg0)->f132;
                 temp_r3_18 = ((struct PlayerD368 *)arg0)->f144;
                 ((union RecordD368 *)temp_r3_18)->w1_b11_n8.value = ((struct PlayerD368 *)arg0)->f26;
-                recordCallValue0 = d368_sub_0801DEB8();
-                temp_r3_19 = *var_r5_9;
-                recordCallValue0 *= 8;
-                M2C_FIELD(temp_r3_19, u8 *, 6) = (u8) ((7 & M2C_FIELD(temp_r3_19, u8 *, 6)) | recordCallValue0);
+                {
+                    u32 recordQueryResult126;
+                    recordQueryResult126 = d368_sub_0801DEB8();
+                    temp_r3_19 = *var_r5_9;
+                    recordQueryResult126 *= 8;
+                    M2C_FIELD(temp_r3_19, u8 *, 6) = (u8) ((7 & M2C_FIELD(temp_r3_19, u8 *, 6)) | recordQueryResult126);
+                }
                 break;
             case 4:                                 /* switch 16 */
                 var_r5_9 = arg0 + 0x144;
@@ -3587,10 +3590,13 @@ retry63_1_done:
                 ((union RecordD368 *)temp_r4_24)->w1_b0_n6.value = ((s32) ((0U - (u32) temp_r0_98) | (u32) temp_r0_98) >> 0x1F) & 0x20;
                 temp_r3_20 = ((struct PlayerD368 *)arg0)->f144;
                 ((union RecordD368 *)temp_r3_20)->w1_b6_n4.value = ((struct PlayerD368 *)arg0)->f132;
-                recordCallValue0 = d368_sub_0801DEB8();
-                temp_r3_19 = *var_r5_9;
-                recordCallValue0 *= 8;
-                M2C_FIELD(temp_r3_19, u8 *, 6) = (u8) ((7 & M2C_FIELD(temp_r3_19, u8 *, 6)) | recordCallValue0);
+                {
+                    u32 recordQueryResult126;
+                    recordQueryResult126 = d368_sub_0801DEB8();
+                    temp_r3_19 = *var_r5_9;
+                    recordQueryResult126 *= 8;
+                    M2C_FIELD(temp_r3_19, u8 *, 6) = (u8) ((7 & M2C_FIELD(temp_r3_19, u8 *, 6)) | recordQueryResult126);
+                }
                 break;
             case 2:                                 /* switch 16 */
                 d368_sub_0801FDD0(arg0);
