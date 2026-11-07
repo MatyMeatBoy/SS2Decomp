@@ -1,43 +1,44 @@
 {
   "address": "0x0808C0C4",
-  "updated_utc": "2026-11-07T04:54:12.699372+00:00",
-  "checkpoint": "Verified baseline on main d341c363 (own shard claim 6a4bbb4e), 2026-11-07. Report correction only: no source change, code gain or additional matching credit. Original/candidate are both 2708 bytes, but frames are 368/364 bytes and strict normalized comparison remains NO MATCH. Historical checkpoint 8a0c4bb6 and its 2700-byte/368-byte frame evidence remain in Git history; they do not describe the current draft.",
+  "updated_utc": "2026-11-07T19:00:00Z",
+  "checkpoint": "claude-nov07-w92 shard 92: active C matches; make compare OK with sub_0808C0C4.s removed.",
   "areas": [
     {
       "id": "compile",
       "label": "Compiling C89 draft",
       "state": "done",
-      "evidence": "Serial make -j1 compare prints shiningsoul2_eu.gba: OK with the original ASM fallback; full make -j1 nonmatching succeeds; check_tree reports 0 errors. The restored draft object strictly equals the unchanged diagnostic full-module compiler control. This verifies compilation and restoration, not candidate equivalence."
+      "evidence": "sub_0808C0C4 is active C in code_08087CC0 under the normal compiler and flags; the NONMATCHING wrapper and asm/nonmatchings/code_08087CC0/sub_0808C0C4.s are removed. make compare, make nonmatching and check_tree pass."
     },
     {
       "id": "frame",
       "label": "Original stack frame size",
-      "state": "pending",
-      "evidence": "Current original ASM emits sub sp,#0x170 (368), while the freshly compiled draft emits sub sp,#0x16C (364). The original stores/reloads the loopC player offset at sp+0x16C around calls. The current draft keeps that offset in r8. Historical grouped menu-word frame evidence is not current; do not count it as a completed frame milestone."
+      "state": "done",
+      "evidence": "Frame is sub sp,#0x170 (368) = ROM. The loopC player offset is caller-saved r2, spilled to sp+0x16C around calls (b148 = base + 0x148 keeps its class LO_REGS; a do-while(0) on the cnt update keeps r7 for cnt)."
     },
     {
       "id": "accesses",
       "label": "Pointer and ABI audit",
-      "state": "active",
-      "evidence": "Historical source recovery models each portrait as 52 bytes with word fields at +0/+8 and a byte tail at +28, and retains the original item-pointer and coordinate-table aliases. Current source and original ASM were reread before experiments, with a fresh m2c reading aid. Full type, branch and ABI equivalence remains unproven. Diagnostic raw register bindings were rejected after emitted-ASM audits exposed overwritten values or missing preservation across calls; they were not selected."
+      "state": "done",
+      "evidence": "Portraits are 52-byte records (words at +0/+8, id byte at +28); players are 0x14C-byte structs with the item pointer at +0x148; seat coordinates are u16 gSeatPosC0[cat][seat][3]. All 2708 bytes and relocations match the original."
     },
     {
       "id": "cfg",
       "label": "Menu and confirmation CFG",
-      "state": "active",
-      "evidence": "The current original and candidate have 100 static external call sites in identical callee order; this does not establish complete branch or runtime equivalence. Original text 0x1401F6 reads Please choose a team, and original ASM writes selection+3 or zero at Player+0x68. gUnk_03001324 supplies pressed-key edges (matched input producer), not link-handshake state. Link barriers are separate calls to sub_08067C18, sub_08067C08 and sub_08067BF8."
+      "state": "done",
+      "evidence": "The team menu (loop_16..block_81) is a real for (;;) loop: loop.c hoists the gPlayers base and one 0x14C stride out of it as unallocated REG_EQUIV pseudos, so reload reproduces the original r1/r2/r3 rotation in the held-key paths and the selection block. The redraw loop is do { } while (i <= 7); errorSingle (with the goto) precedes errorFull (falls into block_81)."
     },
     {
       "id": "registers",
       "label": "Registers and instruction order",
-      "state": "active",
-      "evidence": "Fresh current baseline: original/candidate 2708/2708 bytes; frames 368/364; strict NO MATCH. Normalized Levenshtein distances are 218 bytes and 159 halfwords, for prioritization only. The installed compiler dump gives offset pseudo68 refs9/live86 and allocates it to r8; moving its initialization earlier raises live length to292 but still allocates r8. Ordinary offset reuse, initialization/lifetime, indexed/GIV, pointer-base and CFG controls did not recover the original offset spill. No source alternative was selected and no permuter was run. Failed controls and full compiler diagnostics are preserved privately in worker59/build/sol-b092."
+      "state": "done",
+      "evidence": "Held-path pointer shares a call-crossing pseudo with the title text pointer (r4); loopB reads gPlayersC0[i].unk148 (strength-reduced r7 giv) and draws through the seat table with the counts pointer set at the top of the kind == 0 block, so it is hoisted after gCoords (r8 gCoords, r9 counts, gCoords+2 inline, gCoords+4 an unallocated literal)."
     },
     {
       "id": "match",
       "label": "Full matching normal C build",
-      "state": "pending",
-      "evidence": "The original asm/nonmatchings/code_08087CC0/sub_0808C0C4.s remains active. Equal function size, historical prefixes, static call order and successful fallback-ROM gates do not prove the NONMATCHING draft equivalent. A normal active-C full ROM match is still required."
+      "state": "done",
+      "evidence": "Full-module aligned compare is identical (2708 bytes) and the EU ROM checksum matches with the active C."
     }
-  ]
+  ],
+  "regions": []
 }
