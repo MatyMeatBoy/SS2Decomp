@@ -89,3 +89,28 @@ claude-nov07-wA (2026-11-07, fourth pass): filtered nmdiff 1513 -> 1412. Size 49
   Next: the template expansions' instruction shape in the 4892 mode (literal-0 tails). That mode has
   the right tail merging; find the missing ~6 bytes per template (text85 rematerialisation and
   divisor/started regs from the notes above).
+claude-nov07-w77N (2026-11-07, fifth pass): filtered nmdiff 1412 -> 1302, size 4972 = ROM, frame 0x2AC.
+  - Landed: `for (i_ = 0; i_ <= 5; i_++, div_++)` in the template (ROM bumps i before div; 1412 -> 1404),
+    and `asm("" : : "g"(sp240), "g"(sp244), "g"(sp248), "g"(sp24C));` at `icons:` (FAKE, no code).
+    The longer live ranges drop the item pointers below everything else, so they are spilled
+    (SP+0x240..0x24C as in ROM) and the later spill slots (sp254...) line up (1404 -> 1302).
+  - Oracle: the debug compiler (nov07-w15 agb15, GFORCE) with the m2c register names forced
+    (var_rN -> rN, sp24x spilled, var_sl -> sl) gives 1233 on this base. Helpers in scratch
+    nov07-w77N/f85: vmap.py (decl -> pseudo -> GA hard reg; function-scope decls start at pseudo 23),
+    gforce.py (GFORCE list from names), gf.sh, ga.sh, reg.py (per-region filtered counts).
+  - Kind-1 loop: ROM priority order is var_r6, var_r4, var_r5 > var_r7 > var_r8 > var_r9 (r4..r9 by
+    name). Ours allocates var_r7 (shared with SPLIT col) and var_r8 (SPLIT line, icons) first, so the
+    counter takes r4, len r7, acc r8 and var_r4 is caller-saved in r3. Four `asm("" : : "r"(var_r4));`
+    uses in the inner do-while (after `var_r8++;`) put all six in their ROM registers, and var_sl then
+    lands in sl. Aligned diff 857 -> 794, but the size goes to 4980 and filtered rises to 1755
+    (alignment), so it is not landed. With var_r5 uses too (`"r"(var_r4), "r"(var_r5)` x4) it is
+    1249 at 4980 bytes (r4/r5 swapped). The extra 8 bytes are kind-1 shape (the char copy before
+    `cmp #255`, text85 reload) plus case-2 shifts.
+  - Template shape (literal-0 tails mode): a macro-local `d_ = DST` set after `val_ = VALUE` reproduces
+    the ROM `ldr r0,=text85; mov sl,r0` before `s_ = res + 2` and `mov r4,sl; add r4,r8` in the
+    case-3 first template exactly. But the ROM's post-template `&d[LEN - 1]` uses the same
+    register, so d outlives the macro, and the ROM's 0x51 stores are `*++p = 0x51; *++p = 0x51;`.
+    A function-scope dst85 gets constant-propagated to text85 (1753); hiding it with asm reshuffles
+    allocation (2124). Not landed.
+  Next: land the kind-1 priority fix once the case-2/kind-1 bytes are found, then var_r8_12/15 -> r8
+  (GFORCE -25) and var_r6_3/5/8/11 -> r6 (ROM p in r6; ours sl).

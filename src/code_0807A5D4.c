@@ -4197,14 +4197,13 @@ u16 local815F4_sub_0801E3D8(s32, u16, u8) asm("sub_0801E3D8");
                 div_ = divisors85;                                     \
                 p_ = &(DST)[LEN];                                      \
                 st_ = 0;                                               \
-                for (i_ = 0; i_ <= 5; i_++) {                          \
+                for (i_ = 0; i_ <= 5; i_++, div_++) {                  \
                     *p_ = sub_08000498(&v_, *div_) + 0x41;             \
                     if (st_ || *p_ != 0x41 || i_ == 5) {               \
                         p_++;                                          \
                         st_ = 1;                                       \
                         LEN++;                                         \
                     }                                                  \
-                    div_++;                                            \
                 }                                                      \
             } else {                                                   \
                 (DST)[LEN++] = *s_;                                    \
@@ -4718,6 +4717,9 @@ block_46:
             break;
         }
 icons:
+        /* FAKE: keeping the four item pointers live to here lowers their global-alloc priority,
+           so they stay on the stack (SP+0x240..0x24C) as in the ROM; "g" emits no code. */
+        asm("" : : "g"(sp240), "g"(sp244), "g"(sp248), "g"(sp24C));
         var_r7_17 = 0;
         var_r8 = 0;
         do {
