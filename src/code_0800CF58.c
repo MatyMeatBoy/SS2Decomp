@@ -1692,8 +1692,7 @@ block_197:
         } else {
             switch (temp_r0_27) {                   /* switch 4 */
             case 0:                                 /* switch 4 */
-                directionD36874 = 0;
-                sp19C = 0;
+                directionD36874 = sp19C = 0;
                 sp130 = 0;
                 ((struct PlayerD368 *)arg0)->f30 = (u32) (((struct PlayerD368 *)arg0)->f30 & 0xFFDFFFFF);
                 temp_r1_17 = ((struct PlayerD368 *)arg0)->f12;
