@@ -1372,12 +1372,12 @@ void sub_0807C29C(void) {
                 }
             }
         } else if (keys29_03001324 & 1) {
-            u16 tg0;
+            u16 tg0; struct Item82 *hd; /* case 0 has its own held pointer (ROM spills it to [sp,#52]); case 13 keeps the function-level one in r9 */
             gMgr82->f6A = 100;
             if (gMgr82->mode != 5) {
                 from = gMgr82->heldFrom;
                 if (from == 0x16) {
-                    item = &gInv82->items[gMgr82->cursor];
+                    item = (struct Item82 *)((u8 *)gInv82 + gMgr82->cursor * 16 + 0x150);
                     if (item->kind == 0)
                         break;
                     if (item->kind != 10) {
@@ -1447,11 +1447,11 @@ void sub_0807C29C(void) {
                     }
                     break;
                 }
-                held = &gMgr82->held;
+                hd = &gMgr82->held;
                 if (gMgr82->held.kind != 10) {
                     if (from == 11)
                         break;
-                    if (*(u32 *)held == 0x000C0001) {
+                    if (*(u32 *)hd == 0x000C0001) {
                         /* (gInv82 + cursor*16) + 0x150 / + 0x158: ROM shares the base-first sum */
                         item = (struct Item82 *)((u8 *)gInv82 + gMgr82->cursor * 16 + 0x150);
                         switch (item->kind) {
@@ -1465,7 +1465,7 @@ void sub_0807C29C(void) {
                                 break;
                             }
                             *(struct Item82 *)sp4 = *item;
-                            sub_0807BEA0(0, gMgr82->cursor, (void *)held);
+                            sub_0807BEA0(0, gMgr82->cursor, (void *)hd);
                             sub_0807BEA0(gMgr82->heldFrom, gMgr82->heldIdx, (void *)sp4);
                             DROP82();
                             sub_0805865C(0x5F);
@@ -1492,7 +1492,7 @@ void sub_0807C29C(void) {
                     case 6:
                         break;
                     default:
-                        item = &gInv82->items[gMgr82->cursor];
+                        item = (struct Item82 *)((u8 *)gInv82 + gMgr82->cursor * 16 + 0x150);
                         if (gMgr82->held.kind != item->kind) {
                             sub_0805865C(0x61);
                             break;
@@ -1543,7 +1543,7 @@ void sub_0807C29C(void) {
                 }
                 /* holding money, tg0 slot occupied */
                 if (gInv82->items[gMgr82->heldIdx].count == gMgr82->held.count) {
-                    item = &gInv82->items[gMgr82->cursor];
+                    item = (struct Item82 *)((u8 *)gInv82 + gMgr82->cursor * 16 + 0x150);
                     if (item->kind == 10) {
                         val = gInv82->items[gMgr82->cursor].count + gMgr82->held.count;
                         if (val <= 100000) {
@@ -1558,14 +1558,14 @@ void sub_0807C29C(void) {
                         if (gMgr82->heldIdx != gMgr82->cursor) {
                             gMgr82->held.count = val - 100000;
                             gInv82->items[gMgr82->cursor].count = 100000;
-                            sub_0807BEA0(0, gMgr82->heldIdx, (void *)held);
+                            sub_0807BEA0(0, gMgr82->heldIdx, (void *)hd);
                         }
                         DROP82();
                         sub_0805865C(0x5F);
                         break;
                     }
                     *(struct Item82 *)sp4 = *item;
-                    sub_0807BEA0(0, gMgr82->cursor, (void *)held);
+                    sub_0807BEA0(0, gMgr82->cursor, (void *)hd);
                     sub_0807BEA0(gMgr82->heldFrom, gMgr82->heldIdx, (void *)sp4);
                     DROP82();
                     sub_0805865C(0x5F);
