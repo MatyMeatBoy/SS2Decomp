@@ -275,6 +275,8 @@ void sub_0800D368(void *arg0) {
     extern u32 animationRows338D368[][22] asm("gUnk_08479140");
     struct AnimRow343D368 { u32 first[11]; u32 second[11]; };
     extern struct AnimRow343D368 animationRows343D368[] asm("gUnk_08479140");
+    extern u32 animRows3D368[][2][11] asm("gUnk_08479140");
+    struct AnimSelD368 { u8 pad[6]; u8 lo:2, idx:4, sel:1, hi:1; };
     extern M2C_UNK d368_gUnk_0847ACE8 asm("gUnk_0847ACE8");
     extern M2C_UNK d368_gUnk_0847ACF8 asm("gUnk_0847ACF8");
     extern s32 d368_sub_080003F0() asm("sub_080003F0");
@@ -829,7 +831,7 @@ void sub_0800D368(void *arg0) {
     s32 temp_r1_44;
     s32 temp_r1_47;
     u32 temp_r1_49;
-    s32 temp_r1_54;
+    u32 temp_r1_54;
     s32 temp_r2_15;
     s32 temp_r2_17;
     s32 temp_r2_60;
@@ -4842,12 +4844,10 @@ animationClassDoneD368:
                         ((struct PlayerD368 *)arg0)->f30 = (u32) (((struct PlayerD368 *)arg0)->f30 & ~3);
                         break;
                     case 4:                         /* switch 25 */
-                        temp_r1_54 = M2C_FIELD(sp180, u8 *, 6);
-                        d368_sub_08065158(&sp10, *(u32 *)((0x3C & temp_r1_54) + (((u32) ((u32) temp_r1_54 << 0x19) >> 0x1F) * 0x2C) + (((struct PlayerD368 *)arg0)->f64 * 0x58) + (u8 *)&d368_gUnk_08479140), 0, -1, (0));
-                        temp_r0_158 = arg0 + 0xB0;
+                        d368_sub_08065158(&sp10, animRows3D368[((struct PlayerD368 *)arg0)->f64][((struct AnimSelD368 *)sp180)->sel][((struct AnimSelD368 *)sp180)->idx], 0, -1, (0));
                         ((struct PlayerD368 *)arg0)->fB0 = (u16) (((u8) M2C_FIELD(sp180, u8 *, 3) >> 4) + ((u32) ((u32) M2C_FIELD(sp180, u32 *, 4) << 0xE) >> 0x1A));
-                        M2C_FIELD(temp_r0_158, s16 *, 2) = 0;
-                        M2C_FIELD((temp_r0_158 + 2), s16 *, 2) = 0;
+                        ((struct PlayerD368 *)arg0)->fB2 = 0;
+                        ((struct PlayerD368 *)arg0)->fB4 = 0;
                         sp124 = (u8) M2C_FIELD(sp180, u8 *, 6) >> 7;
                         break;
                     case 5:                         /* switch 25 */
@@ -4860,9 +4860,8 @@ animationClassDoneD368:
                 if (((u32) (temp_r1_49 << 0x1C) >> 0x1C) != sp114) {
                     d368_sub_08065158(&sp10, animationRows338D368[((struct PlayerD368 *)arg0)->f64][0], 0, -1, (0));
                     ((struct PlayerD368 *)arg0)->fB4 = 0U;
-                    temp_r0_159 = (arg0 + 0xB4) - 2;
-                    M2C_FIELD(temp_r0_159, s16 *, 0) = 0;
-                    M2C_FIELD(temp_r0_159, s16 *, 4) = 0;
+                    ((struct PlayerD368 *)arg0)->fB2 = 0;
+                    ((struct PlayerD368 *)arg0)->fB6 = 0;
                     sp114 = (u32) ((u32) M2C_FIELD(sp180, u8 *, 0) << 0x1C) >> 0x1C;
                     ((struct PlayerD368 *)arg0)->fB0 = 0x20U;
                     ((struct PlayerD368 *)arg0)->fB8 = 0x20U;
