@@ -5179,44 +5179,42 @@ void t025Effects27C(u16 *arg0)
         j = 0;
         g++;
         nextGroup = group + 1;
-        entry = group->e;
-    group_entry:
-        if (entry->kind != 0) {
-            pos = &t025World27C->pos160[i];
-            if (pos->x == 0) {
-                eff->pos.x = entry->x << 11;
-                eff->pos.y = entry->y << 11;
-            } else {
-                eff->pos = *pos;
+        do {
+            entry = &group->e[j];
+            if (entry->kind != 0) {
+                pos = &t025World27C->pos160[i];
+                if (pos->x == 0) {
+                    eff->pos.x = entry->x << 11;
+                    eff->pos.y = entry->y << 11;
+                } else {
+                    eff->pos = *pos;
+                }
+                res = &t025Resources27C[entry->kind];
+                eff->res = res;
+                eff->f10 = res->f0 * 3;
+                eff->f16 = entry->spawn;
+                if (res->f8 > 1)
+                    t025Init27C(&sprites[i], t025Configs27C[res->f8].f0, 0xD, 1, 0);
+                else
+                    t025Init27C(&sprites[i], t025Configs27C[res->f8].f0, 0xD, -1, 0);
+                eff->f14 = t025World27C->active22C[i];
+                res = eff->res;
+                eff->f8 = t025Configs27C[res->f8].f4;
+                eff->fA = 0;
+                eff->fC = 0;
+                eff->fE = 0;
+                eff->f18 = 1;
+                eff->f1A = t025Configs27C[res->f8].f8;
+                eff->f1C = t025Configs27C[res->f8].fC;
+                if (eff->f16 != 0)
+                    spawns++;
+                eff++;
+                i++;
+                if (sub_0800CDC0() != 0 && i == sub_08002164())
+                    goto group_done;
             }
-            res = &t025Resources27C[entry->kind];
-            eff->res = res;
-            eff->f10 = res->f0 * 3;
-            eff->f16 = entry->spawn;
-            if (res->f8 > 1)
-                t025Init27C(&sprites[i], t025Configs27C[res->f8].f0, 0xD, 1, 0);
-            else
-                t025Init27C(&sprites[i], t025Configs27C[res->f8].f0, 0xD, -1, 0);
-            eff->f14 = t025World27C->active22C[i];
-            res = eff->res;
-            eff->f8 = t025Configs27C[res->f8].f4;
-            eff->fA = 0;
-            eff->fC = 0;
-            eff->fE = 0;
-            eff->f18 = 1;
-            eff->f1A = t025Configs27C[res->f8].f8;
-            eff->f1C = t025Configs27C[res->f8].fC;
-            if (eff->f16 != 0)
-                spawns++;
-            eff++;
-            i++;
-            if (sub_0800CDC0() != 0 && i == sub_08002164())
-                goto group_done;
-        }
-        entry++;
-        j++;
-        if (j <= 3)
-            goto group_entry;
+            j++;
+        } while (j <= 3);
     group_done:
         group = nextGroup;
     }
