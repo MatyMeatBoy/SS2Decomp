@@ -17,3 +17,21 @@ sub_08061E44 (nov03-w4): existing m2c-style draft 1696 vs 1684, only local diffs
   scheduling). Notes: the item copy is (data + i*32) + 0x1DC with 0x1DC CSE'd as 0x14C + 0x90
   (struct-array field form helps); the u16 copy is (data + 0xDC) + i*2 / (stats + 0x22) + i*2;
   struct copies at 0x30 read the player base before the multiply. Needs a clean rewrite.
+
+2026-11-06 (claude-nov06 workers): sub_080624D8 (shard 136)
+  Main (PR542): filtered nmdiff 230 lines, 3720 vs 3716 bytes (one duplicate pool literal),
+  frame 0xBC = ROM.
+  Landed (GNU 653 -> 126): in-place m.text / m.spr.remap so gcse PRE spills the per-case
+  texts and keeps remap in sl; Load624 parameters like load62; inline sub_080653B8;
+  Draw/Size wrappers; s16 x temp + u16* counter; goto-shaped slide-in with t += 0x80 and u
+  inside the inner loop (its own t1); slide-out2 next/u inside the inner loop; scroll as
+  s32 via (s16) with a TileSys* base and s16* px/py in cases 1/3; party `p = party;
+  p += i*16`; switch `ok = 0` in ROM case order 2,4,5,137,8,19,11; final wait loop as
+  if/do-while with gUnk_03003CE0[].flags; sel via u16 k.
+  Remaining: low-register choices of the slide-in Lerp temporaries (src/dst pointers),
+  r6/r2/r0 swaps in the menu loop, slide-out1 i=0 order, the PLAYER_FLAGS symbol load after
+  the muls, the `*c = 0` constant materialized early. No pass-level diagnosis yet.
+  Rejected: goto main for(;;), goto while-loops, goto slide-outs, PLAYER_FLAGS multiply
+  first (fixes the local ldr order but shifts global allocation), both_in for slide-out1.
+  Next: permuter on the low-register choices; try the Lerp624 parameter order or src y as
+  an array.

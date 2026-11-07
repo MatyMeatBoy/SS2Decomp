@@ -21,3 +21,21 @@
   or a message. Proposed name RunInventoryGateTrigger (proposal only). Evidence:
   canonical ASM atfb5c9511, table084B23A8 stride0x2C, inventory034E0 entries150/152,
   player positions, callbacks68070 and final transition68820. No symbol renames.
+
+2026-11-06 (claude-nov06 workers): sub_080567D4
+  Main (PR536): filtered nmdiff 218 lines, 1256 vs 1248 bytes, frame 0x14 = ROM.
+  Landed: plain gates[id] in a for(;;) retry loop (no volatile/pointer locals), so loop.c
+  hoists base,&h,&kind,&param to sp+4..0x10 like ROM; Done split into TestBit(key) /
+  TestFlag(key) helpers taking gates[id].flag; one shared s32 ret for the CCCC result, the
+  Done results and states 5/6.
+  Remaining: (1) r6/r7 role swap (gate copy in Done#1) from the reload spill-register choice
+  (ROM uses r7 as scratch); (2) loop 1: ROM hoists &gUnk_03003D70 into r9; (3) removal loop:
+  the int-address form peels the loop once. A struct-indexed form gives ROM's loop shape and
+  exactly 1248 bytes (266 filtered) but loop.c then also hoists 0x150 (ROM hoists only
+  &gUnk_030034E0 and 0), the gates pseudo spills in Done#3 and an extra &flag pointer is
+  hoisted (frame 0x18); (4) ROM computes &item and &need before loading item, kind, count.
+  Rejected: declaration order (no effect), DoneG(g,id) pointer helper, item/kind/count
+  order, pi/pn pointers, Player struct alias for the 0x11E store (muls tie, 272); 0x14C
+  order, for(;;)/break and wait-loop forms for the r9 hoist.
+  Next: in the struct-form removal loop find what stops the 0x150 hoist (count/zero/break
+  shape, u16 compares through a typed local), then fix the r6/r7 spill-register choice.

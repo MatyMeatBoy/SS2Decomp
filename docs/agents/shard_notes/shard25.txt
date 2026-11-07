@@ -1,0 +1,25 @@
+Shard 25, sub_08027C1C (code_08021DC4)
+
+2026-11-06 (claude-nov06 workers): sub_08027C1C
+  Main (PR533): filtered nmdiff 301 lines, 1876 vs 1868 bytes, frame 0x248 vs ROM 0x24C.
+  Landed: clean struct rewrite, f0 != 0xB ordering, goto retry loop, state temp before the
+  switch, g as main-loop counter (i r5, g r8), do/while slot reset, f48 = count = i, case 10
+  with the f10 == 0 big block / else f14 = mode.
+  Remaining: (1) group loop: ROM j=sl, group=r6 and nextGroup spilled at 0x248 (the missing
+  frame word); ours keeps nextGroup in a register. (2) main loop: an extra count != 0 test
+  at the top (ROM has the full condition only at the bottom). (3) final 0..9 reset loop: ROM
+  hoists only &gState and 0, ours also 0x22C/0x160. (4) ROM derives 0x1E50 as 0x1E4C + 4
+  (adds r3,#4) and keeps &gState in r2 via a PRE-style copy at the end of each loop-2
+  iteration. (5) parse/loop 1: ROM arg r1, &gState r2, 0x124 r4, p8 r6, n r5; global alloc
+  takes p8 (refs 8, live 45) before n (refs 35, live 516), so in ROM something else must
+  hold r3 across the parse loop.
+  Rejected: binding j to sl / group to r6; while/for(;;)/goto outer loop forms for (2);
+  register asm("r6") on p8.
+  Earlier leads (on the pre-PR533 draft): a loop-1 guard `if (a < b) do {...} while (a < b);`
+  gives ROM's unfolded `cmp r8, r0`; in case 12, u32 instead of `u16 var_r0` drops a bogus
+  lsls/lsrs #16 but needs `next2 = e + 1` at the loop end so case 12 recomputes r9.
+  Metric: decomp.py check (difflib) desyncs on edits that move code; use GNU `diff -d` on
+  normalized objdump for those.
+  Next: force nextGroup to a stack spill (declaration order, or a long low-priority live
+  range) to recover the 0x248 slot and frame; then find why the outer do/while count test
+  is rotated to the top.

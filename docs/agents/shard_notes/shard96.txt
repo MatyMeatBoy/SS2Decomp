@@ -1,0 +1,19 @@
+Shard 96, sub_080923FC (code_0808FB5C)
+
+2026-11-06 (claude-nov06 workers): sub_080923FC
+  Main: still the m2c draft: filtered nmdiff 927 lines, 2280 vs 2236 bytes, frame 0x15C vs
+  ROM 0x14C. A refinement draft is in open PR #544 (not landed; GNU diff 807 -> 351,
+  2224 bytes). Its shapes:
+  - structured rewrite; inline plus/minus helpers returning int (keeps the s16 sign
+    extension after a global load);
+  - s16 y/accum/target/x with shift-first updates; s16 views of v252/v256 (removes 12
+    movs/negs copies);
+  - an s32 flag passed to a u8 parameter (hoisted lsls #24); accum += 2 / += 4 rather than
+    0x200 / 0x400.
+  Remaining in that draft: ROM has 12 spill slots (frame 0x14C), the draft 11. In phases
+  3/5 ROM hoists x<<16 (spilled at sp+0x13C), y<<16 (sl) and -66<<16 (r9, compared in
+  shifted form, stored via asr r9,#16); the phase-5 clamp form probably differs
+  ((s16)v252 <= -66 combine). The rest is register choice (r6/r7 swaps in phase 1, fade r9 /
+  flag r6 in phase 2). No rejected experiments were recorded.
+  Next (after PR #544 lands): phase-5 clamp variants, explicit s16 locals for x in phases
+  3/5, and do { } while (0) reference-weight tricks to move the spill set.

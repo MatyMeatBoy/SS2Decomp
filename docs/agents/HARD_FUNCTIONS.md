@@ -219,3 +219,90 @@ Return: REGION.c + REGION.md, pinned SHA, failed attempts included
 Do not edit: production source, headers, reports/tools or other regions
 Done means: reproducible candidate evidence; final ROM proof belongs to owner
 ```
+
+## agbcc mechanisms confirmed (2026-11-06)
+
+Each item closed or explained a real function; read the linked PR for the exact
+source. Diagnose with RTL dumps (`-dl -dg` for local/global alloc, `-dL` loop,
+`-dG` gcse) before guessing. They describe compiler decisions, not recipes.
+
+**Global allocation (global.c).**
+- `find_reg` scans hard regs from r0 upward (no allocation order). A short
+  temp with a copy preference takes r0; a pseudo live across a call skips r0-r3
+  and lands in r4. Reusing a function-scope call-crossing variable as the temp
+  put it in r4 without bindings
+  ([PR521](https://github.com/MatyMeatBoy/SS2Decomp/pull/521), 373 -> 34;
+  matched in [PR528](https://github.com/MatyMeatBoy/SS2Decomp/pull/528)).
+- Allocno priority is `floor_log2(refs) * refs / live_length`, ties by regno.
+  A pre-combine-only negation (`sy - i * -8`) lowered one copy's priority; one
+  function-scope count variable set in two blocks moved it from local-alloc to
+  global-alloc (low priority, r7)
+  ([PR522](https://github.com/MatyMeatBoy/SS2Decomp/pull/522) sub_08009594).
+- `do { } while (0)` emits loop notes, so references inside count one loop level
+  deeper. Removing one swapped `sl`/spill between two pointers
+  ([PR517](https://github.com/MatyMeatBoy/SS2Decomp/pull/517) sub_0809FB6C);
+  adding one settled r6/r7 ([PR525](https://github.com/MatyMeatBoy/SS2Decomp/pull/525) sub_080904A4).
+
+**Reload (reload1.c).**
+- Reload registers rotate (`last_spill_reg`). Each extra reload shifts every
+  later choice; many rN-only diffs are one missing or extra reload. A
+  function-lifetime constant left without a hard reg is rematerialized as a
+  REG_EQUIV reload and advances the rotation; a register-asm binding removes a
+  reload ([PR516](https://github.com/MatyMeatBoy/SS2Decomp/pull/516) sub_0807A5D4).
+  Moving a check into both branches adds a reload; cross-jumping later merges the
+  copies, so layout is unchanged ([PR528](https://github.com/MatyMeatBoy/SS2Decomp/pull/528)).
+- When reload needs a spill register it evicts the hard reg whose pseudos have
+  the fewest weighted refs. A `do { } while (0)` around the other value's uses
+  raised its weight and chose the ROM's spill
+  ([PR532](https://github.com/MatyMeatBoy/SS2Decomp/pull/532) sub_0800B118).
+- A hoisted pointer without a hard reg is reloaded inside the loop
+  (`ldr r1,=objs; ldr r0,[r1]`); `pl = base; pl += prod` ties the multiply to
+  the constant for the ROM `muls` operand order
+  ([PR531](https://github.com/MatyMeatBoy/SS2Decomp/pull/531) sub_08016F28).
+
+**CSE and GCSE.**
+- CSE makes the longest-lived register the head of a constant class; later
+  zeros are rewritten to it in both passes. An early `a = 0` (plus a dead reset
+  that flow deletes) made `a` the canonical zero
+  ([PR534](https://github.com/MatyMeatBoy/SS2Decomp/pull/534) sub_08086860).
+- Reassigning a pointer inside a block cse1 skips (`p = &x->f;` again) makes
+  `invalidate_skipped_block` forget it on the AROUND path; the no-op is deleted
+  on fall-through, so insn counts stay equal
+  ([PR535](https://github.com/MatyMeatBoy/SS2Decomp/pull/535) sub_08014170).
+- GCSE `pre_delete` registers are created in expression-hash order, and
+  declaration order changes that order: declaring `ang` first fixed two swapped
+  spill slots ([PR543](https://github.com/MatyMeatBoy/SS2Decomp/pull/543)).
+  The hash table has `max_cuid/2|1` buckets; changing the insn count enough to
+  alter it rotates PRE numbering and permutes slots ([PR535](https://github.com/MatyMeatBoy/SS2Decomp/pull/535)).
+
+**Loop optimization (loop.c).**
+- An invariant moves only if threshold x savings x lifetime >= loop insn count.
+  In the dumps the threshold starts near 10 and drops about 2 per insn already
+  moved; there are two passes, and hoist order follows loop insn order. One extra loop
+  insn (`u16 target`) stopped the constant 1 from being hoisted
+  ([PR543](https://github.com/MatyMeatBoy/SS2Decomp/pull/543)); shard72 notes
+  (sub_0806DE94) show the full pass-1/pass-2 model.
+- `break` out of `for (;;)` lets `expand_end_loop` rotate the loop; `goto done`
+  does not ([PR537](https://github.com/MatyMeatBoy/SS2Decomp/pull/537)). A real
+  `for (;;)` + `break` reproduced a rotated ROM loop in [PR509](https://github.com/MatyMeatBoy/SS2Decomp/pull/509).
+  2D arrays (`records[10][3]`) are strength-reduced where flat `[30]` is not.
+
+**Types and source shapes.**
+- agbcc pads structs to 4 bytes: 5-byte rows are `u8 t[][2][5]`; a literal
+  `pose = 2;` before the lookup gives the `side*5 + 20` form
+  ([PR499](https://github.com/MatyMeatBoy/SS2Decomp/pull/499)). Other shapes:
+  `s16 [][2]` with the y column at +2 ([PR509](https://github.com/MatyMeatBoy/SS2Decomp/pull/509)); a `u16 [][3][3]`
+  seat table indexed inline (draft [PR510](https://github.com/MatyMeatBoy/SS2Decomp/pull/510)).
+- `abs((s16)(rand() % N))` with `int abs(int);` gives cmp/bge/negs; a tail store
+  written in both if/else arms lets cross-jumping merge after CSE kept the
+  address live ([PR499](https://github.com/MatyMeatBoy/SS2Decomp/pull/499)).
+- Index byte records as `u8 *`: stores to `u8` struct fields go through the
+  bit-field expansion, whose mask zero CSE then shares
+  ([PR490](https://github.com/MatyMeatBoy/SS2Decomp/pull/490)).
+
+**Tooling pitfalls (Spanish-locale Windows).** `make compare` prints
+`La suma coincide`, which `claim.py pr`/`land` treat as a failure because they
+look for `OK`; verify the checksum yourself and open the PR with `gh pr create`.
+`claim.py` has no help flag: `claim.py take -h` claims the first free shard
+under the agent name `-h`. `claim.py who` shows the shard head's subject
+parenthetical as the owner, so a PR commit title can appear there.
