@@ -1566,6 +1566,7 @@ void sub_0802AA28(void) {
     u32 var_r2_7;
     u32 var_r2_9;
     u32 case1Mask;
+    u32 firstTaskCallback27;
     u32 taskCallback27;
     u32 scanCallback27;
     u32 var_r4;
@@ -1945,23 +1946,22 @@ found27scan_149:
                 (*(u16*)((u8*)(var_r2_21)+(0x1A))) = 4;
                 (*(u32*)((u8*)(var_r2_21)+(0x3C))) = (s32) ((*(u32*)((u8*)(var_r2_21)+(0x3C))) | 0x10);
             }
+            scanCallback27 = (u32)&sub_08030B28;
             var_r1_13 = stateAA28 + 0x7A4;
             var_r2_22 = 0;
-loop_155:
-            if (*(s32*)var_r1_13 == temp_sl) {
-                var_r0_10 = var_r1_13;
-            } else {
+            do {
+                if (*(s32*)var_r1_13 == temp_sl) {
+                    var_r0_10 = var_r1_13;
+                    goto found27scan_155;
+                }
                 var_r2_22 += 1;
                 var_r1_13 += 0x70;
-                if (var_r2_22 > 0xEU) {
-                    sub_080003F0();
-                    var_r0_10 = ((void *)0);
-                } else {
-                    goto loop_155;
-                }
-            }
+            } while (var_r2_22 <= 0xEU);
+            sub_080003F0();
+            var_r0_10 = ((void *)0);
+found27scan_155:
             if (var_r0_10 != ((void *)0)) {
-                (*(u32*)((u8*)(var_r0_10)+(0x44))) = &sub_08030B28;
+                (*(u32*)((u8*)(var_r0_10)+(0x44))) = scanCallback27;
             }
             if (sub_0800CE30() != 0) {
                 var_r0_11 = stateAA28 + 0x1BE;
@@ -2037,6 +2037,7 @@ found27scan_181:
                 var_r0_15 = stateAA28 + 0x1B9;
             }
             if ((temp_r5 != 0) && !(((s32) *var_r0_15 >> 6) & 1)) {
+                firstTaskCallback27 = (u32)&sub_08045B68;
                 var_r4 = stateAA28 + 0xE34;
                 var_r5_2 = 0;
                 for (; var_r5_2 <= 0x1DU; var_r5_2++, var_r4 += 0x28) {
@@ -2046,7 +2047,7 @@ found27scan_181:
                             sub_080003F0();
                         }
                         (*(u32*)((u8*)(var_r4)+(0x8))) = 0x3C;
-                        (*(u32*)((u8*)(var_r4)+(0xC))) = &sub_08045B68;
+                        (*(u32*)((u8*)(var_r4)+(0xC))) = firstTaskCallback27;
                         (*(u32*)((u8*)(var_r4)+(0x10))) = (void *) (temp_r0_3 + 0x3FC);
                         (*(u32*)((u8*)(var_r4)+(0x24))) = 0;
                         sub_08000274(var_r4, var_r7);
