@@ -39,3 +39,28 @@
   order, for(;;)/break and wait-loop forms for the r9 hoist.
   Next: in the struct-form removal loop find what stops the 0x150 hoist (count/zero/break
   shape, u16 compares through a typed local), then fix the r6/r7 spill-register choice.
+
+2026-11-07 (claude-nov07-coord): sub_080567D4
+  Draft now 1248 bytes = ROM (was 1256); filtered nmdiff 80 -> 36 lines; frame 0x14 = ROM.
+  Landed: (1) the 8 extra bytes were a GCSE/PRE reload of gUnk_084B23A8 at the end of the
+  first check's bit path: the sub_0800CE30 call kills every MEM, including constant-pool loads,
+  so the `already` block's gates load was only partially redundant. Calling it through a
+  const alias (IsMulti567D4) makes the path transparent. Inlining drops CONST_CALL_P, so the
+  first check is written out in the body; const in the other checks or the status loop makes
+  things worse. (2) Separate count-loop locals (item, kind, j) give ROM's count-loop
+  registers. (3) The status loop reads through an inline returning u8 (Status567D4), so the
+  hoisted gUnk_03005CF4 load lands between the byte load and the copy into hh. (4) The removal
+  loop is an inline taking (item, kind, need), which computes both addresses before the loads.
+  (5) In loop 2 the Y base goes through the `flags` pointer local (r7); (6) the player index
+  reuses hw, which puts it in r8.
+  Remaining: (a) at the top ROM has gates in r1 and id*44 in r2; ours is swapped. The gates
+  load pseudo copies into the PRE register, whose uses are only adds with constants, so
+  regclass prefers STACK_REG. Local-alloc then skips it, and global alloc ranks it below
+  id*44. (b) Three reload-register picks are one register lower than ROM (0x11E r1 vs r2 twice,
+  [sp,#12] r2 vs r3, final id reload r2 vs r3). These probably follow from (a) through the
+  spill-register order.
+  Rejected: user pointer g for the gates base (address forms change, 1232-1236 bytes); Done as a
+  macro with const everywhere (1240); flags local for the loop-1 Y base (1244); a status local of
+  any type (131); the loop-var reuse x/y/n/i for the player.
+  Next: find a source shape that gives the gates temp a LO_REGS preference (or makes it a local
+  allocno) without adding an insn.
