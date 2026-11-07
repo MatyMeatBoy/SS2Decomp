@@ -910,7 +910,6 @@ void e0c4Impl(struct Task0C4 *task)
     u8 c;
     u16 attr;
     u8 cf;
-    struct Window0C4 *w;
     /* Set-once name pointers: spilled and rematerialised per use, which gives
        the ROM `ldr r5, =name; adds r0, r5, idx` operand order. */
     u8 *n0 = name0C4;
@@ -985,7 +984,9 @@ void e0c4Impl(struct Task0C4 *task)
     first = 0;
     for (i = 0; i <= 8; i++) {
         if (num[i] == 0 && numIdx == 0) {
-            num[i] |= 0xFF;
+            k = num[i];
+            k |= 0xFF;
+            num[i] = k;
         } else {
             num[i] += 0x41;
             if (numIdx == 0)
@@ -1044,8 +1045,9 @@ done:
             sub_0800035C();
         case 1:
         {
+            struct Window0C4 *w = task->window;
             u32 r = 0;
-            if (task->window->state == 3)
+            if (w->state == 3)
                 r = 1;
             if (r) {
                 line = 0;
@@ -1173,7 +1175,9 @@ done:
             if (task->timer < 0 && (keys0C4 & 3) != 0) {
                 cf = *script;
                 if ((u8)(cf + 3) > 2) {
-                    u8 *fastName = name;
+                    /* Copied at their use (no code emitted) so loop.c hoists
+                       them after the &col / line*30 copies, as in the ROM. */
+                    u8 *fastName;
                     u8 *fastNum;
                     do {
                         c = cf;
@@ -1194,6 +1198,7 @@ done:
                                 task->col--;
                             }
                         } else if (c == 0xF5 || nameIdx != 0) {
+                            asm("" : "=r"(fastName) : "0"(name));
                             lines[line][task->col] = fastName[nameIdx];
                             nameIdx++;
                             if (fastName[nameIdx] == 0) {
@@ -1202,7 +1207,7 @@ done:
                                 task->col--;
                             }
                         } else if (c == 0xFB || numIdx != 0) {
-                            fastNum = num;
+                            asm("" : "=r"(fastNum) : "0"(num));
                             lines[line][task->col] = fastNum[numIdx];
                             numIdx++;
                             if (fastNum[numIdx] == 0) {
@@ -1315,11 +1320,13 @@ done:
                 if (keys0C4 & 1) {
                     drawFlag = 0;
                     task->state = 7;
-                    w = task->window;
-                    if ((gUnk_03005D70 >> w->index) & 1) {
-                        if (w->state == 1 || w->state == 3 || w->state == 4 || w->state == 2) {
-                            w->state = 4;
-                            sub_0805865C(0xDD);
+                    {
+                        struct Window0C4 *w = task->window;
+                        if ((gUnk_03005D70 >> w->index) & 1) {
+                            if (w->state == 1 || w->state == 3 || w->state == 4 || w->state == 2) {
+                                w->state = 4;
+                                sub_0805865C(0xDD);
+                            }
                         }
                     }
                     blink = 0;
@@ -1350,11 +1357,13 @@ done:
                     sub_0805865C(0xF);
                     drawFlag = 0;
                     task->state = 7;
-                    w = task->window;
-                    if ((gUnk_03005D70 >> w->index) & 1) {
-                        if (w->state == 1 || w->state == 3 || w->state == 4 || w->state == 2) {
-                            w->state = 4;
-                            sub_0805865C(0xDD);
+                    {
+                        struct Window0C4 *w = task->window;
+                        if ((gUnk_03005D70 >> w->index) & 1) {
+                            if (w->state == 1 || w->state == 3 || w->state == 4 || w->state == 2) {
+                                w->state = 4;
+                                sub_0805865C(0xDD);
+                            }
                         }
                     }
                     break;
@@ -1364,11 +1373,13 @@ done:
                     task->cursor = 1;
                     drawFlag = 0;
                     task->state = 7;
-                    w = task->window;
-                    if ((gUnk_03005D70 >> w->index) & 1) {
-                        if (w->state == 1 || w->state == 3 || w->state == 4 || w->state == 2) {
-                            w->state = 4;
-                            sub_0805865C(0xDD);
+                    {
+                        struct Window0C4 *w = task->window;
+                        if ((gUnk_03005D70 >> w->index) & 1) {
+                            if (w->state == 1 || w->state == 3 || w->state == 4 || w->state == 2) {
+                                w->state = 4;
+                                sub_0805865C(0xDD);
+                            }
                         }
                     }
                     break;
@@ -1378,11 +1389,13 @@ done:
             if (task->timer-- <= 0) {
                 drawFlag = 0;
                 blink = 0;
-                w = task->window;
-                if ((gUnk_03005D70 >> w->index) & 1) {
-                    if (w->state == 1 || w->state == 3 || w->state == 4 || w->state == 2) {
-                        w->state = 4;
-                        sub_0805865C(0xDD);
+                {
+                    struct Window0C4 *w = task->window;
+                    if ((gUnk_03005D70 >> w->index) & 1) {
+                        if (w->state == 1 || w->state == 3 || w->state == 4 || w->state == 2) {
+                            w->state = 4;
+                            sub_0805865C(0xDD);
+                        }
                     }
                 }
                 task->state = 7;
@@ -1391,9 +1404,11 @@ done:
         case 7:
         {
             u32 r;
+            struct Window0C4 *w;
             drawFlag = 0;
+            w = task->window;
             r = 0;
-            if (task->window->state == 0)
+            if (w->state == 0)
                 r = 1;
             if (r)
                 task->state = drawFlag;
