@@ -1691,7 +1691,6 @@ set_b:
         }
     }
 }
-#ifdef NONMATCHING
 struct Arg6BA0 { u32 who; u32 slot; u16 target; u16 pad; u32 fC; u16 f10; u16 spread; u32 flags; };
 struct Spr6BA0 { u32 base, unused4; void *data; void *paletteResource; u32 resource, style; s32 mode; u8 palette[16]; s16 scale, step, upper, lower; };
 struct Ent6BA0 { u16 xRaw, yRaw; };
@@ -1726,6 +1725,7 @@ static inline s32 move6BA0(s32 v, s32 spd)
 
 void sub_08076BA0(struct Arg6BA0 *arg)
 {
+    s16 ang; /* declared first: orders the GCSE copies of ang and who*4 on the stack as in ROM */
     struct Spr6BA0 spr;
     u8 atk[0xC4];
     s16 dx, dy;
@@ -1734,7 +1734,7 @@ void sub_08076BA0(struct Arg6BA0 *arg)
     struct Box6BA0 box;
     struct Box6BA0 box2;
     struct Ene6BA0 *e;
-    u32 target;
+    u16 target;
     u32 lo;
     u32 serial;
     u32 kind;
@@ -1753,7 +1753,6 @@ void sub_08076BA0(struct Arg6BA0 *arg)
     s32 d;
     u16 j;
     u32 cnt;
-    s16 ang;
     s32 t;
     s32 hit;
     s32 ok;
@@ -1811,13 +1810,11 @@ void sub_08076BA0(struct Arg6BA0 *arg)
         if (target > 3) {
             dx = (e->x - x) >> 8;
             dy = (e->y - y) >> 8;
-            {
-                u16 a0 = (u16)atan6BA0(dx, dy) >> 8;
-                t = a0;
-                if (t > 0x80)
-                    a0 = t - 0x100;
-                ang = a0;
-            }
+            hit = (u16)atan6BA0(dx, dy) >> 8;
+            t = (u8)hit;
+            if (t > 0x80)
+                hit = (u16)(t - 0x100);
+            ang = hit;
             {
                 s16 sa = ang;
                 if (sa < 0)
@@ -1833,7 +1830,7 @@ void sub_08076BA0(struct Arg6BA0 *arg)
             dx = (te->xRaw >> 4) - (x >> 8);
             dy = ((u32)(te->yRaw << 20) >> 20) - (y >> 8);
             hit = (u16)atan6BA0(dx, dy) >> 8;
-            t = hit;
+            t = (u8)hit;
             if (t > 0x80)
                 hit = (u16)(t - 0x100);
             ang = hit;
@@ -1912,9 +1909,10 @@ void sub_08076BA0(struct Arg6BA0 *arg)
                 opos.y = (u32)(q->entity->yRaw << 20) >> 12;
                 if (!test6BA0(&pos, &opos, &box, &box2))
                     goto pnext;
-                ok = 0;
                 if (q->state != 11 && q->hist[who] != serial && !(q->flags & 0x2000))
                     ok = 1;
+                else
+                    ok = 0;
                 if (!ok)
                     goto pnext;
                 if (roll6BA0(power, q->power)) {
@@ -1972,9 +1970,10 @@ void sub_08076BA0(struct Arg6BA0 *arg)
                 box2.h = e2->h;
                 if (!test6BA0(&pos, &e2->x, &box, &box2))
                     continue;
-                ok = 0;
-                if (e2->state != 11 && e2->serial != serial && !((e2->hp - e2->dmg) & 0x8000))
-                    ok = e2->hp != e2->dmg;
+                if (e2->state != 11 && e2->serial != serial && !((e2->hp - e2->dmg) & 0x8000) && e2->hp != e2->dmg)
+                    ok = 1;
+                else
+                    ok = 0;
                 if (!ok)
                     continue;
                 if (roll6BA0(power, e2->power)) {
@@ -1997,22 +1996,27 @@ void sub_08076BA0(struct Arg6BA0 *arg)
                     }
                     if (big)
                         p->flags &= ~0x200000;
-                } else if (!(sub_0800086C() & 1)) {
-                    u16 s = p->state;
-                    u16 f;
-                    p->state = lo;
-                    f = p->f26;
-                    p->f26 = kind;
-                    hitE6BA0(p, e2, atk, 1);
-                    p->state = s;
-                    p->f26 = f;
-                    e2->owner = local;
-                    e2->hitMask |= 1 << local;
                 } else {
-                    sub_080223F4(e2->x, e2->y);
-                    e2->serial = serial;
-                    if (!sub_0800CCCC() && !sub_0800CD34())
-                        sub_0805865C(0x55);
+                    /* r1 binding keeps the ROM operand order of `ands r1, r0`. */
+                    register u32 b asm("r1") = sub_0800086C() & 1;
+
+                    if (!b) {
+                        u16 s = p->state;
+                        u16 f;
+                        p->state = lo;
+                        f = p->f26;
+                        p->f26 = kind;
+                        hitE6BA0(p, e2, atk, 1);
+                        p->state = s;
+                        p->f26 = f;
+                        e2->owner = local;
+                        e2->hitMask |= 1 << local;
+                    } else {
+                        sub_080223F4(e2->x, e2->y);
+                        e2->serial = serial;
+                        if (!sub_0800CCCC() && !sub_0800CD34())
+                            sub_0805865C(0x55);
+                    }
                 }
                 hit = 1;
             }
@@ -2027,8 +2031,8 @@ void sub_08076BA0(struct Arg6BA0 *arg)
         x += move6BA0(sin6BA0[(s16)ang + 0x40], spd);
         y += move6BA0(sin6BA0[(s16)ang], spd);
         if (!sub_0800CC98() && !sub_0800CD8C() && !sub_0800CCCC()) {
-            pos6BA0((s16)(ok = x >> 8), (s16)(d = y >> 8), &dx, &dy, 0x30, 0);
-            shade = sub_0800BC44(ok, d, 0);
+            pos6BA0((s16)(d = x >> 8), (s16)(ok = y >> 8), &dx, &dy, 0x30, 0);
+            shade = sub_0800BC44(d, ok, 0);
             d = dirIdx;
             if (gUnk_03003170.curLevel == 4 && sub_0800CDC0())
                 shade = 0;
@@ -2036,12 +2040,8 @@ void sub_08076BA0(struct Arg6BA0 *arg)
         }
         sub_080003F0();
     }
-end:
     m6BA0[who] &= ~(1 << slot);
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_08073E2C", sub_08076BA0);
-#endif
 struct Task7444 { u32 f0, f4, f8, fC, f10, f14, f18, f1C, f20, f24; };
 struct Info7444 { u32 who, i, a, pad, cd, b; };
 extern u32 gMasks7444[] asm("gUnk_030063E0");
