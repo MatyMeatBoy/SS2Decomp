@@ -75,3 +75,16 @@
   r7 -> r1 at the 0x11E reload. In ROM r1 is taken there, most likely because the
   gUnk_03003CE0 load is itself a reload (unallocated REG_EQUIV pseudo), while ours is a
   local-alloc r1. Store forms tried: direct, temp index, u8 arithmetic, pointer +=.
+
+2026-11-07 (claude-nov07-wB): sub_080567D4 MATCH
+  The last three reload picks came from the gUnk_03003CE0 load at the two state stores. Ours
+  was a block-local pseudo that local-alloc put in r1, so the 0x11E reload rotated r7 -> r1. In
+  ROM that load is a reload (unallocated REG_EQUIV pseudo): r7 (0x14C), r1 (sym), then r2 (0x11E).
+  The rest of the rotation follows ([sp,#12] r3, final id r3).
+  Fix: a function-scope `struct StatePlayer567D4 *players = statePlayers567D4;` (long-lived, so
+  global leaves it unallocated and reload rematerializes it at each use) and the stores written
+  as `players[sub_080020F4()].state = ret;`. The `&players[...]` / `p = ...; p->state` forms give
+  `adds r0,r1,r0` (wrong operand order, 2 lines); `(sub_080020F4() + players)->state` matches too.
+  Probe: coordinator's RLDBG agbcc (wC2) confirms the rotation.
+  Rejected on the way: moving the need>=n branch out of the loop (138), store-expression
+  spellings without the pointer (14..135), assigning the pointer at each site (18).
