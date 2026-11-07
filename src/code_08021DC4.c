@@ -5145,7 +5145,7 @@ void t025Effects27C(u16 *arg0)
     struct T025Resource27C *res;
     struct V2W12 *pos;
     register u32 i asm("r5");
-    register u32 g asm("r8");
+    u32 g;
     u32 j;
     u32 v;
     s32 t;
@@ -5401,10 +5401,12 @@ void t025Effects27C(u16 *arg0)
                 goto effect_loop;
             sub_08066404();
             t025World27C->f1E4C = 0;
-            for (g = 0; g <= 3; g++) {
+            g = 0;
+            do {
                 t025World27C->f1E50[g].b = 0;
                 t025World27C->f1E50[g].h = 0;
-            }
+                g++;
+            } while (g <= 3);
             sub_080003F0();
         } while (!((t025World27C->f4 >> 4) & 1) && count != 0);
     }
