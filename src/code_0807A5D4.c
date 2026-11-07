@@ -3378,11 +3378,14 @@ done82:
     case 7:
         if (gMgr82->cursor != gMgr82->prev) {
             col = gMgr82->cursor & 3;
-            if (col <= 1)
+            /* posY in each branch: its address is then posX's + 4 (ROM adds r1, #4); cross-jumping merges the tails */
+            if (col <= 1) {
                 gMgr82->posX = col * 72 + 0x10;
-            else
+                gMgr82->posY = (gMgr82->cursor >> 2) * 8 + 0x74;
+            } else {
                 gMgr82->posX = col * 56 + 0x24;
-            gMgr82->posY = (gMgr82->cursor >> 2) * 8 + 0x74;
+                gMgr82->posY = (gMgr82->cursor >> 2) * 8 + 0x74;
+            }
             gMgr82->prev = gMgr82->cursor;
             gMgr82->f6C = 0;
         }
