@@ -2850,20 +2850,21 @@ void sub_0807C29C(void) {
                 sub_0805865C(0x5F);
                 break;
             }
-            case 0:
+            case 0: {
+                u32 moneyTotal082;
                 slot = gMgr82->cursor + gMgr82->page * 15;
                 if (gMgr82->stock[slot].kind != 10) {
                     sub_0805865C(0x61);
                     break;
                 }
                 if (gInv82->items[gMgr82->heldIdx].count == gMgr82->held.count) {
-                    val = gMgr82->stock[slot].count + gMgr82->held.count;
-                    if (val <= 100000) {
-                        gMgr82->stock[slot].count = val;
+                    moneyTotal082 = gMgr82->stock[slot].count + gMgr82->held.count;
+                    if (moneyTotal082 <= 100000) {
+                        gMgr82->stock[slot].count = moneyTotal082;
                         sub_0807BD78(gMgr82->heldFrom, gMgr82->heldIdx);
                         DROP82();
                     } else {
-                        gMgr82->held.count = val - 100000;
+                        gMgr82->held.count = moneyTotal082 - 100000;
                         gMgr82->stock[gMgr82->cursor + gMgr82->page * 15].count = 100000;
                         sub_0807BEA0(gMgr82->heldFrom, gMgr82->heldIdx, (void *)held);
                         DROP82();
@@ -2871,20 +2872,21 @@ void sub_0807C29C(void) {
                     sub_0805865C(0x5F);
                     break;
                 }
-                val = gMgr82->stock[slot].count + gMgr82->held.count;
-                if (val <= 100000) {
+                moneyTotal082 = gMgr82->stock[slot].count + gMgr82->held.count;
+                if (moneyTotal082 <= 100000) {
                     gInv82->items[gMgr82->heldIdx].count -= gMgr82->held.count;
                     gMgr82->stock[gMgr82->cursor + gMgr82->page * 15].count += gMgr82->held.count;
                     DROP82();
                     sub_0805865C(0x5F);
                     break;
                 }
-                gMgr82->held.count = val - 100000;
+                gMgr82->held.count = moneyTotal082 - 100000;
                 gMgr82->stock[gMgr82->cursor + gMgr82->page * 15].count = 100000;
                 sub_0807BEA0(gMgr82->heldFrom, gMgr82->heldIdx, (void *)held);
                 DROP82();
                 sub_0805865C(0x5F);
                 break;
+            }
             }
         } else if (keys29_03001324 & 0x100) {
             switch (gMgr82->mode) {
