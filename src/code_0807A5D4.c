@@ -1377,13 +1377,14 @@ void sub_0807C29C(void) {
             if (gMgr82->mode != 5) {
                 from = gMgr82->heldFrom;
                 if (from == 0x16) {
-                    item = (struct Item82 *)((u8 *)gInv82 + gMgr82->cursor * 16 + 0x150);
-                    if (item->kind == 0)
+                    struct Item82 *it;
+                    it = (struct Item82 *)((u8 *)gInv82 + gMgr82->cursor * 16 + 0x150);
+                    if (it->kind == 0)
                         break;
-                    if (item->kind != 10) {
+                    if (it->kind != 10) {
                         gMgr82->heldFrom = gMgr82->state;
                         gMgr82->heldIdx = gMgr82->cursor;
-                        gMgr82->held = *item;
+                        gMgr82->held = *it;
                         sub_0805865C(0x5E);
                         break;
                     }
@@ -2091,9 +2092,10 @@ void sub_0807C29C(void) {
                 sub_0805865C(0x62);
             }
         } else if (keys29_03001324 & 1) {
+            u32 fr;
             gMgr82->f6A = 100;
-            from = gMgr82->heldFrom;
-            if (from == 0x16) {
+            fr = gMgr82->heldFrom;
+            if (fr == 0x16) {
                 if (gInv82->equipD.kind == 0)
                     break;
                 gMgr82->heldFrom = gMgr82->state;
@@ -2105,8 +2107,8 @@ void sub_0807C29C(void) {
                 break;
             }
             if (gMgr82->cur->kind == 0) {
-                if (from != 11) {
-                    sub_0807BD78(from, gMgr82->heldIdx);
+                if (fr != 11) {
+                    sub_0807BD78(fr, gMgr82->heldIdx);
                     sub_0807BEA0(5, gMgr82->cursor, (void *)&gMgr82->held);
                     DROP82();
                 } else {
@@ -2123,7 +2125,7 @@ void sub_0807C29C(void) {
                 sub_0805865C(0x5F);
                 break;
             }
-            if (from == 11) {
+            if (fr == 11) {
                 sub_0805865C(0x61);
                 break;
             }
