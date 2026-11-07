@@ -2027,50 +2027,53 @@ void sub_080923FC_u8(u32 arg0, u32 arg1) {
         xs[i] = i * 60 + 30;
         i++;
     } while (i <= 3);
-    fade = 0;
-    accum = 0;
-    timer = 0xF0;
-    sub_08092E28(4);
-    do {
-        s32 d;
-        shake = sub_08092E34();
-        accum += 2;
-        d = (s16)accum >> 8;
-        v923FC_252 -= d;
-        v923FC_256 += d;
-        if ((s16)v923FC_252 <= -16)
-            v923FC_252 = -16;
-        if ((s16)v923FC_256 > 31)
-            v923FC_256 = 32;
-        if (timer <= 0x77) {
-            if (fade <= 15) {
-                fade++;
-                flag = 1;
-            } else {
-                fade = 16;
-                flag = 0;
+    {
+        u16 *phase2Offsets = cache923FC;
+        fade = 0;
+        accum = 0;
+        timer = 0xF0;
+        sub_08092E28(4);
+        do {
+            s32 d;
+            shake = sub_08092E34();
+            accum += 2;
+            d = (s16)accum >> 8;
+            v923FC_252 -= d;
+            v923FC_256 += d;
+            if ((s16)v923FC_252 <= -16)
+                v923FC_252 = -16;
+            if ((s16)v923FC_256 > 31)
+                v923FC_256 = 32;
+            if (timer <= 0x77) {
+                if (fade <= 15) {
+                    fade++;
+                    flag = 1;
+                } else {
+                    fade = 16;
+                    flag = 0;
+                }
+                fade923FC(0, 0x22, 1, fade, 16, 0);
+                sub_08000AF0(0x11, b.fC + 0x100, 1);
+                if (!BUSY923FC()) {
+                    i = 0;
+                    do {
+                        ys[i] -= 0x100;
+                        drawSpecial923FC(xs[i], ys[i] >> 8, i + 7, 0, param, b.payload, b.f8, b.f0, flag);
+                        i++;
+                    } while (i <= 3);
+                }
             }
-            fade923FC(0, 0x22, 1, fade, 16, 0);
-            sub_08000AF0(0x11, b.fC + 0x100, 1);
             if (!BUSY923FC()) {
-                i = 0;
-                do {
-                    ys[i] -= 0x100;
-                    drawSpecial923FC(xs[i], ys[i] >> 8, i + 7, 0, param, b.payload, b.f8, b.f0, flag);
-                    i++;
-                } while (i <= 3);
+                phase2Offsets[0] = plus923FC(shake, v923FC_250);
+                phase2Offsets[1] = v923FC_252;
+                phase2Offsets[2] = minus923FC(v923FC_254, shake);
+                phase2Offsets[3] = v923FC_256;
             }
-        }
-        if (!BUSY923FC()) {
-            cache923FC[0] = plus923FC(shake, v923FC_250);
-            cache923FC[1] = v923FC_252;
-            cache923FC[2] = minus923FC(v923FC_254, shake);
-            cache923FC[3] = v923FC_256;
-        }
-        sub_080003F0();
-        if (sub_080021A8() == 1)
-            goto end;
-    } while (--timer != 0xFFFF);
+            sub_080003F0();
+            if (sub_080021A8() == 1)
+                goto end;
+        } while (--timer != 0xFFFF);
+    }
     {
         u16 *phase3Offsets = cache923FC;
         timer = 120;
