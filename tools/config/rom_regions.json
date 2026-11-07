@@ -1,0 +1,32 @@
+{
+  "schema_version": 1,
+  "regions": {
+    "eu": {
+      "name": "Europe",
+      "filename": "baserom.gba",
+      "game_code": "AU2P",
+      "revision": 0,
+      "size": 16777216,
+      "sha1": "aa1288be9257337abdfe3034898cf6c7aa778fbc",
+      "sha256": "e5c64a1740263e9b26120e487f3688fbbf7b3954a2c043c0d84c333df467e0b2"
+    },
+    "usa": {
+      "name": "USA",
+      "filename": "baserom_usa.gba",
+      "game_code": "AU2E",
+      "revision": 0,
+      "size": 16777216,
+      "sha1": "541469b319a72ef4bc262483745526ac3eddd925",
+      "sha256": "b31c19d2d25683a0941d5d501912b5f21d4590cd7071fa01882e62aa5227a7c9"
+    },
+    "jp": {
+      "name": "Japan",
+      "filename": "baserom_jp.gba",
+      "game_code": "AU2J",
+      "revision": 0,
+      "size": 16777216,
+      "sha1": "19856388caf5140f7527728bd09e20bcb8924eeb",
+      "sha256": "9f3e0d0653de6504c1aeaf03de3cca06ae0c15a24089f0236398ec56d382d17a"
+    }
+  }
+}
