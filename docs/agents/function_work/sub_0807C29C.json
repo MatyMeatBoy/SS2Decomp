@@ -1,37 +1,37 @@
 {
   "address": "0x0807C29C",
-  "updated_utc": "2026-11-04T03:34:06.125609+00:00",
-  "checkpoint": "Phase 1 done: every switch case and the post-switch/drawing tail hand-written with typed structs (no M2C_FIELD). Size 18132 vs 18396; per-case table in shard82.txt; measure with tools/scripts/casediff.py.",
+  "updated_utc": "2026-11-07T15:11:31.460238+00:00",
+  "checkpoint": "Continue preserved PR632 fcb0620e with ordinary defined C: remove the Drop82PZ opcode assembly and reuse Drop82P, form the count address from the complete manager object with offsetof, and correct the CpuSet destination comment. Candidate 18392 versus original 18396 bytes, frame 60/60, 393 external calls in original order. Fresh same-context heuristic 1569 to 1575; the 4-byte size loss is in case13. Strict NO MATCH; normal ASM fallback retained and no matching-byte credit.",
   "areas": [
     {
       "id": "item-copy-first",
       "label": "First inventory item copy as aligned 16-byte object",
       "state": "done",
-      "evidence": "Local struct contains exactly four u32 words (16 bytes, 4-byte word alignment). Same source inventory slot +0x150 and destination manager +0xF4; original ASM loads three words before storing three, then copies fourth. Actual NONMATCHING module now emits LDMIA r0!,{r2,r3,r7}; STMIA r1!,{r2,r3,r7}; LDR r0,[r0]; STR r0,[r1], matching original copy shape/registers. Private candidate equals actual module bytes/relocations; frame0x3C retained and call order unchanged. Score5680->5686, size18276->18288 versus original18396; no full-match or global-equivalence claim."
+      "evidence": "The current Item82 view is 16 bytes with 4-byte alignment (u16 kind/sub, u32 count, two flag bytes and six padding bytes); the local sp4 remains s32[4], and item transfers use that real 16-byte object. The earlier first-copy register milestone is historical and is not reasserted for every current copy. This checkpoint verifies unchanged complete-module controls and ordered external calls, not full transfer-path equivalence."
     },
     {
       "id": "case0",
       "label": "States 0-6, 13, 16 and post-switch key/cursor/pointer switches rewritten by hand",
       "state": "done",
-      "evidence": "Per-case normalized diff sum (difflib autojunk off, branch targets/pool offsets masked) 6818 -> 2531; register-normalized 940 (case 4 register-normalized identical). Function size 7978 vs 7982 lines. Remaining m2c-derived: cases 7-12, 14, 15, 17-21 and the drawing code after the cursor smoothing."
+      "evidence": "The complete draft retains the existing typed switch/state-machine representation. Current casediff measures case0 size0xC08 equal to original, relaxed diff83/register-masked66. These masked diagnostics prioritize work and do not prove original branches, pools or semantics. The historical hand-written structure milestone is preserved; old 18132-byte and 5680-score metrics are superseded by the current checkpoint."
     },
     {
       "id": "remaining-structure",
       "label": "Remaining state machine and item transfers",
       "state": "done",
-      "evidence": "Cases 7-12,14,15,17-21 and tail rewritten from asm; casediff sum diff 2605->1676, rdiff 1060->654. Exact size: 2,3,4,8,11,12,14,15,17-21."
+      "evidence": "All 22 primary switch arms and the post-switch drawing/state tail remain in the complete compiling NONMATCHING draft. The applied object has 393 external call targets in original order. Current relaxed casediff totals 342/register-masked 264; this is not strict byte/relocation equality or behavior proof. Cases 19 and 21 have zero relaxed diff, which does not authorize unwrapping any portion."
     },
     {
       "id": "match",
       "label": "Full match in normal C build",
       "state": "pending",
-      "evidence": "Normal build retains original INCLUDE_ASM. compare OK, nonmatching and check_tree pass; this checkpoint adds zero matching bytes."
+      "evidence": "Strict NO MATCH: normalized candidate code SHA256 d1074bb34ae013cd33a44fcfdeff02c9120e27744b761c07e5e3558a3ccb07cd differs from original. Original INCLUDE_ASM remains active in the normal build. The corrected whole-manager count-address representation alone is complete-module text/relocation identical to the fcb baseline; the ordinary-zero cleanup equals the selected combined private object. Fresh normal compare, full NONMATCHING build, check_tree 0 and diff check pass. Those gates and 393 ordered calls do not prove behavior or add matching bytes. No behavioral replay of this checkpoint or arbitrary inherited-state equivalence is claimed."
     },
     {
       "id": "exact-size",
       "label": "Exact size per case",
       "state": "active",
-      "evidence": "Off: case0 -136, case5 +48, case9 -38, case13 -152 (cross-jump of DROP82 blocks), case16 +12, case6 +8, post -8."
+      "evidence": "Fresh applied casediff: total 18392 versus original 18396; frame 60 equals original. Case 13 is 4 bytes shorter (original function-relative[0x25F0,0x2E54), candidate[0x25F0,0x2E50)); every other primary arm and the post segment retain their original sizes. Removing the hand-written mov-zero opcode changes the same-context heuristic 1569 to 1575. Size restoration and remaining registers/branches/pools are unresolved; no dummy storage or padding is added."
     }
   ]
 }
