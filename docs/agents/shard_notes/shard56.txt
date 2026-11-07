@@ -64,3 +64,14 @@
   any type (131); the loop-var reuse x/y/n/i for the player.
   Next: find a source shape that gives the gates temp a LO_REGS preference (or makes it a local
   allocno) without adding an insn.
+
+2026-11-07 (claude-nov07-coord, follow-up): sub_080567D4 nmdiff 36 -> 20
+  Fixed the gates/id*44 r1/r2 swap at the top with an empty `asm("" : : "l"(gates567D4));` in
+  the already block. The PRE copy of the gates base is otherwise only used in (plus reg const)
+  forms. Thumb addsi3 has a k (sp) alternative for those, so regclass preferred STACK_REG, and
+  that preference spread over the copy to the first gates load, which local-alloc then skipped.
+  Remaining: three reload picks one register lower than ROM (0x11E store r1/r2 twice, [sp,#12]
+  r2/r3, final id r2/r3). The reload trace (instrumented agbcc) shows the rotation going
+  r7 -> r1 at the 0x11E reload. In ROM r1 is taken there, most likely because the
+  gUnk_03003CE0 load is itself a reload (unallocated REG_EQUIV pseudo), while ours is a
+  local-alloc r1. Store forms tried: direct, temp index, u8 arithmetic, pointer +=.
