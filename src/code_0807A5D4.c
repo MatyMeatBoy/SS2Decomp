@@ -1280,7 +1280,7 @@ void sub_0807C29C(void) {
                 gMgr82->cursor--;
                 break;
             }
-            cur = gMgr82->cursor;
+            over = gMgr82->cursor; /* function-level temp: ROM copies the cursor into r3 here (adds r3, r5, #0) */
             if (gMgr82->heldFrom != 0x16) {
                 switch (gMgr82->held.kind) {
                 case 1: gMgr82->cursor = 100; break;
@@ -1334,7 +1334,7 @@ void sub_0807C29C(void) {
                 gMgr82->prev = 1;
                 break;
             case 103:
-                gMgr82->cursor = cur;
+                gMgr82->cursor = over;
                 break;
             case 104:
                 break;
