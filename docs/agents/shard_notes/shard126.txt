@@ -1,0 +1,51 @@
+shard 126 notes
+
+2026-11-07 (claude-nov07-w126): sub_0800D368 (player state machine, ~25 KB, NONMATCHING)
+  Start: filtered nmdiff 7233, 24724 vs 25180 bytes, frame 476 vs 472, 131 stack refs to the
+  wrong slot. End: filtered nmdiff 7117, 24888 bytes, frame 476, 6 wrong stack refs.
+  Register-normalized aligned diff (difflib without autojunk, regs and sp offsets masked):
+  919 -> 540 lines. The filtered nmdiff number is noisy here: unified_diff autojunk misaligns
+  600-700-line chunks (0x56D6-0x5C2C, 0x2800-0x3C00), so a change that fixes structure can
+  still add 150-200 lines. Use a register-normalized diff to judge shape changes.
+  What landed:
+  - Effect-slot loop (0x0C54-0x10FE) as for (i...; i++, p++). The ROM's `adds r3, r6, #0;
+    adds r3, #40` before each branch to the latch is GCSE-PRE inserting the p+1 latch
+    expression; r3 is caller-saved around the calls (slot 0x1CC). The m2c var_r3/sp1CC
+    stores are gone.
+  - Peer propagation scans as for loops whose bodies start with `if (match) { ...; break; }`.
+    expand_end_loop rotates everything up to the last exit jump (the break), and
+    duplicate_loop_exit_test copies the match test and the 40-byte struct copy ahead of the
+    loop, which accounts for the duplicated ldmia/stmia blocks and the 0x1D0 spill.
+  - gUnk_03003170 through struct TileSys fields: base CSE plus `adds #140/#144`, not
+    sym+off literals.
+  - Palette-select blocks (both copies) as real switch(sp128) {12,13,10,default}. The ROM
+    compare tree is 12 / >12:13 / 10.
+  - Experience-level scan as a static inline D368_Level(u8 *p), shaped like sub_08015E84
+    (s32 d = (s8)p[0x6C] * 10 hoisted). It is used in all four state sites.
+  - switch-7 cases 2/7 and the f20 packet-record switch (switch 16): goto tails
+    (block_1213/1220/1221/1150-1155/1301) are inlined per case, and cross-jumping rebuilds them.
+  - The m2c pointer locals sp1B0..sp1C8 (=&f60,&f62,&fC2,&fC4,&fDC,&coordF0,&coordF2) are
+    replaced by direct accesses. They are loop/PRE temporaries in the ROM, so the slots
+    0x1B0-0x1C8 now line up.
+  - Direct array refs give the ROM's (base+off)+i*k addresses: InvD368 f56[f54] (7 of 9 sites;
+    sites 6 and 8 regress), PlayerD368 f126[f110-4], and the typed 0x2E0 PeerD368 record.
+  Rejected:
+  - Index-based peer scans (body >20 insns, so no exit-test copy).
+  - (s8) byte variants for the ldrb+lsl/asr seen in the inlined level helper. combine always
+    makes ldrsb here; sub_08014170 gets ldrb only via reload alternative choice, which
+    depends on context.
+  - An explicit owner-table pointer local (much worse).
+  - Inlining switch-27 tails into switch 26 (+800 bytes, so the ROM's tails really are
+    shared across the two color switches).
+  - A u8 or function-scope `found`.
+  Remaining / next:
+  - Frame +4. The ROM keeps `found` in r4 and spills the exit-test copy pseudo (0x1D0); ours
+    spills `found`. The effect-loop PRE pseudo and the owner-table base have swapped r3/r5.
+  - sp1A8 gets a hard register in ours. In the ROM it is never allocated (slot 0x1A8 comes
+    before the f68 invariant at 0x1AC).
+  - Color switches 26/27 (0x5624-0x5E48). Switch 26 jumps into switch 27 case code via m2c
+    gotos (shared27_*). Rebuilding them needs per-case semantics from the ROM: case 0 of 26
+    uses word RMW and 27 uses byte RMW.
+  - Many remaining hunks are reload-rotation / cross-jump differences: per-case f144 reload
+    copies in switch 16/17 and case-2 tails in switch 7. These only converge once the
+    allocation does.
