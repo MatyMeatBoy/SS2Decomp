@@ -110,11 +110,11 @@ void sub_0801801C(struct T015LActor *arg0) {
     u32 count;
     s32 dir;
     u8 bg;
-    u16 v;
+    s16 v;
     s32 h;
     struct T015LAnim *anim;
     u16 w;
-    s32 st;
+    register s32 st asm("r2"); /* ROM loads the switch value straight into r2 */
 
     sp118 = (struct T015LData *)((u8 *)arg0 + 0x204);
     local10C = arg0->fC;
@@ -601,7 +601,7 @@ void sub_0801801C(struct T015LActor *arg0) {
                 v = 0;
             else
                 v = arg0->f62;
-            switch ((s16)v) {
+            switch (v) {
             case 8:
                 T015L_DRAW(stack.x, stack.y, arg0->f68, arg0->f6A, bg, stack.main.data, stack.main.f8, stack.main.f0);
                 sub_08065370(&stack.auxA, 0, (s32)&stack.step, (s32)&stack.state, 1);
