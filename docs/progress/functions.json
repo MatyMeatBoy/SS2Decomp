@@ -6015,10 +6015,35 @@
       "canonical_symbol": "sub_0800CF58",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_0800CF58",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "EnablePlayerBattleRules",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_0800CF58.c",
+          "line": 7,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Sets bit 16 of scene-flags word 03003478, preserving other bits. Battle-result tasks set this flag, and action/targeting routines use it to enable their player-battle rule branches. Does not initialize participants or networking, and does not establish that a battle has started merely by this store."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 284,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "0x0800CF5C..62 form mask 0x10000, OR the current flags and store the word. Original EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc. Complete original function ranges equal the existing linked ELF; mapping symbols separate instructions/literals. Static evidence only."
+        },
+        {
+          "source": "src/code_08087CC0.c",
+          "line": 3432,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Matched battle-team winner/results task enables this flag before its battle loop. Its winner texts identify four suit teams. Matched world-return routine 8F700 clears the same flag before restoring player health/energy and participation byte +0x68 to 1. The flag changes battle rules; setting it alone does not create a link session, select teams or complete a handshake."
+        },
+        {
+          "source": "src/code_08073E2C.c",
+          "line": 85,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Matched cone and point selectors query 0CF80 before considering differently grouped nonzero Player+0x68 peers. When clear, they skip directly to the enemy scan. Combat/action consumers elsewhere also query this bit; it is broader than a single search helper setting."
+        }
+      ]
     },
     {
       "name": "sub_0800CF6C",
@@ -6032,10 +6057,35 @@
       "canonical_symbol": "sub_0800CF6C",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_0800CF6C",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "DisablePlayerBattleRules",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_0800CF58.c",
+          "line": 10,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Clears bit 16 of scene-flags word 03003478, preserving every other bit. Inverse of CF58. Does not disconnect peers, reset team/participation bytes, restore health or wait for the battle task to finish."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 285,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "0x0800CF70 loads mask 0xFFFEFFFF; CF72/74 AND and store the flags. Original EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc. Complete original function ranges equal the existing linked ELF; mapping symbols separate instructions/literals. Static evidence only."
+        },
+        {
+          "source": "src/code_08087CC0.c",
+          "line": 3432,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Matched battle-team winner/results task enables this flag before its battle loop. Its winner texts identify four suit teams. Matched world-return routine 8F700 clears the same flag before restoring player health/energy and participation byte +0x68 to 1. The flag changes battle rules; setting it alone does not create a link session, select teams or complete a handshake."
+        },
+        {
+          "source": "src/code_0808D4A8.c",
+          "line": 1831,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Matched world-return path calls CF6C before separately restoring health/energy and assigning Player+0x68 = 1. Those separate updates show why the flag-clear helper itself is not a full battle teardown."
+        }
+      ]
     },
     {
       "name": "sub_0800CF80",
@@ -6049,10 +6099,35 @@
       "canonical_symbol": "sub_0800CF80",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_0800CF80",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "ArePlayerBattleRulesEnabled",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_0800CF58.c",
+          "line": 13,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Returns scene-flags bit 16 as exact 0 or 1. This is a software rules flag used by battle targeting/actions, not hardware link status or a peer-count query. Does not validate participation state or imply that any opponent is present."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 286,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "0x0800CF82 reads the upper flags halfword and CF84..86 mask its bit 0; CF88 returns. Original EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc. Complete original function ranges equal the existing linked ELF; mapping symbols separate instructions/literals. Static evidence only."
+        },
+        {
+          "source": "src/code_08087CC0.c",
+          "line": 3432,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Matched battle-team winner/results task enables this flag before its battle loop. Its winner texts identify four suit teams. Matched world-return routine 8F700 clears the same flag before restoring player health/energy and participation byte +0x68 to 1. The flag changes battle rules; setting it alone does not create a link session, select teams or complete a handshake."
+        },
+        {
+          "source": "src/code_08073E2C.c",
+          "line": 85,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Matched cone and point selectors query 0CF80 before considering differently grouped nonzero Player+0x68 peers. When clear, they skip directly to the enemy scan. Combat/action consumers elsewhere also query this bit; it is broader than a single search helper setting."
+        }
+      ]
     },
     {
       "name": "sub_0800CF90",
@@ -12017,10 +12092,35 @@
       "canonical_symbol": "sub_08028830",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_08028830",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "TaskStartSceneCallbackOnAnyPlayerAreaEntry",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_08021DC4.c",
+          "line": 5621,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Copies target Q8 x/y, packed u16 box dimensions, callback and callback argument before waiting. For indices below the repeatedly queried participant count 02164, follows each runtime player record+0x148 (base 03003E28, stride 0x14C) and forms point coordinates x=(load16(state)>>4)<<8 and y=(load16(state+2)&0xFFF)<<8. With nonzero mode, completes whole scans without short-circuiting, always yields after a scan and repeats while any overlap was seen. It then scans for any overlapping participant, starts 57328(argument, callback) on the first hit and returns; otherwise yields and restarts. Mode0 can dispatch without an initial wait. No pose, health, team or participation-byte filter appears; zero reported participants never reach the dispatch. Pointers/counts are not validated, and positions need not equal current local Q8 runtime coordinates."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 569,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "28840..52 copy five trigger words. 28880..8E and 288CE..DA extract the two packed coordinates. 2889A/288E6 call the inclusive AABB predicate. 288A6/288F0 query participant count during iteration; 288AE always yields after the optional clear scan. 28902 starts the callback task using saved argument/callback. Original EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc. Complete original function bytes equal the existing linked ELF, whose mapping symbols separate instructions from literal pools. Static evidence only."
+        },
+        {
+          "source": "src/code_08021DC4.c",
+          "line": 142,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Matched fixed-point AABB test receives zero point dimensions plus the trigger box dimensions. It shifts signed differences before absolute value and includes touching boundaries."
+        },
+        {
+          "source": "src/code_080571A4.c",
+          "line": 89,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Matched scene callback starter attempts to schedule the supplied callback with the supplied argument. This trigger ignores its result and does not retry a full callback pool."
+        }
+      ]
     },
     {
       "name": "sub_08028918",
@@ -17963,10 +18063,23 @@
       "canonical_symbol": "sub_08057D2C",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_08057D2C",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "StartAreaReentryCallbackTask",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_08057CAC.c",
+          "line": 32,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Searches the 30 scene task controls beginning at scene+0xE34 for an inactive record, then builds five meaningful argument words: pixel x/y converted to Q8, u16 width/height packed together, callback and callback argument. Sets flags 0x3C, allocates a 0x400-byte stack once, registers callback 5A874 with stack top allocation+0x3FC and null destructor, starts it, then performs two scheduler signal-1 waits. If no control is free, returns without starting anything. Allocation failure is not checked or retried; no successful-creation guarantee or explicit priority is inferred. The sixth local argument-array word is not initialized and is not read by 5A874. Passes mode 1, so the callback waits for the local player to be outside the box before waiting for entry. This prevents an initially overlapping player from firing immediately; a player already outside can enter normally."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 912,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "57D66 searches scheduled controls; 57D70..8A build the first five data words; 57D94 makes one allocation; 57DAC passes mode 1 to task start 57DAE, followed by exactly two explicit scheduler waits. Original EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc. Complete original function bytes equal the existing linked ELF, whose mapping symbols separate instructions from literal pools. Static evidence only."
+        }
+      ]
     },
     {
       "name": "sub_08057DD0",
@@ -17980,10 +18093,23 @@
       "canonical_symbol": "sub_08057DD0",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_08057DD0",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "StartAreaEntryCallbackTask",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_08057CAC.c",
+          "line": 67,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Searches the 30 scene task controls beginning at scene+0xE34 for an inactive record, then builds five meaningful argument words: pixel x/y converted to Q8, u16 width/height packed together, callback and callback argument. Sets flags 0x3C, allocates a 0x400-byte stack once, registers callback 5A874 with stack top allocation+0x3FC and null destructor, starts it, then performs two scheduler signal-1 waits. If no control is free, returns without starting anything. Allocation failure is not checked or retried; no successful-creation guarantee or explicit priority is inferred. The sixth local argument-array word is not initialized and is not read by 5A874. Passes mode 0, so a player already overlapping at the first test can trigger the scene callback without an exit/reentry phase."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 913,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "57E0A searches scheduled controls; 57E14..2E build five words; 57E38 allocates once; 57E50 passes mode 0 to task start 57E52, followed by two explicit scheduler waits. Original EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc. Complete original function bytes equal the existing linked ELF, whose mapping symbols separate instructions from literal pools. Static evidence only."
+        }
+      ]
     },
     {
       "name": "sub_08057E74",
@@ -17997,10 +18123,23 @@
       "canonical_symbol": "sub_08057E74",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_08057E74",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "StartAnyPlayerAreaReentryCallbackTask",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_08057CAC.c",
+          "line": 102,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Searches 30 scene callback controls at scene+0xE34 for an inactive entry. Stores pixel x/y shifted left by 8, u16 width/height packed in one word, callback and callback argument into the first five local argument words; the sixth word is uninitialized and unused by callback 28830. Sets task flags 0x3C, allocates a 0x400-byte stack once, registers 28830 with stack top allocation+0x3FC and null destructor, starts the task, then waits twice on scheduler signal 1. A full pool returns without creating a task. Allocation is not checked or retried, and creation success or elapsed-frame duration is not guaranteed. Passes mode 1: the callback first waits for a full participant scan with no overlaps, then waits for any participant position to overlap. Unlike the local-only sibling, positions come from per-player state pointers+0x148."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 914,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "57EAE queries each control, 57EBA..D2 store five argument words, 57EDC allocates once, 57EF4 passes mode 1 to task start 57EF6, and 57EFA/FE yield. Literal callback is 08028831. Original EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc. Complete original function bytes equal the existing linked ELF, whose mapping symbols separate instructions from literal pools. Static evidence only."
+        }
+      ]
     },
     {
       "name": "sub_08057F18",
@@ -18014,10 +18153,23 @@
       "canonical_symbol": "sub_08057F18",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_08057F18",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "StartAnyPlayerAreaEntryCallbackTask",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_08057CAC.c",
+          "line": 137,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Searches 30 scene callback controls at scene+0xE34 for an inactive entry. Stores pixel x/y shifted left by 8, u16 width/height packed in one word, callback and callback argument into the first five local argument words; the sixth word is uninitialized and unused by callback 28830. Sets task flags 0x3C, allocates a 0x400-byte stack once, registers 28830 with stack top allocation+0x3FC and null destructor, starts the task, then waits twice on scheduler signal 1. A full pool returns without creating a task. Allocation is not checked or retried, and creation success or elapsed-frame duration is not guaranteed. Passes mode 0: the callback starts directly with the any-participant overlap scan, so an initially overlapping participant may dispatch immediately."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 915,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "57F52 queries each control, 57F5E..76 store the five argument words, 57F80 allocates once, 57F98 passes mode 0 to task start 57F9A, and 57F9E/A2 yield. Literal callback is 08028831. Original EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc. Complete original function bytes equal the existing linked ELF, whose mapping symbols separate instructions from literal pools. Static evidence only."
+        }
+      ]
     },
     {
       "name": "sub_08057FBC",
@@ -18167,10 +18319,23 @@
       "canonical_symbol": "sub_08058240",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_08058240",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "GetLocalPlayerWorldPixelX",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_08057CAC.c",
+          "line": 322,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Queries the local player index, selects its 0x14C-byte runtime record at 03003CE0, reads signed Q8 world X at +0x8C and returns arithmetic shift right by 8. The result is a signed world pixel coordinate, including floor-style conversion for negative fractional Q8 values; it is not screen-relative or a packet position."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 924,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "58242 calls local-player query 020F4; 58248..50 form record stride and +0x8C; 58252 loads the word and 58254 performs ASR #8. Original EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc. Complete original function bytes equal the existing linked ELF, whose mapping symbols separate instructions from literal pools. Static evidence only."
+        }
+      ]
     },
     {
       "name": "sub_08058260",
@@ -18184,10 +18349,23 @@
       "canonical_symbol": "sub_08058260",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_08058260",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "GetLocalPlayerWorldPixelY",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_08057CAC.c",
+          "line": 330,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Queries the local player index, selects its 0x14C-byte runtime record at 03003CE0, reads signed Q8 world Y at +0x90 and returns arithmetic shift right by 8. It does not subtract camera scroll, read a packet coordinate or change player state."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 925,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "58262 calls 020F4; 58268..70 form record stride and +0x90; 58272 loads the word and 58274 performs ASR #8. Original EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc. Complete original function bytes equal the existing linked ELF, whose mapping symbols separate instructions from literal pools. Static evidence only."
+        }
+      ]
     },
     {
       "name": "sub_08058280",
@@ -18235,10 +18413,29 @@
       "canonical_symbol": "sub_080582D4",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_080582D4",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "StartGameplayMessageAfterUiSlotsIdle",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_08057CAC.c",
+          "line": 355,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "First waits until no dialogue task slot is used, then waits until no text-window slot is used, yielding on scheduler signal 1 while either separate loop remains busy. Calls fixed-layout dialogue starter 5DF38 with arguments (1,15,2,0), positive duration 45 and resource ID 0x140000 OR the low 16 bits of the input; returns the starter result. The matched starter uses its fixed layout and normalizes positive duration to 140, so 45 is not an exact display duration. These sequential checks do not constitute an atomic UI lock or a guarantee that creation succeeds."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 928,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "582D8..DA narrow the input to u16; 582E2/582F0 test separate dialogue/window bitmaps; 582F8..58302 form stack arguments and resource; 5830C calls 5DF38. Original EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc. Complete original function bytes equal the existing linked ELF, whose mapping symbols separate instructions from literal pools. Static evidence only."
+        },
+        {
+          "source": "src/code_0805D094.c",
+          "line": 743,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Matched fixed-layout dialogue starter opens its own fixed window layout and replaces a positive duration with 140. Its first four formal arguments do not select the window coordinates."
+        }
+      ]
     },
     {
       "name": "sub_08058318",
@@ -18252,10 +18449,29 @@
       "canonical_symbol": "sub_08058318",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_08058318",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "WaitForDialogueStateComplete",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_08057CAC.c",
+          "line": 363,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Repeatedly tests DialogueStateIsComplete on the original pointer and waits on scheduler signal 1 while false. A complete dialogue returns without an initial wait; null never satisfies the predicate and therefore waits indefinitely. This checks dialogue state +0x74 rather than waiting for the task slot bitmap to become free."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 929,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "5831C branches directly to predicate 58324 before any yield; 5831E is the retry wait; 58328..2A loop on a zero result. Original EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc. Complete original function bytes equal the existing linked ELF, whose mapping symbols separate instructions from literal pools. Static evidence only."
+        },
+        {
+          "source": "src/code_0805D094.c",
+          "line": 1473,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Matched completion predicate returns false for null and otherwise tests whether dialogue state word +0x74 is zero; it does not query scheduler task lifetime."
+        }
+      ]
     },
     {
       "name": "sub_08058334",
@@ -18286,10 +18502,29 @@
       "canonical_symbol": "sub_080583EC",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_080583EC",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "CloseDialoguesAndWaitForSlotsUnused",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_08057CAC.c",
+          "line": 394,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Calls the sequential dialogue-close helper 5EFBC, then performs at least one scheduler signal-1 wait and continues waiting until dialogue-task bitmap 03005D6C has no low-four used bits. Completion of an individual dialogue state and release of its task slot are separate conditions. No elapsed-frame duration or bounded completion is inferred."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 931,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "583EE invokes 5EFBC; 583F2 unconditionally yields before 583F6 queries 5F184; 583FC loops while any dialogue slot remains used. Original EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc. Complete original function bytes equal the existing linked ELF, whose mapping symbols separate instructions from literal pools. Static evidence only."
+        },
+        {
+          "source": "src/code_0805D094.c",
+          "line": 1533,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Callee visits used dialogue slots in ascending order, retries each window-close request, then waits for that dialogue state to complete. The wrapper subsequently waits for slot release as well."
+        }
+      ]
     },
     {
       "name": "sub_08058404",
@@ -20657,10 +20892,35 @@
       "canonical_symbol": "sub_0805A874",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_0805A874",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "TaskStartSceneCallbackOnPlayerAreaEntry",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_0805A630.c",
+          "line": 124,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Captures the current local-player runtime position pointer once and copies five trigger arguments before any scheduler waits: target Q8 x/y, packed u16 width/height, callback and callback argument. Uses a zero-size local-player box with the matched fixed-point AABB test. For nonzero mode, first waits while overlapping; all modes then wait until overlapping and call 57328(argument, callback) once. Bounds are inclusive under the callee, which shifts signed coordinate differences before absolute value. A mode 0 trigger already containing the player can dispatch immediately; mode 1 requires an outside observation first. It does not require a confirm-button press, continually reacquire the local player index, validate widths or repeat after firing. The scene-task start result is ignored."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 1066,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "5A882..8E captures local player position at 03003D6C + index*0x14C. 5A894..A4 copy five words; 5A8AC gates the optional exit loop; 5A8C4/5A8DA test overlap, and 5A8E6 calls57328 with the saved callback argument/pointer. Original EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc. Complete original function bytes equal the existing linked ELF, whose mapping symbols separate instructions from literal pools. Static evidence only."
+        },
+        {
+          "source": "src/code_08021DC4.c",
+          "line": 142,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Matched AABB predicate shifts signed Q8 position differences right by 8, takes absolute values and compares inclusively with half the sums of the two u16 box widths/heights. Here the first dimensions word is zero, so the player is treated as a point."
+        },
+        {
+          "source": "src/code_080571A4.c",
+          "line": 89,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Matched scene callback starter searches 30 task controls, retries stack allocation if a control exists and starts the supplied function with the supplied argument. A full table follows its original undefined-result exit; this trigger ignores that result."
+        }
+      ]
     },
     {
       "name": "sub_0805A8F8",
@@ -22866,14 +23126,33 @@
       "canonical_symbol": "sub_0806441C",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "BattleResult441",
-      "name_status": "existing",
-      "name_source": "c_definition_alias",
+      "display_name": "TaskResolveCoordinatedAttack",
+      "name_status": "confirmed",
+      "name_source": "catalog",
       "evidence": [
         {
           "source": "src/code_0805FB7C.c",
-          "line": 2784,
-          "detail": "Existing C definition with an asm alias to the canonical symbol: BattleResult441"
+          "line": 2790,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Coordinated attack-resolution task, despite the existing BattleResult441 ABI alias. In its normal gated path, captures participating player packets with low-nibble state 0xE, temporarily clears local participation byte +0x68, waits for shared effects and invokes the 92348 visual task using two packed argument bytes plus a recomputed participant count. Uses synchronization marker 0x586 around the sequence. The locally owning participant computes variant-dependent attack amounts, scans five enemy slots, processes active entries with nonzero byte +0x1DC through resistance/damage handling and queues hit/effect results; other participants update the shared contribution mask. Restores scene/display state and local participation conditionally. A separate gated/waiting branch synchronizes without applying the normal damage path. This is attack execution/resolution, not a battle-results menu. Exact skill/title and a positive participant-count invariant are unproved."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 1167,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "0x080644D4..DA select packet state 0xE. 64658 initializes participant count to zero and 646C0 calls 92348 without a local positive-count guard. 6482A/64846 use marker synchronization; 64A5C/64AAA apply resistance scaling, 64AC0 computes the variant-7 damage expression and 64B56/64B88 enqueue hit/result effects. Some internal far branches use BL opcodes; no external-call count is inferred from them. Original EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc. Complete original function ranges equal the existing linked ELF; mapping symbols separate instructions/literals. Static evidence only."
+        },
+        {
+          "source": "src/code_0805FB7C.c",
+          "line": 3547,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Matched starter assigns canonical callback 6441C to shared task030061E0, supplies a 0xC00-byte stack and passes both arguments, proving task-entry use independently of the misleading C definition alias."
+        },
+        {
+          "source": "src/code_0805FB7C.c",
+          "line": 3562,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Matched companion tests packet low-nibble state 0xE, exactly the participant state consumed by this task. An instantaneous nonzero query does not prove a later recomputed count remains positive across scheduler waits."
         }
       ]
     },
@@ -23288,10 +23567,35 @@
       "canonical_symbol": "sub_08065654",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_08065654",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "StartFourChoiceGameMenuTask",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_0805FB7C.c",
+          "line": 3401,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Retries allocating a 0x400-byte stack for task control 03006000, waiting on scheduler signal 1 after each null allocation. Sets task flags 0x34, callback 624D8, stack top allocation +0x3FC and null destructor, then starts the task. There is no scheduled-task guard or wait for menu completion; the flags word does not establish an explicit priority."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 1185,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "65668 calls the allocator; 65670 retries through scheduler wait 65660; 6567A stores callback 080624D9, 65684 stores stack top and 6568A starts the task. Original EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc. Complete original function bytes equal the existing linked ELF, whose mapping symbols separate instructions from literal pools. Static evidence only."
+        },
+        {
+          "source": "asm/nonmatchings/code_0805FB7C/sub_080624D8.s",
+          "line": 340,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Original callback resolves four label resources at 627A0, draws four animated icons, handles directional/confirm/cancel input and dispatches selected menu actions. The catalog already records this callback as TaskFourChoiceAnimatedGameMenu. Exact displayed labels and a global game-pause guarantee are not assigned."
+        },
+        {
+          "source": "asm/nonmatchings/code_0800CF58/sub_0800D368.s",
+          "line": 1132,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "The original player update tests key bit 8 at DC5C, applies gameplay/state gates, clears the player input halfwords and calls this starter at DD5E. This original caller anchors an in-game menu rather than a charge indicator; its NONMATCHING C draft is not treated as an equivalence proof."
+        }
+      ]
     },
     {
       "name": "sub_0806569C",
@@ -23305,10 +23609,29 @@
       "canonical_symbol": "sub_0806569C",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_0806569C",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "IsFourChoiceGameMenuTaskScheduled",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_0805FB7C.c",
+          "line": 3412,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Returns exactly zero or one according to TaskIsScheduled(03006000). It checks the task control used by the four-choice animated game menu starter; it does not inspect visible window state, current selection or link readiness."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 1186,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "656A0 queries 00470 with literal task control 03006000; 656A4..B0 map a zero result to 0 and any nonzero result to 1. Original EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc. Complete original function bytes equal the existing linked ELF, whose mapping symbols separate instructions from literal pools. Static evidence only."
+        },
+        {
+          "source": "src/code_0805FB7C.c",
+          "line": 3401,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "The associated starter registers 624D8 on the same control. The original callback is the resource-backed four-choice animated gameplay menu, already named separately in the catalog."
+        }
+      ]
     },
     {
       "name": "sub_080656B8",
@@ -23516,10 +23839,35 @@
       "canonical_symbol": "sub_08065918",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_08065918",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "StartCoordinatedAttackTask",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_0805FB7C.c",
+          "line": 3547,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "If shared control 030061E0 is not scheduled, sets flags 0x3C and retries allocation of a 0xC00-byte stack with scheduler signal 1 waits on failure. Registers callback 6441C, stack top allocation +0xBFC, null destructor and both supplied arguments. Returns immediately when the shared control is already scheduled and does not wait for attack resolution or validate the callback arguments. This same control is used by other menu/action starters, so the guard is not a participant-count or networking-readiness test."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 1194,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "0x08065922 calls TaskIsScheduled; 65928 skips an active control. 65934..44 retry allocation; 6594A writes literal Thumb callback0806441D, 65952 stack top and 6595C starts the task with preserved r0/r1 arguments. Original EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc. Complete original function ranges equal the existing linked ELF; mapping symbols separate instructions/literals. Static evidence only."
+        },
+        {
+          "source": "src/code_0805FB7C.c",
+          "line": 2790,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Matched callback performs coordinated attack visualization, synchronization and enemy damage/result updates. It reads the first argument as a halfword pointer and splits the low two bytes of the second argument; this starter forwards their raw values without enforcing their domain."
+        },
+        {
+          "source": "src/code_080659B0.c",
+          "line": 86,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Matched menu starter also uses task030061E0, corroborating that this is a shared control with mutually guarded entry points rather than a dedicated count/status record."
+        }
+      ]
     },
     {
       "name": "sub_08065974",
@@ -23533,10 +23881,29 @@
       "canonical_symbol": "sub_08065974",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_08065974",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "HasCoordinatedAttackParticipant",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_0805FB7C.c",
+          "line": 3562,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Scans the counted player list and returns exactly 1 on the first player whose packet pointer +0x148 references a byte with low nibble 0xE, otherwise 0. Does not query task scheduling, count participants, test link errors or validate packet pointers. The result describes current packet state only; it does not guarantee any participant remains in that state after a yield."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 1195,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "0x08065976 obtains the player count. 6598C/8E load each packet first byte; 65990..94 extract/compare low nibble 0xE. 659A0 advances player-pointer stride 0x14C, with exact true/false returns at 65998/659A8. Original EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc. Complete original function ranges equal the existing linked ELF; mapping symbols separate instructions/literals. Static evidence only."
+        },
+        {
+          "source": "src/code_0805FB7C.c",
+          "line": 2790,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Matched attack-resolution task scans the same packet state to capture contribution data and recompute the number sent to visual task 92348. This establishes the participant-role label without assigning a particular named skill or a positive-count guarantee."
+        }
+      ]
     },
     {
       "name": "sub_080659B0",
@@ -26803,10 +27170,35 @@
       "canonical_symbol": "sub_08073EE8",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_08073EE8",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "SelectLocalPlayerFacingConeTarget",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_08073E2C.c",
+          "line": 85,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Uses local live Q8 coordinates +0x8C/+0x90 as the origin and packet-facing data via +0x148. With battle rules enabled, first selects the nearest in-range peer whose +0x68 byte is nonzero and differs from the local byte, using peer packet coordinates. If none qualifies, selects among five active enemies with state not 11, nonzero health +0x5C and nonzero byte +0x1DC. Returns player ID +0 or enemy ID +2, or 0xFF. An eligible player takes priority over every enemy regardless of their relative distances. Cone width is a low-halfword wrapped angular-bin threshold; range comparison is unsigned and strict. Distance is Sqrt of the low-word squared sum, narrowed to u16; ties keep the earlier index and distance 65535 is never selected. No candidate-player health/state test occurs."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 1341,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "0x08073F14 gates the peer pass; 73F46..50 filter group bytes and 73F5A..76 combine packet peer position with live local position. 73FD0..FEA apply angle and unsigned range tests; 74010 returns a peer before enemy scan 74020. 74138 returns the no-target 0xFF. Original EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc. Complete original function ranges equal the existing linked ELF; mapping symbols separate instructions/literals. Static evidence only."
+        },
+        {
+          "source": "src/code_0800CF58.c",
+          "line": 13,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Matched gate tests scene flag16. Battle-team paths give group values 3..6 a team meaning, while world restoration sets +0x68 to 1; the selector evidence uses concrete byte comparisons rather than asserting a uniform global team enum."
+        },
+        {
+          "source": "src/code_08073E2C.c",
+          "line": 3804,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Matched convenience wrapper forwards the low-halfword cone width with range 0x7FFFFFFF. This independently anchors width/range parameter order, without removing the selector distance narrowing or player-first preference."
+        }
+      ]
     },
     {
       "name": "sub_0807414C",
@@ -26820,10 +27212,35 @@
       "canonical_symbol": "sub_0807414C",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_0807414C",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "SelectPlayerFacingConeTarget",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_08073E2C.c",
+          "line": 175,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Selects a facing-cone target for a supplied player pointer. Uses that player packet position/facing via +0x148, unlike the local-live-coordinate sibling 73EE8. Applies the same battle-enabled differently grouped nonzero-peer priority, then five-enemy fallback, returning player ID, enemy ID or 0xFF. Peer packet positions are subtracted as integer pixels; enemy Q8 coordinates are shifted to pixels before subtracting the origin packet position. Width is a low-halfword angular-bin threshold and range comparison is unsigned/strict. Distance is narrowed to u16, ties retain the first index and 65535 is excluded by the initial best sentinel. No player-pointer/index or packet validity check is performed."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 1342,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "0x0807416C gates peer selection; 741AE..C6 read both source and target packet coordinates, with unsigned range rejection at 74234. 742B4..CA shift enemy coordinates before subtracting packet origin; 7433E is the unsigned range rejection. 7425C returns a selected peer before the enemy pass; 74384 supplies 0xFF when none qualifies. Original EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc. Complete original function ranges equal the existing linked ELF; mapping symbols separate instructions/literals. Static evidence only."
+        },
+        {
+          "source": "src/code_08073E2C.c",
+          "line": 85,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Matched local sibling uses live Q8 origin fields; this helper uses the provided player packet origin. Both prefer peer candidates before any enemy candidates, so neither is a globally nearest combined-player/enemy query."
+        },
+        {
+          "source": "src/code_08087CC0.c",
+          "line": 3432,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Matched battle-team winner/results task enables this flag before its battle loop. Its winner texts identify four suit teams. Matched world-return routine 8F700 clears the same flag before restoring player health/energy and participation byte +0x68 to 1. The flag changes battle rules; setting it alone does not create a link session, select teams or complete a handshake."
+        }
+      ]
     },
     {
       "name": "sub_08074398",
@@ -26837,10 +27254,35 @@
       "canonical_symbol": "sub_08074398",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_08074398",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "SelectTargetNearPoint",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_08073E2C.c",
+          "line": 254,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Five-argument selector taking low-halfword self player index, low-halfword excluded enemy ID, Q8 origin x/y and signed range. With battle rules enabled, scans peers other than self whose +0x68 byte is nonzero and differs from self, preferring the nearest eligible peer. Otherwise falls back to five active enemies, excluding only the specified enemy ID and requiring state not 11, nonzero health +0x5C and byte +0x1DC. Returns a selected player/enemy ID or 0xFF. The excluded ID is not applied to peers. Range is signed and strict, so zero/negative range accepts no candidate. Distances narrow to u16; best starts at 65535 and equal distances keep the first candidate. Peer distances use packet pixels minus shifted origin; enemy differences are computed in Q8 before shifting. No self-index validation occurs."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 1343,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "0x080743A8..B2 narrow self/excluded inputs. 743EE explicitly rejects the self index, while 74492 applies the excluded ID only in the enemy pass. Fifth argument is read from incoming stack at 7442C and 744D8; signed BLE branches 74430/44DC reject range <= distance. 7451C returns 0xFF. Original EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc. Complete original function ranges equal the existing linked ELF; mapping symbols separate instructions/literals. Static evidence only."
+        },
+        {
+          "source": "src/code_08073E2C.c",
+          "line": 3808,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Matched convenience wrapper uses an explicit five-argument ASM alias and forwards the first four parameters with range 0x7FFFFFFF. The legacy three-argument declaration near the module top does not describe the observed complete ABI."
+        },
+        {
+          "source": "src/code_08087CC0.c",
+          "line": 3432,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Matched battle-team winner/results task enables this flag before its battle loop. Its winner texts identify four suit teams. Matched world-return routine 8F700 clears the same flag before restoring player health/energy and participation byte +0x68 to 1. The flag changes battle rules; setting it alone does not create a link session, select teams or complete a handshake."
+        }
+      ]
     },
     {
       "name": "sub_08074530",
@@ -27033,14 +27475,14 @@
       "name": "sub_08075778",
       "addr": 134698872,
       "size": 2416,
-      "state": "nonmatch",
+      "state": "done",
       "module": "code_08073E2C",
       "kind": "c",
       "cat": "game",
       "address": "0x08075778",
       "canonical_symbol": "sub_08075778",
       "domain": "game",
-      "implementation": "draft",
+      "implementation": "decompiled",
       "display_name": "sub_08075778",
       "name_status": "unidentified",
       "name_source": null,
@@ -41263,12 +41705,12 @@
   "identification": {
     "game": {
       "total": 1880,
-      "identified": 406,
-      "existing": 29,
-      "confirmed": 377,
+      "identified": 427,
+      "existing": 28,
+      "confirmed": 399,
       "proposed": 0,
-      "unidentified": 1474,
-      "percent_identified": 21.595744680851062
+      "unidentified": 1453,
+      "percent_identified": 22.71276595744681
     },
     "sdk": {
       "total": 155,
@@ -41281,12 +41723,12 @@
     },
     "all": {
       "total": 2035,
-      "identified": 561,
-      "existing": 158,
-      "confirmed": 403,
+      "identified": 582,
+      "existing": 157,
+      "confirmed": 425,
       "proposed": 0,
-      "unidentified": 1474,
-      "percent_identified": 27.56756756756757
+      "unidentified": 1453,
+      "percent_identified": 28.5995085995086
     }
   },
   "limitations": "Configured function address intervals, including alignment/literal pools; inventory includes original assembly and linked libraries. Existing descriptive identifiers are recognized, not independently semantically re-proven."
