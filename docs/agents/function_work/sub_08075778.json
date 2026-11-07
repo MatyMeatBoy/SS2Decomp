@@ -1,6 +1,6 @@
 {
   "address": "0x08075778",
-  "updated_utc": "2026-11-07T00:15:38.749916+00:00",
+  "updated_utc": "2026-11-07T00:22:46.686594+00:00",
   "checkpoint": "be747af9d3f03c0c7710485ba0c993d7042f63f3",
   "areas": [
     {
@@ -19,7 +19,7 @@
       "id": "layout",
       "label": "Frame, scalar homes and angle branches",
       "state": "active",
-      "evidence": "Selected checkpoint: candidate 2388 bytes versus original 2416, local frame 364 versus original 368, approximate nmscore 553 to 440. The initial enemy target still remains in r6 instead of its original SP+0x124 home, shifting later scalar homes. The two angle-normalization paths also share more code than the original. Declaration-order changes, separately duplicated angle blocks, memcpy/inventory pointer staging, a separate lookup count, signed draw carriers, explicit player/index bindings, a goto-shaped player-hit loop, pointer-home aggregates and a geometry aggregate were all tested and rejected. Some variants reach the original size/frame while moving more values away from the original registers; exact size alone is insufficient. A volatile pointer aggregate reaches score 415/2412 but places pointers at SP+0x100 and shifts coordinate buffers, so it was rejected. Preserve this checkpoint and inspect the original target-pointer and angle lifetimes before retrying those hypotheses."
+      "evidence": "Selected checkpoint: candidate 2388 bytes versus original 2416, local frame 364 versus original 368, approximate nmscore 553 to 440. The initial enemy target still remains in r6 instead of its original SP+0x124 home, shifting later scalar homes. The two angle-normalization paths also share more code than the original. Declaration-order changes, separately duplicated angle blocks, memcpy/inventory pointer staging, a separate lookup count, signed draw carriers, explicit player/index bindings, a goto-shaped player-hit loop, pointer-home aggregates and a geometry aggregate were all tested and rejected. Some variants reach the original size/frame while moving more values away from the original registers; exact size alone is insufficient. A volatile pointer aggregate reaches score 415/2412 but places pointers at SP+0x100 and shifts coordinate buffers, so it was rejected. Follow-up initial-target pointer definitions (null/base) add code without recovering its original home: 443/2392, or 450/2392 and 448/2396 with reordered declarations; reordered speed/enemy declarations alone give 447/2388. All were rejected and the selected 440 checkpoint was rebuilt. Preserve this checkpoint and inspect the original target-pointer and angle lifetimes before retrying those hypotheses."
     },
     {
       "id": "match",
