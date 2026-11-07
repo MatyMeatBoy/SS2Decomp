@@ -111,46 +111,49 @@ Next: find a Q shape that is not local-allocated before global (so P has no copy
 preference), then look at what occupies r3/r6 at function entry in ROM.
 
 2026-11-07 claude-nov07-wN (shard 135): sub_0805E0C4 NONMATCHING draft,
-filtered nmdiff 715 -> 561 (aligned full-module diff 380 -> 302, size 3508 ->
-3504 vs ROM 3496, frame 236). The function now matches the ROM up to the digit
-loop (first ~175 instructions, incl. the zero-store reload rotation).
-Landed:
-- Fill loop with i outer (wM's form) PLUS the conversion pointer is `next`
-  (the script+1 var): `next = (u8 *)&value;` then all seven calls take
-  (s32 *)next and s[7] = *(s32 *)next. One pseudo for both live ranges gives
-  next r4 / pValue r6 / i r5 and the PRE copy of &value becomes a single-use
-  pseudo (r7, evicted by reload, rematerialised `add r4,sp,#0x90`) - exactly
-  the w15 emulation. cse2 keeps next canonical because it was born before the
-  block (make_regs_eqv).
-- `do { next = (u8 *)&value; } while (0);` - cse1 ends its block at
-  NOTE_INSN_LOOP_END, so it no longer folds the s[7] read address to fp+140
-  (find_best_addr prefers the higher-rtx-cost equal-address form); ROM
-  `ldr r0,[r4]`.
-- `s[i = 0] = sub_08000498(...)`: ROM sets i (r5) between the first call and
-  its store, and s[8] = 0 then uses r5.
-- Compaction loop `s = num; for (...) s[i] = s[first];` (ROM hoists num into
-  r2 before the loop). This also removed the only insn that put r3 into the
-  reload spill set (num + first reload inside the loop), which fixed the
-  bb0 zero-store rotation (ROM r1,r2,r4,r5,r7) and everything after it.
-- Digit loop as num[i] (giv r1 = num, else-branch reload as ROM).
-- playerName = party0C4[sub_080020F4()].name with a struct of size 0x14C based
-  at gUnk_03003CE0 (name at +2): gives the ROM `muls r1,r0` (product tied to
-  the constant). Name copy loop through `s = name` set inside the if (ROM r2).
-- Fast loop: `c = cf;` at the top of the do body, tests on c (ROM r0 copy of
-  the loop-carried cf in r1).
-Still open (in order of position):
-- digit loop then-branch: ROM `orrs r0,r2` (u8 |= 0xFF folds at tree level;
-  int temp folds in cse via the jump equivalence) - not found.
-- num terminator: ROM loads the 0 (r2) right after the num+i address, before
-  the 0xFD.
-- name copy: ROM copies the symbol into r7 (U) before the first load and the
-  loop hoists r3 = r7; ours uses the playerName symbol register directly.
-- 0x1404DF loop: ROM strength-reduces s+j (r2 = s+2, r2++) with name hoisted
-  in r3; ours "giv not worth while" (benefit 2 - add_cost 2). next[j+2],
-  pointer biv, s/next swaps all tried.
-- case 3: ROM PRE regs &task->col r5, line<<4 r3, task->str (fast loop) r4;
-  ours r6/r4/r5 because task->str (pseudo with 12 refs in 10 insns) is
-  allocated before the &col PRE reg and takes r5. Fast loop preheader order:
-  ROM copies (r6 = &col, r2 = line*30) before fastName/fastNum.
-Tools: scratch nov07-w135N/agb (agb15 + NSPDBG: prints the insn that adds each
-reg to the spill set), t.sh/v.sh (filtered + aligned metric).
+filtered nmdiff 715 -> 59 (aligned full-module diff 380 -> 24; size 3508 ->
+3504 vs ROM 3496; frame 236 = ROM). Everything from the case dispatch to the
+end now matches except one fastNum copy; the rest is in the init code.
+What closed it (in order of size):
+- `register u8 *next asm("r4")` used for script+1, as the &value conversion
+  pointer (`do { next = (u8 *)&value; } while (0);` - the loop end stops cse1
+  folding *(s32 *)next to fp+140) and for task->str in BOTH text paths
+  (`(next = (u8 *)task->str) != 0`, ((u16 *)next)[strIdx]). This is the ROM r4
+  variable; as a plain pseudo it ranks below the &task->col PRE reg (refs
+  96/live 264 vs 35/116), which then takes r4 and pushes &col to r6 and
+  line<<4 to r4. GFORCE emulation (&col PRE reg -> r5) gave the same result.
+- Set-once pointers n0..n3 = name0C4..name3C4 for the F6/F4/F3/F2 branches:
+  spilled pseudos with REG_EQUIV are rematerialised at each use, which is the
+  ROM `ldr r5,=name; ldr r7,[idx]; adds r0,r5,r7` (sym-first operand order;
+  a direct array ref gives idx-first).
+- Block-local `struct Window0C4 *w` at each of the four window checks (ROM
+  uses r2/r3/r2/r0 per site; one function-scope w got r3 everywhere and
+  shifted the case-6 reload rotation); cases 1/7 load task->window before
+  clearing r.
+- Fast loop: `c = cf;` copy at the top; fastName/fastNum copied at their use
+  with `asm("" : "=r"(x) : "0"(src))` so loop.c hoists them after the &col /
+  line*30 copies (a plain copy is merged by cse1; an init before `do` puts
+  them before the copies).
+- Init code: i-outer fill loop; `s[i = 0] = sub_08000498(...)` (ROM clears i
+  between the first call and its store); compaction loop num copy via asm
+  inside the loop (hoisted past the guard); num[i] digit loop and
+  `k = num[i]; k |= 0xFF; num[i] = k;` (u8 |= 0xFF folds at tree level);
+  playerName = party0C4[idx].name (struct of 0x14C, gives `muls r1,r0`);
+  name copy through `s = name` inside the if; 0x1404DF loop as a pointer biv.
+Remaining diff (24 aligned lines):
+- digit loop: ROM `ldr r1,[num]` (giv init) before `movs r2,#0xff`; ours
+  hoists the constant first.
+- num terminator: ROM loads the 0 into r2 right after the num+i address and
+  reloads num into r4 for num+k; ours inherits r2 and stores 0 from r0.
+- name copy: ROM `adds r7,r0,#0` (copy of the playerName literal) before the
+  first load and the loop copy `adds r3,r7,#0`. Using n0[i] for the first
+  load reproduces it via reload_cse, but in r4 (n0 = party0C4[0].name).
+- 0x1404DF loop: ROM `ldr r3,[name]` + `adds r2,r0,#2` after the guard
+  (giv r2); ours `adds r2,r0,#0; adds r2,#2` before the guard and name
+  reloaded in the loop. The j-biv form says "giv not worth while" (benefit 2
+  minus add_cost 2).
+- name terminators: ROM puts the address in r0 (the i+1 register), zero in r1.
+- fastNum: the tied asm leaves `adds r7,r4,#0` before `str r7,[sp,#0xe8]`.
+Tools: scratch nov07-w135N/agb (agb15 + NSPDBG prints which insn adds each
+hard reg to the reload spill set), t.sh/v.sh (filtered + aligned metric),
+dump.sh (all RTL dumps for e0c4Impl).

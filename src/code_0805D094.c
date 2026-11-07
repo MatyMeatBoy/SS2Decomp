@@ -994,9 +994,11 @@ void e0c4Impl(struct Task0C4 *task)
             numIdx = 1;
         }
     }
-    s = num;
-    for (i = 0; first <= 7; first++, i++)
+    for (i = 0; first <= 7; first++, i++) {
+        /* num copy hoisted past the loop guard (ROM ldr r2 after bgt). */
+        asm("" : "=r"(s) : "0"(num));
         s[i] = s[first];
+    }
     num[i] = 0xFD;
     k = i + 1;
     num[k] = 0;
@@ -1011,9 +1013,9 @@ void e0c4Impl(struct Task0C4 *task)
         } while ((s[i] = name0C4[i]) != 0xFD);
     }
     if (sub_08002204() == 0) {
-        next = (u8 *)sub_08007290(0x1404DF);
-        for (j = 2; i <= 12; i++, j++) {
-            if ((name[i] = next[j]) > 0xF1)
+        s = (u8 *)sub_08007290(0x1404DF);
+        for (s += 2; i <= 12; i++, s++) {
+            if ((name[i] = *s) > 0xF1)
                 goto found;
         }
         goto done;
