@@ -7,5 +7,5 @@ Shard 88 notes (sub_080855D4).
   local folded it to (id + 0xC10) + save.
   Remaining: n is in sl in ROM (ours r9). In the random-point loop ROM keeps
   r = rand() & 0xFF in r5 and the hoisted zero in r6 (ours zero r5, r in r0);
-   /  / s32 forms do not change it. The other 400+ aligned lines
+  "u32 r = f() & 0xFF", "(u8)f()" and s32 forms do not change it. The other 400+ aligned lines
   are register allocation across the rest of the function.
