@@ -1165,6 +1165,8 @@ static inline void Drop82PH(vu32 *z, struct Item82 *h, struct Mgr82 **g) { *z = 
 struct Player82 { u8 pad[0x77]; u8 f77; u8 f78; u8 pad79[0x8C - 0x79]; s32 f8C; s32 f90; u8 pad94[0xC6 - 0x94]; u16 fC6; u8 rest[0x14C - 0xC8]; };
 extern struct Player82 gPlayers82[] asm("gUnk_03003CE0");
 void sub_0807C29C(void) {
+    /* Verified EU address of the mutable gUnk_03006440 pointer slot. */
+    enum { ManagerPointerSlotEU82 = 0x03006440 };
     u16 keys; u16 down; u32 cur, val, i, n, from, over, have, ok, slot, base, col; s32 d, idx; u8 *text; u16 target, lo, hi;
     struct Item82 *item; struct Item82 *held;
     s32 sp4[4];
@@ -1174,13 +1176,13 @@ void sub_0807C29C(void) {
     s32 sp2C;
     struct Mgr82 **gp;
 
-    /* q hidden from CSE: otherwise gp below is set from this address pseudo, which then stays live (r3) instead of dying in r0 */
+    /* Preserve the existing flags-read address lifetime. */
     { struct Mgr82 **q; q = &gMgr82; asm("" : "=r"(q) : "0"(q));
     if ((*q)->flags & 1) {
         keys29_03001308 = 0;
         keys29_03001324 &= ~1;
     } }
-    gp = &gMgr82; /* set after the flags test: gp never gets a hard reg, so a use there is a reload (ROM loads the address into r0) that shifts the reload rotation of all of case 0 */
+    gp = (struct Mgr82 **)ManagerPointerSlotEU82; /* Slot address, not a snapshot of the mutable manager pointer. */
     if (sub_0801AAE0() == 0)
         keys29_03001324 = 0;
     if (sub_0800CD8C() != 0) {
@@ -1402,10 +1404,13 @@ void sub_0807C29C(void) {
                     gMgr82->state = 20;
                     gMgr82->fC = 0;
                     val = gInv82->items[gMgr82->cursor].count;
-                    n0 = 6;
-                    for (i = 4; i <= 9; i++, n0--) {
-                        if (gUnk_084EBD4C[i] <= val)
-                            break;
+                    {
+                        u32 denominationIndex082;
+                        n0 = 6;
+                        for (denominationIndex082 = 4; denominationIndex082 <= 9; denominationIndex082++, n0--) {
+                            if (gUnk_084EBD4C[denominationIndex082] <= val)
+                                break;
+                        }
                     }
                     gMgr82->f14 = n0;
                     gMgr82->f10 = n0 - 1;
