@@ -1,7 +1,7 @@
 {
   "address": "0x0800D368",
-  "updated_utc": "2026-11-07T19:50:04.787302+00:00",
-  "checkpoint": "Stage three real selected-inventory element addresses and two actual lookup returns through existing temporaries. Candidate/original remain 25116/25180 bytes, frame 472, with 502 external calls in original order. Byte/halfword edit distances improve from 1538/1277 to 1498/1241; these diagnostics are not matching coverage. Three 16-byte selector blocks now equal original bytes. Fresh 756 constructed local cases (2268 pair comparisons) plus two independently compiled negative controls pass. Strict NO MATCH; original ASM fallback remains active and work-area states are unchanged.",
+  "updated_utc": "2026-11-07T23:12:58.418226+00:00",
+  "checkpoint": "Keep six existing sub_0807A028 results in branch-local u16 values, and join the existing record-nibble read for cases 1 and 9. The helper already returns u16, so its values remain identical before their existing unsigned 8-bit field stores; pointer reloads remain after the helper. Selected 25112 bytes versus prior 25116 and original 25180, frame 472, 502 calls in original order. Byte/halfword Levenshtein improves 1498/1241 to 1475/1221, while the size gap increases by 4 bytes. The actual NONMATCHING complete module equals the private reviewed candidate and a fresh active-C compilation without NONMATCHING; all 47 other functions remain unchanged after normalization. Independent source/CFG/lifetime review found no issue. Normal ROM compare, full NONMATCHING and tree/diff checks pass. Prior bounded runtime results below are historical and were not rerun on this checkpoint; no new runtime-equivalence claim. Strict NO MATCH; original ASM fallback and work-area states retained, zero matching-byte credit.",
   "areas": [
     {
       "id": "flow",
