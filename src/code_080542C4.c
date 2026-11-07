@@ -952,6 +952,9 @@ void sub_0805664C(s32 arg0)
     }
 }
 #ifdef NONMATCHING
+struct Item567D4 { u16 item, kind; u8 rest[12]; };
+struct Inv567D4 { u8 pad[0x150]; struct Item567D4 slots[25]; };
+extern struct Inv567D4 *inv567D4 asm("gUnk_030034E0");
 struct Gate567D4 { u32 x, y, w, h, item, kind, need, flag, bitflag, param, event; };
 extern struct Gate567D4 gates567D4[] asm("gUnk_084B23A8");
 extern u8 playerX567D4[] asm("gUnk_03003D6C");
@@ -1002,12 +1005,16 @@ void sub_080567D4(s32 id)
     for (;;) {
         hw = gates567D4[id].w >> 1;
         hh = gates567D4[id].h >> 1;
-        do {
-            Wait567D4();
-            x = *(s32 *)(playerX567D4 + sub_080020F4() * 0x14C) >> 8;
-            y = *(s32 *)(playerY567D4 + sub_080020F4() * 0x14C) >> 8;
-        } while (x >= gates567D4[id].x - hw && x <= gates567D4[id].x + hw
-              && y >= gates567D4[id].y - hh && y <= gates567D4[id].y + hh);
+        {
+            u8 *xbase = playerX567D4;
+            u8 *ybase = playerY567D4;
+            do {
+                Wait567D4();
+                x = *(s32 *)(xbase + sub_080020F4() * 0x14C) >> 8;
+                y = *(s32 *)(ybase + sub_080020F4() * 0x14C) >> 8;
+            } while (x >= gates567D4[id].x - hw && x <= gates567D4[id].x + hw
+                  && y >= gates567D4[id].y - hh && y <= gates567D4[id].y + hh);
+        }
         do {
             Wait567D4();
             x = *(s32 *)(playerX567D4 + sub_080020F4() * 0x14C) >> 8;
@@ -1024,7 +1031,7 @@ void sub_080567D4(s32 id)
         kind = gates567D4[id].kind;
         n = 0;
         slot = (u16 *)(gUnk_030034E0 + 0x150);
-        for (i = 0; i <= 24; i++, slot += 8)
+        for (i = 0; i <= 24; slot += 8, i++)
             if (slot[0] == item && slot[1] == kind)
                 n++;
         if (n >= gates567D4[id].need) {
@@ -1055,11 +1062,10 @@ void sub_080567D4(s32 id)
             kind = gates567D4[id].kind;
             count = gates567D4[id].need;
             for (i = 0; i <= 24; i++) {
-                slot = (u16 *)(gUnk_030034E0 + i * 16 + 0x150);
-                if (slot[0] == item && slot[1] == kind) {
+                if (inv567D4->slots[i].item == item && inv567D4->slots[i].kind == kind) {
                     count--;
-                    slot[0] = 0;
-                    slot[1] = 0;
+                    inv567D4->slots[i].item = 0;
+                    inv567D4->slots[i].kind = 0;
                     if (count == 0)
                         break;
                 }
