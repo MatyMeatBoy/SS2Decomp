@@ -1337,8 +1337,6 @@ void sub_0800AEF4(u16 x, u16 y, u32 w, u32 h, s32 mode) {
         }
     }
 }
-#ifdef NONMATCHING
-extern u16 t06_heightB118 asm("gUnk_030031EA");
 s32 sub_0800B118(u8 direction, s32 x, s32 y, s32 flags)
 {
     u32 cells[3][3];
@@ -1363,8 +1361,10 @@ s32 sub_0800B118(u8 direction, s32 x, s32 y, s32 flags)
             do {
                 yy = centerY + j;
                 if (xx <= 0 || yy <= 0 || xx >= gUnk_03003170.width1 || yy >= gUnk_03003170.pad76) {
+                    do {
+                        cells[j + 1][i + 1] = 1;
+                    } while (0);
                     nextJ = j + 1;
-                    cells[nextJ][nextI] = 1;
                 } else {
                     cell = (u8 *)&map[xx + yy * gUnk_03003170.width1];
                     cells[j + 1][i + 1] = (*(u32 *)cell << 20) >> 28;
@@ -1375,13 +1375,15 @@ s32 sub_0800B118(u8 direction, s32 x, s32 y, s32 flags)
             i = nextI;
         } while (i <= 1);
     } else {
-        if (gUnk_03003170.curLevel == 8 && gUnk_03003170.f90 == 18)
-            width = 90;
-        else if (gUnk_03003170.curLevel == 8 && (gUnk_03003170.f90 == 2 || gUnk_03003170.f90 == 12))
-            width = 60;
-        else
-            width = gUnk_03003170.mapW;
-        map = gUnk_03003170.map0;
+        do {
+            if (gUnk_03003170.curLevel == 8 && gUnk_03003170.f90 == 18)
+                width = 90;
+            else if (gUnk_03003170.curLevel == 8 && (gUnk_03003170.f90 == 2 || gUnk_03003170.f90 == 12))
+                width = 60;
+            else
+                width = gUnk_03003170.mapW;
+            map = gUnk_03003170.map0;
+        } while (0);
         i = -1;
         do {
             xx = centerX + i;
@@ -1389,7 +1391,7 @@ s32 sub_0800B118(u8 direction, s32 x, s32 y, s32 flags)
             nextI = i + 1;
             do {
                 yy = centerY + j;
-                if (xx <= 0 || yy <= 0 || xx >= width || yy >= t06_heightB118) {
+                if (xx <= 0 || yy <= 0 || xx >= width || yy >= gUnk_03003170.mapH) {
                     nextJ = j + 1;
                     cells[nextJ][i + 1] = 1;
                 } else {
@@ -1607,9 +1609,6 @@ L_B5FC:
     }
 L_B63C:return direction+1;
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_08009088", sub_0800B118);
-#endif
 extern u8 t06_displayB650 asm("gUnk_0300129C");
 extern u16 t06_doneB650 asm("gUnk_03001F40");
 void sub_0800B650(s32 a,s32 b,s32 c,u16 d,u16 e)
