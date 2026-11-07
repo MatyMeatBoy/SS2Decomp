@@ -1,7 +1,7 @@
 {
   "address": "0x08027C1C",
-  "updated_utc": "2026-11-07T05:05:00Z",
-  "checkpoint": "Indexed group-entry and structured inner-loop checkpoint; C-body SHA-256 16a85ecc93db361c4045201b0d2a964871ff43fa848c22f0a216a7eae117b4e1. Derive entry from group->e[j] inside a do-loop, allowing ordinary loop strength reduction and recovering the nextGroup home at SP+0x248. Current candidate 1864/original 1868 bytes; candidate/original frames 588/588 versus previous 584. Fresh real-module heuristic 256 to 252, normalized byte edit distance 291 to 290 and halfword edit distance 208 to 207. Still NONMATCHING; no matching-byte credit.",
+  "updated_utc": "2026-11-07T08:30:00Z",
+  "checkpoint": "claude-nov07-wB: main loop as for(;;) with a bottom goto exit and case-12 f8 stored per arm. Filtered nmdiff 247 -> 232; candidate 1860/original 1868 bytes; frames 588/588. The extra top count test is gone. Group/j/zero register assignment and final reset-loop constant hoisting remain; see shard25 2026-11-07 notes. Still NONMATCHING.",
   "areas": [
     {
       "id": "compile",
