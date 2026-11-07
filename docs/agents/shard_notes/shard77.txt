@@ -40,3 +40,29 @@ shard 77 (claude-nov07-wB, 2026-11-07)
   `adds r1,r7; ands r1,r0` vs ours `adds r1,r0; ands r1,r7` (operand order of the r7 constant 1).
   Rejected: register asm("r3") on ang (701), sb via function-scope t (110), u32/s32/s16 ang, sa/sb both
   shared or both per-branch, `1 & call`, `one & call`.
+
+shard 77 (claude-nov07-w92, 2026-11-07)
+- sub_08075778: no source change landed (aligned diff still 36, filtered nmdiff 76). Diagnosis:
+  * The ROM has the sibling's per-branch `{ s16 sb = ang; if (sb > 0x100) ang = sb - 0x100; }` in
+    BOTH ArcTan branches; cross-jumping later merges the enemy copy into the player copy
+    (`bge _08075A0E`, `b _08075A0A`). Processing the enemy sb block before the player branch is the
+    "one more reload" that makes the player branch start at r3 (ldr r3,[sp,#0x128]).
+    Verified with the w15 debug compiler: per-branch sb + GFORCE=27:3 (ang -> r3) gives aligned
+    diff 7 (only the post-ArcTan target reload r4/r6 and the enemy `ands` operand order remain);
+    the shared-sb draft + GFORCE=27:3 stays at 67. Natural per-branch sb is 48 only because ang
+    takes r1 (then the enemy sb's 0xFFFFFF00 reload is r1, not r2, and cross-jumping stops early).
+  * Why ang takes r1: ang's hard-reg prefs are {1,3,6}, merged by expand_preferences from d at
+    `ang = d` (d dies there; CSE folds any later d use into ang). d's own prefs come from the draw
+    block: (set r1 (ior d 0x40)) for the step5778 argument (pref 1), `lsls r3, d, #16` (pref 3),
+    and r6. find_reg takes the lowest preferred reg, r1. prune_preferences never lets another
+    allocno's preference exclude r1 for ang, because ang prefers it too; only a higher-priority,
+    conflicting allocno that itself prefers r1 (e.g. sb or t with an r1 preference) would push ang
+    to r3. sb's only pref is r0 (conflict); t has none.
+  Tried (all no better): asm uses of sb / ang / t / d (raise priority, extend life), do-while(0)
+  on the sb block (sb is allocated first but avoids ang's preferred r1/r3/r6 and takes r2),
+  t as sb, other variables as the ArcTan temp (draw breaks, 280+), `0x40 | dirIdx`, `m | d`,
+  `d ^ 0x40`, (u16)/(u8)/(s16) casts in the step argument, a statement-expression late use of ang.
+  Next: find a source shape where d does not die at `ang = d`, or where the step argument's ior
+  is (ior X d) instead of (ior d X) (then d gets no r1 preference), on top of per-branch sb blocks.
+  Debug tools: scratchpad nov07-w15/agb15 compiler with FSPFN=sub_08075778 GCONF=<regs> (prefs,
+  conflicts per allocno; keep the list under ~40 numbers) and GFORCE=<reg>:<hard>.
