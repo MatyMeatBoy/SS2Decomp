@@ -2985,10 +2985,9 @@ alloc:
 
 
 #ifdef NONMATCHING
-/* NONMATCHING: same control flow, frame layout and array spill slots as the original; the
-   remaining differences are register choices (&x copy vs payload pointer, dyA/vyB givs in
-   sl/r9) and the 60-frame loop counter, which the original keeps as a do-while whose
-   count+1 temp lands in a late spill slot (0x11C). */
+/* NONMATCHING: one instruction pair differs from the original: the initial `frame = 0`
+   computes &frame before the zero (ROM loads the zero first). Everything else, including
+   frame size, spill-slot order (the count+1 PRE temp in 0x11C) and register choices, matches. */
 struct T24Net25890 { u16 unk0, unk2; u8 unk4:6; u8 pad5[2]; u8 unk7; };
 struct T24Player25890 { u8 pad0[0x14]; u16 unk14; u8 pad16[10]; u16 state; s16 unk22; u16 unk24; s16 unk26; u8 pad28[6]; s16 unk2E; u32 flags; u8 pad34[0x58]; s32 unk8C, unk90; u8 pad94[0x44]; u32 unkD8; u8 padDC[0x6C]; struct T24Net25890 *net; };
 struct T24Sprite25890 { u32 f0,f4,f8,fC; u8 pad10[12]; u8 payload[5]; u8 byte21,byte22,byte23; u8 pad24[16]; };
@@ -3002,6 +3001,7 @@ extern u16 t24_keys25890 asm("gUnk_03001324");
 extern u32 t24_frame25890 asm("gUnk_03002344");
 extern void t24_callback25890(void) asm("sub_08024538");
 extern s16 t24_rand25890(void) asm("sub_0800086C");
+int abs(int);
 extern u8 *t24_text25890(u32) asm("sub_08007290");
 extern u32 sub_08002164(void);
 extern u32 t24_width25890(void *) asm("sub_0801A638");
@@ -3022,10 +3022,10 @@ void t24_gate25890(u16 *arg0) {
     struct T24Player25890 *player;
     u8 *text;
     u32 x0, y0;
-    u32 color;
+    s16 color;
     u32 count;
     u32 timer;
-    s32 active;
+    s16 active;
     u32 ready;
     u32 i;
 
@@ -3055,12 +3055,7 @@ void t24_gate25890(u16 *arg0) {
         vyA[i] = sub_080008C8() % 3 + 1;
         dyB[i] = (s16)(t24_rand25890() % 32) + 130;
         dxB[i] = sub_080008C8() % 200 - 100;
-        {
-            s32 r = (s16)(t24_rand25890() % 3);
-            if (r < 0)
-                r = -r;
-            vyB[i] = r + 1;
-        }
+        vyB[i] = abs((s16)(t24_rand25890() % 3)) + 1;
         dyA[i] <<= 8;
         dyB[i] <<= 8;
         vyA[i] <<= 7;
@@ -3239,7 +3234,8 @@ void t24_gate25890(u16 *arg0) {
         sub_080003F0();
     }
     sub_0805865C(0x24);
-    for (count = 1; ; count++) {
+    count = 1;
+    do {
         while (sub_0800CDF8() != 0)
             sub_080003F0();
         if (sub_080021A8() != 0)
@@ -3282,30 +3278,34 @@ void t24_gate25890(u16 *arg0) {
           }
         }
         sub_080003F0();
-        if (count > 0x3B) break;
-    }
+    } while (count++ <= 0x3B);
     {
         u32 row = 0;
         struct T24State25890 **state = &t24_state25890;
         u32 zero = 0;
 
-        do {
+    outer:
+        {
             u32 col = 0;
-            register u32 four asm("r0") = row << 2;
+            u32 four = row << 2;
             u32 next = row + 1;
             u32 rowOffset;
 
             rowOffset = four + row;
-            do {
+        inner:
+            {
                 struct T24State25890 *base = *state;
                 u32 idx = col + rowOffset;
-                register u32 gridOffset asm("r7") = ((size_t)&((struct T24State25890 *)0)->grid);
 
-                *((u8 *)base + gridOffset + idx) = zero;
+                base->grid[0][idx] = zero;
                 col++;
-            } while (col <= 4);
+            }
+            if (col <= 4)
+                goto inner;
             row = next;
-        } while (row <= 0x13);
+        }
+        if (row <= 0x13)
+            goto outer;
     }
     player->flags &= 0xFF7FFFFF;
     if (sub_08057AE8(7) != 0)
