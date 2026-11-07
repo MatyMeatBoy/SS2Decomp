@@ -2375,13 +2375,15 @@ void sub_0808AFE8_v(void)
             sub_08000AF0(0x10, face.data + (playersAF91[sub_080020F4()].b66 << 5), 1);
             keysAF91[4] = 0;
             break;
-        case 1:
+        case 1: {
+            struct RecAF91 *mode1Record;
             keysAF91[4] = 0x100;
-            rec = &records[sel][0];
-            rec += col;
-            sub_0805FFBC(0xF, 0x12, rec, 0x80000000);
-            sub_080815F4(rec);
+            mode1Record = &records[sel][0];
+            mode1Record += col;
+            sub_0805FFBC(0xF, 0x12, mode1Record, 0x80000000);
+            sub_080815F4(mode1Record);
             break;
+        }
         }
         sub_080003F0();
     }
