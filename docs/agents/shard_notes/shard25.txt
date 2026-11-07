@@ -120,3 +120,15 @@ Shard 25, sub_08027C1C (code_08021DC4)
   -1 = leave unallocated) was very useful. Forcing one pseudo gives the target
   output and confirms the diagnosis before searching for source. The tree is in the
   session scratchpad (nov07-wC3/agb).
+  Follow-up (same day): filtered 31, difflib 11, size now 1868 = ROM.
+  - A volatile `asm("");` right before `entry = rowGroup->e;` stops the rowGroup
+    output reload from targeting entry's r4. The update is now `ldr r6; adds r6,r6,r1;
+    str r6` like ROM. Entry still copies r6 (`adds r4, r6, #0`) instead of ROM's
+    `ldr r4,[sp,#0x240]` after cfg/cfg+12, and the zero is still hoisted between
+    cfg and cfg+12. Wrapping loop 2 in do{}while(0) made it worse (17).
+  - `asm("" : "+r"(g));` after `g = 0` in the main-loop preheader advances the
+    reload rotation, so the effect-loop head now uses r1/r2 like ROM. Side effect:
+    `g = 0` is `movs r0,#0; mov r8,r0` instead of ROM's inherited `mov r8, r6`
+    (one instruction). `sound = g = 0` and `asm("" : "=r"(g) : "0"(0))` do the
+    same. ROM probably has one extra reload there that inheritance then folds away.
+  Left: loop-2 entry/zero order (5 lines), the g=0 instruction, and the f4 |= 8 temps.

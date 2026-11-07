@@ -5004,6 +5004,7 @@ void t025Effects27C(u16 *arg0)
 
     if (rows != 0) {
         rowGroup += (u16)(t025World27C->f34 - 1);
+        asm("");
         entry = rowGroup->e;
         do {
             if (entry->kind != 0) {
@@ -5054,6 +5055,7 @@ void t025Effects27C(u16 *arg0)
             eff = t025World27C->effects;
             sound = 0;
             g = 0;
+            asm("" : "+r"(g));
             goto effect_test;
         effect_loop:
             t025World27C->pos160[g] = eff->pos;
