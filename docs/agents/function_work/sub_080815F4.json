@@ -1,13 +1,13 @@
 {
   "address": "0x080815F4",
-  "updated_utc": "2026-11-07T06:32:11Z",
-  "checkpoint": "Restored resource-before-detail block order and missing kind 8/9 returns, then replaced the overlapping scratch union with ten genuine 52-byte descriptors and a separate call flag. NONMATCHING draft: 4860 bytes/frame 676/heuristic 1762 versus baseline 4796/frame 672/2186 and original 4972/frame 684. The valid descriptor extent takes priority over the intermediate 4868/676/1652 layout. Original ASM remains active.",
+  "updated_utc": "2026-11-07T15:00:00Z",
+  "checkpoint": "claude-nov07 shard 85 fifth pass: NONMATCHING draft 4972 bytes / frame 0x2AC (= ROM), filtered nmdiff 1412 -> 1302. The four item pointers now stay on the stack (SP+0x240..0x24C) as in the ROM. Original ASM remains active.",
   "areas": [
     {
       "label": "Stack frame extent and entry sequence",
       "id": "frame",
       "state": "active",
-      "evidence": "Fresh normal module compilation measures original frame 684 (0x2AC), previous draft 672 (0x2A0), and selected draft 676 (0x2A4). The earlier frame-equality claim is not reproducible and is withdrawn. The argument home remains sp+0x23C; frame allocation and later spills remain unmatched."
+      "evidence": "Fresh normal module compilation measures original frame 684 (0x2AC), previous draft 672 (0x2A0), and selected draft 676 (0x2A4). The earlier frame-equality claim is not reproducible and is withdrawn. The argument home remains sp+0x23C; frame allocation and later spills remain unmatched. 2026-11-07: size 4972 and frame 0x2AC equal the ROM; with the item pointers spilled, the spill slots from SP+0x254 on line up with the ROM."
     },
     {
       "label": "Switch and body control flow",

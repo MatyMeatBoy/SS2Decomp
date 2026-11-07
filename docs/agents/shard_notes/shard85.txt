@@ -89,3 +89,63 @@ claude-nov07-wA (2026-11-07, fourth pass): filtered nmdiff 1513 -> 1412. Size 49
   Next: the template expansions' instruction shape in the 4892 mode (literal-0 tails). That mode has
   the right tail merging; find the missing ~6 bytes per template (text85 rematerialisation and
   divisor/started regs from the notes above).
+claude-nov07-w77N (2026-11-07, fifth pass): filtered nmdiff 1412 -> 1302, size 4972 = ROM, frame 0x2AC.
+  - Landed: `for (i_ = 0; i_ <= 5; i_++, div_++)` in the template (ROM bumps i before div; 1412 -> 1404),
+    and `asm("" : : "g"(sp240), "g"(sp244), "g"(sp248), "g"(sp24C));` at `icons:` (FAKE, no code).
+    The longer live ranges drop the item pointers below everything else, so they are spilled
+    (SP+0x240..0x24C as in ROM) and the later spill slots (sp254...) line up (1404 -> 1302).
+  - Oracle: the debug compiler (nov07-w15 agb15, GFORCE) with the m2c register names forced
+    (var_rN -> rN, sp24x spilled, var_sl -> sl) gives 1233 on this base. Helpers in scratch
+    nov07-w77N/f85: vmap.py (decl -> pseudo -> GA hard reg; function-scope decls start at pseudo 23),
+    gforce.py (GFORCE list from names), gf.sh, ga.sh, reg.py (per-region filtered counts).
+  - Kind-1 loop: ROM priority order is var_r6, var_r4, var_r5 > var_r7 > var_r8 > var_r9 (r4..r9 by
+    name). Ours allocates var_r7 (shared with SPLIT col) and var_r8 (SPLIT line, icons) first, so the
+    counter takes r4, len r7, acc r8 and var_r4 is caller-saved in r3. Four `asm("" : : "r"(var_r4));`
+    uses in the inner do-while (after `var_r8++;`) put all six in their ROM registers, and var_sl then
+    lands in sl. Aligned diff 857 -> 794, but the size goes to 4980 and filtered rises to 1755
+    (alignment), so it is not landed. With var_r5 uses too (`"r"(var_r4), "r"(var_r5)` x4) it is
+    1249 at 4980 bytes (r4/r5 swapped). The extra 8 bytes are kind-1 shape (the char copy before
+    `cmp #255`, text85 reload) plus case-2 shifts.
+  - Template shape (literal-0 tails mode): a macro-local `d_ = DST` set after `val_ = VALUE` reproduces
+    the ROM `ldr r0,=text85; mov sl,r0` before `s_ = res + 2` and `mov r4,sl; add r4,r8` in the
+    case-3 first template exactly. But the ROM's post-template `&d[LEN - 1]` uses the same
+    register, so d outlives the macro, and the ROM's 0x51 stores are `*++p = 0x51; *++p = 0x51;`.
+    A function-scope dst85 gets constant-propagated to text85 (1753); hiding it with asm reshuffles
+    allocation (2124). Not landed.
+  Next: land the kind-1 priority fix once the case-2/kind-1 bytes are found, then var_r8_12/15 -> r8
+  (GFORCE -25) and var_r6_3/5/8/11 -> r6 (ROM p in r6; ours sl).
+claude-nov07-w85N (2026-11-07, sixth pass): filtered nmdiff 1302 -> 60, size 4972 -> 4964 (ROM 4972),
+  frame 0x2B0 -> 0x2AC (= ROM). The old 4972 was the wrong mode (two extra digit tails); this body has the
+  ROM's 117 calls in order and every switch case / template lines up. Steps, each verified in the full module:
+  - callFlag removed: literal 0 in the five tails and the icon calls, temp_r4_11 / var_r4_16 / 1 for
+    sub_08081518 (ROM `str r4,[sp]` / `movs r0,#1`). Tails cross-jump like the ROM again.
+  - One var_r6 for the kind-1/split source, the case-5 +0x9B pointer and every post-template pointer;
+    DST2 passed as `var_r6 + 1` (computed after the value load, ROM `adds r5,r6,#1; mov r9,r5`);
+    the 0x51 stores as `*++var_r6 = 0x51` twice.
+  - FMT macro: block-local `d_ = (DST)` after the value; FMT1 variant ends with `P = &d_[LEN - 1]`
+    (ROM `mov r0,r8; subs r0,#1; ldr r1,=text85; adds r6,r1,r0`, case 3/4 use the hoisted sl).
+  - One u32 var_r8 for the kind-1 length, split line, icon loops, both detail loops and the digit-tail x
+    (ROM r8 everywhere). Tail: `var_r0 = A638(text85); { s32 w_ = x + 0xF; FB7C(w_ - (var_r0 >> 1)..);
+    temp_r6 = 53CC(); 65230(temp_r6, ((w_ - (A638(text85) >> 1)) - digits) * 8, ..) }` - the block-local
+    w_ is local-alloc'd (r4) so text85 gets r5 and temp_r6 r6 as in the ROM.
+  - Reload rotation: the final section's `(u32)((i << 17) + 0x80000) >> 16` became `(u16)(i * 2 + 8)` in a
+    variable computed before the value; that removed a giv and the extra ldrh, and the function's
+    callee-saved spill reg went r6 -> r5, which fixed the reload registers in every switch-1 case.
+  - Kind 1 stores `text85[var_r8 + var_r5] = c` (loop.c makes the ROM r2 pointer giv); first detail loop
+    indexes `sp250[var_r8].kind` (ROM giv `adds r1,r3,#0`); second loop uses sp250->kind directly.
+  - Icon loops are for loops; the second passes `0x84 - var_r7 * 0xC + var_r8 * 0x18` (ROM giv in r4).
+  - The FAKE `asm("" : : "g"(sp240..))` and the kind-1 `asm("r"(var_r4))` hints are gone (not needed).
+  MATCHED (same pass, later commit): the last 8 bytes / 60 lines were
+  - final `orrs r0,r1`: `y85 = 0x140000; var_r0_3 |= y85;` (a function-scope var in r1 carries the constant,
+    as the sibling sub_08082960 does with work1);
+  - switch-3 case 1 `ldrh r0; lsls r3,r0,#16; lsrs r3,r3,#16`: `var_r0_3 = sp250->value; asm("" : "+r"(var_r0_3));`
+    then pass `(u16) var_r0_3` (FAKE barrier, combine otherwise folds the extension into the load);
+  - kind-1 `adds r0,r1,#0; cmp r0,#255`: compare a copy behind `asm("" : "+r"(var_r0))` and keep the char
+    alive with `asm("" : : "r"(var_r1))` on both paths (FAKE, no code); size reached 4972 here;
+  - case-5 first template div r7 / st r6: a FMT1C copy of the macro with a FAKE `asm("" : : "r"(st_))` after
+    `st_ = 1` (raises st_'s global-alloc priority above div_); GFORCE 1294:7,1296:6 confirmed it was the only diff;
+  - icon loop table85 in r6: a block-local `u8 *e_ = table85;` set before `temp_r5_9 = &icons[...]` makes the
+    symbol load's lifetime long enough for loop.c to hoist it (life 1 -> "not desirable" with 34 insns).
+  Each FAKE asm was re-tested: removing any one of them breaks the match.
+  Scratch tools: nov07-w85N (r1.sh/par.sh one-line summary, sbs.py aligned diff, drift.py per-call drift,
+  tregs.py template regs, hsum.py refs per hard reg, pri.py GA priorities, dump.sh lreg/greg).
