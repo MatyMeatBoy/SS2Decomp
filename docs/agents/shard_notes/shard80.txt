@@ -78,3 +78,15 @@ nov03-w5 on sub_08079458 (still 14 lines): the entry RTL (lreg dump: agbcc a.i -
   insn would fix it, but i's live length must stay >= 742 (741 ties &sy and i wins by
   regno).  Tried: nested ifs/continue/while forms, casts, team bitfield, pointer members,
   separate counters (all 53 or code changes).
+
+2026-11-07 (claude-nov07-wC, follow-up): sub_08078BCC MATCHES; NONMATCHING wrapper and
+  asm/nonmatchings/.../sub_08078BCC.s removed.  The last 11 lines (loop-1 base r6+copy vs
+  r7) closed by writing loop 1 as `i = 0; if (i < count) { u8 *team = &player->team;
+  struct PlayerBCC *pl = playersBCC; do { p = (struct PlayerBCC *)(i * sizeof(*p) +
+  (u32)pl); if (*team == p->team) ... } while (++i < count); }`.
+  - team/base computed after the entry test (ROM preheader order), one RTL insn less in
+    the loop, and no load_mems copy of the base, so the base pseudo takes r7.
+  - `&pl[i]` / `pl + i` give `adds r2, r7, r0`; the explicit `i * size + (u32)pl` keeps
+    the ROM's `adds r2, r0, r7` operand order.
+  - The i live-range casts from the previous note are still required (removing any one
+    -> 68 lines, i back in r8).

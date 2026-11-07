@@ -2867,7 +2867,6 @@ void sub_08078B24(u32 who, u32 b)
     sub_08000274_3((u32)t, who - 4, b << 16 | i);
     gMasks7D04[who] |= 1 << i;
 }
-#ifdef NONMATCHING
 struct AttrBCC { u32 kind:4; u32 x:12; u32 y:12; u32 pad:4; u32 flags:6; u32 pad2:4; u32 on:1; u32 power:8; u32 pad3:13; };
 struct PlayerBCC { u16 id; u8 pad02[0x1e]; u16 state; u8 pad22[0xe]; u32 flags; u8 pad34[0x34]; u8 team; u8 pad69[0x1f]; u16 hp; u8 pad8a[2]; s32 pos[2]; u8 pad94[0x2e]; u16 unkC2; s16 unkC4; u8 padc6[0x32]; s32 tags[15]; u16 unk134; u8 pad136[0x12]; struct AttrBCC *attr; };
 struct SpriteBCC { u32 f0, f4, f8; void *fC; u8 pad10[12]; u8 unk1C, unk1D; u8 pad1e[22]; };
@@ -2892,9 +2891,6 @@ extern void areaBCC(struct VecBCC *, struct BoxBCC *, u32) asm("sub_0801FB14");
 extern void sendBCC(struct PacketBCC *) asm("sub_080660EC");
 extern s16 atanBCC(s16, s16) asm("ArcTan2");
 extern s32 sqrtBCC(s32) asm("Sqrt");
-/* Remaining diff (8 lines): loop 1 keeps playersBCC in r6 and copies it to
-   r7 at the loop entry; the ROM keeps it in r7.  The ROM hoists
-   &player->team in the first loop pass (loop 1 has one RTL insn fewer). */
 void sub_08078BCC(s32 who, s32 bit)
 {
     struct PlayerBCC *members[4];
@@ -2947,25 +2943,31 @@ void sub_08078BCC(s32 who, s32 bit)
     power = 0;
     snd = 1;
     cnt = 0;
-    for (i = 0; i < count; i++) {
-        struct PlayerBCC *p = &playersBCC[i];
-        if (player->team == p->team) {
-            struct AttrBCC *a;
-            members[n] = p;
-            a = p->attr;
-            switch (a->kind) {
-            case 0:
-            case 1:
-                if (a->on) {
-                    cnt++;
-                    sum.x += a->x << 8;
-                    sum.y += a->y << 8;
-                    power += a->power;
+    i = 0;
+    if (i < count) {
+        /* team and base are loaded once, after the entry test */
+        u8 *team = &player->team;
+        struct PlayerBCC *pl = playersBCC;
+        do {
+            struct PlayerBCC *p = (struct PlayerBCC *)(i * sizeof(struct PlayerBCC) + (u32)pl);
+            if (*team == p->team) {
+                struct AttrBCC *a;
+                members[n] = p;
+                a = p->attr;
+                switch (a->kind) {
+                case 0:
+                case 1:
+                    if (a->on) {
+                        cnt++;
+                        sum.x += a->x << 8;
+                        sum.y += a->y << 8;
+                        power += a->power;
+                    }
+                    break;
                 }
-                break;
+                n++;
             }
-            n++;
-        }
+        } while (++i < count);
     }
     sum.x /= cnt;
     sum.y /= cnt;
@@ -3171,9 +3173,6 @@ end:
     sub_0805867C(0x17F);
     masksBCC[who] &= ~(1 << bit);
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_08073E2C", sub_08078BCC);
-#endif
 struct Task93BC { u32 f0, f4, f8, fC, f10, f14, f18, f1C, f20, f24; };
 extern u32 gMasks93BC[] asm("gUnk_030063E0");
 extern u8 *gLists93BC[] asm("gUnk_030063B0");
