@@ -2143,8 +2143,7 @@ void sub_080923FC_u8(u32 arg0, u32 arg1) {
     /* Compare the wrapped halfword in its shifted signed representation. */
     timer = 180;
     lowerLimit = -66 * 0x10000;
-    offsetLo = &v923FC_252;
-    offsetHi = &v923FC_256;
+
     do {
         shake = sub_08092E34();
         if (!BUSY923FC()) {
@@ -2157,8 +2156,10 @@ void sub_080923FC_u8(u32 arg0, u32 arg1) {
                 s16 clamp;
                 accum += 4;
                 d = (s16)accum >> 8;
+                offsetLo = &v923FC_252;
                 lower = (u16)(*offsetLo) - d;
                 (*offsetLo) = lower;
+                offsetHi = &v923FC_256;
                 upper = (u16)(*offsetHi) + d;
                 (*offsetHi) = upper;
                 clamp = lowerLimit >> 16;
