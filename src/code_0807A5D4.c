@@ -1398,10 +1398,10 @@ void sub_0807C29C(void) {
                     gMgr82->held.count = gInv82->items[gMgr82->cursor].count;
                     gMgr82->state = 20;
                     gMgr82->fC = 0;
-                    v0 = gInv82->items[gMgr82->cursor].count;
+                    val = gInv82->items[gMgr82->cursor].count;
                     n0 = 6;
                     for (i = 4; i <= 9; i++, n0--) {
-                        if (gUnk_084EBD4C[i] <= v0)
+                        if (gUnk_084EBD4C[i] <= val)
                             break;
                     }
                     gMgr82->f14 = n0;
@@ -1555,10 +1555,11 @@ void sub_0807C29C(void) {
                 if (gInv82->items[gMgr82->heldIdx].count == gMgr82->held.count) {
                     item = (struct Item82 *)((u8 *)gInv82 + gMgr82->cursor * 16 + 0x150);
                     if (item->kind == 10) {
-                        v0 = gInv82->items[gMgr82->cursor].count + gMgr82->held.count;
-                        if (v0 <= 100000) {
+                        u32 vb; /* own money sum (ROM r0; v0 sat in r1 and pushed cursor/cursor*16 to r3/r1). The count loop above uses val. */
+                        vb = gInv82->items[gMgr82->cursor].count + gMgr82->held.count;
+                        if (vb <= 100000) {
                             if (gMgr82->heldIdx != gMgr82->cursor) {
-                                gInv82->items[gMgr82->cursor].count = v0;
+                                gInv82->items[gMgr82->cursor].count = vb;
                                 sub_0807BD78(gMgr82->heldFrom, gMgr82->heldIdx);
                             }
                             DROP82();
@@ -1566,7 +1567,7 @@ void sub_0807C29C(void) {
                             break;
                         }
                         if (gMgr82->heldIdx != gMgr82->cursor) {
-                            gMgr82->held.count = v0 - 100000;
+                            gMgr82->held.count = vb - 100000;
                             gInv82->items[gMgr82->cursor].count = 100000;
                             sub_0807BEA0(0, gMgr82->heldIdx, (void *)hd);
                         }
