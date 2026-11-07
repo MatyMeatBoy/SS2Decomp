@@ -3527,9 +3527,10 @@ done82:
         gMgr82->cur = NULL;
         break;
     case 8:
-        idx = sub_0805D548(gInv82->f56[gMgr82->cursor] - 1);
-        if (idx != -1)
-            gMgr82->cur = &gInv82->items[idx];
+        /* function-level i, not idx (ROM keeps the result in r5) */
+        i = sub_0805D548(gInv82->f56[gMgr82->cursor] - 1);
+        if (i != -1)
+            gMgr82->cur = &gInv82->items[i];
         else
             gMgr82->cur = NULL;
         break;
