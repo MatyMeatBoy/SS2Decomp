@@ -3011,7 +3011,7 @@ void sub_0808C0C4_v(void) {
     register u32 portraitLookupC0 asm("r1");
     register u32 portraitRowC0 asm("r0");
     /* This product dies before r3 becomes the draw call fourth argument. */
-    register u32 countTripletC0 asm("r3");
+    u32 countTripletC0;
     u8 *portraitBaseC0;
     u8 *portraitTableC0;
     struct C0Player *playerTableC0;
@@ -3154,6 +3154,7 @@ loop_16:
     sub_0801A3D0(temp_r4_2, (u16) (0xF - ((u32) sub_0801A638(temp_r4_2) >> 1)), 0x12);
     for (loopCounterC0 = 0; loopCounterC0 < 5; loopCounterC0++)
         sp150[loopCounterC0] = 0;
+    do { do {
     loopCounterC0 = 0;
     var_r9 = 0;
     goto loop_24CheckC0;
@@ -3187,6 +3188,7 @@ loop_24BodyC0:
 loop_24CheckC0:
     if (loopCounterC0 < sub_08002164())
         goto loop_24BodyC0;
+    } while (0); } while (0);
     temp_r6 = sub_080020F4();
     if (0x20 & gHeldC0) {
         playerStrideC0 = 0x14C;
