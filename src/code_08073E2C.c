@@ -917,31 +917,31 @@ void sub_08075778(struct Arg5778 *arg)
     u8 atk[0xC4];
     s16 dx, dy;
     u16 frame, timer;
+    u16 ang;
     struct Pos5778 pos;
     struct Pos5778 opos;
     struct Box5778 box;
     struct Box5778 box2;
-    u16 local;
+    struct Ene5778 *e;
     u16 target;
-    u32 who;
-    u32 slot;
+    u32 lo;
+    u32 serial;
     u32 kind;
+    s32 x, y;
     u32 n;
+    s32 iter;
+    u32 dirIdx;
+    u16 local;
+    u32 slot;
+    s32 power;
     u32 big;
+    u32 who;
     struct Ply5778 *p;
     struct Ply5778 *q;
     struct Ene5778 *e2;
-    struct Ene5778 *e;
-    s32 x, y;
-    u32 dirIdx;
     u32 d;
-    u32 lo;
-    u32 serial;
-    s32 power;
     u16 j;
     u32 cnt;
-    u16 ang;
-    s32 iter;
     s32 t;
     s32 hit;
     s32 ok;
@@ -969,9 +969,15 @@ void sub_08075778(struct Arg5778 *arg)
     lo = (u32)(((u8 *)p->entity)[0] << 28) >> 28;
     if (who == local) {
         serial = (u16)p->serial;
-        memcpy(atk, tmpl5778(), 0xC4);
-        if (*(u16 *)(atk + 0xBC) == 0)
-            *(u16 *)(atk + 0xBC) = inv5778[*(u16 *)(inv5778 + 0x68) * 16 + 0x77];
+        {
+            void *src = tmpl5778();
+            memcpy(atk, src, 0xC4);
+        }
+        if (*(u16 *)(atk + 0xBC) == 0) {
+            u8 *b = inv5778;
+            b += *(u16 *)(b + 0x68) * 16;
+            *(u16 *)(atk + 0xBC) = b[0x77];
+        }
         if (kind != 0)
             power = p->power * 3;
         else
@@ -991,7 +997,7 @@ void sub_08075778(struct Arg5778 *arg)
             target = 0xFFFF;
     } else {
         cnt = sub_08002164();
-        for (j = 0; j < cnt && p5778[j].id != target; j++)
+        for (j = 0; j < cnt && (q = &p5778[j])->id != target; j++)
             ;
         if (j >= cnt || target == who)
             target = 0xFFFF;
@@ -1000,28 +1006,40 @@ void sub_08075778(struct Arg5778 *arg)
         if (target > 3) {
             dx = (e->x - x) >> 8;
             dy = (e->y - y) >> 8;
-            t = (u16)atan5778(dx, dy) >> 8;
+            d = (u16)atan5778(dx, dy) >> 8;
+            t = (u8)d;
             if (t > 0x80)
-                t -= 0x100;
-            ang = t;
+                d = (u16)(t - 0x100);
+            ang = d;
+            {
+                s16 sa = ang;
+                if (sa < 0)
+                    ang = sa + 0x100;
+            }
+            {
+                s16 sb = ang;
+                if (sb > 0x100)
+                    ang = sb - 0x100;
+            }
         } else {
             struct Ent5778 *te = p5778[target].entity;
             dx = (te->xRaw >> 4) - (x >> 8);
             dy = ((u32)(te->yRaw << 20) >> 20) - (y >> 8);
-            t = (u16)atan5778(dx, dy) >> 8;
-            ang = t;
+            d = (u16)atan5778(dx, dy) >> 8;
+            t = (u8)d;
             if (t > 0x80)
-                ang = t - 0x100;
-        }
-        {
-            s16 sa = ang;
-            if (sa < 0)
-                ang = sa + 0x100;
-        }
-        {
-            s16 sa = ang;
-            if (sa > 0x100)
-                ang = sa - 0x100;
+                d = (u16)(t - 0x100);
+            ang = d;
+            {
+                s16 sa = ang;
+                if (sa < 0)
+                    ang = sa + 0x100;
+            }
+            {
+                s16 sb = ang;
+                if (sb > 0x100)
+                    ang = sb - 0x100;
+            }
         }
     } else {
         ang = dir5778[((u8 *)p->entity)[3] >> 4];
