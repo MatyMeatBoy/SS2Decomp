@@ -2790,7 +2790,11 @@ void sub_0807C29C(void) {
                 if (val <= 100000) {
                     gMgr82->stock[gMgr82->heldIdx].count -= gMgr82->held.count;
                     gMgr82->stock[gMgr82->cursor + gMgr82->page * 15].count += gMgr82->held.count;
-                } else if (gMgr82->heldIdx != slot) {
+                    DROP82();
+                    sub_0805865C(0x5F);
+                    break;
+                }
+                if (gMgr82->heldIdx != slot) {
                     gMgr82->held.count = val - 100000;
                     gMgr82->stock[gMgr82->cursor + gMgr82->page * 15].count = 100000;
                     sub_0807BEA0(gMgr82->heldFrom, gMgr82->heldIdx, (void *)held);
