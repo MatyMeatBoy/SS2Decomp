@@ -1,37 +1,37 @@
 {
   "address": "0x08027C1C",
-  "updated_utc": "2026-11-06T22:45:15.798404+00:00",
-  "checkpoint": "42744c9be5f90724e916df1f39a0d5c5ddab12da",
+  "updated_utc": "2026-11-07T03:39:09+00:00",
+  "checkpoint": "codex-sol-b-nov07: replace the second four-slot reset with the original do/while shape and remove the g r8 binding; ordinary allocation still selects r8 and CSE shares the sprite index/base. Fresh baseline 1876 bytes, byte edit distance 342, halfword edit distance 245, nmscore 287; candidate 1864 bytes, distances 291/208, nmscore 256. Original 1868 bytes. Current frame 0x248 versus original 0x24C. Historical checkpoint 42744c9be5f90724e916df1f39a0d5c5ddab12da and its bounded traces belong to an earlier source shape.",
   "areas": [
     {
       "id": "compile",
       "label": "Complete compiling draft",
       "state": "done",
-      "evidence": "The owned NONMATCHING draft compiles. make -j1 compare prints shiningsoul2_eu.gba: OK with the original ASM fallback; make -j1 nonmatching exits 0; check_tree reports 0 errors. No equivalent-C claim is made."
+      "evidence": "The current owned NONMATCHING draft compiles. Normal make compare prints shiningsoul2_eu.gba: OK with original ASM fallback; full make nonmatching succeeds; check_tree reports 0 errors. These checks establish baseline integrity, not draft equivalence."
     },
     {
       "id": "frame",
-      "label": "Original 588-byte local frame",
-      "state": "done",
-      "evidence": "The original frame is 0x24C bytes. Compiler RTL showed two extra spill slots at SP+588 and SP+592 caused by the next-effect pointer and field-address hoisting. Separate temporary bases at sub_08065370 prevent retaining field addresses across state branches. The module candidate now allocates exactly 588 bytes, matching the original frame; complete code still differs."
+      "label": "Match the original 588-byte local frame",
+      "state": "active",
+      "evidence": "Fresh real-module output for the current rewrite allocates 0x248 bytes, while original ASM allocates 0x24C. The missing word is the original nextGroup home at SP+0x248; current pseudo32 uses sl and j uses r6, versus original j in sl. The former done milestone described historical checkpoint 42744c9b and is not evidence for this rewrite. Volatile nextGroup and shared lifetime carriers regress current byte/halfword comparisons and were not retained."
     },
     {
       "id": "initialization",
       "label": "Effect record and configuration initialization",
       "state": "active",
-      "evidence": "The draft scans input record kinds 8/9 at stride 0x124, initializes effect records at runtime+0x58C, and uses position/active tables at +0x160/+0x22C. One canonical global-pointer view and an explicit gUnk_084B186C configuration-tail alias reduce avoidable CSE differences. Configuration setup is confined to its guarded phases; one pointer carrier serves configuration base, configuration tail and later next-effect roles. Exact register and literal-pool order remains unresolved. Follow-up at this checkpoint restores the actual first-phase outer group do/while loop and moves second-phase configuration setup after the group offset calculation, matching the observed initialization order. No additional work milestone is marked complete."
+      "evidence": "The draft scans record kinds 8/9 at stride 0x124 and initializes effect records at runtime+0x58C with position/active tables at +0x160/+0x22C. Group-next lifetime, initialization registers, configuration-tail address formation and one spill home remain unresolved. No historical configuration-tail helper or exact-frame claim is carried into the current source."
     },
     {
       "id": "animation",
       "label": "Animation state loop and helper arguments",
       "state": "active",
-      "evidence": "The draft retains state cases 0/10/11/12, sprite helper calls, packet/item handling and display/hide calls. A local inline helper now holds the loaded runtime base through the paired position and active-state stores, reproducing the observed single global-pointer load. The multiplayer item-spawn retry uses a yield-before-check layout; all 40 static call targets now follow the original order, with no emitted helper call. Original-ROM and candidate traces, RAM, callee-saved registers and SP agree in 577 bounded scenarios using stubbed callees with scratch-register clobbers, up to ten effects, states 0/10/11/12, both input record kinds, multiplayer limits and retry paths. Known resource-pointer fields are canonicalized between linked layouts. These bounded traces do not establish complete semantic equivalence; the area stays active."
+      "evidence": "The current draft retains states 0/10/11/12, sprite helpers, item-spawn retries and display/hide calls. Removing the g r8 binding lets ordinary allocation choose r8 while CSE shares the sprite index and base across drawing arguments. The second four-slot reset now enters its body unconditionally as in the original, removing the extra entry comparison/branch. Original and candidate have the same 40 static external-call targets in order. Fresh full-module dump control equals the ordinary NONMATCHING object. Historical 577 bounded scenarios were not rerun against this rewrite and do not establish its equivalence."
     },
     {
       "id": "match",
       "label": "Exact active C and linked ROM match",
       "state": "pending",
-      "evidence": "Strict module comparison remains NO MATCH. Original and candidate are 1868 bytes with the same 588-byte local frame. Approximate nmscore changes from 302 to 294; differing normalized halfwords change from 639 to 644 as the retry layout and literal pools move. Neither ranking measure proves a match. The selected shape restores the original single runtime-base load and static call ordering, and passes 577 bounded original-ROM/candidate scenarios with stubbed callees. Normal make compare prints shiningsoul2_eu.gba: OK with the ASM fallback, the full NONMATCHING build succeeds, and check_tree reports 0 errors. No new matching C bytes are claimed."
+      "evidence": "Strict normalized bytes/relocations remain NO MATCH. Original/candidate sizes are 1868/1864 bytes; original/candidate frames are 0x24C/0x248. Relative to the fresh main baseline, byte edit distance improves 342 to 291 and halfword edit distance 245 to 208; approximate nmscore improves 287 to 256. No matching C bytes are claimed. Normal compare passes with ASM fallback, the full NONMATCHING build succeeds, and check_tree reports 0 errors."
     }
   ],
   "regions": []
