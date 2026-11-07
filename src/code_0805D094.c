@@ -904,6 +904,8 @@ void e0c4Impl(struct Task0C4 *task)
     u8 *s;
     u8 *next;
     u8 c;
+    u16 attr;
+    u8 cf;
     struct Window0C4 *w;
 
     script = task->script;
@@ -916,17 +918,10 @@ void e0c4Impl(struct Task0C4 *task)
     num = numBuf;
     name = nameBuf;
     next = script + 1;
-    k = 0;
-    j = 0;
-    do {
-        line = 0;
-        do {
-            ((u8 *)lines)[k + line] = 0xFD;
-            line++;
-        } while (line < 18);
-        k += 30;
-        j++;
-    } while (j < 2);
+    for (j = 0; j < 2; j++) {
+        for (line = 0; line < 18; line++)
+            lines[j][line] = 0xFD;
+    }
     c = *script;
     if (c != 0)
         portrait = (u8)(c - 1);
@@ -962,13 +957,13 @@ void e0c4Impl(struct Task0C4 *task)
     }
     *pValue = sub_0801E4B0();
     s = num;
-    s[0] = sub_08000498(pValue, 10000000);
-    s[1] = sub_08000498(pValue, 1000000);
-    s[2] = sub_08000498(pValue, 100000);
-    s[3] = sub_08000498(pValue, 10000);
-    s[4] = sub_08000498(pValue, 1000);
-    s[5] = sub_08000498(pValue, 100);
-    s[6] = sub_08000498(pValue, 10);
+    s[0] = sub_08000498(&value, 10000000);
+    s[1] = sub_08000498(&value, 1000000);
+    s[2] = sub_08000498(&value, 100000);
+    s[3] = sub_08000498(&value, 10000);
+    s[4] = sub_08000498(&value, 1000);
+    s[5] = sub_08000498(&value, 100);
+    s[6] = sub_08000498(&value, 10);
     s[7] = value;
     s[8] = 0;
     numIdx = 0;
@@ -986,8 +981,8 @@ void e0c4Impl(struct Task0C4 *task)
     for (i = 0; first <= 7; first++, i++)
         num[i] = num[first];
     num[i] = 0xFD;
-    i++;
-    num[i] = 0;
+    k = i + 1;
+    num[k] = 0;
 
     playerName = &name0C4[sub_080020F4() * 0x14C];
     i = 0;
@@ -998,25 +993,26 @@ void e0c4Impl(struct Task0C4 *task)
         } while ((name[i] = name0C4[i]) != 0xFD);
     }
     if (sub_08002204() == 0) {
-        s = (u8 *)sub_08007290(0x1404DF) + 2;
-        for (; i <= 12; i++, s++) {
-            if ((name[i] = *s) > 0xF1)
+        s = (u8 *)sub_08007290(0x1404DF);
+        for (j = 2; i <= 12; i++, j++) {
+            if ((name[i] = s[j]) > 0xF1)
                 goto found;
         }
         goto done;
     found:
         name[i] = 0xFD;
-        i++;
-        name[i] = 0;
+        k = i + 1;
+        name[k] = 0;
     } else {
-        i++;
-        name[i] = 0;
+        k = i + 1;
+        name[k] = 0;
     }
 done:
     strIdx = 0;
     numIdx = 0;
     idx0 = 0;
     nameIdx = 0;
+    attr = 0;
     delay = 1;
     hold = 0;
     blink = 0;
@@ -1045,12 +1041,11 @@ done:
         case 2:
             break;
         case 3:
-            c = *script;
-            if (c == 0xFE) {
+            if (*script == 0xFE) {
                 task->state = 4;
                 break;
             }
-            if (c == 0xFF) {
+            if (*script == 0xFF) {
                 if (line >= task->maxLines) {
                     task->state = 4;
                     script++;
@@ -1061,16 +1056,16 @@ done:
                 script++;
                 break;
             }
-            if (c == 0xFA) {
+            if (*script == 0xFA) {
                 speed = 10;
                 script++;
-            } else if (c == 0xF9) {
+            } else if (*script == 0xF9) {
                 speed = 20;
                 script++;
-            } else if (c == 0xF8) {
+            } else if (*script == 0xF8) {
                 speed = 1;
                 script++;
-            } else if (c == 0xFD) {
+            } else if (*script == 0xFD) {
                 task->state = 6;
                 break;
             }
@@ -1082,8 +1077,7 @@ done:
                 else
                     sub_0805865C(0xC8);
             }
-            c = *script;
-            if (c == 0xFC) {
+            if (*script == 0xFC) {
                 lines[line][task->col] = playerName[strIdx];
                 strIdx++;
                 if (playerName[strIdx] == 0) {
@@ -1091,7 +1085,7 @@ done:
                     strIdx = 0;
                     task->col--;
                 }
-            } else if (c == 0xF6) {
+            } else if (*script == 0xF6) {
                 lines[line][task->col] = name0C4[idx0];
                 idx0++;
                 if (name0C4[idx0] == 0) {
@@ -1099,7 +1093,7 @@ done:
                     idx0 = 0;
                     task->col--;
                 }
-            } else if (c == 0xF4) {
+            } else if (*script == 0xF4) {
                 lines[line][task->col] = name1C4[idx1];
                 idx1++;
                 if (name1C4[idx1] == 0) {
@@ -1107,7 +1101,7 @@ done:
                     idx1 = 0;
                     task->col--;
                 }
-            } else if (c == 0xF3) {
+            } else if (*script == 0xF3) {
                 lines[line][task->col] = name2C4[idx2];
                 idx2++;
                 if (name2C4[idx2] == 0) {
@@ -1115,7 +1109,7 @@ done:
                     idx2 = 0;
                     task->col--;
                 }
-            } else if (c == 0xF2) {
+            } else if (*script == 0xF2) {
                 lines[line][task->col] = name3C4[idx3];
                 idx3++;
                 if (name3C4[idx3] == 0) {
@@ -1123,7 +1117,7 @@ done:
                     idx3 = 0;
                     task->col--;
                 }
-            } else if (c == 0xF5) {
+            } else if (*script == 0xF5) {
                 lines[line][task->col] = name[nameIdx];
                 nameIdx++;
                 if (name[nameIdx] == 0) {
@@ -1131,7 +1125,7 @@ done:
                     nameIdx = 0;
                     task->col--;
                 }
-            } else if (c == 0xFB) {
+            } else if (*script == 0xFB) {
                 lines[line][task->col] = num[numIdx];
                 numIdx++;
                 if (num[numIdx] == 0) {
@@ -1139,11 +1133,11 @@ done:
                     numIdx = 0;
                     task->col--;
                 }
-            } else if (c == 0xFA) {
+            } else if (*script == 0xFA) {
                 script++;
-            } else if (c == 0xF9) {
+            } else if (*script == 0xF9) {
                 script++;
-            } else if (c == 0xF8) {
+            } else if (*script == 0xF8) {
                 script++;
             } else if (task->str != 0) {
                 lines[line][task->col] = task->str[strIdx];
@@ -1154,18 +1148,18 @@ done:
                     task->col--;
                 }
             } else {
-                lines[line][task->col] = c;
+                lines[line][task->col] = *script;
                 script++;
             }
             task->col++;
             lines[line][task->col] = 0xFD;
             if (task->timer < 0 && (keys0C4 & 3) != 0) {
-                c = *script;
-                if ((u8)(c + 3) > 2) {
-                    u8 *fastNum = num;
+                cf = *script;
+                if ((u8)(cf + 3) > 2) {
                     u8 *fastName = name;
+                    u8 *fastNum = num;
                     do {
-                        if (c == 0xFC || strIdx != 0) {
+                        if (cf == 0xFC || strIdx != 0) {
                             lines[line][task->col] = playerName[strIdx];
                             strIdx++;
                             if (playerName[strIdx] == 0) {
@@ -1173,7 +1167,7 @@ done:
                                 strIdx = 0;
                                 task->col--;
                             }
-                        } else if (c == 0xF6 || idx0 != 0) {
+                        } else if (cf == 0xF6 || idx0 != 0) {
                             lines[line][task->col] = name0C4[idx0];
                             idx0++;
                             if (playerName[idx0] == 0) {
@@ -1181,7 +1175,7 @@ done:
                                 idx0 = 0;
                                 task->col--;
                             }
-                        } else if (c == 0xF5 || nameIdx != 0) {
+                        } else if (cf == 0xF5 || nameIdx != 0) {
                             lines[line][task->col] = fastName[nameIdx];
                             nameIdx++;
                             if (fastName[nameIdx] == 0) {
@@ -1189,7 +1183,7 @@ done:
                                 nameIdx = 0;
                                 task->col--;
                             }
-                        } else if (c == 0xFB || numIdx != 0) {
+                        } else if (cf == 0xFB || numIdx != 0) {
                             lines[line][task->col] = fastNum[numIdx];
                             numIdx++;
                             if (fastNum[numIdx] == 0) {
@@ -1206,14 +1200,14 @@ done:
                                 task->col--;
                             }
                         } else {
-                            if (c > 0xF1)
+                            if (cf > 0xF1)
                                 script++;
                             lines[line][task->col] = *script;
                             script++;
                         }
                         task->col++;
-                        c = *script;
-                    } while ((u8)(c + 3) > 2);
+                        cf = *script;
+                    } while ((u8)(cf + 3) > 2);
                 }
                 lines[line][task->col] = 0xFD;
                 delay = speed;
@@ -1389,7 +1383,7 @@ done:
         }
         if (sub_0800CC98() == 0 && drawFlag != 0) {
             for (i = 0; i <= line; i++)
-                text0C4(lines[i], task->x | 0, (u16)(scroll + task->y + i * 2));
+                text0C4(lines[i], task->x | attr, (u16)(scroll + task->y + i * 2));
             if (blink != 0)
                 text0C4(gUnk_084EBD48, 0x1C, 0x11);
             if (portrait != 0xFF) {
