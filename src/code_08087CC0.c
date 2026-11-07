@@ -2170,10 +2170,10 @@ void sub_0808AFE8_v(void)
     u32 i;
     u32 j;
     u32 x;
+    u32 lx;
     struct RecAF91 *rec;
     struct EntryAF91 *e;
     u8 *text;
-    u16 *t;
 
     keysAF91[0] = 0;
     keysAF91[1] = 0xFFFD;
@@ -2196,23 +2196,22 @@ void sub_0808AFE8_v(void)
     bg.lo = 0x1D03;
     sub_08000AA8(3, (u16 *)&bg);
     sel = 0;
-    off10 = 0;
-    if (sub_0800CE30() != 0)
-        off10 = 10;
+    off10 = sub_0800CE30() ? 10 : 0;
     for (i = 0; i <= 9; i++) {
-        struct TypeAF91 *pa = recordTypesAF91[off10 + i]; struct TypeAF91 *pb = recordVals0AF91[off10 + i];
         for (j = 0; j <= 2; j++) {
+            struct TypeAF91 *pa, *pb;
             records[i][j].time = 0;
+            pb = &recordVals0AF91[off10 + i][j];
+            pa = &recordTypesAF91[off10 + i][j];
             if (sub_08058878(i, j) != 0) {
                 records[i][j].type = 1;
                 records[i][j].val = 0;
             } else {
                 records[i][j].b8 = 0;
                 records[i][j].b9 = 0;
-                records[i][j].type = pa[j].a;
-                records[i][j].val = pb[j].a;
+                records[i][j].type = pa->a;
+                records[i][j].val = pb->a;
             }
-
         }
     }
     col = 0;
@@ -2233,11 +2232,11 @@ void sub_0808AFE8_v(void)
     for (;;) {
         if (mode == 0) {
             i = 0;
-            x = 0x30;
+            lx = 0x30;
         list:
             if (i <= 9 && sub_080589D8(i) != 0) {
-                sub_080659BC(&anim, x, 0x10, 0, 0, 1);
-                x += 0x10;
+                sub_080659BC(&anim, lx, 0x10, 0, 0, 1);
+                lx += 0x10;
                 i++;
                 goto list;
             }
@@ -2327,9 +2326,9 @@ void sub_0808AFE8_v(void)
                 rec++;
                 x += 0x18;
             }
-            t = &timesAF91[sel];
-            sub_0805FB7C(2, 5, (u16)(*t / 3600), 0);
-            sub_0805FB7C(5, 5, (u16)((u16)(*t % 3600) / 60), 0);
+            sub_0805FB7C(2, 5, (u16)(timesAF91[sel] / 3600), 0);
+            sub_0805FB7C(5, 5, (u16)((u16)(timesAF91[sel] % 3600) / 60), 0);
+
             sub_0805FB7C(8, 5, 0, 0);
             sub_0805FB7C(2, 8, sub_08058900(sel) / 3600, 0);
             sub_0805FB7C(5, 8, sub_08058900(sel) % 3600 / 60, 0);
@@ -2381,9 +2380,9 @@ done:
             rec++;
             x += 0x18;
         }
-        t = &timesAF91[sel];
-        sub_0805FB7C(2, 5, (u16)(*t / 3600), 0);
-        sub_0805FB7C(5, 5, (u16)((u16)(*t % 3600) / 60), 0);
+        sub_0805FB7C(2, 5, (u16)(timesAF91[sel] / 3600), 0);
+        sub_0805FB7C(5, 5, (u16)((u16)(timesAF91[sel] % 3600) / 60), 0);
+
         sub_0805FB7C(8, 5, 0, 0);
         sub_0805FB7C(2, 8, sub_08058900(sel) / 3600, 0);
         sub_0805FB7C(5, 8, sub_08058900(sel) % 3600 / 60, 0);
