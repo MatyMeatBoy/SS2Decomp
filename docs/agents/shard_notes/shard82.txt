@@ -176,3 +176,117 @@ priority change to it moves every case. Try a per-branch `u32` copy that is not 
   or `kind = from;`/`kind = tg;` in the from==0 path.
   ROM there stores the zero from r6 (`from`, kept alive) and builds 340 in r7. Ours rematerializes
   `movs r1,#0` and builds 340 in r6. Next: find out why CSE in the ROM kept `from` as the zero register.
+
+2026-11-07 fifth follow-up (claude-nov07-w82N): full-module aligned diff 936 -> 551, casediff sum 1189 -> 900,
+case 13 diff 539 -> 248 (rdiff 84 -> 37), strict diff lines 2699 -> 2667, filtered nmdiff 2261 -> 2257. Still 18396 bytes.
+Every case is still size-exact.
+Diagnosis (zero register in case 13): the ROM stores the zeros of every from==0 path (the tg==0 kind store, the
+from-switch case 0 DROP, all money from==0 DROPs) from r6 = `from`. That comes from CSE jump equivalences: after
+`from == 0`, CSE merges const 0's class into from's class, and make_regs_eqv (cse.c) makes the reg with the latest
+REGNO_LAST_UID canonical. `from` wins only if it is used to the end of case 13. That happens when every money from==0
+branch has its own DROP82(), so CSE (still on the from==0 path) puts `from` in those DROPs.
+Our join-then-Drop82Sep shape ran each DROP in a fresh CSE block (const 0 -> movs). Other competitors in the zero class:
+the f6A=100 store (expanded as RMW: and/ior with a zero pseudo), the HImode keys&0x80 mask, tg.
+Landed:
+- money from==0: DROP82() + sound + break inside each branch. The count==count part is
+  `if (val<=100000) {..BD78; DROP82();} else {..BEA0; DROP82();} sound(0x5F); break;`, which cross-jumps into ROM's _0807EFDE.
+- from-switch default: block-local `it` with `(u8 *)gMgr82 + idx*16 + 0x104` (base first). Its tail now merges into the
+  shared _0807F750 tail like the ROM. Same address form for the 0xC0001 item and its 0x10C flag.
+- money from==13: block-local `u32 s; struct Item82 *it` (ROM's heldIdx=r7, &held.count=r8, stock base r2).
+- money from==13 DROPs: DROP82R uses a function-scope `struct Mgr82 **gp = &gMgr82`. It never gets a hard reg, so
+  reload re-loads the address per use (ROM: ldr r2/ldr r3 =gMgr82 around CpuSet). DROP82Z (count==count DROP) also takes the heldIdx
+  zero from an asm `mov %0, #0` (ROM: separate movs r1/movs r4 zeros). The last (val>100000) DROP stays Drop82Sep.
+Tried, not kept: an asm-zero DROP in the from==13 val>100000 path (makes the keys&0x80 mask canonical, +4 bytes);
+kind = from / re-reading cur->kind (no effect alone); f6A store via a plain pointer (-24 bytes).
+Left in case 13: the 0xC0001 BD78/else DROP (ROM keeps the address in r6 across CpuSet, ours reloads into r0/r4). Also the
+money from==13 slot*16 in sl (ROM computes the item as (gMgr82 + slot*16) + 260; ours reassociates). Also tg==0 kind store
+(ROM strh r6, ours movs). Tools: session scratchpad nov07-w82N (jl.py lists jumps/labels on a CSE path; dump.sh -ds/-dt dumps).
+
+2026-11-07 sixth follow-up (claude-nov07-w82M): filtered nmdiff 2257 -> 1804, full-module aligned diff 551 -> 420,
+strict diff lines 2667 -> 1794, casediff sum 900 -> 638 (case 0 rdiff 113 -> 75, case 13 rdiff 37 -> 27). Still 18396 bytes.
+Landed:
+- case 13 money from==13: block-local `vv` instead of the function-level `val`. val (r1) was live in both
+  from==13 paths, so it blocked slot s from r1; with vv the ROM's s=r1 / val=r0 / 100000=r5 appear.
+- case 13 0xC0001 kind 2..5 path: `struct Mgr82 **m` set in each branch via asm("" : "=r"(m) : "0"(&gMgr82)),
+  then Drop82P(&sp14, m): the ROM keeps the gMgr82 address in a callee-saved reg across BD78/BEA0 into the DROP.
+- from==13 DROPs use inline Drop82P/Drop82PZ(&sp14, gp) instead of the macros: the inline form computes
+  z (add r0, sp, #20) before the zero store, like the ROM.
+- case 0 mode-6 branch: block-local `struct Item82 *h` (ROM r1); the kind==9 test re-reads through
+  *(vu16 *)&h->kind (ROM loads held.kind twice; plain C lets CSE reuse the first load).
+- case 0 0xC0001/default/money paths: item and flag addresses written base-first
+  ((u8 *)gInv82 + cursor * 16 + 0x150 / 0x158). With items[cursor], cursor*16 stayed live (r7) and pushed the
+  f6A constant 100 to r9.
+- case 0 keys&1: block-local `hd` for the held pointer. ROM spills case 0's held to [sp,#52] while case 13's is r9.
+- case 0 keys&1: block-local `n0`/`v0` for the count loop and money value (function-level n/val; -22 aligned).
+- Block-local sweep (scratchpad bl.py/blall.py: every function-level var used in each keys/from if-block made
+  block-local, one at a time): case 5 keys&1 `fr` (from) and case 0 from==0x16 `it` (item) help; all others neutral
+  or worse (case 0 keys&0x10 cur, case 0/13 item, over).
+Diagnosis / found but not landed (each is right vs the ROM but costs size until reload rotation also matches):
+- money from==13 val<=100000 DROP (path 2): ROM passes `held` (r9) to CpuSet (`mov r1, r9`), i.e.
+  Drop82PH(&sp14, held, gp). Matches that DROP exactly but makes the draft 4 bytes short.
+- money from==13 count==count: item as (u8 *)gMgr82 + s * 16 + 0x104 gives ROM's s*16 in sl and the
+  `mov sl, r5` / `mov r0, sl` pair exactly (8 bytes short, combined with the above).
+  The rest of the gap is reload rotation. The ROM reloads gMgr82 again after CpuSet (r2 then r3, the swap DROP also
+  has a separate `movs r4,#0`). Ours picks a callee-saved reload reg (r4/r5) that survives the call and is inherited.
+  Theory (reload1.c round-robin, last_spill_reg): ROM's 100000 compare constant is a reload into r5 (pseudo not
+  allocated), so the next reloads go r6, r7 (`ldr r6,=-100000; mov r7, r8`) and then wrap to r2. Ours allocates
+  the 100000 pseudo to r5, so the rotation is r1, r3, r4.
+- The swap DROP's zero store in ours comes from the f6A=100 RMW zero pseudo (store_bit_field expansion
+  (f6A & 0) | 100). CSE follows the path from the f6A store. The ROM uses a fresh `movs r1,#0`. Asm zeros (Drop82Q) don't help.
+- case 0 default (held.kind != item->kind): ROM computes &held (m+244) before the item address. All tried forms
+  (held->kind, block-local h before item) are much worse (+16..+32 bytes).
+- Coordinator follow-up tries (all bigger than 18396, not landed):
+  * function-scope `u32 lim = 100000;` used for the from==13 compares/stores. The 100000 pseudo then gets no reg and
+    the val>100000 path reloads rotate like the ROM (`ldr r6,=-100000; mov r7, r8`), but case 13 grows +24. The freed
+    pressure lets the f6A RMW zero (5261) take sl (`movs r6,#0; mov sl,r6` after the f6A store), and the 0xC0001 DROP
+    tail stops cross-jumping (+6 insns). With slot*16 base-first + Drop82PH: aligned 441 (vs 420), +24 bytes.
+  * per-use asm("" : "=r"(c) : "0"(100000)) on the first compare: size-exact with slot*16 but aligned 487.
+  * case 13 f6A store via pointer / vs16 / asm constant: removes the RMW zero there, but reshapes the keys&1 entry
+    (gMgr82 reloaded after the store); still +20..+24 bytes.
+  Next: combine lim with something that keeps the f6A zero unallocated (or makes the 0xC0001 DROP zero match).
+Tools: session scratchpad nov07-w82M (lst.py/side.sh side-by-side by address, sdc.sh aligned diff with addresses,
+runp.sh parallel ck with retry, because the old run.sh silently drops some results under xargs -P 8).
+
+2026-11-07 seventh follow-up (claude-nov07-w82L): filtered nmdiff 1804 -> 1343, full-module aligned diff 420 -> 178,
+strict diff lines 1794 -> 1299, casediff sum 638 -> 394. Still 18396 bytes, every case size-exact.
+Landed (one commit each):
+- case 13 money from==13 count==count: item as (gMgr82 + s*16) + 0x104, a block-local `lim = 100000` set at the top
+  of the kind==10 block (before vv), and the val<=100000 DROP via Drop82PH(&sp14, held, gp) (ROM mov r1, r9).
+  The early lim set changes reload rotation: the val>100000 path now reloads ldr r6 / mov r7, r8 and both DROPs
+  reload gMgr82 into r2/r3 with the zero in r4, like the ROM (1804 -> 1793).
+- Block-local splits of function-level vars that the ROM keeps in different regs per region: case 0 0xC0001
+  default-branch item (dit, ROM r1), case 0 keys&0x80 cursor (cdn), case 0 non-held `item = gMgr82->cur` (cit),
+  case 6 belt loop counter (bi) (1793 -> 1628).
+- Thread (b) closed: case 0 default branch takes hh = &gMgr82->held and iv = gInv82 in a block before the item
+  address (ROM order &held r3, gInv82, cursor*16, item r1, now exact); case 17 puts heldIdx in the function-level
+  from instead of a block-local idx (1628 -> 1551).
+- post case 7: posY stored in both posX branches. Reload then gets posY's address as posX's + 4 (adds r1, #4)
+  and cross-jumping folds the tails, like the ROM (1551 -> 1508).
+- post case 18: block-local dd for the |f54 - f58| test (ROM r0; the function-level d sat in r2) (1508 -> 1476).
+- post cur lookup: sub_0805D548 result in the function-level i instead of idx (ROM r5; fixes the following reload
+  rotation) (1476 -> 1446).
+- case 14 keys&1: f48 limit in the function-level col instead of the block-local n (1446 -> 1436).
+- case 16 empty-target path: stock[0..2] occupancy count in the function-level i instead of the block-local nn;
+  case 17 held index in the function-level have (instead of from / the old block-local idx) (1436 -> 1343).
+Tools (session scratchpad nov07-w82L): sweep.py (function-level var -> local of the block around one def),
+sweep3.py (block-local -> function top / reuse a function-level var), sweep4.py (wrap def..next def in its own
+block), sweep5.py / sweep6.py (use another function-level var in a def region of a function-level / block-local var), comb.py (combine sweep picks), rl.sh
+(full-module RLDBG reload trace with the wC2 debug agbcc), plus GADBG=1 with wC4/agb4/gcc/agbcc.exe for global-alloc
+results (GA/RETRY lines). Check winners by hand for values used after the region.
+Diagnosis (lim / s*16, still open): the GA trace shows global alloc gives s*16 r5, reload spills r5 at the 0x104 const
+reload (only r5 free), and retry_global_alloc moves s*16 to a hi reg. global.c find_reg pass 0 takes the
+lowest-numbered hi reg already in use: lim gets sl in GA, so the s*16 retry lands in ip. ROM: s*16 in sl and 100000
+reloaded into r5 (lim unallocated). For that lim must get no reg at all (sl and ip both busy over its range; ip is
+free in path 1 in the ROM too), or sit in a lo reg that a reload then spills. Every alternate class here is ALL_REGS
+(the lreg dump never shows "or none"), so lim cannot be kept out of the hi regs by class.
+Tried, not kept: lim at other positions (before the count==count test: path 2's 100000 CSEs to it, -28; after s=/it=:
+-4; after vv: same as the literal), "l" asm uses on lim, asm("") padding to lengthen s*16's live range (changes
+jumps), asm-hidden path-2 constant, extra asm refs on the path-2 constant, block-local item in the case 13 0xC0001
+branch (fixes that branch, but case 0 shifts, -4) or in case 0 regions A/C, lim0 in case 0's money path (+4..+8),
+post case 8 `idx - -~cursor` (keeps ROM idx = base+3 and lets case 1's tail cross-jump like the ROM, but cursor/base
+r5/r3 vs ROM r6/r5 and a case 0 r4/r6 swap: filtered 1512 vs 1508, not kept), case 17 gInv82 loaded before heldIdx
+(iv local: aligned -2, filtered unchanged), case 0 money count==count v0 -> function-level col (filtered -10, case 0 diff -9, but `add r3, ip` replaces ROM `mov r0, ip; adds r2, r0, r3` and shifts code inside case 0 by 2 bytes: strict
+1399 -> 1521; not kept). Further sweeps (forward/reverse/var-substitution) on the final base found nothing.
+Next: case 0 (rdiff ~70, mostly reload rotation: pool-address reload regs r0/r2/r7 differ) and case 13's lim/s*16;
+the ROM's 100000 constants in both money paths (case 0 a36 r3, case 13 2b28 r5) are reloads, i.e. their pseudos got
+no hard reg - find what source shape leaves a REG_EQUIV constant unallocated.
