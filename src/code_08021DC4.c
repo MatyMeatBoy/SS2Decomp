@@ -1997,8 +1997,7 @@ void sub_08024538(s32 arg0) {
         p->flags |= 0x800000;
     }
 }
-#ifdef NONMATCHING
-/* NONMATCHING transition trigger; block order follows the original ASM. */
+/* Transition trigger: waits for the players to gather at the exit, then fires the area transition. */
 struct Task245CC { u8 bytes[0x28]; };
 struct Remote245CC { u16 x,y; u8 flags,p5,p6,flags7; };
 struct Input245CC { u16 x,y,destination,flags; };
@@ -2010,7 +2009,6 @@ struct Anim245CC { s32 w0,w4,w8; u8 *graphics; u8 p10[12]; u8 data[24]; };
 extern struct Player245CC local245CC_gUnk_03003CE0[] asm("gUnk_03003CE0");
 extern struct State245CC *local245CC_gUnk_03005CF4 asm("gUnk_03005CF4");
 extern struct Level245CC local245CC_gUnk_03003170 asm("gUnk_03003170");
-extern struct Remote245CC *local245CC_gUnk_03003E28 asm("gUnk_03003E28");
 extern u32 local245CC_gUnk_084B16E0[] asm("gUnk_084B16E0");
 extern u32 local245CC_gUnk_03005CF0 asm("gUnk_03005CF0");
 extern u32 local245CC_gUnk_030056FC asm("gUnk_030056FC");
@@ -2025,7 +2023,7 @@ void local245CC_sub_08065158(struct Anim245CC *,u32,s32,s32,s32) asm("sub_080651
 void local245CC_sub_08007870(s32,s16,u32,u16,u32,void *,s32,s32) asm("sub_08007870");
 void local245CC_sub_08008E74(s16,s16,u32,u16,u32,void *,s32,s32) asm("sub_08008E74");
 void local245CC_sub_0800BC08(s16,s16,s16 *,s16 *,u32,s32) asm("sub_0800BC08");
-void local245CC_sub_08057DD0(u32,u32,s32,s32,void (*)(s32),struct Input245CC *) asm("sub_08057DD0");
+void local245CC_sub_08057DD0(u32,u32,u16,u16,void (*)(s32),struct Input245CC *) asm("sub_08057DD0");
 void local245CC_sub_08065370(struct Anim245CC *,u32,u16 *,u16 *,u32) asm("sub_08065370");
 void local245CC_sub_080003F0() asm("sub_080003F0");                             /* extern */
 s32 local245CC_sub_0800048C() asm("sub_0800048C");                                 /* extern */
@@ -2087,7 +2085,7 @@ void sub_080245CC(struct Input245CC *arg0) {
     s32 sp98;
     u32 sp9C;
     u32 spA0;
-    u32 spA4;
+    u16 spA4;
     u32 spA8;
     u32 spAC;
     s32 spB0;
@@ -2098,14 +2096,7 @@ void sub_080245CC(struct Input245CC *arg0) {
     s32 spC4;
     u32 spC8;
     struct Map245CC *spCC;
-    s32 spD0;
-    s32 spD4;
-    s32 spD8;
-    struct Player245CC *spDC;
     u32 shiftedFlags;
-    s16 *temp_r7;
-    s16 temp_r0_8;
-    s16 temp_r0_9;
     s32 temp_r0_10;
     s32 temp_r0_3;
     s32 temp_r0_4;
@@ -2127,50 +2118,48 @@ void sub_080245CC(struct Input245CC *arg0) {
     s32 flaggedPlayers;
     s32 activePlayers;
     struct Player245CC *temp_r8;
-    struct Player245CC *var_r4;
-    struct Remote245CC **var_r6;
-    struct Remote245CC *temp_r1_3;
     struct Remote245CC *temp_r1_4;
-    struct Remote245CC *temp_r1_7;
     struct Remote245CC *temp_r1_8;
     struct Remote245CC *temp_r2;
     struct Remote245CC *temp_r2_2;
     struct Remote245CC *temp_r2_3;
-    u16 temp_r0_11;
+    u32 temp_r0_11;
     u16 temp_r1_11;
     u16 temp_r3;
-    u16 temp_r5;
     u32 temp_r0;
     u32 temp_r0_2;
     u32 temp_r0_5;
     u32 temp_r0_6;
     u32 temp_r1;
-    u32 temp_r1_10;
     u32 temp_r1_2;
     u32 temp_r1_5;
     u32 temp_r1_9;
     u32 var_r1_9;
     u32 var_r2_3;
+    u32 flagsTmp;
+    u32 row;
+    u32 t4;
+    u32 inext;
+    struct State245CC **pp;
+    u8 zz;
     u32 playerIndex;
     u8 *temp_r4;
     u8 *temp_r4_2;
     u8 temp_r6;
-    u8 temp_r6_2;
-    u8 temp_r6_3;
-    u8 temp_r6_4;
 
     sp84 = arg0;
     spB0 = (struct Task245CC *)local245CC_sub_0800048C() - (struct Task245CC *)((u8 *)local245CC_gUnk_03005CF4 + 0x17BC);
     spCC = local245CC_gUnk_03003170.map;
     sp8C = sp84->x * 8;
     sp90 = sp84->y * 8;
-    temp_r5 = sp84->flags;
-    shiftedFlags = (u32)temp_r5 << 16;
+    var_r5 = sp84->flags;
+    shiftedFlags = (u32)var_r5 << 16;
     temp_r3 = shiftedFlags >> 16;
     spA4 = (u32) temp_r3;
-    var_r5 = 1;
     if (8 & temp_r3) {
         var_r5 = 0;
+    } else {
+        var_r5 = 1;
     }
     if (0x80 & spA4) {
         spC4 = 1;
@@ -2217,19 +2206,19 @@ void sub_080245CC(struct Input245CC *arg0) {
             local245CC_sub_080003F0();
         if (local245CC_sub_080021A8() != 0) return;
         {
-            if (!(((u16) local245CC_gUnk_03005CF4->flags >> 3) & 1)) {
+            if ((flagsTmp = local245CC_gUnk_03005CF4->flags, !((flagsTmp >> 3) & 1))) {
                 local245CC_sub_08065370(&sp10, spA4, &sp78, &sp7A, 1);
                 if ((local245CC_sub_0800CC98() == 0) && (local245CC_sub_0800CCCC() == 0) && (temp_r0_4 = local245CC_sub_0800CD8C(), (temp_r0_4 == 0))) {
                     if (spBC != 0) {
                         local245CC_sub_08000AF0(0x1E, sp10.graphics + (spA4 << 5), 1);
                         spBC = 0;
                     }
-                    temp_r6_2 = (u8)local245CC_sub_0800BC44(sp8C, sp90, 0);
+                    temp_r6 = (u8)local245CC_sub_0800BC44(sp8C, sp90, 0);
                     local245CC_sub_0800BC08((s16) sp8C, (s16) sp90, &sp7C, &sp7E, 0x30, temp_r0_4);
                     if (spCC->wE != 0) {
-                        local245CC_sub_08008E74(sp7C, sp7E, spA4, sp78, temp_r6_2, &sp10.data[0], sp10.w8, sp10.w0);
+                        local245CC_sub_08008E74(sp7C, sp7E, spA4, sp78, temp_r6, &sp10.data[0], sp10.w8, sp10.w0);
                     } else {
-                        local245CC_sub_08007870(sp7C, sp7E, spA4, sp78, temp_r6_2, &sp10.data[0], sp10.w8, sp10.w0);
+                        local245CC_sub_08007870(sp7C, sp7E, spA4, sp78, temp_r6, &sp10.data[0], sp10.w8, sp10.w0);
                     }
                 } else {
                     spBC = 1;
@@ -2415,28 +2404,22 @@ afterPlayerBounds245CC: ;
             flaggedPlayers = 0;
             activePlayers = 0;
             matchedPlayers = 0;
-            playerIndex = 0;
-            spD8 = 0;
-            var_r6 = &local245CC_gUnk_03003E28;
-            goto checkRemotePlayers245CC;
-loop_156: {
-                temp_r1_3 = *var_r6;
-                sp7C = (s16) ((u16) temp_r1_3->x >> 4);
-                sp7E = (s16) ((u32) (temp_r1_3->y << 0x14) >> 0x14);
+            for (playerIndex = 0; playerIndex < local245CC_sub_08002164(); playerIndex++) {
+                sp7C = (s16) ((u16) local245CC_gUnk_03003CE0[playerIndex].remote->x >> 4);
+                sp7E = (s16) ((u32) (local245CC_gUnk_03003CE0[playerIndex].remote->y << 0x14) >> 0x14);
                 if ((s32) sp7C < 0) {
                     sp7C = 0;
                 }
                 if ((s32) sp7E < 0) {
                     sp7E = 0;
                 }
-                spDC = local245CC_gUnk_03003CE0;
 
+                asm("" : : "r"(matchedPlayers));
                 if (local245CC_sub_0800CB9C() != 0) {
                     if (local245CC_sub_0800CF80() != 0) {
-                        temp_r1_4 = *var_r6;
-                        if (((s32) (temp_r1_4->flags7 << 0x1B) < 0) || (var_r4 = spDC, ((temp_r1_4->flags << 0x1A) == 0))) {
+                        temp_r1_4 = local245CC_gUnk_03003CE0[playerIndex].remote;
+                        if (((s32) (temp_r1_4->flags7 << 0x1B) < 0) || ((temp_r1_4->flags << 0x1A) == 0)) {
                             matchedPlayers += 1;
-                            var_r4 = spDC;
                         }
                         goto block_148;
                     }
@@ -2449,23 +2432,21 @@ loop_156: {
                         if (var_r1_2 < 0) {
                             var_r1_2 = 0 - var_r1_2;
                         }
-                        var_r4 = spDC;
                         if (var_r1_2 >= (s32) (sp98 + 0x20)) {
                             goto block_135;
                         }
                         goto block_136;
                     }
 block_135:
-                    var_r4 = local245CC_gUnk_03003CE0;
-                    if (((u32) ((*var_r6)->flags << 0x1A) >> 0x1A) & 0x20) {
+                    if (((u32) ((local245CC_gUnk_03003CE0[playerIndex].remote)->flags << 0x1A) >> 0x1A) & 0x20) {
 block_136:
-                        temp_r2 = *var_r6;
+                        temp_r2 = local245CC_gUnk_03003CE0[playerIndex].remote;
                         if ((s32) (temp_r2->flags7 << 0x1B) >= 0) {
                             if (((u32) (temp_r2->flags << 0x1A) >> 0x1A) & 0x20) {
-                                if (((u32) ((u8) temp_r2->x << 0x1C) >> 0x1C) != 0xC) {
-                                    goto block_147;
+                                if (((u32) ((u8) temp_r2->x << 0x1C) >> 0x1C) == 0xC) {
+                                    goto block_148;
                                 }
-                                goto block_148;
+                                goto block_147;
                             }
                         } else {
                             goto block_147;
@@ -2476,36 +2457,29 @@ block_136:
                     if (var_r1_3 < 0) {
                         var_r1_3 = 0 - var_r1_3;
                     }
-                    var_r4 = local245CC_gUnk_03003CE0;
                     if (var_r1_3 < (s32) (sp94 + 0x20)) {
                         var_r1_4 = sp7E - sp90;
                         if (var_r1_4 < 0) {
                             var_r1_4 = 0 - var_r1_4;
                         }
-                        if ((var_r1_4 < (s32) (sp98 + 0x20)) && (*(u32 *)((u8 *)&local245CC_gUnk_03003CE0->flags + spD8) & 0x400)) {
+                        if ((var_r1_4 < (s32) (sp98 + 0x20)) && (local245CC_gUnk_03003CE0[playerIndex].flags & 0x400)) {
 block_147:
                             matchedPlayers += 1;
                         }
                     }
 block_148:
-                    temp_r2_2 = *var_r6;
+                    temp_r2_2 = local245CC_gUnk_03003CE0[playerIndex].remote;
                     if ((((u32) (temp_r2_2->flags << 0x1A) >> 0x1A) & 0x20) && (((u32) ((u8) temp_r2_2->x << 0x1C) >> 0x1C) != 0xC)) {
                         activePlayers += 1;
                     }
                 }
-                if (*(u32 *)((u8 *)&var_r4->flags + spD8) & 0x2000) {
+                if (local245CC_gUnk_03003CE0[playerIndex].flags & 0x2000) {
                     flaggedPlayers += 1;
                 }
                 if (local245CC_sub_0800CF80() != 0) {
                     flaggedPlayers = 0;
                 }
-                var_r6 = (struct Remote245CC **)((u8 *)var_r6 + 0x14C);
-                spD8 += 0x14C;
-                playerIndex = playerIndex + 1;
-
             }
-checkRemotePlayers245CC:
-            if (playerIndex < local245CC_sub_08002164()) goto loop_156;
             if ((matchedPlayers == local245CC_sub_08002164()) && (activePlayers != local245CC_sub_08002164())) {
                 if ((spA4 == 0) || (spC8 != 0)) {
                     if ((activePlayers == 0) && (flaggedPlayers != local245CC_sub_08002164())) {
@@ -2527,7 +2501,9 @@ checkRemotePlayers245CC:
                 goto block_188;
             }
 block_175:
-            local245CC_sub_08065370(&sp44, spB8, &sp78, &sp7A, 1);
+            {
+            u8 a = spB8;
+            local245CC_sub_08065370(&sp44, a, &sp78, &sp7A, 1);
             if ((local245CC_sub_0800CD34() == 0) && (local245CC_sub_0800CC98() == 0) && (local245CC_sub_0800CCCC() == 0)) {
                 temp_r0_3 = local245CC_sub_0800CD8C();
                 if (temp_r0_3 == 0) {
@@ -2535,18 +2511,19 @@ block_175:
                     local245CC_sub_0800BC08((s16) sp8C, (s16) sp90, &sp7C, &sp7E, 0x30, temp_r0_3);
                     if (local245CC_gUnk_03002344 & 1) {
                         switch (spB8) {
-                        default:
-                            local245CC_sub_08007870(sp7C, sp7E, spB8, sp78, temp_r6, &sp44.data[0], sp44.w8, sp44.w0);
-                            break;
                         case 2:
                             local245CC_sub_08007870(sp7C + 0x10, sp7E, 2, sp78, temp_r6, &sp44.data[0], sp44.w8, sp44.w0);
                             break;
                         case 6:
                             local245CC_sub_08007870(sp7C - 0x10, sp7E, 6, sp78, temp_r6, &sp44.data[0], sp44.w8, sp44.w0);
                             break;
+                        default:
+                            local245CC_sub_08007870(sp7C, sp7E, a, sp78, temp_r6, &sp44.data[0], sp44.w8, sp44.w0);
+                            break;
                         }
                     }
                 }
+            }
             }
 block_186:
             local245CC_sub_080003F0();
@@ -2601,7 +2578,7 @@ block_188:
                     local245CC_sub_0800A34C(local245CC_gUnk_03003170.curLevel, 0, 1);
                 }
             }
-            do {
+            while (!(((u16) local245CC_gUnk_03005CF4->flags >> 4) & 1)) {
                 while (local245CC_sub_0800CDF8() != 0)
                     local245CC_sub_080003F0();
                 if (local245CC_sub_080021A8() != 0) {
@@ -2610,31 +2587,24 @@ block_188:
                 if (local245CC_sub_08002204() == 0) {
                     goto block_276;
                 }
-                playerIndex = 0;
                 flaggedPlayers = 0;
                 activePlayers = 0;
                 matchedPlayers = 0;
-                spD4 = 0;
-                var_r6 = &local245CC_gUnk_03003E28;
-                goto checkRemotePlayers245CC2;
-loop_260: {
-                    temp_r1_7 = *var_r6;
-                    sp7C = (s16) ((u16) temp_r1_7->x >> 4);
-                    sp7E = (s16) ((u32) (temp_r1_7->y << 0x14) >> 0x14);
+                for (playerIndex = 0; playerIndex < local245CC_sub_08002164(); playerIndex++) {
+                    sp7C = (s16) ((u16) local245CC_gUnk_03003CE0[playerIndex].remote->x >> 4);
+                    sp7E = (s16) ((u32) (local245CC_gUnk_03003CE0[playerIndex].remote->y << 0x14) >> 0x14);
                     if ((s32) sp7C < 0) {
                         sp7C = 0;
                     }
                     if ((s32) sp7E < 0) {
                         sp7E = 0;
                     }
-                    spDC = local245CC_gUnk_03003CE0;
 
                     if (local245CC_sub_0800CB9C() != 0) {
                         if (local245CC_sub_0800CF80() != 0) {
-                            temp_r1_8 = *var_r6;
-                            if (((s32) (temp_r1_8->flags7 << 0x1B) < 0) || (var_r4 = spDC, ((temp_r1_8->flags << 0x1A) == 0))) {
+                            temp_r1_8 = local245CC_gUnk_03003CE0[playerIndex].remote;
+                            if (((s32) (temp_r1_8->flags7 << 0x1B) < 0) || ((temp_r1_8->flags << 0x1A) == 0)) {
                                 matchedPlayers += 1;
-                                var_r4 = spDC;
                             }
                             goto block_253;
                         }
@@ -2647,23 +2617,21 @@ loop_260: {
                             if (var_r1_6 < 0) {
                                 var_r1_6 = 0 - var_r1_6;
                             }
-                            var_r4 = spDC;
                             if (var_r1_6 >= (s32) (sp98 + 0x20)) {
                                 goto block_240;
                             }
                             goto block_241;
                         }
 block_240:
-                        var_r4 = local245CC_gUnk_03003CE0;
-                        if (((u32) ((*var_r6)->flags << 0x1A) >> 0x1A) & 0x20) {
+                        if (((u32) ((local245CC_gUnk_03003CE0[playerIndex].remote)->flags << 0x1A) >> 0x1A) & 0x20) {
 block_241:
-                            temp_r2_3 = *var_r6;
+                            temp_r2_3 = local245CC_gUnk_03003CE0[playerIndex].remote;
                             if ((s32) (temp_r2_3->flags7 << 0x1B) >= 0) {
                                 if (((u32) (temp_r2_3->flags << 0x1A) >> 0x1A) & 0x20) {
-                                    if (((u32) ((u8) temp_r2_3->x << 0x1C) >> 0x1C) != 0xC) {
-                                        goto block_252;
+                                    if (((u32) ((u8) temp_r2_3->x << 0x1C) >> 0x1C) == 0xC) {
+                                        goto block_253;
                                     }
-                                    goto block_253;
+                                    goto block_252;
                                 }
                             } else {
                                 goto block_252;
@@ -2674,35 +2642,28 @@ block_241:
                         if (var_r1_7 < 0) {
                             var_r1_7 = 0 - var_r1_7;
                         }
-                        var_r4 = local245CC_gUnk_03003CE0;
                         if (var_r1_7 < (s32) (sp94 + 0x20)) {
                             var_r1_8 = sp7E - sp90;
                             if (var_r1_8 < 0) {
                                 var_r1_8 = 0 - var_r1_8;
                             }
-                            if ((var_r1_8 < (s32) (sp98 + 0x20)) && (*(u32 *)((u8 *)&local245CC_gUnk_03003CE0->flags + spD4) & 0x400)) {
+                            if ((var_r1_8 < (s32) (sp98 + 0x20)) && (local245CC_gUnk_03003CE0[playerIndex].flags & 0x400)) {
 block_252:
                                 matchedPlayers += 1;
                             }
                         }
 block_253:
-                        if (((u32) ((*var_r6)->flags << 0x1A) >> 0x1A) & 0x20) {
+                        if (((u32) ((local245CC_gUnk_03003CE0[playerIndex].remote)->flags << 0x1A) >> 0x1A) & 0x20) {
                             activePlayers += 1;
                         }
                     }
-                    if (*(u32 *)((u8 *)&var_r4->flags + spD4) & 0x2000) {
+                    if (local245CC_gUnk_03003CE0[playerIndex].flags & 0x2000) {
                         flaggedPlayers += 1;
                     }
                     if (local245CC_sub_0800CF80() != 0) {
                         flaggedPlayers = 0;
                     }
-                    var_r6 = (struct Remote245CC **)((u8 *)var_r6 + 0x14C);
-                    spD4 += 0x14C;
-                    playerIndex = playerIndex + 1;
-
                 }
-checkRemotePlayers245CC2:
-                if (playerIndex < local245CC_sub_08002164()) goto loop_260;
                 if ((matchedPlayers == local245CC_sub_08002164()) && (activePlayers != local245CC_sub_08002164())) {
                     if ((spA4 == 0) || (spC8 != 0)) {
                         if ((activePlayers == 0) && (flaggedPlayers != local245CC_sub_08002164())) {
@@ -2827,11 +2788,7 @@ afterPlayerBounds245CC2: ;
                 }
                 if ((local245CC_sub_0800CCCC() == 0) && (temp_r0_7 = local245CC_sub_0800CD8C(), (temp_r0_7 == 0))) {
                     local245CC_sub_0800BC44(sp8C, sp90, 0);
-                    temp_r0_8 = (s16) sp8C;
-                    spD0 = (s32) temp_r0_8;
-                    temp_r0_9 = (s16) sp90;
-                    temp_r7 = &sp7E;
-                    local245CC_sub_0800BC08(temp_r0_8, temp_r0_9, &sp7C, temp_r7, 0x30, temp_r0_7);
+                    local245CC_sub_0800BC08((s16) sp8C, (s16) sp90, &sp7C, &sp7E, 0x30, temp_r0_7);
                     if (local245CC_gUnk_03002344 & 1) {
                         local245CC_sub_08007870(sp7C, sp7E, 8U, sp80, temp_r0_7, &sp44.data[0], sp44.w8, sp44.w0);
                     }
@@ -2839,19 +2796,19 @@ afterPlayerBounds245CC2: ;
                         local245CC_sub_08000AF0(0x1E, sp10.graphics + (spA4 << 5), 1);
                         spBC = 0;
                     }
-                    temp_r6_3 = (u8)local245CC_sub_0800BC44(sp8C, sp90, 0);
-                    local245CC_sub_0800BC08((s16) spD0, temp_r0_9, &sp7C, temp_r7, 0x30, temp_r0_7);
+                    temp_r6 = (u8)local245CC_sub_0800BC44(sp8C, sp90, 0);
+                    local245CC_sub_0800BC08((s16) sp8C, (s16) sp90, &sp7C, &sp7E, 0x30, temp_r0_7);
                     if (spCC->wE != 0) {
-                        local245CC_sub_08008E74(sp7C, sp7E, spA4, sp78, temp_r6_3, &sp10.data[0], sp10.w8, sp10.w0);
+                        local245CC_sub_08008E74(sp7C, sp7E, spA4, sp78, temp_r6, &sp10.data[0], sp10.w8, sp10.w0);
                     } else {
-                        local245CC_sub_08007870(sp7C, sp7E, spA4, sp78, temp_r6_3, &sp10.data[0], sp10.w8, sp10.w0);
+                        local245CC_sub_08007870(sp7C, sp7E, spA4, sp78, temp_r6, &sp10.data[0], sp10.w8, sp10.w0);
                     }
                 } else {
 block_328:
                     spBC = 1;
                 }
                 local245CC_sub_080003F0();
-            } while (!(((u16) local245CC_gUnk_03005CF4->flags >> 4) & 1));
+            }
             }
 block_332:
             if (((u16) local245CC_gUnk_03005CF4->flags >> 3) & 1) {
@@ -2867,19 +2824,17 @@ block_332:
                         spBC = 0;
                     }
                     local245CC_sub_0800BC08((s16) sp8C, (s16) sp90, &sp7C, &sp7E, 0x30, temp_r0_10);
-                    temp_r6_4 = (u8)local245CC_sub_0800BC44(sp8C, sp90, 0);
+                    temp_r6 = (u8)local245CC_sub_0800BC44(sp8C, sp90, 0);
                     if (spCC->wE != 0) {
-                        local245CC_sub_08008E74(sp7C, sp7E, spA4, sp78, temp_r6_4, &sp10.data[0], sp10.w8, sp10.w0);
+                        local245CC_sub_08008E74(sp7C, sp7E, spA4, sp78, temp_r6, &sp10.data[0], sp10.w8, sp10.w0);
                     } else {
-                        local245CC_sub_08007870(sp7C, sp7E, spA4, sp78, temp_r6_4, &sp10.data[0], sp10.w8, sp10.w0);
+                        local245CC_sub_08007870(sp7C, sp7E, spA4, sp78, temp_r6, &sp10.data[0], sp10.w8, sp10.w0);
                     }
                 } else {
                     spBC = 1;
                 }
                 local245CC_sub_080003F0();
-                temp_r1_10 = spA8 - 1;
-                spA8 = temp_r1_10;
-            } while (temp_r1_10 != -1U);
+            } while (--spA8 != -1U);
 block_344:
             temp_r0_11 = sp84->flags;
             temp_r1_11 = temp_r0_11;
@@ -2900,16 +2855,19 @@ block_344:
             }
             local245CC_sub_0800D014();
             var_r1_9 = 0;
-            do {
+            pp = &local245CC_gUnk_03005CF4;
+            zz = 0;
+loop_355:
                 var_r2_3 = 0;
+                t4 = var_r1_9 << 2;
+                inext = var_r1_9 + 1;
+                row = t4 + var_r1_9;
 loop_356:
-                local245CC_gUnk_03005CF4->states[var_r2_3 + (var_r1_9 * 5)] = 0;
+                (*pp)->states[var_r2_3 + row] = zz;
                 var_r2_3 += 1;
-                if (var_r2_3 <= 4U) {
-                    goto loop_356;
-                }
-                var_r1_9 += 1;
-            } while (var_r1_9 <= 0x13U);
+                if (var_r2_3 <= 4U) goto loop_356;
+                var_r1_9 = inext;
+            if (var_r1_9 <= 0x13U) goto loop_355;
             local245CC_sub_080003F0();
             local245CC_sub_0801A664(0x12, 2);
             local245CC_sub_08057624(3);
@@ -2917,9 +2875,6 @@ loop_356:
     }
 }
 
-#else
-INCLUDE_ASM("asm/nonmatchings/code_08021DC4", sub_080245CC);
-#endif
 extern void t24_callback257D4(void) asm("sub_080245CC");
 extern u32 t24_state asm("gUnk_03005CF4");
 void t24_start257D4(u32 arg0, s32 param1) asm("sub_080257D4");
