@@ -8867,7 +8867,6 @@ void sub_080867F8(void)
     gTask6450b.fC = (u32)sub_080855D4;
     sub_08000274_2(&gTask6450b, 0);
 }
-#ifdef NONMATCHING
 extern u16 keys86860 asm("gUnk_03001324");
 extern void fade86860(u32, u32, u32, u16, u16, u32) asm("sub_0800903C");
 extern void reset86860(u64) asm("sub_08000420");
@@ -8895,9 +8894,10 @@ void sub_08086860(void)
     s32 running;
     u32 skip;
     u16 a, b, c;
+    s16 fa, fb;
     u32 i;
     u32 timer, state;
-    u32 t2;
+    u32 step;
     u16 val;
     s32 y, d;
     s32 q;
@@ -8913,6 +8913,7 @@ void sub_08086860(void)
     gUnk_03001250[6] = 0;
     sub_0805F07C();
     skip = 0;
+    a = 0;
     sub_080003F0();
     sub_0801A664(0, 0x13);
     sub_080003F0();
@@ -9206,8 +9207,8 @@ dropped:
         sub_080003F0();
     } while (i++ <= 0x3B);
 
-    t2 = 0x12E;
-    state = 0;
+    i = 0x12E;
+    step = 0;
     sub_0805865C(0x179);
     b = 4;
     running = 0;
@@ -9220,8 +9221,8 @@ dropped:
         else
             pos[0] = 6;
         sub_08065230(obj, 0x81, 0x77, 0, pos[0]);
-        if (t2++ > 0x12E) {
-            switch (state) {
+        if (i++ > 0x12E) {
+            switch (step) {
             case 0:
                 running = 1;
                 sub_08088A60(0x45D, 0x12C);
@@ -9240,19 +9241,19 @@ dropped:
                 sub_080586D0(0xA);
                 break;
             }
-            state++;
-            t2 = 0;
+            step++;
+            i = 0;
         }
         sub_08006B70(0, a);
         sub_08006B70(2, b);
-        if (state != 0) {
+        if (step != 0) {
             if (a != 4)
                 a--;
             if (b != 0xFF)
                 b++;
         }
         sub_080003F0();
-    } while (state != 4);
+    } while (step != 4);
 
     sub_08057624(0x1E);
     sub_0800B650(0x32, 0x1E, 0x06000000, 0, 0xE);
@@ -9260,14 +9261,14 @@ dropped:
     bg.h = 0x1F03;
     sub_08000AA8(3, (u16 *)&bg);
     sub_0801AA34(0x1E);
-    t2 = 0x12E;
-    state = 0;
+    i = 0x12E;
+    step = 0;
     running = 1;
     a = 4;
     sub_08088A18(0, 0xF, &running);
     while (running) {
-        if (t2++ > 0x12E) {
-            switch (state) {
+        if (i++ > 0x12E) {
+            switch (step) {
             case 1:
                 sub_080889D4(0x460, 0x12C);
                 break;
@@ -9281,8 +9282,8 @@ dropped:
                 running = 0;
                 break;
             }
-            state++;
-            t2 = 0;
+            step++;
+            i = 0;
         }
         sub_080003F0();
         SKIP_KEYS2();
@@ -9290,9 +9291,9 @@ dropped:
             goto end;
         if (sub_080021A8())
             goto end;
-        if (state == 2 && t2 == 0)
+        if (step == 2 && i == 0)
             sub_08058688(0x188);
-        if (state > 1) {
+        if (step > 1) {
             sub_08006B70(0, a);
             a++;
             if (a > 0xFE)
@@ -9307,12 +9308,12 @@ dropped:
     bg.h = 0x1E03;
     sub_08000AA8(3, (u16 *)&bg);
     sub_0801AA34(0x1E);
-    t2 = 0x12E;
-    state = 0;
+    i = 0x12E;
+    step = 0;
     running = 1;
     while (running) {
-        if (t2++ > 0x12E) {
-            switch (state) {
+        if (i++ > 0x12E) {
+            switch (step) {
             case 1:
                 sub_080889D4(0x463, 0x12C);
                 break;
@@ -9338,8 +9339,8 @@ dropped:
                 running = 0;
                 break;
             }
-            state++;
-            t2 = 0;
+            step++;
+            i = 0;
         }
         sub_080003F0();
         SKIP_KEYS2();
@@ -9352,11 +9353,11 @@ dropped:
     sub_0800B650(0x41, 0x1E, 0x06000000, 0, 0xF);
     running = 1;
     sub_080008C8();
-    state = 0;
+    step = 0;
     sub_0801AA34(0x1E);
     while (running) {
         if (timer++ > 0x12E) {
-            switch (state) {
+            switch (step) {
             case 0:
                 sub_080889D4(0x46B, 0x12C);
                 break;
@@ -9373,7 +9374,7 @@ dropped:
                 running = 0;
                 break;
             }
-            state++;
+            step++;
             timer = 0;
         }
         sub_080003F0();
@@ -9388,11 +9389,11 @@ dropped:
     sub_08057624(0x1E);
     sub_0800B650(0x44, 0x1E, 0x06000000, 0, 0xF);
     running = 1;
-    state = 0;
+    step = 0;
     sub_0801AA34(0x1E);
     while (running) {
         if (timer++ > 0x12E) {
-            switch (state) {
+            switch (step) {
             case 0:
                 sub_080889D4(0x46F, 0x12C);
                 break;
@@ -9406,7 +9407,7 @@ dropped:
                 running = 0;
                 break;
             }
-            state++;
+            step++;
             timer = 0;
         }
         sub_080003F0();
@@ -9421,11 +9422,11 @@ dropped:
     sub_08057624(0x1E);
     sub_0800B650(0x3F, 0x1E, 0x06000000, 0, 0xF);
     running = 1;
-    state = 0;
+    step = 0;
     sub_0801AA34(0x1E);
     while (running) {
         if (timer++ > 0x12E) {
-            switch (state) {
+            switch (step) {
             case 0:
                 sub_080889D4(0x472, 0x12C);
                 break;
@@ -9436,7 +9437,7 @@ dropped:
                 running = 0;
                 break;
             }
-            state++;
+            step++;
             timer = 0;
         }
         sub_080003F0();
@@ -9456,11 +9457,11 @@ dropped:
     sub_08057624(5);
     sub_08001538((s32)buf);
     running = 1;
-    state = 0;
+    step = 0;
     sub_0801AA34(0xA);
     while (running) {
         if (timer++ > 0x12E) {
-            switch (state) {
+            switch (step) {
             case 0:
                 sub_080889D4(0x474, 0x12C);
                 break;
@@ -9471,7 +9472,7 @@ dropped:
                 running = 0;
                 break;
             }
-            state++;
+            step++;
             timer = 0;
         }
         sub_080003F0();
@@ -9486,11 +9487,11 @@ dropped:
     sub_08057624(0x1E);
     sub_0800B650(0x42, 0x1E, 0x06000000, 0, 0xF);
     running = 1;
-    state = 0;
+    step = 0;
     sub_0801AA34(0x1E);
     while (running) {
         if (timer++ > 0x12E) {
-            switch (state) {
+            switch (step) {
             case 0:
                 sub_080889D4(0x476, 0x12C);
                 break;
@@ -9501,7 +9502,7 @@ dropped:
                 running = 0;
                 break;
             }
-            state++;
+            step++;
             timer = 0;
         }
         sub_080003F0();
@@ -9522,22 +9523,22 @@ dropped:
     sub_0800B650(0x43, 0x1F, 0x06000000, 0, 0xF);
     sub_0800B650(0x3D, 0x1E, 0x06000000, 0, 0xF);
     running = 1;
-    state = 0;
+    step = 0;
     sub_0801AA34(0x1E);
-    b = 0x10;
-    a = 0;
+    fb = 0x10;
+    fa = 0;
     while (running) {
-        if (state > 2 && timer > 0x3C) {
-            fade86860(4, 8, 1, b, a, 0);
+        if (step > 2 && timer > 0x3C) {
+            fade86860(4, 8, 1, fb, fa, 0);
             if (!(gUnk_03002344 & 7)) {
-                if ((s16)--b <= 0)
-                    b = 0;
-                if ((s16)++a > 15)
-                    a = 16;
+                if (--fb <= 0)
+                    fb = 0;
+                if (++fa > 15)
+                    fa = 16;
             }
         }
         if (timer++ > 0x12E) {
-            switch (state) {
+            switch (step) {
             case 0:
                 sub_080889D4(0x478, 0x12C);
                 break;
@@ -9553,7 +9554,7 @@ dropped:
                 running = 0;
                 break;
             }
-            state++;
+            step++;
             timer = 0;
         }
         sub_080003F0();
@@ -9566,6 +9567,7 @@ dropped:
     sub_080009F8(0x400, 0, 1);
 end:
     running = 0;
+    a = 0;
     sub_080586D0(0xA);
     sub_0801ABE8(6);
     while (sub_0801AAE0() == 0)
@@ -9574,9 +9576,6 @@ end:
     sub_0800903C(0, 0, 0, 0, 0, 0);
     reset86860(0x25A112EBFULL);
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_0807A5D4", sub_08086860);
-#endif
 struct Rgb087788 { u16 r:5, g:5, b:5, x:1; };
 struct RgbWord087788 { u32 r:5, g:5, b:5, x:1; };
 /* Fade a palette range toward grey level `fade & 0x1F` over `fade >> 16` frames. */

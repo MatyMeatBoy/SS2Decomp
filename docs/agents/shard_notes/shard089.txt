@@ -19,3 +19,12 @@ sub_08086860 (nov03-w4, round 2): draft now 3872 vs 3880, register allocation of
   folds any `a = 0` into skip here); 4 entry instructions; the last loop's fade: separate s16
   fa/fb reproduce it exactly but then skip gets spilled again (allocation order); with the
   u16 a/b used now it differs in ~20 lines. Declaration order of scalars has no effect.
+- sub_08086860 MATCHED (claude-nov06-wB25): three source changes on top of the draft.
+  (1) The 0x12E-counter loops reuse `i` as their counter and use their own scene index `step`
+  (ROM r4/r5); sharing `state` with the early loops swapped r4/r5 everywhere.
+  (2) The last loop's fade counters are separate `s16 fa, fb` (arg conversion to the u16
+  parameter gives the lsls/lsrs pair whose `x << 16` CSE feeds the decrement/increment);
+  this also shortens a's live range so a takes r8 before b.
+  (3) The second zero at entry is `a = 0` right after `skip = 0`; it becomes CSE's canonical
+  zero (zero1 and obj86860's stack argument) only if a is mentioned after the last skip
+  test, which the dead `a = 0` reset in the end block provides (flow deletes it).
