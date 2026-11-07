@@ -1,7 +1,7 @@
 {
   "address": "0x08003984",
-  "updated_utc": "2026-11-07T06:23:37.306305+00:00",
-  "checkpoint": "Verified shared-VRAM-offset checkpoint based on main a8ed81f7, 2026-11-07. Original/candidate remain 8352/8356 bytes with equal 0x54C frames. Against the preceding natural-exit/name-base checkpoint, normalized byte/halfword distances improve 141/130 to 109/104 and scoped heuristic score 428 to 408. Strict NO MATCH; original ASM retained; no matching credit.",
+  "updated_utc": "2026-11-07T12:00:00+00:00",
+  "checkpoint": "MATCHED 2026-11-07 (claude-nov07-w01): sub_08003984 now compiles byte-identical from C (8352 bytes, frame 0x54C); NONMATCHING wrapper and asm/nonmatchings/code_08002118/sub_08003984.s removed; make compare passes. See docs/agents/shard_notes/shard1.txt. Previous checkpoint: Verified shared-VRAM-offset checkpoint based on main a8ed81f7, 2026-11-07. Original/candidate remain 8352/8356 bytes with equal 0x54C frames. Against the preceding natural-exit/name-base checkpoint, normalized byte/halfword distances improve 141/130 to 109/104 and scoped heuristic score 428 to 408. Strict NO MATCH; original ASM retained; no matching credit.",
   "areas": [
     {
       "id": "flow",
