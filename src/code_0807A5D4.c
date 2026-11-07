@@ -8273,10 +8273,6 @@ struct Frame855D4 {
     s32 speed[25];
     s32 pos[25];
     u8 state[25];
-    u16 zero;
-    u32 bg;
-    s32 ox;
-    s32 oy;
 };
 
 extern struct Shop6478 *gShop855D4 asm("gUnk_03006478");
@@ -8337,6 +8333,10 @@ extern void f855_00420(s32) asm("sub_08000420");
 s32 sub_080855D4(void)
 {
     struct Frame855D4 L;
+    u16 zero;
+    u32 bg;
+    s32 ox;
+    s32 oy;
     struct Win855D4 *win;
     const struct Item855D4 *item;
     const u8 *s;
@@ -8350,8 +8350,8 @@ s32 sub_080855D4(void)
 
     f855_009F8(0x200, 0, 1);
     f855_009C0(0x1D00, 0, 1);
-    L.bg = (L.bg & 0xFFFF0000) | 0x1E00;
-    f855_00AA8(3, &L.bg);
+    bg = (bg & 0xFFFF0000) | 0x1E00;
+    f855_00AA8(3, &bg);
     gBgOfs855D4[1] = 0;
     gBgOfs855D4[0] = 0;
     gBgOfs855D4[3] = 0;
@@ -8407,10 +8407,10 @@ s32 sub_080855D4(void)
             return;
         }
         for (i = 0; i < n; i++) {
-            f855_659F4(&L.ox, L.pts[i].x, 0x7800, L.pos[i]);
-            f855_659F4(&L.oy, L.pts[i].y, 0x5000, L.pos[i]);
+            f855_659F4(&ox, L.pts[i].x, 0x7800, L.pos[i]);
+            f855_659F4(&oy, L.pts[i].y, 0x5000, L.pos[i]);
             if (L.state[i] != 2)
-                f855_65230(L.spriteA, L.ox >> 8, L.oy >> 8, 0, 0x1D);
+                f855_65230(L.spriteA, ox >> 8, oy >> 8, 0, 0x1D);
             L.pos[i] += L.speed[i];
             if (L.pos[i] > 0x200 && L.state[i] == 0) {
                 f855_5865C(0x60);
@@ -8431,10 +8431,10 @@ s32 sub_080855D4(void)
     win = &L.win;
     while (f855_1AAE0() == 0) {
         for (i = 0; i < n; i++) {
-            f855_659F4(&L.ox, L.pts[i].x, 0x7800, L.pos[i]);
-            f855_659F4(&L.oy, L.pts[i].y, 0x5000, L.pos[i]);
+            f855_659F4(&ox, L.pts[i].x, 0x7800, L.pos[i]);
+            f855_659F4(&oy, L.pts[i].y, 0x5000, L.pos[i]);
             if (L.state[i] == 0)
-                f855_65230(L.spriteA, L.ox >> 8, L.oy >> 8, 0, 0x1D);
+                f855_65230(L.spriteA, ox >> 8, oy >> 8, 0, 0x1D);
             L.pos[i] += L.speed[i];
             if (L.pos[i] > 0x3FF) {
                 L.pos[i] = 0x400;
@@ -8473,12 +8473,12 @@ s32 sub_080855D4(void)
     }
     f855_009F8(0x200, 0, 1);
     f855_009C0(0x1F00, 0, 1);
-    *(u16 *)&L.bg = 0x5A01;
-    f855_00AA8(1, &L.bg);
-    *(u16 *)&L.bg = 0x5E01;
-    f855_00AA8(2, &L.bg);
-    *(u16 *)&L.bg = 0x1D03;
-    f855_00AA8(3, &L.bg);
+    *(u16 *)&bg = 0x5A01;
+    f855_00AA8(1, &bg);
+    *(u16 *)&bg = 0x5E01;
+    f855_00AA8(2, &bg);
+    *(u16 *)&bg = 0x1D03;
+    f855_00AA8(3, &bg);
     gShop855D4->mode = 0;
     gShop855D4->cat = 0;
     gShop855D4->cursor = 0;
@@ -8487,8 +8487,8 @@ s32 sub_080855D4(void)
     gShop855D4->grid = 0;
     for (j = 0; j <= 7; j++) {
         win->slots[j].id = 0xFFFF;
-        L.zero = 0;
-        f855_CpuSet(&L.zero, win->slots[j].data, 0x01000018);
+        zero = 0;
+        f855_CpuSet(&zero, win->slots[j].data, 0x01000018);
     }
     for (count = 0; gTable855D4[count].cat != 0x64; count++)
         last = gTable855D4[count].cat;
