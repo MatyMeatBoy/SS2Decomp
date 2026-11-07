@@ -1305,6 +1305,7 @@ void sub_08003984(u8 *arg0, s32 arg1) {
     u8 temp_r0_22;
     u8 var_r1_2;
     void *temp_r0_3;
+    u32 vramOffset3984 = 0x7000;
 
     memcpy(&pair[0], &gUnk_080B99D4, 2);
     memcpy(&cursor, sub_080653CC(), 0x34);
@@ -1688,7 +1689,7 @@ loop_107:
                 }
             }
             if (substate == 0) {
-                sub_08001348(handle + ((index << 7) + 0x7000), (void *)0x06007000, 0x80U);
+                sub_08001348(handle + ((index << 7) + vramOffset3984), (void *)(0x06000000 + vramOffset3984), 0x80U);
             }
             temp_r5_9 = newX - targetX;
             if (selection != state) {
