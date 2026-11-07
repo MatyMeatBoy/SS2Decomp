@@ -2897,7 +2897,7 @@ void sub_0807C29C(void) {
         break;
     case 14: {
 
-        u32 c, n;
+        u32 c;
         if (keys29_03001308 & 0x40) {
             if (gMgr82->cursor != 0) {
                 gMgr82->cursor--;
@@ -2917,8 +2917,8 @@ void sub_0807C29C(void) {
         } else if (keys29_03001324 & 1) {
             struct Mgr82 *m = gMgr82;
             c = m->cursor;
-            n = m->f48;
-            if (c >= n && n <= 4) {
+            col = m->f48; /* function-level col, not a block-local (register choice) */
+            if (c >= col && col <= 4) {
                 m->cursor = 0;
                 m->state = 15;
             } else {
