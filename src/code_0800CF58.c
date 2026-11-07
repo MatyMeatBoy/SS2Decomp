@@ -1868,14 +1868,16 @@ block_447:
                 } else {
                     ((struct PlayerD368 *)arg0)->f1C = (s16) (directionD36874 - 1);
                     temp_r3_3 = ((struct PlayerD368 *)arg0)->f40;
-                    temp_r1_22 = ((struct PlayerD368 *)arg0)->fD8;
+                    var_r4_3 = &((struct PlayerD368 *)arg0)->fD8;
+                    temp_r1_22 = *var_r4_3;
                     temp_r0_34 = (s32) (temp_r3_3 - temp_r1_22) >> 1;
                     if (temp_r0_34 > 0) {
                         var_r0_7 = temp_r1_22 + temp_r0_34;
+                        *var_r4_3 = var_r0_7;
                     } else {
                         var_r0_7 = temp_r1_22 + 1;
+                        *var_r4_3 = var_r0_7;
                     }
-                    ((struct PlayerD368 *)arg0)->fD8 = var_r0_7;
                     if ((s32) temp_r3_3 <= (s32) ((struct PlayerD368 *)arg0)->fD8) {
                         ((struct PlayerD368 *)arg0)->fD8 = (s32) temp_r3_3;
                     }
