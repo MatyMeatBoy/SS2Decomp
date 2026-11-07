@@ -917,31 +917,31 @@ void sub_08075778(struct Arg5778 *arg)
     u8 atk[0xC4];
     s16 dx, dy;
     u16 frame, timer;
+    u16 ang;
     struct Pos5778 pos;
     struct Pos5778 opos;
     struct Box5778 box;
     struct Box5778 box2;
-    u16 local;
+    struct Ene5778 *e;
     u16 target;
-    u32 who;
-    u32 slot;
+    u32 lo;
+    u32 serial;
     u32 kind;
+    s32 x, y;
     u32 n;
+    s32 iter;
+    u32 dirIdx;
+    u16 local;
+    u32 slot;
+    s32 power;
     u32 big;
+    u32 who;
     struct Ply5778 *p;
     struct Ply5778 *q;
     struct Ene5778 *e2;
-    struct Ene5778 *e;
-    s32 x, y;
-    u32 dirIdx;
     u32 d;
-    u32 lo;
-    u32 serial;
-    s32 power;
     u16 j;
     u32 cnt;
-    u16 ang;
-    s32 iter;
     s32 t;
     s32 hit;
     s32 ok;
@@ -957,6 +957,7 @@ void sub_08075778(struct Arg5778 *arg)
     slot = arg->slot;
     kind = (u8)arg->flags;
     n = arg->count;
+    ok = 0;
     timer = 0;
     frame = 0;
     big = (u32)-(arg->flags & 0x8000) >> 31;
@@ -969,9 +970,15 @@ void sub_08075778(struct Arg5778 *arg)
     lo = (u32)(((u8 *)p->entity)[0] << 28) >> 28;
     if (who == local) {
         serial = (u16)p->serial;
-        memcpy(atk, tmpl5778(), 0xC4);
-        if (*(u16 *)(atk + 0xBC) == 0)
-            *(u16 *)(atk + 0xBC) = inv5778[*(u16 *)(inv5778 + 0x68) * 16 + 0x77];
+        {
+            void *src = tmpl5778();
+            memcpy(atk, src, 0xC4);
+        }
+        if (*(u16 *)(atk + 0xBC) == 0) {
+            u8 *b = inv5778;
+            b += *(u16 *)(b + 0x68) * 16;
+            *(u16 *)(atk + 0xBC) = b[0x77];
+        }
         if (kind != 0)
             power = p->power * 3;
         else
@@ -991,7 +998,7 @@ void sub_08075778(struct Arg5778 *arg)
             target = 0xFFFF;
     } else {
         cnt = sub_08002164();
-        for (j = 0; j < cnt && p5778[j].id != target; j++)
+        for (j = 0; j < cnt && (q = &p5778[j])->id != target; j++)
             ;
         if (j >= cnt || target == who)
             target = 0xFFFF;
@@ -1000,28 +1007,35 @@ void sub_08075778(struct Arg5778 *arg)
         if (target > 3) {
             dx = (e->x - x) >> 8;
             dy = (e->y - y) >> 8;
-            t = (u16)atan5778(dx, dy) >> 8;
+            d = (u16)atan5778(dx, dy) >> 8;
+            t = (u8)d;
             if (t > 0x80)
-                t -= 0x100;
-            ang = t;
+                d = (u16)(t - 0x100);
+            ang = d;
+            {
+                s16 sa = ang;
+                if (sa < 0)
+                    ang = sa + 0x100;
+            }
         } else {
             struct Ent5778 *te = p5778[target].entity;
             dx = (te->xRaw >> 4) - (x >> 8);
             dy = ((u32)(te->yRaw << 20) >> 20) - (y >> 8);
-            t = (u16)atan5778(dx, dy) >> 8;
-            ang = t;
+            d = (u16)atan5778(dx, dy) >> 8;
+            t = (u8)d;
             if (t > 0x80)
-                ang = t - 0x100;
+                d = (u16)(t - 0x100);
+            ang = d;
+            {
+                s16 sa = ang;
+                if (sa < 0)
+                    ang = sa + 0x100;
+            }
         }
         {
-            s16 sa = ang;
-            if (sa < 0)
-                ang = sa + 0x100;
-        }
-        {
-            s16 sa = ang;
-            if (sa > 0x100)
-                ang = sa - 0x100;
+            s16 sb = ang;
+            if (sb > 0x100)
+                ang = sb - 0x100;
         }
     } else {
         ang = dir5778[((u8 *)p->entity)[3] >> 4];
@@ -1063,9 +1077,10 @@ void sub_08075778(struct Arg5778 *arg)
                 opos.y = (u32)(q->entity->yRaw << 20) >> 12;
                 if (!test5778(&pos, &opos, &box, &box2))
                     continue;
-                ok = 0;
                 if (q->state != 11 && q->hist[who] != serial && !(q->flags & 0x2000))
                     ok = 1;
+                else
+                    ok = 0;
                 if (!ok)
                     continue;
                 if (roll5778(power, q->power)) {
@@ -1124,9 +1139,12 @@ void sub_08075778(struct Arg5778 *arg)
                 box2.h = e2->h;
                 if (!test5778(&pos, &e2->x, &box, &box2))
                     continue;
-                ok = 0;
-                if (e2->state != 11)
-                    ok = e2->serial != serial;
+                {
+                    u16 st = e2->state;
+                    ok = 0;
+                    if (st != 11)
+                        ok = e2->serial != serial;
+                }
                 if (!ok)
                     continue;
                 if (roll5778(power, e2->power)) {
@@ -1150,25 +1168,28 @@ void sub_08075778(struct Arg5778 *arg)
                     }
                     if (big)
                         p->flags &= ~0x200000;
-                } else if (!(sub_0800086C() & 1)) {
-                    if (who == sub_080020F4()) {
-                        u16 s = p->state;
-                        u16 t;
-                        p->state = lo;
-                        t = p->f26;
-                        p->f26 = kind;
-                        hitE5778(p, e2, atk, 1);
-                        sub_0805865C(0x1A);
-                        p->state = s;
-                        p->f26 = t;
-                        e2->owner = local;
-                        e2->hitMask |= 1 << local;
+                } else {
+                    register u32 b asm("r1") = sub_0800086C() & 1;
+                    if (!b) {
+                        if (who == sub_080020F4()) {
+                            u16 s = p->state;
+                            u16 t;
+                            p->state = lo;
+                            t = p->f26;
+                            p->f26 = kind;
+                            hitE5778(p, e2, atk, 1);
+                            sub_0805865C(0x1A);
+                            p->state = s;
+                            p->f26 = t;
+                            e2->owner = local;
+                            e2->hitMask |= 1 << local;
+                        }
+                    } else if (who == sub_080020F4()) {
+                        sub_080223F4(e2->x, e2->y);
+                        e2->serial = serial;
+                        if (!sub_0800CCCC() && !sub_0800CD34())
+                            sub_0805865C(0x55);
                     }
-                } else if (who == sub_080020F4()) {
-                    sub_080223F4(e2->x, e2->y);
-                    e2->serial = serial;
-                    if (!sub_0800CCCC() && !sub_0800CD34())
-                        sub_0805865C(0x55);
                 }
                 hit = 1;
                 break;
@@ -1184,17 +1205,17 @@ void sub_08075778(struct Arg5778 *arg)
         x += move5778(sin5778[(s16)ang + 0x40], spd);
         y += move5778(sin5778[(s16)ang], spd);
         if (!sub_0800CC98() && !sub_0800CD8C() && !sub_0800CCCC()) {
-            pos5778((s16)(sx = x >> 8), (s16)(sy = y >> 8), &dx, &dy, 0x30, 0);
-            shade = (u8)sub_0800BC44(sx, sy, 0);
+            pos5778((s16)(shade = x >> 8), (s16)(sy = y >> 8), &dx, &dy, 0x30, 0);
+            shade = (u8)sub_0800BC44(shade, sy, 0);
             d = dirIdx;
             step5778(&spr, 0x40 | d, &frame, &timer, 1);
             if (gUnk_03003170.curLevel == 4 && sub_0800CDC0())
                 shade = 0;
             if (sub_0800CB9C()) {
                 if ((flags5778 & 1) == (who & 1))
-                    draw5778(&spr, dx + offX5778[(s16)d][0], dy + offY5778[(s16)d][0], (s16)d + 0x40, frame, shade);
+                    draw5778(&spr, dx + offX5778[(s16)d][0], dy + offX5778[(s16)d][1], (s16)d + 0x40, frame, shade);
             } else {
-                draw5778(&spr, dx + offX5778[(s16)d][0], dy + offY5778[(s16)d][0], (s16)d + 0x40, frame, shade);
+                draw5778(&spr, dx + offX5778[(s16)d][0], dy + offX5778[(s16)d][1], (s16)d + 0x40, frame, shade);
             }
         }
         sub_080003F0();
