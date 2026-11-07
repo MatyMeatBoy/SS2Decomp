@@ -394,6 +394,8 @@ def main():
     os.makedirs(args.out, exist_ok=True)
     from project_inventory import generate
     summary.update(generate(ROOT, args.out, collect(include_prelude=True)))
+    from regional_progress import write_outputs as write_regional_progress
+    summary['regional_progress'] = write_regional_progress(ROOT, args.out, modules)
     work_by_address = load_function_work(ROOT, {f["addr"] for m in modules for f in m["funcs"]})
     inventory = json.loads(Path(args.out, "functions.json").read_text(encoding="utf-8"))
     names_by_address = {f["addr"]: f for f in inventory["functions"]}

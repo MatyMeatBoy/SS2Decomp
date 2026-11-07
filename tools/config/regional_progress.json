@@ -1,0 +1,291 @@
+{
+  "schema_version": 1,
+  "primary_region": "eu",
+  "policy": "Source-backed coverage only. Metadata records verified byte/layout facts, never ROM payloads. EU code derives live from source; regional compiled-C receipts require current active EU C. Data receipts require unchanged normalized source hashes. Revalidate private dumps and builds before changing this ledger.",
+  "regions": {
+    "eu": {
+      "rom_sha1": "aa1288be9257337abdfe3034898cf6c7aa778fbc",
+      "rom_sha256": "e5c64a1740263e9b26120e487f3688fbbf7b3954a2c043c0d84c333df467e0b2",
+      "evidence_revision": "8a7c8ef382cd6832f3e53eef82a6e0f07da7c11c",
+      "code_start": "0x23c",
+      "code_end": "0xb9704",
+      "data_end": "0x1000000",
+      "boundary_anchor": {
+        "offset": "0xb96a4",
+        "bytes": 736,
+        "sha256": "78013e8d34d010fd2ec994368dcf53d418e11e1e51a2c1a909fc4e89939afaf1",
+        "meaning": "Complete final memcpy code plus first0x280-byte data block; unique in this exact ROM"
+      },
+      "compiled_c": [],
+      "data_sources": [
+        {
+          "rom_offset": "0x366bc0",
+          "bytes": 256,
+          "source": "src/libgcc2.c",
+          "symbol": "__clz_tab",
+          "source_sha256": "c3ed778d0fb6787db6b6671ef2868d1478a2b71f1c5caba3eb2b7d65a599ff6d",
+          "sha256": "14a5d850c255623f9472e3c650abce0c78d32f0276b315b3a276a0462d97a1ac",
+          "evidence": "Normal ELF __clz_tab symbol/rodata bytes and full EU ROM compare; ld_script.ld explicitly links libgcc2.o(.rodata)"
+        }
+      ]
+    },
+    "usa": {
+      "rom_sha1": "541469b319a72ef4bc262483745526ac3eddd925",
+      "rom_sha256": "b31c19d2d25683a0941d5d501912b5f21d4590cd7071fa01882e62aa5227a7c9",
+      "evidence_revision": "8a7c8ef382cd6832f3e53eef82a6e0f07da7c11c",
+      "code_start": "0x23c",
+      "code_end": "0xb9174",
+      "data_end": "0x1000000",
+      "boundary_anchor": {
+        "offset": "0xb9114",
+        "bytes": 736,
+        "sha256": "78013e8d34d010fd2ec994368dcf53d418e11e1e51a2c1a909fc4e89939afaf1",
+        "meaning": "Complete final memcpy code plus first0x280-byte data block; unique in this exact ROM"
+      },
+      "compiled_c": [
+        {
+          "canonical_eu_symbol": "sub_08000AA8",
+          "address": "0x08000AA8",
+          "bytes": 72,
+          "module": "video",
+          "sha256": "56a133aa5f65e579a4a35c1b7fbea6eeeaf1e935b7d88d86daa40bd0b9bbf7bf"
+        },
+        {
+          "canonical_eu_symbol": "sub_08000B68",
+          "address": "0x08000B68",
+          "bytes": 72,
+          "module": "video",
+          "sha256": "df09b520f46daf9d4b403cd0796126b51ff78838dea3eed37af0e141548ed569"
+        },
+        {
+          "canonical_eu_symbol": "sub_08000C50",
+          "address": "0x08000C50",
+          "bytes": 188,
+          "module": "video",
+          "sha256": "0a083c13b361b45f8f3151dc17a15dab8bc3277849ca4b8d8e633b46db3a591a"
+        },
+        {
+          "canonical_eu_symbol": "sub_08000D0C",
+          "address": "0x08000D0C",
+          "bytes": 128,
+          "module": "video",
+          "sha256": "9ee85151e11ddaf4b6ede544d544bf015ea34c8ec9be2938203d97e3de3252b4"
+        },
+        {
+          "canonical_eu_symbol": "sub_08000D8C",
+          "address": "0x08000D8C",
+          "bytes": 188,
+          "module": "video",
+          "sha256": "59d0c06e90c7d7890ec6f4e19b4d2623a782db95ac5e8026ef9566e853a81f07"
+        },
+        {
+          "canonical_eu_symbol": "sub_08000E48",
+          "address": "0x08000E48",
+          "bytes": 128,
+          "module": "video",
+          "sha256": "e361aac56c07cba7fba268152c92da39d74718097d6ad473ebc1623ab525eb79"
+        },
+        {
+          "canonical_eu_symbol": "sub_08000EC8",
+          "address": "0x08000EC8",
+          "bytes": 44,
+          "module": "code_08000EC8",
+          "sha256": "fa0a0ec675a3cc9aff7317dfb3c0eae678a06ae63cf2199a3c9ded65dc97e888"
+        },
+        {
+          "canonical_eu_symbol": "sub_08000EF4",
+          "address": "0x08000EF4",
+          "bytes": 56,
+          "module": "code_08000EC8",
+          "sha256": "af9d8c3ad2dbaa29a5f48528683702b9488478c7370bc5227862f9be539c6842"
+        },
+        {
+          "canonical_eu_symbol": "sub_08000F2C",
+          "address": "0x08000F2C",
+          "bytes": 56,
+          "module": "code_08000EC8",
+          "sha256": "5cbed126046055342526384f183d5806b3b8764220ef47c3b268b09f28145950"
+        },
+        {
+          "canonical_eu_symbol": "sub_08000F64",
+          "address": "0x08000F64",
+          "bytes": 112,
+          "module": "code_08000EC8",
+          "sha256": "4ddef457d0fc60af091821f0a6452f4ca887ec905177f177f5ba6bf8f5e1e98b"
+        },
+        {
+          "canonical_eu_symbol": "sub_08000FD4",
+          "address": "0x08000FD4",
+          "bytes": 108,
+          "module": "code_08000EC8",
+          "sha256": "35733550851f2b1fd33cd196167dabf3a62071426bae7c95480ce9705d6355c5"
+        },
+        {
+          "canonical_eu_symbol": "sub_08001040",
+          "address": "0x08001040",
+          "bytes": 108,
+          "module": "code_08000EC8",
+          "sha256": "bb3003473587ac54ebbb2b8f04b87deda9dc39e246c7992d8d8989671d4f8a87"
+        },
+        {
+          "canonical_eu_symbol": "sub_080010AC",
+          "address": "0x080010AC",
+          "bytes": 28,
+          "module": "code_08000EC8",
+          "sha256": "a4d5b81d1c4716160433c19614878fef31981326fa56bca95a218c1ba5c70045"
+        },
+        {
+          "canonical_eu_symbol": "sub_080010C8",
+          "address": "0x080010C8",
+          "bytes": 20,
+          "module": "code_08000EC8",
+          "sha256": "2be88f0765adff86ea3bac627770490e058b15a7c00a5b0e82a7d49515c94c1c"
+        },
+        {
+          "canonical_eu_symbol": "sub_08001108",
+          "address": "0x08001108",
+          "bytes": 40,
+          "module": "code_08000EC8",
+          "sha256": "7bfffefe55b0e5eef3036f4625a79487e15e19e39ee3dd5313e506a0873223b1"
+        },
+        {
+          "canonical_eu_symbol": "sub_0800115C",
+          "address": "0x0800115C",
+          "bytes": 16,
+          "module": "code_08000EC8",
+          "sha256": "5a1c43d6bf622f56c13c387946f0bbec57faed40711a85d897647436efaf28b3"
+        }
+      ],
+      "data_sources": []
+    },
+    "jp": {
+      "rom_sha1": "19856388caf5140f7527728bd09e20bcb8924eeb",
+      "rom_sha256": "9f3e0d0653de6504c1aeaf03de3cca06ae0c15a24089f0236398ec56d382d17a",
+      "evidence_revision": "8a7c8ef382cd6832f3e53eef82a6e0f07da7c11c",
+      "code_start": "0x23c",
+      "code_end": "0xbac14",
+      "data_end": "0x1000000",
+      "boundary_anchor": {
+        "offset": "0xbabb4",
+        "bytes": 736,
+        "sha256": "78013e8d34d010fd2ec994368dcf53d418e11e1e51a2c1a909fc4e89939afaf1",
+        "meaning": "Complete final memcpy code plus first0x280-byte data block; unique in this exact ROM"
+      },
+      "compiled_c": [
+        {
+          "canonical_eu_symbol": "sub_08000AA8",
+          "address": "0x08000AA8",
+          "bytes": 72,
+          "module": "video",
+          "sha256": "56a133aa5f65e579a4a35c1b7fbea6eeeaf1e935b7d88d86daa40bd0b9bbf7bf"
+        },
+        {
+          "canonical_eu_symbol": "sub_08000B68",
+          "address": "0x08000B68",
+          "bytes": 72,
+          "module": "video",
+          "sha256": "df09b520f46daf9d4b403cd0796126b51ff78838dea3eed37af0e141548ed569"
+        },
+        {
+          "canonical_eu_symbol": "sub_08000C50",
+          "address": "0x08000C50",
+          "bytes": 188,
+          "module": "video",
+          "sha256": "0a083c13b361b45f8f3151dc17a15dab8bc3277849ca4b8d8e633b46db3a591a"
+        },
+        {
+          "canonical_eu_symbol": "sub_08000D0C",
+          "address": "0x08000D0C",
+          "bytes": 128,
+          "module": "video",
+          "sha256": "9ee85151e11ddaf4b6ede544d544bf015ea34c8ec9be2938203d97e3de3252b4"
+        },
+        {
+          "canonical_eu_symbol": "sub_08000D8C",
+          "address": "0x08000D8C",
+          "bytes": 188,
+          "module": "video",
+          "sha256": "59d0c06e90c7d7890ec6f4e19b4d2623a782db95ac5e8026ef9566e853a81f07"
+        },
+        {
+          "canonical_eu_symbol": "sub_08000E48",
+          "address": "0x08000E48",
+          "bytes": 128,
+          "module": "video",
+          "sha256": "e361aac56c07cba7fba268152c92da39d74718097d6ad473ebc1623ab525eb79"
+        },
+        {
+          "canonical_eu_symbol": "sub_08000EC8",
+          "address": "0x08000EC8",
+          "bytes": 44,
+          "module": "code_08000EC8",
+          "sha256": "fa0a0ec675a3cc9aff7317dfb3c0eae678a06ae63cf2199a3c9ded65dc97e888"
+        },
+        {
+          "canonical_eu_symbol": "sub_08000EF4",
+          "address": "0x08000EF4",
+          "bytes": 56,
+          "module": "code_08000EC8",
+          "sha256": "af9d8c3ad2dbaa29a5f48528683702b9488478c7370bc5227862f9be539c6842"
+        },
+        {
+          "canonical_eu_symbol": "sub_08000F2C",
+          "address": "0x08000F2C",
+          "bytes": 56,
+          "module": "code_08000EC8",
+          "sha256": "5cbed126046055342526384f183d5806b3b8764220ef47c3b268b09f28145950"
+        },
+        {
+          "canonical_eu_symbol": "sub_08000F64",
+          "address": "0x08000F64",
+          "bytes": 112,
+          "module": "code_08000EC8",
+          "sha256": "4ddef457d0fc60af091821f0a6452f4ca887ec905177f177f5ba6bf8f5e1e98b"
+        },
+        {
+          "canonical_eu_symbol": "sub_08000FD4",
+          "address": "0x08000FD4",
+          "bytes": 108,
+          "module": "code_08000EC8",
+          "sha256": "35733550851f2b1fd33cd196167dabf3a62071426bae7c95480ce9705d6355c5"
+        },
+        {
+          "canonical_eu_symbol": "sub_08001040",
+          "address": "0x08001040",
+          "bytes": 108,
+          "module": "code_08000EC8",
+          "sha256": "bb3003473587ac54ebbb2b8f04b87deda9dc39e246c7992d8d8989671d4f8a87"
+        },
+        {
+          "canonical_eu_symbol": "sub_080010AC",
+          "address": "0x080010AC",
+          "bytes": 28,
+          "module": "code_08000EC8",
+          "sha256": "a4d5b81d1c4716160433c19614878fef31981326fa56bca95a218c1ba5c70045"
+        },
+        {
+          "canonical_eu_symbol": "sub_080010C8",
+          "address": "0x080010C8",
+          "bytes": 20,
+          "module": "code_08000EC8",
+          "sha256": "2be88f0765adff86ea3bac627770490e058b15a7c00a5b0e82a7d49515c94c1c"
+        },
+        {
+          "canonical_eu_symbol": "sub_08001108",
+          "address": "0x08001108",
+          "bytes": 40,
+          "module": "code_08000EC8",
+          "sha256": "7bfffefe55b0e5eef3036f4625a79487e15e19e39ee3dd5313e506a0873223b1"
+        },
+        {
+          "canonical_eu_symbol": "sub_0800115C",
+          "address": "0x0800115C",
+          "bytes": 16,
+          "module": "code_08000EC8",
+          "sha256": "5a1c43d6bf622f56c13c387946f0bbec57faed40711a85d897647436efaf28b3"
+        }
+      ],
+      "data_sources": []
+    }
+  }
+}

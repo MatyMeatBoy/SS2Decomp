@@ -64,6 +64,52 @@ regional C coverage, remaining effort, or an increase in the EU matching or name
 percentages. Matching EU bytes at the same address also does not prove that the
 corresponding function is executed by a regional gameplay path.
 
+## Progress receipts
+
+The README keeps EU main progress and adds two bars per region: matching C and
+data reproduced from source. The standard
+[code/data separation](https://decompilati.onl/docs/report-format) and
+[independent versions](https://github.com/zeldaret/tp/blob/main/README.md) are the
+presentation references. Reports are generated locally and by existing CI;
+there is no new external account, service registration or upload.
+
+`tools/config/regional_progress.json` records metadata and byte hashes, never ROM
+contents. Code starts at offset0x23C. The independently observed code/data splits
+are EU0xB9704, USA0xB9174 and Japan0xBAC14. Each is corroborated by a unique736-byte
+anchor consisting of the complete96-byte final `memcpy` followed by the first
+0x280-byte data block. These boundaries are layout facts, not a universal shift
+for functions, RAM globals or assets. Data continues to the16MiB ROM end and
+includes opaque assets and padding.
+
+EU code coverage is collected from current C/ASM source partitions, with SDK
+included in this additional view. USA/Japan each currently admit16 complete
+normal-C functions totaling1364 bytes, rechecked at main8a7c8ef3. The whole-ROM
+reconstruction still copies16775852 bytes and does not earn full source credit.
+EU data currently admits the256-byte `__clz_tab` initializer from `src/libgcc2.c`
+at0x08366BC0; `ld_script.ld` explicitly links its rodata between the two raw data
+objects. No regional source-data reuse has yet been admitted for USA/Japan.
+
+Generate and optionally verify all private references:
+
+```sh
+python3 tools/scripts/progress.py --out build/progress
+python3 tools/scripts/regional_progress.py --verify-local --out build/regional-progress
+```
+
+To refresh coverage, first run EU `make compare`, full `make nonmatching`, and
+both regional compare commands. Review the generated `build/regions/*/report.json`
+against exact ROM hashes and complete compiled function intervals. Update only
+the corresponding region's metadata receipts on a tooling branch, with the
+verified revision and per-interval hashes. A source-data addition also needs a
+matching source initializer/build interval, its normalized source-text hash,
+output byte hash, and removal of any overlapping raw incbin. Re-run local receipt
+verification, source-only reporting and regression tests. Independent review and
+normal delivery gates still apply. Never copy generated reports or ROMs into Git.
+
+`regional_progress.json` preserves excluded/stale receipt explanations. A changed
+source hash earns no data credit until revalidated. The bars measure source
+reconstruction, not semantic naming, decoded assets or estimated remaining time.
+
 Regional RAM and game-code changes do not follow one global offset. This initial
 builder therefore admits only complete, exact same-address functions. It retains
 the normal compiler flags and never patches generated opcodes or invents region
