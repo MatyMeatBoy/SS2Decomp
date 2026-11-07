@@ -4,3 +4,24 @@ w7 (2026-11-04), sub_08093BAC (nmscore 241, exact size 1542). Survey only (not w
   576), [sp,#0x14c] = the value stored at asm line 185 (read at 553/621); ours has them the other way round
   (pseudo regno order); (2) the ROM hoists `add r2,sp,#0x7c` into r9 for the loop (struct at sp+0x7c used as
   the sub_08065xxx arg and `ldr r1,[r9,#12]`), ours rematerializes it, which shifts r8/r9/sl afterwards.
+
+claude-nov07-wB (2026-11-07), sub_08093BAC: MATCH (filtered/aligned nmdiff 169 -> 0); last INCLUDE_ASM in
+  src/code_08092D60.c is gone. What closed it, in order:
+  1. Spill-slot order 0x144..0x164 is regno order of unallocated pseudos, and those nine are all GCSE-PRE
+     "reaching regs", created in expression-hash-bucket order (pre_delete walks the table by bucket;
+     hash = linear in regno/const, mod (max_cuid/2)|1). ROM order phase+1 < idx<<24 < phase*2 < &f24..&frame
+     needs regno(phase) - regno(idx) in ~[24,34] AND a table size != 309. Using the parameter as the index
+     (`arg1--; switch ((s8)arg1)`, regno 27) instead of a `u8 idx` local, plus the function-scope locals
+     `effect`, `px, py` declared before `phase`, gave both.
+  2. loop3 must be a real `for (i = 0; i < 4; i++)` (loop.c hoists `effect` and the shared const-1 pseudo,
+     so zero lands in r8, i*2/&h1/&anim in r4/r5/r6). The goto loop the draft used can never get r8=0.
+  3. The real loop exposed loop.c pass-2 hoisting of posB.x>>8 (lifetime grows via the single-use
+     substitution of the >>16 into the r0 move). Fix: draw args through s16 locals assigned just before
+     each call (`px = posB.x >> 8; py = posB.y >> 8; draw(px, py, ...)`), for BOTH draws. That also gives
+     ROM's interleaved `lsl x,8; lsl y,8; asr x,16; asr y,16` (combine folds the zero-extend of the s16
+     local into the param sign-extend).
+  4. anim3BAC(effect, anim[i], &h1[i], &h2[i], 0) directly (no pointer locals). The r8 zero is the
+     `(f24 & 0)` pseudo from the f24 store expansion, shared by cse with both stack-arg zeros.
+  Rejected: decl-order shuffles of phase/i/idx alone (slot order fixed only together with table size),
+  dummy locals + asm("") cuid padding (worked as a probe, not kept), do{}while(0) around loop3 parts,
+  zero user var, effect hoisted by hand (D2, 11), &sprC instead of effect (9).
