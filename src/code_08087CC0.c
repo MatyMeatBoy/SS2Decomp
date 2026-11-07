@@ -3089,26 +3089,20 @@ void sub_0808C0C4_v(void) {
     bgValueC0 = 0x1F03;
     *(u16 *)&sp15C = bgValueC0;
     sub_08000AA8(3U, bgHalfC0);
-    loopCounterC0 = 0;
-    portraitBaseC0 = ((u8 *)portraitsC0);
-    portraitTableC0 = gPortraitC0;
-    playerTableC0 = gPlayersC0;
-    goto portraitCheckC0;
-portraitBodyC0:
-    temp_r4 = portraitBaseC0 + (0x34 * loopCounterC0);
-    temp_r0 = (struct C0Player *)(loopCounterC0 * 0x14C + (u32)playerTableC0);
-    /* Accumulate both table offsets before materializing the resource. */
-    portraitLookupC0 = temp_r0->unk10 * 4;
-    portraitRowC0 = temp_r0->unk64 * 0x58;
-    portraitLookupC0 += portraitRowC0;
-    portraitLookupC0 += (u32)portraitTableC0;
-    portraitLookupC0 = *(u32 *)portraitLookupC0;
-    sub_08065158(temp_r4, portraitLookupC0, 0, -1, 0);
-    temp_r4[0x1C] = (s8) loopCounterC0;
-    loopCounterC0++;
-portraitCheckC0:
-    if (loopCounterC0 < sub_08002164())
-        goto portraitBodyC0;
+    for (loopCounterC0 = 0; loopCounterC0 < sub_08002164(); loopCounterC0++) {
+        portraitBaseC0 = ((u8 *)portraitsC0);
+        portraitTableC0 = gPortraitC0;
+        playerTableC0 = gPlayersC0;
+        temp_r4 = portraitBaseC0 + (0x34 * loopCounterC0);
+        temp_r0 = (struct C0Player *)(loopCounterC0 * 0x14C + (u32)playerTableC0);
+        portraitLookupC0 = temp_r0->unk10 * 4;
+        portraitRowC0 = temp_r0->unk64 * 0x58;
+        portraitLookupC0 += portraitRowC0;
+        portraitLookupC0 += (u32)portraitTableC0;
+        portraitLookupC0 = *(u32 *)portraitLookupC0;
+        sub_08065158(temp_r4, portraitLookupC0, 0, -1, 0);
+        temp_r4[0x1C] = (s8) loopCounterC0;
+    }
     switch (gUnk_03003470) {
     case 0:
         sub_08065158(&sp4C, 0x50002, 0, 0x80000000, 0);
@@ -3387,7 +3381,7 @@ block_94:
         sub_08065230(&sp4C, 0x88, 0x78, 5U, (u32) sp10[1]);
         sub_08065264(&sp4C, 0x68, 0x78, 4, (u32) sp10[0]);
     }
-    C0_DRAW_ALL();
+    do { C0_DRAW_ALL(); } while (0);
     sub_080003F0();
     goto loop_82;
 loop_113CheckC0:
