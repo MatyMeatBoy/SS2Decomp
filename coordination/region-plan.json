@@ -23,6 +23,19 @@
       "candidate": null,
       "evidence": "",
       "region": "phase-five-core"
+    },
+    {
+      "action": "submit",
+      "actor": "sol-match-b-eu",
+      "at": "2026-11-07T11:43:44+00:00",
+      "candidate": {
+        "evidence": "region-candidates/sub_080923FC/phase-five-core.md",
+        "ref": "refs/heads/codex/923fc-phase-five-nov07",
+        "sha": "6a52536a0b33cf8a782e3d77cf76ed90e1d6ced5",
+        "source": "region-candidates/sub_080923FC/phase-five-core.c"
+      },
+      "evidence": "Frozen27fb21f1;2236/frame332;136 to131 halfwords;94 ordered call relocations;targetS+12C unchanged;9048 original-core pairs plus write-model checks and step8 RED;strict artifact injection equals normal selected;owner reviews preheader Hi/cache recolor+502/+508;still NONMATCHING",
+      "region": "phase-five-core"
     }
   ],
   "module": "code_0808FB5C",
@@ -57,6 +70,12 @@
       "worker": "sol-match-a-eu"
     },
     {
+      "candidate": {
+        "evidence": "region-candidates/sub_080923FC/phase-five-core.md",
+        "ref": "refs/heads/codex/923fc-phase-five-nov07",
+        "sha": "6a52536a0b33cf8a782e3d77cf76ed90e1d6ced5",
+        "source": "region-candidates/sub_080923FC/phase-five-core.c"
+      },
       "end": "0x080929AE",
       "entry": "Unique fallthrough after draw BL08092956 inside the nonbusy gate. Busy branches0809291C/24/2C bypass core to080929AE. Lower-clamp join08092986, upper-clamp join08092992; no calls/data inside84-byte original core.",
       "evidence": "WorkerB build/sol-b027/region096-readonly-contract.md original full CFG/live/memory audit; new167 actual core/preheader/pool equal183 bytes+relocations (coreSHA159894d3826ca183978779e532f0302693a5bb432e3c69ae9412358974e33aac). Source core accum+=4 throughcache3; declarations lower/d beforedraw, offset pointer initializers beforeloop are external producers. Original carries upper throughlowclamp; baseline conservative aliasing reloads high. Prior183/209 trials227/210 cachepointer+reversedoffsetinitializers+carriedupper regressed; do not repeat unchanged package. Any genuinely new167 candidate requires unchanged whole-module control and whole-function fallout/target-home checks.",
@@ -77,7 +96,7 @@
         "Owner-managed outside literals relative724 limit,728/72C/730 cache/low/high original versus low/high/cache baseline;734 v250,738 v254. No pool relocation or preheader edits in production by worker."
       ],
       "start": "0x0809295A",
-      "state": "claimed",
+      "state": "submitted",
       "types": [
         "accum s16 semantic wrap with zero-extended32 home, d s32, globals low/high stored16 and compared signed16, shake s16 for arithmetic but existing u16 carrier. cache4xu16, offsets/source values u16 loads. Preserve all existing helper widths and C89 declarations."
       ],
