@@ -11173,7 +11173,7 @@
           "source": "src/code_08009088.c",
           "line": 13,
           "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
-          "detail": "Initializes shared world-map state at 0x03003170. Allocates a 0x20000-byte decoded-map buffer and three 0x800-byte background tilemap buffers, clears the primary map/layer pointers and layer source-scroll fields, and enables camera-relative scrolling for layers 1..3. Obtains the initial map-set and area indices through sub_0805700C. It does not start the map update task or guard allocation failure."
+          "detail": "Initializes shared world-map state at 0x03003170. Allocates a 0x20000-byte decoded-map buffer and three 0x800-byte background tilemap buffers, clears the primary map/layer pointers and layer source-scroll fields, and enables camera-relative scrolling for layers 1..3. Sets the initial area index to zero and stores sub_0805700C's return value as the map-set index. The callee counts set bits 0..22 at options 03004210+4, ignores the passed area address and does not write an output there. It does not start the map update task or guard allocation failure."
         },
         {
           "source": "tools/config/functions.cfg",
@@ -11186,6 +11186,12 @@
           "line": 328,
           "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
           "detail": "Matched map loader selects the map set/area, resolves or decompresses map planes and dimensions, then starts task control 0x03003430 with callback sub_0800A998. This anchors the resources and layer callback as the world-map background family; task field +8 is not interpreted as priority."
+        },
+        {
+          "source": "src/code_080542C4.c",
+          "line": 1253,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Matched 5700C takes no C arguments and returns the count of set bits 0..22 from options pointer 03004210, word+4. Original 57012 overwrites incoming r0 before reading through it, then performs no stores through the passed area address or any other object. Original caller 09118 first stores halfword zero to map state+0x90; 0911A calls 5700C and 09122 stores its return to map state+0x8C. The local finishInit005(u16 *) alias in 090B0 is a code-generation view, not evidence of an output-pointer ABI."
         }
       ]
     },
