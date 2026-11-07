@@ -476,7 +476,6 @@ void sub_0800D368(void *arg0) {
     s32 temp_r4_2;
     s32 temp_r4_39;
     s32 temp_r5_13;
-    s32 var_r0_11;
     s32 var_r0_12;
     s32 var_r0_26;
     s32 var_r0_32;
@@ -1952,8 +1951,8 @@ block_447:
                             case 2:                 /* switch 5 */
                                 temp_r4_10 = ((struct PlayerD368 *)arg0)->f10;
                                 if (temp_r4_10 == 9) {
-                                    var_r0_11 = (s16) d368_sub_0806898C(d368_sub_0801DEB8(), ((struct PlayerD368 *)arg0)->f26);
-                                    if (var_r0_11 != 0) {
+                                    var_r0_12 = (s16) d368_sub_0806898C(d368_sub_0801DEB8(), ((struct PlayerD368 *)arg0)->f26);
+                                    if (var_r0_12 != 0) {
                                         if ((d368_sub_0801DEB8() == 7) && (byteTable6410D368[((struct PlayerD368 *)arg0)->f0] != 0)) {
                                             var_r0_12 = 0;
                                             goto block_588;
@@ -1990,10 +1989,11 @@ block_447:
                                                 ((struct PlayerD368 *)arg0)->f20 = temp_r4_10;
                                                 ((struct PlayerD368 *)arg0)->fDC += 1;
                                             } else {
-                                                var_r0_11 = 0;
+                                                var_r0_12 = 0;
+block_588:
 block_581:
-                                        ((struct PlayerD368 *)arg0)->f26 = (u16) var_r0_11;
-                                        ((struct PlayerD368 *)arg0)->f24 = (u16) var_r0_11;
+                                        ((struct PlayerD368 *)arg0)->f26 = (u16) var_r0_12;
+                                        ((struct PlayerD368 *)arg0)->f24 = (u16) var_r0_12;
                                         sp130 = 0;
                                         sp134 = 0;
                                         ((struct PlayerD368 *)arg0)->f20 = 0U;
@@ -2026,12 +2026,7 @@ block_582:
                                             sp170 &= 7;
                                         }
                                     } else {
-block_588:
-                                            ((struct PlayerD368 *)arg0)->f26 = (u16) var_r0_12;
-                                            ((struct PlayerD368 *)arg0)->f24 = (u16) var_r0_12;
-                                            sp130 = 0;
-                                            sp134 = 0;
-                                            ((struct PlayerD368 *)arg0)->f20 = 0U;
+                                            goto block_588;
                                     }
                                 } else {
                                     ((struct PlayerD368 *)arg0)->fDC += 1;
