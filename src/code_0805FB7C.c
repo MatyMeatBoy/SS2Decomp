@@ -328,7 +328,7 @@ void sub_0805FFBC(s32 x, s32 y, struct ItemName63 *item, s32 flags)
         if (sub_0800CC98() == 0) {
             u32 *div;
             u8 *out;
-            register s32 started asm("r7");
+            s32 started;
             u32 k;
             register s32 *valuePtr asm("sl");
             value = *(s32 *)&entry->suffix;
