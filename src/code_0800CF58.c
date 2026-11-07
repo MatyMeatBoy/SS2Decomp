@@ -1564,15 +1564,15 @@ block_197:
                                     propagationMaskD368 = d368_gUnk_030056FC;
                                     propagationMaskD368 &= propagationBitD368;
                                     if (propagationMaskD368) {
-                                        struct EffectD368 *q = peersD368[var_r5].effects; s32 found;
-                                        found = 0;
+                                        struct EffectD368 *q = peersD368[var_r5].effects;
+                                        var_r4_11 = 0;
                                         for (sp128 = 0; sp128 <= 7; sp128++, q++) {
                                             if (q->f0 == -2 && q->f4 == 6 && q->f2 == ((struct PlayerD368 *)arg0)->f0) {
-                                                found = 1;
+                                                var_r4_11 = 1;
                                                 break;
                                             }
                                         }
-                                        if (found == 0) {
+                                        if (var_r4_11 == 0) {
                                             q = peersD368[var_r5].effects;
                                             for (sp128 = 0; sp128 <= 7; sp128++, q++) {
                                                 if (q->f0 == -1) {

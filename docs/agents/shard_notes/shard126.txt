@@ -113,8 +113,8 @@ shard 126 notes
 
 2026-11-07 (claude-nov07-w126c, third pass): sub_0800D368
   Start: register-normalized diff 364, filtered nmdiff 6238, raw (unnormalized, no-autojunk)
-  diff 5372, 24996 bytes, frame 476. End: register-normalized 303, filtered nmdiff 4071,
-  raw 2745, 24968 bytes, frame 476 (ROM 472).
+  diff 5372, 24996 bytes, frame 476. End: register-normalized 245, filtered nmdiff 4174,
+  raw 3037, 25108 bytes, frame 476 (ROM 472).
   What landed:
   - D368_Level: h = (s8)p[0x6C] * 5 before the loop, h * 2 + table[i] inside. loop.c hoists
     the *2 after i = 7 and the table load (ROM order), and the byte load gets ldrb/lsl/asr
@@ -132,15 +132,26 @@ shard 126 notes
     wrapped in do { } while (0). The loop-depth ref weight raises the GCSE base pseudo above
     the p+40 latch PRE pseudo, so (as in the ROM) the base gets r5 and p+40 gets r3
     (caller-saved, saved at 0x1CC).
+  - `found` in the peer scan is the function-scope var_r4_11 (the later r4 match counter).
+    With a block-local found it was spilled (prio 0.43); merged it gets a register, the exit
+    test copy is spilled like the ROM, and the effect-loop owner-switch cases 2 and 5 (same C,
+    in the ROM different only in reload registers) stop being cross-jumped into one block:
+    normalized 303 -> 245, size 24968 -> 25108. The raw count goes up (2745 -> 3037) only
+    because the restored case-2 block now aligns with mismatched registers.
   Diagnosis / measured:
-  - Cases 2 and 5 of the effect-loop owner switch are identical C; in the ROM they differ only
-    in reload registers (case 2 r4/r5, case 5 r1/r4/r5/r0), so cross-jumping keeps both. Ours
-    gives case 2 the case-5 registers and the two blocks merge (about -45 normalized lines,
-    -130 bytes). Reload rotation is still off in the peer loop: ROM keeps `found` in r4 and
-    spills the exit-test copy (0x1D0); ours spills found (prio 0.43 < p+40 0.67).
+  - Peer loop: var_r5 (merged, prio 1.36, crosses 1 call) takes r4 and found/var_r4_11
+    (prio 0.63) r5; the ROM has them the other way round. Dropping var_r5_12/var_r5_13 from
+    the merge does not help (247 / 341); dropping all var_r5 merges is far worse (423).
   - lookupStats (sub_08007290 result, 0xB4E) lives in r8 in the ROM (`mov r8, r0` then the
     use reloads through r0). Assigning it to var_r8 gives the copy but in r3 (+1); not kept.
   - Merging var_r5_7/var_r5_8 into var_r5 is worse (+14).
   Tools (scratchpad nov07-w126c): rawr.py (per-region raw register mismatches), rawl.py
   (list raw/struct diffs in a ROM range), conf.py (conflicting pseudos of a pseudo in given
   hard regs, from a -dg dump), kmk.py (merge variables).
+  Next:
+  - More ROM-register families are probably single variables too (m2c var_rN_* / temp_rN_*
+    split per region). Merging them changes global allocation and the reload register order
+    function-wide, so evaluate with both the normalized and the raw diff (rawr.py).
+  - Peer loop: get var_r4_11 allocated before var_r5 (or block r4 for var_r5 elsewhere) to
+    swap r4/r5; then the 0x1D0/0x1D4 spill slots and the frame should follow.
+  - lookupStats (0xB4E) in r8 and the f14 copy at 0x552 (ROM loads into r1 then copies to r2).
