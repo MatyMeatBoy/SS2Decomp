@@ -951,7 +951,6 @@ void sub_0805664C(s32 arg0)
     spawn56(sub_0805664C, arg0);
     }
 }
-#ifdef NONMATCHING
 struct StatePlayer567D4 { u8 pad[0x11E]; u16 state; u8 tail[0x2C]; };
 extern struct StatePlayer567D4 statePlayers567D4[] asm("gUnk_03003CE0");
 struct Item567D4 { u16 item, kind; u8 rest[12]; };
@@ -1030,6 +1029,7 @@ void sub_080567D4(s32 id)
     u32 hw, hh, x, y, n;
     s32 ret;
     u8 *flags;
+    struct StatePlayer567D4 *players = statePlayers567D4;
     if (gates567D4[id].bitflag != 0) {
         u32 key = gates567D4[id].flag;
         u32 byte = key >> 3;
@@ -1105,7 +1105,7 @@ void sub_080567D4(s32 id)
             }
             sub_08068070((u32)sub_0805A43C, 0);
             ret = 5;
-            { struct StatePlayer567D4 *p = &statePlayers567D4[sub_080020F4()]; p->state = ret; }
+            players[sub_080020F4()].state = ret;
             Remove567D4(gates567D4[id].item, gates567D4[id].kind, gates567D4[id].need);
             ret = gates567D4[id].flag;
             if (gates567D4[id].bitflag != 0)
@@ -1118,7 +1118,7 @@ void sub_080567D4(s32 id)
         if (!(gUnk_030027D0 & 0x20))
             sub_08006D08(0x61);
         ret = 6;
-        { struct StatePlayer567D4 *p = &statePlayers567D4[sub_080020F4()]; p->state = ret; }
+        players[sub_080020F4()].state = ret;
     }
 already:
     /* An "l" use of the gates base gives the PRE copy a LO_REGS preference (it is otherwise
@@ -1128,9 +1128,6 @@ already:
     sub_08028AAC(gates567D4[id].event + 5, 0x270F, 0x270F, 0);
 }
 
-#else
-INCLUDE_ASM("asm/nonmatchings/code_080542C4", sub_080567D4);
-#endif
 void sub_08056CB4(u32 value)
 {
     u8 *base;
