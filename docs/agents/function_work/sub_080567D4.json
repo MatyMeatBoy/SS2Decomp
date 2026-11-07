@@ -1,7 +1,7 @@
 {
   "address": "0x080567D4",
-  "updated_utc": "2026-11-07T03:19:23+00:00",
-  "checkpoint": "codex-sol-b-nov07 third checkpoint: reuse the completed half-height work value for handshake status, and retain the first-loop Y-base lifetime through an unsigned identity removed before final code generation. Relative to PR549, normalized byte edit distance 149 -> 83 and halfword edit distance 118 -> 59; approximate nmscore 153 -> 114. Candidate 1256 bytes versus original 1248; frame remains 0x14. Still NONMATCHING.",
+  "updated_utc": "2026-11-07T04:57:13Z",
+  "checkpoint": "Verified ordinary need-load staging after PR553. Candidate remains 1256 bytes versus original 1248 with the original 20-byte frame. Normalized byte edit distance 83 to 79, halfword distance 59 to 58, approximate nmscore 114 to 109. All 26 static call targets retain original order. Strict NO MATCH; no matching-byte credit.",
   "areas": [
     {
       "id": "stack_abi",
@@ -13,7 +13,7 @@
       "id": "cfg_registers",
       "label": "Match control flow and register allocation",
       "state": "active",
-      "evidence": "The first position loop now emits the original Y-base preload/move to r9 and address addition; the height work value and the CE30 scratch use r6/r7 as in ROM. After both rectangle loops the height value is no longer needed, so its u32 storage is safely reused for the 0..255 handshake byte; the signed comparison preserves that byte range. The first-loop Y address is represented as u32 and -(-ybase+1)+1 preserves all 32 bits modulo 2^32; no out-of-object pointer arithmetic, new reads or arithmetic instructions remain. A fresh full-module compiler dump assembles strict-equal to the ordinary NONMATCHING object. Remaining: initial gate-base spilling/reload, first inventory-count loop allocation/setup, handshake player register/status-load copy, state-add scratch, removal setup interleave and pools/padding. Strict bytes/relocations remain NO MATCH."
+      "evidence": "The first position loop now emits the original Y-base preload/move to r9 and address addition; the height work value and the CE30 scratch use r6/r7 as in ROM. After both rectangle loops the height value is no longer needed, so its u32 storage is safely reused for the 0..255 handshake byte; the signed comparison preserves that byte range. The first-loop Y address is represented as u32 and -(-ybase+1)+1 preserves all 32 bits modulo 2^32; no out-of-object pointer arithmetic, new reads or arithmetic instructions remain. A fresh full-module compiler dump assembles strict-equal to the ordinary NONMATCHING object. Remaining: initial gate-base spilling/reload, first inventory-count loop allocation/setup, handshake player register/status-load copy, state-add scratch, removal setup interleave and pools/padding. Strict bytes/relocations remain NO MATCH. Current checkpoint stages the immutable gate-table need word between the second item and kind reads, then copies that u32 value to the removal count. No calls or writes intervene, and every removal path initializes the temporary before use. This restores the original initial table-base r6 selection and changes removal setup; the redundant initial table-base reload, first count-loop allocation, handshake player/status copy, state scratch and literal-pool differences remain. A fresh complete-module diagnostic object strictly equals the actual NONMATCHING function. The five-minute strict-control permuter led to this minimal ordinary-C staging; no hard-register constraints, extra memory reads or arithmetic were added."
     },
     {
       "id": "full_match",
