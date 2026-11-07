@@ -3613,6 +3613,7 @@ finish:
 struct T072DESprite { u32 f0, f4, f8, fC; u8 pad10[12]; u8 f1C, f1D; u8 pad1E[22]; };
 struct T072DEPlayer { u16 id; u8 pad2[0x1e]; u16 state; u8 pad22[0x46]; u8 team; u8 pad69[0x49]; u16 phase, wait, ready; u8 padB8[10]; s16 resource; u8 padC4[24]; u32 counter; u8 padE0[0x64]; u8 *config; u16 *sprite; };
 struct T072DEEnemy { u16 id; u8 pad2[6]; s16 direction; u8 padA[2]; u16 state; u8 padE[6]; s32 x,y; u8 pad1C[0x42]; s16 resource; u8 pad60[10]; u16 wait; u8 pad6C[0x170]; u8 active; u8 pad1DD[0x4e]; u8 threshold; u8 pad22C[0xb4]; };
+struct T072DEBits { u8 kind:4; u8 r0:4; u8 p1[3]; u32 flags:6; };
 struct T072DEArgs { u32 player, bit, target, value, f10, level; };
 extern struct T072DEPlayer t072DEPlayers[] asm("gUnk_03003CE0");
 extern struct T072DEEnemy *t072DEEnemies asm("gUnk_030056F4");
@@ -3634,25 +3635,26 @@ void sub_0806DE94(struct T072DEArgs *arg) {
     struct T072DEEnemy *enemy, *caster;
     u32 nplayers, originalLevel;
     s32 x, y;
-    u32 done, total;
+    u32 done; u16 total;
     u16 local;
     u32 player, bit;
     s32 px, py;
-    u16 level, direction, selected, i;
+    u16 level, selected, i;
+    u16 ang; s16 sang, sf; s16 at;
+    s32 kind;
+    s32 facing;
     s32 angle, ax, ay, radius, index;
     s32 cost; u16 delta;
     u8 shade;
-    u16 *ready;
     u8 *delayDst, *delayPrev;
-    u32 random, offset;
+    u32 random;
     s16 *costEntry;
     local = sub_080020F4();
     player = arg->player; bit = arg->bit;
     level = arg->level; originalLevel = level;
     if (player <= 3) p = &t072DEPlayers[player];
     else {
-        offset = player * 0x2E0 - 0xB80;
-        caster = (struct T072DEEnemy *)((u32)t072DEEnemies + offset);
+        caster = &t072DEEnemies[player - 4];
         while (caster->wait < caster->threshold) {
             if (sub_08056E90() != 0 || sub_0800BA6C() == 0 || caster->state == 10 || caster->state == 11) {
                 t072DEFlags[player] &= ~(1 << bit); return;
@@ -3662,7 +3664,10 @@ void sub_0806DE94(struct T072DEArgs *arg) {
     }
     if (local != player) {
         if (player > 3) {
-            costEntry = (s16 *)((u8 *)t072DECosts + 6 + arg->value * 24 + level * 2);
+            u8 *costBase = (u8 *)t072DECosts;
+            u32 costOffset = level * 2 + arg->value * 24;
+            costBase += 6;
+            costEntry = (s16 *)(costOffset + (u32)costBase);
             cost = (u16)caster->resource - *costEntry;
             caster->resource = cost;
             if ((s16)cost < 0) {
@@ -3695,52 +3700,34 @@ void sub_0806DE94(struct T072DEArgs *arg) {
             }
             sub_080003F0();
         }
-        if (player <= 3) {
-            x = (p->sprite[0] >> 4) << 8;
-            y = ((u32)p->sprite[1] << 20) >> 12;
-            direction = t072DEDirections[p->config[3] >> 4];
-        } else goto enemyOrigin;
-    } else {
-enemyOrigin:
-        x = caster->x; y = caster->y;
-        direction = t072DEDirections[caster->direction];
     }
-    direction *= 2;
+    if (player <= 3) {
+        x = (p->sprite[0] >> 4) << 8;
+        y = ((u32)p->sprite[1] << 20) >> 12;
+        facing = (u16)(t072DEDirections[p->config[3] >> 4] * 2);
+    } else {
+        x = caster->x; y = caster->y;
+        facing = (u16)(t072DEDirections[caster->direction] * 2);
+    }
     selected = 0; total = 0;
-    ready = &p->ready;
     if (sub_0800CDF8() == 0) {
-        if (arg->target > 3) {
-            for (i = 0; i <= 4 && sub_0800CD8C() == 0; i++) {
-                if (!(gUnk_030056FC & (1 << i))) continue;
-                enemy = &t072DEEnemies[i];
-                if (enemy->state == 11 || enemy->active == 0) continue;
-                dx = (u32)(enemy->x - x) >> 8;
-                dy = ((u32)(enemy->y - y) << 8) >> 16;
-                angle = (u16)(((u32)(ArcTan2(dx,dy) << 16) >> 27) - (s16)direction);
-                if ((s16)angle > 16) angle = (u16)((s16)angle - 32);
-                angle = (s16)angle;
-                if (angle < 0) angle = -angle;
-                if (angle > 3) continue;
-                ax = dx; if (ax < 0) ax = -ax;
-                radius = level * 10 + 48;
-                if (ax >= radius) continue;
-                ay = dy; if (ay < 0) ay = -ay;
-                if (ay >= radius) continue;
-                targets[total] = i; total = (u16)(total + 1); selected++;
-            }
-        } else {
+        if (arg->target <= 3) {
             nplayers = sub_08002164();
             for (i = 0; i < nplayers; i++) {
                 q = &t072DEPlayers[i];
                 if (sub_0800CD8C() != 0) break;
-                index = ((u8 *)q->sprite)[0] & 15;
-                if (index == 11 || index == 10 || index == 14) continue;
-                if (q->team == 0 || (((u8 *)q->sprite)[4] & 32) || (player <= 3 && q->team == p->team) || q->state == 11) continue;
+                kind = ((struct T072DEBits *)q->sprite)->kind;
+                if (kind == 11) continue;
+                if (kind == 10) continue;
+                if (kind == 14) continue;
+                if (q->team == 0 || (((struct T072DEBits *)q->sprite)->flags & 32) || (player <= 3 && q->team == p->team) || q->state == 11) continue;
                 dx = (q->sprite[0] >> 4) - (x >> 8);
                 dy = (((u32)q->sprite[1] << 20) >> 20) - (y >> 8);
-                angle = (u16)(((u32)(ArcTan2(dx,dy) << 16) >> 27) - (s16)direction);
-                if ((s16)angle > 16) angle = (u16)((s16)angle - 32);
-                angle = (s16)angle;
+                at = ((u32)(ArcTan2(dx,dy) << 16) >> 27);
+                sf = facing;
+                ang = at - sf;
+                sang = ang; if (sang > 16) ang = sang - 32;
+                angle = (s16)ang;
                 if (angle < 0) angle = -angle;
                 if (angle > 3) continue;
                 ax = dx; if (ax < 0) ax = -ax;
@@ -3748,7 +3735,28 @@ enemyOrigin:
                 if (ax >= radius) continue;
                 ay = dy; if (ay < 0) ay = -ay;
                 if (ay >= radius) continue;
-                targets[total] = i; total = (u16)(total + 1); selected++;
+                targets[total++] = i; selected++;
+            }
+        } else {
+            for (i = 0; i <= 4 && sub_0800CD8C() == 0; i++) {
+                if (!((u32)gUnk_030056FC & (1 << i))) continue;
+                enemy = &t072DEEnemies[i];
+                if (enemy->state == 11 || enemy->active == 0) continue;
+                dx = (u32)(enemy->x - x) >> 8;
+                dy = ((u32)(enemy->y - y) << 8) >> 16;
+                at = ((u32)(ArcTan2(dx,dy) << 16) >> 27);
+                sf = facing;
+                ang = at - sf;
+                sang = ang; if (sang > 16) ang = sang - 32;
+                angle = (s16)ang;
+                if (angle < 0) angle = -angle;
+                if (angle > 3) continue;
+                ax = dx; if (ax < 0) ax = -ax;
+                radius = level * 10 + 48;
+                if (ax >= radius) continue;
+                ay = dy; if (ay < 0) ay = -ay;
+                if (ay >= radius) continue;
+                targets[total++] = i; selected++;
             }
         }
     }
@@ -3756,11 +3764,41 @@ enemyOrigin:
     t072DEInit(&sprite,0x5008B,8,-1,0);
     sprite.f1C = 7; sprite.f1D = 8;
     if (level > 6) level = 6;
-    done = 0;
-    if (selected != 0) {
+    if (selected == 0) {
+        index = t072DEDirections[((u8 *)p->sprite)[3] >> 4];
+        x = x + gUnk_080B9704[(s16)(index * 16) + 64] * 30;
+        y = y + gUnk_080B9704[(s16)(index * 16)] * 30;
+        done = 0;
+        px = x >> 8; py = y >> 8;
+        do {
+            t072DECoords((s16)px,(s16)py,&dx,&dy,48,0);
+            shade = sub_0800BC44(px,py,0);
+            if (sub_08065370(&sprite,level,(s32)&animation[0],(s32)&timers[0],0) != 0) done = (u16)(done + 1);
+            if (sub_0800CC98() == 0 && sub_0800CD8C() == 0 && sub_0800CCCC() == 0 && (gUnk_03002344 & 1) == (player & 1)) t072DEDraw(dx,dy,level,animation[0],shade,&sprite.f1C,sprite.f8,sprite.f0);
+            sub_080003F0();
+        } while (done == 0);
+    } else {
+        done = 0;
         while (done < total) {
             if (player == sub_080020F4() && ((u16)(p->state - 11) <= 1 || sub_0800D11C() != 0)) break;
-            if (arg->target > 3) {
+            if (arg->target <= 3) {
+                for (i = 0; i < total; i++) {
+                    q = &t072DEPlayers[targets[i]];
+                    t072DECoords(q->sprite[0] >> 4,((u32)q->sprite[1] << 20) >> 20,&dx,&dy,48,0);
+                    shade = sub_0800BC44(x >> 8,y >> 8,0);
+                    if (delays[i] == 0) {
+                        if (sub_08065370(&sprite,level,(s32)&animation[i],(s32)&timers[i],0) != 0) {
+                            done = (u16)(done + 1); delays[i] = 240;
+                            if (local == targets[i]) {
+                                arg->target = (u16)q->id;
+                                t072DESend(arg);
+                                if (sub_0800CCCC() == 0 && sub_0800CD34() == 0) sub_0805865C(26);
+                            }
+                        }
+                        if (sub_0800CC98() == 0 && sub_0800CD8C() == 0 && sub_0800CCCC() == 0 && (gUnk_03002344 & 1) == (i & 1)) t072DEDraw(dx,dy,level,animation[i],shade,&sprite.f1C,sprite.f8,sprite.f0);
+                    } else if (delays[i] != 240) delays[i]--;
+                }
+            } else {
                 for (i = 0; i < total; i++) {
                     enemy = &t072DEEnemies[targets[i]];
                     t072DECoords((s16)(enemy->x >> 8),(s16)(enemy->y >> 8),&dx,&dy,48,0);
@@ -3780,40 +3818,12 @@ enemyOrigin:
                         }
                     } else if (delays[i] != 240) delays[i]--;
                 }
-            } else {
-                for (i = 0; i < total; i++) {
-                    q = &t072DEPlayers[targets[i]];
-                    t072DECoords(q->sprite[0] >> 4,((u32)q->sprite[1] << 20) >> 20,&dx,&dy,48,0);
-                    shade = sub_0800BC44(x >> 8,y >> 8,0);
-                    if (delays[i] == 0) {
-                        if (sub_08065370(&sprite,level,(s32)&animation[i],(s32)&timers[i],0) != 0) {
-                            done = (u16)(done + 1); delays[i] = 240;
-                            if (local == targets[i]) {
-                                arg->target = (u16)q->id;
-                                t072DESend(arg);
-                                if (sub_0800CCCC() == 0 && sub_0800CD34() == 0) sub_0805865C(26);
-                            }
-                        }
-                        if (sub_0800CC98() == 0 && sub_0800CD8C() == 0 && sub_0800CCCC() == 0 && (gUnk_03002344 & 1) == (i & 1)) t072DEDraw(dx,dy,level,animation[i],shade,&sprite.f1C,sprite.f8,sprite.f0);
-                    } else if (delays[i] != 240) delays[i]--;
-                }
             }
             if (sub_0800CC98() == 0 && sub_0800CD8C() == 0 && sub_0800CCCC() == 0 && (gUnk_03002344 & 1) == (player & 1)) sub_08000AF0(23,sprite.fC,2);
             sub_080003F0();
         }
-    } else {
-        index = (s16)(t072DEDirections[((u8 *)p->sprite)[3] >> 4] * 16);
-        px = (x + gUnk_080B9704[index + 64] * 30) >> 8;
-        py = (y + gUnk_080B9704[index] * 30) >> 8;
-        do {
-            t072DECoords((s16)px,(s16)py,&dx,&dy,48,0);
-            shade = sub_0800BC44(px,py,0);
-            if (sub_08065370(&sprite,level,(s32)&animation[0],(s32)&timers[0],0) != 0) done = (u16)(done + 1);
-            if (sub_0800CC98() == 0 && sub_0800CD8C() == 0 && sub_0800CCCC() == 0 && (gUnk_03002344 & 1) == (player & 1)) t072DEDraw(dx,dy,level,animation[0],shade,&sprite.f1C,sprite.f8,sprite.f0);
-            sub_080003F0();
-        } while (done == 0);
     }
-    while (*ready == 0) sub_080003F0();
+    while (p->ready == 0) sub_080003F0();
     if (player <= 3 && player != local) p->counter++;
     t072DEFlags[player] &= ~(1 << bit);
 }
