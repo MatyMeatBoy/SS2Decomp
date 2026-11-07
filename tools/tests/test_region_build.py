@@ -50,7 +50,8 @@ class RegionFragmentTests(unittest.TestCase):
             out = Path(td)
             rom = out / 'own.gba'
             for output in (rom, root / 'baserom.gba', root / 'shiningsoul2_eu.gba',
-                           root / 'shiningsoul2_eu.elf', out / 'linked.gba'):
+                           root / 'shiningsoul2_eu.elf', root / 'shiningsoul2_nm.gba',
+                           root / 'shiningsoul2_nm.elf', out / 'linked.gba'):
                 with self.subTest(output=output):
                     with self.assertRaises(RegionError):
                         region_build.validate_output_paths(rom, out, output)

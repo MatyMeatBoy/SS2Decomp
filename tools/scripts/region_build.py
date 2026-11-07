@@ -187,7 +187,8 @@ def linked_symbols_and_fragments(elf_path, assembly_dir):
 def validate_output_paths(rom, out, output):
     references = {Path(rom).resolve(), (ROOT / 'baserom.gba').resolve(),
                   (ROOT / 'baserom_usa.gba').resolve(), (ROOT / 'baserom_jp.gba').resolve()}
-    eu_outputs = {(ROOT / ('shiningsoul2_eu.' + suffix)).resolve()
+    eu_outputs = {(ROOT / (name + '.' + suffix)).resolve()
+                  for name in ('shiningsoul2_eu', 'shiningsoul2_nm')
                   for suffix in ('gba', 'elf', 'map')}
     scratch = {(Path(out) / name).resolve() for name in
                ('layout.s', 'layout.ld', 'linked.o', 'linked.elf', 'linked.gba', 'report.json',
