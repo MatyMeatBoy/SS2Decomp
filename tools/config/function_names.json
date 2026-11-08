@@ -25607,6 +25607,102 @@
           "detail": "Canonical Thumb entry for sub_0804EEA8. Original EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc; static source/instruction evidence only."
         }
       ]
+    },
+    {
+      "address": "0x0803DE84",
+      "canonical_symbol": "sub_0803DE84",
+      "display_name": "RunBokenAreaEntryEvent",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_0803B69C.c",
+          "line": 1118,
+          "revision": "3e4e65f3940022de591db87b37fd322ccbf75eac",
+          "detail": "Sets local player flags bit 0 (input suppression) and BeginLocalPlayerEventLock. Spawns actor A with SpawnSceneObjectAndWaitForStartupStateChange(0xF, 0x42, 0xC0), sets its extents 8x4 and record flag 0x10, loops its animation 0x14 and faces it in direction 7. Moves selector 1 to (0x270F, 0x270F) at once and places selector 0 by local ID (0: 0x10A,0xC0; 1: 0x11A,0xB0; 2: 0x11A,0xD0; 3: 0x12A,0xC0). RequestScreenBrightnessFadeIn(0x1E), then waits for IsScreenTransitionIdle. Shows narration 0x1404E4 when LinkCountConnectedPlayers is 1, otherwise 0x1404E5 (timing 45). Selector 0 animates (8), faces 2, moves by (-0xA6, 0) over 0x96 with MoveSceneEntityByOffset and returns to animation 0. Shows 0x1404E6. Selector 1 moves to (0xB5, 0xA8), plays animation 0x18 with PlaySceneEntityAnimationAndWait and loops animation 0. Actor A faces 5 and gets state value 3 at record +0x42. Shows 0x1404E7. Stores 0xA5 as the tracked song, starting or continuing it unless the link-error mute is set. Releases input bit 0 and the event lock, stores 0 in the local player's state halfword +0x20 (as ResetLocalPlayerState does), clears state 0xC at +0xC of active enemy-pool actors and calls sub_08019F04. It then loops (one signal-1 wait per iteration, ending early on LinkHasErrorFlag), and exits only when scene-state flags bit 4 is clear and HasEnemyWithHealthAboveRawPendingDamage returns 0. While bit 4 is set it keeps waiting. It stops the tracked song with AudioStopSongChecked and clears the tracked word, then calls sub_08015D74. It locks again and shows 0x1404E8, with the usual IsWorldTaskSuspendRequested abort. It installs sub_0803E510 as actor A's interaction callback (+0x44) and unlocks, then waits until the local player's position overlaps the box at (0x7E00, 0x8600) with packed size word 0x00100040 (TestFixedPointAxisAlignedBoxOverlap, zero player size). It locks again and starts AnimateCameraTrackingOffsetToFixedEndpoint in a free scene callback control (+0xE34 bank). It starts 0x1404EA without waiting for it; selector 0 animates (8), faces 4 and moves to (0x79, 0x6D) over 0xFA. Song 0x65 is started unless muted. It sets local player flags bit 1 and calls EnqueueLinkPlayerFlags (result ignored) and EnqueueLinkSceneCallbackTask(sub_0803E5D8, 0). It then waits until scene byte +0x1B5 (+0x1C1 when scene flag bit 9 is set) equals the connected-player count read earlier. Finally RequestScreenBrightnessFadeOut(0x1E) and a wait for idle, sub_08015D98, a stop request (+0x36 = 4) for actor A's record, RequestSceneMapAreaChange(0xC, 1), and the local player's state halfword +0x20 is set to 0 again."
+        },
+        {
+          "source": "baserom.gba",
+          "revision": "3e4e65f3940022de591db87b37fd322ccbf75eac",
+          "detail": "English resources decoded from language table 0x0838AFF0 (letter codes 0x01..0x3A = 'A'..'z', 0x3B '!', 0x51 space, 0xFE page, 0xFD end; Boken's pages carry the prefix 'kH'). Narration 0x1404E4/0x1404E5 begins 'One clear day... King Marcel of Klantol held a tournament.' Resource 0x1404E6 continues 'Hello. | I am Boken, an adventurer. | What`s your name?'. 0x1404E7 begins 'Yikes! It`s here again!!' and 0x1404E8 'Wow... That was great! You gained a lot of experience!'. The name comes from the self-introduction in a directly selected resource."
+        },
+        {
+          "source": "src/code_08021DC4.c",
+          "revision": "3e4e65f3940022de591db87b37fd322ccbf75eac",
+          "detail": "Matched area-entry setup sub_0802704C reads gUnk_084B0AA0[scene-state halfword +0 - 1].x[scene-state word +0x40] (rows of 25 words) and starts a nonzero entry with StartSceneCallbackTask. Original ROM word 0x084B0EEC (row 11, column 0) holds 0x0803DE85, so this event starts on entering that area slot.",
+          "line": 4399
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 680,
+          "revision": "3e4e65f3940022de591db87b37fd322ccbf75eac",
+          "detail": "Canonical Thumb entry for sub_0803DE84. Original EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc; static source/instruction evidence only."
+        }
+      ]
+    },
+    {
+      "address": "0x0804FC3C",
+      "canonical_symbol": "sub_0804FC3C",
+      "display_name": "RunOswaldAreaEntryEvent",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_0804D330.c",
+          "line": 1934,
+          "revision": "3e4e65f3940022de591db87b37fd322ccbf75eac",
+          "detail": "Sets local player flags bit 0 (input suppression) and calls BeginLocalPlayerEventLock. Chooses an x offset: 0 when LinkCountConnectedPlayers is 1, otherwise -0xC/0xC/-0x24/0x24 for local IDs 0..3 (other IDs leave it unset). Applies it to entity selector 0 with MoveSceneEntityByOffset(0, dx, 0, 0). After exactly one TaskWaitForSignal1 and unless IsFullScreenMenuActive, it runs the GetScreenTransitionMode transition (0: FadeScreenBrightnessInAndWait; 1: sub_0801AB50(6); 2: sub_0801AB90(6)) and waits for IsScreenTransitionIdle. It stores 0xD9 in the tracked-song word 0x03005CF8 and starts or continues it unless the link-error mute is set. Then up to 20 more signal-1 waits, ending early on LinkHasErrorFlag. It interpolates the camera tracking offset toward (-dx, -0x70) with weight step 0x11 (SetCameraTrackingOffset, one wait per step). It waits for free dialogue and text-window slots and starts StartFixedLayoutDialogueTask(1, 15, 2, 0, 45, id): 0x140062 when bit 1 of scene-state word +0x38 is clear, otherwise 0x140063. It sets that bit and waits for DialogueStateIsComplete without an abort test. It interpolates the offset back to (0, 0) with step 0x22, sets 0x0B as the tracked song under the same mute check, ORs 0x20 into scene-state flags halfword +4, clears local flag bit 0 and calls EndLocalPlayerEventLock."
+        },
+        {
+          "source": "baserom.gba",
+          "revision": "3e4e65f3940022de591db87b37fd322ccbf75eac",
+          "detail": "English resources decoded from language table 0x0838AFF0 (letter codes 0x01..0x3A = 'A'..'z', 0x3B '!', 0x51 space, 0xFE page, 0xFD end; pages carry a two-character portrait prefix). First-visit resource 0x140062 (prefix 'OA') contains 'I am Oswald, general of the Chaos Knights.' The repeat resource 0x140063 begins 'You still wish to fight? I praise your bravery.' The name comes from the self-introduction in a directly selected resource."
+        },
+        {
+          "source": "src/code_08021DC4.c",
+          "revision": "3e4e65f3940022de591db87b37fd322ccbf75eac",
+          "detail": "Matched area-entry setup sub_0802704C reads gUnk_084B0AA0[scene-state halfword +0 - 1].x[scene-state word +0x40] (rows of 25 words) and starts a nonzero entry with StartSceneCallbackTask. Original ROM word 0x084B0CD4 (row 5, column 16) holds 0x0804FC3D, so this event starts on entering that area slot.",
+          "line": 4399
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 780,
+          "revision": "3e4e65f3940022de591db87b37fd322ccbf75eac",
+          "detail": "Canonical Thumb entry for sub_0804FC3C. Original EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc; static source/instruction evidence only."
+        }
+      ]
+    },
+    {
+      "address": "0x08050688",
+      "canonical_symbol": "sub_08050688",
+      "display_name": "RunVaitaliAreaEntryEvent",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_0804D330.c",
+          "line": 2519,
+          "revision": "3e4e65f3940022de591db87b37fd322ccbf75eac",
+          "detail": "Sets local player flags bit 0 (input suppression) and calls BeginLocalPlayerEventLock. Chooses an x offset: 0 when LinkCountConnectedPlayers is 1, otherwise -0xC/0xC/-0x24/0x24 for local IDs 0..3 (other IDs leave it unset). Applies it to entity selector 0 with MoveSceneEntityByOffset(0, dx, 0, 0). It then spawns a scene object with SpawnSceneObjectAndWaitForStartupStateChange(0x12, 0xF0, 0xA0), starts its animation 0 looping (LoopSceneEntityAnimation) and moves entity selector 1 to (0x270F, 0x270F) at once with MoveSceneEntityToPosition. After exactly one TaskWaitForSignal1 and unless IsFullScreenMenuActive, it runs the GetScreenTransitionMode transition (0: FadeScreenBrightnessInAndWait; 1: sub_0801AB50(6); 2: sub_0801AB90(6)) and waits for IsScreenTransitionIdle. It stores 0xD9 in the tracked-song word 0x03005CF8 and starts or continues it unless the link-error mute is set. Then up to 20 more signal-1 waits, ending early on LinkHasErrorFlag. It interpolates the camera tracking offset toward (-dx, -0x40) with step 0x11. It starts StartFixedLayoutDialogueTask(1, 15, 2, 0, 45, id): 0x140066 when bit 3 of scene-state word +0x38 is clear, otherwise 0x140067. It sets that bit, waits for DialogueStateIsComplete without an abort test, and pans back to (0, 0) with step 0x22. It stores 4 in halfword +0x36 of the scene-object record whose handle equals the spawned object (a stop request, as RequestSceneObjectStopByHandle does; one yield when not found) and moves selector 1 to (0xF0, 0x90) at once. Finally it sets 0x0B as the tracked song, ORs 0x20 into scene-state flags halfword +4, clears local flag bit 0 and calls EndLocalPlayerEventLock."
+        },
+        {
+          "source": "baserom.gba",
+          "revision": "3e4e65f3940022de591db87b37fd322ccbf75eac",
+          "detail": "English resources decoded from language table 0x0838AFF0 (letter codes 0x01..0x3A = 'A'..'z', 0x3B '!', 0x51 space, 0xFE page, 0xFD end; pages carry a two-character portrait prefix). First-visit resource 0x140066 (prefix 'MA') begins 'You have finally come. My name is Vaitali.' and continues 'For many years, I have trained here as a sage.' The repeat resource 0x140067 begins 'You wish to fight again? I have already recovered.' The name comes from the self-introduction in a directly selected resource."
+        },
+        {
+          "source": "src/code_08021DC4.c",
+          "revision": "3e4e65f3940022de591db87b37fd322ccbf75eac",
+          "detail": "Matched area-entry setup sub_0802704C reads gUnk_084B0AA0[scene-state halfword +0 - 1].x[scene-state word +0x40] (rows of 25 words) and starts a nonzero entry with StartSceneCallbackTask. Original ROM word 0x084B0D28 (row 6, column 12) holds 0x08050689, so this event starts on entering that area slot.",
+          "line": 4399
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 786,
+          "revision": "3e4e65f3940022de591db87b37fd322ccbf75eac",
+          "detail": "Canonical Thumb entry for sub_08050688. Original EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc; static source/instruction evidence only."
+        }
+      ]
     }
   ]
 }
