@@ -225,3 +225,34 @@ assigning NPC identities, dialogue content, multiplayer transport or safe
 allocation-failure behavior. The frozen inputs remain unchanged; an additive
 three-row precision overlay records the machine-return and pointer-global
 clarifications.
+
+## Window requests, camera endpoint and interaction setters
+
+Nine reviewed next52 rows cover four screen-transition requests, one fixed
+camera animation, two object setters, a local-player ID wrapper and an effect
+task finalizer. The earlier six-row precision overlay is retained, including
+the distinction between scheduler signal 100 decimal (`0x64`) and `0x100`.
+
+`0801AB50/0801ABE8` request the reveal/hide window route. That controller route
+overwrites duration with 2. `0801AB90/0801AC24` request brightness changes without
+reconfiguring windows in their selected route. Active bit `0x2` has priority
+over `0x10`; preserving other requests prevents an unconditional claim that
+windows stay fixed. Request helpers do not wait for completion.
+
+`08059890` has a fixed inclusive weight sequence 0,2,...,1024 and captures its
+initial offsets once. Normal uninterrupted execution performs 513 explicit
+writes and signal-1 waits, ending at `(0,-50)`. It takes no duration argument;
+neither wall-clock duration nor a particular screen identity is inferred.
+
+`08057534/08057580` write interaction dimensions and callback by full object ID.
+Their miss path waits once and returns without rescanning. Callback task entry
+initialization clears `+0x44`, so an earlier setter call is not promised to
+survive that initialization. `080576E0` only forwards the local-ID accessor;
+an ID does not establish connected peers.
+
+The empty `0807A120` is identified from actual effect-task finalizer assignments
+at task `+0x24`, including starter `08073E2C`, and the scheduler's invocation of
+that slot. Its body alone would not justify the role. It performs no resource
+cleanup; scheduler continuations separately free stacks and unlink tasks.
+An additive one-row overlay only expands the `0801AC24` controller interval
+from shorthand `1A874..A91A` to `1A874..1A91A`.
