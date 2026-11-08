@@ -22936,6 +22936,111 @@
           "detail": "Independent names-low-a review: Consistently with E530, queues falling area-damage indicator callback, not an unspecified scene spawn. Queue capacity failure is ignored. Tick&127 and 58DB0 gate attempts; no guaranteed frame cadence, loopback, acceptance or completion."
         }
       ]
+    },
+    {
+      "address": "0x0808DB38",
+      "canonical_symbol": "sub_0808DB38",
+      "display_name": "TaskAnimateBouncingLeftwardSceneHazard",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_0808D4A8.c",
+          "line": 449,
+          "revision": "8bbfb589bf6ab55018ae7e465fc0e674879c81fa",
+          "detail": "r0 lane selector 0..3 chooses unsigned Q8 y=140/148/166/170; other inputs leave y stack slot undefined. Starts x=980 Q8, height=160 Q8, velocity0; moves x left2 pixels each iteration, adds velocity to height, subtracts40 from velocity, bounces at height<=0 using height1 and negative arithmetic-half velocity. One-time overlap check when height>>8<=7 invokes local-player hit handler0x08029A7C(0,16,1); one-time first-positive-velocity sound46. Animates resource0x50122, draws ground-shadow and elevated sprite only when four scene predicates permit, but physics/hit checks continue while drawing suppressed. After x<=45 plays sound41 and runs resource0x50053 animation6 until completion, still yielding. No global terminal-flag exit, null-draw check, or type name beyond hazard. Animation frame counters are not initialized before first two animation calls. Complete original configured body audited against ROM; copied verified-main ELF static equality, no local build or runtime test."
+        },
+        {
+          "source": "src/code_0808D4A8.c",
+          "line": 449,
+          "revision": "8bbfb589bf6ab55018ae7e465fc0e674879c81fa",
+          "detail": "Independent names-low-a review: Accepted. Complete original confirms leftward two-pixel motion, rebound and one-time local-player hit-handler call(0,16,1) on overlap. Consumer29A7C can reject the hit and scale its input before accumulating pending damage, so this does not guarantee sixteen HP lost. Four draw predicates do not gate physics or collision. Y is undefined for selectors outside0..3; initial animation halfwords atsp+44/46/48/4A are uninitialized before first calls. Rectangle packing atsp+5C clears both halves by masks, so it is initialized despite its first LDR. No draw-result null check, terminal flag exit or animation-completion deadline."
+        }
+      ]
+    },
+    {
+      "address": "0x0808DF14",
+      "canonical_symbol": "sub_0808DF14",
+      "display_name": "UpdateBouncingHazardSceneAndQueueLanes",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_0808D4A8.c",
+          "line": 597,
+          "revision": "8bbfb589bf6ab55018ae7e465fc0e674879c81fa",
+          "detail": "r0 scene input. If scene halfword+0x10=0, initializes via0x0802704C, starts local bouncing-hazard callback with argument0, and requests sound247 through5865C (global27D0 mask20 may suppress the audio call). Otherwise terminal flag+4 bit4 triggers transition request mode3 and wait, calls5867C with incomingr0=247 to stop that sound, next resource from0x084FD06C[scene word+0x40] into+0x71C, clears+0x10, sets+0x24/+0x30=1, returns1. Every other path, including initialization, continues to parent-or-loopback and tick&127 gating: RNG&7==4 enqueues four hazard lanes0..3, otherwise a second RNG&3 selects one. Returns0 without verifying enqueues. Does not wait for hazards to finish or use one RNG result for both branch and lane. Complete original configured body audited against ROM; copied verified-main ELF static equality, no local build or runtime test."
+        },
+        {
+          "source": "src/code_0808D4A8.c",
+          "line": 597,
+          "revision": "8bbfb589bf6ab55018ae7e465fc0e674879c81fa",
+          "detail": "Independent names-low-a review: Accepted with precision: gate is exactly 08002204()!=0 and WORDtick&127==0. Own original02204 returns1 when transport bit1 is clear, otherwise global2730 bit7; do not turn this into a guaranteed local-loopback or peer-execution contract. Initialization also reaches the gate. Transition request argument3 has no hide semantics established by this review. Return1 only prepares next resource and state fields."
+        }
+      ]
+    },
+    {
+      "address": "0x0808E130",
+      "canonical_symbol": "sub_0808E130",
+      "display_name": "TaskOscillateVerticalSceneOrCameraOffset",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_0808D4A8.c",
+          "line": 705,
+          "revision": "8bbfb589bf6ab55018ae7e465fc0e674879c81fa",
+          "detail": "Nonstandard machine entry: preserved r4 supplies initial phase; body never initializes it from r0 or zero. Each infinite iteration updates phase=u16(r4+1), resets phase0 when above255, reads signed16 lookup0x080B9704[phase], takes machine (sample<<18) arithmetic-shift24, negates/truncates signed16. If global halfword0x03003200 is0 writes scene draw offset(0,value) via0x0800BB94, otherwise camera-tracking offset via0x0800BB80. Yields forever, with no menu/suspend checks or restoration. Descriptive role does not establish a conventional C initial-phase ABI or deterministic first offset. Complete original configured body audited against ROM; copied verified-main ELF static equality, no local build or runtime test."
+        },
+        {
+          "source": "src/code_0808D4A8.c",
+          "line": 705,
+          "revision": "8bbfb589bf6ab55018ae7e465fc0e674879c81fa",
+          "detail": "Independent names-low-a review: Accepted. EntryR4 phase remains uninitialized by body; low16 increment happens before above255 reset. Original signed sine-table load/shift/negation is preserved. Own setters write scene+84/+86 versus tracking+80/+82; pinned matched camera consumer source1192 and original offsets AD3C..AD54/ADF2..AE08 establish tracking role. No conventional r0 phase argument or deterministic first phase."
+        }
+      ]
+    },
+    {
+      "address": "0x0808ECD0",
+      "canonical_symbol": "sub_0808ECD0",
+      "display_name": "TaskScrollLayerThreeDisplayDiagonally",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_0808D4A8.c",
+          "line": 1321,
+          "revision": "8bbfb589bf6ab55018ae7e465fc0e674879c81fa",
+          "detail": "Nonstandard machine entry: preserved r4 is initial32-bit accumulator, not initialized in body or loaded from r0. Sets layer3 camera-relative mode0 once. Each iteration when full-screen-menu predicate is0 subtracts42 from r4, computes (arithmetic_shift_right(r4,8)&15), passes same value as horizontal/vertical DISPLAY offset for layer3; always yields. Menu pauses accumulation, unlike drawing-only suppression elsewhere. No return, reset, source-cell movement or guaranteed initial zero; setter retains its own scene guard. Complete original configured body audited against ROM; copied verified-main ELF static equality, no local build or runtime test."
+        },
+        {
+          "source": "src/code_0808D4A8.c",
+          "line": 1321,
+          "revision": "8bbfb589bf6ab55018ae7e465fc0e674879c81fa",
+          "detail": "Independent names-low-a review: Accepted. EntryR4 accumulator not initialized, r5=42; menu guard pauses subtraction and display writes. Own BBD8 stores layer3+4/+6, with CCCC guard, rather than source coordinates. Mode+16hex set0 once. No restoration or finite exit."
+        }
+      ]
+    },
+    {
+      "address": "0x0808E66C",
+      "canonical_symbol": "sub_0808E66C",
+      "display_name": "UpdateAutoscrollAndFallingAreaDamageScene",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_0808D4A8.c",
+          "line": 991,
+          "revision": "8bbfb589bf6ab55018ae7e465fc0e674879c81fa",
+          "detail": "r0 scene input. On initial scene halfword+0x10=0 calls0x0802704C then dispatches by map halfword+0x90: cases2/12 write scene-global halfword0x03003170+0x70=30 (the C alias width0 does not prove a map-dimension change) then start layer3 autoscroll; case4 requests linked guarded falling-area-damage callback0x0808E970 with full-word guard-index argument0x80000000, not a preformed bit mask and also starts autoscroll; cases6/8/10/14 start only autoscroll; case17 calls0x0802996C; other values do neither. Returns0 on initialization. In initialized state, returns0 until terminal flag+4 bit4; then requests transition mode3 and waits, installs0x085060D4[scene word+0x40] at+0x71C, clears+0x10, sets+0x30/+0x24=1 and returns1. Guarded request is not confirmed callback execution; no resource-index bounds check. Complete original configured body audited against ROM; copied verified-main ELF static equality, no local build or runtime test."
+        },
+        {
+          "source": "src/code_0808D4A8.c",
+          "line": 991,
+          "revision": "8bbfb589bf6ab55018ae7e465fc0e674879c81fa",
+          "detail": "Independent names-low-a review: The linked callbackE970 queues E530, whose terminal effect is area damage through79888/79458 (peer B07 independently reviewed). Exact map cases and transition exits match original. Guarded573A0 wrapper swaps r0/r1 and forwards r2 unchanged.68820 stores third full word0x80000000 at payload+8 and tagA4 with two chunks. If accepted and received intact,6690C caseA4 loads this payload word as r2 into57430;57430 original5743E..40 computes MOVS r4,1 then register LSLS r4,r2. The GBA register-shift count uses low8 bits, so this raw value conditionally yields mask1 in scene+6C, not mask80000000.57430 tests/sets this guard before searching30 task slots; already-set guard skips and full pool can latch it without callback. Request is not execution/completion or guaranteed peer agreement."
+        }
+      ]
     }
   ]
 }
