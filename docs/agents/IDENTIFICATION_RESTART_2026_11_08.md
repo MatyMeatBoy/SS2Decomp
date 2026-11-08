@@ -871,3 +871,12 @@ One previously unidentified EUR function is named ProcessEnemyAttackContacts. Fu
 Blocking uses draw < byte6E; retaliation uses a separate draw <= byte6F. Pending fields wrap as halfwords. Temporary direction and packet padding are not assumed initialized. Queue rejection or coalescing does not establish delivery per contact; failure does not roll back local pending damage.
 
 Only the naming catalog and this journal change. Canonical symbols, matching source, data, claims and generated reports remain intact. Static semantic evidence and independent review do not establish runtime coverage or equivalence of a NONMATCHING draft.
+
+
+## Resistance indicator tasks and starters
+
+Four previously unidentified EUR functions now describe resistance-increase and resistance-decrease indicator tasks and their starters. Full matched targets, original task and scheduler instructions, growth handling, both audited defeat paths and the revive receiver establish the requested indicator roles. Eleven complete configured ranges equal the original EUR ROM and linked ELF.
+
+Indicators capture position when their task starts; nominal body limits are twenty and sixty yields, subject to shutdown. The decrease updater uses selector+33 while drawing uses selector+34. Requests precede some resistance bounds and signed-positive checks, so a request does not prove a stat change. Neither rendering nor completion is guaranteed.
+
+Starters scan thirty-two occupancy bits, write callback and allocation fields before a checked stack allocation, and silently stop on full pool or allocation failure. The scheduler can reject an already registered control; its result is ignored before occupancy is set. Packed arguments are not universally masked or validated. Only this journal and the catalog change; canonical symbols, source, data, claims and generated reports remain intact.
