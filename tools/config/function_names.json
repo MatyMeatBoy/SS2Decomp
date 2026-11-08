@@ -25490,6 +25490,123 @@
           "detail": "Canonical Thumb entry for sub_0803540C. Original EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc; static source/instruction evidence only."
         }
       ]
+    },
+    {
+      "address": "0x0805921C",
+      "canonical_symbol": "sub_0805921C",
+      "display_name": "SetCardTradeStageFromLinkCallback",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08058790.c",
+          "line": 447,
+          "revision": "3e4e65f3940022de591db87b37fd322ccbf75eac",
+          "detail": "Stores the u8 argument in scene state byte +0x1B0, or +0x1BC when scene flag bit 9 is set. These are the trade stage bytes read by RunZaviCardTradeDialogue and RunZaviAlternateCardTradeDialogue. Its only references in src are those two callbacks (src/code_0802FEA0.c:3145 and :3581), which pass it with 5 to EnqueueLinkSceneCallbackTask after the final trade."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 997,
+          "revision": "3e4e65f3940022de591db87b37fd322ccbf75eac",
+          "detail": "Canonical Thumb entry for sub_0805921C. Original EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc; static source/instruction evidence only."
+        }
+      ]
+    },
+    {
+      "address": "0x08035B18",
+      "canonical_symbol": "sub_08035B18",
+      "display_name": "RunZaviCardTradeDialogue",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_0802FEA0.c",
+          "line": 2782,
+          "revision": "3e4e65f3940022de591db87b37fd322ccbf75eac",
+          "detail": "Sets local player flags bit 0 (input suppression), calls BeginLocalPlayerEventLock and turns the argument entity toward selector 0 with TurnSceneEntityTowardEntity. Reads the trade stage byte at scene state +0x1B0 (+0x1BC when scene flag bit 9 is set). When the stage exceeds 4 it shows 0x140240, calls RestoreSceneEntityFacingGradually and shows 0x140241. When the stage is 0..4 but LinkGetLocalPlayerId is not 0, it shows 0x14023D, restores the facing and shows 0x14023E. Otherwise it shows the introduction 0x140237 and the stage's offer, and counts bag records (character +0x150, 25 slots) with kind 8 and the required ID. With more than 2 it asks 0x14023F (timing -2). When DialogueSelectionIsZero, it clears the first 3 matching records and adds one kind-8 record with the received ID via TryAddItemToBag. It then sets the stage byte to stage+1 (stages 0..3), starts song 0x33 unless the link-error mute is set, and shows the receipt. Per-stage data: stage 0: offer 0x238, required card ID 6, received card ID 0x1A, receipt 0x242, then stage 1; stage 1: offer 0x239, required card ID 0x23, received card ID 0x2F, receipt 0x243, then stage 2; stage 2: offer 0x23A, required card ID 0x41, received card ID 0x72, receipt 0x244, then stage 3; stage 3: offer 0x23B, required card ID 0x59, received card ID 0x68, receipt 0x245, then stage 4; stage 4: offer 0x23C, required card ID 0x6F, received card ID 0x78, receipt 0x246, then EnqueueLinkSceneCallbackTask(sub_0805921C, 5). After stage 4's receipt it restores the facing and shows 0x140241. In every other trade outcome (too few cards, declined, or after stages 0..3) it restores the facing and shows 0x14023E. Every path clears local flag bit 0 and calls EndLocalPlayerEventLock. Dialogue waits use the usual slot-wait / StartFixedLayoutDialogueTask / DialogueStateIsComplete pattern; the confirmation wait has no abort test. Enqueue acceptance does not prove delivery."
+        },
+        {
+          "source": "baserom.gba",
+          "revision": "3e4e65f3940022de591db87b37fd322ccbf75eac",
+          "detail": "English resources decoded from language table 0x0838AFF0 (letter codes 0x01..0x3A = 'A'..'z', 0x3B '!', 0x51 space, 0xFE page, 0xFD end). The introduction 0x140237 reads 'I am the Card Master. | My name is Zavi. I`m older than I look. | I`m collecting Monster Cards.' Offers 0x140238..0x14023C read 'I`ll trade you a Poison Mummy for 4 Goblins' ... 'a Dragon for 4 Cerberus', and receipts 0x140242..0x140246 read 'Received Poison Mummy.' ... 'Received Dragon.'. The code requires more than 2 matching records and removes 3, whatever number the text states."
+        },
+        {
+          "source": "src/code_08028AAC.c",
+          "revision": "3e4e65f3940022de591db87b37fd322ccbf75eac",
+          "detail": "Matched scene builder sub_0802C674 spawns the actor with sub_080289C0(0x4002B, 0xB5, 0xFA) at line 3790, sets extents 8x4 and record flag 0x10, and then chooses the callback with scene flag bit 9 (sub_0800CE30): sub_08035B18 when it is clear (line 3809), sub_080368F4 when it is set (line 3821). The chosen callback is stored at scene record +0x44. Only the selector's gameplay meaning is unknown, so the alternate name refers to that selection, not to a story mode.",
+          "line": 3809
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 652,
+          "revision": "3e4e65f3940022de591db87b37fd322ccbf75eac",
+          "detail": "Canonical Thumb entry for sub_08035B18. Original EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc; static source/instruction evidence only."
+        }
+      ]
+    },
+    {
+      "address": "0x080368F4",
+      "canonical_symbol": "sub_080368F4",
+      "display_name": "RunZaviAlternateCardTradeDialogue",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_0802FEA0.c",
+          "line": 3217,
+          "revision": "3e4e65f3940022de591db87b37fd322ccbf75eac",
+          "detail": "Sets local player flags bit 0 (input suppression), calls BeginLocalPlayerEventLock and turns the argument entity toward selector 0 with TurnSceneEntityTowardEntity. Reads the trade stage byte at scene state +0x1B0 (+0x1BC when scene flag bit 9 is set). When the stage exceeds 4 it shows 0x140240, calls RestoreSceneEntityFacingGradually and shows 0x140241. When the stage is 0..4 but LinkGetLocalPlayerId is not 0, it shows 0x14023D, restores the facing and shows 0x14023E. Otherwise it shows the introduction 0x140237 and the stage's offer, and counts bag records (character +0x150, 25 slots) with kind 8 and the required ID. With more than 2 it asks 0x14023F (timing -2). When DialogueSelectionIsZero, it clears the first 3 matching records and adds one kind-8 record with the received ID via TryAddItemToBag. It then sets the stage byte to stage+1 (stages 0..3), starts song 0x33 unless the link-error mute is set, and shows the receipt. Per-stage data: stage 0: offer 0x247, required card ID 0, received card ID 9, receipt 0x24C, then stage 1; stage 1: offer 0x248, required card ID 0x2B, received card ID 0x45, receipt 0x24D, then stage 2; stage 2: offer 0x249, required card ID 0x50, received card ID 0x5F, receipt 0x24E, then stage 3; stage 3: offer 0x24A, required card ID 0x5C, received card ID 0x6D, receipt 0x24F, then stage 4; stage 4: offer 0x24B, required card ID 0x65, received card ID 0x89, receipt 0x250, then EnqueueLinkSceneCallbackTask(sub_0805921C, 5). After stage 4's receipt it restores the facing and shows 0x140241. In every other trade outcome (too few cards, declined, or after stages 0..3) it restores the facing and shows 0x14023E. Every path clears local flag bit 0 and calls EndLocalPlayerEventLock. Dialogue waits use the usual slot-wait / StartFixedLayoutDialogueTask / DialogueStateIsComplete pattern; the confirmation wait has no abort test. Enqueue acceptance does not prove delivery."
+        },
+        {
+          "source": "baserom.gba",
+          "revision": "3e4e65f3940022de591db87b37fd322ccbf75eac",
+          "detail": "English resources decoded from language table 0x0838AFF0 (letter codes 0x01..0x3A = 'A'..'z', 0x3B '!', 0x51 space, 0xFE page, 0xFD end). It uses the same introduction 0x140237 ('My name is Zavi.'). Offers 0x140247..0x14024B read 'I`ll trade you an Orc for 4 Pastes' ... 'a Dark Eye for 4 Dark Knights', and receipts 0x14024C..0x140250 read 'Received Orc.' ... 'Received Dark Eye.'."
+        },
+        {
+          "source": "src/code_08028AAC.c",
+          "revision": "3e4e65f3940022de591db87b37fd322ccbf75eac",
+          "detail": "Matched scene builder sub_0802C674 spawns the actor with sub_080289C0(0x4002B, 0xB5, 0xFA) at line 3790, sets extents 8x4 and record flag 0x10, and then chooses the callback with scene flag bit 9 (sub_0800CE30): sub_08035B18 when it is clear (line 3809), sub_080368F4 when it is set (line 3821). The chosen callback is stored at scene record +0x44. Only the selector's gameplay meaning is unknown, so the alternate name refers to that selection, not to a story mode.",
+          "line": 3821
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 653,
+          "revision": "3e4e65f3940022de591db87b37fd322ccbf75eac",
+          "detail": "Canonical Thumb entry for sub_080368F4. Original EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc; static source/instruction evidence only."
+        }
+      ]
+    },
+    {
+      "address": "0x0804EEA8",
+      "canonical_symbol": "sub_0804EEA8",
+      "display_name": "RunCaptainRobertAreaEntryEvent",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_0804D330.c",
+          "line": 1205,
+          "revision": "3e4e65f3940022de591db87b37fd322ccbf75eac",
+          "detail": "Sets local player flags bit 0 (input suppression) and calls BeginLocalPlayerEventLock. Stores 0xC4 in the tracked-song word 0x03005CF8 and, unless the link-error song mute is set, calls AudioStartOrContinueSongChecked(0xC4). After exactly one TaskWaitForSignal1 (LinkHasErrorFlag can only end that one-iteration loop), and unless IsFullScreenMenuActive, it runs the transition selected by GetScreenTransitionMode (0: FadeScreenBrightnessInAndWait; 1: sub_0801AB50(6); 2: sub_0801AB90(6)) and waits for IsScreenTransitionIdle. Then up to 20 more signal-1 waits, ending early when LinkHasErrorFlag is set. It interpolates the camera tracking offset from its current value toward (0x68, -0x78) with weight step 0x11 via SetCameraTrackingOffset, one wait per step. It waits for free dialogue and text-window slots and starts StartFixedLayoutDialogueTask(1, 15, 2, 0, 45, id): id 0x14005E when bit 4 of scene state word +0x38 is clear, otherwise 0x14005F. It sets that bit, then waits for DialogueStateIsComplete without an abort test. It interpolates the tracking offset back toward (0, 0) with step 0x22, stores 0xA5 as the tracked song and starts or continues it under the same mute check, ORs 0x20 into scene-state flags halfword +4, clears local flag bit 0 and calls EndLocalPlayerEventLock."
+        },
+        {
+          "source": "baserom.gba",
+          "revision": "3e4e65f3940022de591db87b37fd322ccbf75eac",
+          "detail": "English resources decoded from language table 0x0838AFF0 (letter codes 0x01..0x3A = 'A'..'z', 0x3B '!', 0x51 space, 0xFE page, 0xFD end; pages carry the portrait prefix 'JA'). The first-visit resource 0x14005E begins 'I`m the Captain of this ship. | Robert`s my name.' The repeat resource 0x14005F uses the same portrait prefix. The name comes from the self-introduction in the directly selected resource."
+        },
+        {
+          "source": "src/code_08021DC4.c",
+          "revision": "3e4e65f3940022de591db87b37fd322ccbf75eac",
+          "detail": "Matched area-entry setup sub_0802704C reads gUnk_084B0AA0[scene-state halfword +0 - 1].x[scene-state word +0x40] (rows of 25 words) and, when nonzero, starts that callback with StartSceneCallbackTask. Original ROM word 0x084B0C60 (row 4, column 12) holds 0x0804EEA9, so this event starts on entering the area with row value 5 and area index 12. The default entry in most other slots is 0x08059FBD (sub_08059FBC, a plain transition helper).",
+          "line": 4399
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 774,
+          "revision": "3e4e65f3940022de591db87b37fd322ccbf75eac",
+          "detail": "Canonical Thumb entry for sub_0804EEA8. Original EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc; static source/instruction evidence only."
+        }
+      ]
     }
   ]
 }
