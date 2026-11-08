@@ -15653,10 +15653,22 @@
       "canonical_symbol": "sub_080263B4",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_080263B4",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "RunBossRetryPortal",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_08021DC4.c",
+          "line": 3306,
+          "revision": "b5337babd5b759034a0b68b145e7899a6bfefd7d",
+          "detail": "Loads text resource1403D3 (English To boss lair retry), animates portal sprite5000D animation0 at (120,320) on map0. Tests local and replicated player proximity/readiness; all participants ready with the original counter greater than2 triggers sub_080687E8, then clears transient state. Original26576 computes preservedr7+1 BEFORE anyestablishedzero initialization;265DE reloads candidate andresets0onmismatch. ThereforedoNOTpromiseexactlythreeinitialscans:onlyafteramismatchresetscounterdoes>2requirethreeconsecutivematches. Scan gatedspecifically02204()!=0,notassumedlocalID0/hostcontract. RectinclusiveabsX<=23,Y<=15;packetXY12bits,+7bit4ready. Localreadinessflag400;Apress+14bit0sets403andclears800000;aftertimerold>60andBbit1clears400/schedules24538. 021A8earlyreturnskipsnormalcleanup;CDF8pollcanwaitindefinitely;normalcleanupclears800000/game+4mask100,100gridbytes1C8..22B. No unconditionaltransition/cleanupcontract."
+        },
+        {
+          "source": "src/code_08087CC0.c",
+          "revision": "b5337babd5b759034a0b68b145e7899a6bfefd7d",
+          "detail": "src/code_08087CC0.c:914 starts this via sub_080267DC; src/code_08021DC4.c:267DC installs this exact callback. Original ROM resource1403D3 pointer083852E1 contains encoded To boss lair (retry)."
+        }
+      ]
     },
     {
       "name": "sub_080267DC",
@@ -15670,10 +15682,22 @@
       "canonical_symbol": "sub_080267DC",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_080267DC",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "StartBossRetryPortalTask",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_08021DC4.c",
+          "line": 3538,
+          "revision": "b5337babd5b759034a0b68b145e7899a6bfefd7d",
+          "detail": "Replaces scene task+17BC, installs RunBossRetryPortal callback080263B4, allocates 0x400 stack and sets termination callback0805A6A0. Semantic purpose is established by callback resource and proximity/readiness behavior, not task wiring alone. Original267E6/F2 replacesactive17BCtaskbeforeallocating1024once;noNULLguard/retry;storeswordstack+17DC,stacktop+17CC=allocation+1020,priority46,+17E0callback5A6A0 then00274. Thumbfunctionpointer263B5verified. Same-semanticcallbackpurposeclosedbyliteral3D3,notwiringalone;notguaranteedstartsafelyonallocationfailure."
+        },
+        {
+          "source": "src/code_08087CC0.c",
+          "revision": "b5337babd5b759034a0b68b145e7899a6bfefd7d",
+          "detail": "src/code_08087CC0.c:914 invokes this task starter; original callback loads1403D3 To boss lair retry at083852E1."
+        }
+      ]
     },
     {
       "name": "sub_08026858",
@@ -15687,10 +15711,22 @@
       "canonical_symbol": "sub_08026858",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_08026858",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "RunChaosDomainPortal",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_08021DC4.c",
+          "line": 3574,
+          "revision": "b5337babd5b759034a0b68b145e7899a6bfefd7d",
+          "detail": "Loads text resource1403D4 (English To Chaos domain), animates portal sprite5000D animation1 at (240,136) on map19. Tests proximity and replicated player readiness; after all participants ready sets scene+40=0x92BC, waits08067DC8, then runs its completion path and clears transient state on normal exit. Original26A16hasthesameuninitializedinitialpreservedcounterissue;26A7C/82resetafter mismatch,soexactthree-scanscontractrequirespriorreset.02204()!=0 gatesreadinessscan;scene19ONLYgatesprompt/draw,notallpolling. CF48nonzero/game+4mask100returnearly;mask10canentercompletionwithoutreadiness. Setsword+40=92BCthenwaits67DC8nonzeroindefinitely,not proofguaranteedtransition.26C0E..endclears100bytesgridafter100completion-loopiterations;021A8canreturnwithoutcleanup. Readiness/localtimerandpacketwidthsasindependentoriginal26A20..84,notfamilyassumption."
+        },
+        {
+          "source": "src/code_08087CC0.c",
+          "revision": "b5337babd5b759034a0b68b145e7899a6bfefd7d",
+          "detail": "src/code_08087CC0.c:2044 starts through sub_08026C54. Original English text pointer083852FA resource1403D4 says To Chaos domain."
+        }
+      ]
     },
     {
       "name": "sub_08026C54",
@@ -15704,10 +15740,22 @@
       "canonical_symbol": "sub_08026C54",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_08026C54",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "StartChaosDomainPortalTask",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_08021DC4.c",
+          "line": 3852,
+          "revision": "b5337babd5b759034a0b68b145e7899a6bfefd7d",
+          "detail": "Replaces scene task+17E4 with callback08026858 and allocated 0x400 stack. Semantic role comes from callback Chaos domain prompt and map19 portal at (240,136), independently of scheduler initialization. Original26C54 replaces17E4active task;single1024allocationwithoutNULLguard,stores+1804allocation,+17F4stacktop+3FC,+17ECpriority46,+1808zero cleanup;callback+17F0=26859Thumb. Unlike267DCnorequested5A6A0cleanup. Literal3D4closesChaosdomainpurpose;noallocation-successguarantee."
+        },
+        {
+          "source": "src/code_08087CC0.c",
+          "revision": "b5337babd5b759034a0b68b145e7899a6bfefd7d",
+          "detail": "src/code_08087CC0.c:2044 invokes this; callback08026858 consumes1403D4 To Chaos domain."
+        }
+      ]
     },
     {
       "name": "sub_08026CD0",
@@ -51720,12 +51768,12 @@
   "identification": {
     "game": {
       "total": 1880,
-      "identified": 971,
+      "identified": 975,
       "existing": 23,
-      "confirmed": 948,
+      "confirmed": 952,
       "proposed": 2,
-      "unidentified": 907,
-      "percent_identified": 51.648936170212764
+      "unidentified": 903,
+      "percent_identified": 51.861702127659576
     },
     "sdk": {
       "total": 155,
@@ -51738,12 +51786,12 @@
     },
     "all": {
       "total": 2035,
-      "identified": 1126,
+      "identified": 1130,
       "existing": 152,
-      "confirmed": 974,
+      "confirmed": 978,
       "proposed": 2,
-      "unidentified": 907,
-      "percent_identified": 55.33169533169533
+      "unidentified": 903,
+      "percent_identified": 55.52825552825553
     }
   },
   "limitations": "Configured function address intervals, including alignment/literal pools; inventory includes original assembly and linked libraries. Existing descriptive identifiers are recognized, not independently semantically re-proven."

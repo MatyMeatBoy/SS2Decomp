@@ -553,10 +553,10 @@ digraph calls {
   "sub_080257D4" [label="t24_start257D4"];
   "sub_08025890" [label="t24_gate25890"];
   "sub_08026338" [label="sub_08026338"];
-  "sub_080263B4" [label="sub_080263B4"];
-  "sub_080267DC" [label="sub_080267DC"];
-  "sub_08026858" [label="sub_08026858"];
-  "sub_08026C54" [label="sub_08026C54"];
+  "sub_080263B4" [label="RunBossRetryPortal"];
+  "sub_080267DC" [label="StartBossRetryPortalTask"];
+  "sub_08026858" [label="RunChaosDomainPortal"];
+  "sub_08026C54" [label="StartChaosDomainPortalTask"];
   "sub_08026CD0" [label="SelectSceneMapAreaDestination"];
   "sub_0802704C" [label="sub_0802704C"];
   "sub_080277E0" [label="sub_080277E0"];
