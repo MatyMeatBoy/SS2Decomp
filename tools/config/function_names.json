@@ -24450,6 +24450,66 @@
           "detail": "src/code_08028AAC.c:6372 schedules this as scene callback for created actor; src/code_08021DC4.c:sub_080284F4 while(state36!=4) renders/updates actor and then setsid=0. Exit motion direction and distance come directly from calls08028D98."
         }
       ]
+    },
+    {
+      "address": "0x0802A19C",
+      "canonical_symbol": "sub_0802A19C",
+      "display_name": "OpenMonsterCardCatalogAndRestoreScene",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08028AAC.c",
+          "line": 1045,
+          "revision": "b5337babd5b759034a0b68b145e7899a6bfefd7d",
+          "detail": "Marks menu fade active, requests window hide10 and waits transition idle, requests map background reload and full-screen menu state, then starts867F8. Saves layer scroll coordinates, waits on signal11201100, restores scroll/menu flags and waits transition idle again. Consumer867F8 starts855D4, whose monster-card inventory/count/monster-stat UI and English prompt140542 identify the monster-card catalog screen. Primary original saves SIGNEDHALFWORD scroll+7C/+7E, starts867F8, blocks003F4 on signal11201100, restores scroll and wakes waiters through00420 signal514C8; transition waits have no timeout/cancel.867F8 retries96B context and3072B stack allocations then schedules855D4;542 literal monster-card prompt and actual type8 inventory/count/stat accesses close monster-card catalog UI. Screen restore is normal path only,not all exits of downstream UI guaranteed."
+        },
+        {
+          "source": "src/code_08058790.c",
+          "revision": "b5337babd5b759034a0b68b145e7899a6bfefd7d",
+          "detail": "src/code_08058790.c:479 library object callback592FC calls this between player-control disable/enable. src/code_0807A5D4.c:8340 starter867F8 installs855D4; UI lines7860..7870 consumes inventory type8 monster cards and8184 onward displays enemy descriptions/stats;140542 explicitly says remove monster cards."
+        }
+      ]
+    },
+    {
+      "address": "0x080226A4",
+      "canonical_symbol": "sub_080226A4",
+      "display_name": "TaskInitializeSceneAndDispatchMapEvents",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08021DC4.c",
+          "line": 546,
+          "revision": "b5337babd5b759034a0b68b145e7899a6bfefd7d",
+          "detail": "Initializes shared scene/actor/task state, synchronizes scene startup, restores saved context or starts scene according to resume mode, restores item/variant state, then loops active0x124-byte map event records until global scene stop. IDs1/7 dispatch variant-specific callbacks; it also probes current player terrain and submits damage through29A7C/29CEC for hazardous tile classes, yielding each loop. Name identifies observed controller role, not all callback semantics. Original record ID usesLDRH, WORD callback chosen from variant entry and record stride124; source dispatch result is not always initialized:22C88 calls277E0 then22CA0 compares preservedr8 without assigning return on that branch. No all-events-success guarantee. Startup barriers67C18/67C08 can wait indefinitely; main loop exits onCB78. Actor slots15 and saved-items16 are explicit counts; no speculative claims for every map callback. Terrain dispatch original22CD4..22E3A uses local coordinates and distinct29A7C/29CEC calls."
+        },
+        {
+          "source": "src/code_08021DC4.c",
+          "revision": "b5337babd5b759034a0b68b145e7899a6bfefd7d",
+          "detail": "src/code_08021DC4.c:sub_08022630 allocates scene state and installs226A4 controller; lines700..746 dispatch event callbacks and process terrain-triggered local-player damage. Map event pointer+71C and variant table+22 connect initialization to its continuing role."
+        }
+      ]
+    },
+    {
+      "address": "0x0802A228",
+      "canonical_symbol": "sub_0802A228",
+      "display_name": "RequestSceneMapAreaChange",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08028AAC.c",
+          "line": 1103,
+          "revision": "b5337babd5b759034a0b68b145e7899a6bfefd7d",
+          "detail": "Requests map update task stop through0800BB40 and yields up to5 ticks, selects one of24 map-group tables and replaces scene event pointer+0x71C with the selected area descriptor. Map0 calls0800CCDC and resets variant+0x36; other maps call0800CCEC and set scene flags mask0x10. Writes requested mapID+0 and areaID+0x40, clears transition phase+0x10 and stops scene tasks through28918. No separate pending descriptor at+0x720 is asserted. Original map argument switch accepts0..23; area argument is used unchecked as WORD-pointer-table index. Outside switch, still writes HALFWORD game+10=0, WORD+40=area, HALFWORD+0=low16map and calls28918 while oldtable may remain. Therefore no safe invalid-map/area contract. Replacement is WORD+71C (not720), map0 resets HALFWORD+36,nonzero maps set HALFWORD+4mask10. Five-yield helper may shortenon021A8 and does not prove background task stopped."
+        },
+        {
+          "source": "src/code_08021DC4.c",
+          "revision": "b5337babd5b759034a0b68b145e7899a6bfefd7d",
+          "detail": "src/code_08021DC4.c:226A4 resume mode4 calls2A228 with saved map/area. Original2A228 literal pools repeatedly contain0x71C and matched C struct offset agrees. Scene area controller27B50 tests phase+0x10 and calls2704C when0; existing26CD0 SelectSceneMapAreaDestination is separate from this task-teardown entry."
+        }
+      ]
     }
   ]
 }
