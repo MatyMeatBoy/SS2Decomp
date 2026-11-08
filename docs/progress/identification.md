@@ -863,7 +863,7 @@ Graph observations include source locations and distinguish compiling C drafts f
 
 ## Raw data source inventory
 
-413 incbins reference 16017404 bytes across 2 source files; 11/412 labels are descriptive; 0 explicit data directives.
+410 incbins reference 16016724 bytes across 2 source files; 11/412 labels are descriptive; 22 explicit data directives.
 Raw incbin ranges include padding and opaque bytes. Descriptive labels and explicit directives do not prove decoded or understood data; no decoding percentage is reported.
 
 ## Source graph limitations

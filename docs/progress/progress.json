@@ -102,11 +102,11 @@
   }
  },
  "data": {
-  "incbin_count": 413,
-  "incbin_bytes": 16017404,
+  "incbin_count": 410,
+  "incbin_bytes": 16016724,
   "labels_total": 412,
   "labels_descriptive": 11,
-  "explicit_data_directives": 0,
+  "explicit_data_directives": 22,
   "padding_directives": 0,
   "limitations": "Raw incbin ranges include padding and opaque bytes. Descriptive labels and explicit directives do not prove decoded or understood data; no decoding percentage is reported."
  },
