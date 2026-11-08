@@ -22831,6 +22831,111 @@
           "detail": "Full incoming r0 is player index. Finds first zero bit among16 in030063E0[index]; no slot returns. Allocates0x400-byte stack and stores pointer at selected0x28-byte task control+20 in pool030063B0[index]. Allocation failure returns with mask unchanged. Success sets priority+8=0x34, callback+C=75088, stack top+10=allocation+3FC and cleanup+24=0. Registers task with player index and slot, then ORs slot mask bit. Complete consumer75088 initializes three forward hit animations with delays1/9/17 and local enemy-hit processing. No index validation, retry, synchronous hit or returned completion status. Complete original configured body preserved/inspected and equal to EU ROM/supplied verified-main ELF. No worker build or runtime testing."
         }
       ]
+    },
+    {
+      "address": "0x0808AFA4",
+      "canonical_symbol": "sub_0808AFA4",
+      "display_name": "SetLocalPlayerPositionFromUnsignedPixelPair",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08087CC0.c",
+          "line": 2084,
+          "revision": "8bbfb589bf6ab55018ae7e465fc0e674879c81fa",
+          "detail": "r0 points to two unsigned16 pixel coordinates. Selects local player in0x14C-byte runtime array, shifts each input left8 and writes32-bit world positions+0x8C/+0x90, then copies both words to+0x94/+0x98. No motion request, camera update, flags, collision, source/null checks or return value. Inputs65535 remain positive0x00FFFF00 rather than signed16 coordinates. Complete original configured body audited against ROM; copied verified-main ELF static equality, no local build or runtime test."
+        },
+        {
+          "source": "src/code_08087CC0.c",
+          "line": 2084,
+          "revision": "8bbfb589bf6ab55018ae7e465fc0e674879c81fa",
+          "detail": "Independent names-low-a review: Accepted. Two LDRH inputs are zero-extended and shifted8; word positions and companion words updated. No camera or motion request."
+        }
+      ]
+    },
+    {
+      "address": "0x0808C020",
+      "canonical_symbol": "sub_0808C020",
+      "display_name": "RunAreaEntryInputPrompt",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08087CC0.c",
+          "line": 2948,
+          "revision": "8bbfb589bf6ab55018ae7e465fc0e674879c81fa",
+          "detail": "No input arguments or meaningful return. Selects local player and text0x1403D1, repeatedly draws text+2 at(9,18). Reads entire input halfword0x03001324: any nonzero input requests movement to(current pixel x,364), waits while movement pending and scene flags-halfword+4 bit4 remains0, then ORs player flags0x403 and returns. With zero input, unsigned comparison pixelY<=329 re-registers this callback through area-entry task at(120,330), extent(240,80), argument0, and returns; otherwise waits1tick and repeats. Negative pixelY fails unsigned bound. No input mask/debounce; movement wait can end because scene flag set, not proven arrival. Complete original configured body audited against ROM; copied verified-main ELF static equality, no local build or runtime test."
+        },
+        {
+          "source": "src/code_08087CC0.c",
+          "line": 2948,
+          "revision": "8bbfb589bf6ab55018ae7e465fc0e674879c81fa",
+          "detail": "Independent names-low-a review: Accepted. Whole input halfword is tested, unsigned Y bound and abortable movement wait match. Registration is a request, with no proof it succeeds or prompt completes."
+        }
+      ]
+    },
+    {
+      "address": "0x0808D0C4",
+      "canonical_symbol": "sub_0808D0C4",
+      "display_name": "WaitForPlayerFlagAndStartAreaEntryPrompt",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08087CC0.c",
+          "line": 3844,
+          "revision": "8bbfb589bf6ab55018ae7e465fc0e674879c81fa",
+          "detail": "No input arguments or meaningful return. Selects local player once; waits1tick repeatedly until player flags-word+0x30 mask0x4000 becomes nonzero, with no timeout or abort check. Then starts area-entry callback0x0808C020 at(120,330), extent(120,80), argument0 and returns. Does not clear0x4000, execute prompt inline or wait for prompt completion; unknown gameplay meaning of flag remains unclaimed. Complete original configured body audited against ROM; copied verified-main ELF static equality, no local build or runtime test."
+        },
+        {
+          "source": "src/code_08087CC0.c",
+          "line": 3844,
+          "revision": "8bbfb589bf6ab55018ae7e465fc0e674879c81fa",
+          "detail": "Independent names-low-a review: Accepted. Wait has no timeout/abort and only requests the anchored prompt callback after player-word flag4000. Gameplay meaning of that flag remains unknown."
+        }
+      ]
+    },
+    {
+      "address": "0x0808E530",
+      "canonical_symbol": "sub_0808E530",
+      "display_name": "TaskAnimateFallingAreaDamageIndicator",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_0808D4A8.c",
+          "line": 942,
+          "revision": "8bbfb589bf6ab55018ae7e465fc0e674879c81fa",
+          "detail": "Packed full-word r0: low16 x in pixels; bits16..23 variant. If0x0800CCCC predicate nonzero returns immediately. Otherwise initializes sprite resource0x500F1; variant0 chooses frame14, variant1 frame15, other variants leave frame stack slot undefined. World point is(x<<8,80<<8), height80<<8 and velocity0; every iteration adds velocity to height, subtracts32 from velocity, conditionally draws sprite at world screen position and adjusts the returned object with object.wordC -= arithmetic_shift_right(height,8), then yields. Draw suppressed by four scene predicates, but physics continues. Stops when scene flag+4 bit4 set or signed height<=0. If flag remains0 invokes0x08079888(4,xQ8,80Q8,variant?5:4,0). No draw-result null check or resource/free contract; no claim of enemy/object semantic type. Complete original configured body audited against ROM; copied verified-main ELF static equality, no local build or runtime test."
+        },
+        {
+          "source": "src/code_0808D4A8.c",
+          "line": 942,
+          "revision": "8bbfb589bf6ab55018ae7e465fc0e674879c81fa",
+          "detail": "Independent names-low-a review: The original final call starts 08079458 via 08079888. Matched consumer applies area damage (0801FC34, enemy 0801F1C4, player 08029A7C/08022028), not an entity spawn. Falling animation precedes request; scene abort suppresses request. Variant values beyond0/1 leave frame uninitialized, and sprite draw return is dereferenced unchecked."
+        }
+      ]
+    },
+    {
+      "address": "0x0808E970",
+      "canonical_symbol": "sub_0808E970",
+      "display_name": "TaskPeriodicallyQueueFallingAreaDamageIndicator",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_0808D4A8.c",
+          "line": 1143,
+          "revision": "8bbfb589bf6ab55018ae7e465fc0e674879c81fa",
+          "detail": "No arguments or meaningful return. While scene flags-halfword+4 bit4 is0, checks helper0x08058DB0 then global32-bit tick&127. Only when both zero does it enqueue link-scene-callback0x0808E530 with RNG%320+80 as full argument (80..399, variant bits0). Yields once every loop regardless; checks terminal flag before first loop and after each yield. Does not verify enqueue success, execute the animation inline or wait for animation completion. Predicate0x08058DB0 is retained without assigning an unproved gameplay meaning; dispatch frequency is tick-gated, not guaranteed one animation per128 real frames. Complete original configured body audited against ROM; copied verified-main ELF static equality, no local build or runtime test."
+        },
+        {
+          "source": "src/code_0808D4A8.c",
+          "line": 1143,
+          "revision": "8bbfb589bf6ab55018ae7e465fc0e674879c81fa",
+          "detail": "Independent names-low-a review: Consistently with E530, queues falling area-damage indicator callback, not an unspecified scene spawn. Queue capacity failure is ignored. Tick&127 and 58DB0 gate attempts; no guaranteed frame cadence, loopback, acceptance or completion."
+        }
+      ]
     }
   ]
 }
