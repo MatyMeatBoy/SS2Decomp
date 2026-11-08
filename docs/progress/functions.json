@@ -36340,10 +36340,23 @@
       "canonical_symbol": "sub_0807A5D4",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_0807A5D4",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "TaskCharacterStatAndSkillAllocationMenu",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_0807A5D4.c",
+          "line": 105,
+          "revision": "8bbfb589bf6ab55018ae7e465fc0e674879c81fa",
+          "detail": "No meaningful input or return. Uses shared manager0x03006440, local player and saved-character pointer0x030034E0. Initializes graphics, two tabs and five-effect task pool, gated by initial scene/player conditions. State0/1 shows stats/skills; A enters temporary edits state2/3. Four stat rows spend available halfword points, with maxima500 except row3 max333; left only reverses changes from this session, A commits32-byte saved-stat block, B discards deltas. Eight skill rows spend points into level/progress, level capped7; A commits36-byte work block and B restores snapshot; successful level increments start indicator task. Preview code temporarily swaps saved stat block, computes derived fields and restores block; does not imply all player preview effects are transactional. Loop clears input under scene/transition conditions, exits on link error or close conditions. After entered loop sends player state, hides menu, applies skill effects, waits/frees effect pool; all paths restore blend/input-related settings, clear player flag8, queue text rows and scheduler-signal0x11201100. Dirty flag and animation counters are not initialized on every C path; original machine behavior is authoritative. Complete pinned matching source body and complete original configured range inspected, including long-range continuations. Original range equals copied verified-main ELF; no local build or runtime test."
+        },
+        {
+          "source": "src/code_0807A5D4.c",
+          "line": 105,
+          "revision": "8bbfb589bf6ab55018ae7e465fc0e674879c81fa",
+          "detail": "Independent names-low-a review: Accepted. Complete original plus matched pinned body supports separate stats/skills allocation, temporary blocks and commit/cancel controls. Stat maxima500/333 use signed-halfword checks; eight skill levels cap7. Preview temporarily replaces saved32bytes then restores them but writes runtime player+60/+62. First dirty slotsp+150 is read without prior initialization on initial states0/1; animation counters and some work slots also depend on path. No global transaction guarantee."
+        }
+      ]
     },
     {
       "name": "sub_0807B7B4",
@@ -36887,10 +36900,23 @@
       "canonical_symbol": "sub_08084EAC",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_08084EAC",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "StartCharacterStatAndSkillMenuTask",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_0807A5D4.c",
+          "line": 7383,
+          "revision": "8bbfb589bf6ab55018ae7e465fc0e674879c81fa",
+          "detail": "No arguments or meaningful return. Retries exact allocation of0x624=1572 bytes for shared manager0x03006440, yielding after failures, initializes first word0. Then retries1024-byte task stack on fixed task0x03006450, sets top+1020, priority100, finalizer0x08085484 and callback0x0807A5D4, scheduler argument0. No active-task or existing-manager protection; starts request and does not wait for menu closure. Complete pinned matching source body and complete original configured range inspected, including long-range continuations. Original range equals copied verified-main ELF; no local build or runtime test."
+        },
+        {
+          "source": "src/code_0807A5D4.c",
+          "line": 7383,
+          "revision": "8bbfb589bf6ab55018ae7e465fc0e674879c81fa",
+          "detail": "Independent names-low-a review: Accepted. Original retries manager624hex bytes then stack400hex, initializes only managerfirstword, registers exact callback7A5D4/finalizer85484 at fixed6450. No task-activity protection or closure wait."
+        }
+      ]
     },
     {
       "name": "sub_08084F24",
@@ -37545,10 +37571,23 @@
       "canonical_symbol": "sub_080855D4",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_080855D4",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "TaskMonsterCardCatalogAndBagTransfer",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_0807A5D4.c",
+          "line": 7801,
+          "revision": "8bbfb589bf6ab55018ae7e465fc0e674879c81fa",
+          "detail": "No meaningful arguments or return. Before menu, scans25 bag records at saved-character+0x150 and deposits kind8 records into byte counts at+0xC10 by item-id when existing count<=98, increments to at most99, clears only kind/id halfwords of deposited bag records. Deposits occur before cancellation and are not rolled back. Animates deposited records, then browses category table0x084ECC2C with end-category100, localized resource0x120000 names/details and per-id owned counts. Modes0 category list,1 detail,3 detail-field grid; grid13 A constructs kind8/id record and attempts TryAddItemToBag, decrements collection count only on success. No spending currency or purchase logic. Ordinary exit hides window/restores palette/text/scheduler signal; suspend-request paths call0x0800CCB8/0x0800CE54 then return, link-error returns directly without ordinary restoration. No record-id, category, language, text-buffer or resource bounds checks. Original long-body farjump entries inside configured interval are control-flow continuations, not additional named functions. Complete pinned matching source body and complete original configured range inspected, including long-range continuations. Original range equals copied verified-main ELF; no local build or runtime test."
+        },
+        {
+          "source": "src/code_0807A5D4.c",
+          "line": 7801,
+          "revision": "8bbfb589bf6ab55018ae7e465fc0e674879c81fa",
+          "detail": "Independent names-low-a review: Accept resource-backed correction to MonsterCard. Own ROM language0 pointer slots838C4F8/838C4FC and exact resource bytes match542/543. Own static original-font raster reads Monster Card, with font resolved from archive8518938 to892C028. Direct body86510 loads542 on withdrawal grid13; its text says remove monster cards. This is stronger than itemkind8 inference. Deposits happen before cancellation and only clearkind/id. Withdrawal initializes only use.type/id; remaining12bytes of16-byte temporary are not initialized before5AB20, so do not claim a fully zeroed item record."
+        }
+      ]
     },
     {
       "name": "sub_080867E0",
@@ -37562,10 +37601,23 @@
       "canonical_symbol": "sub_080867E0",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_080867E0",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "FreeMonsterCardCatalogManager",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_0807A5D4.c",
+          "line": 8331,
+          "revision": "8bbfb589bf6ab55018ae7e465fc0e674879c81fa",
+          "detail": "No arguments or meaningful return. Frees current pointer global0x03006478 then clears it; no null check, pointee-zeroing, nested cleanup or task cancellation.0x080867F8 registers it as finalizer for catalog task0x080855D4. Does not restore graphics or reverse deposited/withdrawn records. Complete pinned matching source body and complete original configured range inspected, including long-range continuations. Original range equals copied verified-main ELF; no local build or runtime test."
+        },
+        {
+          "source": "src/code_0807A5D4.c",
+          "line": 8331,
+          "revision": "8bbfb589bf6ab55018ae7e465fc0e674879c81fa",
+          "detail": "Independent names-low-a review: Accept resource-backed MonsterCard finalizer correction. Own original frees current global6478 then clears it, without null guard or restoration. Registration in867F8 anchors exact menu lifecycle; no rollback of deposits."
+        }
+      ]
     },
     {
       "name": "sub_080867F8",
@@ -37579,10 +37631,23 @@
       "canonical_symbol": "sub_080867F8",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_080867F8",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "StartMonsterCardCatalogTask",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_0807A5D4.c",
+          "line": 8340,
+          "revision": "8bbfb589bf6ab55018ae7e465fc0e674879c81fa",
+          "detail": "No arguments or meaningful return. Repeatedly allocates96-byte manager into global0x03006478, yielding on failure, then retries3072-byte stack for fixed task control0x03006450. Sets top+3068, priority100, callback0x080855D4, finalizer0x080867E0, starts with argument0. Does not initialize manager contents itself, check active task, protect previous manager, or wait for catalog closure. Complete pinned matching source body and complete original configured range inspected, including long-range continuations. Original range equals copied verified-main ELF; no local build or runtime test."
+        },
+        {
+          "source": "src/code_0807A5D4.c",
+          "line": 8340,
+          "revision": "8bbfb589bf6ab55018ae7e465fc0e674879c81fa",
+          "detail": "Independent names-low-a review: Accept resource-backed MonsterCard starter correction. Own original registers855D4 with finalizer867E0, retries manager60hex andstackC00hex, does not initialize managercontents. Identity inherits verified callback purpose, not adjacency."
+        }
+      ]
     },
     {
       "name": "sub_08086860",
@@ -38470,10 +38535,23 @@
       "canonical_symbol": "sub_0808B978",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_0808B978",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "TaskRunTimedScriptedStageChallenge",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_08087CC0.c",
+          "line": 2456,
+          "revision": "8bbfb589bf6ab55018ae7e465fc0e674879c81fa",
+          "detail": "No conventional argument handling. Uses low8 scene halfword+0x36 as stage index0..9 for countdown table0x084F0C00 and one of ten scripts; out-of-range leaves script pointer inherited/undefined. Preserved incoming r8 participates in early best-time comparison before later fractional display computation; no zero ABI invented. Initializes title/UI/local-player callback, executes56-byte script entries, waits script completion while drawing countdown minutes/seconds/hundredths and decrementing remaining/incrementing elapsed only when scene halfword+0x5A is nonzero. Exits early on local-player state11, otherwise positive-time completion sets scene+0x58=1 and zero-time sets2; completes intermediate script/player-position/terminal-flag waits. Successful positive completion updates per-stage saved elapsed/fraction records when better, unlocks next stage and sets completion bit indexed from entry high bits. Final path resets scene word+0x40=0, entry+0x36=1, queues text rows0..19. Does not guarantee runtime finish, valid script index, initialized inherited registers or unbiased synthetic fractional time; some RNG divisor paths have unproven input preconditions. Complete pinned matching source body and original configured range preserved for static audit; original range equals copied verified-main ELF, no local build or runtime test."
+        },
+        {
+          "source": "src/code_08087CC0.c",
+          "line": 2456,
+          "revision": "8bbfb589bf6ab55018ae7e465fc0e674879c81fa",
+          "detail": "Independent names-low-a review: Accepted. Complete original preserves incomingR8 before comparisonBB5C/BCB0; out-of-range stage leaves incomingSB scriptpointer and reads countdown BEFOREboundscheck. Script entries advance56bytes until signedhalfwordzero, without independent endbound. Decrement/increment occurs onlyscene+5A!=0; earlystate11 cleanup skips successrecord handling. Best elapsed/fraction records are WORDloads/stores via58900/34/6C/A0, not pointers despite source prototypes. Fraction RNG is machine unsignedremainder with nonzero-divisor preconditions unproven. Entry highbits and scene-domain limits remain unknown; no finite runtime guarantee."
+        }
+      ]
     },
     {
       "name": "sub_0808C020",
@@ -39689,10 +39767,23 @@
       "canonical_symbol": "sub_0808F15C",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_0808F15C",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "HandleThreeSubtypeRewardActorScene",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_0808D4A8.c",
+          "line": 1565,
+          "revision": "8bbfb589bf6ab55018ae7e465fc0e674879c81fa",
+          "detail": "r0 scene descriptor. Initialization when scene halfword+0x10=0 calls0x0800CD9C, standard scene initialization, registers actor callback0x0808F1E4 through0x0801674C with null finalizer, calls0x0800CD9C again and returns0. Initialized state returns0 until terminal flag+4 bit4, then hides/waits, flushes, calls0x0800CDAC, installs constant resource0x0850C6E8[19] at scene+0x71C, clears+0x10 and sets halfwords+0x30/+0x24=1, returns1. Does not infer actor creation success or completion merely from registration. Complete pinned matching source body and original configured range preserved for static audit; original range equals copied verified-main ELF, no local build or runtime test."
+        },
+        {
+          "source": "src/code_0808D4A8.c",
+          "line": 1565,
+          "revision": "8bbfb589bf6ab55018ae7e465fc0e674879c81fa",
+          "detail": "Independent names-low-a review: Accepted via registeredF1E4 callback. Transition argument3 retained without claiming hide behavior; constant table19 prepares next scene resource. Registering callback is not proof of actor allocation or destruction."
+        }
+      ]
     },
     {
       "name": "sub_0808F1E4",
@@ -39706,10 +39797,23 @@
       "canonical_symbol": "sub_0808F1E4",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_0808F1E4",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "TaskDestructibleActorWithThreeSubtypeDrops",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_0808D4A8.c",
+          "line": 1627,
+          "revision": "8bbfb589bf6ab55018ae7e465fc0e674879c81fa",
+          "detail": "r0 actor pointer. Initializes from0x084AA740 and retries resource-slot allocation for0x5012F; failed allocation sets state11, yields, or clears actor active bit and exits on scene shutdown/terminal flag, without releasing an unallocated slot. After success initializes signed-halfword health=table+6*3 and second stat=table+4*20, checks flags(27,1)/(27,0), and removes/releases immediately if either set. Normal loop updates actor, draws base/overlay with palette and damage blink, applies pending damage and health-percent palette steps; <=9percent sets both flags. State11 disables byte+0x1DC and exits; scene shutdown/terminal flag also exits. Only parent-or-loopback finish sets flags and retries three link drop requests at actor position, records kind9/subtype0,1,2 with halfword+4=100, when state11; other final states clear both flags. Always clears active actor bit and releases allocated slot after normal finish. Division assumes nonzero max-health; no resource-kind gameplay identity inferred. Drop request success is not observed item pickup. Complete pinned matching source body and original configured range preserved for static audit; original range equals copied verified-main ELF, no local build or runtime test."
+        },
+        {
+          "source": "src/code_0808D4A8.c",
+          "line": 1627,
+          "revision": "8bbfb589bf6ab55018ae7e465fc0e674879c81fa",
+          "detail": "Independent names-low-a review: Accepted descriptive actor identity, without boss/material inference. All original exits inspected: allocation failure cancellation clears active bit without releasing unavailable slot; preexistingflags release allocatedslot; normal cleanup releases slot. Drop attempts occur only02204()!=0 andstate11. Only6bytes of16-byte drop record initialized: kind9,subtype0/1/2,halfword+4=100;66490 copies fourwords, so remaining10bytes undefined. Terminalflag aborts retry waits but each next subtype still attempts one request. No successful pickup/replication/completion guarantee."
+        }
+      ]
     },
     {
       "name": "sub_0808F6A8",
@@ -39747,10 +39851,23 @@
       "canonical_symbol": "sub_0808F700",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_0808F700",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "HandleChallengeStageEntryAndSelectionGate",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_0808D4A8.c",
+          "line": 1831,
+          "revision": "8bbfb589bf6ab55018ae7e465fc0e674879c81fa",
+          "detail": "r0 route descriptor. On uninitialized scene waits screen transition, clears terminal flag, initializes scene flags/player entry from route mapping0x0805A4A0, with position u16 x/y shifted8 and copied backup pair, camera/map setup and20 one-tick waits. Applies route state, starts script, starts local-player/event callbacks and marks initialized. If already initialized and terminal flag set, configures retry/return fields, local player state0/animation4 and halfword+0x36=0, sets+0x30/+0x24=1, returns1. Otherwise local player signed world y>>11<=12 triggers hide/wait, opens stage-selection-or-battle-team task0x0808D05C, waits scheduler mask0x02688420, installs resource0x0850D4EC[scene word+0x40], clears+0x10/+0x58 and returns1. Ordinary no-gate returns0. Initialization falls through into gate check; flag-based return does not prove scene loaded. Complete pinned matching source body and original configured range preserved for static audit; original range equals copied verified-main ELF, no local build or runtime test."
+        },
+        {
+          "source": "src/code_0808D4A8.c",
+          "line": 1831,
+          "revision": "8bbfb589bf6ab55018ae7e465fc0e674879c81fa",
+          "detail": "Independent names-low-a review: Accepted. Original maps36-byte routeentries, unsigned coordinatehalfwords<<8, waits readiness and20 yields, then falls through gate check. SignedY>>11<=12 gate requests independently auditedD05C selector and waits signal02688420, not time duration. Initialized terminal path returns1 with configured state; no loaded-scene guarantee."
+        }
+      ]
     },
     {
       "name": "sub_0808F9E0",
@@ -39764,10 +39881,23 @@
       "canonical_symbol": "sub_0808F9E0",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_0808F9E0",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "HandleTimedOrBattleChallengeScene",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_0808D4A8.c",
+          "line": 1929,
+          "revision": "8bbfb589bf6ab55018ae7e465fc0e674879c81fa",
+          "detail": "r0 route descriptor. Initial scene state waits transition, resets scene flags, maps route and local-player x from unsigned16 record shifted8, forces y446 Q8 and copies position backup. If player flag0x2000 set clears0x2002 and copies halfword fields+0x60/+0x62 to+0xC2/+0xC4. Loads current area/map, waits readiness, sets width halfword+0x76=32 and camera, marks initialized. Selects callback0x0808B978 when scene-entry halfword+0x36 has0x8000, otherwise confirmed battle winner/results task0x0808CB58. Initialized terminal-flag path performs flush/reset calls, installs0x0850D4EC[scene word+0x40], clears+0x10, returns1; other paths return0. Timed callback controls challenge as well as display, so this is not merely a results-screen dispatcher. Complete pinned matching source body and original configured range preserved for static audit; original range equals copied verified-main ELF, no local build or runtime test."
+        },
+        {
+          "source": "src/code_0808D4A8.c",
+          "line": 1929,
+          "revision": "8bbfb589bf6ab55018ae7e465fc0e674879c81fa",
+          "detail": "Independent names-low-a review: Accepted. Original bit8000 selectsB978 versus independently auditedCB58 battle consumer. LocalYforced446Q8 and conditional2002flagclear/statcopy match. No assumption both branches are result-only screens."
+        }
+      ]
     },
     {
       "name": "sub_0808FB5C",
@@ -51322,12 +51452,12 @@
   "identification": {
     "game": {
       "total": 1880,
-      "identified": 941,
+      "identified": 951,
       "existing": 23,
-      "confirmed": 918,
+      "confirmed": 928,
       "proposed": 2,
-      "unidentified": 937,
-      "percent_identified": 50.0531914893617
+      "unidentified": 927,
+      "percent_identified": 50.58510638297872
     },
     "sdk": {
       "total": 155,
@@ -51340,12 +51470,12 @@
     },
     "all": {
       "total": 2035,
-      "identified": 1096,
+      "identified": 1106,
       "existing": 152,
-      "confirmed": 944,
+      "confirmed": 954,
       "proposed": 2,
-      "unidentified": 937,
-      "percent_identified": 53.85749385749386
+      "unidentified": 927,
+      "percent_identified": 54.34889434889435
     }
   },
   "limitations": "Configured function address intervals, including alignment/literal pools; inventory includes original assembly and linked libraries. Existing descriptive identifiers are recognized, not independently semantically re-proven."
