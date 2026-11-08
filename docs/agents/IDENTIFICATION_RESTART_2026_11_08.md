@@ -438,3 +438,16 @@ The world-effect task projects packed signed coordinates, advances animation 10 
 The departure task has guarded animation progression and changes destination only for the local player after its cleanup gates. The prompt uses resource `0x1404E0`; its original pointer table and exact Latin letter/space term support the return role without assigning a speaker, location or selected answer. The starter searches four controls and retries stack allocation with scheduler waits. Its pool is addressed by pointer global `03006030`, as the original load/dereference at `657CA..657CC` demonstrates; one frozen evidence sentence was corrected to distinguish this from a fixed-address pool. Modes outside 0/1 retain the previous callback.
 
 All seven complete configured ranges equal the verified EUR ROM and local ELF. Selected original paths and caller guards support the stated roles without a full gameplay-state equivalence or runtime claim. The uncorrected frozen input and exact precision overlay are preserved privately. Canonical symbols, boundaries and matching code are unchanged.
+
+
+## Raw action-skill levels, equipment sets and Advanced Mode
+
+Eight EUR rows were independently reviewed against original instructions and source pinned at `b0270484a6dcc0e4649508a2c5589c502c8cdf39`. No frozen row required correction.
+
+The three action-skill helpers read raw saved halfword levels through class/action dispatch or test the returned low halfword for nonzero. Class 8 maps to 6 before byte narrowing; the explicit-selector getter differs from the local-player getter. The raw getters do not apply the effective-level conversion of 7 to 8, test energy affordability, or identify exact skill titles. Resource-dependent selector paths retain their unchecked inputs.
+
+The equipment predicate compares six requirement slots, allowing `0xFFFF` wildcards, including an all-wildcard set. The finder checks candidate IDs supplied by six resource records and returns the first matching bonus-data address, optionally updating the reloaded manager. It does not prove currently equipped items, scan every set, or validate resource/table membership.
+
+The Advanced Mode identities have direct EU evidence beyond a bare bit label: resources `0x14044B/0x14044C` resolve to original glyph labels Normal Mode and Advanced Mode; the chosen value is saved in summary byte +7; loader `7A4B4` reapplies it to scene bit 9; the lobby propagates that query through peer-header byte +10 bit 0. Original pointer entries, labels, choice/store paths, accessors and loader/lobby witnesses were independently checked. The helpers only mark/query the flag; no unlock guarantee, stable bank snapshot, successful synchronization or regional transfer is inferred.
+
+Complete configured ranges equal the verified EUR ROM and local linked ELF. All names remain catalog display identities; canonical symbols, boundaries and matching code are unchanged. This static evidence adds no runtime or matching credit.

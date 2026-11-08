@@ -20311,6 +20311,270 @@
           "detail": "All original 657C4..65838 instructions inspected after complete-range original EU ROM/existing ELF equality. 657DC..657E8 searches indices0..3, 657EC..657FC retries allocation after waits, 65802..65816 conditionally installs only the two callbacks, and 65818..6582A sets stack/finalizer and schedules. Static lifecycle evidence, not a runtime trace, new build or general allocation-success guarantee."
         }
       ]
+    },
+    {
+      "address": "0x0801CCC8",
+      "canonical_symbol": "sub_0801CCC8",
+      "display_name": "ReadLocalPlayerActionSkillLevel",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_0801AAF8.c",
+          "line": 1519,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Reads a class-mapped raw skill-level halfword from the current character save. Selects the local player record and its halfword +0x10 action selector; saved class 8 maps to 6 before narrowing the class to u8. Recognized class/action combinations return save halfwords +0x34 through +0x4C. For selected action 9 paths, resource byte +0xA7 selects the skill slot when resource byte +0x9B equals 9. Unrecognized dispatch keys take the explicit zero result. It does not map stored level 7 to 8, spend energy, modify a skill or identify an exact skill title."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 445,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Original 1CCCA selects local ID, 1CCDC..1CCE6 apply the class transform and 1CD24 onward dispatch the player action halfword. Shared returns at 1CF40/1CF7E/1CF8C/1CFF2/1D000/1D010/1CF4C read raw save halfwords; 1D020 returns zero. Complete original 1CCC8..1D028 bytes equal EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc and linked original ELF. All printed original instructions were read; static evidence only."
+        },
+        {
+          "source": "src/code_0801AAF8.c",
+          "line": 2094,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Matched skill-table copier transfers 36 bytes from save +0x30; matched indexed reader at line 2192 reads its level halfword at table +4+4*index. This anchors the getter return offsets as raw skill levels independently of the local RescueCCC8 aliases. The indexed reader separately maps 7 to 8; this getter does not call it."
+        },
+        {
+          "source": "src/code_0801AAF8.c",
+          "line": 1541,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Resource-action paths use unchecked selected-slot halfword +0x68 and a 16-byte stride. If slot byte +0x79 is zero, the original path sets the resource pointer to zero and still reads byte +0x9B. Neither null/resource validity nor a safe inactive-slot default is established. External resource resolution and later global-save reloads also do not promise an atomic snapshot."
+        }
+      ]
+    },
+    {
+      "address": "0x0801E538",
+      "canonical_symbol": "sub_0801E538",
+      "display_name": "HasLocalPlayerActionSkillLevel",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_0801E244.c",
+          "line": 198,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Calls the local class/action skill-level getter 1CCC8 and returns exactly 1 when its low 16 bits are nonzero, otherwise 0. Does not test energy affordability, validate the action/resource domain or change player state. The long-long zero local in the matched C is a code-generation form, not evidence of a 64-bit skill value."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 486,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Original 1E53A calls 1CCC8, 1E53E shifts the result left 16 and 1E540..1E548 select exact zero or one. Complete original 1E538..1E550 bytes equal EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc and linked original ELF. Static instruction evidence only."
+        },
+        {
+          "source": "asm/nonmatchings/code_0800CF58/sub_0800D368.s",
+          "line": 2355,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Original player-controller path tests this boolean before additional player-flag/input-duration gates and an action-state update. It also calls the predicate in other action-state paths. The player C body is NONMATCHING at this revision; original ASM corroborates use as a skill-presence gate without proving affordability, complete input invariants or a named action."
+        },
+        {
+          "source": "src/code_0801AAF8.c",
+          "line": 1519,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Matched callee supplies raw class/action-mapped skill levels and has resource/slot validity limits. This predicate inherits those limits; it is a nonzero-level query rather than a general CanPerformAction validator."
+        }
+      ]
+    },
+    {
+      "address": "0x0801D028",
+      "canonical_symbol": "sub_0801D028",
+      "display_name": "ReadCharacterActionSkillLevelBySelector",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_0801AAF8.c",
+          "line": 1640,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Uses the low 16 bits of the supplied action selector and the current saved character class to choose a raw skill-level halfword at save +0x34 through +0x4C. Class 8 maps to 6 before u8 class dispatch. Unlike 1CCC8, it does not query local player ID or load Player+0x10; the selector comes from the argument. Unrecognized dispatch keys return zero. It does not apply the effective mapping of level 7 to 8, spend energy, change a skill or identify a particular action title."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 446,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Original 1D02A..1D02C narrows the input to u16, 1D032..1D03E applies the class transform, and shared return paths read raw save halfwords. 1D344 is the explicit zero result. Complete original 1D028..1D34C bytes equal EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc and linked original ELF. All 358 printed original proof lines were read; static evidence only."
+        },
+        {
+          "source": "src/code_0801AAF8.c",
+          "line": 1519,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Matched local-action sibling 1CCC8 has the same mapping from class and action selector to skill after substituting only the source of the action selector and the global alias name. The shared skill-table layout is anchored by the 36-byte copier at line 2094 and indexed level reader at line 2192. This is a source-algorithm sibling; no direct call between these getters or identical function bytes are claimed."
+        },
+        {
+          "source": "src/code_0801AAF8.c",
+          "line": 1660,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Paths for action selector 9 still use the currently selected equipment slot and resource subtype at +0xA7, gated by resource +0x9B equal to 9. Passing a selector does not supply an independent equipment resource. Slot bounds, resource validity, null handling and a stable atomic global snapshot are not checked; an inactive slot leaves a zero pointer that original code still reads at +0x9B."
+        }
+      ]
+    },
+    {
+      "address": "0x0801B74C",
+      "canonical_symbol": "sub_0801B74C",
+      "display_name": "MatchesEquipmentSetRequirements",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_0801AAF8.c",
+          "line": 580,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Checks six required resource-index halfwords at set record +0x136. Value 65535 ignores that requirement; otherwise the corresponding supplied resource pointer must be nonnull and its resource-array index must equal the requirement. Returns exactly 1 when every required position matches, otherwise 0. An all-65535 record therefore succeeds even with no supplied resources. It does not load current equipment, require all six positions, validate asset membership or check pointer/table bounds."
+        },
+        {
+          "source": "src/code_0801AAF8.c",
+          "line": 588,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Requirement positions 0/1/2/3/4/5 use supplied arguments a/c/b/d/e/f respectively. Their resource bases are 0xB0000/0xD0000/0xC0000/0xE0000/0xF0000/0x110000 with record strides 0xC4/0xB8/0xB8/0xB8/0xB4/0xB0. Pointer differences describe valid resource-array entries; arbitrary unrelated pointers are not a proved input domain. No exact equipment or set titles are assigned."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 440,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Original 1B768..1B77C reads each requirement and skips 65535; the six resource-comparison branches converge at 1B86C. 1B884..1B894 compare matched count with required count and choose exact 0/1. Complete original 1B74C..1B8A8 bytes equal EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc and linked original ELF. Static instruction evidence only."
+        },
+        {
+          "source": "src/code_0801AAF8.c",
+          "line": 633,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Matched bonus-data finder tests candidate set records derived from the supplied resource metadata and returns a set bonus block only after this predicate succeeds. Matched stat calculation at lines 1097..1099 consumes the returned block while forming effective stats, anchoring equipment-set requirements beyond local type names."
+        }
+      ]
+    },
+    {
+      "address": "0x0801B8A8",
+      "canonical_symbol": "sub_0801B8A8",
+      "display_name": "FindMatchingEquipmentSetBonusData",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_0801AAF8.c",
+          "line": 625,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Tries candidate set IDs from six supplied resource records in argument order a/b/c/d/e/f. Skips null pointers and zero IDs; ID fields are +0xC2 for a, +0xB4 for b/c/d, +0xB0 for e and +0xAC for f. Each nonzero ID selects a 0x150-byte record from 08490120 and calls the six-position set predicate. Returns the first matching record address +0x144, or zero if none. It does not scan all set records, allocate/copy the bonus data or validate candidate IDs against table length."
+        },
+        {
+          "source": "src/code_0801AAF8.c",
+          "line": 629,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "If global manager pointer 03006440 is nonnull at entry, clears its pointer field +0x5B4. After a match it re-reads that global and, if still nonnull, stores the full set-record pointer at +0x5B4 before returning the interior bonus pointer. This is an optional manager-state update rather than a side-effect-free search or a stable captured-manager guarantee."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 441,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Original 1B8C4..1B8D2 clears the optional manager field. Six candidate checks call 1B74C at 1B904/1B950/1B98A/1B9C2/1B9FC/1BA36; shared success 1BA42..1BA50 stores the record pointer and adds 0x144 for the result. 1BA60 returns zero. Complete original 1B8A8..1BA74 bytes equal EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc and linked original ELF. Static evidence only."
+        },
+        {
+          "source": "src/code_0801AAF8.c",
+          "line": 1097,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Matched stat calculation supplies six equipment-resource pointers, tests the returned address and passes a nonzero bonus block to 1B264. The finder can also describe hypothetical supplied combinations; it does not independently read or prove that these pointers are the currently equipped items."
+        }
+      ]
+    },
+    {
+      "address": "0x0800CE08",
+      "canonical_symbol": "sub_0800CE08",
+      "display_name": "MarkAdvancedModeActive",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_0800CBBC.c",
+          "line": 108,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Performs a full-word read/OR/write on scene flags 03003478 with mask 0x200, setting bit 9 and preserving other bits. This marks the mode flag only; it does not itself reload a stage, change enemy resources, validate unlocking or start multiplayer."
+        },
+        {
+          "source": "src/code_08002118.c",
+          "line": 993,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Matched file selection displays English resource 14044C for a nonzero mode choice and 14044B for zero. The original EU English records at 083861BA and 083861AB read Advanced Mode and Normal Mode in game alphabet glyph indices. On confirmation, the same choice is stored in selected summary byte +7 at line 1014. Matched 7A4B4 reads that same byte and enables scene bit 9 after a successful file load. Original 34C4..34E4 chooses the two labels, 3584..3588 stores the same selection byte, and 7A50E..7A514 tests it before calling CE08. This anchors Advanced Mode beyond enemy difficulty, a local alias or a network flag; no runtime rendering or full file-menu equivalence is claimed."
+        },
+        {
+          "source": "src/code_08002118.c",
+          "line": 3158,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Matched multiplayer lobby host writes the CE30 query result into peer header byte +10 bit 0; the client observes that bit and calls CE08 or CE1C at lines 3204/3206. Original 68F6..6900 and 69E6..69F6 corroborate those calls and byte accesses. The propagated value is Advanced Mode selection, distinct from transport readiness, peer presence, GO acknowledgement and header bit 1. Successful lobby synchronization is not proved by these static paths."
+        },
+        {
+          "source": "src/code_08009088.c",
+          "line": 2471,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Matched CB30 resets the entire scene flag word to zero; file activation 7A4B4 invokes it before loading and reapplying the selected summary mode. Other whole-word resets/restores can also affect this bit. These three helpers are not claimed to be the only writers or a universal paired enable/disable protocol. Complete original flag-accessor bytes equal the EU ROM and ELF; all accessor instructions and the selected original label/store/loader/lobby windows were read. No runtime playthrough, exact elapsed frames or new matching credit is asserted."
+        }
+      ]
+    },
+    {
+      "address": "0x0800CE1C",
+      "canonical_symbol": "sub_0800CE1C",
+      "display_name": "MarkAdvancedModeInactive",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_0800CBBC.c",
+          "line": 111,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Performs a full-word read/AND/write on scene flags 03003478 with mask 0xFFFFFDFF, clearing bit 9 and preserving other bits. The observed lobby client uses it for a zero Advanced Mode header bit. It does not erase saved progress or independently force all active gameplay consumers into a stable normal-mode snapshot."
+        },
+        {
+          "source": "src/code_08002118.c",
+          "line": 993,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Matched file selection displays English resource 14044C for a nonzero mode choice and 14044B for zero. The original EU English records at 083861BA and 083861AB read Advanced Mode and Normal Mode in game alphabet glyph indices. On confirmation, the same choice is stored in selected summary byte +7 at line 1014. Matched 7A4B4 reads that same byte and enables scene bit 9 after a successful file load. Original 34C4..34E4 chooses the two labels, 3584..3588 stores the same selection byte, and 7A50E..7A514 tests it before calling CE08. This anchors Advanced Mode beyond enemy difficulty, a local alias or a network flag; no runtime rendering or full file-menu equivalence is claimed."
+        },
+        {
+          "source": "src/code_08002118.c",
+          "line": 3158,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Matched multiplayer lobby host writes the CE30 query result into peer header byte +10 bit 0; the client observes that bit and calls CE08 or CE1C at lines 3204/3206. Original 68F6..6900 and 69E6..69F6 corroborate those calls and byte accesses. The propagated value is Advanced Mode selection, distinct from transport readiness, peer presence, GO acknowledgement and header bit 1. Successful lobby synchronization is not proved by these static paths."
+        },
+        {
+          "source": "src/code_08009088.c",
+          "line": 2471,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Matched CB30 resets the entire scene flag word to zero; file activation 7A4B4 invokes it before loading and reapplying the selected summary mode. Other whole-word resets/restores can also affect this bit. These three helpers are not claimed to be the only writers or a universal paired enable/disable protocol. Complete original flag-accessor bytes equal the EU ROM and ELF; all accessor instructions and the selected original label/store/loader/lobby windows were read. No runtime playthrough, exact elapsed frames or new matching credit is asserted."
+        }
+      ]
+    },
+    {
+      "address": "0x0800CE30",
+      "canonical_symbol": "sub_0800CE30",
+      "display_name": "IsAdvancedModeActive",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_0800CBBC.c",
+          "line": 114,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Returns exactly 0 or 1 from scene flags 03003478 bit 9 using an unsigned full-word load/shift/mask. The file-menu Advanced Mode choice and its saved summary byte anchor the meaning. Consumers can select alternate stage-record and resource banks; the mode need not remain unchanged across separate calls, and this predicate is not a packet-ready or scheduled-task test."
+        },
+        {
+          "source": "src/code_08002118.c",
+          "line": 993,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Matched file selection displays English resource 14044C for a nonzero mode choice and 14044B for zero. The original EU English records at 083861BA and 083861AB read Advanced Mode and Normal Mode in game alphabet glyph indices. On confirmation, the same choice is stored in selected summary byte +7 at line 1014. Matched 7A4B4 reads that same byte and enables scene bit 9 after a successful file load. Original 34C4..34E4 chooses the two labels, 3584..3588 stores the same selection byte, and 7A50E..7A514 tests it before calling CE08. This anchors Advanced Mode beyond enemy difficulty, a local alias or a network flag; no runtime rendering or full file-menu equivalence is claimed."
+        },
+        {
+          "source": "src/code_08002118.c",
+          "line": 3158,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Matched multiplayer lobby host writes the CE30 query result into peer header byte +10 bit 0; the client observes that bit and calls CE08 or CE1C at lines 3204/3206. Original 68F6..6900 and 69E6..69F6 corroborate those calls and byte accesses. The propagated value is Advanced Mode selection, distinct from transport readiness, peer presence, GO acknowledgement and header bit 1. Successful lobby synchronization is not proved by these static paths."
+        },
+        {
+          "source": "src/code_08009088.c",
+          "line": 2471,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Matched CB30 resets the entire scene flag word to zero; file activation 7A4B4 invokes it before loading and reapplying the selected summary mode. Other whole-word resets/restores can also affect this bit. These three helpers are not claimed to be the only writers or a universal paired enable/disable protocol. Complete original flag-accessor bytes equal the EU ROM and ELF; all accessor instructions and the selected original label/store/loader/lobby windows were read. No runtime playthrough, exact elapsed frames or new matching credit is asserted."
+        }
+      ]
     }
   ]
 }
