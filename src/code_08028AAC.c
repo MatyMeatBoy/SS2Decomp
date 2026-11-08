@@ -1625,7 +1625,15 @@ void sub_0802AA28(void) {
                 } else {
                     var_r2_34 = stateAA28 + 0x1BA;
                 }
-                *var_r2_34 |= 4;
+                {
+                    register s32 flagByte27 asm("r1") = *var_r2_34;
+                    asm("" : "+r"(flagByte27));
+                    {
+                        register s32 flagResult27 asm("r0") = flagByte27 | 4;
+                        asm("" : "+r"(flagResult27));
+                        *var_r2_34 = flagResult27;
+                    }
+                }
                 requestedResource27 = 0x188;
                 gUnk_03005CF8 = requestedResource27;
                 if (!(gUnk_030027D0 & 0x20)) {
