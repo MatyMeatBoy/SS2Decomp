@@ -3260,8 +3260,7 @@ timerHighDecayD368:
         } else {
             if (((struct PlayerD368 *)arg0)->fD8 != 0) {
                 temp_r5_9 = arg0 + 0x8C;
-                ((struct PlayerD368 *)arg0)->f94 = (s32) ((struct PlayerD368 *)arg0)->f8C;
-                M2C_FIELD((arg0 + 0x94), s32 *, 4) = (s32) M2C_FIELD(temp_r5_9, s32 *, 4);
+                *(struct PairD36867 *)(arg0 + 0x94) = *(struct PairD36867 *)temp_r5_9;
                 temp_r3_7 = (u16) d368_sub_0800CCCC();
                 d368_sub_08013E90(((struct PlayerD368 *)arg0)->fD8, temp_r5_9, (u16) ((struct PlayerD368 *)arg0)->f1C, temp_r3_7, (((struct PlayerD368 *)arg0)->f30 & 0x20));
             }
