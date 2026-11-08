@@ -3007,7 +3007,7 @@ void sub_0807C29C(void) {
             fr = gMgr82->heldFrom;
             if (fr == 0x16) {
                 cu = gMgr82->cursor;
-                it = &gMgr82->stock[cu];
+                it = (struct Item82 *)((u32)gMgr82 + cu * sizeof(struct Item82) + offsetof(struct Mgr82, stock));
                 if (it->kind == 0)
                     break;
                 gMgr82->heldFrom = gMgr82->state;
