@@ -17,3 +17,23 @@ Shard 96, sub_080923FC (code_0808FB5C)
   flag r6 in phase 2). No rejected experiments were recorded.
   Next (after PR #544 lands): phase-5 clamp variants, explicit s16 locals for x in phases
   3/5, and do { } while (0) reference-weight tricks to move the spill set.
+
+2026-11-08 (claude-nov08-coord): sub_080923FC 11 -> 9 positional halfword diffs, one register asm removed
+  - Round-loop latch (+83E/+84E) now matches without `register u32 remainingTimer096 asm("r3")`.
+    Reload rotation here cycles [r0,r1,r2,r3,r7]. The ROM's timer test reload in r3 and count
+    reload in r7 need two more rotation steps in the tail block. A block-scoped
+    `struct OffsetCache923FC *roundCache = &offsetFields923FC;` around the round loop is long-lived
+    across calls, so it is spilled with REG_EQUIV. Reload rematerializes its `ldr rX,=gUnk_03001250`
+    as a rotation reload (r2, since r1 holds the stored value), which shifts timer to r3 and count to r7.
+    Also routing v252 through a long-lived pointer overshoots by one step: its address reload can't
+    use r1, so it takes r2.
+  - Remaining 1: init loop xs-base copy gets r7 (ROM r6). Global alloc pass 0 avoids r6 because the
+    GCSE-PRE reaching reg for &b (plus fp 52, copied at end of bb0, spilled) prefers r6 (its bb0 copy
+    `add r6,sp,#72`). Trace compiler: ss2-integrate-nov05/build/coord096/trace-gcc/agbcc.exe prints
+    find_reg passes for *923FC*. Ternary/for/++i loop shapes: no change.
+  - Remaining 2: phase 5 hoist order. loop.c pass 1 hoists the cache load (life 16, insn_count 103,
+    threshold 13 = 1+12 non-fixed regs with calls); x<<16/y<<16 have life 1 in pass 1 and are only
+    hoisted in pass 2, so they land after the cache. The ROM needs cache hoisted in pass 2 (or x,y in
+    pass 1). Note `threshold -= 3` after each move. Failed: do{}while(0) around the stores (phony
+    loop, ignored), block/outer cache pointers, cache923FC[] vs offsetFields mixes (extra literal),
+    explicit xShift/yShift temps (frame/size change), unifying the symbol (breaks +10E).

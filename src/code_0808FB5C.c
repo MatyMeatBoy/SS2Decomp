@@ -2200,8 +2200,9 @@ void sub_080923FC_u8(u32 arg0, u32 arg1) {
     } while (fade != 0);
     count = (s8)count0 * 2;
     sub_08092E28(6);
+    {
+    struct OffsetCache923FC *roundCache = &offsetFields923FC;
     for (round = 0; round < count; round++) {
-        register u32 remainingTimer096 asm("r3");
         i = 0;
         do {
             ys[i] = (abs((s16)(random923FC() % 120)) - 140) * 0x100;
@@ -2237,15 +2238,14 @@ void sub_080923FC_u8(u32 arg0, u32 arg1) {
             }
             {
                 s16 s = sub_08092E34();
-                offsetFields923FC.y0 = plus923FC(s, v923FC_252);
-                offsetFields923FC.y1 = minus923FC(v923FC_256, s);
+                roundCache->y0 = plus923FC(s, v923FC_252);
+                roundCache->y1 = minus923FC(v923FC_256, s);
             }
             sub_080003F0();
             if (sub_080021A8() == 1)
                 goto end;
-            remainingTimer096 = timer;
-            asm("" : "+r"(remainingTimer096));
-        } while (remainingTimer096 != 0);
+        } while (timer != 0);
+    }
     }
 end:
     sub_0801ABE8(6);
