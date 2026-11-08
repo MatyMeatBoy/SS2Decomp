@@ -3416,7 +3416,10 @@ done82:
             base = gMgr82->cursor / 3 * 3;
             idx = base + 3;
             gMgr82->posX = gUnk_084ECBB0[(idx - (gMgr82->cursor + 1)) * 2] + 0xB8;
-            gMgr82->posY = (&gUnk_084ECBB0[1])[(idx - (gMgr82->cursor + 1)) * 2] + 0x10;
+            {
+                u32 nextCursorY = gMgr82->cursor + 1;
+                gMgr82->posY = (&gUnk_084ECBB0[1])[(idx - nextCursorY) * 2] + 0x10;
+            }
             gMgr82->prev = gMgr82->cursor;
             gMgr82->f6C = 0;
         }

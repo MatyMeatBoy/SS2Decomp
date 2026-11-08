@@ -14,8 +14,8 @@
 <text x="269.0" y="86" fill="#e6edf3" font-size="10">940 bytes; not decompiled C</text>
 <rect x="506.0" y="30" width="235.0" height="66" rx="5" fill="#161b22"/>
 <text x="516.0" y="46" fill="#e6edf3" font-size="11">Identification</text>
-<text x="516.0" y="69" fill="#3fb950" font-size="21" font-weight="600">43.54%</text>
-<text x="516.0" y="86" fill="#e6edf3" font-size="10">886 / 2035 registered names</text>
+<text x="516.0" y="69" fill="#3fb950" font-size="21" font-weight="600">44.57%</text>
+<text x="516.0" y="86" fill="#e6edf3" font-size="10">907 / 2035 registered names</text>
 <rect x="753.0" y="30" width="235.0" height="66" rx="5" fill="#161b22"/>
 <text x="763.0" y="46" fill="#e6edf3" font-size="11">Historical C + linked</text>
 <text x="763.0" y="69" fill="#e6edf3" font-size="21" font-weight="600">93.13%</text>
@@ -26,9 +26,9 @@
 <text x="6.0" y="18" fill="#e6edf3" font-size="13" font-weight="600">Game code: 93.03% (1865/1870)</text>
 <g><title>code_0807A5D4 (55020 bytes)</title>
 <rect x="0.00" y="28.00" width="163.52" height="177.06" fill="#0d1117"/>
-<rect x="1.00" y="29.00" width="127.15" height="74.35" fill="#484f58" stroke="#9e6a03" stroke-width="0.6"><title>sub_0807C29C | sub_0807C29C | unidentified | 4/5 milestones; not a match  0x0807C29C  18396 bytes  [nonmatch]</title></rect>
-<rect x="1.00" y="29.00" width="101.72" height="74.35" fill="#d29922" pointer-events="none"/>
-<text x="64.6" y="83.2" fill="#e6edf3" font-size="9" text-anchor="middle" pointer-events="none">4/5 milestones</text>
+<rect x="1.00" y="29.00" width="127.15" height="74.35" fill="#484f58" stroke="#9e6a03" stroke-width="0.6"><title>sub_0807C29C | sub_0807C29C | unidentified | 3/5 milestones; not a match  0x0807C29C  18396 bytes  [nonmatch]</title></rect>
+<rect x="1.00" y="29.00" width="76.29" height="74.35" fill="#d29922" pointer-events="none"/>
+<text x="64.6" y="83.2" fill="#e6edf3" font-size="9" text-anchor="middle" pointer-events="none">3/5 milestones</text>
 <text x="64.6" y="69.2" fill="#e6edf3" font-size="9" text-anchor="middle" pointer-events="none">sub_0807C29C</text>
 <rect x="128.15" y="29.00" width="34.37" height="74.35" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_080815F4 | sub_080815F4 | unidentified  0x080815F4  4972 bytes  [done]</title></rect>
 <rect x="1.00" y="103.35" width="46.93" height="50.60" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_080855D4 | sub_080855D4 | unidentified  0x080855D4  4620 bytes  [done]</title></rect>
@@ -608,8 +608,8 @@
 <rect x="541.47" y="122.62" width="8.31" height="5.39" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>FindAffordableActionTierPlusOne | sub_08079FD0 | confirmed  0x08079FD0  88 bytes  [done]</title></rect>
 <rect x="549.77" y="116.25" width="7.27" height="4.48" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>DeductLocalPlayerActionEnergyCost | sub_0807A0E0 | confirmed  0x0807A0E0  64 bytes  [done]</title></rect>
 <rect x="549.77" y="120.73" width="3.82" height="5.32" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>ComputeComplementedByteSum | sub_0807A544 | confirmed  0x0807A544  40 bytes  [done]</title></rect>
-<rect x="553.60" y="120.73" width="3.44" height="5.32" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0807A040 | sub_0807A040 | unidentified  0x0807A040  36 bytes  [done]</title></rect>
-<rect x="549.77" y="126.04" width="6.23" height="1.96" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0807A028 | sub_0807A028 | unidentified  0x0807A028  24 bytes  [done]</title></rect>
+<rect x="553.60" y="120.73" width="3.44" height="5.32" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>SelectTargetNearPointWithDefaultRange | sub_0807A040 | confirmed  0x0807A040  36 bytes  [done]</title></rect>
+<rect x="549.77" y="126.04" width="6.23" height="1.96" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>SelectLocalPlayerFacingConeTargetWithDefaultRange | sub_0807A028 | confirmed  0x0807A028  24 bytes  [done]</title></rect>
 <rect x="556.00" y="126.04" width="1.04" height="1.96" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>NoOpEffectTaskFinalizer | sub_0807A120 | confirmed  0x0807A120  4 bytes  [done]</title></rect>
 <rect x="420.8" y="29.0" width="78.8" height="13" fill="#0d1117" fill-opacity="0.75"/>
 <text x="423.8" y="39.0" fill="#e6edf3" font-size="10">code_08073E2C</text>
@@ -629,11 +629,11 @@
 <rect x="647.94" y="70.74" width="23.19" height="19.90" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_080A230C | sub_080A230C | unidentified  0x080A230C  908 bytes  [done]</title></rect>
 <rect x="671.13" y="70.74" width="20.22" height="19.90" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_080A1FF4 | sub_080A1FF4 | unidentified  0x080A1FF4  792 bytes  [done]</title></rect>
 <rect x="647.94" y="90.64" width="17.63" height="13.84" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_080A1DA8 | sub_080A1DA8 | unidentified  0x080A1DA8  480 bytes  [done]</title></rect>
-<rect x="647.94" y="104.48" width="17.63" height="12.22" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_080A099C | sub_080A099C | unidentified  0x080A099C  424 bytes  [done]</title></rect>
+<rect x="647.94" y="104.48" width="17.63" height="12.22" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>TaskUpdateBg2RockingAndScenePositions | sub_080A099C | confirmed  0x080A099C  424 bytes  [done]</title></rect>
 <rect x="647.94" y="116.70" width="17.63" height="11.30" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0809EDFC | sub_0809EDFC | unidentified  0x0809EDFC  392 bytes  [done]</title></rect>
 <rect x="665.57" y="90.64" width="9.42" height="8.20" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_080A2720 | sub_080A2720 | unidentified  0x080A2720  152 bytes  [done]</title></rect>
 <rect x="674.99" y="90.64" width="9.17" height="8.20" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0809EF84 | sub_0809EF84 | unidentified  0x0809EF84  148 bytes  [done]</title></rect>
-<rect x="684.16" y="90.64" width="7.19" height="8.20" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_080A10FC | sub_080A10FC | unidentified  0x080A10FC  116 bytes  [done]</title></rect>
+<rect x="684.16" y="90.64" width="7.19" height="8.20" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>StartBg2RockingAndPositionWarpTask | sub_080A10FC | confirmed  0x080A10FC  116 bytes  [done]</title></rect>
 <rect x="665.57" y="98.84" width="6.83" height="8.04" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_080A1F88 | sub_080A1F88 | unidentified  0x080A1F88  108 bytes  [done]</title></rect>
 <rect x="672.39" y="98.84" width="6.57" height="8.04" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0809FA64 | sub_0809FA64 | unidentified  0x0809FA64  104 bytes  [done]</title></rect>
 <rect x="678.97" y="98.84" width="6.32" height="8.04" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0809F934 | sub_0809F934 | unidentified  0x0809F934  100 bytes  [done]</title></rect>
@@ -649,20 +649,20 @@
 <rect x="671.92" y="123.47" width="5.38" height="4.53" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0809F9F8 | sub_0809F9F8 | unidentified  0x0809F9F8  48 bytes  [done]</title></rect>
 <rect x="677.30" y="112.53" width="4.99" height="4.48" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0809FAEC | sub_0809FAEC | unidentified  0x0809FAEC  44 bytes  [done]</title></rect>
 <rect x="682.29" y="112.53" width="4.53" height="4.48" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_080A0FC4 | sub_080A0FC4 | unidentified  0x080A0FC4  40 bytes  [done]</title></rect>
-<rect x="686.82" y="112.53" width="4.53" height="4.48" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_080A10D4 | sub_080A10D4 | unidentified  0x080A10D4  40 bytes  [done]</title></rect>
+<rect x="686.82" y="112.53" width="4.53" height="4.48" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>StopAndFreeBg2RockingTaskControl | sub_080A10D4 | confirmed  0x080A10D4  40 bytes  [done]</title></rect>
 <rect x="677.30" y="117.01" width="4.62" height="4.40" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_080A118C | sub_080A118C | unidentified  0x080A118C  40 bytes  [done]</title></rect>
 <rect x="677.30" y="121.41" width="4.62" height="3.52" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0809FACC | sub_0809FACC | unidentified  0x0809FACC  32 bytes  [done]</title></rect>
 <rect x="677.30" y="124.92" width="4.62" height="3.08" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0809F918 | sub_0809F918 | unidentified  0x0809F918  28 bytes  [done]</title></rect>
 <rect x="681.93" y="117.01" width="3.14" height="4.53" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_080A0FA8 | sub_080A0FA8 | unidentified  0x080A0FA8  28 bytes  [done]</title></rect>
-<rect x="685.07" y="117.01" width="3.14" height="4.53" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_080A10B8 | sub_080A10B8 | unidentified  0x080A10B8  28 bytes  [done]</title></rect>
+<rect x="685.07" y="117.01" width="3.14" height="4.53" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>AllocateBg2RockingTaskControl | sub_080A10B8 | confirmed  0x080A10B8  28 bytes  [done]</title></rect>
 <rect x="688.21" y="117.01" width="3.14" height="4.53" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_080A1170 | sub_080A1170 | unidentified  0x080A1170  28 bytes  [done]</title></rect>
 <rect x="681.93" y="121.54" width="3.77" height="3.23" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_080A1058 | sub_080A1058 | unidentified  0x080A1058  24 bytes  [done]</title></rect>
 <rect x="681.93" y="124.77" width="3.77" height="3.23" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_080A1094 | sub_080A1094 | unidentified  0x080A1094  24 bytes  [done]</title></rect>
 <rect x="685.70" y="121.54" width="2.83" height="2.16" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0809F90C | sub_0809F90C | unidentified  0x0809F90C  12 bytes  [done]</title></rect>
 <rect x="688.53" y="121.54" width="2.83" height="2.16" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_080A104C | sub_080A104C | unidentified  0x080A104C  12 bytes  [done]</title></rect>
-<rect x="685.70" y="123.69" width="2.83" height="2.16" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_080A1070 | sub_080A1070 | unidentified  0x080A1070  12 bytes  [done]</title></rect>
-<rect x="685.70" y="125.85" width="2.83" height="2.16" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_080A107C | sub_080A107C | unidentified  0x080A107C  12 bytes  [done]</title></rect>
-<rect x="688.53" y="123.69" width="2.83" height="2.16" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_080A1088 | sub_080A1088 | unidentified  0x080A1088  12 bytes  [done]</title></rect>
+<rect x="685.70" y="123.69" width="2.83" height="2.16" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>SetBg2RockingPhaseStep | sub_080A1070 | confirmed  0x080A1070  12 bytes  [done]</title></rect>
+<rect x="685.70" y="125.85" width="2.83" height="2.16" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>SetBg2RockingAmplitude | sub_080A107C | confirmed  0x080A107C  12 bytes  [done]</title></rect>
+<rect x="688.53" y="123.69" width="2.83" height="2.16" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>GetBg2RockingAmplitudeBits | sub_080A1088 | confirmed  0x080A1088  12 bytes  [done]</title></rect>
 <rect x="688.53" y="125.85" width="2.83" height="2.16" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_080A10AC | sub_080A10AC | unidentified  0x080A10AC  12 bytes  [done]</title></rect>
 <rect x="559.0" y="29.0" width="78.8" height="13" fill="#0d1117" fill-opacity="0.75"/>
 <text x="562.0" y="39.0" fill="#e6edf3" font-size="10">code_0809D878</text>
@@ -707,7 +707,7 @@
 <rect x="804.79" y="110.87" width="6.10" height="4.32" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>DrawSpriteResourceDescriptor | sub_08065230 | confirmed  0x08065230  52 bytes  [done]</title></rect>
 <rect x="810.90" y="110.87" width="6.10" height="4.32" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_080656B8 | sub_080656B8 | unidentified  0x080656B8  52 bytes  [done]</title></rect>
 <rect x="804.79" y="115.20" width="4.33" height="5.16" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>AllocatePlayerNameTaskSlots | sub_080658A0 | confirmed  0x080658A0  44 bytes  [done]</title></rect>
-<rect x="809.12" y="115.20" width="3.94" height="5.16" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_080653D4 | sub_080653D4 | unidentified  0x080653D4  40 bytes  [done]</title></rect>
+<rect x="809.12" y="115.20" width="3.94" height="5.16" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>StopThreeSlotItemSelectionHud | sub_080653D4 | confirmed  0x080653D4  40 bytes  [done]</title></rect>
 <rect x="813.06" y="115.20" width="3.94" height="5.16" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_080653FC | sub_080653FC | unidentified  0x080653FC  40 bytes  [done]</title></rect>
 <rect x="804.79" y="120.35" width="4.78" height="3.83" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>AdvanceSpriteDescriptorAnimation | sub_08065370 | confirmed  0x08065370  36 bytes  [done]</title></rect>
 <rect x="804.79" y="124.18" width="4.78" height="3.83" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>ReverseSpriteDescriptorAnimation | sub_08065394 | confirmed  0x08065394  36 bytes  [done]</title></rect>
@@ -1022,8 +1022,8 @@
 <rect x="812.49" y="198.06" width="4.51" height="4.46" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>SetMosaicBlockSizeShadow | sub_08009088 | confirmed  0x08009088  40 bytes  [done]</title></rect>
 <rect x="802.12" y="202.52" width="4.18" height="4.33" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>ClearLoadedMapLayerDimensionsAndTileOrigin | sub_0800BA80 | confirmed  0x0800BA80  36 bytes  [done]</title></rect>
 <rect x="802.12" y="206.85" width="4.18" height="3.85" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>GetPrimaryMapCellPointerAtPixelPosition | sub_0800BAA4 | confirmed  0x0800BAA4  32 bytes  [done]</title></rect>
-<rect x="802.12" y="210.71" width="4.18" height="3.85" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0800BCDC | sub_0800BCDC | unidentified  0x0800BCDC  32 bytes  [done]</title></rect>
-<rect x="806.30" y="202.52" width="4.50" height="3.57" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0800BCFC | sub_0800BCFC | unidentified  0x0800BCFC  32 bytes  [done]</title></rect>
+<rect x="802.12" y="210.71" width="4.18" height="3.85" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>LoadBackgroundAssetAtRelativeScreenBlock | sub_0800BCDC | confirmed  0x0800BCDC  32 bytes  [done]</title></rect>
+<rect x="806.30" y="202.52" width="4.50" height="3.57" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>LoadBackgroundAssetWithGraphicsKeyOffsetAtRelativeScreenBlock | sub_0800BCFC | confirmed  0x0800BCFC  32 bytes  [done]</title></rect>
 <rect x="810.81" y="202.52" width="3.38" height="3.57" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>IsMapBackgroundReloadPending | sub_0800BB68 | confirmed  0x0800BB68  24 bytes  [done]</title></rect>
 <rect x="814.18" y="202.52" width="2.82" height="3.57" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>IsWorldMapReadyFlagSet | sub_0800BA6C | confirmed  0x0800BA6C  20 bytes  [done]</title></rect>
 <rect x="806.30" y="206.10" width="3.57" height="2.82" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>RequestMapUpdateTaskStop | sub_0800BB40 | confirmed  0x0800BB40  20 bytes  [done]</title></rect>
@@ -1244,12 +1244,12 @@
 <rect x="647.11" y="268.16" width="8.71" height="8.72" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_080943F8 | sub_080943F8 | unidentified  0x080943F8  152 bytes  [done]</title></rect>
 <rect x="655.82" y="268.16" width="8.71" height="8.72" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>TaskSineScrollBg0Bg1AndPulseBlend | sub_08094DEC | confirmed  0x08094DEC  152 bytes  [done]</title></rect>
 <rect x="664.53" y="268.16" width="6.88" height="8.72" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08095A60 | sub_08095A60 | unidentified  0x08095A60  120 bytes  [done]</title></rect>
-<rect x="671.41" y="268.16" width="6.65" height="8.72" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08092E40 | sub_08092E40 | unidentified  0x08092E40  116 bytes  [done]</title></rect>
+<rect x="671.41" y="268.16" width="6.65" height="8.72" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>TaskGeneratePeriodicSceneShakeOffset | sub_08092E40 | confirmed  0x08092E40  116 bytes  [done]</title></rect>
 <rect x="647.11" y="276.88" width="6.98" height="7.74" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0809342C | sub_0809342C | unidentified  0x0809342C  108 bytes  [done]</title></rect>
 <rect x="647.11" y="284.61" width="6.98" height="7.45" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>TaskScrollBg0Bg1AndPulseBlend | sub_080948E0 | confirmed  0x080948E0  104 bytes  [done]</title></rect>
 <rect x="647.11" y="292.06" width="6.98" height="7.16" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>StartBg1HBlankDmaScroll | sub_080933A0 | confirmed  0x080933A0  100 bytes  [done]</title></rect>
 <rect x="654.09" y="276.88" width="6.08" height="7.89" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>StartBgScrollRandomBlendTask | sub_08094530 | confirmed  0x08094530  96 bytes  [done]</title></rect>
-<rect x="654.09" y="284.77" width="6.08" height="7.23" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08092D60 | sub_08092D60 | unidentified  0x08092D60  88 bytes  [done]</title></rect>
+<rect x="654.09" y="284.77" width="6.08" height="7.23" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>StartPeriodicSceneShakeOffsetTask | sub_08092D60 | confirmed  0x08092D60  88 bytes  [done]</title></rect>
 <rect x="654.09" y="292.00" width="6.08" height="7.23" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>StartBgScrollBlendTask | sub_080949A8 | confirmed  0x080949A8  88 bytes  [done]</title></rect>
 <rect x="660.17" y="276.88" width="7.29" height="6.03" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>StartBgSineScrollBlendTask | sub_08094EE4 | confirmed  0x08094EE4  88 bytes  [done]</title></rect>
 <rect x="667.46" y="276.88" width="5.30" height="6.03" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>DestroyBgRandomBlendTask | sub_080944F0 | confirmed  0x080944F0  64 bytes  [done]</title></rect>
@@ -1257,17 +1257,17 @@
 <rect x="660.17" y="282.91" width="5.64" height="5.67" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>DestroyBgSineScrollBlendTask | sub_08094EA4 | confirmed  0x08094EA4  64 bytes  [done]</title></rect>
 <rect x="660.17" y="288.59" width="5.64" height="5.32" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>AdvanceBg1ScrollDmaPhase | sub_08093498 | confirmed  0x08093498  60 bytes  [done]</title></rect>
 <rect x="660.17" y="293.91" width="5.64" height="5.32" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>AllocateBgRandomBlendTaskControlBlock | sub_080944B4 | confirmed  0x080944B4  60 bytes  [done]</title></rect>
-<rect x="665.80" y="282.91" width="4.08" height="5.38" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08092DC4 | sub_08092DC4 | unidentified  0x08092DC4  44 bytes  [done]</title></rect>
-<rect x="669.89" y="282.91" width="4.08" height="5.38" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08092DF0 | sub_08092DF0 | unidentified  0x08092DF0  44 bytes  [done]</title></rect>
+<rect x="665.80" y="282.91" width="4.08" height="5.38" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>AllocatePeriodicSceneShakeControl | sub_08092DC4 | confirmed  0x08092DC4  44 bytes  [done]</title></rect>
+<rect x="669.89" y="282.91" width="4.08" height="5.38" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>StopAndFreePeriodicSceneShakeControl | sub_08092DF0 | confirmed  0x08092DF0  44 bytes  [done]</title></rect>
 <rect x="673.97" y="282.91" width="4.08" height="5.38" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08095AD8 | sub_08095AD8 | unidentified  0x08095AD8  44 bytes  [done]</title></rect>
 <rect x="665.80" y="288.30" width="4.75" height="4.20" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>StopBg1HBlankDmaScroll | sub_08093404 | confirmed  0x08093404  40 bytes  [done]</title></rect>
 <rect x="665.80" y="292.50" width="4.75" height="3.36" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>AllocateBgScrollBlendTaskControlBlock | sub_08094948 | confirmed  0x08094948  32 bytes  [done]</title></rect>
 <rect x="665.80" y="295.86" width="4.75" height="3.36" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>AllocateBgSineScrollBlendTaskControlBlock | sub_08094E84 | confirmed  0x08094E84  32 bytes  [done]</title></rect>
 <rect x="670.56" y="288.30" width="5.45" height="2.93" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>ResetBg2AffineTransform | sub_080955CC | confirmed  0x080955CC  32 bytes  [done]</title></rect>
-<rect x="676.01" y="288.30" width="2.04" height="2.93" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08092DB8 | sub_08092DB8 | unidentified  0x08092DB8  12 bytes  [done]</title></rect>
-<rect x="670.56" y="291.23" width="2.50" height="2.40" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08092E1C | sub_08092E1C | unidentified  0x08092E1C  12 bytes  [done]</title></rect>
-<rect x="673.06" y="291.23" width="2.50" height="2.40" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08092E28 | sub_08092E28 | unidentified  0x08092E28  12 bytes  [done]</title></rect>
-<rect x="675.56" y="291.23" width="2.50" height="2.40" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08092E34 | sub_08092E34 | unidentified  0x08092E34  12 bytes  [done]</title></rect>
+<rect x="676.01" y="288.30" width="2.04" height="2.93" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>RequestPeriodicSceneShakeOffsetStop | sub_08092DB8 | confirmed  0x08092DB8  12 bytes  [done]</title></rect>
+<rect x="670.56" y="291.23" width="2.50" height="2.40" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>SetPeriodicSceneShakePhaseIncrement | sub_08092E1C | confirmed  0x08092E1C  12 bytes  [done]</title></rect>
+<rect x="673.06" y="291.23" width="2.50" height="2.40" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>SetPeriodicSceneShakeScale | sub_08092E28 | confirmed  0x08092E28  12 bytes  [done]</title></rect>
+<rect x="675.56" y="291.23" width="2.50" height="2.40" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>GetPeriodicSceneShakeOffset | sub_08092E34 | confirmed  0x08092E34  12 bytes  [done]</title></rect>
 <rect x="670.56" y="293.63" width="2.14" height="2.80" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08094490 | sub_08094490 | unidentified  0x08094490  12 bytes  [done]</title></rect>
 <rect x="670.56" y="296.43" width="2.14" height="2.80" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0809449C | sub_0809449C | unidentified  0x0809449C  12 bytes  [done]</title></rect>
 <rect x="672.70" y="293.63" width="2.68" height="2.24" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_080944A8 | sub_080944A8 | unidentified  0x080944A8  12 bytes  [done]</title></rect>
@@ -1312,7 +1312,7 @@
 <rect x="725.69" y="286.47" width="5.94" height="6.72" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>FindHighestAffordablePlayerEnergyTier | sub_08015E84 | confirmed  0x08015E84  80 bytes  [done]</title></rect>
 <rect x="725.69" y="293.18" width="5.94" height="6.04" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>DeductPlayerEnergyTierCost | sub_08015E3C | confirmed  0x08015E3C  72 bytes  [done]</title></rect>
 <rect x="731.64" y="278.74" width="6.39" height="4.69" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08015E00 | sub_08015E00 | unidentified  0x08015E00  60 bytes  [done]</title></rect>
-<rect x="738.02" y="278.74" width="5.11" height="4.69" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08015C5C | sub_08015C5C | unidentified  0x08015C5C  48 bytes  [done]</title></rect>
+<rect x="738.02" y="278.74" width="5.11" height="4.69" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>RequestLocalPlayerMovementToPoint | sub_08015C5C | confirmed  0x08015C5C  48 bytes  [done]</title></rect>
 <rect x="743.13" y="278.74" width="4.68" height="4.69" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>ClearLocalPlayerSpriteHideFlag | sub_08015CB4 | confirmed  0x08015CB4  44 bytes  [done]</title></rect>
 <rect x="731.64" y="283.43" width="5.06" height="3.95" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>SetLocalPlayerSpriteHideFlag | sub_08015C8C | confirmed  0x08015C8C  40 bytes  [done]</title></rect>
 <rect x="731.64" y="287.38" width="5.06" height="3.95" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>DisableLocalPlayerDefeatProtection | sub_08015D04 | confirmed  0x08015D04  40 bytes  [done]</title></rect>
