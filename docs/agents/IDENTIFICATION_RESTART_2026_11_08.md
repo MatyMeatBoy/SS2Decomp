@@ -95,3 +95,34 @@ replay. A cartridge code is not a complete region/revision compatibility proof.
 Reuse these findings before repeating movie searches or transferring regional
 identifications. See [the methodology](IDENTIFICATION_METHOD.md) for the evidence
 and consumption rules.
+
+## PR #684: scene helpers and two unconfirmed bit operations
+
+Reviewed original head `966cd46d717c74a05340571ce69f9bc3538cc277` against its
+source revision `8d4618912c1c6cadb3f315aad7386e582d3de83c`. The corrected cohort
+retains 21 confirmed roles and two proposals, with independent review of the
+four corrected rows. The original contribution remains in the commit ancestry.
+
+`0805790C/08057934` change local-player flag bit 1 and call `08067D74` once,
+ignoring its result. That enqueue helper returns zero when the queue already
+contains 50 entries. Their display names therefore say `AndTryEnqueueFlags`,
+their status is `proposed`, and they add no identified-function credit. The
+gameplay meaning of bit 1 remains open; neither delivery nor synchronization is
+established by those wrappers.
+
+Interpolation helpers `080576EC/08057780` have descriptive observed roles but
+no general completion contract. Integer division gives duration 3 weights
+0/341/682/1023, followed by exit; the target weight need not be reached.
+Durations greater than 1024 give zero step, and duration zero skips the step
+assignment. `08057780` additionally narrows step and loop weight to signed16.
+The evidence preserves these facts rather than promising a duration in frames.
+
+The remaining roles follow scheduler membership/cancellation, dialogue startup
+and completion, brightness requests, local event-lock calls, scene condition
+banks and level-encounter masks. Primary bodies are in `code_080571A4.c:155--540`.
+Consumers checked include `code_08058790.c:340--366`, save/quit confirmation in
+`code_0805FB7C.c:1425--1430`, object-loop termination in
+`code_08021DC4.c:5160,5200`, and encounter completion in
+`code_0808D4A8.c:94--129,1521--1559`. A masked level query is nonzero/zero,
+not a normalized boolean. Scene condition helpers do not establish individual
+flag meanings or the gameplay meaning of the bank selector.
