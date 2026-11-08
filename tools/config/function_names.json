@@ -21016,6 +21016,33 @@
           "detail": "Original complete range 08002AA0..08002B70 inspected: reachable Thumb body ends at2B5A, literals2B5C..2B70 supply masks and four background controls. All 12 BL calls correspond to the matched setup sequence. The transient upper halfword retained at stack+8 is not given a semantic value: background-control helper00AA8 consumes only the halfword. Full-range ROM/ELF equality checked independently. Static evidence only, no runtime or exact frame claim."
         }
       ]
+    },
+    {
+      "address": "0x08008C10",
+      "canonical_symbol": "sub_08008C10",
+      "display_name": "ResetSpriteFrameAllocationStateWrapper",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08006D24.c",
+          "line": 1447,
+          "revision": "13bfd19e2f8cf89028168b9d666d60036cbdc0c5",
+          "detail": "No-argument wrapper whose complete body calls 08C1C and returns. It adds no initialization, memory clearing or scheduling of its own. The callee resets six sprite frame allocation/draw accounting words and chooses the OBJ graphics base according to display mode; it does not clear OAM or graphics memory. No direct caller or runtime reachability of this wrapper is asserted."
+        },
+        {
+          "source": "src/code_08006D24.c",
+          "line": 1460,
+          "revision": "13bfd19e2f8cf89028168b9d666d60036cbdc0c5",
+          "detail": "Matched target 08C1C clears words030028B4/28B8/28C8/28B0/28C0/28C4 and selects030028BC as06010000 for display modes0..2 or06014000 for modes3..5; other modes leave the old base. The confirmed target identity is independently corroborated by its root-task caller and graphics consumers. This wrapper transfers that narrow contract only, without inferring an extra phase or a guaranteed per-frame invocation."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 177,
+          "revision": "13bfd19e2f8cf89028168b9d666d60036cbdc0c5",
+          "detail": "Complete configured range08008C10..08008C1C has reachable pushLR, BL08008C1C, popR0 and BXR0 at08008C10..08008C1A, followed by a two-byte alignment halfword. The halfword after the return is not treated as an executed operation. Full-range bytes checked against original EUR ROM and local linked ELF. Static machine-code/callee evidence only; no runtime or new matching credit."
+        }
+      ]
     }
   ]
 }

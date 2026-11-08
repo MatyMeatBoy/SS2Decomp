@@ -473,3 +473,8 @@ The first additional identity outside the frozen queue is `08002AA0`, `Initializ
 The helper configures display/background controls, loads three assets into relative screen blocks 3/2/1 (absolute 31/30/29) and sets blend shadow. Independent review corrected the initial draft interpretation of the loader arguments: palette group starts at 0 with count 15; these are not a zero relative block and palette selector. The background loader can yield internally, so absence of a direct wait in this body does not imply nonblocking execution or completed presentation. The original draft, corrected row and exact overlay are preserved privately.
 
 Full configured-range bytes match the verified EUR ROM and local ELF. The catalog name describes the witnessed screen role, without changing canonical symbols, source code or boundaries and without claiming runtime coverage.
+
+
+## New research: sprite frame-allocation reset wrapper
+
+`08008C10` is independently confirmed as `ResetSpriteFrameAllocationStateWrapper` at source revision `13bfd19e2f8cf89028168b9d666d60036cbdc0c5`. Its entire reachable body calls the already verified `08008C1C` and returns; the trailing alignment halfword is not an executed operation. The callee clears the six sprite accounting words and selects the display-mode-specific OBJ graphics base, preserving the previous base for modes above 5. This does not clear OAM or graphics memory. No direct caller, runtime reachability or guaranteed per-frame invocation is inferred for the wrapper. Complete configured-range bytes equal the verified EUR ROM and local ELF; canonical symbols and source code remain unchanged.
