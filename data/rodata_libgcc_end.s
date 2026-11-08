@@ -991,7 +991,26 @@ gUnk_084EDCA8:
 	.incbin "baserom.gba", 0x4EDCA8, 0x2E18
 	.global gUnk_084F0AC0
 gUnk_084F0AC0:
-	.incbin "baserom.gba", 0x4F0AC0, 0x50
+	.4byte gUnk_084EDCA8 + 0x78
+	.4byte gUnk_084EDCA8 + 0x2C0
+	.4byte gUnk_084EDCA8 + 0x508
+	.4byte gUnk_084EDCA8 + 0x750
+	.4byte gUnk_084EDCA8 + 0x998
+	.4byte gUnk_084EDCA8 + 0xBE0
+	.4byte gUnk_084EDCA8 + 0xE28
+	.4byte gUnk_084EDCA8 + 0x1070
+	.4byte gUnk_084EDCA8 + 0x12B8
+	.4byte gUnk_084EDCA8 + 0x1500
+	.4byte gUnk_084EDCA8 + 0x1748
+	.4byte gUnk_084EDCA8 + 0x1990
+	.4byte gUnk_084EDCA8 + 0x1BD8
+	.4byte gUnk_084EDCA8 + 0x1E20
+	.4byte gUnk_084EDCA8 + 0x2068
+	.4byte gUnk_084EDCA8 + 0x22B0
+	.4byte gUnk_084EDCA8 + 0x24F8
+	.4byte gUnk_084EDCA8 + 0x2740
+	.4byte gUnk_084EDCA8 + 0x2988
+	.4byte gUnk_084EDCA8 + 0x2BD0
 	.global gUnk_084F0B10
 gUnk_084F0B10:
 	.incbin "baserom.gba", 0x4F0B10, 0x2

@@ -20,10 +20,21 @@ These use `.2byte`/`.4byte` literal directives in their existing assembly files.
 
 ## Observed but still opaque
 
-`0838AFF0` is used as a language-specific resource pointer table, but its 154,460-byte declared storage block is not assumed to be a uniform pointer array. `084F0AC0` is used by map-set-0 destination selection; its pointer/record graph remains pending. `08518938` is a resource-table base whose 9,597,468-byte declared block remains opaque. These roles guide subsequent investigation and contribute **zero converted bytes** in this checkpoint.
+`0838AFF0` is used as a language-specific resource pointer table, but its 154,460-byte declared storage block is not assumed to be a uniform pointer array. `084F0AC0` was initially opaque; the pointer table is reconstructed in the second checkpoint below, while its target records remain opaque. `08518938` is a resource-table base whose 9,597,468-byte declared block remains opaque. These roles guide subsequent investigation and contribute **zero converted bytes** in this checkpoint.
 
 ## Verification and regional limits
 
 The actual emitted source was parsed and repacked little-endian, then compared against all three original EUR ranges and the newly assembled ELF. The **2,866 defined global symbol values, sizes and types remain unchanged**. Normal `make compare` reports `shiningsoul2_eu.gba: OK`; `make nonmatching` and the tree check pass. Range SHA256 values and pinned primary consumers are recorded in the checkpoint JSON. Generated `docs/progress/*` files are excluded.
 
 EUR ROM SHA1: `aa1288be9257337abdfe3034898cf6c7aa778fbc`. This checkpoint reports no USA/Japan data conversion, cross-region address delta or global decoding percentage. Existing regional link research remains a separate static correspondence result.
+
+
+## Second checkpoint: map-set-zero destination pointers
+
+At base `fce395533dd0e8789e3e38d358091441942fc573`, the complete existing range `084F0AC0..084F0B10` is a table of twenty 32-bit data pointers. Matched `sub_08023274` case zero loads `gUnk_084F0AC0[index]` and installs the result at scene `+0x71C`; original `0802332C..08023334` independently confirms the word stride, pointer load and store.
+
+The eighty bytes now use `.4byte gUnk_084EDCA8 + offset`. Every target stays inside that existing canonical container, at offsets `0x78 + index * 0x248`. No new record label, alignment or target-container type is introduced. The records and their contents remain `incbin`, and this checkpoint does not claim their complete graph is understood. Details and exact target values are in [mapset0_pointer_table_eu.json](data_work/mapset0_pointer_table_eu.json).
+
+This removes one additional eighty-byte incbin range: **409 ranges and 16,016,644 incbin bytes remain**, with **760 bytes across four explicit source tables** cumulatively. These are source-storage counts, separate from code matching and from decoded assets. No global data-decoding percentage is inferred.
+
+The emitted expressions were resolved using the preserved canonical symbol, repacked little-endian and compared with the original EUR ROM and newly assembled ELF. All **2,866 defined global symbol values, sizes and types remain unchanged**. `make compare` reports `shiningsoul2_eu.gba: OK`; full `make nonmatching` and the zero-error tree check pass. Changes are limited to this existing data range and its English documentation/manifest; generated progress, code, claims and opaque assets remain unchanged.
