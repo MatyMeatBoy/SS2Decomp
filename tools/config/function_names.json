@@ -21619,6 +21619,207 @@
           "detail": "Task receives full-word x/y in r0/r1, gets shared sprite context, starts song 0x25, then performs exactly 30 iterations. Each clears halfword global 0x03001308 bits 0x30, decrements y when global tick word &3 is zero, advances descriptor 14 with two u16 local animation counters, draws descriptor 14 at x/y using first counter, and yields. Finally clears current task control word+8. Coordinates and input-mask side effects are explicit; no claim of resource freeing or runtime visual confirmation. Complete original configured body and literal use audited against EU ROM; copied verified-main ELF equality is static corroboration, not a new build or runtime test."
         }
       ]
+    },
+    {
+      "address": "0x08067B50",
+      "canonical_symbol": "sub_08067B50",
+      "display_name": "QueueLinkPlayerClassAndPalette",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08067B4C.c",
+          "line": 13,
+          "revision": "8bbfb589bf6ab55018ae7e465fc0e674879c81fa",
+          "detail": "Queues message 0x82 containing the halfwords from profile gUnk_030034E0+0xA and +0xC packed into one word; receiver writes player +0xC/+0xE and, for remote senders, +0x64 (halfword) and +0x66 (byte). The pair is the profile class halfword and palette-selector halfword: receiver class writes remain halfwords, while the remote rendering palette mirror consumes only the low byte of the second halfword. Valid ranges and meanings of unused high palette bits are not established. Complete producer body: unsigned queue count >49 returns 0 without modifying the queue; accepted path uses 0x88-byte entry, stores word 1 at +4, message byte at +0, payload at +8, chunk-count byte at +1, increments count, returns 1. Profile pair and entity IDs use one 8-byte chunk; state block uses three. No producer proves transport delivery, acknowledgement, receiver execution, or runtime validity of caller/global pointers."
+        },
+        {
+          "source": "src/code_080659B0.c",
+          "line": 1036,
+          "revision": "8bbfb589bf6ab55018ae7e465fc0e674879c81fa",
+          "detail": "Receiver case corroborates the payload consumer; inspect full original sub_0806690C body in the preserved proof. Static ROM/ELF comparison only; no worker build or runtime test."
+        },
+        {
+          "source": "src/code_0800CF58.c",
+          "line": 4948,
+          "revision": "8bbfb589bf6ab55018ae7e465fc0e674879c81fa",
+          "detail": "The receiver mirrors profile+0xA into player class halfwords+C/+64 and profile+0xC into player+E and palette byte+66. Active player rendering selects animation resource tables by player+64 (e.g.4217) and palette resource offset player+66<<5 at4948/4967/5185. Profile+0xA is also read by sub_0801DE60 at src/code_0801AAF8.c2077 (class8 remaps6); profile+C accessor is sub_0801E0A0 at2189. This supports transmitted class plus palette selector, without claiming complete valid ranges or that all high bits of the second halfword are consumed."
+        },
+        {
+          "source": "src/code_08067B4C.c",
+          "line": 13,
+          "revision": "8bbfb589bf6ab55018ae7e465fc0e674879c81fa",
+          "detail": "Independent worker-B ROM/ELF audit: producer initializes four payload bytes but declares one eight-byte transport chunk, leaving payload bytes4..7 from prior queue contents. Queue header bytes2..3 are separate and also not written by this body. Neither initialization count nor chunk count establishes transport delivery."
+        },
+        {
+          "source": "src/code_0800CF58.c",
+          "line": 4217,
+          "revision": "8bbfb589bf6ab55018ae7e465fc0e674879c81fa",
+          "detail": "Renderer sub_0800D368 is NONMATCHING/draft at this pin, so its C is not equivalence evidence. Independent original-ROM instructions establish r7=entry r0 at0800D374; halfword player+64 at080117AC participates in stride0x58 resource-table selection before sprite-resource initialization080117C4. Palette byte+66 loads at080128D4/0801294E/08012E7E are shifted5 and added to palette resource before08000AF0; class9 bypasses normal palette selection. These exact original instruction intervals, full configured range and ROM/ELF equality are preserved in peer-review-independent-original-proof-b.txt."
+        }
+      ]
+    },
+    {
+      "address": "0x08065FE8",
+      "canonical_symbol": "sub_08065FE8",
+      "display_name": "QueueLinkSceneLayoutSelections",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_080659B0.c",
+          "line": 302,
+          "revision": "8bbfb589bf6ab55018ae7e465fc0e674879c81fa",
+          "detail": "Queues message 0x85 by CpuSet of ten halfwords (20 bytes) from game-state pointer +0x22; receiver copies the same 20-byte block to its game-state +0x22. The block is the scene layout-selection array: element zero is initialized to 1 and scene-record ids index one-based row selections. The producer does not validate record ids, row counts or selection values. Complete producer body: unsigned queue count >49 returns 0 without modifying the queue; accepted path uses 0x88-byte entry, stores word 1 at +4, message byte at +0, payload at +8, chunk-count byte at +1, increments count, returns 1. Profile pair and entity IDs use one 8-byte chunk; state block uses three. No producer proves transport delivery, acknowledgement, receiver execution, or runtime validity of caller/global pointers."
+        },
+        {
+          "source": "src/code_080659B0.c",
+          "line": 1053,
+          "revision": "8bbfb589bf6ab55018ae7e465fc0e674879c81fa",
+          "detail": "Receiver case corroborates the payload consumer; inspect full original sub_0806690C body in the preserved proof. Static ROM/ELF comparison only; no worker build or runtime test."
+        },
+        {
+          "source": "src/code_08021DC4.c",
+          "line": 951,
+          "revision": "8bbfb589bf6ab55018ae7e465fc0e674879c81fa",
+          "detail": "sub_08022E60 host path sets state halfword+0x22=1 then reads current scene record table pointer+0x71C; up to10 entries with nonzero halfword id generate one-based unsigned-low16 RNG % record-count +1 at state+0x22+2*id. It enqueues this ten-halfword selection array before participant synchronization. At4198..4201 sub_0802704C uses state+0x22[recordId]-1 to select a0x24-byte layout row at record+4; at4305..4313 rows feed sub_080257D4 spawn records. Thus this is a scene layout-selection synchronization request, not an arbitrary20-byte blob. Record IDs/count domains and invalid zero selections are unchecked by this producer."
+        },
+        {
+          "source": "src/code_080659B0.c",
+          "line": 302,
+          "revision": "8bbfb589bf6ab55018ae7e465fc0e674879c81fa",
+          "detail": "Independent worker-B ROM/ELF audit: CpuSet control10 means ten halfwords,20 payload bytes; chunk count3 declares24 bytes, so trailing payload bytes20..23 retain prior contents. Receiver tag0x85 copies only20 bytes. The downstream row selector/spawn consumer is sub_0802704C (definition line4100), not sub_08025270."
+        }
+      ]
+    },
+    {
+      "address": "0x08067CA8",
+      "canonical_symbol": "sub_08067CA8",
+      "display_name": "QueueRemoteEntityFullHpDamage",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08067B4C.c",
+          "line": 78,
+          "revision": "8bbfb589bf6ab55018ae7e465fc0e674879c81fa",
+          "detail": "Queues message 0x89 with the full incoming r0 word as entity ID. Receiver only for a remote sender scans five active entity slots, compares the payload word against entity ID halfword +2, sets state halfword +0xC to 10, ORs flag halfword +0x7A with 0x80, and copies HP halfword +0x5C into damage halfword +0x4A and zero-extended word +0x4C. This is a request; the producer does not apply damage or prove death. Complete producer body: unsigned queue count >49 returns 0 without modifying the queue; accepted path uses 0x88-byte entry, stores word 1 at +4, message byte at +0, payload at +8, chunk-count byte at +1, increments count, returns 1. Profile pair and entity IDs use one 8-byte chunk; state block uses three. No producer proves transport delivery, acknowledgement, receiver execution, or runtime validity of caller/global pointers."
+        },
+        {
+          "source": "src/code_080659B0.c",
+          "line": 1072,
+          "revision": "8bbfb589bf6ab55018ae7e465fc0e674879c81fa",
+          "detail": "Receiver case corroborates the payload consumer; inspect full original sub_0806690C body in the preserved proof. Static ROM/ELF comparison only; no worker build or runtime test."
+        },
+        {
+          "source": "src/code_08067B4C.c",
+          "line": 78,
+          "revision": "8bbfb589bf6ab55018ae7e465fc0e674879c81fa",
+          "detail": "Producer initializes only one4-byte payload word while declaring one8-byte transport chunk; trailing payload4bytes retain prior entry contents. Receiver compares only that first full word. MessageB0 lacks sender exclusion, which does not independently establish sender loopback transport delivery."
+        }
+      ]
+    },
+    {
+      "address": "0x08067CE8",
+      "canonical_symbol": "sub_08067CE8",
+      "display_name": "QueueEntityFullHpDamageRequest",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08067B4C.c",
+          "line": 86,
+          "revision": "8bbfb589bf6ab55018ae7e465fc0e674879c81fa",
+          "detail": "Queues message 0xB0 with the full incoming r0 word, despite the matched source void-pointer parameter. Receiver scans five active entity slots, compares that word to entity ID halfword +2, ORs flag halfword +0x7A with 0x80, sets state halfword +0xC to 10, and copies HP halfword +0x5C into damage halfword +0x4A and zero-extended word +0x4C. Unlike message 0x89 there is no own-sender exclusion. This is a request, not proven death completion. Complete producer body: unsigned queue count >49 returns 0 without modifying the queue; accepted path uses 0x88-byte entry, stores word 1 at +4, message byte at +0, payload at +8, chunk-count byte at +1, increments count, returns 1. Profile pair and entity IDs use one 8-byte chunk; state block uses three. No producer proves transport delivery, acknowledgement, receiver execution, or runtime validity of caller/global pointers."
+        },
+        {
+          "source": "src/code_080659B0.c",
+          "line": 1085,
+          "revision": "8bbfb589bf6ab55018ae7e465fc0e674879c81fa",
+          "detail": "Receiver case corroborates the payload consumer; inspect full original sub_0806690C body in the preserved proof. Static ROM/ELF comparison only; no worker build or runtime test."
+        },
+        {
+          "source": "src/code_08067B4C.c",
+          "line": 86,
+          "revision": "8bbfb589bf6ab55018ae7e465fc0e674879c81fa",
+          "detail": "Producer initializes only one4-byte payload word while declaring one8-byte transport chunk; trailing payload4bytes retain prior entry contents. Receiver compares only that first full word. MessageB0 lacks sender exclusion, which does not independently establish sender loopback transport delivery."
+        },
+        {
+          "source": "src/code_080659B0.c",
+          "line": 1085,
+          "revision": "8bbfb589bf6ab55018ae7e465fc0e674879c81fa",
+          "detail": "Name narrowed after independent review: absence of own-sender exclusion in receiver case0x2F establishes receiver policy only. It does not establish that transport delivers a sender-loopback packet or that every receiver processes it. Existing entity-id and active-slot filters still apply."
+        }
+      ]
+    },
+    {
+      "address": "0x080681F4",
+      "canonical_symbol": "sub_080681F4",
+      "display_name": "QueueLinkSaveAndConditionalResetRequest",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08067B4C.c",
+          "line": 304,
+          "revision": "8bbfb589bf6ab55018ae7e465fc0e674879c81fa",
+          "detail": "Complete original producer preserves full incoming r0 word, rejects unsigned queue count>49 or global03003478 bit18 set (sub_0800CFF0), otherwise constructs0x88-byte queue record: word+4=1, byte+0=0xA9, word+8=r0, byte+1=1 and count++. Returns1 only for enqueue,0 for rejection. Declares8-byte payload chunk while initializing only first4payload bytes; trailing bytes retain prior contents. Receiver passes first word to sub_08065C50, which starts save/conditional-reset entry sub_08064E14 only when its task control is idle. No evidence payload is a callback. No guarantee of transport delivery, task startup, save success or reset completion. Static original bytes match supplied verified-main ELF; no worker build/runtime test."
+        },
+        {
+          "source": "src/code_080659B0.c",
+          "line": 1508,
+          "revision": "8bbfb589bf6ab55018ae7e465fc0e674879c81fa",
+          "detail": "Receiver case corroborates the payload consumer; inspect full original sub_0806690C body in the preserved proof. Static ROM/ELF comparison only; no worker build or runtime test."
+        },
+        {
+          "source": "src/code_0805FB7C.c",
+          "line": 3071,
+          "revision": "8bbfb589bf6ab55018ae7e465fc0e674879c81fa",
+          "detail": "Full sub_08064E14 body snapshots/reconciles save state, clears16 save item fields, sets save mode2, calls sub_0807A124 (profile and secondary save writer), shows dialog1403D9 on zero result then SoftReset, or1403DA otherwise; after the latter path arg0==0 also SoftResets and nonzero may return. Direct callers sub_08061E44 at1434 and1514 enqueue argument0/1 following save prompts/mode handling. Therefore the payload requests a save workflow with conditional reset, not result display or a callback. Enqueue success does not prove task starts, save succeeds or reset occurs."
+        }
+      ]
+    },
+    {
+      "address": "0x0807A064",
+      "canonical_symbol": "sub_0807A064",
+      "display_name": "AllocatePlayerEffectTaskPools",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08073E2C.c",
+          "line": 3725,
+          "revision": "8bbfb589bf6ab55018ae7e465fc0e674879c81fa",
+          "detail": "For full incoming r0 index k, clears byte arrays 03006410[k] and 03006430[k], word mask 030063E0[k], and shared word 0300641C. Allocates 0x280 bytes into word pointer array 030063B0[k] (sixteen 0x28-byte task controls) and 0x180 into 03006380[k] (sixteen 0x18-byte records). Only k==0 additionally allocates shared 0x500-byte task pool 03006370 and 0x180-byte record pool 03006420. No bounds check, retry, allocation-failure cleanup, or returned status is established; earlier buffers are not freed."
+        },
+        {
+          "source": "src/code_08073E2C.c",
+          "line": 13,
+          "revision": "8bbfb589bf6ab55018ae7e465fc0e674879c81fa",
+          "detail": "Effect starters use 0x18-byte records, 0x28-byte task slots and mask 030063E0; sub_08074DE8 indexes the per-player task pool. Source and full original ROM ranges are pinned static inputs; no worker build or runtime testing."
+        }
+      ]
+    },
+    {
+      "address": "0x080688F8",
+      "canonical_symbol": "sub_080688F8",
+      "display_name": "WaitAndFreePlayerEffectTaskPools",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08068670.c",
+          "line": 143,
+          "revision": "8bbfb589bf6ab55018ae7e465fc0e674879c81fa",
+          "detail": "For full incoming r0 index, checks pointer array030063B0[index] for nonzero and, if nonzero, repeatedly queries only that current base task control, yielding while active. The pointer is reloaded after each yield. It then unconditionally frees the current030063B0[index] pointer and zeros its array slot. Similarly checks shared03006370 for nonzero and waits only its reloaded base task control. It next unconditionally frees03006380[index], zeros that array slot, unconditionally frees shared03006370 and03006420, and zeros both shared pointers. It does not iterate all16 or32 controls, clear the per-player active mask, or establish whole-pool quiescence. No index bounds, NULL-free contract, ownership stability across yields or bounded wait is established. The pointer queried before a yield need not be the pointer eventually freed."
+        },
+        {
+          "source": "src/code_08073E2C.c",
+          "line": 13,
+          "revision": "8bbfb589bf6ab55018ae7e465fc0e674879c81fa",
+          "detail": "Effect starters use 0x18-byte records, 0x28-byte task slots and mask 030063E0; sub_08074DE8 indexes the per-player task pool. Source and full original ROM ranges are pinned static inputs; no worker build or runtime testing."
+        }
+      ]
     }
   ]
 }
