@@ -9906,6 +9906,33 @@
       ]
     },
     {
+      "address": "0x0801674C",
+      "canonical_symbol": "sub_0801674C",
+      "display_name": "StartEnemyPoolActorTask",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_080153A4.c",
+          "line": 946,
+          "revision": "8d4618912c1c6cadb3f315aad7386e582d3de83c",
+          "detail": "Finds the first clear bit of the five-slot enemy-actor mask 0x030056FC and returns 0 if all five are in use. Otherwise it marks the slot, takes the slot's 0x2E0-byte actor record from the pool 0x030056F4, stores the slot index at +0 and (slot+4)<<24 at +0x50, and fills task control 0x03004220[slot]: callback arg0, a 0x800-byte stack from HeapAllocate (not checked for failure), order key 0x3C and destructor arg1. It then calls StartTask with the actor record as argument and returns 1."
+        },
+        {
+          "source": "src/code_0808D4A8.c",
+          "line": 119,
+          "revision": "8d4618912c1c6cadb3f315aad7386e582d3de83c",
+          "detail": "Used by the scene-encounter routines to start their special actor callbacks (19 call sites in code_0808D4A8, 2 in code_08087CC0). The pool and mask are the ones AllocateAndInitializeEnemyPools sets up."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 366,
+          "revision": "8d4618912c1c6cadb3f315aad7386e582d3de83c",
+          "detail": "Original EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc; static instruction/caller evidence only."
+        }
+      ]
+    },
+    {
       "address": "0x08019BF8",
       "canonical_symbol": "sub_08019BF8",
       "display_name": "FindActiveEnemyBySpawnId",
@@ -11327,6 +11354,75 @@
           "line": 247,
           "revision": "90a9312e8d9f9cc7e03d6090953fcc2fd311960c",
           "detail": "Original 0CCB8..0CCC4 reads the word at 03003478, ANDs with -5 and stores it back. Complete original bytes checked against EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc and linked original ELF. Static instruction evidence only."
+        }
+      ]
+    },
+    {
+      "address": "0x0800CD9C",
+      "canonical_symbol": "sub_0800CD9C",
+      "display_name": "MarkSceneEncounterActive",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_0800CBBC.c",
+          "line": 90,
+          "revision": "8d4618912c1c6cadb3f315aad7386e582d3de83c",
+          "detail": "Sets bit 7 (0x80) of scene-flags word 0x03003478, preserving all other bits. Paired clear sub_0800CDAC and query sub_0800CDC0."
+        },
+        {
+          "source": "src/code_0808D4A8.c",
+          "line": 94,
+          "revision": "8d4618912c1c6cadb3f315aad7386e582d3de83c",
+          "detail": "Area encounter routines (sub_0808D594 here, about 15 siblings in code_0808D4A8, and others in code_08087CC0 and code_0808FB5C) share one shape. When scene-state halfword +0x10 is 0 they set bit 7, run sub_0802704C(arg), start special actor tasks through StartEnemyPoolActorTask, and set bit 7 again. When +0x10 is nonzero they wait for scene-state flags bit 4 (sub_08056E90), then clear bit 7 and restore the area (deactivate field items, reset the local player state)."
+        },
+        {
+          "source": "src/code_0808D4A8.c",
+          "line": 1521,
+          "revision": "8d4618912c1c6cadb3f315aad7386e582d3de83c",
+          "detail": "sub_0808F088 follows the same shape. If bit 0x1B of the scene-state bit array tested by sub_08057AE8 (+0x1B7, or +0x1C3 when scene flag bit 9 is set) is already set it does not spawn the actors and instead calls sub_08056E24, the scene marker that TryEnqueueSingleChunkSceneEncounterFinishedNotification documents as encounter-finished. This ties the bit to the encounter, not to a particular area or enemy type. No boss or victory meaning is claimed."
+        }
+      ]
+    },
+    {
+      "address": "0x0800CDAC",
+      "canonical_symbol": "sub_0800CDAC",
+      "display_name": "ClearSceneEncounterActive",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_0800CBBC.c",
+          "line": 93,
+          "revision": "8d4618912c1c6cadb3f315aad7386e582d3de83c",
+          "detail": "Clears bit 7 (0x80) of scene-flags word 0x03003478 with mask 0xFFFFFF7F, preserving other bits. Inverse of MarkSceneEncounterActive."
+        },
+        {
+          "source": "src/code_0808D4A8.c",
+          "line": 102,
+          "revision": "8d4618912c1c6cadb3f315aad7386e582d3de83c",
+          "detail": "Called on the completion path of the area encounter routines, after scene-state flags bit 4 is observed. In src/code_08021DC4.c:2257 the bit is cleared only around a sub_0800A34C(curLevel, 0, 1) area reload and set again afterwards, because the map loaders read it (see IsSceneEncounterActive)."
+        }
+      ]
+    },
+    {
+      "address": "0x0800CDC0",
+      "canonical_symbol": "sub_0800CDC0",
+      "display_name": "IsSceneEncounterActive",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_0800CBBC.c",
+          "line": 96,
+          "revision": "8d4618912c1c6cadb3f315aad7386e582d3de83c",
+          "detail": "Returns bit 7 of scene-flags word 0x03003478 as 0 or 1."
+        },
+        {
+          "source": "src/code_08009088.c",
+          "line": 342,
+          "revision": "8d4618912c1c6cadb3f315aad7386e582d3de83c",
+          "detail": "The world-map loaders read it. LoadWorldMapArea builds its special 30x32 cell plane only for map set 5, area 13 while the bit is set. Background graphics loading uses a different blend setting for level 4 when it is set (line 77). The tile-animation update skips several per-area animation steps while it is set (lines 414-458)."
         }
       ]
     },
