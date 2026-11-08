@@ -126,3 +126,41 @@ Consumers checked include `code_08058790.c:340--366`, save/quit confirmation in
 `code_0808D4A8.c:94--129,1521--1559`. A masked level query is nonzero/zero,
 not a normalized boolean. Scene condition helpers do not establish individual
 flag meanings or the gameplay meaning of the bank selector.
+
+## PR #685: player controls, scene helpers and item delivery
+
+Reviewed original head `273531bbe1f09e15f87709d2ec257c51989c3f43`. Its corrected
+cohort has 25 confirmed roles and six proposals. Seven originally mechanical
+labels use independently reviewed roles from preserved cohorts instead:
+
+| Addresses | Role | Primary consumer evidence |
+| --- | --- | --- |
+| `08015C14/08015C38` | Suppress/release local input | Original `D6EA..D728` zeroes input fields and bypasses requested movement |
+| `08015F20` | Query pending movement to a point | Setter `15C5C`, original `D730..D77E`, waiting caller `2413C` |
+| `08015CE0/08015D04` | Enable/disable defeat protection | Original `13BF2..13C1C` selects HP 1 versus defeat; predicate `1DF8C` |
+| `08015C8C/08015CB4` | Set/clear sprite-hide flag | Original draw paths `12708..1279A` and `12DBC`; bit 18 can take precedence |
+
+These roles do not imply guaranteed movement arrival, damage immunity, hiding
+every presentation or successful flag propagation. The sprite helpers ignore a
+best-effort enqueue result. Bit 1, bit 12 and bit 22 accessors remain proposals:
+`15D2C/15D50`, `15D74/15D98`, `15ED4/15EF8`. They add no semantic-name credit.
+
+Item-delivery producer `08067F4C` packs `(itemId << 16) | recipient`, not the
+reverse. Callers in `code_0805A630.c:1091,1104` establish the argument roles.
+The receiver's raw case `0x1C` for tag `0x9D` compares the low halfword with the
+local player ID and uses the high halfword as item ID. Its application failure
+path attempts bag insertion and then re-drops the item if insertion fails.
+The third argument's interpretation is limited to its actual consumer.
+
+`08058048` is named `RequestLinkedFieldItemSpawnAtPosition`: it retries enqueue
+until accepted, without waiting for creation. It shifts coordinates by eight;
+that alone does not establish tile units. Kind 10 stores amount at record `+4`
+and leaves other fields uninitialized; other kinds store value at `+2` and zero
+the twelve tail bytes. Producer `08067B9C` writes tag `0x97`; it does not itself
+test duplicates. Neither the old `AtTile` wording nor a stronger guarantee from
+the callee's existing display name is retained as evidence.
+
+Object finalizer `0805A780` compares an embedded task-control address
+`record + 0x48` with its argument, not a pointer loaded from that field. Its
+palette handle at `+0x40` is a halfword. Movement rollback in matched `08013CEC`
+corroborates the collidable-object role of query `08057068`.
