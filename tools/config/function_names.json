@@ -18031,6 +18031,423 @@
           "detail": "576E2 invokes 020F4 and 576E6..E8 returns its unchanged R0. Context original 020FA..2102 implement the software-mode gate;02108..10E read/extract the two-bit hardware field. No direct source caller for 576E0 was found in the pinned src tree; the complete direct forwarding and independently established ID accessor supply the role. Original EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc. Complete selected function range equals the existing linked ELF. Mapping labels were checked against source and control flow; data markers alone are not treated as literal-pool proof. Static evidence only."
         }
       ]
+    },
+    {
+      "address": "0x08092D60",
+      "canonical_symbol": "sub_08092D60",
+      "display_name": "StartPeriodicSceneShakeOffsetTask",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08092D60.c",
+          "line": 16,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Uses the control pointer at 03000260. Returns if null, or if scheduler membership is false while control+8 is nonzero. Otherwise installs 92E40, writes raw task flags/state 0x44, allocates a 0x400-byte stack, reloads the shared control pointer, stores the stack at +0x20 and returns on allocation failure. Success sets stack top +0x3FC, null finalizer and starts the task with r1/r2 zero. This guard is not an already-running rejection: true scheduler membership reaches initialization again. No stack retry, priority inference or success return contract."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 1580,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Original 92D6A/92D70..78 establish the exact membership/state guard; 92D7E installs the callback, 92D88 allocates and 92DA6 starts it. Allocation failure occurs after callback/state/stack-pointer writes. Original EU SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc; complete helper ranges equal the existing linked ELF. Static evidence only; no new compilation or runtime claim."
+        },
+        {
+          "source": "asm/nonmatchings/code_0808FB5C/sub_080923FC.s",
+          "line": 80,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Original 924AC/924B2 set scale 6 and phase increment 60; 924BA reads the signed offset and 924E4/924EC add it to the BG0/BG1 vertical-scroll shadows at 03001250+2/+6. Later 92C14..2C add/subtract it across the two backgrounds. Original 92C88 requests stop and 92C98 frees the control. Matched 92CB8 setup allocates then starts this producer at 92D40/92D44. Video 00B50 copies the shared shadow block to 04000010, anchoring background shake rather than actor motion."
+        }
+      ]
+    },
+    {
+      "address": "0x08092DB8",
+      "canonical_symbol": "sub_08092DB8",
+      "display_name": "RequestPeriodicSceneShakeOffsetStop",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08092D60.c",
+          "line": 36,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Clears the single active byte 03000259. The producer checks it only after its next signal-1 wait, then clears its own task flags/state and returns. This call does not synchronously stop the task, free its control or clear the last output. An invocation before the producer first executes can be overwritten by its initial active=1 assignment."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 1581,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Original 92DBC is the sole byte store; 92E48 initializes the active byte and 92E86..96 waits, tests it and clears current control+8. Original EU SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc; complete helper ranges equal the existing linked ELF. Static evidence only; no new compilation or runtime claim."
+        },
+        {
+          "source": "asm/nonmatchings/code_0808FB5C/sub_080923FC.s",
+          "line": 80,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Original 924AC/924B2 set scale 6 and phase increment 60; 924BA reads the signed offset and 924E4/924EC add it to the BG0/BG1 vertical-scroll shadows at 03001250+2/+6. Later 92C14..2C add/subtract it across the two backgrounds. Original 92C88 requests stop and 92C98 frees the control. Matched 92CB8 setup allocates then starts this producer at 92D40/92D44. Video 00B50 copies the shared shadow block to 04000010, anchoring background shake rather than actor motion."
+        }
+      ]
+    },
+    {
+      "address": "0x08092DC4",
+      "canonical_symbol": "sub_08092DC4",
+      "display_name": "AllocatePeriodicSceneShakeControl",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08092D60.c",
+          "line": 39,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Allocates a 0x28-byte task control and unconditionally overwrites 03000260 with the result. On nonnull result initializes only control+8 to zero and sets the unsigned scale byte 03000258 to 4. Does not start the producer, initialize the active/phase/output globals or free a prior control; no repeated-allocation safety promise."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 1582,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Original 92DCA allocates, 92DD0 stores the result, 92DD8 clears +8 and 92DDE stores scale 4 only on success. Original EU SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc; complete helper ranges equal the existing linked ELF. Static evidence only; no new compilation or runtime claim."
+        },
+        {
+          "source": "asm/nonmatchings/code_0808FB5C/sub_080923FC.s",
+          "line": 80,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Original 924AC/924B2 set scale 6 and phase increment 60; 924BA reads the signed offset and 924E4/924EC add it to the BG0/BG1 vertical-scroll shadows at 03001250+2/+6. Later 92C14..2C add/subtract it across the two backgrounds. Original 92C88 requests stop and 92C98 frees the control. Matched 92CB8 setup allocates then starts this producer at 92D40/92D44. Video 00B50 copies the shared shadow block to 04000010, anchoring background shake rather than actor motion."
+        }
+      ]
+    },
+    {
+      "address": "0x08092DF0",
+      "canonical_symbol": "sub_08092DF0",
+      "display_name": "StopAndFreePeriodicSceneShakeControl",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08092D60.c",
+          "line": 49,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "If 03000260 is nonnull, checks scheduler membership and immediately stops a scheduled task through 003A8, then frees the control through 01538 and nulls its shared pointer. Does not request a cooperative wait or reset scale, phase increment, active byte or last offset; 003A8 handles its scheduled stack separately."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 1583,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Original 92DFA tests membership, 92E04 stops only when scheduled, 92E0A frees the control and 92E10 nulls its pointer. Original EU SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc; complete helper ranges equal the existing linked ELF. Static evidence only; no new compilation or runtime claim."
+        },
+        {
+          "source": "asm/nonmatchings/code_0808FB5C/sub_080923FC.s",
+          "line": 80,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Original 924AC/924B2 set scale 6 and phase increment 60; 924BA reads the signed offset and 924E4/924EC add it to the BG0/BG1 vertical-scroll shadows at 03001250+2/+6. Later 92C14..2C add/subtract it across the two backgrounds. Original 92C88 requests stop and 92C98 frees the control. Matched 92CB8 setup allocates then starts this producer at 92D40/92D44. Video 00B50 copies the shared shadow block to 04000010, anchoring background shake rather than actor motion."
+        }
+      ]
+    },
+    {
+      "address": "0x08092E1C",
+      "canonical_symbol": "sub_08092E1C",
+      "display_name": "SetPeriodicSceneShakePhaseIncrement",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08092D60.c",
+          "line": 58,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Stores the low input byte to 0300025C. The producer reads this as unsigned, adds it to its local 8-bit table index and wraps modulo 256 once per update before waiting on signal 1. Although this local C signature uses s8, bit patterns 128..255 are unsigned increments in the consumer. The producer resets the increment to 1 when first entered; no elapsed-frame or frequency-in-Hz guarantee."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 1584,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Original 92E1E stores one byte; 92E4C initializes it to 1 and 92E7E..84 use LDRB and truncate the updated index to 8 bits. Original EU SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc; complete helper ranges equal the existing linked ELF. Static evidence only; no new compilation or runtime claim."
+        },
+        {
+          "source": "asm/nonmatchings/code_0808FB5C/sub_080923FC.s",
+          "line": 80,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Original 924AC/924B2 set scale 6 and phase increment 60; 924BA reads the signed offset and 924E4/924EC add it to the BG0/BG1 vertical-scroll shadows at 03001250+2/+6. Later 92C14..2C add/subtract it across the two backgrounds. Original 92C88 requests stop and 92C98 frees the control. Matched 92CB8 setup allocates then starts this producer at 92D40/92D44. Video 00B50 copies the shared shadow block to 04000010, anchoring background shake rather than actor motion."
+        }
+      ]
+    },
+    {
+      "address": "0x08092E28",
+      "canonical_symbol": "sub_08092E28",
+      "display_name": "SetPeriodicSceneShakeScale",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08092D60.c",
+          "line": 61,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Stores the low input byte to 03000258. The producer uses the same unsigned byte both to multiply its signed lookup sample and as the final remainder divisor; this is not a simple amplitude clamp. Zero is accepted by the setter but reaches a zero divisor; no validated 1..255 input domain or safe zero behavior is asserted. Does not reset phase or output."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 1585,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Original 92E2A stores one byte; 92E5C/92E5E perform unsigned-byte scaling, 92E74 reloads the byte and 92E76 invokes the signed remainder helper without a zero guard. Original EU SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc; complete helper ranges equal the existing linked ELF. Static evidence only; no new compilation or runtime claim."
+        },
+        {
+          "source": "asm/nonmatchings/code_0808FB5C/sub_080923FC.s",
+          "line": 80,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Original 924AC/924B2 set scale 6 and phase increment 60; 924BA reads the signed offset and 924E4/924EC add it to the BG0/BG1 vertical-scroll shadows at 03001250+2/+6. Later 92C14..2C add/subtract it across the two backgrounds. Original 92C88 requests stop and 92C98 frees the control. Matched 92CB8 setup allocates then starts this producer at 92D40/92D44. Video 00B50 copies the shared shadow block to 04000010, anchoring background shake rather than actor motion."
+        }
+      ]
+    },
+    {
+      "address": "0x08092E34",
+      "canonical_symbol": "sub_08092E34",
+      "display_name": "GetPeriodicSceneShakeOffset",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08092D60.c",
+          "line": 64,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Returns the current halfword at 0300025A with signed extension. Does not update, consume, clear or wait for a value. Output can be stale before producer execution and after stop/free; callers add or subtract it from background scroll shadows."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 1586,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Original 92E38 uses LDRSH and returns directly, proving a signed 16-bit getter rather than an unsigned sample or active status. Original EU SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc; complete helper ranges equal the existing linked ELF. Static evidence only; no new compilation or runtime claim."
+        },
+        {
+          "source": "asm/nonmatchings/code_0808FB5C/sub_080923FC.s",
+          "line": 80,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Original 924AC/924B2 set scale 6 and phase increment 60; 924BA reads the signed offset and 924E4/924EC add it to the BG0/BG1 vertical-scroll shadows at 03001250+2/+6. Later 92C14..2C add/subtract it across the two backgrounds. Original 92C88 requests stop and 92C98 frees the control. Matched 92CB8 setup allocates then starts this producer at 92D40/92D44. Video 00B50 copies the shared shadow block to 04000010, anchoring background shake rather than actor motion."
+        }
+      ]
+    },
+    {
+      "address": "0x08092E40",
+      "canonical_symbol": "sub_08092E40",
+      "display_name": "TaskGeneratePeriodicSceneShakeOffset",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08092D60.c",
+          "line": 70,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Starts at table index 0 and writes active=1 and phase increment=1. Each iteration reads a signed halfword from periodic table 080B9704, multiplies by unsigned scale, truncates to a signed output halfword, divides that signed value by 64 with truncation toward zero, stores another halfword, then stores its signed remainder by the current unsigned scale byte. Advances the local index by the unsigned increment modulo 256 and waits on scheduler signal 1. After the wait, a zero active byte clears current task+8 and returns. Scale is not zero-checked, product truncation is material, no output reset occurs at exit, and there is no exact elapsed-frame guarantee. This producer computes an offset; the consumer applies it to background scroll."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 1587,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Original 92E5A LDRSH and 92E5C LDRB establish signed sample/unsigned scale. 92E60 then 92E64 explicitly truncate/reload signed 16-bit product; 92E6A adds 63 only if negative before ASR6. 92E6E/72 truncate/reload, 92E76 calls signed remainder, 92E82/84 wrap the index, and 92E86..96 implement wait/test/state clear. Original EU SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc; complete helper ranges equal the existing linked ELF. Static evidence only; no new compilation or runtime claim."
+        },
+        {
+          "source": "asm/nonmatchings/code_0808FB5C/sub_080923FC.s",
+          "line": 80,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Original 924AC/924B2 set scale 6 and phase increment 60; 924BA reads the signed offset and 924E4/924EC add it to the BG0/BG1 vertical-scroll shadows at 03001250+2/+6. Later 92C14..2C add/subtract it across the two backgrounds. Original 92C88 requests stop and 92C98 frees the control. Matched 92CB8 setup allocates then starts this producer at 92D40/92D44. Video 00B50 copies the shared shadow block to 04000010, anchoring background shake rather than actor motion."
+        }
+      ]
+    },
+    {
+      "address": "0x080A099C",
+      "canonical_symbol": "sub_080A099C",
+      "display_name": "TaskUpdateBg2RockingAndScenePositions",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_0809D878.c",
+          "line": 1860,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Resets the BG2 transform through 9689C, sets position (0,56), and writes fixed map-state 0x03003170 halfwords +0x70/+0x72/+0x74/+0x76 to 30/25/30/25. Clears mode byte 03000338, then loops forever: calls the transform stepper with unsigned phase-step 0300033B and signed amplitude 0300033C; relaxes parameters according to the mode/hold/countdown bytes; sets transform position(0,s16(100-scrollY)); calls the gated BG2 rotation-shadow updater; copies local player live coordinates to prior-coordinate fields through repeated local-ID queries; calls the gated warp/clamp helpers for that player position and 16 records through pointer global 0x03005D58 with stride 0x20 when record+A mask1 is set and record+8 shifted5 is zero. Waits on signal 1 each iteration. No normal return, peer-wide update, exact enemy/stage identity, frame-rate guarantee or automatic reset on external stop."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 1743,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Original A09A6/A09AE initialize transform; A09EC uses LDRB step, A09F0 LDRSB amplitude before 97D7C. A0A96/A0A9A update transform position/shadow; A0AB8/A0AD6 copy player words; A0AE2/A0AF6 warp/clamp. A0B00..30 filter 16 records and call the same warp/clamp pair, then A0B32 waits and loops. Complete selected helper/task ranges equal original EU ROM and existing linked ELF; SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc. Static evidence only."
+        },
+        {
+          "source": "src/code_08095B04.c",
+          "line": 2070,
+          "revision": "e181cfee8400da03f9084ff7635d0277fee491f3",
+          "detail": "Always copies current angle +0xD to previous angle +0xE. When pause byte +0xF is zero, recomputes angle from current phase and signed amplitude byte, then increments phase by the unsigned step byte with 8-bit wrap."
+        },
+        {
+          "source": "src/code_08095B04.c",
+          "line": 1074,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "When four effect predicates allow it, applies a sine of previous-angle minus current-angle from transform 0x030002A0. Nonzero mode first shifts X by signed current angle times 16; Y displacement is scaled around X = 0x8000. Zero mode keeps X and changes the Y sign by side of that reference. Returns the low signed 16 bits of the derived X distance, or zero when gated."
+        },
+        {
+          "source": "src/code_08097E28.c",
+          "line": 19,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "When four effect predicates allow it, clamps Y to the sine-shifted inclusive band 0x7000..0xA000 using transform angle +0xD and the signed input halfword. Also clamps X to 0x900..0xE000. The sine product retains the original low-32-bit left shift by 8 and arithmetic right shift by 16."
+        }
+      ]
+    },
+    {
+      "address": "0x080A1070",
+      "canonical_symbol": "sub_080A1070",
+      "display_name": "SetBg2RockingPhaseStep",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_0809D878.c",
+          "line": 2182,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Stores the low input byte at 0300033B. The consumer reads it unsigned as the phase increment passed to 97D7C; values 128..255 are not interpreted as negative despite the local s8 setter signature. The producer starter resets it to 1, and one task mode later decrements values>1 on its countdown. Setter itself does not clamp, reset phase or update affine registers immediately."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 1751,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Original A1072 stores a byte; A09EC loads it unsigned for97D7C, while A0A14..1C conditionally decreases it toward 1. Complete selected helper/task ranges equal original EU ROM and existing linked ELF; SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc. Static evidence only."
+        },
+        {
+          "source": "src/code_0809D878.c",
+          "line": 1860,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Matched A099C consumes phase-step byte 0x0300033B unsigned and amplitude byte 0x0300033C signed, calls the sine-angle stepper and BG2 rotation-shadow updater, and invokes warp/clamp helpers for the local player and sixteen filtered records through pointer global 0x03005D58. Shadow publication and position mutation depend on the four effect predicates inside those helpers; copying local player live coordinates to previous-coordinate fields is separate. The task waits on signal 1 in an infinite loop. Constructor A10FC installs it through the control pointer global 0x03000340; forced stop does not restore transform or coordinate state."
+        }
+      ]
+    },
+    {
+      "address": "0x080A107C",
+      "canonical_symbol": "sub_080A107C",
+      "display_name": "SetBg2RockingAmplitude",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_0809D878.c",
+          "line": 2185,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Stores the low input byte at 0300033C. A099C reads it signed when calling97D7C, which computes the periodic transform angle from it. Later task updates can move the amplitude toward zero or reduce magnitudes beyond 6 according to observed mode/hold bytes. Setter does not validate range, reset phase or immediately publish BG2 shadow state."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 1752,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Original A107E stores a byte; A09F0 uses LDRSB before 97D7C, and A0A1E..84 implements signed relaxation. Complete selected helper/task ranges equal original EU ROM and existing linked ELF; SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc. Static evidence only."
+        },
+        {
+          "source": "src/code_0809D878.c",
+          "line": 1860,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Matched A099C consumes phase-step byte 0x0300033B unsigned and amplitude byte 0x0300033C signed, calls the sine-angle stepper and BG2 rotation-shadow updater, and invokes warp/clamp helpers for the local player and sixteen filtered records through pointer global 0x03005D58. Shadow publication and position mutation depend on the four effect predicates inside those helpers; copying local player live coordinates to previous-coordinate fields is separate. The task waits on signal 1 in an infinite loop. Constructor A10FC installs it through the control pointer global 0x03000340; forced stop does not restore transform or coordinate state."
+        }
+      ]
+    },
+    {
+      "address": "0x080A1088",
+      "canonical_symbol": "sub_080A1088",
+      "display_name": "GetBg2RockingAmplitudeBits",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_0809D878.c",
+          "line": 2188,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Returns the raw amplitude byte 0300033C zero-extended to u8. This differs from the signed interpretation used by the rocking task: negative amplitude patterns return values 128..255. No consumption, state update, wait or active-status query."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 1753,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Original A108A is LDRB, not LDRSB; A108C returns directly. Complete selected helper/task ranges equal original EU ROM and existing linked ELF; SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc. Static evidence only."
+        },
+        {
+          "source": "src/code_0809D878.c",
+          "line": 1860,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Matched A099C consumes phase-step byte 0x0300033B unsigned and amplitude byte 0x0300033C signed, calls the sine-angle stepper and BG2 rotation-shadow updater, and invokes warp/clamp helpers for the local player and sixteen filtered records through pointer global 0x03005D58. Shadow publication and position mutation depend on the four effect predicates inside those helpers; copying local player live coordinates to previous-coordinate fields is separate. The task waits on signal 1 in an infinite loop. Constructor A10FC installs it through the control pointer global 0x03000340; forced stop does not restore transform or coordinate state."
+        }
+      ]
+    },
+    {
+      "address": "0x080A10B8",
+      "canonical_symbol": "sub_080A10B8",
+      "display_name": "AllocateBg2RockingTaskControl",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_0809D878.c",
+          "line": 2198,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Allocates a 0x28-byte control, overwrites shared pointer 03000340 with the result and writes control+8=0. Allocation failure is not checked before that dereference. Does not initialize the transform/phase/amplitude globals, start the task or free a prior control; repeated allocation and null safety are not established."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 1756,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Original A10BE allocates, A10C2 stores the shared pointer, and A10C6 unconditionally writes returned-address+8. Complete selected helper/task ranges equal original EU ROM and existing linked ELF; SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc. Static evidence only."
+        },
+        {
+          "source": "src/code_0809D878.c",
+          "line": 1860,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Matched A099C consumes phase-step byte 0x0300033B unsigned and amplitude byte 0x0300033C signed, calls the sine-angle stepper and BG2 rotation-shadow updater, and invokes warp/clamp helpers for the local player and sixteen filtered records through pointer global 0x03005D58. Shadow publication and position mutation depend on the four effect predicates inside those helpers; copying local player live coordinates to previous-coordinate fields is separate. The task waits on signal 1 in an infinite loop. Constructor A10FC installs it through the control pointer global 0x03000340; forced stop does not restore transform or coordinate state."
+        }
+      ]
+    },
+    {
+      "address": "0x080A10D4",
+      "canonical_symbol": "sub_080A10D4",
+      "display_name": "StopAndFreeBg2RockingTaskControl",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_0809D878.c",
+          "line": 2204,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Checks scheduler membership of shared control 03000340, stops it through 003A8 if scheduled, then frees the control and nulls its pointer. No initial null guard. Does not request cooperative task exit, restore player/record coordinates, reset BG2 affine state or clear the rocking parameters."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 1757,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Original A10DA tests membership without a preceding pointer-null test; A10E4 stops, A10EA frees and A10F0 nulls the shared pointer. Complete selected helper/task ranges equal original EU ROM and existing linked ELF; SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc. Static evidence only."
+        },
+        {
+          "source": "src/code_0809D878.c",
+          "line": 1860,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Matched A099C consumes phase-step byte 0x0300033B unsigned and amplitude byte 0x0300033C signed, calls the sine-angle stepper and BG2 rotation-shadow updater, and invokes warp/clamp helpers for the local player and sixteen filtered records through pointer global 0x03005D58. Shadow publication and position mutation depend on the four effect predicates inside those helpers; copying local player live coordinates to previous-coordinate fields is separate. The task waits on signal 1 in an infinite loop. Constructor A10FC installs it through the control pointer global 0x03000340; forced stop does not restore transform or coordinate state."
+        }
+      ]
+    },
+    {
+      "address": "0x080A10FC",
+      "canonical_symbol": "sub_080A10FC",
+      "display_name": "StartBg2RockingAndPositionWarpTask",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_0809D878.c",
+          "line": 2217,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Checks control 03000340 membership, returning only if not scheduled and control+8 is nonzero. No null guard, and already-scheduled controls are not rejected. Sets phase-step 1, amplitude 0, hold 0 and countdown 20; allocates a 0x400-byte stack; reloads the control pointer and stores stack/top/callback A099C/null-finalizer/raw flags 0x40, then starts with r1/r2=0. The allocation result is not checked before top/result are used. No retry, priority inference, success return or safe repeated-start guarantee. The task itself resets mode 03000338 on entry."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 1758,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Original A1102..10 implements the membership/state guard; A1116..26 initializes parameter bytes; A112C allocates. A1132..3E stores stack/top/callback with no zero-result branch, and A114E starts. Complete selected helper/task ranges equal original EU ROM and existing linked ELF; SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc. Static evidence only."
+        },
+        {
+          "source": "src/code_0809D878.c",
+          "line": 1860,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Matched A099C consumes phase-step byte 0x0300033B unsigned and amplitude byte 0x0300033C signed, calls the sine-angle stepper and BG2 rotation-shadow updater, and invokes warp/clamp helpers for the local player and sixteen filtered records through pointer global 0x03005D58. Shadow publication and position mutation depend on the four effect predicates inside those helpers; copying local player live coordinates to previous-coordinate fields is separate. The task waits on signal 1 in an infinite loop. Constructor A10FC installs it through the control pointer global 0x03000340; forced stop does not restore transform or coordinate state."
+        }
+      ]
     }
   ]
 }

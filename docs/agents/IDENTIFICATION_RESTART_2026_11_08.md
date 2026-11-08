@@ -256,3 +256,33 @@ that slot. Its body alone would not justify the role. It performs no resource
 cleanup; scheduler continuations separately free stacks and unlink tasks.
 An additive one-row overlay only expands the `0801AC24` controller interval
 from shorthand `1A874..A91A` to `1A874..1A91A`.
+
+## Periodic scroll offset and BG2 rocking controls
+
+Fifteen independently reviewed rows reuse frozen `periodicshake8` and
+`bg2rocking7` evidence. The first family produces a signed offset applied by
+consumers to BG0/BG1 vertical-scroll shadows; hardware transfer `08000B50`
+anchors this interpretation without naming an actor or stage.
+
+Both task starters have an unusual membership guard: an already scheduled
+control can reach initialization again. They are not conventional idempotent
+start APIs. Pointer globals, unchecked allocation paths, parameter resets and
+state writes before failed allocation are documented separately.
+
+The periodic producer truncates its scaled lookup sample to signed16 before
+division by 64 toward zero, then takes a signed remainder using the unsigned
+scale byte. Zero scale is not rejected. Its stop request is cooperative and can
+be overwritten by initial task entry; neither stop nor free clears the last
+output. A phase increment is a per-update byte, not a frequency in Hz.
+
+The rocking task consumes an unsigned phase step and signed amplitude, while
+its amplitude getter returns raw zero-extended bits. Its fields at
+`+0x70/+0x72/+0x74/+0x76` belong to fixed map state `03003170`, not the object
+pointed to by `03005CF4`. The sixteen position records are reached through
+pointer global `03005D58`.
+
+BG2 shadow publication and position warp/clamp are calls to helpers gated by
+four effect predicates; they need not mutate state on every task iteration.
+Previous-coordinate copies are separate. Forced task stop does not restore
+transform or positions. The seven-row evidence overlay records these gating
+and pointer distinctions while preserving the frozen originals and all names.
