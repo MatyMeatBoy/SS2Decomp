@@ -16394,10 +16394,22 @@
       "canonical_symbol": "sub_0802996C",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_0802996C",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "RestoreLocalPlayerVitals",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_08028AAC.c",
+          "line": 765,
+          "revision": "b5337babd5b759034a0b68b145e7899a6bfefd7d",
+          "detail": "Copies local player maximum fields+0x62 and+0x60 to current HP+0xC4 and MP+0xC2, marks active byte+0x68=1, clears flags0x2002, then repeatedly finds and reinitializes status records for types6,7,5,4,2 using lookup key100. Does not claim every status type is cleared or active buffs preserved. Original2999E..A4 maskFFFFDFFD clears BOTH0x2000 and0x2 (mask2002), not just2000. HP/MP current/max accesses STRH/LDRH; active+68 isBYTE. Status helper iterations6,7,5,4,2 are distinct original loops with key100 and1DB94(owner,record,0); lookup progress is required for termination and not proven for arbitrary corrupted status lists. No universal remove-all-status or network acknowledgement contract."
+        },
+        {
+          "source": "src/code_0802FEA0.c",
+          "revision": "b5337babd5b759034a0b68b145e7899a6bfefd7d",
+          "detail": "src/code_0802FEA0.c:4010 calls after rest animation in37B04. Independent original6CDF0 recovery path6D11C..6D144 adds/clamps current+0xC4 against max+0x62. source code68670 local ability-cost paths subtract current+0xC2; matched2996C writes maxima directly."
+        }
+      ]
     },
     {
       "name": "sub_08029A7C",
@@ -16411,10 +16423,22 @@
       "canonical_symbol": "sub_08029A7C",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_08029A7C",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "QueueRandomizedLocalPlayerDamage",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_08028AAC.c",
+          "line": 780,
+          "revision": "b5337babd5b759034a0b68b145e7899a6bfefd7d",
+          "detail": "For eligible active local player outside scene-stop gates and states10/11/14, first computes randomized quadratic damage using amount,player+0x5A,200; rolls target status kind, updates an effect slot if found, applies squared resistance factor, sets state10 and accumulates resulting halfword into pending damage+0x88. Clears+0x110,+0xC8,+0xCA,+0xE0 and invokes69080 secondary-effect handling. Queues hit state rather than directly decrementing current HP. Original29AD0..B2E narrows amount, action and setup argument to low16 for arithmetic/status helpers. Eligibility gates independently verified; pending+88 ADDS with STRH wrap, not HP subtraction. Other writes+110/E0 are WORD zero and+C8/+CA halfwordzero. Original13BC0 later consumes pending HP whenD1B0==0; opposite mode clears pending withoutsubtractingHP. RNG/scaling role closed by original21C74 formula and21D00 resistance selector, not aliases."
+        },
+        {
+          "source": "src/code_08021DC4.c",
+          "revision": "b5337babd5b759034a0b68b145e7899a6bfefd7d",
+          "detail": "src/code_08021DC4.c:226A4 terrain-class branches use this with action0 amount60 andaction6 amount45; code68670 enemy area hit path also calls it. Named helpers21C74 ComputeRandomizedQuadraticDamage and21D00 ApplySquaredResistanceFactor establish arithmetic roles."
+        }
+      ]
     },
     {
       "name": "sub_08029B98",
@@ -16445,10 +16469,22 @@
       "canonical_symbol": "sub_08029CEC",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_08029CEC",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "QueueLocalPlayerDamageAndAttemptResistanceGrowth",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_08028AAC.c",
+          "line": 843,
+          "revision": "b5337babd5b759034a0b68b145e7899a6bfefd7d",
+          "detail": "Uses same eligible local-player pending-hit route as29A7C but omits randomized quadratic preprocessing. Applies resistance factor, records action atplayer+0xE0, calls69224(action,adjustedAmount,save+0x24), sets state10 and accumulates pending damage+0x88; clears110/C8/CA and invokes69080 secondary effects. Helper69224 probabilistically increments the corresponding one ofsix resistance progression halfwords with caps; growth is attempted, not guaranteed. Existing catalog names69224 TryIncreaseEffectResistanceStat; source and original call08029DA0 anchor this role independently of field alias guesses. Original29D94 writes FULL incoming actionWORD+E0, passes fullaction to69224 while resistance21D00 gets low16; pending+88 wrapsHALFWORD.69224 can return0 whenCF80!=0 orkind0; otherwise RNG%100 chance and six signedhalfwordstats with saturating100 increment (kind2 notification threshold differs99). For invalid kind>7 original6929E can use uninitialized stat register; no safe arbitrary-kind contract. Attempted growth precedes state10/pending writes; neither enqueue success nor actual later HP reduction is guaranteed."
+        },
+        {
+          "source": "src/code_08021DC4.c",
+          "revision": "b5337babd5b759034a0b68b145e7899a6bfefd7d",
+          "detail": "src/code_08021DC4.c:226A4 hazardous terrain branches call29CEC(action1,amount10/8/6,argument0). src/code_08068670.c:69224 selects progression stat0..5 by action1..7, computes chance frommagnitude/stat and increments at most100; kind0 exits. No named elemental skill or guaranteed growth inferred."
+        }
+      ]
     },
     {
       "name": "sub_08029E0C",
@@ -51939,12 +51975,12 @@
   "identification": {
     "game": {
       "total": 1880,
-      "identified": 989,
+      "identified": 992,
       "existing": 23,
-      "confirmed": 966,
+      "confirmed": 969,
       "proposed": 2,
-      "unidentified": 889,
-      "percent_identified": 52.6063829787234
+      "unidentified": 886,
+      "percent_identified": 52.765957446808514
     },
     "sdk": {
       "total": 155,
@@ -51957,12 +51993,12 @@
     },
     "all": {
       "total": 2035,
-      "identified": 1144,
+      "identified": 1147,
       "existing": 152,
-      "confirmed": 992,
+      "confirmed": 995,
       "proposed": 2,
-      "unidentified": 889,
-      "percent_identified": 56.21621621621622
+      "unidentified": 886,
+      "percent_identified": 56.36363636363637
     }
   },
   "limitations": "Configured function address intervals, including alignment/literal pools; inventory includes original assembly and linked libraries. Existing descriptive identifiers are recognized, not independently semantically re-proven."

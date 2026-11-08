@@ -10,18 +10,18 @@
     },
     {
       "source": "data/rodata_libgcc_end.s",
-      "incbin_count": 385,
-      "incbin_bytes": 13210288,
+      "incbin_count": 384,
+      "incbin_bytes": 13210048,
       "labels": 390,
-      "explicit_data_directives": 25,
+      "explicit_data_directives": 41,
       "padding_directives": 0
     }
   ],
-  "incbin_count": 406,
-  "incbin_bytes": 16016620,
+  "incbin_count": 405,
+  "incbin_bytes": 16016380,
   "labels_total": 412,
   "labels_descriptive": 11,
-  "explicit_data_directives": 45,
+  "explicit_data_directives": 61,
   "padding_directives": 0,
   "incbins": [
     {
@@ -1671,1197 +1671,1190 @@
     },
     {
       "source": "data/rodata_libgcc_end.s",
-      "line": 651,
-      "file": "baserom.gba",
-      "rom_offset": 4922448,
-      "size": 240
-    },
-    {
-      "source": "data/rodata_libgcc_end.s",
-      "line": 654,
+      "line": 673,
       "file": "baserom.gba",
       "rom_offset": 4922688,
       "size": 56
     },
     {
       "source": "data/rodata_libgcc_end.s",
-      "line": 657,
+      "line": 676,
       "file": "baserom.gba",
       "rom_offset": 4922744,
       "size": 1584
     },
     {
       "source": "data/rodata_libgcc_end.s",
-      "line": 660,
+      "line": 679,
       "file": "baserom.gba",
       "rom_offset": 4924328,
       "size": 264
     },
     {
       "source": "data/rodata_libgcc_end.s",
-      "line": 663,
+      "line": 682,
       "file": "baserom.gba",
       "rom_offset": 4924592,
       "size": 84
     },
     {
       "source": "data/rodata_libgcc_end.s",
-      "line": 666,
+      "line": 685,
       "file": "baserom.gba",
       "rom_offset": 4924676,
       "size": 215252
     },
     {
       "source": "data/rodata_libgcc_end.s",
-      "line": 669,
+      "line": 688,
       "file": "baserom.gba",
       "rom_offset": 5139928,
       "size": 3600
     },
     {
       "source": "data/rodata_libgcc_end.s",
-      "line": 672,
+      "line": 691,
       "file": "baserom.gba",
       "rom_offset": 5143528,
       "size": 7680
     },
     {
       "source": "data/rodata_libgcc_end.s",
-      "line": 675,
+      "line": 694,
       "file": "baserom.gba",
       "rom_offset": 5151208,
       "size": 7680
     },
     {
       "source": "data/rodata_libgcc_end.s",
-      "line": 678,
+      "line": 697,
       "file": "baserom.gba",
       "rom_offset": 5158888,
       "size": 240
     },
     {
       "source": "data/rodata_libgcc_end.s",
-      "line": 681,
+      "line": 700,
       "file": "baserom.gba",
       "rom_offset": 5159128,
       "size": 1040
     },
     {
       "source": "data/rodata_libgcc_end.s",
-      "line": 684,
+      "line": 703,
       "file": "baserom.gba",
       "rom_offset": 5160168,
       "size": 64
     },
     {
       "source": "data/rodata_libgcc_end.s",
-      "line": 687,
+      "line": 706,
       "file": "baserom.gba",
       "rom_offset": 5160232,
       "size": 16
     },
     {
       "source": "data/rodata_libgcc_end.s",
-      "line": 690,
+      "line": 709,
       "file": "baserom.gba",
       "rom_offset": 5160248,
       "size": 16
     },
     {
       "source": "data/rodata_libgcc_end.s",
-      "line": 693,
+      "line": 712,
       "file": "baserom.gba",
       "rom_offset": 5160264,
       "size": 4
     },
     {
       "source": "data/rodata_libgcc_end.s",
-      "line": 696,
+      "line": 715,
       "file": "baserom.gba",
       "rom_offset": 5160268,
       "size": 16
     },
     {
       "source": "data/rodata_libgcc_end.s",
-      "line": 703,
+      "line": 722,
       "file": "baserom.gba",
       "rom_offset": 5160308,
       "size": 8
     },
     {
       "source": "data/rodata_libgcc_end.s",
-      "line": 706,
+      "line": 725,
       "file": "baserom.gba",
       "rom_offset": 5160316,
       "size": 64
     },
     {
       "source": "data/rodata_libgcc_end.s",
-      "line": 709,
+      "line": 728,
       "file": "baserom.gba",
       "rom_offset": 5160380,
       "size": 2
     },
     {
       "source": "data/rodata_libgcc_end.s",
-      "line": 712,
+      "line": 731,
       "file": "baserom.gba",
       "rom_offset": 5160382,
       "size": 10
     },
     {
       "source": "data/rodata_libgcc_end.s",
-      "line": 715,
+      "line": 734,
       "file": "baserom.gba",
       "rom_offset": 5160392,
       "size": 64
     },
     {
       "source": "data/rodata_libgcc_end.s",
-      "line": 718,
+      "line": 737,
       "file": "baserom.gba",
       "rom_offset": 5160456,
       "size": 2
     },
     {
       "source": "data/rodata_libgcc_end.s",
-      "line": 721,
+      "line": 740,
       "file": "baserom.gba",
       "rom_offset": 5160458,
       "size": 10
     },
     {
       "source": "data/rodata_libgcc_end.s",
-      "line": 724,
+      "line": 743,
       "file": "baserom.gba",
       "rom_offset": 5160468,
       "size": 32
     },
     {
       "source": "data/rodata_libgcc_end.s",
-      "line": 727,
+      "line": 746,
       "file": "baserom.gba",
       "rom_offset": 5160500,
       "size": 4
     },
     {
       "source": "data/rodata_libgcc_end.s",
-      "line": 730,
+      "line": 749,
       "file": "baserom.gba",
       "rom_offset": 5160504,
       "size": 28
     },
     {
       "source": "data/rodata_libgcc_end.s",
-      "line": 733,
+      "line": 752,
       "file": "baserom.gba",
       "rom_offset": 5160532,
       "size": 48
     },
     {
       "source": "data/rodata_libgcc_end.s",
-      "line": 736,
+      "line": 755,
       "file": "baserom.gba",
       "rom_offset": 5160580,
       "size": 2
     },
     {
       "source": "data/rodata_libgcc_end.s",
-      "line": 739,
+      "line": 758,
       "file": "baserom.gba",
       "rom_offset": 5160582,
       "size": 54
     },
     {
       "source": "data/rodata_libgcc_end.s",
-      "line": 742,
+      "line": 761,
       "file": "baserom.gba",
       "rom_offset": 5160636,
       "size": 2
     },
     {
       "source": "data/rodata_libgcc_end.s",
-      "line": 745,
+      "line": 764,
       "file": "baserom.gba",
       "rom_offset": 5160638,
       "size": 94
     },
     {
       "source": "data/rodata_libgcc_end.s",
-      "line": 748,
+      "line": 767,
       "file": "baserom.gba",
       "rom_offset": 5160732,
       "size": 98
     },
     {
       "source": "data/rodata_libgcc_end.s",
-      "line": 751,
+      "line": 770,
       "file": "baserom.gba",
       "rom_offset": 5160830,
       "size": 430
     },
     {
       "source": "data/rodata_libgcc_end.s",
-      "line": 754,
+      "line": 773,
       "file": "baserom.gba",
       "rom_offset": 5161260,
       "size": 32
     },
     {
       "source": "data/rodata_libgcc_end.s",
-      "line": 757,
+      "line": 776,
       "file": "baserom.gba",
       "rom_offset": 5161292,
       "size": 16
     },
     {
       "source": "data/rodata_libgcc_end.s",
-      "line": 760,
+      "line": 779,
       "file": "baserom.gba",
       "rom_offset": 5161308,
       "size": 16
     },
     {
       "source": "data/rodata_libgcc_end.s",
-      "line": 763,
+      "line": 782,
       "file": "baserom.gba",
       "rom_offset": 5161324,
       "size": 16
     },
     {
       "source": "data/rodata_libgcc_end.s",
-      "line": 766,
+      "line": 785,
       "file": "baserom.gba",
       "rom_offset": 5161340,
       "size": 18
     },
     {
       "source": "data/rodata_libgcc_end.s",
-      "line": 769,
+      "line": 788,
       "file": "baserom.gba",
       "rom_offset": 5161358,
       "size": 18
     },
     {
       "source": "data/rodata_libgcc_end.s",
-      "line": 772,
+      "line": 791,
       "file": "baserom.gba",
       "rom_offset": 5161376,
       "size": 32
     },
     {
       "source": "data/rodata_libgcc_end.s",
-      "line": 775,
+      "line": 794,
       "file": "baserom.gba",
       "rom_offset": 5161408,
       "size": 16
     },
     {
       "source": "data/rodata_libgcc_end.s",
-      "line": 778,
+      "line": 797,
       "file": "baserom.gba",
       "rom_offset": 5161424,
       "size": 16
     },
     {
       "source": "data/rodata_libgcc_end.s",
-      "line": 781,
+      "line": 800,
       "file": "baserom.gba",
       "rom_offset": 5161440,
       "size": 168
     },
     {
       "source": "data/rodata_libgcc_end.s",
-      "line": 784,
+      "line": 803,
       "file": "baserom.gba",
       "rom_offset": 5161608,
       "size": 168
     },
     {
       "source": "data/rodata_libgcc_end.s",
-      "line": 787,
+      "line": 806,
       "file": "baserom.gba",
       "rom_offset": 5161776,
       "size": 168
     },
     {
       "source": "data/rodata_libgcc_end.s",
-      "line": 790,
+      "line": 809,
       "file": "baserom.gba",
       "rom_offset": 5161944,
       "size": 168
     },
     {
       "source": "data/rodata_libgcc_end.s",
-      "line": 793,
+      "line": 812,
       "file": "baserom.gba",
       "rom_offset": 5162112,
       "size": 96
     },
     {
       "source": "data/rodata_libgcc_end.s",
-      "line": 796,
+      "line": 815,
       "file": "baserom.gba",
       "rom_offset": 5162208,
       "size": 96
     },
     {
       "source": "data/rodata_libgcc_end.s",
-      "line": 799,
+      "line": 818,
       "file": "baserom.gba",
       "rom_offset": 5162304,
       "size": 96
     },
     {
       "source": "data/rodata_libgcc_end.s",
-      "line": 802,
+      "line": 821,
       "file": "baserom.gba",
       "rom_offset": 5162400,
       "size": 96
     },
     {
       "source": "data/rodata_libgcc_end.s",
-      "line": 805,
+      "line": 824,
       "file": "baserom.gba",
       "rom_offset": 5162496,
       "size": 96
     },
     {
       "source": "data/rodata_libgcc_end.s",
-      "line": 808,
+      "line": 827,
       "file": "baserom.gba",
       "rom_offset": 5162592,
       "size": 96
     },
     {
       "source": "data/rodata_libgcc_end.s",
-      "line": 811,
+      "line": 830,
       "file": "baserom.gba",
       "rom_offset": 5162688,
       "size": 36
     },
     {
       "source": "data/rodata_libgcc_end.s",
-      "line": 814,
+      "line": 833,
       "file": "baserom.gba",
       "rom_offset": 5162724,
       "size": 36
     },
     {
       "source": "data/rodata_libgcc_end.s",
-      "line": 817,
+      "line": 836,
       "file": "baserom.gba",
       "rom_offset": 5162760,
       "size": 36
     },
     {
       "source": "data/rodata_libgcc_end.s",
-      "line": 820,
+      "line": 839,
       "file": "baserom.gba",
       "rom_offset": 5162796,
       "size": 36
     },
     {
       "source": "data/rodata_libgcc_end.s",
-      "line": 823,
+      "line": 842,
       "file": "baserom.gba",
       "rom_offset": 5162832,
       "size": 36
     },
     {
       "source": "data/rodata_libgcc_end.s",
-      "line": 826,
+      "line": 845,
       "file": "baserom.gba",
       "rom_offset": 5162868,
       "size": 36
     },
     {
       "source": "data/rodata_libgcc_end.s",
-      "line": 829,
+      "line": 848,
       "file": "baserom.gba",
       "rom_offset": 5162904,
       "size": 36
     },
     {
       "source": "data/rodata_libgcc_end.s",
-      "line": 832,
+      "line": 851,
       "file": "baserom.gba",
       "rom_offset": 5162940,
       "size": 36
     },
     {
       "source": "data/rodata_libgcc_end.s",
-      "line": 835,
+      "line": 854,
       "file": "baserom.gba",
       "rom_offset": 5162976,
       "size": 36
     },
     {
       "source": "data/rodata_libgcc_end.s",
-      "line": 838,
+      "line": 857,
       "file": "baserom.gba",
       "rom_offset": 5163012,
       "size": 36
     },
     {
       "source": "data/rodata_libgcc_end.s",
-      "line": 841,
+      "line": 860,
       "file": "baserom.gba",
       "rom_offset": 5163048,
       "size": 36
     },
     {
       "source": "data/rodata_libgcc_end.s",
-      "line": 844,
+      "line": 863,
       "file": "baserom.gba",
       "rom_offset": 5163084,
       "size": 36
     },
     {
       "source": "data/rodata_libgcc_end.s",
-      "line": 847,
+      "line": 866,
       "file": "baserom.gba",
       "rom_offset": 5163120,
       "size": 64
     },
     {
       "source": "data/rodata_libgcc_end.s",
-      "line": 850,
+      "line": 869,
       "file": "baserom.gba",
       "rom_offset": 5163184,
       "size": 64
     },
     {
       "source": "data/rodata_libgcc_end.s",
-      "line": 853,
+      "line": 872,
       "file": "baserom.gba",
       "rom_offset": 5163248,
       "size": 48
     },
     {
       "source": "data/rodata_libgcc_end.s",
-      "line": 856,
+      "line": 875,
       "file": "baserom.gba",
       "rom_offset": 5163296,
       "size": 48
     },
     {
       "source": "data/rodata_libgcc_end.s",
-      "line": 859,
+      "line": 878,
       "file": "baserom.gba",
       "rom_offset": 5163344,
       "size": 80
     },
     {
       "source": "data/rodata_libgcc_end.s",
-      "line": 862,
+      "line": 881,
       "file": "baserom.gba",
       "rom_offset": 5163424,
       "size": 80
     },
     {
       "source": "data/rodata_libgcc_end.s",
-      "line": 865,
+      "line": 884,
       "file": "baserom.gba",
       "rom_offset": 5163504,
       "size": 80
     },
     {
       "source": "data/rodata_libgcc_end.s",
-      "line": 868,
+      "line": 887,
       "file": "baserom.gba",
       "rom_offset": 5163584,
       "size": 80
     },
     {
       "source": "data/rodata_libgcc_end.s",
-      "line": 871,
+      "line": 890,
       "file": "baserom.gba",
       "rom_offset": 5163664,
       "size": 80
     },
     {
       "source": "data/rodata_libgcc_end.s",
-      "line": 874,
+      "line": 893,
       "file": "baserom.gba",
       "rom_offset": 5163744,
       "size": 80
     },
     {
       "source": "data/rodata_libgcc_end.s",
-      "line": 877,
+      "line": 896,
       "file": "baserom.gba",
       "rom_offset": 5163824,
       "size": 84
     },
     {
       "source": "data/rodata_libgcc_end.s",
-      "line": 880,
+      "line": 899,
       "file": "baserom.gba",
       "rom_offset": 5163908,
       "size": 20
     },
     {
       "source": "data/rodata_libgcc_end.s",
-      "line": 883,
+      "line": 902,
       "file": "baserom.gba",
       "rom_offset": 5163928,
       "size": 24
     },
     {
       "source": "data/rodata_libgcc_end.s",
-      "line": 895,
+      "line": 914,
       "file": "baserom.gba",
       "rom_offset": 5163976,
       "size": 20
     },
     {
       "source": "data/rodata_libgcc_end.s",
-      "line": 898,
+      "line": 917,
       "file": "baserom.gba",
       "rom_offset": 5163996,
       "size": 40
     },
     {
       "source": "data/rodata_libgcc_end.s",
-      "line": 901,
+      "line": 920,
       "file": "baserom.gba",
       "rom_offset": 5164036,
       "size": 40
     },
     {
       "source": "data/rodata_libgcc_end.s",
-      "line": 904,
+      "line": 923,
       "file": "baserom.gba",
       "rom_offset": 5164076,
       "size": 584
     },
     {
       "source": "data/rodata_libgcc_end.s",
-      "line": 907,
+      "line": 926,
       "file": "baserom.gba",
       "rom_offset": 5164660,
       "size": 26
     },
     {
       "source": "data/rodata_libgcc_end.s",
-      "line": 910,
+      "line": 929,
       "file": "baserom.gba",
       "rom_offset": 5164686,
       "size": 34
     },
     {
       "source": "data/rodata_libgcc_end.s",
-      "line": 913,
+      "line": 932,
       "file": "baserom.gba",
       "rom_offset": 5164720,
       "size": 216
     },
     {
       "source": "data/rodata_libgcc_end.s",
-      "line": 916,
+      "line": 935,
       "file": "baserom.gba",
       "rom_offset": 5164936,
       "size": 96
     },
     {
       "source": "data/rodata_libgcc_end.s",
-      "line": 919,
+      "line": 938,
       "file": "baserom.gba",
       "rom_offset": 5165032,
       "size": 96
     },
     {
       "source": "data/rodata_libgcc_end.s",
-      "line": 922,
+      "line": 941,
       "file": "baserom.gba",
       "rom_offset": 5165128,
       "size": 312
     },
     {
       "source": "data/rodata_libgcc_end.s",
-      "line": 925,
+      "line": 944,
       "file": "baserom.gba",
       "rom_offset": 5165440,
       "size": 96
     },
     {
       "source": "data/rodata_libgcc_end.s",
-      "line": 928,
+      "line": 947,
       "file": "baserom.gba",
       "rom_offset": 5165536,
       "size": 312
     },
     {
       "source": "data/rodata_libgcc_end.s",
-      "line": 931,
+      "line": 950,
       "file": "baserom.gba",
       "rom_offset": 5165848,
       "size": 192
     },
     {
       "source": "data/rodata_libgcc_end.s",
-      "line": 934,
+      "line": 953,
       "file": "baserom.gba",
       "rom_offset": 5166040,
       "size": 96
     },
     {
       "source": "data/rodata_libgcc_end.s",
-      "line": 937,
+      "line": 956,
       "file": "baserom.gba",
       "rom_offset": 5166136,
       "size": 96
     },
     {
       "source": "data/rodata_libgcc_end.s",
-      "line": 940,
+      "line": 959,
       "file": "baserom.gba",
       "rom_offset": 5166232,
       "size": 96
     },
     {
       "source": "data/rodata_libgcc_end.s",
-      "line": 943,
+      "line": 962,
       "file": "baserom.gba",
       "rom_offset": 5166328,
       "size": 48
     },
     {
       "source": "data/rodata_libgcc_end.s",
-      "line": 946,
+      "line": 965,
       "file": "baserom.gba",
       "rom_offset": 5166376,
       "size": 96
     },
     {
       "source": "data/rodata_libgcc_end.s",
-      "line": 949,
+      "line": 968,
       "file": "baserom.gba",
       "rom_offset": 5166472,
       "size": 96
     },
     {
       "source": "data/rodata_libgcc_end.s",
-      "line": 952,
+      "line": 971,
       "file": "baserom.gba",
       "rom_offset": 5166568,
       "size": 96
     },
     {
       "source": "data/rodata_libgcc_end.s",
-      "line": 955,
+      "line": 974,
       "file": "baserom.gba",
       "rom_offset": 5166664,
       "size": 96
     },
     {
       "source": "data/rodata_libgcc_end.s",
-      "line": 958,
+      "line": 977,
       "file": "baserom.gba",
       "rom_offset": 5166760,
       "size": 96
     },
     {
       "source": "data/rodata_libgcc_end.s",
-      "line": 961,
+      "line": 980,
       "file": "baserom.gba",
       "rom_offset": 5166856,
       "size": 288
     },
     {
       "source": "data/rodata_libgcc_end.s",
-      "line": 964,
+      "line": 983,
       "file": "baserom.gba",
       "rom_offset": 5167144,
       "size": 288
     },
     {
       "source": "data/rodata_libgcc_end.s",
-      "line": 967,
+      "line": 986,
       "file": "baserom.gba",
       "rom_offset": 5167432,
       "size": 96
     },
     {
       "source": "data/rodata_libgcc_end.s",
-      "line": 970,
+      "line": 989,
       "file": "baserom.gba",
       "rom_offset": 5167528,
       "size": 96
     },
     {
       "source": "data/rodata_libgcc_end.s",
-      "line": 973,
+      "line": 992,
       "file": "baserom.gba",
       "rom_offset": 5167624,
       "size": 96
     },
     {
       "source": "data/rodata_libgcc_end.s",
-      "line": 976,
+      "line": 995,
       "file": "baserom.gba",
       "rom_offset": 5167720,
       "size": 96
     },
     {
       "source": "data/rodata_libgcc_end.s",
-      "line": 979,
+      "line": 998,
       "file": "baserom.gba",
       "rom_offset": 5167816,
       "size": 96
     },
     {
       "source": "data/rodata_libgcc_end.s",
-      "line": 982,
+      "line": 1001,
       "file": "baserom.gba",
       "rom_offset": 5167912,
       "size": 96
     },
     {
       "source": "data/rodata_libgcc_end.s",
-      "line": 985,
+      "line": 1004,
       "file": "baserom.gba",
       "rom_offset": 5168008,
       "size": 144
     },
     {
       "source": "data/rodata_libgcc_end.s",
-      "line": 988,
+      "line": 1007,
       "file": "baserom.gba",
       "rom_offset": 5168152,
       "size": 144
     },
     {
       "source": "data/rodata_libgcc_end.s",
-      "line": 991,
+      "line": 1010,
       "file": "baserom.gba",
       "rom_offset": 5168296,
       "size": 11800
     },
     {
       "source": "data/rodata_libgcc_end.s",
-      "line": 1016,
+      "line": 1035,
       "file": "baserom.gba",
       "rom_offset": 5180176,
       "size": 2
     },
     {
       "source": "data/rodata_libgcc_end.s",
-      "line": 1019,
+      "line": 1038,
       "file": "baserom.gba",
       "rom_offset": 5180178,
       "size": 238
     },
     {
       "source": "data/rodata_libgcc_end.s",
-      "line": 1022,
+      "line": 1041,
       "file": "baserom.gba",
       "rom_offset": 5180416,
       "size": 40
     },
     {
       "source": "data/rodata_libgcc_end.s",
-      "line": 1025,
+      "line": 1044,
       "file": "baserom.gba",
       "rom_offset": 5180456,
       "size": 8
     },
     {
       "source": "data/rodata_libgcc_end.s",
-      "line": 1028,
+      "line": 1047,
       "file": "baserom.gba",
       "rom_offset": 5180464,
       "size": 4
     },
     {
       "source": "data/rodata_libgcc_end.s",
-      "line": 1031,
+      "line": 1050,
       "file": "baserom.gba",
       "rom_offset": 5180468,
       "size": 86
     },
     {
       "source": "data/rodata_libgcc_end.s",
-      "line": 1034,
+      "line": 1053,
       "file": "baserom.gba",
       "rom_offset": 5180554,
       "size": 6746
     },
     {
       "source": "data/rodata_libgcc_end.s",
-      "line": 1037,
+      "line": 1056,
       "file": "baserom.gba",
       "rom_offset": 5187300,
       "size": 8500
     },
     {
       "source": "data/rodata_libgcc_end.s",
-      "line": 1040,
+      "line": 1059,
       "file": "baserom.gba",
       "rom_offset": 5195800,
       "size": 12596
     },
     {
       "source": "data/rodata_libgcc_end.s",
-      "line": 1043,
+      "line": 1062,
       "file": "baserom.gba",
       "rom_offset": 5208396,
       "size": 10572
     },
     {
       "source": "data/rodata_libgcc_end.s",
-      "line": 1046,
+      "line": 1065,
       "file": "baserom.gba",
       "rom_offset": 5218968,
       "size": 11732
     },
     {
       "source": "data/rodata_libgcc_end.s",
-      "line": 1049,
+      "line": 1068,
       "file": "baserom.gba",
       "rom_offset": 5230700,
       "size": 12320
     },
     {
       "source": "data/rodata_libgcc_end.s",
-      "line": 1052,
+      "line": 1071,
       "file": "baserom.gba",
       "rom_offset": 5243020,
       "size": 10288
     },
     {
       "source": "data/rodata_libgcc_end.s",
-      "line": 1055,
+      "line": 1074,
       "file": "baserom.gba",
       "rom_offset": 5253308,
       "size": 14360
     },
     {
       "source": "data/rodata_libgcc_end.s",
-      "line": 1058,
+      "line": 1077,
       "file": "baserom.gba",
       "rom_offset": 5267668,
       "size": 10880
     },
     {
       "source": "data/rodata_libgcc_end.s",
-      "line": 1061,
+      "line": 1080,
       "file": "baserom.gba",
       "rom_offset": 5278548,
       "size": 15252
     },
     {
       "source": "data/rodata_libgcc_end.s",
-      "line": 1064,
+      "line": 1083,
       "file": "baserom.gba",
       "rom_offset": 5293800,
       "size": 960
     },
     {
       "source": "data/rodata_libgcc_end.s",
-      "line": 1067,
+      "line": 1086,
       "file": "baserom.gba",
       "rom_offset": 5294760,
       "size": 2628
     },
     {
       "source": "data/rodata_libgcc_end.s",
-      "line": 1070,
+      "line": 1089,
       "file": "baserom.gba",
       "rom_offset": 5297388,
       "size": 20
     },
     {
       "source": "data/rodata_libgcc_end.s",
-      "line": 1073,
+      "line": 1092,
       "file": "baserom.gba",
       "rom_offset": 5297408,
       "size": 2344
     },
     {
       "source": "data/rodata_libgcc_end.s",
-      "line": 1076,
+      "line": 1095,
       "file": "baserom.gba",
       "rom_offset": 5299752,
       "size": 3228
     },
     {
       "source": "data/rodata_libgcc_end.s",
-      "line": 1079,
+      "line": 1098,
       "file": "baserom.gba",
       "rom_offset": 5302980,
       "size": 604
     },
     {
       "source": "data/rodata_libgcc_end.s",
-      "line": 1082,
+      "line": 1101,
       "file": "baserom.gba",
       "rom_offset": 5303584,
       "size": 2932
     },
     {
       "source": "data/rodata_libgcc_end.s",
-      "line": 1085,
+      "line": 1104,
       "file": "baserom.gba",
       "rom_offset": 5306516,
       "size": 3228
     },
     {
       "source": "data/rodata_libgcc_end.s",
-      "line": 1088,
+      "line": 1107,
       "file": "baserom.gba",
       "rom_offset": 5309744,
       "size": 4104
     },
     {
       "source": "data/rodata_libgcc_end.s",
-      "line": 1091,
+      "line": 1110,
       "file": "baserom.gba",
       "rom_offset": 5313848,
       "size": 4408
     },
     {
       "source": "data/rodata_libgcc_end.s",
-      "line": 1094,
+      "line": 1113,
       "file": "baserom.gba",
       "rom_offset": 5318256,
       "size": 4112
     },
     {
       "source": "data/rodata_libgcc_end.s",
-      "line": 1097,
+      "line": 1116,
       "file": "baserom.gba",
       "rom_offset": 5322368,
       "size": 6444
     },
     {
       "source": "data/rodata_libgcc_end.s",
-      "line": 1100,
+      "line": 1119,
       "file": "baserom.gba",
       "rom_offset": 5328812,
       "size": 4128
     },
     {
       "source": "data/rodata_libgcc_end.s",
-      "line": 1103,
+      "line": 1122,
       "file": "baserom.gba",
       "rom_offset": 5332940,
       "size": 4692
     },
     {
       "source": "data/rodata_libgcc_end.s",
-      "line": 1106,
+      "line": 1125,
       "file": "baserom.gba",
       "rom_offset": 5337632,
       "size": 3820
     },
     {
       "source": "data/rodata_libgcc_end.s",
-      "line": 1109,
+      "line": 1128,
       "file": "baserom.gba",
       "rom_offset": 5341452,
       "size": 140
     },
     {
       "source": "data/rodata_libgcc_end.s",
-      "line": 1112,
+      "line": 1131,
       "file": "baserom.gba",
       "rom_offset": 5341592,
       "size": 40
     },
     {
       "source": "data/rodata_libgcc_end.s",
-      "line": 1115,
+      "line": 1134,
       "file": "baserom.gba",
       "rom_offset": 5341632,
       "size": 74
     },
     {
       "source": "data/rodata_libgcc_end.s",
-      "line": 1118,
+      "line": 1137,
       "file": "baserom.gba",
       "rom_offset": 5341706,
       "size": 580
     },
     {
       "source": "data/rodata_libgcc_end.s",
-      "line": 1121,
+      "line": 1140,
       "file": "baserom.gba",
       "rom_offset": 5342286,
       "size": 14
     },
     {
       "source": "data/rodata_libgcc_end.s",
-      "line": 1124,
+      "line": 1143,
       "file": "baserom.gba",
       "rom_offset": 5342300,
       "size": 48
     },
     {
       "source": "data/rodata_libgcc_end.s",
-      "line": 1127,
+      "line": 1146,
       "file": "baserom.gba",
       "rom_offset": 5342348,
       "size": 48
     },
     {
       "source": "data/rodata_libgcc_end.s",
-      "line": 1130,
+      "line": 1149,
       "file": "baserom.gba",
       "rom_offset": 5342396,
       "size": 48
     },
     {
       "source": "data/rodata_libgcc_end.s",
-      "line": 1133,
+      "line": 1152,
       "file": "baserom.gba",
       "rom_offset": 5342444,
       "size": 48
     },
     {
       "source": "data/rodata_libgcc_end.s",
-      "line": 1136,
+      "line": 1155,
       "file": "baserom.gba",
       "rom_offset": 5342492,
       "size": 48
     },
     {
       "source": "data/rodata_libgcc_end.s",
-      "line": 1139,
+      "line": 1158,
       "file": "baserom.gba",
       "rom_offset": 5342540,
       "size": 48
     },
     {
       "source": "data/rodata_libgcc_end.s",
-      "line": 1142,
+      "line": 1161,
       "file": "baserom.gba",
       "rom_offset": 5342588,
       "size": 64
     },
     {
       "source": "data/rodata_libgcc_end.s",
-      "line": 1145,
+      "line": 1164,
       "file": "baserom.gba",
       "rom_offset": 5342652,
       "size": 64
     },
     {
       "source": "data/rodata_libgcc_end.s",
-      "line": 1148,
+      "line": 1167,
       "file": "baserom.gba",
       "rom_offset": 5342716,
       "size": 64
     },
     {
       "source": "data/rodata_libgcc_end.s",
-      "line": 1151,
+      "line": 1170,
       "file": "baserom.gba",
       "rom_offset": 5342780,
       "size": 160
     },
     {
       "source": "data/rodata_libgcc_end.s",
-      "line": 1154,
+      "line": 1173,
       "file": "baserom.gba",
       "rom_offset": 5342940,
       "size": 16
     },
     {
       "source": "data/rodata_libgcc_end.s",
-      "line": 1157,
+      "line": 1176,
       "file": "baserom.gba",
       "rom_offset": 5342956,
       "size": 16
     },
     {
       "source": "data/rodata_libgcc_end.s",
-      "line": 1160,
+      "line": 1179,
       "file": "baserom.gba",
       "rom_offset": 5342972,
       "size": 40
     },
     {
       "source": "data/rodata_libgcc_end.s",
-      "line": 1163,
+      "line": 1182,
       "file": "baserom.gba",
       "rom_offset": 5343012,
       "size": 48
     },
     {
       "source": "data/rodata_libgcc_end.s",
-      "line": 1166,
+      "line": 1185,
       "file": "baserom.gba",
       "rom_offset": 5343060,
       "size": 2
     },
     {
       "source": "data/rodata_libgcc_end.s",
-      "line": 1169,
+      "line": 1188,
       "file": "baserom.gba",
       "rom_offset": 5343062,
       "size": 18
     },
     {
       "source": "data/rodata_libgcc_end.s",
-      "line": 1172,
+      "line": 1191,
       "file": "baserom.gba",
       "rom_offset": 5343080,
       "size": 76
     },
     {
       "source": "data/rodata_libgcc_end.s",
-      "line": 1175,
+      "line": 1194,
       "file": "baserom.gba",
       "rom_offset": 5343156,
       "size": 8
     },
     {
       "source": "data/rodata_libgcc_end.s",
-      "line": 1178,
+      "line": 1197,
       "file": "baserom.gba",
       "rom_offset": 5343164,
       "size": 128
     },
     {
       "source": "data/rodata_libgcc_end.s",
-      "line": 1181,
+      "line": 1200,
       "file": "baserom.gba",
       "rom_offset": 5343292,
       "size": 92
     },
     {
       "source": "data/rodata_libgcc_end.s",
-      "line": 1184,
+      "line": 1203,
       "file": "baserom.gba",
       "rom_offset": 5343384,
       "size": 80
     },
     {
       "source": "data/rodata_libgcc_end.s",
-      "line": 1187,
+      "line": 1206,
       "file": "baserom.gba",
       "rom_offset": 5343464,
       "size": 8
     },
     {
       "source": "data/rodata_libgcc_end.s",
-      "line": 1190,
+      "line": 1209,
       "file": "baserom.gba",
       "rom_offset": 5343472,
       "size": 72
     },
     {
       "source": "data/rodata_libgcc_end.s",
-      "line": 1193,
+      "line": 1212,
       "file": "baserom.gba",
       "rom_offset": 5343544,
       "size": 9597468
     },
     {
       "source": "data/rodata_libgcc_end.s",
-      "line": 1196,
+      "line": 1215,
       "file": "baserom.gba",
       "rom_offset": 14941012,
       "size": 1836204

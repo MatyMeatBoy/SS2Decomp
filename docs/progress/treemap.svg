@@ -14,8 +14,8 @@
 <text x="269.0" y="86" fill="#e6edf3" font-size="10">940 bytes; not decompiled C</text>
 <rect x="506.0" y="30" width="235.0" height="66" rx="5" fill="#161b22"/>
 <text x="516.0" y="46" fill="#e6edf3" font-size="11">Identification</text>
-<text x="516.0" y="69" fill="#3fb950" font-size="21" font-weight="600">56.22%</text>
-<text x="516.0" y="86" fill="#e6edf3" font-size="10">1144 / 2035 registered names</text>
+<text x="516.0" y="69" fill="#3fb950" font-size="21" font-weight="600">56.36%</text>
+<text x="516.0" y="86" fill="#e6edf3" font-size="10">1147 / 2035 registered names</text>
 <rect x="753.0" y="30" width="235.0" height="66" rx="5" fill="#161b22"/>
 <text x="763.0" y="46" fill="#e6edf3" font-size="11">Historical C + linked</text>
 <text x="763.0" y="69" fill="#e6edf3" font-size="21" font-weight="600">93.13%</text>
@@ -432,9 +432,9 @@
 <rect x="362.83" y="257.37" width="14.27" height="12.14" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08029B98 | sub_08029B98 | unidentified  0x08029B98  340 bytes  [done]</title></rect>
 <rect x="362.83" y="269.51" width="14.27" height="11.71" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08029E0C | sub_08029E0C | unidentified  0x08029E0C  328 bytes  [done]</title></rect>
 <rect x="377.10" y="230.38" width="14.47" height="10.71" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>PlaySceneEntityAnimationAndWait | sub_0802926C | confirmed  0x0802926C  304 bytes  [done]</title></rect>
-<rect x="391.56" y="230.38" width="13.71" height="10.71" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08029CEC | sub_08029CEC | unidentified  0x08029CEC  288 bytes  [done]</title></rect>
-<rect x="405.27" y="230.38" width="13.52" height="10.71" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08029A7C | sub_08029A7C | unidentified  0x08029A7C  284 bytes  [done]</title></rect>
-<rect x="377.10" y="241.08" width="9.85" height="14.07" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0802996C | sub_0802996C | unidentified  0x0802996C  272 bytes  [done]</title></rect>
+<rect x="391.56" y="230.38" width="13.71" height="10.71" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>QueueLocalPlayerDamageAndAttemptResistanceGrowth | sub_08029CEC | confirmed  0x08029CEC  288 bytes  [done]</title></rect>
+<rect x="405.27" y="230.38" width="13.52" height="10.71" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>QueueRandomizedLocalPlayerDamage | sub_08029A7C | confirmed  0x08029A7C  284 bytes  [done]</title></rect>
+<rect x="377.10" y="241.08" width="9.85" height="14.07" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>RestoreLocalPlayerVitals | sub_0802996C | confirmed  0x0802996C  272 bytes  [done]</title></rect>
 <rect x="377.10" y="255.15" width="9.85" height="13.24" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>LoopSceneEntityAnimation | sub_0802939C | confirmed  0x0802939C  256 bytes  [done]</title></rect>
 <rect x="377.10" y="268.39" width="9.85" height="12.83" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>PlaySceneEntityAnimation | sub_08029174 | confirmed  0x08029174  248 bytes  [done]</title></rect>
 <rect x="386.95" y="241.08" width="10.68" height="9.73" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>CreateRestInteractionSceneActor | sub_0802CF84 | confirmed  0x0802CF84  204 bytes  [done]</title></rect>
@@ -2340,6 +2340,6 @@
 <text x="994" y="543" fill="#e6edf3" font-size="11" text-anchor="end">Matching + linked: 93.13% of 756392 code bytes, 2002/2007 functions</text>
 </svg>
 <text x="12" y="674" fill="#e6edf3" font-size="11">Area = code bytes. Partial yellow fill = recorded milestones, not matching percentage or remaining time.</text>
-<text x="12" y="692" fill="#e6edf3" font-size="11">Data: 406 incbin blocks (15.3 MiB), 11 / 412 descriptive labels; understanding: no percentage.</text>
+<text x="12" y="692" fill="#e6edf3" font-size="11">Data: 405 incbin blocks (15.3 MiB), 11 / 412 descriptive labels; understanding: no percentage.</text>
 <text x="12" y="710" fill="#e6edf3" font-size="11">Graph: 2035 functions, 10985 edges, 1292 unresolved calls. Source-derived; not a complete runtime graph.</text>
 </svg>

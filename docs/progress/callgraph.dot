@@ -577,10 +577,10 @@ digraph calls {
   "sub_0802939C" [label="LoopSceneEntityAnimation"];
   "sub_0802949C" [label="TurnSceneEntityTowardEntity"];
   "sub_08029788" [label="RestoreSceneEntityFacingGradually"];
-  "sub_0802996C" [label="sub_0802996C"];
-  "sub_08029A7C" [label="sub_08029A7C"];
+  "sub_0802996C" [label="RestoreLocalPlayerVitals"];
+  "sub_08029A7C" [label="QueueRandomizedLocalPlayerDamage"];
   "sub_08029B98" [label="sub_08029B98"];
-  "sub_08029CEC" [label="sub_08029CEC"];
+  "sub_08029CEC" [label="QueueLocalPlayerDamageAndAttemptResistanceGrowth"];
   "sub_08029E0C" [label="sub_08029E0C"];
   "sub_08029F54" [label="TriggerSceneEventForPlayerRectangleOverlap"];
   "sub_0802A01C" [label="sub_0802A01C"];
