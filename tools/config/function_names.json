@@ -25703,6 +25703,197 @@
           "detail": "Canonical Thumb entry for sub_08050688. Original EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc; static source/instruction evidence only."
         }
       ]
+    },
+    {
+      "address": "0x08059250",
+      "canonical_symbol": "sub_08059250",
+      "display_name": "RunPostRestInteractionDialogue",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08058790.c",
+          "line": 456,
+          "revision": "3e4e65f3940022de591db87b37fd322ccbf75eac",
+          "detail": "Sets local player flags bit 0 (input suppression), calls BeginLocalPlayerEventLock and turns the argument entity toward selector 0. Shows 0x1401E0 with the usual dialogue/text-window slot waits, StartFixedLayoutDialogueTask(1, 15, 2, 0, -1, id) and the IsWorldTaskSuspendRequested abort, then clears local flag bit 0 and calls EndLocalPlayerEventLock. It does not restore the facing."
+        },
+        {
+          "source": "baserom.gba",
+          "revision": "3e4e65f3940022de591db87b37fd322ccbf75eac",
+          "detail": "English resources decoded from language table 0x0838AFF0 (letter codes 0x01..0x3A = 'A'..'z', 0x3B '!', 0x51 space, 0xFE page, 0xFD end). Resource 0x1401E0 (prefix 'fM', same as the rest question 0x1401DF) reads 'Don`t push yourself too hard.'."
+        },
+        {
+          "source": "src/code_0802FEA0.c",
+          "revision": "3e4e65f3940022de591db87b37fd322ccbf75eac",
+          "detail": "RunRestInteractionDialogue installs this function as the actor's interaction callback (+0x44) after a completed rest sequence, replacing itself."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 998,
+          "revision": "3e4e65f3940022de591db87b37fd322ccbf75eac",
+          "detail": "Canonical Thumb entry for sub_08059250. Original EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc; static source/instruction evidence only."
+        }
+      ]
+    },
+    {
+      "address": "0x08030F54",
+      "canonical_symbol": "sub_08030F54",
+      "display_name": "RunLesterDialogue",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_0802FEA0.c",
+          "line": 491,
+          "revision": "3e4e65f3940022de591db87b37fd322ccbf75eac",
+          "detail": "Sets local player flags bit 0 (input suppression) and BeginLocalPlayerEventLock, with no facing change. Snapshots the level-encounter-cleared word (scene state +0x74, or +0x7C when scene flag bit 9 is set). If scene event flag 0x1A (bit 2 of event-flag byte +0x1BA, or +0x1C6) is set it shows 0x14016E. Otherwise the highest set bit among bits 9..0 selects 0x14016D down to 0x140164, and with none set it shows 0x140163. Each message uses the usual pattern: wait until no dialogue-task and no text-window slot is used, call StartFixedLayoutDialogueTask(1, 15, 2, 0, -1, id), then wait for DialogueStateIsComplete, calling CloseUsedDialogueWindowsAndWait and stopping if IsWorldTaskSuspendRequested is observed. Finally it clears local flag bit 0 and calls EndLocalPlayerEventLock."
+        },
+        {
+          "source": "baserom.gba",
+          "revision": "3e4e65f3940022de591db87b37fd322ccbf75eac",
+          "detail": "English resources decoded from language table 0x0838AFF0 (letter codes 0x01..0x3A = 'A'..'z', 0x3B '!', 0x51 space, 0xFE page, 0xFD end). The default resource 0x140163 begins 'This is Klantol Castle. I`m Lester, a guard here.' This is the self-introduction the existing CreateLesterSceneActor evidence cites. The flag-0x1A resource 0x14016E reads 'Ah, <name>! The King... The King!!'."
+        },
+        {
+          "source": "src/code_08028AAC.c",
+          "revision": "3e4e65f3940022de591db87b37fd322ccbf75eac",
+          "detail": "CreateLesterSceneActor (sub_0802D200) spawns the actor with sub_080289C0(0x31, 0x17E, 0x66) at line 4098 and stores this function at scene record +0x44 as its interaction callback.",
+          "line": 4117
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 624,
+          "revision": "3e4e65f3940022de591db87b37fd322ccbf75eac",
+          "detail": "Canonical Thumb entry for sub_08030F54. Original EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc; static source/instruction evidence only."
+        }
+      ]
+    },
+    {
+      "address": "0x080316A4",
+      "canonical_symbol": "sub_080316A4",
+      "display_name": "RunAzieDialogue",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_0802FEA0.c",
+          "line": 730,
+          "revision": "3e4e65f3940022de591db87b37fd322ccbf75eac",
+          "detail": "Sets local player flags bit 0 (input suppression), calls BeginLocalPlayerEventLock and turns the argument entity toward selector 0 with TurnSceneEntityTowardEntity. Waits for a free dialogue-task slot and asks 0x14018B with timing -2, waiting for completion without an abort test. If DialogueSelectionIsZero, it shows 0x14018E. Otherwise it asks 0x14018C (timing -2) the same way and shows 0x14018D when that selection is nonzero, or 0x14018E when it is zero. The final messages use the usual slot waits and the IsWorldTaskSuspendRequested abort. It then calls RestoreSceneEntityFacingGradually, clears local flag bit 0 and calls EndLocalPlayerEventLock. Which choice index means yes or no is not claimed."
+        },
+        {
+          "source": "baserom.gba",
+          "revision": "3e4e65f3940022de591db87b37fd322ccbf75eac",
+          "detail": "English resources decoded from language table 0x0838AFF0 (letter codes 0x01..0x3A = 'A'..'z', 0x3B '!', 0x51 space, 0xFE page, 0xFD end). Resource 0x14018B begins 'Hello, my name is Azie. | I am a traveling apprentice for the smith.' 0x14018C begins 'Have you heard of Mithril, Dark Matter, and Orihalcon?'; 0x14018D begins 'It`s really easy. | First, find 4 materials and go to the smith.'; 0x14018E reads 'Oh, I see. I guess I`m not needed.'"
+        },
+        {
+          "source": "src/code_08028AAC.c",
+          "revision": "3e4e65f3940022de591db87b37fd322ccbf75eac",
+          "detail": "CreateAzieSceneActor (sub_0802D800) spawns the actor with sub_080289C0(0x23, 0x40, 0x46) at line 4565 and stores this function at scene record +0x44 as its interaction callback.",
+          "line": 4584
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 627,
+          "revision": "3e4e65f3940022de591db87b37fd322ccbf75eac",
+          "detail": "Canonical Thumb entry for sub_080316A4. Original EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc; static source/instruction evidence only."
+        }
+      ]
+    },
+    {
+      "address": "0x08037B04",
+      "canonical_symbol": "sub_08037B04",
+      "display_name": "RunRestInteractionDialogue",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_0802FEA0.c",
+          "line": 3875,
+          "revision": "3e4e65f3940022de591db87b37fd322ccbf75eac",
+          "detail": "Sets local player flags bit 0 (input suppression), calls BeginLocalPlayerEventLock and turns the argument entity toward selector 0. Asks 0x1401DF with timing -2 and waits without an abort test. When DialogueSelectionIsZero returns 1, the rest sequence runs on selector 0 (the local player): a bed x is chosen by local ID (0: 0x12C, 1: 0x121, 2: 0x137, 3: 0x116; other IDs keep the value 1); animation 8, facing 2 and MoveSceneEntityToPosition to (x, 0x54) over 0x3C. It starts sub_0805A9F4 with argument 0x01E00042 in the first free scene callback control (+0xE34 bank, 0x400-byte stack). Then facing 0, animation 0x23 and 0x3C signal-1 waits, and four position steps alternating y 0x51/0x54 over 0x3C, each followed by up to 0x1E waits. It calls RestoreLocalPlayerVitals and starts song 0x91 unless the link-error mute is set. Then 0x1E waits, animation 0, facing 1, an immediate move to (x, 0x4C), 3 waits, (x, 0x4E) and 0x14 waits. Finally it replaces the actor's interaction callback (+0x44) with RunPostRestInteractionDialogue. Every path ends by clearing local flag bit 0, calling EndLocalPlayerEventLock and storing 0 in the local player's state halfword +0x20. All counted waits end early on LinkHasErrorFlag."
+        },
+        {
+          "source": "baserom.gba",
+          "revision": "3e4e65f3940022de591db87b37fd322ccbf75eac",
+          "detail": "English resources decoded from language table 0x0838AFF0 (letter codes 0x01..0x3A = 'A'..'z', 0x3B '!', 0x51 space, 0xFE page, 0xFD end). Resource 0x1401DF (portrait prefix 'fM') reads '<name>, do you need to rest?'. The name follows the existing CreateRestInteractionSceneActor role; no inn or character identity is inferred."
+        },
+        {
+          "source": "src/code_08028AAC.c",
+          "revision": "3e4e65f3940022de591db87b37fd322ccbf75eac",
+          "detail": "CreateRestInteractionSceneActor (sub_0802CF84) stores this function at scene record +0x44 as its actor's interaction callback.",
+          "line": 3912
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 655,
+          "revision": "3e4e65f3940022de591db87b37fd322ccbf75eac",
+          "detail": "Canonical Thumb entry for sub_08037B04. Original EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc; static source/instruction evidence only."
+        }
+      ]
+    },
+    {
+      "address": "0x080399E4",
+      "canonical_symbol": "sub_080399E4",
+      "display_name": "RunGalicDialogue",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_0802FEA0.c",
+          "line": 4694,
+          "revision": "3e4e65f3940022de591db87b37fd322ccbf75eac",
+          "detail": "Sets local player flags bit 0 (input suppression), calls BeginLocalPlayerEventLock and turns the argument entity toward selector 0 with TurnSceneEntityTowardEntity. Snapshots the level-encounter-cleared word (scene state +0x74, or +0x7C when scene flag bit 9 is set). If scene event flag 0x1A (bit 2 of event-flag byte +0x1BA, or +0x1C6) is set it shows 0x14017E. Otherwise the highest set bit among bits 9..0 selects 0x14017D down to 0x140174, and with none set it shows 0x140173. Each message uses the usual pattern: wait until no dialogue-task and no text-window slot is used, call StartFixedLayoutDialogueTask(1, 15, 2, 0, -1, id), then wait for DialogueStateIsComplete, calling CloseUsedDialogueWindowsAndWait and stopping if IsWorldTaskSuspendRequested is observed. It then calls RestoreSceneEntityFacingGradually, clears local flag bit 0 and calls EndLocalPlayerEventLock."
+        },
+        {
+          "source": "baserom.gba",
+          "revision": "3e4e65f3940022de591db87b37fd322ccbf75eac",
+          "detail": "English resources decoded from language table 0x0838AFF0 (letter codes 0x01..0x3A = 'A'..'z', 0x3B '!', 0x51 space, 0xFE page, 0xFD end). The default resource 0x140173 begins 'Yo, my name is Galic. I`m guarding this entrance.'. The name comes from that self-introduction."
+        },
+        {
+          "source": "src/code_08028AAC.c",
+          "revision": "3e4e65f3940022de591db87b37fd322ccbf75eac",
+          "detail": "CreateGalicSceneActor (sub_0802D73C) spawns the actor with sub_080289C0(0x48, 0x58, 0x40) at line 4502 and stores this function at scene record +0x44 as its interaction callback.",
+          "line": 4521
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 661,
+          "revision": "3e4e65f3940022de591db87b37fd322ccbf75eac",
+          "detail": "Canonical Thumb entry for sub_080399E4. Original EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc; static source/instruction evidence only."
+        }
+      ]
+    },
+    {
+      "address": "0x0803C3C8",
+      "canonical_symbol": "sub_0803C3C8",
+      "display_name": "RunTempleOfLightAttendantDialogue",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_0803B69C.c",
+          "line": 316,
+          "revision": "3e4e65f3940022de591db87b37fd322ccbf75eac",
+          "detail": "Sets local player flags bit 0 (input suppression) and BeginLocalPlayerEventLock, with no facing change. Waits for a free dialogue-task slot, asks 0x140203 with timing -2 and waits for completion without an abort test. When DialogueSelectionIsZero returns 1, it calls EnqueueLinkGuardedSceneCallbackTask(sub_0803C4C0, 0, 0) (result ignored) and returns at once, leaving local flag bit 0 and the event lock set for the requested callback. Otherwise it shows 0x140204 with the usual slot waits and IsWorldTaskSuspendRequested abort, clears local flag bit 0 and calls EndLocalPlayerEventLock."
+        },
+        {
+          "source": "baserom.gba",
+          "revision": "3e4e65f3940022de591db87b37fd322ccbf75eac",
+          "detail": "English resources decoded from language table 0x0838AFF0 (letter codes 0x01..0x3A = 'A'..'z', 0x3B '!', 0x51 space, 0xFE page, 0xFD end). Resource 0x140203 begins 'This is the Temple of Light. | Legendary treasures are enshrined here. | Sacrifice... four things...'. Resource 0x140204 reads 'Let the Light be with you.'. The name follows the existing CreateTempleOfLightAttendantSceneActor role; no personal name is inferred."
+        },
+        {
+          "source": "src/code_08028AAC.c",
+          "revision": "3e4e65f3940022de591db87b37fd322ccbf75eac",
+          "detail": "CreateTempleOfLightAttendantSceneActor (sub_0802F4B0) stores this function at scene record +0x44 as its actor's interaction callback.",
+          "line": 6468
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 672,
+          "revision": "3e4e65f3940022de591db87b37fd322ccbf75eac",
+          "detail": "Canonical Thumb entry for sub_0803C3C8. Original EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc; static source/instruction evidence only."
+        }
+      ]
     }
   ]
 }
