@@ -4584,12 +4584,16 @@ block_1459:
                             }
                             break;
                         case 4:                     /* switch 23 */
-                            if (((struct PlayerD368 *)arg0)->f10 == 4) {
+                            temp_r0_145 = ((struct PlayerD368 *)arg0)->f10;
+                            if (temp_r0_145 == 4) {
                                 ((struct PlayerD368 *)arg0)->fB0 = ((struct PlayerD368 *)arg0)->fB0 + 8;
                                 goto animationClassDoneD368;
                             }
+                            goto animationClassCompare126;
 block_1503:
-                            if (((struct PlayerD368 *)arg0)->f10 == 5) {
+                            temp_r0_145 = ((struct PlayerD368 *)arg0)->f10;
+animationClassCompare126:
+                            if (temp_r0_145 == 5) {
                                 ((struct PlayerD368 *)arg0)->fB0 = ((struct PlayerD368 *)arg0)->fB0 + 8;
                                 goto animationClassDoneD368;
                             }
