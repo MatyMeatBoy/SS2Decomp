@@ -18646,6 +18646,255 @@
           "detail": "Displays a paged item-selection HUD with three item records per page at character/inventory base +0x70 and selection at +0x68; that base is reached through pointer global 030034E0. L-key pressed edge 0x200 advances/wraps the selection and invokes selection updater sub_0805AD78. Maintains background-frame tiles, item icons and selection cursor, with optional slide-in/out presentation. Mode zero keeps the HUD active; nonzero waits signal 0x18A92 between presentations. Tests the shared world-scene stop request at update boundaries; a blocked event wait still requires its wakeup. Count and change-tracking bytes come from local player +0x77/+0x78. Exact weapon-only semantics are not established by the SS2 evidence used here."
         }
       ]
+    },
+    {
+      "address": "0x080A104C",
+      "canonical_symbol": "sub_080A104C",
+      "display_name": "HoldBoundedBg2RockingRecovery",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_0809D878.c",
+          "line": 2175,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Sets hold byte 03000339 to 1. In the nonzero-mode branch of A099C, this bypasses the recovery countdown and its phase-step/amplitude adjustments. It does not pause phase advancement, affine-shadow updates, player/record warping or the task itself. Mode zero ignores this hold byte and continues its independent amplitude-to-zero recovery. No timer or transform state is changed here."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 1749,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Original A1050 is a single byte store. A09FE..A0A04 tests this byte only after nonzero mode 338; nonzero branches directly to A0A86 after the unconditional call to the angle-stepper at A09F2; that helper separately honors its own pause byte. Complete selected control and task ranges equal original EU ROM and existing linked ELF, SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc. Static evidence only."
+        },
+        {
+          "source": "src/code_0809D878.c",
+          "line": 1836,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Matched A05B4 caller unpauses transform angle updates, sets phase step 4, then invokes A104C and plays sound 0xBE; it later invokes A1058. This call sequence corroborates recovery hold rather than pausing the rocking task or transform. No exact enemy/attack title is assigned."
+        }
+      ]
+    },
+    {
+      "address": "0x080A1058",
+      "canonical_symbol": "sub_080A1058",
+      "display_name": "ReleaseBoundedBg2RockingRecovery",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_0809D878.c",
+          "line": 2178,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Clears hold byte 03000339 and resets the shared recovery countdown 0300033A to 20. The next task updates may resume bounded recovery when nonzero mode is selected; zero mode also sees the restarted countdown. Does not immediately change amplitude/phase step, request a zero target, update affine registers or wait. Countdown units are task updates, not guaranteed elapsed frames."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 1750,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Original A105C stores zero to hold, then A1062 stores 0x14 to the countdown. A0A06..1C and A0A58..6E consume that shared byte. Complete selected control and task ranges equal original EU ROM and existing linked ELF, SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc. Static evidence only."
+        },
+        {
+          "source": "src/code_0809D878.c",
+          "line": 1836,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Matched A05B4 caller unpauses transform angle updates, sets phase step 4, then invokes A104C and plays sound 0xBE; it later invokes A1058. This call sequence corroborates recovery hold rather than pausing the rocking task or transform. No exact enemy/attack title is assigned."
+        }
+      ]
+    },
+    {
+      "address": "0x080A1094",
+      "canonical_symbol": "sub_080A1094",
+      "display_name": "SelectBg2RockingBoundedRecovery",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_0809D878.c",
+          "line": 2191,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Sets mode byte 03000338 to 1 and immediately writes signed amplitude +6 to 0300033C. In this mode, if hold is clear, the task countdown periodically decrements an unsigned phase step only when >1, and moves signed amplitudes outside [-6,6] one unit toward that band. Step zero remains zero; amplitudes already inside the band are not raised to magnitude 6 by recovery itself. Does not release hold, restart the countdown, reset phase or immediately write the BG2 shadow. The task resets this mode byte on first entry."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 1754,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Original A1098 stores mode 1 and A109E stores amplitude 6. A09D4 initializes mode 0 at task entry; A0A14..56 implements the exact unsigned-step and signed-amplitude bounds. Complete selected control and task ranges equal original EU ROM and existing linked ELF, SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc. Static evidence only."
+        },
+        {
+          "source": "src/code_0809D878.c",
+          "line": 1836,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Matched A05B4 caller unpauses transform angle updates, sets phase step 4, then invokes A104C and plays sound 0xBE; it later invokes A1058. This call sequence corroborates recovery hold rather than pausing the rocking task or transform. No exact enemy/attack title is assigned."
+        }
+      ]
+    },
+    {
+      "address": "0x080A10AC",
+      "canonical_symbol": "sub_080A10AC",
+      "display_name": "SelectBg2RockingZeroRecovery",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_0809D878.c",
+          "line": 2195,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Clears mode byte 03000338. On future countdown expirations, A099C then moves the signed amplitude one unit toward zero; the phase step is not reduced in this branch and hold byte 339 is ignored. Does not immediately zero amplitude, reset timer/phase, stop the task or restore transformed positions. This selects recovery behavior rather than an active/inactive status for the whole effect."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 1755,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Original A10B0 clears only mode 338; A0A58..84 uses the shared countdown and signed-amplitude tests to add or subtract one toward zero. Complete selected control and task ranges equal original EU ROM and existing linked ELF, SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc. Static evidence only."
+        },
+        {
+          "source": "src/code_0809D878.c",
+          "line": 1836,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Matched A05B4 caller unpauses transform angle updates, sets phase step 4, then invokes A104C and plays sound 0xBE; it later invokes A1058. This call sequence corroborates recovery hold rather than pausing the rocking task or transform. No exact enemy/attack title is assigned."
+        }
+      ]
+    },
+    {
+      "address": "0x08092080",
+      "canonical_symbol": "sub_08092080",
+      "display_name": "IsStartupButtonSequenceComplete",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_0808FB5C.c",
+          "line": 1785,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Returns exactly 1 when byte 03000168 equals 13, otherwise 0. This byte is the progress/latch consumed by the startup sequence updater. Querying it does not change the latch, poll input or independently select a title option."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 1566,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Original 92080..92092 uses LDRB, compares exactly 0xD and returns 0/1. Complete three-helper ranges equal original EU ROM and existing ELF; EU SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc. Static evidence only."
+        },
+        {
+          "source": "src/code_08002118.c",
+          "line": 449,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Matched title loop 02694 checks this completion query with held Start when A is pressed after the title has started; that combination selects option index 3. The selected option later starts 920E4. No exact extra-menu title, cheat benefit or gameplay mode is inferred."
+        }
+      ]
+    },
+    {
+      "address": "0x08092094",
+      "canonical_symbol": "sub_08092094",
+      "display_name": "ResetStartupButtonSequenceProgress",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_0808FB5C.c",
+          "line": 1791,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Stores byte zero to startup button-sequence progress/latch 03000168. Does not clear held/pressed input, change the ROM sequence table or directly close the menu enabled by completion."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 1567,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Original 92094..9209A is one STRB of zero. Complete selected range equals original EU ROM and existing ELF; static evidence only."
+        },
+        {
+          "source": "src/code_08001A50.c",
+          "line": 98,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Matched root initialization invokes this before starting the startup/UI tasks. The updater uses the same byte as a table cursor and stops advancing at 13; this reset releases that completed latch."
+        }
+      ]
+    },
+    {
+      "address": "0x080920A0",
+      "canonical_symbol": "sub_080920A0",
+      "display_name": "UpdateStartupButtonSequenceProgress",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_0808FB5C.c",
+          "line": 1794,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "If progress byte 03000168 already equals 13, returns immediately. Otherwise compares ROM byte 0851844E[progress] with the full pressed-key halfword 03001324: exact equality increments the byte, a different nonzero press resets it to zero, and a zero press leaves progress unchanged. Reaching 13 requests audio resource 0x33 through 5865C. Completion is latched until explicitly reset; a mismatch does not retry the same press as sequence entry zero."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 1568,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Original 920A4..920DC confirms byte table/byte progress versus LDRH pressed input, exact comparison, reset and completion call. The first 13 ROM bytes at 0851844E are 40 80 40 80 20 10 20 10 40 10 80 20 02. There is no cursor bounds guard except the equality-to-13 early return; arbitrary corrupt progress values are not assumed safe. Complete helper bytes equal original EU ROM and existing ELF."
+        },
+        {
+          "source": "src/code_08002118.c",
+          "line": 215,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Matched startup callback 0232C calls this during its initial transition waits and 180-update display loop. The later title query 92080 gates selection of extra option index 3. No execution-time guarantee, exact option title or runtime playback evidence is assigned."
+        }
+      ]
+    },
+    {
+      "address": "0x080904A4",
+      "canonical_symbol": "sub_080904A4",
+      "display_name": "TaskRunSongAndSoundTestMenu",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_0808FB5C.c",
+          "line": 504,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Runs an animated song/sound-test UI. Selection mode chooses either a 37-entry song table (085181C0, indices 0..36) or a 290-entry sound table (0851820A, indices 0..289). Start toggles selection mode only when no song is flagged playing; Left/Right changes the selected list, Up/Down wraps its index when the debounce counter is zero, A starts the selected ID and B stops audio in selection mode or exits the idle mode. These are input-update/task-loop semantics, not fixed elapsed-frame guarantees."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 1553,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Original 90876/908AE implement song wrap 36, and literals at 9088C/908D4 hold sound bound 289. SDK calls 9090C/9099C stop selected songs, 9094A starts a song, 9095E/909C8 stop selected sounds and 9096C starts a sound. They target original m4aSongNumStart 0B7208 / m4aSongNumStop 0B72D4. Complete callback bytes equal original EU ROM/existing linked ELF; selected entry, index/SDK and exit paths inspected, not all 848 proof lines semantically audited."
+        },
+        {
+          "source": "src/code_0808FB5C.c",
+          "line": 485,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Pinned u16 table aliases identify the two audio ID arrays. ROM label-pointer table 08518198 first pair points to ASCII \"  BGM\" and \"   SE\"; array boundaries exactly match 37/290 halfwords and original wrap limits. This independently corroborates the audio-test role. No universal language/class meaning is inferred for global table-row selector 03003470, and no exact printed menu title is claimed."
+        },
+        {
+          "source": "src/code_0808FB5C.c",
+          "line": 710,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "On exit, waits through the fade while continuing sprite draws, frees nonzero preview buffer 0300016C, selects palette mode 0 through 1A6D4(0), enables forced blank and wakes signal 0x14. Original 90B4E..90B6A corroborates these effects. It does not issue an all-player/all-sound stop on the final exit path, so no global audio-quiescence guarantee is assigned."
+        }
+      ]
+    },
+    {
+      "address": "0x080920E4",
+      "canonical_symbol": "sub_080920E4",
+      "display_name": "StartSongAndSoundTestMenuTask",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_0808FB5C.c",
+          "line": 1805,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Initializes task control 030001C0 with callback 904A4, null destructor, a 0x800-byte stack, stack pointer base+0x7FC and scheduling-order key 0x40. Clears the control previous/next link fields and starts with both callback argument words zero. Does not locally check prior scheduler membership or allocation failure before reinitializing the control."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 1569,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Original 920EA installs 904A4, 920EE clears destructor, 920F4 allocates the stack, 92102 sets key 0x40, 92104/92106 clear links and 9210E starts the task. Complete starter original body inspected and equal existing linked EU ELF/ROM, SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc."
+        },
+        {
+          "source": "src/code_08002118.c",
+          "line": 508,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Matched title task dispatches option index 3 to 920E4. The startup button-sequence completion query can select that option, while callback 904A4 directly browses/plays BGM/SE tables. This establishes the starter’s concrete audio-test role without naming a cheat benefit, exact printed title, runtime reachability or full replay synchronization."
+        }
+      ]
     }
   ]
 }

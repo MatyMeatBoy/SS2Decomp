@@ -310,3 +310,28 @@ when scheduled. Constructor registration and the original callback establish
 the paged three-item selection HUD role. Its inventory is reached through
 pointer global `030034E0`, not manager `03006440`. Cancellation does not promise
 visual cleanup, cooperative slide-out or index validation.
+
+## Rocking recovery, startup input latch and audio-test UI
+
+Nine further reviewed rows cover four BG2 recovery controls, three startup
+sequence helpers and the audio-test task/starter. The recovery hold suppresses
+only the bounded-mode countdown and adjustments. The angle-stepper is still
+called, but its separate pause byte can suppress phase advancement. Zero-mode
+amplitude recovery ignores the hold. Release resets the shared countdown to 20;
+selecting bounded mode immediately assigns amplitude 6.
+
+The input updater compares one expected sequence byte with the complete
+pressed-key halfword, preserves progress on zero input, resets on another
+nonzero value and latches at 13. Its startup callers belong to `0800232C`, not
+link-buffer accessor `08002118`. The title option path and the BGM/SE menu
+provide separate consumer evidence; no gameplay benefit or verified replay is
+claimed.
+
+The audio menu browses tables of 37 song IDs and 290 sound IDs. Input handling,
+SDK start/stop calls and the original ASCII BGM/SE labels establish its role.
+Its final exit fades, frees the preview allocation, restores palette mode,
+forces blank and wakes signal `0x14`; it does not issue a final global sound
+stop. The starter has no local scheduled-task or stack-allocation guard.
+
+Two substantive evidence overlays correct the stepper-call wording and startup
+caller address. Other frozen evidence remains unchanged.
