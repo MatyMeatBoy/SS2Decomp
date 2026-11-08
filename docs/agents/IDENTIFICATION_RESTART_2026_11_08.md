@@ -83,10 +83,11 @@ inputs.
 
 ## Pending review and regional evidence
 
-PRs #684 and #685 remain separate review work. Mechanical player flag-bit names
-must not be promoted merely to raise coverage. Preserved input-suppression,
-target-movement, defeat-protection and sprite-hide cohorts may provide stronger
-roles, but require independent primary-body and consumer review first.
+At the first nine-row checkpoint, PRs #684 and #685 remained separate review
+work. Mechanical player flag-bit names must not be promoted merely to raise
+coverage. The subsequent review sections below record which preserved
+input-suppression, target-movement, defeat-protection and sprite-hide roles
+passed independent primary-body and consumer review.
 
 No new USA/Japan correspondences or runtime observations are asserted here.
 The preserved EU movie report found no verified EU input movie and one savestate
@@ -164,3 +165,94 @@ Object finalizer `0805A780` compares an embedded task-control address
 `record + 0x48` with its argument, not a pointer loaded from that field. Its
 palette handle at `+0x40` is a halfword. Movement rollback in matched `08013CEC`
 corroborates the collidable-object role of query `08057068`.
+
+## Coordinated-attack phase and request cohort
+
+Four further rows reuse the frozen, independently reviewed `coordinatedphase3`
+and `coordinatedenqueue1` cohorts at
+`b0270484a6dcc0e4649508a2c5589c502c8cdf39`.
+
+`0800CD68/0800CD78/0800CD8C` set, clear and query scene flag bit 6. Task
+`0806441C` marks this phase before its guarded presentation. The normal path
+clears it at `080647DC`, before the later `0x586` synchronization and enemy
+damage/result work. Early returns at `08064632..08064644` bypass that clear;
+the alternate path clears at `08064DF8`. Names therefore describe a marked
+scene phase of coordinated attack, not the whole attack lifetime or a universal
+world lock. World-item draw gating and the original inventory input-clearing
+path independently corroborate its scene consumers.
+
+`08067F94` attempts to enqueue tag `0x9E` with
+`(c << 16) | (b << 8) | a`. The three operands are full 32-bit values without
+masks, so arbitrary independent byte fields are not inferred. Receiver
+`08067680..08067694` passes the peer's player record and packed word to
+`08065918`, which schedules `0806441C` only if its shared control is idle.
+The callback extracts two bytes and independently recounts participants.
+The producer's state-14 caller resets its shared counter even after a failed
+enqueue. Queue acceptance proves neither transmission nor task creation.
+
+These are four previously pending addresses, with no new runtime or regional
+correspondence claim. Their original frozen evidence remains unchanged.
+
+## Scene-object lifecycle and world-item drawing
+
+Nine additional reviewed rows reconcile the remaining two `sceneobject3`
+entries, five `objectinteraction5` entries and two `worlditem2` entries from the
+frozen next52 cohort. `0805A780` is excluded because the corrected #685 cohort
+already identifies that same address.
+
+Constructors `0805A7C4/080289C0` use embedded controls at record `+0x48` and
+unchecked one-shot stack allocations. The latter waits only for startup word
+`+0x3C` to stop being 1. Callback `080284F4` writes 2 at entry, before resource
+or palette setup, so this wait does not establish resource readiness. Its
+full-pool/ID-zero lookup and failed-lookup null-base read remain documented.
+
+`0805A6DC/0805A6F0/0805A704` query/set/clear the scene bit that gates starting
+an object's interaction callback. Starter `0805A58C` sets it before allocation
+retries and installs `0805A704` as finalizer. This is no atomic exclusion or
+count of outstanding interactions. On full pool, the original exit preserves
+the last nonzero scheduler-membership result in R0; it is not a valid control
+pointer or normalized null failure. The C fallthrough must not be interpreted
+as an indeterminate original machine value.
+
+`0805B140/0805B21C` draw and initialize sixteen world-item records. Globals
+`03005D58/03005D60` contain allocation pointers; the task control `03005D30` is
+fixed storage. Normal stop frees and nulls the item buffer, waits for six
+secondary controls and frees their buffer without clearing its pointer. It
+does not free the separate allocation addressed by `03000124`.
+
+All nine names retain narrow lifecycle, interaction or drawing roles, without
+assigning NPC identities, dialogue content, multiplayer transport or safe
+allocation-failure behavior. The frozen inputs remain unchanged; an additive
+three-row precision overlay records the machine-return and pointer-global
+clarifications.
+
+## Window requests, camera endpoint and interaction setters
+
+Nine reviewed next52 rows cover four screen-transition requests, one fixed
+camera animation, two object setters, a local-player ID wrapper and an effect
+task finalizer. The earlier six-row precision overlay is retained, including
+the distinction between scheduler signal 100 decimal (`0x64`) and `0x100`.
+
+`0801AB50/0801ABE8` request the reveal/hide window route. That controller route
+overwrites duration with 2. `0801AB90/0801AC24` request brightness changes without
+reconfiguring windows in their selected route. Active bit `0x2` has priority
+over `0x10`; preserving other requests prevents an unconditional claim that
+windows stay fixed. Request helpers do not wait for completion.
+
+`08059890` has a fixed inclusive weight sequence 0,2,...,1024 and captures its
+initial offsets once. Normal uninterrupted execution performs 513 explicit
+writes and signal-1 waits, ending at `(0,-50)`. It takes no duration argument;
+neither wall-clock duration nor a particular screen identity is inferred.
+
+`08057534/08057580` write interaction dimensions and callback by full object ID.
+Their miss path waits once and returns without rescanning. Callback task entry
+initialization clears `+0x44`, so an earlier setter call is not promised to
+survive that initialization. `080576E0` only forwards the local-ID accessor;
+an ID does not establish connected peers.
+
+The empty `0807A120` is identified from actual effect-task finalizer assignments
+at task `+0x24`, including starter `08073E2C`, and the scheduler's invocation of
+that slot. Its body alone would not justify the role. It performs no resource
+cleanup; scheduler continuations separately free stacks and unlink tasks.
+An additive one-row overlay only expands the `0801AC24` controller interval
+from shorthand `1A874..A91A` to `1A874..1A91A`.
