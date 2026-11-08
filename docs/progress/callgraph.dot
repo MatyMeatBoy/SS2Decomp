@@ -1253,7 +1253,7 @@ digraph calls {
   "sub_08067CE8" [label="QueueEntityFullHpDamageRequest"];
   "sub_08067D28" [label="EnqueueLinkStatusRecordUpdate"];
   "sub_08067D74" [label="EnqueueLinkPlayerFlags"];
-  "sub_08067DC8" [label="sub_08067DC8"];
+  "sub_08067DC8" [label="QueueLinkSceneExitWithDestination"];
   "sub_08067E08" [label="sub_08067E08"];
   "sub_08067E48" [label="IsOutgoingLinkHeadMarkedSending"];
   "sub_08067E60" [label="RemovePendingEnemyActionStateBySpawnId"];
@@ -1262,7 +1262,7 @@ digraph calls {
   "sub_08067F4C" [label="TryEnqueueLinkItemDelivery"];
   "sub_08067F94" [label="TryEnqueueCoordinatedAttackRequest"];
   "sub_08067FE0" [label="EnqueueLinkClassSkillEffect"];
-  "sub_08068030" [label="sub_08068030"];
+  "sub_08068030" [label="QueueLinkEnemyCriticalHitMarker"];
   "sub_08068070" [label="EnqueueLinkSceneCallbackTask"];
   "sub_080680B4" [label="TryEnqueueEnemyEffectByKey"];
   "sub_080680F8" [label="EnqueueLinkEligiblePlayerCentroidAreaAttack"];
@@ -1346,7 +1346,7 @@ digraph calls {
   "sub_08074818" [label="AnimateEntityCombatBonusBuffActivation"];
   "sub_0807498C" [label="AnimateEntityFourAttributeBuffActivation"];
   "sub_08074B00" [label="AnimateEntitySelfBuffActivation"];
-  "sub_08074C74" [label="sub_08074C74"];
+  "sub_08074C74" [label="AnimateAllyBuffActivation"];
   "sub_08074DE8" [label="StartEntityAttachedAbilityVisual"];
   "sub_08075088" [label="RunThreeStaggeredForwardHitAnimations"];
   "sub_08075494" [label="StartThreeStaggeredForwardHitAnimations"];

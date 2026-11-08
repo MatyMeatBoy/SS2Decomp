@@ -32239,10 +32239,17 @@
       "canonical_symbol": "sub_08067DC8",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_08067DC8",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "QueueLinkSceneExitWithDestination",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_08067B4C.c",
+          "line": 129,
+          "revision": "8bbfb589bf6ab55018ae7e465fc0e674879c81fa",
+          "detail": "Complete original08067DC8..08067E08 audited ROM=ELF. No argument read. If queue count<=49 append tag8D,flagsword+4=1,current sceneWORD+40 atpayload+8,byte1=1,incrementcount,return1; otherwise0. Declares8payloadbytes but initializes4. Receiver6690C at src/code_080659B0.c1182 writes sceneWORD+40 frommessage and calls56E64, which sets scenehalfwordflags bit4 tested by56E90; caller245CC src/code_08021DC4.c2493 sets destination before retrying enqueue, while other callers8FD88 atsrc/code_0808FB5C.c154 enqueue aftercredits and wait while56E90==0 and21A8==0, yielding1; this wait can end on21A8 without scene-exit flag. Together anchor scene exit/transition request carrying current destination. Neither enqueue success nor remote receipt guarantees transition completion; it does not select destination itself. Pinned giant245CC used as reading aid; smaller matchedreceiver/56E64/8FD88 provide independent semantic anchors."
+        }
+      ]
     },
     {
       "name": "sub_08067E08",
@@ -32535,10 +32542,17 @@
       "canonical_symbol": "sub_08068030",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_08068030",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "QueueLinkEnemyCriticalHitMarker",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_08067B4C.c",
+          "line": 240,
+          "revision": "8bbfb589bf6ab55018ae7e465fc0e674879c81fa",
+          "detail": "Complete original08068030..08068070 audited ROM=ELF. ABI r0 full word, caller1F374 at src/code_0801E244.c1034 supplies target unique halfword id only after critical-hit branch passes. That branch computes chance for source class2, requests sound0x132 and sets critical=1. Sender appends tagA1,flagsword+4=1,payloadword+8=r0,byte1=1 at queue stride136; count<=49 required, returns1 on enqueue else0, no coalescing/wait. One8-byte chunk declared but only4bytes initialized. Receiver6690C at src/code_080659B0.c1431 resolves active enemy by LOW BYTE payload against id+2; sets enemy BYTE+0x201 mask0x2 (676E0..6770C enters shared tail66AFC, whose PC literal66B1C is0x201; source bitfield alias does not establish byte1FD), zeroes halfword+8A and scenehalfword+C=1. Name anchors critical marker request, not successful critical damage or a specific visual animation; no recipient match means no marker. Full-word producer ABI is not narrowed to byte despite receiver use."
+        }
+      ]
     },
     {
       "name": "sub_08068070",
@@ -34994,10 +35008,17 @@
       "canonical_symbol": "sub_08074C74",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_08074C74",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "AnimateAllyBuffActivation",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_08073E2C.c",
+          "line": 527,
+          "revision": "8bbfb589bf6ab55018ae7e465fc0e674879c81fa",
+          "detail": "Complete original08074C74..08074DE8 audited ROM=ELF. ABI r0 entity index/r1 task bit; player<=3 uses packed x12/y12 via pointer+148, enemy indexwho-4 uses signed16 pixel truncation of its Q8 position words via(s32)((u32)word<<8)>>16. Resource5008D animation9 follows live entity position and draws atscreenY-24 with visibility arg0; frame/timerhalfwords initialized0,stylebytes7/8. Animation advances even when CC98/CD8C/CCCC suppress drawing; even globalframe copies2palette units bank23. Each iteration yields; completion clears030063E0[who] bit(slot). No ownerbounds/cancellation/timeout. Purpose anchor: matched74DE8 selects this callback for abilitykind20 (both entity domains); matched7356C in src/code_08068670.c5960..6068 starts kind20 visual for local caster or nearby same-team recipients while inserting/upgrading type5 timed buff (duration formula((u16)level*10+40)*60 stored narrowed into signed16 timer, source owner and low16 level). This visual does not apply buff or prove insertion success; exact stat/spell identity intentionally omitted. Supporting source is pinned and original target body controls widths/exits. Additional original producer closure:7386C case20 selects7356C and stores kind20 at argument word+C;7356C forwards that word to74DE8.7356C initializes its player pointer only for owner<=3; its owner>3 position path therefore uses a preserved/uninitialized pointer, a producer-specific limitation. This does not remove74C74 enemy-coordinate branch or74DE8 enemy-domain case20 dispatch. No claim that all owner domains successfully produce or receive a buff visual."
+        }
+      ]
     },
     {
       "name": "sub_08074DE8",
@@ -51195,12 +51216,12 @@
   "identification": {
     "game": {
       "total": 1880,
-      "identified": 922,
+      "identified": 925,
       "existing": 23,
-      "confirmed": 899,
+      "confirmed": 902,
       "proposed": 8,
-      "unidentified": 950,
-      "percent_identified": 49.04255319148936
+      "unidentified": 947,
+      "percent_identified": 49.202127659574465
     },
     "sdk": {
       "total": 155,
@@ -51213,12 +51234,12 @@
     },
     "all": {
       "total": 2035,
-      "identified": 1077,
+      "identified": 1080,
       "existing": 152,
-      "confirmed": 925,
+      "confirmed": 928,
       "proposed": 8,
-      "unidentified": 950,
-      "percent_identified": 52.923832923832926
+      "unidentified": 947,
+      "percent_identified": 53.07125307125307
     }
   },
   "limitations": "Configured function address intervals, including alignment/literal pools; inventory includes original assembly and linked libraries. Existing descriptive identifiers are recognized, not independently semantically re-proven."
