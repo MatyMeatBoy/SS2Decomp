@@ -3128,7 +3128,7 @@ void sub_0807C29C(void) {
             u32 *p;
             gMgr82->stock[3] = gMgr82->held;
             have = gMgr82->heldIdx;
-            p = &gInv82->items[have].count;
+            p = (u32 *)((u32)gInv82 + offsetof(struct Inv82, items) + offsetof(struct Item82, count) + have * sizeof(struct Item82));
             if (*p == gMgr82->held.count)
                 sub_0807BD78(gMgr82->heldFrom, have);
             else
