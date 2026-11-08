@@ -23041,6 +23041,108 @@
           "detail": "Independent names-low-a review: The linked callbackE970 queues E530, whose terminal effect is area damage through79888/79458 (peer B07 independently reviewed). Exact map cases and transition exits match original. Guarded573A0 wrapper swaps r0/r1 and forwards r2 unchanged.68820 stores third full word0x80000000 at payload+8 and tagA4 with two chunks. If accepted and received intact,6690C caseA4 loads this payload word as r2 into57430;57430 original5743E..40 computes MOVS r4,1 then register LSLS r4,r2. The GBA register-shift count uses low8 bits, so this raw value conditionally yields mask1 in scene+6C, not mask80000000.57430 tests/sets this guard before searching30 task slots; already-set guard skips and full pool can latch it without callback. Request is not execution/completion or guaranteed peer agreement."
         }
       ]
+    },
+    {
+      "address": "0x08077508",
+      "canonical_symbol": "sub_08077508",
+      "display_name": "RunEnemyAimedDamageProjectile",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08073E2C.c",
+          "line": 2156,
+          "revision": "8bbfb589bf6ab55018ae7e465fc0e674879c81fa",
+          "detail": "Machine ABI r0=enemy index, r1=packed target high16 and task-slot low4. Uses enemy-indexed resource/palette with special resource 0x5001E for byte +226==3. Computes aim once from target position; restricts angular deviation from facing, then moves three sine-table units per iteration for a 34-count lifetime. Waits enemy halfword +6A to reach byte +22B; early cancellation clears owner+4 task bit. Player-domain scan geometrically checks all players but damage/avoidance applies only local authority; success adds halfword damage to player +88 and records serial history. Avoidance adds quarter damage (minimum 1) to +8A without setting stop-hit. Enemy-domain scans five active enemies, excluding caster; successful roll writes pending enemy damage and submits its packet only when 08002204 is nonzero, but sets stop-hit regardless of that predicate. Damage accumulator +4A is halfword, +4C word. Failed enemy roll can use an uninitialized player-base register. Hit, terrain low-nibble collision without bit 0x10, timeout or global cancellation ends; drawing gates do not prevent position advancement/yield. No continuous homing, bounds validation or universally safe enemy-target contract. Complete original configured body inspected and equal to the local EU ROM and supplied verified-main ELF. Static research only; no worker build or runtime testing. Independent original: player failed-roll writes serial history unconditionally; only setting stop-hit is gated on CD34/CCCC/CD8C all returning0 and the sound55 request. Enemy failed-roll sets stop-hit unconditionally after writing through an uninitialized player-base register. Avoidance quarter amount adds into halfword+8A and can wrap; no actual HP damage is inferred."
+        }
+      ]
+    },
+    {
+      "address": "0x08077D04",
+      "canonical_symbol": "sub_08077D04",
+      "display_name": "StartEnemyAimedDamageProjectile",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08073E2C.c",
+          "line": 2388,
+          "revision": "8bbfb589bf6ab55018ae7e465fc0e674879c81fa",
+          "detail": "Searches 16 bits in 030063E0[enemyIndex+4]. Writes priority 0x34 to selected 40-byte task record before allocating 0x400 bytes; allocation pointer stored at +20 even on failure. Success sets callback 77508, stack top allocation+0x3FC, cleanup zero and starts scheduler with r1=original enemy index and r2=(incoming target word<<16)|slot, thereby retaining only low16 target bits. Sets occupancy bit after scheduler registration. Exhaustion or allocation failure returns without starting; failure does not roll back priority. This schedules asynchronous work and does not report projectile completion. Complete original configured body inspected and equal to the local EU ROM and supplied verified-main ELF. Static research only; no worker build or runtime testing."
+        }
+      ]
+    },
+    {
+      "address": "0x08077DAC",
+      "canonical_symbol": "sub_08077DAC",
+      "display_name": "RunEnemyDamageProjectileWithSceneObjectCollision",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08073E2C.c",
+          "line": 2452,
+          "revision": "8bbfb589bf6ab55018ae7e465fc0e674879c81fa",
+          "detail": "Machine ABI r0=enemy index, r1=target high16/task-slot low4. Aims once and restricts deviation using table 0847AD0A; selects enemy-indexed projectile resource. Waits +6A >= byte +22B with 56E90 abort conditional on enemy halfword +7A bit0; BA6C/state10/11 also abort. Runs 34-count flight, moving signed sine*20/10 each ordinary iteration. Player domain checks only local player word +8C/+90; close sprite kind14 or team0 consumes a count via continue without movement/yield. Local hit and avoidance both stop; failed hit roll does not necessarily stop. Enemy domain checks five active enemies without excluding caster and without host damage gate; its geometry subtracts fixed projectile coordinates from already shifted enemy coordinates before signed16 truncation, unlike player geometry. Failed enemy roll may use an uninitialized player-base register. An 8x8 scene-object collision probe via 1FB14 with damage zero and terrain mask F without bit10 also stop. Draw gates, yield/global exits and owner state cancellation are separate; all exits clear task bit. No safe universal target contract or continuous steering. Complete original configured body inspected and equal to the local EU ROM and supplied verified-main ELF. Static research only; no worker build or runtime testing."
+        },
+        {
+          "source": "src/code_0801E244.c",
+          "line": 1142,
+          "revision": "8bbfb589bf6ab55018ae7e465fc0e674879c81fa",
+          "detail": "Pinned matched 1FB14 scans scene+58C records of stride 0x24, skips state10..12 and resource byte6 bits0/1, checks AABB against record dimensions, subtracts supplied damage from halfword +10, records class, calls 28368, sets state10 and returns 1 on first hit. Therefore zero-damage projectile probe can still mutate the scene object; it is not a pure terrain query."
+        }
+      ]
+    },
+    {
+      "address": "0x0807854C",
+      "canonical_symbol": "sub_0807854C",
+      "display_name": "StartEnemyDamageProjectileWithSceneObjectCollision",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08073E2C.c",
+          "line": 2654,
+          "revision": "8bbfb589bf6ab55018ae7e465fc0e674879c81fa",
+          "detail": "Finds one of 16 owner+4 occupancy bits and selects 40-byte task record. Priority 0x34 is written before 0x400-byte allocation; pointer stored at +20, zero returns without callback/occupancy update. Success installs 77DAC callback, stack allocation+0x3FC and zero cleanup, registers r1=enemy index and r2=(target word<<16)|slot, then sets occupancy bit. Input target is truncated to low16 by packing. Full pool returns without starting. This starts the asynchronous collision-probing projectile; it gives no completion result. Complete original configured body inspected and equal to the local EU ROM and supplied verified-main ELF. Static research only; no worker build or runtime testing."
+        }
+      ]
+    },
+    {
+      "address": "0x080785F4",
+      "canonical_symbol": "sub_080785F4",
+      "display_name": "RunEnemyProjectileSpawningAreaDamage",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08073E2C.c",
+          "line": 2709,
+          "revision": "8bbfb589bf6ab55018ae7e465fc0e674879c81fa",
+          "detail": "Machine ABI r0=enemy index, r1=target high16/task-slot low4. Resource 0x500AF; enemy byte +1FD==0x14 chooses subtype base0/palette14, otherwise base1/palette15. Computes restricted aim once. Wait/cancellation is conditional on enemy +7A bit0 for 56E90, plus BA6C and states10/11. Runs 34-count flight at signed sine*20/10. Player domain checks only local player position within signed16 axis distance <=7, non-team0/spritekind14 and flags mask0x2 clear, then directly starts 79888(owner enemy.id+4, fixed x/y, subtype base+4, extra0). Enemy domain scans five active records with +1DC nonzero, no caster exclusion, and mixed shifted-enemy versus fixed-projectile geometry; hit also starts 79888 and clears task bit. Object probe 1FB14 with 8x8/damage0 and terrain mask F without bit10 terminate without direct hit. Timeout, probe, terrain and global CB78/CD00 termination leave hit flag zero and request 6818C subtype base+2; later caster cancellation sets hit flag1 and suppresses that request. Early wait abort clears bit without request. Close player spritekind14/team0 continue consumes lifetime without movement/yield. No inference of named skill, guaranteed network completion or safe geometry for all targets. Complete original configured body inspected and equal to the local EU ROM and supplied verified-main ELF. Static research only; no worker build or runtime testing. Independent consumer79458: direct effect subtypes4/5 set timer=0, skip countdown and proceed to authority/eligibility-gated area processing. Name therefore omits Timed. No-hit path calls6818C with REQUEST2/3 and ignores return; helper queues opcodeA8 only if count<=49 andCFF0==0. No accepted request, delivery, completion or numeric conversion to effect4/5 is inferred. Direct-hit path suppresses fallback request even if79888 cannot allocate/start."
+        },
+        {
+          "source": "src/code_08073E2C.c",
+          "line": 3427,
+          "revision": "8bbfb589bf6ab55018ae7e465fc0e674879c81fa",
+          "detail": "79888 is the pinned area-damage task starter: writes owner/slot/position/subtype descriptor and registers callback 79458; projectile passes subtype4 or5 on direct impact. The later no-hit path instead queues 6818C subtype2 or3, so request and direct task creation are distinct."
+        }
+      ]
+    },
+    {
+      "address": "0x08078B24",
+      "canonical_symbol": "sub_08078B24",
+      "display_name": "StartEnemyProjectileSpawningAreaDamage",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08073E2C.c",
+          "line": 2871,
+          "revision": "8bbfb589bf6ab55018ae7e465fc0e674879c81fa",
+          "detail": "Uses occupancy mask 030063E0[enemy index+4] with 16 slots. Writes task priority 0x34, allocates 0x400 bytes and stores pointer at +20; failure leaves priority/pointer write but no occupancy bit. Success callback is 785F4, stack top allocation+0x3FC, cleanup zero; scheduler receives original enemy index and packed target low16 in high16 plus slot in low4. Occupancy set only after registration. Full pool/failure does not start work; asynchronous starter provides no impact or completion status. Complete original configured body inspected and equal to the local EU ROM and supplied verified-main ELF. Static research only; no worker build or runtime testing. Independent consumer79458: direct effect subtypes4/5 set timer=0, skip countdown and proceed to authority/eligibility-gated area processing. Name therefore omits Timed. No-hit path calls6818C with REQUEST2/3 and ignores return; helper queues opcodeA8 only if count<=49 andCFF0==0. No accepted request, delivery, completion or numeric conversion to effect4/5 is inferred. Direct-hit path suppresses fallback request even if79888 cannot allocate/start."
+        }
+      ]
     }
   ]
 }
