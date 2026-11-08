@@ -173,7 +173,7 @@ digraph calls {
   "sub_080081D4" [label="oamDrawAffMode004"];
   "sub_08008500" [label="oamDrawAff2004"];
   "sub_080087AC" [label="oamDrawMode004"];
-  "sub_080089DC" [label="sub_080089DC"];
+  "sub_080089DC" [label="WriteSpriteFrameOamAndQueueTiles"];
   "sub_08008C10" [label="sub_08008C10"];
   "sub_08008C1C" [label="ResetSpriteFrameAllocationState"];
   "sub_08008CC4" [label="AdvanceSpriteAnimationFrame"];
@@ -199,7 +199,7 @@ digraph calls {
   "sub_0800A34C" [label="sub_0800A34C"];
   "sub_0800A998" [label="TaskUpdateWorldMapBackgrounds"];
   "sub_0800AD04" [label="UpdateCameraFromWorldPosition"];
-  "sub_0800AE50" [label="sub_0800AE50"];
+  "sub_0800AE50" [label="DecodeMapCellAttributeAtPosition"];
   "sub_0800AEF4" [label="sub_0800AEF4"];
   "sub_0800B118" [label="sub_0800B118"];
   "sub_0800B650" [label="LoadBackgroundAsset"];
@@ -480,7 +480,7 @@ digraph calls {
   "sub_0801E378" [label="sub_0801E378"];
   "sub_0801E3D8" [label="sub_0801E3D8"];
   "sub_0801E438" [label="sub_0801E438"];
-  "sub_0801E46C" [label="sub_0801E46C"];
+  "sub_0801E46C" [label="ComputeEnemyDefeatExperience"];
   "sub_0801E4B0" [label="GetExperienceNeededForNextLevel"];
   "sub_0801E4CC" [label="AddExperienceAndAdvanceOneLevel"];
   "sub_0801E538" [label="sub_0801E538"];
@@ -489,8 +489,8 @@ digraph calls {
   "sub_0801E5B0" [label="sub_0801E5B0"];
   "sub_0801E988" [label="sub_0801E988"];
   "sub_0801ED8C" [label="sub_0801ED8C"];
-  "sub_0801EF14" [label="sub_0801EF14"];
-  "sub_0801F024" [label="sub_0801F024"];
+  "sub_0801EF14" [label="ComputeElementalAttackDamage"];
+  "sub_0801F024" [label="TestItemAttackBoxesAgainstTarget"];
   "sub_0801F1C4" [label="sub_0801F1C4"];
   "sub_0801F2CC" [label="sub_0801F2CC"];
   "sub_0801F320" [label="sub_0801F320"];
@@ -1011,7 +1011,7 @@ digraph calls {
   "sub_08059954" [label="sub_08059954"];
   "sub_08059968" [label="sub_08059968"];
   "sub_080599B0" [label="sub_080599B0"];
-  "sub_080599C4" [label="sub_080599C4"];
+  "sub_080599C4" [label="MarkSceneCallbackGuardHeld"];
   "sub_080599D8" [label="sub_080599D8"];
   "sub_08059A40" [label="sub_08059A40"];
   "sub_08059A94" [label="sub_08059A94"];
@@ -1289,7 +1289,7 @@ digraph calls {
   "sub_08068590" [label="LinkPopOutgoingMessage"];
   "sub_080685F0" [label="LinkPayloadBytesToEightByteChunks"];
   "sub_08068600" [label="CancelLinkMessageTasks"];
-  "sub_08068670" [label="sub_08068670"];
+  "sub_08068670" [label="FreeLinkMessageQueueAndTaskControls"];
   "sub_080686A4" [label="EnqueueLinkFieldItemRecord"];
   "sub_080686F4" [label="EnqueueLinkFieldItemPickupRequest"];
   "sub_08068758" [label="EnqueueLinkFieldItemPickupReply"];
@@ -1299,9 +1299,9 @@ digraph calls {
   "sub_08068868" [label="sub_08068868"];
   "sub_0806886C" [label="sub_0806886C"];
   "sub_08068870" [label="sub_08068870"];
-  "sub_08068874" [label="sub_08068874"];
+  "sub_08068874" [label="PeekReadyOutgoingLinkMessage"];
   "sub_0806888C" [label="sub_0806888C"];
-  "sub_08068894" [label="sub_08068894"];
+  "sub_08068894" [label="StartLinkBroadcastMessageTask"];
   "sub_080688F4" [label="sub_080688F4"];
   "sub_080688F8" [label="sub_080688F8"];
   "sub_0806898C" [label="GetAffordableActionEnergyCostPlusOne"];
