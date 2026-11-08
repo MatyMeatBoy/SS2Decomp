@@ -14,8 +14,8 @@
 <text x="269.0" y="86" fill="#e6edf3" font-size="10">940 bytes; not decompiled C</text>
 <rect x="506.0" y="30" width="235.0" height="66" rx="5" fill="#161b22"/>
 <text x="516.0" y="46" fill="#e6edf3" font-size="11">Identification</text>
-<text x="516.0" y="69" fill="#3fb950" font-size="21" font-weight="600">53.07%</text>
-<text x="516.0" y="86" fill="#e6edf3" font-size="10">1080 / 2035 registered names</text>
+<text x="516.0" y="69" fill="#3fb950" font-size="21" font-weight="600">53.37%</text>
+<text x="516.0" y="86" fill="#e6edf3" font-size="10">1086 / 2035 registered names</text>
 <rect x="753.0" y="30" width="235.0" height="66" rx="5" fill="#161b22"/>
 <text x="763.0" y="46" fill="#e6edf3" font-size="11">Historical C + linked</text>
 <text x="763.0" y="69" fill="#e6edf3" font-size="21" font-weight="600">93.13%</text>
@@ -563,9 +563,9 @@
 </g>
 <g><title>code_08073E2C (26536 bytes)</title>
 <rect x="419.79" y="28.00" width="138.25" height="101.00" fill="#0d1117"/>
-<rect x="420.79" y="29.00" width="35.45" height="34.65" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08075778 | sub_08075778 | unidentified  0x08075778  2416 bytes  [done]</title></rect>
-<rect x="420.79" y="63.65" width="35.45" height="32.64" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_080761A4 | sub_080761A4 | unidentified  0x080761A4  2276 bytes  [done]</title></rect>
-<rect x="420.79" y="96.28" width="35.45" height="31.72" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08076BA0 | sub_08076BA0 | unidentified  0x08076BA0  2212 bytes  [done]</title></rect>
+<rect x="420.79" y="29.00" width="35.45" height="34.65" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>RunPlayerFastAimedAttackProjectile | sub_08075778 | confirmed  0x08075778  2416 bytes  [done]</title></rect>
+<rect x="420.79" y="63.65" width="35.45" height="32.64" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>RunPlayerAttackProjectileWithPiercingVariants | sub_080761A4 | confirmed  0x080761A4  2276 bytes  [done]</title></rect>
+<rect x="420.79" y="96.28" width="35.45" height="31.72" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>RunPlayerAttackProjectileWithSpreadAim | sub_08076BA0 | confirmed  0x08076BA0  2212 bytes  [done]</title></rect>
 <rect x="456.24" y="29.00" width="30.95" height="33.57" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>RunEnemyAimedDamageProjectile | sub_08077508 | confirmed  0x08077508  2044 bytes  [done]</title></rect>
 <rect x="456.24" y="62.57" width="30.95" height="33.37" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>TaskEligiblePlayerCentroidAreaAttack | sub_08078BCC | confirmed  0x08078BCC  2032 bytes  [done]</title></rect>
 <rect x="456.24" y="95.94" width="30.95" height="32.06" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>RunEnemyDamageProjectileWithSceneObjectCollision | sub_08077DAC | confirmed  0x08077DAC  1952 bytes  [done]</title></rect>
@@ -586,15 +586,15 @@
 <rect x="502.40" y="114.53" width="14.04" height="13.47" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>AnimateAllyBuffActivation | sub_08074C74 | confirmed  0x08074C74  372 bytes  [done]</title></rect>
 <rect x="516.43" y="74.12" width="14.53" height="11.62" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>ProcessAbilityHitAndAnimateAtPackedPosition | sub_08079D84 | confirmed  0x08079D84  332 bytes  [done]</title></rect>
 <rect x="530.96" y="74.12" width="13.83" height="11.62" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>BuildCharacterSaveSlotSummaries | sub_0807A378 | confirmed  0x0807A378  316 bytes  [done]</title></rect>
-<rect x="544.79" y="74.12" width="12.25" height="11.62" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08076A88 | sub_08076A88 | unidentified  0x08076A88  280 bytes  [done]</title></rect>
+<rect x="544.79" y="74.12" width="12.25" height="11.62" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>StartPlayerAttackProjectileWithPiercingVariants | sub_08076A88 | confirmed  0x08076A88  280 bytes  [done]</title></rect>
 <rect x="516.43" y="85.74" width="11.60" height="11.22" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>StartAbilityHitAnimationAtPosition | sub_08079ED0 | confirmed  0x08079ED0  256 bytes  [done]</title></rect>
 <rect x="528.04" y="85.74" width="10.51" height="11.22" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>SaveCurrentCharacterSlot | sub_0807A124 | confirmed  0x0807A124  232 bytes  [done]</title></rect>
 <rect x="538.55" y="85.74" width="9.61" height="11.22" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>LoadCharacterSaveSlotIfChecksumsValid | sub_0807A20C | confirmed  0x0807A20C  212 bytes  [done]</title></rect>
-<rect x="548.16" y="85.74" width="8.88" height="11.22" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08077444 | sub_08077444 | unidentified  0x08077444  196 bytes  [done]</title></rect>
+<rect x="548.16" y="85.74" width="8.88" height="11.22" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>StartPlayerAttackProjectileWithSpreadAim | sub_08077444 | confirmed  0x08077444  196 bytes  [done]</title></rect>
 <rect x="516.43" y="96.96" width="9.37" height="10.42" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>StartTimedAreaDamageEffect | sub_08079888 | confirmed  0x08079888  192 bytes  [done]</title></rect>
 <rect x="516.43" y="107.38" width="9.37" height="10.42" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>StartRepeatingAreaDamageEffect | sub_08079CC4 | confirmed  0x08079CC4  192 bytes  [done]</title></rect>
 <rect x="516.43" y="117.80" width="9.37" height="10.20" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>TryStartFixedWorldSpriteEffectTask | sub_08073E2C | confirmed  0x08073E2C  188 bytes  [done]</title></rect>
-<rect x="525.80" y="96.96" width="8.58" height="11.14" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_080760E8 | sub_080760E8 | unidentified  0x080760E8  188 bytes  [done]</title></rect>
+<rect x="525.80" y="96.96" width="8.58" height="11.14" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>StartPlayerFastAimedAttackProjectile | sub_080760E8 | confirmed  0x080760E8  188 bytes  [done]</title></rect>
 <rect x="525.80" y="108.09" width="8.58" height="9.95" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>StartEnemyAimedDamageProjectile | sub_08077D04 | confirmed  0x08077D04  168 bytes  [done]</title></rect>
 <rect x="525.80" y="118.05" width="8.58" height="9.95" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>StartEnemyDamageProjectileWithSceneObjectCollision | sub_0807854C | confirmed  0x0807854C  168 bytes  [done]</title></rect>
 <rect x="534.38" y="96.96" width="8.00" height="10.68" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>StartEnemyProjectileSpawningAreaDamage | sub_08078B24 | confirmed  0x08078B24  168 bytes  [done]</title></rect>

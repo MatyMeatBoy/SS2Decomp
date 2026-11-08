@@ -35164,10 +35164,17 @@
       "canonical_symbol": "sub_08075778",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_08075778",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "RunPlayerFastAimedAttackProjectile",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_08073E2C.c",
+          "line": 912,
+          "revision": "8bbfb589bf6ab55018ae7e465fc0e674879c81fa",
+          "detail": "Descriptor pointer in r0: owner word+0, slot word+4, target halfword+8, parameter word+10, flags word+14. Player owner only; no owner bounds checks. Takes initial packed player coordinates and computes aim once toward target, falling back to facing; restored original target selects player-versus-enemy collision domain. Only local owner initializes attack template 0xC4 bytes, low16 serial from player+DC and power from signed halfword+3A (tripled when kind nonzero); remote paths may still read these uninitialized spills before authority checks. Flags bit15 enables a temporary player flag 0x200000 and cumulatively adds 0x18 to attack byte+A9 on successful rolls. Collisions use 8x8 projectile AABB versus 16x16 player or enemy byte +22E/+22F bounds. Enemy serial at+54 is word compared with saved low16; players use +F8 history indexed by owner or owner.id. Temporarily replaces caster halfwords state+20 and attack-kind+26 around 1F374/1F79C then restores. Terrain low-nibble collision without bit0x10 stops; local owner additionally calls 1F99C collision helper. Flight exit also includes lifetime, 56E90, player state11/12 and D11C. Drawing gates do not stop flight/yield; these bodies do not wait for animation completion. Normal exits clear occupancy bit. Kind is LOW BYTE of flags. Resource0x5001E; movement is signed sine*45/10, initial displacement sine*2*45/10 (the source move helper presentation alone obscures division). Lifetime signed division of wrapping parameter*17 by10 plus9. Validates player target against count/id and excludes self; invalid sentinel0xFFFF. Waits readiness halfword+B2 >=1, state10 abort clears bit. Team0 and same-team victims excluded. Player scan may process multiple victims in a pass; enemy scan stops on first eligible encounter. Either roll outcome sets hit and ends projectile, including miss/avoidance. Most hit application is local gated; successful enemy hit writes +58 halfword owner and +5A halfword mask. Remote roll/high-flag paths can touch uninitialized attack/serial/power. Animation0x40|initial facing advances only when drawing allowed; additional CB9C parity gate suppresses drawing only. Complete original configured body inspected and equal to local EU ROM/supplied verified-main ELF; static research only, no worker build or runtime testing. Independent consumer21FE0 uses inclusive AABB: abs((wrapped32 coordinate difference)>>8) <= floor((unsigned halfword widths summed)/2), independently for Y. No Euclidean distance or halfword coordinate-delta truncation occurs in that consumer. Called hit helpers are void:1F374 can return immediately when682A4 is nonzero; projectile encounter/stop flags do not acknowledge actual damage. Local pre-helper1FD64 is conditional percentage accumulation, not stat recomputation. Saved projectile serial is low16 whereas helper1F374 can initially store full source serial into enemy+54; no global serial-width invariant is assumed."
+        }
+      ]
     },
     {
       "name": "sub_080760E8",
@@ -35181,10 +35188,17 @@
       "canonical_symbol": "sub_080760E8",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_080760E8",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "StartPlayerFastAimedAttackProjectile",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_08073E2C.c",
+          "line": 1252,
+          "revision": "8bbfb589bf6ab55018ae7e465fc0e674879c81fa",
+          "detail": "ABI r0=owner,r1=target word,r2=flags word,r3=lifetime parameter. Searches16 owner occupancy bits; full pool returns. Allocates0x3C0, stores task+20 pointer even on failure; zero returns. On success fills24-byte descriptor owner+0,slot+4,target WORD+8 (callback reads halfword),flags+14,parameter+10, leaving +C untouched; task priority0x34,callback75778,stack allocation+3BC,cleanup0. Scheduler ABI r0=task,r1=descriptor,then occupancy set. Starts asynchronous player projectile; no hit/completion status. Complete original configured body inspected and equal to local EU ROM/supplied verified-main ELF; static research only, no worker build or runtime testing."
+        }
+      ]
     },
     {
       "name": "sub_080761A4",
@@ -35198,10 +35212,17 @@
       "canonical_symbol": "sub_080761A4",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_080761A4",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "RunPlayerAttackProjectileWithPiercingVariants",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_08073E2C.c",
+          "line": 1338,
+          "revision": "8bbfb589bf6ab55018ae7e465fc0e674879c81fa",
+          "detail": "Descriptor pointer in r0: owner word+0, slot word+4, target halfword+8, parameter word+10, flags word+14. Player owner only; no owner bounds checks. Takes initial packed player coordinates and computes aim once toward target, falling back to facing; restored original target selects player-versus-enemy collision domain. Only local owner initializes attack template 0xC4 bytes, low16 serial from player+DC and power from signed halfword+3A (tripled when kind nonzero); remote paths may still read these uninitialized spills before authority checks. Flags bit15 enables a temporary player flag 0x200000 and cumulatively adds 0x18 to attack byte+A9 on successful rolls. Collisions use 8x8 projectile AABB versus 16x16 player or enemy byte +22E/+22F bounds. Enemy serial at+54 is word compared with saved low16; players use +F8 history indexed by owner or owner.id. Temporarily replaces caster halfwords state+20 and attack-kind+26 around 1F374/1F79C then restores. Terrain low-nibble collision without bit0x10 stops; local owner additionally calls 1F99C collision helper. Flight exit also includes lifetime, 56E90, player state11/12 and D11C. Drawing gates do not stop flight/yield; these bodies do not wait for animation completion. Normal exits clear occupancy bit. Kind is low BYTE of flags. Kind0 resource0x50021 animationbase0x10; other kinds resource0x500C9 animationbase low16((kind-1)*8). Movement4*sine,initial8*sine; lifetime wrapping signed parameter*18/10+10. Enemy target search uses sentinel0xFF; player targets are directly indexed without count/id validation. Waits readiness+B2>=2 with state10 early exit. Team0/same-team victims excluded. Enemy eligibility additionally tests signed HP halfword+5C minus unsigned damage halfword+4A bit15 clear and unequal. Enemy scan can process multiple collisions per iteration. Kind0 stops on hit/object collision; nonzero kinds continue despite hit/object collision (terrain still stops). Enemy high-flag effect uses initially resolved target pointer rather than current scanned victim; fallback may leave stale/uninitialized pointer. On normal final exit local player state5 resets state0,+122halfword0,+28halfword=kind; early readiness abort bypasses that state reset. Complete original configured body inspected and equal to local EU ROM/supplied verified-main ELF; static research only, no worker build or runtime testing. Independent consumer21FE0 uses inclusive AABB: abs((wrapped32 coordinate difference)>>8) <= floor((unsigned halfword widths summed)/2), independently for Y. No Euclidean distance or halfword coordinate-delta truncation occurs in that consumer. Called hit helpers are void:1F374 can return immediately when682A4 is nonzero; projectile encounter/stop flags do not acknowledge actual damage. Local pre-helper1FD64 is conditional percentage accumulation, not stat recomputation. Saved projectile serial is low16 whereas helper1F374 can initially store full source serial into enemy+54; no global serial-width invariant is assumed."
+        }
+      ]
     },
     {
       "name": "sub_08076A88",
@@ -35215,10 +35236,17 @@
       "canonical_symbol": "sub_08076A88",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_08076A88",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "StartPlayerAttackProjectileWithPiercingVariants",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_08073E2C.c",
+          "line": 1663,
+          "revision": "8bbfb589bf6ab55018ae7e465fc0e674879c81fa",
+          "detail": "ABI r0=owner,r1=target word,r2=flags word,r3=lifetime parameter. Finds16 owner occupancy slots; successful0x800 allocation builds descriptor owner+0,slot+4,target word+8,flags word+14,parameter word+10,leaves+C untouched. Task priority0x34,callback761A4,stack allocation+7FC,cleanup0; scheduler receives task/descriptor and then occupancy set. Full-pool local owner in state5 resets state0,+122halfword0,+28halfword=LOW16 incoming flags. Allocation failure stores null task+20 then attempts same local state recovery through incoming r5, which was not initialized to player pointer on this path: no safe failure recovery is claimed. Asynchronous starter, not completion. Complete original configured body inspected and equal to local EU ROM/supplied verified-main ELF; static research only, no worker build or runtime testing. Independent original76ACE..76AD8 initializes r5 only on full-pool branch. Malloc failure branch76B1A..76B22 tests local owner then dereferences incoming r5 directly; task+20 already stores0. This is an invalid/unproven pointer path, not a recoverable allocation-failure promise."
+        }
+      ]
     },
     {
       "name": "sub_08076BA0",
@@ -35232,10 +35260,17 @@
       "canonical_symbol": "sub_08076BA0",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_08076BA0",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "RunPlayerAttackProjectileWithSpreadAim",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_08073E2C.c",
+          "line": 1763,
+          "revision": "8bbfb589bf6ab55018ae7e465fc0e674879c81fa",
+          "detail": "Descriptor pointer in r0: owner word+0, slot word+4, target halfword+8, parameter word+10, flags word+14. Player owner only; no owner bounds checks. Takes initial packed player coordinates and computes aim once toward target, falling back to facing; restored original target selects player-versus-enemy collision domain. Only local owner initializes attack template 0xC4 bytes, low16 serial from player+DC and power from signed halfword+3A (tripled when kind nonzero); remote paths may still read these uninitialized spills before authority checks. Flags bit15 enables a temporary player flag 0x200000 and cumulatively adds 0x18 to attack byte+A9 on successful rolls. Collisions use 8x8 projectile AABB versus 16x16 player or enemy byte +22E/+22F bounds. Enemy serial at+54 is word compared with saved low16; players use +F8 history indexed by owner or owner.id. Temporarily replaces caster halfwords state+20 and attack-kind+26 around 1F374/1F79C then restores. Terrain low-nibble collision without bit0x10 stops; local owner additionally calls 1F99C collision helper. Flight exit also includes lifetime, 56E90, player state11/12 and D11C. Drawing gates do not stop flight/yield; these bodies do not wait for animation completion. Normal exits clear occupancy bit. Kind is LOW HALFWORD of flags, including bit15; spread is HALFWORD descriptor+12. Nonzero spread first decremented and replaces working target with0xFF; enemy search for id0xFF still occurs. Facing fallback applies angle+8 for decremented spread1,angle-8 for2,otherwise unchanged. Resource0x5002E, movement5*sine,initial10*sine,ten flight iterations. Waits readiness+B2>1 with state10 early bit-clear exit. Uses player pointer+144 for final draw-facing selection, distinct from initial pointer+148. Player candidates exclude same team but permit team0; enemy candidates exclude both. Player scan may process multiple collisions per pass; enemy scan stops at first hit. Any eligible roll outcome stops projectile. Successful enemy application is local gated, but failed enemy roll branches call 1F374 or223F4 without local gate, potentially using uninitialized attack buffer/serial. Enemy high-flag effect targets initially resolved enemy pointer, possibly stale on fallback. No safe remote-owner execution contract. Complete original configured body inspected and equal to local EU ROM/supplied verified-main ELF; static research only, no worker build or runtime testing. Independent consumer21FE0 uses inclusive AABB: abs((wrapped32 coordinate difference)>>8) <= floor((unsigned halfword widths summed)/2), independently for Y. No Euclidean distance or halfword coordinate-delta truncation occurs in that consumer. Called hit helpers are void:1F374 can return immediately when682A4 is nonzero; projectile encounter/stop flags do not acknowledge actual damage. Local pre-helper1FD64 is conditional percentage accumulation, not stat recomputation. Saved projectile serial is low16 whereas helper1F374 can initially store full source serial into enemy+54; no global serial-width invariant is assumed."
+        }
+      ]
     },
     {
       "name": "sub_08077444",
@@ -35249,10 +35284,17 @@
       "canonical_symbol": "sub_08077444",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_08077444",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "StartPlayerAttackProjectileWithSpreadAim",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_08073E2C.c",
+          "line": 2088,
+          "revision": "8bbfb589bf6ab55018ae7e465fc0e674879c81fa",
+          "detail": "Machine ABI r0=owner,r1=target word,r2=flags word,r3=low parameter word,fifth stack argument=spread. Finds16 owner occupancy slots,allocates0x800 and stores task+20; full pool/null allocation return. Success descriptor owner+0,slot+4,target word+8,flags word+14,word+10=(spread<<16)|incoming r3 WITHOUT masking low parameter,so incoming r3 upper bits also contribute to spread halfword. Callback76BA0 reads target low16,spread halfword+12 and kind halfword+14. Descriptor+C untouched. Task priority0x34,callback76BA0,stack allocation+7FC,cleanup0; scheduler receives task/descriptor and bit set after registration. Starts one projectile; spreading multiple projectiles requires multiple calls and completion is not returned. Complete original configured body inspected and equal to local EU ROM/supplied verified-main ELF; static research only, no worker build or runtime testing. Original774B6..774BE loads fifth stack word, shifts left16 and ORs complete incoming r3 without masking. Callback halfword+12 equals low16(spread) OR high16(parameter), and callback ignores low parameter for its fixed ten-flight-iteration limit. Requested spread does not imply multiple task starts."
+        }
+      ]
     },
     {
       "name": "sub_08077508",
@@ -51216,12 +51258,12 @@
   "identification": {
     "game": {
       "total": 1880,
-      "identified": 925,
+      "identified": 931,
       "existing": 23,
-      "confirmed": 902,
+      "confirmed": 908,
       "proposed": 8,
-      "unidentified": 947,
-      "percent_identified": 49.202127659574465
+      "unidentified": 941,
+      "percent_identified": 49.52127659574468
     },
     "sdk": {
       "total": 155,
@@ -51234,12 +51276,12 @@
     },
     "all": {
       "total": 2035,
-      "identified": 1080,
+      "identified": 1086,
       "existing": 152,
-      "confirmed": 928,
+      "confirmed": 934,
       "proposed": 8,
-      "unidentified": 947,
-      "percent_identified": 53.07125307125307
+      "unidentified": 941,
+      "percent_identified": 53.36609336609337
     }
   },
   "limitations": "Configured function address intervals, including alignment/literal pools; inventory includes original assembly and linked libraries. Existing descriptive identifiers are recognized, not independently semantically re-proven."
