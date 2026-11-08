@@ -1614,15 +1614,17 @@ void sub_0802AA28(void) {
             helperByte27 = *var_r0_20;
             var_r5_3 = (helperByte27 >> 2) & 1;
             if (!var_r5_3) {
+                u32 requestedResource27;
                 if (sub_0800CE30() != 0) {
                     var_r2_34 = stateAA28 + 0x1C6;
                 } else {
                     var_r2_34 = stateAA28 + 0x1BA;
                 }
                 *var_r2_34 |= 4;
-                gUnk_03005CF8 = 0x188;
+                requestedResource27 = 0x188;
+                gUnk_03005CF8 = requestedResource27;
                 if (!(gUnk_030027D0 & 0x20)) {
-                    sub_08006CB4(0x188U);
+                    sub_08006CB4(requestedResource27);
                 }
             }
             var_r6 = sub_080289C0(0x3003D, 0x78, 0x78);
@@ -1693,6 +1695,7 @@ found27scan_24:
                 var_r0_2 = stateAA28 + 0x1B9;
             }
             if (*var_r0_2 & 1) {
+                u8 *firstCallbackCursor27;
                 var_r8 = sub_080289C0(0x30020, 0x32, 0x5E);
                 var_r1 = stateAA28 + 0x7A4;
                 var_r2 = 0;
@@ -1713,14 +1716,15 @@ found27scan_51:
                     (*(u32*)((u8*)(var_r2_2)+(0x3C))) = (s32) ((*(u32*)((u8*)(var_r2_2)+(0x3C))) | 0x10);
                 }
                 scanCallback27 = (u32)&sub_0802F578;
-                var_r1_2 = stateAA28 + 0x7A4;
+                firstCallbackCursor27 = stateAA28 + 0x7A4;
                 var_r2_3 = 0;
                 do {
-                    if (*(s32*)var_r1_2 == var_r8) {
-                        goto block_61;
+                    if (*(s32*)firstCallbackCursor27 == var_r8) {
+                        var_r0_3 = firstCallbackCursor27;
+                        goto found27scan_shared;
                     }
                     var_r2_3 += 1;
-                    var_r1_2 += 0x70;
+                    firstCallbackCursor27 += 0x70;
                 } while (var_r2_3 <= 0xEU);
                 goto block_73;
             }
