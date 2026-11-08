@@ -345,8 +345,8 @@ digraph calls {
   "sub_08015CB4" [label="ClearLocalPlayerSpriteHideFlag"];
   "sub_08015CE0" [label="EnableLocalPlayerDefeatProtection"];
   "sub_08015D04" [label="DisableLocalPlayerDefeatProtection"];
-  "sub_08015D2C" [label="SetLocalPlayerFlagBit1"];
-  "sub_08015D50" [label="ClearLocalPlayerFlagBit1"];
+  "sub_08015D2C" [label="SetLocalPlayerRenderSuppression"];
+  "sub_08015D50" [label="ClearLocalPlayerRenderSuppression"];
   "sub_08015D74" [label="SetLocalPlayerFlagBit12"];
   "sub_08015D98" [label="ClearLocalPlayerFlagBit12"];
   "sub_08015DC0" [label="DampValueTowardZero"];
@@ -354,8 +354,8 @@ digraph calls {
   "sub_08015E00" [label="StartPlayerStatusHudTask"];
   "sub_08015E3C" [label="DeductPlayerEnergyTierCost"];
   "sub_08015E84" [label="FindHighestAffordablePlayerEnergyTier"];
-  "sub_08015ED4" [label="SetLocalPlayerFlagBit22"];
-  "sub_08015EF8" [label="ClearLocalPlayerFlagBit22"];
+  "sub_08015ED4" [label="BlockLocalPlayerGameMenuRequest"];
+  "sub_08015EF8" [label="AllowLocalPlayerGameMenuRequest"];
   "sub_08015F20" [label="IsLocalPlayerMovementToPointPending"];
   "sub_08015F44" [label="sub_08015F44"];
   "sub_0801602C" [label="sub_0801602C"];
@@ -887,8 +887,8 @@ digraph calls {
   "sub_08057780" [label="InterpolateSceneDrawAndBg2Offset"];
   "sub_0805782C" [label="RunFadedFullScreenMenu"];
   "sub_080578BC" [label="AskSceneQuestionAndWait"];
-  "sub_0805790C" [label="SetLocalPlayerFlagBit1AndTryEnqueueFlags"];
-  "sub_08057934" [label="ClearLocalPlayerFlagBit1AndTryEnqueueFlags"];
+  "sub_0805790C" [label="SetLocalPlayerRenderSuppressionAndRequestFlagsUpdate"];
+  "sub_08057934" [label="ClearLocalPlayerRenderSuppressionAndRequestFlagsUpdate"];
   "sub_0805795C" [label="BeginLocalPlayerEvent"];
   "sub_08057984" [label="EndLocalPlayerEvent"];
   "sub_080579AC" [label="GetNormalizedCharacterClassIndexWrapper"];
@@ -1328,7 +1328,7 @@ digraph calls {
   "sub_0806DB1C" [label="ApplyNearbyAllyCombatBonusBuff"];
   "sub_0806DE94" [label="RunStaggeredForwardConeAbilityOnAnimationCompletion"];
   "sub_0806E7D4" [label="RunStaggeredAreaAbilityWithSecondaryImpactRequests"];
-  "sub_0806F0CC" [label="sub_0806F0CC"];
+  "sub_0806F0CC" [label="RunReturningDrainAbilityProjectile"];
   "sub_0806FE1C" [label="ApplyTimedPlayerTransformation"];
   "sub_0806FF1C" [label="sub_0806FF1C"];
   "sub_080710DC" [label="sub_080710DC"];

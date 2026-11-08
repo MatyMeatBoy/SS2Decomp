@@ -9712,21 +9712,27 @@
       "canonical_symbol": "sub_08015D2C",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "SetLocalPlayerFlagBit1",
-      "name_status": "proposed",
+      "display_name": "SetLocalPlayerRenderSuppression",
+      "name_status": "confirmed",
       "name_source": "catalog",
       "evidence": [
         {
-          "source": "src/code_080153A4.c",
-          "line": 410,
-          "revision": "8d4618912c1c6cadb3f315aad7386e582d3de83c",
-          "detail": "Sets bit 1 (mask 0x2) of the local player's runtime flags word +0x30 (player LinkGetLocalPlayerId in the 0x14C-byte array 0x03003CE0), preserving the other bits. Unlike SetLocalPlayerFlagBit1AndTryEnqueueFlags it does not enqueue EnqueueLinkPlayerFlags. The bit's gameplay meaning is not claimed. This mechanical label remains a proposal and does not count as semantic identification."
+          "source": "asm/nonmatchings/code_0800CF58/sub_0800D368.s",
+          "line": 10482,
+          "revision": "8bbfb589bf6ab55018ae7e465fc0e674879c81fa",
+          "detail": "Sets mask2 in the local player word+0x30. Original D368 at08012614..1261E tests mask2; set transfers to the common tail08013556, which yields and either loops or cleans up using the existing frame, rather than returning into the skipped render block. The skipped block includes main animation65370, player sprite07870, status overlay and additional visual work. A separate branch0800FFF8..10002 skips damage-number rendering5FAC0 when mask2 is set. Other gameplay, movement and damage processing precedes these branches; no invulnerability, removal, cancellation or universal visibility guarantee is inferred. Clearing permits these paths subject to their other independent gates."
         },
         {
           "source": "tools/config/functions.cfg",
           "line": 348,
           "revision": "8d4618912c1c6cadb3f315aad7386e582d3de83c",
           "detail": "Canonical Thumb entry for sub_08015D2C. Original EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc; static source/instruction evidence only."
+        },
+        {
+          "source": "src/code_080153A4.c",
+          "line": 410,
+          "revision": "8bbfb589bf6ab55018ae7e465fc0e674879c81fa",
+          "detail": "Complete original wrapper and functional consumers independently compared to the supplied static ELF and verified EU ROM. No arguments; local player ID comes from020F4; player stride0x14C and flags are a32-bit word at+0x30. No bounds check or runtime test. Independent static semantic review supports promotion to confirmed."
         }
       ]
     },
@@ -9742,21 +9748,27 @@
       "canonical_symbol": "sub_08015D50",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "ClearLocalPlayerFlagBit1",
-      "name_status": "proposed",
+      "display_name": "ClearLocalPlayerRenderSuppression",
+      "name_status": "confirmed",
       "name_source": "catalog",
       "evidence": [
         {
-          "source": "src/code_080153A4.c",
-          "line": 414,
-          "revision": "8d4618912c1c6cadb3f315aad7386e582d3de83c",
-          "detail": "Clears bit 1 (mask 0x2) of the local player's runtime flags word +0x30 (player LinkGetLocalPlayerId in the 0x14C-byte array 0x03003CE0), preserving the other bits. No link flags message is enqueued. The bit's gameplay meaning is not claimed. This mechanical label remains a proposal and does not count as semantic identification."
+          "source": "asm/nonmatchings/code_0800CF58/sub_0800D368.s",
+          "line": 10482,
+          "revision": "8bbfb589bf6ab55018ae7e465fc0e674879c81fa",
+          "detail": "Clears mask2 in the local player word+0x30. Original D368 at08012614..1261E tests mask2; set transfers to the common tail08013556, which yields and either loops or cleans up using the existing frame, rather than returning into the skipped render block. The skipped block includes main animation65370, player sprite07870, status overlay and additional visual work. A separate branch0800FFF8..10002 skips damage-number rendering5FAC0 when mask2 is set. Other gameplay, movement and damage processing precedes these branches; no invulnerability, removal, cancellation or universal visibility guarantee is inferred. Clearing permits these paths subject to their other independent gates."
         },
         {
           "source": "tools/config/functions.cfg",
           "line": 349,
           "revision": "8d4618912c1c6cadb3f315aad7386e582d3de83c",
           "detail": "Canonical Thumb entry for sub_08015D50. Original EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc; static source/instruction evidence only."
+        },
+        {
+          "source": "src/code_080153A4.c",
+          "line": 414,
+          "revision": "8bbfb589bf6ab55018ae7e465fc0e674879c81fa",
+          "detail": "Complete original wrapper and functional consumers independently compared to the supplied static ELF and verified EU ROM. No arguments; local player ID comes from020F4; player stride0x14C and flags are a32-bit word at+0x30. No bounds check or runtime test. Independent static semantic review supports promotion to confirmed."
         }
       ]
     },
@@ -10030,21 +10042,27 @@
       "canonical_symbol": "sub_08015ED4",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "SetLocalPlayerFlagBit22",
-      "name_status": "proposed",
+      "display_name": "BlockLocalPlayerGameMenuRequest",
+      "name_status": "confirmed",
       "name_source": "catalog",
       "evidence": [
         {
-          "source": "src/code_080153A4.c",
-          "line": 506,
-          "revision": "8d4618912c1c6cadb3f315aad7386e582d3de83c",
-          "detail": "Sets bit 22 (mask 0x400000) of the local player's runtime flags word +0x30 (player LinkGetLocalPlayerId in the 0x14C-byte array 0x03003CE0), preserving the other bits. The bit's gameplay meaning is not claimed. This mechanical label remains a proposal and does not count as semantic identification."
+          "source": "asm/nonmatchings/code_0800CF58/sub_0800D368.s",
+          "line": 1192,
+          "revision": "8bbfb589bf6ab55018ae7e465fc0e674879c81fa",
+          "detail": "Sets mask0x00400000 in the local player word+0x30. Original D368 input path0800DC5C tests halfword+0x14 mask8. At0800DCC8..DCD2 the flag rejects that path; only if all other independent gates pass does0800DD40..DD5E mark local runtime+0x30 mask1, clear player input halfwords+0x14/+0x12 and call65654. The complete starter65654 registers624D8, the resource-backed four-choice animated game menu. This role is request blocking: clearing alone does not open a menu; setting does not cancel an active menu or block every direct starter call or every other menu."
         },
         {
           "source": "tools/config/functions.cfg",
           "line": 357,
           "revision": "8d4618912c1c6cadb3f315aad7386e582d3de83c",
           "detail": "Canonical Thumb entry for sub_08015ED4. Original EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc; static source/instruction evidence only."
+        },
+        {
+          "source": "src/code_080153A4.c",
+          "line": 506,
+          "revision": "8bbfb589bf6ab55018ae7e465fc0e674879c81fa",
+          "detail": "Complete original wrapper and functional consumers independently compared to the supplied static ELF and verified EU ROM. No arguments; local player ID comes from020F4; player stride0x14C and flags are a32-bit word at+0x30. No bounds check or runtime test. Independent static semantic review supports promotion to confirmed."
         }
       ]
     },
@@ -10060,21 +10078,27 @@
       "canonical_symbol": "sub_08015EF8",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "ClearLocalPlayerFlagBit22",
-      "name_status": "proposed",
+      "display_name": "AllowLocalPlayerGameMenuRequest",
+      "name_status": "confirmed",
       "name_source": "catalog",
       "evidence": [
         {
-          "source": "src/code_080153A4.c",
-          "line": 510,
-          "revision": "8d4618912c1c6cadb3f315aad7386e582d3de83c",
-          "detail": "Clears bit 22 (mask 0x400000) of the local player's runtime flags word +0x30 (player LinkGetLocalPlayerId in the 0x14C-byte array 0x03003CE0), preserving the other bits. The bit's gameplay meaning is not claimed. This mechanical label remains a proposal and does not count as semantic identification."
+          "source": "asm/nonmatchings/code_0800CF58/sub_0800D368.s",
+          "line": 1192,
+          "revision": "8bbfb589bf6ab55018ae7e465fc0e674879c81fa",
+          "detail": "Clears mask0x00400000 in the local player word+0x30. Original D368 input path0800DC5C tests halfword+0x14 mask8. At0800DCC8..DCD2 the flag rejects that path; only if all other independent gates pass does0800DD40..DD5E mark local runtime+0x30 mask1, clear player input halfwords+0x14/+0x12 and call65654. The complete starter65654 registers624D8, the resource-backed four-choice animated game menu. This role is request blocking: clearing alone does not open a menu; setting does not cancel an active menu or block every direct starter call or every other menu."
         },
         {
           "source": "tools/config/functions.cfg",
           "line": 358,
           "revision": "8d4618912c1c6cadb3f315aad7386e582d3de83c",
           "detail": "Canonical Thumb entry for sub_08015EF8. Original EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc; static source/instruction evidence only."
+        },
+        {
+          "source": "src/code_080153A4.c",
+          "line": 510,
+          "revision": "8bbfb589bf6ab55018ae7e465fc0e674879c81fa",
+          "detail": "Complete original wrapper and functional consumers independently compared to the supplied static ELF and verified EU ROM. No arguments; local player ID comes from020F4; player stride0x14C and flags are a32-bit word at+0x30. No bounds check or runtime test. Independent static semantic review supports promotion to confirmed."
         }
       ]
     },
@@ -21963,21 +21987,27 @@
       "canonical_symbol": "sub_0805790C",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "SetLocalPlayerFlagBit1AndTryEnqueueFlags",
-      "name_status": "proposed",
+      "display_name": "SetLocalPlayerRenderSuppressionAndRequestFlagsUpdate",
+      "name_status": "confirmed",
       "name_source": "catalog",
       "evidence": [
         {
-          "source": "src/code_080571A4.c",
-          "line": 388,
-          "revision": "8d4618912c1c6cadb3f315aad7386e582d3de83c",
-          "detail": "Sets bit 1 (0x2) of the local player's flags word +0x30 (player LinkGetLocalPlayerId) and calls EnqueueLinkPlayerFlags to send the new flags to peers. This is a best-effort enqueue attempt: sub_08067D74 returns 0 when the queue already has 50 entries, and this wrapper ignores its result. It neither waits for peers nor guarantees synchronization. The gameplay meaning of bit 1 remains unverified; the mechanical label is a proposal and does not count toward identification."
+          "source": "asm/nonmatchings/code_0800CF58/sub_0800D368.s",
+          "line": 10482,
+          "revision": "8bbfb589bf6ab55018ae7e465fc0e674879c81fa",
+          "detail": "Sets mask2 in the local player word+0x30. Original D368 at08012614..1261E tests mask2; set transfers to the common tail08013556, which yields and either loops or cleans up using the existing frame, rather than returning into the skipped render block. The skipped block includes main animation65370, player sprite07870, status overlay and additional visual work. A separate branch0800FFF8..10002 skips damage-number rendering5FAC0 when mask2 is set. Other gameplay, movement and damage processing precedes these branches; no invulnerability, removal, cancellation or universal visibility guarantee is inferred. Clearing permits these paths subject to their other independent gates. This wrapper then calls67D74 to request a flags update and ignores its return; the50-entry queue may reject it. No peer delivery, agreement or completion guarantee."
         },
         {
           "source": "tools/config/functions.cfg",
           "line": 890,
           "revision": "8d4618912c1c6cadb3f315aad7386e582d3de83c",
           "detail": "Canonical Thumb entry for sub_0805790C. Original EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc; static source/instruction evidence only."
+        },
+        {
+          "source": "src/code_080571A4.c",
+          "line": 388,
+          "revision": "8bbfb589bf6ab55018ae7e465fc0e674879c81fa",
+          "detail": "Complete original wrapper and functional consumers independently compared to the supplied static ELF and verified EU ROM. No arguments; local player ID comes from020F4; player stride0x14C and flags are a32-bit word at+0x30. No bounds check or runtime test. Independent static semantic review supports promotion to confirmed."
         }
       ]
     },
@@ -21993,21 +22023,27 @@
       "canonical_symbol": "sub_08057934",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "ClearLocalPlayerFlagBit1AndTryEnqueueFlags",
-      "name_status": "proposed",
+      "display_name": "ClearLocalPlayerRenderSuppressionAndRequestFlagsUpdate",
+      "name_status": "confirmed",
       "name_source": "catalog",
       "evidence": [
         {
-          "source": "src/code_080571A4.c",
-          "line": 389,
-          "revision": "8d4618912c1c6cadb3f315aad7386e582d3de83c",
-          "detail": "Clears bit 1 (0x2) of the local player's flags word +0x30 and calls EnqueueLinkPlayerFlags. This is a best-effort enqueue attempt: sub_08067D74 returns 0 when the queue already has 50 entries, and this wrapper ignores its result. It neither waits for peers nor guarantees synchronization. The gameplay meaning of bit 1 remains unverified; the mechanical label is a proposal and does not count toward identification."
+          "source": "asm/nonmatchings/code_0800CF58/sub_0800D368.s",
+          "line": 10482,
+          "revision": "8bbfb589bf6ab55018ae7e465fc0e674879c81fa",
+          "detail": "Clears mask2 in the local player word+0x30. Original D368 at08012614..1261E tests mask2; set transfers to the common tail08013556, which yields and either loops or cleans up using the existing frame, rather than returning into the skipped render block. The skipped block includes main animation65370, player sprite07870, status overlay and additional visual work. A separate branch0800FFF8..10002 skips damage-number rendering5FAC0 when mask2 is set. Other gameplay, movement and damage processing precedes these branches; no invulnerability, removal, cancellation or universal visibility guarantee is inferred. Clearing permits these paths subject to their other independent gates. This wrapper then calls67D74 to request a flags update and ignores its return; the50-entry queue may reject it. No peer delivery, agreement or completion guarantee."
         },
         {
           "source": "tools/config/functions.cfg",
           "line": 891,
           "revision": "8d4618912c1c6cadb3f315aad7386e582d3de83c",
           "detail": "Canonical Thumb entry for sub_08057934. Original EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc; static source/instruction evidence only."
+        },
+        {
+          "source": "src/code_080571A4.c",
+          "line": 389,
+          "revision": "8bbfb589bf6ab55018ae7e465fc0e674879c81fa",
+          "detail": "Complete original wrapper and functional consumers independently compared to the supplied static ELF and verified EU ROM. No arguments; local player ID comes from020F4; player stride0x14C and flags are a32-bit word at+0x30. No bounds check or runtime test. Independent static semantic review supports promotion to confirmed."
         }
       ]
     },
@@ -34470,10 +34506,17 @@
       "canonical_symbol": "sub_0806F0CC",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_0806F0CC",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "RunReturningDrainAbilityProjectile",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_08068670.c",
+          "line": 4036,
+          "revision": "8bbfb589bf6ab55018ae7e465fc0e674879c81fa",
+          "detail": "ABI r0=24-byte descriptor; owner word+0,slot word+4,target low16+8,kind word+C,level low16+14. Player owner obtains packed position and aims once toward resolved target or facing. Enemy readiness/cost paths exist but read uninitialized player-base spill before cost: no safe enemy-owner contract. Initial resource0x500D0; player sprite word+4 bits14..16 inclusive (three bits) determine sound, enemy cost table level and outbound lifetime (value*8+20), independently of descriptor ability level. Local resource+C2 halfword pays low16(6898C-1),clamped on signed low16 negative. Outbound initial4*sine then2*sine per iteration. With resolved enemy-domain target, stops on first active byte1DC enemy within inclusive7-axis pixels, but retains initially resolved enemy pointer separately; player collisions use15-axis pixel square and overwrite player pointer, filtering same team/team0/kind14 for player caster or flags2000/team0/kind14 for enemy caster. Terrain maskF without bit10 requests69A30 kind18 (unsupported by698D4). Local state11/12 orD11C cancels; CDF8 clears encounter-hit. Hit flag can be uninitialized when cancellation occurs before first flight body. On encounter follows a domain-selected entity for at most30 iterations/yields then applies694AC to INITIAL enemy target only if local caster; damage basis68F9C is also computed from initial target enemy+218,or player+7C for local caster. Nonlocal player victim may request694AC but leaves drain amount uninitialized. Return flight continuously aims at caster, moves3*sine until low16 Sqrt(distanceSquared)<=7,terrain or local DF8C/state11/12/D11C termination; no finite return timeout for remote owners. Regardless whether return actually reaches caster, scales saved unsigned low16 damage by wrapping(full level+2)/50 and low16 truncates. Local player with DF8C zero adds to HP+C4halfword then signed16 caps at maxHP+62; enemy-owner branch adds to INITIAL TARGET enemy HP+5C and caps at+1D6,not caster HP. Displays at most999 as rising heal number for30 yields. Normal end increments remote-player serial word+DC then clears slot; early readiness/cost returns clear slot directly. Semantic name describes returning drain ability; no guaranteed successful damage, correct victim association, safe remote amount or enemy healing contract. Full original body inspected/equal local EU ROM and supplied verified-main ELF; no worker build or runtime testing. Independent precision: initial enemy-domain lookup does not prevent the later player scan. If that player scan collides, follow still branches on original target>3 and uses e3 from the enemy scan (possibly last examined/uninitialized), not necessarily the collided player. Initial e2 separately supplies damage resistance, final target and enemy healing destination. Local cancellation can stop the30-iteration follow loop but still reaches damage-basis/return/healing code. Local caster/player-target branch computes drain68F9C without calling694AC here, so healing is not coupled to an acknowledged player damage application. Return break for terrain, local state/D11C or proximity all reach scaling; healing still requires local owner andDF8C0 for player, but state11/12/D11C are not rechecked there. OriginalFC94..FCA8 computes unsigned division of wrapped32(low16Drain*(fullLevel+2)) by50 then narrows16; HP additions narrow16 BEFORE signed max comparison and can wrap. Rising number caps display999 independently of actual HP gained and yields30 times. No arrival, successful damage, successful healing or finite remote return is guaranteed."
+        }
+      ]
     },
     {
       "name": "sub_0806FE1C",
@@ -51279,12 +51322,12 @@
   "identification": {
     "game": {
       "total": 1880,
-      "identified": 934,
+      "identified": 941,
       "existing": 23,
-      "confirmed": 911,
-      "proposed": 8,
-      "unidentified": 938,
-      "percent_identified": 49.680851063829785
+      "confirmed": 918,
+      "proposed": 2,
+      "unidentified": 937,
+      "percent_identified": 50.0531914893617
     },
     "sdk": {
       "total": 155,
@@ -51297,12 +51340,12 @@
     },
     "all": {
       "total": 2035,
-      "identified": 1089,
+      "identified": 1096,
       "existing": 152,
-      "confirmed": 937,
-      "proposed": 8,
-      "unidentified": 938,
-      "percent_identified": 53.513513513513516
+      "confirmed": 944,
+      "proposed": 2,
+      "unidentified": 937,
+      "percent_identified": 53.85749385749386
     }
   },
   "limitations": "Configured function address intervals, including alignment/literal pools; inventory includes original assembly and linked libraries. Existing descriptive identifiers are recognized, not independently semantically re-proven."

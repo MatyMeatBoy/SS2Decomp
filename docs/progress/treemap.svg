@@ -14,8 +14,8 @@
 <text x="269.0" y="86" fill="#e6edf3" font-size="10">940 bytes; not decompiled C</text>
 <rect x="506.0" y="30" width="235.0" height="66" rx="5" fill="#161b22"/>
 <text x="516.0" y="46" fill="#e6edf3" font-size="11">Identification</text>
-<text x="516.0" y="69" fill="#3fb950" font-size="21" font-weight="600">53.51%</text>
-<text x="516.0" y="86" fill="#e6edf3" font-size="10">1089 / 2035 registered names</text>
+<text x="516.0" y="69" fill="#3fb950" font-size="21" font-weight="600">53.86%</text>
+<text x="516.0" y="86" fill="#e6edf3" font-size="10">1096 / 2035 registered names</text>
 <rect x="753.0" y="30" width="235.0" height="66" rx="5" fill="#161b22"/>
 <text x="763.0" y="46" fill="#e6edf3" font-size="11">Historical C + linked</text>
 <text x="763.0" y="69" fill="#e6edf3" font-size="21" font-weight="600">93.13%</text>
@@ -137,7 +137,7 @@
 <rect x="0.00" y="356.63" width="163.52" height="151.37" fill="#0d1117"/>
 <rect x="1.00" y="357.63" width="43.75" height="56.14" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_080710DC | sub_080710DC | unidentified  0x080710DC  4788 bytes  [done]</title></rect>
 <rect x="1.00" y="413.77" width="43.75" height="53.27" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0806FF1C | sub_0806FF1C | unidentified  0x0806FF1C  4544 bytes  [done]</title></rect>
-<rect x="1.00" y="467.04" width="43.75" height="39.96" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0806F0CC | sub_0806F0CC | unidentified  0x0806F0CC  3408 bytes  [done]</title></rect>
+<rect x="1.00" y="467.04" width="43.75" height="39.96" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>RunReturningDrainAbilityProjectile | sub_0806F0CC | confirmed  0x0806F0CC  3408 bytes  [done]</title></rect>
 <rect x="44.75" y="357.63" width="41.53" height="32.80" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>RunStaggeredForwardConeAbility | sub_0806B3C4 | confirmed  0x0806B3C4  2656 bytes  [done]</title></rect>
 <rect x="86.28" y="357.63" width="39.22" height="32.80" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08072390 | sub_08072390 | unidentified  0x08072390  2508 bytes  [done]</title></rect>
 <rect x="125.49" y="357.63" width="37.03" height="32.80" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>RunStaggeredForwardConeAbilityOnAnimationCompletion | sub_0806DE94 | confirmed  0x0806DE94  2368 bytes  [done]</title></rect>
@@ -1317,14 +1317,14 @@
 <rect x="731.64" y="283.43" width="5.06" height="3.95" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>SetLocalPlayerSpriteHideFlag | sub_08015C8C | confirmed  0x08015C8C  40 bytes  [done]</title></rect>
 <rect x="731.64" y="287.38" width="5.06" height="3.95" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>DisableLocalPlayerDefeatProtection | sub_08015D04 | confirmed  0x08015D04  40 bytes  [done]</title></rect>
 <rect x="731.64" y="291.33" width="5.06" height="3.95" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>ClearLocalPlayerFlagBit12 | sub_08015D98 | proposed  0x08015D98  40 bytes  [done]</title></rect>
-<rect x="731.64" y="295.28" width="5.06" height="3.95" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>ClearLocalPlayerFlagBit22 | sub_08015EF8 | proposed  0x08015EF8  40 bytes  [done]</title></rect>
+<rect x="731.64" y="295.28" width="5.06" height="3.95" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>AllowLocalPlayerGameMenuRequest | sub_08015EF8 | confirmed  0x08015EF8  40 bytes  [done]</title></rect>
 <rect x="736.69" y="283.43" width="3.71" height="4.85" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>SuppressLocalPlayerInput | sub_08015C14 | confirmed  0x08015C14  36 bytes  [done]</title></rect>
 <rect x="740.40" y="283.43" width="3.71" height="4.85" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>ReleaseLocalPlayerInputSuppression | sub_08015C38 | confirmed  0x08015C38  36 bytes  [done]</title></rect>
 <rect x="744.11" y="283.43" width="3.71" height="4.85" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>EnableLocalPlayerDefeatProtection | sub_08015CE0 | confirmed  0x08015CE0  36 bytes  [done]</title></rect>
-<rect x="736.69" y="288.28" width="4.92" height="3.65" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>SetLocalPlayerFlagBit1 | sub_08015D2C | proposed  0x08015D2C  36 bytes  [done]</title></rect>
-<rect x="736.69" y="291.93" width="4.92" height="3.65" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>ClearLocalPlayerFlagBit1 | sub_08015D50 | proposed  0x08015D50  36 bytes  [done]</title></rect>
+<rect x="736.69" y="288.28" width="4.92" height="3.65" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>SetLocalPlayerRenderSuppression | sub_08015D2C | confirmed  0x08015D2C  36 bytes  [done]</title></rect>
+<rect x="736.69" y="291.93" width="4.92" height="3.65" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>ClearLocalPlayerRenderSuppression | sub_08015D50 | confirmed  0x08015D50  36 bytes  [done]</title></rect>
 <rect x="736.69" y="295.58" width="4.92" height="3.65" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>SetLocalPlayerFlagBit12 | sub_08015D74 | proposed  0x08015D74  36 bytes  [done]</title></rect>
-<rect x="741.61" y="288.28" width="3.10" height="5.80" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>SetLocalPlayerFlagBit22 | sub_08015ED4 | proposed  0x08015ED4  36 bytes  [done]</title></rect>
+<rect x="741.61" y="288.28" width="3.10" height="5.80" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>BlockLocalPlayerGameMenuRequest | sub_08015ED4 | confirmed  0x08015ED4  36 bytes  [done]</title></rect>
 <rect x="744.71" y="288.28" width="3.10" height="5.80" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>IsLocalPlayerMovementToPointPending | sub_08015F20 | confirmed  0x08015F20  36 bytes  [done]</title></rect>
 <rect x="741.61" y="294.07" width="3.10" height="5.15" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>DampValueTowardZero | sub_08015DC0 | confirmed  0x08015DC0  32 bytes  [done]</title></rect>
 <rect x="744.71" y="294.07" width="3.10" height="5.15" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>ApproachTargetByHalfStep | sub_08015DE0 | confirmed  0x08015DE0  32 bytes  [done]</title></rect>
@@ -1878,8 +1878,8 @@
 <rect x="745.86" y="445.25" width="5.41" height="4.90" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08057C34 | sub_08057C34 | unidentified  0x08057C34  56 bytes  [done]</title></rect>
 <rect x="751.26" y="445.25" width="5.02" height="4.90" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_080571A4 | sub_080571A4 | unidentified  0x080571A4  52 bytes  [done]</title></rect>
 <rect x="756.28" y="445.25" width="5.02" height="4.90" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08057B64 | sub_08057B64 | unidentified  0x08057B64  52 bytes  [done]</title></rect>
-<rect x="745.86" y="450.15" width="4.90" height="3.86" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>SetLocalPlayerFlagBit1AndTryEnqueueFlags | sub_0805790C | proposed  0x0805790C  40 bytes  [done]</title></rect>
-<rect x="745.86" y="454.01" width="4.90" height="3.86" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>ClearLocalPlayerFlagBit1AndTryEnqueueFlags | sub_08057934 | proposed  0x08057934  40 bytes  [done]</title></rect>
+<rect x="745.86" y="450.15" width="4.90" height="3.86" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>SetLocalPlayerRenderSuppressionAndRequestFlagsUpdate | sub_0805790C | confirmed  0x0805790C  40 bytes  [done]</title></rect>
+<rect x="745.86" y="454.01" width="4.90" height="3.86" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>ClearLocalPlayerRenderSuppressionAndRequestFlagsUpdate | sub_08057934 | confirmed  0x08057934  40 bytes  [done]</title></rect>
 <rect x="745.86" y="457.87" width="4.90" height="3.86" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>BeginLocalPlayerEvent | sub_0805795C | confirmed  0x0805795C  40 bytes  [done]</title></rect>
 <rect x="745.86" y="461.72" width="4.90" height="3.86" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>EndLocalPlayerEvent | sub_08057984 | confirmed  0x08057984  40 bytes  [done]</title></rect>
 <rect x="750.76" y="450.15" width="4.22" height="4.49" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>GetLevelEncounterClearedMask | sub_08057C0C | confirmed  0x08057C0C  40 bytes  [done]</title></rect>
