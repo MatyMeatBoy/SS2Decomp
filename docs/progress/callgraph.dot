@@ -582,10 +582,10 @@ digraph calls {
   "sub_08029B98" [label="sub_08029B98"];
   "sub_08029CEC" [label="sub_08029CEC"];
   "sub_08029E0C" [label="sub_08029E0C"];
-  "sub_08029F54" [label="sub_08029F54"];
+  "sub_08029F54" [label="TriggerSceneEventForPlayerRectangleOverlap"];
   "sub_0802A01C" [label="sub_0802A01C"];
   "sub_0802A080" [label="WaitForAnyPlayerInRectangle"];
-  "sub_0802A104" [label="sub_0802A104"];
+  "sub_0802A104" [label="StartSceneEventAfterObjectBreak"];
   "sub_0802A19C" [label="sub_0802A19C"];
   "sub_0802A228" [label="sub_0802A228"];
   "sub_0802A590" [label="ConvertPaletteBanksToGrayscale"];
@@ -613,7 +613,7 @@ digraph calls {
   "sub_0802E7AC" [label="sub_0802E7AC"];
   "sub_0802EA50" [label="sub_0802EA50"];
   "sub_0802F208" [label="sub_0802F208"];
-  "sub_0802F424" [label="sub_0802F424"];
+  "sub_0802F424" [label="MoveSceneActorOutAndDespawn"];
   "sub_0802F4B0" [label="CreateTempleOfLightAttendantSceneActor"];
   "sub_0802F578" [label="sub_0802F578"];
   "sub_0802FA80" [label="sub_0802FA80"];

@@ -16467,10 +16467,22 @@
       "canonical_symbol": "sub_08029F54",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_08029F54",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "TriggerSceneEventForPlayerRectangleOverlap",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_08028AAC.c",
+          "line": 906,
+          "revision": "b5337babd5b759034a0b68b145e7899a6bfefd7d",
+          "detail": "Scans replicated player positions against supplied rectangle center and width/height using08021FE0 with packed player extents0x200018. On overlap searches30 scene event task slots, retries0x400 stack allocation for the first free slot, starts supplied callback, then calls0800035C to terminate current task. If no task slot exists it still terminates; it is not a persistent wait-for-entry helper or guaranteed event delivery. Original performs one scan, returns normally with no hit; unlikeA080 it does NOT reject packet flag20. Player extents are unsignedhalfwords24x32; supplied rectangle extents narrowedlow16;21FE0 inclusive AABB. Callback is fifth stackWORD loaded29FEC, schedulerargument0, priority3C,cleanup0. No free30-slot task still calls0035C; allocation failure retries forever after choosing slot; no callback completion guarantee."
+        },
+        {
+          "source": "src/code_08021DC4.c",
+          "revision": "b5337babd5b759034a0b68b145e7899a6bfefd7d",
+          "detail": "src/code_08021DC4.c:sub_08021FE0 compares absolute fixed-coordinate deltas against half summed extents. src/code_08028AAC.c:906-951 links rectangle/player condition to event creation and current-task termination; no exact scene identity inferred."
+        }
+      ]
     },
     {
       "name": "sub_0802A01C",
@@ -16530,10 +16542,22 @@
       "canonical_symbol": "sub_0802A104",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_0802A104",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "StartSceneEventAfterObjectBreak",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_08028AAC.c",
+          "line": 1011,
+          "revision": "b5337babd5b759034a0b68b145e7899a6bfefd7d",
+          "detail": "Waits for selected scene object state+0x14 to equal12, aborting on scene flags+0x4 mask0x10; then starts descriptor callback/argument in first free30-slot scene event task pool, retrying allocation. Object stride0x24 and base0x4B4 mean selector6 addresses first destructible at0x58C. Full task pool returns without event. Descriptor WORD+C callback andWORD+10argument captured before waiting. Object address=game+4B4+selector*36 with no bounds guard. State+14 readLDRH. If already12, scene-stop flag check is bypassed; otherwise scene+4mask10 returns. Full30-slot pool returns, allocation retries without cancellation after free slot selected. No successful event delivery guaranteed."
+        },
+        {
+          "source": "src/code_08021DC4.c",
+          "revision": "b5337babd5b759034a0b68b145e7899a6bfefd7d",
+          "detail": "src/code_08021DC4.c:t025Effects27C at4935 sets object state12 after state10 damage reduces durability+10 to zero and removes collision footprint, then starts destruction animation; src/code_0804D330.c:694 installs0802A104 with objectselector6 and callback0804E7B8."
+        }
+      ]
     },
     {
       "name": "sub_0802A19C",
@@ -17135,10 +17159,22 @@
       "canonical_symbol": "sub_0802F424",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_0802F424",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "MoveSceneActorOutAndDespawn",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_08028AAC.c",
+          "line": 6403,
+          "revision": "b5337babd5b759034a0b68b145e7899a6bfefd7d",
+          "detail": "Selects animation5 and requests relative movement offset(40,100) pixels in single-player or(0,100) multiplayer with duration parameter60, then resolves actor byID and writes state+0x36=4. The movement helper quantizes the interpolation step as1024/60, so neither exactly60 iterations nor exact final displacement is asserted. The actor updater stops on state4 and clears actorID, proving despawn. Only found actor gets STRH+36=4 after movement; absent actor yields once and returns. Nonactor selectors can still make animation/movement helper calls but do not establish actor deletion. Original284F4 exits loop on state4 and clears WORD ID, closing deferred despawn; helper itself only requests it. Quantized movement no endpoint snap or exact60frames guarantee."
+        },
+        {
+          "source": "src/code_08028AAC.c",
+          "revision": "b5337babd5b759034a0b68b145e7899a6bfefd7d",
+          "detail": "src/code_08028AAC.c:6372 schedules this as scene callback for created actor; src/code_08021DC4.c:sub_080284F4 while(state36!=4) renders/updates actor and then setsid=0. Exit motion direction and distance come directly from calls08028D98."
+        }
+      ]
     },
     {
       "name": "sub_0802F4B0",
@@ -51867,12 +51903,12 @@
   "identification": {
     "game": {
       "total": 1880,
-      "identified": 983,
+      "identified": 986,
       "existing": 23,
-      "confirmed": 960,
+      "confirmed": 963,
       "proposed": 2,
-      "unidentified": 895,
-      "percent_identified": 52.287234042553195
+      "unidentified": 892,
+      "percent_identified": 52.4468085106383
     },
     "sdk": {
       "total": 155,
@@ -51885,12 +51921,12 @@
     },
     "all": {
       "total": 2035,
-      "identified": 1138,
+      "identified": 1141,
       "existing": 152,
-      "confirmed": 986,
+      "confirmed": 989,
       "proposed": 2,
-      "unidentified": 895,
-      "percent_identified": 55.92137592137592
+      "unidentified": 892,
+      "percent_identified": 56.06879606879607
     }
   },
   "limitations": "Configured function address intervals, including alignment/literal pools; inventory includes original assembly and linked libraries. Existing descriptive identifiers are recognized, not independently semantically re-proven."
