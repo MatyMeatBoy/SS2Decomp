@@ -4,6 +4,9 @@ Read this after [QUICKSTART.md](QUICKSTART.md). Exclusive shard claims,
 independent checkouts and [matching gates](MATCH_VERIFICATION.md) still apply.
 Do one bounded task at a time and return reproducible evidence.
 
+See [external matching cases and local controls](EXTERNAL_MATCHING_CASES.md) for
+specific FE8/agbcc examples, measured local outcomes and already-closed hypotheses.
+
 ## Use the best verified checkpoint
 
 1. Fetch main and inspect landed work before recovering old candidates. Run
