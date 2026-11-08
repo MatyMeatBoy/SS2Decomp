@@ -23887,6 +23887,106 @@
           "detail": "Independent names-low-a review: Accepted descriptive destructibleactor role withoutboss inference. Full original confirms signed16HP/maxHP, integerhealthpercent thresholds andflashing state machine. Own19CE8 subtracts pendinghalfword+4A&7FFF fromHP+5C, clearsdamagefield andsetsstate11 atnonpositiveHP. D654state11 starts20tickflash onlyifnotalreadyflashing; terminal/shutdownexits execute SAME cleanup asdeath. Own9D558onlysetsBYTE030002E8=1; noadditionaldeath/questsemantics inferred. Always releasesfixedslot5 andplays232 atcleanup; unexpectedinitialupdaterstate can leave sprite descriptorundefined. No itemdrop request or allocation-success guarantee."
         }
       ]
+    },
+    {
+      "address": "0x08028AAC",
+      "canonical_symbol": "sub_08028AAC",
+      "display_name": "MoveSceneEntityToPosition",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08028AAC.c",
+          "line": 35,
+          "revision": "b5337babd5b759034a0b68b145e7899a6bfefd7d",
+          "detail": "Converts unsigned pixel coordinates to 24.8 fixed point and linearly interpolates all supported entity positions with sub_080659F4, yielding each step; zero frames writes immediately. Player/enemy previous coordinates are synchronized; map objects unmark/remark their collision footprint. Original ABI truncates X,Y,frames to unsigned16. Selector>0x100000 searches15 actors by word ID; missing actor yields once then returns.6..0x100000 directly indexes map-object base+0x4B4+selector*0x24 WITHOUT capacity check;1..5 enemies,0 localplayer. Coordinates shifted8;timed step=floor(1024/frames),sample t=0 while t<=1023. No endpoint snap: destination is not guaranteed on return; frames>1024 gives step0 and nontermination. Zero frames stores position and yields once. Player/enemy previous coordinates synchronized; object footprint callsAEF4 before/after. Original28ABA..AC6 widths;28AFC..B42 actor interpolation;28B68..78 object indexing."
+        },
+        {
+          "source": "src/code_0802FEA0.c",
+          "revision": "b5337babd5b759034a0b68b145e7899a6bfefd7d",
+          "detail": "src/code_0802FEA0.c:1250-1265 sequences facing changes and absolute XY destinations around an eight-point route."
+        }
+      ]
+    },
+    {
+      "address": "0x08028D98",
+      "canonical_symbol": "sub_08028D98",
+      "display_name": "MoveSceneEntityByOffset",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08028AAC.c",
+          "line": 169,
+          "revision": "b5337babd5b759034a0b68b145e7899a6bfefd7d",
+          "detail": "Sign-extends pixel offsets and adds them to the current 24.8 coordinates; timed paths interpolate from saved positions, zero frames translates immediately. The same selector distinguishes scene actors, map objects, enemies and local player. Original ABI offsets use signedlow16 shifted8;frames unsignedlow16. Same movement selector domains and unchecked object index as28AAC. Timed interpolation uses floor(1024/frames),samples<1024 without endpoint snap;frames>1024 gives step0/no loop progress. Zero frames translates then yields once. Actor failed lookup yields once then returns. Player/enemy prev sync and object footprint marking are actual writes,not collision validation or successful travel promise."
+        },
+        {
+          "source": "src/code_080443EC.c",
+          "revision": "b5337babd5b759034a0b68b145e7899a6bfefd7d",
+          "detail": "src/code_080443EC.c:2935-2942 performs paired (0,-3)/(0,+3) movements on entities 1,2,4,5; src/code_0804D330.c:1153-1156 moves an entity upward by 200 pixels."
+        }
+      ]
+    },
+    {
+      "address": "0x080290E4",
+      "canonical_symbol": "sub_080290E4",
+      "display_name": "SetSceneEntityFacing",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08028AAC.c",
+          "line": 282,
+          "revision": "b5337babd5b759034a0b68b145e7899a6bfefd7d",
+          "detail": "Writes direction at actor +0x24, enemy +8, or local player +0x1C. Actor path requests mode 3 at +0x36 and yields until the update consumes it. Original290E8..EA narrowsdirection low16. Actor IDs>0x100000 search15 records;missing yields once/returns. Actor+24STRH direction,+36STRH3 then repeatedly yields while+36==3,without timeout/cancel. Enemy selector1..5 writesSTRH+8;all other nonzero selectors<=0x100000 return after subtract/rangecheck;0 writes localplayer+1C. This setter DOES NOT support map-object selector6+. No direction0..7 validation."
+        },
+        {
+          "source": "src/code_08028AAC.c",
+          "revision": "b5337babd5b759034a0b68b145e7899a6bfefd7d",
+          "detail": "src/code_08028AAC.c:509-645 computes an ArcTan2 direction, maps through gUnk_084790B4, and calls this setter in a wrapping 0..7 loop; src/code_0802FEA0.c:1250-1265 alternates facing values 2..7,0,1 with matching movement segments."
+        }
+      ]
+    },
+    {
+      "address": "0x0802949C",
+      "canonical_symbol": "sub_0802949C",
+      "display_name": "TurnSceneEntityTowardEntity",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08028AAC.c",
+          "line": 534,
+          "revision": "b5337babd5b759034a0b68b145e7899a6bfefd7d",
+          "detail": "Resolves positions of both entity selectors, computes ArcTan2 of their difference, maps to an eight-direction table, saves original facing into goal, then calls sub_080290E4 in shortest wrapping steps with two-tick waits until facing the target. Original reads both supported selector domains actor>0x100000,enemy1..5,local0;invalidnonzero<=0x100000 or missingactor returns. Saves original direction halfword to actor+26/enemy+A/player+1E;differences narrow signed16 afterfixedcoordinates>>8;ArcTan2 maps16sectors via084790B4 to8directions. Repeated calls290E4 with wrappingdirection and2-yield helper;021A8 shortens eachwait only,not outerloop cancellation. No convergence/timeout guarantee forinvaliddirection/concurrentwriters. Resource table084790B4 is scalarbyte directionmap,not pointers."
+        },
+        {
+          "source": "src/code_0802FEA0.c",
+          "revision": "b5337babd5b759034a0b68b145e7899a6bfefd7d",
+          "detail": "src/code_0802FEA0.c:36 turns arg toward local player selector 0; line 175 later restores it through sub_08029788."
+        }
+      ]
+    },
+    {
+      "address": "0x08029788",
+      "canonical_symbol": "sub_08029788",
+      "display_name": "RestoreSceneEntityFacingGradually",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08028AAC.c",
+          "line": 690,
+          "revision": "b5337babd5b759034a0b68b145e7899a6bfefd7d",
+          "detail": "Actor/player paths load the goal direction saved by sub_0802949C and call sub_080290E4 with wrapping 0..7 steps and two-tick waits. Enemy path retains an apparent original uninitialized goal/difference defect; name describes intended common operation, not a bug fix. Original defect is broader than draftnote:297E0 decrements preserved r6 selector;297FA jumps2981C without initializinggoal r8 or difference r4. Thus inputenemy1 leaves r6=0,chooses29904 player branch with uninitializedsl playerbase;inputs2..5 keep r6=1..4 and call298C0 setter on priorenemy whilecomparing originally selectedenemy. Actor/player0 paths restore saved+26/+1Egoal usingwrappingsteps;only those initialized paths justifyname. Invalidnonzero6..0x100000 returns;missingactor yields once/returns;each2tickwaitcan shortenon021A8 butouterloopnocancel. No safe enemycompletion contract. Original297DC..FA,298A8..C0,29904..18 are primaryevidence; C is reading aid only."
+        },
+        {
+          "source": "src/code_0802FEA0.c",
+          "revision": "b5337babd5b759034a0b68b145e7899a6bfefd7d",
+          "detail": "src/code_0802FEA0.c:202/295 and 736/780 bracket scene interactions with turn-toward-player and restore-facing calls."
+        }
+      ]
     }
   ]
 }
