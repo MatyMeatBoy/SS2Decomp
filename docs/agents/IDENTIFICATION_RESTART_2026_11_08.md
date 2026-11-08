@@ -835,3 +835,12 @@ Three previously unidentified EUR functions now have names for restoring local-p
 The damage helpers use eligibility gates and add a halfword amount to pending damage rather than directly subtracting HP or guaranteeing network delivery. The later HP consumer can discard that pending damage under its suppression mode. One route first applies randomized quadratic scaling; the other attempts probabilistic resistance growth before writing pending-hit state. Action-width differences, halfword wrapping and the invalid-kind helper limitation remain documented. Growth and later HP reduction are not guaranteed.
 
 Only the catalog and this English evidence journal change. Existing rows, metadata and canonical symbols remain intact; matching code, data, shard claims and generated progress are unchanged. Frozen primary receipts, the consistent restoration-mask precision overlay and independent review remain private.
+
+
+## Enemy and direct-player pending damage
+
+Three previously unidentified EUR helpers now have names for randomized enemy damage, enemy damage without that preprocessing, and direct pending damage to a supplied player. The coordinator read all three complete matched bodies and original ranges, the enemy HP consumer, packet enqueue/merge path, motion helper and relevant callers. Seven complete configured ranges equal the EUR ROM and linked ELF. These names describe pending-hit state and queue attempts, without guaranteeing immediate HP reduction or link delivery.
+
+Enemy damage assigns the pending halfword and last-damage word; its consumer subtracts only the pending low fifteen bits and clears the pending field. The randomized helper also marks the local attacker bit, unlike its nonrandomized counterpart. Enemy class three skips effect initialization but still passes the packet onward, leaving an effect byte and padding uninitialized. Invalid enemy indices are not explicitly bounded, and enqueue failure is ignored after local writes.
+
+The direct-player helper uses its supplied pointer without owner or eligibility checks, discards the angle result, clears three halfwords and adds damage with halfword wrap. Caller gates do not become guarantees of the helper. Only the catalog and this English journal change; prior rows, metadata, canonical symbols, matching code, data, claims and generated progress remain intact. Frozen proofs, independent review and a static-evidence wording overlay remain private.
