@@ -3888,8 +3888,10 @@ retry63_1_done:
                 temp_r2_43 = ((struct PlayerD368 *)arg0)->f144;
                 ((union RecordD368 *)temp_r2_43)->w0_b28_n4.value = (s16) ((struct PlayerD368 *)arg0)->f1C;
                 if ((d368_sub_0801DE60() == 7) && (d368_sub_0801DEB8() == 0x13)) {
+                    s32 recordByte7MaskD368 = -15;
+                    asm("" : "+r"(recordByte7MaskD368));
                     temp_r2_42 = *var_r5_10;
-                    M2C_FIELD(temp_r2_42, u8 *, 7) = (M2C_FIELD(temp_r2_42, u8 *, 7) & 0xF1) | (sp170 << 1);
+                    M2C_FIELD(temp_r2_42, u8 *, 7) = (M2C_FIELD(temp_r2_42, u8 *, 7) & recordByte7MaskD368) | (sp170 << 1);
                 } else {
                     temp_r2_42 = *var_r5_10;
                     ((union RecordD368 *)temp_r2_42)->w1_b25_n3.value = 0;
