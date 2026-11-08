@@ -2230,7 +2230,8 @@ block_297:
                     var_r0_17 = (*(u8 **)ScenePointerSlotEU27) + var_r3;
 block_298:
                     helperByte27 = *var_r0_17;
-                    helperArgument27 = (helperByte27 >> 5) & 1;
+                    helperArgument27 = helperByte27;
+                    helperArgument27 = (helperArgument27 >> 5) & 1;
 call27_shared_helper:
                     sub_0805C7B8(helperArgument27);
 block_357:
