@@ -14,8 +14,8 @@
 <text x="269.0" y="86" fill="#e6edf3" font-size="10">940 bytes; not decompiled C</text>
 <rect x="506.0" y="30" width="235.0" height="66" rx="5" fill="#161b22"/>
 <text x="516.0" y="46" fill="#e6edf3" font-size="11">Identification</text>
-<text x="516.0" y="69" fill="#3fb950" font-size="21" font-weight="600">47.67%</text>
-<text x="516.0" y="86" fill="#e6edf3" font-size="10">970 / 2035 registered names</text>
+<text x="516.0" y="69" fill="#3fb950" font-size="21" font-weight="600">47.76%</text>
+<text x="516.0" y="86" fill="#e6edf3" font-size="10">972 / 2035 registered names</text>
 <rect x="753.0" y="30" width="235.0" height="66" rx="5" fill="#161b22"/>
 <text x="763.0" y="46" fill="#e6edf3" font-size="11">Historical C + linked</text>
 <text x="763.0" y="69" fill="#e6edf3" font-size="21" font-weight="600">93.13%</text>
@@ -989,7 +989,7 @@
 <g><title>code_08009088 (15156 bytes)</title>
 <rect x="725.85" y="129.00" width="92.15" height="86.55" fill="#0d1117"/>
 <rect x="726.85" y="130.00" width="34.59" height="41.70" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0800BEC0 | sub_0800BEC0 | unidentified  0x0800BEC0  2868 bytes  [done]</title></rect>
-<rect x="726.85" y="171.70" width="34.59" height="23.44" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0800A34C | sub_0800A34C | unidentified  0x0800A34C  1612 bytes  [done]</title></rect>
+<rect x="726.85" y="171.70" width="34.59" height="23.44" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>UpdateWorldMapMusic | sub_0800A34C | confirmed  0x0800A34C  1612 bytes  [done]</title></rect>
 <rect x="726.85" y="195.13" width="34.59" height="19.42" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0800B118 | sub_0800B118 | unidentified  0x0800B118  1336 bytes  [done]</title></rect>
 <rect x="761.45" y="130.00" width="31.48" height="19.30" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>UpdateWorldMapTileAnimationsAndBlend | sub_08009B84 | confirmed  0x08009B84  1208 bytes  [done]</title></rect>
 <rect x="792.92" y="130.00" width="24.08" height="19.30" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>UpdateMapBackgroundLayerScroll | sub_08009594 | confirmed  0x08009594  924 bytes  [done]</title></rect>
@@ -1002,7 +1002,7 @@
 <rect x="776.13" y="168.10" width="14.93" height="13.34" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>LoadBackgroundAsset | sub_0800B650 | confirmed  0x0800B650  396 bytes  [done]</title></rect>
 <rect x="791.06" y="168.10" width="13.42" height="13.34" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>TaskManageWorldSceneLifetime | sub_0800BD5C | confirmed  0x0800BD5C  356 bytes  [done]</title></rect>
 <rect x="804.48" y="168.10" width="12.52" height="13.34" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>UpdateCameraFromWorldPosition | sub_0800AD04 | confirmed  0x0800AD04  332 bytes  [done]</title></rect>
-<rect x="776.13" y="181.43" width="12.63" height="12.58" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0800C9F4 | sub_0800C9F4 | unidentified  0x0800C9F4  316 bytes  [done]</title></rect>
+<rect x="776.13" y="181.43" width="12.63" height="12.58" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>PulsePaletteRangeUntilFlag | sub_0800C9F4 | confirmed  0x0800C9F4  316 bytes  [done]</title></rect>
 <rect x="776.13" y="194.01" width="12.63" height="11.31" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>InitializeMapBackgroundLayer | sub_080092C8 | confirmed  0x080092C8  284 bytes  [done]</title></rect>
 <rect x="776.13" y="205.32" width="12.63" height="9.24" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>CopyMapColumnToCircularTilemap | sub_080093E4 | confirmed  0x080093E4  232 bytes  [done]</title></rect>
 <rect x="788.76" y="181.43" width="10.38" height="9.69" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>CopyMapRowToCircularTilemap | sub_080094CC | confirmed  0x080094CC  200 bytes  [done]</title></rect>

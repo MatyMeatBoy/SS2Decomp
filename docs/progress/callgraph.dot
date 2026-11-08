@@ -196,7 +196,7 @@ digraph calls {
   "sub_08009B84" [label="UpdateWorldMapTileAnimationsAndBlend"];
   "sub_0800A03C" [label="AdvanceWorldMapTileAnimationCounters"];
   "sub_0800A298" [label="SwitchWorldMapAreaCellData"];
-  "sub_0800A34C" [label="sub_0800A34C"];
+  "sub_0800A34C" [label="UpdateWorldMapMusic"];
   "sub_0800A998" [label="TaskUpdateWorldMapBackgrounds"];
   "sub_0800AD04" [label="UpdateCameraFromWorldPosition"];
   "sub_0800AE50" [label="DecodeMapCellAttributeAtPosition"];
@@ -226,7 +226,7 @@ digraph calls {
   "sub_0800BD48" [label="SetMapLayerCameraRelativeMode"];
   "sub_0800BD5C" [label="TaskManageWorldSceneLifetime"];
   "sub_0800BEC0" [label="sub_0800BEC0"];
-  "sub_0800C9F4" [label="sub_0800C9F4"];
+  "sub_0800C9F4" [label="PulsePaletteRangeUntilFlag"];
   "sub_0800CB30" [label="ResetWorldSceneFlags"];
   "sub_0800CB3C" [label="StartWorldSceneLifetimeTask"];
   "sub_0800CB78" [label="IsWorldSceneStopRequested"];
