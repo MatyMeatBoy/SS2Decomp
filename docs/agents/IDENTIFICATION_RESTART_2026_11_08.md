@@ -554,3 +554,14 @@ The stage/team starter selects callbacks by a scene flag, with functional meanin
 The numeric formatter expands every token from the same saved unsigned sixteen-bit input, handles the source terminator and centers by encoded columns. It has no capacity check or bounded search for a missing terminator. Decimal width returns zero for zero and caps at six. Two cleanup callbacks unconditionally clear the manager pointee before freeing it; the inventory variant frees without that write. The full-screen item-menu finalizer serves modes three through six, so a collection-only name was rejected. Cleanup twins have the same operations but different relative call bytes and remain separate canonical functions.
 
 Frozen worker inputs, peer corrections, the signed-halfword/byte correction and precise terminator wording remain preserved privately. The coordinator read all ten original bodies and relevant consumer witnesses; independent semantic review covered the corrected candidates. No symbols, code, data, claims or generated progress reports are changed.
+
+
+## Workers A04/B05: ability dispatch, attached visuals and parallax
+
+Ten previously unidentified EUR functions were independently reviewed against original complete bodies and matched source at `8bbfb589bf6ab55018ae7e465fc0e674879c81fa`. Ability dispatch distinguishes task-start paths from kind six's local buff and attached visual. Kind five applies locally to the owner or handles nearby allied candidates, without proving free effect capacity or valid enemy-owner behavior. Starting an attached animation does not establish application of the corresponding ability.
+
+The hit callback invokes its processor once before abort testing and ignores the result. Its starter packs coordinates without masking the shifted X contribution, so arbitrary inputs need not round-trip. Palette bank `0x17` means 23, and the task scheduling key is `0x34`. The shared `1FD64` helper conditionally accumulates a narrowed percentage, substitutes one for zero and updates its serial only on that path; alias names do not establish a general stat refresh.
+
+The five parallax callbacks distinguish source positions from display offsets, preserve machine-width accumulation and truncation, and loop indefinitely while yielding. Signed modulo 320 and masking with 511 differ for negative coordinates. The modulo callback's extra stores change cached tile-row values, which the renderer may subsequently overwrite; they do not prove a menu-layout or map-dimension change. Its name was narrowed accordingly.
+
+Frozen originals, exact peer corrections and explicit numeric-unit clarifications remain preserved privately. The coordinator read all ten original bodies, matched C and relevant consumer witnesses; a separate reviewer approved the corrected semantics. Complete ranges match the EUR ROM and linked ELF. Canonical symbols, code, data, claims and generated progress reports remain unchanged.
