@@ -544,9 +544,9 @@ digraph calls {
   "sub_08023274" [label="sub_08023274"];
   "sub_08023684" [label="sub_08023684"];
   "sub_080239E0" [label="sub_080239E0"];
-  "sub_08023A3C" [label="sub_08023A3C"];
-  "sub_08023ED8" [label="sub_08023ED8"];
-  "sub_08023F98" [label="sub_08023F98"];
+  "sub_08023A3C" [label="TaskManageEnemySpawnGroup"];
+  "sub_08023ED8" [label="RestartEnemySpawnGroupTask"];
+  "sub_08023F98" [label="StartEnemySpawnGroupsForMapArea"];
   "sub_0802413C" [label="sub_0802413C"];
   "sub_08024538" [label="sub_08024538"];
   "sub_080245CC" [label="sub_080245CC"];
@@ -941,7 +941,7 @@ digraph calls {
   "sub_080585F4" [label="sub_080585F4"];
   "sub_08058608" [label="sub_08058608"];
   "sub_08058614" [label="sub_08058614"];
-  "sub_08058620" [label="sub_08058620"];
+  "sub_08058620" [label="AppendAndStartEnemySpawnGroup"];
   "sub_0805865C" [label="AudioStartSongWithLinkErrorGuard"];
   "sub_0805867C" [label="sub_0805867C"];
   "sub_08058688" [label="AudioSetTrackedSongAndReturnPrevious"];
@@ -1044,7 +1044,7 @@ digraph calls {
   "sub_0805A474" [label="sub_0805A474"];
   "sub_0805A4A0" [label="sub_0805A4A0"];
   "sub_0805A4BC" [label="sub_0805A4BC"];
-  "sub_0805A550" [label="sub_0805A550"];
+  "sub_0805A550" [label="RegisterAndStartEnemySpawnGroupAtIndex"];
   "sub_0805A58C" [label="StartSceneObjectInteractionCallbackTask"];
   "sub_0805A60C" [label="sub_0805A60C"];
   "sub_0805A618" [label="sub_0805A618"];
@@ -1054,7 +1054,7 @@ digraph calls {
   "sub_0805A648" [label="sub_0805A648"];
   "sub_0805A654" [label="sub_0805A654"];
   "sub_0805A660" [label="sub_0805A660"];
-  "sub_0805A66C" [label="sub_0805A66C"];
+  "sub_0805A66C" [label="CancelScheduledEnemySpawnGroupTasks"];
   "sub_0805A6A0" [label="sub_0805A6A0"];
   "sub_0805A6B8" [label="TaskRunDelayedTwoArgumentCallback"];
   "sub_0805A6DC" [label="IsSceneObjectInteractionBlocked"];
@@ -1206,7 +1206,7 @@ digraph calls {
   "sub_08065C50" [label="StartCharacterFlashSaveTask"];
   "sub_08065CA8" [label="InitLinkMessageQueuesAndTasks"];
   "sub_08065D50" [label="EnqueueLinkPlayerName"];
-  "sub_08065DAC" [label="sub_08065DAC"];
+  "sub_08065DAC" [label="TryEnqueueLocalWeaponSubtypeUpdate"];
   "sub_08065E38" [label="RemoveFirstLinkRingValuePerParticipant"];
   "sub_08065F08" [label="RemoveLinkRingValueMatchesPerParticipant"];
   "sub_08065FE8" [label="sub_08065FE8"];
@@ -1247,8 +1247,8 @@ digraph calls {
   "sub_08067BF8" [label="ConsumeDefaultLinkBarrierToken"];
   "sub_08067C08" [label="AllParticipantsHaveDefaultLinkBarrierToken"];
   "sub_08067C18" [label="TryEnqueueDefaultLinkBarrierToken"];
-  "sub_08067C28" [label="sub_08067C28"];
-  "sub_08067C68" [label="sub_08067C68"];
+  "sub_08067C28" [label="TryEnqueueEnemyRemovalByStoredSpawnRecord"];
+  "sub_08067C68" [label="TryEnqueueEnemyRemovalById"];
   "sub_08067CA8" [label="sub_08067CA8"];
   "sub_08067CE8" [label="sub_08067CE8"];
   "sub_08067D28" [label="EnqueueLinkStatusRecordUpdate"];
@@ -1264,9 +1264,9 @@ digraph calls {
   "sub_08067FE0" [label="EnqueueLinkClassSkillEffect"];
   "sub_08068030" [label="sub_08068030"];
   "sub_08068070" [label="EnqueueLinkSceneCallbackTask"];
-  "sub_080680B4" [label="sub_080680B4"];
+  "sub_080680B4" [label="TryEnqueueEnemyEffectByKey"];
   "sub_080680F8" [label="EnqueueLinkEligiblePlayerCentroidAreaAttack"];
-  "sub_08068144" [label="sub_08068144"];
+  "sub_08068144" [label="TryEnqueuePlayerRevivalRequest"];
   "sub_0806818C" [label="EnqueueLinkTimedAreaDamageEffect"];
   "sub_080681F4" [label="sub_080681F4"];
   "sub_0806823C" [label="EnqueueLinkRepeatingAreaDamageEffect"];

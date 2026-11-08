@@ -14,8 +14,8 @@
 <text x="269.0" y="86" fill="#e6edf3" font-size="10">940 bytes; not decompiled C</text>
 <rect x="506.0" y="30" width="235.0" height="66" rx="5" fill="#161b22"/>
 <text x="516.0" y="46" fill="#e6edf3" font-size="11">Identification</text>
-<text x="516.0" y="69" fill="#3fb950" font-size="21" font-weight="600">43.00%</text>
-<text x="516.0" y="86" fill="#e6edf3" font-size="10">875 / 2035 registered names</text>
+<text x="516.0" y="69" fill="#3fb950" font-size="21" font-weight="600">43.54%</text>
+<text x="516.0" y="86" fill="#e6edf3" font-size="10">886 / 2035 registered names</text>
 <rect x="753.0" y="30" width="235.0" height="66" rx="5" fill="#161b22"/>
 <text x="763.0" y="46" fill="#e6edf3" font-size="11">Historical C + linked</text>
 <text x="763.0" y="69" fill="#e6edf3" font-size="21" font-weight="600">93.13%</text>
@@ -515,7 +515,7 @@
 <rect x="289.23" y="483.74" width="43.33" height="23.26" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_080226A4 | sub_080226A4 | unidentified  0x080226A4  1980 bytes  [done]</title></rect>
 <rect x="332.56" y="397.48" width="33.54" height="29.44" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0802704C | sub_0802704C | unidentified  0x0802704C  1940 bytes  [done]</title></rect>
 <rect x="366.10" y="397.48" width="32.29" height="29.44" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>t025Effects27C | sub_08027C1C | existing  0x08027C1C  1868 bytes  [done]</title></rect>
-<rect x="398.39" y="397.48" width="20.40" height="29.44" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08023A3C | sub_08023A3C | unidentified  0x08023A3C  1180 bytes  [done]</title></rect>
+<rect x="398.39" y="397.48" width="20.40" height="29.44" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>TaskManageEnemySpawnGroup | sub_08023A3C | confirmed  0x08023A3C  1180 bytes  [done]</title></rect>
 <rect x="332.56" y="426.92" width="26.49" height="20.44" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_080263B4 | sub_080263B4 | unidentified  0x080263B4  1064 bytes  [done]</title></rect>
 <rect x="332.56" y="447.36" width="26.49" height="20.06" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08022E60 | sub_08022E60 | unidentified  0x08022E60  1044 bytes  [done]</title></rect>
 <rect x="332.56" y="467.42" width="26.49" height="19.98" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08023274 | sub_08023274 | unidentified  0x08023274  1040 bytes  [done]</title></rect>
@@ -525,12 +525,12 @@
 <rect x="399.96" y="426.92" width="18.83" height="23.79" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_080277E0 | sub_080277E0 | unidentified  0x080277E0  880 bytes  [done]</title></rect>
 <rect x="359.05" y="450.70" width="19.06" height="22.97" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08023684 | sub_08023684 | unidentified  0x08023684  860 bytes  [done]</title></rect>
 <rect x="359.05" y="473.67" width="19.06" height="22.11" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>TaskAnimateInteractiveSceneObject | sub_080284F4 | confirmed  0x080284F4  828 bytes  [done]</title></rect>
-<rect x="359.05" y="495.78" width="19.06" height="11.22" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08023F98 | sub_08023F98 | unidentified  0x08023F98  420 bytes  [done]</title></rect>
+<rect x="359.05" y="495.78" width="19.06" height="11.22" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>StartEnemySpawnGroupsForMapArea | sub_08023F98 | confirmed  0x08023F98  420 bytes  [done]</title></rect>
 <rect x="378.10" y="450.70" width="10.86" height="11.06" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>SpawnSceneObjectAndWaitForStartupStateChange | sub_080289C0 | confirmed  0x080289C0  236 bytes  [done]</title></rect>
 <rect x="388.96" y="450.70" width="10.68" height="11.06" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>TaskStartSceneCallbackOnAnyPlayerAreaEntry | sub_08028830 | confirmed  0x08028830  232 bytes  [done]</title></rect>
 <rect x="399.64" y="450.70" width="9.76" height="11.06" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>AcquireSharedObjectPaletteSlot | sub_080283C4 | confirmed  0x080283C4  212 bytes  [done]</title></rect>
 <rect x="409.40" y="450.70" width="9.39" height="11.06" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08027B50 | sub_08027B50 | unidentified  0x08027B50  204 bytes  [done]</title></rect>
-<rect x="378.10" y="461.76" width="10.97" height="8.91" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08023ED8 | sub_08023ED8 | unidentified  0x08023ED8  192 bytes  [done]</title></rect>
+<rect x="378.10" y="461.76" width="10.97" height="8.91" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>RestartEnemySpawnGroupTask | sub_08023ED8 | confirmed  0x08023ED8  192 bytes  [done]</title></rect>
 <rect x="389.07" y="461.76" width="10.74" height="8.91" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>t24_start257D4 | sub_080257D4 | existing  0x080257D4  188 bytes  [done]</title></rect>
 <rect x="399.82" y="461.76" width="9.60" height="8.91" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08028918 | sub_08028918 | unidentified  0x08028918  168 bytes  [done]</title></rect>
 <rect x="409.42" y="461.76" width="9.37" height="8.91" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0802258C | sub_0802258C | unidentified  0x0802258C  164 bytes  [done]</title></rect>
@@ -1467,7 +1467,7 @@
 <rect x="669.99" y="420.74" width="6.09" height="6.55" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>SumBagAndStashCurrency | sub_0805B0F0 | confirmed  0x0805B0F0  80 bytes  [done]</title></rect>
 <rect x="676.09" y="420.74" width="5.18" height="6.55" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>ReleaseSceneObjectOnTaskExit | sub_0805A780 | confirmed  0x0805A780  68 bytes  [done]</title></rect>
 <rect x="681.27" y="420.74" width="4.57" height="6.55" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>CopyItemToStashSlot | sub_0805D028 | confirmed  0x0805D028  60 bytes  [done]</title></rect>
-<rect x="669.99" y="427.29" width="5.10" height="5.08" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0805A66C | sub_0805A66C | unidentified  0x0805A66C  52 bytes  [done]</title></rect>
+<rect x="669.99" y="427.29" width="5.10" height="5.08" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>CancelScheduledEnemySpawnGroupTasks | sub_0805A66C | confirmed  0x0805A66C  52 bytes  [done]</title></rect>
 <rect x="669.99" y="432.37" width="5.10" height="5.08" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>FindSceneObjectByHandle | sub_0805A960 | confirmed  0x0805A960  52 bytes  [done]</title></rect>
 <rect x="669.99" y="437.46" width="5.10" height="4.69" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>CopyItemToBagSlot | sub_0805CFF8 | confirmed  0x0805CFF8  48 bytes  [done]</title></rect>
 <rect x="675.10" y="427.29" width="5.60" height="4.27" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>CopyWeaponItemToSelectionSlot | sub_0805D064 | confirmed  0x0805D064  48 bytes  [done]</title></rect>
@@ -1656,7 +1656,7 @@
 <rect x="750.06" y="386.59" width="7.64" height="9.32" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>EnqueueOrMergeLinkHit | sub_080660EC | confirmed  0x080660EC  144 bytes  [done]</title></rect>
 <rect x="757.70" y="386.59" width="7.64" height="9.32" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>EnqueueLinkFieldItemSpawnRequest | sub_08066490 | confirmed  0x08066490  144 bytes  [done]</title></rect>
 <rect x="765.33" y="386.59" width="7.64" height="9.32" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>EnqueueLinkFieldItemSpawnWithSelector | sub_08066520 | confirmed  0x08066520  144 bytes  [done]</title></rect>
-<rect x="741.36" y="395.91" width="7.28" height="9.51" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08065DAC | sub_08065DAC | unidentified  0x08065DAC  140 bytes  [done]</title></rect>
+<rect x="741.36" y="395.91" width="7.28" height="9.51" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>TryEnqueueLocalWeaponSubtypeUpdate | sub_08065DAC | confirmed  0x08065DAC  140 bytes  [done]</title></rect>
 <rect x="741.36" y="405.42" width="7.28" height="9.51" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>EnqueueLinkSceneDamageList | sub_08066404 | confirmed  0x08066404  140 bytes  [done]</title></rect>
 <rect x="741.36" y="414.93" width="7.28" height="8.70" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>TaskDisplayPlayerNameAboveActor | sub_08065BD0 | confirmed  0x08065BD0  128 bytes  [done]</title></rect>
 <rect x="748.64" y="395.91" width="8.11" height="7.07" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>TaskDisplayTimedCenteredText | sub_08065A1C | confirmed  0x08065A1C  116 bytes  [done]</title></rect>
@@ -1724,7 +1724,7 @@
 <rect x="797.93" y="400.93" width="5.00" height="6.18" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0805A3B0 | sub_0805A3B0 | unidentified  0x0805A3B0  64 bytes  [done]</title></rect>
 <rect x="802.93" y="400.93" width="4.69" height="6.18" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08059A94 | sub_08059A94 | unidentified  0x08059A94  60 bytes  [done]</title></rect>
 <rect x="807.62" y="400.93" width="4.69" height="6.18" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0805A004 | sub_0805A004 | unidentified  0x0805A004  60 bytes  [done]</title></rect>
-<rect x="812.31" y="400.93" width="4.69" height="6.18" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0805A550 | sub_0805A550 | unidentified  0x0805A550  60 bytes  [done]</title></rect>
+<rect x="812.31" y="400.93" width="4.69" height="6.18" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>RegisterAndStartEnemySpawnGroupAtIndex | sub_0805A550 | confirmed  0x0805A550  60 bytes  [done]</title></rect>
 <rect x="797.93" y="407.11" width="4.91" height="5.51" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0805A318 | sub_0805A318 | unidentified  0x0805A318  56 bytes  [done]</title></rect>
 <rect x="797.93" y="412.62" width="4.91" height="5.51" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0805A404 | sub_0805A404 | unidentified  0x0805A404  56 bytes  [done]</title></rect>
 <rect x="797.93" y="418.13" width="4.91" height="5.51" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0805A43C | sub_0805A43C | unidentified  0x0805A43C  56 bytes  [done]</title></rect>
@@ -1815,13 +1815,13 @@
 <rect x="695.25" y="501.38" width="6.41" height="5.62" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>EnqueueLinkEligiblePlayerCentroidAreaAttack | sub_080680F8 | confirmed  0x080680F8  76 bytes  [done]</title></rect>
 <rect x="701.66" y="478.63" width="6.06" height="5.63" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>EnqueueLinkActorConsumableEffect | sub_08067F04 | confirmed  0x08067F04  72 bytes  [done]</title></rect>
 <rect x="707.71" y="478.63" width="6.06" height="5.63" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>TryEnqueueLinkItemDelivery | sub_08067F4C | confirmed  0x08067F4C  72 bytes  [done]</title></rect>
-<rect x="713.77" y="478.63" width="6.06" height="5.63" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08068144 | sub_08068144 | unidentified  0x08068144  72 bytes  [done]</title></rect>
+<rect x="713.77" y="478.63" width="6.06" height="5.63" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>TryEnqueuePlayerRevivalRequest | sub_08068144 | confirmed  0x08068144  72 bytes  [done]</title></rect>
 <rect x="719.82" y="478.63" width="6.06" height="5.63" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_080681F4 | sub_080681F4 | unidentified  0x080681F4  72 bytes  [done]</title></rect>
 <rect x="701.66" y="484.26" width="5.66" height="6.02" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>LinkClearConnectedPeerRings | sub_08068384 | confirmed  0x08068384  72 bytes  [done]</title></rect>
 <rect x="701.66" y="490.28" width="5.66" height="5.69" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>EnqueueLinkSceneCallbackTask | sub_08068070 | confirmed  0x08068070  68 bytes  [done]</title></rect>
-<rect x="701.66" y="495.96" width="5.66" height="5.69" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_080680B4 | sub_080680B4 | unidentified  0x080680B4  68 bytes  [done]</title></rect>
-<rect x="701.66" y="501.65" width="5.66" height="5.35" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08067C28 | sub_08067C28 | unidentified  0x08067C28  64 bytes  [done]</title></rect>
-<rect x="707.32" y="484.26" width="6.19" height="4.90" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08067C68 | sub_08067C68 | unidentified  0x08067C68  64 bytes  [done]</title></rect>
+<rect x="701.66" y="495.96" width="5.66" height="5.69" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>TryEnqueueEnemyEffectByKey | sub_080680B4 | confirmed  0x080680B4  68 bytes  [done]</title></rect>
+<rect x="701.66" y="501.65" width="5.66" height="5.35" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>TryEnqueueEnemyRemovalByStoredSpawnRecord | sub_08067C28 | confirmed  0x08067C28  64 bytes  [done]</title></rect>
+<rect x="707.32" y="484.26" width="6.19" height="4.90" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>TryEnqueueEnemyRemovalById | sub_08067C68 | confirmed  0x08067C68  64 bytes  [done]</title></rect>
 <rect x="713.51" y="484.26" width="6.19" height="4.90" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08067CA8 | sub_08067CA8 | unidentified  0x08067CA8  64 bytes  [done]</title></rect>
 <rect x="719.69" y="484.26" width="6.19" height="4.90" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08067CE8 | sub_08067CE8 | unidentified  0x08067CE8  64 bytes  [done]</title></rect>
 <rect x="707.32" y="489.15" width="5.09" height="5.95" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08067DC8 | sub_08067DC8 | unidentified  0x08067DC8  64 bytes  [done]</title></rect>
@@ -1919,7 +1919,7 @@
 <rect x="742.51" y="484.26" width="6.26" height="4.83" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08057CAC | sub_08057CAC | unidentified  0x08057CAC  64 bytes  [done]</title></rect>
 <rect x="748.78" y="484.26" width="6.26" height="4.83" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>CountMatchingBagItemSlots | sub_0805813C | confirmed  0x0805813C  64 bytes  [done]</title></rect>
 <rect x="755.04" y="484.26" width="6.26" height="4.83" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08058280 | sub_08058280 | unidentified  0x08058280  64 bytes  [done]</title></rect>
-<rect x="742.51" y="489.09" width="5.28" height="5.37" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08058620 | sub_08058620 | unidentified  0x08058620  60 bytes  [done]</title></rect>
+<rect x="742.51" y="489.09" width="5.28" height="5.37" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>AppendAndStartEnemySpawnGroup | sub_08058620 | confirmed  0x08058620  60 bytes  [done]</title></rect>
 <rect x="742.51" y="494.47" width="5.28" height="5.01" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>IsSceneEventFlagSetInBank | sub_0805853C | confirmed  0x0805853C  56 bytes  [done]</title></rect>
 <rect x="742.51" y="499.48" width="5.28" height="3.94" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>AudioSetTrackedSongAndReturnPrevious | sub_08058688 | confirmed  0x08058688  44 bytes  [done]</title></rect>
 <rect x="742.51" y="503.42" width="5.28" height="3.58" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08057CEC | sub_08057CEC | unidentified  0x08057CEC  40 bytes  [done]</title></rect>
