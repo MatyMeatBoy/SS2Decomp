@@ -24916,6 +24916,38 @@
       ]
     },
     {
+      "address": "0x08045F44",
+      "canonical_symbol": "sub_08045F44",
+      "display_name": "RunHamasanDialogue",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_080443EC.c",
+          "line": 871,
+          "revision": "3e4e65f3940022de591db87b37fd322ccbf75eac",
+          "detail": "Sets local player flags bit 0 (input suppression) and BeginLocalPlayerEventLock. Plays scene animation 6 on the argument entity (PlaySceneEntityAnimation) when the local player's pixel x (+0x8C >> 8) exceeds 0x1E7, otherwise animation 2. Reads scene event flags 0x22..0x25 (bits 2..5 of event-flag byte +0x1BB, or +0x1C7 when scene flag bit 9 is set). When all four are set it only shows 0x1402A9. Otherwise, when its own flag 0x22 is set, it only shows 0x1402A8. Otherwise it shows 0x1402A1 and counts bag records (character +0x150, 25 slots) with kind 5 and ID 0xA6. Only when at least one exists and LinkGetLocalPlayerId is 0, it stores 3 in the argument entity's state halfword and asks 0x1402A2 (timing -2). If DialogueSelectionIsZero, it shows 0x1402A4, clears the first matching bag record and adds one kind-1 ID-0x1E record with TryAddItemToBag. It then calls EnqueueLinkSceneCallbackTask(SetSceneEventFlagFromLinkCallback, 0x22), starts song 0x33 unless the link-error mute is set, and shows 0x1402A5 and 0x1402A6. Otherwise it shows 0x1402A3. Every path ends with LoopSceneEntityAnimation(arg, 0), clears flag bit 0 and calls EndLocalPlayerEventLock. The enqueue result is ignored and link delivery is not claimed."
+        },
+        {
+          "source": "baserom.gba",
+          "revision": "3e4e65f3940022de591db87b37fd322ccbf75eac",
+          "detail": "English resources decoded from language table 0x0838AFF0 (letter codes 0x01..0x3A = 'A'..'z', 0x3B '!', 0x51 space, 0xFE page, 0xFD end). The first-visit resource 0x1402A1 contains the self-introduction 'I`m Hamasan. Would you like to hear some good news?'. The acceptance resource 0x1402A5 reads 'Gave Bone Shield. Received 2 Gabas.'. The name comes from that self-introduction, not from artwork or adjacency."
+        },
+        {
+          "source": "src/code_08028AAC.c",
+          "revision": "3e4e65f3940022de591db87b37fd322ccbf75eac",
+          "detail": "Matched scene builder sub_0802E444 spawns this actor with sub_080289C0(0x44, 0x1E8, 0x6F) (SpawnSceneObjectAndWaitForStartupStateChange, line 5535), sets interaction extents 8x4 and record flag 0x10, and stores this function at scene record +0x44 as its interaction callback. The x threshold 0x1E7 is one pixel left of the spawn x.",
+          "line": 5554
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 729,
+          "revision": "3e4e65f3940022de591db87b37fd322ccbf75eac",
+          "detail": "Canonical Thumb entry for sub_08045F44. Original EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc; static source/instruction evidence only."
+        }
+      ]
+    },
+    {
       "address": "0x08046490",
       "canonical_symbol": "sub_08046490",
       "display_name": "RunBakatarDialogue",
