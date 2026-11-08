@@ -192,3 +192,36 @@ enqueue. Queue acceptance proves neither transmission nor task creation.
 
 These are four previously pending addresses, with no new runtime or regional
 correspondence claim. Their original frozen evidence remains unchanged.
+
+## Scene-object lifecycle and world-item drawing
+
+Nine additional reviewed rows reconcile the remaining two `sceneobject3`
+entries, five `objectinteraction5` entries and two `worlditem2` entries from the
+frozen next52 cohort. `0805A780` is excluded because the corrected #685 cohort
+already identifies that same address.
+
+Constructors `0805A7C4/080289C0` use embedded controls at record `+0x48` and
+unchecked one-shot stack allocations. The latter waits only for startup word
+`+0x3C` to stop being 1. Callback `080284F4` writes 2 at entry, before resource
+or palette setup, so this wait does not establish resource readiness. Its
+full-pool/ID-zero lookup and failed-lookup null-base read remain documented.
+
+`0805A6DC/0805A6F0/0805A704` query/set/clear the scene bit that gates starting
+an object's interaction callback. Starter `0805A58C` sets it before allocation
+retries and installs `0805A704` as finalizer. This is no atomic exclusion or
+count of outstanding interactions. On full pool, the original exit preserves
+the last nonzero scheduler-membership result in R0; it is not a valid control
+pointer or normalized null failure. The C fallthrough must not be interpreted
+as an indeterminate original machine value.
+
+`0805B140/0805B21C` draw and initialize sixteen world-item records. Globals
+`03005D58/03005D60` contain allocation pointers; the task control `03005D30` is
+fixed storage. Normal stop frees and nulls the item buffer, waits for six
+secondary controls and frees their buffer without clearing its pointer. It
+does not free the separate allocation addressed by `03000124`.
+
+All nine names retain narrow lifecycle, interaction or drawing roles, without
+assigning NPC identities, dialogue content, multiplayer transport or safe
+allocation-failure behavior. The frozen inputs remain unchanged; an additive
+three-row precision overlay records the machine-return and pointer-global
+clarifications.
