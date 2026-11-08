@@ -5358,7 +5358,6 @@ block_1788:
                         break;
                     case 1:                         /* switch 28 */
                         var_r5 = 0x17;
-block_1813:
                         sp138 = var_r5;
                         break;
                     case 6:                         /* switch 28 */
@@ -5381,7 +5380,8 @@ block_1813:
                         break;
                     case 11:                        /* switch 28 */
                         var_r5 = 0x1A;
-                        goto block_1813;
+                        sp138 = var_r5;
+                        break;
                     case 16:                        /* switch 28 */
                         sp138 = 0x1B;
                         break;
@@ -5402,7 +5402,8 @@ block_1813:
                         break;
                     case 4:                         /* switch 28 */
                         var_r5 = 0x16;
-                        goto block_1813;
+                        sp138 = var_r5;
+                        break;
                     }
                     d368_sub_08065370(&sp44, sp138, &coordFC, &coordFE, (1));
                     if (d368_sub_0800CC98() != 0) {
