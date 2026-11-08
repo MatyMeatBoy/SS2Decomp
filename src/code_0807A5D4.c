@@ -1466,8 +1466,7 @@ void sub_0807C29C(void) {
                         break;
                     if (*(u32 *)hd == 0x000C0001) {
                         /* (gInv82 + cursor*16) + 0x150 / + 0x158: ROM shares the base-first sum */
-                        item = (struct Item82 *)((u8 *)gInv82 + gMgr82->cursor * 16 + 0x150);
-                        switch (item->kind) {
+                        switch (((struct Item82 *)((u8 *)gInv82 + gMgr82->cursor * 16 + 0x150))->kind) {
                         case 2 ... 5:
                             if (*((u8 *)gInv82 + gMgr82->cursor * 16 + 0x158) != 0) {
                                 *((u8 *)gInv82 + gMgr82->cursor * 16 + 0x158) = 0;
@@ -1477,6 +1476,7 @@ void sub_0807C29C(void) {
                                 sub_0805865C(0x18C);
                                 break;
                             }
+                            item = (struct Item82 *)((u8 *)gInv82 + gMgr82->cursor * 16 + 0x150);
                             *(struct Item82 *)sp4 = *item;
                             sub_0807BEA0(0, gMgr82->cursor, (void *)hd);
                             sub_0807BEA0(gMgr82->heldFrom, gMgr82->heldIdx, (void *)sp4);
