@@ -23987,6 +23987,101 @@
           "detail": "src/code_0802FEA0.c:202/295 and 736/780 bracket scene interactions with turn-toward-player and restore-facing calls."
         }
       ]
+    },
+    {
+      "address": "0x08029174",
+      "canonical_symbol": "sub_08029174",
+      "display_name": "PlaySceneEntityAnimation",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08028AAC.c",
+          "line": 359,
+          "revision": "b5337babd5b759034a0b68b145e7899a6bfefd7d",
+          "detail": "Actor path selects animation index val + facing/base at +0x2C, resets frame/timer/completion +0x2E..+0x32 and loop flag +0x34=0. Enemy/player paths request action 12 substate 5 and set animation selector fields. Existing text/emote source comments are not accepted as semantic evidence. Original widths all selector payloads low16;scene actorID>100000 searches15,missingyields/returns;1..5enemy,0local,othernonzero selectors return,no mapobjectsupport. Player payloadlow8 animation,+BC=(val>>8)&15 orfallback+10,+C0=bit15,+BE=0;action12/substate5. Packet114CA..11522 transmits low6animation,resource nibble,loopbit andbit15flag;12394..E8 resolves sprite/animation;12638..54 stores65370 result+B6. No automaticbounds or guaranteed animation start. NONMATCHING0D368 C not equivalenceevidence."
+        },
+        {
+          "source": "src/code_0800CF58.c",
+          "revision": "b5337babd5b759034a0b68b145e7899a6bfefd7d",
+          "detail": "src/code_0800CF58.c:4119-4125 packs player +0xBA/+0xBC/+0xBE/+0xC0 into replicated state; lines 4770-4774 consume that state to initialize a sprite resource, choose animation and reset frame/timer; line 4870 stores sub_08065370 animation completion at player +0xB6."
+        },
+        {
+          "source": "asm/nonmatchings/code_0800CF58/sub_0800D368.s",
+          "revision": "b5337babd5b759034a0b68b145e7899a6bfefd7d",
+          "detail": "Original bytes: 080114CA..08011508 serialize +BA animation, +BC resource selector and +BE loop bit; 08012394..080123E8 loads sprite resource, sets animation/frame/timer and loop flag; 08012638..08012654 passes +B0/+B2/+B4 and loop flag to sub_08065370 and writes its completion result to +B6. sub_08065370 forwards to sub_08008CC4; original 08008CC4 uses nonzero final arg to restart frame0 at animation end, otherwise freezes last frame and returns1."
+        }
+      ]
+    },
+    {
+      "address": "0x0802926C",
+      "canonical_symbol": "sub_0802926C",
+      "display_name": "PlaySceneEntityAnimationAndWait",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08028AAC.c",
+          "line": 404,
+          "revision": "b5337babd5b759034a0b68b145e7899a6bfefd7d",
+          "detail": "Same state setup as sub_08029174, then yields until actor +0x32, enemy +0x6E or player +0xB6 is nonzero. Actor path resets completion+32 then at leastoneyield;enemy+6E andplayer+B6 ARE NOT RESET beforetesting,so stale nonzero completion canreturn immediately (29302/29382) before newanimationruns. No timeout/cancel or guaranteed complete-new-animation contract. Otherwise sameABI setup as29174. Original0D368packet/step closure establishesplayerB6meaning only,not an assumption fromtextcomments."
+        },
+        {
+          "source": "src/code_0800CF58.c",
+          "revision": "b5337babd5b759034a0b68b145e7899a6bfefd7d",
+          "detail": "src/code_0800CF58.c:4870 assigns player +0xB6 from sub_08065370 sprite animation step result, establishing that wait is animation completion, not text completion."
+        },
+        {
+          "source": "asm/nonmatchings/code_0800CF58/sub_0800D368.s",
+          "revision": "b5337babd5b759034a0b68b145e7899a6bfefd7d",
+          "detail": "Original bytes: 080114CA..08011508 serialize +BA animation, +BC resource selector and +BE loop bit; 08012394..080123E8 loads sprite resource, sets animation/frame/timer and loop flag; 08012638..08012654 passes +B0/+B2/+B4 and loop flag to sub_08065370 and writes its completion result to +B6. sub_08065370 forwards to sub_08008CC4; original 08008CC4 uses nonzero final arg to restart frame0 at animation end, otherwise freezes last frame and returns1."
+        }
+      ]
+    },
+    {
+      "address": "0x0802939C",
+      "canonical_symbol": "sub_0802939C",
+      "display_name": "LoopSceneEntityAnimation",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08028AAC.c",
+          "line": 457,
+          "revision": "b5337babd5b759034a0b68b145e7899a6bfefd7d",
+          "detail": "Same animation request as sub_08029174 with actor +0x34, enemy +0x72 and player +0xBE set to 1 rather than 0. Player loop behavior is established by the original consumer below. Player original loopclosed:2939C stores+BE=1;114FA..11508 packsbyte6bit7;123E4..E8 readsloop;12646..54 feeds65370,whichforwardsfifthargto08CC4;08D12..1A nonzeroloopresetsframe0,08D1C..28 zerofreezeslastframeandreturns1. Actor+34/enemy+72writes independentlyconfirmed;their complete consumerloopcontracts notestablishedinthisreview. All selectors notjustmapobjects supportedonlyactor/enemy/local. Nameapprovedforclosedplayerpath,otherflagroles stated narrowly."
+        },
+        {
+          "source": "src/code_0800CF58.c",
+          "revision": "b5337babd5b759034a0b68b145e7899a6bfefd7d",
+          "detail": "src/code_0800CF58.c:4123 transmits player +0xBE in state bit23; line 4774 extracts byte6 bit7 into sp124 passed as last argument to sub_08065370 at line 4870."
+        },
+        {
+          "source": "asm/nonmatchings/code_0800CF58/sub_0800D368.s",
+          "revision": "b5337babd5b759034a0b68b145e7899a6bfefd7d",
+          "detail": "Original bytes: 080114CA..08011508 serialize +BA animation, +BC resource selector and +BE loop bit; 08012394..080123E8 loads sprite resource, sets animation/frame/timer and loop flag; 08012638..08012654 passes +B0/+B2/+B4 and loop flag to sub_08065370 and writes its completion result to +B6. sub_08065370 forwards to sub_08008CC4; original 08008CC4 uses nonzero final arg to restart frame0 at animation end, otherwise freezes last frame and returns1."
+        }
+      ]
+    },
+    {
+      "address": "0x0802A080",
+      "canonical_symbol": "sub_0802A080",
+      "display_name": "WaitForAnyPlayerInRectangle",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08028AAC.c",
+          "line": 974,
+          "revision": "b5337babd5b759034a0b68b145e7899a6bfefd7d",
+          "detail": "Decodes each player replicated 12-bit XY coordinate into 24.8 values, rejects flag 0x20, tests sub_08021FE0 against center and supplied width/height with zero player extents, and yields until any eligible player overlaps. OriginalA084/A092 narrowextentsunsigned16;x/y shifted8 full32. Playercount02164 checkedoneachiteration,refs03003E28+index14C dereferencedwithoutnull/capacityguard. Packetlowhalf>>4 isX12bits,secondhalf&FFF isY;byte4mask20excludes.21FE0 inclusiveabsaxes <=sumunsignedhalfextents/2,hereplayerextents0. ScansALLplayersafterhit,thenALWAYSyields oncebefore return;zeroplayercountwaitsforever,no timeout/cancel. OriginalA0A8..FA confirms polling/eligibility,not actualcollisionfootprint."
+        },
+        {
+          "source": "src/code_080443EC.c",
+          "revision": "b5337babd5b759034a0b68b145e7899a6bfefd7d",
+          "detail": "src/code_080443EC.c:1292 waits on rectangle (60,190,160,100); lines 3362 and 3419 use (140,130,200,100) before scripted activity. sub_08021FE0 explicitly compares absolute axis distances against half summed extents."
+        }
+      ]
     }
   ]
 }
