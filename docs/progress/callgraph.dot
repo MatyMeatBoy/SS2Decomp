@@ -597,7 +597,7 @@ digraph calls {
   "sub_0802C144" [label="sub_0802C144"];
   "sub_0802C2A0" [label="sub_0802C2A0"];
   "sub_0802C674" [label="sub_0802C674"];
-  "sub_0802CF84" [label="sub_0802CF84"];
+  "sub_0802CF84" [label="CreateRestInteractionSceneActor"];
   "sub_0802D050" [label="sub_0802D050"];
   "sub_0802D200" [label="sub_0802D200"];
   "sub_0802D2C8" [label="sub_0802D2C8"];
@@ -609,12 +609,12 @@ digraph calls {
   "sub_0802DE0C" [label="sub_0802DE0C"];
   "sub_0802E110" [label="sub_0802E110"];
   "sub_0802E444" [label="sub_0802E444"];
-  "sub_0802E6E0" [label="sub_0802E6E0"];
+  "sub_0802E6E0" [label="CreateJensenSceneActor"];
   "sub_0802E7AC" [label="sub_0802E7AC"];
   "sub_0802EA50" [label="sub_0802EA50"];
   "sub_0802F208" [label="sub_0802F208"];
   "sub_0802F424" [label="sub_0802F424"];
-  "sub_0802F4B0" [label="sub_0802F4B0"];
+  "sub_0802F4B0" [label="CreateTempleOfLightAttendantSceneActor"];
   "sub_0802F578" [label="sub_0802F578"];
   "sub_0802FA80" [label="sub_0802FA80"];
   "sub_0802FEA0" [label="sub_0802FEA0"];

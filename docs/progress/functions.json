@@ -16800,10 +16800,22 @@
       "canonical_symbol": "sub_0802CF84",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_0802CF84",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "CreateRestInteractionSceneActor",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_08028AAC.c",
+          "line": 3884,
+          "revision": "b5337babd5b759034a0b68b145e7899a6bfefd7d",
+          "detail": "Creates kind0x2000D actor at pixel(440,96), sets interaction dimensions8x4 and flag0x10 and callback08037B04. That callback faces the player, displays resource1401DF asking whether the named player needs rest, branches on yes and runs a rest animation/restore sequence. No inn location or character name is inferred. Original independently confirms two separate searches of15 actor records (stride0x70, word ID compare). Missing search yields once and skips the corresponding write; first search writes halfword extents+18/+1A and word+3C OR10, second writes callback WORD+44. It does not return an actor handle or success result. Creation failure/actor capacity is not handled explicitly here; identity applies to configured callback role, not guaranteed actor creation. CC98==0 selects transition helper via1AB24 and waits1AAE0 without timeout. Thumb callback37B05 and1DF rest question establish interaction; no personal name, inn title or universal restoration guarantee."
+        },
+        {
+          "source": "src/code_0802FEA0.c",
+          "revision": "b5337babd5b759034a0b68b145e7899a6bfefd7d",
+          "detail": "src/code_0802FEA0.c:3875 callback08037B04 loads1401DF, tests menu result1, moves and animates local player, then calls0802996C. Original English1401DF reads NAME do you need to rest?"
+        }
+      ]
     },
     {
       "name": "sub_0802D050",
@@ -17004,10 +17016,22 @@
       "canonical_symbol": "sub_0802E6E0",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_0802E6E0",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "CreateJensenSceneActor",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_08028AAC.c",
+          "line": 5698,
+          "revision": "b5337babd5b759034a0b68b145e7899a6bfefd7d",
+          "detail": "Creates kind0x9000C actor at pixel(292,123), sets its interaction dimensions8x4 and flags0x10, and installs callback08033C40 at actor+44. The callback selects story-dependent dialogue including resource1401B6, whose original English text explicitly introduces the speaker as Jensen and offers banana juice. Original independently confirms two separate searches of15 actor records (stride0x70, word ID compare). Missing search yields once and skips the corresponding write; first search writes halfword extents+18/+1A and word+3C OR10, second writes callback WORD+44. It does not return an actor handle or success result. Creation failure/actor capacity is not handled explicitly here; identity applies to configured callback role, not guaranteed actor creation. CC98==0 selects transition helper via1AB24 and waits1AAE0 without timeout. Thumb callback33C41 and resource1B6 explicit Jensen self-introduction independently closed."
+        },
+        {
+          "source": "src/code_0802FEA0.c",
+          "revision": "b5337babd5b759034a0b68b145e7899a6bfefd7d",
+          "detail": "src/code_0802FEA0.c:1854 callback08033C40 selects1401B6 through1401BF by story progress; original English1401B6 text includes Oh by the way Im Jensen. Identity uses self-introduction, not numeric actor kind."
+        }
+      ]
     },
     {
       "name": "sub_0802E7AC",
@@ -17089,10 +17113,22 @@
       "canonical_symbol": "sub_0802F4B0",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_0802F4B0",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "CreateTempleOfLightAttendantSceneActor",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_08028AAC.c",
+          "line": 6440,
+          "revision": "b5337babd5b759034a0b68b145e7899a6bfefd7d",
+          "detail": "Creates kind0x2E actor at pixel(268,135), sets interaction dimensions8x4/flag0x10 and callback0803C3C8. Callback resource140203 describes Temple of Light, four sacrificial items and guidance; yes invokes0803C4C0, whose resource140205 says NAME says a prayer. Exact character personal name and priest title are not inferred. Original independently confirms two separate searches of15 actor records (stride0x70, word ID compare). Missing search yields once and skips the corresponding write; first search writes halfword extents+18/+1A and word+3C OR10, second writes callback WORD+44. It does not return an actor handle or success result. Creation failure/actor capacity is not handled explicitly here; identity applies to configured callback role, not guaranteed actor creation. CC98==0 selects transition helper via1AB24 and waits1AAE0 without timeout. Thumb callback3C3C9 and203 explicit Temple of Light establish attendant role. Yes schedules3C4C0; it does not itself consume four items or complete ritual."
+        },
+        {
+          "source": "src/code_0803B69C.c",
+          "revision": "b5337babd5b759034a0b68b145e7899a6bfefd7d",
+          "detail": "src/code_0803B69C.c:316 callback0803C3C8 loads140203 and branches on yes; original text explicitly This is the Temple of Light and Sacrifice four things/four items; negative branch140204 says Let the Light be with you."
+        }
+      ]
     },
     {
       "name": "sub_0802F578",
@@ -51792,12 +51828,12 @@
   "identification": {
     "game": {
       "total": 1880,
-      "identified": 977,
+      "identified": 980,
       "existing": 23,
-      "confirmed": 954,
+      "confirmed": 957,
       "proposed": 2,
-      "unidentified": 901,
-      "percent_identified": 51.96808510638298
+      "unidentified": 898,
+      "percent_identified": 52.12765957446808
     },
     "sdk": {
       "total": 155,
@@ -51810,12 +51846,12 @@
     },
     "all": {
       "total": 2035,
-      "identified": 1132,
+      "identified": 1135,
       "existing": 152,
-      "confirmed": 980,
+      "confirmed": 983,
       "proposed": 2,
-      "unidentified": 901,
-      "percent_identified": 55.62653562653563
+      "unidentified": 898,
+      "percent_identified": 55.77395577395578
     }
   },
   "limitations": "Configured function address intervals, including alignment/literal pools; inventory includes original assembly and linked libraries. Existing descriptive identifiers are recognized, not independently semantically re-proven."
