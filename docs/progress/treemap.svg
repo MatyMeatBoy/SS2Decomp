@@ -26,9 +26,9 @@
 <text x="6.0" y="18" fill="#e6edf3" font-size="13" font-weight="600">Game code: 93.03% (1865/1870)</text>
 <g><title>code_0807A5D4 (55020 bytes)</title>
 <rect x="0.00" y="28.00" width="163.52" height="177.06" fill="#0d1117"/>
-<rect x="1.00" y="29.00" width="127.15" height="74.35" fill="#484f58" stroke="#9e6a03" stroke-width="0.6"><title>ProcessItemMenuInteractionState | sub_0807C29C | confirmed | 3/5 milestones; not a match  0x0807C29C  18396 bytes  [nonmatch]</title></rect>
-<rect x="1.00" y="29.00" width="76.29" height="74.35" fill="#d29922" pointer-events="none"/>
-<text x="64.6" y="83.2" fill="#e6edf3" font-size="9" text-anchor="middle" pointer-events="none">3/5 milestones</text>
+<rect x="1.00" y="29.00" width="127.15" height="74.35" fill="#484f58" stroke="#9e6a03" stroke-width="0.6"><title>ProcessItemMenuInteractionState | sub_0807C29C | confirmed | 4/5 milestones; not a match  0x0807C29C  18396 bytes  [nonmatch]</title></rect>
+<rect x="1.00" y="29.00" width="101.72" height="74.35" fill="#d29922" pointer-events="none"/>
+<text x="64.6" y="83.2" fill="#e6edf3" font-size="9" text-anchor="middle" pointer-events="none">4/5 milestones</text>
 <text x="64.6" y="69.2" fill="#e6edf3" font-size="9" text-anchor="middle" pointer-events="none">ProcessItemMenuInt...</text>
 <rect x="128.15" y="29.00" width="34.37" height="74.35" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>DrawItemMenuDetailedItemPanel | sub_080815F4 | confirmed  0x080815F4  4972 bytes  [done]</title></rect>
 <rect x="1.00" y="103.35" width="46.93" height="50.60" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>TaskMonsterCardCatalogAndBagTransfer | sub_080855D4 | confirmed  0x080855D4  4620 bytes  [done]</title></rect>
