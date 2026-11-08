@@ -35150,10 +35150,17 @@
       "canonical_symbol": "sub_08077508",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_08077508",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "RunEnemyAimedDamageProjectile",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_08073E2C.c",
+          "line": 2156,
+          "revision": "8bbfb589bf6ab55018ae7e465fc0e674879c81fa",
+          "detail": "Machine ABI r0=enemy index, r1=packed target high16 and task-slot low4. Uses enemy-indexed resource/palette with special resource 0x5001E for byte +226==3. Computes aim once from target position; restricts angular deviation from facing, then moves three sine-table units per iteration for a 34-count lifetime. Waits enemy halfword +6A to reach byte +22B; early cancellation clears owner+4 task bit. Player-domain scan geometrically checks all players but damage/avoidance applies only local authority; success adds halfword damage to player +88 and records serial history. Avoidance adds quarter damage (minimum 1) to +8A without setting stop-hit. Enemy-domain scans five active enemies, excluding caster; successful roll writes pending enemy damage and submits its packet only when 08002204 is nonzero, but sets stop-hit regardless of that predicate. Damage accumulator +4A is halfword, +4C word. Failed enemy roll can use an uninitialized player-base register. Hit, terrain low-nibble collision without bit 0x10, timeout or global cancellation ends; drawing gates do not prevent position advancement/yield. No continuous homing, bounds validation or universally safe enemy-target contract. Complete original configured body inspected and equal to the local EU ROM and supplied verified-main ELF. Static research only; no worker build or runtime testing. Independent original: player failed-roll writes serial history unconditionally; only setting stop-hit is gated on CD34/CCCC/CD8C all returning0 and the sound55 request. Enemy failed-roll sets stop-hit unconditionally after writing through an uninitialized player-base register. Avoidance quarter amount adds into halfword+8A and can wrap; no actual HP damage is inferred."
+        }
+      ]
     },
     {
       "name": "sub_08077D04",
@@ -35167,10 +35174,17 @@
       "canonical_symbol": "sub_08077D04",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_08077D04",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "StartEnemyAimedDamageProjectile",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_08073E2C.c",
+          "line": 2388,
+          "revision": "8bbfb589bf6ab55018ae7e465fc0e674879c81fa",
+          "detail": "Searches 16 bits in 030063E0[enemyIndex+4]. Writes priority 0x34 to selected 40-byte task record before allocating 0x400 bytes; allocation pointer stored at +20 even on failure. Success sets callback 77508, stack top allocation+0x3FC, cleanup zero and starts scheduler with r1=original enemy index and r2=(incoming target word<<16)|slot, thereby retaining only low16 target bits. Sets occupancy bit after scheduler registration. Exhaustion or allocation failure returns without starting; failure does not roll back priority. This schedules asynchronous work and does not report projectile completion. Complete original configured body inspected and equal to the local EU ROM and supplied verified-main ELF. Static research only; no worker build or runtime testing."
+        }
+      ]
     },
     {
       "name": "sub_08077DAC",
@@ -35184,10 +35198,23 @@
       "canonical_symbol": "sub_08077DAC",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_08077DAC",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "RunEnemyDamageProjectileWithSceneObjectCollision",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_08073E2C.c",
+          "line": 2452,
+          "revision": "8bbfb589bf6ab55018ae7e465fc0e674879c81fa",
+          "detail": "Machine ABI r0=enemy index, r1=target high16/task-slot low4. Aims once and restricts deviation using table 0847AD0A; selects enemy-indexed projectile resource. Waits +6A >= byte +22B with 56E90 abort conditional on enemy halfword +7A bit0; BA6C/state10/11 also abort. Runs 34-count flight, moving signed sine*20/10 each ordinary iteration. Player domain checks only local player word +8C/+90; close sprite kind14 or team0 consumes a count via continue without movement/yield. Local hit and avoidance both stop; failed hit roll does not necessarily stop. Enemy domain checks five active enemies without excluding caster and without host damage gate; its geometry subtracts fixed projectile coordinates from already shifted enemy coordinates before signed16 truncation, unlike player geometry. Failed enemy roll may use an uninitialized player-base register. An 8x8 scene-object collision probe via 1FB14 with damage zero and terrain mask F without bit10 also stop. Draw gates, yield/global exits and owner state cancellation are separate; all exits clear task bit. No safe universal target contract or continuous steering. Complete original configured body inspected and equal to the local EU ROM and supplied verified-main ELF. Static research only; no worker build or runtime testing."
+        },
+        {
+          "source": "src/code_0801E244.c",
+          "line": 1142,
+          "revision": "8bbfb589bf6ab55018ae7e465fc0e674879c81fa",
+          "detail": "Pinned matched 1FB14 scans scene+58C records of stride 0x24, skips state10..12 and resource byte6 bits0/1, checks AABB against record dimensions, subtracts supplied damage from halfword +10, records class, calls 28368, sets state10 and returns 1 on first hit. Therefore zero-damage projectile probe can still mutate the scene object; it is not a pure terrain query."
+        }
+      ]
     },
     {
       "name": "sub_0807854C",
@@ -35201,10 +35228,17 @@
       "canonical_symbol": "sub_0807854C",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_0807854C",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "StartEnemyDamageProjectileWithSceneObjectCollision",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_08073E2C.c",
+          "line": 2654,
+          "revision": "8bbfb589bf6ab55018ae7e465fc0e674879c81fa",
+          "detail": "Finds one of 16 owner+4 occupancy bits and selects 40-byte task record. Priority 0x34 is written before 0x400-byte allocation; pointer stored at +20, zero returns without callback/occupancy update. Success installs 77DAC callback, stack allocation+0x3FC and zero cleanup, registers r1=enemy index and r2=(target word<<16)|slot, then sets occupancy bit. Input target is truncated to low16 by packing. Full pool returns without starting. This starts the asynchronous collision-probing projectile; it gives no completion result. Complete original configured body inspected and equal to the local EU ROM and supplied verified-main ELF. Static research only; no worker build or runtime testing."
+        }
+      ]
     },
     {
       "name": "sub_080785F4",
@@ -35218,10 +35252,23 @@
       "canonical_symbol": "sub_080785F4",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_080785F4",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "RunEnemyProjectileSpawningAreaDamage",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_08073E2C.c",
+          "line": 2709,
+          "revision": "8bbfb589bf6ab55018ae7e465fc0e674879c81fa",
+          "detail": "Machine ABI r0=enemy index, r1=target high16/task-slot low4. Resource 0x500AF; enemy byte +1FD==0x14 chooses subtype base0/palette14, otherwise base1/palette15. Computes restricted aim once. Wait/cancellation is conditional on enemy +7A bit0 for 56E90, plus BA6C and states10/11. Runs 34-count flight at signed sine*20/10. Player domain checks only local player position within signed16 axis distance <=7, non-team0/spritekind14 and flags mask0x2 clear, then directly starts 79888(owner enemy.id+4, fixed x/y, subtype base+4, extra0). Enemy domain scans five active records with +1DC nonzero, no caster exclusion, and mixed shifted-enemy versus fixed-projectile geometry; hit also starts 79888 and clears task bit. Object probe 1FB14 with 8x8/damage0 and terrain mask F without bit10 terminate without direct hit. Timeout, probe, terrain and global CB78/CD00 termination leave hit flag zero and request 6818C subtype base+2; later caster cancellation sets hit flag1 and suppresses that request. Early wait abort clears bit without request. Close player spritekind14/team0 continue consumes lifetime without movement/yield. No inference of named skill, guaranteed network completion or safe geometry for all targets. Complete original configured body inspected and equal to the local EU ROM and supplied verified-main ELF. Static research only; no worker build or runtime testing. Independent consumer79458: direct effect subtypes4/5 set timer=0, skip countdown and proceed to authority/eligibility-gated area processing. Name therefore omits Timed. No-hit path calls6818C with REQUEST2/3 and ignores return; helper queues opcodeA8 only if count<=49 andCFF0==0. No accepted request, delivery, completion or numeric conversion to effect4/5 is inferred. Direct-hit path suppresses fallback request even if79888 cannot allocate/start."
+        },
+        {
+          "source": "src/code_08073E2C.c",
+          "line": 3427,
+          "revision": "8bbfb589bf6ab55018ae7e465fc0e674879c81fa",
+          "detail": "79888 is the pinned area-damage task starter: writes owner/slot/position/subtype descriptor and registers callback 79458; projectile passes subtype4 or5 on direct impact. The later no-hit path instead queues 6818C subtype2 or3, so request and direct task creation are distinct."
+        }
+      ]
     },
     {
       "name": "sub_08078B24",
@@ -35235,10 +35282,17 @@
       "canonical_symbol": "sub_08078B24",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_08078B24",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "StartEnemyProjectileSpawningAreaDamage",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_08073E2C.c",
+          "line": 2871,
+          "revision": "8bbfb589bf6ab55018ae7e465fc0e674879c81fa",
+          "detail": "Uses occupancy mask 030063E0[enemy index+4] with 16 slots. Writes task priority 0x34, allocates 0x400 bytes and stores pointer at +20; failure leaves priority/pointer write but no occupancy bit. Success callback is 785F4, stack top allocation+0x3FC, cleanup zero; scheduler receives original enemy index and packed target low16 in high16 plus slot in low4. Occupancy set only after registration. Full pool/failure does not start work; asynchronous starter provides no impact or completion status. Complete original configured body inspected and equal to the local EU ROM and supplied verified-main ELF. Static research only; no worker build or runtime testing. Independent consumer79458: direct effect subtypes4/5 set timer=0, skip countdown and proceed to authority/eligibility-gated area processing. Name therefore omits Timed. No-hit path calls6818C with REQUEST2/3 and ignores return; helper queues opcodeA8 only if count<=49 andCFF0==0. No accepted request, delivery, completion or numeric conversion to effect4/5 is inferred. Direct-hit path suppresses fallback request even if79888 cannot allocate/start."
+        }
+      ]
     },
     {
       "name": "sub_08078BCC",
@@ -38699,10 +38753,23 @@
       "canonical_symbol": "sub_0808DB38",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_0808DB38",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "TaskAnimateBouncingLeftwardSceneHazard",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_0808D4A8.c",
+          "line": 449,
+          "revision": "8bbfb589bf6ab55018ae7e465fc0e674879c81fa",
+          "detail": "r0 lane selector 0..3 chooses unsigned Q8 y=140/148/166/170; other inputs leave y stack slot undefined. Starts x=980 Q8, height=160 Q8, velocity0; moves x left2 pixels each iteration, adds velocity to height, subtracts40 from velocity, bounces at height<=0 using height1 and negative arithmetic-half velocity. One-time overlap check when height>>8<=7 invokes local-player hit handler0x08029A7C(0,16,1); one-time first-positive-velocity sound46. Animates resource0x50122, draws ground-shadow and elevated sprite only when four scene predicates permit, but physics/hit checks continue while drawing suppressed. After x<=45 plays sound41 and runs resource0x50053 animation6 until completion, still yielding. No global terminal-flag exit, null-draw check, or type name beyond hazard. Animation frame counters are not initialized before first two animation calls. Complete original configured body audited against ROM; copied verified-main ELF static equality, no local build or runtime test."
+        },
+        {
+          "source": "src/code_0808D4A8.c",
+          "line": 449,
+          "revision": "8bbfb589bf6ab55018ae7e465fc0e674879c81fa",
+          "detail": "Independent names-low-a review: Accepted. Complete original confirms leftward two-pixel motion, rebound and one-time local-player hit-handler call(0,16,1) on overlap. Consumer29A7C can reject the hit and scale its input before accumulating pending damage, so this does not guarantee sixteen HP lost. Four draw predicates do not gate physics or collision. Y is undefined for selectors outside0..3; initial animation halfwords atsp+44/46/48/4A are uninitialized before first calls. Rectangle packing atsp+5C clears both halves by masks, so it is initialized despite its first LDR. No draw-result null check, terminal flag exit or animation-completion deadline."
+        }
+      ]
     },
     {
       "name": "sub_0808DE08",
@@ -38750,10 +38817,23 @@
       "canonical_symbol": "sub_0808DF14",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_0808DF14",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "UpdateBouncingHazardSceneAndQueueLanes",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_0808D4A8.c",
+          "line": 597,
+          "revision": "8bbfb589bf6ab55018ae7e465fc0e674879c81fa",
+          "detail": "r0 scene input. If scene halfword+0x10=0, initializes via0x0802704C, starts local bouncing-hazard callback with argument0, and requests sound247 through5865C (global27D0 mask20 may suppress the audio call). Otherwise terminal flag+4 bit4 triggers transition request mode3 and wait, calls5867C with incomingr0=247 to stop that sound, next resource from0x084FD06C[scene word+0x40] into+0x71C, clears+0x10, sets+0x24/+0x30=1, returns1. Every other path, including initialization, continues to parent-or-loopback and tick&127 gating: RNG&7==4 enqueues four hazard lanes0..3, otherwise a second RNG&3 selects one. Returns0 without verifying enqueues. Does not wait for hazards to finish or use one RNG result for both branch and lane. Complete original configured body audited against ROM; copied verified-main ELF static equality, no local build or runtime test."
+        },
+        {
+          "source": "src/code_0808D4A8.c",
+          "line": 597,
+          "revision": "8bbfb589bf6ab55018ae7e465fc0e674879c81fa",
+          "detail": "Independent names-low-a review: Accepted with precision: gate is exactly 08002204()!=0 and WORDtick&127==0. Own original02204 returns1 when transport bit1 is clear, otherwise global2730 bit7; do not turn this into a guaranteed local-loopback or peer-execution contract. Initialization also reaches the gate. Transition request argument3 has no hide semantics established by this review. Return1 only prepares next resource and state fields."
+        }
+      ]
     },
     {
       "name": "sub_0808E000",
@@ -38801,10 +38881,23 @@
       "canonical_symbol": "sub_0808E130",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_0808E130",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "TaskOscillateVerticalSceneOrCameraOffset",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_0808D4A8.c",
+          "line": 705,
+          "revision": "8bbfb589bf6ab55018ae7e465fc0e674879c81fa",
+          "detail": "Nonstandard machine entry: preserved r4 supplies initial phase; body never initializes it from r0 or zero. Each infinite iteration updates phase=u16(r4+1), resets phase0 when above255, reads signed16 lookup0x080B9704[phase], takes machine (sample<<18) arithmetic-shift24, negates/truncates signed16. If global halfword0x03003200 is0 writes scene draw offset(0,value) via0x0800BB94, otherwise camera-tracking offset via0x0800BB80. Yields forever, with no menu/suspend checks or restoration. Descriptive role does not establish a conventional C initial-phase ABI or deterministic first offset. Complete original configured body audited against ROM; copied verified-main ELF static equality, no local build or runtime test."
+        },
+        {
+          "source": "src/code_0808D4A8.c",
+          "line": 705,
+          "revision": "8bbfb589bf6ab55018ae7e465fc0e674879c81fa",
+          "detail": "Independent names-low-a review: Accepted. EntryR4 phase remains uninitialized by body; low16 increment happens before above255 reset. Original signed sine-table load/shift/negation is preserved. Own setters write scene+84/+86 versus tracking+80/+82; pinned matched camera consumer source1192 and original offsets AD3C..AD54/ADF2..AE08 establish tracking role. No conventional r0 phase argument or deterministic first phase."
+        }
+      ]
     },
     {
       "name": "sub_0808E184",
@@ -38967,10 +39060,23 @@
       "canonical_symbol": "sub_0808E66C",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_0808E66C",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "UpdateAutoscrollAndFallingAreaDamageScene",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_0808D4A8.c",
+          "line": 991,
+          "revision": "8bbfb589bf6ab55018ae7e465fc0e674879c81fa",
+          "detail": "r0 scene input. On initial scene halfword+0x10=0 calls0x0802704C then dispatches by map halfword+0x90: cases2/12 write scene-global halfword0x03003170+0x70=30 (the C alias width0 does not prove a map-dimension change) then start layer3 autoscroll; case4 requests linked guarded falling-area-damage callback0x0808E970 with full-word guard-index argument0x80000000, not a preformed bit mask and also starts autoscroll; cases6/8/10/14 start only autoscroll; case17 calls0x0802996C; other values do neither. Returns0 on initialization. In initialized state, returns0 until terminal flag+4 bit4; then requests transition mode3 and waits, installs0x085060D4[scene word+0x40] at+0x71C, clears+0x10, sets+0x30/+0x24=1 and returns1. Guarded request is not confirmed callback execution; no resource-index bounds check. Complete original configured body audited against ROM; copied verified-main ELF static equality, no local build or runtime test."
+        },
+        {
+          "source": "src/code_0808D4A8.c",
+          "line": 991,
+          "revision": "8bbfb589bf6ab55018ae7e465fc0e674879c81fa",
+          "detail": "Independent names-low-a review: The linked callbackE970 queues E530, whose terminal effect is area damage through79888/79458 (peer B07 independently reviewed). Exact map cases and transition exits match original. Guarded573A0 wrapper swaps r0/r1 and forwards r2 unchanged.68820 stores third full word0x80000000 at payload+8 and tagA4 with two chunks. If accepted and received intact,6690C caseA4 loads this payload word as r2 into57430;57430 original5743E..40 computes MOVS r4,1 then register LSLS r4,r2. The GBA register-shift count uses low8 bits, so this raw value conditionally yields mask1 in scene+6C, not mask80000000.57430 tests/sets this guard before searching30 task slots; already-set guard skips and full pool can latch it without callback. Request is not execution/completion or guaranteed peer agreement."
+        }
+      ]
     },
     {
       "name": "sub_0808E774",
@@ -39205,10 +39311,23 @@
       "canonical_symbol": "sub_0808ECD0",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_0808ECD0",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "TaskScrollLayerThreeDisplayDiagonally",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_0808D4A8.c",
+          "line": 1321,
+          "revision": "8bbfb589bf6ab55018ae7e465fc0e674879c81fa",
+          "detail": "Nonstandard machine entry: preserved r4 is initial32-bit accumulator, not initialized in body or loaded from r0. Sets layer3 camera-relative mode0 once. Each iteration when full-screen-menu predicate is0 subtracts42 from r4, computes (arithmetic_shift_right(r4,8)&15), passes same value as horizontal/vertical DISPLAY offset for layer3; always yields. Menu pauses accumulation, unlike drawing-only suppression elsewhere. No return, reset, source-cell movement or guaranteed initial zero; setter retains its own scene guard. Complete original configured body audited against ROM; copied verified-main ELF static equality, no local build or runtime test."
+        },
+        {
+          "source": "src/code_0808D4A8.c",
+          "line": 1321,
+          "revision": "8bbfb589bf6ab55018ae7e465fc0e674879c81fa",
+          "detail": "Independent names-low-a review: Accepted. EntryR4 accumulator not initialized, r5=42; menu guard pauses subtraction and display writes. Own BBD8 stores layer3+4/+6, with CCCC guard, rather than source coordinates. Mode+16hex set0 once. No restoration or finite exit."
+        }
+      ]
     },
     {
       "name": "sub_0808ECFC",
@@ -50981,12 +51100,12 @@
   "identification": {
     "game": {
       "total": 1880,
-      "identified": 906,
+      "identified": 917,
       "existing": 23,
-      "confirmed": 883,
+      "confirmed": 894,
       "proposed": 8,
-      "unidentified": 966,
-      "percent_identified": 48.191489361702125
+      "unidentified": 955,
+      "percent_identified": 48.776595744680854
     },
     "sdk": {
       "total": 155,
@@ -50999,12 +51118,12 @@
     },
     "all": {
       "total": 2035,
-      "identified": 1061,
+      "identified": 1072,
       "existing": 152,
-      "confirmed": 909,
+      "confirmed": 920,
       "proposed": 8,
-      "unidentified": 966,
-      "percent_identified": 52.13759213759214
+      "unidentified": 955,
+      "percent_identified": 52.67813267813268
     }
   },
   "limitations": "Configured function address intervals, including alignment/literal pools; inventory includes original assembly and linked libraries. Existing descriptive identifiers are recognized, not independently semantically re-proven."
