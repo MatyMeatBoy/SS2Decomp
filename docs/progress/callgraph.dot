@@ -257,9 +257,9 @@ digraph calls {
   "sub_0800CD68" [label="sub_0800CD68"];
   "sub_0800CD78" [label="sub_0800CD78"];
   "sub_0800CD8C" [label="sub_0800CD8C"];
-  "sub_0800CD9C" [label="sub_0800CD9C"];
-  "sub_0800CDAC" [label="sub_0800CDAC"];
-  "sub_0800CDC0" [label="sub_0800CDC0"];
+  "sub_0800CD9C" [label="MarkSceneEncounterActive"];
+  "sub_0800CDAC" [label="ClearSceneEncounterActive"];
+  "sub_0800CDC0" [label="IsSceneEncounterActive"];
   "sub_0800CDD0" [label="RequestWorldTaskSuspend"];
   "sub_0800CDE4" [label="ClearWorldTaskSuspendRequest"];
   "sub_0800CDF8" [label="IsWorldTaskSuspendRequested"];
@@ -363,7 +363,7 @@ digraph calls {
   "sub_080161A4" [label="StopEnemyTasksAndFreePools"];
   "sub_0801623C" [label="sub_0801623C"];
   "sub_0801641C" [label="TryCreateEnemyFromSpawnState"];
-  "sub_0801674C" [label="sub_0801674C"];
+  "sub_0801674C" [label="StartEnemyPoolActorTask"];
   "sub_0801681C" [label="TaskProcessEnemySpawnRequest"];
   "sub_080168FC" [label="TryStartEnemySpawnRequestTask"];
   "sub_080169C8" [label="StopEnemyTasksAndClearPoolState"];
