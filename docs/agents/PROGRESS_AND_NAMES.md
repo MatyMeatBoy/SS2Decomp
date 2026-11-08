@@ -54,6 +54,10 @@ internal labels/subroutines do not become invented inventory functions.
 
 ## Permanent names and evidence
 
+Before parallel identification research, use [atomic naming reservations](NAMING_WORKFLOW.md).
+Submit the reserved address list with evidence; the catalog integrator runs the
+three-way conflict guard against fresh main before merging additions, updates or removals.
+
 The preserved [identification method and restart guide](IDENTIFICATION_METHOD.md)
 records the research workflow and pending-evidence handoff. Identification work
 is currently held while matching EU functions takes priority.

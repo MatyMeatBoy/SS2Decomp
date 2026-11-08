@@ -3,12 +3,26 @@ on:
   push:
     branches-ignore:
       - 'coord/regions/**'
+      - 'coord/names/**'
   pull_request:
 jobs:
   build:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: reconcile naming delta against fresh base (no ROM)
+        if: github.event_name == 'pull_request'
+        env:
+          PR_BASE_BRANCH: ${{ github.base_ref }}
+          PR_HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+        run: |
+          git fetch --no-tags origin "+refs/heads/${PR_BASE_BRANCH}:refs/remotes/origin/naming-check-base"
+          git cat-file -e "${PR_HEAD_SHA}^{commit}"
+          python3 tools/scripts/name_claim.py check --base refs/remotes/origin/naming-check-base --head "$PR_HEAD_SHA"
       - name: deps
         run: sudo apt-get update && sudo apt-get install -y binutils-arm-none-eabi gcc-arm-none-eabi python3-pyelftools python3-unicorn
       - name: agbcc

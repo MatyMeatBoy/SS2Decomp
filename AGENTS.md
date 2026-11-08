@@ -98,6 +98,9 @@ Windows (MSYS2): prefix shells with `export PATH="/c/msys64/ucrt64/bin:/c/msys64
 ## Function identification and source reports
 
 Read [progress metrics, names and call graph](docs/agents/PROGRESS_AND_NAMES.md).
+Before researching names, use the separate atomic address reservations in
+[the naming coordination workflow](docs/agents/NAMING_WORKFLOW.md); keep the
+reservation through PR integration and reconcile catalog deltas against fresh main.
 While working your shard, record observed roles and proposed names with canonical
 address, source/ASM evidence and revision in handoff notes. The coordinator reviews
 and consolidates `tools/config/function_names.json` on a dedicated tooling branch;
