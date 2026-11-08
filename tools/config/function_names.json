@@ -6510,6 +6510,102 @@
       ]
     },
     {
+      "address": "0x08059AD0",
+      "canonical_symbol": "sub_08059AD0",
+      "display_name": "RunHourseyDialogue",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08059534.c",
+          "line": 188,
+          "revision": "3e4e65f3940022de591db87b37fd322ccbf75eac",
+          "detail": "Sets bit 0 of the local player's flags +0x30 (the input-suppression bit) and calls BeginLocalPlayerEventLock. Turns the scene entity selected by the argument toward selector 0 with TurnSceneEntityTowardEntity. Waits with TaskWaitForSignal1 until no dialogue-task slot and no text-window slot is used, then starts StartFixedLayoutDialogueTask(1, 15, 2, 0, -1, 0x140217) and waits for DialogueStateIsComplete. If IsWorldTaskSuspendRequested is observed during that final wait it calls CloseUsedDialogueWindowsAndWait and stops waiting. It then calls RestoreSceneEntityFacingGradually on the same selector. Finally it reloads the local player index, clears flag bit 0 and calls EndLocalPlayerEventLock. The two initial slot waits have no abort test. No guarantee of successful allocation or display is claimed."
+        },
+        {
+          "source": "baserom.gba",
+          "revision": "3e4e65f3940022de591db87b37fd322ccbf75eac",
+          "detail": "English text resource 0x140217 (language-0 pointer table 0x0838AFF0, entry 0x217), decoded from the original letter codes (0x01..0x3A = 'A'..'z', 0x51 = space, 0xFE = page break, 0xFD = end): first page 'Hello. My name is Hoursey.'. The speaker introduces themselves: 'Hello. My name is Hoursey.'. The name is taken from this self-introduction in the directly selected resource, not from actor artwork or adjacent resources."
+        },
+        {
+          "source": "src/code_08028AAC.c",
+          "revision": "3e4e65f3940022de591db87b37fd322ccbf75eac",
+          "detail": "Matched scene builder sub_0802D2C8 spawns this actor with sub_080289C0(0x20016, 0xA3, 0x1AF) (SpawnSceneObjectAndWaitForStartupStateChange, line 4223), finds the 0x70-byte scene object record whose handle equals the returned ID, sets interaction extents 8x4 and record flag 0x10, then stores this function at record +0x44 (word index 0x11) as the actor's interaction callback.",
+          "line": 4242
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 1018,
+          "revision": "3e4e65f3940022de591db87b37fd322ccbf75eac",
+          "detail": "Canonical Thumb entry for sub_08059AD0. Original EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc; static source/instruction evidence only."
+        }
+      ]
+    },
+    {
+      "address": "0x08059B84",
+      "canonical_symbol": "sub_08059B84",
+      "display_name": "RunHiryuDialogue",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08059534.c",
+          "line": 208,
+          "revision": "3e4e65f3940022de591db87b37fd322ccbf75eac",
+          "detail": "Sets bit 0 of the local player's flags +0x30 (the input-suppression bit) and calls BeginLocalPlayerEventLock. Turns the scene entity selected by the argument toward selector 0 with TurnSceneEntityTowardEntity. Waits with TaskWaitForSignal1 until no dialogue-task slot and no text-window slot is used, then starts StartFixedLayoutDialogueTask(1, 15, 2, 0, -1, 0x140218) and waits for DialogueStateIsComplete. If IsWorldTaskSuspendRequested is observed during that final wait it calls CloseUsedDialogueWindowsAndWait and stops waiting. It then calls RestoreSceneEntityFacingGradually on the same selector. Finally it reloads the local player index, clears flag bit 0 and calls EndLocalPlayerEventLock. The two initial slot waits have no abort test. No guarantee of successful allocation or display is claimed."
+        },
+        {
+          "source": "baserom.gba",
+          "revision": "3e4e65f3940022de591db87b37fd322ccbf75eac",
+          "detail": "English text resource 0x140218 (language-0 pointer table 0x0838AFF0, entry 0x218), decoded from the original letter codes (0x01..0x3A = 'A'..'z', 0x51 = space, 0xFE = page break, 0xFD = end): first page 'My name is Hiryu. Technically, it`s H.hiryu.'. The speaker introduces themselves: 'My name is Hiryu. Technically, it`s H.hiryu.'. The name is taken from this self-introduction in the directly selected resource, not from actor artwork or adjacent resources."
+        },
+        {
+          "source": "src/code_08028AAC.c",
+          "revision": "3e4e65f3940022de591db87b37fd322ccbf75eac",
+          "detail": "Matched scene builder sub_0802E7AC spawns this actor with sub_080289C0(0x1004A, 0x130, 0xD6) (SpawnSceneObjectAndWaitForStartupStateChange, line 5847), finds the 0x70-byte scene object record whose handle equals the returned ID, sets interaction extents 8x4 and record flag 0x10, then stores this function at record +0x44 (word index 0x11) as the actor's interaction callback.",
+          "line": 5866
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 1019,
+          "revision": "3e4e65f3940022de591db87b37fd322ccbf75eac",
+          "detail": "Canonical Thumb entry for sub_08059B84. Original EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc; static source/instruction evidence only."
+        }
+      ]
+    },
+    {
+      "address": "0x08059C38",
+      "canonical_symbol": "sub_08059C38",
+      "display_name": "RunOldieDialogue",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08059534.c",
+          "line": 228,
+          "revision": "3e4e65f3940022de591db87b37fd322ccbf75eac",
+          "detail": "Sets bit 0 of the local player's flags +0x30 (the input-suppression bit) and calls BeginLocalPlayerEventLock. Turns the scene entity selected by the argument toward selector 0 with TurnSceneEntityTowardEntity. Waits with TaskWaitForSignal1 until no dialogue-task slot and no text-window slot is used, then starts StartFixedLayoutDialogueTask(1, 15, 2, 0, -1, 0x140219) and waits for DialogueStateIsComplete. If IsWorldTaskSuspendRequested is observed during that final wait it calls CloseUsedDialogueWindowsAndWait and stops waiting. It then calls RestoreSceneEntityFacingGradually on the same selector. Finally it reloads the local player index, clears flag bit 0 and calls EndLocalPlayerEventLock. The two initial slot waits have no abort test. No guarantee of successful allocation or display is claimed."
+        },
+        {
+          "source": "baserom.gba",
+          "revision": "3e4e65f3940022de591db87b37fd322ccbf75eac",
+          "detail": "English text resource 0x140219 (language-0 pointer table 0x0838AFF0, entry 0x219), decoded from the original letter codes (0x01..0x3A = 'A'..'z', 0x51 = space, 0xFE = page break, 0xFD = end): first page 'My name is Oldie. Are you fully equipped?'. The speaker introduces themselves: 'My name is Oldie. Are you fully equipped?'. The name is taken from this self-introduction in the directly selected resource, not from actor artwork or adjacent resources."
+        },
+        {
+          "source": "src/code_08028AAC.c",
+          "revision": "3e4e65f3940022de591db87b37fd322ccbf75eac",
+          "detail": "Matched scene builder sub_0802E7AC spawns this actor with sub_080289C0(0x1A, 0xFC, 0xD0) (SpawnSceneObjectAndWaitForStartupStateChange, line 5811), finds the 0x70-byte scene object record whose handle equals the returned ID, sets interaction extents 8x4 and record flag 0x10, then stores this function at record +0x44 (word index 0x11) as the actor's interaction callback.",
+          "line": 5830
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 1020,
+          "revision": "3e4e65f3940022de591db87b37fd322ccbf75eac",
+          "detail": "Canonical Thumb entry for sub_08059C38. Original EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc; static source/instruction evidence only."
+        }
+      ]
+    },
+    {
       "address": "0x0801A7AC",
       "canonical_symbol": "sub_0801A7AC",
       "display_name": "TaskScreenBrightnessAndWindowTransitions",
@@ -17060,6 +17156,198 @@
           "line": 990,
           "revision": "8d4618912c1c6cadb3f315aad7386e582d3de83c",
           "detail": "Canonical Thumb entry for sub_08058E3C. Original EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc; static source/instruction evidence only."
+        }
+      ]
+    },
+    {
+      "address": "0x08059488",
+      "canonical_symbol": "sub_08059488",
+      "display_name": "RunQuincyDialogue",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08058790.c",
+          "line": 521,
+          "revision": "3e4e65f3940022de591db87b37fd322ccbf75eac",
+          "detail": "Sets bit 0 of the local player's flags +0x30 (the input-suppression bit) and calls BeginLocalPlayerEventLock. Turns the scene entity selected by the argument toward selector 0 with TurnSceneEntityTowardEntity. Waits with TaskWaitForSignal1 until no dialogue-task slot and no text-window slot is used, then starts StartFixedLayoutDialogueTask(1, 15, 2, 0, -1, 0x14013B) and waits for DialogueStateIsComplete. If IsWorldTaskSuspendRequested is observed during that final wait it calls CloseUsedDialogueWindowsAndWait and stops waiting. It does not restore the entity's facing. Finally it reloads the local player index, clears flag bit 0 and calls EndLocalPlayerEventLock. The two initial slot waits have no abort test. No guarantee of successful allocation or display is claimed."
+        },
+        {
+          "source": "baserom.gba",
+          "revision": "3e4e65f3940022de591db87b37fd322ccbf75eac",
+          "detail": "English text resource 0x14013B (language-0 pointer table 0x0838AFF0, entry 0x13B), decoded from the original letter codes (0x01..0x3A = 'A'..'z', 0x51 = space, 0xFE = page break, 0xFD = end): first page 'I am the knight Quincy. My hobby is tap dancing.'. The speaker introduces themselves: 'I am the knight Quincy. My hobby is tap dancing.'. The name is taken from this self-introduction in the directly selected resource, not from actor artwork or adjacent resources."
+        },
+        {
+          "source": "src/code_08028AAC.c",
+          "revision": "3e4e65f3940022de591db87b37fd322ccbf75eac",
+          "detail": "Matched scene builder sub_0802DAF0 spawns this actor with sub_080289C0(0x50019, 0x6E, 0x84) (SpawnSceneObjectAndWaitForStartupStateChange, line 4795), finds the 0x70-byte scene object record whose handle equals the returned ID, sets interaction extents 8x4 and record flag 0x10, then stores this function at record +0x44 (word index 0x11) as the actor's interaction callback.",
+          "line": 4814
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 1003,
+          "revision": "3e4e65f3940022de591db87b37fd322ccbf75eac",
+          "detail": "Canonical Thumb entry for sub_08059488. Original EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc; static source/instruction evidence only."
+        }
+      ]
+    },
+    {
+      "address": "0x08059534",
+      "canonical_symbol": "sub_08059534",
+      "display_name": "RunRomblemDialogue",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08059534.c",
+          "line": 3,
+          "revision": "3e4e65f3940022de591db87b37fd322ccbf75eac",
+          "detail": "Sets bit 0 of the local player's flags +0x30 (the input-suppression bit) and calls BeginLocalPlayerEventLock. Turns the scene entity selected by the argument toward selector 0 with TurnSceneEntityTowardEntity. Waits with TaskWaitForSignal1 until no dialogue-task slot and no text-window slot is used, then starts StartFixedLayoutDialogueTask(1, 15, 2, 0, -1, 0x14013C) and waits for DialogueStateIsComplete. If IsWorldTaskSuspendRequested is observed during that final wait it calls CloseUsedDialogueWindowsAndWait and stops waiting. It does not restore the entity's facing. Finally it reloads the local player index, clears flag bit 0 and calls EndLocalPlayerEventLock. The two initial slot waits have no abort test. No guarantee of successful allocation or display is claimed."
+        },
+        {
+          "source": "baserom.gba",
+          "revision": "3e4e65f3940022de591db87b37fd322ccbf75eac",
+          "detail": "English text resource 0x14013C (language-0 pointer table 0x0838AFF0, entry 0x13C), decoded from the original letter codes (0x01..0x3A = 'A'..'z', 0x51 = space, 0xFE = page break, 0xFD = end): first page 'Yes? Oh, I forgot to introduce myself.'. The speaker introduces themselves: 'I am Romblem, the wisest of the knights.'. The name is taken from this self-introduction in the directly selected resource, not from actor artwork or adjacent resources."
+        },
+        {
+          "source": "src/code_08028AAC.c",
+          "revision": "3e4e65f3940022de591db87b37fd322ccbf75eac",
+          "detail": "Matched scene builder sub_0802DAF0 spawns this actor with sub_080289C0(0x40019, 0x67, 0x4B) (SpawnSceneObjectAndWaitForStartupStateChange, line 4831), finds the 0x70-byte scene object record whose handle equals the returned ID, sets interaction extents 8x4 and record flag 0x10, then stores this function at record +0x44 (word index 0x11) as the actor's interaction callback.",
+          "line": 4850
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 1004,
+          "revision": "3e4e65f3940022de591db87b37fd322ccbf75eac",
+          "detail": "Canonical Thumb entry for sub_08059534. Original EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc; static source/instruction evidence only."
+        }
+      ]
+    },
+    {
+      "address": "0x080595E0",
+      "canonical_symbol": "sub_080595E0",
+      "display_name": "RunPelignDialogue",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08059534.c",
+          "line": 22,
+          "revision": "3e4e65f3940022de591db87b37fd322ccbf75eac",
+          "detail": "Sets bit 0 of the local player's flags +0x30 (the input-suppression bit) and calls BeginLocalPlayerEventLock. Turns the scene entity selected by the argument toward selector 0 with TurnSceneEntityTowardEntity. Waits with TaskWaitForSignal1 until no dialogue-task slot and no text-window slot is used, then starts StartFixedLayoutDialogueTask(1, 15, 2, 0, -1, 0x14013D) and waits for DialogueStateIsComplete. If IsWorldTaskSuspendRequested is observed during that final wait it calls CloseUsedDialogueWindowsAndWait and stops waiting. It does not restore the entity's facing. Finally it reloads the local player index, clears flag bit 0 and calls EndLocalPlayerEventLock. The two initial slot waits have no abort test. No guarantee of successful allocation or display is claimed."
+        },
+        {
+          "source": "baserom.gba",
+          "revision": "3e4e65f3940022de591db87b37fd322ccbf75eac",
+          "detail": "English text resource 0x14013D (language-0 pointer table 0x0838AFF0, entry 0x13D), decoded from the original letter codes (0x01..0x3A = 'A'..'z', 0x51 = space, 0xFE = page break, 0xFD = end): first page 'Welcome to the Knight`s Guild.'. The speaker introduces themselves: 'My name is Pelign. I`m the receptionist here.'. The name is taken from this self-introduction in the directly selected resource, not from actor artwork or adjacent resources."
+        },
+        {
+          "source": "src/code_08028AAC.c",
+          "revision": "3e4e65f3940022de591db87b37fd322ccbf75eac",
+          "detail": "Matched scene builder sub_0802DAF0 spawns this actor with sub_080289C0(0x70019, 0xCC, 0x70) (SpawnSceneObjectAndWaitForStartupStateChange, line 4867), finds the 0x70-byte scene object record whose handle equals the returned ID, sets interaction extents 8x4 and record flag 0x10, then stores this function at record +0x44 (word index 0x11) as the actor's interaction callback.",
+          "line": 4886
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 1005,
+          "revision": "3e4e65f3940022de591db87b37fd322ccbf75eac",
+          "detail": "Canonical Thumb entry for sub_080595E0. Original EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc; static source/instruction evidence only."
+        }
+      ]
+    },
+    {
+      "address": "0x0805968C",
+      "canonical_symbol": "sub_0805968C",
+      "display_name": "RunCognitoDialogue",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08059534.c",
+          "line": 41,
+          "revision": "3e4e65f3940022de591db87b37fd322ccbf75eac",
+          "detail": "Sets bit 0 of the local player's flags +0x30 (the input-suppression bit) and calls BeginLocalPlayerEventLock. Turns the scene entity selected by the argument toward selector 0 with TurnSceneEntityTowardEntity. Waits with TaskWaitForSignal1 until no dialogue-task slot and no text-window slot is used, then starts StartFixedLayoutDialogueTask(1, 15, 2, 0, -1, 0x14013E) and waits for DialogueStateIsComplete. If IsWorldTaskSuspendRequested is observed during that final wait it calls CloseUsedDialogueWindowsAndWait and stops waiting. It does not restore the entity's facing. Finally it reloads the local player index, clears flag bit 0 and calls EndLocalPlayerEventLock. The two initial slot waits have no abort test. No guarantee of successful allocation or display is claimed."
+        },
+        {
+          "source": "baserom.gba",
+          "revision": "3e4e65f3940022de591db87b37fd322ccbf75eac",
+          "detail": "English text resource 0x14013E (language-0 pointer table 0x0838AFF0, entry 0x13E), decoded from the original letter codes (0x01..0x3A = 'A'..'z', 0x51 = space, 0xFE = page break, 0xFD = end): first page 'Hello. You`re <name>?'. The speaker introduces themselves: 'I am Cognito, executive officer of the knights.'. The name is taken from this self-introduction in the directly selected resource, not from actor artwork or adjacent resources."
+        },
+        {
+          "source": "src/code_08028AAC.c",
+          "revision": "3e4e65f3940022de591db87b37fd322ccbf75eac",
+          "detail": "Matched scene builder sub_0802DAF0 spawns this actor with sub_080289C0(0x19, 0xFC, 0x4B) (SpawnSceneObjectAndWaitForStartupStateChange, line 4903), finds the 0x70-byte scene object record whose handle equals the returned ID, sets interaction extents 8x4 and record flag 0x10, then stores this function at record +0x44 (word index 0x11) as the actor's interaction callback.",
+          "line": 4922
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 1006,
+          "revision": "3e4e65f3940022de591db87b37fd322ccbf75eac",
+          "detail": "Canonical Thumb entry for sub_0805968C. Original EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc; static source/instruction evidence only."
+        }
+      ]
+    },
+    {
+      "address": "0x08059738",
+      "canonical_symbol": "sub_08059738",
+      "display_name": "RunDelongueDialogue",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08059534.c",
+          "line": 60,
+          "revision": "3e4e65f3940022de591db87b37fd322ccbf75eac",
+          "detail": "Sets bit 0 of the local player's flags +0x30 (the input-suppression bit) and calls BeginLocalPlayerEventLock. Turns the scene entity selected by the argument toward selector 0 with TurnSceneEntityTowardEntity. Waits with TaskWaitForSignal1 until no dialogue-task slot and no text-window slot is used, then starts StartFixedLayoutDialogueTask(1, 15, 2, 0, -1, 0x14013F) and waits for DialogueStateIsComplete. If IsWorldTaskSuspendRequested is observed during that final wait it calls CloseUsedDialogueWindowsAndWait and stops waiting. It does not restore the entity's facing. Finally it reloads the local player index, clears flag bit 0 and calls EndLocalPlayerEventLock. The two initial slot waits have no abort test. No guarantee of successful allocation or display is claimed."
+        },
+        {
+          "source": "baserom.gba",
+          "revision": "3e4e65f3940022de591db87b37fd322ccbf75eac",
+          "detail": "English text resource 0x14013F (language-0 pointer table 0x0838AFF0, entry 0x13F), decoded from the original letter codes (0x01..0x3A = 'A'..'z', 0x51 = space, 0xFE = page break, 0xFD = end): first page 'Do you need something? We are the Klantol Knights.'. The speaker introduces themselves: 'I am Delongue, head knight. Nice to meet you.'. The name is taken from this self-introduction in the directly selected resource, not from actor artwork or adjacent resources."
+        },
+        {
+          "source": "src/code_08028AAC.c",
+          "revision": "3e4e65f3940022de591db87b37fd322ccbf75eac",
+          "detail": "Matched scene builder sub_0802DAF0 spawns this actor with sub_080289C0(0x4001B, 0x166, 0x46) (SpawnSceneObjectAndWaitForStartupStateChange, line 4939), finds the 0x70-byte scene object record whose handle equals the returned ID, sets interaction extents 8x4 and record flag 0x10, then stores this function at record +0x44 (word index 0x11) as the actor's interaction callback.",
+          "line": 4958
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 1007,
+          "revision": "3e4e65f3940022de591db87b37fd322ccbf75eac",
+          "detail": "Canonical Thumb entry for sub_08059738. Original EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc; static source/instruction evidence only."
+        }
+      ]
+    },
+    {
+      "address": "0x080597E4",
+      "canonical_symbol": "sub_080597E4",
+      "display_name": "RunVegitarDialogue",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08059534.c",
+          "line": 79,
+          "revision": "3e4e65f3940022de591db87b37fd322ccbf75eac",
+          "detail": "Sets bit 0 of the local player's flags +0x30 (the input-suppression bit) and calls BeginLocalPlayerEventLock. Turns the scene entity selected by the argument toward selector 0 with TurnSceneEntityTowardEntity. Waits with TaskWaitForSignal1 until no dialogue-task slot and no text-window slot is used, then starts StartFixedLayoutDialogueTask(1, 15, 2, 0, -1, 0x140140) and waits for DialogueStateIsComplete. If IsWorldTaskSuspendRequested is observed during that final wait it calls CloseUsedDialogueWindowsAndWait and stops waiting. It does not restore the entity's facing. Finally it reloads the local player index, clears flag bit 0 and calls EndLocalPlayerEventLock. The two initial slot waits have no abort test. No guarantee of successful allocation or display is claimed."
+        },
+        {
+          "source": "baserom.gba",
+          "revision": "3e4e65f3940022de591db87b37fd322ccbf75eac",
+          "detail": "English text resource 0x140140 (language-0 pointer table 0x0838AFF0, entry 0x140), decoded from the original letter codes (0x01..0x3A = 'A'..'z', 0x51 = space, 0xFE = page break, 0xFD = end): first page 'Yo, I`m the one who keeps everyone healthy.'. The speaker introduces themselves: 'My name? Sorry, I forgot to tell you. I`m Vegitar.'. The name is taken from this self-introduction in the directly selected resource, not from actor artwork or adjacent resources."
+        },
+        {
+          "source": "src/code_08028AAC.c",
+          "revision": "3e4e65f3940022de591db87b37fd322ccbf75eac",
+          "detail": "Matched scene builder sub_0802DAF0 spawns this actor with sub_080289C0(0x10019, 0x90, 0x68) (SpawnSceneObjectAndWaitForStartupStateChange, line 4975), finds the 0x70-byte scene object record whose handle equals the returned ID, sets interaction extents 8x4 and record flag 0x10, then stores this function at record +0x44 (word index 0x11) as the actor's interaction callback.",
+          "line": 4994
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 1008,
+          "revision": "3e4e65f3940022de591db87b37fd322ccbf75eac",
+          "detail": "Canonical Thumb entry for sub_080597E4. Original EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc; static source/instruction evidence only."
         }
       ]
     },
