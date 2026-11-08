@@ -15484,10 +15484,41 @@
       "canonical_symbol": "sub_0802413C",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_0802413C",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "ApproachAndWaitAtAreaExit",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_08021DC4.c",
+          "line": 1816,
+          "revision": "4061d99838c1c00500a62a81029e48f62374ff5e",
+          "detail": "Area-exit callback body that requests movement of the local player to a directional approach point, marks player flags with 0x403 and waits while examining player/entity gathering conditions. The input supplies coordinate halfwords and flags; the second argument indexes the unchecked direction table 0849E730. Forward target uses coordinate halfwords shifted left 11 plus a signed table vector times distance 32, or 24 for manager mode 3 and world-map halfword +0x90 equal to 12, and clamps negative components to zero. Movement requests receive each component arithmetic-shifted right8. This routine does not itself store the destination area or commit the transition."
+        },
+        {
+          "source": "src/code_08021DC4.c",
+          "line": 2369,
+          "revision": "4061d99838c1c00500a62a81029e48f62374ff5e",
+          "detail": "The matched area-transition parent245CC registers one of eight wrappers through StartAreaEntryCallbackTask 57DD0 using trigger rectangles. Input flags bits4..6 select wrappers that supply direction0..7. The same parent separately checks player gathering, stores input destination at manager+0x40 after its own readiness count and calls67DC8. These paths anchor the exit/approach role, without inferring that this child alone starts or completes a map load."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 550,
+          "revision": "4061d99838c1c00500a62a81029e48f62374ff5e",
+          "detail": "Complete original2413C..24538 examined and equal to verified EUR ROM/local ELF. The preamble can return on queryCCCC, waits out player states14/5 or CD8C, requests15C5C and polls15F20. Original2428E..242AC sets flags0x403 and calls67D74 before checking manager halfword+4 bit4; that early return does not clear the flags. The main wait can end on that manager bit or eligible B cancellation. No universal cleanup, queue success, timeout or exact elapsed-frame duration is asserted."
+        },
+        {
+          "source": "src/code_08021DC4.c",
+          "line": 1950,
+          "revision": "4061d99838c1c00500a62a81029e48f62374ff5e",
+          "detail": "When the local readiness counter is zero,58DB0 returns zero and pressed-key mask includes B mask 0x2, cancellation clears player masks through staged67D74 requests, waits via57624(60), requests a point behind the trigger, waits for movement or manager bit4, conditionally sets player byte+0x68 and clears further flag bits. It then requests attributes/flags, clears the global word at 03005CF0 and returns. The normal manager-bit exit does not run that cancellation cleanup. The counter at original stack+0x18 has no entry initialization: some paths can read/increment it before a reset, so deterministic initial cancellation eligibility is not inferred."
+        },
+        {
+          "source": "src/code_080153A4.c",
+          "line": 384,
+          "revision": "4061d99838c1c00500a62a81029e48f62374ff5e",
+          "detail": "Existing independently proved helpers are RequestLocalPlayerMovementToPoint(15C5C), IsLocalPlayerMovementToPointPending(15F20), EnqueueLinkPlayerFlags(67D74), EnqueueLinkPlayerAttributes(6617C) and WaitSignal1RepeatedUnlessLinkError(57624). This contract preserves their request and early-return limits rather than treating calls as completed peer synchronization. Static evidence only; no runtime or broad C-equivalence claim."
+        }
+      ]
     },
     {
       "name": "sub_08024538",
@@ -25767,10 +25798,29 @@
       "canonical_symbol": "sub_0805A60C",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_0805A60C",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "ApproachAndWaitAtAreaExitDirection0",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_08059534.c",
+          "line": 626,
+          "revision": "4061d99838c1c00500a62a81029e48f62374ff5e",
+          "detail": "Forwards the original input pointer in R0 to 2413C with second argument exactly 0, then returns without a result contract. It inherits the movement, waiting, cancellation and early-exit limits of the exit-approach body; it does not independently register a task or select/store the destination. Direction is the observed numeric selector, not an inferred compass label."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 1049,
+          "revision": "4061d99838c1c00500a62a81029e48f62374ff5e",
+          "detail": "Complete original wrapper range inspected and equal to verified EUR ROM/local ELF: pushLR, setR1=0, BL2413C, popR0 and BXR0. The direction table at0849E730 maps this selector to signed halfword 4, used as a table angle multiplier16 by2413C. No extra argument mask or success result is added."
+        },
+        {
+          "source": "src/code_08021DC4.c",
+          "line": 2372,
+          "revision": "4061d99838c1c00500a62a81029e48f62374ff5e",
+          "detail": "Parent245CC dispatch case0 selects this callback when creating the area-entry task. The callback role follows the common original body and this actual registration; no universal valid input/index range or runtime transition completion is inferred."
+        }
+      ]
     },
     {
       "name": "sub_0805A618",
@@ -25784,10 +25834,29 @@
       "canonical_symbol": "sub_0805A618",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_0805A618",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "ApproachAndWaitAtAreaExitDirection1",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_08059534.c",
+          "line": 629,
+          "revision": "4061d99838c1c00500a62a81029e48f62374ff5e",
+          "detail": "Forwards the original input pointer in R0 to 2413C with second argument exactly 1, then returns without a result contract. It inherits the movement, waiting, cancellation and early-exit limits of the exit-approach body; it does not independently register a task or select/store the destination. Direction is the observed numeric selector, not an inferred compass label."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 1050,
+          "revision": "4061d99838c1c00500a62a81029e48f62374ff5e",
+          "detail": "Complete original wrapper range inspected and equal to verified EUR ROM/local ELF: pushLR, setR1=1, BL2413C, popR0 and BXR0. The direction table at0849E730 maps this selector to signed halfword 7, used as a table angle multiplier16 by2413C. No extra argument mask or success result is added."
+        },
+        {
+          "source": "src/code_08021DC4.c",
+          "line": 2375,
+          "revision": "4061d99838c1c00500a62a81029e48f62374ff5e",
+          "detail": "Parent245CC dispatch case1 selects this callback when creating the area-entry task. The callback role follows the common original body and this actual registration; no universal valid input/index range or runtime transition completion is inferred."
+        }
+      ]
     },
     {
       "name": "sub_0805A624",
@@ -25801,10 +25870,29 @@
       "canonical_symbol": "sub_0805A624",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_0805A624",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "ApproachAndWaitAtAreaExitDirection2",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_08059534.c",
+          "line": 632,
+          "revision": "4061d99838c1c00500a62a81029e48f62374ff5e",
+          "detail": "Forwards the original input pointer in R0 to 2413C with second argument exactly 2, then returns without a result contract. It inherits the movement, waiting, cancellation and early-exit limits of the exit-approach body; it does not independently register a task or select/store the destination. Direction is the observed numeric selector, not an inferred compass label."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 1051,
+          "revision": "4061d99838c1c00500a62a81029e48f62374ff5e",
+          "detail": "Complete original wrapper range inspected and equal to verified EUR ROM/local ELF: pushLR, setR1=2, BL2413C, popR0 and BXR0. The direction table at0849E730 maps this selector to signed halfword 8, used as a table angle multiplier16 by2413C. No extra argument mask or success result is added."
+        },
+        {
+          "source": "src/code_08021DC4.c",
+          "line": 2378,
+          "revision": "4061d99838c1c00500a62a81029e48f62374ff5e",
+          "detail": "Parent245CC dispatch case2 selects this callback when creating the area-entry task. The callback role follows the common original body and this actual registration; no universal valid input/index range or runtime transition completion is inferred."
+        }
+      ]
     },
     {
       "name": "sub_0805A630",
@@ -25818,10 +25906,29 @@
       "canonical_symbol": "sub_0805A630",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_0805A630",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "ApproachAndWaitAtAreaExitDirection3",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_0805A630.c",
+          "line": 4,
+          "revision": "4061d99838c1c00500a62a81029e48f62374ff5e",
+          "detail": "Forwards the original input pointer in R0 to 2413C with second argument exactly 3, then returns without a result contract. It inherits the movement, waiting, cancellation and early-exit limits of the exit-approach body; it does not independently register a task or select/store the destination. Direction is the observed numeric selector, not an inferred compass label."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 1052,
+          "revision": "4061d99838c1c00500a62a81029e48f62374ff5e",
+          "detail": "Complete original wrapper range inspected and equal to verified EUR ROM/local ELF: pushLR, setR1=3, BL2413C, popR0 and BXR0. The direction table at0849E730 maps this selector to signed halfword 9, used as a table angle multiplier16 by2413C. No extra argument mask or success result is added."
+        },
+        {
+          "source": "src/code_08021DC4.c",
+          "line": 2381,
+          "revision": "4061d99838c1c00500a62a81029e48f62374ff5e",
+          "detail": "Parent245CC dispatch case3 selects this callback when creating the area-entry task. The callback role follows the common original body and this actual registration; no universal valid input/index range or runtime transition completion is inferred."
+        }
+      ]
     },
     {
       "name": "sub_0805A63C",
@@ -25835,10 +25942,29 @@
       "canonical_symbol": "sub_0805A63C",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_0805A63C",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "ApproachAndWaitAtAreaExitDirection4",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_0805A630.c",
+          "line": 7,
+          "revision": "4061d99838c1c00500a62a81029e48f62374ff5e",
+          "detail": "Forwards the original input pointer in R0 to 2413C with second argument exactly 4, then returns without a result contract. It inherits the movement, waiting, cancellation and early-exit limits of the exit-approach body; it does not independently register a task or select/store the destination. Direction is the observed numeric selector, not an inferred compass label."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 1053,
+          "revision": "4061d99838c1c00500a62a81029e48f62374ff5e",
+          "detail": "Complete original wrapper range inspected and equal to verified EUR ROM/local ELF: pushLR, setR1=4, BL2413C, popR0 and BXR0. The direction table at0849E730 maps this selector to signed halfword 12, used as a table angle multiplier16 by2413C. No extra argument mask or success result is added."
+        },
+        {
+          "source": "src/code_08021DC4.c",
+          "line": 2384,
+          "revision": "4061d99838c1c00500a62a81029e48f62374ff5e",
+          "detail": "Parent245CC dispatch case4 selects this callback when creating the area-entry task. The callback role follows the common original body and this actual registration; no universal valid input/index range or runtime transition completion is inferred."
+        }
+      ]
     },
     {
       "name": "sub_0805A648",
@@ -25852,10 +25978,29 @@
       "canonical_symbol": "sub_0805A648",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_0805A648",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "ApproachAndWaitAtAreaExitDirection5",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_0805A630.c",
+          "line": 10,
+          "revision": "4061d99838c1c00500a62a81029e48f62374ff5e",
+          "detail": "Forwards the original input pointer in R0 to 2413C with second argument exactly 5, then returns without a result contract. It inherits the movement, waiting, cancellation and early-exit limits of the exit-approach body; it does not independently register a task or select/store the destination. Direction is the observed numeric selector, not an inferred compass label."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 1054,
+          "revision": "4061d99838c1c00500a62a81029e48f62374ff5e",
+          "detail": "Complete original wrapper range inspected and equal to verified EUR ROM/local ELF: pushLR, setR1=5, BL2413C, popR0 and BXR0. The direction table at0849E730 maps this selector to signed halfword 15, used as a table angle multiplier16 by2413C. No extra argument mask or success result is added."
+        },
+        {
+          "source": "src/code_08021DC4.c",
+          "line": 2387,
+          "revision": "4061d99838c1c00500a62a81029e48f62374ff5e",
+          "detail": "Parent245CC dispatch case5 selects this callback when creating the area-entry task. The callback role follows the common original body and this actual registration; no universal valid input/index range or runtime transition completion is inferred."
+        }
+      ]
     },
     {
       "name": "sub_0805A654",
@@ -25869,10 +26014,29 @@
       "canonical_symbol": "sub_0805A654",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_0805A654",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "ApproachAndWaitAtAreaExitDirection6",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_0805A630.c",
+          "line": 13,
+          "revision": "4061d99838c1c00500a62a81029e48f62374ff5e",
+          "detail": "Forwards the original input pointer in R0 to 2413C with second argument exactly 6, then returns without a result contract. It inherits the movement, waiting, cancellation and early-exit limits of the exit-approach body; it does not independently register a task or select/store the destination. Direction is the observed numeric selector, not an inferred compass label."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 1055,
+          "revision": "4061d99838c1c00500a62a81029e48f62374ff5e",
+          "detail": "Complete original wrapper range inspected and equal to verified EUR ROM/local ELF: pushLR, setR1=6, BL2413C, popR0 and BXR0. The direction table at0849E730 maps this selector to signed halfword 0, used as a table angle multiplier16 by2413C. No extra argument mask or success result is added."
+        },
+        {
+          "source": "src/code_08021DC4.c",
+          "line": 2390,
+          "revision": "4061d99838c1c00500a62a81029e48f62374ff5e",
+          "detail": "Parent245CC dispatch case6 selects this callback when creating the area-entry task. The callback role follows the common original body and this actual registration; no universal valid input/index range or runtime transition completion is inferred."
+        }
+      ]
     },
     {
       "name": "sub_0805A660",
@@ -25886,10 +26050,29 @@
       "canonical_symbol": "sub_0805A660",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_0805A660",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "ApproachAndWaitAtAreaExitDirection7",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_0805A630.c",
+          "line": 16,
+          "revision": "4061d99838c1c00500a62a81029e48f62374ff5e",
+          "detail": "Forwards the original input pointer in R0 to 2413C with second argument exactly 7, then returns without a result contract. It inherits the movement, waiting, cancellation and early-exit limits of the exit-approach body; it does not independently register a task or select/store the destination. Direction is the observed numeric selector, not an inferred compass label."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 1056,
+          "revision": "4061d99838c1c00500a62a81029e48f62374ff5e",
+          "detail": "Complete original wrapper range inspected and equal to verified EUR ROM/local ELF: pushLR, setR1=7, BL2413C, popR0 and BXR0. The direction table at0849E730 maps this selector to signed halfword 1, used as a table angle multiplier16 by2413C. No extra argument mask or success result is added."
+        },
+        {
+          "source": "src/code_08021DC4.c",
+          "line": 2393,
+          "revision": "4061d99838c1c00500a62a81029e48f62374ff5e",
+          "detail": "Parent245CC dispatch case7 selects this callback when creating the area-entry task. The callback role follows the common original body and this actual registration; no universal valid input/index range or runtime transition completion is inferred."
+        }
+      ]
     },
     {
       "name": "sub_0805A66C",
@@ -49961,12 +50144,12 @@
   "identification": {
     "game": {
       "total": 1880,
-      "identified": 822,
+      "identified": 831,
       "existing": 23,
-      "confirmed": 799,
+      "confirmed": 808,
       "proposed": 8,
-      "unidentified": 1050,
-      "percent_identified": 43.723404255319146
+      "unidentified": 1041,
+      "percent_identified": 44.202127659574465
     },
     "sdk": {
       "total": 155,
@@ -49979,12 +50162,12 @@
     },
     "all": {
       "total": 2035,
-      "identified": 977,
+      "identified": 986,
       "existing": 152,
-      "confirmed": 825,
+      "confirmed": 834,
       "proposed": 8,
-      "unidentified": 1050,
-      "percent_identified": 48.00982800982801
+      "unidentified": 1041,
+      "percent_identified": 48.452088452088454
     }
   },
   "limitations": "Configured function address intervals, including alignment/literal pools; inventory includes original assembly and linked libraries. Existing descriptive identifiers are recognized, not independently semantically re-proven."
