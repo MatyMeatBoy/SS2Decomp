@@ -42,7 +42,7 @@
     {
       "id": "match",
       "state": "pending",
-      "evidence": "Original ASM remains active. Current wholefunction C25112 versus ROM25180 is strict NO MATCH, deficit68bytes/frame472/502orderedcalls. Scoped search, local normalized bytes, bounded tests and fallbackcompare do not establish wholefunction equivalence or new matching credit; normal active-C fullROM exact proof remains required. Original ASM remains active. Current whole-function C25108 versus ROM25180 is strict NO MATCH, with72bytes missing, frame472 and502orderedcalls. Lower edit distances,66normalized local bytes with relative relocations, bounded tests and fallback compare do not establish whole-function equivalence or matching-byte credit. Normal active-C exact ROM proof remains required.",
+      "evidence": "Original ASM remains active. Current C25112 versus ROM25180,68-byte deficit, frame472 and502 calls in original order: strict NO MATCH. Scoped search, local normalized bytes, bounded core tests and fallback ROM compare do not establish whole-function equivalence or matching-byte credit. Normal active-C full-ROM exact proof remains required.",
       "label": "Match the normal active C ROM"
     }
   ],
