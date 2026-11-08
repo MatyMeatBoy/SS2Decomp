@@ -862,3 +862,30 @@ Two previously unidentified EUR helpers now have names for cancelling shared sce
 Cancellation scans two thirty-task pools and fifteen actor tasks. Its third loop compares a stale pointer left at the previous pool end against the current task, so it does not universally protect the current actor task or guarantee complete cleanup. The damage helper appends at most eleven four-byte records, narrowing amount to sixteen bits and object/class values to eight. Its caller has already written local HP and a zero-extended class through halfword stores before appending; a full record buffer does not roll back that damage.
 
 The packet producer and remote receiver corroborate object-damage semantics; they do not establish delivery, acknowledgement, replay protection or bounds safety. Only the catalog and this English journal change. Existing rows, metadata and canonical symbols remain intact; matching code, data, shard claims and generated progress are unchanged. Frozen precision overlays and independent receipts remain private.
+
+
+## Enemy attack contact processing
+
+One previously unidentified EUR function is named ProcessEnemyAttackContacts. Full matching source, original target routing, damage consumers and twelve complete configured ROM/ELF ranges support this role. Actor mode selects either five enemy targets under the concrete authority predicate or the local-player route. Pending damage and hit histories are distinguished from later HP consumption.
+
+Blocking uses draw < byte6E; retaliation uses a separate draw <= byte6F. Pending fields wrap as halfwords. Temporary direction and packet padding are not assumed initialized. Queue rejection or coalescing does not establish delivery per contact; failure does not roll back local pending damage.
+
+Only the naming catalog and this journal change. Canonical symbols, matching source, data, claims and generated reports remain intact. Static semantic evidence and independent review do not establish runtime coverage or equivalence of a NONMATCHING draft.
+
+
+## Resistance indicator tasks and starters
+
+Four previously unidentified EUR functions now describe resistance-increase and resistance-decrease indicator tasks and their starters. Full matched targets, original task and scheduler instructions, growth handling, both audited defeat paths and the revive receiver establish the requested indicator roles. Eleven complete configured ranges equal the original EUR ROM and linked ELF.
+
+Indicators capture position when their task starts; nominal body limits are twenty and sixty yields, subject to shutdown. The decrease updater uses selector+33 while drawing uses selector+34. Requests precede some resistance bounds and signed-positive checks, so a request does not prove a stat change. Neither rendering nor completion is guaranteed.
+
+Starters scan thirty-two occupancy bits, write callback and allocation fields before a checked stack allocation, and silently stop on full pool or allocation failure. The scheduler can reject an already registered control; its result is ignored before occupancy is set. Packed arguments are not universally masked or validated. Only this journal and the catalog change; canonical symbols, source, data, claims and generated reports remain intact.
+
+
+## Queen Yvonne dialogue callback
+
+One previously unidentified EUR function is named RunQueenYvonneDialogue. The complete matched body and original branches select ten English resources; the default dialogue explicitly introduces Queen Yvonne. All ten pointer slots and complete payloads equal the local EUR ROM and linked ELF. Original constructor instructions bind this callback to the created kind1F actor; no equivalent C or complete semantic audit of that NONMATCHING constructor is claimed.
+
+The routine snapshots the selected story word before busy waits, prioritizes bits8 through0 and falls back to the introduction. Initial busy waits lack the later shutdown test. Cleanup queries the local-player index again and clears bit0 rather than restoring its prior value; the entry and cleanup indices are not proven identical. Allocation, display and completion are not guaranteed.
+
+Only the catalog and this journal change. Canonical symbols, matching source, data, claims and generated progress remain intact. The identity follows directly selected text and callback binding, with independent original-byte and semantic review.

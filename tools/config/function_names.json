@@ -24720,6 +24720,179 @@
           "detail": "Read matching6690C tag-81 case13hex, its RxGs/record definitions, original dispatch66A26..66A36/table slot66A88 and complete critical case670F0..671A0. Tag94 resolves to670F0. For nonlocal peer, each four-byte record targets scene object at58C+24hex*index: HP at+10, class/flag halfword+12, state+14. Unless state11/12, subtracts unsigned16 amount with halfword wrap, then zeroes HP when resulting bit8000 set; writes byte flag zero-extended and state10. Count and target indices lack local bounds validation. This receiver closure corroborates record semantics, without proving transport delivery or replay protection. Own whole6690C plus critical ranges equal EUR ROM/ELF; no full semantic audit of other receiver cases claimed."
         }
       ]
+    },
+    {
+      "address": "0x08020680",
+      "canonical_symbol": "sub_08020680",
+      "display_name": "ProcessEnemyAttackContacts",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_0801E244.c",
+          "line": 1681,
+          "revision": "3a1faffc1563c337f2907d642e1502e741544f72",
+          "detail": "Complete matching body plus inline helpers and complete original20680..20D40 read. Enemy actor pointer; global guards, effective state2, excluded actor byte1FD values19/20decimal (0x13/0x14), optional animation-frame checks, and item attack-resource kind7 rejection precede collision work. Actor BYTE+201 mask0x2 selects a scan of five enemy slots requiring08002204()!=0, excluding self/inactive/state11..12/nonpositive pending-adjusted health/zero1DC targets and duplicate serial target54==attacker50. Item-attack-box test1F024 and signed-stat hit roll gate damage; writes pending4A/4C, hit state10, knockback/status fields, source58 and local-player attribution bit5A, requests hit-list enqueue660EC and damage display. This branch does not attack the local player. Independently read original02204: returns1 when030027D0 mask0x2 is clear, otherwise returns03002730 bit7; this is not equivalent to localplayerID0 and no host contract is asserted. Actor damage accumulation uses HALFWORD+4A with wrap and latest WORD+4C; HP+5C is consumed elsewhere."
+        },
+        {
+          "source": "src/code_0801E244.c",
+          "line": 1755,
+          "revision": "3a1faffc1563c337f2907d642e1502e741544f72",
+          "detail": "Other branch checks local-player flags/state/action gates and serial historyE4 indexed by attacker id, then collision and hit roll. Ordinary hit accumulates damage at player88, updates history/110, sets knockback/direction, rolls status and attempts stat growth/display. Block branch, selected only when byte6E nonzero and RNG0..99<byte6E, adds max(1,damage>>2) to player8A, updates history and requests a block visual. Optional retaliation requires byte6F nonzero and a fresh RNG0..99<=byte6F; queues damage-(damage>>2) to attacker4A/4C, with zero status/impulse/direction, attribution and hit-list request. Failed initial hit roll still writes history and requests sound0x55 through conditionally gated5865C. History/block cost precede retaliation gating; no unconditional reflection, immunity or repeated-contact eligibility claimed. Ordinary and block pending amounts at88/8A are HALFWORD additions with wrap. Blocking is not a guarantee of unchanged eventual HP:13BC0 later subtracts both pending fields. No frozen-time or once-per-call RNG result is assumed; hit, block and retaliation tests use distinct draws."
+        },
+        {
+          "source": "src/code_08017F7C.c",
+          "line": 224,
+          "revision": "3a1faffc1563c337f2907d642e1502e741544f72",
+          "detail": "Matched TaskUpdateAndRenderEnemyActor1801C calls20680 for the special228==FFFF path and again in attack state2 at source419. Full20680 original confirms enemy-sized2E0 target pool and local-player14C domain. Full matching item-box1F024/elemental-damage1EF14/player-damage1ED8C/status69388 and relevant damage consumers were read. Original19CE8 consumes actor pending4A intoHP5C;13BC0 consumes player88+8A intoHPC4, so this routine queues damage rather than directly subtracting those HP fields."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 1,
+          "revision": "3a1faffc1563c337f2907d642e1502e741544f72",
+          "detail": "Own complete20680 and nine caller/helper/consumer configured ranges equal EUR ROM and linked ELF. Normal-player temporary packet is not fully initialized before knockback helper: when impulse byte is nonzero, signed direction byte is read by1F320; playerD0 is explicitly overwritten afterward by attacker direction; do not assume zero ABI. Enemy/retaliation packet reserved upper halfword is not initialized before660EC can copy eight bytes. Enemy-target status helper receives attacker-id+4 and resistance pointerattacker+218, not inferred victim-id/resistance storage. Hit-roll denominator and actor/history/resource indices have no universal validation; enqueue return is ignored, no transport acknowledgement or actual status-growth guarantee. Static semantic evidence does not establish runtime coverage or equivalence of any NONMATCHING draft. Original660EC first rejects queuecount>49; otherwise coalesces a scheduled tag8A with same payloadbyte0 by adding amountHALFWORD and replacing direction/impulse bytes, retaining prior statusbyte1. Only a newly allocated queueentry copies all8 inputbytes, including the uninitialized reserved HALFWORD+6. Ignored enqueue failure does not roll back already accumulated local pendingdamage. No claim of one transport record per contact or initialized packet padding."
+        }
+      ]
+    },
+    {
+      "address": "0x080217D8",
+      "canonical_symbol": "sub_080217D8",
+      "display_name": "TaskShowResistanceIncreaseIndicator",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_0801E244.c",
+          "line": 2226,
+          "revision": "ca5145638e07760581ddab7b3037add51ef41586",
+          "detail": "Packed r0: low16 actor id, high16 selector; r1 pool bit. Resource5008C, palette23, descriptor bytes7/8. Captures actor position once: ids0..3 read player position at+148, ids>=4 use enemy base+(id-4)*2E0+14/18. Initializes frame counters and20-iteration timer; each body raises captured y when03002344 bit0 is0. UnderCC98/CD8C guards usesCCCC as tile-query mode, updates/draws animation(u16)(selector+1), yields, then exits on timer/shutdown and clears pool bit03005CE4. No stat mutation, following current actor motion, completion-time or successful visibility guarantee; no actor/resource/selector/bit validation. Position is captured when the task actually starts, not when requested by its starter. Progress timer/yield continues even when rendering guards suppress drawing; CB78 can stop before all20/60 bodies. Target ignores65158 return; resource/position validity is not established by that return. Occupancy is cleared on this normal exit path; no finalizer guarantees the same cleanup after external cancellation."
+        },
+        {
+          "source": "src/code_08068670.c",
+          "line": 711,
+          "revision": "ca5145638e07760581ddab7b3037add51ef41586",
+          "detail": "Full matching69224 and complete original69224..69388 read: successful probabilistic resistance growth increments one of six halfword stats; only eligible increment paths call22200(local-player-id,kind), kinds6/7 share sixth stat. Revive receiver6690C tagA7/case26 calls22200 before testing E0-1; only selector values1..6 subsequently increment saved HALFWORD resistance24..2E. Unsupported selectors can still request an indicator without changing a stat. Indicator purpose follows these mutating consumers, not an inferred visual identity from animation numbers. These consumers do not establish that arbitrary arguments or all requests represent actual growth. The69224 kind2 increment path clamps when resulting value exceeds99 and doesnot request the indicator on that clamp branch; names denote the requested indicator role, not every growth event or a guaranteed changedstat."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 1,
+          "revision": "ca5145638e07760581ddab7b3037add51ef41586",
+          "detail": "Own four complete target ranges and growth consumer69224 equal EUR ROM/linked ELF; own whole original D368 bytes and two critical original caller ranges also equal ROM/ELF, with only those caller paths semantically audited. Static source and original-ASM evidence does not establish runtime coverage or equivalence of any NONMATCHING draft."
+        }
+      ]
+    },
+    {
+      "address": "0x08021960",
+      "canonical_symbol": "sub_08021960",
+      "display_name": "TaskShowResistanceDecreaseIndicator",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_0801E244.c",
+          "line": 2283,
+          "revision": "ca5145638e07760581ddab7b3037add51ef41586",
+          "detail": "Packed r0 low16 actor id/high16 selector, r1 pool bit. Resource5008C/palette23 and initial position domains as217D8, captured once.60-iteration timer; raises y when03002344 low2bits are0. UnderCC98/CD8C guards queries tile modeCCCC but discards result; animation updater receives(u16)(selector+33), drawing65230 receives(u16)(selector+34), an original distinction preserved. Yields and clears pool bit on timer/shutdown. Does not decrement resistance or validate selector/actor/bit; visibility or exact elapsed duration is not guaranteed. Position is captured when the task actually starts, not when requested by its starter. Progress timer/yield continues even when rendering guards suppress drawing; CB78 can stop before all20/60 bodies. Target ignores65158 return; resource/position validity is not established by that return. Occupancy is cleared on this normal exit path; no finalizer guarantees the same cleanup after external cancellation."
+        },
+        {
+          "source": "asm/nonmatchings/code_0800CF58/sub_0800D368.s",
+          "line": 5237,
+          "revision": "ca5145638e07760581ddab7b3037add51ef41586",
+          "detail": "Original D368 pathsFA80..FCEC and100A4..10322 read: after13BC0 reports defeat, prepare state11, set R6=player+E0, call22284(player-id,[R6]), then switch E0-1 over0..5 to decrement saved resistance24..2E only when signed-positive, finally zeroE0. Thus visual request accompanies resistance-loss handling, but precedes zero/bounds checks and does not guarantee an actual stat decrease. D368 C is NONMATCHING reading aid only; all claimed caller behavior is corroborated from original ASM, no equivalent C claim."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 1,
+          "revision": "ca5145638e07760581ddab7b3037add51ef41586",
+          "detail": "Own four complete target ranges and growth consumer69224 equal EUR ROM/linked ELF; own whole original D368 bytes and two critical original caller ranges also equal ROM/ELF, with only those caller paths semantically audited. Static source and original-ASM evidence does not establish runtime coverage or equivalence of any NONMATCHING draft."
+        }
+      ]
+    },
+    {
+      "address": "0x08022200",
+      "canonical_symbol": "sub_08022200",
+      "display_name": "StartResistanceIncreaseIndicatorTask",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08021DC4.c",
+          "line": 265,
+          "revision": "ca5145638e07760581ddab7b3037add51ef41586",
+          "detail": "Complete matching body and original read. Scans32-bit occupancy03005CE4 for first free index0..31; task-pool base loaded from pointer03005CE0, stride28hex. Stores callback before one400hex stack allocation; on NULL returns without calling00274 or setting occupancy, while callback+0C and allocationfield+20 have already been written. Success sets top+3FC, priority70, finalizer0, scheduler args((second<<16)|first,index), then ORs occupancy AFTER registration. Full/failed allocation silently returns; no retry/wait, input masking, reservation-before-schedule or completion guarantee. Exact callback217D8; second0 is not rejected. Allocation is NULL-checked, not unchecked. Occupancy alone selects the slot; no00470 membership check precedes overwriting callback/allocation fields. Independently read00274 earlyreturns when the selected control is alreadyregistered; starter ignores schedulerreturn and stillORs occupancy after the call, so non-NULL allocation doesnot prove a newtask. Packed argument is (second<<16)|first without maskingfirst, and22284 rejects only full32-bit second==0, not unsupported nonzero selector values."
+        },
+        {
+          "source": "src/code_08068670.c",
+          "line": 711,
+          "revision": "ca5145638e07760581ddab7b3037add51ef41586",
+          "detail": "Full matching69224 and complete original69224..69388 read: successful probabilistic resistance growth increments one of six halfword stats; only eligible increment paths call22200(local-player-id,kind), kinds6/7 share sixth stat. Revive receiver6690C tagA7/case26 calls22200 before testing E0-1; only selector values1..6 subsequently increment saved HALFWORD resistance24..2E. Unsupported selectors can still request an indicator without changing a stat. Indicator purpose follows these mutating consumers, not an inferred visual identity from animation numbers. These consumers do not establish that arbitrary arguments or all requests represent actual growth. The69224 kind2 increment path clamps when resulting value exceeds99 and doesnot request the indicator on that clamp branch; names denote the requested indicator role, not every growth event or a guaranteed changedstat."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 1,
+          "revision": "ca5145638e07760581ddab7b3037add51ef41586",
+          "detail": "Own four complete target ranges and growth consumer69224 equal EUR ROM/linked ELF; own whole original D368 bytes and two critical original caller ranges also equal ROM/ELF, with only those caller paths semantically audited. Static source and original-ASM evidence does not establish runtime coverage or equivalence of any NONMATCHING draft."
+        }
+      ]
+    },
+    {
+      "address": "0x08022284",
+      "canonical_symbol": "sub_08022284",
+      "display_name": "StartResistanceDecreaseIndicatorTask",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08021DC4.c",
+          "line": 296,
+          "revision": "ca5145638e07760581ddab7b3037add51ef41586",
+          "detail": "Complete matching body and original read. Scans32-bit occupancy03005CE4 for first free index0..31; task-pool base loaded from pointer03005CE0, stride28hex. Stores callback before one400hex stack allocation; on NULL returns without calling00274 or setting occupancy, while callback+0C and allocationfield+20 have already been written. Success sets top+3FC, priority70, finalizer0, scheduler args((second<<16)|first,index), then ORs occupancy AFTER registration. Full/failed allocation silently returns; no retry/wait, input masking, reservation-before-schedule or completion guarantee. Rejects second argument0 before scan; exact callback21960, with no range check for nonzero values. Allocation is NULL-checked, not unchecked. Occupancy alone selects the slot; no00470 membership check precedes overwriting callback/allocation fields. Independently read00274 earlyreturns when the selected control is alreadyregistered; starter ignores schedulerreturn and stillORs occupancy after the call, so non-NULL allocation doesnot prove a newtask. Packed argument is (second<<16)|first without maskingfirst, and22284 rejects only full32-bit second==0, not unsupported nonzero selector values."
+        },
+        {
+          "source": "asm/nonmatchings/code_0800CF58/sub_0800D368.s",
+          "line": 5237,
+          "revision": "ca5145638e07760581ddab7b3037add51ef41586",
+          "detail": "Original D368 pathsFA80..FCEC and100A4..10322 read: after13BC0 reports defeat, prepare state11, set R6=player+E0, call22284(player-id,[R6]), then switch E0-1 over0..5 to decrement saved resistance24..2E only when signed-positive, finally zeroE0. Thus visual request accompanies resistance-loss handling, but precedes zero/bounds checks and does not guarantee an actual stat decrease. D368 C is NONMATCHING reading aid only; all claimed caller behavior is corroborated from original ASM, no equivalent C claim."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 1,
+          "revision": "ca5145638e07760581ddab7b3037add51ef41586",
+          "detail": "Own four complete target ranges and growth consumer69224 equal EUR ROM/linked ELF; own whole original D368 bytes and two critical original caller ranges also equal ROM/ELF, with only those caller paths semantically audited. Static source and original-ASM evidence does not establish runtime coverage or equivalence of any NONMATCHING draft."
+        }
+      ]
+    },
+    {
+      "address": "0x0802FA80",
+      "canonical_symbol": "sub_0802FA80",
+      "display_name": "RunQueenYvonneDialogue",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08028AAC.c",
+          "line": 6648,
+          "revision": "2a822dc7522cb8f59952cc1b93f260b2eb062493",
+          "detail": "Full matching body6648..end and complete original2FA80..2FEA0 read. Sets local player flags bit0 and callsD0F4. Chooses scene word+7C whenCE30 is nonzero, else+74; priority bits8 down to0 select resource1400C4 down to1400BC, no tested bit selects1400BB. Each branch waits5F184 and5EF90 with yields, starts fixed-layout dialogue5DF38(1,15,2,0,-1,resource), then waits5EEFC. CDF8 during that final wait invokes5EFBC and exits wait. Common cleanup reloads current local-player index, clears bit0 and callsD108. Initial busy waits lack this abort test; no guaranteed progress, successful allocation/display or preservation of prior bit0 state is claimed. The selected story WORD is a snapshot taken before the busy waits; later flag changes do not reselect this invocation. Common cleanup addresses the then-current local player, which is not proven to be the same player index selected on entry."
+        },
+        {
+          "source": "baserom.gba:English resource1400BB",
+          "revision": "2a822dc7522cb8f59952cc1b93f260b2eb062493",
+          "detail": "Own pointer slot0838B2DC and complete resource bytes equal linked ELF. After two-byte header, original English letter codes explicitly say I am Queen Yvonne. Directly selected resources1400BB..1400C4 form the same queen dialogue series, including her daughter Camille and the King. Identity follows self-introduction in the directly selected resource, not actor artwork, resource-number adjacency or outside story knowledge. Static readback retains control codes and does not assert runtime speaker switching/layout."
+        },
+        {
+          "source": "asm/nonmatchings/code_08028AAC/sub_0802AA28.s",
+          "line": 1,
+          "revision": "2a822dc7522cb8f59952cc1b93f260b2eb062493",
+          "detail": "Original2ACF8..2AD5E creates kind1F scene actor, searches scene actor slots by returned id and installs2FA80 at actor+44 via literal2AD7C=0802FA81. Caller2AA28 C is NONMATCHING reading aid only; callback-binding evidence comes from original instructions. Own whole caller bytes plus critical binding range equal EUR ROM/ELF; no complete constructor semantic audit or equivalent C claim."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 1,
+          "revision": "2a822dc7522cb8f59952cc1b93f260b2eb062493",
+          "detail": "Own eight code ranges and all ten directly selected English-resource pointer slots/payloads equal EUR ROM and linked ELF; complete target C/original and relevant callback binding/resource resolver paths read. Static evidence does not establish runtime coverage, transport reliability or guaranteed completion. Independent peer verification covers nine complete configured original code ranges and all ten English pointer slots/payloads in its own supplied ROM/ELF; see peer own-fullrange-receipt.json and own-identity-anchor-resources.json. The producer receipt describing eight ranges remains preserved separately."
+        }
+      ]
     }
   ]
 }
