@@ -2339,12 +2339,13 @@ found27scan_336:
                     if (var_r1_22 != ((void *)0)) {
                         (*(u16*)((u8*)(var_r1_22)+(0x36))) = 4;
                     }
+                    temp_r4 = 1;
                     if (sub_0800CE30() != 0) {
                         var_r0_19 = (*(u8 **)ScenePointerSlotEU27) + 0x1BF;
                     } else {
                         var_r0_19 = (*(u8 **)ScenePointerSlotEU27) + 0x1B3;
                     }
-                    *var_r0_19 = 1;
+                    *var_r0_19 = temp_r4;
                     sub_0802A228(0, 3);
                     return;
                 default:
@@ -2418,12 +2419,13 @@ test27_slot375:
             }
 }
     } else {
+        temp_r4 = 5;
         if (sub_0800CE30() != 0) {
             var_r0_23 = stateAA28 + 0x1BF;
         } else {
             var_r0_23 = stateAA28 + 0x1B3;
         }
-        *var_r0_23 = 5;
+        *var_r0_23 = temp_r4;
         sub_08042BB0();
     }
 }
