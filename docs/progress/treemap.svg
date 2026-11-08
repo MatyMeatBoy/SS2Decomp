@@ -14,8 +14,8 @@
 <text x="269.0" y="86" fill="#e6edf3" font-size="10">940 bytes; not decompiled C</text>
 <rect x="506.0" y="30" width="235.0" height="66" rx="5" fill="#161b22"/>
 <text x="516.0" y="46" fill="#e6edf3" font-size="11">Identification</text>
-<text x="516.0" y="69" fill="#3fb950" font-size="21" font-weight="600">51.89%</text>
-<text x="516.0" y="86" fill="#e6edf3" font-size="10">1056 / 2035 registered names</text>
+<text x="516.0" y="69" fill="#3fb950" font-size="21" font-weight="600">52.14%</text>
+<text x="516.0" y="86" fill="#e6edf3" font-size="10">1061 / 2035 registered names</text>
 <rect x="753.0" y="30" width="235.0" height="66" rx="5" fill="#161b22"/>
 <text x="763.0" y="46" fill="#e6edf3" font-size="11">Historical C + linked</text>
 <text x="763.0" y="69" fill="#e6edf3" font-size="21" font-weight="600">93.13%</text>
@@ -856,7 +856,7 @@
 <rect x="474.08" y="474.04" width="10.09" height="11.86" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>HandleKnightsGuildRoom | sub_0808A744 | confirmed  0x0808A744  236 bytes  [done]</title></rect>
 <rect x="474.08" y="485.90" width="10.09" height="11.86" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>HandleKlantolTimesEditingRoom | sub_0808A984 | confirmed  0x0808A984  236 bytes  [done]</title></rect>
 <rect x="474.08" y="497.76" width="10.09" height="9.24" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>TryTriggerThreeEntrySceneExit | sub_08088B6C | confirmed  0x08088B6C  184 bytes  [done]</title></rect>
-<rect x="484.17" y="474.04" width="9.90" height="8.39" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0808C020 | sub_0808C020 | unidentified  0x0808C020  164 bytes  [done]</title></rect>
+<rect x="484.17" y="474.04" width="9.90" height="8.39" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>RunAreaEntryInputPrompt | sub_0808C020 | confirmed  0x0808C020  164 bytes  [done]</title></rect>
 <rect x="494.08" y="474.04" width="9.90" height="8.39" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0808D278 | sub_0808D278 | unidentified  0x0808D278  164 bytes  [done]</title></rect>
 <rect x="503.98" y="474.04" width="9.90" height="8.39" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0808D404 | sub_0808D404 | unidentified  0x0808D404  164 bytes  [done]</title></rect>
 <rect x="484.17" y="482.44" width="7.35" height="8.56" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>StartScriptedSpriteRouteTask | sub_08088AA8 | confirmed  0x08088AA8  124 bytes  [done]</title></rect>
@@ -866,13 +866,13 @@
 <rect x="498.97" y="482.44" width="7.46" height="7.89" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0808D31C | sub_0808D31C | unidentified  0x0808D31C  116 bytes  [done]</title></rect>
 <rect x="506.43" y="482.44" width="7.46" height="7.89" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0808D390 | sub_0808D390 | unidentified  0x0808D390  116 bytes  [done]</title></rect>
 <rect x="491.52" y="490.32" width="7.54" height="5.65" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>StartStageSelectionOrBattleTeamSetupTask | sub_0808D05C | confirmed  0x0808D05C  84 bytes  [done]</title></rect>
-<rect x="491.52" y="495.97" width="7.54" height="5.65" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0808D0C4 | sub_0808D0C4 | unidentified  0x0808D0C4  84 bytes  [done]</title></rect>
+<rect x="491.52" y="495.97" width="7.54" height="5.65" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>WaitForPlayerFlagAndStartAreaEntryPrompt | sub_0808D0C4 | confirmed  0x0808D0C4  84 bytes  [done]</title></rect>
 <rect x="491.52" y="501.62" width="7.54" height="5.38" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>StartPaletteGrayFadeTask | sub_0808894C | confirmed  0x0808894C  80 bytes  [done]</title></rect>
 <rect x="499.05" y="490.32" width="4.94" height="7.38" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>StartEnabledPaletteModulationTask | sub_08088A18 | confirmed  0x08088A18  72 bytes  [done]</title></rect>
 <rect x="504.00" y="490.32" width="4.94" height="7.38" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>StartTwoLineSceneMessageTask | sub_08088A60 | confirmed  0x08088A60  72 bytes  [done]</title></rect>
 <rect x="508.94" y="490.32" width="4.94" height="7.38" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>StartEightLineSceneMessageTask | sub_08088B24 | confirmed  0x08088B24  72 bytes  [done]</title></rect>
 <rect x="499.05" y="497.70" width="7.42" height="4.65" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>StartFourLineSceneMessageTask | sub_080889D4 | confirmed  0x080889D4  68 bytes  [done]</title></rect>
-<rect x="499.05" y="502.35" width="7.42" height="4.65" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0808AFA4 | sub_0808AFA4 | unidentified  0x0808AFA4  68 bytes  [done]</title></rect>
+<rect x="499.05" y="502.35" width="7.42" height="4.65" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>SetLocalPlayerPositionFromUnsignedPixelPair | sub_0808AFA4 | confirmed  0x0808AFA4  68 bytes  [done]</title></rect>
 <rect x="506.47" y="497.70" width="7.42" height="3.83" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>StartStoryIntroductionTask | sub_08088914 | confirmed  0x08088914  56 bytes  [done]</title></rect>
 <rect x="506.47" y="501.53" width="5.19" height="5.47" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0808899C | sub_0808899C | unidentified  0x0808899C  56 bytes  [done]</title></rect>
 <rect x="511.66" y="501.53" width="2.22" height="4.56" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0808D0B0 | sub_0808D0B0 | unidentified  0x0808D0B0  20 bytes  [done]</title></rect>
@@ -1493,7 +1493,7 @@
 <rect x="607.44" y="490.55" width="22.25" height="16.45" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0808F700 | sub_0808F700 | unidentified  0x0808F700  736 bytes  [done]</title></rect>
 <rect x="629.69" y="444.15" width="24.06" height="14.88" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0808DB38 | sub_0808DB38 | unidentified  0x0808DB38  720 bytes  [done]</title></rect>
 <rect x="653.75" y="444.15" width="12.70" height="14.88" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0808F9E0 | sub_0808F9E0 | unidentified  0x0808F9E0  380 bytes  [done]</title></rect>
-<rect x="666.45" y="444.15" width="10.56" height="14.88" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0808E530 | sub_0808E530 | unidentified  0x0808E530  316 bytes  [done]</title></rect>
+<rect x="666.45" y="444.15" width="10.56" height="14.88" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>TaskAnimateFallingAreaDamageIndicator | sub_0808E530 | confirmed  0x0808E530  316 bytes  [done]</title></rect>
 <rect x="677.01" y="444.15" width="8.82" height="14.88" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0808E66C | sub_0808E66C | unidentified  0x0808E66C  264 bytes  [done]</title></rect>
 <rect x="629.69" y="459.03" width="10.91" height="10.76" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0808DF14 | sub_0808DF14 | unidentified  0x0808DF14  236 bytes  [done]</title></rect>
 <rect x="629.69" y="469.79" width="10.91" height="10.03" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0808E9FC | sub_0808E9FC | unidentified  0x0808E9FC  220 bytes  [done]</title></rect>
@@ -1530,7 +1530,7 @@
 <rect x="665.47" y="493.32" width="7.42" height="7.78" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0808ED7C | sub_0808ED7C | unidentified  0x0808ED7C  116 bytes  [done]</title></rect>
 <rect x="665.47" y="501.10" width="7.42" height="5.90" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>TaskVerticalParallaxWrapped512 | sub_0808F6A8 | confirmed  0x0808F6A8  88 bytes  [done]</title></rect>
 <rect x="672.89" y="493.32" width="6.97" height="5.99" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0808E130 | sub_0808E130 | unidentified  0x0808E130  84 bytes  [done]</title></rect>
-<rect x="679.86" y="493.32" width="5.97" height="5.99" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0808E970 | sub_0808E970 | unidentified  0x0808E970  72 bytes  [done]</title></rect>
+<rect x="679.86" y="493.32" width="5.97" height="5.99" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>TaskPeriodicallyQueueFallingAreaDamageIndicator | sub_0808E970 | confirmed  0x0808E970  72 bytes  [done]</title></rect>
 <rect x="672.89" y="499.32" width="4.40" height="7.68" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>TaskBlendAndAutoScrollLayerDisplayOffsets | sub_0808E9B8 | confirmed  0x0808E9B8  68 bytes  [done]</title></rect>
 <rect x="677.29" y="499.32" width="5.95" height="4.01" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>TaskTrackHalfCameraXOnLayerThree | sub_0808ECA0 | confirmed  0x0808ECA0  48 bytes  [done]</title></rect>
 <rect x="677.29" y="503.33" width="5.95" height="3.67" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0808ECD0 | sub_0808ECD0 | unidentified  0x0808ECD0  44 bytes  [done]</title></rect>
