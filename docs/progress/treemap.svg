@@ -14,8 +14,8 @@
 <text x="269.0" y="86" fill="#e6edf3" font-size="10">940 bytes; not decompiled C</text>
 <rect x="506.0" y="30" width="235.0" height="66" rx="5" fill="#161b22"/>
 <text x="516.0" y="46" fill="#e6edf3" font-size="11">Identification</text>
-<text x="516.0" y="69" fill="#3fb950" font-size="21" font-weight="600">50.71%</text>
-<text x="516.0" y="86" fill="#e6edf3" font-size="10">1032 / 2035 registered names</text>
+<text x="516.0" y="69" fill="#3fb950" font-size="21" font-weight="600">50.96%</text>
+<text x="516.0" y="86" fill="#e6edf3" font-size="10">1037 / 2035 registered names</text>
 <rect x="753.0" y="30" width="235.0" height="66" rx="5" fill="#161b22"/>
 <text x="763.0" y="46" fill="#e6edf3" font-size="11">Historical C + linked</text>
 <text x="763.0" y="69" fill="#e6edf3" font-size="21" font-weight="600">93.13%</text>
@@ -152,17 +152,17 @@
 <rect x="111.54" y="424.77" width="27.59" height="25.43" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08069C44 | sub_08069C44 | unidentified  0x08069C44  1368 bytes  [done]</title></rect>
 <rect x="139.13" y="424.77" width="23.39" height="25.43" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>DispatchAbilityTaskOrSelfBuff | sub_0807386C | confirmed  0x0807386C  1160 bytes  [done]</title></rect>
 <rect x="82.57" y="450.21" width="25.22" height="21.64" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_080694AC | sub_080694AC | unidentified  0x080694AC  1064 bytes  [done]</title></rect>
-<rect x="82.57" y="471.85" width="25.22" height="18.06" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0806DB1C | sub_0806DB1C | unidentified  0x0806DB1C  888 bytes  [done]</title></rect>
-<rect x="82.57" y="489.91" width="25.22" height="17.09" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0806D4A4 | sub_0806D4A4 | unidentified  0x0806D4A4  840 bytes  [done]</title></rect>
-<rect x="107.79" y="450.21" width="18.67" height="22.53" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0806A88C | sub_0806A88C | unidentified  0x0806A88C  820 bytes  [done]</title></rect>
-<rect x="126.46" y="450.21" width="18.58" height="22.53" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0806D7EC | sub_0806D7EC | unidentified  0x0806D7EC  816 bytes  [done]</title></rect>
+<rect x="82.57" y="471.85" width="25.22" height="18.06" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>ApplyNearbyAllyCombatBonusBuff | sub_0806DB1C | confirmed  0x0806DB1C  888 bytes  [done]</title></rect>
+<rect x="82.57" y="489.91" width="25.22" height="17.09" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>ApplyNearbyAllyResistanceBuff | sub_0806D4A4 | confirmed  0x0806D4A4  840 bytes  [done]</title></rect>
+<rect x="107.79" y="450.21" width="18.67" height="22.53" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>RunPlayerCenteredPersistentAbilityHit | sub_0806A88C | confirmed  0x0806A88C  820 bytes  [done]</title></rect>
+<rect x="126.46" y="450.21" width="18.58" height="22.53" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>ApplyNearbyAllyFourAttributeBuff | sub_0806D7EC | confirmed  0x0806D7EC  816 bytes  [done]</title></rect>
 <rect x="145.04" y="450.21" width="17.48" height="22.53" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>ApplyTimedBuffToLocalOwnerOrNearbyAlly | sub_0807356C | confirmed  0x0807356C  768 bytes  [done]</title></rect>
 <rect x="107.79" y="472.74" width="16.83" height="12.80" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08069080 | sub_08069080 | unidentified  0x08069080  420 bytes  [done]</title></rect>
 <rect x="107.79" y="485.54" width="16.83" height="10.85" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>TryIncreaseEffectResistanceStat | sub_08069224 | confirmed  0x08069224  356 bytes  [done]</title></rect>
 <rect x="107.79" y="496.39" width="16.83" height="10.61" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>AnimateStatusEffectAtFixedPosition | sub_080698D4 | confirmed  0x080698D4  348 bytes  [done]</title></rect>
 <rect x="124.62" y="472.74" width="12.87" height="12.43" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>TaskAnimateFixedWorldSpriteEffect | sub_08073CF4 | confirmed  0x08073CF4  312 bytes  [done]</title></rect>
 <rect x="124.62" y="485.17" width="12.87" height="11.63" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>RollTargetStatusEffectKind | sub_08069388 | confirmed  0x08069388  292 bytes  [done]</title></rect>
-<rect x="124.62" y="496.80" width="12.87" height="10.20" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0806FE1C | sub_0806FE1C | unidentified  0x0806FE1C  256 bytes  [done]</title></rect>
+<rect x="124.62" y="496.80" width="12.87" height="10.20" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>ApplyTimedPlayerTransformation | sub_0806FE1C | confirmed  0x0806FE1C  256 bytes  [done]</title></rect>
 <rect x="137.49" y="472.74" width="13.09" height="8.93" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>CalculateRandomizedAbilityDamage | sub_08068F9C | confirmed  0x08068F9C  228 bytes  [done]</title></rect>
 <rect x="150.58" y="472.74" width="11.94" height="8.93" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08069AEC | sub_08069AEC | unidentified  0x08069AEC  208 bytes  [done]</title></rect>
 <rect x="137.49" y="481.67" width="9.97" height="9.67" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>StartFixedPositionStatusEffectTask | sub_08069A30 | confirmed  0x08069A30  188 bytes  [done]</title></rect>
