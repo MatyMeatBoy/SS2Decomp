@@ -1966,6 +1966,7 @@ static inline s32 minus923FC(u16 v, s16 s) { return v - s; }
 void sub_080923FC_u8(u32,u32) asm("sub_080923FC");
 void sub_080923FC_u8(u32 arg0, u32 arg1) {
     struct Anim923FC a, b;
+    u32 *descriptorMember096;
     struct OffsetCache923FC { u16 x0, y0, x1, y1; };
     extern struct OffsetCache923FC offsetFields923FC asm("gUnk_03001250");
     s32 xs[11], ys[11];
@@ -2088,7 +2089,7 @@ void sub_080923FC_u8(u32 arg0, u32 arg1) {
             if (!BUSY923FC()) {
                 sub_08000AF0(0x10, a.fC + 0xE0, 1);
                 draw923FC((s16)x, (s16)y, 0, 0, param, a.payload, a.f8, a.f0);
-                sub_08000AF0(0x11, b.fC + 0x100, 1);
+                sub_08000AF0(0x11, (*(descriptorMember096 = &b.fC)) + 0x100, 1);
                 i = 0;
                 do {
                     ys[i] -= 0x100;
