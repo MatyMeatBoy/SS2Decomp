@@ -565,3 +565,16 @@ The hit callback invokes its processor once before abort testing and ignores the
 The five parallax callbacks distinguish source positions from display offsets, preserve machine-width accumulation and truncation, and loop indefinitely while yielding. Signed modulo 320 and masking with 511 differ for negative coordinates. The modulo callback's extra stores change cached tile-row values, which the renderer may subsequently overwrite; they do not prove a menu-layout or map-dimension change. Its name was narrowed accordingly.
 
 Frozen originals, exact peer corrections and explicit numeric-unit clarifications remain preserved privately. The coordinator read all ten original bodies, matched C and relevant consumer witnesses; a separate reviewer approved the corrected semantics. Complete ranges match the EUR ROM and linked ELF. Canonical symbols, code, data, claims and generated progress reports remain unchanged.
+
+
+## Worker A05: allied buffs, transformation and persistent hits
+
+Five previously unidentified EUR functions were reviewed against complete matched C bodies, original instruction witnesses and functional consumers pinned at `8bbfb589bf6ab55018ae7e465fc0e674879c81fa`. Three handlers write resistance, four-attribute and combat-bonus effects. Their update thresholds, source replacement and local/remote recipient paths differ; visual startup does not establish effect capacity or successful application.
+
+The consumer chooses the source's base class at halfword `+0x0C`, whereas the producers test graphic class `+0x64`. No invariant equating these fields is assumed. The resistance consumer adds one signed scalar at effect `+0x1C` to all six resistances; the fact that the producer fills six fields does not prove six independent consumer values. Timer and source-flag conditions still govern whether a written effect contributes.
+
+The transformation handler reuses an effect-slot selector, not a heap allocator. The selector accepts timer minus one or a compatible minus-two record; it need not return a wholly unused slot. The form record's consumer establishes transformed graphics, palette and attributes, without proving any particular named spell or completed rendering.
+
+The persistent player-centered hit callback preserves the original termination polarities, up to 180 completed body iterations and early paths that do not yield. Local cancellation calls the cleanup helper twice through its shared exit; insufficient enemy resource returns before that cleanup. Uninitialized enemy-path state and unchecked owner domains remain explicit limits, rather than being repaired in the naming evidence.
+
+Worker originals and exact peer corrections remain frozen privately. The coordinator independently read the five full matched bodies and relevant original consumer/control-flow witnesses; a separate reviewer approved the corrected semantics. Complete configured ranges equal the EUR ROM and linked ELF. Canonical symbols, code, data, claims and generated progress files remain unchanged.
