@@ -95,6 +95,12 @@ Recheck ownership before resuming after an interruption.
 
 ## Deliver small, verified pull requests
 
+The full remote CI suite runs for pull requests and pushes to the integration
+branch. Worker-branch pushes without a PR rely on the local hooks; open a PR to
+request remote checks. Standalone shard-claim and naming/region reservation
+pushes do not launch the suite. Updates to an open PR still run its checks,
+including empty or metadata commits; reopening a PR also runs them again.
+
 For difficult functions, use [the focused experiment and region workflow](HARD_FUNCTIONS.md).
 Several workers can prepare region candidates beneath one owner using atomic
 reservations. Read the frozen contract first; only the owner edits production C.
