@@ -55,6 +55,22 @@ Use `permute.py` for small differences, initially 300 seconds. Its unchanged
 control must reproduce the normal object. If it fails, diagnose preprocessing,
 helper removal or AST reprinting; do not routinely bypass it with
 `--allow-control-diff`.
+
+An identical compiled control does not prove the engine can randomize its AST.
+For randomized searches, `permute.py` also writes `randomization-control.json`
+and rejects shared AST nodes before starting workers. Finite templates without
+randomization do not need this indexing check. Some comma declarations of named struct types
+share a parser node: split them into separate declarations in the search input
+and repeat the complete normal-object control. Preserve any `PERM_*` regions or
+alternatives when preparing a new input; do not bypass the indexer assertion.
+
+The bundled temporary-expression pass cannot handle standalone local struct or
+enum declarations. For such baselines the wrapper explicitly disables only
+`perm_temp_for_expr` in the generated search settings and records that decision.
+It does not change candidate C, compiler flags or other weights. This baseline
+preflight does not guarantee every later mutation succeeds. Engine diagnostics
+are unbuffered so a timeout cannot silently discard an internal failure; inspect
+actual iteration/error counts when using a direct engine command with progress.
 `permute.py` freezes inline helper definitions and their storage qualifiers while
 randomizing the requested function. Keep those helpers and the actual callee
 prototypes in the candidate; an implicit declaration can change argument
