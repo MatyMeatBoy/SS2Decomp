@@ -602,3 +602,14 @@ Retargeting can follow segment cancellation or timeout, and the selector exclude
 The homing callback's cooldown decrements a halfword and tests the old value's bit fifteen; zero therefore becomes `0xFFFF` for one completed iteration before resetting. Its animation index is the narrowed level minus one, replaced with zero when bit fifteen is set, rather than an unsigned maximum. Hit-budget and level domains remain unchecked. Two callbacks have no unconditional remote-player serial increment at their epilogues; conditional increments inside hit processing are recorded separately.
 
 Frozen worker originals, exact peer corrections and the final animation-index overlay remain preserved privately. The coordinator read all five full matched bodies, the target-selector consumer and original instructions for the corrected arithmetic and epilogues. Independent semantic review covers the corrected candidates. Complete configured ranges equal the EUR ROM and linked ELF. Canonical symbols, code, data, claims and generated progress files remain unchanged.
+
+
+## Worker B06: menu previews, dialogue and scene exits
+
+Five previously unidentified EUR identities were reviewed against complete matched C bodies, selected original instruction paths and pertinent consumers at `8bbfb589bf6ab55018ae7e465fc0e674879c81fa`. The player-stat preview draws twelve signed comparisons without equipping its candidate. Its status-builder call can update auxiliary player fields, so a general claim of no side effects was removed. The localized equipment summary traverses six references and three modifiers, retaining gaps in modifier layout indices.
+
+The message dialog keeps its name-stream cursor across repeated encoded `FC` tokens rather than resetting for each occurrence. Its input can already be asserted when acknowledgment begins; suspend/error exits clear the manager bit and skip normal slide-out. Local buffer capacity, finite acknowledgment time and input debouncing are not inferred.
+
+The ordered three-item subtype classifier selects output tables in the item-combination consumer. This establishes its functional role without assigning unproved material names to kind nine or its subtype values. The three-entry scene-exit helper requests transition mode three, prepares destination fields and returns one; neither screen-window hiding nor subsequent scene-load completion follows from that return alone.
+
+Frozen originals and exact peer/root wording corrections remain preserved privately. The coordinator read all five matched bodies, the combination consumer and original parser/transition witnesses. Independent semantic review approved the corrected meanings. Complete configured ranges equal the EUR ROM and linked ELF. Canonical symbols, code, data, claims and generated progress files remain unchanged.

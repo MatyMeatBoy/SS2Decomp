@@ -22651,6 +22651,111 @@
           "detail": "Ability dispatcher7386C selects this complete body for ability kind4. This corroborates task execution role, not the displayed in-game spell name. Complete original configured body is preserved in cohort-a06-original-proof.txt; resource constants are not treated as named skill proof."
         }
       ]
+    },
+    {
+      "address": "0x080811E0",
+      "canonical_symbol": "sub_080811E0",
+      "display_name": "DrawItemMenuPlayerStatPreview",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_0807A5D4.c",
+          "line": 3933,
+          "revision": "8bbfb589bf6ab55018ae7e465fc0e674879c81fa",
+          "detail": "r0 player pointer. Uses item-menu current-pointer+0xF0 if manager state+0x1C=22, otherwise held record+0xF4. Calls0x0801BA74 with player, selected record (or null), two stack outputs and save-state+0x30. Item kinds2..5 use null when byte+8 is nonzero; kind1 uses null then increments output base-stat halfword for subtype8/9/10/11 at offsets0/2/6/4. Other kinds pass record unchanged. Draws12 signed-halfword preview values against player fields+0x58/+0x5A,+0x7C..+0x86,+0x38/+0x3E/+0x3C/+0x3A with color2 if greater,1 if less,0 if equal using0x0805FB7C. Does not equip the candidate item or establish semantics for unsupported item kinds. Complete original configured body audited against ROM; copied verified-main ELF static equality, no local build or runtime test."
+        },
+        {
+          "source": "src/code_0807A5D4.c",
+          "line": 3933,
+          "revision": "8bbfb589bf6ab55018ae7e465fc0e674879c81fa",
+          "detail": "Independent names-low-a review: Accepted. Full original confirms signed-halfword stat comparisons. The routine draws the candidate comparison without equipping it; its status-builder call can modify auxiliary player fields, so no general absence of side effects is claimed. Null/item ABI and subtype increments match input; no equipment application is performed."
+        }
+      ]
+    },
+    {
+      "address": "0x08082960",
+      "canonical_symbol": "sub_08082960",
+      "display_name": "DrawLocalizedEquipmentSetSummary",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_0807A5D4.c",
+          "line": 4938,
+          "revision": "8bbfb589bf6ab55018ae7e465fc0e674879c81fa",
+          "detail": "r0 record pointer; null returns with no drawing. Draws title resource0x1403EC at row3, localized record name selected by global0x03003470 (31 halfwords per language), truncating each character to byte, ending at low-byte zero or after31 characters then0xFD. Draws six available equipment references at record+0x136, omitting high-bit0x8000 entries; slot-to-item-kind mapping2,4,3,5,6,7, centered icon row with manager animation offsets. Scans three4-byte modifiers at+0x144, excluding type0/41, selects positive/negative text resource from signed value bit15, draws absolute u16 magnitude via0x08081518 with layout based on total valid modifiers. No language/record-size checks or item ownership changes. Complete original configured body audited against ROM; copied verified-main ELF static equality, no local build or runtime test."
+        },
+        {
+          "source": "src/code_0807A5D4.c",
+          "line": 4938,
+          "revision": "8bbfb589bf6ab55018ae7e465fc0e674879c81fa",
+          "detail": "Independent names-low-a review: Accepted. Six references and three modifiers are independently traversed. Modifier layout uses total valid count but original slot index, so gaps are preserved. Low-byte localized-name terminator and signed magnitude conversion match original."
+        }
+      ]
+    },
+    {
+      "address": "0x0808381C",
+      "canonical_symbol": "sub_0808381C",
+      "display_name": "RunItemMenuMessageDialog",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_0807A5D4.c",
+          "line": 5651,
+          "revision": "8bbfb589bf6ab55018ae7e465fc0e674879c81fa",
+          "detail": "Full-word r0 indexes sprite/message tables0x084ECBDC/0x084ECC04 without bounds check. Initializes local descriptor, picks palette source variant for indices3/4/9, sets manager word+0x28 bit1. Expands message byte0xFC from save-state name stream at0x030034E0 into local32-byte buffer with u16 indices; no capacity checks. Slides descriptor to(240,136), reveals text progressively centered on row18, then waits for input halfword0x03001324 bit0 while blinking0xA0 marker. On acknowledgement plays song15 and slides away, yielding throughout. Suspend-request or link-error exits skip animation; all exits clear manager bit1. Does not claim debounce, exact input-newness or explicit text erase. Complete original configured body audited against ROM; copied verified-main ELF static equality, no local build or runtime test."
+        },
+        {
+          "source": "src/code_0807A5D4.c",
+          "line": 5651,
+          "revision": "8bbfb589bf6ab55018ae7e465fc0e674879c81fa",
+          "detail": "Independent names-low-a review: Accepted with precision addition: FC expansion retains its dictionary offset across FC occurrences; it is initialized once, not reset at each token. Source stays on FC until the next dictionary byte is FD. Input bit0 can acknowledge immediately; abort exits clear manager bit1 and skip normal slide-out."
+        }
+      ]
+    },
+    {
+      "address": "0x08084200",
+      "canonical_symbol": "sub_08084200",
+      "display_name": "ClassifyThreeItemSubtypePattern",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_0807A5D4.c",
+          "line": 6419,
+          "revision": "8bbfb589bf6ab55018ae7e465fc0e674879c81fa",
+          "detail": "r0 points to three16-byte item records. Requires unsigned kind halfwords at+0/+16/+32 all9 or returns0. Reads subtype halfwords+2/+18/+34 and returns a pure ordered-pattern code:000=>1,222=>2,111=>3, all-distinct0..2=>4;020/101/010/121/212/202=>5..10;002/110/001/112/221/220/200/011/100/211/122/022=>11..22;333=>23,444=>24. Everything else returns0, including mixed3/4. No side effects, RNG or validation of pointed storage. Does not guess material names for kind9 or subtype values. Complete original configured body audited against ROM; copied verified-main ELF static equality, no local build or runtime test."
+        },
+        {
+          "source": "src/code_0807A5D4.c",
+          "line": 6419,
+          "revision": "8bbfb589bf6ab55018ae7e465fc0e674879c81fa",
+          "detail": "Independent names-low-a review: Accepted only with semantic consumer closure: matched sub_0808441C uses the classification to select item-combination output kind/subtype tables, after zero fallback and RNG/tier handling. Pure pattern format alone would not justify a semantic identity. No material identities inferred."
+        }
+      ]
+    },
+    {
+      "address": "0x08088B6C",
+      "canonical_symbol": "sub_08088B6C",
+      "display_name": "TryTriggerThreeEntrySceneExit",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08087CC0.c",
+          "line": 457,
+          "revision": "8bbfb589bf6ab55018ae7e465fc0e674879c81fa",
+          "detail": "r0 route table; full-word r1 destination-entry selector written as u16. Gets local player, reads signed32 fixed positions+0x8C/+0x90 shifted11. Tests indices1..3 of8-byte exit records following table+4+u16(scene+0x36)*0x24, requiring horizontal distance<=1 and exact y, both record coordinates unsigned16. First match sets local-player flag22 via0x08015ED4, requests transition mode3 through0801ABE8, flushes/awaits transition with yields, then writes destination selector+0x36, destination scene u16+2, resource pointer from table0x084F0AC0[destination] into+0x71C, clears halfwords+0x10/+0x1C and returns1. No match returns0 with no transition. No table/destination bounds checks; return1 means transition fields prepared, not subsequent scene loaded. Complete original configured body audited against ROM; copied verified-main ELF static equality, no local build or runtime test."
+        },
+        {
+          "source": "src/code_08087CC0.c",
+          "line": 457,
+          "revision": "8bbfb589bf6ab55018ae7e465fc0e674879c81fa",
+          "detail": "Independent names-low-a review: Accepted. Original tests three exits, sets player flags-word bit22, waits transition, then prepares destination state. Original requests transition mode3 via0801ABE8, without establishing screen-window hiding; return1 is not scene-load completion."
+        }
+      ]
     }
   ]
 }
