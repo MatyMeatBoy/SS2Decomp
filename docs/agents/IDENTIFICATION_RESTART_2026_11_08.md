@@ -853,3 +853,12 @@ Three previously unidentified EUR functions now have names for the castle-to-Wor
 The castle prompt selects movement animations and may rearm its rectangle trigger with an unchecked allocation; it does not itself delete castle items or request a map change. The death helper starts a thirty-count removal sequence for five active slots carrying its hold flag, without checking HP. Its updater decrements the timer regardless of guarded drawing, and tests the predecrement mask 0x2. The cited cutscene caller's scene-stop flag forces continued waiting rather than bypassing that wait.
 
 Layout selection uses unchecked record IDs, counts and area indices; the authority predicate is not equated with player zero. Queue acceptance and barrier helpers do not establish universally reliable peer transport. Only the catalog and this journal change. Prior rows, metadata, canonical symbols, matching code, data, claims and generated progress remain unchanged. Frozen receipts and exact root/peer precision overlays remain private.
+
+
+## Scene task cancellation and object-damage records
+
+Two previously unidentified EUR helpers now have names for cancelling shared scene task pools and appending scene-object damage records. The coordinator read both complete matched bodies and original ranges, the local damage caller, packet producer and relevant receive case. Nine complete configured ranges equal the EUR ROM and linked ELF. Independent review corroborates the scheduler cleanup and the tag-0x94 dispatch into the object-damage receiver, without extending the audit to unrelated receive cases.
+
+Cancellation scans two thirty-task pools and fifteen actor tasks. Its third loop compares a stale pointer left at the previous pool end against the current task, so it does not universally protect the current actor task or guarantee complete cleanup. The damage helper appends at most eleven four-byte records, narrowing amount to sixteen bits and object/class values to eight. Its caller has already written local HP and a zero-extended class through halfword stores before appending; a full record buffer does not roll back that damage.
+
+The packet producer and remote receiver corroborate object-damage semantics; they do not establish delivery, acknowledgement, replay protection or bounds safety. Only the catalog and this English journal change. Existing rows, metadata and canonical symbols remain intact; matching code, data, shard claims and generated progress are unchanged. Frozen precision overlays and independent receipts remain private.
