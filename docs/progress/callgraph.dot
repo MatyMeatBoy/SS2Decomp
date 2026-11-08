@@ -117,7 +117,7 @@ digraph calls {
   "sub_08006544" [label="ReleasePaletteDimmingHold"];
   "sub_08006550" [label="StartPaletteDimmingHoldTask"];
   "sub_080065B0" [label="StartSavedCharacterSelectionTask"];
-  "sub_080065FC" [label="sub_080065FC"];
+  "sub_080065FC" [label="StartCharacterSetupAndNameEntryTask"];
   "sub_0800663C" [label="sub_0800663C"];
   "sub_08006694" [label="ApplyCharacterMenuVerticalScroll"];
   "sub_080066A8" [label="ApplyCharacterMenuHorizontalScroll"];
@@ -318,7 +318,7 @@ digraph calls {
   "sub_08013CEC" [label="sub_08013CEC"];
   "sub_08013E90" [label="sub_08013E90"];
   "sub_080140AC" [label="sub_080140AC"];
-  "sub_08014170" [label="hud14170"];
+  "sub_08014170" [label="TaskPlayerStatusHud"];
   "sub_08014B28" [label="sub_08014B28"];
   "sub_08014C04" [label="sub_08014C04"];
   "sub_08014C8C" [label="sub_08014C8C"];
@@ -351,7 +351,7 @@ digraph calls {
   "sub_08015D98" [label="ClearLocalPlayerFlagBit12"];
   "sub_08015DC0" [label="DampValueTowardZero"];
   "sub_08015DE0" [label="ApproachTargetByHalfStep"];
-  "sub_08015E00" [label="sub_08015E00"];
+  "sub_08015E00" [label="StartPlayerStatusHudTask"];
   "sub_08015E3C" [label="DeductPlayerEnergyTierCost"];
   "sub_08015E84" [label="FindHighestAffordablePlayerEnergyTier"];
   "sub_08015ED4" [label="SetLocalPlayerFlagBit22"];
@@ -417,7 +417,7 @@ digraph calls {
   "sub_0801A638" [label="CountRenderableScriptGlyphs"];
   "sub_0801A650" [label="sub_0801A650"];
   "sub_0801A664" [label="MarkAndQueueTextTilemapRows"];
-  "sub_0801A6D4" [label="sub_0801A6D4"];
+  "sub_0801A6D4" [label="LoadMenuSpritePaletteVariant"];
   "sub_0801A70C" [label="InitTextFontResources"];
   "sub_0801A764" [label="DrawScriptGlyphStringAsSprites"];
   "sub_0801A7AC" [label="TaskScreenBrightnessAndWindowTransitions"];
@@ -435,8 +435,8 @@ digraph calls {
   "sub_0801ACB8" [label="InitializeNewCharacterStatsAndItems"];
   "sub_0801B264" [label="sub_0801B264"];
   "sub_0801B58C" [label="sub_0801B58C"];
-  "sub_0801B6F4" [label="sub_0801B6F4"];
-  "sub_0801B720" [label="sub_0801B720"];
+  "sub_0801B6F4" [label="AddToSixHalfwordValues"];
+  "sub_0801B720" [label="SubtractFromSixHalfwordValues"];
   "sub_0801B74C" [label="sub_0801B74C"];
   "sub_0801B8A8" [label="sub_0801B8A8"];
   "sub_0801BA74" [label="BA74_StatsCalc"];
@@ -557,7 +557,7 @@ digraph calls {
   "sub_080267DC" [label="sub_080267DC"];
   "sub_08026858" [label="sub_08026858"];
   "sub_08026C54" [label="sub_08026C54"];
-  "sub_08026CD0" [label="t025Select"];
+  "sub_08026CD0" [label="SelectSceneMapAreaDestination"];
   "sub_0802704C" [label="sub_0802704C"];
   "sub_080277E0" [label="sub_080277E0"];
   "sub_08027B50" [label="sub_08027B50"];
@@ -848,7 +848,7 @@ digraph calls {
   "sub_08056F78" [label="sub_08056F78"];
   "sub_08056F8C" [label="sub_08056F8C"];
   "sub_08056FA4" [label="sub_08056FA4"];
-  "sub_08056FB8" [label="sub_08056FB8"];
+  "sub_08056FB8" [label="SelectSceneMapAreaDestinationWithWindowHide"];
   "sub_08056FCC" [label="sub_08056FCC"];
   "sub_08056FE0" [label="sub_08056FE0"];
   "sub_08056FF8" [label="sub_08056FF8"];
@@ -879,7 +879,7 @@ digraph calls {
   "sub_080575C0" [label="ShowSceneMessageAndWait"];
   "sub_08057624" [label="WaitSignal1RepeatedUnlessLinkError"];
   "sub_08057644" [label="sub_08057644"];
-  "sub_0805768C" [label="sub_0805768C"];
+  "sub_0805768C" [label="RequestScreenWindowHideAndWait"];
   "sub_080576A8" [label="FadeScreenBrightnessInAndWait"];
   "sub_080576C4" [label="FadeScreenBrightnessOutAndWait"];
   "sub_080576E0" [label="GetLocalPlayerId"];
@@ -1561,8 +1561,8 @@ digraph calls {
   "sub_08091B5C" [label="sub_08091B5C"];
   "sub_08091CF8" [label="sub_08091CF8"];
   "sub_08091E94" [label="sub_08091E94"];
-  "sub_08091F20" [label="sub_08091F20"];
-  "sub_08091F9C" [label="sub_08091F9C"];
+  "sub_08091F20" [label="AppendThreeDigitGlyphNumber"];
+  "sub_08091F9C" [label="EncodeMenuTextAsGlyphBytes"];
   "sub_08092080" [label="IsStartupButtonSequenceComplete"];
   "sub_08092094" [label="ResetStartupButtonSequenceProgress"];
   "sub_080920A0" [label="UpdateStartupButtonSequenceProgress"];
