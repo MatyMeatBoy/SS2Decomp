@@ -591,3 +591,14 @@ The player visibility callback advances its animation, sets local/remote-depende
 Original renderer branches establish that bit eighteen takes precedence over bit nineteen in one draw path, while another reached path tests bit nineteen before drawing/upload. The NONMATCHING renderer C is only a reading aid. Original action-byte bit-six and flag-origin witnesses were checked separately, and literal/data intervals from an initial unmapped window are explicitly excluded from instruction evidence. No unconditional invisibility rule is inferred across all render paths.
 
 Frozen originals, exact status/offset/visibility corrections, static glyph and ROM/ELF receipts remain preserved privately. The coordinator read the four complete original bodies, matched C and pertinent consumer paths; independent semantic review approved the corrected rows. Canonical symbols, code, data, claims and generated progress files remain unchanged.
+
+
+## Worker A06: projectile and staggered ability callbacks
+
+Five previously unidentified EUR identities were reviewed against complete matched C bodies and original control-flow witnesses at `8bbfb589bf6ab55018ae7e465fc0e674879c81fa`. They distinguish straight flight, straight segments with retargeting between segments, conditional impact-task startup, staggered cone effects and a multi-hit homing projectile. No spell title or completed damage is inferred from the resource number or an attempted hit.
+
+Retargeting can follow segment cancellation or timeout, and the selector excludes the prior ID only in its enemy scan. The straight impact callback starts its impact task only after a qualifying trigger; timeout alone does not start it. The staggered callback's empty-target animation path lacks the cancellation checks used by its populated-target path.
+
+The homing callback's cooldown decrements a halfword and tests the old value's bit fifteen; zero therefore becomes `0xFFFF` for one completed iteration before resetting. Its animation index is the narrowed level minus one, replaced with zero when bit fifteen is set, rather than an unsigned maximum. Hit-budget and level domains remain unchecked. Two callbacks have no unconditional remote-player serial increment at their epilogues; conditional increments inside hit processing are recorded separately.
+
+Frozen worker originals, exact peer corrections and the final animation-index overlay remain preserved privately. The coordinator read all five full matched bodies, the target-selector consumer and original instructions for the corrected arithmetic and epilogues. Independent semantic review covers the corrected candidates. Complete configured ranges equal the EUR ROM and linked ELF. Canonical symbols, code, data, claims and generated progress files remain unchanged.

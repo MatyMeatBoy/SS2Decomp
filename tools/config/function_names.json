@@ -22546,6 +22546,111 @@
           "detail": "Complete original 080756EC..08075778 reviewed. ABI r0 player index; finds first free bit0..15 in 030063E0[player], allocates0x400 stack, writes task at 030063B0[player]+slot*0x28, priority0x34, callback08075521, top stack+0x3FC and zero finalizer, starts with r1 player/r2 slot then marks busy only after scheduler registration. Returns when all16 slots busy or allocation fails (null is stored at task+0x20 first). No owner bound check, independent scheduler-membership guard, wait or return success promise. Callback performs the independently anchored vanish/visibility behavior."
         }
       ]
+    },
+    {
+      "address": "0x08069C44",
+      "canonical_symbol": "sub_08069C44",
+      "display_name": "RunStraightAbilityProjectile",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08068670.c",
+          "line": 1128,
+          "revision": "8bbfb589bf6ab55018ae7e465fc0e674879c81fa",
+          "detail": "Enemy windup waits halfword+6A>=byte+0x22B; during wait aborts56E90nonzero,BA6C0,state10/11. Saves player+DC serial and restores it each local-player flight tick. Resolves target ID but flight direction remains owner facing from0847AD0A; does not steer toward target. Initial position owner packed sprite or enemy x/y, advances4*sine before flight then2*sine per tick. Sprite resource50049 for levels<=5 or50048 otherwise; animation group from decremented level and direction. u16 timeout=level*8+20. Each tick ends on local state11/12/D11C,BA6C0,56E90nonzero,68A00nonzero with original level0,or local1FB14nonzero using0x80008box and signed randomized damage. Terrain low-nibble nonzero with mask0x10 clear starts69A30(kind1) at projectile position and exits. Otherwise animates/renders with flags/gates/frame parity and yields. Target resolution failure does not prevent straight flight. Entry r0 is six-word ability descriptor: owner+0 and maskbit+4 are32bit, target reads low16+8 (except explicit full-word target-domain tests noted), kind/costindex+0xC and level-cost argument+0x14 are32bit; operational level truncates16. Local owner pays u16(6898C(kind,fullLevel)-1) from player+C2, then clamps signed16-negative result0. Enemy owner>3 uses enemy-base+(owner-4)*0x2E0 and signed table cost at084EBF1C+kind*24+6+2*operationalLevel from enemy+5E; insufficient signed16 balance clears slot bit,zeros balance and returns. Remote player does not pay here. Mask bit is cleared on normal and explicit early exits; normal remote-player path increments player+DC attack serial. Pointer/index/level validity and cost-table bounds are not checked; waits/animation calls do not prove gameplay completion. Static original ROM/supplied verified-main ELF equality only; no worker build/runtime testing."
+        },
+        {
+          "source": "src/code_08068670.c",
+          "line": 6132,
+          "revision": "8bbfb589bf6ab55018ae7e465fc0e674879c81fa",
+          "detail": "Ability dispatcher7386C selects this complete body for ability kind1. This corroborates task execution role, not the displayed in-game spell name. Complete original configured body is preserved in cohort-a06-original-proof.txt; resource constants are not treated as named skill proof."
+        }
+      ]
+    },
+    {
+      "address": "0x0806A19C",
+      "canonical_symbol": "sub_0806A19C",
+      "display_name": "RunRetargetingSegmentAbilityProjectile",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08068670.c",
+          "line": 1272,
+          "revision": "8bbfb589bf6ab55018ae7e465fc0e674879c81fa",
+          "detail": "Enemy windup and local/enemy payment as common. Begins ahead of owner at4*sine. Each segment reinitializes sprite50091 for remaining level<=5 else5008E; resolves current target (player IDs or active enemy ID halfword+2), computes one ArcTan2 aim angle at SEGMENT START and then flies straight at2*sine/tick. Invalid targetFFFF preserves prior direction. Segment u16timeout=remaining*8+20; ends on68A00 bit1 set, local1FB14nonzero,timeout,BA6C0,56E90nonzero or localstate11/12/D11C. Terrain low-nibble/mask0x10 clear immediately spawns69A30(kind2) and goes to final exit. Other segment exits, INCLUDING cancellation/timeout/global gates, can decrement remaining level, overwrite descriptor fullword+14 with decremented low16 value and call7A040 to select another target (prior ID exclusion is applied to enemy candidates only); target!=FF restarts another segment. Thus not continuously homing and no claim retarget occurs only on hits. No new cost per segment. Out-of-range lowlevel can underflow animation-group arithmetic. Entry r0 is six-word ability descriptor: owner+0 and maskbit+4 are32bit, target reads low16+8 (except explicit full-word target-domain tests noted), kind/costindex+0xC and level-cost argument+0x14 are32bit; operational level truncates16. Local owner pays u16(6898C(kind,fullLevel)-1) from player+C2, then clamps signed16-negative result0. Enemy owner>3 uses enemy-base+(owner-4)*0x2E0 and signed table cost at084EBF1C+kind*24+6+2*operationalLevel from enemy+5E; insufficient signed16 balance clears slot bit,zeros balance and returns. Remote player does not pay here. Mask bit is cleared on normal and explicit early exits; normal remote-player path increments player+DC attack serial. Pointer/index/level validity and cost-table bounds are not checked; waits/animation calls do not prove gameplay completion. Static original ROM/supplied verified-main ELF equality only; no worker build/runtime testing. Independent consumer74398, reached through7A040 with range0x7FFFFFFF, first considers opposing nonzero-team players whenCF80 nonzero; that player scan excludes self INDEX but does not compare candidate ID to prior excluded ID. Enemy scan excludes prior ID, state11, zero signed HP+5C or zero active+1DC. Distances are Sqrt results narrowed u16, strict less-than best/range; ties keep earlier index. Therefore no guarantee of a different target or successful segment after cancellation. No role naming the target selector itself is proposed."
+        },
+        {
+          "source": "src/code_08068670.c",
+          "line": 6135,
+          "revision": "8bbfb589bf6ab55018ae7e465fc0e674879c81fa",
+          "detail": "Ability dispatcher7386C selects this complete body for ability kind2. This corroborates task execution role, not the displayed in-game spell name. Complete original configured body is preserved in cohort-a06-original-proof.txt; resource constants are not treated as named skill proof."
+        }
+      ]
+    },
+    {
+      "address": "0x0806ABC0",
+      "canonical_symbol": "sub_0806ABC0",
+      "display_name": "RunStraightAbilityProjectileWithImpactTask",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08068670.c",
+          "line": 1569,
+          "revision": "8bbfb589bf6ab55018ae7e465fc0e674879c81fa",
+          "detail": "Resolves input target ID to establish player/enemy domain; owner-facing direction stays fixed. Enemy windup waits+6A>=+22B with abort checks. Starts4*sine ahead, moves2*sine/tick; sprite50051(level<=4),50054(<=6),5005F(other), animation groups use level-1/-5/-7, u16timeout=originalLevel*8+20 and square hit radius084EC17C[descriptor FULLword+14]. Rather than calling68A00 during flight, scans eligible active enemies or opponent players within strict radius on each axis and checks state/attack history and authority; remote-player enemy encounters may write enemy owner+58 without triggering local impact. Local1FB14 or blocking terrain also triggers impact; terrain additionally69A30(kind13). If trigger occurs, advances one extra2*sine step and starts79ED0(descriptor,x,y), which copies descriptor for one-time hit processing+animation. Timeout,BA6C0 or localstate11/12/D11C exit WITHOUT impact. Enemy-authority candidate check reads player-base/serial register not initialized on enemy path, so safe enemy-owner contract is not established. Entry r0 is six-word ability descriptor: owner+0 and maskbit+4 are32bit, target reads low16+8 (except explicit full-word target-domain tests noted), kind/costindex+0xC and level-cost argument+0x14 are32bit; operational level truncates16. Local owner pays u16(6898C(kind,fullLevel)-1) from player+C2, then clamps signed16-negative result0. Enemy owner>3 uses enemy-base+(owner-4)*0x2E0 and signed table cost at084EBF1C+kind*24+6+2*operationalLevel from enemy+5E; insufficient signed16 balance clears slot bit,zeros balance and returns. Remote player does not pay here. Mask bit is cleared on normal and explicit early exits; normal remote-player path increments player+DC attack serial. Pointer/index/level validity and cost-table bounds are not checked; waits/animation calls do not prove gameplay completion. Static original ROM/supplied verified-main ELF equality only; no worker build/runtime testing."
+        },
+        {
+          "source": "src/code_08068670.c",
+          "line": 6204,
+          "revision": "8bbfb589bf6ab55018ae7e465fc0e674879c81fa",
+          "detail": "Ability dispatcher7386C selects this complete body for ability kind13. This corroborates task execution role, not the displayed in-game spell name. Complete original configured body is preserved in cohort-a06-original-proof.txt; resource constants are not treated as named skill proof."
+        }
+      ]
+    },
+    {
+      "address": "0x0806B3C4",
+      "canonical_symbol": "sub_0806B3C4",
+      "display_name": "RunStaggeredForwardConeAbility",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08068670.c",
+          "line": 1764,
+          "revision": "8bbfb589bf6ab55018ae7e465fc0e674879c81fa",
+          "detail": "Pays resource first, initializes five animation/frame slots and cumulative byte delays starting0 with RNG%20+10. Enemy windup waits+6A>=+22B with standard aborts. WhenCDF8zero, target FULLword+8<=3 selects eligible opponent player targets (nonzero team,sprite lowkind not10/11/14,bit5clear); else active enemy slots with state!=11 and active byte+1DCnonzero. Cone selection uses signed16 angle difference from owner-facing in32direction bins, subtract32 only when>16, abs<=5, and strict independent X/Y limits from084EC12C[low16originalLevel] BEFORE clamping display level<=6. Uses sprite50074. If none selected, animates at owner position+20*sine without applying hit, then requests69A30(kind3). Otherwise staggered target-following animations: on completion changes descriptor target word and calls694AC only on local target-player authority,local caster versus enemy,or enemy caster host-authority path; requests69A30(kind2) at target. Per-target finished markerF0 prevents reprocessing; effect completion,BA6C0,or localstate11/12/D11C end active loop. Player-owner final+B6 readiness wait is unbounded and still precedes slot clear. No target-count clamp inside arrays; exact named spell intentionally unresolved. Entry r0 is six-word ability descriptor: owner+0 and maskbit+4 are32bit, target reads low16+8 (except explicit full-word target-domain tests noted), kind/costindex+0xC and level-cost argument+0x14 are32bit; operational level truncates16. Local owner pays u16(6898C(kind,fullLevel)-1) from player+C2, then clamps signed16-negative result0. Enemy owner>3 uses enemy-base+(owner-4)*0x2E0 and signed table cost at084EBF1C+kind*24+6+2*operationalLevel from enemy+5E; insufficient signed16 balance clears slot bit,zeros balance and returns. Remote player does not pay here. Mask bit is cleared on normal and explicit early exits; this function has no unconditional normal-exit remote-player +DC serial increment. Pointer/index/level validity and cost-table bounds are not checked; waits/animation calls do not prove gameplay completion. Static original ROM/supplied verified-main ELF equality only; no worker build/runtime testing. FinalBDE0..BE1A waits player+B6 and clears owner slot without a serial increment. No-target animation loop does not checkBA6C/local cancellation; these checks govern the populated-target active loop only. A no-target loop may therefore remain active until its animation reports completion."
+        },
+        {
+          "source": "src/code_08068670.c",
+          "line": 6138,
+          "revision": "8bbfb589bf6ab55018ae7e465fc0e674879c81fa",
+          "detail": "Ability dispatcher7386C selects this complete body for ability kind3. This corroborates task execution role, not the displayed in-game spell name. Complete original configured body is preserved in cohort-a06-original-proof.txt; resource constants are not treated as named skill proof."
+        }
+      ]
+    },
+    {
+      "address": "0x0806BE24",
+      "canonical_symbol": "sub_0806BE24",
+      "display_name": "RunMultiHitHomingAbilityProjectile",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08068670.c",
+          "line": 1999,
+          "revision": "8bbfb589bf6ab55018ae7e465fc0e674879c81fa",
+          "detail": "Enemy windup differs: requires+6A>byte+0x22B, aborting standard wait gates/state10/11. Levels0..7 initialize hit budgets1,2,3,4,5,6,6,6 and lifetimes30,180,180,240,240,300,300,300; other levels leave hit budget uninitialized. Resolves current target by player ID or active enemy+2, invalid=>FFFF; start owner-facing position+5*sine. For player owner nonzero level forces+B2=1; then waits+B2==1, aborting state10 or game-state halfword+4 mask0x0002 clear (bit1). Sprite50097, animation index = u16(level-1), replaced with0 when bit15 is set. Each tick calls68A00 only when cooldown0; if nonzero and RESOLVED target state!=10, decrements hit budget and exits on0, otherwise increments owner serial and sets cooldown10. Cooldown then decrements with old bit15 conditional reset, so do not simplify this to an exact ten-tick rate. When target valid and cooldown0, turns by signed16(aim-current)/7 with angle wrap/maskFF; target state11 invalidates future target but this iteration still calculates aim. Terrain low-nibble/mask0x10 clear starts69A30(kind4) and exits; otherwise moves1*sine per tick,animates/draws,yields. Timeout,BA6C0,localstate11/12/D11C exit. Failed target lookup can still leave fallback pointer from last scanned slot used for state checks; no valid-target safety inferred. Entry r0 is six-word ability descriptor: owner+0 and maskbit+4 are32bit, target reads low16+8 (except explicit full-word target-domain tests noted), kind/costindex+0xC and level-cost argument+0x14 are32bit; operational level truncates16. Local owner pays u16(6898C(kind,fullLevel)-1) from player+C2, then clamps signed16-negative result0. Enemy owner>3 uses enemy-base+(owner-4)*0x2E0 and signed table cost at084EBF1C+kind*24+6+2*operationalLevel from enemy+5E; insufficient signed16 balance clears slot bit,zeros balance and returns. Remote player does not pay here. Mask bit is cleared on normal and explicit early exits; this function has no unconditional normal-exit remote-player +DC serial increment. Pointer/index/level validity and cost-table bounds are not checked; waits/animation calls do not prove gameplay completion. Static original ROM/supplied verified-main ELF equality only; no worker build/runtime testing. Exact cooldown recurrence from0806C2E4..0806C2FC: old=cool; cool=(old-1)&0xFFFF; if(old&0x8000) cool=0. Thus zero becomesFFFF for one completed iteration and resets on the next; setting10 immediately decrements to9. Serial increments occur only after a nonzero hit result with resolved-target state!=10 and a remaining nonzero decremented budget, atC294..C2A6 orC2CC..C2DE. FinalC530..C550 only clears owner slot and returns. Failed lookup does not suppress state-pointer use."
+        },
+        {
+          "source": "src/code_08068670.c",
+          "line": 6141,
+          "revision": "8bbfb589bf6ab55018ae7e465fc0e674879c81fa",
+          "detail": "Ability dispatcher7386C selects this complete body for ability kind4. This corroborates task execution role, not the displayed in-game spell name. Complete original configured body is preserved in cohort-a06-original-proof.txt; resource constants are not treated as named skill proof."
+        }
+      ]
     }
   ]
 }
