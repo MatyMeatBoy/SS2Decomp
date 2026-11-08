@@ -75,12 +75,12 @@
  "identification": {
   "game": {
    "total": 1880,
-   "identified": 917,
+   "identified": 922,
    "existing": 23,
-   "confirmed": 894,
+   "confirmed": 899,
    "proposed": 8,
-   "unidentified": 955,
-   "percent_identified": 48.776595744680854
+   "unidentified": 950,
+   "percent_identified": 49.04255319148936
   },
   "sdk": {
    "total": 155,
@@ -93,12 +93,12 @@
   },
   "all": {
    "total": 2035,
-   "identified": 1072,
+   "identified": 1077,
    "existing": 152,
-   "confirmed": 920,
+   "confirmed": 925,
    "proposed": 8,
-   "unidentified": 955,
-   "percent_identified": 52.67813267813268
+   "unidentified": 950,
+   "percent_identified": 52.923832923832926
   }
  },
  "data": {

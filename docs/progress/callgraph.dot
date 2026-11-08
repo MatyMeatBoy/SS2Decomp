@@ -1341,11 +1341,11 @@ digraph calls {
   "sub_08073EE8" [label="SelectLocalPlayerFacingConeTarget"];
   "sub_0807414C" [label="SelectPlayerFacingConeTarget"];
   "sub_08074398" [label="SelectTargetNearPoint"];
-  "sub_08074530" [label="sub_08074530"];
-  "sub_080746A4" [label="sub_080746A4"];
-  "sub_08074818" [label="sub_08074818"];
-  "sub_0807498C" [label="sub_0807498C"];
-  "sub_08074B00" [label="sub_08074B00"];
+  "sub_08074530" [label="AnimateEntityHealingActivation"];
+  "sub_080746A4" [label="AnimateEntityResistanceBuffActivation"];
+  "sub_08074818" [label="AnimateEntityCombatBonusBuffActivation"];
+  "sub_0807498C" [label="AnimateEntityFourAttributeBuffActivation"];
+  "sub_08074B00" [label="AnimateEntitySelfBuffActivation"];
   "sub_08074C74" [label="sub_08074C74"];
   "sub_08074DE8" [label="StartEntityAttachedAbilityVisual"];
   "sub_08075088" [label="RunThreeStaggeredForwardHitAnimations"];
