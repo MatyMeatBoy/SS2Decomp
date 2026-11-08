@@ -501,3 +501,12 @@ Five additional identities at `080579AC`, `080580EC`, `0805867C`, `08058818` and
 The class wrapper explicitly narrows to an unsigned byte, preserving the callee's class-8-to-6 normalization. Currency spending and song stopping forward incoming R0 even though their C declarations omit arguments. The spender can partially debit funds and provides no rollback or success result. The song target uses the low halfword and its original ID bound without clearing tracked music or adding a link guard. The Advanced Mode wrapper preserves the exact boolean; the RNG wrapper preserves all result bits and shared-state mutation. Trailing alignment halfwords are not executed operations.
 
 The `Wrapper` display-name suffix preserves the narrow role without implying an additional task phase, independent state, demonstrated caller or runtime reachability. Canonical symbols, compiler boundaries and source code are unchanged.
+
+
+## New research: area-exit approach and eight direction callbacks
+
+Nine EUR identities cover `0802413C`, `ApproachAndWaitAtAreaExit`, and the eight callbacks at `0805A60C..0805A660` that supply direction selectors 0 through 7. Original complete ranges and matched source at `4061d998` were independently reviewed. The ROM direction tuple `(4,7,8,9,12,15,0,1)` and actual parent registrations anchor the selector suffixes; no unproved compass labels are assigned.
+
+The common body requests local-player movement toward the trigger, marks/enqueues player flags, waits while inspecting gathering conditions and supports a guarded B-key retreat. It does not itself store the destination or commit the map transition; parent `245CC` handles those separately. Early manager-bit exits do not perform cancellation cleanup. The cancellation counter at original stack +0x18 has no entry initialization and may be read/incremented before a reset, so initial cancellation eligibility is not assumed deterministic. Enqueue requests and scheduler waits do not prove peer synchronization or exact elapsed duration.
+
+Independent review corrected the initial description of `03005CF0`: it is a global word cleared directly, not a pointer global. Source anchors were tightened to the actual movement helper and eight callback registrations; the original draft and exact correction overlay remain preserved privately. Complete ranges equal the verified EUR ROM and local linked ELF. Canonical symbols, boundaries, code and worker claims remain unchanged; no runtime or broad C-equivalence result is claimed.
