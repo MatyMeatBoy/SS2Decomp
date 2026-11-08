@@ -862,3 +862,12 @@ Two previously unidentified EUR helpers now have names for cancelling shared sce
 Cancellation scans two thirty-task pools and fifteen actor tasks. Its third loop compares a stale pointer left at the previous pool end against the current task, so it does not universally protect the current actor task or guarantee complete cleanup. The damage helper appends at most eleven four-byte records, narrowing amount to sixteen bits and object/class values to eight. Its caller has already written local HP and a zero-extended class through halfword stores before appending; a full record buffer does not roll back that damage.
 
 The packet producer and remote receiver corroborate object-damage semantics; they do not establish delivery, acknowledgement, replay protection or bounds safety. Only the catalog and this English journal change. Existing rows, metadata and canonical symbols remain intact; matching code, data, shard claims and generated progress are unchanged. Frozen precision overlays and independent receipts remain private.
+
+
+## Enemy attack contact processing
+
+One previously unidentified EUR function is named ProcessEnemyAttackContacts. Full matching source, original target routing, damage consumers and twelve complete configured ROM/ELF ranges support this role. Actor mode selects either five enemy targets under the concrete authority predicate or the local-player route. Pending damage and hit histories are distinguished from later HP consumption.
+
+Blocking uses draw < byte6E; retaliation uses a separate draw <= byte6F. Pending fields wrap as halfwords. Temporary direction and packet padding are not assumed initialized. Queue rejection or coalescing does not establish delivery per contact; failure does not roll back local pending damage.
+
+Only the naming catalog and this journal change. Canonical symbols, matching source, data, claims and generated reports remain intact. Static semantic evidence and independent review do not establish runtime coverage or equivalence of a NONMATCHING draft.

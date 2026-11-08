@@ -24720,6 +24720,39 @@
           "detail": "Read matching6690C tag-81 case13hex, its RxGs/record definitions, original dispatch66A26..66A36/table slot66A88 and complete critical case670F0..671A0. Tag94 resolves to670F0. For nonlocal peer, each four-byte record targets scene object at58C+24hex*index: HP at+10, class/flag halfword+12, state+14. Unless state11/12, subtracts unsigned16 amount with halfword wrap, then zeroes HP when resulting bit8000 set; writes byte flag zero-extended and state10. Count and target indices lack local bounds validation. This receiver closure corroborates record semantics, without proving transport delivery or replay protection. Own whole6690C plus critical ranges equal EUR ROM/ELF; no full semantic audit of other receiver cases claimed."
         }
       ]
+    },
+    {
+      "address": "0x08020680",
+      "canonical_symbol": "sub_08020680",
+      "display_name": "ProcessEnemyAttackContacts",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_0801E244.c",
+          "line": 1681,
+          "revision": "3a1faffc1563c337f2907d642e1502e741544f72",
+          "detail": "Complete matching body plus inline helpers and complete original20680..20D40 read. Enemy actor pointer; global guards, effective state2, excluded actor byte1FD values19/20decimal (0x13/0x14), optional animation-frame checks, and item attack-resource kind7 rejection precede collision work. Actor BYTE+201 mask0x2 selects a scan of five enemy slots requiring08002204()!=0, excluding self/inactive/state11..12/nonpositive pending-adjusted health/zero1DC targets and duplicate serial target54==attacker50. Item-attack-box test1F024 and signed-stat hit roll gate damage; writes pending4A/4C, hit state10, knockback/status fields, source58 and local-player attribution bit5A, requests hit-list enqueue660EC and damage display. This branch does not attack the local player. Independently read original02204: returns1 when030027D0 mask0x2 is clear, otherwise returns03002730 bit7; this is not equivalent to localplayerID0 and no host contract is asserted. Actor damage accumulation uses HALFWORD+4A with wrap and latest WORD+4C; HP+5C is consumed elsewhere."
+        },
+        {
+          "source": "src/code_0801E244.c",
+          "line": 1755,
+          "revision": "3a1faffc1563c337f2907d642e1502e741544f72",
+          "detail": "Other branch checks local-player flags/state/action gates and serial historyE4 indexed by attacker id, then collision and hit roll. Ordinary hit accumulates damage at player88, updates history/110, sets knockback/direction, rolls status and attempts stat growth/display. Block branch, selected only when byte6E nonzero and RNG0..99<byte6E, adds max(1,damage>>2) to player8A, updates history and requests a block visual. Optional retaliation requires byte6F nonzero and a fresh RNG0..99<=byte6F; queues damage-(damage>>2) to attacker4A/4C, with zero status/impulse/direction, attribution and hit-list request. Failed initial hit roll still writes history and requests sound0x55 through conditionally gated5865C. History/block cost precede retaliation gating; no unconditional reflection, immunity or repeated-contact eligibility claimed. Ordinary and block pending amounts at88/8A are HALFWORD additions with wrap. Blocking is not a guarantee of unchanged eventual HP:13BC0 later subtracts both pending fields. No frozen-time or once-per-call RNG result is assumed; hit, block and retaliation tests use distinct draws."
+        },
+        {
+          "source": "src/code_08017F7C.c",
+          "line": 224,
+          "revision": "3a1faffc1563c337f2907d642e1502e741544f72",
+          "detail": "Matched TaskUpdateAndRenderEnemyActor1801C calls20680 for the special228==FFFF path and again in attack state2 at source419. Full20680 original confirms enemy-sized2E0 target pool and local-player14C domain. Full matching item-box1F024/elemental-damage1EF14/player-damage1ED8C/status69388 and relevant damage consumers were read. Original19CE8 consumes actor pending4A intoHP5C;13BC0 consumes player88+8A intoHPC4, so this routine queues damage rather than directly subtracting those HP fields."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 1,
+          "revision": "3a1faffc1563c337f2907d642e1502e741544f72",
+          "detail": "Own complete20680 and nine caller/helper/consumer configured ranges equal EUR ROM and linked ELF. Normal-player temporary packet is not fully initialized before knockback helper: when impulse byte is nonzero, signed direction byte is read by1F320; playerD0 is explicitly overwritten afterward by attacker direction; do not assume zero ABI. Enemy/retaliation packet reserved upper halfword is not initialized before660EC can copy eight bytes. Enemy-target status helper receives attacker-id+4 and resistance pointerattacker+218, not inferred victim-id/resistance storage. Hit-roll denominator and actor/history/resource indices have no universal validation; enqueue return is ignored, no transport acknowledgement or actual status-growth guarantee. Static semantic evidence does not establish runtime coverage or equivalence of any NONMATCHING draft. Original660EC first rejects queuecount>49; otherwise coalesces a scheduled tag8A with same payloadbyte0 by adding amountHALFWORD and replacing direction/impulse bytes, retaining prior statusbyte1. Only a newly allocated queueentry copies all8 inputbytes, including the uninitialized reserved HALFWORD+6. Ignored enqueue failure does not roll back already accumulated local pendingdamage. No claim of one transport record per contact or initialized packet padding."
+        }
+      ]
     }
   ]
 }
