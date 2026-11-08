@@ -4890,11 +4890,9 @@ animationClassDoneD368:
                     temp_r1_60 = ((struct PlayerD368 *)arg0)->f30;
                     if (!(0x40000 & temp_r1_60)) {
                         if (!(0x80000 & temp_r1_60)) {
-                            if (temp_r1_60 & 0x2000) {
-                                if (d368_gUnk_03002344 & 1) {
-                                    d368_sub_08007870(coordF0, coordF2 - (sp118 >> 8), ((struct PlayerD368 *)arg0)->fB0, ((struct PlayerD368 *)arg0)->fB2, sp160, (&sp10.f1C), (sp10.f8), (sp10.f0));
-                                }
-                            } else {
+                            if (!(temp_r1_60 & 0x2000)) {
+                                d368_sub_08007870(coordF0, coordF2 - (sp118 >> 8), ((struct PlayerD368 *)arg0)->fB0, ((struct PlayerD368 *)arg0)->fB2, sp160, (&sp10.f1C), (sp10.f8), (sp10.f0));
+                            } else if (d368_gUnk_03002344 & 1) {
                                 d368_sub_08007870(coordF0, coordF2 - (sp118 >> 8), ((struct PlayerD368 *)arg0)->fB0, ((struct PlayerD368 *)arg0)->fB2, sp160, (&sp10.f1C), (sp10.f8), (sp10.f0));
                             }
                         }
