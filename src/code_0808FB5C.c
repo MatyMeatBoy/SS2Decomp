@@ -2154,7 +2154,7 @@ void sub_080923FC_u8(u32 arg0, u32 arg1) {
             draw923FC((s16)x, (s16)y, 0, 0, param, a.payload, a.f8, a.f0);
             {
                 s32 upper;
-                s16 clamp;
+                register s32 clamp asm("r3");
                 accum += 4;
                 offsetLo = &v923FC_252;
                 d = (s16)accum >> 8;
@@ -2165,6 +2165,7 @@ void sub_080923FC_u8(u32 arg0, u32 arg1) {
                 (*offsetHi) = upper;
                 lower = (s32)((u32)lower << 16);
                 clamp = lowerLimit >> 16;
+                asm("" : "+r"(clamp));
                 if (lower <= lowerLimit)
                     (*offsetLo) = clamp;
                 if ((s16)upper > 49)
@@ -2200,6 +2201,7 @@ void sub_080923FC_u8(u32 arg0, u32 arg1) {
     count = (s8)count0 * 2;
     sub_08092E28(6);
     for (round = 0; round < count; round++) {
+        register u32 remainingTimer096 asm("r3");
         i = 0;
         do {
             ys[i] = (abs((s16)(random923FC() % 120)) - 140) * 0x100;
@@ -2241,7 +2243,9 @@ void sub_080923FC_u8(u32 arg0, u32 arg1) {
             sub_080003F0();
             if (sub_080021A8() == 1)
                 goto end;
-        } while (timer != 0);
+            remainingTimer096 = timer;
+            asm("" : "+r"(remainingTimer096));
+        } while (remainingTimer096 != 0);
     }
 end:
     sub_0801ABE8(6);
