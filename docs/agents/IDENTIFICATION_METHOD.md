@@ -1,8 +1,9 @@
 # Function identification: method and restart guide
 
-Identification research is paused at the owner's request (2026-11-07). Matching
-EU functions takes priority. Resume this workflow after the matching push; do
-not consume pending proposals or increase the name count while research is held.
+Identification research resumed at the owner's request on 2026-11-08 in a
+separate naming checkout. Matching workers and their claims remain independent.
+The 2026-11-07 pause and its frozen artifacts below are historical checkpoints;
+reconcile them against the current catalog before consuming any candidate.
 
 ## Start from behavior and a canonical address
 
