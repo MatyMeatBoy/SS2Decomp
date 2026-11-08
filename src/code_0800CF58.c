@@ -3986,7 +3986,7 @@ retry63_1_done:
                             if (((struct PeerD368 *)temp_r1_45)->f1DC != 0) {
                                 ((struct PeerD368 *)temp_r1_45)->fC = 0xA;
                                 localDamageD368 = (u16) ((s16) ((struct PlayerD368 *)arg0)->f38 * 4);
-                                M2C_FIELD((s32 *)&localRecord, u32 *, 4) = (M2C_FIELD((s32 *)&localRecord, u32 *, 4) & 0xFFFF0000) | localDamageD368;
+                                M2C_FIELD((s32 *)&localRecord, u32 *, 4) = localDamageD368 | (M2C_FIELD((s32 *)&localRecord, u32 *, 4) & 0xFFFF0000);
                                 M2C_FIELD((s32 *)&localRecord, u32 *, 0) &= 0xFFFF00FF;
                                 M2C_FIELD((s32 *)&localRecord, u32 *, 0) = (M2C_FIELD((s32 *)&localRecord, u32 *, 0) & 0xFF00FFFF) | 0x200000;
                                 angleWordD368 = ((u32) ArcTan2((s16) ((s32) (((u32) ((struct PeerD368 *)temp_r1_45)->f14 - (u32) ((struct PlayerD368 *)arg0)->f8C) << 8) >> 0x10), (s16) ((s32) (((u32) ((struct PeerD368 *)temp_r1_45)->f18 - (u32) ((struct PlayerD368 *)arg0)->f90) << 8) >> 0x10)) << 0x10);
