@@ -20575,6 +20575,420 @@
           "detail": "Matched CB30 resets the entire scene flag word to zero; file activation 7A4B4 invokes it before loading and reapplying the selected summary mode. Other whole-word resets/restores can also affect this bit. These three helpers are not claimed to be the only writers or a universal paired enable/disable protocol. Complete original flag-accessor bytes equal the EU ROM and ELF; all accessor instructions and the selected original label/store/loader/lobby windows were read. No runtime playthrough, exact elapsed frames or new matching credit is asserted."
         }
       ]
+    },
+    {
+      "address": "0x0808543C",
+      "canonical_symbol": "sub_0808543C",
+      "display_name": "ReadItemMenuCurrencyTotal",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_0807A5D4.c",
+          "line": 8125,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Reads the current item-menu manager word at +0. In mode 4, sums word +4 for kind-10 records among exactly 75 entries at manager +0x104, stride 16, then adds the bag-currency result from 5D3D4. In every other mode, returns 5D404 directly, which sums the 75-entry stash at base *(u8 **)0x030034E0 + 0x2E0. This is a mode-dependent currency total, not an unconditional bag-plus-stash sum. The original performs low-32-bit word additions without saturation or capacity checks."
+        },
+        {
+          "source": "src/code_0807A5D4.c",
+          "line": 2882,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "The NONMATCHING shared interaction draft compares this return value with the selected price before calling the matched debit routine 7C014. Original 7F276..7F28C independently confirms that ordered query, unsigned comparison and conditional debit. The observed use anchors affordability/currency semantics without proving the complete draft or every menu mode."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 1422,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Complete original 8543C..85484 bytes equal the EU original ELF and ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc. All original instructions were read: mode comparison 85444, kind-10 scan 85452..85462, bag addition 85466..8546A and alternative stash call 85474. No runtime evidence or valid manager lifetime is asserted."
+        }
+      ]
+    },
+    {
+      "address": "0x080854B8",
+      "canonical_symbol": "sub_080854B8",
+      "display_name": "ClearHeldItemMenuRecord",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_0807A5D4.c",
+          "line": 8161,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Fills the 16-byte held-item record at menu manager +0xF4 with zero using CpuSet control 0x05000004, then reloads global 03006440 and writes word 22 at manager +0x1C and word zero at +0x20. Matched inventory movement/sale helpers and original 7C29C item-validation paths identify these as the held record and its source/index fields. It does not restore or transfer the item to another location, free the manager or clear the separate +0x18 interaction state. No direct caller or runtime reachability is established by this row."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 1425,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Complete original 854B8..854E8 bytes equal the original ELF and EU ROM. All original instructions were read: a stack zero supplies the CpuSet fill at 854CA; 854CE reloads the global manager, then 854D2/854D4 store the source sentinel and index. The global is not assumed unchanged across the call. Local include/gba/syscall.h defines fixed source 0x01000000 and 32-bit units 0x04000000; control low count 4 denotes four words. No allocation, queue delivery or gameplay-domain invariant is inferred."
+        }
+      ]
+    },
+    {
+      "address": "0x0808536C",
+      "canonical_symbol": "sub_0808536C",
+      "display_name": "AllocateItemMenuSubtaskControl",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_0807A5D4.c",
+          "line": 8092,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Retries a 0x28-byte allocation until nonnull, storing every attempt in the word at item-menu manager +0x620 through pointer global 03006440. Each failed attempt waits for scheduler signal 1 through 003F0. It allocates the child task-control record only: it does not clear the record, allocate its execution stack, select a callback or register the task. There is no bounded retry count or proved manager lifetime."
+        },
+        {
+          "source": "src/code_0807A5D4.c",
+          "line": 5952,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "The ordinary matched 82BB0 menu callback calls this allocator immediately before 853DC, which consumes manager +0x620 as its task-control pointer, initializes a stack/callback and registers it. This ordered consumer proves the allocation purpose beyond the size or local type alias; later menu cleanup calls 85398."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 1419,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "All original instructions 8536C..85398 were read after complete ELF=EU ROM equality. Original 8537E allocates 0x28, 85382 reloads the manager, 8538A stores the result at +0x620 and 8538E branches to the signal wait on zero. No runtime trace or elapsed-frame guarantee is claimed."
+        }
+      ]
+    },
+    {
+      "address": "0x080853DC",
+      "canonical_symbol": "sub_080853DC",
+      "display_name": "StartItemMenuSubtask",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_0807A5D4.c",
+          "line": 8106,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Captures the task-control pointer at item-menu manager +0x620, retries allocation of a 0x400-byte stack with signal-1 waits, and writes each attempt to that captured control +0x20. Sets task +8 to 0x50, callback +0xC to 83AE8 only when the complete argument equals 1 and otherwise to 8381C, stack top +0x10 to allocation +0x3FC, and finalizer +0x24 to zero. Registers the control through 00274, forwarding the complete argument. The flag word is not identified as priority, and non-1 arguments are not restricted to zero."
+        },
+        {
+          "source": "src/code_0807A5D4.c",
+          "line": 5952,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Ordinary matched parent menu callback 82BB0 allocates this control with 8536C, starts it here using the parent argument, then yields and continues its own interaction/drawing loop. The child callbacks and manager record are separate from the shared 7C29C interaction handler. Exact child-screen titles, allocation fairness and valid inherited manager/control-pointer domains remain unresolved."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 1421,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Complete original 853DC..8543C bytes equal original ELF and EU ROM; all instructions were read. 853EA captures the control before the retry loop; 8540A compares the argument with 1; callback/flags/stack/finalizer stores precede task registration at 8542E. No new runtime, multiplayer-only or whole-menu-equivalence claim is made."
+        }
+      ]
+    },
+    {
+      "address": "0x08085398",
+      "canonical_symbol": "sub_08085398",
+      "display_name": "WaitForItemMenuSubtaskAndFreeControl",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_0807A5D4.c",
+          "line": 8097,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Captures the task-control pointer at item-menu manager +0x620 and polls 00470 until it is absent from the scheduled-task list, yielding on scheduler signal 1 between nonzero results. Then reloads the global manager and frees its current +0x620 pointer through 01538; reloads the manager again and stores the zero query result at +0x620. The polled captured pointer and later freed current field are not assumed identical across yields. It does not explicitly free the execution-stack field or impose a timeout."
+        },
+        {
+          "source": "asm/nonmatchings/sched/sub_08000470.s",
+          "line": 1,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Original 00470 walks the scheduled-task linked list at global 03001240 and returns exact 1 on pointer equality or 0 at the list end. This is scheduled membership rather than a generic completion, memory validity or transport-readiness test. Original control fields must still satisfy the surrounding scheduler/manager domain; no universal lifetime guarantee follows."
+        },
+        {
+          "source": "src/code_0807A5D4.c",
+          "line": 6168,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Ordinary matched 82BB0 calls this cleanup after its menu loop and before waking signal 0x11201100. The call site anchors child-task cleanup, but does not prove that every possible task/user path terminates or that no other code changes the global manager field."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 1420,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Complete original 85398..853DC bytes equal original ELF and EU ROM; all instructions were read. Original 853A4 captures the polled pointer; 853B2 queries membership; 853BC..853C8 reloads and frees the current field; 853CC..853D0 reloads and clears that field. No runtime or finite-duration completion evidence is claimed."
+        }
+      ]
+    },
+    {
+      "address": "0x0807C1D8",
+      "canonical_symbol": "sub_0807C1D8",
+      "display_name": "DrawItemMenuBinaryChoiceIndicator",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_0807A5D4.c",
+          "line": 1110,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Reads the item-menu manager word +4 as a binary zero/nonzero selection. Uses the sprite at +0xA4 and animation-progress halfwords +0x4C/+0x50 or +0x4E/+0x52 through 65370, then issues three draws at x=0x68/0x78/0x88 and y=0x78. The two branches select different center frames and swap which side uses 65230 versus 65264. Any nonzero selection follows the same branch; an input domain restricted to 0 or 1 is not assumed. Animation-state mutation is part of this drawing helper, so it is not a side-effect-free renderer."
+        },
+        {
+          "source": "src/code_0807A5D4.c",
+          "line": 3376,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "The NONMATCHING shared item-menu draft invokes this helper in its two-choice display states, with a text resource in one path and panel movement in the other. Original 800EC and 8013C independently call 7C1D8. These uses corroborate a shared choice indicator without proving the entire draft, exact option labels such as yes/no, every calling state or a multiplayer-only role."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 1394,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Complete original 7C1D8..7C29C bytes equal original ELF and EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc; all original instructions were read. Original 7C1E0..7C1E4 performs the word zero test; each branch advances one animation and draws the same three positions with its selected frames. The helper reloads the manager after calls; no stable global-pointer or valid manager-lifetime invariant is asserted."
+        }
+      ]
+    },
+    {
+      "address": "0x08085330",
+      "canonical_symbol": "sub_08085330",
+      "display_name": "SumItemMenuStashOrStockCurrency",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_0807A5D4.c",
+          "line": 8074,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "In item-menu mode 4, sums word +4 for kind-10 entries among exactly 75 records at manager +0x104, stride 16. Otherwise returns 5D404, the stash sum at character/inventory base +0x2E0 through pointer global 030034E0. These are distinct from the menu manager through global 03006440. This helper never adds the bag total; the separate 8543C query adds bag currency only in mode 4. Original arithmetic returns the low 32-bit sum without saturation or capacity checks."
+        },
+        {
+          "source": "src/code_0807A5D4.c",
+          "line": 969,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Matched debit routine 7C014 consumes kind-10 currency stacks, selecting the mode-4 manager +0x104 stock buffer or the character/inventory +0x2E0 stash after bag funds. That consumer anchors the stock/stash and currency terms beyond a local array alias. No exact merchant/menu title, transaction completeness or valid inherited pointer domain is inferred."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 1418,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Complete original 85330..8536C bytes equal original ELF and EU ROM; all original instructions were read. 8533A compares mode 4, 85346..85356 scans 75 kind-10 records and adds word values, while 85360 calls 5D404 directly for other modes. There is no 5D3D4 bag-sum call in this function. Static evidence only; no runtime or complete candidate-equivalence claim."
+        }
+      ]
+    },
+    {
+      "address": "0x0807C29C",
+      "canonical_symbol": "sub_0807C29C",
+      "display_name": "ProcessItemMenuInteractionState",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_0807A5D4.c",
+          "line": 1160,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "The compiling NONMATCHING draft describes the shared item-menu input and interaction-state handler; equivalent C is not established. Original 7C2A8..7C2C4 reads manager 03006440 +0x28 bit0 and masks input halfwords, while 7C2C6..7C2E8 additionally gates input through 1AAE0/CD8C. The scene/query path 7C2EA..7C320 can clear manager +0x24. Original 7C322..7C338 reads the word at manager +0x18 and dispatches states 0..21. This is an interaction-state routine rather than the outer scheduler callback, a pure predicate or an unconditional frame advance."
+        },
+        {
+          "source": "src/code_0807A5D4.c",
+          "line": 1491,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "The draft item-validation behavior is corroborated by original calls, rather than treated as matched C. Original CB44..CB58 forms the record address from global 030034E0, offset 0x150 and manager +4 multiplied by 16, then passes it to 5AE34. Original D1B8..D1DC explicitly checks the held record kind against 2, validates the manager +0xF4 record and calls the existing item-value/currency helpers. Other original branches at D45C/D6D8/D904 invoke the corresponding item-selection validators. These contracts anchor item-menu interaction without assigning an exact screen title, every state meaning or a universally valid item/index domain. No equivalence of the complete draft selection dispatch is asserted."
+        },
+        {
+          "source": "src/code_0807A5D4.c",
+          "line": 815,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Ordinary matched caller 7B7B4 invokes this handler inside its manager +0x24/noncancelled loop at line 816; original BL 7BADC confirms that call. The caller separately draws cursor/held-item and item-detail content. Ordinary matched caller 82BB0 invokes it at line 5960 only when manager +0x28 bit1 is clear; original 83220..8322C confirms the conditional call. These two caller paths establish a shared interaction handler, not a callback inferred from a local alias or a guarantee that every caller iteration invokes it."
+        },
+        {
+          "source": "src/code_0807A5D4.c",
+          "line": 7916,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Matched task starter 84F24 registers callback 7B7B4 with finalizer 854A0 and a 0x900-byte stack; 84F9C registers 82BB0 with finalizer 85518 and a 0xA00-byte stack. Original full starter instruction ranges 84F24..84F9C and 84F9C..85014 confirm their allocation, registration and argument forwarding. They register the outer menu callbacks, not 7C29C directly. The task +8 value 0x64 is not interpreted as priority. Neither these starters nor the unrelated 84EAC stat/skill-menu starter establish a universal multiplayer or transport-readiness condition."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 1395,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Complete original bytes for 7C29C..80A78, both direct callers and both task starters equal the original linked ELF and EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc. The private instruction artifact contains selected handler/caller windows and complete starter code; it is not a full review of all 18396 handler bytes. No runtime trace, complete state-machine proof, candidate equivalence or new matching credit is claimed; callbacks/callees may yield."
+        }
+      ]
+    },
+    {
+      "address": "0x08086860",
+      "canonical_symbol": "sub_08086860",
+      "display_name": "TaskPlayStoryIntroduction",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_0807A5D4.c",
+          "line": 8887,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Runs the story-introduction presentation: changes background assets, animates sprites and scrolling, varies audio volumes and advances timed caption sections through 88A60/889D4. Caption IDs span 0x45D..0x47A. The task uses scheduler waits and counters; no exact elapsed-video-frame duration is asserted."
+        },
+        {
+          "source": "src/code_0807A5D4.c",
+          "line": 9682,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Caption runner 87A5C resolves IDs as 0x140000|id through 07290 and skips the two-byte resource header. Resolving the EU English table and existing Latin glyph mapping finds Gillespie in 0x140470, Klantol Castle in 0x140475 and Forbidden Fruit in 0x14047A. These narrative resources corroborate the story-introduction role. This is a static role inference, not an exact printed menu-title translation or full control-code decoder."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 1432,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Complete callback range equals original EU ROM/existing linked ELF. Selected original caption-call paths 86F8C/8707A/871BC/8728E/8733C/873EA/874BE/8756A/876D2 match the source narrative progression. Final 87768 loads R0=0x5A112EBF and 8776A calls scheduler wake 00420. Original R1=2 is not a second semantic signal word. Only selected original paths were semantically audited; not all 1689 decoded proof lines or the entire runtime CFG."
+        },
+        {
+          "source": "asm/nonmatchings/sched/sub_08000420.s",
+          "line": 4,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Wake helper overwrites incoming R1 with the task-list head before using it and compares only R0 with each task wait word. Thus the story task sends the 32-bit signal 0x5A112EBF despite its local u64 reading/code-generation view. Start-key skipping in the task is gated by title selection==0, and some phases also test the external cancellation helper; no universal skip/abort responsiveness is claimed."
+        }
+      ]
+    },
+    {
+      "address": "0x08088914",
+      "canonical_symbol": "sub_08088914",
+      "display_name": "StartStoryIntroductionTask",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08087CC0.c",
+          "line": 362,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Allocates a 0x1000-byte stack for shared UI task control 03006450, sets stack pointer base+0xFFC, scheduling-order key 0x64, null destructor and story callback 86860, then starts with first callback argument zero. It does not locally check allocation failure or prior membership before reinitializing the control; no semantic second callback argument is established."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 1438,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Original 8891A allocates 0x1000, 88920/88926 install stack base/pointer, 8892A sets key 0x64, 8892E clears destructor, 88932 selects 86860 and 88938 starts the task with R1=0. Complete starter body inspected and equal original EU ROM/existing ELF, SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc."
+        },
+        {
+          "source": "src/code_08002118.c",
+          "line": 508,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Matched title dispatch calls 88914 for option index 2; The selected callback contains timed narrative captions and sprite/background sequences, anchoring a story-introduction starter without inferring an exact displayed option label."
+        }
+      ]
+    },
+    {
+      "address": "0x08002A8C",
+      "canonical_symbol": "sub_08002A8C",
+      "display_name": "IsTitleStoryOptionSelected",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08002118.c",
+          "line": 529,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Returns 1 exactly when title-selection word 03002838 equals 2, otherwise 0. It neither starts the presentation nor reports whether its task is currently running. The title dispatcher assigns option 2 to 88914, which installs story-introduction callback 86860."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 110,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Original 02A90 performs a full-word LDR from 03002838, 02A92 compares exactly 2 and 02A96 chooses Boolean 1. Complete helper body inspected and equal original EU ROM/existing linked ELF. It is not a low-byte/masked enum comparison or a scheduler-membership query."
+        },
+        {
+          "source": "src/code_0807A5D4.c",
+          "line": 8887,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "The selected callback’s narrative caption progression and ROM Latin terms corroborate the semantic role of option 2. No exact menu-title string, unused/unreachable conclusion or active-playback state is inferred from the selector alone."
+        }
+      ]
+    },
+    {
+      "address": "0x0807B7B4",
+      "canonical_symbol": "sub_0807B7B4",
+      "display_name": "TaskInventoryMenu",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_0807A5D4.c",
+          "line": 727,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "The ordinary matched task body sets the item-menu manager mode to 2 and prepares the local-player inventory screen/background resources. Under its scene and player guards, initializes menu activity/state/cursor/held-item fields and runs while manager +0x24 remains nonzero and 021A8 reports no cancellation. Each iteration invokes the shared 7C29C interaction handler, then selects the item-contents drawing path or an item/set-detail path from manager flags/state. This is the outer inventory-menu task, distinct from the shared interaction handler or a pure drawing pass; no exact localized screen title is assigned."
+        },
+        {
+          "source": "src/code_0807A5D4.c",
+          "line": 815,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "The normal contents path calls 80A78, whose matched body draws 25 bag records, a three-entry equipment page, fixed equipment records and mode-dependent secondary items. Detail mode selects 82960 for the manager set-data pointer or 815F4 for the current/held item. The latter is a NONMATCHING callee at this source revision: only its call and supplied record are used here, not presumed equivalent details. The callback waits on scheduler signal 1 and can leave on active/cancel/player-state gates; no exact elapsed-frame or guaranteed-completion claim follows."
+        },
+        {
+          "source": "src/code_0807A5D4.c",
+          "line": 764,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Within its guarded active-menu path, saves the previous VCount compare line and callback, installs the menu VCount callback, and enables the VCount interrupt. Cleanup disables it and restores those saved compare/callback values. Later paths wake signal 0x11201100. This describes the observed VCount configuration, not saving/restoring all interrupt state or a universal world-stop/transport-readiness condition."
+        },
+        {
+          "source": "src/code_0807A5D4.c",
+          "line": 7916,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Ordinary matched starter 84F24 registers 7B7B4 as the scheduler callback with finalizer 854A0 and argument zero. The task callback is therefore anchored by actual registration rather than inferred from its local _v alias. Valid manager/player/asset domains and arbitrary inherited stack/register state are not proved."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 1389,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Complete original 7B7B4..7BD78 bytes equal the original ELF and EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc. Selected original witnesses confirm mode 2 at 7B7C4..7B7C6, interaction call 7BADC, contents call 7BC28, detail calls 7BC78/7BC94/7BC9E, VCount setup/restoration and wake call 7BD5A. Complete matched source was read; original instruction review covers these selected windows only, not every original instruction or full runtime behavior."
+        }
+      ]
+    },
+    {
+      "address": "0x08080A78",
+      "canonical_symbol": "sub_08080A78",
+      "display_name": "DrawItemMenuContents",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_0807A5D4.c",
+          "line": 3647,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "The matched drawing pass visits 25 bag records at character/inventory base +0x150, stride 16, and calls the shared item-icon renderer with kind-dependent selection-validation flags. It then draws the current three-entry equipment page from +0x70 and fixed equipment records +0x100/+0x110/+0x120/+0x130/+0x140 subject to menu mode. The inventory base is reached through pointer global 030034E0; the independent menu manager is reached through 03006440. Selected held sources may blink using frame parity. Valid item/page/table domains are not independently proved."
+        },
+        {
+          "source": "src/code_0807A5D4.c",
+          "line": 3739,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Mode 2 additionally draws a three-entry quick-use page with matching bag counts and a synthetic kind/id record when no matching bag slot exists. Other mode paths draw 12 secondary records in mode 3, a 15-record page in mode 4 and three records plus one separately positioned record in mode 6. These observed layouts support a shared item-menu contents renderer; exact merchant, equipment-class and localized screen labels remain unresolved. Renderer/validation callees can update shared state; no side-effect-free guarantee is implied."
+        },
+        {
+          "source": "src/code_0807A5D4.c",
+          "line": 845,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Matched inventory task 7B7B4 invokes this function during its normal contents loop and while waiting for an exit transition. Other item-menu tasks can use its mode-dependent layouts, so the role is broader than a bag-only renderer or a multiplayer-only screen."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 1396,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Complete original 80A78..811E0 bytes equal original ELF and EU ROM. The selected original first-loop instructions were read: 80A84..80A8C obtains inventory +0x150, 80A92..80AD4 selects validation-dependent icon flags, 80B14/80B46 call 5FC80 and 80B4A..80B50 advance by 16 through index 24. Complete ordinary matched source was read; the rest of the original function is not claimed as newly reviewed instruction by instruction. No runtime or new matching credit is asserted."
+        }
+      ]
+    },
+    {
+      "address": "0x08084F24",
+      "canonical_symbol": "sub_08084F24",
+      "display_name": "StartInventoryMenuTask",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_0807A5D4.c",
+          "line": 7916,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Retries allocation of a 0x624-byte item-menu manager through global 03006440, clears only its first word, then retries a 0x900-byte stack allocation. Initializes the existing task-control record with stack top allocation +0x8FC, flags/state word +8 equal 0x64, finalizer 854A0 and callback 7B7B4, then registers it through 00274 with argument zero. Failed allocations wait on scheduler signal 1. It does not initialize every manager field, impose a retry bound or establish priority from the task flag word."
+        },
+        {
+          "source": "src/code_0807A5D4.c",
+          "line": 727,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Registered matched callback 7B7B4 sets menu mode 2 and implements the inventory interaction/contents/detail loop. By comparison, adjacent starter 84EAC registers the stat/skill allocation callback 7A5D4, while 84F9C registers the separate argument-driven 82BB0 menu task. This constructor is anchored to the inventory task, not inferred from address proximity or a generic task allocation pattern."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 1407,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Complete original 84F24..84F9C bytes equal the original ELF and EU ROM; all code instructions in this starter were read. Original 84F36/84F60 allocation calls, manager first-word clear 84F46, stack/control stores 84F64..84F7E and registration 84F82 corroborate the matched source. No runtime, reentrancy, safe replacement of an existing manager or guaranteed completion is proved."
+        }
+      ]
     }
   ]
 }

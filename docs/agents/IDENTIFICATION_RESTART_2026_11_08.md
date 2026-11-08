@@ -451,3 +451,16 @@ The equipment predicate compares six requirement slots, allowing `0xFFFF` wildca
 The Advanced Mode identities have direct EU evidence beyond a bare bit label: resources `0x14044B/0x14044C` resolve to original glyph labels Normal Mode and Advanced Mode; the chosen value is saved in summary byte +7; loader `7A4B4` reapplies it to scene bit 9; the lobby propagates that query through peer-header byte +10 bit 0. Original pointer entries, labels, choice/store paths, accessors and loader/lobby witnesses were independently checked. The helpers only mark/query the flag; no unlock guarantee, stable bank snapshot, successful synchronization or regional transfer is inferred.
 
 Complete configured ranges equal the verified EUR ROM and local linked ELF. All names remain catalog display identities; canonical symbols, boundaries and matching code are unchanged. This static evidence adds no runtime or matching credit.
+
+
+## Story presentation and item-menu lifecycle
+
+Fourteen remaining frozen EUR queue rows were independently reviewed using original instruction witnesses, source pinned at `b0270484a6dcc0e4649508a2c5589c502c8cdf39`, and relevant resource/caller paths. Each is a new catalog identity, with no pre-existing descriptive alias counted again.
+
+The story presentation callback, starter and title-option query are supported by original dispatch, timed caption calls, scheduler wake and EU narrative-resource terms. Root verification independently resolved the recorded pointer-table entries and witnessed Latin terms. The wake signal is the 32-bit `0x5A112EBF`; the materialized second register is not another signal word. Skip behavior remains phase/selection gated, and the role is not an exact localized title translation.
+
+The menu helpers distinguish mode-dependent stock/stash sums from the total that also adds bag currency in mode 4, preserve low-word arithmetic, clear the held record without restoring its item, and allocate/start/wait/free a child task control. The wait captures a control but later frees the manager field reloaded after yields; those pointers are not assumed stable. One evidence sentence now spells the stash base as `*(u8 **)0x030034E0 + 0x2E0`, removing ambiguity about the pointer global. The original frozen input and precision overlay are preserved privately.
+
+The binary-choice drawing helper mutates animation state and uses a zero/nonzero branch without proving a 0/1-only input domain. The shared interaction-state handler is distinguished from the outer inventory task, contents drawing pass and task starter. The starter initializes only the witnessed fields and retries allocations. The large interaction routine remains a compiling NONMATCHING draft at the evidence revision; naming is grounded in original input/state dispatch, validators and caller paths rather than draft equivalence.
+
+Complete configured ranges equal the verified EUR ROM and local linked ELF. Original semantic audits of the larger story/menu bodies cover selected paths, with their limits recorded in each row; byte equality alone is not full CFG equivalence or runtime coverage. No canonical symbols, boundaries, matching code, active worker reports or generated progress files are authored by this batch.
