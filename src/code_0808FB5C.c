@@ -2155,15 +2155,16 @@ void sub_080923FC_u8(u32 arg0, u32 arg1) {
                 s32 upper;
                 s16 clamp;
                 accum += 4;
-                d = (s16)accum >> 8;
                 offsetLo = &v923FC_252;
+                d = (s16)accum >> 8;
                 lower = (u16)(*offsetLo) - d;
                 (*offsetLo) = lower;
                 offsetHi = &v923FC_256;
                 upper = (u16)(*offsetHi) + d;
                 (*offsetHi) = upper;
+                lower = (s32)((u32)lower << 16);
                 clamp = lowerLimit >> 16;
-                if ((s32)((u32)lower << 16) <= lowerLimit)
+                if (lower <= lowerLimit)
                     (*offsetLo) = clamp;
                 if ((s16)upper > 49)
                     (*offsetHi) = 50;
