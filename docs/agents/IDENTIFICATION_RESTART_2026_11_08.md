@@ -826,3 +826,12 @@ Three previously unidentified EUR functions now have names for initializing and 
 The scene controller restores several resume modes and dispatches variant callbacks from records with stride 0x124. One branch calls a separate event handler and then tests a retained register without assigning its return value. Startup barriers may wait indefinitely. The map-area request writes the existing scene table at +0x71C, uses an unchecked area index and still changes map/area fields for an out-of-switch map argument. Its short yield period does not prove a background task has stopped.
 
 The catalog entry saves signed halfword scroll values, waits for an exact scheduler signal and restores scene state on its continuing path. Catalog cancellation can bypass its normal wake signal; restoration and completion are not universal guarantees. Only the catalog and this journal change. Prior rows, metadata, canonical symbols, matching code, data, claims and generated progress remain unchanged; frozen inputs and precision overlays remain private.
+
+
+## Local-player restoration and pending damage
+
+Three previously unidentified EUR functions now have names for restoring local-player vitals, queuing randomized pending damage and queuing damage while attempting resistance growth. The coordinator read all three complete matched bodies and original ranges, the damage/resistance helpers and the relevant HP/MP consumers. Ten complete configured ranges equal the EUR ROM and linked ELF. The restoration copies the two maxima, sets the active byte and clears masks 0x2000 and 0x2 before repeatedly handling only status types six, seven, five, four and two.
+
+The damage helpers use eligibility gates and add a halfword amount to pending damage rather than directly subtracting HP or guaranteeing network delivery. The later HP consumer can discard that pending damage under its suppression mode. One route first applies randomized quadratic scaling; the other attempts probabilistic resistance growth before writing pending-hit state. Action-width differences, halfword wrapping and the invalid-kind helper limitation remain documented. Growth and later HP reduction are not guaranteed.
+
+Only the catalog and this English evidence journal change. Existing rows, metadata and canonical symbols remain intact; matching code, data, shard claims and generated progress are unchanged. Frozen primary receipts, the consistent restoration-mask precision overlay and independent review remain private.
