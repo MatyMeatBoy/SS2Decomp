@@ -21076,6 +21076,39 @@
           "detail": "The matched ordinary C documents the same table-driven channel scaling. Original CA58/CA7C/CAA0 use word loads at a two-byte source stride and extract only the three low-halfword channels; this is not a general 32-bit pixel transform. No direct caller or runtime reachability of this routine is established by this row."
         }
       ]
+    },
+    {
+      "address": "0x0800A34C",
+      "canonical_symbol": "sub_0800A34C",
+      "display_name": "UpdateWorldMapMusic",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08009088.c",
+          "line": 663,
+          "revision": "9b1771542f09ef562d72f5fcaf7bc6daf77eb843",
+          "detail": "Updates world-map music from the supplied map-set/context, current world-map level/area fields and scene/event queries. Depending on its branch it leaves tracked music unchanged, requests a song through 58688, or stops tracked music through 586B4. The ordinary matched C was read completely. Witnessed non-multiplayer dispatch includes map-set 11 requesting song 0x187, map-set 14 requesting 0x186 and map-set 21 requesting 3. These numeric IDs are not assigned track titles or location names."
+        },
+        {
+          "source": "src/code_08009088.c",
+          "line": 1124,
+          "revision": "9b1771542f09ef562d72f5fcaf7bc6daf77eb843",
+          "detail": "Matched TaskUpdateWorldMapBackgrounds calls this with its current level/map-set and zero contexts at startup. After a map-update wake it calls again at line 1161 with current level, the previous tracked-song value obtained through 586B4 when that guarded stop ran, and nonzero change context. The conditional stop does not prove every possible path initializes the previous argument. These callers anchor world-map music rather than treating the local parameter name music as a semantic type."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 199,
+          "revision": "9b1771542f09ef562d72f5fcaf7bc6daf77eb843",
+          "detail": "Complete configured interval 0800A34C..0800A998 equals verified EUR ROM/local ELF. Original selected paths corroborate 58688 requests at A4D2/A508/A58A and final audio paths at A946..A98E; scene/event queries and all decoded direct-call targets were examined. Only selected original semantic paths are claimed, not a new exhaustive gameplay-state/CFG equivalence or runtime audit. Dispatch/literal regions are not decoded as executable paths."
+        },
+        {
+          "source": "src/code_08057CAC.c",
+          "line": 529,
+          "revision": "9b1771542f09ef562d72f5fcaf7bc6daf77eb843",
+          "detail": "Confirmed 58688 updates the tracked song but starts it only when link flag 0x20 is clear; 586B4 stops the tracked song, clears its word and returns the old value. 5865C separately performs a guarded song-start request. Original A34C also calls 5867C with 0x34 at A3F2; its incomplete no-argument C declaration is not used to infer that the machine argument is ignored. No guaranteed audible result, cross-player synchronization, arbitrary-input domain or universal stop/start pairing is inferred."
+        }
+      ]
     }
   ]
 }
