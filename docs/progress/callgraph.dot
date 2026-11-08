@@ -1321,13 +1321,13 @@ digraph calls {
   "sub_0806ABC0" [label="RunStraightAbilityProjectileWithImpactTask"];
   "sub_0806B3C4" [label="RunStaggeredForwardConeAbility"];
   "sub_0806BE24" [label="RunMultiHitHomingAbilityProjectile"];
-  "sub_0806C568" [label="sub_0806C568"];
+  "sub_0806C568" [label="RunStaggeredRectangularAreaAbility"];
   "sub_0806CDF0" [label="ApplyAreaHealingAndStatusRecovery"];
   "sub_0806D4A4" [label="ApplyNearbyAllyResistanceBuff"];
   "sub_0806D7EC" [label="ApplyNearbyAllyFourAttributeBuff"];
   "sub_0806DB1C" [label="ApplyNearbyAllyCombatBonusBuff"];
-  "sub_0806DE94" [label="sub_0806DE94"];
-  "sub_0806E7D4" [label="sub_0806E7D4"];
+  "sub_0806DE94" [label="RunStaggeredForwardConeAbilityOnAnimationCompletion"];
+  "sub_0806E7D4" [label="RunStaggeredAreaAbilityWithSecondaryImpactRequests"];
   "sub_0806F0CC" [label="sub_0806F0CC"];
   "sub_0806FE1C" [label="ApplyTimedPlayerTransformation"];
   "sub_0806FF1C" [label="sub_0806FF1C"];

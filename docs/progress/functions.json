@@ -34284,10 +34284,17 @@
       "canonical_symbol": "sub_0806C568",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_0806C568",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "RunStaggeredRectangularAreaAbility",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_08068670.c",
+          "line": 2247,
+          "revision": "8bbfb589bf6ab55018ae7e465fc0e674879c81fa",
+          "detail": "ABI r0 points to24-byte ability descriptor: owner word+0,slot word+4,target-domain word+8,ability kind word+C,level low HALFWORD+14 (local cost helper receives full word+14). Enemy owner waits +6Ahalfword>=+22Bbyte; 56E90, BA6C zero or state10/11 abort and clear slot. Enemy resource+5Ehalfword subtracts signed table cost and clamps0/returns if signed low16 negative. Local player resource+C2halfword subtracts low16(6898C(kind,fulllevel)-1) then clamps0 if signed low16 negative. Remote players do not pay locally. Target-domain <=3 selects player scan, otherwise five active enemies. No table bounds checks or exact named skill inferred. Selects targets in strict signed16 axis ranges from signed halfword pair084EC12C[original low16 level] around caster pixel position. Player caster rejects same team,team0,sprite kinds10/11/14,byte4bit5 and state11; enemy caster player scan rejects only state11 plus geometry. Enemy scan requires active mask,state!=11 and byte1DC nonzero. Initializes five halfword animation/timer entries; cumulative halfword delays start0 then RNG%20+11. Player+B2 readiness forced2 when level!=0; otherwise waits>1, aborts on state10 or game flags bit1 clear. Only level7 remaps visuallevel6 after range lookup. Resource0x5009E,animation visuallevel follows targets until all finish or local caster state11/12 or D11C. AFTER loop, even after cancellation, processes selected targets through694AC: local victim authority for players; local caster or enemy caster when 08002204()!=0 for enemies; other enemy paths write caster low16 into enemy+58. No-target path spawns fixed visual kind5 at facing10*sine WITHOUT694AC; selector698D4 supports kind5. Final wait unconditionally dereferences player+B6, including enemy-owner path where player-base pointer was never initialized. Clears slot afterward. No safe enemy-owner completion contract; animation finish is distinct from post-loop damage attempt. Full original configured body inspected and equal to EU ROM/supplied verified-main ELF; no worker build or runtime testing. Independent original/source confirms post-loop selected-target processing is unconditional with respect to whether cancellation or completion ended animation; no successful694AC application is promised, since that consumer can reject gates/target. Final player+B6 dereference occurs even on no-target/enemy paths, with no timeout or initialized enemy player-base contract. Only five frame/timer/delay entries are initialized, without player-count capacity validation."
+        }
+      ]
     },
     {
       "name": "sub_0806CDF0",
@@ -34415,10 +34422,17 @@
       "canonical_symbol": "sub_0806DE94",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_0806DE94",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "RunStaggeredForwardConeAbilityOnAnimationCompletion",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_08068670.c",
+          "line": 3502,
+          "revision": "8bbfb589bf6ab55018ae7e465fc0e674879c81fa",
+          "detail": "ABI r0 points to24-byte ability descriptor: owner word+0,slot word+4,target-domain word+8,ability kind word+C,level low HALFWORD+14 (local cost helper receives full word+14). Enemy owner waits +6Ahalfword>=+22Bbyte; 56E90, BA6C zero or state10/11 abort and clear slot. Enemy resource+5Ehalfword subtracts signed table cost and clamps0/returns if signed low16 negative. Local player resource+C2halfword subtracts low16(6898C(kind,fulllevel)-1) then clamps0 if signed low16 negative. Remote players do not pay locally. Target-domain <=3 selects player scan, otherwise five active enemies. No table bounds checks or exact named skill inferred. Selects forward cone: ArcTan2 low16>>11 gives32bins; subtract low16(0849E730[facing]*2),wrap only positive delta>16 by-32,absolute signed16 delta<=3; strict axis abs(delta)<low16level*10+48. Player filter excludes team0,sprite kinds10/11/14,byte4bit5,state11 and same team for player caster; enemy scan requires active mask,state!=11,byte1DC nonzero. Initializes five halfword frame/timers and BYTE cumulative delays0 then RNG%10+20. Player+B2 forced2 for nonzero level, otherwise waits>1 with state10/game-bit1 abort. Resource0x5008B; visual level clamps to6 AFTER selection. Each target completion attempts694AC only for local victim/player domain or local caster/enemy domain; no enemy-host application branch. Cancelling local animation loop prevents unfinished targets applying. Shade lookup uses caster initial coordinates while draws follow targets; parity gates draw/palette, not stepping. No-target fallback animates at facing30*sine and applies no damage; fallback reads player+148 regardless owner domain. Final unconditional player+B6 wait also uses uninitialized player base for enemy owner; remote player serial word+DC increments only after wait. Clears slot; no safe enemy-owner fallback/completion contract. Full original configured body inspected and equal to EU ROM/supplied verified-main ELF; no worker build or runtime testing. No-target fallback has no cancel/global exit inside its animation loop and dereferences player+148 even for enemy owner. Cancellation tests apply only to populated-target loop and stop unfinished targets; they do not revoke completed694AC calls. Final wait is unconditional on player+B6. Selection loops also stop whenCD8C becomes nonzero; display gates can thus affect initial selection separately from later stepping."
+        }
+      ]
     },
     {
       "name": "sub_0806E7D4",
@@ -34432,10 +34446,17 @@
       "canonical_symbol": "sub_0806E7D4",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_0806E7D4",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "RunStaggeredAreaAbilityWithSecondaryImpactRequests",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_08068670.c",
+          "line": 3739,
+          "revision": "8bbfb589bf6ab55018ae7e465fc0e674879c81fa",
+          "detail": "ABI r0 points to24-byte ability descriptor: owner word+0,slot word+4,target-domain word+8,ability kind word+C,level low HALFWORD+14 (local cost helper receives full word+14). Enemy owner waits +6Ahalfword>=+22Bbyte; 56E90, BA6C zero or state10/11 abort and clear slot. Enemy resource+5Ehalfword subtracts signed table cost and clamps0/returns if signed low16 negative. Local player resource+C2halfword subtracts low16(6898C(kind,fulllevel)-1) then clamps0 if signed low16 negative. Remote players do not pay locally. Target-domain <=3 selects player scan, otherwise five active enemies. No table bounds checks or exact named skill inferred. Uses 21FE0 AABB overlap between range084EC1A0[original low16 level] and player8x8 or enemy byte22E/22F bounds, centered on initial caster fixed position. Player filter excludes team0,kind14,byte4bit5,state11; player caster additionally excludes same team andkind10. Enemy scan requires active mask,state!=11,byte1DC nonzero; no same-team check. Five halfword frame/timers and byte cumulative delays0 then RNG%20+10. Player nonzero level writes+B2=2 but DOES NOT wait readiness. Resource0x5008B; clamps visual level6 after range lookup. Target animation level+7 completion attempts694AC only local victim or local caster according to target domain, then always requests69A30 fixed visual kind15 regardless damage authority. Kind15 is unsupported by698D4 and therefore clears its shared slot without animation; no actual secondary visible effect is guaranteed. No-target fallback at facing30*sine steps animation level but draws level+7, then requests same unsupported kind15 without694AC. Local caster state11/12 or D11C cancels unfinished targets. Only player owners wait+B6; all normal/early exits clear occupancy bit. No exact skill label or guaranteed hit/application inferred. Full original configured body inspected and equal to EU ROM/supplied verified-main ELF; no worker build or runtime testing. Independent21FE0 confirms inclusive AABB with summed halfword dimensions divided by2; this differs from strict rectangular-center selection in6C568. Request69A30 kind15 can fail before scheduling if pool full or malloc0; if scheduled,698D4 default clears its shared slot without stepping/drawing any animation. Therefore name says Requests, not Visuals. No-target fallback animation has no local cancellation or global-game gate; it waits solely for animation completion before requesting15. Populated-target cancellation omits unfinished completion callbacks and requests; it does not undo earlier applications."
+        }
+      ]
     },
     {
       "name": "sub_0806F0CC",
@@ -51258,12 +51279,12 @@
   "identification": {
     "game": {
       "total": 1880,
-      "identified": 931,
+      "identified": 934,
       "existing": 23,
-      "confirmed": 908,
+      "confirmed": 911,
       "proposed": 8,
-      "unidentified": 941,
-      "percent_identified": 49.52127659574468
+      "unidentified": 938,
+      "percent_identified": 49.680851063829785
     },
     "sdk": {
       "total": 155,
@@ -51276,12 +51297,12 @@
     },
     "all": {
       "total": 2035,
-      "identified": 1086,
+      "identified": 1089,
       "existing": 152,
-      "confirmed": 934,
+      "confirmed": 937,
       "proposed": 8,
-      "unidentified": 941,
-      "percent_identified": 53.36609336609337
+      "unidentified": 938,
+      "percent_identified": 53.513513513513516
     }
   },
   "limitations": "Configured function address intervals, including alignment/literal pools; inventory includes original assembly and linked libraries. Existing descriptive identifiers are recognized, not independently semantically re-proven."
