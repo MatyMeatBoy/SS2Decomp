@@ -24660,6 +24660,66 @@
           "detail": "ABI map r0,area r1,reinitialize r2. When reinitialize!=0 writes map0/area40, clears ten selections22 and countersE, chooses active layout table71C for map0..23 (area unchecked; map>23 retains old pointer after writing map/area). Under02204 predicate sets scene8=9,selection22[0]=1, scans up to10 stride124 map records untilid0 and writes1+(RNG low16 % record count) into22[recordid]; no count/id validation. Retries QueueLinkSceneLayoutSelections65FE8 until accepted. Both02204 branches retry67C18, wait67C08 and consume67BF8 default link barrier token. Does not promise reliable peer delivery beyond existing barrier helper contracts. Original2368A..2368E bypasses map reinit whenr2zero;23928 tests02204;23944..2397C randomselection;23990 queue;2399E..239D4 barrier. Consumer65FE8 copies exactly ten selection halfwords from scene+22 into tag85 queue payload. Map-event consumer2704C uses selection22[recordid]-1 as a 0x24-byte variant index;26CD0 instead selects the map/area table at71C and resets phase10. Existing t22_23684 is numeric ABI alias, not semantic identification. Static original-ASM and matched-source evidence; no runtime or new C equivalence claim. Original map/area writes whenreinitialize!=0 are HALFWORD+0 andWORD+40;tenHALFWORDcountersE andselections22clear. Map0 alsoHALFWORD+2=area/+36=0;maps1..23replaceWORD+71C;invalidmapretainsoldpointerafterinitialwrites. Selectionloop max10records, each124stride;recordid/count LDRH,uncheckedid canwriteoutsidetenentries,zero count unvalidated beforemodulo.02204()!=0 is exactauthoritypredicate,notlocalID0.65FE8queues tag85 with tenhalfwords;67C18/67C08/67BF8wrappersuse token0x37564 through68330/682B8/65E38. Successfulhelperreturndoesnotestablishuniversalreliablepeertransport;allretrywaits lacktimeout/cancel."
         }
       ]
+    },
+    {
+      "address": "0x08028918",
+      "canonical_symbol": "sub_08028918",
+      "display_name": "CancelSceneTaskPools",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08021DC4.c",
+          "line": 5294,
+          "revision": "e4514fbcc5f3d2383aa5a32d05062ca4f9110fe2",
+          "detail": "Complete matching body and original28918..289C0 read. Captures current scheduler task via0048C. For scene task pools at scene-state+E34 and+12E4, each30 controls with stride28hex, skips the captured current task and calls003A8 for scheduled controls. Then scans15 actor slots at+7A4, stride70hex, querying/cancelling embedded task+48. Clears03005CF0 after the loops. Third loop compares stale R4, left at previous pool end+1794, against current task instead of comparing the actor task; no universal except-current protection, finite return or full cleanup guarantee is claimed."
+        },
+        {
+          "source": "src/code_08028AAC.c",
+          "line": 1239,
+          "revision": "e4514fbcc5f3d2383aa5a32d05062ca4f9110fe2",
+          "detail": "Matching RequestSceneMapAreaChange body2A228 invokes28918 after selecting area-layout table, setting scene flags/area fields and resetting scene field10. E34 tasks are used by scene event callbacks,12E4 pool by5A8F8/57430 callback starters, and7A4 actor tasks by88AA8 scripted route starter. This is cancellation of shared scene task pools, not a general scheduler-wide reset."
+        },
+        {
+          "source": "asm/nonmatchings/sched/sub_080003A8.s",
+          "line": 1,
+          "revision": "e4514fbcc5f3d2383aa5a32d05062ca4f9110fe2",
+          "detail": "Original003A8 calls nonnull task finalizer then003C0 frees execution stack, decrements scheduled count, clears task+4 and unlinks list pointers. Original00470 checks exact membership;0048C reads current-task pointer. Whole configured target/helper/caller ranges equal EUR ROM and linked ELF in own receipt. Static original-ASM and matched-source evidence; no runtime or new C equivalence claim."
+        }
+      ]
+    },
+    {
+      "address": "0x08028368",
+      "canonical_symbol": "sub_08028368",
+      "display_name": "AppendSceneObjectDamageRecord",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08021DC4.c",
+          "line": 5060,
+          "revision": "e4514fbcc5f3d2383aa5a32d05062ca4f9110fe2",
+          "detail": "Complete matching body and original28368..283C4 read. If unsigned scene-state count+1E4C exceeds10 returns silently. Otherwise appends one four-byte record at+1E50+count*4: low16 second argument at+0, low8 first argument at+2, low8 third argument at+3; increments count. Capacity is11 records. Does not apply damage itself, clear the queue, validate object index or acknowledge transmission."
+        },
+        {
+          "source": "src/code_0801E244.c",
+          "line": 1130,
+          "revision": "e4514fbcc5f3d2383aa5a32d05062ca4f9110fe2",
+          "detail": "Full matching caller1F99C and original1F99C..1FB14 read: scans collision against scene objects at+58C stride24hex, computes damage, subtracts damage via a HALFWORD HP store then zeroes HP if the wrapped result has mask0x8000 set, stores the zero-extended8-bit class return via HALFWORD object+12, then passes object index, computed damage and1DE60 class value to28368 before setting object state10. Thus records describe scene-object damage already applied locally, rather than player/enemy HP updates or item-drop requests. Original1FAA4 stores reduced HP,1FAAE stores class HALFWORD,1FAB6..C4 performs the wrapped signbit test,1FAD4 appends record and1FAD8 sets state10; this is not general saturating subtraction for arbitrary arguments. Local damage/state changes are not rolled back when the11-record queue is alreadyfull."
+        },
+        {
+          "source": "src/code_080659B0.c",
+          "line": 527,
+          "revision": "e4514fbcc5f3d2383aa5a32d05062ca4f9110fe2",
+          "detail": "Full matching66404 and original66404..66490 consume exactly scene-state+1E4C count plus records: when count nonzero and link producer capacity available, tag94, CpuSet copies count+1 words into request+8 and computes rounded eight-byte payload length. 28368 has no direct enqueue call. Matching6690C tag94 receiver and original670F0..671A0 additionally corroborate remote scene-object damage application; this does not prove delivery or acknowledgement. Whole target/caller/producer ranges equal EUR ROM and linked ELF in own receipt."
+        },
+        {
+          "source": "src/code_080659B0.c",
+          "line": 1218,
+          "revision": "e4514fbcc5f3d2383aa5a32d05062ca4f9110fe2",
+          "detail": "Read matching6690C tag-81 case13hex, its RxGs/record definitions, original dispatch66A26..66A36/table slot66A88 and complete critical case670F0..671A0. Tag94 resolves to670F0. For nonlocal peer, each four-byte record targets scene object at58C+24hex*index: HP at+10, class/flag halfword+12, state+14. Unless state11/12, subtracts unsigned16 amount with halfword wrap, then zeroes HP when resulting bit8000 set; writes byte flag zero-extended and state10. Count and target indices lack local bounds validation. This receiver closure corroborates record semantics, without proving transport delivery or replay protection. Own whole6690C plus critical ranges equal EUR ROM/ELF; no full semantic audit of other receiver cases claimed."
+        }
+      ]
     }
   ]
 }
