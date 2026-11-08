@@ -256,3 +256,41 @@ that slot. Its body alone would not justify the role. It performs no resource
 cleanup; scheduler continuations separately free stacks and unlink tasks.
 An additive one-row overlay only expands the `0801AC24` controller interval
 from shorthand `1A874..A91A` to `1A874..1A91A`.
+
+## Enemy spawn groups and four link-message producers
+
+Eleven independently reviewed rows combine seven enemy-spawn-group helpers
+with four outgoing message producers. The group runner has five descriptor
+slots, separate group/slot index widths and parent-or-loopback permission
+checks. That permission is not replaced by a local-ID-zero assumption.
+Registration helpers increment the freshly reloaded count after starting;
+they do not validate indices or compensate for a restarted task's count.
+Forced cancellation skips the runner's normal count-decrement epilogue.
+
+Map selection performs its resource lookup before the permission test, including
+the map-11 table lookup. Invalid selector paths retain an inherited cursor;
+resetting the count does not cancel leftover controls. Removal producer
+`08067C28` transmits the dereferenced spawn-record pointer, not its table-slot
+address. Enqueue acceptance does not prove enemy removal or peer acknowledgement.
+
+| Producer | Tag | Narrow observed request |
+| --- | --- | --- |
+| `08067C68` | `0x88` | Mark the first active enemy matching the full ID for asynchronous removal |
+| `080680B4` | `0xA2` | Request a keyed inline effect for every active enemy matching the ID |
+| `08068144` | `0xA7` | Request the addressed local player's health/state restoration |
+| `08065DAC` | `0x83` | Publish the local weapon-subtype halfword, coalescing the first pending record |
+
+The keyed effect does not reserve a record for arbitrary keys; counter
+initialization is conditional on sender class-field value 5 and truncated key
+6. Revival production tests scene flag bit 18 without reserving it; that flag
+is not a connectivity query. Its collision caller requires local ownership,
+hit-mask eligibility, receiver filtering and overlap. These caller conditions
+are not imposed by the producer itself. Receiver sound/effect calls lie outside
+the target-local restoration condition.
+
+Weapon subtype is corroborated by activation/resource consumers and the frozen
+EU category-B name rendering, not inferred from an adjacent input field.
+Queue-full rejection occurs before coalescing, even if a pending tag exists.
+Evidence distinguishes entry offsets from payload-word indices and records
+partially initialized eight-byte chunks. No exact effect/item title, gameplay
+kill reward, universal target domain or successful delivery is inferred.
