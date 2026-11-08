@@ -22003,6 +22003,180 @@
           "detail": "Full-word r0 route pointer. Scans15 slots of112 bytes at scene-state+0x7A4, testing embedded task control at slot+0x48 rather than a stored pointer. First inactive slot gets u16 index+0x40; allocates2048-byte stack into+0x68, callback0x080887D4 at+0x54, top allocation+2044 at+0x58, priority10 at+0x50, finalizer0 at+0x6C. Starts callback with slot pointer and original route pointer, then waits2 ticks and returns; full pool returns immediately. No malloc check or wait for route completion. Repeated callers in0x08087CC0 pass distinct ROM route records. Complete original configured body audited against ROM, statically equal to copied verified-main ELF; no local build or runtime test."
         }
       ]
+    },
+    {
+      "address": "0x08087A5C",
+      "canonical_symbol": "sub_08087A5C",
+      "display_name": "TaskDisplayCenteredSceneMessage",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_0807A5D4.c",
+          "line": 9164,
+          "revision": "8bbfb589bf6ab55018ae7e465fc0e674879c81fa",
+          "detail": "r0 message id is ORed with0x140000 for resource lookup; low16 r1 is iteration limit, high16 layout mode. Initializes eight32-byte lines to0xFD, skips resource header2, handles0xFF newline and0xFE newline plus2 skipped payload bytes, and expands0xF6/F4/F3/F2 from player-name buffers at player-base+2/+0x14E/+0x29A/+0x3E6. Name reads use current output column as index, not separate token-local index. No line/column/resource bounds validation. Each iteration updates blend shadow with coefficients initially0/16, approaching16/0 except tick multiples16; mode0 centers nonempty first4 lines on rows12,14,16,18; mode1 first2 on16,18; mode2 all8 on2..16. Other modes draw no text. Breaks on link error or positive-transition-passed-duration predicate; otherwise yields. All exits mark/queue text rows0..19, not guaranteed to clear their contents. Limit0 still parses resource but draws nothing. Complete original configured body audited against ROM; copied verified-main ELF static equality does not imply a new build or runtime test. Width helper 1A638 counts encoded bytes until 0xFD or a code above 0xF1; centering is in text columns, not independently measured pixel width. The exact second exit predicate is signed halfword 03000026==1 and unsigned halfword 03000022>03000020. Modes1/2 still invoke drawing for empty lines. FE advances source by3 bytes in total, including its token."
+        }
+      ]
+    },
+    {
+      "address": "0x080889D4",
+      "canonical_symbol": "sub_080889D4",
+      "display_name": "StartFourLineSceneMessageTask",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08087CC0.c",
+          "line": 396,
+          "revision": "8bbfb589bf6ab55018ae7e465fc0e674879c81fa",
+          "detail": "r0 full message id; low16 r1 iteration limit. Allocates3072-byte stack and registers callback0x08087A5C on fixed task control0x030061B0, stack top+3068, priority10, finalizer0; forwards limit with high layout bits0. Thus callback uses four-line layout. No malloc/activity check or completion wait. Complete original configured body audited against ROM; copied verified-main ELF static equality does not imply a new build or runtime test."
+        },
+        {
+          "source": "src/code_08087CC0.c",
+          "line": 396,
+          "revision": "8bbfb589bf6ab55018ae7e465fc0e674879c81fa",
+          "detail": "Independent original confirms scheduler ABI r0=task pointer,r1=full message id,r2=packed low16 limit/layout; callback ABI r0=message id,r1=packed limit/layout. The three starters share one fixed task control030061B0,not three pools or independent slots. No concurrency,allocation-success or completed-display guarantee."
+        }
+      ]
+    },
+    {
+      "address": "0x08088A60",
+      "canonical_symbol": "sub_08088A60",
+      "display_name": "StartTwoLineSceneMessageTask",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08087CC0.c",
+          "line": 417,
+          "revision": "8bbfb589bf6ab55018ae7e465fc0e674879c81fa",
+          "detail": "r0 full message id; low16 r1 iteration limit. Allocates3072-byte stack and registers callback0x08087A5C on fixed task control0x030061B0, stack top+3068, priority10, finalizer0; forwards limit|0x10000, selecting two centered lines. No malloc/activity check or completion wait. Complete original configured body audited against ROM; copied verified-main ELF static equality does not imply a new build or runtime test."
+        },
+        {
+          "source": "src/code_08087CC0.c",
+          "line": 417,
+          "revision": "8bbfb589bf6ab55018ae7e465fc0e674879c81fa",
+          "detail": "Independent original confirms scheduler ABI r0=task pointer,r1=full message id,r2=packed low16 limit/layout; callback ABI r0=message id,r1=packed limit/layout. The three starters share one fixed task control030061B0,not three pools or independent slots. No concurrency,allocation-success or completed-display guarantee."
+        }
+      ]
+    },
+    {
+      "address": "0x08088B24",
+      "canonical_symbol": "sub_08088B24",
+      "display_name": "StartEightLineSceneMessageTask",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08087CC0.c",
+          "line": 448,
+          "revision": "8bbfb589bf6ab55018ae7e465fc0e674879c81fa",
+          "detail": "r0 full message id; low16 r1 iteration limit. Allocates3072-byte stack and registers callback0x08087A5C on fixed task control0x030061B0, stack top+3068, priority10, finalizer0; forwards limit|0x20000, selecting eight centered lines. No malloc/activity check or completion wait. Complete original configured body audited against ROM; copied verified-main ELF static equality does not imply a new build or runtime test."
+        },
+        {
+          "source": "src/code_08087CC0.c",
+          "line": 448,
+          "revision": "8bbfb589bf6ab55018ae7e465fc0e674879c81fa",
+          "detail": "Independent original confirms scheduler ABI r0=task pointer,r1=full message id,r2=packed low16 limit/layout; callback ABI r0=message id,r1=packed limit/layout. The three starters share one fixed task control030061B0,not three pools or independent slots. No concurrency,allocation-success or completed-display guarantee."
+        }
+      ]
+    },
+    {
+      "address": "0x0808D05C",
+      "canonical_symbol": "sub_0808D05C",
+      "display_name": "StartStageSelectionOrBattleTeamSetupTask",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08087CC0.c",
+          "line": 3827,
+          "revision": "8bbfb589bf6ab55018ae7e465fc0e674879c81fa",
+          "detail": "No arguments or meaningful return. Allocates4096-byte stack on fixed task control0x03006450, stack top+4092, priority100 and no-op finalizer0x0808D118. If scene flag multiplayer predicate0x0800CB9C returns nonzero, selects confirmed TaskBattleTeamSetup0x0808C0C4; otherwise confirmed RunTimedStageSelectionMenu0x0808AFE8. Starts selected task with argument0; no allocation/activity check or completion wait. Complete original configured body audited against ROM; copied verified-main ELF static equality does not imply a new build or runtime test."
+        },
+        {
+          "source": "src/code_08087CC0.c",
+          "line": 3331,
+          "revision": "8bbfb589bf6ab55018ae7e465fc0e674879c81fa",
+          "detail": "Accepted with added role evidence; do not replace names of the callbacks or infer them only from predicate. Complete own original confirms fixed03006450 task,1000 allocation/topFFC,priority100,finalizerD118 (own original bx lr),callbackC0C4 iff global03478 word bit1 is set,otherwiseAFE8; scheduler argument0. Own original callback paths C64C..C68C first read signed halfword selection+0x1C and compare it with4 at C654..C65A. Equality writes zero to player byte+0x68; only the other branch reads selection byte+0x1C at C670, adds3 and writes player byte+0x68. The high byte is therefore relevant to the equality test; matched consumer8CB58 groups BYTE+68 minus3 and excludes player flags2000 in winner logic,selecting text resources1401FF..140202. This establishes team combat setup beyond draft alias names. Independently extracted resource pointers/bytes agree with existing catalog team-choice/winner anchors; no new font rendering or exact UI-title claim. Own original AFE8 paths B392..B43A draw three16-byte item records plus fields divided by3600 and60 and saved values58900/58934; B902..B940 choosesRNG%3 record,sets scene+40=1,+36halfword=(slot<<8)|row|8000,copies16 bytes toscene+5C,signals02688420. These paths and ten sequential stage-row tables support broad timed-stage-selection role,without claiming detail-column choice is transferred. NONMATCHING drafts used only to locate evidence,not as proof."
+        }
+      ]
+    },
+    {
+      "address": "0x08081518",
+      "canonical_symbol": "sub_08081518",
+      "display_name": "DrawEncodedTextWithUnsignedNumber",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_0807A5D4.c",
+          "line": 4154,
+          "revision": "8bbfb589bf6ab55018ae7e465fc0e674879c81fa",
+          "detail": "r0 x, r1 y, r2 encoded source and r3 number; x/y/number truncated to u16. Fifth incoming stack word bit0 selects horizontal centering. Skips two source bytes and expands each0xF7 token into decimal digits0x41+digit using six divisors100000..1, suppressing leading zeros except final digit; copies other bytes until0xFD. Builds local32-byte text, u16 length with no bounds validation, terminates0xFD and draws via0x0801A3D0 at u16(x-(width>>1)) when centered, else x. No text-capacity check or bounded search for a missing source terminator; not ASCII formatting. Complete original configured body and literals audited against ROM; copied verified-main ELF static equality, no local build or runtime test. 1A638 measures encoded byte count until 0xFD or a high control code, so centering is in text columns rather than proven pixel width. Every 0xF7 expansion restarts from the same saved unsigned16 number. With unsigned16 input, at most five significant decimal digits occur despite six divisor passes. Helper00498 returns quotient and writes remainder back through the number pointer."
+        }
+      ]
+    },
+    {
+      "address": "0x08085484",
+      "canonical_symbol": "sub_08085484",
+      "display_name": "ClearAndFreeItemMenuManager",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_0807A5D4.c",
+          "line": 7627,
+          "revision": "8bbfb589bf6ab55018ae7e465fc0e674879c81fa",
+          "detail": "Unconditionally loads pointer global0x03006440, writes word0 at pointee+0, frees pointee with0x08001538 and clears pointer global. Original instructions have no null check despite empty conditional in source. Registered finalizer by0x08084EAC for shared manager menu task0x0807A5D4. No pool wait, task cancellation or other field cleanup here. Complete original configured body and literals audited against ROM; copied verified-main ELF static equality, no local build or runtime test."
+        }
+      ]
+    },
+    {
+      "address": "0x080854A0",
+      "canonical_symbol": "sub_080854A0",
+      "display_name": "FreeInventoryMenuManager",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_0807A5D4.c",
+          "line": 7637,
+          "revision": "8bbfb589bf6ab55018ae7e465fc0e674879c81fa",
+          "detail": "Loads pointer global0x03006440, calls heap free0x08001538, then clears global pointer. Does not write pointee first or test null. Original0x08084F24 registers it as finalizer of confirmed TaskInventoryMenu0x0807B7B4. Does not itself cancel tasks or free pool. Complete original configured body and literals audited against ROM; copied verified-main ELF static equality, no local build or runtime test."
+        }
+      ]
+    },
+    {
+      "address": "0x080854E8",
+      "canonical_symbol": "sub_080854E8",
+      "display_name": "CountDecimalDigitsCappedAtSix",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_0807A5D4.c",
+          "line": 7650,
+          "revision": "8bbfb589bf6ab55018ae7e465fc0e674879c81fa",
+          "detail": "Unsigned full-word r0 value. Starts result6 and compares thresholds100000,10000,1000,100,10,1 from word table0x084EBD4C offsets16..36. Decrements while threshold>value, returning0 for zero,1..5 for1..99999, and6 for every value>=100000 including values with more than six decimal digits. No mutation or division. This is a capped display-width helper, not a true unbounded digit count. Complete original configured body and literals audited against ROM; copied verified-main ELF static equality, no local build or runtime test."
+        }
+      ]
+    },
+    {
+      "address": "0x08085518",
+      "canonical_symbol": "sub_08085518",
+      "display_name": "ClearAndFreeFullScreenItemMenuManager",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_0807A5D4.c",
+          "line": 7665,
+          "revision": "8bbfb589bf6ab55018ae7e465fc0e674879c81fa",
+          "detail": "Unconditionally loads shared item-menu pointer global0x03006440, writes word0 at pointee+0, calls heap free0x08001538, then clears pointer global. No null check or nested-pool cleanup. Original0x08084F9C registers as finalizer of full-screen item-menu callback0x08082BB0, which selects manager modes3/4/5/6 from its incoming mode. Same operation sequence as0x08085484 but distinct canonical entry and registration; raw bytes differ because the relative call to heap free has a different displacement. No collection-only domain is established. Complete original configured body and literals audited against ROM; copied verified-main ELF static equality, no local build or runtime test."
+        }
+      ]
     }
   ]
 }
