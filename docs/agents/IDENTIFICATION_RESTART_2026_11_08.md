@@ -464,3 +464,12 @@ The menu helpers distinguish mode-dependent stock/stash sums from the total that
 The binary-choice drawing helper mutates animation state and uses a zero/nonzero branch without proving a 0/1-only input domain. The shared interaction-state handler is distinguished from the outer inventory task, contents drawing pass and task starter. The starter initializes only the witnessed fields and retries allocations. The large interaction routine remains a compiling NONMATCHING draft at the evidence revision; naming is grounded in original input/state dispatch, validators and caller paths rather than draft equivalence.
 
 Complete configured ranges equal the verified EUR ROM and local linked ELF. Original semantic audits of the larger story/menu bodies cover selected paths, with their limits recorded in each row; byte equality alone is not full CFG equivalence or runtime coverage. No canonical symbols, boundaries, matching code, active worker reports or generated progress files are authored by this batch.
+
+
+## New research: saved-character selection display initialization
+
+The first additional identity outside the frozen queue is `08002AA0`, `InitializeSavedCharacterSelectionDisplay`. Its complete original body, all twelve direct calls, literal pool and matched callers were reviewed at source revision `bbde7e62a009128351a06d2557c7dbab511093a1`. The saved-character selection task invokes it on entry and again after returning from cancelled character setup.
+
+The helper configures display/background controls, loads three assets into relative screen blocks 3/2/1 (absolute 31/30/29) and sets blend shadow. Independent review corrected the initial draft interpretation of the loader arguments: palette group starts at 0 with count 15; these are not a zero relative block and palette selector. The background loader can yield internally, so absence of a direct wait in this body does not imply nonblocking execution or completed presentation. The original draft, corrected row and exact overlay are preserved privately.
+
+Full configured-range bytes match the verified EUR ROM and local ELF. The catalog name describes the witnessed screen role, without changing canonical symbols, source code or boundaries and without claiming runtime coverage.

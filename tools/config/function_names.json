@@ -20989,6 +20989,33 @@
           "detail": "Complete original 84F24..84F9C bytes equal the original ELF and EU ROM; all code instructions in this starter were read. Original 84F36/84F60 allocation calls, manager first-word clear 84F46, stack/control stores 84F64..84F7E and registration 84F82 corroborate the matched source. No runtime, reentrancy, safe replacement of an existing manager or guaranteed completion is proved."
         }
       ]
+    },
+    {
+      "address": "0x08002AA0",
+      "canonical_symbol": "sub_08002AA0",
+      "display_name": "InitializeSavedCharacterSelectionDisplay",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08002118.c",
+          "line": 536,
+          "revision": "bbde7e62a009128351a06d2557c7dbab511093a1",
+          "detail": "Prepares the saved-character selection display: calls display setup helpers with the original parameters, writes BG0..BG3 control halfwords 0x1C08/0x1D01/0x1E02/0x1F03, loads background assets 0x19/0x14/0x13 using relative screen blocks 3/2/1 (absolute 31/30/29), graphics base 0x06000000, first palette group 0 and palette count 15, then sets blend shadow through 0903C(4,8,1,0,8,0). Those screen blocks correspond to the configured BG3/BG2/BG1 controls. It does not allocate save summaries, select a save slot or start a task. Its body has no explicit scheduler wait, but the background loader can submit transfers and yield; completed screen presentation is not guaranteed by this helper."
+        },
+        {
+          "source": "src/code_08002118.c",
+          "line": 720,
+          "revision": "bbde7e62a009128351a06d2557c7dbab511093a1",
+          "detail": "Matched TaskSelectSavedCharacter calls this before allocating its summary records and entering selection. Its cancellation return from character setup calls the same helper again at line816 before resetting that slot sprite and reopening the window. These callers anchor the screen role, without assigning localized labels or a general graphics reset contract."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 111,
+          "revision": "bbde7e62a009128351a06d2557c7dbab511093a1",
+          "detail": "Original complete range 08002AA0..08002B70 inspected: reachable Thumb body ends at2B5A, literals2B5C..2B70 supply masks and four background controls. All 12 BL calls correspond to the matched setup sequence. The transient upper halfword retained at stack+8 is not given a semantic value: background-control helper00AA8 consumes only the halfword. Full-range ROM/ELF equality checked independently. Static evidence only, no runtime or exact frame claim."
+        }
+      ]
     }
   ]
 }
