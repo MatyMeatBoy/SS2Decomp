@@ -14,8 +14,8 @@
 <text x="269.0" y="86" fill="#e6edf3" font-size="10">940 bytes; not decompiled C</text>
 <rect x="506.0" y="30" width="235.0" height="66" rx="5" fill="#161b22"/>
 <text x="516.0" y="46" fill="#e6edf3" font-size="11">Identification</text>
-<text x="516.0" y="69" fill="#3fb950" font-size="21" font-weight="600">56.66%</text>
-<text x="516.0" y="86" fill="#e6edf3" font-size="10">1153 / 2035 registered names</text>
+<text x="516.0" y="69" fill="#3fb950" font-size="21" font-weight="600">56.76%</text>
+<text x="516.0" y="86" fill="#e6edf3" font-size="10">1155 / 2035 registered names</text>
 <rect x="753.0" y="30" width="235.0" height="66" rx="5" fill="#161b22"/>
 <text x="763.0" y="46" fill="#e6edf3" font-size="11">Historical C + linked</text>
 <text x="763.0" y="69" fill="#e6edf3" font-size="21" font-weight="600">93.13%</text>
@@ -532,7 +532,7 @@
 <rect x="409.40" y="450.70" width="9.39" height="11.06" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08027B50 | sub_08027B50 | unidentified  0x08027B50  204 bytes  [done]</title></rect>
 <rect x="378.10" y="461.76" width="10.97" height="8.91" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>RestartEnemySpawnGroupTask | sub_08023ED8 | confirmed  0x08023ED8  192 bytes  [done]</title></rect>
 <rect x="389.07" y="461.76" width="10.74" height="8.91" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>t24_start257D4 | sub_080257D4 | existing  0x080257D4  188 bytes  [done]</title></rect>
-<rect x="399.82" y="461.76" width="9.60" height="8.91" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08028918 | sub_08028918 | unidentified  0x08028918  168 bytes  [done]</title></rect>
+<rect x="399.82" y="461.76" width="9.60" height="8.91" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>CancelSceneTaskPools | sub_08028918 | confirmed  0x08028918  168 bytes  [done]</title></rect>
 <rect x="409.42" y="461.76" width="9.37" height="8.91" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0802258C | sub_0802258C | unidentified  0x0802258C  164 bytes  [done]</title></rect>
 <rect x="378.10" y="470.67" width="8.13" height="9.52" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0802230C | sub_0802230C | unidentified  0x0802230C  152 bytes  [done]</title></rect>
 <rect x="378.10" y="480.19" width="8.13" height="9.27" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08024538 | sub_08024538 | unidentified  0x08024538  148 bytes  [done]</title></rect>
@@ -553,7 +553,7 @@
 <rect x="393.55" y="500.31" width="9.43" height="6.69" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>StartChaosDomainPortalTask | sub_08026C54 | confirmed  0x08026C54  124 bytes  [done]</title></rect>
 <rect x="402.97" y="486.92" width="8.82" height="6.69" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>AllocateSceneStateAndStartController | sub_08022630 | confirmed  0x08022630  116 bytes  [done]</title></rect>
 <rect x="411.79" y="486.92" width="6.99" height="6.69" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_080239E0 | sub_080239E0 | unidentified  0x080239E0  92 bytes  [done]</title></rect>
-<rect x="402.97" y="493.61" width="6.99" height="6.69" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08028368 | sub_08028368 | unidentified  0x08028368  92 bytes  [done]</title></rect>
+<rect x="402.97" y="493.61" width="6.99" height="6.69" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>AppendSceneObjectDamageRecord | sub_08028368 | confirmed  0x08028368  92 bytes  [done]</title></rect>
 <rect x="402.97" y="500.31" width="6.99" height="6.69" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>ReleaseSharedObjectPaletteSlot | sub_08028498 | confirmed  0x08028498  92 bytes  [done]</title></rect>
 <rect x="409.97" y="493.61" width="8.82" height="4.62" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>QueueDirectPlayerDamage | sub_08022028 | confirmed  0x08022028  80 bytes  [done]</title></rect>
 <rect x="409.97" y="498.23" width="4.64" height="8.77" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>RollRelativeStatChance | sub_080223A4 | confirmed  0x080223A4  80 bytes  [done]</title></rect>

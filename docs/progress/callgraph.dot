@@ -562,12 +562,12 @@ digraph calls {
   "sub_080277E0" [label="sub_080277E0"];
   "sub_08027B50" [label="sub_08027B50"];
   "sub_08027C1C" [label="t025Effects27C"];
-  "sub_08028368" [label="sub_08028368"];
+  "sub_08028368" [label="AppendSceneObjectDamageRecord"];
   "sub_080283C4" [label="AcquireSharedObjectPaletteSlot"];
   "sub_08028498" [label="ReleaseSharedObjectPaletteSlot"];
   "sub_080284F4" [label="TaskAnimateInteractiveSceneObject"];
   "sub_08028830" [label="TaskStartSceneCallbackOnAnyPlayerAreaEntry"];
-  "sub_08028918" [label="sub_08028918"];
+  "sub_08028918" [label="CancelSceneTaskPools"];
   "sub_080289C0" [label="SpawnSceneObjectAndWaitForStartupStateChange"];
   "sub_08028AAC" [label="MoveSceneEntityToPosition"];
   "sub_08028D98" [label="MoveSceneEntityByOffset"];
