@@ -438,3 +438,43 @@ The world-effect task projects packed signed coordinates, advances animation 10 
 The departure task has guarded animation progression and changes destination only for the local player after its cleanup gates. The prompt uses resource `0x1404E0`; its original pointer table and exact Latin letter/space term support the return role without assigning a speaker, location or selected answer. The starter searches four controls and retries stack allocation with scheduler waits. Its pool is addressed by pointer global `03006030`, as the original load/dereference at `657CA..657CC` demonstrates; one frozen evidence sentence was corrected to distinguish this from a fixed-address pool. Modes outside 0/1 retain the previous callback.
 
 All seven complete configured ranges equal the verified EUR ROM and local ELF. Selected original paths and caller guards support the stated roles without a full gameplay-state equivalence or runtime claim. The uncorrected frozen input and exact precision overlay are preserved privately. Canonical symbols, boundaries and matching code are unchanged.
+
+
+## Raw action-skill levels, equipment sets and Advanced Mode
+
+Eight EUR rows were independently reviewed against original instructions and source pinned at `b0270484a6dcc0e4649508a2c5589c502c8cdf39`. No frozen row required correction.
+
+The three action-skill helpers read raw saved halfword levels through class/action dispatch or test the returned low halfword for nonzero. Class 8 maps to 6 before byte narrowing; the explicit-selector getter differs from the local-player getter. The raw getters do not apply the effective-level conversion of 7 to 8, test energy affordability, or identify exact skill titles. Resource-dependent selector paths retain their unchecked inputs.
+
+The equipment predicate compares six requirement slots, allowing `0xFFFF` wildcards, including an all-wildcard set. The finder checks candidate IDs supplied by six resource records and returns the first matching bonus-data address, optionally updating the reloaded manager. It does not prove currently equipped items, scan every set, or validate resource/table membership.
+
+The Advanced Mode identities have direct EU evidence beyond a bare bit label: resources `0x14044B/0x14044C` resolve to original glyph labels Normal Mode and Advanced Mode; the chosen value is saved in summary byte +7; loader `7A4B4` reapplies it to scene bit 9; the lobby propagates that query through peer-header byte +10 bit 0. Original pointer entries, labels, choice/store paths, accessors and loader/lobby witnesses were independently checked. The helpers only mark/query the flag; no unlock guarantee, stable bank snapshot, successful synchronization or regional transfer is inferred.
+
+Complete configured ranges equal the verified EUR ROM and local linked ELF. All names remain catalog display identities; canonical symbols, boundaries and matching code are unchanged. This static evidence adds no runtime or matching credit.
+
+
+## Story presentation and item-menu lifecycle
+
+Fourteen remaining frozen EUR queue rows were independently reviewed using original instruction witnesses, source pinned at `b0270484a6dcc0e4649508a2c5589c502c8cdf39`, and relevant resource/caller paths. Each is a new catalog identity, with no pre-existing descriptive alias counted again.
+
+The story presentation callback, starter and title-option query are supported by original dispatch, timed caption calls, scheduler wake and EU narrative-resource terms. Root verification independently resolved the recorded pointer-table entries and witnessed Latin terms. The wake signal is the 32-bit `0x5A112EBF`; the materialized second register is not another signal word. Skip behavior remains phase/selection gated, and the role is not an exact localized title translation.
+
+The menu helpers distinguish mode-dependent stock/stash sums from the total that also adds bag currency in mode 4, preserve low-word arithmetic, clear the held record without restoring its item, and allocate/start/wait/free a child task control. The wait captures a control but later frees the manager field reloaded after yields; those pointers are not assumed stable. One evidence sentence now spells the stash base as `*(u8 **)0x030034E0 + 0x2E0`, removing ambiguity about the pointer global. The original frozen input and precision overlay are preserved privately.
+
+The binary-choice drawing helper mutates animation state and uses a zero/nonzero branch without proving a 0/1-only input domain. The shared interaction-state handler is distinguished from the outer inventory task, contents drawing pass and task starter. The starter initializes only the witnessed fields and retries allocations. The large interaction routine remains a compiling NONMATCHING draft at the evidence revision; naming is grounded in original input/state dispatch, validators and caller paths rather than draft equivalence.
+
+Complete configured ranges equal the verified EUR ROM and local linked ELF. Original semantic audits of the larger story/menu bodies cover selected paths, with their limits recorded in each row; byte equality alone is not full CFG equivalence or runtime coverage. No canonical symbols, boundaries, matching code, active worker reports or generated progress files are authored by this batch.
+
+
+## New research: saved-character selection display initialization
+
+The first additional identity outside the frozen queue is `08002AA0`, `InitializeSavedCharacterSelectionDisplay`. Its complete original body, all twelve direct calls, literal pool and matched callers were reviewed at source revision `bbde7e62a009128351a06d2557c7dbab511093a1`. The saved-character selection task invokes it on entry and again after returning from cancelled character setup.
+
+The helper configures display/background controls, loads three assets into relative screen blocks 3/2/1 (absolute 31/30/29) and sets blend shadow. Independent review corrected the initial draft interpretation of the loader arguments: palette group starts at 0 with count 15; these are not a zero relative block and palette selector. The background loader can yield internally, so absence of a direct wait in this body does not imply nonblocking execution or completed presentation. The original draft, corrected row and exact overlay are preserved privately.
+
+Full configured-range bytes match the verified EUR ROM and local ELF. The catalog name describes the witnessed screen role, without changing canonical symbols, source code or boundaries and without claiming runtime coverage.
+
+
+## New research: sprite frame-allocation reset wrapper
+
+`08008C10` is independently confirmed as `ResetSpriteFrameAllocationStateWrapper` at source revision `13bfd19e2f8cf89028168b9d666d60036cbdc0c5`. Its entire reachable body calls the already verified `08008C1C` and returns; the trailing alignment halfword is not an executed operation. The callee clears the six sprite accounting words and selects the display-mode-specific OBJ graphics base, preserving the previous base for modes above 5. This does not clear OAM or graphics memory. No direct caller, runtime reachability or guaranteed per-frame invocation is inferred for the wrapper. Complete configured-range bytes equal the verified EUR ROM and local ELF; canonical symbols and source code remain unchanged.
