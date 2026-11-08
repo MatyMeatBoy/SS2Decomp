@@ -2150,6 +2150,12 @@ void sub_080923FC_u8(u32 arg0, u32 arg1) {
         if (!BUSY923FC()) {
             s32 lower;
             s32 d;
+            /* Dead truncations share the draw's x/y shifts so loop.c hoists them before the
+               cache address; the empty asms only add luids (no code). */
+            { u32 t = (u16)x; u32 u = (u16)y; }
+            asm("");
+            asm("");
+            asm("");
             sub_08000AF0(0x10, a.fC + 0xE0, 1);
             draw923FC((s16)x, (s16)y, 0, 0, param, a.payload, a.f8, a.f0);
             {

@@ -37,3 +37,23 @@ Shard 96, sub_080923FC (code_0808FB5C)
     pass 1). Note `threshold -= 3` after each move. Failed: do{}while(0) around the stores (phony
     loop, ignored), block/outer cache pointers, cache923FC[] vs offsetFields mixes (extra literal),
     explicit xShift/yShift temps (frame/size change), unifying the symbol (breaks +10E).
+  - Init-loop r6/r7 root cause (2026-11-08, traced with an instrumented global.c that prints
+    prune_preferences contributors and set_preference/expand_preferences calls): the bb0 `&b` pseudo
+    (`add r6,sp,#72` for init923FC(&b)) is local-allocated to r6. The GCSE-PRE reaching reg for
+    (plus fp 52) is a copy of it at the end of bb0 (live to the round loop, refs 17, live 1778,
+    priority 0.038), so set_preference gives it an r6 preference. The xs-base loop copy (refs 3,
+    live 70, priority 0.043) conflicts with it and has higher priority, so pass 0 of find_reg
+    excludes r6 (regs_someone_prefers) and picks r7. It would get r6 if the PRE reg's priority
+    exceeded 0.0429 (>= 20 weighted refs or live <= 1585), if the xs copy's live length were >= 79,
+    or if a conflicting allocno held or preferred r7. Failed: removing the descriptorMember096
+    hack (43), &b.payload[0] (no change), pointers px/py for the init loop (frame shrinks), a
+    round-loop `struct Anim923FC *roundB = &b` (frame grows), and reordering x/param/payload/y
+    in the prologue.
+  - Phase-5 hoist order FIXED (worker wA, 2026-11-08): inside `if (!BUSY923FC())` before the draw,
+    `{ u32 t = (u16)x; u32 u = (u16)y; }` (dead) makes cse1 share the draw's x<<16 / y<<16 shifts,
+    lengthening their pass-1 lifetimes; three empty `asm("")` add 3 luids so y's life reaches 11.
+    loop.c pass 1 then moves x (threshold 13), y (10), cache (7*16 >= insn_count) in ROM order.
+    Without the asm padding: 6 diffs. Unconditional temps at loop top: gcse PRE rewrites other
+    phases (382). asm("" :: "r"(x<<16)): reload copies/frame slots. u16 y: 597. Any no-code
+    statement adding ~3 luids in that block can replace the asm("") padding.
+    Function now at 2 positional differences (+12C/+162 only).
