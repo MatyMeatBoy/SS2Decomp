@@ -14800,10 +14800,35 @@
       "canonical_symbol": "sub_08023A3C",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_08023A3C",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "TaskManageEnemySpawnGroup",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_08021DC4.c",
+          "line": 1526,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Task callback for one enemy-spawn group record and group index. Scans five 8-byte slot records, builds 8-byte enemy request descriptors carrying the stored source-record pointer, slot/group bytes and sequence, and advances scene sequence by 5 with the observed wrap-to-9 rule. Initial noncompleted slot-state writes occur only when LinkIsParentOrLoopback (02204) is true. This does not imply local ID 0 or a universal host-only rule."
+        },
+        {
+          "source": "src/code_08021DC4.c",
+          "line": 1558,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Outside scene mode 11, yields until a player-proximity predicate and free spawn-request capacity permit progress; scene mode 11 skips that proximity wait. Record mode 0 retries pending descriptors as a group, while mode 1 processes slots in order and waits on their state bytes. Both use 19FA8 and tag 0x86 producer 6603C, setting slot state 2 only after successful enqueue and parent-or-loopback permission. State values 1/2/3 and stop predicate 56E90 are retained without assigning an exact stage or wave title."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 547,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Complete original 23A3C range equals original EU ROM/existing ELF. A6A..AD4 scans five slots; 23B8E/23CE0 call 6603C; AB4/B9A/CFE gate slot-state stores through 02204. DCE..E56 is parity/proximity processing. E7E..E94 decrements scene halfword+A and replaces results with zero when bit 15 is set. EC0 retries 67EC8 under its explicit guard. All 666 lines of the three-function original proof inspected; static contract evidence, no whole-FSM runtime equivalence claim."
+        },
+        {
+          "source": "src/code_08021DC4.c",
+          "line": 1649,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "On normal return decrements the shared group-count halfword, clamps any result with bit 15 set to zero, and conditionally retries enqueue helper 67EC8 until accepted. Stop handling within the record-mode wait paths retries 67C28 with a pointer to the stored record. These loops prove enqueue acceptance, not peer acknowledgement or completed enemy removal. Active-slot contiguity, arbitrary index/record-mode domains and safe inherited descriptor bytes are not established."
+        }
+      ]
     },
     {
       "name": "sub_08023ED8",
@@ -14817,10 +14842,29 @@
       "canonical_symbol": "sub_08023ED8",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_08023ED8",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "RestartEnemySpawnGroupTask",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_08021DC4.c",
+          "line": 1663,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Selects scene task control+0x1834+index*0x28. Cancels it if scheduled, installs callback 23A3C, then retries a 0x200-byte stack allocation with signal 1 waits. Sets stack pointer base+0x1FC, task+8 key 0x46 and null destructor, and schedules with the supplied group-record pointer and full input index. Does not validate the index, initialize group state/count or wait for the callback to finish."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 548,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Original 23EF6/23F02 check membership/cancel; 23F12 installs 23A3C. F24..F44 yield/retry allocation, F52/F5C/F66 set stack/key/destructor and F72 starts the task. Callback 23A3C narrows its second argument to u16, with byte narrowing in slot-state indexing and descriptors; those original width differences are not replaced by an invented 0..31 caller domain. Complete function range equals original EU ROM and existing ELF."
+        },
+        {
+          "source": "src/code_0805A630.c",
+          "line": 19,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Paired pool cancellation helper 5A66C scans the same 32 controls at +0x1834 and stride 0x28. This links the starter/callback to a concrete scene enemy-spawn group pool, not a generic bytecode script interpreter."
+        }
+      ]
     },
     {
       "name": "sub_08023F98",
@@ -14834,10 +14878,35 @@
       "canonical_symbol": "sub_08023F98",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_08023F98",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "StartEnemySpawnGroupsForMapArea",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_08021DC4.c",
+          "line": 1730,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Narrows both inputs to u16. Map-set values 1..23 select one of the fixed per-area tables; it dereferences table[area] and then its first pointer to obtain contiguous 0x38-byte enemy-spawn group records. This resource selection occurs before the parent-or-loopback check. It performs no decompression or record copy."
+        },
+        {
+          "source": "src/code_08021DC4.c",
+          "line": 1763,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Only when LinkIsParentOrLoopback (02204) is true, clears scene group-count halfword+0xA. Except map-set 0/11, walks nonzero-first-halfword records, at most 32, stores each record pointer at scene+0x724+currentCount*4, restarts the indexed group task through 23ED8 and increments the freshly reloaded count. Does not cancel unused prior task slots, clear the whole pointer table, validate area/index bounds or wait for groups to finish."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 549,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Original 23FA2..23FB2 selects the 23-entry branch table. 240C6..240CC performs both table-pointer loads before 240CE queries 02204; 240DC clears the count, 24104 registers each pointer, 2410A starts 23ED8 and 24118/2411A advance records/bound at 32. Default map-set branch skips initialization of R4; for values beyond 23 the later record cursor is inherited R4, not a validated/default-empty pointer. Map-set 0 skips dereferencing that cursor after the parent check; map-set 11 still performs its table lookup before the later exclusion. Complete original function equals existing EU ELF/ROM; all 186 proof lines inspected, SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc."
+        },
+        {
+          "source": "src/code_0808FB5C.c",
+          "line": 304,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Matched scene caller 9007C supplies map state 03003170 halfwords+0x8C/+0x90, independently anchored by the world-map loader as map-set/area indices. This proves the two selector roles; no exact stage title, universal valid-input domain, parent-ID-zero equivalence or completed peer synchronization is inferred."
+        }
+      ]
     },
     {
       "name": "sub_0802413C",
@@ -22636,10 +22705,29 @@
       "canonical_symbol": "sub_08058620",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_08058620",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "AppendAndStartEnemySpawnGroup",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_08057CAC.c",
+          "line": 510,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Snapshots scene pointer and its unsigned halfword group count at +0xA as the registration index. If the supplied record first signed halfword is nonzero, stores the record pointer at snapshot scene+0x724+index*4, calls RestartEnemySpawnGroupTask (23ED8) with that pointer/index, then reloads the global scene pointer and increments its current group-count halfword. A zero first halfword does none of those writes/calls. No index limit, empty-slot check or return-status contract is added."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 944,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Original 58628 reads the unsigned count before checking the record, 5863A stores its full pointer and 58640 calls 23ED8. 58644 reloads the scene pointer before the count increment/store at 58646..5864A. Complete function bytes equal original EU ROM/existing ELF; all 62 lines of both registration-helper proofs inspected. EU SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc."
+        },
+        {
+          "source": "src/code_08087CC0.c",
+          "line": 2578,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Matched timed-stage controller starts each next group record through 58620 and later advances the record by 0x38 bytes. Matched 23ED8 installs the enemy-spawn group runner 23A3C in the corresponding indexed task control. This confirms group registration/start rather than generic bytecode execution; it does not validate every caller record or guarantee successful completion."
+        }
+      ]
     },
     {
       "name": "sub_0805865C",
@@ -24629,10 +24717,29 @@
       "canonical_symbol": "sub_0805A550",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_0805A550",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "RegisterAndStartEnemySpawnGroupAtIndex",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_08059534.c",
+          "line": 582,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "If the supplied record first signed halfword is nonzero, writes its pointer into scene+0x724+index*4 using the full explicit index, calls RestartEnemySpawnGroupTask (23ED8) with the same arguments, then reloads the global scene pointer and increments its current unsigned halfword count at +0xA. Zero first halfword returns without registration/start/count change. The explicit slot index is not replaced by the count, and the count is not assigned index+1."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 1047,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Original 5A554 preserves the full incoming index, 5A562 scales it by 4, 5A56A stores the record pointer, and 5A570 calls 23ED8. 5A574 reloads the scene pointer before the halfword count RMW. Complete original helper range equals original EU ROM/existing ELF; static contract evidence only."
+        },
+        {
+          "source": "src/code_08021DC4.c",
+          "line": 1663,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "The called starter cancels an already-scheduled indexed group task and may yield while retrying stack allocation. This wrapper still increments the count afterward; it performs no duplicate-registration check or explicit compensation for the cancelled task count. Pointer/record ownership, arbitrary index bounds and stability of the global scene across the call are not assumed."
+        }
+      ]
     },
     {
       "name": "sub_0805A58C",
@@ -24824,10 +24931,29 @@
       "canonical_symbol": "sub_0805A66C",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_0805A66C",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "CancelScheduledEnemySpawnGroupTasks",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_0805A630.c",
+          "line": 19,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Visits 32 scene task controls at +0x1834 with stride 0x28. For each, checks scheduler membership and calls 003A8 only when present, rereading the scene pointer for cancellation. Does not directly clear enemy actors, group slot states, the group count, network queues or the group-record pointer table."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 1057,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Original 5A678 queries membership, 5A684 cancels, 5A688 advances 0x28 and 5A68C/68E iterate indices 0..31. Complete original function range equals original EU ROM/existing linked ELF. It has no explicit self-task exclusion or wait for asynchronous network effects."
+        },
+        {
+          "source": "src/code_08021DC4.c",
+          "line": 1663,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Starter 23ED8 installs enemy-spawn group callback 23A3C in this same pool with null destructor. Normal callback return decrements the group count; this cancellation helper does not execute that callback epilogue or explicitly decrement the count. No broader stage-reset guarantee is inferred."
+        }
+      ]
     },
     {
       "name": "sub_0805A6A0",
@@ -29336,10 +29462,47 @@
       "canonical_symbol": "sub_08065DAC",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_08065DAC",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "TryEnqueueLocalWeaponSubtypeUpdate",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_080659B0.c",
+          "line": 232,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Rejects outgoing count greater than 49 before searching existing records. Otherwise scans the current count of 0x88-byte entries for the first whose word+4 is exactly 1 and tag is 0x83. If found, overwrites only entry+8 (payload word 0) with the zero-extended local player halfword+0x10 and returns 1; it does not increment count or reset that record's chunk count. It does not rewrite every duplicate tag."
+        },
+        {
+          "source": "src/code_080659B0.c",
+          "line": 254,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "When no eligible pending record is found, rereads queue count/base, appends tag 0x83 with word+4=1, entry+8 (payload word 0) equal to the zero-extended local player halfword+0x10 and chunk count 1, increments count and returns 1. Only the first four bytes of the eight-byte payload chunk are initialized here. Queue-full rejection returns 0 even when a matching tag already exists."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 1209,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Complete original 65DAC..65E38 range equals original EU ROM/existing ELF. 65DB4/DB6 implements capacity before scan; 65DE6..65DF0 tests exact state 1/tag83 and takes the update path. Original 65DCE/65E1C uses LDRH at player+0x10 and 65DD0/65E1E stores its zero-extended word. The adjacent player halfword+0x12 is not copied."
+        },
+        {
+          "source": "src/code_0805A630.c",
+          "line": 446,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Matched activation routine 5AD78 clears item activation bytes, accepts selected kind-2/category-B equipment through 5AE34, writes resource byte+0x9B to local player halfword+0x10 on success or zero otherwise, then returns this enqueue/update result. Original 5ADF4..5AE26 corroborates the subtype store and call. Thus the packet reports equipment subtype, not generic input or the player state+0x20."
+        },
+        {
+          "source": "src/code_08006D24.c",
+          "line": 121,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "The matched category-B resource resolver and kind-2 item formatter connect those equipment records to original language-0 name assets. The frozen font rendering for IDs 0..7 reads Short Sword, Iron Blade, Middle Sword, Battle Blade, Long Sword, Scimitar, Steel Sword and Broadsword. This supports the narrow weapon-item interpretation independently of source aliases; no general claim that every kind-2 item is one of these eight swords is needed."
+        },
+        {
+          "source": "src/code_080659B0.c",
+          "line": 1044,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Receiver raw case 2/tag83 updates only remote peers, narrowing payload word 0 to player halfword+0x10. Original 66BD8..66BF2 checks sender against local ID and uses STRH at +0x10. It does not copy player input halfword+0x12 or overwrite local equipment through this receive case."
+        }
+      ]
     },
     {
       "name": "sub_08065E38",
@@ -30457,10 +30620,29 @@
       "canonical_symbol": "sub_08067C28",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_08067C28",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "TryEnqueueEnemyRemovalByStoredSpawnRecord",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_08067B4C.c",
+          "line": 56,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Rejects when outgoing queue count exceeds 49. Otherwise creates a 0x88-byte queue record with tag 0x87, word+4=1 and one payload chunk, copying exactly the 32-bit word dereferenced through the supplied argument to entry+8 (payload word 0). Increments queue count and returns 1; rejection returns 0. The payload is the stored spawn-record pointer, not the address of its table slot or a player/enemy enumeration. No actor is removed synchronously."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 1250,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Original 67C30..67C32 implements unsigned count limit; 67C48 loads *argument and 67C4A stores it to payload. Complete producer range equals original EU ROM/existing ELF; all 37 original proof lines inspected. Receiver bias+0x81 maps raw case 6 to tag 0x87: original 66C58 loads payload word 0, and 66C5A calls 16A7C."
+        },
+        {
+          "source": "src/code_080659B0.c",
+          "line": 1061,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Matched receiver case 6 forwards payload word 0 to already-confirmed RequestEnemyRemovalBySpawnRecord (16A7C). That consumer marks matching active enemies and two pending descriptors by record pointer; it does not itself wait for all callbacks to exit. Matched group task 23A3C passes &scene.entries[group] and retries until this enqueue succeeds, without proving peer acknowledgement or removal completion."
+        }
+      ]
     },
     {
       "name": "sub_08067C68",
@@ -30474,10 +30656,41 @@
       "canonical_symbol": "sub_08067C68",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_08067C68",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "TryEnqueueEnemyRemovalById",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_08067B4C.c",
+          "line": 70,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Returns 0 when the outgoing queue count exceeds 49. Otherwise selects base+count*0x88, writes queue word+4=1, tag 0x88, the complete 32-bit argument to entry+8 (payload word 0) and chunk count 1, increments the count and returns 1. It does not dereference or narrow the argument. Only the first four payload bytes are initialized here; one wire chunk carries eight bytes, and this receiver uses its first word."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 1251,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Complete original 67C68..67CA8 range equals original EU ROM/existing ELF. Original 67C70/72 uses an unsigned count comparison, 67C84/86 writes tag 0x88, 67C88 stores the full argument and 67C8A records one chunk. The original producer proof includes its two siblings, but their different tags do not establish equivalent roles."
+        },
+        {
+          "source": "src/code_080659B0.c",
+          "line": 1064,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Receiver dispatch subtracts 0x81, so tag 0x88 selects raw case 7. Scans five 0x2E0-byte enemy slots under active mask 030056FC, comparing the complete payload word with each zero-extended identifier halfword at actor+2. Marks only the first matching active actor by ORing mask 0x1 into its flags halfword+0x7A, then stops. It does not clear the active mask, free memory, remove pending spawn descriptors or require a remote sender."
+        },
+        {
+          "source": "src/code_080153A4.c",
+          "line": 1156,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "The already-confirmed RequestEnemyRemovalBySpawnRecord (16A7C) independently identifies flags mask 0x1 as a removal request: it marks actors by stored record pointer and also cancels matching pending requests. This tag instead identifies only one active actor by identifier and does not perform that pending-request cancellation."
+        },
+        {
+          "source": "asm/nonmatchings/code_08017F7C/sub_0801801C.s",
+          "line": 3095,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Original receiver 66C60..66C90 performs the five-slot scan, 66C82 loads the actor identifier with LDRH, 66C84 compares it with the full payload word and 66C88 branches to 66B68..66B70 to OR/store mask 0x1. Original actor callback 1801C lines 3095..3121 checks that mask after a signal 1 wait and branches to its normal exit path. This proves an asynchronous removal request, not immediate completion or a gameplay kill/reward promise."
+        }
+      ]
     },
     {
       "name": "sub_08067CA8",
@@ -30959,10 +31172,41 @@
       "canonical_symbol": "sub_080680B4",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_080680B4",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "TryEnqueueEnemyEffectByKey",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_08067B4C.c",
+          "line": 254,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Returns 0 when outgoing count exceeds 49. Otherwise writes a 0x88-byte queue record with tag 0xA2, word+4=1, the complete first argument at entry+8 (payload word 0) and complete second argument at entry+0xC (payload word 1), chunk count 1, then increments count and returns 1. These two words fill one eight-byte wire chunk. The producer does not narrow either value or synchronously modify an enemy."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 1267,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Complete original 680B4..680F8 range equals original EU ROM/existing ELF. Original 680BE/C0 uses unsigned count limit 49; 680D2/D4 writes tag A2 and 680D6/D8 stores the two preserved argument words. No flags gate or duplicate-key search occurs in the producer."
+        },
+        {
+          "source": "src/code_080659B0.c",
+          "line": 1442,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Tag A2 dispatches to raw case 0x21. Scans all five active enemy slots and compares the entire first payload word with each zero-extended identifier halfword+2. For each match, asks 1E104 for a free inline effect record; if nonnull, stores the low halfword of the second payload word to record+4 and sender peer to record+2. Only when that peer player class halfword+C is 5 and the stored key is 6 does it write counter=0x168 at record+0. There is no first-match break or local-versus-remote exclusion, and it does not initialize other effect fields here."
+        },
+        {
+          "source": "src/code_0801AAF8.c",
+          "line": 2221,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Confirmed FindFreeInlineActorEffectRecord (1E104) searches eight 40-byte records at actor+0x8C for signed counter -1 and returns the first or null without reserving it. Original 1E106 immediately replaces incoming R1 with the actor pointer, so the extra second receiver argument is not a key filter or output pointer. Record key/peer stores are halfwords; original 67758..67776 proves their narrowing and conditional counter store."
+        },
+        {
+          "source": "src/code_0801E244.c",
+          "line": 1030,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Matched combat caller 1F374 invokes this producer with target identifier halfword+2 and constant effect key 6 after a class-5 source and skill-level-versus-RNG test. Original 1F73C..1F766 independently shows the class check, level query with key 6, random low-six-bit comparison and call with LDRH identifier/R1=6. This anchors a keyed enemy effect request without assigning an exact effect or class title."
+        }
+      ]
     },
     {
       "name": "sub_080680F8",
@@ -31014,10 +31258,47 @@
       "canonical_symbol": "sub_08068144",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_08068144",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "TryEnqueuePlayerRevivalRequest",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_08067B4C.c",
+          "line": 271,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Returns 0 if outgoing queue count exceeds 49 or 0CFF0 returns nonzero. Otherwise rereads the count after that helper, writes tag 0xA7 with queue word+4=1, the full argument as entry+8 (payload word 0) and chunk count 1, increments count and returns 1. Only the first four payload bytes are initialized here despite the eight-byte chunk. It does not reserve/set the operation gate or synchronously change player health. The helper0CFF0 queries scene word0x03003478 bit18; this is a software operation gate, not a connectivity check."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 1269,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Original 6814C/14E applies the unsigned queue limit, 68150 calls 0CFF0 and 68154/156 rejects nonzero. 6815A reloads count; 6816A/16C writes A7 and 6816E stores the full input word. Complete producer 68144..6818C equals original EU ROM/existing linked ELF."
+        },
+        {
+          "source": "src/code_080659B0.c",
+          "line": 1475,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Tag A7 dispatches as raw case 0x26. Only the target whose full payload word equals the local player index receives health+C4 copied from maximum-health halfword+62, flags+30 mask 0x2000 cleared, byte+68 set to 1 and state+20 reset to 0 only if it was 11. It conditionally queues updated flags tag 8C, calls 6617C and 22200, and increments one of six saved counters for cause values 1..6. All receivers subsequently request sound 0x91 and effect 74DE8(target,8). The receiver itself does not require the prior defeated flag or zero HP."
+        },
+        {
+          "source": "src/code_0805A630.c",
+          "line": 1084,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Matched collision-driven item task 5B688 requests 68144 for another player only for object kind 5, map-set value other than 11 and target flags+30 mask 0x2000 set; otherwise that object kind uses item application 67F4C. Original 5B87C..5B8B6 proves the kind/map/flag tests and forwards target index R6 to 68144. The item identity is left unresolved; no universal argument-domain claim is inferred from this caller. This path also requires the item/projectile owner index to equal the local player index, not a host test. Before enqueue it requires the player hit-mask bit, excludes the owner, rejects packet states0xE/0xC, packet flag0x20 and player flag0x400, and requires overlap. Those caller preconditions are not imposed by producer68144 itself."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 1226,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Original receiver 677DC/77E0 compares the full payload with the local index; 677F8/77FC copies maximum HP, 67804..67808 clears only flags mask 0x2000, 67814 stores byte 1 and 67816..6781E resets only state 11. The literals and original 67820..67878/678AC..67910 confirm the optional flags enqueue, cause-counter updates and common sound/effect tail. This is a queued revival/restoration request, not acknowledgement or proof of successful runtime synchronization."
+        },
+        {
+          "source": "src/code_0800CF58.c",
+          "line": 32,
+          "revision": "bf9a9ffc9b00d0cf50a36f70ac323d1d61df2630",
+          "detail": "0CFF0 returns bit18 of full scene-flags word0x03003478. Producer68144 tests it without setting/reserving the gate. The producer accepts a full raw target word; current caller filtering and receiver-local restoration do not establish a universal valid-input or network-connectivity contract."
+        }
+      ]
     },
     {
       "name": "sub_0806818C",
@@ -47606,12 +47887,12 @@
   "identification": {
     "game": {
       "total": 1880,
-      "identified": 720,
+      "identified": 731,
       "existing": 26,
-      "confirmed": 694,
+      "confirmed": 705,
       "proposed": 8,
-      "unidentified": 1152,
-      "percent_identified": 38.297872340425535
+      "unidentified": 1141,
+      "percent_identified": 38.88297872340426
     },
     "sdk": {
       "total": 155,
@@ -47624,12 +47905,12 @@
     },
     "all": {
       "total": 2035,
-      "identified": 875,
+      "identified": 886,
       "existing": 155,
-      "confirmed": 720,
+      "confirmed": 731,
       "proposed": 8,
-      "unidentified": 1152,
-      "percent_identified": 42.997542997543
+      "unidentified": 1141,
+      "percent_identified": 43.53808353808354
     }
   },
   "limitations": "Configured function address intervals, including alignment/literal pools; inventory includes original assembly and linked libraries. Existing descriptive identifiers are recognized, not independently semantically re-proven."
