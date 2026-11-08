@@ -23824,6 +23824,69 @@
           "detail": "Independent names-low-a review: Accept Credits correction by exactregistered87CC0 callback with independent resourceclosure. Allocates1000hex once withoutnull/activitycheck, fixed6450stack+FFC,priority100,finalizer0,argument0. Request does not prove rendered credits or reset."
         }
       ]
+    },
+    {
+      "address": "0x080815F4",
+      "canonical_symbol": "sub_080815F4",
+      "display_name": "DrawItemMenuDetailedItemPanel",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_0807A5D4.c",
+          "line": 4399,
+          "revision": "8bbfb589bf6ab55018ae7e465fc0e674879c81fa",
+          "detail": "r0 item-record pointer. Always draws item label at(15,18) and icon at(120,32) before type dispatch. Loads type-specific resources for kind1..10; unsupported kinds return after initial label/icon. Builds centered multiline descriptions in shared text buffer0x03000128, expands0xF7 numeric tokens using six divisors100000..1, and computes signed-halfword/byte equipment values from record fields and current saved skills/class. Kinds2..5 byte+8 nonzero suppress equipment detail mask; otherwise computes skill-based bonus display without applying item. Builds up to10 class icons from resource mask; scans up to3 four-byte modifier entries (u16 kind/value), excludes modifier kinds0/41, selects signed resource variant and prints absolute u16 magnitude. Kind8/9 return after icons, kind1 uses one modifier, kind10 draws its label at row6 and returns. Text/description arrays and resource lookups lack capacity/domain checks; no inventory mutation, purchase or successful equip claimed. Complete pinned matching source body and original configured range preserved for independent static audit; original equals copied verified-main ELF, no local build or runtime test."
+        },
+        {
+          "source": "src/code_0807A5D4.c",
+          "line": 4399,
+          "revision": "8bbfb589bf6ab55018ae7e465fc0e674879c81fa",
+          "detail": "Independent names-low-a review: Accepted. All original configured body inspected, including long-range continuations. Always initial label/icon beforekind dispatch; unsupportedkind returns thereafter. Shared text03000128 has unchecked32-byte line strides. F7 restarts number pertoken with originalROMdivisors100000,10000,1000,100,10,1 (084EBD5C); encoded-byte centering is not pixelmeasure. Modifier stride4 and threeentry cap independently confirmed. Actual skillhelper ABI uses classlow8 r2 for1E378/1E3D8, r3 for1B58C. No item application/inventory transfer. Ten descriptor slots are a local maximum, not a guarantee allclasses/formatsvalid."
+        }
+      ]
+    },
+    {
+      "address": "0x0808441C",
+      "canonical_symbol": "sub_0808441C",
+      "display_name": "SynthesizeRandomItemFromThreeInputs",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_0807A5D4.c",
+          "line": 6495,
+          "revision": "8bbfb589bf6ab55018ae7e465fc0e674879c81fa",
+          "detail": "r0 points to at least three16-byte item records PLUS metadata word at+0x34; r1 points to16-byte output. Randomly permutes three inputs via rejection sampling. Classifies original ordered triple through0x08084200; nonzero class and RNG low16<=saved-state word+0x6C can select class/tier recipe tables, tier from summed unsigned values with boundaries100/300/500. Fallback uses first randomized equipment record or random nonempty saved stock entries for kind9; empty stock can loop indefinitely. Further randomized property/value inheritance uses other two records and compatibility flags, with an inherited r9 path for unsupported kinds. Weighted refinement uses three normalized values, metadata and+0x6C, clamps resulting byte+6 to20, enforces intrinsic-property restrictions and copies output16 bytes. Finally updates saved word+0x6C by (sum of three item prices plus metadata)/10 minus outputPrice/10, with machine32 arithmetic then signed clamp0..65535. Does not remove inputs, insert output into bag, or charge currency. Unknown name/domain of score+0x6C is not inferred; rare fallback copies16 bytes from12-byte initialized temporary, so no unconditional deterministic-output guarantee. Complete pinned matching source body and original configured range preserved for independent static audit; original equals copied verified-main ELF, no local build or runtime test."
+        },
+        {
+          "source": "src/code_0807A5D4.c",
+          "line": 6495,
+          "revision": "8bbfb589bf6ab55018ae7e465fc0e674879c81fa",
+          "detail": "Independent names-low-a review: Correction required: SynthesizeRandomItemFromThreeInputs describes demonstrated outputconstruction without assigning SuccessScore meaning tosave+6C. MachineABI input requires3x16bytes AND WORDmetadata+34hex, output16bytes, withnoaliasguard. Complete original confirms rejection sampling, original-order84200classification, class/tier tables, inheritance andweightedrefinement. Empty12-record stockfallback loops indefinitely withoutyield/cancellation. Rare subtype3/4 uses12-byte LDM/STMtemporarysp+4C then memcpy16, including undefinedsp+58..5B. Unsupported secondkind can propagateincomingR9 intoresultbyte7. Normalization of EACH kind9 input branches on FIRST RANDOMIZED record subtype, not that inputs ownsubtype. Intrinsic-property pointer slots sp+68/+6C/+70 are NOT initialized on every path: recipe-selected result3 jumpsdirectly4C16 then4DBE dereferencessp+68; directkind3fallback similarlyhasnoguaranteedsp+68; stocktype5 sets sp+70 but8498Aloadssp+6C. Do not assert deterministic output or universal safe resourceaccess. Recordvalue lookup forresult3/4 uses value|130000 whereasresult2 paths use(value-1)|130000. Outputcopy precedesprice/metadata reads, so aliasingcanalterthem. Doesnot explicitly removeinputs/insertoutput/chargecurrency; callerstate19 performs thoseactionsseparately. Final+6C usesWRAP32 sums/divisions then signedclamp0..65535; exactgameplayfieldnameunknown."
+        }
+      ]
+    },
+    {
+      "address": "0x0808D654",
+      "canonical_symbol": "sub_0808D654",
+      "display_name": "TaskDestructibleActorWithHealthPaletteSteps",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_0808D4A8.c",
+          "line": 141,
+          "revision": "8bbfb589bf6ab55018ae7e465fc0e674879c81fa",
+          "detail": "r0 actor pointer. Initializes from0x084A1910 with argument3, adds actor id halfword+0 to halfword+2, reads signed-halfword stat data at+0x204, sets health/current max to data+6*3 and second stat to data+4*20, initializes animation/palette/damage state. Loop runs actor update while scene shutdown/terminal predicates remain0. Actor state0 initializes resource0x5005D slot5; state10 starts8-tick flashing, state11 starts20-tick flashing and audio command(2). Applies pending damage when flashing ends, maps signed health-percent to palette indices0..7 with thresholds89/69/49/29/19/14/9, draws with scene guards and staggered palette uploads, shows temporary damage numbers. Death flash completion or scene predicate exits call0x0809D558, song232, clear actor active mask bit and release resource slot5. No item-drop request here, no unknown boss identity claimed, and no guarantee max-health nonzero or animation initialized when actor updater produces unexpected initial state. Complete pinned matching source body and original configured range preserved for independent static audit; original equals copied verified-main ELF, no local build or runtime test."
+        },
+        {
+          "source": "src/code_0808D4A8.c",
+          "line": 141,
+          "revision": "8bbfb589bf6ab55018ae7e465fc0e674879c81fa",
+          "detail": "Independent names-low-a review: Accepted descriptive destructibleactor role withoutboss inference. Full original confirms signed16HP/maxHP, integerhealthpercent thresholds andflashing state machine. Own19CE8 subtracts pendinghalfword+4A&7FFF fromHP+5C, clearsdamagefield andsetsstate11 atnonpositiveHP. D654state11 starts20tickflash onlyifnotalreadyflashing; terminal/shutdownexits execute SAME cleanup asdeath. Own9D558onlysetsBYTE030002E8=1; noadditionaldeath/questsemantics inferred. Always releasesfixedslot5 andplays232 atcleanup; unexpectedinitialupdaterstate can leave sprite descriptorundefined. No itemdrop request or allocation-success guarantee."
+        }
+      ]
     }
   ]
 }
