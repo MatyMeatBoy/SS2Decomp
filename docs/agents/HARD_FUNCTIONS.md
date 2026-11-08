@@ -76,6 +76,66 @@ randomizing the requested function. Keep those helpers and the actual callee
 prototypes in the candidate; an implicit declaration can change argument
 truncation. The unchanged control must still reproduce the complete normal object.
 
+### Audit mutations before accepting a score
+
+AST readiness, compilation and a lower score do not prove that a mutation preserves
+behavior. Inspect every selected source delta against its unchanged control before
+applying it or spending time on runtime fixtures. Minimize independent mutations,
+then repeat the complete-module control. Keep the original ASM active until the
+normal active C passes the exact ROM matching gate.
+
+Source audits on the remaining large EU drafts justify excluding these passes
+from current hard-function searches:
+
+| Pass | Reason for exclusion |
+|---|---|
+| `perm_expand_expr` | Substituted a value defined on a different branch, including a wrong directional result. |
+| `perm_split_assignment` | Staged a full-width expression through a narrow bitfield, truncating its value before the original consumer. |
+| `perm_compound_assignment` | Expanded a compound assignment through an effectful indexed lvalue, evaluating its helper call twice instead of once. |
+| `perm_reorder_stmts` | Moves statements without proving their CFG/value dependencies; required definitions must not cross `goto` paths or uses. |
+| `perm_ins_block` | Wrapped switch case labels and their `break` statements in a `do ... while (0)`, changing which construct the breaks leave. |
+
+For example, a real `sub_0802AA28` output changed:
+
+```c
+case 0: sub_080576A8(); break;
+case 1: sub_0801AB50(6); break;
+case 2: sub_0801AB90(6); break;
+```
+
+into this compiling but incorrect structure:
+
+```c
+do {
+    case 0: sub_080576A8(); break;
+    case 1: sub_0801AB50(6); break;
+} while (0);
+case 2: sub_0801AB90(6); break;
+```
+
+Both cases 0 and 1 can now fall through to the case-2 helper after leaving the
+new loop. Reject this candidate regardless of its score. In a separate
+`sub_0800D368` preflight, expanding `words[getId()][12] |= 1` to
+`words[getId()][12] = words[getId()][12] | 1` duplicated a helper that can read
+volatile link hardware. Different returned IDs can then select different source
+and destination records. A compiling compound-assignment rewrite is not necessarily
+a single evaluation of the original lvalue.
+
+Keep these five passes
+disabled in private generated settings for current hard-function searches; preserve
+the settings and counterexample with the handoff. Type/ABI changes, fake identities,
+padding and helper removal also remain outside those searches. A smaller set of
+enabled passes still requires source review; it is not an equivalence guarantee.
+
+An invalid best-scoring output can suppress otherwise useful outputs in a best-only
+search. If a live run uses a newly rejected pass, preserve its artifacts and stop
+only that verified owned process tree. Leave unaffected verified runs running.
+Record the affected run's actual iterations,
+errors and termination separately, repeat unchanged-object/AST readiness checks,
+and start a separately identified search with the corrected settings. Do not change
+settings beneath a live engine, count the rejected output as progress, or call a
+finite unsuccessful search exhaustive.
+
 A custom region-only search needs strict unchanged-control comparison against
 the freshly built whole-module function with normal flags. Inject only the region
 into frozen full-module context; do not AST-reprint unrelated code. Preserve
