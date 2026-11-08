@@ -1,9 +1,8 @@
 name: check
 on:
   push:
-    branches-ignore:
-      - 'coord/regions/**'
-      - 'coord/names/**'
+    branches:
+      - 'claude/rom-decompilation-research-obsal6'
   pull_request:
 jobs:
   build:

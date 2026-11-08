@@ -259,7 +259,12 @@ class NamingWorkflowTests(unittest.TestCase):
         self.assertIn('fetch-depth: 0', build)
         self.assertLess(build.index('name_claim.py check'), build.index('- name: deps'))
         self.assertIn("if: github.event_name == 'pull_request'", build)
-        self.assertIn("- 'coord/names/**'", text)
+        push = text.split('\n  push:\n', 1)[1].split('\n  pull_request:', 1)[0]
+        self.assertIn('branches:', push)
+        self.assertNotIn('branches-ignore:', push)
+        push_branches = [line.strip()[2:].strip("'\"") for line in push.splitlines()
+                         if line.strip().startswith('- ')]
+        self.assertEqual(push_branches, ['claude/rom-decompilation-research-obsal6'])
         self.assertIn('PR_HEAD_SHA: ${{ github.event.pull_request.head.sha }}', text)
         self.assertIn('PR_BASE_BRANCH: ${{ github.base_ref }}', text)
         self.assertIn('fetch-depth: 0', text)
