@@ -599,11 +599,11 @@ digraph calls {
   "sub_0802C674" [label="sub_0802C674"];
   "sub_0802CF84" [label="CreateRestInteractionSceneActor"];
   "sub_0802D050" [label="sub_0802D050"];
-  "sub_0802D200" [label="sub_0802D200"];
+  "sub_0802D200" [label="CreateLesterSceneActor"];
   "sub_0802D2C8" [label="sub_0802D2C8"];
   "sub_0802D568" [label="sub_0802D568"];
-  "sub_0802D73C" [label="sub_0802D73C"];
-  "sub_0802D800" [label="sub_0802D800"];
+  "sub_0802D73C" [label="CreateGalicSceneActor"];
+  "sub_0802D800" [label="CreateAzieSceneActor"];
   "sub_0802D8C4" [label="sub_0802D8C4"];
   "sub_0802DAF0" [label="sub_0802DAF0"];
   "sub_0802DE0C" [label="sub_0802DE0C"];
