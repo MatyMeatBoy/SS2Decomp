@@ -23509,6 +23509,111 @@
           "detail": "ABI r0=24-byte descriptor; owner word+0,slot word+4,target low16+8,kind word+C,level low16+14. Player owner obtains packed position and aims once toward resolved target or facing. Enemy readiness/cost paths exist but read uninitialized player-base spill before cost: no safe enemy-owner contract. Initial resource0x500D0; player sprite word+4 bits14..16 inclusive (three bits) determine sound, enemy cost table level and outbound lifetime (value*8+20), independently of descriptor ability level. Local resource+C2 halfword pays low16(6898C-1),clamped on signed low16 negative. Outbound initial4*sine then2*sine per iteration. With resolved enemy-domain target, stops on first active byte1DC enemy within inclusive7-axis pixels, but retains initially resolved enemy pointer separately; player collisions use15-axis pixel square and overwrite player pointer, filtering same team/team0/kind14 for player caster or flags2000/team0/kind14 for enemy caster. Terrain maskF without bit10 requests69A30 kind18 (unsupported by698D4). Local state11/12 orD11C cancels; CDF8 clears encounter-hit. Hit flag can be uninitialized when cancellation occurs before first flight body. On encounter follows a domain-selected entity for at most30 iterations/yields then applies694AC to INITIAL enemy target only if local caster; damage basis68F9C is also computed from initial target enemy+218,or player+7C for local caster. Nonlocal player victim may request694AC but leaves drain amount uninitialized. Return flight continuously aims at caster, moves3*sine until low16 Sqrt(distanceSquared)<=7,terrain or local DF8C/state11/12/D11C termination; no finite return timeout for remote owners. Regardless whether return actually reaches caster, scales saved unsigned low16 damage by wrapping(full level+2)/50 and low16 truncates. Local player with DF8C zero adds to HP+C4halfword then signed16 caps at maxHP+62; enemy-owner branch adds to INITIAL TARGET enemy HP+5C and caps at+1D6,not caster HP. Displays at most999 as rising heal number for30 yields. Normal end increments remote-player serial word+DC then clears slot; early readiness/cost returns clear slot directly. Semantic name describes returning drain ability; no guaranteed successful damage, correct victim association, safe remote amount or enemy healing contract. Full original body inspected/equal local EU ROM and supplied verified-main ELF; no worker build or runtime testing. Independent precision: initial enemy-domain lookup does not prevent the later player scan. If that player scan collides, follow still branches on original target>3 and uses e3 from the enemy scan (possibly last examined/uninitialized), not necessarily the collided player. Initial e2 separately supplies damage resistance, final target and enemy healing destination. Local cancellation can stop the30-iteration follow loop but still reaches damage-basis/return/healing code. Local caster/player-target branch computes drain68F9C without calling694AC here, so healing is not coupled to an acknowledged player damage application. Return break for terrain, local state/D11C or proximity all reach scaling; healing still requires local owner andDF8C0 for player, but state11/12/D11C are not rechecked there. OriginalFC94..FCA8 computes unsigned division of wrapped32(low16Drain*(fullLevel+2)) by50 then narrows16; HP additions narrow16 BEFORE signed max comparison and can wrap. Rising number caps display999 independently of actual HP gained and yields30 times. No arrival, successful damage, successful healing or finite remote return is guaranteed."
         }
       ]
+    },
+    {
+      "address": "0x0807A5D4",
+      "canonical_symbol": "sub_0807A5D4",
+      "display_name": "TaskCharacterStatAndSkillAllocationMenu",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_0807A5D4.c",
+          "line": 105,
+          "revision": "8bbfb589bf6ab55018ae7e465fc0e674879c81fa",
+          "detail": "No meaningful input or return. Uses shared manager0x03006440, local player and saved-character pointer0x030034E0. Initializes graphics, two tabs and five-effect task pool, gated by initial scene/player conditions. State0/1 shows stats/skills; A enters temporary edits state2/3. Four stat rows spend available halfword points, with maxima500 except row3 max333; left only reverses changes from this session, A commits32-byte saved-stat block, B discards deltas. Eight skill rows spend points into level/progress, level capped7; A commits36-byte work block and B restores snapshot; successful level increments start indicator task. Preview code temporarily swaps saved stat block, computes derived fields and restores block; does not imply all player preview effects are transactional. Loop clears input under scene/transition conditions, exits on link error or close conditions. After entered loop sends player state, hides menu, applies skill effects, waits/frees effect pool; all paths restore blend/input-related settings, clear player flag8, queue text rows and scheduler-signal0x11201100. Dirty flag and animation counters are not initialized on every C path; original machine behavior is authoritative. Complete pinned matching source body and complete original configured range inspected, including long-range continuations. Original range equals copied verified-main ELF; no local build or runtime test."
+        },
+        {
+          "source": "src/code_0807A5D4.c",
+          "line": 105,
+          "revision": "8bbfb589bf6ab55018ae7e465fc0e674879c81fa",
+          "detail": "Independent names-low-a review: Accepted. Complete original plus matched pinned body supports separate stats/skills allocation, temporary blocks and commit/cancel controls. Stat maxima500/333 use signed-halfword checks; eight skill levels cap7. Preview temporarily replaces saved32bytes then restores them but writes runtime player+60/+62. First dirty slotsp+150 is read without prior initialization on initial states0/1; animation counters and some work slots also depend on path. No global transaction guarantee."
+        }
+      ]
+    },
+    {
+      "address": "0x08084EAC",
+      "canonical_symbol": "sub_08084EAC",
+      "display_name": "StartCharacterStatAndSkillMenuTask",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_0807A5D4.c",
+          "line": 7383,
+          "revision": "8bbfb589bf6ab55018ae7e465fc0e674879c81fa",
+          "detail": "No arguments or meaningful return. Retries exact allocation of0x624=1572 bytes for shared manager0x03006440, yielding after failures, initializes first word0. Then retries1024-byte task stack on fixed task0x03006450, sets top+1020, priority100, finalizer0x08085484 and callback0x0807A5D4, scheduler argument0. No active-task or existing-manager protection; starts request and does not wait for menu closure. Complete pinned matching source body and complete original configured range inspected, including long-range continuations. Original range equals copied verified-main ELF; no local build or runtime test."
+        },
+        {
+          "source": "src/code_0807A5D4.c",
+          "line": 7383,
+          "revision": "8bbfb589bf6ab55018ae7e465fc0e674879c81fa",
+          "detail": "Independent names-low-a review: Accepted. Original retries manager624hex bytes then stack400hex, initializes only managerfirstword, registers exact callback7A5D4/finalizer85484 at fixed6450. No task-activity protection or closure wait."
+        }
+      ]
+    },
+    {
+      "address": "0x080855D4",
+      "canonical_symbol": "sub_080855D4",
+      "display_name": "TaskMonsterCardCatalogAndBagTransfer",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_0807A5D4.c",
+          "line": 7801,
+          "revision": "8bbfb589bf6ab55018ae7e465fc0e674879c81fa",
+          "detail": "No meaningful arguments or return. Before menu, scans25 bag records at saved-character+0x150 and deposits kind8 records into byte counts at+0xC10 by item-id when existing count<=98, increments to at most99, clears only kind/id halfwords of deposited bag records. Deposits occur before cancellation and are not rolled back. Animates deposited records, then browses category table0x084ECC2C with end-category100, localized resource0x120000 names/details and per-id owned counts. Modes0 category list,1 detail,3 detail-field grid; grid13 A constructs kind8/id record and attempts TryAddItemToBag, decrements collection count only on success. No spending currency or purchase logic. Ordinary exit hides window/restores palette/text/scheduler signal; suspend-request paths call0x0800CCB8/0x0800CE54 then return, link-error returns directly without ordinary restoration. No record-id, category, language, text-buffer or resource bounds checks. Original long-body farjump entries inside configured interval are control-flow continuations, not additional named functions. Complete pinned matching source body and complete original configured range inspected, including long-range continuations. Original range equals copied verified-main ELF; no local build or runtime test."
+        },
+        {
+          "source": "src/code_0807A5D4.c",
+          "line": 7801,
+          "revision": "8bbfb589bf6ab55018ae7e465fc0e674879c81fa",
+          "detail": "Independent names-low-a review: Accept resource-backed correction to MonsterCard. Own ROM language0 pointer slots838C4F8/838C4FC and exact resource bytes match542/543. Own static original-font raster reads Monster Card, with font resolved from archive8518938 to892C028. Direct body86510 loads542 on withdrawal grid13; its text says remove monster cards. This is stronger than itemkind8 inference. Deposits happen before cancellation and only clearkind/id. Withdrawal initializes only use.type/id; remaining12bytes of16-byte temporary are not initialized before5AB20, so do not claim a fully zeroed item record."
+        }
+      ]
+    },
+    {
+      "address": "0x080867F8",
+      "canonical_symbol": "sub_080867F8",
+      "display_name": "StartMonsterCardCatalogTask",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_0807A5D4.c",
+          "line": 8340,
+          "revision": "8bbfb589bf6ab55018ae7e465fc0e674879c81fa",
+          "detail": "No arguments or meaningful return. Repeatedly allocates96-byte manager into global0x03006478, yielding on failure, then retries3072-byte stack for fixed task control0x03006450. Sets top+3068, priority100, callback0x080855D4, finalizer0x080867E0, starts with argument0. Does not initialize manager contents itself, check active task, protect previous manager, or wait for catalog closure. Complete pinned matching source body and complete original configured range inspected, including long-range continuations. Original range equals copied verified-main ELF; no local build or runtime test."
+        },
+        {
+          "source": "src/code_0807A5D4.c",
+          "line": 8340,
+          "revision": "8bbfb589bf6ab55018ae7e465fc0e674879c81fa",
+          "detail": "Independent names-low-a review: Accept resource-backed MonsterCard starter correction. Own original registers855D4 with finalizer867E0, retries manager60hex andstackC00hex, does not initialize managercontents. Identity inherits verified callback purpose, not adjacency."
+        }
+      ]
+    },
+    {
+      "address": "0x080867E0",
+      "canonical_symbol": "sub_080867E0",
+      "display_name": "FreeMonsterCardCatalogManager",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_0807A5D4.c",
+          "line": 8331,
+          "revision": "8bbfb589bf6ab55018ae7e465fc0e674879c81fa",
+          "detail": "No arguments or meaningful return. Frees current pointer global0x03006478 then clears it; no null check, pointee-zeroing, nested cleanup or task cancellation.0x080867F8 registers it as finalizer for catalog task0x080855D4. Does not restore graphics or reverse deposited/withdrawn records. Complete pinned matching source body and complete original configured range inspected, including long-range continuations. Original range equals copied verified-main ELF; no local build or runtime test."
+        },
+        {
+          "source": "src/code_0807A5D4.c",
+          "line": 8331,
+          "revision": "8bbfb589bf6ab55018ae7e465fc0e674879c81fa",
+          "detail": "Independent names-low-a review: Accept resource-backed MonsterCard finalizer correction. Own original frees current global6478 then clears it, without null guard or restoration. Registration in867F8 anchors exact menu lifecycle; no rollback of deposits."
+        }
+      ]
     }
   ]
 }
