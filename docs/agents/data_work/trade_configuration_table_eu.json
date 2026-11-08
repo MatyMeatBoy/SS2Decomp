@@ -1,0 +1,242 @@
+{
+  "schema_version": 1,
+  "region": "EUR",
+  "base_revision": "14c1b5a123aa4516fdad608648d0a705b738b79d",
+  "rom_sha1": "aa1288be9257337abdfe3034898cf6c7aa778fbc",
+  "source": "data/rodata_libgcc_end.s",
+  "canonical_symbol": "gUnk_084B1C50",
+  "address": "0x084B1C50",
+  "end_exclusive": "0x084B1D40",
+  "size": 240,
+  "record_count": 4,
+  "record_stride": 60,
+  "representation": "15 literal 32-bit storage slots per record; no new C struct ABI or ELF symbol type",
+  "sha256": "1960453218eafa7b8eabf8a1ba7e0370ae99b2ae57a903078add2ba08225c5e1",
+  "fields": [
+    {
+      "offset": "0x00",
+      "storage_bytes": 4,
+      "observed_read": "low16 dialogue ID",
+      "upper_half": "Preserved verbatim; not declared padding."
+    },
+    {
+      "offset": "0x04",
+      "storage_bytes": 4,
+      "observed_read": "low16 dialogue ID",
+      "upper_half": "Preserved verbatim; not declared padding."
+    },
+    {
+      "offset": "0x08",
+      "storage_bytes": 4,
+      "observed_read": "low16 dialogue ID",
+      "upper_half": "Preserved verbatim; not declared padding."
+    },
+    {
+      "offset": "0x0C",
+      "storage_bytes": 4,
+      "observed_read": "low16 dialogue ID",
+      "upper_half": "Preserved verbatim; not declared padding."
+    },
+    {
+      "offset": "0x10",
+      "storage_bytes": 4,
+      "observed_read": "low16 dialogue ID and full32 zero/nonzero gate",
+      "upper_half": "Preserved verbatim; not declared padding."
+    },
+    {
+      "offset": "0x14",
+      "storage_bytes": 4,
+      "observed_read": "low16 dialogue ID",
+      "upper_half": "Preserved verbatim; not declared padding."
+    },
+    {
+      "offset": "0x18",
+      "storage_bytes": 4,
+      "observed_read": "low16 dialogue ID",
+      "upper_half": "Preserved verbatim; not declared padding."
+    },
+    {
+      "offset": "0x1C",
+      "storage_bytes": 4,
+      "observed_read": "full32",
+      "role": "required item type"
+    },
+    {
+      "offset": "0x20",
+      "storage_bytes": 4,
+      "observed_read": "full32",
+      "role": "required item ID"
+    },
+    {
+      "offset": "0x24",
+      "storage_bytes": 4,
+      "observed_read": "full32",
+      "role": "required item count"
+    },
+    {
+      "offset": "0x28",
+      "storage_bytes": 4,
+      "observed_read": "full32",
+      "role": "reward type"
+    },
+    {
+      "offset": "0x2C",
+      "storage_bytes": 4,
+      "observed_read": "full32",
+      "role": "reward item ID or currency amount"
+    },
+    {
+      "offset": "0x30",
+      "storage_bytes": 4,
+      "observed_read": "full32",
+      "role": "reward count"
+    },
+    {
+      "offset": "0x34",
+      "storage_bytes": 4,
+      "observed_read": "full32",
+      "role": "story flag bit index; zero skips write"
+    },
+    {
+      "offset": "0x38",
+      "storage_bytes": 4,
+      "observed_read": "full32",
+      "role": "policy scalar; zero/nonzero branch for nonzero local-player slot"
+    }
+  ],
+  "records": [
+    {
+      "index": 0,
+      "address": "0x084B1C50",
+      "raw_storage_words": [
+        556,
+        556,
+        557,
+        556,
+        0,
+        0,
+        558,
+        1,
+        42,
+        1,
+        1,
+        43,
+        1,
+        13,
+        1
+      ],
+      "sha256": "d68bcd6b727ee9fbe2e349e3401654b862c63f66a7b23c5ab63bdea3297649ee"
+    },
+    {
+      "index": 1,
+      "address": "0x084B1C8C",
+      "raw_storage_words": [
+        562,
+        562,
+        563,
+        563,
+        564,
+        566,
+        565,
+        1,
+        26,
+        1,
+        10,
+        300,
+        1,
+        0,
+        0
+      ],
+      "sha256": "7bd6789c905746eac6c6f317425bdd977b6e54b3a7dac4a0ead439980d751954"
+    },
+    {
+      "index": 2,
+      "address": "0x084B1CC8",
+      "raw_storage_words": [
+        593,
+        593,
+        594,
+        594,
+        595,
+        596,
+        597,
+        1,
+        0,
+        5,
+        1,
+        1,
+        1,
+        0,
+        0
+      ],
+      "sha256": "90b4ac995ee419b4d29f86e68d2e788837dd6c1c4c3c8f1e6a45752b04fbcd05"
+    },
+    {
+      "index": 3,
+      "address": "0x084B1D04",
+      "raw_storage_words": [
+        598,
+        598,
+        599,
+        599,
+        595,
+        596,
+        600,
+        1,
+        1,
+        4,
+        1,
+        2,
+        1,
+        0,
+        0
+      ],
+      "sha256": "3d0d1f0d52dcf56cedaa61ae642da161b59a39433263fa160e925567b368b7b1"
+    }
+  ],
+  "alignment": "Existing word alignment preserved; no alignment directives or internal labels added.",
+  "primary_readers": [
+    {
+      "canonical_symbol": "sub_080445E8",
+      "source": "src/code_080443EC.c",
+      "evidence": "Original08044622..26 computes (index*16-index)*4. Dialogue LDRH IDs are combined with0x140000. Original080447EE/0804493E additionally read full32 gate at+10. Required/reward/flag/policy fields use LDR. Reviewed paths load this table, not store it."
+    },
+    {
+      "canonical_symbol": "sub_08058EF8",
+      "source": "src/code_08058790.c",
+      "evidence": "Original08058F20..24 calls445E8 with index1."
+    },
+    {
+      "canonical_symbol": "sub_08059418",
+      "source": "src/code_08058790.c",
+      "evidence": "Original08059448..4C and08059458..5C call445E8 with indices2/3."
+    }
+  ],
+  "limitations": [
+    "Four physical records follow canonical bounds and stride; no invocation of record zero is inferred.",
+    "No arbitrary record-index validation or whole-program no-write proof is claimed.",
+    "Message values are resource IDs, not ROM pointers. High message halfwords remain preserved, not classified as padding.",
+    "Item/currency handling narrows some output fields, ignores insertion returns and can leave temporary padding uninitialized; no successful trade is guaranteed.",
+    "No function, source ABI, shard claim, matching credit or cross-region conversion is changed."
+  ],
+  "source_storage_after": {
+    "incbin_count": 405,
+    "incbin_bytes": 16016380
+  },
+  "cumulative_explicit_tables": 7,
+  "cumulative_converted_bytes": 1024,
+  "verification": {
+    "base_revision": "14c1b5a123aa4516fdad608648d0a705b738b79d",
+    "literal_source_repacked_equals_rom": true,
+    "rebuilt_elf_equals_rom": true,
+    "source_exactly_one_incbin_replacement": true,
+    "all_defined_global_values_sizes_types_preserved": 2866,
+    "incbin_count": 405,
+    "incbin_bytes": 16016380,
+    "normal_compare": "shiningsoul2_eu.gba: OK",
+    "nonmatching": "passed",
+    "tree_errors": 0,
+    "source_block_sha256": "dce0019c848a2334e2aeeb30dc366979ee0b717eca7ec5b82522bf3c5e1388bf",
+    "raw_sha256": "1960453218eafa7b8eabf8a1ba7e0370ae99b2ae57a903078add2ba08225c5e1"
+  }
+}
