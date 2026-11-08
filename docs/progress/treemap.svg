@@ -14,8 +14,8 @@
 <text x="269.0" y="86" fill="#e6edf3" font-size="10">940 bytes; not decompiled C</text>
 <rect x="506.0" y="30" width="235.0" height="66" rx="5" fill="#161b22"/>
 <text x="516.0" y="46" fill="#e6edf3" font-size="11">Identification</text>
-<text x="516.0" y="69" fill="#3fb950" font-size="21" font-weight="600">47.76%</text>
-<text x="516.0" y="86" fill="#e6edf3" font-size="10">972 / 2035 registered names</text>
+<text x="516.0" y="69" fill="#3fb950" font-size="21" font-weight="600">48.01%</text>
+<text x="516.0" y="86" fill="#e6edf3" font-size="10">977 / 2035 registered names</text>
 <rect x="753.0" y="30" width="235.0" height="66" rx="5" fill="#161b22"/>
 <text x="763.0" y="46" fill="#e6edf3" font-size="11">Historical C + linked</text>
 <text x="763.0" y="69" fill="#e6edf3" font-size="21" font-weight="600">93.13%</text>
@@ -1791,9 +1791,9 @@
 <rect x="720.81" y="461.61" width="2.54" height="2.26" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_080587E4 | sub_080587E4 | unidentified  0x080587E4  12 bytes  [done]</title></rect>
 <rect x="723.34" y="461.61" width="2.54" height="2.26" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_080587F0 | sub_080587F0 | unidentified  0x080587F0  12 bytes  [done]</title></rect>
 <rect x="720.81" y="463.87" width="2.54" height="2.26" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0805880C | sub_0805880C | unidentified  0x0805880C  12 bytes  [done]</title></rect>
-<rect x="723.34" y="463.87" width="2.54" height="2.26" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08058818 | sub_08058818 | unidentified  0x08058818  12 bytes  [done]</title></rect>
+<rect x="723.34" y="463.87" width="2.54" height="2.26" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>IsAdvancedModeActiveWrapper | sub_08058818 | confirmed  0x08058818  12 bytes  [done]</title></rect>
 <rect x="720.81" y="466.13" width="3.38" height="1.70" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08058824 | sub_08058824 | unidentified  0x08058824  12 bytes  [done]</title></rect>
-<rect x="720.81" y="467.82" width="3.38" height="1.70" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08058D8C | sub_08058D8C | unidentified  0x08058D8C  12 bytes  [done]</title></rect>
+<rect x="720.81" y="467.82" width="3.38" height="1.70" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>NextRandom32Wrapper | sub_08058D8C | confirmed  0x08058D8C  12 bytes  [done]</title></rect>
 <rect x="724.19" y="466.13" width="1.69" height="3.39" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08058E08 | sub_08058E08 | unidentified  0x08058E08  12 bytes  [done]</title></rect>
 </g>
 <g><title>code_08067B4C (2852 bytes)</title>
@@ -1894,7 +1894,7 @@
 <rect x="753.92" y="461.99" width="2.64" height="3.59" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>ReleaseSceneCallbackGuard | sub_080574B0 | confirmed  0x080574B0  20 bytes  [done]</title></rect>
 <rect x="756.56" y="458.41" width="2.37" height="3.19" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>RequestLinkedSceneCallbackTask | sub_08057390 | confirmed  0x08057390  16 bytes  [done]</title></rect>
 <rect x="758.93" y="458.41" width="2.37" height="3.19" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>RequestLinkedGuardedSceneCallbackTask | sub_080573A0 | confirmed  0x080573A0  16 bytes  [done]</title></rect>
-<rect x="756.56" y="461.60" width="3.32" height="2.28" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_080579AC | sub_080579AC | unidentified  0x080579AC  16 bytes  [done]</title></rect>
+<rect x="756.56" y="461.60" width="3.32" height="2.28" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>GetNormalizedCharacterClassIndexWrapper | sub_080579AC | confirmed  0x080579AC  16 bytes  [done]</title></rect>
 <rect x="756.56" y="463.87" width="3.32" height="1.71" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>IsSceneTaskScheduled | sub_08057424 | confirmed  0x08057424  12 bytes  [done]</title></rect>
 <rect x="759.88" y="461.60" width="1.42" height="3.99" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>GetLocalPlayerId | sub_080576E0 | confirmed  0x080576E0  12 bytes  [done]</title></rect>
 </g>
@@ -1941,10 +1941,10 @@
 <rect x="751.26" y="504.68" width="3.26" height="2.32" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>StartSpriteEffectWithDefaultDrawMode | sub_08058768 | confirmed  0x08058768  16 bytes  [done]</title></rect>
 <rect x="754.52" y="499.47" width="2.26" height="2.51" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08057D14 | sub_08057D14 | unidentified  0x08057D14  12 bytes  [done]</title></rect>
 <rect x="756.78" y="499.47" width="2.26" height="2.51" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08057D20 | sub_08057D20 | unidentified  0x08057D20  12 bytes  [done]</title></rect>
-<rect x="759.04" y="499.47" width="2.26" height="2.51" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_080580EC | sub_080580EC | unidentified  0x080580EC  12 bytes  [done]</title></rect>
+<rect x="759.04" y="499.47" width="2.26" height="2.51" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>SpendInventoryCurrencyWrapper | sub_080580EC | confirmed  0x080580EC  12 bytes  [done]</title></rect>
 <rect x="754.52" y="501.98" width="2.26" height="2.51" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08058608 | sub_08058608 | unidentified  0x08058608  12 bytes  [done]</title></rect>
 <rect x="754.52" y="504.49" width="2.26" height="2.51" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08058614 | sub_08058614 | unidentified  0x08058614  12 bytes  [done]</title></rect>
-<rect x="756.78" y="501.98" width="2.26" height="2.51" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0805867C | sub_0805867C | unidentified  0x0805867C  12 bytes  [done]</title></rect>
+<rect x="756.78" y="501.98" width="2.26" height="2.51" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>AudioStopSongWrapper | sub_0805867C | confirmed  0x0805867C  12 bytes  [done]</title></rect>
 <rect x="759.04" y="501.98" width="2.26" height="2.51" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0805874C | sub_0805874C | unidentified  0x0805874C  12 bytes  [done]</title></rect>
 <rect x="756.78" y="504.49" width="2.26" height="2.51" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08058778 | sub_08058778 | unidentified  0x08058778  12 bytes  [done]</title></rect>
 <rect x="759.04" y="504.49" width="2.26" height="2.51" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08058784 | sub_08058784 | unidentified  0x08058784  12 bytes  [done]</title></rect>

@@ -22052,10 +22052,29 @@
       "canonical_symbol": "sub_080579AC",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_080579AC",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "GetNormalizedCharacterClassIndexWrapper",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_080571A4.c",
+          "line": 396,
+          "revision": "d73c25088f60c011ff9d210f41b73963ba0e8969",
+          "detail": "Calls the normalized character-class getter 1DE60, explicitly narrows its R0 result to an unsigned byte and returns it. The target already maps saved class 8 to 6 and truncates other classes to a byte, so this wrapper preserves that narrow class-index result. It does not select or alter the character class, validate a class domain or assign numeric class titles."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 894,
+          "revision": "d73c25088f60c011ff9d210f41b73963ba0e8969",
+          "detail": "Complete original configured wrapper range inspected and equal to verified EUR ROM/local ELF. Reachable push/BL/pop/BX paths transfer the stated inputs/result; 579AC additionally shifts R0 left/right by 24 to narrow to a byte. Trailing halfwords after returns are alignment data. No additional work, caller-specific phase or guaranteed invocation is inferred. Static wrapper/callee evidence only; no runtime claim."
+        },
+        {
+          "source": "src/code_0801AAF8.c",
+          "line": 2077,
+          "revision": "e181cfee8400da03f9084ff7635d0277fee491f3",
+          "detail": "Underlying confirmed callee contract: Reads character save halfword+0xA and maps8 to6, returning other values truncated tou8. Consumers5D210/5D278/5D2E0 use result to select class bit in equipment-permission mask, anchoring class-index role. No particular numeric class names are assigned."
+        }
+      ]
     },
     {
       "name": "sub_080579BC",
@@ -22684,10 +22703,29 @@
       "canonical_symbol": "sub_080580EC",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_080580EC",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "SpendInventoryCurrencyWrapper",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_08057CAC.c",
+          "line": 260,
+          "revision": "d73c25088f60c011ff9d210f41b73963ba0e8969",
+          "detail": "Forwards incoming machine R0 unchanged to the inventory-currency spender 7C014 and returns without a result contract. Its incomplete no-argument C declaration does not mean the machine amount argument is absent. It inherits bag-first then stash/menu-stock debit behavior, possible partial spending on insufficient currency and lack of upfront affordability validation; no rollback, success result or implicit zero amount is inferred."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 919,
+          "revision": "d73c25088f60c011ff9d210f41b73963ba0e8969",
+          "detail": "Complete original configured wrapper range inspected and equal to verified EUR ROM/local ELF. Reachable push/BL/pop/BX paths transfer the stated inputs/result; 579AC additionally shifts R0 left/right by 24 to narrow to a byte. Trailing halfwords after returns are alignment data. No additional work, caller-specific phase or guaranteed invocation is inferred. Static wrapper/callee evidence only; no runtime claim."
+        },
+        {
+          "source": "src/code_0807A5D4.c",
+          "line": 969,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Underlying confirmed callee contract: Spends the requested unsigned amount from kind-10 stacks, repeatedly selecting the smallest count among 25 bag records first. When bag stacks are exhausted, uses 75 stash records, or the menu array at +0x104 when menu mode equals 4. Fully consumed bag entries are removed by 5D580, preserving their count bytes; fully consumed secondary entries clear both kind and count. Stops after satisfying the amount or finding no secondary stack. No success value, up-front affordability check or rollback on insufficient funds is provided. Minimum searches use strict unsigned less-than against 0xFFFFFFFF, so malformed stacks with that exact count are not selected. A zero requested amount is not rejected up front."
+        }
+      ]
     },
     {
       "name": "sub_080580F8",
@@ -23404,10 +23442,29 @@
       "canonical_symbol": "sub_0805867C",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_0805867C",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "AudioStopSongWrapper",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_08057CAC.c",
+          "line": 526,
+          "revision": "d73c25088f60c011ff9d210f41b73963ba0e8969",
+          "detail": "Forwards incoming machine R0 unchanged to AudioStopSong 06D5C and returns. The target interprets the low halfword as a song ID and requests m4aSongNumStop only for IDs at most 0x1AB. Its incomplete no-argument C declaration does not establish an ignored or implicit-zero song argument. The wrapper does not clear the separate tracked-song word or add the link-error guard used by other audio helpers."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 946,
+          "revision": "d73c25088f60c011ff9d210f41b73963ba0e8969",
+          "detail": "Complete original configured wrapper range inspected and equal to verified EUR ROM/local ELF. Reachable push/BL/pop/BX paths transfer the stated inputs/result; 579AC additionally shifts R0 left/right by 24 to narrow to a byte. Trailing halfwords after returns are alignment data. No additional work, caller-specific phase or guaranteed invocation is inferred. Static wrapper/callee evidence only; no runtime claim."
+        },
+        {
+          "source": "src/code_08006D24.c",
+          "line": 23,
+          "detail": "Underlying confirmed callee contract: Matching game wrapper calls m4aSongNumStop. Existing trailing-underscore C alias resolves to the canonical function. Checks song ID<=0x1AB. The wrapper remains game-domain; the named SDK callee is a separate function.",
+          "revision": "29822dfa6f1c78d16721b19a9b286d2fc592e203"
+        }
+      ]
     },
     {
       "name": "sub_08058688",
@@ -23783,10 +23840,29 @@
       "canonical_symbol": "sub_08058818",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_08058818",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "IsAdvancedModeActiveWrapper",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_08058790.c",
+          "line": 34,
+          "revision": "d73c25088f60c011ff9d210f41b73963ba0e8969",
+          "detail": "Calls the Advanced Mode predicate CE30 and returns its R0 result unchanged. The confirmed target returns exactly 0 or 1 from scene flag bit 9, whose file-menu choice, summary byte and loader/lobby provenance are independently established. This wrapper neither marks the flag nor guarantees a stable snapshot across calls, unlocking or multiplayer synchronization."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 962,
+          "revision": "d73c25088f60c011ff9d210f41b73963ba0e8969",
+          "detail": "Complete original configured wrapper range inspected and equal to verified EUR ROM/local ELF. Reachable push/BL/pop/BX paths transfer the stated inputs/result; 579AC additionally shifts R0 left/right by 24 to narrow to a byte. Trailing halfwords after returns are alignment data. No additional work, caller-specific phase or guaranteed invocation is inferred. Static wrapper/callee evidence only; no runtime claim."
+        },
+        {
+          "source": "src/code_0800CBBC.c",
+          "line": 114,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Underlying confirmed callee contract: Returns exactly 0 or 1 from scene flags 03003478 bit 9 using an unsigned full-word load/shift/mask. The file-menu Advanced Mode choice and its saved summary byte anchor the meaning. Consumers can select alternate stage-record and resource banks; the mode need not remain unchanged across separate calls, and this predicate is not a packet-ready or scheduled-task test."
+        }
+      ]
     },
     {
       "name": "sub_08058824",
@@ -24433,10 +24509,29 @@
       "canonical_symbol": "sub_08058D8C",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_08058D8C",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "NextRandom32Wrapper",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_08058790.c",
+          "line": 292,
+          "revision": "d73c25088f60c011ff9d210f41b73963ba0e8969",
+          "detail": "Calls NextRandom32 at 008C8 and returns all 32 result bits unchanged. The target advances the shared eight-byte feedback state before assembling its result; this wrapper is not a pure read or independent random stream. No seed initialization, cryptographic property, distribution guarantee or runtime reachability is inferred."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 984,
+          "revision": "d73c25088f60c011ff9d210f41b73963ba0e8969",
+          "detail": "Complete original configured wrapper range inspected and equal to verified EUR ROM/local ELF. Reachable push/BL/pop/BX paths transfer the stated inputs/result; 579AC additionally shifts R0 left/right by 24 to narrow to a byte. Trailing halfwords after returns are alignment data. No additional work, caller-specific phase or guaranteed invocation is inferred. Static wrapper/callee evidence only; no runtime claim."
+        },
+        {
+          "source": "src/main.c",
+          "line": 106,
+          "detail": "Underlying confirmed callee contract: Updates the same eight-byte feedback state, then combines four state-selected bytes into a 32-bit result; shares transition structure with 0086C.",
+          "revision": "29822dfa6f1c78d16721b19a9b286d2fc592e203"
+        }
+      ]
     },
     {
       "name": "sub_08058D98",
@@ -49866,12 +49961,12 @@
   "identification": {
     "game": {
       "total": 1880,
-      "identified": 817,
+      "identified": 822,
       "existing": 23,
-      "confirmed": 794,
+      "confirmed": 799,
       "proposed": 8,
-      "unidentified": 1055,
-      "percent_identified": 43.45744680851064
+      "unidentified": 1050,
+      "percent_identified": 43.723404255319146
     },
     "sdk": {
       "total": 155,
@@ -49884,12 +49979,12 @@
     },
     "all": {
       "total": 2035,
-      "identified": 972,
+      "identified": 977,
       "existing": 152,
-      "confirmed": 820,
+      "confirmed": 825,
       "proposed": 8,
-      "unidentified": 1055,
-      "percent_identified": 47.764127764127764
+      "unidentified": 1050,
+      "percent_identified": 48.00982800982801
     }
   },
   "limitations": "Configured function address intervals, including alignment/literal pools; inventory includes original assembly and linked libraries. Existing descriptive identifiers are recognized, not independently semantically re-proven."

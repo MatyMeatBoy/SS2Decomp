@@ -891,7 +891,7 @@ digraph calls {
   "sub_08057934" [label="ClearLocalPlayerFlagBit1AndTryEnqueueFlags"];
   "sub_0805795C" [label="BeginLocalPlayerEvent"];
   "sub_08057984" [label="EndLocalPlayerEvent"];
-  "sub_080579AC" [label="sub_080579AC"];
+  "sub_080579AC" [label="GetNormalizedCharacterClassIndexWrapper"];
   "sub_080579BC" [label="ResetLocalPlayerState"];
   "sub_080579D8" [label="SetSceneEventFlag"];
   "sub_08057A20" [label="SetSceneEventFlagInBank"];
@@ -916,7 +916,7 @@ digraph calls {
   "sub_08057FBC" [label="sub_08057FBC"];
   "sub_08058048" [label="RequestLinkedFieldItemSpawnAtPosition"];
   "sub_08058094" [label="SumBagAndConfiguredStashCurrency"];
-  "sub_080580EC" [label="sub_080580EC"];
+  "sub_080580EC" [label="SpendInventoryCurrencyWrapper"];
   "sub_080580F8" [label="CountMatchingStashItemSlots"];
   "sub_0805813C" [label="CountMatchingBagItemSlots"];
   "sub_0805817C" [label="TryAddRepeatedItemsToBag"];
@@ -943,7 +943,7 @@ digraph calls {
   "sub_08058614" [label="sub_08058614"];
   "sub_08058620" [label="AppendAndStartEnemySpawnGroup"];
   "sub_0805865C" [label="AudioStartSongWithLinkErrorGuard"];
-  "sub_0805867C" [label="sub_0805867C"];
+  "sub_0805867C" [label="AudioStopSongWrapper"];
   "sub_08058688" [label="AudioSetTrackedSongAndReturnPrevious"];
   "sub_080586B4" [label="AudioStopAndClearTrackedSong"];
   "sub_080586D0" [label="AudioFadePlayersAndClearTrackedSong"];
@@ -959,7 +959,7 @@ digraph calls {
   "sub_080587F0" [label="sub_080587F0"];
   "sub_080587FC" [label="sub_080587FC"];
   "sub_0805880C" [label="sub_0805880C"];
-  "sub_08058818" [label="sub_08058818"];
+  "sub_08058818" [label="IsAdvancedModeActiveWrapper"];
   "sub_08058824" [label="sub_08058824"];
   "sub_08058830" [label="sub_08058830"];
   "sub_08058844" [label="sub_08058844"];
@@ -981,7 +981,7 @@ digraph calls {
   "sub_08058C8C" [label="StartTrackedSongUnlessMultiplayer"];
   "sub_08058CC4" [label="sub_08058CC4"];
   "sub_08058D4C" [label="FindActiveSceneObjectHandleByKey"];
-  "sub_08058D8C" [label="sub_08058D8C"];
+  "sub_08058D8C" [label="NextRandom32Wrapper"];
   "sub_08058D98" [label="TryAddCurrencyToBag"];
   "sub_08058DB0" [label="sub_08058DB0"];
   "sub_08058E08" [label="sub_08058E08"];
