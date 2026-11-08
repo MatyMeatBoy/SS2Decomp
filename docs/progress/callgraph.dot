@@ -1160,9 +1160,9 @@ digraph calls {
   "sub_08061E44" [label="sub_08061E44"];
   "sub_080624D8" [label="TaskFourChoiceAnimatedGameMenu"];
   "sub_0806335C" [label="sub_0806335C"];
-  "sub_080634D8" [label="t65_popupImplementation"];
-  "sub_080636B0" [label="sub_080636B0"];
-  "sub_08063B80" [label="sub_08063B80"];
+  "sub_080634D8" [label="TaskAnimateWorldEffect"];
+  "sub_080636B0" [label="TaskAnimatePlayerAreaDeparture"];
+  "sub_08063B80" [label="TaskPlayerAreaReturnPrompt"];
   "sub_08063E30" [label="sub_08063E30"];
   "sub_0806441C" [label="TaskResolveCoordinatedAttack"];
   "sub_08064E14" [label="TaskSaveCharacterToFlash"];
@@ -1184,10 +1184,10 @@ digraph calls {
   "sub_080655CC" [label="sub_080655CC"];
   "sub_08065654" [label="StartFourChoiceGameMenuTask"];
   "sub_0806569C" [label="IsFourChoiceGameMenuTaskScheduled"];
-  "sub_080656B8" [label="sub_080656B8"];
-  "sub_080656EC" [label="sub_080656EC"];
-  "sub_08065748" [label="sub_08065748"];
-  "sub_080657C4" [label="sub_080657C4"];
+  "sub_080656B8" [label="AllocateAnimatedWorldEffectTaskPool"];
+  "sub_080656EC" [label="CancelAndFreeAnimatedWorldEffectTaskPool"];
+  "sub_08065748" [label="StartAnimatedWorldEffectTask"];
+  "sub_080657C4" [label="StartPlayerAreaReturnTask"];
   "sub_08065838" [label="StartPlayerNameDisplayTask"];
   "sub_080658A0" [label="AllocatePlayerNameTaskSlots"];
   "sub_080658CC" [label="WaitAndFreePlayerNameTaskSlots"];
