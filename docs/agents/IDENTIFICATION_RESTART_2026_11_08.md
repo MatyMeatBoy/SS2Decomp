@@ -790,3 +790,12 @@ Two previously unidentified EUR functions now have reviewed names for the level 
 The exit descriptor contains four unsigned halfwords: tile X/Y, destination and packed flags. Destination is promoted into a scene word; the flags high byte becomes the transition-mode word. Alternate flows, authority predicates and player-state gates affect readiness. A preexisting scene flag can reach finalization without a new destination write; waits and early returns prevent a universal travel guarantee. The castle starter replaces an active task and allocates its stack once without checking allocation success.
 
 The separate readiness-cancellation helper remains a private proposal. Its packet waits establish enqueue acceptance rather than peer acknowledgement. Canonical symbols, matching code, data, claims and generated progress files remain unchanged. Frozen research inputs, primary-range receipts and the exact two-row schema projection are preserved privately.
+
+
+## Jensen, rest interaction and Temple of Light actor setup
+
+Three previously unidentified EUR scene setup functions now have reviewed role names. The coordinator read all three complete matched bodies and their dialogue callbacks. Exact actor callback pointers connect the setup functions to Jensen's explicit self-introduction, a question offering rest and text identifying the Temple of Light. Complete target and callback ranges plus all five selected English resource slots and payloads equal the EUR ROM and linked ELF. Personal identity is claimed only for Jensen; the other two names describe interactions.
+
+Each setup requests an actor, then separately scans fifteen records for dimensions/flags and for callback installation. A missing scan yields once and skips the corresponding write; these functions return no success handle and do not guarantee actor creation. Their conditional scene-transition wait has no timeout. The rest callback performs its affirmative sequence; the temple callback schedules a prayer sequence rather than itself consuming four items or completing a ritual.
+
+Only the catalog and this English evidence journal change. Prior rows, metadata and canonical symbols are preserved; matching code, data, shard claims and generated progress files remain unchanged. Frozen research and independent review receipts remain private.
