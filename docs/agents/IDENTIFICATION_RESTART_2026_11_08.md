@@ -880,3 +880,12 @@ Four previously unidentified EUR functions now describe resistance-increase and 
 Indicators capture position when their task starts; nominal body limits are twenty and sixty yields, subject to shutdown. The decrease updater uses selector+33 while drawing uses selector+34. Requests precede some resistance bounds and signed-positive checks, so a request does not prove a stat change. Neither rendering nor completion is guaranteed.
 
 Starters scan thirty-two occupancy bits, write callback and allocation fields before a checked stack allocation, and silently stop on full pool or allocation failure. The scheduler can reject an already registered control; its result is ignored before occupancy is set. Packed arguments are not universally masked or validated. Only this journal and the catalog change; canonical symbols, source, data, claims and generated reports remain intact.
+
+
+## Queen Yvonne dialogue callback
+
+One previously unidentified EUR function is named RunQueenYvonneDialogue. The complete matched body and original branches select ten English resources; the default dialogue explicitly introduces Queen Yvonne. All ten pointer slots and complete payloads equal the local EUR ROM and linked ELF. Original constructor instructions bind this callback to the created kind1F actor; no equivalent C or complete semantic audit of that NONMATCHING constructor is claimed.
+
+The routine snapshots the selected story word before busy waits, prioritizes bits8 through0 and falls back to the introduction. Initial busy waits lack the later shutdown test. Cleanup queries the local-player index again and clears bit0 rather than restoring its prior value; the entry and cleanup indices are not proven identical. Allocation, display and completion are not guaranteed.
+
+Only the catalog and this journal change. Canonical symbols, matching source, data, claims and generated progress remain intact. The identity follows directly selected text and callback binding, with independent original-byte and semantic review.

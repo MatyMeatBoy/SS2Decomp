@@ -24861,6 +24861,38 @@
           "detail": "Own four complete target ranges and growth consumer69224 equal EUR ROM/linked ELF; own whole original D368 bytes and two critical original caller ranges also equal ROM/ELF, with only those caller paths semantically audited. Static source and original-ASM evidence does not establish runtime coverage or equivalence of any NONMATCHING draft."
         }
       ]
+    },
+    {
+      "address": "0x0802FA80",
+      "canonical_symbol": "sub_0802FA80",
+      "display_name": "RunQueenYvonneDialogue",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08028AAC.c",
+          "line": 6648,
+          "revision": "2a822dc7522cb8f59952cc1b93f260b2eb062493",
+          "detail": "Full matching body6648..end and complete original2FA80..2FEA0 read. Sets local player flags bit0 and callsD0F4. Chooses scene word+7C whenCE30 is nonzero, else+74; priority bits8 down to0 select resource1400C4 down to1400BC, no tested bit selects1400BB. Each branch waits5F184 and5EF90 with yields, starts fixed-layout dialogue5DF38(1,15,2,0,-1,resource), then waits5EEFC. CDF8 during that final wait invokes5EFBC and exits wait. Common cleanup reloads current local-player index, clears bit0 and callsD108. Initial busy waits lack this abort test; no guaranteed progress, successful allocation/display or preservation of prior bit0 state is claimed. The selected story WORD is a snapshot taken before the busy waits; later flag changes do not reselect this invocation. Common cleanup addresses the then-current local player, which is not proven to be the same player index selected on entry."
+        },
+        {
+          "source": "baserom.gba:English resource1400BB",
+          "revision": "2a822dc7522cb8f59952cc1b93f260b2eb062493",
+          "detail": "Own pointer slot0838B2DC and complete resource bytes equal linked ELF. After two-byte header, original English letter codes explicitly say I am Queen Yvonne. Directly selected resources1400BB..1400C4 form the same queen dialogue series, including her daughter Camille and the King. Identity follows self-introduction in the directly selected resource, not actor artwork, resource-number adjacency or outside story knowledge. Static readback retains control codes and does not assert runtime speaker switching/layout."
+        },
+        {
+          "source": "asm/nonmatchings/code_08028AAC/sub_0802AA28.s",
+          "line": 1,
+          "revision": "2a822dc7522cb8f59952cc1b93f260b2eb062493",
+          "detail": "Original2ACF8..2AD5E creates kind1F scene actor, searches scene actor slots by returned id and installs2FA80 at actor+44 via literal2AD7C=0802FA81. Caller2AA28 C is NONMATCHING reading aid only; callback-binding evidence comes from original instructions. Own whole caller bytes plus critical binding range equal EUR ROM/ELF; no complete constructor semantic audit or equivalent C claim."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 1,
+          "revision": "2a822dc7522cb8f59952cc1b93f260b2eb062493",
+          "detail": "Own eight code ranges and all ten directly selected English-resource pointer slots/payloads equal EUR ROM and linked ELF; complete target C/original and relevant callback binding/resource resolver paths read. Static evidence does not establish runtime coverage, transport reliability or guaranteed completion. Independent peer verification covers nine complete configured original code ranges and all ten English pointer slots/payloads in its own supplied ROM/ELF; see peer own-fullrange-receipt.json and own-identity-anchor-resources.json. The producer receipt describing eight ranges remains preserved separately."
+        }
+      ]
     }
   ]
 }
