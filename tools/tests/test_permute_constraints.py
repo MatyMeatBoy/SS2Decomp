@@ -107,6 +107,19 @@ class PermuterConstraintControls(unittest.TestCase):
             self.assertTrue(result['entire_object_equal'])
             self.assertIn('-O0',(case/'compile.sh').read_text())
 
+    def test_equal_object_with_shared_ast_is_rejected_before_search(self):
+        with tempfile.TemporaryDirectory() as td:
+            root=Path(td);source=root/'candidate.c';case=root/'case'
+            source.write_text('struct Entry { int value; };\n'
+                              'int test_target(struct Entry *input) {\n'
+                              ' struct Entry *first, *second;\n'
+                              ' first=input; second=input+1;\n'
+                              ' return first->value+second->value;\n}\n')
+            self.prepare(source,case)
+            with self.assertRaisesRegex(SystemExit,'shared AST nodes'):
+                permute.validate_control(str(case),str(source))
+            self.assertTrue(json.loads((case/'control.json').read_text())['entire_object_equal'])
+
 class PermuterControlGate(unittest.TestCase):
     def test_failed_control_never_starts_randomizer(self):
         with tempfile.TemporaryDirectory() as td, \

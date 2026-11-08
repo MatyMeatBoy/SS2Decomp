@@ -216,7 +216,89 @@ def validate_control(d, cfile, allow_diff=False):
             raise SystemExit("permuter control differs from normal object; no randomization started "
                              "(--allow-control-diff searches anyway; verify results with apply_permuted.py)")
         print("warning: permuter control differs from normal object; scores are relative to the control")
+    validate_randomization(d, candidate, perm)
     return result
+
+
+def validate_randomization(d, candidate=None, permutations=None):
+    """Reject baseline ASTs the engine cannot index, before starting workers."""
+    sys.path.insert(0, PERMUTER)
+    import toml
+    from pycparser import c_ast as ca
+    from src import ast_util
+    from src.candidate import Candidate
+    from src.helpers import get_default_randomization_weights, get_settings
+    from src.perm.parse import perm_parse
+    from src.perm.perm import EvalState
+
+    with open(os.path.join(d, "control-settings.json")) as source:
+        control_settings = json.load(source)
+    name = control_settings["c_name"]
+    engine_settings = dict(get_settings(d))
+    if permutations is None:
+        with open(os.path.join(d, "base.c")) as source:
+            permutations = perm_parse(source.read())
+    report_path = os.path.join(d, "randomization-control.json")
+    if not permutations.is_random():
+        report = {"ready": True, "randomized": False, "unique_ast_nodes": None,
+                  "nameless_local_declarations": None, "disabled_passes": []}
+        with open(report_path, "w") as output:
+            json.dump(report, output, indent=2)
+        return report
+    if candidate is None:
+        state = EvalState()
+        candidate = Candidate.from_source(
+            permutations.evaluate(0, state), state, name,
+            get_default_randomization_weights(engine_settings.get("compiler_type", "base")), 0)
+    function, _ = ast_util.extract_fn(candidate.ast, name)
+    try:
+        indices = ast_util.compute_node_indices(function)
+    except AssertionError as error:
+        message = ("permuter baseline has shared AST nodes; split comma declarations "
+                   "of named struct types and repeat the complete normal-object control. "
+                   "No randomization started.")
+        with open(report_path, "w") as output:
+            json.dump({"ready": False, "error": str(error)}, output, indent=2)
+        raise SystemExit(message) from error
+
+    class LocalDeclarations(ca.NodeVisitor):
+        def __init__(self):
+            self.nameless = 0
+
+        def visit_Decl(self, node):
+            # Do not inspect fields inside a declared type: the engine's pass
+            # visits statement declarations, not member/parameter declarations.
+            self.nameless += node.name is None
+
+        def visit_Struct(self, node):
+            # A type inside sizeof/casts may contain unnamed members, which
+            # are not statement declarations inspected by the temporary pass.
+            pass
+
+        visit_Union = visit_Struct
+        visit_Enum = visit_Struct
+
+    declarations = LocalDeclarations()
+    declarations.visit(function.body)
+    disabled = []
+    if declarations.nameless:
+        weights = dict(engine_settings.get("weight_overrides", {}))
+        defaults = get_default_randomization_weights(engine_settings.get("compiler_type", "base"))
+        if weights.get("perm_temp_for_expr", defaults["perm_temp_for_expr"]) != 0:
+            # This engine pass asserts on valid standalone local type definitions.
+            # Change only generated search settings, never the candidate C.
+            weights["perm_temp_for_expr"] = 0.0
+            engine_settings["weight_overrides"] = weights
+            with open(os.path.join(d, "settings.toml"), "w", encoding="utf-8") as output:
+                toml.dump(engine_settings, output)
+            disabled.append("perm_temp_for_expr")
+            print("disabled perm_temp_for_expr: baseline contains local type declarations")
+    report = {"ready": True, "randomized": True, "unique_ast_nodes": len(indices.starts),
+              "nameless_local_declarations": declarations.nameless,
+              "disabled_passes": disabled}
+    with open(report_path, "w") as output:
+        json.dump(report, output, indent=2)
+    return report
 
 
 def restore_aliases(source, aliases):
@@ -263,7 +345,7 @@ def main():
     aliases = setup(args.func, args.cfile, d)
     validate_control(d, args.cfile, args.allow_control_diff)
     try:
-        result = run_in_process_tree([sys.executable, os.path.join(PERMUTER, "permuter.py"), d, "-j", str(args.jobs),
+        result = run_in_process_tree([sys.executable, "-u", os.path.join(PERMUTER, "permuter.py"), d, "-j", str(args.jobs),
                                       "--stop-on-zero", "--best-only", "--quiet"], timeout=args.time)
         if result.returncode:
             raise SystemExit("permuter failed (exit %d); no result accepted" % result.returncode)
