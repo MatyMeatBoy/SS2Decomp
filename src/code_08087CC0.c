@@ -2102,7 +2102,6 @@ void sub_0808AFA4(const u16 *pos)
     state = (u8 *)(offset + (u32)base);
     *(struct PositionPairAFA4 *)(state + 0x94) = *(struct PositionPairAFA4 *)(state + 0x8C);
 }
-#ifdef NONMATCHING
 struct SprAF91 { u8 p0[0xC]; u8 *data; u8 p10[0xC]; u8 flags; u8 p1D[0x17]; };
 struct RecAF91 { u16 type; u16 val; u32 time; u8 b8; u8 b9; u8 pad[6]; };
 struct TypeAF91 { u16 a; u16 b; };
@@ -2160,7 +2159,7 @@ void sub_0808AFE8_v(void)
     u32 sel;
     u32 selectionStride;
     u32 max;
-    u8 off10;
+    u32 off10;
     void *sprite;
     s32 mode;
     s32 flag;
@@ -2201,8 +2200,15 @@ void sub_0808AFE8_v(void)
     sub_08000AA8(2, (u16 *)&bg);
     bg.lo = 0x1D03;
     sub_08000AA8(3, (u16 *)&bg);
-    sel = 0;
-    off10 = sub_0800CE30() ? 10 : 0;
+    {
+        u32 zero, t;
+        sel = 0;
+        asm("" : "=r"(zero) : "0"(sel));
+        t = sub_0800CE30();
+        off10 = zero;
+        if (t != 0)
+            off10 = 10;
+    }
     for (i = 0; i <= 9; i++) {
         for (j = 0; j <= 2; j++) {
             records[i][j].time = 0;
@@ -2446,10 +2452,8 @@ done:
         stateAF91->rec = *(struct RecAF91 *)((u8 *)records + ((selectedRow091 + i) << 4));
     }
     sub_08000420(0x02688420);
+    asm("" : : "g"(off10));
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_08087CC0", sub_0808AFE8);
-#endif
 extern void B978SetTime(u32,u32) asm("sub_0805896C");
 extern u8 *gStateB978 asm("gUnk_03005CF4");
 extern s16 gUnk_084AA9E0, gUnk_084AAB30, gUnk_084AAC80, gUnk_084AADD0, gUnk_084AAF20, gUnk_084AB070, gUnk_084AB1C0, gUnk_084AB310, gUnk_084AB460, gUnk_084AB5B0;
