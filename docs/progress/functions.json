@@ -33859,10 +33859,17 @@
       "canonical_symbol": "sub_08068A00",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_08068A00",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "ProcessAbilityHitsInSquareAtPosition",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_08068670.c",
+          "line": 198,
+          "revision": "8bbfb589bf6ab55018ae7e465fc0e674879c81fa",
+          "detail": "Machine ABI: r0=x, r1=y, r2=ability descriptor; source expresses a two-word position struct by value. Returns 0 if 58DB0 or CDF8 is nonzero. Inclusive square radius is 32 for kind 12, 22 for kind 13, otherwise halfword 084EC17C[full-word level], interpreted signed16. If full-word target >3, first scans five active enemies with state !=11 and active byte +1DC nonzero. Uses signed16 pixel deltas derived from coordinates with eight fractional bits. In-range encounter sets result bit 0 even when authority/history blocks processing. Local caster, or enemy caster on host path, may overwrite descriptor target with enemy.id+4 and call 694AC; special kinds 4/7 instead call 29B98 directly. Processing paths update serial/history, request 69A30 visual and set result bit 1; this means processing attempted, not guaranteed damage. Host-enemy path reads an uninitialized player-base spill for a serial comparison. Players are scanned only if the enemy scan produced mask 0. Player caster selects different nonzero teams, excluding sprite kinds 10/11/14 and sprite byte4 bit5; enemy caster excludes flags 0x2400 and the same sprite kinds/team0. Local victim authority and serial-history difference gate processing. Player paths use 694AC or special 29A7C; enemy-caster player hits omit 69A30. Returns observed masks 0,1,3. No Euclidean radius, bounds validation or complete safe enemy-owner contract. Complete original configured body preserved/inspected and equal to EU ROM/supplied verified-main ELF. No worker build or runtime testing. Independent path distinction: player-caster versus player-victim special kinds4 AND7 use29A7C; enemy-caster versus player-victim only kind4 bypasses694AC, while kind7 uses694AC. Enemy-caster player processing also requiresCCCC==0. Mask bit0 means geometric eligible encounter, bit1 means processing path entered; handlers may return early, so masks do not acknowledge applied damage. Per-target processing assigns2 then ORs1; all observed nonzero returns remain1 or3. Geometry is inclusive independent axis comparison, no squared-distance comparison or Sqrt in this body."
+        }
+      ]
     },
     {
       "name": "sub_08068F9C",
@@ -33977,10 +33984,17 @@
       "canonical_symbol": "sub_080694AC",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_080694AC",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "ApplyAbilityDamageAndStatusToTarget",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_08068670.c",
+          "line": 771,
+          "revision": "8bbfb589bf6ab55018ae7e465fc0e674879c81fa",
+          "detail": "r0 points to six-word ability descriptor. Returns on 58DB0/CDF8 nonzero. Full-word attacker/target select player stride 0x14C or enemy index-4 stride 0x2E0. Player target clears word +110 before rejecting team byte +68 zero; enemy rejects active byte +1DC zero. Calls 68F9C with resistance pointer player+7C/enemy+218; signed damage is divided by 8 for player or 1 for enemy, then truncated16. Eight-byte stack packet retains unwritten reserved bits and upper amount halfword. Kind19 may initialize status 3, but subsequent 69388 can overwrite it. Kind12 computes direction via ArcTan2/table and flag 0x10 from enemy+210 !=FF; player-target kind12 dereferences an uninitialized enemy pointer, and enemy-attacker/player-target Y reads an uninitialized player-attacker register. Other kinds clear flag/direction bytes. Local player target gets state10, damage accumulator halfword +88 and 1F320; status roll/allocation follows, kind18 forcing status0. All player-target paths update attacker serial history; local player also stores effect +E0 and invokes resistance growth 69224. Enemy path sets state10, adds halfword +4A, stores zero-extended latest damage word +4C, calls 1F2CC, records serial+54, owner halfword+58, mask halfword+5A, always rolls status, then skips status lookup/allocation only when byte+226==3, then queues hit record through 660EC. Both accepted target paths call secondary proc 69080. Not every path queues a hit packet, and reserved packet bits are not fully initialized. Complete original configured body preserved/inspected and equal to EU ROM/supplied verified-main ELF. No worker build or runtime testing. Original6982A..69850 calls69388 and kind18 override before69858 compares byte+226 with3. Thus immune-to-allocation enemy still consumes status RNG and queues packet through660EC. Packet8 bytes is an ABI record, not proof its reserved bits/upper amount bytes are initialized."
+        }
+      ]
     },
     {
       "name": "sub_080698D4",
@@ -34273,10 +34287,17 @@
       "canonical_symbol": "sub_0806CDF0",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_0806CDF0",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "ApplyAreaHealingAndStatusRecovery",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_08068670.c",
+          "line": 2571,
+          "revision": "8bbfb589bf6ab55018ae7e465fc0e674879c81fa",
+          "detail": "Descriptor owner/bit are full words. Clamps full-word level >7 to7 in place, then uses low16. Enemy windup waits +6A >= byte +22B with abort checks; local resource cost uses u16(6898C-1) from +C2 with signed-negative clamp0; enemy uses signed table cost from +5E, with failure clearing mask and resource. Player owner waits +B4>6, aborting state10. Candidate players require sprite byte4 bit5 clear and same owner team, or team0 when CF80=0; nonzero level and abs(s16 delta >>3)<=12 on each axis. Stores Sqrt distance for healing falloff. Enemy geometry unusually reads low16 caster fixed-point coordinates and compares unscaled candidate word deltas; no normalized radius is inferred. Starts visual8 for candidates. Local owner heals self by 084EC18E[level] into HP+C4, signed-clamped to max+62, and clears +24/+26. Its flag0x20000 recovery test uses (s16)lastScannedPlayer.maxHP arithmetic-shifted right1, from that player halfword+0x62, rather than signed division by2 toward zero. Remote player caster heals only local candidate by tableHeal*120/(distance+120), clamped to own max. Player levels >2 remove statuses6/7, >3 remove5/2, >4 remove3. With 1DF8C nonzero, CF80=0 and level6/7, local candidate is revived at maxHP/4 or maxHP respectively, state11->0, team1, flag0x2000 cleared; state messages and profile resistance counters are updated. Enemy loop tests candidateIDarray[i]==i+4 rather than iterating candidate count; adds falloff healing to HP+5C, clamps max+1D6, then compares HEAL AMOUNT against 2/3/4 for status removal, not level. Four-byte ID array can receive five enemy candidates; unwritten candidate entries may be read. All normal/explicit early exits clear mask030063E0; waits lack timeouts. Named spell and safe all-input behavior remain unresolved. Complete original configured body preserved/inspected and equal to EU ROM/supplied verified-main ELF. No worker build or runtime testing. Independent precision: distance stored is low16 Sqrt(dx*dx+dy*dy), not distance squared; eligibility still uses independent shifted-axis bounds. Enemy delta is narrowed16 after subtracting sign-extended low16 caster coordinate from candidate full coordinate, then used signed16 for bounds and Sqrt. Self healing occurs without requiring self in candidate IDs. HP addition writes low16 before signed16 max comparison, so overflow is not a saturating arbitrary-input heal. Last-scanned-player max pointer can be uninitialized when player count is zero; recovery must not be generalized to own max. Enemy loop never excludes caster: it heals only active slots satisfying stackID[i]==i+4, can read uninitialized ID/distance entries, and source100-only removal helpers act on matching timer!=-1 status slots. Revival level6 uses signed maxHP division by4 truncated toward zero, level7 copies maxHP halfword. No gameplay-safe enemy/self behavior or all-status clearing is asserted."
+        }
+      ]
     },
     {
       "name": "sub_0806D4A4",
@@ -34919,10 +34940,17 @@
       "canonical_symbol": "sub_08075088",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_08075088",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "RunThreeStaggeredForwardHitAnimations",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_08073E2C.c",
+          "line": 667,
+          "revision": "8bbfb589bf6ab55018ae7e465fc0e674879c81fa",
+          "detail": "ABI r0=full player index, r1=full slot bit. Initializes three positions from player sprite, one facing angle, resource5008C and animation14; u16 start delays are1,9,17. Local caster sets flag word+30 bit0, saves LOW16 of serial word+DC then increments full word, and computes u16 damage=RNG%50+50*1E0AC(profile+30,5). Each active animation moves 2*sine per tick and steps frames; drawing occurs only while completion0 and display gates clear. Only local caster with completion EXACTLY1 scans five active enemies within signed16 pixel deltas <=27 on both axes, state!=11 and serial word+54 different from saved LOW16 serial. Writes latest damage word+4C, calls29E0C, stores owner halfword+58, zero-extended saved serial word+54 and ORs local bit into halfword+5A. One shared saved serial suppresses processing while enemy+54 equals it; another writer replacing enemy+54 can permit a later repeat. State11/12 or D11C breaks only the inner loop; the outer loop continues until all three completion values are nonzero in one pass, yielding between passes. Cleanup clears caster flag bit0 only when local and CC98/CE68/CD8C all return0; slot mask always clears on normal exit. No index bound, cost payment, terrain collision or completion guarantee. Complete original configured body preserved/inspected and equal to EU ROM/supplied verified-main ELF. No worker build or runtime testing. Independent original7517C..75184 saves zero-extended low16 of serial before incrementing full32 word. Completion cancellation check runs only inside local-owner done==1 hit branch; other iterations continue animating. Break occurs before this animation contributes to the per-pass completion count, and can therefore prevent outer-loop termination. Mask writes are halfword at enemy+5A, word at player flags+30 and owner task mask030063E0."
+        }
+      ]
     },
     {
       "name": "sub_08075494",
@@ -34936,10 +34964,17 @@
       "canonical_symbol": "sub_08075494",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_08075494",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "StartThreeStaggeredForwardHitAnimations",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_08073E2C.c",
+          "line": 769,
+          "revision": "8bbfb589bf6ab55018ae7e465fc0e674879c81fa",
+          "detail": "Full incoming r0 is player index. Finds first zero bit among16 in030063E0[index]; no slot returns. Allocates0x400-byte stack and stores pointer at selected0x28-byte task control+20 in pool030063B0[index]. Allocation failure returns with mask unchanged. Success sets priority+8=0x34, callback+C=75088, stack top+10=allocation+3FC and cleanup+24=0. Registers task with player index and slot, then ORs slot mask bit. Complete consumer75088 initializes three forward hit animations with delays1/9/17 and local enemy-hit processing. No index validation, retry, synchronous hit or returned completion status. Complete original configured body preserved/inspected and equal to EU ROM/supplied verified-main ELF. No worker build or runtime testing."
+        }
+      ]
     },
     {
       "name": "sub_08075520",
@@ -36364,10 +36399,23 @@
       "canonical_symbol": "sub_080811E0",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_080811E0",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "DrawItemMenuPlayerStatPreview",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_0807A5D4.c",
+          "line": 3933,
+          "revision": "8bbfb589bf6ab55018ae7e465fc0e674879c81fa",
+          "detail": "r0 player pointer. Uses item-menu current-pointer+0xF0 if manager state+0x1C=22, otherwise held record+0xF4. Calls0x0801BA74 with player, selected record (or null), two stack outputs and save-state+0x30. Item kinds2..5 use null when byte+8 is nonzero; kind1 uses null then increments output base-stat halfword for subtype8/9/10/11 at offsets0/2/6/4. Other kinds pass record unchanged. Draws12 signed-halfword preview values against player fields+0x58/+0x5A,+0x7C..+0x86,+0x38/+0x3E/+0x3C/+0x3A with color2 if greater,1 if less,0 if equal using0x0805FB7C. Does not equip the candidate item or establish semantics for unsupported item kinds. Complete original configured body audited against ROM; copied verified-main ELF static equality, no local build or runtime test."
+        },
+        {
+          "source": "src/code_0807A5D4.c",
+          "line": 3933,
+          "revision": "8bbfb589bf6ab55018ae7e465fc0e674879c81fa",
+          "detail": "Independent names-low-a review: Accepted. Full original confirms signed-halfword stat comparisons. The routine draws the candidate comparison without equipping it; its status-builder call can modify auxiliary player fields, so no general absence of side effects is claimed. Null/item ABI and subtype increments match input; no equipment application is performed."
+        }
+      ]
     },
     {
       "name": "sub_08081518",
@@ -36422,10 +36470,23 @@
       "canonical_symbol": "sub_08082960",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_08082960",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "DrawLocalizedEquipmentSetSummary",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_0807A5D4.c",
+          "line": 4938,
+          "revision": "8bbfb589bf6ab55018ae7e465fc0e674879c81fa",
+          "detail": "r0 record pointer; null returns with no drawing. Draws title resource0x1403EC at row3, localized record name selected by global0x03003470 (31 halfwords per language), truncating each character to byte, ending at low-byte zero or after31 characters then0xFD. Draws six available equipment references at record+0x136, omitting high-bit0x8000 entries; slot-to-item-kind mapping2,4,3,5,6,7, centered icon row with manager animation offsets. Scans three4-byte modifiers at+0x144, excluding type0/41, selects positive/negative text resource from signed value bit15, draws absolute u16 magnitude via0x08081518 with layout based on total valid modifiers. No language/record-size checks or item ownership changes. Complete original configured body audited against ROM; copied verified-main ELF static equality, no local build or runtime test."
+        },
+        {
+          "source": "src/code_0807A5D4.c",
+          "line": 4938,
+          "revision": "8bbfb589bf6ab55018ae7e465fc0e674879c81fa",
+          "detail": "Independent names-low-a review: Accepted. Six references and three modifiers are independently traversed. Modifier layout uses total valid count but original slot index, so gaps are preserved. Low-byte localized-name terminator and signed magnitude conversion match original."
+        }
+      ]
     },
     {
       "name": "sub_08082BB0",
@@ -36456,10 +36517,23 @@
       "canonical_symbol": "sub_0808381C",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_0808381C",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "RunItemMenuMessageDialog",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_0807A5D4.c",
+          "line": 5651,
+          "revision": "8bbfb589bf6ab55018ae7e465fc0e674879c81fa",
+          "detail": "Full-word r0 indexes sprite/message tables0x084ECBDC/0x084ECC04 without bounds check. Initializes local descriptor, picks palette source variant for indices3/4/9, sets manager word+0x28 bit1. Expands message byte0xFC from save-state name stream at0x030034E0 into local32-byte buffer with u16 indices; no capacity checks. Slides descriptor to(240,136), reveals text progressively centered on row18, then waits for input halfword0x03001324 bit0 while blinking0xA0 marker. On acknowledgement plays song15 and slides away, yielding throughout. Suspend-request or link-error exits skip animation; all exits clear manager bit1. Does not claim debounce, exact input-newness or explicit text erase. Complete original configured body audited against ROM; copied verified-main ELF static equality, no local build or runtime test."
+        },
+        {
+          "source": "src/code_0807A5D4.c",
+          "line": 5651,
+          "revision": "8bbfb589bf6ab55018ae7e465fc0e674879c81fa",
+          "detail": "Independent names-low-a review: Accepted with precision addition: FC expansion retains its dictionary offset across FC occurrences; it is initialized once, not reset at each token. Source stays on FC until the next dictionary byte is FD. Input bit0 can acknowledge immediately; abort exits clear manager bit1 and skip normal slide-out."
+        }
+      ]
     },
     {
       "name": "sub_08083AE8",
@@ -36490,10 +36564,23 @@
       "canonical_symbol": "sub_08084200",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_08084200",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "ClassifyThreeItemSubtypePattern",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_0807A5D4.c",
+          "line": 6419,
+          "revision": "8bbfb589bf6ab55018ae7e465fc0e674879c81fa",
+          "detail": "r0 points to three16-byte item records. Requires unsigned kind halfwords at+0/+16/+32 all9 or returns0. Reads subtype halfwords+2/+18/+34 and returns a pure ordered-pattern code:000=>1,222=>2,111=>3, all-distinct0..2=>4;020/101/010/121/212/202=>5..10;002/110/001/112/221/220/200/011/100/211/122/022=>11..22;333=>23,444=>24. Everything else returns0, including mixed3/4. No side effects, RNG or validation of pointed storage. Does not guess material names for kind9 or subtype values. Complete original configured body audited against ROM; copied verified-main ELF static equality, no local build or runtime test."
+        },
+        {
+          "source": "src/code_0807A5D4.c",
+          "line": 6419,
+          "revision": "8bbfb589bf6ab55018ae7e465fc0e674879c81fa",
+          "detail": "Independent names-low-a review: Accepted only with semantic consumer closure: matched sub_0808441C uses the classification to select item-combination output kind/subtype tables, after zero fallback and RNG/tier handling. Pure pattern format alone would not justify a semantic identity. No material identities inferred."
+        }
+      ]
     },
     {
       "name": "sub_0808441C",
@@ -37603,10 +37690,23 @@
       "canonical_symbol": "sub_08088B6C",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_08088B6C",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "TryTriggerThreeEntrySceneExit",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_08087CC0.c",
+          "line": 457,
+          "revision": "8bbfb589bf6ab55018ae7e465fc0e674879c81fa",
+          "detail": "r0 route table; full-word r1 destination-entry selector written as u16. Gets local player, reads signed32 fixed positions+0x8C/+0x90 shifted11. Tests indices1..3 of8-byte exit records following table+4+u16(scene+0x36)*0x24, requiring horizontal distance<=1 and exact y, both record coordinates unsigned16. First match sets local-player flag22 via0x08015ED4, requests transition mode3 through0801ABE8, flushes/awaits transition with yields, then writes destination selector+0x36, destination scene u16+2, resource pointer from table0x084F0AC0[destination] into+0x71C, clears halfwords+0x10/+0x1C and returns1. No match returns0 with no transition. No table/destination bounds checks; return1 means transition fields prepared, not subsequent scene loaded. Complete original configured body audited against ROM; copied verified-main ELF static equality, no local build or runtime test."
+        },
+        {
+          "source": "src/code_08087CC0.c",
+          "line": 457,
+          "revision": "8bbfb589bf6ab55018ae7e465fc0e674879c81fa",
+          "detail": "Independent names-low-a review: Accepted. Original tests three exits, sets player flags-word bit22, waits transition, then prepares destination state. Original requests transition mode3 via0801ABE8, without establishing screen-window hiding; return1 is not scene-load completion."
+        }
+      ]
     },
     {
       "name": "sub_08088C24",
@@ -50816,12 +50916,12 @@
   "identification": {
     "game": {
       "total": 1880,
-      "identified": 891,
+      "identified": 901,
       "existing": 23,
-      "confirmed": 868,
+      "confirmed": 878,
       "proposed": 8,
-      "unidentified": 981,
-      "percent_identified": 47.3936170212766
+      "unidentified": 971,
+      "percent_identified": 47.92553191489362
     },
     "sdk": {
       "total": 155,
@@ -50834,12 +50934,12 @@
     },
     "all": {
       "total": 2035,
-      "identified": 1046,
+      "identified": 1056,
       "existing": 152,
-      "confirmed": 894,
+      "confirmed": 904,
       "proposed": 8,
-      "unidentified": 981,
-      "percent_identified": 51.4004914004914
+      "unidentified": 971,
+      "percent_identified": 51.891891891891895
     }
   },
   "limitations": "Configured function address intervals, including alignment/literal pools; inventory includes original assembly and linked libraries. Existing descriptive identifiers are recognized, not independently semantically re-proven."
