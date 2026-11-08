@@ -19759,6 +19759,345 @@
           "detail": "Player task draft shows the result consumed before assigning state 11, appearance/animation and death sound. This caller is only a reading aid; the original matched consumer body and independently matched DF8C predicate establish the narrow damage/defeat contract. D1B0 is evaluated for local state even though the explicit supplied player pointer is retained; no arbitrary-player domain, general equivalence or damage immunity is asserted."
         }
       ]
+    },
+    {
+      "address": "0x08091F20",
+      "canonical_symbol": "sub_08091F20",
+      "display_name": "AppendThreeDigitGlyphNumber",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_0808FB5C.c",
+          "line": 1692,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Narrows the input number to u16 and seeks the first zero/0xFD byte in the existing destination, inspecting at most offsets 0..254. At that position, or offset 255 when none is found, writes space glyph 0x51, three numeric glyph bytes and terminator 0xFD. The numeric bytes are (u8)(number/100+0x41), (u8)((number%100)/10+0x41) and (u8)(number%10+0x41). Values 0..999 therefore use three zero-padded digit fields; no range clamp makes larger u16 inputs a general decimal formatter."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 1564,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Original 91F24..91F26 narrows the number, 91F2C..91F40 bounds the terminator scan, 91F42 writes the separator, 91F50..91F54 truncates the hundreds quotient to u8, and 91F7C..91F94 emits exactly three glyph fields plus 0xFD. Complete helper original range equals existing linked EU ELF/ROM; all 183 proof lines of both helpers inspected, SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc."
+        },
+        {
+          "source": "src/code_0808FB5C.c",
+          "line": 695,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Matched BGM/SE menu first encodes its label through 91F9C, then appends selected song/sound index+1 through 91F20. Those observed ranges are 1..37 and 1..290. No output-size argument, automatic buffer growth or result-length return is provided by the appender."
+        }
+      ]
+    },
+    {
+      "address": "0x08091F9C",
+      "canonical_symbol": "sub_08091F9C",
+      "display_name": "EncodeMenuTextAsGlyphBytes",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_0808FB5C.c",
+          "line": 1722,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Maps byte text into the menu glyph encoding using mode word 03003470. Mode 0 or unsigned values>4 accept space→0x51, Latin A..Z/a..z→byte-0x40 and digits→byte+0x10, stopping before the first other byte. Modes 1..4 use the same letter/space mappings, digits→byte+0xF and otherwise copy bytes until zero/0xFD. Each branch copies at most 255 bytes. On ordinary termination writes 0xFD; hitting that copy limit returns without appending a terminator. This is not a Unicode decoder or a universal interpretation of the mode global."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 1565,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Original 91FA4..91FAA selects the two branches. 91FF2 adds 0x10 for default digits whereas 92050 adds 0xF for modes 1..4. 92002/92064 branch directly to return after count 255, bypassing terminator store 92072. 92074..92078 returns low 8 bits of (count-1), so an empty conversion returns 255, not a length 0. Complete original helper range inspected and equal existing EU ELF/ROM."
+        },
+        {
+          "source": "src/code_0808FB5C.c",
+          "line": 685,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Matched audio-test menu uses this to encode NUL-terminated BGM/SE labels into a small buffer before rendering through 1A764 and appending a number through 91F20. Letter and space mappings independently support the bounded Latin-term interpretation of narrative resources. No output buffer-size validation or standard character-count return is inferred."
+        }
+      ]
+    },
+    {
+      "address": "0x0801B6F4",
+      "canonical_symbol": "sub_0801B6F4",
+      "display_name": "AddToSixHalfwordValues",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_0801AAF8.c",
+          "line": 559,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Adds the signed low-halfword delta to six consecutive halfwords at byte offsets 0, 2, 4, 6, 8 and 10, storing each low 16-bit result in ascending order. The buffer needs at least 12 writable bytes. There is no saturation, bounds/null check, heap allocation or external call; negative deltas are allowed by the signed argument."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 438,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Original 1B6F4 loads the first halfword; 1B6F6..1B6F8 sign-extend the delta. Six LDRH/add/STRH groups end with the last store at 1B71A. Complete original 1B6F4..1B720 bytes equal EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc and the linked original ELF. Static instruction evidence only."
+        },
+        {
+          "source": "src/code_0801AAF8.c",
+          "line": 999,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Matched stat recalculation calls this helper on a six-component output array with an active-effect delta; another call at line 1173 applies a class-skill-derived delta to a second six-component block. The generic arithmetic name does not assign elemental order, exact stat labels or a particular skill identity."
+        }
+      ]
+    },
+    {
+      "address": "0x0801B720",
+      "canonical_symbol": "sub_0801B720",
+      "display_name": "SubtractFromSixHalfwordValues",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_0801AAF8.c",
+          "line": 567,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Subtracts the signed low-halfword delta from six consecutive halfwords at byte offsets 0 through 10, storing each low 16-bit result in ascending order. A negative delta therefore adds its magnitude modulo 65536. Does not saturate, validate the 12-byte writable buffer, allocate memory or call another function."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 439,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Original 1B720 loads the first halfword; 1B722..1B724 sign-extend the delta. Six LDRH/subtract/STRH groups end with the last store at 1B746. Complete original 1B720..1B74C bytes equal EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc and the linked original ELF. Static instruction evidence only."
+        },
+        {
+          "source": "src/code_0801AAF8.c",
+          "line": 559,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Adjacent matched addition sibling performs the inverse arithmetic on the same six-halfword layout. Its stat-recalculation callers corroborate a useful component-array operation, but no direct caller or universal resistance-block meaning is invented for this subtraction helper."
+        }
+      ]
+    },
+    {
+      "address": "0x080065FC",
+      "canonical_symbol": "sub_080065FC",
+      "display_name": "StartCharacterSetupAndNameEntryTask",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08002118.c",
+          "line": 3011,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Allocates a 0x2000-byte stack and configures shared task control 03003480 with callback 03984, stack base at control+0x20, stack top base+0x1FFC at+0x10, word+8=10 and null finalizer+0x24. Schedules through 00274 with both original 32-bit inputs retained as the callback arguments. It does not check task membership or allocation failure, retry allocation, initialize the supplied record or assign a semantic priority to word+8."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 120,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "All 32 original proof lines inspected after complete 65FC..663C original EU ROM/existing ELF equality. 65FE/6600 preserve incoming r0/r1; 6606 allocates 0x2000; 6610 installs Thumb callback 0x08003985. 6616/6618 store stack top/base, 661C writes control+8, and 6622/6624 restore both input words into scheduler r1/r2 before call 6626. No prototype/header or production C change is needed for this identification."
+        },
+        {
+          "source": "asm/nonmatchings/code_08002118/sub_08003984.s",
+          "line": 3639,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Already-confirmed callback TaskCharacterSetupAndNameEntry is still a NONMATCHING C draft at this pinned revision. Original 05728 loads its supplied record, adds 0x10 and normalizes the glyph-name terminator; 057A0..057AA sets record byte 0 to 1 on the completion path. Earlier original keyboard paths select glyphs from tables 08366E34/08366EFC/08366FC4 and store them into record+0x10. This anchors character setup/name editing without claiming the C draft equivalent, that the initializer writes SRAM or a universally valid mode/index domain."
+        }
+      ]
+    },
+    {
+      "address": "0x0801A6D4",
+      "canonical_symbol": "sub_0801A6D4",
+      "display_name": "LoadMenuSpritePaletteVariant",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08017F7C.c",
+          "line": 1409,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "For mode 0 resolves resource 0x80006; for mode 1 resolves 0x8004A, both through 06EE0 with resource table 08518938. Passes the resolved address plus 0x120 to palette-shadow loader 00AF0 at palette group 25 with count 1. The mode is compared as a full word. Does not validate the resource pointer, create sprites or wait for palette transfer. No safe default is established for other mode values."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 420,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Original 1A6D6/1A6DA compare the full mode with 0/1; 1A6EC resolves the selected resource. 1A6F2..1A6FC add 0x120 and call 00AF0 with R0=25 and R2=1. Other mode values skip resolution and retain incoming R1 before the addition, rather than returning or selecting a default palette. Complete original 1A6D4..1A70C bytes equal EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc and the linked original ELF; static evidence only."
+        },
+        {
+          "source": "src/video.c",
+          "line": 31,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Matched loader 00AF0 copies count*32 bytes into palette shadow 03001F40 at group*32, then queues the full palette shadow when its pending flag is zero. Therefore this caller changes one 32-byte shadow group; it does not itself establish that the colors have reached palette hardware or are currently visible."
+        },
+        {
+          "source": "src/code_0808FB5C.c",
+          "line": 523,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Matched sound-test task 904A4 selects mode 1 during setup and restores mode 0 at source line 724 after its closing transition and temporary-buffer cleanup. Original calls at 0904B2 and 090B60 are preceded by R0=1 and R0=0 respectively. This establishes an interface-palette variant pair without assigning an exact theme or color identity."
+        },
+        {
+          "source": "asm/nonmatchings/code_08002118/sub_08003984.s",
+          "line": 100,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Original character setup/name-entry callback 03984 selects mode 0 at 03A5C..03A5E before clearing its input-state fields. The C callback is NONMATCHING at this evidence revision, so this caller is corroborated from original ASM rather than treated as equivalent matched C. Its already-confirmed callback name is not duplicated."
+        }
+      ]
+    },
+    {
+      "address": "0x08014170",
+      "canonical_symbol": "sub_08014170",
+      "display_name": "TaskPlayerStatusHud",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_0800CF58.c",
+          "line": 6264,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Matched ordinary C definition hud14170 receives a player-record pointer. Allocates tile buffers of 0xA0, 0xA0 and 0x60 bytes, updates two 40-unit health/energy bars and a third 24-unit status bar, and draws health/current maximum numbers plus energy values divided by ten. It also draws position-relative action-state indicators. The third bar exact gameplay label is not established here. This is not a pure renderer: it can upper-clamp player current health, energy and the third value while updating the displays."
+        },
+        {
+          "source": "src/code_0800CF58.c",
+          "line": 6312,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Outer loop ends when scene query CB78 or CD00 becomes nonzero. Additional scene gates pause/reset cached display values; the CD34/CDF8 wait loop does not itself retest those outer stop queries. Cleanup frees the three tile buffers after the outer loop exits. No immediate stop/cleanup, allocation success, positive denominator or arbitrary-state initialization guarantee is inferred. Scheduler signal-1 waits do not establish exact video-frame timing."
+        },
+        {
+          "source": "src/code_0800CF58.c",
+          "line": 6631,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Matched numeric display sequence calls 5FB7C at tile row 1: maximum health at column 6, current health at column 2, maximum energy divided by ten at column 14 and current energy divided by ten at column 10, with zero explicitly selected for zero current energy. This anchors the status-HUD role independently of the short existing hud14170 alias."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 321,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Complete original 14170..14B28 bytes equal EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc and linked original ELF. Selected original numeric calls at 14A8A/14A9A/14AB6/14AD6/14AE8 and three frees at 14B06/14B0C/14B12 were read. This selected-path instruction audit does not claim a new complete callback equivalence proof."
+        },
+        {
+          "source": "src/code_0801AAF8.c",
+          "line": 147,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Matched character initialization and recalculation separately establish current/maximum energy at player +0xC2/+0x60 and current/maximum health at +0xC4/+0x62. The HUD uses those same fields. Exact displayed energy terminology, third-gauge title and named action indicators remain unassigned."
+        }
+      ]
+    },
+    {
+      "address": "0x08015E00",
+      "canonical_symbol": "sub_08015E00",
+      "display_name": "StartPlayerStatusHudTask",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_080153A4.c",
+          "line": 444,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Prepares control 03003C10 with flags/state 0x34, allocates one 0x400-byte stack, installs callback 14170, sets stack top to allocation +0x3FC and destructor to null, then starts it with the original complete argument. The callback interprets that argument as a player-record pointer; this starter does not select the local player implicitly. It performs no explicit scheduled-membership check, allocation retry/null check, prior-stack cleanup or completion wait."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 354,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Original 15E02 preserves the argument; 15E06..15E12 store task flags and the single allocation result. 15E16 installs callback 08014171, 15E1E stores stack top, 15E22 clears the destructor and 15E26 restores the original argument for TaskStart at 15E28. Complete original bytes equal EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc and linked original ELF; no runtime claim."
+        },
+        {
+          "source": "asm/nonmatchings/code_0800CF58/sub_0800D368.s",
+          "line": 179,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Original player-controller initialization passes its preserved R7 player pointer directly to this starter after starting the item-selection HUD tasks. The player-controller C draft is NONMATCHING at this evidence revision, so the caller role is anchored in original ASM rather than assumed C equivalence."
+        },
+        {
+          "source": "src/code_0800CF58.c",
+          "line": 6264,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Matched ordinary hud14170 callback draws the supplied player health/energy/status bars and action indicators. Its existing descriptive alias already counts as a meaningful name; confirming this row promotes that alias and grants no additional identified-function credit."
+        }
+      ]
+    },
+    {
+      "address": "0x08026CD0",
+      "canonical_symbol": "sub_08026CD0",
+      "display_name": "SelectSceneMapAreaDestination",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08021DC4.c",
+          "line": 4298,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Actual ordinary C definition is t025Select, declared at line 4270 with asm alias sub_08026CD0. Narrows all three arguments to u16. Map-set 0 chooses a word from table 084F0AC0 indexed by area and clears scene halfword+0x36; map-sets 1..23 choose their respective table through a shared join. Stores the selected word at scene+0x71C. Calls 570DC with the zero/nonzero inverse of 0CF10, clears scene halfword+0x10, then stores area as word+0x40 and map-set as halfword+0. It selects a destination, rather than loading map graphics itself."
+        },
+        {
+          "source": "src/code_08021DC4.c",
+          "line": 4310,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Mode 0 requests map-update task stop through 0BB40 and invokes window-hide request/wait 5768C. Mode 1 invokes brightness-fade-out/wait 576C4, requests map stop, then invokes cancellable wait 57624 with argument 5. Other u16 mode values skip this initial transition block while destination selection and final stores still run. For map-set values above 23, the selection switch does not itself replace scene+0x71C, but the final writes still occur. The area table index is unchecked. No valid-input or exact elapsed-frame guarantee is inferred."
+        },
+        {
+          "source": "src/code_08021DC4.c",
+          "line": 4714,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Matched consumer 2704C passes scene map-set halfword+0 and area word+0x40 to 09930, then waits on signal 1 until the map loader accepts. Previously confirmed 09930 is LoadWorldMapArea; this independently anchors the selected destination fields. Departure callback 636B0 also calls this selector directly with (11,0,1), or indirectly through 56FB8 with saved player destination halfwords."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 560,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "All 329 proof lines for this selector and its two wrapper witnesses inspected after complete-range original EU ROM/existing ELF equality. Original 26CD2..26CDC narrows inputs; 26CDE..26CFC distinguishes modes 0/1; 26D00 bypasses table dispatch for selectors above 23. Shared 27012..27018 loads/stores the selected word and 27030..27036 clears halfword+0x10 and stores area/map-set with word/halfword widths. The 24-target jump table at 26D14 is corroborated by indexed dispatch, not decoded as executable instructions. No new C-equivalence or runtime claim."
+        }
+      ]
+    },
+    {
+      "address": "0x08056FB8",
+      "canonical_symbol": "sub_08056FB8",
+      "display_name": "SelectSceneMapAreaDestinationWithWindowHide",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_080542C4.c",
+          "line": 1240,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "u16/u16 wrapper calls 26CD0 with third argument 0. That mode requests map-update stop and window-hide/wait 5768C before selecting the scene destination record and storing map-set/area fields. It inherits the selector unchecked table/index domains and does not itself load map graphics. WindowHide describes the requested transition mode; competing controller requests can affect the rendered route."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 851,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Original 56FBA..56FC0 zero-extends both input low halfwords, 56FC2 supplies mode 0 and 56FC4 calls 26CD0. Complete 56FB8..56FCC equals original EU ROM/existing ELF; all instructions inspected. There is no extra output, peer barrier or input validation in this wrapper."
+        },
+        {
+          "source": "src/code_0805FB7C.c",
+          "line": 2341,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Local-player departure cleanup passes saved destination halfwords+0x2E and+0x2C to this wrapper before clearing them. Other cleanup branches use (0,4) or (0,0). These are observed destinations, not proof of town names or a universal valid input range."
+        }
+      ]
+    },
+    {
+      "address": "0x0805768C",
+      "canonical_symbol": "sub_0805768C",
+      "display_name": "RequestScreenWindowHideAndWait",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_080571A4.c",
+          "line": 297,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Requests 1ABE8 with fixed parameter 6, then repeatedly tests 1AAE0 and waits on scheduler signal 1 while any transition active-mask 0x16 bit remains set. Returns when the shared controller is idle. It does not own an individual request, start the controller, test link errors or establish an exact elapsed duration."
+        },
+        {
+          "source": "src/code_0801AAF8.c",
+          "line": 41,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Callee 1ABE8 stores direction +1, u16 duration and progress 0, wakes scheduler signal 100, then sets active bit 0x4 plus mode flag 0x8 and clears mode bit 0x20 while preserving other request bits. The previously audited 1A7AC window route configures full-screen WIN0 with inside layers masked and enables it; that route overwrites duration to 2. Competing active bits may select another controller route. The name describes the requested hide mode, not a guaranteed color or unconditional visual outcome."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 882,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "All original 5768C..576A8 instructions inspected after original EU ROM/existing ELF equality. 5768E loads 6, 57690 calls 1ABE8, 5769A polls 1AAE0 and 57696 performs scheduler wait 1 until the result is nonzero. No cancellation or request-ownership check appears. The trailing halfword at 576A6 is alignment data, not an additional operation."
+        },
+        {
+          "source": "src/code_08021DC4.c",
+          "line": 4310,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Scene destination selector 26CD0 mode 0 first requests map-update stop and then calls this wrapper before selecting the new record and storing destination fields. Mode 1 instead requests brightness fade-out/wait 576C4. These paths anchor a transition effect without treating either wait as unconditional VBlank timing."
+        }
+      ]
     }
   ]
 }

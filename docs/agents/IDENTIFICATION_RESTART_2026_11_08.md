@@ -414,3 +414,16 @@ Four additional EUR identities were independently re-reviewed from frozen resear
 - `08013BC0` applies both pending halfwords, stores 16-bit HP results, clears pending damage, and reports unprotected nonpositive stored HP. The protected path keeps HP at one; a separate local-state condition can bypass damage. The player-task caller can enter state 11 after a nonzero result, subject to further state/flag guards.
 
 One evidence sentence was narrowed to retain those caller guards. The preserved input remains frozen. Complete configured ranges were checked against the verified EUR ROM and local linked ELF. This is static evidence only: no new runtime result, broad damage-immunity claim, or full player-task C equivalence is inferred. Canonical symbols, boundaries, code and proposal status are unchanged.
+
+
+## Menu glyphs, status HUD and area destination selection
+
+Eleven frozen EUR research rows were independently re-reviewed against original ASM and source pinned at `b0270484a6dcc0e4649508a2c5589c502c8cdf39`. These add nine identities to the metric: `08014170` (`hud14170`) and `08026CD0` (`t025Select`) already counted as descriptive C-definition aliases. Their new catalog evidence improves identification without counting them twice.
+
+- Two glyph helpers append a bounded-format numeric field and convert byte text using mode-dependent digit mappings. The appender does not clamp to 999 or validate capacity; conversion can reach its 255-byte copy limit without a terminator and returns the low byte of count minus one.
+- Two helpers add/subtract a signed halfword delta across six consecutive halfwords, with modulo-65536 stores. No unproved elemental or resistance meaning is assigned to these components.
+- The character setup/name-entry starter preserves both arguments and installs the independently identified callback. The menu sprite palette helper selects the two witnessed resource variants and updates palette shadow group 25; other input modes have no established safe default.
+- The player-status HUD uses the explicit player pointer, renders health/energy plus a broadly described third gauge, and can clamp current values. Its separate pause wait does not retest the outer stop queries; buffer cleanup follows outer-loop exit. The starter does not infer a local player or retry allocation.
+- The area selector stores a map-set/area destination and resource record, with mode-specific transition requests. Its wrapper requests window hide; the wait observes a shared controller, without request ownership or fixed elapsed duration. The selector does not itself load map graphics, and unchecked indices remain explicit.
+
+Complete configured ranges were verified against the EUR ROM and local linked ELF; reviewers also audited the original HUD and selector paths. No new runtime coverage or broad task-equivalence claim is made. Original frozen rows remain unchanged, canonical names/boundaries remain intact, and generated progress files are excluded.
