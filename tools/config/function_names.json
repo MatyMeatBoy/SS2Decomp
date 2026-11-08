@@ -21043,6 +21043,72 @@
           "detail": "Complete configured range08008C10..08008C1C has reachable pushLR, BL08008C1C, popR0 and BXR0 at08008C10..08008C1A, followed by a two-byte alignment halfword. The halfword after the return is not treated as an executed operation. Full-range bytes checked against original EUR ROM and local linked ELF. Static machine-code/callee evidence only; no runtime or new matching credit."
         }
       ]
+    },
+    {
+      "address": "0x0800C9F4",
+      "canonical_symbol": "sub_0800C9F4",
+      "display_name": "PulsePaletteRangeUntilFlag",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08009088.c",
+          "line": 2425,
+          "revision": "9b1771542f09ef562d72f5fcaf7bc6daf77eb843",
+          "detail": "Uses the low 16 bits of argument 0 as starting palette group and the upper 16 bits as group count. Retries allocation of count * 32 bytes with scheduler signal-1 waits, snapshots that palette-shadow range through CpuSet, then repeatedly scales its saved RGB5 channels into the original shadow range until the supplied word flag is nonzero. Each channel is min(31, (scale * originalChannel) >> 10); destination bit 15 is preserved by masked writes. No count/start/pointer validation, allocation retry bound or exclusive palette ownership is established."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 229,
+          "revision": "9b1771542f09ef562d72f5fcaf7bc6daf77eb843",
+          "detail": "Complete original 0800C9F4..0800CB30 inspected. CA32 initializes scale 100 and phase 0. CAD0 submits the full palette shadow through 00B38; CAD4 waits on scheduler signal 1. CAD8..CAEE computes next scale as the low 16 bits of ((signed table[phase] * 200) arithmetic-shift-right 8) + 0x464, then phase advances by 4 and wraps to 0 only above 256. The original table at 080B9704 has the witnessed sinusoidal cycle, including 0/256/0/-256/0 at indices 0/64/128/192/256. No exact elapsed-video-frame duration is inferred. Full configured range equals verified EU ROM and local linked ELF."
+        },
+        {
+          "source": "src/video.c",
+          "line": 41,
+          "revision": "9b1771542f09ef562d72f5fcaf7bc6daf77eb843",
+          "detail": "Matched 00B38 submits the entire 1024-byte palette shadow at 03001F40 to hardware palette memory 05000000 through the transfer helper. The pulse routine itself updates only its requested range. Flag is checked after snapshot before entering the loop, and again only after a complete range pass, submission and scheduler wait. On termination it frees the snapshot without restoring original colors. An initially nonzero flag still permits allocation/snapshot/free; no new palette update is required on that path."
+        },
+        {
+          "source": "src/code_08009088.c",
+          "line": 2464,
+          "revision": "9b1771542f09ef562d72f5fcaf7bc6daf77eb843",
+          "detail": "The matched ordinary C documents the same table-driven channel scaling. Original CA58/CA7C/CAA0 use word loads at a two-byte source stride and extract only the three low-halfword channels; this is not a general 32-bit pixel transform. No direct caller or runtime reachability of this routine is established by this row."
+        }
+      ]
+    },
+    {
+      "address": "0x0800A34C",
+      "canonical_symbol": "sub_0800A34C",
+      "display_name": "UpdateWorldMapMusic",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08009088.c",
+          "line": 663,
+          "revision": "9b1771542f09ef562d72f5fcaf7bc6daf77eb843",
+          "detail": "Updates world-map music from the supplied map-set/context, current world-map level/area fields and scene/event queries. Depending on its branch it leaves tracked music unchanged, requests a song through 58688, or stops tracked music through 586B4. The ordinary matched C was read completely. Witnessed non-multiplayer dispatch includes map-set 11 requesting song 0x187, map-set 14 requesting 0x186 and map-set 21 requesting 3. These numeric IDs are not assigned track titles or location names."
+        },
+        {
+          "source": "src/code_08009088.c",
+          "line": 1124,
+          "revision": "9b1771542f09ef562d72f5fcaf7bc6daf77eb843",
+          "detail": "Matched TaskUpdateWorldMapBackgrounds calls this with its current level/map-set and zero contexts at startup. After a map-update wake it calls again at line 1161 with current level, the previous tracked-song value obtained through 586B4 when that guarded stop ran, and nonzero change context. The conditional stop does not prove every possible path initializes the previous argument. These callers anchor world-map music rather than treating the local parameter name music as a semantic type."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 199,
+          "revision": "9b1771542f09ef562d72f5fcaf7bc6daf77eb843",
+          "detail": "Complete configured interval 0800A34C..0800A998 equals verified EUR ROM/local ELF. Original selected paths corroborate 58688 requests at A4D2/A508/A58A and final audio paths at A946..A98E; scene/event queries and all decoded direct-call targets were examined. Only selected original semantic paths are claimed, not a new exhaustive gameplay-state/CFG equivalence or runtime audit. Dispatch/literal regions are not decoded as executable paths."
+        },
+        {
+          "source": "src/code_08057CAC.c",
+          "line": 529,
+          "revision": "9b1771542f09ef562d72f5fcaf7bc6daf77eb843",
+          "detail": "Confirmed 58688 updates the tracked song but starts it only when link flag 0x20 is clear; 586B4 stops the tracked song, clears its word and returns the old value. 5865C separately performs a guarded song-start request. Original A34C also calls 5867C with 0x34 at A3F2; its incomplete no-argument C declaration is not used to infer that the machine argument is ignored. No guaranteed audible result, cross-player synchronization, arbitrary-input domain or universal stop/start pairing is inferred."
+        }
+      ]
     }
   ]
 }

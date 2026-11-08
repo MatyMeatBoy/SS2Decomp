@@ -478,3 +478,17 @@ Full configured-range bytes match the verified EUR ROM and local ELF. The catalo
 ## New research: sprite frame-allocation reset wrapper
 
 `08008C10` is independently confirmed as `ResetSpriteFrameAllocationStateWrapper` at source revision `13bfd19e2f8cf89028168b9d666d60036cbdc0c5`. Its entire reachable body calls the already verified `08008C1C` and returns; the trailing alignment halfword is not an executed operation. The callee clears the six sprite accounting words and selects the display-mode-specific OBJ graphics base, preserving the previous base for modes above 5. This does not clear OAM or graphics memory. No direct caller, runtime reachability or guaranteed per-frame invocation is inferred for the wrapper. Complete configured-range bytes equal the verified EUR ROM and local ELF; canonical symbols and source code remain unchanged.
+
+
+## New research: palette-range brightness pulse
+
+`0800C9F4`, `PulsePaletteRangeUntilFlag`, was independently reviewed against its complete original body and matched source at revision `9b1771542f09ef562d72f5fcaf7bc6daf77eb843`. The packed argument supplies a starting palette group and group count. After allocation with retries and a snapshot, the routine scales saved RGB5 channels into the palette shadow, preserving destination bit 15. It submits the full palette shadow, waits on scheduler signal 1, advances a table-driven brightness phase, and stops when the supplied word flag becomes nonzero.
+
+The first scale is 100; subsequent scales use the signed table at `080B9704`, with phase increment 4 and reset only above 256. The original table cycle and complete instruction paths corroborate the pulse role. The flag is not tested inside the color loop; an initially set flag still permits snapshot allocation/copy/free. Cleanup frees the snapshot without restoring the original colors. No bounds validation, allocation retry bound, exclusive palette ownership, direct caller, exact elapsed-frame duration or runtime reachability is inferred. Complete configured-range bytes equal the verified EUR ROM and local ELF; no source code or canonical symbol changes.
+
+
+## New research: world-map music updates
+
+`0800A34C`, `UpdateWorldMapMusic`, is supported by the complete matched C, original selected dispatch/audio paths and the two world-map background-task calls at source revision `9b1771542f09ef562d72f5fcaf7bc6daf77eb843`. The routine can leave tracked music unchanged, request a replacement, or stop it according to map/scene/event context. Original dispatch witnesses independently confirm map-set 11 to song `0x187`, 14 to `0x186`, and 21 to 3; no track title or place name is inferred.
+
+The map-task caller passes a previous tracked-song value only when its guarded stop executed; arbitrary paths are not assumed to initialize that argument. The tracked-song helper updates its word even when link flag `0x20` suppresses playback. An incomplete no-argument C declaration for wrapper `5867C` is not evidence that its machine argument is ignored. These ABI and audibility limits remain explicit. Full configured-range bytes match the verified EUR ROM and local ELF, while original semantic claims remain limited to the audited paths rather than full gameplay-state equivalence or runtime coverage.
