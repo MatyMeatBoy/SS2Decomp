@@ -1,0 +1,142 @@
+{
+  "schema_version": 1,
+  "region": "EUR",
+  "base_revision": "9bf864c550cf6db933686cb3860d719f6aa31ad7",
+  "rom_sha1": "aa1288be9257337abdfe3034898cf6c7aa778fbc",
+  "scope": "Three independently reviewable scalar source tables. Other declared data blocks remain opaque unless separately reconstructed. No global decoding percentage.",
+  "owner": "Semantic/data coordinator; naming workers do not edit data.",
+  "source_storage_before": {
+    "incbin_count": 413,
+    "incbin_bytes": 16017404
+  },
+  "source_storage_after": {
+    "incbin_count": 410,
+    "incbin_bytes": 16016724
+  },
+  "converted_literal_bytes": 680,
+  "blocks": [
+    {
+      "canonical_symbol": "gUnk_080B9704",
+      "source": "data/rodata.s",
+      "address": "0x080B9704",
+      "rom_offset": "0xB9704",
+      "size": 640,
+      "element_type": "s16",
+      "element_count": 320,
+      "classification": "Signed trig lookup: amplitude 256, 256 phases plus a 64-entry extension.",
+      "source_form": ".2byte",
+      "sha256": "dbdf49974fb8a6f319acc84a54ad90b3167aa588b2a3eafc62a6289c4d926205",
+      "literal_encoding_equals_original_rom": true,
+      "assembled_elf_equals_original_rom": true,
+      "canonical_symbol_address_preserved": true,
+      "evidence": [
+        {
+          "source": "src/code_08009088.c",
+          "line": 2464,
+          "revision": "9bf864c550cf6db933686cb3860d719f6aa31ad7",
+          "detail": "Signed halfword phase lookup and arithmetic scale calculation; complete literal sequence has 320 entries, amplitude256, phase period256 and a64-entry extension. Literal data are stored directly, not regenerated using floating point."
+        },
+        {
+          "source": "src/code_08021DC4.c",
+          "line": 1856,
+          "revision": "9bf864c550cf6db933686cb3860d719f6aa31ad7",
+          "detail": "Area-exit approach uses signed lookup values and a quarter-cycle offset for the second vector component."
+        }
+      ],
+      "conversion_state": "explicit_scalar_source"
+    },
+    {
+      "canonical_symbol": "gUnk_0849E730",
+      "source": "data/rodata_libgcc_end.s",
+      "address": "0x0849E730",
+      "rom_offset": "0x49E730",
+      "size": 16,
+      "element_type": "s16",
+      "element_count": 8,
+      "classification": "Area-exit direction selectors, indexed by the eight directional callbacks.",
+      "source_form": ".2byte",
+      "sha256": "185369e65c5dae04bd810074a329388a3f4502be2c129f013f556ed0fdc61074",
+      "literal_encoding_equals_original_rom": true,
+      "assembled_elf_equals_original_rom": true,
+      "canonical_symbol_address_preserved": true,
+      "evidence": [
+        {
+          "source": "src/code_08021DC4.c",
+          "line": 1856,
+          "revision": "9bf864c550cf6db933686cb3860d719f6aa31ad7",
+          "detail": "Signed halfword direction selector determines phase index; exact tuple4,7,8,9,12,15,0,1. No compass-name inference or arbitrary-index guarantee."
+        }
+      ],
+      "conversion_state": "explicit_scalar_source"
+    },
+    {
+      "canonical_symbol": "gUnk_084EBD5C",
+      "source": "data/rodata_libgcc_end.s",
+      "address": "0x084EBD5C",
+      "rom_offset": "0x4EBD5C",
+      "size": 24,
+      "element_type": "u32",
+      "element_count": 6,
+      "classification": "Decimal divisors used by the encoded-number token expander.",
+      "source_form": ".4byte",
+      "sha256": "97cead0875cae92d821e86b7283c53aee5d728834a05897bfd59af199ada7469",
+      "literal_encoding_equals_original_rom": true,
+      "assembled_elf_equals_original_rom": true,
+      "canonical_symbol_address_preserved": true,
+      "evidence": [
+        {
+          "source": "src/code_0807A5D4.c",
+          "line": 7448,
+          "revision": "8bbfb589bf6ab55018ae7e465fc0e674879c81fa",
+          "detail": "Matched encoded-number token expander850C0 reads six32-bit divisors and advances the pointer byfour. Original values100000,10000,1000,100,10,1 corroborate decimal role."
+        }
+      ],
+      "conversion_state": "explicit_scalar_source"
+    }
+  ],
+  "verification": {
+    "normal_eu_compare": "shiningsoul2_eu.gba: OK",
+    "nonmatching_build": "passed",
+    "tree_check_errors": 0,
+    "defined_global_symbols_preserved": 2866,
+    "method": "Parsed emitted scalar source, packed little-endian values, compared every block with original ROM and newly assembled ELF. All defined global symbol values, sizes and types remained unchanged."
+  },
+  "observed_unconverted_regions": [
+    {
+      "canonical_symbol": "gUnk_0838AFF0",
+      "address": "0x0838AFF0",
+      "declared_incbin_size_at_base": 154460,
+      "classification": "Language-0 category-20 resource pointer-table access is observed. The entire declared block is not asserted to have one pointer-array type.",
+      "evidence": {
+        "source": "src/code_08006D24.c",
+        "line": 130,
+        "revision": "9bf864c550cf6db933686cb3860d719f6aa31ad7"
+      },
+      "conversion_state": "opaque_incbin"
+    },
+    {
+      "canonical_symbol": "gUnk_084F0AC0",
+      "address": "0x084F0AC0",
+      "declared_incbin_size_at_base": 80,
+      "classification": "Map-set-0 destination table used by area selection. Pointer targets and full record graph remain pending.",
+      "evidence": {
+        "source": "src/code_08021DC4.c",
+        "line": 4324,
+        "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39"
+      },
+      "conversion_state": "opaque_incbin"
+    },
+    {
+      "canonical_symbol": "gUnk_08518938",
+      "address": "0x08518938",
+      "declared_incbin_size_at_base": 9597468,
+      "classification": "Resource table base passed by 07290 to 06EE0. This large declared block contains opaque resource storage; it is not classified wholesale as pointers or converted data.",
+      "evidence": {
+        "source": "src/code_08006D24.c",
+        "line": 201,
+        "revision": "9bf864c550cf6db933686cb3860d719f6aa31ad7"
+      },
+      "conversion_state": "opaque_incbin"
+    }
+  ]
+}
