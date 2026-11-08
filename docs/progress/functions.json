@@ -8724,10 +8724,29 @@
       "canonical_symbol": "sub_08013BC0",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_08013BC0",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "ApplyPlayerPendingDamageAndReportDefeat",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_0800CF58.c",
+          "line": 6018,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Calls condition helper D1B0 first. When nonzero, clears pending halfwords +0x88/+0x8A and returns 0 without changing HP. Otherwise subtracts those two halfwords from the supplied player HP+C4, stores the 16-bit results, clears both pending fields, and tests the final signed 16-bit HP. A nonpositive result becomes HP 0/return 1 unless protection flag 0x100000 is set, in which case HP becomes 1 and the helper returns 0. On positive HP, clears word+0xE0 and returns 0. It does not itself enter a defeated animation/state."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 316,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Original 13BD6..13BEE contains the two halfword subtraction/stores and pending clears. 13BF2..13C1C checks the stored sign/zero and protection; 13C22 clears +0xE0 only on the positive-health path. 13C26..13C30 is the condition-bypass pending-clear path. All 68 original proof lines inspected; complete bytes equal original EU ROM/existing linked ELF, SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc."
+        },
+        {
+          "source": "src/code_0800CF58.c",
+          "line": 3506,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Player task draft shows the result consumed before assigning state 11, appearance/animation and death sound. This caller is only a reading aid; the original matched consumer body and independently matched DF8C predicate establish the narrow damage/defeat contract. D1B0 is evaluated for local state even though the explicit supplied player pointer is retained; no arbitrary-player domain, general equivalence or damage immunity is asserted."
+        }
+      ]
     },
     {
       "name": "sub_08013C3C",
@@ -12937,10 +12956,29 @@
       "canonical_symbol": "sub_0801DF8C",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_0801DF8C",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "IsLocalPlayerDefeatConditionMet",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_0801AAF8.c",
+          "line": 2144,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Queries the local player and returns 0 immediately if flags+0x30 has bit 0x100000. Otherwise returns 1 if state+0x20 is 11, current HP+C4 is zero, the signed low-halfword result of HP minus pending damage+0x88 is nonpositive, or flags has bit 0x2000. Returns0 on the remaining path. It does not subtract damage, clear flags or transition the player state."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 463,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Original DF9C..DFA6 tests protection before every defeat condition. DFB4/DFB8 read HP as unsigned/signed halfwords; DFC2 reads only pending halfword +0x88, and DFC6..DFCA tests signed low 16 through shift-left 16. This is not a full 32-bit health subtraction or a sum of pending damage+0x88 and+0x8A. Complete original predicate body inspected and equal to existing EU ELF/ROM."
+        },
+        {
+          "source": "src/code_0800CF58.c",
+          "line": 6018,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Paired matched consumer 13BC0 applies both pending-damage halfwords to HP and reports unprotected nonpositive HP as defeat; the main player task can enter state 11 after a nonzero result, subject to further state/flag guards. This corroborates the defeat role while preserving this query\u2019s narrower pending-damage calculation. No exact interpretation beyond this predicate is assigned to bit 0x2000."
+        }
+      ]
     },
     {
       "name": "sub_0801DFE8",
@@ -35194,10 +35232,35 @@
       "canonical_symbol": "sub_0808528C",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_0808528C",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "VCountApplyBg0FourPixelVerticalOffset",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_0807A5D4.c",
+          "line": 8048,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Writes halfword 4 directly to BG0VOFS hardware register 04000012, sets the next VCount compare line to 159 and replaces the VCount callback with sibling 852AC. Does not modify BG0 scroll shadow, enable the VCount interrupt, preserve an arbitrary prior scroll value or stop the alternating callback chain."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 1415,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Original 85292 STRH uses literal 04000012; calls 1108 with 0x9F and 115C with Thumb pointer 080852AD. Complete sibling ranges equal original EU ROM and existing linked ELF; all 34 original proof lines inspected, EU SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc."
+        },
+        {
+          "source": "src/code_08087CC0.c",
+          "line": 2226,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Timed-stage selection installs compare line 136 and callback 8528C, retaining the previous line/callback for exit restoration. The sibling clears the offset and reinstalls this callback for line 136. This corroborates a raster-scroll band; no exact UI title or guaranteed interrupt latency is inferred."
+        },
+        {
+          "source": "src/code_08000EC8.c",
+          "line": 82,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Matched 1108 changes DISPSTAT compare-line bits and writes hardware; 115C replaces the callback consumed by the VCount handler. These establish the callback/line semantics rather than ordinary task scheduling."
+        }
+      ]
     },
     {
       "name": "sub_080852AC",
@@ -35211,10 +35274,35 @@
       "canonical_symbol": "sub_080852AC",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_080852AC",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "VCountResetBg0VerticalOffset",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_0807A5D4.c",
+          "line": 8053,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Writes halfword zero directly to BG0VOFS hardware register 04000012, sets next VCount compare line to 136 and installs sibling 8528C. It resets this hardware offset rather than restoring an arbitrary saved value. The callback chain continues; this is not a function to disable the band or the VCount interrupt."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 1416,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Original 852B2 STRH uses literal 04000012; calls 1108 with 0x88 and 115C with Thumb pointer 0808528D. Complete sibling ranges equal original EU ROM and existing linked ELF; static evidence only."
+        },
+        {
+          "source": "src/code_0807A5D4.c",
+          "line": 8048,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Sibling 8528C writes offset 4 and schedules this callback for compare line 159. Alternating hardware writes and callback replacement implement the observed BG0 raster-scroll offset band. The shared register shadow is not updated by either callback."
+        },
+        {
+          "source": "src/code_08000EC8.c",
+          "line": 89,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Matched VCount handler invokes callback 03000010 when nonnull, then acknowledges interrupt 4; 115C replaces that slot and 1108 updates its compare line. No task/frame scheduling guarantee is derived."
+        }
+      ]
     },
     {
       "name": "sub_080852CC",
@@ -48798,12 +48886,12 @@
   "identification": {
     "game": {
       "total": 1880,
-      "identified": 772,
+      "identified": 776,
       "existing": 26,
-      "confirmed": 746,
+      "confirmed": 750,
       "proposed": 8,
-      "unidentified": 1100,
-      "percent_identified": 41.06382978723404
+      "unidentified": 1096,
+      "percent_identified": 41.276595744680854
     },
     "sdk": {
       "total": 155,
@@ -48816,12 +48904,12 @@
     },
     "all": {
       "total": 2035,
-      "identified": 927,
+      "identified": 931,
       "existing": 155,
-      "confirmed": 772,
+      "confirmed": 776,
       "proposed": 8,
-      "unidentified": 1100,
-      "percent_identified": 45.55282555282555
+      "unidentified": 1096,
+      "percent_identified": 45.74938574938575
     }
   },
   "limitations": "Configured function address intervals, including alignment/literal pools; inventory includes original assembly and linked libraries. Existing descriptive identifiers are recognized, not independently semantically re-proven."

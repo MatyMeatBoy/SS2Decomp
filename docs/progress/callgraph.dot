@@ -313,7 +313,7 @@ digraph calls {
   "sub_080135C4" [label="LinkCreatePlayerEntity"];
   "sub_080137A0" [label="sub_080137A0"];
   "sub_08013850" [label="sub_08013850"];
-  "sub_08013BC0" [label="sub_08013BC0"];
+  "sub_08013BC0" [label="ApplyPlayerPendingDamageAndReportDefeat"];
   "sub_08013C3C" [label="sub_08013C3C"];
   "sub_08013CEC" [label="sub_08013CEC"];
   "sub_08013E90" [label="sub_08013E90"];
@@ -460,7 +460,7 @@ digraph calls {
   "sub_0801DF08" [label="sub_0801DF08"];
   "sub_0801DF4C" [label="sub_0801DF4C"];
   "sub_0801DF80" [label="GetCurrentCharacterSaveRecord"];
-  "sub_0801DF8C" [label="sub_0801DF8C"];
+  "sub_0801DF8C" [label="IsLocalPlayerDefeatConditionMet"];
   "sub_0801DFE8" [label="CopyClassStatTemplates"];
   "sub_0801E024" [label="RecalculatePlayerStatsAndSyncAppearance"];
   "sub_0801E0A0" [label="sub_0801E0A0"];
@@ -1412,8 +1412,8 @@ digraph calls {
   "sub_0808516C" [label="sub_0808516C"];
   "sub_080851B8" [label="sub_080851B8"];
   "sub_08085218" [label="sub_08085218"];
-  "sub_0808528C" [label="sub_0808528C"];
-  "sub_080852AC" [label="sub_080852AC"];
+  "sub_0808528C" [label="VCountApplyBg0FourPixelVerticalOffset"];
+  "sub_080852AC" [label="VCountResetBg0VerticalOffset"];
   "sub_080852CC" [label="sub_080852CC"];
   "sub_08085330" [label="sub_08085330"];
   "sub_0808536C" [label="sub_0808536C"];
