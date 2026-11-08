@@ -18448,6 +18448,204 @@
           "detail": "Matched A099C consumes phase-step byte 0x0300033B unsigned and amplitude byte 0x0300033C signed, calls the sine-angle stepper and BG2 rotation-shadow updater, and invokes warp/clamp helpers for the local player and sixteen filtered records through pointer global 0x03005D58. Shadow publication and position mutation depend on the four effect predicates inside those helpers; copying local player live coordinates to previous-coordinate fields is separate. The task waits on signal 1 in an infinite loop. Constructor A10FC installs it through the control pointer global 0x03000340; forced stop does not restore transform or coordinate state."
         }
       ]
+    },
+    {
+      "address": "0x08015C5C",
+      "canonical_symbol": "sub_08015C5C",
+      "display_name": "RequestLocalPlayerMovementToPoint",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_080153A4.c",
+          "line": 384,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Stores both full 32-bit inputs to local player+0x9C/+0xA0, then ORs flags mask 0x24. The controller uses mask 4 to generate eight-way input keys toward these targets, interpreted there as signed16-bit pixel coordinates, with integer-Sqrt distance threshold 8 after signed16 target/delta narrowing. This setter does not immediately change position, clear higher-priority input-suppression mask 1, validate coordinates, wait for arrival, publish a packet or establish pathfinding/reachability. An outstanding request can remain pending while suppression blocks processing."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 343,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Original 15C5E/60 preserve input words across local-ID lookup; 15C74/78 store them at9C/A0 and 15C7C..80 OR/store mask 0x24. Complete helper range equals original EU ROM and existing linked ELF; original ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc."
+        },
+        {
+          "source": "asm/nonmatchings/code_0800CF58/sub_0800D368.s",
+          "line": 428,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Original D368 path D6EA..D728 reads player+0x30 mask 1 and zeros input halfwords+0x12/+0x14/+0x16, while maintaining a five-entry direction-history buffer. This branch precedes and bypasses target-key generation at D730. D730..D77E uses mask 4, target words+0x9C/+0xA0 and 16C88 with radius8; on zero key result it clears mask 0x24 then sets mask 1 for the local player. This is one observed player-input control path, not a whole D368 proof."
+        },
+        {
+          "source": "src/code_08021DC4.c",
+          "line": 1874,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Matched caller2413C computes a point from a gate/input record, requests movement through15C5C, then waits while15F20 is nonzero unless scene flag0x10 changes; cancellation later requests a second retreat point and uses the same pending query. This corroborates target movement rather than direct coordinate teleport. The caller does not prove all requested points are reachable."
+        },
+        {
+          "source": "src/code_080153A4.c",
+          "line": 1244,
+          "revision": "bf9a9ffc9b00d0cf50a36f70ac323d1d61df2630",
+          "detail": "Direction helper16C88 narrows targets and coordinate differences to s16 and generates direction only when integer Sqrt(dx*dx+dy*dy) exceeds signed-halfword threshold8. This predicate is not an exact real-valued circle or a guarantee of successful arrival."
+        }
+      ]
+    },
+    {
+      "address": "0x0807A028",
+      "canonical_symbol": "sub_0807A028",
+      "display_name": "SelectLocalPlayerFacingConeTargetWithDefaultRange",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08073E2C.c",
+          "line": 3804,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Forwards the low 16-bit cone-width parameter to 73EE8 with fixed range 0x7FFFFFFF, then returns only the low16 bits of its result. It retains the callee player-first preference, concrete eligible-group byte comparisons, five-enemy filters and 0xFF no-target result. The default range does not remove u16 distance narrowing or the initial best-distance 65535 exclusion. Does not create an effect, send a packet, reserve a target or wait."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 1376,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Original 7A02A..2C narrows the first parameter; 7A02E loads 0x7FFFFFFF into R1, 7A030 calls 73EE8, 7A034..36 narrows the result. Complete wrapper ranges equal original EU ROM and existing linked ELF; SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc. Static evidence only."
+        },
+        {
+          "source": "src/code_08073E2C.c",
+          "line": 85,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Uses local live Q8 coordinates +0x8C/+0x90 as the origin and packet-facing data via +0x148. With battle rules enabled, first selects the nearest in-range peer whose +0x68 byte is nonzero and differs from the local byte, using peer packet coordinates. If none qualifies, selects among five active enemies with state not 11, nonzero health +0x5C and nonzero byte +0x1DC. Returns player ID +0 or enemy ID +2, or 0xFF. An eligible player takes priority over every enemy regardless of their relative distances. Cone width is a low-halfword wrapped angular-bin threshold; range comparison is unsigned and strict. Distance is Sqrt of the low-word squared sum, narrowed to u16; ties keep the earlier index and distance 65535 is never selected. No candidate-player health/state test occurs."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 1341,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "0x08073F14 gates the peer pass; 73F46..50 filter group bytes and 73F5A..76 combine packet peer position with live local position. 73FD0..FEA apply angle and unsigned range tests; 74010 returns a peer before enemy scan 74020. 74138 returns the no-target 0xFF. Original EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc. Complete original function ranges equal the existing linked ELF; mapping symbols separate instructions/literals. Static evidence only."
+        }
+      ]
+    },
+    {
+      "address": "0x0807A040",
+      "canonical_symbol": "sub_0807A040",
+      "display_name": "SelectTargetNearPointWithDefaultRange",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08073E2C.c",
+          "line": 3808,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Forwards low 16-bit self-player index and excluded-enemy ID plus the two full 32-bit Q8 origin coordinates to the five-argument 74398 ABI, supplies range 0x7FFFFFFF as its fifth stack argument, and narrows the result to u16. The excluded ID remains enemy-only; eligible players retain priority regardless of enemy distance. No self-index validation, target reservation, wait or network publication. The default range does not remove distance truncation or the callee strict best-distance 65535 bound."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 1377,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Original 7A044..4A narrows R0/R1, preserves R2/R3, 7A04C..4E loads/stores 0x7FFFFFFF at outgoing SP+0, 7A050 calls 74398 and 7A054..56 narrows its result. Complete wrapper ranges equal original EU ROM and existing linked ELF; SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc. Static evidence only."
+        },
+        {
+          "source": "src/code_08073E2C.c",
+          "line": 254,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Five-argument selector taking low-halfword self player index, low-halfword excluded enemy ID, Q8 origin x/y and signed range. With battle rules enabled, scans peers other than self whose +0x68 byte is nonzero and differs from self, preferring the nearest eligible peer. Otherwise falls back to five active enemies, excluding only the specified enemy ID and requiring state not 11, nonzero health +0x5C and byte +0x1DC. Returns a selected player/enemy ID or 0xFF. The excluded ID is not applied to peers. Range is signed and strict, so zero/negative range accepts no candidate. Distances narrow to u16; best starts at 65535 and equal distances keep the first candidate. Peer distances use packet pixels minus shifted origin; enemy differences are computed in Q8 before shifting. No self-index validation occurs."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 1343,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "0x080743A8..B2 narrow self/excluded inputs. 743EE explicitly rejects the self index, while 74492 applies the excluded ID only in the enemy pass. Fifth argument is read from incoming stack at 7442C and 744D8; signed BLE branches 74430/44DC reject range <= distance. 7451C returns 0xFF. Original EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc. Complete original function ranges equal the existing linked ELF; mapping symbols separate instructions/literals. Static evidence only."
+        }
+      ]
+    },
+    {
+      "address": "0x0800BCDC",
+      "canonical_symbol": "sub_0800BCDC",
+      "display_name": "LoadBackgroundAssetAtRelativeScreenBlock",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08009088.c",
+          "line": 1897,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Forwards the asset key and graphics destination unchanged to 0x0800B650, adding 28 to the caller screen-block parameter before that loader computes VRAM + screenBlock*0x800. Narrows the fourth palette argument and fifth stack argument to u16 and forwards them. No validation restricts the relative block to 0..3 or establishes safe VRAM bounds; no overlay/story/UI title is inferred. The underlying loader retains its decompression, transfer, palette and scheduler behavior."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 223,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Original BCEA adds 0x1C to R1, BCEE calls the corresponding asset loader, and the surrounding shifts narrow R3 and incoming fifth argument to 16 bits. R0/R2 are forwarded unchanged. Complete wrapper range equals original EU ROM and existing linked ELF, SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc. Static evidence only."
+        },
+        {
+          "source": "src/code_08009088.c",
+          "line": 1614,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Resolves a background asset header, graphics and palette. Uses raw tilemap bytes at header +4 when resource bit 30 is set, otherwise decompresses and later frees a temporary tilemap. Copies graphics to the supplied destination, a 0x800-byte tilemap to VRAM + screenBlock * 0x800, and the requested palette banks. Graphics header flags choose a 0x4000- or 0x8000-byte transfer and optional destination +0x4000. Display-shadow bit 7 chooses direct CpuFastSet copies versus submitted chunks with scheduler waits. It does not check transfer bounds or promise exact elapsed frames."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 205,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "0x0800B672/0x0800B67A/0x0800B688 resolve header/graphics/palette; 0x0800B6A4 decompresses the optional tilemap. 0x0800B6E0/0x0800B706/0x0800B728 submit graphics by size branch; 0x0800B746 submits the tilemap. 0x0800B772..0x0800B7A0 are direct-copy alternatives, and 0x0800B7BC loads palettes. Original EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc; static source/original-instruction evidence only."
+        }
+      ]
+    },
+    {
+      "address": "0x0800BCFC",
+      "canonical_symbol": "sub_0800BCFC",
+      "display_name": "LoadBackgroundAssetWithGraphicsKeyOffsetAtRelativeScreenBlock",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08009088.c",
+          "line": 1900,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Forwards the asset key and graphics destination unchanged to 0x0800B7DC, adding 28 to the caller screen-block parameter before that loader computes VRAM + screenBlock*0x800. Narrows the fourth palette argument and fifth stack argument to u16 and forwards them. No validation restricts the relative block to 0..3 or establishes safe VRAM bounds; no overlay/story/UI title is inferred. The underlying loader retains its decompression, transfer, palette and scheduler behavior."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 224,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Original BD0A adds 0x1C to R1, BD0E calls the corresponding asset loader, and the surrounding shifts narrow R3 and incoming fifth argument to 16 bits. R0/R2 are forwarded unchanged. Complete wrapper range equals original EU ROM and existing linked ELF, SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc. Static evidence only."
+        },
+        {
+          "source": "src/code_08009088.c",
+          "line": 1669,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Background asset loader with the same raw/decompressed tilemap, graphics-size/destination branches, palette loading and cleanup as sub_0800B650. Its distinguishing behavior adds global 0x03003470 to the header graphics key before resolving graphics. The tilemap and palette keys are not offset. The meaning or allowed range of the global offset is not inferred as a character/class identifier."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 206,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "0x0800B804 loads literal 0x03003470; 0x0800B808 reads the offset and 0x0800B80A adds it to the header graphics key before resolution 0x0800B80C. 0x0800B83A optionally decompresses the tilemap; 0x0800B954 loads the unchanged palette key. Original EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc; static source/original-instruction evidence only."
+        }
+      ]
+    },
+    {
+      "address": "0x080653D4",
+      "canonical_symbol": "sub_080653D4",
+      "display_name": "StopThreeSlotItemSelectionHud",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_0805FB7C.c",
+          "line": 3284,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Computes task control 03006110 + index*0x28, queries scheduler membership through 00470 and calls 003A8 only if present. No index range validation, wait, cooperative slide-out, tilemap clear or inventory-state reset is performed here. The constructor 60DB0 installs 605D0 into this same indexed control array, anchoring the three-slot item-selection HUD role. Forced task stop does not imply that every visual field is reset."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 1180,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Original 653D6..DE computes the 40-byte control address; 653E2 tests membership; 653EC stops it. Original 60E0A/60E0C installs callback 605D1 at control+0xC, and 60E32 starts the same control. Complete helper and constructor ranges equal original EU ROM and existing linked ELF, SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc. No new build/runtime claim."
+        },
+        {
+          "source": "src/code_0805FB7C.c",
+          "line": 560,
+          "revision": "e736d9ad42817bb7209c009d6c88a8e62c907647",
+          "detail": "Displays a paged item-selection HUD with three item records per page at character/inventory base +0x70 and selection at +0x68; that base is reached through pointer global 030034E0. L-key pressed edge 0x200 advances/wraps the selection and invokes selection updater sub_0805AD78. Maintains background-frame tiles, item icons and selection cursor, with optional slide-in/out presentation. Mode zero keeps the HUD active; nonzero waits signal 0x18A92 between presentations. Tests the shared world-scene stop request at update boundaries; a blocked event wait still requires its wakeup. Count and change-tracking bytes come from local player +0x77/+0x78. Exact weapon-only semantics are not established by the SS2 evidence used here."
+        }
+      ]
     }
   ]
 }

@@ -286,3 +286,27 @@ four effect predicates; they need not mutate state on every task iteration.
 Previous-coordinate copies are separate. Forced task stop does not restore
 transform or positions. The seven-row evidence overlay records these gating
 and pointer distinctions while preserving the frozen originals and all names.
+
+## Movement request, target wrappers, background bridges and HUD stop
+
+Six remaining next52 rows retain narrow observed helper roles. Movement setter
+`08015C5C` stores targets and request flags without directly changing position.
+Its controller uses signed16 narrowing and integer-Sqrt distance threshold 8;
+this is not an exact real-valued circle, pathfinding or guaranteed arrival.
+
+Target wrappers `0807A028/0807A040` pass default range `0x7FFFFFFF`, preserving
+the inner selectors' player-first preference, concrete group filters and enemy
+exclusion rules. Distances and results narrow to `u16`; a best-distance initial
+value of 65535 still excludes that value. The default is not an unlimited,
+validated search over arbitrary coordinates or player indices.
+
+Background bridges `0800BCDC/0800BCFC` add 28 to the screen-block argument and
+forward narrowed palette arguments. The latter loader offsets the graphics
+key alone using `03003470`; tilemap and palette keys remain separate. No VRAM
+bounds or class/story meaning is inferred from the offset.
+
+`080653D4` cancels the indexed fixed control at `03006110 + index*0x28` only
+when scheduled. Constructor registration and the original callback establish
+the paged three-item selection HUD role. Its inventory is reached through
+pointer global `030034E0`, not manager `03006440`. Cancellation does not promise
+visual cleanup, cooperative slide-out or index validation.
