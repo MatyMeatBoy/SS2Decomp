@@ -1528,6 +1528,7 @@ void sub_0802AA28(void) {
     s32 temp_r0_7;
     s32 temp_r1;
     s32 temp_r4;
+    s32 bit7Word27;
     s32 temp_r4_2;
     s32 temp_r5;
     s32 temp_sl;
@@ -1815,12 +1816,23 @@ found27scan_83:
             }
             temp_r4 = 6;
             temp_r4 = ((s32) *var_r0_5 >> temp_r4) & 1;
-            if (sub_0800CE30() != 0) {
-                var_r0_6 = stateAA28 + 0x1C4;
-            } else {
-                var_r0_6 = stateAA28 + 0x1B8;
+            {
+                register s32 bitMask27 asm("r7") = 1;
+                register s32 byteWord27 asm("r0");
+                register s32 bitResult27 asm("r1");
+                asm("" : "+r"(bitMask27));
+                if (sub_0800CE30() != 0) {
+                    var_r0_6 = stateAA28 + 0x1C4;
+                } else {
+                    var_r0_6 = stateAA28 + 0x1B8;
+                }
+                byteWord27 = *var_r0_6;
+                asm("" : "+r"(byteWord27));
+                bitResult27 = (byteWord27 >> 7) & bitMask27;
+                asm("" : "+r"(bitResult27));
+                bit7Word27 = bitResult27;
             }
-            if ((((s32) *var_r0_6 >> 7) & 1) || (!(var_r5_3 & 0x20) && (temp_r4 != 0))) {
+            if (bit7Word27 || (!(var_r5_3 & 0x20) && (temp_r4 != 0))) {
                 var_r7 = sub_080289C0(0x13, 0xB0, 0x60);
                 var_r1_6 = stateAA28 + 0x7A4;
                 var_r2_10 = 0;
