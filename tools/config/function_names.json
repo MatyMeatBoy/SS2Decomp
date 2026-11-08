@@ -16612,6 +16612,765 @@
           "detail": "Matched scene-object task 284F4 acquires this registry with key 100 and a resource-table palette selector, stores the returned handle at object+0x40, uses it in its palette-remap data and at line 5593 passes handle+0x10 to the palette uploader. Original 285C2 acquires, 2860A installs the remap byte, and 28774..82 upload the selected palette at handle+16. Thus handles 4..6 correspond to upload banks 20..22, not arbitrary generic task IDs."
         }
       ]
+    },
+    {
+      "address": "0x08015C14",
+      "canonical_symbol": "sub_08015C14",
+      "display_name": "SuppressLocalPlayerInput",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_080153A4.c",
+          "line": 376,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Resolves the local player through 020F4 and ORs mask 0x1 into its 32-bit flags at base03003CE0+index*0x14C+0x30. The observed controller bypasses both direct input acquisition and movement-to-point key generation while this mask is set. This call does not clear pending movement mask 0x4, inputs immediately, create a task, send a packet or wait. It requests suppression for the next controller update; other global suppression conditions remain separate."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 341,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Original 15C16 gets the local ID; 15C1C..24 use stride0x14C/flags+0x30 and 15C2A..2C OR/store mask 1. Complete helper range equals original EU ROM and existing linked ELF; original ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc."
+        },
+        {
+          "source": "asm/nonmatchings/code_0800CF58/sub_0800D368.s",
+          "line": 428,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Original D368 path D6EA..D728 reads player+0x30 mask 1 and zeros input halfwords+0x12/+0x14/+0x16, while maintaining a five-entry direction-history buffer. This branch precedes and bypasses target-key generation at D730. D730..D77E uses mask 4, target words+0x9C/+0xA0 and 16C88 with radius8; on zero key result it clears mask 0x24 then sets mask 1 for the local player. This is one observed player-input control path, not a whole D368 proof."
+        },
+        {
+          "source": "src/code_08021DC4.c",
+          "line": 1874,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Matched caller2413C computes a point from a gate/input record, requests movement through15C5C, then waits while15F20 is nonzero unless scene flag0x10 changes; cancellation later requests a second retreat point and uses the same pending query. This corroborates target movement rather than direct coordinate teleport. The caller does not prove all requested points are reachable."
+        }
+      ]
+    },
+    {
+      "address": "0x08015C38",
+      "canonical_symbol": "sub_08015C38",
+      "display_name": "ReleaseLocalPlayerInputSuppression",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_080153A4.c",
+          "line": 380,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Resolves the local player and clears only mask 0x1 from its 32-bit flags. Does not clear other suppression conditions or a pending movement-to-point request. If mask 0x4 remains set, the next controller can generate target movement keys instead of reading direct user input; this is not a guarantee of unrestricted input or immediate motion. No packet or wait."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 342,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Original 15C3A resolves the local ID; 15C4C..52 AND/store mask 0xFFFFFFFE. Complete helper range equals original EU ROM and existing linked ELF; original ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc."
+        },
+        {
+          "source": "asm/nonmatchings/code_0800CF58/sub_0800D368.s",
+          "line": 428,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Original D368 path D6EA..D728 reads player+0x30 mask 1 and zeros input halfwords+0x12/+0x14/+0x16, while maintaining a five-entry direction-history buffer. This branch precedes and bypasses target-key generation at D730. D730..D77E uses mask 4, target words+0x9C/+0xA0 and 16C88 with radius8; on zero key result it clears mask 0x24 then sets mask 1 for the local player. This is one observed player-input control path, not a whole D368 proof."
+        },
+        {
+          "source": "src/code_08021DC4.c",
+          "line": 1874,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Matched caller2413C computes a point from a gate/input record, requests movement through15C5C, then waits while15F20 is nonzero unless scene flag0x10 changes; cancellation later requests a second retreat point and uses the same pending query. This corroborates target movement rather than direct coordinate teleport. The caller does not prove all requested points are reachable."
+        }
+      ]
+    },
+    {
+      "address": "0x08015C8C",
+      "canonical_symbol": "sub_08015C8C",
+      "display_name": "SetLocalPlayerSpriteHideFlag",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_080153A4.c",
+          "line": 392,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Queries the local player index, selects the 0x14C-byte runtime record, ORs 0x80000 into its full 32-bit flags at +0x30 and then calls EnqueueLinkPlayerFlags. Preserves other flag bits and ignores enqueue success. Does not stop the actor task, clear other visibility flags, wait for a peer or validate the player index."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 344,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Original 15C8E queries local ID; 15C92..15C9C calculate the record address, 15C9E..15CA6 read/OR/store the flags word and 15CA8 calls 67D74 afterward. Complete original bytes equal EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc and the linked original ELF. Static evidence only."
+        },
+        {
+          "source": "asm/nonmatchings/code_0800CF58/sub_0800D368.s",
+          "line": 10599,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Original player body-render branch loads Player+0x30 at 12708. If bit 18 is clear, bit 19 (0x80000) skips the ordinary body draw at 1279A. The earlier bit-18 branch can still draw through its alternating-frame path, so setting bit 19 is not an unconditional invisibility guarantee. Another original body-draw path at 12DBC tests bit 19 and skips its draw when set. The C player controller is NONMATCHING at this revision; these meanings are anchored in original ASM, not assumed draft equivalence."
+        },
+        {
+          "source": "src/code_08067B4C.c",
+          "line": 115,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Matched EnqueueLinkPlayerFlags returns 0 immediately when queue count exceeds 49. Otherwise it enqueues tag 0x8C with one eight-byte chunk and copies the complete local Player+0x30 word into payload +0. It independently queries the current local player ID; the caller does not preserve its earlier index for this enqueue or inspect success. A full queue therefore leaves the local flag change in place without this message, and delivery is not guaranteed."
+        },
+        {
+          "source": "src/code_080659B0.c",
+          "line": 1178,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Matched receiver raw case 0x0B, tag 0x8C, replaces the sender-indexed player flags word from payload word 0 only when the sender is not local. This corroborates remote flag propagation rather than a local-only render switch; it does not prove immediate peer receipt or runtime linkage."
+        },
+        {
+          "source": "src/code_08073E2C.c",
+          "line": 827,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Matched effect task 75520 sets bit 18 for its local target but bit 19 for a nonlocal target, then clears the selected bit after 60 scheduler signal-1 waits. This supports the distinct alternating-draw versus hidden-sprite flags without identifying a particular skill, exact elapsed frames or an enduring character state."
+        }
+      ]
+    },
+    {
+      "address": "0x08015CB4",
+      "canonical_symbol": "sub_08015CB4",
+      "display_name": "ClearLocalPlayerSpriteHideFlag",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_080153A4.c",
+          "line": 397,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Queries the local player index, clears only bit 19 using full-word mask 0xFFF7FFFF at Player+0x30 and calls EnqueueLinkPlayerFlags afterward. Ignores enqueue success. Removing this particular hide flag does not guarantee a visible sprite: other scene/player draw gates and animation state remain effective."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 345,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Original 15CB6 queries local ID; 15CBA..15CC4 calculate the record address, 15CC6..15CCC read/mask/store flags and 15CCE calls 67D74 afterward. Complete original bytes equal EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc and the linked original ELF. Static evidence only."
+        },
+        {
+          "source": "asm/nonmatchings/code_0800CF58/sub_0800D368.s",
+          "line": 10599,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Original player body-render branch loads Player+0x30 at 12708. If bit 18 is clear, bit 19 (0x80000) skips the ordinary body draw at 1279A. The earlier bit-18 branch can still draw through its alternating-frame path, so setting bit 19 is not an unconditional invisibility guarantee. Another original body-draw path at 12DBC tests bit 19 and skips its draw when set. The C player controller is NONMATCHING at this revision; these meanings are anchored in original ASM, not assumed draft equivalence."
+        },
+        {
+          "source": "src/code_08067B4C.c",
+          "line": 115,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Matched EnqueueLinkPlayerFlags returns 0 immediately when queue count exceeds 49. Otherwise it enqueues tag 0x8C with one eight-byte chunk and copies the complete local Player+0x30 word into payload +0. It independently queries the current local player ID; the caller does not preserve its earlier index for this enqueue or inspect success. A full queue therefore leaves the local flag change in place without this message, and delivery is not guaranteed."
+        },
+        {
+          "source": "src/code_080659B0.c",
+          "line": 1178,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Matched receiver raw case 0x0B, tag 0x8C, replaces the sender-indexed player flags word from payload word 0 only when the sender is not local. This corroborates remote flag propagation rather than a local-only render switch; it does not prove immediate peer receipt or runtime linkage."
+        },
+        {
+          "source": "src/code_08073E2C.c",
+          "line": 827,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Matched effect task 75520 sets bit 18 for its local target but bit 19 for a nonlocal target, then clears the selected bit after 60 scheduler signal-1 waits. This supports the distinct alternating-draw versus hidden-sprite flags without identifying a particular skill, exact elapsed frames or an enduring character state."
+        }
+      ]
+    },
+    {
+      "address": "0x08015CE0",
+      "canonical_symbol": "sub_08015CE0",
+      "display_name": "EnableLocalPlayerDefeatProtection",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_080153A4.c",
+          "line": 402,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Sets bit 0x100000 in flags+0x30 of the player selected by 020F4, using 0x14C-byte player stride and preserving other bits. No HP, pending damage, player state or input flags are changed immediately."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 346,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Complete original 15CE0 body calls the local-player query once and updates the 32-bit flags word with OR. The setter/clearer and related predicate ranges equal original EU ROM and existing linked ELF, SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc. Static evidence only."
+        },
+        {
+          "source": "src/code_0800CF58.c",
+          "line": 6018,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Matched pending-damage consumer 13BC0 subtracts both pending halfwords before the signed nonpositive-health test. On that branch bit 0x100000 chooses HP 1/return 0 instead of HP 0/return 1. Matched local predicate 1DF8C also returns 0 immediately when this bit is set. This supports defeat protection in these two paths; it does not mean all damage is blocked or every possible state transition is prevented."
+        }
+      ]
+    },
+    {
+      "address": "0x08015D04",
+      "canonical_symbol": "sub_08015D04",
+      "display_name": "DisableLocalPlayerDefeatProtection",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_080153A4.c",
+          "line": 406,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Clears bit 0x100000 in flags+0x30 of the player selected by 020F4, using 0x14C-byte player stride and preserving other bits. No HP, pending damage, player state or input flags are changed immediately."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 347,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Complete original 15D04 body calls the local-player query once and updates the 32-bit flags word with AND. The setter/clearer and related predicate ranges equal original EU ROM and existing linked ELF, SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc. Static evidence only."
+        },
+        {
+          "source": "src/code_0800CF58.c",
+          "line": 6018,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Matched pending-damage consumer 13BC0 subtracts both pending halfwords before the signed nonpositive-health test. On that branch bit 0x100000 chooses HP 1/return 0 instead of HP 0/return 1. Matched local predicate 1DF8C also returns 0 immediately when this bit is set. This supports defeat protection in these two paths; it does not mean all damage is blocked or every possible state transition is prevented."
+        }
+      ]
+    },
+    {
+      "address": "0x08015D2C",
+      "canonical_symbol": "sub_08015D2C",
+      "display_name": "SetLocalPlayerFlagBit1",
+      "status": "proposed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_080153A4.c",
+          "line": 410,
+          "revision": "8d4618912c1c6cadb3f315aad7386e582d3de83c",
+          "detail": "Sets bit 1 (mask 0x2) of the local player's runtime flags word +0x30 (player LinkGetLocalPlayerId in the 0x14C-byte array 0x03003CE0), preserving the other bits. Unlike SetLocalPlayerFlagBit1AndTryEnqueueFlags it does not enqueue EnqueueLinkPlayerFlags. The bit's gameplay meaning is not claimed. This mechanical label remains a proposal and does not count as semantic identification."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 348,
+          "revision": "8d4618912c1c6cadb3f315aad7386e582d3de83c",
+          "detail": "Canonical Thumb entry for sub_08015D2C. Original EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc; static source/instruction evidence only."
+        }
+      ]
+    },
+    {
+      "address": "0x08015D50",
+      "canonical_symbol": "sub_08015D50",
+      "display_name": "ClearLocalPlayerFlagBit1",
+      "status": "proposed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_080153A4.c",
+          "line": 414,
+          "revision": "8d4618912c1c6cadb3f315aad7386e582d3de83c",
+          "detail": "Clears bit 1 (mask 0x2) of the local player's runtime flags word +0x30 (player LinkGetLocalPlayerId in the 0x14C-byte array 0x03003CE0), preserving the other bits. No link flags message is enqueued. The bit's gameplay meaning is not claimed. This mechanical label remains a proposal and does not count as semantic identification."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 349,
+          "revision": "8d4618912c1c6cadb3f315aad7386e582d3de83c",
+          "detail": "Canonical Thumb entry for sub_08015D50. Original EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc; static source/instruction evidence only."
+        }
+      ]
+    },
+    {
+      "address": "0x08015D74",
+      "canonical_symbol": "sub_08015D74",
+      "display_name": "SetLocalPlayerFlagBit12",
+      "status": "proposed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_080153A4.c",
+          "line": 418,
+          "revision": "8d4618912c1c6cadb3f315aad7386e582d3de83c",
+          "detail": "Sets bit 12 (mask 0x1000) of the local player's runtime flags word +0x30 (player LinkGetLocalPlayerId in the 0x14C-byte array 0x03003CE0), preserving the other bits. The bit's gameplay meaning is not claimed. This mechanical label remains a proposal and does not count as semantic identification."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 350,
+          "revision": "8d4618912c1c6cadb3f315aad7386e582d3de83c",
+          "detail": "Canonical Thumb entry for sub_08015D74. Original EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc; static source/instruction evidence only."
+        }
+      ]
+    },
+    {
+      "address": "0x08015D98",
+      "canonical_symbol": "sub_08015D98",
+      "display_name": "ClearLocalPlayerFlagBit12",
+      "status": "proposed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_080153A4.c",
+          "line": 422,
+          "revision": "8d4618912c1c6cadb3f315aad7386e582d3de83c",
+          "detail": "Clears bit 12 (mask 0x1000) of the local player's runtime flags word +0x30 (player LinkGetLocalPlayerId in the 0x14C-byte array 0x03003CE0), preserving the other bits. The bit's gameplay meaning is not claimed. This mechanical label remains a proposal and does not count as semantic identification."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 351,
+          "revision": "8d4618912c1c6cadb3f315aad7386e582d3de83c",
+          "detail": "Canonical Thumb entry for sub_08015D98. Original EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc; static source/instruction evidence only."
+        }
+      ]
+    },
+    {
+      "address": "0x08067F4C",
+      "canonical_symbol": "sub_08067F4C",
+      "display_name": "TryEnqueueLinkItemDelivery",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08067B4C.c",
+          "line": 197,
+          "revision": "8d4618912c1c6cadb3f315aad7386e582d3de83c",
+          "detail": "Returns 0 when outgoing link queue count exceeds 49. Otherwise marks one pending entry, tag0x9D, payload word at entry+8=(a<<16)|b and entry+0xC=c, sets one 8-byte chunk, increments count and returns1. Callers in code_0805A630.c pass (itemId,recipientIndex,power); the receiver compares the LOW halfword of payload word0 with local player ID and uses the HIGH halfword as item ID for a kind1 item. It passes word1 to sub_0805BD5C; if that operation fails, tries adding the item to the bag, and re-drops it at the local player position if adding also fails. Producer operands are not independently masked; no arbitrary-input field separation or delivery/completion guarantee is claimed."
+        },
+        {
+          "source": "src/code_080659B0.c",
+          "line": 1408,
+          "revision": "bf9a9ffc9b00d0cf50a36f70ac323d1d61df2630",
+          "detail": "Raw dispatch case0x1C (tag0x9D) checks (d[0]&0xFFFF)==myId, sets itemData.kind=1 and itemData.id=d[0]>>16, then attempts application, bag insertion and re-drop in that order. Matched code_0805A630.c:1091/1104 supplies itemId before recipientIndex."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 1262,
+          "revision": "8d4618912c1c6cadb3f315aad7386e582d3de83c",
+          "detail": "Canonical Thumb entry for sub_08067F4C. Original EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc; static source/instruction evidence only."
+        }
+      ]
+    },
+    {
+      "address": "0x08058D4C",
+      "canonical_symbol": "sub_08058D4C",
+      "display_name": "FindActiveSceneObjectHandleByKey",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08058790.c",
+          "line": 274,
+          "revision": "8d4618912c1c6cadb3f315aad7386e582d3de83c",
+          "detail": "Scans the 15 scene object records at scene state +0x7A4 whose active-mask bit in +0x54 is set and returns word +0 (the handle FindSceneObjectByHandle matches) of the first record whose word +4 equals the key; returns 0 when none matches."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 983,
+          "revision": "8d4618912c1c6cadb3f315aad7386e582d3de83c",
+          "detail": "Canonical Thumb entry for sub_08058D4C. Original EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc; static source/instruction evidence only."
+        }
+      ]
+    },
+    {
+      "address": "0x08058D98",
+      "canonical_symbol": "sub_08058D98",
+      "display_name": "TryAddCurrencyToBag",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08058790.c",
+          "line": 295,
+          "revision": "8d4618912c1c6cadb3f315aad7386e582d3de83c",
+          "detail": "Builds a 16-byte item record with kind 10 and the 32-bit amount at +4, then returns TryAddItemToBag for it. Kind 10 is the stacked currency kind that TryAddItemToBag and SpendInventoryCurrency treat specially."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 985,
+          "revision": "8d4618912c1c6cadb3f315aad7386e582d3de83c",
+          "detail": "Canonical Thumb entry for sub_08058D98. Original EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc; static source/instruction evidence only."
+        }
+      ]
+    },
+    {
+      "address": "0x08058E14",
+      "canonical_symbol": "sub_08058E14",
+      "display_name": "AcquireSceneCallbackGuard",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08058790.c",
+          "line": 330,
+          "revision": "8d4618912c1c6cadb3f315aad7386e582d3de83c",
+          "detail": "Sets bit arg of guard mask scene state +0x6C, the mask StartGuardedSceneCallbackTask tests and sets and ReleaseSceneCallbackGuard clears. It starts no task."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 988,
+          "revision": "8d4618912c1c6cadb3f315aad7386e582d3de83c",
+          "detail": "Canonical Thumb entry for sub_08058E14. Original EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc; static source/instruction evidence only."
+        }
+      ]
+    },
+    {
+      "address": "0x08058E28",
+      "canonical_symbol": "sub_08058E28",
+      "display_name": "ClearSceneCallbackGuardBit",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08058790.c",
+          "line": 333,
+          "revision": "8d4618912c1c6cadb3f315aad7386e582d3de83c",
+          "detail": "Clears bit arg of guard mask scene state +0x6C; byte-for-byte the same operation as ReleaseSceneCallbackGuard (sub_080574B0) in a separate copy."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 989,
+          "revision": "8d4618912c1c6cadb3f315aad7386e582d3de83c",
+          "detail": "Canonical Thumb entry for sub_08058E28. Original EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc; static source/instruction evidence only."
+        }
+      ]
+    },
+    {
+      "address": "0x08058E3C",
+      "canonical_symbol": "sub_08058E3C",
+      "display_name": "IsSceneCallbackGuardHeld",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08058790.c",
+          "line": 336,
+          "revision": "8d4618912c1c6cadb3f315aad7386e582d3de83c",
+          "detail": "Returns 1 when bit arg of guard mask scene state +0x6C is set, otherwise 0."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 990,
+          "revision": "8d4618912c1c6cadb3f315aad7386e582d3de83c",
+          "detail": "Canonical Thumb entry for sub_08058E3C. Original EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc; static source/instruction evidence only."
+        }
+      ]
+    },
+    {
+      "address": "0x0805A960",
+      "canonical_symbol": "sub_0805A960",
+      "display_name": "FindSceneObjectByHandle",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_0805A630.c",
+          "line": 181,
+          "revision": "8d4618912c1c6cadb3f315aad7386e582d3de83c",
+          "detail": "Returns the first of the 15 scene object records at scene state +0x7A4 (0x70-byte stride) whose word +0 equals the argument. When none matches, it performs one TaskWaitForSignal1 and returns null."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 1068,
+          "revision": "8d4618912c1c6cadb3f315aad7386e582d3de83c",
+          "detail": "Canonical Thumb entry for sub_0805A960. Original EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc; static source/instruction evidence only."
+        }
+      ]
+    },
+    {
+      "address": "0x08058048",
+      "canonical_symbol": "sub_08058048",
+      "display_name": "RequestLinkedFieldItemSpawnAtPosition",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08057CAC.c",
+          "line": 210,
+          "revision": "8d4618912c1c6cadb3f315aad7386e582d3de83c",
+          "detail": "Builds a 16-byte item record, stores low16(kind) at+0, and for kind10 writes the full value at+4 while leaving other fields uninitialized. Other kinds store low16(value) at+2 and zero the twelve bytes at+4..+15. Repeatedly calls sub_08067B9C(x<<8,y<<8,&record), waiting for signal1 after each rejected enqueue, until accepted. This is a spawn request; it does not wait for field-item creation or prove input coordinates are tile indices. The producer67B9C copies this record into a tag0x97 queue entry and does not itself test for duplicate spawns. No delivery, complete-record-initialization or cancellation guarantee is claimed."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 917,
+          "revision": "8d4618912c1c6cadb3f315aad7386e582d3de83c",
+          "detail": "Canonical Thumb entry for sub_08058048. Original EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc; static source/instruction evidence only."
+        }
+      ]
+    },
+    {
+      "address": "0x08058404",
+      "canonical_symbol": "sub_08058404",
+      "display_name": "CancelTaskIfScheduled",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08057CAC.c",
+          "line": 400,
+          "revision": "8d4618912c1c6cadb3f315aad7386e582d3de83c",
+          "detail": "For a nonnull task control that TaskIsScheduled reports scheduled, calls CancelTaskWithDestructor. Does nothing for null or idle controls and does not itself free the control allocation."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 932,
+          "revision": "8d4618912c1c6cadb3f315aad7386e582d3de83c",
+          "detail": "Canonical Thumb entry for sub_08058404. Original EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc; static source/instruction evidence only."
+        }
+      ]
+    },
+    {
+      "address": "0x08058444",
+      "canonical_symbol": "sub_08058444",
+      "display_name": "WaitUntilLocalPlayerInBox",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08057CAC.c",
+          "line": 422,
+          "revision": "8d4618912c1c6cadb3f315aad7386e582d3de83c",
+          "detail": "Builds a box at (x << 8, y << 8) with size halfwords (w, h), then yields with TaskWaitForSignal1 until TestFixedPointAxisAlignedBoxOverlap reports that the local player's position +0x8C (zero size) is inside it."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 934,
+          "revision": "8d4618912c1c6cadb3f315aad7386e582d3de83c",
+          "detail": "Canonical Thumb entry for sub_08058444. Original EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc; static source/instruction evidence only."
+        }
+      ]
+    },
+    {
+      "address": "0x0805853C",
+      "canonical_symbol": "sub_0805853C",
+      "display_name": "IsSceneEventFlagSetInBank",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08057CAC.c",
+          "line": 467,
+          "revision": "8d4618912c1c6cadb3f315aad7386e582d3de83c",
+          "detail": "Returns bit (n & 7) of byte (n >> 3) of the scene event-flag array at scene state +0x1B7 (bank 0) or +0x1C3 (nonzero bank) as 0 or 1. Explicit-bank form of sub_08057AE8."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 939,
+          "revision": "8d4618912c1c6cadb3f315aad7386e582d3de83c",
+          "detail": "Canonical Thumb entry for sub_0805853C. Original EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc; static source/instruction evidence only."
+        }
+      ]
+    },
+    {
+      "address": "0x08067EC8",
+      "canonical_symbol": "sub_08067EC8",
+      "display_name": "TryEnqueueTwoChunkSceneEncounterFinishedNotification",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08067B4C.c",
+          "line": 165,
+          "revision": "8d4618912c1c6cadb3f315aad7386e582d3de83c",
+          "detail": "Returns 0 when the outgoing link queue count 0x03006338 exceeds 49. Otherwise writes a 0x88-byte entry with tag 0x93, word +4 = 1, payload word +8 = 0 and chunk count 2, increments the count and returns 1. docs/LINK_MESSAGES.md: the receiver calls MarkSceneEncounterFinished and ignores the payload; this is the two-chunk sibling of TryEnqueueSingleChunkSceneEncounterFinishedNotification."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 1260,
+          "revision": "8d4618912c1c6cadb3f315aad7386e582d3de83c",
+          "detail": "Canonical Thumb entry for sub_08067EC8. Original EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc; static source/instruction evidence only."
+        }
+      ]
+    },
+    {
+      "address": "0x08057068",
+      "canonical_symbol": "sub_08057068",
+      "display_name": "DoesBoxOverlapCollidableSceneObject",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_080542C4.c",
+          "line": 1309,
+          "revision": "8d4618912c1c6cadb3f315aad7386e582d3de83c",
+          "detail": "Returns 0 when the active-object mask scene state +0x54 is empty. Otherwise, for each of the 15 scene object records at +0x7A4 whose mask bit is set and whose record flags +0x3C contain 0x10, calls TestFixedPointAxisAlignedBoxOverlap(arg, record+8, size 0x80010, record+0x18), and returns 1 on the first overlap, else 0."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 857,
+          "revision": "8d4618912c1c6cadb3f315aad7386e582d3de83c",
+          "detail": "Canonical Thumb entry for sub_08057068. Original EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc; static source/instruction evidence only."
+        },
+        {
+          "source": "src/code_0800CF58.c",
+          "line": 5912,
+          "revision": "bf9a9ffc9b00d0cf50a36f70ac323d1d61df2630",
+          "detail": "Matched player-movement helper13CEC resolves blk13CEC to canonical57068 through its asm alias. When that overlap query is nonzero, it restores position fields+0x8C/+0x90 from previous-position fields+0x94/+0x98. This consumer independently supports the collidable-object interpretation rather than only naming a geometric test."
+        }
+      ]
+    },
+    {
+      "address": "0x08015ED4",
+      "canonical_symbol": "sub_08015ED4",
+      "display_name": "SetLocalPlayerFlagBit22",
+      "status": "proposed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_080153A4.c",
+          "line": 506,
+          "revision": "8d4618912c1c6cadb3f315aad7386e582d3de83c",
+          "detail": "Sets bit 22 (mask 0x400000) of the local player's runtime flags word +0x30 (player LinkGetLocalPlayerId in the 0x14C-byte array 0x03003CE0), preserving the other bits. The bit's gameplay meaning is not claimed. This mechanical label remains a proposal and does not count as semantic identification."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 357,
+          "revision": "8d4618912c1c6cadb3f315aad7386e582d3de83c",
+          "detail": "Canonical Thumb entry for sub_08015ED4. Original EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc; static source/instruction evidence only."
+        }
+      ]
+    },
+    {
+      "address": "0x08015EF8",
+      "canonical_symbol": "sub_08015EF8",
+      "display_name": "ClearLocalPlayerFlagBit22",
+      "status": "proposed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_080153A4.c",
+          "line": 510,
+          "revision": "8d4618912c1c6cadb3f315aad7386e582d3de83c",
+          "detail": "Clears bit 22 (mask 0x400000) of the local player's runtime flags word +0x30 (player LinkGetLocalPlayerId in the 0x14C-byte array 0x03003CE0), preserving the other bits. The bit's gameplay meaning is not claimed. This mechanical label remains a proposal and does not count as semantic identification."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 358,
+          "revision": "8d4618912c1c6cadb3f315aad7386e582d3de83c",
+          "detail": "Canonical Thumb entry for sub_08015EF8. Original EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc; static source/instruction evidence only."
+        }
+      ]
+    },
+    {
+      "address": "0x08015F20",
+      "canonical_symbol": "sub_08015F20",
+      "display_name": "IsLocalPlayerMovementToPointPending",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_080153A4.c",
+          "line": 514,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Returns exactly local player flags mask 0x4 normalized to 0/1. It is a request-state query; it does not measure velocity, animation, physical movement or arrival on its own. The controller clears 0x24 when its target-key helper returns0, after which it sets input-suppression mask 1. No consumption, wait, link error check or peer scan."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 359,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Original 15F22 resolves the local player; 15F32..38 loads flags, shifts2 and masks1. Complete helper range equals original EU ROM and existing linked ELF; original ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc."
+        },
+        {
+          "source": "asm/nonmatchings/code_0800CF58/sub_0800D368.s",
+          "line": 428,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Original D368 path D6EA..D728 reads player+0x30 mask 1 and zeros input halfwords+0x12/+0x14/+0x16, while maintaining a five-entry direction-history buffer. This branch precedes and bypasses target-key generation at D730. D730..D77E uses mask 4, target words+0x9C/+0xA0 and 16C88 with radius8; on zero key result it clears mask 0x24 then sets mask 1 for the local player. This is one observed player-input control path, not a whole D368 proof."
+        },
+        {
+          "source": "src/code_08021DC4.c",
+          "line": 1874,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Matched caller2413C computes a point from a gate/input record, requests movement through15C5C, then waits while15F20 is nonzero unless scene flag0x10 changes; cancellation later requests a second retreat point and uses the same pending query. This corroborates target movement rather than direct coordinate teleport. The caller does not prove all requested points are reachable."
+        }
+      ]
+    },
+    {
+      "address": "0x08056D80",
+      "canonical_symbol": "sub_08056D80",
+      "display_name": "IsPlayerWithinRangeWithFreeSpawnSlot",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_080542C4.c",
+          "line": 1162,
+          "revision": "8d4618912c1c6cadb3f315aad7386e582d3de83c",
+          "detail": "Returns 0 unless HasFreeEnemySpawnRequestSlot. Then, for each connected player (LinkCountConnectedPlayers), skips players whose +0x148 record byte has 0x20 or whose flags +0x30 have 0x2000, and returns 1 when |pos.x - x| < rx and |pos.y - y| < ry for that record's coordinates; otherwise 0."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 839,
+          "revision": "8d4618912c1c6cadb3f315aad7386e582d3de83c",
+          "detail": "Canonical Thumb entry for sub_08056D80. Original EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc; static source/instruction evidence only."
+        }
+      ]
+    },
+    {
+      "address": "0x08056E24",
+      "canonical_symbol": "sub_08056E24",
+      "display_name": "MarkSceneEncounterFinished",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_080542C4.c",
+          "line": 1199,
+          "revision": "8d4618912c1c6cadb3f315aad7386e582d3de83c",
+          "detail": "ORs 0x8 into scene-state flags halfword +4. TryEnqueueSingleChunkSceneEncounterFinishedNotification documents that the link receiver calls this for tags 0x93 and 0xAF, and the enemy-task normal-exit branch in sub_0801801C calls it directly. sub_0808F088 calls it instead of spawning its encounter actors when the encounter's event flag is already set."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 840,
+          "revision": "8d4618912c1c6cadb3f315aad7386e582d3de83c",
+          "detail": "Canonical Thumb entry for sub_08056E24. Original EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc; static source/instruction evidence only."
+        }
+      ]
+    },
+    {
+      "address": "0x08056E38",
+      "canonical_symbol": "sub_08056E38",
+      "display_name": "ClearSceneEncounterFinished",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_080542C4.c",
+          "line": 1203,
+          "revision": "8d4618912c1c6cadb3f315aad7386e582d3de83c",
+          "detail": "Clears bit 3 (mask 0xFFF7) of scene-state flags halfword +4, preserving other bits. Inverse of MarkSceneEncounterFinished."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 841,
+          "revision": "8d4618912c1c6cadb3f315aad7386e582d3de83c",
+          "detail": "Canonical Thumb entry for sub_08056E38. Original EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc; static source/instruction evidence only."
+        }
+      ]
+    },
+    {
+      "address": "0x08056E50",
+      "canonical_symbol": "sub_08056E50",
+      "display_name": "IsSceneEncounterFinished",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_080542C4.c",
+          "line": 1206,
+          "revision": "8d4618912c1c6cadb3f315aad7386e582d3de83c",
+          "detail": "Returns bit 3 of scene-state flags halfword +4 as 0 or 1 (the bit MarkSceneEncounterFinished sets). src/code_08021DC4.c encounter loops run `while (!((flags >> 3) & 1))` on the same bit."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 842,
+          "revision": "8d4618912c1c6cadb3f315aad7386e582d3de83c",
+          "detail": "Canonical Thumb entry for sub_08056E50. Original EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc; static source/instruction evidence only."
+        }
+      ]
+    },
+    {
+      "address": "0x0805A780",
+      "canonical_symbol": "sub_0805A780",
+      "display_name": "ReleaseSceneObjectOnTaskExit",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_0805A630.c",
+          "line": 75,
+          "revision": "8d4618912c1c6cadb3f315aad7386e582d3de83c",
+          "detail": "Destructor for scene object tasks. For the record whose embedded task control (+0x48) is the argument, calls ReleaseSharedObjectPaletteSlot with its handle +0x40 and clears that record's bit in the active-object mask scene state +0x54. CancelSceneCallbackAndObjectTasks documents that the object constructor installs this destructor."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 1064,
+          "revision": "8d4618912c1c6cadb3f315aad7386e582d3de83c",
+          "detail": "Canonical Thumb entry for sub_0805A780. Original EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc; static source/instruction evidence only."
+        }
+      ]
     }
   ]
 }
