@@ -24327,6 +24327,69 @@
           "detail": "src/code_0803B69C.c:316 callback0803C3C8 loads140203 and branches on yes; original text explicitly This is the Temple of Light and Sacrifice four things/four items; negative branch140204 says Let the Light be with you."
         }
       ]
+    },
+    {
+      "address": "0x0802D200",
+      "canonical_symbol": "sub_0802D200",
+      "display_name": "CreateLesterSceneActor",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08028AAC.c",
+          "line": 4089,
+          "revision": "b5337babd5b759034a0b68b145e7899a6bfefd7d",
+          "detail": "Creates kind0x31 actor at pixel(382,102), sets interaction extents8x4 and flag0x10, installs dialogue callback08030F54 at actor+44 and restores screen transition state. Callback consumes story-dependent texts163..16E; original163 explicitly introduces Lester, a guard at Klantol Castle. Independent original confirms kind/coordinates, two separate15record word-ID searches, extents STRH+18/+1A, flags WORD+3C OR10 and callback WORD+44. A missing lookup yields once and skips only its write; no creation-success result or capacity guarantee. Transition helper selection waits1AAE0 without timeout. D200 Thumb literal30F55 connects Lester self-introduction163, not inferred solely from actor31."
+        },
+        {
+          "source": "src/code_0802FEA0.c",
+          "revision": "b5337babd5b759034a0b68b145e7899a6bfefd7d",
+          "detail": "src/code_0802FEA0.c callback08030F54 selects140163; original English text This is Klantol Castle Im Lester a guard here and duty to watch suspicious people identifies the actor.",
+          "line": 491
+        }
+      ]
+    },
+    {
+      "address": "0x0802D73C",
+      "canonical_symbol": "sub_0802D73C",
+      "display_name": "CreateGalicSceneActor",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08028AAC.c",
+          "line": 4493,
+          "revision": "b5337babd5b759034a0b68b145e7899a6bfefd7d",
+          "detail": "Creates kind0x48 actor at pixel(88,64), sets interaction extents8x4 and flag0x10, installs callback080399E4 and restores screen transition state. The callback selects texts173..17E; original173 self-introduces Galic guarding the entrance and complains about hunger. Independent original confirms kind/coordinates, two separate15record word-ID searches, extents STRH+18/+1A, flags WORD+3C OR10 and callback WORD+44. A missing lookup yields once and skips only its write; no creation-success result or capacity guarantee. Transition helper selection waits1AAE0 without timeout. D73C Thumb399E5 connects Galic self-introduction173, not inferred solely from actor48."
+        },
+        {
+          "source": "src/code_0802FEA0.c",
+          "revision": "b5337babd5b759034a0b68b145e7899a6bfefd7d",
+          "detail": "src/code_0802FEA0.c callback080399E4 selects140173; original English text Yo my name is Galic Im guarding this entrance identifies the actor directly.",
+          "line": 4694
+        }
+      ]
+    },
+    {
+      "address": "0x0802D800",
+      "canonical_symbol": "sub_0802D800",
+      "display_name": "CreateAzieSceneActor",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08028AAC.c",
+          "line": 4556,
+          "revision": "b5337babd5b759034a0b68b145e7899a6bfefd7d",
+          "detail": "Creates kind0x23 actor at pixel(64,70), sets interaction extents8x4 and flag0x10, installs callback080316A4 and restores screen transition state. Callback text18B self-introduces Azie as a traveling apprentice for the smith; further18C..18D explain fusing materials and smith payment. Independent original confirms kind/coordinates, two separate15record word-ID searches, extents STRH+18/+1A, flags WORD+3C OR10 and callback WORD+44. A missing lookup yields once and skips only its write; no creation-success result or capacity guarantee. Transition helper selection waits1AAE0 without timeout. D800 Thumb316A5 connects Azie self-introduction18B, not inferred solely from actor23."
+        },
+        {
+          "source": "src/code_0802FEA0.c",
+          "revision": "b5337babd5b759034a0b68b145e7899a6bfefd7d",
+          "detail": "src/code_0802FEA0.c callback080316A4 selects14018B; original English Hello my name is Azie and traveling apprentice for the smith identifies the actor independently of kind number.",
+          "line": 730
+        }
+      ]
     }
   ]
 }

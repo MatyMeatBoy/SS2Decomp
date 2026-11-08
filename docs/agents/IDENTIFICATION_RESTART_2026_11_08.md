@@ -799,3 +799,12 @@ Three previously unidentified EUR scene setup functions now have reviewed role n
 Each setup requests an actor, then separately scans fifteen records for dimensions/flags and for callback installation. A missing scan yields once and skips the corresponding write; these functions return no success handle and do not guarantee actor creation. Their conditional scene-transition wait has no timeout. The rest callback performs its affirmative sequence; the temple callback schedules a prayer sequence rather than itself consuming four items or completing a ritual.
 
 Only the catalog and this English evidence journal change. Prior rows, metadata and canonical symbols are preserved; matching code, data, shard claims and generated progress files remain unchanged. Frozen research and independent review receipts remain private.
+
+
+## Lester, Galic and Azie actor setup
+
+Three previously unidentified EUR setup functions now have names tied to explicit English self-introductions: Lester, Galic and Azie. The coordinator read the complete matched constructors and dialogue callbacks, checked the original callback-pointer and resource-selection paths, and verified all six complete configured ranges against the EUR ROM and linked ELF. Each selected text pointer and complete payload independently matches both byte sources. Actor kind numbers and neighboring functions are not used as personal-identity proof.
+
+The constructors request their actor, set interaction dimensions and flags when the first lookup succeeds, and separately install the dialogue callback when a second lookup succeeds. Each lookup searches fifteen records; failure yields once and skips its write. These functions expose no success handle or actor-capacity guarantee, and their conditional scene-transition wait has no timeout. Story flags select alternate dialogue without changing the callback identity.
+
+Only the naming catalog and this English evidence journal change. Existing rows, metadata, address order and canonical symbols are preserved. Matching code, data, claims and generated progress remain unchanged; frozen primary proofs and independent review receipts remain private.
