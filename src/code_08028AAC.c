@@ -1813,7 +1813,8 @@ found27scan_83:
             } else {
                 var_r0_5 = stateAA28 + 0x1B8;
             }
-            temp_r4 = ((s32) *var_r0_5 >> 6) & 1;
+            temp_r4 = 6;
+            temp_r4 = ((s32) *var_r0_5 >> temp_r4) & 1;
             if (sub_0800CE30() != 0) {
                 var_r0_6 = stateAA28 + 0x1C4;
             } else {
