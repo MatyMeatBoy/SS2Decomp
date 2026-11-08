@@ -532,3 +532,14 @@ The two full-HP damage messages differ in the receiver's own-sender exclusion; a
 The allocator creates sixteen per-player task controls and records, with additional shared pools only for index zero. Teardown waits only on each current base control, reloading pointer globals after yields; it does not inspect every task slot or establish whole-pool quiescence. Bounds, allocation success, pointer stability and bounded waiting are not inferred.
 
 Frozen worker originals, independent peer corrections and full-range ROM/ELF receipts are preserved privately. The coordinator re-read the seven original bodies and functional consumer witnesses, and a separate reviewer approved the corrected semantics. Canonical symbols, code, data, claims and generated progress files are unchanged.
+
+
+## Workers A03/B02: ability status calculations, palettes and scripted routes
+
+Eleven new EUR identities were independently reviewed against complete original bodies and functional consumers at `8bbfb589bf6ab55018ae7e465fc0e674879c81fa`. The ability damage calculator receives an optional resistance-array pointer, not a target index. Resistance growth returns the original kind rather than a gain Boolean, and kind two has a different clamp threshold. The status roll preserves signed initial division, subsequent unsigned modifier division and unsigned comparison, without inventing a probability clamp. Unsupported kinds can still be requested by the fixed-position effect starter and later exit without animation; allocation failure writes both its descriptor and task stack-allocation field.
+
+Palette callbacks snapshot selected banks and preserve the current destination bit fifteen. Their original word loads advance two bytes; this is not silently rewritten into a safe halfword-load contract. Fading does not force the final gray endpoint, and modulation does not restore the saved palette. Packed starter arguments, the enable-pointer lifetime and the shared fixed task control were checked separately.
+
+The sprite route callback waits for signal `0xF1FFF111`, then consumes twenty-four-byte records. It interpolates before increasing progress and does not force an endpoint draw. Duration greater than 1024 produces a zero progress step, so termination then depends on the abort path. Interpolation rounds the two products separately. The starter searches fifteen embedded task controls by scheduler-list membership and does not validate stack allocation. Request, animation completion and exact elapsed duration remain distinct claims.
+
+Original worker inputs, exact peer overlays, the explicit hexadecimal descriptor-offset clarification and complete ROM/ELF receipts are preserved privately. The coordinator read the full original bodies and consumer witnesses; a separate reviewer approved all eleven corrected rows. Canonical symbols, matching code, data and worker claims remain unchanged.

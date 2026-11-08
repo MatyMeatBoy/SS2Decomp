@@ -21820,6 +21820,189 @@
           "detail": "Effect starters use 0x18-byte records, 0x28-byte task slots and mask 030063E0; sub_08074DE8 indexes the per-player task pool. Source and full original ROM ranges are pinned static inputs; no worker build or runtime testing."
         }
       ]
+    },
+    {
+      "address": "0x08068F9C",
+      "canonical_symbol": "sub_08068F9C",
+      "display_name": "CalculateRandomizedAbilityDamage",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08068670.c",
+          "line": 611,
+          "revision": "8bbfb589bf6ab55018ae7e465fc0e674879c81fa",
+          "detail": "Reads attacker word +0, ability kind word +0xC, power word +0x10 and level word +0x14. Attacker <=3 selects signed player halfword +0x3C at stride 0x14C; otherwise signed enemy halfword at enemy-base + attacker*0x2E0-0x978 (thus +0x208 for slot attacker-4). Multiplies power+20, low halfword of Sqrt(stat+15), a level factor and unsigned RNG remainder20+100, with 32-bit multiply wrapping; unsigned division by27000. Ordinary factor is signed halfword 084EBF1C[kind*24] times level+1; kind19 instead uses unsigned halfword 084EC15C[level>>16] times ((level&65535)+1). Full incoming r1 is an optional resistance-array pointer, not a target slot or entity index. Nonzero r1 invokes sub_08021D00 with the ability effect halfword at table entry +2, low16 damage, and that unchanged pointer; zero skips resistance adjustment. Returns signed low16 result. Unknown attacker/ability index domains and resistance-pointer domains, negative square-root inputs and overflow ranges are not validated. Complete original configured range preserved and byte-equal to supplied verified-main ELF/EU ROM. Static research only, no worker build or runtime test."
+        },
+        {
+          "source": "src/code_08068670.c",
+          "line": 813,
+          "revision": "8bbfb589bf6ab55018ae7e465fc0e674879c81fa",
+          "detail": "Independent consumer audit: sub_080694AC forms player+0x7C or enemy+0x218 resistance pointers and passes them to sub_08068F9C at line826. Matched sub_08021D00 (src/code_0801E244.c:2420) treats its third argument as six signed halfword resistances, kinds1..7 with6/7 sharing the last, and computes low16(damage*5000/(resistance^2+2500)); high-result-bit substitutes1. Original machine call at0806905E passes full preserved r1 pointer in r2. Static ROM/ELF corroboration only."
+        }
+      ]
+    },
+    {
+      "address": "0x08069224",
+      "canonical_symbol": "sub_08069224",
+      "display_name": "TryIncreaseEffectResistanceStat",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08068670.c",
+          "line": 691,
+          "revision": "8bbfb589bf6ab55018ae7e465fc0e674879c81fa",
+          "detail": "Returns0 immediately when sub_0800CF80 is nonzero; otherwise RNG unsigned remainder100 and full incoming kind choose signed halfword stats[kind-1], with kinds6/7 sharing stats[5]. Kind0 returns0. For valid kinds1..7 chance=max(0, signed_div((u16(magnitude)*6-stat+50),(stat+1))-2); random<chance triggers halfword increment. Signed post-increment value above100 is clamped100, except kind2 compares above99. Nonclamped increments call sub_08022200(localPlayer,kind); both gain and no-gain return original kind, not a success Boolean. Out-of-range kinds reach calculation without initialized stat register; stat=-1 gives a zero divisor. Caller at69080 passes profile+0x24 and694AC routes hit effects here. Resistance interpretation is supported by its companion status chance calculation but exact named effect kinds remain unknown. Complete original configured range preserved and byte-equal to supplied verified-main ELF/EU ROM. Static research only, no worker build or runtime test."
+        }
+      ]
+    },
+    {
+      "address": "0x08069388",
+      "canonical_symbol": "sub_08069388",
+      "display_name": "RollTargetStatusEffectKind",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08068670.c",
+          "line": 724,
+          "revision": "8bbfb589bf6ab55018ae7e465fc0e674879c81fa",
+          "detail": "Machine ABI: r0 output packet, r1 signed-halfword resistance array, r2 low16 magnitude/level factor, r3 low16 effect kind, fifth stack word low16 target slot. RNG remainder100. Kinds2,3,5,6,7 form the wrapped32-bit product (100-selected resistance)*(magnitude*10+5), reinterpret it signed and signed-divide by100,50,25,50,50 respectively; all other kinds, including30, yield probability0. For local target, or any player target<=3 when sub_0800CF80 is nonzero, multiply probability by signed player byte+0x73 then unsigned divide by100 (so negative intermediates do not imply negative probability). Writes output byte+1 to kind low8 iff unsigned probability>random, else0. Enemy slots target>3 with byte at enemy-base+target*0x2E0-0x95A equal3 force output byte zero. No clamp to100, pointer checks or target-index validation. Writes only status-kind byte, does not apply the status. Complete original configured range preserved and byte-equal to supplied verified-main ELF/EU ROM. Static research only, no worker build or runtime test."
+        },
+        {
+          "source": "src/code_08068670.c",
+          "line": 724,
+          "revision": "8bbfb589bf6ab55018ae7e465fc0e674879c81fa",
+          "detail": "Independent original audit: multiply instructions080693F0/0806940C/08069422 retain only low32 bits, signed divide at08069426; optional player modifier uses signed byte+0x73 but unsigned divide at0806945C. Final compare08069462..64 is unsigned. Thus negative/out-of-range intermediate values cannot be described as clamped negative chances. Unsupported kinds still consume an RNG value and write byte+1 zero; no other output packet fields are initialized."
+        }
+      ]
+    },
+    {
+      "address": "0x080698D4",
+      "canonical_symbol": "sub_080698D4",
+      "display_name": "AnimateStatusEffectAtFixedPosition",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08068670.c",
+          "line": 944,
+          "revision": "8bbfb589bf6ab55018ae7e465fc0e674879c81fa",
+          "detail": "Reads x/y unsigned halfwords+0/+2, kind halfword+4 and shared-pool slot halfword+0xA from descriptor. Initializes sprite resource0x5008C, style bytes7/8. Maps kinds1/5 to animation28, kind2 to29, kind6 to32, kind14 to13; all other kinds clear shared mask bit and return. Selected path repeatedly sign-extends stored coordinates for screen projection, steps animation, conditionally draws only when three gating helpers return0, and yields one tick even on the finishing iteration. On animation completion clears word mask0300641C bit(1<<slot). No entity following, timeout, slot range check or animation-completion bound is established; gating suppresses drawing, not advancement. Complete original configured range preserved and byte-equal to supplied verified-main ELF/EU ROM. Static research only, no worker build or runtime test."
+        }
+      ]
+    },
+    {
+      "address": "0x08069A30",
+      "canonical_symbol": "sub_08069A30",
+      "display_name": "StartFixedPositionStatusEffectTask",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08068670.c",
+          "line": 989,
+          "revision": "8bbfb589bf6ab55018ae7e465fc0e674879c81fa",
+          "detail": "Searches first zero bit among32 in word0300641C; all occupied returns without writes. Stores signed r0/r1 coordinates arithmetic-shifted8 then truncated16 into 12-byte descriptor in pointer03006420; stores incoming r2 low16 at+8, r3 low16 at+4, fifth stack argument low16 at+6, and slot halfword+0xA. Allocates0x500-byte stack and writes pointer to selected 0x28-byte task control+0x20 in pointer03006370; failure returns after descriptor writes AND storing zero at the selected task control +0x20, with mask unchanged. Success sets priority word+8=0x34, entry+0xC=sub_080698D4, stack top+0x10=allocation+0x4FC, cleanup+0x24=0, registers task with descriptor pointer then ORs selected mask bit. Does not render synchronously or guarantee valid effect kind; consumer accepts only kinds1,2,5,6,14. No runtime/task-completion proof. Complete original configured range preserved and byte-equal to supplied verified-main ELF/EU ROM. Static research only, no worker build or runtime test."
+        },
+        {
+          "source": "src/code_08068670.c",
+          "line": 989,
+          "revision": "8bbfb589bf6ab55018ae7e465fc0e674879c81fa",
+          "detail": "Independent original audit: task+0x20 store occurs at08069AA2 before zero test08069AA4..06. All six descriptor halfwords are already written at08069A7A..8A. Unsupported kind30 can therefore be enqueued successfully and later clear its mask bit without animation; the starter does not validate the consumer kind domain. Allocation failure does not restore descriptor or prior task+0x20 contents."
+        }
+      ]
+    },
+    {
+      "address": "0x08087788",
+      "canonical_symbol": "sub_08087788",
+      "display_name": "TaskFadePaletteBanksTowardGray",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_0807A5D4.c",
+          "line": 9064,
+          "revision": "8bbfb589bf6ab55018ae7e465fc0e674879c81fa",
+          "detail": "r0 packs first palette-bank index in low16 and bank count in high16; r1 packs target gray component in low5 and duration in high16. Allocates count*32 snapshot bytes and copies banks from 0x03001F40+first*32. For u16 frame 0 through duration-1, interpolates each RGB5 component from snapshot toward gray using signed division by duration, preserving current destination bit15, queues palette update and yields. Frees snapshot after loop; duration zero still snapshots/frees but does not divide. Does not force final target on exit or check allocation/range. Source uses 32-bit component loads with 2-byte source stride, which must not be silently recast as a proven safe halfword ABI. Complete original configured body audited against ROM, statically equal to copied verified-main ELF; no local build or runtime test."
+        }
+      ]
+    },
+    {
+      "address": "0x080878AC",
+      "canonical_symbol": "sub_080878AC",
+      "display_name": "TaskModulatePaletteBanksWhileEnabled",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_0807A5D4.c",
+          "line": 9094,
+          "revision": "8bbfb589bf6ab55018ae7e465fc0e674879c81fa",
+          "detail": "r0 packs low16 first bank/high16 bank count; r1 points to a full-word enable flag. Always allocates and snapshots count*32 bytes first. While pointed word is nonzero, scales each saved RGB5 component by u16 factor/1024 (initial factor100), preserves current destination bit15, queues palette update, yields, then updates factor using signed-halfword lookup table 0x080B9704 and phase-dependent angle/base. Angle wraps to0 only above256; phase changes from global tick modulo3 and timers from RNG modulo10/30. Frees snapshot when flag is zero, without restoring original palette. No allocation, pointer or bank-range checks; no runtime flicker claim. Complete original configured body audited against ROM, statically equal to copied verified-main ELF; no local build or runtime test. Factor update uses logical right shift8 of the wrapping sine-product then low16 truncation; component writes mask to5 bits. Snapshot word loads advance2 bytes, including halfword-aligned addresses; no safe halfword ABI is inferred."
+        }
+      ]
+    },
+    {
+      "address": "0x0808894C",
+      "canonical_symbol": "sub_0808894C",
+      "display_name": "StartPaletteGrayFadeTask",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08087CC0.c",
+          "line": 374,
+          "revision": "8bbfb589bf6ab55018ae7e465fc0e674879c81fa",
+          "detail": "Four register arguments: low16 r0 first bank, low16 r1 bank count, low16 r2 gray argument, low16 r3 duration. Packs these into two words passed to callback 0x08087788; allocates1024-byte stack into fixed task control0x03003480, top+1020, priority word+8=10 and finalizer0, then scheduler start. No allocation/activity check and no wait for fade completion. Complete original configured body audited against ROM, statically equal to copied verified-main ELF; no local build or runtime test."
+        }
+      ]
+    },
+    {
+      "address": "0x08088A18",
+      "canonical_symbol": "sub_08088A18",
+      "display_name": "StartEnabledPaletteModulationTask",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08087CC0.c",
+          "line": 406,
+          "revision": "8bbfb589bf6ab55018ae7e465fc0e674879c81fa",
+          "detail": "Three register arguments: low16 r0 first bank, low16 r1 count, full-word r2 enable-pointer forwarded unchanged. Packs bank range for callback0x080878AC and uses same fixed task control0x03003480 as gray-fade starter. Allocates1024-byte stack, sets top+1020, priority10, finalizer0, starts scheduler. No allocation/activity check; request is not completion. Complete original configured body audited against ROM, statically equal to copied verified-main ELF; no local build or runtime test."
+        }
+      ]
+    },
+    {
+      "address": "0x080887D4",
+      "canonical_symbol": "sub_080887D4",
+      "display_name": "TaskPlayScriptedSpriteRouteSequence",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08087CC0.c",
+          "line": 313,
+          "revision": "8bbfb589bf6ab55018ae7e465fc0e674879c81fa",
+          "detail": "r0 points to scene slot with u16 index at+0x40; r1 to 24-byte route records. First waits using scheduler value0xF1FFF111 even for empty sequence. Duration word+20=0 terminates. Per record initializes resource word+8, computes unsigned step1024/duration, interpolates signed-halfword x/y start/end at+0/+2/+4/+6 using progress before increment, draws and yields until progress>1023 or global abort predicate. Flags bit0 feeds animation; bit1 selects fixed u16 frame+12 and alternate resource offset0x120. Palette/descriptor fields derive slot index. Advances24 bytes only on ordinary route completion. Duration>1024 gives step0 and cannot finish via progress; no bounds/resource checks or runtime route coverage. Complete original configured body audited against ROM, statically equal to copied verified-main ELF; no local build or runtime test. 003F4 is a signal wait matching 00420, not a tick delay. No forced end-coordinate draw: interpolation uses progress below1024; duration is not generally exact frame count. 659F4 separately arithmetic-shifts each wrapping product by10 before adding. Init per-record style1/mode-1/extra0 and resets progress/frame/timer. Fixed mode writes descriptor byte+0x25; ordinary mode writes byte+0x1C."
+        }
+      ]
+    },
+    {
+      "address": "0x08088AA8",
+      "canonical_symbol": "sub_08088AA8",
+      "display_name": "StartScriptedSpriteRouteTask",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08087CC0.c",
+          "line": 426,
+          "revision": "8bbfb589bf6ab55018ae7e465fc0e674879c81fa",
+          "detail": "Full-word r0 route pointer. Scans15 slots of112 bytes at scene-state+0x7A4, testing embedded task control at slot+0x48 rather than a stored pointer. First inactive slot gets u16 index+0x40; allocates2048-byte stack into+0x68, callback0x080887D4 at+0x54, top allocation+2044 at+0x58, priority10 at+0x50, finalizer0 at+0x6C. Starts callback with slot pointer and original route pointer, then waits2 ticks and returns; full pool returns immediately. No malloc check or wait for route completion. Repeated callers in0x08087CC0 pass distinct ROM route records. Complete original configured body audited against ROM, statically equal to copied verified-main ELF; no local build or runtime test."
+        }
+      ]
     }
   ]
 }
