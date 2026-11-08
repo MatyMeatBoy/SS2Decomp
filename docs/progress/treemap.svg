@@ -14,8 +14,8 @@
 <text x="269.0" y="86" fill="#e6edf3" font-size="10">940 bytes; not decompiled C</text>
 <rect x="506.0" y="30" width="235.0" height="66" rx="5" fill="#161b22"/>
 <text x="516.0" y="46" fill="#e6edf3" font-size="11">Identification</text>
-<text x="516.0" y="69" fill="#3fb950" font-size="21" font-weight="600">54.35%</text>
-<text x="516.0" y="86" fill="#e6edf3" font-size="10">1106 / 2035 registered names</text>
+<text x="516.0" y="69" fill="#3fb950" font-size="21" font-weight="600">54.74%</text>
+<text x="516.0" y="86" fill="#e6edf3" font-size="10">1114 / 2035 registered names</text>
 <rect x="753.0" y="30" width="235.0" height="66" rx="5" fill="#161b22"/>
 <text x="763.0" y="46" fill="#e6edf3" font-size="11">Historical C + linked</text>
 <text x="763.0" y="69" fill="#e6edf3" font-size="21" font-weight="600">93.13%</text>
@@ -30,14 +30,14 @@
 <rect x="1.00" y="29.00" width="76.29" height="74.35" fill="#d29922" pointer-events="none"/>
 <text x="64.6" y="83.2" fill="#e6edf3" font-size="9" text-anchor="middle" pointer-events="none">3/5 milestones</text>
 <text x="64.6" y="69.2" fill="#e6edf3" font-size="9" text-anchor="middle" pointer-events="none">ProcessItemMenuInt...</text>
-<rect x="128.15" y="29.00" width="34.37" height="74.35" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_080815F4 | sub_080815F4 | unidentified  0x080815F4  4972 bytes  [done]</title></rect>
+<rect x="128.15" y="29.00" width="34.37" height="74.35" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>DrawItemMenuDetailedItemPanel | sub_080815F4 | confirmed  0x080815F4  4972 bytes  [done]</title></rect>
 <rect x="1.00" y="103.35" width="46.93" height="50.60" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>TaskMonsterCardCatalogAndBagTransfer | sub_080855D4 | confirmed  0x080855D4  4620 bytes  [done]</title></rect>
 <rect x="1.00" y="153.95" width="46.93" height="50.11" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>TaskCharacterStatAndSkillAllocationMenu | sub_0807A5D4 | confirmed  0x0807A5D4  4576 bytes  [done]</title></rect>
 <rect x="47.93" y="103.35" width="36.03" height="55.35" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>TaskPlayStoryIntroduction | sub_08086860 | confirmed  0x08086860  3880 bytes  [done]</title></rect>
-<rect x="47.93" y="158.70" width="36.03" height="45.36" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08082BB0 | sub_08082BB0 | unidentified  0x08082BB0  3180 bytes  [done]</title></rect>
-<rect x="83.95" y="103.35" width="46.18" height="30.09" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0808441C | sub_0808441C | unidentified  0x0808441C  2704 bytes  [done]</title></rect>
+<rect x="47.93" y="158.70" width="36.03" height="45.36" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>TaskItemCollectionInteractionMenu | sub_08082BB0 | confirmed  0x08082BB0  3180 bytes  [done]</title></rect>
+<rect x="83.95" y="103.35" width="46.18" height="30.09" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>SynthesizeRandomItemFromThreeInputs | sub_0808441C | confirmed  0x0808441C  2704 bytes  [done]</title></rect>
 <rect x="130.14" y="103.35" width="32.38" height="30.09" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>DrawItemMenuContents | sub_08080A78 | confirmed  0x08080A78  1896 bytes  [done]</title></rect>
-<rect x="83.95" y="133.44" width="23.96" height="38.96" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08083AE8 | sub_08083AE8 | unidentified  0x08083AE8  1816 bytes  [done]</title></rect>
+<rect x="83.95" y="133.44" width="23.96" height="38.96" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>RunItemMenuMessageWithVariantPanels | sub_08083AE8 | confirmed  0x08083AE8  1816 bytes  [done]</title></rect>
 <rect x="83.95" y="172.40" width="23.96" height="31.66" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>TaskInventoryMenu | sub_0807B7B4 | confirmed  0x0807B7B4  1476 bytes  [done]</title></rect>
 <rect x="107.91" y="133.44" width="20.91" height="20.25" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>DrawItemMenuPlayerStatPreview | sub_080811E0 | confirmed  0x080811E0  824 bytes  [done]</title></rect>
 <rect x="128.82" y="133.44" width="18.17" height="20.25" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>RunItemMenuMessageDialog | sub_0808381C | confirmed  0x0808381C  716 bytes  [done]</title></rect>
@@ -56,7 +56,7 @@
 <rect x="145.93" y="166.46" width="9.48" height="8.67" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>TaskAnimateSkillIncreaseIndicator | sub_08085534 | confirmed  0x08085534  160 bytes  [done]</title></rect>
 <rect x="155.41" y="166.46" width="7.11" height="8.67" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>StartCharacterStatAndSkillMenuTask | sub_08084EAC | confirmed  0x08084EAC  120 bytes  [done]</title></rect>
 <rect x="135.73" y="175.13" width="9.03" height="6.83" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>StartInventoryMenuTask | sub_08084F24 | confirmed  0x08084F24  120 bytes  [done]</title></rect>
-<rect x="144.76" y="175.13" width="9.03" height="6.83" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08084F9C | sub_08084F9C | unidentified  0x08084F9C  120 bytes  [done]</title></rect>
+<rect x="144.76" y="175.13" width="9.03" height="6.83" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>StartItemCollectionInteractionMenuTask | sub_08084F9C | confirmed  0x08084F9C  120 bytes  [done]</title></rect>
 <rect x="153.79" y="175.13" width="8.73" height="6.83" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>StartSkillIncreaseIndicatorTask | sub_08085218 | confirmed  0x08085218  116 bytes  [done]</title></rect>
 <rect x="135.73" y="181.96" width="6.98" height="7.66" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>StartMonsterCardCatalogTask | sub_080867F8 | confirmed  0x080867F8  104 bytes  [done]</title></rect>
 <rect x="135.73" y="189.62" width="6.98" height="7.37" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>CopyItemMenuCollectionRecords | sub_080852CC | confirmed  0x080852CC  100 bytes  [done]</title></rect>
@@ -828,7 +828,7 @@
 </g>
 <g><title>code_08087CC0 (22504 bytes)</title>
 <rect x="419.79" y="383.48" width="95.10" height="124.52" fill="#0d1117"/>
-<rect x="420.79" y="384.48" width="33.04" height="43.51" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08087CC0 | sub_08087CC0 | unidentified  0x08087CC0  2836 bytes  [done]</title></rect>
+<rect x="420.79" y="384.48" width="33.04" height="43.51" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>TaskPlayCreditsSpriteSequenceAndReset | sub_08087CC0 | confirmed  0x08087CC0  2836 bytes  [done]</title></rect>
 <rect x="453.82" y="384.48" width="31.55" height="43.51" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>TaskBattleTeamSetup | sub_0808C0C4 | confirmed  0x0808C0C4  2708 bytes  [done]</title></rect>
 <rect x="485.37" y="384.48" width="28.52" height="43.51" fill="#484f58" stroke="#9e6a03" stroke-width="0.6"><title>RunTimedStageSelectionMenu | sub_0808AFE8 | confirmed | 3/5 milestones; not a match  0x0808AFE8  2448 bytes  [nonmatch]</title></rect>
 <rect x="485.37" y="384.48" width="17.11" height="43.51" fill="#d29922" pointer-events="none"/>
@@ -874,7 +874,7 @@
 <rect x="499.05" y="497.70" width="7.42" height="4.65" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>StartFourLineSceneMessageTask | sub_080889D4 | confirmed  0x080889D4  68 bytes  [done]</title></rect>
 <rect x="499.05" y="502.35" width="7.42" height="4.65" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>SetLocalPlayerPositionFromUnsignedPixelPair | sub_0808AFA4 | confirmed  0x0808AFA4  68 bytes  [done]</title></rect>
 <rect x="506.47" y="497.70" width="7.42" height="3.83" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>StartStoryIntroductionTask | sub_08088914 | confirmed  0x08088914  56 bytes  [done]</title></rect>
-<rect x="506.47" y="501.53" width="5.19" height="5.47" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0808899C | sub_0808899C | unidentified  0x0808899C  56 bytes  [done]</title></rect>
+<rect x="506.47" y="501.53" width="5.19" height="5.47" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>StartCreditsSpriteSequenceTask | sub_0808899C | confirmed  0x0808899C  56 bytes  [done]</title></rect>
 <rect x="511.66" y="501.53" width="2.22" height="4.56" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0808D0B0 | sub_0808D0B0 | unidentified  0x0808D0B0  20 bytes  [done]</title></rect>
 <rect x="511.66" y="506.09" width="2.22" height="0.91" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>NoOpSceneTaskFinalizer | sub_0808D118 | confirmed  0x0808D118  4 bytes  [done]</title></rect>
 <rect x="420.8" y="384.5" width="78.8" height="13" fill="#0d1117" fill-opacity="0.75"/>
@@ -1489,7 +1489,7 @@
 <g><title>code_0808D4A8 (9908 bytes)</title>
 <rect x="606.44" y="443.15" width="80.40" height="64.85" fill="#0d1117"/>
 <rect x="607.44" y="444.15" width="22.25" height="27.27" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>TaskDestructibleActorWithThreeSubtypeDrops | sub_0808F1E4 | confirmed  0x0808F1E4  1220 bytes  [done]</title></rect>
-<rect x="607.44" y="471.42" width="22.25" height="19.13" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0808D654 | sub_0808D654 | unidentified  0x0808D654  856 bytes  [done]</title></rect>
+<rect x="607.44" y="471.42" width="22.25" height="19.13" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>TaskDestructibleActorWithHealthPaletteSteps | sub_0808D654 | confirmed  0x0808D654  856 bytes  [done]</title></rect>
 <rect x="607.44" y="490.55" width="22.25" height="16.45" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>HandleChallengeStageEntryAndSelectionGate | sub_0808F700 | confirmed  0x0808F700  736 bytes  [done]</title></rect>
 <rect x="629.69" y="444.15" width="24.06" height="14.88" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>TaskAnimateBouncingLeftwardSceneHazard | sub_0808DB38 | confirmed  0x0808DB38  720 bytes  [done]</title></rect>
 <rect x="653.75" y="444.15" width="12.70" height="14.88" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>HandleTimedOrBattleChallengeScene | sub_0808F9E0 | confirmed  0x0808F9E0  380 bytes  [done]</title></rect>

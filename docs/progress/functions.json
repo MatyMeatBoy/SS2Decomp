@@ -36742,10 +36742,23 @@
       "canonical_symbol": "sub_080815F4",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_080815F4",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "DrawItemMenuDetailedItemPanel",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_0807A5D4.c",
+          "line": 4399,
+          "revision": "8bbfb589bf6ab55018ae7e465fc0e674879c81fa",
+          "detail": "r0 item-record pointer. Always draws item label at(15,18) and icon at(120,32) before type dispatch. Loads type-specific resources for kind1..10; unsupported kinds return after initial label/icon. Builds centered multiline descriptions in shared text buffer0x03000128, expands0xF7 numeric tokens using six divisors100000..1, and computes signed-halfword/byte equipment values from record fields and current saved skills/class. Kinds2..5 byte+8 nonzero suppress equipment detail mask; otherwise computes skill-based bonus display without applying item. Builds up to10 class icons from resource mask; scans up to3 four-byte modifier entries (u16 kind/value), excludes modifier kinds0/41, selects signed resource variant and prints absolute u16 magnitude. Kind8/9 return after icons, kind1 uses one modifier, kind10 draws its label at row6 and returns. Text/description arrays and resource lookups lack capacity/domain checks; no inventory mutation, purchase or successful equip claimed. Complete pinned matching source body and original configured range preserved for independent static audit; original equals copied verified-main ELF, no local build or runtime test."
+        },
+        {
+          "source": "src/code_0807A5D4.c",
+          "line": 4399,
+          "revision": "8bbfb589bf6ab55018ae7e465fc0e674879c81fa",
+          "detail": "Independent names-low-a review: Accepted. All original configured body inspected, including long-range continuations. Always initial label/icon beforekind dispatch; unsupportedkind returns thereafter. Shared text03000128 has unchecked32-byte line strides. F7 restarts number pertoken with originalROMdivisors100000,10000,1000,100,10,1 (084EBD5C); encoded-byte centering is not pixelmeasure. Modifier stride4 and threeentry cap independently confirmed. Actual skillhelper ABI uses classlow8 r2 for1E378/1E3D8, r3 for1B58C. No item application/inventory transfer. Ten descriptor slots are a local maximum, not a guarantee allclasses/formatsvalid."
+        }
+      ]
     },
     {
       "name": "sub_08082960",
@@ -36789,10 +36802,23 @@
       "canonical_symbol": "sub_08082BB0",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_08082BB0",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "TaskItemCollectionInteractionMenu",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_0807A5D4.c",
+          "line": 5107,
+          "revision": "8bbfb589bf6ab55018ae7e465fc0e674879c81fa",
+          "detail": "Full-word r0 selects interaction variant:7/8/9 map manager modes4/5/6; other values mode3. Initializes shared manager, localized graphics, player/inventory state, collection records at+0x104, currency totals and VCOUNT callbacks, then starts item-menu subtask. Main loop while manager+0x24 nonzero and no link error runs interaction state machine0x0807C29C unless manager flag2, draws current/held items or detailed record view, refreshes signed stat preview and inventory contents, with variant-specific collection background updates. Exit hides menu, waits transition, restores previous VCOUNT callback/count, and performs variant writeback: inputs1/5/6 copy records9..11 to selected saved region; input7 copies count*15 records to saved base+0x2E0; input9 returns three temporary records via TryAddItemToBag, falling back to link drop request on failure, and separately attempts fourth record without fallback. Waits/frees item-menu subtask control then signals0x11201100. Preserved incoming r8 affects first flag4 animation until initialized; no zero ABI or transaction rollback claimed. Complete pinned matching source body and original configured range preserved for independent static audit; original equals copied verified-main ELF, no local build or runtime test."
+        },
+        {
+          "source": "src/code_0807A5D4.c",
+          "line": 5107,
+          "revision": "8bbfb589bf6ab55018ae7e465fc0e674879c81fa",
+          "detail": "Independent names-low-a review: Accepted general item-interaction menu identity; not limited to catalog mode. Complete original confirms mode3/4/5/6 selection and variant1/5/6,7,9 writebacks. EntryR8 first flag4 animation is not initialized by body; logicalrightshift halves its inherited value. Variant9 does one TryAdd/drop fallback for each firstthree records and one separateTryAdd fourth; no retry, acceptance or rollback promise. VCOUNTcallback/count restored beforewriteback, subtask cleanup precedes signal."
+        }
+      ]
     },
     {
       "name": "sub_0808381C",
@@ -36836,10 +36862,23 @@
       "canonical_symbol": "sub_08083AE8",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_08083AE8",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "RunItemMenuMessageWithVariantPanels",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_0807A5D4.c",
+          "line": 5823,
+          "revision": "8bbfb589bf6ab55018ae7e465fc0e674879c81fa",
+          "detail": "Full-word r0 message-table index. Chooses visual mode from flag-query0x08057AE8(21) only when current area0, otherwise mode2. Mode0 initializes three descriptor resources0x500CC/CB/CA, mode1 middleCB, mode2 rightCA; uses palette variants and eased panel slide-in/out, setting manager+0x28 bit1 while active. Looks up message via0x084ECC04[index]|0x140000, skips2-byte header, progressively copies into32-byte local text with u16 indices, draws centered row18, then waits input0x03001324 bit0 with blinking0xA0 marker. A acknowledgement plays sound15; suspend request/link error skips to cleanup, and all paths clear manager bit1. No binary choice result or item mutation here. Single-panel modes still contain palette accesses through middle-descriptor slots and arithmetic on inherited panel registers; no proof those stack/register values are initialized for every flag domain. No input/table/text bounds validation. Complete pinned matching source body and original configured range preserved for independent static audit; original equals copied verified-main ELF, no local build or runtime test."
+        },
+        {
+          "source": "src/code_0807A5D4.c",
+          "line": 5823,
+          "revision": "8bbfb589bf6ab55018ae7e465fc0e674879c81fa",
+          "detail": "Independent names-low-a review: Accepted. Full original independently confirms mode0three,1middle,2right descriptors and u16textindex/32-byte unchecked buffer. Mode1 inheritsR10 andmode2 inheritsR9 during slide arithmetic. Mode2 reveal/ackpalette loadssp+44, middle descriptor graphics that mode2 did not initialize. Invalidmode can inheritcountdown anddescriptors. All original abortpaths clear managerwordbit1; no binarychoice/mutation/debounce inferred."
+        }
+      ]
     },
     {
       "name": "sub_08084200",
@@ -36883,10 +36922,23 @@
       "canonical_symbol": "sub_0808441C",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_0808441C",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "SynthesizeRandomItemFromThreeInputs",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_0807A5D4.c",
+          "line": 6495,
+          "revision": "8bbfb589bf6ab55018ae7e465fc0e674879c81fa",
+          "detail": "r0 points to at least three16-byte item records PLUS metadata word at+0x34; r1 points to16-byte output. Randomly permutes three inputs via rejection sampling. Classifies original ordered triple through0x08084200; nonzero class and RNG low16<=saved-state word+0x6C can select class/tier recipe tables, tier from summed unsigned values with boundaries100/300/500. Fallback uses first randomized equipment record or random nonempty saved stock entries for kind9; empty stock can loop indefinitely. Further randomized property/value inheritance uses other two records and compatibility flags, with an inherited r9 path for unsupported kinds. Weighted refinement uses three normalized values, metadata and+0x6C, clamps resulting byte+6 to20, enforces intrinsic-property restrictions and copies output16 bytes. Finally updates saved word+0x6C by (sum of three item prices plus metadata)/10 minus outputPrice/10, with machine32 arithmetic then signed clamp0..65535. Does not remove inputs, insert output into bag, or charge currency. Unknown name/domain of score+0x6C is not inferred; rare fallback copies16 bytes from12-byte initialized temporary, so no unconditional deterministic-output guarantee. Complete pinned matching source body and original configured range preserved for independent static audit; original equals copied verified-main ELF, no local build or runtime test."
+        },
+        {
+          "source": "src/code_0807A5D4.c",
+          "line": 6495,
+          "revision": "8bbfb589bf6ab55018ae7e465fc0e674879c81fa",
+          "detail": "Independent names-low-a review: Correction required: SynthesizeRandomItemFromThreeInputs describes demonstrated outputconstruction without assigning SuccessScore meaning tosave+6C. MachineABI input requires3x16bytes AND WORDmetadata+34hex, output16bytes, withnoaliasguard. Complete original confirms rejection sampling, original-order84200classification, class/tier tables, inheritance andweightedrefinement. Empty12-record stockfallback loops indefinitely withoutyield/cancellation. Rare subtype3/4 uses12-byte LDM/STMtemporarysp+4C then memcpy16, including undefinedsp+58..5B. Unsupported secondkind can propagateincomingR9 intoresultbyte7. Normalization of EACH kind9 input branches on FIRST RANDOMIZED record subtype, not that inputs ownsubtype. Intrinsic-property pointer slots sp+68/+6C/+70 are NOT initialized on every path: recipe-selected result3 jumpsdirectly4C16 then4DBE dereferencessp+68; directkind3fallback similarlyhasnoguaranteedsp+68; stocktype5 sets sp+70 but8498Aloadssp+6C. Do not assert deterministic output or universal safe resourceaccess. Recordvalue lookup forresult3/4 uses value|130000 whereasresult2 paths use(value-1)|130000. Outputcopy precedesprice/metadata reads, so aliasingcanalterthem. Doesnot explicitly removeinputs/insertoutput/chargecurrency; callerstate19 performs thoseactionsseparately. Final+6C usesWRAP32 sums/divisions then signedclamp0..65535; exactgameplayfieldnameunknown."
+        }
+      ]
     },
     {
       "name": "sub_08084EAC",
@@ -36966,10 +37018,23 @@
       "canonical_symbol": "sub_08084F9C",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_08084F9C",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "StartItemCollectionInteractionMenuTask",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_0807A5D4.c",
+          "line": 7409,
+          "revision": "8bbfb589bf6ab55018ae7e465fc0e674879c81fa",
+          "detail": "Full-word r0 interaction variant forwarded unchanged. Retries1572-byte manager allocation into0x03006440 and zeros its first word; retries2560-byte stack on fixed task0x03006450. Sets stack top+2556, priority100, callback0x08082BB0 and finalizer0x08085518, then starts task with variant argument. No existing-manager/task activity guard and no wait for menu completion; allocation failures yield. Complete pinned matching source body and original configured range preserved for independent static audit; original equals copied verified-main ELF, no local build or runtime test."
+        },
+        {
+          "source": "src/code_0807A5D4.c",
+          "line": 7409,
+          "revision": "8bbfb589bf6ab55018ae7e465fc0e674879c81fa",
+          "detail": "Independent names-low-a review: Accepted exact starter binding: inputfullword forwarded inr1 to scheduler. Retries manager624hex andstackA00hex, initializes onlymanagerfirstword, fixed6450slot, callback82BB0/finalizer85518. Does not await closure or guardprevious task."
+        }
+      ]
     },
     {
       "name": "sub_08085014",
@@ -37775,10 +37840,23 @@
       "canonical_symbol": "sub_08087CC0",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_08087CC0",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "TaskPlayCreditsSpriteSequenceAndReset",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_08087CC0.c",
+          "line": 56,
+          "revision": "8bbfb589bf6ab55018ae7e465fc0e674879c81fa",
+          "detail": "No conventional arguments. Initializes background/text and music, chooses first message0x504..0x507 by player count1..4, then sequences messages0x508..0x532 with explicit tick waits and sprite-route requests0x08088AA8, synchronizing scheduler mask0xF1FFF111 between route cohorts. Messages use layout2 and variable duration through0x08087A5C. Checks link-error predicate after the explicit message/route waits and returns immediately on error, without guaranteed common cleanup; the final teardown wait120 has no subsequent link-error check before SoftReset. Normal end calls0x0800D108; multiplayer waits both synchronization queries then resets link state and calls0x08061E44(2), single-player calls0x08061E44(1); then additional teardown, music command30, wait120 and SoftReset(0). No ending/story interpretation depends on opaque text contents. Player-count outside1..4 leaves first-message selection undefined; starts routes/tasks rather than proving completed rendering. Complete pinned matching source body and original configured range preserved for independent static audit; original equals copied verified-main ELF, no local build or runtime test."
+        },
+        {
+          "source": "src/code_08087CC0.c",
+          "line": 56,
+          "revision": "8bbfb589bf6ab55018ae7e465fc0e674879c81fa",
+          "detail": "Independent names-low-a review: Accept Credits correction based on own ROM pointer/byte checks and original-font glyph raster: CAST, Shining SoulII STAFF, Director AkiraUeda, Thankyou forplaying SEGA2003. Body selects504..507 then508..532, directlyregisters87A5Ctext and88AA8routes. 00420(F1FFF111) wakes routes waiting at003F4; it does not join/waittheircompletion. Initialmessage inheritsR5 whenplayercount outside1..4. Per-messageC00stack allocation failure unchecked; early linkerror returns withoutcommon cleanup. Normal path conditional synchronization/savecalls then SoftReset0; no runtimecompletion guarantee."
+        }
+      ]
     },
     {
       "name": "sub_080887D4",
@@ -37876,10 +37954,23 @@
       "canonical_symbol": "sub_0808899C",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_0808899C",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "StartCreditsSpriteSequenceTask",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_08087CC0.c",
+          "line": 385,
+          "revision": "8bbfb589bf6ab55018ae7e465fc0e674879c81fa",
+          "detail": "No arguments or meaningful return. Allocates4096-byte stack into fixed task control0x03006450, sets top+4092, priority100, finalizer0 and callback0x08087CC0, then starts with argument0. No allocation failure/activity check, previous-stack protection, or wait for narrative sequence/reset completion. Complete pinned matching source body and original configured range preserved for independent static audit; original equals copied verified-main ELF, no local build or runtime test."
+        },
+        {
+          "source": "src/code_08087CC0.c",
+          "line": 385,
+          "revision": "8bbfb589bf6ab55018ae7e465fc0e674879c81fa",
+          "detail": "Independent names-low-a review: Accept Credits correction by exactregistered87CC0 callback with independent resourceclosure. Allocates1000hex once withoutnull/activitycheck, fixed6450stack+FFC,priority100,finalizer0,argument0. Request does not prove rendered credits or reset."
+        }
+      ]
     },
     {
       "name": "sub_080889D4",
@@ -38985,10 +39076,23 @@
       "canonical_symbol": "sub_0808D654",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_0808D654",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "TaskDestructibleActorWithHealthPaletteSteps",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_0808D4A8.c",
+          "line": 141,
+          "revision": "8bbfb589bf6ab55018ae7e465fc0e674879c81fa",
+          "detail": "r0 actor pointer. Initializes from0x084A1910 with argument3, adds actor id halfword+0 to halfword+2, reads signed-halfword stat data at+0x204, sets health/current max to data+6*3 and second stat to data+4*20, initializes animation/palette/damage state. Loop runs actor update while scene shutdown/terminal predicates remain0. Actor state0 initializes resource0x5005D slot5; state10 starts8-tick flashing, state11 starts20-tick flashing and audio command(2). Applies pending damage when flashing ends, maps signed health-percent to palette indices0..7 with thresholds89/69/49/29/19/14/9, draws with scene guards and staggered palette uploads, shows temporary damage numbers. Death flash completion or scene predicate exits call0x0809D558, song232, clear actor active mask bit and release resource slot5. No item-drop request here, no unknown boss identity claimed, and no guarantee max-health nonzero or animation initialized when actor updater produces unexpected initial state. Complete pinned matching source body and original configured range preserved for independent static audit; original equals copied verified-main ELF, no local build or runtime test."
+        },
+        {
+          "source": "src/code_0808D4A8.c",
+          "line": 141,
+          "revision": "8bbfb589bf6ab55018ae7e465fc0e674879c81fa",
+          "detail": "Independent names-low-a review: Accepted descriptive destructibleactor role withoutboss inference. Full original confirms signed16HP/maxHP, integerhealthpercent thresholds andflashing state machine. Own19CE8 subtracts pendinghalfword+4A&7FFF fromHP+5C, clearsdamagefield andsetsstate11 atnonpositiveHP. D654state11 starts20tickflash onlyifnotalreadyflashing; terminal/shutdownexits execute SAME cleanup asdeath. Own9D558onlysetsBYTE030002E8=1; noadditionaldeath/questsemantics inferred. Always releasesfixedslot5 andplays232 atcleanup; unexpectedinitialupdaterstate can leave sprite descriptorundefined. No itemdrop request or allocation-success guarantee."
+        }
+      ]
     },
     {
       "name": "sub_0808D9AC",
@@ -51452,12 +51556,12 @@
   "identification": {
     "game": {
       "total": 1880,
-      "identified": 951,
+      "identified": 959,
       "existing": 23,
-      "confirmed": 928,
+      "confirmed": 936,
       "proposed": 2,
-      "unidentified": 927,
-      "percent_identified": 50.58510638297872
+      "unidentified": 919,
+      "percent_identified": 51.01063829787234
     },
     "sdk": {
       "total": 155,
@@ -51470,12 +51574,12 @@
     },
     "all": {
       "total": 2035,
-      "identified": 1106,
+      "identified": 1114,
       "existing": 152,
-      "confirmed": 954,
+      "confirmed": 962,
       "proposed": 2,
-      "unidentified": 927,
-      "percent_identified": 54.34889434889435
+      "unidentified": 919,
+      "percent_identified": 54.74201474201474
     }
   },
   "limitations": "Configured function address intervals, including alignment/literal pools; inventory includes original assembly and linked libraries. Existing descriptive identifiers are recognized, not independently semantically re-proven."
