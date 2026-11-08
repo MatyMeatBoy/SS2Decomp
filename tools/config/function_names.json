@@ -23719,6 +23719,111 @@
           "detail": "Independent names-low-a review: Accepted. Complete original preserves incomingR8 before comparisonBB5C/BCB0; out-of-range stage leaves incomingSB scriptpointer and reads countdown BEFOREboundscheck. Script entries advance56bytes until signedhalfwordzero, without independent endbound. Decrement/increment occurs onlyscene+5A!=0; earlystate11 cleanup skips successrecord handling. Best elapsed/fraction records are WORDloads/stores via58900/34/6C/A0, not pointers despite source prototypes. Fraction RNG is machine unsignedremainder with nonzero-divisor preconditions unproven. Entry highbits and scene-domain limits remain unknown; no finite runtime guarantee."
         }
       ]
+    },
+    {
+      "address": "0x08082BB0",
+      "canonical_symbol": "sub_08082BB0",
+      "display_name": "TaskItemCollectionInteractionMenu",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_0807A5D4.c",
+          "line": 5107,
+          "revision": "8bbfb589bf6ab55018ae7e465fc0e674879c81fa",
+          "detail": "Full-word r0 selects interaction variant:7/8/9 map manager modes4/5/6; other values mode3. Initializes shared manager, localized graphics, player/inventory state, collection records at+0x104, currency totals and VCOUNT callbacks, then starts item-menu subtask. Main loop while manager+0x24 nonzero and no link error runs interaction state machine0x0807C29C unless manager flag2, draws current/held items or detailed record view, refreshes signed stat preview and inventory contents, with variant-specific collection background updates. Exit hides menu, waits transition, restores previous VCOUNT callback/count, and performs variant writeback: inputs1/5/6 copy records9..11 to selected saved region; input7 copies count*15 records to saved base+0x2E0; input9 returns three temporary records via TryAddItemToBag, falling back to link drop request on failure, and separately attempts fourth record without fallback. Waits/frees item-menu subtask control then signals0x11201100. Preserved incoming r8 affects first flag4 animation until initialized; no zero ABI or transaction rollback claimed. Complete pinned matching source body and original configured range preserved for independent static audit; original equals copied verified-main ELF, no local build or runtime test."
+        },
+        {
+          "source": "src/code_0807A5D4.c",
+          "line": 5107,
+          "revision": "8bbfb589bf6ab55018ae7e465fc0e674879c81fa",
+          "detail": "Independent names-low-a review: Accepted general item-interaction menu identity; not limited to catalog mode. Complete original confirms mode3/4/5/6 selection and variant1/5/6,7,9 writebacks. EntryR8 first flag4 animation is not initialized by body; logicalrightshift halves its inherited value. Variant9 does one TryAdd/drop fallback for each firstthree records and one separateTryAdd fourth; no retry, acceptance or rollback promise. VCOUNTcallback/count restored beforewriteback, subtask cleanup precedes signal."
+        }
+      ]
+    },
+    {
+      "address": "0x08084F9C",
+      "canonical_symbol": "sub_08084F9C",
+      "display_name": "StartItemCollectionInteractionMenuTask",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_0807A5D4.c",
+          "line": 7409,
+          "revision": "8bbfb589bf6ab55018ae7e465fc0e674879c81fa",
+          "detail": "Full-word r0 interaction variant forwarded unchanged. Retries1572-byte manager allocation into0x03006440 and zeros its first word; retries2560-byte stack on fixed task0x03006450. Sets stack top+2556, priority100, callback0x08082BB0 and finalizer0x08085518, then starts task with variant argument. No existing-manager/task activity guard and no wait for menu completion; allocation failures yield. Complete pinned matching source body and original configured range preserved for independent static audit; original equals copied verified-main ELF, no local build or runtime test."
+        },
+        {
+          "source": "src/code_0807A5D4.c",
+          "line": 7409,
+          "revision": "8bbfb589bf6ab55018ae7e465fc0e674879c81fa",
+          "detail": "Independent names-low-a review: Accepted exact starter binding: inputfullword forwarded inr1 to scheduler. Retries manager624hex andstackA00hex, initializes onlymanagerfirstword, fixed6450slot, callback82BB0/finalizer85518. Does not await closure or guardprevious task."
+        }
+      ]
+    },
+    {
+      "address": "0x08083AE8",
+      "canonical_symbol": "sub_08083AE8",
+      "display_name": "RunItemMenuMessageWithVariantPanels",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_0807A5D4.c",
+          "line": 5823,
+          "revision": "8bbfb589bf6ab55018ae7e465fc0e674879c81fa",
+          "detail": "Full-word r0 message-table index. Chooses visual mode from flag-query0x08057AE8(21) only when current area0, otherwise mode2. Mode0 initializes three descriptor resources0x500CC/CB/CA, mode1 middleCB, mode2 rightCA; uses palette variants and eased panel slide-in/out, setting manager+0x28 bit1 while active. Looks up message via0x084ECC04[index]|0x140000, skips2-byte header, progressively copies into32-byte local text with u16 indices, draws centered row18, then waits input0x03001324 bit0 with blinking0xA0 marker. A acknowledgement plays sound15; suspend request/link error skips to cleanup, and all paths clear manager bit1. No binary choice result or item mutation here. Single-panel modes still contain palette accesses through middle-descriptor slots and arithmetic on inherited panel registers; no proof those stack/register values are initialized for every flag domain. No input/table/text bounds validation. Complete pinned matching source body and original configured range preserved for independent static audit; original equals copied verified-main ELF, no local build or runtime test."
+        },
+        {
+          "source": "src/code_0807A5D4.c",
+          "line": 5823,
+          "revision": "8bbfb589bf6ab55018ae7e465fc0e674879c81fa",
+          "detail": "Independent names-low-a review: Accepted. Full original independently confirms mode0three,1middle,2right descriptors and u16textindex/32-byte unchecked buffer. Mode1 inheritsR10 andmode2 inheritsR9 during slide arithmetic. Mode2 reveal/ackpalette loadssp+44, middle descriptor graphics that mode2 did not initialize. Invalidmode can inheritcountdown anddescriptors. All original abortpaths clear managerwordbit1; no binarychoice/mutation/debounce inferred."
+        }
+      ]
+    },
+    {
+      "address": "0x08087CC0",
+      "canonical_symbol": "sub_08087CC0",
+      "display_name": "TaskPlayCreditsSpriteSequenceAndReset",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08087CC0.c",
+          "line": 56,
+          "revision": "8bbfb589bf6ab55018ae7e465fc0e674879c81fa",
+          "detail": "No conventional arguments. Initializes background/text and music, chooses first message0x504..0x507 by player count1..4, then sequences messages0x508..0x532 with explicit tick waits and sprite-route requests0x08088AA8, synchronizing scheduler mask0xF1FFF111 between route cohorts. Messages use layout2 and variable duration through0x08087A5C. Checks link-error predicate after the explicit message/route waits and returns immediately on error, without guaranteed common cleanup; the final teardown wait120 has no subsequent link-error check before SoftReset. Normal end calls0x0800D108; multiplayer waits both synchronization queries then resets link state and calls0x08061E44(2), single-player calls0x08061E44(1); then additional teardown, music command30, wait120 and SoftReset(0). No ending/story interpretation depends on opaque text contents. Player-count outside1..4 leaves first-message selection undefined; starts routes/tasks rather than proving completed rendering. Complete pinned matching source body and original configured range preserved for independent static audit; original equals copied verified-main ELF, no local build or runtime test."
+        },
+        {
+          "source": "src/code_08087CC0.c",
+          "line": 56,
+          "revision": "8bbfb589bf6ab55018ae7e465fc0e674879c81fa",
+          "detail": "Independent names-low-a review: Accept Credits correction based on own ROM pointer/byte checks and original-font glyph raster: CAST, Shining SoulII STAFF, Director AkiraUeda, Thankyou forplaying SEGA2003. Body selects504..507 then508..532, directlyregisters87A5Ctext and88AA8routes. 00420(F1FFF111) wakes routes waiting at003F4; it does not join/waittheircompletion. Initialmessage inheritsR5 whenplayercount outside1..4. Per-messageC00stack allocation failure unchecked; early linkerror returns withoutcommon cleanup. Normal path conditional synchronization/savecalls then SoftReset0; no runtimecompletion guarantee."
+        }
+      ]
+    },
+    {
+      "address": "0x0808899C",
+      "canonical_symbol": "sub_0808899C",
+      "display_name": "StartCreditsSpriteSequenceTask",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08087CC0.c",
+          "line": 385,
+          "revision": "8bbfb589bf6ab55018ae7e465fc0e674879c81fa",
+          "detail": "No arguments or meaningful return. Allocates4096-byte stack into fixed task control0x03006450, sets top+4092, priority100, finalizer0 and callback0x08087CC0, then starts with argument0. No allocation failure/activity check, previous-stack protection, or wait for narrative sequence/reset completion. Complete pinned matching source body and original configured range preserved for independent static audit; original equals copied verified-main ELF, no local build or runtime test."
+        },
+        {
+          "source": "src/code_08087CC0.c",
+          "line": 385,
+          "revision": "8bbfb589bf6ab55018ae7e465fc0e674879c81fa",
+          "detail": "Independent names-low-a review: Accept Credits correction by exactregistered87CC0 callback with independent resourceclosure. Allocates1000hex once withoutnull/activitycheck, fixed6450stack+FFC,priority100,finalizer0,argument0. Request does not prove rendered credits or reset."
+        }
+      ]
     }
   ]
 }
