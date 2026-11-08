@@ -1,7 +1,7 @@
 {
   "address": "0x0808AFE8",
-  "updated_utc": "2026-11-08T15:47:08.667214+00:00",
-  "checkpoint": "Name the real final selected-row sum in initialized R0 before its existing record-address consumer: 14 to 12 differing halfwords, 2448 bytes, frame 716, 104 original call offsets/targets. Strict NO MATCH.",
+  "updated_utc": "2026-11-08T19:23:17.158512+00:00",
+  "checkpoint": "MATCH: normal active C reproduces the original 2448 bytes (make compare OK); NONMATCHING wrapper and ASM fallback removed.",
   "areas": [
     {
       "id": "compile",
@@ -24,14 +24,14 @@
     {
       "id": "layout",
       "label": "Recover remaining register and control-flow layout",
-      "state": "active",
-      "evidence": "Original/candidate remain 2448 bytes, frame 716 and 104 identical ordered call offsets/targets. One initialized u32 local names sel + selectionStride in actual original R0 immediately before the existing +i source record-address consumer. All operands keep full unsigned-32 addition/shift behavior; no helper, read, store, label, type, qualifier, ABI, padding or dummy consumer is added. The empty constraint applies only to that actual initialized value. Only target +0x942/+0x944 changes: the two nonflag-setting high-register ADDs now have original order; their final R0, all other registers and flags agree modulo 32 bits. No previously exact halfword is lost. Complete candidate and normal-active objects are byte-identical (SHA256 ae51bbc66625f8c4347c0aeda187090bd1caa43898fb7dbe7ae0824fe616f20f); all 1663 raw relocations including symbol metadata, all allocated bytes outside the two halfwords and all 47 other functions remain unchanged. Current byte/halfword/positional distances are 13/12/12. Remaining offsets are BC,C0,C2,C4,C6,C8,CA,CC,CE,D0,D2,D4 in the initial page-result/preheader. The new three-pass strict-loss 14 seed completed one 300-second/two-worker run with 2964 completed results, zero reported errors and zero outputs; this finite historical search was not restarted. The later declaration-only u32 off10 control on frozen 12 regressed to 20 edits and is excluded. No matching credit or closed-family matrix follows."
+      "state": "done",
+      "evidence": "The last 12 halfwords (+0xBC..+0xD4) came from the page offset zero. In the ROM the zero store is str r4,[sp,#668]: reload inherits the R4 reload register of the spilled selection across sub_0800CE30, so the source operand must still be the selection pseudo at reload time. CSE always folds a known-zero register source to const 0 (cost 0 < pseudo cost 1), so the zero is a copy of sel hidden by asm(\"\" : \"=r\"(zero) : \"0\"(sel)) and assigned before the conditional 10 (off10 now u32, if-form, not ternary: the ternary stores 10 first). sel keeps its REG_EQUAL first set, so its doubled live length still keeps it spilled. off10 then lost its own doubled live length (first set no longer constant) and took SL from the hoisted gUnk_084F0B10 pointer; a trailing asm(\"\" : : \"g\"(off10)) extends its life (no code: the spilled operand satisfies g) and restores the original allocation."
     },
     {
       "id": "match",
       "label": "Verify exact active C and linked ROM",
-      "state": "pending",
-      "evidence": "Strict NO MATCH. The original ASM fallback remains in the normal ROM. The private normal-base image with selected active C differs from the original EU ROM by 13 bytes, all within this function; the rest of the 16 MiB ROM is identical. Twelve target halfwords remain. A passing normal compare with the fallback, exact size/frame/call layout and bounded synthetic fixtures do not establish full matching C. Exact active normal-C ROM proof remains pending."
+      "state": "done",
+      "evidence": "Unwrapped normal build: make -j1 compare prints shiningsoul2_eu.gba OK (16777216 bytes); make nonmatching builds; check_tree 0 errors; git diff --check clean."
     }
   ],
   "regions": []

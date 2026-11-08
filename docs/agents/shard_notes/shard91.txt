@@ -52,3 +52,19 @@ nov06-wC6: sub_0808AFE8 (records/time-attack menu) NONMATCHING draft rewritten f
   across the call (ours r0 then r1), which shifts i=0 to r3 and merges the hoisted zero.
   That is reload rotation (last_spill_reg), not source shape. The rest of the 231 lines are
   in the main loop (sel*2 CSE into sl, r4/r5 swaps, switch-table spill regs).
+
+2026-11-08 (claude-nov08-wA): sub_0808AFE8 MATCHED (12 halfwords -> 0).
+  Cause of the last 12 halfwords (+0xBC..+0xD4): ROM stores the page-offset zero with
+  `str r4,[sp,#668]`, i.e. reload inherits the R4 reload register of the spilled sel across
+  the call; that only happens when the insn source is still the sel pseudo at reload. CSE
+  always rewrites a register whose value is a known constant to the constant (const 0 cost 0
+  < pseudo cost 1), and reload_cse_regs never turns a cheap constant back into a register.
+  Fix: `sel = 0; asm("" : "=r"(zero) : "0"(sel)); t = sub_0800CE30(); off10 = zero;
+  if (t != 0) off10 = 10;` with u32 off10 (the ternary stores the constant arm first).
+  sel keeps its constant first set (REG_EQUAL -> local-alloc doubles its live length, so it
+  stays spilled; hiding sel's own init gave sel SL). off10's first set is no longer constant,
+  so its live length is not doubled and it beat gUnk_084F0B10 (allocno 41) for SL; a trailing
+  `asm("" : : "g"(off10));` lengthens its life (no code: the spilled MEM satisfies "g").
+  Failed on the way: off10 = sel / ternary `? 10 : sel` (CSE folds to const), asm-hidden sel
+  init (sel -> SL), `"=r"(sel) : "r"(sel)` (combine substitutes the 0), u32 off10 alone,
+  block-local call temp (all 12-21 halfwords).
