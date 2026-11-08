@@ -613,3 +613,14 @@ The message dialog keeps its name-stream cursor across repeated encoded `FC` tok
 The ordered three-item subtype classifier selects output tables in the item-combination consumer. This establishes its functional role without assigning unproved material names to kind nine or its subtype values. The three-entry scene-exit helper requests transition mode three, prepares destination fields and returns one; neither screen-window hiding nor subsequent scene-load completion follows from that return alone.
 
 Frozen originals and exact peer/root wording corrections remain preserved privately. The coordinator read all five matched bodies, the combination consumer and original parser/transition witnesses. Independent semantic review approved the corrected meanings. Complete configured ranges equal the EUR ROM and linked ELF. Canonical symbols, code, data, claims and generated progress files remain unchanged.
+
+
+## Worker A07: ability hits, healing and staggered animations
+
+Five previously unidentified EUR functions were reviewed against complete matched bodies and relevant original instruction paths at `8bbfb589bf6ab55018ae7e465fc0e674879c81fa`. The position-based hit processor uses inclusive independent-axis bounds and returns encounter/processing masks; these do not certify applied damage. Player/enemy authority and history gates differ, including which special kinds bypass the ordinary damage/status processor.
+
+The target processor writes pending damage, knockback and status state, with partially initialized packet fields and explicit unsafe pointer domains. Status rolling precedes the enemy status-allocation gate, so skipping allocation does not imply skipping RNG or later packet submission. The healing handler narrows additions before signed maximum comparisons and stores narrowed square-root distances, not squared distances. Its self-recovery threshold uses the last scanned player's signed maximum shifted arithmetically right one; no own-maximum or initialized-pointer invariant is invented. Enemy status-removal thresholds use computed healing amount rather than level.
+
+Three forward animations share a saved low-halfword serial for local hit suppression; another writer can replace the enemy's serial and permit repetition. Cancellation inside a completed-animation branch can prevent that pass from reaching its completion count. The starter marks its mask only after registration and does not report hit or animation completion.
+
+Frozen originals, exact peer corrections and the final signed-shift overlay remain preserved privately. The coordinator read all five full matched C bodies and original witnesses for status-roll ordering and the recovery shift. Independent semantic review approved the corrected rows. Complete configured ranges equal the EUR ROM and linked ELF. Canonical symbols, code, data, claims and generated progress files remain unchanged.
