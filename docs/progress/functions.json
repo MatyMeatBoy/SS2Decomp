@@ -36192,10 +36192,17 @@
       "canonical_symbol": "sub_08085014",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_08085014",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "DrawSkillProgressTileRun",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_0807A5D4.c",
+          "line": 7422,
+          "revision": "8bbfb589bf6ab55018ae7e465fc0e674879c81fa",
+          "detail": "r0 is an unbounded row index, r1 an unsigned count clamped to seven, and r2 a tile variant. Writes count halfwords of ((u16)(variant+0x16B)|0xE000) at text-map +0x2C+(index+5)*64; queues row index+5 only when count is nonzero. Does not clear remaining tiles. Original caller 0x0807B53E supplies skill level+1 and variant 3; 0x0807B54E supplies progress and variant 0. No row validation. Complete original configured body and literal use audited against EU ROM; copied verified-main ELF equality is static corroboration, not a new build or runtime test."
+        }
+      ]
     },
     {
       "name": "sub_08085064",
@@ -36209,10 +36216,17 @@
       "canonical_symbol": "sub_08085064",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_08085064",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "DrawAvailableSkillPointTiles",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_0807A5D4.c",
+          "line": 7434,
+          "revision": "8bbfb589bf6ab55018ae7e465fc0e674879c81fa",
+          "detail": "Unsigned r0 count <=9 writes that many 0xE16B halfwords at text-map +0xE8 and queues row 3 only for nonzero count. Above nine writes 0xE16B/0xE16A then draws the count at (24,3). Original caller 0x0807B4FC loads the points halfword from the same skill data whose per-skill level/progress drives 0x08085014. No clearing of unused tiles. Complete original configured body and literal use audited against EU ROM; copied verified-main ELF equality is static corroboration, not a new build or runtime test."
+        }
+      ]
     },
     {
       "name": "sub_080850C0",
@@ -36226,10 +36240,17 @@
       "canonical_symbol": "sub_080850C0",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_080850C0",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "ExpandEncodedTextUnsignedNumberToken",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_0807A5D4.c",
+          "line": 7448,
+          "revision": "8bbfb589bf6ab55018ae7e465fc0e674879c81fa",
+          "detail": "r0 source, low 16 bits of r1 number, r2 destination. Skips two source bytes; copies byte stream until 0xFD, replacing every 0xF7 with decimal digits encoded 0x41+digit. Reads six 32-bit divisors 100000,10000,1000,100,10,1 at 0x084EBD5C and suppresses leading zero digits but retains final zero. Output length wraps u16; appends 0xFD and returns dst+length-1, including dst-1 for empty text. No destination-capacity check or bounded search for a missing source terminator; no claim of ASCII output. Complete original configured body and literal use audited against EU ROM; copied verified-main ELF equality is static corroboration, not a new build or runtime test."
+        }
+      ]
     },
     {
       "name": "sub_0808516C",
@@ -36243,10 +36264,17 @@
       "canonical_symbol": "sub_0808516C",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_0808516C",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "AllocateSkillMenuEffectTaskPool",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_0807A5D4.c",
+          "line": 7484,
+          "revision": "8bbfb589bf6ab55018ae7e465fc0e674879c81fa",
+          "detail": "No input or meaningful return. Repeatedly allocates 200 bytes, storing pointer at item-menu manager +0x620 and yielding after failures. Initializes only word +8 in five 40-byte task controls to zero; other bytes are not initialized. Caller 0x0807A832 performs menu setup; 0x08085218 consumes this exact pool for skill-increase effects. Complete original configured body and literal use audited against EU ROM; copied verified-main ELF equality is static corroboration, not a new build or runtime test."
+        }
+      ]
     },
     {
       "name": "sub_080851B8",
@@ -36260,10 +36288,17 @@
       "canonical_symbol": "sub_080851B8",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_080851B8",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "WaitForSkillMenuEffectsAndFreeTaskPool",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_0807A5D4.c",
+          "line": 7492,
+          "revision": "8bbfb589bf6ab55018ae7e465fc0e674879c81fa",
+          "detail": "Captures the initial pool pointer at manager+0x620 and sequentially polls activity for its five 40-byte controls, yielding while each is active. After waiting it reloads the manager through global03006440, frees the current +0x620 field, reloads the manager again and stores the final zero activity-query result there. The captured waited-on pool and later freed current pointer are not assumed identical across yields. Does not request cancellation, free per-task stacks directly, or validate manager/pool. Original menu task calls at 0x0807B740 on teardown. Complete original configured body and literal use audited against EU ROM; copied verified-main ELF equality is static corroboration, not a new build or runtime test."
+        }
+      ]
     },
     {
       "name": "sub_08085218",
@@ -36277,10 +36312,17 @@
       "canonical_symbol": "sub_08085218",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_08085218",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "StartSkillIncreaseIndicatorTask",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_0807A5D4.c",
+          "line": 7504,
+          "revision": "8bbfb589bf6ab55018ae7e465fc0e674879c81fa",
+          "detail": "r0/r1 are full-word x/y forwarded as scheduler arguments. Scans five pool controls, skipping active entries and any nonzero word +8. First eligible entry gets word+8=60 before attempting a 1024-byte stack allocation. Allocation failure returns without restoring word+8; full pool also returns. Success installs callback 0x08085534, stack top allocation+1020 and null finalizer then starts task. Original caller 0x0807AE14 follows skill-level increment and point deduction, not arbitrary completion signalling. Complete original configured body and literal use audited against EU ROM; copied verified-main ELF equality is static corroboration, not a new build or runtime test."
+        }
+      ]
     },
     {
       "name": "sub_0808528C",
@@ -36378,10 +36420,17 @@
       "canonical_symbol": "sub_080852CC",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_080852CC",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "CopyItemMenuCollectionRecords",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_0807A5D4.c",
+          "line": 7539,
+          "revision": "8bbfb589bf6ab55018ae7e465fc0e674879c81fa",
+          "detail": "r0 source; manager pointer is read from 0x03006440. Copies complete 16-byte records as four words into manager+0x104: 75 records when manager word zero equals 4, otherwise 12. Returns void; no source-size, overlap or manager validation. Consumers include currency summation at 0x08085330 and item menu initialization caller 0x08083182/0x080831C8. Does not infer shop versus stash from mode alone. Complete original configured body and literal use audited against EU ROM; copied verified-main ELF equality is static corroboration, not a new build or runtime test."
+        }
+      ]
     },
     {
       "name": "sub_08085330",
@@ -36679,10 +36728,17 @@
       "canonical_symbol": "sub_08085534",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_08085534",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "TaskAnimateSkillIncreaseIndicator",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_0807A5D4.c",
+          "line": 7676,
+          "revision": "8bbfb589bf6ab55018ae7e465fc0e674879c81fa",
+          "detail": "Task receives full-word x/y in r0/r1, gets shared sprite context, starts song 0x25, then performs exactly 30 iterations. Each clears halfword global 0x03001308 bits 0x30, decrements y when global tick word &3 is zero, advances descriptor 14 with two u16 local animation counters, draws descriptor 14 at x/y using first counter, and yields. Finally clears current task control word+8. Coordinates and input-mask side effects are explicit; no claim of resource freeing or runtime visual confirmation. Complete original configured body and literal use audited against EU ROM; copied verified-main ELF equality is static corroboration, not a new build or runtime test."
+        }
+      ]
     },
     {
       "name": "sub_080855D4",
@@ -50144,12 +50200,12 @@
   "identification": {
     "game": {
       "total": 1880,
-      "identified": 831,
+      "identified": 839,
       "existing": 23,
-      "confirmed": 808,
+      "confirmed": 816,
       "proposed": 8,
-      "unidentified": 1041,
-      "percent_identified": 44.202127659574465
+      "unidentified": 1033,
+      "percent_identified": 44.62765957446808
     },
     "sdk": {
       "total": 155,
@@ -50162,12 +50218,12 @@
     },
     "all": {
       "total": 2035,
-      "identified": 986,
+      "identified": 994,
       "existing": 152,
-      "confirmed": 834,
+      "confirmed": 842,
       "proposed": 8,
-      "unidentified": 1041,
-      "percent_identified": 48.452088452088454
+      "unidentified": 1033,
+      "percent_identified": 48.845208845208845
     }
   },
   "limitations": "Configured function address intervals, including alignment/literal pools; inventory includes original assembly and linked libraries. Existing descriptive identifiers are recognized, not independently semantically re-proven."
