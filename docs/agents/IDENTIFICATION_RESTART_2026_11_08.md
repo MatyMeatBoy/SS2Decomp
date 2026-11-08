@@ -373,3 +373,33 @@ stop. The starter has no local scheduled-task or stack-allocation guard.
 
 Two substantive evidence overlays correct the stepper-call wording and startup
 caller address. Other frozen evidence remains unchanged.
+
+## Timed-stage records, eligibility and selection UI
+
+Eleven reviewed rows cover four raw-word record accessors, six flag helpers
+and `0808AFE8`'s selection UI. The latter remains a NONMATCHING draft; names
+come from independently inspected original paths and consumers, not draft
+equivalence. Palette setup through a misleading local save alias is not
+classified as persistence.
+
+Record ticks count active controller updates gated by scene `+0x5A`; displaying
+divisions by 3600/60 does not establish wall-clock frames. The other numeric
+field has RNG-derived/complement-to-100 behavior and is named a display
+fraction, not precise centiseconds. Accessors do not validate indices, compare
+minima, write persistent storage or synchronize both fields.
+
+Bank selector `0800CE30` reads scene word `03003478` bit 9. That observation
+does not establish a gameplay-mode name. Eligibility helpers manipulate
+individual bits; the menu displays a prefix of at most ten enabled rows, while
+`08058A80` counts eleven bits independently and re-queries the bank each time.
+
+Original confirmation requires the complete pressed halfword to equal 1, in
+row view and normal mode. B navigates from detail to normal or from items to
+rows; it does not exit this menu. Direction handling has priority. If the first
+eligibility bit is clear, prefix-count subtraction produces `0xFFFFFFFF` and
+right navigation uses an unsigned comparison: no empty-menu safety is claimed.
+
+The exit waits for transition, restores callbacks/graphics state and transfers
+the record selected by RNG modulo 3. That slot is independent of the inspected
+detail column. Slot-completion flags and next-row eligibility are separate from
+inventory delivery, record persistence and multiplayer acknowledgement.

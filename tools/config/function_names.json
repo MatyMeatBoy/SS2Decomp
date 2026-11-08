@@ -19264,6 +19264,381 @@
           "detail": "Matched title task dispatches option index 3 to 920E4. The startup button-sequence completion query can select that option, while callback 904A4 directly browses/plays BGM/SE tables. This establishes the starter’s concrete audio-test role without naming a cheat benefit, exact printed title, runtime reachability or full replay synchronization."
         }
       ]
+    },
+    {
+      "address": "0x08058900",
+      "canonical_symbol": "sub_08058900",
+      "display_name": "GetTimedStageRecordedTicks",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08058790.c",
+          "line": 72,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Reads a 32-bit timed-stage record field at scene + 0xA8 + index*4 when CE30 returns zero, or scene + 0xF8 + index*4 otherwise. The bank is selected on every call. No index bounds, value validation or persistence operation is performed. Existing void-pointer C views do not establish pointer semantics for these raw words."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 968,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Original 58900..5892C retains the full incoming index, queries CE30 and performs one full-word LDR at scene + bank offset + index*4. Complete selected ranges equal original EU ROM and existing linked ELF; EU SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc. Static source/ASM evidence only."
+        },
+        {
+          "source": "src/code_08087CC0.c",
+          "line": 2387,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Original menu B3F8/B410 divides this value by 3600 and uses the remainder divided by 60. Writer B978 increments its elapsed counter at BC02..06 and BD52..56 only when scene+0x5A is nonzero, then compares/stores it at BF8A..BF96 and BFAE..BFC8. Tick units are active task-loop updates, not proven wall-clock frames."
+        },
+        {
+          "source": "src/code_0800CBBC.c",
+          "line": 114,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Bank selector CE30 returns bit9 of full word0x03003478. These field accessors and menu observations establish two selected banks; no gameplay-mode identity is inferred from that bit here."
+        }
+      ]
+    },
+    {
+      "address": "0x08058934",
+      "canonical_symbol": "sub_08058934",
+      "display_name": "GetTimedStageRecordDisplayFraction",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08058790.c",
+          "line": 83,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Reads a 32-bit timed-stage record field at scene + 0xD0 + index*4 when CE30 returns zero, or scene + 0x120 + index*4 otherwise. The bank is selected on every call. No index bounds, value validation or persistence operation is performed. Existing void-pointer C views do not establish pointer semantics for these raw words."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 969,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Original 58934..58964 performs the same bank query and one full-word LDR. Complete selected ranges equal original EU ROM and existing linked ELF; EU SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc. Static source/ASM evidence only."
+        },
+        {
+          "source": "src/code_08087CC0.c",
+          "line": 2387,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Original menu B42E..B43A sends this raw value to the rightmost numeric field beside the two tick-derived fields. Writer BD88..BE08 derives a separate fraction with RNG adjustments and stores its complement-to-100 at stack+0x3C; BFBA..BFD0 uses it as the equal-tick tiebreaker. It is not identified as precise centiseconds."
+        },
+        {
+          "source": "src/code_0800CBBC.c",
+          "line": 114,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Bank selector CE30 returns bit9 of full word0x03003478. These field accessors and menu observations establish two selected banks; no gameplay-mode identity is inferred from that bit here."
+        }
+      ]
+    },
+    {
+      "address": "0x0805896C",
+      "canonical_symbol": "sub_0805896C",
+      "display_name": "SetTimedStageRecordedTicks",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08058790.c",
+          "line": 94,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Writes a 32-bit timed-stage record field at scene + 0xA8 + index*4 when CE30 returns zero, or scene + 0xF8 + index*4 otherwise. The bank is selected on every call. No index bounds, value validation or persistence operation is performed. Existing void-pointer C views do not establish pointer semantics for these raw words."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 970,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Original 5896C..58998 preserves the full incoming value in R5 across CE30 and performs one full-word STR. Complete selected ranges equal original EU ROM and existing linked ELF; EU SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc. Static source/ASM evidence only."
+        },
+        {
+          "source": "src/code_08087CC0.c",
+          "line": 2859,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Original writer BF94..BF9E stores the active-loop elapsed counter through 5896C and the separate display fraction through 589A0 when the earlier tick record is greater. BFAE..BFD0 also updates both on equal ticks with a lower fraction. The accessor itself performs no minimum comparison."
+        },
+        {
+          "source": "src/code_0800CBBC.c",
+          "line": 114,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Bank selector CE30 returns bit9 of full word0x03003478. These field accessors and menu observations establish two selected banks; no gameplay-mode identity is inferred from that bit here."
+        }
+      ]
+    },
+    {
+      "address": "0x080589A0",
+      "canonical_symbol": "sub_080589A0",
+      "display_name": "SetTimedStageRecordDisplayFraction",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08058790.c",
+          "line": 103,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Writes a 32-bit timed-stage record field at scene + 0xD0 + index*4 when CE30 returns zero, or scene + 0x120 + index*4 otherwise. The bank is selected on every call. No index bounds, value validation or persistence operation is performed. Existing void-pointer C views do not establish pointer semantics for these raw words."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 971,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Original 589A0..589D0 preserves the full incoming value in R5 across CE30 and performs one full-word STR. Complete selected ranges equal original EU ROM and existing linked ELF; EU SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc. Static source/ASM evidence only."
+        },
+        {
+          "source": "src/code_08087CC0.c",
+          "line": 2859,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Original writer BF9C..BF9E/BFCE..BFD0 supplies stack+0x3C, derived at BD88..BE08 with a random adjustment and complement-to-100. Menu B42E..B43A later draws the stored value raw. The accessor neither converts time nor synchronizes the other record field."
+        },
+        {
+          "source": "src/code_0800CBBC.c",
+          "line": 114,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Bank selector CE30 returns bit9 of full word0x03003478. These field accessors and menu observations establish two selected banks; no gameplay-mode identity is inferred from that bit here."
+        }
+      ]
+    },
+    {
+      "address": "0x0808AFE8",
+      "canonical_symbol": "sub_0808AFE8",
+      "display_name": "RunTimedStageSelectionMenu",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08087CC0.c",
+          "line": 2139,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Runs a selection UI for up to ten sequentially eligible stage rows, each with three 16-byte item records. Shows target and recorded time fields, per-row text and item icons; a separate detail mode invokes item label 5FFBC and detail renderer 815F4. This NONMATCHING body is a reading aid; the narrow UI role is independently corroborated by original call paths, not a claim of draft equivalence or an exact in-game mode title."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 1468,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Original B0AE..B15C constructs the ten-by-three records, B392..B43A draws three item records plus target/recorded time fields, and B654..B67E draws the selected item label/details. At B902..B940 RNG%3 chooses the transferred record slot: scene+0x40 becomes 1, scene+0x36 receives (randomSlot<<8)|row|0x8000, a 16-byte record is copied to scene+0x5C, then signal 0x02688420 is sent. The transferred slot is not necessarily the detail-column selection. Full function bytes equal original EU ROM and existing ELF; only selected original paths are semantically audited here."
+        },
+        {
+          "source": "src/code_08087CC0.c",
+          "line": 2189,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Original B02E..B048 loads a halfword from ROM table 084EBD38 indexed by scene+0x14A and writes it to palette shadow 03001F40+0x1FA. Despite local alias saveAF91, this is palette setup, not a character-save or stage-record persistence write. Record values are separately fetched through 58900/58934. The per-item word at record+4 is not assigned stage-time semantics."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 1468,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Original B2F4..B318 accepts confirmation only in row view and normal mode when the complete pressed-key halfword equals1. Direction handling precedes confirmation/detail/cancel keys. SELECT mask 0x4 and A over items toggle detail mode; B33C..B36E uses B to return detail-to-normal or item-to-row view, not to exit/cancel the menu. If flag0 is clear, B210 computes prefixCount-1 as0xFFFFFFFF and B288..B292 uses unsigned right-navigation comparison; no empty-prefix safety is established. Exit B8D4..B940 waits for transition, restores callbacks/graphics state and transfers RNG%3 slot independently of the inspected detail column."
+        },
+        {
+          "source": "src/code_08087CC0.c",
+          "line": 2426,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Exit uses a random slot modulo 3, packs the chosen row/slot into scene+0x36, copies that item record and wakes the next task. No multiplayer-entry trace, exact title, safe arbitrary input domain, elapsed-frame guarantee or full-function equivalence is claimed."
+        },
+        {
+          "source": "src/code_0800CBBC.c",
+          "line": 114,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Bank selector CE30 returns bit9 of full word0x03003478. These field accessors and menu observations establish two selected banks; no gameplay-mode identity is inferred from that bit here."
+        }
+      ]
+    },
+    {
+      "address": "0x08058878",
+      "canonical_symbol": "sub_08058878",
+      "display_name": "IsTimedStageItemSlotCompleted",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08058790.c",
+          "line": 53,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Tests a single bit of a byte at scene+0x236+row when CE30 is zero, or scene+0x240+row otherwise. Returns exactly 0 or 1. Original 5887A..588AC preserves full row/bit arguments, reads LDRB, register-shifts the zero-extended byte and masks bit 0. No row/slot bounds or bank-mode stability guarantee is enforced."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 966,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Complete selected helper body equals original EU ROM and existing linked ELF; EU SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc. Full six-body 211-line original proof inspected. The original shift instructions are described as observed; arbitrary out-of-range C shift semantics are not proved."
+        },
+        {
+          "source": "src/code_08087CC0.c",
+          "line": 2206,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Original menu B0F0..B108 queries this with rows 0..9 and slots 0..2. A set bit replaces the corresponding offered item type/value with type 1/value 0; a clear bit retains the table record. Successful controller BFE0..BFF0 supplies the chosen row and packed random slot to 588C0. This supports item-slot completion, without asserting when a reward enters inventory."
+        },
+        {
+          "source": "src/code_0800CBBC.c",
+          "line": 114,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Bank selector CE30 returns bit9 of full word0x03003478. These field accessors and menu observations establish two selected banks; no gameplay-mode identity is inferred from that bit here."
+        }
+      ]
+    },
+    {
+      "address": "0x080588C0",
+      "canonical_symbol": "sub_080588C0",
+      "display_name": "MarkTimedStageItemSlotCompleted",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08058790.c",
+          "line": 63,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "ORs one shifted bit into a byte at scene+0x236+row when CE30 is zero, or scene+0x240+row otherwise; other bits of that byte are retained and the final result is stored with STRB. Original 588C2..588EE preserves row/bit across the mode query. No row/bit bounds, prior completion check or inventory transfer is performed."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 967,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Complete selected helper body equals original EU ROM and existing linked ELF; EU SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc. Full six-body 211-line original proof inspected. The original shift instructions are described as observed; arbitrary out-of-range C shift semantics are not proved."
+        },
+        {
+          "source": "src/code_08087CC0.c",
+          "line": 2890,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Original successful timed-stage controller BFD4..BFF0 enables row+1, then extracts current row from scene+0x36 low byte and random slot from its masked high byte before calling 588C0. Menu B0F0..B108 interprets a set bit as a consumed/completed item-record slot. No exact reward title or save persistence is inferred."
+        },
+        {
+          "source": "src/code_0800CBBC.c",
+          "line": 114,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Bank selector CE30 returns bit9 of full word0x03003478. These field accessors and menu observations establish two selected banks; no gameplay-mode identity is inferred from that bit here."
+        }
+      ]
+    },
+    {
+      "address": "0x080589D8",
+      "canonical_symbol": "sub_080589D8",
+      "display_name": "IsTimedStageSelectionEnabled",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08058790.c",
+          "line": 112,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Tests one shifted bit in the 32-bit scene field at +0x84 when CE30 is zero or +0x88 otherwise, and returns exactly 0 or 1. Original 589E4..58A12 uses a full-word LDR and an AND. No bit bounds, continuous-prefix check or global count is performed here."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 972,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Complete selected helper body equals original EU ROM and existing linked ELF; EU SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc. Full six-body 211-line original proof inspected. The original shift instructions are described as observed; arbitrary out-of-range C shift semantics are not proved."
+        },
+        {
+          "source": "src/code_08087CC0.c",
+          "line": 2237,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Original menu B1C4..B1EE queries indices 0..9 in order, drawing a row marker while each flag is set and stopping at the first absent flag. Successful controller BFD4..BFD6 enables the next index through 58A18. This is a per-bit selection-eligibility query, not a whole-menu availability or completion query."
+        },
+        {
+          "source": "src/code_0800CBBC.c",
+          "line": 114,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Bank selector CE30 returns bit9 of full word0x03003478. These field accessors and menu observations establish two selected banks; no gameplay-mode identity is inferred from that bit here."
+        }
+      ]
+    },
+    {
+      "address": "0x08058A18",
+      "canonical_symbol": "sub_08058A18",
+      "display_name": "EnableTimedStageSelection",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08058790.c",
+          "line": 139,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "ORs a shifted bit into the 32-bit scene field at +0x84 when CE30 is zero or +0x88 otherwise. Original 58A36..58A3E uses LDR/ORR/STR; it preserves all other bits. No input bounds, prerequisite checks, item-slot updates or record-time updates are performed."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 973,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Complete selected helper body equals original EU ROM and existing linked ELF; EU SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc. Full six-body 211-line original proof inspected. The original shift instructions are described as observed; arbitrary out-of-range C shift semantics are not proved."
+        },
+        {
+          "source": "src/code_08087CC0.c",
+          "line": 2237,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Original successful controller BFD4..BFD6 calls this with current row+1 after record comparison. Original menu B1C4..B1EE uses the same field through 589D8 to decide the visible selectable prefix. Row 9 completion can set bit 10, which the ten-row menu does not itself display."
+        },
+        {
+          "source": "src/code_0800CBBC.c",
+          "line": 114,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Bank selector CE30 returns bit9 of full word0x03003478. These field accessors and menu observations establish two selected banks; no gameplay-mode identity is inferred from that bit here."
+        }
+      ]
+    },
+    {
+      "address": "0x08058A4C",
+      "canonical_symbol": "sub_08058A4C",
+      "display_name": "DisableTimedStageSelection",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08058790.c",
+          "line": 146,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Clears a shifted bit in the same 32-bit selection field: scene+0x84 when CE30 is zero or +0x88 otherwise. Original 58A6A..58A72 uses LDR/BIC/STR and retains other bits. No index bounds, dependent-row clearing, item-slot reset or record reset is performed."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 974,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Complete selected helper body equals original EU ROM and existing linked ELF; EU SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc. Full six-body 211-line original proof inspected. The original shift instructions are described as observed; arbitrary out-of-range C shift semantics are not proved."
+        },
+        {
+          "source": "src/code_08087CC0.c",
+          "line": 2237,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Field identity is established by complete original 589D8/58A18/58A4C bodies. The menu queries this shared field for sequential eligibility; clearing one bit does not itself clear later bits, even though the menu stops its displayed prefix at the first clear bit. No direct caller is required or claimed for this exact field-mutator contract."
+        },
+        {
+          "source": "src/code_0800CBBC.c",
+          "line": 114,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Bank selector CE30 returns bit9 of full word0x03003478. These field accessors and menu observations establish two selected banks; no gameplay-mode identity is inferred from that bit here."
+        }
+      ]
+    },
+    {
+      "address": "0x08058A80",
+      "canonical_symbol": "sub_08058A80",
+      "display_name": "CountEnabledTimedStageFlags",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08058790.c",
+          "line": 153,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Counts set bits at indices 0 through 10 inclusive in the shared 32-bit selection field, returning 0..11 for stable reads. Original 58A8A..58AC6 re-queries CE30 and reloads the selected field on every iteration; no single snapshot or fixed bank across the loop is assumed. It counts all eleven tested bits, not only a continuous prefix."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 975,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Complete selected helper body equals original EU ROM and existing linked ELF; EU SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc. Full six-body 211-line original proof inspected. The original shift instructions are described as observed; arbitrary out-of-range C shift semantics are not proved."
+        },
+        {
+          "source": "src/code_08087CC0.c",
+          "line": 2237,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Original menu B1C4..B1EE displays at most ten sequential eligible rows and stops at the first clear bit. Successful controller BFD4..BFD6 can enable bit 10 after row 9. Consequently this helper is not named CountSelectableMenuRows or a count of only ten stage entries. No direct caller or meaning for bit 10 beyond the observed producer is asserted."
+        },
+        {
+          "source": "src/code_0800CBBC.c",
+          "line": 114,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Bank selector CE30 returns bit9 of full word0x03003478. These field accessors and menu observations establish two selected banks; no gameplay-mode identity is inferred from that bit here."
+        }
+      ]
     }
   ]
 }
