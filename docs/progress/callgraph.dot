@@ -542,7 +542,7 @@ digraph calls {
   "sub_080226A4" [label="TaskInitializeSceneAndDispatchMapEvents"];
   "sub_08022E60" [label="sub_08022E60"];
   "sub_08023274" [label="sub_08023274"];
-  "sub_08023684" [label="sub_08023684"];
+  "sub_08023684" [label="SelectSceneMapLayoutAndWaitForLinkBarrier"];
   "sub_080239E0" [label="sub_080239E0"];
   "sub_08023A3C" [label="TaskManageEnemySpawnGroup"];
   "sub_08023ED8" [label="RestartEnemySpawnGroupTask"];
@@ -583,7 +583,7 @@ digraph calls {
   "sub_08029CEC" [label="QueueLocalPlayerDamageAndAttemptResistanceGrowth"];
   "sub_08029E0C" [label="QueueEnemyDamage"];
   "sub_08029F54" [label="TriggerSceneEventForPlayerRectangleOverlap"];
-  "sub_0802A01C" [label="sub_0802A01C"];
+  "sub_0802A01C" [label="ReleaseDeferredEnemyDeathRemoval"];
   "sub_0802A080" [label="WaitForAnyPlayerInRectangle"];
   "sub_0802A104" [label="StartSceneEventAfterObjectBreak"];
   "sub_0802A19C" [label="OpenMonsterCardCatalogAndRestoreScene"];
@@ -594,7 +594,7 @@ digraph calls {
   "sub_0802A9B0" [label="FindCharacterNameStartingBonusIndex"];
   "sub_0802AA28" [label="sub_0802AA28"];
   "sub_0802B8A4" [label="sub_0802B8A4"];
-  "sub_0802C144" [label="sub_0802C144"];
+  "sub_0802C144" [label="PromptCastleExitToWorldMap"];
   "sub_0802C2A0" [label="sub_0802C2A0"];
   "sub_0802C674" [label="sub_0802C674"];
   "sub_0802CF84" [label="CreateRestInteractionSceneActor"];

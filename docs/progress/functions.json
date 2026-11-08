@@ -15373,10 +15373,17 @@
       "canonical_symbol": "sub_08023684",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_08023684",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "SelectSceneMapLayoutAndWaitForLinkBarrier",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_08021DC4.c",
+          "line": 1242,
+          "revision": "b5337babd5b759034a0b68b145e7899a6bfefd7d",
+          "detail": "ABI map r0,area r1,reinitialize r2. When reinitialize!=0 writes map0/area40, clears ten selections22 and countersE, chooses active layout table71C for map0..23 (area unchecked; map>23 retains old pointer after writing map/area). Under02204 predicate sets scene8=9,selection22[0]=1, scans up to10 stride124 map records untilid0 and writes1+(RNG low16 % record count) into22[recordid]; no count/id validation. Retries QueueLinkSceneLayoutSelections65FE8 until accepted. Both02204 branches retry67C18, wait67C08 and consume67BF8 default link barrier token. Does not promise reliable peer delivery beyond existing barrier helper contracts. Original2368A..2368E bypasses map reinit whenr2zero;23928 tests02204;23944..2397C randomselection;23990 queue;2399E..239D4 barrier. Consumer65FE8 copies exactly ten selection halfwords from scene+22 into tag85 queue payload. Map-event consumer2704C uses selection22[recordid]-1 as a 0x24-byte variant index;26CD0 instead selects the map/area table at71C and resets phase10. Existing t22_23684 is numeric ABI alias, not semantic identification. Static original-ASM and matched-source evidence; no runtime or new C equivalence claim. Original map/area writes whenreinitialize!=0 are HALFWORD+0 andWORD+40;tenHALFWORDcountersE andselections22clear. Map0 alsoHALFWORD+2=area/+36=0;maps1..23replaceWORD+71C;invalidmapretainsoldpointerafterinitialwrites. Selectionloop max10records, each124stride;recordid/count LDRH,uncheckedid canwriteoutsidetenentries,zero count unvalidated beforemodulo.02204()!=0 is exactauthoritypredicate,notlocalID0.65FE8queues tag85 with tenhalfwords;67C18/67C08/67BF8wrappersuse token0x37564 through68330/682B8/65E38. Successfulhelperreturndoesnotestablishuniversalreliablepeertransport;allretrywaits lacktimeout/cancel."
+        }
+      ]
     },
     {
       "name": "sub_080239E0",
@@ -16565,10 +16572,17 @@
       "canonical_symbol": "sub_0802A01C",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_0802A01C",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "ReleaseDeferredEnemyDeathRemoval",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_08028AAC.c",
+          "line": 952,
+          "revision": "b5337babd5b759034a0b68b145e7899a6bfefd7d",
+          "detail": "Scans five active enemy slots(stride2E0), targets only enemy flags7A mask8. Sets death/removal timer64=30, flag66=1 and clears7A mask8; no HP or state check and no direct damage. Semantic closure in matched enemy updater1801C: original1864C health consumer19CE8 result writes flag66;1865E..70 mask8 suppresses lethal removal by zeroing timer64 andflag66. Original192E8..1934C whenflag66 nonzero decrements timer64, blinks using predecrement timer mask0x2 under drawgates, then exits update at zero. Caller502DC source2320..2349 polls19C3C while scene+4 mask0x10 is clear; a set mask forces wait=1 and prevents this loop from completing. After normal loop completion it invokes the helper after a cutscene relocation. Thus releases held death/removal visuals rather than killing every enemy or restoring AI; unsupported active/healthy calls still start same countdown. Static original-ASM and matched-source evidence; no runtime or new C equivalence claim. Allfive slots independently scanned using activeWORDmask and HALFWORDflags7A; writesHALFWORD64=30,66=1,clearsmask8. Consumer1801C original192FC..19302 blink test is predecrementtimer MASK0x2 (bit1), NOT bit-index2/mask4. Timerdecrements even when drawgates suppressblink. MissingHP/statecheck meanshealthy misusecanstartremoval;name describes intended hold release,not kill/dealHPdamage. Original1864C..70 closes suppressionstate,19344..4C closeszeroexit."
+        }
+      ]
     },
     {
       "name": "sub_0802A080",
@@ -16866,10 +16880,17 @@
       "canonical_symbol": "sub_0802C144",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_0802C144",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "PromptCastleExitToWorldMap",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_08028AAC.c",
+          "line": 3060,
+          "revision": "b5337babd5b759034a0b68b145e7899a6bfefd7d",
+          "detail": "Locks local player flag1 viaD0F4, waits dialogue idle, opens1404E3 and waits completion. Original English resource explicitly warns that entering a location from World Map removes castle floor items, retry gate and angel, then asks Go to the World Map. Nonzero result selects player animation8, faces0 and moves relative(0,+32) over duration parameter20. Zero result faces4/moves(0,-20), re-registers a5A874 rectangle trigger at fixedpoint(F000,1C000), dimensions64x8, with this same callback; searches30eventslots and does not check malloc result before pointer arithmetic. Both tails clearflag1 viaD108 and set localplayerstate0. This prompts and moves player; does not itself call map change or guarantee successful transition. Original2C17E/194 literal1404E3,2C1A8 result,2C1B0..1E8 branch movements,2C1FC callback,2C246..25A retrigger task. Static original-ASM and matched-source evidence; no runtime or new C equivalence claim. Original confirmation result is tested nonzero, not specifically1; both motion paths use generic helpers with unsigned16duration20 and no final-position snap. Denial rearm searches30tasks, one1024allocation NOTchecked, then stacktop arithmetic and taskstart; fullpool simply skipsrearm. Source descriptor passed to5A874 uses fixedpointWORDXY,packedextentWORD64x8, callbackWORDself. A decision here neither deletes castleitems nor requests mapchange;those are warningtext/downstream behaviors. Dialogue waits and taskcapacity can preventnormal tail; no guaranteedpromptdelivery."
+        }
+      ]
     },
     {
       "name": "sub_0802C2A0",
@@ -51996,12 +52017,12 @@
   "identification": {
     "game": {
       "total": 1880,
-      "identified": 995,
+      "identified": 998,
       "existing": 23,
-      "confirmed": 972,
+      "confirmed": 975,
       "proposed": 2,
-      "unidentified": 883,
-      "percent_identified": 52.92553191489362
+      "unidentified": 880,
+      "percent_identified": 53.08510638297872
     },
     "sdk": {
       "total": 155,
@@ -52014,12 +52035,12 @@
     },
     "all": {
       "total": 2035,
-      "identified": 1150,
+      "identified": 1153,
       "existing": 152,
-      "confirmed": 998,
+      "confirmed": 1001,
       "proposed": 2,
-      "unidentified": 883,
-      "percent_identified": 56.51105651105651
+      "unidentified": 880,
+      "percent_identified": 56.65847665847666
     }
   },
   "limitations": "Configured function address intervals, including alignment/literal pools; inventory includes original assembly and linked libraries. Existing descriptive identifiers are recognized, not independently semantically re-proven."

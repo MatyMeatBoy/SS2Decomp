@@ -14,8 +14,8 @@
 <text x="269.0" y="86" fill="#e6edf3" font-size="10">940 bytes; not decompiled C</text>
 <rect x="506.0" y="30" width="235.0" height="66" rx="5" fill="#161b22"/>
 <text x="516.0" y="46" fill="#e6edf3" font-size="11">Identification</text>
-<text x="516.0" y="69" fill="#3fb950" font-size="21" font-weight="600">56.51%</text>
-<text x="516.0" y="86" fill="#e6edf3" font-size="10">1150 / 2035 registered names</text>
+<text x="516.0" y="69" fill="#3fb950" font-size="21" font-weight="600">56.66%</text>
+<text x="516.0" y="86" fill="#e6edf3" font-size="10">1153 / 2035 registered names</text>
 <rect x="753.0" y="30" width="235.0" height="66" rx="5" fill="#161b22"/>
 <text x="763.0" y="46" fill="#e6edf3" font-size="11">Historical C + linked</text>
 <text x="763.0" y="69" fill="#e6edf3" font-size="21" font-weight="600">93.13%</text>
@@ -428,7 +428,7 @@
 <rect x="391.59" y="213.51" width="14.14" height="16.86" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0802D568 | sub_0802D568 | unidentified  0x0802D568  468 bytes  [done]</title></rect>
 <rect x="405.73" y="213.51" width="13.05" height="16.86" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0802D050 | sub_0802D050 | unidentified  0x0802D050  432 bytes  [done]</title></rect>
 <rect x="362.83" y="230.38" width="14.27" height="14.57" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>DisplayTypewriterNarrationText | sub_0802A644 | confirmed  0x0802A644  408 bytes  [done]</title></rect>
-<rect x="362.83" y="244.94" width="14.27" height="12.42" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0802C144 | sub_0802C144 | unidentified  0x0802C144  348 bytes  [done]</title></rect>
+<rect x="362.83" y="244.94" width="14.27" height="12.42" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>PromptCastleExitToWorldMap | sub_0802C144 | confirmed  0x0802C144  348 bytes  [done]</title></rect>
 <rect x="362.83" y="257.37" width="14.27" height="12.14" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>QueueRandomizedEnemyDamage | sub_08029B98 | confirmed  0x08029B98  340 bytes  [done]</title></rect>
 <rect x="362.83" y="269.51" width="14.27" height="11.71" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>QueueEnemyDamage | sub_08029E0C | confirmed  0x08029E0C  328 bytes  [done]</title></rect>
 <rect x="377.10" y="230.38" width="14.47" height="10.71" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>PlaySceneEntityAnimationAndWait | sub_0802926C | confirmed  0x0802926C  304 bytes  [done]</title></rect>
@@ -451,7 +451,7 @@
 <rect x="407.20" y="259.58" width="11.58" height="6.16" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>MoveSceneActorOutAndDespawn | sub_0802F424 | confirmed  0x0802F424  140 bytes  [done]</title></rect>
 <rect x="407.20" y="265.74" width="11.58" height="5.81" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>WaitForAnyPlayerInRectangle | sub_0802A080 | confirmed  0x0802A080  132 bytes  [done]</title></rect>
 <rect x="407.20" y="271.54" width="6.32" height="9.68" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>FindCharacterNameStartingBonusIndex | sub_0802A9B0 | confirmed  0x0802A9B0  120 bytes  [done]</title></rect>
-<rect x="413.52" y="271.54" width="5.27" height="9.68" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0802A01C | sub_0802A01C | unidentified  0x0802A01C  100 bytes  [done]</title></rect>
+<rect x="413.52" y="271.54" width="5.27" height="9.68" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>ReleaseDeferredEnemyDeathRemoval | sub_0802A01C | confirmed  0x0802A01C  100 bytes  [done]</title></rect>
 <rect x="289.2" y="164.5" width="78.8" height="13" fill="#0d1117" fill-opacity="0.75"/>
 <text x="292.2" y="174.5" fill="#e6edf3" font-size="10">code_08028AAC</text>
 </g>
@@ -523,7 +523,7 @@
 <rect x="359.05" y="426.92" width="21.82" height="23.79" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>RunChaosDomainPortal | sub_08026858 | confirmed  0x08026858  1020 bytes  [done]</title></rect>
 <rect x="380.87" y="426.92" width="19.09" height="23.79" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>SelectSceneMapAreaDestination | sub_08026CD0 | confirmed  0x08026CD0  892 bytes  [done]</title></rect>
 <rect x="399.96" y="426.92" width="18.83" height="23.79" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_080277E0 | sub_080277E0 | unidentified  0x080277E0  880 bytes  [done]</title></rect>
-<rect x="359.05" y="450.70" width="19.06" height="22.97" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08023684 | sub_08023684 | unidentified  0x08023684  860 bytes  [done]</title></rect>
+<rect x="359.05" y="450.70" width="19.06" height="22.97" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>SelectSceneMapLayoutAndWaitForLinkBarrier | sub_08023684 | confirmed  0x08023684  860 bytes  [done]</title></rect>
 <rect x="359.05" y="473.67" width="19.06" height="22.11" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>TaskAnimateInteractiveSceneObject | sub_080284F4 | confirmed  0x080284F4  828 bytes  [done]</title></rect>
 <rect x="359.05" y="495.78" width="19.06" height="11.22" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>StartEnemySpawnGroupsForMapArea | sub_08023F98 | confirmed  0x08023F98  420 bytes  [done]</title></rect>
 <rect x="378.10" y="450.70" width="10.86" height="11.06" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>SpawnSceneObjectAndWaitForStartupStateChange | sub_080289C0 | confirmed  0x080289C0  236 bytes  [done]</title></rect>
