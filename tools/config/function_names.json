@@ -24082,6 +24082,71 @@
           "detail": "src/code_080443EC.c:1292 waits on rectangle (60,190,160,100); lines 3362 and 3419 use (140,130,200,100) before scripted activity. sub_08021FE0 explicitly compares absolute axis distances against half summed extents."
         }
       ]
+    },
+    {
+      "address": "0x0802A590",
+      "canonical_symbol": "sub_0802A590",
+      "display_name": "ConvertPaletteBanksToGrayscale",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08028AAC.c",
+          "line": 1245,
+          "revision": "b5337babd5b759034a0b68b145e7899a6bfefd7d",
+          "detail": "Copies count 32-byte palette banks starting at first from gUnk_03001F40 to a heap backup; for every 15-bit BGR entry computes the integer mean of the three five-bit channels and writes that mean into all three channels. Queues palette upload through sub_08000B38 and frees backup. Originalfirst/count narrowedunsigned16;allocatescount*32 withoutnullcheck andindexes03001F40+first*32 withoutbankbounds. Copy count*8words;sourcepixels readLDR32 at2bytestride,onlylow15bitsused; RGBarithmeticmeanfloor/3,bit15destinationpreserved bymaskedbyte/halfwordwrites. Calls00B38thenfreesbackup; no allocationfailure or palettecapacitycontract. FullprimaryC/originalA59C..A62A agree."
+        },
+        {
+          "source": "src/code_08028AAC.c",
+          "revision": "b5337babd5b759034a0b68b145e7899a6bfefd7d",
+          "detail": "src/code_08028AAC.c:1337 uses banks 0..22 before a text scene; src/code_0807A5D4.c:656 and 886 use banks 0..13, confirming public parameters are bank index/count rather than colors."
+        }
+      ]
+    },
+    {
+      "address": "0x0802A644",
+      "canonical_symbol": "sub_0802A644",
+      "display_name": "DisplayTypewriterNarrationText",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08028AAC.c",
+          "line": 1274,
+          "revision": "b5337babd5b759034a0b68b145e7899a6bfefd7d",
+          "detail": "Reads resource 0x140000|id after its two-byte header and progressively draws two 32-byte text rows at tile rows 15 and 17 through QueueTextGlyphTiles. Handles FD end, FF linebreak, FC zero-terminated player-slot-0 name substitution from gUnk_03003CE2, and FE clear/pause. Reveals a byte every seven iterations and clears tilemap rows on completion. Original ASM 0802A67E..A684 compares the preincremented counter to 5 (0..5 skipped, 6 consumed); 0802A6C8..A704 reads the zero-terminated substitution bytes at 03003CE2. OriginalA67E..684 preincrementvalue>5 meansoneencodedbyte/actionevery7outeriterations;FE180-yieldpause021A8can shorten;postFDunconditional180-yieldholdthen clear(15,4),oneyield. FC usesfixedslot0name03003CE2,8-bitnameindex; afterwritinglastnamebyte decrementscolumn(A6FA..FE),so subsequentordinarybyte overwriteslastnamebyte. This is observedoriginalbehavior,not guaranteedcorrectnameformatting. textallocation128B,nomaxcolumn/bufferboundsvalidation;two32-striderowsarescratchregions,notbounds. FDentryskipsrevealbutstillhold/clear. Noinputskiporresourcevalidationcontract."
+        },
+        {
+          "source": "src/code_08028AAC.c",
+          "revision": "b5337babd5b759034a0b68b145e7899a6bfefd7d",
+          "detail": "src/code_08028AAC.c:1362-1365 calls this on four consecutive text resources 0x49A..0x49D during the desaturated scene."
+        }
+      ]
+    },
+    {
+      "address": "0x0802A7DC",
+      "canonical_symbol": "sub_0802A7DC",
+      "display_name": "RunEndingEpilogue",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08028AAC.c",
+          "line": 1315,
+          "revision": "b5337babd5b759034a0b68b145e7899a6bfefd7d",
+          "detail": "Sets local-player flag masks one and two at separate stages, activates scene flag0x200, desaturates palette banks, configures display blend/window registers, runs four narration text resources 0x49A..0x49D, fades out, stops actor tasks and transitions to sub_0808899C. English resources14049A..49D identify the ending epilogue: peace returns to Klantol Castle, King Marcel/Queen/Camille praise the named hero, and final resource49D reads The End... OriginalA8CA..DE invokes49A..49D and ownEnglishROM=ELFpayloadreceiptsconfirmrestoredKlantolpeace,KingMarcel,Queen,Camille,andliteralTheEnd. Setsgamehalfword+4mask200;localplayerflagsmask1 thenlatermask2 (doesnotfreezeallplayersuniversally).Stops15actortaskhandles+48ifactive;finalcalls8899CaftermovinglocalXto300pixelsand10-yieldhelper. Noendingskill/bossidentityinferred;capacityfailureinA590andnarrationoverflowremaincalleeconstraints."
+        },
+        {
+          "source": "src/code_0803B69C.c",
+          "revision": "b5337babd5b759034a0b68b145e7899a6bfefd7d",
+          "detail": "src/code_0803B69C.c:4683 invokes this after a scripted actor animation sequence and completion waits; no ending/boss identity is inferred."
+        },
+        {
+          "source": "data/rodata_libgcc_end.s",
+          "revision": "b5337babd5b759034a0b68b145e7899a6bfefd7d",
+          "detail": "Original EU ROM English text table0838AFF0 entries49A..49D point083874A7,0838764D,083876C9,0838775B. Raw encoded bytes and SHA256 receipts retained; decoder only partial, but core epilogue sentences and The End are unambiguous."
+        }
+      ]
     }
   ]
 }
