@@ -7143,10 +7143,35 @@
       "canonical_symbol": "sub_0800CD68",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_0800CD68",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "MarkCoordinatedAttackScenePhaseActive",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_0800CBBC.c",
+          "line": 81,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Reads the full scene flag word at 03003478, ORs mask 0x40 and writes it back. Sets bit 6 while preserving other bits. This marks a phase flag consumed during coordinated-attack presentation/waiting; it does not itself start the attack, wait for peers or execute the presentation."
+        },
+        {
+          "source": "src/code_0805FB7C.c",
+          "line": 2838,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Matched coordinated-attack task 6441C sets this scene bit before its guarded presentation, waits, and visual-task 92348 call. It clears the bit at line 2911 before later 0x586 synchronization and damage-resolution work. The alternate gated/waiting branch sets it at line 3031 and clears it near its final cleanup at line 3072. This marks an observed scene phase of coordinated attack, not the entire attack duration, a battle-results screen or a total world-suspend guarantee. Original set calls are 6451E/64C6C; clears are 647DC/64DF8."
+        },
+        {
+          "source": "src/code_0805FB7C.c",
+          "line": 2873,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "After the normal-path set, queries CDF8 and 021A8 can return early before the clear. Original 64632..64644 branches directly to the epilogue at 64DFC on those conditions, bypassing clear call 647DC. Therefore a set is not universally followed by a clear here, and this flag may survive those exits until another state/reset path changes it. Whole-word scene-flag resets/restores also affect it; these helpers are not claimed as exclusive writers or a universal paired protocol."
+        },
+        {
+          "source": "src/code_0805A630.c",
+          "line": 672,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Matched world-item task 5B140 skips its drawing scan when the query is nonzero; original 5B154..5B15A confirms that gate. The shared inventory interaction draft also clears input halfwords under this query, corroborated by original 7C2D4..7C2E8. The latter remains NONMATCHING at this source revision. These are observed consumers of the phase flag, not proof that every input, actor, task or hardware update stops."
+        }
+      ]
     },
     {
       "name": "sub_0800CD78",
@@ -7160,10 +7185,35 @@
       "canonical_symbol": "sub_0800CD78",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_0800CD78",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "MarkCoordinatedAttackScenePhaseInactive",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_0800CBBC.c",
+          "line": 84,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Reads the full scene flag word at 03003478, ANDs mask 0xFFFFFFBF and writes it back. Clears bit 6 while preserving other bits. Clearing this marker does not prove the coordinated attack has completed, all synchronization has finished or every scene subsystem is running."
+        },
+        {
+          "source": "src/code_0805FB7C.c",
+          "line": 2838,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Matched coordinated-attack task 6441C sets this scene bit before its guarded presentation, waits, and visual-task 92348 call. It clears the bit at line 2911 before later 0x586 synchronization and damage-resolution work. The alternate gated/waiting branch sets it at line 3031 and clears it near its final cleanup at line 3072. This marks an observed scene phase of coordinated attack, not the entire attack duration, a battle-results screen or a total world-suspend guarantee. Original set calls are 6451E/64C6C; clears are 647DC/64DF8."
+        },
+        {
+          "source": "src/code_0805FB7C.c",
+          "line": 2873,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "After the normal-path set, queries CDF8 and 021A8 can return early before the clear. Original 64632..64644 branches directly to the epilogue at 64DFC on those conditions, bypassing clear call 647DC. Therefore a set is not universally followed by a clear here, and this flag may survive those exits until another state/reset path changes it. Whole-word scene-flag resets/restores also affect it; these helpers are not claimed as exclusive writers or a universal paired protocol."
+        },
+        {
+          "source": "src/code_0805A630.c",
+          "line": 672,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Matched world-item task 5B140 skips its drawing scan when the query is nonzero; original 5B154..5B15A confirms that gate. The shared inventory interaction draft also clears input halfwords under this query, corroborated by original 7C2D4..7C2E8. The latter remains NONMATCHING at this source revision. These are observed consumers of the phase flag, not proof that every input, actor, task or hardware update stops."
+        }
+      ]
     },
     {
       "name": "sub_0800CD8C",
@@ -7177,10 +7227,35 @@
       "canonical_symbol": "sub_0800CD8C",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_0800CD8C",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "IsCoordinatedAttackScenePhaseActive",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_0800CBBC.c",
+          "line": 87,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Returns exactly 0 or 1 from scene flags 03003478 bit 6 using an unsigned word load, shift and mask. It reports the marked coordinated-attack scene phase, whose lifetime differs from the complete attack-resolution task. A nonzero result is not a general scheduled-task, transport-readiness or whole-world suspension test."
+        },
+        {
+          "source": "src/code_0805FB7C.c",
+          "line": 2838,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Matched coordinated-attack task 6441C sets this scene bit before its guarded presentation, waits, and visual-task 92348 call. It clears the bit at line 2911 before later 0x586 synchronization and damage-resolution work. The alternate gated/waiting branch sets it at line 3031 and clears it near its final cleanup at line 3072. This marks an observed scene phase of coordinated attack, not the entire attack duration, a battle-results screen or a total world-suspend guarantee. Original set calls are 6451E/64C6C; clears are 647DC/64DF8."
+        },
+        {
+          "source": "src/code_0805FB7C.c",
+          "line": 2873,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "After the normal-path set, queries CDF8 and 021A8 can return early before the clear. Original 64632..64644 branches directly to the epilogue at 64DFC on those conditions, bypassing clear call 647DC. Therefore a set is not universally followed by a clear here, and this flag may survive those exits until another state/reset path changes it. Whole-word scene-flag resets/restores also affect it; these helpers are not claimed as exclusive writers or a universal paired protocol."
+        },
+        {
+          "source": "src/code_0805A630.c",
+          "line": 672,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Matched world-item task 5B140 skips its drawing scan when the query is nonzero; original 5B154..5B15A confirms that gate. The shared inventory interaction draft also clears input halfwords under this query, corroborated by original 7C2D4..7C2E8. The latter remains NONMATCHING at this source revision. These are observed consumers of the phase flag, not proof that every input, actor, task or hardware update stops."
+        }
+      ]
     },
     {
       "name": "sub_0800CD9C",
@@ -11851,10 +11926,35 @@
       "canonical_symbol": "sub_0801AB50",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_0801AB50",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "RequestScreenWindowReveal",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_0801AAF8.c",
+          "line": 18,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Stores direction -1, the low 16-bit argument as duration and progress 0, wakes scheduler signal 0x64 (100), then sets active request bit 0x4 and clears mode bit 0x20. It preserves the other request bits. When the controller selects its window route, this requests the reveal endpoint by restoring window masks and disabling WIN0, with duration overwritten to 2 by that route. It does not wait for transition completion or directly change display registers. Competing active bits can select a different controller route."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 430,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "1AB5A/5E/64 store direction/duration/progress; 1AB68 wakes signal 0x64 (100); 1AB70..7A set active mask 0x4 and clear bit 0x20. Selected negative window behavior is at 1A978..99A. Original EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc. Complete original function bytes equal the existing linked ELF, whose mapping symbols separate instructions from literal pools. Static evidence only."
+        },
+        {
+          "source": "src/code_08017F7C.c",
+          "line": 1451,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Matched controller 1A7AC checks active bit 0x2 first, then bit 0x10, and otherwise runs its window route. The negative window route writes WINOUT 0, WININ 0x3F3F and zero WIN0 boundaries, then clears DISPCNT bit 0x2000 through 009F8; the positive route writes full 240x160 WIN0 boundaries, WININ 0/WINOUT 0x3F3F and enables that window through 009C0. Original 1A920 overwrites duration with 2 for this route. The other active bits are not automatically cleared by the request helpers, so these endpoint observations describe the selected window route rather than every overlapping-request state."
+        },
+        {
+          "source": "src/main.c",
+          "line": 228,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Matched display helper 009F8 clears the selected shadow DISPCNT bits and writes hardware when its third argument is nonzero. Controller call (0,0x2000,1) therefore disables WIN0 rather than changing all background/object enable bits."
+        }
+      ]
     },
     {
       "name": "sub_0801AB90",
@@ -11868,10 +11968,29 @@
       "canonical_symbol": "sub_0801AB90",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_0801AB90",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "RequestWindowPreservingBrightnessFadeIn",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_0801AAF8.c",
+          "line": 27,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Returns unchanged when the signed direction is negative and progress has bit 0x8000 set. Otherwise stores direction -1 and the u16 argument into duration and progress, wakes signal 0x64 (100), then sets active bit 0x10 and clears mode bit 0x8, preserving the other bits including active 0x2 and mode 0x20. This requests the brightness-ramp branch that normally decreases its coefficient from 16 toward 0 while retaining window configuration. Higher-priority active 0x2 may select the other brightness path instead; the name describes the requested mode, not an unconditional preservation guarantee under overlapping requests. It does not validate duration or wait for completion."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 431,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "1AB9A..AC implement the signed-direction/high-progress-bit guard; 1ABB4..BA set the three controls and 1ABBE wakes signal 0x64 (100). Executable inline halfwords 1ABC8/1ABCC/1ABCE OR active 0x10 and clear0x8 before 1ABD0 stores flags; the v3 proof explicitly decodes them despite existing ELF data markers. Original EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc. Complete original function bytes equal the existing linked ELF, whose mapping symbols separate instructions from literal pools. Static evidence only."
+        },
+        {
+          "source": "src/code_08017F7C.c",
+          "line": 1451,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "When bit 0x2 is absent and bit 0x10 is selected, controller 1A7AC writes BLDCNT 0xFF and BLDY=(progress*16)/duration at 1A8AC..C0, advancing progress by the signed direction and yielding between steps. This branch leaves window masks, boundaries and enable bits alone; unlike active bit 0x2, it does not call 009F8 to disable WIN0. A concurrent bit 0x2 request has higher dispatch priority and can therefore supersede this requested branch. No arbitrary-duration validity or elapsed-frame guarantee is inferred."
+        }
+      ]
     },
     {
       "name": "sub_0801ABE8",
@@ -11885,10 +12004,35 @@
       "canonical_symbol": "sub_0801ABE8",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_0801ABE8",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "RequestScreenWindowHide",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_0801AAF8.c",
+          "line": 41,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Stores direction +1, the low 16 bits of the input as duration and progress 0, wakes scheduler signal 0x64 (100), then sets active bit 0x4 plus mode flag0x8 while clearing mode bit 0x20. Other active request bits are preserved. If its window route is selected, the controller configures a full-screen WIN0 with inside layers masked and enables that window, then leaves progress 1/direction 0. The route overwrites duration to 2; the input does not establish its elapsed duration. The helper returns after requesting, and does not promise a particular hidden color or immediate completion."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 432,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "1ABEE/1ABF2/1ABF8 write controls, 1ABFC wakes signal 0x64 (100) and 1AC04..0E request flags 0xC while clearing 0x20. Positive window configuration and enable are at 1A930..95E. Original EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc. Complete original function bytes equal the existing linked ELF, whose mapping symbols separate instructions from literal pools. Static evidence only."
+        },
+        {
+          "source": "src/code_08017F7C.c",
+          "line": 1451,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Matched controller 1A7AC checks active bit 0x2 first, then bit 0x10, and otherwise runs its window route. The negative window route writes WINOUT 0, WININ 0x3F3F and zero WIN0 boundaries, then clears DISPCNT bit 0x2000 through 009F8; the positive route writes full 240x160 WIN0 boundaries, WININ 0/WINOUT 0x3F3F and enables that window through 009C0. Original 1A920 overwrites duration with 2 for this route. The other active bits are not automatically cleared by the request helpers, so these endpoint observations describe the selected window route rather than every overlapping-request state."
+        },
+        {
+          "source": "src/main.c",
+          "line": 214,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Matched display helper 009C0 ORs selected shadow DISPCNT bits and writes hardware when requested. The controller call (0,0x2000,1) enables WIN0."
+        }
+      ]
     },
     {
       "name": "sub_0801AC24",
@@ -11902,10 +12046,29 @@
       "canonical_symbol": "sub_0801AC24",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_0801AC24",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "RequestWindowPreservingBrightnessFadeOut",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_0801AAF8.c",
+          "line": 50,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Returns unchanged when direction equals 1 and unsigned progress already exceeds the current duration. Otherwise stores direction +1, the u16 argument as duration and progress 0, wakes signal 0x64 (100), then sets active bit 0x10 and mode flag0x20 while clearing mode bit 0x8. Other active bits remain. It requests the brightness-ramp branch that normally increases its coefficient from 0 toward 16 without reconfiguring the windows; existing active 0x2 has higher controller priority. This is a request with a concrete guard, not a guarantee that windows remain fixed under other concurrent requests, every duration is valid or completion takes a specified number of frames."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 433,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "1AC34..3E implement the direction/progress guard; 1AC42/44/48 store controls and 1AC4C wakes signal 0x64 (100). 1AC54..5E set flags 0x30 and clear0x8. Selected brightness mode is 1A874..1A91A. Original EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc. Complete original function bytes equal the existing linked ELF, whose mapping symbols separate instructions from literal pools. Static evidence only."
+        },
+        {
+          "source": "src/code_08017F7C.c",
+          "line": 1451,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "When bit 0x2 is absent and bit 0x10 is selected, controller 1A7AC writes BLDCNT 0xFF and BLDY=(progress*16)/duration at 1A8AC..C0, advancing progress by the signed direction and yielding between steps. This branch leaves window masks, boundaries and enable bits alone; unlike active bit 0x2, it does not call 009F8 to disable WIN0. A concurrent bit 0x2 request has higher dispatch priority and can therefore supersede this requested branch. No arbitrary-duration validity or elapsed-frame guarantee is inferred."
+        }
+      ]
     },
     {
       "name": "sub_0801AC78",
@@ -15062,10 +15225,29 @@
       "canonical_symbol": "sub_080284F4",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_080284F4",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "TaskAnimateInteractiveSceneObject",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_08021DC4.c",
+          "line": 5528,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Runs the animated scene-object task installed by the object constructors. At entry, changes startup word+0x3C to 2, splits the kind word into a low 16 resource-table index and high 16 initial animation, initializes animation resources and obtains a shared palette handle where required. Each loop can start the object callback when the local player presses A, the forward-offset player hitbox overlaps, the callback pointer is nonzero, scene interaction bit 7 is clear and the player flags permit it. It advances the main animation unless scene bit 9 is set and computes world draw coordinates/order. When draw gates CC98 and CD34 permit, it draws the object plus an optional auxiliary animation; shared palette uploads additionally skip resource kind 3 and scene bit 9. It waits on scheduler signal 1, stops when state halfword+0x36 becomes 4 and clears the object ID on normal return. No exact NPC, object title or dialogue content is assigned; startup entry is separate from completed resource setup."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 568,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "28504 writes startup word 2; 28514..22 split the kind word; 285C2 obtains a shared palette slot. 28646..4E gate interactions using scene bit 7, 286B0/286BC test overlap and start the callback. 286FA advances animation, 28782 uploads its palette and 287A2 draws it. 28814 tests state 4 and 2881C clears the ID. Original EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc. Complete original function bytes equal the existing linked ELF, whose mapping symbols separate instructions from literal pools. Static evidence only."
+        },
+        {
+          "source": "src/code_0805A630.c",
+          "line": 87,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Matched constructor 5A7C4 passes the scene-object record to this task, sets startup word 1 and installs finalizer 5A780. The normal task body does not free the scene-state allocation itself."
+        }
+      ]
     },
     {
       "name": "sub_08028830",
@@ -15138,10 +15320,29 @@
       "canonical_symbol": "sub_080289C0",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_080289C0",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "SpawnSceneObjectAndWaitForStartupStateChange",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_08021DC4.c",
+          "line": 5711,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Performs the same lowest-free-slot construction for callback 284F4 and destructor 5A780, with a one-shot unchecked 0x400-byte stack allocation. Saves the object ID after starting the task, then searches the 15 records for that ID and waits on scheduler signal 1 while the matched record word+0x3C equals 1. This does not establish completed resource/palette initialization: callback 284F4 changes that word to 2 at task entry before setup. A full pool selects ID 0 for the lookup instead of returning immediately. If the ID search finds no record, it yields once, sets the record base to zero and still reads through that base at+0x3C; it does not rescan or provide a clean checked-failure return."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 571,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "289FA searches controls and 28A34 allocates once. 28A4E starts 284F4, 28A52 saves the record ID; 28A64 selects 0 on full pool. 28A76..82 search record IDs, 28A84..88 yield and select a null base if absent, then 28A98..9C test word+0x3C against 1 before returning the saved ID. Original EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc. Complete original function bytes equal the existing linked ELF, whose mapping symbols separate instructions from literal pools. Static evidence only."
+        },
+        {
+          "source": "src/code_08021DC4.c",
+          "line": 5528,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Matched task 284F4 initializes an animated scene object from its kind word, allocates/shared-remaps its palette, draws at world positions, dispatches interaction when the local player confirms within its hitbox and runs until state halfword +0x36 becomes 4. Original proof paletteslot3-original-mapped-thumb.v1.txt includes the complete original task range. Its first state write at 28504 sets object word+0x3C to 2 before resource/palette setup; normal exit 2881C clears the object ID."
+        }
+      ]
     },
     {
       "name": "sub_08028AAC",
@@ -20647,10 +20848,29 @@
       "canonical_symbol": "sub_08057534",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_08057534",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "SetSceneObjectInteractionBoxSizeById",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_080571A4.c",
+          "line": 226,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Finds the first of fifteen scene+0x7A4 object records whose full 32-bit ID matches. Narrows both supplied dimensions to unsigned 16 and writes halfwords+0x18/+0x1A, then ORs mask 0x10 into word+0x3C. On a miss waits once on scheduler signal 1 and returns without mutation or rescan. No activity, ID 0 or bounds validation is added. These fields are interaction-box dimensions, not object world coordinates."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 877,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "57538..3E narrow the two values;5754A..62 search IDs.57564 waits on miss;5756E/70 write+0x18/+0x1A and 57572..78 set word+0x3C mask 0x10. Original EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc. Complete selected function range equals the existing linked ELF. Mapping labels were checked against source and control flow; data markers alone are not treated as literal-pool proof. Static evidence only."
+        },
+        {
+          "source": "src/code_08021DC4.c",
+          "line": 5573,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Matched 284F4 passes record+0x18 as the halfword width/height pair to 21FE0 when testing interaction against the local player forward-offset 16x16 box. Object Q8 position is at+8/+0xC, as separately set by 5A7C4. The additional+0x3C mask 0x10 write is observed, but no further meaning or consumer is inferred for it."
+        }
+      ]
     },
     {
       "name": "sub_08057580",
@@ -20664,10 +20884,35 @@
       "canonical_symbol": "sub_08057580",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_08057580",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "SetSceneObjectInteractionCallbackById",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_080571A4.c",
+          "line": 246,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Scans fifteen object records at scene+0x7A4, stride 0x70, for the first matching full 32-bit ID and writes the supplied full 32-bit callback word to+0x44. No callback type/address validation, activity check, ID 0 guard or immediate invocation occurs. If no match, waits once on scheduler signal 1 and returns without rescanning."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 878,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "57590..AA implement the ID search;575AC is the miss-path wait and 575B6 stores the full callback word at+0x44. Original EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc. Complete selected function range equals the existing linked ELF. Mapping labels were checked against source and control flow; data markers alone are not treated as literal-pool proof. Static evidence only."
+        },
+        {
+          "source": "src/code_08021DC4.c",
+          "line": 5569,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Matched 284F4 requires a nonzero+0x44 alongside its local-player input/scene gate and box overlap, then passes object ID plus this word to 5A58C. It initializes+0x44=0 at task entry, so installing before that initialization is not promised persistent."
+        },
+        {
+          "source": "src/code_08059534.c",
+          "line": 590,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Matched 5A58C installs the callback as a scheduler task entry at control+0xC, starts it with the object ID and uses 5A704 as finalizer. This directly anchors the callback interpretation rather than treating+0x44 as an arbitrary object parameter; normal interaction eligibility and callback capacity remain separate constraints."
+        }
+      ]
     },
     {
       "name": "sub_080575C0",
@@ -20835,10 +21080,23 @@
       "canonical_symbol": "sub_080576E0",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_080576E0",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "GetLocalPlayerId",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_080571A4.c",
+          "line": 300,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "No-argument wrapper returning 020F4 unchanged; it adds no cached player selection, participant-count query, peer validation, link setup or handshake. Original 020F4 returns 0 when software link-mode mask 0x2 in 030027D0 is clear; when set, it extracts bits 4..5 from word 04000128, giving 0..3. This is an ID accessor, not proof that any remote peer is present."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 885,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "576E2 invokes 020F4 and 576E6..E8 returns its unchanged R0. Context original 020FA..2102 implement the software-mode gate;02108..10E read/extract the two-bit hardware field. No direct source caller for 576E0 was found in the pinned src tree; the complete direct forwarding and independently established ID accessor supply the role. Original EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc. Complete selected function range equals the existing linked ELF. Mapping labels were checked against source and control flow; data markers alone are not treated as literal-pool proof. Static evidence only."
+        }
+      ]
     },
     {
       "name": "sub_080576EC",
@@ -23687,10 +23945,35 @@
       "canonical_symbol": "sub_08059890",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_08059890",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "AnimateCameraTrackingOffsetToFixedEndpoint",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_08059534.c",
+          "line": 98,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Captures the two signed camera-tracking offsets from map state +0x80/+0x82 once, then interpolates them toward first 0/second -50 using 659F4. Loop weights are 0..1024 inclusive in steps of 2. Each iteration narrows both results to signed 16, stores them through BB80 and waits on scheduler signal 1. A normal uninterrupted run therefore performs 513 iterations; this is a count of explicit waits, not an elapsed-frame or wall-clock guarantee. It always traverses the weights even if an offset already equals its endpoint, and does not recapture the initial offsets after yields. It changes tracking offsets rather than directly assigning final map scroll; no particular menu, cutscene or narrative purpose is assigned."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 1009,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "598A8/598AE capture the two signed halfwords. 598C4/598D2 interpolate with targets 0 and -50, 598D8..E0 narrow results, 598E2 stores through BB80 and 598E6 yields. 598EA adds step 2 and 598EC..F2 bound the inclusive loop at 1024. Original EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc. Complete original function bytes equal the existing linked ELF, whose mapping symbols separate instructions from literal pools. Static evidence only."
+        },
+        {
+          "source": "src/code_08009088.c",
+          "line": 1827,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Matched setter BB80 writes only the two halfwords +0x80/+0x82. The matched camera consumer at line 1192 adds them to target coordinates before centering and removes them when caching relative scroll, providing the tracking-offset identity beyond the setter fields."
+        },
+        {
+          "source": "src/code_080659B0.c",
+          "line": 35,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Matched signed Q10 interpolation stores equal endpoints directly; otherwise it shifts each endpoint-times-weight term separately before addition. The caller uses the full 0..0x400 weight range and preserves these individual rounding operations."
+        }
+      ]
     },
     {
       "name": "sub_0805990C",
@@ -24363,10 +24646,35 @@
       "canonical_symbol": "sub_0805A58C",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_0805A58C",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "StartSceneObjectInteractionCallbackTask",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_08059534.c",
+          "line": 590,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Searches 30 scene callback task records at state+0xE34 for an inactive control. Sets scene flags bit 7 to block further object interactions, retries a 0x400-byte stack allocation with scheduler signal 1 waits, installs the supplied callback with the supplied argument, task flags 0x3C, stack top allocation+0x3FC and destructor 5A704, then starts it and returns the control pointer. It does not wait for callback completion or reject an already-set interaction flag. A full pool does not set the flag. The original machine exit retains the nonzero result of its last TaskIsScheduled call in R0, not a valid task-control pointer or a checked null failure result; the source falling through without a return must not be used to infer an indeterminate machine value. The flag is already set while allocation retries are pending."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 1048,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "5A5B2 queries each task and 5A5AE bounds the scan at 30 controls. 5A5C6 sets scene bit 7 before the allocation loop at 5A5D8/5A5E2. 5A5E8 stores the supplied callback, 5A5F4 stores destructor 0805A705, and 5A5FA starts with the preserved argument. Original EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc. Complete original function bytes equal the existing linked ELF, whose mapping symbols separate instructions from literal pools. Static evidence only."
+        },
+        {
+          "source": "src/code_08021DC4.c",
+          "line": 5568,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "The matched animated scene-object task checks scene flags halfword +4 bit 7 before acting on the local player A-button input and forward-offset hitbox. When clear and the object callback pointer is nonzero, it requests callback task creation through 5A58C with the object ID. Original 28646..4E tests bit 7, 286B0 tests overlap and 286BC starts the interaction callback. Animation/drawing continues independently of that interaction gate."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 1048,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "On exhaustion, original control flow 5A5B2 -> 5A5B6/5A5BA -> 5A5A8/5A5AE -> 5A600 preserves the last nonzero scheduler-membership result in R0. No allocation, flag set or valid task-control return is performed on that path."
+        }
+      ]
     },
     {
       "name": "sub_0805A60C",
@@ -24586,10 +24894,29 @@
       "canonical_symbol": "sub_0805A6DC",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_0805A6DC",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "IsSceneObjectInteractionBlocked",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_0805A630.c",
+          "line": 37,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Returns exactly bit 7 of the current scene flags halfword at state+4 as zero or one. This is the flag used by animated scene objects to suppress starting their interaction callbacks. It does not query callback task activity, count outstanding callbacks or report whether the entire game is paused."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 1060,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "5A6E0 loads the scene flags halfword; 5A6E2 shifts by 7 and 5A6E6 masks to one bit. Original EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc. Complete original function bytes equal the existing linked ELF, whose mapping symbols separate instructions from literal pools. Static evidence only."
+        },
+        {
+          "source": "src/code_08021DC4.c",
+          "line": 5568,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "The matched animated scene-object task checks scene flags halfword +4 bit 7 before acting on the local player A-button input and forward-offset hitbox. When clear and the object callback pointer is nonzero, it requests callback task creation through 5A58C with the object ID. Original 28646..4E tests bit 7, 286B0 tests overlap and 286BC starts the interaction callback. Animation/drawing continues independently of that interaction gate."
+        }
+      ]
     },
     {
       "name": "sub_0805A6F0",
@@ -24603,10 +24930,29 @@
       "canonical_symbol": "sub_0805A6F0",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_0805A6F0",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "BlockSceneObjectInteraction",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_0805A630.c",
+          "line": 40,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Sets bit 7 in the current scene flags halfword and preserves the other bits. The animated scene-object task checks this gate before starting its player-confirm interaction callback. It does not schedule a task, disable object drawing or cancel an existing callback."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 1061,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "5A6F4 reads the halfword, 5A6F8 ORs 0x80 and 5A6FA stores it back. Original EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc. Complete original function bytes equal the existing linked ELF, whose mapping symbols separate instructions from literal pools. Static evidence only."
+        },
+        {
+          "source": "src/code_08021DC4.c",
+          "line": 5568,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "The matched animated scene-object task checks scene flags halfword +4 bit 7 before acting on the local player A-button input and forward-offset hitbox. When clear and the object callback pointer is nonzero, it requests callback task creation through 5A58C with the object ID. Original 28646..4E tests bit 7, 286B0 tests overlap and 286BC starts the interaction callback. Animation/drawing continues independently of that interaction gate."
+        }
+      ]
     },
     {
       "name": "sub_0805A704",
@@ -24620,10 +24966,35 @@
       "canonical_symbol": "sub_0805A704",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_0805A704",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "UnblockSceneObjectInteraction",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_0805A630.c",
+          "line": 44,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Clears bit 7 in the current scene flags halfword and preserves the other bits. This is also installed as the destructor of the interaction callback task created by 5A58C. The operation clears a flag without counting other outstanding tasks or restoring an earlier flag value."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 1062,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "5A708 reads scene flags, 5A70A loads mask 0xFF7F and 5A70E writes the masked halfword. Original EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc. Complete original function bytes equal the existing linked ELF, whose mapping symbols separate instructions from literal pools. Static evidence only."
+        },
+        {
+          "source": "src/code_08059534.c",
+          "line": 590,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Matched interaction starter sets bit 7 before retrying its stack allocation and registers 5A704 as the task destructor. It does not guard task creation using the old bit value."
+        },
+        {
+          "source": "src/code_08021DC4.c",
+          "line": 5568,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "The matched animated scene-object task checks scene flags halfword +4 bit 7 before acting on the local player A-button input and forward-offset hitbox. When clear and the object callback pointer is nonzero, it requests callback task creation through 5A58C with the object ID. Original 28646..4E tests bit 7, 286B0 tests overlap and 286BC starts the interaction callback. Animation/drawing continues independently of that interaction gate."
+        }
+      ]
     },
     {
       "name": "sub_0805A71C",
@@ -24703,10 +25074,29 @@
       "canonical_symbol": "sub_0805A7C4",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_0805A7C4",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "SpawnSceneObjectAtPixelPosition",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_0805A630.c",
+          "line": 87,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Searches the 15 embedded object task controls for the lowest inactive slot, independently of the object bitmap. Sets its active bit, assigns the next full 32-bit object ID and increments the scene counter, stores the full kind word and startup word+0x3C=1, and converts pixel x/y to Q8 by low 32-bit left shift 8. Allocates a 0x400-byte stack once, registers callback 284F4, flags 0x3C, stack top allocation+0x3FC and destructor 5A780, starts it with the object-record pointer, then returns that record current ID. A full task pool returns 0. Allocation failure, type/resource bounds and ID wrap are not checked here; it does not wait for resource or palette setup."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 1065,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "5A7FA queries each task; 5A810 sets its active bit; 5A814/1A assign and increment the ID; 5A824/2A store Q8 positions. 5A834 allocates once, 5A83C/48 install task/finalizer, 5A84E starts it and 5A852 returns the ID; 5A864 returns 0 for a full pool. Original EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc. Complete original function bytes equal the existing linked ELF, whose mapping symbols separate instructions from literal pools. Static evidence only."
+        },
+        {
+          "source": "src/code_08021DC4.c",
+          "line": 5528,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Matched task 284F4 initializes an animated scene object from its kind word, allocates/shared-remaps its palette, draws at world positions, dispatches interaction when the local player confirms within its hitbox and runs until state halfword +0x36 becomes 4. Original proof paletteslot3-original-mapped-thumb.v1.txt includes the complete original task range. Its first state write at 28504 sets object word+0x3C to 2 before resource/palette setup; normal exit 2881C clears the object ID."
+        }
+      ]
     },
     {
       "name": "sub_0805A874",
@@ -25201,10 +25591,29 @@
       "canonical_symbol": "sub_0805B140",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_0805B140",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "TaskDrawWorldItemIcons",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_0805A630.c",
+          "line": 662,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "While scene stop predicate CB78 is false, waits on scheduler signal 1 and, when gates CD34/CC98/CD8C allow, scans sixteen 0x20-byte world-item records through pointer global 0x03005D58. For active records (halfword +0xA bit 0), passes Q8 x/y and the item payload at +0x10 to icon renderer 5FC80 with world flag 1. CCCC mode filters metadata halfword +8: the nonzero branch requires metadata>>5 nonzero and compares metadata with bit 0x20 cleared against scene-area halfword 03003170+0x90; the zero branch requires metadata>>5 zero. On stop, frees and nulls the item-record buffer, waits until each of six controls through pointer global 0x03005D60 is unscheduled, then frees that control buffer. It does not clear the latter global pointer or free separate buffer 03000124 here. Drawing or mode filtering alone does not establish packet transport activity."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 1081,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "5B162 checks record activity; 5B178..190 and 5B1A8..AE apply distinct metadata filters. 5B19A/5B1B8 draw the world item. 5B1C8 checks scene stop; 5B1D4/DA free and clear item slots, 5B1FC..208 wait for six controls and 5B20E frees their buffer. Original EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc. Complete original function bytes equal the existing linked ELF, whose mapping symbols separate instructions from literal pools. Static evidence only."
+        },
+        {
+          "source": "src/code_0805FB7C.c",
+          "line": 61,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Matched icon renderer dispatches item kind/ID resources. Flag1 converts Q8 world coordinates, applies camera/viewport handling and draws with the world ordering helper; it returns before UI overlay/scale flag handling."
+        }
+      ]
     },
     {
       "name": "sub_0805B21C",
@@ -25218,10 +25627,29 @@
       "canonical_symbol": "sub_0805B21C",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_0805B21C",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "InitializeWorldItemPoolAndStartDrawTask",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_0805A630.c",
+          "line": 706,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Allocates 0x200 bytes and stores the buffer pointer in global 0x03005D58 for sixteen 0x20-byte item records and clears each record with a halfword fill. Allocates a 0xF0-byte six-task buffer through pointer global 0x03005D60 without an explicit clear here, then allocates and byte-clears a separate 0x1B9-byte buffer through pointer global 0x03000124 and sets sequence halfword 03005D5C to 1. Registers world-item draw callback 5B140 on fixed control 03005D30, allocates a 0x400-byte stack, sets top allocation+0x3FC, flags 0x41 and null destructor, then starts it. None of these allocations is checked or retried here; there is no already-scheduled guard or prior-buffer release, and no explicit task priority or completed-render initialization is inferred."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 1082,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "5B226/230 allocate the item/control buffers; 5B23E..250 fill sixteen records. 5B256 allocates 1B9 and 5B264..26E clear its bytes. 5B274 writes sequence 1; 5B27A stores callback 0805B141, 5B280 allocates a stack and 5B298 starts fixed control 03005D30. Original EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc. Complete original function bytes equal the existing linked ELF, whose mapping symbols separate instructions from literal pools. Static evidence only."
+        },
+        {
+          "source": "src/code_0805A630.c",
+          "line": 662,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Matched callback 5B140 traverses the item pool and draws active payloads. Its normal stop path frees the item buffer and, after six task-lifetime waits, the secondary control buffer. The separate 03000124 allocation is not freed by that body."
+        }
+      ]
     },
     {
       "name": "sub_0805B2C4",
@@ -30383,10 +30811,41 @@
       "canonical_symbol": "sub_08067F94",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_08067F94",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "TryEnqueueCoordinatedAttackRequest",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_08067B4C.c",
+          "line": 210,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Rejects unsigned outgoing count greater than 49, returning 0. Otherwise selects queue base+count*0x88, writes word+4=1 and tag 0x9E, stores exactly (c << 16) | (b << 8) | a to payload+8, sets chunk count 1, increments the queue count and returns 1. All three arguments are full 32-bit operands with no masks before the ORs. Only the first four payload bytes are initialized here, although the transmitted chunk carries eight bytes."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 1263,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Original 67FA0/FA2 implements the unsigned capacity check; FB8 shifts the third argument by 16, FBA shifts the second by 8 and FBC/FBE OR both with the unmasked first argument before FC0 stores the word. Complete 67F94..67FE0 range equals original EU ROM and existing linked ELF. No actor state is modified synchronously."
+        },
+        {
+          "source": "src/code_080659B0.c",
+          "line": 1420,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Tag 0x9E dispatches as raw case 0x1D after subtraction of 0x81. Receiver passes the sending peer player record and reconstructed payload word 0 to confirmed StartCoordinatedAttackTask (65918), with no local-versus-remote exclusion in this case. Original 67680..6768C constructs player base+peer*0x14C, 6768E loads payload word 0 and 67690 calls 65918."
+        },
+        {
+          "source": "src/code_0805FB7C.c",
+          "line": 3547,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Matched starter 65918 forwards both arguments to confirmed callback TaskResolveCoordinatedAttack (6441C) only if shared task 030061E0 is not scheduled. That callback extracts the low two bytes of the packed argument, independently recounts packet-state-14 participants and carries out coordinated visualization, synchronization and enemy damage/result handling. The packed third argument is not substituted for that later recount, and enqueue acceptance does not prove a task actually started."
+        },
+        {
+          "source": "asm/nonmatchings/code_0800CF58/sub_0800D368.s",
+          "line": 10336,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Original state-14 path scans connected player records, selecting packet low-nibble state 14 and nonzero player halfword+0xB6. It counts participants and conditionally accumulates the packet-derived quantity extracted by LSL13/LSR24. Only when that count equals 0CBCC does it call 67F94 with resource word+A4 shifted right by 4, the aggregate quantity and participant count. Original lines 10389..10396 then reset the shared counter unconditionally after the enqueue call, without testing its return. No full argument-domain, successful queue or exact skill identity is assumed."
+        }
+      ]
     },
     {
       "name": "sub_08067FE0",
@@ -33195,10 +33654,35 @@
       "canonical_symbol": "sub_0807A120",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_0807A120",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "NoOpEffectTaskFinalizer",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_08073E2C.c",
+          "line": 3846,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Empty routine: no data-memory reads or writes, nested calls or return-value initialization. Its role is anchored by actual task-control finalizer assignments rather than assigning semantic names to otherwise unexplained constant-return stubs."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 1380,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "7A120 is exactly BX LR; the remaining halfword before 7A124 is zero padding with an ELF data mapping. The complete four-byte configured range equals original EU ROM/linked ELF. Original scheduler 003A8 at 003AC loads task+0x24 and invokes a nonnull value indirectly. This routine performs no cleanup itself. Original EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc. Complete selected function range equals the existing linked ELF. Mapping labels were checked against source and control flow; data markers alone are not treated as literal-pool proof. Static evidence only."
+        },
+        {
+          "source": "src/code_08073E2C.c",
+          "line": 53,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Matched fixed-world-sprite effect starter 73E2C writes this routine into task+0x24 after setting callback 73CF4 and stack fields. The scheduler finalizer slot therefore independently identifies its role, despite the routine body being empty."
+        },
+        {
+          "source": "src/code_08068670.c",
+          "line": 6363,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Matched effect-task factory 7386C also installs 7A120 as finalizer for its selected effect callback and stack. No particular class/skill identity is assigned. The no-op finalizer does not clear effect activity masks or free resources; scheduler 003C0 separately frees task+0x20 and unlinks the task after finalizer return."
+        }
+      ]
     },
     {
       "name": "sub_0807A124",
@@ -47122,12 +47606,12 @@
   "identification": {
     "game": {
       "total": 1880,
-      "identified": 698,
+      "identified": 720,
       "existing": 26,
-      "confirmed": 672,
+      "confirmed": 694,
       "proposed": 8,
-      "unidentified": 1174,
-      "percent_identified": 37.12765957446808
+      "unidentified": 1152,
+      "percent_identified": 38.297872340425535
     },
     "sdk": {
       "total": 155,
@@ -47140,12 +47624,12 @@
     },
     "all": {
       "total": 2035,
-      "identified": 853,
+      "identified": 875,
       "existing": 155,
-      "confirmed": 698,
+      "confirmed": 720,
       "proposed": 8,
-      "unidentified": 1174,
-      "percent_identified": 41.91646191646192
+      "unidentified": 1152,
+      "percent_identified": 42.997542997543
     }
   },
   "limitations": "Configured function address intervals, including alignment/literal pools; inventory includes original assembly and linked libraries. Existing descriptive identifiers are recognized, not independently semantically re-proven."
