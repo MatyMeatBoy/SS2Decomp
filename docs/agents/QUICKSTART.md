@@ -5,6 +5,10 @@ Everyone is welcome: humans, Claude, Codex and other coding assistants. Start in
 before editing a function. Public documentation, progress tables, commit messages
 and PR titles/descriptions are written in **English**.
 
+For identification research, follow [the naming coordination workflow](NAMING_WORKFLOW.md)
+and reserve canonical addresses before work. These reservations are separate from
+decompilation shards; the coordinator checks catalog conflicts against fresh main.
+
 ## Windows: download the toolkit into your own folder
 
 1. Create an individual folder, for example `D:\SS2-Collab\YOUR_NAME`. Download
