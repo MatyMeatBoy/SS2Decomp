@@ -3483,6 +3483,27 @@
       ]
     },
     {
+      "address": "0x08068670",
+      "canonical_symbol": "sub_08068670",
+      "display_name": "FreeLinkMessageQueuesAndTaskControls",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08068670.c",
+          "line": 7,
+          "revision": "8d4618912c1c6cadb3f315aad7386e582d3de83c",
+          "detail": "Frees the three allocations made by InitLinkMessageQueuesAndTasks: sender task control 0x03006368, the four peer task controls 0x03006258 and the 50-entry message queue 0x03006300, and clears the three pointers. StartLinkMessageTasks installs it as the cleanup of the outgoing queue-monitor task. It does not cancel tasks itself."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 1292,
+          "revision": "8d4618912c1c6cadb3f315aad7386e582d3de83c",
+          "detail": "Canonical Thumb entry for sub_08068670. Original EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc; static source/instruction evidence only."
+        }
+      ]
+    },
+    {
       "address": "0x08065D50",
       "canonical_symbol": "sub_08065D50",
       "display_name": "EnqueueLinkPlayerName",
@@ -4332,6 +4353,48 @@
           "line": 1298,
           "revision": "47dde703fb3749813bd4cdb783c8fc5b2b5d9d6b",
           "detail": "Canonical Thumb boundary 0x08068820..0x08068868; original EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc. Original 0x08068840 loads message tag 0xA4; 0x08068842 stores it at queue entry+0, independently confirming the source producer/receiver mapping. Original-byte decoding is static evidence, not a runtime trace or new C-equivalence claim."
+        }
+      ]
+    },
+    {
+      "address": "0x08068874",
+      "canonical_symbol": "sub_08068874",
+      "display_name": "PeekReadyOutgoingLinkMessage",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08068670.c",
+          "line": 110,
+          "revision": "8d4618912c1c6cadb3f315aad7386e582d3de83c",
+          "detail": "Returns the first entry of outgoing link queue 0x03006300 when its word +4 is 1 (the value every TryEnqueue producer stores), otherwise null. It neither removes the entry nor checks the queue count."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 1302,
+          "revision": "8d4618912c1c6cadb3f315aad7386e582d3de83c",
+          "detail": "Canonical Thumb entry for sub_08068874. Original EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc; static source/instruction evidence only."
+        }
+      ]
+    },
+    {
+      "address": "0x08068894",
+      "canonical_symbol": "sub_08068894",
+      "display_name": "StartLinkBroadcastMessageTask",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08068670.c",
+          "line": 122,
+          "revision": "8d4618912c1c6cadb3f315aad7386e582d3de83c",
+          "detail": "Returns at once if sender task control 0x03006368 is already scheduled. Otherwise allocates a 0x800-byte stack (retrying with TaskWaitForSignal1), installs callback LinkBroadcastMessageTask with order key 0x65 and no destructor, and starts it with arguments (a, b)."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 1304,
+          "revision": "8d4618912c1c6cadb3f315aad7386e582d3de83c",
+          "detail": "Canonical Thumb entry for sub_08068894. Original EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc; static source/instruction evidence only."
         }
       ]
     },
@@ -5331,6 +5394,27 @@
       ]
     },
     {
+      "address": "0x0801E46C",
+      "canonical_symbol": "sub_0801E46C",
+      "display_name": "ComputeEnemyDefeatExperience",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_0801E244.c",
+          "line": 142,
+          "revision": "8d4618912c1c6cadb3f315aad7386e582d3de83c",
+          "detail": "Takes the character save (level word +0x20) and the defeated enemy's data (word +0x10, byte +0x22). Let L = level + 1 and limit = max(3L, level + 13). Returns 9L when the enemy word exceeds limit, otherwise 3 * enemy word, multiplied by 10 when byte +0x22 is 3. AddExperienceAndAdvanceOneLevel's evidence records that the matched actor defeat/loot path computes its reward through this function before adding it. The exact meaning of the enemy fields is not claimed."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 483,
+          "revision": "8d4618912c1c6cadb3f315aad7386e582d3de83c",
+          "detail": "Canonical Thumb entry for sub_0801E46C. Original EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc; static source/instruction evidence only."
+        }
+      ]
+    },
+    {
       "address": "0x0801E4B0",
       "canonical_symbol": "sub_0801E4B0",
       "display_name": "GetExperienceNeededForNextLevel",
@@ -5423,6 +5507,48 @@
           "line": 488,
           "revision": "47dde703fb3749813bd4cdb783c8fc5b2b5d9d6b",
           "detail": "Canonical original Thumb boundary 0x0801E594..0x0801E5B0; EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc. 0x0801E59C reads record counter; 0x0801E59E ORs 0xFFFF and0x0801E5A0 writes that halfword. 0x0801E5A4 advances0x28 and0x0801E5A6 bounds eight records; other fields are untouched. This is static original-byte evidence, not a runtime trace."
+        }
+      ]
+    },
+    {
+      "address": "0x0801EF14",
+      "canonical_symbol": "sub_0801EF14",
+      "display_name": "ComputeElementalAttackDamage",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_0801E244.c",
+          "line": 715,
+          "revision": "8d4618912c1c6cadb3f315aad7386e582d3de83c",
+          "detail": "Base damage = (attack^2 * 10 / (attack + defense)) * variance / 200 / 10, with variance 100..149 from NextRandom32 % 50 + 100 and a minimum of 1. The attacker's item record (resource 0xB0000 | key) supplies element halfword +0xBC. Elements 1..7 attenuate by the target's resistance table: damage * 5000 / (r*r + 2500), where elements 6 and 7 share entry 5. Results that are negative or not positive become 1."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 492,
+          "revision": "8d4618912c1c6cadb3f315aad7386e582d3de83c",
+          "detail": "Canonical Thumb entry for sub_0801EF14. Original EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc; static source/instruction evidence only."
+        }
+      ]
+    },
+    {
+      "address": "0x0801F024",
+      "canonical_symbol": "sub_0801F024",
+      "display_name": "TestItemAttackBoxesAgainstTarget",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_0801E244.c",
+          "line": 789,
+          "revision": "8d4618912c1c6cadb3f315aad7386e582d3de83c",
+          "detail": "For item record obj, places a square box of size obj[+0xA6] at reach obj[+0xA5] along the facing direction (sine table, centre raised by 0x400). Tests it against the target box (w, h) with the shared fixed-point overlap helper and returns 1 on a hit. Unless item kind +0x9B is 9, it also tests a second box (reach +0xA7, size +0xA8). Kinds 3 and 8 return 0 for certain normalized class indices (GetNormalizedCharacterClassIndex 2, plus 7 for kind 8)."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 493,
+          "revision": "8d4618912c1c6cadb3f315aad7386e582d3de83c",
+          "detail": "Canonical Thumb entry for sub_0801F024. Original EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc; static source/instruction evidence only."
         }
       ]
     },
@@ -5858,6 +5984,27 @@
           "line": 981,
           "revision": "9c1d00e9aac49a38f136080f57230a3f6772c79a",
           "detail": "Original 58C90 queries CB9C; 58C98..58CA2 tests status bit 0x20; 58CA6 stores the full input word and 58CAA calls 06CB4. Original 06CB6/06CB8 zero-extends the low halfword before the 06CBC bound check. Multiplayer branch 58CBA calls 586B4; original 586B8 loads the remembered word, 586BC stops it and 586C2 clears it. Complete original helper/callee ranges equal EU ROM/existing ELF, SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc; static evidence only."
+        }
+      ]
+    },
+    {
+      "address": "0x080599C4",
+      "canonical_symbol": "sub_080599C4",
+      "display_name": "MarkSceneCallbackGuardHeld",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08059534.c",
+          "line": 144,
+          "revision": "8d4618912c1c6cadb3f315aad7386e582d3de83c",
+          "detail": "Sets bit arg of guard mask scene state +0x6C, the same operation as AcquireSceneCallbackGuard in a separate copy; StartGuardedSceneCallbackTask will then refuse to start a task for that bit until it is released."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 1014,
+          "revision": "8d4618912c1c6cadb3f315aad7386e582d3de83c",
+          "detail": "Canonical Thumb entry for sub_080599C4. Original EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc; static source/instruction evidence only."
         }
       ]
     },
@@ -11772,6 +11919,27 @@
       ]
     },
     {
+      "address": "0x0800AE50",
+      "canonical_symbol": "sub_0800AE50",
+      "display_name": "DecodeMapCellAttributeAtPosition",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08009088.c",
+          "line": 1243,
+          "revision": "8d4618912c1c6cadb3f315aad7386e582d3de83c",
+          "detail": "Reads the 16-bit cell at Q8 world position (x >> 11, y >> 11) of either a resource map (when resourceId is nonzero; cells follow a width*height*6 header block) or the current world map (map state map0/mapW, with special widths 90 and 60 for level 8 sub-areas 18 and 2/12). Combines cell bits 8..11 with bit 12 into a 5-bit value and decodes it with the cell's low byte type. The decoded meaning (collision or terrain) is not claimed."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 202,
+          "revision": "8d4618912c1c6cadb3f315aad7386e582d3de83c",
+          "detail": "Canonical Thumb entry for sub_0800AE50. Original EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc; static source/instruction evidence only."
+        }
+      ]
+    },
+    {
       "address": "0x0800BA80",
       "canonical_symbol": "sub_0800BA80",
       "display_name": "ClearLoadedMapLayerDimensionsAndTileOrigin",
@@ -12929,6 +13097,27 @@
           "line": 1645,
           "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
           "detail": "Matched queue consumer traverses the shared list and invokes the renderer per request; per-frame reset sub_08008C1C clears head/tail/count for the next collection cycle."
+        }
+      ]
+    },
+    {
+      "address": "0x080089DC",
+      "canonical_symbol": "sub_080089DC",
+      "display_name": "WriteSpriteFrameOamAndQueueTiles",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08006D24.c",
+          "line": 1366,
+          "revision": "8d4618912c1c6cadb3f315aad7386e582d3de83c",
+          "detail": "Directly writes the OAM entries of one animation frame into the shadow OAM at the current usage count. Rejects with -1 when 128 entries are already used or the animation index exceeds the record's count. Each part is offset by (x, y); parts outside x -64..240 and y -64..160 are hidden and skipped. Priority, mosaic and the palette (remapped through palettes[]) are applied, and tile numbers are assigned from the current tile usage. Each part's pixel data is queued to OBJ VRAM. Returns the VRAM address of the frame's first tile, or 0 if OAM fills mid-frame. Unlike AppendSpriteDrawRequest, no draw-pool record is created."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 176,
+          "revision": "8d4618912c1c6cadb3f315aad7386e582d3de83c",
+          "detail": "Canonical Thumb entry for sub_080089DC. Original EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc; static source/instruction evidence only."
         }
       ]
     },
