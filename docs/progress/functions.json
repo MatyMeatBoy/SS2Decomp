@@ -4662,10 +4662,23 @@
       "canonical_symbol": "sub_080089DC",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_080089DC",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "WriteSpriteFrameOamAndQueueTiles",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_08006D24.c",
+          "line": 1366,
+          "revision": "bf9a9ffc9b00d0cf50a36f70ac323d1d61df2630",
+          "detail": "Writes one animation frame's parts directly into shadow OAM at the current usage count, preserving each destination affine parameter. Initially returns -1 if at least 128 entries are used or the animation index exceeds record count. Offsets parts by (x,y), hides/skips those outside x -64..240 and y -64..160, and applies priority, mosaic, remapped palette and tile numbers. After writing a visible part, increments OAM usage; reaching 128 returns 0 before queuing that part's pixel data and before updating global tile usage, even if it was the last part. Earlier accepted parts have already been queued to OBJ VRAM. On normal completion updates tile usage and returns the frame's initial VRAM address. No draw-pool record is created."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 176,
+          "revision": "8d4618912c1c6cadb3f315aad7386e582d3de83c",
+          "detail": "Canonical Thumb entry for sub_080089DC. Original EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc; static source/instruction evidence only."
+        }
+      ]
     },
     {
       "name": "sub_08008C10",
@@ -5495,10 +5508,23 @@
       "canonical_symbol": "sub_0800AE50",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_0800AE50",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "DecodeMapCellAttributeAtPosition",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_08009088.c",
+          "line": 1243,
+          "revision": "bf9a9ffc9b00d0cf50a36f70ac323d1d61df2630",
+          "detail": "Uses two-byte map-cell stride at Q8 world position (x >> 11, y >> 11), but loads a 32-bit word at the cell address to extract bits 8..11 and bit 12; separately reads the cell's low byte as type. For a nonzero resourceId, obtains the selected map resource, reads signed-halfword width/height at +0x10/+0x12, and uses cell base resource+0x20+6*width*height. Otherwise uses current map state map0/mapW, with widths 90 and 60 for level 8 sub-areas 18 and 2/12. Forms a five-bit value from the extracted bits; type 1 ORs bit 0, other types preserve its low byte. No collision/terrain meaning or bounds/alignment safety is claimed."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 202,
+          "revision": "8d4618912c1c6cadb3f315aad7386e582d3de83c",
+          "detail": "Canonical Thumb entry for sub_0800AE50. Original EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc; static source/instruction evidence only."
+        }
+      ]
     },
     {
       "name": "sub_0800AEF4",
@@ -7168,10 +7194,29 @@
       "canonical_symbol": "sub_0800CD9C",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_0800CD9C",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "MarkSceneEncounterActive",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_0800CBBC.c",
+          "line": 90,
+          "revision": "8d4618912c1c6cadb3f315aad7386e582d3de83c",
+          "detail": "Sets bit 7 (0x80) of scene-flags word 0x03003478, preserving all other bits. Paired clear sub_0800CDAC and query sub_0800CDC0."
+        },
+        {
+          "source": "src/code_0808D4A8.c",
+          "line": 94,
+          "revision": "8d4618912c1c6cadb3f315aad7386e582d3de83c",
+          "detail": "Area encounter routines (sub_0808D594 here, about 15 siblings in code_0808D4A8, and others in code_08087CC0 and code_0808FB5C) share one shape. When scene-state halfword +0x10 is 0 they set bit 7, run sub_0802704C(arg), start special actor tasks through StartEnemyPoolActorTask, and set bit 7 again. When +0x10 is nonzero they wait for scene-state flags bit 4 (sub_08056E90), then clear bit 7 and restore the area (deactivate field items, reset the local player state)."
+        },
+        {
+          "source": "src/code_0808D4A8.c",
+          "line": 1521,
+          "revision": "8d4618912c1c6cadb3f315aad7386e582d3de83c",
+          "detail": "sub_0808F088 follows the same shape. If bit 0x1B of the scene-state bit array tested by sub_08057AE8 (+0x1B7, or +0x1C3 when scene flag bit 9 is set) is already set it does not spawn the actors and instead calls sub_08056E24, the scene marker that TryEnqueueSingleChunkSceneEncounterFinishedNotification documents as encounter-finished. This ties the bit to the encounter, not to a particular area or enemy type. No boss or victory meaning is claimed."
+        }
+      ]
     },
     {
       "name": "sub_0800CDAC",
@@ -7185,10 +7230,23 @@
       "canonical_symbol": "sub_0800CDAC",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_0800CDAC",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "ClearSceneEncounterActive",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_0800CBBC.c",
+          "line": 93,
+          "revision": "8d4618912c1c6cadb3f315aad7386e582d3de83c",
+          "detail": "Clears bit 7 (0x80) of scene-flags word 0x03003478 with mask 0xFFFFFF7F, preserving other bits. Inverse of MarkSceneEncounterActive."
+        },
+        {
+          "source": "src/code_0808D4A8.c",
+          "line": 102,
+          "revision": "8d4618912c1c6cadb3f315aad7386e582d3de83c",
+          "detail": "Called on the completion path of the area encounter routines, after scene-state flags bit 4 is observed. In src/code_08021DC4.c:2257 the bit is cleared only around a sub_0800A34C(curLevel, 0, 1) area reload and set again afterwards, because the map loaders read it (see IsSceneEncounterActive)."
+        }
+      ]
     },
     {
       "name": "sub_0800CDC0",
@@ -7202,10 +7260,23 @@
       "canonical_symbol": "sub_0800CDC0",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_0800CDC0",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "IsSceneEncounterActive",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_0800CBBC.c",
+          "line": 96,
+          "revision": "8d4618912c1c6cadb3f315aad7386e582d3de83c",
+          "detail": "Returns bit 7 of scene-flags word 0x03003478 as 0 or 1."
+        },
+        {
+          "source": "src/code_08009088.c",
+          "line": 342,
+          "revision": "8d4618912c1c6cadb3f315aad7386e582d3de83c",
+          "detail": "The world-map loaders read it. LoadWorldMapArea builds its special 30x32 cell plane only for map set 5, area 13 while the bit is set. Background graphics loading uses a different blend setting for level 4 when it is set (line 77). The tile-animation update skips several per-area animation steps while it is set (lines 414-458)."
+        }
+      ]
     },
     {
       "name": "sub_0800CDD0",
@@ -9529,10 +9600,29 @@
       "canonical_symbol": "sub_0801674C",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_0801674C",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "StartEnemyPoolActorTask",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_080153A4.c",
+          "line": 946,
+          "revision": "8d4618912c1c6cadb3f315aad7386e582d3de83c",
+          "detail": "Finds the first clear bit of the five-slot enemy-actor mask 0x030056FC and returns 0 if all five are in use. Otherwise it marks the slot, takes the slot's 0x2E0-byte actor record from the pool 0x030056F4, stores the slot index at +0 and (slot+4)<<24 at +0x50, and fills task control 0x03004220[slot]: callback arg0, a 0x800-byte stack from HeapAllocate (not checked for failure), order key 0x3C and destructor arg1. It then calls StartTask with the actor record as argument and returns 1."
+        },
+        {
+          "source": "src/code_0808D4A8.c",
+          "line": 119,
+          "revision": "8d4618912c1c6cadb3f315aad7386e582d3de83c",
+          "detail": "Used by the scene-encounter routines to start their special actor callbacks (19 call sites in code_0808D4A8, 2 in code_08087CC0). The pool and mask are the ones AllocateAndInitializeEnemyPools sets up."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 366,
+          "revision": "8d4618912c1c6cadb3f315aad7386e582d3de83c",
+          "detail": "Original EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc; static instruction/caller evidence only."
+        }
+      ]
     },
     {
       "name": "sub_0801681C",
@@ -12921,10 +13011,23 @@
       "canonical_symbol": "sub_0801E46C",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_0801E46C",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "ComputeEnemyDefeatExperience",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_0801E244.c",
+          "line": 142,
+          "revision": "8d4618912c1c6cadb3f315aad7386e582d3de83c",
+          "detail": "Takes the character save (level word +0x20) and the defeated enemy's data (word +0x10, byte +0x22). Let L = level + 1 and limit = max(3L, level + 13). Returns 9L when the enemy word exceeds limit, otherwise 3 * enemy word, multiplied by 10 when byte +0x22 is 3. AddExperienceAndAdvanceOneLevel's evidence records that the matched actor defeat/loot path computes its reward through this function before adding it. The exact meaning of the enemy fields is not claimed."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 483,
+          "revision": "8d4618912c1c6cadb3f315aad7386e582d3de83c",
+          "detail": "Canonical Thumb entry for sub_0801E46C. Original EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc; static source/instruction evidence only."
+        }
+      ]
     },
     {
       "name": "sub_0801E4B0",
@@ -13138,10 +13241,23 @@
       "canonical_symbol": "sub_0801EF14",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_0801EF14",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "ComputeElementalAttackDamage",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_0801E244.c",
+          "line": 715,
+          "revision": "bf9a9ffc9b00d0cf50a36f70ac323d1d61df2630",
+          "detail": "Loads unsigned 16-bit attack and defense from actor +0x1CC/+0x1CE. Casts NextRandom32 to u16 before modulo 50, then adds 100 for variance. Computes signed division of the low-32-bit product attack*attack*10 by attack+defense, then signed division of the low-32-bit product with variance by 200. Truncates that result to u16 before unsigned division by 10; replaces zero with 1. Item resource (0xB0000 | attacker context key) supplies element halfword +0xBC. Elements 1..7 select target resistance entries 0..5, with elements 6/7 sharing entry 5. Resistance is interpreted as s16 for r*r; damage*5000/(r*r+2500) is truncated to u16 and a set sign bit becomes 1. The final low-halfword signed-positive test also replaces zero/negative results with 1. No division-by-zero guard or widened arithmetic is inferred."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 492,
+          "revision": "8d4618912c1c6cadb3f315aad7386e582d3de83c",
+          "detail": "Canonical Thumb entry for sub_0801EF14. Original EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc; static source/instruction evidence only."
+        }
+      ]
     },
     {
       "name": "sub_0801F024",
@@ -13155,10 +13271,23 @@
       "canonical_symbol": "sub_0801F024",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_0801F024",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "TestItemAttackBoxesAgainstTarget",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_0801E244.c",
+          "line": 789,
+          "revision": "8d4618912c1c6cadb3f315aad7386e582d3de83c",
+          "detail": "For item record obj, places a square box of size obj[+0xA6] at reach obj[+0xA5] along the facing direction (sine table, centre raised by 0x400). Tests it against the target box (w, h) with the shared fixed-point overlap helper and returns 1 on a hit. Unless item kind +0x9B is 9, it also tests a second box (reach +0xA7, size +0xA8). Kinds 3 and 8 return 0 for certain normalized class indices (GetNormalizedCharacterClassIndex 2, plus 7 for kind 8)."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 493,
+          "revision": "8d4618912c1c6cadb3f315aad7386e582d3de83c",
+          "detail": "Canonical Thumb entry for sub_0801F024. Original EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc; static source/instruction evidence only."
+        }
+      ]
     },
     {
       "name": "sub_0801F1C4",
@@ -22885,10 +23014,23 @@
       "canonical_symbol": "sub_080599C4",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_080599C4",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "MarkSceneCallbackGuardHeld",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_08059534.c",
+          "line": 144,
+          "revision": "8d4618912c1c6cadb3f315aad7386e582d3de83c",
+          "detail": "Sets bit arg of guard mask scene state +0x6C, the same operation as AcquireSceneCallbackGuard in a separate copy; StartGuardedSceneCallbackTask will then refuse to start a task for that bit until it is released."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 1014,
+          "revision": "8d4618912c1c6cadb3f315aad7386e582d3de83c",
+          "detail": "Canonical Thumb entry for sub_080599C4. Original EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc; static source/instruction evidence only."
+        }
+      ]
     },
     {
       "name": "sub_080599D8",
@@ -30207,10 +30349,23 @@
       "canonical_symbol": "sub_08068670",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_08068670",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "FreeLinkMessageQueueAndTaskControls",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_08068670.c",
+          "line": 7,
+          "revision": "8d4618912c1c6cadb3f315aad7386e582d3de83c",
+          "detail": "Frees the three allocations made by InitLinkMessageQueuesAndTasks: sender task control 0x03006368, the four peer task controls 0x03006258 and the 50-entry message queue 0x03006300, and clears the three pointers. StartLinkMessageTasks installs it as the cleanup of the outgoing queue-monitor task. It does not cancel tasks itself."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 1292,
+          "revision": "8d4618912c1c6cadb3f315aad7386e582d3de83c",
+          "detail": "Canonical Thumb entry for sub_08068670. Original EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc; static source/instruction evidence only."
+        }
+      ]
     },
     {
       "name": "sub_080686A4",
@@ -30538,10 +30693,23 @@
       "canonical_symbol": "sub_08068874",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_08068874",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "PeekReadyOutgoingLinkMessage",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_08068670.c",
+          "line": 110,
+          "revision": "8d4618912c1c6cadb3f315aad7386e582d3de83c",
+          "detail": "Returns the first entry of outgoing link queue 0x03006300 when its word +4 is 1 (the value every TryEnqueue producer stores), otherwise null. It neither removes the entry nor checks the queue count."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 1302,
+          "revision": "8d4618912c1c6cadb3f315aad7386e582d3de83c",
+          "detail": "Canonical Thumb entry for sub_08068874. Original EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc; static source/instruction evidence only."
+        }
+      ]
     },
     {
       "name": "sub_0806888C",
@@ -30572,10 +30740,23 @@
       "canonical_symbol": "sub_08068894",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_08068894",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "StartLinkBroadcastMessageTask",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_08068670.c",
+          "line": 122,
+          "revision": "8d4618912c1c6cadb3f315aad7386e582d3de83c",
+          "detail": "Returns at once if sender task control 0x03006368 is already scheduled. Otherwise allocates a 0x800-byte stack (retrying with TaskWaitForSignal1), installs callback LinkBroadcastMessageTask with order key 0x65 and no destructor, and starts it with arguments (a, b)."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 1304,
+          "revision": "8d4618912c1c6cadb3f315aad7386e582d3de83c",
+          "detail": "Canonical Thumb entry for sub_08068894. Original EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc; static source/instruction evidence only."
+        }
+      ]
     },
     {
       "name": "sub_080688F4",
@@ -46125,12 +46306,12 @@
   "identification": {
     "game": {
       "total": 1880,
-      "identified": 639,
+      "identified": 652,
       "existing": 26,
-      "confirmed": 613,
+      "confirmed": 626,
       "proposed": 0,
-      "unidentified": 1241,
-      "percent_identified": 33.98936170212766
+      "unidentified": 1228,
+      "percent_identified": 34.680851063829785
     },
     "sdk": {
       "total": 155,
@@ -46143,12 +46324,12 @@
     },
     "all": {
       "total": 2035,
-      "identified": 794,
+      "identified": 807,
       "existing": 155,
-      "confirmed": 639,
+      "confirmed": 652,
       "proposed": 0,
-      "unidentified": 1241,
-      "percent_identified": 39.01719901719902
+      "unidentified": 1228,
+      "percent_identified": 39.65601965601966
     }
   },
   "limitations": "Configured function address intervals, including alignment/literal pools; inventory includes original assembly and linked libraries. Existing descriptive identifiers are recognized, not independently semantically re-proven."
