@@ -294,3 +294,57 @@ Queue-full rejection occurs before coalescing, even if a pending tag exists.
 Evidence distinguishes entry offsets from payload-word indices and records
 partially initialized eight-byte chunks. No exact effect/item title, gameplay
 kill reward, universal target domain or successful delivery is inferred.
+
+## Periodic scroll offset and BG2 rocking controls
+
+Fifteen independently reviewed rows reuse frozen `periodicshake8` and
+`bg2rocking7` evidence. The first family produces a signed offset applied by
+consumers to BG0/BG1 vertical-scroll shadows; hardware transfer `08000B50`
+anchors this interpretation without naming an actor or stage.
+
+Both task starters have an unusual membership guard: an already scheduled
+control can reach initialization again. They are not conventional idempotent
+start APIs. Pointer globals, unchecked allocation paths, parameter resets and
+state writes before failed allocation are documented separately.
+
+The periodic producer truncates its scaled lookup sample to signed16 before
+division by 64 toward zero, then takes a signed remainder using the unsigned
+scale byte. Zero scale is not rejected. Its stop request is cooperative and can
+be overwritten by initial task entry; neither stop nor free clears the last
+output. A phase increment is a per-update byte, not a frequency in Hz.
+
+The rocking task consumes an unsigned phase step and signed amplitude, while
+its amplitude getter returns raw zero-extended bits. Its fields at
+`+0x70/+0x72/+0x74/+0x76` belong to fixed map state `03003170`, not the object
+pointed to by `03005CF4`. The sixteen position records are reached through
+pointer global `03005D58`.
+
+BG2 shadow publication and position warp/clamp are calls to helpers gated by
+four effect predicates; they need not mutate state on every task iteration.
+Previous-coordinate copies are separate. Forced task stop does not restore
+transform or positions. The seven-row evidence overlay records these gating
+and pointer distinctions while preserving the frozen originals and all names.
+
+## Movement request, target wrappers, background bridges and HUD stop
+
+Six remaining next52 rows retain narrow observed helper roles. Movement setter
+`08015C5C` stores targets and request flags without directly changing position.
+Its controller uses signed16 narrowing and integer-Sqrt distance threshold 8;
+this is not an exact real-valued circle, pathfinding or guaranteed arrival.
+
+Target wrappers `0807A028/0807A040` pass default range `0x7FFFFFFF`, preserving
+the inner selectors' player-first preference, concrete group filters and enemy
+exclusion rules. Distances and results narrow to `u16`; a best-distance initial
+value of 65535 still excludes that value. The default is not an unlimited,
+validated search over arbitrary coordinates or player indices.
+
+Background bridges `0800BCDC/0800BCFC` add 28 to the screen-block argument and
+forward narrowed palette arguments. The latter loader offsets the graphics
+key alone using `03003470`; tilemap and palette keys remain separate. No VRAM
+bounds or class/story meaning is inferred from the offset.
+
+`080653D4` cancels the indexed fixed control at `03006110 + index*0x28` only
+when scheduled. Constructor registration and the original callback establish
+the paged three-item selection HUD role. Its inventory is reached through
+pointer global `030034E0`, not manager `03006440`. Cancellation does not promise
+visual cleanup, cooperative slide-out or index validation.
