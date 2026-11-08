@@ -24227,6 +24227,46 @@
           "detail": "src/code_08087CC0.c:2044 invokes this; callback08026858 consumes1403D4 To Chaos domain."
         }
       ]
+    },
+    {
+      "address": "0x080245CC",
+      "canonical_symbol": "sub_080245CC",
+      "display_name": "RunLevelExitTransition",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08021DC4.c",
+          "line": 2071,
+          "revision": "b5337babd5b759034a0b68b145e7899a6bfefd7d",
+          "detail": "Consumes map exit descriptor XY/destination/flags, displays English resource1403D1 To the next level, animates exit marker, polls local/replicated player proximity/readiness, then writes destination and transition mode to scene state, waits for enemies to clear and triggers area state update. Original descriptor layout is four unsigned halfwords: +0 X tiles, +2 Y tiles, +4 destination scalar, +6 packed flags; X/Y multiply8 (24608..14). Flags low2 select marker animation, bit2 changes marker resource, bit3 selects alternate exit flow, bits4..6 select direction, bit7 selects proximity flow, high byte becomes WORD game+44 transition mode (256F8..25708). Destination HALFWORD is promoted into WORD game+40 (24E28/2A,2529E/A0); first flow overrides destination18 only if currentlevel10, scene16 and CE30!=0. Readiness counter spA8 starts0 (24688/8A), unlike C04; participant scan gated by02204()!=0, with distinct CB9C/CF80/flags branches. BA6C, CDF8,67DC8 and enemy-mask waits may be indefinite;021A8 or all-player2000 branches return early. Existing scene exit flag can reach finalization without this function writing destination. No universal successful travel or map-load contract. Resource marker table084B16E0 indexed by mode without capacity validation. Complete primary C read; exact original layout and destination/transition writes audited."
+        },
+        {
+          "source": "src/code_08021DC4.c",
+          "revision": "b5337babd5b759034a0b68b145e7899a6bfefd7d",
+          "detail": "src/code_08021DC4.c:2187 loads1403D1; original English table0838AFF0 entry3D1 points083852B7, encoded To the next level. The function terminates via scene transition handling rather than just drawing a marker."
+        }
+      ]
+    },
+    {
+      "address": "0x08026338",
+      "canonical_symbol": "sub_08026338",
+      "display_name": "StartReturnToCastlePortalTask",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08021DC4.c",
+          "line": 3271,
+          "revision": "b5337babd5b759034a0b68b145e7899a6bfefd7d",
+          "detail": "Replaces scene task17BC and installs callback08025890. Callback loads1403D2 To Klantol Castle and polls/animates its return portal. Existing alias t24_gate25890 already identifies the callback in inventory, so no duplicate callback proposal is submitted. Original wrapper preserves incoming r0 across scheduler setup, installs Thumb pointer25891 into game+17C8, replaces active17BC task, allocates1024 once without NULL retry, stores allocation+17DC/stacktop+17CC, priority46 and cleanup0, then passes original argument to00274. Independent full callback25890 C read and complete original ROM=ELF: consumes argument halfwords+0/+2 as coordinates*8 and +4 destination, displays1403D2, uses ready count initialized0 and packet+7bit4. This establishes return-to-castle portal purpose; no guarantee of target argument validity or allocation success. Callback can return early on021A8/player-state gates."
+        },
+        {
+          "source": "src/code_08021DC4.c",
+          "revision": "b5337babd5b759034a0b68b145e7899a6bfefd7d",
+          "detail": "src/code_08021DC4.c:2988 callback loads1403D2; original English table0838AFF0 entry3D2 points083852CC, text To Klantol Castle. Wrapper3271 installs that callback with supplied portal argument."
+        }
+      ]
     }
   ]
 }
