@@ -34405,10 +34405,17 @@
       "canonical_symbol": "sub_0807356C",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_0807356C",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "ApplyTimedBuffToLocalOwnerOrNearbyAlly",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_08068670.c",
+          "line": 5935,
+          "revision": "8bbfb589bf6ab55018ae7e465fc0e674879c81fa",
+          "detail": "Reads full descriptor owner and mask-bit, low16 level at+0x14; local owner deducts low16(cost6898C-1) from resource halfword+C2 and clamps signed-negative result0. Scans players for sprite byte+4 bit5 clear, same team as owner, nonzero level, and abs((s16)coordinateDelta>>3)<=12 on each axis; stores candidate IDs in4-byte array (Sqrt distances are also stored but not used to sort). Local-owner path always applies only to owner, independent of this range list: triggers attached visual, searches8 slots stride0x28 for timer>0,type5, originating player<=3 with class halfword+64==7, upgrades only if level increases; else first timer=-1 allocates type5 with owner and duration(level*10+40)*60 truncated16. Clears owner halfwords+24/+26. Remote-owner path starts visuals for candidate IDs in index order until encountering local player, where analogous type5 update/allocation occurs; then exits. Always clears030063E0[owner] requested bit on normal exit. Owner>3 leaves position-player base register without initialization before access; no valid enemy-owner contract, count<=4 proof, buff-capacity success, or actual named skill identity is asserted. Original configured body fully preserved/inspected against supplied verified-main ELF and EU ROM. Static research only; no worker build/runtime testing."
+        }
+      ]
     },
     {
       "name": "sub_0807386C",
@@ -34422,10 +34429,23 @@
       "canonical_symbol": "sub_0807386C",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_0807386C",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "DispatchAbilityTaskOrSelfBuff",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_08068670.c",
+          "line": 6103,
+          "revision": "8bbfb589bf6ab55018ae7e465fc0e674879c81fa",
+          "detail": "Machine ABI preserves full words who,kind,target/parameter,level and fifth stack value. Finds free bit among16 in030063E0[who]; no slot returns immediately. Writes six-word descriptor {who,slot,arg2,kind,stackArg,arg3} at03006380[who]+slot*24. Kinds1..21 except6 install specific ability callbacks (mapping literal jump table in proof); kind6 instead locally deducts low16(cost6898C-1) from player halfword+C2, clamps signed-negative result0, searches8 effect slots stride0x28 for active type6 from same owner or free timer=-1, and installs/upgrades level from player+26 with halfword duration(level*10+40)*60. Local kind6 calls sub_0801FD64 on player, all kind6 paths start attached visual6 and return without starting an ability task. Other paths allocate0x800 bytes, storing task+20 even on failure; success priority0x34, stack+7FC, cleanup7A120, register and set mask, call sub_0801FD64 on local player. Unknown kinds do not reject: they fall into allocation using whatever entry callback was already in the slot. No who bounds, safe unknown-kind contract or synchronous ability completion. Original configured body fully preserved/inspected against supplied verified-main ELF and EU ROM. Static research only; no worker build/runtime testing."
+        },
+        {
+          "source": "src/code_0801E244.c",
+          "line": 1359,
+          "revision": "8bbfb589bf6ab55018ae7e465fc0e674879c81fa",
+          "detail": "Do not inherit source alias refresh07686C as semantic proof:1FD64 conditionally accumulates a percentage of player signed halfword+62 into halfword+8A when current/previous words+DC/+10C differ, enabled byte+68 nonzero, and rate byte+69 nonzero with bit7 clear; resets word+E0 and records previous. This cohort deliberately does not call it stat recomputation. Original1FD64 additionally substitutes amount1 when the narrowed percentage is zero; accumulation wraps in halfword+0x8A. It writes previous+0x10C=current+0xDC and pending+0xE0=0 only inside the serial-different, enabled, unblocked nonzero-rate path. Signed-negative source amounts can narrow to large unsigned halfwords; this is not a general stat refresh, bounded recovery or successful buff-application acknowledgement."
+        }
+      ]
     },
     {
       "name": "sub_08073CF4",
@@ -34751,10 +34771,17 @@
       "canonical_symbol": "sub_08074DE8",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_08074DE8",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "StartEntityAttachedAbilityVisual",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_08073E2C.c",
+          "line": 561,
+          "revision": "8bbfb589bf6ab55018ae7e465fc0e674879c81fa",
+          "detail": "For full who index selects first free bit among16 in030063E0[who]. Both who<=3 and who>3 branches accept only type6,8,9,10,11,20, selecting callbacks74B00,74530,74818,746A4,7498C,74C74 respectively; unsupported type/full pool returns. Writes callback before allocating0x680-byte stack into030063B0[who]+slot*0x28+20. Failure leaves callback changed but mask unchanged; success sets priority0x34, stack+67C, cleanup0, starts task with who/slot and sets mask. Pinned complete callback bodies follow player sprite position for who<4 or enemy coordinates indexed who-4, step/draw distinct animations then clear slot bit. This starts a following visual, does not apply its corresponding ability or guarantee animation completes. No who upper-bound check. Original configured body fully preserved/inspected against supplied verified-main ELF and EU ROM. Static research only; no worker build/runtime testing."
+        }
+      ]
     },
     {
       "name": "sub_08075088",
@@ -35276,10 +35303,23 @@
       "canonical_symbol": "sub_08079D84",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_08079D84",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "ProcessAbilityHitAndAnimateAtPackedPosition",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_08073E2C.c",
+          "line": 3618,
+          "revision": "8bbfb589bf6ab55018ae7e465fc0e674879c81fa",
+          "detail": "r0 points to six-word ability descriptor; r1 packs coordinate halfwords. Initializes sprite5008C,palette bank0x17 (23), style bytes7/8; unpacks low/high16 coordinate fields and shifts each left8. Calls hit processor68A00 once with x inr0,y inr1,descriptor inr2 before checking abort helper0CB78. Then while abort helper zero and low16 animation completion zero, advances animation21, conditionally projects/draws when three display gates zero; visibility may be zeroed for level4 helper0CDC0 and actual draw additionally requires03002344 bit0. Y screen coordinate+1; yields each iteration. Both normal/abort exits clear mask030063E0[descriptor.owner] bit descriptor.slot. It does not itself prove a target hit;68A00 checks square radius/eligibility/history and may return0; its return value is ignored. No movement or repeated hit processing in this body; no runtime completion guarantee. Original configured body fully preserved/inspected against supplied verified-main ELF and EU ROM. Static research only; no worker build/runtime testing."
+        },
+        {
+          "source": "src/code_08073E2C.c",
+          "line": 3642,
+          "revision": "8bbfb589bf6ab55018ae7e465fc0e674879c81fa",
+          "detail": "Independent review narrows Apply to Process: original callback invokes sub_08068A00 exactly once before abort testing, ignores its return and then animates. No target is guaranteed eligible and no successful damage write is established merely by calling it. Full position pair is passed by value in r0/r1 with descriptor in r2; input packed coordinates are unpacked unsigned before left shift8."
+        }
+      ]
     },
     {
       "name": "sub_08079ED0",
@@ -35293,10 +35333,17 @@
       "canonical_symbol": "sub_08079ED0",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_08079ED0",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "StartAbilityHitAnimationAtPosition",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_08073E2C.c",
+          "line": 3657,
+          "revision": "8bbfb589bf6ab55018ae7e465fc0e674879c81fa",
+          "detail": "r0 source six-word ability descriptor,r1/r2 full coordinate words. Searches free bit among16 in030063E0[source.owner], otherwise returns. Allocates0x400 stack, writes selected0x28 task+20; failure returns with no descriptor copy/mask change. Success copies all24bytes into03006380[owner]+slot*24 then replaces descriptor.slot, sets priority0x34, callback79D84, stack+3FC,cleanup0 and registers callback with descriptor and packed coordinate word=(r1 logical>>8)|((r2 logical>>8)<<16). There is no mask of x before OR, so x bits24..31 can affect packed Y low8; do not assume arbitrary signed/large coordinates round-trip. Sets owner slot mask after task registration. No owner bounds or allocation retry; starts one-time hit processing plus animation asynchronously, does not prove collision/damage completion. Original configured body fully preserved/inspected against supplied verified-main ELF and EU ROM. Static research only; no worker build/runtime testing."
+        }
+      ]
     },
     {
       "name": "sub_08079FD0",
@@ -36184,10 +36231,17 @@
       "canonical_symbol": "sub_08081518",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_08081518",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "DrawEncodedTextWithUnsignedNumber",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_0807A5D4.c",
+          "line": 4154,
+          "revision": "8bbfb589bf6ab55018ae7e465fc0e674879c81fa",
+          "detail": "r0 x, r1 y, r2 encoded source and r3 number; x/y/number truncated to u16. Fifth incoming stack word bit0 selects horizontal centering. Skips two source bytes and expands each0xF7 token into decimal digits0x41+digit using six divisors100000..1, suppressing leading zeros except final digit; copies other bytes until0xFD. Builds local32-byte text, u16 length with no bounds validation, terminates0xFD and draws via0x0801A3D0 at u16(x-(width>>1)) when centered, else x. No text-capacity check or bounded search for a missing source terminator; not ASCII formatting. Complete original configured body and literals audited against ROM; copied verified-main ELF static equality, no local build or runtime test. 1A638 measures encoded byte count until 0xFD or a high control code, so centering is in text columns rather than proven pixel width. Every 0xF7 expansion restarts from the same saved unsigned16 number. With unsigned16 input, at most five significant decimal digits occur despite six divisor passes. Helper00498 returns quotient and writes remainder back through the number pointer."
+        }
+      ]
     },
     {
       "name": "sub_080815F4",
@@ -36828,10 +36882,17 @@
       "canonical_symbol": "sub_08085484",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_08085484",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "ClearAndFreeItemMenuManager",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_0807A5D4.c",
+          "line": 7627,
+          "revision": "8bbfb589bf6ab55018ae7e465fc0e674879c81fa",
+          "detail": "Unconditionally loads pointer global0x03006440, writes word0 at pointee+0, frees pointee with0x08001538 and clears pointer global. Original instructions have no null check despite empty conditional in source. Registered finalizer by0x08084EAC for shared manager menu task0x0807A5D4. No pool wait, task cancellation or other field cleanup here. Complete original configured body and literals audited against ROM; copied verified-main ELF static equality, no local build or runtime test."
+        }
+      ]
     },
     {
       "name": "sub_080854A0",
@@ -36845,10 +36906,17 @@
       "canonical_symbol": "sub_080854A0",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_080854A0",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "FreeInventoryMenuManager",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_0807A5D4.c",
+          "line": 7637,
+          "revision": "8bbfb589bf6ab55018ae7e465fc0e674879c81fa",
+          "detail": "Loads pointer global0x03006440, calls heap free0x08001538, then clears global pointer. Does not write pointee first or test null. Original0x08084F24 registers it as finalizer of confirmed TaskInventoryMenu0x0807B7B4. Does not itself cancel tasks or free pool. Complete original configured body and literals audited against ROM; copied verified-main ELF static equality, no local build or runtime test."
+        }
+      ]
     },
     {
       "name": "sub_080854B8",
@@ -36892,10 +36960,17 @@
       "canonical_symbol": "sub_080854E8",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_080854E8",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "CountDecimalDigitsCappedAtSix",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_0807A5D4.c",
+          "line": 7650,
+          "revision": "8bbfb589bf6ab55018ae7e465fc0e674879c81fa",
+          "detail": "Unsigned full-word r0 value. Starts result6 and compares thresholds100000,10000,1000,100,10,1 from word table0x084EBD4C offsets16..36. Decrements while threshold>value, returning0 for zero,1..5 for1..99999, and6 for every value>=100000 including values with more than six decimal digits. No mutation or division. This is a capped display-width helper, not a true unbounded digit count. Complete original configured body and literals audited against ROM; copied verified-main ELF static equality, no local build or runtime test."
+        }
+      ]
     },
     {
       "name": "sub_08085518",
@@ -36909,10 +36984,17 @@
       "canonical_symbol": "sub_08085518",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_08085518",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "ClearAndFreeFullScreenItemMenuManager",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_0807A5D4.c",
+          "line": 7665,
+          "revision": "8bbfb589bf6ab55018ae7e465fc0e674879c81fa",
+          "detail": "Unconditionally loads shared item-menu pointer global0x03006440, writes word0 at pointee+0, calls heap free0x08001538, then clears pointer global. No null check or nested-pool cleanup. Original0x08084F9C registers as finalizer of full-screen item-menu callback0x08082BB0, which selects manager modes3/4/5/6 from its incoming mode. Same operation sequence as0x08085484 but distinct canonical entry and registration; raw bytes differ because the relative call to heap free has a different displacement. No collection-only domain is established. Complete original configured body and literals audited against ROM; copied verified-main ELF static equality, no local build or runtime test."
+        }
+      ]
     },
     {
       "name": "sub_08085534",
@@ -37091,10 +37173,17 @@
       "canonical_symbol": "sub_08087A5C",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_08087A5C",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "TaskDisplayCenteredSceneMessage",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_0807A5D4.c",
+          "line": 9164,
+          "revision": "8bbfb589bf6ab55018ae7e465fc0e674879c81fa",
+          "detail": "r0 message id is ORed with0x140000 for resource lookup; low16 r1 is iteration limit, high16 layout mode. Initializes eight32-byte lines to0xFD, skips resource header2, handles0xFF newline and0xFE newline plus2 skipped payload bytes, and expands0xF6/F4/F3/F2 from player-name buffers at player-base+2/+0x14E/+0x29A/+0x3E6. Name reads use current output column as index, not separate token-local index. No line/column/resource bounds validation. Each iteration updates blend shadow with coefficients initially0/16, approaching16/0 except tick multiples16; mode0 centers nonempty first4 lines on rows12,14,16,18; mode1 first2 on16,18; mode2 all8 on2..16. Other modes draw no text. Breaks on link error or positive-transition-passed-duration predicate; otherwise yields. All exits mark/queue text rows0..19, not guaranteed to clear their contents. Limit0 still parses resource but draws nothing. Complete original configured body audited against ROM; copied verified-main ELF static equality does not imply a new build or runtime test. Width helper 1A638 counts encoded bytes until 0xFD or a code above 0xF1; centering is in text columns, not independently measured pixel width. The exact second exit predicate is signed halfword 03000026==1 and unsigned halfword 03000022>03000020. Modes1/2 still invoke drawing for empty lines. FE advances source by3 bytes in total, including its token."
+        }
+      ]
     },
     {
       "name": "sub_08087CC0",
@@ -37226,10 +37315,23 @@
       "canonical_symbol": "sub_080889D4",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_080889D4",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "StartFourLineSceneMessageTask",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_08087CC0.c",
+          "line": 396,
+          "revision": "8bbfb589bf6ab55018ae7e465fc0e674879c81fa",
+          "detail": "r0 full message id; low16 r1 iteration limit. Allocates3072-byte stack and registers callback0x08087A5C on fixed task control0x030061B0, stack top+3068, priority10, finalizer0; forwards limit with high layout bits0. Thus callback uses four-line layout. No malloc/activity check or completion wait. Complete original configured body audited against ROM; copied verified-main ELF static equality does not imply a new build or runtime test."
+        },
+        {
+          "source": "src/code_08087CC0.c",
+          "line": 396,
+          "revision": "8bbfb589bf6ab55018ae7e465fc0e674879c81fa",
+          "detail": "Independent original confirms scheduler ABI r0=task pointer,r1=full message id,r2=packed low16 limit/layout; callback ABI r0=message id,r1=packed limit/layout. The three starters share one fixed task control030061B0,not three pools or independent slots. No concurrency,allocation-success or completed-display guarantee."
+        }
+      ]
     },
     {
       "name": "sub_08088A18",
@@ -37267,10 +37369,23 @@
       "canonical_symbol": "sub_08088A60",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_08088A60",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "StartTwoLineSceneMessageTask",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_08087CC0.c",
+          "line": 417,
+          "revision": "8bbfb589bf6ab55018ae7e465fc0e674879c81fa",
+          "detail": "r0 full message id; low16 r1 iteration limit. Allocates3072-byte stack and registers callback0x08087A5C on fixed task control0x030061B0, stack top+3068, priority10, finalizer0; forwards limit|0x10000, selecting two centered lines. No malloc/activity check or completion wait. Complete original configured body audited against ROM; copied verified-main ELF static equality does not imply a new build or runtime test."
+        },
+        {
+          "source": "src/code_08087CC0.c",
+          "line": 417,
+          "revision": "8bbfb589bf6ab55018ae7e465fc0e674879c81fa",
+          "detail": "Independent original confirms scheduler ABI r0=task pointer,r1=full message id,r2=packed low16 limit/layout; callback ABI r0=message id,r1=packed limit/layout. The three starters share one fixed task control030061B0,not three pools or independent slots. No concurrency,allocation-success or completed-display guarantee."
+        }
+      ]
     },
     {
       "name": "sub_08088AA8",
@@ -37308,10 +37423,23 @@
       "canonical_symbol": "sub_08088B24",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_08088B24",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "StartEightLineSceneMessageTask",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_08087CC0.c",
+          "line": 448,
+          "revision": "8bbfb589bf6ab55018ae7e465fc0e674879c81fa",
+          "detail": "r0 full message id; low16 r1 iteration limit. Allocates3072-byte stack and registers callback0x08087A5C on fixed task control0x030061B0, stack top+3068, priority10, finalizer0; forwards limit|0x20000, selecting eight centered lines. No malloc/activity check or completion wait. Complete original configured body audited against ROM; copied verified-main ELF static equality does not imply a new build or runtime test."
+        },
+        {
+          "source": "src/code_08087CC0.c",
+          "line": 448,
+          "revision": "8bbfb589bf6ab55018ae7e465fc0e674879c81fa",
+          "detail": "Independent original confirms scheduler ABI r0=task pointer,r1=full message id,r2=packed low16 limit/layout; callback ABI r0=message id,r1=packed limit/layout. The three starters share one fixed task control030061B0,not three pools or independent slots. No concurrency,allocation-success or completed-display guarantee."
+        }
+      ]
     },
     {
       "name": "sub_08088B6C",
@@ -37871,10 +37999,23 @@
       "canonical_symbol": "sub_0808D05C",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_0808D05C",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "StartStageSelectionOrBattleTeamSetupTask",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_08087CC0.c",
+          "line": 3827,
+          "revision": "8bbfb589bf6ab55018ae7e465fc0e674879c81fa",
+          "detail": "No arguments or meaningful return. Allocates4096-byte stack on fixed task control0x03006450, stack top+4092, priority100 and no-op finalizer0x0808D118. If scene flag multiplayer predicate0x0800CB9C returns nonzero, selects confirmed TaskBattleTeamSetup0x0808C0C4; otherwise confirmed RunTimedStageSelectionMenu0x0808AFE8. Starts selected task with argument0; no allocation/activity check or completion wait. Complete original configured body audited against ROM; copied verified-main ELF static equality does not imply a new build or runtime test."
+        },
+        {
+          "source": "src/code_08087CC0.c",
+          "line": 3331,
+          "revision": "8bbfb589bf6ab55018ae7e465fc0e674879c81fa",
+          "detail": "Accepted with added role evidence; do not replace names of the callbacks or infer them only from predicate. Complete own original confirms fixed03006450 task,1000 allocation/topFFC,priority100,finalizerD118 (own original bx lr),callbackC0C4 iff global03478 word bit1 is set,otherwiseAFE8; scheduler argument0. Own original callback paths C64C..C68C first read signed halfword selection+0x1C and compare it with4 at C654..C65A. Equality writes zero to player byte+0x68; only the other branch reads selection byte+0x1C at C670, adds3 and writes player byte+0x68. The high byte is therefore relevant to the equality test; matched consumer8CB58 groups BYTE+68 minus3 and excludes player flags2000 in winner logic,selecting text resources1401FF..140202. This establishes team combat setup beyond draft alias names. Independently extracted resource pointers/bytes agree with existing catalog team-choice/winner anchors; no new font rendering or exact UI-title claim. Own original AFE8 paths B392..B43A draw three16-byte item records plus fields divided by3600 and60 and saved values58900/58934; B902..B940 choosesRNG%3 record,sets scene+40=1,+36halfword=(slot<<8)|row|8000,copies16 bytes toscene+5C,signals02688420. These paths and ten sequential stage-row tables support broad timed-stage-selection role,without claiming detail-column choice is transferred. NONMATCHING drafts used only to locate evidence,not as proof."
+        }
+      ]
     },
     {
       "name": "sub_0808D0B0",
@@ -38542,10 +38683,17 @@
       "canonical_symbol": "sub_0808E94C",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_0808E94C",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "TaskAutoScrollLayerThreeSourceHorizontally",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_0808D4A8.c",
+          "line": 1132,
+          "revision": "8bbfb589bf6ab55018ae7e465fc0e674879c81fa",
+          "detail": "No arguments or return path. Sets layer3 camera-relative mode to0 once, then adds42 to a32-bit accumulator initially0 each iteration. Passes signed result of (accumulator<<8) arithmetic-shift16 as layer3 source x, y0, then yields forever. This has machine-width wrap/truncation behavior, not an unbounded real-valued position. Source-scroll setter may suppress writes under its own scene guard; task does not check full-screen-menu state. Complete original configured body audited against ROM; copied verified-main ELF static equality, no local build or runtime test. Independent original setters truncate source/display x/y to low16 before storing layer halfwords; accumulator arithmetic remains32-bit. Camera-relative mode is halfword layer+16hex. Renderer09594 distinguishes source positions atlayer+8/+A from display offsets atlayer+4/+6."
+        }
+      ]
     },
     {
       "name": "sub_0808E970",
@@ -38576,10 +38724,17 @@
       "canonical_symbol": "sub_0808E9B8",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_0808E9B8",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "TaskBlendAndAutoScrollLayerDisplayOffsets",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_0808D4A8.c",
+          "line": 1154,
+          "revision": "8bbfb589bf6ab55018ae7e465fc0e674879c81fa",
+          "detail": "No arguments or return path. Two32-bit accumulators start0 and increase682 and136 per iteration. Sets blend-register shadow arguments(2,0x1C,1,4,12,0), then layer1 and layer3 horizontal DISPLAY offsets to arithmetic-shift8 accumulators with vertical offsets0, then yields forever. Does not modify source-cell positions or camera-relative mode. No menu pause check in this body; callee setters retain their own scene guard. Complete original configured body audited against ROM; copied verified-main ELF static equality, no local build or runtime test. Independent original setters truncate source/display x/y to low16 before storing layer halfwords; accumulator arithmetic remains32-bit. Camera-relative mode is halfword layer+16hex. Renderer09594 distinguishes source positions atlayer+8/+A from display offsets atlayer+4/+6."
+        }
+      ]
     },
     {
       "name": "sub_0808E9FC",
@@ -38661,10 +38816,17 @@
       "canonical_symbol": "sub_0808ECA0",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_0808ECA0",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "TaskTrackHalfCameraXOnLayerThree",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_0808D4A8.c",
+          "line": 1310,
+          "revision": "8bbfb589bf6ab55018ae7e465fc0e674879c81fa",
+          "detail": "No arguments or return path. Each iteration skips updates while full-screen-menu flag is active; otherwise sets layer3 camera-relative mode0 and source x to signed-halfword global0x030031EC divided by2 with truncation toward zero, source y0. Always yields. Identity is camera-linked half-rate horizontal parallax from shared camera-position field, not autonomous scrolling; source setter has its own guard. Complete original configured body audited against ROM; copied verified-main ELF static equality, no local build or runtime test. Independent original setters truncate source/display x/y to low16 before storing layer halfwords; accumulator arithmetic remains32-bit. Camera-relative mode is halfword layer+16hex. Renderer09594 distinguishes source positions atlayer+8/+A from display offsets atlayer+4/+6."
+        }
+      ]
     },
     {
       "name": "sub_0808ECD0",
@@ -38695,10 +38857,17 @@
       "canonical_symbol": "sub_0808ECFC",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_0808ECFC",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "TaskVerticalParallaxModulo320",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_0808D4A8.c",
+          "line": 1338,
+          "revision": "8bbfb589bf6ab55018ae7e465fc0e674879c81fa",
+          "detail": "No arguments or return path. Initially writes halfwords30 at cached tile-row halfwords for layer1/2 at0x03003170+0x1A/+0x32. Reads signed-halfword camera position at+0x7E. While no full-screen menu: sets layer1/2 camera-relative mode0, source x0 and source y respectively (position*2)%320 and ((position*15)/10)%320, signed division/remainder truncating toward zero then signed-halfword truncation. While menu active: instead writes21 and40 to+0x1A/+0x32, without scroll update. This task does not explicitly restore30 when the menu closes; renderer09594 can subsequently overwrite these cached tile-row values. The stores do not establish a menu layout or map-dimension change. Always yields; source setters have their own scene guard. Complete original configured body audited against ROM; copied verified-main ELF static equality, no local build or runtime test."
+        }
+      ]
     },
     {
       "name": "sub_0808ED7C",
@@ -38848,10 +39017,17 @@
       "canonical_symbol": "sub_0808F6A8",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_0808F6A8",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "TaskVerticalParallaxWrapped512",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_0808D4A8.c",
+          "line": 1788,
+          "revision": "8bbfb589bf6ab55018ae7e465fc0e674879c81fa",
+          "detail": "No arguments or return path. When full-screen menu is inactive sets layer1/2 camera-relative mode0, source x0, source y respectively (signed-halfword global0x030031EE*2)&511 and ((signed position*15)/10)&511. Division truncates toward zero before bitmask; negative positions therefore wrap through mask rather than signed remainder320 used by0x0808ECFC. Always yields, skipping updates under menu. No exit or layout halfword writes; source setters retain own scene guard. Complete original configured body audited against ROM; copied verified-main ELF static equality, no local build or runtime test. Independent original setters truncate source/display x/y to low16 before storing layer halfwords; accumulator arithmetic remains32-bit. Camera-relative mode is halfword layer+16hex. Renderer09594 distinguishes source positions atlayer+8/+A from display offsets atlayer+4/+6."
+        }
+      ]
     },
     {
       "name": "sub_0808F700",
@@ -50440,12 +50616,12 @@
   "identification": {
     "game": {
       "total": 1880,
-      "identified": 857,
+      "identified": 877,
       "existing": 23,
-      "confirmed": 834,
+      "confirmed": 854,
       "proposed": 8,
-      "unidentified": 1015,
-      "percent_identified": 45.58510638297872
+      "unidentified": 995,
+      "percent_identified": 46.648936170212764
     },
     "sdk": {
       "total": 155,
@@ -50458,12 +50634,12 @@
     },
     "all": {
       "total": 2035,
-      "identified": 1012,
+      "identified": 1032,
       "existing": 152,
-      "confirmed": 860,
+      "confirmed": 880,
       "proposed": 8,
-      "unidentified": 1015,
-      "percent_identified": 49.729729729729726
+      "unidentified": 995,
+      "percent_identified": 50.712530712530715
     }
   },
   "limitations": "Configured function address intervals, including alignment/literal pools; inventory includes original assembly and linked libraries. Existing descriptive identifiers are recognized, not independently semantically re-proven."
