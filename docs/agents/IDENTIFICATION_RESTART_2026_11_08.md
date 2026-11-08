@@ -403,3 +403,14 @@ The exit waits for transition, restores callbacks/graphics state and transfers
 the record selected by RNG modulo 3. That slot is independent of the inspected
 detail column. Slot-completion flags and next-row eligibility are separate from
 inventory delivery, record persistence and multiplayer acknowledgement.
+
+
+## VCount scroll-band callbacks and pending-damage helpers
+
+Four additional EUR identities were independently re-reviewed from frozen research at revision `b0270484a6dcc0e4649508a2c5589c502c8cdf39`, original instruction paths and pinned source evidence. The two protection setters already published in PR 702 are excluded from this batch.
+
+- `0808528C` and `080852AC` write BG0VOFS hardware directly (4 and 0), schedule VCount compare lines 159 and 136, and alternate their callbacks. They neither change the scroll shadow nor stop interrupts or restore an arbitrary previous offset. The selection UI saves/restores the compare line and callback separately.
+- `0801DF8C` queries local defeat conditions after checking protection first. Its prediction uses only pending damage at +0x88 and a signed interpretation of the low halfword; it does not apply damage or change player state.
+- `08013BC0` applies both pending halfwords, stores 16-bit HP results, clears pending damage, and reports unprotected nonpositive stored HP. The protected path keeps HP at one; a separate local-state condition can bypass damage. The player-task caller can enter state 11 after a nonzero result, subject to further state/flag guards.
+
+One evidence sentence was narrowed to retain those caller guards. The preserved input remains frozen. Complete configured ranges were checked against the verified EUR ROM and local linked ELF. This is static evidence only: no new runtime result, broad damage-immunity claim, or full player-task C equivalence is inferred. Canonical symbols, boundaries, code and proposal status are unchanged.
