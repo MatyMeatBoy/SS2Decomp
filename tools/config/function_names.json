@@ -23143,6 +23143,141 @@
           "detail": "Uses occupancy mask 030063E0[enemy index+4] with 16 slots. Writes task priority 0x34, allocates 0x400 bytes and stores pointer at +20; failure leaves priority/pointer write but no occupancy bit. Success callback is 785F4, stack top allocation+0x3FC, cleanup zero; scheduler receives original enemy index and packed target low16 in high16 plus slot in low4. Occupancy set only after registration. Full pool/failure does not start work; asynchronous starter provides no impact or completion status. Complete original configured body inspected and equal to the local EU ROM and supplied verified-main ELF. Static research only; no worker build or runtime testing. Independent consumer79458: direct effect subtypes4/5 set timer=0, skip countdown and proceed to authority/eligibility-gated area processing. Name therefore omits Timed. No-hit path calls6818C with REQUEST2/3 and ignores return; helper queues opcodeA8 only if count<=49 andCFF0==0. No accepted request, delivery, completion or numeric conversion to effect4/5 is inferred. Direct-hit path suppresses fallback request even if79888 cannot allocate/start."
         }
       ]
+    },
+    {
+      "address": "0x08074530",
+      "canonical_symbol": "sub_08074530",
+      "display_name": "AnimateEntityHealingActivation",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08073E2C.c",
+          "line": 377,
+          "revision": "8bbfb589bf6ab55018ae7e465fc0e674879c81fa",
+          "detail": "Machine ABI r0=entity owner, r1=task-slot. Initializes resource 0x5008C, style8, mode -1 and palette bytes7/8. Each iteration re-reads the attached position: owners0..3 use player stride0x14C, pointer +148, packed x=halfword0>>4 and y=halfword2&0xFFF; owner>=4 uses enemy stride0x2E0, words +14/+18 truncated to signed16 after shifting right8. Converts through BC08, advances animation 16 with halfword frame/timer, retains only low16 completion return, and draws at converted y+1 with draw flag1. CC98/CD8C/CCCC suppress drawing only; stepping/yield continue. Global02344 bit0 suppresses palette load only. One yield occurs even on final animation iteration, then occupancy word 030063E0[owner] clears 1<<slot and returns. No cancellation exit, entity-state guard, damage/stat update or owner/slot validation; animation resource determines duration. Complete original configured body inspected and equal to local EU ROM/supplied verified-main ELF; no worker build or runtime testing."
+        },
+        {
+          "source": "src/code_08073E2C.c",
+          "line": 561,
+          "revision": "8bbfb589bf6ab55018ae7e465fc0e674879c81fa",
+          "detail": "74DE8 dispatches type8 to this callback in both owner domains, allocating an asynchronous attached visual task; type is distinct from animation index 16."
+        },
+        {
+          "source": "src/code_08068670.c",
+          "line": 2820,
+          "revision": "8bbfb589bf6ab55018ae7e465fc0e674879c81fa",
+          "detail": "6CDF0 starts type8 visuals for the selected healing/status-recovery recipients before applying recovery. Visual activation is not proof the later buff/healing application succeeded or completed."
+        }
+      ]
+    },
+    {
+      "address": "0x080746A4",
+      "canonical_symbol": "sub_080746A4",
+      "display_name": "AnimateEntityResistanceBuffActivation",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08073E2C.c",
+          "line": 407,
+          "revision": "8bbfb589bf6ab55018ae7e465fc0e674879c81fa",
+          "detail": "Machine ABI r0=entity owner, r1=task-slot. Initializes resource 0x5008C, style8, mode -1 and palette bytes7/8. Each iteration re-reads the attached position: owners0..3 use player stride0x14C, pointer +148, packed x=halfword0>>4 and y=halfword2&0xFFF; owner>=4 uses enemy stride0x2E0, words +14/+18 truncated to signed16 after shifting right8. Converts through BC08, advances animation 18 with halfword frame/timer, retains only low16 completion return, and draws at converted y+1 with draw flag1. CC98/CD8C/CCCC suppress drawing only; stepping/yield continue. Global02344 bit0 suppresses palette load only. One yield occurs even on final animation iteration, then occupancy word 030063E0[owner] clears 1<<slot and returns. No cancellation exit, entity-state guard, damage/stat update or owner/slot validation; animation resource determines duration. Complete original configured body inspected and equal to local EU ROM/supplied verified-main ELF; no worker build or runtime testing."
+        },
+        {
+          "source": "src/code_08073E2C.c",
+          "line": 561,
+          "revision": "8bbfb589bf6ab55018ae7e465fc0e674879c81fa",
+          "detail": "74DE8 dispatches type10 to this callback in both owner domains, allocating an asynchronous attached visual task; type is distinct from animation index 18."
+        },
+        {
+          "source": "src/code_08068670.c",
+          "line": 3116,
+          "revision": "8bbfb589bf6ab55018ae7e465fc0e674879c81fa",
+          "detail": "6D4A4 starts type10 visuals for recipients of the class4 kind4 resistance buff; consumer1BA74 selects source BASE class halfword+0C==4 and kind4, reads only signed effect+1C as scalar, then1B6F4 adds it to all six resistance halfwords. Visual activation is not proof the later buff/healing application succeeded or completed. Producer writes six equal payload halfwords+1C..26, but consumer does not read six independent values. Producer matching tests GRAPHIC class halfword+64, distinct from base-class+0C; no equality invariant is assumed."
+        }
+      ]
+    },
+    {
+      "address": "0x08074818",
+      "canonical_symbol": "sub_08074818",
+      "display_name": "AnimateEntityCombatBonusBuffActivation",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08073E2C.c",
+          "line": 437,
+          "revision": "8bbfb589bf6ab55018ae7e465fc0e674879c81fa",
+          "detail": "Machine ABI r0=entity owner, r1=task-slot. Initializes resource 0x5008C, style8, mode -1 and palette bytes7/8. Each iteration re-reads the attached position: owners0..3 use player stride0x14C, pointer +148, packed x=halfword0>>4 and y=halfword2&0xFFF; owner>=4 uses enemy stride0x2E0, words +14/+18 truncated to signed16 after shifting right8. Converts through BC08, advances animation 17 with halfword frame/timer, retains only low16 completion return, and draws at converted y+1 with draw flag1. CC98/CD8C/CCCC suppress drawing only; stepping/yield continue. Global02344 bit0 suppresses palette load only. One yield occurs even on final animation iteration, then occupancy word 030063E0[owner] clears 1<<slot and returns. No cancellation exit, entity-state guard, damage/stat update or owner/slot validation; animation resource determines duration. Complete original configured body inspected and equal to local EU ROM/supplied verified-main ELF; no worker build or runtime testing."
+        },
+        {
+          "source": "src/code_08073E2C.c",
+          "line": 561,
+          "revision": "8bbfb589bf6ab55018ae7e465fc0e674879c81fa",
+          "detail": "74DE8 dispatches type9 to this callback in both owner domains, allocating an asynchronous attached visual task; type is distinct from animation index 17."
+        },
+        {
+          "source": "src/code_08068670.c",
+          "line": 3403,
+          "revision": "8bbfb589bf6ab55018ae7e465fc0e674879c81fa",
+          "detail": "6DB1C starts type9 visuals for nearby combat-bonus recipients; the timed class4 kind3 record contributes +10 halfword to a combat modifier. No attack-versus-defense label is inferred. Visual activation is not proof the later buff/healing application succeeded or completed."
+        }
+      ]
+    },
+    {
+      "address": "0x0807498C",
+      "canonical_symbol": "sub_0807498C",
+      "display_name": "AnimateEntityFourAttributeBuffActivation",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08073E2C.c",
+          "line": 467,
+          "revision": "8bbfb589bf6ab55018ae7e465fc0e674879c81fa",
+          "detail": "Machine ABI r0=entity owner, r1=task-slot. Initializes resource 0x5008C, style8, mode -1 and palette bytes7/8. Each iteration re-reads the attached position: owners0..3 use player stride0x14C, pointer +148, packed x=halfword0>>4 and y=halfword2&0xFFF; owner>=4 uses enemy stride0x2E0, words +14/+18 truncated to signed16 after shifting right8. Converts through BC08, advances animation 19 with halfword frame/timer, retains only low16 completion return, and draws at converted y+1 with draw flag1. CC98/CD8C/CCCC suppress drawing only; stepping/yield continue. Global02344 bit0 suppresses palette load only. One yield occurs even on final animation iteration, then occupancy word 030063E0[owner] clears 1<<slot and returns. No cancellation exit, entity-state guard, damage/stat update or owner/slot validation; animation resource determines duration. Complete original configured body inspected and equal to local EU ROM/supplied verified-main ELF; no worker build or runtime testing."
+        },
+        {
+          "source": "src/code_08073E2C.c",
+          "line": 561,
+          "revision": "8bbfb589bf6ab55018ae7e465fc0e674879c81fa",
+          "detail": "74DE8 dispatches type11 to this callback in both owner domains, allocating an asynchronous attached visual task; type is distinct from animation index 19."
+        },
+        {
+          "source": "src/code_08068670.c",
+          "line": 3266,
+          "revision": "8bbfb589bf6ab55018ae7e465fc0e674879c81fa",
+          "detail": "6D7EC starts type11 visuals for recipients of a four-attribute buff; consumer 1BA74 adds record halfwords +8/+A/+C/+E to four attributes. Visual activation is not proof the later buff/healing application succeeded or completed."
+        }
+      ]
+    },
+    {
+      "address": "0x08074B00",
+      "canonical_symbol": "sub_08074B00",
+      "display_name": "AnimateEntitySelfBuffActivation",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08073E2C.c",
+          "line": 497,
+          "revision": "8bbfb589bf6ab55018ae7e465fc0e674879c81fa",
+          "detail": "Machine ABI r0=entity owner, r1=task-slot. Initializes resource 0x5008C, style8, mode -1 and palette bytes7/8. Each iteration re-reads the attached position: owners0..3 use player stride0x14C, pointer +148, packed x=halfword0>>4 and y=halfword2&0xFFF; owner>=4 uses enemy stride0x2E0, words +14/+18 truncated to signed16 after shifting right8. Converts through BC08, advances animation 1 with halfword frame/timer, retains only low16 completion return, and draws at converted y+1 with draw flag1. CC98/CD8C/CCCC suppress drawing only; stepping/yield continue. Global02344 bit0 suppresses palette load only. One yield occurs even on final animation iteration, then occupancy word 030063E0[owner] clears 1<<slot and returns. No cancellation exit, entity-state guard, damage/stat update or owner/slot validation; animation resource determines duration. Complete original configured body inspected and equal to local EU ROM/supplied verified-main ELF; no worker build or runtime testing."
+        },
+        {
+          "source": "src/code_08073E2C.c",
+          "line": 561,
+          "revision": "8bbfb589bf6ab55018ae7e465fc0e674879c81fa",
+          "detail": "74DE8 dispatches type6 to this callback in both owner domains, allocating an asynchronous attached visual task; type is distinct from animation index 1."
+        },
+        {
+          "source": "src/code_08068670.c",
+          "line": 6186,
+          "revision": "8bbfb589bf6ab55018ae7e465fc0e674879c81fa",
+          "detail": "7386C case6 creates/refreshes its local type6 timed self-buff and starts visual type6 before returning without an ability task. No exact stat or named skill is inferred. Visual activation is not proof a buff was allocated/upgraded:7386C starts visual6 after searching even on capacity failure, and remote-owner paths can play it without applying a local buff. Its1FD64 call establishes no stat refresh."
+        }
+      ]
     }
   ]
 }
