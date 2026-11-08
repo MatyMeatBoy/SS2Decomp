@@ -4332,14 +4332,13 @@ selectorDone49:
                             break;
                         case 2:                     /* switch 21 */
                             temp_r0_131 = ((struct PlayerD368 *)arg0)->fC;
-                            if (temp_r0_131 != 0) {
-                                if (temp_r0_131 != 2) {
-
-                                } else {
-                                    d368_sub_0805865C(0x18);
-                                }
-                            } else {
+                            switch (temp_r0_131) {
+                            case 0:
                                 d368_sub_0805865C(0x15);
+                                break;
+                            case 2:
+                                d368_sub_0805865C(0x18);
+                                break;
                             }
                             break;
                         case 0:                     /* switch 21 */
