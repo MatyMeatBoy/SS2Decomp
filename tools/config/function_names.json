@@ -24893,6 +24893,102 @@
           "detail": "Own eight code ranges and all ten directly selected English-resource pointer slots/payloads equal EUR ROM and linked ELF; complete target C/original and relevant callback binding/resource resolver paths read. Static evidence does not establish runtime coverage, transport reliability or guaranteed completion. Independent peer verification covers nine complete configured original code ranges and all ten English pointer slots/payloads in its own supplied ROM/ELF; see peer own-fullrange-receipt.json and own-identity-anchor-resources.json. The producer receipt describing eight ranges remains preserved separately."
         }
       ]
+    },
+    {
+      "address": "0x08031FF8",
+      "canonical_symbol": "sub_08031FF8",
+      "display_name": "RunWanbyDialogue",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_0802FEA0.c",
+          "line": 1051,
+          "revision": "3e4e65f3940022de591db87b37fd322ccbf75eac",
+          "detail": "Sets local player flags bit 0 (input suppression) and BeginLocalPlayerEventLock, with no facing change. Counts bag records (character +0x150, 25 slots) with kind 6 and ID 0x59. When LinkCountConnectedPlayers is exactly 1 and at least one exists, it clears the first matching record and clears scene event flag 9 (bit 1 of event-flag byte +0x1B8, or +0x1C4 when scene flag bit 9 is set), then shows 0x140291. Otherwise it snapshots the level-encounter-cleared word (scene state +0x74, or +0x7C when scene flag bit 9 is set). If event flag 0x1A (bit 2 of byte +0x1BA/+0x1C6) is set it shows 0x140199. Otherwise the highest set bit among bits 8..0 selects 0x140198 down to 0x140190, and with none set it shows 0x14018F. Every message uses the usual pattern: wait until no dialogue-task and no text-window slot is used, call StartFixedLayoutDialogueTask(1, 15, 2, 0, -1, id), then wait for DialogueStateIsComplete, calling CloseUsedDialogueWindowsAndWait and stopping if IsWorldTaskSuspendRequested is observed. Finally it clears local flag bit 0 and calls EndLocalPlayerEventLock."
+        },
+        {
+          "source": "baserom.gba",
+          "revision": "3e4e65f3940022de591db87b37fd322ccbf75eac",
+          "detail": "English resources decoded from language table 0x0838AFF0 (letter codes 0x01..0x3A = 'A'..'z', 0x3B '!', 0x51 space, 0xFE page, 0xFD end). Resource 0x140190, selected when bit 0 is the highest set level bit, reads '<name>... I`m Wanby.', and 0x140199 begins 'Waaaah, <name>! Wanby`s scared.' The item-return resource 0x140291 begins 'Hey, that`s my ring. Thanks, <name>.' The name comes from the self-introduction in a directly selected resource."
+        },
+        {
+          "source": "src/code_08028AAC.c",
+          "revision": "3e4e65f3940022de591db87b37fd322ccbf75eac",
+          "detail": "Matched scene builder sub_0802B8A4 spawns this actor with sub_080289C0(0x14, 0xC8, 0xB2) (SpawnSceneObjectAndWaitForStartupStateChange, line 2566), sets interaction extents 8x4 and record flag 0x10, and stores this function at scene record +0x44 as its interaction callback.",
+          "line": 2580
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 635,
+          "revision": "3e4e65f3940022de591db87b37fd322ccbf75eac",
+          "detail": "Canonical Thumb entry for sub_08031FF8. Original EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc; static source/instruction evidence only."
+        }
+      ]
+    },
+    {
+      "address": "0x08034A5C",
+      "canonical_symbol": "sub_08034A5C",
+      "display_name": "RunFenderDialogue",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_0802FEA0.c",
+          "line": 2372,
+          "revision": "3e4e65f3940022de591db87b37fd322ccbf75eac",
+          "detail": "Sets local player flags bit 0 (input suppression) and BeginLocalPlayerEventLock, with no facing change. Snapshots the level-encounter-cleared word (scene state +0x74, or +0x7C when scene flag bit 9 is set; see GetLevelEncounterClearedMask). If scene event flag 0x1A (bit 2 of event-flag byte +0x1BA, or +0x1C6 when scene flag bit 9 is set) is set, it shows 0x1401DE. Otherwise the highest set bit among bits 9..0 of that word selects 0x1401DD down to 0x1401D4. With none of those bits set it shows 0x1401D3. Every branch uses the usual pattern: wait with TaskWaitForSignal1 until no dialogue-task and no text-window slot is used, call StartFixedLayoutDialogueTask(1, 15, 2, 0, -1, id), then wait for DialogueStateIsComplete, calling CloseUsedDialogueWindowsAndWait and stopping if IsWorldTaskSuspendRequested is observed. Finally it clears local flag bit 0 and calls EndLocalPlayerEventLock. No progress guarantee is claimed for the initial slot waits."
+        },
+        {
+          "source": "baserom.gba",
+          "revision": "3e4e65f3940022de591db87b37fd322ccbf75eac",
+          "detail": "English resources decoded from language table 0x0838AFF0 (letter codes 0x01..0x3A = 'A'..'z', 0x3B '!', 0x51 space, 0xFE page, 0xFD end; some resources start with a two-character portrait prefix). The default resource 0x1401D3, shown before any level encounter is cleared, begins 'My name is Fender. I am a wandering minstrel.' The name comes from this self-introduction in a directly selected resource."
+        },
+        {
+          "source": "src/code_08028AAC.c",
+          "revision": "3e4e65f3940022de591db87b37fd322ccbf75eac",
+          "detail": "Matched scene builder sub_0802C674 spawns this actor with sub_080289C0(5, 0x190, 0x159) (SpawnSceneObjectAndWaitForStartupStateChange, line 3694), sets interaction extents 8x0xA and record flag 0x10, stores this function at scene record +0x44 and starts looping animation 1 with LoopSceneEntityAnimation.",
+          "line": 3708
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 646,
+          "revision": "3e4e65f3940022de591db87b37fd322ccbf75eac",
+          "detail": "Canonical Thumb entry for sub_08034A5C. Original EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc; static source/instruction evidence only."
+        }
+      ]
+    },
+    {
+      "address": "0x080384D4",
+      "canonical_symbol": "sub_080384D4",
+      "display_name": "RunReedDialogue",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_0802FEA0.c",
+          "line": 4260,
+          "revision": "3e4e65f3940022de591db87b37fd322ccbf75eac",
+          "detail": "Sets local player flags bit 0 (input suppression), calls BeginLocalPlayerEventLock and turns the argument entity toward selector 0 with TurnSceneEntityTowardEntity. Snapshots the level-encounter-cleared word (scene state +0x74, or +0x7C when scene flag bit 9 is set; see GetLevelEncounterClearedMask). If scene event flag 0x1A (bit 2 of event-flag byte +0x1BA, or +0x1C6 when scene flag bit 9 is set) is set, it shows 0x140121. Otherwise the highest set bit among bits 8..0 of that word selects 0x140120 down to 0x140118. With none of those bits set it shows 0x140117. Every branch uses the usual pattern: wait with TaskWaitForSignal1 until no dialogue-task and no text-window slot is used, call StartFixedLayoutDialogueTask(1, 15, 2, 0, -1, id), then wait for DialogueStateIsComplete, calling CloseUsedDialogueWindowsAndWait and stopping if IsWorldTaskSuspendRequested is observed. It then calls RestoreSceneEntityFacingGradually on the argument, clears local flag bit 0 and calls EndLocalPlayerEventLock."
+        },
+        {
+          "source": "baserom.gba",
+          "revision": "3e4e65f3940022de591db87b37fd322ccbf75eac",
+          "detail": "English resources decoded from language table 0x0838AFF0 (letter codes 0x01..0x3A = 'A'..'z', 0x3B '!', 0x51 space, 0xFE page, 0xFD end; some resources start with a two-character portrait prefix). The default resource 0x140117, shown before any of bits 0..8 is set, begins 'Hello, my name is Reed.' and continues 'You`re <name>? Nice to meet you.' The name comes from this self-introduction in a directly selected resource."
+        },
+        {
+          "source": "src/code_08028AAC.c",
+          "revision": "3e4e65f3940022de591db87b37fd322ccbf75eac",
+          "detail": "Matched scene builder sub_0802D050 spawns this actor with sub_080289C0(0x5002A, 0xB5, 0x6D) (SpawnSceneObjectAndWaitForStartupStateChange, line 4035), sets interaction extents 8x4 and record flag 0x10, and stores this function at scene record +0x44 as its interaction callback.",
+          "line": 4054
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 657,
+          "revision": "3e4e65f3940022de591db87b37fd322ccbf75eac",
+          "detail": "Canonical Thumb entry for sub_080384D4. Original EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc; static source/instruction evidence only."
+        }
+      ]
     }
   ]
 }
