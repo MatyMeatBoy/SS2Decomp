@@ -24978,6 +24978,38 @@
           "detail": "Canonical Thumb entry for sub_080368F4. Original EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc; static source/instruction evidence only."
         }
       ]
+    },
+    {
+      "address": "0x0804EEA8",
+      "canonical_symbol": "sub_0804EEA8",
+      "display_name": "RunCaptainRobertAreaEntryEvent",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_0804D330.c",
+          "line": 1205,
+          "revision": "3e4e65f3940022de591db87b37fd322ccbf75eac",
+          "detail": "Sets local player flags bit 0 (input suppression) and calls BeginLocalPlayerEventLock. Stores 0xC4 in the tracked-song word 0x03005CF8 and, unless the link-error song mute is set, calls AudioStartOrContinueSongChecked(0xC4). After exactly one TaskWaitForSignal1 (LinkHasErrorFlag can only end that one-iteration loop), and unless IsFullScreenMenuActive, it runs the transition selected by GetScreenTransitionMode (0: FadeScreenBrightnessInAndWait; 1: sub_0801AB50(6); 2: sub_0801AB90(6)) and waits for IsScreenTransitionIdle. Then up to 20 more signal-1 waits, ending early when LinkHasErrorFlag is set. It interpolates the camera tracking offset from its current value toward (0x68, -0x78) with weight step 0x11 via SetCameraTrackingOffset, one wait per step. It waits for free dialogue and text-window slots and starts StartFixedLayoutDialogueTask(1, 15, 2, 0, 45, id): id 0x14005E when bit 4 of scene state word +0x38 is clear, otherwise 0x14005F. It sets that bit, then waits for DialogueStateIsComplete without an abort test. It interpolates the tracking offset back toward (0, 0) with step 0x22, stores 0xA5 as the tracked song and starts or continues it under the same mute check, ORs 0x20 into scene-state flags halfword +4, clears local flag bit 0 and calls EndLocalPlayerEventLock."
+        },
+        {
+          "source": "baserom.gba",
+          "revision": "3e4e65f3940022de591db87b37fd322ccbf75eac",
+          "detail": "English resources decoded from language table 0x0838AFF0 (letter codes 0x01..0x3A = 'A'..'z', 0x3B '!', 0x51 space, 0xFE page, 0xFD end; pages carry the portrait prefix 'JA'). The first-visit resource 0x14005E begins 'I`m the Captain of this ship. | Robert`s my name.' The repeat resource 0x14005F uses the same portrait prefix. The name comes from the self-introduction in the directly selected resource."
+        },
+        {
+          "source": "src/code_08021DC4.c",
+          "revision": "3e4e65f3940022de591db87b37fd322ccbf75eac",
+          "detail": "Matched area-entry setup sub_0802704C reads gUnk_084B0AA0[scene-state halfword +0 - 1].x[scene-state word +0x40] (rows of 25 words) and, when nonzero, starts that callback with StartSceneCallbackTask. Original ROM word 0x084B0C60 (row 4, column 12) holds 0x0804EEA9, so this event starts on entering the area with row value 5 and area index 12. The default entry in most other slots is 0x08059FBD (sub_08059FBC, a plain transition helper).",
+          "line": 4399
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 774,
+          "revision": "3e4e65f3940022de591db87b37fd322ccbf75eac",
+          "detail": "Canonical Thumb entry for sub_0804EEA8. Original EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc; static source/instruction evidence only."
+        }
+      ]
     }
   ]
 }
