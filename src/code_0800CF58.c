@@ -1693,7 +1693,7 @@ block_197:
                     directionD36874 = 5;
                 }
                 temp_r2_7 = ((struct PlayerD368 *)arg0)->f18;
-                if (!(temp_r2_7 & temp_r1_17) || (temp_r2_7 &= ((struct PlayerD368 *)arg0)->f14, sp154 += 1, temp_r2_7 != 0)) {
+                if (!(temp_r1_17 & temp_r2_7) || (temp_r2_7 &= ((struct PlayerD368 *)arg0)->f14, sp154 += 1, temp_r2_7 != 0)) {
                     sp154 = 0;
                 }
                 temp_r2_8 = ((struct PlayerD368 *)arg0)->f1A;
