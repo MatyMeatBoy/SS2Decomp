@@ -24893,6 +24893,70 @@
           "detail": "Own eight code ranges and all ten directly selected English-resource pointer slots/payloads equal EUR ROM and linked ELF; complete target C/original and relevant callback binding/resource resolver paths read. Static evidence does not establish runtime coverage, transport reliability or guaranteed completion. Independent peer verification covers nine complete configured original code ranges and all ten English pointer slots/payloads in its own supplied ROM/ELF; see peer own-fullrange-receipt.json and own-identity-anchor-resources.json. The producer receipt describing eight ranges remains preserved separately."
         }
       ]
+    },
+    {
+      "address": "0x08033C40",
+      "canonical_symbol": "sub_08033C40",
+      "display_name": "RunJensenDialogue",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_0802FEA0.c",
+          "line": 1854,
+          "revision": "3e4e65f3940022de591db87b37fd322ccbf75eac",
+          "detail": "Sets local player flags bit 0 (input suppression) and BeginLocalPlayerEventLock. Dispatches on the stage byte at scene state +0x1B3 (+0x1BF when scene flag bit 9 is set). Values outside 0..5 show nothing. Stage 0: snapshots the level-encounter-cleared word (+0x74/+0x7C). The highest set bit among bits 8..0 selects 0x1401BF down to 0x1401B7; with none set it shows 0x1401B6. Stage 1: shows 0x1401C0, then stores 2 in the stage byte and 3 in the neighbouring byte +0x1B2 (+0x1BE). Stage 2: shows 0x1401C1. Stage 3: shows 0x1401C2, calls LoopSceneEntityAnimation(arg, 11), SetSceneEntityFacing(arg, 0) and MoveSceneEntityToPosition(arg, 0x110, 0x88, 0x3C), then performs the same operation as RequestSceneObjectStopByHandle(arg) inline and stores 4 in the stage byte. Only when LinkGetLocalPlayerId is 0, it then retries EnqueueLinkFieldItemSpawnIfAbsent until accepted for three item records with zeroed tails at (0x2000, 0x4800), (0x3000, 0x5800) and (0x4000, 0x4800): kind/ID 2/55, 3/44 and 4/39 when scene flag bit 9 is set, otherwise 2/48, 3/32 and 4/27. Stage 4: shows 0x1401C3. Stage 5: shows 0x1401C5. Each message uses the usual pattern: wait until no dialogue-task and no text-window slot is used, call StartFixedLayoutDialogueTask(1, 15, 2, 0, -1, id), then wait for DialogueStateIsComplete, calling CloseUsedDialogueWindowsAndWait and stopping if IsWorldTaskSuspendRequested is observed. Every path ends by clearing local flag bit 0 and calling EndLocalPlayerEventLock. Enqueue acceptance does not prove item creation."
+        },
+        {
+          "source": "baserom.gba",
+          "revision": "3e4e65f3940022de591db87b37fd322ccbf75eac",
+          "detail": "English resources decoded from language table 0x0838AFF0 (letter codes 0x01..0x3A = 'A'..'z', 0x3B '!', 0x51 space, 0xFE page, 0xFD end; these resources start with a two-character portrait prefix). The stage-0 default resource 0x1401B6 contains the self-introduction 'Oh by the way, I`m Jensen. Nice to meet you.' The stage-1 resource 0x1401C0 begins 'Well done, <name>. We`re saved!' and the stage-3 resource 0x1401C2 begins 'What!?'. The name comes from the self-introduction in a directly selected resource."
+        },
+        {
+          "source": "src/code_08028AAC.c",
+          "revision": "3e4e65f3940022de591db87b37fd322ccbf75eac",
+          "detail": "Matched scene builder sub_0802C674 binds this function as an actor's interaction callback (scene record +0x44) in four places: after sub_080289C0(0xC, 0xDA, 0xE9) at line 3366, and after sub_080289C0(0x9000C, 0x110, 0xF8) at lines 3388, 3429 and 3455. Matched builder sub_0802E6E0 also binds it after sub_080289C0(0x9000C, 0x124, 0x7B) at line 5707 (install line 5726). The same callback is reused for one character in several scene variants.",
+          "line": 3380
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 643,
+          "revision": "3e4e65f3940022de591db87b37fd322ccbf75eac",
+          "detail": "Canonical Thumb entry for sub_08033C40. Original EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc; static source/instruction evidence only."
+        }
+      ]
+    },
+    {
+      "address": "0x0803540C",
+      "canonical_symbol": "sub_0803540C",
+      "display_name": "RunDignBalarhaViviDialogue",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_0802FEA0.c",
+          "line": 2578,
+          "revision": "3e4e65f3940022de591db87b37fd322ccbf75eac",
+          "detail": "Sets local player flags bit 0 (input suppression) and BeginLocalPlayerEventLock, with no facing change. Snapshots the level-encounter-cleared word (scene state +0x74, or +0x7C when scene flag bit 9 is set). If scene event flag 0x1A (bit 2 of event-flag byte +0x1BA, or +0x1C6) is set it shows 0x1401B5. Otherwise the highest set bit among bits 9..0 selects 0x1401B4 down to 0x1401AB, and with none set it shows 0x1401AA. Each message uses the usual pattern: wait until no dialogue-task and no text-window slot is used, call StartFixedLayoutDialogueTask(1, 15, 2, 0, -1, id), then wait for DialogueStateIsComplete, calling CloseUsedDialogueWindowsAndWait and stopping if IsWorldTaskSuspendRequested is observed. Finally it clears local flag bit 0 and calls EndLocalPlayerEventLock."
+        },
+        {
+          "source": "baserom.gba",
+          "revision": "3e4e65f3940022de591db87b37fd322ccbf75eac",
+          "detail": "English resources decoded from language table 0x0838AFF0 (letter codes 0x01..0x3A = 'A'..'z', 0x3B '!', 0x51 space, 0xFE page, 0xFD end). Pages start with a two-character portrait prefix: 'WD', 'XE' or 'YF'. Resource 0x1401AE, selected when bit 3 is the highest set level bit, is a group introduction: 'Hey! We haven`t introduced ourselves, have we!?', then 'WD' 'My name is Dign!', 'XE' 'My name is Balarha!' and 'YF' 'I`m Vivi...'. The name lists these three self-introducing speakers. Which actor shows which portrait is not claimed."
+        },
+        {
+          "source": "src/code_08028AAC.c",
+          "revision": "3e4e65f3940022de591db87b37fd322ccbf75eac",
+          "detail": "Matched scene builder sub_0802C674 binds this function as the interaction callback (scene record +0x44, extents 8x4) of two actors: one spawned with sub_080289C0(0x1E, 0x128, 0x131) at line 3577, and one spawned with sub_080289C0(0x2D, 0xEF, 0x13C) at line 3616 (install line 3630).",
+          "line": 3591
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 648,
+          "revision": "3e4e65f3940022de591db87b37fd322ccbf75eac",
+          "detail": "Canonical Thumb entry for sub_0803540C. Original EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc; static source/instruction evidence only."
+        }
+      ]
     }
   ]
 }
