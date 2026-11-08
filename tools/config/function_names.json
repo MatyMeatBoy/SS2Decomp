@@ -20098,6 +20098,219 @@
           "detail": "Scene destination selector 26CD0 mode 0 first requests map-update stop and then calls this wrapper before selecting the new record and storing destination fields. Mode 1 instead requests brightness fade-out/wait 576C4. These paths anchor a transition effect without treating either wait as unconditional VBlank timing."
         }
       ]
+    },
+    {
+      "address": "0x080634D8",
+      "canonical_symbol": "sub_080634D8",
+      "display_name": "TaskAnimateWorldEffect",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_0805FB7C.c",
+          "line": 2151,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Task callback under the existing t65_popupImplementation ABI alias. Resolves animation resource 0x50130 and related graphics/palette records, takes signed coordinates from the low/high halfwords of argument 0 and a palette selector from argument 1 high halfword. Projects those world coordinates with 0BC08 and advances/draws animation 10 until completion or explicit stop predicates after a signal 1 wait. The pool header chooses between projection-fade draw 07870 and fixed-mode draw 07CF0. Exact visual effect is not assigned."
+        },
+        {
+          "source": "src/code_0805FB7C.c",
+          "line": 2191,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "When its four draw guards permit, copies one OBJ palette with 00AF0(selector+16, paletteData+32,1); source variable sound does not imply audio playback. Sets sprite palette bytes to 5 and the low byte of the selector. On normal loop exit, obtains the current task with 0048C and clears its word+8, allowing slot reuse. Does not itself free the task pool or explicitly free its own stack."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 1163,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Original 634E6 extracts argument 1 high halfword; 6358A calls palette-copy helper 00AF0. 635D0 projects signed coordinate halves, 635E0 advances animation 10 and 6363E/63672 select drawing paths. 63676 waits, 6367A..63694 checks stop/completion and 63696..6369C clears current task+8. Complete 634D8..636B0 equals original EU ROM/existing ELF. Missing-resource branches retain partially initialized descriptor data; no invented graceful-failure guard is claimed."
+        },
+        {
+          "source": "src/code_08097E28.c",
+          "line": 777,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Matched caller 99468 periodically invokes starter 65748 with evolving world coordinates shifted right by 8 and selector 5 while moving toward a player. Starter installs this callback in its pool. This anchors a world-positioned animated effect without identifying a sparkle, pickup type or exact gameplay action."
+        }
+      ]
+    },
+    {
+      "address": "0x080656B8",
+      "canonical_symbol": "sub_080656B8",
+      "display_name": "AllocateAnimatedWorldEffectTaskPool",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_0805FB7C.c",
+          "line": 3434,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Allocates 0x4B4 bytes into 0300602C, stores the full supplied word in the four-byte pool header and clears only word+8 of each of thirty 0x28-byte task controls beginning at allocation+4. Other task fields and stacks are not initialized here. It does not check allocation failure, cancel an old pool or start effects."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 1187,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Original 656C0 allocates 0x4B4, 656C4 stores the pointer, C6 stores the header and CE..DC clears offsets +0xC+i*0x28 for indices 0..29. These are control+8, not thirty entire control memsets. Complete 656B8..656EC equals original EU ROM/existing ELF."
+        },
+        {
+          "source": "src/code_0805FB7C.c",
+          "line": 3455,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Starter 65748 searches precisely these thirty controls and assigns callback634D8. The callback reads the pool header as a zero/nonzero draw-routing choice. No additional universal meaning or valid argument domain is assigned to that header."
+        }
+      ]
+    },
+    {
+      "address": "0x080656EC",
+      "canonical_symbol": "sub_080656EC",
+      "display_name": "CancelAndFreeAnimatedWorldEffectTaskPool",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_0805FB7C.c",
+          "line": 3442,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Captures pool base+4 and visits all thirty controls. For each, repeatedly checks scheduler membership and calls 003A8 while scheduled; there is no explicit signal wait in this cancellation loop. Finally frees the pointer currently stored at 0300602C and sets that global to the final zero membership result. Does not run each animation to normal completion, preserve visual output or guard an uninitialized pool pointer."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 1188,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Original 656F4..F8 captures the control base, 6570C/6571C cancel and retest each selected control, and 65728/2A iterate through index29. 6572E rereads the pool pointer for free; 65734 clears the global using saved zero. Complete 656EC..65748 equals original EU ROM/existing ELF. All lifecycle proof paths inspected; no callback-finalizer or whole-link shutdown guarantee inferred."
+        }
+      ]
+    },
+    {
+      "address": "0x08065748",
+      "canonical_symbol": "sub_08065748",
+      "display_name": "StartAnimatedWorldEffectTask",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_0805FB7C.c",
+          "line": 3455,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Searches thirty controls for the first both unscheduled and word+8 equal to zero. Attempts one 0x400-byte stack allocation; returns silently if no slot or allocation fails. On success sets task key+8=0x3C, callback634D8, stack top+0x3FC and null finalizer, then schedules with argument 0=(b<<16)|a and argument 1=slotIndex|(c<<16). Inputs are full 32-bit operands with no independent coordinate/palette masks before packing; no enqueue or link-message operation occurs."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 1189,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Original 65768..6577A implements the two free-slot tests, 65780 allocates once and 6578A returns on failure. 65790/92 installs Thumb callback080634D9, 6579C writes the known-zero finalizer and 6579E..657AE packs and passes both arguments to scheduler00274. Complete 65748..657C4 equals original EU ROM/existing ELF. The callback ignores the low slot-index halfword of its second argument and clears current task+8 through0048C on normal exit."
+        },
+        {
+          "source": "src/code_08097E28.c",
+          "line": 777,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Matched caller 99468 supplies x>>8, y>>8 and selector5 periodically along its moving-world-object path, corroborating the projected-world animation role. The starter does not await animation completion or return a usable success indicator."
+        }
+      ]
+    },
+    {
+      "address": "0x080636B0",
+      "canonical_symbol": "sub_080636B0",
+      "display_name": "TaskAnimatePlayerAreaDeparture",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_0805FB7C.c",
+          "line": 2262,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Callback under t65C_impl. Uses the full supplied player index with stride 0x14C, captures packed entity world coordinates and resolves appearance plus resource 0x5005E. Projects the captured position and draws player animation 0x21 with a rising vertical offset. The signed halfword counter advances from 0 through 159 only when both 56E90 and 58DB0 return zero; waits use scheduler signal 1, so no exact elapsed video-frame duration is claimed. A nonzero 0CF80 skips this animation."
+        },
+        {
+          "source": "src/code_0805FB7C.c",
+          "line": 2334,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Cleanup returns early for 0CDF8, waits for 0D11C and 0D098 to clear, and changes the destination only for the local player. In the 0CCCC branch it calls 56FB8(player halfwords+0x2E,+0x2C) then clears those halfwords. Other branches choose (0,4), (11,0,1) through 26CD0, or (0,0), depending on flag 0x2000 and 0CF80. Byte+0x68 is set to 1 here without assigning a universal alive, team or participation meaning."
+        },
+        {
+          "source": "src/code_080542C4.c",
+          "line": 1240,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Matched 56FB8 is a u16/u16 wrapper around 26CD0 with third argument zero. The actual aliased ordinary C definition t025Select at code_08021DC4.c:4298 narrows its inputs to u16, selects a per-map table record into scene+0x71C and writes map-set halfword+0 and area word+0x40 at lines4474..4476. Matched 2704C passes exactly those fields to LoadWorldMapArea 09930 at line4714. This anchors area departure without naming a town, shrine or exact visible character."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 1164,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Complete original 636B0..63B80 is byte-equal to the original EU ROM and existing linked ELF. Selected original witnesses: 63876 projects coordinates; 63A74 waits; 63A88..63AB2 implements guarded counter progression. 63AE0..63AE8 gates local-only cleanup, 63B02..63B0C forwards and clears saved halfwords, and 63B24..63B64 selects the destination paths. Static selected-path evidence only, not full state-machine equivalence or runtime coverage."
+        }
+      ]
+    },
+    {
+      "address": "0x08063B80",
+      "canonical_symbol": "sub_08063B80",
+      "display_name": "TaskPlayerAreaReturnPrompt",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_0805FB7C.c",
+          "line": 2394,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Per-player callback under t65B_impl, using full index times 0x14C. Draws resource 0x5005E at world coordinates (184-index*24,312) while 0CCCC is nonzero. Local interaction uses a Q8 position and packed rectangle dimensions through 21FE0. With blocking halfword 03003200 zero, no existing dialogue, 0CDF8 zero and player input halfword+0x14 bit0 set, it sets player flags+0x30 bit0 and opens dialogue key 0x1404E0 through 5DF38."
+        },
+        {
+          "source": "src/code_0805FB7C.c",
+          "line": 2532,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Once 5EEFC reports dialogue readiness, a nonzero 5EF14 result writes player state halfword+0x20=12 and substate+0x22=1, calls 0CEE8 and 0CF34, then exits. A zero result clears flags bit0 and the dialogue pointer. Remote players instead observe entity packet low nibble 12 and halfword+4 bits6..11 equal to 1 before exiting. No selected-option label, universal network acknowledgement or valid-index guard is inferred."
+        },
+        {
+          "source": "src/code_08006D24.c",
+          "line": 130,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "With mode word 03003470 equal to zero, category-20 resource resolver 06EE0 selects pointer table 0838AFF0. Wrapper 07290 at line201 delegates to this resolver. Original table entry for key 0x1404E0 points to 08387B94, whose bytes after the two-byte header encode the exact Latin letter/space term Shall I take you back under the independently proved glyph mapping. Other language tables, punctuation, control bytes and runtime dialogue display are not decoded here."
+        },
+        {
+          "source": "src/code_0808FB5C.c",
+          "line": 1741,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Matched text encoder 91F9C maps Latin letters to ASCII minus 0x40 and spaces to 0x51 in both mode branches. In resource 0x1404E0 the exact letter/space run after the two-byte header is Shall I take you back. This static decoding leaves punctuation and dialogue controls unresolved and does not identify a selected answer or speaker."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 1165,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Complete original 63B80..63E30 is byte-equal to the original EU ROM and existing linked ELF. 63C14..63C36 computes the per-player anchor and rectangle; 63D34..63D92 implements the local input/interaction gate and dialogue call. 63DBC..63DC4 stores state12/substate1; 63DE2..63DFC observes the corresponding remote packet fields. Selected original paths were inspected, not a complete gameplay-state proof."
+        },
+        {
+          "source": "asm/nonmatchings/code_0800CF58/sub_0800D368.s",
+          "line": 10023,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Original player-controller substate1 dispatch at 12274..122AC leads, on a changed packet state, to 12306 loading the player index halfword and 1230A calling 657C4 with mode0. The corroborating D368 C draft at code_0800CF58.c:4944..4974 is not itself equivalence proof. Starter mode0 selects the departure callback636B0, connecting the prompt result to the departure flow."
+        }
+      ]
+    },
+    {
+      "address": "0x080657C4",
+      "canonical_symbol": "sub_080657C4",
+      "display_name": "StartPlayerAreaReturnTask",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_0805FB7C.c",
+          "line": 3481,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Searches four 0x28-byte task controls addressed by the pointer global 03006030 for the first not scheduled, returning silently if all four are occupied. Repeatedly allocates a 0x400-byte stack, waiting on scheduler signal 1 between failed attempts. Writes task control+8=0x3C, stack pointer+0x10=allocation+0x3FC and null finalizer+0x24, then schedules with the full supplied first argument as callback player index. Field+8 is not interpreted as priority."
+        },
+        {
+          "source": "src/code_0805FB7C.c",
+          "line": 3496,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Mode0 installs636B0, the animated area-departure/local destination-selection callback; mode1 installs63B80, the area-return interaction prompt. Other mode values retain the control previous callback and still proceed to scheduling. The function does not validate the player index, initialize the four-control pool or prove all callers restrict mode to 0/1."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 1190,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "All original 657C4..65838 instructions inspected after complete-range original EU ROM/existing ELF equality. 657DC..657E8 searches indices0..3, 657EC..657FC retries allocation after waits, 65802..65816 conditionally installs only the two callbacks, and 65818..6582A sets stack/finalizer and schedules. Static lifecycle evidence, not a runtime trace, new build or general allocation-success guarantee."
+        }
+      ]
     }
   ]
 }
