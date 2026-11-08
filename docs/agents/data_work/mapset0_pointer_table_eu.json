@@ -1,0 +1,170 @@
+{
+  "schema_version": 1,
+  "region": "EUR",
+  "base_revision": "fce395533dd0e8789e3e38d358091441942fc573",
+  "rom_sha1": "aa1288be9257337abdfe3034898cf6c7aa778fbc",
+  "canonical_symbol": "gUnk_084F0AC0",
+  "source": "data/rodata_libgcc_end.s",
+  "address": "0x084F0AC0",
+  "end_exclusive": "0x084F0B10",
+  "size": 80,
+  "element_type": "32-bit GBA data pointer",
+  "element_count": 20,
+  "source_form": ".4byte existing_canonical_symbol + offset",
+  "classification": "Map-set-zero destination pointer table; target records remain opaque incbin storage.",
+  "sha256": "437ddea37d7bb833d13a3b67f459309d3e440e23c0d7324c122ce1c80ca0398a",
+  "entries": [
+    {
+      "index": 0,
+      "target": "0x084EDD20",
+      "canonical_container": "gUnk_084EDCA8",
+      "container_offset": "0x78"
+    },
+    {
+      "index": 1,
+      "target": "0x084EDF68",
+      "canonical_container": "gUnk_084EDCA8",
+      "container_offset": "0x2C0"
+    },
+    {
+      "index": 2,
+      "target": "0x084EE1B0",
+      "canonical_container": "gUnk_084EDCA8",
+      "container_offset": "0x508"
+    },
+    {
+      "index": 3,
+      "target": "0x084EE3F8",
+      "canonical_container": "gUnk_084EDCA8",
+      "container_offset": "0x750"
+    },
+    {
+      "index": 4,
+      "target": "0x084EE640",
+      "canonical_container": "gUnk_084EDCA8",
+      "container_offset": "0x998"
+    },
+    {
+      "index": 5,
+      "target": "0x084EE888",
+      "canonical_container": "gUnk_084EDCA8",
+      "container_offset": "0xBE0"
+    },
+    {
+      "index": 6,
+      "target": "0x084EEAD0",
+      "canonical_container": "gUnk_084EDCA8",
+      "container_offset": "0xE28"
+    },
+    {
+      "index": 7,
+      "target": "0x084EED18",
+      "canonical_container": "gUnk_084EDCA8",
+      "container_offset": "0x1070"
+    },
+    {
+      "index": 8,
+      "target": "0x084EEF60",
+      "canonical_container": "gUnk_084EDCA8",
+      "container_offset": "0x12B8"
+    },
+    {
+      "index": 9,
+      "target": "0x084EF1A8",
+      "canonical_container": "gUnk_084EDCA8",
+      "container_offset": "0x1500"
+    },
+    {
+      "index": 10,
+      "target": "0x084EF3F0",
+      "canonical_container": "gUnk_084EDCA8",
+      "container_offset": "0x1748"
+    },
+    {
+      "index": 11,
+      "target": "0x084EF638",
+      "canonical_container": "gUnk_084EDCA8",
+      "container_offset": "0x1990"
+    },
+    {
+      "index": 12,
+      "target": "0x084EF880",
+      "canonical_container": "gUnk_084EDCA8",
+      "container_offset": "0x1BD8"
+    },
+    {
+      "index": 13,
+      "target": "0x084EFAC8",
+      "canonical_container": "gUnk_084EDCA8",
+      "container_offset": "0x1E20"
+    },
+    {
+      "index": 14,
+      "target": "0x084EFD10",
+      "canonical_container": "gUnk_084EDCA8",
+      "container_offset": "0x2068"
+    },
+    {
+      "index": 15,
+      "target": "0x084EFF58",
+      "canonical_container": "gUnk_084EDCA8",
+      "container_offset": "0x22B0"
+    },
+    {
+      "index": 16,
+      "target": "0x084F01A0",
+      "canonical_container": "gUnk_084EDCA8",
+      "container_offset": "0x24F8"
+    },
+    {
+      "index": 17,
+      "target": "0x084F03E8",
+      "canonical_container": "gUnk_084EDCA8",
+      "container_offset": "0x2740"
+    },
+    {
+      "index": 18,
+      "target": "0x084F0630",
+      "canonical_container": "gUnk_084EDCA8",
+      "container_offset": "0x2988"
+    },
+    {
+      "index": 19,
+      "target": "0x084F0878",
+      "canonical_container": "gUnk_084EDCA8",
+      "container_offset": "0x2BD0"
+    }
+  ],
+  "boundaries": "Existing canonical table084F0AC0..084F0B10 contains20words. Every pointer lies inside existing container084EDCA8..084F0AC0 at offset78+i*248. That container is not reconstructed or retyped.",
+  "evidence": [
+    {
+      "source": "src/code_08021DC4.c",
+      "line": 1035,
+      "revision": "fce395533dd0e8789e3e38d358091441942fc573",
+      "detail": "Matched sub_08023274 case zero indexes gUnk_084F0AC0 by word-sized entry and installs loaded destination pointer at scene+0x71C. No input-index safety or complete record-graph type is inferred."
+    }
+  ],
+  "source_storage_before": {
+    "incbin_count": 410,
+    "incbin_bytes": 16016724
+  },
+  "source_storage_after": {
+    "incbin_count": 409,
+    "incbin_bytes": 16016644
+  },
+  "converted_bytes_this_checkpoint": 80,
+  "cumulative_explicit_table_bytes": 760,
+  "conversion_state": "explicit_pointer_source",
+  "verification": {
+    "literal_encoding_equals_original_rom": true,
+    "original_elf_equals_original_rom": true,
+    "assembled_elf_equals_original_rom": true,
+    "normal_compare": "shiningsoul2_eu.gba: OK",
+    "nonmatching": "passed",
+    "tree_check_errors": 0,
+    "defined_global_symbols_preserved": 2866,
+    "all_defined_global_values_sizes_types_preserved": true,
+    "source_change_exactly_one_incbin_replacement": true
+  },
+  "limitations": "Source reconstruction only. No new canonical symbols or record boundaries; no code matching credit, decoded-asset total, runtime coverage or cross-region conversion."
+}
