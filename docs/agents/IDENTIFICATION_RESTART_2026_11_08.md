@@ -808,3 +808,12 @@ Three previously unidentified EUR setup functions now have names tied to explici
 The constructors request their actor, set interaction dimensions and flags when the first lookup succeeds, and separately install the dialogue callback when a second lookup succeeds. Each lookup searches fifteen records; failure yields once and skips its write. These functions expose no success handle or actor-capacity guarantee, and their conditional scene-transition wait has no timeout. Story flags select alternate dialogue without changing the callback identity.
 
 Only the naming catalog and this English evidence journal change. Existing rows, metadata, address order and canonical symbols are preserved. Matching code, data, claims and generated progress remain unchanged; frozen primary proofs and independent review receipts remain private.
+
+
+## Scene event triggers and actor exit
+
+Three previously unidentified EUR helpers now have reviewed names for a player-rectangle event trigger, an object-break event starter and an actor exit/despawn request. The coordinator read all three complete matched bodies and original ranges, then checked the inclusive overlap test, destruction-state writer, movement interpolation and actor-cleanup consumers. Seven complete configured ranges equal the EUR ROM and linked ELF. The event names describe their trigger roles without inferring a particular scene.
+
+The rectangle helper scans once, returns when nobody overlaps and terminates its current task after a hit even when the thirty-slot event pool is full. The object-break helper captures its callback and argument before waiting for object state twelve; an already satisfied state bypasses its scene-stop check. Both can retry allocation indefinitely after selecting a free slot. The actor exit helper selects animation five, requests quantized relative movement and marks a found actor for deferred cleanup; no exact final displacement or successful despawn is promised for invalid selectors.
+
+Only this journal and the catalog change. Existing rows, metadata and canonical symbols remain intact; matching code, data, shard claims and generated progress are untouched. Frozen primary receipts, independent review and the narrow animation-wording overlay remain private.
