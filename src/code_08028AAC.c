@@ -1604,7 +1604,11 @@ void sub_0802AA28(void) {
         var_r0 = stateAA28 + 0x1B3;
     }
     helperByte27 = *var_r0;
-    var_r5_3 = helperByte27;
+    {
+        register s32 progressWord27 asm("r0") = helperByte27;
+        asm("" : "+r"(progressWord27));
+        var_r5_3 = progressWord27;
+    }
     if (var_r5_3 != 0xA) {
         if ((s32) var_r5_3 > 1) {
             if (sub_0800CE30() != 0) {
