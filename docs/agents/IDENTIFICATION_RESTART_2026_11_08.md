@@ -578,3 +578,16 @@ The transformation handler reuses an effect-slot selector, not a heap allocator.
 The persistent player-centered hit callback preserves the original termination polarities, up to 180 completed body iterations and early paths that do not yield. Local cancellation calls the cleanup helper twice through its shared exit; insufficient enemy resource returns before that cleanup. Uninitialized enemy-path state and unchecked owner domains remain explicit limits, rather than being repaired in the naming evidence.
 
 Worker originals and exact peer corrections remain frozen privately. The coordinator independently read the five full matched bodies and relevant original consumer/control-flow witnesses; a separate reviewer approved the corrected semantics. Complete configured ranges equal the EUR ROM and linked ELF. Canonical symbols, code, data, claims and generated progress files remain unchanged.
+
+
+## Workers B14/A13: text-identified rooms and temporary visibility
+
+Four new EUR identities were independently reviewed from original bodies and consumers at `8bbfb589bf6ab55018ae7e465fc0e674879c81fa`. Two room handlers are anchored by their scheduled NPC population, installed interaction callback and directly selected English text: `8A744 -> 2DAF0 -> 595E0 -> 14013D` identifies the Knight's Guild; `8A984 -> 2E444 -> 45F44 -> 1402A1` identifies the Klantol Times editing room in that interaction's initial dialogue branch. Numeric display IDs alone were not used to identify either room.
+
+The coordinator independently checked language-zero pointer slots, complete resource byte hashes and two-byte headers, then inspected a static raster made from the original font glyphs using the matched font resolver and tile-copy layout. This is a source-data witness, not execution of the game. Kitchen and Angela-related candidates remain private proposals because their text does not close the room identity.
+
+The player visibility callback advances its animation, sets local/remote-dependent flags, yields sixty times and reevaluates local identity while clearing. It does not establish invulnerability or a guaranteed flag lifetime if identity changes. Its starter finds a free mask bit but marks it only after task registration; it does not reserve the slot before allocating.
+
+Original renderer branches establish that bit eighteen takes precedence over bit nineteen in one draw path, while another reached path tests bit nineteen before drawing/upload. The NONMATCHING renderer C is only a reading aid. Original action-byte bit-six and flag-origin witnesses were checked separately, and literal/data intervals from an initial unmapped window are explicitly excluded from instruction evidence. No unconditional invisibility rule is inferred across all render paths.
+
+Frozen originals, exact status/offset/visibility corrections, static glyph and ROM/ELF receipts remain preserved privately. The coordinator read the four complete original bodies, matched C and pertinent consumer paths; independent semantic review approved the corrected rows. Canonical symbols, code, data, claims and generated progress files remain unchanged.

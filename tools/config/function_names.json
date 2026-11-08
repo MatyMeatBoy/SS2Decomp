@@ -22438,6 +22438,114 @@
           "detail": "Reads descriptor owner/bit,low16level. Local owner pays low16cost6898C-1 from resource+C2 clamped0; owner>3 instead deducts signed cost-table halfword from enemy+5E; insufficient signed result clears mask,zeros resource and returns before normal cleanup15D98. Other path initializes resource5008C animation20 and180-iteration u16 countdown. Each loop first tests local-owner cancellation helpers/state11/12; calls68A00 at player packed sprite position (or enemy x/y). Nonzero hit result with level0 exits, clearing player flags mask0x10010 for player owner. Local owner also calls15D74 and1FB14 with player x/y,0x200020 box and signed randomized ability damage. Periodically increments owner attack serial; draws following animation20 on alternating frame parity after gating. Every loop yields. Loop terminates when the previous countdown is zero, sub_0800BA6C returns zero, or sub_08056E90 returns nonzero; normal cleanup15D98 then clears slot bit. Original enemy path eventually uses uninitialized player-base r7 for counter/projection and can increment shared loop counter twice; no safe enemy-owner execution contract is asserted. Narrow name describes demonstrated player path; does not establish named skill, actual hits or invulnerability semantics of15D74/98. Full original range inspected and preserved; static EU ROM/supplied ELF equality, no worker build or runtime testing. Independent original branches at0806AB7C..0806AB8A establish the exact helper polarities. Local cancellation calls15D98 at0806A9F8 and branches to0806AB8E, which calls15D98 again; other ordinary exits call it once, and insufficient enemy resource returns without it. Every loop yields means each completed drawing iteration yields, not early cancellation/hit exits. Initial countdown180 permits at most180 body iterations if no earlier exit; no wall-clock duration is established."
         }
       ]
+    },
+    {
+      "address": "0x0808A744",
+      "canonical_symbol": "sub_0808A744",
+      "display_name": "HandleKnightsGuildRoom",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08087CC0.c",
+          "line": 1682,
+          "revision": "8bbfb589bf6ab55018ae7e465fc0e674879c81fa",
+          "detail": "Machine ABI r0 is the room record/table pointer. When the scene halfword at +0x10 is zero, waits for sub_0801AAE0, selects input+4+u16(scene+0x36)*0x24, stores the unsigned entry coordinate halfwords shifted left8 into local player words +0x8C/+0x90 and copies these to +0x94/+0x98. Initializes display through sub_08009930, waits for sub_0800BA6C, calls sub_0800AD04 with position pointers and sub_0800CCCC result, schedules the room NPC population callback and sets scene halfwords +0x10/+0x1C to1. Otherwise sub_08088B6C(input,1) tests three exits using signed player coordinates shifted right11, absX<=1 and exactY; an accepted exit fades/waits, changes scene row/destination/script and clears phase flags. Returns1 only on that accepted exit; initialization and no transition return0. No row/player/index checks or wait timeouts; scheduling does not acknowledge NPC/task/dialogue completion. Display mode10 and NPC population2DAF0. That body installs six interactions59488,59534,595E0,5968C,59738,597E4.59488 displays14013B;595E0 displays14013D, whose English resource explicitly welcomes the player to the Knights Guild, names receptionist Pelign and calls it a waiting room for knights training to protect the castle. This resource chain establishes the guild-room role rather than inferring a map name from display mode. Complete original configured body and relevant consumers inspected against EU ROM/supplied verified-main ELF. Static research only; no worker build/runtime test."
+        },
+        {
+          "source": "src/code_08028AAC.c",
+          "line": 4786,
+          "revision": "8bbfb589bf6ab55018ae7e465fc0e674879c81fa",
+          "detail": "Pinned NPC population/dialogue consumer links the handler to the English resource evidence preserved in cohort-b14-resource-proof.json. Resolver06EE0 kind20 language0 indexes pointer table0838AFF0. Manual alphabet transliteration is a reading aid; exact resource IDs, pointer slots and bytes are primary evidence."
+        },
+        {
+          "source": "src/code_08006D24.c",
+          "line": 110,
+          "revision": "8bbfb589bf6ab55018ae7e465fc0e674879c81fa",
+          "detail": "Independent root ROM audit: language0/category20 resource 0x14013D uses pointer slot0x0838B4E4 ->0x08376CC9,503 bytes,SHA256 be0f0082344ea66d5328fca8df6cfe762e0b931bef185055a2abdf156ade31ce. After skipping its two-byte header, original font glyphs read: Welcome to the / Knight's Guild. Direct chain is handler0808A744 call0808A7F4 ->population0802DAF0 ->actor interaction080595E0 ->resource14013D."
+        },
+        {
+          "source": "src/code_08017F7C.c",
+          "line": 1289,
+          "revision": "8bbfb589bf6ab55018ae7e465fc0e674879c81fa",
+          "detail": "Independent root static glyph witness uses resource0x40000 through the archive offsets to font0x0892C028. The matched renderer uses ((code-1)&255)*128 and copies the first64 bytes as two vertically stacked tiles. Pointer/byte hashes and raster of the original glyphs are preserved privately; arbitrary contrast palette, not emulator rendering. Resource strings and the room callback chain, rather than numeric display IDs, establish the room identity."
+        }
+      ]
+    },
+    {
+      "address": "0x0808A984",
+      "canonical_symbol": "sub_0808A984",
+      "display_name": "HandleKlantolTimesEditingRoom",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08087CC0.c",
+          "line": 1809,
+          "revision": "8bbfb589bf6ab55018ae7e465fc0e674879c81fa",
+          "detail": "Machine ABI r0 is the room record/table pointer. When the scene halfword at +0x10 is zero, waits for sub_0801AAE0, selects input+4+u16(scene+0x36)*0x24, stores the unsigned entry coordinate halfwords shifted left8 into local player words +0x8C/+0x90 and copies these to +0x94/+0x98. Initializes display through sub_08009930, waits for sub_0800BA6C, calls sub_0800AD04 with position pointers and sub_0800CCCC result, schedules the room NPC population callback and sets scene halfwords +0x10/+0x1C to1. Otherwise sub_08088B6C(input,1) tests three exits using signed player coordinates shifted right11, absX<=1 and exactY; an accepted exit fades/waits, changes scene row/destination/script and clears phase flags. Returns1 only on that accepted exit; initialization and no transition return0. No row/player/index checks or wait timeouts; scheduling does not acknowledge NPC/task/dialogue completion. Display mode15 and NPC population2E444. That body installs45F44 on actor0x44, alongside3C698 and other conversations.45F44 displays1402A1, whose English resource explicitly names the editing room for the Klantol Times and Hamasan requesting feature-item suggestions. Resource identity is independent of numeric scene/display IDs. No publication/quest completion is inferred from entering this room. Complete original configured body and relevant consumers inspected against EU ROM/supplied verified-main ELF. Static research only; no worker build/runtime test."
+        },
+        {
+          "source": "src/code_08028AAC.c",
+          "line": 5490,
+          "revision": "8bbfb589bf6ab55018ae7e465fc0e674879c81fa",
+          "detail": "Pinned NPC population/dialogue consumer links the handler to the English resource evidence preserved in cohort-b14-resource-proof.json. Resolver06EE0 kind20 language0 indexes pointer table0838AFF0. Manual alphabet transliteration is a reading aid; exact resource IDs, pointer slots and bytes are primary evidence."
+        },
+        {
+          "source": "src/code_08006D24.c",
+          "line": 110,
+          "revision": "8bbfb589bf6ab55018ae7e465fc0e674879c81fa",
+          "detail": "Independent root ROM audit: language0/category20 resource0x1402A1 uses pointer slot0x0838BA74 ->0x08381AA8,435 bytes. After skipping its two-byte header, original font glyphs read: This is the editing room / for the Klantol Times. Direct chain is handler0808A984 call0808AA34 ->population0802E444 ->actor0x44 interaction08045F44 ->resource1402A1 in its initial dialogue branch; other story states select other dialogues. This does not claim quest or publication completion."
+        },
+        {
+          "source": "src/code_08017F7C.c",
+          "line": 1289,
+          "revision": "8bbfb589bf6ab55018ae7e465fc0e674879c81fa",
+          "detail": "Independent root static glyph witness uses resource0x40000 through the archive offsets to font0x0892C028. The matched renderer uses ((code-1)&255)*128 and copies the first64 bytes as two vertically stacked tiles. Pointer/byte hashes and raster of the original glyphs are preserved privately; arbitrary contrast palette, not emulator rendering. Resource strings and the room callback chain, rather than numeric display IDs, establish the room identity."
+        }
+      ]
+    },
+    {
+      "address": "0x08075520",
+      "canonical_symbol": "sub_08075520",
+      "display_name": "RunPlayerVanishAnimationAndTemporaryVisibilityEffect",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08073E2C.c",
+          "line": 803,
+          "revision": "8bbfb589bf6ab55018ae7e465fc0e674879c81fa",
+          "detail": "Complete original 08075520..080756EC reviewed. ABI r0 player index/r1 task bit; waits while packed entity kind low4 is10, then advances resource5008D animation8 at the live player position. Once animation completes, sets player word +30 bit18 (0x40000) for current local id and bit19 (0x80000) for another player, yields exactly60 times, clears corresponding bit and task-mask bit. Local-id comparison is repeated during clearing, so identity changes can leave the original bit set. No owner bounds, waits have no timeout, draw gates do not stop animation."
+        },
+        {
+          "source": "src/code_0800CF58.c",
+          "line": 4892,
+          "revision": "8bbfb589bf6ab55018ae7e465fc0e674879c81fa",
+          "detail": "Original bounded renderer 08012708..08012814 independently verified ROM=ELF: reads player word +30; bit18 takes precedence over bit19. With bit18 set, odd frame parity permits the ordinary draw regardless of bit19; even parity skips it. With bit18 clear, bit19 skips this draw; otherwise bit13 selects another parity gate or unconditional draw. Separate branch 08012DBC..08012E8C skips draw/upload when bit19 is set. This describes only these render branches. Pinned D368 C is NONMATCHING and is a reading aid, not proven matched source."
+        },
+        {
+          "source": "src/code_0800CF58.c",
+          "line": 4703,
+          "revision": "8bbfb589bf6ab55018ae7e465fc0e674879c81fa",
+          "detail": "Original action path080121E4..080121F6 reads packed entity byte+4 bit6, passes player halfword+0 to sub_080756EC only when set, then rejoins the dispatcher. The D368 C is NONMATCHING; this conditional call is verified by original instructions, not C equivalence. Additional original08012D3E..08012D48 reads player flags and branches to08012DBC only with bit13 clear; that reached branch then tests bit19 before its draw/upload. Other render paths are not generalized."
+        }
+      ]
+    },
+    {
+      "address": "0x080756EC",
+      "canonical_symbol": "sub_080756EC",
+      "display_name": "StartPlayerVanishVisibilityEffectTask",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08073E2C.c",
+          "line": 836,
+          "revision": "8bbfb589bf6ab55018ae7e465fc0e674879c81fa",
+          "detail": "Complete original 080756EC..08075778 reviewed. ABI r0 player index; finds first free bit0..15 in 030063E0[player], allocates0x400 stack, writes task at 030063B0[player]+slot*0x28, priority0x34, callback08075521, top stack+0x3FC and zero finalizer, starts with r1 player/r2 slot then marks busy only after scheduler registration. Returns when all16 slots busy or allocation fails (null is stored at task+0x20 first). No owner bound check, independent scheduler-membership guard, wait or return success promise. Callback performs the independently anchored vanish/visibility behavior."
+        }
+      ]
     }
   ]
 }
