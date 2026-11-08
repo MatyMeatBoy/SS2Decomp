@@ -427,3 +427,14 @@ Eleven frozen EUR research rows were independently re-reviewed against original 
 - The area selector stores a map-set/area destination and resource record, with mode-specific transition requests. Its wrapper requests window hide; the wait observes a shared controller, without request ownership or fixed elapsed duration. The selector does not itself load map graphics, and unchecked indices remain explicit.
 
 Complete configured ranges were verified against the EUR ROM and local linked ELF; reviewers also audited the original HUD and selector paths. No new runtime coverage or broad task-equivalence claim is made. Original frozen rows remain unchanged, canonical names/boundaries remain intact, and generated progress files are excluded.
+
+
+## Animated world effects and player area-return flow
+
+Seven additional EUR rows were independently reviewed from original ASM, source pinned at `b0270484a6dcc0e4649508a2c5589c502c8cdf39`, caller paths and the witnessed return-prompt resource. This batch adds six identities: `080634D8` already counted through descriptive alias `t65_popupImplementation`.
+
+The world-effect task projects packed signed coordinates, advances animation 10 and chooses the witnessed draw path using its pool header. The pool helpers allocate thirty controls, cancel and free them, or start one effect after a single stack-allocation attempt. Packing uses the original full operands; no visual-effect title, sound role, allocation-success guarantee or network message is inferred.
+
+The departure task has guarded animation progression and changes destination only for the local player after its cleanup gates. The prompt uses resource `0x1404E0`; its original pointer table and exact Latin letter/space term support the return role without assigning a speaker, location or selected answer. The starter searches four controls and retries stack allocation with scheduler waits. Its pool is addressed by pointer global `03006030`, as the original load/dereference at `657CA..657CC` demonstrates; one frozen evidence sentence was corrected to distinguish this from a fixed-address pool. Modes outside 0/1 retain the previous callback.
+
+All seven complete configured ranges equal the verified EUR ROM and local ELF. Selected original paths and caller guards support the stated roles without a full gameplay-state equivalence or runtime claim. The uncorrected frozen input and exact precision overlay are preserved privately. Canonical symbols, boundaries and matching code are unchanged.
