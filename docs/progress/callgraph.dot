@@ -526,7 +526,7 @@ digraph calls {
   "sub_08021EC8" [label="sub_08021EC8"];
   "sub_08021F58" [label="sub_08021F58"];
   "sub_08021FE0" [label="TestFixedPointAxisAlignedBoxOverlap"];
-  "sub_08022028" [label="sub_08022028"];
+  "sub_08022028" [label="QueueDirectPlayerDamage"];
   "sub_08022078" [label="sub_08022078"];
   "sub_08022100" [label="sub_08022100"];
   "sub_08022180" [label="sub_08022180"];
@@ -579,9 +579,9 @@ digraph calls {
   "sub_08029788" [label="RestoreSceneEntityFacingGradually"];
   "sub_0802996C" [label="RestoreLocalPlayerVitals"];
   "sub_08029A7C" [label="QueueRandomizedLocalPlayerDamage"];
-  "sub_08029B98" [label="sub_08029B98"];
+  "sub_08029B98" [label="QueueRandomizedEnemyDamage"];
   "sub_08029CEC" [label="QueueLocalPlayerDamageAndAttemptResistanceGrowth"];
-  "sub_08029E0C" [label="sub_08029E0C"];
+  "sub_08029E0C" [label="QueueEnemyDamage"];
   "sub_08029F54" [label="TriggerSceneEventForPlayerRectangleOverlap"];
   "sub_0802A01C" [label="sub_0802A01C"];
   "sub_0802A080" [label="WaitForAnyPlayerInRectangle"];

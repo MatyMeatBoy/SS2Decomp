@@ -15044,10 +15044,17 @@
       "canonical_symbol": "sub_08022028",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_08022028",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "QueueDirectPlayerDamage",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_08021DC4.c",
+          "line": 163,
+          "revision": "b5337babd5b759034a0b68b145e7899a6bfefd7d",
+          "detail": "ABI source-position pointer r0, supplied player pointer r1, amount low16 r2. Computes ArcTan2 from signed truncated coordinate deltas but discards result; clears halfwords playerCC,D0,CE, ADDS amount to pending player88 with halfword wrap and sets player state20=10. No owner, state, invulnerability, amount scaling or authority checks in this helper. Original2204E angle call;22058/5C/60 clears;22066..2206E add pending/setstate. Matched area-hit caller79458 source line3415 reaches it after player-active/state/flag checks, scene predicates and inclusive21FE0 overlap on one alternate branch. Consumer13BC0 original13BD6..13BEE subtracts pending88 and8A from currentHP C4 then clears both whenD1B0==0; opposite mode clears pending without HP subtraction. Hence queues damage rather than always applying immediate HP reduction; source-position computation does not prove directional knockback. Static original-ASM and matched-source evidence; no runtime or new C equivalence claim. Complete configured ranges equal the EUR ROM and linked ELF. Original amount truncateslow16, pending88 addswithHALFWORDwrap and state20STRH10;supplied playerpointer used directly,not necessarilylocalplayer. ArcTan2 resultunused; no directionalknockback promise. ZeroeshalfwordsCC,D0,CE only,notallcombatstate.13BC0consumerownoriginal confirmsconditionalHPsubtraction/clearpending; callereligibilitydoesnotbecome helperauthority/state/invulnerability check."
+        }
+      ]
     },
     {
       "name": "sub_08022078",
@@ -16452,10 +16459,17 @@
       "canonical_symbol": "sub_08029B98",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_08029B98",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "QueueRandomizedEnemyDamage",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_08028AAC.c",
+          "line": 812,
+          "revision": "b5337babd5b759034a0b68b145e7899a6bfefd7d",
+          "detail": "Checks active-enemy mask, byte1DC and state not10/11, then computes randomized quadratic damage via21C74(amount low16, defense halfword1CE,200) and applies squared resistance21D00(action,amount,enemy+218). Initializes effect packet through69388 and optional1DB94 except enemy class226==3. Sets stateC=10; writes packet target byte from enemy+2, damage half+4 and auxiliary lowbytes from args5/6, applies hit-motion1F2CC, sets attacker58 to local player, ASSIGNS pending4A and last4C (does not add), ORs local player bit into5A, calls EnqueueOrMergeLinkHit660EC; display69080 skipped for class3. Class3 skips packet initialization but still sends packet, so effect byte1 can remain uninitialized; do not promise safe class3 packet behavior. Original29C00 calls quadratic helper,29C5E resistance,29C84 motion,29C96/98 assigns pending/last,29CAE link queue. Consumer19CE8 original19CF6..19D06 subtracts low15 pending4A from enemyHP5C then clears4A; establishes queue semantics without asserting immediate damage. Static original-ASM and matched-source evidence; no runtime or new C equivalence claim. Complete configured ranges equal the EUR ROM and linked ELF. Independently read original entire primary: enemy index is used in register bitshift and stride2E0 WITHOUT explicit0..4 bounds; active-mask test is not an index bound. Pending4A is HALFWORD assignment and4C WORD assignment; target/aux packetfields BYTE, damage HALFWORD. Class3 bypasses69388 and still sends eight-byte packet, including uninitialized effectbyte1 (and untouchedpadding); no deterministic class3 packet contract.660EC returns0 immediately if outgoing count>49, even before merge search; caller ignores return. Thus name Queue denotes localpending hit state/queue attempt,not guaranteed link delivery. Motion1F2CC reads auxiliary byte3 SIGNED;29B98 ORs attackerbit5A unlike29E0C."
+        }
+      ]
     },
     {
       "name": "sub_08029CEC",
@@ -16498,10 +16512,17 @@
       "canonical_symbol": "sub_08029E0C",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_08029E0C",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "QueueEnemyDamage",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_08028AAC.c",
+          "line": 873,
+          "revision": "b5337babd5b759034a0b68b145e7899a6bfefd7d",
+          "detail": "Enemy mask/active1DC/stateC exclusions10/11 as29B98, but NO quadratic randomization: applies21D00(action low16,amount low16,enemy+218). For class226!=3 initializes69388 packet and optional1DB94 effect; class3 bypasses packet initialization but retains send, so packet effect byte1 may be uninitialized. Sets stateC10, ASSIGNS pending4A and last4C, fills packet targetbyte from enemy+2, damage+4, auxiliary lowbytes args5/6. Clears impulse byte2 when bit80 or enemy word210==FF; calls1F2CC, sets attacker58=local player, sends660EC and displays69080 except class3. Unlike29B98 does not OR local bit5A. Original29EBA resistance;29ECC/CE pending/last;29EE6..29EFE impulse suppression;29F04 motion;29F14 link queue. Consumer19CE8 original subtracts pending low15 from enemyHP5C and clears pending. Matched caller75088 line746 passes enemy id, effect1, precomputed damage, argument1, impulse20, facing after eligible animation completion and later stores source serial. Static original-ASM and matched-source evidence; no runtime or new C equivalence claim. Complete configured ranges equal the EUR ROM and linked ELF. Original individually confirms no21C74 randomizer and no5AattackerbitOR; pending assignments and packetclass3 caveat independently audited. Low8 impulsearg suppressed onbit80 or WORDenemy210==FF before1F2CC. Invalid index not explicitly checked; link660ECcapacity failure ignored while localpendingstate alreadywritten. Enemy19CE8 subtracts pendingLOW15bits then clearsHALFWORD4A,so not all16storedbits are later damage. No immediateHP or guaranteedlinkdelivery contract."
+        }
+      ]
     },
     {
       "name": "sub_08029F54",
@@ -51975,12 +51996,12 @@
   "identification": {
     "game": {
       "total": 1880,
-      "identified": 992,
+      "identified": 995,
       "existing": 23,
-      "confirmed": 969,
+      "confirmed": 972,
       "proposed": 2,
-      "unidentified": 886,
-      "percent_identified": 52.765957446808514
+      "unidentified": 883,
+      "percent_identified": 52.92553191489362
     },
     "sdk": {
       "total": 155,
@@ -51993,12 +52014,12 @@
     },
     "all": {
       "total": 2035,
-      "identified": 1147,
+      "identified": 1150,
       "existing": 152,
-      "confirmed": 995,
+      "confirmed": 998,
       "proposed": 2,
-      "unidentified": 886,
-      "percent_identified": 56.36363636363637
+      "unidentified": 883,
+      "percent_identified": 56.51105651105651
     }
   },
   "limitations": "Configured function address intervals, including alignment/literal pools; inventory includes original assembly and linked libraries. Existing descriptive identifiers are recognized, not independently semantically re-proven."
