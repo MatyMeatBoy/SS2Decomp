@@ -539,7 +539,7 @@ digraph calls {
   "sub_08022504" [label="sub_08022504"];
   "sub_0802258C" [label="sub_0802258C"];
   "sub_08022630" [label="AllocateSceneStateAndStartController"];
-  "sub_080226A4" [label="sub_080226A4"];
+  "sub_080226A4" [label="TaskInitializeSceneAndDispatchMapEvents"];
   "sub_08022E60" [label="sub_08022E60"];
   "sub_08023274" [label="sub_08023274"];
   "sub_08023684" [label="sub_08023684"];
@@ -586,8 +586,8 @@ digraph calls {
   "sub_0802A01C" [label="sub_0802A01C"];
   "sub_0802A080" [label="WaitForAnyPlayerInRectangle"];
   "sub_0802A104" [label="StartSceneEventAfterObjectBreak"];
-  "sub_0802A19C" [label="sub_0802A19C"];
-  "sub_0802A228" [label="sub_0802A228"];
+  "sub_0802A19C" [label="OpenMonsterCardCatalogAndRestoreScene"];
+  "sub_0802A228" [label="RequestSceneMapAreaChange"];
   "sub_0802A590" [label="ConvertPaletteBanksToGrayscale"];
   "sub_0802A644" [label="DisplayTypewriterNarrationText"];
   "sub_0802A7DC" [label="RunEndingEpilogue"];

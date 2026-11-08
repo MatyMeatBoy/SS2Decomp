@@ -14,8 +14,8 @@
 <text x="269.0" y="86" fill="#e6edf3" font-size="10">940 bytes; not decompiled C</text>
 <rect x="506.0" y="30" width="235.0" height="66" rx="5" fill="#161b22"/>
 <text x="516.0" y="46" fill="#e6edf3" font-size="11">Identification</text>
-<text x="516.0" y="69" fill="#3fb950" font-size="21" font-weight="600">56.07%</text>
-<text x="516.0" y="86" fill="#e6edf3" font-size="10">1141 / 2035 registered names</text>
+<text x="516.0" y="69" fill="#3fb950" font-size="21" font-weight="600">56.22%</text>
+<text x="516.0" y="86" fill="#e6edf3" font-size="10">1144 / 2035 registered names</text>
 <rect x="753.0" y="30" width="235.0" height="66" rx="5" fill="#161b22"/>
 <text x="763.0" y="46" fill="#e6edf3" font-size="11">Historical C + linked</text>
 <text x="763.0" y="69" fill="#e6edf3" font-size="21" font-weight="600">93.13%</text>
@@ -411,7 +411,7 @@
 <rect x="360.08" y="164.48" width="22.75" height="28.85" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0802F578 | sub_0802F578 | unidentified  0x0802F578  1288 bytes  [done]</title></rect>
 <rect x="382.83" y="164.48" width="18.65" height="28.85" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0802FA80 | sub_0802FA80 | unidentified  0x0802FA80  1056 bytes  [done]</title></rect>
 <rect x="401.48" y="164.48" width="17.31" height="28.85" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0802C2A0 | sub_0802C2A0 | unidentified  0x0802C2A0  980 bytes  [done]</title></rect>
-<rect x="325.18" y="193.32" width="19.32" height="23.00" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0802A228 | sub_0802A228 | unidentified  0x0802A228  872 bytes  [done]</title></rect>
+<rect x="325.18" y="193.32" width="19.32" height="23.00" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>RequestSceneMapAreaChange | sub_0802A228 | confirmed  0x0802A228  872 bytes  [done]</title></rect>
 <rect x="325.18" y="216.33" width="19.32" height="22.26" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>MoveSceneEntityByOffset | sub_08028D98 | confirmed  0x08028D98  844 bytes  [done]</title></rect>
 <rect x="325.18" y="238.59" width="19.32" height="21.63" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0802E110 | sub_0802E110 | unidentified  0x0802E110  820 bytes  [done]</title></rect>
 <rect x="325.18" y="260.22" width="19.32" height="21.00" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0802DAF0 | sub_0802DAF0 | unidentified  0x0802DAF0  796 bytes  [done]</title></rect>
@@ -447,7 +447,7 @@
 <rect x="408.32" y="250.81" width="10.46" height="8.77" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>ConvertPaletteBanksToGrayscale | sub_0802A590 | confirmed  0x0802A590  180 bytes  [done]</title></rect>
 <rect x="396.93" y="259.58" width="10.27" height="7.54" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>StartSceneEventAfterObjectBreak | sub_0802A104 | confirmed  0x0802A104  152 bytes  [done]</title></rect>
 <rect x="396.93" y="267.12" width="10.27" height="7.15" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>SetSceneEntityFacing | sub_080290E4 | confirmed  0x080290E4  144 bytes  [done]</title></rect>
-<rect x="396.93" y="274.27" width="10.27" height="6.95" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0802A19C | sub_0802A19C | unidentified  0x0802A19C  140 bytes  [done]</title></rect>
+<rect x="396.93" y="274.27" width="10.27" height="6.95" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>OpenMonsterCardCatalogAndRestoreScene | sub_0802A19C | confirmed  0x0802A19C  140 bytes  [done]</title></rect>
 <rect x="407.20" y="259.58" width="11.58" height="6.16" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>MoveSceneActorOutAndDespawn | sub_0802F424 | confirmed  0x0802F424  140 bytes  [done]</title></rect>
 <rect x="407.20" y="265.74" width="11.58" height="5.81" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>WaitForAnyPlayerInRectangle | sub_0802A080 | confirmed  0x0802A080  132 bytes  [done]</title></rect>
 <rect x="407.20" y="271.54" width="6.32" height="9.68" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>FindCharacterNameStartingBonusIndex | sub_0802A9B0 | confirmed  0x0802A9B0  120 bytes  [done]</title></rect>
@@ -512,7 +512,7 @@
 <rect x="288.23" y="396.48" width="131.55" height="111.52" fill="#0d1117"/>
 <rect x="289.23" y="397.48" width="43.33" height="54.22" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>RunLevelExitTransition | sub_080245CC | confirmed  0x080245CC  4616 bytes  [done]</title></rect>
 <rect x="289.23" y="451.70" width="43.33" height="32.04" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>t24_gate25890 | sub_08025890 | existing  0x08025890  2728 bytes  [done]</title></rect>
-<rect x="289.23" y="483.74" width="43.33" height="23.26" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_080226A4 | sub_080226A4 | unidentified  0x080226A4  1980 bytes  [done]</title></rect>
+<rect x="289.23" y="483.74" width="43.33" height="23.26" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>TaskInitializeSceneAndDispatchMapEvents | sub_080226A4 | confirmed  0x080226A4  1980 bytes  [done]</title></rect>
 <rect x="332.56" y="397.48" width="33.54" height="29.44" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0802704C | sub_0802704C | unidentified  0x0802704C  1940 bytes  [done]</title></rect>
 <rect x="366.10" y="397.48" width="32.29" height="29.44" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>t025Effects27C | sub_08027C1C | existing  0x08027C1C  1868 bytes  [done]</title></rect>
 <rect x="398.39" y="397.48" width="20.40" height="29.44" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>TaskManageEnemySpawnGroup | sub_08023A3C | confirmed  0x08023A3C  1180 bytes  [done]</title></rect>
@@ -2340,6 +2340,6 @@
 <text x="994" y="543" fill="#e6edf3" font-size="11" text-anchor="end">Matching + linked: 93.13% of 756392 code bytes, 2002/2007 functions</text>
 </svg>
 <text x="12" y="674" fill="#e6edf3" font-size="11">Area = code bytes. Partial yellow fill = recorded milestones, not matching percentage or remaining time.</text>
-<text x="12" y="692" fill="#e6edf3" font-size="11">Data: 409 incbin blocks (15.3 MiB), 11 / 412 descriptive labels; understanding: no percentage.</text>
+<text x="12" y="692" fill="#e6edf3" font-size="11">Data: 406 incbin blocks (15.3 MiB), 11 / 412 descriptive labels; understanding: no percentage.</text>
 <text x="12" y="710" fill="#e6edf3" font-size="11">Graph: 2035 functions, 10985 edges, 1292 unresolved calls. Source-derived; not a complete runtime graph.</text>
 </svg>

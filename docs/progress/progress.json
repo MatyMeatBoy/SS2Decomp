@@ -75,12 +75,12 @@
  "identification": {
   "game": {
    "total": 1880,
-   "identified": 986,
+   "identified": 989,
    "existing": 23,
-   "confirmed": 963,
+   "confirmed": 966,
    "proposed": 2,
-   "unidentified": 892,
-   "percent_identified": 52.4468085106383
+   "unidentified": 889,
+   "percent_identified": 52.6063829787234
   },
   "sdk": {
    "total": 155,
@@ -93,20 +93,20 @@
   },
   "all": {
    "total": 2035,
-   "identified": 1141,
+   "identified": 1144,
    "existing": 152,
-   "confirmed": 989,
+   "confirmed": 992,
    "proposed": 2,
-   "unidentified": 892,
-   "percent_identified": 56.06879606879607
+   "unidentified": 889,
+   "percent_identified": 56.21621621621622
   }
  },
  "data": {
-  "incbin_count": 409,
-  "incbin_bytes": 16016644,
+  "incbin_count": 406,
+  "incbin_bytes": 16016620,
   "labels_total": 412,
   "labels_descriptive": 11,
-  "explicit_data_directives": 42,
+  "explicit_data_directives": 45,
   "padding_directives": 0,
   "limitations": "Raw incbin ranges include padding and opaque bytes. Descriptive labels and explicit directives do not prove decoded or understood data; no decoding percentage is reported."
  },

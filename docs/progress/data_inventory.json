@@ -10,18 +10,18 @@
     },
     {
       "source": "data/rodata_libgcc_end.s",
-      "incbin_count": 388,
-      "incbin_bytes": 13210312,
+      "incbin_count": 385,
+      "incbin_bytes": 13210288,
       "labels": 390,
-      "explicit_data_directives": 22,
+      "explicit_data_directives": 25,
       "padding_directives": 0
     }
   ],
-  "incbin_count": 409,
-  "incbin_bytes": 16016644,
+  "incbin_count": 406,
+  "incbin_bytes": 16016620,
   "labels_total": 412,
   "labels_descriptive": 11,
-  "explicit_data_directives": 42,
+  "explicit_data_directives": 45,
   "padding_directives": 0,
   "incbins": [
     {
@@ -2207,27 +2207,6 @@
       "file": "baserom.gba",
       "rom_offset": 5163928,
       "size": 24
-    },
-    {
-      "source": "data/rodata_libgcc_end.s",
-      "line": 886,
-      "file": "baserom.gba",
-      "rom_offset": 5163952,
-      "size": 2
-    },
-    {
-      "source": "data/rodata_libgcc_end.s",
-      "line": 889,
-      "file": "baserom.gba",
-      "rom_offset": 5163954,
-      "size": 10
-    },
-    {
-      "source": "data/rodata_libgcc_end.s",
-      "line": 892,
-      "file": "baserom.gba",
-      "rom_offset": 5163964,
-      "size": 12
     },
     {
       "source": "data/rodata_libgcc_end.s",
