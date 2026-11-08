@@ -1,0 +1,96 @@
+{
+  "schema_version": 1,
+  "region": "EUR",
+  "base_revision": "804cce5a72a69325122bdb1b9a379e1a7104456c",
+  "rom_sha1": "aa1288be9257337abdfe3034898cf6c7aa778fbc",
+  "source": "data/rodata_libgcc_end.s",
+  "address": "0x084ECBB0",
+  "end_exclusive": "0x084ECBC8",
+  "size": 24,
+  "semantic_tables": 2,
+  "element_type": "signed 16-bit X/Y pairs, inferred from LDRSH consumers; ELF labels remain STT_NOTYPE",
+  "record_stride": 4,
+  "records_per_table": 3,
+  "tables": [
+    {
+      "canonical_symbol": "gUnk_084ECBB0",
+      "address": "0x084ECBB0",
+      "end_exclusive": "0x084ECBBC",
+      "pairs": [
+        [
+          41,
+          20
+        ],
+        [
+          22,
+          15
+        ],
+        [
+          3,
+          10
+        ]
+      ],
+      "sha256": "a14e37a4e43d4dae72db33ea6a5c93b41c8084352741107979e14df6e3b371cd"
+    },
+    {
+      "canonical_symbol": "gUnk_084ECBBC",
+      "address": "0x084ECBBC",
+      "end_exclusive": "0x084ECBC8",
+      "pairs": [
+        [
+          -3,
+          10
+        ],
+        [
+          -22,
+          15
+        ],
+        [
+          -41,
+          20
+        ]
+      ],
+      "sha256": "7228db1626c5a67b2e8578d71ffe3bddfb1a1992bf07f78caa97fe7bca876376"
+    }
+  ],
+  "preserved_interior_symbol": {
+    "name": "gUnk_084ECBB2",
+    "address": "0x084ECBB2",
+    "offset": 2,
+    "role": "First table Y-field alias; existing canonical global preserved."
+  },
+  "alignment": "Existing halfword-aligned fields and four-byte table bases preserved; no alignment directives added.",
+  "primary_readers": [
+    {
+      "canonical_symbol": "sub_0807C29C",
+      "source": "asm/nonmatchings/code_0807A5D4/sub_0807C29C.s",
+      "evidence": "Literal0807FE4C selectsBBC;0807FFE8 selectsBB0. Signed halfword reads at record offsets0/2 with index shifted2; stores target RAM coordinates at manager+E8/EC. Y path0807FFD4 adds16. X offsets56 and184. NONMATCHING C is not equivalence evidence."
+    },
+    {
+      "canonical_symbol": "sub_08080A78",
+      "source": "src/code_0807A5D4.c",
+      "evidence": "Complete relevant matched inventory drawing loops select three records using index-first. BBC contributes signed XY to item drawing; BB0 and interiorBB2 are separate X/Y aliases advancing bytwo halfwords."
+    }
+  ],
+  "limitations": [
+    "Observed readers load the tables; no table writes occur in these reviewed paths. This is not a whole-program no-write or arbitrary-index safety proof.",
+    "No new labels, structure ABI, function edits, matching improvements or cross-region conversion are claimed.",
+    "Source-storage counts are not decoded-asset counts or a global data-understanding percentage."
+  ],
+  "source_storage_after": {
+    "incbin_count": 406,
+    "incbin_bytes": 16016620
+  },
+  "cumulative_explicit_tables": 6,
+  "cumulative_converted_bytes": 784,
+  "verification": {
+    "literal_source_repacked_equals_rom": true,
+    "rebuilt_elf_equals_rom": true,
+    "exactly_three_incbin_replacements": true,
+    "defined_global_symbols_preserved": 2866,
+    "all_global_values_sizes_types_preserved": true,
+    "normal_compare": "shiningsoul2_eu.gba: OK",
+    "nonmatching": "passed",
+    "tree_errors": 0
+  }
+}

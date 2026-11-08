@@ -883,13 +883,13 @@ gUnk_084ECB98:
 	.incbin "baserom.gba", 0x4ECB98, 0x18
 	.global gUnk_084ECBB0
 gUnk_084ECBB0:
-	.incbin "baserom.gba", 0x4ECBB0, 0x2
+	.2byte 41
 	.global gUnk_084ECBB2
 gUnk_084ECBB2:
-	.incbin "baserom.gba", 0x4ECBB2, 0xA
+	.2byte 20, 22, 15, 3, 10
 	.global gUnk_084ECBBC
 gUnk_084ECBBC:
-	.incbin "baserom.gba", 0x4ECBBC, 0xC
+	.2byte -3, 10, -22, 15, -41, 20
 	.global gUnk_084ECBC8
 gUnk_084ECBC8:
 	.incbin "baserom.gba", 0x4ECBC8, 0x14

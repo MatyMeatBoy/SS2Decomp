@@ -38,3 +38,14 @@ The eighty bytes now use `.4byte gUnk_084EDCA8 + offset`. Every target stays ins
 This removes one additional eighty-byte incbin range: **409 ranges and 16,016,644 incbin bytes remain**, with **760 bytes across four explicit source tables** cumulatively. These are source-storage counts, separate from code matching and from decoded assets. No global data-decoding percentage is inferred.
 
 The emitted expressions were resolved using the preserved canonical symbol, repacked little-endian and compared with the original EUR ROM and newly assembled ELF. All **2,866 defined global symbol values, sizes and types remain unchanged**. `make compare` reports `shiningsoul2_eu.gba: OK`; full `make nonmatching` and the zero-error tree check pass. Changes are limited to this existing data range and its English documentation/manifest; generated progress, code, claims and opaque assets remain unchanged.
+
+
+## Third checkpoint: inventory coordinate pairs
+
+At base `804cce5a72a69325122bdb1b9a379e1a7104456c`, the existing ranges `084ECBB0..084ECBBC` and `084ECBBC..084ECBC8` contain three signed X/Y halfword pairs each. The first table is `(41,20), (22,15), (3,10)`; the second is `(-3,10), (-22,15), (-41,20)`. Original inventory-controller signed loads and the matched inventory drawing pass establish four-byte record stride and X/Y field offsets zero/two. Reviewed paths read these ROM tables and write resulting coordinates to RAM; this is not a universal index-safety or whole-program no-write claim.
+
+Exactly three incbin spans totaling twenty-four bytes now use literal `.2byte` directives. The existing global `gUnk_084ECBB2` remains at first-table offset two, between its X and Y fields. All labels, bounds, values, symbol sizes/types and existing alignment remain intact; no structure ABI or helper is introduced. The machine-readable checkpoint is [inventory_coordinate_tables_eu.json](data_work/inventory_coordinate_tables_eu.json).
+
+The actual emitted source was parsed and repacked little-endian, then compared with the original EUR ROM and rebuilt ELF. All **2,866 defined global symbol values, sizes and types remain unchanged**. Normal `make compare` reports `shiningsoul2_eu.gba: OK`; full `make nonmatching` and the zero-error tree check pass. The controller function and matching workers are untouched; no code-matching improvement is claimed.
+
+This leaves **406 incbin ranges and 16,016,620 incbin bytes**, with **784 converted bytes across six explicit source tables** cumulatively. These are source-storage measurements, separate from decoded assets, matching code and semantic function names. EUR is the only converted region in this checkpoint.
