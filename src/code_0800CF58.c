@@ -485,6 +485,7 @@ void sub_0800D368(void *arg0) {
     s32 var_r0_41;
     s32 var_r1_26;
     s32 var_r1_27;
+    s32 renderMaskD368;
     s32 var_r1_28;
     s32 var_r2_16;
     s32 *temp_r1_4;
@@ -5066,8 +5067,9 @@ animationClassDoneD368:
                         if (d368_sub_0800CC98() != 0) {
 
                         } else {
-                            d368_sub_08065370(&sp44, 0xFU, (u16 *) &coordF8, &coordFA, (1));
-                            if ((d368_gUnk_03002344 & 1) != (1 & ((struct PlayerD368 *)arg0)->f0)) {
+                            renderMaskD368 = 1;
+                            d368_sub_08065370(&sp44, 0xFU, (u16 *) &coordF8, &coordFA, (renderMaskD368));
+                            if ((d368_gUnk_03002344 & renderMaskD368) != (renderMaskD368 & ((struct PlayerD368 *)arg0)->f0)) {
 
                             } else {
                                 var_r1_27 = coordF0;
@@ -5274,11 +5276,12 @@ block_1768:
                                     }
                                     break;
                                 case 6:             /* switch 27 */
-                                    d368_sub_08065370(&sp44, 0xFU, (u16 *) &coordF8, &coordFA, (1));
-                                    if (d368_gUnk_03002344 & 1) {
+                                    renderMaskD368 = 1;
+                                    d368_sub_08065370(&sp44, 0xFU, (u16 *) &coordF8, &coordFA, (renderMaskD368));
+                                    if (d368_gUnk_03002344 & renderMaskD368) {
                                         var_r1_27 = coordF0;
 block_1771:
-                                d368_sub_080659BC(&sp44, var_r1_27, coordF2, 0xF, ((s32) (u16) coordF8), (1));
+                                d368_sub_080659BC(&sp44, var_r1_27, coordF2, 0xF, ((s32) (u16) coordF8), (renderMaskD368));
                                     }
                                     break;
                                 case 8:             /* switch 27 */
