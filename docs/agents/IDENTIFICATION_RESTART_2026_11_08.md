@@ -83,10 +83,11 @@ inputs.
 
 ## Pending review and regional evidence
 
-PRs #684 and #685 remain separate review work. Mechanical player flag-bit names
-must not be promoted merely to raise coverage. Preserved input-suppression,
-target-movement, defeat-protection and sprite-hide cohorts may provide stronger
-roles, but require independent primary-body and consumer review first.
+At the first nine-row checkpoint, PRs #684 and #685 remained separate review
+work. Mechanical player flag-bit names must not be promoted merely to raise
+coverage. The subsequent review sections below record which preserved
+input-suppression, target-movement, defeat-protection and sprite-hide roles
+passed independent primary-body and consumer review.
 
 No new USA/Japan correspondences or runtime observations are asserted here.
 The preserved EU movie report found no verified EU input movie and one savestate
@@ -164,3 +165,30 @@ Object finalizer `0805A780` compares an embedded task-control address
 `record + 0x48` with its argument, not a pointer loaded from that field. Its
 palette handle at `+0x40` is a halfword. Movement rollback in matched `08013CEC`
 corroborates the collidable-object role of query `08057068`.
+
+## Coordinated-attack phase and request cohort
+
+Four further rows reuse the frozen, independently reviewed `coordinatedphase3`
+and `coordinatedenqueue1` cohorts at
+`b0270484a6dcc0e4649508a2c5589c502c8cdf39`.
+
+`0800CD68/0800CD78/0800CD8C` set, clear and query scene flag bit 6. Task
+`0806441C` marks this phase before its guarded presentation. The normal path
+clears it at `080647DC`, before the later `0x586` synchronization and enemy
+damage/result work. Early returns at `08064632..08064644` bypass that clear;
+the alternate path clears at `08064DF8`. Names therefore describe a marked
+scene phase of coordinated attack, not the whole attack lifetime or a universal
+world lock. World-item draw gating and the original inventory input-clearing
+path independently corroborate its scene consumers.
+
+`08067F94` attempts to enqueue tag `0x9E` with
+`(c << 16) | (b << 8) | a`. The three operands are full 32-bit values without
+masks, so arbitrary independent byte fields are not inferred. Receiver
+`08067680..08067694` passes the peer's player record and packed word to
+`08065918`, which schedules `0806441C` only if its shared control is idle.
+The callback extracts two bytes and independently recounts participants.
+The producer's state-14 caller resets its shared counter even after a failed
+enqueue. Queue acceptance proves neither transmission nor task creation.
+
+These are four previously pending addresses, with no new runtime or regional
+correspondence claim. Their original frozen evidence remains unchanged.

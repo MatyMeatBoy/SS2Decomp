@@ -17371,6 +17371,144 @@
           "detail": "Canonical Thumb entry for sub_0805A780. Original EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc; static source/instruction evidence only."
         }
       ]
+    },
+    {
+      "address": "0x0800CD68",
+      "canonical_symbol": "sub_0800CD68",
+      "display_name": "MarkCoordinatedAttackScenePhaseActive",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_0800CBBC.c",
+          "line": 81,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Reads the full scene flag word at 03003478, ORs mask 0x40 and writes it back. Sets bit 6 while preserving other bits. This marks a phase flag consumed during coordinated-attack presentation/waiting; it does not itself start the attack, wait for peers or execute the presentation."
+        },
+        {
+          "source": "src/code_0805FB7C.c",
+          "line": 2838,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Matched coordinated-attack task 6441C sets this scene bit before its guarded presentation, waits, and visual-task 92348 call. It clears the bit at line 2911 before later 0x586 synchronization and damage-resolution work. The alternate gated/waiting branch sets it at line 3031 and clears it near its final cleanup at line 3072. This marks an observed scene phase of coordinated attack, not the entire attack duration, a battle-results screen or a total world-suspend guarantee. Original set calls are 6451E/64C6C; clears are 647DC/64DF8."
+        },
+        {
+          "source": "src/code_0805FB7C.c",
+          "line": 2873,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "After the normal-path set, queries CDF8 and 021A8 can return early before the clear. Original 64632..64644 branches directly to the epilogue at 64DFC on those conditions, bypassing clear call 647DC. Therefore a set is not universally followed by a clear here, and this flag may survive those exits until another state/reset path changes it. Whole-word scene-flag resets/restores also affect it; these helpers are not claimed as exclusive writers or a universal paired protocol."
+        },
+        {
+          "source": "src/code_0805A630.c",
+          "line": 672,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Matched world-item task 5B140 skips its drawing scan when the query is nonzero; original 5B154..5B15A confirms that gate. The shared inventory interaction draft also clears input halfwords under this query, corroborated by original 7C2D4..7C2E8. The latter remains NONMATCHING at this source revision. These are observed consumers of the phase flag, not proof that every input, actor, task or hardware update stops."
+        }
+      ]
+    },
+    {
+      "address": "0x0800CD78",
+      "canonical_symbol": "sub_0800CD78",
+      "display_name": "MarkCoordinatedAttackScenePhaseInactive",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_0800CBBC.c",
+          "line": 84,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Reads the full scene flag word at 03003478, ANDs mask 0xFFFFFFBF and writes it back. Clears bit 6 while preserving other bits. Clearing this marker does not prove the coordinated attack has completed, all synchronization has finished or every scene subsystem is running."
+        },
+        {
+          "source": "src/code_0805FB7C.c",
+          "line": 2838,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Matched coordinated-attack task 6441C sets this scene bit before its guarded presentation, waits, and visual-task 92348 call. It clears the bit at line 2911 before later 0x586 synchronization and damage-resolution work. The alternate gated/waiting branch sets it at line 3031 and clears it near its final cleanup at line 3072. This marks an observed scene phase of coordinated attack, not the entire attack duration, a battle-results screen or a total world-suspend guarantee. Original set calls are 6451E/64C6C; clears are 647DC/64DF8."
+        },
+        {
+          "source": "src/code_0805FB7C.c",
+          "line": 2873,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "After the normal-path set, queries CDF8 and 021A8 can return early before the clear. Original 64632..64644 branches directly to the epilogue at 64DFC on those conditions, bypassing clear call 647DC. Therefore a set is not universally followed by a clear here, and this flag may survive those exits until another state/reset path changes it. Whole-word scene-flag resets/restores also affect it; these helpers are not claimed as exclusive writers or a universal paired protocol."
+        },
+        {
+          "source": "src/code_0805A630.c",
+          "line": 672,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Matched world-item task 5B140 skips its drawing scan when the query is nonzero; original 5B154..5B15A confirms that gate. The shared inventory interaction draft also clears input halfwords under this query, corroborated by original 7C2D4..7C2E8. The latter remains NONMATCHING at this source revision. These are observed consumers of the phase flag, not proof that every input, actor, task or hardware update stops."
+        }
+      ]
+    },
+    {
+      "address": "0x0800CD8C",
+      "canonical_symbol": "sub_0800CD8C",
+      "display_name": "IsCoordinatedAttackScenePhaseActive",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_0800CBBC.c",
+          "line": 87,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Returns exactly 0 or 1 from scene flags 03003478 bit 6 using an unsigned word load, shift and mask. It reports the marked coordinated-attack scene phase, whose lifetime differs from the complete attack-resolution task. A nonzero result is not a general scheduled-task, transport-readiness or whole-world suspension test."
+        },
+        {
+          "source": "src/code_0805FB7C.c",
+          "line": 2838,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Matched coordinated-attack task 6441C sets this scene bit before its guarded presentation, waits, and visual-task 92348 call. It clears the bit at line 2911 before later 0x586 synchronization and damage-resolution work. The alternate gated/waiting branch sets it at line 3031 and clears it near its final cleanup at line 3072. This marks an observed scene phase of coordinated attack, not the entire attack duration, a battle-results screen or a total world-suspend guarantee. Original set calls are 6451E/64C6C; clears are 647DC/64DF8."
+        },
+        {
+          "source": "src/code_0805FB7C.c",
+          "line": 2873,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "After the normal-path set, queries CDF8 and 021A8 can return early before the clear. Original 64632..64644 branches directly to the epilogue at 64DFC on those conditions, bypassing clear call 647DC. Therefore a set is not universally followed by a clear here, and this flag may survive those exits until another state/reset path changes it. Whole-word scene-flag resets/restores also affect it; these helpers are not claimed as exclusive writers or a universal paired protocol."
+        },
+        {
+          "source": "src/code_0805A630.c",
+          "line": 672,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Matched world-item task 5B140 skips its drawing scan when the query is nonzero; original 5B154..5B15A confirms that gate. The shared inventory interaction draft also clears input halfwords under this query, corroborated by original 7C2D4..7C2E8. The latter remains NONMATCHING at this source revision. These are observed consumers of the phase flag, not proof that every input, actor, task or hardware update stops."
+        }
+      ]
+    },
+    {
+      "address": "0x08067F94",
+      "canonical_symbol": "sub_08067F94",
+      "display_name": "TryEnqueueCoordinatedAttackRequest",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08067B4C.c",
+          "line": 210,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Rejects unsigned outgoing count greater than 49, returning 0. Otherwise selects queue base+count*0x88, writes word+4=1 and tag 0x9E, stores exactly (c << 16) | (b << 8) | a to payload+8, sets chunk count 1, increments the queue count and returns 1. All three arguments are full 32-bit operands with no masks before the ORs. Only the first four payload bytes are initialized here, although the transmitted chunk carries eight bytes."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 1263,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Original 67FA0/FA2 implements the unsigned capacity check; FB8 shifts the third argument by 16, FBA shifts the second by 8 and FBC/FBE OR both with the unmasked first argument before FC0 stores the word. Complete 67F94..67FE0 range equals original EU ROM and existing linked ELF. No actor state is modified synchronously."
+        },
+        {
+          "source": "src/code_080659B0.c",
+          "line": 1420,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Tag 0x9E dispatches as raw case 0x1D after subtraction of 0x81. Receiver passes the sending peer player record and reconstructed payload word 0 to confirmed StartCoordinatedAttackTask (65918), with no local-versus-remote exclusion in this case. Original 67680..6768C constructs player base+peer*0x14C, 6768E loads payload word 0 and 67690 calls 65918."
+        },
+        {
+          "source": "src/code_0805FB7C.c",
+          "line": 3547,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Matched starter 65918 forwards both arguments to confirmed callback TaskResolveCoordinatedAttack (6441C) only if shared task 030061E0 is not scheduled. That callback extracts the low two bytes of the packed argument, independently recounts packet-state-14 participants and carries out coordinated visualization, synchronization and enemy damage/result handling. The packed third argument is not substituted for that later recount, and enqueue acceptance does not prove a task actually started."
+        },
+        {
+          "source": "asm/nonmatchings/code_0800CF58/sub_0800D368.s",
+          "line": 10336,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Original state-14 path scans connected player records, selecting packet low-nibble state 14 and nonzero player halfword+0xB6. It counts participants and conditionally accumulates the packet-derived quantity extracted by LSL13/LSR24. Only when that count equals 0CBCC does it call 67F94 with resource word+A4 shifted right by 4, the aggregate quantity and participant count. Original lines 10389..10396 then reset the shared counter unconditionally after the enqueue call, without testing its return. No full argument-domain, successful queue or exact skill identity is assumed."
+        }
+      ]
     }
   ]
 }
