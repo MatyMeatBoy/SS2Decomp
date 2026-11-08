@@ -14,8 +14,8 @@
 <text x="269.0" y="86" fill="#e6edf3" font-size="10">940 bytes; not decompiled C</text>
 <rect x="506.0" y="30" width="235.0" height="66" rx="5" fill="#161b22"/>
 <text x="516.0" y="46" fill="#e6edf3" font-size="11">Identification</text>
-<text x="516.0" y="69" fill="#3fb950" font-size="21" font-weight="600">39.02%</text>
-<text x="516.0" y="86" fill="#e6edf3" font-size="10">794 / 2035 registered names</text>
+<text x="516.0" y="69" fill="#3fb950" font-size="21" font-weight="600">39.21%</text>
+<text x="516.0" y="86" fill="#e6edf3" font-size="10">798 / 2035 registered names</text>
 <rect x="753.0" y="30" width="235.0" height="66" rx="5" fill="#161b22"/>
 <text x="763.0" y="46" fill="#e6edf3" font-size="11">Historical C + linked</text>
 <text x="763.0" y="69" fill="#e6edf3" font-size="21" font-weight="600">93.13%</text>
@@ -1295,7 +1295,7 @@
 <rect x="718.13" y="247.58" width="10.08" height="11.10" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>TaskProcessEnemySpawnRequest | sub_0801681C | confirmed  0x0801681C  224 bytes  [done]</title></rect>
 <rect x="728.20" y="247.58" width="9.90" height="11.10" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08015620 | sub_08015620 | unidentified  0x08015620  220 bytes  [done]</title></rect>
 <rect x="738.10" y="247.58" width="9.72" height="11.10" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08015A48 | sub_08015A48 | unidentified  0x08015A48  216 bytes  [done]</title></rect>
-<rect x="707.69" y="258.67" width="10.33" height="10.05" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0801674C | sub_0801674C | unidentified  0x0801674C  208 bytes  [done]</title></rect>
+<rect x="707.69" y="258.67" width="10.33" height="10.05" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>StartEnemyPoolActorTask | sub_0801674C | confirmed  0x0801674C  208 bytes  [done]</title></rect>
 <rect x="718.02" y="258.67" width="10.13" height="10.05" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>TryStartEnemySpawnRequestTask | sub_080168FC | confirmed  0x080168FC  204 bytes  [done]</title></rect>
 <rect x="728.15" y="258.67" width="9.93" height="10.05" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>AcquireSharedEnemyPaletteSlot | sub_08016E04 | confirmed  0x08016E04  200 bytes  [done]</title></rect>
 <rect x="738.08" y="258.67" width="9.73" height="10.05" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>UpdateEnemyTrackingMovementKeys | sub_08016D40 | confirmed  0x08016D40  196 bytes  [done]</title></rect>
@@ -2057,7 +2057,7 @@
 <rect x="796.71" y="482.09" width="2.45" height="3.50" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0800CD20 | sub_0800CD20 | unidentified  0x0800CD20  20 bytes  [done]</title></rect>
 <rect x="799.16" y="482.09" width="2.45" height="3.50" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0800CD54 | sub_0800CD54 | unidentified  0x0800CD54  20 bytes  [done]</title></rect>
 <rect x="787.88" y="485.60" width="2.75" height="3.13" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0800CD78 | sub_0800CD78 | unidentified  0x0800CD78  20 bytes  [done]</title></rect>
-<rect x="790.63" y="485.60" width="2.75" height="3.13" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0800CDAC | sub_0800CDAC | unidentified  0x0800CDAC  20 bytes  [done]</title></rect>
+<rect x="790.63" y="485.60" width="2.75" height="3.13" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>ClearSceneEncounterActive | sub_0800CDAC | confirmed  0x0800CDAC  20 bytes  [done]</title></rect>
 <rect x="793.37" y="485.60" width="2.75" height="3.13" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>RequestWorldTaskSuspend | sub_0800CDD0 | confirmed  0x0800CDD0  20 bytes  [done]</title></rect>
 <rect x="796.12" y="485.60" width="2.75" height="3.13" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>ClearWorldTaskSuspendRequest | sub_0800CDE4 | confirmed  0x0800CDE4  20 bytes  [done]</title></rect>
 <rect x="798.86" y="485.60" width="2.75" height="3.13" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0800CE08 | sub_0800CE08 | unidentified  0x0800CE08  20 bytes  [done]</title></rect>
@@ -2085,8 +2085,8 @@
 <rect x="790.88" y="502.27" width="2.91" height="2.36" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0800CD44 | sub_0800CD44 | unidentified  0x0800CD44  16 bytes  [done]</title></rect>
 <rect x="790.88" y="504.64" width="2.91" height="2.36" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0800CD68 | sub_0800CD68 | unidentified  0x0800CD68  16 bytes  [done]</title></rect>
 <rect x="793.79" y="497.55" width="2.61" height="2.64" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0800CD8C | sub_0800CD8C | unidentified  0x0800CD8C  16 bytes  [done]</title></rect>
-<rect x="796.40" y="497.55" width="2.61" height="2.64" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0800CD9C | sub_0800CD9C | unidentified  0x0800CD9C  16 bytes  [done]</title></rect>
-<rect x="799.00" y="497.55" width="2.61" height="2.64" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0800CDC0 | sub_0800CDC0 | unidentified  0x0800CDC0  16 bytes  [done]</title></rect>
+<rect x="796.40" y="497.55" width="2.61" height="2.64" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>MarkSceneEncounterActive | sub_0800CD9C | confirmed  0x0800CD9C  16 bytes  [done]</title></rect>
+<rect x="799.00" y="497.55" width="2.61" height="2.64" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>IsSceneEncounterActive | sub_0800CDC0 | confirmed  0x0800CDC0  16 bytes  [done]</title></rect>
 <rect x="793.79" y="500.19" width="3.03" height="2.27" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>IsWorldTaskSuspendRequested | sub_0800CDF8 | confirmed  0x0800CDF8  16 bytes  [done]</title></rect>
 <rect x="793.79" y="502.46" width="3.03" height="2.27" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0800CE30 | sub_0800CE30 | unidentified  0x0800CE30  16 bytes  [done]</title></rect>
 <rect x="793.79" y="504.73" width="3.03" height="2.27" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>IsMenuFadeTransitionActive | sub_0800CE68 | confirmed  0x0800CE68  16 bytes  [done]</title></rect>
