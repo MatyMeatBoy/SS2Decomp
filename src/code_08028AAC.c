@@ -1731,15 +1731,18 @@ found27scan_51:
                 scanCallback27 = (u32)&sub_0802F578;
                 firstCallbackCursor27 = stateAA28 + 0x7A4;
                 var_r2_3 = 0;
-                do {
-                    if (*(s32*)firstCallbackCursor27 == var_r8) {
-                        var_r0_3 = firstCallbackCursor27;
-                        goto found27scan_shared;
-                    }
+firstCallbackRetry27:
+                if (*(s32*)firstCallbackCursor27 != var_r8) {
                     var_r2_3 += 1;
                     firstCallbackCursor27 += 0x70;
-                } while (var_r2_3 <= 0xEU);
-                goto block_73;
+                    if (var_r2_3 <= 0xEU) {
+                        goto firstCallbackRetry27;
+                    }
+                    goto block_73;
+                }
+                var_r0_3 = firstCallbackCursor27;
+                asm("");
+                goto found27scan_shared;
             }
             var_r8 = sub_080289C0(0x20, 0x5D, 0x52);
             var_r1_3 = stateAA28 + 0x7A4;
