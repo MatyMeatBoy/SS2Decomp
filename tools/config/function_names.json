@@ -17955,6 +17955,27 @@
       ]
     },
     {
+      "address": "0x0805990C",
+      "canonical_symbol": "sub_0805990C",
+      "display_name": "SetSceneEventFlagFromLinkCallback",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08059534.c",
+          "line": 116,
+          "revision": "3e4e65f3940022de591db87b37fd322ccbf75eac",
+          "detail": "Sets bit (n & 7) of byte (n >> 3) in the scene event-flag array at scene state +0x1B7, or +0x1C3 when scene flag bit 9 is set: the same operation as SetSceneEventFlag (sub_080579D8), in a separate copy. It is referenced about 34 times in src; for example the Klantol Times trade callbacks (src/code_080443EC.c) pass it with the flag number to EnqueueLinkSceneCallbackTask, whose linked receiver runs it as a scene callback task with that argument."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 1010,
+          "revision": "3e4e65f3940022de591db87b37fd322ccbf75eac",
+          "detail": "Canonical Thumb entry for sub_0805990C. Original EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc; static source/instruction evidence only."
+        }
+      ]
+    },
+    {
       "address": "0x08057534",
       "canonical_symbol": "sub_08057534",
       "display_name": "SetSceneObjectInteractionBoxSizeById",
@@ -24891,6 +24912,102 @@
           "line": 1,
           "revision": "2a822dc7522cb8f59952cc1b93f260b2eb062493",
           "detail": "Own eight code ranges and all ten directly selected English-resource pointer slots/payloads equal EUR ROM and linked ELF; complete target C/original and relevant callback binding/resource resolver paths read. Static evidence does not establish runtime coverage, transport reliability or guaranteed completion. Independent peer verification covers nine complete configured original code ranges and all ten English pointer slots/payloads in its own supplied ROM/ELF; see peer own-fullrange-receipt.json and own-identity-anchor-resources.json. The producer receipt describing eight ranges remains preserved separately."
+        }
+      ]
+    },
+    {
+      "address": "0x08046490",
+      "canonical_symbol": "sub_08046490",
+      "display_name": "RunBakatarDialogue",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_080443EC.c",
+          "line": 986,
+          "revision": "3e4e65f3940022de591db87b37fd322ccbf75eac",
+          "detail": "Sets local player flags bit 0 (input suppression) and BeginLocalPlayerEventLock. Plays scene animation 6 on the argument entity (PlaySceneEntityAnimation) when the local player's pixel x (+0x8C >> 8) exceeds 0x1CD, otherwise animation 2. Reads scene event flags 0x22..0x25 (bits 2..5 of event-flag byte +0x1BB, or +0x1C7 when scene flag bit 9 is set). If its own flag 0x23 is set it only shows 0x1402B1, or 0x1402B2 when all four flags are set. Otherwise it shows 0x1402AA and counts bag records (character +0x150, 25 slots) with kind 3 and ID 0. Only when at least one exists and LinkGetLocalPlayerId is 0, it stores 3 in the argument entity's state halfword (scene record +0x42, enemy via sub_08019EB8, or player +0x11E) and asks 0x1402AB (timing -2). If DialogueSelectionIsZero, it shows 0x1402AD, clears the first matching bag record and adds one kind-1 ID-0x1E record with TryAddItemToBag. It then calls EnqueueLinkSceneCallbackTask(sub_0805990C, 0x23) to request setting event flag 0x23, starts song 0x33 unless the link-error mute is set, and shows 0x1402AE and 0x1402AF. Otherwise it shows 0x1402AC. Every path ends with LoopSceneEntityAnimation(arg, 0), clears flag bit 0 and calls EndLocalPlayerEventLock. Dialogue waits follow the usual slot-wait / StartFixedLayoutDialogueTask / DialogueStateIsComplete pattern. The enqueue result is ignored and link delivery is not claimed."
+        },
+        {
+          "source": "baserom.gba",
+          "revision": "3e4e65f3940022de591db87b37fd322ccbf75eac",
+          "detail": "English resources decoded from language table 0x0838AFF0 (letter codes 0x01..0x3A = 'A'..'z', 0x51 space, 0xFE page, 0xFD end). The first-visit resource 0x1402AA starts 'You must be <name>. Hi, I`m Editor Bakatar.', a self-introduction naming Bakatar. The offer resource 0x1402AB starts '...That`s it!! ', and the acceptance resource 0x1402AE reads 'Gave China Dress. Received 2 Gabas.'. The name comes from that self-introduction, not from artwork or adjacency."
+        },
+        {
+          "source": "src/code_08028AAC.c",
+          "revision": "3e4e65f3940022de591db87b37fd322ccbf75eac",
+          "detail": "Matched scene builder sub_0802E444 spawns this actor with sub_080289C0(0x46, 0x1CE, 0x5F) (SpawnSceneObjectAndWaitForStartupStateChange, line 5607), sets interaction extents 8x4 and record flag 0x10, and stores this function at scene record +0x44 as its interaction callback. The x threshold 0x1CD is one pixel left of the spawn x.",
+          "line": 5626
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 730,
+          "revision": "3e4e65f3940022de591db87b37fd322ccbf75eac",
+          "detail": "Canonical Thumb entry for sub_08046490. Original EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc; static source/instruction evidence only."
+        }
+      ]
+    },
+    {
+      "address": "0x080469DC",
+      "canonical_symbol": "sub_080469DC",
+      "display_name": "RunJackieDialogue",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_080443EC.c",
+          "line": 1043,
+          "revision": "3e4e65f3940022de591db87b37fd322ccbf75eac",
+          "detail": "Sets local player flags bit 0 (input suppression) and BeginLocalPlayerEventLock. Plays scene animation 5 on the argument entity (PlaySceneEntityAnimation) when the local player's pixel x (+0x8C >> 8) exceeds 0x224, otherwise animation 3. Reads scene event flags 0x22..0x25 (bits 2..5 of event-flag byte +0x1BB, or +0x1C7 when scene flag bit 9 is set). If its own flag 0x24 is set it only shows 0x1402BA, or 0x1402BB when all four flags are set. Otherwise it shows 0x1402B3 and counts bag records (character +0x150, 25 slots) with kind 4 and ID 3. Only when at least one exists and LinkGetLocalPlayerId is 0, it stores 3 in the argument entity's state halfword (scene record +0x42, enemy via sub_08019EB8, or player +0x11E) and asks 0x1402B4 (timing -2). If DialogueSelectionIsZero, it shows 0x1402B6, clears the first matching bag record and adds one kind-1 ID-0x1E record with TryAddItemToBag. It then calls EnqueueLinkSceneCallbackTask(sub_0805990C, 0x24) to request setting event flag 0x24, starts song 0x33 unless the link-error mute is set, and shows 0x1402B7 and 0x1402B8. Otherwise it shows 0x1402B5. Every path ends with LoopSceneEntityAnimation(arg, 0), clears flag bit 0 and calls EndLocalPlayerEventLock. Dialogue waits follow the usual slot-wait / StartFixedLayoutDialogueTask / DialogueStateIsComplete pattern. The enqueue result is ignored and link delivery is not claimed."
+        },
+        {
+          "source": "baserom.gba",
+          "revision": "3e4e65f3940022de591db87b37fd322ccbf75eac",
+          "detail": "English resources decoded from language table 0x0838AFF0 (letter codes 0x01..0x3A = 'A'..'z', 0x51 space, 0xFE page, 0xFD end). The first-visit resource 0x1402B3 starts 'Hello, <name>. My name is Jackie.', a self-introduction naming Jackie. The offer resource 0x1402B4 starts 'Oh, you have one? You have a Leather Hood!?', and the acceptance resource 0x1402B7 reads 'Gave Leather Hood. Received 2 Gabas.'. The name comes from that self-introduction, not from artwork or adjacency."
+        },
+        {
+          "source": "src/code_08028AAC.c",
+          "revision": "3e4e65f3940022de591db87b37fd322ccbf75eac",
+          "detail": "Matched scene builder sub_0802E444 spawns this actor with sub_080289C0(0x43, 0x225, 0x83) (SpawnSceneObjectAndWaitForStartupStateChange, line 5643), sets interaction extents 8x4 and record flag 0x10, and stores this function at scene record +0x44 as its interaction callback. The x threshold 0x224 is one pixel left of the spawn x.",
+          "line": 5662
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 731,
+          "revision": "3e4e65f3940022de591db87b37fd322ccbf75eac",
+          "detail": "Canonical Thumb entry for sub_080469DC. Original EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc; static source/instruction evidence only."
+        }
+      ]
+    },
+    {
+      "address": "0x08046F28",
+      "canonical_symbol": "sub_08046F28",
+      "display_name": "RunKeitaDialogue",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_080443EC.c",
+          "line": 1100,
+          "revision": "3e4e65f3940022de591db87b37fd322ccbf75eac",
+          "detail": "Sets local player flags bit 0 (input suppression) and BeginLocalPlayerEventLock. Plays scene animation 6 on the argument entity (PlaySceneEntityAnimation) when the local player's pixel x (+0x8C >> 8) exceeds 0x1AF, otherwise animation 2. Reads scene event flags 0x22..0x25 (bits 2..5 of event-flag byte +0x1BB, or +0x1C7 when scene flag bit 9 is set). If its own flag 0x25 is set it only shows 0x1402C3, or 0x1402C4 when all four flags are set. Otherwise it shows 0x1402BC and counts bag records (character +0x150, 25 slots) with kind 2 and ID 0. Only when at least one exists and LinkGetLocalPlayerId is 0, it stores 3 in the argument entity's state halfword (scene record +0x42, enemy via sub_08019EB8, or player +0x11E) and asks 0x1402BD (timing -2). If DialogueSelectionIsZero, it shows 0x1402BF, clears the first matching bag record and adds one kind-1 ID-0x1E record with TryAddItemToBag. It then calls EnqueueLinkSceneCallbackTask(sub_0805990C, 0x25) to request setting event flag 0x25, starts song 0x33 unless the link-error mute is set, and shows 0x1402C0 and 0x1402C1. Otherwise it shows 0x1402BE. Every path ends with LoopSceneEntityAnimation(arg, 0), clears flag bit 0 and calls EndLocalPlayerEventLock. Dialogue waits follow the usual slot-wait / StartFixedLayoutDialogueTask / DialogueStateIsComplete pattern. The enqueue result is ignored and link delivery is not claimed."
+        },
+        {
+          "source": "baserom.gba",
+          "revision": "3e4e65f3940022de591db87b37fd322ccbf75eac",
+          "detail": "English resources decoded from language table 0x0838AFF0 (letter codes 0x01..0x3A = 'A'..'z', 0x51 space, 0xFE page, 0xFD end). The first-visit resource 0x1402BC starts 'Hello, <name>. My name is Keita.', a self-introduction naming Keita. The offer resource 0x1402BD starts 'Let me make it clear... ', and the acceptance resource 0x1402C0 reads 'Gave Goblin Axe. Received 2 Gabas.'. The name comes from that self-introduction, not from artwork or adjacency."
+        },
+        {
+          "source": "src/code_08028AAC.c",
+          "revision": "3e4e65f3940022de591db87b37fd322ccbf75eac",
+          "detail": "Matched scene builder sub_0802E444 spawns this actor with sub_080289C0(0x45, 0x1B0, 0x5F) (SpawnSceneObjectAndWaitForStartupStateChange, line 5571), sets interaction extents 8x4 and record flag 0x10, and stores this function at scene record +0x44 as its interaction callback. The x threshold 0x1AF is one pixel left of the spawn x.",
+          "line": 5590
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 732,
+          "revision": "3e4e65f3940022de591db87b37fd322ccbf75eac",
+          "detail": "Canonical Thumb entry for sub_08046F28. Original EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc; static source/instruction evidence only."
         }
       ]
     }
