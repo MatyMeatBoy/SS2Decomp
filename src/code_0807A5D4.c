@@ -3246,12 +3246,14 @@ void sub_0807C29C(void) {
                 m->cursor = m->heldIdx - m->page * 15;
             sub_0805865C(0xF);
         } else if (keys29_03001324 & 2) {
+            vu32 *fillSource082;
             m->state = m->heldFrom;
             m->cursor = m->heldIdx;
             if (m->state == 13)
                 m->cursor = m->heldIdx - m->page * 15;
-            sp14 = 0;
-            CpuSet((void *)&sp14, &gMgr82->held, 0x05000004);
+            fillSource082 = &sp14;
+            *fillSource082 = 0;
+            CpuSet((void *)fillSource082, &gMgr82->held, 0x05000004);
             gMgr82->heldIdx = 0;
             gMgr82->heldFrom = 0;
             sub_0805865C(0x10);
