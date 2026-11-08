@@ -431,7 +431,8 @@ gUnk_0849E580:
 	.incbin "baserom.gba", 0x49E580, 0x1B0
 	.global gUnk_0849E730
 gUnk_0849E730:
-	.incbin "baserom.gba", 0x49E730, 0x10
+	@ Area-exit direction selectors, indexed by the eight directional callbacks.
+	.2byte 4, 7, 8, 9, 12, 15, 0, 1
 	.global gUnk_0849E740
 gUnk_0849E740:
 	.incbin "baserom.gba", 0x49E740, 0x20
@@ -695,7 +696,8 @@ gUnk_084EBD4C:
 	.incbin "baserom.gba", 0x4EBD4C, 0x10
 	.global gUnk_084EBD5C
 gUnk_084EBD5C:
-	.incbin "baserom.gba", 0x4EBD5C, 0x18
+	@ Decimal divisors used by the encoded-number token expander.
+	.4byte 100000, 10000, 1000, 100, 10, 1
 	.global gUnk_084EBD74
 gUnk_084EBD74:
 	.incbin "baserom.gba", 0x4EBD74, 0x8
