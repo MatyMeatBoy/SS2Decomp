@@ -14,8 +14,8 @@
 <text x="269.0" y="86" fill="#e6edf3" font-size="10">940 bytes; not decompiled C</text>
 <rect x="506.0" y="30" width="235.0" height="66" rx="5" fill="#161b22"/>
 <text x="516.0" y="46" fill="#e6edf3" font-size="11">Identification</text>
-<text x="516.0" y="69" fill="#3fb950" font-size="21" font-weight="600">57.05%</text>
-<text x="516.0" y="86" fill="#e6edf3" font-size="10">1161 / 2035 registered names</text>
+<text x="516.0" y="69" fill="#3fb950" font-size="21" font-weight="600">58.62%</text>
+<text x="516.0" y="86" fill="#e6edf3" font-size="10">1193 / 2035 registered names</text>
 <rect x="753.0" y="30" width="235.0" height="66" rx="5" fill="#161b22"/>
 <text x="763.0" y="46" fill="#e6edf3" font-size="11">Historical C + linked</text>
 <text x="763.0" y="69" fill="#e6edf3" font-size="21" font-weight="600">93.13%</text>
@@ -82,22 +82,22 @@
 </g>
 <g><title>code_0802FEA0 (47100 bytes)</title>
 <rect x="0.00" y="205.06" width="163.52" height="151.57" fill="#0d1117"/>
-<rect x="1.00" y="206.06" width="37.90" height="48.02" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08035B18 | sub_08035B18 | unidentified  0x08035B18  3548 bytes  [done]</title></rect>
-<rect x="1.00" y="254.08" width="37.90" height="47.96" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_080368F4 | sub_080368F4 | unidentified  0x080368F4  3544 bytes  [done]</title></rect>
-<rect x="1.00" y="302.04" width="37.90" height="28.69" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08033C40 | sub_08033C40 | unidentified  0x08033C40  2120 bytes  [done]</title></rect>
+<rect x="1.00" y="206.06" width="37.90" height="48.02" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>RunZaviCardTradeDialogue | sub_08035B18 | confirmed  0x08035B18  3548 bytes  [done]</title></rect>
+<rect x="1.00" y="254.08" width="37.90" height="47.96" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>RunZaviAlternateCardTradeDialogue | sub_080368F4 | confirmed  0x080368F4  3544 bytes  [done]</title></rect>
+<rect x="1.00" y="302.04" width="37.90" height="28.69" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>RunJensenDialogue | sub_08033C40 | confirmed  0x08033C40  2120 bytes  [done]</title></rect>
 <rect x="1.00" y="330.73" width="37.90" height="24.90" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_080392B4 | sub_080392B4 | unidentified  0x080392B4  1840 bytes  [done]</title></rect>
 <rect x="38.90" y="206.06" width="28.85" height="31.15" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08037DFC | sub_08037DFC | unidentified  0x08037DFC  1752 bytes  [done]</title></rect>
 <rect x="67.75" y="206.06" width="24.76" height="31.15" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0802FEA0 | sub_0802FEA0 | unidentified  0x0802FEA0  1504 bytes  [done]</title></rect>
-<rect x="92.51" y="206.06" width="23.71" height="31.15" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08031FF8 | sub_08031FF8 | unidentified  0x08031FF8  1440 bytes  [done]</title></rect>
+<rect x="92.51" y="206.06" width="23.71" height="31.15" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>RunWanbyDialogue | sub_08031FF8 | confirmed  0x08031FF8  1440 bytes  [done]</title></rect>
 <rect x="116.22" y="206.06" width="23.64" height="31.15" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08038D18 | sub_08038D18 | unidentified  0x08038D18  1436 bytes  [done]</title></rect>
 <rect x="139.87" y="206.06" width="22.66" height="31.15" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08039F00 | sub_08039F00 | unidentified  0x08039F00  1376 bytes  [done]</title></rect>
-<rect x="38.90" y="237.21" width="27.98" height="23.98" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_080399E4 | sub_080399E4 | unidentified  0x080399E4  1308 bytes  [done]</title></rect>
-<rect x="38.90" y="261.19" width="27.98" height="23.61" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08030F54 | sub_08030F54 | unidentified  0x08030F54  1288 bytes  [done]</title></rect>
-<rect x="38.90" y="284.80" width="27.98" height="23.61" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08034A5C | sub_08034A5C | unidentified  0x08034A5C  1288 bytes  [done]</title></rect>
-<rect x="38.90" y="308.41" width="27.98" height="23.61" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0803540C | sub_0803540C | unidentified  0x0803540C  1288 bytes  [done]</title></rect>
+<rect x="38.90" y="237.21" width="27.98" height="23.98" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>RunGalicDialogue | sub_080399E4 | confirmed  0x080399E4  1308 bytes  [done]</title></rect>
+<rect x="38.90" y="261.19" width="27.98" height="23.61" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>RunLesterDialogue | sub_08030F54 | confirmed  0x08030F54  1288 bytes  [done]</title></rect>
+<rect x="38.90" y="284.80" width="27.98" height="23.61" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>RunFenderDialogue | sub_08034A5C | confirmed  0x08034A5C  1288 bytes  [done]</title></rect>
+<rect x="38.90" y="308.41" width="27.98" height="23.61" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>RunDignBalarhaViviDialogue | sub_0803540C | confirmed  0x0803540C  1288 bytes  [done]</title></rect>
 <rect x="38.90" y="332.02" width="27.98" height="23.61" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0803B194 | sub_0803B194 | unidentified  0x0803B194  1288 bytes  [done]</title></rect>
 <rect x="66.88" y="237.21" width="24.92" height="25.94" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08033650 | sub_08033650 | unidentified  0x08033650  1260 bytes  [done]</title></rect>
-<rect x="91.80" y="237.21" width="23.89" height="25.94" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_080384D4 | sub_080384D4 | unidentified  0x080384D4  1208 bytes  [done]</title></rect>
+<rect x="91.80" y="237.21" width="23.89" height="25.94" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>RunReedDialogue | sub_080384D4 | confirmed  0x080384D4  1208 bytes  [done]</title></rect>
 <rect x="115.69" y="237.21" width="23.57" height="25.94" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08034F64 | sub_08034F64 | unidentified  0x08034F64  1192 bytes  [done]</title></rect>
 <rect x="139.26" y="237.21" width="23.26" height="25.94" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0803294C | sub_0803294C | unidentified  0x0803294C  1176 bytes  [done]</title></rect>
 <rect x="66.88" y="263.15" width="25.22" height="23.75" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0803A460 | sub_0803A460 | unidentified  0x0803A460  1168 bytes  [done]</title></rect>
@@ -111,9 +111,9 @@
 <rect x="92.11" y="309.70" width="20.24" height="23.02" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0803898C | sub_0803898C | unidentified  0x0803898C  908 bytes  [done]</title></rect>
 <rect x="92.11" y="332.72" width="20.24" height="22.91" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08033198 | sub_08033198 | unidentified  0x08033198  904 bytes  [done]</title></rect>
 <rect x="112.34" y="285.67" width="18.46" height="22.45" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0803AE6C | sub_0803AE6C | unidentified  0x0803AE6C  808 bytes  [done]</title></rect>
-<rect x="130.81" y="285.67" width="17.37" height="22.45" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08037B04 | sub_08037B04 | unidentified  0x08037B04  760 bytes  [done]</title></rect>
+<rect x="130.81" y="285.67" width="17.37" height="22.45" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>RunRestInteractionDialogue | sub_08037B04 | confirmed  0x08037B04  760 bytes  [done]</title></rect>
 <rect x="148.17" y="285.67" width="14.35" height="22.45" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_080308B4 | sub_080308B4 | unidentified  0x080308B4  628 bytes  [done]</title></rect>
-<rect x="112.34" y="308.12" width="12.95" height="19.32" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_080316A4 | sub_080316A4 | unidentified  0x080316A4  488 bytes  [done]</title></rect>
+<rect x="112.34" y="308.12" width="12.95" height="19.32" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>RunAzieDialogue | sub_080316A4 | confirmed  0x080316A4  488 bytes  [done]</title></rect>
 <rect x="112.34" y="327.44" width="12.95" height="14.10" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0803188C | sub_0803188C | unidentified  0x0803188C  356 bytes  [done]</title></rect>
 <rect x="112.34" y="341.54" width="12.95" height="14.10" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_080319F0 | sub_080319F0 | unidentified  0x080319F0  356 bytes  [done]</title></rect>
 <rect x="125.30" y="308.12" width="13.15" height="13.89" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08031B54 | sub_08031B54 | unidentified  0x08031B54  356 bytes  [done]</title></rect>
@@ -245,10 +245,10 @@
 <rect x="238.01" y="201.60" width="27.41" height="34.39" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_080445E8 | sub_080445E8 | unidentified  0x080445E8  1844 bytes  [done]</title></rect>
 <rect x="265.41" y="201.60" width="21.82" height="34.39" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08047B2C | sub_08047B2C | unidentified  0x08047B2C  1468 bytes  [done]</title></rect>
 <rect x="164.52" y="235.98" width="29.69" height="25.00" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0804A89C | sub_0804A89C | unidentified  0x0804A89C  1452 bytes  [done]</title></rect>
-<rect x="164.52" y="260.98" width="29.69" height="23.34" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08045F44 | sub_08045F44 | unidentified  0x08045F44  1356 bytes  [done]</title></rect>
-<rect x="164.52" y="284.32" width="29.69" height="23.34" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08046490 | sub_08046490 | unidentified  0x08046490  1356 bytes  [done]</title></rect>
-<rect x="164.52" y="307.67" width="29.69" height="23.34" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_080469DC | sub_080469DC | unidentified  0x080469DC  1356 bytes  [done]</title></rect>
-<rect x="164.52" y="331.01" width="29.69" height="23.34" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08046F28 | sub_08046F28 | unidentified  0x08046F28  1356 bytes  [done]</title></rect>
+<rect x="164.52" y="260.98" width="29.69" height="23.34" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>RunHamasanDialogue | sub_08045F44 | confirmed  0x08045F44  1356 bytes  [done]</title></rect>
+<rect x="164.52" y="284.32" width="29.69" height="23.34" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>RunBakatarDialogue | sub_08046490 | confirmed  0x08046490  1356 bytes  [done]</title></rect>
+<rect x="164.52" y="307.67" width="29.69" height="23.34" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>RunJackieDialogue | sub_080469DC | confirmed  0x080469DC  1356 bytes  [done]</title></rect>
+<rect x="164.52" y="331.01" width="29.69" height="23.34" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>RunKeitaDialogue | sub_08046F28 | confirmed  0x08046F28  1356 bytes  [done]</title></rect>
 <rect x="194.21" y="235.98" width="25.72" height="25.52" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08048570 | sub_08048570 | unidentified  0x08048570  1284 bytes  [done]</title></rect>
 <rect x="219.93" y="235.98" width="23.56" height="25.52" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08044EB4 | sub_08044EB4 | unidentified  0x08044EB4  1176 bytes  [done]</title></rect>
 <rect x="243.49" y="235.98" width="22.51" height="25.52" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0804CBBC | sub_0804CBBC | unidentified  0x0804CBBC  1124 bytes  [done]</title></rect>
@@ -299,7 +299,7 @@
 <rect x="248.46" y="356.35" width="38.78" height="33.31" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0803F454 | sub_0803F454 | unidentified  0x0803F454  2528 bytes  [done]</title></rect>
 <rect x="164.52" y="389.67" width="32.72" height="35.05" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0804076C | sub_0804076C | unidentified  0x0804076C  2244 bytes  [done]</title></rect>
 <rect x="164.52" y="424.72" width="32.72" height="33.24" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0803E638 | sub_0803E638 | unidentified  0x0803E638  2128 bytes  [done]</title></rect>
-<rect x="164.52" y="457.96" width="32.72" height="26.18" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0803DE84 | sub_0803DE84 | unidentified  0x0803DE84  1676 bytes  [done]</title></rect>
+<rect x="164.52" y="457.96" width="32.72" height="26.18" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>RunBokenAreaEntryEvent | sub_0803DE84 | confirmed  0x0803DE84  1676 bytes  [done]</title></rect>
 <rect x="164.52" y="484.13" width="32.72" height="22.87" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0803C698 | sub_0803C698 | unidentified  0x0803C698  1464 bytes  [done]</title></rect>
 <rect x="197.24" y="389.67" width="31.72" height="23.33" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0803CC50 | sub_0803CC50 | unidentified  0x0803CC50  1448 bytes  [done]</title></rect>
 <rect x="228.96" y="389.67" width="29.62" height="23.33" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0803D454 | sub_0803D454 | unidentified  0x0803D454  1352 bytes  [done]</title></rect>
@@ -325,7 +325,7 @@
 <rect x="276.32" y="453.50" width="10.91" height="16.11" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_080441C0 | sub_080441C0 | unidentified  0x080441C0  344 bytes  [done]</title></rect>
 <rect x="233.93" y="469.61" width="11.32" height="14.09" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0803F210 | sub_0803F210 | unidentified  0x0803F210  312 bytes  [done]</title></rect>
 <rect x="233.93" y="483.70" width="11.32" height="12.10" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0803F348 | sub_0803F348 | unidentified  0x0803F348  268 bytes  [done]</title></rect>
-<rect x="233.93" y="495.80" width="11.32" height="11.20" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0803C3C8 | sub_0803C3C8 | unidentified  0x0803C3C8  248 bytes  [done]</title></rect>
+<rect x="233.93" y="495.80" width="11.32" height="11.20" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>RunTempleOfLightAttendantDialogue | sub_0803C3C8 | confirmed  0x0803C3C8  248 bytes  [done]</title></rect>
 <rect x="245.25" y="469.61" width="11.86" height="9.99" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0803D36C | sub_0803D36C | unidentified  0x0803D36C  232 bytes  [done]</title></rect>
 <rect x="245.25" y="479.60" width="11.86" height="9.13" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08043A4C | sub_08043A4C | unidentified  0x08043A4C  212 bytes  [done]</title></rect>
 <rect x="245.25" y="488.74" width="11.86" height="9.13" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08043B20 | sub_08043B20 | unidentified  0x08043B20  212 bytes  [done]</title></rect>
@@ -468,14 +468,14 @@
 <rect x="325.15" y="306.14" width="18.63" height="23.07" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_080531C4 | sub_080531C4 | unidentified  0x080531C4  844 bytes  [done]</title></rect>
 <rect x="325.15" y="329.21" width="18.63" height="22.20" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_080526B4 | sub_080526B4 | unidentified  0x080526B4  812 bytes  [done]</title></rect>
 <rect x="325.15" y="351.41" width="18.63" height="22.20" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_080529E0 | sub_080529E0 | unidentified  0x080529E0  812 bytes  [done]</title></rect>
-<rect x="325.15" y="373.61" width="18.63" height="21.87" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08050688 | sub_08050688 | unidentified  0x08050688  800 bytes  [done]</title></rect>
+<rect x="325.15" y="373.61" width="18.63" height="21.87" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>RunVaitaliAreaEntryEvent | sub_08050688 | confirmed  0x08050688  800 bytes  [done]</title></rect>
 <rect x="343.78" y="306.14" width="19.75" height="19.90" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0804E7B8 | sub_0804E7B8 | unidentified  0x0804E7B8  772 bytes  [done]</title></rect>
 <rect x="363.53" y="306.14" width="18.73" height="19.90" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08052D0C | sub_08052D0C | unidentified  0x08052D0C  732 bytes  [done]</title></rect>
 <rect x="382.25" y="306.14" width="18.32" height="19.90" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08053510 | sub_08053510 | unidentified  0x08053510  716 bytes  [done]</title></rect>
 <rect x="400.57" y="306.14" width="18.21" height="19.90" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0804E360 | sub_0804E360 | unidentified  0x0804E360  712 bytes  [done]</title></rect>
-<rect x="343.78" y="326.05" width="19.48" height="18.61" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0804FC3C | sub_0804FC3C | unidentified  0x0804FC3C  712 bytes  [done]</title></rect>
+<rect x="343.78" y="326.05" width="19.48" height="18.61" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>RunOswaldAreaEntryEvent | sub_0804FC3C | confirmed  0x0804FC3C  712 bytes  [done]</title></rect>
 <rect x="343.78" y="344.66" width="19.48" height="17.67" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_080537DC | sub_080537DC | unidentified  0x080537DC  676 bytes  [done]</title></rect>
-<rect x="343.78" y="362.33" width="19.48" height="16.73" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0804EEA8 | sub_0804EEA8 | unidentified  0x0804EEA8  640 bytes  [done]</title></rect>
+<rect x="343.78" y="362.33" width="19.48" height="16.73" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>RunCaptainRobertAreaEntryEvent | sub_0804EEA8 | confirmed  0x0804EEA8  640 bytes  [done]</title></rect>
 <rect x="343.78" y="379.06" width="19.48" height="16.42" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0804DB48 | sub_0804DB48 | unidentified  0x0804DB48  628 bytes  [done]</title></rect>
 <rect x="363.26" y="326.05" width="19.13" height="16.39" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0804F128 | sub_0804F128 | unidentified  0x0804F128  616 bytes  [done]</title></rect>
 <rect x="382.39" y="326.05" width="18.76" height="16.39" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0804EABC | sub_0804EABC | unidentified  0x0804EABC  604 bytes  [done]</title></rect>
@@ -1696,18 +1696,18 @@
 </g>
 <g><title>code_08059534 (4348 bytes)</title>
 <rect x="773.97" y="372.67" width="44.03" height="51.96" fill="#0d1117"/>
-<rect x="774.97" y="373.67" width="8.41" height="10.34" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08059AD0 | sub_08059AD0 | unidentified  0x08059AD0  180 bytes  [done]</title></rect>
-<rect x="783.37" y="373.67" width="8.41" height="10.34" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08059B84 | sub_08059B84 | unidentified  0x08059B84  180 bytes  [done]</title></rect>
-<rect x="791.78" y="373.67" width="8.41" height="10.34" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08059C38 | sub_08059C38 | unidentified  0x08059C38  180 bytes  [done]</title></rect>
+<rect x="774.97" y="373.67" width="8.41" height="10.34" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>RunHourseyDialogue | sub_08059AD0 | confirmed  0x08059AD0  180 bytes  [done]</title></rect>
+<rect x="783.37" y="373.67" width="8.41" height="10.34" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>RunHiryuDialogue | sub_08059B84 | confirmed  0x08059B84  180 bytes  [done]</title></rect>
+<rect x="791.78" y="373.67" width="8.41" height="10.34" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>RunOldieDialogue | sub_08059C38 | confirmed  0x08059C38  180 bytes  [done]</title></rect>
 <rect x="800.19" y="373.67" width="8.41" height="10.34" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08059CEC | sub_08059CEC | unidentified  0x08059CEC  180 bytes  [done]</title></rect>
 <rect x="808.59" y="373.67" width="8.41" height="10.34" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08059DA0 | sub_08059DA0 | unidentified  0x08059DA0  180 bytes  [done]</title></rect>
 <rect x="774.97" y="384.01" width="8.58" height="10.13" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08059E54 | sub_08059E54 | unidentified  0x08059E54  180 bytes  [done]</title></rect>
 <rect x="774.97" y="394.14" width="8.58" height="10.13" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08059F08 | sub_08059F08 | unidentified  0x08059F08  180 bytes  [done]</title></rect>
-<rect x="774.97" y="404.27" width="8.58" height="9.68" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08059534 | sub_08059534 | unidentified  0x08059534  172 bytes  [done]</title></rect>
-<rect x="774.97" y="413.95" width="8.58" height="9.68" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_080595E0 | sub_080595E0 | unidentified  0x080595E0  172 bytes  [done]</title></rect>
-<rect x="783.55" y="384.01" width="8.46" height="9.82" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0805968C | sub_0805968C | unidentified  0x0805968C  172 bytes  [done]</title></rect>
-<rect x="792.01" y="384.01" width="8.46" height="9.82" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08059738 | sub_08059738 | unidentified  0x08059738  172 bytes  [done]</title></rect>
-<rect x="800.47" y="384.01" width="8.46" height="9.82" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_080597E4 | sub_080597E4 | unidentified  0x080597E4  172 bytes  [done]</title></rect>
+<rect x="774.97" y="404.27" width="8.58" height="9.68" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>RunRomblemDialogue | sub_08059534 | confirmed  0x08059534  172 bytes  [done]</title></rect>
+<rect x="774.97" y="413.95" width="8.58" height="9.68" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>RunPelignDialogue | sub_080595E0 | confirmed  0x080595E0  172 bytes  [done]</title></rect>
+<rect x="783.55" y="384.01" width="8.46" height="9.82" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>RunCognitoDialogue | sub_0805968C | confirmed  0x0805968C  172 bytes  [done]</title></rect>
+<rect x="792.01" y="384.01" width="8.46" height="9.82" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>RunDelongueDialogue | sub_08059738 | confirmed  0x08059738  172 bytes  [done]</title></rect>
+<rect x="800.47" y="384.01" width="8.46" height="9.82" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>RunVegitarDialogue | sub_080597E4 | confirmed  0x080597E4  172 bytes  [done]</title></rect>
 <rect x="808.93" y="384.01" width="8.07" height="9.82" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0805A1B4 | sub_0805A1B4 | unidentified  0x0805A1B4  164 bytes  [done]</title></rect>
 <rect x="783.55" y="393.83" width="8.17" height="8.75" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0805A4BC | sub_0805A4BC | unidentified  0x0805A4BC  148 bytes  [done]</title></rect>
 <rect x="783.55" y="402.58" width="8.17" height="7.57" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>StartSceneObjectInteractionCallbackTask | sub_0805A58C | confirmed  0x0805A58C  128 bytes  [done]</title></rect>
@@ -1718,7 +1718,7 @@
 <rect x="805.04" y="393.83" width="6.25" height="7.11" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0805A138 | sub_0805A138 | unidentified  0x0805A138  92 bytes  [done]</title></rect>
 <rect x="811.29" y="393.83" width="5.71" height="7.11" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08059A40 | sub_08059A40 | unidentified  0x08059A40  84 bytes  [done]</title></rect>
 <rect x="791.72" y="400.93" width="6.21" height="5.91" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0805A0EC | sub_0805A0EC | unidentified  0x0805A0EC  76 bytes  [done]</title></rect>
-<rect x="791.72" y="406.84" width="6.21" height="5.60" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0805990C | sub_0805990C | unidentified  0x0805990C  72 bytes  [done]</title></rect>
+<rect x="791.72" y="406.84" width="6.21" height="5.60" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>SetSceneEventFlagFromLinkCallback | sub_0805990C | confirmed  0x0805990C  72 bytes  [done]</title></rect>
 <rect x="791.72" y="412.44" width="6.21" height="5.60" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08059968 | sub_08059968 | unidentified  0x08059968  72 bytes  [done]</title></rect>
 <rect x="791.72" y="418.03" width="6.21" height="5.60" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08059FBC | sub_08059FBC | unidentified  0x08059FBC  72 bytes  [done]</title></rect>
 <rect x="797.93" y="400.93" width="5.00" height="6.18" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0805A3B0 | sub_0805A3B0 | unidentified  0x0805A3B0  64 bytes  [done]</title></rect>
@@ -1751,8 +1751,8 @@
 <rect x="697.35" y="425.63" width="9.51" height="9.05" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08059000 | sub_08059000 | unidentified  0x08059000  180 bytes  [done]</title></rect>
 <rect x="706.86" y="425.63" width="9.51" height="9.05" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_080590B4 | sub_080590B4 | unidentified  0x080590B4  180 bytes  [done]</title></rect>
 <rect x="716.37" y="425.63" width="9.51" height="9.05" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08059168 | sub_08059168 | unidentified  0x08059168  180 bytes  [done]</title></rect>
-<rect x="687.84" y="434.68" width="9.22" height="8.92" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08059250 | sub_08059250 | unidentified  0x08059250  172 bytes  [done]</title></rect>
-<rect x="687.84" y="443.60" width="9.22" height="8.92" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08059488 | sub_08059488 | unidentified  0x08059488  172 bytes  [done]</title></rect>
+<rect x="687.84" y="434.68" width="9.22" height="8.92" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>RunPostRestInteractionDialogue | sub_08059250 | confirmed  0x08059250  172 bytes  [done]</title></rect>
+<rect x="687.84" y="443.60" width="9.22" height="8.92" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>RunQuincyDialogue | sub_08059488 | confirmed  0x08059488  172 bytes  [done]</title></rect>
 <rect x="687.84" y="452.51" width="9.22" height="8.50" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08058E54 | sub_08058E54 | unidentified  0x08058E54  164 bytes  [done]</title></rect>
 <rect x="687.84" y="461.02" width="9.22" height="8.50" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08059374 | sub_08059374 | unidentified  0x08059374  164 bytes  [done]</title></rect>
 <rect x="697.06" y="434.68" width="8.46" height="8.36" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08058B74 | sub_08058B74 | unidentified  0x08058B74  148 bytes  [done]</title></rect>
@@ -1778,7 +1778,7 @@
 <rect x="709.14" y="458.93" width="4.70" height="5.29" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>SetTimedStageRecordedTicks | sub_0805896C | confirmed  0x0805896C  52 bytes  [done]</title></rect>
 <rect x="709.14" y="464.23" width="4.70" height="5.29" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>EnableTimedStageSelection | sub_08058A18 | confirmed  0x08058A18  52 bytes  [done]</title></rect>
 <rect x="713.84" y="453.64" width="6.02" height="4.13" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>DisableTimedStageSelection | sub_08058A4C | confirmed  0x08058A4C  52 bytes  [done]</title></rect>
-<rect x="719.86" y="453.64" width="6.02" height="4.13" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0805921C | sub_0805921C | unidentified  0x0805921C  52 bytes  [done]</title></rect>
+<rect x="719.86" y="453.64" width="6.02" height="4.13" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>SetCardTradeStageFromLinkCallback | sub_0805921C | confirmed  0x0805921C  52 bytes  [done]</title></rect>
 <rect x="713.84" y="457.77" width="4.07" height="6.11" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08059340 | sub_08059340 | unidentified  0x08059340  52 bytes  [done]</title></rect>
 <rect x="713.84" y="463.88" width="4.07" height="2.82" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08058C74 | sub_08058C74 | unidentified  0x08058C74  24 bytes  [done]</title></rect>
 <rect x="713.84" y="466.70" width="4.07" height="2.82" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>TryAddCurrencyToBag | sub_08058D98 | confirmed  0x08058D98  24 bytes  [done]</title></rect>
