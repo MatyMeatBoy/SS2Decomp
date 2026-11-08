@@ -781,3 +781,12 @@ Four previously unidentified EUR functions now have reviewed names for the boss-
 Both readiness counters can use a value without a dominating zero initialization. Only after a mismatch resets the counter do three consecutive matching scans establish the threshold. Readiness scanning has an authority predicate that is not equated with player zero. Scene selection gates prompts and drawing without universally gating the polling loop. The Chaos completion path can also be entered through a scene flag without satisfying the readiness scan, and its readiness wait has no finite bound.
 
 Early returns can bypass normal cleanup. Completion-loop iterations are distinct from guarded draw calls. Starters replace existing scene tasks and allocate stacks once without checking allocation success; their finalizer wiring differs. Requesting a destination or starting a task does not prove arrival, completed rendering or peer agreement. Canonical symbols, matching code, data, claims and generated progress files remain unchanged; frozen inputs and exact precision overlays remain private.
+
+
+## Level exit transition and return-to-castle portal starter
+
+Two previously unidentified EUR functions now have reviewed names for the level exit transition and the return-to-castle portal task starter. The coordinator read the complete matched transition, starter and installed castle-portal callback. Complete target ranges and the directly selected English prompt pointers and payloads equal the EUR ROM and linked ELF. The prompts explicitly identify the next level and Klantol Castle; the existing callback alias remains unchanged.
+
+The exit descriptor contains four unsigned halfwords: tile X/Y, destination and packed flags. Destination is promoted into a scene word; the flags high byte becomes the transition-mode word. Alternate flows, authority predicates and player-state gates affect readiness. A preexisting scene flag can reach finalization without a new destination write; waits and early returns prevent a universal travel guarantee. The castle starter replaces an active task and allocates its stack once without checking allocation success.
+
+The separate readiness-cancellation helper remains a private proposal. Its packet waits establish enqueue acceptance rather than peer acknowledgement. Canonical symbols, matching code, data, claims and generated progress files remain unchanged. Frozen research inputs, primary-range receipts and the exact two-row schema projection are preserved privately.
