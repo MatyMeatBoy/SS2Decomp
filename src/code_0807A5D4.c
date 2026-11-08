@@ -3415,12 +3415,14 @@ done82:
         break;
     case 8:
         if (gMgr82->cursor != gMgr82->prev) {
+            struct C82 *positionY82;
             base = gMgr82->cursor / 3 * 3;
             idx = base + 3;
             gMgr82->posX = gUnk_084ECBB0[(idx - (gMgr82->cursor + 1)) * 2] + 0xB8;
+            positionY82 = (struct C82 *)&gMgr82->posY;
             {
                 u32 nextCursorY = gMgr82->cursor + 1;
-                gMgr82->posY = (&gUnk_084ECBB0[1])[(idx - nextCursorY) * 2] + 0x10;
+                positionY82->c = (u32)((&gUnk_084ECBB0[1])[(idx - nextCursorY) * 2] + 0x10);
             }
             gMgr82->prev = gMgr82->cursor;
             gMgr82->f6C = 0;
