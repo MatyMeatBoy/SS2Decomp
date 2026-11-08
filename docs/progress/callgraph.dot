@@ -501,7 +501,7 @@ digraph calls {
   "sub_0801FC34" [label="sub_0801FC34"];
   "sub_0801FD64" [label="sub_0801FD64"];
   "sub_0801FDD0" [label="sub_0801FDD0"];
-  "sub_08020680" [label="sub_08020680"];
+  "sub_08020680" [label="ProcessEnemyAttackContacts"];
   "sub_08020D40" [label="sub_08020D40"];
   "sub_08020E08" [label="sub_08020E08"];
   "sub_08020F74" [label="sub_08020F74"];
@@ -511,8 +511,8 @@ digraph calls {
   "sub_08021490" [label="sub_08021490"];
   "sub_080215E4" [label="sub_080215E4"];
   "sub_080216BC" [label="sub_080216BC"];
-  "sub_080217D8" [label="sub_080217D8"];
-  "sub_08021960" [label="sub_08021960"];
+  "sub_080217D8" [label="TaskShowResistanceIncreaseIndicator"];
+  "sub_08021960" [label="TaskShowResistanceDecreaseIndicator"];
   "sub_08021AD8" [label="sub_08021AD8"];
   "sub_08021C6C" [label="sub_08021C6C"];
   "sub_08021C70" [label="sub_08021C70"];
@@ -530,8 +530,8 @@ digraph calls {
   "sub_08022078" [label="sub_08022078"];
   "sub_08022100" [label="sub_08022100"];
   "sub_08022180" [label="sub_08022180"];
-  "sub_08022200" [label="sub_08022200"];
-  "sub_08022284" [label="sub_08022284"];
+  "sub_08022200" [label="StartResistanceIncreaseIndicatorTask"];
+  "sub_08022284" [label="StartResistanceDecreaseIndicatorTask"];
   "sub_0802230C" [label="sub_0802230C"];
   "sub_080223A4" [label="RollRelativeStatChance"];
   "sub_080223F4" [label="sub_080223F4"];
@@ -616,7 +616,7 @@ digraph calls {
   "sub_0802F424" [label="MoveSceneActorOutAndDespawn"];
   "sub_0802F4B0" [label="CreateTempleOfLightAttendantSceneActor"];
   "sub_0802F578" [label="sub_0802F578"];
-  "sub_0802FA80" [label="sub_0802FA80"];
+  "sub_0802FA80" [label="RunQueenYvonneDialogue"];
   "sub_0802FEA0" [label="sub_0802FEA0"];
   "sub_08030480" [label="sub_08030480"];
   "sub_080308B4" [label="sub_080308B4"];

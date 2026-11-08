@@ -14,8 +14,8 @@
 <text x="269.0" y="86" fill="#e6edf3" font-size="10">940 bytes; not decompiled C</text>
 <rect x="506.0" y="30" width="235.0" height="66" rx="5" fill="#161b22"/>
 <text x="516.0" y="46" fill="#e6edf3" font-size="11">Identification</text>
-<text x="516.0" y="69" fill="#3fb950" font-size="21" font-weight="600">56.76%</text>
-<text x="516.0" y="86" fill="#e6edf3" font-size="10">1155 / 2035 registered names</text>
+<text x="516.0" y="69" fill="#3fb950" font-size="21" font-weight="600">57.05%</text>
+<text x="516.0" y="86" fill="#e6edf3" font-size="10">1161 / 2035 registered names</text>
 <rect x="753.0" y="30" width="235.0" height="66" rx="5" fill="#161b22"/>
 <text x="763.0" y="46" fill="#e6edf3" font-size="11">Historical C + linked</text>
 <text x="763.0" y="69" fill="#e6edf3" font-size="21" font-weight="600">93.13%</text>
@@ -409,7 +409,7 @@
 <rect x="289.23" y="249.92" width="35.95" height="31.30" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0802B8A4 | sub_0802B8A4 | unidentified  0x0802B8A4  2208 bytes  [done]</title></rect>
 <rect x="325.18" y="164.48" width="34.90" height="28.85" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0802EA50 | sub_0802EA50 | unidentified  0x0802EA50  1976 bytes  [done]</title></rect>
 <rect x="360.08" y="164.48" width="22.75" height="28.85" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0802F578 | sub_0802F578 | unidentified  0x0802F578  1288 bytes  [done]</title></rect>
-<rect x="382.83" y="164.48" width="18.65" height="28.85" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0802FA80 | sub_0802FA80 | unidentified  0x0802FA80  1056 bytes  [done]</title></rect>
+<rect x="382.83" y="164.48" width="18.65" height="28.85" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>RunQueenYvonneDialogue | sub_0802FA80 | confirmed  0x0802FA80  1056 bytes  [done]</title></rect>
 <rect x="401.48" y="164.48" width="17.31" height="28.85" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0802C2A0 | sub_0802C2A0 | unidentified  0x0802C2A0  980 bytes  [done]</title></rect>
 <rect x="325.18" y="193.32" width="19.32" height="23.00" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>RequestSceneMapAreaChange | sub_0802A228 | confirmed  0x0802A228  872 bytes  [done]</title></rect>
 <rect x="325.18" y="216.33" width="19.32" height="22.26" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>MoveSceneEntityByOffset | sub_08028D98 | confirmed  0x08028D98  844 bytes  [done]</title></rect>
@@ -539,12 +539,12 @@
 <rect x="378.10" y="489.46" width="8.13" height="9.02" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08021EC8 | sub_08021EC8 | unidentified  0x08021EC8  144 bytes  [done]</title></rect>
 <rect x="378.10" y="498.48" width="8.13" height="8.52" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08021F58 | sub_08021F58 | unidentified  0x08021F58  136 bytes  [done]</title></rect>
 <rect x="386.23" y="470.67" width="8.14" height="8.50" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08022078 | sub_08022078 | unidentified  0x08022078  136 bytes  [done]</title></rect>
-<rect x="394.37" y="470.67" width="8.14" height="8.50" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08022284 | sub_08022284 | unidentified  0x08022284  136 bytes  [done]</title></rect>
+<rect x="394.37" y="470.67" width="8.14" height="8.50" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>StartResistanceDecreaseIndicatorTask | sub_08022284 | confirmed  0x08022284  136 bytes  [done]</title></rect>
 <rect x="402.51" y="470.67" width="8.14" height="8.50" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_080223F4 | sub_080223F4 | unidentified  0x080223F4  136 bytes  [done]</title></rect>
 <rect x="410.65" y="470.67" width="8.14" height="8.50" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0802247C | sub_0802247C | unidentified  0x0802247C  136 bytes  [done]</title></rect>
 <rect x="386.23" y="479.17" width="7.32" height="9.46" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08022504 | sub_08022504 | unidentified  0x08022504  136 bytes  [done]</title></rect>
 <rect x="386.23" y="488.63" width="7.32" height="9.18" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08021E44 | sub_08021E44 | unidentified  0x08021E44  132 bytes  [done]</title></rect>
-<rect x="386.23" y="497.82" width="7.32" height="9.18" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08022200 | sub_08022200 | unidentified  0x08022200  132 bytes  [done]</title></rect>
+<rect x="386.23" y="497.82" width="7.32" height="9.18" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>StartResistanceIncreaseIndicatorTask | sub_08022200 | confirmed  0x08022200  132 bytes  [done]</title></rect>
 <rect x="393.55" y="479.17" width="8.41" height="7.74" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08021DC4 | sub_08021DC4 | unidentified  0x08021DC4  128 bytes  [done]</title></rect>
 <rect x="401.96" y="479.17" width="8.41" height="7.74" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08022100 | sub_08022100 | unidentified  0x08022100  128 bytes  [done]</title></rect>
 <rect x="410.37" y="479.17" width="8.41" height="7.74" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08022180 | sub_08022180 | unidentified  0x08022180  128 bytes  [done]</title></rect>
@@ -936,7 +936,7 @@
 <g><title>code_0801E244 (15232 bytes)</title>
 <rect x="633.25" y="129.00" width="92.61" height="86.55" fill="#0d1117"/>
 <rect x="634.25" y="130.00" width="29.84" height="37.49" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0801FDD0 | sub_0801FDD0 | unidentified  0x0801FDD0  2224 bytes  [done]</title></rect>
-<rect x="634.25" y="167.49" width="29.84" height="29.13" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08020680 | sub_08020680 | unidentified  0x08020680  1728 bytes  [done]</title></rect>
+<rect x="634.25" y="167.49" width="29.84" height="29.13" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>ProcessEnemyAttackContacts | sub_08020680 | confirmed  0x08020680  1728 bytes  [done]</title></rect>
 <rect x="634.25" y="196.62" width="29.84" height="17.94" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0801F374 | sub_0801F374 | unidentified  0x0801F374  1064 bytes  [done]</title></rect>
 <rect x="664.08" y="130.00" width="24.75" height="20.89" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0801E988 | sub_0801E988 | unidentified  0x0801E988  1028 bytes  [done]</title></rect>
 <rect x="688.84" y="130.00" width="23.69" height="20.89" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0801E5B0 | sub_0801E5B0 | unidentified  0x0801E5B0  984 bytes  [done]</title></rect>
@@ -944,9 +944,9 @@
 <rect x="664.08" y="150.89" width="15.76" height="13.28" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>TestItemAttackBoxesAgainstTarget | sub_0801F024 | confirmed  0x0801F024  416 bytes  [done]</title></rect>
 <rect x="679.85" y="150.89" width="15.31" height="13.28" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08021AD8 | sub_08021AD8 | unidentified  0x08021AD8  404 bytes  [done]</title></rect>
 <rect x="695.15" y="150.89" width="14.85" height="13.28" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0801ED8C | sub_0801ED8C | unidentified  0x0801ED8C  392 bytes  [done]</title></rect>
-<rect x="710.00" y="150.89" width="14.85" height="13.28" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_080217D8 | sub_080217D8 | unidentified  0x080217D8  392 bytes  [done]</title></rect>
+<rect x="710.00" y="150.89" width="14.85" height="13.28" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>TaskShowResistanceIncreaseIndicator | sub_080217D8 | confirmed  0x080217D8  392 bytes  [done]</title></rect>
 <rect x="664.08" y="164.17" width="14.77" height="12.80" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0801F99C | sub_0801F99C | unidentified  0x0801F99C  376 bytes  [done]</title></rect>
-<rect x="664.08" y="176.97" width="14.77" height="12.80" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08021960 | sub_08021960 | unidentified  0x08021960  376 bytes  [done]</title></rect>
+<rect x="664.08" y="176.97" width="14.77" height="12.80" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>TaskShowResistanceDecreaseIndicator | sub_08021960 | confirmed  0x08021960  376 bytes  [done]</title></rect>
 <rect x="664.08" y="189.77" width="14.77" height="12.39" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08020E08 | sub_08020E08 | unidentified  0x08020E08  364 bytes  [done]</title></rect>
 <rect x="664.08" y="202.16" width="14.77" height="12.39" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_080210A8 | sub_080210A8 | unidentified  0x080210A8  364 bytes  [done]</title></rect>
 <rect x="678.86" y="164.17" width="12.10" height="14.13" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0802133C | sub_0802133C | unidentified  0x0802133C  340 bytes  [done]</title></rect>
