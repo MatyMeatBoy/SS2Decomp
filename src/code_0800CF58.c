@@ -832,7 +832,7 @@ void sub_0800D368(void *arg0) {
     s32 var_r3_9;
     void **var_r5_10;
     void **var_r5_9;
-    void *temp_r0_120;
+    register void *temp_r0_120 asm("r8");
     void *temp_r0_158;
     void *temp_r0_159;
     void *temp_r0_22;
@@ -4137,6 +4137,7 @@ retry63_1_done:
                 temp_r0_119 = d368_sub_0800CCCC();
                 ((union RecordD368 *)temp_r4_46)->w1_b0_n6.value = ((s32) ((0U - (u32) temp_r0_119) | (u32) temp_r0_119) >> 0x1F) & 0x20;
                 temp_r0_120 = (void *) d368_sub_08007290(M2C_FIELD(d368_gUnk_030034E0, u16 *, 0x132) | 0x110000);
+                asm("" : "+r"(temp_r0_120));
                 temp_r3_54 = ((struct PlayerD368 *)arg0)->f144;
                 ((union RecordD368 *)temp_r3_54)->w1_b11_n8.value = M2C_FIELD(temp_r0_120, u32 *, 0xA4) & 0xF;
                 ((union RecordD368 *)((struct PlayerD368 *)arg0)->f144)->w1_b19_n5.value = (u32) M2C_FIELD(temp_r0_120, u32 *, 0xA4) >> 4;
