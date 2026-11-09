@@ -2130,7 +2130,12 @@ found27scan_181:
                     if (sub_0800CE30() == 0) {
                         goto block_296;
                     }
-                    var_r0_17 = (*(u8 **)ScenePointerSlotEU27) + 0x1C5;
+                    var_r0_17 = (*(u8 **)ScenePointerSlotEU27);
+                    {
+                        register u32 case1FlagOffset27 asm("r2") = 0x1C5;
+                        asm("" : : "r"(case1FlagOffset27));
+                        var_r0_17 += case1FlagOffset27;
+                    }
 
                     var_r0_17 = (u8 *)(-(-(u32)var_r0_17 + case1Mask) + case1Mask);
                     goto block_298;
