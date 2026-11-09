@@ -1817,7 +1817,7 @@ block_447:
                     }
                 }
                 temp_r2_10 = ((struct PlayerD368 *)arg0)->f18;
-                if (!(temp_r2_10 & temp_r1_20) || (temp_r2_10 &= ((struct PlayerD368 *)arg0)->f14, sp154 += 1, temp_r2_10 != 0)) {
+                if (!(temp_r1_20 & temp_r2_10) || (temp_r2_10 &= ((struct PlayerD368 *)arg0)->f14, sp154 += 1, temp_r2_10 != 0)) {
                     sp154 = 0;
                 }
                 temp_r2_11 = ((struct PlayerD368 *)arg0)->f1A;
