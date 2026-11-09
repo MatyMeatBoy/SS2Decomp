@@ -3490,8 +3490,11 @@ retry63_1_done:
                     if ((s32) (s16) ((struct PlayerD368 *)arg0)->fC4 >= (s32) (s16) ((s16) ((struct PlayerD368 *)arg0)->f62 / 3)) {
 
                     } else {
+                        u32 recordLow3Result126;
                         temp_r2_24 = ((struct PlayerD368 *)arg0)->f144;
-                        ((union RecordD368 *)temp_r2_24)->w1_b19_n5.value = 2;
+                        recordLow3Result126 = 7U & M2C_FIELD(temp_r2_24, u8 *, 6);
+                        asm("" : "+r"(recordLow3Result126));
+                        M2C_FIELD(temp_r2_24, u8 *, 6) = (u8) (recordLow3Result126 | 0x10U);
                         break;
                     }
                 } else if (8 & ((struct PlayerD368 *)arg0)->f14) {
