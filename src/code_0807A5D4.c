@@ -3347,8 +3347,14 @@ done82:
         break;
     case 1:
         if (gMgr82->cursor != gMgr82->prev) {
-            base = gMgr82->cursor / 3 * 3;
-            gMgr82->posX = gUnk_084ECBBC[(gMgr82->cursor - base) * 2] + 0x38;
+            register u32 beltCursorValue082 asm("r6");
+            register u32 beltColumnValue082 asm("r0");
+            beltCursorValue082 = gMgr82->cursor;
+            asm("" : "+r"(beltCursorValue082));
+            base = beltCursorValue082 / 3 * 3;
+            beltColumnValue082 = beltCursorValue082 - base;
+            asm("" : "+r"(beltColumnValue082));
+            gMgr82->posX = gUnk_084ECBBC[beltColumnValue082 * 2] + 0x38;
             gMgr82->posY = (&gUnk_084ECBBC[1])[(gMgr82->cursor - base) * 2] + 0x10;
             gMgr82->prev = gMgr82->cursor;
             gMgr82->f6C = 0;
