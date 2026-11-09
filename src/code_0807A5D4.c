@@ -3126,7 +3126,7 @@ void sub_0807C29C(void) {
             sub_0805865C(0x62);
         } else if (keys29_03001324 & 1) {
             u32 *p;
-            struct Inv82 *inventoryBase082;
+            register struct Inv82 *inventoryBase082 asm("r0");
             gMgr82->stock[3] = gMgr82->held;
             inventoryBase082 = gInv82;
             asm("" : "+r"(inventoryBase082));
