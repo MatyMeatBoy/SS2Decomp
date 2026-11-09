@@ -3349,13 +3349,20 @@ done82:
         if (gMgr82->cursor != gMgr82->prev) {
             register u32 beltCursorValue082 asm("r6");
             register u32 beltColumnValue082 asm("r0");
+            u32 beltQuotient082;
+            register u32 beltDoubleQuotient082 asm("r1");
+            register u32 beltRowBase082 asm("r5");
             beltCursorValue082 = gMgr82->cursor;
             asm("" : "+r"(beltCursorValue082));
-            base = beltCursorValue082 / 3 * 3;
-            beltColumnValue082 = beltCursorValue082 - base;
+            beltQuotient082 = beltCursorValue082 / 3;
+            beltDoubleQuotient082 = beltQuotient082 + beltQuotient082;
+            asm("" : : "r"(beltDoubleQuotient082));
+            beltRowBase082 = beltDoubleQuotient082 + beltQuotient082;
+            asm("" : : "r"(beltRowBase082));
+            beltColumnValue082 = beltCursorValue082 - beltRowBase082;
             asm("" : "+r"(beltColumnValue082));
             gMgr82->posX = gUnk_084ECBBC[beltColumnValue082 * 2] + 0x38;
-            gMgr82->posY = (&gUnk_084ECBBC[1])[(gMgr82->cursor - base) * 2] + 0x10;
+            gMgr82->posY = (&gUnk_084ECBBC[1])[(gMgr82->cursor - beltRowBase082) * 2] + 0x10;
             gMgr82->prev = gMgr82->cursor;
             gMgr82->f6C = 0;
         }
