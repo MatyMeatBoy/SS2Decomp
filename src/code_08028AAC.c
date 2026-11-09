@@ -2248,6 +2248,7 @@ found27scan_258:
                     }
                     if (sub_0800CE30() != 0) {
                         var_r0_17 = (*(u8 **)ScenePointerSlotEU27) + 0x1C5;
+                        asm("");
                     } else {
                         goto block_296;
                     }
