@@ -4426,6 +4426,7 @@ record_nibble_result126:
                             break;
                         case 5:                     /* switch 22 */
                             sp1A4 = ((union RecordD368 *)sp180)->w1_b6_n4.value;
+                            asm("");
                             break;
                         case 6:                     /* switch 22 */
                             temp_r0_137 = ((struct PlayerD368 *)arg0)->f10;
