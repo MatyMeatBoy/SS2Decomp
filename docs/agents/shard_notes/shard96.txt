@@ -57,3 +57,8 @@ Shard 96, sub_080923FC (code_0808FB5C)
     phases (382). asm("" :: "r"(x<<16)): reload copies/frame slots. u16 y: 597. Any no-code
     statement adding ~3 luids in that block can replace the asm("") padding.
     Function now at 2 positional differences (+12C/+162 only).
+2026-11-09 (emmkay440 fork): sub_080923FC MATCH.
+  - Init loop: wrapping the body in `do { ... } while (0)` and moving `u16 *phase2Offsets = cache923FC;`
+    into the phase-2 loop body gives the xs base copy r6 (was r7), the last 2 positional differences.
+    Found by an 8h decomp-permuter run (--allow-control-diff). Both edits keep behaviour.
+  - NONMATCHING wrapper and ASM fallback removed; make compare OK.
