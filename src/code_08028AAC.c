@@ -2405,7 +2405,9 @@ found27scan_336:
                             sub_080003F0();
                         }
                     }
-                    goto block_357;
+                    (*(u32*)((u8*)((*(u8 **)ScenePointerSlotEU27))+(0x50))) = var_r5_3;
+                    asm("");
+                    goto block_373;
                 }
                         } else {
                 for (var_r4_2 = 1; var_r4_2 != 0; --var_r4_2) {
