@@ -1,43 +1,43 @@
 {
   "address": "0x0802AA28",
-  "updated_utc": "2026-11-09T01:29:10.152665+00:00",
-  "checkpoint": "Keep the existing signed byte snapshot through its shift 5/mask 1 calculation before conversion to the existing u32 helper argument. No declaration, binding, asm, read or helper changes. The shared shift becomes the original ASR, and case 0x2 now enters that same shift instead of duplicating an earlier ASR. Byte/halfword edits improve 350/227 to 346/224. One ASR and one nonexecuted compiler alignment halfword disappear: size 3652 to 3648 versus 3708 original, so the size deficit grows 56 to 60 bytes. Frame 8, 122 original ordered calls, 37 queries and existing ASM fallback remain. Strict NO MATCH; no area-state or matching credit change.",
+  "updated_utc": "2026-11-09T02:39:03.550307+00:00",
+  "checkpoint": "Keep the default changed-mask handler snapshot store in its original distinct tail. Replace its goto to the common block357 store with the exact same fresh scene-slot load/full-u32 store, one empty compiler boundary and the same block373 successor. Halfword edits improve 224 to210 and byte edits346 to322; size3648 to3660 versus3708 original, reducing the deficit60 to48. Frame8,122 original ordered calls,37 queries and ASM fallback remain. Strict NO MATCH; no work-area state or matching credit changes.",
   "areas": [
     {
       "id": "compile",
       "label": "Current compiling C89 checkpoint",
       "state": "done",
-      "evidence": "Fresh normal 227 baseline is entire-file identical to actual c2c954c4. Selected NONMATCHING and normal active C without NONMATCHING are entire-file identical at 62a2b7b21e50f6f4f7381c9fb44cce85c970cc5e37f8b9a3f5d74b5babe4139f; both standalone targets reproduce their full-module targets. Explicit translation validates all 841 full symbol entries, 1607 raw relocations, 373 encoded ABS32 words, 11 outside text addends shifted by -4 and every ELF/section header. All 47 other functions and allocated bytes outside the target remain exact after that translation. Independent own-copy review passed. Delivery requires normal fallback-ROM compare, full NONMATCHING, tree and diff gates; active-C ROM proof is still pending."
+      "evidence": "Fresh ordinary full-module baseline is entire-file identical to actual62a2b7b2. Selected NONMATCHING and normal active C without NONMATCHING are entire-file identical at b1666aa840c5e85cb8a2dc22931bd3c723d839c02c2e1b7c7d5c96584ed91bd4. All841 existing full symbol entries translate and only two compiler mapping symbols are added. All1607 raw relocations,373 encoded ABS32 words including11 outside addends, every ELF/section header and all allocated bytes outside the function are audited under the explicit translation. All47 other normalized functions remain exact. Normal fallback-ROM, full NONMATCHING, tree and diff delivery gates remain required; active-C full-ROM match is pending."
     },
     {
       "id": "flow",
       "label": "Recover branch and readiness-loop layout",
       "state": "active",
-      "evidence": "Only the two existing shared block 298 scalar-assignment positions change: helperByte27 now computes signed shift 5/mask 1, then existing helperArgument27 receives that actual result. Branch origins, direct call27_shared_helper bypasses, mutable calls and byte-read timing are unchanged. Generated case 0x2 branches into the common ASR rather than its old mask-only tail, removing its duplicate early ASR. All other 1430 mapped ordinary operations, 274 branch targets and 170 PC-literal values pass explicit correspondence. Historical pointer-producer and first-callback topology improvements remain intact."
+      "evidence": "Only the default handler return edge changes in C: its shared snapshot-store goto becomes that exact store followed by an empty basic asm and its existing terminal successor. Every preceding mutable helper and wait stays in place. The generated default guard becomes a direct BNE rather than BEQ plus a far unconditional branch. Its exit now executes a separate fresh slot load/base load/fullword store instead of branching backward to the identical shared kernel. All1428 remaining mapped operations,393 branch/call instructions and170 PC-literal consumers pass explicit correspondence. No original mode/path or missing operation is inferred from a score."
     },
     {
       "id": "layout",
       "label": "Recover frame, slots and registers",
       "state": "active",
-      "evidence": "Current size 3648 versus original3708, deficit 60 bytes rather than 56; frame 8. Byte/halfword edits 346/224 from 350/227. Code 3114 to 3112 bytes and mapped data 538 to 536 (original 3144/564). Removed early ASR at old relative 90A and the halfword at 90E emitted by .align 2 account for the four-byte shrink; no authored padding or forced-range claim. The common shift at old B66/new B62 is now ASR R1,R0,5, equal to original mapped B9A. All 122 original ordered calls, 37 queries, nine constructor homes and inherited R9 capture remain; call/relocation sites after the deletion translate by -4. Normalized target SHA256 5f87b78fe60fe02cacc8bf186a977b961c2c4f5d84d2f7fbfb2dd050c5cbf8b2. No engine ran."
+      "evidence": "Current3660 versus original3708 bytes, deficit48 rather than60; frame8. Byte/halfword edits322/210 from346/224. Executable code3112 to3116 bytes, mapped data536 to544. The distinct default tail restores three real load/store operations and one branch while two old branches disappear. A nonexecuted compiler literal/alignment island adds two mapping symbols; no authored padding or branch-range forcing. Original ordered122 calls,37 mutable mode queries, nine constructor homes and inherited R9 capture remain. All outside instruction and addend movement is explicitly translated."
     },
     {
       "id": "types",
       "label": "Audit inherited interfaces and state domains",
       "state": "active",
-      "evidence": "All declarations, widths, qualifiers, helper interfaces and compiler constraints are unchanged. The initialized full-s32 R0 sample still receives the same fresh u8 read and retains all bits through its existing tied operand. Only the extraction stays in that signed scalar until conversion to the existing u32 argument. For every 32-bit pattern, pinned Thumb ASR(x,5)&1 equals LSR(x,5)&1 and original bit5; actual producer values 0..255 are a separate stronger fact. No extra read, helper, label, address escape or call-live binding assumption. Within the changed kernel, the ASR moves only across an unconditional branch; intermediate R1 is overwritten by the same shifted value before the mask/call, with no flag consumer in between."
+      "evidence": "No declaration, width, qualifier, helper interface or hard-register binding changes. The earlier full-s32 snapshot var_r5_3 is stored as the same full-u32 word through the same existing EU scene-slot view. The scene slot and pointee are read freshly after the same mutable helpers and wait; no immutable scene, helper purity, cached address, restricted state domain or resource-success assumption. One empty basic asm is the sole added compiler annotation. The source inverse exactly restores the previous224 module."
     },
     {
       "id": "behavior",
       "label": "Identify and validate scene effects",
       "state": "active",
-      "evidence": "A scoped instruction-expression interpreter checks the actual five-instruction kernels for original common,227 common,224 common,227 case 0x2 and224 case 0x2 from identical core live-ins. All 256 bytes x16 incoming NZCV give 4096 cases, 16384 direct equality comparisons and 20480 model entries over all 13 ordinary GPRs, NZCV and the byte-read trace at the helper-entry boundary. Actual bit5 arguments are independently checked. Internal branch routing and nonexecuted alignment removal are covered by the complete mapped-machine audit. These are not ARM/helper/full-FSM executions or full-original-route GPR equivalence. Independent own-copy review passed. Historical227/228 models and typed-stub fixtures remain retained, not rerun or attributed to 224; do not sum unique coverage. Full match remains pending."
+      "evidence": "Source review pairs both default routes: the nonzero readiness result and the switch/wait completion each perform exactly one fresh scene-slot load/base load/fullword snapshot store before block373. At the generated common successor, the new three-operation kernel and old shared kernel have equal R0, preserved remaining GPRs, NZCV and memory for arbitrary inputs; only PC/layout differ. The guard inversion and branch replacement add no helper or observable memory operation. Historical bit5 arithmetic models and typed-stub fixtures are retained without rerunning or attributing them to210; no runtime replay, whole-FSM or full-original-function equivalence claim."
     },
     {
       "id": "match",
       "label": "Exact active C and linked ROM match",
       "state": "pending",
-      "evidence": "Strict NO MATCH. Original asm/nonmatchings/code_08028AAC/sub_0802AA28.s remains the normal implementation. Lower edit distance, recovered instructions, equal frame/call order, bounded tests and fallback-ROM gates do not establish full equivalent C or matching-byte credit. Exact active normal C and linked-ROM proof remain pending."
+      "evidence": "Strict NO MATCH. Original asm/nonmatchings/code_08028AAC/sub_0802AA28.s remains the normal implementation. Lower edit distance, restored topology, equal frame/call order, scoped machine correspondence and fallback-ROM gates do not establish full equivalent C or matching-byte credit. Exact active normal C and linked-ROM proof remain pending."
     }
   ],
   "regions": []
