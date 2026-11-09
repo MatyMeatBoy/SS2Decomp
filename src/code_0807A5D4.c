@@ -3126,9 +3126,12 @@ void sub_0807C29C(void) {
             sub_0805865C(0x62);
         } else if (keys29_03001324 & 1) {
             u32 *p;
+            struct Inv82 *inventoryBase082;
             gMgr82->stock[3] = gMgr82->held;
+            inventoryBase082 = gInv82;
+            asm("" : "+r"(inventoryBase082));
             have = gMgr82->heldIdx;
-            p = (u32 *)((u32)gInv82 + offsetof(struct Inv82, items) + offsetof(struct Item82, count) + have * sizeof(struct Item82));
+            p = (u32 *)((u32)inventoryBase082 + offsetof(struct Inv82, items) + offsetof(struct Item82, count) + have * sizeof(struct Item82));
             if (*p == gMgr82->held.count)
                 sub_0807BD78(gMgr82->heldFrom, have);
             else
