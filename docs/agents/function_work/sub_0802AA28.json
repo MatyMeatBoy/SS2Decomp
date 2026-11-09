@@ -1,43 +1,43 @@
 {
   "address": "0x0802AA28",
-  "updated_utc": "2026-11-09T02:39:03.550307+00:00",
-  "checkpoint": "Keep the default changed-mask handler snapshot store in its original distinct tail. Replace its goto to the common block357 store with the exact same fresh scene-slot load/full-u32 store, one empty compiler boundary and the same block373 successor. Halfword edits improve 224 to210 and byte edits346 to322; size3648 to3660 versus3708 original, reducing the deficit60 to48. Frame8,122 original ordered calls,37 queries and ASM fallback remain. Strict NO MATCH; no work-area state or matching credit changes.",
+  "updated_utc": "2026-11-09T04:48:45.339057+00:00",
+  "checkpoint": "Name the existing case1 scene-flag displacement0x1C5 in its original R2 role with one input-only empty compiler annotation, immediately after the same fresh scene-pointer read. Halfword edits210 to206 and byte edits322 to311; size3660 to3672 versus3708 original, deficit48 to36. Frame8,122 original ordered calls and37 mode queries remain. Strict NO MATCH; ASM fallback and all area states remain.",
   "areas": [
     {
       "id": "compile",
       "label": "Current compiling C89 checkpoint",
       "state": "done",
-      "evidence": "Fresh ordinary full-module baseline is entire-file identical to actual62a2b7b2. Selected NONMATCHING and normal active C without NONMATCHING are entire-file identical at b1666aa840c5e85cb8a2dc22931bd3c723d839c02c2e1b7c7d5c96584ed91bd4. All841 existing full symbol entries translate and only two compiler mapping symbols are added. All1607 raw relocations,373 encoded ABS32 words including11 outside addends, every ELF/section header and all allocated bytes outside the function are audited under the explicit translation. All47 other normalized functions remain exact. Normal fallback-ROM, full NONMATCHING, tree and diff delivery gates remain required; active-C full-ROM match is pending."
+      "evidence": "Ordinary baseline is entire-file b1666aa8. Selected NONMATCHING and normal active C without NONMATCHING are entire-file identical at d9c8230dcb96e48952a265e02b54a40c8e91604c7c0f7acd0492b02e1226a8ed. All843 full symbol records,1607 raw relocations,373 ABS32 words, ELF/section headers, allocated outside bytes and47 other normalized functions are audited with explicit coordinates.112 internal mapping coordinates and167 internal relocation sites are inventoried. Normal fallback-ROM, full NONMATCHING, tree and diff gates accompany delivery; active-C full-ROM match remains pending."
     },
     {
       "id": "flow",
       "label": "Recover branch and readiness-loop layout",
       "state": "active",
-      "evidence": "Only the default handler return edge changes in C: its shared snapshot-store goto becomes that exact store followed by an empty basic asm and its existing terminal successor. Every preceding mutable helper and wait stays in place. The generated default guard becomes a direct BNE rather than BEQ plus a far unconditional branch. Its exit now executes a separate fresh slot load/base load/fullword store instead of branching backward to the identical shared kernel. All1428 remaining mapped operations,393 branch/call instructions and170 PC-literal consumers pass explicit correspondence. No original mode/path or missing operation is inferred from a score."
+      "evidence": "Only the changed-mask case1 true-mode source expression changes. Its existing fresh scene-pointer read is followed by the actual453-byte addition, naming that real displacement in R2. The compiler emits a distinct slot/base/offset/add kernel instead of branching to an identical shared kernel. Later pointer scratch allocation and suffix sharing also change;1405 semantic-key operation matches and15 delta regions are an inventory, not a whole-function branch proof. All original122 ordered calls and37 mutable mode queries remain."
     },
     {
       "id": "layout",
       "label": "Recover frame, slots and registers",
       "state": "active",
-      "evidence": "Current3660 versus original3708 bytes, deficit48 rather than60; frame8. Byte/halfword edits322/210 from346/224. Executable code3112 to3116 bytes, mapped data536 to544. The distinct default tail restores three real load/store operations and one branch while two old branches disappear. A nonexecuted compiler literal/alignment island adds two mapping symbols; no authored padding or branch-range forcing. Original ordered122 calls,37 mutable mode queries, nine constructor homes and inherited R9 capture remain. All outside instruction and addend movement is explicitly translated."
+      "evidence": "Current3672 versus original3708 bytes, deficit36 rather than48. Byte/halfword edits311/206 from322/210. Executable code3116 to3120 bytes and mapped data544 to552. Frame8, inherited entry-R9 capture and constructor homes remain. All1607 raw relocation identities/order and373 ABS32 words are checked; exactly11 outside addends translate+12. Internal mapping coordinates are explicitly inventoried. No authored padding or extra storage object."
     },
     {
       "id": "types",
       "label": "Audit inherited interfaces and state domains",
       "state": "active",
-      "evidence": "No declaration, width, qualifier, helper interface or hard-register binding changes. The earlier full-s32 snapshot var_r5_3 is stored as the same full-u32 word through the same existing EU scene-slot view. The scene slot and pointee are read freshly after the same mutable helpers and wait; no immutable scene, helper purity, cached address, restricted state domain or resource-success assumption. One empty basic asm is the sole added compiler annotation. The source inverse exactly restores the previous224 module."
+      "evidence": "The only new scalar is initialized full-u32 displacement453 bound to R2 and consumed by an input-only empty annotation and the existing byte-pointer addition. No caller-R2 premise, hidden input, output, clobber, memory operation, pointer caching, narrowed domain, helper signature, qualifier or global type change. Existing case1Mask pointer identity and the original valid-object preconditions remain. Exact source inverse restores public210. The real matched C7B8 interface is void(u32); no incoming scratch-register contract is inferred."
     },
     {
       "id": "behavior",
       "label": "Identify and validate scene effects",
       "state": "active",
-      "evidence": "Source review pairs both default routes: the nonzero readiness result and the switch/wait completion each perform exactly one fresh scene-slot load/base load/fullword snapshot store before block373. At the generated common successor, the new three-operation kernel and old shared kernel have equal R0, preserved remaining GPRs, NZCV and memory for arbitrary inputs; only PC/layout differ. The guard inversion and branch replacement add no helper or observable memory operation. Historical bit5 arithmetic models and typed-stub fixtures are retained without rerunning or attributing them to210; no runtime replay, whole-FSM or full-original-function equivalence claim."
+      "evidence": "Reviewed paired scoped symbolic interpretation of actual objects checks80 configurations/40 unique ten-handler zero/nonzero mode paths through read-modify-writes, byte arguments, C7 and snapshot store. Memory event width/address/value/order, formal helper arguments and callee-saved R4..R11 agree. Non-mode caller-used helper outputs are side-distinct, so accidental scratch equality fails. Three changed actor-pointer kernels produce the same R1=P+0x7A4; independent static CFG checks establish old R2/R3 dead before use. This is scoped source/ABI and object evidence, not ARM runtime, real-helper, whole-FSM or original-ROM equivalence; stop-point scratch/NZCV equality is not claimed."
     },
     {
       "id": "match",
       "label": "Exact active C and linked ROM match",
       "state": "pending",
-      "evidence": "Strict NO MATCH. Original asm/nonmatchings/code_08028AAC/sub_0802AA28.s remains the normal implementation. Lower edit distance, restored topology, equal frame/call order, scoped machine correspondence and fallback-ROM gates do not establish full equivalent C or matching-byte credit. Exact active normal C and linked-ROM proof remain pending."
+      "evidence": "Strict NO MATCH. Original asm/nonmatchings/code_08028AAC/sub_0802AA28.s remains the normal implementation. Lower edit distance, equal frame and call order, scoped object checks and fallback-ROM success provide no matching-byte or completed-area credit. Exact active normal C and linked-ROM proof remain pending."
     }
   ],
   "regions": []
