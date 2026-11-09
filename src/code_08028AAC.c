@@ -2258,7 +2258,12 @@ block_296:
 block_297:
                     var_r0_17 = (*(u8 **)ScenePointerSlotEU27) + var_r3;
 block_298:
-                    helperByte27 = *var_r0_17;
+                    {
+                        register s32 sampledByteR027 asm("r0");
+                        sampledByteR027 = *var_r0_17;
+                        asm("" : "+r"(sampledByteR027));
+                        helperByte27 = sampledByteR027;
+                    }
                     helperArgument27 = helperByte27;
                     helperArgument27 = (helperArgument27 >> 5) & 1;
 call27_shared_helper:
