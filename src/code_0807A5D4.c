@@ -3420,11 +3420,14 @@ done82:
         if (gMgr82->cursor != gMgr82->prev) {
             register u32 rowEnd082 asm("r3");
             struct C82 *positionY82;
-            base = gMgr82->cursor / 3 * 3;
+            register u32 rowCursorValue082 asm("r6");
+            rowCursorValue082 = gMgr82->cursor;
+            asm("" : "+r"(rowCursorValue082));
+            base = rowCursorValue082 / 3 * 3;
             idx = base + 3;
             rowEnd082 = (u32)idx;
             asm("" : "+r"(rowEnd082));
-            gMgr82->posX = gUnk_084ECBB0[(rowEnd082 - (gMgr82->cursor + 1)) * 2] + 0xB8;
+            gMgr82->posX = gUnk_084ECBB0[(rowEnd082 - (rowCursorValue082 + 1)) * 2] + 0xB8;
             positionY82 = (struct C82 *)&gMgr82->posY;
             {
                 u32 nextCursorY = gMgr82->cursor + 1;
