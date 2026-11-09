@@ -2264,8 +2264,8 @@ block_298:
                         asm("" : "+r"(sampledByteR027));
                         helperByte27 = sampledByteR027;
                     }
+                    helperByte27 = (helperByte27 >> 5) & 1;
                     helperArgument27 = helperByte27;
-                    helperArgument27 = (helperArgument27 >> 5) & 1;
 call27_shared_helper:
                     sub_0805C7B8(helperArgument27);
 block_357:
