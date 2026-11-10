@@ -3358,9 +3358,12 @@ done82:
             asm("" : : "r"(beltDoubleQuotient082));
             beltRowBase082 = beltDoubleQuotient082 + beltQuotient082;
             asm("" : : "r"(beltRowBase082));
-            beltColumnValue082 = beltCursorValue082 - beltRowBase082;
-            asm("" : "+r"(beltColumnValue082));
-            gMgr82->posX = gUnk_084ECBBC[beltColumnValue082 * 2] + 0x38;
+            /* The column is computed inside the index (after the &posX address), like the ROM. */
+            gMgr82->posX = gUnk_084ECBBC[({
+                beltColumnValue082 = beltCursorValue082 - beltRowBase082;
+                asm("" : "+r"(beltColumnValue082));
+                beltColumnValue082;
+            }) * 2] + 0x38;
             gMgr82->posY = (&gUnk_084ECBBC[1])[(gMgr82->cursor - beltRowBase082) * 2] + 0x10;
             gMgr82->prev = gMgr82->cursor;
             gMgr82->f6C = 0;
@@ -3435,15 +3438,34 @@ done82:
             register u32 rowCursorValue082 asm("r6");
             rowCursorValue082 = gMgr82->cursor;
             asm("" : "+r"(rowCursorValue082));
-            base = rowCursorValue082 / 3 * 3;
+            {
+                /* Same row-base split as case 1: q + q in r1, then + q in r5. */
+                u32 rowQuotient082 = rowCursorValue082 / 3;
+                register u32 rowDouble082 asm("r1") = rowQuotient082 + rowQuotient082;
+                register u32 rowBase082 asm("r5");
+                asm("" : : "r"(rowDouble082));
+                rowBase082 = rowDouble082 + rowQuotient082;
+                asm("" : "+r"(rowBase082));
+                base = rowBase082;
+            }
             idx = base + 3;
             rowEnd082 = (u32)idx;
             asm("" : "+r"(rowEnd082));
-            gMgr82->posX = gUnk_084ECBB0[(rowEnd082 - (rowCursorValue082 + 1)) * 2] + 0xB8;
+            {
+                /* cursor + 1 stays a separate r0 value, computed after the &posX address. */
+                register u32 nextCursorX asm("r0");
+                gMgr82->posX = gUnk_084ECBB0[(rowEnd082 - ({
+                    nextCursorX = rowCursorValue082 + 1;
+                    asm("" : "+r"(nextCursorX));
+                    nextCursorX;
+                })) * 2] + 0xB8;
+            }
             positionY82 = (struct C82 *)&gMgr82->posY;
             {
                 u32 nextCursorY = gMgr82->cursor + 1;
-                positionY82->c = (u32)((&gUnk_084ECBB0[1])[(rowEnd082 - nextCursorY) * 2] + 0x10);
+                register u32 rowDeltaY082 asm("r0") = rowEnd082 - nextCursorY;
+                asm("" : "+r"(rowDeltaY082));
+                positionY82->c = (u32)((&gUnk_084ECBB0[1])[rowDeltaY082 * 2] + 0x10);
             }
             gMgr82->prev = gMgr82->cursor;
             gMgr82->f6C = 0;
