@@ -1618,6 +1618,7 @@ void sub_0802AA28(void) {
             }
             helperByte27 = *var_r0_20;
             var_r5_3 = (helperByte27 >> 2) & 1;
+            asm("" : "+r"(var_r5_3));
             if (!var_r5_3) {
                 u32 requestedResource27;
                 if (sub_0800CE30() != 0) {
@@ -1707,7 +1708,10 @@ found27scan_24:
             } else {
                 var_r0_2 = stateAA28 + 0x1B9;
             }
-            if (*var_r0_2 & 1) {
+            var_r5_3 = *var_r0_2;
+            var_r5_3 &= 1;
+            asm("" : "+r"(var_r5_3));
+            if (var_r5_3) {
                 u8 *firstCallbackCursor27;
                 var_r8 = sub_080289C0(0x30020, 0x32, 0x5E);
                 var_r1 = stateAA28 + 0x7A4;
@@ -1741,7 +1745,6 @@ firstCallbackRetry27:
                     goto block_73;
                 }
                 var_r0_3 = firstCallbackCursor27;
-                asm("");
                 goto found27scan_shared;
             }
             var_r8 = sub_080289C0(0x20, 0x5D, 0x52);
@@ -1768,7 +1771,8 @@ found27scan_65:
             var_r2_6 = 0;
             do {
                 if (*(s32*)var_r1_2 == var_r8) {
-                    goto block_61;
+                    var_r0_3 = var_r1_2;
+                    goto found27scan_shared;
                 }
                 var_r2_6 += 1;
                 var_r1_2 += 0x70;
@@ -1776,9 +1780,6 @@ found27scan_65:
 block_73:
             sub_080003F0();
             var_r0_3 = ((void *)0);
-            goto found27scan_shared;
-block_61:
-            var_r0_3 = var_r1_2;
 found27scan_shared:
             if (var_r0_3 != ((void *)0)) {
                 (*(u32*)((u8*)(var_r0_3)+(0x44))) = scanCallback27;
