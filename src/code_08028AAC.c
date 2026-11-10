@@ -1825,17 +1825,18 @@ found27scan_83:
             } else {
                 var_r5_3 = (*(u32*)((u8*)(stateAA28)+(0x74)));
             }
+            {
+                register s32 bitMask27 asm("r7") = 1;
+                register s32 byteWord27 asm("r0");
+                register s32 bitResult27 asm("r1");
             if (sub_0800CE30() != 0) {
                 var_r0_5 = stateAA28 + 0x1C4;
             } else {
                 var_r0_5 = stateAA28 + 0x1B8;
             }
             temp_r4 = 6;
-            temp_r4 = ((s32) *var_r0_5 >> temp_r4) & 1;
-            {
-                register s32 bitMask27 asm("r7") = 1;
-                register s32 byteWord27 asm("r0");
-                register s32 bitResult27 asm("r1");
+            temp_r4 = ((s32) *var_r0_5 >> temp_r4) & bitMask27;
+                bitMask27 = 1;
                 asm("" : "+r"(bitMask27));
                 if (sub_0800CE30() != 0) {
                     var_r0_6 = stateAA28 + 0x1C4;
@@ -1848,7 +1849,7 @@ found27scan_83:
                 asm("" : "+r"(bitResult27));
                 bit7Word27 = bitResult27;
             }
-            if (bit7Word27 || (!(var_r5_3 & 0x20) && (temp_r4 != 0))) {
+            if (bit7Word27 || (!({ var_r5_3 &= 0x20; asm("" : "+r"(var_r5_3)); var_r5_3; }) && (temp_r4 != 0))) {
                 var_r7 = sub_080289C0(0x13, 0xB0, 0x60);
                 var_r1_6 = stateAA28 + 0x7A4;
                 var_r2_10 = 0;
@@ -1890,7 +1891,7 @@ found27scan_109:
                 } else {
                     var_r2_13 = stateAA28 + 0x1B9;
                 }
-                *var_r2_13 |= 0x80;
+                { u8 m80 = 0x80; *var_r2_13 |= m80; }
             } else {
                 var_r7 = sub_080289C0(0x13, 0x270F, 0x270F);
                 var_r1_8 = stateAA28 + 0x7A4;
@@ -2006,8 +2007,8 @@ found27scan_155:
             } else {
                 var_r0_11 = stateAA28 + 0x1B2;
             }
-            temp_r0_2 = *var_r0_11;
-            switch (temp_r0_2) {
+            var_r5_3 = *var_r0_11;
+            switch (var_r5_3) {
             case 0:
                 var_r0_12 = 0x1003B;
                 break;
@@ -2068,7 +2069,8 @@ found27scan_181:
             } else {
                 var_r0_14 = stateAA28 + 0x1B9;
             }
-            temp_r5 = *var_r0_14 & 1;
+            var_r5_3 = *var_r0_14;
+            var_r5_3 &= 1;
             if (sub_0800CE30() != 0) {
                 var_r0_15 = stateAA28 + 0x1C5;
             } else {
@@ -2076,7 +2078,7 @@ found27scan_181:
             }
             helperByte27 = *var_r0_15;
             temp_r4 = (helperByte27 >> 6) & 1;
-            if ((temp_r5 != 0) && !temp_r4) {
+            if ((var_r5_3 != 0) && !temp_r4) {
                 firstTaskCallback27 = (u32)&sub_08045B68;
                 var_r4 = stateAA28 + 0xE34;
                 var_r5_2 = 0;
@@ -2100,14 +2102,17 @@ found27scan_181:
             } else {
                 var_r0_16 = stateAA28 + 0x1B7;
             }
-            if (*var_r0_16 & 1) {
+            var_r5_3 = *var_r0_16;
+            var_r5_3 &= 1;
+            asm("" : "+r"(var_r5_3));
+            if (var_r5_3) {
                 sub_080400D4();
                 if (sub_0800CE30() != 0) {
                     var_r2_26 = stateAA28 + 0x1C3;
                 } else {
                     var_r2_26 = stateAA28 + 0x1B7;
                 }
-                *var_r2_26 &= -2;
+                { s32 m2 = -2; *var_r2_26 &= m2; }
                 return;
             }
             if (sub_0800CE30() != 0) {
