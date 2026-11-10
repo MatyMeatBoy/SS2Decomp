@@ -1164,9 +1164,9 @@ static inline void Drop82PH(vu32 *z, struct Item82 *h, struct Mgr82 **g) { *z = 
 #define REFRESH82() { sub_0805AD78(gInv82->equip); sub_0805D094(); sub_0805D0E8(); sub_0805D13C(); }
 struct Player82 { u8 pad[0x77]; u8 f77; u8 f78; u8 pad79[0x8C - 0x79]; s32 f8C; s32 f90; u8 pad94[0xC6 - 0x94]; u16 fC6; u8 rest[0x14C - 0xC8]; };
 extern struct Player82 gPlayers82[] asm("gUnk_03003CE0");
+/* Second name for the gMgr82 slot: GCC does not merge it with gMgr82, but it still assembles to a gUnk_03006440 relocation like the ROM. */
+extern struct Mgr82 *gMgr82Slot082 asm("gUnk_03006440");
 void sub_0807C29C(void) {
-    /* Verified EU address of the mutable gUnk_03006440 pointer slot. */
-    enum { ManagerPointerSlotEU82 = 0x03006440 };
     u16 keys; u16 down; u32 cur, val, i, n, from, over, have, ok, slot, base, col; s32 d, idx; u8 *text; u16 target, lo, hi;
     struct Item82 *item; struct Item82 *held;
     s32 sp4[4];
@@ -1182,7 +1182,7 @@ void sub_0807C29C(void) {
         keys29_03001308 = 0;
         keys29_03001324 &= ~1;
     } }
-    gp = (struct Mgr82 **)ManagerPointerSlotEU82; /* Slot address, not a snapshot of the mutable manager pointer. */
+    gp = &gMgr82Slot082; /* Slot address, not a snapshot of the mutable manager pointer. */
     if (sub_0801AAE0() == 0)
         keys29_03001324 = 0;
     if (sub_0800CD8C() != 0) {
@@ -1466,7 +1466,7 @@ void sub_0807C29C(void) {
                         break;
                     if (*(u32 *)hd == 0x000C0001) {
                         /* (gInv82 + cursor*16) + 0x150 / + 0x158: ROM shares the base-first sum */
-                        switch (((struct Item82 *)((u8 *)gInv82 + gMgr82->cursor * 16 + 0x150))->kind) {
+                        switch (gInv82->items[gMgr82->cursor].kind) {
                         case 2 ... 5:
                             if (*((u8 *)gInv82 + gMgr82->cursor * 16 + 0x158) != 0) {
                                 *((u8 *)gInv82 + gMgr82->cursor * 16 + 0x158) = 0;
@@ -1637,12 +1637,12 @@ void sub_0807C29C(void) {
                     if (cit->flag == 0)
                         break;
                     have = sub_0805B0F0();
-                    if (have < sub_0805B068(((*(struct Mgr82 **)ManagerPointerSlotEU82))->cur)) {
+                    if (have < sub_0805B068(gMgr82Slot082->cur)) {
                         sub_0805865C(0x61);
                         break;
                     }
-                    ((*(struct Mgr82 **)ManagerPointerSlotEU82))->cur->flag = 0;
-                    abilityManager082 = (*(struct Mgr82 **)ManagerPointerSlotEU82);
+                    gMgr82Slot082->cur->flag = 0;
+                    abilityManager082 = gMgr82Slot082;
                     abilityManager082->f68 = 6;
                     abilityManager082->f6A = 100;
                     sub_0807C014(sub_0805B068(abilityManager082->cur));
@@ -2980,7 +2980,7 @@ void sub_0807C29C(void) {
         }
         break;
     case 16: {
-        u32 fr, cu, nn, ii;
+        u32 fr, cu;
         struct Item82 *it;
         if (keys29_03001308 & 0x20) {
             if (gMgr82->cursor != 0) {
@@ -3024,12 +3024,12 @@ void sub_0807C29C(void) {
                 sub_0807BEA0(16, gMgr82->cursor, (void *)&gMgr82->held);
                 DROP82();
                 sub_0805865C(0x5F);
-                i = 0; /* function-level i counts here, not the block-local nn (register choice) */
-                for (ii = 0; ii <= 2; ii++) {
-                    if (gMgr82->stock[ii].kind != 0)
-                        i++;
+                n = 0;
+                for (i = 0; i <= 2; i++) {
+                    if (gMgr82->stock[i].kind != 0)
+                        n++;
                 }
-                if (i == 3)
+                if (n == 3)
                     gMgr82->flags |= 4;
                 break;
             }
@@ -3235,11 +3235,10 @@ void sub_0807C29C(void) {
                 break;
             }
         } else if (keys29_03001308 & 0x80) {
-            u32 cnt = m->held.count;
-            u32 step = gUnk_084EBD4C[9 - m->f10];
+            u32 *pcnt = &m->held.count;
             s32 d;
-            if (cnt != step && (d = cnt - step) >= 0) {
-                m->held.count = d;
+            if (*pcnt != gUnk_084EBD4C[9 - m->f10] && (d = *pcnt - gUnk_084EBD4C[9 - m->f10]) >= 0) {
+                *pcnt = d;
                 sub_0805865C(0x62);
             }
         } else if (keys29_03001324 & 1) {
@@ -3359,9 +3358,12 @@ done82:
             asm("" : : "r"(beltDoubleQuotient082));
             beltRowBase082 = beltDoubleQuotient082 + beltQuotient082;
             asm("" : : "r"(beltRowBase082));
-            beltColumnValue082 = beltCursorValue082 - beltRowBase082;
-            asm("" : "+r"(beltColumnValue082));
-            gMgr82->posX = gUnk_084ECBBC[beltColumnValue082 * 2] + 0x38;
+            /* The column is computed inside the index (after the &posX address), like the ROM. */
+            gMgr82->posX = gUnk_084ECBBC[({
+                beltColumnValue082 = beltCursorValue082 - beltRowBase082;
+                asm("" : "+r"(beltColumnValue082));
+                beltColumnValue082;
+            }) * 2] + 0x38;
             gMgr82->posY = (&gUnk_084ECBBC[1])[(gMgr82->cursor - beltRowBase082) * 2] + 0x10;
             gMgr82->prev = gMgr82->cursor;
             gMgr82->f6C = 0;
@@ -3436,15 +3438,34 @@ done82:
             register u32 rowCursorValue082 asm("r6");
             rowCursorValue082 = gMgr82->cursor;
             asm("" : "+r"(rowCursorValue082));
-            base = rowCursorValue082 / 3 * 3;
+            {
+                /* Same row-base split as case 1: q + q in r1, then + q in r5. */
+                u32 rowQuotient082 = rowCursorValue082 / 3;
+                register u32 rowDouble082 asm("r1") = rowQuotient082 + rowQuotient082;
+                register u32 rowBase082 asm("r5");
+                asm("" : : "r"(rowDouble082));
+                rowBase082 = rowDouble082 + rowQuotient082;
+                asm("" : "+r"(rowBase082));
+                base = rowBase082;
+            }
             idx = base + 3;
             rowEnd082 = (u32)idx;
             asm("" : "+r"(rowEnd082));
-            gMgr82->posX = gUnk_084ECBB0[(rowEnd082 - (rowCursorValue082 + 1)) * 2] + 0xB8;
+            {
+                /* cursor + 1 stays a separate r0 value, computed after the &posX address. */
+                register u32 nextCursorX asm("r0");
+                gMgr82->posX = gUnk_084ECBB0[(rowEnd082 - ({
+                    nextCursorX = rowCursorValue082 + 1;
+                    asm("" : "+r"(nextCursorX));
+                    nextCursorX;
+                })) * 2] + 0xB8;
+            }
             positionY82 = (struct C82 *)&gMgr82->posY;
             {
                 u32 nextCursorY = gMgr82->cursor + 1;
-                positionY82->c = (u32)((&gUnk_084ECBB0[1])[(rowEnd082 - nextCursorY) * 2] + 0x10);
+                register u32 rowDeltaY082 asm("r0") = rowEnd082 - nextCursorY;
+                asm("" : "+r"(rowDeltaY082));
+                positionY82->c = (u32)((&gUnk_084ECBB0[1])[rowDeltaY082 * 2] + 0x10);
             }
             gMgr82->prev = gMgr82->cursor;
             gMgr82->f6C = 0;
