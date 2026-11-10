@@ -2824,10 +2824,11 @@ void sub_0807C29C(void) {
                             gMgr82->stock[gMgr82->cursor + gMgr82->page * 15].count = 100000;
                             sub_0807BEA0(gMgr82->heldFrom, gMgr82->heldIdx, (void *)held);
                         }
-                        { /* ROM: zero for the CpuSet source in r1, then a fresh zero in r4 for heldIdx after the call */
+                        { /* ROM: &sp14 first, zero for the CpuSet source in r1, then a fresh zero in r4 for heldIdx after the call */
+                            vu32 *z082p = &sp14;
                             register u32 z082 asm("r1") = 0;
-                            sp14 = z082;
-                            CpuSet((void *)&sp14, &(*gp)->held, 0x05000004);
+                            *z082p = z082;
+                            CpuSet((void *)z082p, &(*gp)->held, 0x05000004);
                             (*gp)->heldFrom = 0x16;
                             { register u32 y082 asm("r4") = 0; (*gp)->heldIdx = y082; }
                         }
