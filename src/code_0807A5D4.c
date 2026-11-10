@@ -1615,14 +1615,15 @@ void sub_0807C29C(void) {
                 }
                 if (gMgr82->heldIdx != gMgr82->cursor) {
                     over = v0 - 100000;
+                    { struct Mgr82 *mgr082 = gMgr82; /* early manager read (found by the permuter): closer allocation in the over-100000 path */
                     switch (from) {
                     case 0:
                         gMgr82->held.count = gInv82->items[gMgr82->heldIdx].count - gMgr82->held.count + over;
                         break;
                     case 13:
-                        gMgr82->held.count = gMgr82->stock[gMgr82->heldIdx].count - gMgr82->held.count + over;
+                        gMgr82->held.count = mgr082->stock[gMgr82->heldIdx].count - gMgr82->held.count + over;
                         break;
-                    }
+                    } }
                     gInv82->items[gMgr82->cursor].count = 100000;
                     sub_0807BEA0(0, gMgr82->heldIdx, (void *)&gMgr82->held);
                 }
