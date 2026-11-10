@@ -1,0 +1,9 @@
+2026-11-10 (emmkay440 fork): sub_0802AA28 MATCH.
+  - Scene slot: a second extern name for gUnk_03005CF4 (sceneAA28) replaces the constant-address enum, so the
+    literals keep their relocation without CSE against stateAA28.
+  - Progress switch: each case ends with `if (mode) { p = scene + 0x1C5; arg = (*p >> 5) & 1; } else { p = scene + 0x1B9; ... }`
+    then sub_0805C7B8(arg). The 0x1C5/0x1B9 literal reloads then rotate r1/r2/r3 as in the ROM, and jump optimisation
+    shares the identical arms. Case 8 loads the scan base before clearing its index.
+  - Flag bits kept in r5 (var_r5_3) with empty asm barriers; scene flag masks go through a pointer and a mask local.
+  - The entry-R9 capture (`mov r6, r9`) is gone; var_r8 is a register local in r8 instead.
+  - NONMATCHING wrapper and ASM fallback removed; make compare OK.

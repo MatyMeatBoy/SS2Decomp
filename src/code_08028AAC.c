@@ -1445,8 +1445,9 @@ block_9:
     } while (var_r5 <= 0x53F);
     return -1;
 }
-#ifdef NONMATCHING
 extern u8 *stateAA28 asm("gUnk_03005CF4");
+/* Second name for the same slot: keeps the relocation but stops CSE with stateAA28. */
+extern u8 *sceneAA28 asm("gUnk_03005CF4");
 #define F_AA(p,t,o) (*(t*)((u8*)(p)+(o)))
 void sub_0801AA8C(s32);                                /* extern */
 s32 sub_0801AB24();                                 /* extern */
@@ -1478,8 +1479,6 @@ extern void sub_08044EB4(void);
 extern void sub_08045B68(void);
 void sub_0802AA28(void) {
     struct Slot27 { u8 pad[0x20]; void *data; u32 off24; };
-    /* Verified EU address of gUnk_03005CF4, the mutable scene-pointer slot. */
-    enum { ScenePointerSlotEU27 = 0x03005CF4 };
     s32 sp0;
     s32 sp4;
     u8 *var_r0_10;
@@ -1537,7 +1536,7 @@ void sub_0802AA28(void) {
     s32 var_r5_3;
     s32 var_r6;
     s32 var_r7;
-    s32 var_r8;
+    register s32 var_r8 asm("r8");
     s8 *var_r0_19;
     s8 *var_r0_22;
     s8 *var_r0_23;
@@ -1595,9 +1594,6 @@ void sub_0802AA28(void) {
     void *temp_r0_3;
     void *temp_r0_5;
 
-    register s32 saved_reg_r9 asm("r9");
-    asm("" : "=r"(saved_reg_r9));
-    var_r6 = saved_reg_r9;
     if (sub_0800CE30() != 0) {
         var_r0 = stateAA28 + 0x1BF;
     } else {
@@ -1618,6 +1614,7 @@ void sub_0802AA28(void) {
             }
             helperByte27 = *var_r0_20;
             var_r5_3 = (helperByte27 >> 2) & 1;
+            asm("" : "+r"(var_r5_3));
             if (!var_r5_3) {
                 u32 requestedResource27;
                 if (sub_0800CE30() != 0) {
@@ -1707,7 +1704,10 @@ found27scan_24:
             } else {
                 var_r0_2 = stateAA28 + 0x1B9;
             }
-            if (*var_r0_2 & 1) {
+            var_r5_3 = *var_r0_2;
+            var_r5_3 &= 1;
+            asm("" : "+r"(var_r5_3));
+            if (var_r5_3) {
                 u8 *firstCallbackCursor27;
                 var_r8 = sub_080289C0(0x30020, 0x32, 0x5E);
                 var_r1 = stateAA28 + 0x7A4;
@@ -1741,7 +1741,6 @@ firstCallbackRetry27:
                     goto block_73;
                 }
                 var_r0_3 = firstCallbackCursor27;
-                asm("");
                 goto found27scan_shared;
             }
             var_r8 = sub_080289C0(0x20, 0x5D, 0x52);
@@ -1768,7 +1767,8 @@ found27scan_65:
             var_r2_6 = 0;
             do {
                 if (*(s32*)var_r1_2 == var_r8) {
-                    goto block_61;
+                    var_r0_3 = var_r1_2;
+                    goto found27scan_shared;
                 }
                 var_r2_6 += 1;
                 var_r1_2 += 0x70;
@@ -1776,9 +1776,6 @@ found27scan_65:
 block_73:
             sub_080003F0();
             var_r0_3 = ((void *)0);
-            goto found27scan_shared;
-block_61:
-            var_r0_3 = var_r1_2;
 found27scan_shared:
             if (var_r0_3 != ((void *)0)) {
                 (*(u32*)((u8*)(var_r0_3)+(0x44))) = scanCallback27;
@@ -1824,17 +1821,18 @@ found27scan_83:
             } else {
                 var_r5_3 = (*(u32*)((u8*)(stateAA28)+(0x74)));
             }
+            {
+                register s32 bitMask27 asm("r7") = 1;
+                register s32 byteWord27 asm("r0");
+                register s32 bitResult27 asm("r1");
             if (sub_0800CE30() != 0) {
                 var_r0_5 = stateAA28 + 0x1C4;
             } else {
                 var_r0_5 = stateAA28 + 0x1B8;
             }
             temp_r4 = 6;
-            temp_r4 = ((s32) *var_r0_5 >> temp_r4) & 1;
-            {
-                register s32 bitMask27 asm("r7") = 1;
-                register s32 byteWord27 asm("r0");
-                register s32 bitResult27 asm("r1");
+            temp_r4 = ((s32) *var_r0_5 >> temp_r4) & bitMask27;
+                bitMask27 = 1;
                 asm("" : "+r"(bitMask27));
                 if (sub_0800CE30() != 0) {
                     var_r0_6 = stateAA28 + 0x1C4;
@@ -1847,7 +1845,7 @@ found27scan_83:
                 asm("" : "+r"(bitResult27));
                 bit7Word27 = bitResult27;
             }
-            if (bit7Word27 || (!(var_r5_3 & 0x20) && (temp_r4 != 0))) {
+            if (bit7Word27 || (!({ var_r5_3 &= 0x20; asm("" : "+r"(var_r5_3)); var_r5_3; }) && (temp_r4 != 0))) {
                 var_r7 = sub_080289C0(0x13, 0xB0, 0x60);
                 var_r1_6 = stateAA28 + 0x7A4;
                 var_r2_10 = 0;
@@ -1889,7 +1887,7 @@ found27scan_109:
                 } else {
                     var_r2_13 = stateAA28 + 0x1B9;
                 }
-                *var_r2_13 |= 0x80;
+                { u8 m80 = 0x80; *var_r2_13 |= m80; }
             } else {
                 var_r7 = sub_080289C0(0x13, 0x270F, 0x270F);
                 var_r1_8 = stateAA28 + 0x7A4;
@@ -2005,8 +2003,12 @@ found27scan_155:
             } else {
                 var_r0_11 = stateAA28 + 0x1B2;
             }
-            temp_r0_2 = *var_r0_11;
-            switch (temp_r0_2) {
+            {
+                register s32 switchByte27 asm("r0") = *var_r0_11;
+                asm("" : "+r"(switchByte27));
+                var_r5_3 = switchByte27;
+            }
+            switch (var_r5_3) {
             case 0:
                 var_r0_12 = 0x1003B;
                 break;
@@ -2067,7 +2069,8 @@ found27scan_181:
             } else {
                 var_r0_14 = stateAA28 + 0x1B9;
             }
-            temp_r5 = *var_r0_14 & 1;
+            var_r5_3 = *var_r0_14;
+            var_r5_3 &= 1;
             if (sub_0800CE30() != 0) {
                 var_r0_15 = stateAA28 + 0x1C5;
             } else {
@@ -2075,7 +2078,7 @@ found27scan_181:
             }
             helperByte27 = *var_r0_15;
             temp_r4 = (helperByte27 >> 6) & 1;
-            if ((temp_r5 != 0) && !temp_r4) {
+            if ((var_r5_3 != 0) && !temp_r4) {
                 firstTaskCallback27 = (u32)&sub_08045B68;
                 var_r4 = stateAA28 + 0xE34;
                 var_r5_2 = 0;
@@ -2099,14 +2102,17 @@ found27scan_181:
             } else {
                 var_r0_16 = stateAA28 + 0x1B7;
             }
-            if (*var_r0_16 & 1) {
+            var_r5_3 = *var_r0_16;
+            var_r5_3 &= 1;
+            asm("" : "+r"(var_r5_3));
+            if (var_r5_3) {
                 sub_080400D4();
                 if (sub_0800CE30() != 0) {
                     var_r2_26 = stateAA28 + 0x1C3;
                 } else {
                     var_r2_26 = stateAA28 + 0x1B7;
                 }
-                *var_r2_26 &= -2;
+                { s32 m2 = -2; *var_r2_26 &= m2; }
                 return;
             }
             if (sub_0800CE30() != 0) {
@@ -2123,53 +2129,60 @@ found27scan_181:
                     sub_080402F4();
                     case1Mask = 2;
                     if (sub_0800CE30() != 0) {
-                        (*(u32*)((u8*)((*(u8 **)ScenePointerSlotEU27))+(0x80))) = (s32) ((*(u32*)((u8*)((*(u8 **)ScenePointerSlotEU27))+(0x80))) | case1Mask);
+                        (*(u32*)((u8*)(sceneAA28)+(0x80))) = (s32) ((*(u32*)((u8*)(sceneAA28)+(0x80))) | case1Mask);
                     } else {
-                        (*(u32*)((u8*)((*(u8 **)ScenePointerSlotEU27))+(0x78))) = (s32) ((*(u32*)((u8*)((*(u8 **)ScenePointerSlotEU27))+(0x78))) | case1Mask);
+                        (*(u32*)((u8*)(sceneAA28)+(0x78))) = (s32) ((*(u32*)((u8*)(sceneAA28)+(0x78))) | case1Mask);
                     }
-                    if (sub_0800CE30() == 0) {
-                        goto block_296;
+                    if (sub_0800CE30() != 0) {
+                        var_r0_18 = sceneAA28 + 0x1C5;
+                        helperByte27 = *var_r0_18;
+                        helperArgument27 = (helperByte27 >> 5) & 1;
+                    } else {
+                        var_r0_18 = sceneAA28 + 0x1B9;
+                        helperByte27 = *var_r0_18;
+                        helperArgument27 = (helperByte27 >> 5) & 1;
                     }
-                    var_r0_17 = (*(u8 **)ScenePointerSlotEU27);
-                    {
-                        register u32 case1FlagOffset27 asm("r2") = 0x1C5;
-                        asm("" : : "r"(case1FlagOffset27));
-                        var_r0_17 += case1FlagOffset27;
-                    }
-
-                    var_r0_17 = (u8 *)(-(-(u32)var_r0_17 + case1Mask) + case1Mask);
-                    goto block_298;
+                    sub_0805C7B8(helperArgument27);
+                    goto block_357;
                 case 0x2:
                     sub_08040530();
                     if (sub_0800CE30() != 0) {
-                        (*(u32*)((u8*)((*(u8 **)ScenePointerSlotEU27))+(0x80))) = (s32) ((*(u32*)((u8*)((*(u8 **)ScenePointerSlotEU27))+(0x80))) | 4);
+                        { u32 *flagWord27 = (u32 *)(sceneAA28 + 0x80); s32 flagMask27 = 4; *flagWord27 |= flagMask27; }
                     } else {
-                        (*(u32*)((u8*)((*(u8 **)ScenePointerSlotEU27))+(0x78))) = (s32) ((*(u32*)((u8*)((*(u8 **)ScenePointerSlotEU27))+(0x78))) | 4);
+                        { u32 *flagWord27 = (u32 *)(sceneAA28 + 0x78); s32 flagMask27 = 4; *flagWord27 |= flagMask27; }
                     }
                     if (sub_0800CE30() != 0) {
-                        var_r0_17 = (*(u8 **)ScenePointerSlotEU27) + 0x1C5;
+                        var_r0_18 = sceneAA28 + 0x1C5;
+                        helperByte27 = *var_r0_18;
+                        helperArgument27 = (helperByte27 >> 5) & 1;
                     } else {
-                        var_r0_17 = (*(u8 **)ScenePointerSlotEU27) + 0x1B9;
+                        var_r0_18 = sceneAA28 + 0x1B9;
+                        helperByte27 = *var_r0_18;
+                        helperArgument27 = (helperByte27 >> 5) & 1;
                     }
-                    helperByte27 = *var_r0_17;
-                    helperArgument27 = (helperByte27 >> 5) & 1;
-                    goto call27_shared_helper;
-                case 0x4:
+                    sub_0805C7B8(helperArgument27);
+                    goto block_357;
+case 0x4:
                     sub_0804076C(var_r6);
                     if (sub_0800CE30() != 0) {
-                        (*(u32*)((u8*)((*(u8 **)ScenePointerSlotEU27))+(0x80))) = (s32) ((*(u32*)((u8*)((*(u8 **)ScenePointerSlotEU27))+(0x80))) | 8);
+                        { u32 *flagWord27 = (u32 *)(sceneAA28 + 0x80); s32 flagMask27 = 8; *flagWord27 |= flagMask27; }
                     } else {
-                        (*(u32*)((u8*)((*(u8 **)ScenePointerSlotEU27))+(0x78))) = (s32) ((*(u32*)((u8*)((*(u8 **)ScenePointerSlotEU27))+(0x78))) | 8);
+                        { u32 *flagWord27 = (u32 *)(sceneAA28 + 0x78); s32 flagMask27 = 8; *flagWord27 |= flagMask27; }
                     }
                     if (sub_0800CE30() != 0) {
-                        var_r3 = 0x1C5;
-                        goto block_297;
+                        var_r0_18 = sceneAA28 + 0x1C5;
+                        helperByte27 = *var_r0_18;
+                        helperArgument27 = (helperByte27 >> 5) & 1;
+                    } else {
+                        var_r0_18 = sceneAA28 + 0x1B9;
+                        helperByte27 = *var_r0_18;
+                        helperArgument27 = (helperByte27 >> 5) & 1;
                     }
-                    var_r0_17 = (*(u8 **)ScenePointerSlotEU27) + 0x1B9;
-                    goto block_298;
-                case 0x8:
+                    sub_0805C7B8(helperArgument27);
+                    goto block_357;
+case 0x8:
+                    var_r1_16 = sceneAA28 + 0x7A4;
                     var_r2_27 = 0;
-                    var_r1_16 = (*(u8 **)ScenePointerSlotEU27) + 0x7A4;
                     do {
                         if (*(s32*)var_r1_16 == var_r6) {
                             goto found27scan_258;
@@ -2190,110 +2203,116 @@ found27scan_258:
                 case 0x10:
                     sub_08041B7C(var_r6);
                     if (sub_0800CE30() != 0) {
-                        (*(u32*)((u8*)((*(u8 **)ScenePointerSlotEU27))+(0x80))) = (s32) ((*(u32*)((u8*)((*(u8 **)ScenePointerSlotEU27))+(0x80))) | 0x20);
+                        { u32 *flagWord27 = (u32 *)(sceneAA28 + 0x80); s32 flagMask27 = 0x20; *flagWord27 |= flagMask27; }
                     } else {
-                        (*(u32*)((u8*)((*(u8 **)ScenePointerSlotEU27))+(0x78))) = (s32) ((*(u32*)((u8*)((*(u8 **)ScenePointerSlotEU27))+(0x78))) | 0x20);
+                        { u32 *flagWord27 = (u32 *)(sceneAA28 + 0x78); s32 flagMask27 = 0x20; *flagWord27 |= flagMask27; }
                     }
                     if (sub_0800CE30() != 0) {
-                        (*(u32*)((u8*)((*(u8 **)ScenePointerSlotEU27))+(0x80))) = (s32) ((*(u32*)((u8*)((*(u8 **)ScenePointerSlotEU27))+(0x80))) | 0x2000);
+                        { u32 *flagWord27 = (u32 *)(sceneAA28 + 0x80); s32 flagMask27 = 0x2000; *flagWord27 |= flagMask27; }
                     } else {
-                        (*(u32*)((u8*)((*(u8 **)ScenePointerSlotEU27))+(0x78))) = (s32) ((*(u32*)((u8*)((*(u8 **)ScenePointerSlotEU27))+(0x78))) | 0x2000);
+                        { u32 *flagWord27 = (u32 *)(sceneAA28 + 0x78); s32 flagMask27 = 0x2000; *flagWord27 |= flagMask27; }
                     }
                     if (sub_0800CE30() != 0) {
-                        var_r3 = 0x1C5;
-                        goto block_297;
+                        var_r0_18 = sceneAA28 + 0x1C5;
+                        helperByte27 = *var_r0_18;
+                        helperArgument27 = (helperByte27 >> 5) & 1;
                     } else {
-                        var_r0_17 = (*(u8 **)ScenePointerSlotEU27) + 0x1B9;
+                        var_r0_18 = sceneAA28 + 0x1B9;
+                        helperByte27 = *var_r0_18;
+                        helperArgument27 = (helperByte27 >> 5) & 1;
                     }
-                    goto block_298;
-                case 0x20:
+                    sub_0805C7B8(helperArgument27);
+                    goto block_357;
+case 0x20:
                     sub_08041E8C();
                     if (sub_0800CE30() != 0) {
-                        (*(u32*)((u8*)((*(u8 **)ScenePointerSlotEU27))+(0x80))) = (s32) ((*(u32*)((u8*)((*(u8 **)ScenePointerSlotEU27))+(0x80))) | 0x40);
+                        { u32 *flagWord27 = (u32 *)(sceneAA28 + 0x80); s32 flagMask27 = 0x40; *flagWord27 |= flagMask27; }
                     } else {
-                        (*(u32*)((u8*)((*(u8 **)ScenePointerSlotEU27))+(0x78))) = (s32) ((*(u32*)((u8*)((*(u8 **)ScenePointerSlotEU27))+(0x78))) | 0x40);
+                        { u32 *flagWord27 = (u32 *)(sceneAA28 + 0x78); s32 flagMask27 = 0x40; *flagWord27 |= flagMask27; }
                     }
-                    if (sub_0800CE30() == 0) {
-                        goto block_296;
+                    if (sub_0800CE30() != 0) {
+                        var_r0_18 = sceneAA28 + 0x1C5;
+                        helperByte27 = *var_r0_18;
+                        helperArgument27 = (helperByte27 >> 5) & 1;
+                    } else {
+                        var_r0_18 = sceneAA28 + 0x1B9;
+                        helperByte27 = *var_r0_18;
+                        helperArgument27 = (helperByte27 >> 5) & 1;
                     }
-                    var_r0_17 = (*(u8 **)ScenePointerSlotEU27) + 0x1C5;
-                    goto block_298;
-                case 0x40:
+                    sub_0805C7B8(helperArgument27);
+                    goto block_357;
+case 0x40:
                     sub_080420C8();
                     if (sub_0800CE30() != 0) {
-                        (*(u32*)((u8*)((*(u8 **)ScenePointerSlotEU27))+(0x80))) = (s32) ((*(u32*)((u8*)((*(u8 **)ScenePointerSlotEU27))+(0x80))) | 0x80);
+                        { u32 *flagWord27 = (u32 *)(sceneAA28 + 0x80); s32 flagMask27 = 0x80; *flagWord27 |= flagMask27; }
                     } else {
-                        (*(u32*)((u8*)((*(u8 **)ScenePointerSlotEU27))+(0x78))) = (s32) ((*(u32*)((u8*)((*(u8 **)ScenePointerSlotEU27))+(0x78))) | 0x80);
+                        { u32 *flagWord27 = (u32 *)(sceneAA28 + 0x78); s32 flagMask27 = 0x80; *flagWord27 |= flagMask27; }
                     }
                     if (sub_0800CE30() != 0) {
-                        var_r0_17 = (*(u8 **)ScenePointerSlotEU27) + 0x1C5;
+                        var_r0_18 = sceneAA28 + 0x1C5;
+                        helperByte27 = *var_r0_18;
+                        helperArgument27 = (helperByte27 >> 5) & 1;
                     } else {
-                        var_r0_17 = (*(u8 **)ScenePointerSlotEU27) + 0x1B9;
+                        var_r0_18 = sceneAA28 + 0x1B9;
+                        helperByte27 = *var_r0_18;
+                        helperArgument27 = (helperByte27 >> 5) & 1;
                     }
-                    goto block_298;
-                case 0x80:
+                    sub_0805C7B8(helperArgument27);
+                    goto block_357;
+case 0x80:
                     sub_08042390();
                     if (sub_0800CE30() != 0) {
-                        (*(u32*)((u8*)((*(u8 **)ScenePointerSlotEU27))+(0x80))) = (s32) ((*(u32*)((u8*)((*(u8 **)ScenePointerSlotEU27))+(0x80))) | 0x100);
+                        { u32 *flagWord27 = (u32 *)(sceneAA28 + 0x80); s32 flagMask27 = 0x100; *flagWord27 |= flagMask27; }
                     } else {
-                        (*(u32*)((u8*)((*(u8 **)ScenePointerSlotEU27))+(0x78))) = (s32) ((*(u32*)((u8*)((*(u8 **)ScenePointerSlotEU27))+(0x78))) | 0x100);
+                        { u32 *flagWord27 = (u32 *)(sceneAA28 + 0x78); s32 flagMask27 = 0x100; *flagWord27 |= flagMask27; }
                     }
                     if (sub_0800CE30() != 0) {
-                        var_r3 = 0x1C5;
-                        goto block_297;
+                        var_r0_18 = sceneAA28 + 0x1C5;
+                        helperByte27 = *var_r0_18;
+                        helperArgument27 = (helperByte27 >> 5) & 1;
+                    } else {
+                        var_r0_18 = sceneAA28 + 0x1B9;
+                        helperByte27 = *var_r0_18;
+                        helperArgument27 = (helperByte27 >> 5) & 1;
                     }
-                    var_r0_17 = (*(u8 **)ScenePointerSlotEU27) + 0x1B9;
-                    goto block_298;
-                case 0x100:
+                    sub_0805C7B8(helperArgument27);
+                    goto block_357;
+case 0x100:
                     sub_080425CC(var_r6);
                     if (sub_0800CE30() != 0) {
-                        (*(u32*)((u8*)((*(u8 **)ScenePointerSlotEU27))+(0x80))) = (s32) ((*(u32*)((u8*)((*(u8 **)ScenePointerSlotEU27))+(0x80))) | 0x200);
+                        { u32 *flagWord27 = (u32 *)(sceneAA28 + 0x80); s32 flagMask27 = 0x200; *flagWord27 |= flagMask27; }
                     } else {
-                        (*(u32*)((u8*)((*(u8 **)ScenePointerSlotEU27))+(0x78))) = (s32) ((*(u32*)((u8*)((*(u8 **)ScenePointerSlotEU27))+(0x78))) | 0x200);
+                        { u32 *flagWord27 = (u32 *)(sceneAA28 + 0x78); s32 flagMask27 = 0x200; *flagWord27 |= flagMask27; }
                     }
                     if (sub_0800CE30() != 0) {
-                        var_r0_17 = (*(u8 **)ScenePointerSlotEU27) + 0x1C5;
-                        asm("");
+                        var_r0_18 = sceneAA28 + 0x1C5;
+                        helperByte27 = *var_r0_18;
+                        helperArgument27 = (helperByte27 >> 5) & 1;
                     } else {
-                        goto block_296;
+                        var_r0_18 = sceneAA28 + 0x1B9;
+                        helperByte27 = *var_r0_18;
+                        helperArgument27 = (helperByte27 >> 5) & 1;
                     }
-                    goto block_298;
-block_296:
-                    var_r3 = 0x1B9;
-block_297:
-                    var_r0_17 = (*(u8 **)ScenePointerSlotEU27) + var_r3;
-block_298:
-                    {
-                        register s32 sampledByteR027 asm("r0");
-                        sampledByteR027 = *var_r0_17;
-                        asm("" : "+r"(sampledByteR027));
-                        helperByte27 = sampledByteR027;
-                    }
-                    helperByte27 = (helperByte27 >> 5) & 1;
-                    helperArgument27 = helperByte27;
-call27_shared_helper:
                     sub_0805C7B8(helperArgument27);
-block_357:
-                    (*(u32*)((u8*)((*(u8 **)ScenePointerSlotEU27))+(0x50))) = var_r5_3;
-                    goto block_373;
+                    goto block_357;
                 case 0x200:
                     sub_08042938(var_r6);
                     if (sub_0800CE30() != 0) {
-                        var_r0_18 = (*(u8 **)ScenePointerSlotEU27) + 0x1C5;
+                        var_r0_18 = sceneAA28 + 0x1C5;
                         helperByte27 = *var_r0_18;
                         helperArgument27 = (helperByte27 >> 5) & 1;
                     } else {
-                        var_r0_18 = (*(u8 **)ScenePointerSlotEU27) + 0x1B9;
+                        var_r0_18 = sceneAA28 + 0x1B9;
                         helperByte27 = *var_r0_18;
                         helperArgument27 = (helperByte27 >> 5) & 1;
                     }
                     sub_0805C7B8(helperArgument27);
-                    (*(u32*)((u8*)((*(u8 **)ScenePointerSlotEU27))+(0x50))) = var_r5_3;
+                    (*(u32*)((u8*)(sceneAA28)+(0x50))) = var_r5_3;
                     sub_0801AA8C(0x1E);
                     while (sub_0801AAE0() == 0) {
                         sub_080003F0();
                     }
-                    var_r1_17 = (*(u8 **)ScenePointerSlotEU27) + 0x7A4;
+                    var_r1_17 = sceneAA28 + 0x7A4;
                     var_r2_28 = 0;
                     do {
                         if (*(s32*)var_r1_17 == var_r8) {
@@ -2308,7 +2327,7 @@ found27scan_306:
                     if (var_r1_17 != ((void *)0)) {
                         (*(u16*)((u8*)(var_r1_17)+(0x36))) = 4;
                     }
-                    var_r1_18 = (*(u8 **)ScenePointerSlotEU27) + 0x7A4;
+                    var_r1_18 = sceneAA28 + 0x7A4;
                     var_r2_29 = 0;
                     do {
                         if (*(s32*)var_r1_18 == sp0) {
@@ -2323,7 +2342,7 @@ found27scan_312:
                     if (var_r1_18 != ((void *)0)) {
                         (*(u16*)((u8*)(var_r1_18)+(0x36))) = 4;
                     }
-                    var_r1_19 = (*(u8 **)ScenePointerSlotEU27) + 0x7A4;
+                    var_r1_19 = sceneAA28 + 0x7A4;
                     var_r2_30 = 0;
                     do {
                         if (*(s32*)var_r1_19 == var_r7) {
@@ -2338,7 +2357,7 @@ found27scan_318:
                     if (var_r1_19 != ((void *)0)) {
                         (*(u16*)((u8*)(var_r1_19)+(0x36))) = 4;
                     }
-                    var_r1_20 = (*(u8 **)ScenePointerSlotEU27) + 0x7A4;
+                    var_r1_20 = sceneAA28 + 0x7A4;
                     var_r2_31 = 0;
                     do {
                         if (*(s32*)var_r1_20 == sp4) {
@@ -2353,7 +2372,7 @@ found27scan_324:
                     if (var_r1_20 != ((void *)0)) {
                         (*(u16*)((u8*)(var_r1_20)+(0x36))) = 4;
                     }
-                    var_r1_21 = (*(u8 **)ScenePointerSlotEU27) + 0x7A4;
+                    var_r1_21 = sceneAA28 + 0x7A4;
                     var_r2_32 = 0;
                     do {
                         if (*(s32*)var_r1_21 == var_r6) {
@@ -2368,7 +2387,7 @@ found27scan_330:
                     if (var_r1_21 != ((void *)0)) {
                         (*(u16*)((u8*)(var_r1_21)+(0x36))) = 4;
                     }
-                    var_r1_22 = (*(u8 **)ScenePointerSlotEU27) + 0x7A4;
+                    var_r1_22 = sceneAA28 + 0x7A4;
                     var_r2_33 = 0;
                     do {
                         if (*(s32*)var_r1_22 == temp_sl) {
@@ -2385,9 +2404,9 @@ found27scan_336:
                     }
                     temp_r4 = 1;
                     if (sub_0800CE30() != 0) {
-                        var_r0_19 = (*(u8 **)ScenePointerSlotEU27) + 0x1BF;
+                        var_r0_19 = sceneAA28 + 0x1BF;
                     } else {
-                        var_r0_19 = (*(u8 **)ScenePointerSlotEU27) + 0x1B3;
+                        var_r0_19 = sceneAA28 + 0x1B3;
                     }
                     *var_r0_19 = temp_r4;
                     sub_0802A228(0, 3);
@@ -2410,8 +2429,8 @@ found27scan_336:
                             sub_080003F0();
                         }
                     }
-                    (*(u32*)((u8*)((*(u8 **)ScenePointerSlotEU27))+(0x50))) = var_r5_3;
-                    asm("");
+block_357:
+                    (*(u32*)((u8*)(sceneAA28)+(0x50))) = var_r5_3;
                     goto block_373;
                 }
                         } else {
@@ -2475,9 +2494,6 @@ test27_slot375:
         sub_08042BB0();
     }
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_08028AAC", sub_0802AA28);
-#endif
 struct Args028B8A4 { s32 x,y; u16 a,b; void (*callback)(void); u32 zero,pad; };
 extern void sub_0802C144(void);
 extern void sub_08031FF8(void);
