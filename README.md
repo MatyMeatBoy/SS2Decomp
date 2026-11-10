@@ -1,18 +1,18 @@
 # Shining Soul II (Europe) — Decompilation
 
-![matched plus linked](docs/progress/badge_all.svg)
-![matching C](docs/progress/badge_decompiled.svg)
-[![identified game functions](docs/progress/badge_names.svg)](docs/progress/identification.md)
-![game code](docs/progress/badge_game.svg)
-![libraries](docs/progress/badge_lib.svg)
-![functions](docs/progress/badge_functions.svg)
-![with C drafts](docs/progress/badge_drafts.svg)
+![matched plus linked](docs/progress/badge_all.svg?v=6d4002b6)
+![matching C](docs/progress/badge_decompiled.svg?v=6d4002b6)
+[![identified game functions](docs/progress/badge_names.svg?v=6d4002b6)](docs/progress/identification.md)
+![game code](docs/progress/badge_game.svg?v=6d4002b6)
+![libraries](docs/progress/badge_lib.svg?v=6d4002b6)
+![functions](docs/progress/badge_functions.svg?v=6d4002b6)
+![with C drafts](docs/progress/badge_drafts.svg?v=6d4002b6)
 
 Work-in-progress **matching** decompilation of *Shining Soul II* for the Game Boy
 Advance (Europe, `AU2P`, En/Fr/De/Es/It). The build reproduces the original ROM
 byte for byte.
 
-![progress treemap](https://raw.githubusercontent.com/MatyMeatBoy/SS2Decomp/claude/rom-decompilation-research-obsal6/docs/progress/treemap.svg)
+![progress treemap](https://raw.githubusercontent.com/MatyMeatBoy/SS2Decomp/claude/rom-decompilation-research-obsal6/docs/progress/treemap.svg?v=6d4002b6)
 
 Each cell is one function (area = size in bytes):
 
@@ -43,7 +43,7 @@ records source observations and unresolved calls; it is not a complete runtime g
 
 ## ROM regions
 
-[![Regional code and data source progress](docs/progress/regional_progress.svg)](docs/progress/regional_progress.md)
+[![Regional code and data source progress](docs/progress/regional_progress.svg?v=6d4002b6)](docs/progress/regional_progress.md)
 
 **EU remains the main target.** These additional bars separate matching C and
 data reproduced from source for each ROM. The regional EU code bar includes SDK,
