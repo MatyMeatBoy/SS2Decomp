@@ -1947,7 +1947,6 @@ void sub_080923B4(s32 indexInput, u32 packedInput)
     (*(Callback096 *)((u8 *)callbacks096B + slot))(high, bits);
     sub_08000420(0x12001111);
 }
-#ifdef NONMATCHING
 struct Anim923FC {u32 f0,f4,f8,fC;u8 pad10[12];u8 payload[24];};
 extern u16 cache923FC[] asm("gUnk_03001250");
 extern u16 v923FC_250 asm("gUnk_03000250");
@@ -2023,20 +2022,23 @@ void sub_080923FC_u8(u32 arg0, u32 arg1) {
     v923FC_256 = offsetFields923FC.y1;
     i = 0;
     do {
-        if (i & 1)
-            ys[i] = (i * 16 + 0x70) << 8;
-        else
-            ys[i] = (0x70 - i * 16) << 8;
-        xs[i] = i * 60 + 30;
-        i++;
+        /* The do-while(0) wrapper lengthens the xs-base copy's live range so global alloc gives it r6 like the ROM. */
+        do {
+            if (i & 1)
+                ys[i] = (i * 16 + 0x70) << 8;
+            else
+                ys[i] = (0x70 - i * 16) << 8;
+            xs[i] = i * 60 + 30;
+            i++;
+        } while (0);
     } while (i <= 3);
     {
-        u16 *phase2Offsets = cache923FC;
         fade = 0;
         accum = 0;
         timer = 0xF0;
         sub_08092E28(4);
         do {
+            u16 *phase2Offsets = cache923FC;
             s32 d;
             shake = sub_08092E34();
             accum += 2;
@@ -2266,9 +2268,6 @@ end:
     sub_0800CC68();
     sub_08098028();
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_0808FB5C", sub_080923FC);
-#endif
 void sub_08092CB8(void)
 {
     union { u32 word; u16 half[2]; } config;

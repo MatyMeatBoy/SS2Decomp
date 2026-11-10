@@ -1,7 +1,7 @@
 {
   "address": "0x080923FC",
-  "updated_utc": "2026-11-08T19:52:06.062792+00:00",
-  "checkpoint": "claude-nov08: 2 positional halfword differences left (+12C/+162, init-loop xs base r7 vs ROM r6). Phase-5 preheader order now matches: dead (u16)x/(u16)y truncations share the draw shifts so loop.c pass 1 hoists x<<16, y<<16 then the cache (three empty asm add luids only). Round-loop latch matches via a long-lived cache pointer. Size 2236, frame 0x14C. Strict NO MATCH; ASM fallback retained. See shard96.txt 2026-11-08.",
+  "updated_utc": "2026-11-09T22:01:26.993061+00:00",
+  "checkpoint": "MATCH: normal active C reproduces the original 2236 bytes (make compare OK); NONMATCHING wrapper and ASM fallback removed.",
   "areas": [
     {
       "id": "sprite_placement",
@@ -18,8 +18,8 @@
     {
       "id": "remaining_code",
       "label": "Resolve remaining frame and control-flow differences",
-      "state": "active",
-      "evidence": "claude-nov08: 2 positional halfword differences left (+12C/+162, init-loop xs base r7 vs ROM r6). Phase-5 preheader order now matches: dead (u16)x/(u16)y truncations share the draw shifts so loop.c pass 1 hoists x<<16, y<<16 then the cache (three empty asm add luids only). Round-loop latch matches via a long-lived cache pointer. Size 2236, frame 0x14C. Strict NO MATCH; ASM fallback retained. See shard96.txt 2026-11-08. claude-nov08-coord: round-loop latch timer/count reloads now match through a block-scoped long-lived cache pointer (spilled, REG_EQUIV, rematerialized as a rotation reload); the remainingTimer096 r3 register binding is removed. Positional differences 11 -> 9: init-loop xs base r7 (ROM r6) and phase-5 cache literal load hoisted before x/y. Strict NO MATCH; ASM fallback retained. See shard96.txt 2026-11-08. Current target SHA2566bbf78fe2e9cb921911fbee48d3e83533f41bb1902cfa693aaddf3af886546b2. Two targeted initialized read/write operands preserve real compiler values in R3: signed clamp after lowerLimit>>16, and promoted timer immediately before its existing zero test. No instruction opcode is authored; both asm bodies are empty, with truthful initialized operands and no hidden value/memory/flag contract. The signed shift result is in[-32768,32767], preserving the old s16 value and same STRH. Every timer condition is dominated by the fresh u16-to-u32 copy, preserving all0..65535 values; goto end exits without reading it. The real timer word uses the existing C89 round-body declaration scope. No label, continue, helper or observable operation intervenes between either definition, constraint and consumer; earlier body calls cannot observe an old value. Neither R3 value is forced across a helper. Removing either part of the signed-clamp constraint regresses its standalone control to21 halfword edits; no register/name/type matrix was used. Versus public9, target+582 changes LSR to original ASR and+83E/+840 recover original MOV/CMP R3. At+84E/+850, count loading/comparison recolor R2 to R1 coherently and remain nonoriginal(original R7). All625 raw module relocations,47 other functions and all allocated bytes outside the equal-size target are unchanged. Actual complete NONMATCHING, independently compiled normal active C and private candidate agree. Remaining11 positional differences(6 halfword edits) concern initial xs R7/R6, phase5 cache literal-load order and final count-test R1/R7. The previous new9-seed600-second search ended2956iterations/62candidate errors with no output; it was finite, not exhaustive. Later preflights identified additional unsafe stock passes, now documented separately. Whole-function matching remains unresolved."
+      "state": "done",
+      "evidence": "The last difference was the init-loop xs base copy in r7 (ROM r6, +12C/+162). Wrapping the init-loop body in do { ... } while (0) and declaring the phase-2 cache pointer inside the phase-2 loop body (same constant cache923FC address every iteration) gives the xs base copy r6 in global alloc, as in the ROM. Found by a 8h decomp-permuter run (--allow-control-diff) on the shard 96 draft; both edits keep behaviour (one-iteration inner loop, loop-invariant pointer)."
     },
     {
       "id": "phase2_cache",
@@ -42,8 +42,8 @@
     {
       "id": "full_match",
       "label": "Verify matching C in the normal ROM build",
-      "state": "pending",
-      "evidence": "The original ASM fallback remains active; there are zero new matching bytes and no full-function equivalence claim."
+      "state": "done",
+      "evidence": "Unwrapped normal build: make -j8 compare prints shiningsoul2_eu.gba OK; make nonmatching builds; check_tree 0 errors; git diff --check clean."
     }
   ]
 }
