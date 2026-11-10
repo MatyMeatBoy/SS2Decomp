@@ -2279,9 +2279,7 @@ block_298:
                     helperArgument27 = helperByte27;
 call27_shared_helper:
                     sub_0805C7B8(helperArgument27);
-block_357:
-                    (*(u32*)((u8*)(sceneAA28)+(0x50))) = var_r5_3;
-                    goto block_373;
+                    goto block_357;
                 case 0x200:
                     sub_08042938(var_r6);
                     if (sub_0800CE30() != 0) {
@@ -2416,8 +2414,8 @@ found27scan_336:
                             sub_080003F0();
                         }
                     }
+block_357:
                     (*(u32*)((u8*)(sceneAA28)+(0x50))) = var_r5_3;
-                    asm("");
                     goto block_373;
                 }
                         } else {
