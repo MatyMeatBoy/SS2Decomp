@@ -2744,16 +2744,16 @@ void sub_0807C29C(void) {
                     item = (struct Item82 *)((u8 *)gMgr82 + (gMgr82->cursor + gMgr82->page * 15) * 16 + 0x104);
                     switch (item->kind) {
                     case 2 ... 5: {
-                        struct Mgr82 **m; /* ROM keeps the gMgr82 address in r6 across BD78/BEA0 into the DROP */
+                        register struct Mgr82 **m asm("r6"); /* ROM keeps the gMgr82 address in r6 across BD78/BEA0 into the DROP */
                         if (*((u8 *)gMgr82 + (gMgr82->cursor + gMgr82->page * 15) * 16 + 0x10C) != 0) {
                             *((u8 *)gMgr82 + (gMgr82->cursor + gMgr82->page * 15) * 16 + 0x10C) = 0;
                             asm("" : "=r"(m) : "0"(&gMgr82));
-                            sub_0807BD78((*m)->heldFrom, (*m)->heldIdx);
+                            { struct Mgr82 *g082 = *m; sub_0807BD78(g082->heldFrom, g082->heldIdx); }
                         } else {
                             *(struct Item82 *)sp4 = *item;
                             sub_0807BEA0(13, gMgr82->cursor + gMgr82->page * 15, (void *)held);
                             asm("" : "=r"(m) : "0"(&gMgr82));
-                            sub_0807BEA0((*m)->heldFrom, (*m)->heldIdx, (void *)sp4);
+                            { struct Mgr82 *g082 = *m; sub_0807BEA0(g082->heldFrom, g082->heldIdx, (void *)sp4); }
                         }
                         Drop82P(&sp14, m);
                         break; }
@@ -2823,7 +2823,13 @@ void sub_0807C29C(void) {
                             gMgr82->stock[gMgr82->cursor + gMgr82->page * 15].count = 100000;
                             sub_0807BEA0(gMgr82->heldFrom, gMgr82->heldIdx, (void *)held);
                         }
-                        Drop82P(&sp14, gp);
+                        { /* ROM: zero for the CpuSet source in r1, then a fresh zero in r4 for heldIdx after the call */
+                            register u32 z082 asm("r1") = 0;
+                            sp14 = z082;
+                            CpuSet((void *)&sp14, &(*gp)->held, 0x05000004);
+                            (*gp)->heldFrom = 0x16;
+                            { register u32 y082 asm("r4") = 0; (*gp)->heldIdx = y082; }
+                        }
                         sub_0805865C(0x5F);
                         sub_0805865C(0x5F);
                         break;
@@ -2831,7 +2837,7 @@ void sub_0807C29C(void) {
                     *(struct Item82 *)sp4 = *it;
                     sub_0807BEA0(13, gMgr82->cursor + gMgr82->page * 15, (void *)held);
                     sub_0807BEA0(gMgr82->heldFrom, gMgr82->heldIdx, (void *)sp4);
-                    Drop82P(&sp14, gp);
+                    DROP82();
                     sub_0805865C(0x5F);
                     break;
                 }
