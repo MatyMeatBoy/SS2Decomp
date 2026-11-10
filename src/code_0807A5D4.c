@@ -3136,9 +3136,13 @@ void sub_0807C29C(void) {
             register struct Inv82 *inventoryBase082 asm("r0");
             gMgr82->stock[3] = gMgr82->held;
             inventoryBase082 = gInv82;
-            asm("" : "+r"(inventoryBase082));
             have = gMgr82->heldIdx;
-            p = (u32 *)((u32)inventoryBase082 + offsetof(struct Inv82, items) + offsetof(struct Item82, count) + have * sizeof(struct Item82));
+            { /* ROM: idx*16 first, then (inventory + items[0].count) + idx*16; one barrier keeps that grouping */
+                u32 off082 = have * sizeof(struct Item82);
+                inventoryBase082 = (struct Inv82 *)((u8 *)inventoryBase082 + offsetof(struct Inv82, items) + offsetof(struct Item82, count));
+                asm("" : "+r"(inventoryBase082) : "r"(off082));
+                p = (u32 *)((u8 *)inventoryBase082 + off082);
+            }
             if (*p == gMgr82->held.count)
                 sub_0807BD78(gMgr82->heldFrom, have);
             else
