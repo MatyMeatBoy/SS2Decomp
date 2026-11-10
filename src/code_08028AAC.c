@@ -2168,8 +2168,8 @@ found27scan_181:
                     var_r0_17 = (*(u8 **)ScenePointerSlotEU27) + 0x1B9;
                     goto block_298;
                 case 0x8:
-                    var_r1_16 = (*(u8 **)ScenePointerSlotEU27) + 0x7A4;
                     var_r2_27 = 0;
+                    var_r1_16 = (*(u8 **)ScenePointerSlotEU27) + 0x7A4;
                     do {
                         if (*(s32*)var_r1_16 == var_r6) {
                             goto found27scan_258;
