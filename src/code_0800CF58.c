@@ -1655,7 +1655,8 @@ block_197:
                             break;
                         case 6:                     /* switch 3 */
                             if ((((u32) ((s16) var_r6->f0 % 60) << 0x10) == 0) && (d368_sub_0800D1B0() == 0)) {
-                                temp_r5_5 = (var_r6->f18 * 0xA) + 0x64;
+                                temp_r5_5 = var_r6->f18; /* ROM loads f18 before the scaling (found by the permuter) */
+                                temp_r5_5 = (temp_r5_5 * 0xA) + 0x64;
                                 M2C_FIELD(&((struct PlayerD368 *)arg0)->f88, u16 *, 0) = (u16) (M2C_FIELD(&((struct PlayerD368 *)arg0)->f88, u16 *, 0) + ((s32) (temp_r5_5 * var_r6->f6) / 100));
                                 ((struct PlayerD368 *)arg0)->fE0 = 6;
                                 d368_sub_08069224(6, (u16) ((s32) (temp_r5_5 * var_r6->f6) / 100), d368_gUnk_030034E0 + 0x24);
