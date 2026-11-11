@@ -399,7 +399,6 @@ void sub_0800D368(void *arg0) {
     s32 stackArg0, stackArg1, stackArg2, stackArg3;
     union ColorUnion297D368 { u32 word; struct { unsigned red:5, green:5, blue:5, unused:17; } bits; } colorStorage294D368;
     u32 sp114;
-    u32 ownerFlags;
     s32 sp118;
     s32 sp11C;
     s32 sp120;
@@ -1504,13 +1503,7 @@ block_197:
                         switch (effectOwnerTableD368[temp_r0_17].fC) {
                         case 2:
                             if (var_r6->f4 != 7) break;
-                            {
-                                /* do-while(0): loop-depth ref weight puts the owner-table base in r5 */
-                                do {
-                                    ownerFlags = effectOwnerTableD368[temp_r0_17].f30 & 0x2000;
-                                } while (0);
-                                if (ownerFlags) continue;
-                            }
+                            if (effectOwnerTableD368[temp_r0_17].f30 & 0x2000) continue;
                             do {
                             if (d368_sub_0801DF8C() != 0) {
                             } else if (((struct PlayerD368 *)arg0)->f68 != effectOwnerTableD368[var_r6->f2].f68) {
@@ -1530,13 +1523,7 @@ block_197:
                             break;
                         case 3:
                             if (var_r6->f4 != 6) break;
-                            {
-                                /* do-while(0): loop-depth ref weight puts the owner-table base in r5 */
-                                do {
-                                    ownerFlags = effectOwnerTableD368[temp_r0_17].f30 & 0x2000;
-                                } while (0);
-                                if (ownerFlags) continue;
-                            }
+                            if (effectOwnerTableD368[temp_r0_17].f30 & 0x2000) continue;
                             if (d368_sub_0800CF80() == 0) {
                                 var_r5 = 0;
                                 do {
@@ -1580,13 +1567,7 @@ block_197:
                             break;
                         case 5:
                             if (var_r6->f4 != 7) break;
-                            {
-                                /* do-while(0): loop-depth ref weight puts the owner-table base in r5 */
-                                do {
-                                    ownerFlags = effectOwnerTableD368[temp_r0_17].f30 & 0x2000;
-                                } while (0);
-                                if (ownerFlags) continue;
-                            }
+                            if (effectOwnerTableD368[temp_r0_17].f30 & 0x2000) continue;
                             do {
                             if (d368_sub_0801DF8C() != 0) {
                             } else if (((struct PlayerD368 *)arg0)->f68 != effectOwnerTableD368[var_r6->f2].f68) {
