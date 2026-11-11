@@ -1985,6 +1985,7 @@ block_447:
                                     }
                                 } else {
                                     ((struct PlayerD368 *)arg0)->fDC += 1;
+                                    asm volatile(""); /* ROM keeps this fDC step apart from case 7's */
                                     goto block_590;
                                 }
                                 break;
@@ -2011,13 +2012,12 @@ block_447:
                                                 ((struct PlayerD368 *)arg0)->fDC += 1;
                                             } else {
                                                 var_r0_12 = 0;
-block_588:
-block_581:
-                                        ((struct PlayerD368 *)arg0)->f26 = (u16) var_r0_12;
-                                        ((struct PlayerD368 *)arg0)->f24 = (u16) var_r0_12;
-                                        sp130 = 0;
-                                        sp134 = 0;
-                                        ((struct PlayerD368 *)arg0)->f20 = 0U;
+                                                ((struct PlayerD368 *)arg0)->f26 = (u16) var_r0_12;
+                                                ((struct PlayerD368 *)arg0)->f24 = (u16) var_r0_12;
+                                                sp130 = 0;
+                                                sp134 = 0;
+                                                ((struct PlayerD368 *)arg0)->f20 = 0U;
+                                                asm volatile(""); /* ROM keeps this reset apart from the shared one in case 7 */
                                             }
                                         } else {
 block_582:
@@ -2047,7 +2047,13 @@ block_582:
                                             sp170 &= 7;
                                         }
                                     } else {
-                                            goto block_588;
+block_588:
+block_581:
+                                        ((struct PlayerD368 *)arg0)->f26 = (u16) var_r0_12;
+                                        ((struct PlayerD368 *)arg0)->f24 = (u16) var_r0_12;
+                                        sp130 = 0;
+                                        sp134 = 0;
+                                        ((struct PlayerD368 *)arg0)->f20 = 0U;
                                     }
                                 } else {
                                     ((struct PlayerD368 *)arg0)->fDC += 1;
@@ -2325,6 +2331,7 @@ state4ResetProgressD368:
                     ((struct PlayerD368 *)arg0)->fB4 = 0U;
                     *(u16 *)((arg0 + 0xB4) - 2) = 0;
                     sp144 = 0;
+                    asm volatile(""); /* ROM keeps this tail separate */
                     break;
 state4ZeroStageD368:
                         ((struct PlayerD368 *)arg0)->f26 = temp_r0_49;
@@ -3260,8 +3267,11 @@ timerHighDecayD368:
 
         } else {
             if (((struct PlayerD368 *)arg0)->fD8 != 0) {
-                temp_r5_9 = arg0 + 0x8C;
-                *(struct PairD36867 *)(arg0 + 0x94) = *(struct PairD36867 *)temp_r5_9;
+                {
+                    struct PairD36867 *previousPairD368 = (struct PairD36867 *)(arg0 + 0x94);
+                    temp_r5_9 = arg0 + 0x8C;
+                    *previousPairD368 = *(struct PairD36867 *)temp_r5_9;
+                }
                 temp_r3_7 = (u16) d368_sub_0800CCCC();
                 d368_sub_08013E90(((struct PlayerD368 *)arg0)->fD8, temp_r5_9, (u16) ((struct PlayerD368 *)arg0)->f1C, temp_r3_7, (((struct PlayerD368 *)arg0)->f30 & 0x20));
             }
@@ -3656,10 +3666,10 @@ retry63_1_done:
                         temp_r0_102 = ((s32) ((0U - (u32) temp_r0_102) | (u32) temp_r0_102) >> 0x1F) & 0x20;
                         ((union RecordD368 *)temp_r4_27)->w1_b0_n6.value = temp_r0_102;
                         {
-                            u16 lookupResult126;
-                            lookupResult126 = d368_sub_0807A028(1);
+                            u32 lookupResult126; /* full return register; the u16 truncation happens at the store, after the record load */
+                            lookupResult126 = ((u32 (*)(s32))d368_sub_0807A028)(1);
                             var_r3_7 = *var_r5_10;
-                            ((union RecordD368 *)var_r3_7)->w1_b6_n8.value = lookupResult126;
+                            ((union RecordD368 *)var_r3_7)->w1_b6_n8.value = (u16)lookupResult126;
                         }
                         break;
                     }
@@ -3718,22 +3728,19 @@ retry63_1_done:
                             temp_r0_104 = d368_sub_0800CCCC();
                             ((union RecordD368 *)temp_r5_10)->w1_b0_n6.value = ((s32) ((0U - (u32) temp_r0_104) | (u32) temp_r0_104) >> 0x1F) & 0x20;
                             {
-                                u16 lookupResult126;
-                                lookupResult126 = d368_sub_0807A028(1);
+                                u32 lookupResult126; /* full return register; the u16 truncation happens at the store, after the record load */
+                                lookupResult126 = ((u32 (*)(s32))d368_sub_0807A028)(1);
                                 var_r3_7 = ((struct PlayerD368 *)arg0)->f144;
-                                ((union RecordD368 *)var_r3_7)->w1_b6_n8.value = lookupResult126;
+                                ((union RecordD368 *)var_r3_7)->w1_b6_n8.value = (u16)lookupResult126;
                             }
                             break;
                         }
                     } else {
-                        temp_r4_27 = ((struct PlayerD368 *)arg0)->f144;
-                        temp_r0_100 = d368_sub_0800CCCC();
-                        temp_r0_100 = ((s32) ((0U - (u32) temp_r0_100) | (u32) temp_r0_100) >> 0x1F) & 0x20;
-                        ((union RecordD368 *)temp_r4_27)->w1_b0_n6.value = temp_r0_100;
-                        break;
+                        goto state17Case9D368;
                     }
                     break;
                 case 9:                             /* switch 17 */
+state17Case9D368:
                     temp_r4_27 = ((struct PlayerD368 *)arg0)->f144;
                     temp_r0_100 = d368_sub_0800CCCC();
                     temp_r0_100 = ((s32) ((0U - (u32) temp_r0_100) | (u32) temp_r0_100) >> 0x1F) & 0x20;
@@ -3807,10 +3814,10 @@ retry63_1_done:
                         temp_r0_102 = ((s32) ((0U - (u32) temp_r0_102) | (u32) temp_r0_102) >> 0x1F) & 0x20;
                         ((union RecordD368 *)temp_r4_27)->w1_b0_n6.value = temp_r0_102;
                         {
-                            u16 lookupResult126;
-                            lookupResult126 = d368_sub_0807A028(1);
+                            u32 lookupResult126; /* full return register; the u16 truncation happens at the store, after the record load */
+                            lookupResult126 = ((u32 (*)(s32))d368_sub_0807A028)(1);
                             var_r3_7 = *var_r5_10;
-                            ((union RecordD368 *)var_r3_7)->w1_b6_n8.value = lookupResult126;
+                            ((union RecordD368 *)var_r3_7)->w1_b6_n8.value = (u16)lookupResult126;
                         }
                         break;
                     case 2:                         /* switch 18 */
@@ -3826,10 +3833,10 @@ retry63_1_done:
                         temp_r0_102 = ((s32) ((0U - (u32) temp_r0_102) | (u32) temp_r0_102) >> 0x1F) & 0x20;
                         ((union RecordD368 *)temp_r4_27)->w1_b0_n6.value = temp_r0_102;
                         {
-                            u16 lookupResult126;
-                            lookupResult126 = d368_sub_0807A028(1);
+                            u32 lookupResult126; /* full return register; the u16 truncation happens at the store, after the record load */
+                            lookupResult126 = ((u32 (*)(s32))d368_sub_0807A028)(1);
                             var_r3_7 = *var_r5_10;
-                            ((union RecordD368 *)var_r3_7)->w1_b6_n8.value = lookupResult126;
+                            ((union RecordD368 *)var_r3_7)->w1_b6_n8.value = (u16)lookupResult126;
                         }
                         break;
                     case 1:                         /* switch 18 */
@@ -3843,10 +3850,10 @@ retry63_1_done:
                         temp_r0_102 = ((s32) ((0U - (u32) temp_r0_102) | (u32) temp_r0_102) >> 0x1F) & 0x20;
                         ((union RecordD368 *)temp_r4_27)->w1_b0_n6.value = temp_r0_102;
                         {
-                            u16 lookupResult126;
-                            lookupResult126 = d368_sub_0807A028(1);
+                            u32 lookupResult126; /* full return register; the u16 truncation happens at the store, after the record load */
+                            lookupResult126 = ((u32 (*)(s32))d368_sub_0807A028)(1);
                             var_r3_7 = *var_r5_10;
-                            ((union RecordD368 *)var_r3_7)->w1_b6_n8.value = lookupResult126;
+                            ((union RecordD368 *)var_r3_7)->w1_b6_n8.value = (u16)lookupResult126;
                         }
                         break;
                     case 7:                         /* switch 18 */
@@ -3914,10 +3921,10 @@ retry63_1_done:
                 temp_r0_102 = ((s32) ((0U - (u32) temp_r0_102) | (u32) temp_r0_102) >> 0x1F) & 0x20;
                 ((union RecordD368 *)temp_r4_27)->w1_b0_n6.value = temp_r0_102;
                 {
-                    u16 lookupResult126;
-                    lookupResult126 = d368_sub_0807A028(1);
+                    u32 lookupResult126; /* full return register; the u16 truncation happens at the store, after the record load */
+                    lookupResult126 = ((u32 (*)(s32))d368_sub_0807A028)(1);
                     var_r3_7 = *var_r5_10;
-                    ((union RecordD368 *)var_r3_7)->w1_b6_n8.value = lookupResult126;
+                    ((union RecordD368 *)var_r3_7)->w1_b6_n8.value = (u16)lookupResult126;
                 }
                 break;
             case 10:                                /* switch 16 */
