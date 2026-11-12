@@ -561,7 +561,6 @@ void sub_0800D368(void *arg0) {
     s32 temp_r5_12;
     s32 temp_r5_2;
     s32 temp_r5_4;
-    s32 temp_r5_5;
     s32 temp_r8;
     s32 var_ip;
     s32 var_r0_10;
@@ -1615,8 +1614,7 @@ block_197:
                             break;
                         case 5:                     /* switch 3 */
                             if ((((u32) ((s16) var_r6->f0 % 60) << 0x10) == 0) && (d368_sub_0800D1B0() == 0)) {
-                                temp_r5_4 = var_r6->f18;
-                                temp_r5_4 = (temp_r5_4 * 0xA) + 0x64;
+                                temp_r5_4 = (var_r6->f18 * 0xA) + 0x64;
                                 M2C_FIELD(&((struct PlayerD368 *)arg0)->f88, u16 *, 0) = (u16) (M2C_FIELD(&((struct PlayerD368 *)arg0)->f88, u16 *, 0) + ((s32) (temp_r5_4 * var_r6->f6) / 100));
                                 ((struct PlayerD368 *)arg0)->fE0 = 6;
                                 d368_sub_08069224(6, (u16) ((s32) (temp_r5_4 * var_r6->f6) / 100), d368_gUnk_030034E0 + 0x24);
@@ -1628,11 +1626,10 @@ block_197:
                             break;
                         case 6:                     /* switch 3 */
                             if ((((u32) ((s16) var_r6->f0 % 60) << 0x10) == 0) && (d368_sub_0800D1B0() == 0)) {
-                                temp_r5_5 = var_r6->f18; /* ROM loads f18 before the scaling (found by the permuter) */
-                                temp_r5_5 = (temp_r5_5 * 0xA) + 0x64;
-                                M2C_FIELD(&((struct PlayerD368 *)arg0)->f88, u16 *, 0) = (u16) (M2C_FIELD(&((struct PlayerD368 *)arg0)->f88, u16 *, 0) + ((s32) (temp_r5_5 * var_r6->f6) / 100));
+                                temp_r5_4 = (var_r6->f18 * 0xA) + 0x64;
+                                M2C_FIELD(&((struct PlayerD368 *)arg0)->f88, u16 *, 0) = (u16) (M2C_FIELD(&((struct PlayerD368 *)arg0)->f88, u16 *, 0) + ((s32) (temp_r5_4 * var_r6->f6) / 100));
                                 ((struct PlayerD368 *)arg0)->fE0 = 6;
-                                d368_sub_08069224(6, (u16) ((s32) (temp_r5_5 * var_r6->f6) / 100), d368_gUnk_030034E0 + 0x24);
+                                d368_sub_08069224(6, (u16) ((s32) (temp_r5_4 * var_r6->f6) / 100), d368_gUnk_030034E0 + 0x24);
                             }
                             if (var_r6->f0 == 1) {
                                 d368_sub_0805867C(0x73);
