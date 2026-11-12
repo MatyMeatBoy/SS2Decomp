@@ -1,20 +1,16 @@
-Shard 82: sub_0807C29C (code_0807A5D4, ~8660 asm lines, 18396 bytes). Giant inventory/shop menu
-state machine. NONMATCHING draft only (normal build keeps INCLUDE_ASM).
 
-Measure: python3 tools/scripts/casediff.py sub_0807C29C [-v caseN|pre|post]
-  per jump-table case: byte ranges orig/cand, size delta, diff lines, rdiff (registers masked).
-  Jump-table case k = C `case k:` of `switch (gMgr82->state)`. "post" = everything after the
-  main switch (_0807FB38: mode-6 flag count, keys29_03001324 handling, cursor-position switch,
-  cur-pointer switch, fE0/fE4 smoothing, anim[] loop, f34/f3C counters, item-number drawing).
-
-Phase 1 (structure, every block hand-written with typed Mgr82/Inv82/Item82): DONE 2026-11-04.
-No M2C_FIELD / temp_ variables left in the function.
-
-Status 2026-11-04 (nov03-w4), total cand 18112 vs orig 18396 (-284), sum diff 1448 rdiff 593:
-  case  dsize  diff rdiff  note
-  pre       0     3     3   
-  0      -112   601   214   biggest; size swings -52..-136 with unrelated edits (cross-jump/alloc)
-  1        -4    72    21   
+2026-11-12 (claude-fable-w7): sub_0807C29C MATCHED (on top of PR #806).
+  The last 20 instructions were three allocation questions, each with a source-level answer:
+  - Left-key path: `cur = cursor; if (cur % 5) ...; saved = cur; ... cur = cursor; switch (cur)`. The switch
+    value reuses the function-level cur (ROM r5) and the saved cursor is its own variable (ROM r3). One shared
+    `over` temporary for both this and the money path was the wrong merge.
+  - Over-100000 money path: the excess is stored in cur as well (ROM r5); no early manager snapshot.
+  - Belt case 2..5: both branches end in their own `Drop82P(&sp14, gp)`. The r6/r7 in the ROM are reload
+    registers picked by rotation (the unallocated gp is reloaded at each use and inherited across the calls);
+    cross-jumping after reload merges the two tails. A pinned r6 pointer hid that.
+  - Ability path: the slot address is still pinned to r6 (`register struct Mgr82 **q asm("r6")`); global-alloc
+    gives it r5 otherwise. Cleaning this up is optional follow-up.
+4    72    21   
   2         0    13     8   
   3         0     7     7   
   4         0     9     9   
