@@ -83,7 +83,7 @@ def audit(nodes):
     numbered = collections.defaultdict(list)
     for n in game:
         m = re.fullmatch(r"(.*?)(?:Variant)?(\d+)", n["display_name"])
-        if m and not re.search(r"(Bg|Dma|Q|Random|Lz|Palette|Signal|Low|Timer|Channel|Player)$", m[1]):
+        if m and not re.search(r"(Bg|Dma|Q|Random|Lz|Palette|Signal|Low|Timer|Channel|Player|Direction|Stub)$", m[1]):
             numbered[m[1]].append(n)
     section("Numbered siblings", "Several functions share one name and differ only by a number. For a port they "
             "should say what differs (the table that stores them, the scene, the parameter).",
