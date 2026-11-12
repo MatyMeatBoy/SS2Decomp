@@ -72,7 +72,7 @@ def collect(root, modules, profiles=None, evidence=None):
     known = {f['name']: (m, f) for m in modules for f in m['funcs']}
     raw = data_inventory.collect(root)['incbins']
     result = {'schema_version': 1, 'primary_region': 'eu', 'unit': 'bytes', 'regions': {},
-              'limits': 'Code includes literal pools/alignment and excludes the header/startup prelude. Data includes opaque assets/padding. Raw ROM gaps/incbins, linked binaries, drafts and names earn no source credit. Data source coverage is not a measure of understanding.'}
+              'limits': 'Code includes literal pools/alignment and excludes the header/startup prelude. Data includes opaque assets/padding. EU code counts matching C, the original hand-written assembly kept as assembly, and linked toolchain libraries. Raw ROM gaps/incbins, drafts and names earn no source credit. Data source coverage is not a measure of understanding.'}
     for region in ('eu', 'usa', 'jp'):
         profile, item = profiles[region], evidence['regions'][region]
         if (digest(item['rom_sha1'], 40) != profile['sha1']
@@ -92,8 +92,10 @@ def collect(root, modules, profiles=None, evidence=None):
         if region == 'eu':
             if sum(f['size'] for m in modules for f in m['funcs']) != split - start:
                 raise ValueError('EU layout denominator no longer matches the source inventory')
-            done = sum(f['size'] for m in modules if m['kind'] == 'c'
-                       for f in m['funcs'] if f['state'] == 'done')
+            # The original's hand-written assembly is source of this project too: it
+            # is assembled from asm/ and matches. Toolchain libraries (libgcc/libc) are
+            # linked as in the original build. Only INCLUDE_ASM fallbacks and drafts are open.
+            done = sum(f['size'] for m in modules for f in m['funcs'] if f['state'] in ('done', 'asm'))
         else:
             done = 0
             for lo, hi, receipt in code_ranges:
@@ -136,7 +138,7 @@ def format_percent(value):
 
 def render_svg(report):
     parts = ['<svg xmlns="http://www.w3.org/2000/svg" width="760" height="274" viewBox="0 0 760 274" role="img" aria-labelledby="title desc">',
-             '<title id="title">Regional matching C and source data progress</title>',
+             '<title id="title">Regional matching code and source data progress</title>',
              '<desc id="desc">Europe is the main target. Each region has independent code and data source bars. Copied reference bytes do not count.</desc>',
              '<rect width="760" height="274" rx="10" fill="#0d1117"/>',
              '<g font-family="DejaVu Sans,Arial,sans-serif" fill="#e6edf3">',
@@ -145,7 +147,7 @@ def render_svg(report):
         item, y = report['regions'][region], 51 + index * 68
         label = item['name'] + (' · main' if region == report['primary_region'] else '')
         parts.append('<text x="18" y="%d" font-size="12" font-weight="bold">%s</text>' % (y, escape(label)))
-        for key, x, title, color, done_key in [('code', 186, 'Code · matching C', '#3fb950', 'matching'),
+        for key, x, title, color, done_key in [('code', 186, 'Code · matching source', '#3fb950', 'matching'),
                                                ('data', 478, 'Data · from source', '#58a6ff', 'done')]:
             m = item[key]
             description = '%s: %s — %d / %d bytes' % (label, title, m[done_key], m['total'])
@@ -162,13 +164,13 @@ def render_svg(report):
 def render_markdown(report):
     lines = ['# Regional code and data source progress', '',
              'EU remains the main matching target. Its existing game-only main percentage is unchanged.', '',
-             '| Region | Matching C | Code bytes | Data from source | Data bytes |',
+             '| Region | Matching code | Code bytes | Data from source | Data bytes |',
              '| --- | ---: | ---: | ---: | ---: |']
     for region, item in report['regions'].items():
         c, d = item['code'], item['data']
         lines.append('| %s%s | %s | %d / %d | %s | %d / %d |' % (item['name'], ' (main)' if region == 'eu' else '', format_percent(c['percent']), c['matching'], c['total'], format_percent(d['percent']), d['done'], d['total']))
     lines += ['', report['limits'], '',
-              'The EU code denominator covers the full configured code span, including SDK/original ASM and linked code; only matching C enters its numerator. It therefore differs from the main game-only metric.', '',
+              'The EU code denominator covers the full configured code span, including SDK, original hand-written assembly and linked code. Matching C, that original assembly (kept as assembly, as in the original) and the linked toolchain libraries enter its numerator; only functions without matching C stay out. The byte counts differ from the main game-only metric because of the wider span.', '',
               'USA/Japan use frozen exact-build receipts and current active-C status, not the EU percentage. Their reference-ROM reconstruction checksum is an integrity check, not source coverage. A changed data-source hash removes its credit until revalidated.', '',
               'See [regional build/evidence guide](../agents/REGIONS.md) and [metric definitions](../agents/PROGRESS_AND_NAMES.md).', '']
     return '\n'.join(lines)
