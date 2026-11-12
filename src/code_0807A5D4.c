@@ -1124,7 +1124,6 @@ void sub_0807C1D8(void) {
     sub_08065230((u8 *)gUnk_03006440 + 0xA4, 0x88, 0x78, 5, *(u16 *)((u8 *)gUnk_03006440 + 0x4E));
     sub_08065264((u8 *)gUnk_03006440 + 0xA4, 0x68, 0x78, 4, *(u16 *)((u8 *)gUnk_03006440 + 0x4C));
 }
-#ifdef NONMATCHING
 // Hand-written draft (all switch cases + tail); exact size/registers still differ, see shard82.txt.
 extern u32 sub_0805AE34(const u8 *item);
 extern u32 sub_0805AE94(const void *item);
@@ -1167,7 +1166,7 @@ extern struct Player82 gPlayers82[] asm("gUnk_03003CE0");
 /* Second name for the gMgr82 slot: GCC does not merge it with gMgr82, but it still assembles to a gUnk_03006440 relocation like the ROM. */
 extern struct Mgr82 *gMgr82Slot082 asm("gUnk_03006440");
 void sub_0807C29C(void) {
-    u16 keys; u16 down; u32 cur, val, i, n, from, over, have, ok, slot, base, col; s32 d, idx; u8 *text; u16 target, lo, hi;
+    u16 keys; u16 down; u32 cur, val, i, n, from, saved, have, ok, slot, base, col; s32 d, idx; u8 *text; u16 target, lo, hi;
     struct Item82 *item; struct Item82 *held;
     s32 sp4[4];
     vu32 sp14;
@@ -1287,12 +1286,13 @@ void sub_0807C29C(void) {
             }
         } else if (keys29_03001308 & 0x20) {
             sub_0805865C(0x62);
-            if (gMgr82->cursor % 5 != 0) {
-                gMgr82->prev = gMgr82->cursor;
-                gMgr82->cursor--;
+            cur = gMgr82->cursor;
+            if (cur % 5 != 0) {
+                gMgr82->prev = cur;
+                gMgr82->cursor = cur - 1;
                 break;
             }
-            over = gMgr82->cursor; /* function-level temp: ROM copies the cursor into r3 here (adds r3, r5, #0) */
+            saved = cur;
             if (gMgr82->heldFrom != 0x16) {
                 switch (gMgr82->held.kind) {
                 case 1: gMgr82->cursor = 100; break;
@@ -1307,7 +1307,8 @@ void sub_0807C29C(void) {
             }
             if (gMgr82->mode == 5)
                 gMgr82->cursor = 103;
-            switch (gMgr82->cursor) {
+            cur = gMgr82->cursor;
+            switch (cur) {
             case 0:
                 gMgr82->state = 1;
                 gMgr82->cursor = 0;
@@ -1346,7 +1347,7 @@ void sub_0807C29C(void) {
                 gMgr82->prev = 1;
                 break;
             case 103:
-                gMgr82->cursor = over;
+                gMgr82->cursor = saved;
                 break;
             case 104:
                 break;
@@ -1614,14 +1615,14 @@ void sub_0807C29C(void) {
                     break;
                 }
                 if (gMgr82->heldIdx != gMgr82->cursor) {
-                    over = v0 - 100000;
-                    { struct Mgr82 *mgr082 = gMgr82; /* early manager read (found by the permuter): closer allocation in the over-100000 path */
+                    cur = v0 - 100000; /* excess over the 100000 cap; shares the function-level cur (ROM r5) */
+                    {
                     switch (from) {
                     case 0:
-                        gMgr82->held.count = gInv82->items[gMgr82->heldIdx].count - gMgr82->held.count + over;
+                        gMgr82->held.count = gInv82->items[gMgr82->heldIdx].count - gMgr82->held.count + cur;
                         break;
                     case 13:
-                        gMgr82->held.count = mgr082->stock[gMgr82->heldIdx].count - gMgr82->held.count + over;
+                        gMgr82->held.count = gMgr82->stock[gMgr82->heldIdx].count - gMgr82->held.count + cur;
                         break;
                     } }
                     gInv82->items[gMgr82->cursor].count = 100000;
@@ -1637,16 +1638,19 @@ void sub_0807C29C(void) {
                 case 2 ... 5:
                     if (cit->flag == 0)
                         break;
+                    { register struct Mgr82 **q asm("r6"); /* the slot address stays in r6 across the cost query */
                     have = sub_0805B0F0();
-                    if (have < sub_0805B068(gMgr82Slot082->cur)) {
+                    q = &gMgr82Slot082;
+                    if (have < sub_0805B068((*q)->cur)) {
                         sub_0805865C(0x61);
                         break;
                     }
-                    gMgr82Slot082->cur->flag = 0;
-                    abilityManager082 = gMgr82Slot082;
+                    (*q)->cur->flag = 0;
+                    abilityManager082 = *q;
                     abilityManager082->f68 = 6;
                     abilityManager082->f6A = 100;
                     sub_0807C014(sub_0805B068(abilityManager082->cur));
+                    }
                     sub_0805865C(0x18C);
                     break;
                 }
@@ -2745,18 +2749,16 @@ void sub_0807C29C(void) {
                     item = (struct Item82 *)((u8 *)gMgr82 + (gMgr82->cursor + gMgr82->page * 15) * 16 + 0x104);
                     switch (item->kind) {
                     case 2 ... 5: {
-                        register struct Mgr82 **m asm("r6"); /* ROM keeps the gMgr82 address in r6 across BD78/BEA0 into the DROP */
                         if (*((u8 *)gMgr82 + (gMgr82->cursor + gMgr82->page * 15) * 16 + 0x10C) != 0) {
                             *((u8 *)gMgr82 + (gMgr82->cursor + gMgr82->page * 15) * 16 + 0x10C) = 0;
-                            asm("" : "=r"(m) : "0"(&gMgr82));
-                            { struct Mgr82 *g082 = *m; sub_0807BD78(g082->heldFrom, g082->heldIdx); }
+                            sub_0807BD78((*gp)->heldFrom, (*gp)->heldIdx);
+                            Drop82P(&sp14, gp);
                         } else {
                             *(struct Item82 *)sp4 = *item;
                             sub_0807BEA0(13, gMgr82->cursor + gMgr82->page * 15, (void *)held);
-                            asm("" : "=r"(m) : "0"(&gMgr82));
-                            { struct Mgr82 *g082 = *m; sub_0807BEA0(g082->heldFrom, g082->heldIdx, (void *)sp4); }
+                            sub_0807BEA0((*gp)->heldFrom, (*gp)->heldIdx, (void *)sp4);
+                            Drop82P(&sp14, gp);
                         }
-                        Drop82P(&sp14, m);
                         break; }
                     default:
                         *(struct Item82 *)sp4 = gMgr82->stock[gMgr82->cursor + gMgr82->page * 15];
@@ -3766,9 +3768,6 @@ done82:
         }
     }
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_0807A5D4", sub_0807C29C);
-#endif
 // Inventory drawing pass.
 extern void sub_0805FC80(s32 x, s32 y, void *item, s32 mode);
 extern void sub_0805FAC0(s32 x, s32 y, s32 count, s32 mode);
