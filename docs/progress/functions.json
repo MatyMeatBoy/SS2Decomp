@@ -13591,7 +13591,7 @@
       "canonical_symbol": "sub_0801A508",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "InitTextTilemapStateAndCommonTiles",
+      "display_name": "InitializeTextTilemapStateAndCommonTiles",
       "name_status": "confirmed",
       "name_source": "catalog",
       "evidence": [
@@ -13903,7 +13903,7 @@
       "canonical_symbol": "sub_0801A70C",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "InitTextFontResources",
+      "display_name": "InitializeTextFontResources",
       "name_status": "confirmed",
       "name_source": "catalog",
       "evidence": [
@@ -14941,7 +14941,7 @@
       "canonical_symbol": "sub_0801DB94",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "InitActorStatusEffectRecord",
+      "display_name": "InitializeActorStatusEffectRecord",
       "name_status": "confirmed",
       "name_source": "catalog",
       "evidence": [
@@ -20732,7 +20732,7 @@
       "canonical_symbol": "sub_0802FEA0",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "ShowProgressionRewardDialog197",
+      "display_name": "ShowProgressionRewardDialogue197",
       "name_status": "confirmed",
       "name_source": "catalog",
       "evidence": [
@@ -20756,7 +20756,7 @@
       "canonical_symbol": "sub_08030480",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "ShowProgressionDialog210",
+      "display_name": "ShowProgressionDialogue210",
       "name_status": "confirmed",
       "name_source": "catalog",
       "evidence": [
@@ -20804,7 +20804,7 @@
       "canonical_symbol": "sub_08030B28",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "ShowHighestProgressBitDialog",
+      "display_name": "ShowHighestProgressBitDialogue",
       "name_status": "confirmed",
       "name_source": "catalog",
       "evidence": [
@@ -21299,7 +21299,7 @@
       "canonical_symbol": "sub_08032DE4",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "ConsumeItem29ProgressDialog",
+      "display_name": "ConsumeItem29ProgressDialogue",
       "name_status": "confirmed",
       "name_source": "catalog",
       "evidence": [
@@ -21508,7 +21508,7 @@
       "canonical_symbol": "sub_08034900",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "RepeatDialog455Boundary",
+      "display_name": "RepeatDialogue455Boundary",
       "name_status": "confirmed",
       "name_source": "catalog",
       "evidence": [
@@ -21573,7 +21573,7 @@
       "canonical_symbol": "sub_08034F64",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "ShowProgressionDialog456",
+      "display_name": "ShowProgressionDialogue456",
       "name_status": "confirmed",
       "name_source": "catalog",
       "evidence": [
@@ -22030,7 +22030,7 @@
       "canonical_symbol": "sub_080392B4",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "ExchangeProgressionItemDialog",
+      "display_name": "ExchangeProgressionItemDialogue",
       "name_status": "confirmed",
       "name_source": "catalog",
       "evidence": [
@@ -22209,7 +22209,7 @@
       "canonical_symbol": "sub_0803AE6C",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "AskAvailabilityDialog629",
+      "display_name": "AskAvailabilityDialogue629",
       "name_status": "confirmed",
       "name_source": "catalog",
       "evidence": [
@@ -22233,7 +22233,7 @@
       "canonical_symbol": "sub_0803B194",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "ShowProgressionDialog321",
+      "display_name": "ShowProgressionDialogue321",
       "name_status": "confirmed",
       "name_source": "catalog",
       "evidence": [
@@ -22347,7 +22347,7 @@
       "canonical_symbol": "sub_0803C008",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "SpendHundredCurrencyDialog484",
+      "display_name": "SpendHundredCurrencyDialogue484",
       "name_status": "confirmed",
       "name_source": "catalog",
       "evidence": [
@@ -22484,7 +22484,7 @@
       "canonical_symbol": "sub_0803D1F8",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "AskDialog1272Then1273",
+      "display_name": "AskDialogue1272Then1273",
       "name_status": "confirmed",
       "name_source": "catalog",
       "evidence": [
@@ -22580,7 +22580,7 @@
       "canonical_symbol": "sub_0803D99C",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "StageVariantActorDialogScene",
+      "display_name": "StageVariantActorDialogueScene",
       "name_status": "confirmed",
       "name_source": "catalog",
       "evidence": [
@@ -22723,7 +22723,7 @@
       "canonical_symbol": "sub_0803E638",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "StageDialog1147Through1152",
+      "display_name": "StageDialogue1147Through1152",
       "name_status": "confirmed",
       "name_source": "catalog",
       "evidence": [
@@ -22939,7 +22939,7 @@
       "canonical_symbol": "sub_080400D4",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "PanCameraDialog225",
+      "display_name": "PanCameraDialogue225",
       "name_status": "confirmed",
       "name_source": "catalog",
       "evidence": [
@@ -22963,7 +22963,7 @@
       "canonical_symbol": "sub_080402F4",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "PanCameraDialog236",
+      "display_name": "PanCameraDialogue236",
       "name_status": "confirmed",
       "name_source": "catalog",
       "evidence": [
@@ -22987,7 +22987,7 @@
       "canonical_symbol": "sub_08040530",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "PanCameraDialog237",
+      "display_name": "PanCameraDialogue237",
       "name_status": "confirmed",
       "name_source": "catalog",
       "evidence": [
@@ -23035,7 +23035,7 @@
       "canonical_symbol": "sub_08041030",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "StageActorProgressionDialogSequence",
+      "display_name": "StageActorProgressionDialogueSequence",
       "name_status": "confirmed",
       "name_source": "catalog",
       "evidence": [
@@ -23059,7 +23059,7 @@
       "canonical_symbol": "sub_08041B7C",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "ReplaceProgressionActorDialogScene",
+      "display_name": "ReplaceProgressionActorDialogueScene",
       "name_status": "confirmed",
       "name_source": "catalog",
       "evidence": [
@@ -23089,7 +23089,7 @@
       "canonical_symbol": "sub_08041E8C",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "PanCameraDialog256",
+      "display_name": "PanCameraDialogue256",
       "name_status": "confirmed",
       "name_source": "catalog",
       "evidence": [
@@ -23143,7 +23143,7 @@
       "canonical_symbol": "sub_08042390",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "PanCameraDialog259",
+      "display_name": "PanCameraDialogue259",
       "name_status": "confirmed",
       "name_source": "catalog",
       "evidence": [
@@ -23203,7 +23203,7 @@
       "canonical_symbol": "sub_08042938",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "ReplaceActor3ADialog262",
+      "display_name": "ReplaceActor3ADialogue262",
       "name_status": "confirmed",
       "name_source": "catalog",
       "evidence": [
@@ -23227,7 +23227,7 @@
       "canonical_symbol": "sub_08042BB0",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "StagePairedActorDialogScene",
+      "display_name": "StagePairedActorDialogueScene",
       "name_status": "confirmed",
       "name_source": "catalog",
       "evidence": [
@@ -23305,7 +23305,7 @@
       "canonical_symbol": "sub_08043664",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "ChooseDialog519ActorSequence",
+      "display_name": "ChooseDialogue519ActorSequence",
       "name_status": "confirmed",
       "name_source": "catalog",
       "evidence": [
@@ -23785,7 +23785,7 @@
       "canonical_symbol": "sub_080441C0",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "ShowDialog529Or530",
+      "display_name": "ShowDialogue529Or530",
       "name_status": "confirmed",
       "name_source": "catalog",
       "evidence": [
@@ -24001,7 +24001,7 @@
       "canonical_symbol": "sub_08044EB4",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "WatchProgressionDialogChanges",
+      "display_name": "WatchProgressionDialogueChanges",
       "name_status": "confirmed",
       "name_source": "catalog",
       "evidence": [
@@ -24031,7 +24031,7 @@
       "canonical_symbol": "sub_0804534C",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "AskDialog540EmitItem29",
+      "display_name": "AskDialogue540EmitItem29",
       "name_status": "confirmed",
       "name_source": "catalog",
       "evidence": [
@@ -24181,7 +24181,7 @@
       "canonical_symbol": "sub_08045B68",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "StageResourceActorDialogSequence",
+      "display_name": "StageResourceActorDialogueSequence",
       "name_status": "confirmed",
       "name_source": "catalog",
       "evidence": [
@@ -24579,7 +24579,7 @@
       "canonical_symbol": "sub_08048A74",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "RunEnsembleDialogAndMotion",
+      "display_name": "RunEnsembleDialogueAndMotion",
       "name_status": "confirmed",
       "name_source": "catalog",
       "evidence": [
@@ -24639,7 +24639,7 @@
       "canonical_symbol": "sub_08049EBC",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "PanDialog48Or49",
+      "display_name": "PanDialogue48Or49",
       "name_status": "confirmed",
       "name_source": "catalog",
       "evidence": [
@@ -24843,7 +24843,7 @@
       "canonical_symbol": "sub_0804B100",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "InitializeDialog62Actors",
+      "display_name": "InitializeDialogue62Actors",
       "name_status": "confirmed",
       "name_source": "catalog",
       "evidence": [
@@ -24981,7 +24981,7 @@
       "canonical_symbol": "sub_0804BC38",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "StageActorDialogSpatialMonitor",
+      "display_name": "StageActorDialogueSpatialMonitor",
       "name_status": "confirmed",
       "name_source": "catalog",
       "evidence": [
@@ -25011,7 +25011,7 @@
       "canonical_symbol": "sub_0804BEF8",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "AskItem22Dialog69",
+      "display_name": "AskItem22Dialogue69",
       "name_status": "confirmed",
       "name_source": "catalog",
       "evidence": [
@@ -25329,7 +25329,7 @@
       "canonical_symbol": "sub_0804DDBC",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "StageActorCameraDialogScene",
+      "display_name": "StageActorCameraDialogueScene",
       "name_status": "confirmed",
       "name_source": "catalog",
       "evidence": [
@@ -25377,7 +25377,7 @@
       "canonical_symbol": "sub_0804E628",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "AnimateActor6Dialog91",
+      "display_name": "AnimateActor6Dialogue91",
       "name_status": "confirmed",
       "name_source": "catalog",
       "evidence": [
@@ -25556,7 +25556,7 @@
       "canonical_symbol": "sub_0804F128",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "StageActor1Dialog93",
+      "display_name": "StageActor1Dialogue93",
       "name_status": "confirmed",
       "name_source": "catalog",
       "evidence": [
@@ -25735,7 +25735,7 @@
       "canonical_symbol": "sub_0804FF04",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "InitializeDialog104ActorScene",
+      "display_name": "InitializeDialogue104ActorScene",
       "name_status": "confirmed",
       "name_source": "catalog",
       "evidence": [
@@ -25759,7 +25759,7 @@
       "canonical_symbol": "sub_080502DC",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "StageActor13Dialog105",
+      "display_name": "StageActor13Dialogue105",
       "name_status": "confirmed",
       "name_source": "catalog",
       "evidence": [
@@ -25956,7 +25956,7 @@
       "canonical_symbol": "sub_08051A78",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "TriggerDialog142Or143",
+      "display_name": "TriggerDialogue142Or143",
       "name_status": "confirmed",
       "name_source": "catalog",
       "evidence": [
@@ -26058,7 +26058,7 @@
       "canonical_symbol": "sub_08051E98",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "StageActor9Dialog140",
+      "display_name": "StageActor9Dialogue140",
       "name_status": "confirmed",
       "name_source": "catalog",
       "evidence": [
@@ -26184,7 +26184,7 @@
       "canonical_symbol": "sub_080529E0",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "PanDialog150Or156",
+      "display_name": "PanDialogue150Or156",
       "name_status": "confirmed",
       "name_source": "catalog",
       "evidence": [
@@ -26316,7 +26316,7 @@
       "canonical_symbol": "sub_080531C4",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "PanDialog162Or165",
+      "display_name": "PanDialogue162Or165",
       "name_status": "confirmed",
       "name_source": "catalog",
       "evidence": [
@@ -26346,7 +26346,7 @@
       "canonical_symbol": "sub_08053510",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "PanDialog160Or161",
+      "display_name": "PanDialogue160Or161",
       "name_status": "confirmed",
       "name_source": "catalog",
       "evidence": [
@@ -26370,7 +26370,7 @@
       "canonical_symbol": "sub_080537DC",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "PanDialog168Or169",
+      "display_name": "PanDialogue168Or169",
       "name_status": "confirmed",
       "name_source": "catalog",
       "evidence": [
@@ -26532,7 +26532,7 @@
       "canonical_symbol": "sub_08053E3C",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "BindActorsAndProgressionDialog",
+      "display_name": "BindActorsAndProgressionDialogue",
       "name_status": "confirmed",
       "name_source": "catalog",
       "evidence": [
@@ -38515,7 +38515,7 @@
       "canonical_symbol": "sub_08061910",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "ShowShutdownDialogAndReset",
+      "display_name": "ShowShutdownDialogueAndReset",
       "name_status": "confirmed",
       "name_source": "catalog",
       "evidence": [
@@ -38941,7 +38941,7 @@
       "canonical_symbol": "sub_08065158",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "InitSpriteResourceDescriptor",
+      "display_name": "InitializeSpriteResourceDescriptor",
       "name_status": "confirmed",
       "name_source": "catalog",
       "evidence": [
@@ -39155,7 +39155,7 @@
       "canonical_symbol": "sub_080653B8",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "InitSpriteScalePulse",
+      "display_name": "InitializeSpriteScalePulse",
       "name_status": "confirmed",
       "name_source": "catalog",
       "evidence": [
@@ -40078,7 +40078,7 @@
       "canonical_symbol": "sub_08065CA8",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "InitLinkMessageQueuesAndTasks",
+      "display_name": "InitializeLinkMessageQueuesAndTasks",
       "name_status": "confirmed",
       "name_source": "catalog",
       "evidence": [
@@ -46600,7 +46600,7 @@
       "canonical_symbol": "sub_0808381C",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "RunItemMenuMessageDialog",
+      "display_name": "RunItemMenuMessageDialogue",
       "name_status": "confirmed",
       "name_source": "catalog",
       "evidence": [

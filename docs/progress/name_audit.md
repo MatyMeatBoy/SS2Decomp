@@ -34,11 +34,11 @@ Several functions share one name and differ only by a number. For a port they sh
 - `sub_08067AF8` NoOpVariant3 — family `NoOp`, 11 members
 - `sub_08067B4C` NoOpVariant8 — family `NoOp`, 11 members
 - `sub_080688F4` NoOpVariant9 — family `NoOp`, 11 members
-- `sub_080400D4` PanCameraDialog225 — family `PanCameraDialog`, 5 members
-- `sub_080402F4` PanCameraDialog236 — family `PanCameraDialog`, 5 members
-- `sub_08040530` PanCameraDialog237 — family `PanCameraDialog`, 5 members
-- `sub_08041E8C` PanCameraDialog256 — family `PanCameraDialog`, 5 members
-- `sub_08042390` PanCameraDialog259 — family `PanCameraDialog`, 5 members
+- `sub_080400D4` PanCameraDialogue225 — family `PanCameraDialogue`, 5 members
+- `sub_080402F4` PanCameraDialogue236 — family `PanCameraDialogue`, 5 members
+- `sub_08040530` PanCameraDialogue237 — family `PanCameraDialogue`, 5 members
+- `sub_08041E8C` PanCameraDialogue256 — family `PanCameraDialogue`, 5 members
+- `sub_08042390` PanCameraDialogue259 — family `PanCameraDialogue`, 5 members
 - `sub_080526B4` PanConditionalDialogs147 — family `PanConditionalDialogs`, 2 members
 - `sub_08052D0C` PanConditionalDialogs145 — family `PanConditionalDialogs`, 2 members
 - `sub_080684F4` ResetReceivedLinkByte173 — family `ResetReceivedLinkByte`, 2 members
@@ -81,11 +81,11 @@ Several functions share one name and differ only by a number. For a port they sh
 - `sub_080440EC` ShowEventGatedMessage533 — family `ShowEventGatedMessage`, 11 members
 - `sub_08044318` ShowEventGatedMessage534 — family `ShowEventGatedMessage`, 11 members
 - `sub_080443EC` ShowEventGatedMessage221 — family `ShowEventGatedMessage`, 11 members
-- `sub_08030480` ShowProgressionDialog210 — family `ShowProgressionDialog`, 3 members
-- `sub_08034F64` ShowProgressionDialog456 — family `ShowProgressionDialog`, 3 members
-- `sub_0803B194` ShowProgressionDialog321 — family `ShowProgressionDialog`, 3 members
 - `sub_080308B4` ShowProgressionDialogs220 — family `ShowProgressionDialogs`, 2 members
 - `sub_0803B720` ShowProgressionDialogs333 — family `ShowProgressionDialogs`, 2 members
+- `sub_08030480` ShowProgressionDialogue210 — family `ShowProgressionDialogue`, 3 members
+- `sub_08034F64` ShowProgressionDialogue456 — family `ShowProgressionDialogue`, 3 members
+- `sub_0803B194` ShowProgressionDialogue321 — family `ShowProgressionDialogue`, 3 members
 - `sub_08020E08` TaskAnimateActorEffect8 — family `TaskAnimateActorEffect`, 3 members
 - `sub_0802133C` TaskAnimateActorEffect34 — family `TaskAnimateActorEffect`, 3 members
 - `sub_08021490` TaskAnimateActorEffect11 — family `TaskAnimateActorEffect`, 3 members
@@ -161,63 +161,11 @@ More than 44 characters or 8 words: usually two behaviours joined by And/With/Or
 - `sub_080948E0` TaskScrollBg0Bg1AndPulseBlend — 29 chars
 - `sub_08094DEC` TaskSineScrollBg0Bg1AndPulseBlend — 33 chars
 
-## Vocabulary (53)
+## Vocabulary (1)
 
 One concept, one word.
 
-- `sub_0802FEA0` ShowProgressionRewardDialog197 — use `ShowProgressionRewardDialogue197`
-- `sub_08030480` ShowProgressionDialog210 — use `ShowProgressionDialogue210`
-- `sub_08030B28` ShowHighestProgressBitDialog — use `ShowHighestProgressBitDialogue`
-- `sub_08032DE4` ConsumeItem29ProgressDialog — use `ConsumeItem29ProgressDialogue`
-- `sub_08034900` RepeatDialog455Boundary — use `RepeatDialogue455Boundary`
-- `sub_08034F64` ShowProgressionDialog456 — use `ShowProgressionDialogue456`
-- `sub_080392B4` ExchangeProgressionItemDialog — use `ExchangeProgressionItemDialogue`
-- `sub_0803AE6C` AskAvailabilityDialog629 — use `AskAvailabilityDialogue629`
-- `sub_0803B194` ShowProgressionDialog321 — use `ShowProgressionDialogue321`
-- `sub_0803C008` SpendHundredCurrencyDialog484 — use `SpendHundredCurrencyDialogue484`
-- `sub_0803D1F8` AskDialog1272Then1273 — use `AskDialogue1272Then1273`
-- `sub_0803D99C` StageVariantActorDialogScene — use `StageVariantActorDialogueScene`
-- `sub_0803E638` StageDialog1147Through1152 — use `StageDialogue1147Through1152`
-- `sub_080400D4` PanCameraDialog225 — use `PanCameraDialogue225`
-- `sub_080402F4` PanCameraDialog236 — use `PanCameraDialogue236`
-- `sub_08040530` PanCameraDialog237 — use `PanCameraDialogue237`
-- `sub_08041030` StageActorProgressionDialogSequence — use `StageActorProgressionDialogueSequence`
-- `sub_08041B7C` ReplaceProgressionActorDialogScene — use `ReplaceProgressionActorDialogueScene`
-- `sub_08041E8C` PanCameraDialog256 — use `PanCameraDialogue256`
-- `sub_08042390` PanCameraDialog259 — use `PanCameraDialogue259`
-- `sub_08042938` ReplaceActor3ADialog262 — use `ReplaceActor3ADialogue262`
-- `sub_08042BB0` StagePairedActorDialogScene — use `StagePairedActorDialogueScene`
-- `sub_08043664` ChooseDialog519ActorSequence — use `ChooseDialogue519ActorSequence`
-- `sub_080441C0` ShowDialog529Or530 — use `ShowDialogue529Or530`
-- `sub_08044EB4` WatchProgressionDialogChanges — use `WatchProgressionDialogueChanges`
-- `sub_0804534C` AskDialog540EmitItem29 — use `AskDialogue540EmitItem29`
-- `sub_08045B68` StageResourceActorDialogSequence — use `StageResourceActorDialogueSequence`
-- `sub_08048A74` RunEnsembleDialogAndMotion — use `RunEnsembleDialogueAndMotion`
-- `sub_08049EBC` PanDialog48Or49 — use `PanDialogue48Or49`
-- `sub_0804B100` InitializeDialog62Actors — use `InitializeDialogue62Actors`
-- `sub_0804BC38` StageActorDialogSpatialMonitor — use `StageActorDialogueSpatialMonitor`
-- `sub_0804BEF8` AskItem22Dialog69 — use `AskItem22Dialogue69`
-- `sub_0804DDBC` StageActorCameraDialogScene — use `StageActorCameraDialogueScene`
-- `sub_0804E628` AnimateActor6Dialog91 — use `AnimateActor6Dialogue91`
-- `sub_0804F128` StageActor1Dialog93 — use `StageActor1Dialogue93`
-- `sub_0804FF04` InitializeDialog104ActorScene — use `InitializeDialogue104ActorScene`
-- `sub_080502DC` StageActor13Dialog105 — use `StageActor13Dialogue105`
-- `sub_08051A78` TriggerDialog142Or143 — use `TriggerDialogue142Or143`
-- `sub_08051E98` StageActor9Dialog140 — use `StageActor9Dialogue140`
-- `sub_080529E0` PanDialog150Or156 — use `PanDialogue150Or156`
-- `sub_080531C4` PanDialog162Or165 — use `PanDialogue162Or165`
-- `sub_08053510` PanDialog160Or161 — use `PanDialogue160Or161`
-- `sub_080537DC` PanDialog168Or169 — use `PanDialogue168Or169`
-- `sub_08053E3C` BindActorsAndProgressionDialog — use `BindActorsAndProgressionDialogue`
-- `sub_08061910` ShowShutdownDialogAndReset — use `ShowShutdownDialogueAndReset`
-- `sub_0808381C` RunItemMenuMessageDialog — use `RunItemMenuMessageDialogue`
 - `sub_0800170C` MultiSioInit — use `MultiSioInitialize`
-- `sub_0801A508` InitTextTilemapStateAndCommonTiles — use `InitializeTextTilemapStateAndCommonTiles`
-- `sub_0801A70C` InitTextFontResources — use `InitializeTextFontResources`
-- `sub_0801DB94` InitActorStatusEffectRecord — use `InitializeActorStatusEffectRecord`
-- `sub_08065158` InitSpriteResourceDescriptor — use `InitializeSpriteResourceDescriptor`
-- `sub_080653B8` InitSpriteScalePulse — use `InitializeSpriteScalePulse`
-- `sub_08065CA8` InitLinkMessageQueuesAndTasks — use `InitializeLinkMessageQueuesAndTasks`
 
 ## Functions per system
 
