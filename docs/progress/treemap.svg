@@ -2335,6 +2335,6 @@
 <text x="994" y="543" fill="#e6edf3" font-size="11" text-anchor="end">All code matching: 100.00% of 758984 bytes, 2033/2033 functions (C, linked, original assembly)</text>
 </svg>
 <text x="12" y="674" fill="#e6edf3" font-size="11">Area = code bytes. Partial yellow fill = recorded milestones, not matching percentage or remaining time.</text>
-<text x="12" y="692" fill="#e6edf3" font-size="11">Data: 10868 incbin blocks (15.2 MiB), 10500 / 11342 descriptive labels; understanding: no percentage.</text>
+<text x="12" y="692" fill="#e6edf3" font-size="11">Data: 10633 incbin blocks (14.9 MiB), 10500 / 11343 descriptive labels; understanding: no percentage.</text>
 <text x="12" y="710" fill="#e6edf3" font-size="11">Graph: 2035 functions, 10951 edges, 1223 unresolved calls. Source-derived; not a complete runtime graph.</text>
 </svg>

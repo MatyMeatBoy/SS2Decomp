@@ -105,11 +105,11 @@
   }
  },
  "data": {
-  "incbin_count": 10868,
-  "incbin_bytes": 15965412,
-  "labels_total": 11342,
+  "incbin_count": 10633,
+  "incbin_bytes": 15651896,
+  "labels_total": 11343,
   "labels_descriptive": 10500,
-  "explicit_data_directives": 12260,
+  "explicit_data_directives": 24836,
   "padding_directives": 0,
   "limitations": "Raw incbin ranges include padding and opaque bytes. Descriptive labels and explicit directives do not prove decoded or understood data; no decoding percentage is reported."
  },
@@ -245,24 +245,24 @@
  "data_progress": {
   "bytes_total": 16017660,
   "split": {
-   "bytes": 15549304,
-   "percent": 97.07600236239252,
-   "objects": 11342,
-   "objects_expected": 12212,
-   "percent_objects": 92.87585981002293,
-   "blobs": 54,
-   "blob_bytes": 468356,
-   "pending_targets": 870
+   "bytes": 15663356,
+   "percent": 97.78804144925039,
+   "objects": 11343,
+   "objects_expected": 11840,
+   "percent_objects": 95.80236486486487,
+   "blobs": 35,
+   "blob_bytes": 354304,
+   "pending_targets": 497
   },
   "typed": {
-   "bytes": 14688797,
-   "percent": 91.70376322134445,
-   "raw_incbin_bytes": 1328863
+   "bytes": 15486933,
+   "percent": 96.68661340045924,
+   "raw_incbin_bytes": 530727
   },
   "named": {
    "objects": 11,
-   "objects_expected": 12212,
-   "percent_objects": 0.09007533573534228
+   "objects_expected": 11840,
+   "percent_objects": 0.0929054054054054
   }
  }
 }
