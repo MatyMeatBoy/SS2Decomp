@@ -35,7 +35,7 @@ class ProgressGraphicTests(unittest.TestCase):
         modules[0]['funcs'][0].update(display_name='TaskWaitForSignal', name_status='confirmed')
         svg = progress.treemap_svg(modules, summary)
         ET.fromstring(svg)
-        for text in ('Matching C', 'Linked libraries', 'Identification', 'Historical C + linked',
+        for text in ('Matching C', 'Linked libraries', 'Identification', 'All code',
                      'TaskWaitForSignal', 'sub_08000618', 'Data:', 'no percentage', 'Graph:'):
             self.assertIn(text, svg)
         self.assertNotIn('100.00% data', svg)

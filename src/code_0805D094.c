@@ -55,7 +55,7 @@ s32 sub_0805D1E0(void) {
 }
 u32 sub_0805D210(void *state) {
     u8 *resource;
-    register s32 offset asm("r1");
+    s32 offset;
     register struct Player61 *player asm("r1");
     if(state!=0 && *(u16 *)state==4 && M2C_FIELD(state,u8 *,8)==0) {
         resource=(u8 *)sub_08007290(M2C_FIELD(state,u16 *,2)|0xD0000);
@@ -63,7 +63,7 @@ u32 sub_0805D210(void *state) {
             offset=sizeof(struct Player61)*sub_080020F4();
             asm volatile("" : "+r" (offset));
             player=(void *)((u8 *)gParty61+offset);
-            asm volatile("" : "+r" (player));
+            
             if(resource[0xA0]<=player->limit) return 1;
         }
     }
@@ -71,7 +71,7 @@ u32 sub_0805D210(void *state) {
 }
 u32 sub_0805D278(void *state) {
     u8 *resource;
-    register s32 offset asm("r1");
+    s32 offset;
     register struct Player61 *player asm("r1");
     if(state!=0 && *(u16 *)state==3 && M2C_FIELD(state,u8 *,8)==0) {
         resource=(u8 *)sub_08007290(M2C_FIELD(state,u16 *,2)|0xC0000);
@@ -79,7 +79,7 @@ u32 sub_0805D278(void *state) {
             offset=sizeof(struct Player61)*sub_080020F4();
             asm volatile("" : "+r" (offset));
             player=(void *)((u8 *)gParty61+offset);
-            asm volatile("" : "+r" (player));
+            
             if(resource[0xA0]<=player->limit) return 1;
         }
     }
@@ -289,7 +289,7 @@ void sub_0805D580(u32 index)
   }
 }
 u32 sub_0805D5A0(void) {
-    register u32 total asm("r3")=0;
+    u32 total=0;
     u32 j;
     u32 i;
     u32 result;
@@ -298,11 +298,11 @@ u32 sub_0805D5A0(void) {
         if(*(u16 *)entry==10) total+=*(u32 *)(entry+4);
     result=total>>1;
     for(i=0;i<=24;i++) {
-        register u8 *base asm("r0")=(u8 *)gUnk_030034E0;
+        u8 *base=(u8 *)gUnk_030034E0;
         register u32 offset asm("r1")=i*16;
-        asm volatile("" : "+r" (base), "+r" (offset));
+        
         base+=offset;
-        asm volatile("" : "+r" (base) : "r" (offset));
+        
         if(*(u16 *)(base+0x150)==10) sub_0805D580(i);
     }
     return result;
@@ -324,7 +324,7 @@ s32 sub_0805D5F4(s32 start) {
     return bestIndex;
 }
 s32 sub_0805D650(s32 arg0) {
-    register s32 temp_r0 asm("r0");
+    s32 temp_r0;
     s32 temp_r0_2;
     s32 var_r2;
     s32 var_r4;
@@ -339,11 +339,11 @@ s32 sub_0805D650(s32 arg0) {
     var_r5 = -1;
     var_r2 = var_r4;
     temp_r0 = M2C_FIELD((void *)gUnk_030034E0,u16 *,0x6A) * 0xF;
-    asm volatile("" : "+r" (temp_r0));
+    
     if (var_r4 < temp_r0) {
-        register s32 excluded asm("r6")=100000;
+        s32 excluded=100000;
         s32 limit;
-        asm volatile("" : "+r" (excluded));
+        
         limit=temp_r0;
         do {
             if (M2C_FIELD(var_r3,u16 *,0) == 0xA) {
@@ -380,41 +380,41 @@ void sub_0805D6B8(u16 a,u16 b) {
     }
 }
 s32 sub_0805D720(u8 arg0, u8 arg1, u32 arg2, u32 arg3) {
-    register u32 center asm("r2");
+    u32 center;
     register u32 half asm("r1");
-    register u32 copy asm("r3");
+    u32 copy;
     register u32 mask asm("r5");
-    register u32 value asm("r0");
+    u32 value;
     u32 temp_r1;
     u32 temp_r1_2;
     u8 temp_r3;
-    register u32 temp_r5 asm("r5");
+    u32 temp_r5;
     u32 temp_r6;
     register s32 var_r0 asm("r0");
     u32 var_r0_2;
     u32 var_r0_3;
-    register u32 var_r1 asm("r1");
-    register u32 flags asm("r2");
+    u32 var_r1;
+    u32 flags;
     register u32 one asm("r3");
     void *temp_r0;
     void *temp_r4;
 
     temp_r5=(u8)arg2;
-    asm volatile("" : "+r" (temp_r5));
+    
     temp_r6=(u8)arg3;
     var_r1=0;
     flags=gUnk_03005D70;
     one=1;
-    asm volatile("" : "+r" (var_r1), "+r" (flags), "+r" (one));
+    
     do {
         if(((s32)flags>>var_r1 & one)==0) { var_r0=var_r1; goto found; }
         var_r0=var_r1+1;
-        asm volatile("" : "+r" (var_r0));
+        
         var_r1=(u8)var_r0;
     } while(var_r1<=3);
     var_r0=255;
 found:
-    asm volatile("" : "+r" (var_r0));
+    
     temp_r3 = var_r0;
     if (temp_r3 == 0xFF) {
         return 0;
@@ -425,7 +425,7 @@ found:
     asm volatile("" : "+r" (value));
     M2C_FIELD(temp_r4,u16 *,0x28)=arg0-(-value);
     value=(temp_r6>>1)+1;
-    asm volatile("" : "+r" (value));
+    
     M2C_FIELD(temp_r4,u16 *,0x2A)=value+arg1;
     if (temp_r5 != 0) {
         var_r0_2 = 0x1C;
@@ -446,26 +446,26 @@ found:
     }
     M2C_FIELD(temp_r4, u16 *, 0x2e) = (u16) var_r0_3;
     center=M2C_FIELD(temp_r4,u16 *,0x28);
-    asm volatile("" : "+r" (center));
+    
     value=M2C_FIELD(temp_r4,u16 *,0x2C);
-    asm volatile("" : "+r" (value));
+    
     half=value>>1;
     copy=half;
-    asm volatile("" : "+r" (copy));
+    
     value=center+copy;
     if((s32)value>30) M2C_FIELD(temp_r4,u16 *,0x28)=30-half;
     center=M2C_FIELD(temp_r4,u16 *,0x28);
     value=center-copy;
     mask=128;
-    asm volatile("" : "+r" (mask));
+    
     if(value&mask) M2C_FIELD(temp_r4,u16 *,0x28)=half;
     center=M2C_FIELD(temp_r4,u16 *,0x2A);
-    asm volatile("" : "+r" (center));
+    
     value=M2C_FIELD(temp_r4,u16 *,0x2E);
-    asm volatile("" : "+r" (value));
+    
     half=value>>1;
     copy=half;
-    asm volatile("" : "+r" (copy));
+    
     value=center+copy;
     if((s32)value>20) M2C_FIELD(temp_r4,u16 *,0x2A)=30-half;
     center=M2C_FIELD(temp_r4,u16 *,0x2A);
@@ -705,7 +705,7 @@ void sub_0805DC1C(u32 xArg, u32 yArg, u32 widthArg, u32 heightArg)
 void sub_0805DE98(void) {
     s32 temp_r4;
     s32 var_r6;
-    register u32 var_r5 asm("r5");
+    u32 var_r5;
     u32 var_r5_2;
     register u8 *flags asm("r7");
     register u32 one asm("r8");
@@ -714,7 +714,7 @@ void sub_0805DE98(void) {
     do {
         if (((s32) gUnk_03005D70 >> var_r5) & 1) {
             register s32 *pool asm("r6")=&gUnk_03005D64;
-            asm volatile("" : "+r" (pool));
+            
             temp_r4 = 0x34 * var_r5;
             if (sub_08000470(*pool + temp_r4) != 0) {
                 sub_080003A8(*pool + temp_r4);
@@ -726,7 +726,7 @@ void sub_0805DE98(void) {
     var_r5_2 = 0;
     flags=&gUnk_03005D6C;
     one=1;
-    asm volatile("" : "+r" (one) : "r" (flags));
+    
     var_r6 = 0;
     do {
         if (((s32)gUnk_03005D6C >> var_r5_2) & one) {
@@ -742,40 +742,40 @@ void sub_0805DE98(void) {
 
 u32 sub_0805DF38(u32 unused0,u32 unused1,u32 unused2,u32 unused3,s32 duration,u32 resource)
 {
-    register u32 index asm("r2");
-    register u32 counter asm("r1");
-    register u32 flags asm("r2");
-    register u32 bit asm("r3");
+    u32 index;
+    u32 counter;
+    u32 flags;
+    u32 bit;
     register s32 found asm("r0");
-    register u32 zero asm("r4");
-    register u32 one asm("r5");
-    register u8 *task asm("r6");
+    u32 zero;
+    u32 one;
+    u8 *task;
     void *memory;
-    register u16 *cursor asm("r0");
-    register u8 *address asm("r0");
-    register u32 offset asm("r0");
-    register u8 *base asm("r1");
-    register s32 *basePtr asm("r1");
+    u16 *cursor;
+    u8 *address;
+    u32 offset;
+    u8 *base;
+    s32 *basePtr;
     counter=0;
     flags=gUnk_03005D6C;
     bit=1;
-    asm volatile("" : "+r" (counter), "+r" (flags), "+r" (bit));
+    
     do {
         if(((s32)flags>>counter & bit)==0) { found=counter; goto slot_found; }
         found=counter+1;
-        asm volatile("" : "+r" (found));
+        
         counter=(u8)found;
     } while(counter<=3);
     found=255;
 slot_found:
-    asm volatile("" : "+r" (found));
+    
     index=(u8)found;
     if(index==255) return 0;
     basePtr=&gUnk_03005D68;
-    asm volatile("" : "+r" (basePtr));
+    
     offset=index*0x88;
     base=(u8 *)*basePtr;
-    asm volatile("" : "+r" (offset), "+r" (base));
+    
     task=base+offset;
     task[0x70]=index;
     M2C_FIELD(task,u32 *,0x28)=sub_0805D720(0,14,27,3);
@@ -790,10 +790,10 @@ slot_found:
     } else if(duration>0) duration=140;
     if(M2C_FIELD(task,u32 *,0x28)==0) return 0;
     address=task+0x69;
-    asm volatile("" : "+r" (address));
+    
     zero=0;
     one=1;
-    asm volatile("" : "+r" (zero), "+r" (one));
+    
     *address=one;
     task[0x6A]=15;
     task[0x68]=2;
@@ -810,7 +810,7 @@ slot_found:
     *cursor++=zero;
     *cursor++=zero;
     *cursor++=zero;
-    asm volatile("" : "+r" (cursor));
+    
     *cursor=zero;
     M2C_FIELD(task,u32 *,0x64)=zero;
     M2C_FIELD(task,void (**)(void),0xC)=sub_0805E0C4;
@@ -1465,9 +1465,9 @@ done:
 }
 s32 sub_0805EE6C(void *arg0) {
     s32 var_r0;
-    register s32 var_r3 asm("r3");
-    register u32 temp_r2 asm("r2");
-    register void *temp_r1 asm("r1");
+    s32 var_r3;
+    u32 temp_r2;
+    void *temp_r1;
 
     if (arg0 != NULL) {
         temp_r1 = M2C_FIELD(arg0,void **,0x28);
@@ -1477,11 +1477,11 @@ s32 sub_0805EE6C(void *arg0) {
             var_r3 = 1;
         }
         if (var_r3 != 0) {
-            register void *saved asm("r3")=temp_r1;
-            asm volatile("" : "+r" (saved));
+            void *saved=temp_r1;
+            
             if ((((s32) gUnk_03005D70 >> M2C_FIELD(temp_r1,u8 *,0x31)) & 1) && ((temp_r2 == 1) || (temp_r2 == 3) || (temp_r2 == 4) || (temp_r2 == 2))) {
                 register u8 *writePtr asm("r1")=saved;
-                asm volatile("" : "+r" (writePtr));
+                
                 writePtr+=0x30;
                 *writePtr=4;
                 sub_0805865C(0xDD);
@@ -1537,16 +1537,16 @@ u32 sub_0805EF14(u8 *arg0)
 void sub_0805EF2C(void) {
     s32 temp_r4;
     s32 var_r6;
-    register u32 var_r5 asm("r5");
+    u32 var_r5;
     u32 var_r5_2;
-    register u8 *flags asm("r7");
-    register u32 one asm("r8");
+    u8 *flags;
+    u32 one;
 
     var_r5 = 0;
     do {
         if (((s32) gUnk_03005D70 >> var_r5) & 1) {
             register s32 *pool asm("r6")=&gUnk_03005D64;
-            asm volatile("" : "+r" (pool));
+            
             temp_r4 = 0x34 * var_r5;
             if (sub_08000470(*pool + temp_r4) != 0) {
                 sub_080003A8(*pool + temp_r4);
@@ -1594,10 +1594,10 @@ void sub_0805F020(void)
     void *src = sub_08007290((u8 *)(uintptr_t)gUnk_03003470 + 0x10010003);
     CpuFastSet(src, (void *)0x06008000, 0x1000);
     {
-        register u8 *palette asm("r1")=sub_08007290((void *)0x70003);
-        asm volatile("" : "+r" (palette));
+        u8 *palette=sub_08007290((void *)0x70003);
+        
         palette+=0x1E0;
-        asm volatile("" : "+r" (palette));
+        
         sub_08000AF0(15,palette,1);
     }
     gUnk_03005D64 = sub_08001494(0xD0);

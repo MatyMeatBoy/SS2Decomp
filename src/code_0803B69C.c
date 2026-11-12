@@ -29,8 +29,8 @@ void sub_0803B720(s32 arg0) {
     u8 *p;
     u32 flags;
     u32 msg;
-    register u32 off asm("r1");
-    register u8 *base asm("r0");
+    u32 off;
+    u8 *base;
     register s32 raw asm("r0");
     s32 shifted;
     register u32 one asm("r0");
@@ -151,48 +151,48 @@ extern void sub_0805990C(void);
 struct T39BC3CItem {u16 id,kind;u8 data[12];};
 struct T39BC3CSlot {u32 id;u8 pad[0x3E];u16 state;u8 rest[0x2C];};
 static inline struct T39BC3CSlot *t39_bc3c_find(u32 id) {
- register u32 off asm("r3");struct T39BC3CSlot *p;u32 i;register u8 *base asm("r0")=(u8 *)gUnk_03005CF4;asm("" : "+r"(base));off=0x7A4;p=(struct T39BC3CSlot *)(base+off);
+ u32 off;struct T39BC3CSlot *p;u32 i;u8 *base=(u8 *)gUnk_03005CF4;off=0x7A4;p=(struct T39BC3CSlot *)(base+off);
  for(i=0;i<=14;i++,p++) if(p->id==id) return p;
  sub_080003F0();return 0;
 }
-static inline u32 t39_bc3c_id(u8 *p) {register u32 v asm("r0")=*(u16 *)p;asm("" : "+r"(v));return v;}
-static inline void t39_bc3c_init(struct T39BC3CItem *p,u32 id,u32 kind) {register u32 a asm("r1")=id;register u32 b asm("r2")=kind;register struct T39BC3CItem *out asm("r0");asm("" : "+r"(a),"+r"(b));out=p;out->id=a;out->kind=b;}
-static inline void t39_bc3c_clear(u8 *p) {register u32 i asm("r4")=0;register u8 *out asm("r1")=p;asm("" : "+r"(i),"+r"(out));do {out[i]=0;i++;}while(i<=11);}
+static inline u32 t39_bc3c_id(u8 *p) {u32 v=*(u16 *)p;return v;}
+static inline void t39_bc3c_init(struct T39BC3CItem *p,u32 id,u32 kind) {register u32 a asm("r1")=id;u32 b=kind;struct T39BC3CItem *out;asm("" : "+r"(a),"+r"(b));out=p;out->id=a;out->kind=b;}
+static inline void t39_bc3c_clear(u8 *p) {register u32 i asm("r4")=0;register u8 *out asm("r1")=p;do {out[i]=0;i++;}while(i<=11);}
 static inline u32 t39_bc3c_one(void) {return 1;}
 
 void sub_0803BC3C(u32 arg0) {
  struct T39BC3CItem req;
  u8 unused[16];
  register u32 one asm("r4");
- register u8 *selected asm("r0");
- register u32 firstOff asm("r4");
+ u8 *selected;
+ u32 firstOff;
  register u8 *dat asm("r6");
  struct T39BC3CItem *item;
  struct T39BC3CSlot *slot;
- register s32 total asm("r3");
- register s32 left asm("r4");
- register u32 scan asm("r3");
+ s32 total;
+ s32 left;
+ u32 scan;
  register u32 zero asm("r5");
  u8 **items;
- register u8 *base0 asm("r0");
+ u8 *base0;
  register u8 *base1 asm("r1");
- register u8 **entityGlobal asm("r1");
+ u8 **entityGlobal;
  register u32 mul asm("r1");
  register u32 entityOffset asm("r0");
- register u8 *entryId asm("r2");
- register u32 fieldOff asm("r0");
+ u8 *entryId;
+ u32 fieldOff;
  u32 i,j,msg;
- register u32 idx asm("r2");
+ u32 idx;
  u8 *p,*base;
- register u8 *player asm("r1");
- register u32 flags asm("r0");
- register u32 id asm("r2");
- register u32 mode asm("r4");
+ u8 *player;
+ u32 flags;
+ u32 id;
+ u32 mode;
  register u32 offset asm("r2");
  mul=0x14C*sub_080020F4();player=(u8 *)gUnk_03003CE0+mul;flags=*(u32 *)(player+0x30);one=1;*(u32 *)(player+0x30)=flags|one;
  sub_0800D0F4();sub_0802949C(arg0,0);
  if(sub_0800CE30()) selected=(u8 *)gUnk_03005CF4+0x1C4;
- else {register u32 off asm("r3");selected=(u8 *)gUnk_03005CF4;off=0x1B8;asm("" : "+r"(off));selected+=off;}
+ else {register u32 off asm("r3");selected=(u8 *)gUnk_03005CF4;off=0x1B8;selected+=off;}
  if(!(*selected&one)) {
   while(sub_0805F184()) sub_080003F0();
 while(sub_0805EF90()) sub_080003F0();
@@ -201,9 +201,9 @@ while(!sub_0805EEFC((void *)msg)) {if(sub_0800CDF8()) {sub_0805EFBC();break;} su
   total=0;idx=0;item=(struct T39BC3CItem *)((u8 *)gUnk_030034E0+0x150);
   do {if(t39_bc3c_id((u8 *)item)==1&&item->kind==0x30) total++;item++;idx++;} while(idx<=24);
   if(total>0 && sub_080020F4()==0) {
-   id=arg0;mode=3;asm("" : "+r"(id),"+r"(mode));if(id>0x100000) {slot=t39_bc3c_find(id);if(slot)slot->state=mode;}
-   else if(arg0) {id=arg0-1;if(id<=4){entityGlobal=(u8 **)&gUnk_030056F4;asm("" : "+r"(entityGlobal));entityOffset=id*0x2E0;base1=*entityGlobal+entityOffset;sub_08019EB8(*(u16 *)(base1+2),3);}}
-   else {entityOffset=sub_080020F4()*0x14C;asm("" : "+r"(entityOffset));base0=(u8 *)gUnk_03003CE0+entityOffset;mul=0x11E;*(u16 *)(base0+mul)=mode;}
+   id=arg0;mode=3;if(id>0x100000) {slot=t39_bc3c_find(id);if(slot)slot->state=mode;}
+   else if(arg0) {id=arg0-1;if(id<=4){entityGlobal=(u8 **)&gUnk_030056F4;entityOffset=id*0x2E0;base1=*entityGlobal+entityOffset;sub_08019EB8(*(u16 *)(base1+2),3);}}
+   else {entityOffset=sub_080020F4()*0x14C;base0=(u8 *)gUnk_03003CE0+entityOffset;mul=0x11E;*(u16 *)(base0+mul)=mode;}
    dat=req.data;while(sub_0805F184()) sub_080003F0();
 while(sub_0805EF90()) sub_080003F0();
 msg=sub_0805DF38(1,15,2,0,-1,0x14028C);
@@ -211,7 +211,7 @@ while(!sub_0805EEFC((void *)msg)) {if(sub_0800CDF8()) {sub_0805EFBC();break;} su
    left=1;scan=0;items=(u8 **)&gUnk_030034E0;zero=0;
 again:
     base0=*items;base1=base0+scan*16;
-    fieldOff=0x150;asm("" : "+r"(fieldOff));entryId=base1+fieldOff;if(t39_bc3c_id(entryId)==1 && (fieldOff=0x152,base1+=fieldOff,*(u16 *)base1)==0x30) {
+    fieldOff=0x150;entryId=base1+fieldOff;if(t39_bc3c_id(entryId)==1 && (fieldOff=0x152,base1+=fieldOff,*(u16 *)base1)==0x30) {
       left--;*(u16 *)entryId=zero;*(u16 *)base1=zero;if(!left)goto done;
     }
     scan++;if(scan<=24)goto again;
@@ -247,16 +247,16 @@ void sub_0803C008(void) {
     register u32 offset asm("r2");
     u8 *p,*q;
     register u8 *base asm("r0");
-    register u32 off asm("r1");
-    register u8 **gp asm("r4");
-    register u8 **gpLoad asm("r1");
+    u32 off;
+    u8 **gp;
+    u8 **gpLoad;
     register u32 firstOff asm("r4");
     register s32 count asm("r0");
     u32 msg,one;
     register u32 choice asm("r4");
     register s32 total asm("r3");
     register s32 n asm("r1");
-    register struct T39C008Item *item asm("r2");
+    struct T39C008Item *item;
     offset=sub_080020F4();offset*=0x14C;
     p=(u8 *)gUnk_03003CE0+offset;
     *(u32 *)(p+0x30)|=1;
@@ -277,10 +277,10 @@ while(!sub_0805EEFC((void *)msg)) sub_080003F0(); } while(sub_0805EF14((u8 *)msg
 msg=sub_0805DF38(1,15,2,0,-2,0x1401E4);
 while(!sub_0805EEFC((void *)msg)) sub_080003F0();
             if(sub_0805EF14((u8 *)msg)==1) {
-                total=0;gpLoad=(u8 **)&gUnk_030034E0;base=*gpLoad;firstOff=0x150;asm("" : "+r"(firstOff));item=(struct T39C008Item *)(base+firstOff);gp=gpLoad;asm("" : "+r"(gp));n=24;
+                total=0;gpLoad=(u8 **)&gUnk_030034E0;base=*gpLoad;firstOff=0x150;asm("" : "+r"(firstOff));item=(struct T39C008Item *)(base+firstOff);gp=gpLoad;n=24;
                 do {if(item->id==10) total+=item->count; n--;item++;} while(n>=0);
                 base=*gp;item=(struct T39C008Item *)(base+0x2E0);
-                count=15 * *(u16 *)(base+0x6A);asm("" : "+r"(count));
+                count=15 * *(u16 *)(base+0x6A);
                 if(count>0) {n=count;do {if(item->id==10) total+=item->count; n--;item++;} while(n);}
                 if(total>99) {
                     while(sub_0805F184()) sub_080003F0();
@@ -349,7 +349,7 @@ void sub_0803C4C0(void) {
     register u32 offset asm("r2");
     u8 *p;
     u8 *last;
-    register s32 mask asm("r1");
+    s32 mask;
     offset=sub_080020F4(); offset*=0x14C;
     p=(u8 *)gUnk_03003CE0+offset;
     *(u32 *)(p+0x30)|=1;
@@ -397,12 +397,12 @@ void sub_0803C4C0(void) {
 }
 struct T39C698Item {u16 id,pad;s32 count;u32 a,b;};
 struct T39C698Req {u16 id,kind;u8 data[12];};
-static inline void t39_c698_init(struct T39C698Req *p,u32 id,u32 kind) {register u32 a asm("r1")=id;register u32 b asm("r2")=kind;register struct T39C698Req *out asm("r0");asm("" : "+r"(a),"+r"(b));out=p;out->id=a;out->kind=b;}
-static inline void t39_c698_clear(u8 *p) {register u32 i asm("r4")=0;register u8 *out asm("r1")=p;asm("" : "+r"(i),"+r"(out));do {out[i]=0;i++;}while(i<=11);}
+static inline void t39_c698_init(struct T39C698Req *p,u32 id,u32 kind) {register u32 a asm("r1")=id;u32 b=kind;struct T39C698Req *out;asm("" : "+r"(a),"+r"(b));out=p;out->id=a;out->kind=b;}
+static inline void t39_c698_clear(u8 *p) {register u32 i asm("r4")=0;u8 *out=p;do {out[i]=0;i++;}while(i<=11);}
 static inline u32 t39_c698_byte(u8 *p) {register u32 value asm("r0")=*p;asm("" : "+r"(value));return value;}
-static inline u32 t39_c698_valid(void) {s32 value=sub_0805CFA0();register u32 result asm("r1")=1;if(value<0)result=0;asm("" : "+r"(result));return result;}
+static inline u32 t39_c698_valid(void) {s32 value=sub_0805CFA0();register u32 result asm("r1")=1;if(value<0)result=0;return result;}
 static inline u32 t39_c698_one(void) {return 1;}
-static inline void t39_c698_store(u32 value) {register u32 shifted asm("r0");register u32 v asm("r4");register u8 *base asm("r0");register u32 off asm("r1");shifted=value<<24;asm("" : "+r"(shifted));v=shifted>>24;asm("" : "+r"(v));
+static inline void t39_c698_store(u32 value) {register u32 shifted asm("r0");u32 v;register u8 *base asm("r0");u32 off;shifted=value<<24;v=shifted>>24;
  if(sub_0800CE30()) {base=(u8 *)gUnk_03005CF4;off=0x1C2;} else {base=(u8 *)gUnk_03005CF4;off=0x1B6;}
  *(base+off)=v;
 }
@@ -412,20 +412,20 @@ void sub_0803C698(s32 arg0) {
  register u32 offset asm("r2");
  u8 *p;
  register u8 *base asm("r0");
- register u32 off asm("r1");
+ u32 off;
  u32 msg;
- register u32 firstMsg asm("r5");
- register u32 answer asm("r4");
- register u32 level asm("r6");
- register u32 next asm("r5");
- register u8 nextByte asm("r4");
- register s32 total asm("r3");
- register s32 n asm("r1");
- register s32 count asm("r0");
+ u32 firstMsg;
+ u32 answer;
+ u32 level;
+ u32 next;
+ u8 nextByte;
+ s32 total;
+ s32 n;
+ s32 count;
  register u32 firstOff asm("r4");
- register u8 **gpLoad asm("r1");
+ u8 **gpLoad;
  register u8 **gp asm("r4");
- register struct T39C698Item *item asm("r2");
+ struct T39C698Item *item;
  u32 i,valid;
  offset=sub_080020F4();offset*=0x14C;p=(u8 *)gUnk_03003CE0+offset;
  *(u32 *)(p+0x30)|=1;sub_0800D0F4();sub_0802939C(arg0,2);
@@ -468,11 +468,11 @@ msg=sub_0805DF38(1,15,2,0,-2,0x14029F);
 while(!sub_0805EEFC((void *)msg))sub_080003F0(); answer=sub_0805EF14((u8 *)msg);break;
  }
  if(answer!=0) {
-  total=0;gpLoad=(u8 **)&gUnk_030034E0;base=*gpLoad;firstOff=0x150;asm("" : "+r"(firstOff));item=(struct T39C698Item *)(base+firstOff);gp=gpLoad;asm("" : "+r"(gp));
+  total=0;gpLoad=(u8 **)&gUnk_030034E0;base=*gpLoad;firstOff=0x150;asm("" : "+r"(firstOff));item=(struct T39C698Item *)(base+firstOff);gp=gpLoad;
   next=level+1;n=24;
   do {if(item->id==10)total+=item->count;n--;item++;}while(n>=0);
   base=*gp;item=(struct T39C698Item *)(base+0x2E0);
-  count=15 * *(u16 *)(base+0x6A);asm("" : "+r"(count));
+  count=15 * *(u16 *)(base+0x6A);
   if(count>0){n=count;do {if(item->id==10)total+=item->count;n--;item++;}while(n);}
   if(total>=(s32)(100*next)) {
    valid=t39_c698_valid();
@@ -503,13 +503,13 @@ while(!sub_0805EEFC((void *)msg)) {if(sub_0800CDF8()) {sub_0805EFBC();break;} su
  *(u32 *)(p+0x30)&=~1;sub_0800D108();
 }
 void sub_0803CC50(s32 arg0) {
-    register u8 **var_r2 asm("r2");
-    register u8 **gp3 asm("r3");
-    register u8 *state2 asm("r2");
+    u8 **var_r2;
+    u8 **gp3;
+    u8 *state2;
     register u32 mask1 asm("r1");
     register u32 value0 asm("r0");
     register u32 lowmask asm("r4");
-    register u8 *state1 asm("r1");
+    u8 *state1;
     register u32 offset asm("r2");
     s32 var_r1;
     s32 var_r1_2;
@@ -549,7 +549,7 @@ void sub_0803CC50(s32 arg0) {
             } else {
                 gp3=(u8 **)&gUnk_03005CF4;state2=*gp3;mask1=0x200;value0=*(u32 *)(state2+0x74);*(u32 *)(state2+0x74)=value0|mask1;
             }
-            var_r2 = gp3;asm("" : "+r"(var_r2));
+            var_r2 = gp3;
             var_r1_2 = 0x1FF;
             goto block_119;
         }
@@ -567,7 +567,7 @@ void sub_0803CC50(s32 arg0) {
             } else {
                 gp3=(u8 **)&gUnk_03005CF4;state2=*gp3;mask1=0x100;value0=*(u32 *)(state2+0x74);*(u32 *)(state2+0x74)=value0|mask1;
             }
-            var_r2 = gp3;asm("" : "+r"(var_r2));
+            var_r2 = gp3;
             var_r1_2 = 0xFF;
             goto block_119;
         }
@@ -585,7 +585,7 @@ void sub_0803CC50(s32 arg0) {
             } else {
                 gp3=(u8 **)&gUnk_03005CF4;state2=*gp3;mask1=0x80;value0=*(u32 *)(state2+0x74);*(u32 *)(state2+0x74)=value0|mask1;
             }
-            var_r2 = gp3;asm("" : "+r"(var_r2));
+            var_r2 = gp3;
             var_r1_2 = 0x7F;
             goto block_119;
         }
@@ -603,7 +603,7 @@ void sub_0803CC50(s32 arg0) {
             } else {
                 gp3=(u8 **)&gUnk_03005CF4;state2=*gp3;mask1=0x40;value0=*(u32 *)(state2+0x74);*(u32 *)(state2+0x74)=value0|mask1;
             }
-            var_r2 = gp3;asm("" : "+r"(var_r2));
+            var_r2 = gp3;
             var_r1_2 = 0x3F;
             goto block_119;
         }
@@ -621,7 +621,7 @@ void sub_0803CC50(s32 arg0) {
             } else {
                 gp3=(u8 **)&gUnk_03005CF4;state2=*gp3;mask1=0x20;value0=*(u32 *)(state2+0x74);*(u32 *)(state2+0x74)=value0|mask1;
             }
-            var_r2 = gp3;asm("" : "+r"(var_r2));
+            var_r2 = gp3;
             var_r1_2 = 0x1F;
             goto block_119;
         }
@@ -639,7 +639,7 @@ void sub_0803CC50(s32 arg0) {
             } else {
                 gp3=(u8 **)&gUnk_03005CF4;state2=*gp3;mask1=0x10;value0=*(u32 *)(state2+0x74);*(u32 *)(state2+0x74)=value0|mask1;
             }
-            var_r2 = gp3;asm("" : "+r"(var_r2));
+            var_r2 = gp3;
             var_r1_2 = 0xF;
             goto block_119;
         }
@@ -657,7 +657,7 @@ void sub_0803CC50(s32 arg0) {
             } else {
                 gp3=(u8 **)&gUnk_03005CF4;state2=*gp3;mask1=8;value0=*(u32 *)(state2+0x74);*(u32 *)(state2+0x74)=value0|mask1;
             }
-            var_r2 = gp3;asm("" : "+r"(var_r2));
+            var_r2 = gp3;
             var_r1_2 = 7;
             goto block_119;
         }
@@ -675,7 +675,7 @@ void sub_0803CC50(s32 arg0) {
             } else {
                 gp3=(u8 **)&gUnk_03005CF4;state2=*gp3;mask1=4;value0=*(u32 *)(state2+0x74);*(u32 *)(state2+0x74)=value0|mask1;
             }
-            var_r2 = gp3;asm("" : "+r"(var_r2));
+            var_r2 = gp3;
             var_r1_2 = 3;
             goto block_119;
         }
@@ -685,7 +685,7 @@ void sub_0803CC50(s32 arg0) {
         temp_r4_9 = sub_0805DF38(1U, 0xFU, 2U, 0U, -2, 0x1404EFU);
 
         while (sub_0805EEFC((void *) temp_r4_9) == 0) sub_080003F0();
-        if (sub_0805EF14((u8 *) temp_r4_9) != 0) {lowmask=2;asm("" : "+r"(lowmask));
+        if (sub_0805EF14((u8 *) temp_r4_9) != 0) {lowmask=2;
             if (sub_0800CE30() != 0) {
                 var_r2 = (u8 **)&gUnk_03005CF4;
                 state1=*var_r2;value0=*(u32 *)(state1+0x7C);*(u32 *)(state1+0x7C)=value0|lowmask;
@@ -706,7 +706,7 @@ block_119:
         temp_r4_10 = sub_0805DF38(1U, 0xFU, 2U, 0U, -2, 0x1404EEU);
 
         while (sub_0805EEFC((void *) temp_r4_10) == 0) sub_080003F0();
-        if (sub_0805EF14((u8 *) temp_r4_10) != 0) {lowmask=1;asm("" : "+r"(lowmask));
+        if (sub_0805EF14((u8 *) temp_r4_10) != 0) {lowmask=1;
             if (sub_0800CE30() != 0) {
                 state1=(u8 *)gUnk_03005CF4;value0=*(u32 *)(state1+0x7C);*(u32 *)(state1+0x7C)=value0|lowmask;
             } else {
@@ -730,8 +730,8 @@ void sub_0803D1F8(s32 arg0) {
  register s32 offset asm("r2");
  u8 *p;
  u32 dialog;
- register u8 *state asm("r1");
- register u32 field asm("r0");
+ u8 *state;
+ u32 field;
  register u32 raw asm("r2");
  register u32 mask asm("r0");
  offset=sub_080020F4(); offset*=0x14C;
@@ -772,8 +772,8 @@ void sub_0803D36C(s32 arg0) {
     u8 *p;
     u32 dialog;
     register u32 value asm("r4");
-    register u8 *state asm("r0");
-    register u32 field asm("r1");
+    u8 *state;
+    u32 field;
     offset = sub_080020F4();
     offset *= 0x14C;
     p = (u8 *)gUnk_03003CE0 + offset;
@@ -809,12 +809,12 @@ void sub_0803D454(s32 arg0) {
  register s32 offset asm("r2");
  u8 *p;
  u32 dialog;
- register u8 *state asm("r1");
- register u8 *state2 asm("r2");
- register u32 mask2 asm("r2");
+ u8 *state;
+ u8 *state2;
+ u32 mask2;
  register u32 mask1 asm("r1");
  register u32 bit asm("r4");
- register u32 flags asm("r0");
+ u32 flags;
 
 
  offset=sub_080020F4(); offset*=0x14C;
@@ -898,7 +898,7 @@ extern void sub_080576A8(void);
 extern void sub_08059250(void);
 static inline u8 *findD99C(u32 arg) {
  register u32 key asm("r5")=arg;
- register u32 off asm("r2");
+ u32 off;
  u8 *p;
  u32 i;
  off=0x7A4; p=gStateD99C+off;
@@ -908,10 +908,10 @@ static inline u8 *findD99C(u32 arg) {
 void sub_0803D99C(void) {
     struct CmdD99C cmd;
     register s32 offset asm("r2");
-    register u8 *var_r0 asm("r0");
+    u8 *var_r0;
     u32 callback;
     register struct TaskD99C *start asm("r0");
-    register u32 taskArg asm("r1");
+    u32 taskArg;
     u8 *var_r2_2;
     s32 temp_r0;
     s32 temp_r0_2;
@@ -1093,23 +1093,23 @@ static inline u8 *findDE84(u32 key) {
  sub_080003F0();return 0;
 }
 static inline u8 *findSetDE84(u32 arg) {
-    register u32 key asm("r2")=arg;
+    u32 key=arg;
     u8 *p=gStateDE84+0x7A4;
     u32 i;
     for(i=0;i<15;i++,p+=0x70) if(*(u32 *)p==key) return p;
     sub_080003F0(); return 0;
 }
 static inline void setDE84(u32 arg) {
-    register u32 value asm("r4");
+    u32 value;
     register u32 key asm("r2")=arg;
-    register u8 *p asm("r0");
+    u8 *p;
     u32 idx;
     value=3;
     if(arg>0x100000) {p=findSetDE84(key);if(p) *(u16 *)(p+0x42)=value;}
     else if(arg!=0) {
-        register u8 **address asm("r1");
-        register u8 *entry asm("r1");
-        register u32 off asm("r0");
+        u8 **address;
+        u8 *entry;
+        u32 off;
         idx=arg-1;
         if(idx<5) {address=(u8 **)&gUnk_030056F4;off=idx*0x2E0;entry=*address;entry+=off;sub_08019EB8(*(u16 *)(entry+2),3);}
     }
@@ -1145,10 +1145,10 @@ void sub_0803DE84(void) {
     u8 *temp_r2_6;
     u8 *temp_r2_7;
     u8 *temp_r4_4;
-    register u32 loopOne asm("r6");
+    u32 loopOne;
     u32 loopZero;
     register volatile u32 *flagsAddress asm("r5");
-    register u32 musicValue asm("r1");
+    u32 musicValue;
 
     offset=sub_080020F4();offset*=0x14C;temp_r2=(u8 *)gUnk_03003CE0+offset;
     *(u32 *)(temp_r2+0x30) = (s32) (*(u32 *)(temp_r2+0x30) | 1);
@@ -1212,7 +1212,7 @@ void sub_0803DE84(void) {
     {
     u8 *var_r2_4;
     u32 var_r3_2;
-    register u32 loopMask asm("r1");
+    u32 loopMask;
     register u32 stride asm("r0");
     var_r2_4 = gUnk_030056F4;
     var_r3_2=0;flagsAddress=(volatile u32 *)&gUnk_030056FC;loopOne=1;loopZero=0;
@@ -1373,10 +1373,10 @@ static inline u8 *findE638(u32 input) {register u32 key asm("r9")=input;u8 *p=gS
 static inline u8 testE638(u32 value,u32 mask) {u32 result=value&mask;if(result)result=1;return result;}
 void sub_0803E638(void) {
     s32 out[4];
-    register u8 *setPointerE638 asm("r1");
-    register u8 *setResultE638 asm("r0");
+    u8 *setPointerE638;
+    u8 *setResultE638;
     register u32 setKeyE638 asm("r2");
-    register u32 setValueE638 asm("r4");
+    u32 setValueE638;
     u32 setIndexE638;
 
     u8 *sp18;
@@ -1385,9 +1385,9 @@ void sub_0803E638(void) {
     u32 var_r6;
     u32 cbFirst,cbSecond,cbThird;
     register s32 offset asm("r2");
-    register u8 *playerBase asm("r1");
-    register u32 playerOffset asm("r0");
-    register u32 initZero asm("r1");
+    u8 *playerBase;
+    u32 playerOffset;
+    u32 initZero;
     union {s32 whole;struct {u16 low;s16 high;} half;} zero,target;
     s16 *var_r0_3;
     s32 temp_r6;
@@ -1398,7 +1398,7 @@ void sub_0803E638(void) {
     register s32 temp_r0 asm("r9");
     s32 temp_r0_2;
     s32 temp_r0_3;
-    register s32 phase2target asm("r0");
+    s32 phase2target;
     s32 var_r0;
     s32 var_r1_2;
     s32 var_r4_3;
@@ -1418,17 +1418,17 @@ void sub_0803E638(void) {
     u32 temp_r4_5;
     register u32 stateMask asm("r1");
     u8 *stateBase;
-    register u32 stateBits asm("r0");
-    register u32 musicValue asm("r1");
+    u32 stateBits;
+    u32 musicValue;
     register u32 taskOff asm("r3");
     register u32 lastOff asm("r2");
     register u32 poolOff asm("r2");
-    register u8 *poolBase asm("r0");
+    u8 *poolBase;
     register u32 taskAddr asm("r0");
     register u32 playerTest asm("r1");
     u32 bitTwo;
     register u32 boolMask asm("r0");
-    register u32 boolFlags asm("r1");
+    u32 boolFlags;
     u8 *stateSecond;
     struct TaskE638 *var_r4_10;
     struct TaskE638 *var_r4_11;
@@ -1439,11 +1439,11 @@ void sub_0803E638(void) {
     u32 var_r5_3;
     u32 var_r5_4;
     u32 var_r5_5;
-    register u8 *temp_r0_4 asm("r1");
+    u8 *temp_r0_4;
     u8 *temp_r0_5;
     u8 *temp_r0_6;
     u8 *temp_r2;
-    register u8 *var_r1_3 asm("r1");
+    u8 *var_r1_3;
 
     initZero=0;*(u16 *)(gConfigE638+0x68)=initZero;
     sub_0805AD78(0);
@@ -1628,10 +1628,10 @@ block_115:
 setReadyE638:
         if(setResultE638) *(u16 *)(setResultE638+0x42)=setValueE638;
     } else if(temp_r0!=0) {
-        register u32 playerIndexE638 asm("r2");
-        register u8 **addressE638 asm("r1");
-        register u8 *entryE638 asm("r1");
-        register u32 offE638 asm("r0");
+        u32 playerIndexE638;
+        u8 **addressE638;
+        u8 *entryE638;
+        u32 offE638;
         playerIndexE638=(u32)temp_r0-1;
         if(playerIndexE638<5) {addressE638=(u8 **)&gUnk_030056F4;offE638=playerIndexE638*0x2E0;entryE638=*addressE638;entryE638+=offE638;sub_08019EB8(*(u16 *)(entryE638+2),3);}
     } else {
@@ -1673,15 +1673,15 @@ setReadyE638:
 struct SignedEE88 {u8 pad[0x80];s16 x,y;};
 extern void cameraEE88(s32,s32) asm("sub_0800BB80");
 void sub_0803EE88(void) {
-    s32 actor1,actor2; s32 out[6]; union {s32 all;struct {u16 low;s16 high;} half;} tx1,ty1,tx2,ty2,tx3,ty3; s32 step; register u32 poolOffset asm("r2"); register s32 offset asm("r2"); register s32 player asm("r1");
+    s32 actor1,actor2; s32 out[6]; union {s32 all;struct {u16 low;s16 high;} half;} tx1,ty1,tx2,ty2,tx3,ty3; s32 step; u32 poolOffset; register s32 offset asm("r2"); s32 player;
     s32 temp_r6;
     s32 temp_r7;
     s32 temp_r7_2;
     s32 temp_r7_3;
     s32 temp_r8;
     s32 temp_r8_2;
-    s32 *var_r1; register s32 key asm("r3");register s32 value asm("r0"); register u32 finalFlags asm("r1");register u32 finalOne asm("r0");
-    register s32 *var_r1_2 asm("r1");
+    s32 *var_r1; s32 key;s32 value; u32 finalFlags;u32 finalOne;
+    s32 *var_r1_2;
     s32 temp_r0;
     s32 temp_r0_2;
     s32 var_r4;
@@ -1689,7 +1689,7 @@ void sub_0803EE88(void) {
     s32 var_r4_3;
     u32 temp_r4;
     u32 var_r2;
-    register u32 var_r2_2 asm("r2");
+    u32 var_r2_2;
     u8 *var_r2_3;
     struct Player *temp_r2;
     struct Player *temp_r2_2;
@@ -1963,13 +1963,13 @@ static inline u32 normF454(u32 input) {register u32 value asm("r0")=input<<16;re
 static inline u32 incF454(u32 input) {register u32 value asm("r0")=input+1;return (u16)value;}
 static inline u32 decF454(u32 n) {register u32 value asm("r0")=n-1;return (u16)value;}
 void sub_0803F454(u32 arg0) {
-    register u32 n asm("r4"); register u32 loopIndex asm("r5"); s32 *var_r1_2; register u32 callback asm("r6");
+    register u32 n asm("r4"); register u32 loopIndex asm("r5"); s32 *var_r1_2; u32 callback;
     s32 temp_r0_4;
     s32 temp_r0_5;
     s32 temp_r0_6;
-    register s32 var_r0 asm("r0");
-    register s32 var_r1 asm("r1"); register u8 *state asm("r2");
-    register s32 var_r2 asm("r2");
+    s32 var_r0;
+    register s32 var_r1 asm("r1"); u8 *state;
+    s32 var_r2;
     u32 var_r2_2;
     u32 var_r2_3;
     u32 var_r2_4;
@@ -2257,10 +2257,10 @@ while (n != 0) {sub_080003F0();if(sub_080021A8())break;n=decF454(n);}
     }
     var_r0=sub_080020F4();var_r1=0x14C;var_r0*=var_r1;var_r1=(s32)gUnk_03003CE0;var_r0+=var_r1;var_r1=0;*(u16 *)(var_r0+0x20)=var_r1;
 }
-static inline u32 firstFE34(u8 *base) {register u32 bit asm("r1")=1;register u32 result asm("r0")=*(u32 *)(base+0x38);result &= bit;if(result)result=1;return result;}
+static inline u32 firstFE34(u8 *base) {u32 bit=1;register u32 result asm("r0")=*(u32 *)(base+0x38);result &= bit;if(result)result=1;return result;}
 static inline u8 testFE34(u32 value, u32 mask) {u32 result=value & mask; if(result)result=1;return result;}
 void sub_0803FE34(void) {
-    s32 sp0; register u32 one asm("sl"); register u32 mask asm("r1"); register u32 bits asm("r0"); register u32 bits2 asm("r1"); register u8 *base asm("r0");
+    s32 sp0; register u32 one asm("sl"); u32 mask; u32 bits; u32 bits2; u8 *base;
     s32 sp4;
     s32 *var_r1_2;
     s32 *var_r1_3;
@@ -2440,7 +2440,7 @@ void sub_080400D4(void) {
     union { s32 all; struct {u16 low; s16 high;} half;} targetX2, targetY2;
     s32 step;
     u16 n;
-    u32 task; s32 result; struct Player *p; register s32 player asm("r1"); register s32 offset asm("r2");
+    u32 task; s32 result; struct Player *p; s32 player; register s32 offset asm("r2");
     offset = sub_080020F4(); offset *= 0x14C; p = (struct Player *)((u8 *)gUnk_03003CE0 + offset); p->flags |= 1;
     sub_0800D0F4();
     result = sub_080020F4(); player = result;
@@ -2505,15 +2505,15 @@ void sub_080402F4(void) {
     s32 out[4];
     register s32 *py asm("r6");
     s32 *px2;
-    register s32 *py2 asm("r10");
-    s32 sx; register s32 sy asm("r5"); register s32 sx2 asm("r6"); register s32 sy2 asm("r5");
+    s32 *py2;
+    s32 sx; register s32 sy asm("r5"); s32 sx2; s32 sy2;
     s32 i, i2;
     union { s32 all; struct {u16 low; s16 high;} half;} targetX;
     union { s32 all; struct {u16 low; s16 high;} half;} targetY;
     union { s32 all; struct {u16 low; s16 high;} half;} targetX2, targetY2;
     s32 step;
     u16 n;
-    u32 task; s32 result; struct Player *p; register s32 player asm("r1"); register s32 offset asm("r2");
+    u32 task; s32 result; struct Player *p; s32 player; register s32 offset asm("r2");
     offset = sub_080020F4(); offset *= 0x14C; p = (struct Player *)((u8 *)gUnk_03003CE0 + offset); p->flags |= 1;
     sub_0800D0F4();
     result = sub_080020F4(); player = result;
@@ -2575,15 +2575,15 @@ void sub_08040530(void) {
     s32 out[4];
     register s32 *py asm("r6");
     s32 *px2;
-    register s32 *py2 asm("r10");
-    s32 sx; register s32 sy asm("r5"); register s32 sx2 asm("r6"); register s32 sy2 asm("r5");
+    s32 *py2;
+    s32 sx; register s32 sy asm("r5"); s32 sx2; s32 sy2;
     s32 i, i2;
     union { s32 all; struct {u16 low; s16 high;} half;} targetX;
     union { s32 all; struct {u16 low; s16 high;} half;} targetY;
     union { s32 all; struct {u16 low; s16 high;} half;} targetX2, targetY2;
     s32 step;
     u16 n;
-    u32 task; s32 result; struct Player *p; register s32 player asm("r1"); register s32 offset asm("r2");
+    u32 task; s32 result; struct Player *p; s32 player; register s32 offset asm("r2");
     offset = sub_080020F4(); offset *= 0x14C; p = (struct Player *)((u8 *)gUnk_03003CE0 + offset); p->flags |= 1;
     sub_0800D0F4();
     result = sub_080020F4(); player = result;
@@ -2646,15 +2646,15 @@ void sub_0804076C(s32 arg0) {
     s32 out[12];
     s32 flagResult;
     register s32 *py0 asm("r6");
-    register s32 *px1 asm("r7"); register s32 *py1 asm("r6"); register s32 *py2 asm("r10");
-    register s32 *px3 asm("r7"); register s32 *py3 asm("r6"); register s32 *py4 asm("r10");
+    s32 *px1; s32 *py1; s32 *py2;
+    s32 *px3; s32 *py3; s32 *py4;
     union T42Fixed { s32 all; struct { u16 lo; s16 hi; } h; };
     union T42Fixed tx0,ty0;
     union T42Fixed tx1,tx3,tx5,ty5;
     register union T42Fixed ty1 asm("r9"); register union T42Fixed ty3 asm("r9");
     union T42Fixed tx2,ty2,tx4,ty4;
-    register s32 step asm("r10");
-    register s32 stepFinal asm("r9");
+    s32 step;
+    s32 stepFinal;
     s32 sp38;
     s32 *sp3C;
     s32 *sp40;
@@ -2787,7 +2787,7 @@ foundCbA: var_r0_3=var_r1_8; goto contCbA;
 falseFlag:
         var_r0 = (u8 *)gUnk_03005CF4 + 0x1B8;
     }
-    { register s32 v asm("r0")=*var_r0; asm("" : "+r"(v)); v=(v>>6)&flagOne; flagResult=v; }
+    { s32 v=*var_r0;  v=(v>>6)&flagOne; flagResult=v; }
     if (flagResult) {
         px1=&out[2]; py1=&out[3];
         sp3C = &out[4]; py2=&out[5];
@@ -2800,10 +2800,10 @@ falseFlag:
         }
         temp_r8_2 = ((struct T42Cam *)&gUnk_03003170)->x;
         temp_r5_3 = ((struct T42Cam *)&gUnk_03003170)->y;
-        var_r4_6 = 0; tx1.all=0; ty1.all=0x300000; asm("" : "+r"(ty1.all));
+        var_r4_6 = 0; tx1.all=0; ty1.all=0x300000; 
         do {
-            { register s32 *a asm("r0")=px1; register s32 b asm("r1")=temp_r8_2; register s32 z asm("r3")=0; asm("" : "+r"(a), "+r"(b), "+r"(z)); sub_080659F4(a,b,z>>16,var_r4_6); }
-            { register s32 *a asm("r0")=py1; register s32 b asm("r1")=temp_r5_3; register s32 z asm("r3")=ty1.all; asm("" : "+r"(a), "+r"(b), "+r"(z)); sub_080659F4(a,b,z>>16,var_r4_6); }
+            { register s32 *a asm("r0")=px1; s32 b=temp_r8_2; register s32 z asm("r3")=0; asm("" : "+r"(a), "+r"(b), "+r"(z)); sub_080659F4(a,b,z>>16,var_r4_6); }
+            { register s32 *a asm("r0")=py1; register s32 b asm("r1")=temp_r5_3; register s32 z asm("r3")=ty1.all;  sub_080659F4(a,b,z>>16,var_r4_6); }
             t42_camera((s16)out[2], (s16)out[3]);
             sub_080003F0();
             var_r4_6 += 0x22;
@@ -2822,9 +2822,9 @@ falseFlag:
         sub_08028AAC(temp_r0_4, 0x78, 0x95, 0x3C);
         sub_0802939C(temp_r0_4, 4);
         { register s32 scratch asm("r3");
-        asm("" : "=r"(scratch));
+        
         temp_r7_3 = ((struct T42Cam *)&gUnk_03003170)->x;
-        asm("" :: "r"(scratch));
+        
         temp_r6_2 = ((struct T42Cam *)&gUnk_03003170)->y; }
         var_r4_8 = 0; tx2.all=0; ty2.all=0;
         do {
@@ -2927,10 +2927,10 @@ falseBranch:
         }
         temp_r8 = ((struct T42Cam *)&gUnk_03003170)->x;
         temp_r5_2 = ((struct T42Cam *)&gUnk_03003170)->y;
-        var_r4_3 = 0; tx3.all=0; ty3.all=0x300000; asm("" : "+r"(ty3.all));
+        var_r4_3 = 0; tx3.all=0; ty3.all=0x300000; 
         do {
-            { register s32 *a asm("r0")=px3; register s32 b asm("r1")=temp_r8; register s32 z asm("r3")=0; asm("" : "+r"(a), "+r"(b), "+r"(z)); sub_080659F4(a,b,z>>16,var_r4_3); }
-            { register s32 *a asm("r0")=py3; register s32 b asm("r1")=temp_r5_2; register s32 z asm("r3")=ty3.all; asm("" : "+r"(a), "+r"(b), "+r"(z)); sub_080659F4(a,b,z>>16,var_r4_3); }
+            { register s32 *a asm("r0")=px3; s32 b=temp_r8; register s32 z asm("r3")=0; asm("" : "+r"(a), "+r"(b), "+r"(z)); sub_080659F4(a,b,z>>16,var_r4_3); }
+            { register s32 *a asm("r0")=py3; register s32 b asm("r1")=temp_r5_2; register s32 z asm("r3")=ty3.all;  sub_080659F4(a,b,z>>16,var_r4_3); }
             t42_camera((s16)out[6], (s16)out[7]);
             sub_080003F0();
             var_r4_3 += 0x22;
@@ -2949,9 +2949,9 @@ falseBranch:
         sub_08028AAC(temp_r0_3, 0x78, 0x95, 0x3C);
         sub_0802939C(temp_r0_3, 4);
         { register s32 scratch asm("r3");
-        asm("" : "=r"(scratch));
+        
         temp_r7_2 = ((struct T42Cam *)&gUnk_03003170)->x;
-        asm("" :: "r"(scratch));
+        
         temp_r6 = ((struct T42Cam *)&gUnk_03003170)->y; }
         var_r4_5 = 0; tx4.all=0; ty4.all=0;
         do {
@@ -3069,11 +3069,11 @@ void sub_08041030(s32 arg0, s32 arg1) {
     s32 out[12];
     s32 saved;
     s32 *p0,*p1,*p2,*p3,*p4,*p5,*p6;
-    register s32 actor asm("r9");
-    register s32 *pxA asm("r7"), *pyA asm("r6");
-    register s32 *pxB asm("r7"), *pyB asm("r6");
-    register s32 lastStep asm("r9");
-    register s32 step asm("r10");
+    s32 actor;
+    s32 *pxA, *pyA asm("r6");
+    s32 *pxB, *pyB asm("r6");
+    s32 lastStep;
+    s32 step;
     register s32 one asm("r4"); s32 flag;
     union T42bFix { s32 all; struct { u16 lo; s16 hi; } h; };
     union T42bFix tx0,ty0,tx1,tx2,ty2,tx3,tx4,ty4,tx5,ty5;
@@ -3096,7 +3096,7 @@ void sub_08041030(s32 arg0, s32 arg1) {
     s32 *var_r0;
     register void (*cbFinal)(void) asm("r4");
     register s32 rawPose asm("r2");
-    register u16 poseVal asm("r4");
+    u16 poseVal;
     s32 *var_r0_3;
     s32 *var_r0_5;
     s32 *var_r0_7;
@@ -3241,7 +3241,7 @@ foundPoseA: var_r0_5=var_r1_6; goto poseContA;
 flagFalse:
         var_r0_2 = (u8 *)gUnk_03005CF4 + 0x1B8;
     }
-    { register s32 v asm("r0")=*var_r0_2; asm("" : "+r"(v)); flag=(v>>6)&one; }
+    { s32 v=*var_r0_2;  flag=(v>>6)&one; }
     if (!flag) {
         pxA=&out[2]; pyA=&out[3];
         p1 = &out[4];
@@ -3255,10 +3255,10 @@ flagFalse:
         }
         temp_r8_2 = ((struct T42bCam *)&gUnk_03003170)->x;
         temp_r5_4 = ((struct T42bCam *)&gUnk_03003170)->y;
-        var_r4_9 = 0; tx1.all=0; ty1.all=0x300000; asm("" : "+r"(ty1.all));
+        var_r4_9 = 0; tx1.all=0; ty1.all=0x300000; 
         do {
-            { register s32 *a asm("r0")=pxA; register s32 b asm("r1")=temp_r8_2; register s32 z asm("r3")=0; asm("" : "+r"(a), "+r"(b), "+r"(z)); sub_080659F4(a,b,z>>16,var_r4_9); }
-            { register s32 *a asm("r0")=pyA; register s32 b asm("r1")=temp_r5_4; register s32 z asm("r3")=ty1.all; asm("" : "+r"(a), "+r"(b), "+r"(z)); sub_080659F4(a,b,z>>16,var_r4_9); }
+            { register s32 *a asm("r0")=pxA; s32 b=temp_r8_2; register s32 z asm("r3")=0; asm("" : "+r"(a), "+r"(b), "+r"(z)); sub_080659F4(a,b,z>>16,var_r4_9); }
+            { register s32 *a asm("r0")=pyA; register s32 b asm("r1")=temp_r5_4; register s32 z asm("r3")=ty1.all;  sub_080659F4(a,b,z>>16,var_r4_9); }
             t42b_camera((s16)out[2], (s16)out[3]);
             sub_080003F0();
             var_r4_9 += 0x22;
@@ -3270,9 +3270,9 @@ flagFalse:
         sub_0802939C(temp_r0_5, 8);
         sub_08028AAC(temp_r0_5, 0x78, 0x95, 0x3C);
         sub_0802939C(temp_r0_5, 0);
-        { register s32 scratch asm("r3"); asm("" : "=r"(scratch));
+        { register s32 scratch asm("r3"); 
         temp_r7_2 = ((struct T42bCam *)&gUnk_03003170)->x;
-        asm("" :: "r"(scratch));
+        
         temp_r6_4 = ((struct T42bCam *)&gUnk_03003170)->y; }
         var_r4_11 = 0; tx2.all=0; ty2.all=0;
         do {
@@ -3317,9 +3317,9 @@ poseContA:
         } else if (actor != 0) {
             rawPose=actor-1;
             if ((u32)rawPose<=4) {
-                register u8 **base asm("r1")=(u8 **)&gUnk_030056F4;
-                register s32 off asm("r0")=rawPose*0x2E0;
-                register u8 *row asm("r1");
+                u8 **base=(u8 **)&gUnk_030056F4;
+                s32 off=rawPose*0x2E0;
+                u8 *row;
                 row=*base+off;
                 sub_08019EB8(*(u16 *)(row+2),4);
             }
@@ -3328,8 +3328,8 @@ poseContA:
 foundActorA: var_r2_6=var_r1_7; goto contActorA;
 foundActorCbA: var_r0_7=var_r1_8; goto contActorCbA;
 localPoseA:
-            { register s32 index asm("r0")=sub_080020F4(); register u32 base asm("r1"); register u8 *ptr asm("r0"); register s32 offset asm("r1");
-            index*=0x14C; base=(u32)gUnk_03003CE0; index+=base; ptr=(u8 *)index; asm("" : "+r"(ptr));
+            { s32 index=sub_080020F4(); u32 base; u8 *ptr; s32 offset;
+            index*=0x14C; base=(u32)gUnk_03003CE0; index+=base; ptr=(u8 *)index; 
             offset=0x11E; ptr+=offset; var_r0_6=(s16 *)ptr; }
 poseStoreA:
             *var_r0_6=poseVal;
@@ -3370,9 +3370,9 @@ searchActorCbA:
         sub_080003F0(); var_r0_7=0;
 contActorCbA:
         if (var_r0_7) *(void (**)(void))((u8 *)var_r0_7+0x44)=cbFinal;
-        if (sub_0800CE30() != 0) { register u8 *base asm("r0")=(u8 *)gUnk_03005CF4; register s32 off asm("r1")=0x1C5; var_r2_8=base+off; }
-        else { register u8 *base asm("r0")=(u8 *)gUnk_03005CF4; register s32 off asm("r3")=0x1B9; var_r2_8=base+off; }
-        { register u8 *ptr asm("r2")=var_r2_8; register u32 value asm("r1")=*ptr; register u32 bits asm("r0")=1; bits |= value; *ptr=bits; }
+        if (sub_0800CE30() != 0) { u8 *base=(u8 *)gUnk_03005CF4; s32 off=0x1C5; var_r2_8=base+off; }
+        else { register u8 *base asm("r0")=(u8 *)gUnk_03005CF4; s32 off=0x1B9; var_r2_8=base+off; }
+        { u8 *ptr=var_r2_8; u32 value=*ptr; u32 bits=1; bits |= value; *ptr=bits; }
         } else {
         goto branchTrue;
 foundPoseB: var_r0_3=var_r1_4; goto poseContB;
@@ -3391,10 +3391,10 @@ branchTrue:
         }
         temp_r8 = ((struct T42bCam *)&gUnk_03003170)->x;
         temp_r5_2 = ((struct T42bCam *)&gUnk_03003170)->y;
-        var_r4_3 = 0; tx3.all=0; ty3.all=0x300000; asm("" : "+r"(ty3.all));
+        var_r4_3 = 0; tx3.all=0; ty3.all=0x300000; 
         do {
-            { register s32 *a asm("r0")=pxB; register s32 b asm("r1")=temp_r8; register s32 z asm("r3")=0; asm("" : "+r"(a), "+r"(b), "+r"(z)); sub_080659F4(a,b,z>>16,var_r4_3); }
-            { register s32 *a asm("r0")=pyB; register s32 b asm("r1")=temp_r5_2; register s32 z asm("r3")=ty3.all; asm("" : "+r"(a), "+r"(b), "+r"(z)); sub_080659F4(a,b,z>>16,var_r4_3); }
+            { register s32 *a asm("r0")=pxB; s32 b=temp_r8; register s32 z asm("r3")=0; asm("" : "+r"(a), "+r"(b), "+r"(z)); sub_080659F4(a,b,z>>16,var_r4_3); }
+            { register s32 *a asm("r0")=pyB; register s32 b asm("r1")=temp_r5_2; register s32 z asm("r3")=ty3.all;  sub_080659F4(a,b,z>>16,var_r4_3); }
             t42b_camera((s16)out[6], (s16)out[7]);
             sub_080003F0();
             var_r4_3 += 0x22;
@@ -3406,9 +3406,9 @@ branchTrue:
         sub_0802939C(temp_r0_4, 8);
         sub_08028AAC(temp_r0_4, 0x78, 0x95, 0x3C);
         sub_0802939C(temp_r0_4, 0);
-        { register s32 scratch asm("r3"); asm("" : "=r"(scratch));
+        { register s32 scratch asm("r3"); 
         temp_r7 = ((struct T42bCam *)&gUnk_03003170)->x;
-        asm("" :: "r"(scratch));
+        
         temp_r6_2 = ((struct T42bCam *)&gUnk_03003170)->y; }
         var_r4_5 = 0; tx4.all=0; ty4.all=0;
         do {
@@ -3453,15 +3453,15 @@ poseContB:
         } else if (actor != 0) {
             rawPose=actor-1;
             if ((u32)rawPose<=4) {
-                register u8 **base asm("r1")=(u8 **)&gUnk_030056F4;
-                register s32 off asm("r0")=rawPose*0x2E0;
-                register u8 *row asm("r1");
+                u8 **base=(u8 **)&gUnk_030056F4;
+                s32 off=rawPose*0x2E0;
+                u8 *row;
                 row=*base+off;
                 sub_08019EB8(*(u16 *)(row+2),4);
             }
         } else {
-            { register s32 index asm("r0")=sub_080020F4(); register u32 base asm("r1"); register u8 *ptr asm("r0"); register s32 offset asm("r1");
-            index*=0x14C; base=(u32)gUnk_03003CE0; index+=base; ptr=(u8 *)index; asm("" : "+r"(ptr));
+            { s32 index=sub_080020F4(); u32 base; u8 *ptr; s32 offset;
+            index*=0x14C; base=(u32)gUnk_03003CE0; index+=base; ptr=(u8 *)index; 
             offset=0x11E; ptr+=offset; var_r0_4=(s16 *)ptr; }
 poseStoreB:
             *var_r0_4=poseVal;
@@ -3511,7 +3511,7 @@ loop_224:
         lastStep=34;
         { register s32 scratch asm("r3"); asm("" : "=r"(scratch));
         temp_r6_3 = ((struct T42bCam *)&gUnk_03003170)->x;
-        asm("" :: "r"(scratch));
+        
         temp_r5_3 = ((struct T42bCam *)&gUnk_03003170)->y; }
         var_r4_8 = 0; tx5.all=0; ty5.all=0;
         do {
@@ -3522,14 +3522,14 @@ loop_224:
             var_r4_8 += lastStep;
         } while (var_r4_8 <= 0x400);
         if (sub_0800CE30() != 0) {
-            { register u32 *ptr asm("r1")=(u32 *)((u8 *)gUnk_03005CF4+0x80); register u32 bits asm("r2")=16; *ptr |= bits; }
+            { u32 *ptr=(u32 *)((u8 *)gUnk_03005CF4+0x80); u32 bits=16; *ptr |= bits; }
         } else {
-            { register u32 *ptr asm("r2")=(u32 *)gUnk_03005CF4; register u32 bits asm("r1")=16; ptr[0x78/4] |= bits; }
+            { u32 *ptr=(u32 *)gUnk_03005CF4; u32 bits=16; ptr[0x78/4] |= bits; }
         }
         }
-    if (sub_0800CE30() != 0) { register u8 *base asm("r0")=(u8 *)gUnk_03005CF4; register s32 off asm("r1")=0x1C5; var_r2_9=base+off; }
-        else { register u8 *base asm("r0")=(u8 *)gUnk_03005CF4; register s32 off asm("r3")=0x1B9; var_r2_9=base+off; }
-        { register u8 *ptr asm("r2")=var_r2_9; register u32 value asm("r1")=*ptr; register u32 bits asm("r0")=32; bits |= value; *ptr=bits; }
+    if (sub_0800CE30() != 0) { u8 *base=(u8 *)gUnk_03005CF4; s32 off=0x1C5; var_r2_9=base+off; }
+        else { register u8 *base asm("r0")=(u8 *)gUnk_03005CF4; s32 off=0x1B9; var_r2_9=base+off; }
+        { u8 *ptr=var_r2_9; u32 value=*ptr; u32 bits=32; bits |= value; *ptr=bits; }
     temp_r2_5 = (struct Player *)((0x14C * sub_080020F4()) + (u8 *)gUnk_03003CE0);
     temp_r2_5->flags = (s32) (temp_r2_5->flags & ~1);
     sub_0800D108();
@@ -3580,8 +3580,8 @@ static inline void t43_callback1b7c(s32 id, void (*cb)(void)) {
  if (p != 0) p->f44=cb;
 }
 static inline void t43_flag1b7c(u8 *p, u32 mask) {
- register u32 value asm("r0") = *(u32 *)(p+0x3c);
- register u32 bits asm("r1") = mask;
+ u32 value = *(u32 *)(p+0x3c);
+ u32 bits = mask;
  *(u32 *)(p+0x3c) = value | bits;
 }
 void sub_08041B7C(s32 arg0) {
@@ -3758,7 +3758,7 @@ static inline u8 *t43_select20c8(void) {
 }
 static inline s32 t43_test20c8(void) {
  register u32 one asm("r4") = 1;
- register s32 value asm("r0") = *t43_select20c8();
+ s32 value = *t43_select20c8();
  return (value >> 7) & one;
 }
 void sub_080420C8(void) {
@@ -3951,8 +3951,8 @@ static inline void t43_callback25cc(s32 id, void (*cb)(void)) {
  if (p != 0) p->f44=cb;
 }
 static inline void t43_flag25cc(u8 *p, u32 mask) {
- register u32 value asm("r0") = *(u32 *)(p+0x3c);
- register u32 bits asm("r1") = mask;
+ u32 value = *(u32 *)(p+0x3c);
+ u32 bits = mask;
  *(u32 *)(p+0x3c) = value | bits;
 }
 static inline u8 *t43_select25cc(void) {
@@ -4073,8 +4073,8 @@ static inline void t43_callback2938(s32 id, void (*cb)(void)) {
  if (p != 0) p->f44=cb;
 }
 static inline void t43_flag2938(u8 *p, u32 mask) {
- register u32 value asm("r0") = *(u32 *)(p+0x3c);
- register u32 bits asm("r1") = mask;
+ u32 value = *(u32 *)(p+0x3c);
+ u32 bits = mask;
  *(u32 *)(p+0x3c) = value | bits;
 }
 static inline u8 *t43_select2938(void) {
@@ -4176,7 +4176,7 @@ static inline void t43_callback2bb0(s32 id, void (*cb)(void)) {
  if (p != 0) p->f44=cb;
 }
 static inline void t43_flag2bb0(u8 *p, u32 mask) {
- register u32 value asm("r0") = *(u32 *)(p+0x3c);
+ u32 value = *(u32 *)(p+0x3c);
  register u32 bits asm("r1") = mask;
  *(u32 *)(p+0x3c) = value | bits;
 }
@@ -4223,20 +4223,20 @@ static inline void t43_finish2bb0(s32 arg) {
  }
 }
 static inline s32 t43_testBit22bb0(s32 value, u32 one) {
- register s32 shifted asm("r1");
+ s32 shifted;
  register s32 input asm("r0")=value;
  register u32 mask asm("r0");
  /* Preserve the signed extraction input; emits no CPU instruction. */
- asm("" : "+r"(input));
+ 
  shifted=input >> 2;
  mask=one;
  return shifted & mask;
 }
 static inline s32 t43_testBit42bb0(s32 value, u32 one) {
- register s32 shifted asm("r1");
+ s32 shifted;
  register s32 input asm("r0")=value;
  /* Preserve the signed extraction input; emits no CPU instruction. */
- asm("" : "+r"(input));
+ 
  shifted=input >> 4;
  return shifted & one;
 }
@@ -4245,7 +4245,7 @@ static inline s32 t43_cond2bb0(void) {
 }
 static inline void t43_task2bb0(void (*callback)(void)) {
  struct T43Task2bb0 *p=(struct T43Task2bb0 *)((u8 *)gUnk_03005CF4+0xE34);
- register u32 i asm("r5");
+ u32 i;
  u8 *mem;
  i=0;
  goto check;
@@ -4478,7 +4478,7 @@ void sub_08042BB0(void) {
     *(s32 *)(temp_r2_3 + 0x30) = (s32) (*(s32 *)(temp_r2_3 + 0x30) & ~1);
     sub_0800D108();
     {
-        register u32 *base asm("r6") = (u32 *)&gUnk_03005CF4;
+        u32 *base = (u32 *)&gUnk_03005CF4;
         register u32 one asm("r5") = 1;
         register s32 result asm("r1");
         do {
@@ -4490,8 +4490,8 @@ void sub_08042BB0(void) {
             }
             {
                 u8 *p;
-                register s32 value asm("r0");
-                register s32 bits asm("r1");
+                s32 value;
+                s32 bits;
                 if (sub_0800CE30() != 0) p=(u8 *)*base+0x1C6;
                 else p=(u8 *)*base+0x1BA;
                 value=t43_byte2bb0(p);
@@ -4519,7 +4519,7 @@ void sub_080435C4(void)
     u32 *configPtr;
 
     {
-        register u8 *base asm("r2") = heights35C4;
+        u8 *base = heights35C4;
         heights = base;
     }
     pos = &position;
@@ -4530,7 +4530,7 @@ loop:
     position.x = 0x7800;
     pos->y = 0xF000;
     {
-        register u32 value asm("r0") = config;
+        u32 value = config;
         register u32 tmp asm("r2");
         register u32 mode asm("r1");
         value &= idMask;
@@ -4559,11 +4559,11 @@ void sub_08043664_ptr(void *arg0)
     s32 offset;
     u8 *flag;
     u32 flags;
-    register s32 stride asm("r1");
-    register s32 index asm("r0");
-    register u8 *playerFirst asm("r1");
-    register s32 one asm("r4");
-    register s32 raw asm("r0");
+    s32 stride;
+    s32 index;
+    u8 *playerFirst;
+    s32 one;
+    s32 raw;
     u32 message,id;
     index=sub_080020F4();
     stride=0x14C;
@@ -4577,7 +4577,7 @@ void sub_08043664_ptr(void *arg0)
     if(sub_0800CE30()) flag=state44+0x1C6;
     else flag=state44+0x1BA;
     raw=*flag;
-    asm("" : "+r"(raw));
+    
     offset=raw>>4;
     offset&=one;
     if(!offset) {
@@ -4693,8 +4693,8 @@ void sub_08043A4C(void)
     u32 message;
     u8 *player;
     register s32 offset asm("r2");
-    register s32 multiplier asm("r1");
-    register s32 bit asm("r1");
+    s32 multiplier;
+    s32 bit;
     register s32 one asm("r0");
     register s32 raw asm("r0");
     if (sub_0800CE30())
@@ -4702,7 +4702,7 @@ void sub_08043A4C(void)
     else
         flag = state44 + 0x1BA;
     raw = *flag;
-    asm("" : "+r"(raw));
+    
     bit = raw >> 4;
     one = 1;
     bit &= one;
@@ -4734,8 +4734,8 @@ void sub_08043B20(void)
     u32 message;
     u8 *player;
     register s32 offset asm("r2");
-    register s32 multiplier asm("r1");
-    register s32 bit asm("r1");
+    s32 multiplier;
+    s32 bit;
     register s32 one asm("r0");
     register s32 raw asm("r0");
     if (sub_0800CE30())
@@ -4743,7 +4743,7 @@ void sub_08043B20(void)
     else
         flag = state44 + 0x1BA;
     raw = *flag;
-    asm("" : "+r"(raw));
+    
     bit = raw >> 4;
     one = 1;
     bit &= one;
@@ -4775,8 +4775,8 @@ void sub_08043BF4(void)
     u32 message;
     u8 *player;
     register s32 offset asm("r2");
-    register s32 multiplier asm("r1");
-    register s32 bit asm("r1");
+    s32 multiplier;
+    s32 bit;
     register s32 one asm("r0");
     register s32 raw asm("r0");
     if (sub_0800CE30())
@@ -4784,7 +4784,7 @@ void sub_08043BF4(void)
     else
         flag = state44 + 0x1BA;
     raw = *flag;
-    asm("" : "+r"(raw));
+    
     bit = raw >> 4;
     one = 1;
     bit &= one;
@@ -4816,8 +4816,8 @@ void sub_08043CC8(void)
     u32 message;
     u8 *player;
     register s32 offset asm("r2");
-    register s32 multiplier asm("r1");
-    register s32 bit asm("r1");
+    s32 multiplier;
+    s32 bit;
     register s32 one asm("r0");
     register s32 raw asm("r0");
     if (sub_0800CE30())
@@ -4825,7 +4825,7 @@ void sub_08043CC8(void)
     else
         flag = state44 + 0x1BA;
     raw = *flag;
-    asm("" : "+r"(raw));
+    
     bit = raw >> 4;
     one = 1;
     bit &= one;
@@ -4857,8 +4857,8 @@ void sub_08043D9C(void)
     u32 message;
     u8 *player;
     register s32 offset asm("r2");
-    register s32 multiplier asm("r1");
-    register s32 bit asm("r1");
+    s32 multiplier;
+    s32 bit;
     register s32 one asm("r0");
     register s32 raw asm("r0");
     if (sub_0800CE30())
@@ -4866,7 +4866,7 @@ void sub_08043D9C(void)
     else
         flag = state44 + 0x1BA;
     raw = *flag;
-    asm("" : "+r"(raw));
+    
     bit = raw >> 4;
     one = 1;
     bit &= one;
@@ -4898,8 +4898,8 @@ void sub_08043E70(void)
     u32 message;
     u8 *player;
     register s32 offset asm("r2");
-    register s32 multiplier asm("r1");
-    register s32 bit asm("r1");
+    s32 multiplier;
+    s32 bit;
     register s32 one asm("r0");
     register s32 raw asm("r0");
     if (sub_0800CE30())
@@ -4907,7 +4907,7 @@ void sub_08043E70(void)
     else
         flag = state44 + 0x1BA;
     raw = *flag;
-    asm("" : "+r"(raw));
+    
     bit = raw >> 4;
     one = 1;
     bit &= one;
@@ -4939,8 +4939,8 @@ void sub_08043F44(void)
     u32 message;
     u8 *player;
     register s32 offset asm("r2");
-    register s32 multiplier asm("r1");
-    register s32 bit asm("r1");
+    s32 multiplier;
+    s32 bit;
     register s32 one asm("r0");
     register s32 raw asm("r0");
     if (sub_0800CE30())
@@ -4948,7 +4948,7 @@ void sub_08043F44(void)
     else
         flag = state44 + 0x1BA;
     raw = *flag;
-    asm("" : "+r"(raw));
+    
     bit = raw >> 4;
     one = 1;
     bit &= one;
@@ -4980,8 +4980,8 @@ void sub_08044018(void)
     u32 message;
     u8 *player;
     register s32 offset asm("r2");
-    register s32 multiplier asm("r1");
-    register s32 bit asm("r1");
+    s32 multiplier;
+    s32 bit;
     register s32 one asm("r0");
     register s32 raw asm("r0");
     if (sub_0800CE30())
@@ -4989,7 +4989,7 @@ void sub_08044018(void)
     else
         flag = state44 + 0x1BA;
     raw = *flag;
-    asm("" : "+r"(raw));
+    
     bit = raw >> 4;
     one = 1;
     bit &= one;
@@ -5021,8 +5021,8 @@ void sub_080440EC(void)
     u32 message;
     u8 *player;
     register s32 offset asm("r2");
-    register s32 multiplier asm("r1");
-    register s32 bit asm("r1");
+    s32 multiplier;
+    s32 bit;
     register s32 one asm("r0");
     register s32 raw asm("r0");
     if (sub_0800CE30())
@@ -5030,7 +5030,7 @@ void sub_080440EC(void)
     else
         flag = state44 + 0x1BA;
     raw = *flag;
-    asm("" : "+r"(raw));
+    
     bit = raw >> 4;
     one = 1;
     bit &= one;
@@ -5060,23 +5060,23 @@ void sub_080441C0(void)
 {
     u8 *flag;
     u8 *player;
-    register u8 *playerFirst asm("r1");
+    u8 *playerFirst;
     u32 flags;
     u32 message;
     register s32 offset asm("r2");
-    register s32 multiplier asm("r1");
-    register s32 bit asm("r1");
+    s32 multiplier;
+    s32 bit;
     register s32 one asm("r0");
-    register s32 raw asm("r0");
-    register s32 stride asm("r1");
-    register s32 index asm("r0");
-    register s32 one2 asm("r4");
+    s32 raw;
+    s32 stride;
+    s32 index;
+    s32 one2;
     if (sub_0800CE30())
         flag = state44 + 0x1C6;
     else
         flag = state44 + 0x1BA;
     raw = *flag;
-    asm("" : "+r"(raw));
+    
     bit = raw >> 4;
     one = 1;
     bit &= one;
@@ -5095,7 +5095,7 @@ void sub_080441C0(void)
     else
         flag = state44 + 0x1B9;
     raw = *flag;
-    asm("" : "+r"(raw));
+    
     bit = raw >> 2;
     bit &= one2;
     if (bit != 0) {
@@ -5128,8 +5128,8 @@ void sub_08044318(void)
     u32 message;
     u8 *player;
     register s32 offset asm("r2");
-    register s32 multiplier asm("r1");
-    register s32 bit asm("r1");
+    s32 multiplier;
+    s32 bit;
     register s32 one asm("r0");
     register s32 raw asm("r0");
     if (sub_0800CE30())
@@ -5137,7 +5137,7 @@ void sub_08044318(void)
     else
         flag = state44 + 0x1BA;
     raw = *flag;
-    asm("" : "+r"(raw));
+    
     bit = raw >> 4;
     one = 1;
     bit &= one;

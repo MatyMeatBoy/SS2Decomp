@@ -60,7 +60,7 @@ extern void scaledIcon63(s32, s32, u16, u16, s32, void *, s32, s32, s32, s32, s3
 extern struct IconAsset63 drawingAssets63[] asm("gUnk_03005DDC-28");
 void sub_0805FC80(struct IconPosition63 pos, u16 *item, u32 flags)
 {
-    register u16 *entry asm("r5") = item;
+    u16 *entry = item;
     register u32 mode asm("sl") = flags;
     u16 screenX; s16 screenY;
     u16 alternate = 0;
@@ -69,7 +69,7 @@ void sub_0805FC80(struct IconPosition63 pos, u16 *item, u32 flags)
     u8 frame;
     u8 *resource;
     u8 *descriptor;
-    register u8 *icon asm("r4");
+    u8 *icon;
     register u32 packed asm("r1");
     struct IconAsset63 *asset;
     u16 step;
@@ -170,15 +170,15 @@ void sub_0805FC80(struct IconPosition63 pos, u16 *item, u32 flags)
     if (mode & 1) {
         /* Preserve the ROM's coordinate lifetimes and narrowing order. */
         register s32 rawX asm("r2");
-        register s32 rawY asm("r1");
-        register s32 cameraX asm("r0");
+        s32 rawY;
+        s32 cameraX;
         s32 camera = sub_0800CCCC();
         rawX = pos.x;
         asm("" : "+r"(rawX));
         rawX >>= 8;
         worldX = rawX;
         cameraX = (s16)rawX;
-        asm("" : : "r"(cameraX));
+        
         rawY = pos.y;
         asm("" : : "r"(rawY));
         worldY = rawY >> 8;
@@ -196,11 +196,11 @@ void sub_0805FC80(struct IconPosition63 pos, u16 *item, u32 flags)
         iconAssets63[group].attr[9] = 9;
     if ((mode & 8) && overlay != 0) {
         /* Keep the overlay frame and record base live in the call registers. */
-        register u32 overlayFrame asm("r3");
-        register struct IconAsset63 *layer asm("r2");
+        u32 overlayFrame;
+        struct IconAsset63 *layer;
         if (overlay == 7) overlay = 6;
         overlayFrame = (u16)(overlay + 11);
-        asm("" : : "r"(overlayFrame));
+        
         layer = &iconOverlay63;
         asm("" : : "r"(layer));
         drawIcon63(pos.x, pos.y + 8, 4, overlayFrame, 0, (s32)layer->attr, layer->f8, layer->f0);
@@ -209,7 +209,7 @@ void sub_0805FC80(struct IconPosition63 pos, u16 *item, u32 flags)
         register u32 byteOffset asm("r2");
         register u32 oldValue asm("r4");
         byteOffset = group * sizeof(struct IconAsset63);
-        asm("" : "+r"(byteOffset));
+        
         asset = (struct IconAsset63 *)((u8 *)iconAssets63 + byteOffset);
         step = asset->step;
         oldValue = asset->value;
@@ -1399,7 +1399,7 @@ extern u8 savePlayerPtr64[] asm("gUnk_03003D14");
 extern u8 saveMap64[] asm("gUnk_03003170");
 struct SaveMapS64 { u8 pad0[0x8C]; u16 f8C; u16 f8E; u16 f90; };
 extern struct SaveMapS64 saveMapS64 asm("gUnk_03003170");
-void sub_08061E44(s32 arg0) { register u32 var_r5 asm("r5");
+void sub_08061E44(s32 arg0) { u32 var_r5;
     u8 *data;
     u8 *stats;
     s32 temp_r2;
@@ -1445,7 +1445,7 @@ while(sub_080681F4(arg0) == 0) sub_080003F0();
         if (sub_0800CCCC() != 0) {
 if (savePlayers64[sub_080020F4()].f2E == 0){
             (*(u32 *)((u8 *)(saveData64)+0x0)) = 2;
-            var_r5=0; do { {register u8 *d asm("r0") = saveData64; asm("" : "+r"(d)); ((struct SaveFile64 *)d)->items[var_r5]=((struct SaveItem64 *)saveItems64)[var_r5];} var_r5++; } while(var_r5<=15);
+            var_r5=0; do { {u8 *d = saveData64;  ((struct SaveFile64 *)d)->items[var_r5]=((struct SaveItem64 *)saveItems64)[var_r5];} var_r5++; } while(var_r5<=15);
         } else {
             {u8 *dp=saveData64; *(u32 *)dp = 3; stats=saveStats64;
             ((struct SaveFile64 *)dp)->hD8 = *(u16 *)(stats+0x4);
@@ -1456,13 +1456,13 @@ if (savePlayers64[sub_080020F4()].f2E == 0){
             (*(u16 *)((u8 *)(saveData64)+0x20)) = (u16) savePlayers64[sub_080020F4()].fC4;
             (*(u16 *)((u8 *)(saveData64)+0x22)) = (u16) savePlayers64[sub_080020F4()].fC2;
             {u32 id=sub_080020F4(); u8 *d=saveData64; *(u16*)(d+0x24)=savePlayers64[id].fC6; *(u32*)(d+0x2C)=saveFlags64 & 0xFFFFFEFF;}
-            var_r5=0; do { {register u8 *d asm("r0") = saveData64; asm("" : "+r"(d)); ((struct SaveFile64 *)d)->items[var_r5]=((struct SaveItem64 *)saveItems64)[var_r5];} var_r5++; } while(var_r5<=15);
+            var_r5=0; do { {u8 *d = saveData64;  ((struct SaveFile64 *)d)->items[var_r5]=((struct SaveItem64 *)saveItems64)[var_r5];} var_r5++; } while(var_r5<=15);
             var_r5 = 0;
             do {
-                {u8 *d=saveData64; u32 o; u8 *s; asm("" : "+r"(d)); o=var_r5*2; d+=0xDC; d+=o; s=saveStats64+0x22; *(u16*)d=*(u16*)(s+o);}
+                {u8 *d=saveData64; u32 o; u8 *s;  o=var_r5*2; d+=0xDC; d+=o; s=saveStats64+0x22; *(u16*)d=*(u16*)(s+o);}
                 var_r5 += 1;
             } while (var_r5 <= 9U);
-            {register u8 *pp asm("r6"); var_r5=0; pp=savePlayerPtr64; asm("" : "+r"(pp)); var_r4_2=0; do { *(struct SaveEntry64 *)(saveData64+var_r4_2+0x3DC)=*(struct SaveEntry64 *)(var_r4_2+*(u32 *)(pp+0x14C*sub_080020F4())); var_r4_2+=40; var_r5++; } while(var_r5<=7);}
+            {register u8 *pp asm("r6"); var_r5=0; pp=savePlayerPtr64;  var_r4_2=0; do { *(struct SaveEntry64 *)(saveData64+var_r4_2+0x3DC)=*(struct SaveEntry64 *)(var_r4_2+*(u32 *)(pp+0x14C*sub_080020F4())); var_r4_2+=40; var_r5++; } while(var_r5<=7);}
         }
 } else {
             data=saveData64;stats=saveStats64;
@@ -1476,13 +1476,13 @@ if (savePlayers64[sub_080020F4()].f2E == 0){
             (*(u16 *)((u8 *)(saveData64)+0x24)) = (u16) savePlayers64[sub_080020F4()].fC6;
 {u32 id=sub_080020F4(); u8 *d=saveData64; u8 *p=(u8 *)&savePlayers64[id]; *(struct SavePair64 *)(d+0x30)=*(struct SavePair64 *)(p+0x8C);}
             (*(u32 *)((u8 *)(saveData64)+0x2C)) = (s32) (saveFlags64 & 0xFFFFFEFF);
-            var_r5=0; do { {register u8 *d asm("r0") = saveData64; asm("" : "+r"(d)); ((struct SaveFile64 *)d)->items[var_r5]=((struct SaveItem64 *)saveItems64)[var_r5];} var_r5++; } while(var_r5<=15);
+            var_r5=0; do { {u8 *d = saveData64;  ((struct SaveFile64 *)d)->items[var_r5]=((struct SaveItem64 *)saveItems64)[var_r5];} var_r5++; } while(var_r5<=15);
             var_r5 = 0;
             do {
-                {u8 *d=saveData64; u32 o; u8 *s; asm("" : "+r"(d)); o=var_r5*2; d+=0xDC; d+=o; s=saveStats64+0x22; *(u16*)d=*(u16*)(s+o);}
+                {u8 *d=saveData64; u32 o; u8 *s;  o=var_r5*2; d+=0xDC; d+=o; s=saveStats64+0x22; *(u16*)d=*(u16*)(s+o);}
                 var_r5 += 1;
             } while (var_r5 <= 9U);
-            {register u8 *pp asm("r6"); var_r5=0; pp=savePlayerPtr64; asm("" : "+r"(pp)); var_r4=0; do { *(struct SaveEntry64 *)(saveData64+var_r4+0x3DC)=*(struct SaveEntry64 *)(var_r4+*(u32 *)(pp+0x14C*sub_080020F4())); var_r4+=40; var_r5++; } while(var_r5<=7);}
+            {register u8 *pp asm("r6"); var_r5=0; pp=savePlayerPtr64;  var_r4=0; do { *(struct SaveEntry64 *)(saveData64+var_r4+0x3DC)=*(struct SaveEntry64 *)(var_r4+*(u32 *)(pp+0x14C*sub_080020F4())); var_r4+=40; var_r5++; } while(var_r5<=7);}
         }
         if (saveWrite64() == 0) {
             sub_08006BF8();
@@ -2070,10 +2070,10 @@ static inline void t65_measure(u32 id,u16 *w,u16 *h,u8 *data) {
 static inline u16 t65_readLevel(u16 *p) {register u16 *p1 asm("r1")=p; return *p1;}
 static inline void t65_flags(void) {
  u32 id=sub_080020F4();
- register u8 *base asm("r1")=(u8 *)t65_players;
- register u32 offset asm("r2")=0x14C;
+ u8 *base=(u8 *)t65_players;
+ u32 offset=0x14C;
  offset*=id; base+=0x30; offset+=(u32)base;
- { register u32 *p asm("r2")=(u32 *)offset; *p &= ~0x80; }
+ { u32 *p=(u32 *)offset; *p &= ~0x80; }
 }
 static inline u16 t65_width(struct T65Pair *p) {register struct T65Pair *p1 asm("r1")=p; return p1->x;}
 void sub_0806335C(void)
@@ -2081,10 +2081,10 @@ void sub_0806335C(void)
     struct T65Draw a, b;
     u16 ids[2], widths[2], heights[2];
     u16 i;
-    register struct T65Pair *wp asm("r8");
-    register u16 *lp asm("r9");
+    struct T65Pair *wp;
+    u16 *lp;
     u8 *bp;
-    register u8 *ap asm("r4");
+    u8 *ap;
     sub_08000AF0(0x15, b.unkC, 1);
     a.style = 5;
     b.style = 5;
@@ -2100,7 +2100,7 @@ void sub_0806335C(void)
         i = 1;
         wp = (struct T65Pair *)widths;
         ap=&a.style;
-        { register u8 *p asm("r0")=&b.style; bp=p; }
+        { u8 *p=&b.style; bp=p; }
         lp = &t65_level;
         do {
             t65_video.blend = 0x3030;
@@ -2109,7 +2109,7 @@ void sub_0806335C(void)
             t65_measure(ids[1], widths + 1, heights + 1, b.data);
             if (t65_readLevel(lp) <= 8U) sub_08007CF0(0x78,0x36,ids[0],wp->x,0,(s32)ap,(s32)a.data,a.base);
             else sub_08007CF0(0x78,0x36,0x26,t65_width(wp),0,(s32)ap,(s32)a.data,a.base);
-            sub_08007CF0(0x78,0x6A,ids[1],wp->y,0,(s32)({register u8 *p asm("r1")=bp;asm("" : "+r"(p));p;}),(s32)b.data,b.base);
+            sub_08007CF0(0x78,0x6A,ids[1],wp->y,0,(s32)({u8 *p=bp;p;}),(s32)b.data,b.base);
             sub_080003F0();
         } while (i++ <= 0x77U);
         t65_video.blend = 0;
@@ -2160,14 +2160,14 @@ void t65_popupImplementation(u32 packed,u32 arg)
     {register u32 resource asm("r4")=0x50130;
     register void *table asm("r9");
     register struct T65Popup *descriptor asm("sl");
-    register u32 style asm("r0");register s32 mode asm("r1");register void *base asm("r2");
+    u32 style;s32 mode;register void *base asm("r2");
     s32 first,second,mem;
-    asm("" : "+r"(resource));
-    {register struct T65Popup *p asm("r0")=&draw;asm("" : "+r"(p));descriptor=p;asm("" : "+r"(descriptor));}
-    style=5;mode=-1;base=t65_popupResource;asm("" : "+r"(style), "+r"(mode), "+r"(base));table=base;
+    
+    {struct T65Popup *p=&draw;descriptor=p;}
+    style=5;mode=-1;base=t65_popupResource;table=base;
     draw.resource=resource;draw.style=style;draw.mode=mode;
     first=sub_08006EE0(resource,table);draw.data=(u8 *)first;
-    {register int a asm("r1"); register int b asm("r2"); asm("":"=r"(a),"=r"(b)); widthPtr=&sizes[0]; asm(""::"r"(a),"r"(b));}initialHeight=&sizes[1];initialX=&xy[0];initialY=&xy[1];
+    {register int a asm("r1"); register int b asm("r2");  widthPtr=&sizes[0]; }initialHeight=&sizes[1];initialX=&xy[0];initialY=&xy[1];
     asm("" : "+r"(initialHeight), "+r"(initialX), "+r"(initialY));
     if(first) {
         resource&=0xFFFF;
@@ -2176,7 +2176,7 @@ void t65_popupImplementation(u32 packed,u32 arg)
             mem=sub_08006EE0(resource|0x80000,table);draw.sound=mem;
             if(mem) {
                 i=0;do {draw.palette[i]=i;i++;} while(i<=15);
-                sub_080653B8(({register struct T65Popup *p asm("r0")=descriptor;asm("" : "+r"(p));p;}),0x120,0xE0,8);
+                sub_080653B8(({struct T65Popup *p=descriptor;p;}),0x120,0xE0,8);
             }
         }
     }}
@@ -2394,51 +2394,51 @@ void t65B_impl(s32 index)
     u32 worldY = 0x138;
     register u32 dialog asm("sl");
     u32 i;
-    register u32 alternate asm("r5");
+    u32 alternate;
     register u32 one asm("r9");
-    register s16 *xPtr asm("r6");
+    s16 *xPtr;
     s16 *yPtr;
     u16 *sizePtr;
-    register u16 *heightPtr asm("r5");
+    u16 *heightPtr;
     s32 *boxPtr;
     u8 *out;
-    register u32 callOne65 asm("r4");
+    u32 callOne65;
     u32 currentPlayer;
     register s32 testedIndex asm("r4");
-    register u8 *palettePtr asm("r4");
+    u8 *palettePtr;
     register struct T65BPlayer *player asm("r8");
     {
-        register u32 stride65 asm("r0") = 0x14C;
+        u32 stride65 = 0x14C;
         register u32 idx65 asm("r2");
         register u32 product65 asm("r1");
-        asm("" : "+r"(stride65));
+        
         idx65 = playerIndex;
-        asm("" : "+r"(idx65) : "r"(stride65));
+        
         product65 = idx65;
         product65 *= stride65;
-        asm("" : "+r"(product65));
+        
         player = (struct T65BPlayer *)((u8 *)t65B_players + product65);
     }
-    {register void *table asm("r6");
-    register u32 resource65 asm("r0")=0x5005E;
-    register u32 style65 asm("r1");
-    register s32 mode65 asm("r2");
+    {void *table;
+    u32 resource65=0x5005E;
+    u32 style65;
+    s32 mode65;
     struct T65BPopup *descriptor=&draw;
     s32 first,second,mem;
-    asm("" : "+r"(resource65), "+r"(descriptor));
+    
     style65=5;mode65=-1;
-    asm("" : "+r"(resource65), "+r"(style65), "+r"(mode65));
+    
     table=t65B_resources;
     draw.resource=resource65;draw.style=style65;draw.mode=mode65;
     first=sub_08006EE0(resource65,table);draw.data=(u8 *)first;
     {
         register u32 busy1 asm("r1");
         register u32 busy2 asm("r2");
-        register u32 busy3 asm("r3");
+        u32 busy3;
         register u32 heightBase asm("r5");
         asm("" : "=r"(busy1), "=r"(busy2));
         boxPtr=box;
-        asm("" : "=r"(busy3));
+        
         sizePtr=sizes;
 
         heightBase = (u32)&sizes[1] - 74;
@@ -2447,10 +2447,10 @@ void t65B_impl(s32 index)
         asm("" : : "r"(busy1), "r"(busy2), "r"(busy3), "r"(heightPtr));
     }
     if(first) {
-        register u32 lowResource asm("r4")=0x5E;
+        u32 lowResource=0x5E;
         second=sub_08006EE0(0x6005E,table);draw.base=second;
         if(second) {
-            lowResource |= 0x80000; asm("" : "+r"(lowResource));
+            lowResource |= 0x80000; 
             mem=sub_08006EE0(lowResource,table);draw.sound=mem;
             if(mem) {
                 i=0;do {draw.palette[i]=i;i++;} while(i<=15);
@@ -2461,29 +2461,29 @@ void t65B_impl(s32 index)
             }
         }
     }}
-    {register u32 dialogZero asm("r2");
-    register struct T65BPopup *paletteBase asm("r1");
-    paletteBase=&draw; asm("" : : "r"(paletteBase));
+    {u32 dialogZero;
+    struct T65BPopup *paletteBase;
+    paletteBase=&draw; 
     dialogZero=0; asm("" : "+r"(dialogZero));
     paletteBase->palette[0]=15;
-    {register u32 idxWorld65 asm("r1")=playerIndex;
-    register u32 offsetWorld65 asm("r0");
-    register u32 worldValue65 asm("r1");
-    register u32 scaledX65 asm("r0");
-    asm("" : "+r"(idxWorld65));
+    {u32 idxWorld65=playerIndex;
+    u32 offsetWorld65;
+    u32 worldValue65;
+    u32 scaledX65;
+    
     offsetWorld65=idxWorld65*24;
-    asm("" : "+r"(offsetWorld65));
+    
     worldValue65=0xB8;
-    asm("" : "+r"(worldValue65) : "r"(offsetWorld65));
+    
     worldValue65-=offsetWorld65;
-    asm("" : "+r"(worldValue65));
+    
     worldX=worldValue65;scaledX65=worldValue65<<8;
-    asm("" : "+r"(scaledX65));box[0]=scaledX65;}
+    box[0]=scaledX65;}
     {register u32 y65 asm("r3")=0x138;
     register u32 scaledY65 asm("r0");
     register s32 *ptr65 asm("r4");
     asm("" : "+r"(y65));scaledY65=y65<<8;
-    asm volatile("" : "+r"(scaledY65) : : "memory");
+    
     ptr65=boxPtr;asm("" : "+r"(ptr65));ptr65[1]=scaledY65;}
 
     ((volatile s32 *)box)[2] = 0x80010;
@@ -2499,26 +2499,26 @@ void t65B_impl(s32 index)
         sub_08008CC4(0, &sizes[0], &sizes[1], data, callOne65);
     }
     sub_08008CC4(1, &sizes[2], &sizes[3], draw.data, callOne65);
-    if (!sub_0800CC98() && !sub_0800CD8C() && !sub_0800CD34() && ({register u16 *p asm("r1")=&t65B_blocked;asm("" : "+r"(p));*p;})==0) {
+    if (!sub_0800CC98() && !sub_0800CD8C() && !sub_0800CD34() && ({register u16 *p asm("r1")=&t65B_blocked;*p;})==0) {
         {u32 fade=sub_0800BC44(worldX,worldY,1);
         s32 dx, dy;
         {register int a asm("r4"); register int b asm("r1"); asm("":"=r"(a),"=r"(b)); dx=*xPtr; asm(""::"r"(a),"r"(b));}
-        {register int a asm("r3"); asm("":"=r"(a)); dy=*yPtr; asm(""::"r"(a));}
+        {int a; asm("":"=r"(a)); dy=*yPtr; }
         out=t65B_draw(dx,dy,0,*sizePtr,alternate=(u8)fade,palettePtr=draw.palette,draw.data,draw.base);}
         *(u32 *)(out+12) -= 20;
         if (t65B_flags & one) t65B_overlay(*xPtr,*yPtr,1,sizes[2],alternate,palettePtr,draw.data,draw.base);
         sub_08000AF0(0x1F,(void *)draw.sound,1);
     }
-    currentPlayer=sub_080020F4();testedIndex=playerIndex;asm("" : "+r"(testedIndex));
+    currentPlayer=sub_080020F4();testedIndex=playerIndex;
     if (testedIndex == currentPlayer) {
-        if ((({register u16 *p asm("r1")=&t65B_blocked;asm("" : "+r"(p));*p;})==0 && ({register s32 *boxArg asm("r0"); register u8 *playerArg asm("r1"); register s32 *widthArg asm("r2");
-            boxArg=boxPtr; asm("" : "+r"(boxArg));
+        if ((({register u16 *p asm("r1")=&t65B_blocked;*p;})==0 && ({register s32 *boxArg asm("r0"); u8 *playerArg; s32 *widthArg;
+            boxArg=boxPtr; 
             playerArg=(u8 *)player+0x8C; asm("" : "+r"(playerArg));
-            widthArg=box+2; asm("" : "+r"(widthArg));
+            widthArg=box+2; 
             t65B_intersect(boxArg,playerArg,widthArg,box+3);})) || ({register u32 prior65 asm("r2")=dialog;asm("" : "+r"(prior65));prior65;}) != 0) {
-            if (({register u32 now65 asm("r3")=dialog;asm("" : "+r"(now65));now65;}) == 0) {
+            if (({register u32 now65 asm("r3")=dialog;now65;}) == 0) {
                 if (!sub_0800CDF8()) {
-                    register struct T65BPlayer *p asm("r4")=player;asm("" : "+r"(p));
+                    register struct T65BPlayer *p asm("r4")=player;
                     if(p->buttons&1) {p->flags|=1;dialog=sub_0805DF38(1,14,25,2,-2,0x1404E0);}
                 }
             } else if (sub_0805EEFC((void *)dialog)) {
@@ -2532,18 +2532,18 @@ void t65B_impl(s32 index)
                     sub_0800CF34();
                     goto finish;
                 } else {
-                    {register struct T65BPlayer *p asm("r2")=player;asm("" : "+r"(p));p->flags&=~1;}
+                    {register struct T65BPlayer *p asm("r2")=player;p->flags&=~1;}
                     {register u32 zero asm("r3")=0;asm("" : "+r"(zero));dialog=zero;}
                 }
             }
         }
     } else {
-        {register u8 *entity asm("r1")=player->entity;
+        {u8 *entity=player->entity;
         register u32 state asm("r0")=entity[0];
-        asm("" : "+r"(entity), "+r"(state));
-        state<<=28;asm("" : "+r"(state));state>>=28;
+        
+        state<<=28;state>>=28;
         if(state==12) {
-            state=*(u16 *)(entity+4);state<<=20;asm("" : "+r"(state));state>>=26;
+            state=*(u16 *)(entity+4);state<<=20;state>>=26;
             if(state==1) goto finish;
         }}
     }
@@ -2807,7 +2807,7 @@ void BattleResult441(u16 *arg0, u32 arg1)
     struct Chr441 *chr;
     struct PE441 *pe;
         struct PL441 *plp;
-    asm("" : "+r"(o));
+    
     if (sub_0800BA6C() && !sub_0805F184() && !sub_0800CC98() && !sub_0800CCCC() && !sub_0800CE68() && !sub_0800CDF8() && !sub_0800D11C()) {
         pl441[sub_080020F4()].b68 = 0;
         while (sub_0801AC78() == 0)
@@ -3021,7 +3021,7 @@ void BattleResult441(u16 *arg0, u32 arg1)
         if (sub_0800CC98() == 0)
             sub_08015C14();
         sub_0800CD68();
-        {register u16 *q0 asm("r6"); { u16 *q; u16 z; u8 zb; { u16 *t = wh; asm("" : "+r"(t)); q0 = t; } z = 0; zb = 0; asm("" : "+r"(zb)); *q0 = z; q = &wh[1]; asm("" : "+r"(q)); *q = z;
+        {register u16 *q0 asm("r6"); { u16 *q; u16 z; u8 zb; { u16 *t = wh; asm("" : "+r"(t)); q0 = t; } z = 0; zb = 0;  *q0 = z; q = &wh[1]; asm("" : "+r"(q)); *q = z;
         pl441[sub_080020F4()].state = z;
         pl441[sub_080020F4()].b68 = zb; }
         while (sub_08058DB0() == 0)

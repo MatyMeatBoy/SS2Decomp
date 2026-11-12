@@ -8,8 +8,8 @@ void sub_080443EC(void)
     u32 message;
     u8 *player;
     register s32 offset asm("r2");
-    register s32 multiplier asm("r1");
-    register s32 bit asm("r1");
+    s32 multiplier;
+    s32 bit;
     register s32 one asm("r0");
     register s32 raw asm("r0");
     if (sub_0800CE30())
@@ -17,7 +17,7 @@ void sub_080443EC(void)
     else
         flag = state44 + 0x1BA;
     raw = *flag;
-    asm("" : "+r"(raw));
+    
     bit = raw >> 4;
     one = 1;
     bit &= one;
@@ -45,13 +45,13 @@ void sub_080443EC(void)
 }
 void sub_080444C0(void)
 {
-    register u32 actor asm("r4");
-    register u32 message asm("r5");
+    u32 actor;
+    u32 message;
     u32 i;
-    register s32 upperOffset asm("r1");
-    register s32 lowerOffset asm("r2");
+    s32 upperOffset;
+    s32 lowerOffset;
     u8 *slot;
-    register u8 *flag asm("r0");
+    u8 *flag;
     actor=sub_080289C0(0x9000D,0xF0,0xE6);
     if (sub_0800CE30()) {
         upperOffset = 0x1BF;
@@ -83,7 +83,7 @@ void sub_080444C0(void)
     }
     if(slot)*(u16 *)(slot+0x36)=4;
     actor = 5;
-    asm("" : "+r"(actor));
+    
     if (sub_0800CE30()) {
         upperOffset = 0x1BF;
         flag = state44 + upperOffset;
@@ -137,10 +137,10 @@ static inline u32 ask5E8(u16 id)
 }
 static inline u8 *find5E8(u32 actor)
 {
-    register u8 *p asm("r1");
+    u8 *p;
     register u32 i asm("r3");
-    register s32 raw asm("r0") = (s32)state5E8;
-    register u32 off asm("r3") = 0x7A4;
+    s32 raw = (s32)state5E8;
+    u32 off = 0x7A4;
     p = (u8 *)raw + off;
     i = 0;
     do {
@@ -208,10 +208,10 @@ static inline void mark5E8(u32 target)
 {
     u32 actor = target;
     u16 v;
-    asm("" : "+r"(actor));
+    
     v = 3;
     if (target > 0x100000) {
-        register u8 *p asm("r0") = find5E8(actor);
+        u8 *p = find5E8(actor);
         if (p) *(u16 *)(p + 0x42) = v;
     } else if (target != 0) {
         u32 i = target - 1;
@@ -219,7 +219,7 @@ static inline void mark5E8(u32 target)
     } else {
         s32 raw = sub_080020F4() * 0x14C;
         s32 v1;
-        { register u8 *base asm("r1") = (u8 *)players5E8; raw += (s32)base; v1 = 0x11E; raw += v1; *(u16 *)raw = v; }
+        { u8 *base = (u8 *)players5E8; raw += (s32)base; v1 = 0x11E; raw += v1; *(u16 *)raw = v; }
     }
 }
 static inline void mark2_5E8(u32 target)
@@ -229,7 +229,7 @@ static inline void mark2_5E8(u32 target)
     asm("" : "+r"(actor));
     v = 3;
     if (actor > 0x100000) {
-        register u8 *p asm("r0") = find5E8(actor);
+        u8 *p = find5E8(actor);
         if (p) *(u16 *)(p + 0x42) = v;
     } else if (target != 0) {
         u32 i = target - 1;
@@ -237,7 +237,7 @@ static inline void mark2_5E8(u32 target)
     } else {
         s32 raw = sub_080020F4() * 0x14C;
         s32 v1;
-        { register u8 *base asm("r1") = (u8 *)players5E8; raw += (s32)base; v1 = 0x11E; raw += v1; *(u16 *)raw = v; }
+        { u8 *base = (u8 *)players5E8; raw += (s32)base; v1 = 0x11E; raw += v1; *(u16 *)raw = v; }
     }
 }
 
@@ -298,7 +298,7 @@ end:
 struct Actor566045 { u32 id; u8 p4[0x14]; u16 x, y; u8 p1C[0x20]; u32 flags; u8 p40[4]; u32 callback; u8 p48[0x28]; };
 extern u8 *state566045 asm("gUnk_03005CF4");
 extern void callback566045(void) asm("sub_08033198");
-static inline s32 bit566045(u8 *p, s32 one) { s32 raw = *p; asm("" : "+r"(raw)); return (raw >> 2) & one; }
+static inline s32 bit566045(u8 *p, s32 one) { s32 raw = *p;  return (raw >> 2) & one; }
 static inline u8 *flag566045(u8 **st) {
     if (sub_0800CE30()) return *st + 0x1C3;
     return *st + 0x1B7;
@@ -333,9 +333,9 @@ void sub_08044D1C(void) {
     struct Actor566045 *a;
     s32 one, x, y;
     u8 **st = &state566045;
-    asm("" : "+r"(st));
+    
     one = 1;
-    asm("" : "+r"(one));
+    
 again:
     bit = bit566045(flag4D1C45(st), one);
     wait566045(1);
@@ -353,10 +353,10 @@ void sub_08044E34(s32 arg0) {
     register s32 arg asm("r8") = arg0;
     s32 *base;
     u32 mask;
-    register s32 count asm("r4");
+    s32 count;
     register s32 oldBit asm("r5");
     s32 value;
-    register s32 temp asm("r0");
+    s32 temp;
     mask = 1;
     base = &gUnk_03005CF4;
 start:
@@ -367,7 +367,7 @@ start:
     goto wait;
 dec:
     temp = count - 1;
-    asm volatile("" : "+r" (temp));
+    
     count = (u16)temp;
     if (count == 0) goto compare;
 wait:
@@ -389,8 +389,8 @@ static inline u8 *flagEB445(u8 **st) {
 }
 static inline s32 first6EB445(u8 **st, s32 one) {
     s32 raw;
-    if (sub_0800CE30()) { raw = (*st)[0x1C4]; asm("" : "+r"(raw)); return (raw >> 6) & one; }
-    raw = (*st)[0x1B8]; asm("" : "+r"(raw)); return (raw >> 6) & one;
+    if (sub_0800CE30()) { raw = (*st)[0x1C4];  return (raw >> 6) & one; }
+    raw = (*st)[0x1B8];  return (raw >> 6) & one;
 }
 static inline s32 b6tEB445(u8 **st, s32 one) {
     s32 raw;
@@ -402,8 +402,8 @@ static inline s32 b7tEB445(u8 **st, s32 one) {
     if (sub_0800CE30()) { raw = (*st)[0x1C4]; return (raw >> 7) & one; }
     raw = (*st)[0x1B8]; return (raw >> 7) & one;
 }
-static inline s32 bit6EB445(u8 **st, s32 one) { u8 *p = flagEB445(st); s32 raw = *p; asm("" : "+r"(raw)); return (raw >> 6) & one; }
-static inline s32 bit7EB445(u8 **st, s32 one) { u8 *p = flagEB445(st); s32 raw = *p; asm("" : "+r"(raw)); return (raw >> 7) & one; }
+static inline s32 bit6EB445(u8 **st, s32 one) { u8 *p = flagEB445(st); s32 raw = *p;  return (raw >> 6) & one; }
+static inline s32 bit7EB445(u8 **st, s32 one) { u8 *p = flagEB445(st); s32 raw = *p;  return (raw >> 7) & one; }
 static inline void fxEB445(u8 **st) {
     void *cb = cbA40EB445;
     u8 *task = *st + 0xE34;
@@ -451,7 +451,7 @@ static inline void fxEB445(u8 **st) {
     if (ap) { ap->x = x; ap->y = y; ap->flags |= 0x10; } \
     setcb566045(st, id, (u32)cbFEA0EB445); \
     sub_08068070((u32)cb990CEB445, 0x17); \
-    {register struct Player *p asm("r2");register u32 idx asm("r2");idx=sub_080020F4();idx*=0x14C;p=(struct Player *)((u8 *)gUnk_03003CE0+idx);p->flags &= ~1;} \
+    {struct Player *p;register u32 idx asm("r2");idx=sub_080020F4();idx*=0x14C;p=(struct Player *)((u8 *)gUnk_03003CE0+idx);p->flags &= ~1;} \
     sub_0800D108(); \
 }
 void sub_08044EB4(u32 id) {
@@ -461,7 +461,7 @@ void sub_08044EB4(u32 id) {
     struct Actor566045 *ap;
     s32 one = 1;
     u8 **st = &state566045;
-    asm("" : "+r"(id));
+    
     for (;;) {
         a = first6EB445(st, one);
         b = b7tEB445(st, 1);
@@ -500,13 +500,13 @@ static inline u32 count534C45(u32 n) { return n; }
     check:                                                      \
         if (i > 0x1D) goto done;                                \
         r = sub_08000470((u32)task);                            \
-        if (r != 0) goto next;                                          asm("" : "+r"(r));                                      \
+        if (r != 0) goto next;                                                                                \
         u.args.x = 0x9700;                                      \
         u.args.y = 0x16D00;                                     \
         u.args.w = 0x10;                                        \
         u.args.h = 8;                                           \
         u.args.cb = cb;                                         \
-        { register u32 z asm("r0") = 0;                                   asm("" : "+r"(z) : "m"(u.args.cb));                             u.args.zero = z; }                                    \
+        { register u32 z asm("r0") = 0;                                                                u.args.zero = z; }                                    \
         *(u32 *)(task + 8) = 0x3C;                              \
         buf = sub_08001494(0x400);                              \
         *(u8 **)(task + 0x20) = buf;                            \
@@ -528,10 +528,10 @@ void sub_0804534C(void) {
     u32 dlg;
     u32 i;
     union { struct Cmd534C45 cmd; struct Spawn534C45 args; } u;
-    register u32 a asm("r1");
-    register u32 b asm("r2");
+    u32 a;
+    u32 b;
     register struct Cmd534C45 *c asm("r0");
-    {register struct Player *p asm("r2");register u32 idx asm("r2");idx=sub_080020F4();idx*=0x14C;p=(struct Player *)((u8 *)gUnk_03003CE0+idx);p->flags |= 1;}
+    {struct Player *p;register u32 idx asm("r2");idx=sub_080020F4();idx*=0x14C;p=(struct Player *)((u8 *)gUnk_03003CE0+idx);p->flags |= 1;}
     sub_0800D0F4();
     while (sub_0805F184()) sub_080003F0();
     dlg = sub_0805DF38(1, 15, 2, 0, -2, 0x14021C);
@@ -570,20 +570,20 @@ void sub_0804534C(void) {
         FX534C45(next2, check2);
     }
 done:
-    {register struct Player *p asm("r2");register u32 idx asm("r2");idx=sub_080020F4();idx*=0x14C;p=(struct Player *)((u8 *)gUnk_03003CE0+idx);p->flags &= ~1;}
+    {struct Player *p;register u32 idx asm("r2");idx=sub_080020F4();idx*=0x14C;p=(struct Player *)((u8 *)gUnk_03003CE0+idx);p->flags &= ~1;}
     sub_0800D108();
 }
 void sub_080455F0(s32 arg0) {
-    register s32 arg asm("r5") = arg0;
+    s32 arg = arg0;
     register s32 mask asm("r6");
     s32 *base = &gUnk_03005CF4;
     s32 value;
     s32 oldBit;
     u16 count;
-    register s32 call0 asm("r0");
+    s32 call0;
     register s32 call1 asm("r1");
-    register s32 call2 asm("r2");
-    register s32 call3 asm("r3");
+    s32 call2;
+    s32 call3;
     mask = 1;
 loop:
     if (sub_0800CE30() != 0) value = *(u8 *)(*(u32 *)base + 0x1C5);
@@ -612,9 +612,9 @@ void sub_08045660(void) {
     struct Actor566045 *a;
     s32 one, x, y; u32 cb;
     u8 **st = &state566045;
-    asm("" : "+r"(st));
+    
     one = 1;
-    asm("" : "+r"(one));
+    
 again:
     bit = bit566045(flag566045(st), one);
     wait566045(1);
@@ -704,11 +704,11 @@ static inline u8 *flagB6845(void) {
     if (sub_0800CE30()) return state566045 + 0x1C5;
     return state566045 + 0x1B9;
 }
-static inline s32 bitB6845(u8 *p, s32 one) { s32 raw = *p; asm("" : "+r"(raw)); return (raw >> 6) & one; }
+static inline s32 bitB6845(u8 *p, s32 one) { s32 raw = *p;  return (raw >> 6) & one; }
 static inline s32 bit2B6845(s32 one) {
     s32 raw;
-    if (sub_0800CE30()) { raw = state566045[0x1C5]; asm("" : "+r"(raw)); return (raw >> 6) & one; }
-    raw = state566045[0x1B9]; asm("" : "+r"(raw)); return (raw >> 6) & one;
+    if (sub_0800CE30()) { raw = state566045[0x1C5];  return (raw >> 6) & one; }
+    raw = state566045[0x1B9];  return (raw >> 6) & one;
 }
 static inline s32 bit3B6845(u8 **st, s32 one) {
     s32 raw;
@@ -747,7 +747,7 @@ void sub_08045B68(u32 arg0) {
     a = findB6845(id);
     if (a) { a->x = 8; a->y = 4; a->flags |= 0x10; }
     setcbB6845(id, (u32)cb8F4CB6845);
-    { u8 **st = &state566045; s32 one = 1; asm("" : "+r"(st)); asm("" : "+r"(one));
+    { u8 **st = &state566045; s32 one = 1;  
     do {
         wait566045(1);
     } while (!bit3B6845(st, one)); }
@@ -782,11 +782,11 @@ void sub_08045B68(u32 arg0) {
     sub_08028AAC(id, 0x78, 0xF0, 0x28);
     a = find2B6845(id);
     if (a) *(u16 *)((u8 *)a + 0x36) = 4;
-    {register struct Player *p asm("r2");register u32 idx asm("r2");idx=sub_080020F4();idx*=0x14C;p=(struct Player *)((u8 *)gUnk_03003CE0+idx);p->flags &= ~1;}
+    {struct Player *p;register u32 idx asm("r2");idx=sub_080020F4();idx*=0x14C;p=(struct Player *)((u8 *)gUnk_03003CE0+idx);p->flags &= ~1;}
     sub_0800D108();
 }
 extern void callback5E3845(void) asm("sub_0803898C");
-static inline s32 bit5E3845(u8 *p, s32 one) { s32 raw = *p; asm("" : "+r"(raw)); return (raw >> 5) & one; }
+static inline s32 bit5E3845(u8 *p, s32 one) { s32 raw = *p;  return (raw >> 5) & one; }
 static inline u32 spawn5E3845(s32 a, s32 b, s32 c) { return sub_080289C0(a, b, c); }
 void sub_08045E38(void) {
     s32 bit;
@@ -794,9 +794,9 @@ void sub_08045E38(void) {
     struct Actor566045 *a;
     s32 one, x, y;
     u8 **st = &state566045;
-    asm("" : "+r"(st));
+    
     one = 1;
-    asm("" : "+r"(one));
+    
 again:
     bit = bit5E3845(flag566045(st), one);
     wait566045(1);
@@ -833,12 +833,12 @@ static inline u32 countF4445(u32 n) { return n; }
 #define READ_BIT_F4445(result, shift, setReg, clearReg) { \
     u8 *addr; \
     if (sub_0800CE30()) { \
-        register u8 *base asm("r0") = state566045; \
+        u8 *base = state566045; \
         register u32 offset asm(setReg) = 0x1C7; \
         asm("" : : "r"(offset), "r"(base)); \
         addr = base + offset; \
     } else { \
-        register u8 *base asm("r0") = state566045; \
+        u8 *base = state566045; \
         register u32 offset asm(clearReg) = 0x1BB; \
         asm("" : : "r"(offset), "r"(base)); \
         addr = base + offset; \
@@ -850,8 +850,8 @@ static inline u32 countF4445(u32 n) { return n; }
 static inline void setlvF4445(u32 id, u16 v) {
     struct Actor566045 *ap;
     register u32 key asm("r2") = id;
-    register u32 level asm("r4");
-    asm("" : : "r"(key));
+    u32 level;
+    
     level = v;
     if (id > 0x100000) {
         ap = find566045(&state566045, key);
@@ -859,8 +859,8 @@ static inline void setlvF4445(u32 id, u16 v) {
     } else if (id != 0) {
         u32 k = id - 1;
         if (k <= 4) {
-            register u8 **table asm("r1") = &recordsF4445;
-            register u32 offset asm("r0");
+            u8 **table = &recordsF4445;
+            u32 offset;
             offset = k * sizeof(struct RecF4445);
             sub_08019EB8(((struct RecF4445 *)(*table + offset))->f2, v);
         }
@@ -873,18 +873,18 @@ void sub_08045F44(u32 inputId) {
     struct CmdF4445 cmd;
     u8 unused[16];
     u32 dlg;
-    register s32 a asm("r6");
+    s32 a;
     register s32 b asm("r5");
-    register s32 c asm("r4");
+    s32 c;
     s32 d, cntv;
-    register s32 lastBit asm("r1");
+    s32 lastBit;
     u32 i, n;
     struct ItemF4445 *it;
     struct Actor566045 *ap;
 
     ((struct PlF4445 *)(sub_080020F4() * 0x14C + (u32)playersF4445))->flags |= 1;
     sub_0800D0F4();
-    { register s32 coord asm("r0") = playersF4445[sub_080020F4()].f8C; a = coord >> 8; }
+    { s32 coord = playersF4445[sub_080020F4()].f8C; a = coord >> 8; }
     if (a > 0x1E7) sub_08029174(id, 6);
     else sub_08029174(id, 2);
     READ_BIT_F4445(a, 2, "r1", "r3");
@@ -900,7 +900,7 @@ void sub_08045F44(u32 inputId) {
         s32 player;
         DIALOG_F4445(0x1402A1);
         {
-            register u32 count asm("r3");
+            u32 count;
             u32 k;
             u8 *entry;
             count = 0;
@@ -912,7 +912,7 @@ void sub_08045F44(u32 inputId) {
                 entry += 0x10;
             } while (++k <= 0x18);
             a = count;
-            asm("" : "+r"(a));
+            
             cntv = a;
         }
         b = sub_080020F4();
@@ -926,20 +926,20 @@ void sub_08045F44(u32 inputId) {
             DIALOG_F4445(0x1402A4);
             {
                 register u8 **inventory asm("r6");
-                register u32 n asm("r4");
+                u32 n;
                 register u32 i asm("r3");
-                register u32 clear asm("r5");
+                u32 clear;
                 n = 1;
                 i = 0;
-                asm("" : "+r"(i) : "r"(n));
+                
                 inventory = &invF4445;
                 clear = 0;
             removeItem:
                 {
-                    register u8 *base asm("r0") = *inventory;
-                    register u32 scaled asm("r1");
+                    u8 *base = *inventory;
+                    u32 scaled;
                     u8 *e;
-                    asm("" : : "r"(base));
+                    
                     scaled = i * 16;
                     e = base + scaled;
                     if (*(u16 *)(e + 0x150) == 5 && *(u16 *)(e + 0x152) == 0xA6) {
@@ -953,8 +953,8 @@ void sub_08045F44(u32 inputId) {
             removedItem:;
             }
             {
-                register u32 ka asm("r1");
-                register u32 kb asm("r2");
+                u32 ka;
+                u32 kb;
                 register struct CmdF4445 *kc asm("r0");
                 ka = 1; kb = 0x1E; kc = &cmd; kc->kind = ka; kc->value = kb;
             }
@@ -972,7 +972,7 @@ void sub_08045F44(u32 inputId) {
     }
 end:
     sub_0802939C(id, 0);
-    {register struct Player *p asm("r2");register u32 idx asm("r2");idx=sub_080020F4();idx*=0x14C;p=(struct Player *)((u8 *)gUnk_03003CE0+idx);p->flags &= ~1;}
+    {struct Player *p;register u32 idx asm("r2");idx=sub_080020F4();idx*=0x14C;p=(struct Player *)((u8 *)gUnk_03003CE0+idx);p->flags &= ~1;}
     sub_0800D108();
 }
 #undef READ_BIT_F4445
@@ -980,26 +980,26 @@ struct Item46490 { u16 kind,id; u8 data[12]; };
 extern u8 *state46490 asm("gUnk_03005CF4");
 extern u8 *items46490 asm("gUnk_030034E0");
 extern void sub_0805990C(void);
-static inline u32 load46490(u16 *p) {register u32 v asm("r0")=*p;return v;}
+static inline u32 load46490(u16 *p) {u32 v=*p;return v;}
 static inline u32 count46490(u32 n) { return n; }
-static inline u8 *find46490(u32 actor) { register u8 *p asm("r1");register u32 i asm("r3");register s32 raw asm("r0")=(s32)state46490;register u32 off asm("r3")=0x7A4;p=(u8 *)raw+off;i=0;do{if(*(u32 *)p==actor)return p;i++;p+=0x70;}while(i<=14);sub_080003F0();return 0; }
+static inline u8 *find46490(u32 actor) { u8 *p;u32 i;s32 raw=(s32)state46490;u32 off=0x7A4;p=(u8 *)raw+off;i=0;do{if(*(u32 *)p==actor)return p;i++;p+=0x70;}while(i<=14);sub_080003F0();return 0; }
 void sub_08046490(u32 arg0){
  struct Item46490 cmd; u8 unused[16];
  u32 arg=arg0;
- register s32 flag asm("r4"); register s32 offset asm("r1");
- register struct Player *player asm("r1"); u8 *selected; register s32 count asm("r3"); register u32 i asm("r2"); struct Item46490 *item;
- register u8 *data asm("r8"); u32 task; register u8 *entity asm("r1"); register u8 *found asm("r0"); register u32 j asm("r3"); register s32 left asm("r4"); u8 *slot; register u32 actor asm("r2"); u8 **itemsbase; register u32 v1 asm("r1"); register u32 v2 asm("r2"); register u8 *cmdaddr asm("r0"); register u8 *dataptr asm("r1"); register u32 off asm("r3"); register u32 n asm("r4");
+ s32 flag; s32 offset;
+ struct Player *player; u8 *selected; register s32 count asm("r3"); u32 i; struct Item46490 *item;
+ u8 *data; u32 task; u8 *entity; u8 *found; u32 j; s32 left; u8 *slot; u32 actor; u8 **itemsbase; register u32 v1 asm("r1"); u32 v2; u8 *cmdaddr; u8 *dataptr; u32 off; u32 n;
  register s32 raw asm("r0"); register u32 zero asm("r5");
- register s32 b2 asm("r6"); register s32 b3 asm("r5"); register s32 b4 asm("r4"); register s32 b5 asm("r1");register s32 bit asm("r0");register u32 off4 asm("r4");register u32 off1 asm("r1");register s32 savedCount asm("r6");register s32 playerIndex asm("r5");
- {register u32 stride asm("r5"); register u8 *base asm("r4");register struct Player *p asm("r2");register u32 idx asm("r2");register s32 pos asm("r6"); idx=sub_080020F4();stride=0x14C;idx*=stride;base=(u8 *)gUnk_03003CE0;p=(struct Player *)(idx+(u32)base);p->flags|=1;sub_0800D0F4();raw=sub_080020F4()*stride;base+=0x8C;raw=*(s32 *)(raw+(u32)base);pos=raw>>8;if(pos>0x1CD)sub_08029174(arg,6);else sub_08029174(arg,2); }
+ s32 b2; s32 b3; s32 b4; s32 b5;register s32 bit asm("r0");u32 off4;u32 off1;register s32 savedCount asm("r6");register s32 playerIndex asm("r5");
+ {u32 stride; u8 *base;struct Player *p;register u32 idx asm("r2");register s32 pos asm("r6"); idx=sub_080020F4();stride=0x14C;idx*=stride;base=(u8 *)gUnk_03003CE0;p=(struct Player *)(idx+(u32)base);p->flags|=1;sub_0800D0F4();raw=sub_080020F4()*stride;base+=0x8C;raw=*(s32 *)(raw+(u32)base);pos=raw>>8;if(pos>0x1CD)sub_08029174(arg,6);else sub_08029174(arg,2); }
  if(sub_0800CE30()) {raw=(s32)state46490;off1=0x1C7;selected=(u8 *)raw+off1;}else {raw=(s32)state46490;off=0x1BB;selected=(u8 *)raw+off;}
- raw=*selected;asm("" : "+r"(raw));b2=raw>>2;bit=1;b2 &= bit;
+ raw=*selected;b2=raw>>2;bit=1;b2 &= bit;
  if(sub_0800CE30()) {raw=(s32)state46490;off4=0x1C7;selected=(u8 *)raw+off4;}else {raw=(s32)state46490;off1=0x1BB;selected=(u8 *)raw+off1;}
- raw=*selected;asm("" : "+r"(raw));b3=raw>>3;bit=1;b3 &= bit;
+ raw=*selected;b3=raw>>3;bit=1;b3 &= bit;
  if(sub_0800CE30()) {raw=(s32)state46490;off=0x1C7;selected=(u8 *)raw+off;}else {raw=(s32)state46490;off4=0x1BB;selected=(u8 *)raw+off4;}
- raw=*selected;asm("" : "+r"(raw));b4=raw>>4;bit=1;b4 &= bit;
+ raw=*selected;b4=raw>>4;bit=1;b4 &= bit;
  if(sub_0800CE30()) {raw=(s32)state46490;off1=0x1C7;selected=(u8 *)raw+off1;}else {raw=(s32)state46490;off=0x1BB;selected=(u8 *)raw+off;}
- raw=*selected;asm("" : "+r"(raw));b5=raw>>5;bit=1;b5 &= bit;
+ raw=*selected;b5=raw>>5;bit=1;b5 &= bit;
  if(b2) {if(!b3)goto exchange;if(!b4||!b5)goto partial;
 while(sub_0805F184())sub_080003F0();while(sub_0805EF90())sub_080003F0();task=sub_0805DF38(1,15,2,0,-1,0x1402B2);while(!sub_0805EEFC((void *)task)){if(sub_0800CDF8()){sub_0805EFBC();break;}sub_080003F0();}
 goto finish;}
@@ -1014,12 +1014,12 @@ while(sub_0805F184())sub_080003F0();while(sub_0805EF90())sub_080003F0();task=sub
  actor=arg;flag=3;if(arg>0x100000) {
  found=find46490(actor);
  if(found) *(u16 *)(found+0x42)=flag;
- } else if(arg) {actor=arg-1;if(actor<=4){register u8 **base asm("r1")=(u8 **)&gUnk_030056F4;raw=actor*0x2E0;base=(u8 **)((u8 *)*base+raw);sub_08019EB8(*(u16 *)((u8 *)base+2),3);}}
- else {raw=sub_080020F4()*0x14C;{register u8 *base asm("r1")=(u8 *)gUnk_03003CE0;raw+=(s32)base;v1=0x11E;raw+=v1;*(u16 *)raw=flag;}}
-while(sub_0805F184())sub_080003F0();task=sub_0805DF38(1,15,2,0,-2,0x1402AB);while(!sub_0805EEFC((void *)task))sub_080003F0();flag=sub_0805EF14((u8 *)task);asm("" : "+r"(flag));if(flag){data=cmd.data;
+ } else if(arg) {actor=arg-1;if(actor<=4){u8 **base=(u8 **)&gUnk_030056F4;raw=actor*0x2E0;base=(u8 **)((u8 *)*base+raw);sub_08019EB8(*(u16 *)((u8 *)base+2),3);}}
+ else {raw=sub_080020F4()*0x14C;{u8 *base=(u8 *)gUnk_03003CE0;raw+=(s32)base;v1=0x11E;raw+=v1;*(u16 *)raw=flag;}}
+while(sub_0805F184())sub_080003F0();task=sub_0805DF38(1,15,2,0,-2,0x1402AB);while(!sub_0805EEFC((void *)task))sub_080003F0();flag=sub_0805EF14((u8 *)task);if(flag){data=cmd.data;
 while(sub_0805F184())sub_080003F0();while(sub_0805EF90())sub_080003F0();task=sub_0805DF38(1,15,2,0,-1,0x1402AD);while(!sub_0805EEFC((void *)task)){if(sub_0800CDF8()){sub_0805EFBC();break;}sub_080003F0();}
- left=1;j=0;itemsbase=&items46490;asm("" : "+r"(itemsbase));zero=0;
- loopRemove:raw=(s32)*itemsbase;asm("" : "+r"(raw));slot=(u8 *)raw+j*16;
+ left=1;j=0;itemsbase=&items46490;zero=0;
+ loopRemove:raw=(s32)*itemsbase;slot=(u8 *)raw+j*16;
  if(*(u16 *)(slot+0x150)!=3 || *(u16 *)(slot+0x152)!=0x15 || (left--,*(u16 *)(slot+0x150)=zero,*(u16 *)(slot+0x152)=zero,left!=0)) {j++;if(j<=24)goto loopRemove;}
 
  v1=1;v2=0x1E;cmdaddr=(u8 *)&cmd;*(u16 *)cmdaddr=v1;*(u16 *)(cmdaddr+2)=v2;
@@ -1032,31 +1032,31 @@ while(sub_0805F184())sub_080003F0();while(sub_0805EF90())sub_080003F0();task=sub
 while(sub_0805F184())sub_080003F0();while(sub_0805EF90())sub_080003F0();task=sub_0805DF38(1,15,2,0,-1,0x1402AC);while(!sub_0805EEFC((void *)task)){if(sub_0800CDF8()){sub_0805EFBC();break;}sub_080003F0();}
 }}
  finish:sub_0802939C(arg,0);
- {register struct Player *p asm("r2");register u32 idx asm("r2");idx=sub_080020F4();idx*=0x14C;p=(struct Player *)((u8 *)gUnk_03003CE0+idx);p->flags &= ~1;}sub_0800D108();
+ {struct Player *p;register u32 idx asm("r2");idx=sub_080020F4();idx*=0x14C;p=(struct Player *)((u8 *)gUnk_03003CE0+idx);p->flags &= ~1;}sub_0800D108();
 }
 struct Item469DC { u16 kind,id; u8 data[12]; };
 extern u8 *state469DC asm("gUnk_03005CF4");
 extern u8 *items469DC asm("gUnk_030034E0");
-static inline u32 load469DC(u16 *p) {register u32 v asm("r0")=*p;return v;}
+static inline u32 load469DC(u16 *p) {u32 v=*p;return v;}
 static inline u32 count469DC(u32 n) { return n; }
-static inline u8 *find469DC(u32 actor) { register u8 *p asm("r1");register u32 i asm("r3");register s32 raw asm("r0")=(s32)state469DC;register u32 off asm("r3")=0x7A4;p=(u8 *)raw+off;i=0;do{if(*(u32 *)p==actor)return p;i++;p+=0x70;}while(i<=14);sub_080003F0();return 0; }
+static inline u8 *find469DC(u32 actor) { u8 *p;u32 i;s32 raw=(s32)state469DC;u32 off=0x7A4;p=(u8 *)raw+off;i=0;do{if(*(u32 *)p==actor)return p;i++;p+=0x70;}while(i<=14);sub_080003F0();return 0; }
 void sub_080469DC(u32 arg0){
  struct Item469DC cmd; u8 unused[16];
  u32 arg=arg0;
- register s32 flag asm("r4"); register s32 offset asm("r1");
- register struct Player *player asm("r1"); u8 *selected; register s32 count asm("r3"); register u32 i asm("r2"); struct Item469DC *item;
- register u8 *data asm("r8"); u32 task; register u8 *entity asm("r1"); register u8 *found asm("r0"); register u32 j asm("r3"); register s32 left asm("r4"); u8 *slot; register u32 actor asm("r2"); u8 **itemsbase; register u32 v1 asm("r1"); register u32 v2 asm("r2"); register u8 *cmdaddr asm("r0"); register u8 *dataptr asm("r1"); register u32 off asm("r3"); register u32 n asm("r4");
+ s32 flag; s32 offset;
+ struct Player *player; u8 *selected; register s32 count asm("r3"); u32 i; struct Item469DC *item;
+ u8 *data; u32 task; u8 *entity; u8 *found; u32 j; s32 left; u8 *slot; u32 actor; u8 **itemsbase; register u32 v1 asm("r1"); u32 v2; u8 *cmdaddr; u8 *dataptr; u32 off; u32 n;
  register s32 raw asm("r0"); register u32 zero asm("r5");
- register s32 b2 asm("r6"); register s32 b3 asm("r5"); register s32 b4 asm("r4"); register s32 b5 asm("r1");register s32 bit asm("r0");register u32 off4 asm("r4");register u32 off1 asm("r1");register s32 savedCount asm("r6");register s32 playerIndex asm("r5");
- {register u32 stride asm("r5"); register u8 *base asm("r4");register struct Player *p asm("r2");register u32 idx asm("r2");register s32 pos asm("r6"); idx=sub_080020F4();stride=0x14C;idx*=stride;base=(u8 *)gUnk_03003CE0;p=(struct Player *)(idx+(u32)base);p->flags|=1;sub_0800D0F4();raw=sub_080020F4()*stride;base+=0x8C;raw=*(s32 *)(raw+(u32)base);pos=raw>>8;if(pos>0x224)sub_08029174(arg,5);else sub_08029174(arg,3); }
+ s32 b2; s32 b3; s32 b4; s32 b5;register s32 bit asm("r0");u32 off4;u32 off1;register s32 savedCount asm("r6");register s32 playerIndex asm("r5");
+ {u32 stride; u8 *base;struct Player *p;register u32 idx asm("r2");register s32 pos asm("r6"); idx=sub_080020F4();stride=0x14C;idx*=stride;base=(u8 *)gUnk_03003CE0;p=(struct Player *)(idx+(u32)base);p->flags|=1;sub_0800D0F4();raw=sub_080020F4()*stride;base+=0x8C;raw=*(s32 *)(raw+(u32)base);pos=raw>>8;if(pos>0x224)sub_08029174(arg,5);else sub_08029174(arg,3); }
  if(sub_0800CE30()) {raw=(s32)state469DC;off1=0x1C7;selected=(u8 *)raw+off1;}else {raw=(s32)state469DC;off=0x1BB;selected=(u8 *)raw+off;}
- raw=*selected;asm("" : "+r"(raw));b2=raw>>2;bit=1;b2 &= bit;
+ raw=*selected;b2=raw>>2;bit=1;b2 &= bit;
  if(sub_0800CE30()) {raw=(s32)state469DC;off4=0x1C7;selected=(u8 *)raw+off4;}else {raw=(s32)state469DC;off1=0x1BB;selected=(u8 *)raw+off1;}
- raw=*selected;asm("" : "+r"(raw));b3=raw>>3;bit=1;b3 &= bit;
+ raw=*selected;b3=raw>>3;bit=1;b3 &= bit;
  if(sub_0800CE30()) {raw=(s32)state469DC;off=0x1C7;selected=(u8 *)raw+off;}else {raw=(s32)state469DC;off4=0x1BB;selected=(u8 *)raw+off4;}
- raw=*selected;asm("" : "+r"(raw));b4=raw>>4;bit=1;b4 &= bit;
+ raw=*selected;b4=raw>>4;bit=1;b4 &= bit;
  if(sub_0800CE30()) {raw=(s32)state469DC;off1=0x1C7;selected=(u8 *)raw+off1;}else {raw=(s32)state469DC;off=0x1BB;selected=(u8 *)raw+off;}
- raw=*selected;asm("" : "+r"(raw));b5=raw>>5;bit=1;b5 &= bit;
+ raw=*selected;b5=raw>>5;bit=1;b5 &= bit;
  if(b2 && b3) {if(!b4)goto exchange;if(!b5)goto partial;
 while(sub_0805F184())sub_080003F0();while(sub_0805EF90())sub_080003F0();task=sub_0805DF38(1,15,2,0,-1,0x1402BB);while(!sub_0805EEFC((void *)task)){if(sub_0800CDF8()){sub_0805EFBC();break;}sub_080003F0();}
 goto finish;}
@@ -1071,12 +1071,12 @@ while(sub_0805F184())sub_080003F0();while(sub_0805EF90())sub_080003F0();task=sub
  actor=arg;flag=3;if(arg>0x100000) {
  found=find469DC(actor);
  if(found) *(u16 *)(found+0x42)=flag;
- } else if(arg) {actor=arg-1;if(actor<=4){register u8 **base asm("r1")=(u8 **)&gUnk_030056F4;raw=actor*0x2E0;base=(u8 **)((u8 *)*base+raw);sub_08019EB8(*(u16 *)((u8 *)base+2),3);}}
- else {raw=sub_080020F4()*0x14C;{register u8 *base asm("r1")=(u8 *)gUnk_03003CE0;raw+=(s32)base;v1=0x11E;raw+=v1;*(u16 *)raw=flag;}}
-while(sub_0805F184())sub_080003F0();task=sub_0805DF38(1,15,2,0,-2,0x1402B4);while(!sub_0805EEFC((void *)task))sub_080003F0();flag=sub_0805EF14((u8 *)task);asm("" : "+r"(flag));if(flag){data=cmd.data;
+ } else if(arg) {actor=arg-1;if(actor<=4){u8 **base=(u8 **)&gUnk_030056F4;raw=actor*0x2E0;base=(u8 **)((u8 *)*base+raw);sub_08019EB8(*(u16 *)((u8 *)base+2),3);}}
+ else {raw=sub_080020F4()*0x14C;{u8 *base=(u8 *)gUnk_03003CE0;raw+=(s32)base;v1=0x11E;raw+=v1;*(u16 *)raw=flag;}}
+while(sub_0805F184())sub_080003F0();task=sub_0805DF38(1,15,2,0,-2,0x1402B4);while(!sub_0805EEFC((void *)task))sub_080003F0();flag=sub_0805EF14((u8 *)task);if(flag){data=cmd.data;
 while(sub_0805F184())sub_080003F0();while(sub_0805EF90())sub_080003F0();task=sub_0805DF38(1,15,2,0,-1,0x1402B6);while(!sub_0805EEFC((void *)task)){if(sub_0800CDF8()){sub_0805EFBC();break;}sub_080003F0();}
- left=1;j=0;itemsbase=&items469DC;asm("" : "+r"(itemsbase));zero=0;
- loopRemove:raw=(s32)*itemsbase;asm("" : "+r"(raw));slot=(u8 *)raw+j*16;
+ left=1;j=0;itemsbase=&items469DC;zero=0;
+ loopRemove:raw=(s32)*itemsbase;slot=(u8 *)raw+j*16;
  if(*(u16 *)(slot+0x150)!=4 || *(u16 *)(slot+0x152)!=3 || (left--,*(u16 *)(slot+0x150)=zero,*(u16 *)(slot+0x152)=zero,left!=0)) {j++;if(j<=24)goto loopRemove;}
 
  v1=1;v2=0x1E;cmdaddr=(u8 *)&cmd;*(u16 *)cmdaddr=v1;*(u16 *)(cmdaddr+2)=v2;
@@ -1089,31 +1089,31 @@ while(sub_0805F184())sub_080003F0();while(sub_0805EF90())sub_080003F0();task=sub
 while(sub_0805F184())sub_080003F0();while(sub_0805EF90())sub_080003F0();task=sub_0805DF38(1,15,2,0,-1,0x1402B5);while(!sub_0805EEFC((void *)task)){if(sub_0800CDF8()){sub_0805EFBC();break;}sub_080003F0();}
 }}
  finish:sub_0802939C(arg,0);
- {register struct Player *p asm("r2");register u32 idx asm("r2");idx=sub_080020F4();idx*=0x14C;p=(struct Player *)((u8 *)gUnk_03003CE0+idx);p->flags &= ~1;}sub_0800D108();
+ {struct Player *p;register u32 idx asm("r2");idx=sub_080020F4();idx*=0x14C;p=(struct Player *)((u8 *)gUnk_03003CE0+idx);p->flags &= ~1;}sub_0800D108();
 }
 struct Item46F28 { u16 kind,id; u8 data[12]; };
 extern u8 *state46F28 asm("gUnk_03005CF4");
 extern u8 *items46F28 asm("gUnk_030034E0");
-static inline u32 load46F28(u16 *p) {register u32 v asm("r0")=*p;return v;}
+static inline u32 load46F28(u16 *p) {u32 v=*p;return v;}
 static inline u32 count46F28(u32 n) { return n; }
-static inline u8 *find46F28(u32 actor) { register u8 *p asm("r1");register u32 i asm("r3");register s32 raw asm("r0")=(s32)state46F28;register u32 off asm("r3")=0x7A4;p=(u8 *)raw+off;i=0;do{if(*(u32 *)p==actor)return p;i++;p+=0x70;}while(i<=14);sub_080003F0();return 0; }
+static inline u8 *find46F28(u32 actor) { u8 *p;u32 i;s32 raw=(s32)state46F28;u32 off=0x7A4;p=(u8 *)raw+off;i=0;do{if(*(u32 *)p==actor)return p;i++;p+=0x70;}while(i<=14);sub_080003F0();return 0; }
 void sub_08046F28(u32 arg0){
  struct Item46F28 cmd; u8 unused[16];
  u32 arg=arg0;
- register s32 flag asm("r4"); register s32 offset asm("r1");
- register struct Player *player asm("r1"); u8 *selected; register s32 count asm("r3"); register u32 i asm("r2"); struct Item46F28 *item;
- register u8 *data asm("r8"); u32 task; register u8 *entity asm("r1"); register u8 *found asm("r0"); register u32 j asm("r3"); register s32 left asm("r4"); u8 *slot; register u32 actor asm("r2"); u8 **itemsbase; register u32 v1 asm("r1"); register u32 v2 asm("r2"); register u8 *cmdaddr asm("r0"); register u8 *dataptr asm("r1"); register u32 off asm("r3"); register u32 n asm("r4");
+ s32 flag; s32 offset;
+ struct Player *player; u8 *selected; register s32 count asm("r3"); u32 i; struct Item46F28 *item;
+ u8 *data; u32 task; u8 *entity; u8 *found; u32 j; s32 left; u8 *slot; u32 actor; u8 **itemsbase; register u32 v1 asm("r1"); u32 v2; u8 *cmdaddr; u8 *dataptr; u32 off; u32 n;
  register s32 raw asm("r0"); register u32 zero asm("r5");
- register s32 b2 asm("r6"); register s32 b3 asm("r5"); register s32 b4 asm("r4"); register s32 b5 asm("r1");register s32 bit asm("r0");register u32 off4 asm("r4");register u32 off1 asm("r1");register s32 savedCount asm("r6");register s32 playerIndex asm("r5");
- {register u32 stride asm("r5"); register u8 *base asm("r4");register struct Player *p asm("r2");register u32 idx asm("r2");register s32 pos asm("r6"); idx=sub_080020F4();stride=0x14C;idx*=stride;base=(u8 *)gUnk_03003CE0;p=(struct Player *)(idx+(u32)base);p->flags|=1;sub_0800D0F4();raw=sub_080020F4()*stride;base+=0x8C;raw=*(s32 *)(raw+(u32)base);pos=raw>>8;if(pos>0x1AF)sub_08029174(arg,6);else sub_08029174(arg,2); }
+ s32 b2; s32 b3; s32 b4; s32 b5;register s32 bit asm("r0");u32 off4;u32 off1;register s32 savedCount asm("r6");register s32 playerIndex asm("r5");
+ {u32 stride; u8 *base;struct Player *p;register u32 idx asm("r2");register s32 pos asm("r6"); idx=sub_080020F4();stride=0x14C;idx*=stride;base=(u8 *)gUnk_03003CE0;p=(struct Player *)(idx+(u32)base);p->flags|=1;sub_0800D0F4();raw=sub_080020F4()*stride;base+=0x8C;raw=*(s32 *)(raw+(u32)base);pos=raw>>8;if(pos>0x1AF)sub_08029174(arg,6);else sub_08029174(arg,2); }
  if(sub_0800CE30()) {raw=(s32)state46F28;off1=0x1C7;selected=(u8 *)raw+off1;}else {raw=(s32)state46F28;off=0x1BB;selected=(u8 *)raw+off;}
- raw=*selected;asm("" : "+r"(raw));b2=raw>>2;bit=1;b2 &= bit;
+ raw=*selected;b2=raw>>2;bit=1;b2 &= bit;
  if(sub_0800CE30()) {raw=(s32)state46F28;off4=0x1C7;selected=(u8 *)raw+off4;}else {raw=(s32)state46F28;off1=0x1BB;selected=(u8 *)raw+off1;}
- raw=*selected;asm("" : "+r"(raw));b3=raw>>3;bit=1;b3 &= bit;
+ raw=*selected;b3=raw>>3;bit=1;b3 &= bit;
  if(sub_0800CE30()) {raw=(s32)state46F28;off=0x1C7;selected=(u8 *)raw+off;}else {raw=(s32)state46F28;off4=0x1BB;selected=(u8 *)raw+off4;}
- raw=*selected;asm("" : "+r"(raw));b4=raw>>4;bit=1;b4 &= bit;
+ raw=*selected;b4=raw>>4;bit=1;b4 &= bit;
  if(sub_0800CE30()) {raw=(s32)state46F28;off1=0x1C7;selected=(u8 *)raw+off1;}else {raw=(s32)state46F28;off=0x1BB;selected=(u8 *)raw+off;}
- raw=*selected;asm("" : "+r"(raw));b5=raw>>5;bit=1;b5 &= bit;
+ raw=*selected;b5=raw>>5;bit=1;b5 &= bit;
  if(b2 && b3 && b4) {if(!b5)goto exchange;
 while(sub_0805F184())sub_080003F0();while(sub_0805EF90())sub_080003F0();task=sub_0805DF38(1,15,2,0,-1,0x1402C4);while(!sub_0805EEFC((void *)task)){if(sub_0800CDF8()){sub_0805EFBC();break;}sub_080003F0();}
 goto finish;}
@@ -1128,12 +1128,12 @@ while(sub_0805F184())sub_080003F0();while(sub_0805EF90())sub_080003F0();task=sub
  actor=arg;flag=3;if(arg>0x100000) {
  found=find46F28(actor);
  if(found) *(u16 *)(found+0x42)=flag;
- } else if(arg) {actor=arg-1;if(actor<=4){register u8 **base asm("r1")=(u8 **)&gUnk_030056F4;raw=actor*0x2E0;base=(u8 **)((u8 *)*base+raw);sub_08019EB8(*(u16 *)((u8 *)base+2),3);}}
- else {raw=sub_080020F4()*0x14C;{register u8 *base asm("r1")=(u8 *)gUnk_03003CE0;raw+=(s32)base;v1=0x11E;raw+=v1;*(u16 *)raw=flag;}}
-while(sub_0805F184())sub_080003F0();task=sub_0805DF38(1,15,2,0,-2,0x1402BD);while(!sub_0805EEFC((void *)task))sub_080003F0();flag=sub_0805EF14((u8 *)task);asm("" : "+r"(flag));if(flag){data=cmd.data;
+ } else if(arg) {actor=arg-1;if(actor<=4){u8 **base=(u8 **)&gUnk_030056F4;raw=actor*0x2E0;base=(u8 **)((u8 *)*base+raw);sub_08019EB8(*(u16 *)((u8 *)base+2),3);}}
+ else {raw=sub_080020F4()*0x14C;{u8 *base=(u8 *)gUnk_03003CE0;raw+=(s32)base;v1=0x11E;raw+=v1;*(u16 *)raw=flag;}}
+while(sub_0805F184())sub_080003F0();task=sub_0805DF38(1,15,2,0,-2,0x1402BD);while(!sub_0805EEFC((void *)task))sub_080003F0();flag=sub_0805EF14((u8 *)task);if(flag){data=cmd.data;
 while(sub_0805F184())sub_080003F0();while(sub_0805EF90())sub_080003F0();task=sub_0805DF38(1,15,2,0,-1,0x1402BF);while(!sub_0805EEFC((void *)task)){if(sub_0800CDF8()){sub_0805EFBC();break;}sub_080003F0();}
- left=1;j=0;itemsbase=&items46F28;asm("" : "+r"(itemsbase));zero=0;
- loopRemove:raw=(s32)*itemsbase;asm("" : "+r"(raw));slot=(u8 *)raw+j*16;
+ left=1;j=0;itemsbase=&items46F28;zero=0;
+ loopRemove:raw=(s32)*itemsbase;slot=(u8 *)raw+j*16;
  if(*(u16 *)(slot+0x150)!=2 || *(u16 *)(slot+0x152)!=0x38 || (left--,*(u16 *)(slot+0x150)=zero,*(u16 *)(slot+0x152)=zero,left!=0)) {j++;if(j<=24)goto loopRemove;}
 
  v1=1;v2=0x1E;cmdaddr=(u8 *)&cmd;*(u16 *)cmdaddr=v1;*(u16 *)(cmdaddr+2)=v2;
@@ -1146,21 +1146,21 @@ while(sub_0805F184())sub_080003F0();while(sub_0805EF90())sub_080003F0();task=sub
 while(sub_0805F184())sub_080003F0();while(sub_0805EF90())sub_080003F0();task=sub_0805DF38(1,15,2,0,-1,0x1402BE);while(!sub_0805EEFC((void *)task)){if(sub_0800CDF8()){sub_0805EFBC();break;}sub_080003F0();}
 }}
  finish:sub_0802939C(arg,0);
- {register struct Player *p asm("r2");register u32 idx asm("r2");idx=sub_080020F4();idx*=0x14C;p=(struct Player *)((u8 *)gUnk_03003CE0+idx);p->flags &= ~1;}sub_0800D108();
+ {struct Player *p;register u32 idx asm("r2");idx=sub_080020F4();idx*=0x14C;p=(struct Player *)((u8 *)gUnk_03003CE0+idx);p->flags &= ~1;}sub_0800D108();
 }
 struct Item47474 { u16 kind,id; u8 data[12]; };
 extern u8 *state47474 asm("gUnk_03005CF4");
 extern u8 *items47474 asm("gUnk_030034E0");
 extern void sub_0805990C(void);
-static inline u32 load47474(u16 *p) {register u32 v asm("r0")=*p;return v;}
+static inline u32 load47474(u16 *p) {u32 v=*p;return v;}
 static inline u32 count47474(u32 n) { return n; }
-static inline u8 *find47474(u32 actor) { register u8 *p asm("r1");register u32 i asm("r3");register s32 raw asm("r0")=(s32)state47474;register u32 off asm("r3")=0x7A4;p=(u8 *)raw+off;i=0;do{if(*(u32 *)p==actor)return p;i++;p+=0x70;}while(i<=14);sub_080003F0();return 0; }
+static inline u8 *find47474(u32 actor) { u8 *p;u32 i;s32 raw=(s32)state47474;u32 off=0x7A4;p=(u8 *)raw+off;i=0;do{if(*(u32 *)p==actor)return p;i++;p+=0x70;}while(i<=14);sub_080003F0();return 0; }
 void sub_08047474(u32 arg0) {
  struct Item47474 cmd; u8 unused[16];
- register u32 arg asm("r5")=arg0;
+ u32 arg=arg0;
  register s32 flag asm("r4"); register s32 offset asm("r1");
- register struct Player *player asm("r1"); u8 *selected; register s32 count asm("r3"); register u32 i asm("r2"); struct Item47474 *item;
- register u8 *data asm("r6"); u32 task; register u8 *entity asm("r1"); register u8 *found asm("r0"); register u32 j asm("r3"); register s32 left asm("r4"); u8 *slot; register u32 actor asm("r2"); u8 **itemsbase; register u32 v1 asm("r1"); register u32 v2 asm("r2"); register u8 *cmdaddr asm("r0"); register u8 *dataptr asm("r1"); register u32 off asm("r3"); register u32 n asm("r4");
+ struct Player *player; u8 *selected; s32 count; u32 i; struct Item47474 *item;
+ register u8 *data asm("r6"); u32 task; u8 *entity; u8 *found; u32 j; s32 left; u8 *slot; u32 actor; u8 **itemsbase; register u32 v1 asm("r1"); u32 v2; u8 *cmdaddr; register u8 *dataptr asm("r1"); u32 off; u32 n;
  register s32 raw asm("r0"); register u32 zero asm("r5");
  offset=sub_080020F4();offset*=0x14C;player=(struct Player *)((u8 *)gUnk_03003CE0+offset);raw=player->flags;flag=1;player->flags=raw|flag;
  sub_0800D0F4();sub_0802949C(arg,0);
@@ -1177,14 +1177,14 @@ void sub_08047474(u32 arg0) {
  actor=arg;flag=3;if(actor>0x100000) {
  found=find47474(actor);data=cmd.data;
  if(found) *(u16 *)(found+0x42)=flag;
- } else if(arg) {actor=arg-1;data=cmd.data;if(actor<=4){register u8 **base asm("r1")=(u8 **)&gUnk_030056F4;raw=actor*0x2E0;base=(u8 **)((u8 *)*base+raw);sub_08019EB8(*(u16 *)((u8 *)base+2),3);}}
- else {raw=sub_080020F4()*0x14C;{register u8 *base asm("r1")=(u8 *)gUnk_03003CE0;raw+=(s32)base;v1=0x11E;raw+=v1;*(u16 *)raw=flag;}data=cmd.data;}
+ } else if(arg) {actor=arg-1;data=cmd.data;if(actor<=4){u8 **base=(u8 **)&gUnk_030056F4;raw=actor*0x2E0;base=(u8 **)((u8 *)*base+raw);sub_08019EB8(*(u16 *)((u8 *)base+2),3);}}
+ else {raw=sub_080020F4()*0x14C;{u8 *base=(u8 *)gUnk_03003CE0;raw+=(s32)base;v1=0x11E;raw+=v1;*(u16 *)raw=flag;}data=cmd.data;}
  while(sub_0805F184())sub_080003F0();
  while(sub_0805EF90())sub_080003F0();
  task=sub_0805DF38(1,15,2,0,-1,0x14022D);
  while(!sub_0805EEFC((void *)task)){if(sub_0800CDF8()){sub_0805EFBC();break;}sub_080003F0();}
- left=1;j=0;itemsbase=&items47474;asm("" : "+r"(itemsbase));zero=0;
- loopRemove:raw=(s32)*itemsbase;asm("" : "+r"(raw));slot=(u8 *)raw+j*16;
+ left=1;j=0;itemsbase=&items47474;zero=0;
+ loopRemove:raw=(s32)*itemsbase;slot=(u8 *)raw+j*16;
  if(*(u16 *)(slot+0x150)!=1 || *(u16 *)(slot+0x152)!=0x2A || (left--,*(u16 *)(slot+0x150)=zero,*(u16 *)(slot+0x152)=zero,left!=0)) {j++;if(j<=24)goto loopRemove;}
 
  v1=1;v2=0x2B;cmdaddr=(u8 *)&cmd;*(u16 *)cmdaddr=v1;*(u16 *)(cmdaddr+2)=v2;
@@ -1202,7 +1202,7 @@ void sub_08047474(u32 arg0) {
  task=sub_0805DF38(1,15,2,0,-1,0x140230);
  while(!sub_0805EEFC((void *)task)){if(sub_0800CDF8()){sub_0805EFBC();break;}sub_080003F0();}
  }
- {register struct Player *p asm("r2");register u32 idx asm("r2");idx=sub_080020F4();idx*=0x14C;p=(struct Player *)((u8 *)gUnk_03003CE0+idx);p->flags &= ~1;}sub_0800D108();
+ {struct Player *p;register u32 idx asm("r2");idx=sub_080020F4();idx*=0x14C;p=(struct Player *)((u8 *)gUnk_03003CE0+idx);p->flags &= ~1;}sub_0800D108();
 }
 struct Camera778C { u8 pad[0x80]; s16 x,y; };
 struct Task778C { u32 f0,f4,f8,fC; u8 *f10; u32 f14,f18,f1C; u8 *f20; u32 f24; };
@@ -1211,9 +1211,9 @@ extern void camera778C(s32,s32) asm("sub_0800BB80");
 extern void sub_08047970(void);
 static inline u32 bool778C(u8 *base, u32 *unused) { register u32 bit asm("r4"); register u32 value asm("r0");bit=1;value=*(u32 *)(base+0x38);value &= bit;if(value)value=1;return value; }
 void sub_0804778C(void) {
- volatile s32 out[2]; s32 sx,sy; register s32 i asm("r4"); register s32 step asm("sl"); register s32 *py asm("r5");
+ volatile s32 out[2]; s32 sx,sy; s32 i; register s32 step asm("sl"); s32 *py;
  union { s32 all; struct { u16 low; s16 high; } half; } tx,ty;
- struct Task778C *t; u32 n; register u32 j asm("r3"); register u8 *p asm("r2"); s32 flag; register s32 mask asm("r4"); register s32 offset asm("r1"); struct Player *player; register u32 cb asm("r6"); register u32 one asm("r6"); register u32 *bits asm("r5"); register u32 zero asm("r4"); register s32 raw asm("r0"); register s32 bit asm("r1");
+ struct Task778C *t; u32 n; u32 j; u8 *p; s32 flag; register s32 mask asm("r4"); register s32 offset asm("r1"); struct Player *player; u32 cb; u32 one; register u32 *bits asm("r5"); u32 zero; s32 raw; s32 bit;
  mask=1;flag=bool778C(state778C,0);
  if(flag) goto already;
  offset=sub_080020F4();offset*=0x14C;player=(struct Player *)((u8 *)gUnk_03003CE0+offset);player->flags |= mask;
@@ -1254,14 +1254,14 @@ extern void sub_0802A080(s32,s32,s32,s32);
 void sub_08047970(void)
 {
     struct T47Task970 *task;
-    register struct T47Task970 *saved asm("r6");
+    struct T47Task970 *saved;
     u32 i, mem;
     u16 timer;
     u8 *player;
     void (*cb)(void);
     void (*cb2)(void);
-    register u8 *p2 asm("r2");
-    register u32 j asm("r3");
+    u8 *p2;
+    u32 j;
     register u32 one asm("r6");
     register u32 zero asm("r4");
     register u32 *mask asm("r5");
@@ -1379,7 +1379,7 @@ extern struct T47BPlayer *t47BPlayerRows asm("gUnk_030056F4");
 void t47B2C(s32 arg0) asm("sub_08047B2C");
 void t47B2C(s32 arg0) {
     volatile s32 pos[2];
-    register s32 *yp asm("r9");
+    s32 *yp;
     register s32 zeroX asm("r8");
     s32 zeroY;
     register s32 step asm("sl");
@@ -1387,12 +1387,12 @@ void t47B2C(s32 arg0) {
     register s32 temp_r6 asm("r6");
     s32 var_r4_3;
     register s32 *call0 asm("r0");
-    register s32 call1 asm("r1");
-    register s32 call2 asm("r2");
+    s32 call1;
+    s32 call2;
     register s32 call3 asm("r3");
     register u32 h1 asm("r1");
     register u32 h2 asm("r2");
-    register u32 h7 asm("r7");
+    u32 h7;
     u16 var_r4;
     u16 var_r4_2;
     u32 temp_r4;
@@ -1409,7 +1409,7 @@ void t47B2C(s32 arg0) {
     u32 temp_r4_9;
     u8 *temp_r2;
 
-    asm("" ::: "r7");
+    
     switch (arg0) {                                 /* irregular */
     case 0:
         var_r4 = 0x1E;
@@ -1471,10 +1471,10 @@ test31:
         temp_r6 = t47BCamera[64];
         asm("" : "=r"(h1),"=r"(h2),"=r"(h7));temp_r5=t47BCamera[65];asm("" : : "r"(h1),"r"(h2),"r"(h7));
         var_r4_3 = 0;
-        asm("" : "+r"(var_r4_3));zeroX=var_r4_3;zeroY=0;asm("" : "+r"(zeroY));
+        asm("" : "+r"(var_r4_3));zeroX=var_r4_3;zeroY=0;
         do {
-            call0=(s32 *)&pos[0];call1=temp_r6;asm("" : "+r"(call0), "+r"(call1));call3=zeroX;asm("" : "+r"(call3));call2=call3>>16;call3=var_r4_3;sub_080659F4(call0,call1,call2,call3);
-            call0=yp;call1=temp_r5;asm("" : "+r"(call0), "+r"(call1));call2=zeroY>>16;call3=var_r4_3;sub_080659F4(call0,call1,call2,call3);
+            call0=(s32 *)&pos[0];call1=temp_r6;call3=zeroX;call2=call3>>16;call3=var_r4_3;sub_080659F4(call0,call1,call2,call3);
+            call0=yp;call1=temp_r5;call2=zeroY>>16;call3=var_r4_3;sub_080659F4(call0,call1,call2,call3);
             t47BSetCamera((s16) pos[0], (s16) pos[1]);
             sub_080003F0();
             var_r4_3 += step;
@@ -1739,47 +1739,47 @@ extern void sub_080586B4(s32);
 extern u32 t47CMask asm("gUnk_030056FC");
 extern void t47CSetCamera(s32,s32) asm("sub_0800BB80");
 static inline u32 t47CNorm0(u32 x){register u32 r asm("r0")=x;if(r!=0)r=1;return r;}
-static inline u32 t47CTest8(u8 *p){register u32 m asm("r0")=8;register u32 r asm("r1")=*(u32 *)(p+0x38);r&=m;if(r!=0)r=1;return r;}
+static inline u32 t47CTest8(u8 *p){u32 m=8;register u32 r asm("r1")=*(u32 *)(p+0x38);r&=m;if(r!=0)r=1;return r;}
 void sub_0804819C(void) {
     volatile s32 pos[2];
     void (*cb)(s32);
     register s32 *yp asm("sl");
-    register s32 step asm("r9");
-    register s32 zeroX asm("r8");
+    s32 step;
+    s32 zeroX;
     s32 targetY;
     register u32 hold0 asm("r1");
     register u32 hold1 asm("r2");
-    register u32 hold2 asm("r7");
+    u32 hold2;
 
     s32 temp_r5;
     s32 temp_r6_2;
     s32 temp_r0;
     s32 temp_r0_3;
     s32 temp_r1;
-    register u8 **statebase asm("r4");
-    register u8 *initstate asm("r2");
+    u8 **statebase;
+    u8 *initstate;
     register s32 initone asm("r5");
     register u32 off5 asm("r5");
-    register u32 off1 asm("r1");
+    u32 off1;
     register u32 off2 asm("r2");
     register s32 *call0 asm("r0");
     register s32 call1 asm("r1");
-    register s32 call2 asm("r2");
+    s32 call2;
     register s32 call3 asm("r3");
-    register u32 initMask asm("r3");
+    u32 initMask;
     register s32 raw asm("r0");
-    register u32 code asm("r1");
+    u32 code;
     s32 temp_r4;
     s32 temp_r6;
     s32 var_r0;
     s32 var_r1;
     register s32 var_r3_2 asm("r3");
-    register s32 savedCount asm("r5");
+    s32 savedCount;
     register s32 var_r3_3 asm("r3");
     s32 var_r4_2;
-    register u32 var_r2_2 asm("r2");
-    register u32 var_r2_3 asm("r2");
-    register u32 var_r3 asm("r3");
+    u32 var_r2_2;
+    u32 var_r2_3;
+    u32 var_r3;
     struct T47CTask *var_r4;
     struct T47CTask *var_r4_3;
     struct T47CTask *var_r4_4;
@@ -1793,7 +1793,7 @@ void sub_0804819C(void) {
     u8 *temp_r2;
     u8 *var_r1_2;
     u8 *var_r1_3;
-    register u8 *var_r2 asm("r2");
+    u8 *var_r2;
     register u32 *mask asm("r5");
     register u32 one asm("r6");
     register u32 zero asm("r4");
@@ -1811,7 +1811,7 @@ void sub_0804819C(void) {
         } else {
             var_r0_2 = *statebase + 0x1B8;
         }
-        raw=*var_r0_2;asm("" : "+r"(raw));temp_r4=(raw>>6)&initone;
+        raw=*var_r0_2;temp_r4=(raw>>6)&initone;
         temp_r6 = sub_080020F4();
         var_r3_2 = 0;
         var_r2_2 = 0;
@@ -1857,7 +1857,7 @@ void sub_0804819C(void) {
         var_r4_2 = 0;
         zeroX=0;targetY=0xFFDD0000;
         do {
-            call0=(s32 *)&pos[0];call1=temp_r6_2;asm("" : "+r"(call0), "+r"(call1));call3=zeroX;asm("" : "+r"(call3));call2=call3>>16;call3=var_r4_2;sub_080659F4(call0,call1,call2,call3);
+            call0=(s32 *)&pos[0];call1=temp_r6_2;call3=zeroX;asm("" : "+r"(call3));call2=call3>>16;call3=var_r4_2;sub_080659F4(call0,call1,call2,call3);
             sub_080659F4(yp, temp_r5, targetY >> 0x10, var_r4_2);
             t47CSetCamera((s16)pos[0],(s16)pos[1]);
             sub_080003F0();
@@ -1883,7 +1883,7 @@ test37:
         if(sub_0801AAE0()==0) goto yield37;
         }
         cb=t47CCallback;
-        raw=(s32)t47CState;off5=0xE34;asm("" : "+r"(off5));var_r4_3=(struct T47CTask *)(raw+off5);
+        raw=(s32)t47CState;off5=0xE34;var_r4_3=(struct T47CTask *)(raw+off5);
         var_r5_2=0;
         goto check0;
 next0:
@@ -1898,7 +1898,7 @@ alloc0:
         temp_r0_4=sub_08001494(0x400);
         var_r4_3->f20=temp_r0_4;
         if(temp_r0_4==0) goto yield0;
-        var_r4_3->f8=60;var_r4_3->fC=(u32)cb;stride=0x3FC;asm("" : "+r"(stride));var_r4_3->f10=temp_r0_4+stride;var_r4_3->f24=0;
+        var_r4_3->f8=60;var_r4_3->fC=(u32)cb;stride=0x3FC;var_r4_3->f10=temp_r0_4+stride;var_r4_3->f24=0;
         sub_08000274(var_r4_3,0);
 end0:
         cb=t47CCallback;
@@ -1999,23 +1999,23 @@ extern u8 t47DActors[] asm("gUnk_03003CE0");
 extern u8 *t47DPlayers asm("gUnk_030056F4");
 extern u32 t47DMask asm("gUnk_030056FC");
 extern void sub_08048A74(void);
-static inline u32 t47DTest(u8 *p){register u32 m asm("r1")=8;register u32 r asm("r0")=*(u32 *)(p+0x38);r&=m;if(r!=0)r=1;return r;}
-static inline u32 t47DTest4(u8 *p){register u32 m asm("r0")=4;register u32 r asm("r1")=*(u32 *)(p+0x38);r&=m;if(r!=0)r=1;return r;}
+static inline u32 t47DTest(u8 *p){u32 m=8;u32 r=*(u32 *)(p+0x38);r&=m;if(r!=0)r=1;return r;}
+static inline u32 t47DTest4(u8 *p){u32 m=4;u32 r=*(u32 *)(p+0x38);r&=m;if(r!=0)r=1;return r;}
 void sub_08048570(s32 arg0)
 {
     struct T47DTask *task;
-    register struct T47DTask *saved asm("r6");
+    struct T47DTask *saved;
     u32 i,mem,dialog;
     u16 timer;
     u32 flag;
-    register u32 result asm("r1");
-    register u8 *actor asm("r2");
-    register u32 index asm("r0");
-    register u32 scale asm("r1");
+    u32 result;
+    u8 *actor;
+    u32 index;
+    u32 scale;
     register u32 offset asm("r2");
-    register u32 currentFlag asm("r0");
-    register u8 *p asm("r2");
-    register u32 j asm("r3");
+    u32 currentFlag;
+    u8 *p;
+    u32 j;
     register u32 *mask asm("r5");
     register u32 one asm("r6");
     register u32 zero asm("r4");
@@ -2051,7 +2051,7 @@ end0:
     flag=t47DTest(t47DState);
     if(flag!=0) return;
     result=sub_08002164();
-    asm("" : "+r"(result));
+    
     if(result==1){
         result=0xA5;
         gUnk_03005CF8=result;
@@ -2285,34 +2285,34 @@ void t47EScript(u32 arg0) asm("sub_08048A74");
 struct T47EFrame { volatile s32 pos[4]; s32 *volatile yp; };
 extern u32 t47EMask asm("gUnk_030056FC");
 void t47EScript(u32 arg0) asm("sub_08048A74");
-static inline u32 t47ETest10(u8 *p){register u32 m asm("r1")=0x10;register u32 r asm("r0")=*(u32 *)(p+0x38);r&=m;if(r!=0)r=1;return r;}
-static inline void t47ESet4(u8 *p){register u32 m asm("r1")=4;register u32 r asm("r0")=*(u32 *)(p+0x38);*(u32 *)(p+0x38)=r|m;}
+static inline u32 t47ETest10(u8 *p){u32 m=0x10;register u32 r asm("r0")=*(u32 *)(p+0x38);r&=m;if(r!=0)r=1;return r;}
+static inline void t47ESet4(u8 *p){register u32 m asm("r1")=4;u32 r=*(u32 *)(p+0x38);*(u32 *)(p+0x38)=r|m;}
 void t47EScript(u32 arg0) {
     struct T47EFrame frame;
     register s32 *stack asm("sp");
     void (*cb)(u32);
-    register u32 off1 asm("r1");
+    u32 off1;
     register u32 off2 asm("r2");
     register u32 off3 asm("r3");
     register u32 raw asm("r0");
     register s32 *xp asm("sl");
-    register s32 step asm("r9");
+    s32 step;
     register s32 zeroX asm("r8");
     s32 zeroY;
     register s32 *call0 asm("r0");
-    register s32 call1 asm("r1");
-    register s32 call2 asm("r2");
+    s32 call1;
+    s32 call2;
     register s32 call3 asm("r3");
     register u32 hold1 asm("r1");
     register u32 hold2 asm("r2");
-    register u32 hold7 asm("r7");
-    register u32 handle asm("r5");
+    u32 hold7;
+    u32 handle;
     register u32 waitHandle asm("r4");
     s32 sp0;
     s32 sp4;
-    register s32 temp_r5_27 asm("r5");
+    s32 temp_r5_27;
     register s32 temp_r5_34 asm("r5");
-    register s32 temp_r6 asm("r6");
+    s32 temp_r6;
     register s32 temp_r6_2 asm("r6");
     s32 var_r0;
     s32 var_r0_2;
@@ -2321,7 +2321,7 @@ void t47EScript(u32 arg0) {
     s32 var_r4_8;
     u16 var_r4_6;
     u16 var_r4_7;
-    register u32 var_r3 asm("r3");
+    u32 var_r3;
     struct T47ETask *var_r4_2;
     struct T47ETask *var_r4_3;
     struct T47ETask *var_r4_4;
@@ -2336,10 +2336,10 @@ void t47EScript(u32 arg0) {
     u32 temp_r0_4;
     u8 *temp_r2;
     u8 *temp_r2_2;
-    register u8 *var_r2 asm("r2");
+    u8 *var_r2;
     register u32 *mask asm("r5");
     register u32 one asm("r6");
-    register u32 zero asm("r4");
+    u32 zero;
     register u32 stride asm("r0");
 
     switch (arg0) {
@@ -2359,7 +2359,7 @@ yield7:
 test7:
         if (sub_0805EF90() != 0) goto yield7;
         handle = sub_0805DF38(1U,0xFU,2U,0U,0x2D,0x14000C);
-        waitHandle=handle;asm("" : "+r"(waitHandle) : "r"(handle));
+        waitHandle=handle;
         goto test10;
 yield10:
         sub_080003F0();
@@ -2376,7 +2376,7 @@ yield16:
 test16:
         if (sub_0805EF90() != 0) goto yield16;
         handle = sub_0805DF38(1U,0xFU,2U,0U,0x2D,0x14000D);
-        waitHandle=handle;asm("" : "+r"(waitHandle) : "r"(handle));
+        waitHandle=handle;
         goto test19;
 yield19:
         sub_080003F0();
@@ -2395,7 +2395,7 @@ test25:
         handle = sub_0805DF38(1U,0xFU,2U,0U,0x2D,0x14000E);
         sub_08028D98(5, 0, -3, 3);
         sub_08028D98(5, 0, 3, 3);
-        waitHandle=handle;asm("" : "+r"(waitHandle) : "r"(handle));
+        waitHandle=handle;
         goto test28;
 yield28:
         sub_080003F0();
@@ -2414,7 +2414,7 @@ test34:
         handle = sub_0805DF38(1U,0xFU,2U,0U,0x2D,0x14000F);
         sub_08028D98(3, 0, -3, 3);
         sub_08028D98(3, 0, 3, 3);
-        waitHandle=handle;asm("" : "+r"(waitHandle) : "r"(handle));
+        waitHandle=handle;
         goto test37;
 yield37:
         sub_080003F0();
@@ -2433,7 +2433,7 @@ test43:
         handle = sub_0805DF38(1U,0xFU,2U,0U,0x2D,0x140010);
         sub_08028D98(4, 0, -3, 3);
         sub_08028D98(4, 0, 3, 3);
-        waitHandle=handle;asm("" : "+r"(waitHandle) : "r"(handle));
+        waitHandle=handle;
         goto test46;
 yield46:
         sub_080003F0();
@@ -2452,7 +2452,7 @@ test52:
         handle = sub_0805DF38(1U,0xFU,2U,0U,0x2D,0x140011);
         sub_08028D98(3, 0, -3, 3);
         sub_08028D98(3, 0, 3, 3);
-        waitHandle=handle;asm("" : "+r"(waitHandle) : "r"(handle));
+        waitHandle=handle;
         goto test55;
 yield55:
         sub_080003F0();
@@ -2471,7 +2471,7 @@ test61:
         handle = sub_0805DF38(1U,0xFU,2U,0U,0x2D,0x140012);
         sub_08028D98(4, 0, -3, 3);
         sub_08028D98(4, 0, 3, 3);
-        waitHandle=handle;asm("" : "+r"(waitHandle) : "r"(handle));
+        waitHandle=handle;
         goto test64;
 yield64:
         sub_080003F0();
@@ -2490,7 +2490,7 @@ test70:
         handle = sub_0805DF38(1U,0xFU,2U,0U,0x2D,0x140013);
         sub_08028D98(3, 0, -3, 3);
         sub_08028D98(3, 0, 3, 3);
-        waitHandle=handle;asm("" : "+r"(waitHandle) : "r"(handle));
+        waitHandle=handle;
         goto test73;
 yield73:
         sub_080003F0();
@@ -2509,7 +2509,7 @@ test79:
         handle = sub_0805DF38(1U,0xFU,2U,0U,0x2D,0x140014);
         sub_08028D98(2, 0, -3, 3);
         sub_08028D98(2, 0, 3, 3);
-        waitHandle=handle;asm("" : "+r"(waitHandle) : "r"(handle));
+        waitHandle=handle;
         goto test82;
 yield82:
         sub_080003F0();
@@ -2528,7 +2528,7 @@ test88:
         handle = sub_0805DF38(1U,0xFU,2U,0U,0x2D,0x140015);
         sub_08028D98(3, 0, -3, 3);
         sub_08028D98(3, 0, 3, 3);
-        waitHandle=handle;asm("" : "+r"(waitHandle) : "r"(handle));
+        waitHandle=handle;
         goto test91;
 yield91:
         sub_080003F0();
@@ -2547,7 +2547,7 @@ test97:
         handle = sub_0805DF38(1U,0xFU,2U,0U,0x2D,0x140016);
         sub_08028D98(4, 0, -3, 3);
         sub_08028D98(4, 0, 3, 3);
-        waitHandle=handle;asm("" : "+r"(waitHandle) : "r"(handle));
+        waitHandle=handle;
         goto test100;
 yield100:
         sub_080003F0();
@@ -2566,7 +2566,7 @@ test106:
         handle = sub_0805DF38(1U,0xFU,2U,0U,0x2D,0x140017);
         sub_08028D98(3, 0, -3, 3);
         sub_08028D98(3, 0, 3, 3);
-        waitHandle=handle;asm("" : "+r"(waitHandle) : "r"(handle));
+        waitHandle=handle;
         goto test109;
 yield109:
         sub_080003F0();
@@ -2585,7 +2585,7 @@ test115:
         handle = sub_0805DF38(1U,0xFU,2U,0U,0x2D,0x140018);
         sub_08028D98(5, 0, -3, 3);
         sub_08028D98(5, 0, 3, 3);
-        waitHandle=handle;asm("" : "+r"(waitHandle) : "r"(handle));
+        waitHandle=handle;
         goto test118;
 yield118:
         sub_080003F0();
@@ -2604,7 +2604,7 @@ test124:
         handle = sub_0805DF38(1U,0xFU,2U,0U,0x2D,0x140019);
         sub_08028D98(3, 0, -3, 3);
         sub_08028D98(3, 0, 3, 3);
-        waitHandle=handle;asm("" : "+r"(waitHandle) : "r"(handle));
+        waitHandle=handle;
         goto test127;
 yield127:
         sub_080003F0();
@@ -2623,7 +2623,7 @@ test133:
         handle = sub_0805DF38(1U,0xFU,2U,0U,0x2D,0x14001A);
         sub_08028D98(1, 0, -3, 3);
         sub_08028D98(1, 0, 3, 3);
-        waitHandle=handle;asm("" : "+r"(waitHandle) : "r"(handle));
+        waitHandle=handle;
         goto test136;
 yield136:
         sub_080003F0();
@@ -2642,7 +2642,7 @@ test142:
         handle = sub_0805DF38(1U,0xFU,2U,0U,0x2D,0x14001B);
         sub_08028D98(2, 0, -3, 3);
         sub_08028D98(2, 0, 3, 3);
-        waitHandle=handle;asm("" : "+r"(waitHandle) : "r"(handle));
+        waitHandle=handle;
         goto test145;
 yield145:
         sub_080003F0();
@@ -2661,7 +2661,7 @@ test151:
         handle = sub_0805DF38(1U,0xFU,2U,0U,0x2D,0x14001C);
         sub_08028D98(4, 0, -3, 3);
         sub_08028D98(4, 0, 3, 3);
-        waitHandle=handle;asm("" : "+r"(waitHandle) : "r"(handle));
+        waitHandle=handle;
         goto test154;
 yield154:
         sub_080003F0();
@@ -2680,7 +2680,7 @@ test160:
         handle = sub_0805DF38(1U,0xFU,2U,0U,0x2D,0x14001D);
         sub_08028D98(3, 0, -3, 3);
         sub_08028D98(3, 0, 3, 3);
-        waitHandle=handle;asm("" : "+r"(waitHandle) : "r"(handle));
+        waitHandle=handle;
         goto test163;
 yield163:
         sub_080003F0();
@@ -2699,7 +2699,7 @@ test169:
         handle = sub_0805DF38(1U,0xFU,2U,0U,0x2D,0x14001E);
         sub_08028D98(1, 0, -3, 3);
         sub_08028D98(1, 0, 3, 3);
-        waitHandle=handle;asm("" : "+r"(waitHandle) : "r"(handle));
+        waitHandle=handle;
         goto test172;
 yield172:
         sub_080003F0();
@@ -2718,7 +2718,7 @@ test178:
         handle = sub_0805DF38(1U,0xFU,2U,0U,0x2D,0x14001F);
         sub_08028D98(5, 0, -3, 3);
         sub_08028D98(5, 0, 3, 3);
-        waitHandle=handle;asm("" : "+r"(waitHandle) : "r"(handle));
+        waitHandle=handle;
         goto test181;
 yield181:
         sub_080003F0();
@@ -2737,7 +2737,7 @@ test187:
         handle = sub_0805DF38(1U,0xFU,2U,0U,0x2D,0x140020);
         sub_08028D98(3, 0, -3, 3);
         sub_08028D98(3, 0, 3, 3);
-        waitHandle=handle;asm("" : "+r"(waitHandle) : "r"(handle));
+        waitHandle=handle;
         goto test190;
 yield190:
         sub_080003F0();
@@ -2756,7 +2756,7 @@ test196:
         handle = sub_0805DF38(1U,0xFU,2U,0U,0x2D,0x140021);
         sub_08028D98(1, 0, -3, 3);
         sub_08028D98(1, 0, 3, 3);
-        waitHandle=handle;asm("" : "+r"(waitHandle) : "r"(handle));
+        waitHandle=handle;
         goto test199;
 yield199:
         sub_080003F0();
@@ -2775,7 +2775,7 @@ test205:
         handle = sub_0805DF38(1U,0xFU,2U,0U,0x2D,0x140022);
         sub_08028D98(3, 0, -3, 3);
         sub_08028D98(3, 0, 3, 3);
-        waitHandle=handle;asm("" : "+r"(waitHandle) : "r"(handle));
+        waitHandle=handle;
         goto test208;
 yield208:
         sub_080003F0();
@@ -2801,7 +2801,7 @@ test214:
         sub_080290E4(1, 5);
         sub_08028AAC(1, 0x81, 0x6A, 0x14);
         sub_080290E4(1, 4);
-        waitHandle=handle;asm("" : "+r"(waitHandle) : "r"(handle));
+        waitHandle=handle;
         goto test217;
 yield217:
         sub_080003F0();
@@ -2820,7 +2820,7 @@ yield226:
 test226:
             if (sub_0805EF90() != 0) goto yield226;
             handle = sub_0805DF38(1U,0xFU,2U,0U,0x2D,0x140024);
-        waitHandle=handle;asm("" : "+r"(waitHandle) : "r"(handle));
+        waitHandle=handle;
             goto test229;
 yield229:
             sub_080003F0();
@@ -2849,7 +2849,7 @@ yield241:
 test241:
             if (sub_0805EF90() != 0) goto yield241;
             handle = sub_0805DF38(1U,0xFU,2U,0U,0x2D,0x140033);
-        waitHandle=handle;asm("" : "+r"(waitHandle) : "r"(handle));
+        waitHandle=handle;
             goto test244;
 yield244:
             sub_080003F0();
@@ -2877,7 +2877,7 @@ test250:
         sub_080290E4(1, 4);
         sub_08028AAC(1, 0x38, 0x68, 0xF);
         sub_080290E4(1, 7);
-        waitHandle=handle;asm("" : "+r"(waitHandle) : "r"(handle));
+        waitHandle=handle;
         goto test254;
 yield254:
         sub_080003F0();
@@ -2896,7 +2896,7 @@ test260:
         handle = sub_0805DF38(1U,0xFU,2U,0U,0x2D,0x140026);
         sub_08028D98(2, 0, -3, 3);
         sub_08028D98(2, 0, 3, 3);
-        waitHandle=handle;asm("" : "+r"(waitHandle) : "r"(handle));
+        waitHandle=handle;
         goto test263;
 yield263:
         sub_080003F0();
@@ -2915,7 +2915,7 @@ test269:
         handle = sub_0805DF38(1U,0xFU,2U,0U,0x2D,0x140027);
         sub_08028D98(3, 0, -3, 3);
         sub_08028D98(3, 0, 3, 3);
-        waitHandle=handle;asm("" : "+r"(waitHandle) : "r"(handle));
+        waitHandle=handle;
         goto test272;
 yield272:
         sub_080003F0();
@@ -2940,7 +2940,7 @@ test278:
         sub_08028D98(4, 0, 3, 3);
         sub_08028D98(5, 0, -3, 3);
         sub_08028D98(5, 0, 3, 3);
-        waitHandle=handle;asm("" : "+r"(waitHandle) : "r"(handle));
+        waitHandle=handle;
         goto test281;
 yield281:
         sub_080003F0();
@@ -2949,12 +2949,12 @@ test281:
         t47ESet4(t47EState);
         step=0x33;
         temp_r6 = (s16) t47ECamera[64];
-        asm("" : "=r"(hold1),"=r"(hold2),"=r"(hold7));temp_r5_27=t47ECamera[65];asm("" : : "r"(hold1),"r"(hold2),"r"(hold7));
+        asm("" : "=r"(hold1),"=r"(hold2),"=r"(hold7));temp_r5_27=t47ECamera[65];
         var_r4 = 0;
-        asm("" : "+r"(var_r4));zeroX=var_r4;zeroY=0;asm("" : "+r"(zeroY));
+        zeroX=var_r4;zeroY=0;
         do {
-            call0=(s32 *)&frame.pos[0];call1=temp_r6;asm("" : "+r"(call0), "+r"(call1));call3=zeroX;asm("" : "+r"(call3));call2=call3>>16;call3=var_r4;sub_080659F4(call0,call1,call2,call3);
-            call0=xp;call1=temp_r5_27;asm("" : "+r"(call0), "+r"(call1));call2=zeroY>>16;call3=var_r4;sub_080659F4(call0,call1,call2,call3);
+            call0=(s32 *)&frame.pos[0];call1=temp_r6;call3=zeroX;call2=call3>>16;call3=var_r4;sub_080659F4(call0,call1,call2,call3);
+            call0=xp;call1=temp_r5_27;call2=zeroY>>16;call3=var_r4;sub_080659F4(call0,call1,call2,call3);
             t47ESetCamera((s16) frame.pos[0], (s16) frame.pos[1]);
             sub_080003F0();
             var_r4 += step;
@@ -2980,7 +2980,7 @@ test290:
         sub_08029174(1, 0x10);
         sub_08028D98(1, 0, -3, 3);
         sub_08028D98(1, 0, 3, 3);
-        waitHandle=handle;asm("" : "+r"(waitHandle) : "r"(handle));
+        waitHandle=handle;
         goto test295;
 yield295:
         sub_080003F0();
@@ -3000,7 +3000,7 @@ test301:
         handle = sub_0805DF38(1U,0xFU,2U,0U,0x2D,0x14002A);
         sub_08028D98(3, 0, -3, 3);
         sub_08028D98(3, 0, 3, 3);
-        waitHandle=handle;asm("" : "+r"(waitHandle) : "r"(handle));
+        waitHandle=handle;
         goto test304;
 yield304:
         sub_080003F0();
@@ -3019,7 +3019,7 @@ test310:
         handle = sub_0805DF38(1U,0xFU,2U,0U,0x2D,0x14002B);
         sub_08028D98(1, 0, -3, 3);
         sub_08028D98(1, 0, 3, 3);
-        waitHandle=handle;asm("" : "+r"(waitHandle) : "r"(handle));
+        waitHandle=handle;
         goto test313;
 yield313:
         sub_080003F0();
@@ -3045,7 +3045,7 @@ alloc0:
         sub_08000274(var_r4_2,2);
 end0:
         cb=t47EScript;
-        raw=(u32)t47EState;off1=0xE34;asm("" : "+r"(off1));var_r4_3=(struct T47ETask *)(raw+off1);
+        raw=(u32)t47EState;off1=0xE34;var_r4_3=(struct T47ETask *)(raw+off1);
         var_r5_2=0;
         goto check1;
 next1:
@@ -3114,7 +3114,7 @@ test350:
         handle = sub_0805DF38(1U,0xFU,2U,0U,0x2D,0x14002C);
         sub_08028D98(5, 0, -3, 3);
         sub_08028D98(5, 0, 3, 3);
-        waitHandle=handle;asm("" : "+r"(waitHandle) : "r"(handle));
+        waitHandle=handle;
         goto test353;
 yield353:
         sub_080003F0();
@@ -3133,7 +3133,7 @@ test359:
         handle = sub_0805DF38(1U,0xFU,2U,0U,0x2D,0x14002D);
         sub_08028D98(2, 0, -3, 3);
         sub_08028D98(2, 0, 3, 3);
-        waitHandle=handle;asm("" : "+r"(waitHandle) : "r"(handle));
+        waitHandle=handle;
         goto test362;
 yield362:
         sub_080003F0();
@@ -3174,7 +3174,7 @@ wait374:
 done374:
         sub_08028D98(3, 0, -3, 3);
         sub_08028D98(3, 0, 3, 3);
-        waitHandle=handle;asm("" : "+r"(waitHandle) : "r"(handle));
+        waitHandle=handle;
         goto test377;
 yield377:
         sub_080003F0();
@@ -3182,12 +3182,12 @@ test377:
         if (sub_0805EEFC((void *) waitHandle) == 0) goto yield377;
         call3=0x33;asm("" : "+r"(call3));step=call3;
         temp_r6_2 = (s16) t47ECamera[64];
-        asm("" : "=r"(hold1),"=r"(hold2),"=r"(hold7));temp_r5_34=t47ECamera[65];asm("" : : "r"(hold1),"r"(hold2),"r"(hold7));
+        asm("" : "=r"(hold1),"=r"(hold2),"=r"(hold7));temp_r5_34=t47ECamera[65];
         var_r4_8 = 0;
         asm("" : "+r"(var_r4_8));zeroX=var_r4_8;zeroY=0;asm("" : "+r"(zeroY));
         do {
-            call0=xp;call1=temp_r6_2;asm("" : "+r"(call0), "+r"(call1));call3=zeroX;asm("" : "+r"(call3));call2=call3>>16;call3=var_r4_8;sub_080659F4(call0,call1,call2,call3);
-            call0=frame.yp;call1=temp_r5_34;asm("" : "+r"(call0), "+r"(call1));call2=zeroY>>16;call3=var_r4_8;sub_080659F4(call0,call1,call2,call3);
+            call0=xp;call1=temp_r6_2;call3=zeroX;call2=call3>>16;call3=var_r4_8;sub_080659F4(call0,call1,call2,call3);
+            call0=frame.yp;call1=temp_r5_34;call2=zeroY>>16;call3=var_r4_8;sub_080659F4(call0,call1,call2,call3);
             t47ESetCamera((s16) frame.pos[2], (s16) frame.pos[3]);
             sub_080003F0();
             var_r4_8 += step;
@@ -3250,25 +3250,25 @@ block_398:
 struct T48Item { s16 id; u16 kind; u8 pad[12]; };
 extern u8 *t48State asm("gUnk_03005CF4");
 extern u8 *t48Items asm("gUnk_030034E0");
-static inline s32 t48id(struct T48Item *p) { register u32 x asm("r0") = (u16)p->id; asm("" : "+r" (x)); return x; }
+static inline s32 t48id(struct T48Item *p) { u32 x = (u16)p->id;  return x; }
 void sub_08049DC4(void) {
-    register s32 value asm("r1"); register s32 loaded asm("r0"); s32 other; register s32 flag asm("r4"); register s32 count2 asm("r5"); register u8 *state asm("r2"); register s32 count asm("r3"); register s32 saved asm("r6"); register s32 bits asm("r2"); register s32 off asm("r4"); register s32 off1 asm("r5"); register s32 flagmask asm("r3"); register s32 mask asm("r5");
-    u32 i; register u32 j asm("r3");
+    s32 value; register s32 loaded asm("r0"); s32 other; s32 flag; register s32 count2 asm("r5"); u8 *state; register s32 count asm("r3"); register s32 saved asm("r6"); s32 bits; register s32 off asm("r4"); register s32 off1 asm("r5"); s32 flagmask; register s32 mask asm("r5");
+    u32 i; u32 j;
     u8 *selected;
     struct T48Item *p,*q;
-    state=t48State; asm("" : "+r" (state)); flagmask=0x20; value = *(s32 *)(state+0x38);
+    state=t48State;  flagmask=0x20; value = *(s32 *)(state+0x38);
     if (!(value & flagmask)) {
         *(s32 *)(state+0x38) = value | flagmask;
         mask=1; if (sub_0800CE30()) selected = t48State+0x1C4;
         else { loaded=(s32)t48State; off=0x1B8; asm("" : "+r" (off)); selected = (u8 *)loaded+off; }
-        loaded=*selected; asm("" : "+r" (loaded)); flag = (loaded >> 5) & mask; asm("" : "+r" (flag));
+        loaded=*selected;  flag = (loaded >> 5) & mask; 
         other = sub_080020F4();
-        count=0; i=0; loaded=(s32)t48Items; asm("" : "+r" (loaded)); off1=0x150; asm("" : "+r" (off1)); p=(struct T48Item *)((u8 *)loaded+off1);
+        count=0; i=0; loaded=(s32)t48Items;  off1=0x150;  p=(struct T48Item *)((u8 *)loaded+off1);
         do {
             if (t48id(p)==1 && p->kind==0x2A) count++;
             p++; i++;
         } while(i<=24);
-        saved=count; count2=0; asm("" : "+r" (count2)); j=0; bits=flag|other; asm("" : "+r" (bits)); loaded=(s32)t48Items; asm("" : "+r" (loaded)); off=0x2E0; asm("" : "+r" (off)); q=(struct T48Item *)((u8 *)loaded+off);
+        saved=count; count2=0;  j=0; bits=flag|other;  loaded=(s32)t48Items;  off=0x2E0;  q=(struct T48Item *)((u8 *)loaded+off);
         do {
             if (t48id(q)==1 && q->kind==0x2A) count2++;
             q++; j++;
@@ -3290,18 +3290,18 @@ extern struct T48TileE t48tileE asm("gUnk_03003170");
 extern u8 *t48stateE asm("gUnk_03005CF4");
 extern void t48bbE(s32,s32) asm("sub_0800BB80");
 static inline void t48moveE(s16 step,s16 tx,s16 ty) {
- s32 a,b; register s32 delta asm("r9")=step; s32 x=t48tileE.x,y=t48tileE.y; register s32 i asm("r4");
+ s32 a,b; register s32 delta asm("r9")=step; s32 x=t48tileE.x,y=t48tileE.y; s32 i;
  i=0;do{sub_080659F4(&a,x,tx,i);sub_080659F4(&b,y,ty,i);t48bbE((s16)a,(s16)b);sub_080003F0();i+=delta;asm("" : : "r"(i) : "sl");}while(i<=0x400);
 }
 static inline void t48moveFirstE(s16 step,s16 tx,s16 ty) {
- s32 a,b; register s32 delta asm("sl")=step; s32 x=t48tileE.x,y=t48tileE.y; register s32 i asm("r4");
- i=0;do{sub_080659F4(&a,x,tx,i);sub_080659F4(&b,y,ty,i);t48bbE((s16)a,(s16)b);sub_080003F0();i+=delta;asm("" : : "r"(i));}while(i<=0x400);
+ s32 a,b; register s32 delta asm("sl")=step; s32 x=t48tileE.x,y=t48tileE.y; s32 i;
+ i=0;do{sub_080659F4(&a,x,tx,i);sub_080659F4(&b,y,ty,i);t48bbE((s16)a,(s16)b);sub_080003F0();i+=delta;}while(i<=0x400);
 }
-static inline void t48musicE(u32 track) { register u32 v asm("r1")=track; asm("" : "+r"(v)); gUnk_03005CF8=v; { register u32 bits asm("r1"); register u32 flags asm("r0")=gUnk_030027D0; asm("" : "+r"(flags)); bits=32; asm("" : "+r"(bits)); if(!(flags&bits)) sub_08006CB4(track); } }
+static inline void t48musicE(u32 track) { register u32 v asm("r1")=track;  gUnk_03005CF8=v; { register u32 bits asm("r1"); u32 flags=gUnk_030027D0;  bits=32;  if(!(flags&bits)) sub_08006CB4(track); } }
 
 void sub_08049EBC(void) {
- s32 off; u16 n; s32 v; u32 req; u8 *p; register s32 idx asm("r2"); register s32 mask asm("r1"); register u8 *gp asm("r0"); register u8 *gp2 asm("r2"); register u32 word asm("r0"); register u32 req3 asm("r3"); register u32 hv asm("r1");
- idx=sub_080020F4()*0x14C; asm("" : "+r"(idx)); p=(u8 *)gUnk_03003CE0+idx;
+ s32 off; u16 n; s32 v; u32 req; u8 *p; register s32 idx asm("r2"); s32 mask; u8 *gp; register u8 *gp2 asm("r2"); u32 word; u32 req3; register u32 hv asm("r1");
+ idx=sub_080020F4()*0x14C;  p=(u8 *)gUnk_03003CE0+idx;
  *(u32 *)(p+0x30)|=1;
  sub_0800D0F4();
  if(sub_08002164()==1) off=0;
@@ -3312,15 +3312,15 @@ void sub_08049EBC(void) {
  t48musicE(217);
  n=20; goto wait2; dec2: n--; if(n==0) goto end2; wait2: sub_080003F0(); if(sub_080021A8()==0) goto dec2; end2:;
  t48moveFirstE(17,-off,-108);
- gp=t48stateE; asm("" : "+r"(gp)); mask=64; if(!(*(u32 *)(gp+0x38)&mask)) { while(sub_0805F184()) sub_080003F0(); while(sub_0805EF90()) sub_080003F0(); req3=sub_0805DF38(1,15,2,0,45,0x140030); }
+ gp=t48stateE;  mask=64; if(!(*(u32 *)(gp+0x38)&mask)) { while(sub_0805F184()) sub_080003F0(); while(sub_0805EF90()) sub_080003F0(); req3=sub_0805DF38(1,15,2,0,45,0x140030); }
  else { while(sub_0805F184()) sub_080003F0(); while(sub_0805EF90()) sub_080003F0(); req3=sub_0805DF38(1,15,2,0,45,0x140031); }
- asm("" : "+r"(req3));
- gp2=t48stateE; asm("" : "+r"(gp2)); mask=64; *(u32 *)(gp2+0x38)|=mask; req=req3;
+ 
+ gp2=t48stateE;  mask=64; *(u32 *)(gp2+0x38)|=mask; req=req3;
  while(sub_0805EEFC((void *)req)==0) sub_080003F0();
  t48moveE(34,0,0);
  t48musicE(11);
- hv=*(u16 *)(t48stateE+4); asm("" : "+r"(hv)); word=hv|32; asm("" : "+r"(word)); *(u16 *)(t48stateE+4)=word;
- idx=sub_080020F4()*0x14C; asm("" : "+r"(idx)); p=(u8 *)gUnk_03003CE0+idx; *(u32 *)(p+0x30)&=~1;
+ hv=*(u16 *)(t48stateE+4);  word=hv|32;  *(u16 *)(t48stateE+4)=word;
+ idx=sub_080020F4()*0x14C;  p=(u8 *)gUnk_03003CE0+idx; *(u32 *)(p+0x30)&=~1;
  sub_0800D108();
 }
 
@@ -3349,10 +3349,10 @@ static inline void t48moveA(s16 step,s16 tx,s16 ty) {
 static inline void t48modeA(void){if(sub_0800CC98()==0){switch(sub_0801AB24()){case 0:sub_080576A8();break;case 1:sub_0801AB50(6);break;case 2:sub_0801AB90(6);break;}while(sub_0801AAE0()==0)sub_080003F0();}}
 static inline void t48waitA(u16 n){goto check;next:n--;if(n==0)return;check:sub_080003F0();if(sub_080021A8()==0)goto next;}
 static inline u32 t48boolA(u8 *p,u32 mask){u32 r=*(u32 *)(p+0x38)&mask;if(r)r=1;return r;}
-static inline void t48musicA(u32 track){register u32 v asm("r1")=track;asm("" : "+r"(v));gUnk_03005CF8=v;if(!(gUnk_030027D0&32))sub_08006CB4(track);}
+static inline void t48musicA(u32 track){register u32 v asm("r1")=track;gUnk_03005CF8=v;if(!(gUnk_030027D0&32))sub_08006CB4(track);}
 void sub_0804A188(void){
- u32 bit;u8 *player;register u8 *base asm("r0");register u32 one asm("r4");register s32 *flags asm("r5"); register u8 *p asm("r2"); register u32 i asm("r3"); register u32 shifted asm("r1"); register u32 stride asm("r0");
- base=t48stateA;asm("" : "+r"(base));one=1;bit=t48boolA(base,one); asm("" : "+r"(bit));
+ u32 bit;u8 *player;u8 *base;register u32 one asm("r4");register s32 *flags asm("r5"); u8 *p; u32 i; u32 shifted; register u32 stride asm("r0");
+ base=t48stateA;one=1;bit=t48boolA(base,one); asm("" : "+r"(bit));
  if(!bit){
  player=(u8 *)gUnk_03003CE0+0x14c*sub_080020F4();*(u32 *)(player+0x30)|=one;sub_0800D0F4();*(u32 *)(t48stateA+0x38)|=one;
  t48moveA(0x400,0,-60);t48taskA(sub_0804A478,0);t48waitA(2);t48modeA();t48musicA(196);
@@ -3360,7 +3360,7 @@ return;
 }
 
  t48modeA();sub_0802A080(140,130,200,100);t48taskA(sub_0804A89C,5);t48taskA(sub_0804A89C,6);t48waitA(30);
- p=t48objA;i=0;flags=&gUnk_030056FC;asm("" : "+r"(flags));do{shifted=1<<i;asm("" : "+r"(shifted));if((*flags&shifted)&&*(u16 *)(p+12)==12)*(u16 *)(p+12)=0;i++;stride=0x2E0;asm("" : "+r"(stride));p+=stride;}while(i<=4);sub_08019F04();return;
+ p=t48objA;i=0;flags=&gUnk_030056FC;do{shifted=1<<i;if((*flags&shifted)&&*(u16 *)(p+12)==12)*(u16 *)(p+12)=0;i++;stride=0x2E0;p+=stride;}while(i<=4);sub_08019F04();return;
 
 }
 
@@ -3383,33 +3383,33 @@ static inline void t48taskK(void (*cb)(void),s32 arg) {
 }
 static inline void t48moveK(s16 step,s16 tx,s16 ty) {
  s32 a,b; s32 delta=step; s32 x=t48tileK.x,y=t48tileK.y; register s32 i asm("r4");
- i=0;do{sub_080659F4(&a,x,tx,i);sub_080659F4(&b,y,ty,i);t48bbK((s16)a,(s16)b);sub_080003F0();i+=delta;asm("" : : "r"(i));}while(i<=0x400);
+ i=0;do{sub_080659F4(&a,x,tx,i);sub_080659F4(&b,y,ty,i);t48bbK((s16)a,(s16)b);sub_080003F0();i+=delta;}while(i<=0x400);
 }
 static inline void t48waitK(u16 n){goto check;next:n--;if(n==0)return;check:sub_080003F0();if(sub_080021A8()==0)goto next;}
 extern void t48actorK(s32) asm("sub_0804A89C");
 void sub_0804A478(void){
  struct T48TaskK *t1,*t2,*t3,*t4;
- register u8 *p asm("r2");register u32 i asm("r3");register s32 *flags asm("r5");register u32 shifted asm("r1");register u32 stride asm("r0");
+ u8 *p;u32 i;register s32 *flags asm("r5");u32 shifted;register u32 stride asm("r0");
  t48actorK(0);t48moveK(34,0,-30);
- {register void (*cb)() asm("r6")=sub_0804A89C;struct T48TaskK *task;u32 j;u8 *mem;asm("" : "+r"(cb));task=(struct T48TaskK *)(t48stateK+0xE34);
+ {register void (*cb)() asm("r6")=sub_0804A89C;struct T48TaskK *task;u32 j;u8 *mem;task=(struct T48TaskK *)(t48stateK+0xE34);
  j=0;goto check1;next1:j++;task++;check1:if(j>29)goto end1;
  if(sub_08000470((u32)task))goto next1;
  while((task->f20=mem=sub_08001494(0x400))==0)sub_080003F0();
  task->f8=60;task->fc=cb;task->f10=mem+0x3fc;task->f24=0;sub_08000274((u32)task,1);t1=task;
  end1:;}
-{register void (*cb)() asm("r6")=sub_0804A89C;struct T48TaskK *task;u32 j;u8 *mem;asm("" : "+r"(cb));task=(struct T48TaskK *)(t48stateK+0xE34);
+{register void (*cb)() asm("r6")=sub_0804A89C;struct T48TaskK *task;u32 j;u8 *mem;task=(struct T48TaskK *)(t48stateK+0xE34);
  j=0;goto check2;next2:j++;task++;check2:if(j>29)goto end2;
  if(sub_08000470((u32)task))goto next2;
  while((task->f20=mem=sub_08001494(0x400))==0)sub_080003F0();
  task->f8=60;task->fc=cb;task->f10=mem+0x3fc;task->f24=0;sub_08000274((u32)task,2);t2=task;
  end2:;}
-{register void (*cb)() asm("r6")=sub_0804A89C;struct T48TaskK *task;u32 j;u8 *mem;asm("" : "+r"(cb));task=(struct T48TaskK *)(t48stateK+0xE34);
+{register void (*cb)() asm("r6")=sub_0804A89C;struct T48TaskK *task;u32 j;u8 *mem;task=(struct T48TaskK *)(t48stateK+0xE34);
  j=0;goto check3;next3:j++;task++;check3:if(j>29)goto end3;
  if(sub_08000470((u32)task))goto next3;
  while((task->f20=mem=sub_08001494(0x400))==0)sub_080003F0();
  task->f8=60;task->fc=cb;task->f10=mem+0x3fc;task->f24=0;sub_08000274((u32)task,3);t3=task;
  end3:;}
-{register void (*cb)() asm("r6")=sub_0804A89C;struct T48TaskK *task;u32 j;u8 *mem;asm("" : "+r"(cb));task=(struct T48TaskK *)(t48stateK+0xE34);
+{register void (*cb)() asm("r6")=sub_0804A89C;struct T48TaskK *task;u32 j;u8 *mem;task=(struct T48TaskK *)(t48stateK+0xE34);
  j=0;goto check4;next4:j++;task++;check4:if(j>29)goto end4;
  if(sub_08000470((u32)task))goto next4;
  while((task->f20=mem=sub_08001494(0x400))==0)sub_080003F0();
@@ -3424,7 +3424,7 @@ void sub_0804A478(void){
  t48waitK(1);sub_0805EFBC();do{sub_080003F0();}while(sub_0805F184());t48moveK(102,0,0);
  t48taskK(sub_0804A89C,5);t48taskK(sub_0804A89C,6);t48waitK(30);
  if(sub_0800CB9C()==0){if(!(gUnk_030027D0&32)){gUnk_03005CF8=2;sub_08006CB4(2);}}else sub_080586B4(0);
- p=t48objK;i=0;flags=&gUnk_030056FC;asm("" : "+r"(flags));do{shifted=1<<i;asm("" : "+r"(shifted));if((*flags&shifted)&&*(u16 *)(p+12)==12)*(u16 *)(p+12)=0;i++;stride=0x2E0;asm("" : "+r"(stride));p+=stride;}while(i<=4);sub_08019F04();
+ p=t48objK;i=0;flags=&gUnk_030056FC;do{shifted=1<<i;if((*flags&shifted)&&*(u16 *)(p+12)==12)*(u16 *)(p+12)=0;i++;stride=0x2E0;p+=stride;}while(i<=4);sub_08019F04();
 }
 
 struct T48SlotB {s32 id;u8 pad[0x32];u16 unk36;u8 tail[0x38];};
@@ -3437,25 +3437,25 @@ extern u8 *t48objB asm("gUnk_030056F4");
 extern struct T48PlayerB t48playersB[] asm("gUnk_03003CE0");
 static inline void t48waitB(u16 n){goto check;next:n--;if(n==0)return;check:sub_080003F0();if(sub_080021A8()==0)goto next;}
 static inline struct T48SlotB *t48findB(s32 id){struct T48SlotB *p=(struct T48SlotB *)(t48stateB+0x7A4);u32 i;for(i=0;i<=14;i++,p++)if(p->id==id)return p;sub_080003F0();return 0;}
-static inline struct T48SlotB *t48findLastB(s32 id){struct T48SlotB *p;register u8 *base asm("r0")=t48stateB;register u32 off asm("r4");u32 i;asm("" : "+r"(base));off=0x7A4;asm("" : "+r"(off));p=(struct T48SlotB *)(base+off);for(i=0;i<=14;i++,p++)if(p->id==id)return p;sub_080003F0();return 0;}
+static inline struct T48SlotB *t48findLastB(s32 id){struct T48SlotB *p;u8 *base=t48stateB;register u32 off asm("r4");u32 i;off=0x7A4;p=(struct T48SlotB *)(base+off);for(i=0;i<=14;i++,p++)if(p->id==id)return p;sub_080003F0();return 0;}
 static inline u32 t48idB(struct T48ItemB *p){return p->unk0;}
-static inline s32 t48countB(u32 offset,u32 max){register s32 count asm("r3");register u32 i asm("r2");register struct T48ItemB *p asm("r1");register u8 *base asm("r0");register u32 off asm("r4");count=0;i=0;{register u8 **slot asm("r0")=&t48itemsB;base=*slot;}off=offset;p=(struct T48ItemB *)(base+off);do{if(t48idB(p)==1&&p->unk2==35)count++;p++;i++;}while(i<=max);return count;}
-static inline s32 t48countSecondB(u32 offset,u32 max){register s32 count asm("r3");register u32 i asm("r2");register struct T48ItemB *p asm("r1");register u8 *base asm("r0");register u32 off asm("r4");count=0;i=0;{register u8 **slot asm("r0")=&t48itemsB;base=*slot;}off=offset;p=(struct T48ItemB *)(base+off);do{if(t48idB(p)==1&&p->unk2==35)count++;p++;i++;}while(i<=max);return count;}
-static inline s32 t48bitB(s32 value,u32 unused){register s32 bit asm("r1")=value>>2;register s32 mask asm("r0")=1;asm("" : "+r"(mask));bit&=mask;asm("" : "+r"(bit));return bit;}
+static inline s32 t48countB(u32 offset,u32 max){s32 count;u32 i;struct T48ItemB *p;u8 *base;u32 off;count=0;i=0;{u8 **slot=&t48itemsB;base=*slot;}off=offset;p=(struct T48ItemB *)(base+off);do{if(t48idB(p)==1&&p->unk2==35)count++;p++;i++;}while(i<=max);return count;}
+static inline s32 t48countSecondB(u32 offset,u32 max){s32 count;u32 i;struct T48ItemB *p;u8 *base;u32 off;count=0;i=0;{register u8 **slot asm("r0")=&t48itemsB;base=*slot;}off=offset;p=(struct T48ItemB *)(base+off);do{if(t48idB(p)==1&&p->unk2==35)count++;p++;i++;}while(i<=max);return count;}
+static inline s32 t48bitB(s32 value,u32 unused){s32 bit=value>>2;register s32 mask asm("r0")=1;bit&=mask;return bit;}
 static inline s32 t48byteB(u8 *p){register s32 v asm("r0")=*p;asm("" : "+r"(v));return v;}
-static inline void t48initB(struct T48ReqB *p,u32 id,u32 kind){register u32 a asm("r1")=id;register u32 b asm("r2")=kind;register struct T48ReqB *out asm("r0");asm("" : "+r"(a),"+r"(b));out=p;out->unk0=a;out->unk2=b;}
+static inline void t48initB(struct T48ReqB *p,u32 id,u32 kind){register u32 a asm("r1")=id;u32 b=kind;struct T48ReqB *out;asm("" : "+r"(a),"+r"(b));out=p;out->unk0=a;out->unk2=b;}
 static inline void t48clearB(u8 *dst){u32 i=0;register u8 *p asm("r2")=dst;do{p[i]=0;i++;}while(i<=11);}
 extern void t48implB(u32) asm("sub_0804A89C");
 void t48implB(u32 arg0) {
     struct T48ReqB sp8;
     struct T48SlotB *var_r1;
     struct T48SlotB *var_r1_2;
-    register s32 temp_r5 asm("r5");
+    s32 temp_r5;
     register s32 temp_r6 asm("r6");
     s32 var_r0_2;
-    register u32 one asm("r0"); register struct T48ReqB *out asm("r1"); register u32 off6 asm("r4");
+    u32 one; register struct T48ReqB *out asm("r1"); register u32 off6 asm("r4");
 
-    register u8 *obj asm("r0");
+    u8 *obj;
     s32 var_r3;
     s32 var_r3_2;
     u16 var_r4;
@@ -3484,8 +3484,8 @@ void t48implB(u32 arg0) {
 
     switch (arg0) {                                 /* irregular */
     case 0:
-        temp_r5 = sub_080289C0(0x3004B, 0x60, 0x130);asm("" : "+r"(temp_r5));
-        temp_r6 = sub_080289C0(0x7004B, 0x38, 0x118);asm("" : "+r"(temp_r6));
+        temp_r5 = sub_080289C0(0x3004B, 0x60, 0x130);
+        temp_r6 = sub_080289C0(0x7004B, 0x38, 0x118);
         t48waitB(30);
         while (sub_0805F184() != 0) sub_080003F0();
         while (sub_0805EF90() != 0) sub_080003F0();
@@ -3542,8 +3542,8 @@ void t48implB(u32 arg0) {
         sub_08029174(1, 0);
                 t48waitB(0x28);
         sub_080290E4(1, 2);
-        if (sub_080020F4() == 0) { register u8 *pad asm("r6");
-            {register s32 count asm("r3");register u32 i asm("r2");register struct T48ItemB *p asm("r1");register u8 **slot asm("r0");register u8 *base asm("r0");register u32 off asm("r4");count=0;i=0;pad=sp8.pad;slot=&t48itemsB;base=*slot;off=0x150;p=(struct T48ItemB *)(base+off);do{if(t48idB(p)==1&&p->unk2==35)count++;p++;i++;}while(i<=24);var_r3=count;}var_r3_2=t48countSecondB(0x2E0,74);
+        if (sub_080020F4() == 0) { u8 *pad;
+            {s32 count;u32 i;struct T48ItemB *p;u8 **slot;u8 *base;u32 off;count=0;i=0;pad=sp8.pad;slot=&t48itemsB;base=*slot;off=0x150;p=(struct T48ItemB *)(base+off);do{if(t48idB(p)==1&&p->unk2==35)count++;p++;i++;}while(i<=24);var_r3=count;}var_r3_2=t48countSecondB(0x2E0,74);
             if (sub_0800CE30() != 0) {
                 var_r0 = t48stateB+0x1C5;
             } else {
@@ -3591,7 +3591,7 @@ block_108:
         sub_0802949C(1, 0);
         return;
     case 6:
-        obj=t48objB;asm("" : "+r"(obj));off6=0x2E0;asm("" : "+r"(off6));sub_08019EB8(*(u16 *)(obj+off6+2), 3);
+        obj=t48objB;off6=0x2E0;sub_08019EB8(*(u16 *)(obj+off6+2), 3);
         sub_0802949C(2, 0);
         return;
     }
@@ -3737,12 +3737,12 @@ static inline void t49_bindB100(void *callback, u32 arg, s16 index)
 {
     struct T49EntityB100 *p;
     u32 i;
-    register s32 slot asm("r6") = index;
+    s32 slot = index;
     u32 offset;
     register struct T49EntityB100 **table asm("r1");
     struct T49EntityB100 *entity;
-    register s32 *bits asm("r6");
-    register u32 one asm("r7");
+    s32 *bits;
+    u32 one;
     t49_waitMaskB100(arg);
     table = &t49_entitiesB100;
     offset = slot * 0x2E0;
@@ -3796,7 +3796,7 @@ void sub_0804B100(void)
 {
     u8 *selected;
     register s32 bit asm("r5");
-    register s32 raw asm("r0");
+    s32 raw;
     s32 alternate;
     u32 dialog;
     selected = t49_selectB100();
@@ -3954,8 +3954,8 @@ static inline void t49_moveFirstB61C(s16 step, s16 tx, s16 ty)
 static inline void t49_moveSecondB61C(s16 step, s16 tx, s16 ty)
 {
     s32 a, b;
-    register s32 delta asm("r9") = step;
-    register s32 x asm("r6") = (s16)gUnk_03003170.f80;
+    s32 delta = step;
+    s32 x = (s16)gUnk_03003170.f80;
     s32 y = (s16)gUnk_03003170.f82;
     s32 i;
     for (i = 0; i <= 0x400; i += delta) {
@@ -3995,8 +3995,8 @@ static inline void t49_flagB61C(u8 *ptr, u32 mask)
 { *(u32 *)(ptr + 0x38) |= mask; }
 void sub_0804B61C(void)
 {
-    register s32 offset asm("r4");
-    register s32 tx asm("r2");
+    s32 offset;
+    s32 tx;
     register u32 dialog asm("r4");
     register u32 newDialog asm("r3");
     t49_lockB61C();
@@ -4047,7 +4047,7 @@ static inline void t49_moveB8EC(s16 step, s16 tx, s16 ty)
     s32 b;
 
     register s32 delta asm("sl") = step;
-    register s32 x asm("r8") = (s16)gUnk_03003170.f80;
+    s32 x = (s16)gUnk_03003170.f80;
     s32 y = (s16)gUnk_03003170.f82;
     s32 *outB = (s32 *)&b;
     s32 i;
@@ -4109,7 +4109,7 @@ static inline void t49_moveB984(s16 tx,s16 ty)
 {
     s32 a;
     s32 b;
-    register s32 x asm("r8")=(s16)gUnk_03003170.f80;
+    s32 x=(s16)gUnk_03003170.f80;
     s32 y=(s16)gUnk_03003170.f82;
     s32 i;
     s32 *outA;
@@ -4127,21 +4127,21 @@ void sub_0804B984(void)
 {
     union { struct T49PacketB984 packet; struct T49ReqB984 req; } data;
     u32 oldFlag;
-    register u32 flag2 asm("r3");
-    register u32 bit1 asm("r0");
-    register u8 *selected asm("r1");
+    u32 flag2;
+    u32 bit1;
+    u8 *selected;
     register u32 bit asm("r4")=1;
     register u8 **base asm("r0");
-    register u32 selectedBit asm("r1");
-    register u32 state asm("r2");
-    register u8 **savedBase asm("r4");
+    u32 selectedBit;
+    u32 state;
+    u8 **savedBase;
     u32 actor;
     u32 j;
-    if (sub_0800CE30()) { register u32 offset asm("r2")=0x1C4; base=&t49_gsB984; selected=*base+offset; }
-    else { register u32 offset asm("r3")=0x1B8; base=&t49_gsB984; selected=*base+offset; }
+    if (sub_0800CE30()) { u32 offset=0x1C4; base=&t49_gsB984; selected=*base+offset; }
+    else { u32 offset=0x1B8; base=&t49_gsB984; selected=*base+offset; }
     selectedBit=t49_extractB984(*selected,bit);
     savedBase=base;
-    { register u8 *game asm("r0")=*savedBase;
+    { u8 *game=*savedBase;
     flag2=2;
     state=*(u32 *)(game+0x38); }
     flag2 &= state;
@@ -4150,12 +4150,12 @@ void sub_0804B984(void)
     bit1 &= state;
     if(bit1!=0)bit1=1;
     oldFlag=bit1;
-    if (selectedBit) { register u32 pos asm("r2")=9999; sub_08028AAC(6,pos,pos,0); }
+    if (selectedBit) { u32 pos=9999; sub_08028AAC(6,pos,pos,0); }
     else if (flag2) {
         actor=sub_080289C0(19,184,187);
         sub_08028AAC(6,184,202,0);
         {
-    register void *callback asm("r8")=sub_0804BEF8;
+    void *callback=sub_0804BEF8;
     struct T49TaskB984 *task = (struct T49TaskB984 *)(*savedBase + 0xE34);
     u32 i = 0, zero;
     goto check;
@@ -4183,7 +4183,7 @@ check:
         t49_moveB984(0,-40);
         actor=sub_080289C0(19,160,133);
         sub_08028AAC(6,184,202,0);
-        { register u32 old asm("r1")=oldFlag;
+        { u32 old=oldFlag;
         if (!old) {
             u32 alternate=sub_0800CE30();
             if(alternate) {
@@ -4205,7 +4205,7 @@ check:
                 for(j=0;j<=11;j++)data.packet.args[j]=0;
                 while(!sub_08067B9C(0x2100,0x6F00,&data.packet))sub_080003F0();
             }
-            { register u8 *game asm("r2")=t49_gsB984; register u32 mask asm("r1")=1; *(u32 *)(game+0x38)|=mask; }
+            { u8 *game=t49_gsB984; u32 mask=1; *(u32 *)(game+0x38)|=mask; }
         }
         }
         t49_startB984(t49_cbB984,actor);
@@ -4284,7 +4284,7 @@ static inline void t49_stateBC38(u32 actor)
 {
     register u32 current asm("r5")=actor;
     register u32 savedActor asm("r2")=current;
-    register u16 state asm("r4");
+    u16 state;
     struct T49EntryBC38 *p;
     state=3;
     if(current>0x100000) {
@@ -4293,18 +4293,18 @@ static inline void t49_stateBC38(u32 actor)
     } else if(current) {
         u32 index=current-1;
         if(index<=4) {
-            register struct T49EntityBC38 **table asm("r1")=&t49_entitiesBC38;
+            struct T49EntityBC38 **table=&t49_entitiesBC38;
             register u32 offset asm("r0")=index*0x2E0;
-            register struct T49EntityBC38 *entity asm("r1")=*table;
+            struct T49EntityBC38 *entity=*table;
             entity=(struct T49EntityBC38 *)((u8 *)entity+offset);
             sub_08019EB8(entity->id,3);
         }
     } else {
-        register u32 index asm("r0")=sub_080020F4();
-        register u32 stride asm("r1")=0x14C;
-        register u8 *player asm("r0");
-        register u8 *players asm("r1");
-        register u32 offset asm("r1");
+        u32 index=sub_080020F4();
+        u32 stride=0x14C;
+        u8 *player;
+        u8 *players;
+        u32 offset;
         index*=stride;
         players=(u8 *)gUnk_03003CE0;
         index+=(u32)players;
@@ -4318,20 +4318,20 @@ void t49_sceneBC38(u32 arg0) asm("sub_0804BC38");
 void t49_sceneBC38(u32 arg0)
 {
     register u32 savedArg asm("r9")=arg0;
-    register u8 **address asm("r5")=&t49_gsBC38;
+    u8 **address=&t49_gsBC38;
     register u8 **savedAddress asm("r8");
-    register u8 *game asm("r2")=*address;
-    register u32 mask asm("r3")=2;
+    u8 *game=*address;
+    u32 mask=2;
     u32 flags;
     s32 gate;
     u16 level;
-    register s32 attempts asm("r4");
-    register s32 nextAttempt asm("r6");
+    s32 attempts;
+    s32 nextAttempt;
     register u32 actor asm("r5");
-    register u32 active asm("r3");
-    register u32 one asm("r7");
+    u32 active;
+    u32 one;
     register struct T49EntryBC38 *p asm("r1");
-    register u32 i asm("r2");
+    u32 i;
     u32 dialog;
     flags=*(u32 *)(game+0x38);
     if(flags&mask)return;
@@ -4360,7 +4360,7 @@ found:
         t49_waitBC38(1);
         attempts=nextAttempt;
     }while(actor==0 && nextAttempt<=599);
-    { register u32 song asm("r1")=196; gUnk_03005CF8=song; }
+    { u32 song=196; gUnk_03005CF8=song; }
     if(!(gUnk_030027D0&32))sub_08006CB4(196);
     t49_stateBC38(actor);
     t49_waitBC38(30);
@@ -4390,8 +4390,8 @@ void sub_0804BEF8(u32 arg0);
 static inline u32 t49_flagBEF8(u16 mask)
 {
     register u32 bit asm("r4") = mask;
-    register u8 *base asm("r0");
-    register u32 offset asm("r1");
+    u8 *base;
+    u32 offset;
     s32 value;
     if (sub_0800CE30() != 0) { base = t49_gsBEF8; offset = 0x1C4; }
     else { base = t49_gsBEF8; offset = 0x1B8; }
@@ -4517,16 +4517,16 @@ static inline void t49_moveC150(s16 step, s16 tx, s16 ty)
 }
 static inline void t49_flagC150(u32 mask, u8 *ptr)
 {
-    register u8 *base asm("r0") = ptr;
+    u8 *base = ptr;
     register u32 value asm("r1") = *(u32 *)(base + 0x38);
     value |= mask;
     *(u32 *)(base + 0x38) = value;
 }
 static inline void t49_schedulePlayerC150(u32 player)
-{ register u32 id asm("r1") = player; t49_scheduleC150(t49_cbC150, id); }
+{ u32 id = player; t49_scheduleC150(t49_cbC150, id); }
 static inline u32 t49_gateC150(s32 alternate, u16 level)
 {
-    register s32 savedAlternate asm("r2") = alternate;
+    s32 savedAlternate = alternate;
     register u32 savedLevel asm("r1") = level;
     register u32 first asm("r0") = 0;
     register u32 second asm("r2");
@@ -4537,20 +4537,20 @@ static inline u32 t49_gateC150(s32 alternate, u16 level)
 }
 void sub_0804C150(u32 arg0)
 {
-    register u8 *selected asm("r1");
+    u8 *selected;
     register u8 **gsAddress asm("r3");
     u8 **savedAddress;
     register u32 savedArg asm("r6") = arg0;
     u16 mask;
-    register s32 alternate asm("r2");
-    register u32 level asm("r1");
+    s32 alternate;
+    u32 level;
     u8 *game;
     u32 dialog, actor;
     u32 actorIndex, actorMask;
     register u32 actorOne asm("r4");
     struct T49EntryC150 *p;
     if (sub_0800CE30() != 0) {
-        register u32 offset asm("r0") = 0x1C4;
+        u32 offset = 0x1C4;
         gsAddress = &t49_gsC150;
         selected = *gsAddress;
         selected += offset;
@@ -4559,7 +4559,7 @@ actorFound:
         actor = p->id;
         goto actorReady;
     } else {
-        register u32 offset asm("r2") = 0x1B8;
+        u32 offset = 0x1B8;
         gsAddress = &t49_gsC150;
         selected = *gsAddress;
         selected += offset;
@@ -4625,10 +4625,10 @@ struct Args50C4 {u32 a,b,c;void (*callback)(s32);void *data;u32 f;};
 void sub_0804C408(void){
     struct Args50C4 args;
     struct Task50C4 *task;
-    u32 i,callback; register u32 mask asm("r4"); register u32 offset asm("r2"); s32 raw,flags;
-    register u32 zero asm("r5");register u32 data asm("r0");
+    u32 i,callback; register u32 mask asm("r4"); u32 offset; s32 raw,flags;
+    register u32 zero asm("r5");u32 data;
     s32 r; register u8 *mem asm("r0"); register u32 stackOffset asm("r2");
-    register u8 *state asm("r1"); u8 *ptr; register u8 **addr asm("r0");
+    u8 *state; u8 *ptr; register u8 **addr asm("r0");
     mask=1;
     if(sub_0800CE30()){addr=(u8 **)&gUnk_03005CF4; state=*addr;offset=0x1C4;}
     else{addr=(u8 **)&gUnk_03005CF4; state=*addr;offset=0x1B8;}
@@ -4663,10 +4663,10 @@ check:
     }
 }
 void sub_0804C4E8(s32 arg0) {
-    register s32 var_r0 asm("r0");
+    s32 var_r0;
     s32 x;register s32 y asm("r1"); register u32 raw asm("r2");register u32 byteMask asm("r0");
     u16 var_r4;
-    register u8 *temp_r1 asm("r1");register u8 *state asm("r1");
+    u8 *temp_r1;register u8 *state asm("r1");
 
     switch (arg0) {                                 /* irregular */
     case 0:
@@ -4703,7 +4703,7 @@ void sub_0804C5A8(void){
     struct Args50C5 args;
     struct Task50C5 *task;
     u32 i,callback,mask,flags,offset;
-    register u32 zero asm("r5");register u32 data asm("r0");
+    register u32 zero asm("r5");u32 data;
     s32 r;
     u8 *state,*ptr;
     state=gUnk_03005CF4;mask=8;flags=*(u32 *)(state+0x38);
@@ -4954,7 +4954,7 @@ static inline u8 test50CB(u32 value,u32 mask){u32 result=value&mask;if(result)re
 void sub_0804CBBC(void){
     s32 outY,outX;
     u8 *state,*entry;
-    u32 flags,bit1,one,zero,idx;register u32 bit4 asm("r3");
+    u32 flags,bit1,one,zero,idx;u32 bit4;
     s32 r,bitTemp,*entryFlags;
     struct Player *player;
     struct Task50CB *task;

@@ -164,18 +164,18 @@ extern u32 gRingBuf[] asm("gUnk_03006260");
 void sub_08065CA8(void)
 {
     register u32 clear asm("r2");
-    register u32 i asm("r3");
+    u32 i;
     register u32 j asm("r2");
     register u8 *e asm("r0");
-    register u32 *rp asm("r1");
-    register u32 offset asm("r1");
+    u32 *rp;
+    u32 offset;
     u32 next;
     register u32 fill asm("r4");
     register u32 zero asm("r5");
     u32 *idxBase;
-    register u32 *ringBase asm("r6");
+    u32 *ringBase;
 
-    asm("" : : : "r4", "r5", "r6", "r7");
+    
     gUnk_03006368 = (s32)sub_08001494(0x28);
     gUnk_03006258 = (s32)sub_08001494(0xA0);
     gUnk_03006300 = (s32)(e = sub_08001494(0x1A90));
@@ -194,7 +194,7 @@ void sub_08065CA8(void)
     i = 0;
     idxBase = gRingIdx;
     ringBase = gRingBuf;
-    asm("" : "+r"(idxBase), "+r"(ringBase));
+    
     fill = -1;
     zero = 0;
     do {
@@ -233,7 +233,7 @@ u32 sub_08065DAC(void)
 {
     u8 *p;
     register u32 n asm("r2");
-    register u32 i asm("r3");
+    u32 i;
     u32 r;
     n = gUnk_03006338;
     if (n > 0x31) {
@@ -245,7 +245,7 @@ u32 sub_08065DAC(void)
           register u32 limit asm("r1") = n;
           do {
             if (*(u32 *)(p + 4) == 1 && p[0] == 0x83) {
-                *(u32 *)(p + 8) = ({ u32 id = sub_080020F4(); register struct Root67Player10 *base asm("r2") = (struct Root67Player10 *)gUnk_03003CE0; base[id].w10; });
+                *(u32 *)(p + 8) = ({ u32 id = sub_080020F4(); struct Root67Player10 *base = (struct Root67Player10 *)gUnk_03003CE0; base[id].w10; });
                 goto done;
             }
           i++; p += 0x88;
@@ -254,7 +254,7 @@ u32 sub_08065DAC(void)
         p = (u8 *)(uintptr_t)gUnk_03006300 + gUnk_03006338 * 0x88;
         *(u32 *)(p + 4) = 1;
         *p = 0x83;
-        *(u32 *)(p + 8) = ({ u32 id = sub_080020F4(); register struct Root67Player10 *base asm("r2") = (struct Root67Player10 *)gUnk_03003CE0; base[id].w10; });
+        *(u32 *)(p + 8) = ({ u32 id = sub_080020F4(); struct Root67Player10 *base = (struct Root67Player10 *)gUnk_03003CE0; base[id].w10; });
         p[1] = 1;
         gUnk_03006338++;
     done:
@@ -321,7 +321,7 @@ u32 sub_0806603C(s32 *src)
 {
     s32 pos[2];
     int stride;
-    register u8 *base asm("r1");
+    u8 *base;
     u8 *p;
     stride = 8;
     if (root67QueueCountCheck > 0x31 ||
@@ -344,7 +344,7 @@ u32 sub_080660EC(u8 *src)
 {
     u8 *p;
     u8 *payload;
-    register u32 i asm("r3");
+    u32 i;
     register u32 n asm("r2");
     u32 r;
     n = gUnk_03006338;
@@ -377,7 +377,7 @@ u32 queuePlayerBlob067(void)
 {
     u8 *p;
     register u32 n asm("r2");
-    register u32 i asm("r3");
+    u32 i;
     u32 r;
     n = gUnk_03006338;
     if (n > 0x31) {
@@ -412,7 +412,7 @@ u32 queuePlayerState067(void)
 {
     u8 *p;
     register u32 n asm("r2");
-    register u32 i asm("r3");
+    u32 i;
     u32 r;
     n = gUnk_03006338;
     if (n > 0x31) {
@@ -461,7 +461,7 @@ u32 sub_080662C4(s32 idx)
     i=0;
     twice=idx*2; savedTwice=twice;
     if(i<n) {
-    register u32 offset asm("r12");
+    u32 offset;
 
     u32 limit;
     register struct EntityC467 **entityAddr asm("r9");
@@ -469,7 +469,7 @@ u32 sub_080662C4(s32 idx)
     rawOffset=twice+idx;rawOffset*=8;rawOffset-=idx;rawOffset*=32;offset=rawOffset;
     limit=n;scan=p;
     entityAddr=&entitiesC467;
-    asm("" : "+r"(entityAddr));
+    
     do {
         if(scan->active==1 && scan->tag==0x91) {
             payload=&p->payload;
@@ -488,7 +488,7 @@ u32 sub_080662C4(s32 idx)
       p=(struct PacketC467 *)((u32)*qaddr+rawOffset); }
     p->active=1;p->tag=0x91;
     {
-        register u32 entityOffset asm("r1");
+        u32 entityOffset;
         register struct EntityC467 **entityAddress asm("r2");
         register u32 payloadOffset asm("r3");
         entityOffset=((savedTwice+idx)*8-idx)*32;
@@ -508,13 +508,13 @@ extern u8 *root67Sources asm("gUnk_030056F4");
 u32 sub_080663A4(u32 index)
 {
     register u32 count asm("r2") = root67Count;
-    register u8 *entry asm("r2");
-    register u8 *source asm("r0");
+    u8 *entry;
+    u8 *source;
     if (count > 0x31) return 0;
     entry = root67Entries + count * 0x88;
     *(u32 *)(entry + 4) = 1;
     entry[0] = 0x92;
-    { register u8 *base asm("r1") = root67Sources;
+    { u8 *base = root67Sources;
       source = (u8 *)(index * 0x2E0 + (u32)base); }
     *(u32 *)(entry + 8) = *(u16 *)(source + 2);
     *(u32 *)(entry + 0xC) = *(u32 *)(source + 0x14);
@@ -623,15 +623,15 @@ extern u32 checkCount67 asm("gUnk_03006338");
 u32 sub_08066624(void)
 {
     u8 *entry;
-    register u8 *dst asm("r3");
-    register u32 i asm("r1");
-    register u32 limit asm("r2");
-    register u8 **dataAddress asm("r12");
+    u8 *dst;
+    u32 i;
+    u32 limit;
+    u8 **dataAddress;
     register u8 **branchAddress asm("r2");
     register u32 offset asm("r5");
     register u8 **readAddress asm("r6");
     u32 *counter;
-    register u8 *src asm("r1");
+    u8 *src;
     u32 y;
     u32 flag;
     limit = checkCount67;
@@ -659,26 +659,26 @@ u32 sub_08066624(void)
     readAddress = &syncData67;
     asm("" : "+r"(counter), "+r"(readAddress));
     offset = 0x140;
-    do { register u8 *read asm("r0"); read=*readAddress; read+=offset; read+=i; *dst++=*read; i++; } while (i < limit);
+    do { u8 *read; read=*readAddress; read+=offset; read+=i; *dst++=*read; i++; } while (i < limit);
     i = 0;
     if (i < limit) {
         readAddress = &syncData67;
-        asm("" : "+r"(readAddress));
+        
         offset = 0x14C;
-        do { register u8 *read asm("r0"); read=*readAddress; read+=offset; read+=i; *dst++=*read; i++; } while (i < limit);
+        do { u8 *read; read=*readAddress; read+=offset; read+=i; *dst++=*read; i++; } while (i < limit);
     }
     limit = 5;
     i = 0;
     readAddress = &syncData67;
-    asm("" : "+r"(readAddress));
+    
     offset = 0x147;
-    do { register u8 *read asm("r0"); read=*readAddress; read+=offset; read+=i; *dst++=*read; i++; } while (i < limit);
+    do { u8 *read; read=*readAddress; read+=offset; read+=i; *dst++=*read; i++; } while (i < limit);
     i = 0;
     if (i < limit) {
         readAddress = &syncData67;
-        asm("" : "+r"(readAddress));
+        
         offset = 0x153;
-        do { register u8 *read asm("r0"); read=*readAddress; read+=offset; read+=i; *dst++=*read; i++; } while (i < limit);
+        do { u8 *read; read=*readAddress; read+=offset; read+=i; *dst++=*read; i++; } while (i < limit);
     }
     flag = 0;
     branchAddress = dataAddress;
@@ -712,7 +712,7 @@ void sub_08066720(u8 *msg)
     u8 **readCursor;
     u32 half;
     u32 initialId;
-    register u32 length asm("r0");
+    u32 length;
     u8 *buf, *q;
     register u8 *src asm("r6");
 
@@ -721,7 +721,7 @@ void sub_08066720(u8 *msg)
     buf = sub_08002118(initialId) + 8;
     i=0;peerCursor=state.peers;
     for (; i < sub_08002164(); i++) {
-        register u8 *peerAddr asm("r0")=(u8 *)sub_08002238(i);
+        u8 *peerAddr=(u8 *)sub_08002238(i);
         peerAddr+=0x14;*peerCursor++=peerAddr+state.myId;
     }
     n = sub_08002164();
@@ -743,13 +743,13 @@ void sub_08066720(u8 *msg)
             }
         } while (acked < n);
         wait = 0;
-        {register u32 zero asm("r0")=0;asm("" : "+r"(zero));state.lastPos=zero;}
+        {register u32 zero asm("r0")=0;state.lastPos=zero;}
         length=msg[1];i=0;
         if (length != 0) {
             src = msg + 8;
             do {
                 buf[1] = 0xB2;
-                {register u8 *frame asm("r0")=(u8 *)&state;buf[0]=frame[16];}
+                {u8 *frame=(u8 *)&state;buf[0]=frame[16];}
                 half=i>>1;buf[2]=half+1;
                 *(u32 *)(buf + 4) = *(u32 *)src;
                 *(u32 *)(buf + 8) = *(u32 *)(src + 4);
@@ -767,13 +767,13 @@ void sub_08066720(u8 *msg)
                 } else if (state.lastPos == i) {
                     {register u32 one asm("r1")=1;asm("" : "+r"(one));wait+=one;}
                 }
-                {register u32 currentWait asm("r0")=wait;
+                {u32 currentWait=wait;
                  if(currentWait>0x3C)goto retry;}
             } while (i < msg[1] * 2);
         }
         if (wait > 0x3C)
             continue;
-        {register u32 next asm("r0")=i+1;asm("" : "+r"(next));buf[2]=next;}
+        {register u32 next asm("r0")=i+1;buf[2]=next;}
         sub_0800224C();
         break;
     retry:

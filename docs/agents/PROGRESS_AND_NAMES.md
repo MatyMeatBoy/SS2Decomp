@@ -27,6 +27,13 @@ Each of `game`, `lib`, `all` now also has these function and byte partitions:
 | `decompilable` | all functions in kind `c` modules |
 | `all` | historical non-ASM total plus original ASM |
 
+`percent_complete = 100 * (bytes_done + bytes_original_asm) / bytes_all` is the
+"All code" figure of the dashboard: every code byte that builds from this
+repository and matches. Original hand-written assembly (start-up, scheduler,
+BIOS call stubs, `SoundMainRAM`, `MPlayMain`) was assembly in the original game,
+is kept as matching assembly and is therefore complete; the treemap draws it in
+light green, distinct from matching C. It never counts as decompiled C.
+
 `percent_decompiled = 100 * bytes_decompiled / bytes_decompilable`; its badge is
 `badge_decompiled.svg` (matching C). The legacy badge `badge_all.svg` explicitly
 says `matched + linked`. Matching remains a repository invariant verified by the

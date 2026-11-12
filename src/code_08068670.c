@@ -208,17 +208,17 @@ s32 sub_08068A00(struct Position68 pos, u8 *attack) {
     extern u32 enemyActive asm("gUnk_030056FC");
     u8 *sourceEnemy;
     u8 *sourcePlayer;
-    register u32 zero asm("r7");
+    u32 zero;
     register s16 signedDamage asm("r1");
     register s32 extended asm("r2");
-    register u8 *sourceStatus asm("r1");
+    u8 *sourceStatus;
     u8 *targetStatus68;
     s32 radius;
     register u32 id asm("r0");
     register u32 effect asm("r1");
     register s16 damage asm("r2");
     register u32 kind asm("r3");
-    register u16 *table asm("r4");
+    u16 *table;
     register u16 *effectPtr asm("r3");
     register s32 radiusValue asm("r1");
 
@@ -238,7 +238,7 @@ s32 sub_08068A00(struct Position68 pos, u8 *attack) {
     s32 temp_r0_3;
     s32 temp_r0_4;
     s32 temp_r0_7;
-    register s32 temp_r1 asm("r1");
+    s32 temp_r1;
     s32 var_r0_3;
     register s32 var_r1 asm("r1");
     u16 *var_r0_6;
@@ -249,26 +249,26 @@ s32 sub_08068A00(struct Position68 pos, u8 *attack) {
     u16 var_r1_2;
     u32 temp_r0_5;
     u32 temp_r0_6;
-    register u32 temp_r2 asm("r2");
-    register u32 playerCount asm("r10");
+    u32 temp_r2;
+    u32 playerCount;
     register u32 hitFlags asm("r8");
-    register u32 enemyIndex asm("r9");
+    u32 enemyIndex;
     register u32 playerIndexEnemy asm("r9");
-    register u32 playerIndexAlly asm("r9");
-    register u8 temp_r2_3 asm("r2");
-    register u8 *enemyTargetPosition asm("r1");
+    u32 playerIndexAlly;
+    u8 temp_r2_3;
+    u8 *enemyTargetPosition;
     u8 *enemyHitHistory;
-    register u8 *historyAddress68 asm("r1");
-    register u32 historyValue68 asm("r2");
+    u8 *historyAddress68;
+    u32 historyValue68;
     register u32 historyIndex68 asm("r0");
     u8 *playerHitHistory;
-    register u8 *allyTargetPosition asm("r3");
+    u8 *allyTargetPosition;
     u8 *targetPlayerEnemy;
     u8 *targetPlayerAlly;
     u8 *targetEnemy;
-    register u8 *allyHistoryAddress68 asm("r2");
-    register u32 allyHistoryValue68 asm("r3");
-    register u8 *allyCounterAddress68 asm("r1");
+    u8 *allyHistoryAddress68;
+    u32 allyHistoryValue68;
+    u8 *allyCounterAddress68;
     register u32 allyCounterValue68 asm("r0");
 
     localPlayer = (s32) (u16) sub_080020F4();
@@ -301,7 +301,7 @@ radiusDone:
         {register u32 initialIndex asm("r2")=0;asm("" : "+r"(initialIndex));enemyIndex=initialIndex;}
         {register u32 one asm("r3")=1;asm("" : "+r"(one));localPlayerMask=one;}
         asm("" : "+r"(localPlayerMask));
-        {register u32 mask asm("r0")=localPlayerMask;register u32 shift asm("r1")=localPlayer;asm("" : "+r"(mask), "+r"(shift));localPlayerMask=mask<<shift;}
+        {u32 mask=localPlayerMask;u32 shift=localPlayer;localPlayerMask=mask<<shift;}
 loop_15:
         if (!(enemyActive & (1 << enemyIndex))) {
 
@@ -363,9 +363,9 @@ callLocal:
 localStore:
                             M2C_FIELD(targetEnemy,u32 *,0x54)=M2C_FIELD(sourcePlayer,u32 *,0xDC);
                             {
-                                register u16 *status68 asm("r2") = (u16 *)(targetEnemy + 0x5A);
+                                u16 *status68 = (u16 *)(targetEnemy + 0x5A);
                                 register u32 oldStatus68 asm("r1") = *status68;
-                                register u32 maskStatus68 asm("r0") = localPlayerMask;
+                                u32 maskStatus68 = localPlayerMask;
                                 asm("" : "+r"(status68), "+r"(oldStatus68), "+r"(maskStatus68));
                                 *status68 = maskStatus68 | oldStatus68;
                             }
@@ -378,7 +378,7 @@ localDone:
                         }
                         } else {
                             if ((sub_08002204() != 0) && ((u32) M2C_FIELD(attack, u32 *, 0x0) > 3U) && (M2C_FIELD(targetEnemy, u16 *, 0xC) != 0xB) && (M2C_FIELD(targetEnemy, u32 *, 0x54) != M2C_FIELD(sourcePlayer, u32 *, 0xDC))) {
-                                { register u16 *clearStatus68 asm("r0") = (u16 *)(targetEnemy + 0x58); asm("" : "+r"(clearStatus68)); zero=0; *clearStatus68 = zero; }
+                                { u16 *clearStatus68 = (u16 *)(targetEnemy + 0x58);  zero=0; *clearStatus68 = zero; }
                                 M2C_FIELD(attack, u32 *, 0x8) = (u32) (M2C_FIELD(targetEnemy, u16 *, 0x0) + 4);
                                 temp_r0_3 = M2C_FIELD(attack, u32 *, 0xC);
                                 if(temp_r0_3==4) goto remote4;
@@ -402,9 +402,9 @@ remote7:
 remoteStore:
                                 M2C_FIELD(targetEnemy,u32 *,0x54)=var_r0_3;
                                 {
-                                    register u16 *status68 asm("r2") = (u16 *)(targetEnemy + 0x5A);
+                                    u16 *status68 = (u16 *)(targetEnemy + 0x5A);
                                     register u32 oldStatus68 asm("r1") = *status68;
-                                    register u32 maskStatus68 asm("r0") = localPlayerMask;
+                                    u32 maskStatus68 = localPlayerMask;
                                     asm("" : "+r"(status68), "+r"(oldStatus68), "+r"(maskStatus68));
                                     *status68 = maskStatus68 | oldStatus68;
                                 }
@@ -478,7 +478,7 @@ loop_69:
                                         historyIndex68 = M2C_FIELD(sourcePlayer, u16 *, 0) * 4;
                                         allyHistoryAddress68 = targetPlayerAlly + 0xF8;
                                         historyIndex68 = (u32)allyHistoryAddress68 + historyIndex68;
-                                        asm("" : "+r"(historyIndex68));
+                                        
                                         allyCounterAddress68 = sourcePlayer + 0xDC;
 
                                         allyHistoryValue68 = *(u32 *)historyIndex68;
@@ -499,7 +499,7 @@ loop_69:
                                             if(temp_r0_7==7) goto ally7;
                                             sub_080694AC(attack); goto allyDone;
 ally4:
-                                            var_r0_6=(u16 *)gUnk_084EBF1C; asm("" : "+r"(var_r0_6)); var_r0_6=(u16 *)((u8 *)var_r0_6+0x62); goto allyCall;
+                                            var_r0_6=(u16 *)gUnk_084EBF1C;  var_r0_6=(u16 *)((u8 *)var_r0_6+0x62); goto allyCall;
 ally7:
                                             allyEffects68 = effects;
                                             var_r0_6 = &allyEffects68[M2C_FIELD(attack,u32 *,0x14)];
@@ -620,7 +620,7 @@ s32 sub_08068F9C(struct Attack69 *a,s32 target)
     u16 *special;
     index=a->attacker;
     if(index<=3) value=((struct AttackPlayer69 *)(index*0x14C+(u32)attackPlayers69))->value;
-    else { register u32 address asm("r1"); register u8 **base asm("r0"); base=&attackEnemies69; address=index*0x2E0; address+=(u32)*base; address-=0x978; value=*(s16 *)address; }
+    else { u32 address; u8 **base; base=&attackEnemies69; address=index*0x2E0; address+=(u32)*base; address-=0x978; value=*(s16 *)address; }
     random=sub_080008C8()%20U+100;
     if(a->kind!=19) {
         root=attackRoot69(value+15);
@@ -661,7 +661,7 @@ void sub_08069080(struct Resist69 *res,u16 magnitude,u32 level,u32 unused,u32 ta
     }
     if(target==sub_080020F4()) goto modify;
     if(!sub_0800CF80()) goto afterModify;
-    { register u32 low asm("r0"); low=target; asm("" : "+r"(low)); if(low>3) goto afterModify; }
+    { u32 low; low=target; asm("" : "+r"(low)); if(low>3) goto afterModify; }
 modify:
     probability=(s32)(probability*effectPlayers69[target].modifier)/100;
 afterModify:;
@@ -675,8 +675,8 @@ afterModify:;
     if(target<=3) {
         player=&effectPlayers69[target];who=player->id;
     } else {
-        { register u8 **base asm("r1"); register u32 offset asm("r0"); base=&effectEnemies69; offset=target*0x2E0; offset-=0xB80; enemy=(struct EffectEnemy69 *)((u32)*base+offset); }
-        asm("" : "+r"(enemy));
+        { u8 **base; u32 offset; base=&effectEnemies69; offset=target*0x2E0; offset-=0xB80; enemy=(struct EffectEnemy69 *)((u32)*base+offset); }
+        
         if(enemy->state==3)return;
         who=enemy->id;
     }
@@ -777,7 +777,7 @@ void sub_080694AC(struct HitAttack69 *arg0) {
     s32 var_r0_3;
     s32 var_r0_4;
     register s32 var_r1 asm("r1");
-    register s32 var_r1_2 asm("r1");
+    s32 var_r1_2;
     register s32 var_r2 asm("r2");
     s32 var_r4;
     u16 temp_r4;
@@ -815,7 +815,7 @@ void sub_080694AC(struct HitAttack69 *arg0) {
         (*(u32 *)((u8 *)(var_r7)+0x110)) = 0;
         var_r0 = var_r7 + 0x68;
     } else {
-        { register u8 **base asm("r1"); register u32 offset asm("r0"); base=&hitEnemies69; offset=temp_r2_2*0x2E0; offset-=0xB80; var_r5=(u8 *)((u32)*base+offset); }
+        { u8 **base; register u32 offset asm("r0"); base=&hitEnemies69; offset=temp_r2_2*0x2E0; offset-=0xB80; var_r5=(u8 *)((u32)*base+offset); }
         var_sl = var_r5 + 0x218;
         var_r4 = 1;
         var_r0 = var_r5 + 0x1DC;
@@ -844,13 +844,13 @@ void sub_080694AC(struct HitAttack69 *arg0) {
             } else {
                 var_r0_2 = (s16) ((s32) (((*(u32 *)((u8 *)(var_r5)+0x14)) - (*(u32 *)((u8 *)(var_r8)+0x8C))) << 8) >> 0x10);
                 { register u32 *base asm("r2"); base=(u32 *)(var_r8+0x90); var_r1_2=*(u32 *)(var_r5+0x18); var_r2=*base; }
-                asm("" : "+r"(var_r2));
+                
                 goto block_27;
             }
         } else {
             if ((u32) arg0->target <= 3U) {
                 var_r0_2 = (s16) ((s32) (((*(u32 *)((u8 *)(var_r7)+0x8C)) - (*(u32 *)((u8 *)(var_r9)+0x14))) << 8) >> 0x10);
-                { register u32 *source asm("r1"); register u32 *target asm("r2"); source=(u32 *)(var_r7+0x90); target=(u32 *)(var_r8+0x90); var_r1_2=*source; var_r2=*target; }
+                { u32 *source; u32 *target; source=(u32 *)(var_r7+0x90); target=(u32 *)(var_r8+0x90); var_r1_2=*source; var_r2=*target; }
             } else {
                 var_r0_2 = (s16) ((s32) (((*(u32 *)((u8 *)(var_r5)+0x14)) - (*(u32 *)((u8 *)(var_r9)+0x14))) << 8) >> 0x10);
                 var_r1_2 = (*(u32 *)((u8 *)(var_r5)+0x18));
@@ -859,9 +859,9 @@ void sub_080694AC(struct HitAttack69 *arg0) {
 block_27:
             var_r1 = (var_r1_2 - var_r2) << 8;
         }
-        { register u32 angle asm("r0"); register u32 mask asm("r2"); angle=(u32)(hitArc69(var_r0_2,var_r1>>16)<<16)>>28; angle<<=24; mask=0xFFFFFF; asm("" : "+r"(mask)); packet.control.word=(packet.control.word&mask)|angle; }
+        { u32 angle; register u32 mask asm("r2"); angle=(u32)(hitArc69(var_r0_2,var_r1>>16)<<16)>>28; angle<<=24; mask=0xFFFFFF;  packet.control.word=(packet.control.word&mask)|angle; }
         asm("" : : : "memory");
-        { register u8 *table asm("r1"); register u32 header asm("r2"); register u32 direction asm("r1"); register u8 *entry asm("r0"); table=hitDirections69; header=packet.control.word; entry=(u8 *)((s8)(header>>24)+(u32)table); direction=*entry; direction<<=24; packet.control.word=(0xFFFFFF&header)|direction; }
+        { register u8 *table asm("r1"); register u32 header asm("r2"); u32 direction; u8 *entry; table=hitDirections69; header=packet.control.word; entry=(u8 *)((s8)(header>>24)+(u32)table); direction=*entry; direction<<=24; packet.control.word=(0xFFFFFF&header)|direction; }
     } else {
         packet.control.bits.flags=0; packet.control.bits.direction=0;
     }
@@ -877,10 +877,10 @@ block_27:
             packet.control.byte[1] = 0U;
         }
         if ((u32) arg0->attacker <= 3U) {
-            { register u32 index asm("r0"); register u8 *base asm("r1"); index=*(u16 *)var_r8; index<<=2; base=var_r7+0xF8; asm("" : "+r"(base)); base+=index; var_r1_3=(s32 *)base; }
+            { u32 index; u8 *base; index=*(u16 *)var_r8; index<<=2; base=var_r7+0xF8;  base+=index; var_r1_3=(s32 *)base; }
             var_r0_4 = (*(u32 *)((u8 *)(var_r8)+0xDC));
         } else {
-            { register u32 index asm("r0"); register u8 *base asm("r1"); index=*(u16 *)var_r9; index<<=2; base=var_r7+0xE4; asm("" : "+r"(base)); base+=index; var_r1_3=(s32 *)base; }
+            { u32 index; register u8 *base asm("r1"); index=*(u16 *)var_r9; index<<=2; base=var_r7+0xE4;  base+=index; var_r1_3=(s32 *)base; }
             var_r0_4 = (*(u32 *)((u8 *)(var_r9)+0x50));
         }
         *var_r1_3 = var_r0_4;
@@ -903,7 +903,7 @@ block_27:
     } else {
         (*(u16 *)((u8 *)(var_r5)+0xC)) = 0xA;
         packet.control.byte[0] = (s8) (*(u16 *)((u8 *)(var_r5)+0x2));
-        { register u16 *sum asm("r2"); register struct HitPacket69 *record asm("r1"); register u32 amount asm("r0"); sum=(u16 *)(var_r5+0x4A); record=&packet; amount=record->value.half[0]; amount+=*sum; *sum=amount;
+        { register u16 *sum asm("r2"); register struct HitPacket69 *record asm("r1"); u32 amount; sum=(u16 *)(var_r5+0x4A); record=&packet; amount=record->value.half[0]; amount+=*sum; *sum=amount;
         (*(u32 *)((u8 *)(var_r5)+0x4C)) = record->value.half[0];
         sub_0801F2CC(var_r5,(u8 *)record); }
         if ((u32) arg0->attacker <= 3U) {
@@ -912,13 +912,13 @@ block_27:
             { register u8 *source asm("r1"); source=var_r9; asm("" : "+r"(source)); var_r0_3=*(u32 *)(source+0x50); }
         }
         (*(u32 *)((u8 *)(var_r5)+0x54)) = var_r0_3;
-        { register u32 attacker asm("r1"); attacker=arg0->attacker; *(u16 *)(var_r5+0x58)=attacker; }
+        { u32 attacker; attacker=arg0->attacker; *(u16 *)(var_r5+0x58)=attacker; }
         (*(u16 *)((u8 *)(var_r5)+0x5A)) = (u16) ((1 << *(volatile u32 *)&arg0->attacker) | (*(u16 *)((u8 *)(var_r5)+0x5A)));
         hitStatus69(&packet, var_sl, (u16) arg0->level, hitTable69[arg0->kind].effect, (s32) (u16) arg0->target);
         if (arg0->kind == 0x12) {
             packet.control.byte[1] = 0U;
         }
-        { register u32 stateOffset asm("r2"); register u8 *stateAddress asm("r0"); stateOffset=0x226; asm("" : "+r"(stateOffset)); stateAddress=var_r5+stateOffset; asm("" : "+r"(stateAddress));
+        { register u32 stateOffset asm("r2"); register u8 *stateAddress asm("r0"); stateOffset=0x226; asm("" : "+r"(stateOffset)); stateAddress=var_r5+stateOffset; 
         if (*stateAddress != 3) {
             temp_r0 = sub_0801E244((s32) var_r5, (s32) packet.control.byte[1]);
             if (temp_r0 != 0) {
@@ -1475,9 +1475,9 @@ void sub_0806A88C(struct T070Args *arg) {
     u32 player,offset;
     u16 delta;
     s32 resource;
-    register s16 *cost asm("r2");
+    s16 *cost;
     u32 costOffset;
-    register u8 *costBase asm("r3");
+    u8 *costBase;
     register u32 shade asm("r10");
     u16 *cfg;
     u32 old;
@@ -2587,7 +2587,7 @@ void sub_0806CDF0(void *arg0)
 
 
 
-    register s16 var_r1_3 asm("r1");
+    s16 var_r1_3;
   s32 *temp_r2_3;
   s32 *temp_r4;
   s32 *var_r2;
@@ -2622,7 +2622,7 @@ void sub_0806CDF0(void *arg0)
 
 
     register u16 temp_r1_7 asm("r1");
-  register u32 temp_r2 asm("r8");
+  u32 temp_r2;
   u16 temp_r2_6;
   u16 temp_r3;
   u16 temp_r3_2;
@@ -2634,7 +2634,7 @@ void sub_0806CDF0(void *arg0)
 
 
 
-    register u32 temp_r0 asm("r10");
+    u32 temp_r0;
   u32 temp_r0_9;
   u32 var_r5;
   u8 temp_r0_4;
@@ -2724,8 +2724,8 @@ void sub_0806CDF0(void *arg0)
 
 
 
- register u32 cost asm("r0") = (u16)(sub_0806898C((*(u32 *)((u8 *)(arg0)+(0xC))), (s32) (*(u32 *)((u8 *)(arg0)+(0x14)))) - 1);
-asm("" : "+r"(cost));
+ u32 cost = (u16)(sub_0806898C((*(u32 *)((u8 *)(arg0)+(0xC))), (s32) (*(u32 *)((u8 *)(arg0)+(0x14)))) - 1);
+
     temp_r1 = temp_r4_2->fC2 - cost;
   }
   temp_r4_2->fC2 = temp_r1;
@@ -2983,7 +2983,7 @@ asm("" : "+r"(cost));
         var_r2 = (s32 *) t71Flags; var_r2 = (s32 *) (sp28 + ((u8 *) var_r2));
 
         var_r1 = 1 << sp20;
-asm("");
+
         goto bic;
       }
       else
@@ -3964,7 +3964,7 @@ void sub_0806E7D4(struct ArgE7D4 *arg)
                                 shadeB = 0;
                             if (sub_0800CB9C() != 0) {
                                 /* The ROM keeps the parity mask in r1 and the frame flags in r2. */
-                                register u32 f asm("r2") = flagsE7D4;
+                                u32 f = flagsE7D4;
                                 register u32 one asm("r1") = 1;
                                 f &= one;
                                 if (f != (player & one))
@@ -4218,7 +4218,7 @@ void sub_0806F0CC(struct ArgF0CC *arg)
                 break;
                         n = sub_08002164();
             if (arg->player <= 3) {
-                i = 0; asm("" : "+r"(i)); for (; i < n; i++) {
+                i = 0;  for (; i < n; i++) {
                     p2 = &pF0CC[i];
                     if (p2->team == p->team)
                         continue;
@@ -4234,7 +4234,7 @@ void sub_0806F0CC(struct ArgF0CC *arg)
                     }
                 }
             } else {
-                i = 0; asm("" : "+r"(i)); for (; i < n; i++) {
+                i = 0;  for (; i < n; i++) {
                     p2 = &pF0CC[i];
                     if (p2->flags & 0x2000)
                         continue;
@@ -5304,7 +5304,7 @@ tracked:
         { s16 sa = a; s16 sd = dir; s16 dd = sa - sd; dir = sd + dd; }
         { s16 t2 = dir; if (t2 < 0) dir = t2 + 0x100; }
         { s16 t2 = dir; if (t2 > 0x100) dir = t2 - 0x100; }
-        { register s32 m asm("r1") = dir << 16; asm("":"+r"(m)); dir = (u32)(0xFF0000 & m) >> 16; }
+        { register s32 m asm("r1") = dir << 16;  dir = (u32)(0xFF0000 & m) >> 16; }
         idx = dir;
         frame = gT6fFrames[idx >> 4];
         t = t6fTerrain(sx, sy, 0);
@@ -5399,7 +5399,7 @@ lost:
         { s16 sa = a; s16 sd = dir; s16 dd = sa - sd; dir = sd + dd; }
         { s16 t2 = dir; if (t2 < 0) dir = t2 + 0x100; }
         { s16 t2 = dir; if (t2 > 0x100) dir = t2 - 0x100; }
-        { register s32 m asm("r1") = dir << 16; asm("":"+r"(m)); dir = (u32)(0xFF0000 & m) >> 16; }
+        { register s32 m asm("r1") = dir << 16;  dir = (u32)(0xFF0000 & m) >> 16; }
         idx = dir;
         frame = gT6fFrames[idx >> 4];
         sx += gT6fSin[idx + 0x40] * 3;

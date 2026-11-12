@@ -620,7 +620,7 @@ void sub_0804E360(void) {
     struct Args51E3 args;
     struct WrapperTask51E3 *firstTask;
     struct Task51E3 *secondTask;
-    u32 firstIndex,secondIndex,mem,firstMem; register u32 zero asm("r5"); register u32 data asm("r0");
+    u32 firstIndex,secondIndex,mem,firstMem; register u32 zero asm("r5"); u32 data;
     s32 firstCallback,secondCallback;
     s32 r;
     u32 flags,bit,yes;
@@ -1423,16 +1423,16 @@ void sub_0804F390(void) {
     register u32 chain1 asm("r1");
     register u32 chain2 asm("r2");
     register u32 chain3 asm("r3");
-    register s32 step asm("r10");
+    s32 step;
     register s32 limit asm("r9");
     register s32 zeroX asm("r8");
     register s32 yFixed asm("r7");
-    register s32 repeatX asm("r6");
-    register s32 repeatY asm("r5");
-    register s32 *firstY asm("r5");
+    s32 repeatX;
+    s32 repeatY;
+    s32 *firstY;
     register s32 *a0 asm("r0");
-    register s32 a1 asm("r1");
-    register s32 a2 asm("r2");
+    s32 a1;
+    s32 a2;
     register s32 a3 asm("r3");
     s32 *cache4;
     s32 *cache5;
@@ -1449,16 +1449,16 @@ void sub_0804F390(void) {
     s32 *cache16;
     s32 *cache17;
 
-    register s32 temp_r4_10 asm("r4");
-    register s32 temp_r4_12 asm("r4");
-    register s32 temp_r4_14 asm("r4");
-    register s32 temp_r4_16 asm("r4");
-    register s32 temp_r4_18 asm("r4");
-    register s32 temp_r4_20 asm("r4");
-    register s32 temp_r4_2 asm("r4");
-    register s32 temp_r4_4 asm("r4");
-    register s32 temp_r4_6 asm("r4");
-    register s32 temp_r4_8 asm("r4");
+    s32 temp_r4_10;
+    s32 temp_r4_12;
+    s32 temp_r4_14;
+    s32 temp_r4_16;
+    s32 temp_r4_18;
+    s32 temp_r4_20;
+    s32 temp_r4_2;
+    s32 temp_r4_4;
+    s32 temp_r4_6;
+    s32 temp_r4_8;
     s32 temp_r5;
     s32 temp_r5_2;
     s32 temp_r5_3;
@@ -1488,7 +1488,7 @@ void sub_0804F390(void) {
     u32 temp_r4_3;
     u32 temp_r4_5;
     u32 temp_r4_7;
-    register u32 temp_r4_9 asm("r4");
+    u32 temp_r4_9;
     u16 var_r1;
     u16 var_r4;
     u16 var_r4_10;
@@ -1633,7 +1633,7 @@ loop_21:
     temp_r8 = (s16) L.level->f80;
     temp_r7_2 = cameraYF390;
     progress0=0; L.iteration=var_r1+1;
-    limit=0x400; asm("" : "+r"(progress0), "+r"(limit) : "m"(L.iteration));
+    limit=0x400; 
     repeatX=progress0<<16; a1=-3; asm("" : "+r"(a1)); repeatY=(u32)a1<<16;
     do {
         temp_r4_10=progress0; temp_r4_10=(u32)temp_r4_10<<16; temp_r4_10 >>=16;
@@ -1661,7 +1661,7 @@ after25:
     temp_r5_4=cameraYF390;
     asm volatile("" : : "r"(a2), "r"(a3), "r"(temp_r5_4));
     progress0=0; a2=0x200; asm("" : "+r"(a2)); step=a2;
-    a3=0x400; asm("" : "+r"(a3)); limit=a3; zeroX=progress0; yFixed=0;
+    a3=0x400;  limit=a3; zeroX=progress0; yFixed=0;
     do {
         temp_r4_12=progress0; temp_r4_12=(u32)temp_r4_12<<16; temp_r4_12 >>=16;
         a0=cache8; a1=(s32) temp_r6_5; a3=zeroX; a2=a3>>16; a3=(s32) temp_r4_12;
@@ -1681,7 +1681,7 @@ var_r4_6--; if (var_r4_6 == 0) goto after30;
 wait30:
 sub_080003F0(); if (sub_080021A8() == 0) goto dec30;
 after30:
-    chain1=L.iteration; asm("" : "+r"(chain1));
+    chain1=L.iteration; 
     progress0=chain1<<16; asm("" : "+r"(progress0)); var_r1=progress0>>16;
     if ((u32) var_r1 <= 0x3BU) {
         goto loop_21;
@@ -1788,11 +1788,11 @@ extern struct StateF998 *stateF998 asm("gUnk_03005CF4");
 void sub_0804F998(void) {
     u32 args[6];
     struct TaskF998 *task;
-    register u32 i asm("r6");
+    u32 i;
     register u32 zero asm("r5");
-    register u32 bit asm("r1");
-    register struct StateF998 *state asm("r2");
-    register u32 data asm("r0");
+    u32 bit;
+    struct StateF998 *state;
+    u32 data;
     void (*callback)(s32);
     state = stateF998;
     bit = 1;
@@ -1836,10 +1836,10 @@ struct StateFA68 { u8 pad[0x38]; u32 flags38; };
 extern struct StateFA68 *stateFA68 asm("gUnk_03005CF4");
 void sub_0804FA68(s32 arg0) {
     u16 ticks;
-    register s32 x asm("r0");
+    s32 x;
     register s32 y asm("r1");
-    register struct StateFA68 *state asm("r2");
-    register u32 bit asm("r1");
+    struct StateFA68 *state;
+    u32 bit;
     switch (arg0) {
     case 0:
         sub_08068820(sub_0804FA68, (void *)1, 0);
@@ -1935,31 +1935,31 @@ void sub_0804FC3C(void) {
     struct { s32 x,y,nextX,nextY; s32 *nextXp,*nextYp; } L;
     s32 sp0;
     s32 sp4;
-    register s32 temp_r5 asm("r5");
-    register s32 temp_r6 asm("r6");
-    register s32 temp_r6_2 asm("r6");
+    s32 temp_r5;
+    s32 temp_r6;
+    s32 temp_r6_2;
     s32 temp_r7;
-    register s32 var_r5 asm("r5");
-    register s32 firstStep asm("r10");
+    s32 var_r5;
+    s32 firstStep;
     register s32 firstYFixed asm("r9");
     register s32 *firstY asm("r8");
     register s32 secondStep asm("r9");
     register s32 secondXFixed asm("r8");
-    register s32 secondYFixed asm("r7");
+    s32 secondYFixed;
     register s32 shift0 asm("r0");
     register s32 *a0 asm("r0");
-    register s32 a1 asm("r1");
-    register s32 a2 asm("r2");
+    s32 a1;
+    s32 a2;
     register s32 a3 asm("r3");
     s32 temp_r0;
     s32 temp_r0_2;
     s32 var_r0;
     s32 var_r4_3;
     s32 var_r4_4;
-    register u32 var_r4 asm("r4");
+    u32 var_r4;
     u16 var_r4_2;
     register u32 temp_r3 asm("r3");
-    register u32 handle asm("r4");
+    u32 handle;
     register struct StateFC3C *state2 asm("r2");
     struct PlayerFC3C *temp_r2;
     struct PlayerFC3C *temp_r2_2;
@@ -2090,43 +2090,43 @@ extern void sub_080502DC(void);
 void sub_0804FF04(void) {
     register s32 *a0 asm("r0");
     register s32 a1 asm("r1");
-    register s32 a2 asm("r2");
+    s32 a2;
     register s32 a3 asm("r3");
     register s32 firstYFixed asm("r10");
     register s32 secondXFixed asm("r10");
-    register s32 secondYFixed asm("r7");
+    s32 secondYFixed;
     register s32 *firstY asm("r5");
-    register s32 *secondX asm("r9");
-    register s32 *secondY asm("r8");
+    s32 *secondX;
+    s32 *secondY;
     struct { s32 x,y,nextX,nextY; } L;
     register s32 initialOne asm("r4");
-    register s32 flag0 asm("r0");
+    s32 flag0;
     s32 temp_r5;
     s32 temp_r6;
     s32 temp_r6_2;
     s32 temp_r7;
     s32 temp_r0;
     s32 temp_r0_2;
-    register s32 temp_r2_2 asm("r2");
-    register struct StateFF04 *event0 asm("r0");
+    s32 temp_r2_2;
+    struct StateFF04 *event0;
     register s32 test1 asm("r1");
-    register u32 *entityFlags asm("r5");
+    u32 *entityFlags;
     register u32 entityOne asm("r6");
-    register u32 entityZero asm("r4");
+    u32 entityZero;
     s32 var_r4_2;
     s32 var_r4_3;
     u16 var_r4;
     u32 temp_r4;
-    register u32 var_r3 asm("r3");
-    register u32 var_r3_2 asm("r3");
-    register u32 var_r3_3 asm("r3");
+    u32 var_r3;
+    u32 var_r3_2;
+    u32 var_r3_3;
     u8 *var_r0;
     struct PlayerFF04 *temp_r2;
     struct PlayerFF04 *temp_r2_3;
     struct PlayerFF04 *temp_r2_4;
-    register struct EntityFF04 *var_r2 asm("r2");
-    register struct EntityFF04 *var_r2_2 asm("r2");
-    register struct EntityFF04 *var_r2_3 asm("r2");
+    struct EntityFF04 *var_r2;
+    struct EntityFF04 *var_r2_2;
+    struct EntityFF04 *var_r2_3;
 
     initialOne=1;
     if (sub_0800CE30() != 0) {
@@ -2134,7 +2134,7 @@ void sub_0804FF04(void) {
     } else {
         var_r0 = (u8 *)stateFF04 + 0x1B8;
     }
-    flag0=*var_r0; asm("" : "+r"(flag0)); flag0 >>=7;
+    flag0=*var_r0;  flag0 >>=7;
     if (flag0 & initialOne) goto special;
     temp_r2 = &playersFF04[sub_080020F4()];
     temp_r2->flags = (s32) (temp_r2->flags | 1);
@@ -2301,7 +2301,7 @@ void sub_080502DC(void) {
     struct Player502DC *player;
     u16 ticks;
     register u32 offset asm("r2");
-    register u32 waitHandle asm("r4");
+    u32 waitHandle;
     u32 wait, handle, i;
     s32 ui;
     do {
@@ -2375,11 +2375,11 @@ extern struct StateF50454 *stateF50454 asm("gUnk_03005CF4");
 void sub_08050454(void) {
     u32 args[6];
     struct TaskF50454 *task;
-    register u32 i asm("r6");
+    u32 i;
     register u32 zero asm("r5");
-    register u32 bit asm("r1");
-    register struct StateF50454 *state asm("r2");
-    register u32 data asm("r0");
+    u32 bit;
+    struct StateF50454 *state;
+    u32 data;
     void (*callback)(s32);
     state = stateF50454;
     bit = 2;
@@ -2423,10 +2423,10 @@ struct State50524 { u8 pad[0x38]; u32 flags38; };
 extern struct State50524 *state50524 asm("gUnk_03005CF4");
 void sub_08050524(s32 arg0) {
     u16 ticks;
-    register s32 x asm("r0");
+    s32 x;
     register s32 y asm("r1");
-    register struct State50524 *state asm("r2");
-    register u32 bit asm("r1");
+    struct State50524 *state;
+    u32 bit;
     switch (arg0) {
     case 0:
         sub_08068820(sub_08050524, (void *)1, 0);
@@ -2463,12 +2463,12 @@ extern struct Entity505C8 *entities505C8 asm("gUnk_030056F4");
 void sub_080505C8(void) {
     register u32 ticks asm("r4");
     register u32 stride asm("r0");
-    register u32 i asm("r3");
-    register u32 bit asm("r1");
-    register u32 one asm("r6");
+    u32 i;
+    u32 bit;
+    u32 one;
     u16 zero;
     register s32 *bits asm("r5");
-    register struct State505C8 *state asm("r0");
+    struct State505C8 *state;
     register struct State505C8 *state2 asm("r2");
     register struct Entity505C8 *entity asm("r2");
     if (sub_0800CC98() == 0) {
@@ -2518,24 +2518,24 @@ extern struct StateF50688 *stateF50688 asm("gUnk_03005CF4");
 extern void localF50688_BB80(s16,s16) asm("sub_0800BB80");
 void sub_08050688(void) {
     struct { s32 x,y,nextX,nextY,ui; s32 *nextXp,*nextYp; } L;
-    register struct SlotF50688 *slot asm("r1");
-    register u32 i asm("r2");
+    struct SlotF50688 *slot;
+    u32 i;
     s32 sp0;
     s32 sp4;
-    register s32 temp_r5 asm("r5");
-    register s32 temp_r6 asm("r6");
-    register s32 temp_r6_2 asm("r6");
+    s32 temp_r5;
+    s32 temp_r6;
+    s32 temp_r6_2;
     s32 temp_r7;
-    register s32 var_r5 asm("r5");
-    register s32 firstStep asm("r10");
+    s32 var_r5;
+    s32 firstStep;
     register s32 firstYFixed asm("r9");
     register s32 *firstY asm("r8");
     register s32 secondStep asm("r9");
     register s32 secondXFixed asm("r8");
-    register s32 secondYFixed asm("r7");
+    s32 secondYFixed;
     register s32 shift0 asm("r0");
     register s32 *a0 asm("r0");
-    register s32 a1 asm("r1");
+    s32 a1;
     register s32 a2 asm("r2");
     register s32 a3 asm("r3");
     s32 temp_r0;
@@ -2543,10 +2543,10 @@ void sub_08050688(void) {
     s32 var_r0;
     s32 var_r4_3;
     s32 var_r4_4;
-    register u32 var_r4 asm("r4");
+    u32 var_r4;
     u16 var_r4_2;
     register u32 temp_r3 asm("r3");
-    register u32 handle asm("r4");
+    u32 handle;
     register struct StateF50688 *state2 asm("r2");
     struct PlayerF50688 *temp_r2;
     struct PlayerF50688 *temp_r2_2;
@@ -2659,12 +2659,12 @@ while (sub_0805EEFC((void *) handle) == 0) sub_080003F0();
         sub_080003F0();
         var_r4_4 += secondStep;
     } while (var_r4_4 <= 0x400);
-    a0=(s32 *)stateF50688; a2=0x7A4; asm("" : "+r"(a2) : "r"(a0));
+    a0=(s32 *)stateF50688; a2=0x7A4; 
     slot=(struct SlotF50688 *)((u8 *)a0+a2);
     i = 0;
     for (;;) {
-        register s32 slotID asm("r0");
-        slotID=slot->id; asm("" : : "r"(slotID) : "memory");
+        s32 slotID;
+        slotID=slot->id; 
         a3=L.ui; if (slotID==a3) break;
         i++;
         slot++;
@@ -2696,53 +2696,53 @@ extern void sub_08051A78(void);
 void sub_080509A8(void) {
     void (*callback)(void);
     struct {s32 x,y,nextX,nextY; s32 *nextXP,*nextYP;} L;
-    register s32 *firstY asm("r5");
+    s32 *firstY;
     register s32 firstXFixed asm("r10");
-    register s32 firstYFixed asm("r8");
+    s32 firstYFixed;
     register s32 secondXFixed asm("r8");
-    register s32 secondYFixed asm("r7");
-    register s32 secondStep asm("r10");
+    s32 secondYFixed;
+    s32 secondStep;
     register s32 initialOne asm("r4");
     register s32 flag0 asm("r0");
     register s32 *a0 asm("r0");
     register s32 a1 asm("r1");
-    register s32 a2 asm("r2");
+    s32 a2;
     register s32 a3 asm("r3");
     s32 temp_r5;
-    register s32 temp_r6 asm("r6");
+    s32 temp_r6;
     s32 temp_r6_2;
     s32 temp_r7;
-    register struct State509A8 *event2 asm("r2");
+    struct State509A8 *event2;
     register u32 *entityFlags asm("r5");
-    register u32 entityOne asm("r6");
-    register u32 entityZero asm("r4");
+    u32 entityOne;
+    u32 entityZero;
     s32 temp_r0;
     s32 temp_r0_3;
     s32 temp_r0_4;
     s32 var_r0_3;
-    register s32 var_r4_2 asm("r4");
+    s32 var_r4_2;
     s32 var_r4_5;
     register struct Player509A8 *temp_r1 asm("r1");
     u16 var_r4_4;
     u16 var_r4_6;
     u32 var_r0_2;
-    register u32 var_r3 asm("r3");
-    register u32 var_r3_2 asm("r3");
+    u32 var_r3;
+    u32 var_r3_2;
     struct Task509A8 *var_r4;
     struct Task509A8 *var_r4_3;
     struct Task509A8 *var_r4_7;
     u32 var_r5;
     u32 var_r5_2;
     u32 var_r5_3;
-    register u32 var_r9 asm("r9");
+    u32 var_r9;
     u8 *var_r0;
     u8 *temp_r0_2;
     u8 *temp_r0_5;
     u8 *temp_r0_6;
     struct Player509A8 *temp_r1_2;
     struct Player509A8 *temp_r2;
-    register struct Entity509A8 *var_r2 asm("r2");
-    register struct Entity509A8 *var_r2_2 asm("r2");
+    struct Entity509A8 *var_r2;
+    struct Entity509A8 *var_r2_2;
 
     initialOne=1;
     if (sub_0800CE30() != 0) {
@@ -2999,9 +2999,9 @@ wait: sub_080003F0();if(sub_080021A8()==0)goto next;
 }
 static inline void t53_clear0E48(u16 one)
 {
-    register struct T53Entity0E48 *p asm("r2")=t53_entities0E48;
-    register u32 i asm("r3")=0;
-    register s32 *active asm("r5")=&gUnk_030056FC;
+    struct T53Entity0E48 *p=t53_entities0E48;
+    u32 i=0;
+    s32 *active=&gUnk_030056FC;
     u32 bit=one;
     u16 zero=0;
     do {
@@ -3072,9 +3072,9 @@ static inline void t53_scene0E48(s32 arg0,u16 px,u16 py)
         t53_dialog0E48(0x140078);
         t53_dialog0E48(0x140079);
         t53_dialog0E48(0x14007A);
-        {register u16 type asm("r0")=10;
-        register u32 value asm("r2")=300;
-        register union T53Packet0E48 *ptr asm("r1")=&packet;
+        {u16 type=10;
+        u32 value=300;
+        union T53Packet0E48 *ptr=&packet;
         ptr->effect.type=type;
         packet.effect.value=value;}
         goto packetRetry;
@@ -3107,9 +3107,9 @@ packetRetry:
         t53_dialog0E48(0x140087);
         t53_dialog0E48(0x140088);
         dialog=t53_open0E48(0x140089);
-        {register u16 type asm("r1")=1;
-        register u16 id asm("r2")=6;
-        register union T53Packet0E48 *ptr asm("r0")=&packet;
+        {u16 type=1;
+        u16 id=6;
+        union T53Packet0E48 *ptr=&packet;
         ptr->request.type=type;
         ptr->request.id=id;}
         for(i=0;i<=11;i++)packet.request.args[i]=0;
@@ -3206,9 +3206,9 @@ wait: sub_080003F0();if(sub_080021A8()==0)goto next;
 }
 static inline void t53_clearBFC(u16 one)
 {
-    register struct T53EntityBFC *p asm("r2")=t53_entitiesBFC;
-    register u32 i asm("r3")=0;
-    register s32 *active asm("r5")=&gUnk_030056FC;
+    struct T53EntityBFC *p=t53_entitiesBFC;
+    u32 i=0;
+    s32 *active=&gUnk_030056FC;
     u32 bit=one;
     u16 zero=0;
     do {
@@ -3228,9 +3228,9 @@ void sub_08051BFC(void)
         while(sub_0801AAE0()==0)sub_080003F0();
     }
     {
-    register u8 *base asm("r0")=t53_gsBFC;
+    u8 *base=t53_gsBFC;
     register u32 mask asm("r3")=4;
-    register u32 value asm("r2")=*(u32 *)(base+0x38);
+    u32 value=*(u32 *)(base+0x38);
     register u32 test asm("r1")=value&mask;
     if(!test) {
         *(u32 *)(base+0x38)=value|mask;
@@ -3283,9 +3283,9 @@ struct T53EntityCE4 { u16 f0,id; u8 pad[8]; u16 state; u8 tail[0x2D2]; };
 extern struct T53EntityCE4 *t53_entitiesCE4 asm("gUnk_030056F4");
 static inline void t53_clearCE4(u16 one)
 {
-    register struct T53EntityCE4 *p asm("r2")=t53_entitiesCE4;
-    register u32 i asm("r3")=0;
-    register s32 *active asm("r5")=&gUnk_030056FC;
+    struct T53EntityCE4 *p=t53_entitiesCE4;
+    u32 i=0;
+    s32 *active=&gUnk_030056FC;
     u32 bit=one;
     u16 zero=0;
     do {
@@ -3365,7 +3365,7 @@ void sub_08051E98(void)
         }
         while(sub_0801AAE0()==0)sub_080003F0();
     }
-    {register u32 song asm("r1")=217;gUnk_03005CF8=song;}
+    {u32 song=217;gUnk_03005CF8=song;}
     if(!(gUnk_030027D0&32))sub_08006CB4(217);
     while(sub_0805F184())sub_080003F0();
     while(sub_0805EF90())sub_080003F0();
@@ -3388,9 +3388,9 @@ found:
     while(!sub_0805EEFC((void *)dialog))sub_080003F0();
     t53_unlockE98();
     sub_0800D108();
-    {register u32 song asm("r1")=165;gUnk_03005CF8=song;}
+    {u32 song=165;gUnk_03005CF8=song;}
     if(!(gUnk_030027D0&32))sub_08006CB4(165);
-    {register u8 *base asm("r2")=t53_gsE98;
+    {u8 *base=t53_gsE98;
     register u32 value asm("r1")=*(u16 *)(base+4);
     register u32 mask asm("r0")=32;
     *(u16 *)(base+4)=mask|value;}
@@ -3529,7 +3529,7 @@ static inline u32 t53_open37DC(u32 id, u32 bit)
     while(sub_0805F184())sub_080003F0();
     while(sub_0805EF90())sub_080003F0();
     d = sub_0805DF38(1,15,2,0,45,id);
-    {register u8 *base asm("r2")=t53_gs0E48;
+    {u8 *base=t53_gs0E48;
     register u32 mask asm("r1")=bit;
     register u32 value asm("r0")=*(u32 *)(base+0x38);
     *(u32 *)(base+0x38)=value|mask;}
@@ -3568,7 +3568,7 @@ void sub_080526B4(void)
         }
         while (sub_0801AAE0() == 0) sub_080003F0();
     }
-    {register u32 song asm("r1")=0xD9;gUnk_03005CF8=song;}
+    {u32 song=0xD9;gUnk_03005CF8=song;}
     if (!(gUnk_030027D0 & 32)) sub_08006CB4(0xD9);
     for (n = 20; n != 0; n--) { sub_080003F0(); if (sub_080021A8()) break; }
     step = 17;
@@ -3597,9 +3597,9 @@ void sub_080526B4(void)
         t53_cam37DC((s16)out[2], (s16)out[3]);
         sub_080003F0();
     }
-    {register u32 song asm("r1")=0xA5;gUnk_03005CF8=song;}
+    {u32 song=0xA5;gUnk_03005CF8=song;}
     if (!(gUnk_030027D0 & 32)) sub_08006CB4(0xA5);
-    {register u8 *base asm("r2")=t53_gs0E48;
+    {u8 *base=t53_gs0E48;
     register u32 value asm("r1")=*(u16 *)(base+4);
     register u32 mask asm("r0")=32;
     *(u16 *)(base+4)=mask|value;}
@@ -3637,7 +3637,7 @@ void sub_080529E0(void)
         }
         while (sub_0801AAE0() == 0) sub_080003F0();
     }
-    {register u32 song asm("r1")=0xD9;gUnk_03005CF8=song;}
+    {u32 song=0xD9;gUnk_03005CF8=song;}
     if (!(gUnk_030027D0 & 32)) sub_08006CB4(0xD9);
     for (n = 20; n != 0; n--) { sub_080003F0(); if (sub_080021A8()) break; }
     step = 17;
@@ -3666,9 +3666,9 @@ void sub_080529E0(void)
         t53_cam37DC((s16)out[2], (s16)out[3]);
         sub_080003F0();
     }
-    {register u32 song asm("r1")=0xA5;gUnk_03005CF8=song;}
+    {u32 song=0xA5;gUnk_03005CF8=song;}
     if (!(gUnk_030027D0 & 32)) sub_08006CB4(0xA5);
-    {register u8 *base asm("r2")=t53_gs0E48;
+    {u8 *base=t53_gs0E48;
     register u32 value asm("r1")=*(u16 *)(base+4);
     register u32 mask asm("r0")=32;
     *(u16 *)(base+4)=mask|value;}
@@ -3702,7 +3702,7 @@ void sub_08052D0C(void)
         }
         while (sub_0801AAE0() == 0) sub_080003F0();
     }
-    {register u32 song asm("r1")=0xD9;gUnk_03005CF8=song;}
+    {u32 song=0xD9;gUnk_03005CF8=song;}
     if (!(gUnk_030027D0 & 32)) sub_08006CB4(0xD9);
     for (n = 20; n != 0; n--) { sub_080003F0(); if (sub_080021A8()) break; }
     step = 17;
@@ -3728,9 +3728,9 @@ void sub_08052D0C(void)
         t53_cam37DC((s16)out[2], (s16)out[3]);
         sub_080003F0();
     }
-    {register u32 song asm("r1")=11;gUnk_03005CF8=song;}
+    {u32 song=11;gUnk_03005CF8=song;}
     if (!(gUnk_030027D0 & 32)) sub_08006CB4(11);
-    {register u8 *base asm("r2")=t53_gs0E48;
+    {u8 *base=t53_gs0E48;
     register u32 value asm("r1")=*(u16 *)(base+4);
     register u32 mask asm("r0")=32;
     *(u16 *)(base+4)=mask|value;}
@@ -3847,7 +3847,7 @@ void sub_080531C4(void)
         }
         while (sub_0801AAE0() == 0) sub_080003F0();
     }
-    {register u32 song asm("r1")=0xD9;gUnk_03005CF8=song;}
+    {u32 song=0xD9;gUnk_03005CF8=song;}
     if (!(gUnk_030027D0 & 32)) sub_08006CB4(0xD9);
     for (n = 20; n != 0; n--) { sub_080003F0(); if (sub_080021A8()) break; }
     step = 17;
@@ -3876,9 +3876,9 @@ void sub_080531C4(void)
         t53_cam37DC((s16)out[2], (s16)out[3]);
         sub_080003F0();
     }
-    {register u32 song asm("r1")=11;gUnk_03005CF8=song;}
+    {u32 song=11;gUnk_03005CF8=song;}
     if (!(gUnk_030027D0 & 32)) sub_08006CB4(11);
-    {register u8 *base asm("r2")=t53_gs0E48;
+    {u8 *base=t53_gs0E48;
     register u32 value asm("r1")=*(u16 *)(base+4);
     register u32 mask asm("r0")=32;
     *(u16 *)(base+4)=mask|value;}
@@ -3913,7 +3913,7 @@ void sub_08053510(void)
         }
         while (sub_0801AAE0() == 0) sub_080003F0();
     }
-    {register u32 song asm("r2")=0x193;gUnk_03005CF8=song;}
+    {u32 song=0x193;gUnk_03005CF8=song;}
     if (!(gUnk_030027D0 & 32)) sub_08006CB4(0x193);
     for (n = 20; n != 0; n--) { sub_080003F0(); if (sub_080021A8()) break; }
     step = 17;
@@ -3939,9 +3939,9 @@ void sub_08053510(void)
         t53_cam37DC((s16)out[2], (s16)out[3]);
         sub_080003F0();
     }
-    {register u32 song asm("r1")=12;gUnk_03005CF8=song;}
+    {u32 song=12;gUnk_03005CF8=song;}
     if (!(gUnk_030027D0 & 32)) sub_08006CB4(12);
-    {register u8 *base asm("r2")=t53_gs0E48;
+    {u8 *base=t53_gs0E48;
     register u32 value asm("r1")=*(u16 *)(base+4);
     register u32 mask asm("r0")=32;
     *(u16 *)(base+4)=mask|value;}
@@ -4000,9 +4000,9 @@ void sub_080537DC(void)
         t53_cam37DC((s16)out[2], (s16)out[3]);
         sub_080003F0();
     }
-    {register u32 song asm("r2")=0x194;gUnk_03005CF8=song;}
+    {u32 song=0x194;gUnk_03005CF8=song;}
     if (!(gUnk_030027D0 & 32)) sub_08006CB4(0x194);
-    {register u8 *base asm("r2")=t53_gs0E48;
+    {u8 *base=t53_gs0E48;
     register u32 value asm("r1")=*(u16 *)(base+4);
     register u32 mask asm("r0")=32;
     *(u16 *)(base+4)=mask|value;}
@@ -4108,12 +4108,12 @@ void sub_08053B24(void)
 void sub_08053C5C(void)
 {
     u8 *base;
-    register u8 *entity asm("r2");
-    register u32 i asm("r3");
-    register u32 one asm("r6");
+    u8 *entity;
+    u32 i;
+    u32 one;
     register u32 zero asm("r4");
     register u32 stride asm("r0");
-    register u32 nextOffset asm("r1");
+    u32 nextOffset;
     register s32 *flags asm("r5");
     sub_0802A080(0x71, 0xE3, 0xA0, 0x3C);
     base = gUnk_030056F4;

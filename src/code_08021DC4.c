@@ -16,9 +16,9 @@ void sub_08021DC4(s32 arg0) {
     s32 *temp_r4;
     u32 var_r5;
     void *temp_r0;
-    register volatile u32 *flags asm("r2");
+    volatile u32 *flags;
     u32 one;
-    register u32 firstMask asm("r1");
+    u32 firstMask;
     var_r5 = 0;
     flags = (volatile u32 *)&gUnk_03005CE4;
     asm volatile("movs %0, #1" : "=r"(firstMask));
@@ -47,9 +47,9 @@ void sub_08021E44(s32 arg0, s32 arg1) {
     s32 *temp_r4;
     u32 var_r5;
     void *temp_r0;
-    register volatile u32 *flags asm("r2");
+    volatile u32 *flags;
     u32 one;
-    register u32 firstMask asm("r1");
+    u32 firstMask;
     var_r5 = 0;
     flags = (volatile u32 *)&gUnk_03005CE4;
     asm volatile("movs %0, #1" : "=r"(firstMask));
@@ -78,9 +78,9 @@ void sub_08021EC8(u32 arg0, u32 arg1, s32 arg2) {
     s32 *temp_r4;
     u32 var_r5;
     void *temp_r0;
-    register volatile u32 *flags asm("r2");
+    volatile u32 *flags;
     u32 one;
-    register u32 firstMask asm("r1");
+    u32 firstMask;
     var_r5 = 0;
     flags = (volatile u32 *)&gUnk_03005CE4;
     asm volatile("movs %0, #1" : "=r"(firstMask));
@@ -112,9 +112,9 @@ void sub_08021F58(s32 arg0, s32 arg1) {
     s32 *temp_r4;
     u32 var_r5;
     void *temp_r0;
-    register volatile u32 *flags asm("r2");
+    volatile u32 *flags;
     u32 one;
-    register u32 firstMask asm("r1");
+    u32 firstMask;
     var_r5 = 0;
     flags = (volatile u32 *)&gUnk_03005CE4;
     asm volatile("movs %0, #1" : "=r"(firstMask));
@@ -173,9 +173,9 @@ void sub_08022078(s32 arg0, s32 arg1) {
     s32 *temp_r4;
     u32 var_r5;
     void *temp_r0;
-    register volatile u32 *flags asm("r2");
+    volatile u32 *flags;
     u32 one;
-    register u32 firstMask asm("r1");
+    u32 firstMask;
     var_r5 = 0;
     flags = (volatile u32 *)&gUnk_03005CE4;
     asm volatile("movs %0, #1" : "=r"(firstMask));
@@ -204,9 +204,9 @@ void sub_08022100(s32 arg0) {
     s32 *temp_r4;
     u32 var_r5;
     void *temp_r0;
-    register volatile u32 *flags asm("r2");
+    volatile u32 *flags;
     u32 one;
-    register u32 firstMask asm("r1");
+    u32 firstMask;
     var_r5 = 0;
     flags = (volatile u32 *)&gUnk_03005CE4;
     asm volatile("movs %0, #1" : "=r"(firstMask));
@@ -235,9 +235,9 @@ void sub_08022180(s32 arg0) {
     s32 *temp_r4;
     u32 var_r5;
     void *temp_r0;
-    register volatile u32 *flags asm("r2");
+    volatile u32 *flags;
     u32 one;
-    register u32 firstMask asm("r1");
+    u32 firstMask;
     var_r5 = 0;
     flags = (volatile u32 *)&gUnk_03005CE4;
     asm volatile("movs %0, #1" : "=r"(firstMask));
@@ -266,9 +266,9 @@ void sub_08022200(s32 arg0, s32 arg1) {
     s32 *temp_r4;
     u32 var_r5;
     void *temp_r0;
-    register volatile u32 *flags asm("r2");
+    volatile u32 *flags;
     u32 one;
-    register u32 firstMask asm("r1");
+    u32 firstMask;
     var_r5 = 0;
     flags = (volatile u32 *)&gUnk_03005CE4;
     asm volatile("movs %0, #1" : "=r"(firstMask));
@@ -297,9 +297,9 @@ void sub_08022284(s32 arg0, s32 arg1) {
     s32 *temp_r4;
     u32 var_r5;
     void *temp_r0;
-    register volatile u32 *flags asm("r2");
+    volatile u32 *flags;
     u32 one;
-    register u32 firstMask asm("r1");
+    u32 firstMask;
     if (arg1 != 0) {
         var_r5 = 0;
         flags = (volatile u32 *)&gUnk_03005CE4;
@@ -328,15 +328,15 @@ void sub_08022284(s32 arg0, s32 arg1) {
 }
 void sub_0802230C(u32 arg0, u32 arg1, s32 arg2) {
     s32 *temp_r4;
-    register u32 var_r5 asm("r5");
+    u32 var_r5;
     u32 packed;
     void *temp_r0;
-    register u32 val0 asm("r4");
+    u32 val0;
     register u32 val1 asm("ip");
     u32 val2;
-    register volatile u32 *flags asm("r2");
+    volatile u32 *flags;
     u32 one;
-    register u32 firstMask asm("r1");
+    u32 firstMask;
     asm volatile("movs %0, r0\n\tmov %1, r1\n\tmovs %2, r2" : "=r"(val0), "=r"(val1), "=r"(val2));
     var_r5 = 0;
     flags = (volatile u32 *)&gUnk_03005CE4;
@@ -376,9 +376,9 @@ void sub_080223F4(s32 arg0, s32 arg1) {
     s32 *temp_r4;
     u32 var_r5;
     void *temp_r0;
-    register volatile u32 *flags asm("r2");
+    volatile u32 *flags;
     u32 one;
-    register u32 firstMask asm("r1");
+    u32 firstMask;
     var_r5 = 0;
     flags = (volatile u32 *)&gUnk_03005CE4;
     asm volatile("movs %0, #1" : "=r"(firstMask));
@@ -407,9 +407,9 @@ void sub_0802247C(s32 arg0, s32 arg1) {
     s32 *temp_r4;
     u32 var_r5;
     void *temp_r0;
-    register volatile u32 *flags asm("r2");
+    volatile u32 *flags;
     u32 one;
-    register u32 firstMask asm("r1");
+    u32 firstMask;
     var_r5 = 0;
     flags = (volatile u32 *)&gUnk_03005CE4;
     asm volatile("movs %0, #1" : "=r"(firstMask));
@@ -438,9 +438,9 @@ void sub_08022504(s32 arg0, s32 arg1) {
     s32 *temp_r4;
     u32 var_r5;
     void *temp_r0;
-    register volatile u32 *flags asm("r2");
+    volatile u32 *flags;
     u32 one;
-    register u32 firstMask asm("r1");
+    u32 firstMask;
     var_r5 = 0;
     flags = (volatile u32 *)&gUnk_03005CE4;
     asm volatile("movs %0, #1" : "=r"(firstMask));
@@ -550,7 +550,7 @@ void sub_080226A4(void) {
     u32 i, off, nv;
     s32 result;
     s32 px,py;
-    u16 mask; register u32 n asm("r2");
+    u16 mask; u32 n;
     struct T22Item226A4 *item;
     u8 *p,*q,*r;
     struct T22Player226A4 *pl;
@@ -558,7 +558,7 @@ void sub_080226A4(void) {
     s32 (*fn)(struct T22Rec226A4 *);
     ctx=sub_080653CC();
     player=sub_080020F4();
-    asm("" : "+r"(player));
+    
     t22_gs->f0=0;
     t22_gs->f2=0;
     t22_gs->f8=9;
@@ -576,7 +576,7 @@ void sub_080226A4(void) {
     i=0;
     do { t22_gs->slots[i].f0=0; i++; } while(i<=14);
     { struct T22TaskRec *t; register u32 zero asm("r1");
-    i=0; zero=0; asm("" : "+r"(zero)); t=t22_tasks;
+    i=0; zero=0;  t=t22_tasks;
     do { t->c=zero; t->b=zero; t->a=zero; t++; i++; } while(i<=2); }
     while(sub_08067C18()==0) sub_080003F0();
     while(sub_08067C08()==0) {
@@ -616,16 +616,16 @@ void sub_080226A4(void) {
             if(mask==0) item->fA=mask;
             i++;
         } while(i<=15);
-        { register u16 *seqPtr asm("r4"); register u32 next asm("r0");
-        t22_seq=1; i=0; seqPtr=&t22_seq; asm("" : "+r"(seqPtr));
+        { register u16 *seqPtr asm("r4"); u32 next;
+        t22_seq=1; i=0; seqPtr=&t22_seq; 
         do {
             t22_items226A4[i]=t22_save226A4->items[i];
             item=(struct T22Item226A4 *)((i<<5)+(u32)t22_items226A4);
-            if(item->fA&1) { n=item->fC; asm("" : "+r"(n)); if(n>t22_seq) *seqPtr=n; }
+            if(item->fA&1) { n=item->fC;  if(n>t22_seq) *seqPtr=n; }
             i++;
         } while(i<=15);
 
-        next=*seqPtr+1; *seqPtr=next; next<<=16; asm("" : "+r"(next));
+        next=*seqPtr+1; *seqPtr=next; next<<=16; 
         if(next>0xFFFE0000U) *seqPtr=1;
         }
         break;
@@ -653,16 +653,16 @@ void sub_080226A4(void) {
         pl->fC6=t22_gs->f94;
         i=0;
         do { t22_players[selected].f34[i]=t22_gs->inv[i]; i++; } while(i<=7);
-        { register u16 *seqPtr asm("r4"); register u32 next asm("r0");
-        t22_seq=1; i=0; { register struct T22Save226A4 **savedAddr asm("r7")=&t22_save226A4; asm("" : : "r"(savedAddr)); { register struct T22Save226A4 **cache asm("ip")=&t22_save226A4; asm("" : : "r"(cache)); } } seqPtr=&t22_seq; asm("" : "+r"(seqPtr));
+        { register u16 *seqPtr asm("r4"); u32 next;
+        t22_seq=1; i=0; { register struct T22Save226A4 **savedAddr asm("r7")=&t22_save226A4;  { register struct T22Save226A4 **cache asm("ip")=&t22_save226A4; asm("" : : "r"(cache)); } } seqPtr=&t22_seq; 
         do {
             t22_items226A4[i]=t22_save226A4->items[i];
             item=(struct T22Item226A4 *)((i<<5)+(u32)t22_items226A4);
-            if(item->fA&1) { n=item->fC; asm("" : "+r"(n)); if(n>t22_seq) *seqPtr=n; }
+            if(item->fA&1) { n=item->fC;  if(n>t22_seq) *seqPtr=n; }
             i++;
         } while(i<=15);
 
-        next=*seqPtr+1; *seqPtr=next; next<<=16; asm("" : "+r"(next));
+        next=*seqPtr+1; *seqPtr=next; next<<=16; 
         if(next>0xFFFE0000U) *seqPtr=1;
         }
         i=0;
@@ -679,17 +679,17 @@ void sub_080226A4(void) {
     case 4:
         sub_0802A228(t22_gs->f8C,t22_gs->f8E);
         gUnk_03003478=t22_gs->f9C;
-        { register u16 *seqPtr asm("r4"); register u32 next asm("r0");
+        { register u16 *seqPtr asm("r4"); u32 next;
         t22_seq=1; i=0;
         do {
             t22_items226A4[i]=t22_save226A4->items[i];
             item=(struct T22Item226A4 *)((i<<5)+(u32)t22_items226A4);
-            mask=item->fA&1; seqPtr=&t22_seq; asm("" : "+r"(seqPtr));
-            if(mask) { n=item->fC; asm("" : "+r"(n)); { register u32 read asm("r0")=*seqPtr; asm("" : "+r"(read)); if(n>read) *seqPtr=n; } }
+            mask=item->fA&1; seqPtr=&t22_seq; 
+            if(mask) { n=item->fC;  { u32 read=*seqPtr; asm("" : "+r"(read)); if(n>read) *seqPtr=n; } }
             i++;
         } while(i<=15);
 
-        next=*seqPtr+1; *seqPtr=next; next<<=16; asm("" : "+r"(next));
+        next=*seqPtr+1; *seqPtr=next; next<<=16; 
         if(next>0xFFFE0000U) *seqPtr=1;
         }
         i=0;
@@ -711,11 +711,11 @@ void sub_080226A4(void) {
                     fn=rec->cb[t22_gs->f36].fn;
                     if(sub_08056E90()!=0 && t22_gs->f40!=0x92BC) sub_080277E0(rec);
                     else result=fn(rec);
-                    { register s32 test asm("r7")=result; asm("" : : "r"(test)); if(test!=0) sub_080570DC(0); }
+                    { register s32 test asm("r7")=result;  if(test!=0) sub_080570DC(0); }
                 }
                 break;
             }
-            { register u32 step asm("r0")=0x124; asm("" : "+r"(step)); rec=(struct T22Rec226A4 *)((u8 *)rec+step); }
+            { u32 step=0x124; asm("" : "+r"(step)); rec=(struct T22Rec226A4 *)((u8 *)rec+step); }
         }
         if(sub_0800BA6C()!=0 && !(sub_0800CDC0()!=0 && gUnk_030056FC==0)) {
             s32 current=player;
@@ -778,16 +778,16 @@ extern void *t22_gUnk_08517220[] asm("gUnk_08517220");
 extern void *t22_gUnk_0851810C[] asm("gUnk_0851810C");
 void t22_22E60(u32,s32) asm("sub_08022E60");
 void t22_22E60(u32 in0,s32 arg2) {
-    register u32 arg0 asm("r4")=in0;
+    u32 arg0=in0;
     u32 i;
     u32 rnd;
-    register u32 off asm("r5");
-    register struct T22R22E60 *r asm("r6");
+    u32 off;
+    struct T22R22E60 *r;
     u16 *base;
     u16 *p;
     register void **dst asm("r0");
-    register void **table asm("r1");
-    asm("" : "+r"(arg0));
+    void **table;
+    
     if(arg2 != 0) {
         t22_state22E60->f0=arg0;
         t22_state22E60->f40=0;
@@ -942,7 +942,7 @@ void t22_22E60(u32 in0,s32 arg2) {
             table=t22_gUnk_0851810C;
             goto set;
         set:
-            asm("" : : "r"(dst), "r"(table));
+            
             *dst=table[0];
             break;
         }
@@ -958,7 +958,7 @@ again:
             rnd=sub_080008C8();
             base=(u16 *)t22_state22E60;
             off=r->id*2;
-            asm("" : : "r"(base), "r"(off));
+            
             base+=17;
             *(u16 *)((u8 *)base+off)=(u16)rnd % r->count;
             p=&base[r->id];
@@ -1013,13 +1013,13 @@ void t22_23274(u32 in0,s32 in1,s32 arg2) {
     register s32 arg1 asm("r4")=in1;
     u32 i;
     u32 rnd;
-    register u32 off asm("r5");
-    register struct T22R23274 *r asm("r6");
+    u32 off;
+    struct T22R23274 *r;
     u16 *base;
     u16 *p;
-    register void **dst asm("r1");
-    register void **table asm("r2");
-    asm("" : "+r"(arg0), "+r"(arg1));
+    void **dst;
+    void **table;
+    
     if(arg2 != 0) {
         t22_state23274->f0=arg0;
         t22_state23274->f40=arg1;
@@ -1175,7 +1175,7 @@ void t22_23274(u32 in0,s32 in1,s32 arg2) {
             table=t22_gUnk_0851810C;
             goto set;
         set:
-            asm("" : : "r"(dst), "r"(table));
+            
             *dst=table[arg1];
             break;
         }
@@ -1191,7 +1191,7 @@ again:
             rnd=sub_080008C8();
             base=(u16 *)t22_state23274;
             off=r->id*2;
-            asm("" : : "r"(base), "r"(off));
+            
             base+=17;
             *(u16 *)((u8 *)base+off)=(u16)rnd % r->count;
             p=&base[r->id];
@@ -1244,13 +1244,13 @@ void t22_23684(u32 in0,s32 in1,s32 arg2) {
     register s32 arg1 asm("r4")=in1;
     u32 i;
     u32 rnd;
-    register u32 off asm("r5");
+    u32 off;
     struct T22R23684 *r;
     u16 *base;
     u16 *p;
-    register void **dst asm("r1");
-    register void **table asm("r2");
-    asm("" : "+r"(arg0), "+r"(arg1));
+    void **dst;
+    void **table;
+    
     if(arg2 != 0) {
         t22_state23684->f0=arg0;
         t22_state23684->f40=arg1;
@@ -1383,7 +1383,7 @@ void t22_23684(u32 in0,s32 in1,s32 arg2) {
             table=t22_gUnk_0851810C;
             goto set;
         set:
-            asm("" : : "r"(dst), "r"(table));
+            
             *dst=table[arg1];
             break;
         }
@@ -1399,7 +1399,7 @@ again:
             rnd=sub_080008C8();
             base=(u16 *)t22_state23684;
             off=r->id*2;
-            asm("" : : "r"(base), "r"(off));
+            
             base+=17;
             *(u16 *)((u8 *)base+off)=(u16)rnd % r->count;
             p=&base[r->id];
@@ -1421,7 +1421,7 @@ again:
 s32 sub_080239E0(u8 arg0) {
     s32 a, b, nonzero, two;
     u8 value;
-    register u32 i asm("r4");
+    u32 i;
     u32 group;
     register u8 *base asm("r2");
     two = 0;
@@ -1661,15 +1661,15 @@ struct Task23ED8 { u32 f0, f4, f8, fC, f10, f14, f18, f1C, f20, f24; };
 struct State23ED8 { u8 pad[0x1834]; struct Task23ED8 tasks[32]; };
 extern struct State23ED8 *state23ED8 asm("gUnk_03005CF4");
 void sub_08023ED8(s32 arg0, u32 arg1) {
-    register struct State23ED8 **global asm("r6");
-    register u32 four asm("r4");
+    struct State23ED8 **global;
+    u32 four;
     register u32 offset asm("r8");
     register u32 taskOffset asm("r5");
     register u8 *callbackBase asm("r0");
-    register struct State23ED8 *base asm("r3");
+    struct State23ED8 *base;
     u32 offset2;
-    register s32 sum asm("r0");
-    register void *memory asm("r1");
+    s32 sum;
+    void *memory;
     global = &state23ED8;
     four = arg1 * 4;
     offset = (four + arg1) * 8;
@@ -2879,55 +2879,55 @@ extern void t24_callback257D4(void) asm("sub_080245CC");
 extern u32 t24_state asm("gUnk_03005CF4");
 void t24_start257D4(u32 arg0, s32 param1) asm("sub_080257D4");
 void t24_start257D4(u32 arg0, s32 param1) {
-    register s32 arg1 asm("r6") = param1;
+    s32 arg1 = param1;
     register s32 temp_r0 asm("r8");
     register s32 step asm("r4");
-    register s32 temp_r2 asm("r2");
+    s32 temp_r2;
     s32 temp_r5;
-    register u32 mem asm("r1");
-    register char *base asm("r3");
+    u32 mem;
+    char *base;
     register u32 addr asm("r0");
     asm("" : "+r"(arg1) : "r"(&t24_state));
     step = arg1 * 4;
-    asm("" : "+r"(step));
+    
     temp_r0 = (step + arg1) * 8;
-    asm("" : "+r"(temp_r0));
+    
     temp_r5 = temp_r0 + 0x17BC;
     if (sub_08000470(t24_state + temp_r5) != 0) {
         sub_080003A8(t24_state + temp_r5);
     }
     addr = t24_state + 0x17C8;
-    asm("" : "+r"(addr));
-    asm("" : : "r"(addr), "r"(temp_r0));
+    
+    
     *(u32 *)(addr + temp_r0) = (u32)t24_callback257D4;
 goto alloc;
 retry: sub_080003F0();
 alloc:
     mem = sub_08001494(0x400);
-    asm("" : "+r"(mem));
+    
     base = (char *)t24_state;
     asm("" : "+r"(step) : "r"(arg1));
     addr = step + arg1;
-    asm("" : "+r"(addr));
+    
     temp_r2 = addr * 8;
-    asm("" : "+r"(temp_r2), "+r"(base));
+    
     addr = (u32)(base + 0x17DC);
-    asm("" : "+r"(addr));
+    
     *(u32 *)(addr + temp_r2) = mem;
     if (mem == 0) {
         goto retry;
     }
     addr = (u32)(base + 0x17CC);
-    asm("" : "+r"(addr));
+    
     *(u32 *)(addr + temp_r2) = mem + 0x3FC;
     addr = (u32)(base + 0x17C4);
-    asm("" : "+r"(addr));
+    
     *(u32 *)(addr + temp_r2) = 0x46;
     addr = (u32)(base + 0x17E0);
-    asm("" : "+r"(addr));
+    
     *(u32 *)(addr + temp_r2) = 0;
     addr = temp_r2 + 0x17BC;
-    asm("" : "+r"(addr));
+    
     sub_08000274(base + addr, arg0);
 }
 
@@ -3317,8 +3317,8 @@ void sub_080263B4(void) {
     s32 var_r0_2;
     s32 var_r0_3;
     s32 var_r0_4;
-    register s32 var_r5 asm("r5");
-    register struct T24Player080263B4 *temp_r6 asm("r6");
+    s32 var_r5;
+    struct T24Player080263B4 *temp_r6;
     u16 temp_r4_3;
     u16 temp_r4_4;
     u32 temp_r0;
@@ -3332,7 +3332,7 @@ void sub_080263B4(void) {
     u32 var_r7;
     register u32 zero asm("r10");
     u8 *temp_r4;
-    register struct T24Net080263B4 *temp_r2_2 asm("r2");
+    struct T24Net080263B4 *temp_r2_2;
     s32 cx = 0x78, cy = 0x140;
 
     zero = 0;
@@ -3343,13 +3343,13 @@ void sub_080263B4(void) {
     active = 0;
     text = t24_call08007290_080263B4(0x1403D3);
     {
-        register u32 index asm("r0") = sub_080020F4();
-        register u32 stride asm("r1") = 0x14C;
-        asm("" : "+r"(index), "+r"(stride));
+        u32 index = sub_080020F4();
+        u32 stride = 0x14C;
+        
         stride *= index;
         {
-            register u8 *base asm("r0") = (u8 *)t24_players080263B4;
-            asm("" : "+r"(base), "+r"(stride));
+            u8 *base = (u8 *)t24_players080263B4;
+            
             temp_r6 = (struct T24Player080263B4 *)(stride + (u32)base);
         }
     }
@@ -3508,22 +3508,22 @@ block_62:
         temp_r6->flags &= 0xFF7FFFFF;
         t24_state080263B4->unk4 = (u16) (0xFEFF & t24_state080263B4->unk4);
         {
-            register u32 row asm("r1") = 0;
-            register struct T24State080263B4 **state asm("r3") = &t24_state080263B4;
+            u32 row = 0;
+            struct T24State080263B4 **state = &t24_state080263B4;
             register u32 zero asm("r6") = 0;
-            asm("" : "+r"(state), "+r"(zero), "+r"(row));
+            
             do {
-                register u32 col asm("r2") = 0;
+                u32 col = 0;
                 register u32 four asm("r0") = row << 2;
                 register u32 next asm("r5") = row + 1;
-                register u32 rowOffset asm("r4");
-                asm("" : "+r"(four), "+r"(next));
+                u32 rowOffset;
+                
                 rowOffset = four + row;
                 do {
-                    register struct T24State080263B4 *base asm("r0") = *state;
-                    register u32 idx asm("r1") = col + rowOffset;
+                    struct T24State080263B4 *base = *state;
+                    u32 idx = col + rowOffset;
                     register u32 gridOffset asm("r7") = ((size_t)&((struct T24State080263B4 *)0)->grid);
-                    asm("" : "+r"(base), "+r"(idx), "+r"(gridOffset));
+                    
                     *((u8 *)base + gridOffset + idx) = zero;
                     col++;
                 } while (col <= 4);
@@ -3597,7 +3597,7 @@ void sub_08026858(void) {
     u32 var_r5_2;
     u32 var_r7;
     u8 *temp_r4;
-    register struct T24Net08026858 *temp_r2_2 asm("r2");
+    struct T24Net08026858 *temp_r2_2;
     s32 cx = 0xF0, cy = 0x88;
 
     frame = 0;
@@ -3638,7 +3638,7 @@ void sub_08026858(void) {
         }
     }
 
-    asm("" : "=r"(var_r7));
+    
     do {
     goto poll_input;
 retry_input:
@@ -3655,7 +3655,7 @@ poll_input:
             register s32 scratch asm("r3");
             s32 value;
             register s32 limit asm("r2");
-            asm("" : "=r"(scratch));
+            
             value = x;
             asm("" : "+r"(value), "+r"(scratch));
             limit = 0xF0;
@@ -3670,7 +3670,7 @@ poll_input:
                 register s32 scratch asm("r2");
                 register s32 limit asm("r2");
                 s32 value;
-                asm("" : "=r"(scratch));
+                
                 value = y;
                 asm("" : "+r"(value), "+r"(scratch));
                 limit = 0x88;
@@ -3707,7 +3707,7 @@ poll_input:
                         if ((temp_r0 > 0x3CU) && (2 & t24_keys08026858)) {
                             temp_r6->flags = temp_r2 & 0xFFFFFBFF;
                             {
-                                register s32 zero asm("r0") = 0;
+                                s32 zero = 0;
 
                                 sub_08057328(zero, &t24_callback08026858);
                             }
@@ -3823,7 +3823,7 @@ end_poll:
 
                     do {
                         u32 col = 0;
-                        register u32 four asm("r0") = row << 2;
+                        u32 four = row << 2;
                         u32 next = row + 1;
                         u32 rowOffset;
 
@@ -4101,7 +4101,7 @@ void sub_0802704C(s32 input) {
     u8 *flagBase;
     s32 flagOffset;
     s32 flagIndex;
-    register s32 *flagTarget asm("r2");
+    s32 *flagTarget;
     struct T025Player270 *endBase;
     s32 *endFlags;
     s32 endMask;
@@ -4823,7 +4823,7 @@ void t025Effects27C(u16 *arg0)
 
     if (rows != 0) {
         rowGroup += (u16)(t025World27C->f34 - 1);
-        asm("");
+        
         /* Outer region with a back-edge that cse2 folds away: loop.c hoists
            the config-table invariants out of it, so they land before
            `entry = rowGroup->e` and the zero (zr) like in the ROM. */
@@ -4867,7 +4867,7 @@ void t025Effects27C(u16 *arg0)
             if (entry <= &end->e[3])
                 goto row_loop;
             /* Loop notes stop cse1 from folding the test below; cse2 does. */
-            do { asm(""); } while (0);
+            do {  } while (0);
             if (entry <= &end->e[3]) {
                 asm("" : "+r"(zr));
                 goto row_outer;

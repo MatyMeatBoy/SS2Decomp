@@ -24,14 +24,14 @@ s32 sub_08017F7C(void *arg0)
     struct T015Player *p;
     u32 count, i;
     register u32 temp asm("r0");
-    register u32 mask1 asm("r1") = 0xFFFF0000;
+    u32 mask1 = 0xFFFF0000;
     register u32 mask2 asm("r2") = 0xFFFF;
-    asm("" : "+r"(mask1), "+r"(mask2));
+    
     size = 0x014001E0;
     temp = (rect & mask1) | 0x20;
-    asm("" : "+r"(temp));
+    
     temp = (temp & mask2) | 0x200000;
-    asm("" : "+r"(temp));
+    
     rect = temp;
     found = 0;
     count = sub_08002164();
@@ -133,7 +133,7 @@ void sub_0801801C(struct T015LActor *arg0) {
     struct T015LAnim *pb;
     {
     register u32 blk asm("r6");
-    asm("" : "=r"(blk));
+    
     T015L_sub_08065158(&stack.base.f0, 0x50010, 0, -1, 0);
     T015L_sub_08065158(&stack.auxA.f0, 0x5008C, 0, -1, 0);
     pb = &stack.auxB;
@@ -551,7 +551,7 @@ void sub_0801801C(struct T015LActor *arg0) {
                 register s32 z asm("r0");
                 asm("" : "=r"(z));
                 if (arg0->f30 != 0) {
-                    asm("" : : "r"(z));
+                    
                     sub_08057328(arg0->f34);
                 } else {
                     asm("" : : "r"(z));
@@ -983,9 +983,9 @@ u32 sub_08019E74(u32 value)
 }
 void sub_08019EB8(u16 key, u16 value)
 {
-    register s32 bit asm("r1");
+    s32 bit;
     u32 i;
-    register u8 *entry asm("r3");
+    u8 *entry;
     register s32 *flags asm("r2");
     entry = gUnk_030056F4;
     i = 0;
@@ -1000,7 +1000,7 @@ loop:
 test:
     if (!(*flags & bit) || *(u16 *)(entry + 2) != key) goto loop;
     *(u16 *)(entry + 0x88) = value;
-    asm("" : : "r"(entry));
+    
 end:
     return;
 }
@@ -1156,7 +1156,7 @@ u32 sub_0801A1C8(u8 *obj, s32 *distance)
         }
     }
     {
-        register u32 result asm("r0");
+        u32 result;
         if (selected != -1) { *distance = nearest; result = (u16)selected; }
         else result = 0xFF;
         return result;
@@ -1197,7 +1197,7 @@ void sub_0801A298(u8 *obj, u16 value)
 }
 s32 sub_0801A2F0(u8 *arg0)
 {
-    register u32 i asm("r3");
+    u32 i;
     u8 *table;
     register u32 roll asm("r2");
     u8 sum;
@@ -1222,15 +1222,15 @@ end:
 void sub_0801A328(u16 x, u16 y, u16 speed, u32 direction, volatile s32 *out)
 {
     volatile s32 *output = out;
-    register s32 velocity asm("r6") = speed;
-    register u32 angleIndex asm("r2") = (u16)direction;
+    s32 velocity = speed;
+    u32 angleIndex = (u16)direction;
     register s32 posX asm("r4") = (u32)x << 8;
     register s32 posY asm("r5") = (u32)y << 8;
     s32 tempX;
     s32 tempY;
     s16 *sine;
-    register u16 *angle asm("r2");
-    register u16 *angleBase asm("r0");
+    u16 *angle;
+    u16 *angleBase;
     if (0x8000 & velocity) velocity = 0;
     sine = gUnk_080B9704;
     angleBase = gUnk_0847AD0A;
@@ -1295,12 +1295,12 @@ void sub_0801A3D0(const u8 *script, u16 x, u32 row)
     tile = (gUnk_03005C54 >> 5) + 0x180;
     while (1) {
         register u32 scratch asm("r1");
-        register u32 xOffset asm("r5");
+        u32 xOffset;
         register u32 rowOffset asm("r3");
         register u32 rowLoad asm("r2");
-        register u16 *map asm("r3");
+        u16 *map;
         register u32 mapBaseNext asm("r2");
-        register u32 glyph asm("r6");
+        u32 glyph;
         u8 *font;
         if (*script == 0xFD) break;
         if (*script > 0xF1) break;
@@ -1514,25 +1514,25 @@ again:
     sub_080003F4(100);
     {
         register u32 rawFlags asm("r1") = (u16)flags16;
-        asm("" : "+r"(rawFlags));
+        
         flag2 = (s16)(rawFlags & 2);
         if (flag2 != 0) {
             register u16 *period asm("r5");
             {
-                register u16 *destination asm("r0") = (u16 *)&display16;
-                asm("" : "+r"(destination));
+                u16 *destination = (u16 *)&display16;
+                
                 destination = (u16 *)((u8 *)destination + 0x40);
-                asm("" : "+r"(destination));
+                
                 flag2 = 0;
-                asm("" : "+r"(flag2));
+                
                 *destination = 255;
             }
             {
                 register s16 *testStep asm("r1") = step;
-                asm("" : "+r"(testStep));
+                
                 if (*testStep > 0) {
                     progress = (u16 *)&level16;
-                    asm("" : "+r"(progress));
+                    
                     *progress = flag2;
                 } else {
                     delta = 16;
@@ -1553,7 +1553,7 @@ again:
             *fadeLevel = ((s32)(*progress << 4)) / *period;
             {
                 register s16 *deltaStep asm("r3") = step;
-                asm("" : "+r"(deltaStep));
+                
                 delta = *(u16 *)deltaStep;
             }
             total = delta + *progress;
@@ -1563,9 +1563,9 @@ again:
                 goto finished;
             if (signedDelta < 0) {
                 register u32 mask asm("r3") = 0x8000;
-                asm("" : "+r"(mask));
+                
                 {
-                    register u32 testMask asm("r0") = mask;
+                    u32 testMask = mask;
                     asm("" : "+r"(testMask));
                     if (total &= testMask)
                         goto finished;
@@ -1575,9 +1575,9 @@ again:
             goto fade;
         }
         signedDelta = 16;
-        asm("" : "+r"(signedDelta));
+        
         delta = signedDelta;
-        asm("" : "+r"(delta));
+        
         delta &= rawFlags;
         flag16 = (s16)delta;
     }
@@ -1587,14 +1587,14 @@ again:
         /* Original blend loop retains display+0x44 independently of its base. */
         register u16 *blendRegister asm("r8");
         progress = (u16 *)step;
-        asm("" : "+r"(progress));
+        
         if (*(s16 *)progress > 0) {
             register s16 *destination asm("r3") = &level16;
-            asm("" : "+r"(destination));
+            
             *destination = flag2;
         } else {
             progress = (u16 *)&level16;
-            asm("" : "+r"(progress));
+            
             *progress = signedDelta;
         }
         inner = &display16;
@@ -1603,9 +1603,9 @@ again:
         delta = 0x44;
         asm("" : "+r"(delta));
         delta += (u32)inner;
-        asm("" : "+r"(delta));
+        
         blendRegister = (u16 *)delta;
-        asm("" : "+r"(blendRegister));
+        
         {
             register s16 *save asm("r1") = &gUnk_03000026;
             asm("" : "+r"(save));
@@ -1616,12 +1616,12 @@ again:
         delta = ((s32)(*progress << 4)) / *period;
         {
             register u16 *destination asm("r2") = blendRegister;
-            asm("" : "+r"(destination));
+            
             *destination = delta;
         }
         {
             register s16 *deltaStep asm("r3") = step;
-            asm("" : "+r"(deltaStep));
+            
             delta = *(u16 *)deltaStep;
         }
         total = delta + *progress;
@@ -1631,9 +1631,9 @@ again:
             goto finished;
         if (signedDelta < 0) {
             register u32 mask asm("r3") = 0x8000;
-            asm("" : "+r"(mask));
+            
             {
-                register u32 testMask asm("r0") = mask;
+                u32 testMask = mask;
                 asm("" : "+r"(testMask));
                 if (total &= testMask)
                     goto finished;
@@ -1643,24 +1643,24 @@ again:
         goto blend;
     finished:
         progress = (u16 *)savedStep;
-        asm("" : "+r"(progress));
+        
         {
-            register u32 savedTotal asm("r2") = total;
-            register s32 readStep asm("r0") = *(s16 *)progress;
+            u32 savedTotal = total;
+            s32 readStep = *(s16 *)progress;
             asm("" : "+r"(readStep) : "r"(signedDelta), "r"(savedTotal));
             if (readStep < 0) {
                 register u32 zero asm("r3") = 0;
                 register u16 *destination asm("r2") = &gUnk_03000022;
-                asm("" : "+r"(zero), "+r"(destination));
+                
                 *destination = zero;
             }
         }
     } else {
         {
-            register s32 readStep asm("r0");
-            register u16 *period2 asm("r0") = &gUnk_03000020;
-            register u16 n asm("r1");
-            asm("" : "+r"(period2));
+            s32 readStep;
+            u16 *period2 = &gUnk_03000020;
+            u16 n;
+            
             n = 2;
             asm("" : "+r"(n));
             *period2 = n;
@@ -1696,7 +1696,7 @@ again:
         }
     }
     {
-        register u16 *p asm("r0") = (u16 *)&flags16;
+        u16 *p = (u16 *)&flags16;
         register u32 value asm("r1") = *p;
         register s32 mask asm("r4") = -23;
         register s32 bits asm("r2");

@@ -55,12 +55,12 @@ class RegionalProgressTests(unittest.TestCase):
     def collect(self):
         return rp.collect(self.root, self.modules, self.profiles, self.evidence)
 
-    def test_eu_counts_only_matching_c_and_preserves_distinct_denominator(self):
+    def test_eu_counts_matching_code_and_preserves_distinct_denominator(self):
         report = self.collect()
         self.assertEqual(report['primary_region'], 'eu')
-        self.assertEqual(report['regions']['eu']['code']['matching'], 32)
+        self.assertEqual(report['regions']['eu']['code']['matching'], 48)  # C 32 + linked 8 + original asm 8; draft 16 open
         self.assertEqual(report['regions']['eu']['code']['total'], 64)
-        self.assertEqual(report['regions']['eu']['code']['percent'], 50)
+        self.assertEqual(report['regions']['eu']['code']['percent'], 75)
 
     def test_other_regions_use_their_own_verified_intervals_not_eu_percent(self):
         for region in ('usa', 'jp'):
@@ -146,7 +146,7 @@ class RegionalProgressTests(unittest.TestCase):
         self.assertEqual(len(bars), 6)
         text = ''.join(root.itertext())
         self.assertIn('main', text)
-        self.assertIn('32 / 64 bytes', text)
+        self.assertIn('48 / 64 bytes', text)
         self.assertIn('Data', text)
 
     def test_report_writes_only_additional_generated_outputs(self):

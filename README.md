@@ -19,8 +19,9 @@ Each cell is one function (area = size in bytes):
 | Colour | Meaning |
 |---|---|
 | 🟩 green | matching C or linked library code; separate totals are shown above the map |
+| 🟢 light green | routines that were hand-written assembly in the original game (start-up, task scheduler, BIOS call stubs, sound mixer core); kept as matching assembly, complete |
 | 🟨 yellow | compiling C draft; tracked large functions fill progressively by documented work milestones |
-| ⬜ grey | no matching C, original ASM, or unfinished tracked milestones; hover for the exact state |
+| ⬜ grey | no matching C, or unfinished tracked milestones; hover for the exact state |
 
 The graphic shows recognized display names while preserving canonical symbols in
 its tooltips. Partial yellow fill is a count of evidenced work milestones, not
@@ -29,8 +30,9 @@ owners update their own `docs/agents/function_work/sub_XXXXXXXX.json` at checkpo
 CI refreshes the map when those commits are integrated. Data is shown as an
 inventory, without a decoding percentage.
 
-The historical **matched + linked** percentage includes linked library code and
-excludes original ASM. **Matching C** counts only matching C bytes over all C
+**All code** counts every code byte that builds from this repository and matches:
+matching C, linked library code and the original hand-written assembly. The
+historical **matched + linked** percentage excludes that assembly. **Matching C** counts only matching C bytes over all C
 module bytes; compiling drafts are reported separately. Identification is a
 separate source/evidence metric, not a decompilation or understanding percentage.
 See [metric definitions and naming workflow](docs/agents/PROGRESS_AND_NAMES.md).
@@ -46,9 +48,9 @@ records source observations and unresolved calls; it is not a complete runtime g
 [![Regional code and data source progress](docs/progress/regional_progress.svg?v=90f4c355)](docs/progress/regional_progress.md)
 
 **EU remains the main target.** These additional bars separate matching C and
-data reproduced from source for each ROM. The regional EU code bar includes SDK,
-linked and original-ASM intervals in its denominator, so it differs from the
-game-only main badge. USA/Japan count only independently verified regional C
+data reproduced from source for each ROM. The regional EU code bar covers SDK,
+linked and original-assembly intervals as well, so its byte counts differ from
+the game-only main badge. USA/Japan count only independently verified regional C
 intervals. Raw ROM copies and `.incbin` data earn no source credit; source-data
 coverage does not measure how much data is understood. Tiny positive coverage
 is shown as `<0.01%`.

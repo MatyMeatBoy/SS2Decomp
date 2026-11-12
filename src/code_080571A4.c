@@ -7,7 +7,7 @@ u32 sub_0805EF90(void);
 void sub_080571A4(u8 a, u8 b, u8 value)
 {
     if (sub_08002204() != 0) {
-        register u8 *base asm("r1") = (u8 *)gUnk_03005CF4;
+        u8 *base = (u8 *)gUnk_03005CF4;
         u32 index = b + a * 5;
         base += 0x1C8;
         base += index;
@@ -16,8 +16,8 @@ void sub_080571A4(u8 a, u8 b, u8 value)
 }
 u32 sub_080571D8(u8 a, u8 b, u8 value)
 {
-    register u32 result asm("r5") = 0;
-    register u8 *base asm("r4") = (u8 *)gUnk_03005CF4;
+    u32 result = 0;
+    u8 *base = (u8 *)gUnk_03005CF4;
     u32 index = b + a * 5;
     base += 0x1C8;
     base += index;
@@ -33,7 +33,7 @@ u32 sub_08057210(u8 index)
     base += 0x1C8;
     for (; i <= 4; i++) {
         u32 offset = (u8)i;
-        register u32 found asm("r3") = 0;
+        u32 found = 0;
         if (base[offset + row] == 2)
             found = 1;
         if (found)
@@ -89,7 +89,7 @@ s32 sub_08057314(void) {
 s32 sub_08057328(u32 a, void *b) {
     u8 *entry;
     u32 count;
-    register s32 result asm("r1");
+    s32 result;
     u32 memory;
     entry = (u8 *)gUnk_03005CF4 + 0xE34;
     count = 0;
@@ -444,7 +444,7 @@ void sub_08057A20(u32 bit, u32 alternate)
 void sub_08057A5C(u32 bit)
 {
     u32 index = bit >> 3;
-    register u8 *base asm("r2");
+    u8 *base;
     u32 offset;
     bit &= 7;
     if (sub_0800CE30())
@@ -464,7 +464,7 @@ void sub_08057A5C(u32 bit)
 void sub_08057AA4(u32 bit, u32 alternate)
 {
     u32 index = bit >> 3;
-    register u8 *base asm("r2");
+    u8 *base;
     u32 offset;
     bit &= 7;
     if (alternate)

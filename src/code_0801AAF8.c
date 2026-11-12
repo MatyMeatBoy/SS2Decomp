@@ -25,8 +25,8 @@ void sub_0801AB50(u16 arg0)
     gUnk_03000028 = (gUnk_03000028 | 4) & -m;
 }
 void sub_0801AB90(u16 arg0) {
-    register volatile u16 *p asm("r2");
-    register u16 value asm("r0");
+    volatile u16 *p;
+    u16 value;
     if (((s32)gUnk_03000026 >= 0) || !(0x8000 & gUnk_03000022)) {
         gUnk_03000026 = -1;
         gUnk_03000020 = arg0;
@@ -147,9 +147,9 @@ struct S17Effect { u16 type, id, value; u8 b6, b7, b8; u8 pad[7]; };
 void sub_0801ACB8(void)
 {
     struct S17Effect effect;
-    register struct S17Stats32 *templates asm("r2");
+    struct S17Stats32 *templates;
     u8 *state = (u8 *)gUnk_030034E0;
-    register u8 *player asm("r9") = (u8 *)&gUnk_03003CE0[sub_080020F4()];
+    u8 *player = (u8 *)&gUnk_03003CE0[sub_080020F4()];
     u8 i;
     s16 *energy;
     s16 *hp;
@@ -157,7 +157,7 @@ void sub_0801ACB8(void)
     s16 *maxEnergy;
     u16 *selected;
     templates = (struct S17Stats32 *)gUnk_0848FA48;
-    asm("" : "+r"(templates));
+    
     *(struct S17Stats32 *)(state + 0x10) = templates[*(u16 *)(state + 0xA)];
     switch (sub_0801DE60()) {
     case 0:
@@ -408,7 +408,7 @@ u32 sub_0801B264(void *mods, u16 *stats, u8 *extra)
             break;
         case 22: {
             register u32 value asm("r1") = extra[0x11];
-            register u32 result asm("r0") = 0x80 | value;
+            u32 result = 0x80 | value;
             extra[0x11] = result;
             break;
         }
@@ -1275,9 +1275,9 @@ void sub_0801C8F0(struct RescueC8F0Entity *arg0) {
     s16 temp_r1;
     s32 var_r0_2;
     register s32 temp_r0 asm("r4");
-    register s32 temp_r0_5 asm("r0");
+    s32 temp_r0_5;
     s32 temp_r2;
-    register u32 baseAddress asm("r3");
+    u32 baseAddress;
     s32 var_r0;
     register s32 var_r1_2 asm("r1");
     u16 *var_r2;
@@ -1285,13 +1285,13 @@ void sub_0801C8F0(struct RescueC8F0Entity *arg0) {
     u16 temp_r0_6;
     u16 temp_r0_7;
     u16 temp_r0_8;
-    register u32 temp_r0_9 asm("r0");
+    u32 temp_r0_9;
     register u32 clampZero18 asm("r1");
     u32 temp_r0_4;
     u32 var_r6;
     u8 temp_r0_2;
-    register u8 **temp_r1_3 asm("r1");
-    register u8 *temp_r1_2 asm("r1");
+    u8 **temp_r1_3;
+    u8 *temp_r1_2;
     u8 *temp_r6;
     struct RescueC8F0Slot *var_r5;
 

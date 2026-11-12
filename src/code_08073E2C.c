@@ -66,13 +66,13 @@ static inline u16 dir2EE8(struct Ply076EE8 *p)
 {
     register u16 *table asm("r2") = directions076EE8;
     /* Keep the table load ahead of the position-pointer decode, as in the ROM. */
-    asm("" : "+r"(table));
+    
     return table[((u8 *)p->pos)[3] >> 4];
 }
 static inline u32 angEE8(s32 dx, s32 dy) { return (u16)ArcTan2(dx, dy) + 0x400; }
 static inline s32 diffEE8(u32 a, u16 b) {
  u16 angle = (a >> 12) - b; s32 d;
- { register s32 t asm("r0") = (s16)angle; if (t > 8) angle = t - 16; }
+ { s32 t = (s16)angle; if (t > 8) angle = t - 16; }
  { register s32 t asm("r0") = (s16)angle; if (t < -8) { t += 16; angle = t; } }
  d = (s16)angle; if (d < 0) d = -d;
  return d; }
@@ -199,12 +199,12 @@ s32 sub_0807414C(struct Ply076EE8 *player, u16 width, u32 range)
                 }
                 dist = Sqrt(dx * dx + dy * dy);
                 {
-                    register u32 rg asm("r1") = range;
+                    u32 rg = range;
                     if (rg <= dist)
                         continue;
                 }
                 {
-                    register u32 b asm("r2") = best;
+                    u32 b = best;
                     if (b <= dist)
                         continue;
                 }
@@ -253,13 +253,13 @@ extern u32 active076398 asm("gUnk_030056FC");
 /* The local five-argument ABI keeps the original halfword input truncation. */
 s32 nearest076398(u32 inputSelf,u32 inputExcluded,s32 x,s32 y,s32 range)
 {
-    register u32 self asm("r10")=(u16)inputSelf;
+    u32 self=(u16)inputSelf;
     register u32 best asm("r9"),nearest asm("r8"),index asm("r4");
     u32 count;
-    register u8 **enemyAddress asm("r6");
-    register u8 *team asm("r5");
+    u8 **enemyAddress;
+    u8 *team;
     u8 *selfTeam,*enemy;
-    register struct Position076398 **position asm("r6");
+    struct Position076398 **position;
     struct Position076398 *point;
     s32 dx,dy,offset;
     u16 distance;
@@ -275,8 +275,8 @@ s32 nearest076398(u32 inputSelf,u32 inputExcluded,s32 x,s32 y,s32 range)
         index=0;
         if(index<count){
             {
-                register u32 stride asm("r0")=0x14C;
-                register u32 base asm("r1")=(u32)players076398;
+                u32 stride=0x14C;
+                u32 base=(u32)players076398;
                 selfTeam=(u8*)(self*stride+base)+0x68;
                 position=(struct Position076398**)(base+0x148);
                 team=(u8*)(base+0x68);
@@ -286,7 +286,7 @@ s32 nearest076398(u32 inputSelf,u32 inputExcluded,s32 x,s32 y,s32 range)
                     point=*position;
                     dx=(point->x>>4)-(x>>8);
                     {
-                        register u32 packedY asm("r0")=(u32)point->y<<20;
+                        u32 packedY=(u32)point->y<<20;
                         dy=(packedY>>20)-(y>>8);
                     }
                     distance=Sqrt(dx*dx+dy*dy);
@@ -345,12 +345,12 @@ s32 nearest076398(u32 inputSelf,u32 inputExcluded,s32 x,s32 y,s32 range)
     }
     while(index<=4);
     {
-        register s32 result asm("r0");
+        s32 result;
         if(nearest!=-1U){
-            register u8 **address asm("r1")=&enemies076398;
-            register u32 selected asm("r2")=nearest;
+            u8 **address=&enemies076398;
+            u32 selected=nearest;
             register u32 offset asm("r0");
-            register u32 object asm("r1");
+            u32 object;
             offset=nearest*0x2E0;
             object=(u32)*address+offset;
             result=F_076398(object,u16,2);
@@ -391,7 +391,7 @@ void sub_08074530(u32 who,u32 slot)
     while(!done) {
         if(who<4) {
             struct EffectEntity77 *entity=player->entity;
-            effectPosition77(entity->xRaw>>4,({u32 rawY=entity->yRaw;rawY<<=20;asm("" : "+r"(rawY));rawY>>20;}),&x,&y,0x30,0);
+            effectPosition77(entity->xRaw>>4,({u32 rawY=entity->yRaw;rawY<<=20;rawY>>20;}),&x,&y,0x30,0);
         } else {
             effectPosition77((s32)((u32)enemy->x<<8)>>16,(s32)((u32)enemy->y<<8)>>16,&x,&y,0x30,0);
         }
@@ -421,7 +421,7 @@ void sub_080746A4(u32 who,u32 slot)
     while(!done) {
         if(who<4) {
             struct EffectEntity77 *entity=player->entity;
-            effectPosition77(entity->xRaw>>4,({u32 rawY=entity->yRaw;rawY<<=20;asm("" : "+r"(rawY));rawY>>20;}),&x,&y,0x30,0);
+            effectPosition77(entity->xRaw>>4,({u32 rawY=entity->yRaw;rawY<<=20;rawY>>20;}),&x,&y,0x30,0);
         } else {
             effectPosition77((s32)((u32)enemy->x<<8)>>16,(s32)((u32)enemy->y<<8)>>16,&x,&y,0x30,0);
         }
@@ -451,7 +451,7 @@ void sub_08074818(u32 who,u32 slot)
     while(!done) {
         if(who<4) {
             struct EffectEntity77 *entity=player->entity;
-            effectPosition77(entity->xRaw>>4,({u32 rawY=entity->yRaw;rawY<<=20;asm("" : "+r"(rawY));rawY>>20;}),&x,&y,0x30,0);
+            effectPosition77(entity->xRaw>>4,({u32 rawY=entity->yRaw;rawY<<=20;rawY>>20;}),&x,&y,0x30,0);
         } else {
             effectPosition77((s32)((u32)enemy->x<<8)>>16,(s32)((u32)enemy->y<<8)>>16,&x,&y,0x30,0);
         }
@@ -481,7 +481,7 @@ void sub_0807498C(u32 who,u32 slot)
     while(!done) {
         if(who<4) {
             struct EffectEntity77 *entity=player->entity;
-            effectPosition77(entity->xRaw>>4,({u32 rawY=entity->yRaw;rawY<<=20;asm("" : "+r"(rawY));rawY>>20;}),&x,&y,0x30,0);
+            effectPosition77(entity->xRaw>>4,({u32 rawY=entity->yRaw;rawY<<=20;rawY>>20;}),&x,&y,0x30,0);
         } else {
             effectPosition77((s32)((u32)enemy->x<<8)>>16,(s32)((u32)enemy->y<<8)>>16,&x,&y,0x30,0);
         }
@@ -511,7 +511,7 @@ void sub_08074B00(u32 who,u32 slot)
     while(!done) {
         if(who<4) {
             struct EffectEntity77 *entity=player->entity;
-            effectPosition77(entity->xRaw>>4,({u32 rawY=entity->yRaw;rawY<<=20;asm("" : "+r"(rawY));rawY>>20;}),&x,&y,0x30,0);
+            effectPosition77(entity->xRaw>>4,({u32 rawY=entity->yRaw;rawY<<=20;rawY>>20;}),&x,&y,0x30,0);
         } else {
             effectPosition77((s32)((u32)enemy->x<<8)>>16,(s32)((u32)enemy->y<<8)>>16,&x,&y,0x30,0);
         }
@@ -541,7 +541,7 @@ void sub_08074C74(u32 who,u32 slot)
     while(!done) {
         if(who<4) {
             struct EffectEntity77 *entity=player->entity;
-            effectPosition77(entity->xRaw>>4,({u32 rawY=entity->yRaw;rawY<<=20;asm("" : "+r"(rawY));rawY>>20;}),&x,&y,0x30,0);
+            effectPosition77(entity->xRaw>>4,({u32 rawY=entity->yRaw;rawY<<=20;rawY>>20;}),&x,&y,0x30,0);
         } else {
             effectPosition77((s32)((u32)enemy->x<<8)>>16,(s32)((u32)enemy->y<<8)>>16,&x,&y,0x30,0);
         }
@@ -1662,7 +1662,7 @@ extern void sub_080761A4(void);
 extern void taskA88(void *) asm("sub_08000274");
 void sub_08076A88(u32 who, u32 a, u32 b, u32 c) {
     register u32 aa asm("r10") = a;
-    register u32 bb asm("r9") = b;
+    u32 bb = b;
     register u32 cc asm("r3") = c;
     register u32 scratch asm("r3");
     volatile u32 saved_c;
@@ -1673,12 +1673,12 @@ void sub_08076A88(u32 who, u32 a, u32 b, u32 c) {
     struct TaskA88 *t;
     register struct InfoA88 *e asm("r1");
     struct PlayerA88 *p; /* Allocation failure uses incoming r5, as in the original. */
-    asm("" : "+r"(aa), "+r"(bb), "+r"(cc));
+    
     saved_c = cc;
-    asm("" : : : "memory");
+    
     i = 0;
     { vu32 *mb = masksA88; m = &mb[who]; }
-    { register u32 one asm("r1") = 1; asm("" : "+r"(one));
+    { u32 one = 1; 
     if (*m & one) do {
         i++;
         if (i > 15) break;
@@ -1703,7 +1703,7 @@ void sub_08076A88(u32 who, u32 a, u32 b, u32 c) {
                 p->f122 = 0;
 set_b:
                 scratch = bb;
-                asm("" : "+r"(scratch));
+                
                 p->f28 = scratch;
             }
         } else {
@@ -1720,7 +1720,7 @@ set_b:
             scratch = 0x7fc;
             asm("" : "+r"(scratch));
             result = mem + scratch;
-            asm("" : "+r"(result));
+            
             t->f10 = result;
             t->f24 = 0;
             taskA88(t);

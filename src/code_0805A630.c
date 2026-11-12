@@ -48,14 +48,14 @@ u32 sub_0805A71C(u32 key, u16 value)
 {
     extern u32 activeSlots asm("gUnk_03005CFC");
     extern u8 slotRecords[] asm("gUnk_03005D00");
-    register u32 i asm("r1") = 0;
-    register u32 flags asm("r5") = activeSlots;
-    register u32 result asm("r4") = 0x40000;
-    register u32 offset asm("r3") = 0;
+    u32 i = 0;
+    u32 flags = activeSlots;
+    u32 result = 0x40000;
+    u32 offset = 0;
 loop:
     if (flags & (1u << i)) {
-        register u32 base asm("r2") = (u32)slotRecords;
-        register u32 address asm("r0");
+        u32 base = (u32)slotRecords;
+        u32 address;
         address = offset + base;
         if (*(u32 *)address != key) goto next;
         address = base + 4;
@@ -88,12 +88,12 @@ u32 sub_0805A7C4(u32 id, u32 x, u32 y)
 {
     u32 i;
     u32 mem;
-    register u32 one asm("r3");
-    register u8 *base asm("r0") = (u8 *)gGameState;
+    u32 one;
+    u8 *base = (u8 *)gGameState;
     register u32 offset asm("r1") = 0x7A4;
     u8 *entry = base + offset;
     u8 *task;
-    register u8 *owner asm("r2");
+    u8 *owner;
     i = 0;
     offset += 0x48;
     task = base + offset;
@@ -147,8 +147,8 @@ void *sub_0805A8F8(u32 arg0, u32 callback)
 {
     u32 i;
     u32 mem;
-    register u8 *base asm("r1") = (u8 *)gGameState;
-    register u32 offset asm("r2") = 0x12E4;
+    u8 *base = (u8 *)gGameState;
+    u32 offset = 0x12E4;
     u8 *entry = base + offset;
     i = 0;
     goto search;
@@ -195,7 +195,7 @@ void sub_0805A994(u32 index, u32 a, u32 b)
         return;
     index--;
     {
-        register u32 *flags asm("r2") = (u32 *)&gUnk_030056FC;
+        u32 *flags = (u32 *)&gUnk_030056FC;
         bit = 1u << index;
         if ((*flags & bit) == 0) {
             u32 *savedFlags = flags;
@@ -212,11 +212,11 @@ void sub_0805A994(u32 index, u32 a, u32 b)
 void sub_0805A9F4(u32 packed)
 {
     register u32 value asm("r2") = packed;
-    register u32 frames asm("r5") = value >> 16;
+    u32 frames = value >> 16;
     register u32 previous asm("r4");
     register u32 saved asm("r6");
-    register u32 wait asm("r4");
-    register u32 next asm("r0");
+    u32 wait;
+    u32 next;
     value &= 0xFF;
     previous = gUnk_03005CF8;
     gUnk_03005CF8 = value;
@@ -452,12 +452,12 @@ s32 impl_0805AD78(u32 index)
     u32 valid;
     u8 *players = (u8 *)gUnk_03003CE0;
     register u8 *states asm("r0");
-    register u32 player asm("r0");
-    register u8 *playerBase asm("r1");
+    u32 player;
+    u8 *playerBase;
     u8 **owner;
     u8 *table;
     for (; i < players[sub_080020F4() * 0x14C + 0x77]; i++) {
-        register u8 *slot asm("r1") = mapItems;
+        u8 *slot = mapItems;
         slot = slot + i * 0x10;
         slot += 0x79;
         *slot = 0;
@@ -470,7 +470,7 @@ s32 impl_0805AD78(u32 index)
         valid = sub_0805AE34(table + (offset + 0x70));
         if (valid) {
             u8 *resource;
-            register u8 *slot asm("r0") = *owner;
+            u8 *slot = *owner;
             slot += offset;
             slot += 0x79;
             *slot = 1;
@@ -591,8 +591,8 @@ u32 sub_0805B068(const u8 *item)
 {
     u32 divisor;
     u32 value = 0;
-    register u32 id asm("r0");
-    register u32 category asm("r1");
+    u32 id;
+    u32 category;
     u8 *resource;
     switch (*(u16 *)item) {
     case 2:
@@ -629,14 +629,14 @@ common:
 u32 sub_0805B0F0(void)
 {
     extern u8 *mapObjects asm("gUnk_030034E0");
-    register u32 first asm("r3") = 0;
-    register u32 i asm("r2") = 0;
+    u32 first = 0;
+    u32 i = 0;
     register u8 **map asm("r0");
-    register u8 *base asm("r0");
-    register u8 *entry asm("r1");
-    register u32 firstOffset asm("r4");
+    u8 *base;
+    u8 *entry;
+    u32 firstOffset;
     register u32 second asm("r4");
-    register u32 secondOffset asm("r5");
+    u32 secondOffset;
     map = &mapObjects;
     base = *map;
     firstOffset = 0x150;
@@ -672,14 +672,14 @@ loop:
     if (sub_0800CD8C() != 0) goto yield;
     entry = slotsMemory;
     for (i = 0; i <= 15; i++, entry += 0x20) {
-        register u32 flags asm("r1") = *(u16 *)(entry + 0xA);
-        register u32 active asm("r0") = 1;
+        u32 flags = *(u16 *)(entry + 0xA);
+        u32 active = 1;
         u8 *payload;
         active &= flags;
         payload = entry + 0x10;
         if (active) {
             if (sub_0800CCCC() != 0) {
-                register u32 masked asm("r1");
+                u32 masked;
                 register u8 *current asm("r0");
                 if ((*(u16 *)(entry + 8) >> 5) != 0) {
                     masked = *(u16 *)(entry + 8) & ~0x20;
@@ -714,7 +714,7 @@ void sub_0805B21C(void)
     u8 *entry;
     u8 *task;
     u16 zero;
-    register u16 *zeroPtr asm("r6");
+    u16 *zeroPtr;
     u32 zeroValue;
     slotsMemory = sub_08001494(0x200);
     secondaryMemory = (u32)sub_08001494(0xF0);
@@ -778,7 +778,7 @@ u8 *sub_0805B2C4(s32 x, s32 y, u32 kind, u16 *data)
         {
             register u32 limit asm("r0") = 0x11170;
             /* The ROM shares this loaded value between the two initial minima. */
-            asm("" : "+r"(limit));
+            
             lowest = limit;
             lowestIndex = limit;
         }
@@ -916,12 +916,12 @@ extern struct Slot60 *slots60 asm("gUnk_03005D58");
 void *sub_0805B618(void)
 {
     u16 temp;
-    register u32 lowest asm("r2");
-    register u32 lowestIndex asm("r3");
+    u32 lowest;
+    u32 lowestIndex;
     register u32 i asm("r5");
-    register u32 active asm("r6");
+    u32 active;
     register struct Slot60 *slot asm("r4");
-    register struct Slot60 **owner asm("r1") = &slots60;
+    struct Slot60 **owner = &slots60;
     register u32 initial asm("r0");
     slot = *owner;
     initial = 0x11170;
@@ -942,7 +942,7 @@ void *sub_0805B618(void)
         slot++;
     } while (i <= 15);
     if (active > 15) {
-        register u32 address asm("r0");
+        u32 address;
         slot = slots60;
         address = lowestIndex << 5;
         address += (u32)slot;
@@ -2006,12 +2006,12 @@ void sub_0805CB04(s32 index, struct Record60 *out)
     u16 bit;
     register u32 i asm("r8");
     register u32 work asm("r2");
-    register u32 offset asm("r0");
-    register u8 *base asm("r1");
+    u32 offset;
+    u8 *base;
     u16 *table;
     u8 zero8;
     u32 zero16;
-    register u32 sentinel asm("r9");
+    u32 sentinel;
     offset = index * 0x30;
     base = (u8 *)&gUnk_084EB7E8;
     work = 0;
@@ -2143,24 +2143,24 @@ s32 sub_0805CDF8(void) {
     struct PuzzleItem61 sp10;
     register struct PuzzleItem61 *item asm("r4");
     register s32 temp_r1 asm("r1");
-    register u32 yBits asm("r6");
+    u32 yBits;
     register s32 xBits asm("r1");
-    register u32 shifted asm("r0");
+    u32 shifted;
     s32 temp_r2;
-    register s32 temp_r3 asm("r3");
+    s32 temp_r3;
     s32 var_r4_2;
     s32 var_r6;
-    register u32 var_r8 asm("r8");
+    u32 var_r8;
     u16 *temp_r0_2;
-    register u8 *base asm("r2");
-    register u32 *bounds asm("r5");
+    u8 *base;
+    u32 *bounds;
     register u8 *bp asm("r0");
-    register u16 *recipes asm("r1");
-    register u8 *p asm("r0");
-    register u16 *var_r5 asm("r5");
+    u16 *recipes;
+    u8 *p;
+    u16 *var_r5;
     u16 *recipeValues;
     struct PuzzleSlot61 **slotsBase;
-    register s32 temp_r0_3 asm("r0");
+    s32 temp_r0_3;
     u16 temp_r1_4;
     u32 var_r7;
     s32 var_r9;
@@ -2259,19 +2259,19 @@ loop_15:
             base = (u8 *)puzzleRecipes61;
 
             p=base+16;
-            asm("" : "+r"(p));
+            
             temp_r0_2=(u16 *)(p+var_r9);
             temp_r1_4 = *temp_r0_2;
             if (temp_r1_4 == 0xA) {
                 item->type = temp_r1_4;
-                p=base+18; asm("" : "+r"(p));
+                p=base+18; 
                 item->data.wide = (s32) *(u16 *)(p + var_r9);
             } else {
                 item->data.wide = 0;
                 item->type = (u16) *temp_r0_2;
-                p=base+18; asm("" : "+r"(p));
+                p=base+18; 
                 item->value = (u16) *(u16 *)(p + var_r9);
-                temp_r0_3 = item->type; asm("" : "+r"(temp_r0_3));
+                temp_r0_3 = item->type; 
                 switch (temp_r0_3) {
                 case 2:
                 case 3:
@@ -2295,7 +2295,7 @@ item_ready:
         var_r9 += 0x14;
         {
             register u16 *test asm("r1") = (u16 *)var_r8;
-            asm("" : "+r"(test));
+            
             if (*test == 0) {
 block_32:
                 return 0;
@@ -2330,8 +2330,8 @@ void sub_0805D028(u8 index,const struct Entry61 *src) {
 }
 u32 sub_0805D064(const struct Entry61 *src,u32 index) {
     register u32 savedIndex asm("r3")=index;
-    register struct Entry61 *dst asm("r1");
+    struct Entry61 *dst;
     register u32 offset asm("r0");
-    asm volatile("" : "+r" (savedIndex));
-    switch(*(const u16 *)src) { case 2: dst=(void *)gUnk_030034E0; asm volatile("" : "+r" (dst)); offset=savedIndex*16; asm volatile("" : "+r" (offset)); dst=(void *)((u8 *)dst+offset); asm volatile("" : "+r" (dst) : "r" (offset)); dst=(void *)((u8 *)dst+0x70); *dst=*src; return 1; default:return 0; }
+    
+    switch(*(const u16 *)src) { case 2: dst=(void *)gUnk_030034E0;  offset=savedIndex*16;  dst=(void *)((u8 *)dst+offset);  dst=(void *)((u8 *)dst+0x70); *dst=*src; return 1; default:return 0; }
 }

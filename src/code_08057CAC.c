@@ -172,7 +172,7 @@ out:
 void sub_08057FBC(u32 selector, u32 value)
 {
     struct PlayerValue { u8 pad[0x11E]; u16 value; u8 tail[0x2C]; };
-    register u16 *target asm("r0");
+    u16 *target;
     if (selector > 0x100000) {
         u8 *entry = (u8 *)gUnk_03005CF4 + 0x7A4;
         u8 *result;
@@ -192,15 +192,15 @@ found:
     } else if (selector != 0) {
         selector--;
         if (selector <= 4) {
-            register void **address asm("r1") = &gUnk_030056F4;
+            void **address = &gUnk_030056F4;
             u32 offset = selector * 0x2E0;
-            register u8 *slot asm("r1") = *address;
+            u8 *slot = *address;
             slot += offset;
             sub_08019EB8(*(u16 *)(slot + 2), (u16)value);
         }
         return;
     } else {
-        register u32 index asm("r0") = sub_080020F4();
+        u32 index = sub_080020F4();
         index *= 0x14C;
         target = (u16 *)(index + (u32)gUnk_03003CE0);
         target = (u16 *)((u8 *)target + 0x11E);
@@ -228,7 +228,7 @@ s32 sub_08058094(void)
     s32 temp;
     s32 i;
     s32 j;
-    register s32 total asm("r3");
+    s32 total;
     u8 *entry;
     u8 *other;
     register s32 *state asm("r1");
@@ -265,7 +265,7 @@ u32 sub_080580F8(u32 a, u32 b)
     u32 count = 0;
     u32 i = 0;
     u8 *initial = (u8 *)gUnk_030034E0;
-    register u16 *first asm("r3") = (u16 *)(initial + 0x2e0);
+    u16 *first = (u16 *)(initial + 0x2e0);
     u8 *base = initial;
     for (; i <= 0x4a; first += 8, base += 16, i++)
         if (*first == a && *(u16 *)(base + 0x2e2) == b)
@@ -277,7 +277,7 @@ u32 sub_0805813C(u32 a, u32 b)
     u32 count = 0;
     u32 i = 0;
     u8 *initial = (u8 *)gUnk_030034E0;
-    register u16 *first asm("r3") = (u16 *)(initial + 0x150);
+    u16 *first = (u16 *)(initial + 0x150);
     u8 *base = initial;
     for (; i <= 0x18; first += 8, base += 16, i++)
         if (*first == a && *(u16 *)(base + 0x152) == b)
@@ -307,7 +307,7 @@ void sub_080581E4(u32 a, u32 b, u32 count)
 {
     u32 i;
     for (i = 0; i <= 24; i++) {
-        register u32 address asm("r0") = gUnk_030034E0;
+        u32 address = gUnk_030034E0;
         u32 offset = i * 16;
         u8 *base = (u8 *)(address + offset);
         if (*(u16 *)(base + 0x150) == a && *(u16 *)(base + 0x152) == b) {
@@ -322,7 +322,7 @@ void sub_080581E4(u32 a, u32 b, u32 count)
 s32 sub_08058240(void)
 {
     u32 i = sub_080020F4();
-    register u8 *base asm("r1") = (u8 *)gUnk_03003CE0;
+    u8 *base = (u8 *)gUnk_03003CE0;
     i *= 0x14C;
     base += 0x8C;
     return *(s32 *)(i + (u32)base) >> 8;
@@ -330,7 +330,7 @@ s32 sub_08058240(void)
 s32 sub_08058260(void)
 {
     u32 i = sub_080020F4();
-    register u8 *base asm("r1") = (u8 *)gUnk_03003CE0;
+    u8 *base = (u8 *)gUnk_03003CE0;
     i *= 0x14C;
     base += 0x90;
     return *(s32 *)(i + (u32)base) >> 8;
