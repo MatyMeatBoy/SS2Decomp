@@ -309,8 +309,8 @@ s32 sub_08058094(void)
  * machine amount argument is absent. It inherits bag-first then stash/menu-stock debit behavior, possible
  * partial spending on insufficient currency and lack of upfront affordability validation; no rollback, success
  * result or implicit zero amount is inferred. */
-void sub_080580EC(void) {
-    sub_0807C014();
+void sub_080580EC(u32 arg0) {
+    sub_0807C014(arg0);
 }
 /* [CountMatchingStashItemSlots] Counts records whose kind halfword and item-id halfword equal the two complete
  * 32-bit arguments, across all 75 physical stash slots. Does not restrict the scan to configured stash
@@ -652,8 +652,8 @@ void sub_0805865C(s32 arg0)
  * incomplete no-argument C declaration does not establish an ignored or implicit-zero song argument. The
  * wrapper does not clear the separate tracked-song word or add the link-error guard used by other audio
  * helpers. */
-void sub_0805867C(void) {
-    sub_08006D5C();
+void sub_0805867C(u32 arg0) {
+    sub_08006D5C(arg0);
 }
 /* [AudioSetTrackedSongAndReturnPrevious] Saves old03005CF8, stores supplied32-bit song value, calls checked
  * start/continue06CB4 unless link-session flag0x20, then returns previous value. Current-song tracking updates
@@ -678,11 +678,11 @@ s32 sub_080586B4(void)
 /* [AudioFadePlayersAndClearTrackedSong] Reads tracked song03005CF8, calls fade-all06C30, clears tracker and
  * returns previous song. Source declaration omits a formal speed argument although call sites pass one; this
  * name does not establish a corrected C prototype or ABI. */
-s32 sub_080586D0(void) {
+s32 sub_080586D0(u32 arg0) {
     s32 temp_r5;
 
     temp_r5 = gUnk_03005CF8;
-    sub_08006C30();
+    sub_08006C30(arg0);
     gUnk_03005CF8 = 0;
     return temp_r5;
 }
@@ -726,8 +726,8 @@ void sub_08058768(s32 arg0, s32 arg1, s32 arg2) {
     sub_08073E2C(arg0 << 8, arg1 << 8, arg2, 0);
 }
 /* [RegenerateItemCollectionBanksWrapper] Calls5C7B8 with no explicit recovered-C argument. */
-void sub_08058778(void) {
-    sub_0805C7B8();
+void sub_08058778(u32 arg0) {
+    sub_0805C7B8(arg0);
 }
 /* [ProcessFieldItemRecipeWrapper] Returns5CDF8 result directly. */
 s32 sub_08058784(void) {

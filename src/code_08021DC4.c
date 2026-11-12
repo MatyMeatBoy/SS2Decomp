@@ -674,8 +674,7 @@ void sub_080226A4(void) {
     sub_08067BF8();
     if(sub_0800CB9C()!=0) {
         if(sub_08057AE8(7)!=0) sub_08057A5C(21);
-        sub_08057AE8(21);
-        sub_0805C7B8();
+        sub_0805C7B8(sub_08057AE8(21));
         i=0;
         do { t22_save226A4->items[i].fA=0; t22_save226A4->items[i].fC=0; i++; } while(i<=15);
     } else memcpy(((u8 *)t22_gs)+0x70,t22_save226A4,0x51C);
@@ -3401,8 +3400,7 @@ void t24_gate25890(u16 *arg0) {
     player->flags &= 0xFF7FFFFF;
     if (sub_08057AE8(7) != 0)
         sub_08057A5C(0x15);
-    sub_08057AE8(0x15);
-    sub_0805C7B8();
+    sub_0805C7B8(sub_08057AE8(0x15));
     player->unk2E = 0;
     sub_080003F0();
     sub_0801A664(0x12, 2);
