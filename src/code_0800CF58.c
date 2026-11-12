@@ -531,7 +531,6 @@ void sub_0800D368(void *arg0) {
     s32 temp_r0_74;
     s32 temp_r0_75;
     s32 temp_r0_76;
-    s32 temp_r0_79;
     s32 temp_r0_84;
     s32 temp_r0_85;
     s32 temp_r0_86;
@@ -3088,12 +3087,12 @@ retry63_0_done:
                         ((struct PlayerD368 *)arg0)->f114 = 0x14U;
                         var_r4_11 = d368_sub_0801DE60();
                         if ((var_r4_11 == 5) && !(((struct PlayerD368 *)arg0)->f30 & 0x20000) && (d368_sub_0801E0AC(d368_gUnk_030034E0 + 0x30, 5) != 0) && ((resourceLimitWord319D368 = (u32) ((struct PlayerD368 *)arg0)->f62 << 0x10, (s32) (s16) ((struct PlayerD368 *)arg0)->fC4 < ((s32) resourceLimitWord319D368 >> 0x11)))) {
-                            temp_r0_79 = d368_sub_0801E164(arg0, 5);
-                            if (temp_r0_79 != 0) {
-                                M2C_FIELD(temp_r0_79, u16 *, 2) = (u16) ((struct PlayerD368 *)arg0)->f0;
-                                M2C_FIELD(temp_r0_79, s16 *, 4) = (s16) var_r4_11;
-                                M2C_FIELD(temp_r0_79, u16 *, 6) = d368_sub_0801E0AC(d368_gUnk_030034E0 + 0x30, 5);
-                                M2C_FIELD(temp_r0_79, s16 *, 0) = 0x708;
+                            var_r6_8 = d368_sub_0801E164(arg0, 5);
+                            if (var_r6_8 != 0) {
+                                M2C_FIELD(var_r6_8, u16 *, 2) = (u16) ((struct PlayerD368 *)arg0)->f0;
+                                M2C_FIELD(var_r6_8, s16 *, 4) = (s16) var_r4_11;
+                                M2C_FIELD(var_r6_8, u16 *, 6) = d368_sub_0801E0AC(d368_gUnk_030034E0 + 0x30, 5);
+                                M2C_FIELD(var_r6_8, s16 *, 0) = 0x708;
                                 ((struct PlayerD368 *)arg0)->f30 = (u32) (((struct PlayerD368 *)arg0)->f30 | 0x20000);
                                 d368_sub_0805867C(0x16F);
                             }
@@ -4767,7 +4766,6 @@ animationClassDoneD368:
                         var_r5 = 0;
                         var_r6_8 = (u32) (M2C_FIELD(temp_r1_55, s32 *, 4) << 0xD) >> 0x18;
                     }
-                    asm("" : : "r"(var_r6_8));
                     var_r4_11 = 0;
                     for (sp128 = 0; sp128 < d368_sub_08002164(); sp128++) {
                         u8 *plD = (u8 *)&d368_gUnk_03003CE0; temp_r1_56 = 0x14C * sp128;
