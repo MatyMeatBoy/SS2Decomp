@@ -5,6 +5,10 @@
                                tracks, samples) and write it as typed objects
   data_split.py ssdt LABEL NAME  split a resource archive ("SSDT" magic) that starts at LABEL into its header,
                                category tables and one object per resource; NAME prefixes the new labels
+  data_split.py ptrtable LABEL COUNT [PREFIX]
+                               the object under LABEL starts with COUNT pointers: write them as label
+                               references and label every target (PREFIX_NNNN or gUnk_08XXXXXX)
+  data_split.py ptrtables MIN  do that for every raw object that begins with at least MIN pointers
   data_split.py cuts FILE      cut at the ROM offsets listed in FILE (`OFFSET [label]` per line, hex);
                                unnamed cuts get the canonical gUnk_08XXXXXX label
 
@@ -194,11 +198,98 @@ def ssdt(label, name):
     print("%s: %s split into %d resources" % (path.name, label, resources))
 
 
+LABEL_RAW = re.compile(r'^([A-Za-z_]\w*):\s*\n\s*\.incbin\s+"baserom\.gba"\s*,\s*(\S+)\s*,\s*(\S+)', re.M)
+
+
+def raw_objects():
+    """{offset: (label, size)} for every label that is directly followed by a raw incbin."""
+    found = {}
+    for path in data_files():
+        for m in LABEL_RAW.finditer(path.read_text(encoding="utf-8")):
+            found[int(m[2], 0)] = (m[1], int(m[3], 0))
+    return found
+
+
+def data_area():
+    import json
+    item = json.loads((ROOT / "tools/config/regional_progress.json").read_text(encoding="utf-8"))["regions"]["eu"]
+    return int(item["code_end"], 0), int(item["data_end"], 0)
+
+
+def ptrtable(label, count, prefix=None):
+    """The object under LABEL starts with COUNT ROM pointers. Write them as label references and give every
+    target its own label (PREFIX_NNNN by first index, or the canonical gUnk name)."""
+    rom = rom_bytes()
+    objects = raw_objects()
+    lo = next((o for o, (name, _) in objects.items() if name == label), None)
+    if lo is None:
+        raise SystemExit("no raw incbin directly under " + label)
+    size = objects[lo][1]
+    area = data_area()
+    if count * 4 > size:
+        raise SystemExit("table longer than the object")
+    targets = [struct.unpack_from("<I", rom, lo + 4 * i)[0] - ROM_BASE for i in range(count)]
+    if any(t != -ROM_BASE and not area[0] <= t < area[1] for t in targets):
+        raise SystemExit("%s: entry outside the data area" % label)
+    if count * 4 < size:
+        cut({lo + 4 * count: None})
+    names, new = {}, {}
+    objects = raw_objects()
+    for i, t in enumerate(targets):
+        if t == -ROM_BASE or t in names:
+            continue
+        if t in objects:
+            names[t] = objects[t][0]
+        elif lo <= t < lo + 4 * count:
+            raise SystemExit("%s: entry points into the table itself" % label)
+        else:
+            names[t] = new[t] = ("%s_%04d" % (prefix, i)) if prefix else "gUnk_%08X" % (ROM_BASE + t)
+    made = cut(new)
+    if made != len(new):
+        raise SystemExit("%s: %d target(s) are not inside a raw range (already typed source?)" % (label, len(new) - made))
+    replace_range(lo, lo + 4 * count, "\n".join("\t.4byte %s" % (names[t] if t != -ROM_BASE else "0") for t in targets))
+    print("%s: %d pointers, %d new objects" % (label, count, len(new)))
+    return len(new)
+
+
+def ptrtables_auto(minimum):
+    """Convert every raw object that begins with at least MINIMUM ROM pointers into the data area. The run
+    stops at the first word that is not such a pointer (or at the first address the table itself points to)."""
+    rom = rom_bytes()
+    area = data_area()
+    total = 0
+    while True:
+        objects = raw_objects()
+        todo = None
+        for lo in sorted(objects):
+            label, size = objects[lo]
+            if label.startswith(("gSong", "gSoundSample", "gRes")):
+                continue
+            n, limit = 0, lo + size
+            while lo + 4 * n + 4 <= limit:
+                t = struct.unpack_from("<I", rom, lo + 4 * n)[0] - ROM_BASE
+                if not area[0] <= t < area[1]:
+                    break
+                if lo < t < limit:
+                    limit = min(limit, t)
+                n += 1
+            if n >= minimum:
+                todo = (label, n)
+                break
+        if not todo:
+            return total
+        total += ptrtable(*todo) + 1
+
+
 if __name__ == "__main__":
     if len(sys.argv) >= 2 and sys.argv[1] == "m4a":
         m4a()
     elif len(sys.argv) == 4 and sys.argv[1] == "ssdt":
         ssdt(sys.argv[2], sys.argv[3])
+    elif len(sys.argv) in (4, 5) and sys.argv[1] == "ptrtable":
+        ptrtable(sys.argv[2], int(sys.argv[3], 0), sys.argv[4] if len(sys.argv) == 5 else None)
+    elif len(sys.argv) == 3 and sys.argv[1] == "ptrtables":
+        print("%d object(s) written" % ptrtables_auto(int(sys.argv[2], 0)))
     elif len(sys.argv) == 3 and sys.argv[1] == "cuts":
         wanted = {}
         for line in Path(sys.argv[2]).read_text(encoding="utf-8").splitlines():

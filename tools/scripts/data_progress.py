@@ -31,7 +31,7 @@ GREEN, MINT, GREY, BG, PANEL, FG, DIM = "#3fb950", "#aff5b4", "#6e7681", "#0d111
 TYPED_PREFIXES = {"gSoundSample_": "m4a sample", "gSong_": "m4a song header or track", "gSongEmpty": "m4a song header"}
 # Label prefixes whose boundaries are exact because a container's own offset table gives them
 # (data_split.py ssdt). Split, not typed: the format inside each resource is still unknown.
-SPLIT_PREFIXES = ("gResMain_", "gResAux_")
+SPLIT_PREFIXES = ("gResMain_", "gResAux_", "gTextL")
 RAW_LINE = re.compile(r'^[ 	]*(?:([A-Za-z_]\w*):|\.incbin\s+"%s"\s*,\s*(\S+?)\s*,\s*(\S+?))[ 	]*(?:@.*)?$' % re.escape(REFERENCE), re.M)
 STATE_TEXT = {"typed": "typed in source", "split": "split object, still raw bytes", "blob": "blob with known objects inside"}
 

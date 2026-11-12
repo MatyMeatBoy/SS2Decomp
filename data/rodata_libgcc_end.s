@@ -26,22 +26,29877 @@ gUnk_08366EFC:
 	.incbin "baserom.gba", 0x366EFC, 0xC8
 	.global gUnk_08366FC4
 gUnk_08366FC4:
-	.incbin "baserom.gba", 0x366FC4, 0x2402C
+	.incbin "baserom.gba", 0x366FC4, 0x12C
+	.global gTextL0_0000
+gTextL0_0000:
+	.incbin "baserom.gba", 0x3670F0, 0xE
+	.global gTextL0_0001
+gTextL0_0001:
+	.incbin "baserom.gba", 0x3670FE, 0x11
+	.global gTextL0_0002
+gTextL0_0002:
+	.incbin "baserom.gba", 0x36710F, 0x1C
+	.global gTextL0_0003
+gTextL0_0003:
+	.incbin "baserom.gba", 0x36712B, 0x22
+	.global gTextL0_0004
+gTextL0_0004:
+	.incbin "baserom.gba", 0x36714D, 0x31
+	.global gTextL0_0005
+gTextL0_0005:
+	.incbin "baserom.gba", 0x36717E, 0x35
+	.global gTextL0_0006
+gTextL0_0006:
+	.incbin "baserom.gba", 0x3671B3, 0x31
+	.global gTextL0_0007
+gTextL0_0007:
+	.incbin "baserom.gba", 0x3671E4, 0x37
+	.global gTextL0_0008
+gTextL0_0008:
+	.incbin "baserom.gba", 0x36721B, 0x22
+	.global gTextL0_0009
+gTextL0_0009:
+	.incbin "baserom.gba", 0x36723D, 0x25
+	.global gTextL0_0010
+gTextL0_0010:
+	.incbin "baserom.gba", 0x367262, 0x2F
+	.global gTextL0_0011
+gTextL0_0011:
+	.incbin "baserom.gba", 0x367291, 0x39
+	.global gTextL0_0012
+gTextL0_0012:
+	.incbin "baserom.gba", 0x3672CA, 0x27
+	.global gTextL0_0013
+gTextL0_0013:
+	.incbin "baserom.gba", 0x3672F1, 0x28
+	.global gTextL0_0014
+gTextL0_0014:
+	.incbin "baserom.gba", 0x367319, 0x2B
+	.global gTextL0_0015
+gTextL0_0015:
+	.incbin "baserom.gba", 0x367344, 0x24
+	.global gTextL0_0016
+gTextL0_0016:
+	.incbin "baserom.gba", 0x367368, 0x27
+	.global gTextL0_0017
+gTextL0_0017:
+	.incbin "baserom.gba", 0x36738F, 0x33
+	.global gTextL0_0018
+gTextL0_0018:
+	.incbin "baserom.gba", 0x3673C2, 0x15
+	.global gTextL0_0019
+gTextL0_0019:
+	.incbin "baserom.gba", 0x3673D7, 0x36
+	.global gTextL0_0020
+gTextL0_0020:
+	.incbin "baserom.gba", 0x36740D, 0x36
+	.global gTextL0_0021
+gTextL0_0021:
+	.incbin "baserom.gba", 0x367443, 0x29
+	.global gTextL0_0022
+gTextL0_0022:
+	.incbin "baserom.gba", 0x36746C, 0x27
+	.global gTextL0_0023
+gTextL0_0023:
+	.incbin "baserom.gba", 0x367493, 0x2A
+	.global gTextL0_0024
+gTextL0_0024:
+	.incbin "baserom.gba", 0x3674BD, 0xF
+	.global gTextL0_0025
+gTextL0_0025:
+	.incbin "baserom.gba", 0x3674CC, 0x37
+	.global gTextL0_0026
+gTextL0_0026:
+	.incbin "baserom.gba", 0x367503, 0x30
+	.global gTextL0_0027
+gTextL0_0027:
+	.incbin "baserom.gba", 0x367533, 0x1E
+	.global gTextL0_0028
+gTextL0_0028:
+	.incbin "baserom.gba", 0x367551, 0x33
+	.global gTextL0_0029
+gTextL0_0029:
+	.incbin "baserom.gba", 0x367584, 0x6C
+	.global gTextL0_0030
+gTextL0_0030:
+	.incbin "baserom.gba", 0x3675F0, 0x33
+	.global gTextL0_0031
+gTextL0_0031:
+	.incbin "baserom.gba", 0x367623, 0x31
+	.global gTextL0_0032
+gTextL0_0032:
+	.incbin "baserom.gba", 0x367654, 0x1C
+	.global gTextL0_0033
+gTextL0_0033:
+	.incbin "baserom.gba", 0x367670, 0x2A
+	.global gTextL0_0034
+gTextL0_0034:
+	.incbin "baserom.gba", 0x36769A, 0x83
+	.global gTextL0_0035
+gTextL0_0035:
+	.incbin "baserom.gba", 0x36771D, 0x3A
+	.global gTextL0_0036
+gTextL0_0036:
+	.incbin "baserom.gba", 0x367757, 0x2D
+	.global gTextL0_0037
+gTextL0_0037:
+	.incbin "baserom.gba", 0x367784, 0x28
+	.global gTextL0_0038
+gTextL0_0038:
+	.incbin "baserom.gba", 0x3677AC, 0x32
+	.global gTextL0_0039
+gTextL0_0039:
+	.incbin "baserom.gba", 0x3677DE, 0x6E
+	.global gTextL0_0040
+gTextL0_0040:
+	.incbin "baserom.gba", 0x36784C, 0x34
+	.global gTextL0_0041
+gTextL0_0041:
+	.incbin "baserom.gba", 0x367880, 0x17
+	.global gTextL0_0042
+gTextL0_0042:
+	.incbin "baserom.gba", 0x367897, 0x32
+	.global gTextL0_0043
+gTextL0_0043:
+	.incbin "baserom.gba", 0x3678C9, 0x18
+	.global gTextL0_0044
+gTextL0_0044:
+	.incbin "baserom.gba", 0x3678E1, 0x1D
+	.global gTextL0_0045
+gTextL0_0045:
+	.incbin "baserom.gba", 0x3678FE, 0x20
+	.global gTextL0_0046
+gTextL0_0046:
+	.incbin "baserom.gba", 0x36791E, 0x28
+	.global gTextL0_0047
+gTextL0_0047:
+	.incbin "baserom.gba", 0x367946, 0x5D
+	.global gTextL0_0048
+gTextL0_0048:
+	.incbin "baserom.gba", 0x3679A3, 0x12A
+	.global gTextL0_0049
+gTextL0_0049:
+	.incbin "baserom.gba", 0x367ACD, 0x6D
+	.global gTextL0_0050
+gTextL0_0050:
+	.incbin "baserom.gba", 0x367B3A, 0x10F
+	.global gTextL0_0051
+gTextL0_0051:
+	.incbin "baserom.gba", 0x367C49, 0x31
+	.global gTextL0_0052
+gTextL0_0052:
+	.incbin "baserom.gba", 0x367C7A, 0x29
+	.global gTextL0_0053
+gTextL0_0053:
+	.incbin "baserom.gba", 0x367CA3, 0x64
+	.global gTextL0_0054
+gTextL0_0054:
+	.incbin "baserom.gba", 0x367D07, 0x38
+	.global gTextL0_0055
+gTextL0_0055:
+	.incbin "baserom.gba", 0x367D3F, 0x52
+	.global gTextL0_0056
+gTextL0_0056:
+	.incbin "baserom.gba", 0x367D91, 0x9D
+	.global gTextL0_0057
+gTextL0_0057:
+	.incbin "baserom.gba", 0x367E2E, 0xD4
+	.global gTextL0_0058
+gTextL0_0058:
+	.incbin "baserom.gba", 0x367F02, 0x47
+	.global gTextL0_0059
+gTextL0_0059:
+	.incbin "baserom.gba", 0x367F49, 0xB5
+	.global gTextL0_0060
+gTextL0_0060:
+	.incbin "baserom.gba", 0x367FFE, 0x6F
+	.global gTextL0_0061
+gTextL0_0061:
+	.incbin "baserom.gba", 0x36806D, 0x5A
+	.global gTextL0_0062
+gTextL0_0062:
+	.incbin "baserom.gba", 0x3680C7, 0xA
+	.global gTextL0_0063
+gTextL0_0063:
+	.incbin "baserom.gba", 0x3680D1, 0x12A
+	.global gTextL0_0064
+gTextL0_0064:
+	.incbin "baserom.gba", 0x3681FB, 0x183
+	.global gTextL0_0065
+gTextL0_0065:
+	.incbin "baserom.gba", 0x36837E, 0x39
+	.global gTextL0_0066
+gTextL0_0066:
+	.incbin "baserom.gba", 0x3683B7, 0x10E
+	.global gTextL0_0067
+gTextL0_0067:
+	.incbin "baserom.gba", 0x3684C5, 0xD1
+	.global gTextL0_0068
+gTextL0_0068:
+	.incbin "baserom.gba", 0x368596, 0x30
+	.global gTextL0_0069
+gTextL0_0069:
+	.incbin "baserom.gba", 0x3685C6, 0x17
+	.global gTextL0_0070
+gTextL0_0070:
+	.incbin "baserom.gba", 0x3685DD, 0x124
+	.global gTextL0_0071
+gTextL0_0071:
+	.incbin "baserom.gba", 0x368701, 0x13A
+	.global gTextL0_0072
+gTextL0_0072:
+	.incbin "baserom.gba", 0x36883B, 0x17A
+	.global gTextL0_0073
+gTextL0_0073:
+	.incbin "baserom.gba", 0x3689B5, 0x35
+	.global gTextL0_0074
+gTextL0_0074:
+	.incbin "baserom.gba", 0x3689EA, 0x4B
+	.global gTextL0_0075
+gTextL0_0075:
+	.incbin "baserom.gba", 0x368A35, 0x40
+	.global gTextL0_0076
+gTextL0_0076:
+	.incbin "baserom.gba", 0x368A75, 0x28
+	.global gTextL0_0077
+gTextL0_0077:
+	.incbin "baserom.gba", 0x368A9D, 0x1E
+	.global gTextL0_0078
+gTextL0_0078:
+	.incbin "baserom.gba", 0x368ABB, 0x4A
+	.global gTextL0_0079
+gTextL0_0079:
+	.incbin "baserom.gba", 0x368B05, 0x153
+	.global gTextL0_0080
+gTextL0_0080:
+	.incbin "baserom.gba", 0x368C58, 0x1B
+	.global gTextL0_0081
+gTextL0_0081:
+	.incbin "baserom.gba", 0x368C73, 0x31
+	.global gTextL0_0082
+gTextL0_0082:
+	.incbin "baserom.gba", 0x368CA4, 0x13
+	.global gTextL0_0083
+gTextL0_0083:
+	.incbin "baserom.gba", 0x368CB7, 0x26
+	.global gTextL0_0084
+gTextL0_0084:
+	.incbin "baserom.gba", 0x368CDD, 0x1D
+	.global gTextL0_0085
+gTextL0_0085:
+	.incbin "baserom.gba", 0x368CFA, 0x32
+	.global gTextL0_0086
+gTextL0_0086:
+	.incbin "baserom.gba", 0x368D2C, 0x2B
+	.global gTextL0_0087
+gTextL0_0087:
+	.incbin "baserom.gba", 0x368D57, 0x48
+	.global gTextL0_0088
+gTextL0_0088:
+	.incbin "baserom.gba", 0x368D9F, 0x23E
+	.global gTextL0_0089
+gTextL0_0089:
+	.incbin "baserom.gba", 0x368FDD, 0x109
+	.global gTextL0_0090
+gTextL0_0090:
+	.incbin "baserom.gba", 0x3690E6, 0x2D
+	.global gTextL0_0091
+gTextL0_0091:
+	.incbin "baserom.gba", 0x369113, 0x11
+	.global gTextL0_0092
+gTextL0_0092:
+	.incbin "baserom.gba", 0x369124, 0xE
+	.global gTextL0_0093
+gTextL0_0093:
+	.incbin "baserom.gba", 0x369132, 0xB
+	.global gTextL0_0094
+gTextL0_0094:
+	.incbin "baserom.gba", 0x36913D, 0x1E5
+	.global gTextL0_0095
+gTextL0_0095:
+	.incbin "baserom.gba", 0x369322, 0xAE
+	.global gTextL0_0096
+gTextL0_0096:
+	.incbin "baserom.gba", 0x3693D0, 0x2A7
+	.global gTextL0_0097
+gTextL0_0097:
+	.incbin "baserom.gba", 0x369677, 0x165
+	.global gTextL0_0098
+gTextL0_0098:
+	.incbin "baserom.gba", 0x3697DC, 0x1C9
+	.global gTextL0_0099
+gTextL0_0099:
+	.incbin "baserom.gba", 0x3699A5, 0x46
+	.global gTextL0_0100
+gTextL0_0100:
+	.incbin "baserom.gba", 0x3699EB, 0xD
+	.global gTextL0_0101
+gTextL0_0101:
+	.incbin "baserom.gba", 0x3699F8, 0x1A2
+	.global gTextL0_0102
+gTextL0_0102:
+	.incbin "baserom.gba", 0x369B9A, 0x13F
+	.global gTextL0_0103
+gTextL0_0103:
+	.incbin "baserom.gba", 0x369CD9, 0x55
+	.global gTextL0_0104
+gTextL0_0104:
+	.incbin "baserom.gba", 0x369D2E, 0x122
+	.global gTextL0_0105
+gTextL0_0105:
+	.incbin "baserom.gba", 0x369E50, 0x27E
+	.global gTextL0_0106
+gTextL0_0106:
+	.incbin "baserom.gba", 0x36A0CE, 0x15B
+	.global gTextL0_0107
+gTextL0_0107:
+	.incbin "baserom.gba", 0x36A229, 0x1B
+	.global gTextL0_0108
+gTextL0_0108:
+	.incbin "baserom.gba", 0x36A244, 0x46
+	.global gTextL0_0109
+gTextL0_0109:
+	.incbin "baserom.gba", 0x36A28A, 0x30
+	.global gTextL0_0110
+gTextL0_0110:
+	.incbin "baserom.gba", 0x36A2BA, 0x2A
+	.global gTextL0_0111
+gTextL0_0111:
+	.incbin "baserom.gba", 0x36A2E4, 0x25
+	.global gTextL0_0112
+gTextL0_0112:
+	.incbin "baserom.gba", 0x36A309, 0x2F
+	.global gTextL0_0113
+gTextL0_0113:
+	.incbin "baserom.gba", 0x36A338, 0x43
+	.global gTextL0_0114
+gTextL0_0114:
+	.incbin "baserom.gba", 0x36A37B, 0x19
+	.global gTextL0_0115
+gTextL0_0115:
+	.incbin "baserom.gba", 0x36A394, 0x36
+	.global gTextL0_0116
+gTextL0_0116:
+	.incbin "baserom.gba", 0x36A3CA, 0x67
+	.global gTextL0_0117
+gTextL0_0117:
+	.incbin "baserom.gba", 0x36A431, 0x4C
+	.global gTextL0_0118
+gTextL0_0118:
+	.incbin "baserom.gba", 0x36A47D, 0x76
+	.global gTextL0_0119
+gTextL0_0119:
+	.incbin "baserom.gba", 0x36A4F3, 0x26
+	.global gTextL0_0120
+gTextL0_0120:
+	.incbin "baserom.gba", 0x36A519, 0x42
+	.global gTextL0_0121
+gTextL0_0121:
+	.incbin "baserom.gba", 0x36A55B, 0x63
+	.global gTextL0_0122
+gTextL0_0122:
+	.incbin "baserom.gba", 0x36A5BE, 0x37
+	.global gTextL0_0123
+gTextL0_0123:
+	.incbin "baserom.gba", 0x36A5F5, 0x39
+	.global gTextL0_0124
+gTextL0_0124:
+	.incbin "baserom.gba", 0x36A62E, 0x2B
+	.global gTextL0_0125
+gTextL0_0125:
+	.incbin "baserom.gba", 0x36A659, 0x2C
+	.global gTextL0_0126
+gTextL0_0126:
+	.incbin "baserom.gba", 0x36A685, 0x40
+	.global gTextL0_0127
+gTextL0_0127:
+	.incbin "baserom.gba", 0x36A6C5, 0x8B
+	.global gTextL0_0128
+gTextL0_0128:
+	.incbin "baserom.gba", 0x36A750, 0x5E
+	.global gTextL0_0129
+gTextL0_0129:
+	.incbin "baserom.gba", 0x36A7AE, 0x6
+	.global gTextL0_0130
+gTextL0_0130:
+	.incbin "baserom.gba", 0x36A7B4, 0xA
+	.global gTextL0_0131
+gTextL0_0131:
+	.incbin "baserom.gba", 0x36A7BE, 0x10
+	.global gTextL0_0132
+gTextL0_0132:
+	.incbin "baserom.gba", 0x36A7CE, 0x2C
+	.global gTextL0_0133
+gTextL0_0133:
+	.incbin "baserom.gba", 0x36A7FA, 0x20
+	.global gTextL0_0134
+gTextL0_0134:
+	.incbin "baserom.gba", 0x36A81A, 0x36
+	.global gTextL0_0135
+gTextL0_0135:
+	.incbin "baserom.gba", 0x36A850, 0x1F
+	.global gTextL0_0136
+gTextL0_0136:
+	.incbin "baserom.gba", 0x36A86F, 0x4B
+	.global gTextL0_0137
+gTextL0_0137:
+	.incbin "baserom.gba", 0x36A8BA, 0x98
+	.global gTextL0_0138
+gTextL0_0138:
+	.incbin "baserom.gba", 0x36A952, 0x52
+	.global gTextL0_0139
+gTextL0_0139:
+	.incbin "baserom.gba", 0x36A9A4, 0x19E
+	.global gTextL0_0140
+gTextL0_0140:
+	.incbin "baserom.gba", 0x36AB42, 0xA4
+	.global gTextL0_0141
+gTextL0_0141:
+	.incbin "baserom.gba", 0x36ABE6, 0xF
+	.global gTextL0_0142
+gTextL0_0142:
+	.incbin "baserom.gba", 0x36ABF5, 0x26
+	.global gTextL0_0143
+gTextL0_0143:
+	.incbin "baserom.gba", 0x36AC1B, 0x1C
+	.global gTextL0_0144
+gTextL0_0144:
+	.incbin "baserom.gba", 0x36AC37, 0xCE
+	.global gTextL0_0145
+gTextL0_0145:
+	.incbin "baserom.gba", 0x36AD05, 0xD0
+	.global gTextL0_0146
+gTextL0_0146:
+	.incbin "baserom.gba", 0x36ADD5, 0x4C
+	.global gTextL0_0147
+gTextL0_0147:
+	.incbin "baserom.gba", 0x36AE21, 0x145
+	.global gTextL0_0148
+gTextL0_0148:
+	.incbin "baserom.gba", 0x36AF66, 0x54
+	.global gTextL0_0149
+gTextL0_0149:
+	.incbin "baserom.gba", 0x36AFBA, 0xBE
+	.global gTextL0_0150
+gTextL0_0150:
+	.incbin "baserom.gba", 0x36B078, 0x111
+	.global gTextL0_0151
+gTextL0_0151:
+	.incbin "baserom.gba", 0x36B189, 0x4D
+	.global gTextL0_0152
+gTextL0_0152:
+	.incbin "baserom.gba", 0x36B1D6, 0x12F
+	.global gTextL0_0153
+gTextL0_0153:
+	.incbin "baserom.gba", 0x36B305, 0x126
+	.global gTextL0_0154
+gTextL0_0154:
+	.incbin "baserom.gba", 0x36B42B, 0x58
+	.global gTextL0_0155
+gTextL0_0155:
+	.incbin "baserom.gba", 0x36B483, 0xD1
+	.global gTextL0_0156
+gTextL0_0156:
+	.incbin "baserom.gba", 0x36B554, 0x160
+	.global gTextL0_0157
+gTextL0_0157:
+	.incbin "baserom.gba", 0x36B6B4, 0x56
+	.global gTextL0_0158
+gTextL0_0158:
+	.incbin "baserom.gba", 0x36B70A, 0x1DD
+	.global gTextL0_0159
+gTextL0_0159:
+	.incbin "baserom.gba", 0x36B8E7, 0x49B
+	.global gTextL0_0160
+gTextL0_0160:
+	.incbin "baserom.gba", 0x36BD82, 0x351
+	.global gTextL0_0161
+gTextL0_0161:
+	.incbin "baserom.gba", 0x36C0D3, 0x30
+	.global gTextL0_0162
+gTextL0_0162:
+	.incbin "baserom.gba", 0x36C103, 0x223
+	.global gTextL0_0163
+gTextL0_0163:
+	.incbin "baserom.gba", 0x36C326, 0x5E
+	.global gTextL0_0164
+gTextL0_0164:
+	.incbin "baserom.gba", 0x36C384, 0x192
+	.global gTextL0_0165
+gTextL0_0165:
+	.incbin "baserom.gba", 0x36C516, 0x30D
+	.global gTextL0_0166
+gTextL0_0166:
+	.incbin "baserom.gba", 0x36C823, 0x301
+	.global gTextL0_0167
+gTextL0_0167:
+	.incbin "baserom.gba", 0x36CB24, 0x2A1
+	.global gTextL0_0168
+gTextL0_0168:
+	.incbin "baserom.gba", 0x36CDC5, 0x13E
+	.global gTextL0_0169
+gTextL0_0169:
+	.incbin "baserom.gba", 0x36CF03, 0x20
+	.global gTextL0_0170
+gTextL0_0170:
+	.incbin "baserom.gba", 0x36CF23, 0x3F
+	.global gTextL0_0171
+gTextL0_0171:
+	.incbin "baserom.gba", 0x36CF62, 0x4B
+	.global gTextL0_0172
+gTextL0_0172:
+	.incbin "baserom.gba", 0x36CFAD, 0x29
+	.global gTextL0_0173
+gTextL0_0173:
+	.incbin "baserom.gba", 0x36CFD6, 0x18D
+	.global gTextL0_0174
+gTextL0_0174:
+	.incbin "baserom.gba", 0x36D163, 0x1C6
+	.global gTextL0_0175
+gTextL0_0175:
+	.incbin "baserom.gba", 0x36D329, 0x11F
+	.global gTextL0_0176
+gTextL0_0176:
+	.incbin "baserom.gba", 0x36D448, 0x1E7
+	.global gTextL0_0177
+gTextL0_0177:
+	.incbin "baserom.gba", 0x36D62F, 0x1A9
+	.global gTextL0_0178
+gTextL0_0178:
+	.incbin "baserom.gba", 0x36D7D8, 0x119
+	.global gTextL0_0179
+gTextL0_0179:
+	.incbin "baserom.gba", 0x36D8F1, 0x1EA
+	.global gTextL0_0180
+gTextL0_0180:
+	.incbin "baserom.gba", 0x36DADB, 0xE5
+	.global gTextL0_0181
+gTextL0_0181:
+	.incbin "baserom.gba", 0x36DBC0, 0x25C
+	.global gTextL0_0182
+gTextL0_0182:
+	.incbin "baserom.gba", 0x36DE1C, 0x155
+	.global gTextL0_0183
+gTextL0_0183:
+	.incbin "baserom.gba", 0x36DF71, 0x142
+	.global gTextL0_0184
+gTextL0_0184:
+	.incbin "baserom.gba", 0x36E0B3, 0xEE
+	.global gTextL0_0185
+gTextL0_0185:
+	.incbin "baserom.gba", 0x36E1A1, 0x134
+	.global gTextL0_0186
+gTextL0_0186:
+	.incbin "baserom.gba", 0x36E2D5, 0x25
+	.global gTextL0_0187
+gTextL0_0187:
+	.incbin "baserom.gba", 0x36E2FA, 0x128
+	.global gTextL0_0188
+gTextL0_0188:
+	.incbin "baserom.gba", 0x36E422, 0x139
+	.global gTextL0_0189
+gTextL0_0189:
+	.incbin "baserom.gba", 0x36E55B, 0x139
+	.global gTextL0_0190
+gTextL0_0190:
+	.incbin "baserom.gba", 0x36E694, 0x191
+	.global gTextL0_0191
+gTextL0_0191:
+	.incbin "baserom.gba", 0x36E825, 0x254
+	.global gTextL0_0192
+gTextL0_0192:
+	.incbin "baserom.gba", 0x36EA79, 0x19F
+	.global gTextL0_0193
+gTextL0_0193:
+	.incbin "baserom.gba", 0x36EC18, 0x1FB
+	.global gTextL0_0194
+gTextL0_0194:
+	.incbin "baserom.gba", 0x36EE13, 0x2E2
+	.global gTextL0_0195
+gTextL0_0195:
+	.incbin "baserom.gba", 0x36F0F5, 0xB3
+	.global gTextL0_0196
+gTextL0_0196:
+	.incbin "baserom.gba", 0x36F1A8, 0x109
+	.global gTextL0_0197
+gTextL0_0197:
+	.incbin "baserom.gba", 0x36F2B1, 0x111
+	.global gTextL0_0198
+gTextL0_0198:
+	.incbin "baserom.gba", 0x36F3C2, 0xF4
+	.global gTextL0_0199
+gTextL0_0199:
+	.incbin "baserom.gba", 0x36F4B6, 0x159
+	.global gTextL0_0200
+gTextL0_0200:
+	.incbin "baserom.gba", 0x36F60F, 0x15C
+	.global gTextL0_0201
+gTextL0_0201:
+	.incbin "baserom.gba", 0x36F76B, 0x19C
+	.global gTextL0_0202
+gTextL0_0202:
+	.incbin "baserom.gba", 0x36F907, 0xEC
+	.global gTextL0_0203
+gTextL0_0203:
+	.incbin "baserom.gba", 0x36F9F3, 0x1A8
+	.global gTextL0_0204
+gTextL0_0204:
+	.incbin "baserom.gba", 0x36FB9B, 0x1F6
+	.global gTextL0_0205
+gTextL0_0205:
+	.incbin "baserom.gba", 0x36FD91, 0x3B
+	.global gTextL0_0206
+gTextL0_0206:
+	.incbin "baserom.gba", 0x36FDCC, 0x1C
+	.global gTextL0_0207
+gTextL0_0207:
+	.incbin "baserom.gba", 0x36FDE8, 0x19
+	.global gTextL0_0208
+gTextL0_0208:
+	.incbin "baserom.gba", 0x36FE01, 0x1E
+	.global gTextL0_0209
+gTextL0_0209:
+	.incbin "baserom.gba", 0x36FE1F, 0x31
+	.global gTextL0_0210
+gTextL0_0210:
+	.incbin "baserom.gba", 0x36FE50, 0x16E
+	.global gTextL0_0211
+gTextL0_0211:
+	.incbin "baserom.gba", 0x36FFBE, 0xAD
+	.global gTextL0_0212
+gTextL0_0212:
+	.incbin "baserom.gba", 0x37006B, 0xEC
+	.global gTextL0_0213
+gTextL0_0213:
+	.incbin "baserom.gba", 0x370157, 0x107
+	.global gTextL0_0214
+gTextL0_0214:
+	.incbin "baserom.gba", 0x37025E, 0x17E
+	.global gTextL0_0215
+gTextL0_0215:
+	.incbin "baserom.gba", 0x3703DC, 0x160
+	.global gTextL0_0216
+gTextL0_0216:
+	.incbin "baserom.gba", 0x37053C, 0x11F
+	.global gTextL0_0217
+gTextL0_0217:
+	.incbin "baserom.gba", 0x37065B, 0x118
+	.global gTextL0_0218
+gTextL0_0218:
+	.incbin "baserom.gba", 0x370773, 0x1A4
+	.global gTextL0_0219
+gTextL0_0219:
+	.incbin "baserom.gba", 0x370917, 0xC4
+	.global gTextL0_0220
+gTextL0_0220:
+	.incbin "baserom.gba", 0x3709DB, 0x1A
+	.global gTextL0_0221
+gTextL0_0221:
+	.incbin "baserom.gba", 0x3709F5, 0x22
+	.global gTextL0_0222
+gTextL0_0222:
+	.incbin "baserom.gba", 0x370A17, 0x26
+	.global gTextL0_0223
+gTextL0_0223:
+	.incbin "baserom.gba", 0x370A3D, 0x2E
+	.global gTextL0_0224
+gTextL0_0224:
+	.incbin "baserom.gba", 0x370A6B, 0x2D
+	.global gTextL0_0225
+gTextL0_0225:
+	.incbin "baserom.gba", 0x370A98, 0x374
+	.global gTextL0_0226
+gTextL0_0226:
+	.incbin "baserom.gba", 0x370E0C, 0x18
+	.global gTextL0_0227
+gTextL0_0227:
+	.incbin "baserom.gba", 0x370E24, 0x1B
+	.global gTextL0_0228
+gTextL0_0228:
+	.incbin "baserom.gba", 0x370E3F, 0x1D
+	.global gTextL0_0229
+gTextL0_0229:
+	.incbin "baserom.gba", 0x370E5C, 0x1A
+	.global gTextL0_0230
+gTextL0_0230:
+	.incbin "baserom.gba", 0x370E76, 0x1B
+	.global gTextL0_0231
+gTextL0_0231:
+	.incbin "baserom.gba", 0x370E91, 0x1B
+	.global gTextL0_0232
+gTextL0_0232:
+	.incbin "baserom.gba", 0x370EAC, 0x2F
+	.global gTextL0_0233
+gTextL0_0233:
+	.incbin "baserom.gba", 0x370EDB, 0x1A
+	.global gTextL0_0234
+gTextL0_0234:
+	.incbin "baserom.gba", 0x370EF5, 0x11A
+	.global gTextL0_0235
+gTextL0_0235:
+	.incbin "baserom.gba", 0x37100F, 0x112
+	.global gTextL0_0236
+gTextL0_0236:
+	.incbin "baserom.gba", 0x371121, 0x17D
+	.global gTextL0_0237
+gTextL0_0237:
+	.incbin "baserom.gba", 0x37129E, 0x19D
+	.global gTextL0_0238
+gTextL0_0238:
+	.incbin "baserom.gba", 0x37143B, 0x1EC
+	.global gTextL0_0239
+gTextL0_0239:
+	.incbin "baserom.gba", 0x371627, 0xAE
+	.global gTextL0_0240
+gTextL0_0240:
+	.incbin "baserom.gba", 0x3716D5, 0x9A
+	.global gTextL0_0241
+gTextL0_0241:
+	.incbin "baserom.gba", 0x37176F, 0x172
+	.global gTextL0_0242
+gTextL0_0242:
+	.incbin "baserom.gba", 0x3718E1, 0x251
+	.global gTextL0_0243
+gTextL0_0243:
+	.incbin "baserom.gba", 0x371B32, 0xAE
+	.global gTextL0_0244
+gTextL0_0244:
+	.incbin "baserom.gba", 0x371BE0, 0x6C
+	.global gTextL0_0245
+gTextL0_0245:
+	.incbin "baserom.gba", 0x371C4C, 0x176
+	.global gTextL0_0246
+gTextL0_0246:
+	.incbin "baserom.gba", 0x371DC2, 0x8F
+	.global gTextL0_0247
+gTextL0_0247:
+	.incbin "baserom.gba", 0x371E51, 0x2AC
+	.global gTextL0_0248
+gTextL0_0248:
+	.incbin "baserom.gba", 0x3720FD, 0x13
+	.global gTextL0_0249
+gTextL0_0249:
+	.incbin "baserom.gba", 0x372110, 0x3A
+	.global gTextL0_0250
+gTextL0_0250:
+	.incbin "baserom.gba", 0x37214A, 0x11B
+	.global gTextL0_0251
+gTextL0_0251:
+	.incbin "baserom.gba", 0x372265, 0x8B
+	.global gTextL0_0252
+gTextL0_0252:
+	.incbin "baserom.gba", 0x3722F0, 0x2AC
+	.global gTextL0_0253
+gTextL0_0253:
+	.incbin "baserom.gba", 0x37259C, 0x13
+	.global gTextL0_0254
+gTextL0_0254:
+	.incbin "baserom.gba", 0x3725AF, 0xA4
+	.global gTextL0_0255
+gTextL0_0255:
+	.incbin "baserom.gba", 0x372653, 0x49D
+	.global gTextL0_0256
+gTextL0_0256:
+	.incbin "baserom.gba", 0x372AF0, 0x38C
+	.global gTextL0_0257
+gTextL0_0257:
+	.incbin "baserom.gba", 0x372E7C, 0x43C
+	.global gTextL0_0258
+gTextL0_0258:
+	.incbin "baserom.gba", 0x3732B8, 0x593
+	.global gTextL0_0259
+gTextL0_0259:
+	.incbin "baserom.gba", 0x37384B, 0x4BC
+	.global gTextL0_0260
+gTextL0_0260:
+	.incbin "baserom.gba", 0x373D07, 0x1A7
+	.global gTextL0_0261
+gTextL0_0261:
+	.incbin "baserom.gba", 0x373EAE, 0x357
+	.global gTextL0_0262
+gTextL0_0262:
+	.incbin "baserom.gba", 0x374205, 0x690
+	.global gTextL0_0263
+gTextL0_0263:
+	.incbin "baserom.gba", 0x374895, 0x29
+	.global gTextL0_0264
+gTextL0_0264:
+	.incbin "baserom.gba", 0x3748BE, 0x85
+	.global gTextL0_0265
+gTextL0_0265:
+	.incbin "baserom.gba", 0x374943, 0x88
+	.global gTextL0_0266
+gTextL0_0266:
+	.incbin "baserom.gba", 0x3749CB, 0x6C
+	.global gTextL0_0267
+gTextL0_0267:
+	.incbin "baserom.gba", 0x374A37, 0xC9
+	.global gTextL0_0268
+gTextL0_0268:
+	.incbin "baserom.gba", 0x374B00, 0xAF
+	.global gTextL0_0269
+gTextL0_0269:
+	.incbin "baserom.gba", 0x374BAF, 0x86
+	.global gTextL0_0270
+gTextL0_0270:
+	.incbin "baserom.gba", 0x374C35, 0x11B
+	.global gTextL0_0271
+gTextL0_0271:
+	.incbin "baserom.gba", 0x374D50, 0x15A
+	.global gTextL0_0272
+gTextL0_0272:
+	.incbin "baserom.gba", 0x374EAA, 0x125
+	.global gTextL0_0273
+gTextL0_0273:
+	.incbin "baserom.gba", 0x374FCF, 0x19F
+	.global gTextL0_0274
+gTextL0_0274:
+	.incbin "baserom.gba", 0x37516E, 0x83
+	.global gTextL0_0275
+gTextL0_0275:
+	.incbin "baserom.gba", 0x3751F1, 0x234
+	.global gTextL0_0276
+gTextL0_0276:
+	.incbin "baserom.gba", 0x375425, 0x1D
+	.global gTextL0_0277
+gTextL0_0277:
+	.incbin "baserom.gba", 0x375442, 0x7E
+	.global gTextL0_0278
+gTextL0_0278:
+	.incbin "baserom.gba", 0x3754C0, 0x6E
+	.global gTextL0_0279
+gTextL0_0279:
+	.incbin "baserom.gba", 0x37552E, 0x77
+	.global gTextL0_0280
+gTextL0_0280:
+	.incbin "baserom.gba", 0x3755A5, 0x10C
+	.global gTextL0_0281
+gTextL0_0281:
+	.incbin "baserom.gba", 0x3756B1, 0x11E
+	.global gTextL0_0282
+gTextL0_0282:
+	.incbin "baserom.gba", 0x3757CF, 0x12E
+	.global gTextL0_0283
+gTextL0_0283:
+	.incbin "baserom.gba", 0x3758FD, 0x131
+	.global gTextL0_0284
+gTextL0_0284:
+	.incbin "baserom.gba", 0x375A2E, 0x136
+	.global gTextL0_0285
+gTextL0_0285:
+	.incbin "baserom.gba", 0x375B64, 0x12E
+	.global gTextL0_0286
+gTextL0_0286:
+	.incbin "baserom.gba", 0x375C92, 0x12C
+	.global gTextL0_0287
+gTextL0_0287:
+	.incbin "baserom.gba", 0x375DBE, 0x11E
+	.global gTextL0_0288
+gTextL0_0288:
+	.incbin "baserom.gba", 0x375EDC, 0x139
+	.global gTextL0_0289
+gTextL0_0289:
+	.incbin "baserom.gba", 0x376015, 0x33
+	.global gTextL0_0290
+gTextL0_0290:
+	.incbin "baserom.gba", 0x376048, 0x28
+	.global gTextL0_0291
+gTextL0_0291:
+	.incbin "baserom.gba", 0x376070, 0x29
+	.global gTextL0_0292
+gTextL0_0292:
+	.incbin "baserom.gba", 0x376099, 0x32
+	.global gTextL0_0293
+gTextL0_0293:
+	.incbin "baserom.gba", 0x3760CB, 0x15
+	.global gTextL0_0294
+gTextL0_0294:
+	.incbin "baserom.gba", 0x3760E0, 0x2E
+	.global gTextL0_0295
+gTextL0_0295:
+	.incbin "baserom.gba", 0x37610E, 0x35
+	.global gTextL0_0296
+gTextL0_0296:
+	.incbin "baserom.gba", 0x376143, 0x61
+	.global gTextL0_0297
+gTextL0_0297:
+	.incbin "baserom.gba", 0x3761A4, 0x5D
+	.global gTextL0_0298
+gTextL0_0298:
+	.incbin "baserom.gba", 0x376201, 0x49
+	.global gTextL0_0299
+gTextL0_0299:
+	.incbin "baserom.gba", 0x37624A, 0x5E
+	.global gTextL0_0300
+gTextL0_0300:
+	.incbin "baserom.gba", 0x3762A8, 0x58
+	.global gTextL0_0301
+gTextL0_0301:
+	.incbin "baserom.gba", 0x376300, 0x58
+	.global gTextL0_0302
+gTextL0_0302:
+	.incbin "baserom.gba", 0x376358, 0x5B
+	.global gTextL0_0303
+gTextL0_0303:
+	.incbin "baserom.gba", 0x3763B3, 0x50
+	.global gTextL0_0304
+gTextL0_0304:
+	.incbin "baserom.gba", 0x376403, 0x68
+	.global gTextL0_0305
+gTextL0_0305:
+	.incbin "baserom.gba", 0x37646B, 0x8C
+	.global gTextL0_0306
+gTextL0_0306:
+	.incbin "baserom.gba", 0x3764F7, 0x72
+	.global gTextL0_0307
+gTextL0_0307:
+	.incbin "baserom.gba", 0x376569, 0x7E
+	.global gTextL0_0308
+gTextL0_0308:
+	.incbin "baserom.gba", 0x3765E7, 0x8A
+	.global gTextL0_0309
+gTextL0_0309:
+	.incbin "baserom.gba", 0x376671, 0x69
+	.global gTextL0_0310
+gTextL0_0310:
+	.incbin "baserom.gba", 0x3766DA, 0x85
+	.global gTextL0_0311
+gTextL0_0311:
+	.incbin "baserom.gba", 0x37675F, 0x7E
+	.global gTextL0_0312
+gTextL0_0312:
+	.incbin "baserom.gba", 0x3767DD, 0x8A
+	.global gTextL0_0313
+gTextL0_0313:
+	.incbin "baserom.gba", 0x376867, 0x7B
+	.global gTextL0_0314
+gTextL0_0314:
+	.incbin "baserom.gba", 0x3768E2, 0x29
+	.global gTextL0_0315
+gTextL0_0315:
+	.incbin "baserom.gba", 0x37690B, 0x1CA
+	.global gTextL0_0316
+gTextL0_0316:
+	.incbin "baserom.gba", 0x376AD5, 0x1F4
+	.global gTextL0_0317
+gTextL0_0317:
+	.incbin "baserom.gba", 0x376CC9, 0x1F7
+	.global gTextL0_0318
+gTextL0_0318:
+	.incbin "baserom.gba", 0x376EC0, 0x2AF
+	.global gTextL0_0319
+gTextL0_0319:
+	.incbin "baserom.gba", 0x37716F, 0x1EA
+	.global gTextL0_0320
+gTextL0_0320:
+	.incbin "baserom.gba", 0x377359, 0x3D4
+	.global gTextL0_0321
+gTextL0_0321:
+	.incbin "baserom.gba", 0x37772D, 0x86
+	.global gTextL0_0322
+gTextL0_0322:
+	.incbin "baserom.gba", 0x3777B3, 0x57
+	.global gTextL0_0323
+gTextL0_0323:
+	.incbin "baserom.gba", 0x37780A, 0x64
+	.global gTextL0_0324
+gTextL0_0324:
+	.incbin "baserom.gba", 0x37786E, 0x89
+	.global gTextL0_0325
+gTextL0_0325:
+	.incbin "baserom.gba", 0x3778F7, 0x72
+	.global gTextL0_0326
+gTextL0_0326:
+	.incbin "baserom.gba", 0x377969, 0x51
+	.global gTextL0_0327
+gTextL0_0327:
+	.incbin "baserom.gba", 0x3779BA, 0x63
+	.global gTextL0_0328
+gTextL0_0328:
+	.incbin "baserom.gba", 0x377A1D, 0x5D
+	.global gTextL0_0329
+gTextL0_0329:
+	.incbin "baserom.gba", 0x377A7A, 0xBA
+	.global gTextL0_0330
+gTextL0_0330:
+	.incbin "baserom.gba", 0x377B34, 0x100
+	.global gTextL0_0331
+gTextL0_0331:
+	.incbin "baserom.gba", 0x377C34, 0x58
+	.global gTextL0_0332
+gTextL0_0332:
+	.incbin "baserom.gba", 0x377C8C, 0x5D
+	.global gTextL0_0333
+gTextL0_0333:
+	.incbin "baserom.gba", 0x377CE9, 0x49
+	.global gTextL0_0334
+gTextL0_0334:
+	.incbin "baserom.gba", 0x377D32, 0x55
+	.global gTextL0_0335
+gTextL0_0335:
+	.incbin "baserom.gba", 0x377D87, 0x67
+	.global gTextL0_0336
+gTextL0_0336:
+	.incbin "baserom.gba", 0x377DEE, 0x3A
+	.global gTextL0_0337
+gTextL0_0337:
+	.incbin "baserom.gba", 0x377E28, 0x69
+	.global gTextL0_0338
+gTextL0_0338:
+	.incbin "baserom.gba", 0x377E91, 0x67
+	.global gTextL0_0339
+gTextL0_0339:
+	.incbin "baserom.gba", 0x377EF8, 0x5E
+	.global gTextL0_0340
+gTextL0_0340:
+	.incbin "baserom.gba", 0x377F56, 0x5A
+	.global gTextL0_0341
+gTextL0_0341:
+	.incbin "baserom.gba", 0x377FB0, 0x56
+	.global gTextL0_0342
+gTextL0_0342:
+	.incbin "baserom.gba", 0x378006, 0x55
+	.global gTextL0_0343
+gTextL0_0343:
+	.incbin "baserom.gba", 0x37805B, 0x5C
+	.global gTextL0_0344
+gTextL0_0344:
+	.incbin "baserom.gba", 0x3780B7, 0x48
+	.global gTextL0_0345
+gTextL0_0345:
+	.incbin "baserom.gba", 0x3780FF, 0x34
+	.global gTextL0_0346
+gTextL0_0346:
+	.incbin "baserom.gba", 0x378133, 0x34
+	.global gTextL0_0347
+gTextL0_0347:
+	.incbin "baserom.gba", 0x378167, 0x2C
+	.global gTextL0_0348
+gTextL0_0348:
+	.incbin "baserom.gba", 0x378193, 0x2C
+	.global gTextL0_0349
+gTextL0_0349:
+	.incbin "baserom.gba", 0x3781BF, 0x2E
+	.global gTextL0_0350
+gTextL0_0350:
+	.incbin "baserom.gba", 0x3781ED, 0x33
+	.global gTextL0_0351
+gTextL0_0351:
+	.incbin "baserom.gba", 0x378220, 0x2C
+	.global gTextL0_0352
+gTextL0_0352:
+	.incbin "baserom.gba", 0x37824C, 0x30
+	.global gTextL0_0353
+gTextL0_0353:
+	.incbin "baserom.gba", 0x37827C, 0x34
+	.global gTextL0_0354
+gTextL0_0354:
+	.incbin "baserom.gba", 0x3782B0, 0x1C
+	.global gTextL0_0355
+gTextL0_0355:
+	.incbin "baserom.gba", 0x3782CC, 0x6D
+	.global gTextL0_0356
+gTextL0_0356:
+	.incbin "baserom.gba", 0x378339, 0x26
+	.global gTextL0_0357
+gTextL0_0357:
+	.incbin "baserom.gba", 0x37835F, 0x17
+	.global gTextL0_0358
+gTextL0_0358:
+	.incbin "baserom.gba", 0x378376, 0x20
+	.global gTextL0_0359
+gTextL0_0359:
+	.incbin "baserom.gba", 0x378396, 0x21
+	.global gTextL0_0360
+gTextL0_0360:
+	.incbin "baserom.gba", 0x3783B7, 0x28
+	.global gTextL0_0361
+gTextL0_0361:
+	.incbin "baserom.gba", 0x3783DF, 0x27
+	.global gTextL0_0362
+gTextL0_0362:
+	.incbin "baserom.gba", 0x378406, 0x33
+	.global gTextL0_0363
+gTextL0_0363:
+	.incbin "baserom.gba", 0x378439, 0x2A
+	.global gTextL0_0364
+gTextL0_0364:
+	.incbin "baserom.gba", 0x378463, 0x45
+	.global gTextL0_0365
+gTextL0_0365:
+	.incbin "baserom.gba", 0x3784A8, 0x23
+	.global gTextL0_0366
+gTextL0_0366:
+	.incbin "baserom.gba", 0x3784CB, 0x20
+	.global gTextL0_0367
+gTextL0_0367:
+	.incbin "baserom.gba", 0x3784EB, 0x36
+	.global gTextL0_0368
+gTextL0_0368:
+	.incbin "baserom.gba", 0x378521, 0x15
+	.global gTextL0_0369
+gTextL0_0369:
+	.incbin "baserom.gba", 0x378536, 0x36
+	.global gTextL0_0370
+gTextL0_0370:
+	.incbin "baserom.gba", 0x37856C, 0x21
+	.global gTextL0_0371
+gTextL0_0371:
+	.incbin "baserom.gba", 0x37858D, 0x69
+	.global gTextL0_0372
+gTextL0_0372:
+	.incbin "baserom.gba", 0x3785F6, 0x2B
+	.global gTextL0_0373
+gTextL0_0373:
+	.incbin "baserom.gba", 0x378621, 0x38
+	.global gTextL0_0374
+gTextL0_0374:
+	.incbin "baserom.gba", 0x378659, 0x9E
+	.global gTextL0_0375
+gTextL0_0375:
+	.incbin "baserom.gba", 0x3786F7, 0x6B
+	.global gTextL0_0376
+gTextL0_0376:
+	.incbin "baserom.gba", 0x378762, 0x5C
+	.global gTextL0_0377
+gTextL0_0377:
+	.incbin "baserom.gba", 0x3787BE, 0x61
+	.global gTextL0_0378
+gTextL0_0378:
+	.incbin "baserom.gba", 0x37881F, 0x60
+	.global gTextL0_0379
+gTextL0_0379:
+	.incbin "baserom.gba", 0x37887F, 0x67
+	.global gTextL0_0380
+gTextL0_0380:
+	.incbin "baserom.gba", 0x3788E6, 0x54
+	.global gTextL0_0381
+gTextL0_0381:
+	.incbin "baserom.gba", 0x37893A, 0x54
+	.global gTextL0_0382
+gTextL0_0382:
+	.incbin "baserom.gba", 0x37898E, 0x15
+	.global gTextL0_0383
+gTextL0_0383:
+	.incbin "baserom.gba", 0x3789A3, 0x2E0
+	.global gTextL0_0384
+gTextL0_0384:
+	.incbin "baserom.gba", 0x378C83, 0x59F
+	.global gTextL0_0385
+gTextL0_0385:
+	.incbin "baserom.gba", 0x379222, 0x13
+	.global gTextL0_0386
+gTextL0_0386:
+	.incbin "baserom.gba", 0x379235, 0xC
+	.global gTextL0_0387
+gTextL0_0387:
+	.incbin "baserom.gba", 0x379241, 0x11
+	.global gTextL0_0388
+gTextL0_0388:
+	.incbin "baserom.gba", 0x379252, 0x1E
+	.global gTextL0_0389
+gTextL0_0389:
+	.incbin "baserom.gba", 0x379270, 0x1E
+	.global gTextL0_0390
+gTextL0_0390:
+	.incbin "baserom.gba", 0x37928E, 0x16
+	.global gTextL0_0391
+gTextL0_0391:
+	.incbin "baserom.gba", 0x3792A4, 0xC
+	.global gTextL0_0392
+gTextL0_0392:
+	.incbin "baserom.gba", 0x3792B0, 0x1C
+	.global gTextL0_0393
+gTextL0_0393:
+	.incbin "baserom.gba", 0x3792CC, 0x1E
+	.global gTextL0_0394
+gTextL0_0394:
+	.incbin "baserom.gba", 0x3792EA, 0x1E
+	.global gTextL0_0395
+gTextL0_0395:
+	.incbin "baserom.gba", 0x379308, 0xD3
+	.global gTextL0_0396
+gTextL0_0396:
+	.incbin "baserom.gba", 0x3793DB, 0x17E
+	.global gTextL0_0397
+gTextL0_0397:
+	.incbin "baserom.gba", 0x379559, 0x249
+	.global gTextL0_0398
+gTextL0_0398:
+	.incbin "baserom.gba", 0x3797A2, 0x25
+	.global gTextL0_0399
+gTextL0_0399:
+	.incbin "baserom.gba", 0x3797C7, 0x17
+	.global gTextL0_0400
+gTextL0_0400:
+	.incbin "baserom.gba", 0x3797DE, 0x12
+	.global gTextL0_0401
+gTextL0_0401:
+	.incbin "baserom.gba", 0x3797F0, 0x1A
+	.global gTextL0_0402
+gTextL0_0402:
+	.incbin "baserom.gba", 0x37980A, 0x25
+	.global gTextL0_0403
+gTextL0_0403:
+	.incbin "baserom.gba", 0x37982F, 0x21
+	.global gTextL0_0404
+gTextL0_0404:
+	.incbin "baserom.gba", 0x379850, 0x1B
+	.global gTextL0_0405
+gTextL0_0405:
+	.incbin "baserom.gba", 0x37986B, 0x26
+	.global gTextL0_0406
+gTextL0_0406:
+	.incbin "baserom.gba", 0x379891, 0x1B
+	.global gTextL0_0407
+gTextL0_0407:
+	.incbin "baserom.gba", 0x3798AC, 0x1B
+	.global gTextL0_0408
+gTextL0_0408:
+	.incbin "baserom.gba", 0x3798C7, 0x1B
+	.global gTextL0_0409
+gTextL0_0409:
+	.incbin "baserom.gba", 0x3798E2, 0x1D
+	.global gTextL0_0410
+gTextL0_0410:
+	.incbin "baserom.gba", 0x3798FF, 0x23
+	.global gTextL0_0411
+gTextL0_0411:
+	.incbin "baserom.gba", 0x379922, 0x2A
+	.global gTextL0_0412
+gTextL0_0412:
+	.incbin "baserom.gba", 0x37994C, 0x28
+	.global gTextL0_0413
+gTextL0_0413:
+	.incbin "baserom.gba", 0x379974, 0x1C
+	.global gTextL0_0414
+gTextL0_0414:
+	.incbin "baserom.gba", 0x379990, 0x20
+	.global gTextL0_0415
+gTextL0_0415:
+	.incbin "baserom.gba", 0x3799B0, 0x2E
+	.global gTextL0_0416
+gTextL0_0416:
+	.incbin "baserom.gba", 0x3799DE, 0x26
+	.global gTextL0_0417
+gTextL0_0417:
+	.incbin "baserom.gba", 0x379A04, 0x30
+	.global gTextL0_0418
+gTextL0_0418:
+	.incbin "baserom.gba", 0x379A34, 0x25
+	.global gTextL0_0419
+gTextL0_0419:
+	.incbin "baserom.gba", 0x379A59, 0x28
+	.global gTextL0_0420
+gTextL0_0420:
+	.incbin "baserom.gba", 0x379A81, 0x32
+	.global gTextL0_0421
+gTextL0_0421:
+	.incbin "baserom.gba", 0x379AB3, 0x39
+	.global gTextL0_0422
+gTextL0_0422:
+	.incbin "baserom.gba", 0x379AEC, 0x67
+	.global gTextL0_0423
+gTextL0_0423:
+	.incbin "baserom.gba", 0x379B53, 0x24A
+	.global gTextL0_0424
+gTextL0_0424:
+	.incbin "baserom.gba", 0x379D9D, 0xC1
+	.global gTextL0_0425
+gTextL0_0425:
+	.incbin "baserom.gba", 0x379E5E, 0x2AF
+	.global gTextL0_0426
+gTextL0_0426:
+	.incbin "baserom.gba", 0x37A10D, 0x86
+	.global gTextL0_0427
+gTextL0_0427:
+	.incbin "baserom.gba", 0x37A193, 0x8A
+	.global gTextL0_0428
+gTextL0_0428:
+	.incbin "baserom.gba", 0x37A21D, 0x70
+	.global gTextL0_0429
+gTextL0_0429:
+	.incbin "baserom.gba", 0x37A28D, 0x72
+	.global gTextL0_0430
+gTextL0_0430:
+	.incbin "baserom.gba", 0x37A2FF, 0xC8
+	.global gTextL0_0431
+gTextL0_0431:
+	.incbin "baserom.gba", 0x37A3C7, 0x5E
+	.global gTextL0_0432
+gTextL0_0432:
+	.incbin "baserom.gba", 0x37A425, 0x7F
+	.global gTextL0_0433
+gTextL0_0433:
+	.incbin "baserom.gba", 0x37A4A4, 0x8F
+	.global gTextL0_0434
+gTextL0_0434:
+	.incbin "baserom.gba", 0x37A533, 0xAA
+	.global gTextL0_0435
+gTextL0_0435:
+	.incbin "baserom.gba", 0x37A5DD, 0x70
+	.global gTextL0_0436
+gTextL0_0436:
+	.incbin "baserom.gba", 0x37A64D, 0x194
+	.global gTextL0_0437
+gTextL0_0437:
+	.incbin "baserom.gba", 0x37A7E1, 0x41
+	.global gTextL0_0438
+gTextL0_0438:
+	.incbin "baserom.gba", 0x37A822, 0x14C
+	.global gTextL0_0439
+gTextL0_0439:
+	.incbin "baserom.gba", 0x37A96E, 0xF6
+	.global gTextL0_0440
+gTextL0_0440:
+	.incbin "baserom.gba", 0x37AA64, 0x1E1
+	.global gTextL0_0441
+gTextL0_0441:
+	.incbin "baserom.gba", 0x37AC45, 0x2CD
+	.global gTextL0_0442
+gTextL0_0442:
+	.incbin "baserom.gba", 0x37AF12, 0x2E6
+	.global gTextL0_0443
+gTextL0_0443:
+	.incbin "baserom.gba", 0x37B1F8, 0x2FF
+	.global gTextL0_0444
+gTextL0_0444:
+	.incbin "baserom.gba", 0x37B4F7, 0x1B9
+	.global gTextL0_0445
+gTextL0_0445:
+	.incbin "baserom.gba", 0x37B6B0, 0x38A
+	.global gTextL0_0446
+gTextL0_0446:
+	.incbin "baserom.gba", 0x37BA3A, 0x241
+	.global gTextL0_0447
+gTextL0_0447:
+	.incbin "baserom.gba", 0x37BC7B, 0x284
+	.global gTextL0_0448
+gTextL0_0448:
+	.incbin "baserom.gba", 0x37BEFF, 0x36D
+	.global gTextL0_0449
+gTextL0_0449:
+	.incbin "baserom.gba", 0x37C26C, 0x78
+	.global gTextL0_0450
+gTextL0_0450:
+	.incbin "baserom.gba", 0x37C2E4, 0x408
+	.global gTextL0_0451
+gTextL0_0451:
+	.incbin "baserom.gba", 0x37C6EC, 0x3AB
+	.global gTextL0_0452
+gTextL0_0452:
+	.incbin "baserom.gba", 0x37CA97, 0x13
+	.global gTextL0_0453
+gTextL0_0453:
+	.incbin "baserom.gba", 0x37CAAA, 0x60
+	.global gTextL0_0454
+gTextL0_0454:
+	.incbin "baserom.gba", 0x37CB0A, 0x14
+	.global gTextL0_0455
+gTextL0_0455:
+	.incbin "baserom.gba", 0x37CB1E, 0x70
+	.global gTextL0_0456
+gTextL0_0456:
+	.incbin "baserom.gba", 0x37CB8E, 0x8B
+	.global gTextL0_0457
+gTextL0_0457:
+	.incbin "baserom.gba", 0x37CC19, 0x5C
+	.global gTextL0_0458
+gTextL0_0458:
+	.incbin "baserom.gba", 0x37CC75, 0x14D
+	.global gTextL0_0459
+gTextL0_0459:
+	.incbin "baserom.gba", 0x37CDC2, 0x206
+	.global gTextL0_0460
+gTextL0_0460:
+	.incbin "baserom.gba", 0x37CFC8, 0x11E
+	.global gTextL0_0461
+gTextL0_0461:
+	.incbin "baserom.gba", 0x37D0E6, 0x1A1
+	.global gTextL0_0462
+gTextL0_0462:
+	.incbin "baserom.gba", 0x37D287, 0xA8
+	.global gTextL0_0463
+gTextL0_0463:
+	.incbin "baserom.gba", 0x37D32F, 0xDB
+	.global gTextL0_0464
+gTextL0_0464:
+	.incbin "baserom.gba", 0x37D40A, 0x1A3
+	.global gTextL0_0465
+gTextL0_0465:
+	.incbin "baserom.gba", 0x37D5AD, 0x63
+	.global gTextL0_0466
+gTextL0_0466:
+	.incbin "baserom.gba", 0x37D610, 0x4E
+	.global gTextL0_0467
+gTextL0_0467:
+	.incbin "baserom.gba", 0x37D65E, 0xB3
+	.global gTextL0_0468
+gTextL0_0468:
+	.incbin "baserom.gba", 0x37D711, 0xAF
+	.global gTextL0_0469
+gTextL0_0469:
+	.incbin "baserom.gba", 0x37D7C0, 0x8C
+	.global gTextL0_0470
+gTextL0_0470:
+	.incbin "baserom.gba", 0x37D84C, 0xAE
+	.global gTextL0_0471
+gTextL0_0471:
+	.incbin "baserom.gba", 0x37D8FA, 0xB7
+	.global gTextL0_0472
+gTextL0_0472:
+	.incbin "baserom.gba", 0x37D9B1, 0xD8
+	.global gTextL0_0473
+gTextL0_0473:
+	.incbin "baserom.gba", 0x37DA89, 0x101
+	.global gTextL0_0474
+gTextL0_0474:
+	.incbin "baserom.gba", 0x37DB8A, 0xBE
+	.global gTextL0_0475
+gTextL0_0475:
+	.incbin "baserom.gba", 0x37DC48, 0xA5
+	.global gTextL0_0476
+gTextL0_0476:
+	.incbin "baserom.gba", 0x37DCED, 0x1CF
+	.global gTextL0_0477
+gTextL0_0477:
+	.incbin "baserom.gba", 0x37DEBC, 0x157
+	.global gTextL0_0478
+gTextL0_0478:
+	.incbin "baserom.gba", 0x37E013, 0x53
+	.global gTextL0_0479
+gTextL0_0479:
+	.incbin "baserom.gba", 0x37E066, 0x1A
+	.global gTextL0_0480
+gTextL0_0480:
+	.incbin "baserom.gba", 0x37E080, 0x20
+	.global gTextL0_0481
+gTextL0_0481:
+	.incbin "baserom.gba", 0x37E0A0, 0x8
+	.global gTextL0_0482
+gTextL0_0482:
+	.incbin "baserom.gba", 0x37E0A8, 0x2C
+	.global gTextL0_0483
+gTextL0_0483:
+	.incbin "baserom.gba", 0x37E0D4, 0x46
+	.global gTextL0_0484
+gTextL0_0484:
+	.incbin "baserom.gba", 0x37E11A, 0x29
+	.global gTextL0_0485
+gTextL0_0485:
+	.incbin "baserom.gba", 0x37E143, 0x25D
+	.global gTextL0_0486
+gTextL0_0486:
+	.incbin "baserom.gba", 0x37E3A0, 0x14
+	.global gTextL0_0487
+gTextL0_0487:
+	.incbin "baserom.gba", 0x37E3B4, 0x2B
+	.global gTextL0_0488
+gTextL0_0488:
+	.incbin "baserom.gba", 0x37E3DF, 0x23
+	.global gTextL0_0489
+gTextL0_0489:
+	.incbin "baserom.gba", 0x37E402, 0x2C
+	.global gTextL0_0490
+gTextL0_0490:
+	.incbin "baserom.gba", 0x37E42E, 0x36
+	.global gTextL0_0491
+gTextL0_0491:
+	.incbin "baserom.gba", 0x37E464, 0x36
+	.global gTextL0_0492
+gTextL0_0492:
+	.incbin "baserom.gba", 0x37E49A, 0x36
+	.global gTextL0_0493
+gTextL0_0493:
+	.incbin "baserom.gba", 0x37E4D0, 0x36
+	.global gTextL0_0494
+gTextL0_0494:
+	.incbin "baserom.gba", 0x37E506, 0x36
+	.global gTextL0_0495
+gTextL0_0495:
+	.incbin "baserom.gba", 0x37E53C, 0x36
+	.global gTextL0_0496
+gTextL0_0496:
+	.incbin "baserom.gba", 0x37E572, 0x36
+	.global gTextL0_0497
+gTextL0_0497:
+	.incbin "baserom.gba", 0x37E5A8, 0x36
+	.global gTextL0_0498
+gTextL0_0498:
+	.incbin "baserom.gba", 0x37E5DE, 0x36
+	.global gTextL0_0499
+gTextL0_0499:
+	.incbin "baserom.gba", 0x37E614, 0xBA
+	.global gTextL0_0500
+gTextL0_0500:
+	.incbin "baserom.gba", 0x37E6CE, 0x3E
+	.global gTextL0_0501
+gTextL0_0501:
+	.incbin "baserom.gba", 0x37E70C, 0x13E
+	.global gTextL0_0502
+gTextL0_0502:
+	.incbin "baserom.gba", 0x37E84A, 0x19
+	.global gTextL0_0503
+gTextL0_0503:
+	.incbin "baserom.gba", 0x37E863, 0x14
+	.global gTextL0_0504
+gTextL0_0504:
+	.incbin "baserom.gba", 0x37E877, 0x19
+	.global gTextL0_0505
+gTextL0_0505:
+	.incbin "baserom.gba", 0x37E890, 0xA
+	.global gTextL0_0506
+gTextL0_0506:
+	.incbin "baserom.gba", 0x37E89A, 0xC
+	.global gTextL0_0507
+gTextL0_0507:
+	.incbin "baserom.gba", 0x37E8A6, 0xB
+	.global gTextL0_0508
+gTextL0_0508:
+	.incbin "baserom.gba", 0x37E8B1, 0xB
+	.global gTextL0_0509
+gTextL0_0509:
+	.incbin "baserom.gba", 0x37E8BC, 0xB
+	.global gTextL0_0510
+gTextL0_0510:
+	.incbin "baserom.gba", 0x37E8C7, 0xB
+	.global gTextL0_0511
+gTextL0_0511:
+	.incbin "baserom.gba", 0x37E8D2, 0x16
+	.global gTextL0_0512
+gTextL0_0512:
+	.incbin "baserom.gba", 0x37E8E8, 0x13
+	.global gTextL0_0513
+gTextL0_0513:
+	.incbin "baserom.gba", 0x37E8FB, 0x14
+	.global gTextL0_0514
+gTextL0_0514:
+	.incbin "baserom.gba", 0x37E90F, 0x14
+	.global gTextL0_0515
+gTextL0_0515:
+	.incbin "baserom.gba", 0x37E923, 0x157
+	.global gTextL0_0516
+gTextL0_0516:
+	.incbin "baserom.gba", 0x37EA7A, 0x1E
+	.global gTextL0_0517
+gTextL0_0517:
+	.incbin "baserom.gba", 0x37EA98, 0x15
+	.global gTextL0_0518
+gTextL0_0518:
+	.incbin "baserom.gba", 0x37EAAD, 0x784
+	.global gTextL0_0519
+gTextL0_0519:
+	.incbin "baserom.gba", 0x37F231, 0x2A
+	.global gTextL0_0520
+gTextL0_0520:
+	.incbin "baserom.gba", 0x37F25B, 0x2D
+	.global gTextL0_0521
+gTextL0_0521:
+	.incbin "baserom.gba", 0x37F288, 0x24
+	.global gTextL0_0522
+gTextL0_0522:
+	.incbin "baserom.gba", 0x37F2AC, 0x1E
+	.global gTextL0_0523
+gTextL0_0523:
+	.incbin "baserom.gba", 0x37F2CA, 0x20
+	.global gTextL0_0524
+gTextL0_0524:
+	.incbin "baserom.gba", 0x37F2EA, 0x31
+	.global gTextL0_0525
+gTextL0_0525:
+	.incbin "baserom.gba", 0x37F31B, 0x27
+	.global gTextL0_0526
+gTextL0_0526:
+	.incbin "baserom.gba", 0x37F342, 0x35
+	.global gTextL0_0527
+gTextL0_0527:
+	.incbin "baserom.gba", 0x37F377, 0x2C
+	.global gTextL0_0528
+gTextL0_0528:
+	.incbin "baserom.gba", 0x37F3A3, 0xA6
+	.global gTextL0_0529
+gTextL0_0529:
+	.incbin "baserom.gba", 0x37F449, 0x56
+	.global gTextL0_0530
+gTextL0_0530:
+	.incbin "baserom.gba", 0x37F49F, 0x2E
+	.global gTextL0_0531
+gTextL0_0531:
+	.incbin "baserom.gba", 0x37F4CD, 0x7F
+	.global gTextL0_0532
+gTextL0_0532:
+	.incbin "baserom.gba", 0x37F54C, 0x2A
+	.global gTextL0_0533
+gTextL0_0533:
+	.incbin "baserom.gba", 0x37F576, 0x14
+	.global gTextL0_0534
+gTextL0_0534:
+	.incbin "baserom.gba", 0x37F58A, 0x34
+	.global gTextL0_0535
+gTextL0_0535:
+	.incbin "baserom.gba", 0x37F5BE, 0x7E
+	.global gTextL0_0536
+gTextL0_0536:
+	.incbin "baserom.gba", 0x37F63C, 0x9D
+	.global gTextL0_0537
+gTextL0_0537:
+	.incbin "baserom.gba", 0x37F6D9, 0x5C
+	.global gTextL0_0538
+gTextL0_0538:
+	.incbin "baserom.gba", 0x37F735, 0x75
+	.global gTextL0_0539
+gTextL0_0539:
+	.incbin "baserom.gba", 0x37F7AA, 0x82
+	.global gTextL0_0540
+gTextL0_0540:
+	.incbin "baserom.gba", 0x37F82C, 0x35
+	.global gTextL0_0541
+gTextL0_0541:
+	.incbin "baserom.gba", 0x37F861, 0x1C
+	.global gTextL0_0542
+gTextL0_0542:
+	.incbin "baserom.gba", 0x37F87D, 0x2A
+	.global gTextL0_0543
+gTextL0_0543:
+	.incbin "baserom.gba", 0x37F8A7, 0x5B
+	.global gTextL0_0544
+gTextL0_0544:
+	.incbin "baserom.gba", 0x37F902, 0x68
+	.global gTextL0_0545
+gTextL0_0545:
+	.incbin "baserom.gba", 0x37F96A, 0x163
+	.global gTextL0_0546
+gTextL0_0546:
+	.incbin "baserom.gba", 0x37FACD, 0x30
+	.global gTextL0_0547
+gTextL0_0547:
+	.incbin "baserom.gba", 0x37FAFD, 0x84
+	.global gTextL0_0548
+gTextL0_0548:
+	.incbin "baserom.gba", 0x37FB81, 0x4D
+	.global gTextL0_0549
+gTextL0_0549:
+	.incbin "baserom.gba", 0x37FBCE, 0x1A
+	.global gTextL0_0550
+gTextL0_0550:
+	.incbin "baserom.gba", 0x37FBE8, 0x1B
+	.global gTextL0_0551
+gTextL0_0551:
+	.incbin "baserom.gba", 0x37FC03, 0x32
+	.global gTextL0_0552
+gTextL0_0552:
+	.incbin "baserom.gba", 0x37FC35, 0x99
+	.global gTextL0_0553
+gTextL0_0553:
+	.incbin "baserom.gba", 0x37FCCE, 0x81
+	.global gTextL0_0554
+gTextL0_0554:
+	.incbin "baserom.gba", 0x37FD4F, 0x1F
+	.global gTextL0_0555
+gTextL0_0555:
+	.incbin "baserom.gba", 0x37FD6E, 0x23
+	.global gTextL0_0556
+gTextL0_0556:
+	.incbin "baserom.gba", 0x37FD91, 0x48
+	.global gTextL0_0557
+gTextL0_0557:
+	.incbin "baserom.gba", 0x37FDD9, 0x44
+	.global gTextL0_0558
+gTextL0_0558:
+	.incbin "baserom.gba", 0x37FE1D, 0x3E
+	.global gTextL0_0559
+gTextL0_0559:
+	.incbin "baserom.gba", 0x37FE5B, 0x44
+	.global gTextL0_0560
+gTextL0_0560:
+	.incbin "baserom.gba", 0x37FE9F, 0x2A
+	.global gTextL0_0561
+gTextL0_0561:
+	.incbin "baserom.gba", 0x37FEC9, 0x28
+	.global gTextL0_0562
+gTextL0_0562:
+	.incbin "baserom.gba", 0x37FEF1, 0x54
+	.global gTextL0_0563
+gTextL0_0563:
+	.incbin "baserom.gba", 0x37FF45, 0x53
+	.global gTextL0_0564
+gTextL0_0564:
+	.incbin "baserom.gba", 0x37FF98, 0x91
+	.global gTextL0_0565
+gTextL0_0565:
+	.incbin "baserom.gba", 0x380029, 0x42
+	.global gTextL0_0566
+gTextL0_0566:
+	.incbin "baserom.gba", 0x38006B, 0x31
+	.global gTextL0_0567
+gTextL0_0567:
+	.incbin "baserom.gba", 0x38009C, 0x63
+	.global gTextL0_0568
+gTextL0_0568:
+	.incbin "baserom.gba", 0x3800FF, 0x2F
+	.global gTextL0_0569
+gTextL0_0569:
+	.incbin "baserom.gba", 0x38012E, 0x27
+	.global gTextL0_0570
+gTextL0_0570:
+	.incbin "baserom.gba", 0x380155, 0x28
+	.global gTextL0_0571
+gTextL0_0571:
+	.incbin "baserom.gba", 0x38017D, 0x27
+	.global gTextL0_0572
+gTextL0_0572:
+	.incbin "baserom.gba", 0x3801A4, 0x2A
+	.global gTextL0_0573
+gTextL0_0573:
+	.incbin "baserom.gba", 0x3801CE, 0x2F
+	.global gTextL0_0574
+gTextL0_0574:
+	.incbin "baserom.gba", 0x3801FD, 0x20
+	.global gTextL0_0575
+gTextL0_0575:
+	.incbin "baserom.gba", 0x38021D, 0x1E
+	.global gTextL0_0576
+gTextL0_0576:
+	.incbin "baserom.gba", 0x38023B, 0x29
+	.global gTextL0_0577
+gTextL0_0577:
+	.incbin "baserom.gba", 0x380264, 0x27
+	.global gTextL0_0578
+gTextL0_0578:
+	.incbin "baserom.gba", 0x38028B, 0x1B
+	.global gTextL0_0579
+gTextL0_0579:
+	.incbin "baserom.gba", 0x3802A6, 0x14
+	.global gTextL0_0580
+gTextL0_0580:
+	.incbin "baserom.gba", 0x3802BA, 0x14
+	.global gTextL0_0581
+gTextL0_0581:
+	.incbin "baserom.gba", 0x3802CE, 0x15
+	.global gTextL0_0582
+gTextL0_0582:
+	.incbin "baserom.gba", 0x3802E3, 0x15
+	.global gTextL0_0583
+gTextL0_0583:
+	.incbin "baserom.gba", 0x3802F8, 0x26
+	.global gTextL0_0584
+gTextL0_0584:
+	.incbin "baserom.gba", 0x38031E, 0x30
+	.global gTextL0_0585
+gTextL0_0585:
+	.incbin "baserom.gba", 0x38034E, 0x29
+	.global gTextL0_0586
+gTextL0_0586:
+	.incbin "baserom.gba", 0x380377, 0x2A
+	.global gTextL0_0587
+gTextL0_0587:
+	.incbin "baserom.gba", 0x3803A1, 0x30
+	.global gTextL0_0588
+gTextL0_0588:
+	.incbin "baserom.gba", 0x3803D1, 0x12
+	.global gTextL0_0589
+gTextL0_0589:
+	.incbin "baserom.gba", 0x3803E3, 0x1C
+	.global gTextL0_0590
+gTextL0_0590:
+	.incbin "baserom.gba", 0x3803FF, 0x13
+	.global gTextL0_0591
+gTextL0_0591:
+	.incbin "baserom.gba", 0x380412, 0x14
+	.global gTextL0_0592
+gTextL0_0592:
+	.incbin "baserom.gba", 0x380426, 0x17
+	.global gTextL0_0593
+gTextL0_0593:
+	.incbin "baserom.gba", 0x38043D, 0x4A
+	.global gTextL0_0594
+gTextL0_0594:
+	.incbin "baserom.gba", 0x380487, 0x47
+	.global gTextL0_0595
+gTextL0_0595:
+	.incbin "baserom.gba", 0x3804CE, 0x58
+	.global gTextL0_0596
+gTextL0_0596:
+	.incbin "baserom.gba", 0x380526, 0x17
+	.global gTextL0_0597
+gTextL0_0597:
+	.incbin "baserom.gba", 0x38053D, 0x38
+	.global gTextL0_0598
+gTextL0_0598:
+	.incbin "baserom.gba", 0x380575, 0x4F
+	.global gTextL0_0599
+gTextL0_0599:
+	.incbin "baserom.gba", 0x3805C4, 0x4D
+	.global gTextL0_0600
+gTextL0_0600:
+	.incbin "baserom.gba", 0x380611, 0x46
+	.global gTextL0_0601
+gTextL0_0601:
+	.incbin "baserom.gba", 0x380657, 0x18
+	.global gTextL0_0602
+gTextL0_0602:
+	.incbin "baserom.gba", 0x38066F, 0x2E
+	.global gTextL0_0603
+gTextL0_0603:
+	.incbin "baserom.gba", 0x38069D, 0x24
+	.global gTextL0_0604
+gTextL0_0604:
+	.incbin "baserom.gba", 0x3806C1, 0x10
+	.global gTextL0_0605
+gTextL0_0605:
+	.incbin "baserom.gba", 0x3806D1, 0xC
+	.global gTextL0_0606
+gTextL0_0606:
+	.incbin "baserom.gba", 0x3806DD, 0x1A
+	.global gTextL0_0607
+gTextL0_0607:
+	.incbin "baserom.gba", 0x3806F7, 0x4E
+	.global gTextL0_0608
+gTextL0_0608:
+	.incbin "baserom.gba", 0x380745, 0x4A
+	.global gTextL0_0609
+gTextL0_0609:
+	.incbin "baserom.gba", 0x38078F, 0x31
+	.global gTextL0_0610
+gTextL0_0610:
+	.incbin "baserom.gba", 0x3807C0, 0x2A
+	.global gTextL0_0611
+gTextL0_0611:
+	.incbin "baserom.gba", 0x3807EA, 0x25
+	.global gTextL0_0612
+gTextL0_0612:
+	.incbin "baserom.gba", 0x38080F, 0x41
+	.global gTextL0_0613
+gTextL0_0613:
+	.incbin "baserom.gba", 0x380850, 0x2D
+	.global gTextL0_0614
+gTextL0_0614:
+	.incbin "baserom.gba", 0x38087D, 0x43
+	.global gTextL0_0615
+gTextL0_0615:
+	.incbin "baserom.gba", 0x3808C0, 0x25
+	.global gTextL0_0616
+gTextL0_0616:
+	.incbin "baserom.gba", 0x3808E5, 0x54
+	.global gTextL0_0617
+gTextL0_0617:
+	.incbin "baserom.gba", 0x380939, 0x2E
+	.global gTextL0_0618
+gTextL0_0618:
+	.incbin "baserom.gba", 0x380967, 0x28
+	.global gTextL0_0619
+gTextL0_0619:
+	.incbin "baserom.gba", 0x38098F, 0x30
+	.global gTextL0_0620
+gTextL0_0620:
+	.incbin "baserom.gba", 0x3809BF, 0x71
+	.global gTextL0_0621
+gTextL0_0621:
+	.incbin "baserom.gba", 0x380A30, 0x6F
+	.global gTextL0_0622
+gTextL0_0622:
+	.incbin "baserom.gba", 0x380A9F, 0x17
+	.global gTextL0_0623
+gTextL0_0623:
+	.incbin "baserom.gba", 0x380AB6, 0x1C
+	.global gTextL0_0624
+gTextL0_0624:
+	.incbin "baserom.gba", 0x380AD2, 0x1A
+	.global gTextL0_0625
+gTextL0_0625:
+	.incbin "baserom.gba", 0x380AEC, 0x1D
+	.global gTextL0_0626
+gTextL0_0626:
+	.incbin "baserom.gba", 0x380B09, 0x24
+	.global gTextL0_0627
+gTextL0_0627:
+	.incbin "baserom.gba", 0x380B2D, 0x30
+	.global gTextL0_0628
+gTextL0_0628:
+	.incbin "baserom.gba", 0x380B5D, 0x78
+	.global gTextL0_0629
+gTextL0_0629:
+	.incbin "baserom.gba", 0x380BD5, 0x1C
+	.global gTextL0_0630
+gTextL0_0630:
+	.incbin "baserom.gba", 0x380BF1, 0x1D
+	.global gTextL0_0631
+gTextL0_0631:
+	.incbin "baserom.gba", 0x380C0E, 0x36
+	.global gTextL0_0632
+gTextL0_0632:
+	.incbin "baserom.gba", 0x380C44, 0xC1
+	.global gTextL0_0633
+gTextL0_0633:
+	.incbin "baserom.gba", 0x380D05, 0x50
+	.global gTextL0_0634
+gTextL0_0634:
+	.incbin "baserom.gba", 0x380D55, 0x3B
+	.global gTextL0_0635
+gTextL0_0635:
+	.incbin "baserom.gba", 0x380D90, 0x1A3
+	.global gTextL0_0636
+gTextL0_0636:
+	.incbin "baserom.gba", 0x380F33, 0x5C
+	.global gTextL0_0637
+gTextL0_0637:
+	.incbin "baserom.gba", 0x380F8F, 0x2B
+	.global gTextL0_0638
+gTextL0_0638:
+	.incbin "baserom.gba", 0x380FBA, 0x1C
+	.global gTextL0_0639
+gTextL0_0639:
+	.incbin "baserom.gba", 0x380FD6, 0x47
+	.global gTextL0_0640
+gTextL0_0640:
+	.incbin "baserom.gba", 0x38101D, 0x17
+	.global gTextL0_0641
+gTextL0_0641:
+	.incbin "baserom.gba", 0x381034, 0x16
+	.global gTextL0_0642
+gTextL0_0642:
+	.incbin "baserom.gba", 0x38104A, 0x22
+	.global gTextL0_0643
+gTextL0_0643:
+	.incbin "baserom.gba", 0x38106C, 0x28
+	.global gTextL0_0644
+gTextL0_0644:
+	.incbin "baserom.gba", 0x381094, 0x31
+	.global gTextL0_0645
+gTextL0_0645:
+	.incbin "baserom.gba", 0x3810C5, 0xD7
+	.global gTextL0_0646
+gTextL0_0646:
+	.incbin "baserom.gba", 0x38119C, 0x106
+	.global gTextL0_0647
+gTextL0_0647:
+	.incbin "baserom.gba", 0x3812A2, 0xDC
+	.global gTextL0_0648
+gTextL0_0648:
+	.incbin "baserom.gba", 0x38137E, 0x40
+	.global gTextL0_0649
+gTextL0_0649:
+	.incbin "baserom.gba", 0x3813BE, 0x41
+	.global gTextL0_0650
+gTextL0_0650:
+	.incbin "baserom.gba", 0x3813FF, 0xCC
+	.global gTextL0_0651
+gTextL0_0651:
+	.incbin "baserom.gba", 0x3814CB, 0x114
+	.global gTextL0_0652
+gTextL0_0652:
+	.incbin "baserom.gba", 0x3815DF, 0xE6
+	.global gTextL0_0653
+gTextL0_0653:
+	.incbin "baserom.gba", 0x3816C5, 0xC4
+	.global gTextL0_0654
+gTextL0_0654:
+	.incbin "baserom.gba", 0x381789, 0xC5
+	.global gTextL0_0655
+gTextL0_0655:
+	.incbin "baserom.gba", 0x38184E, 0x31
+	.global gTextL0_0656
+gTextL0_0656:
+	.incbin "baserom.gba", 0x38187F, 0x1B
+	.global gTextL0_0657
+gTextL0_0657:
+	.incbin "baserom.gba", 0x38189A, 0x52
+	.global gTextL0_0658
+gTextL0_0658:
+	.incbin "baserom.gba", 0x3818EC, 0x35
+	.global gTextL0_0659
+gTextL0_0659:
+	.incbin "baserom.gba", 0x381921, 0x1A
+	.global gTextL0_0660
+gTextL0_0660:
+	.incbin "baserom.gba", 0x38193B, 0x2D
+	.global gTextL0_0661
+gTextL0_0661:
+	.incbin "baserom.gba", 0x381968, 0x3A
+	.global gTextL0_0662
+gTextL0_0662:
+	.incbin "baserom.gba", 0x3819A2, 0x18
+	.global gTextL0_0663
+gTextL0_0663:
+	.incbin "baserom.gba", 0x3819BA, 0x18
+	.global gTextL0_0664
+gTextL0_0664:
+	.incbin "baserom.gba", 0x3819D2, 0x18
+	.global gTextL0_0665
+gTextL0_0665:
+	.incbin "baserom.gba", 0x3819EA, 0x18
+	.global gTextL0_0666
+gTextL0_0666:
+	.incbin "baserom.gba", 0x381A02, 0x18
+	.global gTextL0_0667
+gTextL0_0667:
+	.incbin "baserom.gba", 0x381A1A, 0x18
+	.global gTextL0_0668
+gTextL0_0668:
+	.incbin "baserom.gba", 0x381A32, 0x18
+	.global gTextL0_0669
+gTextL0_0669:
+	.incbin "baserom.gba", 0x381A4A, 0x18
+	.global gTextL0_0670
+gTextL0_0670:
+	.incbin "baserom.gba", 0x381A62, 0x18
+	.global gTextL0_0671
+gTextL0_0671:
+	.incbin "baserom.gba", 0x381A7A, 0x19
+	.global gTextL0_0672
+gTextL0_0672:
+	.incbin "baserom.gba", 0x381A93, 0x15
+	.global gTextL0_0673
+gTextL0_0673:
+	.incbin "baserom.gba", 0x381AA8, 0x1B3
+	.global gTextL0_0674
+gTextL0_0674:
+	.incbin "baserom.gba", 0x381C5B, 0x111
+	.global gTextL0_0675
+gTextL0_0675:
+	.incbin "baserom.gba", 0x381D6C, 0x20
+	.global gTextL0_0676
+gTextL0_0676:
+	.incbin "baserom.gba", 0x381D8C, 0x71
+	.global gTextL0_0677
+gTextL0_0677:
+	.incbin "baserom.gba", 0x381DFD, 0x26
+	.global gTextL0_0678
+gTextL0_0678:
+	.incbin "baserom.gba", 0x381E23, 0xDA
+	.global gTextL0_0679
+gTextL0_0679:
+	.incbin "baserom.gba", 0x381EFD, 0x58
+	.global gTextL0_0680
+gTextL0_0680:
+	.incbin "baserom.gba", 0x381F55, 0x98
+	.global gTextL0_0681
+gTextL0_0681:
+	.incbin "baserom.gba", 0x381FED, 0x12A
+	.global gTextL0_0682
+gTextL0_0682:
+	.incbin "baserom.gba", 0x382117, 0x1C1
+	.global gTextL0_0683
+gTextL0_0683:
+	.incbin "baserom.gba", 0x3822D8, 0x134
+	.global gTextL0_0684
+gTextL0_0684:
+	.incbin "baserom.gba", 0x38240C, 0xF7
+	.global gTextL0_0685
+gTextL0_0685:
+	.incbin "baserom.gba", 0x382503, 0xB8
+	.global gTextL0_0686
+gTextL0_0686:
+	.incbin "baserom.gba", 0x3825BB, 0x26
+	.global gTextL0_0687
+gTextL0_0687:
+	.incbin "baserom.gba", 0x3825E1, 0xC7
+	.global gTextL0_0688
+gTextL0_0688:
+	.incbin "baserom.gba", 0x3826A8, 0x61
+	.global gTextL0_0689
+gTextL0_0689:
+	.incbin "baserom.gba", 0x382709, 0xAA
+	.global gTextL0_0690
+gTextL0_0690:
+	.incbin "baserom.gba", 0x3827B3, 0xFC
+	.global gTextL0_0691
+gTextL0_0691:
+	.incbin "baserom.gba", 0x3828AF, 0x304
+	.global gTextL0_0692
+gTextL0_0692:
+	.incbin "baserom.gba", 0x382BB3, 0xB7
+	.global gTextL0_0693
+gTextL0_0693:
+	.incbin "baserom.gba", 0x382C6A, 0xA1
+	.global gTextL0_0694
+gTextL0_0694:
+	.incbin "baserom.gba", 0x382D0B, 0xC2
+	.global gTextL0_0695
+gTextL0_0695:
+	.incbin "baserom.gba", 0x382DCD, 0x27
+	.global gTextL0_0696
+gTextL0_0696:
+	.incbin "baserom.gba", 0x382DF4, 0xD3
+	.global gTextL0_0697
+gTextL0_0697:
+	.incbin "baserom.gba", 0x382EC7, 0x70
+	.global gTextL0_0698
+gTextL0_0698:
+	.incbin "baserom.gba", 0x382F37, 0xCE
+	.global gTextL0_0699
+gTextL0_0699:
+	.incbin "baserom.gba", 0x383005, 0x165
+	.global gTextL0_0700
+gTextL0_0700:
+	.incbin "baserom.gba", 0x38316A, 0x298
+	.global gTextL0_0701
+gTextL0_0701:
+	.incbin "baserom.gba", 0x383402, 0xBA
+	.global gTextL0_0702
+gTextL0_0702:
+	.incbin "baserom.gba", 0x3834BC, 0x88
+	.global gTextL0_0703
+gTextL0_0703:
+	.incbin "baserom.gba", 0x383544, 0xDD
+	.global gTextL0_0704
+gTextL0_0704:
+	.incbin "baserom.gba", 0x383621, 0x25
+	.global gTextL0_0705
+gTextL0_0705:
+	.incbin "baserom.gba", 0x383646, 0xA5
+	.global gTextL0_0706
+gTextL0_0706:
+	.incbin "baserom.gba", 0x3836EB, 0x64
+	.global gTextL0_0707
+gTextL0_0707:
+	.incbin "baserom.gba", 0x38374F, 0x77
+	.global gTextL0_0708
+gTextL0_0708:
+	.incbin "baserom.gba", 0x3837C6, 0xB9
+	.global gTextL0_0709
+gTextL0_0709:
+	.incbin "baserom.gba", 0x38387F, 0x7
+	.global gTextL0_0710
+gTextL0_0710:
+	.incbin "baserom.gba", 0x383886, 0x7
+	.global gTextL0_0711
+gTextL0_0711:
+	.incbin "baserom.gba", 0x38388D, 0x7
+	.global gTextL0_0712
+gTextL0_0712:
+	.incbin "baserom.gba", 0x383894, 0x7
+	.global gTextL0_0713
+gTextL0_0713:
+	.incbin "baserom.gba", 0x38389B, 0x7
+	.global gTextL0_0714
+gTextL0_0714:
+	.incbin "baserom.gba", 0x3838A2, 0x7
+	.global gTextL0_0715
+gTextL0_0715:
+	.incbin "baserom.gba", 0x3838A9, 0x7
+	.global gTextL0_0716
+gTextL0_0716:
+	.incbin "baserom.gba", 0x3838B0, 0x7
+	.global gTextL0_0717
+gTextL0_0717:
+	.incbin "baserom.gba", 0x3838B7, 0x7
+	.global gTextL0_0718
+gTextL0_0718:
+	.incbin "baserom.gba", 0x3838BE, 0x7
+	.global gTextL0_0719
+gTextL0_0719:
+	.incbin "baserom.gba", 0x3838C5, 0x7
+	.global gTextL0_0720
+gTextL0_0720:
+	.incbin "baserom.gba", 0x3838CC, 0x7
+	.global gTextL0_0721
+gTextL0_0721:
+	.incbin "baserom.gba", 0x3838D3, 0x14
+	.global gTextL0_0722
+gTextL0_0722:
+	.incbin "baserom.gba", 0x3838E7, 0x14
+	.global gTextL0_0723
+gTextL0_0723:
+	.incbin "baserom.gba", 0x3838FB, 0x7
+	.global gTextL0_0724
+gTextL0_0724:
+	.incbin "baserom.gba", 0x383902, 0x7
+	.global gTextL0_0725
+gTextL0_0725:
+	.incbin "baserom.gba", 0x383909, 0x7
+	.global gTextL0_0726
+gTextL0_0726:
+	.incbin "baserom.gba", 0x383910, 0x7
+	.global gTextL0_0727
+gTextL0_0727:
+	.incbin "baserom.gba", 0x383917, 0x7
+	.global gTextL0_0728
+gTextL0_0728:
+	.incbin "baserom.gba", 0x38391E, 0x7
+	.global gTextL0_0729
+gTextL0_0729:
+	.incbin "baserom.gba", 0x383925, 0x7
+	.global gTextL0_0730
+gTextL0_0730:
+	.incbin "baserom.gba", 0x38392C, 0x7
+	.global gTextL0_0731
+gTextL0_0731:
+	.incbin "baserom.gba", 0x383933, 0x7
+	.global gTextL0_0732
+gTextL0_0732:
+	.incbin "baserom.gba", 0x38393A, 0x7
+	.global gTextL0_0733
+gTextL0_0733:
+	.incbin "baserom.gba", 0x383941, 0x7
+	.global gTextL0_0734
+gTextL0_0734:
+	.incbin "baserom.gba", 0x383948, 0x7
+	.global gTextL0_0735
+gTextL0_0735:
+	.incbin "baserom.gba", 0x38394F, 0x7
+	.global gTextL0_0736
+gTextL0_0736:
+	.incbin "baserom.gba", 0x383956, 0x7
+	.global gTextL0_0737
+gTextL0_0737:
+	.incbin "baserom.gba", 0x38395D, 0x7
+	.global gTextL0_0738
+gTextL0_0738:
+	.incbin "baserom.gba", 0x383964, 0x7
+	.global gTextL0_0739
+gTextL0_0739:
+	.incbin "baserom.gba", 0x38396B, 0x13
+	.global gTextL0_0740
+gTextL0_0740:
+	.incbin "baserom.gba", 0x38397E, 0x13
+	.global gTextL0_0741
+gTextL0_0741:
+	.incbin "baserom.gba", 0x383991, 0x19
+	.global gTextL0_0742
+gTextL0_0742:
+	.incbin "baserom.gba", 0x3839AA, 0x19
+	.global gTextL0_0743
+gTextL0_0743:
+	.incbin "baserom.gba", 0x3839C3, 0x19
+	.global gTextL0_0744
+gTextL0_0744:
+	.incbin "baserom.gba", 0x3839DC, 0x19
+	.global gTextL0_0745
+gTextL0_0745:
+	.incbin "baserom.gba", 0x3839F5, 0x13
+	.global gTextL0_0746
+gTextL0_0746:
+	.incbin "baserom.gba", 0x383A08, 0x13
+	.global gTextL0_0747
+gTextL0_0747:
+	.incbin "baserom.gba", 0x383A1B, 0x15
+	.global gTextL0_0748
+gTextL0_0748:
+	.incbin "baserom.gba", 0x383A30, 0x15
+	.global gTextL0_0749
+gTextL0_0749:
+	.incbin "baserom.gba", 0x383A45, 0xA
+	.global gTextL0_0750
+gTextL0_0750:
+	.incbin "baserom.gba", 0x383A4F, 0xE
+	.global gTextL0_0751
+gTextL0_0751:
+	.incbin "baserom.gba", 0x383A5D, 0x10
+	.global gTextL0_0752
+gTextL0_0752:
+	.incbin "baserom.gba", 0x383A6D, 0x17
+	.global gTextL0_0753
+gTextL0_0753:
+	.incbin "baserom.gba", 0x383A84, 0x13
+	.global gTextL0_0754
+gTextL0_0754:
+	.incbin "baserom.gba", 0x383A97, 0x13
+	.global gTextL0_0755
+gTextL0_0755:
+	.incbin "baserom.gba", 0x383AAA, 0x1A
+	.global gTextL0_0756
+gTextL0_0756:
+	.incbin "baserom.gba", 0x383AC4, 0x1A
+	.global gTextL0_0757
+gTextL0_0757:
+	.incbin "baserom.gba", 0x383ADE, 0x1A
+	.global gTextL0_0758
+gTextL0_0758:
+	.incbin "baserom.gba", 0x383AF8, 0x1A
+	.global gTextL0_0759
+gTextL0_0759:
+	.incbin "baserom.gba", 0x383B12, 0x20
+	.global gTextL0_0760
+gTextL0_0760:
+	.incbin "baserom.gba", 0x383B32, 0x20
+	.global gTextL0_0761
+gTextL0_0761:
+	.incbin "baserom.gba", 0x383B52, 0x1E
+	.global gTextL0_0762
+gTextL0_0762:
+	.incbin "baserom.gba", 0x383B70, 0x1E
+	.global gTextL0_0763
+gTextL0_0763:
+	.incbin "baserom.gba", 0x383B8E, 0x1C
+	.global gTextL0_0764
+gTextL0_0764:
+	.incbin "baserom.gba", 0x383BAA, 0x1C
+	.global gTextL0_0765
+gTextL0_0765:
+	.incbin "baserom.gba", 0x383BC6, 0x16
+	.global gTextL0_0766
+gTextL0_0766:
+	.incbin "baserom.gba", 0x383BDC, 0x16
+	.global gTextL0_0767
+gTextL0_0767:
+	.incbin "baserom.gba", 0x383BF2, 0x15
+	.global gTextL0_0768
+gTextL0_0768:
+	.incbin "baserom.gba", 0x383C07, 0x15
+	.global gTextL0_0769
+gTextL0_0769:
+	.incbin "baserom.gba", 0x383C1C, 0xD
+	.global gTextL0_0770
+gTextL0_0770:
+	.incbin "baserom.gba", 0x383C29, 0xD
+	.global gTextL0_0771
+gTextL0_0771:
+	.incbin "baserom.gba", 0x383C36, 0x19
+	.global gTextL0_0772
+gTextL0_0772:
+	.incbin "baserom.gba", 0x383C4F, 0x19
+	.global gTextL0_0773
+gTextL0_0773:
+	.incbin "baserom.gba", 0x383C68, 0x14
+	.global gTextL0_0774
+gTextL0_0774:
+	.incbin "baserom.gba", 0x383C7C, 0x16
+	.global gTextL0_0775
+gTextL0_0775:
+	.incbin "baserom.gba", 0x383C92, 0x1E
+	.global gTextL0_0776
+gTextL0_0776:
+	.incbin "baserom.gba", 0x383CB0, 0x1E
+	.global gTextL0_0777
+gTextL0_0777:
+	.incbin "baserom.gba", 0x383CCE, 0x16
+	.global gTextL0_0778
+gTextL0_0778:
+	.incbin "baserom.gba", 0x383CE4, 0x16
+	.global gTextL0_0779
+gTextL0_0779:
+	.incbin "baserom.gba", 0x383CFA, 0x19
+	.global gTextL0_0780
+gTextL0_0780:
+	.incbin "baserom.gba", 0x383D13, 0x1F
+	.global gTextL0_0781
+gTextL0_0781:
+	.incbin "baserom.gba", 0x383D32, 0x19
+	.global gTextL0_0782
+gTextL0_0782:
+	.incbin "baserom.gba", 0x383D4B, 0x19
+	.global gTextL0_0783
+gTextL0_0783:
+	.incbin "baserom.gba", 0x383D64, 0x19
+	.global gTextL0_0784
+gTextL0_0784:
+	.incbin "baserom.gba", 0x383D7D, 0x19
+	.global gTextL0_0785
+gTextL0_0785:
+	.incbin "baserom.gba", 0x383D96, 0x1A
+	.global gTextL0_0786
+gTextL0_0786:
+	.incbin "baserom.gba", 0x383DB0, 0x1E
+	.global gTextL0_0787
+gTextL0_0787:
+	.incbin "baserom.gba", 0x383DCE, 0x24
+	.global gTextL0_0788
+gTextL0_0788:
+	.incbin "baserom.gba", 0x383DF2, 0x1D
+	.global gTextL0_0789
+gTextL0_0789:
+	.incbin "baserom.gba", 0x383E0F, 0x13
+	.global gTextL0_0790
+gTextL0_0790:
+	.incbin "baserom.gba", 0x383E22, 0x13
+	.global gTextL0_0791
+gTextL0_0791:
+	.incbin "baserom.gba", 0x383E35, 0x10
+	.global gTextL0_0792
+gTextL0_0792:
+	.incbin "baserom.gba", 0x383E45, 0x1A
+	.global gTextL0_0793
+gTextL0_0793:
+	.incbin "baserom.gba", 0x383E5F, 0x1C
+	.global gTextL0_0794
+gTextL0_0794:
+	.incbin "baserom.gba", 0x383E7B, 0x14
+	.global gTextL0_0795
+gTextL0_0795:
+	.incbin "baserom.gba", 0x383E8F, 0x14
+	.global gTextL0_0796
+gTextL0_0796:
+	.incbin "baserom.gba", 0x383EA3, 0x14
+	.global gTextL0_0797
+gTextL0_0797:
+	.incbin "baserom.gba", 0x383EB7, 0x14
+	.global gTextL0_0798
+gTextL0_0798:
+	.incbin "baserom.gba", 0x383ECB, 0xF
+	.global gTextL0_0799
+gTextL0_0799:
+	.incbin "baserom.gba", 0x383EDA, 0xF
+	.global gTextL0_0800
+gTextL0_0800:
+	.incbin "baserom.gba", 0x383EE9, 0x1C
+	.global gTextL0_0801
+gTextL0_0801:
+	.incbin "baserom.gba", 0x383F05, 0x1D
+	.global gTextL0_0802
+gTextL0_0802:
+	.incbin "baserom.gba", 0x383F22, 0x1D
+	.global gTextL0_0803
+gTextL0_0803:
+	.incbin "baserom.gba", 0x383F3F, 0x1F
+	.global gTextL0_0804
+gTextL0_0804:
+	.incbin "baserom.gba", 0x383F5E, 0x1A
+	.global gTextL0_0805
+gTextL0_0805:
+	.incbin "baserom.gba", 0x383F78, 0x17
+	.global gTextL0_0806
+gTextL0_0806:
+	.incbin "baserom.gba", 0x383F8F, 0x1B
+	.global gTextL0_0807
+gTextL0_0807:
+	.incbin "baserom.gba", 0x383FAA, 0xF
+	.global gTextL0_0808
+gTextL0_0808:
+	.incbin "baserom.gba", 0x383FB9, 0x6
+	.global gTextL0_0809
+gTextL0_0809:
+	.incbin "baserom.gba", 0x383FBF, 0x6
+	.global gTextL0_0810
+gTextL0_0810:
+	.incbin "baserom.gba", 0x383FC5, 0x10
+	.global gTextL0_0811
+gTextL0_0811:
+	.incbin "baserom.gba", 0x383FD5, 0x16
+	.global gTextL0_0812
+gTextL0_0812:
+	.incbin "baserom.gba", 0x383FEB, 0x16
+	.global gTextL0_0813
+gTextL0_0813:
+	.incbin "baserom.gba", 0x384001, 0x14
+	.global gTextL0_0814
+gTextL0_0814:
+	.incbin "baserom.gba", 0x384015, 0x14
+	.global gTextL0_0815
+gTextL0_0815:
+	.incbin "baserom.gba", 0x384029, 0x16
+	.global gTextL0_0816
+gTextL0_0816:
+	.incbin "baserom.gba", 0x38403F, 0x16
+	.global gTextL0_0817
+gTextL0_0817:
+	.incbin "baserom.gba", 0x384055, 0x16
+	.global gTextL0_0818
+gTextL0_0818:
+	.incbin "baserom.gba", 0x38406B, 0x16
+	.global gTextL0_0819
+gTextL0_0819:
+	.incbin "baserom.gba", 0x384081, 0x14
+	.global gTextL0_0820
+gTextL0_0820:
+	.incbin "baserom.gba", 0x384095, 0x14
+	.global gTextL0_0821
+gTextL0_0821:
+	.incbin "baserom.gba", 0x3840A9, 0x16
+	.global gTextL0_0822
+gTextL0_0822:
+	.incbin "baserom.gba", 0x3840BF, 0x16
+	.global gTextL0_0823
+gTextL0_0823:
+	.incbin "baserom.gba", 0x3840D5, 0x14
+	.global gTextL0_0824
+gTextL0_0824:
+	.incbin "baserom.gba", 0x3840E9, 0x14
+	.global gTextL0_0825
+gTextL0_0825:
+	.incbin "baserom.gba", 0x3840FD, 0x16
+	.global gTextL0_0826
+gTextL0_0826:
+	.incbin "baserom.gba", 0x384113, 0x16
+	.global gTextL0_0827
+gTextL0_0827:
+	.incbin "baserom.gba", 0x384129, 0x13
+	.global gTextL0_0828
+gTextL0_0828:
+	.incbin "baserom.gba", 0x38413C, 0x13
+	.global gTextL0_0829
+gTextL0_0829:
+	.incbin "baserom.gba", 0x38414F, 0x14
+	.global gTextL0_0830
+gTextL0_0830:
+	.incbin "baserom.gba", 0x384163, 0x14
+	.global gTextL0_0831
+gTextL0_0831:
+	.incbin "baserom.gba", 0x384177, 0x13
+	.global gTextL0_0832
+gTextL0_0832:
+	.incbin "baserom.gba", 0x38418A, 0x13
+	.global gTextL0_0833
+gTextL0_0833:
+	.incbin "baserom.gba", 0x38419D, 0x13
+	.global gTextL0_0834
+gTextL0_0834:
+	.incbin "baserom.gba", 0x3841B0, 0x13
+	.global gTextL0_0835
+gTextL0_0835:
+	.incbin "baserom.gba", 0x3841C3, 0x15
+	.global gTextL0_0836
+gTextL0_0836:
+	.incbin "baserom.gba", 0x3841D8, 0x15
+	.global gTextL0_0837
+gTextL0_0837:
+	.incbin "baserom.gba", 0x3841ED, 0x1A
+	.global gTextL0_0838
+gTextL0_0838:
+	.incbin "baserom.gba", 0x384207, 0x1A
+	.global gTextL0_0839
+gTextL0_0839:
+	.incbin "baserom.gba", 0x384221, 0x14
+	.global gTextL0_0840
+gTextL0_0840:
+	.incbin "baserom.gba", 0x384235, 0x14
+	.global gTextL0_0841
+gTextL0_0841:
+	.incbin "baserom.gba", 0x384249, 0x12
+	.global gTextL0_0842
+gTextL0_0842:
+	.incbin "baserom.gba", 0x38425B, 0x12
+	.global gTextL0_0843
+gTextL0_0843:
+	.incbin "baserom.gba", 0x38426D, 0x15
+	.global gTextL0_0844
+gTextL0_0844:
+	.incbin "baserom.gba", 0x384282, 0x15
+	.global gTextL0_0845
+gTextL0_0845:
+	.incbin "baserom.gba", 0x384297, 0x14
+	.global gTextL0_0846
+gTextL0_0846:
+	.incbin "baserom.gba", 0x3842AB, 0x14
+	.global gTextL0_0847
+gTextL0_0847:
+	.incbin "baserom.gba", 0x3842BF, 0x13
+	.global gTextL0_0848
+gTextL0_0848:
+	.incbin "baserom.gba", 0x3842D2, 0x13
+	.global gTextL0_0849
+gTextL0_0849:
+	.incbin "baserom.gba", 0x3842E5, 0x1A
+	.global gTextL0_0850
+gTextL0_0850:
+	.incbin "baserom.gba", 0x3842FF, 0x1A
+	.global gTextL0_0851
+gTextL0_0851:
+	.incbin "baserom.gba", 0x384319, 0x1A
+	.global gTextL0_0852
+gTextL0_0852:
+	.incbin "baserom.gba", 0x384333, 0x1A
+	.global gTextL0_0853
+gTextL0_0853:
+	.incbin "baserom.gba", 0x38434D, 0x13
+	.global gTextL0_0854
+gTextL0_0854:
+	.incbin "baserom.gba", 0x384360, 0x13
+	.global gTextL0_0855
+gTextL0_0855:
+	.incbin "baserom.gba", 0x384373, 0x16
+	.global gTextL0_0856
+gTextL0_0856:
+	.incbin "baserom.gba", 0x384389, 0x16
+	.global gTextL0_0857
+gTextL0_0857:
+	.incbin "baserom.gba", 0x38439F, 0x13
+	.global gTextL0_0858
+gTextL0_0858:
+	.incbin "baserom.gba", 0x3843B2, 0x13
+	.global gTextL0_0859
+gTextL0_0859:
+	.incbin "baserom.gba", 0x3843C5, 0x1A
+	.global gTextL0_0860
+gTextL0_0860:
+	.incbin "baserom.gba", 0x3843DF, 0x1A
+	.global gTextL0_0861
+gTextL0_0861:
+	.incbin "baserom.gba", 0x3843F9, 0x13
+	.global gTextL0_0862
+gTextL0_0862:
+	.incbin "baserom.gba", 0x38440C, 0x13
+	.global gTextL0_0863
+gTextL0_0863:
+	.incbin "baserom.gba", 0x38441F, 0x14
+	.global gTextL0_0864
+gTextL0_0864:
+	.incbin "baserom.gba", 0x384433, 0x14
+	.global gTextL0_0865
+gTextL0_0865:
+	.incbin "baserom.gba", 0x384447, 0x13
+	.global gTextL0_0866
+gTextL0_0866:
+	.incbin "baserom.gba", 0x38445A, 0x13
+	.global gTextL0_0867
+gTextL0_0867:
+	.incbin "baserom.gba", 0x38446D, 0x14
+	.global gTextL0_0868
+gTextL0_0868:
+	.incbin "baserom.gba", 0x384481, 0x14
+	.global gTextL0_0869
+gTextL0_0869:
+	.incbin "baserom.gba", 0x384495, 0x14
+	.global gTextL0_0870
+gTextL0_0870:
+	.incbin "baserom.gba", 0x3844A9, 0x1F
+	.global gTextL0_0871
+gTextL0_0871:
+	.incbin "baserom.gba", 0x3844C8, 0x20
+	.global gTextL0_0872
+gTextL0_0872:
+	.incbin "baserom.gba", 0x3844E8, 0x1F
+	.global gTextL0_0873
+gTextL0_0873:
+	.incbin "baserom.gba", 0x384507, 0x17
+	.global gTextL0_0874
+gTextL0_0874:
+	.incbin "baserom.gba", 0x38451E, 0x1B
+	.global gTextL0_0875
+gTextL0_0875:
+	.incbin "baserom.gba", 0x384539, 0x20
+	.global gTextL0_0876
+gTextL0_0876:
+	.incbin "baserom.gba", 0x384559, 0x1F
+	.global gTextL0_0877
+gTextL0_0877:
+	.incbin "baserom.gba", 0x384578, 0x1F
+	.global gTextL0_0878
+gTextL0_0878:
+	.incbin "baserom.gba", 0x384597, 0x17
+	.global gTextL0_0879
+gTextL0_0879:
+	.incbin "baserom.gba", 0x3845AE, 0x1D
+	.global gTextL0_0880
+gTextL0_0880:
+	.incbin "baserom.gba", 0x3845CB, 0x33
+	.global gTextL0_0881
+gTextL0_0881:
+	.incbin "baserom.gba", 0x3845FE, 0x33
+	.global gTextL0_0882
+gTextL0_0882:
+	.incbin "baserom.gba", 0x384631, 0x14
+	.global gTextL0_0883
+gTextL0_0883:
+	.incbin "baserom.gba", 0x384645, 0x17
+	.global gTextL0_0884
+gTextL0_0884:
+	.incbin "baserom.gba", 0x38465C, 0x18
+	.global gTextL0_0885
+gTextL0_0885:
+	.incbin "baserom.gba", 0x384674, 0x15
+	.global gTextL0_0886
+gTextL0_0886:
+	.incbin "baserom.gba", 0x384689, 0x3B
+	.global gTextL0_0887
+gTextL0_0887:
+	.incbin "baserom.gba", 0x3846C4, 0x14
+	.global gTextL0_0888
+gTextL0_0888:
+	.incbin "baserom.gba", 0x3846D8, 0x13
+	.global gTextL0_0889
+gTextL0_0889:
+	.incbin "baserom.gba", 0x3846EB, 0xA
+	.global gTextL0_0890
+gTextL0_0890:
+	.incbin "baserom.gba", 0x3846F5, 0x1F
+	.global gTextL0_0891
+gTextL0_0891:
+	.incbin "baserom.gba", 0x384714, 0x19
+	.global gTextL0_0892
+gTextL0_0892:
+	.incbin "baserom.gba", 0x38472D, 0x16
+	.global gTextL0_0893
+gTextL0_0893:
+	.incbin "baserom.gba", 0x384743, 0x1A
+	.global gTextL0_0894
+gTextL0_0894:
+	.incbin "baserom.gba", 0x38475D, 0x20
+	.global gTextL0_0895
+gTextL0_0895:
+	.incbin "baserom.gba", 0x38477D, 0x18
+	.global gTextL0_0896
+gTextL0_0896:
+	.incbin "baserom.gba", 0x384795, 0x1E
+	.global gTextL0_0897
+gTextL0_0897:
+	.incbin "baserom.gba", 0x3847B3, 0x3A
+	.global gTextL0_0898
+gTextL0_0898:
+	.incbin "baserom.gba", 0x3847ED, 0x28
+	.global gTextL0_0899
+gTextL0_0899:
+	.incbin "baserom.gba", 0x384815, 0x38
+	.global gTextL0_0900
+gTextL0_0900:
+	.incbin "baserom.gba", 0x38484D, 0x31
+	.global gTextL0_0901
+gTextL0_0901:
+	.incbin "baserom.gba", 0x38487E, 0x3C
+	.global gTextL0_0902
+gTextL0_0902:
+	.incbin "baserom.gba", 0x3848BA, 0x14
+	.global gTextL0_0903
+gTextL0_0903:
+	.incbin "baserom.gba", 0x3848CE, 0x15
+	.global gTextL0_0904
+gTextL0_0904:
+	.incbin "baserom.gba", 0x3848E3, 0x1E
+	.global gTextL0_0905
+gTextL0_0905:
+	.incbin "baserom.gba", 0x384901, 0x1F
+	.global gTextL0_0906
+gTextL0_0906:
+	.incbin "baserom.gba", 0x384920, 0x26
+	.global gTextL0_0907
+gTextL0_0907:
+	.incbin "baserom.gba", 0x384946, 0x2D
+	.global gTextL0_0908
+gTextL0_0908:
+	.incbin "baserom.gba", 0x384973, 0x22
+	.global gTextL0_0909
+gTextL0_0909:
+	.incbin "baserom.gba", 0x384995, 0x31
+	.global gTextL0_0910
+gTextL0_0910:
+	.incbin "baserom.gba", 0x3849C6, 0x34
+	.global gTextL0_0911
+gTextL0_0911:
+	.incbin "baserom.gba", 0x3849FA, 0x32
+	.global gTextL0_0912
+gTextL0_0912:
+	.incbin "baserom.gba", 0x384A2C, 0x24
+	.global gTextL0_0913
+gTextL0_0913:
+	.incbin "baserom.gba", 0x384A50, 0x2A
+	.global gTextL0_0914
+gTextL0_0914:
+	.incbin "baserom.gba", 0x384A7A, 0x8
+	.global gTextL0_0915
+gTextL0_0915:
+	.incbin "baserom.gba", 0x384A82, 0x8
+	.global gTextL0_0916
+gTextL0_0916:
+	.incbin "baserom.gba", 0x384A8A, 0xA
+	.global gTextL0_0917
+gTextL0_0917:
+	.incbin "baserom.gba", 0x384A94, 0xF
+	.global gTextL0_0918
+gTextL0_0918:
+	.incbin "baserom.gba", 0x384AA3, 0x19
+	.global gTextL0_0919
+gTextL0_0919:
+	.incbin "baserom.gba", 0x384ABC, 0x14
+	.global gTextL0_0920
+gTextL0_0920:
+	.incbin "baserom.gba", 0x384AD0, 0x10
+	.global gTextL0_0921
+gTextL0_0921:
+	.incbin "baserom.gba", 0x384AE0, 0x24
+	.global gTextL0_0922
+gTextL0_0922:
+	.incbin "baserom.gba", 0x384B04, 0x15
+	.global gTextL0_0923
+gTextL0_0923:
+	.incbin "baserom.gba", 0x384B19, 0xE
+	.global gTextL0_0924
+gTextL0_0924:
+	.incbin "baserom.gba", 0x384B27, 0x27
+	.global gTextL0_0925
+gTextL0_0925:
+	.incbin "baserom.gba", 0x384B4E, 0x29
+	.global gTextL0_0926
+gTextL0_0926:
+	.incbin "baserom.gba", 0x384B77, 0x30
+	.global gTextL0_0927
+gTextL0_0927:
+	.incbin "baserom.gba", 0x384BA7, 0x38
+	.global gTextL0_0928
+gTextL0_0928:
+	.incbin "baserom.gba", 0x384BDF, 0x1D
+	.global gTextL0_0929
+gTextL0_0929:
+	.incbin "baserom.gba", 0x384BFC, 0x29
+	.global gTextL0_0930
+gTextL0_0930:
+	.incbin "baserom.gba", 0x384C25, 0x1B
+	.global gTextL0_0931
+gTextL0_0931:
+	.incbin "baserom.gba", 0x384C40, 0x2C
+	.global gTextL0_0932
+gTextL0_0932:
+	.incbin "baserom.gba", 0x384C6C, 0x32
+	.global gTextL0_0933
+gTextL0_0933:
+	.incbin "baserom.gba", 0x384C9E, 0x36
+	.global gTextL0_0934
+gTextL0_0934:
+	.incbin "baserom.gba", 0x384CD4, 0x1B
+	.global gTextL0_0935
+gTextL0_0935:
+	.incbin "baserom.gba", 0x384CEF, 0x2E
+	.global gTextL0_0936
+gTextL0_0936:
+	.incbin "baserom.gba", 0x384D1D, 0x28
+	.global gTextL0_0937
+gTextL0_0937:
+	.incbin "baserom.gba", 0x384D45, 0x2F
+	.global gTextL0_0938
+gTextL0_0938:
+	.incbin "baserom.gba", 0x384D74, 0x21
+	.global gTextL0_0939
+gTextL0_0939:
+	.incbin "baserom.gba", 0x384D95, 0x24
+	.global gTextL0_0940
+gTextL0_0940:
+	.incbin "baserom.gba", 0x384DB9, 0x2B
+	.global gTextL0_0941
+gTextL0_0941:
+	.incbin "baserom.gba", 0x384DE4, 0x29
+	.global gTextL0_0942
+gTextL0_0942:
+	.incbin "baserom.gba", 0x384E0D, 0x2C
+	.global gTextL0_0943
+gTextL0_0943:
+	.incbin "baserom.gba", 0x384E39, 0x37
+	.global gTextL0_0944
+gTextL0_0944:
+	.incbin "baserom.gba", 0x384E70, 0x2F
+	.global gTextL0_0945
+gTextL0_0945:
+	.incbin "baserom.gba", 0x384E9F, 0x28
+	.global gTextL0_0946
+gTextL0_0946:
+	.incbin "baserom.gba", 0x384EC7, 0x1E
+	.global gTextL0_0947
+gTextL0_0947:
+	.incbin "baserom.gba", 0x384EE5, 0x19
+	.global gTextL0_0948
+gTextL0_0948:
+	.incbin "baserom.gba", 0x384EFE, 0x21
+	.global gTextL0_0949
+gTextL0_0949:
+	.incbin "baserom.gba", 0x384F1F, 0x14
+	.global gTextL0_0950
+gTextL0_0950:
+	.incbin "baserom.gba", 0x384F33, 0x13
+	.global gTextL0_0951
+gTextL0_0951:
+	.incbin "baserom.gba", 0x384F46, 0x12
+	.global gTextL0_0952
+gTextL0_0952:
+	.incbin "baserom.gba", 0x384F58, 0x39
+	.global gTextL0_0953
+gTextL0_0953:
+	.incbin "baserom.gba", 0x384F91, 0x15
+	.global gTextL0_0954
+gTextL0_0954:
+	.incbin "baserom.gba", 0x384FA6, 0x16
+	.global gTextL0_0955
+gTextL0_0955:
+	.incbin "baserom.gba", 0x384FBC, 0x1D
+	.global gTextL0_0956
+gTextL0_0956:
+	.incbin "baserom.gba", 0x384FD9, 0x31
+	.global gTextL0_0957
+gTextL0_0957:
+	.incbin "baserom.gba", 0x38500A, 0x16
+	.global gTextL0_0958
+gTextL0_0958:
+	.incbin "baserom.gba", 0x385020, 0x31
+	.global gTextL0_0959
+gTextL0_0959:
+	.incbin "baserom.gba", 0x385051, 0x2C
+	.global gTextL0_0960
+gTextL0_0960:
+	.incbin "baserom.gba", 0x38507D, 0x2A
+	.global gTextL0_0961
+gTextL0_0961:
+	.incbin "baserom.gba", 0x3850A7, 0x3B
+	.global gTextL0_0962
+gTextL0_0962:
+	.incbin "baserom.gba", 0x3850E2, 0x36
+	.global gTextL0_0963
+gTextL0_0963:
+	.incbin "baserom.gba", 0x385118, 0x3B
+	.global gTextL0_0964
+gTextL0_0964:
+	.incbin "baserom.gba", 0x385153, 0x39
+	.global gTextL0_0965
+gTextL0_0965:
+	.incbin "baserom.gba", 0x38518C, 0x38
+	.global gTextL0_0966
+gTextL0_0966:
+	.incbin "baserom.gba", 0x3851C4, 0x18
+	.global gTextL0_0967
+gTextL0_0967:
+	.incbin "baserom.gba", 0x3851DC, 0x33
+	.global gTextL0_0968
+gTextL0_0968:
+	.incbin "baserom.gba", 0x38520F, 0xD
+	.global gTextL0_0969
+gTextL0_0969:
+	.incbin "baserom.gba", 0x38521C, 0x11
+	.global gTextL0_0970
+gTextL0_0970:
+	.incbin "baserom.gba", 0x38522D, 0x17
+	.global gTextL0_0971
+gTextL0_0971:
+	.incbin "baserom.gba", 0x385244, 0x16
+	.global gTextL0_0972
+gTextL0_0972:
+	.incbin "baserom.gba", 0x38525A, 0x12
+	.global gTextL0_0973
+gTextL0_0973:
+	.incbin "baserom.gba", 0x38526C, 0x13
+	.global gTextL0_0974
+gTextL0_0974:
+	.incbin "baserom.gba", 0x38527F, 0x14
+	.global gTextL0_0975
+gTextL0_0975:
+	.incbin "baserom.gba", 0x385293, 0x12
+	.global gTextL0_0976
+gTextL0_0976:
+	.incbin "baserom.gba", 0x3852A5, 0x12
+	.global gTextL0_0977
+gTextL0_0977:
+	.incbin "baserom.gba", 0x3852B7, 0x15
+	.global gTextL0_0978
+gTextL0_0978:
+	.incbin "baserom.gba", 0x3852CC, 0x15
+	.global gTextL0_0979
+gTextL0_0979:
+	.incbin "baserom.gba", 0x3852E1, 0x19
+	.global gTextL0_0980
+gTextL0_0980:
+	.incbin "baserom.gba", 0x3852FA, 0x14
+	.global gTextL0_0981
+gTextL0_0981:
+	.incbin "baserom.gba", 0x38530E, 0x1A
+	.global gTextL0_0982
+gTextL0_0982:
+	.incbin "baserom.gba", 0x385328, 0x14B
+	.global gTextL0_0983
+gTextL0_0983:
+	.incbin "baserom.gba", 0x385473, 0x181
+	.global gTextL0_0984
+gTextL0_0984:
+	.incbin "baserom.gba", 0x3855F4, 0x11
+	.global gTextL0_0985
+gTextL0_0985:
+	.incbin "baserom.gba", 0x385605, 0xF
+	.global gTextL0_0986
+gTextL0_0986:
+	.incbin "baserom.gba", 0x385614, 0x26
+	.global gTextL0_0987
+gTextL0_0987:
+	.incbin "baserom.gba", 0x38563A, 0xA
+	.global gTextL0_0988
+gTextL0_0988:
+	.incbin "baserom.gba", 0x385644, 0xB
+	.global gTextL0_0989
+gTextL0_0989:
+	.incbin "baserom.gba", 0x38564F, 0xC
+	.global gTextL0_0990
+gTextL0_0990:
+	.incbin "baserom.gba", 0x38565B, 0xD
+	.global gTextL0_0991
+gTextL0_0991:
+	.incbin "baserom.gba", 0x385668, 0x10
+	.global gTextL0_0992
+gTextL0_0992:
+	.incbin "baserom.gba", 0x385678, 0xC
+	.global gTextL0_0993
+gTextL0_0993:
+	.incbin "baserom.gba", 0x385684, 0x11
+	.global gTextL0_0994
+gTextL0_0994:
+	.incbin "baserom.gba", 0x385695, 0x18
+	.global gTextL0_0995
+gTextL0_0995:
+	.incbin "baserom.gba", 0x3856AD, 0x17
+	.global gTextL0_0996
+gTextL0_0996:
+	.incbin "baserom.gba", 0x3856C4, 0x1B
+	.global gTextL0_0997
+gTextL0_0997:
+	.incbin "baserom.gba", 0x3856DF, 0x19
+	.global gTextL0_0998
+gTextL0_0998:
+	.incbin "baserom.gba", 0x3856F8, 0x1C
+	.global gTextL0_0999
+gTextL0_0999:
+	.incbin "baserom.gba", 0x385714, 0x1A
+	.global gTextL0_1000
+gTextL0_1000:
+	.incbin "baserom.gba", 0x38572E, 0x1E
+	.global gTextL0_1001
+gTextL0_1001:
+	.incbin "baserom.gba", 0x38574C, 0x1C
+	.global gTextL0_1002
+gTextL0_1002:
+	.incbin "baserom.gba", 0x385768, 0x1D
+	.global gTextL0_1003
+gTextL0_1003:
+	.incbin "baserom.gba", 0x385785, 0xE
+	.global gTextL0_1004
+gTextL0_1004:
+	.incbin "baserom.gba", 0x385793, 0x1B
+	.global gTextL0_1005
+gTextL0_1005:
+	.incbin "baserom.gba", 0x3857AE, 0x1F
+	.global gTextL0_1006
+gTextL0_1006:
+	.incbin "baserom.gba", 0x3857CD, 0x1D
+	.global gTextL0_1007
+gTextL0_1007:
+	.incbin "baserom.gba", 0x3857EA, 0x1F
+	.global gTextL0_1008
+gTextL0_1008:
+	.incbin "baserom.gba", 0x385809, 0x1B
+	.global gTextL0_1009
+gTextL0_1009:
+	.incbin "baserom.gba", 0x385824, 0x18
+	.global gTextL0_1010
+gTextL0_1010:
+	.incbin "baserom.gba", 0x38583C, 0x20
+	.global gTextL0_1011
+gTextL0_1011:
+	.incbin "baserom.gba", 0x38585C, 0x1A
+	.global gTextL0_1012
+gTextL0_1012:
+	.incbin "baserom.gba", 0x385876, 0xD
+	.global gTextL0_1013
+gTextL0_1013:
+	.incbin "baserom.gba", 0x385883, 0x1D
+	.global gTextL0_1014
+gTextL0_1014:
+	.incbin "baserom.gba", 0x3858A0, 0x16
+	.global gTextL0_1015
+gTextL0_1015:
+	.incbin "baserom.gba", 0x3858B6, 0x15
+	.global gTextL0_1016
+gTextL0_1016:
+	.incbin "baserom.gba", 0x3858CB, 0x1B
+	.global gTextL0_1017
+gTextL0_1017:
+	.incbin "baserom.gba", 0x3858E6, 0x19
+	.global gTextL0_1018
+gTextL0_1018:
+	.incbin "baserom.gba", 0x3858FF, 0x1B
+	.global gTextL0_1019
+gTextL0_1019:
+	.incbin "baserom.gba", 0x38591A, 0x15
+	.global gTextL0_1020
+gTextL0_1020:
+	.incbin "baserom.gba", 0x38592F, 0x19
+	.global gTextL0_1021
+gTextL0_1021:
+	.incbin "baserom.gba", 0x385948, 0x1D
+	.global gTextL0_1022
+gTextL0_1022:
+	.incbin "baserom.gba", 0x385965, 0x1F
+	.global gTextL0_1023
+gTextL0_1023:
+	.incbin "baserom.gba", 0x385984, 0x1C
+	.global gTextL0_1024
+gTextL0_1024:
+	.incbin "baserom.gba", 0x3859A0, 0x1A
+	.global gTextL0_1025
+gTextL0_1025:
+	.incbin "baserom.gba", 0x3859BA, 0x1F
+	.global gTextL0_1026
+gTextL0_1026:
+	.incbin "baserom.gba", 0x3859D9, 0x1D
+	.global gTextL0_1027
+gTextL0_1027:
+	.incbin "baserom.gba", 0x3859F6, 0x1F
+	.global gTextL0_1028
+gTextL0_1028:
+	.incbin "baserom.gba", 0x385A15, 0x1C
+	.global gTextL0_1029
+gTextL0_1029:
+	.incbin "baserom.gba", 0x385A31, 0x1D
+	.global gTextL0_1030
+gTextL0_1030:
+	.incbin "baserom.gba", 0x385A4E, 0x1F
+	.global gTextL0_1031
+gTextL0_1031:
+	.incbin "baserom.gba", 0x385A6D, 0x1B
+	.global gTextL0_1032
+gTextL0_1032:
+	.incbin "baserom.gba", 0x385A88, 0x18
+	.global gTextL0_1033
+gTextL0_1033:
+	.incbin "baserom.gba", 0x385AA0, 0x1A
+	.global gTextL0_1034
+gTextL0_1034:
+	.incbin "baserom.gba", 0x385ABA, 0x1F
+	.global gTextL0_1035
+gTextL0_1035:
+	.incbin "baserom.gba", 0x385AD9, 0x1A
+	.global gTextL0_1036
+gTextL0_1036:
+	.incbin "baserom.gba", 0x385AF3, 0x18
+	.global gTextL0_1037
+gTextL0_1037:
+	.incbin "baserom.gba", 0x385B0B, 0x1D
+	.global gTextL0_1038
+gTextL0_1038:
+	.incbin "baserom.gba", 0x385B28, 0x1F
+	.global gTextL0_1039
+gTextL0_1039:
+	.incbin "baserom.gba", 0x385B47, 0x12
+	.global gTextL0_1040
+gTextL0_1040:
+	.incbin "baserom.gba", 0x385B59, 0x15
+	.global gTextL0_1041
+gTextL0_1041:
+	.incbin "baserom.gba", 0x385B6E, 0x18
+	.global gTextL0_1042
+gTextL0_1042:
+	.incbin "baserom.gba", 0x385B86, 0x13
+	.global gTextL0_1043
+gTextL0_1043:
+	.incbin "baserom.gba", 0x385B99, 0x1A
+	.global gTextL0_1044
+gTextL0_1044:
+	.incbin "baserom.gba", 0x385BB3, 0x19
+	.global gTextL0_1045
+gTextL0_1045:
+	.incbin "baserom.gba", 0x385BCC, 0x1F
+	.global gTextL0_1046
+gTextL0_1046:
+	.incbin "baserom.gba", 0x385BEB, 0x1F
+	.global gTextL0_1047
+gTextL0_1047:
+	.incbin "baserom.gba", 0x385C0A, 0x1A
+	.global gTextL0_1048
+gTextL0_1048:
+	.incbin "baserom.gba", 0x385C24, 0x1F
+	.global gTextL0_1049
+gTextL0_1049:
+	.incbin "baserom.gba", 0x385C43, 0x17
+	.global gTextL0_1050
+gTextL0_1050:
+	.incbin "baserom.gba", 0x385C5A, 0x1A
+	.global gTextL0_1051
+gTextL0_1051:
+	.incbin "baserom.gba", 0x385C74, 0x11
+	.global gTextL0_1052
+gTextL0_1052:
+	.incbin "baserom.gba", 0x385C85, 0x1C
+	.global gTextL0_1053
+gTextL0_1053:
+	.incbin "baserom.gba", 0x385CA1, 0x1D
+	.global gTextL0_1054
+gTextL0_1054:
+	.incbin "baserom.gba", 0x385CBE, 0x1A
+	.global gTextL0_1055
+gTextL0_1055:
+	.incbin "baserom.gba", 0x385CD8, 0x1B
+	.global gTextL0_1056
+gTextL0_1056:
+	.incbin "baserom.gba", 0x385CF3, 0x1B
+	.global gTextL0_1057
+gTextL0_1057:
+	.incbin "baserom.gba", 0x385D0E, 0x1E
+	.global gTextL0_1058
+gTextL0_1058:
+	.incbin "baserom.gba", 0x385D2C, 0x17
+	.global gTextL0_1059
+gTextL0_1059:
+	.incbin "baserom.gba", 0x385D43, 0x14
+	.global gTextL0_1060
+gTextL0_1060:
+	.incbin "baserom.gba", 0x385D57, 0x19
+	.global gTextL0_1061
+gTextL0_1061:
+	.incbin "baserom.gba", 0x385D70, 0x1F
+	.global gTextL0_1062
+gTextL0_1062:
+	.incbin "baserom.gba", 0x385D8F, 0x1F
+	.global gTextL0_1063
+gTextL0_1063:
+	.incbin "baserom.gba", 0x385DAE, 0x1F
+	.global gTextL0_1064
+gTextL0_1064:
+	.incbin "baserom.gba", 0x385DCD, 0x19
+	.global gTextL0_1065
+gTextL0_1065:
+	.incbin "baserom.gba", 0x385DE6, 0x1B
+	.global gTextL0_1066
+gTextL0_1066:
+	.incbin "baserom.gba", 0x385E01, 0x1A
+	.global gTextL0_1067
+gTextL0_1067:
+	.incbin "baserom.gba", 0x385E1B, 0x1A
+	.global gTextL0_1068
+gTextL0_1068:
+	.incbin "baserom.gba", 0x385E35, 0x20
+	.global gTextL0_1069
+gTextL0_1069:
+	.incbin "baserom.gba", 0x385E55, 0x15
+	.global gTextL0_1070
+gTextL0_1070:
+	.incbin "baserom.gba", 0x385E6A, 0xF
+	.global gTextL0_1071
+gTextL0_1071:
+	.incbin "baserom.gba", 0x385E79, 0xB
+	.global gTextL0_1072
+gTextL0_1072:
+	.incbin "baserom.gba", 0x385E84, 0x34
+	.global gTextL0_1073
+gTextL0_1073:
+	.incbin "baserom.gba", 0x385EB8, 0xA
+	.global gTextL0_1074
+gTextL0_1074:
+	.incbin "baserom.gba", 0x385EC2, 0x3A
+	.global gTextL0_1075
+gTextL0_1075:
+	.incbin "baserom.gba", 0x385EFC, 0xA
+	.global gTextL0_1076
+gTextL0_1076:
+	.incbin "baserom.gba", 0x385F06, 0x31
+	.global gTextL0_1077
+gTextL0_1077:
+	.incbin "baserom.gba", 0x385F37, 0xD
+	.global gTextL0_1078
+gTextL0_1078:
+	.incbin "baserom.gba", 0x385F44, 0x2F
+	.global gTextL0_1079
+gTextL0_1079:
+	.incbin "baserom.gba", 0x385F73, 0xA
+	.global gTextL0_1080
+gTextL0_1080:
+	.incbin "baserom.gba", 0x385F7D, 0x3A
+	.global gTextL0_1081
+gTextL0_1081:
+	.incbin "baserom.gba", 0x385FB7, 0xB
+	.global gTextL0_1082
+gTextL0_1082:
+	.incbin "baserom.gba", 0x385FC2, 0x3C
+	.global gTextL0_1083
+gTextL0_1083:
+	.incbin "baserom.gba", 0x385FFE, 0xF
+	.global gTextL0_1084
+gTextL0_1084:
+	.incbin "baserom.gba", 0x38600D, 0x35
+	.global gTextL0_1085
+gTextL0_1085:
+	.incbin "baserom.gba", 0x386042, 0x9
+	.global gTextL0_1086
+gTextL0_1086:
+	.incbin "baserom.gba", 0x38604B, 0x3B
+	.global gTextL0_1087
+gTextL0_1087:
+	.incbin "baserom.gba", 0x386086, 0xF
+	.global gTextL0_1088
+gTextL0_1088:
+	.incbin "baserom.gba", 0x386095, 0x3E
+	.global gTextL0_1089
+gTextL0_1089:
+	.incbin "baserom.gba", 0x3860D3, 0x1E
+	.global gTextL0_1090
+gTextL0_1090:
+	.incbin "baserom.gba", 0x3860F1, 0x1A
+	.global gTextL0_1091
+gTextL0_1091:
+	.incbin "baserom.gba", 0x38610B, 0xF
+	.global gTextL0_1092
+gTextL0_1092:
+	.incbin "baserom.gba", 0x38611A, 0x18
+	.global gTextL0_1093
+gTextL0_1093:
+	.incbin "baserom.gba", 0x386132, 0x19
+	.global gTextL0_1094
+gTextL0_1094:
+	.incbin "baserom.gba", 0x38614B, 0x15
+	.global gTextL0_1095
+gTextL0_1095:
+	.incbin "baserom.gba", 0x386160, 0x11
+	.global gTextL0_1096
+gTextL0_1096:
+	.incbin "baserom.gba", 0x386171, 0x11
+	.global gTextL0_1097
+gTextL0_1097:
+	.incbin "baserom.gba", 0x386182, 0xC
+	.global gTextL0_1098
+gTextL0_1098:
+	.incbin "baserom.gba", 0x38618E, 0x1D
+	.global gTextL0_1099
+gTextL0_1099:
+	.incbin "baserom.gba", 0x3861AB, 0xF
+	.global gTextL0_1100
+gTextL0_1100:
+	.incbin "baserom.gba", 0x3861BA, 0x11
+	.global gTextL0_1101
+gTextL0_1101:
+	.incbin "baserom.gba", 0x3861CB, 0x1E
+	.global gTextL0_1102
+gTextL0_1102:
+	.incbin "baserom.gba", 0x3861E9, 0x13
+	.global gTextL0_1103
+gTextL0_1103:
+	.incbin "baserom.gba", 0x3861FC, 0x1B
+	.global gTextL0_1104
+gTextL0_1104:
+	.incbin "baserom.gba", 0x386217, 0x1B
+	.global gTextL0_1105
+gTextL0_1105:
+	.incbin "baserom.gba", 0x386232, 0x103
+	.global gTextL0_1106
+gTextL0_1106:
+	.incbin "baserom.gba", 0x386335, 0xA3
+	.global gTextL0_1107
+gTextL0_1107:
+	.incbin "baserom.gba", 0x3863D8, 0x101
+	.global gTextL0_1108
+gTextL0_1108:
+	.incbin "baserom.gba", 0x3864D9, 0x8
+	.global gTextL0_1109
+gTextL0_1109:
+	.incbin "baserom.gba", 0x3864E1, 0x9
+	.global gTextL0_1110
+gTextL0_1110:
+	.incbin "baserom.gba", 0x3864EA, 0x9
+	.global gTextL0_1111
+gTextL0_1111:
+	.incbin "baserom.gba", 0x3864F3, 0xA
+	.global gTextL0_1112
+gTextL0_1112:
+	.incbin "baserom.gba", 0x3864FD, 0x9
+	.global gTextL0_1113
+gTextL0_1113:
+	.incbin "baserom.gba", 0x386506, 0x9
+	.global gTextL0_1114
+gTextL0_1114:
+	.incbin "baserom.gba", 0x38650F, 0xA
+	.global gTextL0_1115
+gTextL0_1115:
+	.incbin "baserom.gba", 0x386519, 0xA
+	.global gTextL0_1116
+gTextL0_1116:
+	.incbin "baserom.gba", 0x386523, 0x7
+	.global gTextL0_1117
+gTextL0_1117:
+	.incbin "baserom.gba", 0x38652A, 0x20
+	.global gTextL0_1118
+gTextL0_1118:
+	.incbin "baserom.gba", 0x38654A, 0x22
+	.global gTextL0_1119
+gTextL0_1119:
+	.incbin "baserom.gba", 0x38656C, 0x3A
+	.global gTextL0_1120
+gTextL0_1120:
+	.incbin "baserom.gba", 0x3865A6, 0x6B
+	.global gTextL0_1121
+gTextL0_1121:
+	.incbin "baserom.gba", 0x386611, 0x4F
+	.global gTextL0_1122
+gTextL0_1122:
+	.incbin "baserom.gba", 0x386660, 0x53
+	.global gTextL0_1123
+gTextL0_1123:
+	.incbin "baserom.gba", 0x3866B3, 0x50
+	.global gTextL0_1124
+gTextL0_1124:
+	.incbin "baserom.gba", 0x386703, 0x36
+	.global gTextL0_1125
+gTextL0_1125:
+	.incbin "baserom.gba", 0x386739, 0x2E
+	.global gTextL0_1126
+gTextL0_1126:
+	.incbin "baserom.gba", 0x386767, 0x58
+	.global gTextL0_1127
+gTextL0_1127:
+	.incbin "baserom.gba", 0x3867BF, 0x35
+	.global gTextL0_1128
+gTextL0_1128:
+	.incbin "baserom.gba", 0x3867F4, 0x30
+	.global gTextL0_1129
+gTextL0_1129:
+	.incbin "baserom.gba", 0x386824, 0x64
+	.global gTextL0_1130
+gTextL0_1130:
+	.incbin "baserom.gba", 0x386888, 0x9
+	.global gTextL0_1131
+gTextL0_1131:
+	.incbin "baserom.gba", 0x386891, 0x57
+	.global gTextL0_1132
+gTextL0_1132:
+	.incbin "baserom.gba", 0x3868E8, 0x4B
+	.global gTextL0_1133
+gTextL0_1133:
+	.incbin "baserom.gba", 0x386933, 0x57
+	.global gTextL0_1134
+gTextL0_1134:
+	.incbin "baserom.gba", 0x38698A, 0x3B
+	.global gTextL0_1135
+gTextL0_1135:
+	.incbin "baserom.gba", 0x3869C5, 0x33
+	.global gTextL0_1136
+gTextL0_1136:
+	.incbin "baserom.gba", 0x3869F8, 0x1B
+	.global gTextL0_1137
+gTextL0_1137:
+	.incbin "baserom.gba", 0x386A13, 0x3F
+	.global gTextL0_1138
+gTextL0_1138:
+	.incbin "baserom.gba", 0x386A52, 0x33
+	.global gTextL0_1139
+gTextL0_1139:
+	.incbin "baserom.gba", 0x386A85, 0x30
+	.global gTextL0_1140
+gTextL0_1140:
+	.incbin "baserom.gba", 0x386AB5, 0x69
+	.global gTextL0_1141
+gTextL0_1141:
+	.incbin "baserom.gba", 0x386B1E, 0x2B
+	.global gTextL0_1142
+gTextL0_1142:
+	.incbin "baserom.gba", 0x386B49, 0x5D
+	.global gTextL0_1143
+gTextL0_1143:
+	.incbin "baserom.gba", 0x386BA6, 0x68
+	.global gTextL0_1144
+gTextL0_1144:
+	.incbin "baserom.gba", 0x386C0E, 0x5D
+	.global gTextL0_1145
+gTextL0_1145:
+	.incbin "baserom.gba", 0x386C6B, 0x2E
+	.global gTextL0_1146
+gTextL0_1146:
+	.incbin "baserom.gba", 0x386C99, 0x2C
+	.global gTextL0_1147
+gTextL0_1147:
+	.incbin "baserom.gba", 0x386CC5, 0x3B
+	.global gTextL0_1148
+gTextL0_1148:
+	.incbin "baserom.gba", 0x386D00, 0x15
+	.global gTextL0_1149
+gTextL0_1149:
+	.incbin "baserom.gba", 0x386D15, 0x15
+	.global gTextL0_1150
+gTextL0_1150:
+	.incbin "baserom.gba", 0x386D2A, 0x2C
+	.global gTextL0_1151
+gTextL0_1151:
+	.incbin "baserom.gba", 0x386D56, 0x15D
+	.global gTextL0_1152
+gTextL0_1152:
+	.incbin "baserom.gba", 0x386EB3, 0xDF
+	.global gTextL0_1153
+gTextL0_1153:
+	.incbin "baserom.gba", 0x386F92, 0xE0
+	.global gTextL0_1154
+gTextL0_1154:
+	.incbin "baserom.gba", 0x387072, 0x42
+	.global gTextL0_1155
+gTextL0_1155:
+	.incbin "baserom.gba", 0x3870B4, 0x8
+	.global gTextL0_1156
+gTextL0_1156:
+	.incbin "baserom.gba", 0x3870BC, 0x20
+	.global gTextL0_1157
+gTextL0_1157:
+	.incbin "baserom.gba", 0x3870DC, 0x25
+	.global gTextL0_1158
+gTextL0_1158:
+	.incbin "baserom.gba", 0x387101, 0x38
+	.global gTextL0_1159
+gTextL0_1159:
+	.incbin "baserom.gba", 0x387139, 0x54
+	.global gTextL0_1160
+gTextL0_1160:
+	.incbin "baserom.gba", 0x38718D, 0x66
+	.global gTextL0_1161
+gTextL0_1161:
+	.incbin "baserom.gba", 0x3871F3, 0x8
+	.global gTextL0_1162
+gTextL0_1162:
+	.incbin "baserom.gba", 0x3871FB, 0x31
+	.global gTextL0_1163
+gTextL0_1163:
+	.incbin "baserom.gba", 0x38722C, 0x30
+	.global gTextL0_1164
+gTextL0_1164:
+	.incbin "baserom.gba", 0x38725C, 0x32
+	.global gTextL0_1165
+gTextL0_1165:
+	.incbin "baserom.gba", 0x38728E, 0x30
+	.global gTextL0_1166
+gTextL0_1166:
+	.incbin "baserom.gba", 0x3872BE, 0x39
+	.global gTextL0_1167
+gTextL0_1167:
+	.incbin "baserom.gba", 0x3872F7, 0x17
+	.global gTextL0_1168
+gTextL0_1168:
+	.incbin "baserom.gba", 0x38730E, 0x25
+	.global gTextL0_1169
+gTextL0_1169:
+	.incbin "baserom.gba", 0x387333, 0x2A
+	.global gTextL0_1170
+gTextL0_1170:
+	.incbin "baserom.gba", 0x38735D, 0x39
+	.global gTextL0_1171
+gTextL0_1171:
+	.incbin "baserom.gba", 0x387396, 0x23
+	.global gTextL0_1172
+gTextL0_1172:
+	.incbin "baserom.gba", 0x3873B9, 0x2D
+	.global gTextL0_1173
+gTextL0_1173:
+	.incbin "baserom.gba", 0x3873E6, 0x1E
+	.global gTextL0_1174
+gTextL0_1174:
+	.incbin "baserom.gba", 0x387404, 0x46
+	.global gTextL0_1175
+gTextL0_1175:
+	.incbin "baserom.gba", 0x38744A, 0x27
+	.global gTextL0_1176
+gTextL0_1176:
+	.incbin "baserom.gba", 0x387471, 0x18
+	.global gTextL0_1177
+gTextL0_1177:
+	.incbin "baserom.gba", 0x387489, 0x1E
+	.global gTextL0_1178
+gTextL0_1178:
+	.incbin "baserom.gba", 0x3874A7, 0x1A6
+	.global gTextL0_1179
+gTextL0_1179:
+	.incbin "baserom.gba", 0x38764D, 0x7C
+	.global gTextL0_1180
+gTextL0_1180:
+	.incbin "baserom.gba", 0x3876C9, 0x92
+	.global gTextL0_1181
+gTextL0_1181:
+	.incbin "baserom.gba", 0x38775B, 0xE
+	.global gTextL0_1182
+gTextL0_1182:
+	.incbin "baserom.gba", 0x387769, 0x11
+	.global gTextL0_1183
+gTextL0_1183:
+	.incbin "baserom.gba", 0x38777A, 0x15
+	.global gTextL0_1184
+gTextL0_1184:
+	.incbin "baserom.gba", 0x38778F, 0x15
+	.global gTextL0_1185
+gTextL0_1185:
+	.incbin "baserom.gba", 0x3877A4, 0x15
+	.global gTextL0_1186
+gTextL0_1186:
+	.incbin "baserom.gba", 0x3877B9, 0x15
+	.global gTextL0_1187
+gTextL0_1187:
+	.incbin "baserom.gba", 0x3877CE, 0x15
+	.global gTextL0_1188
+gTextL0_1188:
+	.incbin "baserom.gba", 0x3877E3, 0x15
+	.global gTextL0_1189
+gTextL0_1189:
+	.incbin "baserom.gba", 0x3877F8, 0x15
+	.global gTextL0_1190
+gTextL0_1190:
+	.incbin "baserom.gba", 0x38780D, 0x15
+	.global gTextL0_1191
+gTextL0_1191:
+	.incbin "baserom.gba", 0x387822, 0x15
+	.global gTextL0_1192
+gTextL0_1192:
+	.incbin "baserom.gba", 0x387837, 0x16
+	.global gTextL0_1193
+gTextL0_1193:
+	.incbin "baserom.gba", 0x38784D, 0x12
+	.global gTextL0_1194
+gTextL0_1194:
+	.incbin "baserom.gba", 0x38785F, 0x11
+	.global gTextL0_1195
+gTextL0_1195:
+	.incbin "baserom.gba", 0x387870, 0x17
+	.global gTextL0_1196
+gTextL0_1196:
+	.incbin "baserom.gba", 0x387887, 0x15
+	.global gTextL0_1197
+gTextL0_1197:
+	.incbin "baserom.gba", 0x38789C, 0x12
+	.global gTextL0_1198
+gTextL0_1198:
+	.incbin "baserom.gba", 0x3878AE, 0x1A
+	.global gTextL0_1199
+gTextL0_1199:
+	.incbin "baserom.gba", 0x3878C8, 0x15
+	.global gTextL0_1200
+gTextL0_1200:
+	.incbin "baserom.gba", 0x3878DD, 0x14
+	.global gTextL0_1201
+gTextL0_1201:
+	.incbin "baserom.gba", 0x3878F1, 0x13
+	.global gTextL0_1202
+gTextL0_1202:
+	.incbin "baserom.gba", 0x387904, 0x17
+	.global gTextL0_1203
+gTextL0_1203:
+	.incbin "baserom.gba", 0x38791B, 0x12
+	.global gTextL0_1204
+gTextL0_1204:
+	.incbin "baserom.gba", 0x38792D, 0x13
+	.global gTextL0_1205
+gTextL0_1205:
+	.incbin "baserom.gba", 0x387940, 0x15
+	.global gTextL0_1206
+gTextL0_1206:
+	.incbin "baserom.gba", 0x387955, 0x10
+	.global gTextL0_1207
+gTextL0_1207:
+	.incbin "baserom.gba", 0x387965, 0x13
+	.global gTextL0_1208
+gTextL0_1208:
+	.incbin "baserom.gba", 0x387978, 0x14
+	.global gTextL0_1209
+gTextL0_1209:
+	.incbin "baserom.gba", 0x38798C, 0x14
+	.global gTextL0_1210
+gTextL0_1210:
+	.incbin "baserom.gba", 0x3879A0, 0x1B
+	.global gTextL0_1211
+gTextL0_1211:
+	.incbin "baserom.gba", 0x3879BB, 0x1B
+	.global gTextL0_1212
+gTextL0_1212:
+	.incbin "baserom.gba", 0x3879D6, 0x15
+	.global gTextL0_1213
+gTextL0_1213:
+	.incbin "baserom.gba", 0x3879EB, 0x1D
+	.global gTextL0_1214
+gTextL0_1214:
+	.incbin "baserom.gba", 0x387A08, 0x17
+	.global gTextL0_1215
+gTextL0_1215:
+	.incbin "baserom.gba", 0x387A1F, 0x16
+	.global gTextL0_1216
+gTextL0_1216:
+	.incbin "baserom.gba", 0x387A35, 0x17
+	.global gTextL0_1217
+gTextL0_1217:
+	.incbin "baserom.gba", 0x387A4C, 0x8
+	.global gTextL0_1218
+gTextL0_1218:
+	.incbin "baserom.gba", 0x387A54, 0xA
+	.global gTextL0_1219
+gTextL0_1219:
+	.incbin "baserom.gba", 0x387A5E, 0x8
+	.global gTextL0_1220
+gTextL0_1220:
+	.incbin "baserom.gba", 0x387A66, 0xA
+	.global gTextL0_1221
+gTextL0_1221:
+	.incbin "baserom.gba", 0x387A70, 0xB
+	.global gTextL0_1222
+gTextL0_1222:
+	.incbin "baserom.gba", 0x387A7B, 0xB
+	.global gTextL0_1223
+gTextL0_1223:
+	.incbin "baserom.gba", 0x387A86, 0xB
+	.global gTextL0_1224
+gTextL0_1224:
+	.incbin "baserom.gba", 0x387A91, 0xB
+	.global gTextL0_1225
+gTextL0_1225:
+	.incbin "baserom.gba", 0x387A9C, 0xB
+	.global gTextL0_1226
+gTextL0_1226:
+	.incbin "baserom.gba", 0x387AA7, 0xB
+	.global gTextL0_1227
+gTextL0_1227:
+	.incbin "baserom.gba", 0x387AB2, 0xB
+	.global gTextL0_1228
+gTextL0_1228:
+	.incbin "baserom.gba", 0x387ABD, 0xB
+	.global gTextL0_1229
+gTextL0_1229:
+	.incbin "baserom.gba", 0x387AC8, 0xB
+	.global gTextL0_1230
+gTextL0_1230:
+	.incbin "baserom.gba", 0x387AD3, 0xC
+	.global gTextL0_1231
+gTextL0_1231:
+	.incbin "baserom.gba", 0x387ADF, 0x8
+	.global gTextL0_1232
+gTextL0_1232:
+	.incbin "baserom.gba", 0x387AE7, 0xA
+	.global gTextL0_1233
+gTextL0_1233:
+	.incbin "baserom.gba", 0x387AF1, 0x9
+	.global gTextL0_1234
+gTextL0_1234:
+	.incbin "baserom.gba", 0x387AFA, 0x8
+	.global gTextL0_1235
+gTextL0_1235:
+	.incbin "baserom.gba", 0x387B02, 0xA
+	.global gTextL0_1236
+gTextL0_1236:
+	.incbin "baserom.gba", 0x387B0C, 0xD
+	.global gTextL0_1237
+gTextL0_1237:
+	.incbin "baserom.gba", 0x387B19, 0x8
+	.global gTextL0_1238
+gTextL0_1238:
+	.incbin "baserom.gba", 0x387B21, 0x7
+	.global gTextL0_1239
+gTextL0_1239:
+	.incbin "baserom.gba", 0x387B28, 0x10
+	.global gTextL0_1240
+gTextL0_1240:
+	.incbin "baserom.gba", 0x387B38, 0x9
+	.global gTextL0_1241
+gTextL0_1241:
+	.incbin "baserom.gba", 0x387B41, 0xB
+	.global gTextL0_1242
+gTextL0_1242:
+	.incbin "baserom.gba", 0x387B4C, 0xB
+	.global gTextL0_1243
+gTextL0_1243:
+	.incbin "baserom.gba", 0x387B57, 0xD
+	.global gTextL0_1244
+gTextL0_1244:
+	.incbin "baserom.gba", 0x387B64, 0xF
+	.global gTextL0_1245
+gTextL0_1245:
+	.incbin "baserom.gba", 0x387B73, 0xC
+	.global gTextL0_1246
+gTextL0_1246:
+	.incbin "baserom.gba", 0x387B7F, 0x9
+	.global gTextL0_1247
+gTextL0_1247:
+	.incbin "baserom.gba", 0x387B88, 0xC
+	.global gTextL0_1248
+gTextL0_1248:
+	.incbin "baserom.gba", 0x387B94, 0x1A
+	.global gTextL0_1249
+gTextL0_1249:
+	.incbin "baserom.gba", 0x387BAE, 0x14
+	.global gTextL0_1250
+gTextL0_1250:
+	.incbin "baserom.gba", 0x387BC2, 0xA7
+	.global gTextL0_1251
+gTextL0_1251:
+	.incbin "baserom.gba", 0x387C69, 0x127
+	.global gTextL0_1252
+gTextL0_1252:
+	.incbin "baserom.gba", 0x387D90, 0x137
+	.global gTextL0_1253
+gTextL0_1253:
+	.incbin "baserom.gba", 0x387EC7, 0x166
+	.global gTextL0_1254
+gTextL0_1254:
+	.incbin "baserom.gba", 0x38802D, 0x103
+	.global gTextL0_1255
+gTextL0_1255:
+	.incbin "baserom.gba", 0x388130, 0x176
+	.global gTextL0_1256
+gTextL0_1256:
+	.incbin "baserom.gba", 0x3882A6, 0x22E
+	.global gTextL0_1257
+gTextL0_1257:
+	.incbin "baserom.gba", 0x3884D4, 0x8E
+	.global gTextL0_1258
+gTextL0_1258:
+	.incbin "baserom.gba", 0x388562, 0x1B
+	.global gTextL0_1259
+gTextL0_1259:
+	.incbin "baserom.gba", 0x38857D, 0x60
+	.global gTextL0_1260
+gTextL0_1260:
+	.incbin "baserom.gba", 0x3885DD, 0x38
+	.global gTextL0_1261
+gTextL0_1261:
+	.incbin "baserom.gba", 0x388615, 0x19
+	.global gTextL0_1262
+gTextL0_1262:
+	.incbin "baserom.gba", 0x38862E, 0x17
+	.global gTextL0_1263
+gTextL0_1263:
+	.incbin "baserom.gba", 0x388645, 0x17
+	.global gTextL0_1264
+gTextL0_1264:
+	.incbin "baserom.gba", 0x38865C, 0x17
+	.global gTextL0_1265
+gTextL0_1265:
+	.incbin "baserom.gba", 0x388673, 0x17
+	.global gTextL0_1266
+gTextL0_1266:
+	.incbin "baserom.gba", 0x38868A, 0x17
+	.global gTextL0_1267
+gTextL0_1267:
+	.incbin "baserom.gba", 0x3886A1, 0x17
+	.global gTextL0_1268
+gTextL0_1268:
+	.incbin "baserom.gba", 0x3886B8, 0x17
+	.global gTextL0_1269
+gTextL0_1269:
+	.incbin "baserom.gba", 0x3886CF, 0x17
+	.global gTextL0_1270
+gTextL0_1270:
+	.incbin "baserom.gba", 0x3886E6, 0x17
+	.global gTextL0_1271
+gTextL0_1271:
+	.incbin "baserom.gba", 0x3886FD, 0x18
+	.global gTextL0_1272
+gTextL0_1272:
+	.incbin "baserom.gba", 0x388715, 0x23
+	.global gTextL0_1273
+gTextL0_1273:
+	.incbin "baserom.gba", 0x388738, 0x24
+	.global gTextL0_1274
+gTextL0_1274:
+	.incbin "baserom.gba", 0x38875C, 0x15
+	.global gTextL0_1275
+gTextL0_1275:
+	.incbin "baserom.gba", 0x388771, 0x2B
+	.global gTextL0_1276
+gTextL0_1276:
+	.incbin "baserom.gba", 0x38879C, 0x2B
+	.global gTextL0_1277
+gTextL0_1277:
+	.incbin "baserom.gba", 0x3887C7, 0x2B
+	.global gTextL0_1278
+gTextL0_1278:
+	.incbin "baserom.gba", 0x3887F2, 0x2B
+	.global gTextL0_1279
+gTextL0_1279:
+	.incbin "baserom.gba", 0x38881D, 0x2B
+	.global gTextL0_1280
+gTextL0_1280:
+	.incbin "baserom.gba", 0x388848, 0x2B
+	.global gTextL0_1281
+gTextL0_1281:
+	.incbin "baserom.gba", 0x388873, 0x2B
+	.global gTextL0_1282
+gTextL0_1282:
+	.incbin "baserom.gba", 0x38889E, 0x2B
+	.global gTextL0_1283
+gTextL0_1283:
+	.incbin "baserom.gba", 0x3888C9, 0x2C
+	.global gTextL0_1284
+gTextL0_1284:
+	.incbin "baserom.gba", 0x3888F5, 0x17
+	.global gTextL0_1285
+gTextL0_1285:
+	.incbin "baserom.gba", 0x38890C, 0x18
+	.global gTextL0_1286
+gTextL0_1286:
+	.incbin "baserom.gba", 0x388924, 0x18
+	.global gTextL0_1287
+gTextL0_1287:
+	.incbin "baserom.gba", 0x38893C, 0x19
+	.global gTextL0_1288
+gTextL0_1288:
+	.incbin "baserom.gba", 0x388955, 0x21
+	.global gTextL0_1289
+gTextL0_1289:
+	.incbin "baserom.gba", 0x388976, 0x2D
+	.global gTextL0_1290
+gTextL0_1290:
+	.incbin "baserom.gba", 0x3889A3, 0x2D
+	.global gTextL0_1291
+gTextL0_1291:
+	.incbin "baserom.gba", 0x3889D0, 0x32
+	.global gTextL0_1292
+gTextL0_1292:
+	.incbin "baserom.gba", 0x388A02, 0x26
+	.global gTextL0_1293
+gTextL0_1293:
+	.incbin "baserom.gba", 0x388A28, 0x5D
+	.global gTextL0_1294
+gTextL0_1294:
+	.incbin "baserom.gba", 0x388A85, 0x3C
+	.global gTextL0_1295
+gTextL0_1295:
+	.incbin "baserom.gba", 0x388AC1, 0x32
+	.global gTextL0_1296
+gTextL0_1296:
+	.incbin "baserom.gba", 0x388AF3, 0x29
+	.global gTextL0_1297
+gTextL0_1297:
+	.incbin "baserom.gba", 0x388B1C, 0x44
+	.global gTextL0_1298
+gTextL0_1298:
+	.incbin "baserom.gba", 0x388B60, 0x31
+	.global gTextL0_1299
+gTextL0_1299:
+	.incbin "baserom.gba", 0x388B91, 0x3C
+	.global gTextL0_1300
+gTextL0_1300:
+	.incbin "baserom.gba", 0x388BCD, 0x46
+	.global gTextL0_1301
+gTextL0_1301:
+	.incbin "baserom.gba", 0x388C13, 0x25
+	.global gTextL0_1302
+gTextL0_1302:
+	.incbin "baserom.gba", 0x388C38, 0x5B
+	.global gTextL0_1303
+gTextL0_1303:
+	.incbin "baserom.gba", 0x388C93, 0x55
+	.global gTextL0_1304
+gTextL0_1304:
+	.incbin "baserom.gba", 0x388CE8, 0x36
+	.global gTextL0_1305
+gTextL0_1305:
+	.incbin "baserom.gba", 0x388D1E, 0x39
+	.global gTextL0_1306
+gTextL0_1306:
+	.incbin "baserom.gba", 0x388D57, 0x63
+	.global gTextL0_1307
+gTextL0_1307:
+	.incbin "baserom.gba", 0x388DBA, 0x67
+	.global gTextL0_1308
+gTextL0_1308:
+	.incbin "baserom.gba", 0x388E21, 0x7A
+	.global gTextL0_1309
+gTextL0_1309:
+	.incbin "baserom.gba", 0x388E9B, 0x74
+	.global gTextL0_1310
+gTextL0_1310:
+	.incbin "baserom.gba", 0x388F0F, 0x6A
+	.global gTextL0_1311
+gTextL0_1311:
+	.incbin "baserom.gba", 0x388F79, 0x68
+	.global gTextL0_1312
+gTextL0_1312:
+	.incbin "baserom.gba", 0x388FE1, 0x48
+	.global gTextL0_1313
+gTextL0_1313:
+	.incbin "baserom.gba", 0x389029, 0x35
+	.global gTextL0_1314
+gTextL0_1314:
+	.incbin "baserom.gba", 0x38905E, 0x47
+	.global gTextL0_1315
+gTextL0_1315:
+	.incbin "baserom.gba", 0x3890A5, 0x76
+	.global gTextL0_1316
+gTextL0_1316:
+	.incbin "baserom.gba", 0x38911B, 0x79
+	.global gTextL0_1317
+gTextL0_1317:
+	.incbin "baserom.gba", 0x389194, 0x67
+	.global gTextL0_1318
+gTextL0_1318:
+	.incbin "baserom.gba", 0x3891FB, 0x5E
+	.global gTextL0_1319
+gTextL0_1319:
+	.incbin "baserom.gba", 0x389259, 0x2F
+	.global gTextL0_1320
+gTextL0_1320:
+	.incbin "baserom.gba", 0x389288, 0x41
+	.global gTextL0_1321
+gTextL0_1321:
+	.incbin "baserom.gba", 0x3892C9, 0x35
+	.global gTextL0_1322
+gTextL0_1322:
+	.incbin "baserom.gba", 0x3892FE, 0x31
+	.global gTextL0_1323
+gTextL0_1323:
+	.incbin "baserom.gba", 0x38932F, 0x30
+	.global gTextL0_1324
+gTextL0_1324:
+	.incbin "baserom.gba", 0x38935F, 0x2A
+	.global gTextL0_1325
+gTextL0_1325:
+	.incbin "baserom.gba", 0x389389, 0x36
+	.global gTextL0_1326
+gTextL0_1326:
+	.incbin "baserom.gba", 0x3893BF, 0x27
+	.global gTextL0_1327
+gTextL0_1327:
+	.incbin "baserom.gba", 0x3893E6, 0x2B
+	.global gTextL0_1328
+gTextL0_1328:
+	.incbin "baserom.gba", 0x389411, 0x44
+	.global gTextL0_1329
+gTextL0_1329:
+	.incbin "baserom.gba", 0x389455, 0x24
+	.global gTextL0_1330
+gTextL0_1330:
+	.incbin "baserom.gba", 0x389479, 0x42
+	.global gTextL0_1331
+gTextL0_1331:
+	.incbin "baserom.gba", 0x3894BB, 0x9
+	.global gTextL0_1332
+gTextL0_1332:
+	.incbin "baserom.gba", 0x3894C4, 0x9
+	.global gTextL0_1333
+gTextL0_1333:
+	.incbin "baserom.gba", 0x3894CD, 0x8
+	.global gTextL0_1334
+gTextL0_1334:
+	.incbin "baserom.gba", 0x3894D5, 0x9
+	.global gTextL0_1335
+gTextL0_1335:
+	.incbin "baserom.gba", 0x3894DE, 0x9
+	.global gTextL0_1336
+gTextL0_1336:
+	.incbin "baserom.gba", 0x3894E7, 0xB
+	.global gTextL0_1337
+gTextL0_1337:
+	.incbin "baserom.gba", 0x3894F2, 0xA
+	.global gTextL0_1338
+gTextL0_1338:
+	.incbin "baserom.gba", 0x3894FC, 0x9
+	.global gTextL0_1339
+gTextL0_1339:
+	.incbin "baserom.gba", 0x389505, 0xA
+	.global gTextL0_1340
+gTextL0_1340:
+	.incbin "baserom.gba", 0x38950F, 0xA
+	.global gTextL0_1341
+gTextL0_1341:
+	.incbin "baserom.gba", 0x389519, 0xB
+	.global gTextL0_1342
+gTextL0_1342:
+	.incbin "baserom.gba", 0x389524, 0xB
+	.global gTextL0_1343
+gTextL0_1343:
+	.incbin "baserom.gba", 0x38952F, 0xB
+	.global gTextL0_1344
+gTextL0_1344:
+	.incbin "baserom.gba", 0x38953A, 0xA
+	.global gTextL0_1345
+gTextL0_1345:
+	.incbin "baserom.gba", 0x389544, 0xA
+	.global gTextL0_1346
+gTextL0_1346:
+	.incbin "baserom.gba", 0x38954E, 0x23
+	.global gTextL0_1347
+gTextL0_1347:
+	.incbin "baserom.gba", 0x389571, 0x10
+	.global gTextL0_1348
+gTextL0_1348:
+	.incbin "baserom.gba", 0x389581, 0x31
+	.global gTextL0_1349
+gTextL0_1349:
+	.incbin "baserom.gba", 0x3895B2, 0x29
+	.global gTextL0_1350
+gTextL0_1350:
+	.incbin "baserom.gba", 0x3895DB, 0x29
+	.global gTextL0_1351
+gTextL0_1351:
+	.incbin "baserom.gba", 0x389604, 0x37
+	.global gTextL0_1352
+gTextL0_1352:
+	.incbin "baserom.gba", 0x38963B, 0x27
+	.global gTextL0_1353
+gTextL0_1353:
+	.incbin "baserom.gba", 0x389662, 0x2F
+	.global gTextL0_1354
+gTextL0_1354:
+	.incbin "baserom.gba", 0x389691, 0x25
+	.global gTextL0_1355
+gTextL0_1355:
+	.incbin "baserom.gba", 0x3896B6, 0x33
+	.global gTextL0_1356
+gTextL0_1356:
+	.incbin "baserom.gba", 0x3896E9, 0x2D
+	.global gTextL0_1357
+gTextL0_1357:
+	.incbin "baserom.gba", 0x389716, 0x2C
+	.global gTextL0_1358
+gTextL0_1358:
+	.incbin "baserom.gba", 0x389742, 0x2F
+	.global gTextL0_1359
+gTextL0_1359:
+	.incbin "baserom.gba", 0x389771, 0x26
+	.global gTextL0_1360
+gTextL0_1360:
+	.incbin "baserom.gba", 0x389797, 0x2B
+	.global gTextL0_1361
+gTextL0_1361:
+	.incbin "baserom.gba", 0x3897C2, 0x2D
+	.global gTextL0_1362
+gTextL0_1362:
+	.incbin "baserom.gba", 0x3897EF, 0x2A
+	.global gTextL0_1363
+gTextL0_1363:
+	.incbin "baserom.gba", 0x389819, 0x2B
+	.global gTextL0_1364
+gTextL0_1364:
+	.incbin "baserom.gba", 0x389844, 0x1A
+	.global gTextL0_1365
+gTextL0_1365:
+	.incbin "baserom.gba", 0x38985E, 0x2F
+	.global gTextL0_1366
+gTextL0_1366:
+	.incbin "baserom.gba", 0x38988D, 0x35
+	.global gTextL0_1367
+gTextL0_1367:
+	.incbin "baserom.gba", 0x3898C2, 0x2A
+	.global gTextL0_1368
+gTextL0_1368:
+	.incbin "baserom.gba", 0x3898EC, 0x2D
+	.global gTextL0_1369
+gTextL0_1369:
+	.incbin "baserom.gba", 0x389919, 0x32
+	.global gTextL0_1370
+gTextL0_1370:
+	.incbin "baserom.gba", 0x38994B, 0x29
+	.global gTextL0_1371
+gTextL0_1371:
+	.incbin "baserom.gba", 0x389974, 0x34
+	.global gTextL0_1372
+gTextL0_1372:
+	.incbin "baserom.gba", 0x3899A8, 0x21
+	.global gTextL0_1373
+gTextL0_1373:
+	.incbin "baserom.gba", 0x3899C9, 0x36
+	.global gTextL0_1374
+gTextL0_1374:
+	.incbin "baserom.gba", 0x3899FF, 0x34
+	.global gTextL0_1375
+gTextL0_1375:
+	.incbin "baserom.gba", 0x389A33, 0x30
+	.global gTextL0_1376
+gTextL0_1376:
+	.incbin "baserom.gba", 0x389A63, 0x26
+	.global gTextL0_1377
+gTextL0_1377:
+	.incbin "baserom.gba", 0x389A89, 0x37
+	.global gTextL0_1378
+gTextL0_1378:
+	.incbin "baserom.gba", 0x389AC0, 0x35
+	.global gTextL0_1379
+gTextL0_1379:
+	.incbin "baserom.gba", 0x389AF5, 0x2B
+	.global gTextL0_1380
+gTextL0_1380:
+	.incbin "baserom.gba", 0x389B20, 0x33
+	.global gTextL0_1381
+gTextL0_1381:
+	.incbin "baserom.gba", 0x389B53, 0x2F
+	.global gTextL0_1382
+gTextL0_1382:
+	.incbin "baserom.gba", 0x389B82, 0x2C
+	.global gTextL0_1383
+gTextL0_1383:
+	.incbin "baserom.gba", 0x389BAE, 0x30
+	.global gTextL0_1384
+gTextL0_1384:
+	.incbin "baserom.gba", 0x389BDE, 0x32
+	.global gTextL0_1385
+gTextL0_1385:
+	.incbin "baserom.gba", 0x389C10, 0x2A
+	.global gTextL0_1386
+gTextL0_1386:
+	.incbin "baserom.gba", 0x389C3A, 0x31
+	.global gTextL0_1387
+gTextL0_1387:
+	.incbin "baserom.gba", 0x389C6B, 0x33
+	.global gTextL0_1388
+gTextL0_1388:
+	.incbin "baserom.gba", 0x389C9E, 0x27
+	.global gTextL0_1389
+gTextL0_1389:
+	.incbin "baserom.gba", 0x389CC5, 0x33
+	.global gTextL0_1390
+gTextL0_1390:
+	.incbin "baserom.gba", 0x389CF8, 0x35
+	.global gTextL0_1391
+gTextL0_1391:
+	.incbin "baserom.gba", 0x389D2D, 0x35
+	.global gTextL0_1392
+gTextL0_1392:
+	.incbin "baserom.gba", 0x389D62, 0x35
+	.global gTextL0_1393
+gTextL0_1393:
+	.incbin "baserom.gba", 0x389D97, 0x33
+	.global gTextL0_1394
+gTextL0_1394:
+	.incbin "baserom.gba", 0x389DCA, 0x33
+	.global gTextL0_1395
+gTextL0_1395:
+	.incbin "baserom.gba", 0x389DFD, 0x2F
+	.global gTextL0_1396
+gTextL0_1396:
+	.incbin "baserom.gba", 0x389E2C, 0x30
+	.global gTextL0_1397
+gTextL0_1397:
+	.incbin "baserom.gba", 0x389E5C, 0x32
+	.global gTextL0_1398
+gTextL0_1398:
+	.incbin "baserom.gba", 0x389E8E, 0x31
+	.global gTextL0_1399
+gTextL0_1399:
+	.incbin "baserom.gba", 0x389EBF, 0x35
+	.global gTextL0_1400
+gTextL0_1400:
+	.incbin "baserom.gba", 0x389EF4, 0x36
+	.global gTextL0_1401
+gTextL0_1401:
+	.incbin "baserom.gba", 0x389F2A, 0x2D
+	.global gTextL0_1402
+gTextL0_1402:
+	.incbin "baserom.gba", 0x389F57, 0x29
+	.global gTextL0_1403
+gTextL0_1403:
+	.incbin "baserom.gba", 0x389F80, 0x34
+	.global gTextL0_1404
+gTextL0_1404:
+	.incbin "baserom.gba", 0x389FB4, 0x37
+	.global gTextL0_1405
+gTextL0_1405:
+	.incbin "baserom.gba", 0x389FEB, 0x2D
+	.global gTextL0_1406
+gTextL0_1406:
+	.incbin "baserom.gba", 0x38A018, 0x32
+	.global gTextL0_1407
+gTextL0_1407:
+	.incbin "baserom.gba", 0x38A04A, 0x35
+	.global gTextL0_1408
+gTextL0_1408:
+	.incbin "baserom.gba", 0x38A07F, 0x29
+	.global gTextL0_1409
+gTextL0_1409:
+	.incbin "baserom.gba", 0x38A0A8, 0x2B
+	.global gTextL0_1410
+gTextL0_1410:
+	.incbin "baserom.gba", 0x38A0D3, 0x28
+	.global gTextL0_1411
+gTextL0_1411:
+	.incbin "baserom.gba", 0x38A0FB, 0x29
+	.global gTextL0_1412
+gTextL0_1412:
+	.incbin "baserom.gba", 0x38A124, 0x33
+	.global gTextL0_1413
+gTextL0_1413:
+	.incbin "baserom.gba", 0x38A157, 0x2B
+	.global gTextL0_1414
+gTextL0_1414:
+	.incbin "baserom.gba", 0x38A182, 0x30
+	.global gTextL0_1415
+gTextL0_1415:
+	.incbin "baserom.gba", 0x38A1B2, 0x2D
+	.global gTextL0_1416
+gTextL0_1416:
+	.incbin "baserom.gba", 0x38A1DF, 0x38
+	.global gTextL0_1417
+gTextL0_1417:
+	.incbin "baserom.gba", 0x38A217, 0x34
+	.global gTextL0_1418
+gTextL0_1418:
+	.incbin "baserom.gba", 0x38A24B, 0x24
+	.global gTextL0_1419
+gTextL0_1419:
+	.incbin "baserom.gba", 0x38A26F, 0x2B
+	.global gTextL0_1420
+gTextL0_1420:
+	.incbin "baserom.gba", 0x38A29A, 0x36
+	.global gTextL0_1421
+gTextL0_1421:
+	.incbin "baserom.gba", 0x38A2D0, 0x36
+	.global gTextL0_1422
+gTextL0_1422:
+	.incbin "baserom.gba", 0x38A306, 0x30
+	.global gTextL0_1423
+gTextL0_1423:
+	.incbin "baserom.gba", 0x38A336, 0x27
+	.global gTextL0_1424
+gTextL0_1424:
+	.incbin "baserom.gba", 0x38A35D, 0x2D
+	.global gTextL0_1425
+gTextL0_1425:
+	.incbin "baserom.gba", 0x38A38A, 0x1F
+	.global gTextL0_1426
+gTextL0_1426:
+	.incbin "baserom.gba", 0x38A3A9, 0x29
+	.global gTextL0_1427
+gTextL0_1427:
+	.incbin "baserom.gba", 0x38A3D2, 0x2F
+	.global gTextL0_1428
+gTextL0_1428:
+	.incbin "baserom.gba", 0x38A401, 0x30
+	.global gTextL0_1429
+gTextL0_1429:
+	.incbin "baserom.gba", 0x38A431, 0x33
+	.global gTextL0_1430
+gTextL0_1430:
+	.incbin "baserom.gba", 0x38A464, 0x32
+	.global gTextL0_1431
+gTextL0_1431:
+	.incbin "baserom.gba", 0x38A496, 0x30
+	.global gTextL0_1432
+gTextL0_1432:
+	.incbin "baserom.gba", 0x38A4C6, 0x33
+	.global gTextL0_1433
+gTextL0_1433:
+	.incbin "baserom.gba", 0x38A4F9, 0x36
+	.global gTextL0_1434
+gTextL0_1434:
+	.incbin "baserom.gba", 0x38A52F, 0x37
+	.global gTextL0_1435
+gTextL0_1435:
+	.incbin "baserom.gba", 0x38A566, 0x28
+	.global gTextL0_1436
+gTextL0_1436:
+	.incbin "baserom.gba", 0x38A58E, 0x32
+	.global gTextL0_1437
+gTextL0_1437:
+	.incbin "baserom.gba", 0x38A5C0, 0x35
+	.global gTextL0_1438
+gTextL0_1438:
+	.incbin "baserom.gba", 0x38A5F5, 0x1E
+	.global gTextL0_1439
+gTextL0_1439:
+	.incbin "baserom.gba", 0x38A613, 0x30
+	.global gTextL0_1440
+gTextL0_1440:
+	.incbin "baserom.gba", 0x38A643, 0x30
+	.global gTextL0_1441
+gTextL0_1441:
+	.incbin "baserom.gba", 0x38A673, 0x33
+	.global gTextL0_1442
+gTextL0_1442:
+	.incbin "baserom.gba", 0x38A6A6, 0x25
+	.global gTextL0_1443
+gTextL0_1443:
+	.incbin "baserom.gba", 0x38A6CB, 0x33
+	.global gTextL0_1444
+gTextL0_1444:
+	.incbin "baserom.gba", 0x38A6FE, 0x34
+	.global gTextL0_1445
+gTextL0_1445:
+	.incbin "baserom.gba", 0x38A732, 0x33
+	.global gTextL0_1446
+gTextL0_1446:
+	.incbin "baserom.gba", 0x38A765, 0x24
+	.global gTextL0_1447
+gTextL0_1447:
+	.incbin "baserom.gba", 0x38A789, 0x30
+	.global gTextL0_1448
+gTextL0_1448:
+	.incbin "baserom.gba", 0x38A7B9, 0x32
+	.global gTextL0_1449
+gTextL0_1449:
+	.incbin "baserom.gba", 0x38A7EB, 0x20
+	.global gTextL0_1450
+gTextL0_1450:
+	.incbin "baserom.gba", 0x38A80B, 0x31
+	.global gTextL0_1451
+gTextL0_1451:
+	.incbin "baserom.gba", 0x38A83C, 0x32
+	.global gTextL0_1452
+gTextL0_1452:
+	.incbin "baserom.gba", 0x38A86E, 0x2F
+	.global gTextL0_1453
+gTextL0_1453:
+	.incbin "baserom.gba", 0x38A89D, 0x2E
+	.global gTextL0_1454
+gTextL0_1454:
+	.incbin "baserom.gba", 0x38A8CB, 0x31
+	.global gTextL0_1455
+gTextL0_1455:
+	.incbin "baserom.gba", 0x38A8FC, 0x2F
+	.global gTextL0_1456
+gTextL0_1456:
+	.incbin "baserom.gba", 0x38A92B, 0x35
+	.global gTextL0_1457
+gTextL0_1457:
+	.incbin "baserom.gba", 0x38A960, 0x32
+	.global gTextL0_1458
+gTextL0_1458:
+	.incbin "baserom.gba", 0x38A992, 0x1A
+	.global gTextL0_1459
+gTextL0_1459:
+	.incbin "baserom.gba", 0x38A9AC, 0x38
+	.global gTextL0_1460
+gTextL0_1460:
+	.incbin "baserom.gba", 0x38A9E4, 0x29
+	.global gTextL0_1461
+gTextL0_1461:
+	.incbin "baserom.gba", 0x38AA0D, 0x33
+	.global gTextL0_1462
+gTextL0_1462:
+	.incbin "baserom.gba", 0x38AA40, 0x34
+	.global gTextL0_1463
+gTextL0_1463:
+	.incbin "baserom.gba", 0x38AA74, 0x29
+	.global gTextL0_1464
+gTextL0_1464:
+	.incbin "baserom.gba", 0x38AA9D, 0x23
+	.global gTextL0_1465
+gTextL0_1465:
+	.incbin "baserom.gba", 0x38AAC0, 0x2C
+	.global gTextL0_1466
+gTextL0_1466:
+	.incbin "baserom.gba", 0x38AAEC, 0x32
+	.global gTextL0_1467
+gTextL0_1467:
+	.incbin "baserom.gba", 0x38AB1E, 0x30
+	.global gTextL0_1468
+gTextL0_1468:
+	.incbin "baserom.gba", 0x38AB4E, 0x37
+	.global gTextL0_1469
+gTextL0_1469:
+	.incbin "baserom.gba", 0x38AB85, 0x32
+	.global gTextL0_1470
+gTextL0_1470:
+	.incbin "baserom.gba", 0x38ABB7, 0x32
+	.global gTextL0_1471
+gTextL0_1471:
+	.incbin "baserom.gba", 0x38ABE9, 0x2E
+	.global gTextL0_1472
+gTextL0_1472:
+	.incbin "baserom.gba", 0x38AC17, 0x2C
+	.global gTextL0_1473
+gTextL0_1473:
+	.incbin "baserom.gba", 0x38AC43, 0x2F
+	.global gTextL0_1474
+gTextL0_1474:
+	.incbin "baserom.gba", 0x38AC72, 0x2C
+	.global gTextL0_1475
+gTextL0_1475:
+	.incbin "baserom.gba", 0x38AC9E, 0x35
+	.global gTextL0_1476
+gTextL0_1476:
+	.incbin "baserom.gba", 0x38ACD3, 0x25
+	.global gTextL0_1477
+gTextL0_1477:
+	.incbin "baserom.gba", 0x38ACF8, 0x2A
+	.global gTextL0_1478
+gTextL0_1478:
+	.incbin "baserom.gba", 0x38AD22, 0x35
+	.global gTextL0_1479
+gTextL0_1479:
+	.incbin "baserom.gba", 0x38AD57, 0x34
+	.global gTextL0_1480
+gTextL0_1480:
+	.incbin "baserom.gba", 0x38AD8B, 0x26
+	.global gTextL0_1481
+gTextL0_1481:
+	.incbin "baserom.gba", 0x38ADB1, 0x34
+	.global gTextL0_1482
+gTextL0_1482:
+	.incbin "baserom.gba", 0x38ADE5, 0x2F
+	.global gTextL0_1483
+gTextL0_1483:
+	.incbin "baserom.gba", 0x38AE14, 0x23
+	.global gTextL0_1484
+gTextL0_1484:
+	.incbin "baserom.gba", 0x38AE37, 0x27
+	.global gTextL0_1485
+gTextL0_1485:
+	.incbin "baserom.gba", 0x38AE5E, 0x37
+	.global gTextL0_1486
+gTextL0_1486:
+	.incbin "baserom.gba", 0x38AE95, 0x29
+	.global gTextL0_1487
+gTextL0_1487:
+	.incbin "baserom.gba", 0x38AEBE, 0x32
+	.global gTextL0_1488
+gTextL0_1488:
+	.incbin "baserom.gba", 0x38AEF0, 0x34
+	.global gTextL0_1489
+gTextL0_1489:
+	.incbin "baserom.gba", 0x38AF24, 0x32
+	.global gTextL0_1490
+gTextL0_1490:
+	.incbin "baserom.gba", 0x38AF56, 0x31
+	.global gTextL0_1491
+gTextL0_1491:
+	.incbin "baserom.gba", 0x38AF87, 0x33
+	.global gTextL0_1492
+gTextL0_1492:
+	.incbin "baserom.gba", 0x38AFBA, 0x36
 	.global gUnk_0838AFF0
 gUnk_0838AFF0:
-	.incbin "baserom.gba", 0x38AFF0, 0x25B5C
+	.4byte gTextL0_0000
+	.4byte gTextL0_0001
+	.4byte gTextL0_0002
+	.4byte gTextL0_0003
+	.4byte gTextL0_0004
+	.4byte gTextL0_0005
+	.4byte gTextL0_0006
+	.4byte gTextL0_0007
+	.4byte gTextL0_0008
+	.4byte gTextL0_0009
+	.4byte gTextL0_0010
+	.4byte gTextL0_0011
+	.4byte gTextL0_0012
+	.4byte gTextL0_0013
+	.4byte gTextL0_0014
+	.4byte gTextL0_0015
+	.4byte gTextL0_0016
+	.4byte gTextL0_0017
+	.4byte gTextL0_0018
+	.4byte gTextL0_0019
+	.4byte gTextL0_0020
+	.4byte gTextL0_0021
+	.4byte gTextL0_0022
+	.4byte gTextL0_0023
+	.4byte gTextL0_0024
+	.4byte gTextL0_0025
+	.4byte gTextL0_0026
+	.4byte gTextL0_0027
+	.4byte gTextL0_0028
+	.4byte gTextL0_0029
+	.4byte gTextL0_0030
+	.4byte gTextL0_0031
+	.4byte gTextL0_0032
+	.4byte gTextL0_0033
+	.4byte gTextL0_0034
+	.4byte gTextL0_0035
+	.4byte gTextL0_0036
+	.4byte gTextL0_0037
+	.4byte gTextL0_0038
+	.4byte gTextL0_0039
+	.4byte gTextL0_0040
+	.4byte gTextL0_0041
+	.4byte gTextL0_0042
+	.4byte gTextL0_0043
+	.4byte gTextL0_0044
+	.4byte gTextL0_0045
+	.4byte gTextL0_0046
+	.4byte gTextL0_0047
+	.4byte gTextL0_0048
+	.4byte gTextL0_0049
+	.4byte gTextL0_0050
+	.4byte gTextL0_0051
+	.4byte gTextL0_0052
+	.4byte gTextL0_0053
+	.4byte gTextL0_0054
+	.4byte gTextL0_0055
+	.4byte gTextL0_0056
+	.4byte gTextL0_0057
+	.4byte gTextL0_0058
+	.4byte gTextL0_0059
+	.4byte gTextL0_0060
+	.4byte gTextL0_0061
+	.4byte gTextL0_0062
+	.4byte gTextL0_0063
+	.4byte gTextL0_0064
+	.4byte gTextL0_0065
+	.4byte gTextL0_0066
+	.4byte gTextL0_0067
+	.4byte gTextL0_0068
+	.4byte gTextL0_0069
+	.4byte gTextL0_0070
+	.4byte gTextL0_0071
+	.4byte gTextL0_0072
+	.4byte gTextL0_0073
+	.4byte gTextL0_0074
+	.4byte gTextL0_0075
+	.4byte gTextL0_0076
+	.4byte gTextL0_0077
+	.4byte gTextL0_0078
+	.4byte gTextL0_0079
+	.4byte gTextL0_0080
+	.4byte gTextL0_0081
+	.4byte gTextL0_0082
+	.4byte gTextL0_0083
+	.4byte gTextL0_0084
+	.4byte gTextL0_0085
+	.4byte gTextL0_0086
+	.4byte gTextL0_0087
+	.4byte gTextL0_0088
+	.4byte gTextL0_0089
+	.4byte gTextL0_0090
+	.4byte gTextL0_0091
+	.4byte gTextL0_0092
+	.4byte gTextL0_0093
+	.4byte gTextL0_0094
+	.4byte gTextL0_0095
+	.4byte gTextL0_0096
+	.4byte gTextL0_0097
+	.4byte gTextL0_0098
+	.4byte gTextL0_0099
+	.4byte gTextL0_0100
+	.4byte gTextL0_0101
+	.4byte gTextL0_0102
+	.4byte gTextL0_0103
+	.4byte gTextL0_0104
+	.4byte gTextL0_0105
+	.4byte gTextL0_0106
+	.4byte gTextL0_0107
+	.4byte gTextL0_0108
+	.4byte gTextL0_0109
+	.4byte gTextL0_0110
+	.4byte gTextL0_0111
+	.4byte gTextL0_0112
+	.4byte gTextL0_0113
+	.4byte gTextL0_0114
+	.4byte gTextL0_0115
+	.4byte gTextL0_0116
+	.4byte gTextL0_0117
+	.4byte gTextL0_0118
+	.4byte gTextL0_0119
+	.4byte gTextL0_0120
+	.4byte gTextL0_0121
+	.4byte gTextL0_0122
+	.4byte gTextL0_0123
+	.4byte gTextL0_0124
+	.4byte gTextL0_0125
+	.4byte gTextL0_0126
+	.4byte gTextL0_0127
+	.4byte gTextL0_0128
+	.4byte gTextL0_0129
+	.4byte gTextL0_0130
+	.4byte gTextL0_0131
+	.4byte gTextL0_0132
+	.4byte gTextL0_0133
+	.4byte gTextL0_0134
+	.4byte gTextL0_0135
+	.4byte gTextL0_0136
+	.4byte gTextL0_0137
+	.4byte gTextL0_0138
+	.4byte gTextL0_0139
+	.4byte gTextL0_0140
+	.4byte gTextL0_0141
+	.4byte gTextL0_0142
+	.4byte gTextL0_0143
+	.4byte gTextL0_0144
+	.4byte gTextL0_0145
+	.4byte gTextL0_0146
+	.4byte gTextL0_0147
+	.4byte gTextL0_0148
+	.4byte gTextL0_0149
+	.4byte gTextL0_0150
+	.4byte gTextL0_0151
+	.4byte gTextL0_0152
+	.4byte gTextL0_0153
+	.4byte gTextL0_0154
+	.4byte gTextL0_0155
+	.4byte gTextL0_0156
+	.4byte gTextL0_0157
+	.4byte gTextL0_0158
+	.4byte gTextL0_0159
+	.4byte gTextL0_0160
+	.4byte gTextL0_0161
+	.4byte gTextL0_0162
+	.4byte gTextL0_0163
+	.4byte gTextL0_0164
+	.4byte gTextL0_0165
+	.4byte gTextL0_0166
+	.4byte gTextL0_0167
+	.4byte gTextL0_0168
+	.4byte gTextL0_0169
+	.4byte gTextL0_0170
+	.4byte gTextL0_0171
+	.4byte gTextL0_0172
+	.4byte gTextL0_0173
+	.4byte gTextL0_0174
+	.4byte gTextL0_0175
+	.4byte gTextL0_0176
+	.4byte gTextL0_0177
+	.4byte gTextL0_0178
+	.4byte gTextL0_0179
+	.4byte gTextL0_0180
+	.4byte gTextL0_0181
+	.4byte gTextL0_0182
+	.4byte gTextL0_0183
+	.4byte gTextL0_0184
+	.4byte gTextL0_0185
+	.4byte gTextL0_0186
+	.4byte gTextL0_0187
+	.4byte gTextL0_0188
+	.4byte gTextL0_0189
+	.4byte gTextL0_0190
+	.4byte gTextL0_0191
+	.4byte gTextL0_0192
+	.4byte gTextL0_0193
+	.4byte gTextL0_0194
+	.4byte gTextL0_0195
+	.4byte gTextL0_0196
+	.4byte gTextL0_0197
+	.4byte gTextL0_0198
+	.4byte gTextL0_0199
+	.4byte gTextL0_0200
+	.4byte gTextL0_0201
+	.4byte gTextL0_0202
+	.4byte gTextL0_0203
+	.4byte gTextL0_0204
+	.4byte gTextL0_0205
+	.4byte gTextL0_0206
+	.4byte gTextL0_0207
+	.4byte gTextL0_0208
+	.4byte gTextL0_0209
+	.4byte gTextL0_0210
+	.4byte gTextL0_0211
+	.4byte gTextL0_0212
+	.4byte gTextL0_0213
+	.4byte gTextL0_0214
+	.4byte gTextL0_0215
+	.4byte gTextL0_0216
+	.4byte gTextL0_0217
+	.4byte gTextL0_0218
+	.4byte gTextL0_0219
+	.4byte gTextL0_0220
+	.4byte gTextL0_0221
+	.4byte gTextL0_0222
+	.4byte gTextL0_0223
+	.4byte gTextL0_0224
+	.4byte gTextL0_0225
+	.4byte gTextL0_0226
+	.4byte gTextL0_0227
+	.4byte gTextL0_0228
+	.4byte gTextL0_0229
+	.4byte gTextL0_0230
+	.4byte gTextL0_0231
+	.4byte gTextL0_0232
+	.4byte gTextL0_0233
+	.4byte gTextL0_0234
+	.4byte gTextL0_0235
+	.4byte gTextL0_0236
+	.4byte gTextL0_0237
+	.4byte gTextL0_0238
+	.4byte gTextL0_0239
+	.4byte gTextL0_0240
+	.4byte gTextL0_0241
+	.4byte gTextL0_0242
+	.4byte gTextL0_0243
+	.4byte gTextL0_0244
+	.4byte gTextL0_0245
+	.4byte gTextL0_0246
+	.4byte gTextL0_0247
+	.4byte gTextL0_0248
+	.4byte gTextL0_0249
+	.4byte gTextL0_0250
+	.4byte gTextL0_0251
+	.4byte gTextL0_0252
+	.4byte gTextL0_0253
+	.4byte gTextL0_0254
+	.4byte gTextL0_0255
+	.4byte gTextL0_0256
+	.4byte gTextL0_0257
+	.4byte gTextL0_0258
+	.4byte gTextL0_0259
+	.4byte gTextL0_0260
+	.4byte gTextL0_0261
+	.4byte gTextL0_0262
+	.4byte gTextL0_0263
+	.4byte gTextL0_0264
+	.4byte gTextL0_0265
+	.4byte gTextL0_0266
+	.4byte gTextL0_0267
+	.4byte gTextL0_0268
+	.4byte gTextL0_0269
+	.4byte gTextL0_0270
+	.4byte gTextL0_0271
+	.4byte gTextL0_0272
+	.4byte gTextL0_0273
+	.4byte gTextL0_0274
+	.4byte gTextL0_0275
+	.4byte gTextL0_0276
+	.4byte gTextL0_0277
+	.4byte gTextL0_0278
+	.4byte gTextL0_0279
+	.4byte gTextL0_0280
+	.4byte gTextL0_0281
+	.4byte gTextL0_0282
+	.4byte gTextL0_0283
+	.4byte gTextL0_0284
+	.4byte gTextL0_0285
+	.4byte gTextL0_0286
+	.4byte gTextL0_0287
+	.4byte gTextL0_0288
+	.4byte gTextL0_0289
+	.4byte gTextL0_0290
+	.4byte gTextL0_0291
+	.4byte gTextL0_0292
+	.4byte gTextL0_0293
+	.4byte gTextL0_0294
+	.4byte gTextL0_0295
+	.4byte gTextL0_0296
+	.4byte gTextL0_0297
+	.4byte gTextL0_0298
+	.4byte gTextL0_0299
+	.4byte gTextL0_0300
+	.4byte gTextL0_0301
+	.4byte gTextL0_0302
+	.4byte gTextL0_0303
+	.4byte gTextL0_0304
+	.4byte gTextL0_0305
+	.4byte gTextL0_0306
+	.4byte gTextL0_0307
+	.4byte gTextL0_0308
+	.4byte gTextL0_0309
+	.4byte gTextL0_0310
+	.4byte gTextL0_0311
+	.4byte gTextL0_0312
+	.4byte gTextL0_0313
+	.4byte gTextL0_0314
+	.4byte gTextL0_0315
+	.4byte gTextL0_0316
+	.4byte gTextL0_0317
+	.4byte gTextL0_0318
+	.4byte gTextL0_0319
+	.4byte gTextL0_0320
+	.4byte gTextL0_0321
+	.4byte gTextL0_0322
+	.4byte gTextL0_0323
+	.4byte gTextL0_0324
+	.4byte gTextL0_0325
+	.4byte gTextL0_0326
+	.4byte gTextL0_0327
+	.4byte gTextL0_0328
+	.4byte gTextL0_0329
+	.4byte gTextL0_0330
+	.4byte gTextL0_0331
+	.4byte gTextL0_0332
+	.4byte gTextL0_0333
+	.4byte gTextL0_0334
+	.4byte gTextL0_0335
+	.4byte gTextL0_0336
+	.4byte gTextL0_0337
+	.4byte gTextL0_0338
+	.4byte gTextL0_0339
+	.4byte gTextL0_0340
+	.4byte gTextL0_0341
+	.4byte gTextL0_0342
+	.4byte gTextL0_0343
+	.4byte gTextL0_0344
+	.4byte gTextL0_0345
+	.4byte gTextL0_0346
+	.4byte gTextL0_0347
+	.4byte gTextL0_0348
+	.4byte gTextL0_0349
+	.4byte gTextL0_0350
+	.4byte gTextL0_0351
+	.4byte gTextL0_0352
+	.4byte gTextL0_0353
+	.4byte gTextL0_0354
+	.4byte gTextL0_0355
+	.4byte gTextL0_0356
+	.4byte gTextL0_0357
+	.4byte gTextL0_0358
+	.4byte gTextL0_0359
+	.4byte gTextL0_0360
+	.4byte gTextL0_0361
+	.4byte gTextL0_0362
+	.4byte gTextL0_0363
+	.4byte gTextL0_0364
+	.4byte gTextL0_0365
+	.4byte gTextL0_0366
+	.4byte gTextL0_0367
+	.4byte gTextL0_0368
+	.4byte gTextL0_0369
+	.4byte gTextL0_0370
+	.4byte gTextL0_0371
+	.4byte gTextL0_0372
+	.4byte gTextL0_0373
+	.4byte gTextL0_0374
+	.4byte gTextL0_0375
+	.4byte gTextL0_0376
+	.4byte gTextL0_0377
+	.4byte gTextL0_0378
+	.4byte gTextL0_0379
+	.4byte gTextL0_0380
+	.4byte gTextL0_0381
+	.4byte gTextL0_0382
+	.4byte gTextL0_0383
+	.4byte gTextL0_0384
+	.4byte gTextL0_0385
+	.4byte gTextL0_0386
+	.4byte gTextL0_0387
+	.4byte gTextL0_0388
+	.4byte gTextL0_0389
+	.4byte gTextL0_0390
+	.4byte gTextL0_0391
+	.4byte gTextL0_0392
+	.4byte gTextL0_0393
+	.4byte gTextL0_0394
+	.4byte gTextL0_0395
+	.4byte gTextL0_0396
+	.4byte gTextL0_0397
+	.4byte gTextL0_0398
+	.4byte gTextL0_0399
+	.4byte gTextL0_0400
+	.4byte gTextL0_0401
+	.4byte gTextL0_0402
+	.4byte gTextL0_0403
+	.4byte gTextL0_0404
+	.4byte gTextL0_0405
+	.4byte gTextL0_0406
+	.4byte gTextL0_0407
+	.4byte gTextL0_0408
+	.4byte gTextL0_0409
+	.4byte gTextL0_0410
+	.4byte gTextL0_0411
+	.4byte gTextL0_0412
+	.4byte gTextL0_0413
+	.4byte gTextL0_0414
+	.4byte gTextL0_0415
+	.4byte gTextL0_0416
+	.4byte gTextL0_0417
+	.4byte gTextL0_0418
+	.4byte gTextL0_0419
+	.4byte gTextL0_0420
+	.4byte gTextL0_0421
+	.4byte gTextL0_0422
+	.4byte gTextL0_0423
+	.4byte gTextL0_0424
+	.4byte gTextL0_0425
+	.4byte gTextL0_0426
+	.4byte gTextL0_0427
+	.4byte gTextL0_0428
+	.4byte gTextL0_0429
+	.4byte gTextL0_0430
+	.4byte gTextL0_0431
+	.4byte gTextL0_0432
+	.4byte gTextL0_0433
+	.4byte gTextL0_0434
+	.4byte gTextL0_0435
+	.4byte gTextL0_0436
+	.4byte gTextL0_0437
+	.4byte gTextL0_0438
+	.4byte gTextL0_0439
+	.4byte gTextL0_0440
+	.4byte gTextL0_0441
+	.4byte gTextL0_0442
+	.4byte gTextL0_0443
+	.4byte gTextL0_0444
+	.4byte gTextL0_0445
+	.4byte gTextL0_0446
+	.4byte gTextL0_0447
+	.4byte gTextL0_0448
+	.4byte gTextL0_0449
+	.4byte gTextL0_0450
+	.4byte gTextL0_0451
+	.4byte gTextL0_0452
+	.4byte gTextL0_0453
+	.4byte gTextL0_0454
+	.4byte gTextL0_0455
+	.4byte gTextL0_0456
+	.4byte gTextL0_0457
+	.4byte gTextL0_0458
+	.4byte gTextL0_0459
+	.4byte gTextL0_0460
+	.4byte gTextL0_0461
+	.4byte gTextL0_0462
+	.4byte gTextL0_0463
+	.4byte gTextL0_0464
+	.4byte gTextL0_0465
+	.4byte gTextL0_0466
+	.4byte gTextL0_0467
+	.4byte gTextL0_0468
+	.4byte gTextL0_0469
+	.4byte gTextL0_0470
+	.4byte gTextL0_0471
+	.4byte gTextL0_0472
+	.4byte gTextL0_0473
+	.4byte gTextL0_0474
+	.4byte gTextL0_0475
+	.4byte gTextL0_0476
+	.4byte gTextL0_0477
+	.4byte gTextL0_0478
+	.4byte gTextL0_0479
+	.4byte gTextL0_0480
+	.4byte gTextL0_0481
+	.4byte gTextL0_0482
+	.4byte gTextL0_0483
+	.4byte gTextL0_0484
+	.4byte gTextL0_0485
+	.4byte gTextL0_0486
+	.4byte gTextL0_0487
+	.4byte gTextL0_0488
+	.4byte gTextL0_0489
+	.4byte gTextL0_0490
+	.4byte gTextL0_0491
+	.4byte gTextL0_0492
+	.4byte gTextL0_0493
+	.4byte gTextL0_0494
+	.4byte gTextL0_0495
+	.4byte gTextL0_0496
+	.4byte gTextL0_0497
+	.4byte gTextL0_0498
+	.4byte gTextL0_0499
+	.4byte gTextL0_0500
+	.4byte gTextL0_0501
+	.4byte gTextL0_0502
+	.4byte gTextL0_0503
+	.4byte gTextL0_0504
+	.4byte gTextL0_0505
+	.4byte gTextL0_0506
+	.4byte gTextL0_0507
+	.4byte gTextL0_0508
+	.4byte gTextL0_0509
+	.4byte gTextL0_0510
+	.4byte gTextL0_0511
+	.4byte gTextL0_0512
+	.4byte gTextL0_0513
+	.4byte gTextL0_0514
+	.4byte gTextL0_0515
+	.4byte gTextL0_0516
+	.4byte gTextL0_0517
+	.4byte gTextL0_0518
+	.4byte gTextL0_0519
+	.4byte gTextL0_0520
+	.4byte gTextL0_0521
+	.4byte gTextL0_0522
+	.4byte gTextL0_0523
+	.4byte gTextL0_0524
+	.4byte gTextL0_0525
+	.4byte gTextL0_0526
+	.4byte gTextL0_0527
+	.4byte gTextL0_0528
+	.4byte gTextL0_0529
+	.4byte gTextL0_0530
+	.4byte gTextL0_0531
+	.4byte gTextL0_0532
+	.4byte gTextL0_0533
+	.4byte gTextL0_0534
+	.4byte gTextL0_0535
+	.4byte gTextL0_0536
+	.4byte gTextL0_0537
+	.4byte gTextL0_0538
+	.4byte gTextL0_0539
+	.4byte gTextL0_0540
+	.4byte gTextL0_0541
+	.4byte gTextL0_0542
+	.4byte gTextL0_0543
+	.4byte gTextL0_0544
+	.4byte gTextL0_0545
+	.4byte gTextL0_0546
+	.4byte gTextL0_0547
+	.4byte gTextL0_0548
+	.4byte gTextL0_0549
+	.4byte gTextL0_0550
+	.4byte gTextL0_0551
+	.4byte gTextL0_0552
+	.4byte gTextL0_0553
+	.4byte gTextL0_0554
+	.4byte gTextL0_0555
+	.4byte gTextL0_0556
+	.4byte gTextL0_0557
+	.4byte gTextL0_0558
+	.4byte gTextL0_0559
+	.4byte gTextL0_0560
+	.4byte gTextL0_0561
+	.4byte gTextL0_0562
+	.4byte gTextL0_0563
+	.4byte gTextL0_0564
+	.4byte gTextL0_0565
+	.4byte gTextL0_0566
+	.4byte gTextL0_0567
+	.4byte gTextL0_0568
+	.4byte gTextL0_0569
+	.4byte gTextL0_0570
+	.4byte gTextL0_0571
+	.4byte gTextL0_0572
+	.4byte gTextL0_0573
+	.4byte gTextL0_0574
+	.4byte gTextL0_0575
+	.4byte gTextL0_0576
+	.4byte gTextL0_0577
+	.4byte gTextL0_0578
+	.4byte gTextL0_0579
+	.4byte gTextL0_0580
+	.4byte gTextL0_0581
+	.4byte gTextL0_0582
+	.4byte gTextL0_0583
+	.4byte gTextL0_0584
+	.4byte gTextL0_0585
+	.4byte gTextL0_0586
+	.4byte gTextL0_0587
+	.4byte gTextL0_0588
+	.4byte gTextL0_0589
+	.4byte gTextL0_0590
+	.4byte gTextL0_0591
+	.4byte gTextL0_0592
+	.4byte gTextL0_0593
+	.4byte gTextL0_0594
+	.4byte gTextL0_0595
+	.4byte gTextL0_0596
+	.4byte gTextL0_0597
+	.4byte gTextL0_0598
+	.4byte gTextL0_0599
+	.4byte gTextL0_0600
+	.4byte gTextL0_0601
+	.4byte gTextL0_0602
+	.4byte gTextL0_0603
+	.4byte gTextL0_0604
+	.4byte gTextL0_0605
+	.4byte gTextL0_0606
+	.4byte gTextL0_0607
+	.4byte gTextL0_0608
+	.4byte gTextL0_0609
+	.4byte gTextL0_0610
+	.4byte gTextL0_0611
+	.4byte gTextL0_0612
+	.4byte gTextL0_0613
+	.4byte gTextL0_0614
+	.4byte gTextL0_0615
+	.4byte gTextL0_0616
+	.4byte gTextL0_0617
+	.4byte gTextL0_0618
+	.4byte gTextL0_0619
+	.4byte gTextL0_0620
+	.4byte gTextL0_0621
+	.4byte gTextL0_0622
+	.4byte gTextL0_0623
+	.4byte gTextL0_0624
+	.4byte gTextL0_0625
+	.4byte gTextL0_0626
+	.4byte gTextL0_0627
+	.4byte gTextL0_0628
+	.4byte gTextL0_0629
+	.4byte gTextL0_0630
+	.4byte gTextL0_0631
+	.4byte gTextL0_0632
+	.4byte gTextL0_0633
+	.4byte gTextL0_0634
+	.4byte gTextL0_0635
+	.4byte gTextL0_0636
+	.4byte gTextL0_0637
+	.4byte gTextL0_0638
+	.4byte gTextL0_0639
+	.4byte gTextL0_0640
+	.4byte gTextL0_0641
+	.4byte gTextL0_0642
+	.4byte gTextL0_0643
+	.4byte gTextL0_0644
+	.4byte gTextL0_0645
+	.4byte gTextL0_0646
+	.4byte gTextL0_0647
+	.4byte gTextL0_0648
+	.4byte gTextL0_0649
+	.4byte gTextL0_0650
+	.4byte gTextL0_0651
+	.4byte gTextL0_0652
+	.4byte gTextL0_0653
+	.4byte gTextL0_0654
+	.4byte gTextL0_0655
+	.4byte gTextL0_0656
+	.4byte gTextL0_0657
+	.4byte gTextL0_0658
+	.4byte gTextL0_0659
+	.4byte gTextL0_0660
+	.4byte gTextL0_0661
+	.4byte gTextL0_0662
+	.4byte gTextL0_0663
+	.4byte gTextL0_0664
+	.4byte gTextL0_0665
+	.4byte gTextL0_0666
+	.4byte gTextL0_0667
+	.4byte gTextL0_0668
+	.4byte gTextL0_0669
+	.4byte gTextL0_0670
+	.4byte gTextL0_0671
+	.4byte gTextL0_0672
+	.4byte gTextL0_0673
+	.4byte gTextL0_0674
+	.4byte gTextL0_0675
+	.4byte gTextL0_0676
+	.4byte gTextL0_0677
+	.4byte gTextL0_0678
+	.4byte gTextL0_0679
+	.4byte gTextL0_0680
+	.4byte gTextL0_0681
+	.4byte gTextL0_0682
+	.4byte gTextL0_0683
+	.4byte gTextL0_0684
+	.4byte gTextL0_0685
+	.4byte gTextL0_0686
+	.4byte gTextL0_0687
+	.4byte gTextL0_0688
+	.4byte gTextL0_0689
+	.4byte gTextL0_0690
+	.4byte gTextL0_0691
+	.4byte gTextL0_0692
+	.4byte gTextL0_0693
+	.4byte gTextL0_0694
+	.4byte gTextL0_0695
+	.4byte gTextL0_0696
+	.4byte gTextL0_0697
+	.4byte gTextL0_0698
+	.4byte gTextL0_0699
+	.4byte gTextL0_0700
+	.4byte gTextL0_0701
+	.4byte gTextL0_0702
+	.4byte gTextL0_0703
+	.4byte gTextL0_0704
+	.4byte gTextL0_0705
+	.4byte gTextL0_0706
+	.4byte gTextL0_0707
+	.4byte gTextL0_0708
+	.4byte gTextL0_0709
+	.4byte gTextL0_0710
+	.4byte gTextL0_0711
+	.4byte gTextL0_0712
+	.4byte gTextL0_0713
+	.4byte gTextL0_0714
+	.4byte gTextL0_0715
+	.4byte gTextL0_0716
+	.4byte gTextL0_0717
+	.4byte gTextL0_0718
+	.4byte gTextL0_0719
+	.4byte gTextL0_0720
+	.4byte gTextL0_0721
+	.4byte gTextL0_0722
+	.4byte gTextL0_0723
+	.4byte gTextL0_0724
+	.4byte gTextL0_0725
+	.4byte gTextL0_0726
+	.4byte gTextL0_0727
+	.4byte gTextL0_0728
+	.4byte gTextL0_0729
+	.4byte gTextL0_0730
+	.4byte gTextL0_0731
+	.4byte gTextL0_0732
+	.4byte gTextL0_0733
+	.4byte gTextL0_0734
+	.4byte gTextL0_0735
+	.4byte gTextL0_0736
+	.4byte gTextL0_0737
+	.4byte gTextL0_0738
+	.4byte gTextL0_0739
+	.4byte gTextL0_0740
+	.4byte gTextL0_0741
+	.4byte gTextL0_0742
+	.4byte gTextL0_0743
+	.4byte gTextL0_0744
+	.4byte gTextL0_0745
+	.4byte gTextL0_0746
+	.4byte gTextL0_0747
+	.4byte gTextL0_0748
+	.4byte gTextL0_0749
+	.4byte gTextL0_0750
+	.4byte gTextL0_0751
+	.4byte gTextL0_0752
+	.4byte gTextL0_0753
+	.4byte gTextL0_0754
+	.4byte gTextL0_0755
+	.4byte gTextL0_0756
+	.4byte gTextL0_0757
+	.4byte gTextL0_0758
+	.4byte gTextL0_0759
+	.4byte gTextL0_0760
+	.4byte gTextL0_0761
+	.4byte gTextL0_0762
+	.4byte gTextL0_0763
+	.4byte gTextL0_0764
+	.4byte gTextL0_0765
+	.4byte gTextL0_0766
+	.4byte gTextL0_0767
+	.4byte gTextL0_0768
+	.4byte gTextL0_0769
+	.4byte gTextL0_0770
+	.4byte gTextL0_0771
+	.4byte gTextL0_0772
+	.4byte gTextL0_0773
+	.4byte gTextL0_0774
+	.4byte gTextL0_0775
+	.4byte gTextL0_0776
+	.4byte gTextL0_0777
+	.4byte gTextL0_0778
+	.4byte gTextL0_0779
+	.4byte gTextL0_0780
+	.4byte gTextL0_0781
+	.4byte gTextL0_0782
+	.4byte gTextL0_0783
+	.4byte gTextL0_0784
+	.4byte gTextL0_0785
+	.4byte gTextL0_0786
+	.4byte gTextL0_0787
+	.4byte gTextL0_0788
+	.4byte gTextL0_0789
+	.4byte gTextL0_0790
+	.4byte gTextL0_0791
+	.4byte gTextL0_0792
+	.4byte gTextL0_0793
+	.4byte gTextL0_0794
+	.4byte gTextL0_0795
+	.4byte gTextL0_0796
+	.4byte gTextL0_0797
+	.4byte gTextL0_0798
+	.4byte gTextL0_0799
+	.4byte gTextL0_0800
+	.4byte gTextL0_0801
+	.4byte gTextL0_0802
+	.4byte gTextL0_0803
+	.4byte gTextL0_0804
+	.4byte gTextL0_0805
+	.4byte gTextL0_0806
+	.4byte gTextL0_0807
+	.4byte gTextL0_0808
+	.4byte gTextL0_0809
+	.4byte gTextL0_0810
+	.4byte gTextL0_0811
+	.4byte gTextL0_0812
+	.4byte gTextL0_0813
+	.4byte gTextL0_0814
+	.4byte gTextL0_0815
+	.4byte gTextL0_0816
+	.4byte gTextL0_0817
+	.4byte gTextL0_0818
+	.4byte gTextL0_0819
+	.4byte gTextL0_0820
+	.4byte gTextL0_0821
+	.4byte gTextL0_0822
+	.4byte gTextL0_0823
+	.4byte gTextL0_0824
+	.4byte gTextL0_0825
+	.4byte gTextL0_0826
+	.4byte gTextL0_0827
+	.4byte gTextL0_0828
+	.4byte gTextL0_0829
+	.4byte gTextL0_0830
+	.4byte gTextL0_0831
+	.4byte gTextL0_0832
+	.4byte gTextL0_0833
+	.4byte gTextL0_0834
+	.4byte gTextL0_0835
+	.4byte gTextL0_0836
+	.4byte gTextL0_0837
+	.4byte gTextL0_0838
+	.4byte gTextL0_0839
+	.4byte gTextL0_0840
+	.4byte gTextL0_0841
+	.4byte gTextL0_0842
+	.4byte gTextL0_0843
+	.4byte gTextL0_0844
+	.4byte gTextL0_0845
+	.4byte gTextL0_0846
+	.4byte gTextL0_0847
+	.4byte gTextL0_0848
+	.4byte gTextL0_0849
+	.4byte gTextL0_0850
+	.4byte gTextL0_0851
+	.4byte gTextL0_0852
+	.4byte gTextL0_0853
+	.4byte gTextL0_0854
+	.4byte gTextL0_0855
+	.4byte gTextL0_0856
+	.4byte gTextL0_0857
+	.4byte gTextL0_0858
+	.4byte gTextL0_0859
+	.4byte gTextL0_0860
+	.4byte gTextL0_0861
+	.4byte gTextL0_0862
+	.4byte gTextL0_0863
+	.4byte gTextL0_0864
+	.4byte gTextL0_0865
+	.4byte gTextL0_0866
+	.4byte gTextL0_0867
+	.4byte gTextL0_0868
+	.4byte gTextL0_0869
+	.4byte gTextL0_0870
+	.4byte gTextL0_0871
+	.4byte gTextL0_0872
+	.4byte gTextL0_0873
+	.4byte gTextL0_0874
+	.4byte gTextL0_0875
+	.4byte gTextL0_0876
+	.4byte gTextL0_0877
+	.4byte gTextL0_0878
+	.4byte gTextL0_0879
+	.4byte gTextL0_0880
+	.4byte gTextL0_0881
+	.4byte gTextL0_0882
+	.4byte gTextL0_0883
+	.4byte gTextL0_0884
+	.4byte gTextL0_0885
+	.4byte gTextL0_0886
+	.4byte gTextL0_0887
+	.4byte gTextL0_0888
+	.4byte gTextL0_0889
+	.4byte gTextL0_0890
+	.4byte gTextL0_0891
+	.4byte gTextL0_0892
+	.4byte gTextL0_0893
+	.4byte gTextL0_0894
+	.4byte gTextL0_0895
+	.4byte gTextL0_0896
+	.4byte gTextL0_0897
+	.4byte gTextL0_0898
+	.4byte gTextL0_0899
+	.4byte gTextL0_0900
+	.4byte gTextL0_0901
+	.4byte gTextL0_0902
+	.4byte gTextL0_0903
+	.4byte gTextL0_0904
+	.4byte gTextL0_0905
+	.4byte gTextL0_0906
+	.4byte gTextL0_0907
+	.4byte gTextL0_0908
+	.4byte gTextL0_0909
+	.4byte gTextL0_0910
+	.4byte gTextL0_0911
+	.4byte gTextL0_0912
+	.4byte gTextL0_0913
+	.4byte gTextL0_0914
+	.4byte gTextL0_0915
+	.4byte gTextL0_0916
+	.4byte gTextL0_0917
+	.4byte gTextL0_0918
+	.4byte gTextL0_0919
+	.4byte gTextL0_0920
+	.4byte gTextL0_0921
+	.4byte gTextL0_0922
+	.4byte gTextL0_0923
+	.4byte gTextL0_0924
+	.4byte gTextL0_0925
+	.4byte gTextL0_0926
+	.4byte gTextL0_0927
+	.4byte gTextL0_0928
+	.4byte gTextL0_0929
+	.4byte gTextL0_0930
+	.4byte gTextL0_0931
+	.4byte gTextL0_0932
+	.4byte gTextL0_0933
+	.4byte gTextL0_0934
+	.4byte gTextL0_0935
+	.4byte gTextL0_0936
+	.4byte gTextL0_0937
+	.4byte gTextL0_0938
+	.4byte gTextL0_0939
+	.4byte gTextL0_0940
+	.4byte gTextL0_0941
+	.4byte gTextL0_0942
+	.4byte gTextL0_0943
+	.4byte gTextL0_0944
+	.4byte gTextL0_0945
+	.4byte gTextL0_0946
+	.4byte gTextL0_0947
+	.4byte gTextL0_0948
+	.4byte gTextL0_0949
+	.4byte gTextL0_0950
+	.4byte gTextL0_0951
+	.4byte gTextL0_0952
+	.4byte gTextL0_0953
+	.4byte gTextL0_0954
+	.4byte gTextL0_0955
+	.4byte gTextL0_0956
+	.4byte gTextL0_0957
+	.4byte gTextL0_0958
+	.4byte gTextL0_0959
+	.4byte gTextL0_0960
+	.4byte gTextL0_0961
+	.4byte gTextL0_0962
+	.4byte gTextL0_0963
+	.4byte gTextL0_0964
+	.4byte gTextL0_0965
+	.4byte gTextL0_0966
+	.4byte gTextL0_0967
+	.4byte gTextL0_0968
+	.4byte gTextL0_0969
+	.4byte gTextL0_0970
+	.4byte gTextL0_0971
+	.4byte gTextL0_0972
+	.4byte gTextL0_0973
+	.4byte gTextL0_0974
+	.4byte gTextL0_0975
+	.4byte gTextL0_0976
+	.4byte gTextL0_0977
+	.4byte gTextL0_0978
+	.4byte gTextL0_0979
+	.4byte gTextL0_0980
+	.4byte gTextL0_0981
+	.4byte gTextL0_0982
+	.4byte gTextL0_0983
+	.4byte gTextL0_0984
+	.4byte gTextL0_0985
+	.4byte gTextL0_0986
+	.4byte gTextL0_0987
+	.4byte gTextL0_0988
+	.4byte gTextL0_0989
+	.4byte gTextL0_0990
+	.4byte gTextL0_0991
+	.4byte gTextL0_0992
+	.4byte gTextL0_0993
+	.4byte gTextL0_0994
+	.4byte gTextL0_0995
+	.4byte gTextL0_0996
+	.4byte gTextL0_0997
+	.4byte gTextL0_0998
+	.4byte gTextL0_0999
+	.4byte gTextL0_1000
+	.4byte gTextL0_1001
+	.4byte gTextL0_1002
+	.4byte gTextL0_1003
+	.4byte gTextL0_1004
+	.4byte gTextL0_1005
+	.4byte gTextL0_1006
+	.4byte gTextL0_1007
+	.4byte gTextL0_1008
+	.4byte gTextL0_1009
+	.4byte gTextL0_1010
+	.4byte gTextL0_1011
+	.4byte gTextL0_1012
+	.4byte gTextL0_1013
+	.4byte gTextL0_1014
+	.4byte gTextL0_1015
+	.4byte gTextL0_1016
+	.4byte gTextL0_1017
+	.4byte gTextL0_1018
+	.4byte gTextL0_1019
+	.4byte gTextL0_1020
+	.4byte gTextL0_1021
+	.4byte gTextL0_1022
+	.4byte gTextL0_1023
+	.4byte gTextL0_1024
+	.4byte gTextL0_1025
+	.4byte gTextL0_1026
+	.4byte gTextL0_1027
+	.4byte gTextL0_1028
+	.4byte gTextL0_1029
+	.4byte gTextL0_1030
+	.4byte gTextL0_1031
+	.4byte gTextL0_1032
+	.4byte gTextL0_1033
+	.4byte gTextL0_1034
+	.4byte gTextL0_1035
+	.4byte gTextL0_1036
+	.4byte gTextL0_1037
+	.4byte gTextL0_1038
+	.4byte gTextL0_1039
+	.4byte gTextL0_1040
+	.4byte gTextL0_1041
+	.4byte gTextL0_1042
+	.4byte gTextL0_1043
+	.4byte gTextL0_1044
+	.4byte gTextL0_1045
+	.4byte gTextL0_1046
+	.4byte gTextL0_1047
+	.4byte gTextL0_1048
+	.4byte gTextL0_1049
+	.4byte gTextL0_1050
+	.4byte gTextL0_1051
+	.4byte gTextL0_1052
+	.4byte gTextL0_1053
+	.4byte gTextL0_1054
+	.4byte gTextL0_1055
+	.4byte gTextL0_1056
+	.4byte gTextL0_1057
+	.4byte gTextL0_1058
+	.4byte gTextL0_1059
+	.4byte gTextL0_1060
+	.4byte gTextL0_1061
+	.4byte gTextL0_1062
+	.4byte gTextL0_1063
+	.4byte gTextL0_1064
+	.4byte gTextL0_1065
+	.4byte gTextL0_1066
+	.4byte gTextL0_1067
+	.4byte gTextL0_1068
+	.4byte gTextL0_1069
+	.4byte gTextL0_1070
+	.4byte gTextL0_1071
+	.4byte gTextL0_1072
+	.4byte gTextL0_1073
+	.4byte gTextL0_1074
+	.4byte gTextL0_1075
+	.4byte gTextL0_1076
+	.4byte gTextL0_1077
+	.4byte gTextL0_1078
+	.4byte gTextL0_1079
+	.4byte gTextL0_1080
+	.4byte gTextL0_1081
+	.4byte gTextL0_1082
+	.4byte gTextL0_1083
+	.4byte gTextL0_1084
+	.4byte gTextL0_1085
+	.4byte gTextL0_1086
+	.4byte gTextL0_1087
+	.4byte gTextL0_1088
+	.4byte gTextL0_1089
+	.4byte gTextL0_1090
+	.4byte gTextL0_1091
+	.4byte gTextL0_1092
+	.4byte gTextL0_1093
+	.4byte gTextL0_1094
+	.4byte gTextL0_1095
+	.4byte gTextL0_1096
+	.4byte gTextL0_1097
+	.4byte gTextL0_1098
+	.4byte gTextL0_1099
+	.4byte gTextL0_1100
+	.4byte gTextL0_1101
+	.4byte gTextL0_1102
+	.4byte gTextL0_1103
+	.4byte gTextL0_1104
+	.4byte gTextL0_1105
+	.4byte gTextL0_1106
+	.4byte gTextL0_1107
+	.4byte gTextL0_1108
+	.4byte gTextL0_1109
+	.4byte gTextL0_1110
+	.4byte gTextL0_1111
+	.4byte gTextL0_1112
+	.4byte gTextL0_1113
+	.4byte gTextL0_1114
+	.4byte gTextL0_1115
+	.4byte gTextL0_1116
+	.4byte gTextL0_1117
+	.4byte gTextL0_1118
+	.4byte gTextL0_1119
+	.4byte gTextL0_1120
+	.4byte gTextL0_1121
+	.4byte gTextL0_1122
+	.4byte gTextL0_1123
+	.4byte gTextL0_1124
+	.4byte gTextL0_1125
+	.4byte gTextL0_1126
+	.4byte gTextL0_1127
+	.4byte gTextL0_1128
+	.4byte gTextL0_1129
+	.4byte gTextL0_1130
+	.4byte gTextL0_1131
+	.4byte gTextL0_1132
+	.4byte gTextL0_1133
+	.4byte gTextL0_1134
+	.4byte gTextL0_1135
+	.4byte gTextL0_1136
+	.4byte gTextL0_1137
+	.4byte gTextL0_1138
+	.4byte gTextL0_1139
+	.4byte gTextL0_1140
+	.4byte gTextL0_1141
+	.4byte gTextL0_1142
+	.4byte gTextL0_1143
+	.4byte gTextL0_1144
+	.4byte gTextL0_1145
+	.4byte gTextL0_1146
+	.4byte gTextL0_1147
+	.4byte gTextL0_1148
+	.4byte gTextL0_1149
+	.4byte gTextL0_1150
+	.4byte gTextL0_1151
+	.4byte gTextL0_1152
+	.4byte gTextL0_1153
+	.4byte gTextL0_1154
+	.4byte gTextL0_1155
+	.4byte gTextL0_1156
+	.4byte gTextL0_1157
+	.4byte gTextL0_1158
+	.4byte gTextL0_1159
+	.4byte gTextL0_1160
+	.4byte gTextL0_1161
+	.4byte gTextL0_1162
+	.4byte gTextL0_1163
+	.4byte gTextL0_1164
+	.4byte gTextL0_1165
+	.4byte gTextL0_1166
+	.4byte gTextL0_1167
+	.4byte gTextL0_1168
+	.4byte gTextL0_1169
+	.4byte gTextL0_1170
+	.4byte gTextL0_1171
+	.4byte gTextL0_1172
+	.4byte gTextL0_1173
+	.4byte gTextL0_1174
+	.4byte gTextL0_1175
+	.4byte gTextL0_1176
+	.4byte gTextL0_1177
+	.4byte gTextL0_1178
+	.4byte gTextL0_1179
+	.4byte gTextL0_1180
+	.4byte gTextL0_1181
+	.4byte gTextL0_1182
+	.4byte gTextL0_1183
+	.4byte gTextL0_1184
+	.4byte gTextL0_1185
+	.4byte gTextL0_1186
+	.4byte gTextL0_1187
+	.4byte gTextL0_1188
+	.4byte gTextL0_1189
+	.4byte gTextL0_1190
+	.4byte gTextL0_1191
+	.4byte gTextL0_1192
+	.4byte gTextL0_1193
+	.4byte gTextL0_1194
+	.4byte gTextL0_1195
+	.4byte gTextL0_1196
+	.4byte gTextL0_1197
+	.4byte gTextL0_1198
+	.4byte gTextL0_1199
+	.4byte gTextL0_1200
+	.4byte gTextL0_1201
+	.4byte gTextL0_1202
+	.4byte gTextL0_1203
+	.4byte gTextL0_1204
+	.4byte gTextL0_1205
+	.4byte gTextL0_1206
+	.4byte gTextL0_1207
+	.4byte gTextL0_1208
+	.4byte gTextL0_1209
+	.4byte gTextL0_1210
+	.4byte gTextL0_1211
+	.4byte gTextL0_1212
+	.4byte gTextL0_1213
+	.4byte gTextL0_1214
+	.4byte gTextL0_1215
+	.4byte gTextL0_1216
+	.4byte gTextL0_1217
+	.4byte gTextL0_1218
+	.4byte gTextL0_1219
+	.4byte gTextL0_1220
+	.4byte gTextL0_1221
+	.4byte gTextL0_1222
+	.4byte gTextL0_1223
+	.4byte gTextL0_1224
+	.4byte gTextL0_1225
+	.4byte gTextL0_1226
+	.4byte gTextL0_1227
+	.4byte gTextL0_1228
+	.4byte gTextL0_1229
+	.4byte gTextL0_1230
+	.4byte gTextL0_1231
+	.4byte gTextL0_1232
+	.4byte gTextL0_1233
+	.4byte gTextL0_1234
+	.4byte gTextL0_1235
+	.4byte gTextL0_1236
+	.4byte gTextL0_1237
+	.4byte gTextL0_1238
+	.4byte gTextL0_1239
+	.4byte gTextL0_1240
+	.4byte gTextL0_1241
+	.4byte gTextL0_1242
+	.4byte gTextL0_1243
+	.4byte gTextL0_1244
+	.4byte gTextL0_1245
+	.4byte gTextL0_1246
+	.4byte gTextL0_1247
+	.4byte gTextL0_1248
+	.4byte gTextL0_1249
+	.4byte gTextL0_1250
+	.4byte gTextL0_1251
+	.4byte gTextL0_1252
+	.4byte gTextL0_1253
+	.4byte gTextL0_1254
+	.4byte gTextL0_1255
+	.4byte gTextL0_1256
+	.4byte gTextL0_1257
+	.4byte gTextL0_1258
+	.4byte gTextL0_1259
+	.4byte gTextL0_1260
+	.4byte gTextL0_1261
+	.4byte gTextL0_1262
+	.4byte gTextL0_1263
+	.4byte gTextL0_1264
+	.4byte gTextL0_1265
+	.4byte gTextL0_1266
+	.4byte gTextL0_1267
+	.4byte gTextL0_1268
+	.4byte gTextL0_1269
+	.4byte gTextL0_1270
+	.4byte gTextL0_1271
+	.4byte gTextL0_1272
+	.4byte gTextL0_1273
+	.4byte gTextL0_1274
+	.4byte gTextL0_1275
+	.4byte gTextL0_1276
+	.4byte gTextL0_1277
+	.4byte gTextL0_1278
+	.4byte gTextL0_1279
+	.4byte gTextL0_1280
+	.4byte gTextL0_1281
+	.4byte gTextL0_1282
+	.4byte gTextL0_1283
+	.4byte gTextL0_1284
+	.4byte gTextL0_1285
+	.4byte gTextL0_1286
+	.4byte gTextL0_1287
+	.4byte gTextL0_1288
+	.4byte gTextL0_1289
+	.4byte gTextL0_1290
+	.4byte gTextL0_1291
+	.4byte gTextL0_1292
+	.4byte gTextL0_1293
+	.4byte gTextL0_1294
+	.4byte gTextL0_1295
+	.4byte gTextL0_1296
+	.4byte gTextL0_1297
+	.4byte gTextL0_1298
+	.4byte gTextL0_1299
+	.4byte gTextL0_1300
+	.4byte gTextL0_1301
+	.4byte gTextL0_1302
+	.4byte gTextL0_1303
+	.4byte gTextL0_1304
+	.4byte gTextL0_1305
+	.4byte gTextL0_1306
+	.4byte gTextL0_1307
+	.4byte gTextL0_1308
+	.4byte gTextL0_1309
+	.4byte gTextL0_1310
+	.4byte gTextL0_1311
+	.4byte gTextL0_1312
+	.4byte gTextL0_1313
+	.4byte gTextL0_1314
+	.4byte gTextL0_1315
+	.4byte gTextL0_1316
+	.4byte gTextL0_1317
+	.4byte gTextL0_1318
+	.4byte gTextL0_1319
+	.4byte gTextL0_1320
+	.4byte gTextL0_1321
+	.4byte gTextL0_1322
+	.4byte gTextL0_1323
+	.4byte gTextL0_1324
+	.4byte gTextL0_1325
+	.4byte gTextL0_1326
+	.4byte gTextL0_1327
+	.4byte gTextL0_1328
+	.4byte gTextL0_1329
+	.4byte gTextL0_1330
+	.4byte gTextL0_1331
+	.4byte gTextL0_1332
+	.4byte gTextL0_1333
+	.4byte gTextL0_1334
+	.4byte gTextL0_1335
+	.4byte gTextL0_1336
+	.4byte gTextL0_1337
+	.4byte gTextL0_1338
+	.4byte gTextL0_1339
+	.4byte gTextL0_1340
+	.4byte gTextL0_1341
+	.4byte gTextL0_1342
+	.4byte gTextL0_1343
+	.4byte gTextL0_1344
+	.4byte gTextL0_1345
+	.4byte gTextL0_1346
+	.4byte gTextL0_1347
+	.4byte gTextL0_1348
+	.4byte gTextL0_1349
+	.4byte gTextL0_1350
+	.4byte gTextL0_1351
+	.4byte gTextL0_1352
+	.4byte gTextL0_1353
+	.4byte gTextL0_1354
+	.4byte gTextL0_1355
+	.4byte gTextL0_1356
+	.4byte gTextL0_1357
+	.4byte gTextL0_1358
+	.4byte gTextL0_1359
+	.4byte gTextL0_1360
+	.4byte gTextL0_1361
+	.4byte gTextL0_1362
+	.4byte gTextL0_1363
+	.4byte gTextL0_1364
+	.4byte gTextL0_1365
+	.4byte gTextL0_1366
+	.4byte gTextL0_1367
+	.4byte gTextL0_1368
+	.4byte gTextL0_1369
+	.4byte gTextL0_1370
+	.4byte gTextL0_1371
+	.4byte gTextL0_1372
+	.4byte gTextL0_1373
+	.4byte gTextL0_1374
+	.4byte gTextL0_1375
+	.4byte gTextL0_1376
+	.4byte gTextL0_1377
+	.4byte gTextL0_1378
+	.4byte gTextL0_1379
+	.4byte gTextL0_1380
+	.4byte gTextL0_1381
+	.4byte gTextL0_1382
+	.4byte gTextL0_1383
+	.4byte gTextL0_1384
+	.4byte gTextL0_1385
+	.4byte gTextL0_1386
+	.4byte gTextL0_1387
+	.4byte gTextL0_1388
+	.4byte gTextL0_1389
+	.4byte gTextL0_1390
+	.4byte gTextL0_1391
+	.4byte gTextL0_1392
+	.4byte gTextL0_1393
+	.4byte gTextL0_1394
+	.4byte gTextL0_1395
+	.4byte gTextL0_1396
+	.4byte gTextL0_1397
+	.4byte gTextL0_1398
+	.4byte gTextL0_1399
+	.4byte gTextL0_1400
+	.4byte gTextL0_1401
+	.4byte gTextL0_1402
+	.4byte gTextL0_1403
+	.4byte gTextL0_1404
+	.4byte gTextL0_1405
+	.4byte gTextL0_1406
+	.4byte gTextL0_1407
+	.4byte gTextL0_1408
+	.4byte gTextL0_1409
+	.4byte gTextL0_1410
+	.4byte gTextL0_1411
+	.4byte gTextL0_1412
+	.4byte gTextL0_1413
+	.4byte gTextL0_1414
+	.4byte gTextL0_1415
+	.4byte gTextL0_1416
+	.4byte gTextL0_1417
+	.4byte gTextL0_1418
+	.4byte gTextL0_1419
+	.4byte gTextL0_1420
+	.4byte gTextL0_1421
+	.4byte gTextL0_1422
+	.4byte gTextL0_1423
+	.4byte gTextL0_1424
+	.4byte gTextL0_1425
+	.4byte gTextL0_1426
+	.4byte gTextL0_1427
+	.4byte gTextL0_1428
+	.4byte gTextL0_1429
+	.4byte gTextL0_1430
+	.4byte gTextL0_1431
+	.4byte gTextL0_1432
+	.4byte gTextL0_1433
+	.4byte gTextL0_1434
+	.4byte gTextL0_1435
+	.4byte gTextL0_1436
+	.4byte gTextL0_1437
+	.4byte gTextL0_1438
+	.4byte gTextL0_1439
+	.4byte gTextL0_1440
+	.4byte gTextL0_1441
+	.4byte gTextL0_1442
+	.4byte gTextL0_1443
+	.4byte gTextL0_1444
+	.4byte gTextL0_1445
+	.4byte gTextL0_1446
+	.4byte gTextL0_1447
+	.4byte gTextL0_1448
+	.4byte gTextL0_1449
+	.4byte gTextL0_1450
+	.4byte gTextL0_1451
+	.4byte gTextL0_1452
+	.4byte gTextL0_1453
+	.4byte gTextL0_1454
+	.4byte gTextL0_1455
+	.4byte gTextL0_1456
+	.4byte gTextL0_1457
+	.4byte gTextL0_1458
+	.4byte gTextL0_1459
+	.4byte gTextL0_1460
+	.4byte gTextL0_1461
+	.4byte gTextL0_1462
+	.4byte gTextL0_1463
+	.4byte gTextL0_1464
+	.4byte gTextL0_1465
+	.4byte gTextL0_1466
+	.4byte gTextL0_1467
+	.4byte gTextL0_1468
+	.4byte gTextL0_1469
+	.4byte gTextL0_1470
+	.4byte gTextL0_1471
+	.4byte gTextL0_1472
+	.4byte gTextL0_1473
+	.4byte gTextL0_1474
+	.4byte gTextL0_1475
+	.4byte gTextL0_1476
+	.4byte gTextL0_1477
+	.4byte gTextL0_1478
+	.4byte gTextL0_1479
+	.4byte gTextL0_1480
+	.4byte gTextL0_1481
+	.4byte gTextL0_1482
+	.4byte gTextL0_1483
+	.4byte gTextL0_1484
+	.4byte gTextL0_1485
+	.4byte gTextL0_1486
+	.4byte gTextL0_1487
+	.4byte gTextL0_1488
+	.4byte gTextL0_1489
+	.4byte gTextL0_1490
+	.4byte gTextL0_1491
+	.4byte gTextL0_1492
+	.global gUnk_0838C744
+gUnk_0838C744:
+	.incbin "baserom.gba", 0x38C744, 0x10
+	.global gTextL4_0001
+gTextL4_0001:
+	.incbin "baserom.gba", 0x38C754, 0xB
+	.global gTextL4_0002
+gTextL4_0002:
+	.incbin "baserom.gba", 0x38C75F, 0x1B
+	.global gTextL4_0003
+gTextL4_0003:
+	.incbin "baserom.gba", 0x38C77A, 0x24
+	.global gTextL4_0004
+gTextL4_0004:
+	.incbin "baserom.gba", 0x38C79E, 0x36
+	.global gTextL4_0005
+gTextL4_0005:
+	.incbin "baserom.gba", 0x38C7D4, 0x31
+	.global gTextL4_0006
+gTextL4_0006:
+	.incbin "baserom.gba", 0x38C805, 0x33
+	.global gTextL4_0007
+gTextL4_0007:
+	.incbin "baserom.gba", 0x38C838, 0x37
+	.global gTextL4_0008
+gTextL4_0008:
+	.incbin "baserom.gba", 0x38C86F, 0x26
+	.global gTextL4_0009
+gTextL4_0009:
+	.incbin "baserom.gba", 0x38C895, 0x25
+	.global gTextL4_0010
+gTextL4_0010:
+	.incbin "baserom.gba", 0x38C8BA, 0x3A
+	.global gTextL4_0011
+gTextL4_0011:
+	.incbin "baserom.gba", 0x38C8F4, 0x34
+	.global gTextL4_0012
+gTextL4_0012:
+	.incbin "baserom.gba", 0x38C928, 0x2A
+	.global gTextL4_0013
+gTextL4_0013:
+	.incbin "baserom.gba", 0x38C952, 0x2E
+	.global gTextL4_0014
+gTextL4_0014:
+	.incbin "baserom.gba", 0x38C980, 0x32
+	.global gTextL4_0015
+gTextL4_0015:
+	.incbin "baserom.gba", 0x38C9B2, 0x28
+	.global gTextL4_0016
+gTextL4_0016:
+	.incbin "baserom.gba", 0x38C9DA, 0x25
+	.global gTextL4_0017
+gTextL4_0017:
+	.incbin "baserom.gba", 0x38C9FF, 0x2F
+	.global gTextL4_0018
+gTextL4_0018:
+	.incbin "baserom.gba", 0x38CA2E, 0x1B
+	.global gTextL4_0019
+gTextL4_0019:
+	.incbin "baserom.gba", 0x38CA49, 0x39
+	.global gTextL4_0020
+gTextL4_0020:
+	.incbin "baserom.gba", 0x38CA82, 0x35
+	.global gTextL4_0021
+gTextL4_0021:
+	.incbin "baserom.gba", 0x38CAB7, 0x30
+	.global gTextL4_0022
+gTextL4_0022:
+	.incbin "baserom.gba", 0x38CAE7, 0x2C
+	.global gTextL4_0023
+gTextL4_0023:
+	.incbin "baserom.gba", 0x38CB13, 0x31
+	.global gTextL4_0024
+gTextL4_0024:
+	.incbin "baserom.gba", 0x38CB44, 0x1C
+	.global gTextL4_0025
+gTextL4_0025:
+	.incbin "baserom.gba", 0x38CB60, 0x37
+	.global gTextL4_0026
+gTextL4_0026:
+	.incbin "baserom.gba", 0x38CB97, 0x38
+	.global gTextL4_0027
+gTextL4_0027:
+	.incbin "baserom.gba", 0x38CBCF, 0x18
+	.global gTextL4_0028
+gTextL4_0028:
+	.incbin "baserom.gba", 0x38CBE7, 0x31
+	.global gTextL4_0029
+gTextL4_0029:
+	.incbin "baserom.gba", 0x38CC18, 0x60
+	.global gTextL4_0030
+gTextL4_0030:
+	.incbin "baserom.gba", 0x38CC78, 0x35
+	.global gTextL4_0031
+gTextL4_0031:
+	.incbin "baserom.gba", 0x38CCAD, 0x3B
+	.global gTextL4_0032
+gTextL4_0032:
+	.incbin "baserom.gba", 0x38CCE8, 0x21
+	.global gTextL4_0033
+gTextL4_0033:
+	.incbin "baserom.gba", 0x38CD09, 0x28
+	.global gTextL4_0034
+gTextL4_0034:
+	.incbin "baserom.gba", 0x38CD31, 0x97
+	.global gTextL4_0035
+gTextL4_0035:
+	.incbin "baserom.gba", 0x38CDC8, 0x35
+	.global gTextL4_0036
+gTextL4_0036:
+	.incbin "baserom.gba", 0x38CDFD, 0x2D
+	.global gTextL4_0037
+gTextL4_0037:
+	.incbin "baserom.gba", 0x38CE2A, 0x25
+	.global gTextL4_0038
+gTextL4_0038:
+	.incbin "baserom.gba", 0x38CE4F, 0x38
+	.global gTextL4_0039
+gTextL4_0039:
+	.incbin "baserom.gba", 0x38CE87, 0x6C
+	.global gTextL4_0040
+gTextL4_0040:
+	.incbin "baserom.gba", 0x38CEF3, 0x36
+	.global gTextL4_0041
+gTextL4_0041:
+	.incbin "baserom.gba", 0x38CF29, 0x20
+	.global gTextL4_0042
+gTextL4_0042:
+	.incbin "baserom.gba", 0x38CF49, 0x37
+	.global gTextL4_0043
+gTextL4_0043:
+	.incbin "baserom.gba", 0x38CF80, 0x17
+	.global gTextL4_0044
+gTextL4_0044:
+	.incbin "baserom.gba", 0x38CF97, 0x1D
+	.global gTextL4_0045
+gTextL4_0045:
+	.incbin "baserom.gba", 0x38CFB4, 0x2F
+	.global gTextL4_0046
+gTextL4_0046:
+	.incbin "baserom.gba", 0x38CFE3, 0x26
+	.global gTextL4_0047
+gTextL4_0047:
+	.incbin "baserom.gba", 0x38D009, 0x64
+	.global gTextL4_0048
+gTextL4_0048:
+	.incbin "baserom.gba", 0x38D06D, 0x140
+	.global gTextL4_0049
+gTextL4_0049:
+	.incbin "baserom.gba", 0x38D1AD, 0x6E
+	.global gTextL4_0050
+gTextL4_0050:
+	.incbin "baserom.gba", 0x38D21B, 0x120
+	.global gTextL4_0051
+gTextL4_0051:
+	.incbin "baserom.gba", 0x38D33B, 0x34
+	.global gTextL4_0052
+gTextL4_0052:
+	.incbin "baserom.gba", 0x38D36F, 0x34
+	.global gTextL4_0053
+gTextL4_0053:
+	.incbin "baserom.gba", 0x38D3A3, 0x6D
+	.global gTextL4_0054
+gTextL4_0054:
+	.incbin "baserom.gba", 0x38D410, 0x51
+	.global gTextL4_0055
+gTextL4_0055:
+	.incbin "baserom.gba", 0x38D461, 0x52
+	.global gTextL4_0056
+gTextL4_0056:
+	.incbin "baserom.gba", 0x38D4B3, 0x9E
+	.global gTextL4_0057
+gTextL4_0057:
+	.incbin "baserom.gba", 0x38D551, 0xF2
+	.global gTextL4_0058
+gTextL4_0058:
+	.incbin "baserom.gba", 0x38D643, 0x4B
+	.global gTextL4_0059
+gTextL4_0059:
+	.incbin "baserom.gba", 0x38D68E, 0xA0
+	.global gTextL4_0060
+gTextL4_0060:
+	.incbin "baserom.gba", 0x38D72E, 0x7A
+	.global gTextL4_0061
+gTextL4_0061:
+	.incbin "baserom.gba", 0x38D7A8, 0x50
+	.global gTextL4_0062
+gTextL4_0062:
+	.incbin "baserom.gba", 0x38D7F8, 0x7
+	.global gTextL4_0063
+gTextL4_0063:
+	.incbin "baserom.gba", 0x38D7FF, 0x130
+	.global gTextL4_0064
+gTextL4_0064:
+	.incbin "baserom.gba", 0x38D92F, 0x194
+	.global gTextL4_0065
+gTextL4_0065:
+	.incbin "baserom.gba", 0x38DAC3, 0x46
+	.global gTextL4_0066
+gTextL4_0066:
+	.incbin "baserom.gba", 0x38DB09, 0x106
+	.global gTextL4_0067
+gTextL4_0067:
+	.incbin "baserom.gba", 0x38DC0F, 0xD8
+	.global gTextL4_0068
+gTextL4_0068:
+	.incbin "baserom.gba", 0x38DCE7, 0x3C
+	.global gTextL4_0069
+gTextL4_0069:
+	.incbin "baserom.gba", 0x38DD23, 0x1F
+	.global gTextL4_0070
+gTextL4_0070:
+	.incbin "baserom.gba", 0x38DD42, 0x129
+	.global gTextL4_0071
+gTextL4_0071:
+	.incbin "baserom.gba", 0x38DE6B, 0x150
+	.global gTextL4_0072
+gTextL4_0072:
+	.incbin "baserom.gba", 0x38DFBB, 0x194
+	.global gTextL4_0073
+gTextL4_0073:
+	.incbin "baserom.gba", 0x38E14F, 0x34
+	.global gTextL4_0074
+gTextL4_0074:
+	.incbin "baserom.gba", 0x38E183, 0x4F
+	.global gTextL4_0075
+gTextL4_0075:
+	.incbin "baserom.gba", 0x38E1D2, 0x40
+	.global gTextL4_0076
+gTextL4_0076:
+	.incbin "baserom.gba", 0x38E212, 0x2B
+	.global gTextL4_0077
+gTextL4_0077:
+	.incbin "baserom.gba", 0x38E23D, 0x20
+	.global gTextL4_0078
+gTextL4_0078:
+	.incbin "baserom.gba", 0x38E25D, 0x48
+	.global gTextL4_0079
+gTextL4_0079:
+	.incbin "baserom.gba", 0x38E2A5, 0x152
+	.global gTextL4_0080
+gTextL4_0080:
+	.incbin "baserom.gba", 0x38E3F7, 0x20
+	.global gTextL4_0081
+gTextL4_0081:
+	.incbin "baserom.gba", 0x38E417, 0x31
+	.global gTextL4_0082
+gTextL4_0082:
+	.incbin "baserom.gba", 0x38E448, 0x1B
+	.global gTextL4_0083
+gTextL4_0083:
+	.incbin "baserom.gba", 0x38E463, 0x26
+	.global gTextL4_0084
+gTextL4_0084:
+	.incbin "baserom.gba", 0x38E489, 0x14
+	.global gTextL4_0085
+gTextL4_0085:
+	.incbin "baserom.gba", 0x38E49D, 0x32
+	.global gTextL4_0086
+gTextL4_0086:
+	.incbin "baserom.gba", 0x38E4CF, 0x27
+	.global gTextL4_0087
+gTextL4_0087:
+	.incbin "baserom.gba", 0x38E4F6, 0x40
+	.global gTextL4_0088
+gTextL4_0088:
+	.incbin "baserom.gba", 0x38E536, 0x267
+	.global gTextL4_0089
+gTextL4_0089:
+	.incbin "baserom.gba", 0x38E79D, 0x11F
+	.global gTextL4_0090
+gTextL4_0090:
+	.incbin "baserom.gba", 0x38E8BC, 0x2C
+	.global gTextL4_0091
+gTextL4_0091:
+	.incbin "baserom.gba", 0x38E8E8, 0xD
+	.global gTextL4_0092
+gTextL4_0092:
+	.incbin "baserom.gba", 0x38E8F5, 0xB
+	.global gTextL4_0093
+gTextL4_0093:
+	.incbin "baserom.gba", 0x38E900, 0xE
+	.global gTextL4_0094
+gTextL4_0094:
+	.incbin "baserom.gba", 0x38E90E, 0x1E5
+	.global gTextL4_0095
+gTextL4_0095:
+	.incbin "baserom.gba", 0x38EAF3, 0xB8
+	.global gTextL4_0096
+gTextL4_0096:
+	.incbin "baserom.gba", 0x38EBAB, 0x2B2
+	.global gTextL4_0097
+gTextL4_0097:
+	.incbin "baserom.gba", 0x38EE5D, 0x168
+	.global gTextL4_0098
+gTextL4_0098:
+	.incbin "baserom.gba", 0x38EFC5, 0x1BE
+	.global gTextL4_0099
+gTextL4_0099:
+	.incbin "baserom.gba", 0x38F183, 0x4B
+	.global gTextL4_0100
+gTextL4_0100:
+	.incbin "baserom.gba", 0x38F1CE, 0xC
+	.global gTextL4_0101
+gTextL4_0101:
+	.incbin "baserom.gba", 0x38F1DA, 0x198
+	.global gTextL4_0102
+gTextL4_0102:
+	.incbin "baserom.gba", 0x38F372, 0x146
+	.global gTextL4_0103
+gTextL4_0103:
+	.incbin "baserom.gba", 0x38F4B8, 0x50
+	.global gTextL4_0104
+gTextL4_0104:
+	.incbin "baserom.gba", 0x38F508, 0x143
+	.global gTextL4_0105
+gTextL4_0105:
+	.incbin "baserom.gba", 0x38F64B, 0x2A9
+	.global gTextL4_0106
+gTextL4_0106:
+	.incbin "baserom.gba", 0x38F8F4, 0x17E
+	.global gTextL4_0107
+gTextL4_0107:
+	.incbin "baserom.gba", 0x38FA72, 0x19
+	.global gTextL4_0108
+gTextL4_0108:
+	.incbin "baserom.gba", 0x38FA8B, 0x38
+	.global gTextL4_0109
+gTextL4_0109:
+	.incbin "baserom.gba", 0x38FAC3, 0x26
+	.global gTextL4_0110
+gTextL4_0110:
+	.incbin "baserom.gba", 0x38FAE9, 0x29
+	.global gTextL4_0111
+gTextL4_0111:
+	.incbin "baserom.gba", 0x38FB12, 0x23
+	.global gTextL4_0112
+gTextL4_0112:
+	.incbin "baserom.gba", 0x38FB35, 0x30
+	.global gTextL4_0113
+gTextL4_0113:
+	.incbin "baserom.gba", 0x38FB65, 0x44
+	.global gTextL4_0114
+gTextL4_0114:
+	.incbin "baserom.gba", 0x38FBA9, 0x1C
+	.global gTextL4_0115
+gTextL4_0115:
+	.incbin "baserom.gba", 0x38FBC5, 0x41
+	.global gTextL4_0116
+gTextL4_0116:
+	.incbin "baserom.gba", 0x38FC06, 0x6E
+	.global gTextL4_0117
+gTextL4_0117:
+	.incbin "baserom.gba", 0x38FC74, 0x48
+	.global gTextL4_0118
+gTextL4_0118:
+	.incbin "baserom.gba", 0x38FCBC, 0x69
+	.global gTextL4_0119
+gTextL4_0119:
+	.incbin "baserom.gba", 0x38FD25, 0x1B
+	.global gTextL4_0120
+gTextL4_0120:
+	.incbin "baserom.gba", 0x38FD40, 0x3B
+	.global gTextL4_0121
+gTextL4_0121:
+	.incbin "baserom.gba", 0x38FD7B, 0x5D
+	.global gTextL4_0122
+gTextL4_0122:
+	.incbin "baserom.gba", 0x38FDD8, 0x38
+	.global gTextL4_0123
+gTextL4_0123:
+	.incbin "baserom.gba", 0x38FE10, 0x44
+	.global gTextL4_0124
+gTextL4_0124:
+	.incbin "baserom.gba", 0x38FE54, 0x26
+	.global gTextL4_0125
+gTextL4_0125:
+	.incbin "baserom.gba", 0x38FE7A, 0x39
+	.global gTextL4_0126
+gTextL4_0126:
+	.incbin "baserom.gba", 0x38FEB3, 0x45
+	.global gTextL4_0127
+gTextL4_0127:
+	.incbin "baserom.gba", 0x38FEF8, 0x99
+	.global gTextL4_0128
+gTextL4_0128:
+	.incbin "baserom.gba", 0x38FF91, 0x5F
+	.global gTextL4_0129
+gTextL4_0129:
+	.incbin "baserom.gba", 0x38FFF0, 0x6
+	.global gTextL4_0130
+gTextL4_0130:
+	.incbin "baserom.gba", 0x38FFF6, 0xB
+	.global gTextL4_0131
+gTextL4_0131:
+	.incbin "baserom.gba", 0x390001, 0x10
+	.global gTextL4_0132
+gTextL4_0132:
+	.incbin "baserom.gba", 0x390011, 0x21
+	.global gTextL4_0133
+gTextL4_0133:
+	.incbin "baserom.gba", 0x390032, 0x1E
+	.global gTextL4_0134
+gTextL4_0134:
+	.incbin "baserom.gba", 0x390050, 0x30
+	.global gTextL4_0135
+gTextL4_0135:
+	.incbin "baserom.gba", 0x390080, 0x1B
+	.global gTextL4_0136
+gTextL4_0136:
+	.incbin "baserom.gba", 0x39009B, 0x4B
+	.global gTextL4_0137
+gTextL4_0137:
+	.incbin "baserom.gba", 0x3900E6, 0x88
+	.global gTextL4_0138
+gTextL4_0138:
+	.incbin "baserom.gba", 0x39016E, 0x53
+	.global gTextL4_0139
+gTextL4_0139:
+	.incbin "baserom.gba", 0x3901C1, 0x1AF
+	.global gTextL4_0140
+gTextL4_0140:
+	.incbin "baserom.gba", 0x390370, 0x96
+	.global gTextL4_0141
+gTextL4_0141:
+	.incbin "baserom.gba", 0x390406, 0xF
+	.global gTextL4_0142
+gTextL4_0142:
+	.incbin "baserom.gba", 0x390415, 0x25
+	.global gTextL4_0143
+gTextL4_0143:
+	.incbin "baserom.gba", 0x39043A, 0x18
+	.global gTextL4_0144
+gTextL4_0144:
+	.incbin "baserom.gba", 0x390452, 0xD5
+	.global gTextL4_0145
+gTextL4_0145:
+	.incbin "baserom.gba", 0x390527, 0xCA
+	.global gTextL4_0146
+gTextL4_0146:
+	.incbin "baserom.gba", 0x3905F1, 0x4D
+	.global gTextL4_0147
+gTextL4_0147:
+	.incbin "baserom.gba", 0x39063E, 0x132
+	.global gTextL4_0148
+gTextL4_0148:
+	.incbin "baserom.gba", 0x390770, 0x52
+	.global gTextL4_0149
+gTextL4_0149:
+	.incbin "baserom.gba", 0x3907C2, 0xD2
+	.global gTextL4_0150
+gTextL4_0150:
+	.incbin "baserom.gba", 0x390894, 0x118
+	.global gTextL4_0151
+gTextL4_0151:
+	.incbin "baserom.gba", 0x3909AC, 0x4F
+	.global gTextL4_0152
+gTextL4_0152:
+	.incbin "baserom.gba", 0x3909FB, 0x147
+	.global gTextL4_0153
+gTextL4_0153:
+	.incbin "baserom.gba", 0x390B42, 0x132
+	.global gTextL4_0154
+gTextL4_0154:
+	.incbin "baserom.gba", 0x390C74, 0x56
+	.global gTextL4_0155
+gTextL4_0155:
+	.incbin "baserom.gba", 0x390CCA, 0xE2
+	.global gTextL4_0156
+gTextL4_0156:
+	.incbin "baserom.gba", 0x390DAC, 0x17C
+	.global gTextL4_0157
+gTextL4_0157:
+	.incbin "baserom.gba", 0x390F28, 0x51
+	.global gTextL4_0158
+gTextL4_0158:
+	.incbin "baserom.gba", 0x390F79, 0x219
+	.global gTextL4_0159
+gTextL4_0159:
+	.incbin "baserom.gba", 0x391192, 0x491
+	.global gTextL4_0160
+gTextL4_0160:
+	.incbin "baserom.gba", 0x391623, 0x3A9
+	.global gTextL4_0161
+gTextL4_0161:
+	.incbin "baserom.gba", 0x3919CC, 0x3B
+	.global gTextL4_0162
+gTextL4_0162:
+	.incbin "baserom.gba", 0x391A07, 0x234
+	.global gTextL4_0163
+gTextL4_0163:
+	.incbin "baserom.gba", 0x391C3B, 0x53
+	.global gTextL4_0164
+gTextL4_0164:
+	.incbin "baserom.gba", 0x391C8E, 0x18C
+	.global gTextL4_0165
+gTextL4_0165:
+	.incbin "baserom.gba", 0x391E1A, 0x326
+	.global gTextL4_0166
+gTextL4_0166:
+	.incbin "baserom.gba", 0x392140, 0x2E7
+	.global gTextL4_0167
+gTextL4_0167:
+	.incbin "baserom.gba", 0x392427, 0x29F
+	.global gTextL4_0168
+gTextL4_0168:
+	.incbin "baserom.gba", 0x3926C6, 0x147
+	.global gTextL4_0169
+gTextL4_0169:
+	.incbin "baserom.gba", 0x39280D, 0x23
+	.global gTextL4_0170
+gTextL4_0170:
+	.incbin "baserom.gba", 0x392830, 0x3F
+	.global gTextL4_0171
+gTextL4_0171:
+	.incbin "baserom.gba", 0x39286F, 0x45
+	.global gTextL4_0172
+gTextL4_0172:
+	.incbin "baserom.gba", 0x3928B4, 0x22
+	.global gTextL4_0173
+gTextL4_0173:
+	.incbin "baserom.gba", 0x3928D6, 0x176
+	.global gTextL4_0174
+gTextL4_0174:
+	.incbin "baserom.gba", 0x392A4C, 0x1A8
+	.global gTextL4_0175
+gTextL4_0175:
+	.incbin "baserom.gba", 0x392BF4, 0x121
+	.global gTextL4_0176
+gTextL4_0176:
+	.incbin "baserom.gba", 0x392D15, 0x1DB
+	.global gTextL4_0177
+gTextL4_0177:
+	.incbin "baserom.gba", 0x392EF0, 0x16D
+	.global gTextL4_0178
+gTextL4_0178:
+	.incbin "baserom.gba", 0x39305D, 0xFE
+	.global gTextL4_0179
+gTextL4_0179:
+	.incbin "baserom.gba", 0x39315B, 0x1ED
+	.global gTextL4_0180
+gTextL4_0180:
+	.incbin "baserom.gba", 0x393348, 0xEE
+	.global gTextL4_0181
+gTextL4_0181:
+	.incbin "baserom.gba", 0x393436, 0x248
+	.global gTextL4_0182
+gTextL4_0182:
+	.incbin "baserom.gba", 0x39367E, 0x134
+	.global gTextL4_0183
+gTextL4_0183:
+	.incbin "baserom.gba", 0x3937B2, 0x131
+	.global gTextL4_0184
+gTextL4_0184:
+	.incbin "baserom.gba", 0x3938E3, 0xCC
+	.global gTextL4_0185
+gTextL4_0185:
+	.incbin "baserom.gba", 0x3939AF, 0x12E
+	.global gTextL4_0186
+gTextL4_0186:
+	.incbin "baserom.gba", 0x393ADD, 0x2F
+	.global gTextL4_0187
+gTextL4_0187:
+	.incbin "baserom.gba", 0x393B0C, 0x111
+	.global gTextL4_0188
+gTextL4_0188:
+	.incbin "baserom.gba", 0x393C1D, 0x133
+	.global gTextL4_0189
+gTextL4_0189:
+	.incbin "baserom.gba", 0x393D50, 0x128
+	.global gTextL4_0190
+gTextL4_0190:
+	.incbin "baserom.gba", 0x393E78, 0x18C
+	.global gTextL4_0191
+gTextL4_0191:
+	.incbin "baserom.gba", 0x394004, 0x240
+	.global gTextL4_0192
+gTextL4_0192:
+	.incbin "baserom.gba", 0x394244, 0x179
+	.global gTextL4_0193
+gTextL4_0193:
+	.incbin "baserom.gba", 0x3943BD, 0x1DA
+	.global gTextL4_0194
+gTextL4_0194:
+	.incbin "baserom.gba", 0x394597, 0x2B6
+	.global gTextL4_0195
+gTextL4_0195:
+	.incbin "baserom.gba", 0x39484D, 0xA6
+	.global gTextL4_0196
+gTextL4_0196:
+	.incbin "baserom.gba", 0x3948F3, 0xEE
+	.global gTextL4_0197
+gTextL4_0197:
+	.incbin "baserom.gba", 0x3949E1, 0xEC
+	.global gTextL4_0198
+gTextL4_0198:
+	.incbin "baserom.gba", 0x394ACD, 0xE0
+	.global gTextL4_0199
+gTextL4_0199:
+	.incbin "baserom.gba", 0x394BAD, 0x171
+	.global gTextL4_0200
+gTextL4_0200:
+	.incbin "baserom.gba", 0x394D1E, 0x14B
+	.global gTextL4_0201
+gTextL4_0201:
+	.incbin "baserom.gba", 0x394E69, 0x1A4
+	.global gTextL4_0202
+gTextL4_0202:
+	.incbin "baserom.gba", 0x39500D, 0xF1
+	.global gTextL4_0203
+gTextL4_0203:
+	.incbin "baserom.gba", 0x3950FE, 0x192
+	.global gTextL4_0204
+gTextL4_0204:
+	.incbin "baserom.gba", 0x395290, 0x1E8
+	.global gTextL4_0205
+gTextL4_0205:
+	.incbin "baserom.gba", 0x395478, 0x37
+	.global gTextL4_0206
+gTextL4_0206:
+	.incbin "baserom.gba", 0x3954AF, 0x1C
+	.global gTextL4_0207
+gTextL4_0207:
+	.incbin "baserom.gba", 0x3954CB, 0x1D
+	.global gTextL4_0208
+gTextL4_0208:
+	.incbin "baserom.gba", 0x3954E8, 0x24
+	.global gTextL4_0209
+gTextL4_0209:
+	.incbin "baserom.gba", 0x39550C, 0x2F
+	.global gTextL4_0210
+gTextL4_0210:
+	.incbin "baserom.gba", 0x39553B, 0x16A
+	.global gTextL4_0211
+gTextL4_0211:
+	.incbin "baserom.gba", 0x3956A5, 0xCF
+	.global gTextL4_0212
+gTextL4_0212:
+	.incbin "baserom.gba", 0x395774, 0xD2
+	.global gTextL4_0213
+gTextL4_0213:
+	.incbin "baserom.gba", 0x395846, 0x109
+	.global gTextL4_0214
+gTextL4_0214:
+	.incbin "baserom.gba", 0x39594F, 0x175
+	.global gTextL4_0215
+gTextL4_0215:
+	.incbin "baserom.gba", 0x395AC4, 0x161
+	.global gTextL4_0216
+gTextL4_0216:
+	.incbin "baserom.gba", 0x395C25, 0x126
+	.global gTextL4_0217
+gTextL4_0217:
+	.incbin "baserom.gba", 0x395D4B, 0xFD
+	.global gTextL4_0218
+gTextL4_0218:
+	.incbin "baserom.gba", 0x395E48, 0x199
+	.global gTextL4_0219
+gTextL4_0219:
+	.incbin "baserom.gba", 0x395FE1, 0xBC
+	.global gTextL4_0220
+gTextL4_0220:
+	.incbin "baserom.gba", 0x39609D, 0x1D
+	.global gTextL4_0221
+gTextL4_0221:
+	.incbin "baserom.gba", 0x3960BA, 0x1B
+	.global gTextL4_0222
+gTextL4_0222:
+	.incbin "baserom.gba", 0x3960D5, 0x27
+	.global gTextL4_0223
+gTextL4_0223:
+	.incbin "baserom.gba", 0x3960FC, 0x2F
+	.global gTextL4_0224
+gTextL4_0224:
+	.incbin "baserom.gba", 0x39612B, 0x2E
+	.global gTextL4_0225
+gTextL4_0225:
+	.incbin "baserom.gba", 0x396159, 0x347
+	.global gTextL4_0226
+gTextL4_0226:
+	.incbin "baserom.gba", 0x3964A0, 0x19
+	.global gTextL4_0227
+gTextL4_0227:
+	.incbin "baserom.gba", 0x3964B9, 0x16
+	.global gTextL4_0228
+gTextL4_0228:
+	.incbin "baserom.gba", 0x3964CF, 0x28
+	.global gTextL4_0229
+gTextL4_0229:
+	.incbin "baserom.gba", 0x3964F7, 0x20
+	.global gTextL4_0230
+gTextL4_0230:
+	.incbin "baserom.gba", 0x396517, 0x1A
+	.global gTextL4_0231
+gTextL4_0231:
+	.incbin "baserom.gba", 0x396531, 0x1F
+	.global gTextL4_0232
+gTextL4_0232:
+	.incbin "baserom.gba", 0x396550, 0x2B
+	.global gTextL4_0233
+gTextL4_0233:
+	.incbin "baserom.gba", 0x39657B, 0x18
+	.global gTextL4_0234
+gTextL4_0234:
+	.incbin "baserom.gba", 0x396593, 0x12F
+	.global gTextL4_0235
+gTextL4_0235:
+	.incbin "baserom.gba", 0x3966C2, 0x126
+	.global gTextL4_0236
+gTextL4_0236:
+	.incbin "baserom.gba", 0x3967E8, 0x172
+	.global gTextL4_0237
+gTextL4_0237:
+	.incbin "baserom.gba", 0x39695A, 0x1B0
+	.global gTextL4_0238
+gTextL4_0238:
+	.incbin "baserom.gba", 0x396B0A, 0x1EA
+	.global gTextL4_0239
+gTextL4_0239:
+	.incbin "baserom.gba", 0x396CF4, 0xAD
+	.global gTextL4_0240
+gTextL4_0240:
+	.incbin "baserom.gba", 0x396DA1, 0x8A
+	.global gTextL4_0241
+gTextL4_0241:
+	.incbin "baserom.gba", 0x396E2B, 0x165
+	.global gTextL4_0242
+gTextL4_0242:
+	.incbin "baserom.gba", 0x396F90, 0x24E
+	.global gTextL4_0243
+gTextL4_0243:
+	.incbin "baserom.gba", 0x3971DE, 0xB5
+	.global gTextL4_0244
+gTextL4_0244:
+	.incbin "baserom.gba", 0x397293, 0x61
+	.global gTextL4_0245
+gTextL4_0245:
+	.incbin "baserom.gba", 0x3972F4, 0x161
+	.global gTextL4_0246
+gTextL4_0246:
+	.incbin "baserom.gba", 0x397455, 0x90
+	.global gTextL4_0247
+gTextL4_0247:
+	.incbin "baserom.gba", 0x3974E5, 0x296
+	.global gTextL4_0248
+gTextL4_0248:
+	.incbin "baserom.gba", 0x39777B, 0x14
+	.global gTextL4_0249
+gTextL4_0249:
+	.incbin "baserom.gba", 0x39778F, 0x3B
+	.global gTextL4_0250
+gTextL4_0250:
+	.incbin "baserom.gba", 0x3977CA, 0x116
+	.global gTextL4_0251
+gTextL4_0251:
+	.incbin "baserom.gba", 0x3978E0, 0x8B
+	.global gTextL4_0252
+gTextL4_0252:
+	.incbin "baserom.gba", 0x39796B, 0x27E
+	.global gTextL4_0253
+gTextL4_0253:
+	.incbin "baserom.gba", 0x397BE9, 0x14
+	.global gTextL4_0254
+gTextL4_0254:
+	.incbin "baserom.gba", 0x397BFD, 0xAA
+	.global gTextL4_0255
+gTextL4_0255:
+	.incbin "baserom.gba", 0x397CA7, 0x487
+	.global gTextL4_0256
+gTextL4_0256:
+	.incbin "baserom.gba", 0x39812E, 0x388
+	.global gTextL4_0257
+gTextL4_0257:
+	.incbin "baserom.gba", 0x3984B6, 0x443
+	.global gTextL4_0258
+gTextL4_0258:
+	.incbin "baserom.gba", 0x3988F9, 0x584
+	.global gTextL4_0259
+gTextL4_0259:
+	.incbin "baserom.gba", 0x398E7D, 0x4C0
+	.global gTextL4_0260
+gTextL4_0260:
+	.incbin "baserom.gba", 0x39933D, 0x1B4
+	.global gTextL4_0261
+gTextL4_0261:
+	.incbin "baserom.gba", 0x3994F1, 0x331
+	.global gTextL4_0262
+gTextL4_0262:
+	.incbin "baserom.gba", 0x399822, 0x65D
+	.global gTextL4_0263
+gTextL4_0263:
+	.incbin "baserom.gba", 0x399E7F, 0x24
+	.global gTextL4_0264
+gTextL4_0264:
+	.incbin "baserom.gba", 0x399EA3, 0x91
+	.global gTextL4_0265
+gTextL4_0265:
+	.incbin "baserom.gba", 0x399F34, 0x8F
+	.global gTextL4_0266
+gTextL4_0266:
+	.incbin "baserom.gba", 0x399FC3, 0x72
+	.global gTextL4_0267
+gTextL4_0267:
+	.incbin "baserom.gba", 0x39A035, 0xD1
+	.global gTextL4_0268
+gTextL4_0268:
+	.incbin "baserom.gba", 0x39A106, 0xB0
+	.global gTextL4_0269
+gTextL4_0269:
+	.incbin "baserom.gba", 0x39A1B6, 0x92
+	.global gTextL4_0270
+gTextL4_0270:
+	.incbin "baserom.gba", 0x39A248, 0x10E
+	.global gTextL4_0271
+gTextL4_0271:
+	.incbin "baserom.gba", 0x39A356, 0x16E
+	.global gTextL4_0272
+gTextL4_0272:
+	.incbin "baserom.gba", 0x39A4C4, 0x149
+	.global gTextL4_0273
+gTextL4_0273:
+	.incbin "baserom.gba", 0x39A60D, 0x1D2
+	.global gTextL4_0274
+gTextL4_0274:
+	.incbin "baserom.gba", 0x39A7DF, 0x75
+	.global gTextL4_0275
+gTextL4_0275:
+	.incbin "baserom.gba", 0x39A854, 0x23B
+	.global gTextL4_0276
+gTextL4_0276:
+	.incbin "baserom.gba", 0x39AA8F, 0x1D
+	.global gTextL4_0277
+gTextL4_0277:
+	.incbin "baserom.gba", 0x39AAAC, 0x78
+	.global gTextL4_0278
+gTextL4_0278:
+	.incbin "baserom.gba", 0x39AB24, 0x7C
+	.global gTextL4_0279
+gTextL4_0279:
+	.incbin "baserom.gba", 0x39ABA0, 0x83
+	.global gTextL4_0280
+gTextL4_0280:
+	.incbin "baserom.gba", 0x39AC23, 0x11C
+	.global gTextL4_0281
+gTextL4_0281:
+	.incbin "baserom.gba", 0x39AD3F, 0x131
+	.global gTextL4_0282
+gTextL4_0282:
+	.incbin "baserom.gba", 0x39AE70, 0x13A
+	.global gTextL4_0283
+gTextL4_0283:
+	.incbin "baserom.gba", 0x39AFAA, 0x12C
+	.global gTextL4_0284
+gTextL4_0284:
+	.incbin "baserom.gba", 0x39B0D6, 0x142
+	.global gTextL4_0285
+gTextL4_0285:
+	.incbin "baserom.gba", 0x39B218, 0x13E
+	.global gTextL4_0286
+gTextL4_0286:
+	.incbin "baserom.gba", 0x39B356, 0x140
+	.global gTextL4_0287
+gTextL4_0287:
+	.incbin "baserom.gba", 0x39B496, 0x11B
+	.global gTextL4_0288
+gTextL4_0288:
+	.incbin "baserom.gba", 0x39B5B1, 0x13B
+	.global gTextL4_0289
+gTextL4_0289:
+	.incbin "baserom.gba", 0x39B6EC, 0x35
+	.global gTextL4_0290
+gTextL4_0290:
+	.incbin "baserom.gba", 0x39B721, 0x2B
+	.global gTextL4_0291
+gTextL4_0291:
+	.incbin "baserom.gba", 0x39B74C, 0x28
+	.global gTextL4_0292
+gTextL4_0292:
+	.incbin "baserom.gba", 0x39B774, 0x30
+	.global gTextL4_0293
+gTextL4_0293:
+	.incbin "baserom.gba", 0x39B7A4, 0x16
+	.global gTextL4_0294
+gTextL4_0294:
+	.incbin "baserom.gba", 0x39B7BA, 0x32
+	.global gTextL4_0295
+gTextL4_0295:
+	.incbin "baserom.gba", 0x39B7EC, 0x36
+	.global gTextL4_0296
+gTextL4_0296:
+	.incbin "baserom.gba", 0x39B822, 0x37
+	.global gTextL4_0297
+gTextL4_0297:
+	.incbin "baserom.gba", 0x39B859, 0x4E
+	.global gTextL4_0298
+gTextL4_0298:
+	.incbin "baserom.gba", 0x39B8A7, 0x46
+	.global gTextL4_0299
+gTextL4_0299:
+	.incbin "baserom.gba", 0x39B8ED, 0x4D
+	.global gTextL4_0300
+gTextL4_0300:
+	.incbin "baserom.gba", 0x39B93A, 0x55
+	.global gTextL4_0301
+gTextL4_0301:
+	.incbin "baserom.gba", 0x39B98F, 0x59
+	.global gTextL4_0302
+gTextL4_0302:
+	.incbin "baserom.gba", 0x39B9E8, 0x60
+	.global gTextL4_0303
+gTextL4_0303:
+	.incbin "baserom.gba", 0x39BA48, 0x53
+	.global gTextL4_0304
+gTextL4_0304:
+	.incbin "baserom.gba", 0x39BA9B, 0x75
+	.global gTextL4_0305
+gTextL4_0305:
+	.incbin "baserom.gba", 0x39BB10, 0x88
+	.global gTextL4_0306
+gTextL4_0306:
+	.incbin "baserom.gba", 0x39BB98, 0x78
+	.global gTextL4_0307
+gTextL4_0307:
+	.incbin "baserom.gba", 0x39BC10, 0x7E
+	.global gTextL4_0308
+gTextL4_0308:
+	.incbin "baserom.gba", 0x39BC8E, 0x8A
+	.global gTextL4_0309
+gTextL4_0309:
+	.incbin "baserom.gba", 0x39BD18, 0x70
+	.global gTextL4_0310
+gTextL4_0310:
+	.incbin "baserom.gba", 0x39BD88, 0x7A
+	.global gTextL4_0311
+gTextL4_0311:
+	.incbin "baserom.gba", 0x39BE02, 0x82
+	.global gTextL4_0312
+gTextL4_0312:
+	.incbin "baserom.gba", 0x39BE84, 0x76
+	.global gTextL4_0313
+gTextL4_0313:
+	.incbin "baserom.gba", 0x39BEFA, 0x7C
+	.global gTextL4_0314
+gTextL4_0314:
+	.incbin "baserom.gba", 0x39BF76, 0x22
+	.global gTextL4_0315
+gTextL4_0315:
+	.incbin "baserom.gba", 0x39BF98, 0x1D1
+	.global gTextL4_0316
+gTextL4_0316:
+	.incbin "baserom.gba", 0x39C169, 0x208
+	.global gTextL4_0317
+gTextL4_0317:
+	.incbin "baserom.gba", 0x39C371, 0x1FC
+	.global gTextL4_0318
+gTextL4_0318:
+	.incbin "baserom.gba", 0x39C56D, 0x29C
+	.global gTextL4_0319
+gTextL4_0319:
+	.incbin "baserom.gba", 0x39C809, 0x1EA
+	.global gTextL4_0320
+gTextL4_0320:
+	.incbin "baserom.gba", 0x39C9F3, 0x3BA
+	.global gTextL4_0321
+gTextL4_0321:
+	.incbin "baserom.gba", 0x39CDAD, 0x90
+	.global gTextL4_0322
+gTextL4_0322:
+	.incbin "baserom.gba", 0x39CE3D, 0x59
+	.global gTextL4_0323
+gTextL4_0323:
+	.incbin "baserom.gba", 0x39CE96, 0x62
+	.global gTextL4_0324
+gTextL4_0324:
+	.incbin "baserom.gba", 0x39CEF8, 0x84
+	.global gTextL4_0325
+gTextL4_0325:
+	.incbin "baserom.gba", 0x39CF7C, 0x6F
+	.global gTextL4_0326
+gTextL4_0326:
+	.incbin "baserom.gba", 0x39CFEB, 0x53
+	.global gTextL4_0327
+gTextL4_0327:
+	.incbin "baserom.gba", 0x39D03E, 0x65
+	.global gTextL4_0328
+gTextL4_0328:
+	.incbin "baserom.gba", 0x39D0A3, 0x5E
+	.global gTextL4_0329
+gTextL4_0329:
+	.incbin "baserom.gba", 0x39D101, 0xB0
+	.global gTextL4_0330
+gTextL4_0330:
+	.incbin "baserom.gba", 0x39D1B1, 0x12D
+	.global gTextL4_0331
+gTextL4_0331:
+	.incbin "baserom.gba", 0x39D2DE, 0x57
+	.global gTextL4_0332
+gTextL4_0332:
+	.incbin "baserom.gba", 0x39D335, 0x5F
+	.global gTextL4_0333
+gTextL4_0333:
+	.incbin "baserom.gba", 0x39D394, 0x4A
+	.global gTextL4_0334
+gTextL4_0334:
+	.incbin "baserom.gba", 0x39D3DE, 0x54
+	.global gTextL4_0335
+gTextL4_0335:
+	.incbin "baserom.gba", 0x39D432, 0x71
+	.global gTextL4_0336
+gTextL4_0336:
+	.incbin "baserom.gba", 0x39D4A3, 0x41
+	.global gTextL4_0337
+gTextL4_0337:
+	.incbin "baserom.gba", 0x39D4E4, 0x72
+	.global gTextL4_0338
+gTextL4_0338:
+	.incbin "baserom.gba", 0x39D556, 0x6A
+	.global gTextL4_0339
+gTextL4_0339:
+	.incbin "baserom.gba", 0x39D5C0, 0x57
+	.global gTextL4_0340
+gTextL4_0340:
+	.incbin "baserom.gba", 0x39D617, 0x5D
+	.global gTextL4_0341
+gTextL4_0341:
+	.incbin "baserom.gba", 0x39D674, 0x69
+	.global gTextL4_0342
+gTextL4_0342:
+	.incbin "baserom.gba", 0x39D6DD, 0x59
+	.global gTextL4_0343
+gTextL4_0343:
+	.incbin "baserom.gba", 0x39D736, 0x68
+	.global gTextL4_0344
+gTextL4_0344:
+	.incbin "baserom.gba", 0x39D79E, 0x3C
+	.global gTextL4_0345
+gTextL4_0345:
+	.incbin "baserom.gba", 0x39D7DA, 0x34
+	.global gTextL4_0346
+gTextL4_0346:
+	.incbin "baserom.gba", 0x39D80E, 0x2F
+	.global gTextL4_0347
+gTextL4_0347:
+	.incbin "baserom.gba", 0x39D83D, 0x31
+	.global gTextL4_0348
+gTextL4_0348:
+	.incbin "baserom.gba", 0x39D86E, 0x1A
+	.global gTextL4_0349
+gTextL4_0349:
+	.incbin "baserom.gba", 0x39D888, 0x38
+	.global gTextL4_0350
+gTextL4_0350:
+	.incbin "baserom.gba", 0x39D8C0, 0x3A
+	.global gTextL4_0351
+gTextL4_0351:
+	.incbin "baserom.gba", 0x39D8FA, 0x36
+	.global gTextL4_0352
+gTextL4_0352:
+	.incbin "baserom.gba", 0x39D930, 0x2E
+	.global gTextL4_0353
+gTextL4_0353:
+	.incbin "baserom.gba", 0x39D95E, 0x36
+	.global gTextL4_0354
+gTextL4_0354:
+	.incbin "baserom.gba", 0x39D994, 0x1C
+	.global gTextL4_0355
+gTextL4_0355:
+	.incbin "baserom.gba", 0x39D9B0, 0x63
+	.global gTextL4_0356
+gTextL4_0356:
+	.incbin "baserom.gba", 0x39DA13, 0x25
+	.global gTextL4_0357
+gTextL4_0357:
+	.incbin "baserom.gba", 0x39DA38, 0x15
+	.global gTextL4_0358
+gTextL4_0358:
+	.incbin "baserom.gba", 0x39DA4D, 0x20
+	.global gTextL4_0359
+gTextL4_0359:
+	.incbin "baserom.gba", 0x39DA6D, 0x28
+	.global gTextL4_0360
+gTextL4_0360:
+	.incbin "baserom.gba", 0x39DA95, 0x24
+	.global gTextL4_0361
+gTextL4_0361:
+	.incbin "baserom.gba", 0x39DAB9, 0x25
+	.global gTextL4_0362
+gTextL4_0362:
+	.incbin "baserom.gba", 0x39DADE, 0x34
+	.global gTextL4_0363
+gTextL4_0363:
+	.incbin "baserom.gba", 0x39DB12, 0x29
+	.global gTextL4_0364
+gTextL4_0364:
+	.incbin "baserom.gba", 0x39DB3B, 0x45
+	.global gTextL4_0365
+gTextL4_0365:
+	.incbin "baserom.gba", 0x39DB80, 0x24
+	.global gTextL4_0366
+gTextL4_0366:
+	.incbin "baserom.gba", 0x39DBA4, 0x1F
+	.global gTextL4_0367
+gTextL4_0367:
+	.incbin "baserom.gba", 0x39DBC3, 0x38
+	.global gTextL4_0368
+gTextL4_0368:
+	.incbin "baserom.gba", 0x39DBFB, 0x1A
+	.global gTextL4_0369
+gTextL4_0369:
+	.incbin "baserom.gba", 0x39DC15, 0x34
+	.global gTextL4_0370
+gTextL4_0370:
+	.incbin "baserom.gba", 0x39DC49, 0x22
+	.global gTextL4_0371
+gTextL4_0371:
+	.incbin "baserom.gba", 0x39DC6B, 0x62
+	.global gTextL4_0372
+gTextL4_0372:
+	.incbin "baserom.gba", 0x39DCCD, 0x27
+	.global gTextL4_0373
+gTextL4_0373:
+	.incbin "baserom.gba", 0x39DCF4, 0x35
+	.global gTextL4_0374
+gTextL4_0374:
+	.incbin "baserom.gba", 0x39DD29, 0x95
+	.global gTextL4_0375
+gTextL4_0375:
+	.incbin "baserom.gba", 0x39DDBE, 0x62
+	.global gTextL4_0376
+gTextL4_0376:
+	.incbin "baserom.gba", 0x39DE20, 0x5C
+	.global gTextL4_0377
+gTextL4_0377:
+	.incbin "baserom.gba", 0x39DE7C, 0x5D
+	.global gTextL4_0378
+gTextL4_0378:
+	.incbin "baserom.gba", 0x39DED9, 0x57
+	.global gTextL4_0379
+gTextL4_0379:
+	.incbin "baserom.gba", 0x39DF30, 0x64
+	.global gTextL4_0380
+gTextL4_0380:
+	.incbin "baserom.gba", 0x39DF94, 0x50
+	.global gTextL4_0381
+gTextL4_0381:
+	.incbin "baserom.gba", 0x39DFE4, 0x52
+	.global gTextL4_0382
+gTextL4_0382:
+	.incbin "baserom.gba", 0x39E036, 0x17
+	.global gTextL4_0383
+gTextL4_0383:
+	.incbin "baserom.gba", 0x39E04D, 0x2F7
+	.global gTextL4_0384
+gTextL4_0384:
+	.incbin "baserom.gba", 0x39E344, 0x558
+	.global gTextL4_0385
+gTextL4_0385:
+	.incbin "baserom.gba", 0x39E89C, 0x15
+	.global gTextL4_0386
+gTextL4_0386:
+	.incbin "baserom.gba", 0x39E8B1, 0xF
+	.global gTextL4_0387
+gTextL4_0387:
+	.incbin "baserom.gba", 0x39E8C0, 0x10
+	.global gTextL4_0388
+gTextL4_0388:
+	.incbin "baserom.gba", 0x39E8D0, 0x1B
+	.global gTextL4_0389
+gTextL4_0389:
+	.incbin "baserom.gba", 0x39E8EB, 0x1A
+	.global gTextL4_0390
+gTextL4_0390:
+	.incbin "baserom.gba", 0x39E905, 0x17
+	.global gTextL4_0391
+gTextL4_0391:
+	.incbin "baserom.gba", 0x39E91C, 0x10
+	.global gTextL4_0392
+gTextL4_0392:
+	.incbin "baserom.gba", 0x39E92C, 0x18
+	.global gTextL4_0393
+gTextL4_0393:
+	.incbin "baserom.gba", 0x39E944, 0x20
+	.global gTextL4_0394
+gTextL4_0394:
+	.incbin "baserom.gba", 0x39E964, 0x1A
+	.global gTextL4_0395
+gTextL4_0395:
+	.incbin "baserom.gba", 0x39E97E, 0xD5
+	.global gTextL4_0396
+gTextL4_0396:
+	.incbin "baserom.gba", 0x39EA53, 0x162
+	.global gTextL4_0397
+gTextL4_0397:
+	.incbin "baserom.gba", 0x39EBB5, 0x219
+	.global gTextL4_0398
+gTextL4_0398:
+	.incbin "baserom.gba", 0x39EDCE, 0x2B
+	.global gTextL4_0399
+gTextL4_0399:
+	.incbin "baserom.gba", 0x39EDF9, 0x15
+	.global gTextL4_0400
+gTextL4_0400:
+	.incbin "baserom.gba", 0x39EE0E, 0x12
+	.global gTextL4_0401
+gTextL4_0401:
+	.incbin "baserom.gba", 0x39EE20, 0x1D
+	.global gTextL4_0402
+gTextL4_0402:
+	.incbin "baserom.gba", 0x39EE3D, 0x28
+	.global gTextL4_0403
+gTextL4_0403:
+	.incbin "baserom.gba", 0x39EE65, 0x20
+	.global gTextL4_0404
+gTextL4_0404:
+	.incbin "baserom.gba", 0x39EE85, 0x1E
+	.global gTextL4_0405
+gTextL4_0405:
+	.incbin "baserom.gba", 0x39EEA3, 0x2D
+	.global gTextL4_0406
+gTextL4_0406:
+	.incbin "baserom.gba", 0x39EED0, 0x18
+	.global gTextL4_0407
+gTextL4_0407:
+	.incbin "baserom.gba", 0x39EEE8, 0x1B
+	.global gTextL4_0408
+gTextL4_0408:
+	.incbin "baserom.gba", 0x39EF03, 0x1E
+	.global gTextL4_0409
+gTextL4_0409:
+	.incbin "baserom.gba", 0x39EF21, 0x20
+	.global gTextL4_0410
+gTextL4_0410:
+	.incbin "baserom.gba", 0x39EF41, 0x25
+	.global gTextL4_0411
+gTextL4_0411:
+	.incbin "baserom.gba", 0x39EF66, 0x23
+	.global gTextL4_0412
+gTextL4_0412:
+	.incbin "baserom.gba", 0x39EF89, 0x25
+	.global gTextL4_0413
+gTextL4_0413:
+	.incbin "baserom.gba", 0x39EFAE, 0x1B
+	.global gTextL4_0414
+gTextL4_0414:
+	.incbin "baserom.gba", 0x39EFC9, 0x1E
+	.global gTextL4_0415
+gTextL4_0415:
+	.incbin "baserom.gba", 0x39EFE7, 0x2C
+	.global gTextL4_0416
+gTextL4_0416:
+	.incbin "baserom.gba", 0x39F013, 0x2B
+	.global gTextL4_0417
+gTextL4_0417:
+	.incbin "baserom.gba", 0x39F03E, 0x31
+	.global gTextL4_0418
+gTextL4_0418:
+	.incbin "baserom.gba", 0x39F06F, 0x29
+	.global gTextL4_0419
+gTextL4_0419:
+	.incbin "baserom.gba", 0x39F098, 0x29
+	.global gTextL4_0420
+gTextL4_0420:
+	.incbin "baserom.gba", 0x39F0C1, 0x29
+	.global gTextL4_0421
+gTextL4_0421:
+	.incbin "baserom.gba", 0x39F0EA, 0x3E
+	.global gTextL4_0422
+gTextL4_0422:
+	.incbin "baserom.gba", 0x39F128, 0x61
+	.global gTextL4_0423
+gTextL4_0423:
+	.incbin "baserom.gba", 0x39F189, 0x22F
+	.global gTextL4_0424
+gTextL4_0424:
+	.incbin "baserom.gba", 0x39F3B8, 0xCD
+	.global gTextL4_0425
+gTextL4_0425:
+	.incbin "baserom.gba", 0x39F485, 0x2D1
+	.global gTextL4_0426
+gTextL4_0426:
+	.incbin "baserom.gba", 0x39F756, 0x84
+	.global gTextL4_0427
+gTextL4_0427:
+	.incbin "baserom.gba", 0x39F7DA, 0x76
+	.global gTextL4_0428
+gTextL4_0428:
+	.incbin "baserom.gba", 0x39F850, 0x69
+	.global gTextL4_0429
+gTextL4_0429:
+	.incbin "baserom.gba", 0x39F8B9, 0x78
+	.global gTextL4_0430
+gTextL4_0430:
+	.incbin "baserom.gba", 0x39F931, 0xC5
+	.global gTextL4_0431
+gTextL4_0431:
+	.incbin "baserom.gba", 0x39F9F6, 0x6A
+	.global gTextL4_0432
+gTextL4_0432:
+	.incbin "baserom.gba", 0x39FA60, 0x83
+	.global gTextL4_0433
+gTextL4_0433:
+	.incbin "baserom.gba", 0x39FAE3, 0x81
+	.global gTextL4_0434
+gTextL4_0434:
+	.incbin "baserom.gba", 0x39FB64, 0xA5
+	.global gTextL4_0435
+gTextL4_0435:
+	.incbin "baserom.gba", 0x39FC09, 0x6D
+	.global gTextL4_0436
+gTextL4_0436:
+	.incbin "baserom.gba", 0x39FC76, 0x1AB
+	.global gTextL4_0437
+gTextL4_0437:
+	.incbin "baserom.gba", 0x39FE21, 0x3F
+	.global gTextL4_0438
+gTextL4_0438:
+	.incbin "baserom.gba", 0x39FE60, 0x155
+	.global gTextL4_0439
+gTextL4_0439:
+	.incbin "baserom.gba", 0x39FFB5, 0xEA
+	.global gTextL4_0440
+gTextL4_0440:
+	.incbin "baserom.gba", 0x3A009F, 0x1C8
+	.global gTextL4_0441
+gTextL4_0441:
+	.incbin "baserom.gba", 0x3A0267, 0x2BA
+	.global gTextL4_0442
+gTextL4_0442:
+	.incbin "baserom.gba", 0x3A0521, 0x2D8
+	.global gTextL4_0443
+gTextL4_0443:
+	.incbin "baserom.gba", 0x3A07F9, 0x2C9
+	.global gTextL4_0444
+gTextL4_0444:
+	.incbin "baserom.gba", 0x3A0AC2, 0x1B8
+	.global gTextL4_0445
+gTextL4_0445:
+	.incbin "baserom.gba", 0x3A0C7A, 0x391
+	.global gTextL4_0446
+gTextL4_0446:
+	.incbin "baserom.gba", 0x3A100B, 0x248
+	.global gTextL4_0447
+gTextL4_0447:
+	.incbin "baserom.gba", 0x3A1253, 0x280
+	.global gTextL4_0448
+gTextL4_0448:
+	.incbin "baserom.gba", 0x3A14D3, 0x361
+	.global gTextL4_0449
+gTextL4_0449:
+	.incbin "baserom.gba", 0x3A1834, 0x6A
+	.global gTextL4_0450
+gTextL4_0450:
+	.incbin "baserom.gba", 0x3A189E, 0x3EC
+	.global gTextL4_0451
+gTextL4_0451:
+	.incbin "baserom.gba", 0x3A1C8A, 0x38E
+	.global gTextL4_0452
+gTextL4_0452:
+	.incbin "baserom.gba", 0x3A2018, 0x17
+	.global gTextL4_0453
+gTextL4_0453:
+	.incbin "baserom.gba", 0x3A202F, 0x52
+	.global gTextL4_0454
+gTextL4_0454:
+	.incbin "baserom.gba", 0x3A2081, 0x19
+	.global gTextL4_0455
+gTextL4_0455:
+	.incbin "baserom.gba", 0x3A209A, 0x67
+	.global gTextL4_0456
+gTextL4_0456:
+	.incbin "baserom.gba", 0x3A2101, 0x92
+	.global gTextL4_0457
+gTextL4_0457:
+	.incbin "baserom.gba", 0x3A2193, 0x51
+	.global gTextL4_0458
+gTextL4_0458:
+	.incbin "baserom.gba", 0x3A21E4, 0x160
+	.global gTextL4_0459
+gTextL4_0459:
+	.incbin "baserom.gba", 0x3A2344, 0x20C
+	.global gTextL4_0460
+gTextL4_0460:
+	.incbin "baserom.gba", 0x3A2550, 0x130
+	.global gTextL4_0461
+gTextL4_0461:
+	.incbin "baserom.gba", 0x3A2680, 0x172
+	.global gTextL4_0462
+gTextL4_0462:
+	.incbin "baserom.gba", 0x3A27F2, 0xAA
+	.global gTextL4_0463
+gTextL4_0463:
+	.incbin "baserom.gba", 0x3A289C, 0xE3
+	.global gTextL4_0464
+gTextL4_0464:
+	.incbin "baserom.gba", 0x3A297F, 0x1B7
+	.global gTextL4_0465
+gTextL4_0465:
+	.incbin "baserom.gba", 0x3A2B36, 0x62
+	.global gTextL4_0466
+gTextL4_0466:
+	.incbin "baserom.gba", 0x3A2B98, 0x4D
+	.global gTextL4_0467
+gTextL4_0467:
+	.incbin "baserom.gba", 0x3A2BE5, 0xB0
+	.global gTextL4_0468
+gTextL4_0468:
+	.incbin "baserom.gba", 0x3A2C95, 0xB2
+	.global gTextL4_0469
+gTextL4_0469:
+	.incbin "baserom.gba", 0x3A2D47, 0x98
+	.global gTextL4_0470
+gTextL4_0470:
+	.incbin "baserom.gba", 0x3A2DDF, 0xAE
+	.global gTextL4_0471
+gTextL4_0471:
+	.incbin "baserom.gba", 0x3A2E8D, 0xC7
+	.global gTextL4_0472
+gTextL4_0472:
+	.incbin "baserom.gba", 0x3A2F54, 0xDF
+	.global gTextL4_0473
+gTextL4_0473:
+	.incbin "baserom.gba", 0x3A3033, 0x116
+	.global gTextL4_0474
+gTextL4_0474:
+	.incbin "baserom.gba", 0x3A3149, 0xCB
+	.global gTextL4_0475
+gTextL4_0475:
+	.incbin "baserom.gba", 0x3A3214, 0xA2
+	.global gTextL4_0476
+gTextL4_0476:
+	.incbin "baserom.gba", 0x3A32B6, 0x1C6
+	.global gTextL4_0477
+gTextL4_0477:
+	.incbin "baserom.gba", 0x3A347C, 0x15A
+	.global gTextL4_0478
+gTextL4_0478:
+	.incbin "baserom.gba", 0x3A35D6, 0x4E
+	.global gTextL4_0479
+gTextL4_0479:
+	.incbin "baserom.gba", 0x3A3624, 0x1C
+	.global gTextL4_0480
+gTextL4_0480:
+	.incbin "baserom.gba", 0x3A3640, 0x1A
+	.global gTextL4_0481
+gTextL4_0481:
+	.incbin "baserom.gba", 0x3A365A, 0x8
+	.global gTextL4_0482
+gTextL4_0482:
+	.incbin "baserom.gba", 0x3A3662, 0x2A
+	.global gTextL4_0483
+gTextL4_0483:
+	.incbin "baserom.gba", 0x3A368C, 0x46
+	.global gTextL4_0484
+gTextL4_0484:
+	.incbin "baserom.gba", 0x3A36D2, 0x23
+	.global gTextL4_0485
+gTextL4_0485:
+	.incbin "baserom.gba", 0x3A36F5, 0x26F
+	.global gTextL4_0486
+gTextL4_0486:
+	.incbin "baserom.gba", 0x3A3964, 0x17
+	.global gTextL4_0487
+gTextL4_0487:
+	.incbin "baserom.gba", 0x3A397B, 0x27
+	.global gTextL4_0488
+gTextL4_0488:
+	.incbin "baserom.gba", 0x3A39A2, 0x24
+	.global gTextL4_0489
+gTextL4_0489:
+	.incbin "baserom.gba", 0x3A39C6, 0x22
+	.global gTextL4_0490
+gTextL4_0490:
+	.incbin "baserom.gba", 0x3A39E8, 0x40
+	.global gTextL4_0491
+gTextL4_0491:
+	.incbin "baserom.gba", 0x3A3A28, 0x43
+	.global gTextL4_0492
+gTextL4_0492:
+	.incbin "baserom.gba", 0x3A3A6B, 0x42
+	.global gTextL4_0493
+gTextL4_0493:
+	.incbin "baserom.gba", 0x3A3AAD, 0x42
+	.global gTextL4_0494
+gTextL4_0494:
+	.incbin "baserom.gba", 0x3A3AEF, 0x42
+	.global gTextL4_0495
+gTextL4_0495:
+	.incbin "baserom.gba", 0x3A3B31, 0x42
+	.global gTextL4_0496
+gTextL4_0496:
+	.incbin "baserom.gba", 0x3A3B73, 0x42
+	.global gTextL4_0497
+gTextL4_0497:
+	.incbin "baserom.gba", 0x3A3BB5, 0x42
+	.global gTextL4_0498
+gTextL4_0498:
+	.incbin "baserom.gba", 0x3A3BF7, 0x43
+	.global gTextL4_0499
+gTextL4_0499:
+	.incbin "baserom.gba", 0x3A3C3A, 0xA3
+	.global gTextL4_0500
+gTextL4_0500:
+	.incbin "baserom.gba", 0x3A3CDD, 0x42
+	.global gTextL4_0501
+gTextL4_0501:
+	.incbin "baserom.gba", 0x3A3D1F, 0x151
+	.global gTextL4_0502
+gTextL4_0502:
+	.incbin "baserom.gba", 0x3A3E70, 0x19
+	.global gTextL4_0503
+gTextL4_0503:
+	.incbin "baserom.gba", 0x3A3E89, 0x11
+	.global gTextL4_0504
+gTextL4_0504:
+	.incbin "baserom.gba", 0x3A3E9A, 0x16
+	.global gTextL4_0505
+gTextL4_0505:
+	.incbin "baserom.gba", 0x3A3EB0, 0xB
+	.global gTextL4_0506
+gTextL4_0506:
+	.incbin "baserom.gba", 0x3A3EBB, 0x10
+	.global gTextL4_0507
+gTextL4_0507:
+	.incbin "baserom.gba", 0x3A3ECB, 0xC
+	.global gTextL4_0508
+gTextL4_0508:
+	.incbin "baserom.gba", 0x3A3ED7, 0xC
+	.global gTextL4_0509
+gTextL4_0509:
+	.incbin "baserom.gba", 0x3A3EE3, 0xC
+	.global gTextL4_0510
+gTextL4_0510:
+	.incbin "baserom.gba", 0x3A3EEF, 0xC
+	.global gTextL4_0511
+gTextL4_0511:
+	.incbin "baserom.gba", 0x3A3EFB, 0x1D
+	.global gTextL4_0512
+gTextL4_0512:
+	.incbin "baserom.gba", 0x3A3F18, 0x19
+	.global gTextL4_0513
+gTextL4_0513:
+	.incbin "baserom.gba", 0x3A3F31, 0x19
+	.global gTextL4_0514
+gTextL4_0514:
+	.incbin "baserom.gba", 0x3A3F4A, 0x1C
+	.global gTextL4_0515
+gTextL4_0515:
+	.incbin "baserom.gba", 0x3A3F66, 0x15B
+	.global gTextL4_0516
+gTextL4_0516:
+	.incbin "baserom.gba", 0x3A40C1, 0x1B
+	.global gTextL4_0517
+gTextL4_0517:
+	.incbin "baserom.gba", 0x3A40DC, 0x18
+	.global gTextL4_0518
+gTextL4_0518:
+	.incbin "baserom.gba", 0x3A40F4, 0x724
+	.global gTextL4_0519
+gTextL4_0519:
+	.incbin "baserom.gba", 0x3A4818, 0x33
+	.global gTextL4_0520
+gTextL4_0520:
+	.incbin "baserom.gba", 0x3A484B, 0x2A
+	.global gTextL4_0521
+gTextL4_0521:
+	.incbin "baserom.gba", 0x3A4875, 0x21
+	.global gTextL4_0522
+gTextL4_0522:
+	.incbin "baserom.gba", 0x3A4896, 0x1C
+	.global gTextL4_0523
+gTextL4_0523:
+	.incbin "baserom.gba", 0x3A48B2, 0x22
+	.global gTextL4_0524
+gTextL4_0524:
+	.incbin "baserom.gba", 0x3A48D4, 0x2D
+	.global gTextL4_0525
+gTextL4_0525:
+	.incbin "baserom.gba", 0x3A4901, 0x30
+	.global gTextL4_0526
+gTextL4_0526:
+	.incbin "baserom.gba", 0x3A4931, 0x2F
+	.global gTextL4_0527
+gTextL4_0527:
+	.incbin "baserom.gba", 0x3A4960, 0x29
+	.global gTextL4_0528
+gTextL4_0528:
+	.incbin "baserom.gba", 0x3A4989, 0x98
+	.global gTextL4_0529
+gTextL4_0529:
+	.incbin "baserom.gba", 0x3A4A21, 0x56
+	.global gTextL4_0530
+gTextL4_0530:
+	.incbin "baserom.gba", 0x3A4A77, 0x29
+	.global gTextL4_0531
+gTextL4_0531:
+	.incbin "baserom.gba", 0x3A4AA0, 0x75
+	.global gTextL4_0532
+gTextL4_0532:
+	.incbin "baserom.gba", 0x3A4B15, 0x26
+	.global gTextL4_0533
+gTextL4_0533:
+	.incbin "baserom.gba", 0x3A4B3B, 0x12
+	.global gTextL4_0534
+gTextL4_0534:
+	.incbin "baserom.gba", 0x3A4B4D, 0x38
+	.global gTextL4_0535
+gTextL4_0535:
+	.incbin "baserom.gba", 0x3A4B85, 0x79
+	.global gTextL4_0536
+gTextL4_0536:
+	.incbin "baserom.gba", 0x3A4BFE, 0x83
+	.global gTextL4_0537
+gTextL4_0537:
+	.incbin "baserom.gba", 0x3A4C81, 0x60
+	.global gTextL4_0538
+gTextL4_0538:
+	.incbin "baserom.gba", 0x3A4CE1, 0x86
+	.global gTextL4_0539
+gTextL4_0539:
+	.incbin "baserom.gba", 0x3A4D67, 0x83
+	.global gTextL4_0540
+gTextL4_0540:
+	.incbin "baserom.gba", 0x3A4DEA, 0x34
+	.global gTextL4_0541
+gTextL4_0541:
+	.incbin "baserom.gba", 0x3A4E1E, 0x26
+	.global gTextL4_0542
+gTextL4_0542:
+	.incbin "baserom.gba", 0x3A4E44, 0x32
+	.global gTextL4_0543
+gTextL4_0543:
+	.incbin "baserom.gba", 0x3A4E76, 0x5C
+	.global gTextL4_0544
+gTextL4_0544:
+	.incbin "baserom.gba", 0x3A4ED2, 0x6E
+	.global gTextL4_0545
+gTextL4_0545:
+	.incbin "baserom.gba", 0x3A4F40, 0x17B
+	.global gTextL4_0546
+gTextL4_0546:
+	.incbin "baserom.gba", 0x3A50BB, 0x2E
+	.global gTextL4_0547
+gTextL4_0547:
+	.incbin "baserom.gba", 0x3A50E9, 0x80
+	.global gTextL4_0548
+gTextL4_0548:
+	.incbin "baserom.gba", 0x3A5169, 0x48
+	.global gTextL4_0549
+gTextL4_0549:
+	.incbin "baserom.gba", 0x3A51B1, 0x1C
+	.global gTextL4_0550
+gTextL4_0550:
+	.incbin "baserom.gba", 0x3A51CD, 0x1A
+	.global gTextL4_0551
+gTextL4_0551:
+	.incbin "baserom.gba", 0x3A51E7, 0x39
+	.global gTextL4_0552
+gTextL4_0552:
+	.incbin "baserom.gba", 0x3A5220, 0x95
+	.global gTextL4_0553
+gTextL4_0553:
+	.incbin "baserom.gba", 0x3A52B5, 0x7D
+	.global gTextL4_0554
+gTextL4_0554:
+	.incbin "baserom.gba", 0x3A5332, 0x19
+	.global gTextL4_0555
+gTextL4_0555:
+	.incbin "baserom.gba", 0x3A534B, 0x27
+	.global gTextL4_0556
+gTextL4_0556:
+	.incbin "baserom.gba", 0x3A5372, 0x40
+	.global gTextL4_0557
+gTextL4_0557:
+	.incbin "baserom.gba", 0x3A53B2, 0x55
+	.global gTextL4_0558
+gTextL4_0558:
+	.incbin "baserom.gba", 0x3A5407, 0x39
+	.global gTextL4_0559
+gTextL4_0559:
+	.incbin "baserom.gba", 0x3A5440, 0x41
+	.global gTextL4_0560
+gTextL4_0560:
+	.incbin "baserom.gba", 0x3A5481, 0x28
+	.global gTextL4_0561
+gTextL4_0561:
+	.incbin "baserom.gba", 0x3A54A9, 0x24
+	.global gTextL4_0562
+gTextL4_0562:
+	.incbin "baserom.gba", 0x3A54CD, 0x57
+	.global gTextL4_0563
+gTextL4_0563:
+	.incbin "baserom.gba", 0x3A5524, 0x41
+	.global gTextL4_0564
+gTextL4_0564:
+	.incbin "baserom.gba", 0x3A5565, 0x94
+	.global gTextL4_0565
+gTextL4_0565:
+	.incbin "baserom.gba", 0x3A55F9, 0x48
+	.global gTextL4_0566
+gTextL4_0566:
+	.incbin "baserom.gba", 0x3A5641, 0x25
+	.global gTextL4_0567
+gTextL4_0567:
+	.incbin "baserom.gba", 0x3A5666, 0x81
+	.global gTextL4_0568
+gTextL4_0568:
+	.incbin "baserom.gba", 0x3A56E7, 0x25
+	.global gTextL4_0569
+gTextL4_0569:
+	.incbin "baserom.gba", 0x3A570C, 0x22
+	.global gTextL4_0570
+gTextL4_0570:
+	.incbin "baserom.gba", 0x3A572E, 0x25
+	.global gTextL4_0571
+gTextL4_0571:
+	.incbin "baserom.gba", 0x3A5753, 0x23
+	.global gTextL4_0572
+gTextL4_0572:
+	.incbin "baserom.gba", 0x3A5776, 0x26
+	.global gTextL4_0573
+gTextL4_0573:
+	.incbin "baserom.gba", 0x3A579C, 0x31
+	.global gTextL4_0574
+gTextL4_0574:
+	.incbin "baserom.gba", 0x3A57CD, 0x2A
+	.global gTextL4_0575
+gTextL4_0575:
+	.incbin "baserom.gba", 0x3A57F7, 0x23
+	.global gTextL4_0576
+gTextL4_0576:
+	.incbin "baserom.gba", 0x3A581A, 0x36
+	.global gTextL4_0577
+gTextL4_0577:
+	.incbin "baserom.gba", 0x3A5850, 0x1D
+	.global gTextL4_0578
+gTextL4_0578:
+	.incbin "baserom.gba", 0x3A586D, 0x15
+	.global gTextL4_0579
+gTextL4_0579:
+	.incbin "baserom.gba", 0x3A5882, 0x14
+	.global gTextL4_0580
+gTextL4_0580:
+	.incbin "baserom.gba", 0x3A5896, 0x15
+	.global gTextL4_0581
+gTextL4_0581:
+	.incbin "baserom.gba", 0x3A58AB, 0x16
+	.global gTextL4_0582
+gTextL4_0582:
+	.incbin "baserom.gba", 0x3A58C1, 0x16
+	.global gTextL4_0583
+gTextL4_0583:
+	.incbin "baserom.gba", 0x3A58D7, 0x23
+	.global gTextL4_0584
+gTextL4_0584:
+	.incbin "baserom.gba", 0x3A58FA, 0x2B
+	.global gTextL4_0585
+gTextL4_0585:
+	.incbin "baserom.gba", 0x3A5925, 0x2C
+	.global gTextL4_0586
+gTextL4_0586:
+	.incbin "baserom.gba", 0x3A5951, 0x29
+	.global gTextL4_0587
+gTextL4_0587:
+	.incbin "baserom.gba", 0x3A597A, 0x3A
+	.global gTextL4_0588
+gTextL4_0588:
+	.incbin "baserom.gba", 0x3A59B4, 0x14
+	.global gTextL4_0589
+gTextL4_0589:
+	.incbin "baserom.gba", 0x3A59C8, 0x1D
+	.global gTextL4_0590
+gTextL4_0590:
+	.incbin "baserom.gba", 0x3A59E5, 0x19
+	.global gTextL4_0591
+gTextL4_0591:
+	.incbin "baserom.gba", 0x3A59FE, 0x17
+	.global gTextL4_0592
+gTextL4_0592:
+	.incbin "baserom.gba", 0x3A5A15, 0x1C
+	.global gTextL4_0593
+gTextL4_0593:
+	.incbin "baserom.gba", 0x3A5A31, 0x46
+	.global gTextL4_0594
+gTextL4_0594:
+	.incbin "baserom.gba", 0x3A5A77, 0x4A
+	.global gTextL4_0595
+gTextL4_0595:
+	.incbin "baserom.gba", 0x3A5AC1, 0x60
+	.global gTextL4_0596
+gTextL4_0596:
+	.incbin "baserom.gba", 0x3A5B21, 0x1A
+	.global gTextL4_0597
+gTextL4_0597:
+	.incbin "baserom.gba", 0x3A5B3B, 0x37
+	.global gTextL4_0598
+gTextL4_0598:
+	.incbin "baserom.gba", 0x3A5B72, 0x4A
+	.global gTextL4_0599
+gTextL4_0599:
+	.incbin "baserom.gba", 0x3A5BBC, 0x4F
+	.global gTextL4_0600
+gTextL4_0600:
+	.incbin "baserom.gba", 0x3A5C0B, 0x43
+	.global gTextL4_0601
+gTextL4_0601:
+	.incbin "baserom.gba", 0x3A5C4E, 0x1B
+	.global gTextL4_0602
+gTextL4_0602:
+	.incbin "baserom.gba", 0x3A5C69, 0x2A
+	.global gTextL4_0603
+gTextL4_0603:
+	.incbin "baserom.gba", 0x3A5C93, 0x24
+	.global gTextL4_0604
+gTextL4_0604:
+	.incbin "baserom.gba", 0x3A5CB7, 0xE
+	.global gTextL4_0605
+gTextL4_0605:
+	.incbin "baserom.gba", 0x3A5CC5, 0xD
+	.global gTextL4_0606
+gTextL4_0606:
+	.incbin "baserom.gba", 0x3A5CD2, 0x1C
+	.global gTextL4_0607
+gTextL4_0607:
+	.incbin "baserom.gba", 0x3A5CEE, 0x47
+	.global gTextL4_0608
+gTextL4_0608:
+	.incbin "baserom.gba", 0x3A5D35, 0x47
+	.global gTextL4_0609
+gTextL4_0609:
+	.incbin "baserom.gba", 0x3A5D7C, 0x29
+	.global gTextL4_0610
+gTextL4_0610:
+	.incbin "baserom.gba", 0x3A5DA5, 0x22
+	.global gTextL4_0611
+gTextL4_0611:
+	.incbin "baserom.gba", 0x3A5DC7, 0x1C
+	.global gTextL4_0612
+gTextL4_0612:
+	.incbin "baserom.gba", 0x3A5DE3, 0x4A
+	.global gTextL4_0613
+gTextL4_0613:
+	.incbin "baserom.gba", 0x3A5E2D, 0x2B
+	.global gTextL4_0614
+gTextL4_0614:
+	.incbin "baserom.gba", 0x3A5E58, 0x41
+	.global gTextL4_0615
+gTextL4_0615:
+	.incbin "baserom.gba", 0x3A5E99, 0x18
+	.global gTextL4_0616
+gTextL4_0616:
+	.incbin "baserom.gba", 0x3A5EB1, 0x51
+	.global gTextL4_0617
+gTextL4_0617:
+	.incbin "baserom.gba", 0x3A5F02, 0x31
+	.global gTextL4_0618
+gTextL4_0618:
+	.incbin "baserom.gba", 0x3A5F33, 0x2D
+	.global gTextL4_0619
+gTextL4_0619:
+	.incbin "baserom.gba", 0x3A5F60, 0x32
+	.global gTextL4_0620
+gTextL4_0620:
+	.incbin "baserom.gba", 0x3A5F92, 0x73
+	.global gTextL4_0621
+gTextL4_0621:
+	.incbin "baserom.gba", 0x3A6005, 0x6F
+	.global gTextL4_0622
+gTextL4_0622:
+	.incbin "baserom.gba", 0x3A6074, 0x18
+	.global gTextL4_0623
+gTextL4_0623:
+	.incbin "baserom.gba", 0x3A608C, 0x1F
+	.global gTextL4_0624
+gTextL4_0624:
+	.incbin "baserom.gba", 0x3A60AB, 0x1F
+	.global gTextL4_0625
+gTextL4_0625:
+	.incbin "baserom.gba", 0x3A60CA, 0x1E
+	.global gTextL4_0626
+gTextL4_0626:
+	.incbin "baserom.gba", 0x3A60E8, 0x29
+	.global gTextL4_0627
+gTextL4_0627:
+	.incbin "baserom.gba", 0x3A6111, 0x3A
+	.global gTextL4_0628
+gTextL4_0628:
+	.incbin "baserom.gba", 0x3A614B, 0x7F
+	.global gTextL4_0629
+gTextL4_0629:
+	.incbin "baserom.gba", 0x3A61CA, 0x1A
+	.global gTextL4_0630
+gTextL4_0630:
+	.incbin "baserom.gba", 0x3A61E4, 0x27
+	.global gTextL4_0631
+gTextL4_0631:
+	.incbin "baserom.gba", 0x3A620B, 0x35
+	.global gTextL4_0632
+gTextL4_0632:
+	.incbin "baserom.gba", 0x3A6240, 0xCD
+	.global gTextL4_0633
+gTextL4_0633:
+	.incbin "baserom.gba", 0x3A630D, 0x4E
+	.global gTextL4_0634
+gTextL4_0634:
+	.incbin "baserom.gba", 0x3A635B, 0x3A
+	.global gTextL4_0635
+gTextL4_0635:
+	.incbin "baserom.gba", 0x3A6395, 0x19F
+	.global gTextL4_0636
+gTextL4_0636:
+	.incbin "baserom.gba", 0x3A6534, 0x5F
+	.global gTextL4_0637
+gTextL4_0637:
+	.incbin "baserom.gba", 0x3A6593, 0x29
+	.global gTextL4_0638
+gTextL4_0638:
+	.incbin "baserom.gba", 0x3A65BC, 0x1A
+	.global gTextL4_0639
+gTextL4_0639:
+	.incbin "baserom.gba", 0x3A65D6, 0x40
+	.global gTextL4_0640
+gTextL4_0640:
+	.incbin "baserom.gba", 0x3A6616, 0x17
+	.global gTextL4_0641
+gTextL4_0641:
+	.incbin "baserom.gba", 0x3A662D, 0x16
+	.global gTextL4_0642
+gTextL4_0642:
+	.incbin "baserom.gba", 0x3A6643, 0x23
+	.global gTextL4_0643
+gTextL4_0643:
+	.incbin "baserom.gba", 0x3A6666, 0x1D
+	.global gTextL4_0644
+gTextL4_0644:
+	.incbin "baserom.gba", 0x3A6683, 0x3C
+	.global gTextL4_0645
+gTextL4_0645:
+	.incbin "baserom.gba", 0x3A66BF, 0xD2
+	.global gTextL4_0646
+gTextL4_0646:
+	.incbin "baserom.gba", 0x3A6791, 0x114
+	.global gTextL4_0647
+gTextL4_0647:
+	.incbin "baserom.gba", 0x3A68A5, 0xC2
+	.global gTextL4_0648
+gTextL4_0648:
+	.incbin "baserom.gba", 0x3A6967, 0x44
+	.global gTextL4_0649
+gTextL4_0649:
+	.incbin "baserom.gba", 0x3A69AB, 0x45
+	.global gTextL4_0650
+gTextL4_0650:
+	.incbin "baserom.gba", 0x3A69F0, 0xCC
+	.global gTextL4_0651
+gTextL4_0651:
+	.incbin "baserom.gba", 0x3A6ABC, 0x10D
+	.global gTextL4_0652
+gTextL4_0652:
+	.incbin "baserom.gba", 0x3A6BC9, 0xF8
+	.global gTextL4_0653
+gTextL4_0653:
+	.incbin "baserom.gba", 0x3A6CC1, 0xA8
+	.global gTextL4_0654
+gTextL4_0654:
+	.incbin "baserom.gba", 0x3A6D69, 0xA9
+	.global gTextL4_0655
+gTextL4_0655:
+	.incbin "baserom.gba", 0x3A6E12, 0x31
+	.global gTextL4_0656
+gTextL4_0656:
+	.incbin "baserom.gba", 0x3A6E43, 0x1F
+	.global gTextL4_0657
+gTextL4_0657:
+	.incbin "baserom.gba", 0x3A6E62, 0x4B
+	.global gTextL4_0658
+gTextL4_0658:
+	.incbin "baserom.gba", 0x3A6EAD, 0x3A
+	.global gTextL4_0659
+gTextL4_0659:
+	.incbin "baserom.gba", 0x3A6EE7, 0x25
+	.global gTextL4_0660
+gTextL4_0660:
+	.incbin "baserom.gba", 0x3A6F0C, 0x2C
+	.global gTextL4_0661
+gTextL4_0661:
+	.incbin "baserom.gba", 0x3A6F38, 0x40
+	.global gTextL4_0662
+gTextL4_0662:
+	.incbin "baserom.gba", 0x3A6F78, 0x14
+	.global gTextL4_0663
+gTextL4_0663:
+	.incbin "baserom.gba", 0x3A6F8C, 0x14
+	.global gTextL4_0664
+gTextL4_0664:
+	.incbin "baserom.gba", 0x3A6FA0, 0x14
+	.global gTextL4_0665
+gTextL4_0665:
+	.incbin "baserom.gba", 0x3A6FB4, 0x14
+	.global gTextL4_0666
+gTextL4_0666:
+	.incbin "baserom.gba", 0x3A6FC8, 0x14
+	.global gTextL4_0667
+gTextL4_0667:
+	.incbin "baserom.gba", 0x3A6FDC, 0x14
+	.global gTextL4_0668
+gTextL4_0668:
+	.incbin "baserom.gba", 0x3A6FF0, 0x14
+	.global gTextL4_0669
+gTextL4_0669:
+	.incbin "baserom.gba", 0x3A7004, 0x14
+	.global gTextL4_0670
+gTextL4_0670:
+	.incbin "baserom.gba", 0x3A7018, 0x14
+	.global gTextL4_0671
+gTextL4_0671:
+	.incbin "baserom.gba", 0x3A702C, 0x15
+	.global gTextL4_0672
+gTextL4_0672:
+	.incbin "baserom.gba", 0x3A7041, 0x18
+	.global gTextL4_0673
+gTextL4_0673:
+	.incbin "baserom.gba", 0x3A7059, 0x193
+	.global gTextL4_0674
+gTextL4_0674:
+	.incbin "baserom.gba", 0x3A71EC, 0x116
+	.global gTextL4_0675
+gTextL4_0675:
+	.incbin "baserom.gba", 0x3A7302, 0x21
+	.global gTextL4_0676
+gTextL4_0676:
+	.incbin "baserom.gba", 0x3A7323, 0x81
+	.global gTextL4_0677
+gTextL4_0677:
+	.incbin "baserom.gba", 0x3A73A4, 0x2C
+	.global gTextL4_0678
+gTextL4_0678:
+	.incbin "baserom.gba", 0x3A73D0, 0xD7
+	.global gTextL4_0679
+gTextL4_0679:
+	.incbin "baserom.gba", 0x3A74A7, 0x5D
+	.global gTextL4_0680
+gTextL4_0680:
+	.incbin "baserom.gba", 0x3A7504, 0xA0
+	.global gTextL4_0681
+gTextL4_0681:
+	.incbin "baserom.gba", 0x3A75A4, 0x144
+	.global gTextL4_0682
+gTextL4_0682:
+	.incbin "baserom.gba", 0x3A76E8, 0x1C4
+	.global gTextL4_0683
+gTextL4_0683:
+	.incbin "baserom.gba", 0x3A78AC, 0x133
+	.global gTextL4_0684
+gTextL4_0684:
+	.incbin "baserom.gba", 0x3A79DF, 0xE9
+	.global gTextL4_0685
+gTextL4_0685:
+	.incbin "baserom.gba", 0x3A7AC8, 0xBE
+	.global gTextL4_0686
+gTextL4_0686:
+	.incbin "baserom.gba", 0x3A7B86, 0x2B
+	.global gTextL4_0687
+gTextL4_0687:
+	.incbin "baserom.gba", 0x3A7BB1, 0xD0
+	.global gTextL4_0688
+gTextL4_0688:
+	.incbin "baserom.gba", 0x3A7C81, 0x65
+	.global gTextL4_0689
+gTextL4_0689:
+	.incbin "baserom.gba", 0x3A7CE6, 0xB9
+	.global gTextL4_0690
+gTextL4_0690:
+	.incbin "baserom.gba", 0x3A7D9F, 0x10E
+	.global gTextL4_0691
+gTextL4_0691:
+	.incbin "baserom.gba", 0x3A7EAD, 0x2E1
+	.global gTextL4_0692
+gTextL4_0692:
+	.incbin "baserom.gba", 0x3A818E, 0xAD
+	.global gTextL4_0693
+gTextL4_0693:
+	.incbin "baserom.gba", 0x3A823B, 0x86
+	.global gTextL4_0694
+gTextL4_0694:
+	.incbin "baserom.gba", 0x3A82C1, 0xCE
+	.global gTextL4_0695
+gTextL4_0695:
+	.incbin "baserom.gba", 0x3A838F, 0x2C
+	.global gTextL4_0696
+gTextL4_0696:
+	.incbin "baserom.gba", 0x3A83BB, 0xDD
+	.global gTextL4_0697
+gTextL4_0697:
+	.incbin "baserom.gba", 0x3A8498, 0x85
+	.global gTextL4_0698
+gTextL4_0698:
+	.incbin "baserom.gba", 0x3A851D, 0xCF
+	.global gTextL4_0699
+gTextL4_0699:
+	.incbin "baserom.gba", 0x3A85EC, 0x162
+	.global gTextL4_0700
+gTextL4_0700:
+	.incbin "baserom.gba", 0x3A874E, 0x2B7
+	.global gTextL4_0701
+gTextL4_0701:
+	.incbin "baserom.gba", 0x3A8A05, 0xB6
+	.global gTextL4_0702
+gTextL4_0702:
+	.incbin "baserom.gba", 0x3A8ABB, 0x8F
+	.global gTextL4_0703
+gTextL4_0703:
+	.incbin "baserom.gba", 0x3A8B4A, 0xE6
+	.global gTextL4_0704
+gTextL4_0704:
+	.incbin "baserom.gba", 0x3A8C30, 0x2C
+	.global gTextL4_0705
+gTextL4_0705:
+	.incbin "baserom.gba", 0x3A8C5C, 0x9B
+	.global gTextL4_0706
+gTextL4_0706:
+	.incbin "baserom.gba", 0x3A8CF7, 0x6F
+	.global gTextL4_0707
+gTextL4_0707:
+	.incbin "baserom.gba", 0x3A8D66, 0x80
+	.global gTextL4_0708
+gTextL4_0708:
+	.incbin "baserom.gba", 0x3A8DE6, 0xB7
+	.global gTextL4_0709
+gTextL4_0709:
+	.incbin "baserom.gba", 0x3A8E9D, 0x8
+	.global gTextL4_0710
+gTextL4_0710:
+	.incbin "baserom.gba", 0x3A8EA5, 0x8
+	.global gTextL4_0711
+gTextL4_0711:
+	.incbin "baserom.gba", 0x3A8EAD, 0x8
+	.global gTextL4_0712
+gTextL4_0712:
+	.incbin "baserom.gba", 0x3A8EB5, 0x8
+	.global gTextL4_0713
+gTextL4_0713:
+	.incbin "baserom.gba", 0x3A8EBD, 0x8
+	.global gTextL4_0714
+gTextL4_0714:
+	.incbin "baserom.gba", 0x3A8EC5, 0x8
+	.global gTextL4_0715
+gTextL4_0715:
+	.incbin "baserom.gba", 0x3A8ECD, 0x8
+	.global gTextL4_0716
+gTextL4_0716:
+	.incbin "baserom.gba", 0x3A8ED5, 0x8
+	.global gTextL4_0717
+gTextL4_0717:
+	.incbin "baserom.gba", 0x3A8EDD, 0x8
+	.global gTextL4_0718
+gTextL4_0718:
+	.incbin "baserom.gba", 0x3A8EE5, 0x8
+	.global gTextL4_0719
+gTextL4_0719:
+	.incbin "baserom.gba", 0x3A8EED, 0x8
+	.global gTextL4_0720
+gTextL4_0720:
+	.incbin "baserom.gba", 0x3A8EF5, 0x8
+	.global gTextL4_0721
+gTextL4_0721:
+	.incbin "baserom.gba", 0x3A8EFD, 0x19
+	.global gTextL4_0722
+gTextL4_0722:
+	.incbin "baserom.gba", 0x3A8F16, 0x19
+	.global gTextL4_0723
+gTextL4_0723:
+	.incbin "baserom.gba", 0x3A8F2F, 0x8
+	.global gTextL4_0724
+gTextL4_0724:
+	.incbin "baserom.gba", 0x3A8F37, 0x8
+	.global gTextL4_0725
+gTextL4_0725:
+	.incbin "baserom.gba", 0x3A8F3F, 0x8
+	.global gTextL4_0726
+gTextL4_0726:
+	.incbin "baserom.gba", 0x3A8F47, 0x8
+	.global gTextL4_0727
+gTextL4_0727:
+	.incbin "baserom.gba", 0x3A8F4F, 0x8
+	.global gTextL4_0728
+gTextL4_0728:
+	.incbin "baserom.gba", 0x3A8F57, 0x8
+	.global gTextL4_0729
+gTextL4_0729:
+	.incbin "baserom.gba", 0x3A8F5F, 0x8
+	.global gTextL4_0730
+gTextL4_0730:
+	.incbin "baserom.gba", 0x3A8F67, 0x8
+	.global gTextL4_0731
+gTextL4_0731:
+	.incbin "baserom.gba", 0x3A8F6F, 0x8
+	.global gTextL4_0732
+gTextL4_0732:
+	.incbin "baserom.gba", 0x3A8F77, 0x8
+	.global gTextL4_0733
+gTextL4_0733:
+	.incbin "baserom.gba", 0x3A8F7F, 0x8
+	.global gTextL4_0734
+gTextL4_0734:
+	.incbin "baserom.gba", 0x3A8F87, 0x8
+	.global gTextL4_0735
+gTextL4_0735:
+	.incbin "baserom.gba", 0x3A8F8F, 0x8
+	.global gTextL4_0736
+gTextL4_0736:
+	.incbin "baserom.gba", 0x3A8F97, 0x8
+	.global gTextL4_0737
+gTextL4_0737:
+	.incbin "baserom.gba", 0x3A8F9F, 0x8
+	.global gTextL4_0738
+gTextL4_0738:
+	.incbin "baserom.gba", 0x3A8FA7, 0x8
+	.global gTextL4_0739
+gTextL4_0739:
+	.incbin "baserom.gba", 0x3A8FAF, 0x1A
+	.global gTextL4_0740
+gTextL4_0740:
+	.incbin "baserom.gba", 0x3A8FC9, 0x1A
+	.global gTextL4_0741
+gTextL4_0741:
+	.incbin "baserom.gba", 0x3A8FE3, 0x1A
+	.global gTextL4_0742
+gTextL4_0742:
+	.incbin "baserom.gba", 0x3A8FFD, 0x1A
+	.global gTextL4_0743
+gTextL4_0743:
+	.incbin "baserom.gba", 0x3A9017, 0x1A
+	.global gTextL4_0744
+gTextL4_0744:
+	.incbin "baserom.gba", 0x3A9031, 0x1A
+	.global gTextL4_0745
+gTextL4_0745:
+	.incbin "baserom.gba", 0x3A904B, 0x14
+	.global gTextL4_0746
+gTextL4_0746:
+	.incbin "baserom.gba", 0x3A905F, 0x14
+	.global gTextL4_0747
+gTextL4_0747:
+	.incbin "baserom.gba", 0x3A9073, 0x19
+	.global gTextL4_0748
+gTextL4_0748:
+	.incbin "baserom.gba", 0x3A908C, 0x1B
+	.global gTextL4_0749
+gTextL4_0749:
+	.incbin "baserom.gba", 0x3A90A7, 0xB
+	.global gTextL4_0750
+gTextL4_0750:
+	.incbin "baserom.gba", 0x3A90B2, 0x10
+	.global gTextL4_0751
+gTextL4_0751:
+	.incbin "baserom.gba", 0x3A90C2, 0x15
+	.global gTextL4_0752
+gTextL4_0752:
+	.incbin "baserom.gba", 0x3A90D7, 0x18
+	.global gTextL4_0753
+gTextL4_0753:
+	.incbin "baserom.gba", 0x3A90EF, 0x13
+	.global gTextL4_0754
+gTextL4_0754:
+	.incbin "baserom.gba", 0x3A9102, 0x13
+	.global gTextL4_0755
+gTextL4_0755:
+	.incbin "baserom.gba", 0x3A9115, 0x18
+	.global gTextL4_0756
+gTextL4_0756:
+	.incbin "baserom.gba", 0x3A912D, 0x16
+	.global gTextL4_0757
+gTextL4_0757:
+	.incbin "baserom.gba", 0x3A9143, 0x16
+	.global gTextL4_0758
+gTextL4_0758:
+	.incbin "baserom.gba", 0x3A9159, 0x16
+	.global gTextL4_0759
+gTextL4_0759:
+	.incbin "baserom.gba", 0x3A916F, 0x20
+	.global gTextL4_0760
+gTextL4_0760:
+	.incbin "baserom.gba", 0x3A918F, 0x20
+	.global gTextL4_0761
+gTextL4_0761:
+	.incbin "baserom.gba", 0x3A91AF, 0x1F
+	.global gTextL4_0762
+gTextL4_0762:
+	.incbin "baserom.gba", 0x3A91CE, 0x1F
+	.global gTextL4_0763
+gTextL4_0763:
+	.incbin "baserom.gba", 0x3A91ED, 0x20
+	.global gTextL4_0764
+gTextL4_0764:
+	.incbin "baserom.gba", 0x3A920D, 0x1F
+	.global gTextL4_0765
+gTextL4_0765:
+	.incbin "baserom.gba", 0x3A922C, 0x15
+	.global gTextL4_0766
+gTextL4_0766:
+	.incbin "baserom.gba", 0x3A9241, 0x15
+	.global gTextL4_0767
+gTextL4_0767:
+	.incbin "baserom.gba", 0x3A9256, 0x16
+	.global gTextL4_0768
+gTextL4_0768:
+	.incbin "baserom.gba", 0x3A926C, 0x16
+	.global gTextL4_0769
+gTextL4_0769:
+	.incbin "baserom.gba", 0x3A9282, 0x10
+	.global gTextL4_0770
+gTextL4_0770:
+	.incbin "baserom.gba", 0x3A9292, 0x10
+	.global gTextL4_0771
+gTextL4_0771:
+	.incbin "baserom.gba", 0x3A92A2, 0x1C
+	.global gTextL4_0772
+gTextL4_0772:
+	.incbin "baserom.gba", 0x3A92BE, 0x1C
+	.global gTextL4_0773
+gTextL4_0773:
+	.incbin "baserom.gba", 0x3A92DA, 0x18
+	.global gTextL4_0774
+gTextL4_0774:
+	.incbin "baserom.gba", 0x3A92F2, 0x18
+	.global gTextL4_0775
+gTextL4_0775:
+	.incbin "baserom.gba", 0x3A930A, 0x20
+	.global gTextL4_0776
+gTextL4_0776:
+	.incbin "baserom.gba", 0x3A932A, 0x20
+	.global gTextL4_0777
+gTextL4_0777:
+	.incbin "baserom.gba", 0x3A934A, 0x1B
+	.global gTextL4_0778
+gTextL4_0778:
+	.incbin "baserom.gba", 0x3A9365, 0x1B
+	.global gTextL4_0779
+gTextL4_0779:
+	.incbin "baserom.gba", 0x3A9380, 0x1B
+	.global gTextL4_0780
+gTextL4_0780:
+	.incbin "baserom.gba", 0x3A939B, 0x1D
+	.global gTextL4_0781
+gTextL4_0781:
+	.incbin "baserom.gba", 0x3A93B8, 0x1E
+	.global gTextL4_0782
+gTextL4_0782:
+	.incbin "baserom.gba", 0x3A93D6, 0x1E
+	.global gTextL4_0783
+gTextL4_0783:
+	.incbin "baserom.gba", 0x3A93F4, 0x1E
+	.global gTextL4_0784
+gTextL4_0784:
+	.incbin "baserom.gba", 0x3A9412, 0x1E
+	.global gTextL4_0785
+gTextL4_0785:
+	.incbin "baserom.gba", 0x3A9430, 0x1D
+	.global gTextL4_0786
+gTextL4_0786:
+	.incbin "baserom.gba", 0x3A944D, 0x20
+	.global gTextL4_0787
+gTextL4_0787:
+	.incbin "baserom.gba", 0x3A946D, 0x1C
+	.global gTextL4_0788
+gTextL4_0788:
+	.incbin "baserom.gba", 0x3A9489, 0x20
+	.global gTextL4_0789
+gTextL4_0789:
+	.incbin "baserom.gba", 0x3A94A9, 0x16
+	.global gTextL4_0790
+gTextL4_0790:
+	.incbin "baserom.gba", 0x3A94BF, 0x16
+	.global gTextL4_0791
+gTextL4_0791:
+	.incbin "baserom.gba", 0x3A94D5, 0x12
+	.global gTextL4_0792
+gTextL4_0792:
+	.incbin "baserom.gba", 0x3A94E7, 0x1C
+	.global gTextL4_0793
+gTextL4_0793:
+	.incbin "baserom.gba", 0x3A9503, 0x1E
+	.global gTextL4_0794
+gTextL4_0794:
+	.incbin "baserom.gba", 0x3A9521, 0x15
+	.global gTextL4_0795
+gTextL4_0795:
+	.incbin "baserom.gba", 0x3A9536, 0x16
+	.global gTextL4_0796
+gTextL4_0796:
+	.incbin "baserom.gba", 0x3A954C, 0x15
+	.global gTextL4_0797
+gTextL4_0797:
+	.incbin "baserom.gba", 0x3A9561, 0x15
+	.global gTextL4_0798
+gTextL4_0798:
+	.incbin "baserom.gba", 0x3A9576, 0x14
+	.global gTextL4_0799
+gTextL4_0799:
+	.incbin "baserom.gba", 0x3A958A, 0x14
+	.global gTextL4_0800
+gTextL4_0800:
+	.incbin "baserom.gba", 0x3A959E, 0x1E
+	.global gTextL4_0801
+gTextL4_0801:
+	.incbin "baserom.gba", 0x3A95BC, 0x1A
+	.global gTextL4_0802
+gTextL4_0802:
+	.incbin "baserom.gba", 0x3A95D6, 0x1A
+	.global gTextL4_0803
+gTextL4_0803:
+	.incbin "baserom.gba", 0x3A95F0, 0x1E
+	.global gTextL4_0804
+gTextL4_0804:
+	.incbin "baserom.gba", 0x3A960E, 0x1D
+	.global gTextL4_0805
+gTextL4_0805:
+	.incbin "baserom.gba", 0x3A962B, 0x15
+	.global gTextL4_0806
+gTextL4_0806:
+	.incbin "baserom.gba", 0x3A9640, 0x1B
+	.global gTextL4_0807
+gTextL4_0807:
+	.incbin "baserom.gba", 0x3A965B, 0x14
+	.global gTextL4_0808
+gTextL4_0808:
+	.incbin "baserom.gba", 0x3A966F, 0x6
+	.global gTextL4_0809
+gTextL4_0809:
+	.incbin "baserom.gba", 0x3A9675, 0x6
+	.global gTextL4_0810
+gTextL4_0810:
+	.incbin "baserom.gba", 0x3A967B, 0xF
+	.global gTextL4_0811
+gTextL4_0811:
+	.incbin "baserom.gba", 0x3A968A, 0x16
+	.global gTextL4_0812
+gTextL4_0812:
+	.incbin "baserom.gba", 0x3A96A0, 0x16
+	.global gTextL4_0813
+gTextL4_0813:
+	.incbin "baserom.gba", 0x3A96B6, 0x15
+	.global gTextL4_0814
+gTextL4_0814:
+	.incbin "baserom.gba", 0x3A96CB, 0x15
+	.global gTextL4_0815
+gTextL4_0815:
+	.incbin "baserom.gba", 0x3A96E0, 0x15
+	.global gTextL4_0816
+gTextL4_0816:
+	.incbin "baserom.gba", 0x3A96F5, 0x15
+	.global gTextL4_0817
+gTextL4_0817:
+	.incbin "baserom.gba", 0x3A970A, 0x16
+	.global gTextL4_0818
+gTextL4_0818:
+	.incbin "baserom.gba", 0x3A9720, 0x16
+	.global gTextL4_0819
+gTextL4_0819:
+	.incbin "baserom.gba", 0x3A9736, 0x14
+	.global gTextL4_0820
+gTextL4_0820:
+	.incbin "baserom.gba", 0x3A974A, 0x14
+	.global gTextL4_0821
+gTextL4_0821:
+	.incbin "baserom.gba", 0x3A975E, 0x16
+	.global gTextL4_0822
+gTextL4_0822:
+	.incbin "baserom.gba", 0x3A9774, 0x16
+	.global gTextL4_0823
+gTextL4_0823:
+	.incbin "baserom.gba", 0x3A978A, 0x14
+	.global gTextL4_0824
+gTextL4_0824:
+	.incbin "baserom.gba", 0x3A979E, 0x14
+	.global gTextL4_0825
+gTextL4_0825:
+	.incbin "baserom.gba", 0x3A97B2, 0x18
+	.global gTextL4_0826
+gTextL4_0826:
+	.incbin "baserom.gba", 0x3A97CA, 0x18
+	.global gTextL4_0827
+gTextL4_0827:
+	.incbin "baserom.gba", 0x3A97E2, 0x12
+	.global gTextL4_0828
+gTextL4_0828:
+	.incbin "baserom.gba", 0x3A97F4, 0x12
+	.global gTextL4_0829
+gTextL4_0829:
+	.incbin "baserom.gba", 0x3A9806, 0x13
+	.global gTextL4_0830
+gTextL4_0830:
+	.incbin "baserom.gba", 0x3A9819, 0x13
+	.global gTextL4_0831
+gTextL4_0831:
+	.incbin "baserom.gba", 0x3A982C, 0x13
+	.global gTextL4_0832
+gTextL4_0832:
+	.incbin "baserom.gba", 0x3A983F, 0x13
+	.global gTextL4_0833
+gTextL4_0833:
+	.incbin "baserom.gba", 0x3A9852, 0x16
+	.global gTextL4_0834
+gTextL4_0834:
+	.incbin "baserom.gba", 0x3A9868, 0x16
+	.global gTextL4_0835
+gTextL4_0835:
+	.incbin "baserom.gba", 0x3A987E, 0x15
+	.global gTextL4_0836
+gTextL4_0836:
+	.incbin "baserom.gba", 0x3A9893, 0x15
+	.global gTextL4_0837
+gTextL4_0837:
+	.incbin "baserom.gba", 0x3A98A8, 0x1A
+	.global gTextL4_0838
+gTextL4_0838:
+	.incbin "baserom.gba", 0x3A98C2, 0x1A
+	.global gTextL4_0839
+gTextL4_0839:
+	.incbin "baserom.gba", 0x3A98DC, 0x18
+	.global gTextL4_0840
+gTextL4_0840:
+	.incbin "baserom.gba", 0x3A98F4, 0x18
+	.global gTextL4_0841
+gTextL4_0841:
+	.incbin "baserom.gba", 0x3A990C, 0x12
+	.global gTextL4_0842
+gTextL4_0842:
+	.incbin "baserom.gba", 0x3A991E, 0x12
+	.global gTextL4_0843
+gTextL4_0843:
+	.incbin "baserom.gba", 0x3A9930, 0x15
+	.global gTextL4_0844
+gTextL4_0844:
+	.incbin "baserom.gba", 0x3A9945, 0x15
+	.global gTextL4_0845
+gTextL4_0845:
+	.incbin "baserom.gba", 0x3A995A, 0x15
+	.global gTextL4_0846
+gTextL4_0846:
+	.incbin "baserom.gba", 0x3A996F, 0x15
+	.global gTextL4_0847
+gTextL4_0847:
+	.incbin "baserom.gba", 0x3A9984, 0x15
+	.global gTextL4_0848
+gTextL4_0848:
+	.incbin "baserom.gba", 0x3A9999, 0x14
+	.global gTextL4_0849
+gTextL4_0849:
+	.incbin "baserom.gba", 0x3A99AD, 0x1A
+	.global gTextL4_0850
+gTextL4_0850:
+	.incbin "baserom.gba", 0x3A99C7, 0x1A
+	.global gTextL4_0851
+gTextL4_0851:
+	.incbin "baserom.gba", 0x3A99E1, 0x1A
+	.global gTextL4_0852
+gTextL4_0852:
+	.incbin "baserom.gba", 0x3A99FB, 0x1A
+	.global gTextL4_0853
+gTextL4_0853:
+	.incbin "baserom.gba", 0x3A9A15, 0x13
+	.global gTextL4_0854
+gTextL4_0854:
+	.incbin "baserom.gba", 0x3A9A28, 0x13
+	.global gTextL4_0855
+gTextL4_0855:
+	.incbin "baserom.gba", 0x3A9A3B, 0x16
+	.global gTextL4_0856
+gTextL4_0856:
+	.incbin "baserom.gba", 0x3A9A51, 0x16
+	.global gTextL4_0857
+gTextL4_0857:
+	.incbin "baserom.gba", 0x3A9A67, 0x15
+	.global gTextL4_0858
+gTextL4_0858:
+	.incbin "baserom.gba", 0x3A9A7C, 0x15
+	.global gTextL4_0859
+gTextL4_0859:
+	.incbin "baserom.gba", 0x3A9A91, 0x1A
+	.global gTextL4_0860
+gTextL4_0860:
+	.incbin "baserom.gba", 0x3A9AAB, 0x1A
+	.global gTextL4_0861
+gTextL4_0861:
+	.incbin "baserom.gba", 0x3A9AC5, 0x13
+	.global gTextL4_0862
+gTextL4_0862:
+	.incbin "baserom.gba", 0x3A9AD8, 0x13
+	.global gTextL4_0863
+gTextL4_0863:
+	.incbin "baserom.gba", 0x3A9AEB, 0x14
+	.global gTextL4_0864
+gTextL4_0864:
+	.incbin "baserom.gba", 0x3A9AFF, 0x14
+	.global gTextL4_0865
+gTextL4_0865:
+	.incbin "baserom.gba", 0x3A9B13, 0x13
+	.global gTextL4_0866
+gTextL4_0866:
+	.incbin "baserom.gba", 0x3A9B26, 0x13
+	.global gTextL4_0867
+gTextL4_0867:
+	.incbin "baserom.gba", 0x3A9B39, 0x14
+	.global gTextL4_0868
+gTextL4_0868:
+	.incbin "baserom.gba", 0x3A9B4D, 0x14
+	.global gTextL4_0869
+gTextL4_0869:
+	.incbin "baserom.gba", 0x3A9B61, 0x17
+	.global gTextL4_0870
+gTextL4_0870:
+	.incbin "baserom.gba", 0x3A9B78, 0x1A
+	.global gTextL4_0871
+gTextL4_0871:
+	.incbin "baserom.gba", 0x3A9B92, 0x1E
+	.global gTextL4_0872
+gTextL4_0872:
+	.incbin "baserom.gba", 0x3A9BB0, 0x1D
+	.global gTextL4_0873
+gTextL4_0873:
+	.incbin "baserom.gba", 0x3A9BCD, 0x1B
+	.global gTextL4_0874
+gTextL4_0874:
+	.incbin "baserom.gba", 0x3A9BE8, 0x15
+	.global gTextL4_0875
+gTextL4_0875:
+	.incbin "baserom.gba", 0x3A9BFD, 0x1C
+	.global gTextL4_0876
+gTextL4_0876:
+	.incbin "baserom.gba", 0x3A9C19, 0x1E
+	.global gTextL4_0877
+gTextL4_0877:
+	.incbin "baserom.gba", 0x3A9C37, 0x1F
+	.global gTextL4_0878
+gTextL4_0878:
+	.incbin "baserom.gba", 0x3A9C56, 0x13
+	.global gTextL4_0879
+gTextL4_0879:
+	.incbin "baserom.gba", 0x3A9C69, 0x19
+	.global gTextL4_0880
+gTextL4_0880:
+	.incbin "baserom.gba", 0x3A9C82, 0x3B
+	.global gTextL4_0881
+gTextL4_0881:
+	.incbin "baserom.gba", 0x3A9CBD, 0x35
+	.global gTextL4_0882
+gTextL4_0882:
+	.incbin "baserom.gba", 0x3A9CF2, 0x17
+	.global gTextL4_0883
+gTextL4_0883:
+	.incbin "baserom.gba", 0x3A9D09, 0x1B
+	.global gTextL4_0884
+gTextL4_0884:
+	.incbin "baserom.gba", 0x3A9D24, 0x1B
+	.global gTextL4_0885
+gTextL4_0885:
+	.incbin "baserom.gba", 0x3A9D3F, 0x17
+	.global gTextL4_0886
+gTextL4_0886:
+	.incbin "baserom.gba", 0x3A9D56, 0x3A
+	.global gTextL4_0887
+gTextL4_0887:
+	.incbin "baserom.gba", 0x3A9D90, 0x16
+	.global gTextL4_0888
+gTextL4_0888:
+	.incbin "baserom.gba", 0x3A9DA6, 0x13
+	.global gTextL4_0889
+gTextL4_0889:
+	.incbin "baserom.gba", 0x3A9DB9, 0xE
+	.global gTextL4_0890
+gTextL4_0890:
+	.incbin "baserom.gba", 0x3A9DC7, 0x1E
+	.global gTextL4_0891
+gTextL4_0891:
+	.incbin "baserom.gba", 0x3A9DE5, 0x1E
+	.global gTextL4_0892
+gTextL4_0892:
+	.incbin "baserom.gba", 0x3A9E03, 0x17
+	.global gTextL4_0893
+gTextL4_0893:
+	.incbin "baserom.gba", 0x3A9E1A, 0x1B
+	.global gTextL4_0894
+gTextL4_0894:
+	.incbin "baserom.gba", 0x3A9E35, 0x20
+	.global gTextL4_0895
+gTextL4_0895:
+	.incbin "baserom.gba", 0x3A9E55, 0x1B
+	.global gTextL4_0896
+gTextL4_0896:
+	.incbin "baserom.gba", 0x3A9E70, 0x1D
+	.global gTextL4_0897
+gTextL4_0897:
+	.incbin "baserom.gba", 0x3A9E8D, 0x37
+	.global gTextL4_0898
+gTextL4_0898:
+	.incbin "baserom.gba", 0x3A9EC4, 0x28
+	.global gTextL4_0899
+gTextL4_0899:
+	.incbin "baserom.gba", 0x3A9EEC, 0x35
+	.global gTextL4_0900
+gTextL4_0900:
+	.incbin "baserom.gba", 0x3A9F21, 0x32
+	.global gTextL4_0901
+gTextL4_0901:
+	.incbin "baserom.gba", 0x3A9F53, 0x3B
+	.global gTextL4_0902
+gTextL4_0902:
+	.incbin "baserom.gba", 0x3A9F8E, 0x12
+	.global gTextL4_0903
+gTextL4_0903:
+	.incbin "baserom.gba", 0x3A9FA0, 0x1C
+	.global gTextL4_0904
+gTextL4_0904:
+	.incbin "baserom.gba", 0x3A9FBC, 0x29
+	.global gTextL4_0905
+gTextL4_0905:
+	.incbin "baserom.gba", 0x3A9FE5, 0x1E
+	.global gTextL4_0906
+gTextL4_0906:
+	.incbin "baserom.gba", 0x3AA003, 0x24
+	.global gTextL4_0907
+gTextL4_0907:
+	.incbin "baserom.gba", 0x3AA027, 0x2E
+	.global gTextL4_0908
+gTextL4_0908:
+	.incbin "baserom.gba", 0x3AA055, 0x28
+	.global gTextL4_0909
+gTextL4_0909:
+	.incbin "baserom.gba", 0x3AA07D, 0x36
+	.global gTextL4_0910
+gTextL4_0910:
+	.incbin "baserom.gba", 0x3AA0B3, 0x3C
+	.global gTextL4_0911
+gTextL4_0911:
+	.incbin "baserom.gba", 0x3AA0EF, 0x36
+	.global gTextL4_0912
+gTextL4_0912:
+	.incbin "baserom.gba", 0x3AA125, 0x1E
+	.global gTextL4_0913
+gTextL4_0913:
+	.incbin "baserom.gba", 0x3AA143, 0x2B
+	.global gTextL4_0914
+gTextL4_0914:
+	.incbin "baserom.gba", 0x3AA16E, 0x9
+	.global gTextL4_0915
+gTextL4_0915:
+	.incbin "baserom.gba", 0x3AA177, 0x9
+	.global gTextL4_0916
+gTextL4_0916:
+	.incbin "baserom.gba", 0x3AA180, 0xA
+	.global gTextL4_0917
+gTextL4_0917:
+	.incbin "baserom.gba", 0x3AA18A, 0x10
+	.global gTextL4_0918
+gTextL4_0918:
+	.incbin "baserom.gba", 0x3AA19A, 0x12
+	.global gTextL4_0919
+gTextL4_0919:
+	.incbin "baserom.gba", 0x3AA1AC, 0x17
+	.global gTextL4_0920
+gTextL4_0920:
+	.incbin "baserom.gba", 0x3AA1C3, 0xF
+	.global gTextL4_0921
+gTextL4_0921:
+	.incbin "baserom.gba", 0x3AA1D2, 0x23
+	.global gTextL4_0922
+gTextL4_0922:
+	.incbin "baserom.gba", 0x3AA1F5, 0x1A
+	.global gTextL4_0923
+gTextL4_0923:
+	.incbin "baserom.gba", 0x3AA20F, 0x10
+	.global gTextL4_0924
+gTextL4_0924:
+	.incbin "baserom.gba", 0x3AA21F, 0x26
+	.global gTextL4_0925
+gTextL4_0925:
+	.incbin "baserom.gba", 0x3AA245, 0x29
+	.global gTextL4_0926
+gTextL4_0926:
+	.incbin "baserom.gba", 0x3AA26E, 0x36
+	.global gTextL4_0927
+gTextL4_0927:
+	.incbin "baserom.gba", 0x3AA2A4, 0x2A
+	.global gTextL4_0928
+gTextL4_0928:
+	.incbin "baserom.gba", 0x3AA2CE, 0x19
+	.global gTextL4_0929
+gTextL4_0929:
+	.incbin "baserom.gba", 0x3AA2E7, 0x2B
+	.global gTextL4_0930
+gTextL4_0930:
+	.incbin "baserom.gba", 0x3AA312, 0x1E
+	.global gTextL4_0931
+gTextL4_0931:
+	.incbin "baserom.gba", 0x3AA330, 0x36
+	.global gTextL4_0932
+gTextL4_0932:
+	.incbin "baserom.gba", 0x3AA366, 0x34
+	.global gTextL4_0933
+gTextL4_0933:
+	.incbin "baserom.gba", 0x3AA39A, 0x3B
+	.global gTextL4_0934
+gTextL4_0934:
+	.incbin "baserom.gba", 0x3AA3D5, 0x22
+	.global gTextL4_0935
+gTextL4_0935:
+	.incbin "baserom.gba", 0x3AA3F7, 0x28
+	.global gTextL4_0936
+gTextL4_0936:
+	.incbin "baserom.gba", 0x3AA41F, 0x20
+	.global gTextL4_0937
+gTextL4_0937:
+	.incbin "baserom.gba", 0x3AA43F, 0x2E
+	.global gTextL4_0938
+gTextL4_0938:
+	.incbin "baserom.gba", 0x3AA46D, 0x2F
+	.global gTextL4_0939
+gTextL4_0939:
+	.incbin "baserom.gba", 0x3AA49C, 0x22
+	.global gTextL4_0940
+gTextL4_0940:
+	.incbin "baserom.gba", 0x3AA4BE, 0x35
+	.global gTextL4_0941
+gTextL4_0941:
+	.incbin "baserom.gba", 0x3AA4F3, 0x24
+	.global gTextL4_0942
+gTextL4_0942:
+	.incbin "baserom.gba", 0x3AA517, 0x32
+	.global gTextL4_0943
+gTextL4_0943:
+	.incbin "baserom.gba", 0x3AA549, 0x34
+	.global gTextL4_0944
+gTextL4_0944:
+	.incbin "baserom.gba", 0x3AA57D, 0x28
+	.global gTextL4_0945
+gTextL4_0945:
+	.incbin "baserom.gba", 0x3AA5A5, 0x28
+	.global gTextL4_0946
+gTextL4_0946:
+	.incbin "baserom.gba", 0x3AA5CD, 0x1D
+	.global gTextL4_0947
+gTextL4_0947:
+	.incbin "baserom.gba", 0x3AA5EA, 0x15
+	.global gTextL4_0948
+gTextL4_0948:
+	.incbin "baserom.gba", 0x3AA5FF, 0x2A
+	.global gTextL4_0949
+gTextL4_0949:
+	.incbin "baserom.gba", 0x3AA629, 0x1A
+	.global gTextL4_0950
+gTextL4_0950:
+	.incbin "baserom.gba", 0x3AA643, 0x15
+	.global gTextL4_0951
+gTextL4_0951:
+	.incbin "baserom.gba", 0x3AA658, 0x10
+	.global gTextL4_0952
+gTextL4_0952:
+	.incbin "baserom.gba", 0x3AA668, 0x35
+	.global gTextL4_0953
+gTextL4_0953:
+	.incbin "baserom.gba", 0x3AA69D, 0x17
+	.global gTextL4_0954
+gTextL4_0954:
+	.incbin "baserom.gba", 0x3AA6B4, 0x1E
+	.global gTextL4_0955
+gTextL4_0955:
+	.incbin "baserom.gba", 0x3AA6D2, 0x25
+	.global gTextL4_0956
+gTextL4_0956:
+	.incbin "baserom.gba", 0x3AA6F7, 0x37
+	.global gTextL4_0957
+gTextL4_0957:
+	.incbin "baserom.gba", 0x3AA72E, 0x14
+	.global gTextL4_0958
+gTextL4_0958:
+	.incbin "baserom.gba", 0x3AA742, 0x34
+	.global gTextL4_0959
+gTextL4_0959:
+	.incbin "baserom.gba", 0x3AA776, 0x2F
+	.global gTextL4_0960
+gTextL4_0960:
+	.incbin "baserom.gba", 0x3AA7A5, 0x21
+	.global gTextL4_0961
+gTextL4_0961:
+	.incbin "baserom.gba", 0x3AA7C6, 0x3C
+	.global gTextL4_0962
+gTextL4_0962:
+	.incbin "baserom.gba", 0x3AA802, 0x3B
+	.global gTextL4_0963
+gTextL4_0963:
+	.incbin "baserom.gba", 0x3AA83D, 0x37
+	.global gTextL4_0964
+gTextL4_0964:
+	.incbin "baserom.gba", 0x3AA874, 0x39
+	.global gTextL4_0965
+gTextL4_0965:
+	.incbin "baserom.gba", 0x3AA8AD, 0x36
+	.global gTextL4_0966
+gTextL4_0966:
+	.incbin "baserom.gba", 0x3AA8E3, 0x1B
+	.global gTextL4_0967
+gTextL4_0967:
+	.incbin "baserom.gba", 0x3AA8FE, 0x31
+	.global gTextL4_0968
+gTextL4_0968:
+	.incbin "baserom.gba", 0x3AA92F, 0xD
+	.global gTextL4_0969
+gTextL4_0969:
+	.incbin "baserom.gba", 0x3AA93C, 0x17
+	.global gTextL4_0970
+gTextL4_0970:
+	.incbin "baserom.gba", 0x3AA953, 0x20
+	.global gTextL4_0971
+gTextL4_0971:
+	.incbin "baserom.gba", 0x3AA973, 0x1C
+	.global gTextL4_0972
+gTextL4_0972:
+	.incbin "baserom.gba", 0x3AA98F, 0x18
+	.global gTextL4_0973
+gTextL4_0973:
+	.incbin "baserom.gba", 0x3AA9A7, 0x1A
+	.global gTextL4_0974
+gTextL4_0974:
+	.incbin "baserom.gba", 0x3AA9C1, 0x19
+	.global gTextL4_0975
+gTextL4_0975:
+	.incbin "baserom.gba", 0x3AA9DA, 0x18
+	.global gTextL4_0976
+gTextL4_0976:
+	.incbin "baserom.gba", 0x3AA9F2, 0x17
+	.global gTextL4_0977
+gTextL4_0977:
+	.incbin "baserom.gba", 0x3AAA09, 0x16
+	.global gTextL4_0978
+gTextL4_0978:
+	.incbin "baserom.gba", 0x3AAA1F, 0x17
+	.global gTextL4_0979
+gTextL4_0979:
+	.incbin "baserom.gba", 0x3AAA36, 0x20
+	.global gTextL4_0980
+gTextL4_0980:
+	.incbin "baserom.gba", 0x3AAA56, 0x17
+	.global gTextL4_0981
+gTextL4_0981:
+	.incbin "baserom.gba", 0x3AAA6D, 0x1A
+	.global gTextL4_0982
+gTextL4_0982:
+	.incbin "baserom.gba", 0x3AAA87, 0x156
+	.global gTextL4_0983
+gTextL4_0983:
+	.incbin "baserom.gba", 0x3AABDD, 0x1A0
+	.global gTextL4_0984
+gTextL4_0984:
+	.incbin "baserom.gba", 0x3AAD7D, 0x10
+	.global gTextL4_0985
+gTextL4_0985:
+	.incbin "baserom.gba", 0x3AAD8D, 0x14
+	.global gTextL4_0986
+gTextL4_0986:
+	.incbin "baserom.gba", 0x3AADA1, 0x2B
+	.global gTextL4_0987
+gTextL4_0987:
+	.incbin "baserom.gba", 0x3AADCC, 0xA
+	.global gTextL4_0988
+gTextL4_0988:
+	.incbin "baserom.gba", 0x3AADD6, 0xB
+	.global gTextL4_0989
+gTextL4_0989:
+	.incbin "baserom.gba", 0x3AADE1, 0xA
+	.global gTextL4_0990
+gTextL4_0990:
+	.incbin "baserom.gba", 0x3AADEB, 0xC
+	.global gTextL4_0991
+gTextL4_0991:
+	.incbin "baserom.gba", 0x3AADF7, 0x10
+	.global gTextL4_0992
+gTextL4_0992:
+	.incbin "baserom.gba", 0x3AAE07, 0xD
+	.global gTextL4_0993
+gTextL4_0993:
+	.incbin "baserom.gba", 0x3AAE14, 0x16
+	.global gTextL4_0994
+gTextL4_0994:
+	.incbin "baserom.gba", 0x3AAE2A, 0x1B
+	.global gTextL4_0995
+gTextL4_0995:
+	.incbin "baserom.gba", 0x3AAE45, 0x1B
+	.global gTextL4_0996
+gTextL4_0996:
+	.incbin "baserom.gba", 0x3AAE60, 0x1E
+	.global gTextL4_0997
+gTextL4_0997:
+	.incbin "baserom.gba", 0x3AAE7E, 0x19
+	.global gTextL4_0998
+gTextL4_0998:
+	.incbin "baserom.gba", 0x3AAE97, 0x20
+	.global gTextL4_0999
+gTextL4_0999:
+	.incbin "baserom.gba", 0x3AAEB7, 0x1C
+	.global gTextL4_1000
+gTextL4_1000:
+	.incbin "baserom.gba", 0x3AAED3, 0x20
+	.global gTextL4_1001
+gTextL4_1001:
+	.incbin "baserom.gba", 0x3AAEF3, 0x20
+	.global gTextL4_1002
+gTextL4_1002:
+	.incbin "baserom.gba", 0x3AAF13, 0x20
+	.global gTextL4_1003
+gTextL4_1003:
+	.incbin "baserom.gba", 0x3AAF33, 0xF
+	.global gTextL4_1004
+gTextL4_1004:
+	.incbin "baserom.gba", 0x3AAF42, 0x1E
+	.global gTextL4_1005
+gTextL4_1005:
+	.incbin "baserom.gba", 0x3AAF60, 0x1F
+	.global gTextL4_1006
+gTextL4_1006:
+	.incbin "baserom.gba", 0x3AAF7F, 0x1E
+	.global gTextL4_1007
+gTextL4_1007:
+	.incbin "baserom.gba", 0x3AAF9D, 0x1E
+	.global gTextL4_1008
+gTextL4_1008:
+	.incbin "baserom.gba", 0x3AAFBB, 0x20
+	.global gTextL4_1009
+gTextL4_1009:
+	.incbin "baserom.gba", 0x3AAFDB, 0x1F
+	.global gTextL4_1010
+gTextL4_1010:
+	.incbin "baserom.gba", 0x3AAFFA, 0x1F
+	.global gTextL4_1011
+gTextL4_1011:
+	.incbin "baserom.gba", 0x3AB019, 0x19
+	.global gTextL4_1012
+gTextL4_1012:
+	.incbin "baserom.gba", 0x3AB032, 0x11
+	.global gTextL4_1013
+gTextL4_1013:
+	.incbin "baserom.gba", 0x3AB043, 0x20
+	.global gTextL4_1014
+gTextL4_1014:
+	.incbin "baserom.gba", 0x3AB063, 0x1D
+	.global gTextL4_1015
+gTextL4_1015:
+	.incbin "baserom.gba", 0x3AB080, 0x1D
+	.global gTextL4_1016
+gTextL4_1016:
+	.incbin "baserom.gba", 0x3AB09D, 0x1C
+	.global gTextL4_1017
+gTextL4_1017:
+	.incbin "baserom.gba", 0x3AB0B9, 0x1E
+	.global gTextL4_1018
+gTextL4_1018:
+	.incbin "baserom.gba", 0x3AB0D7, 0x1D
+	.global gTextL4_1019
+gTextL4_1019:
+	.incbin "baserom.gba", 0x3AB0F4, 0x1F
+	.global gTextL4_1020
+gTextL4_1020:
+	.incbin "baserom.gba", 0x3AB113, 0x1E
+	.global gTextL4_1021
+gTextL4_1021:
+	.incbin "baserom.gba", 0x3AB131, 0x20
+	.global gTextL4_1022
+gTextL4_1022:
+	.incbin "baserom.gba", 0x3AB151, 0x1E
+	.global gTextL4_1023
+gTextL4_1023:
+	.incbin "baserom.gba", 0x3AB16F, 0x1F
+	.global gTextL4_1024
+gTextL4_1024:
+	.incbin "baserom.gba", 0x3AB18E, 0x20
+	.global gTextL4_1025
+gTextL4_1025:
+	.incbin "baserom.gba", 0x3AB1AE, 0x21
+	.global gTextL4_1026
+gTextL4_1026:
+	.incbin "baserom.gba", 0x3AB1CF, 0x1F
+	.global gTextL4_1027
+gTextL4_1027:
+	.incbin "baserom.gba", 0x3AB1EE, 0x1F
+	.global gTextL4_1028
+gTextL4_1028:
+	.incbin "baserom.gba", 0x3AB20D, 0x1D
+	.global gTextL4_1029
+gTextL4_1029:
+	.incbin "baserom.gba", 0x3AB22A, 0x1E
+	.global gTextL4_1030
+gTextL4_1030:
+	.incbin "baserom.gba", 0x3AB248, 0x1F
+	.global gTextL4_1031
+gTextL4_1031:
+	.incbin "baserom.gba", 0x3AB267, 0x20
+	.global gTextL4_1032
+gTextL4_1032:
+	.incbin "baserom.gba", 0x3AB287, 0x1F
+	.global gTextL4_1033
+gTextL4_1033:
+	.incbin "baserom.gba", 0x3AB2A6, 0x20
+	.global gTextL4_1034
+gTextL4_1034:
+	.incbin "baserom.gba", 0x3AB2C6, 0x1E
+	.global gTextL4_1035
+gTextL4_1035:
+	.incbin "baserom.gba", 0x3AB2E4, 0x20
+	.global gTextL4_1036
+gTextL4_1036:
+	.incbin "baserom.gba", 0x3AB304, 0x1D
+	.global gTextL4_1037
+gTextL4_1037:
+	.incbin "baserom.gba", 0x3AB321, 0x20
+	.global gTextL4_1038
+gTextL4_1038:
+	.incbin "baserom.gba", 0x3AB341, 0x1F
+	.global gTextL4_1039
+gTextL4_1039:
+	.incbin "baserom.gba", 0x3AB360, 0x12
+	.global gTextL4_1040
+gTextL4_1040:
+	.incbin "baserom.gba", 0x3AB372, 0x1F
+	.global gTextL4_1041
+gTextL4_1041:
+	.incbin "baserom.gba", 0x3AB391, 0x1F
+	.global gTextL4_1042
+gTextL4_1042:
+	.incbin "baserom.gba", 0x3AB3B0, 0x1F
+	.global gTextL4_1043
+gTextL4_1043:
+	.incbin "baserom.gba", 0x3AB3CF, 0x1C
+	.global gTextL4_1044
+gTextL4_1044:
+	.incbin "baserom.gba", 0x3AB3EB, 0x1B
+	.global gTextL4_1045
+gTextL4_1045:
+	.incbin "baserom.gba", 0x3AB406, 0x1F
+	.global gTextL4_1046
+gTextL4_1046:
+	.incbin "baserom.gba", 0x3AB425, 0x1F
+	.global gTextL4_1047
+gTextL4_1047:
+	.incbin "baserom.gba", 0x3AB444, 0x1E
+	.global gTextL4_1048
+gTextL4_1048:
+	.incbin "baserom.gba", 0x3AB462, 0x1F
+	.global gTextL4_1049
+gTextL4_1049:
+	.incbin "baserom.gba", 0x3AB481, 0x1E
+	.global gTextL4_1050
+gTextL4_1050:
+	.incbin "baserom.gba", 0x3AB49F, 0x1E
+	.global gTextL4_1051
+gTextL4_1051:
+	.incbin "baserom.gba", 0x3AB4BD, 0x19
+	.global gTextL4_1052
+gTextL4_1052:
+	.incbin "baserom.gba", 0x3AB4D6, 0x1D
+	.global gTextL4_1053
+gTextL4_1053:
+	.incbin "baserom.gba", 0x3AB4F3, 0x20
+	.global gTextL4_1054
+gTextL4_1054:
+	.incbin "baserom.gba", 0x3AB513, 0x20
+	.global gTextL4_1055
+gTextL4_1055:
+	.incbin "baserom.gba", 0x3AB533, 0x20
+	.global gTextL4_1056
+gTextL4_1056:
+	.incbin "baserom.gba", 0x3AB553, 0x20
+	.global gTextL4_1057
+gTextL4_1057:
+	.incbin "baserom.gba", 0x3AB573, 0x1F
+	.global gTextL4_1058
+gTextL4_1058:
+	.incbin "baserom.gba", 0x3AB592, 0x1E
+	.global gTextL4_1059
+gTextL4_1059:
+	.incbin "baserom.gba", 0x3AB5B0, 0x17
+	.global gTextL4_1060
+gTextL4_1060:
+	.incbin "baserom.gba", 0x3AB5C7, 0x1B
+	.global gTextL4_1061
+gTextL4_1061:
+	.incbin "baserom.gba", 0x3AB5E2, 0x1F
+	.global gTextL4_1062
+gTextL4_1062:
+	.incbin "baserom.gba", 0x3AB601, 0x1F
+	.global gTextL4_1063
+gTextL4_1063:
+	.incbin "baserom.gba", 0x3AB620, 0x1F
+	.global gTextL4_1064
+gTextL4_1064:
+	.incbin "baserom.gba", 0x3AB63F, 0x1E
+	.global gTextL4_1065
+gTextL4_1065:
+	.incbin "baserom.gba", 0x3AB65D, 0x20
+	.global gTextL4_1066
+gTextL4_1066:
+	.incbin "baserom.gba", 0x3AB67D, 0x1E
+	.global gTextL4_1067
+gTextL4_1067:
+	.incbin "baserom.gba", 0x3AB69B, 0x1B
+	.global gTextL4_1068
+gTextL4_1068:
+	.incbin "baserom.gba", 0x3AB6B6, 0x1C
+	.global gTextL4_1069
+gTextL4_1069:
+	.incbin "baserom.gba", 0x3AB6D2, 0x16
+	.global gTextL4_1070
+gTextL4_1070:
+	.incbin "baserom.gba", 0x3AB6E8, 0xF
+	.global gTextL4_1071
+gTextL4_1071:
+	.incbin "baserom.gba", 0x3AB6F7, 0xC
+	.global gTextL4_1072
+gTextL4_1072:
+	.incbin "baserom.gba", 0x3AB703, 0x3C
+	.global gTextL4_1073
+gTextL4_1073:
+	.incbin "baserom.gba", 0x3AB73F, 0x8
+	.global gTextL4_1074
+gTextL4_1074:
+	.incbin "baserom.gba", 0x3AB747, 0x3F
+	.global gTextL4_1075
+gTextL4_1075:
+	.incbin "baserom.gba", 0x3AB786, 0xB
+	.global gTextL4_1076
+gTextL4_1076:
+	.incbin "baserom.gba", 0x3AB791, 0x40
+	.global gTextL4_1077
+gTextL4_1077:
+	.incbin "baserom.gba", 0x3AB7D1, 0xD
+	.global gTextL4_1078
+gTextL4_1078:
+	.incbin "baserom.gba", 0x3AB7DE, 0x3A
+	.global gTextL4_1079
+gTextL4_1079:
+	.incbin "baserom.gba", 0x3AB818, 0xD
+	.global gTextL4_1080
+gTextL4_1080:
+	.incbin "baserom.gba", 0x3AB825, 0x43
+	.global gTextL4_1081
+gTextL4_1081:
+	.incbin "baserom.gba", 0x3AB868, 0xA
+	.global gTextL4_1082
+gTextL4_1082:
+	.incbin "baserom.gba", 0x3AB872, 0x3C
+	.global gTextL4_1083
+gTextL4_1083:
+	.incbin "baserom.gba", 0x3AB8AE, 0x19
+	.global gTextL4_1084
+gTextL4_1084:
+	.incbin "baserom.gba", 0x3AB8C7, 0x46
+	.global gTextL4_1085
+gTextL4_1085:
+	.incbin "baserom.gba", 0x3AB90D, 0x9
+	.global gTextL4_1086
+gTextL4_1086:
+	.incbin "baserom.gba", 0x3AB916, 0x45
+	.global gTextL4_1087
+gTextL4_1087:
+	.incbin "baserom.gba", 0x3AB95B, 0x14
+	.global gTextL4_1088
+gTextL4_1088:
+	.incbin "baserom.gba", 0x3AB96F, 0x3B
+	.global gTextL4_1089
+gTextL4_1089:
+	.incbin "baserom.gba", 0x3AB9AA, 0x1C
+	.global gTextL4_1090
+gTextL4_1090:
+	.incbin "baserom.gba", 0x3AB9C6, 0x18
+	.global gTextL4_1091
+gTextL4_1091:
+	.incbin "baserom.gba", 0x3AB9DE, 0x10
+	.global gTextL4_1092
+gTextL4_1092:
+	.incbin "baserom.gba", 0x3AB9EE, 0x18
+	.global gTextL4_1093
+gTextL4_1093:
+	.incbin "baserom.gba", 0x3ABA06, 0x19
+	.global gTextL4_1094
+gTextL4_1094:
+	.incbin "baserom.gba", 0x3ABA1F, 0x1B
+	.global gTextL4_1095
+gTextL4_1095:
+	.incbin "baserom.gba", 0x3ABA3A, 0x12
+	.global gTextL4_1096
+gTextL4_1096:
+	.incbin "baserom.gba", 0x3ABA4C, 0x15
+	.global gTextL4_1097
+gTextL4_1097:
+	.incbin "baserom.gba", 0x3ABA61, 0xF
+	.global gTextL4_1098
+gTextL4_1098:
+	.incbin "baserom.gba", 0x3ABA70, 0x20
+	.global gTextL4_1099
+gTextL4_1099:
+	.incbin "baserom.gba", 0x3ABA90, 0xF
+	.global gTextL4_1100
+gTextL4_1100:
+	.incbin "baserom.gba", 0x3ABA9F, 0x11
+	.global gTextL4_1101
+gTextL4_1101:
+	.incbin "baserom.gba", 0x3ABAB0, 0x20
+	.global gTextL4_1102
+gTextL4_1102:
+	.incbin "baserom.gba", 0x3ABAD0, 0x16
+	.global gTextL4_1103
+gTextL4_1103:
+	.incbin "baserom.gba", 0x3ABAE6, 0x20
+	.global gTextL4_1104
+gTextL4_1104:
+	.incbin "baserom.gba", 0x3ABB06, 0x1F
+	.global gTextL4_1105
+gTextL4_1105:
+	.incbin "baserom.gba", 0x3ABB25, 0x110
+	.global gTextL4_1106
+gTextL4_1106:
+	.incbin "baserom.gba", 0x3ABC35, 0xA7
+	.global gTextL4_1107
+gTextL4_1107:
+	.incbin "baserom.gba", 0x3ABCDC, 0x104
+	.global gTextL4_1108
+gTextL4_1108:
+	.incbin "baserom.gba", 0x3ABDE0, 0x8
+	.global gTextL4_1109
+gTextL4_1109:
+	.incbin "baserom.gba", 0x3ABDE8, 0x9
+	.global gTextL4_1110
+gTextL4_1110:
+	.incbin "baserom.gba", 0x3ABDF1, 0x9
+	.global gTextL4_1111
+gTextL4_1111:
+	.incbin "baserom.gba", 0x3ABDFA, 0x9
+	.global gTextL4_1112
+gTextL4_1112:
+	.incbin "baserom.gba", 0x3ABE03, 0x9
+	.global gTextL4_1113
+gTextL4_1113:
+	.incbin "baserom.gba", 0x3ABE0C, 0x9
+	.global gTextL4_1114
+gTextL4_1114:
+	.incbin "baserom.gba", 0x3ABE15, 0xB
+	.global gTextL4_1115
+gTextL4_1115:
+	.incbin "baserom.gba", 0x3ABE20, 0xA
+	.global gTextL4_1116
+gTextL4_1116:
+	.incbin "baserom.gba", 0x3ABE2A, 0xB
+	.global gTextL4_1117
+gTextL4_1117:
+	.incbin "baserom.gba", 0x3ABE35, 0x2C
+	.global gTextL4_1118
+gTextL4_1118:
+	.incbin "baserom.gba", 0x3ABE61, 0x22
+	.global gTextL4_1119
+gTextL4_1119:
+	.incbin "baserom.gba", 0x3ABE83, 0x3A
+	.global gTextL4_1120
+gTextL4_1120:
+	.incbin "baserom.gba", 0x3ABEBD, 0x70
+	.global gTextL4_1121
+gTextL4_1121:
+	.incbin "baserom.gba", 0x3ABF2D, 0x64
+	.global gTextL4_1122
+gTextL4_1122:
+	.incbin "baserom.gba", 0x3ABF91, 0x55
+	.global gTextL4_1123
+gTextL4_1123:
+	.incbin "baserom.gba", 0x3ABFE6, 0x5C
+	.global gTextL4_1124
+gTextL4_1124:
+	.incbin "baserom.gba", 0x3AC042, 0x3A
+	.global gTextL4_1125
+gTextL4_1125:
+	.incbin "baserom.gba", 0x3AC07C, 0x36
+	.global gTextL4_1126
+gTextL4_1126:
+	.incbin "baserom.gba", 0x3AC0B2, 0x51
+	.global gTextL4_1127
+gTextL4_1127:
+	.incbin "baserom.gba", 0x3AC103, 0x2C
+	.global gTextL4_1128
+gTextL4_1128:
+	.incbin "baserom.gba", 0x3AC12F, 0x32
+	.global gTextL4_1129
+gTextL4_1129:
+	.incbin "baserom.gba", 0x3AC161, 0x6B
+	.global gTextL4_1130
+gTextL4_1130:
+	.incbin "baserom.gba", 0x3AC1CC, 0x9
+	.global gTextL4_1131
+gTextL4_1131:
+	.incbin "baserom.gba", 0x3AC1D5, 0x64
+	.global gTextL4_1132
+gTextL4_1132:
+	.incbin "baserom.gba", 0x3AC239, 0x5B
+	.global gTextL4_1133
+gTextL4_1133:
+	.incbin "baserom.gba", 0x3AC294, 0x58
+	.global gTextL4_1134
+gTextL4_1134:
+	.incbin "baserom.gba", 0x3AC2EC, 0x3C
+	.global gTextL4_1135
+gTextL4_1135:
+	.incbin "baserom.gba", 0x3AC328, 0x39
+	.global gTextL4_1136
+gTextL4_1136:
+	.incbin "baserom.gba", 0x3AC361, 0x1C
+	.global gTextL4_1137
+gTextL4_1137:
+	.incbin "baserom.gba", 0x3AC37D, 0x43
+	.global gTextL4_1138
+gTextL4_1138:
+	.incbin "baserom.gba", 0x3AC3C0, 0x32
+	.global gTextL4_1139
+gTextL4_1139:
+	.incbin "baserom.gba", 0x3AC3F2, 0x2F
+	.global gTextL4_1140
+gTextL4_1140:
+	.incbin "baserom.gba", 0x3AC421, 0x76
+	.global gTextL4_1141
+gTextL4_1141:
+	.incbin "baserom.gba", 0x3AC497, 0x2C
+	.global gTextL4_1142
+gTextL4_1142:
+	.incbin "baserom.gba", 0x3AC4C3, 0x63
+	.global gTextL4_1143
+gTextL4_1143:
+	.incbin "baserom.gba", 0x3AC526, 0x66
+	.global gTextL4_1144
+gTextL4_1144:
+	.incbin "baserom.gba", 0x3AC58C, 0x57
+	.global gTextL4_1145
+gTextL4_1145:
+	.incbin "baserom.gba", 0x3AC5E3, 0x1F
+	.global gTextL4_1146
+gTextL4_1146:
+	.incbin "baserom.gba", 0x3AC602, 0x25
+	.global gTextL4_1147
+gTextL4_1147:
+	.incbin "baserom.gba", 0x3AC627, 0x3F
+	.global gTextL4_1148
+gTextL4_1148:
+	.incbin "baserom.gba", 0x3AC666, 0x14
+	.global gTextL4_1149
+gTextL4_1149:
+	.incbin "baserom.gba", 0x3AC67A, 0x1C
+	.global gTextL4_1150
+gTextL4_1150:
+	.incbin "baserom.gba", 0x3AC696, 0x25
+	.global gTextL4_1151
+gTextL4_1151:
+	.incbin "baserom.gba", 0x3AC6BB, 0x15A
+	.global gTextL4_1152
+gTextL4_1152:
+	.incbin "baserom.gba", 0x3AC815, 0xCE
+	.global gTextL4_1153
+gTextL4_1153:
+	.incbin "baserom.gba", 0x3AC8E3, 0xEE
+	.global gTextL4_1154
+gTextL4_1154:
+	.incbin "baserom.gba", 0x3AC9D1, 0x3E
+	.global gTextL4_1155
+gTextL4_1155:
+	.incbin "baserom.gba", 0x3ACA0F, 0x8
+	.global gTextL4_1156
+gTextL4_1156:
+	.incbin "baserom.gba", 0x3ACA17, 0x1D
+	.global gTextL4_1157
+gTextL4_1157:
+	.incbin "baserom.gba", 0x3ACA34, 0x26
+	.global gTextL4_1158
+gTextL4_1158:
+	.incbin "baserom.gba", 0x3ACA5A, 0x3F
+	.global gTextL4_1159
+gTextL4_1159:
+	.incbin "baserom.gba", 0x3ACA99, 0x65
+	.global gTextL4_1160
+gTextL4_1160:
+	.incbin "baserom.gba", 0x3ACAFE, 0x60
+	.global gTextL4_1161
+gTextL4_1161:
+	.incbin "baserom.gba", 0x3ACB5E, 0x5
+	.global gTextL4_1162
+gTextL4_1162:
+	.incbin "baserom.gba", 0x3ACB63, 0x32
+	.global gTextL4_1163
+gTextL4_1163:
+	.incbin "baserom.gba", 0x3ACB95, 0x42
+	.global gTextL4_1164
+gTextL4_1164:
+	.incbin "baserom.gba", 0x3ACBD7, 0x38
+	.global gTextL4_1165
+gTextL4_1165:
+	.incbin "baserom.gba", 0x3ACC0F, 0x2D
+	.global gTextL4_1166
+gTextL4_1166:
+	.incbin "baserom.gba", 0x3ACC3C, 0x3F
+	.global gTextL4_1167
+gTextL4_1167:
+	.incbin "baserom.gba", 0x3ACC7B, 0x14
+	.global gTextL4_1168
+gTextL4_1168:
+	.incbin "baserom.gba", 0x3ACC8F, 0x2C
+	.global gTextL4_1169
+gTextL4_1169:
+	.incbin "baserom.gba", 0x3ACCBB, 0x29
+	.global gTextL4_1170
+gTextL4_1170:
+	.incbin "baserom.gba", 0x3ACCE4, 0x34
+	.global gTextL4_1171
+gTextL4_1171:
+	.incbin "baserom.gba", 0x3ACD18, 0x20
+	.global gTextL4_1172
+gTextL4_1172:
+	.incbin "baserom.gba", 0x3ACD38, 0x29
+	.global gTextL4_1173
+gTextL4_1173:
+	.incbin "baserom.gba", 0x3ACD61, 0x23
+	.global gTextL4_1174
+gTextL4_1174:
+	.incbin "baserom.gba", 0x3ACD84, 0x57
+	.global gTextL4_1175
+gTextL4_1175:
+	.incbin "baserom.gba", 0x3ACDDB, 0x21
+	.global gTextL4_1176
+gTextL4_1176:
+	.incbin "baserom.gba", 0x3ACDFC, 0x16
+	.global gTextL4_1177
+gTextL4_1177:
+	.incbin "baserom.gba", 0x3ACE12, 0x1E
+	.global gTextL4_1178
+gTextL4_1178:
+	.incbin "baserom.gba", 0x3ACE30, 0x19F
+	.global gTextL4_1179
+gTextL4_1179:
+	.incbin "baserom.gba", 0x3ACFCF, 0x7F
+	.global gTextL4_1180
+gTextL4_1180:
+	.incbin "baserom.gba", 0x3AD04E, 0x89
+	.global gTextL4_1181
+gTextL4_1181:
+	.incbin "baserom.gba", 0x3AD0D7, 0x7
+	.global gTextL4_1182
+gTextL4_1182:
+	.incbin "baserom.gba", 0x3AD0DE, 0x11
+	.global gTextL4_1183
+gTextL4_1183:
+	.incbin "baserom.gba", 0x3AD0EF, 0x17
+	.global gTextL4_1184
+gTextL4_1184:
+	.incbin "baserom.gba", 0x3AD106, 0x17
+	.global gTextL4_1185
+gTextL4_1185:
+	.incbin "baserom.gba", 0x3AD11D, 0x17
+	.global gTextL4_1186
+gTextL4_1186:
+	.incbin "baserom.gba", 0x3AD134, 0x17
+	.global gTextL4_1187
+gTextL4_1187:
+	.incbin "baserom.gba", 0x3AD14B, 0x17
+	.global gTextL4_1188
+gTextL4_1188:
+	.incbin "baserom.gba", 0x3AD162, 0x17
+	.global gTextL4_1189
+gTextL4_1189:
+	.incbin "baserom.gba", 0x3AD179, 0x17
+	.global gTextL4_1190
+gTextL4_1190:
+	.incbin "baserom.gba", 0x3AD190, 0x17
+	.global gTextL4_1191
+gTextL4_1191:
+	.incbin "baserom.gba", 0x3AD1A7, 0x17
+	.global gTextL4_1192
+gTextL4_1192:
+	.incbin "baserom.gba", 0x3AD1BE, 0x18
+	.global gTextL4_1193
+gTextL4_1193:
+	.incbin "baserom.gba", 0x3AD1D6, 0x14
+	.global gTextL4_1194
+gTextL4_1194:
+	.incbin "baserom.gba", 0x3AD1EA, 0x17
+	.global gTextL4_1195
+gTextL4_1195:
+	.incbin "baserom.gba", 0x3AD201, 0x1C
+	.global gTextL4_1196
+gTextL4_1196:
+	.incbin "baserom.gba", 0x3AD21D, 0x14
+	.global gTextL4_1197
+gTextL4_1197:
+	.incbin "baserom.gba", 0x3AD231, 0x19
+	.global gTextL4_1198
+gTextL4_1198:
+	.incbin "baserom.gba", 0x3AD24A, 0x1C
+	.global gTextL4_1199
+gTextL4_1199:
+	.incbin "baserom.gba", 0x3AD266, 0x17
+	.global gTextL4_1200
+gTextL4_1200:
+	.incbin "baserom.gba", 0x3AD27D, 0x15
+	.global gTextL4_1201
+gTextL4_1201:
+	.incbin "baserom.gba", 0x3AD292, 0x17
+	.global gTextL4_1202
+gTextL4_1202:
+	.incbin "baserom.gba", 0x3AD2A9, 0x16
+	.global gTextL4_1203
+gTextL4_1203:
+	.incbin "baserom.gba", 0x3AD2BF, 0x17
+	.global gTextL4_1204
+gTextL4_1204:
+	.incbin "baserom.gba", 0x3AD2D6, 0x10
+	.global gTextL4_1205
+gTextL4_1205:
+	.incbin "baserom.gba", 0x3AD2E6, 0x1A
+	.global gTextL4_1206
+gTextL4_1206:
+	.incbin "baserom.gba", 0x3AD300, 0x13
+	.global gTextL4_1207
+gTextL4_1207:
+	.incbin "baserom.gba", 0x3AD313, 0x14
+	.global gTextL4_1208
+gTextL4_1208:
+	.incbin "baserom.gba", 0x3AD327, 0x1A
+	.global gTextL4_1209
+gTextL4_1209:
+	.incbin "baserom.gba", 0x3AD341, 0x1A
+	.global gTextL4_1210
+gTextL4_1210:
+	.incbin "baserom.gba", 0x3AD35B, 0x1B
+	.global gTextL4_1211
+gTextL4_1211:
+	.incbin "baserom.gba", 0x3AD376, 0x1B
+	.global gTextL4_1212
+gTextL4_1212:
+	.incbin "baserom.gba", 0x3AD391, 0x15
+	.global gTextL4_1213
+gTextL4_1213:
+	.incbin "baserom.gba", 0x3AD3A6, 0x23
+	.global gTextL4_1214
+gTextL4_1214:
+	.incbin "baserom.gba", 0x3AD3C9, 0x1C
+	.global gTextL4_1215
+gTextL4_1215:
+	.incbin "baserom.gba", 0x3AD3E5, 0x1C
+	.global gTextL4_1216
+gTextL4_1216:
+	.incbin "baserom.gba", 0x3AD401, 0x17
+	.global gTextL4_1217
+gTextL4_1217:
+	.incbin "baserom.gba", 0x3AD418, 0xA
+	.global gTextL4_1218
+gTextL4_1218:
+	.incbin "baserom.gba", 0x3AD422, 0xA
+	.global gTextL4_1219
+gTextL4_1219:
+	.incbin "baserom.gba", 0x3AD42C, 0xB
+	.global gTextL4_1220
+gTextL4_1220:
+	.incbin "baserom.gba", 0x3AD437, 0xB
+	.global gTextL4_1221
+gTextL4_1221:
+	.incbin "baserom.gba", 0x3AD442, 0xB
+	.global gTextL4_1222
+gTextL4_1222:
+	.incbin "baserom.gba", 0x3AD44D, 0xB
+	.global gTextL4_1223
+gTextL4_1223:
+	.incbin "baserom.gba", 0x3AD458, 0xB
+	.global gTextL4_1224
+gTextL4_1224:
+	.incbin "baserom.gba", 0x3AD463, 0xB
+	.global gTextL4_1225
+gTextL4_1225:
+	.incbin "baserom.gba", 0x3AD46E, 0xB
+	.global gTextL4_1226
+gTextL4_1226:
+	.incbin "baserom.gba", 0x3AD479, 0xB
+	.global gTextL4_1227
+gTextL4_1227:
+	.incbin "baserom.gba", 0x3AD484, 0xB
+	.global gTextL4_1228
+gTextL4_1228:
+	.incbin "baserom.gba", 0x3AD48F, 0xB
+	.global gTextL4_1229
+gTextL4_1229:
+	.incbin "baserom.gba", 0x3AD49A, 0xB
+	.global gTextL4_1230
+gTextL4_1230:
+	.incbin "baserom.gba", 0x3AD4A5, 0xC
+	.global gTextL4_1231
+gTextL4_1231:
+	.incbin "baserom.gba", 0x3AD4B1, 0xA
+	.global gTextL4_1232
+gTextL4_1232:
+	.incbin "baserom.gba", 0x3AD4BB, 0x8
+	.global gTextL4_1233
+gTextL4_1233:
+	.incbin "baserom.gba", 0x3AD4C3, 0xC
+	.global gTextL4_1234
+gTextL4_1234:
+	.incbin "baserom.gba", 0x3AD4CF, 0x9
+	.global gTextL4_1235
+gTextL4_1235:
+	.incbin "baserom.gba", 0x3AD4D8, 0xB
+	.global gTextL4_1236
+gTextL4_1236:
+	.incbin "baserom.gba", 0x3AD4E3, 0xD
+	.global gTextL4_1237
+gTextL4_1237:
+	.incbin "baserom.gba", 0x3AD4F0, 0x8
+	.global gTextL4_1238
+gTextL4_1238:
+	.incbin "baserom.gba", 0x3AD4F8, 0xB
+	.global gTextL4_1239
+gTextL4_1239:
+	.incbin "baserom.gba", 0x3AD503, 0x17
+	.global gTextL4_1240
+gTextL4_1240:
+	.incbin "baserom.gba", 0x3AD51A, 0xA
+	.global gTextL4_1241
+gTextL4_1241:
+	.incbin "baserom.gba", 0x3AD524, 0x10
+	.global gTextL4_1242
+gTextL4_1242:
+	.incbin "baserom.gba", 0x3AD534, 0xC
+	.global gTextL4_1243
+gTextL4_1243:
+	.incbin "baserom.gba", 0x3AD540, 0xC
+	.global gTextL4_1244
+gTextL4_1244:
+	.incbin "baserom.gba", 0x3AD54C, 0x14
+	.global gTextL4_1245
+gTextL4_1245:
+	.incbin "baserom.gba", 0x3AD560, 0xD
+	.global gTextL4_1246
+gTextL4_1246:
+	.incbin "baserom.gba", 0x3AD56D, 0x9
+	.global gTextL4_1247
+gTextL4_1247:
+	.incbin "baserom.gba", 0x3AD576, 0xC
+	.global gTextL4_1248
+gTextL4_1248:
+	.incbin "baserom.gba", 0x3AD582, 0x18
+	.global gTextL4_1249
+gTextL4_1249:
+	.incbin "baserom.gba", 0x3AD59A, 0x17
+	.global gTextL4_1250
+gTextL4_1250:
+	.incbin "baserom.gba", 0x3AD5B1, 0xAE
+	.global gTextL4_1251
+gTextL4_1251:
+	.incbin "baserom.gba", 0x3AD65F, 0x117
+	.global gTextL4_1252
+gTextL4_1252:
+	.incbin "baserom.gba", 0x3AD776, 0x134
+	.global gTextL4_1253
+gTextL4_1253:
+	.incbin "baserom.gba", 0x3AD8AA, 0x16C
+	.global gTextL4_1254
+gTextL4_1254:
+	.incbin "baserom.gba", 0x3ADA16, 0x10A
+	.global gTextL4_1255
+gTextL4_1255:
+	.incbin "baserom.gba", 0x3ADB20, 0x15D
+	.global gTextL4_1256
+gTextL4_1256:
+	.incbin "baserom.gba", 0x3ADC7D, 0x224
+	.global gTextL4_1257
+gTextL4_1257:
+	.incbin "baserom.gba", 0x3ADEA1, 0x7E
+	.global gTextL4_1258
+gTextL4_1258:
+	.incbin "baserom.gba", 0x3ADF1F, 0x1A
+	.global gTextL4_1259
+gTextL4_1259:
+	.incbin "baserom.gba", 0x3ADF39, 0x65
+	.global gTextL4_1260
+gTextL4_1260:
+	.incbin "baserom.gba", 0x3ADF9E, 0x35
+	.global gTextL4_1261
+gTextL4_1261:
+	.incbin "baserom.gba", 0x3ADFD3, 0x1D
+	.global gTextL4_1262
+gTextL4_1262:
+	.incbin "baserom.gba", 0x3ADFF0, 0x1A
+	.global gTextL4_1263
+gTextL4_1263:
+	.incbin "baserom.gba", 0x3AE00A, 0x1A
+	.global gTextL4_1264
+gTextL4_1264:
+	.incbin "baserom.gba", 0x3AE024, 0x1A
+	.global gTextL4_1265
+gTextL4_1265:
+	.incbin "baserom.gba", 0x3AE03E, 0x1A
+	.global gTextL4_1266
+gTextL4_1266:
+	.incbin "baserom.gba", 0x3AE058, 0x1A
+	.global gTextL4_1267
+gTextL4_1267:
+	.incbin "baserom.gba", 0x3AE072, 0x1A
+	.global gTextL4_1268
+gTextL4_1268:
+	.incbin "baserom.gba", 0x3AE08C, 0x1A
+	.global gTextL4_1269
+gTextL4_1269:
+	.incbin "baserom.gba", 0x3AE0A6, 0x1A
+	.global gTextL4_1270
+gTextL4_1270:
+	.incbin "baserom.gba", 0x3AE0C0, 0x1A
+	.global gTextL4_1271
+gTextL4_1271:
+	.incbin "baserom.gba", 0x3AE0DA, 0x1B
+	.global gTextL4_1272
+gTextL4_1272:
+	.incbin "baserom.gba", 0x3AE0F5, 0x29
+	.global gTextL4_1273
+gTextL4_1273:
+	.incbin "baserom.gba", 0x3AE11E, 0x29
+	.global gTextL4_1274
+gTextL4_1274:
+	.incbin "baserom.gba", 0x3AE147, 0x16
+	.global gTextL4_1275
+gTextL4_1275:
+	.incbin "baserom.gba", 0x3AE15D, 0x36
+	.global gTextL4_1276
+gTextL4_1276:
+	.incbin "baserom.gba", 0x3AE193, 0x33
+	.global gTextL4_1277
+gTextL4_1277:
+	.incbin "baserom.gba", 0x3AE1C6, 0x33
+	.global gTextL4_1278
+gTextL4_1278:
+	.incbin "baserom.gba", 0x3AE1F9, 0x33
+	.global gTextL4_1279
+gTextL4_1279:
+	.incbin "baserom.gba", 0x3AE22C, 0x33
+	.global gTextL4_1280
+gTextL4_1280:
+	.incbin "baserom.gba", 0x3AE25F, 0x33
+	.global gTextL4_1281
+gTextL4_1281:
+	.incbin "baserom.gba", 0x3AE292, 0x33
+	.global gTextL4_1282
+gTextL4_1282:
+	.incbin "baserom.gba", 0x3AE2C5, 0x33
+	.global gTextL4_1283
+gTextL4_1283:
+	.incbin "baserom.gba", 0x3AE2F8, 0x34
+	.global gTextL4_1284
+gTextL4_1284:
+	.incbin "baserom.gba", 0x3AE32C, 0x1A
+	.global gTextL4_1285
+gTextL4_1285:
+	.incbin "baserom.gba", 0x3AE346, 0x1B
+	.global gTextL4_1286
+gTextL4_1286:
+	.incbin "baserom.gba", 0x3AE361, 0x1B
+	.global gTextL4_1287
+gTextL4_1287:
+	.incbin "baserom.gba", 0x3AE37C, 0x1C
+	.global gTextL4_1288
+gTextL4_1288:
+	.incbin "baserom.gba", 0x3AE398, 0x29
+	.global gTextL4_1289
+gTextL4_1289:
+	.incbin "baserom.gba", 0x3AE3C1, 0x2E
+	.global gTextL4_1290
+gTextL4_1290:
+	.incbin "baserom.gba", 0x3AE3EF, 0x32
+	.global gTextL4_1291
+gTextL4_1291:
+	.incbin "baserom.gba", 0x3AE421, 0x36
+	.global gTextL4_1292
+gTextL4_1292:
+	.incbin "baserom.gba", 0x3AE457, 0x30
+	.global gTextL4_1293
+gTextL4_1293:
+	.incbin "baserom.gba", 0x3AE487, 0x67
+	.global gTextL4_1294
+gTextL4_1294:
+	.incbin "baserom.gba", 0x3AE4EE, 0x50
+	.global gTextL4_1295
+gTextL4_1295:
+	.incbin "baserom.gba", 0x3AE53E, 0x38
+	.global gTextL4_1296
+gTextL4_1296:
+	.incbin "baserom.gba", 0x3AE576, 0x2A
+	.global gTextL4_1297
+gTextL4_1297:
+	.incbin "baserom.gba", 0x3AE5A0, 0x4E
+	.global gTextL4_1298
+gTextL4_1298:
+	.incbin "baserom.gba", 0x3AE5EE, 0x36
+	.global gTextL4_1299
+gTextL4_1299:
+	.incbin "baserom.gba", 0x3AE624, 0x46
+	.global gTextL4_1300
+gTextL4_1300:
+	.incbin "baserom.gba", 0x3AE66A, 0x50
+	.global gTextL4_1301
+gTextL4_1301:
+	.incbin "baserom.gba", 0x3AE6BA, 0x2C
+	.global gTextL4_1302
+gTextL4_1302:
+	.incbin "baserom.gba", 0x3AE6E6, 0x5F
+	.global gTextL4_1303
+gTextL4_1303:
+	.incbin "baserom.gba", 0x3AE745, 0x59
+	.global gTextL4_1304
+gTextL4_1304:
+	.incbin "baserom.gba", 0x3AE79E, 0x3B
+	.global gTextL4_1305
+gTextL4_1305:
+	.incbin "baserom.gba", 0x3AE7D9, 0x3E
+	.global gTextL4_1306
+gTextL4_1306:
+	.incbin "baserom.gba", 0x3AE817, 0x62
+	.global gTextL4_1307
+gTextL4_1307:
+	.incbin "baserom.gba", 0x3AE879, 0x66
+	.global gTextL4_1308
+gTextL4_1308:
+	.incbin "baserom.gba", 0x3AE8DF, 0x79
+	.global gTextL4_1309
+gTextL4_1309:
+	.incbin "baserom.gba", 0x3AE958, 0x73
+	.global gTextL4_1310
+gTextL4_1310:
+	.incbin "baserom.gba", 0x3AE9CB, 0x73
+	.global gTextL4_1311
+gTextL4_1311:
+	.incbin "baserom.gba", 0x3AEA3E, 0x67
+	.global gTextL4_1312
+gTextL4_1312:
+	.incbin "baserom.gba", 0x3AEAA5, 0x4C
+	.global gTextL4_1313
+gTextL4_1313:
+	.incbin "baserom.gba", 0x3AEAF1, 0x39
+	.global gTextL4_1314
+gTextL4_1314:
+	.incbin "baserom.gba", 0x3AEB2A, 0x4B
+	.global gTextL4_1315
+gTextL4_1315:
+	.incbin "baserom.gba", 0x3AEB75, 0x89
+	.global gTextL4_1316
+gTextL4_1316:
+	.incbin "baserom.gba", 0x3AEBFE, 0x78
+	.global gTextL4_1317
+gTextL4_1317:
+	.incbin "baserom.gba", 0x3AEC76, 0x73
+	.global gTextL4_1318
+gTextL4_1318:
+	.incbin "baserom.gba", 0x3AECE9, 0x62
+	.global gTextL4_1319
+gTextL4_1319:
+	.incbin "baserom.gba", 0x3AED4B, 0x35
+	.global gTextL4_1320
+gTextL4_1320:
+	.incbin "baserom.gba", 0x3AED80, 0x44
+	.global gTextL4_1321
+gTextL4_1321:
+	.incbin "baserom.gba", 0x3AEDC4, 0x5
+	.global gTextL4_1322
+gTextL4_1322:
+	.incbin "baserom.gba", 0x3AEDC9, 0x5
+	.global gTextL4_1323
+gTextL4_1323:
+	.incbin "baserom.gba", 0x3AEDCE, 0x5
+	.global gTextL4_1324
+gTextL4_1324:
+	.incbin "baserom.gba", 0x3AEDD3, 0x5
+	.global gTextL4_1325
+gTextL4_1325:
+	.incbin "baserom.gba", 0x3AEDD8, 0x5
+	.global gTextL4_1326
+gTextL4_1326:
+	.incbin "baserom.gba", 0x3AEDDD, 0x5
+	.global gTextL4_1327
+gTextL4_1327:
+	.incbin "baserom.gba", 0x3AEDE2, 0x5
+	.global gTextL4_1328
+gTextL4_1328:
+	.incbin "baserom.gba", 0x3AEDE7, 0x5
+	.global gTextL4_1329
+gTextL4_1329:
+	.incbin "baserom.gba", 0x3AEDEC, 0x24
+	.global gTextL4_1330
+gTextL4_1330:
+	.incbin "baserom.gba", 0x3AEE10, 0x3E
+	.global gTextL4_1331
+gTextL4_1331:
+	.incbin "baserom.gba", 0x3AEE4E, 0x9
+	.global gTextL4_1332
+gTextL4_1332:
+	.incbin "baserom.gba", 0x3AEE57, 0x9
+	.global gTextL4_1333
+gTextL4_1333:
+	.incbin "baserom.gba", 0x3AEE60, 0x8
+	.global gTextL4_1334
+gTextL4_1334:
+	.incbin "baserom.gba", 0x3AEE68, 0x9
+	.global gTextL4_1335
+gTextL4_1335:
+	.incbin "baserom.gba", 0x3AEE71, 0x9
+	.global gTextL4_1336
+gTextL4_1336:
+	.incbin "baserom.gba", 0x3AEE7A, 0xB
+	.global gTextL4_1337
+gTextL4_1337:
+	.incbin "baserom.gba", 0x3AEE85, 0xA
+	.global gTextL4_1338
+gTextL4_1338:
+	.incbin "baserom.gba", 0x3AEE8F, 0x9
+	.global gTextL4_1339
+gTextL4_1339:
+	.incbin "baserom.gba", 0x3AEE98, 0xA
+	.global gTextL4_1340
+gTextL4_1340:
+	.incbin "baserom.gba", 0x3AEEA2, 0xA
+	.global gTextL4_1341
+gTextL4_1341:
+	.incbin "baserom.gba", 0x3AEEAC, 0xB
+	.global gTextL4_1342
+gTextL4_1342:
+	.incbin "baserom.gba", 0x3AEEB7, 0xB
+	.global gTextL4_1343
+gTextL4_1343:
+	.incbin "baserom.gba", 0x3AEEC2, 0xB
+	.global gTextL4_1344
+gTextL4_1344:
+	.incbin "baserom.gba", 0x3AEECD, 0xD
+	.global gTextL4_1345
+gTextL4_1345:
+	.incbin "baserom.gba", 0x3AEEDA, 0xB
+	.global gTextL4_1346
+gTextL4_1346:
+	.incbin "baserom.gba", 0x3AEEE5, 0x33
+	.global gTextL4_1347
+gTextL4_1347:
+	.incbin "baserom.gba", 0x3AEF18, 0x17
+	.global gTextL4_1348
+gTextL4_1348:
+	.incbin "baserom.gba", 0x3AEF2F, 0x33
+	.global gTextL4_1349
+gTextL4_1349:
+	.incbin "baserom.gba", 0x3AEF62, 0x2C
+	.global gTextL4_1350
+gTextL4_1350:
+	.incbin "baserom.gba", 0x3AEF8E, 0x2B
+	.global gTextL4_1351
+gTextL4_1351:
+	.incbin "baserom.gba", 0x3AEFB9, 0x31
+	.global gTextL4_1352
+gTextL4_1352:
+	.incbin "baserom.gba", 0x3AEFEA, 0x2A
+	.global gTextL4_1353
+gTextL4_1353:
+	.incbin "baserom.gba", 0x3AF014, 0x31
+	.global gTextL4_1354
+gTextL4_1354:
+	.incbin "baserom.gba", 0x3AF045, 0x30
+	.global gTextL4_1355
+gTextL4_1355:
+	.incbin "baserom.gba", 0x3AF075, 0x33
+	.global gTextL4_1356
+gTextL4_1356:
+	.incbin "baserom.gba", 0x3AF0A8, 0x2C
+	.global gTextL4_1357
+gTextL4_1357:
+	.incbin "baserom.gba", 0x3AF0D4, 0x33
+	.global gTextL4_1358
+gTextL4_1358:
+	.incbin "baserom.gba", 0x3AF107, 0x2E
+	.global gTextL4_1359
+gTextL4_1359:
+	.incbin "baserom.gba", 0x3AF135, 0x25
+	.global gTextL4_1360
+gTextL4_1360:
+	.incbin "baserom.gba", 0x3AF15A, 0x2F
+	.global gTextL4_1361
+gTextL4_1361:
+	.incbin "baserom.gba", 0x3AF189, 0x33
+	.global gTextL4_1362
+gTextL4_1362:
+	.incbin "baserom.gba", 0x3AF1BC, 0x2D
+	.global gTextL4_1363
+gTextL4_1363:
+	.incbin "baserom.gba", 0x3AF1E9, 0x31
+	.global gTextL4_1364
+gTextL4_1364:
+	.incbin "baserom.gba", 0x3AF21A, 0x20
+	.global gTextL4_1365
+gTextL4_1365:
+	.incbin "baserom.gba", 0x3AF23A, 0x31
+	.global gTextL4_1366
+gTextL4_1366:
+	.incbin "baserom.gba", 0x3AF26B, 0x2F
+	.global gTextL4_1367
+gTextL4_1367:
+	.incbin "baserom.gba", 0x3AF29A, 0x2A
+	.global gTextL4_1368
+gTextL4_1368:
+	.incbin "baserom.gba", 0x3AF2C4, 0x2E
+	.global gTextL4_1369
+gTextL4_1369:
+	.incbin "baserom.gba", 0x3AF2F2, 0x35
+	.global gTextL4_1370
+gTextL4_1370:
+	.incbin "baserom.gba", 0x3AF327, 0x2B
+	.global gTextL4_1371
+gTextL4_1371:
+	.incbin "baserom.gba", 0x3AF352, 0x39
+	.global gTextL4_1372
+gTextL4_1372:
+	.incbin "baserom.gba", 0x3AF38B, 0x2E
+	.global gTextL4_1373
+gTextL4_1373:
+	.incbin "baserom.gba", 0x3AF3B9, 0x38
+	.global gTextL4_1374
+gTextL4_1374:
+	.incbin "baserom.gba", 0x3AF3F1, 0x32
+	.global gTextL4_1375
+gTextL4_1375:
+	.incbin "baserom.gba", 0x3AF423, 0x35
+	.global gTextL4_1376
+gTextL4_1376:
+	.incbin "baserom.gba", 0x3AF458, 0x2B
+	.global gTextL4_1377
+gTextL4_1377:
+	.incbin "baserom.gba", 0x3AF483, 0x37
+	.global gTextL4_1378
+gTextL4_1378:
+	.incbin "baserom.gba", 0x3AF4BA, 0x2C
+	.global gTextL4_1379
+gTextL4_1379:
+	.incbin "baserom.gba", 0x3AF4E6, 0x2D
+	.global gTextL4_1380
+gTextL4_1380:
+	.incbin "baserom.gba", 0x3AF513, 0x36
+	.global gTextL4_1381
+gTextL4_1381:
+	.incbin "baserom.gba", 0x3AF549, 0x3B
+	.global gTextL4_1382
+gTextL4_1382:
+	.incbin "baserom.gba", 0x3AF584, 0x39
+	.global gTextL4_1383
+gTextL4_1383:
+	.incbin "baserom.gba", 0x3AF5BD, 0x3A
+	.global gTextL4_1384
+gTextL4_1384:
+	.incbin "baserom.gba", 0x3AF5F7, 0x39
+	.global gTextL4_1385
+gTextL4_1385:
+	.incbin "baserom.gba", 0x3AF630, 0x38
+	.global gTextL4_1386
+gTextL4_1386:
+	.incbin "baserom.gba", 0x3AF668, 0x32
+	.global gTextL4_1387
+gTextL4_1387:
+	.incbin "baserom.gba", 0x3AF69A, 0x34
+	.global gTextL4_1388
+gTextL4_1388:
+	.incbin "baserom.gba", 0x3AF6CE, 0x39
+	.global gTextL4_1389
+gTextL4_1389:
+	.incbin "baserom.gba", 0x3AF707, 0x38
+	.global gTextL4_1390
+gTextL4_1390:
+	.incbin "baserom.gba", 0x3AF73F, 0x32
+	.global gTextL4_1391
+gTextL4_1391:
+	.incbin "baserom.gba", 0x3AF771, 0x3A
+	.global gTextL4_1392
+gTextL4_1392:
+	.incbin "baserom.gba", 0x3AF7AB, 0x2D
+	.global gTextL4_1393
+gTextL4_1393:
+	.incbin "baserom.gba", 0x3AF7D8, 0x35
+	.global gTextL4_1394
+gTextL4_1394:
+	.incbin "baserom.gba", 0x3AF80D, 0x34
+	.global gTextL4_1395
+gTextL4_1395:
+	.incbin "baserom.gba", 0x3AF841, 0x2D
+	.global gTextL4_1396
+gTextL4_1396:
+	.incbin "baserom.gba", 0x3AF86E, 0x39
+	.global gTextL4_1397
+gTextL4_1397:
+	.incbin "baserom.gba", 0x3AF8A7, 0x38
+	.global gTextL4_1398
+gTextL4_1398:
+	.incbin "baserom.gba", 0x3AF8DF, 0x39
+	.global gTextL4_1399
+gTextL4_1399:
+	.incbin "baserom.gba", 0x3AF918, 0x37
+	.global gTextL4_1400
+gTextL4_1400:
+	.incbin "baserom.gba", 0x3AF94F, 0x31
+	.global gTextL4_1401
+gTextL4_1401:
+	.incbin "baserom.gba", 0x3AF980, 0x36
+	.global gTextL4_1402
+gTextL4_1402:
+	.incbin "baserom.gba", 0x3AF9B6, 0x2F
+	.global gTextL4_1403
+gTextL4_1403:
+	.incbin "baserom.gba", 0x3AF9E5, 0x39
+	.global gTextL4_1404
+gTextL4_1404:
+	.incbin "baserom.gba", 0x3AFA1E, 0x39
+	.global gTextL4_1405
+gTextL4_1405:
+	.incbin "baserom.gba", 0x3AFA57, 0x36
+	.global gTextL4_1406
+gTextL4_1406:
+	.incbin "baserom.gba", 0x3AFA8D, 0x30
+	.global gTextL4_1407
+gTextL4_1407:
+	.incbin "baserom.gba", 0x3AFABD, 0x34
+	.global gTextL4_1408
+gTextL4_1408:
+	.incbin "baserom.gba", 0x3AFAF1, 0x28
+	.global gTextL4_1409
+gTextL4_1409:
+	.incbin "baserom.gba", 0x3AFB19, 0x36
+	.global gTextL4_1410
+gTextL4_1410:
+	.incbin "baserom.gba", 0x3AFB4F, 0x2B
+	.global gTextL4_1411
+gTextL4_1411:
+	.incbin "baserom.gba", 0x3AFB7A, 0x27
+	.global gTextL4_1412
+gTextL4_1412:
+	.incbin "baserom.gba", 0x3AFBA1, 0x3B
+	.global gTextL4_1413
+gTextL4_1413:
+	.incbin "baserom.gba", 0x3AFBDC, 0x2D
+	.global gTextL4_1414
+gTextL4_1414:
+	.incbin "baserom.gba", 0x3AFC09, 0x32
+	.global gTextL4_1415
+gTextL4_1415:
+	.incbin "baserom.gba", 0x3AFC3B, 0x2A
+	.global gTextL4_1416
+gTextL4_1416:
+	.incbin "baserom.gba", 0x3AFC65, 0x3A
+	.global gTextL4_1417
+gTextL4_1417:
+	.incbin "baserom.gba", 0x3AFC9F, 0x33
+	.global gTextL4_1418
+gTextL4_1418:
+	.incbin "baserom.gba", 0x3AFCD2, 0x2D
+	.global gTextL4_1419
+gTextL4_1419:
+	.incbin "baserom.gba", 0x3AFCFF, 0x35
+	.global gTextL4_1420
+gTextL4_1420:
+	.incbin "baserom.gba", 0x3AFD34, 0x3B
+	.global gTextL4_1421
+gTextL4_1421:
+	.incbin "baserom.gba", 0x3AFD6F, 0x39
+	.global gTextL4_1422
+gTextL4_1422:
+	.incbin "baserom.gba", 0x3AFDA8, 0x37
+	.global gTextL4_1423
+gTextL4_1423:
+	.incbin "baserom.gba", 0x3AFDDF, 0x2A
+	.global gTextL4_1424
+gTextL4_1424:
+	.incbin "baserom.gba", 0x3AFE09, 0x32
+	.global gTextL4_1425
+gTextL4_1425:
+	.incbin "baserom.gba", 0x3AFE3B, 0x22
+	.global gTextL4_1426
+gTextL4_1426:
+	.incbin "baserom.gba", 0x3AFE5D, 0x2E
+	.global gTextL4_1427
+gTextL4_1427:
+	.incbin "baserom.gba", 0x3AFE8B, 0x32
+	.global gTextL4_1428
+gTextL4_1428:
+	.incbin "baserom.gba", 0x3AFEBD, 0x32
+	.global gTextL4_1429
+gTextL4_1429:
+	.incbin "baserom.gba", 0x3AFEEF, 0x37
+	.global gTextL4_1430
+gTextL4_1430:
+	.incbin "baserom.gba", 0x3AFF26, 0x2C
+	.global gTextL4_1431
+gTextL4_1431:
+	.incbin "baserom.gba", 0x3AFF52, 0x29
+	.global gTextL4_1432
+gTextL4_1432:
+	.incbin "baserom.gba", 0x3AFF7B, 0x37
+	.global gTextL4_1433
+gTextL4_1433:
+	.incbin "baserom.gba", 0x3AFFB2, 0x34
+	.global gTextL4_1434
+gTextL4_1434:
+	.incbin "baserom.gba", 0x3AFFE6, 0x2F
+	.global gTextL4_1435
+gTextL4_1435:
+	.incbin "baserom.gba", 0x3B0015, 0x1D
+	.global gTextL4_1436
+gTextL4_1436:
+	.incbin "baserom.gba", 0x3B0032, 0x30
+	.global gTextL4_1437
+gTextL4_1437:
+	.incbin "baserom.gba", 0x3B0062, 0x35
+	.global gTextL4_1438
+gTextL4_1438:
+	.incbin "baserom.gba", 0x3B0097, 0x20
+	.global gTextL4_1439
+gTextL4_1439:
+	.incbin "baserom.gba", 0x3B00B7, 0x36
+	.global gTextL4_1440
+gTextL4_1440:
+	.incbin "baserom.gba", 0x3B00ED, 0x38
+	.global gTextL4_1441
+gTextL4_1441:
+	.incbin "baserom.gba", 0x3B0125, 0x3B
+	.global gTextL4_1442
+gTextL4_1442:
+	.incbin "baserom.gba", 0x3B0160, 0x23
+	.global gTextL4_1443
+gTextL4_1443:
+	.incbin "baserom.gba", 0x3B0183, 0x37
+	.global gTextL4_1444
+gTextL4_1444:
+	.incbin "baserom.gba", 0x3B01BA, 0x39
+	.global gTextL4_1445
+gTextL4_1445:
+	.incbin "baserom.gba", 0x3B01F3, 0x34
+	.global gTextL4_1446
+gTextL4_1446:
+	.incbin "baserom.gba", 0x3B0227, 0x26
+	.global gTextL4_1447
+gTextL4_1447:
+	.incbin "baserom.gba", 0x3B024D, 0x27
+	.global gTextL4_1448
+gTextL4_1448:
+	.incbin "baserom.gba", 0x3B0274, 0x3A
+	.global gTextL4_1449
+gTextL4_1449:
+	.incbin "baserom.gba", 0x3B02AE, 0x1D
+	.global gTextL4_1450
+gTextL4_1450:
+	.incbin "baserom.gba", 0x3B02CB, 0x3B
+	.global gTextL4_1451
+gTextL4_1451:
+	.incbin "baserom.gba", 0x3B0306, 0x32
+	.global gTextL4_1452
+gTextL4_1452:
+	.incbin "baserom.gba", 0x3B0338, 0x37
+	.global gTextL4_1453
+gTextL4_1453:
+	.incbin "baserom.gba", 0x3B036F, 0x38
+	.global gTextL4_1454
+gTextL4_1454:
+	.incbin "baserom.gba", 0x3B03A7, 0x35
+	.global gTextL4_1455
+gTextL4_1455:
+	.incbin "baserom.gba", 0x3B03DC, 0x38
+	.global gTextL4_1456
+gTextL4_1456:
+	.incbin "baserom.gba", 0x3B0414, 0x38
+	.global gTextL4_1457
+gTextL4_1457:
+	.incbin "baserom.gba", 0x3B044C, 0x38
+	.global gTextL4_1458
+gTextL4_1458:
+	.incbin "baserom.gba", 0x3B0484, 0x26
+	.global gTextL4_1459
+gTextL4_1459:
+	.incbin "baserom.gba", 0x3B04AA, 0x3A
+	.global gTextL4_1460
+gTextL4_1460:
+	.incbin "baserom.gba", 0x3B04E4, 0x2F
+	.global gTextL4_1461
+gTextL4_1461:
+	.incbin "baserom.gba", 0x3B0513, 0x2E
+	.global gTextL4_1462
+gTextL4_1462:
+	.incbin "baserom.gba", 0x3B0541, 0x3C
+	.global gTextL4_1463
+gTextL4_1463:
+	.incbin "baserom.gba", 0x3B057D, 0x34
+	.global gTextL4_1464
+gTextL4_1464:
+	.incbin "baserom.gba", 0x3B05B1, 0x2C
+	.global gTextL4_1465
+gTextL4_1465:
+	.incbin "baserom.gba", 0x3B05DD, 0x2D
+	.global gTextL4_1466
+gTextL4_1466:
+	.incbin "baserom.gba", 0x3B060A, 0x35
+	.global gTextL4_1467
+gTextL4_1467:
+	.incbin "baserom.gba", 0x3B063F, 0x2E
+	.global gTextL4_1468
+gTextL4_1468:
+	.incbin "baserom.gba", 0x3B066D, 0x36
+	.global gTextL4_1469
+gTextL4_1469:
+	.incbin "baserom.gba", 0x3B06A3, 0x35
+	.global gTextL4_1470
+gTextL4_1470:
+	.incbin "baserom.gba", 0x3B06D8, 0x32
+	.global gTextL4_1471
+gTextL4_1471:
+	.incbin "baserom.gba", 0x3B070A, 0x37
+	.global gTextL4_1472
+gTextL4_1472:
+	.incbin "baserom.gba", 0x3B0741, 0x31
+	.global gTextL4_1473
+gTextL4_1473:
+	.incbin "baserom.gba", 0x3B0772, 0x33
+	.global gTextL4_1474
+gTextL4_1474:
+	.incbin "baserom.gba", 0x3B07A5, 0x2D
+	.global gTextL4_1475
+gTextL4_1475:
+	.incbin "baserom.gba", 0x3B07D2, 0x36
+	.global gTextL4_1476
+gTextL4_1476:
+	.incbin "baserom.gba", 0x3B0808, 0x26
+	.global gTextL4_1477
+gTextL4_1477:
+	.incbin "baserom.gba", 0x3B082E, 0x2A
+	.global gTextL4_1478
+gTextL4_1478:
+	.incbin "baserom.gba", 0x3B0858, 0x36
+	.global gTextL4_1479
+gTextL4_1479:
+	.incbin "baserom.gba", 0x3B088E, 0x33
+	.global gTextL4_1480
+gTextL4_1480:
+	.incbin "baserom.gba", 0x3B08C1, 0x30
+	.global gTextL4_1481
+gTextL4_1481:
+	.incbin "baserom.gba", 0x3B08F1, 0x34
+	.global gTextL4_1482
+gTextL4_1482:
+	.incbin "baserom.gba", 0x3B0925, 0x33
+	.global gTextL4_1483
+gTextL4_1483:
+	.incbin "baserom.gba", 0x3B0958, 0x29
+	.global gTextL4_1484
+gTextL4_1484:
+	.incbin "baserom.gba", 0x3B0981, 0x27
+	.global gTextL4_1485
+gTextL4_1485:
+	.incbin "baserom.gba", 0x3B09A8, 0x39
+	.global gTextL4_1486
+gTextL4_1486:
+	.incbin "baserom.gba", 0x3B09E1, 0x29
+	.global gTextL4_1487
+gTextL4_1487:
+	.incbin "baserom.gba", 0x3B0A0A, 0x35
+	.global gTextL4_1488
+gTextL4_1488:
+	.incbin "baserom.gba", 0x3B0A3F, 0x36
+	.global gTextL4_1489
+gTextL4_1489:
+	.incbin "baserom.gba", 0x3B0A75, 0x34
+	.global gTextL4_1490
+gTextL4_1490:
+	.incbin "baserom.gba", 0x3B0AA9, 0x2F
+	.global gTextL4_1491
+gTextL4_1491:
+	.incbin "baserom.gba", 0x3B0AD8, 0x39
+	.global gTextL4_1492
+gTextL4_1492:
+	.incbin "baserom.gba", 0x3B0B11, 0x3B
 	.global gUnk_083B0B4C
 gUnk_083B0B4C:
-	.incbin "baserom.gba", 0x3B0B4C, 0x27FA0
+	.4byte gUnk_0838C744
+	.4byte gTextL4_0001
+	.4byte gTextL4_0002
+	.4byte gTextL4_0003
+	.4byte gTextL4_0004
+	.4byte gTextL4_0005
+	.4byte gTextL4_0006
+	.4byte gTextL4_0007
+	.4byte gTextL4_0008
+	.4byte gTextL4_0009
+	.4byte gTextL4_0010
+	.4byte gTextL4_0011
+	.4byte gTextL4_0012
+	.4byte gTextL4_0013
+	.4byte gTextL4_0014
+	.4byte gTextL4_0015
+	.4byte gTextL4_0016
+	.4byte gTextL4_0017
+	.4byte gTextL4_0018
+	.4byte gTextL4_0019
+	.4byte gTextL4_0020
+	.4byte gTextL4_0021
+	.4byte gTextL4_0022
+	.4byte gTextL4_0023
+	.4byte gTextL4_0024
+	.4byte gTextL4_0025
+	.4byte gTextL4_0026
+	.4byte gTextL4_0027
+	.4byte gTextL4_0028
+	.4byte gTextL4_0029
+	.4byte gTextL4_0030
+	.4byte gTextL4_0031
+	.4byte gTextL4_0032
+	.4byte gTextL4_0033
+	.4byte gTextL4_0034
+	.4byte gTextL4_0035
+	.4byte gTextL4_0036
+	.4byte gTextL4_0037
+	.4byte gTextL4_0038
+	.4byte gTextL4_0039
+	.4byte gTextL4_0040
+	.4byte gTextL4_0041
+	.4byte gTextL4_0042
+	.4byte gTextL4_0043
+	.4byte gTextL4_0044
+	.4byte gTextL4_0045
+	.4byte gTextL4_0046
+	.4byte gTextL4_0047
+	.4byte gTextL4_0048
+	.4byte gTextL4_0049
+	.4byte gTextL4_0050
+	.4byte gTextL4_0051
+	.4byte gTextL4_0052
+	.4byte gTextL4_0053
+	.4byte gTextL4_0054
+	.4byte gTextL4_0055
+	.4byte gTextL4_0056
+	.4byte gTextL4_0057
+	.4byte gTextL4_0058
+	.4byte gTextL4_0059
+	.4byte gTextL4_0060
+	.4byte gTextL4_0061
+	.4byte gTextL4_0062
+	.4byte gTextL4_0063
+	.4byte gTextL4_0064
+	.4byte gTextL4_0065
+	.4byte gTextL4_0066
+	.4byte gTextL4_0067
+	.4byte gTextL4_0068
+	.4byte gTextL4_0069
+	.4byte gTextL4_0070
+	.4byte gTextL4_0071
+	.4byte gTextL4_0072
+	.4byte gTextL4_0073
+	.4byte gTextL4_0074
+	.4byte gTextL4_0075
+	.4byte gTextL4_0076
+	.4byte gTextL4_0077
+	.4byte gTextL4_0078
+	.4byte gTextL4_0079
+	.4byte gTextL4_0080
+	.4byte gTextL4_0081
+	.4byte gTextL4_0082
+	.4byte gTextL4_0083
+	.4byte gTextL4_0084
+	.4byte gTextL4_0085
+	.4byte gTextL4_0086
+	.4byte gTextL4_0087
+	.4byte gTextL4_0088
+	.4byte gTextL4_0089
+	.4byte gTextL4_0090
+	.4byte gTextL4_0091
+	.4byte gTextL4_0092
+	.4byte gTextL4_0093
+	.4byte gTextL4_0094
+	.4byte gTextL4_0095
+	.4byte gTextL4_0096
+	.4byte gTextL4_0097
+	.4byte gTextL4_0098
+	.4byte gTextL4_0099
+	.4byte gTextL4_0100
+	.4byte gTextL4_0101
+	.4byte gTextL4_0102
+	.4byte gTextL4_0103
+	.4byte gTextL4_0104
+	.4byte gTextL4_0105
+	.4byte gTextL4_0106
+	.4byte gTextL4_0107
+	.4byte gTextL4_0108
+	.4byte gTextL4_0109
+	.4byte gTextL4_0110
+	.4byte gTextL4_0111
+	.4byte gTextL4_0112
+	.4byte gTextL4_0113
+	.4byte gTextL4_0114
+	.4byte gTextL4_0115
+	.4byte gTextL4_0116
+	.4byte gTextL4_0117
+	.4byte gTextL4_0118
+	.4byte gTextL4_0119
+	.4byte gTextL4_0120
+	.4byte gTextL4_0121
+	.4byte gTextL4_0122
+	.4byte gTextL4_0123
+	.4byte gTextL4_0124
+	.4byte gTextL4_0125
+	.4byte gTextL4_0126
+	.4byte gTextL4_0127
+	.4byte gTextL4_0128
+	.4byte gTextL4_0129
+	.4byte gTextL4_0130
+	.4byte gTextL4_0131
+	.4byte gTextL4_0132
+	.4byte gTextL4_0133
+	.4byte gTextL4_0134
+	.4byte gTextL4_0135
+	.4byte gTextL4_0136
+	.4byte gTextL4_0137
+	.4byte gTextL4_0138
+	.4byte gTextL4_0139
+	.4byte gTextL4_0140
+	.4byte gTextL4_0141
+	.4byte gTextL4_0142
+	.4byte gTextL4_0143
+	.4byte gTextL4_0144
+	.4byte gTextL4_0145
+	.4byte gTextL4_0146
+	.4byte gTextL4_0147
+	.4byte gTextL4_0148
+	.4byte gTextL4_0149
+	.4byte gTextL4_0150
+	.4byte gTextL4_0151
+	.4byte gTextL4_0152
+	.4byte gTextL4_0153
+	.4byte gTextL4_0154
+	.4byte gTextL4_0155
+	.4byte gTextL4_0156
+	.4byte gTextL4_0157
+	.4byte gTextL4_0158
+	.4byte gTextL4_0159
+	.4byte gTextL4_0160
+	.4byte gTextL4_0161
+	.4byte gTextL4_0162
+	.4byte gTextL4_0163
+	.4byte gTextL4_0164
+	.4byte gTextL4_0165
+	.4byte gTextL4_0166
+	.4byte gTextL4_0167
+	.4byte gTextL4_0168
+	.4byte gTextL4_0169
+	.4byte gTextL4_0170
+	.4byte gTextL4_0171
+	.4byte gTextL4_0172
+	.4byte gTextL4_0173
+	.4byte gTextL4_0174
+	.4byte gTextL4_0175
+	.4byte gTextL4_0176
+	.4byte gTextL4_0177
+	.4byte gTextL4_0178
+	.4byte gTextL4_0179
+	.4byte gTextL4_0180
+	.4byte gTextL4_0181
+	.4byte gTextL4_0182
+	.4byte gTextL4_0183
+	.4byte gTextL4_0184
+	.4byte gTextL4_0185
+	.4byte gTextL4_0186
+	.4byte gTextL4_0187
+	.4byte gTextL4_0188
+	.4byte gTextL4_0189
+	.4byte gTextL4_0190
+	.4byte gTextL4_0191
+	.4byte gTextL4_0192
+	.4byte gTextL4_0193
+	.4byte gTextL4_0194
+	.4byte gTextL4_0195
+	.4byte gTextL4_0196
+	.4byte gTextL4_0197
+	.4byte gTextL4_0198
+	.4byte gTextL4_0199
+	.4byte gTextL4_0200
+	.4byte gTextL4_0201
+	.4byte gTextL4_0202
+	.4byte gTextL4_0203
+	.4byte gTextL4_0204
+	.4byte gTextL4_0205
+	.4byte gTextL4_0206
+	.4byte gTextL4_0207
+	.4byte gTextL4_0208
+	.4byte gTextL4_0209
+	.4byte gTextL4_0210
+	.4byte gTextL4_0211
+	.4byte gTextL4_0212
+	.4byte gTextL4_0213
+	.4byte gTextL4_0214
+	.4byte gTextL4_0215
+	.4byte gTextL4_0216
+	.4byte gTextL4_0217
+	.4byte gTextL4_0218
+	.4byte gTextL4_0219
+	.4byte gTextL4_0220
+	.4byte gTextL4_0221
+	.4byte gTextL4_0222
+	.4byte gTextL4_0223
+	.4byte gTextL4_0224
+	.4byte gTextL4_0225
+	.4byte gTextL4_0226
+	.4byte gTextL4_0227
+	.4byte gTextL4_0228
+	.4byte gTextL4_0229
+	.4byte gTextL4_0230
+	.4byte gTextL4_0231
+	.4byte gTextL4_0232
+	.4byte gTextL4_0233
+	.4byte gTextL4_0234
+	.4byte gTextL4_0235
+	.4byte gTextL4_0236
+	.4byte gTextL4_0237
+	.4byte gTextL4_0238
+	.4byte gTextL4_0239
+	.4byte gTextL4_0240
+	.4byte gTextL4_0241
+	.4byte gTextL4_0242
+	.4byte gTextL4_0243
+	.4byte gTextL4_0244
+	.4byte gTextL4_0245
+	.4byte gTextL4_0246
+	.4byte gTextL4_0247
+	.4byte gTextL4_0248
+	.4byte gTextL4_0249
+	.4byte gTextL4_0250
+	.4byte gTextL4_0251
+	.4byte gTextL4_0252
+	.4byte gTextL4_0253
+	.4byte gTextL4_0254
+	.4byte gTextL4_0255
+	.4byte gTextL4_0256
+	.4byte gTextL4_0257
+	.4byte gTextL4_0258
+	.4byte gTextL4_0259
+	.4byte gTextL4_0260
+	.4byte gTextL4_0261
+	.4byte gTextL4_0262
+	.4byte gTextL4_0263
+	.4byte gTextL4_0264
+	.4byte gTextL4_0265
+	.4byte gTextL4_0266
+	.4byte gTextL4_0267
+	.4byte gTextL4_0268
+	.4byte gTextL4_0269
+	.4byte gTextL4_0270
+	.4byte gTextL4_0271
+	.4byte gTextL4_0272
+	.4byte gTextL4_0273
+	.4byte gTextL4_0274
+	.4byte gTextL4_0275
+	.4byte gTextL4_0276
+	.4byte gTextL4_0277
+	.4byte gTextL4_0278
+	.4byte gTextL4_0279
+	.4byte gTextL4_0280
+	.4byte gTextL4_0281
+	.4byte gTextL4_0282
+	.4byte gTextL4_0283
+	.4byte gTextL4_0284
+	.4byte gTextL4_0285
+	.4byte gTextL4_0286
+	.4byte gTextL4_0287
+	.4byte gTextL4_0288
+	.4byte gTextL4_0289
+	.4byte gTextL4_0290
+	.4byte gTextL4_0291
+	.4byte gTextL4_0292
+	.4byte gTextL4_0293
+	.4byte gTextL4_0294
+	.4byte gTextL4_0295
+	.4byte gTextL4_0296
+	.4byte gTextL4_0297
+	.4byte gTextL4_0298
+	.4byte gTextL4_0299
+	.4byte gTextL4_0300
+	.4byte gTextL4_0301
+	.4byte gTextL4_0302
+	.4byte gTextL4_0303
+	.4byte gTextL4_0304
+	.4byte gTextL4_0305
+	.4byte gTextL4_0306
+	.4byte gTextL4_0307
+	.4byte gTextL4_0308
+	.4byte gTextL4_0309
+	.4byte gTextL4_0310
+	.4byte gTextL4_0311
+	.4byte gTextL4_0312
+	.4byte gTextL4_0313
+	.4byte gTextL4_0314
+	.4byte gTextL4_0315
+	.4byte gTextL4_0316
+	.4byte gTextL4_0317
+	.4byte gTextL4_0318
+	.4byte gTextL4_0319
+	.4byte gTextL4_0320
+	.4byte gTextL4_0321
+	.4byte gTextL4_0322
+	.4byte gTextL4_0323
+	.4byte gTextL4_0324
+	.4byte gTextL4_0325
+	.4byte gTextL4_0326
+	.4byte gTextL4_0327
+	.4byte gTextL4_0328
+	.4byte gTextL4_0329
+	.4byte gTextL4_0330
+	.4byte gTextL4_0331
+	.4byte gTextL4_0332
+	.4byte gTextL4_0333
+	.4byte gTextL4_0334
+	.4byte gTextL4_0335
+	.4byte gTextL4_0336
+	.4byte gTextL4_0337
+	.4byte gTextL4_0338
+	.4byte gTextL4_0339
+	.4byte gTextL4_0340
+	.4byte gTextL4_0341
+	.4byte gTextL4_0342
+	.4byte gTextL4_0343
+	.4byte gTextL4_0344
+	.4byte gTextL4_0345
+	.4byte gTextL4_0346
+	.4byte gTextL4_0347
+	.4byte gTextL4_0348
+	.4byte gTextL4_0349
+	.4byte gTextL4_0350
+	.4byte gTextL4_0351
+	.4byte gTextL4_0352
+	.4byte gTextL4_0353
+	.4byte gTextL4_0354
+	.4byte gTextL4_0355
+	.4byte gTextL4_0356
+	.4byte gTextL4_0357
+	.4byte gTextL4_0358
+	.4byte gTextL4_0359
+	.4byte gTextL4_0360
+	.4byte gTextL4_0361
+	.4byte gTextL4_0362
+	.4byte gTextL4_0363
+	.4byte gTextL4_0364
+	.4byte gTextL4_0365
+	.4byte gTextL4_0366
+	.4byte gTextL4_0367
+	.4byte gTextL4_0368
+	.4byte gTextL4_0369
+	.4byte gTextL4_0370
+	.4byte gTextL4_0371
+	.4byte gTextL4_0372
+	.4byte gTextL4_0373
+	.4byte gTextL4_0374
+	.4byte gTextL4_0375
+	.4byte gTextL4_0376
+	.4byte gTextL4_0377
+	.4byte gTextL4_0378
+	.4byte gTextL4_0379
+	.4byte gTextL4_0380
+	.4byte gTextL4_0381
+	.4byte gTextL4_0382
+	.4byte gTextL4_0383
+	.4byte gTextL4_0384
+	.4byte gTextL4_0385
+	.4byte gTextL4_0386
+	.4byte gTextL4_0387
+	.4byte gTextL4_0388
+	.4byte gTextL4_0389
+	.4byte gTextL4_0390
+	.4byte gTextL4_0391
+	.4byte gTextL4_0392
+	.4byte gTextL4_0393
+	.4byte gTextL4_0394
+	.4byte gTextL4_0395
+	.4byte gTextL4_0396
+	.4byte gTextL4_0397
+	.4byte gTextL4_0398
+	.4byte gTextL4_0399
+	.4byte gTextL4_0400
+	.4byte gTextL4_0401
+	.4byte gTextL4_0402
+	.4byte gTextL4_0403
+	.4byte gTextL4_0404
+	.4byte gTextL4_0405
+	.4byte gTextL4_0406
+	.4byte gTextL4_0407
+	.4byte gTextL4_0408
+	.4byte gTextL4_0409
+	.4byte gTextL4_0410
+	.4byte gTextL4_0411
+	.4byte gTextL4_0412
+	.4byte gTextL4_0413
+	.4byte gTextL4_0414
+	.4byte gTextL4_0415
+	.4byte gTextL4_0416
+	.4byte gTextL4_0417
+	.4byte gTextL4_0418
+	.4byte gTextL4_0419
+	.4byte gTextL4_0420
+	.4byte gTextL4_0421
+	.4byte gTextL4_0422
+	.4byte gTextL4_0423
+	.4byte gTextL4_0424
+	.4byte gTextL4_0425
+	.4byte gTextL4_0426
+	.4byte gTextL4_0427
+	.4byte gTextL4_0428
+	.4byte gTextL4_0429
+	.4byte gTextL4_0430
+	.4byte gTextL4_0431
+	.4byte gTextL4_0432
+	.4byte gTextL4_0433
+	.4byte gTextL4_0434
+	.4byte gTextL4_0435
+	.4byte gTextL4_0436
+	.4byte gTextL4_0437
+	.4byte gTextL4_0438
+	.4byte gTextL4_0439
+	.4byte gTextL4_0440
+	.4byte gTextL4_0441
+	.4byte gTextL4_0442
+	.4byte gTextL4_0443
+	.4byte gTextL4_0444
+	.4byte gTextL4_0445
+	.4byte gTextL4_0446
+	.4byte gTextL4_0447
+	.4byte gTextL4_0448
+	.4byte gTextL4_0449
+	.4byte gTextL4_0450
+	.4byte gTextL4_0451
+	.4byte gTextL4_0452
+	.4byte gTextL4_0453
+	.4byte gTextL4_0454
+	.4byte gTextL4_0455
+	.4byte gTextL4_0456
+	.4byte gTextL4_0457
+	.4byte gTextL4_0458
+	.4byte gTextL4_0459
+	.4byte gTextL4_0460
+	.4byte gTextL4_0461
+	.4byte gTextL4_0462
+	.4byte gTextL4_0463
+	.4byte gTextL4_0464
+	.4byte gTextL4_0465
+	.4byte gTextL4_0466
+	.4byte gTextL4_0467
+	.4byte gTextL4_0468
+	.4byte gTextL4_0469
+	.4byte gTextL4_0470
+	.4byte gTextL4_0471
+	.4byte gTextL4_0472
+	.4byte gTextL4_0473
+	.4byte gTextL4_0474
+	.4byte gTextL4_0475
+	.4byte gTextL4_0476
+	.4byte gTextL4_0477
+	.4byte gTextL4_0478
+	.4byte gTextL4_0479
+	.4byte gTextL4_0480
+	.4byte gTextL4_0481
+	.4byte gTextL4_0482
+	.4byte gTextL4_0483
+	.4byte gTextL4_0484
+	.4byte gTextL4_0485
+	.4byte gTextL4_0486
+	.4byte gTextL4_0487
+	.4byte gTextL4_0488
+	.4byte gTextL4_0489
+	.4byte gTextL4_0490
+	.4byte gTextL4_0491
+	.4byte gTextL4_0492
+	.4byte gTextL4_0493
+	.4byte gTextL4_0494
+	.4byte gTextL4_0495
+	.4byte gTextL4_0496
+	.4byte gTextL4_0497
+	.4byte gTextL4_0498
+	.4byte gTextL4_0499
+	.4byte gTextL4_0500
+	.4byte gTextL4_0501
+	.4byte gTextL4_0502
+	.4byte gTextL4_0503
+	.4byte gTextL4_0504
+	.4byte gTextL4_0505
+	.4byte gTextL4_0506
+	.4byte gTextL4_0507
+	.4byte gTextL4_0508
+	.4byte gTextL4_0509
+	.4byte gTextL4_0510
+	.4byte gTextL4_0511
+	.4byte gTextL4_0512
+	.4byte gTextL4_0513
+	.4byte gTextL4_0514
+	.4byte gTextL4_0515
+	.4byte gTextL4_0516
+	.4byte gTextL4_0517
+	.4byte gTextL4_0518
+	.4byte gTextL4_0519
+	.4byte gTextL4_0520
+	.4byte gTextL4_0521
+	.4byte gTextL4_0522
+	.4byte gTextL4_0523
+	.4byte gTextL4_0524
+	.4byte gTextL4_0525
+	.4byte gTextL4_0526
+	.4byte gTextL4_0527
+	.4byte gTextL4_0528
+	.4byte gTextL4_0529
+	.4byte gTextL4_0530
+	.4byte gTextL4_0531
+	.4byte gTextL4_0532
+	.4byte gTextL4_0533
+	.4byte gTextL4_0534
+	.4byte gTextL4_0535
+	.4byte gTextL4_0536
+	.4byte gTextL4_0537
+	.4byte gTextL4_0538
+	.4byte gTextL4_0539
+	.4byte gTextL4_0540
+	.4byte gTextL4_0541
+	.4byte gTextL4_0542
+	.4byte gTextL4_0543
+	.4byte gTextL4_0544
+	.4byte gTextL4_0545
+	.4byte gTextL4_0546
+	.4byte gTextL4_0547
+	.4byte gTextL4_0548
+	.4byte gTextL4_0549
+	.4byte gTextL4_0550
+	.4byte gTextL4_0551
+	.4byte gTextL4_0552
+	.4byte gTextL4_0553
+	.4byte gTextL4_0554
+	.4byte gTextL4_0555
+	.4byte gTextL4_0556
+	.4byte gTextL4_0557
+	.4byte gTextL4_0558
+	.4byte gTextL4_0559
+	.4byte gTextL4_0560
+	.4byte gTextL4_0561
+	.4byte gTextL4_0562
+	.4byte gTextL4_0563
+	.4byte gTextL4_0564
+	.4byte gTextL4_0565
+	.4byte gTextL4_0566
+	.4byte gTextL4_0567
+	.4byte gTextL4_0568
+	.4byte gTextL4_0569
+	.4byte gTextL4_0570
+	.4byte gTextL4_0571
+	.4byte gTextL4_0572
+	.4byte gTextL4_0573
+	.4byte gTextL4_0574
+	.4byte gTextL4_0575
+	.4byte gTextL4_0576
+	.4byte gTextL4_0577
+	.4byte gTextL4_0578
+	.4byte gTextL4_0579
+	.4byte gTextL4_0580
+	.4byte gTextL4_0581
+	.4byte gTextL4_0582
+	.4byte gTextL4_0583
+	.4byte gTextL4_0584
+	.4byte gTextL4_0585
+	.4byte gTextL4_0586
+	.4byte gTextL4_0587
+	.4byte gTextL4_0588
+	.4byte gTextL4_0589
+	.4byte gTextL4_0590
+	.4byte gTextL4_0591
+	.4byte gTextL4_0592
+	.4byte gTextL4_0593
+	.4byte gTextL4_0594
+	.4byte gTextL4_0595
+	.4byte gTextL4_0596
+	.4byte gTextL4_0597
+	.4byte gTextL4_0598
+	.4byte gTextL4_0599
+	.4byte gTextL4_0600
+	.4byte gTextL4_0601
+	.4byte gTextL4_0602
+	.4byte gTextL4_0603
+	.4byte gTextL4_0604
+	.4byte gTextL4_0605
+	.4byte gTextL4_0606
+	.4byte gTextL4_0607
+	.4byte gTextL4_0608
+	.4byte gTextL4_0609
+	.4byte gTextL4_0610
+	.4byte gTextL4_0611
+	.4byte gTextL4_0612
+	.4byte gTextL4_0613
+	.4byte gTextL4_0614
+	.4byte gTextL4_0615
+	.4byte gTextL4_0616
+	.4byte gTextL4_0617
+	.4byte gTextL4_0618
+	.4byte gTextL4_0619
+	.4byte gTextL4_0620
+	.4byte gTextL4_0621
+	.4byte gTextL4_0622
+	.4byte gTextL4_0623
+	.4byte gTextL4_0624
+	.4byte gTextL4_0625
+	.4byte gTextL4_0626
+	.4byte gTextL4_0627
+	.4byte gTextL4_0628
+	.4byte gTextL4_0629
+	.4byte gTextL4_0630
+	.4byte gTextL4_0631
+	.4byte gTextL4_0632
+	.4byte gTextL4_0633
+	.4byte gTextL4_0634
+	.4byte gTextL4_0635
+	.4byte gTextL4_0636
+	.4byte gTextL4_0637
+	.4byte gTextL4_0638
+	.4byte gTextL4_0639
+	.4byte gTextL4_0640
+	.4byte gTextL4_0641
+	.4byte gTextL4_0642
+	.4byte gTextL4_0643
+	.4byte gTextL4_0644
+	.4byte gTextL4_0645
+	.4byte gTextL4_0646
+	.4byte gTextL4_0647
+	.4byte gTextL4_0648
+	.4byte gTextL4_0649
+	.4byte gTextL4_0650
+	.4byte gTextL4_0651
+	.4byte gTextL4_0652
+	.4byte gTextL4_0653
+	.4byte gTextL4_0654
+	.4byte gTextL4_0655
+	.4byte gTextL4_0656
+	.4byte gTextL4_0657
+	.4byte gTextL4_0658
+	.4byte gTextL4_0659
+	.4byte gTextL4_0660
+	.4byte gTextL4_0661
+	.4byte gTextL4_0662
+	.4byte gTextL4_0663
+	.4byte gTextL4_0664
+	.4byte gTextL4_0665
+	.4byte gTextL4_0666
+	.4byte gTextL4_0667
+	.4byte gTextL4_0668
+	.4byte gTextL4_0669
+	.4byte gTextL4_0670
+	.4byte gTextL4_0671
+	.4byte gTextL4_0672
+	.4byte gTextL4_0673
+	.4byte gTextL4_0674
+	.4byte gTextL4_0675
+	.4byte gTextL4_0676
+	.4byte gTextL4_0677
+	.4byte gTextL4_0678
+	.4byte gTextL4_0679
+	.4byte gTextL4_0680
+	.4byte gTextL4_0681
+	.4byte gTextL4_0682
+	.4byte gTextL4_0683
+	.4byte gTextL4_0684
+	.4byte gTextL4_0685
+	.4byte gTextL4_0686
+	.4byte gTextL4_0687
+	.4byte gTextL4_0688
+	.4byte gTextL4_0689
+	.4byte gTextL4_0690
+	.4byte gTextL4_0691
+	.4byte gTextL4_0692
+	.4byte gTextL4_0693
+	.4byte gTextL4_0694
+	.4byte gTextL4_0695
+	.4byte gTextL4_0696
+	.4byte gTextL4_0697
+	.4byte gTextL4_0698
+	.4byte gTextL4_0699
+	.4byte gTextL4_0700
+	.4byte gTextL4_0701
+	.4byte gTextL4_0702
+	.4byte gTextL4_0703
+	.4byte gTextL4_0704
+	.4byte gTextL4_0705
+	.4byte gTextL4_0706
+	.4byte gTextL4_0707
+	.4byte gTextL4_0708
+	.4byte gTextL4_0709
+	.4byte gTextL4_0710
+	.4byte gTextL4_0711
+	.4byte gTextL4_0712
+	.4byte gTextL4_0713
+	.4byte gTextL4_0714
+	.4byte gTextL4_0715
+	.4byte gTextL4_0716
+	.4byte gTextL4_0717
+	.4byte gTextL4_0718
+	.4byte gTextL4_0719
+	.4byte gTextL4_0720
+	.4byte gTextL4_0721
+	.4byte gTextL4_0722
+	.4byte gTextL4_0723
+	.4byte gTextL4_0724
+	.4byte gTextL4_0725
+	.4byte gTextL4_0726
+	.4byte gTextL4_0727
+	.4byte gTextL4_0728
+	.4byte gTextL4_0729
+	.4byte gTextL4_0730
+	.4byte gTextL4_0731
+	.4byte gTextL4_0732
+	.4byte gTextL4_0733
+	.4byte gTextL4_0734
+	.4byte gTextL4_0735
+	.4byte gTextL4_0736
+	.4byte gTextL4_0737
+	.4byte gTextL4_0738
+	.4byte gTextL4_0739
+	.4byte gTextL4_0740
+	.4byte gTextL4_0741
+	.4byte gTextL4_0742
+	.4byte gTextL4_0743
+	.4byte gTextL4_0744
+	.4byte gTextL4_0745
+	.4byte gTextL4_0746
+	.4byte gTextL4_0747
+	.4byte gTextL4_0748
+	.4byte gTextL4_0749
+	.4byte gTextL4_0750
+	.4byte gTextL4_0751
+	.4byte gTextL4_0752
+	.4byte gTextL4_0753
+	.4byte gTextL4_0754
+	.4byte gTextL4_0755
+	.4byte gTextL4_0756
+	.4byte gTextL4_0757
+	.4byte gTextL4_0758
+	.4byte gTextL4_0759
+	.4byte gTextL4_0760
+	.4byte gTextL4_0761
+	.4byte gTextL4_0762
+	.4byte gTextL4_0763
+	.4byte gTextL4_0764
+	.4byte gTextL4_0765
+	.4byte gTextL4_0766
+	.4byte gTextL4_0767
+	.4byte gTextL4_0768
+	.4byte gTextL4_0769
+	.4byte gTextL4_0770
+	.4byte gTextL4_0771
+	.4byte gTextL4_0772
+	.4byte gTextL4_0773
+	.4byte gTextL4_0774
+	.4byte gTextL4_0775
+	.4byte gTextL4_0776
+	.4byte gTextL4_0777
+	.4byte gTextL4_0778
+	.4byte gTextL4_0779
+	.4byte gTextL4_0780
+	.4byte gTextL4_0781
+	.4byte gTextL4_0782
+	.4byte gTextL4_0783
+	.4byte gTextL4_0784
+	.4byte gTextL4_0785
+	.4byte gTextL4_0786
+	.4byte gTextL4_0787
+	.4byte gTextL4_0788
+	.4byte gTextL4_0789
+	.4byte gTextL4_0790
+	.4byte gTextL4_0791
+	.4byte gTextL4_0792
+	.4byte gTextL4_0793
+	.4byte gTextL4_0794
+	.4byte gTextL4_0795
+	.4byte gTextL4_0796
+	.4byte gTextL4_0797
+	.4byte gTextL4_0798
+	.4byte gTextL4_0799
+	.4byte gTextL4_0800
+	.4byte gTextL4_0801
+	.4byte gTextL4_0802
+	.4byte gTextL4_0803
+	.4byte gTextL4_0804
+	.4byte gTextL4_0805
+	.4byte gTextL4_0806
+	.4byte gTextL4_0807
+	.4byte gTextL4_0808
+	.4byte gTextL4_0809
+	.4byte gTextL4_0810
+	.4byte gTextL4_0811
+	.4byte gTextL4_0812
+	.4byte gTextL4_0813
+	.4byte gTextL4_0814
+	.4byte gTextL4_0815
+	.4byte gTextL4_0816
+	.4byte gTextL4_0817
+	.4byte gTextL4_0818
+	.4byte gTextL4_0819
+	.4byte gTextL4_0820
+	.4byte gTextL4_0821
+	.4byte gTextL4_0822
+	.4byte gTextL4_0823
+	.4byte gTextL4_0824
+	.4byte gTextL4_0825
+	.4byte gTextL4_0826
+	.4byte gTextL4_0827
+	.4byte gTextL4_0828
+	.4byte gTextL4_0829
+	.4byte gTextL4_0830
+	.4byte gTextL4_0831
+	.4byte gTextL4_0832
+	.4byte gTextL4_0833
+	.4byte gTextL4_0834
+	.4byte gTextL4_0835
+	.4byte gTextL4_0836
+	.4byte gTextL4_0837
+	.4byte gTextL4_0838
+	.4byte gTextL4_0839
+	.4byte gTextL4_0840
+	.4byte gTextL4_0841
+	.4byte gTextL4_0842
+	.4byte gTextL4_0843
+	.4byte gTextL4_0844
+	.4byte gTextL4_0845
+	.4byte gTextL4_0846
+	.4byte gTextL4_0847
+	.4byte gTextL4_0848
+	.4byte gTextL4_0849
+	.4byte gTextL4_0850
+	.4byte gTextL4_0851
+	.4byte gTextL4_0852
+	.4byte gTextL4_0853
+	.4byte gTextL4_0854
+	.4byte gTextL4_0855
+	.4byte gTextL4_0856
+	.4byte gTextL4_0857
+	.4byte gTextL4_0858
+	.4byte gTextL4_0859
+	.4byte gTextL4_0860
+	.4byte gTextL4_0861
+	.4byte gTextL4_0862
+	.4byte gTextL4_0863
+	.4byte gTextL4_0864
+	.4byte gTextL4_0865
+	.4byte gTextL4_0866
+	.4byte gTextL4_0867
+	.4byte gTextL4_0868
+	.4byte gTextL4_0869
+	.4byte gTextL4_0870
+	.4byte gTextL4_0871
+	.4byte gTextL4_0872
+	.4byte gTextL4_0873
+	.4byte gTextL4_0874
+	.4byte gTextL4_0875
+	.4byte gTextL4_0876
+	.4byte gTextL4_0877
+	.4byte gTextL4_0878
+	.4byte gTextL4_0879
+	.4byte gTextL4_0880
+	.4byte gTextL4_0881
+	.4byte gTextL4_0882
+	.4byte gTextL4_0883
+	.4byte gTextL4_0884
+	.4byte gTextL4_0885
+	.4byte gTextL4_0886
+	.4byte gTextL4_0887
+	.4byte gTextL4_0888
+	.4byte gTextL4_0889
+	.4byte gTextL4_0890
+	.4byte gTextL4_0891
+	.4byte gTextL4_0892
+	.4byte gTextL4_0893
+	.4byte gTextL4_0894
+	.4byte gTextL4_0895
+	.4byte gTextL4_0896
+	.4byte gTextL4_0897
+	.4byte gTextL4_0898
+	.4byte gTextL4_0899
+	.4byte gTextL4_0900
+	.4byte gTextL4_0901
+	.4byte gTextL4_0902
+	.4byte gTextL4_0903
+	.4byte gTextL4_0904
+	.4byte gTextL4_0905
+	.4byte gTextL4_0906
+	.4byte gTextL4_0907
+	.4byte gTextL4_0908
+	.4byte gTextL4_0909
+	.4byte gTextL4_0910
+	.4byte gTextL4_0911
+	.4byte gTextL4_0912
+	.4byte gTextL4_0913
+	.4byte gTextL4_0914
+	.4byte gTextL4_0915
+	.4byte gTextL4_0916
+	.4byte gTextL4_0917
+	.4byte gTextL4_0918
+	.4byte gTextL4_0919
+	.4byte gTextL4_0920
+	.4byte gTextL4_0921
+	.4byte gTextL4_0922
+	.4byte gTextL4_0923
+	.4byte gTextL4_0924
+	.4byte gTextL4_0925
+	.4byte gTextL4_0926
+	.4byte gTextL4_0927
+	.4byte gTextL4_0928
+	.4byte gTextL4_0929
+	.4byte gTextL4_0930
+	.4byte gTextL4_0931
+	.4byte gTextL4_0932
+	.4byte gTextL4_0933
+	.4byte gTextL4_0934
+	.4byte gTextL4_0935
+	.4byte gTextL4_0936
+	.4byte gTextL4_0937
+	.4byte gTextL4_0938
+	.4byte gTextL4_0939
+	.4byte gTextL4_0940
+	.4byte gTextL4_0941
+	.4byte gTextL4_0942
+	.4byte gTextL4_0943
+	.4byte gTextL4_0944
+	.4byte gTextL4_0945
+	.4byte gTextL4_0946
+	.4byte gTextL4_0947
+	.4byte gTextL4_0948
+	.4byte gTextL4_0949
+	.4byte gTextL4_0950
+	.4byte gTextL4_0951
+	.4byte gTextL4_0952
+	.4byte gTextL4_0953
+	.4byte gTextL4_0954
+	.4byte gTextL4_0955
+	.4byte gTextL4_0956
+	.4byte gTextL4_0957
+	.4byte gTextL4_0958
+	.4byte gTextL4_0959
+	.4byte gTextL4_0960
+	.4byte gTextL4_0961
+	.4byte gTextL4_0962
+	.4byte gTextL4_0963
+	.4byte gTextL4_0964
+	.4byte gTextL4_0965
+	.4byte gTextL4_0966
+	.4byte gTextL4_0967
+	.4byte gTextL4_0968
+	.4byte gTextL4_0969
+	.4byte gTextL4_0970
+	.4byte gTextL4_0971
+	.4byte gTextL4_0972
+	.4byte gTextL4_0973
+	.4byte gTextL4_0974
+	.4byte gTextL4_0975
+	.4byte gTextL4_0976
+	.4byte gTextL4_0977
+	.4byte gTextL4_0978
+	.4byte gTextL4_0979
+	.4byte gTextL4_0980
+	.4byte gTextL4_0981
+	.4byte gTextL4_0982
+	.4byte gTextL4_0983
+	.4byte gTextL4_0984
+	.4byte gTextL4_0985
+	.4byte gTextL4_0986
+	.4byte gTextL4_0987
+	.4byte gTextL4_0988
+	.4byte gTextL4_0989
+	.4byte gTextL4_0990
+	.4byte gTextL4_0991
+	.4byte gTextL4_0992
+	.4byte gTextL4_0993
+	.4byte gTextL4_0994
+	.4byte gTextL4_0995
+	.4byte gTextL4_0996
+	.4byte gTextL4_0997
+	.4byte gTextL4_0998
+	.4byte gTextL4_0999
+	.4byte gTextL4_1000
+	.4byte gTextL4_1001
+	.4byte gTextL4_1002
+	.4byte gTextL4_1003
+	.4byte gTextL4_1004
+	.4byte gTextL4_1005
+	.4byte gTextL4_1006
+	.4byte gTextL4_1007
+	.4byte gTextL4_1008
+	.4byte gTextL4_1009
+	.4byte gTextL4_1010
+	.4byte gTextL4_1011
+	.4byte gTextL4_1012
+	.4byte gTextL4_1013
+	.4byte gTextL4_1014
+	.4byte gTextL4_1015
+	.4byte gTextL4_1016
+	.4byte gTextL4_1017
+	.4byte gTextL4_1018
+	.4byte gTextL4_1019
+	.4byte gTextL4_1020
+	.4byte gTextL4_1021
+	.4byte gTextL4_1022
+	.4byte gTextL4_1023
+	.4byte gTextL4_1024
+	.4byte gTextL4_1025
+	.4byte gTextL4_1026
+	.4byte gTextL4_1027
+	.4byte gTextL4_1028
+	.4byte gTextL4_1029
+	.4byte gTextL4_1030
+	.4byte gTextL4_1031
+	.4byte gTextL4_1032
+	.4byte gTextL4_1033
+	.4byte gTextL4_1034
+	.4byte gTextL4_1035
+	.4byte gTextL4_1036
+	.4byte gTextL4_1037
+	.4byte gTextL4_1038
+	.4byte gTextL4_1039
+	.4byte gTextL4_1040
+	.4byte gTextL4_1041
+	.4byte gTextL4_1042
+	.4byte gTextL4_1043
+	.4byte gTextL4_1044
+	.4byte gTextL4_1045
+	.4byte gTextL4_1046
+	.4byte gTextL4_1047
+	.4byte gTextL4_1048
+	.4byte gTextL4_1049
+	.4byte gTextL4_1050
+	.4byte gTextL4_1051
+	.4byte gTextL4_1052
+	.4byte gTextL4_1053
+	.4byte gTextL4_1054
+	.4byte gTextL4_1055
+	.4byte gTextL4_1056
+	.4byte gTextL4_1057
+	.4byte gTextL4_1058
+	.4byte gTextL4_1059
+	.4byte gTextL4_1060
+	.4byte gTextL4_1061
+	.4byte gTextL4_1062
+	.4byte gTextL4_1063
+	.4byte gTextL4_1064
+	.4byte gTextL4_1065
+	.4byte gTextL4_1066
+	.4byte gTextL4_1067
+	.4byte gTextL4_1068
+	.4byte gTextL4_1069
+	.4byte gTextL4_1070
+	.4byte gTextL4_1071
+	.4byte gTextL4_1072
+	.4byte gTextL4_1073
+	.4byte gTextL4_1074
+	.4byte gTextL4_1075
+	.4byte gTextL4_1076
+	.4byte gTextL4_1077
+	.4byte gTextL4_1078
+	.4byte gTextL4_1079
+	.4byte gTextL4_1080
+	.4byte gTextL4_1081
+	.4byte gTextL4_1082
+	.4byte gTextL4_1083
+	.4byte gTextL4_1084
+	.4byte gTextL4_1085
+	.4byte gTextL4_1086
+	.4byte gTextL4_1087
+	.4byte gTextL4_1088
+	.4byte gTextL4_1089
+	.4byte gTextL4_1090
+	.4byte gTextL4_1091
+	.4byte gTextL4_1092
+	.4byte gTextL4_1093
+	.4byte gTextL4_1094
+	.4byte gTextL4_1095
+	.4byte gTextL4_1096
+	.4byte gTextL4_1097
+	.4byte gTextL4_1098
+	.4byte gTextL4_1099
+	.4byte gTextL4_1100
+	.4byte gTextL4_1101
+	.4byte gTextL4_1102
+	.4byte gTextL4_1103
+	.4byte gTextL4_1104
+	.4byte gTextL4_1105
+	.4byte gTextL4_1106
+	.4byte gTextL4_1107
+	.4byte gTextL4_1108
+	.4byte gTextL4_1109
+	.4byte gTextL4_1110
+	.4byte gTextL4_1111
+	.4byte gTextL4_1112
+	.4byte gTextL4_1113
+	.4byte gTextL4_1114
+	.4byte gTextL4_1115
+	.4byte gTextL4_1116
+	.4byte gTextL4_1117
+	.4byte gTextL4_1118
+	.4byte gTextL4_1119
+	.4byte gTextL4_1120
+	.4byte gTextL4_1121
+	.4byte gTextL4_1122
+	.4byte gTextL4_1123
+	.4byte gTextL4_1124
+	.4byte gTextL4_1125
+	.4byte gTextL4_1126
+	.4byte gTextL4_1127
+	.4byte gTextL4_1128
+	.4byte gTextL4_1129
+	.4byte gTextL4_1130
+	.4byte gTextL4_1131
+	.4byte gTextL4_1132
+	.4byte gTextL4_1133
+	.4byte gTextL4_1134
+	.4byte gTextL4_1135
+	.4byte gTextL4_1136
+	.4byte gTextL4_1137
+	.4byte gTextL4_1138
+	.4byte gTextL4_1139
+	.4byte gTextL4_1140
+	.4byte gTextL4_1141
+	.4byte gTextL4_1142
+	.4byte gTextL4_1143
+	.4byte gTextL4_1144
+	.4byte gTextL4_1145
+	.4byte gTextL4_1146
+	.4byte gTextL4_1147
+	.4byte gTextL4_1148
+	.4byte gTextL4_1149
+	.4byte gTextL4_1150
+	.4byte gTextL4_1151
+	.4byte gTextL4_1152
+	.4byte gTextL4_1153
+	.4byte gTextL4_1154
+	.4byte gTextL4_1155
+	.4byte gTextL4_1156
+	.4byte gTextL4_1157
+	.4byte gTextL4_1158
+	.4byte gTextL4_1159
+	.4byte gTextL4_1160
+	.4byte gTextL4_1161
+	.4byte gTextL4_1162
+	.4byte gTextL4_1163
+	.4byte gTextL4_1164
+	.4byte gTextL4_1165
+	.4byte gTextL4_1166
+	.4byte gTextL4_1167
+	.4byte gTextL4_1168
+	.4byte gTextL4_1169
+	.4byte gTextL4_1170
+	.4byte gTextL4_1171
+	.4byte gTextL4_1172
+	.4byte gTextL4_1173
+	.4byte gTextL4_1174
+	.4byte gTextL4_1175
+	.4byte gTextL4_1176
+	.4byte gTextL4_1177
+	.4byte gTextL4_1178
+	.4byte gTextL4_1179
+	.4byte gTextL4_1180
+	.4byte gTextL4_1181
+	.4byte gTextL4_1182
+	.4byte gTextL4_1183
+	.4byte gTextL4_1184
+	.4byte gTextL4_1185
+	.4byte gTextL4_1186
+	.4byte gTextL4_1187
+	.4byte gTextL4_1188
+	.4byte gTextL4_1189
+	.4byte gTextL4_1190
+	.4byte gTextL4_1191
+	.4byte gTextL4_1192
+	.4byte gTextL4_1193
+	.4byte gTextL4_1194
+	.4byte gTextL4_1195
+	.4byte gTextL4_1196
+	.4byte gTextL4_1197
+	.4byte gTextL4_1198
+	.4byte gTextL4_1199
+	.4byte gTextL4_1200
+	.4byte gTextL4_1201
+	.4byte gTextL4_1202
+	.4byte gTextL4_1203
+	.4byte gTextL4_1204
+	.4byte gTextL4_1205
+	.4byte gTextL4_1206
+	.4byte gTextL4_1207
+	.4byte gTextL4_1208
+	.4byte gTextL4_1209
+	.4byte gTextL4_1210
+	.4byte gTextL4_1211
+	.4byte gTextL4_1212
+	.4byte gTextL4_1213
+	.4byte gTextL4_1214
+	.4byte gTextL4_1215
+	.4byte gTextL4_1216
+	.4byte gTextL4_1217
+	.4byte gTextL4_1218
+	.4byte gTextL4_1219
+	.4byte gTextL4_1220
+	.4byte gTextL4_1221
+	.4byte gTextL4_1222
+	.4byte gTextL4_1223
+	.4byte gTextL4_1224
+	.4byte gTextL4_1225
+	.4byte gTextL4_1226
+	.4byte gTextL4_1227
+	.4byte gTextL4_1228
+	.4byte gTextL4_1229
+	.4byte gTextL4_1230
+	.4byte gTextL4_1231
+	.4byte gTextL4_1232
+	.4byte gTextL4_1233
+	.4byte gTextL4_1234
+	.4byte gTextL4_1235
+	.4byte gTextL4_1236
+	.4byte gTextL4_1237
+	.4byte gTextL4_1238
+	.4byte gTextL4_1239
+	.4byte gTextL4_1240
+	.4byte gTextL4_1241
+	.4byte gTextL4_1242
+	.4byte gTextL4_1243
+	.4byte gTextL4_1244
+	.4byte gTextL4_1245
+	.4byte gTextL4_1246
+	.4byte gTextL4_1247
+	.4byte gTextL4_1248
+	.4byte gTextL4_1249
+	.4byte gTextL4_1250
+	.4byte gTextL4_1251
+	.4byte gTextL4_1252
+	.4byte gTextL4_1253
+	.4byte gTextL4_1254
+	.4byte gTextL4_1255
+	.4byte gTextL4_1256
+	.4byte gTextL4_1257
+	.4byte gTextL4_1258
+	.4byte gTextL4_1259
+	.4byte gTextL4_1260
+	.4byte gTextL4_1261
+	.4byte gTextL4_1262
+	.4byte gTextL4_1263
+	.4byte gTextL4_1264
+	.4byte gTextL4_1265
+	.4byte gTextL4_1266
+	.4byte gTextL4_1267
+	.4byte gTextL4_1268
+	.4byte gTextL4_1269
+	.4byte gTextL4_1270
+	.4byte gTextL4_1271
+	.4byte gTextL4_1272
+	.4byte gTextL4_1273
+	.4byte gTextL4_1274
+	.4byte gTextL4_1275
+	.4byte gTextL4_1276
+	.4byte gTextL4_1277
+	.4byte gTextL4_1278
+	.4byte gTextL4_1279
+	.4byte gTextL4_1280
+	.4byte gTextL4_1281
+	.4byte gTextL4_1282
+	.4byte gTextL4_1283
+	.4byte gTextL4_1284
+	.4byte gTextL4_1285
+	.4byte gTextL4_1286
+	.4byte gTextL4_1287
+	.4byte gTextL4_1288
+	.4byte gTextL4_1289
+	.4byte gTextL4_1290
+	.4byte gTextL4_1291
+	.4byte gTextL4_1292
+	.4byte gTextL4_1293
+	.4byte gTextL4_1294
+	.4byte gTextL4_1295
+	.4byte gTextL4_1296
+	.4byte gTextL4_1297
+	.4byte gTextL4_1298
+	.4byte gTextL4_1299
+	.4byte gTextL4_1300
+	.4byte gTextL4_1301
+	.4byte gTextL4_1302
+	.4byte gTextL4_1303
+	.4byte gTextL4_1304
+	.4byte gTextL4_1305
+	.4byte gTextL4_1306
+	.4byte gTextL4_1307
+	.4byte gTextL4_1308
+	.4byte gTextL4_1309
+	.4byte gTextL4_1310
+	.4byte gTextL4_1311
+	.4byte gTextL4_1312
+	.4byte gTextL4_1313
+	.4byte gTextL4_1314
+	.4byte gTextL4_1315
+	.4byte gTextL4_1316
+	.4byte gTextL4_1317
+	.4byte gTextL4_1318
+	.4byte gTextL4_1319
+	.4byte gTextL4_1320
+	.4byte gTextL4_1321
+	.4byte gTextL4_1322
+	.4byte gTextL4_1323
+	.4byte gTextL4_1324
+	.4byte gTextL4_1325
+	.4byte gTextL4_1326
+	.4byte gTextL4_1327
+	.4byte gTextL4_1328
+	.4byte gTextL4_1329
+	.4byte gTextL4_1330
+	.4byte gTextL4_1331
+	.4byte gTextL4_1332
+	.4byte gTextL4_1333
+	.4byte gTextL4_1334
+	.4byte gTextL4_1335
+	.4byte gTextL4_1336
+	.4byte gTextL4_1337
+	.4byte gTextL4_1338
+	.4byte gTextL4_1339
+	.4byte gTextL4_1340
+	.4byte gTextL4_1341
+	.4byte gTextL4_1342
+	.4byte gTextL4_1343
+	.4byte gTextL4_1344
+	.4byte gTextL4_1345
+	.4byte gTextL4_1346
+	.4byte gTextL4_1347
+	.4byte gTextL4_1348
+	.4byte gTextL4_1349
+	.4byte gTextL4_1350
+	.4byte gTextL4_1351
+	.4byte gTextL4_1352
+	.4byte gTextL4_1353
+	.4byte gTextL4_1354
+	.4byte gTextL4_1355
+	.4byte gTextL4_1356
+	.4byte gTextL4_1357
+	.4byte gTextL4_1358
+	.4byte gTextL4_1359
+	.4byte gTextL4_1360
+	.4byte gTextL4_1361
+	.4byte gTextL4_1362
+	.4byte gTextL4_1363
+	.4byte gTextL4_1364
+	.4byte gTextL4_1365
+	.4byte gTextL4_1366
+	.4byte gTextL4_1367
+	.4byte gTextL4_1368
+	.4byte gTextL4_1369
+	.4byte gTextL4_1370
+	.4byte gTextL4_1371
+	.4byte gTextL4_1372
+	.4byte gTextL4_1373
+	.4byte gTextL4_1374
+	.4byte gTextL4_1375
+	.4byte gTextL4_1376
+	.4byte gTextL4_1377
+	.4byte gTextL4_1378
+	.4byte gTextL4_1379
+	.4byte gTextL4_1380
+	.4byte gTextL4_1381
+	.4byte gTextL4_1382
+	.4byte gTextL4_1383
+	.4byte gTextL4_1384
+	.4byte gTextL4_1385
+	.4byte gTextL4_1386
+	.4byte gTextL4_1387
+	.4byte gTextL4_1388
+	.4byte gTextL4_1389
+	.4byte gTextL4_1390
+	.4byte gTextL4_1391
+	.4byte gTextL4_1392
+	.4byte gTextL4_1393
+	.4byte gTextL4_1394
+	.4byte gTextL4_1395
+	.4byte gTextL4_1396
+	.4byte gTextL4_1397
+	.4byte gTextL4_1398
+	.4byte gTextL4_1399
+	.4byte gTextL4_1400
+	.4byte gTextL4_1401
+	.4byte gTextL4_1402
+	.4byte gTextL4_1403
+	.4byte gTextL4_1404
+	.4byte gTextL4_1405
+	.4byte gTextL4_1406
+	.4byte gTextL4_1407
+	.4byte gTextL4_1408
+	.4byte gTextL4_1409
+	.4byte gTextL4_1410
+	.4byte gTextL4_1411
+	.4byte gTextL4_1412
+	.4byte gTextL4_1413
+	.4byte gTextL4_1414
+	.4byte gTextL4_1415
+	.4byte gTextL4_1416
+	.4byte gTextL4_1417
+	.4byte gTextL4_1418
+	.4byte gTextL4_1419
+	.4byte gTextL4_1420
+	.4byte gTextL4_1421
+	.4byte gTextL4_1422
+	.4byte gTextL4_1423
+	.4byte gTextL4_1424
+	.4byte gTextL4_1425
+	.4byte gTextL4_1426
+	.4byte gTextL4_1427
+	.4byte gTextL4_1428
+	.4byte gTextL4_1429
+	.4byte gTextL4_1430
+	.4byte gTextL4_1431
+	.4byte gTextL4_1432
+	.4byte gTextL4_1433
+	.4byte gTextL4_1434
+	.4byte gTextL4_1435
+	.4byte gTextL4_1436
+	.4byte gTextL4_1437
+	.4byte gTextL4_1438
+	.4byte gTextL4_1439
+	.4byte gTextL4_1440
+	.4byte gTextL4_1441
+	.4byte gTextL4_1442
+	.4byte gTextL4_1443
+	.4byte gTextL4_1444
+	.4byte gTextL4_1445
+	.4byte gTextL4_1446
+	.4byte gTextL4_1447
+	.4byte gTextL4_1448
+	.4byte gTextL4_1449
+	.4byte gTextL4_1450
+	.4byte gTextL4_1451
+	.4byte gTextL4_1452
+	.4byte gTextL4_1453
+	.4byte gTextL4_1454
+	.4byte gTextL4_1455
+	.4byte gTextL4_1456
+	.4byte gTextL4_1457
+	.4byte gTextL4_1458
+	.4byte gTextL4_1459
+	.4byte gTextL4_1460
+	.4byte gTextL4_1461
+	.4byte gTextL4_1462
+	.4byte gTextL4_1463
+	.4byte gTextL4_1464
+	.4byte gTextL4_1465
+	.4byte gTextL4_1466
+	.4byte gTextL4_1467
+	.4byte gTextL4_1468
+	.4byte gTextL4_1469
+	.4byte gTextL4_1470
+	.4byte gTextL4_1471
+	.4byte gTextL4_1472
+	.4byte gTextL4_1473
+	.4byte gTextL4_1474
+	.4byte gTextL4_1475
+	.4byte gTextL4_1476
+	.4byte gTextL4_1477
+	.4byte gTextL4_1478
+	.4byte gTextL4_1479
+	.4byte gTextL4_1480
+	.4byte gTextL4_1481
+	.4byte gTextL4_1482
+	.4byte gTextL4_1483
+	.4byte gTextL4_1484
+	.4byte gTextL4_1485
+	.4byte gTextL4_1486
+	.4byte gTextL4_1487
+	.4byte gTextL4_1488
+	.4byte gTextL4_1489
+	.4byte gTextL4_1490
+	.4byte gTextL4_1491
+	.4byte gTextL4_1492
+	.global gTextL3_0000
+gTextL3_0000:
+	.incbin "baserom.gba", 0x3B22A0, 0xD
+	.global gTextL3_0001
+gTextL3_0001:
+	.incbin "baserom.gba", 0x3B22AD, 0x10
+	.global gTextL3_0002
+gTextL3_0002:
+	.incbin "baserom.gba", 0x3B22BD, 0x23
+	.global gTextL3_0003
+gTextL3_0003:
+	.incbin "baserom.gba", 0x3B22E0, 0x24
+	.global gTextL3_0004
+gTextL3_0004:
+	.incbin "baserom.gba", 0x3B2304, 0x3C
+	.global gTextL3_0005
+gTextL3_0005:
+	.incbin "baserom.gba", 0x3B2340, 0x36
+	.global gTextL3_0006
+gTextL3_0006:
+	.incbin "baserom.gba", 0x3B2376, 0x2F
+	.global gTextL3_0007
+gTextL3_0007:
+	.incbin "baserom.gba", 0x3B23A5, 0x3A
+	.global gTextL3_0008
+gTextL3_0008:
+	.incbin "baserom.gba", 0x3B23DF, 0x31
+	.global gTextL3_0009
+gTextL3_0009:
+	.incbin "baserom.gba", 0x3B2410, 0x28
+	.global gTextL3_0010
+gTextL3_0010:
+	.incbin "baserom.gba", 0x3B2438, 0x3A
+	.global gTextL3_0011
+gTextL3_0011:
+	.incbin "baserom.gba", 0x3B2472, 0x37
+	.global gTextL3_0012
+gTextL3_0012:
+	.incbin "baserom.gba", 0x3B24A9, 0x38
+	.global gTextL3_0013
+gTextL3_0013:
+	.incbin "baserom.gba", 0x3B24E1, 0x30
+	.global gTextL3_0014
+gTextL3_0014:
+	.incbin "baserom.gba", 0x3B2511, 0x2C
+	.global gTextL3_0015
+gTextL3_0015:
+	.incbin "baserom.gba", 0x3B253D, 0x25
+	.global gTextL3_0016
+gTextL3_0016:
+	.incbin "baserom.gba", 0x3B2562, 0x1F
+	.global gTextL3_0017
+gTextL3_0017:
+	.incbin "baserom.gba", 0x3B2581, 0x3A
+	.global gTextL3_0018
+gTextL3_0018:
+	.incbin "baserom.gba", 0x3B25BB, 0x1E
+	.global gTextL3_0019
+gTextL3_0019:
+	.incbin "baserom.gba", 0x3B25D9, 0x35
+	.global gTextL3_0020
+gTextL3_0020:
+	.incbin "baserom.gba", 0x3B260E, 0x34
+	.global gTextL3_0021
+gTextL3_0021:
+	.incbin "baserom.gba", 0x3B2642, 0x31
+	.global gTextL3_0022
+gTextL3_0022:
+	.incbin "baserom.gba", 0x3B2673, 0x28
+	.global gTextL3_0023
+gTextL3_0023:
+	.incbin "baserom.gba", 0x3B269B, 0x31
+	.global gTextL3_0024
+gTextL3_0024:
+	.incbin "baserom.gba", 0x3B26CC, 0x15
+	.global gTextL3_0025
+gTextL3_0025:
+	.incbin "baserom.gba", 0x3B26E1, 0x2E
+	.global gTextL3_0026
+gTextL3_0026:
+	.incbin "baserom.gba", 0x3B270F, 0x34
+	.global gTextL3_0027
+gTextL3_0027:
+	.incbin "baserom.gba", 0x3B2743, 0x18
+	.global gTextL3_0028
+gTextL3_0028:
+	.incbin "baserom.gba", 0x3B275B, 0x31
+	.global gTextL3_0029
+gTextL3_0029:
+	.incbin "baserom.gba", 0x3B278C, 0x6E
+	.global gTextL3_0030
+gTextL3_0030:
+	.incbin "baserom.gba", 0x3B27FA, 0x31
+	.global gTextL3_0031
+gTextL3_0031:
+	.incbin "baserom.gba", 0x3B282B, 0x3B
+	.global gTextL3_0032
+gTextL3_0032:
+	.incbin "baserom.gba", 0x3B2866, 0x1B
+	.global gTextL3_0033
+gTextL3_0033:
+	.incbin "baserom.gba", 0x3B2881, 0x2C
+	.global gTextL3_0034
+gTextL3_0034:
+	.incbin "baserom.gba", 0x3B28AD, 0x96
+	.global gTextL3_0035
+gTextL3_0035:
+	.incbin "baserom.gba", 0x3B2943, 0x38
+	.global gTextL3_0036
+gTextL3_0036:
+	.incbin "baserom.gba", 0x3B297B, 0x27
+	.global gTextL3_0037
+gTextL3_0037:
+	.incbin "baserom.gba", 0x3B29A2, 0x29
+	.global gTextL3_0038
+gTextL3_0038:
+	.incbin "baserom.gba", 0x3B29CB, 0x3B
+	.global gTextL3_0039
+gTextL3_0039:
+	.incbin "baserom.gba", 0x3B2A06, 0x69
+	.global gTextL3_0040
+gTextL3_0040:
+	.incbin "baserom.gba", 0x3B2A6F, 0x35
+	.global gTextL3_0041
+gTextL3_0041:
+	.incbin "baserom.gba", 0x3B2AA4, 0x15
+	.global gTextL3_0042
+gTextL3_0042:
+	.incbin "baserom.gba", 0x3B2AB9, 0x33
+	.global gTextL3_0043
+gTextL3_0043:
+	.incbin "baserom.gba", 0x3B2AEC, 0x13
+	.global gTextL3_0044
+gTextL3_0044:
+	.incbin "baserom.gba", 0x3B2AFF, 0x1E
+	.global gTextL3_0045
+gTextL3_0045:
+	.incbin "baserom.gba", 0x3B2B1D, 0x25
+	.global gTextL3_0046
+gTextL3_0046:
+	.incbin "baserom.gba", 0x3B2B42, 0x2A
+	.global gTextL3_0047
+gTextL3_0047:
+	.incbin "baserom.gba", 0x3B2B6C, 0x6A
+	.global gTextL3_0048
+gTextL3_0048:
+	.incbin "baserom.gba", 0x3B2BD6, 0x138
+	.global gTextL3_0049
+gTextL3_0049:
+	.incbin "baserom.gba", 0x3B2D0E, 0x6F
+	.global gTextL3_0050
+gTextL3_0050:
+	.incbin "baserom.gba", 0x3B2D7D, 0x138
+	.global gTextL3_0051
+gTextL3_0051:
+	.incbin "baserom.gba", 0x3B2EB5, 0x29
+	.global gTextL3_0052
+gTextL3_0052:
+	.incbin "baserom.gba", 0x3B2EDE, 0x2C
+	.global gTextL3_0053
+gTextL3_0053:
+	.incbin "baserom.gba", 0x3B2F0A, 0x6E
+	.global gTextL3_0054
+gTextL3_0054:
+	.incbin "baserom.gba", 0x3B2F78, 0x47
+	.global gTextL3_0055
+gTextL3_0055:
+	.incbin "baserom.gba", 0x3B2FBF, 0x50
+	.global gTextL3_0056
+gTextL3_0056:
+	.incbin "baserom.gba", 0x3B300F, 0xAF
+	.global gTextL3_0057
+gTextL3_0057:
+	.incbin "baserom.gba", 0x3B30BE, 0xF2
+	.global gTextL3_0058
+gTextL3_0058:
+	.incbin "baserom.gba", 0x3B31B0, 0x4C
+	.global gTextL3_0059
+gTextL3_0059:
+	.incbin "baserom.gba", 0x3B31FC, 0xBB
+	.global gTextL3_0060
+gTextL3_0060:
+	.incbin "baserom.gba", 0x3B32B7, 0x89
+	.global gTextL3_0061
+gTextL3_0061:
+	.incbin "baserom.gba", 0x3B3340, 0x56
+	.global gTextL3_0062
+gTextL3_0062:
+	.incbin "baserom.gba", 0x3B3396, 0xB
+	.global gTextL3_0063
+gTextL3_0063:
+	.incbin "baserom.gba", 0x3B33A1, 0x135
+	.global gTextL3_0064
+gTextL3_0064:
+	.incbin "baserom.gba", 0x3B34D6, 0x1C4
+	.global gTextL3_0065
+gTextL3_0065:
+	.incbin "baserom.gba", 0x3B369A, 0x45
+	.global gTextL3_0066
+gTextL3_0066:
+	.incbin "baserom.gba", 0x3B36DF, 0x112
+	.global gTextL3_0067
+gTextL3_0067:
+	.incbin "baserom.gba", 0x3B37F1, 0xDF
+	.global gTextL3_0068
+gTextL3_0068:
+	.incbin "baserom.gba", 0x3B38D0, 0x35
+	.global gTextL3_0069
+gTextL3_0069:
+	.incbin "baserom.gba", 0x3B3905, 0x27
+	.global gTextL3_0070
+gTextL3_0070:
+	.incbin "baserom.gba", 0x3B392C, 0x154
+	.global gTextL3_0071
+gTextL3_0071:
+	.incbin "baserom.gba", 0x3B3A80, 0x166
+	.global gTextL3_0072
+gTextL3_0072:
+	.incbin "baserom.gba", 0x3B3BE6, 0x1B1
+	.global gTextL3_0073
+gTextL3_0073:
+	.incbin "baserom.gba", 0x3B3D97, 0x33
+	.global gTextL3_0074
+gTextL3_0074:
+	.incbin "baserom.gba", 0x3B3DCA, 0x51
+	.global gTextL3_0075
+gTextL3_0075:
+	.incbin "baserom.gba", 0x3B3E1B, 0x3E
+	.global gTextL3_0076
+gTextL3_0076:
+	.incbin "baserom.gba", 0x3B3E59, 0x2E
+	.global gTextL3_0077
+gTextL3_0077:
+	.incbin "baserom.gba", 0x3B3E87, 0x1E
+	.global gTextL3_0078
+gTextL3_0078:
+	.incbin "baserom.gba", 0x3B3EA5, 0x59
+	.global gTextL3_0079
+gTextL3_0079:
+	.incbin "baserom.gba", 0x3B3EFE, 0x164
+	.global gTextL3_0080
+gTextL3_0080:
+	.incbin "baserom.gba", 0x3B4062, 0x2A
+	.global gTextL3_0081
+gTextL3_0081:
+	.incbin "baserom.gba", 0x3B408C, 0x31
+	.global gTextL3_0082
+gTextL3_0082:
+	.incbin "baserom.gba", 0x3B40BD, 0x15
+	.global gTextL3_0083
+gTextL3_0083:
+	.incbin "baserom.gba", 0x3B40D2, 0x31
+	.global gTextL3_0084
+gTextL3_0084:
+	.incbin "baserom.gba", 0x3B4103, 0x17
+	.global gTextL3_0085
+gTextL3_0085:
+	.incbin "baserom.gba", 0x3B411A, 0x2C
+	.global gTextL3_0086
+gTextL3_0086:
+	.incbin "baserom.gba", 0x3B4146, 0x2C
+	.global gTextL3_0087
+gTextL3_0087:
+	.incbin "baserom.gba", 0x3B4172, 0x54
+	.global gTextL3_0088
+gTextL3_0088:
+	.incbin "baserom.gba", 0x3B41C6, 0x268
+	.global gTextL3_0089
+gTextL3_0089:
+	.incbin "baserom.gba", 0x3B442E, 0x122
+	.global gTextL3_0090
+gTextL3_0090:
+	.incbin "baserom.gba", 0x3B4550, 0x27
+	.global gTextL3_0091
+gTextL3_0091:
+	.incbin "baserom.gba", 0x3B4577, 0x15
+	.global gTextL3_0092
+gTextL3_0092:
+	.incbin "baserom.gba", 0x3B458C, 0x19
+	.global gTextL3_0093
+gTextL3_0093:
+	.incbin "baserom.gba", 0x3B45A5, 0x8
+	.global gTextL3_0094
+gTextL3_0094:
+	.incbin "baserom.gba", 0x3B45AD, 0x210
+	.global gTextL3_0095
+gTextL3_0095:
+	.incbin "baserom.gba", 0x3B47BD, 0xB8
+	.global gTextL3_0096
+gTextL3_0096:
+	.incbin "baserom.gba", 0x3B4875, 0x300
+	.global gTextL3_0097
+gTextL3_0097:
+	.incbin "baserom.gba", 0x3B4B75, 0x190
+	.global gTextL3_0098
+gTextL3_0098:
+	.incbin "baserom.gba", 0x3B4D05, 0x1CE
+	.global gTextL3_0099
+gTextL3_0099:
+	.incbin "baserom.gba", 0x3B4ED3, 0x48
+	.global gTextL3_0100
+gTextL3_0100:
+	.incbin "baserom.gba", 0x3B4F1B, 0xD
+	.global gTextL3_0101
+gTextL3_0101:
+	.incbin "baserom.gba", 0x3B4F28, 0x1B4
+	.global gTextL3_0102
+gTextL3_0102:
+	.incbin "baserom.gba", 0x3B50DC, 0x145
+	.global gTextL3_0103
+gTextL3_0103:
+	.incbin "baserom.gba", 0x3B5221, 0x5C
+	.global gTextL3_0104
+gTextL3_0104:
+	.incbin "baserom.gba", 0x3B527D, 0x143
+	.global gTextL3_0105
+gTextL3_0105:
+	.incbin "baserom.gba", 0x3B53C0, 0x2BB
+	.global gTextL3_0106
+gTextL3_0106:
+	.incbin "baserom.gba", 0x3B567B, 0x175
+	.global gTextL3_0107
+gTextL3_0107:
+	.incbin "baserom.gba", 0x3B57F0, 0x25
+	.global gTextL3_0108
+gTextL3_0108:
+	.incbin "baserom.gba", 0x3B5815, 0x50
+	.global gTextL3_0109
+gTextL3_0109:
+	.incbin "baserom.gba", 0x3B5865, 0x3B
+	.global gTextL3_0110
+gTextL3_0110:
+	.incbin "baserom.gba", 0x3B58A0, 0x2A
+	.global gTextL3_0111
+gTextL3_0111:
+	.incbin "baserom.gba", 0x3B58CA, 0x2C
+	.global gTextL3_0112
+gTextL3_0112:
+	.incbin "baserom.gba", 0x3B58F6, 0x2F
+	.global gTextL3_0113
+gTextL3_0113:
+	.incbin "baserom.gba", 0x3B5925, 0x52
+	.global gTextL3_0114
+gTextL3_0114:
+	.incbin "baserom.gba", 0x3B5977, 0x1F
+	.global gTextL3_0115
+gTextL3_0115:
+	.incbin "baserom.gba", 0x3B5996, 0x45
+	.global gTextL3_0116
+gTextL3_0116:
+	.incbin "baserom.gba", 0x3B59DB, 0x6A
+	.global gTextL3_0117
+gTextL3_0117:
+	.incbin "baserom.gba", 0x3B5A45, 0x5A
+	.global gTextL3_0118
+gTextL3_0118:
+	.incbin "baserom.gba", 0x3B5A9F, 0x71
+	.global gTextL3_0119
+gTextL3_0119:
+	.incbin "baserom.gba", 0x3B5B10, 0x30
+	.global gTextL3_0120
+gTextL3_0120:
+	.incbin "baserom.gba", 0x3B5B40, 0x38
+	.global gTextL3_0121
+gTextL3_0121:
+	.incbin "baserom.gba", 0x3B5B78, 0x67
+	.global gTextL3_0122
+gTextL3_0122:
+	.incbin "baserom.gba", 0x3B5BDF, 0x39
+	.global gTextL3_0123
+gTextL3_0123:
+	.incbin "baserom.gba", 0x3B5C18, 0x42
+	.global gTextL3_0124
+gTextL3_0124:
+	.incbin "baserom.gba", 0x3B5C5A, 0x2A
+	.global gTextL3_0125
+gTextL3_0125:
+	.incbin "baserom.gba", 0x3B5C84, 0x31
+	.global gTextL3_0126
+gTextL3_0126:
+	.incbin "baserom.gba", 0x3B5CB5, 0x50
+	.global gTextL3_0127
+gTextL3_0127:
+	.incbin "baserom.gba", 0x3B5D05, 0x99
+	.global gTextL3_0128
+gTextL3_0128:
+	.incbin "baserom.gba", 0x3B5D9E, 0x64
+	.global gTextL3_0129
+gTextL3_0129:
+	.incbin "baserom.gba", 0x3B5E02, 0x7
+	.global gTextL3_0130
+gTextL3_0130:
+	.incbin "baserom.gba", 0x3B5E09, 0xA
+	.global gTextL3_0131
+gTextL3_0131:
+	.incbin "baserom.gba", 0x3B5E13, 0xF
+	.global gTextL3_0132
+gTextL3_0132:
+	.incbin "baserom.gba", 0x3B5E22, 0x2B
+	.global gTextL3_0133
+gTextL3_0133:
+	.incbin "baserom.gba", 0x3B5E4D, 0x22
+	.global gTextL3_0134
+gTextL3_0134:
+	.incbin "baserom.gba", 0x3B5E6F, 0x3A
+	.global gTextL3_0135
+gTextL3_0135:
+	.incbin "baserom.gba", 0x3B5EA9, 0x24
+	.global gTextL3_0136
+gTextL3_0136:
+	.incbin "baserom.gba", 0x3B5ECD, 0x51
+	.global gTextL3_0137
+gTextL3_0137:
+	.incbin "baserom.gba", 0x3B5F1E, 0xA4
+	.global gTextL3_0138
+gTextL3_0138:
+	.incbin "baserom.gba", 0x3B5FC2, 0x5B
+	.global gTextL3_0139
+gTextL3_0139:
+	.incbin "baserom.gba", 0x3B601D, 0x1C1
+	.global gTextL3_0140
+gTextL3_0140:
+	.incbin "baserom.gba", 0x3B61DE, 0xB8
+	.global gTextL3_0141
+gTextL3_0141:
+	.incbin "baserom.gba", 0x3B6296, 0x10
+	.global gTextL3_0142
+gTextL3_0142:
+	.incbin "baserom.gba", 0x3B62A6, 0x2C
+	.global gTextL3_0143
+gTextL3_0143:
+	.incbin "baserom.gba", 0x3B62D2, 0x22
+	.global gTextL3_0144
+gTextL3_0144:
+	.incbin "baserom.gba", 0x3B62F4, 0xE0
+	.global gTextL3_0145
+gTextL3_0145:
+	.incbin "baserom.gba", 0x3B63D4, 0xEE
+	.global gTextL3_0146
+gTextL3_0146:
+	.incbin "baserom.gba", 0x3B64C2, 0x55
+	.global gTextL3_0147
+gTextL3_0147:
+	.incbin "baserom.gba", 0x3B6517, 0x14B
+	.global gTextL3_0148
+gTextL3_0148:
+	.incbin "baserom.gba", 0x3B6662, 0x67
+	.global gTextL3_0149
+gTextL3_0149:
+	.incbin "baserom.gba", 0x3B66C9, 0xD0
+	.global gTextL3_0150
+gTextL3_0150:
+	.incbin "baserom.gba", 0x3B6799, 0x146
+	.global gTextL3_0151
+gTextL3_0151:
+	.incbin "baserom.gba", 0x3B68DF, 0x44
+	.global gTextL3_0152
+gTextL3_0152:
+	.incbin "baserom.gba", 0x3B6923, 0x15B
+	.global gTextL3_0153
+gTextL3_0153:
+	.incbin "baserom.gba", 0x3B6A7E, 0x149
+	.global gTextL3_0154
+gTextL3_0154:
+	.incbin "baserom.gba", 0x3B6BC7, 0x5A
+	.global gTextL3_0155
+gTextL3_0155:
+	.incbin "baserom.gba", 0x3B6C21, 0xFE
+	.global gTextL3_0156
+gTextL3_0156:
+	.incbin "baserom.gba", 0x3B6D1F, 0x18F
+	.global gTextL3_0157
+gTextL3_0157:
+	.incbin "baserom.gba", 0x3B6EAE, 0x56
+	.global gTextL3_0158
+gTextL3_0158:
+	.incbin "baserom.gba", 0x3B6F04, 0x21F
+	.global gTextL3_0159
+gTextL3_0159:
+	.incbin "baserom.gba", 0x3B7123, 0x4C5
+	.global gTextL3_0160
+gTextL3_0160:
+	.incbin "baserom.gba", 0x3B75E8, 0x3CD
+	.global gTextL3_0161
+gTextL3_0161:
+	.incbin "baserom.gba", 0x3B79B5, 0x3F
+	.global gTextL3_0162
+gTextL3_0162:
+	.incbin "baserom.gba", 0x3B79F4, 0x26E
+	.global gTextL3_0163
+gTextL3_0163:
+	.incbin "baserom.gba", 0x3B7C62, 0x5F
+	.global gTextL3_0164
+gTextL3_0164:
+	.incbin "baserom.gba", 0x3B7CC1, 0x1D4
+	.global gTextL3_0165
+gTextL3_0165:
+	.incbin "baserom.gba", 0x3B7E95, 0x36F
+	.global gTextL3_0166
+gTextL3_0166:
+	.incbin "baserom.gba", 0x3B8204, 0x313
+	.global gTextL3_0167
+gTextL3_0167:
+	.incbin "baserom.gba", 0x3B8517, 0x2CE
+	.global gTextL3_0168
+gTextL3_0168:
+	.incbin "baserom.gba", 0x3B87E5, 0x13C
+	.global gTextL3_0169
+gTextL3_0169:
+	.incbin "baserom.gba", 0x3B8921, 0x20
+	.global gTextL3_0170
+gTextL3_0170:
+	.incbin "baserom.gba", 0x3B8941, 0x57
+	.global gTextL3_0171
+gTextL3_0171:
+	.incbin "baserom.gba", 0x3B8998, 0x48
+	.global gTextL3_0172
+gTextL3_0172:
+	.incbin "baserom.gba", 0x3B89E0, 0x3A
+	.global gTextL3_0173
+gTextL3_0173:
+	.incbin "baserom.gba", 0x3B8A1A, 0x1C5
+	.global gTextL3_0174
+gTextL3_0174:
+	.incbin "baserom.gba", 0x3B8BDF, 0x1DB
+	.global gTextL3_0175
+gTextL3_0175:
+	.incbin "baserom.gba", 0x3B8DBA, 0x156
+	.global gTextL3_0176
+gTextL3_0176:
+	.incbin "baserom.gba", 0x3B8F10, 0x21A
+	.global gTextL3_0177
+gTextL3_0177:
+	.incbin "baserom.gba", 0x3B912A, 0x1A3
+	.global gTextL3_0178
+gTextL3_0178:
+	.incbin "baserom.gba", 0x3B92CD, 0x11A
+	.global gTextL3_0179
+gTextL3_0179:
+	.incbin "baserom.gba", 0x3B93E7, 0x206
+	.global gTextL3_0180
+gTextL3_0180:
+	.incbin "baserom.gba", 0x3B95ED, 0x101
+	.global gTextL3_0181
+gTextL3_0181:
+	.incbin "baserom.gba", 0x3B96EE, 0x27C
+	.global gTextL3_0182
+gTextL3_0182:
+	.incbin "baserom.gba", 0x3B996A, 0x172
+	.global gTextL3_0183
+gTextL3_0183:
+	.incbin "baserom.gba", 0x3B9ADC, 0x16E
+	.global gTextL3_0184
+gTextL3_0184:
+	.incbin "baserom.gba", 0x3B9C4A, 0xFE
+	.global gTextL3_0185
+gTextL3_0185:
+	.incbin "baserom.gba", 0x3B9D48, 0x131
+	.global gTextL3_0186
+gTextL3_0186:
+	.incbin "baserom.gba", 0x3B9E79, 0x35
+	.global gTextL3_0187
+gTextL3_0187:
+	.incbin "baserom.gba", 0x3B9EAE, 0x152
+	.global gTextL3_0188
+gTextL3_0188:
+	.incbin "baserom.gba", 0x3BA000, 0x147
+	.global gTextL3_0189
+gTextL3_0189:
+	.incbin "baserom.gba", 0x3BA147, 0x154
+	.global gTextL3_0190
+gTextL3_0190:
+	.incbin "baserom.gba", 0x3BA29B, 0x1B0
+	.global gTextL3_0191
+gTextL3_0191:
+	.incbin "baserom.gba", 0x3BA44B, 0x26B
+	.global gTextL3_0192
+gTextL3_0192:
+	.incbin "baserom.gba", 0x3BA6B6, 0x1D6
+	.global gTextL3_0193
+gTextL3_0193:
+	.incbin "baserom.gba", 0x3BA88C, 0x22E
+	.global gTextL3_0194
+gTextL3_0194:
+	.incbin "baserom.gba", 0x3BAABA, 0x304
+	.global gTextL3_0195
+gTextL3_0195:
+	.incbin "baserom.gba", 0x3BADBE, 0xC6
+	.global gTextL3_0196
+gTextL3_0196:
+	.incbin "baserom.gba", 0x3BAE84, 0x110
+	.global gTextL3_0197
+gTextL3_0197:
+	.incbin "baserom.gba", 0x3BAF94, 0x129
+	.global gTextL3_0198
+gTextL3_0198:
+	.incbin "baserom.gba", 0x3BB0BD, 0xFC
+	.global gTextL3_0199
+gTextL3_0199:
+	.incbin "baserom.gba", 0x3BB1B9, 0x18B
+	.global gTextL3_0200
+gTextL3_0200:
+	.incbin "baserom.gba", 0x3BB344, 0x153
+	.global gTextL3_0201
+gTextL3_0201:
+	.incbin "baserom.gba", 0x3BB497, 0x1BC
+	.global gTextL3_0202
+gTextL3_0202:
+	.incbin "baserom.gba", 0x3BB653, 0x112
+	.global gTextL3_0203
+gTextL3_0203:
+	.incbin "baserom.gba", 0x3BB765, 0x1C4
+	.global gTextL3_0204
+gTextL3_0204:
+	.incbin "baserom.gba", 0x3BB929, 0x20B
+	.global gTextL3_0205
+gTextL3_0205:
+	.incbin "baserom.gba", 0x3BBB34, 0x35
+	.global gTextL3_0206
+gTextL3_0206:
+	.incbin "baserom.gba", 0x3BBB69, 0x1F
+	.global gTextL3_0207
+gTextL3_0207:
+	.incbin "baserom.gba", 0x3BBB88, 0x22
+	.global gTextL3_0208
+gTextL3_0208:
+	.incbin "baserom.gba", 0x3BBBAA, 0x22
+	.global gTextL3_0209
+gTextL3_0209:
+	.incbin "baserom.gba", 0x3BBBCC, 0x36
+	.global gTextL3_0210
+gTextL3_0210:
+	.incbin "baserom.gba", 0x3BBC02, 0x177
+	.global gTextL3_0211
+gTextL3_0211:
+	.incbin "baserom.gba", 0x3BBD79, 0xDC
+	.global gTextL3_0212
+gTextL3_0212:
+	.incbin "baserom.gba", 0x3BBE55, 0xF9
+	.global gTextL3_0213
+gTextL3_0213:
+	.incbin "baserom.gba", 0x3BBF4E, 0x120
+	.global gTextL3_0214
+gTextL3_0214:
+	.incbin "baserom.gba", 0x3BC06E, 0x1A4
+	.global gTextL3_0215
+gTextL3_0215:
+	.incbin "baserom.gba", 0x3BC212, 0x173
+	.global gTextL3_0216
+gTextL3_0216:
+	.incbin "baserom.gba", 0x3BC385, 0x13B
+	.global gTextL3_0217
+gTextL3_0217:
+	.incbin "baserom.gba", 0x3BC4C0, 0x122
+	.global gTextL3_0218
+gTextL3_0218:
+	.incbin "baserom.gba", 0x3BC5E2, 0x1B4
+	.global gTextL3_0219
+gTextL3_0219:
+	.incbin "baserom.gba", 0x3BC796, 0xCE
+	.global gTextL3_0220
+gTextL3_0220:
+	.incbin "baserom.gba", 0x3BC864, 0x1C
+	.global gTextL3_0221
+gTextL3_0221:
+	.incbin "baserom.gba", 0x3BC880, 0x20
+	.global gTextL3_0222
+gTextL3_0222:
+	.incbin "baserom.gba", 0x3BC8A0, 0x32
+	.global gTextL3_0223
+gTextL3_0223:
+	.incbin "baserom.gba", 0x3BC8D2, 0x2D
+	.global gTextL3_0224
+gTextL3_0224:
+	.incbin "baserom.gba", 0x3BC8FF, 0x29
+	.global gTextL3_0225
+gTextL3_0225:
+	.incbin "baserom.gba", 0x3BC928, 0x3CD
+	.global gTextL3_0226
+gTextL3_0226:
+	.incbin "baserom.gba", 0x3BCCF5, 0x1F
+	.global gTextL3_0227
+gTextL3_0227:
+	.incbin "baserom.gba", 0x3BCD14, 0x2B
+	.global gTextL3_0228
+gTextL3_0228:
+	.incbin "baserom.gba", 0x3BCD3F, 0x20
+	.global gTextL3_0229
+gTextL3_0229:
+	.incbin "baserom.gba", 0x3BCD5F, 0x1E
+	.global gTextL3_0230
+gTextL3_0230:
+	.incbin "baserom.gba", 0x3BCD7D, 0x1F
+	.global gTextL3_0231
+gTextL3_0231:
+	.incbin "baserom.gba", 0x3BCD9C, 0x32
+	.global gTextL3_0232
+gTextL3_0232:
+	.incbin "baserom.gba", 0x3BCDCE, 0x2A
+	.global gTextL3_0233
+gTextL3_0233:
+	.incbin "baserom.gba", 0x3BCDF8, 0x2F
+	.global gTextL3_0234
+gTextL3_0234:
+	.incbin "baserom.gba", 0x3BCE27, 0x145
+	.global gTextL3_0235
+gTextL3_0235:
+	.incbin "baserom.gba", 0x3BCF6C, 0x13D
+	.global gTextL3_0236
+gTextL3_0236:
+	.incbin "baserom.gba", 0x3BD0A9, 0x18E
+	.global gTextL3_0237
+gTextL3_0237:
+	.incbin "baserom.gba", 0x3BD237, 0x1EF
+	.global gTextL3_0238
+gTextL3_0238:
+	.incbin "baserom.gba", 0x3BD426, 0x22B
+	.global gTextL3_0239
+gTextL3_0239:
+	.incbin "baserom.gba", 0x3BD651, 0xB0
+	.global gTextL3_0240
+gTextL3_0240:
+	.incbin "baserom.gba", 0x3BD701, 0xA6
+	.global gTextL3_0241
+gTextL3_0241:
+	.incbin "baserom.gba", 0x3BD7A7, 0x17A
+	.global gTextL3_0242
+gTextL3_0242:
+	.incbin "baserom.gba", 0x3BD921, 0x26C
+	.global gTextL3_0243
+gTextL3_0243:
+	.incbin "baserom.gba", 0x3BDB8D, 0xB0
+	.global gTextL3_0244
+gTextL3_0244:
+	.incbin "baserom.gba", 0x3BDC3D, 0x6A
+	.global gTextL3_0245
+gTextL3_0245:
+	.incbin "baserom.gba", 0x3BDCA7, 0x182
+	.global gTextL3_0246
+gTextL3_0246:
+	.incbin "baserom.gba", 0x3BDE29, 0x8E
+	.global gTextL3_0247
+gTextL3_0247:
+	.incbin "baserom.gba", 0x3BDEB7, 0x2CD
+	.global gTextL3_0248
+gTextL3_0248:
+	.incbin "baserom.gba", 0x3BE184, 0x11
+	.global gTextL3_0249
+gTextL3_0249:
+	.incbin "baserom.gba", 0x3BE195, 0x43
+	.global gTextL3_0250
+gTextL3_0250:
+	.incbin "baserom.gba", 0x3BE1D8, 0x12C
+	.global gTextL3_0251
+gTextL3_0251:
+	.incbin "baserom.gba", 0x3BE304, 0x97
+	.global gTextL3_0252
+gTextL3_0252:
+	.incbin "baserom.gba", 0x3BE39B, 0x2C5
+	.global gTextL3_0253
+gTextL3_0253:
+	.incbin "baserom.gba", 0x3BE660, 0x11
+	.global gTextL3_0254
+gTextL3_0254:
+	.incbin "baserom.gba", 0x3BE671, 0xB5
+	.global gTextL3_0255
+gTextL3_0255:
+	.incbin "baserom.gba", 0x3BE726, 0x4E3
+	.global gTextL3_0256
+gTextL3_0256:
+	.incbin "baserom.gba", 0x3BEC09, 0x3D2
+	.global gTextL3_0257
+gTextL3_0257:
+	.incbin "baserom.gba", 0x3BEFDB, 0x487
+	.global gTextL3_0258
+gTextL3_0258:
+	.incbin "baserom.gba", 0x3BF462, 0x5D2
+	.global gTextL3_0259
+gTextL3_0259:
+	.incbin "baserom.gba", 0x3BFA34, 0x517
+	.global gTextL3_0260
+gTextL3_0260:
+	.incbin "baserom.gba", 0x3BFF4B, 0x1C1
+	.global gTextL3_0261
+gTextL3_0261:
+	.incbin "baserom.gba", 0x3C010C, 0x392
+	.global gTextL3_0262
+gTextL3_0262:
+	.incbin "baserom.gba", 0x3C049E, 0x6AE
+	.global gTextL3_0263
+gTextL3_0263:
+	.incbin "baserom.gba", 0x3C0B4C, 0x39
+	.global gTextL3_0264
+gTextL3_0264:
+	.incbin "baserom.gba", 0x3C0B85, 0x83
+	.global gTextL3_0265
+gTextL3_0265:
+	.incbin "baserom.gba", 0x3C0C08, 0x87
+	.global gTextL3_0266
+gTextL3_0266:
+	.incbin "baserom.gba", 0x3C0C8F, 0x68
+	.global gTextL3_0267
+gTextL3_0267:
+	.incbin "baserom.gba", 0x3C0CF7, 0xDD
+	.global gTextL3_0268
+gTextL3_0268:
+	.incbin "baserom.gba", 0x3C0DD4, 0xAF
+	.global gTextL3_0269
+gTextL3_0269:
+	.incbin "baserom.gba", 0x3C0E83, 0x98
+	.global gTextL3_0270
+gTextL3_0270:
+	.incbin "baserom.gba", 0x3C0F1B, 0x113
+	.global gTextL3_0271
+gTextL3_0271:
+	.incbin "baserom.gba", 0x3C102E, 0x18C
+	.global gTextL3_0272
+gTextL3_0272:
+	.incbin "baserom.gba", 0x3C11BA, 0x146
+	.global gTextL3_0273
+gTextL3_0273:
+	.incbin "baserom.gba", 0x3C1300, 0x1D3
+	.global gTextL3_0274
+gTextL3_0274:
+	.incbin "baserom.gba", 0x3C14D3, 0x8E
+	.global gTextL3_0275
+gTextL3_0275:
+	.incbin "baserom.gba", 0x3C1561, 0x24E
+	.global gTextL3_0276
+gTextL3_0276:
+	.incbin "baserom.gba", 0x3C17AF, 0x27
+	.global gTextL3_0277
+gTextL3_0277:
+	.incbin "baserom.gba", 0x3C17D6, 0x88
+	.global gTextL3_0278
+gTextL3_0278:
+	.incbin "baserom.gba", 0x3C185E, 0x83
+	.global gTextL3_0279
+gTextL3_0279:
+	.incbin "baserom.gba", 0x3C18E1, 0x88
+	.global gTextL3_0280
+gTextL3_0280:
+	.incbin "baserom.gba", 0x3C1969, 0x130
+	.global gTextL3_0281
+gTextL3_0281:
+	.incbin "baserom.gba", 0x3C1A99, 0x140
+	.global gTextL3_0282
+gTextL3_0282:
+	.incbin "baserom.gba", 0x3C1BD9, 0x14B
+	.global gTextL3_0283
+gTextL3_0283:
+	.incbin "baserom.gba", 0x3C1D24, 0x140
+	.global gTextL3_0284
+gTextL3_0284:
+	.incbin "baserom.gba", 0x3C1E64, 0x148
+	.global gTextL3_0285
+gTextL3_0285:
+	.incbin "baserom.gba", 0x3C1FAC, 0x145
+	.global gTextL3_0286
+gTextL3_0286:
+	.incbin "baserom.gba", 0x3C20F1, 0x168
+	.global gTextL3_0287
+gTextL3_0287:
+	.incbin "baserom.gba", 0x3C2259, 0x14A
+	.global gTextL3_0288
+gTextL3_0288:
+	.incbin "baserom.gba", 0x3C23A3, 0x137
+	.global gTextL3_0289
+gTextL3_0289:
+	.incbin "baserom.gba", 0x3C24DA, 0x37
+	.global gTextL3_0290
+gTextL3_0290:
+	.incbin "baserom.gba", 0x3C2511, 0x27
+	.global gTextL3_0291
+gTextL3_0291:
+	.incbin "baserom.gba", 0x3C2538, 0x2B
+	.global gTextL3_0292
+gTextL3_0292:
+	.incbin "baserom.gba", 0x3C2563, 0x39
+	.global gTextL3_0293
+gTextL3_0293:
+	.incbin "baserom.gba", 0x3C259C, 0x16
+	.global gTextL3_0294
+gTextL3_0294:
+	.incbin "baserom.gba", 0x3C25B2, 0x34
+	.global gTextL3_0295
+gTextL3_0295:
+	.incbin "baserom.gba", 0x3C25E6, 0x3F
+	.global gTextL3_0296
+gTextL3_0296:
+	.incbin "baserom.gba", 0x3C2625, 0x66
+	.global gTextL3_0297
+gTextL3_0297:
+	.incbin "baserom.gba", 0x3C268B, 0x5C
+	.global gTextL3_0298
+gTextL3_0298:
+	.incbin "baserom.gba", 0x3C26E7, 0x58
+	.global gTextL3_0299
+gTextL3_0299:
+	.incbin "baserom.gba", 0x3C273F, 0x61
+	.global gTextL3_0300
+gTextL3_0300:
+	.incbin "baserom.gba", 0x3C27A0, 0x54
+	.global gTextL3_0301
+gTextL3_0301:
+	.incbin "baserom.gba", 0x3C27F4, 0x66
+	.global gTextL3_0302
+gTextL3_0302:
+	.incbin "baserom.gba", 0x3C285A, 0x57
+	.global gTextL3_0303
+gTextL3_0303:
+	.incbin "baserom.gba", 0x3C28B1, 0x50
+	.global gTextL3_0304
+gTextL3_0304:
+	.incbin "baserom.gba", 0x3C2901, 0x79
+	.global gTextL3_0305
+gTextL3_0305:
+	.incbin "baserom.gba", 0x3C297A, 0x92
+	.global gTextL3_0306
+gTextL3_0306:
+	.incbin "baserom.gba", 0x3C2A0C, 0x71
+	.global gTextL3_0307
+gTextL3_0307:
+	.incbin "baserom.gba", 0x3C2A7D, 0x8A
+	.global gTextL3_0308
+gTextL3_0308:
+	.incbin "baserom.gba", 0x3C2B07, 0x7C
+	.global gTextL3_0309
+gTextL3_0309:
+	.incbin "baserom.gba", 0x3C2B83, 0x6A
+	.global gTextL3_0310
+gTextL3_0310:
+	.incbin "baserom.gba", 0x3C2BED, 0x78
+	.global gTextL3_0311
+gTextL3_0311:
+	.incbin "baserom.gba", 0x3C2C65, 0x7C
+	.global gTextL3_0312
+gTextL3_0312:
+	.incbin "baserom.gba", 0x3C2CE1, 0x91
+	.global gTextL3_0313
+gTextL3_0313:
+	.incbin "baserom.gba", 0x3C2D72, 0x79
+	.global gTextL3_0314
+gTextL3_0314:
+	.incbin "baserom.gba", 0x3C2DEB, 0x2F
+	.global gTextL3_0315
+gTextL3_0315:
+	.incbin "baserom.gba", 0x3C2E1A, 0x1CA
+	.global gTextL3_0316
+gTextL3_0316:
+	.incbin "baserom.gba", 0x3C2FE4, 0x218
+	.global gTextL3_0317
+gTextL3_0317:
+	.incbin "baserom.gba", 0x3C31FC, 0x21A
+	.global gTextL3_0318
+gTextL3_0318:
+	.incbin "baserom.gba", 0x3C3416, 0x2E2
+	.global gTextL3_0319
+gTextL3_0319:
+	.incbin "baserom.gba", 0x3C36F8, 0x205
+	.global gTextL3_0320
+gTextL3_0320:
+	.incbin "baserom.gba", 0x3C38FD, 0x409
+	.global gTextL3_0321
+gTextL3_0321:
+	.incbin "baserom.gba", 0x3C3D06, 0x90
+	.global gTextL3_0322
+gTextL3_0322:
+	.incbin "baserom.gba", 0x3C3D96, 0x59
+	.global gTextL3_0323
+gTextL3_0323:
+	.incbin "baserom.gba", 0x3C3DEF, 0x6D
+	.global gTextL3_0324
+gTextL3_0324:
+	.incbin "baserom.gba", 0x3C3E5C, 0x86
+	.global gTextL3_0325
+gTextL3_0325:
+	.incbin "baserom.gba", 0x3C3EE2, 0x76
+	.global gTextL3_0326
+gTextL3_0326:
+	.incbin "baserom.gba", 0x3C3F58, 0x59
+	.global gTextL3_0327
+gTextL3_0327:
+	.incbin "baserom.gba", 0x3C3FB1, 0x68
+	.global gTextL3_0328
+gTextL3_0328:
+	.incbin "baserom.gba", 0x3C4019, 0x6F
+	.global gTextL3_0329
+gTextL3_0329:
+	.incbin "baserom.gba", 0x3C4088, 0xC2
+	.global gTextL3_0330
+gTextL3_0330:
+	.incbin "baserom.gba", 0x3C414A, 0x126
+	.global gTextL3_0331
+gTextL3_0331:
+	.incbin "baserom.gba", 0x3C4270, 0x64
+	.global gTextL3_0332
+gTextL3_0332:
+	.incbin "baserom.gba", 0x3C42D4, 0x61
+	.global gTextL3_0333
+gTextL3_0333:
+	.incbin "baserom.gba", 0x3C4335, 0x4A
+	.global gTextL3_0334
+gTextL3_0334:
+	.incbin "baserom.gba", 0x3C437F, 0x5B
+	.global gTextL3_0335
+gTextL3_0335:
+	.incbin "baserom.gba", 0x3C43DA, 0x70
+	.global gTextL3_0336
+gTextL3_0336:
+	.incbin "baserom.gba", 0x3C444A, 0x5A
+	.global gTextL3_0337
+gTextL3_0337:
+	.incbin "baserom.gba", 0x3C44A4, 0x74
+	.global gTextL3_0338
+gTextL3_0338:
+	.incbin "baserom.gba", 0x3C4518, 0x57
+	.global gTextL3_0339
+gTextL3_0339:
+	.incbin "baserom.gba", 0x3C456F, 0x61
+	.global gTextL3_0340
+gTextL3_0340:
+	.incbin "baserom.gba", 0x3C45D0, 0x6A
+	.global gTextL3_0341
+gTextL3_0341:
+	.incbin "baserom.gba", 0x3C463A, 0x64
+	.global gTextL3_0342
+gTextL3_0342:
+	.incbin "baserom.gba", 0x3C469E, 0x61
+	.global gTextL3_0343
+gTextL3_0343:
+	.incbin "baserom.gba", 0x3C46FF, 0x62
+	.global gTextL3_0344
+gTextL3_0344:
+	.incbin "baserom.gba", 0x3C4761, 0x3B
+	.global gTextL3_0345
+gTextL3_0345:
+	.incbin "baserom.gba", 0x3C479C, 0x3B
+	.global gTextL3_0346
+gTextL3_0346:
+	.incbin "baserom.gba", 0x3C47D7, 0x33
+	.global gTextL3_0347
+gTextL3_0347:
+	.incbin "baserom.gba", 0x3C480A, 0x34
+	.global gTextL3_0348
+gTextL3_0348:
+	.incbin "baserom.gba", 0x3C483E, 0x2B
+	.global gTextL3_0349
+gTextL3_0349:
+	.incbin "baserom.gba", 0x3C4869, 0x3A
+	.global gTextL3_0350
+gTextL3_0350:
+	.incbin "baserom.gba", 0x3C48A3, 0x37
+	.global gTextL3_0351
+gTextL3_0351:
+	.incbin "baserom.gba", 0x3C48DA, 0x35
+	.global gTextL3_0352
+gTextL3_0352:
+	.incbin "baserom.gba", 0x3C490F, 0x33
+	.global gTextL3_0353
+gTextL3_0353:
+	.incbin "baserom.gba", 0x3C4942, 0x3C
+	.global gTextL3_0354
+gTextL3_0354:
+	.incbin "baserom.gba", 0x3C497E, 0x26
+	.global gTextL3_0355
+gTextL3_0355:
+	.incbin "baserom.gba", 0x3C49A4, 0x66
+	.global gTextL3_0356
+gTextL3_0356:
+	.incbin "baserom.gba", 0x3C4A0A, 0x24
+	.global gTextL3_0357
+gTextL3_0357:
+	.incbin "baserom.gba", 0x3C4A2E, 0x15
+	.global gTextL3_0358
+gTextL3_0358:
+	.incbin "baserom.gba", 0x3C4A43, 0x2A
+	.global gTextL3_0359
+gTextL3_0359:
+	.incbin "baserom.gba", 0x3C4A6D, 0x2A
+	.global gTextL3_0360
+gTextL3_0360:
+	.incbin "baserom.gba", 0x3C4A97, 0x24
+	.global gTextL3_0361
+gTextL3_0361:
+	.incbin "baserom.gba", 0x3C4ABB, 0x39
+	.global gTextL3_0362
+gTextL3_0362:
+	.incbin "baserom.gba", 0x3C4AF4, 0x3B
+	.global gTextL3_0363
+gTextL3_0363:
+	.incbin "baserom.gba", 0x3C4B2F, 0x33
+	.global gTextL3_0364
+gTextL3_0364:
+	.incbin "baserom.gba", 0x3C4B62, 0x51
+	.global gTextL3_0365
+gTextL3_0365:
+	.incbin "baserom.gba", 0x3C4BB3, 0x2F
+	.global gTextL3_0366
+gTextL3_0366:
+	.incbin "baserom.gba", 0x3C4BE2, 0x1C
+	.global gTextL3_0367
+gTextL3_0367:
+	.incbin "baserom.gba", 0x3C4BFE, 0x3B
+	.global gTextL3_0368
+gTextL3_0368:
+	.incbin "baserom.gba", 0x3C4C39, 0x1A
+	.global gTextL3_0369
+gTextL3_0369:
+	.incbin "baserom.gba", 0x3C4C53, 0x3B
+	.global gTextL3_0370
+gTextL3_0370:
+	.incbin "baserom.gba", 0x3C4C8E, 0x25
+	.global gTextL3_0371
+gTextL3_0371:
+	.incbin "baserom.gba", 0x3C4CB3, 0x70
+	.global gTextL3_0372
+gTextL3_0372:
+	.incbin "baserom.gba", 0x3C4D23, 0x33
+	.global gTextL3_0373
+gTextL3_0373:
+	.incbin "baserom.gba", 0x3C4D56, 0x3B
+	.global gTextL3_0374
+gTextL3_0374:
+	.incbin "baserom.gba", 0x3C4D91, 0xA3
+	.global gTextL3_0375
+gTextL3_0375:
+	.incbin "baserom.gba", 0x3C4E34, 0x6F
+	.global gTextL3_0376
+gTextL3_0376:
+	.incbin "baserom.gba", 0x3C4EA3, 0x67
+	.global gTextL3_0377
+gTextL3_0377:
+	.incbin "baserom.gba", 0x3C4F0A, 0x70
+	.global gTextL3_0378
+gTextL3_0378:
+	.incbin "baserom.gba", 0x3C4F7A, 0x63
+	.global gTextL3_0379
+gTextL3_0379:
+	.incbin "baserom.gba", 0x3C4FDD, 0x6B
+	.global gTextL3_0380
+gTextL3_0380:
+	.incbin "baserom.gba", 0x3C5048, 0x5C
+	.global gTextL3_0381
+gTextL3_0381:
+	.incbin "baserom.gba", 0x3C50A4, 0x63
+	.global gTextL3_0382
+gTextL3_0382:
+	.incbin "baserom.gba", 0x3C5107, 0x19
+	.global gTextL3_0383
+gTextL3_0383:
+	.incbin "baserom.gba", 0x3C5120, 0x30D
+	.global gTextL3_0384
+gTextL3_0384:
+	.incbin "baserom.gba", 0x3C542D, 0x605
+	.global gTextL3_0385
+gTextL3_0385:
+	.incbin "baserom.gba", 0x3C5A32, 0x13
+	.global gTextL3_0386
+gTextL3_0386:
+	.incbin "baserom.gba", 0x3C5A45, 0xE
+	.global gTextL3_0387
+gTextL3_0387:
+	.incbin "baserom.gba", 0x3C5A53, 0x13
+	.global gTextL3_0388
+gTextL3_0388:
+	.incbin "baserom.gba", 0x3C5A66, 0x1B
+	.global gTextL3_0389
+gTextL3_0389:
+	.incbin "baserom.gba", 0x3C5A81, 0x19
+	.global gTextL3_0390
+gTextL3_0390:
+	.incbin "baserom.gba", 0x3C5A9A, 0x17
+	.global gTextL3_0391
+gTextL3_0391:
+	.incbin "baserom.gba", 0x3C5AB1, 0xE
+	.global gTextL3_0392
+gTextL3_0392:
+	.incbin "baserom.gba", 0x3C5ABF, 0x18
+	.global gTextL3_0393
+gTextL3_0393:
+	.incbin "baserom.gba", 0x3C5AD7, 0x23
+	.global gTextL3_0394
+gTextL3_0394:
+	.incbin "baserom.gba", 0x3C5AFA, 0x1B
+	.global gTextL3_0395
+gTextL3_0395:
+	.incbin "baserom.gba", 0x3C5B15, 0xD1
+	.global gTextL3_0396
+gTextL3_0396:
+	.incbin "baserom.gba", 0x3C5BE6, 0x18F
+	.global gTextL3_0397
+gTextL3_0397:
+	.incbin "baserom.gba", 0x3C5D75, 0x259
+	.global gTextL3_0398
+gTextL3_0398:
+	.incbin "baserom.gba", 0x3C5FCE, 0x31
+	.global gTextL3_0399
+gTextL3_0399:
+	.incbin "baserom.gba", 0x3C5FFF, 0x10
+	.global gTextL3_0400
+gTextL3_0400:
+	.incbin "baserom.gba", 0x3C600F, 0x16
+	.global gTextL3_0401
+gTextL3_0401:
+	.incbin "baserom.gba", 0x3C6025, 0x23
+	.global gTextL3_0402
+gTextL3_0402:
+	.incbin "baserom.gba", 0x3C6048, 0x23
+	.global gTextL3_0403
+gTextL3_0403:
+	.incbin "baserom.gba", 0x3C606B, 0x1F
+	.global gTextL3_0404
+gTextL3_0404:
+	.incbin "baserom.gba", 0x3C608A, 0x18
+	.global gTextL3_0405
+gTextL3_0405:
+	.incbin "baserom.gba", 0x3C60A2, 0x24
+	.global gTextL3_0406
+gTextL3_0406:
+	.incbin "baserom.gba", 0x3C60C6, 0x1F
+	.global gTextL3_0407
+gTextL3_0407:
+	.incbin "baserom.gba", 0x3C60E5, 0x19
+	.global gTextL3_0408
+gTextL3_0408:
+	.incbin "baserom.gba", 0x3C60FE, 0x1A
+	.global gTextL3_0409
+gTextL3_0409:
+	.incbin "baserom.gba", 0x3C6118, 0x1D
+	.global gTextL3_0410
+gTextL3_0410:
+	.incbin "baserom.gba", 0x3C6135, 0x29
+	.global gTextL3_0411
+gTextL3_0411:
+	.incbin "baserom.gba", 0x3C615E, 0x24
+	.global gTextL3_0412
+gTextL3_0412:
+	.incbin "baserom.gba", 0x3C6182, 0x23
+	.global gTextL3_0413
+gTextL3_0413:
+	.incbin "baserom.gba", 0x3C61A5, 0x1F
+	.global gTextL3_0414
+gTextL3_0414:
+	.incbin "baserom.gba", 0x3C61C4, 0x34
+	.global gTextL3_0415
+gTextL3_0415:
+	.incbin "baserom.gba", 0x3C61F8, 0x39
+	.global gTextL3_0416
+gTextL3_0416:
+	.incbin "baserom.gba", 0x3C6231, 0x28
+	.global gTextL3_0417
+gTextL3_0417:
+	.incbin "baserom.gba", 0x3C6259, 0x3A
+	.global gTextL3_0418
+gTextL3_0418:
+	.incbin "baserom.gba", 0x3C6293, 0x3B
+	.global gTextL3_0419
+gTextL3_0419:
+	.incbin "baserom.gba", 0x3C62CE, 0x30
+	.global gTextL3_0420
+gTextL3_0420:
+	.incbin "baserom.gba", 0x3C62FE, 0x30
+	.global gTextL3_0421
+gTextL3_0421:
+	.incbin "baserom.gba", 0x3C632E, 0x36
+	.global gTextL3_0422
+gTextL3_0422:
+	.incbin "baserom.gba", 0x3C6364, 0x6C
+	.global gTextL3_0423
+gTextL3_0423:
+	.incbin "baserom.gba", 0x3C63D0, 0x25A
+	.global gTextL3_0424
+gTextL3_0424:
+	.incbin "baserom.gba", 0x3C662A, 0xE8
+	.global gTextL3_0425
+gTextL3_0425:
+	.incbin "baserom.gba", 0x3C6712, 0x2D8
+	.global gTextL3_0426
+gTextL3_0426:
+	.incbin "baserom.gba", 0x3C69EA, 0x8D
+	.global gTextL3_0427
+gTextL3_0427:
+	.incbin "baserom.gba", 0x3C6A77, 0x85
+	.global gTextL3_0428
+gTextL3_0428:
+	.incbin "baserom.gba", 0x3C6AFC, 0x82
+	.global gTextL3_0429
+gTextL3_0429:
+	.incbin "baserom.gba", 0x3C6B7E, 0x93
+	.global gTextL3_0430
+gTextL3_0430:
+	.incbin "baserom.gba", 0x3C6C11, 0xD1
+	.global gTextL3_0431
+gTextL3_0431:
+	.incbin "baserom.gba", 0x3C6CE2, 0x63
+	.global gTextL3_0432
+gTextL3_0432:
+	.incbin "baserom.gba", 0x3C6D45, 0x88
+	.global gTextL3_0433
+gTextL3_0433:
+	.incbin "baserom.gba", 0x3C6DCD, 0xAB
+	.global gTextL3_0434
+gTextL3_0434:
+	.incbin "baserom.gba", 0x3C6E78, 0xB2
+	.global gTextL3_0435
+gTextL3_0435:
+	.incbin "baserom.gba", 0x3C6F2A, 0x85
+	.global gTextL3_0436
+gTextL3_0436:
+	.incbin "baserom.gba", 0x3C6FAF, 0x1CB
+	.global gTextL3_0437
+gTextL3_0437:
+	.incbin "baserom.gba", 0x3C717A, 0x43
+	.global gTextL3_0438
+gTextL3_0438:
+	.incbin "baserom.gba", 0x3C71BD, 0x169
+	.global gTextL3_0439
+gTextL3_0439:
+	.incbin "baserom.gba", 0x3C7326, 0xF5
+	.global gTextL3_0440
+gTextL3_0440:
+	.incbin "baserom.gba", 0x3C741B, 0x1F9
+	.global gTextL3_0441
+gTextL3_0441:
+	.incbin "baserom.gba", 0x3C7614, 0x2ED
+	.global gTextL3_0442
+gTextL3_0442:
+	.incbin "baserom.gba", 0x3C7901, 0x308
+	.global gTextL3_0443
+gTextL3_0443:
+	.incbin "baserom.gba", 0x3C7C09, 0x2EB
+	.global gTextL3_0444
+gTextL3_0444:
+	.incbin "baserom.gba", 0x3C7EF4, 0x1E6
+	.global gTextL3_0445
+gTextL3_0445:
+	.incbin "baserom.gba", 0x3C80DA, 0x3DB
+	.global gTextL3_0446
+gTextL3_0446:
+	.incbin "baserom.gba", 0x3C84B5, 0x298
+	.global gTextL3_0447
+gTextL3_0447:
+	.incbin "baserom.gba", 0x3C874D, 0x2A7
+	.global gTextL3_0448
+gTextL3_0448:
+	.incbin "baserom.gba", 0x3C89F4, 0x3A0
+	.global gTextL3_0449
+gTextL3_0449:
+	.incbin "baserom.gba", 0x3C8D94, 0x75
+	.global gTextL3_0450
+gTextL3_0450:
+	.incbin "baserom.gba", 0x3C8E09, 0x423
+	.global gTextL3_0451
+gTextL3_0451:
+	.incbin "baserom.gba", 0x3C922C, 0x3C3
+	.global gTextL3_0452
+gTextL3_0452:
+	.incbin "baserom.gba", 0x3C95EF, 0x12
+	.global gTextL3_0453
+gTextL3_0453:
+	.incbin "baserom.gba", 0x3C9601, 0x57
+	.global gTextL3_0454
+gTextL3_0454:
+	.incbin "baserom.gba", 0x3C9658, 0x16
+	.global gTextL3_0455
+gTextL3_0455:
+	.incbin "baserom.gba", 0x3C966E, 0x76
+	.global gTextL3_0456
+gTextL3_0456:
+	.incbin "baserom.gba", 0x3C96E4, 0x9C
+	.global gTextL3_0457
+gTextL3_0457:
+	.incbin "baserom.gba", 0x3C9780, 0x63
+	.global gTextL3_0458
+gTextL3_0458:
+	.incbin "baserom.gba", 0x3C97E3, 0x17C
+	.global gTextL3_0459
+gTextL3_0459:
+	.incbin "baserom.gba", 0x3C995F, 0x23F
+	.global gTextL3_0460
+gTextL3_0460:
+	.incbin "baserom.gba", 0x3C9B9E, 0x130
+	.global gTextL3_0461
+gTextL3_0461:
+	.incbin "baserom.gba", 0x3C9CCE, 0x187
+	.global gTextL3_0462
+gTextL3_0462:
+	.incbin "baserom.gba", 0x3C9E55, 0xAF
+	.global gTextL3_0463
+gTextL3_0463:
+	.incbin "baserom.gba", 0x3C9F04, 0xE4
+	.global gTextL3_0464
+gTextL3_0464:
+	.incbin "baserom.gba", 0x3C9FE8, 0x1DA
+	.global gTextL3_0465
+gTextL3_0465:
+	.incbin "baserom.gba", 0x3CA1C2, 0x65
+	.global gTextL3_0466
+gTextL3_0466:
+	.incbin "baserom.gba", 0x3CA227, 0x54
+	.global gTextL3_0467
+gTextL3_0467:
+	.incbin "baserom.gba", 0x3CA27B, 0xBA
+	.global gTextL3_0468
+gTextL3_0468:
+	.incbin "baserom.gba", 0x3CA335, 0xC0
+	.global gTextL3_0469
+gTextL3_0469:
+	.incbin "baserom.gba", 0x3CA3F5, 0x9D
+	.global gTextL3_0470
+gTextL3_0470:
+	.incbin "baserom.gba", 0x3CA492, 0xA8
+	.global gTextL3_0471
+gTextL3_0471:
+	.incbin "baserom.gba", 0x3CA53A, 0xD4
+	.global gTextL3_0472
+gTextL3_0472:
+	.incbin "baserom.gba", 0x3CA60E, 0xDE
+	.global gTextL3_0473
+gTextL3_0473:
+	.incbin "baserom.gba", 0x3CA6EC, 0x10A
+	.global gTextL3_0474
+gTextL3_0474:
+	.incbin "baserom.gba", 0x3CA7F6, 0xC2
+	.global gTextL3_0475
+gTextL3_0475:
+	.incbin "baserom.gba", 0x3CA8B8, 0xAD
+	.global gTextL3_0476
+gTextL3_0476:
+	.incbin "baserom.gba", 0x3CA965, 0x1E6
+	.global gTextL3_0477
+gTextL3_0477:
+	.incbin "baserom.gba", 0x3CAB4B, 0x173
+	.global gTextL3_0478
+gTextL3_0478:
+	.incbin "baserom.gba", 0x3CACBE, 0x5B
+	.global gTextL3_0479
+gTextL3_0479:
+	.incbin "baserom.gba", 0x3CAD19, 0x1E
+	.global gTextL3_0480
+gTextL3_0480:
+	.incbin "baserom.gba", 0x3CAD37, 0x33
+	.global gTextL3_0481
+gTextL3_0481:
+	.incbin "baserom.gba", 0x3CAD6A, 0x8
+	.global gTextL3_0482
+gTextL3_0482:
+	.incbin "baserom.gba", 0x3CAD72, 0x32
+	.global gTextL3_0483
+gTextL3_0483:
+	.incbin "baserom.gba", 0x3CADA4, 0x43
+	.global gTextL3_0484
+gTextL3_0484:
+	.incbin "baserom.gba", 0x3CADE7, 0x2C
+	.global gTextL3_0485
+gTextL3_0485:
+	.incbin "baserom.gba", 0x3CAE13, 0x266
+	.global gTextL3_0486
+gTextL3_0486:
+	.incbin "baserom.gba", 0x3CB079, 0x1E
+	.global gTextL3_0487
+gTextL3_0487:
+	.incbin "baserom.gba", 0x3CB097, 0x27
+	.global gTextL3_0488
+gTextL3_0488:
+	.incbin "baserom.gba", 0x3CB0BE, 0x20
+	.global gTextL3_0489
+gTextL3_0489:
+	.incbin "baserom.gba", 0x3CB0DE, 0x2C
+	.global gTextL3_0490
+gTextL3_0490:
+	.incbin "baserom.gba", 0x3CB10A, 0x3C
+	.global gTextL3_0491
+gTextL3_0491:
+	.incbin "baserom.gba", 0x3CB146, 0x3C
+	.global gTextL3_0492
+gTextL3_0492:
+	.incbin "baserom.gba", 0x3CB182, 0x3C
+	.global gTextL3_0493
+gTextL3_0493:
+	.incbin "baserom.gba", 0x3CB1BE, 0x3C
+	.global gTextL3_0494
+gTextL3_0494:
+	.incbin "baserom.gba", 0x3CB1FA, 0x3C
+	.global gTextL3_0495
+gTextL3_0495:
+	.incbin "baserom.gba", 0x3CB236, 0x3C
+	.global gTextL3_0496
+gTextL3_0496:
+	.incbin "baserom.gba", 0x3CB272, 0x3C
+	.global gTextL3_0497
+gTextL3_0497:
+	.incbin "baserom.gba", 0x3CB2AE, 0x3C
+	.global gTextL3_0498
+gTextL3_0498:
+	.incbin "baserom.gba", 0x3CB2EA, 0x3C
+	.global gTextL3_0499
+gTextL3_0499:
+	.incbin "baserom.gba", 0x3CB326, 0xAE
+	.global gTextL3_0500
+gTextL3_0500:
+	.incbin "baserom.gba", 0x3CB3D4, 0x3E
+	.global gTextL3_0501
+gTextL3_0501:
+	.incbin "baserom.gba", 0x3CB412, 0x177
+	.global gTextL3_0502
+gTextL3_0502:
+	.incbin "baserom.gba", 0x3CB589, 0x1A
+	.global gTextL3_0503
+gTextL3_0503:
+	.incbin "baserom.gba", 0x3CB5A3, 0xC
+	.global gTextL3_0504
+gTextL3_0504:
+	.incbin "baserom.gba", 0x3CB5AF, 0x16
+	.global gTextL3_0505
+gTextL3_0505:
+	.incbin "baserom.gba", 0x3CB5C5, 0xB
+	.global gTextL3_0506
+gTextL3_0506:
+	.incbin "baserom.gba", 0x3CB5D0, 0xD
+	.global gTextL3_0507
+gTextL3_0507:
+	.incbin "baserom.gba", 0x3CB5DD, 0x11
+	.global gTextL3_0508
+gTextL3_0508:
+	.incbin "baserom.gba", 0x3CB5EE, 0x11
+	.global gTextL3_0509
+gTextL3_0509:
+	.incbin "baserom.gba", 0x3CB5FF, 0x11
+	.global gTextL3_0510
+gTextL3_0510:
+	.incbin "baserom.gba", 0x3CB610, 0x11
+	.global gTextL3_0511
+gTextL3_0511:
+	.incbin "baserom.gba", 0x3CB621, 0x1F
+	.global gTextL3_0512
+gTextL3_0512:
+	.incbin "baserom.gba", 0x3CB640, 0x1E
+	.global gTextL3_0513
+gTextL3_0513:
+	.incbin "baserom.gba", 0x3CB65E, 0x1F
+	.global gTextL3_0514
+gTextL3_0514:
+	.incbin "baserom.gba", 0x3CB67D, 0x1E
+	.global gTextL3_0515
+gTextL3_0515:
+	.incbin "baserom.gba", 0x3CB69B, 0x183
+	.global gTextL3_0516
+gTextL3_0516:
+	.incbin "baserom.gba", 0x3CB81E, 0x21
+	.global gTextL3_0517
+gTextL3_0517:
+	.incbin "baserom.gba", 0x3CB83F, 0x1B
+	.global gTextL3_0518
+gTextL3_0518:
+	.incbin "baserom.gba", 0x3CB85A, 0x7C5
+	.global gTextL3_0519
+gTextL3_0519:
+	.incbin "baserom.gba", 0x3CC01F, 0x32
+	.global gTextL3_0520
+gTextL3_0520:
+	.incbin "baserom.gba", 0x3CC051, 0x2C
+	.global gTextL3_0521
+gTextL3_0521:
+	.incbin "baserom.gba", 0x3CC07D, 0x26
+	.global gTextL3_0522
+gTextL3_0522:
+	.incbin "baserom.gba", 0x3CC0A3, 0x17
+	.global gTextL3_0523
+gTextL3_0523:
+	.incbin "baserom.gba", 0x3CC0BA, 0x2A
+	.global gTextL3_0524
+gTextL3_0524:
+	.incbin "baserom.gba", 0x3CC0E4, 0x30
+	.global gTextL3_0525
+gTextL3_0525:
+	.incbin "baserom.gba", 0x3CC114, 0x25
+	.global gTextL3_0526
+gTextL3_0526:
+	.incbin "baserom.gba", 0x3CC139, 0x32
+	.global gTextL3_0527
+gTextL3_0527:
+	.incbin "baserom.gba", 0x3CC16B, 0x32
+	.global gTextL3_0528
+gTextL3_0528:
+	.incbin "baserom.gba", 0x3CC19D, 0xB8
+	.global gTextL3_0529
+gTextL3_0529:
+	.incbin "baserom.gba", 0x3CC255, 0x5C
+	.global gTextL3_0530
+gTextL3_0530:
+	.incbin "baserom.gba", 0x3CC2B1, 0x2F
+	.global gTextL3_0531
+gTextL3_0531:
+	.incbin "baserom.gba", 0x3CC2E0, 0x81
+	.global gTextL3_0532
+gTextL3_0532:
+	.incbin "baserom.gba", 0x3CC361, 0x27
+	.global gTextL3_0533
+gTextL3_0533:
+	.incbin "baserom.gba", 0x3CC388, 0x12
+	.global gTextL3_0534
+gTextL3_0534:
+	.incbin "baserom.gba", 0x3CC39A, 0x34
+	.global gTextL3_0535
+gTextL3_0535:
+	.incbin "baserom.gba", 0x3CC3CE, 0x84
+	.global gTextL3_0536
+gTextL3_0536:
+	.incbin "baserom.gba", 0x3CC452, 0xA6
+	.global gTextL3_0537
+gTextL3_0537:
+	.incbin "baserom.gba", 0x3CC4F8, 0x64
+	.global gTextL3_0538
+gTextL3_0538:
+	.incbin "baserom.gba", 0x3CC55C, 0x87
+	.global gTextL3_0539
+gTextL3_0539:
+	.incbin "baserom.gba", 0x3CC5E3, 0x8E
+	.global gTextL3_0540
+gTextL3_0540:
+	.incbin "baserom.gba", 0x3CC671, 0x3B
+	.global gTextL3_0541
+gTextL3_0541:
+	.incbin "baserom.gba", 0x3CC6AC, 0x25
+	.global gTextL3_0542
+gTextL3_0542:
+	.incbin "baserom.gba", 0x3CC6D1, 0x32
+	.global gTextL3_0543
+gTextL3_0543:
+	.incbin "baserom.gba", 0x3CC703, 0x64
+	.global gTextL3_0544
+gTextL3_0544:
+	.incbin "baserom.gba", 0x3CC767, 0x69
+	.global gTextL3_0545
+gTextL3_0545:
+	.incbin "baserom.gba", 0x3CC7D0, 0x172
+	.global gTextL3_0546
+gTextL3_0546:
+	.incbin "baserom.gba", 0x3CC942, 0x33
+	.global gTextL3_0547
+gTextL3_0547:
+	.incbin "baserom.gba", 0x3CC975, 0x8B
+	.global gTextL3_0548
+gTextL3_0548:
+	.incbin "baserom.gba", 0x3CCA00, 0x58
+	.global gTextL3_0549
+gTextL3_0549:
+	.incbin "baserom.gba", 0x3CCA58, 0x23
+	.global gTextL3_0550
+gTextL3_0550:
+	.incbin "baserom.gba", 0x3CCA7B, 0x20
+	.global gTextL3_0551
+gTextL3_0551:
+	.incbin "baserom.gba", 0x3CCA9B, 0x30
+	.global gTextL3_0552
+gTextL3_0552:
+	.incbin "baserom.gba", 0x3CCACB, 0x8A
+	.global gTextL3_0553
+gTextL3_0553:
+	.incbin "baserom.gba", 0x3CCB55, 0x91
+	.global gTextL3_0554
+gTextL3_0554:
+	.incbin "baserom.gba", 0x3CCBE6, 0x26
+	.global gTextL3_0555
+gTextL3_0555:
+	.incbin "baserom.gba", 0x3CCC0C, 0x30
+	.global gTextL3_0556
+gTextL3_0556:
+	.incbin "baserom.gba", 0x3CCC3C, 0x58
+	.global gTextL3_0557
+gTextL3_0557:
+	.incbin "baserom.gba", 0x3CCC94, 0x50
+	.global gTextL3_0558
+gTextL3_0558:
+	.incbin "baserom.gba", 0x3CCCE4, 0x39
+	.global gTextL3_0559
+gTextL3_0559:
+	.incbin "baserom.gba", 0x3CCD1D, 0x45
+	.global gTextL3_0560
+gTextL3_0560:
+	.incbin "baserom.gba", 0x3CCD62, 0x22
+	.global gTextL3_0561
+gTextL3_0561:
+	.incbin "baserom.gba", 0x3CCD84, 0x1E
+	.global gTextL3_0562
+gTextL3_0562:
+	.incbin "baserom.gba", 0x3CCDA2, 0x47
+	.global gTextL3_0563
+gTextL3_0563:
+	.incbin "baserom.gba", 0x3CCDE9, 0x51
+	.global gTextL3_0564
+gTextL3_0564:
+	.incbin "baserom.gba", 0x3CCE3A, 0x97
+	.global gTextL3_0565
+gTextL3_0565:
+	.incbin "baserom.gba", 0x3CCED1, 0x42
+	.global gTextL3_0566
+gTextL3_0566:
+	.incbin "baserom.gba", 0x3CCF13, 0x22
+	.global gTextL3_0567
+gTextL3_0567:
+	.incbin "baserom.gba", 0x3CCF35, 0x79
+	.global gTextL3_0568
+gTextL3_0568:
+	.incbin "baserom.gba", 0x3CCFAE, 0x21
+	.global gTextL3_0569
+gTextL3_0569:
+	.incbin "baserom.gba", 0x3CCFCF, 0x1E
+	.global gTextL3_0570
+gTextL3_0570:
+	.incbin "baserom.gba", 0x3CCFED, 0x23
+	.global gTextL3_0571
+gTextL3_0571:
+	.incbin "baserom.gba", 0x3CD010, 0x1F
+	.global gTextL3_0572
+gTextL3_0572:
+	.incbin "baserom.gba", 0x3CD02F, 0x21
+	.global gTextL3_0573
+gTextL3_0573:
+	.incbin "baserom.gba", 0x3CD050, 0x1F
+	.global gTextL3_0574
+gTextL3_0574:
+	.incbin "baserom.gba", 0x3CD06F, 0x30
+	.global gTextL3_0575
+gTextL3_0575:
+	.incbin "baserom.gba", 0x3CD09F, 0x22
+	.global gTextL3_0576
+gTextL3_0576:
+	.incbin "baserom.gba", 0x3CD0C1, 0x2B
+	.global gTextL3_0577
+gTextL3_0577:
+	.incbin "baserom.gba", 0x3CD0EC, 0x2A
+	.global gTextL3_0578
+gTextL3_0578:
+	.incbin "baserom.gba", 0x3CD116, 0x1C
+	.global gTextL3_0579
+gTextL3_0579:
+	.incbin "baserom.gba", 0x3CD132, 0x13
+	.global gTextL3_0580
+gTextL3_0580:
+	.incbin "baserom.gba", 0x3CD145, 0x14
+	.global gTextL3_0581
+gTextL3_0581:
+	.incbin "baserom.gba", 0x3CD159, 0x15
+	.global gTextL3_0582
+gTextL3_0582:
+	.incbin "baserom.gba", 0x3CD16E, 0x14
+	.global gTextL3_0583
+gTextL3_0583:
+	.incbin "baserom.gba", 0x3CD182, 0x1E
+	.global gTextL3_0584
+gTextL3_0584:
+	.incbin "baserom.gba", 0x3CD1A0, 0x28
+	.global gTextL3_0585
+gTextL3_0585:
+	.incbin "baserom.gba", 0x3CD1C8, 0x29
+	.global gTextL3_0586
+gTextL3_0586:
+	.incbin "baserom.gba", 0x3CD1F1, 0x24
+	.global gTextL3_0587
+gTextL3_0587:
+	.incbin "baserom.gba", 0x3CD215, 0x32
+	.global gTextL3_0588
+gTextL3_0588:
+	.incbin "baserom.gba", 0x3CD247, 0x13
+	.global gTextL3_0589
+gTextL3_0589:
+	.incbin "baserom.gba", 0x3CD25A, 0x1F
+	.global gTextL3_0590
+gTextL3_0590:
+	.incbin "baserom.gba", 0x3CD279, 0x19
+	.global gTextL3_0591
+gTextL3_0591:
+	.incbin "baserom.gba", 0x3CD292, 0x16
+	.global gTextL3_0592
+gTextL3_0592:
+	.incbin "baserom.gba", 0x3CD2A8, 0x19
+	.global gTextL3_0593
+gTextL3_0593:
+	.incbin "baserom.gba", 0x3CD2C1, 0x4C
+	.global gTextL3_0594
+gTextL3_0594:
+	.incbin "baserom.gba", 0x3CD30D, 0x4C
+	.global gTextL3_0595
+gTextL3_0595:
+	.incbin "baserom.gba", 0x3CD359, 0x61
+	.global gTextL3_0596
+gTextL3_0596:
+	.incbin "baserom.gba", 0x3CD3BA, 0x1B
+	.global gTextL3_0597
+gTextL3_0597:
+	.incbin "baserom.gba", 0x3CD3D5, 0x5D
+	.global gTextL3_0598
+gTextL3_0598:
+	.incbin "baserom.gba", 0x3CD432, 0x58
+	.global gTextL3_0599
+gTextL3_0599:
+	.incbin "baserom.gba", 0x3CD48A, 0x52
+	.global gTextL3_0600
+gTextL3_0600:
+	.incbin "baserom.gba", 0x3CD4DC, 0x50
+	.global gTextL3_0601
+gTextL3_0601:
+	.incbin "baserom.gba", 0x3CD52C, 0x1D
+	.global gTextL3_0602
+gTextL3_0602:
+	.incbin "baserom.gba", 0x3CD549, 0x2E
+	.global gTextL3_0603
+gTextL3_0603:
+	.incbin "baserom.gba", 0x3CD577, 0x26
+	.global gTextL3_0604
+gTextL3_0604:
+	.incbin "baserom.gba", 0x3CD59D, 0xD
+	.global gTextL3_0605
+gTextL3_0605:
+	.incbin "baserom.gba", 0x3CD5AA, 0x11
+	.global gTextL3_0606
+gTextL3_0606:
+	.incbin "baserom.gba", 0x3CD5BB, 0x20
+	.global gTextL3_0607
+gTextL3_0607:
+	.incbin "baserom.gba", 0x3CD5DB, 0x5B
+	.global gTextL3_0608
+gTextL3_0608:
+	.incbin "baserom.gba", 0x3CD636, 0x59
+	.global gTextL3_0609
+gTextL3_0609:
+	.incbin "baserom.gba", 0x3CD68F, 0x37
+	.global gTextL3_0610
+gTextL3_0610:
+	.incbin "baserom.gba", 0x3CD6C6, 0x2F
+	.global gTextL3_0611
+gTextL3_0611:
+	.incbin "baserom.gba", 0x3CD6F5, 0x29
+	.global gTextL3_0612
+gTextL3_0612:
+	.incbin "baserom.gba", 0x3CD71E, 0x4E
+	.global gTextL3_0613
+gTextL3_0613:
+	.incbin "baserom.gba", 0x3CD76C, 0x3A
+	.global gTextL3_0614
+gTextL3_0614:
+	.incbin "baserom.gba", 0x3CD7A6, 0x43
+	.global gTextL3_0615
+gTextL3_0615:
+	.incbin "baserom.gba", 0x3CD7E9, 0x21
+	.global gTextL3_0616
+gTextL3_0616:
+	.incbin "baserom.gba", 0x3CD80A, 0x54
+	.global gTextL3_0617
+gTextL3_0617:
+	.incbin "baserom.gba", 0x3CD85E, 0x33
+	.global gTextL3_0618
+gTextL3_0618:
+	.incbin "baserom.gba", 0x3CD891, 0x32
+	.global gTextL3_0619
+gTextL3_0619:
+	.incbin "baserom.gba", 0x3CD8C3, 0x34
+	.global gTextL3_0620
+gTextL3_0620:
+	.incbin "baserom.gba", 0x3CD8F7, 0x7B
+	.global gTextL3_0621
+gTextL3_0621:
+	.incbin "baserom.gba", 0x3CD972, 0x6D
+	.global gTextL3_0622
+gTextL3_0622:
+	.incbin "baserom.gba", 0x3CD9DF, 0x1A
+	.global gTextL3_0623
+gTextL3_0623:
+	.incbin "baserom.gba", 0x3CD9F9, 0x22
+	.global gTextL3_0624
+gTextL3_0624:
+	.incbin "baserom.gba", 0x3CDA1B, 0x23
+	.global gTextL3_0625
+gTextL3_0625:
+	.incbin "baserom.gba", 0x3CDA3E, 0x2E
+	.global gTextL3_0626
+gTextL3_0626:
+	.incbin "baserom.gba", 0x3CDA6C, 0x24
+	.global gTextL3_0627
+gTextL3_0627:
+	.incbin "baserom.gba", 0x3CDA90, 0x3C
+	.global gTextL3_0628
+gTextL3_0628:
+	.incbin "baserom.gba", 0x3CDACC, 0x74
+	.global gTextL3_0629
+gTextL3_0629:
+	.incbin "baserom.gba", 0x3CDB40, 0x1A
+	.global gTextL3_0630
+gTextL3_0630:
+	.incbin "baserom.gba", 0x3CDB5A, 0x23
+	.global gTextL3_0631
+gTextL3_0631:
+	.incbin "baserom.gba", 0x3CDB7D, 0x33
+	.global gTextL3_0632
+gTextL3_0632:
+	.incbin "baserom.gba", 0x3CDBB0, 0xB8
+	.global gTextL3_0633
+gTextL3_0633:
+	.incbin "baserom.gba", 0x3CDC68, 0x4F
+	.global gTextL3_0634
+gTextL3_0634:
+	.incbin "baserom.gba", 0x3CDCB7, 0x3E
+	.global gTextL3_0635
+gTextL3_0635:
+	.incbin "baserom.gba", 0x3CDCF5, 0x1D0
+	.global gTextL3_0636
+gTextL3_0636:
+	.incbin "baserom.gba", 0x3CDEC5, 0x5D
+	.global gTextL3_0637
+gTextL3_0637:
+	.incbin "baserom.gba", 0x3CDF22, 0x2F
+	.global gTextL3_0638
+gTextL3_0638:
+	.incbin "baserom.gba", 0x3CDF51, 0x1A
+	.global gTextL3_0639
+gTextL3_0639:
+	.incbin "baserom.gba", 0x3CDF6B, 0x44
+	.global gTextL3_0640
+gTextL3_0640:
+	.incbin "baserom.gba", 0x3CDFAF, 0x1F
+	.global gTextL3_0641
+gTextL3_0641:
+	.incbin "baserom.gba", 0x3CDFCE, 0x20
+	.global gTextL3_0642
+gTextL3_0642:
+	.incbin "baserom.gba", 0x3CDFEE, 0x26
+	.global gTextL3_0643
+gTextL3_0643:
+	.incbin "baserom.gba", 0x3CE014, 0x24
+	.global gTextL3_0644
+gTextL3_0644:
+	.incbin "baserom.gba", 0x3CE038, 0x32
+	.global gTextL3_0645
+gTextL3_0645:
+	.incbin "baserom.gba", 0x3CE06A, 0x11A
+	.global gTextL3_0646
+gTextL3_0646:
+	.incbin "baserom.gba", 0x3CE184, 0x13D
+	.global gTextL3_0647
+gTextL3_0647:
+	.incbin "baserom.gba", 0x3CE2C1, 0xED
+	.global gTextL3_0648
+gTextL3_0648:
+	.incbin "baserom.gba", 0x3CE3AE, 0x58
+	.global gTextL3_0649
+gTextL3_0649:
+	.incbin "baserom.gba", 0x3CE406, 0x4E
+	.global gTextL3_0650
+gTextL3_0650:
+	.incbin "baserom.gba", 0x3CE454, 0xD3
+	.global gTextL3_0651
+gTextL3_0651:
+	.incbin "baserom.gba", 0x3CE527, 0xFC
+	.global gTextL3_0652
+gTextL3_0652:
+	.incbin "baserom.gba", 0x3CE623, 0x10A
+	.global gTextL3_0653
+gTextL3_0653:
+	.incbin "baserom.gba", 0x3CE72D, 0xD1
+	.global gTextL3_0654
+gTextL3_0654:
+	.incbin "baserom.gba", 0x3CE7FE, 0xCD
+	.global gTextL3_0655
+gTextL3_0655:
+	.incbin "baserom.gba", 0x3CE8CB, 0x35
+	.global gTextL3_0656
+gTextL3_0656:
+	.incbin "baserom.gba", 0x3CE900, 0x22
+	.global gTextL3_0657
+gTextL3_0657:
+	.incbin "baserom.gba", 0x3CE922, 0x62
+	.global gTextL3_0658
+gTextL3_0658:
+	.incbin "baserom.gba", 0x3CE984, 0x3C
+	.global gTextL3_0659
+gTextL3_0659:
+	.incbin "baserom.gba", 0x3CE9C0, 0x1F
+	.global gTextL3_0660
+gTextL3_0660:
+	.incbin "baserom.gba", 0x3CE9DF, 0x33
+	.global gTextL3_0661
+gTextL3_0661:
+	.incbin "baserom.gba", 0x3CEA12, 0x3F
+	.global gTextL3_0662
+gTextL3_0662:
+	.incbin "baserom.gba", 0x3CEA51, 0x17
+	.global gTextL3_0663
+gTextL3_0663:
+	.incbin "baserom.gba", 0x3CEA68, 0x17
+	.global gTextL3_0664
+gTextL3_0664:
+	.incbin "baserom.gba", 0x3CEA7F, 0x17
+	.global gTextL3_0665
+gTextL3_0665:
+	.incbin "baserom.gba", 0x3CEA96, 0x17
+	.global gTextL3_0666
+gTextL3_0666:
+	.incbin "baserom.gba", 0x3CEAAD, 0x17
+	.global gTextL3_0667
+gTextL3_0667:
+	.incbin "baserom.gba", 0x3CEAC4, 0x17
+	.global gTextL3_0668
+gTextL3_0668:
+	.incbin "baserom.gba", 0x3CEADB, 0x17
+	.global gTextL3_0669
+gTextL3_0669:
+	.incbin "baserom.gba", 0x3CEAF2, 0x17
+	.global gTextL3_0670
+gTextL3_0670:
+	.incbin "baserom.gba", 0x3CEB09, 0x17
+	.global gTextL3_0671
+gTextL3_0671:
+	.incbin "baserom.gba", 0x3CEB20, 0x18
+	.global gTextL3_0672
+gTextL3_0672:
+	.incbin "baserom.gba", 0x3CEB38, 0x19
+	.global gTextL3_0673
+gTextL3_0673:
+	.incbin "baserom.gba", 0x3CEB51, 0x1C2
+	.global gTextL3_0674
+gTextL3_0674:
+	.incbin "baserom.gba", 0x3CED13, 0x122
+	.global gTextL3_0675
+gTextL3_0675:
+	.incbin "baserom.gba", 0x3CEE35, 0x24
+	.global gTextL3_0676
+gTextL3_0676:
+	.incbin "baserom.gba", 0x3CEE59, 0x82
+	.global gTextL3_0677
+gTextL3_0677:
+	.incbin "baserom.gba", 0x3CEEDB, 0x32
+	.global gTextL3_0678
+gTextL3_0678:
+	.incbin "baserom.gba", 0x3CEF0D, 0x111
+	.global gTextL3_0679
+gTextL3_0679:
+	.incbin "baserom.gba", 0x3CF01E, 0x6A
+	.global gTextL3_0680
+gTextL3_0680:
+	.incbin "baserom.gba", 0x3CF088, 0x9B
+	.global gTextL3_0681
+gTextL3_0681:
+	.incbin "baserom.gba", 0x3CF123, 0x142
+	.global gTextL3_0682
+gTextL3_0682:
+	.incbin "baserom.gba", 0x3CF265, 0x1E0
+	.global gTextL3_0683
+gTextL3_0683:
+	.incbin "baserom.gba", 0x3CF445, 0x13B
+	.global gTextL3_0684
+gTextL3_0684:
+	.incbin "baserom.gba", 0x3CF580, 0x125
+	.global gTextL3_0685
+gTextL3_0685:
+	.incbin "baserom.gba", 0x3CF6A5, 0xBC
+	.global gTextL3_0686
+gTextL3_0686:
+	.incbin "baserom.gba", 0x3CF761, 0x34
+	.global gTextL3_0687
+gTextL3_0687:
+	.incbin "baserom.gba", 0x3CF795, 0xD0
+	.global gTextL3_0688
+gTextL3_0688:
+	.incbin "baserom.gba", 0x3CF865, 0x6C
+	.global gTextL3_0689
+gTextL3_0689:
+	.incbin "baserom.gba", 0x3CF8D1, 0xBB
+	.global gTextL3_0690
+gTextL3_0690:
+	.incbin "baserom.gba", 0x3CF98C, 0x107
+	.global gTextL3_0691
+gTextL3_0691:
+	.incbin "baserom.gba", 0x3CFA93, 0x330
+	.global gTextL3_0692
+gTextL3_0692:
+	.incbin "baserom.gba", 0x3CFDC3, 0xB6
+	.global gTextL3_0693
+gTextL3_0693:
+	.incbin "baserom.gba", 0x3CFE79, 0xB5
+	.global gTextL3_0694
+gTextL3_0694:
+	.incbin "baserom.gba", 0x3CFF2E, 0xCD
+	.global gTextL3_0695
+gTextL3_0695:
+	.incbin "baserom.gba", 0x3CFFFB, 0x38
+	.global gTextL3_0696
+gTextL3_0696:
+	.incbin "baserom.gba", 0x3D0033, 0xF0
+	.global gTextL3_0697
+gTextL3_0697:
+	.incbin "baserom.gba", 0x3D0123, 0xA0
+	.global gTextL3_0698
+gTextL3_0698:
+	.incbin "baserom.gba", 0x3D01C3, 0xDA
+	.global gTextL3_0699
+gTextL3_0699:
+	.incbin "baserom.gba", 0x3D029D, 0x176
+	.global gTextL3_0700
+gTextL3_0700:
+	.incbin "baserom.gba", 0x3D0413, 0x307
+	.global gTextL3_0701
+gTextL3_0701:
+	.incbin "baserom.gba", 0x3D071A, 0xDD
+	.global gTextL3_0702
+gTextL3_0702:
+	.incbin "baserom.gba", 0x3D07F7, 0xAA
+	.global gTextL3_0703
+gTextL3_0703:
+	.incbin "baserom.gba", 0x3D08A1, 0xEB
+	.global gTextL3_0704
+gTextL3_0704:
+	.incbin "baserom.gba", 0x3D098C, 0x35
+	.global gTextL3_0705
+gTextL3_0705:
+	.incbin "baserom.gba", 0x3D09C1, 0xA4
+	.global gTextL3_0706
+gTextL3_0706:
+	.incbin "baserom.gba", 0x3D0A65, 0x6E
+	.global gTextL3_0707
+gTextL3_0707:
+	.incbin "baserom.gba", 0x3D0AD3, 0x76
+	.global gTextL3_0708
+gTextL3_0708:
+	.incbin "baserom.gba", 0x3D0B49, 0xCC
+	.global gTextL3_0709
+gTextL3_0709:
+	.incbin "baserom.gba", 0x3D0C15, 0x8
+	.global gTextL3_0710
+gTextL3_0710:
+	.incbin "baserom.gba", 0x3D0C1D, 0x8
+	.global gTextL3_0711
+gTextL3_0711:
+	.incbin "baserom.gba", 0x3D0C25, 0x8
+	.global gTextL3_0712
+gTextL3_0712:
+	.incbin "baserom.gba", 0x3D0C2D, 0x8
+	.global gTextL3_0713
+gTextL3_0713:
+	.incbin "baserom.gba", 0x3D0C35, 0x8
+	.global gTextL3_0714
+gTextL3_0714:
+	.incbin "baserom.gba", 0x3D0C3D, 0x8
+	.global gTextL3_0715
+gTextL3_0715:
+	.incbin "baserom.gba", 0x3D0C45, 0x8
+	.global gTextL3_0716
+gTextL3_0716:
+	.incbin "baserom.gba", 0x3D0C4D, 0x8
+	.global gTextL3_0717
+gTextL3_0717:
+	.incbin "baserom.gba", 0x3D0C55, 0x8
+	.global gTextL3_0718
+gTextL3_0718:
+	.incbin "baserom.gba", 0x3D0C5D, 0x8
+	.global gTextL3_0719
+gTextL3_0719:
+	.incbin "baserom.gba", 0x3D0C65, 0x8
+	.global gTextL3_0720
+gTextL3_0720:
+	.incbin "baserom.gba", 0x3D0C6D, 0x8
+	.global gTextL3_0721
+gTextL3_0721:
+	.incbin "baserom.gba", 0x3D0C75, 0x1C
+	.global gTextL3_0722
+gTextL3_0722:
+	.incbin "baserom.gba", 0x3D0C91, 0x1C
+	.global gTextL3_0723
+gTextL3_0723:
+	.incbin "baserom.gba", 0x3D0CAD, 0x8
+	.global gTextL3_0724
+gTextL3_0724:
+	.incbin "baserom.gba", 0x3D0CB5, 0x8
+	.global gTextL3_0725
+gTextL3_0725:
+	.incbin "baserom.gba", 0x3D0CBD, 0x8
+	.global gTextL3_0726
+gTextL3_0726:
+	.incbin "baserom.gba", 0x3D0CC5, 0x8
+	.global gTextL3_0727
+gTextL3_0727:
+	.incbin "baserom.gba", 0x3D0CCD, 0x8
+	.global gTextL3_0728
+gTextL3_0728:
+	.incbin "baserom.gba", 0x3D0CD5, 0x8
+	.global gTextL3_0729
+gTextL3_0729:
+	.incbin "baserom.gba", 0x3D0CDD, 0x8
+	.global gTextL3_0730
+gTextL3_0730:
+	.incbin "baserom.gba", 0x3D0CE5, 0x8
+	.global gTextL3_0731
+gTextL3_0731:
+	.incbin "baserom.gba", 0x3D0CED, 0x8
+	.global gTextL3_0732
+gTextL3_0732:
+	.incbin "baserom.gba", 0x3D0CF5, 0x8
+	.global gTextL3_0733
+gTextL3_0733:
+	.incbin "baserom.gba", 0x3D0CFD, 0x8
+	.global gTextL3_0734
+gTextL3_0734:
+	.incbin "baserom.gba", 0x3D0D05, 0x8
+	.global gTextL3_0735
+gTextL3_0735:
+	.incbin "baserom.gba", 0x3D0D0D, 0x8
+	.global gTextL3_0736
+gTextL3_0736:
+	.incbin "baserom.gba", 0x3D0D15, 0x8
+	.global gTextL3_0737
+gTextL3_0737:
+	.incbin "baserom.gba", 0x3D0D1D, 0x8
+	.global gTextL3_0738
+gTextL3_0738:
+	.incbin "baserom.gba", 0x3D0D25, 0x8
+	.global gTextL3_0739
+gTextL3_0739:
+	.incbin "baserom.gba", 0x3D0D2D, 0x19
+	.global gTextL3_0740
+gTextL3_0740:
+	.incbin "baserom.gba", 0x3D0D46, 0x19
+	.global gTextL3_0741
+gTextL3_0741:
+	.incbin "baserom.gba", 0x3D0D5F, 0x1A
+	.global gTextL3_0742
+gTextL3_0742:
+	.incbin "baserom.gba", 0x3D0D79, 0x1A
+	.global gTextL3_0743
+gTextL3_0743:
+	.incbin "baserom.gba", 0x3D0D93, 0x18
+	.global gTextL3_0744
+gTextL3_0744:
+	.incbin "baserom.gba", 0x3D0DAB, 0x18
+	.global gTextL3_0745
+gTextL3_0745:
+	.incbin "baserom.gba", 0x3D0DC3, 0x14
+	.global gTextL3_0746
+gTextL3_0746:
+	.incbin "baserom.gba", 0x3D0DD7, 0x14
+	.global gTextL3_0747
+gTextL3_0747:
+	.incbin "baserom.gba", 0x3D0DEB, 0x16
+	.global gTextL3_0748
+gTextL3_0748:
+	.incbin "baserom.gba", 0x3D0E01, 0x19
+	.global gTextL3_0749
+gTextL3_0749:
+	.incbin "baserom.gba", 0x3D0E1A, 0xD
+	.global gTextL3_0750
+gTextL3_0750:
+	.incbin "baserom.gba", 0x3D0E27, 0x11
+	.global gTextL3_0751
+gTextL3_0751:
+	.incbin "baserom.gba", 0x3D0E38, 0x17
+	.global gTextL3_0752
+gTextL3_0752:
+	.incbin "baserom.gba", 0x3D0E4F, 0x1B
+	.global gTextL3_0753
+gTextL3_0753:
+	.incbin "baserom.gba", 0x3D0E6A, 0x13
+	.global gTextL3_0754
+gTextL3_0754:
+	.incbin "baserom.gba", 0x3D0E7D, 0x13
+	.global gTextL3_0755
+gTextL3_0755:
+	.incbin "baserom.gba", 0x3D0E90, 0x16
+	.global gTextL3_0756
+gTextL3_0756:
+	.incbin "baserom.gba", 0x3D0EA6, 0x16
+	.global gTextL3_0757
+gTextL3_0757:
+	.incbin "baserom.gba", 0x3D0EBC, 0x16
+	.global gTextL3_0758
+gTextL3_0758:
+	.incbin "baserom.gba", 0x3D0ED2, 0x16
+	.global gTextL3_0759
+gTextL3_0759:
+	.incbin "baserom.gba", 0x3D0EE8, 0x1C
+	.global gTextL3_0760
+gTextL3_0760:
+	.incbin "baserom.gba", 0x3D0F04, 0x1C
+	.global gTextL3_0761
+gTextL3_0761:
+	.incbin "baserom.gba", 0x3D0F20, 0x1F
+	.global gTextL3_0762
+gTextL3_0762:
+	.incbin "baserom.gba", 0x3D0F3F, 0x1F
+	.global gTextL3_0763
+gTextL3_0763:
+	.incbin "baserom.gba", 0x3D0F5E, 0x1E
+	.global gTextL3_0764
+gTextL3_0764:
+	.incbin "baserom.gba", 0x3D0F7C, 0x1D
+	.global gTextL3_0765
+gTextL3_0765:
+	.incbin "baserom.gba", 0x3D0F99, 0x1D
+	.global gTextL3_0766
+gTextL3_0766:
+	.incbin "baserom.gba", 0x3D0FB6, 0x1D
+	.global gTextL3_0767
+gTextL3_0767:
+	.incbin "baserom.gba", 0x3D0FD3, 0x1B
+	.global gTextL3_0768
+gTextL3_0768:
+	.incbin "baserom.gba", 0x3D0FEE, 0x1B
+	.global gTextL3_0769
+gTextL3_0769:
+	.incbin "baserom.gba", 0x3D1009, 0xC
+	.global gTextL3_0770
+gTextL3_0770:
+	.incbin "baserom.gba", 0x3D1015, 0xC
+	.global gTextL3_0771
+gTextL3_0771:
+	.incbin "baserom.gba", 0x3D1021, 0x1D
+	.global gTextL3_0772
+gTextL3_0772:
+	.incbin "baserom.gba", 0x3D103E, 0x1D
+	.global gTextL3_0773
+gTextL3_0773:
+	.incbin "baserom.gba", 0x3D105B, 0x16
+	.global gTextL3_0774
+gTextL3_0774:
+	.incbin "baserom.gba", 0x3D1071, 0x1A
+	.global gTextL3_0775
+gTextL3_0775:
+	.incbin "baserom.gba", 0x3D108B, 0x1C
+	.global gTextL3_0776
+gTextL3_0776:
+	.incbin "baserom.gba", 0x3D10A7, 0x1C
+	.global gTextL3_0777
+gTextL3_0777:
+	.incbin "baserom.gba", 0x3D10C3, 0x17
+	.global gTextL3_0778
+gTextL3_0778:
+	.incbin "baserom.gba", 0x3D10DA, 0x17
+	.global gTextL3_0779
+gTextL3_0779:
+	.incbin "baserom.gba", 0x3D10F1, 0x19
+	.global gTextL3_0780
+gTextL3_0780:
+	.incbin "baserom.gba", 0x3D110A, 0x1E
+	.global gTextL3_0781
+gTextL3_0781:
+	.incbin "baserom.gba", 0x3D1128, 0x1A
+	.global gTextL3_0782
+gTextL3_0782:
+	.incbin "baserom.gba", 0x3D1142, 0x1A
+	.global gTextL3_0783
+gTextL3_0783:
+	.incbin "baserom.gba", 0x3D115C, 0x1D
+	.global gTextL3_0784
+gTextL3_0784:
+	.incbin "baserom.gba", 0x3D1179, 0x1D
+	.global gTextL3_0785
+gTextL3_0785:
+	.incbin "baserom.gba", 0x3D1196, 0xB
+	.global gTextL3_0786
+gTextL3_0786:
+	.incbin "baserom.gba", 0x3D11A1, 0x18
+	.global gTextL3_0787
+gTextL3_0787:
+	.incbin "baserom.gba", 0x3D11B9, 0x1E
+	.global gTextL3_0788
+gTextL3_0788:
+	.incbin "baserom.gba", 0x3D11D7, 0x20
+	.global gTextL3_0789
+gTextL3_0789:
+	.incbin "baserom.gba", 0x3D11F7, 0x13
+	.global gTextL3_0790
+gTextL3_0790:
+	.incbin "baserom.gba", 0x3D120A, 0x13
+	.global gTextL3_0791
+gTextL3_0791:
+	.incbin "baserom.gba", 0x3D121D, 0x16
+	.global gTextL3_0792
+gTextL3_0792:
+	.incbin "baserom.gba", 0x3D1233, 0x1E
+	.global gTextL3_0793
+gTextL3_0793:
+	.incbin "baserom.gba", 0x3D1251, 0x1F
+	.global gTextL3_0794
+gTextL3_0794:
+	.incbin "baserom.gba", 0x3D1270, 0x12
+	.global gTextL3_0795
+gTextL3_0795:
+	.incbin "baserom.gba", 0x3D1282, 0x12
+	.global gTextL3_0796
+gTextL3_0796:
+	.incbin "baserom.gba", 0x3D1294, 0x12
+	.global gTextL3_0797
+gTextL3_0797:
+	.incbin "baserom.gba", 0x3D12A6, 0x12
+	.global gTextL3_0798
+gTextL3_0798:
+	.incbin "baserom.gba", 0x3D12B8, 0x15
+	.global gTextL3_0799
+gTextL3_0799:
+	.incbin "baserom.gba", 0x3D12CD, 0x15
+	.global gTextL3_0800
+gTextL3_0800:
+	.incbin "baserom.gba", 0x3D12E2, 0x1A
+	.global gTextL3_0801
+gTextL3_0801:
+	.incbin "baserom.gba", 0x3D12FC, 0x1B
+	.global gTextL3_0802
+gTextL3_0802:
+	.incbin "baserom.gba", 0x3D1317, 0x1B
+	.global gTextL3_0803
+gTextL3_0803:
+	.incbin "baserom.gba", 0x3D1332, 0x20
+	.global gTextL3_0804
+gTextL3_0804:
+	.incbin "baserom.gba", 0x3D1352, 0xB
+	.global gTextL3_0805
+gTextL3_0805:
+	.incbin "baserom.gba", 0x3D135D, 0x1A
+	.global gTextL3_0806
+gTextL3_0806:
+	.incbin "baserom.gba", 0x3D1377, 0x1B
+	.global gTextL3_0807
+gTextL3_0807:
+	.incbin "baserom.gba", 0x3D1392, 0x15
+	.global gTextL3_0808
+gTextL3_0808:
+	.incbin "baserom.gba", 0x3D13A7, 0x6
+	.global gTextL3_0809
+gTextL3_0809:
+	.incbin "baserom.gba", 0x3D13AD, 0x6
+	.global gTextL3_0810
+gTextL3_0810:
+	.incbin "baserom.gba", 0x3D13B3, 0x13
+	.global gTextL3_0811
+gTextL3_0811:
+	.incbin "baserom.gba", 0x3D13C6, 0x18
+	.global gTextL3_0812
+gTextL3_0812:
+	.incbin "baserom.gba", 0x3D13DE, 0x18
+	.global gTextL3_0813
+gTextL3_0813:
+	.incbin "baserom.gba", 0x3D13F6, 0x18
+	.global gTextL3_0814
+gTextL3_0814:
+	.incbin "baserom.gba", 0x3D140E, 0x18
+	.global gTextL3_0815
+gTextL3_0815:
+	.incbin "baserom.gba", 0x3D1426, 0x19
+	.global gTextL3_0816
+gTextL3_0816:
+	.incbin "baserom.gba", 0x3D143F, 0x19
+	.global gTextL3_0817
+gTextL3_0817:
+	.incbin "baserom.gba", 0x3D1458, 0x19
+	.global gTextL3_0818
+gTextL3_0818:
+	.incbin "baserom.gba", 0x3D1471, 0x19
+	.global gTextL3_0819
+gTextL3_0819:
+	.incbin "baserom.gba", 0x3D148A, 0x1A
+	.global gTextL3_0820
+gTextL3_0820:
+	.incbin "baserom.gba", 0x3D14A4, 0x1A
+	.global gTextL3_0821
+gTextL3_0821:
+	.incbin "baserom.gba", 0x3D14BE, 0x1A
+	.global gTextL3_0822
+gTextL3_0822:
+	.incbin "baserom.gba", 0x3D14D8, 0x1A
+	.global gTextL3_0823
+gTextL3_0823:
+	.incbin "baserom.gba", 0x3D14F2, 0x17
+	.global gTextL3_0824
+gTextL3_0824:
+	.incbin "baserom.gba", 0x3D1509, 0x17
+	.global gTextL3_0825
+gTextL3_0825:
+	.incbin "baserom.gba", 0x3D1520, 0x1A
+	.global gTextL3_0826
+gTextL3_0826:
+	.incbin "baserom.gba", 0x3D153A, 0x1A
+	.global gTextL3_0827
+gTextL3_0827:
+	.incbin "baserom.gba", 0x3D1554, 0x14
+	.global gTextL3_0828
+gTextL3_0828:
+	.incbin "baserom.gba", 0x3D1568, 0x14
+	.global gTextL3_0829
+gTextL3_0829:
+	.incbin "baserom.gba", 0x3D157C, 0x12
+	.global gTextL3_0830
+gTextL3_0830:
+	.incbin "baserom.gba", 0x3D158E, 0x12
+	.global gTextL3_0831
+gTextL3_0831:
+	.incbin "baserom.gba", 0x3D15A0, 0x17
+	.global gTextL3_0832
+gTextL3_0832:
+	.incbin "baserom.gba", 0x3D15B7, 0x17
+	.global gTextL3_0833
+gTextL3_0833:
+	.incbin "baserom.gba", 0x3D15CE, 0x18
+	.global gTextL3_0834
+gTextL3_0834:
+	.incbin "baserom.gba", 0x3D15E6, 0x18
+	.global gTextL3_0835
+gTextL3_0835:
+	.incbin "baserom.gba", 0x3D15FE, 0x15
+	.global gTextL3_0836
+gTextL3_0836:
+	.incbin "baserom.gba", 0x3D1613, 0x15
+	.global gTextL3_0837
+gTextL3_0837:
+	.incbin "baserom.gba", 0x3D1628, 0x1A
+	.global gTextL3_0838
+gTextL3_0838:
+	.incbin "baserom.gba", 0x3D1642, 0x1A
+	.global gTextL3_0839
+gTextL3_0839:
+	.incbin "baserom.gba", 0x3D165C, 0x18
+	.global gTextL3_0840
+gTextL3_0840:
+	.incbin "baserom.gba", 0x3D1674, 0x18
+	.global gTextL3_0841
+gTextL3_0841:
+	.incbin "baserom.gba", 0x3D168C, 0x18
+	.global gTextL3_0842
+gTextL3_0842:
+	.incbin "baserom.gba", 0x3D16A4, 0x18
+	.global gTextL3_0843
+gTextL3_0843:
+	.incbin "baserom.gba", 0x3D16BC, 0x18
+	.global gTextL3_0844
+gTextL3_0844:
+	.incbin "baserom.gba", 0x3D16D4, 0x18
+	.global gTextL3_0845
+gTextL3_0845:
+	.incbin "baserom.gba", 0x3D16EC, 0x18
+	.global gTextL3_0846
+gTextL3_0846:
+	.incbin "baserom.gba", 0x3D1704, 0x18
+	.global gTextL3_0847
+gTextL3_0847:
+	.incbin "baserom.gba", 0x3D171C, 0x19
+	.global gTextL3_0848
+gTextL3_0848:
+	.incbin "baserom.gba", 0x3D1735, 0x19
+	.global gTextL3_0849
+gTextL3_0849:
+	.incbin "baserom.gba", 0x3D174E, 0x19
+	.global gTextL3_0850
+gTextL3_0850:
+	.incbin "baserom.gba", 0x3D1767, 0x19
+	.global gTextL3_0851
+gTextL3_0851:
+	.incbin "baserom.gba", 0x3D1780, 0x18
+	.global gTextL3_0852
+gTextL3_0852:
+	.incbin "baserom.gba", 0x3D1798, 0x18
+	.global gTextL3_0853
+gTextL3_0853:
+	.incbin "baserom.gba", 0x3D17B0, 0x14
+	.global gTextL3_0854
+gTextL3_0854:
+	.incbin "baserom.gba", 0x3D17C4, 0x14
+	.global gTextL3_0855
+gTextL3_0855:
+	.incbin "baserom.gba", 0x3D17D8, 0x16
+	.global gTextL3_0856
+gTextL3_0856:
+	.incbin "baserom.gba", 0x3D17EE, 0x16
+	.global gTextL3_0857
+gTextL3_0857:
+	.incbin "baserom.gba", 0x3D1804, 0x17
+	.global gTextL3_0858
+gTextL3_0858:
+	.incbin "baserom.gba", 0x3D181B, 0x17
+	.global gTextL3_0859
+gTextL3_0859:
+	.incbin "baserom.gba", 0x3D1832, 0x19
+	.global gTextL3_0860
+gTextL3_0860:
+	.incbin "baserom.gba", 0x3D184B, 0x19
+	.global gTextL3_0861
+gTextL3_0861:
+	.incbin "baserom.gba", 0x3D1864, 0x19
+	.global gTextL3_0862
+gTextL3_0862:
+	.incbin "baserom.gba", 0x3D187D, 0x19
+	.global gTextL3_0863
+gTextL3_0863:
+	.incbin "baserom.gba", 0x3D1896, 0x15
+	.global gTextL3_0864
+gTextL3_0864:
+	.incbin "baserom.gba", 0x3D18AB, 0x15
+	.global gTextL3_0865
+gTextL3_0865:
+	.incbin "baserom.gba", 0x3D18C0, 0x14
+	.global gTextL3_0866
+gTextL3_0866:
+	.incbin "baserom.gba", 0x3D18D4, 0x14
+	.global gTextL3_0867
+gTextL3_0867:
+	.incbin "baserom.gba", 0x3D18E8, 0x15
+	.global gTextL3_0868
+gTextL3_0868:
+	.incbin "baserom.gba", 0x3D18FD, 0x14
+	.global gTextL3_0869
+gTextL3_0869:
+	.incbin "baserom.gba", 0x3D1911, 0x18
+	.global gTextL3_0870
+gTextL3_0870:
+	.incbin "baserom.gba", 0x3D1929, 0x1F
+	.global gTextL3_0871
+gTextL3_0871:
+	.incbin "baserom.gba", 0x3D1948, 0x1D
+	.global gTextL3_0872
+gTextL3_0872:
+	.incbin "baserom.gba", 0x3D1965, 0x20
+	.global gTextL3_0873
+gTextL3_0873:
+	.incbin "baserom.gba", 0x3D1985, 0x1C
+	.global gTextL3_0874
+gTextL3_0874:
+	.incbin "baserom.gba", 0x3D19A1, 0x1B
+	.global gTextL3_0875
+gTextL3_0875:
+	.incbin "baserom.gba", 0x3D19BC, 0x1F
+	.global gTextL3_0876
+gTextL3_0876:
+	.incbin "baserom.gba", 0x3D19DB, 0x1F
+	.global gTextL3_0877
+gTextL3_0877:
+	.incbin "baserom.gba", 0x3D19FA, 0x20
+	.global gTextL3_0878
+gTextL3_0878:
+	.incbin "baserom.gba", 0x3D1A1A, 0x19
+	.global gTextL3_0879
+gTextL3_0879:
+	.incbin "baserom.gba", 0x3D1A33, 0x18
+	.global gTextL3_0880
+gTextL3_0880:
+	.incbin "baserom.gba", 0x3D1A4B, 0x34
+	.global gTextL3_0881
+gTextL3_0881:
+	.incbin "baserom.gba", 0x3D1A7F, 0x38
+	.global gTextL3_0882
+gTextL3_0882:
+	.incbin "baserom.gba", 0x3D1AB7, 0x10
+	.global gTextL3_0883
+gTextL3_0883:
+	.incbin "baserom.gba", 0x3D1AC7, 0x14
+	.global gTextL3_0884
+gTextL3_0884:
+	.incbin "baserom.gba", 0x3D1ADB, 0x20
+	.global gTextL3_0885
+gTextL3_0885:
+	.incbin "baserom.gba", 0x3D1AFB, 0x14
+	.global gTextL3_0886
+gTextL3_0886:
+	.incbin "baserom.gba", 0x3D1B0F, 0x39
+	.global gTextL3_0887
+gTextL3_0887:
+	.incbin "baserom.gba", 0x3D1B48, 0x15
+	.global gTextL3_0888
+gTextL3_0888:
+	.incbin "baserom.gba", 0x3D1B5D, 0x14
+	.global gTextL3_0889
+gTextL3_0889:
+	.incbin "baserom.gba", 0x3D1B71, 0xA
+	.global gTextL3_0890
+gTextL3_0890:
+	.incbin "baserom.gba", 0x3D1B7B, 0x1D
+	.global gTextL3_0891
+gTextL3_0891:
+	.incbin "baserom.gba", 0x3D1B98, 0x1B
+	.global gTextL3_0892
+gTextL3_0892:
+	.incbin "baserom.gba", 0x3D1BB3, 0x1A
+	.global gTextL3_0893
+gTextL3_0893:
+	.incbin "baserom.gba", 0x3D1BCD, 0x15
+	.global gTextL3_0894
+gTextL3_0894:
+	.incbin "baserom.gba", 0x3D1BE2, 0x20
+	.global gTextL3_0895
+gTextL3_0895:
+	.incbin "baserom.gba", 0x3D1C02, 0x17
+	.global gTextL3_0896
+gTextL3_0896:
+	.incbin "baserom.gba", 0x3D1C19, 0x20
+	.global gTextL3_0897
+gTextL3_0897:
+	.incbin "baserom.gba", 0x3D1C39, 0x33
+	.global gTextL3_0898
+gTextL3_0898:
+	.incbin "baserom.gba", 0x3D1C6C, 0x25
+	.global gTextL3_0899
+gTextL3_0899:
+	.incbin "baserom.gba", 0x3D1C91, 0x2F
+	.global gTextL3_0900
+gTextL3_0900:
+	.incbin "baserom.gba", 0x3D1CC0, 0x34
+	.global gTextL3_0901
+gTextL3_0901:
+	.incbin "baserom.gba", 0x3D1CF4, 0x39
+	.global gTextL3_0902
+gTextL3_0902:
+	.incbin "baserom.gba", 0x3D1D2D, 0x12
+	.global gTextL3_0903
+gTextL3_0903:
+	.incbin "baserom.gba", 0x3D1D3F, 0x1F
+	.global gTextL3_0904
+gTextL3_0904:
+	.incbin "baserom.gba", 0x3D1D5E, 0x20
+	.global gTextL3_0905
+gTextL3_0905:
+	.incbin "baserom.gba", 0x3D1D7E, 0x1E
+	.global gTextL3_0906
+gTextL3_0906:
+	.incbin "baserom.gba", 0x3D1D9C, 0x33
+	.global gTextL3_0907
+gTextL3_0907:
+	.incbin "baserom.gba", 0x3D1DCF, 0x37
+	.global gTextL3_0908
+gTextL3_0908:
+	.incbin "baserom.gba", 0x3D1E06, 0x1C
+	.global gTextL3_0909
+gTextL3_0909:
+	.incbin "baserom.gba", 0x3D1E22, 0x32
+	.global gTextL3_0910
+gTextL3_0910:
+	.incbin "baserom.gba", 0x3D1E54, 0x3A
+	.global gTextL3_0911
+gTextL3_0911:
+	.incbin "baserom.gba", 0x3D1E8E, 0x35
+	.global gTextL3_0912
+gTextL3_0912:
+	.incbin "baserom.gba", 0x3D1EC3, 0x23
+	.global gTextL3_0913
+gTextL3_0913:
+	.incbin "baserom.gba", 0x3D1EE6, 0x24
+	.global gTextL3_0914
+gTextL3_0914:
+	.incbin "baserom.gba", 0x3D1F0A, 0x8
+	.global gTextL3_0915
+gTextL3_0915:
+	.incbin "baserom.gba", 0x3D1F12, 0x8
+	.global gTextL3_0916
+gTextL3_0916:
+	.incbin "baserom.gba", 0x3D1F1A, 0x8
+	.global gTextL3_0917
+gTextL3_0917:
+	.incbin "baserom.gba", 0x3D1F22, 0xC
+	.global gTextL3_0918
+gTextL3_0918:
+	.incbin "baserom.gba", 0x3D1F2E, 0x14
+	.global gTextL3_0919
+gTextL3_0919:
+	.incbin "baserom.gba", 0x3D1F42, 0x18
+	.global gTextL3_0920
+gTextL3_0920:
+	.incbin "baserom.gba", 0x3D1F5A, 0x13
+	.global gTextL3_0921
+gTextL3_0921:
+	.incbin "baserom.gba", 0x3D1F6D, 0x26
+	.global gTextL3_0922
+gTextL3_0922:
+	.incbin "baserom.gba", 0x3D1F93, 0x13
+	.global gTextL3_0923
+gTextL3_0923:
+	.incbin "baserom.gba", 0x3D1FA6, 0x11
+	.global gTextL3_0924
+gTextL3_0924:
+	.incbin "baserom.gba", 0x3D1FB7, 0x23
+	.global gTextL3_0925
+gTextL3_0925:
+	.incbin "baserom.gba", 0x3D1FDA, 0x24
+	.global gTextL3_0926
+gTextL3_0926:
+	.incbin "baserom.gba", 0x3D1FFE, 0x33
+	.global gTextL3_0927
+gTextL3_0927:
+	.incbin "baserom.gba", 0x3D2031, 0x36
+	.global gTextL3_0928
+gTextL3_0928:
+	.incbin "baserom.gba", 0x3D2067, 0x29
+	.global gTextL3_0929
+gTextL3_0929:
+	.incbin "baserom.gba", 0x3D2090, 0x28
+	.global gTextL3_0930
+gTextL3_0930:
+	.incbin "baserom.gba", 0x3D20B8, 0x1F
+	.global gTextL3_0931
+gTextL3_0931:
+	.incbin "baserom.gba", 0x3D20D7, 0x34
+	.global gTextL3_0932
+gTextL3_0932:
+	.incbin "baserom.gba", 0x3D210B, 0x3A
+	.global gTextL3_0933
+gTextL3_0933:
+	.incbin "baserom.gba", 0x3D2145, 0x38
+	.global gTextL3_0934
+gTextL3_0934:
+	.incbin "baserom.gba", 0x3D217D, 0x1C
+	.global gTextL3_0935
+gTextL3_0935:
+	.incbin "baserom.gba", 0x3D2199, 0x39
+	.global gTextL3_0936
+gTextL3_0936:
+	.incbin "baserom.gba", 0x3D21D2, 0x20
+	.global gTextL3_0937
+gTextL3_0937:
+	.incbin "baserom.gba", 0x3D21F2, 0x34
+	.global gTextL3_0938
+gTextL3_0938:
+	.incbin "baserom.gba", 0x3D2226, 0x2F
+	.global gTextL3_0939
+gTextL3_0939:
+	.incbin "baserom.gba", 0x3D2255, 0x27
+	.global gTextL3_0940
+gTextL3_0940:
+	.incbin "baserom.gba", 0x3D227C, 0x32
+	.global gTextL3_0941
+gTextL3_0941:
+	.incbin "baserom.gba", 0x3D22AE, 0x2E
+	.global gTextL3_0942
+gTextL3_0942:
+	.incbin "baserom.gba", 0x3D22DC, 0x30
+	.global gTextL3_0943
+gTextL3_0943:
+	.incbin "baserom.gba", 0x3D230C, 0x34
+	.global gTextL3_0944
+gTextL3_0944:
+	.incbin "baserom.gba", 0x3D2340, 0x33
+	.global gTextL3_0945
+gTextL3_0945:
+	.incbin "baserom.gba", 0x3D2373, 0x24
+	.global gTextL3_0946
+gTextL3_0946:
+	.incbin "baserom.gba", 0x3D2397, 0x20
+	.global gTextL3_0947
+gTextL3_0947:
+	.incbin "baserom.gba", 0x3D23B7, 0x1A
+	.global gTextL3_0948
+gTextL3_0948:
+	.incbin "baserom.gba", 0x3D23D1, 0x24
+	.global gTextL3_0949
+gTextL3_0949:
+	.incbin "baserom.gba", 0x3D23F5, 0x19
+	.global gTextL3_0950
+gTextL3_0950:
+	.incbin "baserom.gba", 0x3D240E, 0x18
+	.global gTextL3_0951
+gTextL3_0951:
+	.incbin "baserom.gba", 0x3D2426, 0x12
+	.global gTextL3_0952
+gTextL3_0952:
+	.incbin "baserom.gba", 0x3D2438, 0x3B
+	.global gTextL3_0953
+gTextL3_0953:
+	.incbin "baserom.gba", 0x3D2473, 0x18
+	.global gTextL3_0954
+gTextL3_0954:
+	.incbin "baserom.gba", 0x3D248B, 0x1E
+	.global gTextL3_0955
+gTextL3_0955:
+	.incbin "baserom.gba", 0x3D24A9, 0x1C
+	.global gTextL3_0956
+gTextL3_0956:
+	.incbin "baserom.gba", 0x3D24C5, 0x33
+	.global gTextL3_0957
+gTextL3_0957:
+	.incbin "baserom.gba", 0x3D24F8, 0x1A
+	.global gTextL3_0958
+gTextL3_0958:
+	.incbin "baserom.gba", 0x3D2512, 0x28
+	.global gTextL3_0959
+gTextL3_0959:
+	.incbin "baserom.gba", 0x3D253A, 0x28
+	.global gTextL3_0960
+gTextL3_0960:
+	.incbin "baserom.gba", 0x3D2562, 0x27
+	.global gTextL3_0961
+gTextL3_0961:
+	.incbin "baserom.gba", 0x3D2589, 0x39
+	.global gTextL3_0962
+gTextL3_0962:
+	.incbin "baserom.gba", 0x3D25C2, 0x2F
+	.global gTextL3_0963
+gTextL3_0963:
+	.incbin "baserom.gba", 0x3D25F1, 0x3A
+	.global gTextL3_0964
+gTextL3_0964:
+	.incbin "baserom.gba", 0x3D262B, 0x3C
+	.global gTextL3_0965
+gTextL3_0965:
+	.incbin "baserom.gba", 0x3D2667, 0x3C
+	.global gTextL3_0966
+gTextL3_0966:
+	.incbin "baserom.gba", 0x3D26A3, 0x1A
+	.global gTextL3_0967
+gTextL3_0967:
+	.incbin "baserom.gba", 0x3D26BD, 0x35
+	.global gTextL3_0968
+gTextL3_0968:
+	.incbin "baserom.gba", 0x3D26F2, 0xE
+	.global gTextL3_0969
+gTextL3_0969:
+	.incbin "baserom.gba", 0x3D2700, 0xF
+	.global gTextL3_0970
+gTextL3_0970:
+	.incbin "baserom.gba", 0x3D270F, 0x17
+	.global gTextL3_0971
+gTextL3_0971:
+	.incbin "baserom.gba", 0x3D2726, 0x14
+	.global gTextL3_0972
+gTextL3_0972:
+	.incbin "baserom.gba", 0x3D273A, 0x10
+	.global gTextL3_0973
+gTextL3_0973:
+	.incbin "baserom.gba", 0x3D274A, 0x11
+	.global gTextL3_0974
+gTextL3_0974:
+	.incbin "baserom.gba", 0x3D275B, 0x12
+	.global gTextL3_0975
+gTextL3_0975:
+	.incbin "baserom.gba", 0x3D276D, 0x10
+	.global gTextL3_0976
+gTextL3_0976:
+	.incbin "baserom.gba", 0x3D277D, 0x10
+	.global gTextL3_0977
+gTextL3_0977:
+	.incbin "baserom.gba", 0x3D278D, 0x19
+	.global gTextL3_0978
+gTextL3_0978:
+	.incbin "baserom.gba", 0x3D27A6, 0x1A
+	.global gTextL3_0979
+gTextL3_0979:
+	.incbin "baserom.gba", 0x3D27C0, 0x20
+	.global gTextL3_0980
+gTextL3_0980:
+	.incbin "baserom.gba", 0x3D27E0, 0x17
+	.global gTextL3_0981
+gTextL3_0981:
+	.incbin "baserom.gba", 0x3D27F7, 0x18
+	.global gTextL3_0982
+gTextL3_0982:
+	.incbin "baserom.gba", 0x3D280F, 0x151
+	.global gTextL3_0983
+gTextL3_0983:
+	.incbin "baserom.gba", 0x3D2960, 0x1AC
+	.global gTextL3_0984
+gTextL3_0984:
+	.incbin "baserom.gba", 0x3D2B0C, 0x1A
+	.global gTextL3_0985
+gTextL3_0985:
+	.incbin "baserom.gba", 0x3D2B26, 0x1E
+	.global gTextL3_0986
+gTextL3_0986:
+	.incbin "baserom.gba", 0x3D2B44, 0x32
+	.global gTextL3_0987
+gTextL3_0987:
+	.incbin "baserom.gba", 0x3D2B76, 0xB
+	.global gTextL3_0988
+gTextL3_0988:
+	.incbin "baserom.gba", 0x3D2B81, 0xA
+	.global gTextL3_0989
+gTextL3_0989:
+	.incbin "baserom.gba", 0x3D2B8B, 0x9
+	.global gTextL3_0990
+gTextL3_0990:
+	.incbin "baserom.gba", 0x3D2B94, 0xD
+	.global gTextL3_0991
+gTextL3_0991:
+	.incbin "baserom.gba", 0x3D2BA1, 0x10
+	.global gTextL3_0992
+gTextL3_0992:
+	.incbin "baserom.gba", 0x3D2BB1, 0xC
+	.global gTextL3_0993
+gTextL3_0993:
+	.incbin "baserom.gba", 0x3D2BBD, 0x19
+	.global gTextL3_0994
+gTextL3_0994:
+	.incbin "baserom.gba", 0x3D2BD6, 0x17
+	.global gTextL3_0995
+gTextL3_0995:
+	.incbin "baserom.gba", 0x3D2BED, 0x1A
+	.global gTextL3_0996
+gTextL3_0996:
+	.incbin "baserom.gba", 0x3D2C07, 0x17
+	.global gTextL3_0997
+gTextL3_0997:
+	.incbin "baserom.gba", 0x3D2C1E, 0x16
+	.global gTextL3_0998
+gTextL3_0998:
+	.incbin "baserom.gba", 0x3D2C34, 0x1A
+	.global gTextL3_0999
+gTextL3_0999:
+	.incbin "baserom.gba", 0x3D2C4E, 0x18
+	.global gTextL3_1000
+gTextL3_1000:
+	.incbin "baserom.gba", 0x3D2C66, 0x1D
+	.global gTextL3_1001
+gTextL3_1001:
+	.incbin "baserom.gba", 0x3D2C83, 0x1D
+	.global gTextL3_1002
+gTextL3_1002:
+	.incbin "baserom.gba", 0x3D2CA0, 0x1F
+	.global gTextL3_1003
+gTextL3_1003:
+	.incbin "baserom.gba", 0x3D2CBF, 0xF
+	.global gTextL3_1004
+gTextL3_1004:
+	.incbin "baserom.gba", 0x3D2CCE, 0x1E
+	.global gTextL3_1005
+gTextL3_1005:
+	.incbin "baserom.gba", 0x3D2CEC, 0x20
+	.global gTextL3_1006
+gTextL3_1006:
+	.incbin "baserom.gba", 0x3D2D0C, 0x20
+	.global gTextL3_1007
+gTextL3_1007:
+	.incbin "baserom.gba", 0x3D2D2C, 0x1F
+	.global gTextL3_1008
+gTextL3_1008:
+	.incbin "baserom.gba", 0x3D2D4B, 0x20
+	.global gTextL3_1009
+gTextL3_1009:
+	.incbin "baserom.gba", 0x3D2D6B, 0x1F
+	.global gTextL3_1010
+gTextL3_1010:
+	.incbin "baserom.gba", 0x3D2D8A, 0x1D
+	.global gTextL3_1011
+gTextL3_1011:
+	.incbin "baserom.gba", 0x3D2DA7, 0x19
+	.global gTextL3_1012
+gTextL3_1012:
+	.incbin "baserom.gba", 0x3D2DC0, 0x12
+	.global gTextL3_1013
+gTextL3_1013:
+	.incbin "baserom.gba", 0x3D2DD2, 0x1F
+	.global gTextL3_1014
+gTextL3_1014:
+	.incbin "baserom.gba", 0x3D2DF1, 0x1E
+	.global gTextL3_1015
+gTextL3_1015:
+	.incbin "baserom.gba", 0x3D2E0F, 0x20
+	.global gTextL3_1016
+gTextL3_1016:
+	.incbin "baserom.gba", 0x3D2E2F, 0x1E
+	.global gTextL3_1017
+gTextL3_1017:
+	.incbin "baserom.gba", 0x3D2E4D, 0x20
+	.global gTextL3_1018
+gTextL3_1018:
+	.incbin "baserom.gba", 0x3D2E6D, 0x20
+	.global gTextL3_1019
+gTextL3_1019:
+	.incbin "baserom.gba", 0x3D2E8D, 0x1F
+	.global gTextL3_1020
+gTextL3_1020:
+	.incbin "baserom.gba", 0x3D2EAC, 0x19
+	.global gTextL3_1021
+gTextL3_1021:
+	.incbin "baserom.gba", 0x3D2EC5, 0x1D
+	.global gTextL3_1022
+gTextL3_1022:
+	.incbin "baserom.gba", 0x3D2EE2, 0x1F
+	.global gTextL3_1023
+gTextL3_1023:
+	.incbin "baserom.gba", 0x3D2F01, 0x1F
+	.global gTextL3_1024
+gTextL3_1024:
+	.incbin "baserom.gba", 0x3D2F20, 0x1A
+	.global gTextL3_1025
+gTextL3_1025:
+	.incbin "baserom.gba", 0x3D2F3A, 0x1E
+	.global gTextL3_1026
+gTextL3_1026:
+	.incbin "baserom.gba", 0x3D2F58, 0x20
+	.global gTextL3_1027
+gTextL3_1027:
+	.incbin "baserom.gba", 0x3D2F78, 0x1F
+	.global gTextL3_1028
+gTextL3_1028:
+	.incbin "baserom.gba", 0x3D2F97, 0x1A
+	.global gTextL3_1029
+gTextL3_1029:
+	.incbin "baserom.gba", 0x3D2FB1, 0x20
+	.global gTextL3_1030
+gTextL3_1030:
+	.incbin "baserom.gba", 0x3D2FD1, 0x20
+	.global gTextL3_1031
+gTextL3_1031:
+	.incbin "baserom.gba", 0x3D2FF1, 0x20
+	.global gTextL3_1032
+gTextL3_1032:
+	.incbin "baserom.gba", 0x3D3011, 0x1F
+	.global gTextL3_1033
+gTextL3_1033:
+	.incbin "baserom.gba", 0x3D3030, 0x1F
+	.global gTextL3_1034
+gTextL3_1034:
+	.incbin "baserom.gba", 0x3D304F, 0x1C
+	.global gTextL3_1035
+gTextL3_1035:
+	.incbin "baserom.gba", 0x3D306B, 0x1F
+	.global gTextL3_1036
+gTextL3_1036:
+	.incbin "baserom.gba", 0x3D308A, 0x19
+	.global gTextL3_1037
+gTextL3_1037:
+	.incbin "baserom.gba", 0x3D30A3, 0x1F
+	.global gTextL3_1038
+gTextL3_1038:
+	.incbin "baserom.gba", 0x3D30C2, 0x1E
+	.global gTextL3_1039
+gTextL3_1039:
+	.incbin "baserom.gba", 0x3D30E0, 0x1B
+	.global gTextL3_1040
+gTextL3_1040:
+	.incbin "baserom.gba", 0x3D30FB, 0x1F
+	.global gTextL3_1041
+gTextL3_1041:
+	.incbin "baserom.gba", 0x3D311A, 0x20
+	.global gTextL3_1042
+gTextL3_1042:
+	.incbin "baserom.gba", 0x3D313A, 0x1E
+	.global gTextL3_1043
+gTextL3_1043:
+	.incbin "baserom.gba", 0x3D3158, 0x1E
+	.global gTextL3_1044
+gTextL3_1044:
+	.incbin "baserom.gba", 0x3D3176, 0x19
+	.global gTextL3_1045
+gTextL3_1045:
+	.incbin "baserom.gba", 0x3D318F, 0x20
+	.global gTextL3_1046
+gTextL3_1046:
+	.incbin "baserom.gba", 0x3D31AF, 0x20
+	.global gTextL3_1047
+gTextL3_1047:
+	.incbin "baserom.gba", 0x3D31CF, 0x14
+	.global gTextL3_1048
+gTextL3_1048:
+	.incbin "baserom.gba", 0x3D31E3, 0x19
+	.global gTextL3_1049
+gTextL3_1049:
+	.incbin "baserom.gba", 0x3D31FC, 0x1E
+	.global gTextL3_1050
+gTextL3_1050:
+	.incbin "baserom.gba", 0x3D321A, 0x1E
+	.global gTextL3_1051
+gTextL3_1051:
+	.incbin "baserom.gba", 0x3D3238, 0x16
+	.global gTextL3_1052
+gTextL3_1052:
+	.incbin "baserom.gba", 0x3D324E, 0x1A
+	.global gTextL3_1053
+gTextL3_1053:
+	.incbin "baserom.gba", 0x3D3268, 0x1F
+	.global gTextL3_1054
+gTextL3_1054:
+	.incbin "baserom.gba", 0x3D3287, 0x19
+	.global gTextL3_1055
+gTextL3_1055:
+	.incbin "baserom.gba", 0x3D32A0, 0x1F
+	.global gTextL3_1056
+gTextL3_1056:
+	.incbin "baserom.gba", 0x3D32BF, 0x20
+	.global gTextL3_1057
+gTextL3_1057:
+	.incbin "baserom.gba", 0x3D32DF, 0x1E
+	.global gTextL3_1058
+gTextL3_1058:
+	.incbin "baserom.gba", 0x3D32FD, 0x1C
+	.global gTextL3_1059
+gTextL3_1059:
+	.incbin "baserom.gba", 0x3D3319, 0x1B
+	.global gTextL3_1060
+gTextL3_1060:
+	.incbin "baserom.gba", 0x3D3334, 0x19
+	.global gTextL3_1061
+gTextL3_1061:
+	.incbin "baserom.gba", 0x3D334D, 0x1E
+	.global gTextL3_1062
+gTextL3_1062:
+	.incbin "baserom.gba", 0x3D336B, 0x20
+	.global gTextL3_1063
+gTextL3_1063:
+	.incbin "baserom.gba", 0x3D338B, 0x19
+	.global gTextL3_1064
+gTextL3_1064:
+	.incbin "baserom.gba", 0x3D33A4, 0x20
+	.global gTextL3_1065
+gTextL3_1065:
+	.incbin "baserom.gba", 0x3D33C4, 0x20
+	.global gTextL3_1066
+gTextL3_1066:
+	.incbin "baserom.gba", 0x3D33E4, 0x1F
+	.global gTextL3_1067
+gTextL3_1067:
+	.incbin "baserom.gba", 0x3D3403, 0x1C
+	.global gTextL3_1068
+gTextL3_1068:
+	.incbin "baserom.gba", 0x3D341F, 0x1B
+	.global gTextL3_1069
+gTextL3_1069:
+	.incbin "baserom.gba", 0x3D343A, 0x13
+	.global gTextL3_1070
+gTextL3_1070:
+	.incbin "baserom.gba", 0x3D344D, 0xE
+	.global gTextL3_1071
+gTextL3_1071:
+	.incbin "baserom.gba", 0x3D345B, 0xD
+	.global gTextL3_1072
+gTextL3_1072:
+	.incbin "baserom.gba", 0x3D3468, 0x45
+	.global gTextL3_1073
+gTextL3_1073:
+	.incbin "baserom.gba", 0x3D34AD, 0x8
+	.global gTextL3_1074
+gTextL3_1074:
+	.incbin "baserom.gba", 0x3D34B5, 0x46
+	.global gTextL3_1075
+gTextL3_1075:
+	.incbin "baserom.gba", 0x3D34FB, 0xB
+	.global gTextL3_1076
+gTextL3_1076:
+	.incbin "baserom.gba", 0x3D3506, 0x3A
+	.global gTextL3_1077
+gTextL3_1077:
+	.incbin "baserom.gba", 0x3D3540, 0xD
+	.global gTextL3_1078
+gTextL3_1078:
+	.incbin "baserom.gba", 0x3D354D, 0x3A
+	.global gTextL3_1079
+gTextL3_1079:
+	.incbin "baserom.gba", 0x3D3587, 0xD
+	.global gTextL3_1080
+gTextL3_1080:
+	.incbin "baserom.gba", 0x3D3594, 0x3B
+	.global gTextL3_1081
+gTextL3_1081:
+	.incbin "baserom.gba", 0x3D35CF, 0xD
+	.global gTextL3_1082
+gTextL3_1082:
+	.incbin "baserom.gba", 0x3D35DC, 0x42
+	.global gTextL3_1083
+gTextL3_1083:
+	.incbin "baserom.gba", 0x3D361E, 0x13
+	.global gTextL3_1084
+gTextL3_1084:
+	.incbin "baserom.gba", 0x3D3631, 0x40
+	.global gTextL3_1085
+gTextL3_1085:
+	.incbin "baserom.gba", 0x3D3671, 0x9
+	.global gTextL3_1086
+gTextL3_1086:
+	.incbin "baserom.gba", 0x3D367A, 0x41
+	.global gTextL3_1087
+gTextL3_1087:
+	.incbin "baserom.gba", 0x3D36BB, 0x13
+	.global gTextL3_1088
+gTextL3_1088:
+	.incbin "baserom.gba", 0x3D36CE, 0x41
+	.global gTextL3_1089
+gTextL3_1089:
+	.incbin "baserom.gba", 0x3D370F, 0x1A
+	.global gTextL3_1090
+gTextL3_1090:
+	.incbin "baserom.gba", 0x3D3729, 0x15
+	.global gTextL3_1091
+gTextL3_1091:
+	.incbin "baserom.gba", 0x3D373E, 0xC
+	.global gTextL3_1092
+gTextL3_1092:
+	.incbin "baserom.gba", 0x3D374A, 0x16
+	.global gTextL3_1093
+gTextL3_1093:
+	.incbin "baserom.gba", 0x3D3760, 0x16
+	.global gTextL3_1094
+gTextL3_1094:
+	.incbin "baserom.gba", 0x3D3776, 0x20
+	.global gTextL3_1095
+gTextL3_1095:
+	.incbin "baserom.gba", 0x3D3796, 0xF
+	.global gTextL3_1096
+gTextL3_1096:
+	.incbin "baserom.gba", 0x3D37A5, 0x14
+	.global gTextL3_1097
+gTextL3_1097:
+	.incbin "baserom.gba", 0x3D37B9, 0x11
+	.global gTextL3_1098
+gTextL3_1098:
+	.incbin "baserom.gba", 0x3D37CA, 0x1D
+	.global gTextL3_1099
+gTextL3_1099:
+	.incbin "baserom.gba", 0x3D37E7, 0x14
+	.global gTextL3_1100
+gTextL3_1100:
+	.incbin "baserom.gba", 0x3D37FB, 0x15
+	.global gTextL3_1101
+gTextL3_1101:
+	.incbin "baserom.gba", 0x3D3810, 0x1D
+	.global gTextL3_1102
+gTextL3_1102:
+	.incbin "baserom.gba", 0x3D382D, 0x27
+	.global gTextL3_1103
+gTextL3_1103:
+	.incbin "baserom.gba", 0x3D3854, 0x24
+	.global gTextL3_1104
+gTextL3_1104:
+	.incbin "baserom.gba", 0x3D3878, 0x23
+	.global gTextL3_1105
+gTextL3_1105:
+	.incbin "baserom.gba", 0x3D389B, 0x120
+	.global gTextL3_1106
+gTextL3_1106:
+	.incbin "baserom.gba", 0x3D39BB, 0xAB
+	.global gTextL3_1107
+gTextL3_1107:
+	.incbin "baserom.gba", 0x3D3A66, 0x107
+	.global gTextL3_1108
+gTextL3_1108:
+	.incbin "baserom.gba", 0x3D3B6D, 0x8
+	.global gTextL3_1109
+gTextL3_1109:
+	.incbin "baserom.gba", 0x3D3B75, 0x9
+	.global gTextL3_1110
+gTextL3_1110:
+	.incbin "baserom.gba", 0x3D3B7E, 0x9
+	.global gTextL3_1111
+gTextL3_1111:
+	.incbin "baserom.gba", 0x3D3B87, 0xA
+	.global gTextL3_1112
+gTextL3_1112:
+	.incbin "baserom.gba", 0x3D3B91, 0x9
+	.global gTextL3_1113
+gTextL3_1113:
+	.incbin "baserom.gba", 0x3D3B9A, 0x9
+	.global gTextL3_1114
+gTextL3_1114:
+	.incbin "baserom.gba", 0x3D3BA3, 0xA
+	.global gTextL3_1115
+gTextL3_1115:
+	.incbin "baserom.gba", 0x3D3BAD, 0xA
+	.global gTextL3_1116
+gTextL3_1116:
+	.incbin "baserom.gba", 0x3D3BB7, 0x7
+	.global gTextL3_1117
+gTextL3_1117:
+	.incbin "baserom.gba", 0x3D3BBE, 0x26
+	.global gTextL3_1118
+gTextL3_1118:
+	.incbin "baserom.gba", 0x3D3BE4, 0x31
+	.global gTextL3_1119
+gTextL3_1119:
+	.incbin "baserom.gba", 0x3D3C15, 0x39
+	.global gTextL3_1120
+gTextL3_1120:
+	.incbin "baserom.gba", 0x3D3C4E, 0x63
+	.global gTextL3_1121
+gTextL3_1121:
+	.incbin "baserom.gba", 0x3D3CB1, 0x71
+	.global gTextL3_1122
+gTextL3_1122:
+	.incbin "baserom.gba", 0x3D3D22, 0x6E
+	.global gTextL3_1123
+gTextL3_1123:
+	.incbin "baserom.gba", 0x3D3D90, 0x46
+	.global gTextL3_1124
+gTextL3_1124:
+	.incbin "baserom.gba", 0x3D3DD6, 0x3B
+	.global gTextL3_1125
+gTextL3_1125:
+	.incbin "baserom.gba", 0x3D3E11, 0x30
+	.global gTextL3_1126
+gTextL3_1126:
+	.incbin "baserom.gba", 0x3D3E41, 0x68
+	.global gTextL3_1127
+gTextL3_1127:
+	.incbin "baserom.gba", 0x3D3EA9, 0x35
+	.global gTextL3_1128
+gTextL3_1128:
+	.incbin "baserom.gba", 0x3D3EDE, 0x2E
+	.global gTextL3_1129
+gTextL3_1129:
+	.incbin "baserom.gba", 0x3D3F0C, 0x68
+	.global gTextL3_1130
+gTextL3_1130:
+	.incbin "baserom.gba", 0x3D3F74, 0x9
+	.global gTextL3_1131
+gTextL3_1131:
+	.incbin "baserom.gba", 0x3D3F7D, 0x55
+	.global gTextL3_1132
+gTextL3_1132:
+	.incbin "baserom.gba", 0x3D3FD2, 0x5D
+	.global gTextL3_1133
+gTextL3_1133:
+	.incbin "baserom.gba", 0x3D402F, 0x60
+	.global gTextL3_1134
+gTextL3_1134:
+	.incbin "baserom.gba", 0x3D408F, 0x3C
+	.global gTextL3_1135
+gTextL3_1135:
+	.incbin "baserom.gba", 0x3D40CB, 0x36
+	.global gTextL3_1136
+gTextL3_1136:
+	.incbin "baserom.gba", 0x3D4101, 0x1E
+	.global gTextL3_1137
+gTextL3_1137:
+	.incbin "baserom.gba", 0x3D411F, 0x5B
+	.global gTextL3_1138
+gTextL3_1138:
+	.incbin "baserom.gba", 0x3D417A, 0x27
+	.global gTextL3_1139
+gTextL3_1139:
+	.incbin "baserom.gba", 0x3D41A1, 0x31
+	.global gTextL3_1140
+gTextL3_1140:
+	.incbin "baserom.gba", 0x3D41D2, 0x6C
+	.global gTextL3_1141
+gTextL3_1141:
+	.incbin "baserom.gba", 0x3D423E, 0x29
+	.global gTextL3_1142
+gTextL3_1142:
+	.incbin "baserom.gba", 0x3D4267, 0x69
+	.global gTextL3_1143
+gTextL3_1143:
+	.incbin "baserom.gba", 0x3D42D0, 0x5C
+	.global gTextL3_1144
+gTextL3_1144:
+	.incbin "baserom.gba", 0x3D432C, 0x67
+	.global gTextL3_1145
+gTextL3_1145:
+	.incbin "baserom.gba", 0x3D4393, 0x29
+	.global gTextL3_1146
+gTextL3_1146:
+	.incbin "baserom.gba", 0x3D43BC, 0x2A
+	.global gTextL3_1147
+gTextL3_1147:
+	.incbin "baserom.gba", 0x3D43E6, 0x3A
+	.global gTextL3_1148
+gTextL3_1148:
+	.incbin "baserom.gba", 0x3D4420, 0x12
+	.global gTextL3_1149
+gTextL3_1149:
+	.incbin "baserom.gba", 0x3D4432, 0x1A
+	.global gTextL3_1150
+gTextL3_1150:
+	.incbin "baserom.gba", 0x3D444C, 0x33
+	.global gTextL3_1151
+gTextL3_1151:
+	.incbin "baserom.gba", 0x3D447F, 0x156
+	.global gTextL3_1152
+gTextL3_1152:
+	.incbin "baserom.gba", 0x3D45D5, 0xF5
+	.global gTextL3_1153
+gTextL3_1153:
+	.incbin "baserom.gba", 0x3D46CA, 0xE6
+	.global gTextL3_1154
+gTextL3_1154:
+	.incbin "baserom.gba", 0x3D47B0, 0x3F
+	.global gTextL3_1155
+gTextL3_1155:
+	.incbin "baserom.gba", 0x3D47EF, 0x7
+	.global gTextL3_1156
+gTextL3_1156:
+	.incbin "baserom.gba", 0x3D47F6, 0x26
+	.global gTextL3_1157
+gTextL3_1157:
+	.incbin "baserom.gba", 0x3D481C, 0x24
+	.global gTextL3_1158
+gTextL3_1158:
+	.incbin "baserom.gba", 0x3D4840, 0x43
+	.global gTextL3_1159
+gTextL3_1159:
+	.incbin "baserom.gba", 0x3D4883, 0x63
+	.global gTextL3_1160
+gTextL3_1160:
+	.incbin "baserom.gba", 0x3D48E6, 0x5B
+	.global gTextL3_1161
+gTextL3_1161:
+	.incbin "baserom.gba", 0x3D4941, 0x5
+	.global gTextL3_1162
+gTextL3_1162:
+	.incbin "baserom.gba", 0x3D4946, 0x2D
+	.global gTextL3_1163
+gTextL3_1163:
+	.incbin "baserom.gba", 0x3D4973, 0x29
+	.global gTextL3_1164
+gTextL3_1164:
+	.incbin "baserom.gba", 0x3D499C, 0x35
+	.global gTextL3_1165
+gTextL3_1165:
+	.incbin "baserom.gba", 0x3D49D1, 0x33
+	.global gTextL3_1166
+gTextL3_1166:
+	.incbin "baserom.gba", 0x3D4A04, 0x35
+	.global gTextL3_1167
+gTextL3_1167:
+	.incbin "baserom.gba", 0x3D4A39, 0x13
+	.global gTextL3_1168
+gTextL3_1168:
+	.incbin "baserom.gba", 0x3D4A4C, 0x2A
+	.global gTextL3_1169
+gTextL3_1169:
+	.incbin "baserom.gba", 0x3D4A76, 0x35
+	.global gTextL3_1170
+gTextL3_1170:
+	.incbin "baserom.gba", 0x3D4AAB, 0x3C
+	.global gTextL3_1171
+gTextL3_1171:
+	.incbin "baserom.gba", 0x3D4AE7, 0x27
+	.global gTextL3_1172
+gTextL3_1172:
+	.incbin "baserom.gba", 0x3D4B0E, 0x1E
+	.global gTextL3_1173
+gTextL3_1173:
+	.incbin "baserom.gba", 0x3D4B2C, 0x1D
+	.global gTextL3_1174
+gTextL3_1174:
+	.incbin "baserom.gba", 0x3D4B49, 0x4F
+	.global gTextL3_1175
+gTextL3_1175:
+	.incbin "baserom.gba", 0x3D4B98, 0x28
+	.global gTextL3_1176
+gTextL3_1176:
+	.incbin "baserom.gba", 0x3D4BC0, 0x19
+	.global gTextL3_1177
+gTextL3_1177:
+	.incbin "baserom.gba", 0x3D4BD9, 0x1E
+	.global gTextL3_1178
+gTextL3_1178:
+	.incbin "baserom.gba", 0x3D4BF7, 0x190
+	.global gTextL3_1179
+gTextL3_1179:
+	.incbin "baserom.gba", 0x3D4D87, 0x74
+	.global gTextL3_1180
+gTextL3_1180:
+	.incbin "baserom.gba", 0x3D4DFB, 0xA3
+	.global gTextL3_1181
+gTextL3_1181:
+	.incbin "baserom.gba", 0x3D4E9E, 0x9
+	.global gTextL3_1182
+gTextL3_1182:
+	.incbin "baserom.gba", 0x3D4EA7, 0x11
+	.global gTextL3_1183
+gTextL3_1183:
+	.incbin "baserom.gba", 0x3D4EB8, 0x12
+	.global gTextL3_1184
+gTextL3_1184:
+	.incbin "baserom.gba", 0x3D4ECA, 0x12
+	.global gTextL3_1185
+gTextL3_1185:
+	.incbin "baserom.gba", 0x3D4EDC, 0x12
+	.global gTextL3_1186
+gTextL3_1186:
+	.incbin "baserom.gba", 0x3D4EEE, 0x12
+	.global gTextL3_1187
+gTextL3_1187:
+	.incbin "baserom.gba", 0x3D4F00, 0x12
+	.global gTextL3_1188
+gTextL3_1188:
+	.incbin "baserom.gba", 0x3D4F12, 0x12
+	.global gTextL3_1189
+gTextL3_1189:
+	.incbin "baserom.gba", 0x3D4F24, 0x12
+	.global gTextL3_1190
+gTextL3_1190:
+	.incbin "baserom.gba", 0x3D4F36, 0x12
+	.global gTextL3_1191
+gTextL3_1191:
+	.incbin "baserom.gba", 0x3D4F48, 0x12
+	.global gTextL3_1192
+gTextL3_1192:
+	.incbin "baserom.gba", 0x3D4F5A, 0x13
+	.global gTextL3_1193
+gTextL3_1193:
+	.incbin "baserom.gba", 0x3D4F6D, 0x17
+	.global gTextL3_1194
+gTextL3_1194:
+	.incbin "baserom.gba", 0x3D4F84, 0x15
+	.global gTextL3_1195
+gTextL3_1195:
+	.incbin "baserom.gba", 0x3D4F99, 0x1A
+	.global gTextL3_1196
+gTextL3_1196:
+	.incbin "baserom.gba", 0x3D4FB3, 0x17
+	.global gTextL3_1197
+gTextL3_1197:
+	.incbin "baserom.gba", 0x3D4FCA, 0x19
+	.global gTextL3_1198
+gTextL3_1198:
+	.incbin "baserom.gba", 0x3D4FE3, 0x1B
+	.global gTextL3_1199
+gTextL3_1199:
+	.incbin "baserom.gba", 0x3D4FFE, 0x19
+	.global gTextL3_1200
+gTextL3_1200:
+	.incbin "baserom.gba", 0x3D5017, 0x1A
+	.global gTextL3_1201
+gTextL3_1201:
+	.incbin "baserom.gba", 0x3D5031, 0x16
+	.global gTextL3_1202
+gTextL3_1202:
+	.incbin "baserom.gba", 0x3D5047, 0x17
+	.global gTextL3_1203
+gTextL3_1203:
+	.incbin "baserom.gba", 0x3D505E, 0x17
+	.global gTextL3_1204
+gTextL3_1204:
+	.incbin "baserom.gba", 0x3D5075, 0x12
+	.global gTextL3_1205
+gTextL3_1205:
+	.incbin "baserom.gba", 0x3D5087, 0x15
+	.global gTextL3_1206
+gTextL3_1206:
+	.incbin "baserom.gba", 0x3D509C, 0x12
+	.global gTextL3_1207
+gTextL3_1207:
+	.incbin "baserom.gba", 0x3D50AE, 0x15
+	.global gTextL3_1208
+gTextL3_1208:
+	.incbin "baserom.gba", 0x3D50C3, 0x1B
+	.global gTextL3_1209
+gTextL3_1209:
+	.incbin "baserom.gba", 0x3D50DE, 0x1B
+	.global gTextL3_1210
+gTextL3_1210:
+	.incbin "baserom.gba", 0x3D50F9, 0x1B
+	.global gTextL3_1211
+gTextL3_1211:
+	.incbin "baserom.gba", 0x3D5114, 0x1B
+	.global gTextL3_1212
+gTextL3_1212:
+	.incbin "baserom.gba", 0x3D512F, 0x18
+	.global gTextL3_1213
+gTextL3_1213:
+	.incbin "baserom.gba", 0x3D5147, 0x17
+	.global gTextL3_1214
+gTextL3_1214:
+	.incbin "baserom.gba", 0x3D515E, 0x14
+	.global gTextL3_1215
+gTextL3_1215:
+	.incbin "baserom.gba", 0x3D5172, 0x19
+	.global gTextL3_1216
+gTextL3_1216:
+	.incbin "baserom.gba", 0x3D518B, 0x19
+	.global gTextL3_1217
+gTextL3_1217:
+	.incbin "baserom.gba", 0x3D51A4, 0xB
+	.global gTextL3_1218
+gTextL3_1218:
+	.incbin "baserom.gba", 0x3D51AF, 0xA
+	.global gTextL3_1219
+gTextL3_1219:
+	.incbin "baserom.gba", 0x3D51B9, 0x9
+	.global gTextL3_1220
+gTextL3_1220:
+	.incbin "baserom.gba", 0x3D51C2, 0xC
+	.global gTextL3_1221
+gTextL3_1221:
+	.incbin "baserom.gba", 0x3D51CE, 0xC
+	.global gTextL3_1222
+gTextL3_1222:
+	.incbin "baserom.gba", 0x3D51DA, 0xC
+	.global gTextL3_1223
+gTextL3_1223:
+	.incbin "baserom.gba", 0x3D51E6, 0xC
+	.global gTextL3_1224
+gTextL3_1224:
+	.incbin "baserom.gba", 0x3D51F2, 0xC
+	.global gTextL3_1225
+gTextL3_1225:
+	.incbin "baserom.gba", 0x3D51FE, 0xC
+	.global gTextL3_1226
+gTextL3_1226:
+	.incbin "baserom.gba", 0x3D520A, 0xC
+	.global gTextL3_1227
+gTextL3_1227:
+	.incbin "baserom.gba", 0x3D5216, 0xC
+	.global gTextL3_1228
+gTextL3_1228:
+	.incbin "baserom.gba", 0x3D5222, 0xC
+	.global gTextL3_1229
+gTextL3_1229:
+	.incbin "baserom.gba", 0x3D522E, 0xC
+	.global gTextL3_1230
+gTextL3_1230:
+	.incbin "baserom.gba", 0x3D523A, 0xD
+	.global gTextL3_1231
+gTextL3_1231:
+	.incbin "baserom.gba", 0x3D5247, 0xB
+	.global gTextL3_1232
+gTextL3_1232:
+	.incbin "baserom.gba", 0x3D5252, 0x8
+	.global gTextL3_1233
+gTextL3_1233:
+	.incbin "baserom.gba", 0x3D525A, 0xC
+	.global gTextL3_1234
+gTextL3_1234:
+	.incbin "baserom.gba", 0x3D5266, 0x8
+	.global gTextL3_1235
+gTextL3_1235:
+	.incbin "baserom.gba", 0x3D526E, 0xA
+	.global gTextL3_1236
+gTextL3_1236:
+	.incbin "baserom.gba", 0x3D5278, 0xE
+	.global gTextL3_1237
+gTextL3_1237:
+	.incbin "baserom.gba", 0x3D5286, 0x9
+	.global gTextL3_1238
+gTextL3_1238:
+	.incbin "baserom.gba", 0x3D528F, 0xC
+	.global gTextL3_1239
+gTextL3_1239:
+	.incbin "baserom.gba", 0x3D529B, 0x10
+	.global gTextL3_1240
+gTextL3_1240:
+	.incbin "baserom.gba", 0x3D52AB, 0x9
+	.global gTextL3_1241
+gTextL3_1241:
+	.incbin "baserom.gba", 0x3D52B4, 0xC
+	.global gTextL3_1242
+gTextL3_1242:
+	.incbin "baserom.gba", 0x3D52C0, 0xA
+	.global gTextL3_1243
+gTextL3_1243:
+	.incbin "baserom.gba", 0x3D52CA, 0xD
+	.global gTextL3_1244
+gTextL3_1244:
+	.incbin "baserom.gba", 0x3D52D7, 0x17
+	.global gTextL3_1245
+gTextL3_1245:
+	.incbin "baserom.gba", 0x3D52EE, 0xD
+	.global gTextL3_1246
+gTextL3_1246:
+	.incbin "baserom.gba", 0x3D52FB, 0x9
+	.global gTextL3_1247
+gTextL3_1247:
+	.incbin "baserom.gba", 0x3D5304, 0xB
+	.global gTextL3_1248
+gTextL3_1248:
+	.incbin "baserom.gba", 0x3D530F, 0x1F
+	.global gTextL3_1249
+gTextL3_1249:
+	.incbin "baserom.gba", 0x3D532E, 0x1B
+	.global gTextL3_1250
+gTextL3_1250:
+	.incbin "baserom.gba", 0x3D5349, 0xB0
+	.global gTextL3_1251
+gTextL3_1251:
+	.incbin "baserom.gba", 0x3D53F9, 0x132
+	.global gTextL3_1252
+gTextL3_1252:
+	.incbin "baserom.gba", 0x3D552B, 0x148
+	.global gTextL3_1253
+gTextL3_1253:
+	.incbin "baserom.gba", 0x3D5673, 0x181
+	.global gTextL3_1254
+gTextL3_1254:
+	.incbin "baserom.gba", 0x3D57F4, 0x10A
+	.global gTextL3_1255
+gTextL3_1255:
+	.incbin "baserom.gba", 0x3D58FE, 0x153
+	.global gTextL3_1256
+gTextL3_1256:
+	.incbin "baserom.gba", 0x3D5A51, 0x23C
+	.global gTextL3_1257
+gTextL3_1257:
+	.incbin "baserom.gba", 0x3D5C8D, 0x8D
+	.global gTextL3_1258
+gTextL3_1258:
+	.incbin "baserom.gba", 0x3D5D1A, 0x25
+	.global gTextL3_1259
+gTextL3_1259:
+	.incbin "baserom.gba", 0x3D5D3F, 0x51
+	.global gTextL3_1260
+gTextL3_1260:
+	.incbin "baserom.gba", 0x3D5D90, 0x2D
+	.global gTextL3_1261
+gTextL3_1261:
+	.incbin "baserom.gba", 0x3D5DBD, 0x1C
+	.global gTextL3_1262
+gTextL3_1262:
+	.incbin "baserom.gba", 0x3D5DD9, 0x20
+	.global gTextL3_1263
+gTextL3_1263:
+	.incbin "baserom.gba", 0x3D5DF9, 0x20
+	.global gTextL3_1264
+gTextL3_1264:
+	.incbin "baserom.gba", 0x3D5E19, 0x20
+	.global gTextL3_1265
+gTextL3_1265:
+	.incbin "baserom.gba", 0x3D5E39, 0x20
+	.global gTextL3_1266
+gTextL3_1266:
+	.incbin "baserom.gba", 0x3D5E59, 0x20
+	.global gTextL3_1267
+gTextL3_1267:
+	.incbin "baserom.gba", 0x3D5E79, 0x20
+	.global gTextL3_1268
+gTextL3_1268:
+	.incbin "baserom.gba", 0x3D5E99, 0x20
+	.global gTextL3_1269
+gTextL3_1269:
+	.incbin "baserom.gba", 0x3D5EB9, 0x20
+	.global gTextL3_1270
+gTextL3_1270:
+	.incbin "baserom.gba", 0x3D5ED9, 0x20
+	.global gTextL3_1271
+gTextL3_1271:
+	.incbin "baserom.gba", 0x3D5EF9, 0x20
+	.global gTextL3_1272
+gTextL3_1272:
+	.incbin "baserom.gba", 0x3D5F19, 0x2A
+	.global gTextL3_1273
+gTextL3_1273:
+	.incbin "baserom.gba", 0x3D5F43, 0x2C
+	.global gTextL3_1274
+gTextL3_1274:
+	.incbin "baserom.gba", 0x3D5F6F, 0x18
+	.global gTextL3_1275
+gTextL3_1275:
+	.incbin "baserom.gba", 0x3D5F87, 0x36
+	.global gTextL3_1276
+gTextL3_1276:
+	.incbin "baserom.gba", 0x3D5FBD, 0x36
+	.global gTextL3_1277
+gTextL3_1277:
+	.incbin "baserom.gba", 0x3D5FF3, 0x36
+	.global gTextL3_1278
+gTextL3_1278:
+	.incbin "baserom.gba", 0x3D6029, 0x36
+	.global gTextL3_1279
+gTextL3_1279:
+	.incbin "baserom.gba", 0x3D605F, 0x36
+	.global gTextL3_1280
+gTextL3_1280:
+	.incbin "baserom.gba", 0x3D6095, 0x36
+	.global gTextL3_1281
+gTextL3_1281:
+	.incbin "baserom.gba", 0x3D60CB, 0x36
+	.global gTextL3_1282
+gTextL3_1282:
+	.incbin "baserom.gba", 0x3D6101, 0x36
+	.global gTextL3_1283
+gTextL3_1283:
+	.incbin "baserom.gba", 0x3D6137, 0x37
+	.global gTextL3_1284
+gTextL3_1284:
+	.incbin "baserom.gba", 0x3D616E, 0x17
+	.global gTextL3_1285
+gTextL3_1285:
+	.incbin "baserom.gba", 0x3D6185, 0x18
+	.global gTextL3_1286
+gTextL3_1286:
+	.incbin "baserom.gba", 0x3D619D, 0x18
+	.global gTextL3_1287
+gTextL3_1287:
+	.incbin "baserom.gba", 0x3D61B5, 0x19
+	.global gTextL3_1288
+gTextL3_1288:
+	.incbin "baserom.gba", 0x3D61CE, 0x26
+	.global gTextL3_1289
+gTextL3_1289:
+	.incbin "baserom.gba", 0x3D61F4, 0x2F
+	.global gTextL3_1290
+gTextL3_1290:
+	.incbin "baserom.gba", 0x3D6223, 0x37
+	.global gTextL3_1291
+gTextL3_1291:
+	.incbin "baserom.gba", 0x3D625A, 0x3A
+	.global gTextL3_1292
+gTextL3_1292:
+	.incbin "baserom.gba", 0x3D6294, 0x2D
+	.global gTextL3_1293
+gTextL3_1293:
+	.incbin "baserom.gba", 0x3D62C1, 0x74
+	.global gTextL3_1294
+gTextL3_1294:
+	.incbin "baserom.gba", 0x3D6335, 0x51
+	.global gTextL3_1295
+gTextL3_1295:
+	.incbin "baserom.gba", 0x3D6386, 0x3B
+	.global gTextL3_1296
+gTextL3_1296:
+	.incbin "baserom.gba", 0x3D63C1, 0x2C
+	.global gTextL3_1297
+gTextL3_1297:
+	.incbin "baserom.gba", 0x3D63ED, 0x5A
+	.global gTextL3_1298
+gTextL3_1298:
+	.incbin "baserom.gba", 0x3D6447, 0x3D
+	.global gTextL3_1299
+gTextL3_1299:
+	.incbin "baserom.gba", 0x3D6484, 0x40
+	.global gTextL3_1300
+gTextL3_1300:
+	.incbin "baserom.gba", 0x3D64C4, 0x48
+	.global gTextL3_1301
+gTextL3_1301:
+	.incbin "baserom.gba", 0x3D650C, 0x2B
+	.global gTextL3_1302
+gTextL3_1302:
+	.incbin "baserom.gba", 0x3D6537, 0x60
+	.global gTextL3_1303
+gTextL3_1303:
+	.incbin "baserom.gba", 0x3D6597, 0x55
+	.global gTextL3_1304
+gTextL3_1304:
+	.incbin "baserom.gba", 0x3D65EC, 0x36
+	.global gTextL3_1305
+gTextL3_1305:
+	.incbin "baserom.gba", 0x3D6622, 0x39
+	.global gTextL3_1306
+gTextL3_1306:
+	.incbin "baserom.gba", 0x3D665B, 0x63
+	.global gTextL3_1307
+gTextL3_1307:
+	.incbin "baserom.gba", 0x3D66BE, 0x67
+	.global gTextL3_1308
+gTextL3_1308:
+	.incbin "baserom.gba", 0x3D6725, 0x7A
+	.global gTextL3_1309
+gTextL3_1309:
+	.incbin "baserom.gba", 0x3D679F, 0x74
+	.global gTextL3_1310
+gTextL3_1310:
+	.incbin "baserom.gba", 0x3D6813, 0x74
+	.global gTextL3_1311
+gTextL3_1311:
+	.incbin "baserom.gba", 0x3D6887, 0x68
+	.global gTextL3_1312
+gTextL3_1312:
+	.incbin "baserom.gba", 0x3D68EF, 0x4C
+	.global gTextL3_1313
+gTextL3_1313:
+	.incbin "baserom.gba", 0x3D693B, 0x39
+	.global gTextL3_1314
+gTextL3_1314:
+	.incbin "baserom.gba", 0x3D6974, 0x46
+	.global gTextL3_1315
+gTextL3_1315:
+	.incbin "baserom.gba", 0x3D69BA, 0x80
+	.global gTextL3_1316
+gTextL3_1316:
+	.incbin "baserom.gba", 0x3D6A3A, 0x79
+	.global gTextL3_1317
+gTextL3_1317:
+	.incbin "baserom.gba", 0x3D6AB3, 0x73
+	.global gTextL3_1318
+gTextL3_1318:
+	.incbin "baserom.gba", 0x3D6B26, 0x67
+	.global gTextL3_1319
+gTextL3_1319:
+	.incbin "baserom.gba", 0x3D6B8D, 0x2A
+	.global gTextL3_1320
+gTextL3_1320:
+	.incbin "baserom.gba", 0x3D6BB7, 0x5C
+	.global gTextL3_1321
+gTextL3_1321:
+	.incbin "baserom.gba", 0x3D6C13, 0xA
+	.global gTextL3_1322
+gTextL3_1322:
+	.incbin "baserom.gba", 0x3D6C1D, 0x5
+	.global gTextL3_1323
+gTextL3_1323:
+	.incbin "baserom.gba", 0x3D6C22, 0x5
+	.global gTextL3_1324
+gTextL3_1324:
+	.incbin "baserom.gba", 0x3D6C27, 0x5
+	.global gTextL3_1325
+gTextL3_1325:
+	.incbin "baserom.gba", 0x3D6C2C, 0x5
+	.global gTextL3_1326
+gTextL3_1326:
+	.incbin "baserom.gba", 0x3D6C31, 0x5
+	.global gTextL3_1327
+gTextL3_1327:
+	.incbin "baserom.gba", 0x3D6C36, 0x5
+	.global gTextL3_1328
+gTextL3_1328:
+	.incbin "baserom.gba", 0x3D6C3B, 0x5
+	.global gTextL3_1329
+gTextL3_1329:
+	.incbin "baserom.gba", 0x3D6C40, 0x33
+	.global gTextL3_1330
+gTextL3_1330:
+	.incbin "baserom.gba", 0x3D6C73, 0x46
+	.global gTextL3_1331
+gTextL3_1331:
+	.incbin "baserom.gba", 0x3D6CB9, 0x9
+	.global gTextL3_1332
+gTextL3_1332:
+	.incbin "baserom.gba", 0x3D6CC2, 0x9
+	.global gTextL3_1333
+gTextL3_1333:
+	.incbin "baserom.gba", 0x3D6CCB, 0x8
+	.global gTextL3_1334
+gTextL3_1334:
+	.incbin "baserom.gba", 0x3D6CD3, 0x9
+	.global gTextL3_1335
+gTextL3_1335:
+	.incbin "baserom.gba", 0x3D6CDC, 0x9
+	.global gTextL3_1336
+gTextL3_1336:
+	.incbin "baserom.gba", 0x3D6CE5, 0xB
+	.global gTextL3_1337
+gTextL3_1337:
+	.incbin "baserom.gba", 0x3D6CF0, 0xA
+	.global gTextL3_1338
+gTextL3_1338:
+	.incbin "baserom.gba", 0x3D6CFA, 0x9
+	.global gTextL3_1339
+gTextL3_1339:
+	.incbin "baserom.gba", 0x3D6D03, 0xA
+	.global gTextL3_1340
+gTextL3_1340:
+	.incbin "baserom.gba", 0x3D6D0D, 0xA
+	.global gTextL3_1341
+gTextL3_1341:
+	.incbin "baserom.gba", 0x3D6D17, 0xB
+	.global gTextL3_1342
+gTextL3_1342:
+	.incbin "baserom.gba", 0x3D6D22, 0xB
+	.global gTextL3_1343
+gTextL3_1343:
+	.incbin "baserom.gba", 0x3D6D2D, 0xB
+	.global gTextL3_1344
+gTextL3_1344:
+	.incbin "baserom.gba", 0x3D6D38, 0xD
+	.global gTextL3_1345
+gTextL3_1345:
+	.incbin "baserom.gba", 0x3D6D45, 0xB
+	.global gTextL3_1346
+gTextL3_1346:
+	.incbin "baserom.gba", 0x3D6D50, 0x35
+	.global gTextL3_1347
+gTextL3_1347:
+	.incbin "baserom.gba", 0x3D6D85, 0x10
+	.global gTextL3_1348
+gTextL3_1348:
+	.incbin "baserom.gba", 0x3D6D95, 0x3B
+	.global gTextL3_1349
+gTextL3_1349:
+	.incbin "baserom.gba", 0x3D6DD0, 0x2F
+	.global gTextL3_1350
+gTextL3_1350:
+	.incbin "baserom.gba", 0x3D6DFF, 0x37
+	.global gTextL3_1351
+gTextL3_1351:
+	.incbin "baserom.gba", 0x3D6E36, 0x2F
+	.global gTextL3_1352
+gTextL3_1352:
+	.incbin "baserom.gba", 0x3D6E65, 0x2F
+	.global gTextL3_1353
+gTextL3_1353:
+	.incbin "baserom.gba", 0x3D6E94, 0x35
+	.global gTextL3_1354
+gTextL3_1354:
+	.incbin "baserom.gba", 0x3D6EC9, 0x25
+	.global gTextL3_1355
+gTextL3_1355:
+	.incbin "baserom.gba", 0x3D6EEE, 0x37
+	.global gTextL3_1356
+gTextL3_1356:
+	.incbin "baserom.gba", 0x3D6F25, 0x36
+	.global gTextL3_1357
+gTextL3_1357:
+	.incbin "baserom.gba", 0x3D6F5B, 0x3B
+	.global gTextL3_1358
+gTextL3_1358:
+	.incbin "baserom.gba", 0x3D6F96, 0x37
+	.global gTextL3_1359
+gTextL3_1359:
+	.incbin "baserom.gba", 0x3D6FCD, 0x2C
+	.global gTextL3_1360
+gTextL3_1360:
+	.incbin "baserom.gba", 0x3D6FF9, 0x2D
+	.global gTextL3_1361
+gTextL3_1361:
+	.incbin "baserom.gba", 0x3D7026, 0x3C
+	.global gTextL3_1362
+gTextL3_1362:
+	.incbin "baserom.gba", 0x3D7062, 0x30
+	.global gTextL3_1363
+gTextL3_1363:
+	.incbin "baserom.gba", 0x3D7092, 0x32
+	.global gTextL3_1364
+gTextL3_1364:
+	.incbin "baserom.gba", 0x3D70C4, 0x20
+	.global gTextL3_1365
+gTextL3_1365:
+	.incbin "baserom.gba", 0x3D70E4, 0x3B
+	.global gTextL3_1366
+gTextL3_1366:
+	.incbin "baserom.gba", 0x3D711F, 0x35
+	.global gTextL3_1367
+gTextL3_1367:
+	.incbin "baserom.gba", 0x3D7154, 0x34
+	.global gTextL3_1368
+gTextL3_1368:
+	.incbin "baserom.gba", 0x3D7188, 0x32
+	.global gTextL3_1369
+gTextL3_1369:
+	.incbin "baserom.gba", 0x3D71BA, 0x35
+	.global gTextL3_1370
+gTextL3_1370:
+	.incbin "baserom.gba", 0x3D71EF, 0x37
+	.global gTextL3_1371
+gTextL3_1371:
+	.incbin "baserom.gba", 0x3D7226, 0x3A
+	.global gTextL3_1372
+gTextL3_1372:
+	.incbin "baserom.gba", 0x3D7260, 0x33
+	.global gTextL3_1373
+gTextL3_1373:
+	.incbin "baserom.gba", 0x3D7293, 0x31
+	.global gTextL3_1374
+gTextL3_1374:
+	.incbin "baserom.gba", 0x3D72C4, 0x3C
+	.global gTextL3_1375
+gTextL3_1375:
+	.incbin "baserom.gba", 0x3D7300, 0x35
+	.global gTextL3_1376
+gTextL3_1376:
+	.incbin "baserom.gba", 0x3D7335, 0x29
+	.global gTextL3_1377
+gTextL3_1377:
+	.incbin "baserom.gba", 0x3D735E, 0x3B
+	.global gTextL3_1378
+gTextL3_1378:
+	.incbin "baserom.gba", 0x3D7399, 0x30
+	.global gTextL3_1379
+gTextL3_1379:
+	.incbin "baserom.gba", 0x3D73C9, 0x31
+	.global gTextL3_1380
+gTextL3_1380:
+	.incbin "baserom.gba", 0x3D73FA, 0x38
+	.global gTextL3_1381
+gTextL3_1381:
+	.incbin "baserom.gba", 0x3D7432, 0x33
+	.global gTextL3_1382
+gTextL3_1382:
+	.incbin "baserom.gba", 0x3D7465, 0x37
+	.global gTextL3_1383
+gTextL3_1383:
+	.incbin "baserom.gba", 0x3D749C, 0x36
+	.global gTextL3_1384
+gTextL3_1384:
+	.incbin "baserom.gba", 0x3D74D2, 0x31
+	.global gTextL3_1385
+gTextL3_1385:
+	.incbin "baserom.gba", 0x3D7503, 0x33
+	.global gTextL3_1386
+gTextL3_1386:
+	.incbin "baserom.gba", 0x3D7536, 0x36
+	.global gTextL3_1387
+gTextL3_1387:
+	.incbin "baserom.gba", 0x3D756C, 0x3A
+	.global gTextL3_1388
+gTextL3_1388:
+	.incbin "baserom.gba", 0x3D75A6, 0x35
+	.global gTextL3_1389
+gTextL3_1389:
+	.incbin "baserom.gba", 0x3D75DB, 0x38
+	.global gTextL3_1390
+gTextL3_1390:
+	.incbin "baserom.gba", 0x3D7613, 0x37
+	.global gTextL3_1391
+gTextL3_1391:
+	.incbin "baserom.gba", 0x3D764A, 0x31
+	.global gTextL3_1392
+gTextL3_1392:
+	.incbin "baserom.gba", 0x3D767B, 0x37
+	.global gTextL3_1393
+gTextL3_1393:
+	.incbin "baserom.gba", 0x3D76B2, 0x39
+	.global gTextL3_1394
+gTextL3_1394:
+	.incbin "baserom.gba", 0x3D76EB, 0x31
+	.global gTextL3_1395
+gTextL3_1395:
+	.incbin "baserom.gba", 0x3D771C, 0x2D
+	.global gTextL3_1396
+gTextL3_1396:
+	.incbin "baserom.gba", 0x3D7749, 0x36
+	.global gTextL3_1397
+gTextL3_1397:
+	.incbin "baserom.gba", 0x3D777F, 0x36
+	.global gTextL3_1398
+gTextL3_1398:
+	.incbin "baserom.gba", 0x3D77B5, 0x39
+	.global gTextL3_1399
+gTextL3_1399:
+	.incbin "baserom.gba", 0x3D77EE, 0x38
+	.global gTextL3_1400
+gTextL3_1400:
+	.incbin "baserom.gba", 0x3D7826, 0x35
+	.global gTextL3_1401
+gTextL3_1401:
+	.incbin "baserom.gba", 0x3D785B, 0x3A
+	.global gTextL3_1402
+gTextL3_1402:
+	.incbin "baserom.gba", 0x3D7895, 0x2A
+	.global gTextL3_1403
+gTextL3_1403:
+	.incbin "baserom.gba", 0x3D78BF, 0x37
+	.global gTextL3_1404
+gTextL3_1404:
+	.incbin "baserom.gba", 0x3D78F6, 0x3A
+	.global gTextL3_1405
+gTextL3_1405:
+	.incbin "baserom.gba", 0x3D7930, 0x36
+	.global gTextL3_1406
+gTextL3_1406:
+	.incbin "baserom.gba", 0x3D7966, 0x36
+	.global gTextL3_1407
+gTextL3_1407:
+	.incbin "baserom.gba", 0x3D799C, 0x39
+	.global gTextL3_1408
+gTextL3_1408:
+	.incbin "baserom.gba", 0x3D79D5, 0x31
+	.global gTextL3_1409
+gTextL3_1409:
+	.incbin "baserom.gba", 0x3D7A06, 0x38
+	.global gTextL3_1410
+gTextL3_1410:
+	.incbin "baserom.gba", 0x3D7A3E, 0x36
+	.global gTextL3_1411
+gTextL3_1411:
+	.incbin "baserom.gba", 0x3D7A74, 0x36
+	.global gTextL3_1412
+gTextL3_1412:
+	.incbin "baserom.gba", 0x3D7AAA, 0x38
+	.global gTextL3_1413
+gTextL3_1413:
+	.incbin "baserom.gba", 0x3D7AE2, 0x31
+	.global gTextL3_1414
+gTextL3_1414:
+	.incbin "baserom.gba", 0x3D7B13, 0x36
+	.global gTextL3_1415
+gTextL3_1415:
+	.incbin "baserom.gba", 0x3D7B49, 0x2B
+	.global gTextL3_1416
+gTextL3_1416:
+	.incbin "baserom.gba", 0x3D7B74, 0x35
+	.global gTextL3_1417
+gTextL3_1417:
+	.incbin "baserom.gba", 0x3D7BA9, 0x35
+	.global gTextL3_1418
+gTextL3_1418:
+	.incbin "baserom.gba", 0x3D7BDE, 0x2F
+	.global gTextL3_1419
+gTextL3_1419:
+	.incbin "baserom.gba", 0x3D7C0D, 0x37
+	.global gTextL3_1420
+gTextL3_1420:
+	.incbin "baserom.gba", 0x3D7C44, 0x3B
+	.global gTextL3_1421
+gTextL3_1421:
+	.incbin "baserom.gba", 0x3D7C7F, 0x39
+	.global gTextL3_1422
+gTextL3_1422:
+	.incbin "baserom.gba", 0x3D7CB8, 0x38
+	.global gTextL3_1423
+gTextL3_1423:
+	.incbin "baserom.gba", 0x3D7CF0, 0x2D
+	.global gTextL3_1424
+gTextL3_1424:
+	.incbin "baserom.gba", 0x3D7D1D, 0x37
+	.global gTextL3_1425
+gTextL3_1425:
+	.incbin "baserom.gba", 0x3D7D54, 0x2A
+	.global gTextL3_1426
+gTextL3_1426:
+	.incbin "baserom.gba", 0x3D7D7E, 0x30
+	.global gTextL3_1427
+gTextL3_1427:
+	.incbin "baserom.gba", 0x3D7DAE, 0x39
+	.global gTextL3_1428
+gTextL3_1428:
+	.incbin "baserom.gba", 0x3D7DE7, 0x36
+	.global gTextL3_1429
+gTextL3_1429:
+	.incbin "baserom.gba", 0x3D7E1D, 0x31
+	.global gTextL3_1430
+gTextL3_1430:
+	.incbin "baserom.gba", 0x3D7E4E, 0x37
+	.global gTextL3_1431
+gTextL3_1431:
+	.incbin "baserom.gba", 0x3D7E85, 0x35
+	.global gTextL3_1432
+gTextL3_1432:
+	.incbin "baserom.gba", 0x3D7EBA, 0x33
+	.global gTextL3_1433
+gTextL3_1433:
+	.incbin "baserom.gba", 0x3D7EED, 0x38
+	.global gTextL3_1434
+gTextL3_1434:
+	.incbin "baserom.gba", 0x3D7F25, 0x35
+	.global gTextL3_1435
+gTextL3_1435:
+	.incbin "baserom.gba", 0x3D7F5A, 0x2D
+	.global gTextL3_1436
+gTextL3_1436:
+	.incbin "baserom.gba", 0x3D7F87, 0x39
+	.global gTextL3_1437
+gTextL3_1437:
+	.incbin "baserom.gba", 0x3D7FC0, 0x34
+	.global gTextL3_1438
+gTextL3_1438:
+	.incbin "baserom.gba", 0x3D7FF4, 0x2E
+	.global gTextL3_1439
+gTextL3_1439:
+	.incbin "baserom.gba", 0x3D8022, 0x31
+	.global gTextL3_1440
+gTextL3_1440:
+	.incbin "baserom.gba", 0x3D8053, 0x39
+	.global gTextL3_1441
+gTextL3_1441:
+	.incbin "baserom.gba", 0x3D808C, 0x2F
+	.global gTextL3_1442
+gTextL3_1442:
+	.incbin "baserom.gba", 0x3D80BB, 0x31
+	.global gTextL3_1443
+gTextL3_1443:
+	.incbin "baserom.gba", 0x3D80EC, 0x37
+	.global gTextL3_1444
+gTextL3_1444:
+	.incbin "baserom.gba", 0x3D8123, 0x39
+	.global gTextL3_1445
+gTextL3_1445:
+	.incbin "baserom.gba", 0x3D815C, 0x34
+	.global gTextL3_1446
+gTextL3_1446:
+	.incbin "baserom.gba", 0x3D8190, 0x32
+	.global gTextL3_1447
+gTextL3_1447:
+	.incbin "baserom.gba", 0x3D81C2, 0x30
+	.global gTextL3_1448
+gTextL3_1448:
+	.incbin "baserom.gba", 0x3D81F2, 0x33
+	.global gTextL3_1449
+gTextL3_1449:
+	.incbin "baserom.gba", 0x3D8225, 0x22
+	.global gTextL3_1450
+gTextL3_1450:
+	.incbin "baserom.gba", 0x3D8247, 0x3B
+	.global gTextL3_1451
+gTextL3_1451:
+	.incbin "baserom.gba", 0x3D8282, 0x2C
+	.global gTextL3_1452
+gTextL3_1452:
+	.incbin "baserom.gba", 0x3D82AE, 0x39
+	.global gTextL3_1453
+gTextL3_1453:
+	.incbin "baserom.gba", 0x3D82E7, 0x36
+	.global gTextL3_1454
+gTextL3_1454:
+	.incbin "baserom.gba", 0x3D831D, 0x37
+	.global gTextL3_1455
+gTextL3_1455:
+	.incbin "baserom.gba", 0x3D8354, 0x32
+	.global gTextL3_1456
+gTextL3_1456:
+	.incbin "baserom.gba", 0x3D8386, 0x3A
+	.global gTextL3_1457
+gTextL3_1457:
+	.incbin "baserom.gba", 0x3D83C0, 0x39
+	.global gTextL3_1458
+gTextL3_1458:
+	.incbin "baserom.gba", 0x3D83F9, 0x20
+	.global gTextL3_1459
+gTextL3_1459:
+	.incbin "baserom.gba", 0x3D8419, 0x38
+	.global gTextL3_1460
+gTextL3_1460:
+	.incbin "baserom.gba", 0x3D8451, 0x38
+	.global gTextL3_1461
+gTextL3_1461:
+	.incbin "baserom.gba", 0x3D8489, 0x39
+	.global gTextL3_1462
+gTextL3_1462:
+	.incbin "baserom.gba", 0x3D84C2, 0x39
+	.global gTextL3_1463
+gTextL3_1463:
+	.incbin "baserom.gba", 0x3D84FB, 0x2D
+	.global gTextL3_1464
+gTextL3_1464:
+	.incbin "baserom.gba", 0x3D8528, 0x24
+	.global gTextL3_1465
+gTextL3_1465:
+	.incbin "baserom.gba", 0x3D854C, 0x32
+	.global gTextL3_1466
+gTextL3_1466:
+	.incbin "baserom.gba", 0x3D857E, 0x30
+	.global gTextL3_1467
+gTextL3_1467:
+	.incbin "baserom.gba", 0x3D85AE, 0x30
+	.global gTextL3_1468
+gTextL3_1468:
+	.incbin "baserom.gba", 0x3D85DE, 0x38
+	.global gTextL3_1469
+gTextL3_1469:
+	.incbin "baserom.gba", 0x3D8616, 0x2F
+	.global gTextL3_1470
+gTextL3_1470:
+	.incbin "baserom.gba", 0x3D8645, 0x36
+	.global gTextL3_1471
+gTextL3_1471:
+	.incbin "baserom.gba", 0x3D867B, 0x33
+	.global gTextL3_1472
+gTextL3_1472:
+	.incbin "baserom.gba", 0x3D86AE, 0x30
+	.global gTextL3_1473
+gTextL3_1473:
+	.incbin "baserom.gba", 0x3D86DE, 0x34
+	.global gTextL3_1474
+gTextL3_1474:
+	.incbin "baserom.gba", 0x3D8712, 0x2B
+	.global gTextL3_1475
+gTextL3_1475:
+	.incbin "baserom.gba", 0x3D873D, 0x31
+	.global gTextL3_1476
+gTextL3_1476:
+	.incbin "baserom.gba", 0x3D876E, 0x31
+	.global gTextL3_1477
+gTextL3_1477:
+	.incbin "baserom.gba", 0x3D879F, 0x33
+	.global gTextL3_1478
+gTextL3_1478:
+	.incbin "baserom.gba", 0x3D87D2, 0x3C
+	.global gTextL3_1479
+gTextL3_1479:
+	.incbin "baserom.gba", 0x3D880E, 0x3C
+	.global gTextL3_1480
+gTextL3_1480:
+	.incbin "baserom.gba", 0x3D884A, 0x37
+	.global gTextL3_1481
+gTextL3_1481:
+	.incbin "baserom.gba", 0x3D8881, 0x2D
+	.global gTextL3_1482
+gTextL3_1482:
+	.incbin "baserom.gba", 0x3D88AE, 0x37
+	.global gTextL3_1483
+gTextL3_1483:
+	.incbin "baserom.gba", 0x3D88E5, 0x30
+	.global gTextL3_1484
+gTextL3_1484:
+	.incbin "baserom.gba", 0x3D8915, 0x3B
+	.global gTextL3_1485
+gTextL3_1485:
+	.incbin "baserom.gba", 0x3D8950, 0x35
+	.global gTextL3_1486
+gTextL3_1486:
+	.incbin "baserom.gba", 0x3D8985, 0x30
+	.global gTextL3_1487
+gTextL3_1487:
+	.incbin "baserom.gba", 0x3D89B5, 0x2E
+	.global gTextL3_1488
+gTextL3_1488:
+	.incbin "baserom.gba", 0x3D89E3, 0x3A
+	.global gTextL3_1489
+gTextL3_1489:
+	.incbin "baserom.gba", 0x3D8A1D, 0x38
+	.global gTextL3_1490
+gTextL3_1490:
+	.incbin "baserom.gba", 0x3D8A55, 0x29
+	.global gTextL3_1491
+gTextL3_1491:
+	.incbin "baserom.gba", 0x3D8A7E, 0x36
+	.global gTextL3_1492
+gTextL3_1492:
+	.incbin "baserom.gba", 0x3D8AB4, 0x38
 	.global gUnk_083D8AEC
 gUnk_083D8AEC:
-	.incbin "baserom.gba", 0x3D8AEC, 0x27EB8
+	.4byte gTextL3_0000
+	.4byte gTextL3_0001
+	.4byte gTextL3_0002
+	.4byte gTextL3_0003
+	.4byte gTextL3_0004
+	.4byte gTextL3_0005
+	.4byte gTextL3_0006
+	.4byte gTextL3_0007
+	.4byte gTextL3_0008
+	.4byte gTextL3_0009
+	.4byte gTextL3_0010
+	.4byte gTextL3_0011
+	.4byte gTextL3_0012
+	.4byte gTextL3_0013
+	.4byte gTextL3_0014
+	.4byte gTextL3_0015
+	.4byte gTextL3_0016
+	.4byte gTextL3_0017
+	.4byte gTextL3_0018
+	.4byte gTextL3_0019
+	.4byte gTextL3_0020
+	.4byte gTextL3_0021
+	.4byte gTextL3_0022
+	.4byte gTextL3_0023
+	.4byte gTextL3_0024
+	.4byte gTextL3_0025
+	.4byte gTextL3_0026
+	.4byte gTextL3_0027
+	.4byte gTextL3_0028
+	.4byte gTextL3_0029
+	.4byte gTextL3_0030
+	.4byte gTextL3_0031
+	.4byte gTextL3_0032
+	.4byte gTextL3_0033
+	.4byte gTextL3_0034
+	.4byte gTextL3_0035
+	.4byte gTextL3_0036
+	.4byte gTextL3_0037
+	.4byte gTextL3_0038
+	.4byte gTextL3_0039
+	.4byte gTextL3_0040
+	.4byte gTextL3_0041
+	.4byte gTextL3_0042
+	.4byte gTextL3_0043
+	.4byte gTextL3_0044
+	.4byte gTextL3_0045
+	.4byte gTextL3_0046
+	.4byte gTextL3_0047
+	.4byte gTextL3_0048
+	.4byte gTextL3_0049
+	.4byte gTextL3_0050
+	.4byte gTextL3_0051
+	.4byte gTextL3_0052
+	.4byte gTextL3_0053
+	.4byte gTextL3_0054
+	.4byte gTextL3_0055
+	.4byte gTextL3_0056
+	.4byte gTextL3_0057
+	.4byte gTextL3_0058
+	.4byte gTextL3_0059
+	.4byte gTextL3_0060
+	.4byte gTextL3_0061
+	.4byte gTextL3_0062
+	.4byte gTextL3_0063
+	.4byte gTextL3_0064
+	.4byte gTextL3_0065
+	.4byte gTextL3_0066
+	.4byte gTextL3_0067
+	.4byte gTextL3_0068
+	.4byte gTextL3_0069
+	.4byte gTextL3_0070
+	.4byte gTextL3_0071
+	.4byte gTextL3_0072
+	.4byte gTextL3_0073
+	.4byte gTextL3_0074
+	.4byte gTextL3_0075
+	.4byte gTextL3_0076
+	.4byte gTextL3_0077
+	.4byte gTextL3_0078
+	.4byte gTextL3_0079
+	.4byte gTextL3_0080
+	.4byte gTextL3_0081
+	.4byte gTextL3_0082
+	.4byte gTextL3_0083
+	.4byte gTextL3_0084
+	.4byte gTextL3_0085
+	.4byte gTextL3_0086
+	.4byte gTextL3_0087
+	.4byte gTextL3_0088
+	.4byte gTextL3_0089
+	.4byte gTextL3_0090
+	.4byte gTextL3_0091
+	.4byte gTextL3_0092
+	.4byte gTextL3_0093
+	.4byte gTextL3_0094
+	.4byte gTextL3_0095
+	.4byte gTextL3_0096
+	.4byte gTextL3_0097
+	.4byte gTextL3_0098
+	.4byte gTextL3_0099
+	.4byte gTextL3_0100
+	.4byte gTextL3_0101
+	.4byte gTextL3_0102
+	.4byte gTextL3_0103
+	.4byte gTextL3_0104
+	.4byte gTextL3_0105
+	.4byte gTextL3_0106
+	.4byte gTextL3_0107
+	.4byte gTextL3_0108
+	.4byte gTextL3_0109
+	.4byte gTextL3_0110
+	.4byte gTextL3_0111
+	.4byte gTextL3_0112
+	.4byte gTextL3_0113
+	.4byte gTextL3_0114
+	.4byte gTextL3_0115
+	.4byte gTextL3_0116
+	.4byte gTextL3_0117
+	.4byte gTextL3_0118
+	.4byte gTextL3_0119
+	.4byte gTextL3_0120
+	.4byte gTextL3_0121
+	.4byte gTextL3_0122
+	.4byte gTextL3_0123
+	.4byte gTextL3_0124
+	.4byte gTextL3_0125
+	.4byte gTextL3_0126
+	.4byte gTextL3_0127
+	.4byte gTextL3_0128
+	.4byte gTextL3_0129
+	.4byte gTextL3_0130
+	.4byte gTextL3_0131
+	.4byte gTextL3_0132
+	.4byte gTextL3_0133
+	.4byte gTextL3_0134
+	.4byte gTextL3_0135
+	.4byte gTextL3_0136
+	.4byte gTextL3_0137
+	.4byte gTextL3_0138
+	.4byte gTextL3_0139
+	.4byte gTextL3_0140
+	.4byte gTextL3_0141
+	.4byte gTextL3_0142
+	.4byte gTextL3_0143
+	.4byte gTextL3_0144
+	.4byte gTextL3_0145
+	.4byte gTextL3_0146
+	.4byte gTextL3_0147
+	.4byte gTextL3_0148
+	.4byte gTextL3_0149
+	.4byte gTextL3_0150
+	.4byte gTextL3_0151
+	.4byte gTextL3_0152
+	.4byte gTextL3_0153
+	.4byte gTextL3_0154
+	.4byte gTextL3_0155
+	.4byte gTextL3_0156
+	.4byte gTextL3_0157
+	.4byte gTextL3_0158
+	.4byte gTextL3_0159
+	.4byte gTextL3_0160
+	.4byte gTextL3_0161
+	.4byte gTextL3_0162
+	.4byte gTextL3_0163
+	.4byte gTextL3_0164
+	.4byte gTextL3_0165
+	.4byte gTextL3_0166
+	.4byte gTextL3_0167
+	.4byte gTextL3_0168
+	.4byte gTextL3_0169
+	.4byte gTextL3_0170
+	.4byte gTextL3_0171
+	.4byte gTextL3_0172
+	.4byte gTextL3_0173
+	.4byte gTextL3_0174
+	.4byte gTextL3_0175
+	.4byte gTextL3_0176
+	.4byte gTextL3_0177
+	.4byte gTextL3_0178
+	.4byte gTextL3_0179
+	.4byte gTextL3_0180
+	.4byte gTextL3_0181
+	.4byte gTextL3_0182
+	.4byte gTextL3_0183
+	.4byte gTextL3_0184
+	.4byte gTextL3_0185
+	.4byte gTextL3_0186
+	.4byte gTextL3_0187
+	.4byte gTextL3_0188
+	.4byte gTextL3_0189
+	.4byte gTextL3_0190
+	.4byte gTextL3_0191
+	.4byte gTextL3_0192
+	.4byte gTextL3_0193
+	.4byte gTextL3_0194
+	.4byte gTextL3_0195
+	.4byte gTextL3_0196
+	.4byte gTextL3_0197
+	.4byte gTextL3_0198
+	.4byte gTextL3_0199
+	.4byte gTextL3_0200
+	.4byte gTextL3_0201
+	.4byte gTextL3_0202
+	.4byte gTextL3_0203
+	.4byte gTextL3_0204
+	.4byte gTextL3_0205
+	.4byte gTextL3_0206
+	.4byte gTextL3_0207
+	.4byte gTextL3_0208
+	.4byte gTextL3_0209
+	.4byte gTextL3_0210
+	.4byte gTextL3_0211
+	.4byte gTextL3_0212
+	.4byte gTextL3_0213
+	.4byte gTextL3_0214
+	.4byte gTextL3_0215
+	.4byte gTextL3_0216
+	.4byte gTextL3_0217
+	.4byte gTextL3_0218
+	.4byte gTextL3_0219
+	.4byte gTextL3_0220
+	.4byte gTextL3_0221
+	.4byte gTextL3_0222
+	.4byte gTextL3_0223
+	.4byte gTextL3_0224
+	.4byte gTextL3_0225
+	.4byte gTextL3_0226
+	.4byte gTextL3_0227
+	.4byte gTextL3_0228
+	.4byte gTextL3_0229
+	.4byte gTextL3_0230
+	.4byte gTextL3_0231
+	.4byte gTextL3_0232
+	.4byte gTextL3_0233
+	.4byte gTextL3_0234
+	.4byte gTextL3_0235
+	.4byte gTextL3_0236
+	.4byte gTextL3_0237
+	.4byte gTextL3_0238
+	.4byte gTextL3_0239
+	.4byte gTextL3_0240
+	.4byte gTextL3_0241
+	.4byte gTextL3_0242
+	.4byte gTextL3_0243
+	.4byte gTextL3_0244
+	.4byte gTextL3_0245
+	.4byte gTextL3_0246
+	.4byte gTextL3_0247
+	.4byte gTextL3_0248
+	.4byte gTextL3_0249
+	.4byte gTextL3_0250
+	.4byte gTextL3_0251
+	.4byte gTextL3_0252
+	.4byte gTextL3_0253
+	.4byte gTextL3_0254
+	.4byte gTextL3_0255
+	.4byte gTextL3_0256
+	.4byte gTextL3_0257
+	.4byte gTextL3_0258
+	.4byte gTextL3_0259
+	.4byte gTextL3_0260
+	.4byte gTextL3_0261
+	.4byte gTextL3_0262
+	.4byte gTextL3_0263
+	.4byte gTextL3_0264
+	.4byte gTextL3_0265
+	.4byte gTextL3_0266
+	.4byte gTextL3_0267
+	.4byte gTextL3_0268
+	.4byte gTextL3_0269
+	.4byte gTextL3_0270
+	.4byte gTextL3_0271
+	.4byte gTextL3_0272
+	.4byte gTextL3_0273
+	.4byte gTextL3_0274
+	.4byte gTextL3_0275
+	.4byte gTextL3_0276
+	.4byte gTextL3_0277
+	.4byte gTextL3_0278
+	.4byte gTextL3_0279
+	.4byte gTextL3_0280
+	.4byte gTextL3_0281
+	.4byte gTextL3_0282
+	.4byte gTextL3_0283
+	.4byte gTextL3_0284
+	.4byte gTextL3_0285
+	.4byte gTextL3_0286
+	.4byte gTextL3_0287
+	.4byte gTextL3_0288
+	.4byte gTextL3_0289
+	.4byte gTextL3_0290
+	.4byte gTextL3_0291
+	.4byte gTextL3_0292
+	.4byte gTextL3_0293
+	.4byte gTextL3_0294
+	.4byte gTextL3_0295
+	.4byte gTextL3_0296
+	.4byte gTextL3_0297
+	.4byte gTextL3_0298
+	.4byte gTextL3_0299
+	.4byte gTextL3_0300
+	.4byte gTextL3_0301
+	.4byte gTextL3_0302
+	.4byte gTextL3_0303
+	.4byte gTextL3_0304
+	.4byte gTextL3_0305
+	.4byte gTextL3_0306
+	.4byte gTextL3_0307
+	.4byte gTextL3_0308
+	.4byte gTextL3_0309
+	.4byte gTextL3_0310
+	.4byte gTextL3_0311
+	.4byte gTextL3_0312
+	.4byte gTextL3_0313
+	.4byte gTextL3_0314
+	.4byte gTextL3_0315
+	.4byte gTextL3_0316
+	.4byte gTextL3_0317
+	.4byte gTextL3_0318
+	.4byte gTextL3_0319
+	.4byte gTextL3_0320
+	.4byte gTextL3_0321
+	.4byte gTextL3_0322
+	.4byte gTextL3_0323
+	.4byte gTextL3_0324
+	.4byte gTextL3_0325
+	.4byte gTextL3_0326
+	.4byte gTextL3_0327
+	.4byte gTextL3_0328
+	.4byte gTextL3_0329
+	.4byte gTextL3_0330
+	.4byte gTextL3_0331
+	.4byte gTextL3_0332
+	.4byte gTextL3_0333
+	.4byte gTextL3_0334
+	.4byte gTextL3_0335
+	.4byte gTextL3_0336
+	.4byte gTextL3_0337
+	.4byte gTextL3_0338
+	.4byte gTextL3_0339
+	.4byte gTextL3_0340
+	.4byte gTextL3_0341
+	.4byte gTextL3_0342
+	.4byte gTextL3_0343
+	.4byte gTextL3_0344
+	.4byte gTextL3_0345
+	.4byte gTextL3_0346
+	.4byte gTextL3_0347
+	.4byte gTextL3_0348
+	.4byte gTextL3_0349
+	.4byte gTextL3_0350
+	.4byte gTextL3_0351
+	.4byte gTextL3_0352
+	.4byte gTextL3_0353
+	.4byte gTextL3_0354
+	.4byte gTextL3_0355
+	.4byte gTextL3_0356
+	.4byte gTextL3_0357
+	.4byte gTextL3_0358
+	.4byte gTextL3_0359
+	.4byte gTextL3_0360
+	.4byte gTextL3_0361
+	.4byte gTextL3_0362
+	.4byte gTextL3_0363
+	.4byte gTextL3_0364
+	.4byte gTextL3_0365
+	.4byte gTextL3_0366
+	.4byte gTextL3_0367
+	.4byte gTextL3_0368
+	.4byte gTextL3_0369
+	.4byte gTextL3_0370
+	.4byte gTextL3_0371
+	.4byte gTextL3_0372
+	.4byte gTextL3_0373
+	.4byte gTextL3_0374
+	.4byte gTextL3_0375
+	.4byte gTextL3_0376
+	.4byte gTextL3_0377
+	.4byte gTextL3_0378
+	.4byte gTextL3_0379
+	.4byte gTextL3_0380
+	.4byte gTextL3_0381
+	.4byte gTextL3_0382
+	.4byte gTextL3_0383
+	.4byte gTextL3_0384
+	.4byte gTextL3_0385
+	.4byte gTextL3_0386
+	.4byte gTextL3_0387
+	.4byte gTextL3_0388
+	.4byte gTextL3_0389
+	.4byte gTextL3_0390
+	.4byte gTextL3_0391
+	.4byte gTextL3_0392
+	.4byte gTextL3_0393
+	.4byte gTextL3_0394
+	.4byte gTextL3_0395
+	.4byte gTextL3_0396
+	.4byte gTextL3_0397
+	.4byte gTextL3_0398
+	.4byte gTextL3_0399
+	.4byte gTextL3_0400
+	.4byte gTextL3_0401
+	.4byte gTextL3_0402
+	.4byte gTextL3_0403
+	.4byte gTextL3_0404
+	.4byte gTextL3_0405
+	.4byte gTextL3_0406
+	.4byte gTextL3_0407
+	.4byte gTextL3_0408
+	.4byte gTextL3_0409
+	.4byte gTextL3_0410
+	.4byte gTextL3_0411
+	.4byte gTextL3_0412
+	.4byte gTextL3_0413
+	.4byte gTextL3_0414
+	.4byte gTextL3_0415
+	.4byte gTextL3_0416
+	.4byte gTextL3_0417
+	.4byte gTextL3_0418
+	.4byte gTextL3_0419
+	.4byte gTextL3_0420
+	.4byte gTextL3_0421
+	.4byte gTextL3_0422
+	.4byte gTextL3_0423
+	.4byte gTextL3_0424
+	.4byte gTextL3_0425
+	.4byte gTextL3_0426
+	.4byte gTextL3_0427
+	.4byte gTextL3_0428
+	.4byte gTextL3_0429
+	.4byte gTextL3_0430
+	.4byte gTextL3_0431
+	.4byte gTextL3_0432
+	.4byte gTextL3_0433
+	.4byte gTextL3_0434
+	.4byte gTextL3_0435
+	.4byte gTextL3_0436
+	.4byte gTextL3_0437
+	.4byte gTextL3_0438
+	.4byte gTextL3_0439
+	.4byte gTextL3_0440
+	.4byte gTextL3_0441
+	.4byte gTextL3_0442
+	.4byte gTextL3_0443
+	.4byte gTextL3_0444
+	.4byte gTextL3_0445
+	.4byte gTextL3_0446
+	.4byte gTextL3_0447
+	.4byte gTextL3_0448
+	.4byte gTextL3_0449
+	.4byte gTextL3_0450
+	.4byte gTextL3_0451
+	.4byte gTextL3_0452
+	.4byte gTextL3_0453
+	.4byte gTextL3_0454
+	.4byte gTextL3_0455
+	.4byte gTextL3_0456
+	.4byte gTextL3_0457
+	.4byte gTextL3_0458
+	.4byte gTextL3_0459
+	.4byte gTextL3_0460
+	.4byte gTextL3_0461
+	.4byte gTextL3_0462
+	.4byte gTextL3_0463
+	.4byte gTextL3_0464
+	.4byte gTextL3_0465
+	.4byte gTextL3_0466
+	.4byte gTextL3_0467
+	.4byte gTextL3_0468
+	.4byte gTextL3_0469
+	.4byte gTextL3_0470
+	.4byte gTextL3_0471
+	.4byte gTextL3_0472
+	.4byte gTextL3_0473
+	.4byte gTextL3_0474
+	.4byte gTextL3_0475
+	.4byte gTextL3_0476
+	.4byte gTextL3_0477
+	.4byte gTextL3_0478
+	.4byte gTextL3_0479
+	.4byte gTextL3_0480
+	.4byte gTextL3_0481
+	.4byte gTextL3_0482
+	.4byte gTextL3_0483
+	.4byte gTextL3_0484
+	.4byte gTextL3_0485
+	.4byte gTextL3_0486
+	.4byte gTextL3_0487
+	.4byte gTextL3_0488
+	.4byte gTextL3_0489
+	.4byte gTextL3_0490
+	.4byte gTextL3_0491
+	.4byte gTextL3_0492
+	.4byte gTextL3_0493
+	.4byte gTextL3_0494
+	.4byte gTextL3_0495
+	.4byte gTextL3_0496
+	.4byte gTextL3_0497
+	.4byte gTextL3_0498
+	.4byte gTextL3_0499
+	.4byte gTextL3_0500
+	.4byte gTextL3_0501
+	.4byte gTextL3_0502
+	.4byte gTextL3_0503
+	.4byte gTextL3_0504
+	.4byte gTextL3_0505
+	.4byte gTextL3_0506
+	.4byte gTextL3_0507
+	.4byte gTextL3_0508
+	.4byte gTextL3_0509
+	.4byte gTextL3_0510
+	.4byte gTextL3_0511
+	.4byte gTextL3_0512
+	.4byte gTextL3_0513
+	.4byte gTextL3_0514
+	.4byte gTextL3_0515
+	.4byte gTextL3_0516
+	.4byte gTextL3_0517
+	.4byte gTextL3_0518
+	.4byte gTextL3_0519
+	.4byte gTextL3_0520
+	.4byte gTextL3_0521
+	.4byte gTextL3_0522
+	.4byte gTextL3_0523
+	.4byte gTextL3_0524
+	.4byte gTextL3_0525
+	.4byte gTextL3_0526
+	.4byte gTextL3_0527
+	.4byte gTextL3_0528
+	.4byte gTextL3_0529
+	.4byte gTextL3_0530
+	.4byte gTextL3_0531
+	.4byte gTextL3_0532
+	.4byte gTextL3_0533
+	.4byte gTextL3_0534
+	.4byte gTextL3_0535
+	.4byte gTextL3_0536
+	.4byte gTextL3_0537
+	.4byte gTextL3_0538
+	.4byte gTextL3_0539
+	.4byte gTextL3_0540
+	.4byte gTextL3_0541
+	.4byte gTextL3_0542
+	.4byte gTextL3_0543
+	.4byte gTextL3_0544
+	.4byte gTextL3_0545
+	.4byte gTextL3_0546
+	.4byte gTextL3_0547
+	.4byte gTextL3_0548
+	.4byte gTextL3_0549
+	.4byte gTextL3_0550
+	.4byte gTextL3_0551
+	.4byte gTextL3_0552
+	.4byte gTextL3_0553
+	.4byte gTextL3_0554
+	.4byte gTextL3_0555
+	.4byte gTextL3_0556
+	.4byte gTextL3_0557
+	.4byte gTextL3_0558
+	.4byte gTextL3_0559
+	.4byte gTextL3_0560
+	.4byte gTextL3_0561
+	.4byte gTextL3_0562
+	.4byte gTextL3_0563
+	.4byte gTextL3_0564
+	.4byte gTextL3_0565
+	.4byte gTextL3_0566
+	.4byte gTextL3_0567
+	.4byte gTextL3_0568
+	.4byte gTextL3_0569
+	.4byte gTextL3_0570
+	.4byte gTextL3_0571
+	.4byte gTextL3_0572
+	.4byte gTextL3_0573
+	.4byte gTextL3_0574
+	.4byte gTextL3_0575
+	.4byte gTextL3_0576
+	.4byte gTextL3_0577
+	.4byte gTextL3_0578
+	.4byte gTextL3_0579
+	.4byte gTextL3_0580
+	.4byte gTextL3_0581
+	.4byte gTextL3_0582
+	.4byte gTextL3_0583
+	.4byte gTextL3_0584
+	.4byte gTextL3_0585
+	.4byte gTextL3_0586
+	.4byte gTextL3_0587
+	.4byte gTextL3_0588
+	.4byte gTextL3_0589
+	.4byte gTextL3_0590
+	.4byte gTextL3_0591
+	.4byte gTextL3_0592
+	.4byte gTextL3_0593
+	.4byte gTextL3_0594
+	.4byte gTextL3_0595
+	.4byte gTextL3_0596
+	.4byte gTextL3_0597
+	.4byte gTextL3_0598
+	.4byte gTextL3_0599
+	.4byte gTextL3_0600
+	.4byte gTextL3_0601
+	.4byte gTextL3_0602
+	.4byte gTextL3_0603
+	.4byte gTextL3_0604
+	.4byte gTextL3_0605
+	.4byte gTextL3_0606
+	.4byte gTextL3_0607
+	.4byte gTextL3_0608
+	.4byte gTextL3_0609
+	.4byte gTextL3_0610
+	.4byte gTextL3_0611
+	.4byte gTextL3_0612
+	.4byte gTextL3_0613
+	.4byte gTextL3_0614
+	.4byte gTextL3_0615
+	.4byte gTextL3_0616
+	.4byte gTextL3_0617
+	.4byte gTextL3_0618
+	.4byte gTextL3_0619
+	.4byte gTextL3_0620
+	.4byte gTextL3_0621
+	.4byte gTextL3_0622
+	.4byte gTextL3_0623
+	.4byte gTextL3_0624
+	.4byte gTextL3_0625
+	.4byte gTextL3_0626
+	.4byte gTextL3_0627
+	.4byte gTextL3_0628
+	.4byte gTextL3_0629
+	.4byte gTextL3_0630
+	.4byte gTextL3_0631
+	.4byte gTextL3_0632
+	.4byte gTextL3_0633
+	.4byte gTextL3_0634
+	.4byte gTextL3_0635
+	.4byte gTextL3_0636
+	.4byte gTextL3_0637
+	.4byte gTextL3_0638
+	.4byte gTextL3_0639
+	.4byte gTextL3_0640
+	.4byte gTextL3_0641
+	.4byte gTextL3_0642
+	.4byte gTextL3_0643
+	.4byte gTextL3_0644
+	.4byte gTextL3_0645
+	.4byte gTextL3_0646
+	.4byte gTextL3_0647
+	.4byte gTextL3_0648
+	.4byte gTextL3_0649
+	.4byte gTextL3_0650
+	.4byte gTextL3_0651
+	.4byte gTextL3_0652
+	.4byte gTextL3_0653
+	.4byte gTextL3_0654
+	.4byte gTextL3_0655
+	.4byte gTextL3_0656
+	.4byte gTextL3_0657
+	.4byte gTextL3_0658
+	.4byte gTextL3_0659
+	.4byte gTextL3_0660
+	.4byte gTextL3_0661
+	.4byte gTextL3_0662
+	.4byte gTextL3_0663
+	.4byte gTextL3_0664
+	.4byte gTextL3_0665
+	.4byte gTextL3_0666
+	.4byte gTextL3_0667
+	.4byte gTextL3_0668
+	.4byte gTextL3_0669
+	.4byte gTextL3_0670
+	.4byte gTextL3_0671
+	.4byte gTextL3_0672
+	.4byte gTextL3_0673
+	.4byte gTextL3_0674
+	.4byte gTextL3_0675
+	.4byte gTextL3_0676
+	.4byte gTextL3_0677
+	.4byte gTextL3_0678
+	.4byte gTextL3_0679
+	.4byte gTextL3_0680
+	.4byte gTextL3_0681
+	.4byte gTextL3_0682
+	.4byte gTextL3_0683
+	.4byte gTextL3_0684
+	.4byte gTextL3_0685
+	.4byte gTextL3_0686
+	.4byte gTextL3_0687
+	.4byte gTextL3_0688
+	.4byte gTextL3_0689
+	.4byte gTextL3_0690
+	.4byte gTextL3_0691
+	.4byte gTextL3_0692
+	.4byte gTextL3_0693
+	.4byte gTextL3_0694
+	.4byte gTextL3_0695
+	.4byte gTextL3_0696
+	.4byte gTextL3_0697
+	.4byte gTextL3_0698
+	.4byte gTextL3_0699
+	.4byte gTextL3_0700
+	.4byte gTextL3_0701
+	.4byte gTextL3_0702
+	.4byte gTextL3_0703
+	.4byte gTextL3_0704
+	.4byte gTextL3_0705
+	.4byte gTextL3_0706
+	.4byte gTextL3_0707
+	.4byte gTextL3_0708
+	.4byte gTextL3_0709
+	.4byte gTextL3_0710
+	.4byte gTextL3_0711
+	.4byte gTextL3_0712
+	.4byte gTextL3_0713
+	.4byte gTextL3_0714
+	.4byte gTextL3_0715
+	.4byte gTextL3_0716
+	.4byte gTextL3_0717
+	.4byte gTextL3_0718
+	.4byte gTextL3_0719
+	.4byte gTextL3_0720
+	.4byte gTextL3_0721
+	.4byte gTextL3_0722
+	.4byte gTextL3_0723
+	.4byte gTextL3_0724
+	.4byte gTextL3_0725
+	.4byte gTextL3_0726
+	.4byte gTextL3_0727
+	.4byte gTextL3_0728
+	.4byte gTextL3_0729
+	.4byte gTextL3_0730
+	.4byte gTextL3_0731
+	.4byte gTextL3_0732
+	.4byte gTextL3_0733
+	.4byte gTextL3_0734
+	.4byte gTextL3_0735
+	.4byte gTextL3_0736
+	.4byte gTextL3_0737
+	.4byte gTextL3_0738
+	.4byte gTextL3_0739
+	.4byte gTextL3_0740
+	.4byte gTextL3_0741
+	.4byte gTextL3_0742
+	.4byte gTextL3_0743
+	.4byte gTextL3_0744
+	.4byte gTextL3_0745
+	.4byte gTextL3_0746
+	.4byte gTextL3_0747
+	.4byte gTextL3_0748
+	.4byte gTextL3_0749
+	.4byte gTextL3_0750
+	.4byte gTextL3_0751
+	.4byte gTextL3_0752
+	.4byte gTextL3_0753
+	.4byte gTextL3_0754
+	.4byte gTextL3_0755
+	.4byte gTextL3_0756
+	.4byte gTextL3_0757
+	.4byte gTextL3_0758
+	.4byte gTextL3_0759
+	.4byte gTextL3_0760
+	.4byte gTextL3_0761
+	.4byte gTextL3_0762
+	.4byte gTextL3_0763
+	.4byte gTextL3_0764
+	.4byte gTextL3_0765
+	.4byte gTextL3_0766
+	.4byte gTextL3_0767
+	.4byte gTextL3_0768
+	.4byte gTextL3_0769
+	.4byte gTextL3_0770
+	.4byte gTextL3_0771
+	.4byte gTextL3_0772
+	.4byte gTextL3_0773
+	.4byte gTextL3_0774
+	.4byte gTextL3_0775
+	.4byte gTextL3_0776
+	.4byte gTextL3_0777
+	.4byte gTextL3_0778
+	.4byte gTextL3_0779
+	.4byte gTextL3_0780
+	.4byte gTextL3_0781
+	.4byte gTextL3_0782
+	.4byte gTextL3_0783
+	.4byte gTextL3_0784
+	.4byte gTextL3_0785
+	.4byte gTextL3_0786
+	.4byte gTextL3_0787
+	.4byte gTextL3_0788
+	.4byte gTextL3_0789
+	.4byte gTextL3_0790
+	.4byte gTextL3_0791
+	.4byte gTextL3_0792
+	.4byte gTextL3_0793
+	.4byte gTextL3_0794
+	.4byte gTextL3_0795
+	.4byte gTextL3_0796
+	.4byte gTextL3_0797
+	.4byte gTextL3_0798
+	.4byte gTextL3_0799
+	.4byte gTextL3_0800
+	.4byte gTextL3_0801
+	.4byte gTextL3_0802
+	.4byte gTextL3_0803
+	.4byte gTextL3_0804
+	.4byte gTextL3_0805
+	.4byte gTextL3_0806
+	.4byte gTextL3_0807
+	.4byte gTextL3_0808
+	.4byte gTextL3_0809
+	.4byte gTextL3_0810
+	.4byte gTextL3_0811
+	.4byte gTextL3_0812
+	.4byte gTextL3_0813
+	.4byte gTextL3_0814
+	.4byte gTextL3_0815
+	.4byte gTextL3_0816
+	.4byte gTextL3_0817
+	.4byte gTextL3_0818
+	.4byte gTextL3_0819
+	.4byte gTextL3_0820
+	.4byte gTextL3_0821
+	.4byte gTextL3_0822
+	.4byte gTextL3_0823
+	.4byte gTextL3_0824
+	.4byte gTextL3_0825
+	.4byte gTextL3_0826
+	.4byte gTextL3_0827
+	.4byte gTextL3_0828
+	.4byte gTextL3_0829
+	.4byte gTextL3_0830
+	.4byte gTextL3_0831
+	.4byte gTextL3_0832
+	.4byte gTextL3_0833
+	.4byte gTextL3_0834
+	.4byte gTextL3_0835
+	.4byte gTextL3_0836
+	.4byte gTextL3_0837
+	.4byte gTextL3_0838
+	.4byte gTextL3_0839
+	.4byte gTextL3_0840
+	.4byte gTextL3_0841
+	.4byte gTextL3_0842
+	.4byte gTextL3_0843
+	.4byte gTextL3_0844
+	.4byte gTextL3_0845
+	.4byte gTextL3_0846
+	.4byte gTextL3_0847
+	.4byte gTextL3_0848
+	.4byte gTextL3_0849
+	.4byte gTextL3_0850
+	.4byte gTextL3_0851
+	.4byte gTextL3_0852
+	.4byte gTextL3_0853
+	.4byte gTextL3_0854
+	.4byte gTextL3_0855
+	.4byte gTextL3_0856
+	.4byte gTextL3_0857
+	.4byte gTextL3_0858
+	.4byte gTextL3_0859
+	.4byte gTextL3_0860
+	.4byte gTextL3_0861
+	.4byte gTextL3_0862
+	.4byte gTextL3_0863
+	.4byte gTextL3_0864
+	.4byte gTextL3_0865
+	.4byte gTextL3_0866
+	.4byte gTextL3_0867
+	.4byte gTextL3_0868
+	.4byte gTextL3_0869
+	.4byte gTextL3_0870
+	.4byte gTextL3_0871
+	.4byte gTextL3_0872
+	.4byte gTextL3_0873
+	.4byte gTextL3_0874
+	.4byte gTextL3_0875
+	.4byte gTextL3_0876
+	.4byte gTextL3_0877
+	.4byte gTextL3_0878
+	.4byte gTextL3_0879
+	.4byte gTextL3_0880
+	.4byte gTextL3_0881
+	.4byte gTextL3_0882
+	.4byte gTextL3_0883
+	.4byte gTextL3_0884
+	.4byte gTextL3_0885
+	.4byte gTextL3_0886
+	.4byte gTextL3_0887
+	.4byte gTextL3_0888
+	.4byte gTextL3_0889
+	.4byte gTextL3_0890
+	.4byte gTextL3_0891
+	.4byte gTextL3_0892
+	.4byte gTextL3_0893
+	.4byte gTextL3_0894
+	.4byte gTextL3_0895
+	.4byte gTextL3_0896
+	.4byte gTextL3_0897
+	.4byte gTextL3_0898
+	.4byte gTextL3_0899
+	.4byte gTextL3_0900
+	.4byte gTextL3_0901
+	.4byte gTextL3_0902
+	.4byte gTextL3_0903
+	.4byte gTextL3_0904
+	.4byte gTextL3_0905
+	.4byte gTextL3_0906
+	.4byte gTextL3_0907
+	.4byte gTextL3_0908
+	.4byte gTextL3_0909
+	.4byte gTextL3_0910
+	.4byte gTextL3_0911
+	.4byte gTextL3_0912
+	.4byte gTextL3_0913
+	.4byte gTextL3_0914
+	.4byte gTextL3_0915
+	.4byte gTextL3_0916
+	.4byte gTextL3_0917
+	.4byte gTextL3_0918
+	.4byte gTextL3_0919
+	.4byte gTextL3_0920
+	.4byte gTextL3_0921
+	.4byte gTextL3_0922
+	.4byte gTextL3_0923
+	.4byte gTextL3_0924
+	.4byte gTextL3_0925
+	.4byte gTextL3_0926
+	.4byte gTextL3_0927
+	.4byte gTextL3_0928
+	.4byte gTextL3_0929
+	.4byte gTextL3_0930
+	.4byte gTextL3_0931
+	.4byte gTextL3_0932
+	.4byte gTextL3_0933
+	.4byte gTextL3_0934
+	.4byte gTextL3_0935
+	.4byte gTextL3_0936
+	.4byte gTextL3_0937
+	.4byte gTextL3_0938
+	.4byte gTextL3_0939
+	.4byte gTextL3_0940
+	.4byte gTextL3_0941
+	.4byte gTextL3_0942
+	.4byte gTextL3_0943
+	.4byte gTextL3_0944
+	.4byte gTextL3_0945
+	.4byte gTextL3_0946
+	.4byte gTextL3_0947
+	.4byte gTextL3_0948
+	.4byte gTextL3_0949
+	.4byte gTextL3_0950
+	.4byte gTextL3_0951
+	.4byte gTextL3_0952
+	.4byte gTextL3_0953
+	.4byte gTextL3_0954
+	.4byte gTextL3_0955
+	.4byte gTextL3_0956
+	.4byte gTextL3_0957
+	.4byte gTextL3_0958
+	.4byte gTextL3_0959
+	.4byte gTextL3_0960
+	.4byte gTextL3_0961
+	.4byte gTextL3_0962
+	.4byte gTextL3_0963
+	.4byte gTextL3_0964
+	.4byte gTextL3_0965
+	.4byte gTextL3_0966
+	.4byte gTextL3_0967
+	.4byte gTextL3_0968
+	.4byte gTextL3_0969
+	.4byte gTextL3_0970
+	.4byte gTextL3_0971
+	.4byte gTextL3_0972
+	.4byte gTextL3_0973
+	.4byte gTextL3_0974
+	.4byte gTextL3_0975
+	.4byte gTextL3_0976
+	.4byte gTextL3_0977
+	.4byte gTextL3_0978
+	.4byte gTextL3_0979
+	.4byte gTextL3_0980
+	.4byte gTextL3_0981
+	.4byte gTextL3_0982
+	.4byte gTextL3_0983
+	.4byte gTextL3_0984
+	.4byte gTextL3_0985
+	.4byte gTextL3_0986
+	.4byte gTextL3_0987
+	.4byte gTextL3_0988
+	.4byte gTextL3_0989
+	.4byte gTextL3_0990
+	.4byte gTextL3_0991
+	.4byte gTextL3_0992
+	.4byte gTextL3_0993
+	.4byte gTextL3_0994
+	.4byte gTextL3_0995
+	.4byte gTextL3_0996
+	.4byte gTextL3_0997
+	.4byte gTextL3_0998
+	.4byte gTextL3_0999
+	.4byte gTextL3_1000
+	.4byte gTextL3_1001
+	.4byte gTextL3_1002
+	.4byte gTextL3_1003
+	.4byte gTextL3_1004
+	.4byte gTextL3_1005
+	.4byte gTextL3_1006
+	.4byte gTextL3_1007
+	.4byte gTextL3_1008
+	.4byte gTextL3_1009
+	.4byte gTextL3_1010
+	.4byte gTextL3_1011
+	.4byte gTextL3_1012
+	.4byte gTextL3_1013
+	.4byte gTextL3_1014
+	.4byte gTextL3_1015
+	.4byte gTextL3_1016
+	.4byte gTextL3_1017
+	.4byte gTextL3_1018
+	.4byte gTextL3_1019
+	.4byte gTextL3_1020
+	.4byte gTextL3_1021
+	.4byte gTextL3_1022
+	.4byte gTextL3_1023
+	.4byte gTextL3_1024
+	.4byte gTextL3_1025
+	.4byte gTextL3_1026
+	.4byte gTextL3_1027
+	.4byte gTextL3_1028
+	.4byte gTextL3_1029
+	.4byte gTextL3_1030
+	.4byte gTextL3_1031
+	.4byte gTextL3_1032
+	.4byte gTextL3_1033
+	.4byte gTextL3_1034
+	.4byte gTextL3_1035
+	.4byte gTextL3_1036
+	.4byte gTextL3_1037
+	.4byte gTextL3_1038
+	.4byte gTextL3_1039
+	.4byte gTextL3_1040
+	.4byte gTextL3_1041
+	.4byte gTextL3_1042
+	.4byte gTextL3_1043
+	.4byte gTextL3_1044
+	.4byte gTextL3_1045
+	.4byte gTextL3_1046
+	.4byte gTextL3_1047
+	.4byte gTextL3_1048
+	.4byte gTextL3_1049
+	.4byte gTextL3_1050
+	.4byte gTextL3_1051
+	.4byte gTextL3_1052
+	.4byte gTextL3_1053
+	.4byte gTextL3_1054
+	.4byte gTextL3_1055
+	.4byte gTextL3_1056
+	.4byte gTextL3_1057
+	.4byte gTextL3_1058
+	.4byte gTextL3_1059
+	.4byte gTextL3_1060
+	.4byte gTextL3_1061
+	.4byte gTextL3_1062
+	.4byte gTextL3_1063
+	.4byte gTextL3_1064
+	.4byte gTextL3_1065
+	.4byte gTextL3_1066
+	.4byte gTextL3_1067
+	.4byte gTextL3_1068
+	.4byte gTextL3_1069
+	.4byte gTextL3_1070
+	.4byte gTextL3_1071
+	.4byte gTextL3_1072
+	.4byte gTextL3_1073
+	.4byte gTextL3_1074
+	.4byte gTextL3_1075
+	.4byte gTextL3_1076
+	.4byte gTextL3_1077
+	.4byte gTextL3_1078
+	.4byte gTextL3_1079
+	.4byte gTextL3_1080
+	.4byte gTextL3_1081
+	.4byte gTextL3_1082
+	.4byte gTextL3_1083
+	.4byte gTextL3_1084
+	.4byte gTextL3_1085
+	.4byte gTextL3_1086
+	.4byte gTextL3_1087
+	.4byte gTextL3_1088
+	.4byte gTextL3_1089
+	.4byte gTextL3_1090
+	.4byte gTextL3_1091
+	.4byte gTextL3_1092
+	.4byte gTextL3_1093
+	.4byte gTextL3_1094
+	.4byte gTextL3_1095
+	.4byte gTextL3_1096
+	.4byte gTextL3_1097
+	.4byte gTextL3_1098
+	.4byte gTextL3_1099
+	.4byte gTextL3_1100
+	.4byte gTextL3_1101
+	.4byte gTextL3_1102
+	.4byte gTextL3_1103
+	.4byte gTextL3_1104
+	.4byte gTextL3_1105
+	.4byte gTextL3_1106
+	.4byte gTextL3_1107
+	.4byte gTextL3_1108
+	.4byte gTextL3_1109
+	.4byte gTextL3_1110
+	.4byte gTextL3_1111
+	.4byte gTextL3_1112
+	.4byte gTextL3_1113
+	.4byte gTextL3_1114
+	.4byte gTextL3_1115
+	.4byte gTextL3_1116
+	.4byte gTextL3_1117
+	.4byte gTextL3_1118
+	.4byte gTextL3_1119
+	.4byte gTextL3_1120
+	.4byte gTextL3_1121
+	.4byte gTextL3_1122
+	.4byte gTextL3_1123
+	.4byte gTextL3_1124
+	.4byte gTextL3_1125
+	.4byte gTextL3_1126
+	.4byte gTextL3_1127
+	.4byte gTextL3_1128
+	.4byte gTextL3_1129
+	.4byte gTextL3_1130
+	.4byte gTextL3_1131
+	.4byte gTextL3_1132
+	.4byte gTextL3_1133
+	.4byte gTextL3_1134
+	.4byte gTextL3_1135
+	.4byte gTextL3_1136
+	.4byte gTextL3_1137
+	.4byte gTextL3_1138
+	.4byte gTextL3_1139
+	.4byte gTextL3_1140
+	.4byte gTextL3_1141
+	.4byte gTextL3_1142
+	.4byte gTextL3_1143
+	.4byte gTextL3_1144
+	.4byte gTextL3_1145
+	.4byte gTextL3_1146
+	.4byte gTextL3_1147
+	.4byte gTextL3_1148
+	.4byte gTextL3_1149
+	.4byte gTextL3_1150
+	.4byte gTextL3_1151
+	.4byte gTextL3_1152
+	.4byte gTextL3_1153
+	.4byte gTextL3_1154
+	.4byte gTextL3_1155
+	.4byte gTextL3_1156
+	.4byte gTextL3_1157
+	.4byte gTextL3_1158
+	.4byte gTextL3_1159
+	.4byte gTextL3_1160
+	.4byte gTextL3_1161
+	.4byte gTextL3_1162
+	.4byte gTextL3_1163
+	.4byte gTextL3_1164
+	.4byte gTextL3_1165
+	.4byte gTextL3_1166
+	.4byte gTextL3_1167
+	.4byte gTextL3_1168
+	.4byte gTextL3_1169
+	.4byte gTextL3_1170
+	.4byte gTextL3_1171
+	.4byte gTextL3_1172
+	.4byte gTextL3_1173
+	.4byte gTextL3_1174
+	.4byte gTextL3_1175
+	.4byte gTextL3_1176
+	.4byte gTextL3_1177
+	.4byte gTextL3_1178
+	.4byte gTextL3_1179
+	.4byte gTextL3_1180
+	.4byte gTextL3_1181
+	.4byte gTextL3_1182
+	.4byte gTextL3_1183
+	.4byte gTextL3_1184
+	.4byte gTextL3_1185
+	.4byte gTextL3_1186
+	.4byte gTextL3_1187
+	.4byte gTextL3_1188
+	.4byte gTextL3_1189
+	.4byte gTextL3_1190
+	.4byte gTextL3_1191
+	.4byte gTextL3_1192
+	.4byte gTextL3_1193
+	.4byte gTextL3_1194
+	.4byte gTextL3_1195
+	.4byte gTextL3_1196
+	.4byte gTextL3_1197
+	.4byte gTextL3_1198
+	.4byte gTextL3_1199
+	.4byte gTextL3_1200
+	.4byte gTextL3_1201
+	.4byte gTextL3_1202
+	.4byte gTextL3_1203
+	.4byte gTextL3_1204
+	.4byte gTextL3_1205
+	.4byte gTextL3_1206
+	.4byte gTextL3_1207
+	.4byte gTextL3_1208
+	.4byte gTextL3_1209
+	.4byte gTextL3_1210
+	.4byte gTextL3_1211
+	.4byte gTextL3_1212
+	.4byte gTextL3_1213
+	.4byte gTextL3_1214
+	.4byte gTextL3_1215
+	.4byte gTextL3_1216
+	.4byte gTextL3_1217
+	.4byte gTextL3_1218
+	.4byte gTextL3_1219
+	.4byte gTextL3_1220
+	.4byte gTextL3_1221
+	.4byte gTextL3_1222
+	.4byte gTextL3_1223
+	.4byte gTextL3_1224
+	.4byte gTextL3_1225
+	.4byte gTextL3_1226
+	.4byte gTextL3_1227
+	.4byte gTextL3_1228
+	.4byte gTextL3_1229
+	.4byte gTextL3_1230
+	.4byte gTextL3_1231
+	.4byte gTextL3_1232
+	.4byte gTextL3_1233
+	.4byte gTextL3_1234
+	.4byte gTextL3_1235
+	.4byte gTextL3_1236
+	.4byte gTextL3_1237
+	.4byte gTextL3_1238
+	.4byte gTextL3_1239
+	.4byte gTextL3_1240
+	.4byte gTextL3_1241
+	.4byte gTextL3_1242
+	.4byte gTextL3_1243
+	.4byte gTextL3_1244
+	.4byte gTextL3_1245
+	.4byte gTextL3_1246
+	.4byte gTextL3_1247
+	.4byte gTextL3_1248
+	.4byte gTextL3_1249
+	.4byte gTextL3_1250
+	.4byte gTextL3_1251
+	.4byte gTextL3_1252
+	.4byte gTextL3_1253
+	.4byte gTextL3_1254
+	.4byte gTextL3_1255
+	.4byte gTextL3_1256
+	.4byte gTextL3_1257
+	.4byte gTextL3_1258
+	.4byte gTextL3_1259
+	.4byte gTextL3_1260
+	.4byte gTextL3_1261
+	.4byte gTextL3_1262
+	.4byte gTextL3_1263
+	.4byte gTextL3_1264
+	.4byte gTextL3_1265
+	.4byte gTextL3_1266
+	.4byte gTextL3_1267
+	.4byte gTextL3_1268
+	.4byte gTextL3_1269
+	.4byte gTextL3_1270
+	.4byte gTextL3_1271
+	.4byte gTextL3_1272
+	.4byte gTextL3_1273
+	.4byte gTextL3_1274
+	.4byte gTextL3_1275
+	.4byte gTextL3_1276
+	.4byte gTextL3_1277
+	.4byte gTextL3_1278
+	.4byte gTextL3_1279
+	.4byte gTextL3_1280
+	.4byte gTextL3_1281
+	.4byte gTextL3_1282
+	.4byte gTextL3_1283
+	.4byte gTextL3_1284
+	.4byte gTextL3_1285
+	.4byte gTextL3_1286
+	.4byte gTextL3_1287
+	.4byte gTextL3_1288
+	.4byte gTextL3_1289
+	.4byte gTextL3_1290
+	.4byte gTextL3_1291
+	.4byte gTextL3_1292
+	.4byte gTextL3_1293
+	.4byte gTextL3_1294
+	.4byte gTextL3_1295
+	.4byte gTextL3_1296
+	.4byte gTextL3_1297
+	.4byte gTextL3_1298
+	.4byte gTextL3_1299
+	.4byte gTextL3_1300
+	.4byte gTextL3_1301
+	.4byte gTextL3_1302
+	.4byte gTextL3_1303
+	.4byte gTextL3_1304
+	.4byte gTextL3_1305
+	.4byte gTextL3_1306
+	.4byte gTextL3_1307
+	.4byte gTextL3_1308
+	.4byte gTextL3_1309
+	.4byte gTextL3_1310
+	.4byte gTextL3_1311
+	.4byte gTextL3_1312
+	.4byte gTextL3_1313
+	.4byte gTextL3_1314
+	.4byte gTextL3_1315
+	.4byte gTextL3_1316
+	.4byte gTextL3_1317
+	.4byte gTextL3_1318
+	.4byte gTextL3_1319
+	.4byte gTextL3_1320
+	.4byte gTextL3_1321
+	.4byte gTextL3_1322
+	.4byte gTextL3_1323
+	.4byte gTextL3_1324
+	.4byte gTextL3_1325
+	.4byte gTextL3_1326
+	.4byte gTextL3_1327
+	.4byte gTextL3_1328
+	.4byte gTextL3_1329
+	.4byte gTextL3_1330
+	.4byte gTextL3_1331
+	.4byte gTextL3_1332
+	.4byte gTextL3_1333
+	.4byte gTextL3_1334
+	.4byte gTextL3_1335
+	.4byte gTextL3_1336
+	.4byte gTextL3_1337
+	.4byte gTextL3_1338
+	.4byte gTextL3_1339
+	.4byte gTextL3_1340
+	.4byte gTextL3_1341
+	.4byte gTextL3_1342
+	.4byte gTextL3_1343
+	.4byte gTextL3_1344
+	.4byte gTextL3_1345
+	.4byte gTextL3_1346
+	.4byte gTextL3_1347
+	.4byte gTextL3_1348
+	.4byte gTextL3_1349
+	.4byte gTextL3_1350
+	.4byte gTextL3_1351
+	.4byte gTextL3_1352
+	.4byte gTextL3_1353
+	.4byte gTextL3_1354
+	.4byte gTextL3_1355
+	.4byte gTextL3_1356
+	.4byte gTextL3_1357
+	.4byte gTextL3_1358
+	.4byte gTextL3_1359
+	.4byte gTextL3_1360
+	.4byte gTextL3_1361
+	.4byte gTextL3_1362
+	.4byte gTextL3_1363
+	.4byte gTextL3_1364
+	.4byte gTextL3_1365
+	.4byte gTextL3_1366
+	.4byte gTextL3_1367
+	.4byte gTextL3_1368
+	.4byte gTextL3_1369
+	.4byte gTextL3_1370
+	.4byte gTextL3_1371
+	.4byte gTextL3_1372
+	.4byte gTextL3_1373
+	.4byte gTextL3_1374
+	.4byte gTextL3_1375
+	.4byte gTextL3_1376
+	.4byte gTextL3_1377
+	.4byte gTextL3_1378
+	.4byte gTextL3_1379
+	.4byte gTextL3_1380
+	.4byte gTextL3_1381
+	.4byte gTextL3_1382
+	.4byte gTextL3_1383
+	.4byte gTextL3_1384
+	.4byte gTextL3_1385
+	.4byte gTextL3_1386
+	.4byte gTextL3_1387
+	.4byte gTextL3_1388
+	.4byte gTextL3_1389
+	.4byte gTextL3_1390
+	.4byte gTextL3_1391
+	.4byte gTextL3_1392
+	.4byte gTextL3_1393
+	.4byte gTextL3_1394
+	.4byte gTextL3_1395
+	.4byte gTextL3_1396
+	.4byte gTextL3_1397
+	.4byte gTextL3_1398
+	.4byte gTextL3_1399
+	.4byte gTextL3_1400
+	.4byte gTextL3_1401
+	.4byte gTextL3_1402
+	.4byte gTextL3_1403
+	.4byte gTextL3_1404
+	.4byte gTextL3_1405
+	.4byte gTextL3_1406
+	.4byte gTextL3_1407
+	.4byte gTextL3_1408
+	.4byte gTextL3_1409
+	.4byte gTextL3_1410
+	.4byte gTextL3_1411
+	.4byte gTextL3_1412
+	.4byte gTextL3_1413
+	.4byte gTextL3_1414
+	.4byte gTextL3_1415
+	.4byte gTextL3_1416
+	.4byte gTextL3_1417
+	.4byte gTextL3_1418
+	.4byte gTextL3_1419
+	.4byte gTextL3_1420
+	.4byte gTextL3_1421
+	.4byte gTextL3_1422
+	.4byte gTextL3_1423
+	.4byte gTextL3_1424
+	.4byte gTextL3_1425
+	.4byte gTextL3_1426
+	.4byte gTextL3_1427
+	.4byte gTextL3_1428
+	.4byte gTextL3_1429
+	.4byte gTextL3_1430
+	.4byte gTextL3_1431
+	.4byte gTextL3_1432
+	.4byte gTextL3_1433
+	.4byte gTextL3_1434
+	.4byte gTextL3_1435
+	.4byte gTextL3_1436
+	.4byte gTextL3_1437
+	.4byte gTextL3_1438
+	.4byte gTextL3_1439
+	.4byte gTextL3_1440
+	.4byte gTextL3_1441
+	.4byte gTextL3_1442
+	.4byte gTextL3_1443
+	.4byte gTextL3_1444
+	.4byte gTextL3_1445
+	.4byte gTextL3_1446
+	.4byte gTextL3_1447
+	.4byte gTextL3_1448
+	.4byte gTextL3_1449
+	.4byte gTextL3_1450
+	.4byte gTextL3_1451
+	.4byte gTextL3_1452
+	.4byte gTextL3_1453
+	.4byte gTextL3_1454
+	.4byte gTextL3_1455
+	.4byte gTextL3_1456
+	.4byte gTextL3_1457
+	.4byte gTextL3_1458
+	.4byte gTextL3_1459
+	.4byte gTextL3_1460
+	.4byte gTextL3_1461
+	.4byte gTextL3_1462
+	.4byte gTextL3_1463
+	.4byte gTextL3_1464
+	.4byte gTextL3_1465
+	.4byte gTextL3_1466
+	.4byte gTextL3_1467
+	.4byte gTextL3_1468
+	.4byte gTextL3_1469
+	.4byte gTextL3_1470
+	.4byte gTextL3_1471
+	.4byte gTextL3_1472
+	.4byte gTextL3_1473
+	.4byte gTextL3_1474
+	.4byte gTextL3_1475
+	.4byte gTextL3_1476
+	.4byte gTextL3_1477
+	.4byte gTextL3_1478
+	.4byte gTextL3_1479
+	.4byte gTextL3_1480
+	.4byte gTextL3_1481
+	.4byte gTextL3_1482
+	.4byte gTextL3_1483
+	.4byte gTextL3_1484
+	.4byte gTextL3_1485
+	.4byte gTextL3_1486
+	.4byte gTextL3_1487
+	.4byte gTextL3_1488
+	.4byte gTextL3_1489
+	.4byte gTextL3_1490
+	.4byte gTextL3_1491
+	.4byte gTextL3_1492
+	.global gTextL1_0000
+gTextL1_0000:
+	.incbin "baserom.gba", 0x3DA240, 0xC
+	.global gTextL1_0001
+gTextL1_0001:
+	.incbin "baserom.gba", 0x3DA24C, 0x14
+	.global gTextL1_0002
+gTextL1_0002:
+	.incbin "baserom.gba", 0x3DA260, 0x22
+	.global gTextL1_0003
+gTextL1_0003:
+	.incbin "baserom.gba", 0x3DA282, 0x26
+	.global gTextL1_0004
+gTextL1_0004:
+	.incbin "baserom.gba", 0x3DA2A8, 0x32
+	.global gTextL1_0005
+gTextL1_0005:
+	.incbin "baserom.gba", 0x3DA2DA, 0x33
+	.global gTextL1_0006
+gTextL1_0006:
+	.incbin "baserom.gba", 0x3DA30D, 0x32
+	.global gTextL1_0007
+gTextL1_0007:
+	.incbin "baserom.gba", 0x3DA33F, 0x3C
+	.global gTextL1_0008
+gTextL1_0008:
+	.incbin "baserom.gba", 0x3DA37B, 0x2E
+	.global gTextL1_0009
+gTextL1_0009:
+	.incbin "baserom.gba", 0x3DA3A9, 0x31
+	.global gTextL1_0010
+gTextL1_0010:
+	.incbin "baserom.gba", 0x3DA3DA, 0x2C
+	.global gTextL1_0011
+gTextL1_0011:
+	.incbin "baserom.gba", 0x3DA406, 0x36
+	.global gTextL1_0012
+gTextL1_0012:
+	.incbin "baserom.gba", 0x3DA43C, 0x2C
+	.global gTextL1_0013
+gTextL1_0013:
+	.incbin "baserom.gba", 0x3DA468, 0x35
+	.global gTextL1_0014
+gTextL1_0014:
+	.incbin "baserom.gba", 0x3DA49D, 0x2D
+	.global gTextL1_0015
+gTextL1_0015:
+	.incbin "baserom.gba", 0x3DA4CA, 0x2C
+	.global gTextL1_0016
+gTextL1_0016:
+	.incbin "baserom.gba", 0x3DA4F6, 0x36
+	.global gTextL1_0017
+gTextL1_0017:
+	.incbin "baserom.gba", 0x3DA52C, 0x32
+	.global gTextL1_0018
+gTextL1_0018:
+	.incbin "baserom.gba", 0x3DA55E, 0x18
+	.global gTextL1_0019
+gTextL1_0019:
+	.incbin "baserom.gba", 0x3DA576, 0x36
+	.global gTextL1_0020
+gTextL1_0020:
+	.incbin "baserom.gba", 0x3DA5AC, 0x34
+	.global gTextL1_0021
+gTextL1_0021:
+	.incbin "baserom.gba", 0x3DA5E0, 0x2A
+	.global gTextL1_0022
+gTextL1_0022:
+	.incbin "baserom.gba", 0x3DA60A, 0x2B
+	.global gTextL1_0023
+gTextL1_0023:
+	.incbin "baserom.gba", 0x3DA635, 0x27
+	.global gTextL1_0024
+gTextL1_0024:
+	.incbin "baserom.gba", 0x3DA65C, 0x16
+	.global gTextL1_0025
+gTextL1_0025:
+	.incbin "baserom.gba", 0x3DA672, 0x3C
+	.global gTextL1_0026
+gTextL1_0026:
+	.incbin "baserom.gba", 0x3DA6AE, 0x3B
+	.global gTextL1_0027
+gTextL1_0027:
+	.incbin "baserom.gba", 0x3DA6E9, 0x20
+	.global gTextL1_0028
+gTextL1_0028:
+	.incbin "baserom.gba", 0x3DA709, 0x34
+	.global gTextL1_0029
+gTextL1_0029:
+	.incbin "baserom.gba", 0x3DA73D, 0x70
+	.global gTextL1_0030
+gTextL1_0030:
+	.incbin "baserom.gba", 0x3DA7AD, 0x34
+	.global gTextL1_0031
+gTextL1_0031:
+	.incbin "baserom.gba", 0x3DA7E1, 0x33
+	.global gTextL1_0032
+gTextL1_0032:
+	.incbin "baserom.gba", 0x3DA814, 0x21
+	.global gTextL1_0033
+gTextL1_0033:
+	.incbin "baserom.gba", 0x3DA835, 0x30
+	.global gTextL1_0034
+gTextL1_0034:
+	.incbin "baserom.gba", 0x3DA865, 0x81
+	.global gTextL1_0035
+gTextL1_0035:
+	.incbin "baserom.gba", 0x3DA8E6, 0x2F
+	.global gTextL1_0036
+gTextL1_0036:
+	.incbin "baserom.gba", 0x3DA915, 0x2B
+	.global gTextL1_0037
+gTextL1_0037:
+	.incbin "baserom.gba", 0x3DA940, 0x35
+	.global gTextL1_0038
+gTextL1_0038:
+	.incbin "baserom.gba", 0x3DA975, 0x2E
+	.global gTextL1_0039
+gTextL1_0039:
+	.incbin "baserom.gba", 0x3DA9A3, 0x6C
+	.global gTextL1_0040
+gTextL1_0040:
+	.incbin "baserom.gba", 0x3DAA0F, 0x30
+	.global gTextL1_0041
+gTextL1_0041:
+	.incbin "baserom.gba", 0x3DAA3F, 0x1E
+	.global gTextL1_0042
+gTextL1_0042:
+	.incbin "baserom.gba", 0x3DAA5D, 0x35
+	.global gTextL1_0043
+gTextL1_0043:
+	.incbin "baserom.gba", 0x3DAA92, 0x19
+	.global gTextL1_0044
+gTextL1_0044:
+	.incbin "baserom.gba", 0x3DAAAB, 0x1F
+	.global gTextL1_0045
+gTextL1_0045:
+	.incbin "baserom.gba", 0x3DAACA, 0x27
+	.global gTextL1_0046
+gTextL1_0046:
+	.incbin "baserom.gba", 0x3DAAF1, 0x30
+	.global gTextL1_0047
+gTextL1_0047:
+	.incbin "baserom.gba", 0x3DAB21, 0x5F
+	.global gTextL1_0048
+gTextL1_0048:
+	.incbin "baserom.gba", 0x3DAB80, 0x14E
+	.global gTextL1_0049
+gTextL1_0049:
+	.incbin "baserom.gba", 0x3DACCE, 0x6B
+	.global gTextL1_0050
+gTextL1_0050:
+	.incbin "baserom.gba", 0x3DAD39, 0x134
+	.global gTextL1_0051
+gTextL1_0051:
+	.incbin "baserom.gba", 0x3DAE6D, 0x36
+	.global gTextL1_0052
+gTextL1_0052:
+	.incbin "baserom.gba", 0x3DAEA3, 0x30
+	.global gTextL1_0053
+gTextL1_0053:
+	.incbin "baserom.gba", 0x3DAED3, 0x71
+	.global gTextL1_0054
+gTextL1_0054:
+	.incbin "baserom.gba", 0x3DAF44, 0x54
+	.global gTextL1_0055
+gTextL1_0055:
+	.incbin "baserom.gba", 0x3DAF98, 0x51
+	.global gTextL1_0056
+gTextL1_0056:
+	.incbin "baserom.gba", 0x3DAFE9, 0xA2
+	.global gTextL1_0057
+gTextL1_0057:
+	.incbin "baserom.gba", 0x3DB08B, 0xD8
+	.global gTextL1_0058
+gTextL1_0058:
+	.incbin "baserom.gba", 0x3DB163, 0x55
+	.global gTextL1_0059
+gTextL1_0059:
+	.incbin "baserom.gba", 0x3DB1B8, 0xBF
+	.global gTextL1_0060
+gTextL1_0060:
+	.incbin "baserom.gba", 0x3DB277, 0x72
+	.global gTextL1_0061
+gTextL1_0061:
+	.incbin "baserom.gba", 0x3DB2E9, 0x63
+	.global gTextL1_0062
+gTextL1_0062:
+	.incbin "baserom.gba", 0x3DB34C, 0xA
+	.global gTextL1_0063
+gTextL1_0063:
+	.incbin "baserom.gba", 0x3DB356, 0x142
+	.global gTextL1_0064
+gTextL1_0064:
+	.incbin "baserom.gba", 0x3DB498, 0x19D
+	.global gTextL1_0065
+gTextL1_0065:
+	.incbin "baserom.gba", 0x3DB635, 0x3D
+	.global gTextL1_0066
+gTextL1_0066:
+	.incbin "baserom.gba", 0x3DB672, 0x10E
+	.global gTextL1_0067
+gTextL1_0067:
+	.incbin "baserom.gba", 0x3DB780, 0xED
+	.global gTextL1_0068
+gTextL1_0068:
+	.incbin "baserom.gba", 0x3DB86D, 0x32
+	.global gTextL1_0069
+gTextL1_0069:
+	.incbin "baserom.gba", 0x3DB89F, 0x27
+	.global gTextL1_0070
+gTextL1_0070:
+	.incbin "baserom.gba", 0x3DB8C6, 0x149
+	.global gTextL1_0071
+gTextL1_0071:
+	.incbin "baserom.gba", 0x3DBA0F, 0x158
+	.global gTextL1_0072
+gTextL1_0072:
+	.incbin "baserom.gba", 0x3DBB67, 0x196
+	.global gTextL1_0073
+gTextL1_0073:
+	.incbin "baserom.gba", 0x3DBCFD, 0x38
+	.global gTextL1_0074
+gTextL1_0074:
+	.incbin "baserom.gba", 0x3DBD35, 0x57
+	.global gTextL1_0075
+gTextL1_0075:
+	.incbin "baserom.gba", 0x3DBD8C, 0x40
+	.global gTextL1_0076
+gTextL1_0076:
+	.incbin "baserom.gba", 0x3DBDCC, 0x32
+	.global gTextL1_0077
+gTextL1_0077:
+	.incbin "baserom.gba", 0x3DBDFE, 0x21
+	.global gTextL1_0078
+gTextL1_0078:
+	.incbin "baserom.gba", 0x3DBE1F, 0x5C
+	.global gTextL1_0079
+gTextL1_0079:
+	.incbin "baserom.gba", 0x3DBE7B, 0x166
+	.global gTextL1_0080
+gTextL1_0080:
+	.incbin "baserom.gba", 0x3DBFE1, 0x26
+	.global gTextL1_0081
+gTextL1_0081:
+	.incbin "baserom.gba", 0x3DC007, 0x2F
+	.global gTextL1_0082
+gTextL1_0082:
+	.incbin "baserom.gba", 0x3DC036, 0x13
+	.global gTextL1_0083
+gTextL1_0083:
+	.incbin "baserom.gba", 0x3DC049, 0x26
+	.global gTextL1_0084
+gTextL1_0084:
+	.incbin "baserom.gba", 0x3DC06F, 0x19
+	.global gTextL1_0085
+gTextL1_0085:
+	.incbin "baserom.gba", 0x3DC088, 0x2E
+	.global gTextL1_0086
+gTextL1_0086:
+	.incbin "baserom.gba", 0x3DC0B6, 0x2D
+	.global gTextL1_0087
+gTextL1_0087:
+	.incbin "baserom.gba", 0x3DC0E3, 0x47
+	.global gTextL1_0088
+gTextL1_0088:
+	.incbin "baserom.gba", 0x3DC12A, 0x266
+	.global gTextL1_0089
+gTextL1_0089:
+	.incbin "baserom.gba", 0x3DC390, 0x10E
+	.global gTextL1_0090
+gTextL1_0090:
+	.incbin "baserom.gba", 0x3DC49E, 0x2D
+	.global gTextL1_0091
+gTextL1_0091:
+	.incbin "baserom.gba", 0x3DC4CB, 0xF
+	.global gTextL1_0092
+gTextL1_0092:
+	.incbin "baserom.gba", 0x3DC4DA, 0x10
+	.global gTextL1_0093
+gTextL1_0093:
+	.incbin "baserom.gba", 0x3DC4EA, 0xC
+	.global gTextL1_0094
+gTextL1_0094:
+	.incbin "baserom.gba", 0x3DC4F6, 0x1ED
+	.global gTextL1_0095
+gTextL1_0095:
+	.incbin "baserom.gba", 0x3DC6E3, 0xB4
+	.global gTextL1_0096
+gTextL1_0096:
+	.incbin "baserom.gba", 0x3DC797, 0x2A1
+	.global gTextL1_0097
+gTextL1_0097:
+	.incbin "baserom.gba", 0x3DCA38, 0x171
+	.global gTextL1_0098
+gTextL1_0098:
+	.incbin "baserom.gba", 0x3DCBA9, 0x1D0
+	.global gTextL1_0099
+gTextL1_0099:
+	.incbin "baserom.gba", 0x3DCD79, 0x4A
+	.global gTextL1_0100
+gTextL1_0100:
+	.incbin "baserom.gba", 0x3DCDC3, 0xD
+	.global gTextL1_0101
+gTextL1_0101:
+	.incbin "baserom.gba", 0x3DCDD0, 0x1AF
+	.global gTextL1_0102
+gTextL1_0102:
+	.incbin "baserom.gba", 0x3DCF7F, 0x151
+	.global gTextL1_0103
+gTextL1_0103:
+	.incbin "baserom.gba", 0x3DD0D0, 0x64
+	.global gTextL1_0104
+gTextL1_0104:
+	.incbin "baserom.gba", 0x3DD134, 0x14C
+	.global gTextL1_0105
+gTextL1_0105:
+	.incbin "baserom.gba", 0x3DD280, 0x2AB
+	.global gTextL1_0106
+gTextL1_0106:
+	.incbin "baserom.gba", 0x3DD52B, 0x18D
+	.global gTextL1_0107
+gTextL1_0107:
+	.incbin "baserom.gba", 0x3DD6B8, 0x28
+	.global gTextL1_0108
+gTextL1_0108:
+	.incbin "baserom.gba", 0x3DD6E0, 0x4A
+	.global gTextL1_0109
+gTextL1_0109:
+	.incbin "baserom.gba", 0x3DD72A, 0x2C
+	.global gTextL1_0110
+gTextL1_0110:
+	.incbin "baserom.gba", 0x3DD756, 0x34
+	.global gTextL1_0111
+gTextL1_0111:
+	.incbin "baserom.gba", 0x3DD78A, 0x25
+	.global gTextL1_0112
+gTextL1_0112:
+	.incbin "baserom.gba", 0x3DD7AF, 0x31
+	.global gTextL1_0113
+gTextL1_0113:
+	.incbin "baserom.gba", 0x3DD7E0, 0x53
+	.global gTextL1_0114
+gTextL1_0114:
+	.incbin "baserom.gba", 0x3DD833, 0x1F
+	.global gTextL1_0115
+gTextL1_0115:
+	.incbin "baserom.gba", 0x3DD852, 0x40
+	.global gTextL1_0116
+gTextL1_0116:
+	.incbin "baserom.gba", 0x3DD892, 0x64
+	.global gTextL1_0117
+gTextL1_0117:
+	.incbin "baserom.gba", 0x3DD8F6, 0x54
+	.global gTextL1_0118
+gTextL1_0118:
+	.incbin "baserom.gba", 0x3DD94A, 0x7A
+	.global gTextL1_0119
+gTextL1_0119:
+	.incbin "baserom.gba", 0x3DD9C4, 0x34
+	.global gTextL1_0120
+gTextL1_0120:
+	.incbin "baserom.gba", 0x3DD9F8, 0x46
+	.global gTextL1_0121
+gTextL1_0121:
+	.incbin "baserom.gba", 0x3DDA3E, 0x58
+	.global gTextL1_0122
+gTextL1_0122:
+	.incbin "baserom.gba", 0x3DDA96, 0x3B
+	.global gTextL1_0123
+gTextL1_0123:
+	.incbin "baserom.gba", 0x3DDAD1, 0x3A
+	.global gTextL1_0124
+gTextL1_0124:
+	.incbin "baserom.gba", 0x3DDB0B, 0x2C
+	.global gTextL1_0125
+gTextL1_0125:
+	.incbin "baserom.gba", 0x3DDB37, 0x30
+	.global gTextL1_0126
+gTextL1_0126:
+	.incbin "baserom.gba", 0x3DDB67, 0x35
+	.global gTextL1_0127
+gTextL1_0127:
+	.incbin "baserom.gba", 0x3DDB9C, 0x8E
+	.global gTextL1_0128
+gTextL1_0128:
+	.incbin "baserom.gba", 0x3DDC2A, 0x67
+	.global gTextL1_0129
+gTextL1_0129:
+	.incbin "baserom.gba", 0x3DDC91, 0x6
+	.global gTextL1_0130
+gTextL1_0130:
+	.incbin "baserom.gba", 0x3DDC97, 0xB
+	.global gTextL1_0131
+gTextL1_0131:
+	.incbin "baserom.gba", 0x3DDCA2, 0x13
+	.global gTextL1_0132
+gTextL1_0132:
+	.incbin "baserom.gba", 0x3DDCB5, 0x2F
+	.global gTextL1_0133
+gTextL1_0133:
+	.incbin "baserom.gba", 0x3DDCE4, 0x1F
+	.global gTextL1_0134
+gTextL1_0134:
+	.incbin "baserom.gba", 0x3DDD03, 0x2D
+	.global gTextL1_0135
+gTextL1_0135:
+	.incbin "baserom.gba", 0x3DDD30, 0x29
+	.global gTextL1_0136
+gTextL1_0136:
+	.incbin "baserom.gba", 0x3DDD59, 0x4D
+	.global gTextL1_0137
+gTextL1_0137:
+	.incbin "baserom.gba", 0x3DDDA6, 0x9A
+	.global gTextL1_0138
+gTextL1_0138:
+	.incbin "baserom.gba", 0x3DDE40, 0x5F
+	.global gTextL1_0139
+gTextL1_0139:
+	.incbin "baserom.gba", 0x3DDE9F, 0x1AE
+	.global gTextL1_0140
+gTextL1_0140:
+	.incbin "baserom.gba", 0x3DE04D, 0xBA
+	.global gTextL1_0141
+gTextL1_0141:
+	.incbin "baserom.gba", 0x3DE107, 0xF
+	.global gTextL1_0142
+gTextL1_0142:
+	.incbin "baserom.gba", 0x3DE116, 0x2D
+	.global gTextL1_0143
+gTextL1_0143:
+	.incbin "baserom.gba", 0x3DE143, 0x20
+	.global gTextL1_0144
+gTextL1_0144:
+	.incbin "baserom.gba", 0x3DE163, 0xD3
+	.global gTextL1_0145
+gTextL1_0145:
+	.incbin "baserom.gba", 0x3DE236, 0xEA
+	.global gTextL1_0146
+gTextL1_0146:
+	.incbin "baserom.gba", 0x3DE320, 0x48
+	.global gTextL1_0147
+gTextL1_0147:
+	.incbin "baserom.gba", 0x3DE368, 0x143
+	.global gTextL1_0148
+gTextL1_0148:
+	.incbin "baserom.gba", 0x3DE4AB, 0x5A
+	.global gTextL1_0149
+gTextL1_0149:
+	.incbin "baserom.gba", 0x3DE505, 0xD7
+	.global gTextL1_0150
+gTextL1_0150:
+	.incbin "baserom.gba", 0x3DE5DC, 0x12F
+	.global gTextL1_0151
+gTextL1_0151:
+	.incbin "baserom.gba", 0x3DE70B, 0x4D
+	.global gTextL1_0152
+gTextL1_0152:
+	.incbin "baserom.gba", 0x3DE758, 0x137
+	.global gTextL1_0153
+gTextL1_0153:
+	.incbin "baserom.gba", 0x3DE88F, 0x159
+	.global gTextL1_0154
+gTextL1_0154:
+	.incbin "baserom.gba", 0x3DE9E8, 0x61
+	.global gTextL1_0155
+gTextL1_0155:
+	.incbin "baserom.gba", 0x3DEA49, 0xF3
+	.global gTextL1_0156
+gTextL1_0156:
+	.incbin "baserom.gba", 0x3DEB3C, 0x18B
+	.global gTextL1_0157
+gTextL1_0157:
+	.incbin "baserom.gba", 0x3DECC7, 0x5A
+	.global gTextL1_0158
+gTextL1_0158:
+	.incbin "baserom.gba", 0x3DED21, 0x20D
+	.global gTextL1_0159
+gTextL1_0159:
+	.incbin "baserom.gba", 0x3DEF2E, 0x523
+	.global gTextL1_0160
+gTextL1_0160:
+	.incbin "baserom.gba", 0x3DF451, 0x3E3
+	.global gTextL1_0161
+gTextL1_0161:
+	.incbin "baserom.gba", 0x3DF834, 0x3B
+	.global gTextL1_0162
+gTextL1_0162:
+	.incbin "baserom.gba", 0x3DF86F, 0x21D
+	.global gTextL1_0163
+gTextL1_0163:
+	.incbin "baserom.gba", 0x3DFA8C, 0x6D
+	.global gTextL1_0164
+gTextL1_0164:
+	.incbin "baserom.gba", 0x3DFAF9, 0x1A1
+	.global gTextL1_0165
+gTextL1_0165:
+	.incbin "baserom.gba", 0x3DFC9A, 0x358
+	.global gTextL1_0166
+gTextL1_0166:
+	.incbin "baserom.gba", 0x3DFFF2, 0x317
+	.global gTextL1_0167
+gTextL1_0167:
+	.incbin "baserom.gba", 0x3E0309, 0x2DC
+	.global gTextL1_0168
+gTextL1_0168:
+	.incbin "baserom.gba", 0x3E05E5, 0x162
+	.global gTextL1_0169
+gTextL1_0169:
+	.incbin "baserom.gba", 0x3E0747, 0x20
+	.global gTextL1_0170
+gTextL1_0170:
+	.incbin "baserom.gba", 0x3E0767, 0x45
+	.global gTextL1_0171
+gTextL1_0171:
+	.incbin "baserom.gba", 0x3E07AC, 0x5E
+	.global gTextL1_0172
+gTextL1_0172:
+	.incbin "baserom.gba", 0x3E080A, 0x2A
+	.global gTextL1_0173
+gTextL1_0173:
+	.incbin "baserom.gba", 0x3E0834, 0x1B4
+	.global gTextL1_0174
+gTextL1_0174:
+	.incbin "baserom.gba", 0x3E09E8, 0x1EA
+	.global gTextL1_0175
+gTextL1_0175:
+	.incbin "baserom.gba", 0x3E0BD2, 0x146
+	.global gTextL1_0176
+gTextL1_0176:
+	.incbin "baserom.gba", 0x3E0D18, 0x208
+	.global gTextL1_0177
+gTextL1_0177:
+	.incbin "baserom.gba", 0x3E0F20, 0x1A4
+	.global gTextL1_0178
+gTextL1_0178:
+	.incbin "baserom.gba", 0x3E10C4, 0x132
+	.global gTextL1_0179
+gTextL1_0179:
+	.incbin "baserom.gba", 0x3E11F6, 0x255
+	.global gTextL1_0180
+gTextL1_0180:
+	.incbin "baserom.gba", 0x3E144B, 0x102
+	.global gTextL1_0181
+gTextL1_0181:
+	.incbin "baserom.gba", 0x3E154D, 0x26D
+	.global gTextL1_0182
+gTextL1_0182:
+	.incbin "baserom.gba", 0x3E17BA, 0x15E
+	.global gTextL1_0183
+gTextL1_0183:
+	.incbin "baserom.gba", 0x3E1918, 0x152
+	.global gTextL1_0184
+gTextL1_0184:
+	.incbin "baserom.gba", 0x3E1A6A, 0x101
+	.global gTextL1_0185
+gTextL1_0185:
+	.incbin "baserom.gba", 0x3E1B6B, 0x13A
+	.global gTextL1_0186
+gTextL1_0186:
+	.incbin "baserom.gba", 0x3E1CA5, 0x35
+	.global gTextL1_0187
+gTextL1_0187:
+	.incbin "baserom.gba", 0x3E1CDA, 0x126
+	.global gTextL1_0188
+gTextL1_0188:
+	.incbin "baserom.gba", 0x3E1E00, 0x14F
+	.global gTextL1_0189
+gTextL1_0189:
+	.incbin "baserom.gba", 0x3E1F4F, 0x140
+	.global gTextL1_0190
+gTextL1_0190:
+	.incbin "baserom.gba", 0x3E208F, 0x1A3
+	.global gTextL1_0191
+gTextL1_0191:
+	.incbin "baserom.gba", 0x3E2232, 0x263
+	.global gTextL1_0192
+gTextL1_0192:
+	.incbin "baserom.gba", 0x3E2495, 0x1C2
+	.global gTextL1_0193
+gTextL1_0193:
+	.incbin "baserom.gba", 0x3E2657, 0x235
+	.global gTextL1_0194
+gTextL1_0194:
+	.incbin "baserom.gba", 0x3E288C, 0x2E8
+	.global gTextL1_0195
+gTextL1_0195:
+	.incbin "baserom.gba", 0x3E2B74, 0xB1
+	.global gTextL1_0196
+gTextL1_0196:
+	.incbin "baserom.gba", 0x3E2C25, 0x114
+	.global gTextL1_0197
+gTextL1_0197:
+	.incbin "baserom.gba", 0x3E2D39, 0x10C
+	.global gTextL1_0198
+gTextL1_0198:
+	.incbin "baserom.gba", 0x3E2E45, 0x103
+	.global gTextL1_0199
+gTextL1_0199:
+	.incbin "baserom.gba", 0x3E2F48, 0x183
+	.global gTextL1_0200
+gTextL1_0200:
+	.incbin "baserom.gba", 0x3E30CB, 0x179
+	.global gTextL1_0201
+gTextL1_0201:
+	.incbin "baserom.gba", 0x3E3244, 0x1D4
+	.global gTextL1_0202
+gTextL1_0202:
+	.incbin "baserom.gba", 0x3E3418, 0x113
+	.global gTextL1_0203
+gTextL1_0203:
+	.incbin "baserom.gba", 0x3E352B, 0x1C4
+	.global gTextL1_0204
+gTextL1_0204:
+	.incbin "baserom.gba", 0x3E36EF, 0x21E
+	.global gTextL1_0205
+gTextL1_0205:
+	.incbin "baserom.gba", 0x3E390D, 0x45
+	.global gTextL1_0206
+gTextL1_0206:
+	.incbin "baserom.gba", 0x3E3952, 0x18
+	.global gTextL1_0207
+gTextL1_0207:
+	.incbin "baserom.gba", 0x3E396A, 0x1A
+	.global gTextL1_0208
+gTextL1_0208:
+	.incbin "baserom.gba", 0x3E3984, 0x23
+	.global gTextL1_0209
+gTextL1_0209:
+	.incbin "baserom.gba", 0x3E39A7, 0x39
+	.global gTextL1_0210
+gTextL1_0210:
+	.incbin "baserom.gba", 0x3E39E0, 0x17F
+	.global gTextL1_0211
+gTextL1_0211:
+	.incbin "baserom.gba", 0x3E3B5F, 0xD3
+	.global gTextL1_0212
+gTextL1_0212:
+	.incbin "baserom.gba", 0x3E3C32, 0x102
+	.global gTextL1_0213
+gTextL1_0213:
+	.incbin "baserom.gba", 0x3E3D34, 0x11C
+	.global gTextL1_0214
+gTextL1_0214:
+	.incbin "baserom.gba", 0x3E3E50, 0x1A9
+	.global gTextL1_0215
+gTextL1_0215:
+	.incbin "baserom.gba", 0x3E3FF9, 0x184
+	.global gTextL1_0216
+gTextL1_0216:
+	.incbin "baserom.gba", 0x3E417D, 0x139
+	.global gTextL1_0217
+gTextL1_0217:
+	.incbin "baserom.gba", 0x3E42B6, 0x125
+	.global gTextL1_0218
+gTextL1_0218:
+	.incbin "baserom.gba", 0x3E43DB, 0x1B8
+	.global gTextL1_0219
+gTextL1_0219:
+	.incbin "baserom.gba", 0x3E4593, 0xC6
+	.global gTextL1_0220
+gTextL1_0220:
+	.incbin "baserom.gba", 0x3E4659, 0x1B
+	.global gTextL1_0221
+gTextL1_0221:
+	.incbin "baserom.gba", 0x3E4674, 0x24
+	.global gTextL1_0222
+gTextL1_0222:
+	.incbin "baserom.gba", 0x3E4698, 0x33
+	.global gTextL1_0223
+gTextL1_0223:
+	.incbin "baserom.gba", 0x3E46CB, 0x2F
+	.global gTextL1_0224
+gTextL1_0224:
+	.incbin "baserom.gba", 0x3E46FA, 0x28
+	.global gTextL1_0225
+gTextL1_0225:
+	.incbin "baserom.gba", 0x3E4722, 0x39A
+	.global gTextL1_0226
+gTextL1_0226:
+	.incbin "baserom.gba", 0x3E4ABC, 0x26
+	.global gTextL1_0227
+gTextL1_0227:
+	.incbin "baserom.gba", 0x3E4AE2, 0x23
+	.global gTextL1_0228
+gTextL1_0228:
+	.incbin "baserom.gba", 0x3E4B05, 0x1E
+	.global gTextL1_0229
+gTextL1_0229:
+	.incbin "baserom.gba", 0x3E4B23, 0x25
+	.global gTextL1_0230
+gTextL1_0230:
+	.incbin "baserom.gba", 0x3E4B48, 0x1F
+	.global gTextL1_0231
+gTextL1_0231:
+	.incbin "baserom.gba", 0x3E4B67, 0x26
+	.global gTextL1_0232
+gTextL1_0232:
+	.incbin "baserom.gba", 0x3E4B8D, 0x35
+	.global gTextL1_0233
+gTextL1_0233:
+	.incbin "baserom.gba", 0x3E4BC2, 0x29
+	.global gTextL1_0234
+gTextL1_0234:
+	.incbin "baserom.gba", 0x3E4BEB, 0x158
+	.global gTextL1_0235
+gTextL1_0235:
+	.incbin "baserom.gba", 0x3E4D43, 0x155
+	.global gTextL1_0236
+gTextL1_0236:
+	.incbin "baserom.gba", 0x3E4E98, 0x199
+	.global gTextL1_0237
+gTextL1_0237:
+	.incbin "baserom.gba", 0x3E5031, 0x1BB
+	.global gTextL1_0238
+gTextL1_0238:
+	.incbin "baserom.gba", 0x3E51EC, 0x21B
+	.global gTextL1_0239
+gTextL1_0239:
+	.incbin "baserom.gba", 0x3E5407, 0xB4
+	.global gTextL1_0240
+gTextL1_0240:
+	.incbin "baserom.gba", 0x3E54BB, 0x9E
+	.global gTextL1_0241
+gTextL1_0241:
+	.incbin "baserom.gba", 0x3E5559, 0x173
+	.global gTextL1_0242
+gTextL1_0242:
+	.incbin "baserom.gba", 0x3E56CC, 0x286
+	.global gTextL1_0243
+gTextL1_0243:
+	.incbin "baserom.gba", 0x3E5952, 0xAF
+	.global gTextL1_0244
+gTextL1_0244:
+	.incbin "baserom.gba", 0x3E5A01, 0x6C
+	.global gTextL1_0245
+gTextL1_0245:
+	.incbin "baserom.gba", 0x3E5A6D, 0x176
+	.global gTextL1_0246
+gTextL1_0246:
+	.incbin "baserom.gba", 0x3E5BE3, 0x97
+	.global gTextL1_0247
+gTextL1_0247:
+	.incbin "baserom.gba", 0x3E5C7A, 0x2C7
+	.global gTextL1_0248
+gTextL1_0248:
+	.incbin "baserom.gba", 0x3E5F41, 0x13
+	.global gTextL1_0249
+gTextL1_0249:
+	.incbin "baserom.gba", 0x3E5F54, 0x4A
+	.global gTextL1_0250
+gTextL1_0250:
+	.incbin "baserom.gba", 0x3E5F9E, 0x128
+	.global gTextL1_0251
+gTextL1_0251:
+	.incbin "baserom.gba", 0x3E60C6, 0x9E
+	.global gTextL1_0252
+gTextL1_0252:
+	.incbin "baserom.gba", 0x3E6164, 0x2B2
+	.global gTextL1_0253
+gTextL1_0253:
+	.incbin "baserom.gba", 0x3E6416, 0x13
+	.global gTextL1_0254
+gTextL1_0254:
+	.incbin "baserom.gba", 0x3E6429, 0xCB
+	.global gTextL1_0255
+gTextL1_0255:
+	.incbin "baserom.gba", 0x3E64F4, 0x4BA
+	.global gTextL1_0256
+gTextL1_0256:
+	.incbin "baserom.gba", 0x3E69AE, 0x3E4
+	.global gTextL1_0257
+gTextL1_0257:
+	.incbin "baserom.gba", 0x3E6D92, 0x487
+	.global gTextL1_0258
+gTextL1_0258:
+	.incbin "baserom.gba", 0x3E7219, 0x5DA
+	.global gTextL1_0259
+gTextL1_0259:
+	.incbin "baserom.gba", 0x3E77F3, 0x535
+	.global gTextL1_0260
+gTextL1_0260:
+	.incbin "baserom.gba", 0x3E7D28, 0x1D7
+	.global gTextL1_0261
+gTextL1_0261:
+	.incbin "baserom.gba", 0x3E7EFF, 0x3A5
+	.global gTextL1_0262
+gTextL1_0262:
+	.incbin "baserom.gba", 0x3E82A4, 0x70A
+	.global gTextL1_0263
+gTextL1_0263:
+	.incbin "baserom.gba", 0x3E89AE, 0x35
+	.global gTextL1_0264
+gTextL1_0264:
+	.incbin "baserom.gba", 0x3E89E3, 0x8B
+	.global gTextL1_0265
+gTextL1_0265:
+	.incbin "baserom.gba", 0x3E8A6E, 0x96
+	.global gTextL1_0266
+gTextL1_0266:
+	.incbin "baserom.gba", 0x3E8B04, 0x71
+	.global gTextL1_0267
+gTextL1_0267:
+	.incbin "baserom.gba", 0x3E8B75, 0xD9
+	.global gTextL1_0268
+gTextL1_0268:
+	.incbin "baserom.gba", 0x3E8C4E, 0xC2
+	.global gTextL1_0269
+gTextL1_0269:
+	.incbin "baserom.gba", 0x3E8D10, 0xA6
+	.global gTextL1_0270
+gTextL1_0270:
+	.incbin "baserom.gba", 0x3E8DB6, 0x129
+	.global gTextL1_0271
+gTextL1_0271:
+	.incbin "baserom.gba", 0x3E8EDF, 0x193
+	.global gTextL1_0272
+gTextL1_0272:
+	.incbin "baserom.gba", 0x3E9072, 0x150
+	.global gTextL1_0273
+gTextL1_0273:
+	.incbin "baserom.gba", 0x3E91C2, 0x1BB
+	.global gTextL1_0274
+gTextL1_0274:
+	.incbin "baserom.gba", 0x3E937D, 0x85
+	.global gTextL1_0275
+gTextL1_0275:
+	.incbin "baserom.gba", 0x3E9402, 0x273
+	.global gTextL1_0276
+gTextL1_0276:
+	.incbin "baserom.gba", 0x3E9675, 0x1A
+	.global gTextL1_0277
+gTextL1_0277:
+	.incbin "baserom.gba", 0x3E968F, 0x8F
+	.global gTextL1_0278
+gTextL1_0278:
+	.incbin "baserom.gba", 0x3E971E, 0x79
+	.global gTextL1_0279
+gTextL1_0279:
+	.incbin "baserom.gba", 0x3E9797, 0x8A
+	.global gTextL1_0280
+gTextL1_0280:
+	.incbin "baserom.gba", 0x3E9821, 0x135
+	.global gTextL1_0281
+gTextL1_0281:
+	.incbin "baserom.gba", 0x3E9956, 0x13C
+	.global gTextL1_0282
+gTextL1_0282:
+	.incbin "baserom.gba", 0x3E9A92, 0x151
+	.global gTextL1_0283
+gTextL1_0283:
+	.incbin "baserom.gba", 0x3E9BE3, 0x14B
+	.global gTextL1_0284
+gTextL1_0284:
+	.incbin "baserom.gba", 0x3E9D2E, 0x150
+	.global gTextL1_0285
+gTextL1_0285:
+	.incbin "baserom.gba", 0x3E9E7E, 0x157
+	.global gTextL1_0286
+gTextL1_0286:
+	.incbin "baserom.gba", 0x3E9FD5, 0x157
+	.global gTextL1_0287
+gTextL1_0287:
+	.incbin "baserom.gba", 0x3EA12C, 0x140
+	.global gTextL1_0288
+gTextL1_0288:
+	.incbin "baserom.gba", 0x3EA26C, 0x142
+	.global gTextL1_0289
+gTextL1_0289:
+	.incbin "baserom.gba", 0x3EA3AE, 0x40
+	.global gTextL1_0290
+gTextL1_0290:
+	.incbin "baserom.gba", 0x3EA3EE, 0x32
+	.global gTextL1_0291
+gTextL1_0291:
+	.incbin "baserom.gba", 0x3EA420, 0x35
+	.global gTextL1_0292
+gTextL1_0292:
+	.incbin "baserom.gba", 0x3EA455, 0x2D
+	.global gTextL1_0293
+gTextL1_0293:
+	.incbin "baserom.gba", 0x3EA482, 0x15
+	.global gTextL1_0294
+gTextL1_0294:
+	.incbin "baserom.gba", 0x3EA497, 0x36
+	.global gTextL1_0295
+gTextL1_0295:
+	.incbin "baserom.gba", 0x3EA4CD, 0x40
+	.global gTextL1_0296
+gTextL1_0296:
+	.incbin "baserom.gba", 0x3EA50D, 0x67
+	.global gTextL1_0297
+gTextL1_0297:
+	.incbin "baserom.gba", 0x3EA574, 0x63
+	.global gTextL1_0298
+gTextL1_0298:
+	.incbin "baserom.gba", 0x3EA5D7, 0x4C
+	.global gTextL1_0299
+gTextL1_0299:
+	.incbin "baserom.gba", 0x3EA623, 0x4B
+	.global gTextL1_0300
+gTextL1_0300:
+	.incbin "baserom.gba", 0x3EA66E, 0x5F
+	.global gTextL1_0301
+gTextL1_0301:
+	.incbin "baserom.gba", 0x3EA6CD, 0x61
+	.global gTextL1_0302
+gTextL1_0302:
+	.incbin "baserom.gba", 0x3EA72E, 0x58
+	.global gTextL1_0303
+gTextL1_0303:
+	.incbin "baserom.gba", 0x3EA786, 0x53
+	.global gTextL1_0304
+gTextL1_0304:
+	.incbin "baserom.gba", 0x3EA7D9, 0x74
+	.global gTextL1_0305
+gTextL1_0305:
+	.incbin "baserom.gba", 0x3EA84D, 0x96
+	.global gTextL1_0306
+gTextL1_0306:
+	.incbin "baserom.gba", 0x3EA8E3, 0x89
+	.global gTextL1_0307
+gTextL1_0307:
+	.incbin "baserom.gba", 0x3EA96C, 0x94
+	.global gTextL1_0308
+gTextL1_0308:
+	.incbin "baserom.gba", 0x3EAA00, 0x91
+	.global gTextL1_0309
+gTextL1_0309:
+	.incbin "baserom.gba", 0x3EAA91, 0x79
+	.global gTextL1_0310
+gTextL1_0310:
+	.incbin "baserom.gba", 0x3EAB0A, 0x91
+	.global gTextL1_0311
+gTextL1_0311:
+	.incbin "baserom.gba", 0x3EAB9B, 0x90
+	.global gTextL1_0312
+gTextL1_0312:
+	.incbin "baserom.gba", 0x3EAC2B, 0x93
+	.global gTextL1_0313
+gTextL1_0313:
+	.incbin "baserom.gba", 0x3EACBE, 0x81
+	.global gTextL1_0314
+gTextL1_0314:
+	.incbin "baserom.gba", 0x3EAD3F, 0x28
+	.global gTextL1_0315
+gTextL1_0315:
+	.incbin "baserom.gba", 0x3EAD67, 0x1D6
+	.global gTextL1_0316
+gTextL1_0316:
+	.incbin "baserom.gba", 0x3EAF3D, 0x237
+	.global gTextL1_0317
+gTextL1_0317:
+	.incbin "baserom.gba", 0x3EB174, 0x229
+	.global gTextL1_0318
+gTextL1_0318:
+	.incbin "baserom.gba", 0x3EB39D, 0x2A5
+	.global gTextL1_0319
+gTextL1_0319:
+	.incbin "baserom.gba", 0x3EB642, 0x1FC
+	.global gTextL1_0320
+gTextL1_0320:
+	.incbin "baserom.gba", 0x3EB83E, 0x408
+	.global gTextL1_0321
+gTextL1_0321:
+	.incbin "baserom.gba", 0x3EBC46, 0x9A
+	.global gTextL1_0322
+gTextL1_0322:
+	.incbin "baserom.gba", 0x3EBCE0, 0x5C
+	.global gTextL1_0323
+gTextL1_0323:
+	.incbin "baserom.gba", 0x3EBD3C, 0x73
+	.global gTextL1_0324
+gTextL1_0324:
+	.incbin "baserom.gba", 0x3EBDAF, 0x9A
+	.global gTextL1_0325
+gTextL1_0325:
+	.incbin "baserom.gba", 0x3EBE49, 0x9A
+	.global gTextL1_0326
+gTextL1_0326:
+	.incbin "baserom.gba", 0x3EBEE3, 0x4E
+	.global gTextL1_0327
+gTextL1_0327:
+	.incbin "baserom.gba", 0x3EBF31, 0x66
+	.global gTextL1_0328
+gTextL1_0328:
+	.incbin "baserom.gba", 0x3EBF97, 0x5D
+	.global gTextL1_0329
+gTextL1_0329:
+	.incbin "baserom.gba", 0x3EBFF4, 0xB8
+	.global gTextL1_0330
+gTextL1_0330:
+	.incbin "baserom.gba", 0x3EC0AC, 0x135
+	.global gTextL1_0331
+gTextL1_0331:
+	.incbin "baserom.gba", 0x3EC1E1, 0x56
+	.global gTextL1_0332
+gTextL1_0332:
+	.incbin "baserom.gba", 0x3EC237, 0x54
+	.global gTextL1_0333
+gTextL1_0333:
+	.incbin "baserom.gba", 0x3EC28B, 0x57
+	.global gTextL1_0334
+gTextL1_0334:
+	.incbin "baserom.gba", 0x3EC2E2, 0x54
+	.global gTextL1_0335
+gTextL1_0335:
+	.incbin "baserom.gba", 0x3EC336, 0x6E
+	.global gTextL1_0336
+gTextL1_0336:
+	.incbin "baserom.gba", 0x3EC3A4, 0x45
+	.global gTextL1_0337
+gTextL1_0337:
+	.incbin "baserom.gba", 0x3EC3E9, 0x6E
+	.global gTextL1_0338
+gTextL1_0338:
+	.incbin "baserom.gba", 0x3EC457, 0x64
+	.global gTextL1_0339
+gTextL1_0339:
+	.incbin "baserom.gba", 0x3EC4BB, 0x65
+	.global gTextL1_0340
+gTextL1_0340:
+	.incbin "baserom.gba", 0x3EC520, 0x66
+	.global gTextL1_0341
+gTextL1_0341:
+	.incbin "baserom.gba", 0x3EC586, 0x66
+	.global gTextL1_0342
+gTextL1_0342:
+	.incbin "baserom.gba", 0x3EC5EC, 0x4C
+	.global gTextL1_0343
+gTextL1_0343:
+	.incbin "baserom.gba", 0x3EC638, 0x59
+	.global gTextL1_0344
+gTextL1_0344:
+	.incbin "baserom.gba", 0x3EC691, 0x4D
+	.global gTextL1_0345
+gTextL1_0345:
+	.incbin "baserom.gba", 0x3EC6DE, 0x34
+	.global gTextL1_0346
+gTextL1_0346:
+	.incbin "baserom.gba", 0x3EC712, 0x3A
+	.global gTextL1_0347
+gTextL1_0347:
+	.incbin "baserom.gba", 0x3EC74C, 0x2F
+	.global gTextL1_0348
+gTextL1_0348:
+	.incbin "baserom.gba", 0x3EC77B, 0x32
+	.global gTextL1_0349
+gTextL1_0349:
+	.incbin "baserom.gba", 0x3EC7AD, 0x3A
+	.global gTextL1_0350
+gTextL1_0350:
+	.incbin "baserom.gba", 0x3EC7E7, 0x36
+	.global gTextL1_0351
+gTextL1_0351:
+	.incbin "baserom.gba", 0x3EC81D, 0x36
+	.global gTextL1_0352
+gTextL1_0352:
+	.incbin "baserom.gba", 0x3EC853, 0x34
+	.global gTextL1_0353
+gTextL1_0353:
+	.incbin "baserom.gba", 0x3EC887, 0x32
+	.global gTextL1_0354
+gTextL1_0354:
+	.incbin "baserom.gba", 0x3EC8B9, 0x29
+	.global gTextL1_0355
+gTextL1_0355:
+	.incbin "baserom.gba", 0x3EC8E2, 0x70
+	.global gTextL1_0356
+gTextL1_0356:
+	.incbin "baserom.gba", 0x3EC952, 0x21
+	.global gTextL1_0357
+gTextL1_0357:
+	.incbin "baserom.gba", 0x3EC973, 0x13
+	.global gTextL1_0358
+gTextL1_0358:
+	.incbin "baserom.gba", 0x3EC986, 0x1A
+	.global gTextL1_0359
+gTextL1_0359:
+	.incbin "baserom.gba", 0x3EC9A0, 0x29
+	.global gTextL1_0360
+gTextL1_0360:
+	.incbin "baserom.gba", 0x3EC9C9, 0x34
+	.global gTextL1_0361
+gTextL1_0361:
+	.incbin "baserom.gba", 0x3EC9FD, 0x2E
+	.global gTextL1_0362
+gTextL1_0362:
+	.incbin "baserom.gba", 0x3ECA2B, 0x39
+	.global gTextL1_0363
+gTextL1_0363:
+	.incbin "baserom.gba", 0x3ECA64, 0x31
+	.global gTextL1_0364
+gTextL1_0364:
+	.incbin "baserom.gba", 0x3ECA95, 0x52
+	.global gTextL1_0365
+gTextL1_0365:
+	.incbin "baserom.gba", 0x3ECAE7, 0x2E
+	.global gTextL1_0366
+gTextL1_0366:
+	.incbin "baserom.gba", 0x3ECB15, 0x1E
+	.global gTextL1_0367
+gTextL1_0367:
+	.incbin "baserom.gba", 0x3ECB33, 0x2E
+	.global gTextL1_0368
+gTextL1_0368:
+	.incbin "baserom.gba", 0x3ECB61, 0x19
+	.global gTextL1_0369
+gTextL1_0369:
+	.incbin "baserom.gba", 0x3ECB7A, 0x32
+	.global gTextL1_0370
+gTextL1_0370:
+	.incbin "baserom.gba", 0x3ECBAC, 0x28
+	.global gTextL1_0371
+gTextL1_0371:
+	.incbin "baserom.gba", 0x3ECBD4, 0x66
+	.global gTextL1_0372
+gTextL1_0372:
+	.incbin "baserom.gba", 0x3ECC3A, 0x2E
+	.global gTextL1_0373
+gTextL1_0373:
+	.incbin "baserom.gba", 0x3ECC68, 0x36
+	.global gTextL1_0374
+gTextL1_0374:
+	.incbin "baserom.gba", 0x3ECC9E, 0xA0
+	.global gTextL1_0375
+gTextL1_0375:
+	.incbin "baserom.gba", 0x3ECD3E, 0x61
+	.global gTextL1_0376
+gTextL1_0376:
+	.incbin "baserom.gba", 0x3ECD9F, 0x63
+	.global gTextL1_0377
+gTextL1_0377:
+	.incbin "baserom.gba", 0x3ECE02, 0x5E
+	.global gTextL1_0378
+gTextL1_0378:
+	.incbin "baserom.gba", 0x3ECE60, 0x5A
+	.global gTextL1_0379
+gTextL1_0379:
+	.incbin "baserom.gba", 0x3ECEBA, 0x68
+	.global gTextL1_0380
+gTextL1_0380:
+	.incbin "baserom.gba", 0x3ECF22, 0x5F
+	.global gTextL1_0381
+gTextL1_0381:
+	.incbin "baserom.gba", 0x3ECF81, 0x65
+	.global gTextL1_0382
+gTextL1_0382:
+	.incbin "baserom.gba", 0x3ECFE6, 0x16
+	.global gTextL1_0383
+gTextL1_0383:
+	.incbin "baserom.gba", 0x3ECFFC, 0x31F
+	.global gTextL1_0384
+gTextL1_0384:
+	.incbin "baserom.gba", 0x3ED31B, 0x5DC
+	.global gTextL1_0385
+gTextL1_0385:
+	.incbin "baserom.gba", 0x3ED8F7, 0x18
+	.global gTextL1_0386
+gTextL1_0386:
+	.incbin "baserom.gba", 0x3ED90F, 0xD
+	.global gTextL1_0387
+gTextL1_0387:
+	.incbin "baserom.gba", 0x3ED91C, 0x13
+	.global gTextL1_0388
+gTextL1_0388:
+	.incbin "baserom.gba", 0x3ED92F, 0x1D
+	.global gTextL1_0389
+gTextL1_0389:
+	.incbin "baserom.gba", 0x3ED94C, 0x1F
+	.global gTextL1_0390
+gTextL1_0390:
+	.incbin "baserom.gba", 0x3ED96B, 0x19
+	.global gTextL1_0391
+gTextL1_0391:
+	.incbin "baserom.gba", 0x3ED984, 0xE
+	.global gTextL1_0392
+gTextL1_0392:
+	.incbin "baserom.gba", 0x3ED992, 0x16
+	.global gTextL1_0393
+gTextL1_0393:
+	.incbin "baserom.gba", 0x3ED9A8, 0x2A
+	.global gTextL1_0394
+gTextL1_0394:
+	.incbin "baserom.gba", 0x3ED9D2, 0x23
+	.global gTextL1_0395
+gTextL1_0395:
+	.incbin "baserom.gba", 0x3ED9F5, 0xD2
+	.global gTextL1_0396
+gTextL1_0396:
+	.incbin "baserom.gba", 0x3EDAC7, 0x19E
+	.global gTextL1_0397
+gTextL1_0397:
+	.incbin "baserom.gba", 0x3EDC65, 0x27F
+	.global gTextL1_0398
+gTextL1_0398:
+	.incbin "baserom.gba", 0x3EDEE4, 0x2F
+	.global gTextL1_0399
+gTextL1_0399:
+	.incbin "baserom.gba", 0x3EDF13, 0x1E
+	.global gTextL1_0400
+gTextL1_0400:
+	.incbin "baserom.gba", 0x3EDF31, 0x16
+	.global gTextL1_0401
+gTextL1_0401:
+	.incbin "baserom.gba", 0x3EDF47, 0x1A
+	.global gTextL1_0402
+gTextL1_0402:
+	.incbin "baserom.gba", 0x3EDF61, 0x31
+	.global gTextL1_0403
+gTextL1_0403:
+	.incbin "baserom.gba", 0x3EDF92, 0x27
+	.global gTextL1_0404
+gTextL1_0404:
+	.incbin "baserom.gba", 0x3EDFB9, 0x23
+	.global gTextL1_0405
+gTextL1_0405:
+	.incbin "baserom.gba", 0x3EDFDC, 0x25
+	.global gTextL1_0406
+gTextL1_0406:
+	.incbin "baserom.gba", 0x3EE001, 0x24
+	.global gTextL1_0407
+gTextL1_0407:
+	.incbin "baserom.gba", 0x3EE025, 0x20
+	.global gTextL1_0408
+gTextL1_0408:
+	.incbin "baserom.gba", 0x3EE045, 0x25
+	.global gTextL1_0409
+gTextL1_0409:
+	.incbin "baserom.gba", 0x3EE06A, 0x1C
+	.global gTextL1_0410
+gTextL1_0410:
+	.incbin "baserom.gba", 0x3EE086, 0x21
+	.global gTextL1_0411
+gTextL1_0411:
+	.incbin "baserom.gba", 0x3EE0A7, 0x2D
+	.global gTextL1_0412
+gTextL1_0412:
+	.incbin "baserom.gba", 0x3EE0D4, 0x22
+	.global gTextL1_0413
+gTextL1_0413:
+	.incbin "baserom.gba", 0x3EE0F6, 0x1A
+	.global gTextL1_0414
+gTextL1_0414:
+	.incbin "baserom.gba", 0x3EE110, 0x1C
+	.global gTextL1_0415
+gTextL1_0415:
+	.incbin "baserom.gba", 0x3EE12C, 0x32
+	.global gTextL1_0416
+gTextL1_0416:
+	.incbin "baserom.gba", 0x3EE15E, 0x2E
+	.global gTextL1_0417
+gTextL1_0417:
+	.incbin "baserom.gba", 0x3EE18C, 0x3B
+	.global gTextL1_0418
+gTextL1_0418:
+	.incbin "baserom.gba", 0x3EE1C7, 0x35
+	.global gTextL1_0419
+gTextL1_0419:
+	.incbin "baserom.gba", 0x3EE1FC, 0x33
+	.global gTextL1_0420
+gTextL1_0420:
+	.incbin "baserom.gba", 0x3EE22F, 0x38
+	.global gTextL1_0421
+gTextL1_0421:
+	.incbin "baserom.gba", 0x3EE267, 0x33
+	.global gTextL1_0422
+gTextL1_0422:
+	.incbin "baserom.gba", 0x3EE29A, 0x68
+	.global gTextL1_0423
+gTextL1_0423:
+	.incbin "baserom.gba", 0x3EE302, 0x26A
+	.global gTextL1_0424
+gTextL1_0424:
+	.incbin "baserom.gba", 0x3EE56C, 0xE4
+	.global gTextL1_0425
+gTextL1_0425:
+	.incbin "baserom.gba", 0x3EE650, 0x2D5
+	.global gTextL1_0426
+gTextL1_0426:
+	.incbin "baserom.gba", 0x3EE925, 0x81
+	.global gTextL1_0427
+gTextL1_0427:
+	.incbin "baserom.gba", 0x3EE9A6, 0xA5
+	.global gTextL1_0428
+gTextL1_0428:
+	.incbin "baserom.gba", 0x3EEA4B, 0x74
+	.global gTextL1_0429
+gTextL1_0429:
+	.incbin "baserom.gba", 0x3EEABF, 0x8A
+	.global gTextL1_0430
+gTextL1_0430:
+	.incbin "baserom.gba", 0x3EEB49, 0xDC
+	.global gTextL1_0431
+gTextL1_0431:
+	.incbin "baserom.gba", 0x3EEC25, 0x7C
+	.global gTextL1_0432
+gTextL1_0432:
+	.incbin "baserom.gba", 0x3EECA1, 0x97
+	.global gTextL1_0433
+gTextL1_0433:
+	.incbin "baserom.gba", 0x3EED38, 0xA9
+	.global gTextL1_0434
+gTextL1_0434:
+	.incbin "baserom.gba", 0x3EEDE1, 0xD6
+	.global gTextL1_0435
+gTextL1_0435:
+	.incbin "baserom.gba", 0x3EEEB7, 0x79
+	.global gTextL1_0436
+gTextL1_0436:
+	.incbin "baserom.gba", 0x3EEF30, 0x1CA
+	.global gTextL1_0437
+gTextL1_0437:
+	.incbin "baserom.gba", 0x3EF0FA, 0x55
+	.global gTextL1_0438
+gTextL1_0438:
+	.incbin "baserom.gba", 0x3EF14F, 0x16A
+	.global gTextL1_0439
+gTextL1_0439:
+	.incbin "baserom.gba", 0x3EF2B9, 0x111
+	.global gTextL1_0440
+gTextL1_0440:
+	.incbin "baserom.gba", 0x3EF3CA, 0x1DF
+	.global gTextL1_0441
+gTextL1_0441:
+	.incbin "baserom.gba", 0x3EF5A9, 0x2F4
+	.global gTextL1_0442
+gTextL1_0442:
+	.incbin "baserom.gba", 0x3EF89D, 0x324
+	.global gTextL1_0443
+gTextL1_0443:
+	.incbin "baserom.gba", 0x3EFBC1, 0x2E8
+	.global gTextL1_0444
+gTextL1_0444:
+	.incbin "baserom.gba", 0x3EFEA9, 0x1CA
+	.global gTextL1_0445
+gTextL1_0445:
+	.incbin "baserom.gba", 0x3F0073, 0x3DD
+	.global gTextL1_0446
+gTextL1_0446:
+	.incbin "baserom.gba", 0x3F0450, 0x24B
+	.global gTextL1_0447
+gTextL1_0447:
+	.incbin "baserom.gba", 0x3F069B, 0x29F
+	.global gTextL1_0448
+gTextL1_0448:
+	.incbin "baserom.gba", 0x3F093A, 0x3AB
+	.global gTextL1_0449
+gTextL1_0449:
+	.incbin "baserom.gba", 0x3F0CE5, 0x8F
+	.global gTextL1_0450
+gTextL1_0450:
+	.incbin "baserom.gba", 0x3F0D74, 0x431
+	.global gTextL1_0451
+gTextL1_0451:
+	.incbin "baserom.gba", 0x3F11A5, 0x3B5
+	.global gTextL1_0452
+gTextL1_0452:
+	.incbin "baserom.gba", 0x3F155A, 0x15
+	.global gTextL1_0453
+gTextL1_0453:
+	.incbin "baserom.gba", 0x3F156F, 0x5E
+	.global gTextL1_0454
+gTextL1_0454:
+	.incbin "baserom.gba", 0x3F15CD, 0x1A
+	.global gTextL1_0455
+gTextL1_0455:
+	.incbin "baserom.gba", 0x3F15E7, 0x5F
+	.global gTextL1_0456
+gTextL1_0456:
+	.incbin "baserom.gba", 0x3F1646, 0x88
+	.global gTextL1_0457
+gTextL1_0457:
+	.incbin "baserom.gba", 0x3F16CE, 0x4D
+	.global gTextL1_0458
+gTextL1_0458:
+	.incbin "baserom.gba", 0x3F171B, 0x16E
+	.global gTextL1_0459
+gTextL1_0459:
+	.incbin "baserom.gba", 0x3F1889, 0x227
+	.global gTextL1_0460
+gTextL1_0460:
+	.incbin "baserom.gba", 0x3F1AB0, 0x145
+	.global gTextL1_0461
+gTextL1_0461:
+	.incbin "baserom.gba", 0x3F1BF5, 0x1B8
+	.global gTextL1_0462
+gTextL1_0462:
+	.incbin "baserom.gba", 0x3F1DAD, 0xCE
+	.global gTextL1_0463
+gTextL1_0463:
+	.incbin "baserom.gba", 0x3F1E7B, 0xFE
+	.global gTextL1_0464
+gTextL1_0464:
+	.incbin "baserom.gba", 0x3F1F79, 0x1A9
+	.global gTextL1_0465
+gTextL1_0465:
+	.incbin "baserom.gba", 0x3F2122, 0x6E
+	.global gTextL1_0466
+gTextL1_0466:
+	.incbin "baserom.gba", 0x3F2190, 0x3E
+	.global gTextL1_0467
+gTextL1_0467:
+	.incbin "baserom.gba", 0x3F21CE, 0xB5
+	.global gTextL1_0468
+gTextL1_0468:
+	.incbin "baserom.gba", 0x3F2283, 0xB8
+	.global gTextL1_0469
+gTextL1_0469:
+	.incbin "baserom.gba", 0x3F233B, 0xA8
+	.global gTextL1_0470
+gTextL1_0470:
+	.incbin "baserom.gba", 0x3F23E3, 0xAF
+	.global gTextL1_0471
+gTextL1_0471:
+	.incbin "baserom.gba", 0x3F2492, 0xB9
+	.global gTextL1_0472
+gTextL1_0472:
+	.incbin "baserom.gba", 0x3F254B, 0xCA
+	.global gTextL1_0473
+gTextL1_0473:
+	.incbin "baserom.gba", 0x3F2615, 0x11B
+	.global gTextL1_0474
+gTextL1_0474:
+	.incbin "baserom.gba", 0x3F2730, 0xCC
+	.global gTextL1_0475
+gTextL1_0475:
+	.incbin "baserom.gba", 0x3F27FC, 0xC6
+	.global gTextL1_0476
+gTextL1_0476:
+	.incbin "baserom.gba", 0x3F28C2, 0x1C4
+	.global gTextL1_0477
+gTextL1_0477:
+	.incbin "baserom.gba", 0x3F2A86, 0x156
+	.global gTextL1_0478
+gTextL1_0478:
+	.incbin "baserom.gba", 0x3F2BDC, 0x64
+	.global gTextL1_0479
+gTextL1_0479:
+	.incbin "baserom.gba", 0x3F2C40, 0x20
+	.global gTextL1_0480
+gTextL1_0480:
+	.incbin "baserom.gba", 0x3F2C60, 0x22
+	.global gTextL1_0481
+gTextL1_0481:
+	.incbin "baserom.gba", 0x3F2C82, 0x8
+	.global gTextL1_0482
+gTextL1_0482:
+	.incbin "baserom.gba", 0x3F2C8A, 0x33
+	.global gTextL1_0483
+gTextL1_0483:
+	.incbin "baserom.gba", 0x3F2CBD, 0x50
+	.global gTextL1_0484
+gTextL1_0484:
+	.incbin "baserom.gba", 0x3F2D0D, 0x2B
+	.global gTextL1_0485
+gTextL1_0485:
+	.incbin "baserom.gba", 0x3F2D38, 0x286
+	.global gTextL1_0486
+gTextL1_0486:
+	.incbin "baserom.gba", 0x3F2FBE, 0x16
+	.global gTextL1_0487
+gTextL1_0487:
+	.incbin "baserom.gba", 0x3F2FD4, 0x2F
+	.global gTextL1_0488
+gTextL1_0488:
+	.incbin "baserom.gba", 0x3F3003, 0x25
+	.global gTextL1_0489
+gTextL1_0489:
+	.incbin "baserom.gba", 0x3F3028, 0x1E
+	.global gTextL1_0490
+gTextL1_0490:
+	.incbin "baserom.gba", 0x3F3046, 0x48
+	.global gTextL1_0491
+gTextL1_0491:
+	.incbin "baserom.gba", 0x3F308E, 0x48
+	.global gTextL1_0492
+gTextL1_0492:
+	.incbin "baserom.gba", 0x3F30D6, 0x48
+	.global gTextL1_0493
+gTextL1_0493:
+	.incbin "baserom.gba", 0x3F311E, 0x48
+	.global gTextL1_0494
+gTextL1_0494:
+	.incbin "baserom.gba", 0x3F3166, 0x48
+	.global gTextL1_0495
+gTextL1_0495:
+	.incbin "baserom.gba", 0x3F31AE, 0x48
+	.global gTextL1_0496
+gTextL1_0496:
+	.incbin "baserom.gba", 0x3F31F6, 0x48
+	.global gTextL1_0497
+gTextL1_0497:
+	.incbin "baserom.gba", 0x3F323E, 0x48
+	.global gTextL1_0498
+gTextL1_0498:
+	.incbin "baserom.gba", 0x3F3286, 0x49
+	.global gTextL1_0499
+gTextL1_0499:
+	.incbin "baserom.gba", 0x3F32CF, 0xC9
+	.global gTextL1_0500
+gTextL1_0500:
+	.incbin "baserom.gba", 0x3F3398, 0x51
+	.global gTextL1_0501
+gTextL1_0501:
+	.incbin "baserom.gba", 0x3F33E9, 0x145
+	.global gTextL1_0502
+gTextL1_0502:
+	.incbin "baserom.gba", 0x3F352E, 0x2A
+	.global gTextL1_0503
+gTextL1_0503:
+	.incbin "baserom.gba", 0x3F3558, 0x13
+	.global gTextL1_0504
+gTextL1_0504:
+	.incbin "baserom.gba", 0x3F356B, 0x27
+	.global gTextL1_0505
+gTextL1_0505:
+	.incbin "baserom.gba", 0x3F3592, 0xA
+	.global gTextL1_0506
+gTextL1_0506:
+	.incbin "baserom.gba", 0x3F359C, 0x19
+	.global gTextL1_0507
+gTextL1_0507:
+	.incbin "baserom.gba", 0x3F35B5, 0xD
+	.global gTextL1_0508
+gTextL1_0508:
+	.incbin "baserom.gba", 0x3F35C2, 0xD
+	.global gTextL1_0509
+gTextL1_0509:
+	.incbin "baserom.gba", 0x3F35CF, 0xD
+	.global gTextL1_0510
+gTextL1_0510:
+	.incbin "baserom.gba", 0x3F35DC, 0xD
+	.global gTextL1_0511
+gTextL1_0511:
+	.incbin "baserom.gba", 0x3F35E9, 0x1C
+	.global gTextL1_0512
+gTextL1_0512:
+	.incbin "baserom.gba", 0x3F3605, 0x1B
+	.global gTextL1_0513
+gTextL1_0513:
+	.incbin "baserom.gba", 0x3F3620, 0x1A
+	.global gTextL1_0514
+gTextL1_0514:
+	.incbin "baserom.gba", 0x3F363A, 0x1A
+	.global gTextL1_0515
+gTextL1_0515:
+	.incbin "baserom.gba", 0x3F3654, 0x17D
+	.global gTextL1_0516
+gTextL1_0516:
+	.incbin "baserom.gba", 0x3F37D1, 0x22
+	.global gTextL1_0517
+gTextL1_0517:
+	.incbin "baserom.gba", 0x3F37F3, 0x16
+	.global gTextL1_0518
+gTextL1_0518:
+	.incbin "baserom.gba", 0x3F3809, 0x791
+	.global gTextL1_0519
+gTextL1_0519:
+	.incbin "baserom.gba", 0x3F3F9A, 0x2D
+	.global gTextL1_0520
+gTextL1_0520:
+	.incbin "baserom.gba", 0x3F3FC7, 0x31
+	.global gTextL1_0521
+gTextL1_0521:
+	.incbin "baserom.gba", 0x3F3FF8, 0x39
+	.global gTextL1_0522
+gTextL1_0522:
+	.incbin "baserom.gba", 0x3F4031, 0x2D
+	.global gTextL1_0523
+gTextL1_0523:
+	.incbin "baserom.gba", 0x3F405E, 0x24
+	.global gTextL1_0524
+gTextL1_0524:
+	.incbin "baserom.gba", 0x3F4082, 0x38
+	.global gTextL1_0525
+gTextL1_0525:
+	.incbin "baserom.gba", 0x3F40BA, 0x31
+	.global gTextL1_0526
+gTextL1_0526:
+	.incbin "baserom.gba", 0x3F40EB, 0x33
+	.global gTextL1_0527
+gTextL1_0527:
+	.incbin "baserom.gba", 0x3F411E, 0x33
+	.global gTextL1_0528
+gTextL1_0528:
+	.incbin "baserom.gba", 0x3F4151, 0xB6
+	.global gTextL1_0529
+gTextL1_0529:
+	.incbin "baserom.gba", 0x3F4207, 0x53
+	.global gTextL1_0530
+gTextL1_0530:
+	.incbin "baserom.gba", 0x3F425A, 0x29
+	.global gTextL1_0531
+gTextL1_0531:
+	.incbin "baserom.gba", 0x3F4283, 0x88
+	.global gTextL1_0532
+gTextL1_0532:
+	.incbin "baserom.gba", 0x3F430B, 0x2D
+	.global gTextL1_0533
+gTextL1_0533:
+	.incbin "baserom.gba", 0x3F4338, 0x10
+	.global gTextL1_0534
+gTextL1_0534:
+	.incbin "baserom.gba", 0x3F4348, 0x37
+	.global gTextL1_0535
+gTextL1_0535:
+	.incbin "baserom.gba", 0x3F437F, 0x81
+	.global gTextL1_0536
+gTextL1_0536:
+	.incbin "baserom.gba", 0x3F4400, 0x95
+	.global gTextL1_0537
+gTextL1_0537:
+	.incbin "baserom.gba", 0x3F4495, 0x66
+	.global gTextL1_0538
+gTextL1_0538:
+	.incbin "baserom.gba", 0x3F44FB, 0x93
+	.global gTextL1_0539
+gTextL1_0539:
+	.incbin "baserom.gba", 0x3F458E, 0x86
+	.global gTextL1_0540
+gTextL1_0540:
+	.incbin "baserom.gba", 0x3F4614, 0x47
+	.global gTextL1_0541
+gTextL1_0541:
+	.incbin "baserom.gba", 0x3F465B, 0x26
+	.global gTextL1_0542
+gTextL1_0542:
+	.incbin "baserom.gba", 0x3F4681, 0x36
+	.global gTextL1_0543
+gTextL1_0543:
+	.incbin "baserom.gba", 0x3F46B7, 0x6E
+	.global gTextL1_0544
+gTextL1_0544:
+	.incbin "baserom.gba", 0x3F4725, 0x74
+	.global gTextL1_0545
+gTextL1_0545:
+	.incbin "baserom.gba", 0x3F4799, 0x189
+	.global gTextL1_0546
+gTextL1_0546:
+	.incbin "baserom.gba", 0x3F4922, 0x37
+	.global gTextL1_0547
+gTextL1_0547:
+	.incbin "baserom.gba", 0x3F4959, 0x84
+	.global gTextL1_0548
+gTextL1_0548:
+	.incbin "baserom.gba", 0x3F49DD, 0x50
+	.global gTextL1_0549
+gTextL1_0549:
+	.incbin "baserom.gba", 0x3F4A2D, 0x17
+	.global gTextL1_0550
+gTextL1_0550:
+	.incbin "baserom.gba", 0x3F4A44, 0x18
+	.global gTextL1_0551
+gTextL1_0551:
+	.incbin "baserom.gba", 0x3F4A5C, 0x38
+	.global gTextL1_0552
+gTextL1_0552:
+	.incbin "baserom.gba", 0x3F4A94, 0xAC
+	.global gTextL1_0553
+gTextL1_0553:
+	.incbin "baserom.gba", 0x3F4B40, 0x94
+	.global gTextL1_0554
+gTextL1_0554:
+	.incbin "baserom.gba", 0x3F4BD4, 0x20
+	.global gTextL1_0555
+gTextL1_0555:
+	.incbin "baserom.gba", 0x3F4BF4, 0x32
+	.global gTextL1_0556
+gTextL1_0556:
+	.incbin "baserom.gba", 0x3F4C26, 0x52
+	.global gTextL1_0557
+gTextL1_0557:
+	.incbin "baserom.gba", 0x3F4C78, 0x59
+	.global gTextL1_0558
+gTextL1_0558:
+	.incbin "baserom.gba", 0x3F4CD1, 0x3C
+	.global gTextL1_0559
+gTextL1_0559:
+	.incbin "baserom.gba", 0x3F4D0D, 0x43
+	.global gTextL1_0560
+gTextL1_0560:
+	.incbin "baserom.gba", 0x3F4D50, 0x31
+	.global gTextL1_0561
+gTextL1_0561:
+	.incbin "baserom.gba", 0x3F4D81, 0x25
+	.global gTextL1_0562
+gTextL1_0562:
+	.incbin "baserom.gba", 0x3F4DA6, 0x52
+	.global gTextL1_0563
+gTextL1_0563:
+	.incbin "baserom.gba", 0x3F4DF8, 0x52
+	.global gTextL1_0564
+gTextL1_0564:
+	.incbin "baserom.gba", 0x3F4E4A, 0x91
+	.global gTextL1_0565
+gTextL1_0565:
+	.incbin "baserom.gba", 0x3F4EDB, 0x44
+	.global gTextL1_0566
+gTextL1_0566:
+	.incbin "baserom.gba", 0x3F4F1F, 0x33
+	.global gTextL1_0567
+gTextL1_0567:
+	.incbin "baserom.gba", 0x3F4F52, 0x86
+	.global gTextL1_0568
+gTextL1_0568:
+	.incbin "baserom.gba", 0x3F4FD8, 0x32
+	.global gTextL1_0569
+gTextL1_0569:
+	.incbin "baserom.gba", 0x3F500A, 0x2E
+	.global gTextL1_0570
+gTextL1_0570:
+	.incbin "baserom.gba", 0x3F5038, 0x30
+	.global gTextL1_0571
+gTextL1_0571:
+	.incbin "baserom.gba", 0x3F5068, 0x2F
+	.global gTextL1_0572
+gTextL1_0572:
+	.incbin "baserom.gba", 0x3F5097, 0x32
+	.global gTextL1_0573
+gTextL1_0573:
+	.incbin "baserom.gba", 0x3F50C9, 0x32
+	.global gTextL1_0574
+gTextL1_0574:
+	.incbin "baserom.gba", 0x3F50FB, 0x2F
+	.global gTextL1_0575
+gTextL1_0575:
+	.incbin "baserom.gba", 0x3F512A, 0x23
+	.global gTextL1_0576
+gTextL1_0576:
+	.incbin "baserom.gba", 0x3F514D, 0x32
+	.global gTextL1_0577
+gTextL1_0577:
+	.incbin "baserom.gba", 0x3F517F, 0x25
+	.global gTextL1_0578
+gTextL1_0578:
+	.incbin "baserom.gba", 0x3F51A4, 0x11
+	.global gTextL1_0579
+gTextL1_0579:
+	.incbin "baserom.gba", 0x3F51B5, 0xF
+	.global gTextL1_0580
+gTextL1_0580:
+	.incbin "baserom.gba", 0x3F51C4, 0x11
+	.global gTextL1_0581
+gTextL1_0581:
+	.incbin "baserom.gba", 0x3F51D5, 0x12
+	.global gTextL1_0582
+gTextL1_0582:
+	.incbin "baserom.gba", 0x3F51E7, 0x12
+	.global gTextL1_0583
+gTextL1_0583:
+	.incbin "baserom.gba", 0x3F51F9, 0x2F
+	.global gTextL1_0584
+gTextL1_0584:
+	.incbin "baserom.gba", 0x3F5228, 0x39
+	.global gTextL1_0585
+gTextL1_0585:
+	.incbin "baserom.gba", 0x3F5261, 0x32
+	.global gTextL1_0586
+gTextL1_0586:
+	.incbin "baserom.gba", 0x3F5293, 0x34
+	.global gTextL1_0587
+gTextL1_0587:
+	.incbin "baserom.gba", 0x3F52C7, 0x3B
+	.global gTextL1_0588
+gTextL1_0588:
+	.incbin "baserom.gba", 0x3F5302, 0x11
+	.global gTextL1_0589
+gTextL1_0589:
+	.incbin "baserom.gba", 0x3F5313, 0x18
+	.global gTextL1_0590
+gTextL1_0590:
+	.incbin "baserom.gba", 0x3F532B, 0x10
+	.global gTextL1_0591
+gTextL1_0591:
+	.incbin "baserom.gba", 0x3F533B, 0x11
+	.global gTextL1_0592
+gTextL1_0592:
+	.incbin "baserom.gba", 0x3F534C, 0x17
+	.global gTextL1_0593
+gTextL1_0593:
+	.incbin "baserom.gba", 0x3F5363, 0x57
+	.global gTextL1_0594
+gTextL1_0594:
+	.incbin "baserom.gba", 0x3F53BA, 0x51
+	.global gTextL1_0595
+gTextL1_0595:
+	.incbin "baserom.gba", 0x3F540B, 0x61
+	.global gTextL1_0596
+gTextL1_0596:
+	.incbin "baserom.gba", 0x3F546C, 0x1E
+	.global gTextL1_0597
+gTextL1_0597:
+	.incbin "baserom.gba", 0x3F548A, 0x4F
+	.global gTextL1_0598
+gTextL1_0598:
+	.incbin "baserom.gba", 0x3F54D9, 0x5F
+	.global gTextL1_0599
+gTextL1_0599:
+	.incbin "baserom.gba", 0x3F5538, 0x5A
+	.global gTextL1_0600
+gTextL1_0600:
+	.incbin "baserom.gba", 0x3F5592, 0x51
+	.global gTextL1_0601
+gTextL1_0601:
+	.incbin "baserom.gba", 0x3F55E3, 0x16
+	.global gTextL1_0602
+gTextL1_0602:
+	.incbin "baserom.gba", 0x3F55F9, 0x35
+	.global gTextL1_0603
+gTextL1_0603:
+	.incbin "baserom.gba", 0x3F562E, 0x2B
+	.global gTextL1_0604
+gTextL1_0604:
+	.incbin "baserom.gba", 0x3F5659, 0xC
+	.global gTextL1_0605
+gTextL1_0605:
+	.incbin "baserom.gba", 0x3F5665, 0xE
+	.global gTextL1_0606
+gTextL1_0606:
+	.incbin "baserom.gba", 0x3F5673, 0x1B
+	.global gTextL1_0607
+gTextL1_0607:
+	.incbin "baserom.gba", 0x3F568E, 0x49
+	.global gTextL1_0608
+gTextL1_0608:
+	.incbin "baserom.gba", 0x3F56D7, 0x48
+	.global gTextL1_0609
+gTextL1_0609:
+	.incbin "baserom.gba", 0x3F571F, 0x2E
+	.global gTextL1_0610
+gTextL1_0610:
+	.incbin "baserom.gba", 0x3F574D, 0x27
+	.global gTextL1_0611
+gTextL1_0611:
+	.incbin "baserom.gba", 0x3F5774, 0x3A
+	.global gTextL1_0612
+gTextL1_0612:
+	.incbin "baserom.gba", 0x3F57AE, 0x43
+	.global gTextL1_0613
+gTextL1_0613:
+	.incbin "baserom.gba", 0x3F57F1, 0x2D
+	.global gTextL1_0614
+gTextL1_0614:
+	.incbin "baserom.gba", 0x3F581E, 0x43
+	.global gTextL1_0615
+gTextL1_0615:
+	.incbin "baserom.gba", 0x3F5861, 0x1C
+	.global gTextL1_0616
+gTextL1_0616:
+	.incbin "baserom.gba", 0x3F587D, 0x52
+	.global gTextL1_0617
+gTextL1_0617:
+	.incbin "baserom.gba", 0x3F58CF, 0x2E
+	.global gTextL1_0618
+gTextL1_0618:
+	.incbin "baserom.gba", 0x3F58FD, 0x2A
+	.global gTextL1_0619
+gTextL1_0619:
+	.incbin "baserom.gba", 0x3F5927, 0x30
+	.global gTextL1_0620
+gTextL1_0620:
+	.incbin "baserom.gba", 0x3F5957, 0x79
+	.global gTextL1_0621
+gTextL1_0621:
+	.incbin "baserom.gba", 0x3F59D0, 0x86
+	.global gTextL1_0622
+gTextL1_0622:
+	.incbin "baserom.gba", 0x3F5A56, 0x14
+	.global gTextL1_0623
+gTextL1_0623:
+	.incbin "baserom.gba", 0x3F5A6A, 0x1E
+	.global gTextL1_0624
+gTextL1_0624:
+	.incbin "baserom.gba", 0x3F5A88, 0x1A
+	.global gTextL1_0625
+gTextL1_0625:
+	.incbin "baserom.gba", 0x3F5AA2, 0x25
+	.global gTextL1_0626
+gTextL1_0626:
+	.incbin "baserom.gba", 0x3F5AC7, 0x2E
+	.global gTextL1_0627
+gTextL1_0627:
+	.incbin "baserom.gba", 0x3F5AF5, 0x31
+	.global gTextL1_0628
+gTextL1_0628:
+	.incbin "baserom.gba", 0x3F5B26, 0x7F
+	.global gTextL1_0629
+gTextL1_0629:
+	.incbin "baserom.gba", 0x3F5BA5, 0x24
+	.global gTextL1_0630
+gTextL1_0630:
+	.incbin "baserom.gba", 0x3F5BC9, 0x28
+	.global gTextL1_0631
+gTextL1_0631:
+	.incbin "baserom.gba", 0x3F5BF1, 0x39
+	.global gTextL1_0632
+gTextL1_0632:
+	.incbin "baserom.gba", 0x3F5C2A, 0xC5
+	.global gTextL1_0633
+gTextL1_0633:
+	.incbin "baserom.gba", 0x3F5CEF, 0x57
+	.global gTextL1_0634
+gTextL1_0634:
+	.incbin "baserom.gba", 0x3F5D46, 0x48
+	.global gTextL1_0635
+gTextL1_0635:
+	.incbin "baserom.gba", 0x3F5D8E, 0x1C9
+	.global gTextL1_0636
+gTextL1_0636:
+	.incbin "baserom.gba", 0x3F5F57, 0x63
+	.global gTextL1_0637
+gTextL1_0637:
+	.incbin "baserom.gba", 0x3F5FBA, 0x33
+	.global gTextL1_0638
+gTextL1_0638:
+	.incbin "baserom.gba", 0x3F5FED, 0x18
+	.global gTextL1_0639
+gTextL1_0639:
+	.incbin "baserom.gba", 0x3F6005, 0x3F
+	.global gTextL1_0640
+gTextL1_0640:
+	.incbin "baserom.gba", 0x3F6044, 0x13
+	.global gTextL1_0641
+gTextL1_0641:
+	.incbin "baserom.gba", 0x3F6057, 0x12
+	.global gTextL1_0642
+gTextL1_0642:
+	.incbin "baserom.gba", 0x3F6069, 0x25
+	.global gTextL1_0643
+gTextL1_0643:
+	.incbin "baserom.gba", 0x3F608E, 0x26
+	.global gTextL1_0644
+gTextL1_0644:
+	.incbin "baserom.gba", 0x3F60B4, 0x30
+	.global gTextL1_0645
+gTextL1_0645:
+	.incbin "baserom.gba", 0x3F60E4, 0xF0
+	.global gTextL1_0646
+gTextL1_0646:
+	.incbin "baserom.gba", 0x3F61D4, 0x11B
+	.global gTextL1_0647
+gTextL1_0647:
+	.incbin "baserom.gba", 0x3F62EF, 0xED
+	.global gTextL1_0648
+gTextL1_0648:
+	.incbin "baserom.gba", 0x3F63DC, 0x44
+	.global gTextL1_0649
+gTextL1_0649:
+	.incbin "baserom.gba", 0x3F6420, 0x49
+	.global gTextL1_0650
+gTextL1_0650:
+	.incbin "baserom.gba", 0x3F6469, 0xDC
+	.global gTextL1_0651
+gTextL1_0651:
+	.incbin "baserom.gba", 0x3F6545, 0x126
+	.global gTextL1_0652
+gTextL1_0652:
+	.incbin "baserom.gba", 0x3F666B, 0x111
+	.global gTextL1_0653
+gTextL1_0653:
+	.incbin "baserom.gba", 0x3F677C, 0xC9
+	.global gTextL1_0654
+gTextL1_0654:
+	.incbin "baserom.gba", 0x3F6845, 0xC8
+	.global gTextL1_0655
+gTextL1_0655:
+	.incbin "baserom.gba", 0x3F690D, 0x2E
+	.global gTextL1_0656
+gTextL1_0656:
+	.incbin "baserom.gba", 0x3F693B, 0x1F
+	.global gTextL1_0657
+gTextL1_0657:
+	.incbin "baserom.gba", 0x3F695A, 0x5B
+	.global gTextL1_0658
+gTextL1_0658:
+	.incbin "baserom.gba", 0x3F69B5, 0x37
+	.global gTextL1_0659
+gTextL1_0659:
+	.incbin "baserom.gba", 0x3F69EC, 0x24
+	.global gTextL1_0660
+gTextL1_0660:
+	.incbin "baserom.gba", 0x3F6A10, 0x2F
+	.global gTextL1_0661
+gTextL1_0661:
+	.incbin "baserom.gba", 0x3F6A3F, 0x3F
+	.global gTextL1_0662
+gTextL1_0662:
+	.incbin "baserom.gba", 0x3F6A7E, 0x1C
+	.global gTextL1_0663
+gTextL1_0663:
+	.incbin "baserom.gba", 0x3F6A9A, 0x1C
+	.global gTextL1_0664
+gTextL1_0664:
+	.incbin "baserom.gba", 0x3F6AB6, 0x1C
+	.global gTextL1_0665
+gTextL1_0665:
+	.incbin "baserom.gba", 0x3F6AD2, 0x1C
+	.global gTextL1_0666
+gTextL1_0666:
+	.incbin "baserom.gba", 0x3F6AEE, 0x1C
+	.global gTextL1_0667
+gTextL1_0667:
+	.incbin "baserom.gba", 0x3F6B0A, 0x1C
+	.global gTextL1_0668
+gTextL1_0668:
+	.incbin "baserom.gba", 0x3F6B26, 0x1C
+	.global gTextL1_0669
+gTextL1_0669:
+	.incbin "baserom.gba", 0x3F6B42, 0x1C
+	.global gTextL1_0670
+gTextL1_0670:
+	.incbin "baserom.gba", 0x3F6B5E, 0x1C
+	.global gTextL1_0671
+gTextL1_0671:
+	.incbin "baserom.gba", 0x3F6B7A, 0x1D
+	.global gTextL1_0672
+gTextL1_0672:
+	.incbin "baserom.gba", 0x3F6B97, 0x18
+	.global gTextL1_0673
+gTextL1_0673:
+	.incbin "baserom.gba", 0x3F6BAF, 0x1CF
+	.global gTextL1_0674
+gTextL1_0674:
+	.incbin "baserom.gba", 0x3F6D7E, 0x13C
+	.global gTextL1_0675
+gTextL1_0675:
+	.incbin "baserom.gba", 0x3F6EBA, 0x1F
+	.global gTextL1_0676
+gTextL1_0676:
+	.incbin "baserom.gba", 0x3F6ED9, 0x70
+	.global gTextL1_0677
+gTextL1_0677:
+	.incbin "baserom.gba", 0x3F6F49, 0x25
+	.global gTextL1_0678
+gTextL1_0678:
+	.incbin "baserom.gba", 0x3F6F6E, 0xFC
+	.global gTextL1_0679
+gTextL1_0679:
+	.incbin "baserom.gba", 0x3F706A, 0x6D
+	.global gTextL1_0680
+gTextL1_0680:
+	.incbin "baserom.gba", 0x3F70D7, 0xA3
+	.global gTextL1_0681
+gTextL1_0681:
+	.incbin "baserom.gba", 0x3F717A, 0x13D
+	.global gTextL1_0682
+gTextL1_0682:
+	.incbin "baserom.gba", 0x3F72B7, 0x1D6
+	.global gTextL1_0683
+gTextL1_0683:
+	.incbin "baserom.gba", 0x3F748D, 0x15A
+	.global gTextL1_0684
+gTextL1_0684:
+	.incbin "baserom.gba", 0x3F75E7, 0x11F
+	.global gTextL1_0685
+gTextL1_0685:
+	.incbin "baserom.gba", 0x3F7706, 0xC5
+	.global gTextL1_0686
+gTextL1_0686:
+	.incbin "baserom.gba", 0x3F77CB, 0x28
+	.global gTextL1_0687
+gTextL1_0687:
+	.incbin "baserom.gba", 0x3F77F3, 0xD2
+	.global gTextL1_0688
+gTextL1_0688:
+	.incbin "baserom.gba", 0x3F78C5, 0x68
+	.global gTextL1_0689
+gTextL1_0689:
+	.incbin "baserom.gba", 0x3F792D, 0xAC
+	.global gTextL1_0690
+gTextL1_0690:
+	.incbin "baserom.gba", 0x3F79D9, 0x10B
+	.global gTextL1_0691
+gTextL1_0691:
+	.incbin "baserom.gba", 0x3F7AE4, 0x32E
+	.global gTextL1_0692
+gTextL1_0692:
+	.incbin "baserom.gba", 0x3F7E12, 0xBA
+	.global gTextL1_0693
+gTextL1_0693:
+	.incbin "baserom.gba", 0x3F7ECC, 0x9F
+	.global gTextL1_0694
+gTextL1_0694:
+	.incbin "baserom.gba", 0x3F7F6B, 0xD3
+	.global gTextL1_0695
+gTextL1_0695:
+	.incbin "baserom.gba", 0x3F803E, 0x27
+	.global gTextL1_0696
+gTextL1_0696:
+	.incbin "baserom.gba", 0x3F8065, 0xDF
+	.global gTextL1_0697
+gTextL1_0697:
+	.incbin "baserom.gba", 0x3F8144, 0x90
+	.global gTextL1_0698
+gTextL1_0698:
+	.incbin "baserom.gba", 0x3F81D4, 0xD1
+	.global gTextL1_0699
+gTextL1_0699:
+	.incbin "baserom.gba", 0x3F82A5, 0x16D
+	.global gTextL1_0700
+gTextL1_0700:
+	.incbin "baserom.gba", 0x3F8412, 0x2E1
+	.global gTextL1_0701
+gTextL1_0701:
+	.incbin "baserom.gba", 0x3F86F3, 0xD1
+	.global gTextL1_0702
+gTextL1_0702:
+	.incbin "baserom.gba", 0x3F87C4, 0x93
+	.global gTextL1_0703
+gTextL1_0703:
+	.incbin "baserom.gba", 0x3F8857, 0xFE
+	.global gTextL1_0704
+gTextL1_0704:
+	.incbin "baserom.gba", 0x3F8955, 0x27
+	.global gTextL1_0705
+gTextL1_0705:
+	.incbin "baserom.gba", 0x3F897C, 0xAB
+	.global gTextL1_0706
+gTextL1_0706:
+	.incbin "baserom.gba", 0x3F8A27, 0x6B
+	.global gTextL1_0707
+gTextL1_0707:
+	.incbin "baserom.gba", 0x3F8A92, 0x80
+	.global gTextL1_0708
+gTextL1_0708:
+	.incbin "baserom.gba", 0x3F8B12, 0xC1
+	.global gTextL1_0709
+gTextL1_0709:
+	.incbin "baserom.gba", 0x3F8BD3, 0x8
+	.global gTextL1_0710
+gTextL1_0710:
+	.incbin "baserom.gba", 0x3F8BDB, 0x8
+	.global gTextL1_0711
+gTextL1_0711:
+	.incbin "baserom.gba", 0x3F8BE3, 0x8
+	.global gTextL1_0712
+gTextL1_0712:
+	.incbin "baserom.gba", 0x3F8BEB, 0x8
+	.global gTextL1_0713
+gTextL1_0713:
+	.incbin "baserom.gba", 0x3F8BF3, 0x8
+	.global gTextL1_0714
+gTextL1_0714:
+	.incbin "baserom.gba", 0x3F8BFB, 0x8
+	.global gTextL1_0715
+gTextL1_0715:
+	.incbin "baserom.gba", 0x3F8C03, 0x8
+	.global gTextL1_0716
+gTextL1_0716:
+	.incbin "baserom.gba", 0x3F8C0B, 0x8
+	.global gTextL1_0717
+gTextL1_0717:
+	.incbin "baserom.gba", 0x3F8C13, 0x8
+	.global gTextL1_0718
+gTextL1_0718:
+	.incbin "baserom.gba", 0x3F8C1B, 0x8
+	.global gTextL1_0719
+gTextL1_0719:
+	.incbin "baserom.gba", 0x3F8C23, 0x8
+	.global gTextL1_0720
+gTextL1_0720:
+	.incbin "baserom.gba", 0x3F8C2B, 0x8
+	.global gTextL1_0721
+gTextL1_0721:
+	.incbin "baserom.gba", 0x3F8C33, 0x18
+	.global gTextL1_0722
+gTextL1_0722:
+	.incbin "baserom.gba", 0x3F8C4B, 0x18
+	.global gTextL1_0723
+gTextL1_0723:
+	.incbin "baserom.gba", 0x3F8C63, 0x8
+	.global gTextL1_0724
+gTextL1_0724:
+	.incbin "baserom.gba", 0x3F8C6B, 0x8
+	.global gTextL1_0725
+gTextL1_0725:
+	.incbin "baserom.gba", 0x3F8C73, 0x8
+	.global gTextL1_0726
+gTextL1_0726:
+	.incbin "baserom.gba", 0x3F8C7B, 0x8
+	.global gTextL1_0727
+gTextL1_0727:
+	.incbin "baserom.gba", 0x3F8C83, 0x8
+	.global gTextL1_0728
+gTextL1_0728:
+	.incbin "baserom.gba", 0x3F8C8B, 0x8
+	.global gTextL1_0729
+gTextL1_0729:
+	.incbin "baserom.gba", 0x3F8C93, 0x8
+	.global gTextL1_0730
+gTextL1_0730:
+	.incbin "baserom.gba", 0x3F8C9B, 0x8
+	.global gTextL1_0731
+gTextL1_0731:
+	.incbin "baserom.gba", 0x3F8CA3, 0x8
+	.global gTextL1_0732
+gTextL1_0732:
+	.incbin "baserom.gba", 0x3F8CAB, 0x8
+	.global gTextL1_0733
+gTextL1_0733:
+	.incbin "baserom.gba", 0x3F8CB3, 0x8
+	.global gTextL1_0734
+gTextL1_0734:
+	.incbin "baserom.gba", 0x3F8CBB, 0x8
+	.global gTextL1_0735
+gTextL1_0735:
+	.incbin "baserom.gba", 0x3F8CC3, 0x8
+	.global gTextL1_0736
+gTextL1_0736:
+	.incbin "baserom.gba", 0x3F8CCB, 0x8
+	.global gTextL1_0737
+gTextL1_0737:
+	.incbin "baserom.gba", 0x3F8CD3, 0x8
+	.global gTextL1_0738
+gTextL1_0738:
+	.incbin "baserom.gba", 0x3F8CDB, 0x8
+	.global gTextL1_0739
+gTextL1_0739:
+	.incbin "baserom.gba", 0x3F8CE3, 0x18
+	.global gTextL1_0740
+gTextL1_0740:
+	.incbin "baserom.gba", 0x3F8CFB, 0x18
+	.global gTextL1_0741
+gTextL1_0741:
+	.incbin "baserom.gba", 0x3F8D13, 0x1E
+	.global gTextL1_0742
+gTextL1_0742:
+	.incbin "baserom.gba", 0x3F8D31, 0x1E
+	.global gTextL1_0743
+gTextL1_0743:
+	.incbin "baserom.gba", 0x3F8D4F, 0x20
+	.global gTextL1_0744
+gTextL1_0744:
+	.incbin "baserom.gba", 0x3F8D6F, 0x20
+	.global gTextL1_0745
+gTextL1_0745:
+	.incbin "baserom.gba", 0x3F8D8F, 0x16
+	.global gTextL1_0746
+gTextL1_0746:
+	.incbin "baserom.gba", 0x3F8DA5, 0x16
+	.global gTextL1_0747
+gTextL1_0747:
+	.incbin "baserom.gba", 0x3F8DBB, 0x18
+	.global gTextL1_0748
+gTextL1_0748:
+	.incbin "baserom.gba", 0x3F8DD3, 0x17
+	.global gTextL1_0749
+gTextL1_0749:
+	.incbin "baserom.gba", 0x3F8DEA, 0xA
+	.global gTextL1_0750
+gTextL1_0750:
+	.incbin "baserom.gba", 0x3F8DF4, 0xE
+	.global gTextL1_0751
+gTextL1_0751:
+	.incbin "baserom.gba", 0x3F8E02, 0x1B
+	.global gTextL1_0752
+gTextL1_0752:
+	.incbin "baserom.gba", 0x3F8E1D, 0x1D
+	.global gTextL1_0753
+gTextL1_0753:
+	.incbin "baserom.gba", 0x3F8E3A, 0x13
+	.global gTextL1_0754
+gTextL1_0754:
+	.incbin "baserom.gba", 0x3F8E4D, 0x13
+	.global gTextL1_0755
+gTextL1_0755:
+	.incbin "baserom.gba", 0x3F8E60, 0x1B
+	.global gTextL1_0756
+gTextL1_0756:
+	.incbin "baserom.gba", 0x3F8E7B, 0x1B
+	.global gTextL1_0757
+gTextL1_0757:
+	.incbin "baserom.gba", 0x3F8E96, 0x1B
+	.global gTextL1_0758
+gTextL1_0758:
+	.incbin "baserom.gba", 0x3F8EB1, 0x1B
+	.global gTextL1_0759
+gTextL1_0759:
+	.incbin "baserom.gba", 0x3F8ECC, 0x20
+	.global gTextL1_0760
+gTextL1_0760:
+	.incbin "baserom.gba", 0x3F8EEC, 0x20
+	.global gTextL1_0761
+gTextL1_0761:
+	.incbin "baserom.gba", 0x3F8F0C, 0x20
+	.global gTextL1_0762
+gTextL1_0762:
+	.incbin "baserom.gba", 0x3F8F2C, 0x20
+	.global gTextL1_0763
+gTextL1_0763:
+	.incbin "baserom.gba", 0x3F8F4C, 0x1F
+	.global gTextL1_0764
+gTextL1_0764:
+	.incbin "baserom.gba", 0x3F8F6B, 0x1E
+	.global gTextL1_0765
+gTextL1_0765:
+	.incbin "baserom.gba", 0x3F8F89, 0x19
+	.global gTextL1_0766
+gTextL1_0766:
+	.incbin "baserom.gba", 0x3F8FA2, 0x19
+	.global gTextL1_0767
+gTextL1_0767:
+	.incbin "baserom.gba", 0x3F8FBB, 0x1A
+	.global gTextL1_0768
+gTextL1_0768:
+	.incbin "baserom.gba", 0x3F8FD5, 0x1A
+	.global gTextL1_0769
+gTextL1_0769:
+	.incbin "baserom.gba", 0x3F8FEF, 0xC
+	.global gTextL1_0770
+gTextL1_0770:
+	.incbin "baserom.gba", 0x3F8FFB, 0xC
+	.global gTextL1_0771
+gTextL1_0771:
+	.incbin "baserom.gba", 0x3F9007, 0x1F
+	.global gTextL1_0772
+gTextL1_0772:
+	.incbin "baserom.gba", 0x3F9026, 0x20
+	.global gTextL1_0773
+gTextL1_0773:
+	.incbin "baserom.gba", 0x3F9046, 0x1F
+	.global gTextL1_0774
+gTextL1_0774:
+	.incbin "baserom.gba", 0x3F9065, 0x1D
+	.global gTextL1_0775
+gTextL1_0775:
+	.incbin "baserom.gba", 0x3F9082, 0x20
+	.global gTextL1_0776
+gTextL1_0776:
+	.incbin "baserom.gba", 0x3F90A2, 0x20
+	.global gTextL1_0777
+gTextL1_0777:
+	.incbin "baserom.gba", 0x3F90C2, 0x19
+	.global gTextL1_0778
+gTextL1_0778:
+	.incbin "baserom.gba", 0x3F90DB, 0x19
+	.global gTextL1_0779
+gTextL1_0779:
+	.incbin "baserom.gba", 0x3F90F4, 0x18
+	.global gTextL1_0780
+gTextL1_0780:
+	.incbin "baserom.gba", 0x3F910C, 0x1F
+	.global gTextL1_0781
+gTextL1_0781:
+	.incbin "baserom.gba", 0x3F912B, 0x1B
+	.global gTextL1_0782
+gTextL1_0782:
+	.incbin "baserom.gba", 0x3F9146, 0x1B
+	.global gTextL1_0783
+gTextL1_0783:
+	.incbin "baserom.gba", 0x3F9161, 0x1E
+	.global gTextL1_0784
+gTextL1_0784:
+	.incbin "baserom.gba", 0x3F917F, 0x1E
+	.global gTextL1_0785
+gTextL1_0785:
+	.incbin "baserom.gba", 0x3F919D, 0x19
+	.global gTextL1_0786
+gTextL1_0786:
+	.incbin "baserom.gba", 0x3F91B6, 0x1D
+	.global gTextL1_0787
+gTextL1_0787:
+	.incbin "baserom.gba", 0x3F91D3, 0x20
+	.global gTextL1_0788
+gTextL1_0788:
+	.incbin "baserom.gba", 0x3F91F3, 0x1F
+	.global gTextL1_0789
+gTextL1_0789:
+	.incbin "baserom.gba", 0x3F9212, 0x14
+	.global gTextL1_0790
+gTextL1_0790:
+	.incbin "baserom.gba", 0x3F9226, 0x14
+	.global gTextL1_0791
+gTextL1_0791:
+	.incbin "baserom.gba", 0x3F923A, 0x14
+	.global gTextL1_0792
+gTextL1_0792:
+	.incbin "baserom.gba", 0x3F924E, 0x1B
+	.global gTextL1_0793
+gTextL1_0793:
+	.incbin "baserom.gba", 0x3F9269, 0x1E
+	.global gTextL1_0794
+gTextL1_0794:
+	.incbin "baserom.gba", 0x3F9287, 0x14
+	.global gTextL1_0795
+gTextL1_0795:
+	.incbin "baserom.gba", 0x3F929B, 0x15
+	.global gTextL1_0796
+gTextL1_0796:
+	.incbin "baserom.gba", 0x3F92B0, 0x15
+	.global gTextL1_0797
+gTextL1_0797:
+	.incbin "baserom.gba", 0x3F92C5, 0x15
+	.global gTextL1_0798
+gTextL1_0798:
+	.incbin "baserom.gba", 0x3F92DA, 0x19
+	.global gTextL1_0799
+gTextL1_0799:
+	.incbin "baserom.gba", 0x3F92F3, 0x19
+	.global gTextL1_0800
+gTextL1_0800:
+	.incbin "baserom.gba", 0x3F930C, 0x1D
+	.global gTextL1_0801
+gTextL1_0801:
+	.incbin "baserom.gba", 0x3F9329, 0x18
+	.global gTextL1_0802
+gTextL1_0802:
+	.incbin "baserom.gba", 0x3F9341, 0x18
+	.global gTextL1_0803
+gTextL1_0803:
+	.incbin "baserom.gba", 0x3F9359, 0x1D
+	.global gTextL1_0804
+gTextL1_0804:
+	.incbin "baserom.gba", 0x3F9376, 0x19
+	.global gTextL1_0805
+gTextL1_0805:
+	.incbin "baserom.gba", 0x3F938F, 0x1A
+	.global gTextL1_0806
+gTextL1_0806:
+	.incbin "baserom.gba", 0x3F93A9, 0x1A
+	.global gTextL1_0807
+gTextL1_0807:
+	.incbin "baserom.gba", 0x3F93C3, 0x19
+	.global gTextL1_0808
+gTextL1_0808:
+	.incbin "baserom.gba", 0x3F93DC, 0x6
+	.global gTextL1_0809
+gTextL1_0809:
+	.incbin "baserom.gba", 0x3F93E2, 0x6
+	.global gTextL1_0810
+gTextL1_0810:
+	.incbin "baserom.gba", 0x3F93E8, 0xF
+	.global gTextL1_0811
+gTextL1_0811:
+	.incbin "baserom.gba", 0x3F93F7, 0x18
+	.global gTextL1_0812
+gTextL1_0812:
+	.incbin "baserom.gba", 0x3F940F, 0x18
+	.global gTextL1_0813
+gTextL1_0813:
+	.incbin "baserom.gba", 0x3F9427, 0x19
+	.global gTextL1_0814
+gTextL1_0814:
+	.incbin "baserom.gba", 0x3F9440, 0x19
+	.global gTextL1_0815
+gTextL1_0815:
+	.incbin "baserom.gba", 0x3F9459, 0x19
+	.global gTextL1_0816
+gTextL1_0816:
+	.incbin "baserom.gba", 0x3F9472, 0x19
+	.global gTextL1_0817
+gTextL1_0817:
+	.incbin "baserom.gba", 0x3F948B, 0x18
+	.global gTextL1_0818
+gTextL1_0818:
+	.incbin "baserom.gba", 0x3F94A3, 0x18
+	.global gTextL1_0819
+gTextL1_0819:
+	.incbin "baserom.gba", 0x3F94BB, 0x19
+	.global gTextL1_0820
+gTextL1_0820:
+	.incbin "baserom.gba", 0x3F94D4, 0x19
+	.global gTextL1_0821
+gTextL1_0821:
+	.incbin "baserom.gba", 0x3F94ED, 0x1A
+	.global gTextL1_0822
+gTextL1_0822:
+	.incbin "baserom.gba", 0x3F9507, 0x1A
+	.global gTextL1_0823
+gTextL1_0823:
+	.incbin "baserom.gba", 0x3F9521, 0x16
+	.global gTextL1_0824
+gTextL1_0824:
+	.incbin "baserom.gba", 0x3F9537, 0x16
+	.global gTextL1_0825
+gTextL1_0825:
+	.incbin "baserom.gba", 0x3F954D, 0x1A
+	.global gTextL1_0826
+gTextL1_0826:
+	.incbin "baserom.gba", 0x3F9567, 0x1A
+	.global gTextL1_0827
+gTextL1_0827:
+	.incbin "baserom.gba", 0x3F9581, 0x12
+	.global gTextL1_0828
+gTextL1_0828:
+	.incbin "baserom.gba", 0x3F9593, 0x12
+	.global gTextL1_0829
+gTextL1_0829:
+	.incbin "baserom.gba", 0x3F95A5, 0x12
+	.global gTextL1_0830
+gTextL1_0830:
+	.incbin "baserom.gba", 0x3F95B7, 0x12
+	.global gTextL1_0831
+gTextL1_0831:
+	.incbin "baserom.gba", 0x3F95C9, 0x18
+	.global gTextL1_0832
+gTextL1_0832:
+	.incbin "baserom.gba", 0x3F95E1, 0x18
+	.global gTextL1_0833
+gTextL1_0833:
+	.incbin "baserom.gba", 0x3F95F9, 0x18
+	.global gTextL1_0834
+gTextL1_0834:
+	.incbin "baserom.gba", 0x3F9611, 0x18
+	.global gTextL1_0835
+gTextL1_0835:
+	.incbin "baserom.gba", 0x3F9629, 0x16
+	.global gTextL1_0836
+gTextL1_0836:
+	.incbin "baserom.gba", 0x3F963F, 0x16
+	.global gTextL1_0837
+gTextL1_0837:
+	.incbin "baserom.gba", 0x3F9655, 0x1A
+	.global gTextL1_0838
+gTextL1_0838:
+	.incbin "baserom.gba", 0x3F966F, 0x1A
+	.global gTextL1_0839
+gTextL1_0839:
+	.incbin "baserom.gba", 0x3F9689, 0x18
+	.global gTextL1_0840
+gTextL1_0840:
+	.incbin "baserom.gba", 0x3F96A1, 0x18
+	.global gTextL1_0841
+gTextL1_0841:
+	.incbin "baserom.gba", 0x3F96B9, 0x17
+	.global gTextL1_0842
+gTextL1_0842:
+	.incbin "baserom.gba", 0x3F96D0, 0x17
+	.global gTextL1_0843
+gTextL1_0843:
+	.incbin "baserom.gba", 0x3F96E7, 0x19
+	.global gTextL1_0844
+gTextL1_0844:
+	.incbin "baserom.gba", 0x3F9700, 0x19
+	.global gTextL1_0845
+gTextL1_0845:
+	.incbin "baserom.gba", 0x3F9719, 0x19
+	.global gTextL1_0846
+gTextL1_0846:
+	.incbin "baserom.gba", 0x3F9732, 0x19
+	.global gTextL1_0847
+gTextL1_0847:
+	.incbin "baserom.gba", 0x3F974B, 0x1A
+	.global gTextL1_0848
+gTextL1_0848:
+	.incbin "baserom.gba", 0x3F9765, 0x1A
+	.global gTextL1_0849
+gTextL1_0849:
+	.incbin "baserom.gba", 0x3F977F, 0x1A
+	.global gTextL1_0850
+gTextL1_0850:
+	.incbin "baserom.gba", 0x3F9799, 0x1A
+	.global gTextL1_0851
+gTextL1_0851:
+	.incbin "baserom.gba", 0x3F97B3, 0x1A
+	.global gTextL1_0852
+gTextL1_0852:
+	.incbin "baserom.gba", 0x3F97CD, 0x1A
+	.global gTextL1_0853
+gTextL1_0853:
+	.incbin "baserom.gba", 0x3F97E7, 0x15
+	.global gTextL1_0854
+gTextL1_0854:
+	.incbin "baserom.gba", 0x3F97FC, 0x14
+	.global gTextL1_0855
+gTextL1_0855:
+	.incbin "baserom.gba", 0x3F9810, 0x18
+	.global gTextL1_0856
+gTextL1_0856:
+	.incbin "baserom.gba", 0x3F9828, 0x18
+	.global gTextL1_0857
+gTextL1_0857:
+	.incbin "baserom.gba", 0x3F9840, 0x15
+	.global gTextL1_0858
+gTextL1_0858:
+	.incbin "baserom.gba", 0x3F9855, 0x15
+	.global gTextL1_0859
+gTextL1_0859:
+	.incbin "baserom.gba", 0x3F986A, 0x1A
+	.global gTextL1_0860
+gTextL1_0860:
+	.incbin "baserom.gba", 0x3F9884, 0x1A
+	.global gTextL1_0861
+gTextL1_0861:
+	.incbin "baserom.gba", 0x3F989E, 0x14
+	.global gTextL1_0862
+gTextL1_0862:
+	.incbin "baserom.gba", 0x3F98B2, 0x14
+	.global gTextL1_0863
+gTextL1_0863:
+	.incbin "baserom.gba", 0x3F98C6, 0x16
+	.global gTextL1_0864
+gTextL1_0864:
+	.incbin "baserom.gba", 0x3F98DC, 0x16
+	.global gTextL1_0865
+gTextL1_0865:
+	.incbin "baserom.gba", 0x3F98F2, 0x15
+	.global gTextL1_0866
+gTextL1_0866:
+	.incbin "baserom.gba", 0x3F9907, 0x15
+	.global gTextL1_0867
+gTextL1_0867:
+	.incbin "baserom.gba", 0x3F991C, 0x16
+	.global gTextL1_0868
+gTextL1_0868:
+	.incbin "baserom.gba", 0x3F9932, 0x16
+	.global gTextL1_0869
+gTextL1_0869:
+	.incbin "baserom.gba", 0x3F9948, 0x15
+	.global gTextL1_0870
+gTextL1_0870:
+	.incbin "baserom.gba", 0x3F995D, 0x17
+	.global gTextL1_0871
+gTextL1_0871:
+	.incbin "baserom.gba", 0x3F9974, 0x1E
+	.global gTextL1_0872
+gTextL1_0872:
+	.incbin "baserom.gba", 0x3F9992, 0x1F
+	.global gTextL1_0873
+gTextL1_0873:
+	.incbin "baserom.gba", 0x3F99B1, 0x1F
+	.global gTextL1_0874
+gTextL1_0874:
+	.incbin "baserom.gba", 0x3F99D0, 0x1C
+	.global gTextL1_0875
+gTextL1_0875:
+	.incbin "baserom.gba", 0x3F99EC, 0x1D
+	.global gTextL1_0876
+gTextL1_0876:
+	.incbin "baserom.gba", 0x3F9A09, 0x1E
+	.global gTextL1_0877
+gTextL1_0877:
+	.incbin "baserom.gba", 0x3F9A27, 0x20
+	.global gTextL1_0878
+gTextL1_0878:
+	.incbin "baserom.gba", 0x3F9A47, 0x19
+	.global gTextL1_0879
+gTextL1_0879:
+	.incbin "baserom.gba", 0x3F9A60, 0x1E
+	.global gTextL1_0880
+gTextL1_0880:
+	.incbin "baserom.gba", 0x3F9A7E, 0x31
+	.global gTextL1_0881
+gTextL1_0881:
+	.incbin "baserom.gba", 0x3F9AAF, 0x30
+	.global gTextL1_0882
+gTextL1_0882:
+	.incbin "baserom.gba", 0x3F9ADF, 0x11
+	.global gTextL1_0883
+gTextL1_0883:
+	.incbin "baserom.gba", 0x3F9AF0, 0x1B
+	.global gTextL1_0884
+gTextL1_0884:
+	.incbin "baserom.gba", 0x3F9B0B, 0x1F
+	.global gTextL1_0885
+gTextL1_0885:
+	.incbin "baserom.gba", 0x3F9B2A, 0x17
+	.global gTextL1_0886
+gTextL1_0886:
+	.incbin "baserom.gba", 0x3F9B41, 0x3A
+	.global gTextL1_0887
+gTextL1_0887:
+	.incbin "baserom.gba", 0x3F9B7B, 0x12
+	.global gTextL1_0888
+gTextL1_0888:
+	.incbin "baserom.gba", 0x3F9B8D, 0x19
+	.global gTextL1_0889
+gTextL1_0889:
+	.incbin "baserom.gba", 0x3F9BA6, 0xD
+	.global gTextL1_0890
+gTextL1_0890:
+	.incbin "baserom.gba", 0x3F9BB3, 0x20
+	.global gTextL1_0891
+gTextL1_0891:
+	.incbin "baserom.gba", 0x3F9BD3, 0x16
+	.global gTextL1_0892
+gTextL1_0892:
+	.incbin "baserom.gba", 0x3F9BE9, 0x1B
+	.global gTextL1_0893
+gTextL1_0893:
+	.incbin "baserom.gba", 0x3F9C04, 0x16
+	.global gTextL1_0894
+gTextL1_0894:
+	.incbin "baserom.gba", 0x3F9C1A, 0x1F
+	.global gTextL1_0895
+gTextL1_0895:
+	.incbin "baserom.gba", 0x3F9C39, 0x16
+	.global gTextL1_0896
+gTextL1_0896:
+	.incbin "baserom.gba", 0x3F9C4F, 0x1D
+	.global gTextL1_0897
+gTextL1_0897:
+	.incbin "baserom.gba", 0x3F9C6C, 0x30
+	.global gTextL1_0898
+gTextL1_0898:
+	.incbin "baserom.gba", 0x3F9C9C, 0x22
+	.global gTextL1_0899
+gTextL1_0899:
+	.incbin "baserom.gba", 0x3F9CBE, 0x31
+	.global gTextL1_0900
+gTextL1_0900:
+	.incbin "baserom.gba", 0x3F9CEF, 0x30
+	.global gTextL1_0901
+gTextL1_0901:
+	.incbin "baserom.gba", 0x3F9D1F, 0x37
+	.global gTextL1_0902
+gTextL1_0902:
+	.incbin "baserom.gba", 0x3F9D56, 0x17
+	.global gTextL1_0903
+gTextL1_0903:
+	.incbin "baserom.gba", 0x3F9D6D, 0x1A
+	.global gTextL1_0904
+gTextL1_0904:
+	.incbin "baserom.gba", 0x3F9D87, 0x1C
+	.global gTextL1_0905
+gTextL1_0905:
+	.incbin "baserom.gba", 0x3F9DA3, 0x1F
+	.global gTextL1_0906
+gTextL1_0906:
+	.incbin "baserom.gba", 0x3F9DC2, 0x22
+	.global gTextL1_0907
+gTextL1_0907:
+	.incbin "baserom.gba", 0x3F9DE4, 0x2E
+	.global gTextL1_0908
+gTextL1_0908:
+	.incbin "baserom.gba", 0x3F9E12, 0x28
+	.global gTextL1_0909
+gTextL1_0909:
+	.incbin "baserom.gba", 0x3F9E3A, 0x32
+	.global gTextL1_0910
+gTextL1_0910:
+	.incbin "baserom.gba", 0x3F9E6C, 0x35
+	.global gTextL1_0911
+gTextL1_0911:
+	.incbin "baserom.gba", 0x3F9EA1, 0x31
+	.global gTextL1_0912
+gTextL1_0912:
+	.incbin "baserom.gba", 0x3F9ED2, 0x2E
+	.global gTextL1_0913
+gTextL1_0913:
+	.incbin "baserom.gba", 0x3F9F00, 0x26
+	.global gTextL1_0914
+gTextL1_0914:
+	.incbin "baserom.gba", 0x3F9F26, 0x8
+	.global gTextL1_0915
+gTextL1_0915:
+	.incbin "baserom.gba", 0x3F9F2E, 0xA
+	.global gTextL1_0916
+gTextL1_0916:
+	.incbin "baserom.gba", 0x3F9F38, 0xB
+	.global gTextL1_0917
+gTextL1_0917:
+	.incbin "baserom.gba", 0x3F9F43, 0x11
+	.global gTextL1_0918
+gTextL1_0918:
+	.incbin "baserom.gba", 0x3F9F54, 0x1B
+	.global gTextL1_0919
+gTextL1_0919:
+	.incbin "baserom.gba", 0x3F9F6F, 0x1D
+	.global gTextL1_0920
+gTextL1_0920:
+	.incbin "baserom.gba", 0x3F9F8C, 0x12
+	.global gTextL1_0921
+gTextL1_0921:
+	.incbin "baserom.gba", 0x3F9F9E, 0x2B
+	.global gTextL1_0922
+gTextL1_0922:
+	.incbin "baserom.gba", 0x3F9FC9, 0x16
+	.global gTextL1_0923
+gTextL1_0923:
+	.incbin "baserom.gba", 0x3F9FDF, 0x13
+	.global gTextL1_0924
+gTextL1_0924:
+	.incbin "baserom.gba", 0x3F9FF2, 0x25
+	.global gTextL1_0925
+gTextL1_0925:
+	.incbin "baserom.gba", 0x3FA017, 0x28
+	.global gTextL1_0926
+gTextL1_0926:
+	.incbin "baserom.gba", 0x3FA03F, 0x37
+	.global gTextL1_0927
+gTextL1_0927:
+	.incbin "baserom.gba", 0x3FA076, 0x2D
+	.global gTextL1_0928
+gTextL1_0928:
+	.incbin "baserom.gba", 0x3FA0A3, 0x1E
+	.global gTextL1_0929
+gTextL1_0929:
+	.incbin "baserom.gba", 0x3FA0C1, 0x31
+	.global gTextL1_0930
+gTextL1_0930:
+	.incbin "baserom.gba", 0x3FA0F2, 0x21
+	.global gTextL1_0931
+gTextL1_0931:
+	.incbin "baserom.gba", 0x3FA113, 0x35
+	.global gTextL1_0932
+gTextL1_0932:
+	.incbin "baserom.gba", 0x3FA148, 0x30
+	.global gTextL1_0933
+gTextL1_0933:
+	.incbin "baserom.gba", 0x3FA178, 0x39
+	.global gTextL1_0934
+gTextL1_0934:
+	.incbin "baserom.gba", 0x3FA1B1, 0x24
+	.global gTextL1_0935
+gTextL1_0935:
+	.incbin "baserom.gba", 0x3FA1D5, 0x38
+	.global gTextL1_0936
+gTextL1_0936:
+	.incbin "baserom.gba", 0x3FA20D, 0x22
+	.global gTextL1_0937
+gTextL1_0937:
+	.incbin "baserom.gba", 0x3FA22F, 0x2D
+	.global gTextL1_0938
+gTextL1_0938:
+	.incbin "baserom.gba", 0x3FA25C, 0x30
+	.global gTextL1_0939
+gTextL1_0939:
+	.incbin "baserom.gba", 0x3FA28C, 0x2C
+	.global gTextL1_0940
+gTextL1_0940:
+	.incbin "baserom.gba", 0x3FA2B8, 0x37
+	.global gTextL1_0941
+gTextL1_0941:
+	.incbin "baserom.gba", 0x3FA2EF, 0x32
+	.global gTextL1_0942
+gTextL1_0942:
+	.incbin "baserom.gba", 0x3FA321, 0x33
+	.global gTextL1_0943
+gTextL1_0943:
+	.incbin "baserom.gba", 0x3FA354, 0x32
+	.global gTextL1_0944
+gTextL1_0944:
+	.incbin "baserom.gba", 0x3FA386, 0x37
+	.global gTextL1_0945
+gTextL1_0945:
+	.incbin "baserom.gba", 0x3FA3BD, 0x2A
+	.global gTextL1_0946
+gTextL1_0946:
+	.incbin "baserom.gba", 0x3FA3E7, 0x1F
+	.global gTextL1_0947
+gTextL1_0947:
+	.incbin "baserom.gba", 0x3FA406, 0x13
+	.global gTextL1_0948
+gTextL1_0948:
+	.incbin "baserom.gba", 0x3FA419, 0x31
+	.global gTextL1_0949
+gTextL1_0949:
+	.incbin "baserom.gba", 0x3FA44A, 0x1F
+	.global gTextL1_0950
+gTextL1_0950:
+	.incbin "baserom.gba", 0x3FA469, 0x1E
+	.global gTextL1_0951
+gTextL1_0951:
+	.incbin "baserom.gba", 0x3FA487, 0x11
+	.global gTextL1_0952
+gTextL1_0952:
+	.incbin "baserom.gba", 0x3FA498, 0x38
+	.global gTextL1_0953
+gTextL1_0953:
+	.incbin "baserom.gba", 0x3FA4D0, 0x1E
+	.global gTextL1_0954
+gTextL1_0954:
+	.incbin "baserom.gba", 0x3FA4EE, 0x1C
+	.global gTextL1_0955
+gTextL1_0955:
+	.incbin "baserom.gba", 0x3FA50A, 0x1D
+	.global gTextL1_0956
+gTextL1_0956:
+	.incbin "baserom.gba", 0x3FA527, 0x37
+	.global gTextL1_0957
+gTextL1_0957:
+	.incbin "baserom.gba", 0x3FA55E, 0x15
+	.global gTextL1_0958
+gTextL1_0958:
+	.incbin "baserom.gba", 0x3FA573, 0x2C
+	.global gTextL1_0959
+gTextL1_0959:
+	.incbin "baserom.gba", 0x3FA59F, 0x28
+	.global gTextL1_0960
+gTextL1_0960:
+	.incbin "baserom.gba", 0x3FA5C7, 0x30
+	.global gTextL1_0961
+gTextL1_0961:
+	.incbin "baserom.gba", 0x3FA5F7, 0x37
+	.global gTextL1_0962
+gTextL1_0962:
+	.incbin "baserom.gba", 0x3FA62E, 0x3B
+	.global gTextL1_0963
+gTextL1_0963:
+	.incbin "baserom.gba", 0x3FA669, 0x33
+	.global gTextL1_0964
+gTextL1_0964:
+	.incbin "baserom.gba", 0x3FA69C, 0x38
+	.global gTextL1_0965
+gTextL1_0965:
+	.incbin "baserom.gba", 0x3FA6D4, 0x36
+	.global gTextL1_0966
+gTextL1_0966:
+	.incbin "baserom.gba", 0x3FA70A, 0x18
+	.global gTextL1_0967
+gTextL1_0967:
+	.incbin "baserom.gba", 0x3FA722, 0x2D
+	.global gTextL1_0968
+gTextL1_0968:
+	.incbin "baserom.gba", 0x3FA74F, 0xE
+	.global gTextL1_0969
+gTextL1_0969:
+	.incbin "baserom.gba", 0x3FA75D, 0x14
+	.global gTextL1_0970
+gTextL1_0970:
+	.incbin "baserom.gba", 0x3FA771, 0x1F
+	.global gTextL1_0971
+gTextL1_0971:
+	.incbin "baserom.gba", 0x3FA790, 0x16
+	.global gTextL1_0972
+gTextL1_0972:
+	.incbin "baserom.gba", 0x3FA7A6, 0x12
+	.global gTextL1_0973
+gTextL1_0973:
+	.incbin "baserom.gba", 0x3FA7B8, 0x13
+	.global gTextL1_0974
+gTextL1_0974:
+	.incbin "baserom.gba", 0x3FA7CB, 0x14
+	.global gTextL1_0975
+gTextL1_0975:
+	.incbin "baserom.gba", 0x3FA7DF, 0x12
+	.global gTextL1_0976
+gTextL1_0976:
+	.incbin "baserom.gba", 0x3FA7F1, 0x12
+	.global gTextL1_0977
+gTextL1_0977:
+	.incbin "baserom.gba", 0x3FA803, 0x15
+	.global gTextL1_0978
+gTextL1_0978:
+	.incbin "baserom.gba", 0x3FA818, 0x19
+	.global gTextL1_0979
+gTextL1_0979:
+	.incbin "baserom.gba", 0x3FA831, 0x23
+	.global gTextL1_0980
+gTextL1_0980:
+	.incbin "baserom.gba", 0x3FA854, 0x17
+	.global gTextL1_0981
+gTextL1_0981:
+	.incbin "baserom.gba", 0x3FA86B, 0x21
+	.global gTextL1_0982
+gTextL1_0982:
+	.incbin "baserom.gba", 0x3FA88C, 0x157
+	.global gTextL1_0983
+gTextL1_0983:
+	.incbin "baserom.gba", 0x3FA9E3, 0x1AD
+	.global gTextL1_0984
+gTextL1_0984:
+	.incbin "baserom.gba", 0x3FAB90, 0x1A
+	.global gTextL1_0985
+gTextL1_0985:
+	.incbin "baserom.gba", 0x3FABAA, 0x19
+	.global gTextL1_0986
+gTextL1_0986:
+	.incbin "baserom.gba", 0x3FABC3, 0x30
+	.global gTextL1_0987
+gTextL1_0987:
+	.incbin "baserom.gba", 0x3FABF3, 0xB
+	.global gTextL1_0988
+gTextL1_0988:
+	.incbin "baserom.gba", 0x3FABFE, 0xB
+	.global gTextL1_0989
+gTextL1_0989:
+	.incbin "baserom.gba", 0x3FAC09, 0x9
+	.global gTextL1_0990
+gTextL1_0990:
+	.incbin "baserom.gba", 0x3FAC12, 0xD
+	.global gTextL1_0991
+gTextL1_0991:
+	.incbin "baserom.gba", 0x3FAC1F, 0x10
+	.global gTextL1_0992
+gTextL1_0992:
+	.incbin "baserom.gba", 0x3FAC2F, 0xC
+	.global gTextL1_0993
+gTextL1_0993:
+	.incbin "baserom.gba", 0x3FAC3B, 0x15
+	.global gTextL1_0994
+gTextL1_0994:
+	.incbin "baserom.gba", 0x3FAC50, 0x19
+	.global gTextL1_0995
+gTextL1_0995:
+	.incbin "baserom.gba", 0x3FAC69, 0x1B
+	.global gTextL1_0996
+gTextL1_0996:
+	.incbin "baserom.gba", 0x3FAC84, 0x1E
+	.global gTextL1_0997
+gTextL1_0997:
+	.incbin "baserom.gba", 0x3FACA2, 0x1D
+	.global gTextL1_0998
+gTextL1_0998:
+	.incbin "baserom.gba", 0x3FACBF, 0x1A
+	.global gTextL1_0999
+gTextL1_0999:
+	.incbin "baserom.gba", 0x3FACD9, 0x1C
+	.global gTextL1_1000
+gTextL1_1000:
+	.incbin "baserom.gba", 0x3FACF5, 0x20
+	.global gTextL1_1001
+gTextL1_1001:
+	.incbin "baserom.gba", 0x3FAD15, 0x1E
+	.global gTextL1_1002
+gTextL1_1002:
+	.incbin "baserom.gba", 0x3FAD33, 0x20
+	.global gTextL1_1003
+gTextL1_1003:
+	.incbin "baserom.gba", 0x3FAD53, 0xE
+	.global gTextL1_1004
+gTextL1_1004:
+	.incbin "baserom.gba", 0x3FAD61, 0x17
+	.global gTextL1_1005
+gTextL1_1005:
+	.incbin "baserom.gba", 0x3FAD78, 0x1F
+	.global gTextL1_1006
+gTextL1_1006:
+	.incbin "baserom.gba", 0x3FAD97, 0x20
+	.global gTextL1_1007
+gTextL1_1007:
+	.incbin "baserom.gba", 0x3FADB7, 0x20
+	.global gTextL1_1008
+gTextL1_1008:
+	.incbin "baserom.gba", 0x3FADD7, 0x1F
+	.global gTextL1_1009
+gTextL1_1009:
+	.incbin "baserom.gba", 0x3FADF6, 0x1F
+	.global gTextL1_1010
+gTextL1_1010:
+	.incbin "baserom.gba", 0x3FAE15, 0x1E
+	.global gTextL1_1011
+gTextL1_1011:
+	.incbin "baserom.gba", 0x3FAE33, 0x1C
+	.global gTextL1_1012
+gTextL1_1012:
+	.incbin "baserom.gba", 0x3FAE4F, 0x11
+	.global gTextL1_1013
+gTextL1_1013:
+	.incbin "baserom.gba", 0x3FAE60, 0x20
+	.global gTextL1_1014
+gTextL1_1014:
+	.incbin "baserom.gba", 0x3FAE80, 0x19
+	.global gTextL1_1015
+gTextL1_1015:
+	.incbin "baserom.gba", 0x3FAE99, 0x1B
+	.global gTextL1_1016
+gTextL1_1016:
+	.incbin "baserom.gba", 0x3FAEB4, 0x1D
+	.global gTextL1_1017
+gTextL1_1017:
+	.incbin "baserom.gba", 0x3FAED1, 0x1D
+	.global gTextL1_1018
+gTextL1_1018:
+	.incbin "baserom.gba", 0x3FAEEE, 0x1B
+	.global gTextL1_1019
+gTextL1_1019:
+	.incbin "baserom.gba", 0x3FAF09, 0x1C
+	.global gTextL1_1020
+gTextL1_1020:
+	.incbin "baserom.gba", 0x3FAF25, 0x1F
+	.global gTextL1_1021
+gTextL1_1021:
+	.incbin "baserom.gba", 0x3FAF44, 0x20
+	.global gTextL1_1022
+gTextL1_1022:
+	.incbin "baserom.gba", 0x3FAF64, 0x20
+	.global gTextL1_1023
+gTextL1_1023:
+	.incbin "baserom.gba", 0x3FAF84, 0x1F
+	.global gTextL1_1024
+gTextL1_1024:
+	.incbin "baserom.gba", 0x3FAFA3, 0x1D
+	.global gTextL1_1025
+gTextL1_1025:
+	.incbin "baserom.gba", 0x3FAFC0, 0x1F
+	.global gTextL1_1026
+gTextL1_1026:
+	.incbin "baserom.gba", 0x3FAFDF, 0x1F
+	.global gTextL1_1027
+gTextL1_1027:
+	.incbin "baserom.gba", 0x3FAFFE, 0x1F
+	.global gTextL1_1028
+gTextL1_1028:
+	.incbin "baserom.gba", 0x3FB01D, 0x1C
+	.global gTextL1_1029
+gTextL1_1029:
+	.incbin "baserom.gba", 0x3FB039, 0x20
+	.global gTextL1_1030
+gTextL1_1030:
+	.incbin "baserom.gba", 0x3FB059, 0x20
+	.global gTextL1_1031
+gTextL1_1031:
+	.incbin "baserom.gba", 0x3FB079, 0x1F
+	.global gTextL1_1032
+gTextL1_1032:
+	.incbin "baserom.gba", 0x3FB098, 0x1F
+	.global gTextL1_1033
+gTextL1_1033:
+	.incbin "baserom.gba", 0x3FB0B7, 0x1E
+	.global gTextL1_1034
+gTextL1_1034:
+	.incbin "baserom.gba", 0x3FB0D5, 0x1F
+	.global gTextL1_1035
+gTextL1_1035:
+	.incbin "baserom.gba", 0x3FB0F4, 0x1D
+	.global gTextL1_1036
+gTextL1_1036:
+	.incbin "baserom.gba", 0x3FB111, 0x19
+	.global gTextL1_1037
+gTextL1_1037:
+	.incbin "baserom.gba", 0x3FB12A, 0x20
+	.global gTextL1_1038
+gTextL1_1038:
+	.incbin "baserom.gba", 0x3FB14A, 0x20
+	.global gTextL1_1039
+gTextL1_1039:
+	.incbin "baserom.gba", 0x3FB16A, 0x13
+	.global gTextL1_1040
+gTextL1_1040:
+	.incbin "baserom.gba", 0x3FB17D, 0x1C
+	.global gTextL1_1041
+gTextL1_1041:
+	.incbin "baserom.gba", 0x3FB199, 0x1F
+	.global gTextL1_1042
+gTextL1_1042:
+	.incbin "baserom.gba", 0x3FB1B8, 0x1E
+	.global gTextL1_1043
+gTextL1_1043:
+	.incbin "baserom.gba", 0x3FB1D6, 0x1E
+	.global gTextL1_1044
+gTextL1_1044:
+	.incbin "baserom.gba", 0x3FB1F4, 0x1F
+	.global gTextL1_1045
+gTextL1_1045:
+	.incbin "baserom.gba", 0x3FB213, 0x1F
+	.global gTextL1_1046
+gTextL1_1046:
+	.incbin "baserom.gba", 0x3FB232, 0x1F
+	.global gTextL1_1047
+gTextL1_1047:
+	.incbin "baserom.gba", 0x3FB251, 0x1D
+	.global gTextL1_1048
+gTextL1_1048:
+	.incbin "baserom.gba", 0x3FB26E, 0x1F
+	.global gTextL1_1049
+gTextL1_1049:
+	.incbin "baserom.gba", 0x3FB28D, 0x1F
+	.global gTextL1_1050
+gTextL1_1050:
+	.incbin "baserom.gba", 0x3FB2AC, 0x1F
+	.global gTextL1_1051
+gTextL1_1051:
+	.incbin "baserom.gba", 0x3FB2CB, 0x17
+	.global gTextL1_1052
+gTextL1_1052:
+	.incbin "baserom.gba", 0x3FB2E2, 0x1C
+	.global gTextL1_1053
+gTextL1_1053:
+	.incbin "baserom.gba", 0x3FB2FE, 0x20
+	.global gTextL1_1054
+gTextL1_1054:
+	.incbin "baserom.gba", 0x3FB31E, 0x1A
+	.global gTextL1_1055
+gTextL1_1055:
+	.incbin "baserom.gba", 0x3FB338, 0x1E
+	.global gTextL1_1056
+gTextL1_1056:
+	.incbin "baserom.gba", 0x3FB356, 0x19
+	.global gTextL1_1057
+gTextL1_1057:
+	.incbin "baserom.gba", 0x3FB36F, 0x20
+	.global gTextL1_1058
+gTextL1_1058:
+	.incbin "baserom.gba", 0x3FB38F, 0x1B
+	.global gTextL1_1059
+gTextL1_1059:
+	.incbin "baserom.gba", 0x3FB3AA, 0x15
+	.global gTextL1_1060
+gTextL1_1060:
+	.incbin "baserom.gba", 0x3FB3BF, 0x1F
+	.global gTextL1_1061
+gTextL1_1061:
+	.incbin "baserom.gba", 0x3FB3DE, 0x1F
+	.global gTextL1_1062
+gTextL1_1062:
+	.incbin "baserom.gba", 0x3FB3FD, 0x1F
+	.global gTextL1_1063
+gTextL1_1063:
+	.incbin "baserom.gba", 0x3FB41C, 0x1F
+	.global gTextL1_1064
+gTextL1_1064:
+	.incbin "baserom.gba", 0x3FB43B, 0x18
+	.global gTextL1_1065
+gTextL1_1065:
+	.incbin "baserom.gba", 0x3FB453, 0x1E
+	.global gTextL1_1066
+gTextL1_1066:
+	.incbin "baserom.gba", 0x3FB471, 0x1E
+	.global gTextL1_1067
+gTextL1_1067:
+	.incbin "baserom.gba", 0x3FB48F, 0x1F
+	.global gTextL1_1068
+gTextL1_1068:
+	.incbin "baserom.gba", 0x3FB4AE, 0x1E
+	.global gTextL1_1069
+gTextL1_1069:
+	.incbin "baserom.gba", 0x3FB4CC, 0x14
+	.global gTextL1_1070
+gTextL1_1070:
+	.incbin "baserom.gba", 0x3FB4E0, 0xE
+	.global gTextL1_1071
+gTextL1_1071:
+	.incbin "baserom.gba", 0x3FB4EE, 0xC
+	.global gTextL1_1072
+gTextL1_1072:
+	.incbin "baserom.gba", 0x3FB4FA, 0x39
+	.global gTextL1_1073
+gTextL1_1073:
+	.incbin "baserom.gba", 0x3FB533, 0xB
+	.global gTextL1_1074
+gTextL1_1074:
+	.incbin "baserom.gba", 0x3FB53E, 0x40
+	.global gTextL1_1075
+gTextL1_1075:
+	.incbin "baserom.gba", 0x3FB57E, 0xA
+	.global gTextL1_1076
+gTextL1_1076:
+	.incbin "baserom.gba", 0x3FB588, 0x44
+	.global gTextL1_1077
+gTextL1_1077:
+	.incbin "baserom.gba", 0x3FB5CC, 0xE
+	.global gTextL1_1078
+gTextL1_1078:
+	.incbin "baserom.gba", 0x3FB5DA, 0x29
+	.global gTextL1_1079
+gTextL1_1079:
+	.incbin "baserom.gba", 0x3FB603, 0xA
+	.global gTextL1_1080
+gTextL1_1080:
+	.incbin "baserom.gba", 0x3FB60D, 0x3F
+	.global gTextL1_1081
+gTextL1_1081:
+	.incbin "baserom.gba", 0x3FB64C, 0xD
+	.global gTextL1_1082
+gTextL1_1082:
+	.incbin "baserom.gba", 0x3FB659, 0x3D
+	.global gTextL1_1083
+gTextL1_1083:
+	.incbin "baserom.gba", 0x3FB696, 0x12
+	.global gTextL1_1084
+gTextL1_1084:
+	.incbin "baserom.gba", 0x3FB6A8, 0x3F
+	.global gTextL1_1085
+gTextL1_1085:
+	.incbin "baserom.gba", 0x3FB6E7, 0x9
+	.global gTextL1_1086
+gTextL1_1086:
+	.incbin "baserom.gba", 0x3FB6F0, 0x3F
+	.global gTextL1_1087
+gTextL1_1087:
+	.incbin "baserom.gba", 0x3FB72F, 0x12
+	.global gTextL1_1088
+gTextL1_1088:
+	.incbin "baserom.gba", 0x3FB741, 0x47
+	.global gTextL1_1089
+gTextL1_1089:
+	.incbin "baserom.gba", 0x3FB788, 0x1D
+	.global gTextL1_1090
+gTextL1_1090:
+	.incbin "baserom.gba", 0x3FB7A5, 0x1B
+	.global gTextL1_1091
+gTextL1_1091:
+	.incbin "baserom.gba", 0x3FB7C0, 0x18
+	.global gTextL1_1092
+gTextL1_1092:
+	.incbin "baserom.gba", 0x3FB7D8, 0x1B
+	.global gTextL1_1093
+gTextL1_1093:
+	.incbin "baserom.gba", 0x3FB7F3, 0x20
+	.global gTextL1_1094
+gTextL1_1094:
+	.incbin "baserom.gba", 0x3FB813, 0x1A
+	.global gTextL1_1095
+gTextL1_1095:
+	.incbin "baserom.gba", 0x3FB82D, 0x13
+	.global gTextL1_1096
+gTextL1_1096:
+	.incbin "baserom.gba", 0x3FB840, 0x15
+	.global gTextL1_1097
+gTextL1_1097:
+	.incbin "baserom.gba", 0x3FB855, 0x13
+	.global gTextL1_1098
+gTextL1_1098:
+	.incbin "baserom.gba", 0x3FB868, 0x1E
+	.global gTextL1_1099
+gTextL1_1099:
+	.incbin "baserom.gba", 0x3FB886, 0xF
+	.global gTextL1_1100
+gTextL1_1100:
+	.incbin "baserom.gba", 0x3FB895, 0xF
+	.global gTextL1_1101
+gTextL1_1101:
+	.incbin "baserom.gba", 0x3FB8A4, 0x2D
+	.global gTextL1_1102
+gTextL1_1102:
+	.incbin "baserom.gba", 0x3FB8D1, 0x19
+	.global gTextL1_1103
+gTextL1_1103:
+	.incbin "baserom.gba", 0x3FB8EA, 0x30
+	.global gTextL1_1104
+gTextL1_1104:
+	.incbin "baserom.gba", 0x3FB91A, 0x20
+	.global gTextL1_1105
+gTextL1_1105:
+	.incbin "baserom.gba", 0x3FB93A, 0x101
+	.global gTextL1_1106
+gTextL1_1106:
+	.incbin "baserom.gba", 0x3FBA3B, 0xA9
+	.global gTextL1_1107
+gTextL1_1107:
+	.incbin "baserom.gba", 0x3FBAE4, 0x11D
+	.global gTextL1_1108
+gTextL1_1108:
+	.incbin "baserom.gba", 0x3FBC01, 0x8
+	.global gTextL1_1109
+gTextL1_1109:
+	.incbin "baserom.gba", 0x3FBC09, 0x9
+	.global gTextL1_1110
+gTextL1_1110:
+	.incbin "baserom.gba", 0x3FBC12, 0x9
+	.global gTextL1_1111
+gTextL1_1111:
+	.incbin "baserom.gba", 0x3FBC1B, 0xA
+	.global gTextL1_1112
+gTextL1_1112:
+	.incbin "baserom.gba", 0x3FBC25, 0x9
+	.global gTextL1_1113
+gTextL1_1113:
+	.incbin "baserom.gba", 0x3FBC2E, 0x9
+	.global gTextL1_1114
+gTextL1_1114:
+	.incbin "baserom.gba", 0x3FBC37, 0xA
+	.global gTextL1_1115
+gTextL1_1115:
+	.incbin "baserom.gba", 0x3FBC41, 0xA
+	.global gTextL1_1116
+gTextL1_1116:
+	.incbin "baserom.gba", 0x3FBC4B, 0x7
+	.global gTextL1_1117
+gTextL1_1117:
+	.incbin "baserom.gba", 0x3FBC52, 0x21
+	.global gTextL1_1118
+gTextL1_1118:
+	.incbin "baserom.gba", 0x3FBC73, 0x2A
+	.global gTextL1_1119
+gTextL1_1119:
+	.incbin "baserom.gba", 0x3FBC9D, 0x36
+	.global gTextL1_1120
+gTextL1_1120:
+	.incbin "baserom.gba", 0x3FBCD3, 0x6D
+	.global gTextL1_1121
+gTextL1_1121:
+	.incbin "baserom.gba", 0x3FBD40, 0x59
+	.global gTextL1_1122
+gTextL1_1122:
+	.incbin "baserom.gba", 0x3FBD99, 0x64
+	.global gTextL1_1123
+gTextL1_1123:
+	.incbin "baserom.gba", 0x3FBDFD, 0x51
+	.global gTextL1_1124
+gTextL1_1124:
+	.incbin "baserom.gba", 0x3FBE4E, 0x35
+	.global gTextL1_1125
+gTextL1_1125:
+	.incbin "baserom.gba", 0x3FBE83, 0x2C
+	.global gTextL1_1126
+gTextL1_1126:
+	.incbin "baserom.gba", 0x3FBEAF, 0x5C
+	.global gTextL1_1127
+gTextL1_1127:
+	.incbin "baserom.gba", 0x3FBF0B, 0x2E
+	.global gTextL1_1128
+gTextL1_1128:
+	.incbin "baserom.gba", 0x3FBF39, 0x30
+	.global gTextL1_1129
+gTextL1_1129:
+	.incbin "baserom.gba", 0x3FBF69, 0x5C
+	.global gTextL1_1130
+gTextL1_1130:
+	.incbin "baserom.gba", 0x3FBFC5, 0x9
+	.global gTextL1_1131
+gTextL1_1131:
+	.incbin "baserom.gba", 0x3FBFCE, 0x60
+	.global gTextL1_1132
+gTextL1_1132:
+	.incbin "baserom.gba", 0x3FC02E, 0x53
+	.global gTextL1_1133
+gTextL1_1133:
+	.incbin "baserom.gba", 0x3FC081, 0x58
+	.global gTextL1_1134
+gTextL1_1134:
+	.incbin "baserom.gba", 0x3FC0D9, 0x39
+	.global gTextL1_1135
+gTextL1_1135:
+	.incbin "baserom.gba", 0x3FC112, 0x35
+	.global gTextL1_1136
+gTextL1_1136:
+	.incbin "baserom.gba", 0x3FC147, 0x1C
+	.global gTextL1_1137
+gTextL1_1137:
+	.incbin "baserom.gba", 0x3FC163, 0x41
+	.global gTextL1_1138
+gTextL1_1138:
+	.incbin "baserom.gba", 0x3FC1A4, 0x2B
+	.global gTextL1_1139
+gTextL1_1139:
+	.incbin "baserom.gba", 0x3FC1CF, 0x34
+	.global gTextL1_1140
+gTextL1_1140:
+	.incbin "baserom.gba", 0x3FC203, 0x68
+	.global gTextL1_1141
+gTextL1_1141:
+	.incbin "baserom.gba", 0x3FC26B, 0x2D
+	.global gTextL1_1142
+gTextL1_1142:
+	.incbin "baserom.gba", 0x3FC298, 0x69
+	.global gTextL1_1143
+gTextL1_1143:
+	.incbin "baserom.gba", 0x3FC301, 0x63
+	.global gTextL1_1144
+gTextL1_1144:
+	.incbin "baserom.gba", 0x3FC364, 0x5A
+	.global gTextL1_1145
+gTextL1_1145:
+	.incbin "baserom.gba", 0x3FC3BE, 0x24
+	.global gTextL1_1146
+gTextL1_1146:
+	.incbin "baserom.gba", 0x3FC3E2, 0x24
+	.global gTextL1_1147
+gTextL1_1147:
+	.incbin "baserom.gba", 0x3FC406, 0x3E
+	.global gTextL1_1148
+gTextL1_1148:
+	.incbin "baserom.gba", 0x3FC444, 0x17
+	.global gTextL1_1149
+gTextL1_1149:
+	.incbin "baserom.gba", 0x3FC45B, 0x1B
+	.global gTextL1_1150
+gTextL1_1150:
+	.incbin "baserom.gba", 0x3FC476, 0x43
+	.global gTextL1_1151
+gTextL1_1151:
+	.incbin "baserom.gba", 0x3FC4B9, 0x15C
+	.global gTextL1_1152
+gTextL1_1152:
+	.incbin "baserom.gba", 0x3FC615, 0xF7
+	.global gTextL1_1153
+gTextL1_1153:
+	.incbin "baserom.gba", 0x3FC70C, 0xE6
+	.global gTextL1_1154
+gTextL1_1154:
+	.incbin "baserom.gba", 0x3FC7F2, 0x4B
+	.global gTextL1_1155
+gTextL1_1155:
+	.incbin "baserom.gba", 0x3FC83D, 0x8
+	.global gTextL1_1156
+gTextL1_1156:
+	.incbin "baserom.gba", 0x3FC845, 0x21
+	.global gTextL1_1157
+gTextL1_1157:
+	.incbin "baserom.gba", 0x3FC866, 0x1E
+	.global gTextL1_1158
+gTextL1_1158:
+	.incbin "baserom.gba", 0x3FC884, 0x40
+	.global gTextL1_1159
+gTextL1_1159:
+	.incbin "baserom.gba", 0x3FC8C4, 0x59
+	.global gTextL1_1160
+gTextL1_1160:
+	.incbin "baserom.gba", 0x3FC91D, 0x6A
+	.global gTextL1_1161
+gTextL1_1161:
+	.incbin "baserom.gba", 0x3FC987, 0x5
+	.global gTextL1_1162
+gTextL1_1162:
+	.incbin "baserom.gba", 0x3FC98C, 0x3B
+	.global gTextL1_1163
+gTextL1_1163:
+	.incbin "baserom.gba", 0x3FC9C7, 0x2D
+	.global gTextL1_1164
+gTextL1_1164:
+	.incbin "baserom.gba", 0x3FC9F4, 0x35
+	.global gTextL1_1165
+gTextL1_1165:
+	.incbin "baserom.gba", 0x3FCA29, 0x2A
+	.global gTextL1_1166
+gTextL1_1166:
+	.incbin "baserom.gba", 0x3FCA53, 0x43
+	.global gTextL1_1167
+gTextL1_1167:
+	.incbin "baserom.gba", 0x3FCA96, 0x1F
+	.global gTextL1_1168
+gTextL1_1168:
+	.incbin "baserom.gba", 0x3FCAB5, 0x31
+	.global gTextL1_1169
+gTextL1_1169:
+	.incbin "baserom.gba", 0x3FCAE6, 0x32
+	.global gTextL1_1170
+gTextL1_1170:
+	.incbin "baserom.gba", 0x3FCB18, 0x3B
+	.global gTextL1_1171
+gTextL1_1171:
+	.incbin "baserom.gba", 0x3FCB53, 0x25
+	.global gTextL1_1172
+gTextL1_1172:
+	.incbin "baserom.gba", 0x3FCB78, 0x33
+	.global gTextL1_1173
+gTextL1_1173:
+	.incbin "baserom.gba", 0x3FCBAB, 0x22
+	.global gTextL1_1174
+gTextL1_1174:
+	.incbin "baserom.gba", 0x3FCBCD, 0x50
+	.global gTextL1_1175
+gTextL1_1175:
+	.incbin "baserom.gba", 0x3FCC1D, 0x23
+	.global gTextL1_1176
+gTextL1_1176:
+	.incbin "baserom.gba", 0x3FCC40, 0x20
+	.global gTextL1_1177
+gTextL1_1177:
+	.incbin "baserom.gba", 0x3FCC60, 0x1F
+	.global gTextL1_1178
+gTextL1_1178:
+	.incbin "baserom.gba", 0x3FCC7F, 0x1A9
+	.global gTextL1_1179
+gTextL1_1179:
+	.incbin "baserom.gba", 0x3FCE28, 0x81
+	.global gTextL1_1180
+gTextL1_1180:
+	.incbin "baserom.gba", 0x3FCEA9, 0x9D
+	.global gTextL1_1181
+gTextL1_1181:
+	.incbin "baserom.gba", 0x3FCF46, 0xA
+	.global gTextL1_1182
+gTextL1_1182:
+	.incbin "baserom.gba", 0x3FCF50, 0x11
+	.global gTextL1_1183
+gTextL1_1183:
+	.incbin "baserom.gba", 0x3FCF61, 0x15
+	.global gTextL1_1184
+gTextL1_1184:
+	.incbin "baserom.gba", 0x3FCF76, 0x15
+	.global gTextL1_1185
+gTextL1_1185:
+	.incbin "baserom.gba", 0x3FCF8B, 0x15
+	.global gTextL1_1186
+gTextL1_1186:
+	.incbin "baserom.gba", 0x3FCFA0, 0x15
+	.global gTextL1_1187
+gTextL1_1187:
+	.incbin "baserom.gba", 0x3FCFB5, 0x15
+	.global gTextL1_1188
+gTextL1_1188:
+	.incbin "baserom.gba", 0x3FCFCA, 0x15
+	.global gTextL1_1189
+gTextL1_1189:
+	.incbin "baserom.gba", 0x3FCFDF, 0x15
+	.global gTextL1_1190
+gTextL1_1190:
+	.incbin "baserom.gba", 0x3FCFF4, 0x15
+	.global gTextL1_1191
+gTextL1_1191:
+	.incbin "baserom.gba", 0x3FD009, 0x15
+	.global gTextL1_1192
+gTextL1_1192:
+	.incbin "baserom.gba", 0x3FD01E, 0x16
+	.global gTextL1_1193
+gTextL1_1193:
+	.incbin "baserom.gba", 0x3FD034, 0x16
+	.global gTextL1_1194
+gTextL1_1194:
+	.incbin "baserom.gba", 0x3FD04A, 0x16
+	.global gTextL1_1195
+gTextL1_1195:
+	.incbin "baserom.gba", 0x3FD060, 0x1B
+	.global gTextL1_1196
+gTextL1_1196:
+	.incbin "baserom.gba", 0x3FD07B, 0x16
+	.global gTextL1_1197
+gTextL1_1197:
+	.incbin "baserom.gba", 0x3FD091, 0x16
+	.global gTextL1_1198
+gTextL1_1198:
+	.incbin "baserom.gba", 0x3FD0A7, 0x1D
+	.global gTextL1_1199
+gTextL1_1199:
+	.incbin "baserom.gba", 0x3FD0C4, 0x16
+	.global gTextL1_1200
+gTextL1_1200:
+	.incbin "baserom.gba", 0x3FD0DA, 0x16
+	.global gTextL1_1201
+gTextL1_1201:
+	.incbin "baserom.gba", 0x3FD0F0, 0x15
+	.global gTextL1_1202
+gTextL1_1202:
+	.incbin "baserom.gba", 0x3FD105, 0x16
+	.global gTextL1_1203
+gTextL1_1203:
+	.incbin "baserom.gba", 0x3FD11B, 0x16
+	.global gTextL1_1204
+gTextL1_1204:
+	.incbin "baserom.gba", 0x3FD131, 0x13
+	.global gTextL1_1205
+gTextL1_1205:
+	.incbin "baserom.gba", 0x3FD144, 0x19
+	.global gTextL1_1206
+gTextL1_1206:
+	.incbin "baserom.gba", 0x3FD15D, 0x12
+	.global gTextL1_1207
+gTextL1_1207:
+	.incbin "baserom.gba", 0x3FD16F, 0x15
+	.global gTextL1_1208
+gTextL1_1208:
+	.incbin "baserom.gba", 0x3FD184, 0x19
+	.global gTextL1_1209
+gTextL1_1209:
+	.incbin "baserom.gba", 0x3FD19D, 0x19
+	.global gTextL1_1210
+gTextL1_1210:
+	.incbin "baserom.gba", 0x3FD1B6, 0x1B
+	.global gTextL1_1211
+gTextL1_1211:
+	.incbin "baserom.gba", 0x3FD1D1, 0x1C
+	.global gTextL1_1212
+gTextL1_1212:
+	.incbin "baserom.gba", 0x3FD1ED, 0x1B
+	.global gTextL1_1213
+gTextL1_1213:
+	.incbin "baserom.gba", 0x3FD208, 0x1C
+	.global gTextL1_1214
+gTextL1_1214:
+	.incbin "baserom.gba", 0x3FD224, 0x1C
+	.global gTextL1_1215
+gTextL1_1215:
+	.incbin "baserom.gba", 0x3FD240, 0x14
+	.global gTextL1_1216
+gTextL1_1216:
+	.incbin "baserom.gba", 0x3FD254, 0x13
+	.global gTextL1_1217
+gTextL1_1217:
+	.incbin "baserom.gba", 0x3FD267, 0x9
+	.global gTextL1_1218
+gTextL1_1218:
+	.incbin "baserom.gba", 0x3FD270, 0xA
+	.global gTextL1_1219
+gTextL1_1219:
+	.incbin "baserom.gba", 0x3FD27A, 0xE
+	.global gTextL1_1220
+gTextL1_1220:
+	.incbin "baserom.gba", 0x3FD288, 0xB
+	.global gTextL1_1221
+gTextL1_1221:
+	.incbin "baserom.gba", 0x3FD293, 0xD
+	.global gTextL1_1222
+gTextL1_1222:
+	.incbin "baserom.gba", 0x3FD2A0, 0xD
+	.global gTextL1_1223
+gTextL1_1223:
+	.incbin "baserom.gba", 0x3FD2AD, 0xD
+	.global gTextL1_1224
+gTextL1_1224:
+	.incbin "baserom.gba", 0x3FD2BA, 0xD
+	.global gTextL1_1225
+gTextL1_1225:
+	.incbin "baserom.gba", 0x3FD2C7, 0xD
+	.global gTextL1_1226
+gTextL1_1226:
+	.incbin "baserom.gba", 0x3FD2D4, 0xD
+	.global gTextL1_1227
+gTextL1_1227:
+	.incbin "baserom.gba", 0x3FD2E1, 0xD
+	.global gTextL1_1228
+gTextL1_1228:
+	.incbin "baserom.gba", 0x3FD2EE, 0xD
+	.global gTextL1_1229
+gTextL1_1229:
+	.incbin "baserom.gba", 0x3FD2FB, 0xD
+	.global gTextL1_1230
+gTextL1_1230:
+	.incbin "baserom.gba", 0x3FD308, 0xE
+	.global gTextL1_1231
+gTextL1_1231:
+	.incbin "baserom.gba", 0x3FD316, 0x9
+	.global gTextL1_1232
+gTextL1_1232:
+	.incbin "baserom.gba", 0x3FD31F, 0x8
+	.global gTextL1_1233
+gTextL1_1233:
+	.incbin "baserom.gba", 0x3FD327, 0xA
+	.global gTextL1_1234
+gTextL1_1234:
+	.incbin "baserom.gba", 0x3FD331, 0xA
+	.global gTextL1_1235
+gTextL1_1235:
+	.incbin "baserom.gba", 0x3FD33B, 0x9
+	.global gTextL1_1236
+gTextL1_1236:
+	.incbin "baserom.gba", 0x3FD344, 0xE
+	.global gTextL1_1237
+gTextL1_1237:
+	.incbin "baserom.gba", 0x3FD352, 0x7
+	.global gTextL1_1238
+gTextL1_1238:
+	.incbin "baserom.gba", 0x3FD359, 0xB
+	.global gTextL1_1239
+gTextL1_1239:
+	.incbin "baserom.gba", 0x3FD364, 0x11
+	.global gTextL1_1240
+gTextL1_1240:
+	.incbin "baserom.gba", 0x3FD375, 0xA
+	.global gTextL1_1241
+gTextL1_1241:
+	.incbin "baserom.gba", 0x3FD37F, 0xA
+	.global gTextL1_1242
+gTextL1_1242:
+	.incbin "baserom.gba", 0x3FD389, 0xB
+	.global gTextL1_1243
+gTextL1_1243:
+	.incbin "baserom.gba", 0x3FD394, 0xC
+	.global gTextL1_1244
+gTextL1_1244:
+	.incbin "baserom.gba", 0x3FD3A0, 0x12
+	.global gTextL1_1245
+gTextL1_1245:
+	.incbin "baserom.gba", 0x3FD3B2, 0xD
+	.global gTextL1_1246
+gTextL1_1246:
+	.incbin "baserom.gba", 0x3FD3BF, 0x9
+	.global gTextL1_1247
+gTextL1_1247:
+	.incbin "baserom.gba", 0x3FD3C8, 0xA
+	.global gTextL1_1248
+gTextL1_1248:
+	.incbin "baserom.gba", 0x3FD3D2, 0x1A
+	.global gTextL1_1249
+gTextL1_1249:
+	.incbin "baserom.gba", 0x3FD3EC, 0x19
+	.global gTextL1_1250
+gTextL1_1250:
+	.incbin "baserom.gba", 0x3FD405, 0xAF
+	.global gTextL1_1251
+gTextL1_1251:
+	.incbin "baserom.gba", 0x3FD4B4, 0x130
+	.global gTextL1_1252
+gTextL1_1252:
+	.incbin "baserom.gba", 0x3FD5E4, 0x13E
+	.global gTextL1_1253
+gTextL1_1253:
+	.incbin "baserom.gba", 0x3FD722, 0x16E
+	.global gTextL1_1254
+gTextL1_1254:
+	.incbin "baserom.gba", 0x3FD890, 0x111
+	.global gTextL1_1255
+gTextL1_1255:
+	.incbin "baserom.gba", 0x3FD9A1, 0x16C
+	.global gTextL1_1256
+gTextL1_1256:
+	.incbin "baserom.gba", 0x3FDB0D, 0x25D
+	.global gTextL1_1257
+gTextL1_1257:
+	.incbin "baserom.gba", 0x3FDD6A, 0x92
+	.global gTextL1_1258
+gTextL1_1258:
+	.incbin "baserom.gba", 0x3FDDFC, 0x1F
+	.global gTextL1_1259
+gTextL1_1259:
+	.incbin "baserom.gba", 0x3FDE1B, 0x62
+	.global gTextL1_1260
+gTextL1_1260:
+	.incbin "baserom.gba", 0x3FDE7D, 0x38
+	.global gTextL1_1261
+gTextL1_1261:
+	.incbin "baserom.gba", 0x3FDEB5, 0x1D
+	.global gTextL1_1262
+gTextL1_1262:
+	.incbin "baserom.gba", 0x3FDED2, 0x13
+	.global gTextL1_1263
+gTextL1_1263:
+	.incbin "baserom.gba", 0x3FDEE5, 0x13
+	.global gTextL1_1264
+gTextL1_1264:
+	.incbin "baserom.gba", 0x3FDEF8, 0x13
+	.global gTextL1_1265
+gTextL1_1265:
+	.incbin "baserom.gba", 0x3FDF0B, 0x13
+	.global gTextL1_1266
+gTextL1_1266:
+	.incbin "baserom.gba", 0x3FDF1E, 0x13
+	.global gTextL1_1267
+gTextL1_1267:
+	.incbin "baserom.gba", 0x3FDF31, 0x13
+	.global gTextL1_1268
+gTextL1_1268:
+	.incbin "baserom.gba", 0x3FDF44, 0x13
+	.global gTextL1_1269
+gTextL1_1269:
+	.incbin "baserom.gba", 0x3FDF57, 0x13
+	.global gTextL1_1270
+gTextL1_1270:
+	.incbin "baserom.gba", 0x3FDF6A, 0x13
+	.global gTextL1_1271
+gTextL1_1271:
+	.incbin "baserom.gba", 0x3FDF7D, 0x14
+	.global gTextL1_1272
+gTextL1_1272:
+	.incbin "baserom.gba", 0x3FDF91, 0x26
+	.global gTextL1_1273
+gTextL1_1273:
+	.incbin "baserom.gba", 0x3FDFB7, 0x25
+	.global gTextL1_1274
+gTextL1_1274:
+	.incbin "baserom.gba", 0x3FDFDC, 0x15
+	.global gTextL1_1275
+gTextL1_1275:
+	.incbin "baserom.gba", 0x3FDFF1, 0x36
+	.global gTextL1_1276
+gTextL1_1276:
+	.incbin "baserom.gba", 0x3FE027, 0x36
+	.global gTextL1_1277
+gTextL1_1277:
+	.incbin "baserom.gba", 0x3FE05D, 0x36
+	.global gTextL1_1278
+gTextL1_1278:
+	.incbin "baserom.gba", 0x3FE093, 0x36
+	.global gTextL1_1279
+gTextL1_1279:
+	.incbin "baserom.gba", 0x3FE0C9, 0x36
+	.global gTextL1_1280
+gTextL1_1280:
+	.incbin "baserom.gba", 0x3FE0FF, 0x36
+	.global gTextL1_1281
+gTextL1_1281:
+	.incbin "baserom.gba", 0x3FE135, 0x36
+	.global gTextL1_1282
+gTextL1_1282:
+	.incbin "baserom.gba", 0x3FE16B, 0x36
+	.global gTextL1_1283
+gTextL1_1283:
+	.incbin "baserom.gba", 0x3FE1A1, 0x37
+	.global gTextL1_1284
+gTextL1_1284:
+	.incbin "baserom.gba", 0x3FE1D8, 0x1F
+	.global gTextL1_1285
+gTextL1_1285:
+	.incbin "baserom.gba", 0x3FE1F7, 0x20
+	.global gTextL1_1286
+gTextL1_1286:
+	.incbin "baserom.gba", 0x3FE217, 0x20
+	.global gTextL1_1287
+gTextL1_1287:
+	.incbin "baserom.gba", 0x3FE237, 0x21
+	.global gTextL1_1288
+gTextL1_1288:
+	.incbin "baserom.gba", 0x3FE258, 0x2A
+	.global gTextL1_1289
+gTextL1_1289:
+	.incbin "baserom.gba", 0x3FE282, 0x2F
+	.global gTextL1_1290
+gTextL1_1290:
+	.incbin "baserom.gba", 0x3FE2B1, 0x31
+	.global gTextL1_1291
+gTextL1_1291:
+	.incbin "baserom.gba", 0x3FE2E2, 0x38
+	.global gTextL1_1292
+gTextL1_1292:
+	.incbin "baserom.gba", 0x3FE31A, 0x2D
+	.global gTextL1_1293
+gTextL1_1293:
+	.incbin "baserom.gba", 0x3FE347, 0x67
+	.global gTextL1_1294
+gTextL1_1294:
+	.incbin "baserom.gba", 0x3FE3AE, 0x46
+	.global gTextL1_1295
+gTextL1_1295:
+	.incbin "baserom.gba", 0x3FE3F4, 0x3A
+	.global gTextL1_1296
+gTextL1_1296:
+	.incbin "baserom.gba", 0x3FE42E, 0x2B
+	.global gTextL1_1297
+gTextL1_1297:
+	.incbin "baserom.gba", 0x3FE459, 0x55
+	.global gTextL1_1298
+gTextL1_1298:
+	.incbin "baserom.gba", 0x3FE4AE, 0x38
+	.global gTextL1_1299
+gTextL1_1299:
+	.incbin "baserom.gba", 0x3FE4E6, 0x41
+	.global gTextL1_1300
+gTextL1_1300:
+	.incbin "baserom.gba", 0x3FE527, 0x51
+	.global gTextL1_1301
+gTextL1_1301:
+	.incbin "baserom.gba", 0x3FE578, 0x2C
+	.global gTextL1_1302
+gTextL1_1302:
+	.incbin "baserom.gba", 0x3FE5A4, 0x5F
+	.global gTextL1_1303
+gTextL1_1303:
+	.incbin "baserom.gba", 0x3FE603, 0x59
+	.global gTextL1_1304
+gTextL1_1304:
+	.incbin "baserom.gba", 0x3FE65C, 0x3B
+	.global gTextL1_1305
+gTextL1_1305:
+	.incbin "baserom.gba", 0x3FE697, 0x3E
+	.global gTextL1_1306
+gTextL1_1306:
+	.incbin "baserom.gba", 0x3FE6D5, 0x63
+	.global gTextL1_1307
+gTextL1_1307:
+	.incbin "baserom.gba", 0x3FE738, 0x67
+	.global gTextL1_1308
+gTextL1_1308:
+	.incbin "baserom.gba", 0x3FE79F, 0x7A
+	.global gTextL1_1309
+gTextL1_1309:
+	.incbin "baserom.gba", 0x3FE819, 0x74
+	.global gTextL1_1310
+gTextL1_1310:
+	.incbin "baserom.gba", 0x3FE88D, 0x6A
+	.global gTextL1_1311
+gTextL1_1311:
+	.incbin "baserom.gba", 0x3FE8F7, 0x68
+	.global gTextL1_1312
+gTextL1_1312:
+	.incbin "baserom.gba", 0x3FE95F, 0x47
+	.global gTextL1_1313
+gTextL1_1313:
+	.incbin "baserom.gba", 0x3FE9A6, 0x34
+	.global gTextL1_1314
+gTextL1_1314:
+	.incbin "baserom.gba", 0x3FE9DA, 0x46
+	.global gTextL1_1315
+gTextL1_1315:
+	.incbin "baserom.gba", 0x3FEA20, 0x75
+	.global gTextL1_1316
+gTextL1_1316:
+	.incbin "baserom.gba", 0x3FEA95, 0x79
+	.global gTextL1_1317
+gTextL1_1317:
+	.incbin "baserom.gba", 0x3FEB0E, 0x68
+	.global gTextL1_1318
+gTextL1_1318:
+	.incbin "baserom.gba", 0x3FEB76, 0x60
+	.global gTextL1_1319
+gTextL1_1319:
+	.incbin "baserom.gba", 0x3FEBD6, 0x2C
+	.global gTextL1_1320
+gTextL1_1320:
+	.incbin "baserom.gba", 0x3FEC02, 0x45
+	.global gTextL1_1321
+gTextL1_1321:
+	.incbin "baserom.gba", 0x3FEC47, 0x5
+	.global gTextL1_1322
+gTextL1_1322:
+	.incbin "baserom.gba", 0x3FEC4C, 0x5
+	.global gTextL1_1323
+gTextL1_1323:
+	.incbin "baserom.gba", 0x3FEC51, 0x5
+	.global gTextL1_1324
+gTextL1_1324:
+	.incbin "baserom.gba", 0x3FEC56, 0x5
+	.global gTextL1_1325
+gTextL1_1325:
+	.incbin "baserom.gba", 0x3FEC5B, 0x5
+	.global gTextL1_1326
+gTextL1_1326:
+	.incbin "baserom.gba", 0x3FEC60, 0x5
+	.global gTextL1_1327
+gTextL1_1327:
+	.incbin "baserom.gba", 0x3FEC65, 0x5
+	.global gTextL1_1328
+gTextL1_1328:
+	.incbin "baserom.gba", 0x3FEC6A, 0x5
+	.global gTextL1_1329
+gTextL1_1329:
+	.incbin "baserom.gba", 0x3FEC6F, 0x25
+	.global gTextL1_1330
+gTextL1_1330:
+	.incbin "baserom.gba", 0x3FEC94, 0x43
+	.global gTextL1_1331
+gTextL1_1331:
+	.incbin "baserom.gba", 0x3FECD7, 0x9
+	.global gTextL1_1332
+gTextL1_1332:
+	.incbin "baserom.gba", 0x3FECE0, 0x9
+	.global gTextL1_1333
+gTextL1_1333:
+	.incbin "baserom.gba", 0x3FECE9, 0x8
+	.global gTextL1_1334
+gTextL1_1334:
+	.incbin "baserom.gba", 0x3FECF1, 0x9
+	.global gTextL1_1335
+gTextL1_1335:
+	.incbin "baserom.gba", 0x3FECFA, 0x9
+	.global gTextL1_1336
+gTextL1_1336:
+	.incbin "baserom.gba", 0x3FED03, 0xB
+	.global gTextL1_1337
+gTextL1_1337:
+	.incbin "baserom.gba", 0x3FED0E, 0xA
+	.global gTextL1_1338
+gTextL1_1338:
+	.incbin "baserom.gba", 0x3FED18, 0x9
+	.global gTextL1_1339
+gTextL1_1339:
+	.incbin "baserom.gba", 0x3FED21, 0xA
+	.global gTextL1_1340
+gTextL1_1340:
+	.incbin "baserom.gba", 0x3FED2B, 0xA
+	.global gTextL1_1341
+gTextL1_1341:
+	.incbin "baserom.gba", 0x3FED35, 0xB
+	.global gTextL1_1342
+gTextL1_1342:
+	.incbin "baserom.gba", 0x3FED40, 0xB
+	.global gTextL1_1343
+gTextL1_1343:
+	.incbin "baserom.gba", 0x3FED4B, 0xB
+	.global gTextL1_1344
+gTextL1_1344:
+	.incbin "baserom.gba", 0x3FED56, 0xC
+	.global gTextL1_1345
+gTextL1_1345:
+	.incbin "baserom.gba", 0x3FED62, 0xA
+	.global gTextL1_1346
+gTextL1_1346:
+	.incbin "baserom.gba", 0x3FED6C, 0x32
+	.global gTextL1_1347
+gTextL1_1347:
+	.incbin "baserom.gba", 0x3FED9E, 0x11
+	.global gTextL1_1348
+gTextL1_1348:
+	.incbin "baserom.gba", 0x3FEDAF, 0x3B
+	.global gTextL1_1349
+gTextL1_1349:
+	.incbin "baserom.gba", 0x3FEDEA, 0x2B
+	.global gTextL1_1350
+gTextL1_1350:
+	.incbin "baserom.gba", 0x3FEE15, 0x36
+	.global gTextL1_1351
+gTextL1_1351:
+	.incbin "baserom.gba", 0x3FEE4B, 0x36
+	.global gTextL1_1352
+gTextL1_1352:
+	.incbin "baserom.gba", 0x3FEE81, 0x2C
+	.global gTextL1_1353
+gTextL1_1353:
+	.incbin "baserom.gba", 0x3FEEAD, 0x37
+	.global gTextL1_1354
+gTextL1_1354:
+	.incbin "baserom.gba", 0x3FEEE4, 0x2E
+	.global gTextL1_1355
+gTextL1_1355:
+	.incbin "baserom.gba", 0x3FEF12, 0x3D
+	.global gTextL1_1356
+gTextL1_1356:
+	.incbin "baserom.gba", 0x3FEF4F, 0x2F
+	.global gTextL1_1357
+gTextL1_1357:
+	.incbin "baserom.gba", 0x3FEF7E, 0x38
+	.global gTextL1_1358
+gTextL1_1358:
+	.incbin "baserom.gba", 0x3FEFB6, 0x36
+	.global gTextL1_1359
+gTextL1_1359:
+	.incbin "baserom.gba", 0x3FEFEC, 0x27
+	.global gTextL1_1360
+gTextL1_1360:
+	.incbin "baserom.gba", 0x3FF013, 0x2D
+	.global gTextL1_1361
+gTextL1_1361:
+	.incbin "baserom.gba", 0x3FF040, 0x33
+	.global gTextL1_1362
+gTextL1_1362:
+	.incbin "baserom.gba", 0x3FF073, 0x34
+	.global gTextL1_1363
+gTextL1_1363:
+	.incbin "baserom.gba", 0x3FF0A7, 0x2F
+	.global gTextL1_1364
+gTextL1_1364:
+	.incbin "baserom.gba", 0x3FF0D6, 0x23
+	.global gTextL1_1365
+gTextL1_1365:
+	.incbin "baserom.gba", 0x3FF0F9, 0x37
+	.global gTextL1_1366
+gTextL1_1366:
+	.incbin "baserom.gba", 0x3FF130, 0x33
+	.global gTextL1_1367
+gTextL1_1367:
+	.incbin "baserom.gba", 0x3FF163, 0x2C
+	.global gTextL1_1368
+gTextL1_1368:
+	.incbin "baserom.gba", 0x3FF18F, 0x27
+	.global gTextL1_1369
+gTextL1_1369:
+	.incbin "baserom.gba", 0x3FF1B6, 0x39
+	.global gTextL1_1370
+gTextL1_1370:
+	.incbin "baserom.gba", 0x3FF1EF, 0x36
+	.global gTextL1_1371
+gTextL1_1371:
+	.incbin "baserom.gba", 0x3FF225, 0x37
+	.global gTextL1_1372
+gTextL1_1372:
+	.incbin "baserom.gba", 0x3FF25C, 0x2C
+	.global gTextL1_1373
+gTextL1_1373:
+	.incbin "baserom.gba", 0x3FF288, 0x3B
+	.global gTextL1_1374
+gTextL1_1374:
+	.incbin "baserom.gba", 0x3FF2C3, 0x38
+	.global gTextL1_1375
+gTextL1_1375:
+	.incbin "baserom.gba", 0x3FF2FB, 0x32
+	.global gTextL1_1376
+gTextL1_1376:
+	.incbin "baserom.gba", 0x3FF32D, 0x35
+	.global gTextL1_1377
+gTextL1_1377:
+	.incbin "baserom.gba", 0x3FF362, 0x3B
+	.global gTextL1_1378
+gTextL1_1378:
+	.incbin "baserom.gba", 0x3FF39D, 0x2C
+	.global gTextL1_1379
+gTextL1_1379:
+	.incbin "baserom.gba", 0x3FF3C9, 0x31
+	.global gTextL1_1380
+gTextL1_1380:
+	.incbin "baserom.gba", 0x3FF3FA, 0x30
+	.global gTextL1_1381
+gTextL1_1381:
+	.incbin "baserom.gba", 0x3FF42A, 0x35
+	.global gTextL1_1382
+gTextL1_1382:
+	.incbin "baserom.gba", 0x3FF45F, 0x34
+	.global gTextL1_1383
+gTextL1_1383:
+	.incbin "baserom.gba", 0x3FF493, 0x2D
+	.global gTextL1_1384
+gTextL1_1384:
+	.incbin "baserom.gba", 0x3FF4C0, 0x3A
+	.global gTextL1_1385
+gTextL1_1385:
+	.incbin "baserom.gba", 0x3FF4FA, 0x37
+	.global gTextL1_1386
+gTextL1_1386:
+	.incbin "baserom.gba", 0x3FF531, 0x35
+	.global gTextL1_1387
+gTextL1_1387:
+	.incbin "baserom.gba", 0x3FF566, 0x38
+	.global gTextL1_1388
+gTextL1_1388:
+	.incbin "baserom.gba", 0x3FF59E, 0x2A
+	.global gTextL1_1389
+gTextL1_1389:
+	.incbin "baserom.gba", 0x3FF5C8, 0x37
+	.global gTextL1_1390
+gTextL1_1390:
+	.incbin "baserom.gba", 0x3FF5FF, 0x39
+	.global gTextL1_1391
+gTextL1_1391:
+	.incbin "baserom.gba", 0x3FF638, 0x3B
+	.global gTextL1_1392
+gTextL1_1392:
+	.incbin "baserom.gba", 0x3FF673, 0x2A
+	.global gTextL1_1393
+gTextL1_1393:
+	.incbin "baserom.gba", 0x3FF69D, 0x37
+	.global gTextL1_1394
+gTextL1_1394:
+	.incbin "baserom.gba", 0x3FF6D4, 0x31
+	.global gTextL1_1395
+gTextL1_1395:
+	.incbin "baserom.gba", 0x3FF705, 0x2E
+	.global gTextL1_1396
+gTextL1_1396:
+	.incbin "baserom.gba", 0x3FF733, 0x2F
+	.global gTextL1_1397
+gTextL1_1397:
+	.incbin "baserom.gba", 0x3FF762, 0x36
+	.global gTextL1_1398
+gTextL1_1398:
+	.incbin "baserom.gba", 0x3FF798, 0x3A
+	.global gTextL1_1399
+gTextL1_1399:
+	.incbin "baserom.gba", 0x3FF7D2, 0x37
+	.global gTextL1_1400
+gTextL1_1400:
+	.incbin "baserom.gba", 0x3FF809, 0x30
+	.global gTextL1_1401
+gTextL1_1401:
+	.incbin "baserom.gba", 0x3FF839, 0x2F
+	.global gTextL1_1402
+gTextL1_1402:
+	.incbin "baserom.gba", 0x3FF868, 0x21
+	.global gTextL1_1403
+gTextL1_1403:
+	.incbin "baserom.gba", 0x3FF889, 0x3B
+	.global gTextL1_1404
+gTextL1_1404:
+	.incbin "baserom.gba", 0x3FF8C4, 0x32
+	.global gTextL1_1405
+gTextL1_1405:
+	.incbin "baserom.gba", 0x3FF8F6, 0x2C
+	.global gTextL1_1406
+gTextL1_1406:
+	.incbin "baserom.gba", 0x3FF922, 0x34
+	.global gTextL1_1407
+gTextL1_1407:
+	.incbin "baserom.gba", 0x3FF956, 0x36
+	.global gTextL1_1408
+gTextL1_1408:
+	.incbin "baserom.gba", 0x3FF98C, 0x2C
+	.global gTextL1_1409
+gTextL1_1409:
+	.incbin "baserom.gba", 0x3FF9B8, 0x34
+	.global gTextL1_1410
+gTextL1_1410:
+	.incbin "baserom.gba", 0x3FF9EC, 0x28
+	.global gTextL1_1411
+gTextL1_1411:
+	.incbin "baserom.gba", 0x3FFA14, 0x26
+	.global gTextL1_1412
+gTextL1_1412:
+	.incbin "baserom.gba", 0x3FFA3A, 0x38
+	.global gTextL1_1413
+gTextL1_1413:
+	.incbin "baserom.gba", 0x3FFA72, 0x29
+	.global gTextL1_1414
+gTextL1_1414:
+	.incbin "baserom.gba", 0x3FFA9B, 0x30
+	.global gTextL1_1415
+gTextL1_1415:
+	.incbin "baserom.gba", 0x3FFACB, 0x28
+	.global gTextL1_1416
+gTextL1_1416:
+	.incbin "baserom.gba", 0x3FFAF3, 0x37
+	.global gTextL1_1417
+gTextL1_1417:
+	.incbin "baserom.gba", 0x3FFB2A, 0x2E
+	.global gTextL1_1418
+gTextL1_1418:
+	.incbin "baserom.gba", 0x3FFB58, 0x2A
+	.global gTextL1_1419
+gTextL1_1419:
+	.incbin "baserom.gba", 0x3FFB82, 0x34
+	.global gTextL1_1420
+gTextL1_1420:
+	.incbin "baserom.gba", 0x3FFBB6, 0x39
+	.global gTextL1_1421
+gTextL1_1421:
+	.incbin "baserom.gba", 0x3FFBEF, 0x38
+	.global gTextL1_1422
+gTextL1_1422:
+	.incbin "baserom.gba", 0x3FFC27, 0x33
+	.global gTextL1_1423
+gTextL1_1423:
+	.incbin "baserom.gba", 0x3FFC5A, 0x27
+	.global gTextL1_1424
+gTextL1_1424:
+	.incbin "baserom.gba", 0x3FFC81, 0x30
+	.global gTextL1_1425
+gTextL1_1425:
+	.incbin "baserom.gba", 0x3FFCB1, 0x24
+	.global gTextL1_1426
+gTextL1_1426:
+	.incbin "baserom.gba", 0x3FFCD5, 0x35
+	.global gTextL1_1427
+gTextL1_1427:
+	.incbin "baserom.gba", 0x3FFD0A, 0x35
+	.global gTextL1_1428
+gTextL1_1428:
+	.incbin "baserom.gba", 0x3FFD3F, 0x32
+	.global gTextL1_1429
+gTextL1_1429:
+	.incbin "baserom.gba", 0x3FFD71, 0x37
+	.global gTextL1_1430
+gTextL1_1430:
+	.incbin "baserom.gba", 0x3FFDA8, 0x36
+	.global gTextL1_1431
+gTextL1_1431:
+	.incbin "baserom.gba", 0x3FFDDE, 0x39
+	.global gTextL1_1432
+gTextL1_1432:
+	.incbin "baserom.gba", 0x3FFE17, 0x33
+	.global gTextL1_1433
+gTextL1_1433:
+	.incbin "baserom.gba", 0x3FFE4A, 0x35
+	.global gTextL1_1434
+gTextL1_1434:
+	.incbin "baserom.gba", 0x3FFE7F, 0x35
+	.global gTextL1_1435
+gTextL1_1435:
+	.incbin "baserom.gba", 0x3FFEB4, 0x2E
+	.global gTextL1_1436
+gTextL1_1436:
+	.incbin "baserom.gba", 0x3FFEE2, 0x36
+	.global gTextL1_1437
+gTextL1_1437:
+	.incbin "baserom.gba", 0x3FFF18, 0x37
+	.global gTextL1_1438
+gTextL1_1438:
+	.incbin "baserom.gba", 0x3FFF4F, 0x1A
+	.global gTextL1_1439
+gTextL1_1439:
+	.incbin "baserom.gba", 0x3FFF69, 0x38
+	.global gTextL1_1440
+gTextL1_1440:
+	.incbin "baserom.gba", 0x3FFFA1, 0x3A
+	.global gTextL1_1441
+gTextL1_1441:
+	.incbin "baserom.gba", 0x3FFFDB, 0x30
+	.global gTextL1_1442
+gTextL1_1442:
+	.incbin "baserom.gba", 0x40000B, 0x2B
+	.global gTextL1_1443
+gTextL1_1443:
+	.incbin "baserom.gba", 0x400036, 0x36
+	.global gTextL1_1444
+gTextL1_1444:
+	.incbin "baserom.gba", 0x40006C, 0x2F
+	.global gTextL1_1445
+gTextL1_1445:
+	.incbin "baserom.gba", 0x40009B, 0x30
+	.global gTextL1_1446
+gTextL1_1446:
+	.incbin "baserom.gba", 0x4000CB, 0x2C
+	.global gTextL1_1447
+gTextL1_1447:
+	.incbin "baserom.gba", 0x4000F7, 0x29
+	.global gTextL1_1448
+gTextL1_1448:
+	.incbin "baserom.gba", 0x400120, 0x31
+	.global gTextL1_1449
+gTextL1_1449:
+	.incbin "baserom.gba", 0x400151, 0x16
+	.global gTextL1_1450
+gTextL1_1450:
+	.incbin "baserom.gba", 0x400167, 0x33
+	.global gTextL1_1451
+gTextL1_1451:
+	.incbin "baserom.gba", 0x40019A, 0x2D
+	.global gTextL1_1452
+gTextL1_1452:
+	.incbin "baserom.gba", 0x4001C7, 0x32
+	.global gTextL1_1453
+gTextL1_1453:
+	.incbin "baserom.gba", 0x4001F9, 0x31
+	.global gTextL1_1454
+gTextL1_1454:
+	.incbin "baserom.gba", 0x40022A, 0x3A
+	.global gTextL1_1455
+gTextL1_1455:
+	.incbin "baserom.gba", 0x400264, 0x30
+	.global gTextL1_1456
+gTextL1_1456:
+	.incbin "baserom.gba", 0x400294, 0x39
+	.global gTextL1_1457
+gTextL1_1457:
+	.incbin "baserom.gba", 0x4002CD, 0x28
+	.global gTextL1_1458
+gTextL1_1458:
+	.incbin "baserom.gba", 0x4002F5, 0x1D
+	.global gTextL1_1459
+gTextL1_1459:
+	.incbin "baserom.gba", 0x400312, 0x3A
+	.global gTextL1_1460
+gTextL1_1460:
+	.incbin "baserom.gba", 0x40034C, 0x2E
+	.global gTextL1_1461
+gTextL1_1461:
+	.incbin "baserom.gba", 0x40037A, 0x3A
+	.global gTextL1_1462
+gTextL1_1462:
+	.incbin "baserom.gba", 0x4003B4, 0x38
+	.global gTextL1_1463
+gTextL1_1463:
+	.incbin "baserom.gba", 0x4003EC, 0x38
+	.global gTextL1_1464
+gTextL1_1464:
+	.incbin "baserom.gba", 0x400424, 0x23
+	.global gTextL1_1465
+gTextL1_1465:
+	.incbin "baserom.gba", 0x400447, 0x39
+	.global gTextL1_1466
+gTextL1_1466:
+	.incbin "baserom.gba", 0x400480, 0x2F
+	.global gTextL1_1467
+gTextL1_1467:
+	.incbin "baserom.gba", 0x4004AF, 0x29
+	.global gTextL1_1468
+gTextL1_1468:
+	.incbin "baserom.gba", 0x4004D8, 0x37
+	.global gTextL1_1469
+gTextL1_1469:
+	.incbin "baserom.gba", 0x40050F, 0x32
+	.global gTextL1_1470
+gTextL1_1470:
+	.incbin "baserom.gba", 0x400541, 0x34
+	.global gTextL1_1471
+gTextL1_1471:
+	.incbin "baserom.gba", 0x400575, 0x38
+	.global gTextL1_1472
+gTextL1_1472:
+	.incbin "baserom.gba", 0x4005AD, 0x2D
+	.global gTextL1_1473
+gTextL1_1473:
+	.incbin "baserom.gba", 0x4005DA, 0x35
+	.global gTextL1_1474
+gTextL1_1474:
+	.incbin "baserom.gba", 0x40060F, 0x27
+	.global gTextL1_1475
+gTextL1_1475:
+	.incbin "baserom.gba", 0x400636, 0x30
+	.global gTextL1_1476
+gTextL1_1476:
+	.incbin "baserom.gba", 0x400666, 0x2A
+	.global gTextL1_1477
+gTextL1_1477:
+	.incbin "baserom.gba", 0x400690, 0x2A
+	.global gTextL1_1478
+gTextL1_1478:
+	.incbin "baserom.gba", 0x4006BA, 0x33
+	.global gTextL1_1479
+gTextL1_1479:
+	.incbin "baserom.gba", 0x4006ED, 0x38
+	.global gTextL1_1480
+gTextL1_1480:
+	.incbin "baserom.gba", 0x400725, 0x2F
+	.global gTextL1_1481
+gTextL1_1481:
+	.incbin "baserom.gba", 0x400754, 0x30
+	.global gTextL1_1482
+gTextL1_1482:
+	.incbin "baserom.gba", 0x400784, 0x3B
+	.global gTextL1_1483
+gTextL1_1483:
+	.incbin "baserom.gba", 0x4007BF, 0x2C
+	.global gTextL1_1484
+gTextL1_1484:
+	.incbin "baserom.gba", 0x4007EB, 0x2F
+	.global gTextL1_1485
+gTextL1_1485:
+	.incbin "baserom.gba", 0x40081A, 0x37
+	.global gTextL1_1486
+gTextL1_1486:
+	.incbin "baserom.gba", 0x400851, 0x20
+	.global gTextL1_1487
+gTextL1_1487:
+	.incbin "baserom.gba", 0x400871, 0x31
+	.global gTextL1_1488
+gTextL1_1488:
+	.incbin "baserom.gba", 0x4008A2, 0x3B
+	.global gTextL1_1489
+gTextL1_1489:
+	.incbin "baserom.gba", 0x4008DD, 0x2F
+	.global gTextL1_1490
+gTextL1_1490:
+	.incbin "baserom.gba", 0x40090C, 0x2A
+	.global gTextL1_1491
+gTextL1_1491:
+	.incbin "baserom.gba", 0x400936, 0x39
+	.global gTextL1_1492
+gTextL1_1492:
+	.incbin "baserom.gba", 0x40096F, 0x35
 	.global gUnk_084009A4
 gUnk_084009A4:
-	.incbin "baserom.gba", 0x4009A4, 0x28294
+	.4byte gTextL1_0000
+	.4byte gTextL1_0001
+	.4byte gTextL1_0002
+	.4byte gTextL1_0003
+	.4byte gTextL1_0004
+	.4byte gTextL1_0005
+	.4byte gTextL1_0006
+	.4byte gTextL1_0007
+	.4byte gTextL1_0008
+	.4byte gTextL1_0009
+	.4byte gTextL1_0010
+	.4byte gTextL1_0011
+	.4byte gTextL1_0012
+	.4byte gTextL1_0013
+	.4byte gTextL1_0014
+	.4byte gTextL1_0015
+	.4byte gTextL1_0016
+	.4byte gTextL1_0017
+	.4byte gTextL1_0018
+	.4byte gTextL1_0019
+	.4byte gTextL1_0020
+	.4byte gTextL1_0021
+	.4byte gTextL1_0022
+	.4byte gTextL1_0023
+	.4byte gTextL1_0024
+	.4byte gTextL1_0025
+	.4byte gTextL1_0026
+	.4byte gTextL1_0027
+	.4byte gTextL1_0028
+	.4byte gTextL1_0029
+	.4byte gTextL1_0030
+	.4byte gTextL1_0031
+	.4byte gTextL1_0032
+	.4byte gTextL1_0033
+	.4byte gTextL1_0034
+	.4byte gTextL1_0035
+	.4byte gTextL1_0036
+	.4byte gTextL1_0037
+	.4byte gTextL1_0038
+	.4byte gTextL1_0039
+	.4byte gTextL1_0040
+	.4byte gTextL1_0041
+	.4byte gTextL1_0042
+	.4byte gTextL1_0043
+	.4byte gTextL1_0044
+	.4byte gTextL1_0045
+	.4byte gTextL1_0046
+	.4byte gTextL1_0047
+	.4byte gTextL1_0048
+	.4byte gTextL1_0049
+	.4byte gTextL1_0050
+	.4byte gTextL1_0051
+	.4byte gTextL1_0052
+	.4byte gTextL1_0053
+	.4byte gTextL1_0054
+	.4byte gTextL1_0055
+	.4byte gTextL1_0056
+	.4byte gTextL1_0057
+	.4byte gTextL1_0058
+	.4byte gTextL1_0059
+	.4byte gTextL1_0060
+	.4byte gTextL1_0061
+	.4byte gTextL1_0062
+	.4byte gTextL1_0063
+	.4byte gTextL1_0064
+	.4byte gTextL1_0065
+	.4byte gTextL1_0066
+	.4byte gTextL1_0067
+	.4byte gTextL1_0068
+	.4byte gTextL1_0069
+	.4byte gTextL1_0070
+	.4byte gTextL1_0071
+	.4byte gTextL1_0072
+	.4byte gTextL1_0073
+	.4byte gTextL1_0074
+	.4byte gTextL1_0075
+	.4byte gTextL1_0076
+	.4byte gTextL1_0077
+	.4byte gTextL1_0078
+	.4byte gTextL1_0079
+	.4byte gTextL1_0080
+	.4byte gTextL1_0081
+	.4byte gTextL1_0082
+	.4byte gTextL1_0083
+	.4byte gTextL1_0084
+	.4byte gTextL1_0085
+	.4byte gTextL1_0086
+	.4byte gTextL1_0087
+	.4byte gTextL1_0088
+	.4byte gTextL1_0089
+	.4byte gTextL1_0090
+	.4byte gTextL1_0091
+	.4byte gTextL1_0092
+	.4byte gTextL1_0093
+	.4byte gTextL1_0094
+	.4byte gTextL1_0095
+	.4byte gTextL1_0096
+	.4byte gTextL1_0097
+	.4byte gTextL1_0098
+	.4byte gTextL1_0099
+	.4byte gTextL1_0100
+	.4byte gTextL1_0101
+	.4byte gTextL1_0102
+	.4byte gTextL1_0103
+	.4byte gTextL1_0104
+	.4byte gTextL1_0105
+	.4byte gTextL1_0106
+	.4byte gTextL1_0107
+	.4byte gTextL1_0108
+	.4byte gTextL1_0109
+	.4byte gTextL1_0110
+	.4byte gTextL1_0111
+	.4byte gTextL1_0112
+	.4byte gTextL1_0113
+	.4byte gTextL1_0114
+	.4byte gTextL1_0115
+	.4byte gTextL1_0116
+	.4byte gTextL1_0117
+	.4byte gTextL1_0118
+	.4byte gTextL1_0119
+	.4byte gTextL1_0120
+	.4byte gTextL1_0121
+	.4byte gTextL1_0122
+	.4byte gTextL1_0123
+	.4byte gTextL1_0124
+	.4byte gTextL1_0125
+	.4byte gTextL1_0126
+	.4byte gTextL1_0127
+	.4byte gTextL1_0128
+	.4byte gTextL1_0129
+	.4byte gTextL1_0130
+	.4byte gTextL1_0131
+	.4byte gTextL1_0132
+	.4byte gTextL1_0133
+	.4byte gTextL1_0134
+	.4byte gTextL1_0135
+	.4byte gTextL1_0136
+	.4byte gTextL1_0137
+	.4byte gTextL1_0138
+	.4byte gTextL1_0139
+	.4byte gTextL1_0140
+	.4byte gTextL1_0141
+	.4byte gTextL1_0142
+	.4byte gTextL1_0143
+	.4byte gTextL1_0144
+	.4byte gTextL1_0145
+	.4byte gTextL1_0146
+	.4byte gTextL1_0147
+	.4byte gTextL1_0148
+	.4byte gTextL1_0149
+	.4byte gTextL1_0150
+	.4byte gTextL1_0151
+	.4byte gTextL1_0152
+	.4byte gTextL1_0153
+	.4byte gTextL1_0154
+	.4byte gTextL1_0155
+	.4byte gTextL1_0156
+	.4byte gTextL1_0157
+	.4byte gTextL1_0158
+	.4byte gTextL1_0159
+	.4byte gTextL1_0160
+	.4byte gTextL1_0161
+	.4byte gTextL1_0162
+	.4byte gTextL1_0163
+	.4byte gTextL1_0164
+	.4byte gTextL1_0165
+	.4byte gTextL1_0166
+	.4byte gTextL1_0167
+	.4byte gTextL1_0168
+	.4byte gTextL1_0169
+	.4byte gTextL1_0170
+	.4byte gTextL1_0171
+	.4byte gTextL1_0172
+	.4byte gTextL1_0173
+	.4byte gTextL1_0174
+	.4byte gTextL1_0175
+	.4byte gTextL1_0176
+	.4byte gTextL1_0177
+	.4byte gTextL1_0178
+	.4byte gTextL1_0179
+	.4byte gTextL1_0180
+	.4byte gTextL1_0181
+	.4byte gTextL1_0182
+	.4byte gTextL1_0183
+	.4byte gTextL1_0184
+	.4byte gTextL1_0185
+	.4byte gTextL1_0186
+	.4byte gTextL1_0187
+	.4byte gTextL1_0188
+	.4byte gTextL1_0189
+	.4byte gTextL1_0190
+	.4byte gTextL1_0191
+	.4byte gTextL1_0192
+	.4byte gTextL1_0193
+	.4byte gTextL1_0194
+	.4byte gTextL1_0195
+	.4byte gTextL1_0196
+	.4byte gTextL1_0197
+	.4byte gTextL1_0198
+	.4byte gTextL1_0199
+	.4byte gTextL1_0200
+	.4byte gTextL1_0201
+	.4byte gTextL1_0202
+	.4byte gTextL1_0203
+	.4byte gTextL1_0204
+	.4byte gTextL1_0205
+	.4byte gTextL1_0206
+	.4byte gTextL1_0207
+	.4byte gTextL1_0208
+	.4byte gTextL1_0209
+	.4byte gTextL1_0210
+	.4byte gTextL1_0211
+	.4byte gTextL1_0212
+	.4byte gTextL1_0213
+	.4byte gTextL1_0214
+	.4byte gTextL1_0215
+	.4byte gTextL1_0216
+	.4byte gTextL1_0217
+	.4byte gTextL1_0218
+	.4byte gTextL1_0219
+	.4byte gTextL1_0220
+	.4byte gTextL1_0221
+	.4byte gTextL1_0222
+	.4byte gTextL1_0223
+	.4byte gTextL1_0224
+	.4byte gTextL1_0225
+	.4byte gTextL1_0226
+	.4byte gTextL1_0227
+	.4byte gTextL1_0228
+	.4byte gTextL1_0229
+	.4byte gTextL1_0230
+	.4byte gTextL1_0231
+	.4byte gTextL1_0232
+	.4byte gTextL1_0233
+	.4byte gTextL1_0234
+	.4byte gTextL1_0235
+	.4byte gTextL1_0236
+	.4byte gTextL1_0237
+	.4byte gTextL1_0238
+	.4byte gTextL1_0239
+	.4byte gTextL1_0240
+	.4byte gTextL1_0241
+	.4byte gTextL1_0242
+	.4byte gTextL1_0243
+	.4byte gTextL1_0244
+	.4byte gTextL1_0245
+	.4byte gTextL1_0246
+	.4byte gTextL1_0247
+	.4byte gTextL1_0248
+	.4byte gTextL1_0249
+	.4byte gTextL1_0250
+	.4byte gTextL1_0251
+	.4byte gTextL1_0252
+	.4byte gTextL1_0253
+	.4byte gTextL1_0254
+	.4byte gTextL1_0255
+	.4byte gTextL1_0256
+	.4byte gTextL1_0257
+	.4byte gTextL1_0258
+	.4byte gTextL1_0259
+	.4byte gTextL1_0260
+	.4byte gTextL1_0261
+	.4byte gTextL1_0262
+	.4byte gTextL1_0263
+	.4byte gTextL1_0264
+	.4byte gTextL1_0265
+	.4byte gTextL1_0266
+	.4byte gTextL1_0267
+	.4byte gTextL1_0268
+	.4byte gTextL1_0269
+	.4byte gTextL1_0270
+	.4byte gTextL1_0271
+	.4byte gTextL1_0272
+	.4byte gTextL1_0273
+	.4byte gTextL1_0274
+	.4byte gTextL1_0275
+	.4byte gTextL1_0276
+	.4byte gTextL1_0277
+	.4byte gTextL1_0278
+	.4byte gTextL1_0279
+	.4byte gTextL1_0280
+	.4byte gTextL1_0281
+	.4byte gTextL1_0282
+	.4byte gTextL1_0283
+	.4byte gTextL1_0284
+	.4byte gTextL1_0285
+	.4byte gTextL1_0286
+	.4byte gTextL1_0287
+	.4byte gTextL1_0288
+	.4byte gTextL1_0289
+	.4byte gTextL1_0290
+	.4byte gTextL1_0291
+	.4byte gTextL1_0292
+	.4byte gTextL1_0293
+	.4byte gTextL1_0294
+	.4byte gTextL1_0295
+	.4byte gTextL1_0296
+	.4byte gTextL1_0297
+	.4byte gTextL1_0298
+	.4byte gTextL1_0299
+	.4byte gTextL1_0300
+	.4byte gTextL1_0301
+	.4byte gTextL1_0302
+	.4byte gTextL1_0303
+	.4byte gTextL1_0304
+	.4byte gTextL1_0305
+	.4byte gTextL1_0306
+	.4byte gTextL1_0307
+	.4byte gTextL1_0308
+	.4byte gTextL1_0309
+	.4byte gTextL1_0310
+	.4byte gTextL1_0311
+	.4byte gTextL1_0312
+	.4byte gTextL1_0313
+	.4byte gTextL1_0314
+	.4byte gTextL1_0315
+	.4byte gTextL1_0316
+	.4byte gTextL1_0317
+	.4byte gTextL1_0318
+	.4byte gTextL1_0319
+	.4byte gTextL1_0320
+	.4byte gTextL1_0321
+	.4byte gTextL1_0322
+	.4byte gTextL1_0323
+	.4byte gTextL1_0324
+	.4byte gTextL1_0325
+	.4byte gTextL1_0326
+	.4byte gTextL1_0327
+	.4byte gTextL1_0328
+	.4byte gTextL1_0329
+	.4byte gTextL1_0330
+	.4byte gTextL1_0331
+	.4byte gTextL1_0332
+	.4byte gTextL1_0333
+	.4byte gTextL1_0334
+	.4byte gTextL1_0335
+	.4byte gTextL1_0336
+	.4byte gTextL1_0337
+	.4byte gTextL1_0338
+	.4byte gTextL1_0339
+	.4byte gTextL1_0340
+	.4byte gTextL1_0341
+	.4byte gTextL1_0342
+	.4byte gTextL1_0343
+	.4byte gTextL1_0344
+	.4byte gTextL1_0345
+	.4byte gTextL1_0346
+	.4byte gTextL1_0347
+	.4byte gTextL1_0348
+	.4byte gTextL1_0349
+	.4byte gTextL1_0350
+	.4byte gTextL1_0351
+	.4byte gTextL1_0352
+	.4byte gTextL1_0353
+	.4byte gTextL1_0354
+	.4byte gTextL1_0355
+	.4byte gTextL1_0356
+	.4byte gTextL1_0357
+	.4byte gTextL1_0358
+	.4byte gTextL1_0359
+	.4byte gTextL1_0360
+	.4byte gTextL1_0361
+	.4byte gTextL1_0362
+	.4byte gTextL1_0363
+	.4byte gTextL1_0364
+	.4byte gTextL1_0365
+	.4byte gTextL1_0366
+	.4byte gTextL1_0367
+	.4byte gTextL1_0368
+	.4byte gTextL1_0369
+	.4byte gTextL1_0370
+	.4byte gTextL1_0371
+	.4byte gTextL1_0372
+	.4byte gTextL1_0373
+	.4byte gTextL1_0374
+	.4byte gTextL1_0375
+	.4byte gTextL1_0376
+	.4byte gTextL1_0377
+	.4byte gTextL1_0378
+	.4byte gTextL1_0379
+	.4byte gTextL1_0380
+	.4byte gTextL1_0381
+	.4byte gTextL1_0382
+	.4byte gTextL1_0383
+	.4byte gTextL1_0384
+	.4byte gTextL1_0385
+	.4byte gTextL1_0386
+	.4byte gTextL1_0387
+	.4byte gTextL1_0388
+	.4byte gTextL1_0389
+	.4byte gTextL1_0390
+	.4byte gTextL1_0391
+	.4byte gTextL1_0392
+	.4byte gTextL1_0393
+	.4byte gTextL1_0394
+	.4byte gTextL1_0395
+	.4byte gTextL1_0396
+	.4byte gTextL1_0397
+	.4byte gTextL1_0398
+	.4byte gTextL1_0399
+	.4byte gTextL1_0400
+	.4byte gTextL1_0401
+	.4byte gTextL1_0402
+	.4byte gTextL1_0403
+	.4byte gTextL1_0404
+	.4byte gTextL1_0405
+	.4byte gTextL1_0406
+	.4byte gTextL1_0407
+	.4byte gTextL1_0408
+	.4byte gTextL1_0409
+	.4byte gTextL1_0410
+	.4byte gTextL1_0411
+	.4byte gTextL1_0412
+	.4byte gTextL1_0413
+	.4byte gTextL1_0414
+	.4byte gTextL1_0415
+	.4byte gTextL1_0416
+	.4byte gTextL1_0417
+	.4byte gTextL1_0418
+	.4byte gTextL1_0419
+	.4byte gTextL1_0420
+	.4byte gTextL1_0421
+	.4byte gTextL1_0422
+	.4byte gTextL1_0423
+	.4byte gTextL1_0424
+	.4byte gTextL1_0425
+	.4byte gTextL1_0426
+	.4byte gTextL1_0427
+	.4byte gTextL1_0428
+	.4byte gTextL1_0429
+	.4byte gTextL1_0430
+	.4byte gTextL1_0431
+	.4byte gTextL1_0432
+	.4byte gTextL1_0433
+	.4byte gTextL1_0434
+	.4byte gTextL1_0435
+	.4byte gTextL1_0436
+	.4byte gTextL1_0437
+	.4byte gTextL1_0438
+	.4byte gTextL1_0439
+	.4byte gTextL1_0440
+	.4byte gTextL1_0441
+	.4byte gTextL1_0442
+	.4byte gTextL1_0443
+	.4byte gTextL1_0444
+	.4byte gTextL1_0445
+	.4byte gTextL1_0446
+	.4byte gTextL1_0447
+	.4byte gTextL1_0448
+	.4byte gTextL1_0449
+	.4byte gTextL1_0450
+	.4byte gTextL1_0451
+	.4byte gTextL1_0452
+	.4byte gTextL1_0453
+	.4byte gTextL1_0454
+	.4byte gTextL1_0455
+	.4byte gTextL1_0456
+	.4byte gTextL1_0457
+	.4byte gTextL1_0458
+	.4byte gTextL1_0459
+	.4byte gTextL1_0460
+	.4byte gTextL1_0461
+	.4byte gTextL1_0462
+	.4byte gTextL1_0463
+	.4byte gTextL1_0464
+	.4byte gTextL1_0465
+	.4byte gTextL1_0466
+	.4byte gTextL1_0467
+	.4byte gTextL1_0468
+	.4byte gTextL1_0469
+	.4byte gTextL1_0470
+	.4byte gTextL1_0471
+	.4byte gTextL1_0472
+	.4byte gTextL1_0473
+	.4byte gTextL1_0474
+	.4byte gTextL1_0475
+	.4byte gTextL1_0476
+	.4byte gTextL1_0477
+	.4byte gTextL1_0478
+	.4byte gTextL1_0479
+	.4byte gTextL1_0480
+	.4byte gTextL1_0481
+	.4byte gTextL1_0482
+	.4byte gTextL1_0483
+	.4byte gTextL1_0484
+	.4byte gTextL1_0485
+	.4byte gTextL1_0486
+	.4byte gTextL1_0487
+	.4byte gTextL1_0488
+	.4byte gTextL1_0489
+	.4byte gTextL1_0490
+	.4byte gTextL1_0491
+	.4byte gTextL1_0492
+	.4byte gTextL1_0493
+	.4byte gTextL1_0494
+	.4byte gTextL1_0495
+	.4byte gTextL1_0496
+	.4byte gTextL1_0497
+	.4byte gTextL1_0498
+	.4byte gTextL1_0499
+	.4byte gTextL1_0500
+	.4byte gTextL1_0501
+	.4byte gTextL1_0502
+	.4byte gTextL1_0503
+	.4byte gTextL1_0504
+	.4byte gTextL1_0505
+	.4byte gTextL1_0506
+	.4byte gTextL1_0507
+	.4byte gTextL1_0508
+	.4byte gTextL1_0509
+	.4byte gTextL1_0510
+	.4byte gTextL1_0511
+	.4byte gTextL1_0512
+	.4byte gTextL1_0513
+	.4byte gTextL1_0514
+	.4byte gTextL1_0515
+	.4byte gTextL1_0516
+	.4byte gTextL1_0517
+	.4byte gTextL1_0518
+	.4byte gTextL1_0519
+	.4byte gTextL1_0520
+	.4byte gTextL1_0521
+	.4byte gTextL1_0522
+	.4byte gTextL1_0523
+	.4byte gTextL1_0524
+	.4byte gTextL1_0525
+	.4byte gTextL1_0526
+	.4byte gTextL1_0527
+	.4byte gTextL1_0528
+	.4byte gTextL1_0529
+	.4byte gTextL1_0530
+	.4byte gTextL1_0531
+	.4byte gTextL1_0532
+	.4byte gTextL1_0533
+	.4byte gTextL1_0534
+	.4byte gTextL1_0535
+	.4byte gTextL1_0536
+	.4byte gTextL1_0537
+	.4byte gTextL1_0538
+	.4byte gTextL1_0539
+	.4byte gTextL1_0540
+	.4byte gTextL1_0541
+	.4byte gTextL1_0542
+	.4byte gTextL1_0543
+	.4byte gTextL1_0544
+	.4byte gTextL1_0545
+	.4byte gTextL1_0546
+	.4byte gTextL1_0547
+	.4byte gTextL1_0548
+	.4byte gTextL1_0549
+	.4byte gTextL1_0550
+	.4byte gTextL1_0551
+	.4byte gTextL1_0552
+	.4byte gTextL1_0553
+	.4byte gTextL1_0554
+	.4byte gTextL1_0555
+	.4byte gTextL1_0556
+	.4byte gTextL1_0557
+	.4byte gTextL1_0558
+	.4byte gTextL1_0559
+	.4byte gTextL1_0560
+	.4byte gTextL1_0561
+	.4byte gTextL1_0562
+	.4byte gTextL1_0563
+	.4byte gTextL1_0564
+	.4byte gTextL1_0565
+	.4byte gTextL1_0566
+	.4byte gTextL1_0567
+	.4byte gTextL1_0568
+	.4byte gTextL1_0569
+	.4byte gTextL1_0570
+	.4byte gTextL1_0571
+	.4byte gTextL1_0572
+	.4byte gTextL1_0573
+	.4byte gTextL1_0574
+	.4byte gTextL1_0575
+	.4byte gTextL1_0576
+	.4byte gTextL1_0577
+	.4byte gTextL1_0578
+	.4byte gTextL1_0579
+	.4byte gTextL1_0580
+	.4byte gTextL1_0581
+	.4byte gTextL1_0582
+	.4byte gTextL1_0583
+	.4byte gTextL1_0584
+	.4byte gTextL1_0585
+	.4byte gTextL1_0586
+	.4byte gTextL1_0587
+	.4byte gTextL1_0588
+	.4byte gTextL1_0589
+	.4byte gTextL1_0590
+	.4byte gTextL1_0591
+	.4byte gTextL1_0592
+	.4byte gTextL1_0593
+	.4byte gTextL1_0594
+	.4byte gTextL1_0595
+	.4byte gTextL1_0596
+	.4byte gTextL1_0597
+	.4byte gTextL1_0598
+	.4byte gTextL1_0599
+	.4byte gTextL1_0600
+	.4byte gTextL1_0601
+	.4byte gTextL1_0602
+	.4byte gTextL1_0603
+	.4byte gTextL1_0604
+	.4byte gTextL1_0605
+	.4byte gTextL1_0606
+	.4byte gTextL1_0607
+	.4byte gTextL1_0608
+	.4byte gTextL1_0609
+	.4byte gTextL1_0610
+	.4byte gTextL1_0611
+	.4byte gTextL1_0612
+	.4byte gTextL1_0613
+	.4byte gTextL1_0614
+	.4byte gTextL1_0615
+	.4byte gTextL1_0616
+	.4byte gTextL1_0617
+	.4byte gTextL1_0618
+	.4byte gTextL1_0619
+	.4byte gTextL1_0620
+	.4byte gTextL1_0621
+	.4byte gTextL1_0622
+	.4byte gTextL1_0623
+	.4byte gTextL1_0624
+	.4byte gTextL1_0625
+	.4byte gTextL1_0626
+	.4byte gTextL1_0627
+	.4byte gTextL1_0628
+	.4byte gTextL1_0629
+	.4byte gTextL1_0630
+	.4byte gTextL1_0631
+	.4byte gTextL1_0632
+	.4byte gTextL1_0633
+	.4byte gTextL1_0634
+	.4byte gTextL1_0635
+	.4byte gTextL1_0636
+	.4byte gTextL1_0637
+	.4byte gTextL1_0638
+	.4byte gTextL1_0639
+	.4byte gTextL1_0640
+	.4byte gTextL1_0641
+	.4byte gTextL1_0642
+	.4byte gTextL1_0643
+	.4byte gTextL1_0644
+	.4byte gTextL1_0645
+	.4byte gTextL1_0646
+	.4byte gTextL1_0647
+	.4byte gTextL1_0648
+	.4byte gTextL1_0649
+	.4byte gTextL1_0650
+	.4byte gTextL1_0651
+	.4byte gTextL1_0652
+	.4byte gTextL1_0653
+	.4byte gTextL1_0654
+	.4byte gTextL1_0655
+	.4byte gTextL1_0656
+	.4byte gTextL1_0657
+	.4byte gTextL1_0658
+	.4byte gTextL1_0659
+	.4byte gTextL1_0660
+	.4byte gTextL1_0661
+	.4byte gTextL1_0662
+	.4byte gTextL1_0663
+	.4byte gTextL1_0664
+	.4byte gTextL1_0665
+	.4byte gTextL1_0666
+	.4byte gTextL1_0667
+	.4byte gTextL1_0668
+	.4byte gTextL1_0669
+	.4byte gTextL1_0670
+	.4byte gTextL1_0671
+	.4byte gTextL1_0672
+	.4byte gTextL1_0673
+	.4byte gTextL1_0674
+	.4byte gTextL1_0675
+	.4byte gTextL1_0676
+	.4byte gTextL1_0677
+	.4byte gTextL1_0678
+	.4byte gTextL1_0679
+	.4byte gTextL1_0680
+	.4byte gTextL1_0681
+	.4byte gTextL1_0682
+	.4byte gTextL1_0683
+	.4byte gTextL1_0684
+	.4byte gTextL1_0685
+	.4byte gTextL1_0686
+	.4byte gTextL1_0687
+	.4byte gTextL1_0688
+	.4byte gTextL1_0689
+	.4byte gTextL1_0690
+	.4byte gTextL1_0691
+	.4byte gTextL1_0692
+	.4byte gTextL1_0693
+	.4byte gTextL1_0694
+	.4byte gTextL1_0695
+	.4byte gTextL1_0696
+	.4byte gTextL1_0697
+	.4byte gTextL1_0698
+	.4byte gTextL1_0699
+	.4byte gTextL1_0700
+	.4byte gTextL1_0701
+	.4byte gTextL1_0702
+	.4byte gTextL1_0703
+	.4byte gTextL1_0704
+	.4byte gTextL1_0705
+	.4byte gTextL1_0706
+	.4byte gTextL1_0707
+	.4byte gTextL1_0708
+	.4byte gTextL1_0709
+	.4byte gTextL1_0710
+	.4byte gTextL1_0711
+	.4byte gTextL1_0712
+	.4byte gTextL1_0713
+	.4byte gTextL1_0714
+	.4byte gTextL1_0715
+	.4byte gTextL1_0716
+	.4byte gTextL1_0717
+	.4byte gTextL1_0718
+	.4byte gTextL1_0719
+	.4byte gTextL1_0720
+	.4byte gTextL1_0721
+	.4byte gTextL1_0722
+	.4byte gTextL1_0723
+	.4byte gTextL1_0724
+	.4byte gTextL1_0725
+	.4byte gTextL1_0726
+	.4byte gTextL1_0727
+	.4byte gTextL1_0728
+	.4byte gTextL1_0729
+	.4byte gTextL1_0730
+	.4byte gTextL1_0731
+	.4byte gTextL1_0732
+	.4byte gTextL1_0733
+	.4byte gTextL1_0734
+	.4byte gTextL1_0735
+	.4byte gTextL1_0736
+	.4byte gTextL1_0737
+	.4byte gTextL1_0738
+	.4byte gTextL1_0739
+	.4byte gTextL1_0740
+	.4byte gTextL1_0741
+	.4byte gTextL1_0742
+	.4byte gTextL1_0743
+	.4byte gTextL1_0744
+	.4byte gTextL1_0745
+	.4byte gTextL1_0746
+	.4byte gTextL1_0747
+	.4byte gTextL1_0748
+	.4byte gTextL1_0749
+	.4byte gTextL1_0750
+	.4byte gTextL1_0751
+	.4byte gTextL1_0752
+	.4byte gTextL1_0753
+	.4byte gTextL1_0754
+	.4byte gTextL1_0755
+	.4byte gTextL1_0756
+	.4byte gTextL1_0757
+	.4byte gTextL1_0758
+	.4byte gTextL1_0759
+	.4byte gTextL1_0760
+	.4byte gTextL1_0761
+	.4byte gTextL1_0762
+	.4byte gTextL1_0763
+	.4byte gTextL1_0764
+	.4byte gTextL1_0765
+	.4byte gTextL1_0766
+	.4byte gTextL1_0767
+	.4byte gTextL1_0768
+	.4byte gTextL1_0769
+	.4byte gTextL1_0770
+	.4byte gTextL1_0771
+	.4byte gTextL1_0772
+	.4byte gTextL1_0773
+	.4byte gTextL1_0774
+	.4byte gTextL1_0775
+	.4byte gTextL1_0776
+	.4byte gTextL1_0777
+	.4byte gTextL1_0778
+	.4byte gTextL1_0779
+	.4byte gTextL1_0780
+	.4byte gTextL1_0781
+	.4byte gTextL1_0782
+	.4byte gTextL1_0783
+	.4byte gTextL1_0784
+	.4byte gTextL1_0785
+	.4byte gTextL1_0786
+	.4byte gTextL1_0787
+	.4byte gTextL1_0788
+	.4byte gTextL1_0789
+	.4byte gTextL1_0790
+	.4byte gTextL1_0791
+	.4byte gTextL1_0792
+	.4byte gTextL1_0793
+	.4byte gTextL1_0794
+	.4byte gTextL1_0795
+	.4byte gTextL1_0796
+	.4byte gTextL1_0797
+	.4byte gTextL1_0798
+	.4byte gTextL1_0799
+	.4byte gTextL1_0800
+	.4byte gTextL1_0801
+	.4byte gTextL1_0802
+	.4byte gTextL1_0803
+	.4byte gTextL1_0804
+	.4byte gTextL1_0805
+	.4byte gTextL1_0806
+	.4byte gTextL1_0807
+	.4byte gTextL1_0808
+	.4byte gTextL1_0809
+	.4byte gTextL1_0810
+	.4byte gTextL1_0811
+	.4byte gTextL1_0812
+	.4byte gTextL1_0813
+	.4byte gTextL1_0814
+	.4byte gTextL1_0815
+	.4byte gTextL1_0816
+	.4byte gTextL1_0817
+	.4byte gTextL1_0818
+	.4byte gTextL1_0819
+	.4byte gTextL1_0820
+	.4byte gTextL1_0821
+	.4byte gTextL1_0822
+	.4byte gTextL1_0823
+	.4byte gTextL1_0824
+	.4byte gTextL1_0825
+	.4byte gTextL1_0826
+	.4byte gTextL1_0827
+	.4byte gTextL1_0828
+	.4byte gTextL1_0829
+	.4byte gTextL1_0830
+	.4byte gTextL1_0831
+	.4byte gTextL1_0832
+	.4byte gTextL1_0833
+	.4byte gTextL1_0834
+	.4byte gTextL1_0835
+	.4byte gTextL1_0836
+	.4byte gTextL1_0837
+	.4byte gTextL1_0838
+	.4byte gTextL1_0839
+	.4byte gTextL1_0840
+	.4byte gTextL1_0841
+	.4byte gTextL1_0842
+	.4byte gTextL1_0843
+	.4byte gTextL1_0844
+	.4byte gTextL1_0845
+	.4byte gTextL1_0846
+	.4byte gTextL1_0847
+	.4byte gTextL1_0848
+	.4byte gTextL1_0849
+	.4byte gTextL1_0850
+	.4byte gTextL1_0851
+	.4byte gTextL1_0852
+	.4byte gTextL1_0853
+	.4byte gTextL1_0854
+	.4byte gTextL1_0855
+	.4byte gTextL1_0856
+	.4byte gTextL1_0857
+	.4byte gTextL1_0858
+	.4byte gTextL1_0859
+	.4byte gTextL1_0860
+	.4byte gTextL1_0861
+	.4byte gTextL1_0862
+	.4byte gTextL1_0863
+	.4byte gTextL1_0864
+	.4byte gTextL1_0865
+	.4byte gTextL1_0866
+	.4byte gTextL1_0867
+	.4byte gTextL1_0868
+	.4byte gTextL1_0869
+	.4byte gTextL1_0870
+	.4byte gTextL1_0871
+	.4byte gTextL1_0872
+	.4byte gTextL1_0873
+	.4byte gTextL1_0874
+	.4byte gTextL1_0875
+	.4byte gTextL1_0876
+	.4byte gTextL1_0877
+	.4byte gTextL1_0878
+	.4byte gTextL1_0879
+	.4byte gTextL1_0880
+	.4byte gTextL1_0881
+	.4byte gTextL1_0882
+	.4byte gTextL1_0883
+	.4byte gTextL1_0884
+	.4byte gTextL1_0885
+	.4byte gTextL1_0886
+	.4byte gTextL1_0887
+	.4byte gTextL1_0888
+	.4byte gTextL1_0889
+	.4byte gTextL1_0890
+	.4byte gTextL1_0891
+	.4byte gTextL1_0892
+	.4byte gTextL1_0893
+	.4byte gTextL1_0894
+	.4byte gTextL1_0895
+	.4byte gTextL1_0896
+	.4byte gTextL1_0897
+	.4byte gTextL1_0898
+	.4byte gTextL1_0899
+	.4byte gTextL1_0900
+	.4byte gTextL1_0901
+	.4byte gTextL1_0902
+	.4byte gTextL1_0903
+	.4byte gTextL1_0904
+	.4byte gTextL1_0905
+	.4byte gTextL1_0906
+	.4byte gTextL1_0907
+	.4byte gTextL1_0908
+	.4byte gTextL1_0909
+	.4byte gTextL1_0910
+	.4byte gTextL1_0911
+	.4byte gTextL1_0912
+	.4byte gTextL1_0913
+	.4byte gTextL1_0914
+	.4byte gTextL1_0915
+	.4byte gTextL1_0916
+	.4byte gTextL1_0917
+	.4byte gTextL1_0918
+	.4byte gTextL1_0919
+	.4byte gTextL1_0920
+	.4byte gTextL1_0921
+	.4byte gTextL1_0922
+	.4byte gTextL1_0923
+	.4byte gTextL1_0924
+	.4byte gTextL1_0925
+	.4byte gTextL1_0926
+	.4byte gTextL1_0927
+	.4byte gTextL1_0928
+	.4byte gTextL1_0929
+	.4byte gTextL1_0930
+	.4byte gTextL1_0931
+	.4byte gTextL1_0932
+	.4byte gTextL1_0933
+	.4byte gTextL1_0934
+	.4byte gTextL1_0935
+	.4byte gTextL1_0936
+	.4byte gTextL1_0937
+	.4byte gTextL1_0938
+	.4byte gTextL1_0939
+	.4byte gTextL1_0940
+	.4byte gTextL1_0941
+	.4byte gTextL1_0942
+	.4byte gTextL1_0943
+	.4byte gTextL1_0944
+	.4byte gTextL1_0945
+	.4byte gTextL1_0946
+	.4byte gTextL1_0947
+	.4byte gTextL1_0948
+	.4byte gTextL1_0949
+	.4byte gTextL1_0950
+	.4byte gTextL1_0951
+	.4byte gTextL1_0952
+	.4byte gTextL1_0953
+	.4byte gTextL1_0954
+	.4byte gTextL1_0955
+	.4byte gTextL1_0956
+	.4byte gTextL1_0957
+	.4byte gTextL1_0958
+	.4byte gTextL1_0959
+	.4byte gTextL1_0960
+	.4byte gTextL1_0961
+	.4byte gTextL1_0962
+	.4byte gTextL1_0963
+	.4byte gTextL1_0964
+	.4byte gTextL1_0965
+	.4byte gTextL1_0966
+	.4byte gTextL1_0967
+	.4byte gTextL1_0968
+	.4byte gTextL1_0969
+	.4byte gTextL1_0970
+	.4byte gTextL1_0971
+	.4byte gTextL1_0972
+	.4byte gTextL1_0973
+	.4byte gTextL1_0974
+	.4byte gTextL1_0975
+	.4byte gTextL1_0976
+	.4byte gTextL1_0977
+	.4byte gTextL1_0978
+	.4byte gTextL1_0979
+	.4byte gTextL1_0980
+	.4byte gTextL1_0981
+	.4byte gTextL1_0982
+	.4byte gTextL1_0983
+	.4byte gTextL1_0984
+	.4byte gTextL1_0985
+	.4byte gTextL1_0986
+	.4byte gTextL1_0987
+	.4byte gTextL1_0988
+	.4byte gTextL1_0989
+	.4byte gTextL1_0990
+	.4byte gTextL1_0991
+	.4byte gTextL1_0992
+	.4byte gTextL1_0993
+	.4byte gTextL1_0994
+	.4byte gTextL1_0995
+	.4byte gTextL1_0996
+	.4byte gTextL1_0997
+	.4byte gTextL1_0998
+	.4byte gTextL1_0999
+	.4byte gTextL1_1000
+	.4byte gTextL1_1001
+	.4byte gTextL1_1002
+	.4byte gTextL1_1003
+	.4byte gTextL1_1004
+	.4byte gTextL1_1005
+	.4byte gTextL1_1006
+	.4byte gTextL1_1007
+	.4byte gTextL1_1008
+	.4byte gTextL1_1009
+	.4byte gTextL1_1010
+	.4byte gTextL1_1011
+	.4byte gTextL1_1012
+	.4byte gTextL1_1013
+	.4byte gTextL1_1014
+	.4byte gTextL1_1015
+	.4byte gTextL1_1016
+	.4byte gTextL1_1017
+	.4byte gTextL1_1018
+	.4byte gTextL1_1019
+	.4byte gTextL1_1020
+	.4byte gTextL1_1021
+	.4byte gTextL1_1022
+	.4byte gTextL1_1023
+	.4byte gTextL1_1024
+	.4byte gTextL1_1025
+	.4byte gTextL1_1026
+	.4byte gTextL1_1027
+	.4byte gTextL1_1028
+	.4byte gTextL1_1029
+	.4byte gTextL1_1030
+	.4byte gTextL1_1031
+	.4byte gTextL1_1032
+	.4byte gTextL1_1033
+	.4byte gTextL1_1034
+	.4byte gTextL1_1035
+	.4byte gTextL1_1036
+	.4byte gTextL1_1037
+	.4byte gTextL1_1038
+	.4byte gTextL1_1039
+	.4byte gTextL1_1040
+	.4byte gTextL1_1041
+	.4byte gTextL1_1042
+	.4byte gTextL1_1043
+	.4byte gTextL1_1044
+	.4byte gTextL1_1045
+	.4byte gTextL1_1046
+	.4byte gTextL1_1047
+	.4byte gTextL1_1048
+	.4byte gTextL1_1049
+	.4byte gTextL1_1050
+	.4byte gTextL1_1051
+	.4byte gTextL1_1052
+	.4byte gTextL1_1053
+	.4byte gTextL1_1054
+	.4byte gTextL1_1055
+	.4byte gTextL1_1056
+	.4byte gTextL1_1057
+	.4byte gTextL1_1058
+	.4byte gTextL1_1059
+	.4byte gTextL1_1060
+	.4byte gTextL1_1061
+	.4byte gTextL1_1062
+	.4byte gTextL1_1063
+	.4byte gTextL1_1064
+	.4byte gTextL1_1065
+	.4byte gTextL1_1066
+	.4byte gTextL1_1067
+	.4byte gTextL1_1068
+	.4byte gTextL1_1069
+	.4byte gTextL1_1070
+	.4byte gTextL1_1071
+	.4byte gTextL1_1072
+	.4byte gTextL1_1073
+	.4byte gTextL1_1074
+	.4byte gTextL1_1075
+	.4byte gTextL1_1076
+	.4byte gTextL1_1077
+	.4byte gTextL1_1078
+	.4byte gTextL1_1079
+	.4byte gTextL1_1080
+	.4byte gTextL1_1081
+	.4byte gTextL1_1082
+	.4byte gTextL1_1083
+	.4byte gTextL1_1084
+	.4byte gTextL1_1085
+	.4byte gTextL1_1086
+	.4byte gTextL1_1087
+	.4byte gTextL1_1088
+	.4byte gTextL1_1089
+	.4byte gTextL1_1090
+	.4byte gTextL1_1091
+	.4byte gTextL1_1092
+	.4byte gTextL1_1093
+	.4byte gTextL1_1094
+	.4byte gTextL1_1095
+	.4byte gTextL1_1096
+	.4byte gTextL1_1097
+	.4byte gTextL1_1098
+	.4byte gTextL1_1099
+	.4byte gTextL1_1100
+	.4byte gTextL1_1101
+	.4byte gTextL1_1102
+	.4byte gTextL1_1103
+	.4byte gTextL1_1104
+	.4byte gTextL1_1105
+	.4byte gTextL1_1106
+	.4byte gTextL1_1107
+	.4byte gTextL1_1108
+	.4byte gTextL1_1109
+	.4byte gTextL1_1110
+	.4byte gTextL1_1111
+	.4byte gTextL1_1112
+	.4byte gTextL1_1113
+	.4byte gTextL1_1114
+	.4byte gTextL1_1115
+	.4byte gTextL1_1116
+	.4byte gTextL1_1117
+	.4byte gTextL1_1118
+	.4byte gTextL1_1119
+	.4byte gTextL1_1120
+	.4byte gTextL1_1121
+	.4byte gTextL1_1122
+	.4byte gTextL1_1123
+	.4byte gTextL1_1124
+	.4byte gTextL1_1125
+	.4byte gTextL1_1126
+	.4byte gTextL1_1127
+	.4byte gTextL1_1128
+	.4byte gTextL1_1129
+	.4byte gTextL1_1130
+	.4byte gTextL1_1131
+	.4byte gTextL1_1132
+	.4byte gTextL1_1133
+	.4byte gTextL1_1134
+	.4byte gTextL1_1135
+	.4byte gTextL1_1136
+	.4byte gTextL1_1137
+	.4byte gTextL1_1138
+	.4byte gTextL1_1139
+	.4byte gTextL1_1140
+	.4byte gTextL1_1141
+	.4byte gTextL1_1142
+	.4byte gTextL1_1143
+	.4byte gTextL1_1144
+	.4byte gTextL1_1145
+	.4byte gTextL1_1146
+	.4byte gTextL1_1147
+	.4byte gTextL1_1148
+	.4byte gTextL1_1149
+	.4byte gTextL1_1150
+	.4byte gTextL1_1151
+	.4byte gTextL1_1152
+	.4byte gTextL1_1153
+	.4byte gTextL1_1154
+	.4byte gTextL1_1155
+	.4byte gTextL1_1156
+	.4byte gTextL1_1157
+	.4byte gTextL1_1158
+	.4byte gTextL1_1159
+	.4byte gTextL1_1160
+	.4byte gTextL1_1161
+	.4byte gTextL1_1162
+	.4byte gTextL1_1163
+	.4byte gTextL1_1164
+	.4byte gTextL1_1165
+	.4byte gTextL1_1166
+	.4byte gTextL1_1167
+	.4byte gTextL1_1168
+	.4byte gTextL1_1169
+	.4byte gTextL1_1170
+	.4byte gTextL1_1171
+	.4byte gTextL1_1172
+	.4byte gTextL1_1173
+	.4byte gTextL1_1174
+	.4byte gTextL1_1175
+	.4byte gTextL1_1176
+	.4byte gTextL1_1177
+	.4byte gTextL1_1178
+	.4byte gTextL1_1179
+	.4byte gTextL1_1180
+	.4byte gTextL1_1181
+	.4byte gTextL1_1182
+	.4byte gTextL1_1183
+	.4byte gTextL1_1184
+	.4byte gTextL1_1185
+	.4byte gTextL1_1186
+	.4byte gTextL1_1187
+	.4byte gTextL1_1188
+	.4byte gTextL1_1189
+	.4byte gTextL1_1190
+	.4byte gTextL1_1191
+	.4byte gTextL1_1192
+	.4byte gTextL1_1193
+	.4byte gTextL1_1194
+	.4byte gTextL1_1195
+	.4byte gTextL1_1196
+	.4byte gTextL1_1197
+	.4byte gTextL1_1198
+	.4byte gTextL1_1199
+	.4byte gTextL1_1200
+	.4byte gTextL1_1201
+	.4byte gTextL1_1202
+	.4byte gTextL1_1203
+	.4byte gTextL1_1204
+	.4byte gTextL1_1205
+	.4byte gTextL1_1206
+	.4byte gTextL1_1207
+	.4byte gTextL1_1208
+	.4byte gTextL1_1209
+	.4byte gTextL1_1210
+	.4byte gTextL1_1211
+	.4byte gTextL1_1212
+	.4byte gTextL1_1213
+	.4byte gTextL1_1214
+	.4byte gTextL1_1215
+	.4byte gTextL1_1216
+	.4byte gTextL1_1217
+	.4byte gTextL1_1218
+	.4byte gTextL1_1219
+	.4byte gTextL1_1220
+	.4byte gTextL1_1221
+	.4byte gTextL1_1222
+	.4byte gTextL1_1223
+	.4byte gTextL1_1224
+	.4byte gTextL1_1225
+	.4byte gTextL1_1226
+	.4byte gTextL1_1227
+	.4byte gTextL1_1228
+	.4byte gTextL1_1229
+	.4byte gTextL1_1230
+	.4byte gTextL1_1231
+	.4byte gTextL1_1232
+	.4byte gTextL1_1233
+	.4byte gTextL1_1234
+	.4byte gTextL1_1235
+	.4byte gTextL1_1236
+	.4byte gTextL1_1237
+	.4byte gTextL1_1238
+	.4byte gTextL1_1239
+	.4byte gTextL1_1240
+	.4byte gTextL1_1241
+	.4byte gTextL1_1242
+	.4byte gTextL1_1243
+	.4byte gTextL1_1244
+	.4byte gTextL1_1245
+	.4byte gTextL1_1246
+	.4byte gTextL1_1247
+	.4byte gTextL1_1248
+	.4byte gTextL1_1249
+	.4byte gTextL1_1250
+	.4byte gTextL1_1251
+	.4byte gTextL1_1252
+	.4byte gTextL1_1253
+	.4byte gTextL1_1254
+	.4byte gTextL1_1255
+	.4byte gTextL1_1256
+	.4byte gTextL1_1257
+	.4byte gTextL1_1258
+	.4byte gTextL1_1259
+	.4byte gTextL1_1260
+	.4byte gTextL1_1261
+	.4byte gTextL1_1262
+	.4byte gTextL1_1263
+	.4byte gTextL1_1264
+	.4byte gTextL1_1265
+	.4byte gTextL1_1266
+	.4byte gTextL1_1267
+	.4byte gTextL1_1268
+	.4byte gTextL1_1269
+	.4byte gTextL1_1270
+	.4byte gTextL1_1271
+	.4byte gTextL1_1272
+	.4byte gTextL1_1273
+	.4byte gTextL1_1274
+	.4byte gTextL1_1275
+	.4byte gTextL1_1276
+	.4byte gTextL1_1277
+	.4byte gTextL1_1278
+	.4byte gTextL1_1279
+	.4byte gTextL1_1280
+	.4byte gTextL1_1281
+	.4byte gTextL1_1282
+	.4byte gTextL1_1283
+	.4byte gTextL1_1284
+	.4byte gTextL1_1285
+	.4byte gTextL1_1286
+	.4byte gTextL1_1287
+	.4byte gTextL1_1288
+	.4byte gTextL1_1289
+	.4byte gTextL1_1290
+	.4byte gTextL1_1291
+	.4byte gTextL1_1292
+	.4byte gTextL1_1293
+	.4byte gTextL1_1294
+	.4byte gTextL1_1295
+	.4byte gTextL1_1296
+	.4byte gTextL1_1297
+	.4byte gTextL1_1298
+	.4byte gTextL1_1299
+	.4byte gTextL1_1300
+	.4byte gTextL1_1301
+	.4byte gTextL1_1302
+	.4byte gTextL1_1303
+	.4byte gTextL1_1304
+	.4byte gTextL1_1305
+	.4byte gTextL1_1306
+	.4byte gTextL1_1307
+	.4byte gTextL1_1308
+	.4byte gTextL1_1309
+	.4byte gTextL1_1310
+	.4byte gTextL1_1311
+	.4byte gTextL1_1312
+	.4byte gTextL1_1313
+	.4byte gTextL1_1314
+	.4byte gTextL1_1315
+	.4byte gTextL1_1316
+	.4byte gTextL1_1317
+	.4byte gTextL1_1318
+	.4byte gTextL1_1319
+	.4byte gTextL1_1320
+	.4byte gTextL1_1321
+	.4byte gTextL1_1322
+	.4byte gTextL1_1323
+	.4byte gTextL1_1324
+	.4byte gTextL1_1325
+	.4byte gTextL1_1326
+	.4byte gTextL1_1327
+	.4byte gTextL1_1328
+	.4byte gTextL1_1329
+	.4byte gTextL1_1330
+	.4byte gTextL1_1331
+	.4byte gTextL1_1332
+	.4byte gTextL1_1333
+	.4byte gTextL1_1334
+	.4byte gTextL1_1335
+	.4byte gTextL1_1336
+	.4byte gTextL1_1337
+	.4byte gTextL1_1338
+	.4byte gTextL1_1339
+	.4byte gTextL1_1340
+	.4byte gTextL1_1341
+	.4byte gTextL1_1342
+	.4byte gTextL1_1343
+	.4byte gTextL1_1344
+	.4byte gTextL1_1345
+	.4byte gTextL1_1346
+	.4byte gTextL1_1347
+	.4byte gTextL1_1348
+	.4byte gTextL1_1349
+	.4byte gTextL1_1350
+	.4byte gTextL1_1351
+	.4byte gTextL1_1352
+	.4byte gTextL1_1353
+	.4byte gTextL1_1354
+	.4byte gTextL1_1355
+	.4byte gTextL1_1356
+	.4byte gTextL1_1357
+	.4byte gTextL1_1358
+	.4byte gTextL1_1359
+	.4byte gTextL1_1360
+	.4byte gTextL1_1361
+	.4byte gTextL1_1362
+	.4byte gTextL1_1363
+	.4byte gTextL1_1364
+	.4byte gTextL1_1365
+	.4byte gTextL1_1366
+	.4byte gTextL1_1367
+	.4byte gTextL1_1368
+	.4byte gTextL1_1369
+	.4byte gTextL1_1370
+	.4byte gTextL1_1371
+	.4byte gTextL1_1372
+	.4byte gTextL1_1373
+	.4byte gTextL1_1374
+	.4byte gTextL1_1375
+	.4byte gTextL1_1376
+	.4byte gTextL1_1377
+	.4byte gTextL1_1378
+	.4byte gTextL1_1379
+	.4byte gTextL1_1380
+	.4byte gTextL1_1381
+	.4byte gTextL1_1382
+	.4byte gTextL1_1383
+	.4byte gTextL1_1384
+	.4byte gTextL1_1385
+	.4byte gTextL1_1386
+	.4byte gTextL1_1387
+	.4byte gTextL1_1388
+	.4byte gTextL1_1389
+	.4byte gTextL1_1390
+	.4byte gTextL1_1391
+	.4byte gTextL1_1392
+	.4byte gTextL1_1393
+	.4byte gTextL1_1394
+	.4byte gTextL1_1395
+	.4byte gTextL1_1396
+	.4byte gTextL1_1397
+	.4byte gTextL1_1398
+	.4byte gTextL1_1399
+	.4byte gTextL1_1400
+	.4byte gTextL1_1401
+	.4byte gTextL1_1402
+	.4byte gTextL1_1403
+	.4byte gTextL1_1404
+	.4byte gTextL1_1405
+	.4byte gTextL1_1406
+	.4byte gTextL1_1407
+	.4byte gTextL1_1408
+	.4byte gTextL1_1409
+	.4byte gTextL1_1410
+	.4byte gTextL1_1411
+	.4byte gTextL1_1412
+	.4byte gTextL1_1413
+	.4byte gTextL1_1414
+	.4byte gTextL1_1415
+	.4byte gTextL1_1416
+	.4byte gTextL1_1417
+	.4byte gTextL1_1418
+	.4byte gTextL1_1419
+	.4byte gTextL1_1420
+	.4byte gTextL1_1421
+	.4byte gTextL1_1422
+	.4byte gTextL1_1423
+	.4byte gTextL1_1424
+	.4byte gTextL1_1425
+	.4byte gTextL1_1426
+	.4byte gTextL1_1427
+	.4byte gTextL1_1428
+	.4byte gTextL1_1429
+	.4byte gTextL1_1430
+	.4byte gTextL1_1431
+	.4byte gTextL1_1432
+	.4byte gTextL1_1433
+	.4byte gTextL1_1434
+	.4byte gTextL1_1435
+	.4byte gTextL1_1436
+	.4byte gTextL1_1437
+	.4byte gTextL1_1438
+	.4byte gTextL1_1439
+	.4byte gTextL1_1440
+	.4byte gTextL1_1441
+	.4byte gTextL1_1442
+	.4byte gTextL1_1443
+	.4byte gTextL1_1444
+	.4byte gTextL1_1445
+	.4byte gTextL1_1446
+	.4byte gTextL1_1447
+	.4byte gTextL1_1448
+	.4byte gTextL1_1449
+	.4byte gTextL1_1450
+	.4byte gTextL1_1451
+	.4byte gTextL1_1452
+	.4byte gTextL1_1453
+	.4byte gTextL1_1454
+	.4byte gTextL1_1455
+	.4byte gTextL1_1456
+	.4byte gTextL1_1457
+	.4byte gTextL1_1458
+	.4byte gTextL1_1459
+	.4byte gTextL1_1460
+	.4byte gTextL1_1461
+	.4byte gTextL1_1462
+	.4byte gTextL1_1463
+	.4byte gTextL1_1464
+	.4byte gTextL1_1465
+	.4byte gTextL1_1466
+	.4byte gTextL1_1467
+	.4byte gTextL1_1468
+	.4byte gTextL1_1469
+	.4byte gTextL1_1470
+	.4byte gTextL1_1471
+	.4byte gTextL1_1472
+	.4byte gTextL1_1473
+	.4byte gTextL1_1474
+	.4byte gTextL1_1475
+	.4byte gTextL1_1476
+	.4byte gTextL1_1477
+	.4byte gTextL1_1478
+	.4byte gTextL1_1479
+	.4byte gTextL1_1480
+	.4byte gTextL1_1481
+	.4byte gTextL1_1482
+	.4byte gTextL1_1483
+	.4byte gTextL1_1484
+	.4byte gTextL1_1485
+	.4byte gTextL1_1486
+	.4byte gTextL1_1487
+	.4byte gTextL1_1488
+	.4byte gTextL1_1489
+	.4byte gTextL1_1490
+	.4byte gTextL1_1491
+	.4byte gTextL1_1492
+	.global gUnk_084020F8
+gUnk_084020F8:
+	.incbin "baserom.gba", 0x4020F8, 0xD
+	.global gTextL2_0001
+gTextL2_0001:
+	.incbin "baserom.gba", 0x402105, 0x14
+	.global gTextL2_0002
+gTextL2_0002:
+	.incbin "baserom.gba", 0x402119, 0x1F
+	.global gTextL2_0003
+gTextL2_0003:
+	.incbin "baserom.gba", 0x402138, 0x22
+	.global gTextL2_0004
+gTextL2_0004:
+	.incbin "baserom.gba", 0x40215A, 0x36
+	.global gTextL2_0005
+gTextL2_0005:
+	.incbin "baserom.gba", 0x402190, 0x3A
+	.global gTextL2_0006
+gTextL2_0006:
+	.incbin "baserom.gba", 0x4021CA, 0x38
+	.global gTextL2_0007
+gTextL2_0007:
+	.incbin "baserom.gba", 0x402202, 0x35
+	.global gTextL2_0008
+gTextL2_0008:
+	.incbin "baserom.gba", 0x402237, 0x22
+	.global gTextL2_0009
+gTextL2_0009:
+	.incbin "baserom.gba", 0x402259, 0x2E
+	.global gTextL2_0010
+gTextL2_0010:
+	.incbin "baserom.gba", 0x402287, 0x32
+	.global gTextL2_0011
+gTextL2_0011:
+	.incbin "baserom.gba", 0x4022B9, 0x3B
+	.global gTextL2_0012
+gTextL2_0012:
+	.incbin "baserom.gba", 0x4022F4, 0x2B
+	.global gTextL2_0013
+gTextL2_0013:
+	.incbin "baserom.gba", 0x40231F, 0x2D
+	.global gTextL2_0014
+gTextL2_0014:
+	.incbin "baserom.gba", 0x40234C, 0x29
+	.global gTextL2_0015
+gTextL2_0015:
+	.incbin "baserom.gba", 0x402375, 0x33
+	.global gTextL2_0016
+gTextL2_0016:
+	.incbin "baserom.gba", 0x4023A8, 0x2A
+	.global gTextL2_0017
+gTextL2_0017:
+	.incbin "baserom.gba", 0x4023D2, 0x2D
+	.global gTextL2_0018
+gTextL2_0018:
+	.incbin "baserom.gba", 0x4023FF, 0x13
+	.global gTextL2_0019
+gTextL2_0019:
+	.incbin "baserom.gba", 0x402412, 0x38
+	.global gTextL2_0020
+gTextL2_0020:
+	.incbin "baserom.gba", 0x40244A, 0x34
+	.global gTextL2_0021
+gTextL2_0021:
+	.incbin "baserom.gba", 0x40247E, 0x2E
+	.global gTextL2_0022
+gTextL2_0022:
+	.incbin "baserom.gba", 0x4024AC, 0x2A
+	.global gTextL2_0023
+gTextL2_0023:
+	.incbin "baserom.gba", 0x4024D6, 0x25
+	.global gTextL2_0024
+gTextL2_0024:
+	.incbin "baserom.gba", 0x4024FB, 0x14
+	.global gTextL2_0025
+gTextL2_0025:
+	.incbin "baserom.gba", 0x40250F, 0x3A
+	.global gTextL2_0026
+gTextL2_0026:
+	.incbin "baserom.gba", 0x402549, 0x37
+	.global gTextL2_0027
+gTextL2_0027:
+	.incbin "baserom.gba", 0x402580, 0x21
+	.global gTextL2_0028
+gTextL2_0028:
+	.incbin "baserom.gba", 0x4025A1, 0x37
+	.global gTextL2_0029
+gTextL2_0029:
+	.incbin "baserom.gba", 0x4025D8, 0x6C
+	.global gTextL2_0030
+gTextL2_0030:
+	.incbin "baserom.gba", 0x402644, 0x36
+	.global gTextL2_0031
+gTextL2_0031:
+	.incbin "baserom.gba", 0x40267A, 0x35
+	.global gTextL2_0032
+gTextL2_0032:
+	.incbin "baserom.gba", 0x4026AF, 0x23
+	.global gTextL2_0033
+gTextL2_0033:
+	.incbin "baserom.gba", 0x4026D2, 0x2F
+	.global gTextL2_0034
+gTextL2_0034:
+	.incbin "baserom.gba", 0x402701, 0x99
+	.global gTextL2_0035
+gTextL2_0035:
+	.incbin "baserom.gba", 0x40279A, 0x37
+	.global gTextL2_0036
+gTextL2_0036:
+	.incbin "baserom.gba", 0x4027D1, 0x28
+	.global gTextL2_0037
+gTextL2_0037:
+	.incbin "baserom.gba", 0x4027F9, 0x2A
+	.global gTextL2_0038
+gTextL2_0038:
+	.incbin "baserom.gba", 0x402823, 0x39
+	.global gTextL2_0039
+gTextL2_0039:
+	.incbin "baserom.gba", 0x40285C, 0x72
+	.global gTextL2_0040
+gTextL2_0040:
+	.incbin "baserom.gba", 0x4028CE, 0x2F
+	.global gTextL2_0041
+gTextL2_0041:
+	.incbin "baserom.gba", 0x4028FD, 0x25
+	.global gTextL2_0042
+gTextL2_0042:
+	.incbin "baserom.gba", 0x402922, 0x39
+	.global gTextL2_0043
+gTextL2_0043:
+	.incbin "baserom.gba", 0x40295B, 0x18
+	.global gTextL2_0044
+gTextL2_0044:
+	.incbin "baserom.gba", 0x402973, 0x1C
+	.global gTextL2_0045
+gTextL2_0045:
+	.incbin "baserom.gba", 0x40298F, 0x26
+	.global gTextL2_0046
+gTextL2_0046:
+	.incbin "baserom.gba", 0x4029B5, 0x30
+	.global gTextL2_0047
+gTextL2_0047:
+	.incbin "baserom.gba", 0x4029E5, 0x6C
+	.global gTextL2_0048
+gTextL2_0048:
+	.incbin "baserom.gba", 0x402A51, 0x146
+	.global gTextL2_0049
+gTextL2_0049:
+	.incbin "baserom.gba", 0x402B97, 0x65
+	.global gTextL2_0050
+gTextL2_0050:
+	.incbin "baserom.gba", 0x402BFC, 0x139
+	.global gTextL2_0051
+gTextL2_0051:
+	.incbin "baserom.gba", 0x402D35, 0x30
+	.global gTextL2_0052
+gTextL2_0052:
+	.incbin "baserom.gba", 0x402D65, 0x3B
+	.global gTextL2_0053
+gTextL2_0053:
+	.incbin "baserom.gba", 0x402DA0, 0x77
+	.global gTextL2_0054
+gTextL2_0054:
+	.incbin "baserom.gba", 0x402E17, 0x36
+	.global gTextL2_0055
+gTextL2_0055:
+	.incbin "baserom.gba", 0x402E4D, 0x55
+	.global gTextL2_0056
+gTextL2_0056:
+	.incbin "baserom.gba", 0x402EA2, 0xA0
+	.global gTextL2_0057
+gTextL2_0057:
+	.incbin "baserom.gba", 0x402F42, 0xE4
+	.global gTextL2_0058
+gTextL2_0058:
+	.incbin "baserom.gba", 0x403026, 0x51
+	.global gTextL2_0059
+gTextL2_0059:
+	.incbin "baserom.gba", 0x403077, 0xB6
+	.global gTextL2_0060
+gTextL2_0060:
+	.incbin "baserom.gba", 0x40312D, 0x75
+	.global gTextL2_0061
+gTextL2_0061:
+	.incbin "baserom.gba", 0x4031A2, 0x60
+	.global gTextL2_0062
+gTextL2_0062:
+	.incbin "baserom.gba", 0x403202, 0xA
+	.global gTextL2_0063
+gTextL2_0063:
+	.incbin "baserom.gba", 0x40320C, 0x15D
+	.global gTextL2_0064
+gTextL2_0064:
+	.incbin "baserom.gba", 0x403369, 0x1A4
+	.global gTextL2_0065
+gTextL2_0065:
+	.incbin "baserom.gba", 0x40350D, 0x3F
+	.global gTextL2_0066
+gTextL2_0066:
+	.incbin "baserom.gba", 0x40354C, 0x121
+	.global gTextL2_0067
+gTextL2_0067:
+	.incbin "baserom.gba", 0x40366D, 0xF3
+	.global gTextL2_0068
+gTextL2_0068:
+	.incbin "baserom.gba", 0x403760, 0x34
+	.global gTextL2_0069
+gTextL2_0069:
+	.incbin "baserom.gba", 0x403794, 0x23
+	.global gTextL2_0070
+gTextL2_0070:
+	.incbin "baserom.gba", 0x4037B7, 0x148
+	.global gTextL2_0071
+gTextL2_0071:
+	.incbin "baserom.gba", 0x4038FF, 0x167
+	.global gTextL2_0072
+gTextL2_0072:
+	.incbin "baserom.gba", 0x403A66, 0x198
+	.global gTextL2_0073
+gTextL2_0073:
+	.incbin "baserom.gba", 0x403BFE, 0x37
+	.global gTextL2_0074
+gTextL2_0074:
+	.incbin "baserom.gba", 0x403C35, 0x4E
+	.global gTextL2_0075
+gTextL2_0075:
+	.incbin "baserom.gba", 0x403C83, 0x43
+	.global gTextL2_0076
+gTextL2_0076:
+	.incbin "baserom.gba", 0x403CC6, 0x2C
+	.global gTextL2_0077
+gTextL2_0077:
+	.incbin "baserom.gba", 0x403CF2, 0x26
+	.global gTextL2_0078
+gTextL2_0078:
+	.incbin "baserom.gba", 0x403D18, 0x4C
+	.global gTextL2_0079
+gTextL2_0079:
+	.incbin "baserom.gba", 0x403D64, 0x164
+	.global gTextL2_0080
+gTextL2_0080:
+	.incbin "baserom.gba", 0x403EC8, 0x1C
+	.global gTextL2_0081
+gTextL2_0081:
+	.incbin "baserom.gba", 0x403EE4, 0x39
+	.global gTextL2_0082
+gTextL2_0082:
+	.incbin "baserom.gba", 0x403F1D, 0x1E
+	.global gTextL2_0083
+gTextL2_0083:
+	.incbin "baserom.gba", 0x403F3B, 0x2B
+	.global gTextL2_0084
+gTextL2_0084:
+	.incbin "baserom.gba", 0x403F66, 0x1B
+	.global gTextL2_0085
+gTextL2_0085:
+	.incbin "baserom.gba", 0x403F81, 0x2F
+	.global gTextL2_0086
+gTextL2_0086:
+	.incbin "baserom.gba", 0x403FB0, 0x38
+	.global gTextL2_0087
+gTextL2_0087:
+	.incbin "baserom.gba", 0x403FE8, 0x4C
+	.global gTextL2_0088
+gTextL2_0088:
+	.incbin "baserom.gba", 0x404034, 0x2A0
+	.global gTextL2_0089
+gTextL2_0089:
+	.incbin "baserom.gba", 0x4042D4, 0x127
+	.global gTextL2_0090
+gTextL2_0090:
+	.incbin "baserom.gba", 0x4043FB, 0x27
+	.global gTextL2_0091
+gTextL2_0091:
+	.incbin "baserom.gba", 0x404422, 0xF
+	.global gTextL2_0092
+gTextL2_0092:
+	.incbin "baserom.gba", 0x404431, 0xF
+	.global gTextL2_0093
+gTextL2_0093:
+	.incbin "baserom.gba", 0x404440, 0xC
+	.global gTextL2_0094
+gTextL2_0094:
+	.incbin "baserom.gba", 0x40444C, 0x219
+	.global gTextL2_0095
+gTextL2_0095:
+	.incbin "baserom.gba", 0x404665, 0xC7
+	.global gTextL2_0096
+gTextL2_0096:
+	.incbin "baserom.gba", 0x40472C, 0x2D9
+	.global gTextL2_0097
+gTextL2_0097:
+	.incbin "baserom.gba", 0x404A05, 0x181
+	.global gTextL2_0098
+gTextL2_0098:
+	.incbin "baserom.gba", 0x404B86, 0x1DF
+	.global gTextL2_0099
+gTextL2_0099:
+	.incbin "baserom.gba", 0x404D65, 0x49
+	.global gTextL2_0100
+gTextL2_0100:
+	.incbin "baserom.gba", 0x404DAE, 0xD
+	.global gTextL2_0101
+gTextL2_0101:
+	.incbin "baserom.gba", 0x404DBB, 0x1BC
+	.global gTextL2_0102
+gTextL2_0102:
+	.incbin "baserom.gba", 0x404F77, 0x158
+	.global gTextL2_0103
+gTextL2_0103:
+	.incbin "baserom.gba", 0x4050CF, 0x5E
+	.global gTextL2_0104
+gTextL2_0104:
+	.incbin "baserom.gba", 0x40512D, 0x13C
+	.global gTextL2_0105
+gTextL2_0105:
+	.incbin "baserom.gba", 0x405269, 0x2B0
+	.global gTextL2_0106
+gTextL2_0106:
+	.incbin "baserom.gba", 0x405519, 0x184
+	.global gTextL2_0107
+gTextL2_0107:
+	.incbin "baserom.gba", 0x40569D, 0x1A
+	.global gTextL2_0108
+gTextL2_0108:
+	.incbin "baserom.gba", 0x4056B7, 0x55
+	.global gTextL2_0109
+gTextL2_0109:
+	.incbin "baserom.gba", 0x40570C, 0x28
+	.global gTextL2_0110
+gTextL2_0110:
+	.incbin "baserom.gba", 0x405734, 0x2C
+	.global gTextL2_0111
+gTextL2_0111:
+	.incbin "baserom.gba", 0x405760, 0x29
+	.global gTextL2_0112
+gTextL2_0112:
+	.incbin "baserom.gba", 0x405789, 0x38
+	.global gTextL2_0113
+gTextL2_0113:
+	.incbin "baserom.gba", 0x4057C1, 0x49
+	.global gTextL2_0114
+gTextL2_0114:
+	.incbin "baserom.gba", 0x40580A, 0x1D
+	.global gTextL2_0115
+gTextL2_0115:
+	.incbin "baserom.gba", 0x405827, 0x49
+	.global gTextL2_0116
+gTextL2_0116:
+	.incbin "baserom.gba", 0x405870, 0x75
+	.global gTextL2_0117
+gTextL2_0117:
+	.incbin "baserom.gba", 0x4058E5, 0x5C
+	.global gTextL2_0118
+gTextL2_0118:
+	.incbin "baserom.gba", 0x405941, 0x90
+	.global gTextL2_0119
+gTextL2_0119:
+	.incbin "baserom.gba", 0x4059D1, 0x2B
+	.global gTextL2_0120
+gTextL2_0120:
+	.incbin "baserom.gba", 0x4059FC, 0x41
+	.global gTextL2_0121
+gTextL2_0121:
+	.incbin "baserom.gba", 0x405A3D, 0x5F
+	.global gTextL2_0122
+gTextL2_0122:
+	.incbin "baserom.gba", 0x405A9C, 0x33
+	.global gTextL2_0123
+gTextL2_0123:
+	.incbin "baserom.gba", 0x405ACF, 0x36
+	.global gTextL2_0124
+gTextL2_0124:
+	.incbin "baserom.gba", 0x405B05, 0x2D
+	.global gTextL2_0125
+gTextL2_0125:
+	.incbin "baserom.gba", 0x405B32, 0x2A
+	.global gTextL2_0126
+gTextL2_0126:
+	.incbin "baserom.gba", 0x405B5C, 0x38
+	.global gTextL2_0127
+gTextL2_0127:
+	.incbin "baserom.gba", 0x405B94, 0xA0
+	.global gTextL2_0128
+gTextL2_0128:
+	.incbin "baserom.gba", 0x405C34, 0x70
+	.global gTextL2_0129
+gTextL2_0129:
+	.incbin "baserom.gba", 0x405CA4, 0x5
+	.global gTextL2_0130
+gTextL2_0130:
+	.incbin "baserom.gba", 0x405CA9, 0xF
+	.global gTextL2_0131
+gTextL2_0131:
+	.incbin "baserom.gba", 0x405CB8, 0x10
+	.global gTextL2_0132
+gTextL2_0132:
+	.incbin "baserom.gba", 0x405CC8, 0x2C
+	.global gTextL2_0133
+gTextL2_0133:
+	.incbin "baserom.gba", 0x405CF4, 0x1C
+	.global gTextL2_0134
+gTextL2_0134:
+	.incbin "baserom.gba", 0x405D10, 0x30
+	.global gTextL2_0135
+gTextL2_0135:
+	.incbin "baserom.gba", 0x405D40, 0x1D
+	.global gTextL2_0136
+gTextL2_0136:
+	.incbin "baserom.gba", 0x405D5D, 0x4E
+	.global gTextL2_0137
+gTextL2_0137:
+	.incbin "baserom.gba", 0x405DAB, 0x8D
+	.global gTextL2_0138
+gTextL2_0138:
+	.incbin "baserom.gba", 0x405E38, 0x63
+	.global gTextL2_0139
+gTextL2_0139:
+	.incbin "baserom.gba", 0x405E9B, 0x1B5
+	.global gTextL2_0140
+gTextL2_0140:
+	.incbin "baserom.gba", 0x406050, 0xB6
+	.global gTextL2_0141
+gTextL2_0141:
+	.incbin "baserom.gba", 0x406106, 0xF
+	.global gTextL2_0142
+gTextL2_0142:
+	.incbin "baserom.gba", 0x406115, 0x23
+	.global gTextL2_0143
+gTextL2_0143:
+	.incbin "baserom.gba", 0x406138, 0x1D
+	.global gTextL2_0144
+gTextL2_0144:
+	.incbin "baserom.gba", 0x406155, 0xE0
+	.global gTextL2_0145
+gTextL2_0145:
+	.incbin "baserom.gba", 0x406235, 0xDD
+	.global gTextL2_0146
+gTextL2_0146:
+	.incbin "baserom.gba", 0x406312, 0x53
+	.global gTextL2_0147
+gTextL2_0147:
+	.incbin "baserom.gba", 0x406365, 0x15C
+	.global gTextL2_0148
+gTextL2_0148:
+	.incbin "baserom.gba", 0x4064C1, 0x65
+	.global gTextL2_0149
+gTextL2_0149:
+	.incbin "baserom.gba", 0x406526, 0xD4
+	.global gTextL2_0150
+gTextL2_0150:
+	.incbin "baserom.gba", 0x4065FA, 0x138
+	.global gTextL2_0151
+gTextL2_0151:
+	.incbin "baserom.gba", 0x406732, 0x57
+	.global gTextL2_0152
+gTextL2_0152:
+	.incbin "baserom.gba", 0x406789, 0x16A
+	.global gTextL2_0153
+gTextL2_0153:
+	.incbin "baserom.gba", 0x4068F3, 0x146
+	.global gTextL2_0154
+gTextL2_0154:
+	.incbin "baserom.gba", 0x406A39, 0x67
+	.global gTextL2_0155
+gTextL2_0155:
+	.incbin "baserom.gba", 0x406AA0, 0xF3
+	.global gTextL2_0156
+gTextL2_0156:
+	.incbin "baserom.gba", 0x406B93, 0x165
+	.global gTextL2_0157
+gTextL2_0157:
+	.incbin "baserom.gba", 0x406CF8, 0x6C
+	.global gTextL2_0158
+gTextL2_0158:
+	.incbin "baserom.gba", 0x406D64, 0x1ED
+	.global gTextL2_0159
+gTextL2_0159:
+	.incbin "baserom.gba", 0x406F51, 0x4E3
+	.global gTextL2_0160
+gTextL2_0160:
+	.incbin "baserom.gba", 0x407434, 0x3AA
+	.global gTextL2_0161
+gTextL2_0161:
+	.incbin "baserom.gba", 0x4077DE, 0x40
+	.global gTextL2_0162
+gTextL2_0162:
+	.incbin "baserom.gba", 0x40781E, 0x24D
+	.global gTextL2_0163
+gTextL2_0163:
+	.incbin "baserom.gba", 0x407A6B, 0x65
+	.global gTextL2_0164
+gTextL2_0164:
+	.incbin "baserom.gba", 0x407AD0, 0x1D1
+	.global gTextL2_0165
+gTextL2_0165:
+	.incbin "baserom.gba", 0x407CA1, 0x355
+	.global gTextL2_0166
+gTextL2_0166:
+	.incbin "baserom.gba", 0x407FF6, 0x332
+	.global gTextL2_0167
+gTextL2_0167:
+	.incbin "baserom.gba", 0x408328, 0x2D1
+	.global gTextL2_0168
+gTextL2_0168:
+	.incbin "baserom.gba", 0x4085F9, 0x13F
+	.global gTextL2_0169
+gTextL2_0169:
+	.incbin "baserom.gba", 0x408738, 0x20
+	.global gTextL2_0170
+gTextL2_0170:
+	.incbin "baserom.gba", 0x408758, 0x49
+	.global gTextL2_0171
+gTextL2_0171:
+	.incbin "baserom.gba", 0x4087A1, 0x55
+	.global gTextL2_0172
+gTextL2_0172:
+	.incbin "baserom.gba", 0x4087F6, 0x2C
+	.global gTextL2_0173
+gTextL2_0173:
+	.incbin "baserom.gba", 0x408822, 0x1A7
+	.global gTextL2_0174
+gTextL2_0174:
+	.incbin "baserom.gba", 0x4089C9, 0x1EB
+	.global gTextL2_0175
+gTextL2_0175:
+	.incbin "baserom.gba", 0x408BB4, 0x14B
+	.global gTextL2_0176
+gTextL2_0176:
+	.incbin "baserom.gba", 0x408CFF, 0x208
+	.global gTextL2_0177
+gTextL2_0177:
+	.incbin "baserom.gba", 0x408F07, 0x1C9
+	.global gTextL2_0178
+gTextL2_0178:
+	.incbin "baserom.gba", 0x4090D0, 0x137
+	.global gTextL2_0179
+gTextL2_0179:
+	.incbin "baserom.gba", 0x409207, 0x201
+	.global gTextL2_0180
+gTextL2_0180:
+	.incbin "baserom.gba", 0x409408, 0xEF
+	.global gTextL2_0181
+gTextL2_0181:
+	.incbin "baserom.gba", 0x4094F7, 0x292
+	.global gTextL2_0182
+gTextL2_0182:
+	.incbin "baserom.gba", 0x409789, 0x15E
+	.global gTextL2_0183
+gTextL2_0183:
+	.incbin "baserom.gba", 0x4098E7, 0x16B
+	.global gTextL2_0184
+gTextL2_0184:
+	.incbin "baserom.gba", 0x409A52, 0xF5
+	.global gTextL2_0185
+gTextL2_0185:
+	.incbin "baserom.gba", 0x409B47, 0x129
+	.global gTextL2_0186
+gTextL2_0186:
+	.incbin "baserom.gba", 0x409C70, 0x28
+	.global gTextL2_0187
+gTextL2_0187:
+	.incbin "baserom.gba", 0x409C98, 0x15C
+	.global gTextL2_0188
+gTextL2_0188:
+	.incbin "baserom.gba", 0x409DF4, 0x143
+	.global gTextL2_0189
+gTextL2_0189:
+	.incbin "baserom.gba", 0x409F37, 0x15E
+	.global gTextL2_0190
+gTextL2_0190:
+	.incbin "baserom.gba", 0x40A095, 0x1B7
+	.global gTextL2_0191
+gTextL2_0191:
+	.incbin "baserom.gba", 0x40A24C, 0x295
+	.global gTextL2_0192
+gTextL2_0192:
+	.incbin "baserom.gba", 0x40A4E1, 0x1CA
+	.global gTextL2_0193
+gTextL2_0193:
+	.incbin "baserom.gba", 0x40A6AB, 0x1FC
+	.global gTextL2_0194
+gTextL2_0194:
+	.incbin "baserom.gba", 0x40A8A7, 0x2FF
+	.global gTextL2_0195
+gTextL2_0195:
+	.incbin "baserom.gba", 0x40ABA6, 0xC5
+	.global gTextL2_0196
+gTextL2_0196:
+	.incbin "baserom.gba", 0x40AC6B, 0x10E
+	.global gTextL2_0197
+gTextL2_0197:
+	.incbin "baserom.gba", 0x40AD79, 0x115
+	.global gTextL2_0198
+gTextL2_0198:
+	.incbin "baserom.gba", 0x40AE8E, 0xF8
+	.global gTextL2_0199
+gTextL2_0199:
+	.incbin "baserom.gba", 0x40AF86, 0x16B
+	.global gTextL2_0200
+gTextL2_0200:
+	.incbin "baserom.gba", 0x40B0F1, 0x15C
+	.global gTextL2_0201
+gTextL2_0201:
+	.incbin "baserom.gba", 0x40B24D, 0x1C7
+	.global gTextL2_0202
+gTextL2_0202:
+	.incbin "baserom.gba", 0x40B414, 0x10E
+	.global gTextL2_0203
+gTextL2_0203:
+	.incbin "baserom.gba", 0x40B522, 0x1B8
+	.global gTextL2_0204
+gTextL2_0204:
+	.incbin "baserom.gba", 0x40B6DA, 0x235
+	.global gTextL2_0205
+gTextL2_0205:
+	.incbin "baserom.gba", 0x40B90F, 0x40
+	.global gTextL2_0206
+gTextL2_0206:
+	.incbin "baserom.gba", 0x40B94F, 0x1D
+	.global gTextL2_0207
+gTextL2_0207:
+	.incbin "baserom.gba", 0x40B96C, 0x1C
+	.global gTextL2_0208
+gTextL2_0208:
+	.incbin "baserom.gba", 0x40B988, 0x20
+	.global gTextL2_0209
+gTextL2_0209:
+	.incbin "baserom.gba", 0x40B9A8, 0x3B
+	.global gTextL2_0210
+gTextL2_0210:
+	.incbin "baserom.gba", 0x40B9E3, 0x183
+	.global gTextL2_0211
+gTextL2_0211:
+	.incbin "baserom.gba", 0x40BB66, 0xB6
+	.global gTextL2_0212
+gTextL2_0212:
+	.incbin "baserom.gba", 0x40BC1C, 0xEF
+	.global gTextL2_0213
+gTextL2_0213:
+	.incbin "baserom.gba", 0x40BD0B, 0x128
+	.global gTextL2_0214
+gTextL2_0214:
+	.incbin "baserom.gba", 0x40BE33, 0x18C
+	.global gTextL2_0215
+gTextL2_0215:
+	.incbin "baserom.gba", 0x40BFBF, 0x162
+	.global gTextL2_0216
+gTextL2_0216:
+	.incbin "baserom.gba", 0x40C121, 0x128
+	.global gTextL2_0217
+gTextL2_0217:
+	.incbin "baserom.gba", 0x40C249, 0x11A
+	.global gTextL2_0218
+gTextL2_0218:
+	.incbin "baserom.gba", 0x40C363, 0x1C2
+	.global gTextL2_0219
+gTextL2_0219:
+	.incbin "baserom.gba", 0x40C525, 0xC5
+	.global gTextL2_0220
+gTextL2_0220:
+	.incbin "baserom.gba", 0x40C5EA, 0x1B
+	.global gTextL2_0221
+gTextL2_0221:
+	.incbin "baserom.gba", 0x40C605, 0x23
+	.global gTextL2_0222
+gTextL2_0222:
+	.incbin "baserom.gba", 0x40C628, 0x2E
+	.global gTextL2_0223
+gTextL2_0223:
+	.incbin "baserom.gba", 0x40C656, 0x36
+	.global gTextL2_0224
+gTextL2_0224:
+	.incbin "baserom.gba", 0x40C68C, 0x29
+	.global gTextL2_0225
+gTextL2_0225:
+	.incbin "baserom.gba", 0x40C6B5, 0x38B
+	.global gTextL2_0226
+gTextL2_0226:
+	.incbin "baserom.gba", 0x40CA40, 0x1E
+	.global gTextL2_0227
+gTextL2_0227:
+	.incbin "baserom.gba", 0x40CA5E, 0x1B
+	.global gTextL2_0228
+gTextL2_0228:
+	.incbin "baserom.gba", 0x40CA79, 0x26
+	.global gTextL2_0229
+gTextL2_0229:
+	.incbin "baserom.gba", 0x40CA9F, 0x1A
+	.global gTextL2_0230
+gTextL2_0230:
+	.incbin "baserom.gba", 0x40CAB9, 0x1B
+	.global gTextL2_0231
+gTextL2_0231:
+	.incbin "baserom.gba", 0x40CAD4, 0x22
+	.global gTextL2_0232
+gTextL2_0232:
+	.incbin "baserom.gba", 0x40CAF6, 0x38
+	.global gTextL2_0233
+gTextL2_0233:
+	.incbin "baserom.gba", 0x40CB2E, 0x24
+	.global gTextL2_0234
+gTextL2_0234:
+	.incbin "baserom.gba", 0x40CB52, 0x139
+	.global gTextL2_0235
+gTextL2_0235:
+	.incbin "baserom.gba", 0x40CC8B, 0x14D
+	.global gTextL2_0236
+gTextL2_0236:
+	.incbin "baserom.gba", 0x40CDD8, 0x18E
+	.global gTextL2_0237
+gTextL2_0237:
+	.incbin "baserom.gba", 0x40CF66, 0x1D3
+	.global gTextL2_0238
+gTextL2_0238:
+	.incbin "baserom.gba", 0x40D139, 0x226
+	.global gTextL2_0239
+gTextL2_0239:
+	.incbin "baserom.gba", 0x40D35F, 0xBE
+	.global gTextL2_0240
+gTextL2_0240:
+	.incbin "baserom.gba", 0x40D41D, 0x9E
+	.global gTextL2_0241
+gTextL2_0241:
+	.incbin "baserom.gba", 0x40D4BB, 0x177
+	.global gTextL2_0242
+gTextL2_0242:
+	.incbin "baserom.gba", 0x40D632, 0x286
+	.global gTextL2_0243
+gTextL2_0243:
+	.incbin "baserom.gba", 0x40D8B8, 0xA9
+	.global gTextL2_0244
+gTextL2_0244:
+	.incbin "baserom.gba", 0x40D961, 0x72
+	.global gTextL2_0245
+gTextL2_0245:
+	.incbin "baserom.gba", 0x40D9D3, 0x176
+	.global gTextL2_0246
+gTextL2_0246:
+	.incbin "baserom.gba", 0x40DB49, 0xA1
+	.global gTextL2_0247
+gTextL2_0247:
+	.incbin "baserom.gba", 0x40DBEA, 0x2C3
+	.global gTextL2_0248
+gTextL2_0248:
+	.incbin "baserom.gba", 0x40DEAD, 0x29
+	.global gTextL2_0249
+gTextL2_0249:
+	.incbin "baserom.gba", 0x40DED6, 0x46
+	.global gTextL2_0250
+gTextL2_0250:
+	.incbin "baserom.gba", 0x40DF1C, 0x12A
+	.global gTextL2_0251
+gTextL2_0251:
+	.incbin "baserom.gba", 0x40E046, 0xA0
+	.global gTextL2_0252
+gTextL2_0252:
+	.incbin "baserom.gba", 0x40E0E6, 0x2C6
+	.global gTextL2_0253
+gTextL2_0253:
+	.incbin "baserom.gba", 0x40E3AC, 0x29
+	.global gTextL2_0254
+gTextL2_0254:
+	.incbin "baserom.gba", 0x40E3D5, 0xCC
+	.global gTextL2_0255
+gTextL2_0255:
+	.incbin "baserom.gba", 0x40E4A1, 0x509
+	.global gTextL2_0256
+gTextL2_0256:
+	.incbin "baserom.gba", 0x40E9AA, 0x3D7
+	.global gTextL2_0257
+gTextL2_0257:
+	.incbin "baserom.gba", 0x40ED81, 0x47E
+	.global gTextL2_0258
+gTextL2_0258:
+	.incbin "baserom.gba", 0x40F1FF, 0x5DB
+	.global gTextL2_0259
+gTextL2_0259:
+	.incbin "baserom.gba", 0x40F7DA, 0x532
+	.global gTextL2_0260
+gTextL2_0260:
+	.incbin "baserom.gba", 0x40FD0C, 0x1E3
+	.global gTextL2_0261
+gTextL2_0261:
+	.incbin "baserom.gba", 0x40FEEF, 0x385
+	.global gTextL2_0262
+gTextL2_0262:
+	.incbin "baserom.gba", 0x410274, 0x750
+	.global gTextL2_0263
+gTextL2_0263:
+	.incbin "baserom.gba", 0x4109C4, 0x2D
+	.global gTextL2_0264
+gTextL2_0264:
+	.incbin "baserom.gba", 0x4109F1, 0x77
+	.global gTextL2_0265
+gTextL2_0265:
+	.incbin "baserom.gba", 0x410A68, 0x9E
+	.global gTextL2_0266
+gTextL2_0266:
+	.incbin "baserom.gba", 0x410B06, 0x6B
+	.global gTextL2_0267
+gTextL2_0267:
+	.incbin "baserom.gba", 0x410B71, 0xBE
+	.global gTextL2_0268
+gTextL2_0268:
+	.incbin "baserom.gba", 0x410C2F, 0xC9
+	.global gTextL2_0269
+gTextL2_0269:
+	.incbin "baserom.gba", 0x410CF8, 0x9B
+	.global gTextL2_0270
+gTextL2_0270:
+	.incbin "baserom.gba", 0x410D93, 0x13A
+	.global gTextL2_0271
+gTextL2_0271:
+	.incbin "baserom.gba", 0x410ECD, 0x181
+	.global gTextL2_0272
+gTextL2_0272:
+	.incbin "baserom.gba", 0x41104E, 0x147
+	.global gTextL2_0273
+gTextL2_0273:
+	.incbin "baserom.gba", 0x411195, 0x1C5
+	.global gTextL2_0274
+gTextL2_0274:
+	.incbin "baserom.gba", 0x41135A, 0x81
+	.global gTextL2_0275
+gTextL2_0275:
+	.incbin "baserom.gba", 0x4113DB, 0x235
+	.global gTextL2_0276
+gTextL2_0276:
+	.incbin "baserom.gba", 0x411610, 0x1E
+	.global gTextL2_0277
+gTextL2_0277:
+	.incbin "baserom.gba", 0x41162E, 0x94
+	.global gTextL2_0278
+gTextL2_0278:
+	.incbin "baserom.gba", 0x4116C2, 0x87
+	.global gTextL2_0279
+gTextL2_0279:
+	.incbin "baserom.gba", 0x411749, 0x6F
+	.global gTextL2_0280
+gTextL2_0280:
+	.incbin "baserom.gba", 0x4117B8, 0x120
+	.global gTextL2_0281
+gTextL2_0281:
+	.incbin "baserom.gba", 0x4118D8, 0x142
+	.global gTextL2_0282
+gTextL2_0282:
+	.incbin "baserom.gba", 0x411A1A, 0x13C
+	.global gTextL2_0283
+gTextL2_0283:
+	.incbin "baserom.gba", 0x411B56, 0x142
+	.global gTextL2_0284
+gTextL2_0284:
+	.incbin "baserom.gba", 0x411C98, 0x12E
+	.global gTextL2_0285
+gTextL2_0285:
+	.incbin "baserom.gba", 0x411DC6, 0x161
+	.global gTextL2_0286
+gTextL2_0286:
+	.incbin "baserom.gba", 0x411F27, 0x14B
+	.global gTextL2_0287
+gTextL2_0287:
+	.incbin "baserom.gba", 0x412072, 0x143
+	.global gTextL2_0288
+gTextL2_0288:
+	.incbin "baserom.gba", 0x4121B5, 0x15F
+	.global gTextL2_0289
+gTextL2_0289:
+	.incbin "baserom.gba", 0x412314, 0x3D
+	.global gTextL2_0290
+gTextL2_0290:
+	.incbin "baserom.gba", 0x412351, 0x30
+	.global gTextL2_0291
+gTextL2_0291:
+	.incbin "baserom.gba", 0x412381, 0x34
+	.global gTextL2_0292
+gTextL2_0292:
+	.incbin "baserom.gba", 0x4123B5, 0x33
+	.global gTextL2_0293
+gTextL2_0293:
+	.incbin "baserom.gba", 0x4123E8, 0x15
+	.global gTextL2_0294
+gTextL2_0294:
+	.incbin "baserom.gba", 0x4123FD, 0x30
+	.global gTextL2_0295
+gTextL2_0295:
+	.incbin "baserom.gba", 0x41242D, 0x24
+	.global gTextL2_0296
+gTextL2_0296:
+	.incbin "baserom.gba", 0x412451, 0x5A
+	.global gTextL2_0297
+gTextL2_0297:
+	.incbin "baserom.gba", 0x4124AB, 0x54
+	.global gTextL2_0298
+gTextL2_0298:
+	.incbin "baserom.gba", 0x4124FF, 0x4C
+	.global gTextL2_0299
+gTextL2_0299:
+	.incbin "baserom.gba", 0x41254B, 0x55
+	.global gTextL2_0300
+gTextL2_0300:
+	.incbin "baserom.gba", 0x4125A0, 0x55
+	.global gTextL2_0301
+gTextL2_0301:
+	.incbin "baserom.gba", 0x4125F5, 0x6B
+	.global gTextL2_0302
+gTextL2_0302:
+	.incbin "baserom.gba", 0x412660, 0x64
+	.global gTextL2_0303
+gTextL2_0303:
+	.incbin "baserom.gba", 0x4126C4, 0x5C
+	.global gTextL2_0304
+gTextL2_0304:
+	.incbin "baserom.gba", 0x412720, 0x9B
+	.global gTextL2_0305
+gTextL2_0305:
+	.incbin "baserom.gba", 0x4127BB, 0xA1
+	.global gTextL2_0306
+gTextL2_0306:
+	.incbin "baserom.gba", 0x41285C, 0x92
+	.global gTextL2_0307
+gTextL2_0307:
+	.incbin "baserom.gba", 0x4128EE, 0x97
+	.global gTextL2_0308
+gTextL2_0308:
+	.incbin "baserom.gba", 0x412985, 0x97
+	.global gTextL2_0309
+gTextL2_0309:
+	.incbin "baserom.gba", 0x412A1C, 0x63
+	.global gTextL2_0310
+gTextL2_0310:
+	.incbin "baserom.gba", 0x412A7F, 0x9C
+	.global gTextL2_0311
+gTextL2_0311:
+	.incbin "baserom.gba", 0x412B1B, 0x99
+	.global gTextL2_0312
+gTextL2_0312:
+	.incbin "baserom.gba", 0x412BB4, 0x9E
+	.global gTextL2_0313
+gTextL2_0313:
+	.incbin "baserom.gba", 0x412C52, 0x98
+	.global gTextL2_0314
+gTextL2_0314:
+	.incbin "baserom.gba", 0x412CEA, 0x30
+	.global gTextL2_0315
+gTextL2_0315:
+	.incbin "baserom.gba", 0x412D1A, 0x1E8
+	.global gTextL2_0316
+gTextL2_0316:
+	.incbin "baserom.gba", 0x412F02, 0x21D
+	.global gTextL2_0317
+gTextL2_0317:
+	.incbin "baserom.gba", 0x41311F, 0x234
+	.global gTextL2_0318
+gTextL2_0318:
+	.incbin "baserom.gba", 0x413353, 0x2AA
+	.global gTextL2_0319
+gTextL2_0319:
+	.incbin "baserom.gba", 0x4135FD, 0x201
+	.global gTextL2_0320
+gTextL2_0320:
+	.incbin "baserom.gba", 0x4137FE, 0x45E
+	.global gTextL2_0321
+gTextL2_0321:
+	.incbin "baserom.gba", 0x413C5C, 0x8B
+	.global gTextL2_0322
+gTextL2_0322:
+	.incbin "baserom.gba", 0x413CE7, 0x4A
+	.global gTextL2_0323
+gTextL2_0323:
+	.incbin "baserom.gba", 0x413D31, 0x62
+	.global gTextL2_0324
+gTextL2_0324:
+	.incbin "baserom.gba", 0x413D93, 0x9F
+	.global gTextL2_0325
+gTextL2_0325:
+	.incbin "baserom.gba", 0x413E32, 0x95
+	.global gTextL2_0326
+gTextL2_0326:
+	.incbin "baserom.gba", 0x413EC7, 0x57
+	.global gTextL2_0327
+gTextL2_0327:
+	.incbin "baserom.gba", 0x413F1E, 0x66
+	.global gTextL2_0328
+gTextL2_0328:
+	.incbin "baserom.gba", 0x413F84, 0x60
+	.global gTextL2_0329
+gTextL2_0329:
+	.incbin "baserom.gba", 0x413FE4, 0xC5
+	.global gTextL2_0330
+gTextL2_0330:
+	.incbin "baserom.gba", 0x4140A9, 0x11D
+	.global gTextL2_0331
+gTextL2_0331:
+	.incbin "baserom.gba", 0x4141C6, 0x5F
+	.global gTextL2_0332
+gTextL2_0332:
+	.incbin "baserom.gba", 0x414225, 0x63
+	.global gTextL2_0333
+gTextL2_0333:
+	.incbin "baserom.gba", 0x414288, 0x4F
+	.global gTextL2_0334
+gTextL2_0334:
+	.incbin "baserom.gba", 0x4142D7, 0x5F
+	.global gTextL2_0335
+gTextL2_0335:
+	.incbin "baserom.gba", 0x414336, 0x66
+	.global gTextL2_0336
+gTextL2_0336:
+	.incbin "baserom.gba", 0x41439C, 0x43
+	.global gTextL2_0337
+gTextL2_0337:
+	.incbin "baserom.gba", 0x4143DF, 0x69
+	.global gTextL2_0338
+gTextL2_0338:
+	.incbin "baserom.gba", 0x414448, 0x6F
+	.global gTextL2_0339
+gTextL2_0339:
+	.incbin "baserom.gba", 0x4144B7, 0x61
+	.global gTextL2_0340
+gTextL2_0340:
+	.incbin "baserom.gba", 0x414518, 0x6C
+	.global gTextL2_0341
+gTextL2_0341:
+	.incbin "baserom.gba", 0x414584, 0x6E
+	.global gTextL2_0342
+gTextL2_0342:
+	.incbin "baserom.gba", 0x4145F2, 0x56
+	.global gTextL2_0343
+gTextL2_0343:
+	.incbin "baserom.gba", 0x414648, 0x5E
+	.global gTextL2_0344
+gTextL2_0344:
+	.incbin "baserom.gba", 0x4146A6, 0x47
+	.global gTextL2_0345
+gTextL2_0345:
+	.incbin "baserom.gba", 0x4146ED, 0x35
+	.global gTextL2_0346
+gTextL2_0346:
+	.incbin "baserom.gba", 0x414722, 0x39
+	.global gTextL2_0347
+gTextL2_0347:
+	.incbin "baserom.gba", 0x41475B, 0x37
+	.global gTextL2_0348
+gTextL2_0348:
+	.incbin "baserom.gba", 0x414792, 0x31
+	.global gTextL2_0349
+gTextL2_0349:
+	.incbin "baserom.gba", 0x4147C3, 0x33
+	.global gTextL2_0350
+gTextL2_0350:
+	.incbin "baserom.gba", 0x4147F6, 0x31
+	.global gTextL2_0351
+gTextL2_0351:
+	.incbin "baserom.gba", 0x414827, 0x34
+	.global gTextL2_0352
+gTextL2_0352:
+	.incbin "baserom.gba", 0x41485B, 0x37
+	.global gTextL2_0353
+gTextL2_0353:
+	.incbin "baserom.gba", 0x414892, 0x34
+	.global gTextL2_0354
+gTextL2_0354:
+	.incbin "baserom.gba", 0x4148C6, 0x1F
+	.global gTextL2_0355
+gTextL2_0355:
+	.incbin "baserom.gba", 0x4148E5, 0x6B
+	.global gTextL2_0356
+gTextL2_0356:
+	.incbin "baserom.gba", 0x414950, 0x31
+	.global gTextL2_0357
+gTextL2_0357:
+	.incbin "baserom.gba", 0x414981, 0x1C
+	.global gTextL2_0358
+gTextL2_0358:
+	.incbin "baserom.gba", 0x41499D, 0x1C
+	.global gTextL2_0359
+gTextL2_0359:
+	.incbin "baserom.gba", 0x4149B9, 0x31
+	.global gTextL2_0360
+gTextL2_0360:
+	.incbin "baserom.gba", 0x4149EA, 0x2A
+	.global gTextL2_0361
+gTextL2_0361:
+	.incbin "baserom.gba", 0x414A14, 0x25
+	.global gTextL2_0362
+gTextL2_0362:
+	.incbin "baserom.gba", 0x414A39, 0x34
+	.global gTextL2_0363
+gTextL2_0363:
+	.incbin "baserom.gba", 0x414A6D, 0x2A
+	.global gTextL2_0364
+gTextL2_0364:
+	.incbin "baserom.gba", 0x414A97, 0x49
+	.global gTextL2_0365
+gTextL2_0365:
+	.incbin "baserom.gba", 0x414AE0, 0x2F
+	.global gTextL2_0366
+gTextL2_0366:
+	.incbin "baserom.gba", 0x414B0F, 0x22
+	.global gTextL2_0367
+gTextL2_0367:
+	.incbin "baserom.gba", 0x414B31, 0x35
+	.global gTextL2_0368
+gTextL2_0368:
+	.incbin "baserom.gba", 0x414B66, 0x19
+	.global gTextL2_0369
+gTextL2_0369:
+	.incbin "baserom.gba", 0x414B7F, 0x37
+	.global gTextL2_0370
+gTextL2_0370:
+	.incbin "baserom.gba", 0x414BB6, 0x24
+	.global gTextL2_0371
+gTextL2_0371:
+	.incbin "baserom.gba", 0x414BDA, 0x67
+	.global gTextL2_0372
+gTextL2_0372:
+	.incbin "baserom.gba", 0x414C41, 0x21
+	.global gTextL2_0373
+gTextL2_0373:
+	.incbin "baserom.gba", 0x414C62, 0x39
+	.global gTextL2_0374
+gTextL2_0374:
+	.incbin "baserom.gba", 0x414C9B, 0xA0
+	.global gTextL2_0375
+gTextL2_0375:
+	.incbin "baserom.gba", 0x414D3B, 0x6C
+	.global gTextL2_0376
+gTextL2_0376:
+	.incbin "baserom.gba", 0x414DA7, 0x6C
+	.global gTextL2_0377
+gTextL2_0377:
+	.incbin "baserom.gba", 0x414E13, 0x71
+	.global gTextL2_0378
+gTextL2_0378:
+	.incbin "baserom.gba", 0x414E84, 0x60
+	.global gTextL2_0379
+gTextL2_0379:
+	.incbin "baserom.gba", 0x414EE4, 0x6C
+	.global gTextL2_0380
+gTextL2_0380:
+	.incbin "baserom.gba", 0x414F50, 0x5F
+	.global gTextL2_0381
+gTextL2_0381:
+	.incbin "baserom.gba", 0x414FAF, 0x5B
+	.global gTextL2_0382
+gTextL2_0382:
+	.incbin "baserom.gba", 0x41500A, 0x16
+	.global gTextL2_0383
+gTextL2_0383:
+	.incbin "baserom.gba", 0x415020, 0x33A
+	.global gTextL2_0384
+gTextL2_0384:
+	.incbin "baserom.gba", 0x41535A, 0x62C
+	.global gTextL2_0385
+gTextL2_0385:
+	.incbin "baserom.gba", 0x415986, 0x18
+	.global gTextL2_0386
+gTextL2_0386:
+	.incbin "baserom.gba", 0x41599E, 0xF
+	.global gTextL2_0387
+gTextL2_0387:
+	.incbin "baserom.gba", 0x4159AD, 0x14
+	.global gTextL2_0388
+gTextL2_0388:
+	.incbin "baserom.gba", 0x4159C1, 0x21
+	.global gTextL2_0389
+gTextL2_0389:
+	.incbin "baserom.gba", 0x4159E2, 0x20
+	.global gTextL2_0390
+gTextL2_0390:
+	.incbin "baserom.gba", 0x415A02, 0x17
+	.global gTextL2_0391
+gTextL2_0391:
+	.incbin "baserom.gba", 0x415A19, 0xF
+	.global gTextL2_0392
+gTextL2_0392:
+	.incbin "baserom.gba", 0x415A28, 0x1B
+	.global gTextL2_0393
+gTextL2_0393:
+	.incbin "baserom.gba", 0x415A43, 0x24
+	.global gTextL2_0394
+gTextL2_0394:
+	.incbin "baserom.gba", 0x415A67, 0x1F
+	.global gTextL2_0395
+gTextL2_0395:
+	.incbin "baserom.gba", 0x415A86, 0xC5
+	.global gTextL2_0396
+gTextL2_0396:
+	.incbin "baserom.gba", 0x415B4B, 0x1A0
+	.global gTextL2_0397
+gTextL2_0397:
+	.incbin "baserom.gba", 0x415CEB, 0x293
+	.global gTextL2_0398
+gTextL2_0398:
+	.incbin "baserom.gba", 0x415F7E, 0x3C
+	.global gTextL2_0399
+gTextL2_0399:
+	.incbin "baserom.gba", 0x415FBA, 0x17
+	.global gTextL2_0400
+gTextL2_0400:
+	.incbin "baserom.gba", 0x415FD1, 0x15
+	.global gTextL2_0401
+gTextL2_0401:
+	.incbin "baserom.gba", 0x415FE6, 0x23
+	.global gTextL2_0402
+gTextL2_0402:
+	.incbin "baserom.gba", 0x416009, 0x27
+	.global gTextL2_0403
+gTextL2_0403:
+	.incbin "baserom.gba", 0x416030, 0x1D
+	.global gTextL2_0404
+gTextL2_0404:
+	.incbin "baserom.gba", 0x41604D, 0x1B
+	.global gTextL2_0405
+gTextL2_0405:
+	.incbin "baserom.gba", 0x416068, 0x26
+	.global gTextL2_0406
+gTextL2_0406:
+	.incbin "baserom.gba", 0x41608E, 0x22
+	.global gTextL2_0407
+gTextL2_0407:
+	.incbin "baserom.gba", 0x4160B0, 0x1B
+	.global gTextL2_0408
+gTextL2_0408:
+	.incbin "baserom.gba", 0x4160CB, 0x1C
+	.global gTextL2_0409
+gTextL2_0409:
+	.incbin "baserom.gba", 0x4160E7, 0x1E
+	.global gTextL2_0410
+gTextL2_0410:
+	.incbin "baserom.gba", 0x416105, 0x1F
+	.global gTextL2_0411
+gTextL2_0411:
+	.incbin "baserom.gba", 0x416124, 0x2E
+	.global gTextL2_0412
+gTextL2_0412:
+	.incbin "baserom.gba", 0x416152, 0x28
+	.global gTextL2_0413
+gTextL2_0413:
+	.incbin "baserom.gba", 0x41617A, 0x1C
+	.global gTextL2_0414
+gTextL2_0414:
+	.incbin "baserom.gba", 0x416196, 0x26
+	.global gTextL2_0415
+gTextL2_0415:
+	.incbin "baserom.gba", 0x4161BC, 0x38
+	.global gTextL2_0416
+gTextL2_0416:
+	.incbin "baserom.gba", 0x4161F4, 0x33
+	.global gTextL2_0417
+gTextL2_0417:
+	.incbin "baserom.gba", 0x416227, 0x3A
+	.global gTextL2_0418
+gTextL2_0418:
+	.incbin "baserom.gba", 0x416261, 0x37
+	.global gTextL2_0419
+gTextL2_0419:
+	.incbin "baserom.gba", 0x416298, 0x37
+	.global gTextL2_0420
+gTextL2_0420:
+	.incbin "baserom.gba", 0x4162CF, 0x38
+	.global gTextL2_0421
+gTextL2_0421:
+	.incbin "baserom.gba", 0x416307, 0x35
+	.global gTextL2_0422
+gTextL2_0422:
+	.incbin "baserom.gba", 0x41633C, 0x68
+	.global gTextL2_0423
+gTextL2_0423:
+	.incbin "baserom.gba", 0x4163A4, 0x26B
+	.global gTextL2_0424
+gTextL2_0424:
+	.incbin "baserom.gba", 0x41660F, 0xCC
+	.global gTextL2_0425
+gTextL2_0425:
+	.incbin "baserom.gba", 0x4166DB, 0x2DC
+	.global gTextL2_0426
+gTextL2_0426:
+	.incbin "baserom.gba", 0x4169B7, 0x94
+	.global gTextL2_0427
+gTextL2_0427:
+	.incbin "baserom.gba", 0x416A4B, 0xA4
+	.global gTextL2_0428
+gTextL2_0428:
+	.incbin "baserom.gba", 0x416AEF, 0x7B
+	.global gTextL2_0429
+gTextL2_0429:
+	.incbin "baserom.gba", 0x416B6A, 0x74
+	.global gTextL2_0430
+gTextL2_0430:
+	.incbin "baserom.gba", 0x416BDE, 0xD0
+	.global gTextL2_0431
+gTextL2_0431:
+	.incbin "baserom.gba", 0x416CAE, 0x74
+	.global gTextL2_0432
+gTextL2_0432:
+	.incbin "baserom.gba", 0x416D22, 0x75
+	.global gTextL2_0433
+gTextL2_0433:
+	.incbin "baserom.gba", 0x416D97, 0x99
+	.global gTextL2_0434
+gTextL2_0434:
+	.incbin "baserom.gba", 0x416E30, 0xB5
+	.global gTextL2_0435
+gTextL2_0435:
+	.incbin "baserom.gba", 0x416EE5, 0x7C
+	.global gTextL2_0436
+gTextL2_0436:
+	.incbin "baserom.gba", 0x416F61, 0x1B2
+	.global gTextL2_0437
+gTextL2_0437:
+	.incbin "baserom.gba", 0x417113, 0x47
+	.global gTextL2_0438
+gTextL2_0438:
+	.incbin "baserom.gba", 0x41715A, 0x170
+	.global gTextL2_0439
+gTextL2_0439:
+	.incbin "baserom.gba", 0x4172CA, 0xED
+	.global gTextL2_0440
+gTextL2_0440:
+	.incbin "baserom.gba", 0x4173B7, 0x217
+	.global gTextL2_0441
+gTextL2_0441:
+	.incbin "baserom.gba", 0x4175CE, 0x302
+	.global gTextL2_0442
+gTextL2_0442:
+	.incbin "baserom.gba", 0x4178D0, 0x33D
+	.global gTextL2_0443
+gTextL2_0443:
+	.incbin "baserom.gba", 0x417C0D, 0x32E
+	.global gTextL2_0444
+gTextL2_0444:
+	.incbin "baserom.gba", 0x417F3B, 0x202
+	.global gTextL2_0445
+gTextL2_0445:
+	.incbin "baserom.gba", 0x41813D, 0x3F2
+	.global gTextL2_0446
+gTextL2_0446:
+	.incbin "baserom.gba", 0x41852F, 0x2AD
+	.global gTextL2_0447
+gTextL2_0447:
+	.incbin "baserom.gba", 0x4187DC, 0x2D7
+	.global gTextL2_0448
+gTextL2_0448:
+	.incbin "baserom.gba", 0x418AB3, 0x3C3
+	.global gTextL2_0449
+gTextL2_0449:
+	.incbin "baserom.gba", 0x418E76, 0x78
+	.global gTextL2_0450
+gTextL2_0450:
+	.incbin "baserom.gba", 0x418EEE, 0x486
+	.global gTextL2_0451
+gTextL2_0451:
+	.incbin "baserom.gba", 0x419374, 0x431
+	.global gTextL2_0452
+gTextL2_0452:
+	.incbin "baserom.gba", 0x4197A5, 0x13
+	.global gTextL2_0453
+gTextL2_0453:
+	.incbin "baserom.gba", 0x4197B8, 0x66
+	.global gTextL2_0454
+gTextL2_0454:
+	.incbin "baserom.gba", 0x41981E, 0x15
+	.global gTextL2_0455
+gTextL2_0455:
+	.incbin "baserom.gba", 0x419833, 0x79
+	.global gTextL2_0456
+gTextL2_0456:
+	.incbin "baserom.gba", 0x4198AC, 0x90
+	.global gTextL2_0457
+gTextL2_0457:
+	.incbin "baserom.gba", 0x41993C, 0x63
+	.global gTextL2_0458
+gTextL2_0458:
+	.incbin "baserom.gba", 0x41999F, 0x14E
+	.global gTextL2_0459
+gTextL2_0459:
+	.incbin "baserom.gba", 0x419AED, 0x210
+	.global gTextL2_0460
+gTextL2_0460:
+	.incbin "baserom.gba", 0x419CFD, 0x138
+	.global gTextL2_0461
+gTextL2_0461:
+	.incbin "baserom.gba", 0x419E35, 0x1A9
+	.global gTextL2_0462
+gTextL2_0462:
+	.incbin "baserom.gba", 0x419FDE, 0xAB
+	.global gTextL2_0463
+gTextL2_0463:
+	.incbin "baserom.gba", 0x41A089, 0xDF
+	.global gTextL2_0464
+gTextL2_0464:
+	.incbin "baserom.gba", 0x41A168, 0x1AB
+	.global gTextL2_0465
+gTextL2_0465:
+	.incbin "baserom.gba", 0x41A313, 0x75
+	.global gTextL2_0466
+gTextL2_0466:
+	.incbin "baserom.gba", 0x41A388, 0x53
+	.global gTextL2_0467
+gTextL2_0467:
+	.incbin "baserom.gba", 0x41A3DB, 0xA0
+	.global gTextL2_0468
+gTextL2_0468:
+	.incbin "baserom.gba", 0x41A47B, 0xBF
+	.global gTextL2_0469
+gTextL2_0469:
+	.incbin "baserom.gba", 0x41A53A, 0x9E
+	.global gTextL2_0470
+gTextL2_0470:
+	.incbin "baserom.gba", 0x41A5D8, 0xCD
+	.global gTextL2_0471
+gTextL2_0471:
+	.incbin "baserom.gba", 0x41A6A5, 0xD9
+	.global gTextL2_0472
+gTextL2_0472:
+	.incbin "baserom.gba", 0x41A77E, 0xC1
+	.global gTextL2_0473
+gTextL2_0473:
+	.incbin "baserom.gba", 0x41A83F, 0x124
+	.global gTextL2_0474
+gTextL2_0474:
+	.incbin "baserom.gba", 0x41A963, 0xD5
+	.global gTextL2_0475
+gTextL2_0475:
+	.incbin "baserom.gba", 0x41AA38, 0xBC
+	.global gTextL2_0476
+gTextL2_0476:
+	.incbin "baserom.gba", 0x41AAF4, 0x1E3
+	.global gTextL2_0477
+gTextL2_0477:
+	.incbin "baserom.gba", 0x41ACD7, 0x19D
+	.global gTextL2_0478
+gTextL2_0478:
+	.incbin "baserom.gba", 0x41AE74, 0x5B
+	.global gTextL2_0479
+gTextL2_0479:
+	.incbin "baserom.gba", 0x41AECF, 0x21
+	.global gTextL2_0480
+gTextL2_0480:
+	.incbin "baserom.gba", 0x41AEF0, 0x18
+	.global gTextL2_0481
+gTextL2_0481:
+	.incbin "baserom.gba", 0x41AF08, 0x8
+	.global gTextL2_0482
+gTextL2_0482:
+	.incbin "baserom.gba", 0x41AF10, 0x37
+	.global gTextL2_0483
+gTextL2_0483:
+	.incbin "baserom.gba", 0x41AF47, 0x48
+	.global gTextL2_0484
+gTextL2_0484:
+	.incbin "baserom.gba", 0x41AF8F, 0x2F
+	.global gTextL2_0485
+gTextL2_0485:
+	.incbin "baserom.gba", 0x41AFBE, 0x2A4
+	.global gTextL2_0486
+gTextL2_0486:
+	.incbin "baserom.gba", 0x41B262, 0x18
+	.global gTextL2_0487
+gTextL2_0487:
+	.incbin "baserom.gba", 0x41B27A, 0x2C
+	.global gTextL2_0488
+gTextL2_0488:
+	.incbin "baserom.gba", 0x41B2A6, 0x23
+	.global gTextL2_0489
+gTextL2_0489:
+	.incbin "baserom.gba", 0x41B2C9, 0x28
+	.global gTextL2_0490
+gTextL2_0490:
+	.incbin "baserom.gba", 0x41B2F1, 0x44
+	.global gTextL2_0491
+gTextL2_0491:
+	.incbin "baserom.gba", 0x41B335, 0x44
+	.global gTextL2_0492
+gTextL2_0492:
+	.incbin "baserom.gba", 0x41B379, 0x44
+	.global gTextL2_0493
+gTextL2_0493:
+	.incbin "baserom.gba", 0x41B3BD, 0x44
+	.global gTextL2_0494
+gTextL2_0494:
+	.incbin "baserom.gba", 0x41B401, 0x44
+	.global gTextL2_0495
+gTextL2_0495:
+	.incbin "baserom.gba", 0x41B445, 0x44
+	.global gTextL2_0496
+gTextL2_0496:
+	.incbin "baserom.gba", 0x41B489, 0x44
+	.global gTextL2_0497
+gTextL2_0497:
+	.incbin "baserom.gba", 0x41B4CD, 0x44
+	.global gTextL2_0498
+gTextL2_0498:
+	.incbin "baserom.gba", 0x41B511, 0x45
+	.global gTextL2_0499
+gTextL2_0499:
+	.incbin "baserom.gba", 0x41B556, 0xA1
+	.global gTextL2_0500
+gTextL2_0500:
+	.incbin "baserom.gba", 0x41B5F7, 0x3D
+	.global gTextL2_0501
+gTextL2_0501:
+	.incbin "baserom.gba", 0x41B634, 0x177
+	.global gTextL2_0502
+gTextL2_0502:
+	.incbin "baserom.gba", 0x41B7AB, 0x1C
+	.global gTextL2_0503
+gTextL2_0503:
+	.incbin "baserom.gba", 0x41B7C7, 0x17
+	.global gTextL2_0504
+gTextL2_0504:
+	.incbin "baserom.gba", 0x41B7DE, 0x21
+	.global gTextL2_0505
+gTextL2_0505:
+	.incbin "baserom.gba", 0x41B7FF, 0xB
+	.global gTextL2_0506
+gTextL2_0506:
+	.incbin "baserom.gba", 0x41B80A, 0xD
+	.global gTextL2_0507
+gTextL2_0507:
+	.incbin "baserom.gba", 0x41B817, 0xE
+	.global gTextL2_0508
+gTextL2_0508:
+	.incbin "baserom.gba", 0x41B825, 0xE
+	.global gTextL2_0509
+gTextL2_0509:
+	.incbin "baserom.gba", 0x41B833, 0xE
+	.global gTextL2_0510
+gTextL2_0510:
+	.incbin "baserom.gba", 0x41B841, 0xE
+	.global gTextL2_0511
+gTextL2_0511:
+	.incbin "baserom.gba", 0x41B84F, 0x19
+	.global gTextL2_0512
+gTextL2_0512:
+	.incbin "baserom.gba", 0x41B868, 0x16
+	.global gTextL2_0513
+gTextL2_0513:
+	.incbin "baserom.gba", 0x41B87E, 0x17
+	.global gTextL2_0514
+gTextL2_0514:
+	.incbin "baserom.gba", 0x41B895, 0x17
+	.global gTextL2_0515
+gTextL2_0515:
+	.incbin "baserom.gba", 0x41B8AC, 0x167
+	.global gTextL2_0516
+gTextL2_0516:
+	.incbin "baserom.gba", 0x41BA13, 0x20
+	.global gTextL2_0517
+gTextL2_0517:
+	.incbin "baserom.gba", 0x41BA33, 0xD
+	.global gTextL2_0518
+gTextL2_0518:
+	.incbin "baserom.gba", 0x41BA40, 0x7E0
+	.global gTextL2_0519
+gTextL2_0519:
+	.incbin "baserom.gba", 0x41C220, 0x2B
+	.global gTextL2_0520
+gTextL2_0520:
+	.incbin "baserom.gba", 0x41C24B, 0x2D
+	.global gTextL2_0521
+gTextL2_0521:
+	.incbin "baserom.gba", 0x41C278, 0x2D
+	.global gTextL2_0522
+gTextL2_0522:
+	.incbin "baserom.gba", 0x41C2A5, 0x2F
+	.global gTextL2_0523
+gTextL2_0523:
+	.incbin "baserom.gba", 0x41C2D4, 0x2A
+	.global gTextL2_0524
+gTextL2_0524:
+	.incbin "baserom.gba", 0x41C2FE, 0x30
+	.global gTextL2_0525
+gTextL2_0525:
+	.incbin "baserom.gba", 0x41C32E, 0x2A
+	.global gTextL2_0526
+gTextL2_0526:
+	.incbin "baserom.gba", 0x41C358, 0x38
+	.global gTextL2_0527
+gTextL2_0527:
+	.incbin "baserom.gba", 0x41C390, 0x29
+	.global gTextL2_0528
+gTextL2_0528:
+	.incbin "baserom.gba", 0x41C3B9, 0xAD
+	.global gTextL2_0529
+gTextL2_0529:
+	.incbin "baserom.gba", 0x41C466, 0x53
+	.global gTextL2_0530
+gTextL2_0530:
+	.incbin "baserom.gba", 0x41C4B9, 0x29
+	.global gTextL2_0531
+gTextL2_0531:
+	.incbin "baserom.gba", 0x41C4E2, 0x96
+	.global gTextL2_0532
+gTextL2_0532:
+	.incbin "baserom.gba", 0x41C578, 0x2B
+	.global gTextL2_0533
+gTextL2_0533:
+	.incbin "baserom.gba", 0x41C5A3, 0x11
+	.global gTextL2_0534
+gTextL2_0534:
+	.incbin "baserom.gba", 0x41C5B4, 0x49
+	.global gTextL2_0535
+gTextL2_0535:
+	.incbin "baserom.gba", 0x41C5FD, 0x79
+	.global gTextL2_0536
+gTextL2_0536:
+	.incbin "baserom.gba", 0x41C676, 0x9E
+	.global gTextL2_0537
+gTextL2_0537:
+	.incbin "baserom.gba", 0x41C714, 0x66
+	.global gTextL2_0538
+gTextL2_0538:
+	.incbin "baserom.gba", 0x41C77A, 0x79
+	.global gTextL2_0539
+gTextL2_0539:
+	.incbin "baserom.gba", 0x41C7F3, 0x8D
+	.global gTextL2_0540
+gTextL2_0540:
+	.incbin "baserom.gba", 0x41C880, 0x31
+	.global gTextL2_0541
+gTextL2_0541:
+	.incbin "baserom.gba", 0x41C8B1, 0x1D
+	.global gTextL2_0542
+gTextL2_0542:
+	.incbin "baserom.gba", 0x41C8CE, 0x30
+	.global gTextL2_0543
+gTextL2_0543:
+	.incbin "baserom.gba", 0x41C8FE, 0x65
+	.global gTextL2_0544
+gTextL2_0544:
+	.incbin "baserom.gba", 0x41C963, 0x77
+	.global gTextL2_0545
+gTextL2_0545:
+	.incbin "baserom.gba", 0x41C9DA, 0x18F
+	.global gTextL2_0546
+gTextL2_0546:
+	.incbin "baserom.gba", 0x41CB69, 0x37
+	.global gTextL2_0547
+gTextL2_0547:
+	.incbin "baserom.gba", 0x41CBA0, 0x81
+	.global gTextL2_0548
+gTextL2_0548:
+	.incbin "baserom.gba", 0x41CC21, 0x58
+	.global gTextL2_0549
+gTextL2_0549:
+	.incbin "baserom.gba", 0x41CC79, 0x20
+	.global gTextL2_0550
+gTextL2_0550:
+	.incbin "baserom.gba", 0x41CC99, 0x1C
+	.global gTextL2_0551
+gTextL2_0551:
+	.incbin "baserom.gba", 0x41CCB5, 0x35
+	.global gTextL2_0552
+gTextL2_0552:
+	.incbin "baserom.gba", 0x41CCEA, 0xC2
+	.global gTextL2_0553
+gTextL2_0553:
+	.incbin "baserom.gba", 0x41CDAC, 0x9D
+	.global gTextL2_0554
+gTextL2_0554:
+	.incbin "baserom.gba", 0x41CE49, 0x25
+	.global gTextL2_0555
+gTextL2_0555:
+	.incbin "baserom.gba", 0x41CE6E, 0x30
+	.global gTextL2_0556
+gTextL2_0556:
+	.incbin "baserom.gba", 0x41CE9E, 0x51
+	.global gTextL2_0557
+gTextL2_0557:
+	.incbin "baserom.gba", 0x41CEEF, 0x54
+	.global gTextL2_0558
+gTextL2_0558:
+	.incbin "baserom.gba", 0x41CF43, 0x3E
+	.global gTextL2_0559
+gTextL2_0559:
+	.incbin "baserom.gba", 0x41CF81, 0x48
+	.global gTextL2_0560
+gTextL2_0560:
+	.incbin "baserom.gba", 0x41CFC9, 0x31
+	.global gTextL2_0561
+gTextL2_0561:
+	.incbin "baserom.gba", 0x41CFFA, 0x2E
+	.global gTextL2_0562
+gTextL2_0562:
+	.incbin "baserom.gba", 0x41D028, 0x57
+	.global gTextL2_0563
+gTextL2_0563:
+	.incbin "baserom.gba", 0x41D07F, 0x56
+	.global gTextL2_0564
+gTextL2_0564:
+	.incbin "baserom.gba", 0x41D0D5, 0x97
+	.global gTextL2_0565
+gTextL2_0565:
+	.incbin "baserom.gba", 0x41D16C, 0x4A
+	.global gTextL2_0566
+gTextL2_0566:
+	.incbin "baserom.gba", 0x41D1B6, 0x34
+	.global gTextL2_0567
+gTextL2_0567:
+	.incbin "baserom.gba", 0x41D1EA, 0x6E
+	.global gTextL2_0568
+gTextL2_0568:
+	.incbin "baserom.gba", 0x41D258, 0x2F
+	.global gTextL2_0569
+gTextL2_0569:
+	.incbin "baserom.gba", 0x41D287, 0x27
+	.global gTextL2_0570
+gTextL2_0570:
+	.incbin "baserom.gba", 0x41D2AE, 0x2D
+	.global gTextL2_0571
+gTextL2_0571:
+	.incbin "baserom.gba", 0x41D2DB, 0x2A
+	.global gTextL2_0572
+gTextL2_0572:
+	.incbin "baserom.gba", 0x41D305, 0x2E
+	.global gTextL2_0573
+gTextL2_0573:
+	.incbin "baserom.gba", 0x41D333, 0x3B
+	.global gTextL2_0574
+gTextL2_0574:
+	.incbin "baserom.gba", 0x41D36E, 0x24
+	.global gTextL2_0575
+gTextL2_0575:
+	.incbin "baserom.gba", 0x41D392, 0x1E
+	.global gTextL2_0576
+gTextL2_0576:
+	.incbin "baserom.gba", 0x41D3B0, 0x32
+	.global gTextL2_0577
+gTextL2_0577:
+	.incbin "baserom.gba", 0x41D3E2, 0x24
+	.global gTextL2_0578
+gTextL2_0578:
+	.incbin "baserom.gba", 0x41D406, 0x15
+	.global gTextL2_0579
+gTextL2_0579:
+	.incbin "baserom.gba", 0x41D41B, 0x13
+	.global gTextL2_0580
+gTextL2_0580:
+	.incbin "baserom.gba", 0x41D42E, 0x15
+	.global gTextL2_0581
+gTextL2_0581:
+	.incbin "baserom.gba", 0x41D443, 0x16
+	.global gTextL2_0582
+gTextL2_0582:
+	.incbin "baserom.gba", 0x41D459, 0x17
+	.global gTextL2_0583
+gTextL2_0583:
+	.incbin "baserom.gba", 0x41D470, 0x28
+	.global gTextL2_0584
+gTextL2_0584:
+	.incbin "baserom.gba", 0x41D498, 0x3A
+	.global gTextL2_0585
+gTextL2_0585:
+	.incbin "baserom.gba", 0x41D4D2, 0x2E
+	.global gTextL2_0586
+gTextL2_0586:
+	.incbin "baserom.gba", 0x41D500, 0x2E
+	.global gTextL2_0587
+gTextL2_0587:
+	.incbin "baserom.gba", 0x41D52E, 0x33
+	.global gTextL2_0588
+gTextL2_0588:
+	.incbin "baserom.gba", 0x41D561, 0x13
+	.global gTextL2_0589
+gTextL2_0589:
+	.incbin "baserom.gba", 0x41D574, 0x27
+	.global gTextL2_0590
+gTextL2_0590:
+	.incbin "baserom.gba", 0x41D59B, 0x18
+	.global gTextL2_0591
+gTextL2_0591:
+	.incbin "baserom.gba", 0x41D5B3, 0x15
+	.global gTextL2_0592
+gTextL2_0592:
+	.incbin "baserom.gba", 0x41D5C8, 0x1C
+	.global gTextL2_0593
+gTextL2_0593:
+	.incbin "baserom.gba", 0x41D5E4, 0x4D
+	.global gTextL2_0594
+gTextL2_0594:
+	.incbin "baserom.gba", 0x41D631, 0x50
+	.global gTextL2_0595
+gTextL2_0595:
+	.incbin "baserom.gba", 0x41D681, 0x5A
+	.global gTextL2_0596
+gTextL2_0596:
+	.incbin "baserom.gba", 0x41D6DB, 0x25
+	.global gTextL2_0597
+gTextL2_0597:
+	.incbin "baserom.gba", 0x41D700, 0x42
+	.global gTextL2_0598
+gTextL2_0598:
+	.incbin "baserom.gba", 0x41D742, 0x4F
+	.global gTextL2_0599
+gTextL2_0599:
+	.incbin "baserom.gba", 0x41D791, 0x4E
+	.global gTextL2_0600
+gTextL2_0600:
+	.incbin "baserom.gba", 0x41D7DF, 0x41
+	.global gTextL2_0601
+gTextL2_0601:
+	.incbin "baserom.gba", 0x41D820, 0x13
+	.global gTextL2_0602
+gTextL2_0602:
+	.incbin "baserom.gba", 0x41D833, 0x33
+	.global gTextL2_0603
+gTextL2_0603:
+	.incbin "baserom.gba", 0x41D866, 0x26
+	.global gTextL2_0604
+gTextL2_0604:
+	.incbin "baserom.gba", 0x41D88C, 0xF
+	.global gTextL2_0605
+gTextL2_0605:
+	.incbin "baserom.gba", 0x41D89B, 0xF
+	.global gTextL2_0606
+gTextL2_0606:
+	.incbin "baserom.gba", 0x41D8AA, 0x26
+	.global gTextL2_0607
+gTextL2_0607:
+	.incbin "baserom.gba", 0x41D8D0, 0x5C
+	.global gTextL2_0608
+gTextL2_0608:
+	.incbin "baserom.gba", 0x41D92C, 0x57
+	.global gTextL2_0609
+gTextL2_0609:
+	.incbin "baserom.gba", 0x41D983, 0x3F
+	.global gTextL2_0610
+gTextL2_0610:
+	.incbin "baserom.gba", 0x41D9C2, 0x37
+	.global gTextL2_0611
+gTextL2_0611:
+	.incbin "baserom.gba", 0x41D9F9, 0x26
+	.global gTextL2_0612
+gTextL2_0612:
+	.incbin "baserom.gba", 0x41DA1F, 0x49
+	.global gTextL2_0613
+gTextL2_0613:
+	.incbin "baserom.gba", 0x41DA68, 0x4E
+	.global gTextL2_0614
+gTextL2_0614:
+	.incbin "baserom.gba", 0x41DAB6, 0x39
+	.global gTextL2_0615
+gTextL2_0615:
+	.incbin "baserom.gba", 0x41DAEF, 0x2B
+	.global gTextL2_0616
+gTextL2_0616:
+	.incbin "baserom.gba", 0x41DB1A, 0x5E
+	.global gTextL2_0617
+gTextL2_0617:
+	.incbin "baserom.gba", 0x41DB78, 0x32
+	.global gTextL2_0618
+gTextL2_0618:
+	.incbin "baserom.gba", 0x41DBAA, 0x2F
+	.global gTextL2_0619
+gTextL2_0619:
+	.incbin "baserom.gba", 0x41DBD9, 0x33
+	.global gTextL2_0620
+gTextL2_0620:
+	.incbin "baserom.gba", 0x41DC0C, 0x84
+	.global gTextL2_0621
+gTextL2_0621:
+	.incbin "baserom.gba", 0x41DC90, 0x7F
+	.global gTextL2_0622
+gTextL2_0622:
+	.incbin "baserom.gba", 0x41DD0F, 0x17
+	.global gTextL2_0623
+gTextL2_0623:
+	.incbin "baserom.gba", 0x41DD26, 0x1C
+	.global gTextL2_0624
+gTextL2_0624:
+	.incbin "baserom.gba", 0x41DD42, 0x19
+	.global gTextL2_0625
+gTextL2_0625:
+	.incbin "baserom.gba", 0x41DD5B, 0x26
+	.global gTextL2_0626
+gTextL2_0626:
+	.incbin "baserom.gba", 0x41DD81, 0x29
+	.global gTextL2_0627
+gTextL2_0627:
+	.incbin "baserom.gba", 0x41DDAA, 0x36
+	.global gTextL2_0628
+gTextL2_0628:
+	.incbin "baserom.gba", 0x41DDE0, 0x87
+	.global gTextL2_0629
+gTextL2_0629:
+	.incbin "baserom.gba", 0x41DE67, 0x1D
+	.global gTextL2_0630
+gTextL2_0630:
+	.incbin "baserom.gba", 0x41DE84, 0x1D
+	.global gTextL2_0631
+gTextL2_0631:
+	.incbin "baserom.gba", 0x41DEA1, 0x27
+	.global gTextL2_0632
+gTextL2_0632:
+	.incbin "baserom.gba", 0x41DEC8, 0xC8
+	.global gTextL2_0633
+gTextL2_0633:
+	.incbin "baserom.gba", 0x41DF90, 0x49
+	.global gTextL2_0634
+gTextL2_0634:
+	.incbin "baserom.gba", 0x41DFD9, 0x35
+	.global gTextL2_0635
+gTextL2_0635:
+	.incbin "baserom.gba", 0x41E00E, 0x1C7
+	.global gTextL2_0636
+gTextL2_0636:
+	.incbin "baserom.gba", 0x41E1D5, 0x5F
+	.global gTextL2_0637
+gTextL2_0637:
+	.incbin "baserom.gba", 0x41E234, 0x2E
+	.global gTextL2_0638
+gTextL2_0638:
+	.incbin "baserom.gba", 0x41E262, 0x18
+	.global gTextL2_0639
+gTextL2_0639:
+	.incbin "baserom.gba", 0x41E27A, 0x49
+	.global gTextL2_0640
+gTextL2_0640:
+	.incbin "baserom.gba", 0x41E2C3, 0x16
+	.global gTextL2_0641
+gTextL2_0641:
+	.incbin "baserom.gba", 0x41E2D9, 0x14
+	.global gTextL2_0642
+gTextL2_0642:
+	.incbin "baserom.gba", 0x41E2ED, 0x2E
+	.global gTextL2_0643
+gTextL2_0643:
+	.incbin "baserom.gba", 0x41E31B, 0x22
+	.global gTextL2_0644
+gTextL2_0644:
+	.incbin "baserom.gba", 0x41E33D, 0x31
+	.global gTextL2_0645
+gTextL2_0645:
+	.incbin "baserom.gba", 0x41E36E, 0x111
+	.global gTextL2_0646
+gTextL2_0646:
+	.incbin "baserom.gba", 0x41E47F, 0x11B
+	.global gTextL2_0647
+gTextL2_0647:
+	.incbin "baserom.gba", 0x41E59A, 0xF3
+	.global gTextL2_0648
+gTextL2_0648:
+	.incbin "baserom.gba", 0x41E68D, 0x45
+	.global gTextL2_0649
+gTextL2_0649:
+	.incbin "baserom.gba", 0x41E6D2, 0x4C
+	.global gTextL2_0650
+gTextL2_0650:
+	.incbin "baserom.gba", 0x41E71E, 0xDE
+	.global gTextL2_0651
+gTextL2_0651:
+	.incbin "baserom.gba", 0x41E7FC, 0x12C
+	.global gTextL2_0652
+gTextL2_0652:
+	.incbin "baserom.gba", 0x41E928, 0x10A
+	.global gTextL2_0653
+gTextL2_0653:
+	.incbin "baserom.gba", 0x41EA32, 0xC4
+	.global gTextL2_0654
+gTextL2_0654:
+	.incbin "baserom.gba", 0x41EAF6, 0xC5
+	.global gTextL2_0655
+gTextL2_0655:
+	.incbin "baserom.gba", 0x41EBBB, 0x38
+	.global gTextL2_0656
+gTextL2_0656:
+	.incbin "baserom.gba", 0x41EBF3, 0x20
+	.global gTextL2_0657
+gTextL2_0657:
+	.incbin "baserom.gba", 0x41EC13, 0x60
+	.global gTextL2_0658
+gTextL2_0658:
+	.incbin "baserom.gba", 0x41EC73, 0x44
+	.global gTextL2_0659
+gTextL2_0659:
+	.incbin "baserom.gba", 0x41ECB7, 0x1E
+	.global gTextL2_0660
+gTextL2_0660:
+	.incbin "baserom.gba", 0x41ECD5, 0x30
+	.global gTextL2_0661
+gTextL2_0661:
+	.incbin "baserom.gba", 0x41ED05, 0x3A
+	.global gTextL2_0662
+gTextL2_0662:
+	.incbin "baserom.gba", 0x41ED3F, 0x17
+	.global gTextL2_0663
+gTextL2_0663:
+	.incbin "baserom.gba", 0x41ED56, 0x17
+	.global gTextL2_0664
+gTextL2_0664:
+	.incbin "baserom.gba", 0x41ED6D, 0x17
+	.global gTextL2_0665
+gTextL2_0665:
+	.incbin "baserom.gba", 0x41ED84, 0x17
+	.global gTextL2_0666
+gTextL2_0666:
+	.incbin "baserom.gba", 0x41ED9B, 0x17
+	.global gTextL2_0667
+gTextL2_0667:
+	.incbin "baserom.gba", 0x41EDB2, 0x17
+	.global gTextL2_0668
+gTextL2_0668:
+	.incbin "baserom.gba", 0x41EDC9, 0x17
+	.global gTextL2_0669
+gTextL2_0669:
+	.incbin "baserom.gba", 0x41EDE0, 0x17
+	.global gTextL2_0670
+gTextL2_0670:
+	.incbin "baserom.gba", 0x41EDF7, 0x17
+	.global gTextL2_0671
+gTextL2_0671:
+	.incbin "baserom.gba", 0x41EE0E, 0x18
+	.global gTextL2_0672
+gTextL2_0672:
+	.incbin "baserom.gba", 0x41EE26, 0x1A
+	.global gTextL2_0673
+gTextL2_0673:
+	.incbin "baserom.gba", 0x41EE40, 0x1C4
+	.global gTextL2_0674
+gTextL2_0674:
+	.incbin "baserom.gba", 0x41F004, 0x130
+	.global gTextL2_0675
+gTextL2_0675:
+	.incbin "baserom.gba", 0x41F134, 0x23
+	.global gTextL2_0676
+gTextL2_0676:
+	.incbin "baserom.gba", 0x41F157, 0x7F
+	.global gTextL2_0677
+gTextL2_0677:
+	.incbin "baserom.gba", 0x41F1D6, 0x2D
+	.global gTextL2_0678
+gTextL2_0678:
+	.incbin "baserom.gba", 0x41F203, 0xE9
+	.global gTextL2_0679
+gTextL2_0679:
+	.incbin "baserom.gba", 0x41F2EC, 0x5B
+	.global gTextL2_0680
+gTextL2_0680:
+	.incbin "baserom.gba", 0x41F347, 0x90
+	.global gTextL2_0681
+gTextL2_0681:
+	.incbin "baserom.gba", 0x41F3D7, 0x129
+	.global gTextL2_0682
+gTextL2_0682:
+	.incbin "baserom.gba", 0x41F500, 0x1E9
+	.global gTextL2_0683
+gTextL2_0683:
+	.incbin "baserom.gba", 0x41F6E9, 0x14D
+	.global gTextL2_0684
+gTextL2_0684:
+	.incbin "baserom.gba", 0x41F836, 0x122
+	.global gTextL2_0685
+gTextL2_0685:
+	.incbin "baserom.gba", 0x41F958, 0xB7
+	.global gTextL2_0686
+gTextL2_0686:
+	.incbin "baserom.gba", 0x41FA0F, 0x2B
+	.global gTextL2_0687
+gTextL2_0687:
+	.incbin "baserom.gba", 0x41FA3A, 0xC9
+	.global gTextL2_0688
+gTextL2_0688:
+	.incbin "baserom.gba", 0x41FB03, 0x72
+	.global gTextL2_0689
+gTextL2_0689:
+	.incbin "baserom.gba", 0x41FB75, 0xB3
+	.global gTextL2_0690
+gTextL2_0690:
+	.incbin "baserom.gba", 0x41FC28, 0x111
+	.global gTextL2_0691
+gTextL2_0691:
+	.incbin "baserom.gba", 0x41FD39, 0x329
+	.global gTextL2_0692
+gTextL2_0692:
+	.incbin "baserom.gba", 0x420062, 0xBA
+	.global gTextL2_0693
+gTextL2_0693:
+	.incbin "baserom.gba", 0x42011C, 0xA2
+	.global gTextL2_0694
+gTextL2_0694:
+	.incbin "baserom.gba", 0x4201BE, 0xC8
+	.global gTextL2_0695
+gTextL2_0695:
+	.incbin "baserom.gba", 0x420286, 0x28
+	.global gTextL2_0696
+gTextL2_0696:
+	.incbin "baserom.gba", 0x4202AE, 0xE0
+	.global gTextL2_0697
+gTextL2_0697:
+	.incbin "baserom.gba", 0x42038E, 0x7D
+	.global gTextL2_0698
+gTextL2_0698:
+	.incbin "baserom.gba", 0x42040B, 0xD6
+	.global gTextL2_0699
+gTextL2_0699:
+	.incbin "baserom.gba", 0x4204E1, 0x165
+	.global gTextL2_0700
+gTextL2_0700:
+	.incbin "baserom.gba", 0x420646, 0x2B1
+	.global gTextL2_0701
+gTextL2_0701:
+	.incbin "baserom.gba", 0x4208F7, 0xBC
+	.global gTextL2_0702
+gTextL2_0702:
+	.incbin "baserom.gba", 0x4209B3, 0x76
+	.global gTextL2_0703
+gTextL2_0703:
+	.incbin "baserom.gba", 0x420A29, 0xEB
+	.global gTextL2_0704
+gTextL2_0704:
+	.incbin "baserom.gba", 0x420B14, 0x27
+	.global gTextL2_0705
+gTextL2_0705:
+	.incbin "baserom.gba", 0x420B3B, 0x9F
+	.global gTextL2_0706
+gTextL2_0706:
+	.incbin "baserom.gba", 0x420BDA, 0x68
+	.global gTextL2_0707
+gTextL2_0707:
+	.incbin "baserom.gba", 0x420C42, 0xA3
+	.global gTextL2_0708
+gTextL2_0708:
+	.incbin "baserom.gba", 0x420CE5, 0xBD
+	.global gTextL2_0709
+gTextL2_0709:
+	.incbin "baserom.gba", 0x420DA2, 0x8
+	.global gTextL2_0710
+gTextL2_0710:
+	.incbin "baserom.gba", 0x420DAA, 0x8
+	.global gTextL2_0711
+gTextL2_0711:
+	.incbin "baserom.gba", 0x420DB2, 0x8
+	.global gTextL2_0712
+gTextL2_0712:
+	.incbin "baserom.gba", 0x420DBA, 0x8
+	.global gTextL2_0713
+gTextL2_0713:
+	.incbin "baserom.gba", 0x420DC2, 0x8
+	.global gTextL2_0714
+gTextL2_0714:
+	.incbin "baserom.gba", 0x420DCA, 0x8
+	.global gTextL2_0715
+gTextL2_0715:
+	.incbin "baserom.gba", 0x420DD2, 0x8
+	.global gTextL2_0716
+gTextL2_0716:
+	.incbin "baserom.gba", 0x420DDA, 0x8
+	.global gTextL2_0717
+gTextL2_0717:
+	.incbin "baserom.gba", 0x420DE2, 0x8
+	.global gTextL2_0718
+gTextL2_0718:
+	.incbin "baserom.gba", 0x420DEA, 0x8
+	.global gTextL2_0719
+gTextL2_0719:
+	.incbin "baserom.gba", 0x420DF2, 0x8
+	.global gTextL2_0720
+gTextL2_0720:
+	.incbin "baserom.gba", 0x420DFA, 0x8
+	.global gTextL2_0721
+gTextL2_0721:
+	.incbin "baserom.gba", 0x420E02, 0x1A
+	.global gTextL2_0722
+gTextL2_0722:
+	.incbin "baserom.gba", 0x420E1C, 0x1A
+	.global gTextL2_0723
+gTextL2_0723:
+	.incbin "baserom.gba", 0x420E36, 0x8
+	.global gTextL2_0724
+gTextL2_0724:
+	.incbin "baserom.gba", 0x420E3E, 0x8
+	.global gTextL2_0725
+gTextL2_0725:
+	.incbin "baserom.gba", 0x420E46, 0x8
+	.global gTextL2_0726
+gTextL2_0726:
+	.incbin "baserom.gba", 0x420E4E, 0x8
+	.global gTextL2_0727
+gTextL2_0727:
+	.incbin "baserom.gba", 0x420E56, 0x8
+	.global gTextL2_0728
+gTextL2_0728:
+	.incbin "baserom.gba", 0x420E5E, 0x8
+	.global gTextL2_0729
+gTextL2_0729:
+	.incbin "baserom.gba", 0x420E66, 0x8
+	.global gTextL2_0730
+gTextL2_0730:
+	.incbin "baserom.gba", 0x420E6E, 0x8
+	.global gTextL2_0731
+gTextL2_0731:
+	.incbin "baserom.gba", 0x420E76, 0x8
+	.global gTextL2_0732
+gTextL2_0732:
+	.incbin "baserom.gba", 0x420E7E, 0x8
+	.global gTextL2_0733
+gTextL2_0733:
+	.incbin "baserom.gba", 0x420E86, 0x8
+	.global gTextL2_0734
+gTextL2_0734:
+	.incbin "baserom.gba", 0x420E8E, 0x8
+	.global gTextL2_0735
+gTextL2_0735:
+	.incbin "baserom.gba", 0x420E96, 0x8
+	.global gTextL2_0736
+gTextL2_0736:
+	.incbin "baserom.gba", 0x420E9E, 0x8
+	.global gTextL2_0737
+gTextL2_0737:
+	.incbin "baserom.gba", 0x420EA6, 0x8
+	.global gTextL2_0738
+gTextL2_0738:
+	.incbin "baserom.gba", 0x420EAE, 0x8
+	.global gTextL2_0739
+gTextL2_0739:
+	.incbin "baserom.gba", 0x420EB6, 0x1E
+	.global gTextL2_0740
+gTextL2_0740:
+	.incbin "baserom.gba", 0x420ED4, 0x1E
+	.global gTextL2_0741
+gTextL2_0741:
+	.incbin "baserom.gba", 0x420EF2, 0x1B
+	.global gTextL2_0742
+gTextL2_0742:
+	.incbin "baserom.gba", 0x420F0D, 0x1B
+	.global gTextL2_0743
+gTextL2_0743:
+	.incbin "baserom.gba", 0x420F28, 0x1E
+	.global gTextL2_0744
+gTextL2_0744:
+	.incbin "baserom.gba", 0x420F46, 0x1E
+	.global gTextL2_0745
+gTextL2_0745:
+	.incbin "baserom.gba", 0x420F64, 0x19
+	.global gTextL2_0746
+gTextL2_0746:
+	.incbin "baserom.gba", 0x420F7D, 0x19
+	.global gTextL2_0747
+gTextL2_0747:
+	.incbin "baserom.gba", 0x420F96, 0x1C
+	.global gTextL2_0748
+gTextL2_0748:
+	.incbin "baserom.gba", 0x420FB2, 0x1F
+	.global gTextL2_0749
+gTextL2_0749:
+	.incbin "baserom.gba", 0x420FD1, 0xD
+	.global gTextL2_0750
+gTextL2_0750:
+	.incbin "baserom.gba", 0x420FDE, 0x13
+	.global gTextL2_0751
+gTextL2_0751:
+	.incbin "baserom.gba", 0x420FF1, 0x14
+	.global gTextL2_0752
+gTextL2_0752:
+	.incbin "baserom.gba", 0x421005, 0x1A
+	.global gTextL2_0753
+gTextL2_0753:
+	.incbin "baserom.gba", 0x42101F, 0x12
+	.global gTextL2_0754
+gTextL2_0754:
+	.incbin "baserom.gba", 0x421031, 0x12
+	.global gTextL2_0755
+gTextL2_0755:
+	.incbin "baserom.gba", 0x421043, 0x1D
+	.global gTextL2_0756
+gTextL2_0756:
+	.incbin "baserom.gba", 0x421060, 0x1D
+	.global gTextL2_0757
+gTextL2_0757:
+	.incbin "baserom.gba", 0x42107D, 0x1D
+	.global gTextL2_0758
+gTextL2_0758:
+	.incbin "baserom.gba", 0x42109A, 0x1D
+	.global gTextL2_0759
+gTextL2_0759:
+	.incbin "baserom.gba", 0x4210B7, 0x1C
+	.global gTextL2_0760
+gTextL2_0760:
+	.incbin "baserom.gba", 0x4210D3, 0x1C
+	.global gTextL2_0761
+gTextL2_0761:
+	.incbin "baserom.gba", 0x4210EF, 0x1A
+	.global gTextL2_0762
+gTextL2_0762:
+	.incbin "baserom.gba", 0x421109, 0x1A
+	.global gTextL2_0763
+gTextL2_0763:
+	.incbin "baserom.gba", 0x421123, 0x1D
+	.global gTextL2_0764
+gTextL2_0764:
+	.incbin "baserom.gba", 0x421140, 0x20
+	.global gTextL2_0765
+gTextL2_0765:
+	.incbin "baserom.gba", 0x421160, 0x1C
+	.global gTextL2_0766
+gTextL2_0766:
+	.incbin "baserom.gba", 0x42117C, 0x1D
+	.global gTextL2_0767
+gTextL2_0767:
+	.incbin "baserom.gba", 0x421199, 0x12
+	.global gTextL2_0768
+gTextL2_0768:
+	.incbin "baserom.gba", 0x4211AB, 0x12
+	.global gTextL2_0769
+gTextL2_0769:
+	.incbin "baserom.gba", 0x4211BD, 0xF
+	.global gTextL2_0770
+gTextL2_0770:
+	.incbin "baserom.gba", 0x4211CC, 0xF
+	.global gTextL2_0771
+gTextL2_0771:
+	.incbin "baserom.gba", 0x4211DB, 0x1C
+	.global gTextL2_0772
+gTextL2_0772:
+	.incbin "baserom.gba", 0x4211F7, 0x1C
+	.global gTextL2_0773
+gTextL2_0773:
+	.incbin "baserom.gba", 0x421213, 0x1A
+	.global gTextL2_0774
+gTextL2_0774:
+	.incbin "baserom.gba", 0x42122D, 0x1B
+	.global gTextL2_0775
+gTextL2_0775:
+	.incbin "baserom.gba", 0x421248, 0x20
+	.global gTextL2_0776
+gTextL2_0776:
+	.incbin "baserom.gba", 0x421268, 0x20
+	.global gTextL2_0777
+gTextL2_0777:
+	.incbin "baserom.gba", 0x421288, 0x13
+	.global gTextL2_0778
+gTextL2_0778:
+	.incbin "baserom.gba", 0x42129B, 0x13
+	.global gTextL2_0779
+gTextL2_0779:
+	.incbin "baserom.gba", 0x4212AE, 0x1B
+	.global gTextL2_0780
+gTextL2_0780:
+	.incbin "baserom.gba", 0x4212C9, 0x21
+	.global gTextL2_0781
+gTextL2_0781:
+	.incbin "baserom.gba", 0x4212EA, 0x1C
+	.global gTextL2_0782
+gTextL2_0782:
+	.incbin "baserom.gba", 0x421306, 0x1C
+	.global gTextL2_0783
+gTextL2_0783:
+	.incbin "baserom.gba", 0x421322, 0x1F
+	.global gTextL2_0784
+gTextL2_0784:
+	.incbin "baserom.gba", 0x421341, 0x1F
+	.global gTextL2_0785
+gTextL2_0785:
+	.incbin "baserom.gba", 0x421360, 0x1E
+	.global gTextL2_0786
+gTextL2_0786:
+	.incbin "baserom.gba", 0x42137E, 0x1F
+	.global gTextL2_0787
+gTextL2_0787:
+	.incbin "baserom.gba", 0x42139D, 0x1B
+	.global gTextL2_0788
+gTextL2_0788:
+	.incbin "baserom.gba", 0x4213B8, 0x1E
+	.global gTextL2_0789
+gTextL2_0789:
+	.incbin "baserom.gba", 0x4213D6, 0x16
+	.global gTextL2_0790
+gTextL2_0790:
+	.incbin "baserom.gba", 0x4213EC, 0x16
+	.global gTextL2_0791
+gTextL2_0791:
+	.incbin "baserom.gba", 0x421402, 0xF
+	.global gTextL2_0792
+gTextL2_0792:
+	.incbin "baserom.gba", 0x421411, 0x1D
+	.global gTextL2_0793
+gTextL2_0793:
+	.incbin "baserom.gba", 0x42142E, 0x1B
+	.global gTextL2_0794
+gTextL2_0794:
+	.incbin "baserom.gba", 0x421449, 0x11
+	.global gTextL2_0795
+gTextL2_0795:
+	.incbin "baserom.gba", 0x42145A, 0x11
+	.global gTextL2_0796
+gTextL2_0796:
+	.incbin "baserom.gba", 0x42146B, 0x11
+	.global gTextL2_0797
+gTextL2_0797:
+	.incbin "baserom.gba", 0x42147C, 0x11
+	.global gTextL2_0798
+gTextL2_0798:
+	.incbin "baserom.gba", 0x42148D, 0x14
+	.global gTextL2_0799
+gTextL2_0799:
+	.incbin "baserom.gba", 0x4214A1, 0x14
+	.global gTextL2_0800
+gTextL2_0800:
+	.incbin "baserom.gba", 0x4214B5, 0x19
+	.global gTextL2_0801
+gTextL2_0801:
+	.incbin "baserom.gba", 0x4214CE, 0x1D
+	.global gTextL2_0802
+gTextL2_0802:
+	.incbin "baserom.gba", 0x4214EB, 0x1D
+	.global gTextL2_0803
+gTextL2_0803:
+	.incbin "baserom.gba", 0x421508, 0x1F
+	.global gTextL2_0804
+gTextL2_0804:
+	.incbin "baserom.gba", 0x421527, 0x1E
+	.global gTextL2_0805
+gTextL2_0805:
+	.incbin "baserom.gba", 0x421545, 0x19
+	.global gTextL2_0806
+gTextL2_0806:
+	.incbin "baserom.gba", 0x42155E, 0x17
+	.global gTextL2_0807
+gTextL2_0807:
+	.incbin "baserom.gba", 0x421575, 0x14
+	.global gTextL2_0808
+gTextL2_0808:
+	.incbin "baserom.gba", 0x421589, 0x6
+	.global gTextL2_0809
+gTextL2_0809:
+	.incbin "baserom.gba", 0x42158F, 0x6
+	.global gTextL2_0810
+gTextL2_0810:
+	.incbin "baserom.gba", 0x421595, 0x10
+	.global gTextL2_0811
+gTextL2_0811:
+	.incbin "baserom.gba", 0x4215A5, 0x18
+	.global gTextL2_0812
+gTextL2_0812:
+	.incbin "baserom.gba", 0x4215BD, 0x18
+	.global gTextL2_0813
+gTextL2_0813:
+	.incbin "baserom.gba", 0x4215D5, 0x14
+	.global gTextL2_0814
+gTextL2_0814:
+	.incbin "baserom.gba", 0x4215E9, 0x14
+	.global gTextL2_0815
+gTextL2_0815:
+	.incbin "baserom.gba", 0x4215FD, 0x16
+	.global gTextL2_0816
+gTextL2_0816:
+	.incbin "baserom.gba", 0x421613, 0x16
+	.global gTextL2_0817
+gTextL2_0817:
+	.incbin "baserom.gba", 0x421629, 0x17
+	.global gTextL2_0818
+gTextL2_0818:
+	.incbin "baserom.gba", 0x421640, 0x17
+	.global gTextL2_0819
+gTextL2_0819:
+	.incbin "baserom.gba", 0x421657, 0x15
+	.global gTextL2_0820
+gTextL2_0820:
+	.incbin "baserom.gba", 0x42166C, 0x15
+	.global gTextL2_0821
+gTextL2_0821:
+	.incbin "baserom.gba", 0x421681, 0x17
+	.global gTextL2_0822
+gTextL2_0822:
+	.incbin "baserom.gba", 0x421698, 0x17
+	.global gTextL2_0823
+gTextL2_0823:
+	.incbin "baserom.gba", 0x4216AF, 0x16
+	.global gTextL2_0824
+gTextL2_0824:
+	.incbin "baserom.gba", 0x4216C5, 0x16
+	.global gTextL2_0825
+gTextL2_0825:
+	.incbin "baserom.gba", 0x4216DB, 0x17
+	.global gTextL2_0826
+gTextL2_0826:
+	.incbin "baserom.gba", 0x4216F2, 0x17
+	.global gTextL2_0827
+gTextL2_0827:
+	.incbin "baserom.gba", 0x421709, 0x10
+	.global gTextL2_0828
+gTextL2_0828:
+	.incbin "baserom.gba", 0x421719, 0x10
+	.global gTextL2_0829
+gTextL2_0829:
+	.incbin "baserom.gba", 0x421729, 0x15
+	.global gTextL2_0830
+gTextL2_0830:
+	.incbin "baserom.gba", 0x42173E, 0x15
+	.global gTextL2_0831
+gTextL2_0831:
+	.incbin "baserom.gba", 0x421753, 0x11
+	.global gTextL2_0832
+gTextL2_0832:
+	.incbin "baserom.gba", 0x421764, 0x11
+	.global gTextL2_0833
+gTextL2_0833:
+	.incbin "baserom.gba", 0x421775, 0x14
+	.global gTextL2_0834
+gTextL2_0834:
+	.incbin "baserom.gba", 0x421789, 0x14
+	.global gTextL2_0835
+gTextL2_0835:
+	.incbin "baserom.gba", 0x42179D, 0x12
+	.global gTextL2_0836
+gTextL2_0836:
+	.incbin "baserom.gba", 0x4217AF, 0x12
+	.global gTextL2_0837
+gTextL2_0837:
+	.incbin "baserom.gba", 0x4217C1, 0x17
+	.global gTextL2_0838
+gTextL2_0838:
+	.incbin "baserom.gba", 0x4217D8, 0x17
+	.global gTextL2_0839
+gTextL2_0839:
+	.incbin "baserom.gba", 0x4217EF, 0x16
+	.global gTextL2_0840
+gTextL2_0840:
+	.incbin "baserom.gba", 0x421805, 0x16
+	.global gTextL2_0841
+gTextL2_0841:
+	.incbin "baserom.gba", 0x42181B, 0x11
+	.global gTextL2_0842
+gTextL2_0842:
+	.incbin "baserom.gba", 0x42182C, 0x11
+	.global gTextL2_0843
+gTextL2_0843:
+	.incbin "baserom.gba", 0x42183D, 0x11
+	.global gTextL2_0844
+gTextL2_0844:
+	.incbin "baserom.gba", 0x42184E, 0x11
+	.global gTextL2_0845
+gTextL2_0845:
+	.incbin "baserom.gba", 0x42185F, 0x15
+	.global gTextL2_0846
+gTextL2_0846:
+	.incbin "baserom.gba", 0x421874, 0x15
+	.global gTextL2_0847
+gTextL2_0847:
+	.incbin "baserom.gba", 0x421889, 0x11
+	.global gTextL2_0848
+gTextL2_0848:
+	.incbin "baserom.gba", 0x42189A, 0x11
+	.global gTextL2_0849
+gTextL2_0849:
+	.incbin "baserom.gba", 0x4218AB, 0x14
+	.global gTextL2_0850
+gTextL2_0850:
+	.incbin "baserom.gba", 0x4218BF, 0x14
+	.global gTextL2_0851
+gTextL2_0851:
+	.incbin "baserom.gba", 0x4218D3, 0x16
+	.global gTextL2_0852
+gTextL2_0852:
+	.incbin "baserom.gba", 0x4218E9, 0x16
+	.global gTextL2_0853
+gTextL2_0853:
+	.incbin "baserom.gba", 0x4218FF, 0xF
+	.global gTextL2_0854
+gTextL2_0854:
+	.incbin "baserom.gba", 0x42190E, 0xF
+	.global gTextL2_0855
+gTextL2_0855:
+	.incbin "baserom.gba", 0x42191D, 0x15
+	.global gTextL2_0856
+gTextL2_0856:
+	.incbin "baserom.gba", 0x421932, 0x15
+	.global gTextL2_0857
+gTextL2_0857:
+	.incbin "baserom.gba", 0x421947, 0x16
+	.global gTextL2_0858
+gTextL2_0858:
+	.incbin "baserom.gba", 0x42195D, 0x16
+	.global gTextL2_0859
+gTextL2_0859:
+	.incbin "baserom.gba", 0x421973, 0x14
+	.global gTextL2_0860
+gTextL2_0860:
+	.incbin "baserom.gba", 0x421987, 0x14
+	.global gTextL2_0861
+gTextL2_0861:
+	.incbin "baserom.gba", 0x42199B, 0x14
+	.global gTextL2_0862
+gTextL2_0862:
+	.incbin "baserom.gba", 0x4219AF, 0x14
+	.global gTextL2_0863
+gTextL2_0863:
+	.incbin "baserom.gba", 0x4219C3, 0x12
+	.global gTextL2_0864
+gTextL2_0864:
+	.incbin "baserom.gba", 0x4219D5, 0x12
+	.global gTextL2_0865
+gTextL2_0865:
+	.incbin "baserom.gba", 0x4219E7, 0x11
+	.global gTextL2_0866
+gTextL2_0866:
+	.incbin "baserom.gba", 0x4219F8, 0x11
+	.global gTextL2_0867
+gTextL2_0867:
+	.incbin "baserom.gba", 0x421A09, 0x12
+	.global gTextL2_0868
+gTextL2_0868:
+	.incbin "baserom.gba", 0x421A1B, 0x12
+	.global gTextL2_0869
+gTextL2_0869:
+	.incbin "baserom.gba", 0x421A2D, 0x15
+	.global gTextL2_0870
+gTextL2_0870:
+	.incbin "baserom.gba", 0x421A42, 0x20
+	.global gTextL2_0871
+gTextL2_0871:
+	.incbin "baserom.gba", 0x421A62, 0x20
+	.global gTextL2_0872
+gTextL2_0872:
+	.incbin "baserom.gba", 0x421A82, 0x1F
+	.global gTextL2_0873
+gTextL2_0873:
+	.incbin "baserom.gba", 0x421AA1, 0x1F
+	.global gTextL2_0874
+gTextL2_0874:
+	.incbin "baserom.gba", 0x421AC0, 0x15
+	.global gTextL2_0875
+gTextL2_0875:
+	.incbin "baserom.gba", 0x421AD5, 0x1E
+	.global gTextL2_0876
+gTextL2_0876:
+	.incbin "baserom.gba", 0x421AF3, 0x1A
+	.global gTextL2_0877
+gTextL2_0877:
+	.incbin "baserom.gba", 0x421B0D, 0x1B
+	.global gTextL2_0878
+gTextL2_0878:
+	.incbin "baserom.gba", 0x421B28, 0x1B
+	.global gTextL2_0879
+gTextL2_0879:
+	.incbin "baserom.gba", 0x421B43, 0x1F
+	.global gTextL2_0880
+gTextL2_0880:
+	.incbin "baserom.gba", 0x421B62, 0x1C
+	.global gTextL2_0881
+gTextL2_0881:
+	.incbin "baserom.gba", 0x421B7E, 0x1F
+	.global gTextL2_0882
+gTextL2_0882:
+	.incbin "baserom.gba", 0x421B9D, 0x19
+	.global gTextL2_0883
+gTextL2_0883:
+	.incbin "baserom.gba", 0x421BB6, 0x12
+	.global gTextL2_0884
+gTextL2_0884:
+	.incbin "baserom.gba", 0x421BC8, 0x1C
+	.global gTextL2_0885
+gTextL2_0885:
+	.incbin "baserom.gba", 0x421BE4, 0x13
+	.global gTextL2_0886
+gTextL2_0886:
+	.incbin "baserom.gba", 0x421BF7, 0x34
+	.global gTextL2_0887
+gTextL2_0887:
+	.incbin "baserom.gba", 0x421C2B, 0x15
+	.global gTextL2_0888
+gTextL2_0888:
+	.incbin "baserom.gba", 0x421C40, 0x11
+	.global gTextL2_0889
+gTextL2_0889:
+	.incbin "baserom.gba", 0x421C51, 0x8
+	.global gTextL2_0890
+gTextL2_0890:
+	.incbin "baserom.gba", 0x421C59, 0x20
+	.global gTextL2_0891
+gTextL2_0891:
+	.incbin "baserom.gba", 0x421C79, 0x17
+	.global gTextL2_0892
+gTextL2_0892:
+	.incbin "baserom.gba", 0x421C90, 0x18
+	.global gTextL2_0893
+gTextL2_0893:
+	.incbin "baserom.gba", 0x421CA8, 0x1E
+	.global gTextL2_0894
+gTextL2_0894:
+	.incbin "baserom.gba", 0x421CC6, 0x1E
+	.global gTextL2_0895
+gTextL2_0895:
+	.incbin "baserom.gba", 0x421CE4, 0x1A
+	.global gTextL2_0896
+gTextL2_0896:
+	.incbin "baserom.gba", 0x421CFE, 0x1C
+	.global gTextL2_0897
+gTextL2_0897:
+	.incbin "baserom.gba", 0x421D1A, 0x3A
+	.global gTextL2_0898
+gTextL2_0898:
+	.incbin "baserom.gba", 0x421D54, 0x27
+	.global gTextL2_0899
+gTextL2_0899:
+	.incbin "baserom.gba", 0x421D7B, 0x2F
+	.global gTextL2_0900
+gTextL2_0900:
+	.incbin "baserom.gba", 0x421DAA, 0x34
+	.global gTextL2_0901
+gTextL2_0901:
+	.incbin "baserom.gba", 0x421DDE, 0x38
+	.global gTextL2_0902
+gTextL2_0902:
+	.incbin "baserom.gba", 0x421E16, 0x13
+	.global gTextL2_0903
+gTextL2_0903:
+	.incbin "baserom.gba", 0x421E29, 0x1E
+	.global gTextL2_0904
+gTextL2_0904:
+	.incbin "baserom.gba", 0x421E47, 0x1E
+	.global gTextL2_0905
+gTextL2_0905:
+	.incbin "baserom.gba", 0x421E65, 0x1B
+	.global gTextL2_0906
+gTextL2_0906:
+	.incbin "baserom.gba", 0x421E80, 0x2B
+	.global gTextL2_0907
+gTextL2_0907:
+	.incbin "baserom.gba", 0x421EAB, 0x2E
+	.global gTextL2_0908
+gTextL2_0908:
+	.incbin "baserom.gba", 0x421ED9, 0x1D
+	.global gTextL2_0909
+gTextL2_0909:
+	.incbin "baserom.gba", 0x421EF6, 0x3A
+	.global gTextL2_0910
+gTextL2_0910:
+	.incbin "baserom.gba", 0x421F30, 0x3C
+	.global gTextL2_0911
+gTextL2_0911:
+	.incbin "baserom.gba", 0x421F6C, 0x37
+	.global gTextL2_0912
+gTextL2_0912:
+	.incbin "baserom.gba", 0x421FA3, 0x30
+	.global gTextL2_0913
+gTextL2_0913:
+	.incbin "baserom.gba", 0x421FD3, 0x29
+	.global gTextL2_0914
+gTextL2_0914:
+	.incbin "baserom.gba", 0x421FFC, 0x9
+	.global gTextL2_0915
+gTextL2_0915:
+	.incbin "baserom.gba", 0x422005, 0x9
+	.global gTextL2_0916
+gTextL2_0916:
+	.incbin "baserom.gba", 0x42200E, 0x9
+	.global gTextL2_0917
+gTextL2_0917:
+	.incbin "baserom.gba", 0x422017, 0x9
+	.global gTextL2_0918
+gTextL2_0918:
+	.incbin "baserom.gba", 0x422020, 0x1D
+	.global gTextL2_0919
+gTextL2_0919:
+	.incbin "baserom.gba", 0x42203D, 0x1A
+	.global gTextL2_0920
+gTextL2_0920:
+	.incbin "baserom.gba", 0x422057, 0x12
+	.global gTextL2_0921
+gTextL2_0921:
+	.incbin "baserom.gba", 0x422069, 0x30
+	.global gTextL2_0922
+gTextL2_0922:
+	.incbin "baserom.gba", 0x422099, 0x13
+	.global gTextL2_0923
+gTextL2_0923:
+	.incbin "baserom.gba", 0x4220AC, 0x10
+	.global gTextL2_0924
+gTextL2_0924:
+	.incbin "baserom.gba", 0x4220BC, 0x2C
+	.global gTextL2_0925
+gTextL2_0925:
+	.incbin "baserom.gba", 0x4220E8, 0x29
+	.global gTextL2_0926
+gTextL2_0926:
+	.incbin "baserom.gba", 0x422111, 0x3B
+	.global gTextL2_0927
+gTextL2_0927:
+	.incbin "baserom.gba", 0x42214C, 0x3C
+	.global gTextL2_0928
+gTextL2_0928:
+	.incbin "baserom.gba", 0x422188, 0x2E
+	.global gTextL2_0929
+gTextL2_0929:
+	.incbin "baserom.gba", 0x4221B6, 0x35
+	.global gTextL2_0930
+gTextL2_0930:
+	.incbin "baserom.gba", 0x4221EB, 0x22
+	.global gTextL2_0931
+gTextL2_0931:
+	.incbin "baserom.gba", 0x42220D, 0x2B
+	.global gTextL2_0932
+gTextL2_0932:
+	.incbin "baserom.gba", 0x422238, 0x35
+	.global gTextL2_0933
+gTextL2_0933:
+	.incbin "baserom.gba", 0x42226D, 0x38
+	.global gTextL2_0934
+gTextL2_0934:
+	.incbin "baserom.gba", 0x4222A5, 0x1D
+	.global gTextL2_0935
+gTextL2_0935:
+	.incbin "baserom.gba", 0x4222C2, 0x37
+	.global gTextL2_0936
+gTextL2_0936:
+	.incbin "baserom.gba", 0x4222F9, 0x2D
+	.global gTextL2_0937
+gTextL2_0937:
+	.incbin "baserom.gba", 0x422326, 0x37
+	.global gTextL2_0938
+gTextL2_0938:
+	.incbin "baserom.gba", 0x42235D, 0x32
+	.global gTextL2_0939
+gTextL2_0939:
+	.incbin "baserom.gba", 0x42238F, 0x2C
+	.global gTextL2_0940
+gTextL2_0940:
+	.incbin "baserom.gba", 0x4223BB, 0x32
+	.global gTextL2_0941
+gTextL2_0941:
+	.incbin "baserom.gba", 0x4223ED, 0x2D
+	.global gTextL2_0942
+gTextL2_0942:
+	.incbin "baserom.gba", 0x42241A, 0x35
+	.global gTextL2_0943
+gTextL2_0943:
+	.incbin "baserom.gba", 0x42244F, 0x38
+	.global gTextL2_0944
+gTextL2_0944:
+	.incbin "baserom.gba", 0x422487, 0x35
+	.global gTextL2_0945
+gTextL2_0945:
+	.incbin "baserom.gba", 0x4224BC, 0x2C
+	.global gTextL2_0946
+gTextL2_0946:
+	.incbin "baserom.gba", 0x4224E8, 0x24
+	.global gTextL2_0947
+gTextL2_0947:
+	.incbin "baserom.gba", 0x42250C, 0x10
+	.global gTextL2_0948
+gTextL2_0948:
+	.incbin "baserom.gba", 0x42251C, 0x26
+	.global gTextL2_0949
+gTextL2_0949:
+	.incbin "baserom.gba", 0x422542, 0x1B
+	.global gTextL2_0950
+gTextL2_0950:
+	.incbin "baserom.gba", 0x42255D, 0x16
+	.global gTextL2_0951
+gTextL2_0951:
+	.incbin "baserom.gba", 0x422573, 0x15
+	.global gTextL2_0952
+gTextL2_0952:
+	.incbin "baserom.gba", 0x422588, 0x2F
+	.global gTextL2_0953
+gTextL2_0953:
+	.incbin "baserom.gba", 0x4225B7, 0x17
+	.global gTextL2_0954
+gTextL2_0954:
+	.incbin "baserom.gba", 0x4225CE, 0x1A
+	.global gTextL2_0955
+gTextL2_0955:
+	.incbin "baserom.gba", 0x4225E8, 0x1C
+	.global gTextL2_0956
+gTextL2_0956:
+	.incbin "baserom.gba", 0x422604, 0x2F
+	.global gTextL2_0957
+gTextL2_0957:
+	.incbin "baserom.gba", 0x422633, 0x17
+	.global gTextL2_0958
+gTextL2_0958:
+	.incbin "baserom.gba", 0x42264A, 0x2D
+	.global gTextL2_0959
+gTextL2_0959:
+	.incbin "baserom.gba", 0x422677, 0x32
+	.global gTextL2_0960
+gTextL2_0960:
+	.incbin "baserom.gba", 0x4226A9, 0x33
+	.global gTextL2_0961
+gTextL2_0961:
+	.incbin "baserom.gba", 0x4226DC, 0x35
+	.global gTextL2_0962
+gTextL2_0962:
+	.incbin "baserom.gba", 0x422711, 0x38
+	.global gTextL2_0963
+gTextL2_0963:
+	.incbin "baserom.gba", 0x422749, 0x3C
+	.global gTextL2_0964
+gTextL2_0964:
+	.incbin "baserom.gba", 0x422785, 0x2D
+	.global gTextL2_0965
+gTextL2_0965:
+	.incbin "baserom.gba", 0x4227B2, 0x39
+	.global gTextL2_0966
+gTextL2_0966:
+	.incbin "baserom.gba", 0x4227EB, 0x1A
+	.global gTextL2_0967
+gTextL2_0967:
+	.incbin "baserom.gba", 0x422805, 0x39
+	.global gTextL2_0968
+gTextL2_0968:
+	.incbin "baserom.gba", 0x42283E, 0xB
+	.global gTextL2_0969
+gTextL2_0969:
+	.incbin "baserom.gba", 0x422849, 0x13
+	.global gTextL2_0970
+gTextL2_0970:
+	.incbin "baserom.gba", 0x42285C, 0x19
+	.global gTextL2_0971
+gTextL2_0971:
+	.incbin "baserom.gba", 0x422875, 0x18
+	.global gTextL2_0972
+gTextL2_0972:
+	.incbin "baserom.gba", 0x42288D, 0x14
+	.global gTextL2_0973
+gTextL2_0973:
+	.incbin "baserom.gba", 0x4228A1, 0x18
+	.global gTextL2_0974
+gTextL2_0974:
+	.incbin "baserom.gba", 0x4228B9, 0x1A
+	.global gTextL2_0975
+gTextL2_0975:
+	.incbin "baserom.gba", 0x4228D3, 0x14
+	.global gTextL2_0976
+gTextL2_0976:
+	.incbin "baserom.gba", 0x4228E7, 0x15
+	.global gTextL2_0977
+gTextL2_0977:
+	.incbin "baserom.gba", 0x4228FC, 0x16
+	.global gTextL2_0978
+gTextL2_0978:
+	.incbin "baserom.gba", 0x422912, 0x17
+	.global gTextL2_0979
+gTextL2_0979:
+	.incbin "baserom.gba", 0x422929, 0x31
+	.global gTextL2_0980
+gTextL2_0980:
+	.incbin "baserom.gba", 0x42295A, 0x15
+	.global gTextL2_0981
+gTextL2_0981:
+	.incbin "baserom.gba", 0x42296F, 0x1E
+	.global gTextL2_0982
+gTextL2_0982:
+	.incbin "baserom.gba", 0x42298D, 0x161
+	.global gTextL2_0983
+gTextL2_0983:
+	.incbin "baserom.gba", 0x422AEE, 0x1AC
+	.global gTextL2_0984
+gTextL2_0984:
+	.incbin "baserom.gba", 0x422C9A, 0x10
+	.global gTextL2_0985
+gTextL2_0985:
+	.incbin "baserom.gba", 0x422CAA, 0x1B
+	.global gTextL2_0986
+gTextL2_0986:
+	.incbin "baserom.gba", 0x422CC5, 0x39
+	.global gTextL2_0987
+gTextL2_0987:
+	.incbin "baserom.gba", 0x422CFE, 0xB
+	.global gTextL2_0988
+gTextL2_0988:
+	.incbin "baserom.gba", 0x422D09, 0x10
+	.global gTextL2_0989
+gTextL2_0989:
+	.incbin "baserom.gba", 0x422D19, 0xA
+	.global gTextL2_0990
+gTextL2_0990:
+	.incbin "baserom.gba", 0x422D23, 0x14
+	.global gTextL2_0991
+gTextL2_0991:
+	.incbin "baserom.gba", 0x422D37, 0xF
+	.global gTextL2_0992
+gTextL2_0992:
+	.incbin "baserom.gba", 0x422D46, 0xD
+	.global gTextL2_0993
+gTextL2_0993:
+	.incbin "baserom.gba", 0x422D53, 0x17
+	.global gTextL2_0994
+gTextL2_0994:
+	.incbin "baserom.gba", 0x422D6A, 0x1C
+	.global gTextL2_0995
+gTextL2_0995:
+	.incbin "baserom.gba", 0x422D86, 0x1A
+	.global gTextL2_0996
+gTextL2_0996:
+	.incbin "baserom.gba", 0x422DA0, 0x1D
+	.global gTextL2_0997
+gTextL2_0997:
+	.incbin "baserom.gba", 0x422DBD, 0x1C
+	.global gTextL2_0998
+gTextL2_0998:
+	.incbin "baserom.gba", 0x422DD9, 0x20
+	.global gTextL2_0999
+gTextL2_0999:
+	.incbin "baserom.gba", 0x422DF9, 0x1B
+	.global gTextL2_1000
+gTextL2_1000:
+	.incbin "baserom.gba", 0x422E14, 0x1F
+	.global gTextL2_1001
+gTextL2_1001:
+	.incbin "baserom.gba", 0x422E33, 0x20
+	.global gTextL2_1002
+gTextL2_1002:
+	.incbin "baserom.gba", 0x422E53, 0x1E
+	.global gTextL2_1003
+gTextL2_1003:
+	.incbin "baserom.gba", 0x422E71, 0x15
+	.global gTextL2_1004
+gTextL2_1004:
+	.incbin "baserom.gba", 0x422E86, 0x19
+	.global gTextL2_1005
+gTextL2_1005:
+	.incbin "baserom.gba", 0x422E9F, 0x1F
+	.global gTextL2_1006
+gTextL2_1006:
+	.incbin "baserom.gba", 0x422EBE, 0x20
+	.global gTextL2_1007
+gTextL2_1007:
+	.incbin "baserom.gba", 0x422EDE, 0x20
+	.global gTextL2_1008
+gTextL2_1008:
+	.incbin "baserom.gba", 0x422EFE, 0x1F
+	.global gTextL2_1009
+gTextL2_1009:
+	.incbin "baserom.gba", 0x422F1D, 0x20
+	.global gTextL2_1010
+gTextL2_1010:
+	.incbin "baserom.gba", 0x422F3D, 0x1F
+	.global gTextL2_1011
+gTextL2_1011:
+	.incbin "baserom.gba", 0x422F5C, 0x1A
+	.global gTextL2_1012
+gTextL2_1012:
+	.incbin "baserom.gba", 0x422F76, 0x12
+	.global gTextL2_1013
+gTextL2_1013:
+	.incbin "baserom.gba", 0x422F88, 0x1C
+	.global gTextL2_1014
+gTextL2_1014:
+	.incbin "baserom.gba", 0x422FA4, 0x1E
+	.global gTextL2_1015
+gTextL2_1015:
+	.incbin "baserom.gba", 0x422FC2, 0x1C
+	.global gTextL2_1016
+gTextL2_1016:
+	.incbin "baserom.gba", 0x422FDE, 0x1E
+	.global gTextL2_1017
+gTextL2_1017:
+	.incbin "baserom.gba", 0x422FFC, 0x1F
+	.global gTextL2_1018
+gTextL2_1018:
+	.incbin "baserom.gba", 0x42301B, 0x1F
+	.global gTextL2_1019
+gTextL2_1019:
+	.incbin "baserom.gba", 0x42303A, 0x20
+	.global gTextL2_1020
+gTextL2_1020:
+	.incbin "baserom.gba", 0x42305A, 0x1C
+	.global gTextL2_1021
+gTextL2_1021:
+	.incbin "baserom.gba", 0x423076, 0x1D
+	.global gTextL2_1022
+gTextL2_1022:
+	.incbin "baserom.gba", 0x423093, 0x1D
+	.global gTextL2_1023
+gTextL2_1023:
+	.incbin "baserom.gba", 0x4230B0, 0x1D
+	.global gTextL2_1024
+gTextL2_1024:
+	.incbin "baserom.gba", 0x4230CD, 0x1D
+	.global gTextL2_1025
+gTextL2_1025:
+	.incbin "baserom.gba", 0x4230EA, 0x20
+	.global gTextL2_1026
+gTextL2_1026:
+	.incbin "baserom.gba", 0x42310A, 0x20
+	.global gTextL2_1027
+gTextL2_1027:
+	.incbin "baserom.gba", 0x42312A, 0x1D
+	.global gTextL2_1028
+gTextL2_1028:
+	.incbin "baserom.gba", 0x423147, 0x1C
+	.global gTextL2_1029
+gTextL2_1029:
+	.incbin "baserom.gba", 0x423163, 0x20
+	.global gTextL2_1030
+gTextL2_1030:
+	.incbin "baserom.gba", 0x423183, 0x1F
+	.global gTextL2_1031
+gTextL2_1031:
+	.incbin "baserom.gba", 0x4231A2, 0x1D
+	.global gTextL2_1032
+gTextL2_1032:
+	.incbin "baserom.gba", 0x4231BF, 0x1C
+	.global gTextL2_1033
+gTextL2_1033:
+	.incbin "baserom.gba", 0x4231DB, 0x1F
+	.global gTextL2_1034
+gTextL2_1034:
+	.incbin "baserom.gba", 0x4231FA, 0x1F
+	.global gTextL2_1035
+gTextL2_1035:
+	.incbin "baserom.gba", 0x423219, 0x1F
+	.global gTextL2_1036
+gTextL2_1036:
+	.incbin "baserom.gba", 0x423238, 0x14
+	.global gTextL2_1037
+gTextL2_1037:
+	.incbin "baserom.gba", 0x42324C, 0x1E
+	.global gTextL2_1038
+gTextL2_1038:
+	.incbin "baserom.gba", 0x42326A, 0x20
+	.global gTextL2_1039
+gTextL2_1039:
+	.incbin "baserom.gba", 0x42328A, 0x19
+	.global gTextL2_1040
+gTextL2_1040:
+	.incbin "baserom.gba", 0x4232A3, 0x1C
+	.global gTextL2_1041
+gTextL2_1041:
+	.incbin "baserom.gba", 0x4232BF, 0x20
+	.global gTextL2_1042
+gTextL2_1042:
+	.incbin "baserom.gba", 0x4232DF, 0x1F
+	.global gTextL2_1043
+gTextL2_1043:
+	.incbin "baserom.gba", 0x4232FE, 0x1D
+	.global gTextL2_1044
+gTextL2_1044:
+	.incbin "baserom.gba", 0x42331B, 0x20
+	.global gTextL2_1045
+gTextL2_1045:
+	.incbin "baserom.gba", 0x42333B, 0x20
+	.global gTextL2_1046
+gTextL2_1046:
+	.incbin "baserom.gba", 0x42335B, 0x20
+	.global gTextL2_1047
+gTextL2_1047:
+	.incbin "baserom.gba", 0x42337B, 0x1B
+	.global gTextL2_1048
+gTextL2_1048:
+	.incbin "baserom.gba", 0x423396, 0x20
+	.global gTextL2_1049
+gTextL2_1049:
+	.incbin "baserom.gba", 0x4233B6, 0x19
+	.global gTextL2_1050
+gTextL2_1050:
+	.incbin "baserom.gba", 0x4233CF, 0x1E
+	.global gTextL2_1051
+gTextL2_1051:
+	.incbin "baserom.gba", 0x4233ED, 0x12
+	.global gTextL2_1052
+gTextL2_1052:
+	.incbin "baserom.gba", 0x4233FF, 0x1C
+	.global gTextL2_1053
+gTextL2_1053:
+	.incbin "baserom.gba", 0x42341B, 0x1E
+	.global gTextL2_1054
+gTextL2_1054:
+	.incbin "baserom.gba", 0x423439, 0x1F
+	.global gTextL2_1055
+gTextL2_1055:
+	.incbin "baserom.gba", 0x423458, 0x1F
+	.global gTextL2_1056
+gTextL2_1056:
+	.incbin "baserom.gba", 0x423477, 0x1F
+	.global gTextL2_1057
+gTextL2_1057:
+	.incbin "baserom.gba", 0x423496, 0x1F
+	.global gTextL2_1058
+gTextL2_1058:
+	.incbin "baserom.gba", 0x4234B5, 0x1D
+	.global gTextL2_1059
+gTextL2_1059:
+	.incbin "baserom.gba", 0x4234D2, 0x1E
+	.global gTextL2_1060
+gTextL2_1060:
+	.incbin "baserom.gba", 0x4234F0, 0x1C
+	.global gTextL2_1061
+gTextL2_1061:
+	.incbin "baserom.gba", 0x42350C, 0x1F
+	.global gTextL2_1062
+gTextL2_1062:
+	.incbin "baserom.gba", 0x42352B, 0x1F
+	.global gTextL2_1063
+gTextL2_1063:
+	.incbin "baserom.gba", 0x42354A, 0x20
+	.global gTextL2_1064
+gTextL2_1064:
+	.incbin "baserom.gba", 0x42356A, 0x1F
+	.global gTextL2_1065
+gTextL2_1065:
+	.incbin "baserom.gba", 0x423589, 0x1F
+	.global gTextL2_1066
+gTextL2_1066:
+	.incbin "baserom.gba", 0x4235A8, 0x20
+	.global gTextL2_1067
+gTextL2_1067:
+	.incbin "baserom.gba", 0x4235C8, 0x19
+	.global gTextL2_1068
+gTextL2_1068:
+	.incbin "baserom.gba", 0x4235E1, 0x1F
+	.global gTextL2_1069
+gTextL2_1069:
+	.incbin "baserom.gba", 0x423600, 0x12
+	.global gTextL2_1070
+gTextL2_1070:
+	.incbin "baserom.gba", 0x423612, 0xE
+	.global gTextL2_1071
+gTextL2_1071:
+	.incbin "baserom.gba", 0x423620, 0xB
+	.global gTextL2_1072
+gTextL2_1072:
+	.incbin "baserom.gba", 0x42362B, 0x34
+	.global gTextL2_1073
+gTextL2_1073:
+	.incbin "baserom.gba", 0x42365F, 0xC
+	.global gTextL2_1074
+gTextL2_1074:
+	.incbin "baserom.gba", 0x42366B, 0x3C
+	.global gTextL2_1075
+gTextL2_1075:
+	.incbin "baserom.gba", 0x4236A7, 0x10
+	.global gTextL2_1076
+gTextL2_1076:
+	.incbin "baserom.gba", 0x4236B7, 0x3A
+	.global gTextL2_1077
+gTextL2_1077:
+	.incbin "baserom.gba", 0x4236F1, 0xD
+	.global gTextL2_1078
+gTextL2_1078:
+	.incbin "baserom.gba", 0x4236FE, 0x37
+	.global gTextL2_1079
+gTextL2_1079:
+	.incbin "baserom.gba", 0x423735, 0xC
+	.global gTextL2_1080
+gTextL2_1080:
+	.incbin "baserom.gba", 0x423741, 0x3D
+	.global gTextL2_1081
+gTextL2_1081:
+	.incbin "baserom.gba", 0x42377E, 0xF
+	.global gTextL2_1082
+gTextL2_1082:
+	.incbin "baserom.gba", 0x42378D, 0x40
+	.global gTextL2_1083
+gTextL2_1083:
+	.incbin "baserom.gba", 0x4237CD, 0x14
+	.global gTextL2_1084
+gTextL2_1084:
+	.incbin "baserom.gba", 0x4237E1, 0x3B
+	.global gTextL2_1085
+gTextL2_1085:
+	.incbin "baserom.gba", 0x42381C, 0x9
+	.global gTextL2_1086
+gTextL2_1086:
+	.incbin "baserom.gba", 0x423825, 0x47
+	.global gTextL2_1087
+gTextL2_1087:
+	.incbin "baserom.gba", 0x42386C, 0x14
+	.global gTextL2_1088
+gTextL2_1088:
+	.incbin "baserom.gba", 0x423880, 0x46
+	.global gTextL2_1089
+gTextL2_1089:
+	.incbin "baserom.gba", 0x4238C6, 0x26
+	.global gTextL2_1090
+gTextL2_1090:
+	.incbin "baserom.gba", 0x4238EC, 0x21
+	.global gTextL2_1091
+gTextL2_1091:
+	.incbin "baserom.gba", 0x42390D, 0x7
+	.global gTextL2_1092
+gTextL2_1092:
+	.incbin "baserom.gba", 0x423914, 0x1E
+	.global gTextL2_1093
+gTextL2_1093:
+	.incbin "baserom.gba", 0x423932, 0x1F
+	.global gTextL2_1094
+gTextL2_1094:
+	.incbin "baserom.gba", 0x423951, 0x18
+	.global gTextL2_1095
+gTextL2_1095:
+	.incbin "baserom.gba", 0x423969, 0x13
+	.global gTextL2_1096
+gTextL2_1096:
+	.incbin "baserom.gba", 0x42397C, 0x13
+	.global gTextL2_1097
+gTextL2_1097:
+	.incbin "baserom.gba", 0x42398F, 0xF
+	.global gTextL2_1098
+gTextL2_1098:
+	.incbin "baserom.gba", 0x42399E, 0x1D
+	.global gTextL2_1099
+gTextL2_1099:
+	.incbin "baserom.gba", 0x4239BB, 0xF
+	.global gTextL2_1100
+gTextL2_1100:
+	.incbin "baserom.gba", 0x4239CA, 0x1B
+	.global gTextL2_1101
+gTextL2_1101:
+	.incbin "baserom.gba", 0x4239E5, 0x26
+	.global gTextL2_1102
+gTextL2_1102:
+	.incbin "baserom.gba", 0x423A0B, 0x16
+	.global gTextL2_1103
+gTextL2_1103:
+	.incbin "baserom.gba", 0x423A21, 0x2C
+	.global gTextL2_1104
+gTextL2_1104:
+	.incbin "baserom.gba", 0x423A4D, 0x1F
+	.global gTextL2_1105
+gTextL2_1105:
+	.incbin "baserom.gba", 0x423A6C, 0x110
+	.global gTextL2_1106
+gTextL2_1106:
+	.incbin "baserom.gba", 0x423B7C, 0xA9
+	.global gTextL2_1107
+gTextL2_1107:
+	.incbin "baserom.gba", 0x423C25, 0xFC
+	.global gTextL2_1108
+gTextL2_1108:
+	.incbin "baserom.gba", 0x423D21, 0x8
+	.global gTextL2_1109
+gTextL2_1109:
+	.incbin "baserom.gba", 0x423D29, 0x9
+	.global gTextL2_1110
+gTextL2_1110:
+	.incbin "baserom.gba", 0x423D32, 0x9
+	.global gTextL2_1111
+gTextL2_1111:
+	.incbin "baserom.gba", 0x423D3B, 0xA
+	.global gTextL2_1112
+gTextL2_1112:
+	.incbin "baserom.gba", 0x423D45, 0x9
+	.global gTextL2_1113
+gTextL2_1113:
+	.incbin "baserom.gba", 0x423D4E, 0x9
+	.global gTextL2_1114
+gTextL2_1114:
+	.incbin "baserom.gba", 0x423D57, 0xA
+	.global gTextL2_1115
+gTextL2_1115:
+	.incbin "baserom.gba", 0x423D61, 0xA
+	.global gTextL2_1116
+gTextL2_1116:
+	.incbin "baserom.gba", 0x423D6B, 0x7
+	.global gTextL2_1117
+gTextL2_1117:
+	.incbin "baserom.gba", 0x423D72, 0x25
+	.global gTextL2_1118
+gTextL2_1118:
+	.incbin "baserom.gba", 0x423D97, 0x2B
+	.global gTextL2_1119
+gTextL2_1119:
+	.incbin "baserom.gba", 0x423DC2, 0x23
+	.global gTextL2_1120
+gTextL2_1120:
+	.incbin "baserom.gba", 0x423DE5, 0x6F
+	.global gTextL2_1121
+gTextL2_1121:
+	.incbin "baserom.gba", 0x423E54, 0x6E
+	.global gTextL2_1122
+gTextL2_1122:
+	.incbin "baserom.gba", 0x423EC2, 0x67
+	.global gTextL2_1123
+gTextL2_1123:
+	.incbin "baserom.gba", 0x423F29, 0x64
+	.global gTextL2_1124
+gTextL2_1124:
+	.incbin "baserom.gba", 0x423F8D, 0x3D
+	.global gTextL2_1125
+gTextL2_1125:
+	.incbin "baserom.gba", 0x423FCA, 0x31
+	.global gTextL2_1126
+gTextL2_1126:
+	.incbin "baserom.gba", 0x423FFB, 0x69
+	.global gTextL2_1127
+gTextL2_1127:
+	.incbin "baserom.gba", 0x424064, 0x38
+	.global gTextL2_1128
+gTextL2_1128:
+	.incbin "baserom.gba", 0x42409C, 0x3A
+	.global gTextL2_1129
+gTextL2_1129:
+	.incbin "baserom.gba", 0x4240D6, 0x6D
+	.global gTextL2_1130
+gTextL2_1130:
+	.incbin "baserom.gba", 0x424143, 0x9
+	.global gTextL2_1131
+gTextL2_1131:
+	.incbin "baserom.gba", 0x42414C, 0x65
+	.global gTextL2_1132
+gTextL2_1132:
+	.incbin "baserom.gba", 0x4241B1, 0x5C
+	.global gTextL2_1133
+gTextL2_1133:
+	.incbin "baserom.gba", 0x42420D, 0x6E
+	.global gTextL2_1134
+gTextL2_1134:
+	.incbin "baserom.gba", 0x42427B, 0x3C
+	.global gTextL2_1135
+gTextL2_1135:
+	.incbin "baserom.gba", 0x4242B7, 0x38
+	.global gTextL2_1136
+gTextL2_1136:
+	.incbin "baserom.gba", 0x4242EF, 0x16
+	.global gTextL2_1137
+gTextL2_1137:
+	.incbin "baserom.gba", 0x424305, 0x4D
+	.global gTextL2_1138
+gTextL2_1138:
+	.incbin "baserom.gba", 0x424352, 0x3C
+	.global gTextL2_1139
+gTextL2_1139:
+	.incbin "baserom.gba", 0x42438E, 0x34
+	.global gTextL2_1140
+gTextL2_1140:
+	.incbin "baserom.gba", 0x4243C2, 0x73
+	.global gTextL2_1141
+gTextL2_1141:
+	.incbin "baserom.gba", 0x424435, 0x2C
+	.global gTextL2_1142
+gTextL2_1142:
+	.incbin "baserom.gba", 0x424461, 0x68
+	.global gTextL2_1143
+gTextL2_1143:
+	.incbin "baserom.gba", 0x4244C9, 0x4C
+	.global gTextL2_1144
+gTextL2_1144:
+	.incbin "baserom.gba", 0x424515, 0x67
+	.global gTextL2_1145
+gTextL2_1145:
+	.incbin "baserom.gba", 0x42457C, 0xD
+	.global gTextL2_1146
+gTextL2_1146:
+	.incbin "baserom.gba", 0x424589, 0x31
+	.global gTextL2_1147
+gTextL2_1147:
+	.incbin "baserom.gba", 0x4245BA, 0x4A
+	.global gTextL2_1148
+gTextL2_1148:
+	.incbin "baserom.gba", 0x424604, 0x15
+	.global gTextL2_1149
+gTextL2_1149:
+	.incbin "baserom.gba", 0x424619, 0x17
+	.global gTextL2_1150
+gTextL2_1150:
+	.incbin "baserom.gba", 0x424630, 0x26
+	.global gTextL2_1151
+gTextL2_1151:
+	.incbin "baserom.gba", 0x424656, 0x17D
+	.global gTextL2_1152
+gTextL2_1152:
+	.incbin "baserom.gba", 0x4247D3, 0x101
+	.global gTextL2_1153
+gTextL2_1153:
+	.incbin "baserom.gba", 0x4248D4, 0x107
+	.global gTextL2_1154
+gTextL2_1154:
+	.incbin "baserom.gba", 0x4249DB, 0x44
+	.global gTextL2_1155
+gTextL2_1155:
+	.incbin "baserom.gba", 0x424A1F, 0x6
+	.global gTextL2_1156
+gTextL2_1156:
+	.incbin "baserom.gba", 0x424A25, 0x2B
+	.global gTextL2_1157
+gTextL2_1157:
+	.incbin "baserom.gba", 0x424A50, 0x2A
+	.global gTextL2_1158
+gTextL2_1158:
+	.incbin "baserom.gba", 0x424A7A, 0x53
+	.global gTextL2_1159
+gTextL2_1159:
+	.incbin "baserom.gba", 0x424ACD, 0x5C
+	.global gTextL2_1160
+gTextL2_1160:
+	.incbin "baserom.gba", 0x424B29, 0x68
+	.global gTextL2_1161
+gTextL2_1161:
+	.incbin "baserom.gba", 0x424B91, 0x5
+	.global gTextL2_1162
+gTextL2_1162:
+	.incbin "baserom.gba", 0x424B96, 0x3A
+	.global gTextL2_1163
+gTextL2_1163:
+	.incbin "baserom.gba", 0x424BD0, 0x36
+	.global gTextL2_1164
+gTextL2_1164:
+	.incbin "baserom.gba", 0x424C06, 0x38
+	.global gTextL2_1165
+gTextL2_1165:
+	.incbin "baserom.gba", 0x424C3E, 0x3A
+	.global gTextL2_1166
+gTextL2_1166:
+	.incbin "baserom.gba", 0x424C78, 0x39
+	.global gTextL2_1167
+gTextL2_1167:
+	.incbin "baserom.gba", 0x424CB1, 0x1C
+	.global gTextL2_1168
+gTextL2_1168:
+	.incbin "baserom.gba", 0x424CCD, 0x2C
+	.global gTextL2_1169
+gTextL2_1169:
+	.incbin "baserom.gba", 0x424CF9, 0x28
+	.global gTextL2_1170
+gTextL2_1170:
+	.incbin "baserom.gba", 0x424D21, 0x41
+	.global gTextL2_1171
+gTextL2_1171:
+	.incbin "baserom.gba", 0x424D62, 0x23
+	.global gTextL2_1172
+gTextL2_1172:
+	.incbin "baserom.gba", 0x424D85, 0x2D
+	.global gTextL2_1173
+gTextL2_1173:
+	.incbin "baserom.gba", 0x424DB2, 0x25
+	.global gTextL2_1174
+gTextL2_1174:
+	.incbin "baserom.gba", 0x424DD7, 0x55
+	.global gTextL2_1175
+gTextL2_1175:
+	.incbin "baserom.gba", 0x424E2C, 0x22
+	.global gTextL2_1176
+gTextL2_1176:
+	.incbin "baserom.gba", 0x424E4E, 0x15
+	.global gTextL2_1177
+gTextL2_1177:
+	.incbin "baserom.gba", 0x424E63, 0x20
+	.global gTextL2_1178
+gTextL2_1178:
+	.incbin "baserom.gba", 0x424E83, 0x1B7
+	.global gTextL2_1179
+gTextL2_1179:
+	.incbin "baserom.gba", 0x42503A, 0x8F
+	.global gTextL2_1180
+gTextL2_1180:
+	.incbin "baserom.gba", 0x4250C9, 0xBD
+	.global gTextL2_1181
+gTextL2_1181:
+	.incbin "baserom.gba", 0x425186, 0xB
+	.global gTextL2_1182
+gTextL2_1182:
+	.incbin "baserom.gba", 0x425191, 0x11
+	.global gTextL2_1183
+gTextL2_1183:
+	.incbin "baserom.gba", 0x4251A2, 0x1B
+	.global gTextL2_1184
+gTextL2_1184:
+	.incbin "baserom.gba", 0x4251BD, 0x1B
+	.global gTextL2_1185
+gTextL2_1185:
+	.incbin "baserom.gba", 0x4251D8, 0x1B
+	.global gTextL2_1186
+gTextL2_1186:
+	.incbin "baserom.gba", 0x4251F3, 0x1B
+	.global gTextL2_1187
+gTextL2_1187:
+	.incbin "baserom.gba", 0x42520E, 0x1B
+	.global gTextL2_1188
+gTextL2_1188:
+	.incbin "baserom.gba", 0x425229, 0x1B
+	.global gTextL2_1189
+gTextL2_1189:
+	.incbin "baserom.gba", 0x425244, 0x1B
+	.global gTextL2_1190
+gTextL2_1190:
+	.incbin "baserom.gba", 0x42525F, 0x1B
+	.global gTextL2_1191
+gTextL2_1191:
+	.incbin "baserom.gba", 0x42527A, 0x1B
+	.global gTextL2_1192
+gTextL2_1192:
+	.incbin "baserom.gba", 0x425295, 0x1C
+	.global gTextL2_1193
+gTextL2_1193:
+	.incbin "baserom.gba", 0x4252B1, 0x13
+	.global gTextL2_1194
+gTextL2_1194:
+	.incbin "baserom.gba", 0x4252C4, 0x19
+	.global gTextL2_1195
+gTextL2_1195:
+	.incbin "baserom.gba", 0x4252DD, 0x19
+	.global gTextL2_1196
+gTextL2_1196:
+	.incbin "baserom.gba", 0x4252F6, 0x1A
+	.global gTextL2_1197
+gTextL2_1197:
+	.incbin "baserom.gba", 0x425310, 0x15
+	.global gTextL2_1198
+gTextL2_1198:
+	.incbin "baserom.gba", 0x425325, 0x1C
+	.global gTextL2_1199
+gTextL2_1199:
+	.incbin "baserom.gba", 0x425341, 0x14
+	.global gTextL2_1200
+gTextL2_1200:
+	.incbin "baserom.gba", 0x425355, 0x15
+	.global gTextL2_1201
+gTextL2_1201:
+	.incbin "baserom.gba", 0x42536A, 0x16
+	.global gTextL2_1202
+gTextL2_1202:
+	.incbin "baserom.gba", 0x425380, 0x16
+	.global gTextL2_1203
+gTextL2_1203:
+	.incbin "baserom.gba", 0x425396, 0x13
+	.global gTextL2_1204
+gTextL2_1204:
+	.incbin "baserom.gba", 0x4253A9, 0x19
+	.global gTextL2_1205
+gTextL2_1205:
+	.incbin "baserom.gba", 0x4253C2, 0x1F
+	.global gTextL2_1206
+gTextL2_1206:
+	.incbin "baserom.gba", 0x4253E1, 0x15
+	.global gTextL2_1207
+gTextL2_1207:
+	.incbin "baserom.gba", 0x4253F6, 0x15
+	.global gTextL2_1208
+gTextL2_1208:
+	.incbin "baserom.gba", 0x42540B, 0x19
+	.global gTextL2_1209
+gTextL2_1209:
+	.incbin "baserom.gba", 0x425424, 0x19
+	.global gTextL2_1210
+gTextL2_1210:
+	.incbin "baserom.gba", 0x42543D, 0x1B
+	.global gTextL2_1211
+gTextL2_1211:
+	.incbin "baserom.gba", 0x425458, 0x1A
+	.global gTextL2_1212
+gTextL2_1212:
+	.incbin "baserom.gba", 0x425472, 0xE
+	.global gTextL2_1213
+gTextL2_1213:
+	.incbin "baserom.gba", 0x425480, 0x1D
+	.global gTextL2_1214
+gTextL2_1214:
+	.incbin "baserom.gba", 0x42549D, 0x17
+	.global gTextL2_1215
+gTextL2_1215:
+	.incbin "baserom.gba", 0x4254B4, 0x18
+	.global gTextL2_1216
+gTextL2_1216:
+	.incbin "baserom.gba", 0x4254CC, 0x18
+	.global gTextL2_1217
+gTextL2_1217:
+	.incbin "baserom.gba", 0x4254E4, 0x8
+	.global gTextL2_1218
+gTextL2_1218:
+	.incbin "baserom.gba", 0x4254EC, 0xA
+	.global gTextL2_1219
+gTextL2_1219:
+	.incbin "baserom.gba", 0x4254F6, 0xD
+	.global gTextL2_1220
+gTextL2_1220:
+	.incbin "baserom.gba", 0x425503, 0xB
+	.global gTextL2_1221
+gTextL2_1221:
+	.incbin "baserom.gba", 0x42550E, 0xB
+	.global gTextL2_1222
+gTextL2_1222:
+	.incbin "baserom.gba", 0x425519, 0xB
+	.global gTextL2_1223
+gTextL2_1223:
+	.incbin "baserom.gba", 0x425524, 0xB
+	.global gTextL2_1224
+gTextL2_1224:
+	.incbin "baserom.gba", 0x42552F, 0xB
+	.global gTextL2_1225
+gTextL2_1225:
+	.incbin "baserom.gba", 0x42553A, 0xB
+	.global gTextL2_1226
+gTextL2_1226:
+	.incbin "baserom.gba", 0x425545, 0xB
+	.global gTextL2_1227
+gTextL2_1227:
+	.incbin "baserom.gba", 0x425550, 0xB
+	.global gTextL2_1228
+gTextL2_1228:
+	.incbin "baserom.gba", 0x42555B, 0xB
+	.global gTextL2_1229
+gTextL2_1229:
+	.incbin "baserom.gba", 0x425566, 0xB
+	.global gTextL2_1230
+gTextL2_1230:
+	.incbin "baserom.gba", 0x425571, 0xC
+	.global gTextL2_1231
+gTextL2_1231:
+	.incbin "baserom.gba", 0x42557D, 0x8
+	.global gTextL2_1232
+gTextL2_1232:
+	.incbin "baserom.gba", 0x425585, 0x9
+	.global gTextL2_1233
+gTextL2_1233:
+	.incbin "baserom.gba", 0x42558E, 0xB
+	.global gTextL2_1234
+gTextL2_1234:
+	.incbin "baserom.gba", 0x425599, 0x8
+	.global gTextL2_1235
+gTextL2_1235:
+	.incbin "baserom.gba", 0x4255A1, 0xE
+	.global gTextL2_1236
+gTextL2_1236:
+	.incbin "baserom.gba", 0x4255AF, 0xB
+	.global gTextL2_1237
+gTextL2_1237:
+	.incbin "baserom.gba", 0x4255BA, 0x9
+	.global gTextL2_1238
+gTextL2_1238:
+	.incbin "baserom.gba", 0x4255C3, 0x7
+	.global gTextL2_1239
+gTextL2_1239:
+	.incbin "baserom.gba", 0x4255CA, 0x13
+	.global gTextL2_1240
+gTextL2_1240:
+	.incbin "baserom.gba", 0x4255DD, 0x8
+	.global gTextL2_1241
+gTextL2_1241:
+	.incbin "baserom.gba", 0x4255E5, 0xB
+	.global gTextL2_1242
+gTextL2_1242:
+	.incbin "baserom.gba", 0x4255F0, 0xD
+	.global gTextL2_1243
+gTextL2_1243:
+	.incbin "baserom.gba", 0x4255FD, 0xC
+	.global gTextL2_1244
+gTextL2_1244:
+	.incbin "baserom.gba", 0x425609, 0xF
+	.global gTextL2_1245
+gTextL2_1245:
+	.incbin "baserom.gba", 0x425618, 0xD
+	.global gTextL2_1246
+gTextL2_1246:
+	.incbin "baserom.gba", 0x425625, 0x9
+	.global gTextL2_1247
+gTextL2_1247:
+	.incbin "baserom.gba", 0x42562E, 0xC
+	.global gTextL2_1248
+gTextL2_1248:
+	.incbin "baserom.gba", 0x42563A, 0x20
+	.global gTextL2_1249
+gTextL2_1249:
+	.incbin "baserom.gba", 0x42565A, 0x16
+	.global gTextL2_1250
+gTextL2_1250:
+	.incbin "baserom.gba", 0x425670, 0xAD
+	.global gTextL2_1251
+gTextL2_1251:
+	.incbin "baserom.gba", 0x42571D, 0x11A
+	.global gTextL2_1252
+gTextL2_1252:
+	.incbin "baserom.gba", 0x425837, 0x152
+	.global gTextL2_1253
+gTextL2_1253:
+	.incbin "baserom.gba", 0x425989, 0x18A
+	.global gTextL2_1254
+gTextL2_1254:
+	.incbin "baserom.gba", 0x425B13, 0x10F
+	.global gTextL2_1255
+gTextL2_1255:
+	.incbin "baserom.gba", 0x425C22, 0x17D
+	.global gTextL2_1256
+gTextL2_1256:
+	.incbin "baserom.gba", 0x425D9F, 0x26C
+	.global gTextL2_1257
+gTextL2_1257:
+	.incbin "baserom.gba", 0x42600B, 0x96
+	.global gTextL2_1258
+gTextL2_1258:
+	.incbin "baserom.gba", 0x4260A1, 0x1A
+	.global gTextL2_1259
+gTextL2_1259:
+	.incbin "baserom.gba", 0x4260BB, 0x62
+	.global gTextL2_1260
+gTextL2_1260:
+	.incbin "baserom.gba", 0x42611D, 0x31
+	.global gTextL2_1261
+gTextL2_1261:
+	.incbin "baserom.gba", 0x42614E, 0x20
+	.global gTextL2_1262
+gTextL2_1262:
+	.incbin "baserom.gba", 0x42616E, 0x18
+	.global gTextL2_1263
+gTextL2_1263:
+	.incbin "baserom.gba", 0x426186, 0x18
+	.global gTextL2_1264
+gTextL2_1264:
+	.incbin "baserom.gba", 0x42619E, 0x18
+	.global gTextL2_1265
+gTextL2_1265:
+	.incbin "baserom.gba", 0x4261B6, 0x18
+	.global gTextL2_1266
+gTextL2_1266:
+	.incbin "baserom.gba", 0x4261CE, 0x18
+	.global gTextL2_1267
+gTextL2_1267:
+	.incbin "baserom.gba", 0x4261E6, 0x18
+	.global gTextL2_1268
+gTextL2_1268:
+	.incbin "baserom.gba", 0x4261FE, 0x18
+	.global gTextL2_1269
+gTextL2_1269:
+	.incbin "baserom.gba", 0x426216, 0x18
+	.global gTextL2_1270
+gTextL2_1270:
+	.incbin "baserom.gba", 0x42622E, 0x18
+	.global gTextL2_1271
+gTextL2_1271:
+	.incbin "baserom.gba", 0x426246, 0x19
+	.global gTextL2_1272
+gTextL2_1272:
+	.incbin "baserom.gba", 0x42625F, 0x22
+	.global gTextL2_1273
+gTextL2_1273:
+	.incbin "baserom.gba", 0x426281, 0x23
+	.global gTextL2_1274
+gTextL2_1274:
+	.incbin "baserom.gba", 0x4262A4, 0x15
+	.global gTextL2_1275
+gTextL2_1275:
+	.incbin "baserom.gba", 0x4262B9, 0x33
+	.global gTextL2_1276
+gTextL2_1276:
+	.incbin "baserom.gba", 0x4262EC, 0x33
+	.global gTextL2_1277
+gTextL2_1277:
+	.incbin "baserom.gba", 0x42631F, 0x33
+	.global gTextL2_1278
+gTextL2_1278:
+	.incbin "baserom.gba", 0x426352, 0x33
+	.global gTextL2_1279
+gTextL2_1279:
+	.incbin "baserom.gba", 0x426385, 0x33
+	.global gTextL2_1280
+gTextL2_1280:
+	.incbin "baserom.gba", 0x4263B8, 0x33
+	.global gTextL2_1281
+gTextL2_1281:
+	.incbin "baserom.gba", 0x4263EB, 0x33
+	.global gTextL2_1282
+gTextL2_1282:
+	.incbin "baserom.gba", 0x42641E, 0x33
+	.global gTextL2_1283
+gTextL2_1283:
+	.incbin "baserom.gba", 0x426451, 0x34
+	.global gTextL2_1284
+gTextL2_1284:
+	.incbin "baserom.gba", 0x426485, 0x1C
+	.global gTextL2_1285
+gTextL2_1285:
+	.incbin "baserom.gba", 0x4264A1, 0x1D
+	.global gTextL2_1286
+gTextL2_1286:
+	.incbin "baserom.gba", 0x4264BE, 0x1D
+	.global gTextL2_1287
+gTextL2_1287:
+	.incbin "baserom.gba", 0x4264DB, 0x1E
+	.global gTextL2_1288
+gTextL2_1288:
+	.incbin "baserom.gba", 0x4264F9, 0x2C
+	.global gTextL2_1289
+gTextL2_1289:
+	.incbin "baserom.gba", 0x426525, 0x2F
+	.global gTextL2_1290
+gTextL2_1290:
+	.incbin "baserom.gba", 0x426554, 0x2C
+	.global gTextL2_1291
+gTextL2_1291:
+	.incbin "baserom.gba", 0x426580, 0x31
+	.global gTextL2_1292
+gTextL2_1292:
+	.incbin "baserom.gba", 0x4265B1, 0x27
+	.global gTextL2_1293
+gTextL2_1293:
+	.incbin "baserom.gba", 0x4265D8, 0x5D
+	.global gTextL2_1294
+gTextL2_1294:
+	.incbin "baserom.gba", 0x426635, 0x38
+	.global gTextL2_1295
+gTextL2_1295:
+	.incbin "baserom.gba", 0x42666D, 0x34
+	.global gTextL2_1296
+gTextL2_1296:
+	.incbin "baserom.gba", 0x4266A1, 0x2C
+	.global gTextL2_1297
+gTextL2_1297:
+	.incbin "baserom.gba", 0x4266CD, 0x44
+	.global gTextL2_1298
+gTextL2_1298:
+	.incbin "baserom.gba", 0x426711, 0x31
+	.global gTextL2_1299
+gTextL2_1299:
+	.incbin "baserom.gba", 0x426742, 0x35
+	.global gTextL2_1300
+gTextL2_1300:
+	.incbin "baserom.gba", 0x426777, 0x46
+	.global gTextL2_1301
+gTextL2_1301:
+	.incbin "baserom.gba", 0x4267BD, 0x2C
+	.global gTextL2_1302
+gTextL2_1302:
+	.incbin "baserom.gba", 0x4267E9, 0x5F
+	.global gTextL2_1303
+gTextL2_1303:
+	.incbin "baserom.gba", 0x426848, 0x59
+	.global gTextL2_1304
+gTextL2_1304:
+	.incbin "baserom.gba", 0x4268A1, 0x3B
+	.global gTextL2_1305
+gTextL2_1305:
+	.incbin "baserom.gba", 0x4268DC, 0x3E
+	.global gTextL2_1306
+gTextL2_1306:
+	.incbin "baserom.gba", 0x42691A, 0x62
+	.global gTextL2_1307
+gTextL2_1307:
+	.incbin "baserom.gba", 0x42697C, 0x66
+	.global gTextL2_1308
+gTextL2_1308:
+	.incbin "baserom.gba", 0x4269E2, 0x79
+	.global gTextL2_1309
+gTextL2_1309:
+	.incbin "baserom.gba", 0x426A5B, 0x73
+	.global gTextL2_1310
+gTextL2_1310:
+	.incbin "baserom.gba", 0x426ACE, 0x6B
+	.global gTextL2_1311
+gTextL2_1311:
+	.incbin "baserom.gba", 0x426B39, 0x67
+	.global gTextL2_1312
+gTextL2_1312:
+	.incbin "baserom.gba", 0x426BA0, 0x4C
+	.global gTextL2_1313
+gTextL2_1313:
+	.incbin "baserom.gba", 0x426BEC, 0x39
+	.global gTextL2_1314
+gTextL2_1314:
+	.incbin "baserom.gba", 0x426C25, 0x4B
+	.global gTextL2_1315
+gTextL2_1315:
+	.incbin "baserom.gba", 0x426C70, 0x77
+	.global gTextL2_1316
+gTextL2_1316:
+	.incbin "baserom.gba", 0x426CE7, 0x78
+	.global gTextL2_1317
+gTextL2_1317:
+	.incbin "baserom.gba", 0x426D5F, 0x6F
+	.global gTextL2_1318
+gTextL2_1318:
+	.incbin "baserom.gba", 0x426DCE, 0x66
+	.global gTextL2_1319
+gTextL2_1319:
+	.incbin "baserom.gba", 0x426E34, 0x31
+	.global gTextL2_1320
+gTextL2_1320:
+	.incbin "baserom.gba", 0x426E65, 0x41
+	.global gTextL2_1321
+gTextL2_1321:
+	.incbin "baserom.gba", 0x426EA6, 0x5
+	.global gTextL2_1322
+gTextL2_1322:
+	.incbin "baserom.gba", 0x426EAB, 0x5
+	.global gTextL2_1323
+gTextL2_1323:
+	.incbin "baserom.gba", 0x426EB0, 0x5
+	.global gTextL2_1324
+gTextL2_1324:
+	.incbin "baserom.gba", 0x426EB5, 0x5
+	.global gTextL2_1325
+gTextL2_1325:
+	.incbin "baserom.gba", 0x426EBA, 0x5
+	.global gTextL2_1326
+gTextL2_1326:
+	.incbin "baserom.gba", 0x426EBF, 0x5
+	.global gTextL2_1327
+gTextL2_1327:
+	.incbin "baserom.gba", 0x426EC4, 0x5
+	.global gTextL2_1328
+gTextL2_1328:
+	.incbin "baserom.gba", 0x426EC9, 0x5
+	.global gTextL2_1329
+gTextL2_1329:
+	.incbin "baserom.gba", 0x426ECE, 0x24
+	.global gTextL2_1330
+gTextL2_1330:
+	.incbin "baserom.gba", 0x426EF2, 0x3F
+	.global gTextL2_1331
+gTextL2_1331:
+	.incbin "baserom.gba", 0x426F31, 0x9
+	.global gTextL2_1332
+gTextL2_1332:
+	.incbin "baserom.gba", 0x426F3A, 0x9
+	.global gTextL2_1333
+gTextL2_1333:
+	.incbin "baserom.gba", 0x426F43, 0x8
+	.global gTextL2_1334
+gTextL2_1334:
+	.incbin "baserom.gba", 0x426F4B, 0x9
+	.global gTextL2_1335
+gTextL2_1335:
+	.incbin "baserom.gba", 0x426F54, 0x9
+	.global gTextL2_1336
+gTextL2_1336:
+	.incbin "baserom.gba", 0x426F5D, 0xB
+	.global gTextL2_1337
+gTextL2_1337:
+	.incbin "baserom.gba", 0x426F68, 0xA
+	.global gTextL2_1338
+gTextL2_1338:
+	.incbin "baserom.gba", 0x426F72, 0x9
+	.global gTextL2_1339
+gTextL2_1339:
+	.incbin "baserom.gba", 0x426F7B, 0xA
+	.global gTextL2_1340
+gTextL2_1340:
+	.incbin "baserom.gba", 0x426F85, 0xA
+	.global gTextL2_1341
+gTextL2_1341:
+	.incbin "baserom.gba", 0x426F8F, 0xB
+	.global gTextL2_1342
+gTextL2_1342:
+	.incbin "baserom.gba", 0x426F9A, 0xB
+	.global gTextL2_1343
+gTextL2_1343:
+	.incbin "baserom.gba", 0x426FA5, 0xB
+	.global gTextL2_1344
+gTextL2_1344:
+	.incbin "baserom.gba", 0x426FB0, 0xA
+	.global gTextL2_1345
+gTextL2_1345:
+	.incbin "baserom.gba", 0x426FBA, 0xC
+	.global gTextL2_1346
+gTextL2_1346:
+	.incbin "baserom.gba", 0x426FC6, 0x30
+	.global gTextL2_1347
+gTextL2_1347:
+	.incbin "baserom.gba", 0x426FF6, 0x13
+	.global gTextL2_1348
+gTextL2_1348:
+	.incbin "baserom.gba", 0x427009, 0x38
+	.global gTextL2_1349
+gTextL2_1349:
+	.incbin "baserom.gba", 0x427041, 0x32
+	.global gTextL2_1350
+gTextL2_1350:
+	.incbin "baserom.gba", 0x427073, 0x2D
+	.global gTextL2_1351
+gTextL2_1351:
+	.incbin "baserom.gba", 0x4270A0, 0x2F
+	.global gTextL2_1352
+gTextL2_1352:
+	.incbin "baserom.gba", 0x4270CF, 0x28
+	.global gTextL2_1353
+gTextL2_1353:
+	.incbin "baserom.gba", 0x4270F7, 0x37
+	.global gTextL2_1354
+gTextL2_1354:
+	.incbin "baserom.gba", 0x42712E, 0x2B
+	.global gTextL2_1355
+gTextL2_1355:
+	.incbin "baserom.gba", 0x427159, 0x35
+	.global gTextL2_1356
+gTextL2_1356:
+	.incbin "baserom.gba", 0x42718E, 0x2F
+	.global gTextL2_1357
+gTextL2_1357:
+	.incbin "baserom.gba", 0x4271BD, 0x37
+	.global gTextL2_1358
+gTextL2_1358:
+	.incbin "baserom.gba", 0x4271F4, 0x38
+	.global gTextL2_1359
+gTextL2_1359:
+	.incbin "baserom.gba", 0x42722C, 0x29
+	.global gTextL2_1360
+gTextL2_1360:
+	.incbin "baserom.gba", 0x427255, 0x27
+	.global gTextL2_1361
+gTextL2_1361:
+	.incbin "baserom.gba", 0x42727C, 0x37
+	.global gTextL2_1362
+gTextL2_1362:
+	.incbin "baserom.gba", 0x4272B3, 0x2C
+	.global gTextL2_1363
+gTextL2_1363:
+	.incbin "baserom.gba", 0x4272DF, 0x28
+	.global gTextL2_1364
+gTextL2_1364:
+	.incbin "baserom.gba", 0x427307, 0x28
+	.global gTextL2_1365
+gTextL2_1365:
+	.incbin "baserom.gba", 0x42732F, 0x35
+	.global gTextL2_1366
+gTextL2_1366:
+	.incbin "baserom.gba", 0x427364, 0x3C
+	.global gTextL2_1367
+gTextL2_1367:
+	.incbin "baserom.gba", 0x4273A0, 0x28
+	.global gTextL2_1368
+gTextL2_1368:
+	.incbin "baserom.gba", 0x4273C8, 0x38
+	.global gTextL2_1369
+gTextL2_1369:
+	.incbin "baserom.gba", 0x427400, 0x38
+	.global gTextL2_1370
+gTextL2_1370:
+	.incbin "baserom.gba", 0x427438, 0x2C
+	.global gTextL2_1371
+gTextL2_1371:
+	.incbin "baserom.gba", 0x427464, 0x31
+	.global gTextL2_1372
+gTextL2_1372:
+	.incbin "baserom.gba", 0x427495, 0x22
+	.global gTextL2_1373
+gTextL2_1373:
+	.incbin "baserom.gba", 0x4274B7, 0x39
+	.global gTextL2_1374
+gTextL2_1374:
+	.incbin "baserom.gba", 0x4274F0, 0x3A
+	.global gTextL2_1375
+gTextL2_1375:
+	.incbin "baserom.gba", 0x42752A, 0x2B
+	.global gTextL2_1376
+gTextL2_1376:
+	.incbin "baserom.gba", 0x427555, 0x31
+	.global gTextL2_1377
+gTextL2_1377:
+	.incbin "baserom.gba", 0x427586, 0x37
+	.global gTextL2_1378
+gTextL2_1378:
+	.incbin "baserom.gba", 0x4275BD, 0x32
+	.global gTextL2_1379
+gTextL2_1379:
+	.incbin "baserom.gba", 0x4275EF, 0x3A
+	.global gTextL2_1380
+gTextL2_1380:
+	.incbin "baserom.gba", 0x427629, 0x31
+	.global gTextL2_1381
+gTextL2_1381:
+	.incbin "baserom.gba", 0x42765A, 0x2D
+	.global gTextL2_1382
+gTextL2_1382:
+	.incbin "baserom.gba", 0x427687, 0x33
+	.global gTextL2_1383
+gTextL2_1383:
+	.incbin "baserom.gba", 0x4276BA, 0x30
+	.global gTextL2_1384
+gTextL2_1384:
+	.incbin "baserom.gba", 0x4276EA, 0x34
+	.global gTextL2_1385
+gTextL2_1385:
+	.incbin "baserom.gba", 0x42771E, 0x32
+	.global gTextL2_1386
+gTextL2_1386:
+	.incbin "baserom.gba", 0x427750, 0x35
+	.global gTextL2_1387
+gTextL2_1387:
+	.incbin "baserom.gba", 0x427785, 0x33
+	.global gTextL2_1388
+gTextL2_1388:
+	.incbin "baserom.gba", 0x4277B8, 0x2A
+	.global gTextL2_1389
+gTextL2_1389:
+	.incbin "baserom.gba", 0x4277E2, 0x3A
+	.global gTextL2_1390
+gTextL2_1390:
+	.incbin "baserom.gba", 0x42781C, 0x36
+	.global gTextL2_1391
+gTextL2_1391:
+	.incbin "baserom.gba", 0x427852, 0x3A
+	.global gTextL2_1392
+gTextL2_1392:
+	.incbin "baserom.gba", 0x42788C, 0x34
+	.global gTextL2_1393
+gTextL2_1393:
+	.incbin "baserom.gba", 0x4278C0, 0x38
+	.global gTextL2_1394
+gTextL2_1394:
+	.incbin "baserom.gba", 0x4278F8, 0x36
+	.global gTextL2_1395
+gTextL2_1395:
+	.incbin "baserom.gba", 0x42792E, 0x3C
+	.global gTextL2_1396
+gTextL2_1396:
+	.incbin "baserom.gba", 0x42796A, 0x2D
+	.global gTextL2_1397
+gTextL2_1397:
+	.incbin "baserom.gba", 0x427997, 0x31
+	.global gTextL2_1398
+gTextL2_1398:
+	.incbin "baserom.gba", 0x4279C8, 0x35
+	.global gTextL2_1399
+gTextL2_1399:
+	.incbin "baserom.gba", 0x4279FD, 0x35
+	.global gTextL2_1400
+gTextL2_1400:
+	.incbin "baserom.gba", 0x427A32, 0x37
+	.global gTextL2_1401
+gTextL2_1401:
+	.incbin "baserom.gba", 0x427A69, 0x38
+	.global gTextL2_1402
+gTextL2_1402:
+	.incbin "baserom.gba", 0x427AA1, 0x2A
+	.global gTextL2_1403
+gTextL2_1403:
+	.incbin "baserom.gba", 0x427ACB, 0x3A
+	.global gTextL2_1404
+gTextL2_1404:
+	.incbin "baserom.gba", 0x427B05, 0x1D
+	.global gTextL2_1405
+gTextL2_1405:
+	.incbin "baserom.gba", 0x427B22, 0x35
+	.global gTextL2_1406
+gTextL2_1406:
+	.incbin "baserom.gba", 0x427B57, 0x38
+	.global gTextL2_1407
+gTextL2_1407:
+	.incbin "baserom.gba", 0x427B8F, 0x36
+	.global gTextL2_1408
+gTextL2_1408:
+	.incbin "baserom.gba", 0x427BC5, 0x2C
+	.global gTextL2_1409
+gTextL2_1409:
+	.incbin "baserom.gba", 0x427BF1, 0x34
+	.global gTextL2_1410
+gTextL2_1410:
+	.incbin "baserom.gba", 0x427C25, 0x24
+	.global gTextL2_1411
+gTextL2_1411:
+	.incbin "baserom.gba", 0x427C49, 0x2B
+	.global gTextL2_1412
+gTextL2_1412:
+	.incbin "baserom.gba", 0x427C74, 0x35
+	.global gTextL2_1413
+gTextL2_1413:
+	.incbin "baserom.gba", 0x427CA9, 0x2A
+	.global gTextL2_1414
+gTextL2_1414:
+	.incbin "baserom.gba", 0x427CD3, 0x37
+	.global gTextL2_1415
+gTextL2_1415:
+	.incbin "baserom.gba", 0x427D0A, 0x31
+	.global gTextL2_1416
+gTextL2_1416:
+	.incbin "baserom.gba", 0x427D3B, 0x2E
+	.global gTextL2_1417
+gTextL2_1417:
+	.incbin "baserom.gba", 0x427D69, 0x32
+	.global gTextL2_1418
+gTextL2_1418:
+	.incbin "baserom.gba", 0x427D9B, 0x2E
+	.global gTextL2_1419
+gTextL2_1419:
+	.incbin "baserom.gba", 0x427DC9, 0x2B
+	.global gTextL2_1420
+gTextL2_1420:
+	.incbin "baserom.gba", 0x427DF4, 0x36
+	.global gTextL2_1421
+gTextL2_1421:
+	.incbin "baserom.gba", 0x427E2A, 0x2F
+	.global gTextL2_1422
+gTextL2_1422:
+	.incbin "baserom.gba", 0x427E59, 0x37
+	.global gTextL2_1423
+gTextL2_1423:
+	.incbin "baserom.gba", 0x427E90, 0x2E
+	.global gTextL2_1424
+gTextL2_1424:
+	.incbin "baserom.gba", 0x427EBE, 0x38
+	.global gTextL2_1425
+gTextL2_1425:
+	.incbin "baserom.gba", 0x427EF6, 0x27
+	.global gTextL2_1426
+gTextL2_1426:
+	.incbin "baserom.gba", 0x427F1D, 0x30
+	.global gTextL2_1427
+gTextL2_1427:
+	.incbin "baserom.gba", 0x427F4D, 0x35
+	.global gTextL2_1428
+gTextL2_1428:
+	.incbin "baserom.gba", 0x427F82, 0x37
+	.global gTextL2_1429
+gTextL2_1429:
+	.incbin "baserom.gba", 0x427FB9, 0x2D
+	.global gTextL2_1430
+gTextL2_1430:
+	.incbin "baserom.gba", 0x427FE6, 0x31
+	.global gTextL2_1431
+gTextL2_1431:
+	.incbin "baserom.gba", 0x428017, 0x34
+	.global gTextL2_1432
+gTextL2_1432:
+	.incbin "baserom.gba", 0x42804B, 0x3B
+	.global gTextL2_1433
+gTextL2_1433:
+	.incbin "baserom.gba", 0x428086, 0x35
+	.global gTextL2_1434
+gTextL2_1434:
+	.incbin "baserom.gba", 0x4280BB, 0x35
+	.global gTextL2_1435
+gTextL2_1435:
+	.incbin "baserom.gba", 0x4280F0, 0x2C
+	.global gTextL2_1436
+gTextL2_1436:
+	.incbin "baserom.gba", 0x42811C, 0x3A
+	.global gTextL2_1437
+gTextL2_1437:
+	.incbin "baserom.gba", 0x428156, 0x32
+	.global gTextL2_1438
+gTextL2_1438:
+	.incbin "baserom.gba", 0x428188, 0x25
+	.global gTextL2_1439
+gTextL2_1439:
+	.incbin "baserom.gba", 0x4281AD, 0x38
+	.global gTextL2_1440
+gTextL2_1440:
+	.incbin "baserom.gba", 0x4281E5, 0x34
+	.global gTextL2_1441
+gTextL2_1441:
+	.incbin "baserom.gba", 0x428219, 0x39
+	.global gTextL2_1442
+gTextL2_1442:
+	.incbin "baserom.gba", 0x428252, 0x24
+	.global gTextL2_1443
+gTextL2_1443:
+	.incbin "baserom.gba", 0x428276, 0x36
+	.global gTextL2_1444
+gTextL2_1444:
+	.incbin "baserom.gba", 0x4282AC, 0x39
+	.global gTextL2_1445
+gTextL2_1445:
+	.incbin "baserom.gba", 0x4282E5, 0x31
+	.global gTextL2_1446
+gTextL2_1446:
+	.incbin "baserom.gba", 0x428316, 0x27
+	.global gTextL2_1447
+gTextL2_1447:
+	.incbin "baserom.gba", 0x42833D, 0x33
+	.global gTextL2_1448
+gTextL2_1448:
+	.incbin "baserom.gba", 0x428370, 0x38
+	.global gTextL2_1449
+gTextL2_1449:
+	.incbin "baserom.gba", 0x4283A8, 0x1E
+	.global gTextL2_1450
+gTextL2_1450:
+	.incbin "baserom.gba", 0x4283C6, 0x39
+	.global gTextL2_1451
+gTextL2_1451:
+	.incbin "baserom.gba", 0x4283FF, 0x32
+	.global gTextL2_1452
+gTextL2_1452:
+	.incbin "baserom.gba", 0x428431, 0x38
+	.global gTextL2_1453
+gTextL2_1453:
+	.incbin "baserom.gba", 0x428469, 0x34
+	.global gTextL2_1454
+gTextL2_1454:
+	.incbin "baserom.gba", 0x42849D, 0x3C
+	.global gTextL2_1455
+gTextL2_1455:
+	.incbin "baserom.gba", 0x4284D9, 0x2F
+	.global gTextL2_1456
+gTextL2_1456:
+	.incbin "baserom.gba", 0x428508, 0x32
+	.global gTextL2_1457
+gTextL2_1457:
+	.incbin "baserom.gba", 0x42853A, 0x38
+	.global gTextL2_1458
+gTextL2_1458:
+	.incbin "baserom.gba", 0x428572, 0x25
+	.global gTextL2_1459
+gTextL2_1459:
+	.incbin "baserom.gba", 0x428597, 0x3B
+	.global gTextL2_1460
+gTextL2_1460:
+	.incbin "baserom.gba", 0x4285D2, 0x2D
+	.global gTextL2_1461
+gTextL2_1461:
+	.incbin "baserom.gba", 0x4285FF, 0x35
+	.global gTextL2_1462
+gTextL2_1462:
+	.incbin "baserom.gba", 0x428634, 0x37
+	.global gTextL2_1463
+gTextL2_1463:
+	.incbin "baserom.gba", 0x42866B, 0x3B
+	.global gTextL2_1464
+gTextL2_1464:
+	.incbin "baserom.gba", 0x4286A6, 0x22
+	.global gTextL2_1465
+gTextL2_1465:
+	.incbin "baserom.gba", 0x4286C8, 0x32
+	.global gTextL2_1466
+gTextL2_1466:
+	.incbin "baserom.gba", 0x4286FA, 0x31
+	.global gTextL2_1467
+gTextL2_1467:
+	.incbin "baserom.gba", 0x42872B, 0x33
+	.global gTextL2_1468
+gTextL2_1468:
+	.incbin "baserom.gba", 0x42875E, 0x2D
+	.global gTextL2_1469
+gTextL2_1469:
+	.incbin "baserom.gba", 0x42878B, 0x37
+	.global gTextL2_1470
+gTextL2_1470:
+	.incbin "baserom.gba", 0x4287C2, 0x34
+	.global gTextL2_1471
+gTextL2_1471:
+	.incbin "baserom.gba", 0x4287F6, 0x32
+	.global gTextL2_1472
+gTextL2_1472:
+	.incbin "baserom.gba", 0x428828, 0x30
+	.global gTextL2_1473
+gTextL2_1473:
+	.incbin "baserom.gba", 0x428858, 0x34
+	.global gTextL2_1474
+gTextL2_1474:
+	.incbin "baserom.gba", 0x42888C, 0x2E
+	.global gTextL2_1475
+gTextL2_1475:
+	.incbin "baserom.gba", 0x4288BA, 0x2C
+	.global gTextL2_1476
+gTextL2_1476:
+	.incbin "baserom.gba", 0x4288E6, 0x25
+	.global gTextL2_1477
+gTextL2_1477:
+	.incbin "baserom.gba", 0x42890B, 0x30
+	.global gTextL2_1478
+gTextL2_1478:
+	.incbin "baserom.gba", 0x42893B, 0x3D
+	.global gTextL2_1479
+gTextL2_1479:
+	.incbin "baserom.gba", 0x428978, 0x39
+	.global gTextL2_1480
+gTextL2_1480:
+	.incbin "baserom.gba", 0x4289B1, 0x2E
+	.global gTextL2_1481
+gTextL2_1481:
+	.incbin "baserom.gba", 0x4289DF, 0x30
+	.global gTextL2_1482
+gTextL2_1482:
+	.incbin "baserom.gba", 0x428A0F, 0x38
+	.global gTextL2_1483
+gTextL2_1483:
+	.incbin "baserom.gba", 0x428A47, 0x27
+	.global gTextL2_1484
+gTextL2_1484:
+	.incbin "baserom.gba", 0x428A6E, 0x1E
+	.global gTextL2_1485
+gTextL2_1485:
+	.incbin "baserom.gba", 0x428A8C, 0x3C
+	.global gTextL2_1486
+gTextL2_1486:
+	.incbin "baserom.gba", 0x428AC8, 0x23
+	.global gTextL2_1487
+gTextL2_1487:
+	.incbin "baserom.gba", 0x428AEB, 0x3C
+	.global gTextL2_1488
+gTextL2_1488:
+	.incbin "baserom.gba", 0x428B27, 0x38
+	.global gTextL2_1489
+gTextL2_1489:
+	.incbin "baserom.gba", 0x428B5F, 0x36
+	.global gTextL2_1490
+gTextL2_1490:
+	.incbin "baserom.gba", 0x428B95, 0x2B
+	.global gTextL2_1491
+gTextL2_1491:
+	.incbin "baserom.gba", 0x428BC0, 0x3B
+	.global gTextL2_1492
+gTextL2_1492:
+	.incbin "baserom.gba", 0x428BFB, 0x3D
 	.global gUnk_08428C38
 gUnk_08428C38:
-	.incbin "baserom.gba", 0x428C38, 0x1754
+	.4byte gUnk_084020F8
+	.4byte gTextL2_0001
+	.4byte gTextL2_0002
+	.4byte gTextL2_0003
+	.4byte gTextL2_0004
+	.4byte gTextL2_0005
+	.4byte gTextL2_0006
+	.4byte gTextL2_0007
+	.4byte gTextL2_0008
+	.4byte gTextL2_0009
+	.4byte gTextL2_0010
+	.4byte gTextL2_0011
+	.4byte gTextL2_0012
+	.4byte gTextL2_0013
+	.4byte gTextL2_0014
+	.4byte gTextL2_0015
+	.4byte gTextL2_0016
+	.4byte gTextL2_0017
+	.4byte gTextL2_0018
+	.4byte gTextL2_0019
+	.4byte gTextL2_0020
+	.4byte gTextL2_0021
+	.4byte gTextL2_0022
+	.4byte gTextL2_0023
+	.4byte gTextL2_0024
+	.4byte gTextL2_0025
+	.4byte gTextL2_0026
+	.4byte gTextL2_0027
+	.4byte gTextL2_0028
+	.4byte gTextL2_0029
+	.4byte gTextL2_0030
+	.4byte gTextL2_0031
+	.4byte gTextL2_0032
+	.4byte gTextL2_0033
+	.4byte gTextL2_0034
+	.4byte gTextL2_0035
+	.4byte gTextL2_0036
+	.4byte gTextL2_0037
+	.4byte gTextL2_0038
+	.4byte gTextL2_0039
+	.4byte gTextL2_0040
+	.4byte gTextL2_0041
+	.4byte gTextL2_0042
+	.4byte gTextL2_0043
+	.4byte gTextL2_0044
+	.4byte gTextL2_0045
+	.4byte gTextL2_0046
+	.4byte gTextL2_0047
+	.4byte gTextL2_0048
+	.4byte gTextL2_0049
+	.4byte gTextL2_0050
+	.4byte gTextL2_0051
+	.4byte gTextL2_0052
+	.4byte gTextL2_0053
+	.4byte gTextL2_0054
+	.4byte gTextL2_0055
+	.4byte gTextL2_0056
+	.4byte gTextL2_0057
+	.4byte gTextL2_0058
+	.4byte gTextL2_0059
+	.4byte gTextL2_0060
+	.4byte gTextL2_0061
+	.4byte gTextL2_0062
+	.4byte gTextL2_0063
+	.4byte gTextL2_0064
+	.4byte gTextL2_0065
+	.4byte gTextL2_0066
+	.4byte gTextL2_0067
+	.4byte gTextL2_0068
+	.4byte gTextL2_0069
+	.4byte gTextL2_0070
+	.4byte gTextL2_0071
+	.4byte gTextL2_0072
+	.4byte gTextL2_0073
+	.4byte gTextL2_0074
+	.4byte gTextL2_0075
+	.4byte gTextL2_0076
+	.4byte gTextL2_0077
+	.4byte gTextL2_0078
+	.4byte gTextL2_0079
+	.4byte gTextL2_0080
+	.4byte gTextL2_0081
+	.4byte gTextL2_0082
+	.4byte gTextL2_0083
+	.4byte gTextL2_0084
+	.4byte gTextL2_0085
+	.4byte gTextL2_0086
+	.4byte gTextL2_0087
+	.4byte gTextL2_0088
+	.4byte gTextL2_0089
+	.4byte gTextL2_0090
+	.4byte gTextL2_0091
+	.4byte gTextL2_0092
+	.4byte gTextL2_0093
+	.4byte gTextL2_0094
+	.4byte gTextL2_0095
+	.4byte gTextL2_0096
+	.4byte gTextL2_0097
+	.4byte gTextL2_0098
+	.4byte gTextL2_0099
+	.4byte gTextL2_0100
+	.4byte gTextL2_0101
+	.4byte gTextL2_0102
+	.4byte gTextL2_0103
+	.4byte gTextL2_0104
+	.4byte gTextL2_0105
+	.4byte gTextL2_0106
+	.4byte gTextL2_0107
+	.4byte gTextL2_0108
+	.4byte gTextL2_0109
+	.4byte gTextL2_0110
+	.4byte gTextL2_0111
+	.4byte gTextL2_0112
+	.4byte gTextL2_0113
+	.4byte gTextL2_0114
+	.4byte gTextL2_0115
+	.4byte gTextL2_0116
+	.4byte gTextL2_0117
+	.4byte gTextL2_0118
+	.4byte gTextL2_0119
+	.4byte gTextL2_0120
+	.4byte gTextL2_0121
+	.4byte gTextL2_0122
+	.4byte gTextL2_0123
+	.4byte gTextL2_0124
+	.4byte gTextL2_0125
+	.4byte gTextL2_0126
+	.4byte gTextL2_0127
+	.4byte gTextL2_0128
+	.4byte gTextL2_0129
+	.4byte gTextL2_0130
+	.4byte gTextL2_0131
+	.4byte gTextL2_0132
+	.4byte gTextL2_0133
+	.4byte gTextL2_0134
+	.4byte gTextL2_0135
+	.4byte gTextL2_0136
+	.4byte gTextL2_0137
+	.4byte gTextL2_0138
+	.4byte gTextL2_0139
+	.4byte gTextL2_0140
+	.4byte gTextL2_0141
+	.4byte gTextL2_0142
+	.4byte gTextL2_0143
+	.4byte gTextL2_0144
+	.4byte gTextL2_0145
+	.4byte gTextL2_0146
+	.4byte gTextL2_0147
+	.4byte gTextL2_0148
+	.4byte gTextL2_0149
+	.4byte gTextL2_0150
+	.4byte gTextL2_0151
+	.4byte gTextL2_0152
+	.4byte gTextL2_0153
+	.4byte gTextL2_0154
+	.4byte gTextL2_0155
+	.4byte gTextL2_0156
+	.4byte gTextL2_0157
+	.4byte gTextL2_0158
+	.4byte gTextL2_0159
+	.4byte gTextL2_0160
+	.4byte gTextL2_0161
+	.4byte gTextL2_0162
+	.4byte gTextL2_0163
+	.4byte gTextL2_0164
+	.4byte gTextL2_0165
+	.4byte gTextL2_0166
+	.4byte gTextL2_0167
+	.4byte gTextL2_0168
+	.4byte gTextL2_0169
+	.4byte gTextL2_0170
+	.4byte gTextL2_0171
+	.4byte gTextL2_0172
+	.4byte gTextL2_0173
+	.4byte gTextL2_0174
+	.4byte gTextL2_0175
+	.4byte gTextL2_0176
+	.4byte gTextL2_0177
+	.4byte gTextL2_0178
+	.4byte gTextL2_0179
+	.4byte gTextL2_0180
+	.4byte gTextL2_0181
+	.4byte gTextL2_0182
+	.4byte gTextL2_0183
+	.4byte gTextL2_0184
+	.4byte gTextL2_0185
+	.4byte gTextL2_0186
+	.4byte gTextL2_0187
+	.4byte gTextL2_0188
+	.4byte gTextL2_0189
+	.4byte gTextL2_0190
+	.4byte gTextL2_0191
+	.4byte gTextL2_0192
+	.4byte gTextL2_0193
+	.4byte gTextL2_0194
+	.4byte gTextL2_0195
+	.4byte gTextL2_0196
+	.4byte gTextL2_0197
+	.4byte gTextL2_0198
+	.4byte gTextL2_0199
+	.4byte gTextL2_0200
+	.4byte gTextL2_0201
+	.4byte gTextL2_0202
+	.4byte gTextL2_0203
+	.4byte gTextL2_0204
+	.4byte gTextL2_0205
+	.4byte gTextL2_0206
+	.4byte gTextL2_0207
+	.4byte gTextL2_0208
+	.4byte gTextL2_0209
+	.4byte gTextL2_0210
+	.4byte gTextL2_0211
+	.4byte gTextL2_0212
+	.4byte gTextL2_0213
+	.4byte gTextL2_0214
+	.4byte gTextL2_0215
+	.4byte gTextL2_0216
+	.4byte gTextL2_0217
+	.4byte gTextL2_0218
+	.4byte gTextL2_0219
+	.4byte gTextL2_0220
+	.4byte gTextL2_0221
+	.4byte gTextL2_0222
+	.4byte gTextL2_0223
+	.4byte gTextL2_0224
+	.4byte gTextL2_0225
+	.4byte gTextL2_0226
+	.4byte gTextL2_0227
+	.4byte gTextL2_0228
+	.4byte gTextL2_0229
+	.4byte gTextL2_0230
+	.4byte gTextL2_0231
+	.4byte gTextL2_0232
+	.4byte gTextL2_0233
+	.4byte gTextL2_0234
+	.4byte gTextL2_0235
+	.4byte gTextL2_0236
+	.4byte gTextL2_0237
+	.4byte gTextL2_0238
+	.4byte gTextL2_0239
+	.4byte gTextL2_0240
+	.4byte gTextL2_0241
+	.4byte gTextL2_0242
+	.4byte gTextL2_0243
+	.4byte gTextL2_0244
+	.4byte gTextL2_0245
+	.4byte gTextL2_0246
+	.4byte gTextL2_0247
+	.4byte gTextL2_0248
+	.4byte gTextL2_0249
+	.4byte gTextL2_0250
+	.4byte gTextL2_0251
+	.4byte gTextL2_0252
+	.4byte gTextL2_0253
+	.4byte gTextL2_0254
+	.4byte gTextL2_0255
+	.4byte gTextL2_0256
+	.4byte gTextL2_0257
+	.4byte gTextL2_0258
+	.4byte gTextL2_0259
+	.4byte gTextL2_0260
+	.4byte gTextL2_0261
+	.4byte gTextL2_0262
+	.4byte gTextL2_0263
+	.4byte gTextL2_0264
+	.4byte gTextL2_0265
+	.4byte gTextL2_0266
+	.4byte gTextL2_0267
+	.4byte gTextL2_0268
+	.4byte gTextL2_0269
+	.4byte gTextL2_0270
+	.4byte gTextL2_0271
+	.4byte gTextL2_0272
+	.4byte gTextL2_0273
+	.4byte gTextL2_0274
+	.4byte gTextL2_0275
+	.4byte gTextL2_0276
+	.4byte gTextL2_0277
+	.4byte gTextL2_0278
+	.4byte gTextL2_0279
+	.4byte gTextL2_0280
+	.4byte gTextL2_0281
+	.4byte gTextL2_0282
+	.4byte gTextL2_0283
+	.4byte gTextL2_0284
+	.4byte gTextL2_0285
+	.4byte gTextL2_0286
+	.4byte gTextL2_0287
+	.4byte gTextL2_0288
+	.4byte gTextL2_0289
+	.4byte gTextL2_0290
+	.4byte gTextL2_0291
+	.4byte gTextL2_0292
+	.4byte gTextL2_0293
+	.4byte gTextL2_0294
+	.4byte gTextL2_0295
+	.4byte gTextL2_0296
+	.4byte gTextL2_0297
+	.4byte gTextL2_0298
+	.4byte gTextL2_0299
+	.4byte gTextL2_0300
+	.4byte gTextL2_0301
+	.4byte gTextL2_0302
+	.4byte gTextL2_0303
+	.4byte gTextL2_0304
+	.4byte gTextL2_0305
+	.4byte gTextL2_0306
+	.4byte gTextL2_0307
+	.4byte gTextL2_0308
+	.4byte gTextL2_0309
+	.4byte gTextL2_0310
+	.4byte gTextL2_0311
+	.4byte gTextL2_0312
+	.4byte gTextL2_0313
+	.4byte gTextL2_0314
+	.4byte gTextL2_0315
+	.4byte gTextL2_0316
+	.4byte gTextL2_0317
+	.4byte gTextL2_0318
+	.4byte gTextL2_0319
+	.4byte gTextL2_0320
+	.4byte gTextL2_0321
+	.4byte gTextL2_0322
+	.4byte gTextL2_0323
+	.4byte gTextL2_0324
+	.4byte gTextL2_0325
+	.4byte gTextL2_0326
+	.4byte gTextL2_0327
+	.4byte gTextL2_0328
+	.4byte gTextL2_0329
+	.4byte gTextL2_0330
+	.4byte gTextL2_0331
+	.4byte gTextL2_0332
+	.4byte gTextL2_0333
+	.4byte gTextL2_0334
+	.4byte gTextL2_0335
+	.4byte gTextL2_0336
+	.4byte gTextL2_0337
+	.4byte gTextL2_0338
+	.4byte gTextL2_0339
+	.4byte gTextL2_0340
+	.4byte gTextL2_0341
+	.4byte gTextL2_0342
+	.4byte gTextL2_0343
+	.4byte gTextL2_0344
+	.4byte gTextL2_0345
+	.4byte gTextL2_0346
+	.4byte gTextL2_0347
+	.4byte gTextL2_0348
+	.4byte gTextL2_0349
+	.4byte gTextL2_0350
+	.4byte gTextL2_0351
+	.4byte gTextL2_0352
+	.4byte gTextL2_0353
+	.4byte gTextL2_0354
+	.4byte gTextL2_0355
+	.4byte gTextL2_0356
+	.4byte gTextL2_0357
+	.4byte gTextL2_0358
+	.4byte gTextL2_0359
+	.4byte gTextL2_0360
+	.4byte gTextL2_0361
+	.4byte gTextL2_0362
+	.4byte gTextL2_0363
+	.4byte gTextL2_0364
+	.4byte gTextL2_0365
+	.4byte gTextL2_0366
+	.4byte gTextL2_0367
+	.4byte gTextL2_0368
+	.4byte gTextL2_0369
+	.4byte gTextL2_0370
+	.4byte gTextL2_0371
+	.4byte gTextL2_0372
+	.4byte gTextL2_0373
+	.4byte gTextL2_0374
+	.4byte gTextL2_0375
+	.4byte gTextL2_0376
+	.4byte gTextL2_0377
+	.4byte gTextL2_0378
+	.4byte gTextL2_0379
+	.4byte gTextL2_0380
+	.4byte gTextL2_0381
+	.4byte gTextL2_0382
+	.4byte gTextL2_0383
+	.4byte gTextL2_0384
+	.4byte gTextL2_0385
+	.4byte gTextL2_0386
+	.4byte gTextL2_0387
+	.4byte gTextL2_0388
+	.4byte gTextL2_0389
+	.4byte gTextL2_0390
+	.4byte gTextL2_0391
+	.4byte gTextL2_0392
+	.4byte gTextL2_0393
+	.4byte gTextL2_0394
+	.4byte gTextL2_0395
+	.4byte gTextL2_0396
+	.4byte gTextL2_0397
+	.4byte gTextL2_0398
+	.4byte gTextL2_0399
+	.4byte gTextL2_0400
+	.4byte gTextL2_0401
+	.4byte gTextL2_0402
+	.4byte gTextL2_0403
+	.4byte gTextL2_0404
+	.4byte gTextL2_0405
+	.4byte gTextL2_0406
+	.4byte gTextL2_0407
+	.4byte gTextL2_0408
+	.4byte gTextL2_0409
+	.4byte gTextL2_0410
+	.4byte gTextL2_0411
+	.4byte gTextL2_0412
+	.4byte gTextL2_0413
+	.4byte gTextL2_0414
+	.4byte gTextL2_0415
+	.4byte gTextL2_0416
+	.4byte gTextL2_0417
+	.4byte gTextL2_0418
+	.4byte gTextL2_0419
+	.4byte gTextL2_0420
+	.4byte gTextL2_0421
+	.4byte gTextL2_0422
+	.4byte gTextL2_0423
+	.4byte gTextL2_0424
+	.4byte gTextL2_0425
+	.4byte gTextL2_0426
+	.4byte gTextL2_0427
+	.4byte gTextL2_0428
+	.4byte gTextL2_0429
+	.4byte gTextL2_0430
+	.4byte gTextL2_0431
+	.4byte gTextL2_0432
+	.4byte gTextL2_0433
+	.4byte gTextL2_0434
+	.4byte gTextL2_0435
+	.4byte gTextL2_0436
+	.4byte gTextL2_0437
+	.4byte gTextL2_0438
+	.4byte gTextL2_0439
+	.4byte gTextL2_0440
+	.4byte gTextL2_0441
+	.4byte gTextL2_0442
+	.4byte gTextL2_0443
+	.4byte gTextL2_0444
+	.4byte gTextL2_0445
+	.4byte gTextL2_0446
+	.4byte gTextL2_0447
+	.4byte gTextL2_0448
+	.4byte gTextL2_0449
+	.4byte gTextL2_0450
+	.4byte gTextL2_0451
+	.4byte gTextL2_0452
+	.4byte gTextL2_0453
+	.4byte gTextL2_0454
+	.4byte gTextL2_0455
+	.4byte gTextL2_0456
+	.4byte gTextL2_0457
+	.4byte gTextL2_0458
+	.4byte gTextL2_0459
+	.4byte gTextL2_0460
+	.4byte gTextL2_0461
+	.4byte gTextL2_0462
+	.4byte gTextL2_0463
+	.4byte gTextL2_0464
+	.4byte gTextL2_0465
+	.4byte gTextL2_0466
+	.4byte gTextL2_0467
+	.4byte gTextL2_0468
+	.4byte gTextL2_0469
+	.4byte gTextL2_0470
+	.4byte gTextL2_0471
+	.4byte gTextL2_0472
+	.4byte gTextL2_0473
+	.4byte gTextL2_0474
+	.4byte gTextL2_0475
+	.4byte gTextL2_0476
+	.4byte gTextL2_0477
+	.4byte gTextL2_0478
+	.4byte gTextL2_0479
+	.4byte gTextL2_0480
+	.4byte gTextL2_0481
+	.4byte gTextL2_0482
+	.4byte gTextL2_0483
+	.4byte gTextL2_0484
+	.4byte gTextL2_0485
+	.4byte gTextL2_0486
+	.4byte gTextL2_0487
+	.4byte gTextL2_0488
+	.4byte gTextL2_0489
+	.4byte gTextL2_0490
+	.4byte gTextL2_0491
+	.4byte gTextL2_0492
+	.4byte gTextL2_0493
+	.4byte gTextL2_0494
+	.4byte gTextL2_0495
+	.4byte gTextL2_0496
+	.4byte gTextL2_0497
+	.4byte gTextL2_0498
+	.4byte gTextL2_0499
+	.4byte gTextL2_0500
+	.4byte gTextL2_0501
+	.4byte gTextL2_0502
+	.4byte gTextL2_0503
+	.4byte gTextL2_0504
+	.4byte gTextL2_0505
+	.4byte gTextL2_0506
+	.4byte gTextL2_0507
+	.4byte gTextL2_0508
+	.4byte gTextL2_0509
+	.4byte gTextL2_0510
+	.4byte gTextL2_0511
+	.4byte gTextL2_0512
+	.4byte gTextL2_0513
+	.4byte gTextL2_0514
+	.4byte gTextL2_0515
+	.4byte gTextL2_0516
+	.4byte gTextL2_0517
+	.4byte gTextL2_0518
+	.4byte gTextL2_0519
+	.4byte gTextL2_0520
+	.4byte gTextL2_0521
+	.4byte gTextL2_0522
+	.4byte gTextL2_0523
+	.4byte gTextL2_0524
+	.4byte gTextL2_0525
+	.4byte gTextL2_0526
+	.4byte gTextL2_0527
+	.4byte gTextL2_0528
+	.4byte gTextL2_0529
+	.4byte gTextL2_0530
+	.4byte gTextL2_0531
+	.4byte gTextL2_0532
+	.4byte gTextL2_0533
+	.4byte gTextL2_0534
+	.4byte gTextL2_0535
+	.4byte gTextL2_0536
+	.4byte gTextL2_0537
+	.4byte gTextL2_0538
+	.4byte gTextL2_0539
+	.4byte gTextL2_0540
+	.4byte gTextL2_0541
+	.4byte gTextL2_0542
+	.4byte gTextL2_0543
+	.4byte gTextL2_0544
+	.4byte gTextL2_0545
+	.4byte gTextL2_0546
+	.4byte gTextL2_0547
+	.4byte gTextL2_0548
+	.4byte gTextL2_0549
+	.4byte gTextL2_0550
+	.4byte gTextL2_0551
+	.4byte gTextL2_0552
+	.4byte gTextL2_0553
+	.4byte gTextL2_0554
+	.4byte gTextL2_0555
+	.4byte gTextL2_0556
+	.4byte gTextL2_0557
+	.4byte gTextL2_0558
+	.4byte gTextL2_0559
+	.4byte gTextL2_0560
+	.4byte gTextL2_0561
+	.4byte gTextL2_0562
+	.4byte gTextL2_0563
+	.4byte gTextL2_0564
+	.4byte gTextL2_0565
+	.4byte gTextL2_0566
+	.4byte gTextL2_0567
+	.4byte gTextL2_0568
+	.4byte gTextL2_0569
+	.4byte gTextL2_0570
+	.4byte gTextL2_0571
+	.4byte gTextL2_0572
+	.4byte gTextL2_0573
+	.4byte gTextL2_0574
+	.4byte gTextL2_0575
+	.4byte gTextL2_0576
+	.4byte gTextL2_0577
+	.4byte gTextL2_0578
+	.4byte gTextL2_0579
+	.4byte gTextL2_0580
+	.4byte gTextL2_0581
+	.4byte gTextL2_0582
+	.4byte gTextL2_0583
+	.4byte gTextL2_0584
+	.4byte gTextL2_0585
+	.4byte gTextL2_0586
+	.4byte gTextL2_0587
+	.4byte gTextL2_0588
+	.4byte gTextL2_0589
+	.4byte gTextL2_0590
+	.4byte gTextL2_0591
+	.4byte gTextL2_0592
+	.4byte gTextL2_0593
+	.4byte gTextL2_0594
+	.4byte gTextL2_0595
+	.4byte gTextL2_0596
+	.4byte gTextL2_0597
+	.4byte gTextL2_0598
+	.4byte gTextL2_0599
+	.4byte gTextL2_0600
+	.4byte gTextL2_0601
+	.4byte gTextL2_0602
+	.4byte gTextL2_0603
+	.4byte gTextL2_0604
+	.4byte gTextL2_0605
+	.4byte gTextL2_0606
+	.4byte gTextL2_0607
+	.4byte gTextL2_0608
+	.4byte gTextL2_0609
+	.4byte gTextL2_0610
+	.4byte gTextL2_0611
+	.4byte gTextL2_0612
+	.4byte gTextL2_0613
+	.4byte gTextL2_0614
+	.4byte gTextL2_0615
+	.4byte gTextL2_0616
+	.4byte gTextL2_0617
+	.4byte gTextL2_0618
+	.4byte gTextL2_0619
+	.4byte gTextL2_0620
+	.4byte gTextL2_0621
+	.4byte gTextL2_0622
+	.4byte gTextL2_0623
+	.4byte gTextL2_0624
+	.4byte gTextL2_0625
+	.4byte gTextL2_0626
+	.4byte gTextL2_0627
+	.4byte gTextL2_0628
+	.4byte gTextL2_0629
+	.4byte gTextL2_0630
+	.4byte gTextL2_0631
+	.4byte gTextL2_0632
+	.4byte gTextL2_0633
+	.4byte gTextL2_0634
+	.4byte gTextL2_0635
+	.4byte gTextL2_0636
+	.4byte gTextL2_0637
+	.4byte gTextL2_0638
+	.4byte gTextL2_0639
+	.4byte gTextL2_0640
+	.4byte gTextL2_0641
+	.4byte gTextL2_0642
+	.4byte gTextL2_0643
+	.4byte gTextL2_0644
+	.4byte gTextL2_0645
+	.4byte gTextL2_0646
+	.4byte gTextL2_0647
+	.4byte gTextL2_0648
+	.4byte gTextL2_0649
+	.4byte gTextL2_0650
+	.4byte gTextL2_0651
+	.4byte gTextL2_0652
+	.4byte gTextL2_0653
+	.4byte gTextL2_0654
+	.4byte gTextL2_0655
+	.4byte gTextL2_0656
+	.4byte gTextL2_0657
+	.4byte gTextL2_0658
+	.4byte gTextL2_0659
+	.4byte gTextL2_0660
+	.4byte gTextL2_0661
+	.4byte gTextL2_0662
+	.4byte gTextL2_0663
+	.4byte gTextL2_0664
+	.4byte gTextL2_0665
+	.4byte gTextL2_0666
+	.4byte gTextL2_0667
+	.4byte gTextL2_0668
+	.4byte gTextL2_0669
+	.4byte gTextL2_0670
+	.4byte gTextL2_0671
+	.4byte gTextL2_0672
+	.4byte gTextL2_0673
+	.4byte gTextL2_0674
+	.4byte gTextL2_0675
+	.4byte gTextL2_0676
+	.4byte gTextL2_0677
+	.4byte gTextL2_0678
+	.4byte gTextL2_0679
+	.4byte gTextL2_0680
+	.4byte gTextL2_0681
+	.4byte gTextL2_0682
+	.4byte gTextL2_0683
+	.4byte gTextL2_0684
+	.4byte gTextL2_0685
+	.4byte gTextL2_0686
+	.4byte gTextL2_0687
+	.4byte gTextL2_0688
+	.4byte gTextL2_0689
+	.4byte gTextL2_0690
+	.4byte gTextL2_0691
+	.4byte gTextL2_0692
+	.4byte gTextL2_0693
+	.4byte gTextL2_0694
+	.4byte gTextL2_0695
+	.4byte gTextL2_0696
+	.4byte gTextL2_0697
+	.4byte gTextL2_0698
+	.4byte gTextL2_0699
+	.4byte gTextL2_0700
+	.4byte gTextL2_0701
+	.4byte gTextL2_0702
+	.4byte gTextL2_0703
+	.4byte gTextL2_0704
+	.4byte gTextL2_0705
+	.4byte gTextL2_0706
+	.4byte gTextL2_0707
+	.4byte gTextL2_0708
+	.4byte gTextL2_0709
+	.4byte gTextL2_0710
+	.4byte gTextL2_0711
+	.4byte gTextL2_0712
+	.4byte gTextL2_0713
+	.4byte gTextL2_0714
+	.4byte gTextL2_0715
+	.4byte gTextL2_0716
+	.4byte gTextL2_0717
+	.4byte gTextL2_0718
+	.4byte gTextL2_0719
+	.4byte gTextL2_0720
+	.4byte gTextL2_0721
+	.4byte gTextL2_0722
+	.4byte gTextL2_0723
+	.4byte gTextL2_0724
+	.4byte gTextL2_0725
+	.4byte gTextL2_0726
+	.4byte gTextL2_0727
+	.4byte gTextL2_0728
+	.4byte gTextL2_0729
+	.4byte gTextL2_0730
+	.4byte gTextL2_0731
+	.4byte gTextL2_0732
+	.4byte gTextL2_0733
+	.4byte gTextL2_0734
+	.4byte gTextL2_0735
+	.4byte gTextL2_0736
+	.4byte gTextL2_0737
+	.4byte gTextL2_0738
+	.4byte gTextL2_0739
+	.4byte gTextL2_0740
+	.4byte gTextL2_0741
+	.4byte gTextL2_0742
+	.4byte gTextL2_0743
+	.4byte gTextL2_0744
+	.4byte gTextL2_0745
+	.4byte gTextL2_0746
+	.4byte gTextL2_0747
+	.4byte gTextL2_0748
+	.4byte gTextL2_0749
+	.4byte gTextL2_0750
+	.4byte gTextL2_0751
+	.4byte gTextL2_0752
+	.4byte gTextL2_0753
+	.4byte gTextL2_0754
+	.4byte gTextL2_0755
+	.4byte gTextL2_0756
+	.4byte gTextL2_0757
+	.4byte gTextL2_0758
+	.4byte gTextL2_0759
+	.4byte gTextL2_0760
+	.4byte gTextL2_0761
+	.4byte gTextL2_0762
+	.4byte gTextL2_0763
+	.4byte gTextL2_0764
+	.4byte gTextL2_0765
+	.4byte gTextL2_0766
+	.4byte gTextL2_0767
+	.4byte gTextL2_0768
+	.4byte gTextL2_0769
+	.4byte gTextL2_0770
+	.4byte gTextL2_0771
+	.4byte gTextL2_0772
+	.4byte gTextL2_0773
+	.4byte gTextL2_0774
+	.4byte gTextL2_0775
+	.4byte gTextL2_0776
+	.4byte gTextL2_0777
+	.4byte gTextL2_0778
+	.4byte gTextL2_0779
+	.4byte gTextL2_0780
+	.4byte gTextL2_0781
+	.4byte gTextL2_0782
+	.4byte gTextL2_0783
+	.4byte gTextL2_0784
+	.4byte gTextL2_0785
+	.4byte gTextL2_0786
+	.4byte gTextL2_0787
+	.4byte gTextL2_0788
+	.4byte gTextL2_0789
+	.4byte gTextL2_0790
+	.4byte gTextL2_0791
+	.4byte gTextL2_0792
+	.4byte gTextL2_0793
+	.4byte gTextL2_0794
+	.4byte gTextL2_0795
+	.4byte gTextL2_0796
+	.4byte gTextL2_0797
+	.4byte gTextL2_0798
+	.4byte gTextL2_0799
+	.4byte gTextL2_0800
+	.4byte gTextL2_0801
+	.4byte gTextL2_0802
+	.4byte gTextL2_0803
+	.4byte gTextL2_0804
+	.4byte gTextL2_0805
+	.4byte gTextL2_0806
+	.4byte gTextL2_0807
+	.4byte gTextL2_0808
+	.4byte gTextL2_0809
+	.4byte gTextL2_0810
+	.4byte gTextL2_0811
+	.4byte gTextL2_0812
+	.4byte gTextL2_0813
+	.4byte gTextL2_0814
+	.4byte gTextL2_0815
+	.4byte gTextL2_0816
+	.4byte gTextL2_0817
+	.4byte gTextL2_0818
+	.4byte gTextL2_0819
+	.4byte gTextL2_0820
+	.4byte gTextL2_0821
+	.4byte gTextL2_0822
+	.4byte gTextL2_0823
+	.4byte gTextL2_0824
+	.4byte gTextL2_0825
+	.4byte gTextL2_0826
+	.4byte gTextL2_0827
+	.4byte gTextL2_0828
+	.4byte gTextL2_0829
+	.4byte gTextL2_0830
+	.4byte gTextL2_0831
+	.4byte gTextL2_0832
+	.4byte gTextL2_0833
+	.4byte gTextL2_0834
+	.4byte gTextL2_0835
+	.4byte gTextL2_0836
+	.4byte gTextL2_0837
+	.4byte gTextL2_0838
+	.4byte gTextL2_0839
+	.4byte gTextL2_0840
+	.4byte gTextL2_0841
+	.4byte gTextL2_0842
+	.4byte gTextL2_0843
+	.4byte gTextL2_0844
+	.4byte gTextL2_0845
+	.4byte gTextL2_0846
+	.4byte gTextL2_0847
+	.4byte gTextL2_0848
+	.4byte gTextL2_0849
+	.4byte gTextL2_0850
+	.4byte gTextL2_0851
+	.4byte gTextL2_0852
+	.4byte gTextL2_0853
+	.4byte gTextL2_0854
+	.4byte gTextL2_0855
+	.4byte gTextL2_0856
+	.4byte gTextL2_0857
+	.4byte gTextL2_0858
+	.4byte gTextL2_0859
+	.4byte gTextL2_0860
+	.4byte gTextL2_0861
+	.4byte gTextL2_0862
+	.4byte gTextL2_0863
+	.4byte gTextL2_0864
+	.4byte gTextL2_0865
+	.4byte gTextL2_0866
+	.4byte gTextL2_0867
+	.4byte gTextL2_0868
+	.4byte gTextL2_0869
+	.4byte gTextL2_0870
+	.4byte gTextL2_0871
+	.4byte gTextL2_0872
+	.4byte gTextL2_0873
+	.4byte gTextL2_0874
+	.4byte gTextL2_0875
+	.4byte gTextL2_0876
+	.4byte gTextL2_0877
+	.4byte gTextL2_0878
+	.4byte gTextL2_0879
+	.4byte gTextL2_0880
+	.4byte gTextL2_0881
+	.4byte gTextL2_0882
+	.4byte gTextL2_0883
+	.4byte gTextL2_0884
+	.4byte gTextL2_0885
+	.4byte gTextL2_0886
+	.4byte gTextL2_0887
+	.4byte gTextL2_0888
+	.4byte gTextL2_0889
+	.4byte gTextL2_0890
+	.4byte gTextL2_0891
+	.4byte gTextL2_0892
+	.4byte gTextL2_0893
+	.4byte gTextL2_0894
+	.4byte gTextL2_0895
+	.4byte gTextL2_0896
+	.4byte gTextL2_0897
+	.4byte gTextL2_0898
+	.4byte gTextL2_0899
+	.4byte gTextL2_0900
+	.4byte gTextL2_0901
+	.4byte gTextL2_0902
+	.4byte gTextL2_0903
+	.4byte gTextL2_0904
+	.4byte gTextL2_0905
+	.4byte gTextL2_0906
+	.4byte gTextL2_0907
+	.4byte gTextL2_0908
+	.4byte gTextL2_0909
+	.4byte gTextL2_0910
+	.4byte gTextL2_0911
+	.4byte gTextL2_0912
+	.4byte gTextL2_0913
+	.4byte gTextL2_0914
+	.4byte gTextL2_0915
+	.4byte gTextL2_0916
+	.4byte gTextL2_0917
+	.4byte gTextL2_0918
+	.4byte gTextL2_0919
+	.4byte gTextL2_0920
+	.4byte gTextL2_0921
+	.4byte gTextL2_0922
+	.4byte gTextL2_0923
+	.4byte gTextL2_0924
+	.4byte gTextL2_0925
+	.4byte gTextL2_0926
+	.4byte gTextL2_0927
+	.4byte gTextL2_0928
+	.4byte gTextL2_0929
+	.4byte gTextL2_0930
+	.4byte gTextL2_0931
+	.4byte gTextL2_0932
+	.4byte gTextL2_0933
+	.4byte gTextL2_0934
+	.4byte gTextL2_0935
+	.4byte gTextL2_0936
+	.4byte gTextL2_0937
+	.4byte gTextL2_0938
+	.4byte gTextL2_0939
+	.4byte gTextL2_0940
+	.4byte gTextL2_0941
+	.4byte gTextL2_0942
+	.4byte gTextL2_0943
+	.4byte gTextL2_0944
+	.4byte gTextL2_0945
+	.4byte gTextL2_0946
+	.4byte gTextL2_0947
+	.4byte gTextL2_0948
+	.4byte gTextL2_0949
+	.4byte gTextL2_0950
+	.4byte gTextL2_0951
+	.4byte gTextL2_0952
+	.4byte gTextL2_0953
+	.4byte gTextL2_0954
+	.4byte gTextL2_0955
+	.4byte gTextL2_0956
+	.4byte gTextL2_0957
+	.4byte gTextL2_0958
+	.4byte gTextL2_0959
+	.4byte gTextL2_0960
+	.4byte gTextL2_0961
+	.4byte gTextL2_0962
+	.4byte gTextL2_0963
+	.4byte gTextL2_0964
+	.4byte gTextL2_0965
+	.4byte gTextL2_0966
+	.4byte gTextL2_0967
+	.4byte gTextL2_0968
+	.4byte gTextL2_0969
+	.4byte gTextL2_0970
+	.4byte gTextL2_0971
+	.4byte gTextL2_0972
+	.4byte gTextL2_0973
+	.4byte gTextL2_0974
+	.4byte gTextL2_0975
+	.4byte gTextL2_0976
+	.4byte gTextL2_0977
+	.4byte gTextL2_0978
+	.4byte gTextL2_0979
+	.4byte gTextL2_0980
+	.4byte gTextL2_0981
+	.4byte gTextL2_0982
+	.4byte gTextL2_0983
+	.4byte gTextL2_0984
+	.4byte gTextL2_0985
+	.4byte gTextL2_0986
+	.4byte gTextL2_0987
+	.4byte gTextL2_0988
+	.4byte gTextL2_0989
+	.4byte gTextL2_0990
+	.4byte gTextL2_0991
+	.4byte gTextL2_0992
+	.4byte gTextL2_0993
+	.4byte gTextL2_0994
+	.4byte gTextL2_0995
+	.4byte gTextL2_0996
+	.4byte gTextL2_0997
+	.4byte gTextL2_0998
+	.4byte gTextL2_0999
+	.4byte gTextL2_1000
+	.4byte gTextL2_1001
+	.4byte gTextL2_1002
+	.4byte gTextL2_1003
+	.4byte gTextL2_1004
+	.4byte gTextL2_1005
+	.4byte gTextL2_1006
+	.4byte gTextL2_1007
+	.4byte gTextL2_1008
+	.4byte gTextL2_1009
+	.4byte gTextL2_1010
+	.4byte gTextL2_1011
+	.4byte gTextL2_1012
+	.4byte gTextL2_1013
+	.4byte gTextL2_1014
+	.4byte gTextL2_1015
+	.4byte gTextL2_1016
+	.4byte gTextL2_1017
+	.4byte gTextL2_1018
+	.4byte gTextL2_1019
+	.4byte gTextL2_1020
+	.4byte gTextL2_1021
+	.4byte gTextL2_1022
+	.4byte gTextL2_1023
+	.4byte gTextL2_1024
+	.4byte gTextL2_1025
+	.4byte gTextL2_1026
+	.4byte gTextL2_1027
+	.4byte gTextL2_1028
+	.4byte gTextL2_1029
+	.4byte gTextL2_1030
+	.4byte gTextL2_1031
+	.4byte gTextL2_1032
+	.4byte gTextL2_1033
+	.4byte gTextL2_1034
+	.4byte gTextL2_1035
+	.4byte gTextL2_1036
+	.4byte gTextL2_1037
+	.4byte gTextL2_1038
+	.4byte gTextL2_1039
+	.4byte gTextL2_1040
+	.4byte gTextL2_1041
+	.4byte gTextL2_1042
+	.4byte gTextL2_1043
+	.4byte gTextL2_1044
+	.4byte gTextL2_1045
+	.4byte gTextL2_1046
+	.4byte gTextL2_1047
+	.4byte gTextL2_1048
+	.4byte gTextL2_1049
+	.4byte gTextL2_1050
+	.4byte gTextL2_1051
+	.4byte gTextL2_1052
+	.4byte gTextL2_1053
+	.4byte gTextL2_1054
+	.4byte gTextL2_1055
+	.4byte gTextL2_1056
+	.4byte gTextL2_1057
+	.4byte gTextL2_1058
+	.4byte gTextL2_1059
+	.4byte gTextL2_1060
+	.4byte gTextL2_1061
+	.4byte gTextL2_1062
+	.4byte gTextL2_1063
+	.4byte gTextL2_1064
+	.4byte gTextL2_1065
+	.4byte gTextL2_1066
+	.4byte gTextL2_1067
+	.4byte gTextL2_1068
+	.4byte gTextL2_1069
+	.4byte gTextL2_1070
+	.4byte gTextL2_1071
+	.4byte gTextL2_1072
+	.4byte gTextL2_1073
+	.4byte gTextL2_1074
+	.4byte gTextL2_1075
+	.4byte gTextL2_1076
+	.4byte gTextL2_1077
+	.4byte gTextL2_1078
+	.4byte gTextL2_1079
+	.4byte gTextL2_1080
+	.4byte gTextL2_1081
+	.4byte gTextL2_1082
+	.4byte gTextL2_1083
+	.4byte gTextL2_1084
+	.4byte gTextL2_1085
+	.4byte gTextL2_1086
+	.4byte gTextL2_1087
+	.4byte gTextL2_1088
+	.4byte gTextL2_1089
+	.4byte gTextL2_1090
+	.4byte gTextL2_1091
+	.4byte gTextL2_1092
+	.4byte gTextL2_1093
+	.4byte gTextL2_1094
+	.4byte gTextL2_1095
+	.4byte gTextL2_1096
+	.4byte gTextL2_1097
+	.4byte gTextL2_1098
+	.4byte gTextL2_1099
+	.4byte gTextL2_1100
+	.4byte gTextL2_1101
+	.4byte gTextL2_1102
+	.4byte gTextL2_1103
+	.4byte gTextL2_1104
+	.4byte gTextL2_1105
+	.4byte gTextL2_1106
+	.4byte gTextL2_1107
+	.4byte gTextL2_1108
+	.4byte gTextL2_1109
+	.4byte gTextL2_1110
+	.4byte gTextL2_1111
+	.4byte gTextL2_1112
+	.4byte gTextL2_1113
+	.4byte gTextL2_1114
+	.4byte gTextL2_1115
+	.4byte gTextL2_1116
+	.4byte gTextL2_1117
+	.4byte gTextL2_1118
+	.4byte gTextL2_1119
+	.4byte gTextL2_1120
+	.4byte gTextL2_1121
+	.4byte gTextL2_1122
+	.4byte gTextL2_1123
+	.4byte gTextL2_1124
+	.4byte gTextL2_1125
+	.4byte gTextL2_1126
+	.4byte gTextL2_1127
+	.4byte gTextL2_1128
+	.4byte gTextL2_1129
+	.4byte gTextL2_1130
+	.4byte gTextL2_1131
+	.4byte gTextL2_1132
+	.4byte gTextL2_1133
+	.4byte gTextL2_1134
+	.4byte gTextL2_1135
+	.4byte gTextL2_1136
+	.4byte gTextL2_1137
+	.4byte gTextL2_1138
+	.4byte gTextL2_1139
+	.4byte gTextL2_1140
+	.4byte gTextL2_1141
+	.4byte gTextL2_1142
+	.4byte gTextL2_1143
+	.4byte gTextL2_1144
+	.4byte gTextL2_1145
+	.4byte gTextL2_1146
+	.4byte gTextL2_1147
+	.4byte gTextL2_1148
+	.4byte gTextL2_1149
+	.4byte gTextL2_1150
+	.4byte gTextL2_1151
+	.4byte gTextL2_1152
+	.4byte gTextL2_1153
+	.4byte gTextL2_1154
+	.4byte gTextL2_1155
+	.4byte gTextL2_1156
+	.4byte gTextL2_1157
+	.4byte gTextL2_1158
+	.4byte gTextL2_1159
+	.4byte gTextL2_1160
+	.4byte gTextL2_1161
+	.4byte gTextL2_1162
+	.4byte gTextL2_1163
+	.4byte gTextL2_1164
+	.4byte gTextL2_1165
+	.4byte gTextL2_1166
+	.4byte gTextL2_1167
+	.4byte gTextL2_1168
+	.4byte gTextL2_1169
+	.4byte gTextL2_1170
+	.4byte gTextL2_1171
+	.4byte gTextL2_1172
+	.4byte gTextL2_1173
+	.4byte gTextL2_1174
+	.4byte gTextL2_1175
+	.4byte gTextL2_1176
+	.4byte gTextL2_1177
+	.4byte gTextL2_1178
+	.4byte gTextL2_1179
+	.4byte gTextL2_1180
+	.4byte gTextL2_1181
+	.4byte gTextL2_1182
+	.4byte gTextL2_1183
+	.4byte gTextL2_1184
+	.4byte gTextL2_1185
+	.4byte gTextL2_1186
+	.4byte gTextL2_1187
+	.4byte gTextL2_1188
+	.4byte gTextL2_1189
+	.4byte gTextL2_1190
+	.4byte gTextL2_1191
+	.4byte gTextL2_1192
+	.4byte gTextL2_1193
+	.4byte gTextL2_1194
+	.4byte gTextL2_1195
+	.4byte gTextL2_1196
+	.4byte gTextL2_1197
+	.4byte gTextL2_1198
+	.4byte gTextL2_1199
+	.4byte gTextL2_1200
+	.4byte gTextL2_1201
+	.4byte gTextL2_1202
+	.4byte gTextL2_1203
+	.4byte gTextL2_1204
+	.4byte gTextL2_1205
+	.4byte gTextL2_1206
+	.4byte gTextL2_1207
+	.4byte gTextL2_1208
+	.4byte gTextL2_1209
+	.4byte gTextL2_1210
+	.4byte gTextL2_1211
+	.4byte gTextL2_1212
+	.4byte gTextL2_1213
+	.4byte gTextL2_1214
+	.4byte gTextL2_1215
+	.4byte gTextL2_1216
+	.4byte gTextL2_1217
+	.4byte gTextL2_1218
+	.4byte gTextL2_1219
+	.4byte gTextL2_1220
+	.4byte gTextL2_1221
+	.4byte gTextL2_1222
+	.4byte gTextL2_1223
+	.4byte gTextL2_1224
+	.4byte gTextL2_1225
+	.4byte gTextL2_1226
+	.4byte gTextL2_1227
+	.4byte gTextL2_1228
+	.4byte gTextL2_1229
+	.4byte gTextL2_1230
+	.4byte gTextL2_1231
+	.4byte gTextL2_1232
+	.4byte gTextL2_1233
+	.4byte gTextL2_1234
+	.4byte gTextL2_1235
+	.4byte gTextL2_1236
+	.4byte gTextL2_1237
+	.4byte gTextL2_1238
+	.4byte gTextL2_1239
+	.4byte gTextL2_1240
+	.4byte gTextL2_1241
+	.4byte gTextL2_1242
+	.4byte gTextL2_1243
+	.4byte gTextL2_1244
+	.4byte gTextL2_1245
+	.4byte gTextL2_1246
+	.4byte gTextL2_1247
+	.4byte gTextL2_1248
+	.4byte gTextL2_1249
+	.4byte gTextL2_1250
+	.4byte gTextL2_1251
+	.4byte gTextL2_1252
+	.4byte gTextL2_1253
+	.4byte gTextL2_1254
+	.4byte gTextL2_1255
+	.4byte gTextL2_1256
+	.4byte gTextL2_1257
+	.4byte gTextL2_1258
+	.4byte gTextL2_1259
+	.4byte gTextL2_1260
+	.4byte gTextL2_1261
+	.4byte gTextL2_1262
+	.4byte gTextL2_1263
+	.4byte gTextL2_1264
+	.4byte gTextL2_1265
+	.4byte gTextL2_1266
+	.4byte gTextL2_1267
+	.4byte gTextL2_1268
+	.4byte gTextL2_1269
+	.4byte gTextL2_1270
+	.4byte gTextL2_1271
+	.4byte gTextL2_1272
+	.4byte gTextL2_1273
+	.4byte gTextL2_1274
+	.4byte gTextL2_1275
+	.4byte gTextL2_1276
+	.4byte gTextL2_1277
+	.4byte gTextL2_1278
+	.4byte gTextL2_1279
+	.4byte gTextL2_1280
+	.4byte gTextL2_1281
+	.4byte gTextL2_1282
+	.4byte gTextL2_1283
+	.4byte gTextL2_1284
+	.4byte gTextL2_1285
+	.4byte gTextL2_1286
+	.4byte gTextL2_1287
+	.4byte gTextL2_1288
+	.4byte gTextL2_1289
+	.4byte gTextL2_1290
+	.4byte gTextL2_1291
+	.4byte gTextL2_1292
+	.4byte gTextL2_1293
+	.4byte gTextL2_1294
+	.4byte gTextL2_1295
+	.4byte gTextL2_1296
+	.4byte gTextL2_1297
+	.4byte gTextL2_1298
+	.4byte gTextL2_1299
+	.4byte gTextL2_1300
+	.4byte gTextL2_1301
+	.4byte gTextL2_1302
+	.4byte gTextL2_1303
+	.4byte gTextL2_1304
+	.4byte gTextL2_1305
+	.4byte gTextL2_1306
+	.4byte gTextL2_1307
+	.4byte gTextL2_1308
+	.4byte gTextL2_1309
+	.4byte gTextL2_1310
+	.4byte gTextL2_1311
+	.4byte gTextL2_1312
+	.4byte gTextL2_1313
+	.4byte gTextL2_1314
+	.4byte gTextL2_1315
+	.4byte gTextL2_1316
+	.4byte gTextL2_1317
+	.4byte gTextL2_1318
+	.4byte gTextL2_1319
+	.4byte gTextL2_1320
+	.4byte gTextL2_1321
+	.4byte gTextL2_1322
+	.4byte gTextL2_1323
+	.4byte gTextL2_1324
+	.4byte gTextL2_1325
+	.4byte gTextL2_1326
+	.4byte gTextL2_1327
+	.4byte gTextL2_1328
+	.4byte gTextL2_1329
+	.4byte gTextL2_1330
+	.4byte gTextL2_1331
+	.4byte gTextL2_1332
+	.4byte gTextL2_1333
+	.4byte gTextL2_1334
+	.4byte gTextL2_1335
+	.4byte gTextL2_1336
+	.4byte gTextL2_1337
+	.4byte gTextL2_1338
+	.4byte gTextL2_1339
+	.4byte gTextL2_1340
+	.4byte gTextL2_1341
+	.4byte gTextL2_1342
+	.4byte gTextL2_1343
+	.4byte gTextL2_1344
+	.4byte gTextL2_1345
+	.4byte gTextL2_1346
+	.4byte gTextL2_1347
+	.4byte gTextL2_1348
+	.4byte gTextL2_1349
+	.4byte gTextL2_1350
+	.4byte gTextL2_1351
+	.4byte gTextL2_1352
+	.4byte gTextL2_1353
+	.4byte gTextL2_1354
+	.4byte gTextL2_1355
+	.4byte gTextL2_1356
+	.4byte gTextL2_1357
+	.4byte gTextL2_1358
+	.4byte gTextL2_1359
+	.4byte gTextL2_1360
+	.4byte gTextL2_1361
+	.4byte gTextL2_1362
+	.4byte gTextL2_1363
+	.4byte gTextL2_1364
+	.4byte gTextL2_1365
+	.4byte gTextL2_1366
+	.4byte gTextL2_1367
+	.4byte gTextL2_1368
+	.4byte gTextL2_1369
+	.4byte gTextL2_1370
+	.4byte gTextL2_1371
+	.4byte gTextL2_1372
+	.4byte gTextL2_1373
+	.4byte gTextL2_1374
+	.4byte gTextL2_1375
+	.4byte gTextL2_1376
+	.4byte gTextL2_1377
+	.4byte gTextL2_1378
+	.4byte gTextL2_1379
+	.4byte gTextL2_1380
+	.4byte gTextL2_1381
+	.4byte gTextL2_1382
+	.4byte gTextL2_1383
+	.4byte gTextL2_1384
+	.4byte gTextL2_1385
+	.4byte gTextL2_1386
+	.4byte gTextL2_1387
+	.4byte gTextL2_1388
+	.4byte gTextL2_1389
+	.4byte gTextL2_1390
+	.4byte gTextL2_1391
+	.4byte gTextL2_1392
+	.4byte gTextL2_1393
+	.4byte gTextL2_1394
+	.4byte gTextL2_1395
+	.4byte gTextL2_1396
+	.4byte gTextL2_1397
+	.4byte gTextL2_1398
+	.4byte gTextL2_1399
+	.4byte gTextL2_1400
+	.4byte gTextL2_1401
+	.4byte gTextL2_1402
+	.4byte gTextL2_1403
+	.4byte gTextL2_1404
+	.4byte gTextL2_1405
+	.4byte gTextL2_1406
+	.4byte gTextL2_1407
+	.4byte gTextL2_1408
+	.4byte gTextL2_1409
+	.4byte gTextL2_1410
+	.4byte gTextL2_1411
+	.4byte gTextL2_1412
+	.4byte gTextL2_1413
+	.4byte gTextL2_1414
+	.4byte gTextL2_1415
+	.4byte gTextL2_1416
+	.4byte gTextL2_1417
+	.4byte gTextL2_1418
+	.4byte gTextL2_1419
+	.4byte gTextL2_1420
+	.4byte gTextL2_1421
+	.4byte gTextL2_1422
+	.4byte gTextL2_1423
+	.4byte gTextL2_1424
+	.4byte gTextL2_1425
+	.4byte gTextL2_1426
+	.4byte gTextL2_1427
+	.4byte gTextL2_1428
+	.4byte gTextL2_1429
+	.4byte gTextL2_1430
+	.4byte gTextL2_1431
+	.4byte gTextL2_1432
+	.4byte gTextL2_1433
+	.4byte gTextL2_1434
+	.4byte gTextL2_1435
+	.4byte gTextL2_1436
+	.4byte gTextL2_1437
+	.4byte gTextL2_1438
+	.4byte gTextL2_1439
+	.4byte gTextL2_1440
+	.4byte gTextL2_1441
+	.4byte gTextL2_1442
+	.4byte gTextL2_1443
+	.4byte gTextL2_1444
+	.4byte gTextL2_1445
+	.4byte gTextL2_1446
+	.4byte gTextL2_1447
+	.4byte gTextL2_1448
+	.4byte gTextL2_1449
+	.4byte gTextL2_1450
+	.4byte gTextL2_1451
+	.4byte gTextL2_1452
+	.4byte gTextL2_1453
+	.4byte gTextL2_1454
+	.4byte gTextL2_1455
+	.4byte gTextL2_1456
+	.4byte gTextL2_1457
+	.4byte gTextL2_1458
+	.4byte gTextL2_1459
+	.4byte gTextL2_1460
+	.4byte gTextL2_1461
+	.4byte gTextL2_1462
+	.4byte gTextL2_1463
+	.4byte gTextL2_1464
+	.4byte gTextL2_1465
+	.4byte gTextL2_1466
+	.4byte gTextL2_1467
+	.4byte gTextL2_1468
+	.4byte gTextL2_1469
+	.4byte gTextL2_1470
+	.4byte gTextL2_1471
+	.4byte gTextL2_1472
+	.4byte gTextL2_1473
+	.4byte gTextL2_1474
+	.4byte gTextL2_1475
+	.4byte gTextL2_1476
+	.4byte gTextL2_1477
+	.4byte gTextL2_1478
+	.4byte gTextL2_1479
+	.4byte gTextL2_1480
+	.4byte gTextL2_1481
+	.4byte gTextL2_1482
+	.4byte gTextL2_1483
+	.4byte gTextL2_1484
+	.4byte gTextL2_1485
+	.4byte gTextL2_1486
+	.4byte gTextL2_1487
+	.4byte gTextL2_1488
+	.4byte gTextL2_1489
+	.4byte gTextL2_1490
+	.4byte gTextL2_1491
+	.4byte gTextL2_1492
 	.global gUnk_0842A38C
 gUnk_0842A38C:
 	.incbin "baserom.gba", 0x42A38C, 0x348
