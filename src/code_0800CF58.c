@@ -204,6 +204,8 @@ static inline u16 D368_Level2(u8 *p) {
     }
     return 0;
 }
+/* Same as D368_Level2. The empty asm lengthens i's live range by one insn so that the table giv is allocated
+   first (r3) at the third call site, like the ROM; the two tie at priority 0.722 vs 0.717 otherwise. */
 static inline u16 D368_Level3(u8 *p) {
     s32 i;
     s32 h = (s8)p[0x6C] * 5;
@@ -2805,7 +2807,7 @@ block_882:
                 temp_r0_67 = d368_sub_0801DE60();
                 switch (temp_r0_67) {
                 default: {
-                    register s32 *pzD368 asm("r2"); register s32 *qzD368 asm("r4");
+                    register s32 *pzD368 asm("r2"); register s32 *qzD368 asm("r4"); /* ROM: the clamp-to-zero goes through the first pointer (r2), the other stores through its copy (r4) */
                     pzD368 = &((struct PlayerD368 *)arg0)->fD8;
                     var_r1_8 = *pzD368;
                     qzD368 = pzD368;
