@@ -265,3 +265,7 @@ gUnk_085175A4 0x124 3 src/code_08021DC4.c struct T22Rec226A4, reached through gU
 gUnk_08517910 0x124 3 src/code_08021DC4.c struct T22Rec226A4, reached through gUnk_0851810C; the code steps records by 0x124
 gUnk_08517C7C 0x124 2 src/code_08021DC4.c struct T22Rec226A4, reached through gUnk_0851810C; the code steps records by 0x124
 gUnk_08517EC4 0x124 2 src/code_08021DC4.c struct T22Rec226A4, reached through gUnk_0851810C; the code steps records by 0x124
+#
+# Item records: 198 records share one layout; the 96 bytes that followed are different tables (direction
+# vectors and small word tables) and were split off as gUnk_0848F9AC.
+gUnk_0848529C 0xD8 198 src/code_0807A5D4.c struct Item855D4

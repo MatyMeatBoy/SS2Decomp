@@ -2,11 +2,11 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1000" height="640" viewBox="0 0 1000 640" role="img" aria-labelledby="names-title" font-family="Segoe UI,Helvetica,Arial,sans-serif">
 <title id="names-title">Shining Soul II: function identification</title>
 <rect width="100%" height="100%" fill="#0d1117"/>
-<text x="12" y="24" fill="#e6edf3" font-size="15" font-weight="600">Function names | 69.57% of game functions identified</text>
+<text x="12" y="24" fill="#e6edf3" font-size="15" font-weight="600">Function names | 75.43% of game functions identified</text>
 <svg x="0" y="40" xmlns="http://www.w3.org/2000/svg" width="1000" height="600" viewBox="0 0 1000 600" font-family="Segoe UI,Helvetica,Arial,sans-serif">
 <rect width="100%" height="100%" fill="#0d1117"/>
 <rect x="0.0" y="0" width="818.0" height="26" fill="#161b22"/>
-<text x="6.0" y="18" fill="#e6edf3" font-size="13" font-weight="600">Game code: 1312/1884 named</text>
+<text x="6.0" y="18" fill="#e6edf3" font-size="13" font-weight="600">Game code: 1422/1884 named</text>
 <g><title>code_0807A5D4 (55020 bytes)</title>
 <rect x="0.00" y="28.00" width="163.52" height="195.50" fill="#0d1117"/>
 <rect x="1.00" y="29.00" width="127.15" height="82.18" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>ProcessItemMenuInteractionState | sub_0807C29C | confirmed  0x0807C29C  18396 bytes  [name confirmed with evidence]</title></rect>
@@ -103,14 +103,14 @@
 <rect x="121.06" y="365.18" width="13.42" height="12.34" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_0803145C | sub_0803145C | unidentified  0x0803145C  292 bytes  [no name yet]</title></rect>
 <rect x="121.06" y="377.52" width="13.42" height="12.34" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_08031580 | sub_08031580 | unidentified  0x08031580  292 bytes  [no name yet]</title></rect>
 <rect x="134.48" y="352.33" width="14.35" height="10.27" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_08033B3C | sub_08033B3C | unidentified  0x08033B3C  260 bytes  [no name yet]</title></rect>
-<rect x="148.83" y="352.33" width="13.69" height="10.27" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_0803AD74 | sub_0803AD74 | unidentified  0x0803AD74  248 bytes  [no name yet]</title></rect>
-<rect x="134.48" y="362.60" width="13.06" height="9.20" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_08035914 | sub_08035914 | unidentified  0x08035914  212 bytes  [no name yet]</title></rect>
-<rect x="134.48" y="371.81" width="13.06" height="9.03" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_08031CB8 | sub_08031CB8 | unidentified  0x08031CB8  208 bytes  [no name yet]</title></rect>
-<rect x="134.48" y="380.84" width="13.06" height="9.03" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_08031D88 | sub_08031D88 | unidentified  0x08031D88  208 bytes  [no name yet]</title></rect>
-<rect x="147.54" y="362.60" width="14.98" height="7.88" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_08031E58 | sub_08031E58 | unidentified  0x08031E58  208 bytes  [no name yet]</title></rect>
-<rect x="147.54" y="370.48" width="14.98" height="7.88" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_08031F28 | sub_08031F28 | unidentified  0x08031F28  208 bytes  [no name yet]</title></rect>
-<rect x="147.54" y="378.36" width="7.88" height="11.51" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_080359E8 | sub_080359E8 | unidentified  0x080359E8  160 bytes  [no name yet]</title></rect>
-<rect x="155.43" y="378.36" width="7.09" height="11.51" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_08035A88 | sub_08035A88 | unidentified  0x08035A88  144 bytes  [no name yet]</title></rect>
+<rect x="148.83" y="352.33" width="13.69" height="10.27" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>RunSceneMessages290And291 | sub_0803AD74 | confirmed  0x0803AD74  248 bytes  [name confirmed with evidence]</title></rect>
+<rect x="134.48" y="362.60" width="13.06" height="9.20" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>CycleAlternatingActorAnimations | sub_08035914 | confirmed  0x08035914  212 bytes  [name confirmed with evidence]</title></rect>
+<rect x="134.48" y="371.81" width="13.06" height="9.03" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>RunItemCollectionMenu9Event | sub_08031CB8 | confirmed  0x08031CB8  208 bytes  [name confirmed with evidence]</title></rect>
+<rect x="134.48" y="380.84" width="13.06" height="9.03" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>RunItemCollectionMenu8Event | sub_08031D88 | confirmed  0x08031D88  208 bytes  [name confirmed with evidence]</title></rect>
+<rect x="147.54" y="362.60" width="14.98" height="7.88" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>RunItemCollectionMenu7Event | sub_08031E58 | confirmed  0x08031E58  208 bytes  [name confirmed with evidence]</title></rect>
+<rect x="147.54" y="370.48" width="14.98" height="7.88" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>RunItemCollectionMenu2Event | sub_08031F28 | confirmed  0x08031F28  208 bytes  [name confirmed with evidence]</title></rect>
+<rect x="147.54" y="378.36" width="7.88" height="11.51" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>CycleRepeatedActorAnimationSequence | sub_080359E8 | confirmed  0x080359E8  160 bytes  [name confirmed with evidence]</title></rect>
+<rect x="155.43" y="378.36" width="7.09" height="11.51" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>CycleTimedActorAnimations | sub_08035A88 | confirmed  0x08035A88  144 bytes  [name confirmed with evidence]</title></rect>
 <rect x="1.0" y="224.5" width="78.8" height="13" fill="#0d1117" fill-opacity="0.75"/>
 <text x="4.0" y="234.5" fill="#e6edf3" font-size="10">code_0802FEA0</text>
 </g>
@@ -163,7 +163,7 @@
 <rect x="158.57" y="555.85" width="1.97" height="1.15" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>ReturnOneVariant1 | sub_08068868 | confirmed  0x08068868  4 bytes  [name confirmed with evidence]</title></rect>
 <rect x="160.55" y="553.55" width="1.97" height="1.15" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>ReturnOneVariant2 | sub_0806886C | confirmed  0x0806886C  4 bytes  [name confirmed with evidence]</title></rect>
 <rect x="160.55" y="554.70" width="1.97" height="1.15" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>ReturnOneVariant3 | sub_08068870 | confirmed  0x08068870  4 bytes  [name confirmed with evidence]</title></rect>
-<rect x="160.55" y="555.85" width="1.97" height="1.15" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_080688F4 | sub_080688F4 | unidentified  0x080688F4  4 bytes  [no name yet]</title></rect>
+<rect x="160.55" y="555.85" width="1.97" height="1.15" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>NoOpVariant9 | sub_080688F4 | confirmed  0x080688F4  4 bytes  [name confirmed with evidence]</title></rect>
 <rect x="1.0" y="391.9" width="78.8" height="13" fill="#0d1117" fill-opacity="0.75"/>
 <text x="4.0" y="401.9" fill="#e6edf3" font-size="10">code_08068670</text>
 </g>
@@ -307,22 +307,22 @@
 <rect x="284.69" y="379.86" width="14.95" height="11.79" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_0803F210 | sub_0803F210 | unidentified  0x0803F210  312 bytes  [no name yet]</title></rect>
 <rect x="299.64" y="379.86" width="12.84" height="11.79" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_0803F348 | sub_0803F348 | unidentified  0x0803F348  268 bytes  [no name yet]</title></rect>
 <rect x="312.48" y="379.86" width="11.88" height="11.79" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>RunTempleOfLightAttendantDialogue | sub_0803C3C8 | confirmed  0x0803C3C8  248 bytes  [name confirmed with evidence]</title></rect>
-<rect x="284.69" y="391.65" width="10.60" height="12.36" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_0803D36C | sub_0803D36C | unidentified  0x0803D36C  232 bytes  [no name yet]</title></rect>
-<rect x="295.29" y="391.65" width="9.69" height="12.36" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_08043A4C | sub_08043A4C | unidentified  0x08043A4C  212 bytes  [no name yet]</title></rect>
-<rect x="304.98" y="391.65" width="9.69" height="12.36" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_08043B20 | sub_08043B20 | unidentified  0x08043B20  212 bytes  [no name yet]</title></rect>
-<rect x="314.67" y="391.65" width="9.69" height="12.36" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_08043BF4 | sub_08043BF4 | unidentified  0x08043BF4  212 bytes  [no name yet]</title></rect>
-<rect x="284.69" y="404.02" width="11.45" height="10.46" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_08043CC8 | sub_08043CC8 | unidentified  0x08043CC8  212 bytes  [no name yet]</title></rect>
-<rect x="284.69" y="414.48" width="11.45" height="10.46" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_08043D9C | sub_08043D9C | unidentified  0x08043D9C  212 bytes  [no name yet]</title></rect>
-<rect x="284.69" y="424.94" width="11.45" height="10.46" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_08043E70 | sub_08043E70 | unidentified  0x08043E70  212 bytes  [no name yet]</title></rect>
-<rect x="296.14" y="404.02" width="9.41" height="12.73" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_08043F44 | sub_08043F44 | unidentified  0x08043F44  212 bytes  [no name yet]</title></rect>
-<rect x="305.55" y="404.02" width="9.41" height="12.73" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_08044018 | sub_08044018 | unidentified  0x08044018  212 bytes  [no name yet]</title></rect>
-<rect x="314.95" y="404.02" width="9.41" height="12.73" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_080440EC | sub_080440EC | unidentified  0x080440EC  212 bytes  [no name yet]</title></rect>
-<rect x="296.14" y="416.75" width="12.48" height="9.60" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_08044318 | sub_08044318 | unidentified  0x08044318  212 bytes  [no name yet]</title></rect>
-<rect x="296.14" y="426.35" width="12.48" height="9.06" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_0803E510 | sub_0803E510 | unidentified  0x0803E510  200 bytes  [no name yet]</title></rect>
-<rect x="308.62" y="416.75" width="8.63" height="10.48" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_080435C4 | sub_080435C4 | unidentified  0x080435C4  160 bytes  [no name yet]</title></rect>
-<rect x="317.24" y="416.75" width="7.12" height="10.48" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_0803B69C | sub_0803B69C | unidentified  0x0803B69C  132 bytes  [no name yet]</title></rect>
-<rect x="308.62" y="427.23" width="9.12" height="8.18" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_0803F18C | sub_0803F18C | unidentified  0x0803F18C  132 bytes  [no name yet]</title></rect>
-<rect x="317.73" y="427.23" width="6.63" height="8.18" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_0803E5D8 | sub_0803E5D8 | unidentified  0x0803E5D8  96 bytes  [no name yet]</title></rect>
+<rect x="284.69" y="391.65" width="10.60" height="12.36" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>ConfirmDialogueAndSetProgress | sub_0803D36C | confirmed  0x0803D36C  232 bytes  [name confirmed with evidence]</title></rect>
+<rect x="295.29" y="391.65" width="9.69" height="12.36" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>ShowEventGatedMessage523 | sub_08043A4C | confirmed  0x08043A4C  212 bytes  [name confirmed with evidence]</title></rect>
+<rect x="304.98" y="391.65" width="9.69" height="12.36" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>ShowEventGatedMessage524 | sub_08043B20 | confirmed  0x08043B20  212 bytes  [name confirmed with evidence]</title></rect>
+<rect x="314.67" y="391.65" width="9.69" height="12.36" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>ShowEventGatedMessage525 | sub_08043BF4 | confirmed  0x08043BF4  212 bytes  [name confirmed with evidence]</title></rect>
+<rect x="284.69" y="404.02" width="11.45" height="10.46" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>ShowEventGatedMessage526 | sub_08043CC8 | confirmed  0x08043CC8  212 bytes  [name confirmed with evidence]</title></rect>
+<rect x="284.69" y="414.48" width="11.45" height="10.46" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>ShowEventGatedMessage527 | sub_08043D9C | confirmed  0x08043D9C  212 bytes  [name confirmed with evidence]</title></rect>
+<rect x="284.69" y="424.94" width="11.45" height="10.46" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>ShowEventGatedMessage528 | sub_08043E70 | confirmed  0x08043E70  212 bytes  [name confirmed with evidence]</title></rect>
+<rect x="296.14" y="404.02" width="9.41" height="12.73" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>ShowEventGatedMessage531 | sub_08043F44 | confirmed  0x08043F44  212 bytes  [name confirmed with evidence]</title></rect>
+<rect x="305.55" y="404.02" width="9.41" height="12.73" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>ShowEventGatedMessage532 | sub_08044018 | confirmed  0x08044018  212 bytes  [name confirmed with evidence]</title></rect>
+<rect x="314.95" y="404.02" width="9.41" height="12.73" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>ShowEventGatedMessage533 | sub_080440EC | confirmed  0x080440EC  212 bytes  [name confirmed with evidence]</title></rect>
+<rect x="296.14" y="416.75" width="12.48" height="9.60" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>ShowEventGatedMessage534 | sub_08044318 | confirmed  0x08044318  212 bytes  [name confirmed with evidence]</title></rect>
+<rect x="296.14" y="426.35" width="12.48" height="9.06" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>RunActorMessage1257 | sub_0803E510 | confirmed  0x0803E510  200 bytes  [name confirmed with evidence]</title></rect>
+<rect x="308.62" y="416.75" width="8.63" height="10.48" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>TaskSnapPlayerToHeight237 | sub_080435C4 | confirmed  0x080435C4  160 bytes  [name confirmed with evidence]</title></rect>
+<rect x="317.24" y="416.75" width="7.12" height="10.48" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>CycleActorHorizontalRoute | sub_0803B69C | confirmed  0x0803B69C  132 bytes  [name confirmed with evidence]</title></rect>
+<rect x="308.62" y="427.23" width="9.12" height="8.18" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>MovePlayerUpwardAfterDelay | sub_0803F18C | confirmed  0x0803F18C  132 bytes  [name confirmed with evidence]</title></rect>
+<rect x="317.73" y="427.23" width="6.63" height="8.18" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>IncrementSceneBarrierArrivalCount | sub_0803E5D8 | confirmed  0x0803E5D8  96 bytes  [name confirmed with evidence]</title></rect>
 <rect x="164.5" y="307.5" width="78.8" height="13" fill="#0d1117" fill-opacity="0.75"/>
 <text x="167.5" y="317.5" fill="#e6edf3" font-size="10">code_0803B69C</text>
 </g>
@@ -334,19 +334,19 @@
 <rect x="283.36" y="471.66" width="25.41" height="19.55" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_08013850 | sub_08013850 | unidentified  0x08013850  880 bytes  [no name yet]</title></rect>
 <rect x="308.77" y="471.66" width="15.59" height="19.55" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_08013E90 | sub_08013E90 | unidentified  0x08013E90  540 bytes  [no name yet]</title></rect>
 <rect x="283.36" y="491.20" width="14.83" height="18.12" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>LinkCreatePlayerEntity | sub_080135C4 | confirmed  0x080135C4  476 bytes  [name confirmed with evidence]</title></rect>
-<rect x="298.19" y="491.20" width="13.09" height="18.12" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_08013CEC | sub_08013CEC | unidentified  0x08013CEC  420 bytes  [no name yet]</title></rect>
-<rect x="311.28" y="491.20" width="13.09" height="18.12" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_08014E68 | sub_08014E68 | unidentified  0x08014E68  420 bytes  [no name yet]</title></rect>
-<rect x="283.36" y="509.32" width="16.12" height="11.34" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_0800D1B0 | sub_0800D1B0 | unidentified  0x0800D1B0  324 bytes  [no name yet]</title></rect>
-<rect x="299.48" y="509.32" width="13.14" height="11.34" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_08014D60 | sub_08014D60 | unidentified  0x08014D60  264 bytes  [no name yet]</title></rect>
-<rect x="312.62" y="509.32" width="11.74" height="11.34" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_080151E0 | sub_080151E0 | unidentified  0x080151E0  236 bytes  [no name yet]</title></rect>
-<rect x="283.36" y="520.66" width="10.06" height="12.34" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_08014B28 | sub_08014B28 | unidentified  0x08014B28  220 bytes  [no name yet]</title></rect>
-<rect x="283.36" y="533.00" width="10.06" height="12.11" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_080152CC | sub_080152CC | unidentified  0x080152CC  216 bytes  [no name yet]</title></rect>
-<rect x="283.36" y="545.11" width="10.06" height="11.89" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_08014C8C | sub_08014C8C | unidentified  0x08014C8C  212 bytes  [no name yet]</title></rect>
-<rect x="293.42" y="520.66" width="10.75" height="10.29" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_080140AC | sub_080140AC | unidentified  0x080140AC  196 bytes  [no name yet]</title></rect>
-<rect x="304.18" y="520.66" width="10.53" height="10.29" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_08015090 | sub_08015090 | unidentified  0x08015090  192 bytes  [no name yet]</title></rect>
-<rect x="314.71" y="520.66" width="9.65" height="10.29" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_080137A0 | sub_080137A0 | unidentified  0x080137A0  176 bytes  [no name yet]</title></rect>
-<rect x="293.42" y="530.95" width="9.88" height="10.05" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_08013C3C | sub_08013C3C | unidentified  0x08013C3C  176 bytes  [no name yet]</title></rect>
-<rect x="293.42" y="541.00" width="9.88" height="8.23" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_08015150 | sub_08015150 | unidentified  0x08015150  144 bytes  [no name yet]</title></rect>
+<rect x="298.19" y="491.20" width="13.09" height="18.12" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>RevertBlockedPlayerMovement | sub_08013CEC | confirmed  0x08013CEC  420 bytes  [name confirmed with evidence]</title></rect>
+<rect x="311.28" y="491.20" width="13.09" height="18.12" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>TaskRunAimedChargedVolley | sub_08014E68 | confirmed  0x08014E68  420 bytes  [name confirmed with evidence]</title></rect>
+<rect x="283.36" y="509.32" width="16.12" height="11.34" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>IsLocalPlayerDamageSuppressed | sub_0800D1B0 | confirmed  0x0800D1B0  324 bytes  [name confirmed with evidence]</title></rect>
+<rect x="299.48" y="509.32" width="13.14" height="11.34" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>StartClassZeroChargedAttack | sub_08014D60 | confirmed  0x08014D60  264 bytes  [name confirmed with evidence]</title></rect>
+<rect x="312.62" y="509.32" width="11.74" height="11.34" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>StartClassThreeChargedAttack | sub_080151E0 | confirmed  0x080151E0  236 bytes  [name confirmed with evidence]</title></rect>
+<rect x="283.36" y="520.66" width="10.06" height="12.34" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>TaskRunClass0ChargedLunge | sub_08014B28 | confirmed  0x08014B28  220 bytes  [name confirmed with evidence]</title></rect>
+<rect x="283.36" y="533.00" width="10.06" height="12.11" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>TaskChargedLungeKind4 | sub_080152CC | confirmed  0x080152CC  216 bytes  [name confirmed with evidence]</title></rect>
+<rect x="283.36" y="545.11" width="10.06" height="11.89" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>TaskCountClass0ChargedHits | sub_08014C8C | confirmed  0x08014C8C  212 bytes  [name confirmed with evidence]</title></rect>
+<rect x="293.42" y="520.66" width="10.75" height="10.29" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>AdvancePlayerForcedMotion | sub_080140AC | confirmed  0x080140AC  196 bytes  [name confirmed with evidence]</title></rect>
+<rect x="304.18" y="520.66" width="10.53" height="10.29" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>TaskRunClass3ChargedLunge | sub_08015090 | confirmed  0x08015090  192 bytes  [name confirmed with evidence]</title></rect>
+<rect x="314.71" y="520.66" width="9.65" height="10.29" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>ClearSelectedEquipmentRecord | sub_080137A0 | confirmed  0x080137A0  176 bytes  [name confirmed with evidence]</title></rect>
+<rect x="293.42" y="530.95" width="9.88" height="10.05" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>CachePlayerEnemyAimDirections | sub_08013C3C | confirmed  0x08013C3C  176 bytes  [name confirmed with evidence]</title></rect>
+<rect x="293.42" y="541.00" width="9.88" height="8.23" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>TaskCountClass3ChargedHits | sub_08015150 | confirmed  0x08015150  144 bytes  [name confirmed with evidence]</title></rect>
 <rect x="293.42" y="549.23" width="9.88" height="7.77" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>TaskFinalizePlayerWeaponAttack | sub_08014C04 | confirmed  0x08014C04  136 bytes  [name confirmed with evidence]</title></rect>
 <rect x="303.30" y="530.95" width="7.47" height="9.97" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>StartPlayerAimedVolleyTask | sub_0801500C | confirmed  0x0801500C  132 bytes  [name confirmed with evidence]</title></rect>
 <rect x="310.78" y="530.95" width="7.02" height="9.97" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>ApplyPlayerPendingDamageAndReportDefeat | sub_08013BC0 | confirmed  0x08013BC0  124 bytes  [name confirmed with evidence]</title></rect>
@@ -464,25 +464,25 @@
 <rect x="521.06" y="146.85" width="16.24" height="13.03" fill="#d29922" stroke="#9e6a03" stroke-width="0.6"><title>RunTowerPasswordHintEvent | sub_080502DC | proposed  0x080502DC  376 bytes  [name proposed, not reviewed]</title></rect>
 <rect x="537.30" y="103.72" width="14.74" height="11.92" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_08053B24 | sub_08053B24 | unidentified  0x08053B24  312 bytes  [no name yet]</title></rect>
 <rect x="552.04" y="103.72" width="14.36" height="11.92" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_0804FB0C | sub_0804FB0C | unidentified  0x0804FB0C  304 bytes  [no name yet]</title></rect>
-<rect x="566.40" y="103.72" width="12.66" height="11.92" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_08051CE4 | sub_08051CE4 | unidentified  0x08051CE4  268 bytes  [no name yet]</title></rect>
-<rect x="537.30" y="115.65" width="14.58" height="10.20" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_0804ED18 | sub_0804ED18 | unidentified  0x0804ED18  264 bytes  [no name yet]</title></rect>
-<rect x="551.88" y="115.65" width="14.36" height="10.20" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_0804DA44 | sub_0804DA44 | unidentified  0x0804DA44  260 bytes  [no name yet]</title></rect>
-<rect x="566.25" y="115.65" width="12.81" height="10.20" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_08051BFC | sub_08051BFC | unidentified  0x08051BFC  232 bytes  [no name yet]</title></rect>
-<rect x="537.30" y="125.84" width="10.06" height="11.65" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_0804F998 | sub_0804F998 | unidentified  0x0804F998  208 bytes  [no name yet]</title></rect>
-<rect x="537.30" y="137.49" width="10.06" height="11.65" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_08050454 | sub_08050454 | unidentified  0x08050454  208 bytes  [no name yet]</title></rect>
-<rect x="537.30" y="149.13" width="10.06" height="10.75" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_080505C8 | sub_080505C8 | unidentified  0x080505C8  192 bytes  [no name yet]</title></rect>
-<rect x="547.36" y="125.84" width="11.61" height="9.31" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_08053060 | sub_08053060 | unidentified  0x08053060  192 bytes  [no name yet]</title></rect>
-<rect x="558.98" y="125.84" width="10.16" height="9.31" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_08051DF0 | sub_08051DF0 | unidentified  0x08051DF0  168 bytes  [no name yet]</title></rect>
-<rect x="569.14" y="125.84" width="9.92" height="9.31" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_0804FA68 | sub_0804FA68 | unidentified  0x0804FA68  164 bytes  [no name yet]</title></rect>
-<rect x="547.36" y="135.15" width="11.20" height="8.24" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_08050524 | sub_08050524 | unidentified  0x08050524  164 bytes  [no name yet]</title></rect>
-<rect x="547.36" y="143.40" width="11.20" height="8.24" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_080523D8 | sub_080523D8 | unidentified  0x080523D8  164 bytes  [no name yet]</title></rect>
-<rect x="547.36" y="151.64" width="11.20" height="8.24" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_08053120 | sub_08053120 | unidentified  0x08053120  164 bytes  [no name yet]</title></rect>
-<rect x="558.57" y="135.15" width="10.25" height="9.01" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_08053A80 | sub_08053A80 | unidentified  0x08053A80  164 bytes  [no name yet]</title></rect>
-<rect x="568.81" y="135.15" width="10.25" height="9.01" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_08053CF4 | sub_08053CF4 | unidentified  0x08053CF4  164 bytes  [no name yet]</title></rect>
-<rect x="558.57" y="144.16" width="11.32" height="8.16" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_08053D98 | sub_08053D98 | unidentified  0x08053D98  164 bytes  [no name yet]</title></rect>
-<rect x="558.57" y="152.32" width="11.32" height="7.56" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_08053C5C | sub_08053C5C | unidentified  0x08053C5C  152 bytes  [no name yet]</title></rect>
-<rect x="569.89" y="144.16" width="9.17" height="8.35" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_0804EE20 | sub_0804EE20 | unidentified  0x0804EE20  136 bytes  [no name yet]</title></rect>
-<rect x="569.89" y="152.51" width="9.17" height="7.37" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_08052FE8 | sub_08052FE8 | unidentified  0x08052FE8  120 bytes  [no name yet]</title></rect>
+<rect x="566.40" y="103.72" width="12.66" height="11.92" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>InitializePlacementEvent3Scene | sub_08051CE4 | confirmed  0x08051CE4  268 bytes  [name confirmed with evidence]</title></rect>
+<rect x="537.30" y="115.65" width="14.58" height="10.20" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>RunEvent2GuardedEntityAscent | sub_0804ED18 | confirmed  0x0804ED18  264 bytes  [name confirmed with evidence]</title></rect>
+<rect x="551.88" y="115.65" width="14.36" height="10.20" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>StartRegionTriggers12And13 | sub_0804DA44 | confirmed  0x0804DA44  260 bytes  [name confirmed with evidence]</title></rect>
+<rect x="566.25" y="115.65" width="12.81" height="10.20" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>ResetEnemiesWithEntryOverlay | sub_08051BFC | confirmed  0x08051BFC  232 bytes  [name confirmed with evidence]</title></rect>
+<rect x="537.30" y="125.84" width="10.06" height="11.65" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>InitializePlacementEvent0Scene | sub_0804F998 | confirmed  0x0804F998  208 bytes  [name confirmed with evidence]</title></rect>
+<rect x="537.30" y="137.49" width="10.06" height="11.65" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>InitializePlacementEvent1Scene | sub_08050454 | confirmed  0x08050454  208 bytes  [name confirmed with evidence]</title></rect>
+<rect x="537.30" y="149.13" width="10.06" height="10.75" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>ResetEnemiesAfterConditionalDelay | sub_080505C8 | confirmed  0x080505C8  192 bytes  [name confirmed with evidence]</title></rect>
+<rect x="547.36" y="125.84" width="11.61" height="9.31" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>ArmPlacementEvent2AndReveal | sub_08053060 | confirmed  0x08053060  192 bytes  [name confirmed with evidence]</title></rect>
+<rect x="558.98" y="125.84" width="10.16" height="9.31" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>HandleMapObjectPlacementEvent3 | sub_08051DF0 | confirmed  0x08051DF0  168 bytes  [name confirmed with evidence]</title></rect>
+<rect x="569.14" y="125.84" width="9.92" height="9.31" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>HandleMapObjectPlacementEvent0 | sub_0804FA68 | confirmed  0x0804FA68  164 bytes  [name confirmed with evidence]</title></rect>
+<rect x="547.36" y="135.15" width="11.20" height="8.24" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>HandleMapObjectPlacementEvent1 | sub_08050524 | confirmed  0x08050524  164 bytes  [name confirmed with evidence]</title></rect>
+<rect x="547.36" y="143.40" width="11.20" height="8.24" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>HandleMapObjectPlacementEvent4 | sub_080523D8 | confirmed  0x080523D8  164 bytes  [name confirmed with evidence]</title></rect>
+<rect x="547.36" y="151.64" width="11.20" height="8.24" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>HandleMapObjectPlacementEvent2 | sub_08053120 | confirmed  0x08053120  164 bytes  [name confirmed with evidence]</title></rect>
+<rect x="558.57" y="135.15" width="10.25" height="9.01" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>RestoreEnemiesWithOptionalReveal | sub_08053A80 | confirmed  0x08053A80  164 bytes  [name confirmed with evidence]</title></rect>
+<rect x="568.81" y="135.15" width="10.25" height="9.01" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>RestoreEnemiesFollowingOptionalReveal | sub_08053CF4 | confirmed  0x08053CF4  164 bytes  [name confirmed with evidence]</title></rect>
+<rect x="558.57" y="144.16" width="11.32" height="8.16" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>ResetEnemiesWithConditionalReveal | sub_08053D98 | confirmed  0x08053D98  164 bytes  [name confirmed with evidence]</title></rect>
+<rect x="558.57" y="152.32" width="11.32" height="7.56" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>ActivatePairedEnemyOverlays | sub_08053C5C | confirmed  0x08053C5C  152 bytes  [name confirmed with evidence]</title></rect>
+<rect x="569.89" y="144.16" width="9.17" height="8.35" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>SpawnAndMovePairedActors | sub_0804EE20 | confirmed  0x0804EE20  136 bytes  [name confirmed with evidence]</title></rect>
+<rect x="569.89" y="152.51" width="9.17" height="7.37" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>QueueClass6Event32Update | sub_08052FE8 | confirmed  0x08052FE8  120 bytes  [name confirmed with evidence]</title></rect>
 <rect x="456.2" y="29.0" width="78.8" height="13" fill="#0d1117" fill-opacity="0.75"/>
 <text x="459.2" y="39.0" fill="#e6edf3" font-size="10">code_0804D330</text>
 </g>
@@ -662,16 +662,16 @@
 <rect x="401.28" y="369.10" width="17.13" height="20.72" fill="#d29922" stroke="#9e6a03" stroke-width="0.6"><title>ShowLinkErrorAndSoftReset | sub_08061910 | proposed  0x08061910  632 bytes  [name proposed, not reviewed]</title></rect>
 <rect x="418.40" y="369.10" width="12.79" height="20.72" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>TaskAnimateWorldEffect | sub_080634D8 | confirmed  0x080634D8  472 bytes  [name confirmed with evidence]</title></rect>
 <rect x="382.63" y="389.82" width="11.92" height="17.89" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_0806335C | sub_0806335C | unidentified  0x0806335C  380 bytes  [no name yet]</title></rect>
-<rect x="382.63" y="407.71" width="11.92" height="13.00" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_0806171C | sub_0806171C | unidentified  0x0806171C  276 bytes  [no name yet]</title></rect>
-<rect x="382.63" y="420.71" width="11.92" height="10.55" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_08061830 | sub_08061830 | unidentified  0x08061830  224 bytes  [no name yet]</title></rect>
+<rect x="382.63" y="407.71" width="11.92" height="13.00" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>DrawExperienceAwardNumber | sub_0806171C | confirmed  0x0806171C  276 bytes  [name confirmed with evidence]</title></rect>
+<rect x="382.63" y="420.71" width="11.92" height="10.55" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>PlayPlayerLevelUpEffect | sub_08061830 | confirmed  0x08061830  224 bytes  [name confirmed with evidence]</title></rect>
 <rect x="394.56" y="389.82" width="13.77" height="9.13" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>DrawRightAlignedSpriteNumber | sub_08065424 | confirmed  0x08065424  224 bytes  [name confirmed with evidence]</title></rect>
 <rect x="408.33" y="389.82" width="12.29" height="9.13" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>DrawRightAlignedTilemapNumber | sub_08065504 | confirmed  0x08065504  200 bytes  [name confirmed with evidence]</title></rect>
 <rect x="420.62" y="389.82" width="10.57" height="9.13" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>InitSpriteResourceDescriptor | sub_08065158 | confirmed  0x08065158  172 bytes  [name confirmed with evidence]</title></rect>
 <rect x="394.56" y="398.95" width="10.15" height="8.19" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>StartThreeSlotItemSelectionHud | sub_08060DB0 | confirmed  0x08060DB0  148 bytes  [name confirmed with evidence]</title></rect>
-<rect x="394.56" y="407.14" width="10.15" height="8.19" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_08061688 | sub_08061688 | unidentified  0x08061688  148 bytes  [no name yet]</title></rect>
+<rect x="394.56" y="407.14" width="10.15" height="8.19" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>StartIndexedItemSelectionHud | sub_08061688 | confirmed  0x08061688  148 bytes  [name confirmed with evidence]</title></rect>
 <rect x="394.56" y="415.32" width="10.15" height="7.97" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>DrawCappedThreeDigitTileNumber | sub_0805FB7C | confirmed  0x0805FB7C  144 bytes  [name confirmed with evidence]</title></rect>
 <rect x="394.56" y="423.29" width="10.15" height="7.97" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>DrawSpriteWithPulsingScaleAndMode | sub_080652E0 | confirmed  0x080652E0  144 bytes  [name confirmed with evidence]</title></rect>
-<rect x="404.71" y="398.95" width="9.38" height="8.14" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_080655CC | sub_080655CC | unidentified  0x080655CC  136 bytes  [no name yet]</title></rect>
+<rect x="404.71" y="398.95" width="9.38" height="8.14" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>DrawItemRecordName | sub_080655CC | confirmed  0x080655CC  136 bytes  [name confirmed with evidence]</title></rect>
 <rect x="414.09" y="398.95" width="8.55" height="8.14" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>DrawSpriteWithPulsingScale | sub_08065264 | confirmed  0x08065264  124 bytes  [name confirmed with evidence]</title></rect>
 <rect x="422.64" y="398.95" width="8.55" height="8.14" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>StartAnimatedWorldEffectTask | sub_08065748 | confirmed  0x08065748  124 bytes  [name confirmed with evidence]</title></rect>
 <rect x="404.71" y="407.09" width="7.81" height="8.34" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>WriteCappedThreeDigitTiles | sub_0805FC0C | confirmed  0x0805FC0C  116 bytes  [name confirmed with evidence]</title></rect>
@@ -686,14 +686,14 @@
 <rect x="418.83" y="414.91" width="6.70" height="4.36" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>AllocateAnimatedWorldEffectTaskPool | sub_080656B8 | confirmed  0x080656B8  52 bytes  [name confirmed with evidence]</title></rect>
 <rect x="425.53" y="414.91" width="5.67" height="4.36" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>AllocatePlayerNameTaskSlots | sub_080658A0 | confirmed  0x080658A0  44 bytes  [name confirmed with evidence]</title></rect>
 <rect x="418.83" y="419.27" width="5.43" height="4.13" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>StopThreeSlotItemSelectionHud | sub_080653D4 | confirmed  0x080653D4  40 bytes  [name confirmed with evidence]</title></rect>
-<rect x="418.83" y="423.40" width="5.43" height="4.13" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_080653FC | sub_080653FC | unidentified  0x080653FC  40 bytes  [no name yet]</title></rect>
+<rect x="418.83" y="423.40" width="5.43" height="4.13" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>CancelItemSelectionHudTask | sub_080653FC | confirmed  0x080653FC  40 bytes  [name confirmed with evidence]</title></rect>
 <rect x="418.83" y="427.53" width="5.43" height="3.72" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>AdvanceSpriteDescriptorAnimation | sub_08065370 | confirmed  0x08065370  36 bytes  [name confirmed with evidence]</title></rect>
 <rect x="424.27" y="419.27" width="3.90" height="5.18" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>ReverseSpriteDescriptorAnimation | sub_08065394 | confirmed  0x08065394  36 bytes  [name confirmed with evidence]</title></rect>
 <rect x="428.16" y="419.27" width="3.03" height="5.18" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>UploadSpriteDescriptorPalette | sub_08065214 | confirmed  0x08065214  28 bytes  [name confirmed with evidence]</title></rect>
 <rect x="424.27" y="424.45" width="3.96" height="3.97" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>IsFourChoiceGameMenuTaskScheduled | sub_0806569C | confirmed  0x0806569C  28 bytes  [name confirmed with evidence]</title></rect>
 <rect x="424.27" y="428.42" width="3.96" height="2.84" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>InitSpriteScalePulse | sub_080653B8 | confirmed  0x080653B8  20 bytes  [name confirmed with evidence]</title></rect>
 <rect x="428.23" y="424.45" width="2.97" height="3.02" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>InvalidateSpriteResourceDescriptor | sub_08065204 | confirmed  0x08065204  16 bytes  [name confirmed with evidence]</title></rect>
-<rect x="428.23" y="427.47" width="2.97" height="2.27" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_0806514C | sub_0806514C | unidentified  0x0806514C  12 bytes  [no name yet]</title></rect>
+<rect x="428.23" y="427.47" width="2.97" height="2.27" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>ClearSharedWord | sub_0806514C | confirmed  0x0806514C  12 bytes  [name confirmed with evidence]</title></rect>
 <rect x="428.23" y="429.74" width="2.97" height="1.51" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>GetSharedGlyphSpriteDescriptor | sub_080653CC | confirmed  0x080653CC  8 bytes  [name confirmed with evidence]</title></rect>
 <rect x="326.4" y="302.1" width="78.8" height="13" fill="#0d1117" fill-opacity="0.75"/>
 <text x="329.4" y="312.1" fill="#e6edf3" font-size="10">code_0805FB7C</text>
@@ -958,8 +958,8 @@
 <rect x="511.53" y="352.27" width="3.28" height="4.75" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>ScaleValueByPercentBonus | sub_08021CE4 | confirmed  0x08021CE4  28 bytes  [name confirmed with evidence]</title></rect>
 <rect x="514.81" y="352.27" width="2.81" height="4.75" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>HasLocalPlayerActionSkillLevel | sub_0801E538 | confirmed  0x0801E538  24 bytes  [name confirmed with evidence]</title></rect>
 <rect x="511.53" y="357.02" width="4.57" height="2.92" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>FreeActorSpriteEffectTaskPool | sub_08021DAC | confirmed  0x08021DAC  24 bytes  [name confirmed with evidence]</title></rect>
-<rect x="516.10" y="357.02" width="1.52" height="1.46" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_08021C6C | sub_08021C6C | unidentified  0x08021C6C  4 bytes  [no name yet]</title></rect>
-<rect x="516.10" y="358.48" width="1.52" height="1.46" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_08021C70 | sub_08021C70 | unidentified  0x08021C70  4 bytes  [no name yet]</title></rect>
+<rect x="516.10" y="357.02" width="1.52" height="1.46" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>NoOpVariant6 | sub_08021C6C | confirmed  0x08021C6C  4 bytes  [name confirmed with evidence]</title></rect>
+<rect x="516.10" y="358.48" width="1.52" height="1.46" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>NoOpVariant7 | sub_08021C70 | confirmed  0x08021C70  4 bytes  [name confirmed with evidence]</title></rect>
 <rect x="433.2" y="259.5" width="78.8" height="13" fill="#0d1117" fill-opacity="0.75"/>
 <text x="436.2" y="269.5" fill="#e6edf3" font-size="10">code_0801E244</text>
 </g>
@@ -1138,11 +1138,11 @@
 <rect x="616.52" y="327.04" width="15.12" height="12.59" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_08055D1C | sub_08055D1C | unidentified  0x08055D1C  344 bytes  [no name yet]</title></rect>
 <rect x="616.52" y="339.63" width="15.12" height="11.86" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_08055A60 | sub_08055A60 | unidentified  0x08055A60  324 bytes  [no name yet]</title></rect>
 <rect x="631.63" y="299.51" width="13.66" height="11.18" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_08056538 | sub_08056538 | unidentified  0x08056538  276 bytes  [no name yet]</title></rect>
-<rect x="645.29" y="299.51" width="12.87" height="11.18" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_08054644 | sub_08054644 | unidentified  0x08054644  260 bytes  [no name yet]</title></rect>
-<rect x="658.16" y="299.51" width="12.87" height="11.18" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_080557CC | sub_080557CC | unidentified  0x080557CC  260 bytes  [no name yet]</title></rect>
-<rect x="631.63" y="310.69" width="11.01" height="11.86" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_08055974 | sub_08055974 | unidentified  0x08055974  236 bytes  [no name yet]</title></rect>
-<rect x="642.65" y="310.69" width="10.83" height="11.86" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_0805442C | sub_0805442C | unidentified  0x0805442C  232 bytes  [no name yet]</title></rect>
-<rect x="653.47" y="310.69" width="9.15" height="11.86" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_08055C58 | sub_08055C58 | unidentified  0x08055C58  196 bytes  [no name yet]</title></rect>
+<rect x="645.29" y="299.51" width="12.87" height="11.18" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>StartRegionTriggers14And15 | sub_08054644 | confirmed  0x08054644  260 bytes  [name confirmed with evidence]</title></rect>
+<rect x="658.16" y="299.51" width="12.87" height="11.18" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>StartRegionTriggers57And58 | sub_080557CC | confirmed  0x080557CC  260 bytes  [name confirmed with evidence]</title></rect>
+<rect x="631.63" y="310.69" width="11.01" height="11.86" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>InitializeEvent24ObjectScene | sub_08055974 | confirmed  0x08055974  236 bytes  [name confirmed with evidence]</title></rect>
+<rect x="642.65" y="310.69" width="10.83" height="11.86" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>RunGuardedEntityAscent | sub_0805442C | confirmed  0x0805442C  232 bytes  [name confirmed with evidence]</title></rect>
+<rect x="653.47" y="310.69" width="9.15" height="11.86" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>CreateActorType62Interaction | sub_08055C58 | confirmed  0x08055C58  196 bytes  [name confirmed with evidence]</title></rect>
 <rect x="662.62" y="310.69" width="8.40" height="11.86" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>CycleMapObjectVerticalRoute | sub_08055BA4 | confirmed  0x08055BA4  180 bytes  [name confirmed with evidence]</title></rect>
 <rect x="631.63" y="322.55" width="9.48" height="9.80" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>StartDelayedTwoArgumentCallback | sub_08056ED0 | confirmed  0x08056ED0  168 bytes  [name confirmed with evidence]</title></rect>
 <rect x="631.63" y="332.35" width="9.48" height="9.57" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>ResetEnemiesAfterOptionalReveal | sub_080545A0 | confirmed  0x080545A0  164 bytes  [name confirmed with evidence]</title></rect>
@@ -1261,8 +1261,8 @@
 <rect x="572.59" y="353.49" width="14.74" height="17.99" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_0801623C | sub_0801623C | unidentified  0x0801623C  480 bytes  [no name yet]</title></rect>
 <rect x="587.33" y="353.49" width="14.00" height="17.99" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_08017C6C | sub_08017C6C | unidentified  0x08017C6C  456 bytes  [no name yet]</title></rect>
 <rect x="601.32" y="353.49" width="10.56" height="17.99" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>SelectNearestPlayerForEnemy | sub_08016B30 | confirmed  0x08016B30  344 bytes  [name confirmed with evidence]</title></rect>
-<rect x="547.54" y="371.48" width="12.39" height="13.73" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_08015914 | sub_08015914 | unidentified  0x08015914  308 bytes  [no name yet]</title></rect>
-<rect x="547.54" y="385.20" width="12.39" height="13.01" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_080156FC | sub_080156FC | unidentified  0x080156FC  292 bytes  [no name yet]</title></rect>
+<rect x="547.54" y="371.48" width="12.39" height="13.73" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>TaskRunClass5ChargedLunge | sub_08015914 | confirmed  0x08015914  308 bytes  [name confirmed with evidence]</title></rect>
+<rect x="547.54" y="385.20" width="12.39" height="13.01" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>TaskRunClass7ChargedVolley | sub_080156FC | confirmed  0x080156FC  292 bytes  [name confirmed with evidence]</title></rect>
 <rect x="547.54" y="398.21" width="12.39" height="11.59" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>StartLocalChargedAttackTask | sub_0801551C | confirmed  0x0801551C  260 bytes  [name confirmed with evidence]</title></rect>
 <rect x="547.54" y="409.80" width="12.39" height="10.87" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>StartClassSevenChargedAttack | sub_08015820 | confirmed  0x08015820  244 bytes  [name confirmed with evidence]</title></rect>
 <rect x="559.93" y="371.48" width="10.46" height="12.88" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>StartClassFiveChargedAttack | sub_08015B20 | confirmed  0x08015B20  244 bytes  [name confirmed with evidence]</title></rect>
@@ -1292,14 +1292,14 @@
 <rect x="596.20" y="401.10" width="5.57" height="4.37" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>ClearLocalPlayerSpriteHideFlag | sub_08015CB4 | confirmed  0x08015CB4  44 bytes  [name confirmed with evidence]</title></rect>
 <rect x="601.76" y="401.10" width="5.06" height="4.37" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>SetLocalPlayerSpriteHideFlag | sub_08015C8C | confirmed  0x08015C8C  40 bytes  [name confirmed with evidence]</title></rect>
 <rect x="606.82" y="401.10" width="5.06" height="4.37" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>DisableLocalPlayerDefeatProtection | sub_08015D04 | confirmed  0x08015D04  40 bytes  [name confirmed with evidence]</title></rect>
-<rect x="596.20" y="405.47" width="4.21" height="5.24" fill="#d29922" stroke="#9e6a03" stroke-width="0.6"><title>ClearLocalPlayerFlagBit12 | sub_08015D98 | proposed  0x08015D98  40 bytes  [name proposed, not reviewed]</title></rect>
+<rect x="596.20" y="405.47" width="4.21" height="5.24" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>ClearLocalPlayerFlagBit12 | sub_08015D98 | confirmed  0x08015D98  40 bytes  [name confirmed with evidence]</title></rect>
 <rect x="596.20" y="410.71" width="4.21" height="5.24" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>AllowLocalPlayerGameMenuRequest | sub_08015EF8 | confirmed  0x08015EF8  40 bytes  [name confirmed with evidence]</title></rect>
 <rect x="596.20" y="415.95" width="4.21" height="4.72" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>SuppressLocalPlayerInput | sub_08015C14 | confirmed  0x08015C14  36 bytes  [name confirmed with evidence]</title></rect>
 <rect x="600.41" y="405.47" width="3.83" height="5.20" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>ReleaseLocalPlayerInputSuppression | sub_08015C38 | confirmed  0x08015C38  36 bytes  [name confirmed with evidence]</title></rect>
 <rect x="604.23" y="405.47" width="3.83" height="5.20" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>EnableLocalPlayerDefeatProtection | sub_08015CE0 | confirmed  0x08015CE0  36 bytes  [name confirmed with evidence]</title></rect>
 <rect x="608.06" y="405.47" width="3.83" height="5.20" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>SetLocalPlayerRenderSuppression | sub_08015D2C | confirmed  0x08015D2C  36 bytes  [name confirmed with evidence]</title></rect>
 <rect x="600.41" y="410.66" width="3.97" height="5.00" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>ClearLocalPlayerRenderSuppression | sub_08015D50 | confirmed  0x08015D50  36 bytes  [name confirmed with evidence]</title></rect>
-<rect x="600.41" y="415.67" width="3.97" height="5.00" fill="#d29922" stroke="#9e6a03" stroke-width="0.6"><title>SetLocalPlayerFlagBit12 | sub_08015D74 | proposed  0x08015D74  36 bytes  [name proposed, not reviewed]</title></rect>
+<rect x="600.41" y="415.67" width="3.97" height="5.00" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>SetLocalPlayerFlagBit12 | sub_08015D74 | confirmed  0x08015D74  36 bytes  [name confirmed with evidence]</title></rect>
 <rect x="604.38" y="410.66" width="3.75" height="5.30" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>BlockLocalPlayerGameMenuRequest | sub_08015ED4 | confirmed  0x08015ED4  36 bytes  [name confirmed with evidence]</title></rect>
 <rect x="608.13" y="410.66" width="3.75" height="5.30" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>IsLocalPlayerMovementToPointPending | sub_08015F20 | confirmed  0x08015F20  36 bytes  [name confirmed with evidence]</title></rect>
 <rect x="604.38" y="415.96" width="3.75" height="4.71" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>DampValueTowardZero | sub_08015DC0 | confirmed  0x08015DC0  32 bytes  [name confirmed with evidence]</title></rect>
@@ -1348,15 +1348,15 @@
 <rect x="597.71" y="484.90" width="5.03" height="4.39" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>FindFreeActorSlot | sub_0801A270 | confirmed  0x0801A270  40 bytes  [name confirmed with evidence]</title></rect>
 <rect x="602.74" y="479.63" width="3.23" height="4.11" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>CountRenderableScriptGlyphs | sub_0801A638 | confirmed  0x0801A638  24 bytes  [name confirmed with evidence]</title></rect>
 <rect x="605.97" y="479.63" width="3.23" height="4.11" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>IsScreenTransitionIdle | sub_0801AAE0 | confirmed  0x0801AAE0  24 bytes  [name confirmed with evidence]</title></rect>
-<rect x="609.20" y="479.63" width="2.69" height="4.11" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_0801A650 | sub_0801A650 | unidentified  0x0801A650  20 bytes  [no name yet]</title></rect>
+<rect x="609.20" y="479.63" width="2.69" height="4.11" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>UpdateSharedHalfwordMinimum | sub_0801A650 | confirmed  0x0801A650  20 bytes  [name confirmed with evidence]</title></rect>
 <rect x="602.74" y="483.74" width="3.18" height="2.78" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>ReturnArgumentAfterSceneQuery | sub_08019E20 | confirmed  0x08019E20  16 bytes  [name confirmed with evidence]</title></rect>
 <rect x="602.74" y="486.52" width="3.18" height="2.78" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>QueryActiveActorIdPresence | sub_0801A040 | confirmed  0x0801A040  16 bytes  [name confirmed with evidence]</title></rect>
 <rect x="605.92" y="483.74" width="2.39" height="2.78" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>ReturnFive | sub_08019CDC | confirmed  0x08019CDC  12 bytes  [name confirmed with evidence]</title></rect>
 <rect x="605.92" y="486.52" width="2.39" height="2.78" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>SetActorCombatTeamTwo | sub_0801A0A4 | confirmed  0x0801A0A4  12 bytes  [name confirmed with evidence]</title></rect>
 <rect x="608.31" y="483.74" width="3.58" height="1.85" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>DisableActorCombatTargeting | sub_0801A0B0 | confirmed  0x0801A0B0  12 bytes  [name confirmed with evidence]</title></rect>
-<rect x="608.31" y="485.59" width="3.58" height="1.85" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_0801A62C | sub_0801A62C | unidentified  0x0801A62C  12 bytes  [no name yet]</title></rect>
-<rect x="608.31" y="487.44" width="2.39" height="1.85" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_0801A500 | sub_0801A500 | unidentified  0x0801A500  8 bytes  [no name yet]</title></rect>
-<rect x="610.69" y="487.44" width="1.19" height="1.85" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_0801A628 | sub_0801A628 | unidentified  0x0801A628  4 bytes  [no name yet]</title></rect>
+<rect x="608.31" y="485.59" width="3.58" height="1.85" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>SetSharedHalfwordToOne | sub_0801A62C | confirmed  0x0801A62C  12 bytes  [name confirmed with evidence]</title></rect>
+<rect x="608.31" y="487.44" width="2.39" height="1.85" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>NoOpVariant4 | sub_0801A500 | confirmed  0x0801A500  8 bytes  [name confirmed with evidence]</title></rect>
+<rect x="610.69" y="487.44" width="1.19" height="1.85" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>NoOpVariant5 | sub_0801A628 | confirmed  0x0801A628  4 bytes  [name confirmed with evidence]</title></rect>
 <rect x="519.6" y="422.7" width="78.8" height="13" fill="#0d1117" fill-opacity="0.75"/>
 <text x="522.6" y="432.7" fill="#e6edf3" font-size="10">code_08017F7C</text>
 </g>
@@ -1625,7 +1625,7 @@
 <rect x="612.89" y="498.83" width="84.49" height="59.17" fill="#0d1117"/>
 <rect x="613.89" y="499.83" width="42.61" height="57.17" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>LinkReceivePeerMessageTask | sub_0806690C | confirmed  0x0806690C  4444 bytes  [name confirmed with evidence]</title></rect>
 <rect x="656.49" y="499.83" width="17.60" height="11.71" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>LinkBroadcastMessageTask | sub_08066720 | confirmed  0x08066720  376 bytes  [name confirmed with evidence]</title></rect>
-<rect x="674.09" y="499.83" width="11.80" height="11.71" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_08066624 | sub_08066624 | unidentified  0x08066624  252 bytes  [no name yet]</title></rect>
+<rect x="674.09" y="499.83" width="11.80" height="11.71" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>EnqueueLinkSnapshot171 | sub_08066624 | confirmed  0x08066624  252 bytes  [name confirmed with evidence]</title></rect>
 <rect x="685.89" y="499.83" width="10.49" height="11.71" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>RemoveLinkRingValueMatchesPerParticipant | sub_08065F08 | confirmed  0x08065F08  224 bytes  [name confirmed with evidence]</title></rect>
 <rect x="656.49" y="511.54" width="11.51" height="10.66" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>TryEnqueueLinkEnemyActionState | sub_080662C4 | confirmed  0x080662C4  224 bytes  [name confirmed with evidence]</title></rect>
 <rect x="668.00" y="511.54" width="10.69" height="10.66" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>RemoveFirstLinkRingValuePerParticipant | sub_08065E38 | confirmed  0x08065E38  208 bytes  [name confirmed with evidence]</title></rect>
@@ -1643,7 +1643,7 @@
 <rect x="666.19" y="548.27" width="7.28" height="8.73" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>EnqueueLinkPlayerOverheadAnimation | sub_080665B0 | confirmed  0x080665B0  116 bytes  [name confirmed with evidence]</title></rect>
 <rect x="673.48" y="529.90" width="8.74" height="7.28" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>TaskLinkOutgoingMessageQueue | sub_08066898 | confirmed  0x08066898  116 bytes  [name confirmed with evidence]</title></rect>
 <rect x="682.21" y="529.90" width="7.23" height="7.28" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>EnqueueLinkEntityPosition | sub_080663A4 | confirmed  0x080663A4  96 bytes  [name confirmed with evidence]</title></rect>
-<rect x="689.44" y="529.90" width="6.93" height="7.28" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_08065AFC | sub_08065AFC | unidentified  0x08065AFC  92 bytes  [no name yet]</title></rect>
+<rect x="689.44" y="529.90" width="6.93" height="7.28" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>StartAreaTitleTask | sub_08065AFC | confirmed  0x08065AFC  92 bytes  [name confirmed with evidence]</title></rect>
 <rect x="673.48" y="537.18" width="7.41" height="6.80" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>EnqueueLinkPlayerName | sub_08065D50 | confirmed  0x08065D50  92 bytes  [name confirmed with evidence]</title></rect>
 <rect x="673.48" y="543.98" width="7.41" height="6.51" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>StartTimedCenteredTextTask | sub_08065A90 | confirmed  0x08065A90  88 bytes  [name confirmed with evidence]</title></rect>
 <rect x="673.48" y="550.49" width="7.41" height="6.51" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>StartCharacterFlashSaveTask | sub_08065C50 | confirmed  0x08065C50  88 bytes  [name confirmed with evidence]</title></rect>
@@ -1654,23 +1654,23 @@
 <rect x="687.11" y="543.27" width="5.19" height="5.92" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>DrawSpriteDescriptorWithMode | sub_080659BC | confirmed  0x080659BC  56 bytes  [name confirmed with evidence]</title></rect>
 <rect x="692.30" y="543.27" width="4.07" height="5.92" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>AllocateFourActorEffectTaskSlots | sub_08065B58 | confirmed  0x08065B58  44 bytes  [name confirmed with evidence]</title></rect>
 <rect x="687.11" y="549.19" width="4.21" height="5.21" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>InterpolateSignedValuesQ10 | sub_080659F4 | confirmed  0x080659F4  40 bytes  [name confirmed with evidence]</title></rect>
-<rect x="687.11" y="554.40" width="4.21" height="2.60" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_08065AE8 | sub_08065AE8 | unidentified  0x08065AE8  20 bytes  [no name yet]</title></rect>
+<rect x="687.11" y="554.40" width="4.21" height="2.60" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>IsCoordinatedAttackActive | sub_08065AE8 | confirmed  0x08065AE8  20 bytes  [name confirmed with evidence]</title></rect>
 <rect x="691.32" y="549.19" width="3.03" height="2.17" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>SetFixedSpriteScale | sub_080659B0 | confirmed  0x080659B0  12 bytes  [name confirmed with evidence]</title></rect>
-<rect x="694.35" y="549.19" width="1.01" height="2.17" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_08067AC0 | sub_08067AC0 | unidentified  0x08067AC0  4 bytes  [no name yet]</title></rect>
-<rect x="695.36" y="549.19" width="1.01" height="2.17" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_08067AC4 | sub_08067AC4 | unidentified  0x08067AC4  4 bytes  [no name yet]</title></rect>
-<rect x="691.32" y="551.36" width="1.68" height="1.30" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_08067AC8 | sub_08067AC8 | unidentified  0x08067AC8  4 bytes  [no name yet]</title></rect>
-<rect x="693.01" y="551.36" width="1.68" height="1.30" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_08067ACC | sub_08067ACC | unidentified  0x08067ACC  4 bytes  [no name yet]</title></rect>
-<rect x="694.69" y="551.36" width="1.68" height="1.30" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_08067AD0 | sub_08067AD0 | unidentified  0x08067AD0  4 bytes  [no name yet]</title></rect>
-<rect x="691.32" y="552.66" width="1.52" height="1.45" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_08067AD4 | sub_08067AD4 | unidentified  0x08067AD4  4 bytes  [no name yet]</title></rect>
-<rect x="691.32" y="554.11" width="1.52" height="1.45" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_08067AD8 | sub_08067AD8 | unidentified  0x08067AD8  4 bytes  [no name yet]</title></rect>
-<rect x="691.32" y="555.55" width="1.52" height="1.45" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_08067ADC | sub_08067ADC | unidentified  0x08067ADC  4 bytes  [no name yet]</title></rect>
-<rect x="692.84" y="552.66" width="1.77" height="1.24" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_08067AE0 | sub_08067AE0 | unidentified  0x08067AE0  4 bytes  [no name yet]</title></rect>
-<rect x="694.61" y="552.66" width="1.77" height="1.24" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_08067AE4 | sub_08067AE4 | unidentified  0x08067AE4  4 bytes  [no name yet]</title></rect>
-<rect x="692.84" y="553.90" width="1.41" height="1.55" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_08067AE8 | sub_08067AE8 | unidentified  0x08067AE8  4 bytes  [no name yet]</title></rect>
-<rect x="692.84" y="555.45" width="1.41" height="1.55" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_08067AEC | sub_08067AEC | unidentified  0x08067AEC  4 bytes  [no name yet]</title></rect>
-<rect x="694.25" y="553.90" width="1.06" height="2.07" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_08067AF0 | sub_08067AF0 | unidentified  0x08067AF0  4 bytes  [no name yet]</title></rect>
-<rect x="695.31" y="553.90" width="1.06" height="2.07" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_08067AF4 | sub_08067AF4 | unidentified  0x08067AF4  4 bytes  [no name yet]</title></rect>
-<rect x="694.25" y="555.97" width="2.12" height="1.03" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_08067AF8 | sub_08067AF8 | unidentified  0x08067AF8  4 bytes  [no name yet]</title></rect>
+<rect x="694.35" y="549.19" width="1.01" height="2.17" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>ReturnOneVariant5 | sub_08067AC0 | confirmed  0x08067AC0  4 bytes  [name confirmed with evidence]</title></rect>
+<rect x="695.36" y="549.19" width="1.01" height="2.17" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>ReturnOneVariant6 | sub_08067AC4 | confirmed  0x08067AC4  4 bytes  [name confirmed with evidence]</title></rect>
+<rect x="691.32" y="551.36" width="1.68" height="1.30" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>ReturnOneVariant7 | sub_08067AC8 | confirmed  0x08067AC8  4 bytes  [name confirmed with evidence]</title></rect>
+<rect x="693.01" y="551.36" width="1.68" height="1.30" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>ReturnOneVariant8 | sub_08067ACC | confirmed  0x08067ACC  4 bytes  [name confirmed with evidence]</title></rect>
+<rect x="694.69" y="551.36" width="1.68" height="1.30" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>ReturnOneVariant9 | sub_08067AD0 | confirmed  0x08067AD0  4 bytes  [name confirmed with evidence]</title></rect>
+<rect x="691.32" y="552.66" width="1.52" height="1.45" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>ReturnOneVariant10 | sub_08067AD4 | confirmed  0x08067AD4  4 bytes  [name confirmed with evidence]</title></rect>
+<rect x="691.32" y="554.11" width="1.52" height="1.45" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>ReturnOneVariant11 | sub_08067AD8 | confirmed  0x08067AD8  4 bytes  [name confirmed with evidence]</title></rect>
+<rect x="691.32" y="555.55" width="1.52" height="1.45" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>ReturnOneVariant12 | sub_08067ADC | confirmed  0x08067ADC  4 bytes  [name confirmed with evidence]</title></rect>
+<rect x="692.84" y="552.66" width="1.77" height="1.24" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>ReturnOneVariant13 | sub_08067AE0 | confirmed  0x08067AE0  4 bytes  [name confirmed with evidence]</title></rect>
+<rect x="694.61" y="552.66" width="1.77" height="1.24" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>ReturnOneVariant14 | sub_08067AE4 | confirmed  0x08067AE4  4 bytes  [name confirmed with evidence]</title></rect>
+<rect x="692.84" y="553.90" width="1.41" height="1.55" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>ReturnOneVariant15 | sub_08067AE8 | confirmed  0x08067AE8  4 bytes  [name confirmed with evidence]</title></rect>
+<rect x="692.84" y="555.45" width="1.41" height="1.55" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>NoOpVariant1 | sub_08067AEC | confirmed  0x08067AEC  4 bytes  [name confirmed with evidence]</title></rect>
+<rect x="694.25" y="553.90" width="1.06" height="2.07" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>ReturnOneVariant16 | sub_08067AF0 | confirmed  0x08067AF0  4 bytes  [name confirmed with evidence]</title></rect>
+<rect x="695.31" y="553.90" width="1.06" height="2.07" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>NoOpVariant2 | sub_08067AF4 | confirmed  0x08067AF4  4 bytes  [name confirmed with evidence]</title></rect>
+<rect x="694.25" y="555.97" width="2.12" height="1.03" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>NoOpVariant3 | sub_08067AF8 | confirmed  0x08067AF8  4 bytes  [name confirmed with evidence]</title></rect>
 <rect x="613.9" y="499.8" width="78.8" height="13" fill="#0d1117" fill-opacity="0.75"/>
 <text x="616.9" y="509.8" fill="#e6edf3" font-size="10">code_080659B0</text>
 </g>
@@ -1727,15 +1727,15 @@
 </g>
 <g><title>code_08058790 (3492 bytes)</title>
 <rect x="746.43" y="436.96" width="39.40" height="51.50" fill="#0d1117"/>
-<rect x="747.43" y="437.96" width="9.35" height="10.21" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_08058F4C | sub_08058F4C | unidentified  0x08058F4C  180 bytes  [no name yet]</title></rect>
-<rect x="756.78" y="437.96" width="9.35" height="10.21" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_08059000 | sub_08059000 | unidentified  0x08059000  180 bytes  [no name yet]</title></rect>
-<rect x="766.13" y="437.96" width="9.35" height="10.21" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_080590B4 | sub_080590B4 | unidentified  0x080590B4  180 bytes  [no name yet]</title></rect>
-<rect x="775.47" y="437.96" width="9.35" height="10.21" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_08059168 | sub_08059168 | unidentified  0x08059168  180 bytes  [no name yet]</title></rect>
+<rect x="747.43" y="437.96" width="9.35" height="10.21" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>RunFacingDialogue263 | sub_08058F4C | confirmed  0x08058F4C  180 bytes  [name confirmed with evidence]</title></rect>
+<rect x="756.78" y="437.96" width="9.35" height="10.21" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>RunFacingDialogue421 | sub_08059000 | confirmed  0x08059000  180 bytes  [name confirmed with evidence]</title></rect>
+<rect x="766.13" y="437.96" width="9.35" height="10.21" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>RunFacingDialogue422 | sub_080590B4 | confirmed  0x080590B4  180 bytes  [name confirmed with evidence]</title></rect>
+<rect x="775.47" y="437.96" width="9.35" height="10.21" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>RunFacingDialogue423 | sub_08059168 | confirmed  0x08059168  180 bytes  [name confirmed with evidence]</title></rect>
 <rect x="747.43" y="448.17" width="9.57" height="9.53" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>RunPostRestInteractionDialogue | sub_08059250 | confirmed  0x08059250  172 bytes  [name confirmed with evidence]</title></rect>
 <rect x="757.00" y="448.17" width="9.57" height="9.53" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>RunQuincyDialogue | sub_08059488 | confirmed  0x08059488  172 bytes  [name confirmed with evidence]</title></rect>
-<rect x="766.57" y="448.17" width="9.13" height="9.53" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_08058E54 | sub_08058E54 | unidentified  0x08058E54  164 bytes  [no name yet]</title></rect>
-<rect x="775.70" y="448.17" width="9.13" height="9.53" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_08059374 | sub_08059374 | unidentified  0x08059374  164 bytes  [no name yet]</title></rect>
-<rect x="747.43" y="457.69" width="8.98" height="8.74" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_08058B74 | sub_08058B74 | unidentified  0x08058B74  148 bytes  [no name yet]</title></rect>
+<rect x="766.57" y="448.17" width="9.13" height="9.53" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>RunLockedDialogue1261 | sub_08058E54 | confirmed  0x08058E54  164 bytes  [name confirmed with evidence]</title></rect>
+<rect x="775.70" y="448.17" width="9.13" height="9.53" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>RunLockedDialogue292 | sub_08059374 | confirmed  0x08059374  164 bytes  [name confirmed with evidence]</title></rect>
+<rect x="747.43" y="457.69" width="8.98" height="8.74" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>StartSongWithDeferredChange | sub_08058B74 | confirmed  0x08058B74  148 bytes  [name confirmed with evidence]</title></rect>
 <rect x="747.43" y="466.44" width="8.98" height="8.03" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>PlayWeaponSubtypeAttackSound | sub_08058CC4 | confirmed  0x08058CC4  136 bytes  [name confirmed with evidence]</title></rect>
 <rect x="747.43" y="474.47" width="8.98" height="6.62" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>RunModeSelectedActorTrade | sub_08059418 | confirmed  0x08059418  112 bytes  [name confirmed with evidence]</title></rect>
 <rect x="747.43" y="481.08" width="8.98" height="6.38" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>StartTemporarySongTask | sub_08058B08 | confirmed  0x08058B08  108 bytes  [name confirmed with evidence]</title></rect>
@@ -1768,8 +1768,8 @@
 <rect x="776.47" y="479.09" width="3.48" height="3.05" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>ClearSceneCallbackGuardBit | sub_08058E28 | confirmed  0x08058E28  20 bytes  [name confirmed with evidence]</title></rect>
 <rect x="779.95" y="479.09" width="2.78" height="3.05" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>SetActorPriorityOverrideWrapper | sub_080587FC | confirmed  0x080587FC  16 bytes  [name confirmed with evidence]</title></rect>
 <rect x="782.74" y="479.09" width="2.09" height="3.05" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>ClearPlayerHudHoldWrapper | sub_080587D8 | confirmed  0x080587D8  12 bytes  [name confirmed with evidence]</title></rect>
-<rect x="776.47" y="482.13" width="2.39" height="2.67" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_080587E4 | sub_080587E4 | unidentified  0x080587E4  12 bytes  [no name yet]</title></rect>
-<rect x="776.47" y="484.80" width="2.39" height="2.67" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_080587F0 | sub_080587F0 | unidentified  0x080587F0  12 bytes  [no name yet]</title></rect>
+<rect x="776.47" y="482.13" width="2.39" height="2.67" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>SetLocalPlayerBit12Wrapper | sub_080587E4 | confirmed  0x080587E4  12 bytes  [name confirmed with evidence]</title></rect>
+<rect x="776.47" y="484.80" width="2.39" height="2.67" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>ClearLocalPlayerBit12Wrapper | sub_080587F0 | confirmed  0x080587F0  12 bytes  [name confirmed with evidence]</title></rect>
 <rect x="778.86" y="482.13" width="2.39" height="2.67" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>ClearActorPriorityOverrideWrapper | sub_0805880C | confirmed  0x0805880C  12 bytes  [name confirmed with evidence]</title></rect>
 <rect x="778.86" y="484.80" width="2.39" height="2.67" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>IsAdvancedModeActiveWrapper | sub_08058818 | confirmed  0x08058818  12 bytes  [name confirmed with evidence]</title></rect>
 <rect x="781.24" y="482.13" width="1.79" height="3.55" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>QueryAreaReturnPromptMarker | sub_08058824 | confirmed  0x08058824  12 bytes  [name confirmed with evidence]</title></rect>
@@ -1825,7 +1825,7 @@
 <rect x="811.84" y="483.40" width="3.09" height="2.03" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>ResetReceivedLinkByte173 | sub_080684F4 | confirmed  0x080684F4  12 bytes  [name confirmed with evidence]</title></rect>
 <rect x="811.84" y="485.43" width="3.09" height="2.03" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>GetReceivedLinkByte174 | sub_08068540 | confirmed  0x08068540  12 bytes  [name confirmed with evidence]</title></rect>
 <rect x="814.94" y="483.40" width="2.06" height="3.05" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>ResetReceivedLinkByte174 | sub_0806854C | confirmed  0x0806854C  12 bytes  [name confirmed with evidence]</title></rect>
-<rect x="814.94" y="486.45" width="2.06" height="1.02" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_08067B4C | sub_08067B4C | unidentified  0x08067B4C  4 bytes  [no name yet]</title></rect>
+<rect x="814.94" y="486.45" width="2.06" height="1.02" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>NoOpVariant8 | sub_08067B4C | confirmed  0x08067B4C  4 bytes  [name confirmed with evidence]</title></rect>
 </g>
 <g><title>code_080571A4 (2824 bytes)</title>
 <rect x="697.37" y="488.46" width="46.89" height="34.99" fill="#0d1117"/>
@@ -1916,7 +1916,7 @@
 <rect x="732.21" y="546.57" width="3.01" height="3.48" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>HasEmptyBagItemSlot | sub_080582C0 | confirmed  0x080582C0  20 bytes  [name confirmed with evidence]</title></rect>
 <rect x="732.21" y="550.05" width="3.01" height="3.48" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>MarkSceneAreaEvent | sub_080584FC | confirmed  0x080584FC  20 bytes  [name confirmed with evidence]</title></rect>
 <rect x="732.21" y="553.52" width="3.01" height="3.48" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>UnmarkSceneAreaEvent | sub_08058510 | confirmed  0x08058510  20 bytes  [name confirmed with evidence]</title></rect>
-<rect x="735.23" y="546.57" width="3.09" height="3.39" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_080585F4 | sub_080585F4 | unidentified  0x080585F4  20 bytes  [no name yet]</title></rect>
+<rect x="735.23" y="546.57" width="3.09" height="3.39" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>EnqueueNearbyFieldItemRemoval | sub_080585F4 | confirmed  0x080585F4  20 bytes  [name confirmed with evidence]</title></rect>
 <rect x="738.32" y="546.57" width="2.47" height="3.39" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>StartSpriteEffectWithMapDrawMode | sub_08058758 | confirmed  0x08058758  16 bytes  [name confirmed with evidence]</title></rect>
 <rect x="740.79" y="546.57" width="2.47" height="3.39" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>StartSpriteEffectWithDefaultDrawMode | sub_08058768 | confirmed  0x08058768  16 bytes  [name confirmed with evidence]</title></rect>
 <rect x="735.23" y="549.96" width="2.68" height="2.35" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>SetSceneEncounterClearSnapshot | sub_08057D14 | confirmed  0x08057D14  12 bytes  [name confirmed with evidence]</title></rect>
@@ -2044,8 +2044,8 @@
 <rect x="786.67" y="540.22" width="2.88" height="3.36" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>MarkAdvancedModeInactive | sub_0800CE1C | confirmed  0x0800CE1C  20 bytes  [name confirmed with evidence]</title></rect>
 <rect x="786.67" y="543.58" width="2.88" height="3.36" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>MarkMenuFadeTransitionActive | sub_0800CE40 | confirmed  0x0800CE40  20 bytes  [name confirmed with evidence]</title></rect>
 <rect x="786.67" y="546.93" width="2.88" height="3.36" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>MarkMenuFadeTransitionInactive | sub_0800CE54 | confirmed  0x0800CE54  20 bytes  [name confirmed with evidence]</title></rect>
-<rect x="786.67" y="550.29" width="2.88" height="3.36" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_0800CE88 | sub_0800CE88 | unidentified  0x0800CE88  20 bytes  [no name yet]</title></rect>
-<rect x="786.67" y="553.64" width="2.88" height="3.36" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_0800CE9C | sub_0800CE9C | unidentified  0x0800CE9C  20 bytes  [no name yet]</title></rect>
+<rect x="786.67" y="550.29" width="2.88" height="3.36" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>SetSceneFlagBit12 | sub_0800CE88 | confirmed  0x0800CE88  20 bytes  [name confirmed with evidence]</title></rect>
+<rect x="786.67" y="553.64" width="2.88" height="3.36" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>ClearSceneFlagBit12 | sub_0800CE9C | confirmed  0x0800CE9C  20 bytes  [name confirmed with evidence]</title></rect>
 <rect x="789.55" y="540.22" width="2.79" height="3.47" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>RequestEffectAnimationStop | sub_0800CEB0 | confirmed  0x0800CEB0  20 bytes  [name confirmed with evidence]</title></rect>
 <rect x="792.34" y="540.22" width="2.79" height="3.47" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>ClearEffectAnimationStopRequest | sub_0800CEC4 | confirmed  0x0800CEC4  20 bytes  [name confirmed with evidence]</title></rect>
 <rect x="795.12" y="540.22" width="2.79" height="3.47" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>MarkLocalAreaDeparturePending | sub_0800CEE8 | confirmed  0x0800CEE8  20 bytes  [name confirmed with evidence]</title></rect>
@@ -2070,7 +2070,7 @@
 <rect x="795.55" y="549.45" width="3.07" height="2.52" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>IsWorldTaskSuspendRequested | sub_0800CDF8 | confirmed  0x0800CDF8  16 bytes  [name confirmed with evidence]</title></rect>
 <rect x="795.55" y="551.97" width="3.07" height="2.52" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>IsAdvancedModeActive | sub_0800CE30 | confirmed  0x0800CE30  16 bytes  [name confirmed with evidence]</title></rect>
 <rect x="795.55" y="554.48" width="3.07" height="2.52" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>IsMenuFadeTransitionActive | sub_0800CE68 | confirmed  0x0800CE68  16 bytes  [name confirmed with evidence]</title></rect>
-<rect x="798.62" y="549.45" width="2.43" height="3.18" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_0800CE78 | sub_0800CE78 | unidentified  0x0800CE78  16 bytes  [no name yet]</title></rect>
+<rect x="798.62" y="549.45" width="2.43" height="3.18" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>IsSceneFlagBit12Set | sub_0800CE78 | confirmed  0x0800CE78  16 bytes  [name confirmed with evidence]</title></rect>
 <rect x="801.05" y="549.45" width="2.43" height="3.18" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>IsEffectAnimationStopRequested | sub_0800CED8 | confirmed  0x0800CED8  16 bytes  [name confirmed with evidence]</title></rect>
 <rect x="798.62" y="552.63" width="3.54" height="2.19" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>IsLocalAreaDeparturePending | sub_0800CF10 | confirmed  0x0800CF10  16 bytes  [name confirmed with evidence]</title></rect>
 <rect x="798.62" y="554.81" width="3.54" height="2.19" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>IsAreaReturnPromptActive | sub_0800CF48 | confirmed  0x0800CF48  16 bytes  [name confirmed with evidence]</title></rect>
@@ -2317,6 +2317,6 @@
 <text x="279" y="574" fill="#e6edf3" font-size="11">proposed, not reviewed</text>
 <rect x="426" y="564" width="11" height="11" fill="#6e7681"/>
 <text x="441" y="574" fill="#e6edf3" font-size="11">no name yet</text>
-<text x="994" y="593" fill="#e6edf3" font-size="11" text-anchor="end">Identified: 69.57% of game functions (1308/1880); all code 1463/2035</text>
+<text x="994" y="593" fill="#e6edf3" font-size="11" text-anchor="end">Identified: 75.43% of game functions (1418/1880); all code 1573/2035</text>
 </svg>
 </svg>

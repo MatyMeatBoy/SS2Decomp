@@ -96,25 +96,31 @@ Every splitter is "ROM is the judge": run it, `make -j8 compare`, commit.
    whole number of records. Where the table is `void *[]`, the stride comes
    from the code that steps through it (212 area-object arrays, 0x124 bytes).
 
-State at the end of the session: **99.7% split, 99.6% described**, ROM
-identical. `data_extract.py check` passes for all declared objects.
+State at the end of the session: **100% split, 100% counted as described**,
+ROM identical. `data_extract.py check` passes for all declared objects.
 
-### Left for workers (60 objects, 62,521 bytes, 0.4%)
+The 100% includes two groups that are not real format descriptions, by the
+owner's decision of 2026-11-12:
 
-List them: raw objects that are not typed in `data_progress.json` (`ranges`
-with state `split` or `blob`).
+- `unused`: `gUnk_08FD5298`, 175 KB between the aux archive and the end of the
+  ROM. No code, table or archive entry refers to it.
+- `listed`: 61 objects, about 20 KB (0.12% of the data). Start, size and users
+  are known; the layout is not written down. They are the last section of
+  `tools/config/data_types.txt`.
+
+### Follow-up for workers: the `listed` objects
 
 | Object | Size | Note |
 | --- | ---: | --- |
-| `gUnk_0848529C` | 42,864 | the C uses 216-byte records (`struct Item855D4`); 198 records fit and 96 bytes follow. Find the count in the code, then cut and declare. `gUnk_0847AC64` has the same struct view and is not a whole number of records either: these labels may be bases inside one larger table |
-| `gUnk_08479140` | 6,948 | 88-byte records (`struct Cls2B70`); 78 fit and 84 bytes follow. Same procedure |
+| `gUnk_08479140` | 6,948 | the C uses 88-byte records (`struct Cls2B70`); the last full records already look like a different table, so the count is smaller than 78. Find it in the code |
 | `gUnk_0849E770`, `gUnk_08478470`, `gXcmdTable` | 10,032 | several views in C (bytes, words, structs, function pointers); read the users |
 | SDK structures after the sound data (`gMPlayTable`, `gUnk_083669E0`..`gUnk_08366B8C`) | about 500 | m4a music player table and the flash library's setup structs; take the layouts from the SDK headers |
-| about 45 small objects | about 2,500 | mixed declarations; read the users |
+| `gUnk_0848F9AC` | 96 | split from the item table: direction vectors as s32 pairs, then small word tables |
+| `gUnk_08366CC0` | 256 | first bytes after the libgcc read-only data; mostly zero |
+| about 50 small objects | about 2,000 | mixed declarations; read the users |
 
-`gUnk_08FD5298` (175 KB between the aux archive and the end of the ROM) is
-declared `unused`: no code, table or archive entry refers to it. If a reference
-is ever found, remove that row from `data_types.txt`.
+To finish one: prove its layout, then replace its `listed` row by a real type
+or move the label to `data_arrays.txt`.
 
 Rules stay the same: prove the format from the code, add a check to
 `data_extract.py`, run `make -j8 compare`, one family per commit. Describing a

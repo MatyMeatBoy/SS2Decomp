@@ -2,6 +2,8 @@
 
 	.section .rodata
 
+	.global gUnk_08366CC0
+gUnk_08366CC0:
 	.incbin "baserom.gba", 0x366CC0, 0x100
 	.global gUnk_08366DC0
 gUnk_08366DC0:
@@ -30125,7 +30127,10 @@ gUnk_0847AD3C:
 	.incbin "baserom.gba", 0x47AD3C, 0xA560
 	.global gUnk_0848529C
 gUnk_0848529C:
-	.incbin "baserom.gba", 0x48529C, 0xA770
+	.incbin "baserom.gba", 0x48529C, 0xA710
+	.global gUnk_0848F9AC
+gUnk_0848F9AC:
+	.incbin "baserom.gba", 0x48F9AC, 0x60
 	.global gUnk_0848FA0C
 gUnk_0848FA0C:
 	.incbin "baserom.gba", 0x48FA0C, 0x3C

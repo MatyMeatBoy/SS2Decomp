@@ -30,3 +30,68 @@
 # Bytes between the end of the aux archive and the end of the ROM. No code, pointer table or archive entry
 # refers to them (the only pointer-like words that hit the range lie inside sound samples). Kept verbatim.
 ^gUnk_08FD5298$                 unused   unreferenced; nothing reads it
+#
+# Listed objects (2026-11-12, owner's decision): start, size and users are known, but the layout is not
+# written down yet. They count as done in the progress bar; each one is still follow-up work. Replace a row
+# by a real type, or move the label to data_arrays.txt, when its layout is proven. Notes: DATA_PIPELINE.md.
+^gUnk_080B99D4$  listed  4 bytes
+^gXcmdTable$  listed  2892 bytes
+^gMPlayTable$  listed  48 bytes
+^gUnk_083669E0$  listed  128 bytes
+^gUnk_08366A74$  listed  60 bytes
+^gUnk_08366AB0$  listed  44 bytes
+^gUnk_08366ADC$  listed  132 bytes
+^gUnk_08366B60$  listed  44 bytes
+^gUnk_08366B8C$  listed  52 bytes
+^gUnk_08366DCC$  listed  4 bytes
+^gUnk_08366E0C$  listed  2 bytes
+^gUnk_08366E0E$  listed  38 bytes
+^gUnk_0838AFED$  listed  3 bytes
+^gUnk_0838C744$  listed  16 bytes
+^gUnk_084009A2$  listed  2 bytes
+^gUnk_084020F8$  listed  13 bytes
+^gUnk_08428C37$  listed  1 bytes
+^gUnk_0847838C$  listed  160 bytes
+^gUnk_0847846C$  listed  4 bytes
+^gUnk_08478470$  listed  2780 bytes
+^gUnk_084790B4$  listed  16 bytes
+^gUnk_08479140$  listed  6948 bytes
+^gUnk_0847AC64$  listed  132 bytes
+^gUnk_0847ACE8$  listed  16 bytes
+^gUnk_0847ACF8$  listed  18 bytes
+^gUnk_0848F9AC$  listed  96 bytes
+^gUnk_0848FA0C$  listed  60 bytes
+^gUnk_0849E760$  listed  16 bytes
+^gUnk_0849E770$  listed  4360 bytes
+^gUnk_084AA9E0$  listed  8 bytes
+^gUnk_084AAB30$  listed  8 bytes
+^gUnk_084AAC80$  listed  8 bytes
+^gUnk_084AADD0$  listed  8 bytes
+^gUnk_084AAF20$  listed  8 bytes
+^gUnk_084AB070$  listed  8 bytes
+^gUnk_084AB1C0$  listed  8 bytes
+^gUnk_084AB310$  listed  8 bytes
+^gUnk_084AB460$  listed  8 bytes
+^gUnk_084AB5B0$  listed  8 bytes
+^gUnk_084B1860$  listed  4 bytes
+^gUnk_084B1864$  listed  8 bytes
+^gUnk_084B186C$  listed  388 bytes
+^gUnk_084EBDBC$  listed  2 bytes
+^gUnk_084EBDBE$  listed  10 bytes
+^gUnk_084EBE08$  listed  2 bytes
+^gUnk_084EBE0A$  listed  10 bytes
+^gUnk_084EBE34$  listed  4 bytes
+^gUnk_084EBE84$  listed  2 bytes
+^gUnk_084EBE86$  listed  54 bytes
+^gUnk_084EBEBC$  listed  2 bytes
+^gUnk_084EBEBE$  listed  94 bytes
+^gUnk_084EBF1C$  listed  98 bytes
+^gUnk_084EC12C$  listed  32 bytes
+^gUnk_084EC1A0$  listed  32 bytes
+^gUnk_084F0B10$  listed  2 bytes
+^gUnk_084F0B12$  listed  238 bytes
+^gUnk_084F0C30$  listed  4 bytes
+^gUnk_0850EAD8$  listed  584 bytes
+^gUnk_0850ED20$  listed  12 bytes
+^gUnk_08518754$  listed  2 bytes
+^gUnk_08366CC0$  listed  256 bytes, first object after the libgcc read-only data; had no label

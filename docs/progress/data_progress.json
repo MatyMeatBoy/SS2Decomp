@@ -7,24 +7,24 @@
  ],
  "bytes_total": 16017660,
  "split": {
-  "bytes": 15967352,
-  "percent": 99.6859216639634,
-  "objects": 11343,
-  "objects_expected": 11366,
-  "percent_objects": 99.7976420904452,
-  "blobs": 5,
-  "blob_bytes": 50308,
-  "pending_targets": 23
+  "bytes": 16017660,
+  "percent": 100.0,
+  "objects": 11345,
+  "objects_expected": 11345,
+  "percent_objects": 100.0,
+  "blobs": 0,
+  "blob_bytes": 0,
+  "pending_targets": 0
  },
  "typed": {
-  "bytes": 15954883,
-  "percent": 99.60807633574443,
-  "raw_incbin_bytes": 62777
+  "bytes": 16017660,
+  "percent": 100.0,
+  "raw_incbin_bytes": 0
  },
  "named": {
   "objects": 11,
-  "objects_expected": 11366,
-  "percent_objects": 0.09677986978708429
+  "objects_expected": 11345,
+  "percent_objects": 0.09695901278096078
  },
  "ranges": [
   {
@@ -35,7 +35,7 @@
   {
    "rom_offset": 760276,
    "size": 4,
-   "state": "split"
+   "state": "typed"
   },
   {
    "rom_offset": 760280,
@@ -60,12 +60,12 @@
   {
    "rom_offset": 768656,
    "size": 2892,
-   "state": "blob"
+   "state": "typed"
   },
   {
    "rom_offset": 771548,
    "size": 48,
-   "state": "split"
+   "state": "typed"
   },
   {
    "rom_offset": 771596,
@@ -7255,7 +7255,7 @@
   {
    "rom_offset": 3566048,
    "size": 128,
-   "state": "split"
+   "state": "typed"
   },
   {
    "rom_offset": 3566176,
@@ -7265,27 +7265,27 @@
   {
    "rom_offset": 3566196,
    "size": 60,
-   "state": "blob"
+   "state": "typed"
   },
   {
    "rom_offset": 3566256,
    "size": 44,
-   "state": "split"
+   "state": "typed"
   },
   {
    "rom_offset": 3566300,
    "size": 132,
-   "state": "blob"
+   "state": "typed"
   },
   {
    "rom_offset": 3566432,
    "size": 44,
-   "state": "split"
+   "state": "typed"
   },
   {
    "rom_offset": 3566476,
    "size": 52,
-   "state": "split"
+   "state": "typed"
   },
   {
    "rom_offset": 3566528,
@@ -7295,7 +7295,7 @@
   {
    "rom_offset": 3566784,
    "size": 256,
-   "state": "split"
+   "state": "typed"
   },
   {
    "rom_offset": 3567040,
@@ -7305,7 +7305,7 @@
   {
    "rom_offset": 3567052,
    "size": 4,
-   "state": "split"
+   "state": "typed"
   },
   {
    "rom_offset": 3567056,
@@ -7315,12 +7315,12 @@
   {
    "rom_offset": 3567116,
    "size": 2,
-   "state": "split"
+   "state": "typed"
   },
   {
    "rom_offset": 3567118,
    "size": 38,
-   "state": "split"
+   "state": "typed"
   },
   {
    "rom_offset": 3567156,
@@ -14795,7 +14795,7 @@
   {
    "rom_offset": 3715053,
    "size": 3,
-   "state": "split"
+   "state": "typed"
   },
   {
    "rom_offset": 3715056,
@@ -14805,7 +14805,7 @@
   {
    "rom_offset": 3721028,
    "size": 16,
-   "state": "split"
+   "state": "typed"
   },
   {
    "rom_offset": 3721044,
@@ -37210,7 +37210,7 @@
   {
    "rom_offset": 4196770,
    "size": 2,
-   "state": "split"
+   "state": "typed"
   },
   {
    "rom_offset": 4196772,
@@ -37220,7 +37220,7 @@
   {
    "rom_offset": 4202744,
    "size": 13,
-   "state": "split"
+   "state": "typed"
   },
   {
    "rom_offset": 4202757,
@@ -44685,7 +44685,7 @@
   {
    "rom_offset": 4361271,
    "size": 1,
-   "state": "split"
+   "state": "typed"
   },
   {
    "rom_offset": 4361272,
@@ -44750,7 +44750,7 @@
   {
    "rom_offset": 4686732,
    "size": 160,
-   "state": "split"
+   "state": "typed"
   },
   {
    "rom_offset": 4686892,
@@ -44760,12 +44760,12 @@
   {
    "rom_offset": 4686956,
    "size": 4,
-   "state": "split"
+   "state": "typed"
   },
   {
    "rom_offset": 4686960,
    "size": 2780,
-   "state": "split"
+   "state": "typed"
   },
   {
    "rom_offset": 4689740,
@@ -44775,7 +44775,7 @@
   {
    "rom_offset": 4690100,
    "size": 16,
-   "state": "split"
+   "state": "typed"
   },
   {
    "rom_offset": 4690116,
@@ -44785,22 +44785,22 @@
   {
    "rom_offset": 4690240,
    "size": 6948,
-   "state": "split"
+   "state": "typed"
   },
   {
    "rom_offset": 4697188,
    "size": 132,
-   "state": "split"
+   "state": "typed"
   },
   {
    "rom_offset": 4697320,
    "size": 16,
-   "state": "split"
+   "state": "typed"
   },
   {
    "rom_offset": 4697336,
    "size": 18,
-   "state": "split"
+   "state": "typed"
   },
   {
    "rom_offset": 4697354,
@@ -44814,13 +44814,18 @@
   },
   {
    "rom_offset": 4739740,
-   "size": 42864,
-   "state": "blob"
+   "size": 42768,
+   "state": "typed"
+  },
+  {
+   "rom_offset": 4782508,
+   "size": 96,
+   "state": "typed"
   },
   {
    "rom_offset": 4782604,
    "size": 60,
-   "state": "split"
+   "state": "typed"
   },
   {
    "rom_offset": 4782664,
@@ -44860,12 +44865,12 @@
   {
    "rom_offset": 4843360,
    "size": 16,
-   "state": "split"
+   "state": "typed"
   },
   {
    "rom_offset": 4843376,
    "size": 4360,
-   "state": "blob"
+   "state": "typed"
   },
   {
    "rom_offset": 4847736,
@@ -44875,7 +44880,7 @@
   {
    "rom_offset": 4893152,
    "size": 8,
-   "state": "split"
+   "state": "typed"
   },
   {
    "rom_offset": 4893160,
@@ -44885,7 +44890,7 @@
   {
    "rom_offset": 4893488,
    "size": 8,
-   "state": "split"
+   "state": "typed"
   },
   {
    "rom_offset": 4893496,
@@ -44895,7 +44900,7 @@
   {
    "rom_offset": 4893824,
    "size": 8,
-   "state": "split"
+   "state": "typed"
   },
   {
    "rom_offset": 4893832,
@@ -44905,7 +44910,7 @@
   {
    "rom_offset": 4894160,
    "size": 8,
-   "state": "split"
+   "state": "typed"
   },
   {
    "rom_offset": 4894168,
@@ -44915,7 +44920,7 @@
   {
    "rom_offset": 4894496,
    "size": 8,
-   "state": "split"
+   "state": "typed"
   },
   {
    "rom_offset": 4894504,
@@ -44925,7 +44930,7 @@
   {
    "rom_offset": 4894832,
    "size": 8,
-   "state": "split"
+   "state": "typed"
   },
   {
    "rom_offset": 4894840,
@@ -44935,7 +44940,7 @@
   {
    "rom_offset": 4895168,
    "size": 8,
-   "state": "split"
+   "state": "typed"
   },
   {
    "rom_offset": 4895176,
@@ -44945,7 +44950,7 @@
   {
    "rom_offset": 4895504,
    "size": 8,
-   "state": "split"
+   "state": "typed"
   },
   {
    "rom_offset": 4895512,
@@ -44955,7 +44960,7 @@
   {
    "rom_offset": 4895840,
    "size": 8,
-   "state": "split"
+   "state": "typed"
   },
   {
    "rom_offset": 4895848,
@@ -44965,7 +44970,7 @@
   {
    "rom_offset": 4896176,
    "size": 8,
-   "state": "split"
+   "state": "typed"
   },
   {
    "rom_offset": 4896184,
@@ -44985,17 +44990,17 @@
   {
    "rom_offset": 4921440,
    "size": 4,
-   "state": "split"
+   "state": "typed"
   },
   {
    "rom_offset": 4921444,
    "size": 8,
-   "state": "split"
+   "state": "typed"
   },
   {
    "rom_offset": 4921452,
    "size": 388,
-   "state": "split"
+   "state": "typed"
   },
   {
    "rom_offset": 4921840,
@@ -45070,12 +45075,12 @@
   {
    "rom_offset": 5160380,
    "size": 2,
-   "state": "split"
+   "state": "typed"
   },
   {
    "rom_offset": 5160382,
    "size": 10,
-   "state": "split"
+   "state": "typed"
   },
   {
    "rom_offset": 5160392,
@@ -45085,12 +45090,12 @@
   {
    "rom_offset": 5160456,
    "size": 2,
-   "state": "split"
+   "state": "typed"
   },
   {
    "rom_offset": 5160458,
    "size": 10,
-   "state": "split"
+   "state": "typed"
   },
   {
    "rom_offset": 5160468,
@@ -45100,7 +45105,7 @@
   {
    "rom_offset": 5160500,
    "size": 4,
-   "state": "split"
+   "state": "typed"
   },
   {
    "rom_offset": 5160504,
@@ -45110,27 +45115,27 @@
   {
    "rom_offset": 5160580,
    "size": 2,
-   "state": "split"
+   "state": "typed"
   },
   {
    "rom_offset": 5160582,
    "size": 54,
-   "state": "split"
+   "state": "typed"
   },
   {
    "rom_offset": 5160636,
    "size": 2,
-   "state": "split"
+   "state": "typed"
   },
   {
    "rom_offset": 5160638,
    "size": 94,
-   "state": "split"
+   "state": "typed"
   },
   {
    "rom_offset": 5160732,
    "size": 98,
-   "state": "split"
+   "state": "typed"
   },
   {
    "rom_offset": 5160830,
@@ -45140,7 +45145,7 @@
   {
    "rom_offset": 5161260,
    "size": 32,
-   "state": "split"
+   "state": "typed"
   },
   {
    "rom_offset": 5161292,
@@ -45150,7 +45155,7 @@
   {
    "rom_offset": 5161376,
    "size": 32,
-   "state": "split"
+   "state": "typed"
   },
   {
    "rom_offset": 5161408,
@@ -45170,12 +45175,12 @@
   {
    "rom_offset": 5180176,
    "size": 2,
-   "state": "split"
+   "state": "typed"
   },
   {
    "rom_offset": 5180178,
    "size": 238,
-   "state": "split"
+   "state": "typed"
   },
   {
    "rom_offset": 5180416,
@@ -45185,7 +45190,7 @@
   {
    "rom_offset": 5180464,
    "size": 4,
-   "state": "split"
+   "state": "typed"
   },
   {
    "rom_offset": 5180468,
@@ -46065,12 +46070,12 @@
   {
    "rom_offset": 5303000,
    "size": 584,
-   "state": "split"
+   "state": "typed"
   },
   {
    "rom_offset": 5303584,
    "size": 12,
-   "state": "split"
+   "state": "typed"
   },
   {
    "rom_offset": 5303596,
@@ -46445,7 +46450,7 @@
   {
    "rom_offset": 5343060,
    "size": 2,
-   "state": "split"
+   "state": "typed"
   },
   {
    "rom_offset": 5343062,
