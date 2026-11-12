@@ -78,12 +78,12 @@
  "identification": {
   "game": {
    "total": 1880,
-   "identified": 1038,
+   "identified": 1039,
    "existing": 23,
-   "confirmed": 1015,
+   "confirmed": 1016,
    "proposed": 2,
-   "unidentified": 840,
-   "percent_identified": 55.212765957446805
+   "unidentified": 839,
+   "percent_identified": 55.265957446808514
   },
   "sdk": {
    "total": 155,
@@ -96,12 +96,12 @@
   },
   "all": {
    "total": 2035,
-   "identified": 1193,
+   "identified": 1194,
    "existing": 152,
-   "confirmed": 1041,
+   "confirmed": 1042,
    "proposed": 2,
-   "unidentified": 840,
-   "percent_identified": 58.62407862407862
+   "unidentified": 839,
+   "percent_identified": 58.67321867321867
   }
  },
  "data": {
@@ -241,5 +241,28 @@
    }
   },
   "limits": "Code includes literal pools/alignment and excludes the header/startup prelude. Data includes opaque assets/padding. EU code counts matching C, the original hand-written assembly kept as assembly, and linked toolchain libraries. Raw ROM gaps/incbins, drafts and names earn no source credit. Data source coverage is not a measure of understanding."
+ },
+ "data_progress": {
+  "bytes_total": 16017660,
+  "split": {
+   "bytes": 103326,
+   "percent": 0.6450754979191717,
+   "objects": 412,
+   "objects_expected": 15240,
+   "percent_objects": 2.7034120734908136,
+   "blobs": 70,
+   "blob_bytes": 15914334,
+   "pending_targets": 14828
+  },
+  "typed": {
+   "bytes": 1280,
+   "percent": 0.00799117973536709,
+   "raw_incbin_bytes": 16016380
+  },
+  "named": {
+   "objects": 11,
+   "objects_expected": 15240,
+   "percent_objects": 0.07217847769028872
+  }
  }
 }

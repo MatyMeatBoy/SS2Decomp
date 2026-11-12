@@ -67,6 +67,22 @@ names that are not 2-6 PascalCase words, placeholders (`Maybe`, `Unk`, hex),
 names already used, missing evidence, evidence lines outside the function body
 and one-word evidence. Send rejected rows back to a proposer with the message.
 
+## 3b. Save the batch as a draft (proposer)
+
+Do not keep answers only in `build/`. After the check passes, commit the file:
+
+```sh
+cp build/names/answers_A.json tools/config/name_drafts/<worker>-<yyyymmdd>-<n>.json
+python3 tools/scripts/name_packets.py check tools/config/name_drafts/<worker>-<yyyymmdd>-<n>.json
+git add tools/config/name_drafts && git commit -m "names: draft batch <n> (<count> functions)"
+```
+
+Push it or open a PR that contains only that file. One file per worker and
+batch means two workers never edit the same file, so drafts do not conflict.
+CI then draws those functions **yellow** in the names map ("proposed, not
+reviewed"); they do not count in the identified percentage. If two files draft
+the same function the first file by name is shown; the reviewer sees both.
+
 ## 4. Review
 
 Cheapest reliable scheme: run two different small models (or the same model
@@ -93,6 +109,7 @@ Reviewer checklist, one minute per function:
 
 ## 5. Integrate (coordinator)
 
+Remove accepted rows from their draft file (delete the file when it is empty).
 Convert accepted rows to catalog rows (`status: "confirmed"`, `domain: "game"`,
 evidence with `revision` = the commit the packets were built from) and follow
 the integration sequence in NAMING_WORKFLOW.md (`name_claim.py check`, reports

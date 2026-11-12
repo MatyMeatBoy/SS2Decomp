@@ -12,7 +12,12 @@ Work-in-progress **matching** decompilation of *Shining Soul II* for the Game Bo
 Advance (Europe, `AU2P`, En/Fr/De/Es/It). The build reproduces the original ROM
 byte for byte.
 
-![progress treemap](https://raw.githubusercontent.com/MatyMeatBoy/SS2Decomp/claude/rom-decompilation-research-obsal6/docs/progress/treemap.svg?v=90f4c355)
+Three views of the project. Click a tab to open it; each tab shows its own figure.
+
+<details open>
+<summary><img src="docs/progress/tab_code.svg?v=tabs1" alt="Code progress"> &nbsp;<b>Code</b>: is it matching?</summary>
+
+![code treemap](https://raw.githubusercontent.com/MatyMeatBoy/SS2Decomp/claude/rom-decompilation-research-obsal6/docs/progress/treemap.svg?v=tabs1)
 
 Each cell is one function (area = size in bytes):
 
@@ -27,8 +32,7 @@ The graphic shows recognized display names while preserving canonical symbols in
 its tooltips. Partial yellow fill is a count of evidenced work milestones, not
 matching bytes, semantic equivalence or an estimate of remaining time. Function
 owners update their own `docs/agents/function_work/sub_XXXXXXXX.json` at checkpoints;
-CI refreshes the map when those commits are integrated. Data is shown as an
-inventory, without a decoding percentage.
+CI refreshes the map when those commits are integrated.
 
 **All code** counts every code byte that builds from this repository and matches:
 matching C, linked library code and the original hand-written assembly. The
@@ -37,28 +41,53 @@ module bytes; compiling drafts are reported separately. Identification is a
 separate source/evidence metric, not a decompilation or understanding percentage.
 See [metric definitions and naming workflow](docs/agents/PROGRESS_AND_NAMES.md).
 
+</details>
+
+<details>
+<summary><img src="docs/progress/tab_names.svg?v=tabs1" alt="Names progress"> &nbsp;<b>Names</b>: do we know what each function does?</summary>
+
+![names treemap](https://raw.githubusercontent.com/MatyMeatBoy/SS2Decomp/claude/rom-decompilation-research-obsal6/docs/progress/names_treemap.svg?v=tabs1)
+
+Same map as the code view (one cell per function, area = size), coloured by
+identification: green has a name confirmed with evidence or already present in
+the source, yellow has a proposed name that nobody reviewed, grey has no name
+yet. Names are display names in `tools/config/function_names.json`; canonical
+`sub_XXXXXXXX` symbols never change, so naming cannot break the match.
+To help: [naming pipeline](docs/agents/NAMING_PIPELINE.md),
+[identification summary](docs/progress/identification.md).
+
+</details>
+
+<details>
+<summary><img src="docs/progress/tab_data.svg?v=tabs1" alt="Data progress"> &nbsp;<b>Data</b>: is the 16 MB of data split, typed and named?</summary>
+
+[![data progress](docs/progress/data_progress.svg?v=tabs1)](docs/progress/data_progress.md)
+
+The data area still builds byte for byte, but mostly as raw copies of the
+reference ROM. Three levels are measured separately:
+
+| Level | Meaning |
+|---|---|
+| 1. Split | the bytes belong to a labelled object with no other known object start inside it |
+| 2. Typed | the object is written in source (tables, structs, named asset files) instead of copied from the ROM |
+| 3. Named | the object has a descriptive label |
+
+Object counts are a lower bound taken from pointer references
+(`tools/config/data_targets.txt`). To help:
+[data pipeline](docs/agents/DATA_PIPELINE.md).
+
+</details>
+
 CI regenerates the [complete function/name inventory](docs/progress/functions.json),
 [identification summary](docs/progress/identification.md), source call graph
 ([JSON](docs/progress/callgraph.json), [DOT](docs/progress/callgraph.dot)) and
 [raw data inventory](docs/progress/data_inventory.json) without a ROM. The graph
 records source observations and unresolved calls; it is not a complete runtime graph.
 
-## ROM regions
-
-[![Regional code and data source progress](docs/progress/regional_progress.svg?v=90f4c355)](docs/progress/regional_progress.md)
-
-**EU remains the main target.** These additional bars separate matching C and
-data reproduced from source for each ROM. The regional EU code bar covers SDK,
-linked and original-assembly intervals as well, so its byte counts differ from
-the game-only main badge. USA/Japan count only independently verified regional C
-intervals. Raw ROM copies and `.incbin` data earn no source credit; source-data
-coverage does not measure how much data is understood. Tiny positive coverage
-is shown as `<0.01%`.
-
-See [regional builds and evidence](docs/agents/REGIONS.md) for ROM identities,
-layout boundaries and receipt refresh instructions. Function-name research is
-held until the matching push is complete; its
-[method and restart guide](docs/agents/IDENTIFICATION_METHOD.md) are preserved.
+This project targets the European ROM only until further notice.
+Function naming is active again now that the code matches:
+see the [naming pipeline](docs/agents/NAMING_PIPELINE.md) and the
+[identification method](docs/agents/IDENTIFICATION_METHOD.md).
 
 ## Join the collaboration
 

@@ -14,8 +14,8 @@
 <text x="269.0" y="86" fill="#e6edf3" font-size="10">940 bytes; not decompiled C</text>
 <rect x="506.0" y="30" width="235.0" height="66" rx="5" fill="#161b22"/>
 <text x="516.0" y="46" fill="#e6edf3" font-size="11">Identification</text>
-<text x="516.0" y="69" fill="#3fb950" font-size="21" font-weight="600">58.62%</text>
-<text x="516.0" y="86" fill="#e6edf3" font-size="10">1193 / 2035 registered names</text>
+<text x="516.0" y="69" fill="#3fb950" font-size="21" font-weight="600">58.67%</text>
+<text x="516.0" y="86" fill="#e6edf3" font-size="10">1194 / 2035 registered names</text>
 <rect x="753.0" y="30" width="235.0" height="66" rx="5" fill="#161b22"/>
 <text x="763.0" y="46" fill="#e6edf3" font-size="11">All code</text>
 <text x="763.0" y="69" fill="#3fb950" font-size="21" font-weight="600">100.00%</text>
@@ -1101,7 +1101,7 @@
 <rect x="576.27" y="317.53" width="16.60" height="12.43" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08091CF8 | sub_08091CF8 | unidentified  0x08091CF8  412 bytes  [done]</title></rect>
 <rect x="592.87" y="317.53" width="12.57" height="12.43" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0808FC50 | sub_0808FC50 | unidentified  0x0808FC50  312 bytes  [done]</title></rect>
 <rect x="559.67" y="329.95" width="9.92" height="11.50" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>EncodeMenuTextAsGlyphBytes | sub_08091F9C | confirmed  0x08091F9C  228 bytes  [done]</title></rect>
-<rect x="559.67" y="341.46" width="9.92" height="10.50" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_080921E4 | sub_080921E4 | unidentified  0x080921E4  208 bytes  [done]</title></rect>
+<rect x="559.67" y="341.46" width="9.92" height="10.50" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>LoadGraphicsResourceAndPalette | sub_080921E4 | confirmed  0x080921E4  208 bytes  [done]</title></rect>
 <rect x="559.67" y="351.95" width="9.92" height="9.08" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0808FE04 | sub_0808FE04 | unidentified  0x0808FE04  180 bytes  [done]</title></rect>
 <rect x="559.67" y="361.04" width="9.92" height="8.48" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08092CB8 | sub_08092CB8 | unidentified  0x08092CB8  168 bytes  [done]</title></rect>
 <rect x="569.59" y="329.95" width="9.37" height="8.55" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0809007C | sub_0809007C | unidentified  0x0809007C  160 bytes  [done]</title></rect>
