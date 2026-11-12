@@ -14,7 +14,7 @@ real object count; refine it with the splitter, never by hand.
   data_progress.py --scan ROM       regenerate data_targets.txt (aligned words in the
                                     data area that point into the data area)
 """
-import argparse, bisect, json, struct, sys
+import argparse, bisect, json, re, struct, sys
 from pathlib import Path
 from xml.sax.saxutils import escape
 
@@ -25,6 +25,11 @@ ROOT = Path(__file__).resolve().parents[2]
 TARGETS = "tools/config/data_targets.txt"
 REFERENCE = "baserom.gba"
 GREEN, MINT, GREY, BG, PANEL, FG, DIM = "#3fb950", "#aff5b4", "#6e7681", "#0d1117", "#161b22", "#e6edf3", "#8b949e"
+# Label prefixes whose format is known and checked by the tool that emitted them
+# (data_split.py). Raw bytes under such a label are typed, and addresses that
+# merely look like pointers inside them are not object starts.
+TYPED_PREFIXES = {"gSoundSample_": "m4a sample", "gSong_": "m4a song header or track", "gSongEmpty": "m4a song header"}
+RAW_LINE = re.compile(r'^[ 	]*(?:([A-Za-z_]\w*):|\.incbin\s+"%s"\s*,\s*(\S+?)\s*,\s*(\S+?))[ 	]*(?:@.*)?$' % re.escape(REFERENCE), re.M)
 STATE_TEXT = {"typed": "typed in source", "split": "split object, still raw bytes", "blob": "blob with known objects inside"}
 
 
@@ -60,8 +65,18 @@ def collect(root):
     lo, hi = data_span(root)
     total = hi - lo
     inventory = data_inventory.collect(root)
-    raw = sorted((b["rom_offset"], b["size"]) for b in inventory["incbins"] if b["file"] == REFERENCE)
-    for (a, n), (b, _) in zip(raw, raw[1:]):
+    raw = []                           # (offset, size, typed by its label)
+    for path in sorted((Path(root) / "data").glob("*.s")):
+        label = ""
+        for m in RAW_LINE.finditer(path.read_text(encoding="utf-8")):
+            if m[1]:
+                label = m[1]
+            else:
+                raw.append((int(m[2], 0), int(m[3], 0), label.startswith(tuple(TYPED_PREFIXES))))
+    raw.sort()
+    if sum(n for _, n, _ in raw) != sum(b["size"] for b in inventory["incbins"] if b["file"] == REFERENCE):
+        raise ValueError("raw incbin scan disagrees with the data inventory")
+    for (a, n, _), (b, _, _) in zip(raw, raw[1:]):
         if a + n > b:
             raise ValueError("overlapping raw incbin ranges")
     if raw and (raw[0][0] < lo or raw[-1][0] + raw[-1][1] > hi):
@@ -69,9 +84,13 @@ def collect(root):
     targets = load_targets(root)
     ranges, pending = [], 0          # (offset, size, state) covering the whole data area
     cursor = lo
-    for offset, size in raw:
+    for offset, size, known in raw:
         if offset > cursor:
             ranges.append((cursor, offset - cursor, "typed"))
+        if known:
+            ranges.append((offset, size, "typed"))
+            cursor = offset + size
+            continue
         inside = bisect.bisect_left(targets, offset + size) - bisect.bisect_right(targets, offset)
         pending += inside
         ranges.append((offset, size, "blob" if inside else "split"))
