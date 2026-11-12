@@ -1,15 +1,15 @@
 
-2026-11-12 (claude-fable-w7, third pass): sub_0800D368
-  End: 25188 bytes (ROM 25180), structural hunks 20 / 35 insns, raw hunks 74 / 614 insns (was 137 / 768).
-  What landed:
-  - sp194 is u16 and the inventory read is `inv->f56[inv->f54]` (struct InvD368): the ROM's double f54 load
-    through one pointer and everything after it up to 0x104FA now match. This was the main rotation offender.
-  - The local 8-byte record is `struct LRecD368 { u32 b0:8, b1:8, b2:8, b3:8; u32 lo16:16, hi16:16; }` with
-    bit-field stores in the other-party branch and a byte view ({ u8 b0..b3; u16 w; }) in the same-party one.
-  - `*(u32 *)(p + 0xF8 + idx * 4)` is a struct array member (`->fF8[idx]`): (base + 0xF8) + idx * 4.
-  - One r4 scratch variable: var_r4_11 absorbs temp_r0_78 (DE60 result of the hit-cancel path) and nine
-    temp_r4_*/var_r4_* temporaries; its priority hack drops from 7 asm refs to 2. The effect-slot pointer of
-    that path is var_r6_8 (r6), whose own hack is gone; the slot's f0 is stored through struct EffectD368.
+2026-11-12 (claude-fable-w7, fourth pass): sub_0800D368
+  End: 25188 bytes (ROM 25180), structural hunks 16 / 31 insns, raw hunks 67 / 294 insns (2.6% of 11286).
+  - Switches 29 and 30 (coordinate nudges): case 4 is `coordF2 -= 10; break;` and case 7 ends in its own
+    `coordF2 += 2;`. The shared `strh r0, [r2]` in the ROM is a one-insn cross-jump that only happens because
+    the reload rotation gives both sites r2; the m2c goto hid that and kept the rotation wrong to the end.
+  - Rule that held every time: where the ROM shows a shared tail, first write each site in full and let jump2
+    merge; a goto is only right when the tails cannot be merged by the compiler (different registers).
+  Open: 0xED00 (r3/r4 in the third level loop), 0xF3BC, 0xF8D0, 0x1069A, 0x1099E, 0x10E02, 0x115D6,
+  0x12BF2 (the ROM has `beq +2; b break; b block_1776`, the draft the inverted pair; `break`, an explicit
+  goto to a label after the switch and a nested if all give the same RTL), 0x12C08.
+lot's f0 is stored through struct EffectD368.
   - 107 pointer temporaries of the form `t = arg0->f144; ((union RecordD368 *)t)->x.value = v;` inlined to
     `((union RecordD368 *)arg0->f144)->x.value = v;` (bit-field stores then allocate like the ROM).
   - Switch 17 case 7 has its own copy of the case 9 body instead of a goto.
