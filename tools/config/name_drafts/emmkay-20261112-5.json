@@ -1,0 +1,362 @@
+[
+  {
+    "canonical_symbol": "sub_0809D878",
+    "address": "0x0809D878",
+    "display_name": "TaskFairyPrincessBossBattle",
+    "summary": "Boss actor task for the Fairy Princess: sets up the boss sprites and fight state, runs the battle loop and, when the boss is beaten, shows its defeat dialogue 0x140047.",
+    "confidence": "high",
+    "evidence": [
+      {
+        "source": "src/code_0809D878.c",
+        "line": 138,
+        "detail": "Initialises the boss sprite from resource 0x50007.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_0809D878.c",
+        "line": 385,
+        "detail": "On defeat opens dialogue 0x140047, decoded: 'I can`t believe that I was so easily defeated... I am an old friend of the pirate Captain Robert.' (speaker code HA; text 0x140048 has HA say 'I am known as the Fairy Princess').",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      }
+    ],
+    "open_questions": []
+  },
+  {
+    "canonical_symbol": "sub_080A1208",
+    "address": "0x080A1208",
+    "display_name": "TaskOswaldBossBattle",
+    "summary": "Boss actor task for Oswald: sets up the boss sprites and fight state, runs the battle loop and, when the boss is beaten, shows its defeat dialogue 0x140061.",
+    "confidence": "high",
+    "evidence": [
+      {
+        "source": "src/code_0809D878.c",
+        "line": 2347,
+        "detail": "Initialises boss sprites from resources 0x5000B and 0x5000C.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_0809D878.c",
+        "line": 2563,
+        "detail": "On defeat opens dialogue 0x140061, decoded: 'I... underestimated you... we, the Chaos Knights, shall rule by its side.' (speaker code OA, the code used by RunOswaldAreaEntryEvent).",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      }
+    ],
+    "open_questions": []
+  },
+  {
+    "canonical_symbol": "sub_080A4D08",
+    "address": "0x080A4D08",
+    "display_name": "TaskDarkAngelBossBattle",
+    "summary": "Boss actor task for the Dark Angel: sets up the boss sprites and fight state, runs the battle loop and, when the boss is beaten, shows its defeat dialogue 0x14006A.",
+    "confidence": "high",
+    "evidence": [
+      {
+        "source": "src/code_080A3D2C.c",
+        "line": 773,
+        "detail": "Initialises the boss sprite from resource 0x5000F.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_080A3D2C.c",
+        "line": 1323,
+        "detail": "On defeat opens dialogue 0x14006A, decoded: 'I, the Dark Angel... defeated by a little brat!? ... I cannot let Master Gillespie down... No one must be allowed into Hottazhek Volcano'.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      }
+    ],
+    "open_questions": []
+  },
+  {
+    "canonical_symbol": "sub_080A8164",
+    "address": "0x080A8164",
+    "display_name": "TaskHottazhekGuardianBossBattle",
+    "summary": "Boss actor task for the fire guardian of Hottazhek Volcano: sets up the boss sprites and fight state, runs the battle loop and, when the boss is beaten, shows its defeat dialogue 0x140090.",
+    "confidence": "high",
+    "evidence": [
+      {
+        "source": "src/code_080A3D2C.c",
+        "line": 2557,
+        "detail": "Initialises boss sprites from resources 0x50010-0x50012.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_080A3D2C.c",
+        "line": 2889,
+        "detail": "On defeat opens dialogue 0x140090, decoded: 'Shining Warrior, you were willing to face me, the holy guardian of fire, just to reach Chaos Castle?' (speaker code RA; RA's intro 0x140091 says 'That is how I protect Hottazhek Volcano').",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      }
+    ],
+    "open_questions": [
+      "The guardian's own name is not given in the text."
+    ]
+  },
+  {
+    "canonical_symbol": "sub_080A9950",
+    "address": "0x080A9950",
+    "display_name": "TaskDeatharteBossBattle",
+    "summary": "Boss actor task for Deatharte: sets up the boss sprites and fight state, runs the battle loop and, when the boss is beaten, shows its defeat dialogue 0x14009F.",
+    "confidence": "high",
+    "evidence": [
+      {
+        "source": "src/code_080A9680.c",
+        "line": 839,
+        "detail": "On defeat opens dialogue 0x14009F, decoded: 'Ugh!! !Cough! You little...! Wait! I have not lost!' (speaker code SA; SA's intro 0x1400A0 says 'I`m... Deatharte. Deatharte of Darkness!').",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      }
+    ],
+    "open_questions": []
+  },
+  {
+    "canonical_symbol": "sub_080AB2F8",
+    "address": "0x080AB2F8",
+    "display_name": "TaskCaptainRobertBossBattle",
+    "summary": "Boss actor task for Captain Robert: sets up the boss sprites and fight state, runs the battle loop and, when the boss is beaten, shows its defeat dialogue 0x140058.",
+    "confidence": "medium",
+    "evidence": [
+      {
+        "source": "src/code_080A9680.c",
+        "line": 1222,
+        "detail": "Initialises boss sprites from resources 0x5001D and 0x5001E.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_080A9680.c",
+        "line": 1544,
+        "detail": "On defeat opens dialogue 0x140058, decoded: 'Ugh... my head hurts! ...Where am I? ... A huge squid ... spit some weird ink on my back' (speaker code JA, who says 'Robert`s my name' in 0x14005E).",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_080A9680.c",
+        "line": 1542,
+        "detail": "On a repeat visit shows 0x140060, where Robert recognises the player after the same headache.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      }
+    ],
+    "open_questions": [
+      "Robert appears to fight while under the squid ink's influence; the text implies it but does not state it."
+    ]
+  },
+  {
+    "canonical_symbol": "sub_0809AEE8",
+    "address": "0x0809AEE8",
+    "display_name": "TaskWizariBossBattle",
+    "summary": "Boss actor task for Wizari: sets up the boss sprites and fight state, runs the battle loop and, when the boss is beaten, shows its defeat dialogue 0x140042.",
+    "confidence": "medium",
+    "evidence": [
+      {
+        "source": "src/code_08097E28.c",
+        "line": 1742,
+        "detail": "Initialises intro and boss sprites from resources 0x50006 and 0x50005.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_08097E28.c",
+        "line": 2130,
+        "detail": "On defeat opens dialogue 0x140042, decoded: 'I guess I`m no match for the young... If only I`d sacrificed that girl when I had the chance.'",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      }
+    ],
+    "open_questions": [
+      "Identity inferred: the earlier boss says 'The girl has been moved to Wizari`s palace... she will sacrifice the girl' (0x140032), and the palace owner (0x140040) threatens a sacrifice; the speaker codes differ (FA here, VA in the palace)."
+    ]
+  },
+  {
+    "canonical_symbol": "sub_0804C67C",
+    "address": "0x0804C67C",
+    "display_name": "RunWizariPalaceIntro",
+    "summary": "Palace boss introduction: shows 0x140040 ('I sensed an unfamiliar presence in my palace... until I sacrifice you for the sake of my magic!') the first time, or 0x140041 ('Oh, back again? Fight me as many times as you like.') on later visits.",
+    "confidence": "medium",
+    "evidence": [
+      {
+        "source": "src/code_080443EC.c",
+        "line": 4809,
+        "detail": "Shows 0x140040, decoded as the palace owner's sacrifice threat.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_080443EC.c",
+        "line": 4813,
+        "detail": "Shows 0x140041, decoded as the repeat-visit line.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      }
+    ],
+    "open_questions": [
+      "Identity inferred from 0x140032 ('The girl has been moved to Wizari`s palace'); the text itself does not say Wizari."
+    ]
+  },
+  {
+    "canonical_symbol": "sub_0804DDBC",
+    "address": "0x0804DDBC",
+    "display_name": "RunFairyPrincessSpringEncounter",
+    "summary": "Encounter scene at the spring: the Fairy Princess introduces herself and accuses the player of bringing Darkness (0x140048 onward), with follow-up lines 0x140049-0x14004D.",
+    "confidence": "high",
+    "evidence": [
+      {
+        "source": "src/code_0804D330.c",
+        "line": 501,
+        "detail": "Shows 0x140048, decoded 'I am the protector of this spring. I am known as the Fairy Princess...'",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_0804D330.c",
+        "line": 517,
+        "detail": "Shows follow-up line 0x140049.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_0804D330.c",
+        "line": 555,
+        "detail": "Shows 0x14004C.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_0804D330.c",
+        "line": 575,
+        "detail": "Shows 0x14004D.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      }
+    ],
+    "open_questions": []
+  },
+  {
+    "canonical_symbol": "sub_080A756C",
+    "address": "0x080A756C",
+    "display_name": "RunDarkAngelCloudDuelIntro",
+    "summary": "Dark Angel encounter at the top: sets up sprites 0x5000F/0x50010 and shows 0x14008B ('What!? You made it this high up!? ... We shall duel amidst the clouds, my playground...').",
+    "confidence": "high",
+    "evidence": [
+      {
+        "source": "src/code_080A3D2C.c",
+        "line": 2010,
+        "detail": "Initialises sprite resource 0x5000F.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_080A3D2C.c",
+        "line": 2152,
+        "detail": "Shows 0x14008B, decoded as the Dark Angel's cloud-duel challenge.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      }
+    ],
+    "open_questions": []
+  },
+  {
+    "canonical_symbol": "sub_08051E98",
+    "address": "0x08051E98",
+    "display_name": "RunDarkAngelCloneIntro",
+    "summary": "Shows the Dark Angel's line about a ruthless clone of the player (0x14008C, speaker code PA) followed by 0x14008D.",
+    "confidence": "high",
+    "evidence": [
+      {
+        "source": "src/code_0804D330.c",
+        "line": 3372,
+        "detail": "Shows 0x14008C, decoded 'Are you surprised? It`s a clone of you... much more ruthless.' (speaker PA, the Dark Angel).",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_0804D330.c",
+        "line": 3376,
+        "detail": "Shows 0x14008D, decoded '... ... ...'.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      }
+    ],
+    "open_questions": []
+  },
+  {
+    "canonical_symbol": "sub_08052D0C",
+    "address": "0x08052D0C",
+    "display_name": "RunHottazhekGuardianAwakening",
+    "summary": "Fire guardian encounter: shows 0x140091 ('Those who awaken me are killed. That is how I protect Hottazhek Volcano.') the first time, else 0x140092.",
+    "confidence": "high",
+    "evidence": [
+      {
+        "source": "src/code_0804D330.c",
+        "line": 3718,
+        "detail": "First visit shows 0x140091, decoded as the guardian of Hottazhek Volcano awakening.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_0804D330.c",
+        "line": 3719,
+        "detail": "Later visits show 0x140092.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      }
+    ],
+    "open_questions": []
+  },
+  {
+    "canonical_symbol": "sub_08053510",
+    "address": "0x08053510",
+    "display_name": "RunDeatharteEncounterIntro",
+    "summary": "Deatharte encounter: shows 0x1400A0 ('...I`m... Deatharte. Deatharte of Darkness! Was King Marcel worried about me?') the first time, else 0x1400A1.",
+    "confidence": "high",
+    "evidence": [
+      {
+        "source": "src/code_0804D330.c",
+        "line": 3929,
+        "detail": "First visit shows 0x1400A0, decoded as Deatharte introducing himself.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_0804D330.c",
+        "line": 3930,
+        "detail": "Later visits show 0x1400A1.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      }
+    ],
+    "open_questions": []
+  },
+  {
+    "canonical_symbol": "sub_0804E7B8",
+    "address": "0x0804E7B8",
+    "display_name": "RunLockedPirateCrewmanRescue",
+    "summary": "A crewman locked in by his violent captain thanks the player ('I`m saved... the boss sure has been acting weird... Please! Help our boss out.', 0x140059) and opens the door (0x14005A).",
+    "confidence": "medium",
+    "evidence": [
+      {
+        "source": "src/code_0804D330.c",
+        "line": 884,
+        "detail": "Shows 0x140059, decoded as the locked-in crewman asking to help their boss (Captain).",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_0804D330.c",
+        "line": 898,
+        "detail": "Shows 0x14005A, decoded 'I`ll open the door for you.'",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      }
+    ],
+    "open_questions": []
+  },
+  {
+    "canonical_symbol": "sub_08053E3C",
+    "address": "0x08053E3C",
+    "display_name": "RunCollapsedMushroomSeekerScene",
+    "summary": "Shows 0x140283 ('!Cough, cough! M...Mush...room...'), the collapsed form of the NPC whose later scene (RunStarvingMushroomSeekerEvent) explains he came for mushrooms.",
+    "confidence": "medium",
+    "evidence": [
+      {
+        "source": "src/code_0804D330.c",
+        "line": 4273,
+        "detail": "Shows 0x140283, decoded as the coughing request for mushrooms.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      }
+    ],
+    "open_questions": []
+  },
+  {
+    "canonical_symbol": "sub_0804FF04",
+    "address": "0x0804FF04",
+    "display_name": "RunYetisFindFrozenGirlScene",
+    "summary": "Scene where two Yeti discuss a frozen girl and smell prey (0x140068: 'Just look at her... She`s completely frozen!... we`re Yeti, ook... Prey!?').",
+    "confidence": "medium",
+    "evidence": [
+      {
+        "source": "src/code_0804D330.c",
+        "line": 2187,
+        "detail": "Shows 0x140068, decoded as the Yeti conversation about the frozen girl.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      }
+    ],
+    "open_questions": []
+  }
+]
