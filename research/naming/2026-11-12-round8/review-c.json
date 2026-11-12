@@ -1,0 +1,609 @@
+[
+  {
+    "canonical_symbol": "sub_08016F28",
+    "decision": "fix",
+    "reason": "Correct the preincrement expiry boundary; neutral name remains supported.",
+    "corrected_row": {
+      "canonical_symbol": "sub_08016F28",
+      "address": "0x08016F28",
+      "display_name": "UpdateTableDrivenEnemyActions",
+      "summary": "Updates actor action selection and synthesized input: authority-gated weighted tables depend on hit/animation readiness, target distance, relative parameter and HP percentage; flag2 temporarily targets another active actor instead of a player and clears when the preincremented counter exceeds900 (901 updates from zero). Chooses/revises facing, notifies action changes, and drives timed waits, follow/offset-target movement, and attack inputs. Non-authority paths still synthesize current action input; target and table indices are unchecked.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_080153A4.c",
+          "line": 1520,
+          "detail": "Updates actor action selection and synthesized input: authority-gated weighted tables depend on hit/animation readiness, target distance, relative parameter and HP percentage; flag2 temporarily targets another active actor instead of a player and expires after900 updates. Chooses/revises facing, notifies action changes, and drives timed waits, follow/offset-target movement, and attack inputs. Non-authority paths still synthesize current action input; target and table indices are unchecked. Counter uses ++f8A > 900; zero-start expiry is the 901st update.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Artwork/story identity and unsupported input domains remain unproved; proposed name is limited to observed operations."
+      ]
+    }
+  },
+  {
+    "canonical_symbol": "sub_0801FDD0",
+    "decision": "accept",
+    "reason": "Complete primary body agrees with the neutral operational contract and stated failure/exit limits."
+  },
+  {
+    "canonical_symbol": "sub_08021EC8",
+    "decision": "accept",
+    "reason": "Complete primary body agrees with the neutral operational contract and stated failure/exit limits."
+  },
+  {
+    "canonical_symbol": "sub_08022100",
+    "decision": "accept",
+    "reason": "Complete primary body agrees with the neutral operational contract and stated failure/exit limits."
+  },
+  {
+    "canonical_symbol": "sub_080223F4",
+    "decision": "accept",
+    "reason": "Complete primary body agrees with the neutral operational contract and stated failure/exit limits."
+  },
+  {
+    "canonical_symbol": "sub_08022E60",
+    "decision": "accept",
+    "reason": "Complete primary body agrees with the neutral operational contract and stated failure/exit limits."
+  },
+  {
+    "canonical_symbol": "sub_08027B50",
+    "decision": "accept",
+    "reason": "Complete primary body agrees with the neutral operational contract and stated failure/exit limits."
+  },
+  {
+    "canonical_symbol": "sub_0802D2C8",
+    "decision": "accept",
+    "reason": "Complete primary body agrees with the neutral operational contract and stated failure/exit limits."
+  },
+  {
+    "canonical_symbol": "sub_0802DAF0",
+    "decision": "accept",
+    "reason": "Complete primary body agrees with the neutral operational contract and stated failure/exit limits."
+  },
+  {
+    "canonical_symbol": "sub_0802E110",
+    "decision": "accept",
+    "reason": "Complete primary body agrees with the neutral operational contract and stated failure/exit limits."
+  },
+  {
+    "canonical_symbol": "sub_08030B28",
+    "decision": "accept",
+    "reason": "Complete primary body agrees with the neutral operational contract and stated failure/exit limits."
+  },
+  {
+    "canonical_symbol": "sub_08032DE4",
+    "decision": "accept",
+    "reason": "Complete primary body agrees with the neutral operational contract and stated failure/exit limits."
+  },
+  {
+    "canonical_symbol": "sub_08033650",
+    "decision": "accept",
+    "reason": "Complete primary body agrees with the neutral operational contract and stated failure/exit limits."
+  },
+  {
+    "canonical_symbol": "sub_08034488",
+    "decision": "accept",
+    "reason": "Complete primary body agrees with the neutral operational contract and stated failure/exit limits."
+  },
+  {
+    "canonical_symbol": "sub_0803898C",
+    "decision": "accept",
+    "reason": "Complete primary body agrees with the neutral operational contract and stated failure/exit limits."
+  },
+  {
+    "canonical_symbol": "sub_080392B4",
+    "decision": "accept",
+    "reason": "Complete primary body agrees with the neutral operational contract and stated failure/exit limits."
+  },
+  {
+    "canonical_symbol": "sub_0803A8F0",
+    "decision": "accept",
+    "reason": "Complete primary body and relevant inline helper agree with the neutral contract and exit/failure limits."
+  },
+  {
+    "canonical_symbol": "sub_0803AE6C",
+    "decision": "accept",
+    "reason": "Complete primary body and relevant inline helper agree with the neutral contract and exit/failure limits."
+  },
+  {
+    "canonical_symbol": "sub_0803B720",
+    "decision": "accept",
+    "reason": "Complete primary body and relevant inline helper agree with the neutral contract and exit/failure limits."
+  },
+  {
+    "canonical_symbol": "sub_0803C698",
+    "decision": "accept",
+    "reason": "Complete primary body and relevant inline helper agree with the neutral contract and exit/failure limits."
+  },
+  {
+    "canonical_symbol": "sub_0803D454",
+    "decision": "accept",
+    "reason": "Complete primary body and relevant inline helper agree with the neutral contract and exit/failure limits."
+  },
+  {
+    "canonical_symbol": "sub_0804076C",
+    "decision": "accept",
+    "reason": "Complete primary body and relevant inline helper agree with the neutral contract and exit/failure limits."
+  },
+  {
+    "canonical_symbol": "sub_080420C8",
+    "decision": "accept",
+    "reason": "Complete primary body and relevant inline helper agree with the neutral contract and exit/failure limits."
+  },
+  {
+    "canonical_symbol": "sub_080445E8",
+    "decision": "accept",
+    "reason": "Complete primary body and relevant inline helper agree with the neutral contract and exit/failure limits."
+  },
+  {
+    "canonical_symbol": "sub_08044EB4",
+    "decision": "fix",
+    "reason": "Separate callback address from its literal argument; no token0x5990C23 exists.",
+    "corrected_row": {
+      "canonical_symbol": "sub_08044EB4",
+      "address": "0x08044EB4",
+      "display_name": "WatchProgressionDialogChanges",
+      "summary": "Continuously watches progression bits6/7 in the selected byte1B8/1C4. After an interruptible 2200/3200 wait closes the dialog, locks local events/input, attempts a callback task, moves the supplied actor through the scripted positions, shows resource0x1400EA/0x1400EB, then places the actor at its final position with extents8/4, flag0x10 and callback. Queues callback5990C with argument23 and unlocks. The watcher continues rather than returning.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_080443EC.c",
+          "line": 457,
+          "detail": "Continuously watches progression bits6/7 in the selected byte1B8/1C4. After an interruptible 2200/3200 wait closes the dialog, locks local events/input, attempts a callback task, moves the supplied actor through the scripted positions, shows resource0x1400EA/0x1400EB, then places the actor at its final position with extents8/4, flag0x10 and callback. Queues token0x5990C23 and unlocks. The watcher continues rather than returning.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080443EC.c",
+          "line": 450,
+          "detail": "SCENE_EB445 calls sub_08068070((u32)cb990CEB445,0x17); alias cb990CEB445 is sub_0805990C, not a concatenated token.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Artwork/story identity and unsupported input domains remain unproved; proposed name is limited to observed operations."
+      ]
+    }
+  },
+  {
+    "canonical_symbol": "sub_0804819C",
+    "decision": "accept",
+    "reason": "Complete primary body and relevant inline helper agree with the neutral contract and exit/failure limits."
+  },
+  {
+    "canonical_symbol": "sub_0804DDBC",
+    "decision": "accept",
+    "reason": "Complete primary body and relevant inline helper agree with the neutral contract and exit/failure limits."
+  },
+  {
+    "canonical_symbol": "sub_0804E7B8",
+    "decision": "fix",
+    "reason": "Count inline firstEffect51E7 as well as four direct effects.",
+    "corrected_row": {
+      "canonical_symbol": "sub_0804E7B8",
+      "address": "0x0804E7B8",
+      "display_name": "RunSingleActorMotionSequence",
+      "summary": "Argument0 queues self with1; argument1 returns if scene+38 bit0 is already set, otherwise sets it before a pause-mode rejection. Active path locks player/input, triggers five fixed-position effects, creates/moves resource2F through two dialogs140059/5A, hides actor7, unlocks, then moves the created actor offscreen and marks matched slot4. Other arguments return. Task admission/creation success unchecked.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_0804D330.c",
+          "line": 823,
+          "detail": "Argument0 queues self with1; argument1 returns if scene+38 bit0 is already set, otherwise sets it before a pause-mode rejection. Active path locks player/input, triggers four fixed-position effects, creates/moves resource2F through two dialogs140059/5A, hides actor7, unlocks, then moves the created actor offscreen and marks matched slot4. Other arguments return. Task admission/creation success unchecked.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0804D330.c",
+          "line": 822,
+          "detail": "firstEffect51E7 issues one73E2C call at(4000,4000); primary adds four more calls, totalfive.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Artwork/story identity and unsupported input domains remain unproved; proposed name is limited to observed operations."
+      ]
+    }
+  },
+  {
+    "canonical_symbol": "sub_08052060",
+    "decision": "fix",
+    "reason": "Name claimed seven sequential actors despite only four selected direct task admissions; mode6 is wrapper mode, not actor index.",
+    "corrected_row": {
+      "canonical_symbol": "sub_08052060",
+      "address": "0x08052060",
+      "display_name": "StartPlayerSelectedSceneTasks",
+      "summary": "Attempts callback tasks59/60/61 plus one of62..65 selected by local-player index; when scene+38 bit4 is clear also attempts a sub_0802A104 wrapper carrying callback523D8/argument0 in mode6. Restores screen by mode and waits idle when permitted. No completion wait or input lock in this wrapper; helper admission failure can skip startup. The four direct tasks retry stack allocation; the optional wrapper does not check allocation.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_0804D330.c",
+          "line": 3458,
+          "detail": "Attempts callback tasks59/60/61 plus one of62..65 selected by local-player index; when scene+38 bit4 is clear also requests a separate callback for actor6. Restores screen by mode and waits idle when permitted. No completion wait or input lock in this wrapper; helper admission failure can skip startup.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0804D330.c",
+          "line": 3422,
+          "detail": "t53_request2060 puts callback523D8 and argument0 into request, starts sub_0802A104 with mode6; primary starts59/60/61 and one62..65, not seven actors.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Artwork/story identity and unsupported input domains remain unproved; proposed name is limited to observed operations."
+      ]
+    }
+  },
+  {
+    "canonical_symbol": "sub_080526B4",
+    "decision": "accept",
+    "reason": "Complete primary body and relevant inline helper agree with the neutral contract and exit/failure limits."
+  },
+  {
+    "canonical_symbol": "sub_08052D0C",
+    "decision": "accept",
+    "reason": "Complete primary body and relevant inline helper agree with the neutral contract and exit/failure limits."
+  },
+  {
+    "canonical_symbol": "sub_08054748",
+    "decision": "accept",
+    "reason": "Complete primary body and relevant inline helper agree with the neutral contract and exit/failure limits."
+  },
+  {
+    "canonical_symbol": "sub_08054904",
+    "decision": "accept",
+    "reason": "Full primary body and relevant inline helpers support this neutral contract, including stated exit and failure limits."
+  },
+  {
+    "canonical_symbol": "sub_08054CE8",
+    "decision": "accept",
+    "reason": "Full primary body and relevant inline helpers support this neutral contract, including stated exit and failure limits."
+  },
+  {
+    "canonical_symbol": "sub_08055A60",
+    "decision": "accept",
+    "reason": "Full primary body and relevant inline helpers support this neutral contract, including stated exit and failure limits."
+  },
+  {
+    "canonical_symbol": "sub_08055D1C",
+    "decision": "accept",
+    "reason": "Full primary body and relevant inline helpers support this neutral contract, including stated exit and failure limits."
+  },
+  {
+    "canonical_symbol": "sub_08055E74",
+    "decision": "accept",
+    "reason": "Full primary body and relevant inline helpers support this neutral contract, including stated exit and failure limits."
+  },
+  {
+    "canonical_symbol": "sub_0805AA68",
+    "decision": "accept",
+    "reason": "Full primary body and relevant inline helpers support this neutral contract, including stated exit and failure limits."
+  },
+  {
+    "canonical_symbol": "sub_0805B2C4",
+    "decision": "accept",
+    "reason": "Full primary body and relevant inline helpers support this neutral contract, including stated exit and failure limits."
+  },
+  {
+    "canonical_symbol": "sub_0805B618",
+    "decision": "accept",
+    "reason": "Full primary body and relevant inline helpers support this neutral contract, including stated exit and failure limits."
+  },
+  {
+    "canonical_symbol": "sub_0805B688",
+    "decision": "accept",
+    "reason": "Full primary body and relevant inline helpers support this neutral contract, including stated exit and failure limits."
+  },
+  {
+    "canonical_symbol": "sub_0805C620",
+    "decision": "accept",
+    "reason": "Full primary body and relevant inline helpers support this neutral contract, including capacity and unchecked-allocation limits. Drop-return ABI additionally checked against matching object."
+  },
+  {
+    "canonical_symbol": "sub_0805CB04",
+    "decision": "accept",
+    "reason": "Full primary body and relevant inline helpers support this neutral contract, including stated exit and failure limits."
+  },
+  {
+    "canonical_symbol": "sub_0805CDF8",
+    "decision": "accept",
+    "reason": "Full primary body and relevant inline helpers support this neutral contract, including stated exit and failure limits."
+  },
+  {
+    "canonical_symbol": "sub_0805D548",
+    "decision": "accept",
+    "reason": "Full primary body and relevant inline helpers support this neutral contract, including stated exit and failure limits."
+  },
+  {
+    "canonical_symbol": "sub_0805D6B8",
+    "decision": "accept",
+    "reason": "Full primary body and relevant inline helpers support this neutral contract, including stated exit and failure limits."
+  },
+  {
+    "canonical_symbol": "sub_0805DE98",
+    "decision": "accept",
+    "reason": "Full primary body and relevant inline helpers support this neutral contract, including stated exit and failure limits."
+  },
+  {
+    "canonical_symbol": "sub_08060E44",
+    "decision": "accept",
+    "reason": "Full primary body and relevant inline helpers support this neutral contract, including stated exit and failure limits."
+  },
+  {
+    "canonical_symbol": "sub_08061910",
+    "decision": "accept",
+    "reason": "Complete primary body and exact helper aliases support the neutral operational name and stated lifecycle."
+  },
+  {
+    "canonical_symbol": "sub_08061B88",
+    "decision": "fix",
+    "reason": "ABI confirms the uninitialized handle caveat; move its consequence into summary.",
+    "corrected_row": {
+      "canonical_symbol": "sub_08061B88",
+      "address": "0x08061B88",
+      "display_name": "StopSessionTasksThenReset",
+      "summary": "Performs session/display preparation and a 100-yield delay, stops fixed controls, five enemy controls, masked item effects, paired controls and per-player controls. All initial LWAIT64 waits return early if 0x021A8 reports nonzero. After eight more such waits returns if 0x021A8 reports nonzero; otherwise configures the dialog display and enters recovery waits/retries, ending in SoftReset(0). Completion waits use a handle not initialized by this function (incoming r7 in the matching object), so progress to reset is not guaranteed.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_0805FB7C.c",
+          "line": 1331,
+          "detail": "Performs session/display preparation and a 100-yield delay, stops fixed controls, five enemy controls, masked item effects, paired controls and per-player controls. All initial LWAIT64 waits return early if 0x021A8 reports nonzero. After eight more such waits returns if 0x021A8 reports nonzero; otherwise configures the dialog display and enters recovery waits/retries, ending in SoftReset(0).",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0805FB7C.c",
+          "line": 1370,
+          "detail": "C completion tests use uninitialized window. Matching code_0805FB7C.o sub61B88+0x234/+0x260/+0x294 uses r7; prologue preserves but never assigns it. Therefore dialog completion/reset progress is conditional on unknown incoming handle.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Completion waits pass incoming r7 unchanged; no initialization or dialog-open call occurs in this function. Caller convention and valid dialog ownership remain unproved."
+      ]
+    }
+  },
+  {
+    "canonical_symbol": "sub_08063E30",
+    "decision": "accept",
+    "reason": "Complete primary body and exact helper aliases support the neutral operational name and stated lifecycle."
+  },
+  {
+    "canonical_symbol": "sub_080710DC",
+    "decision": "fix",
+    "reason": "Preserve neutral orbit/strike name while exposing first-orbit and enemy-owner source limits.",
+    "corrected_row": {
+      "canonical_symbol": "sub_080710DC",
+      "address": "0x080710DC",
+      "display_name": "RunOrbitingTargetStrikeSprite",
+      "summary": "Rejects a busy owner by clearing the requested flag; otherwise claims the owner busy byte. Waits for enemy readiness with scene/state aborts, applies owner-specific resource cost, and initializes a level-selected directional sprite. It follows an offset rotating around its owner until a target is found, pursues a target subject to terrain timeout, plays strike animation and dispatches the burst helper on completion, then returns and repeats for a finite level-derived count. Abort/normal end clears busy and the requested owner flag. Owner/level indices are unchecked; reconstructed C leaves the first orbit direction and enemy-owner player local uninitialized, and its enemy return leg tracks te rather than guaranteed owner position.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_08068670.c",
+          "line": 4971,
+          "detail": "Rejects a busy owner by clearing the requested flag; otherwise claims the owner busy byte. Waits for enemy readiness with scene/state aborts, applies owner-specific resource cost, and initializes a level-selected directional sprite. It follows an offset rotating around its owner until a target is found, pursues a target subject to terrain timeout, plays strike animation and dispatches the burst helper on completion, then returns and repeats for a finite level-derived count. Abort/normal end clears busy and the requested owner flag.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08068670.c",
+          "line": 4966,
+          "detail": "The burst callback binds to 0x08068A00; this row names its dispatch, not a guessed elemental effect.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08068670.c",
+          "line": 5114,
+          "detail": "timer starts60 and first timer++>60 is false before orbit uses dir; pl is initialized only for owner<=3 but later common predicates dereference pl. lost enemy leg uses te coordinates.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "The sprite and burst artwork are unidentified. Some enemy-owner paths use player locals in the reconstructed C; no safety claim is made for those paths."
+      ]
+    }
+  },
+  {
+    "canonical_symbol": "sub_08072390",
+    "decision": "fix",
+    "reason": "Put the documented player-owner precondition into the observable lifecycle summary.",
+    "corrected_row": {
+      "canonical_symbol": "sub_08072390",
+      "address": "0x08072390",
+      "display_name": "RunStaggeredFallingTargetSprites",
+      "summary": "Splits the packed argument into low-half kind and high-half draw selector, applies local-owner cost and waits for player readiness with state/session abort. Collects eligible opposing players or live enemies within kind-selected rectangular ranges. Animates randomly delayed accelerating falls on collected targets, dispatching chance-selected hit requests only on the relevant authoritative local participant. With no targets animates a forward fall and short flicker instead. Finally waits for player completion and clears the owner flag. Owner/kind indices are unchecked, and owner>3 leaves the player pointer used by readiness/completion paths uninitialized in C.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_08068670.c",
+          "line": 5459,
+          "detail": "Splits the packed argument into low-half kind and high-half draw selector, applies local-owner cost and waits for player readiness with state/session abort. Collects eligible opposing players or live enemies within kind-selected rectangular ranges. Animates randomly delayed accelerating falls on collected targets, dispatching chance-selected hit requests only on the relevant authoritative local participant. With no targets animates a forward fall and short flicker instead. Finally waits for player completion and clears the owner flag.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08068670.c",
+          "line": 5456,
+          "detail": "Player/enemy hit aliases bind to 0x08029A7C and 0x08029B98; requests are sent on the locally authoritative participant.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08068670.c",
+          "line": 5495,
+          "detail": "player assigned only when owner<=3; readiness and final done wait dereference it unconditionally. Kind indexes range/chance tables without bounds checks.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "The falling sprite artwork and hit-kind identities remain unproved; this function assumes the player-owner path represented by its initialized player pointer."
+      ]
+    }
+  },
+  {
+    "canonical_symbol": "sub_08088C24",
+    "decision": "accept",
+    "reason": "Complete primary body and exact helper aliases support the neutral operational name and stated lifecycle."
+  },
+  {
+    "canonical_symbol": "sub_08088F30",
+    "decision": "accept",
+    "reason": "Complete primary body and exact helper aliases support the neutral operational name and stated lifecycle."
+  },
+  {
+    "canonical_symbol": "sub_08094F3C",
+    "decision": "fix",
+    "reason": "Specify modulo256 count product exactly.",
+    "corrected_row": {
+      "canonical_symbol": "sub_08094F3C",
+      "address": "0x08094F3C",
+      "display_name": "RunCenteredSpriteBlendSequence",
+      "summary": "Initializes an argument-selected central resource and particle resource, reveals the display, then progresses through seven timed states that vary blend coefficients, animate the central sprite and repeatedly animate particles at randomized radial coordinates. Particle count starts from the unsigned byte of the signed argument multiplied by3, i.e. (u8)(arg0*3). A session-reset predicate ends the loop early. Completion hides the display, waits for transition idle, stops sound, calls state/display cleanup helpers and resets blend and display masks.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_08092D60.c",
+          "line": 1253,
+          "detail": "Initializes an argument-selected central resource and particle resource, reveals the display, then progresses through seven timed states that vary blend coefficients, animate the central sprite and repeatedly animate particles at randomized radial coordinates. Particle count starts from the byte-truncated signed argument times3. A session-reset predicate ends the loop early. Completion hides the display, waits for transition idle, stops sound, calls state/display cleanup helpers and resets blend and display masks.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08092D60.c",
+          "line": 1294,
+          "detail": "sp9C=(u8)(arg0*3), so truncation follows multiplication, not the reverse. Completion decrements through an unsigned byte.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Artwork and narrative meaning are unproved; argument truncation and timer behavior do not establish a named event."
+      ]
+    }
+  },
+  {
+    "canonical_symbol": "sub_0809AEE8",
+    "decision": "fix",
+    "reason": "Correct no-retry palette polling and exact team gating; preserve unchecked helper/source-local limits.",
+    "corrected_row": {
+      "canonical_symbol": "sub_0809AEE8",
+      "address": "0x0809AEE8",
+      "display_name": "RunWaypointOrbitCloneEncounter",
+      "summary": "Initializes combat actor resources and palette, calling the palette allocator once and polling its stored global sentinel without retrying allocation; session/area abort clears its active bit and returns. Synchronizes phases over the link barrier. Before intro activation sets team byte+1DC to0 and zeroes resource extents and draws the intro resource; active phases traverse five configured waypoints, invoke indexed event/flash helpers, and in the selected mode create two actor copies that orbit with the main actor for three wraps. Updates damage feedback and animation until death/session/area exit. Cleanup clears active actors and auxiliary tasks, dispatches remote full-HP damage, synchronizes the completion token, shows resource0x140042, performs disappearance and experience calculation/display/application when eligible, waits and marks the encounter finished. Auxiliary admission results are unchecked; lastDamage and shake are not initialized before possible reads in the reconstructed C.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_08097E28.c",
+          "line": 1677,
+          "detail": "Initializes combat actor resources and palette, waiting on exhausted palette allocation until session/area abort clears its active bit. Synchronizes phases over the link barrier. Before intro activation disables combat targeting and draws the intro resource; active phases traverse five configured waypoints, invoke indexed event/flash helpers, and in the selected mode create two actor copies that orbit with the main actor for three wraps. Updates damage feedback and animation until death/session/area exit. Cleanup clears active actors and auxiliary tasks, dispatches remote full-HP damage, synchronizes the completion token, shows resource0x140042, performs transition/reward work when eligible, waits and marks the encounter finished.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08097E28.c",
+          "line": 1641,
+          "detail": "Death and paletteFree aliases bind to ApplyPendingActorDamageAndCheckDeath (0x08019CE8) and QueueRemoteEntityFullHpDamage (0x08067CA8); the latter does not prove palette freeing.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08097E28.c",
+          "line": 1731,
+          "detail": "Single allocateAEE8 call; lines1732..1740 poll paletteAEE8 without allocator retry and clear activebit on abort. External writes to global are not excluded.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08017F7C.c",
+          "line": 1092,
+          "detail": "sub1A0A4 writes byte+1DC=2 and sub1A0B0 writes0; intro is literal team/extents gating, not an inferred visibility operation.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "The resource artwork and story identity are not established by this operational contract."
+      ]
+    }
+  },
+  {
+    "canonical_symbol": "sub_080AF3F4",
+    "decision": "fix",
+    "reason": "Keep exact projectile evidence and replace broad reward prose with verified experience role plus source limit.",
+    "corrected_row": {
+      "canonical_symbol": "sub_080AF3F4",
+      "address": "0x080AF3F4",
+      "display_name": "RunPursuitStrikeProjectileEncounter",
+      "summary": "Initializes three animation resources and combat stats, synchronizes link phases and chooses an initial waiting or pursuit path from participant count/player kind. Alternates pursuit to two distance thresholds with an animation-driven strike or a delayed type13 projectile request, separated by timed recovery; animation and damage feedback continue until death/session/area exit. Locks the local player, dispatches remote full-HP damage, synchronizes the completion token and shows resource0x14009E or0x140098. Then runs the disappearance effect, unlocks, conditionally calculates, displays and applies experience and marks the encounter finished. Type13 task admission is unchecked; lastHit can be read before initialization in C.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_080A9680.c",
+          "line": 3603,
+          "detail": "Initializes three animation resources and combat stats, synchronizes link phases and chooses an initial waiting or pursuit path from participant count/player kind. Alternates pursuit to two distance thresholds with an animation-driven strike or a delayed type13 projectile request, separated by timed recovery; animation and damage feedback continue until death/session/area exit. Locks the local player, dispatches remote full-HP damage, synchronizes the completion token and shows resource0x14009E or0x140098. Then runs the disappearance effect, unlocks, conditionally generates reward feedback and marks the encounter finished.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080A9680.c",
+          "line": 3574,
+          "detail": "Projectile request binds to0x0807386C; death and free aliases at3585/3587 bind to0x08019CE8/0x08067CA8.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08068670.c",
+          "line": 6203,
+          "detail": "sub7386C kind13 selects6ABC0 moving contact/terrain projectile;16-owner slots and stack allocation can skip startup. Primary ignores admission outcome.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080A9680.c",
+          "line": 3837,
+          "detail": "Damage comparison can read lastHit before initialization; no stronger safety claim is made. Reward aliases are1E46C/6171C/1E4CC experience helpers.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "The resource artwork and story identity are not established by this operational contract."
+      ]
+    }
+  },
+  {
+    "canonical_symbol": "sub_080B4C34",
+    "decision": "fix",
+    "reason": "Replace unsupported relocation with proven position sprite/encoded spawn request and correct no-retry palette polling.",
+    "corrected_row": {
+      "canonical_symbol": "sub_080B4C34",
+      "address": "0x080B4C34",
+      "display_name": "RunChargeCycleProjectileEncounter",
+      "summary": "Initializes the actor and palette, calling the palette allocator once and polling its stored global sentinel without retry; session/area abort clears its active bit and returns. Synchronizes phases and cycles charge preparation, player-target pursuit with decaying speed and timeout, recovery, type13 projectile request and conditional encoded spawn-effect selection/admission. Calls the cycle-indexed attack helper during charge phases and updates animation/damage feedback. On death/session/area exit clears its active bit, stops the auxiliary task, dispatches remote full-HP damage, synchronizes the completion token, shows resource0x1400A7 and runs disappearance and experience calculation/display/application when eligible; finally synchronizes and marks the encounter finished. Spawn-effect admission can fail; its callback temporarily sets team0, draws resource50020, then authority may queue an actor spawn using encoded high/low nibbles, with team3 setter and active-presence wait. Reconstructed C leaves animMode/lastHit unspecified before possible reads; unknown player kind leaves pursuit limit unspecified.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_080B3648.c",
+          "line": 940,
+          "detail": "Initializes the actor and palette, waiting for palette availability with active-bit cleanup on session/area abort. Synchronizes phases and cycles charge preparation, player-target pursuit with decaying speed and timeout, recovery, type13 projectile request and conditional encoded-event selection/relocation. Calls the cycle-indexed attack helper during charge phases and updates animation/damage feedback. On death/session/area exit clears its active bit, stops the auxiliary task, dispatches remote full-HP damage, synchronizes the completion token, shows resource0x1400A7 and runs transition/reward feedback when eligible; finally synchronizes and marks the encounter finished.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080B3648.c",
+          "line": 87,
+          "detail": "Death and free aliases bind to0x08019CE8/0x08067CA8; spawn4C34 at914 binds projectile request0x0807386C.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080B3648.c",
+          "line": 973,
+          "detail": "One alloc4C34 call;974..981 poll global gTile4C34 sentinel without allocator retry, clear activebit and return on abort. External global writes remain possible.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080B3648.c",
+          "line": 1730,
+          "detail": "warp4C34=080B6448 admits080B6178 only when control exists, inactive and word8zero and allocation succeeds; not actor relocation.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080B3648.c",
+          "line": 1618,
+          "detail": "080B6178 receives position by value, sets main team0, animates50020, conditionally authority queues19FD8(data,font>>4,font&15), attempts team3 and waits active presence, then restores team2 and clears word8. No main actor position relocation occurs.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "The resource artwork and story identity are not established by this operational contract."
+      ]
+    }
+  }
+]

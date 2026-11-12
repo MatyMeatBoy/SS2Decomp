@@ -1,0 +1,285 @@
+{
+  "policy": "SHA256 of committed Git blob bytes with repository LF line endings. Integrity only, not semantic proof.",
+  "artifacts": [
+    {
+      "path": "research/naming/2026-11-12-round2/accepted.json",
+      "sha256": "80fe847de931d688e03184f69d2d3b4e3b98f26ad27afaab07ecfe6d88b96e37"
+    },
+    {
+      "path": "research/naming/2026-11-12-round2/constant-three-followup.json",
+      "sha256": "a4bd8329edd9c411bd06df095641f5603bc79e9a326ad3f29cc240946ac764ac"
+    },
+    {
+      "path": "research/naming/2026-11-12-round2/coordinator-supplement.json",
+      "sha256": "37fb9d65fa87ca6aa91374053454000a0d57982417e29ce37fcb1397f9054f41"
+    },
+    {
+      "path": "research/naming/2026-11-12-round2/coordinator.json",
+      "sha256": "c232e7d83f59d66df147276d2e59bb61a1b4b51927c820d6244e403e92901ed6"
+    },
+    {
+      "path": "research/naming/2026-11-12-round2/manifest.json",
+      "sha256": "bbd85d03a3c66c4d26eb11500ea71b677e78811679932db62878d2f311167b57"
+    },
+    {
+      "path": "research/naming/2026-11-12-round2/review-a.json",
+      "sha256": "17182b01050975f81336544faa80f7f9a7bdd9f8fb7e0477006748d509d9be4b"
+    },
+    {
+      "path": "research/naming/2026-11-12-round2/review-b.json",
+      "sha256": "73c942ebef783b248214cac0da7b3cebea915f3c5cf9c651d32b22d6a211849c"
+    },
+    {
+      "path": "research/naming/2026-11-12-round2/review-c.json",
+      "sha256": "d84390a8a26042bfe20c23bf0032989ca72b10b9774fac7da3d9d7f05e4f356d"
+    },
+    {
+      "path": "research/naming/2026-11-12-round2/review-coordinator.json",
+      "sha256": "57fd0c34901f41fa140557874be572befa5abd678f683665a7b7c3fc54f6f201"
+    },
+    {
+      "path": "research/naming/2026-11-12-round2/review-supplement.json",
+      "sha256": "40ede48b98ce3e9539ca3b20658fbde401365b0f2ed2df46f0e1203b06151c73"
+    },
+    {
+      "path": "research/naming/2026-11-12-round2/worker-a.json",
+      "sha256": "7076af3027bde30a2d41c505106cdc63399de97c5bbc8065426d2d4d9c0aed94"
+    },
+    {
+      "path": "research/naming/2026-11-12-round2/worker-b.json",
+      "sha256": "0b2fb0c1eedc2a1e6dccaa664c8fd431b4fe6e3288ec119b885ca2de909aed52"
+    },
+    {
+      "path": "research/naming/2026-11-12-round2/worker-c.json",
+      "sha256": "e07d9738ed17ac8f9e29bed22721a62e271f37f5a7796c2f7c977cb2047385fc"
+    },
+    {
+      "path": "research/naming/2026-11-12-round3/accepted.json",
+      "sha256": "d23fd449e3474e3f50f419c6c829ac043515fbf9a2f24f382e3261d675d8dff5"
+    },
+    {
+      "path": "research/naming/2026-11-12-round3/manifest.json",
+      "sha256": "2297fd29f8ff4a3a3293b7237e6b668124b68bcd4fc380b7d3736eaab100dcf3"
+    },
+    {
+      "path": "research/naming/2026-11-12-round3/neutral-followup.json",
+      "sha256": "66ce1120f5f75c1d46b0fbcab9366649e15dd267247716dc2e7fab415cdca52b"
+    },
+    {
+      "path": "research/naming/2026-11-12-round3/review-a.json",
+      "sha256": "97b7ea4683b1db28c2ad5237796d4589a4380e976754d4f08fc1626041692911"
+    },
+    {
+      "path": "research/naming/2026-11-12-round3/review-b.json",
+      "sha256": "bed0247bb2cc1456946daef1c60b9c89bfa541eb2a78687ab2c58b3ab04adbfd"
+    },
+    {
+      "path": "research/naming/2026-11-12-round3/review-c.json",
+      "sha256": "d0ba9d0e1e23257dbfeffdb6498415fd2110ac81a76d05a5ad0463cc732370cf"
+    },
+    {
+      "path": "research/naming/2026-11-12-round3/review-neutral.json",
+      "sha256": "c233063e82280f2bf3d01be8537f834a89ca274f22ac64b99e09c5c877eec992"
+    },
+    {
+      "path": "research/naming/2026-11-12-round3/worker-a.json",
+      "sha256": "ef77531f44e000e4875cbc2176ff8a44e3a7de6b622e6c327feea0683ab0214d"
+    },
+    {
+      "path": "research/naming/2026-11-12-round3/worker-b.json",
+      "sha256": "2387553c44e5ca1b1295f89ca44af3b57ea4dc941341f82a1a70a9c805d38efc"
+    },
+    {
+      "path": "research/naming/2026-11-12-round3/worker-c.json",
+      "sha256": "709ec4dee58725d48ca218d75e9e373f8c95826bc291a88dd106d098152bea7c"
+    },
+    {
+      "path": "research/naming/2026-11-12-round4/a.json",
+      "sha256": "80f544bb7f565061a6ca2c75f1d8a3a0eb5e082b169205f0174271a0528f8d22"
+    },
+    {
+      "path": "research/naming/2026-11-12-round4/accepted.json",
+      "sha256": "ca39b8656572a212a40f6a108123df3c25bf942c5c080602b33a308ccfd8d733"
+    },
+    {
+      "path": "research/naming/2026-11-12-round4/b.json",
+      "sha256": "359df09671f398eff9080906a08ad89753f99c8c03d8a393502fe64dc6be23a8"
+    },
+    {
+      "path": "research/naming/2026-11-12-round4/c.json",
+      "sha256": "89fb6198e142209bb9077092ca5e72c473ca695500b951bfa9a08cd9b1fce5b7"
+    },
+    {
+      "path": "research/naming/2026-11-12-round4/manifest.json",
+      "sha256": "45a7be5bd7d2efe9c445f5616232b237eb7bfeac1f27c950acfefcf4833c2fb8"
+    },
+    {
+      "path": "research/naming/2026-11-12-round4/review-a.json",
+      "sha256": "e6370739e00d44201c0f071b3d33810ee16c5f79a6314c5bf8f363840526cdc6"
+    },
+    {
+      "path": "research/naming/2026-11-12-round4/review-b.json",
+      "sha256": "d54a29b75bb284dccf298cf33f903227ae0d1b2086e463ef70cfcd4e5d302f9e"
+    },
+    {
+      "path": "research/naming/2026-11-12-round4/review-c.json",
+      "sha256": "5afce5688bb368c9ea162fc9e42e8ef2e9148bb144a8dc5006562f3f6af59912"
+    },
+    {
+      "path": "research/naming/2026-11-12-round4/review-root-pairs.json",
+      "sha256": "0d6c1959802af556b2093f5a19b2614e79a5bf01da4b508b38fc5a546f2d4ae1"
+    },
+    {
+      "path": "research/naming/2026-11-12-round4/review-root-supplement.json",
+      "sha256": "51daca70bee4dadbee6be016742599b9172851ea80165b40e958ee581ec84790"
+    },
+    {
+      "path": "research/naming/2026-11-12-round4/root-pairs.json",
+      "sha256": "a79abe6ece4c4bd92943713ba75e919bdfdaa7ff60bf16a43cbd8eaa41470cbe"
+    },
+    {
+      "path": "research/naming/2026-11-12-round4/root-supplement.json",
+      "sha256": "a31a0e91856ef67432b301285982b5d8e22dfb3d1833f178ef501e90849cd90f"
+    },
+    {
+      "path": "research/naming/2026-11-12-round5/a.json",
+      "sha256": "c4aa38ced38a418e5d652254ed056e10d65252517356625316dacbf93f23f614"
+    },
+    {
+      "path": "research/naming/2026-11-12-round5/accepted.json",
+      "sha256": "9389c1a54f3ad0a6c16e9f0bb351ff08c3b12ceb6f332cd6b809b216dd1af0e5"
+    },
+    {
+      "path": "research/naming/2026-11-12-round5/b.json",
+      "sha256": "b87ba6ff4182d2ab10c4ce44e72dae5b0ca33ed8cf2dd0b788fcf1dc71924cf4"
+    },
+    {
+      "path": "research/naming/2026-11-12-round5/c.json",
+      "sha256": "2e96980ed9b835ce753afda05c346e09cf20b42bcc07d70ed890db8e2974db38"
+    },
+    {
+      "path": "research/naming/2026-11-12-round5/deferred.json",
+      "sha256": "e497c1bc25169b5c64ffc557645a41746ee28a97c781a49930bd15e4f9ed9c1e"
+    },
+    {
+      "path": "research/naming/2026-11-12-round5/manifest.json",
+      "sha256": "3d642cd8c8d0bec3ccc54c4e96f1c4f928f9ee295c6b5acd0f02104424bd0f08"
+    },
+    {
+      "path": "research/naming/2026-11-12-round5/review-a.json",
+      "sha256": "0d0d68ebaadb3e224e952ab3655a5dadc31cc3504b0db653b7b8cbe4d9ba7cc0"
+    },
+    {
+      "path": "research/naming/2026-11-12-round5/review-b.json",
+      "sha256": "61543493cd79e3104ec7a5a1e7e7077edef909e432685bcbd085adf34aac4b53"
+    },
+    {
+      "path": "research/naming/2026-11-12-round5/review-c.json",
+      "sha256": "fa9562425b53cfc248349eda57472b13517f05b3549b9a974631483272cb50ca"
+    },
+    {
+      "path": "research/naming/2026-11-12-round5/review-deferred.json",
+      "sha256": "6f5fa0a98e3bedfa580802c6489c526e90bc887307a9c89546eb0578f6a866cb"
+    },
+    {
+      "path": "research/naming/2026-11-12-round5/review-root-context.json",
+      "sha256": "b3353c48dcae1d62f94487391485d3b7d9959bb41face5895aca1bb34145f8d3"
+    },
+    {
+      "path": "research/naming/2026-11-12-round5/review-root-personal.json",
+      "sha256": "2711313c14a6ac0541f57842e4a8b0529497e4c3974304ef032d393d47020440"
+    },
+    {
+      "path": "research/naming/2026-11-12-round5/root-context.json",
+      "sha256": "60ce7e4a270621c33e836251490e0dd69cc9bc8b51b514e10e3e9b1c35e92702"
+    },
+    {
+      "path": "research/naming/2026-11-12-round5/root-personal.json",
+      "sha256": "402e3d96abe85f2464c7345f2ee6bc00b899c35169ca37d2d590574d7b72e348"
+    },
+    {
+      "path": "research/naming/2026-11-12-round6/a.json",
+      "sha256": "86935ad7bf2bd685841dd011cc63088e4c9561c15ac4b41d273d9acb276a76d7"
+    },
+    {
+      "path": "research/naming/2026-11-12-round6/accepted.json",
+      "sha256": "3a01d59c4124935bd4812ee50297b9c7bf963f57c687a911464882be22dc2f91"
+    },
+    {
+      "path": "research/naming/2026-11-12-round6/b.json",
+      "sha256": "aa90c7a3259bc81c5a553c2d6a27e8211bb52513832448e27d171972650b6134"
+    },
+    {
+      "path": "research/naming/2026-11-12-round6/c.json",
+      "sha256": "1a91737fd164173fea8126a857f2c928f53804b3b9fd6b6da8aa90607523546b"
+    },
+    {
+      "path": "research/naming/2026-11-12-round6/manifest.json",
+      "sha256": "26af78d907aa7a5d3c17cb55097fcc8a81d773e57484c7d0125d39ecc1eb1737"
+    },
+    {
+      "path": "research/naming/2026-11-12-round6/review-a.json",
+      "sha256": "a80f799070cdbd3b42693db8fa8a865ea0336b63aa1391ad989de7d14b66fac2"
+    },
+    {
+      "path": "research/naming/2026-11-12-round6/review-b.json",
+      "sha256": "f455ee70400f5fe512935f95ccea67e357ea1a05aa724bb32ebd797ea74d0ca9"
+    },
+    {
+      "path": "research/naming/2026-11-12-round6/review-c.json",
+      "sha256": "8dd98dfefe0ac64bf3c02bb493a2f9f3dec45d829adf566f5d168ccc5e76c091"
+    },
+    {
+      "path": "research/naming/2026-11-12-round7/a.json",
+      "sha256": "72b9c5fa634f7af93b39e735eae05c442b678ecb448cf20a8d5182bea289fe0e"
+    },
+    {
+      "path": "research/naming/2026-11-12-round7/accepted.json",
+      "sha256": "e2f1bbaef4aa91f7599654085ce224abadc411daf98b203e6b32f3b219d3aefb"
+    },
+    {
+      "path": "research/naming/2026-11-12-round7/b.json",
+      "sha256": "37383c9ce88feb8a57ecd2c7ad089905f81ee9c577429fb00b47994aa0f9866f"
+    },
+    {
+      "path": "research/naming/2026-11-12-round7/c.json",
+      "sha256": "29fc1c564a55ce023283ed8bb3c9680a9ae7092bf36f441b4dd4b73513e005af"
+    },
+    {
+      "path": "research/naming/2026-11-12-round7/display-format-adjustments.json",
+      "sha256": "25d3846415e0938396bd12c7afbfe6aa779694c533925f694c0d6459c2328f93"
+    },
+    {
+      "path": "research/naming/2026-11-12-round7/manifest.json",
+      "sha256": "077ff4fd838e8f29e6b3eec6c6b2989068fbddf3a1f87c5fc46af3aa8dbe1912"
+    },
+    {
+      "path": "research/naming/2026-11-12-round7/neutral-proposals.json",
+      "sha256": "ae79dc25fec9bc6d4cd817398b97e68c228f44e1cf2e08ea5d71309fb9bef3d8"
+    },
+    {
+      "path": "research/naming/2026-11-12-round7/review-a.json",
+      "sha256": "fb6c58803075cff6b733975f99c5e346348a4b40332fa0b0ffe8f23d5695859e"
+    },
+    {
+      "path": "research/naming/2026-11-12-round7/review-b.json",
+      "sha256": "b6582cb330744f97b1dccce5052665a99719911c415480706af763c3de760f06"
+    },
+    {
+      "path": "research/naming/2026-11-12-round7/review-c.json",
+      "sha256": "1ed3a16176f37cc301a3411754417b2b93187e44cd484de9df5268812505f5bb"
+    },
+    {
+      "path": "research/naming/2026-11-12-round7/review-neutral.json",
+      "sha256": "e9a37dbbb2dd4251a1421e58f398030f357d2f9c2ee676798662ff9d34dc0f2d"
+    },
+    {
+      "path": "research/naming/2026-11-12-round7/review-root.json",
+      "sha256": "f1775e494e633d68b2ff51c8095d235e0168057fa3e5937b27ef0facc0b3c892"
+    },
+    {
+      "path": "research/naming/2026-11-12-round7/root-proposals.json",
+      "sha256": "294305caa88a72cc65967469efa0e3070245609511efd7105a00e94548aa412e"
+    }
+  ]
+}

@@ -1,0 +1,65 @@
+{
+  "policy": "SHA256 of repository-normalized Git blob bytes (LF line endings). Integrity only, not semantic proof.",
+  "artifacts": [
+    {
+      "path": "research/naming/2026-11-12-round8/a.json",
+      "sha256": "4dc6552b16ef636b4ee85a214a85713e063b7e48a823c1b300fc3d1161496a51"
+    },
+    {
+      "path": "research/naming/2026-11-12-round8/accepted.json",
+      "sha256": "d95f75ee630e1531ac34afff63355cf64830807aac26fc58c20c8a8b0d4699d1"
+    },
+    {
+      "path": "research/naming/2026-11-12-round8/alias-accepted.json",
+      "sha256": "c2979019eade97185d03e486c5b5a7fe89cf674b9b81f7ac961953ee5eb10c77"
+    },
+    {
+      "path": "research/naming/2026-11-12-round8/alias-b-proposals.json",
+      "sha256": "e01e1af5dd29aa6774d00de300e03c582ad2a0092ee3f1bd25d0c17ee3f8dd58"
+    },
+    {
+      "path": "research/naming/2026-11-12-round8/alias-c-proposals.json",
+      "sha256": "7c55e7405768cb2f086345380cb77a76af6e10b99564ab8da2f891e312bd3055"
+    },
+    {
+      "path": "research/naming/2026-11-12-round8/b.json",
+      "sha256": "eaded557fd62da3b8bda9c2345c39a97c68991f0dea7e055e4589a8b398998a4"
+    },
+    {
+      "path": "research/naming/2026-11-12-round8/c.json",
+      "sha256": "ade4b4e9303fa893cc91528cdee03d385393d73e0de5d12ba1db5c91e1426770"
+    },
+    {
+      "path": "research/naming/2026-11-12-round8/coordinator-source-audit.json",
+      "sha256": "241fe46ba55b0feaee31b5f4eb496b930d4910854a775d067691f016293d0fd4"
+    },
+    {
+      "path": "research/naming/2026-11-12-round8/manifest.json",
+      "sha256": "6d5f5f23c05ce437c70b5294be3ba1e11214dcd543337bfcc05539f65c7f94cb"
+    },
+    {
+      "path": "research/naming/2026-11-12-round8/prior-artifact-hashes.json",
+      "sha256": "85717e10317c8f384c94587930694f166e792c979cec894fe89df18063b251b7"
+    },
+    {
+      "path": "research/naming/2026-11-12-round8/review-a.json",
+      "sha256": "83bd1984547fb0693d94c1f81b1cbd7c68e9381b789a580766c870ee64c636f3"
+    },
+    {
+      "path": "research/naming/2026-11-12-round8/review-alias-b.json",
+      "sha256": "42aeb12ef4cf2be529d244b340557ac1ae34bca65ba3d2bfd5e3e551c6cf59a3"
+    },
+    {
+      "path": "research/naming/2026-11-12-round8/review-alias-c.json",
+      "sha256": "2aa37abc0350dc5eb9de6c819ddbc128e88afc0e982b8e7defc0f618527a0053"
+    },
+    {
+      "path": "research/naming/2026-11-12-round8/review-b.json",
+      "sha256": "1ce9b3e9f6a530e240f362357c54d5917ef03239b1c00699c35c966d5210adfd"
+    },
+    {
+      "path": "research/naming/2026-11-12-round8/review-c.json",
+      "sha256": "d1ded2bdd0bb23495348408ea0cf4c2cbdd26484aaaa2f6a135aa298d4196922"
+    }
+  ]
+}

@@ -1,0 +1,1272 @@
+{
+  "source_revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7",
+  "policy": "Frozen proposals; independent review decisions and corrected accepted evidence determine identification credit.",
+  "proposals": [
+    {
+      "canonical_symbol": "sub_0801B264",
+      "address": "0x0801B264",
+      "display_name": "ApplyThreeTypedStatModifiers",
+      "summary": "Processes exactly three4-byte type/value records, adds or sets selected halfword/byte fields in stats and extra buffers, and returns ORed type bits plus composite flags for types1/3/4. Unknown types still contribute their shifted bit but have no switch effect; no input validation.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_0801AAF8.c",
+          "line": 335,
+          "detail": "Processes exactly three4-byte type/value records, adds or sets selected halfword/byte fields in stats and extra buffers, and returns ORed type bits plus composite flags for types1/3/4. Unknown types still contribute their shifted bit but have no switch effect; no input validation.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0801AAF8.c",
+          "line": 897,
+          "detail": "Caller combines resource modifier triplets with per-object modifier triplets; no named elemental or stat labels are inferred from type numbers.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Literal field/resource contracts only; hidden stat/skill/artwork identity and arbitrary input validity are not inferred."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_0801C8F0",
+      "address": "0x0801C8F0",
+      "display_name": "UpdateActorTimedStatusSlots",
+      "summary": "Applies resource modifier triplet and rebuilds derived halfwords/status. Resource byte+0x226==3 returns before slot processing. Processes eight0x28-byte timed slots: player-sourced kinds alter derived values/status; other sources set status or periodic pending damage. Timers below0 except-2 are skipped; active timers decrement unless-2.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_0801AAF8.c",
+          "line": 1269,
+          "detail": "Applies resource modifier triplet and rebuilds derived halfwords/status. Resource byte+0x226==3 returns before slot processing. Processes eight0x28-byte timed slots: player-sourced kinds alter derived values/status; other sources set status or periodic pending damage. Timers below0 except-2 are skipped; active timers decrement unless-2.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08017F7C.c",
+          "line": 230,
+          "detail": "Actor update path invokes this helper; slot sources0..3 use player-class data, while other sources use direct status-kind cases.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Literal field/resource contracts only; hidden stat/skill/artwork identity and arbitrary input validity are not inferred."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_0801D34C",
+      "address": "0x0801D34C",
+      "display_name": "GetClassActionCappedValue",
+      "summary": "Maps saved class8 to6, switches local runtime action kind and class to selected saved halfwords, and for weapon-dependent kinds caps against active weapon resource+0xAC. Unmatched combinations return0. Some weapon paths assign null for empty slot then read it; no safe arbitrary empty-slot contract is claimed.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_0801AAF8.c",
+          "line": 1761,
+          "detail": "Maps saved class8 to6, switches local runtime action kind and class to selected saved halfwords, and for weapon-dependent kinds caps against active weapon resource+0xAC. Unmatched combinations return0. Some weapon paths assign null for empty slot then read it; no safe arbitrary empty-slot contract is claimed.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0801AAF8.c",
+          "line": 1758,
+          "detail": "Runtime action kind is player+0x10; saved class is current save+0xA. Active weapon helper supplies resource cap; exact skill names are not inferred.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Literal field/resource contracts only; hidden stat/skill/artwork identity and arbitrary input validity are not inferred."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_08021E44",
+      "address": "0x08021E44",
+      "display_name": "StartSelectedActorEffect",
+      "summary": "Finds first clear bit in32-slot effect bitmap; writes callback and allocates0x400. Failure or full bitmap returns. Success sets stack top, word0x46, destructor0, registers packed(slot<<16)|actor and animation argument, then sets bit.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_08021DC4.c",
+          "line": 46,
+          "detail": "Finds first clear bit in32-slot effect bitmap; writes callback and allocates0x400. Failure or full bitmap returns. Success sets stack top, word0x46, destructor0, registers packed(slot<<16)|actor and animation argument, then sets bit.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0801E244.c",
+          "line": 1967,
+          "detail": "Callback animates0x50074 following player packed coordinates or indexed actor coordinates and clears reserved bit on exit.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Literal field/resource contracts only; hidden stat/skill/artwork identity and arbitrary input validity are not inferred."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_08021F58",
+      "address": "0x08021F58",
+      "display_name": "StartShortWorldSprite",
+      "summary": "Finds first clear bit in32-slot bitmap, allocates0x400 and returns if none/failure. Packs signed input coordinates shifted8, installs short-effect callback with word0x46 and no destructor, registers and sets bit.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_08021DC4.c",
+          "line": 111,
+          "detail": "Finds first clear bit in32-slot bitmap, allocates0x400 and returns if none/failure. Packs signed input coordinates shifted8, installs short-effect callback with word0x46 and no destructor, registers and sets bit.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0801E244.c",
+          "line": 2154,
+          "detail": "Callback draws animation1/frame0 for at most30 draw/yield iterations and clears bitmap slot at exit.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Literal field/resource contracts only; hidden stat/skill/artwork identity and arbitrary input validity are not inferred."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_08022180",
+      "address": "0x08022180",
+      "display_name": "StartActorAnimationEleven",
+      "summary": "Finds first clear bit in32-slot bitmap, allocates0x400 and returns if none/failure. Installs actor-following callback with stack top, word0x46 and destructor0; forwards actor and slot then sets bit.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_08021DC4.c",
+          "line": 234,
+          "detail": "Finds first clear bit in32-slot bitmap, allocates0x400 and returns if none/failure. Installs actor-following callback with stack top, word0x46 and destructor0; forwards actor and slot then sets bit.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0801E244.c",
+          "line": 2110,
+          "detail": "Callback animates resource0x5008C animation11 following selected actor coordinates and clears bitmap slot on exit.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Literal field/resource contracts only; hidden stat/skill/artwork identity and arbitrary input validity are not inferred."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_0802230C",
+      "address": "0x0802230C",
+      "display_name": "StartWorldAnimationFortyOne",
+      "summary": "Finds first clear bitmap slot, packs unsigned coordinates shifted8 and normalizes third input toboolean. Allocates0x400; failure/full returns. Installs callback with word0x46, destructor0, passes packed coordinates and(mode<<16)|slot, then sets bit.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_08021DC4.c",
+          "line": 329,
+          "detail": "Finds first clear bitmap slot, packs unsigned coordinates shifted8 and normalizes third input toboolean. Allocates0x400; failure/full returns. Installs callback with word0x46, destructor0, passes packed coordinates and(mode<<16)|slot, then sets bit.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0801E244.c",
+          "line": 2334,
+          "detail": "Callback animates0x5008C animation41 in one of two draw modes; initial world-map gate returns before bitmap cleanup, later normal loop exits clear bit.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Literal field/resource contracts only; hidden stat/skill/artwork identity and arbitrary input validity are not inferred."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_0802247C",
+      "address": "0x0802247C",
+      "display_name": "StartCriticalWorldSprite",
+      "summary": "Finds first clear bitmap slot, allocates0x400 and returns if none/failure. Packs signed shifted coordinates, installs critical-effect callback with word0x46/no destructor, registers and sets bitmap slot.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_08021DC4.c",
+          "line": 406,
+          "detail": "Finds first clear bitmap slot, allocates0x400 and returns if none/failure. Packs signed shifted coordinates, installs critical-effect callback with word0x46/no destructor, registers and sets bitmap slot.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0801E244.c",
+          "line": 1843,
+          "detail": "Callback uses shared sprite object animation32 at supplied coordinates until animation complete or termination, then clears bitmap bit.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Literal field/resource contracts only; hidden stat/skill/artwork identity and arbitrary input validity are not inferred."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_08023274",
+      "address": "0x08023274",
+      "display_name": "PrepareIndexedResourceVariants",
+      "summary": "When reset input is nonzero stores category/index, clears two ten-entry halfword arrays and selects resource table by category0..23, with category0 using a separate scene flag. Host seeds up to ten id/count variant entries from RNG, then waits for variant transmission and startup handshake; nonhost only waits handshake. No input bounds/count-zero validation.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_08021DC4.c",
+          "line": 1011,
+          "detail": "When reset input is nonzero stores category/index, clears two ten-entry halfword arrays and selects resource table by category0..23, with category0 using a separate scene flag. Host seeds up to ten id/count variant entries from RNG, then waits for variant transmission and startup handshake; nonhost only waits handshake. No input bounds/count-zero validation.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Scene/story/artwork identity unproved; object numbers are literal constructor kinds, not ROM address fragments. Waiting and registration are not delivery/completion guarantees."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_0802B8A4",
+      "address": "0x0802B8A4",
+      "display_name": "InitializeObjectTwentyScene",
+      "summary": "Creates scene objects with literal kinds0x14,0x15,0x20039,0x1C and conditional0x60017/0x28; configures interaction records and callbacks. Starts30-slot support tasks with allocation retry, conditionally checks inventories for item1:0x29, schedules callback work, and runs optional message0x140482/player-position sequence. Missing object searches yield once and skip writes; argument-block task allocations are unchecked.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_08028AAC.c",
+          "line": 2511,
+          "detail": "Creates scene objects with literal kinds0x14,0x15,0x20039,0x1C and conditional0x60017/0x28; configures interaction records and callbacks. Starts30-slot support tasks with allocation retry, conditionally checks inventories for item1:0x29, schedules callback work, and runs optional message0x140482/player-position sequence. Missing object searches yield once and skip writes; argument-block task allocations are unchecked.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08021DC4.c",
+          "line": 5343,
+          "detail": "Scene constructor starts object callback and waits only for startup word to change; this is not palette/resource readiness. Callers separately search15 records and handle absence narrowly.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Scene/story/artwork identity unproved; object numbers are literal constructor kinds, not ROM address fragments. Waiting and registration are not delivery/completion guarantees."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_0802D050",
+      "address": "0x0802D050",
+      "display_name": "InitializeObjectFortyEightGroup",
+      "summary": "Creates kinds0x30,0x20039 and0x5002A at fixed coordinates; found records get dimensions8/4, flag0x10 and respective callbacks. Each lookup scans15 records; missing match yields once and skips writes. If scene gate is clear, selects existing transition route and waits for transition idle.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_08028AAC.c",
+          "line": 3994,
+          "detail": "Creates kinds0x30,0x20039 and0x5002A at fixed coordinates; found records get dimensions8/4, flag0x10 and respective callbacks. Each lookup scans15 records; missing match yields once and skips writes. If scene gate is clear, selects existing transition route and waits for transition idle.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08021DC4.c",
+          "line": 5343,
+          "detail": "Scene constructor starts object callback and waits only for startup word to change; this is not palette/resource readiness. Callers separately search15 records and handle absence narrowly.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Scene/story/artwork identity unproved; object numbers are literal constructor kinds, not ROM address fragments. Waiting and registration are not delivery/completion guarantees."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_0802D568",
+      "address": "0x0802D568",
+      "display_name": "InitializeTwinObjectFortyNine",
+      "summary": "Creates two kind0x31 objects at fixed positions and installs distinct callbacks. Mode-selected save flag2 enables additional kind0x10034. Found records get dimensions8/4 and flag0x10; missing matches yield once and skip writes. Clear scene gate triggers selected transition and idle wait.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_08028AAC.c",
+          "line": 4392,
+          "detail": "Creates two kind0x31 objects at fixed positions and installs distinct callbacks. Mode-selected save flag2 enables additional kind0x10034. Found records get dimensions8/4 and flag0x10; missing matches yield once and skip writes. Clear scene gate triggers selected transition and idle wait.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08021DC4.c",
+          "line": 5343,
+          "detail": "Scene constructor starts object callback and waits only for startup word to change; this is not palette/resource readiness. Callers separately search15 records and handle absence narrowly.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Scene/story/artwork identity unproved; object numbers are literal constructor kinds, not ROM address fragments. Waiting and registration are not delivery/completion guarantees."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_0802D8C4",
+      "address": "0x0802D8C4",
+      "display_name": "InitializeObjectFiftyFourGroup",
+      "summary": "Creates kinds0x36,0x40027,0x35 plus0xB0036/0xC0036. Configures first three found records and callbacks, and starts helper task for first object from30-slot pool with0x400 allocation retry. Full task pool silently skips start; missing lookups skip writes after yield. Clear scene gate selects transition and waits idle.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_08028AAC.c",
+          "line": 4665,
+          "detail": "Creates kinds0x36,0x40027,0x35 plus0xB0036/0xC0036. Configures first three found records and callbacks, and starts helper task for first object from30-slot pool with0x400 allocation retry. Full task pool silently skips start; missing lookups skip writes after yield. Clear scene gate selects transition and waits idle.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08021DC4.c",
+          "line": 5343,
+          "detail": "Scene constructor starts object callback and waits only for startup word to change; this is not palette/resource readiness. Callers separately search15 records and handle absence narrowly.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Scene/story/artwork identity unproved; object numbers are literal constructor kinds, not ROM address fragments. Waiting and registration are not delivery/completion guarantees."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_0802DE0C",
+      "address": "0x0802DE0C",
+      "display_name": "InitializeObjectThirtySevenGroup",
+      "summary": "Creates kind0x25 and configures callback; flag-selected branch either loops animation1 or starts helper task. Another flag branch creates/configures0x40029 or starts alternative task. Always creates kind0x33 callback object. Lookup failures skip writes after yield; task starts retry allocation or skip when pool full. Ends with gated transition/idle wait.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_08028AAC.c",
+          "line": 5078,
+          "detail": "Creates kind0x25 and configures callback; flag-selected branch either loops animation1 or starts helper task. Another flag branch creates/configures0x40029 or starts alternative task. Always creates kind0x33 callback object. Lookup failures skip writes after yield; task starts retry allocation or skip when pool full. Ends with gated transition/idle wait.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08021DC4.c",
+          "line": 5343,
+          "detail": "Scene constructor starts object callback and waits only for startup word to change; this is not palette/resource readiness. Callers separately search15 records and handle absence narrowly.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Scene/story/artwork identity unproved; object numbers are literal constructor kinds, not ROM address fragments. Waiting and registration are not delivery/completion guarantees."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_0802E444",
+      "address": "0x0802E444",
+      "display_name": "InitializeObjectSixtySixGroup",
+      "summary": "Creates five fixed-position kinds0x42,0x44,0x45,0x46,0x43; attaches distinct callbacks, dimensions and flag0x10 only to found records. First dimensions0x50/4, others8/4. Each missing lookup yields once and skips writes. Clear scene gate selects screen transition route and waits idle.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_08028AAC.c",
+          "line": 5530,
+          "detail": "Creates five fixed-position kinds0x42,0x44,0x45,0x46,0x43; attaches distinct callbacks, dimensions and flag0x10 only to found records. First dimensions0x50/4, others8/4. Each missing lookup yields once and skips writes. Clear scene gate selects screen transition route and waits idle.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08021DC4.c",
+          "line": 5343,
+          "detail": "Scene constructor starts object callback and waits only for startup word to change; this is not palette/resource readiness. Callers separately search15 records and handle absence narrowly.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Scene/story/artwork identity unproved; object numbers are literal constructor kinds, not ROM address fragments. Waiting and registration are not delivery/completion guarantees."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_0802EA50",
+      "address": "0x0802EA50",
+      "display_name": "InitializeObjectThirtyThreeGroup",
+      "summary": "Creates kind0x21 and8 callbacks and loops second animation2; hides selector6 at9999,9999 when savebit/playercount gate holds. Nonzero input positions player. Input1 counts eleven completion bits and shows changed-count messages0x1401EA..1F3, setting0x80000 at eleven; input2 shows1F4. Cases1/2 set/clear player flag1 around sequence; message abort gate closes UI. Other inputs only gated transition wait.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_08028AAC.c",
+          "line": 6016,
+          "detail": "Creates kind0x21 and8 callbacks and loops second animation2; hides selector6 at9999,9999 when savebit/playercount gate holds. Nonzero input positions player. Input1 counts eleven completion bits and shows changed-count messages0x1401EA..1F3, setting0x80000 at eleven; input2 shows1F4. Cases1/2 set/clear player flag1 around sequence; message abort gate closes UI. Other inputs only gated transition wait.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08021DC4.c",
+          "line": 5343,
+          "detail": "Scene constructor starts object callback and waits only for startup word to change; this is not palette/resource readiness. Callers separately search15 records and handle absence narrowly.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Scene/story/artwork identity unproved; object numbers are literal constructor kinds, not ROM address fragments. Waiting and registration are not delivery/completion guarantees."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_0802F208",
+      "address": "0x0802F208",
+      "display_name": "RunObjectThirtyThreeRelease",
+      "summary": "Clears mode-selected byte mask0x8, sets player flag1 and creates kind0x21; transitions, signals0x09999000, runs timed animation/message0x1401F9 sequence and starts helper task from30-slot pool with allocation retry. Full pool skips helper. Clears player flag1, resets active actor state12 to0 and calls19F04 on normal exit.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_08028AAC.c",
+          "line": 6344,
+          "detail": "Clears mode-selected byte mask0x8, sets player flag1 and creates kind0x21; transitions, signals0x09999000, runs timed animation/message0x1401F9 sequence and starts helper task from30-slot pool with allocation retry. Full pool skips helper. Clears player flag1, resets active actor state12 to0 and calls19F04 on normal exit.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Resource IDs and item kind/id pairs are literal evidence; no quest/character/artwork identity or successful remote delivery is inferred."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_0802F578",
+      "address": "0x0802F578",
+      "display_name": "ShowObjectThirtyTwoDialogue",
+      "summary": "Sets local player flag1, chooses message by highest set progress bit256..1 or default. Bit8 branch additionally tests byte mask0x1 and, when byte mask0x80 set, requests callback5990C(0x16), waits up to100 yields and returns without clearing flag1 or calling D108. Other exits clear flag1 and restore input helper; UI abort closes active dialog.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_08028AAC.c",
+          "line": 6545,
+          "detail": "Sets local player flag1, chooses message by highest set progress bit256..1 or default. Bit8 branch additionally tests byte mask0x1 and, when byte mask0x80 set, requests callback5990C(0x16), waits up to100 yields and returns without clearing flag1 or calling D108. Other exits clear flag1 and restore input helper; UI abort closes active dialog.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Resource IDs and item kind/id pairs are literal evidence; no quest/character/artwork identity or successful remote delivery is inferred."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_08032598",
+      "address": "0x08032598",
+      "display_name": "RunEightPointScenePatrol",
+      "summary": "Loops scene-entity animation8 around eight fixed points with facing changes. Single-player unset flag starts112 patrol circuits, emits descriptor6:0x59 until admitted, sets saved bit2 and plays timed extra animations. Continues patrol until single-player flag clears, then admits another task running itself. Full30-slot pool skips restart; stack allocation retries with yields.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_0802FEA0.c",
+          "line": 1227,
+          "detail": "Loops scene-entity animation8 around eight fixed points with facing changes. Single-player unset flag starts112 patrol circuits, emits descriptor6:0x59 until admitted, sets saved bit2 and plays timed extra animations. Continues patrol until single-player flag clears, then admits another task running itself. Full30-slot pool skips restart; stack allocation retries with yields.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Resource IDs and item kind/id pairs are literal evidence; no quest/character/artwork identity or successful remote delivery is inferred."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_0803294C",
+      "address": "0x0803294C",
+      "display_name": "ShowObjectTwentyOneDialogue",
+      "summary": "Sets player flag1 and entity-facing helper, chooses message0x14019A..1A4 by highest progress bit512..1/default, waits for dialog or abort-closes it, restores entity helper29788 and clears player flag1/input helper on normal exit.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_0802FEA0.c",
+          "line": 1362,
+          "detail": "Sets player flag1 and entity-facing helper, chooses message0x14019A..1A4 by highest progress bit512..1/default, waits for dialog or abort-closes it, restores entity helper29788 and clears player flag1/input helper on normal exit.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Resource IDs and item kind/id pairs are literal evidence; no quest/character/artwork identity or successful remote delivery is inferred."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_08037DFC",
+      "address": "0x08037DFC",
+      "display_name": "HandleFullMarkerSetReward",
+      "summary": "Sets player flag1 and faces entity; tests145 saved marker bytes, mode-selected completion bits and local player index. Host with all markers and no completion bit shows113 then, if capacity helper succeeds, attempts inventory insertion of descriptor6:0x1E, requests callback5990C(0x26), and shows114/115; failed capacity shows116. Otherwise chooses108..112 by progress. Dialog aborts close UI; all normal paths clear flag1/input helper. Inventory insertion return is ignored.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_0802FEA0.c",
+          "line": 4081,
+          "detail": "Sets player flag1 and faces entity; tests145 saved marker bytes, mode-selected completion bits and local player index. Host with all markers and no completion bit shows113 then, if capacity helper succeeds, attempts inventory insertion of descriptor6:0x1E, requests callback5990C(0x26), and shows114/115; failed capacity shows116. Otherwise chooses108..112 by progress. Dialog aborts close UI; all normal paths clear flag1/input helper. Inventory insertion return is ignored.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0805A630.c",
+          "line": 317,
+          "detail": "sub_0805AB20 inserts/merges descriptor into local25-slot inventory and returns0 if no capacity; these callers ignore return. Not a transport queue.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Resource IDs and item kind/id pairs are literal evidence; no quest/character/artwork identity or successful remote delivery is inferred."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_08039F00",
+      "address": "0x08039F00",
+      "display_name": "ProcessItemFortySixCollection",
+      "summary": "Host may confirm transfer of all inventory type1:id0x2E slots into saved byte total; deletes matching slot kind/id and truncates stored total tobyte. Reaching total>9 attempts inventory insertion of one reward descriptor6:0x58 or6:0x23 by mode and callback59340(total). Nonhost/missing/rejected/already-complete paths show distinct messages. Sets player flag1 before interaction and clears it on all normal branches; abort gate closes messages. Inventory insertion return is ignored; consumed inputs are not restored on insertion failure.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_0802FEA0.c",
+          "line": 4788,
+          "detail": "Host may confirm transfer of all inventory type1:id0x2E slots into saved byte total; deletes matching slot kind/id and truncates stored total tobyte. Reaching total>9 attempts inventory insertion of one reward descriptor6:0x58 or6:0x23 by mode and callback59340(total). Nonhost/missing/rejected/already-complete paths show distinct messages. Sets player flag1 before interaction and clears it on all normal branches; abort gate closes messages. Inventory insertion return is ignored; consumed inputs are not restored on insertion failure.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0805A630.c",
+          "line": 317,
+          "detail": "sub_0805AB20 inserts/merges descriptor into local25-slot inventory and returns0 if no capacity; these callers ignore return. Not a transport queue.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Resource IDs and item kind/id pairs are literal evidence; no quest/character/artwork identity or successful remote delivery is inferred."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_0803A460",
+      "address": "0x0803A460",
+      "display_name": "ShowProgressStageDialogue",
+      "summary": "Sets player flag1 and entity-facing helper, chooses message0x140130..13A from highest mode-selected progress bit512..1/default, waits dialog or abort-closes it, then clears flag1/input helper. No progression bits or inventory are modified here.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_0802FEA0.c",
+          "line": 4910,
+          "detail": "Sets player flag1 and entity-facing helper, chooses message0x140130..13A from highest mode-selected progress bit512..1/default, waits dialog or abort-closes it, then clears flag1/input helper. No progression bits or inventory are modified here.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Resource IDs and item kind/id pairs are literal evidence; no quest/character/artwork identity or successful remote delivery is inferred."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_0803BC3C",
+      "address": "0x0803BC3C",
+      "display_name": "ExchangeItemFortyEight",
+      "summary": "When mode-selected byte mask0x1 is clear, displays message28B and host with inventory type1:id0x30 removes one matching item, sets entity animation/state3, attempts inventory insertion of one descriptor6:0x52 or1:0x63 by mode, requests callback5990C(8), then shows result. Completed-bit path shows28F. Player flag1/input helper are restored on normal exit; dialog abort only closes dialog, not whole transaction. Inventory insertion return is ignored; consumed inputs are not restored on insertion failure.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_0803B69C.c",
+          "line": 163,
+          "detail": "When mode-selected byte mask0x1 is clear, displays message28B and host with inventory type1:id0x30 removes one matching item, sets entity animation/state3, attempts inventory insertion of one descriptor6:0x52 or1:0x63 by mode, requests callback5990C(8), then shows result. Completed-bit path shows28F. Player flag1/input helper are restored on normal exit; dialog abort only closes dialog, not whole transaction. Inventory insertion return is ignored; consumed inputs are not restored on insertion failure.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0805A630.c",
+          "line": 317,
+          "detail": "sub_0805AB20 inserts/merges descriptor into local25-slot inventory and returns0 if no capacity; these callers ignore return. Not a transport queue.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Resource IDs and item kind/id pairs are literal evidence; no quest/character/artwork identity or successful remote delivery is inferred."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_0803CC50",
+      "address": "0x0803CC50",
+      "display_name": "ConfirmProgressStageAdvance",
+      "summary": "Sets player flag1, faces entity and picks yes/no message0x1404EE..4F7 from highest progress bit256..1/default. Confirmation ORs next bit into mode-selected progress word; noninitial stages also write lower-bit mask to state+0x50. Decline leaves progress unchanged. Restores entity29788 and player flag/input helper; waits have no abort branch.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_0803B69C.c",
+          "line": 505,
+          "detail": "Sets player flag1, faces entity and picks yes/no message0x1404EE..4F7 from highest progress bit256..1/default. Confirmation ORs next bit into mode-selected progress word; noninitial stages also write lower-bit mask to state+0x50. Decline leaves progress unchanged. Restores entity29788 and player flag/input helper; waits have no abort branch.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Exact story/artwork meaning remains unclaimed. Descriptor/callback requests are not guaranteed completion, and unchecked input/slot domains remain caller preconditions."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_0803EE88",
+      "address": "0x0803EE88",
+      "display_name": "RunPairedObjectIntroSequence",
+      "summary": "Sets player flag1, creates kinds0x20/0x31, moves local player to index-dependent position and pans camera for player1..3. Waits transitions and message0x140481, marks found records field+0x36=4, sets mode-selected bytebit1, calls scene transition2A228(0,0), then restores player flag/input helper. Missing object lookups yield once and skip field writes.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_0803B69C.c",
+          "line": 1675,
+          "detail": "Sets player flag1, creates kinds0x20/0x31, moves local player to index-dependent position and pans camera for player1..3. Waits transitions and message0x140481, marks found records field+0x36=4, sets mode-selected bytebit1, calls scene transition2A228(0,0), then restores player flag/input helper. Missing object lookups yield once and skip field writes.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Exact story/artwork meaning remains unclaimed. Descriptor/callback requests are not guaranteed completion, and unchecked input/slot domains remain caller preconditions."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_0803F454",
+      "address": "0x0803F454",
+      "display_name": "DispatchSceneMotionPhase",
+      "summary": "Dispatches cases0..14 into timed player animations/motion, projectile effects, state+0x38 bits, object0x460049 spawning/marking and recursive local/remote task requests.30-slot local helper starts retry allocation or skip when full; missing object searches skip mark. All cases including unknown input end by clearing local player state+0x20. Timed waits can break on21A8; no narrative event identity inferred.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_0803B69C.c",
+          "line": 1965,
+          "detail": "Dispatches cases0..14 into timed player animations/motion, projectile effects, state+0x38 bits, object0x460049 spawning/marking and recursive local/remote task requests.30-slot local helper starts retry allocation or skip when full; missing object searches skip mark. All cases including unknown input end by clearing local player state+0x20. Timed waits can break on21A8; no narrative event identity inferred.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Exact story/artwork meaning remains unclaimed. Descriptor/callback requests are not guaranteed completion, and unchecked input/slot domains remain caller preconditions."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_080425CC",
+      "address": "0x080425CC",
+      "display_name": "ReplaceObjectAfterDialogue",
+      "summary": "Sets player flag1, positions local player by local index, updates facing/flag2 and transition state, pans camera and shows messages0x140104/105. Marks input object for removal, creates kind0x2003C with callback308B4 and dimensions8/16 when found, restores camera, writes selected state2 and clears player flag1/input helper. Missing lookups skip writes; dialog abort closes only current message.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_0803B69C.c",
+          "line": 3962,
+          "detail": "Sets player flag1, positions local player by local index, updates facing/flag2 and transition state, pans camera and shows messages0x140104/105. Marks input object for removal, creates kind0x2003C with callback308B4 and dimensions8/16 when found, restores camera, writes selected state2 and clears player flag1/input helper. Missing lookups skip writes; dialog abort closes only current message.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0803B69C.c",
+          "line": 3927,
+          "detail": "t43_schedule25cc is inline switch directly positioning local player by index through28AAC, not task admission.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Exact story/artwork meaning remains unclaimed. Descriptor/callback requests are not guaranteed completion, and unchecked input/slot domains remain caller preconditions."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_08045764",
+      "address": "0x08045764",
+      "display_name": "SetProgressBitGroups",
+      "summary": "Input0 ORs mode-selected progress bits1..9; input1 ORs10..14 and16..22, leaving bit15 untouched. Other values do nothing. Uses inline setter for each bit; no clearing or scene transition.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_080443EC.c",
+          "line": 632,
+          "detail": "Input0 ORs mode-selected progress bits1..9; input1 ORs10..14 and16..22, leaving bit15 untouched. Other values do nothing. Uses inline setter for each bit; no clearing or scene transition.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080443EC.c",
+          "line": 631,
+          "detail": "set576445 inline ORs mask into state+0x80 or+0x78 by game mode. Case1 omits bit15.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Exact story/artwork meaning remains unclaimed. Descriptor/callback requests are not guaranteed completion, and unchecked input/slot domains remain caller preconditions."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_08047474",
+      "address": "0x08047474",
+      "display_name": "ExchangeItemFortyTwo",
+      "summary": "Sets player flag1 and faces entity. If mode-selected byte mask0x20 clear, shows22B and, when inventory contains type1:id0x2A, consumes one, updates entity animation/state3, attempts inventory insertion of one descriptor1:0x2B, queues callback5990C(13) and shows22E. Completed-bit path shows230; no-item path only initial message. All normal exits clear flag/input helper; message abort does not cancel later transaction. Inventory insertion return is ignored; consumed inputs are not restored on insertion failure.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_080443EC.c",
+          "line": 1158,
+          "detail": "Sets player flag1 and faces entity. If mode-selected byte mask0x20 clear, shows22B and, when inventory contains type1:id0x2A, consumes one, updates entity animation/state3, attempts inventory insertion of one descriptor1:0x2B, queues callback5990C(13) and shows22E. Completed-bit path shows230; no-item path only initial message. All normal exits clear flag/input helper; message abort does not cancel later transaction. Inventory insertion return is ignored; consumed inputs are not restored on insertion failure.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0805A630.c",
+          "line": 317,
+          "detail": "sub_0805AB20 inserts/merges descriptor into local25-slot inventory and returns0 if no capacity; these callers ignore return. Not a transport queue.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Exact story/artwork meaning remains unclaimed. Descriptor/callback requests are not guaranteed completion, and unchecked input/slot domains remain caller preconditions."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_08047B2C",
+      "address": "0x08047B2C",
+      "display_name": "RunTwelveMessageCameraSequence",
+      "summary": "Case0 waits, moves actor selector1, shows messages0x140000..00B with alternating actor1/2 motion and pans camera toward0,0; clears local player flag1/input helper midway. Cases2/3 play sound, set respective actor state3 and facing. Other inputs return unchanged. Dialog waits have no abort path; timed waits can break on21A8.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_080443EC.c",
+          "line": 1380,
+          "detail": "Case0 waits, moves actor selector1, shows messages0x140000..00B with alternating actor1/2 motion and pans camera toward0,0; clears local player flag1/input helper midway. Cases2/3 play sound, set respective actor state3 and facing. Other inputs return unchanged. Dialog waits have no abort path; timed waits can break on21A8.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Exact story/artwork meaning remains unclaimed. Descriptor/callback requests are not guaranteed completion, and unchecked input/slot domains remain caller preconditions."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_08048570",
+      "address": "0x08048570",
+      "display_name": "CoordinateActorStateRecovery",
+      "summary": "Case0 starts48A74 task, configures scene rectangle and returns early on flag predicate. Another flag selects five helper tasks then player release and actor state12 reset; alternative queues callback59954(7), cancels saved first task if scheduled, closes UI and starts mode1 helper. Case1 polls state gates, queues callbacks, shows14002F and restores player input. Local starts retry allocations, fullpool skip; saved pointer may be unset if first task pool full.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_080443EC.c",
+          "line": 2004,
+          "detail": "Case0 starts48A74 task, configures scene rectangle and returns early on flag predicate. Another flag selects five helper tasks then player release and actor state12 reset; alternative queues callback59954(7), cancels saved first task if scheduled, closes UI and starts mode1 helper. Case1 polls state gates, queues callbacks, shows14002F and restores player input. Local starts retry allocations, fullpool skip; saved pointer may be unset if first task pool full.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Exact story/artwork meaning remains unclaimed. Descriptor/callback requests are not guaranteed completion, and unchecked input/slot domains remain caller preconditions."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_0804B32C",
+      "address": "0x0804B32C",
+      "display_name": "RunActorReplacementEffects",
+      "summary": "If scene gate clear and first claim of state mask0x20, sets player flag1, hides actors2/1, starts helper tasks and emits animation41 effects, creates kind15 and runs message14003F plus downward motion, then marks object and restores player input. Already-claimed/gated path skips sequence. Both paths set mode-selected byte mask0x4. Helper starts retry allocation or skip fullpool.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_080443EC.c",
+          "line": 3883,
+          "detail": "If scene gate clear and first claim of state mask0x20, sets player flag1, hides actors2/1, starts helper tasks and emits animation41 effects, creates kind15 and runs message14003F plus downward motion, then marks object and restores player input. Already-claimed/gated path skips sequence. Both paths set mode-selected byte mask0x4. Helper starts retry allocation or skip fullpool.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Neutral source behavior only; artwork/story and successful delivery of queued requests remain unknown."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_0804B61C",
+      "address": "0x0804B61C",
+      "display_name": "RunOffsetCameraDialogue",
+      "summary": "Sets player flag1, positions local player using playercount/index offsets and camera toward(-offset,-300), waits transition and music217, shows14003B or14003D selected by state mask0x40 and sets it, returns camera, tracks music11, sets state halfword+4 bit32 and restores player input. Player indices outside0..3 can leave offset unset.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_080443EC.c",
+          "line": 3996,
+          "detail": "Sets player flag1, positions local player using playercount/index offsets and camera toward(-offset,-300), waits transition and music217, shows14003B or14003D selected by state mask0x40 and sets it, returns camera, tracks music11, sets state halfword+4 bit32 and restores player input. Player indices outside0..3 can leave offset unset.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Neutral source behavior only; artwork/story and successful delivery of queued requests remain unknown."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_0804B984",
+      "address": "0x0804B984",
+      "display_name": "InitializeFlaggedObjectNineteen",
+      "summary": "Mode-selected byte mask0x40 hides selector6 and skips creation. Otherwise creates kind19 at flag-dependent coordinates, positions selector6, and either starts rectangle callback with unchecked0x400 allocation or conditionally queues item descriptor3:0x23/0x91 until accepted and starts helper. Sets state mask0x1 for packet branch. Ends gated transition/idle wait; full taskpool skips start.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_080443EC.c",
+          "line": 4126,
+          "detail": "Mode-selected byte mask0x40 hides selector6 and skips creation. Otherwise creates kind19 at flag-dependent coordinates, positions selector6, and either starts rectangle callback with unchecked0x400 allocation or conditionally queues item descriptor3:0x23/0x91 until accepted and starts helper. Sets state mask0x1 for packet branch. Ends gated transition/idle wait; full taskpool skips start.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080443EC.c",
+          "line": 4086,
+          "detail": "t49_extractB984 shifts selected byte right6 and ANDs1, so constructor-hide gate is mask0x40; state word+0x38 masks1/2 are distinct.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Neutral source behavior only; artwork/story and successful delivery of queued requests remain unknown."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_0804C67C",
+      "address": "0x0804C67C",
+      "display_name": "RunRepeatCameraDialogue",
+      "summary": "Sets player flag1, positions by playercount/index offset at y240, transitions and tracks song217. Pans toward(-offset,-116), chooses message140040/041 by state mask0x10 and sets it, restores camera, tracks song11, sets statehalfword+4 bit32 and restores player input. No dialog-abort branch; invalid player index may leave offset unset.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_080443EC.c",
+          "line": 4744,
+          "detail": "Sets player flag1, positions by playercount/index offset at y240, transitions and tracks song217. Pans toward(-offset,-116), chooses message140040/041 by state mask0x10 and sets it, restores camera, tracks song11, sets statehalfword+4 bit32 and restores player input. No dialog-abort branch; invalid player index may leave offset unset.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Neutral source behavior only; artwork/story and successful delivery of queued requests remain unknown."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_0804E360",
+      "address": "0x0804E360",
+      "display_name": "InitializeFlaggedRegionScene",
+      "summary": "State mask0x1 hides selectors6/7 and returns after gated transition. Otherwise optionally sets player flag1 when mask0x2 clear, waits transition, starts wrapper2A104 with callback4E7B8 and selector6 plus mode-dependent4E628 task. Wrapper allocation is unchecked; latter retries allocation; full30-slot pools skip starts. This function does not itself clear player flag1.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_0804D330.c",
+          "line": 619,
+          "detail": "State mask0x1 hides selectors6/7 and returns after gated transition. Otherwise optionally sets player flag1 when mask0x2 clear, waits transition, starts wrapper2A104 with callback4E7B8 and selector6 plus mode-dependent4E628 task. Wrapper allocation is unchecked; latter retries allocation; full30-slot pools skip starts. This function does not itself clear player flag1.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Neutral source behavior only; artwork/story and successful delivery of queued requests remain unknown."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_08050E48",
+      "address": "0x08050E48",
+      "display_name": "RunStagedDialogueItemScene",
+      "summary": "Case0 sequences actor facing/movement and messages14006B..080, retries world-item request(type10,value300) until admitted, calls5D37C/687A8 and starts case2 helper, then falls into case1. Case1 sets player flag1, shows081..08A, retries item1:6 world request, moves/hides actor2, sets state mask0x2 and restores input, resetting active actor state12. Case2 moves actor1 after wait; unknown cases do nothing.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_0804D330.c",
+          "line": 3139,
+          "detail": "Case0 sequences actor facing/movement and messages14006B..080, retries world-item request(type10,value300) until admitted, calls5D37C/687A8 and starts case2 helper, then falls into case1. Case1 sets player flag1, shows081..08A, retries item1:6 world request, moves/hides actor2, sets state mask0x2 and restores input, resetting active actor state12. Case2 moves actor1 after wait; unknown cases do nothing.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0804D330.c",
+          "line": 3032,
+          "detail": "Expanded inline t53_scene0E48 contains complete numbered sequence and helpers; canonical wrapper supplies world coordinates0x7800,0x7800.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Neutral source behavior only; artwork/story and successful delivery of queued requests remain unknown."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_080542C4",
+      "address": "0x080542C4",
+      "display_name": "ShowFirstFlaggedActorDialogue",
+      "summary": "Sets player flag1/input helper before checking mode-selected byte mask0x2. Already-set bit returns immediately retaining flag1/helper state. First visit sets mask0x2, shows140284/285 around actor facing, positions actor2 and hides actor1, then restores player flag/input helper. Dialog waits have no abort path.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_080542C4.c",
+          "line": 4,
+          "detail": "Sets player flag1/input helper before checking mode-selected byte mask0x2. Already-set bit returns immediately retaining flag1/helper state. First visit sets mask0x2, shows140284/285 around actor facing, positions actor2 and hides actor1, then restores player flag/input helper. Dialog waits have no abort path.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Neutral source behavior only; artwork/story and successful delivery of queued requests remain unknown."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_08055174",
+      "address": "0x08055174",
+      "display_name": "StartTenRegionTransferTasks",
+      "summary": "Starts ten5664C tasks for table indices0x29..0x32 using30-slot scene task pool,0x400 allocation retry, word0x3C and destructor0. Fullpool silently skips each unavailable start. After attempts, clear scene gate selects screen transition route and waits idle; does not wait for transfer-task completion.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_080542C4.c",
+          "line": 307,
+          "detail": "Starts ten5664C tasks for table indices0x29..0x32 using30-slot scene task pool,0x400 allocation retry, word0x3C and destructor0. Fullpool silently skips each unavailable start. After attempts, clear scene gate selects screen transition route and waits idle; does not wait for transfer-task completion.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Neutral source behavior only; artwork/story and successful delivery of queued requests remain unknown."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_08056538",
+      "address": "0x08056538",
+      "display_name": "RunRepeatingRegionDamage",
+      "summary": "Waits until local player intersects table-selected rectangle, calls29CEC with table damage/action and setup1, waits table count with21A8 earlybreak, then attempts to start another instance for same index. New task allocation retries; full30-slot pool ends repetition. No table-index bounds validation or guaranteed damage application.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_080542C4.c",
+          "line": 902,
+          "detail": "Waits until local player intersects table-selected rectangle, calls29CEC with table damage/action and setup1, waits table count with21A8 earlybreak, then attempts to start another instance for same index. New task allocation retries; full30-slot pool ends repetition. No table-index bounds validation or guaranteed damage application.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080542C4.c",
+          "line": 885,
+          "detail": "Local Walk helpers test rectangle intersection with21FE0; they do not move the player. Walk98 also requires player halfword+0x14 bit0 or breaks via58608.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Exact unnamed resource/status field labels and invalid input behavior remain unclaimed; operational role is source-backed."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_0805664C",
+      "address": "0x0805664C",
+      "display_name": "RunRegionPlayerTransfer",
+      "summary": "Waits table-selected player intersection plus player+0x14 mask0x1, with58608 break from wait. If CCCC()!=1, sets player flags1/2, moves local player to tabledestination over90 frames, clears flags and restarts same indexed task. CCCC()==1 exits without transfer/restart; helper return itself does not prove intersection if break predicate fired.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_080542C4.c",
+          "line": 936,
+          "detail": "Waits table-selected player intersection plus player+0x14 mask0x1, with58608 break from wait. If CCCC()!=1, sets player flags1/2, moves local player to tabledestination over90 frames, clears flags and restarts same indexed task. CCCC()==1 exits without transfer/restart; helper return itself does not prove intersection if break predicate fired.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080542C4.c",
+          "line": 916,
+          "detail": "Local Walk helpers test rectangle intersection with21FE0; they do not move the player. Walk98 also requires player halfword+0x14 bit0 or breaks via58608.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Exact unnamed resource/status field labels and invalid input behavior remain unclaimed; operational role is source-backed."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_0805A6A0",
+      "address": "0x0805A6A0",
+      "display_name": "ClearSceneRequestFlag",
+      "summary": "Clears mask0x100 in game-state halfword+4 and preserves other bits; no allocation, wait or return value.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_0805A630.c",
+          "line": 27,
+          "detail": "Clears mask0x100 in game-state halfword+4 and preserves other bits; no allocation, wait or return value.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Exact unnamed resource/status field labels and invalid input behavior remain unclaimed; operational role is source-backed."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_0805A8F8",
+      "address": "0x0805A8F8",
+      "display_name": "StartSecondarySceneTask",
+      "summary": "Scans30 controls at game state+0x12E4 for an unscheduled control, retries0x400 allocation with yields, installs supplied callback with word0x3C/destructor0, forwards argument and returns control. Fullpool reaches C end without defined return expression; no promised null return or callback completion.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_0805A630.c",
+          "line": 146,
+          "detail": "Scans30 controls at game state+0x12E4 for an unscheduled control, retries0x400 allocation with yields, installs supplied callback with word0x3C/destructor0, forwards argument and returns control. Fullpool reaches C end without defined return expression; no promised null return or callback completion.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Exact unnamed resource/status field labels and invalid input behavior remain unclaimed; operational role is source-backed."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_0805A994",
+      "address": "0x0805A994",
+      "display_name": "WriteActiveActorWordPairs",
+      "summary": "Zero index returns; otherwise decrements index, waits until matching actor-mask bit is set, selects actor stride0x2E0 and writes supplied words at+0x38/+0x3C while zeroing+0x30/+0x34. No index bounds validation or termination escape from inactive-bit wait.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_0805A630.c",
+          "line": 190,
+          "detail": "Zero index returns; otherwise decrements index, waits until matching actor-mask bit is set, selects actor stride0x2E0 and writes supplied words at+0x38/+0x3C while zeroing+0x30/+0x34. No index bounds validation or termination escape from inactive-bit wait.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Exact unnamed resource/status field labels and invalid input behavior remain unclaimed; operational role is source-backed."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_0805BD5C",
+      "address": "0x0805BD5C",
+      "display_name": "ApplyLocalConsumableAction",
+      "summary": "Rejects null/wrong item type, pause/state/flag gates, then dispatches resource kind: scaled HP/MP restoration, capped saved stat increments, status-slot removal/replacement, return-state setup, full restoration or other effect request. Returns0 on unsupported/ineligible kinds; kind10 returns1 early, other successful kinds return1 after sounds. Does not remove input item from inventory; multiple resource/status/world gates are kind-specific.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_0805A630.c",
+          "line": 1287,
+          "detail": "Rejects null/wrong item type, pause/state/flag gates, then dispatches resource kind: scaled HP/MP restoration, capped saved stat increments, status-slot removal/replacement, return-state setup, full restoration or other effect request. Returns0 on unsupported/ineligible kinds; kind10 returns1 early, other successful kinds return1 after sounds. Does not remove input item from inventory; multiple resource/status/world gates are kind-specific.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Exact unnamed resource/status field labels and invalid input behavior remain unclaimed; operational role is source-backed."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_0805C4FC",
+      "address": "0x0805C4FC",
+      "display_name": "GenerateTieredRandomItem",
+      "summary": "Clears16-byte output. Count0 returns0; otherwise decrements tier, rolls threshold flag and weighted category table (category8 maps6), writes matching itemtype/id, randomized type10 amount or type9 level/mode value, optionally calls modifier helper. Returns1 even if no weighted entry matched; tier/category/table bounds and divisor validity are unchecked.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_0805A630.c",
+          "line": 1703,
+          "detail": "Clears16-byte output. Count0 returns0; otherwise decrements tier, rolls threshold flag and weighted category table (category8 maps6), writes matching itemtype/id, randomized type10 amount or type9 level/mode value, optionally calls modifier helper. Returns1 even if no weighted entry matched; tier/category/table bounds and divisor validity are unchecked.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Exact unnamed resource/status field labels and invalid input behavior remain unclaimed; operational role is source-backed."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_0805C7B8",
+      "address": "0x0805C7B8",
+      "display_name": "PopulateThreeItemPools",
+      "summary": "Chooses mode-specific three twelve-slot arrays; progression bits1..9 plus mode baseline select class/table row. Copies first two templates, counts-1 placeholders, randomly selects distinct nonempty entries to duplicate into slots9+ with modifier helper, clearing fields at loop-index slots as written. Third table clamps mode>1 to0, clears type2 fields and resolves0xFFFF entries by coinflip/generator tier20. Invalid table domains and picked==0 cases unchecked.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_0805A630.c",
+          "line": 1848,
+          "detail": "Chooses mode-specific three twelve-slot arrays; progression bits1..9 plus mode baseline select class/table row. Copies first two templates, counts-1 placeholders, randomly selects distinct nonempty entries to duplicate into slots9+ with modifier helper, clearing fields at loop-index slots as written. Third table clamps mode>1 to0, clears type2 fields and resolves0xFFFF entries by coinflip/generator tier20. Invalid table domains and picked==0 cases unchecked.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Exact unnamed resource/status field labels and invalid input behavior remain unclaimed; operational role is source-backed."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_0805D190",
+      "address": "0x0805D190",
+      "display_name": "UpdateTypeSevenActivation",
+      "summary": "Saved record+0x130 type7 sets activation byte+0x13A to1; otherwise clears that byte and local runtime halfword+0xC6. Function has signed return declaration but no C return expression; no status return contract claimed.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_0805D094.c",
+          "line": 46,
+          "detail": "Saved record+0x130 type7 sets activation byte+0x13A to1; otherwise clears that byte and local runtime halfword+0xC6. Function has signed return declaration but no C return expression; no status return contract claimed.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Artwork/story/skill identity remains unknown; neutral name claims only operational source contract. Static source does not prove runtime execution, arbitraryinput validity or request delivery."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_0805DC1C",
+      "address": "0x0805DC1C",
+      "display_name": "CreateClampedBorderWindow",
+      "summary": "Truncates all inputs tobytes; no free window slot returns. Marks selected windowstate1, resets scroll, computes center from original sizes, clamps dimensions1..28/1..18, adjusts centers, draws border tiles and window clipping and requests line refresh. Upper y test uses20 but assigns30-halfHeight as written; arbitrary coordinates are not asserted safe.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_0805D094.c",
+          "line": 631,
+          "detail": "Truncates all inputs tobytes; no free window slot returns. Marks selected windowstate1, resets scroll, computes center from original sizes, clamps dimensions1..28/1..18, adjusts centers, draws border tiles and window clipping and requests line refresh. Upper y test uses20 but assigns30-halfHeight as written; arbitrary coordinates are not asserted safe.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Artwork/story/skill identity remains unknown; neutral name claims only operational source contract. Static source does not prove runtime execution, arbitraryinput validity or request delivery."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_0805F1B0",
+      "address": "0x0805F1B0",
+      "display_name": "LoadSixteenSpriteAssets",
+      "summary": "Loads four fixed sprites, one selected sprite50006..5000A for selector0..4, and eleven more fixed sprites. Each inline loader stores metadata, fetches sprite/animation/palette resources in sequence, and on any null stops only that asset setup. Success optionally uploads palette, sets identity16-entry remap and initializes bounds. Invalid selector leaves selected asset unchanged.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_0805D094.c",
+          "line": 1702,
+          "detail": "Loads four fixed sprites, one selected sprite50006..5000A for selector0..4, and eleven more fixed sprites. Each inline loader stores metadata, fetches sprite/animation/palette resources in sequence, and on any null stops only that asset setup. Success optionally uploads palette, sets identity16-entry remap and initializes bounds. Invalid selector leaves selected asset unchanged.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0805D094.c",
+          "line": 1681,
+          "detail": "Inline load62 contains three-resource loading/null exits and remap/bounds setup for each asset;16 loads occur only for selector0..4.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Artwork/story/skill identity remains unknown; neutral name claims only operational source contract. Static source does not prove runtime execution, arbitraryinput validity or request delivery."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_08061E44",
+      "address": "0x08061E44",
+      "display_name": "CoordinateSnapshotSaveFlow",
+      "summary": "Enters scene guard; blocked predicates restore guard and return. Mode0 prompts confirmation then builds runtime snapshottypes2/3/4 and writes save; mode1 prepares type2 without prompt; other modes update host progression and clear16 saved equipment fields. Writes show success/failure dialogs; zero write result can fade/reset in mode0/other branch, mode1 returns normally. Link-handshake early returns skip final guard restoration. Cancellation/main normal paths restore guard.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_0805FB7C.c",
+          "line": 1402,
+          "detail": "Enters scene guard; blocked predicates restore guard and return. Mode0 prompts confirmation then builds runtime snapshottypes2/3/4 and writes save; mode1 prepares type2 without prompt; other modes update host progression and clear16 saved equipment fields. Writes show success/failure dialogs; zero write result can fade/reset in mode0/other branch, mode1 returns normally. Link-handshake early returns skip final guard restoration. Cancellation/main normal paths restore guard.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08073E2C.c",
+          "line": 3763,
+          "detail": "saveWrite64 aliases7A124: copies character/snapshot buffers, computes checksums, writes/verifies paired save sectors and returns0 on success, nonzero failure; heap allocations unchecked.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Artwork/story/skill identity remains unknown; neutral name claims only operational source contract. Static source does not prove runtime execution, arbitraryinput validity or request delivery."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_08072D5C",
+      "address": "0x08072D5C",
+      "display_name": "RunProbabilisticAreaStatus",
+      "summary": "For local owner subtracts computed cost from halfword+C2 and signed-clamps zero. Waits owner readiness or early-clears ownerbit on state/game gate. Selects eligible opposite-team players or active actors inside table rectangle with level/stat RNG test; staggered animation10 applies/upgrades kind4 timed slots only on authoritative local target/owner. No targets draws forward fallback. Final owner-done wait precedes flagclear; invalid owner>3 may leave player pointer uninitialized.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_08068670.c",
+          "line": 5705,
+          "detail": "For local owner subtracts computed cost from halfword+C2 and signed-clamps zero. Waits owner readiness or early-clears ownerbit on state/game gate. Selects eligible opposite-team players or active actors inside table rectangle with level/stat RNG test; staggered animation10 applies/upgrades kind4 timed slots only on authoritative local target/owner. No targets draws forward fallback. Final owner-done wait precedes flagclear; invalid owner>3 may leave player pointer uninitialized.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Artwork/story/skill identity remains unknown; neutral name claims only operational source contract. Static source does not prove runtime execution, arbitraryinput validity or request delivery."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_08092F58",
+      "address": "0x08092F58",
+      "display_name": "RunOscillatingSpriteTransition",
+      "summary": "Loads selector-based sprite plus50040, transitions through table motion, timed horizontal travel and repeated vertical oscillation with limit=byte(arg0*2), modifying blend/display phase and palette.21A8==1 aborts main loop. Both normal/abort exits wait transition then reset audio/display/effect helpers. Invalid selector can leave position uninitialized; zero/wrapped limit follows literalcounter test.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_08092D60.c",
+          "line": 130,
+          "detail": "Loads selector-based sprite plus50040, transitions through table motion, timed horizontal travel and repeated vertical oscillation with limit=byte(arg0*2), modifying blend/display phase and palette.21A8==1 aborts main loop. Both normal/abort exits wait transition then reset audio/display/effect helpers. Invalid selector can leave position uninitialized; zero/wrapped limit follows literalcounter test.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Artwork/story/skill identity remains unknown; neutral name claims only operational source contract. Static source does not prove runtime execution, arbitraryinput validity or request delivery."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_08093BAC",
+      "address": "0x08093BAC",
+      "display_name": "RunStagedSpriteBurstTransition",
+      "summary": "Loads two selector sprites and5002B, follows selected table paths, animates four randomized burst slots with palette phases and increments hitcount until signedarg0*4. Waits9449C()==2 after limit;21A8 aborts. Normal/abort exits run transition and restore display/effect helpers. No character/artwork or named attack inference; invalid selector/limit preconditions unchecked.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_08092D60.c",
+          "line": 550,
+          "detail": "Loads two selector sprites and5002B, follows selected table paths, animates four randomized burst slots with palette phases and increments hitcount until signedarg0*4. Waits9449C()==2 after limit;21A8 aborts. Normal/abort exits run transition and restore display/effect helpers. No character/artwork or named attack inference; invalid selector/limit preconditions unchecked.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Artwork/story/skill identity remains unknown; neutral name claims only operational source contract. Static source does not prove runtime execution, arbitraryinput validity or request delivery."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_080A9950",
+      "address": "0x080A9950",
+      "display_name": "RunDualActorContactCycle",
+      "summary": "Initializes linked actorpair at same fixed point and shared palette. Primary drives chosen-player pursuit, three offset/radius contact phases, fast point chase, team0/2 vulnerability/restoration and kind4 effect start; actor1 tracks position and drives final contact. Palette-wait termination clears only primary maskbit. Normal death/termination clears mask, queues remote actor damage, synchronizesDEADFACE, shows14009F, runs paired finish and conditional experience award then transition.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_080A9680.c",
+          "line": 281,
+          "detail": "Initializes linked actorpair at same fixed point and shared palette. Primary drives chosen-player pursuit, three offset/radius contact phases, fast point chase, team0/2 vulnerability/restoration and kind4 effect start; actor1 tracks position and drives final contact. Palette-wait termination clears only primary maskbit. Normal death/termination clears mask, queues remote actor damage, synchronizesDEADFACE, shows14009F, runs paired finish and conditional experience award then transition.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08067B4C.c",
+          "line": 78,
+          "detail": "The local free aliases target67CA8, which only queues remote message0x89 actor-key fullHP damage when capacity permits; not local resource freeing or guaranteed death/delivery.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080A9680.c",
+          "line": 249,
+          "detail": "shot9950 aliasesAB054, an offset/radius contact-hit function; its return gates repeated hits. hide/show aliases1A0B0/1A0A4 write team0/2, not sprite visibility.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Artwork/story/skill identity remains unknown; neutral name claims only operational source contract. Static source does not prove runtime execution, arbitraryinput validity or request delivery."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_080AE420",
+      "address": "0x080AE420",
+      "display_name": "RunPlayerDerivedCombatActor",
+      "summary": "Truncates index tobyte, creates indexed actor from player0 class/stat/equipment fields and class animation tables, sets team4 and mode-scaled HP. Actor-id synchronization gates pursuit, melee animation and kind-dependent effect/cast task starts. On death yields, queues remote fullHP damage, decodes taskword-0x44 toclear actor mask and enters endless blinking death-animation loop. No actor/palette free or normal return is claimed.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_080A9680.c",
+          "line": 2973,
+          "detail": "Truncates index tobyte, creates indexed actor from player0 class/stat/equipment fields and class animation tables, sets team4 and mode-scaled HP. Actor-id synchronization gates pursuit, melee animation and kind-dependent effect/cast task starts. On death yields, queues remote fullHP damage, decodes taskword-0x44 toclear actor mask and enters endless blinking death-animation loop. No actor/palette free or normal return is claimed.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08067B4C.c",
+          "line": 78,
+          "detail": "The local free aliases target67CA8, which only queues remote message0x89 actor-key fullHP damage when capacity permits; not local resource freeing or guaranteed death/delivery.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Artwork/story/skill identity remains unknown; neutral name claims only operational source contract. Static source does not prove runtime execution, arbitraryinput validity or request delivery."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_080B0FC4",
+      "address": "0x080B0FC4",
+      "display_name": "RunRelocatingCombatActor",
+      "summary": "Initializes resources50089/87/88 and palette, pursues players alternating close melee and ranged kind13 starts, and after count8 relocates through nine fixed points using blend effects. Home-position helper is B236C spawn-effect request, not teleport. Modulo expression4%cnt++ has no explicitzero guard. Palette-wait termination onlyclears maskbit; normal exit cleans effects, queues remote damage, synchronizes, shows message, conditionally awards experience and transitions.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_080A9680.c",
+          "line": 4427,
+          "detail": "Initializes resources50089/87/88 and palette, pursues players alternating close melee and ranged kind13 starts, and after count8 relocates through nine fixed points using blend effects. Home-position helper is B236C spawn-effect request, not teleport. Modulo expression4%cnt++ has no explicitzero guard. Palette-wait termination onlyclears maskbit; normal exit cleans effects, queues remote damage, synchronizes, shows message, conditionally awards experience and transitions.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08067B4C.c",
+          "line": 78,
+          "detail": "The local free aliases target67CA8, which only queues remote message0x89 actor-key fullHP damage when capacity permits; not local resource freeing or guaranteed death/delivery.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Artwork/story/skill identity remains unknown; neutral name claims only operational source contract. Static source does not prove runtime execution, arbitraryinput validity or request delivery."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_080B3648",
+      "address": "0x080B3648",
+      "display_name": "RunLinkedTargetContactActor",
+      "summary": "Initializes actor slot1 and four sprites, follows shared paired center until linked actor HP clears, then team/fade transition enables independent player pursuit, aimed point travel with virtual height offset, landing-radius and animation-frame offset contacts. Actor-id synchronization gates phases. Death clears mask/collision sizes, queues remote fullHP damage, runs finish/experience; host drop predicate may retry queued item spawn until admission or transition. No door/exit identity inferred.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_080B3648.c",
+          "line": 96,
+          "detail": "Initializes actor slot1 and four sprites, follows shared paired center until linked actor HP clears, then team/fade transition enables independent player pursuit, aimed point travel with virtual height offset, landing-radius and animation-frame offset contacts. Actor-id synchronization gates phases. Death clears mask/collision sizes, queues remote fullHP damage, runs finish/experience; host drop predicate may retry queued item spawn until admission or transition. No door/exit identity inferred.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08067B4C.c",
+          "line": 78,
+          "detail": "The local free aliases target67CA8, which only queues remote message0x89 actor-key fullHP damage when capacity permits; not local resource freeing or guaranteed death/delivery.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0805A630.c",
+          "line": 1756,
+          "detail": "doorB3648 aliases5C620, which generates item descriptor from enemy drop data/progression; its C return has undefined branches for some output kinds.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080659B0.c",
+          "line": 551,
+          "detail": "exitB3648 aliases66490, enqueuing type0x95 position+item descriptor; caller retry observes queue admission, not item appearance.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Artwork/story/skill identity remains unknown; neutral name claims only operational source contract. Static source does not prove runtime execution, arbitraryinput validity or request delivery."
+      ]
+    }
+  ]
+}

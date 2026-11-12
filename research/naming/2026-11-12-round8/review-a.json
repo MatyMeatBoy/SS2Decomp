@@ -1,0 +1,399 @@
+[
+  {
+    "canonical_symbol": "sub_0801B264",
+    "decision": "accept",
+    "reason": "Full primary body reviewed; neutral literal role and lifecycle agree with source."
+  },
+  {
+    "canonical_symbol": "sub_0801C8F0",
+    "decision": "fix",
+    "reason": "Primary body checks field226, not the actor team byte; use exact offset rather than unsupported team identity.",
+    "corrected_row": {
+      "canonical_symbol": "sub_0801C8F0",
+      "address": "0x0801C8F0",
+      "display_name": "UpdateActorTimedStatusSlots",
+      "summary": "Applies resource modifier triplet and rebuilds derived halfwords/status. Actor byte at +0x226 equal to 3 returns before slot processing. Processes eight0x28-byte timed slots: player-sourced kinds alter derived values/status; other sources set status or periodic pending damage. Timers below0 except-2 are skipped; active timers decrement unless-2.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_0801AAF8.c",
+          "line": 1269,
+          "detail": "Applies resource modifier triplet and rebuilds derived halfwords/status. Actor byte at +0x226 equal to 3 returns before slot processing. Processes eight0x28-byte timed slots: player-sourced kinds alter derived values/status; other sources set status or periodic pending damage. Timers below0 except-2 are skipped; active timers decrement unless-2.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08017F7C.c",
+          "line": 230,
+          "detail": "Actor update path invokes this helper; slot sources0..3 use player-class data, while other sources use direct status-kind cases.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Literal field/resource contracts only; hidden stat/skill/artwork identity and arbitrary input validity are not inferred."
+      ]
+    }
+  },
+  {
+    "canonical_symbol": "sub_0801D34C",
+    "decision": "accept",
+    "reason": "Full primary body reviewed; neutral literal role and lifecycle agree with source."
+  },
+  {
+    "canonical_symbol": "sub_08021E44",
+    "decision": "accept",
+    "reason": "Full primary body reviewed; neutral literal role and lifecycle agree with source."
+  },
+  {
+    "canonical_symbol": "sub_08021F58",
+    "decision": "accept",
+    "reason": "Full primary body reviewed; neutral literal role and lifecycle agree with source."
+  },
+  {
+    "canonical_symbol": "sub_08022180",
+    "decision": "accept",
+    "reason": "Full primary body reviewed; neutral literal role and lifecycle agree with source."
+  },
+  {
+    "canonical_symbol": "sub_0802230C",
+    "decision": "accept",
+    "reason": "Full primary body reviewed; neutral literal role and lifecycle agree with source."
+  },
+  {
+    "canonical_symbol": "sub_0802247C",
+    "decision": "accept",
+    "reason": "Full primary body reviewed; neutral literal role and lifecycle agree with source."
+  },
+  {
+    "canonical_symbol": "sub_08023274",
+    "decision": "accept",
+    "reason": "Full primary body reviewed; neutral literal role and lifecycle agree with source."
+  },
+  {
+    "canonical_symbol": "sub_0802B8A4",
+    "decision": "fix",
+    "reason": "Document the opening branch lock lifetime and unchecked spatial-trigger allocation.",
+    "corrected_row": {
+      "canonical_symbol": "sub_0802B8A4",
+      "address": "0x0802B8A4",
+      "display_name": "InitializeObjectTwentyScene",
+      "summary": "Creates scene objects with literal kinds0x14,0x15,0x20039,0x1C and conditional0x60017/0x28; configures interaction records and callbacks. Starts30-slot support tasks with allocation retry, conditionally checks inventories for item1:0x29, schedules callback work, and runs optional message0x140482/player-position sequence. Missing object searches yield once and skip writes; argument-block task allocations are unchecked. The optional opening branch leaves player flag1/input lock set locally before scene change; spatial-trigger stack allocation is unchecked.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_08028AAC.c",
+          "line": 2511,
+          "detail": "Creates scene objects with literal kinds0x14,0x15,0x20039,0x1C and conditional0x60017/0x28; configures interaction records and callbacks. Starts30-slot support tasks with allocation retry, conditionally checks inventories for item1:0x29, schedules callback work, and runs optional message0x140482/player-position sequence. Missing object searches yield once and skip writes; argument-block task allocations are unchecked.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08021DC4.c",
+          "line": 5343,
+          "detail": "Scene constructor starts object callback and waits only for startup word to change; this is not palette/resource readiness. Callers separately search15 records and handle absence narrowly.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Scene/story/artwork identity unproved; object numbers are literal constructor kinds, not ROM address fragments. Waiting and registration are not delivery/completion guarantees."
+      ]
+    }
+  },
+  {
+    "canonical_symbol": "sub_0802D050",
+    "decision": "accept",
+    "reason": "Full primary body reviewed; neutral literal role and lifecycle agree with source."
+  },
+  {
+    "canonical_symbol": "sub_0802D568",
+    "decision": "accept",
+    "reason": "Full primary body reviewed; neutral literal role and lifecycle agree with source."
+  },
+  {
+    "canonical_symbol": "sub_0802D8C4",
+    "decision": "accept",
+    "reason": "Full primary body reviewed; neutral literal role and lifecycle agree with source."
+  },
+  {
+    "canonical_symbol": "sub_0802DE0C",
+    "decision": "accept",
+    "reason": "Full primary body reviewed; neutral literal role and lifecycle agree with source."
+  },
+  {
+    "canonical_symbol": "sub_0802E444",
+    "decision": "accept",
+    "reason": "Full primary body reviewed; neutral literal role and lifecycle agree with source."
+  },
+  {
+    "canonical_symbol": "sub_0802EA50",
+    "decision": "accept",
+    "reason": "Full primary body reviewed; neutral literal role and lifecycle agree with source."
+  },
+  {
+    "canonical_symbol": "sub_0802F208",
+    "decision": "accept",
+    "reason": "Full primary body reviewed; literal IDs, branches, cleanup and task-pool behavior agree with proposed neutral contract."
+  },
+  {
+    "canonical_symbol": "sub_0802F578",
+    "decision": "accept",
+    "reason": "Full primary body reviewed; literal IDs, branches, cleanup and task-pool behavior agree with proposed neutral contract."
+  },
+  {
+    "canonical_symbol": "sub_08032598",
+    "decision": "accept",
+    "reason": "Full primary body reviewed; literal IDs, branches, cleanup and task-pool behavior agree with proposed neutral contract."
+  },
+  {
+    "canonical_symbol": "sub_0803294C",
+    "decision": "accept",
+    "reason": "Full primary body reviewed; literal IDs, branches, cleanup and task-pool behavior agree with proposed neutral contract."
+  },
+  {
+    "canonical_symbol": "sub_08037DFC",
+    "decision": "accept",
+    "reason": "Full primary body reviewed; literal IDs, branches, cleanup and task-pool behavior agree with proposed neutral contract."
+  },
+  {
+    "canonical_symbol": "sub_08039F00",
+    "decision": "accept",
+    "reason": "Full primary body reviewed; literal IDs, branches, cleanup and task-pool behavior agree with proposed neutral contract."
+  },
+  {
+    "canonical_symbol": "sub_0803A460",
+    "decision": "accept",
+    "reason": "Full primary body reviewed; literal IDs, branches, cleanup and task-pool behavior agree with proposed neutral contract."
+  },
+  {
+    "canonical_symbol": "sub_0803BC3C",
+    "decision": "accept",
+    "reason": "Full primary body reviewed; literal IDs, branches, cleanup and task-pool behavior agree with proposed neutral contract."
+  },
+  {
+    "canonical_symbol": "sub_0803CC50",
+    "decision": "accept",
+    "reason": "Full primary body reviewed; literal IDs, branches, cleanup and task-pool behavior agree with proposed neutral contract."
+  },
+  {
+    "canonical_symbol": "sub_0803EE88",
+    "decision": "accept",
+    "reason": "Full primary body reviewed; literal IDs, branches, cleanup and task-pool behavior agree with proposed neutral contract."
+  },
+  {
+    "canonical_symbol": "sub_0803F454",
+    "decision": "accept",
+    "reason": "Full primary body reviewed; literal IDs, branches, cleanup and task-pool behavior agree with proposed neutral contract."
+  },
+  {
+    "canonical_symbol": "sub_080425CC",
+    "decision": "accept",
+    "reason": "Full primary body reviewed; literal IDs, branches, cleanup and task-pool behavior agree with proposed neutral contract."
+  },
+  {
+    "canonical_symbol": "sub_08045764",
+    "decision": "accept",
+    "reason": "Full primary body reviewed; literal IDs, branches, cleanup and task-pool behavior agree with proposed neutral contract."
+  },
+  {
+    "canonical_symbol": "sub_08047474",
+    "decision": "accept",
+    "reason": "Full primary body reviewed; literal IDs, branches, cleanup and task-pool behavior agree with proposed neutral contract."
+  },
+  {
+    "canonical_symbol": "sub_08047B2C",
+    "decision": "accept",
+    "reason": "Full primary body reviewed; literal IDs, branches, cleanup and task-pool behavior agree with proposed neutral contract."
+  },
+  {
+    "canonical_symbol": "sub_08048570",
+    "decision": "accept",
+    "reason": "Full primary body reviewed; literal IDs, branches, cleanup and task-pool behavior agree with proposed neutral contract."
+  },
+  {
+    "canonical_symbol": "sub_0804B32C",
+    "decision": "accept",
+    "reason": "Full primary body and inlined helpers reviewed; observable controller or table contract agrees with source."
+  },
+  {
+    "canonical_symbol": "sub_0804B61C",
+    "decision": "accept",
+    "reason": "Full primary body and inlined helpers reviewed; observable controller or table contract agrees with source."
+  },
+  {
+    "canonical_symbol": "sub_0804B984",
+    "decision": "accept",
+    "reason": "Full primary body and inlined helpers reviewed; observable controller or table contract agrees with source."
+  },
+  {
+    "canonical_symbol": "sub_0804C67C",
+    "decision": "accept",
+    "reason": "Full primary body and inlined helpers reviewed; observable controller or table contract agrees with source."
+  },
+  {
+    "canonical_symbol": "sub_0804E360",
+    "decision": "accept",
+    "reason": "Full primary body and inlined helpers reviewed; observable controller or table contract agrees with source."
+  },
+  {
+    "canonical_symbol": "sub_08050E48",
+    "decision": "accept",
+    "reason": "Full primary body and inlined helpers reviewed; observable controller or table contract agrees with source."
+  },
+  {
+    "canonical_symbol": "sub_080542C4",
+    "decision": "accept",
+    "reason": "Full primary body and inlined helpers reviewed; observable controller or table contract agrees with source."
+  },
+  {
+    "canonical_symbol": "sub_08055174",
+    "decision": "accept",
+    "reason": "Full primary body and inlined helpers reviewed; observable controller or table contract agrees with source."
+  },
+  {
+    "canonical_symbol": "sub_08056538",
+    "decision": "accept",
+    "reason": "Full primary body and inlined helpers reviewed; observable controller or table contract agrees with source."
+  },
+  {
+    "canonical_symbol": "sub_0805664C",
+    "decision": "accept",
+    "reason": "Full primary body and inlined helpers reviewed; observable controller or table contract agrees with source."
+  },
+  {
+    "canonical_symbol": "sub_0805A6A0",
+    "decision": "accept",
+    "reason": "Full primary body and inlined helpers reviewed; observable controller or table contract agrees with source."
+  },
+  {
+    "canonical_symbol": "sub_0805A8F8",
+    "decision": "accept",
+    "reason": "Full primary body and inlined helpers reviewed; observable controller or table contract agrees with source."
+  },
+  {
+    "canonical_symbol": "sub_0805A994",
+    "decision": "accept",
+    "reason": "Full primary body and inlined helpers reviewed; observable controller or table contract agrees with source."
+  },
+  {
+    "canonical_symbol": "sub_0805BD5C",
+    "decision": "fix",
+    "reason": "Return0 is not exclusively an unsupported or ineligible effect: resource kind16 performs a helper call before returning0.",
+    "corrected_row": {
+      "canonical_symbol": "sub_0805BD5C",
+      "address": "0x0805BD5C",
+      "display_name": "ApplyLocalConsumableAction",
+      "summary": "Rejects null/wrong item type, pause/state/flag gates, then dispatches resource kind: scaled HP/MP restoration, capped saved stat increments, status-slot removal/replacement, return-state setup, full restoration or other effect request. Returns0 on unsupported/ineligible kinds; kind10 returns1 early, other successful kinds return1 after sounds. Does not remove input item from inventory; multiple resource/status/world gates are kind-specific. Resource kind16 calls665B0 with resource halfword+A2 but returns0 despite that side effect.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_0805A630.c",
+          "line": 1287,
+          "detail": "Rejects null/wrong item type, pause/state/flag gates, then dispatches resource kind: scaled HP/MP restoration, capped saved stat increments, status-slot removal/replacement, return-state setup, full restoration or other effect request. Returns0 on unsupported/ineligible kinds; kind10 returns1 early, other successful kinds return1 after sounds. Does not remove input item from inventory; multiple resource/status/world gates are kind-specific. Resource kind16 calls665B0 with resource halfword+A2 but returns0 despite that side effect.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Exact unnamed resource/status field labels and invalid input behavior remain unclaimed; operational role is source-backed."
+      ]
+    }
+  },
+  {
+    "canonical_symbol": "sub_0805C4FC",
+    "decision": "accept",
+    "reason": "Full primary body and inlined helpers reviewed; observable controller or table contract agrees with source."
+  },
+  {
+    "canonical_symbol": "sub_0805C7B8",
+    "decision": "accept",
+    "reason": "Full primary body and inlined helpers reviewed; observable controller or table contract agrees with source."
+  },
+  {
+    "canonical_symbol": "sub_0805D190",
+    "decision": "accept",
+    "reason": "Full primary body reviewed with important resource, synchronization, contact, team and cleanup helpers; neutral observable role agrees with source."
+  },
+  {
+    "canonical_symbol": "sub_0805DC1C",
+    "decision": "accept",
+    "reason": "Full primary body reviewed with important resource, synchronization, contact, team and cleanup helpers; neutral observable role agrees with source."
+  },
+  {
+    "canonical_symbol": "sub_0805F1B0",
+    "decision": "accept",
+    "reason": "Full primary body reviewed with important resource, synchronization, contact, team and cleanup helpers; neutral observable role agrees with source."
+  },
+  {
+    "canonical_symbol": "sub_08061E44",
+    "decision": "accept",
+    "reason": "Full primary body reviewed with important resource, synchronization, contact, team and cleanup helpers; neutral observable role agrees with source."
+  },
+  {
+    "canonical_symbol": "sub_08072D5C",
+    "decision": "accept",
+    "reason": "Full primary body reviewed with important resource, synchronization, contact, team and cleanup helpers; neutral observable role agrees with source."
+  },
+  {
+    "canonical_symbol": "sub_08092F58",
+    "decision": "accept",
+    "reason": "Full primary body reviewed with important resource, synchronization, contact, team and cleanup helpers; neutral observable role agrees with source."
+  },
+  {
+    "canonical_symbol": "sub_08093BAC",
+    "decision": "accept",
+    "reason": "Full primary body reviewed with important resource, synchronization, contact, team and cleanup helpers; neutral observable role agrees with source."
+  },
+  {
+    "canonical_symbol": "sub_080A9950",
+    "decision": "fix",
+    "reason": "Retain the uninitialized local counter caveat when describing the full controller lifecycle.",
+    "corrected_row": {
+      "canonical_symbol": "sub_080A9950",
+      "address": "0x080A9950",
+      "display_name": "RunDualActorContactCycle",
+      "summary": "Initializes linked actorpair at same fixed point and shared palette. Primary drives chosen-player pursuit, three offset/radius contact phases, fast point chase, team0/2 vulnerability/restoration and kind4 effect start; actor1 tracks position and drives final contact. Palette-wait termination clears only primary maskbit. Normal death/termination clears mask, queues remote actor damage, synchronizesDEADFACE, shows14009F, runs paired finish and conditional experience award then transition. C local cnt14 is incremented in state14 without an initialization in this body, so that rest duration has no defined C-level starting value.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_080A9680.c",
+          "line": 281,
+          "detail": "Initializes linked actorpair at same fixed point and shared palette. Primary drives chosen-player pursuit, three offset/radius contact phases, fast point chase, team0/2 vulnerability/restoration and kind4 effect start; actor1 tracks position and drives final contact. Palette-wait termination clears only primary maskbit. Normal death/termination clears mask, queues remote actor damage, synchronizesDEADFACE, shows14009F, runs paired finish and conditional experience award then transition.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08067B4C.c",
+          "line": 78,
+          "detail": "The local free aliases target67CA8, which only queues remote message0x89 actor-key fullHP damage when capacity permits; not local resource freeing or guaranteed death/delivery.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080A9680.c",
+          "line": 249,
+          "detail": "shot9950 aliasesAB054, an offset/radius contact-hit function; its return gates repeated hits. hide/show aliases1A0B0/1A0A4 write team0/2, not sprite visibility.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080A9680.c",
+          "line": 694,
+          "detail": "State14 uses cnt14++ >0x3C; cnt14 has no initialization before this use in the primary C body. No exact rest duration is promised.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Artwork/story/skill identity remains unknown; neutral name claims only operational source contract. Static source does not prove runtime execution, arbitraryinput validity or request delivery."
+      ]
+    }
+  },
+  {
+    "canonical_symbol": "sub_080AE420",
+    "decision": "accept",
+    "reason": "Full primary body reviewed with important resource, synchronization, contact, team and cleanup helpers; neutral observable role agrees with source."
+  },
+  {
+    "canonical_symbol": "sub_080B0FC4",
+    "decision": "accept",
+    "reason": "Full primary body reviewed with important resource, synchronization, contact, team and cleanup helpers; neutral observable role agrees with source."
+  },
+  {
+    "canonical_symbol": "sub_080B3648",
+    "decision": "accept",
+    "reason": "Full primary body reviewed with important resource, synchronization, contact, team and cleanup helpers; neutral observable role agrees with source."
+  }
+]

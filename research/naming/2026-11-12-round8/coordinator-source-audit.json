@@ -1,0 +1,47 @@
+[
+  {
+    "canonical_symbol": "sub_0802AA28",
+    "decision": "accept",
+    "name_contract": "InitializeProgressionActorScene",
+    "source": "src/code_08028AAC.c",
+    "line": 1480,
+    "detail": "Coordinator read primary body including values0/1,>1 and10 dispatch,15-slot nullable lookup/configuration, unchecked unsupported selector handle, low10-bit XOR selector, early return after scene(0,3),30-slot task admission and retrying stack allocation. Neutral progression-dependent scene initialization is supported; no story/NPC identity inferred.",
+    "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+  },
+  {
+    "canonical_symbol": "sub_0802247C",
+    "decision": "accept",
+    "name_contract": "critical-hit sprite starter",
+    "source": "src/code_08021DC4.c",
+    "line": 406,
+    "detail": "Coordinator read complete allocator, null failure and occupancy-bit commit; callback20D40 is established critical-hit sprite task. Caller combat branches at1E244:334/635 choose divisor100 versus200 and call this producer, supporting critical-hit rather than an arbitrary visual identity.",
+    "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+  },
+  {
+    "canonical_symbol": "sub_08021F58",
+    "decision": "accept",
+    "name_contract": "short sprite-effect starter",
+    "source": "src/code_08021DC4.c",
+    "line": 111,
+    "detail": "Coordinator read complete allocator: first free32-bit slot, callback215E4, unchecked packed signed coordinate conversion,0x400 allocation and no occupancy bit set on allocation failure. Established callback is a30-iteration short effect task; name does not infer artwork.",
+    "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+  },
+  {
+    "canonical_symbol": "sub_080B4C34",
+    "decision": "correct_allocation_wait_narrative",
+    "source": "src/code_080B3648.c",
+    "line": 973,
+    "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7",
+    "scope": "Bounded initialization loop only, not an additional complete-function review.",
+    "detail": "A single16E04 shared enemy palette-slot acquisition occurs before theFFFF loop. Loop polls the stored global without re-calling allocator, yields and can return on session/area abort after clearing active actor bit. Availability retry or absence of external global writes is not proved. Independent reviewer was given exact bounded lines."
+  },
+  {
+    "canonical_symbol": "sub_0809AEE8",
+    "decision": "correct_allocation_wait_narrative",
+    "source": "src/code_08097E28.c",
+    "line": 1731,
+    "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7",
+    "scope": "Bounded initialization loop only, not an additional complete-function review.",
+    "detail": "A single16E04 shared enemy palette-slot acquisition occurs before theFFFF loop. Loop polls the stored global without re-calling allocator, yields and can return on session/area abort after clearing active actor bit. Availability retry or absence of external global writes is not proved. Independent reviewer was given exact bounded lines."
+  }
+]
