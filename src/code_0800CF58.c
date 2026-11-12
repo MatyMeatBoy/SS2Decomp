@@ -3760,13 +3760,10 @@ retry63_1_done:
                 ((union RecordD368 *)((struct PlayerD368 *)arg0)->f144)->w0_b16_n12.value = (((struct PlayerD368 *)arg0)->f90) >> 8;
                 ((union RecordD368 *)((struct PlayerD368 *)arg0)->f144)->w0_b28_n4.value = (s16) ((struct PlayerD368 *)arg0)->f1C;
                 if ((d368_sub_0801DE60() == 7) && (d368_sub_0801DEB8() == 0x13)) {
-                    s32 recordByte7MaskD368 = -15;
-                    asm("" : "+r"(recordByte7MaskD368));
-                    temp_r2_42 = *var_r5_10;
-                    M2C_FIELD(temp_r2_42, u8 *, 7) = (M2C_FIELD(temp_r2_42, u8 *, 7) & recordByte7MaskD368) | (sp170 << 1);
+                    void *p7D368 = *var_r5_10;
+                    { u32 sh7D368 = sp170 << 1; M2C_FIELD(p7D368, s8 *, 7) = (M2C_FIELD(p7D368, s8 *, 7) & ~0xE) | sh7D368; }
                 } else {
-                    temp_r2_42 = *var_r5_10;
-                    ((union RecordD368 *)temp_r2_42)->w1_b25_n3.value = 0;
+                    ((union RecordD368 *)*var_r5_10)->w1_b25_n3.value = 0;
                 }
                 var_r5_10 = arg0 + 0x144;
                 ((union RecordD368 *)((struct PlayerD368 *)arg0)->f144)->w1_b14_n3.value = ((struct PlayerD368 *)arg0)->f26;
