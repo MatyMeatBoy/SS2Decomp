@@ -83,21 +83,62 @@ list only as the list of blobs still to explain, never as a cut list.
 
 Every splitter is "ROM is the judge": run it, `make -j8 compare`, commit.
 
-### Left for workers (54 blobs, 468 KB, then typing)
+6. **Let the C declare the scalars.** `data_split.py scalars` writes an object
+   as `.byte/.2byte/.4byte` when every `extern` of its label agrees on one
+   scalar element type. 236 objects went this way; the type is the code's own
+   statement, not a guess from the bytes.
 
-List them with `python3 tools/scripts/data_progress.py --out build/progress`
-(`ranges` with `state: "blob"` in the JSON). For each one:
+State at the end of the session: **97.8% split, 96.7% described**, ROM
+identical. `data_extract.py check` passes for all 9,218 declared objects.
 
-1. `grep -n LABEL src/*.c`, read the function, write down how it indexes the
-   object (stride, count, pointer, offset table).
-2. Pick the tool: `ptrtable`, a row in `data_arrays.txt`, or `cuts FILE` with
-   offsets the code proves. Do not cut on a guess.
-3. `make -j8 compare`, commit one object family per commit.
+### Left for workers (547 objects, 530 KB, 3.3%)
 
-Typing is the next level and is per family: the SSDT categories (sprites,
-tilesets, palettes, maps: read the loader of each category kind), the record
-arrays (one struct per array, fields from the functions that read them), the
-strings (the game's character table), m4a tracks (the SDK command set).
+List them: raw objects that are not typed in `data_progress.json` (`ranges`
+with state `split` or `blob`). Three groups:
+
+| Group | Size | What to do |
+| --- | ---: | --- |
+| Struct arrays the C already declares (`extern struct T label[]`) | 193 KB | write one record per line from the struct layout; add the label to `data_arrays.txt` once stride * count equals the size |
+| Objects reached only through pointer tables | 162 KB | read the function that reads the table; usually a script, an animation list or a small table per map |
+| `gUnk_08FD5298`: 175 KB after the aux archive, no reference found | 175 KB | check if anything addresses it; it looks like 4bpp pixels and may be unused |
+
+Rules stay the same: prove the format from the code, add a check to
+`data_extract.py`, run `make -j8 compare`, one family per commit. Describing a
+family means adding a row to `data_types.txt` (raw bytes with a declared,
+checked format) or rewriting it as directives.
+
+Still open inside described objects, in order of value for a port: the
+character set (`CHARMAP` in `data_extract.py` knows letters and basic
+punctuation only), the 6-byte map cell fields, field names of the record
+arrays, and label references instead of numbers inside `.4byte` tables.
+
+## Playbook for the next game (written for Shining Soul 1)
+
+The whole data area of this game went from raw to 97% described in one
+session once the order below was followed. Do it in this order:
+
+1. **Progress tool first.** Port `data_progress.py` and `data_inventory.py`
+   before touching data. One bar (described / split / raw) and a map of the ROM
+   make every later step measurable, and the JSON lists what is left.
+2. **Sound.** The m4a walk (`data_split.py m4a`) is game-independent: point it
+   at the song table. Expect 15-20% of the data in minutes.
+3. **Find the resource resolver.** Search the matched C for the function that
+   turns an id into a pointer (here `ResolveResourceByEncodedId`). It names the
+   archives, their categories, the per-language text tables and the record
+   arrays with their strides. SS1 shares the engine family, so look for the
+   same `SSDT` magic first: `data_split.py ssdt` may work unchanged.
+4. **Split by the container's own tables**, never by a pointer scan.
+5. **Type each category from its loader.** One loader per category gives the
+   format; write a check that must hold for every object of the category and a
+   decoder (`data_extract.py`). A category is done when the check passes for
+   all of it and a decoded sample looks right.
+6. **Pointer tables from object starts** (`ptrtables`), then **scalars from C
+   declarations** (`scalars`).
+7. **Hand the rest to workers** as a list with one row per object: label, size,
+   the functions that reference it.
+
+Each step is a script whose result is accepted only if `make compare` stays
+OK, so weak workers and background jobs can run them safely.
 
 ### Reference projects worth copying from
 
