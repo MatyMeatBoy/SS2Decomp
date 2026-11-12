@@ -2297,7 +2297,7 @@ block_627:
                     ((struct PlayerD368 *)arg0)->fB4 = 0U;
                     *(u16 *)((arg0 + 0xB4) - 2) = 0;
                     sp144 = 0;
-                    asm volatile(""); /* ROM keeps this tail separate */
+                     /* ROM keeps this tail separate */
                     break;
 state4ZeroStageD368:
                         ((struct PlayerD368 *)arg0)->f26 = 0;
@@ -3442,7 +3442,7 @@ retry63_1_done:
                     } else {
                         u32 recordLow3Result126;
                         recordLow3Result126 = 7U & M2C_FIELD(((struct PlayerD368 *)arg0)->f144, u8 *, 6);
-                        asm("" : "+r"(recordLow3Result126));
+                        
                         M2C_FIELD(((struct PlayerD368 *)arg0)->f144, u8 *, 6) = (u8) (recordLow3Result126 | 0x10U);
                         break;
                     }
@@ -5881,7 +5881,7 @@ void hud14170(struct Actor14170 *arg0)
 
     u16 i;
     u16 lim;
-    register u32 k asm("r1");
+    u32 k;
     register u32 loadedCapacity asm("r0");
     u16 j;
     u32 *stats;
@@ -6526,13 +6526,13 @@ void sub_080151E0(void)
         register struct View151E *base asm("r3") = players151E;
         u32 offset;
         struct View151E *p;
-        asm("" : "+r"(base));
+        
         offset = index * sizeof(*base);
         p = (struct View151E *)(offset + (u32)base);
         if ((u16)(p->state - 10) > 1) {
             register u32 *flags asm("r0") = &base->flags;
             u32 masked;
-            asm("" : "+r"(flags));
+            
             masked = *(u32 *)(offset + (u32)flags) & 0x2000;
             if (masked == 0)
                 p->state = masked;
@@ -6569,11 +6569,11 @@ void sub_080152CC(void)
                              (s32 *)&p->pos8C, p->w1C, direction, 0);
         sub_08013CEC((u8 *)p);
         {
-            register u32 type asm("r0") = *(u16 *)((u8 *)p + 0xB2);
+            u32 type = *(u16 *)((u8 *)p + 0xB2);
             switch (type) {
             case 1:
             case 3:
-                asm("" : "+r"(type));
+                
                 if (type == 3 && *(u16 *)((u8 *)p + 0xB4) == 1)
                     (*(u32 *)((u8 *)p + 0xDC))++;
                 break;
