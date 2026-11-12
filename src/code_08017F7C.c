@@ -562,7 +562,7 @@ void sub_0801801C(struct T015LActor *arg0) {
                 asm("" : "=r"(z));
                 if (arg0->f30 != 0) {
                     
-                    sub_08057328(arg0->f34);
+                    sub_08057328(arg0->f34, arg0->f30);
                 } else {
                     asm("" : : "r"(z));
                     sub_08057390(arg0->f3C, T015L_FIELD(arg0, void (**)(s32), 0x38));

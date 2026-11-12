@@ -4585,7 +4585,7 @@ check_loop_85:
     }
     var_r1 = t025Rows270[t025State270->f0 - 1].x[t025State270->f40];
     if (var_r1 != 0) {
-        sub_08057328(0);
+        sub_08057328(0, var_r1);
     }
     sub_0800CEFC();
     sub_0800D108();
@@ -4833,7 +4833,7 @@ loop_63:
     tableBase = (u32)t025Table277;
     var_r1 = t025Rows277[temp_r9->unk2E - 1].x[temp_r9->unk2C];
     if (var_r1 != 0) {
-        sub_08057328(0);
+        sub_08057328(0, var_r1);
     }
     if (sub_0800CB9C() != 0) {
         sub_08002298(0x50);
