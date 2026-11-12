@@ -795,6 +795,7 @@ void sub_0800D368(void *arg0) {
     u32 var_r3_12;
     u32 var_r4_10;
     u32 var_r5;
+    u32 var_r5_s1;
     u32 var_r6_8;
     s32 temp_r0_111;
     s32 temp_r0_14;
@@ -5185,8 +5186,8 @@ block_1788:
                         sp138 = 0x1B;
                         break;
                     case 1:                         /* switch 28 */
-                        var_r5 = 0x17;
-                        sp138 = var_r5;
+                        var_r5_s1 = 0x17;
+                        sp138 = var_r5_s1;
                         break;
                     case 6:                         /* switch 28 */
                         sp138 = 0x19;
@@ -5207,8 +5208,8 @@ block_1788:
                         sp138 = 0x1A;
                         break;
                     case 11:                        /* switch 28 */
-                        var_r5 = 0x1A;
-                        sp138 = var_r5;
+                        var_r5_s1 = 0x1A;
+                        sp138 = var_r5_s1;
                         break;
                     case 16:                        /* switch 28 */
                         sp138 = 0x1B;
@@ -5229,8 +5230,8 @@ block_1788:
                         sp138 = 0x19;
                         break;
                     case 4:                         /* switch 28 */
-                        var_r5 = 0x16;
-                        sp138 = var_r5;
+                        var_r5_s1 = 0x16;
+                        sp138 = var_r5_s1;
                         break;
                     }
                     d368_sub_08065370(&sp44, sp138, &coordFC, &coordFE, (1));
