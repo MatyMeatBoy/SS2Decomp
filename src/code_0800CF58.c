@@ -1936,12 +1936,24 @@ state0TailD368:
                                 temp_r4_10 = ((struct PlayerD368 *)arg0)->f10;
                                 if (temp_r4_10 == 9) {
                                     var_r0_12 = (s16) d368_sub_0806898C(d368_sub_0801DEB8(), ((struct PlayerD368 *)arg0)->f26);
-                                    if (var_r0_12 == 0)
-                                        goto resetAD368;
-                                    if ((d368_sub_0801DEB8() != 7) || (byteTable6410D368[((struct PlayerD368 *)arg0)->f0] == 0))
-                                        goto keepStateD368;
-                                    var_r0_12 = 0;
-                                    goto resetBD368;
+                                    if (var_r0_12 != 0) {
+                                        if ((d368_sub_0801DEB8() != 7) || (byteTable6410D368[((struct PlayerD368 *)arg0)->f0] == 0)) {
+                                            ((struct PlayerD368 *)arg0)->f20 = temp_r4_10;
+                                            ((struct PlayerD368 *)arg0)->fDC += 1;
+                                        } else {
+                                            ((struct PlayerD368 *)arg0)->f26 = 0;
+                                            ((struct PlayerD368 *)arg0)->f24 = 0;
+                                            sp130 = 0;
+                                            sp134 = 0;
+                                            ((struct PlayerD368 *)arg0)->f20 = 0U;
+                                        }
+                                    } else {
+                                        ((struct PlayerD368 *)arg0)->f26 = var_r0_12;
+                                        ((struct PlayerD368 *)arg0)->f24 = var_r0_12;
+                                        sp130 = 0;
+                                        sp134 = 0;
+                                        ((struct PlayerD368 *)arg0)->f20 = 0U;
+                                    }
                                 } else {
                                     ((struct PlayerD368 *)arg0)->fDC += 1;
                                     ((struct PlayerD368 *)arg0)->f20 = 5U;
@@ -1970,7 +1982,6 @@ state0TailD368:
                                                 ((struct PlayerD368 *)arg0)->fDC += 1;
                                             } else {
                                                 var_r0_12 = 0;
-resetAD368:
                                                 ((struct PlayerD368 *)arg0)->f26 = var_r0_12;
                                                 ((struct PlayerD368 *)arg0)->f24 = var_r0_12;
                                                 sp130 = 0;
@@ -1978,7 +1989,6 @@ resetAD368:
                                                 ((struct PlayerD368 *)arg0)->f20 = 0U;
                                             }
                                         } else {
-keepStateD368:
                                             ((struct PlayerD368 *)arg0)->f20 = temp_r4_10;
                                             ((struct PlayerD368 *)arg0)->fDC += 1;
                                         }
@@ -2009,7 +2019,6 @@ keepStateD368:
                                             sp170 &= 7;
                                         }
                                     } else {
-resetBD368:
                                         ((struct PlayerD368 *)arg0)->f26 = var_r0_12;
                                         ((struct PlayerD368 *)arg0)->f24 = var_r0_12;
                                         sp130 = 0;
