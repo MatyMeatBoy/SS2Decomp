@@ -216,7 +216,7 @@ def squarify(items, x, y, w, h):
     return rects
 
 
-def _code_treemap_svg(modules, summary, width=1000, height=540):
+def _code_treemap_svg(modules, summary, width=1000, height=540, legend_items=None, footer=None, group_labels=None):
     pad = 2
     head = 26
     legend = 42
@@ -240,6 +240,8 @@ def _code_treemap_svg(modules, summary, width=1000, height=540):
             gw = width - max(width * sizes["lib"] / total, width * 0.18)
         s = summary[g]
         label = "%s: %.2f%% (%d/%d)" % (title, s["percent"], s["funcs_done"], s["funcs_total"])
+        if group_labels:
+            label = group_labels[g]
         parts.append('<rect x="%.1f" y="0" width="%.1f" height="%d" fill="%s"/>' % (gx, gw - pad, head, "#161b22"))
         parts.append('<text x="%.1f" y="18" fill="%s" font-size="13" font-weight="600">%s</text>' % (
             gx + 6, FG, escape(label)))
@@ -262,7 +264,7 @@ def _code_treemap_svg(modules, summary, width=1000, height=540):
                 parts.append('<rect x="%.2f" y="%.2f" width="%.2f" height="%.2f" fill="%s" stroke="%s" '
                              'stroke-width="0.6"><title>%s  0x%08X  %d bytes  [%s]</title></rect>' % (
                                  fx, fy, max(fw, 0.1), max(fh, 0.1), col, edge, escape((f.get("display_name", f["name"]) + " | " + f["name"] + " | " + f.get("name_status", "unidentified") + (" | " + work_label if work_label else ""))), f["addr"],
-                                 f["size"], "linked" if m["kind"] == "linked" else {"asm": "original hand-written assembly, matching"}.get(f["state"], f["state"])))
+                                 f["size"], f.get("state_label") or ("linked" if m["kind"] == "linked" else {"asm": "original hand-written assembly, matching"}.get(f["state"], f["state"]))))
                 if areas:
                     parts.append('<rect x="%.2f" y="%.2f" width="%.2f" height="%.2f" fill="%s" pointer-events="none"/>' % (fx,fy,max(fw,0.1)*completed/len(areas),max(fh,0.1),YELLOW))
                     if fw > 85 and fh > 45:
@@ -282,8 +284,8 @@ def _code_treemap_svg(modules, summary, width=1000, height=540):
         gx += gw
     lx = 6
     ly = height + 6
-    for col, txt in ((GREEN, "matching C / linked"), (MINT, "original hand-written assembly (matching)"),
-                     (YELLOW, "draft / work milestones"), (GREY, "no matching C")):
+    for col, txt in legend_items or ((GREEN, "matching C / linked"), (MINT, "original hand-written assembly (matching)"),
+                                     (YELLOW, "draft / work milestones"), (GREY, "no matching C")):
         parts.append('<rect x="%d" y="%d" width="11" height="11" fill="%s"/>' % (lx, ly, col))
         parts.append('<text x="%d" y="%d" fill="%s" font-size="11">%s</text>' % (lx + 15, ly + 10, FG, escape(txt)))
         lx += 30 + len(txt) * 6
@@ -291,9 +293,40 @@ def _code_treemap_svg(modules, summary, width=1000, height=540):
     tot = "All code matching: %.2f%% of %d bytes, %d/%d functions (C, linked, original assembly)" % (
         s["percent_complete"], s["bytes_all"], s["funcs_done"] + s["funcs_original_asm"], s["funcs_all"])
     parts.append('<text x="%d" y="%d" fill="%s" font-size="11" text-anchor="end">%s</text>' % (
-        width - 6, ly + 29, FG, escape(tot)))
+        width - 6, ly + 29, FG, escape(footer or tot)))
     parts.append('</svg>')
     return "\n".join(parts)
+
+
+def names_treemap_svg(modules, summary, width=1000, height=640):
+    """Same byte-weighted map as the code treemap, coloured by identification status."""
+    status_state = {"confirmed": "done", "existing": "done", "proposed": "nonmatch"}
+    status_text = {"confirmed": "name confirmed with evidence", "existing": "name already in the source",
+                   "proposed": "name proposed, not reviewed", "unidentified": "no name yet"}
+    view = []
+    for m in modules:
+        funcs = [dict(name=f["name"], addr=f["addr"], size=f["size"], display_name=f.get("display_name", f["name"]),
+                      name_status=f.get("name_status", "unidentified"),
+                      state=status_state.get(f.get("name_status"), "todo"),
+                      state_label=status_text.get(f.get("name_status"), "no name yet")) for f in m["funcs"]]
+        view.append(dict(m, kind="c", funcs=funcs))
+    game = summary.get("identification", {}).get("game", {})
+    all_ = summary.get("identification", {}).get("all", {})
+    footer = "Identified: %.2f%% of game functions (%d/%d); all code %d/%d" % (
+        game.get("percent_identified", 0), game.get("identified", 0), game.get("total", 0),
+        all_.get("identified", 0), all_.get("total", 0))
+    plot = _code_treemap_svg(view, summary, width, height - 40,
+                             legend_items=((GREEN, "named (confirmed or already in source)"),
+                                           (YELLOW, "proposed, not reviewed"), (GREY, "no name yet")), footer=footer,
+                             group_labels={g: "%s: %d/%d named" % (title, sum(f["state"] == "done" for m in view if m["cat"] == g for f in m["funcs"]),
+                                                                   sum(len(m["funcs"]) for m in view if m["cat"] == g))
+                                           for g, title in (("game", "Game code"), ("lib", "SDK libs"))})
+    return "\n".join([
+        '<svg xmlns="http://www.w3.org/2000/svg" width="%d" height="%d" viewBox="0 0 %d %d" role="img" aria-labelledby="names-title" font-family="Segoe UI,Helvetica,Arial,sans-serif">' % (width, height, width, height),
+        '<title id="names-title">Shining Soul II: function identification</title>',
+        '<rect width="100%%" height="100%%" fill="%s"/>' % BG,
+        '<text x="12" y="24" fill="%s" font-size="15" font-weight="600">Function names | %.2f%% of game functions identified</text>' % (FG, game.get("percent_identified", 0)),
+        plot.replace('<svg ', '<svg x="0" y="40" ', 1), '</svg>'])
 
 
 def treemap_svg(modules, summary, width=1000, height=740):
@@ -414,6 +447,20 @@ def main():
     with open(os.path.join(args.out, "treemap.svg"), "w", encoding="utf-8", newline="\n") as fh:
         fh.write('<?xml version="1.0" encoding="UTF-8"?>\n')
         fh.write(treemap_svg(modules, summary))
+    from data_progress import write_outputs as write_data_progress, fmt as data_percent
+    summary["data_progress"] = write_data_progress(ROOT, args.out)
+    Path(args.out, "names_treemap.svg").write_text(
+        '<?xml version="1.0" encoding="UTF-8"?>\n' + names_treemap_svg(modules, summary), encoding="utf-8", newline="\n")
+    # Tab headers of the README: one figure per view.
+    names_percent = summary["identification"]["game"]["percent_identified"]
+    data = summary["data_progress"]
+    for filename, label, value, percent in (
+            ("tab_code.svg", "Code", "%.2f%%" % summary["all"]["percent_complete"], summary["all"]["percent_complete"]),
+            ("tab_names.svg", "Names", "%.2f%%" % names_percent, names_percent),
+            ("tab_data.svg", "Data", "split %s | typed %s | named %s" % (
+                data_percent(data["split"]["percent"]), data_percent(data["typed"]["percent"]),
+                data_percent(data["named"]["percent_objects"])), data["typed"]["percent"])):
+        Path(args.out, filename).write_text(badge_svg(label, value, pct_color(percent)), encoding="utf-8", newline="\n")
     for key, label in (("all", "matched + linked"), ("game", "game code"), ("lib", "libraries")):
         s = summary[key]
         with open(os.path.join(args.out, "badge_%s.svg" % key), "w", encoding="utf-8", newline="\n") as fh:

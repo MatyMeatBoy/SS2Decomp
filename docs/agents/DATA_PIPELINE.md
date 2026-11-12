@@ -25,6 +25,13 @@ three levels and report them separately:
    included by name.
 3. **Understood**: fields/files have meaningful names.
 
+CI measures the first two levels and the object-level part of the third in
+`docs/progress/data_progress.{svg,md,json}` (the Data tab of the README), with
+`tools/scripts/data_progress.py`. It needs no ROM: a raw range counts as split
+only when no address of `tools/config/data_targets.txt` falls strictly inside
+it. Regenerate that list with `data_progress.py --scan baserom.gba` when the
+splitter learns better targets.
+
 The build rule is the same as for code: `make compare` stays OK after every
 step. Existing detail on evidence standards is in
 `DATA_RECONSTRUCTION_2026_11_08.md`; that process is exact but converted 760
