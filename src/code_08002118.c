@@ -777,7 +777,7 @@ void sub_08002B70_(void)
     sub_080003F0();
     sub_080003F0();
     saves = alloc2B70(0x360);
-    all = loadAll2B70();
+    all = loadAll2B70(saves);
     winOpen2B70(3);
     state = 0;
     slot = 0;
