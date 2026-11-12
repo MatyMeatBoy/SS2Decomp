@@ -6,8 +6,8 @@
 <text x="12" y="20" fill="#e6edf3" font-size="15" font-weight="600">Shining Soul II | verified progress</text>
 <rect x="12.0" y="30" width="235.0" height="66" rx="5" fill="#161b22"/>
 <text x="22.0" y="46" fill="#e6edf3" font-size="11">Matching C</text>
-<text x="22.0" y="69" fill="#3fb950" font-size="21" font-weight="600">96.67%</text>
-<text x="22.0" y="86" fill="#e6edf3" font-size="10">1984 / 1985 C functions</text>
+<text x="22.0" y="69" fill="#3fb950" font-size="21" font-weight="600">100.00%</text>
+<text x="22.0" y="86" fill="#e6edf3" font-size="10">1985 / 1985 C functions</text>
 <rect x="259.0" y="30" width="235.0" height="66" rx="5" fill="#161b22"/>
 <text x="269.0" y="46" fill="#e6edf3" font-size="11">Linked libraries</text>
 <text x="269.0" y="69" fill="#3fb950" font-size="21" font-weight="600">22 functions</text>
@@ -18,12 +18,12 @@
 <text x="516.0" y="86" fill="#e6edf3" font-size="10">1193 / 2035 registered names</text>
 <rect x="753.0" y="30" width="235.0" height="66" rx="5" fill="#161b22"/>
 <text x="763.0" y="46" fill="#e6edf3" font-size="11">Historical C + linked</text>
-<text x="763.0" y="69" fill="#e6edf3" font-size="21" font-weight="600">96.67%</text>
-<text x="763.0" y="86" fill="#e6edf3" font-size="10">2006 / 2007 functions</text>
+<text x="763.0" y="69" fill="#e6edf3" font-size="21" font-weight="600">100.00%</text>
+<text x="763.0" y="86" fill="#e6edf3" font-size="10">2007 / 2007 functions</text>
 <svg x="0" y="104" xmlns="http://www.w3.org/2000/svg" width="1000" height="550" viewBox="0 0 1000 550" font-family="Segoe UI,Helvetica,Arial,sans-serif">
 <rect width="100%" height="100%" fill="#0d1117"/>
 <rect x="0.0" y="0" width="818.0" height="26" fill="#161b22"/>
-<text x="6.0" y="18" fill="#e6edf3" font-size="13" font-weight="600">Game code: 96.62% (1869/1870)</text>
+<text x="6.0" y="18" fill="#e6edf3" font-size="13" font-weight="600">Game code: 100.00% (1870/1870)</text>
 <g><title>code_0807A5D4 (55020 bytes)</title>
 <rect x="0.00" y="28.00" width="163.52" height="177.06" fill="#0d1117"/>
 <rect x="1.00" y="29.00" width="127.15" height="74.35" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>ProcessItemMenuInteractionState | sub_0807C29C | confirmed  0x0807C29C  18396 bytes  [done]</title></rect>
@@ -345,9 +345,7 @@
 </g>
 <g><title>code_0800CF58 (33868 bytes)</title>
 <rect x="288.23" y="28.00" width="131.55" height="135.48" fill="#0d1117"/>
-<rect x="289.23" y="29.00" width="129.55" height="99.24" fill="#484f58" stroke="#9e6a03" stroke-width="0.6"><title>TaskPlayerGameplayState | sub_0800D368 | confirmed | 4/7 milestones; not a match  0x0800D368  25180 bytes  [nonmatch]</title></rect>
-<rect x="289.23" y="29.00" width="74.03" height="99.24" fill="#d29922" pointer-events="none"/>
-<text x="354.0" y="95.6" fill="#e6edf3" font-size="9" text-anchor="middle" pointer-events="none">4/7 milestones</text>
+<rect x="289.23" y="29.00" width="129.55" height="99.24" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>TaskPlayerGameplayState | sub_0800D368 | confirmed  0x0800D368  25180 bytes  [done]</title></rect>
 <text x="354.0" y="81.6" fill="#e6edf3" font-size="9" text-anchor="middle" pointer-events="none">TaskPlayerGameplay...</text>
 <rect x="289.23" y="128.24" width="37.10" height="34.24" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>TaskPlayerStatusHud | sub_08014170 | confirmed  0x08014170  2488 bytes  [done]</title></rect>
 <rect x="326.33" y="128.24" width="21.17" height="21.22" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08013850 | sub_08013850 | unidentified  0x08013850  880 bytes  [done]</title></rect>
@@ -2332,9 +2330,9 @@
 <text x="165" y="524" fill="#e6edf3" font-size="11">draft / work milestones</text>
 <rect x="318" y="514" width="11" height="11" fill="#6e7681"/>
 <text x="333" y="524" fill="#e6edf3" font-size="11">no matching C / original ASM</text>
-<text x="994" y="543" fill="#e6edf3" font-size="11" text-anchor="end">Matching + linked: 96.67% of 756392 code bytes, 2006/2007 functions</text>
+<text x="994" y="543" fill="#e6edf3" font-size="11" text-anchor="end">Matching + linked: 100.00% of 756392 code bytes, 2007/2007 functions</text>
 </svg>
 <text x="12" y="674" fill="#e6edf3" font-size="11">Area = code bytes. Partial yellow fill = recorded milestones, not matching percentage or remaining time.</text>
 <text x="12" y="692" fill="#e6edf3" font-size="11">Data: 405 incbin blocks (15.3 MiB), 11 / 412 descriptive labels; understanding: no percentage.</text>
-<text x="12" y="710" fill="#e6edf3" font-size="11">Graph: 2035 functions, 10954 edges, 1294 unresolved calls. Source-derived; not a complete runtime graph.</text>
+<text x="12" y="710" fill="#e6edf3" font-size="11">Graph: 2035 functions, 10951 edges, 1293 unresolved calls. Source-derived; not a complete runtime graph.</text>
 </svg>
