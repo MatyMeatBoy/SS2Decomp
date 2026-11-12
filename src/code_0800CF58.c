@@ -3975,8 +3975,9 @@ retry63_1_done:
                 ((union RecordD368 *)temp_r4_46)->w1_b0_n6.value = ((s32) ((0U - (u32) temp_r0_119) | (u32) temp_r0_119) >> 0x1F) & 0x20;
                 temp_r0_120 = (void *) d368_sub_08007290(M2C_FIELD(d368_gUnk_030034E0, u16 *, 0x132) | 0x110000);
                 asm("" : "+r"(temp_r0_120));
-                ((union RecordD368 *)((struct PlayerD368 *)arg0)->f144)->w1_b11_n8.value = M2C_FIELD(temp_r0_120, u32 *, 0xA4) & 0xF;
-                ((union RecordD368 *)((struct PlayerD368 *)arg0)->f144)->w1_b19_n5.value = (u32) M2C_FIELD(temp_r0_120, u32 *, 0xA4) >> 4;
+                { u8 *stD368 = temp_r0_120;
+                ((union RecordD368 *)((struct PlayerD368 *)arg0)->f144)->w1_b11_n8.value = M2C_FIELD(stD368, u32 *, 0xA4) & 0xF;
+                ((union RecordD368 *)((struct PlayerD368 *)arg0)->f144)->w1_b19_n5.value = (u32) M2C_FIELD(stD368, u32 *, 0xA4) >> 4; }
                 break;
             }
         }
