@@ -31,6 +31,26 @@ def write_graph_json(path, graph):
         output.write('}\n')
 
 
+def apply_name_drafts(root, nodes):
+    """Worker answer files committed under tools/config/name_drafts/ mark still unidentified
+    functions as proposed (drawn yellow). They never override the catalog and never count
+    as identified; the first file in name order wins when two workers draft one function."""
+    by_symbol = {n['canonical_symbol']: n for n in nodes}
+    applied = 0
+    for path in sorted((Path(root) / 'tools/config/name_drafts').glob('*.json')):
+        data = json.loads(path.read_text(encoding='utf-8-sig'))
+        rows = data if isinstance(data, list) else data.get('proposals', [data])
+        for row in rows:
+            node = by_symbol.get(row.get('canonical_symbol'))
+            name = (row.get('display_name') or '').strip()
+            if node is None or node['name_status'] != 'unidentified' or not name or row.get('confidence') == 'low':
+                continue
+            node.update(display_name=name, name_status='proposed', name_source='name_draft:' + path.name,
+                        evidence=[dict(e, detail=str(e.get('detail', ''))) for e in row.get('evidence') or []])
+            applied += 1
+    return applied
+
+
 def generate(root, out, modules):
     root, out = Path(root), Path(out)
     out.mkdir(parents=True, exist_ok=True)
@@ -41,6 +61,7 @@ def generate(root, out, modules):
     known = {f['name'] for f in entries}
     names = source_index.definition_names(root, known)
     nodes = function_names.identify(entries, catalog['functions'], names)
+    apply_name_drafts(root, nodes)
     identification = function_names.summarize(nodes)
     graph = source_index.build_callgraph(root, nodes)
     data = data_inventory.collect(root)
