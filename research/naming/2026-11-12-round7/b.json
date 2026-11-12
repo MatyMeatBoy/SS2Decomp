@@ -1,0 +1,1533 @@
+{
+  "source_revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7",
+  "policy": "Frozen research proposals; only reviewed accepted catalog rows earn credit.",
+  "proposals": [
+    {
+      "canonical_symbol": "sub_0808D4A8",
+      "address": "0x0808D4A8",
+      "display_name": "EmptySceneControllerHook",
+      "summary": "Empty callable hook; returns without reading or modifying state.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_0808D4A8.c",
+          "line": 30,
+          "detail": "Empty callable hook; returns without reading or modifying state.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": []
+    },
+    {
+      "canonical_symbol": "sub_0808D4AC",
+      "address": "0x0808D4AC",
+      "display_name": "HandleScene3Controller",
+      "summary": "When scene halfword +0x10 is zero, calls sub_0802704C(arg) and returns zero. Otherwise returns zero until area change is requested; then hides screen window, waits for transition idle, stops map updates, installs gUnk_084F794C[scene word +0x40] into scene +0x71C, clears +0x10, sets +0x30 and +0x24 to one and returns one.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_0808D4A8.c",
+          "line": 34,
+          "detail": "When scene halfword +0x10 is zero, calls sub_0802704C(arg) and returns zero. Otherwise returns zero until area change is requested; then hides screen window, waits for transition idle, stops map updates, installs gUnk_084F794C[scene word +0x40] into scene +0x71C, clears +0x10, sets +0x30 and +0x24 to one and returns one.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08028AAC.c",
+          "line": 1103,
+          "detail": "sub_0802A228 selects resource tables gUnk_084F794C,084FA298,084FD06C,0850008C,085028BC,085060D4,08508B54,0850C6E8 for literal scene selectors3..10 respectively. Numeric scene identity is supported; story/location identity remains unknown.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08021DC4.c",
+          "line": 4100,
+          "detail": "Full sub_0802704C body inspected: input is interpreted as a u16 scene record; waits screen/map startup, sets local position from record or restored position, loads current scene, consumes f71C record list in0x124 strides for types4/5, sets scene f10=1 on completion. Calling it here is synchronous initialization, distinct from later actor task startup.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Scene/table narrative identity and text are not decoded; name is limited to literal table or actor identity and operational lifecycle.",
+        "Controller entry dispatch sites are mostly opaque ROM data; no narrative identity inferred from proximity."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_0808D520",
+      "address": "0x0808D520",
+      "display_name": "HandleScene3AlternateController",
+      "summary": "When scene halfword +0x10 is zero, calls sub_0802704C(arg) and returns zero. Otherwise returns zero until area change is requested; then hides screen window, waits for transition idle, stops map updates, installs gUnk_084F794C[scene word +0x40] into scene +0x71C, clears +0x10, sets +0x30 and +0x24 to one and returns one.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_0808D4A8.c",
+          "line": 63,
+          "detail": "When scene halfword +0x10 is zero, calls sub_0802704C(arg) and returns zero. Otherwise returns zero until area change is requested; then hides screen window, waits for transition idle, stops map updates, installs gUnk_084F794C[scene word +0x40] into scene +0x71C, clears +0x10, sets +0x30 and +0x24 to one and returns one.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08028AAC.c",
+          "line": 1103,
+          "detail": "sub_0802A228 selects resource tables gUnk_084F794C,084FA298,084FD06C,0850008C,085028BC,085060D4,08508B54,0850C6E8 for literal scene selectors3..10 respectively. Numeric scene identity is supported; story/location identity remains unknown.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08021DC4.c",
+          "line": 4100,
+          "detail": "Full sub_0802704C body inspected: input is interpreted as a u16 scene record; waits screen/map startup, sets local position from record or restored position, loads current scene, consumes f71C record list in0x124 strides for types4/5, sets scene f10=1 on completion. Calling it here is synchronous initialization, distinct from later actor task startup.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Scene/table narrative identity and text are not decoded; name is limited to literal table or actor identity and operational lifecycle.",
+        "Controller entry dispatch sites are mostly opaque ROM data; no narrative identity inferred from proximity."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_0808D9AC",
+      "address": "0x0808D9AC",
+      "display_name": "HandleScene4Controller",
+      "summary": "When scene halfword +0x10 is zero, calls sub_0802704C(arg) and returns zero. Otherwise returns zero until area change is requested; then hides screen window, waits for transition idle, stops map updates, installs gUnk_084FA298[scene word +0x40] into scene +0x71C, clears +0x10, sets +0x30 and +0x24 to one and returns one.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_0808D4A8.c",
+          "line": 350,
+          "detail": "When scene halfword +0x10 is zero, calls sub_0802704C(arg) and returns zero. Otherwise returns zero until area change is requested; then hides screen window, waits for transition idle, stops map updates, installs gUnk_084FA298[scene word +0x40] into scene +0x71C, clears +0x10, sets +0x30 and +0x24 to one and returns one.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08028AAC.c",
+          "line": 1103,
+          "detail": "sub_0802A228 selects resource tables gUnk_084F794C,084FA298,084FD06C,0850008C,085028BC,085060D4,08508B54,0850C6E8 for literal scene selectors3..10 respectively. Numeric scene identity is supported; story/location identity remains unknown.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08021DC4.c",
+          "line": 4100,
+          "detail": "Full sub_0802704C body inspected: input is interpreted as a u16 scene record; waits screen/map startup, sets local position from record or restored position, loads current scene, consumes f71C record list in0x124 strides for types4/5, sets scene f10=1 on completion. Calling it here is synchronous initialization, distinct from later actor task startup.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Scene/table narrative identity and text are not decoded; name is limited to literal table or actor identity and operational lifecycle.",
+        "Controller entry dispatch sites are mostly opaque ROM data; no narrative identity inferred from proximity."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_0808DA20",
+      "address": "0x0808DA20",
+      "display_name": "HandleScene4AlternateController",
+      "summary": "When scene halfword +0x10 is zero, calls sub_0802704C(arg) and returns zero. Otherwise returns zero until area change is requested; then hides screen window, waits for transition idle, stops map updates, installs gUnk_084FA298[scene word +0x40] into scene +0x71C, clears +0x10, sets +0x30 and +0x24 to one and returns one.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_0808D4A8.c",
+          "line": 380,
+          "detail": "When scene halfword +0x10 is zero, calls sub_0802704C(arg) and returns zero. Otherwise returns zero until area change is requested; then hides screen window, waits for transition idle, stops map updates, installs gUnk_084FA298[scene word +0x40] into scene +0x71C, clears +0x10, sets +0x30 and +0x24 to one and returns one.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08028AAC.c",
+          "line": 1103,
+          "detail": "sub_0802A228 selects resource tables gUnk_084F794C,084FA298,084FD06C,0850008C,085028BC,085060D4,08508B54,0850C6E8 for literal scene selectors3..10 respectively. Numeric scene identity is supported; story/location identity remains unknown.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08021DC4.c",
+          "line": 4100,
+          "detail": "Full sub_0802704C body inspected: input is interpreted as a u16 scene record; waits screen/map startup, sets local position from record or restored position, loads current scene, consumes f71C record list in0x124 strides for types4/5, sets scene f10=1 on completion. Calling it here is synchronous initialization, distinct from later actor task startup.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Scene/table narrative identity and text are not decoded; name is limited to literal table or actor identity and operational lifecycle.",
+        "Controller entry dispatch sites are mostly opaque ROM data; no narrative identity inferred from proximity."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_0808E184",
+      "address": "0x0808E184",
+      "display_name": "HandleScene6Controller",
+      "summary": "When scene halfword +0x10 is zero, calls sub_0802704C(arg) and returns zero. Otherwise returns zero until area change is requested; then hides screen window, waits for transition idle, stops map updates, installs gUnk_0850008C[scene word +0x40] into scene +0x71C, clears +0x10, sets +0x30 and +0x24 to one and returns one.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_0808D4A8.c",
+          "line": 721,
+          "detail": "When scene halfword +0x10 is zero, calls sub_0802704C(arg) and returns zero. Otherwise returns zero until area change is requested; then hides screen window, waits for transition idle, stops map updates, installs gUnk_0850008C[scene word +0x40] into scene +0x71C, clears +0x10, sets +0x30 and +0x24 to one and returns one.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08028AAC.c",
+          "line": 1103,
+          "detail": "sub_0802A228 selects resource tables gUnk_084F794C,084FA298,084FD06C,0850008C,085028BC,085060D4,08508B54,0850C6E8 for literal scene selectors3..10 respectively. Numeric scene identity is supported; story/location identity remains unknown.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08021DC4.c",
+          "line": 4100,
+          "detail": "Full sub_0802704C body inspected: input is interpreted as a u16 scene record; waits screen/map startup, sets local position from record or restored position, loads current scene, consumes f71C record list in0x124 strides for types4/5, sets scene f10=1 on completion. Calling it here is synchronous initialization, distinct from later actor task startup.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Scene/table narrative identity and text are not decoded; name is limited to literal table or actor identity and operational lifecycle.",
+        "Controller entry dispatch sites are mostly opaque ROM data; no narrative identity inferred from proximity."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_0808E1F8",
+      "address": "0x0808E1F8",
+      "display_name": "HandleScene6AlternateController",
+      "summary": "When scene halfword +0x10 is zero, calls sub_0802704C(arg) and returns zero. Otherwise returns zero until area change is requested; then hides screen window, waits for transition idle, stops map updates, installs gUnk_0850008C[scene word +0x40] into scene +0x71C, clears +0x10, sets +0x30 and +0x24 to one and returns one.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_0808D4A8.c",
+          "line": 750,
+          "detail": "When scene halfword +0x10 is zero, calls sub_0802704C(arg) and returns zero. Otherwise returns zero until area change is requested; then hides screen window, waits for transition idle, stops map updates, installs gUnk_0850008C[scene word +0x40] into scene +0x71C, clears +0x10, sets +0x30 and +0x24 to one and returns one.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08028AAC.c",
+          "line": 1103,
+          "detail": "sub_0802A228 selects resource tables gUnk_084F794C,084FA298,084FD06C,0850008C,085028BC,085060D4,08508B54,0850C6E8 for literal scene selectors3..10 respectively. Numeric scene identity is supported; story/location identity remains unknown.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08021DC4.c",
+          "line": 4100,
+          "detail": "Full sub_0802704C body inspected: input is interpreted as a u16 scene record; waits screen/map startup, sets local position from record or restored position, loads current scene, consumes f71C record list in0x124 strides for types4/5, sets scene f10=1 on completion. Calling it here is synchronous initialization, distinct from later actor task startup.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Scene/table narrative identity and text are not decoded; name is limited to literal table or actor identity and operational lifecycle.",
+        "Controller entry dispatch sites are mostly opaque ROM data; no narrative identity inferred from proximity."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_0808E3A0",
+      "address": "0x0808E3A0",
+      "display_name": "HandleScene7Controller",
+      "summary": "When scene halfword +0x10 is zero, calls sub_0802704C(arg) and returns zero. Otherwise returns zero until area change is requested; then hides screen window, waits for transition idle, stops map updates, installs gUnk_085028BC[scene word +0x40] into scene +0x71C, clears +0x10, sets +0x30 and +0x24 to one and returns one.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_0808D4A8.c",
+          "line": 845,
+          "detail": "When scene halfword +0x10 is zero, calls sub_0802704C(arg) and returns zero. Otherwise returns zero until area change is requested; then hides screen window, waits for transition idle, stops map updates, installs gUnk_085028BC[scene word +0x40] into scene +0x71C, clears +0x10, sets +0x30 and +0x24 to one and returns one.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08028AAC.c",
+          "line": 1103,
+          "detail": "sub_0802A228 selects resource tables gUnk_084F794C,084FA298,084FD06C,0850008C,085028BC,085060D4,08508B54,0850C6E8 for literal scene selectors3..10 respectively. Numeric scene identity is supported; story/location identity remains unknown.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08021DC4.c",
+          "line": 4100,
+          "detail": "Full sub_0802704C body inspected: input is interpreted as a u16 scene record; waits screen/map startup, sets local position from record or restored position, loads current scene, consumes f71C record list in0x124 strides for types4/5, sets scene f10=1 on completion. Calling it here is synchronous initialization, distinct from later actor task startup.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Scene/table narrative identity and text are not decoded; name is limited to literal table or actor identity and operational lifecycle.",
+        "Controller entry dispatch sites are mostly opaque ROM data; no narrative identity inferred from proximity."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_0808E414",
+      "address": "0x0808E414",
+      "display_name": "HandleScene7AlternateController",
+      "summary": "When scene halfword +0x10 is zero, calls sub_0802704C(arg) and returns zero. Otherwise returns zero until area change is requested; then hides screen window, waits for transition idle, stops map updates, installs gUnk_085028BC[scene word +0x40] into scene +0x71C, clears +0x10, sets +0x30 and +0x24 to one and returns one.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_0808D4A8.c",
+          "line": 874,
+          "detail": "When scene halfword +0x10 is zero, calls sub_0802704C(arg) and returns zero. Otherwise returns zero until area change is requested; then hides screen window, waits for transition idle, stops map updates, installs gUnk_085028BC[scene word +0x40] into scene +0x71C, clears +0x10, sets +0x30 and +0x24 to one and returns one.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08028AAC.c",
+          "line": 1103,
+          "detail": "sub_0802A228 selects resource tables gUnk_084F794C,084FA298,084FD06C,0850008C,085028BC,085060D4,08508B54,0850C6E8 for literal scene selectors3..10 respectively. Numeric scene identity is supported; story/location identity remains unknown.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08021DC4.c",
+          "line": 4100,
+          "detail": "Full sub_0802704C body inspected: input is interpreted as a u16 scene record; waits screen/map startup, sets local position from record or restored position, loads current scene, consumes f71C record list in0x124 strides for types4/5, sets scene f10=1 on completion. Calling it here is synchronous initialization, distinct from later actor task startup.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Scene/table narrative identity and text are not decoded; name is limited to literal table or actor identity and operational lifecycle.",
+        "Controller entry dispatch sites are mostly opaque ROM data; no narrative identity inferred from proximity."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_0808ED7C",
+      "address": "0x0808ED7C",
+      "display_name": "HandleScene10Controller",
+      "summary": "When scene halfword +0x10 is zero, calls sub_0802704C(arg) and returns zero. Otherwise returns zero until area change is requested; then hides screen window, waits for transition idle, stops map updates, installs gUnk_0850C6E8[scene word +0x40] into scene +0x71C, clears +0x10, sets +0x30 and +0x24 to one and returns one.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_0808D4A8.c",
+          "line": 1361,
+          "detail": "When scene halfword +0x10 is zero, calls sub_0802704C(arg) and returns zero. Otherwise returns zero until area change is requested; then hides screen window, waits for transition idle, stops map updates, installs gUnk_0850C6E8[scene word +0x40] into scene +0x71C, clears +0x10, sets +0x30 and +0x24 to one and returns one.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08028AAC.c",
+          "line": 1103,
+          "detail": "sub_0802A228 selects resource tables gUnk_084F794C,084FA298,084FD06C,0850008C,085028BC,085060D4,08508B54,0850C6E8 for literal scene selectors3..10 respectively. Numeric scene identity is supported; story/location identity remains unknown.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08021DC4.c",
+          "line": 4100,
+          "detail": "Full sub_0802704C body inspected: input is interpreted as a u16 scene record; waits screen/map startup, sets local position from record or restored position, loads current scene, consumes f71C record list in0x124 strides for types4/5, sets scene f10=1 on completion. Calling it here is synchronous initialization, distinct from later actor task startup.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Scene/table narrative identity and text are not decoded; name is limited to literal table or actor identity and operational lifecycle.",
+        "Controller entry dispatch sites are mostly opaque ROM data; no narrative identity inferred from proximity."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_0808DE94",
+      "address": "0x0808DE94",
+      "display_name": "HandleScene5ShakeController",
+      "summary": "When scene halfword +0x10 is zero, calls sub_0802704C(arg) and returns zero. Otherwise returns zero until area change is requested; then hides screen window, waits for transition idle, stops map updates, installs gUnk_084FD06C[scene word +0x40] into scene +0x71C, clears +0x10, sets +0x30 and +0x24 to one and returns one.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_0808D4A8.c",
+          "line": 566,
+          "detail": "When scene halfword +0x10 is zero, calls sub_0802704C(arg) and returns zero. Otherwise returns zero until area change is requested; then hides screen window, waits for transition idle, stops map updates, installs gUnk_084FD06C[scene word +0x40] into scene +0x71C, clears +0x10, sets +0x30 and +0x24 to one and returns one.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08028AAC.c",
+          "line": 1103,
+          "detail": "sub_0802A228 selects resource tables gUnk_084F794C,084FA298,084FD06C,0850008C,085028BC,085060D4,08508B54,0850C6E8 for literal scene selectors3..10 respectively. Numeric scene identity is supported; story/location identity remains unknown.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08021DC4.c",
+          "line": 4100,
+          "detail": "Full sub_0802704C body inspected: input is interpreted as a u16 scene record; waits screen/map startup, sets local position from record or restored position, loads current scene, consumes f71C record list in0x124 strides for types4/5, sets scene f10=1 on completion. Calling it here is synchronous initialization, distinct from later actor task startup.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Scene/table narrative identity and text are not decoded; name is limited to literal table or actor identity and operational lifecycle.",
+        "Controller entry dispatch sites are mostly opaque ROM data; no narrative identity inferred from proximity."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_0808E774",
+      "address": "0x0808E774",
+      "display_name": "HandleScene8MenuBlockingController",
+      "summary": "When scene halfword +0x10 is zero, calls sub_0802704C(arg) and starts actor sub_080A756C and returns zero. Otherwise returns zero until area change is requested; then hides screen window, waits for transition idle, stops map updates, installs gUnk_085060D4[scene word +0x40] into scene +0x71C, clears +0x10, sets +0x30 and +0x24 to one and returns one.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_0808D4A8.c",
+          "line": 1032,
+          "detail": "When scene halfword +0x10 is zero, calls sub_0802704C(arg) and starts actor sub_080A756C and returns zero. Otherwise returns zero until area change is requested; then hides screen window, waits for transition idle, stops map updates, installs gUnk_085060D4[scene word +0x40] into scene +0x71C, clears +0x10, sets +0x30 and +0x24 to one and returns one.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08028AAC.c",
+          "line": 1103,
+          "detail": "sub_0802A228 selects resource tables gUnk_084F794C,084FA298,084FD06C,0850008C,085028BC,085060D4,08508B54,0850C6E8 for literal scene selectors3..10 respectively. Numeric scene identity is supported; story/location identity remains unknown.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08021DC4.c",
+          "line": 4100,
+          "detail": "Full sub_0802704C body inspected: input is interpreted as a u16 scene record; waits screen/map startup, sets local position from record or restored position, loads current scene, consumes f71C record list in0x124 strides for types4/5, sets scene f10=1 on completion. Calling it here is synchronous initialization, distinct from later actor task startup.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Scene/table narrative identity and text are not decoded; name is limited to literal table or actor identity and operational lifecycle.",
+        "Controller entry dispatch sites are mostly opaque ROM data; no narrative identity inferred from proximity."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_0808DE08",
+      "address": "0x0808DE08",
+      "display_name": "HandleScene5TimedShakeController",
+      "summary": "When scene halfword +0x10 is zero, calls sub_0802704C(arg) and returns zero. Otherwise returns zero until area change is requested; then hides screen window, waits for transition idle, stops map updates, installs gUnk_084FD06C[scene word +0x40] into scene +0x71C, clears +0x10, sets +0x30 and +0x24 to one and returns one.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_0808D4A8.c",
+          "line": 535,
+          "detail": "When scene halfword +0x10 is zero, calls sub_0802704C(arg) and returns zero. Otherwise returns zero until area change is requested; then hides screen window, waits for transition idle, stops map updates, installs gUnk_084FD06C[scene word +0x40] into scene +0x71C, clears +0x10, sets +0x30 and +0x24 to one and returns one.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08028AAC.c",
+          "line": 1103,
+          "detail": "sub_0802A228 selects resource tables gUnk_084F794C,084FA298,084FD06C,0850008C,085028BC,085060D4,08508B54,0850C6E8 for literal scene selectors3..10 respectively. Numeric scene identity is supported; story/location identity remains unknown.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08021DC4.c",
+          "line": 4100,
+          "detail": "Full sub_0802704C body inspected: input is interpreted as a u16 scene record; waits screen/map startup, sets local position from record or restored position, loads current scene, consumes f71C record list in0x124 strides for types4/5, sets scene f10=1 on completion. Calling it here is synchronous initialization, distinct from later actor task startup.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Scene/table narrative identity and text are not decoded; name is limited to literal table or actor identity and operational lifecycle.",
+        "Controller entry dispatch sites are mostly opaque ROM data; no narrative identity inferred from proximity."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_0808EB68",
+      "address": "0x0808EB68",
+      "display_name": "HandleScene9AlternateEncounterController",
+      "summary": "When scene halfword +0x10 is zero, calls sub_0802704C(arg) and starts actor sub_080AF3F4 and returns zero. Otherwise returns zero until area change is requested; then hides screen window, waits for transition idle, stops map updates, installs gUnk_08508B54[scene word +0x40] into scene +0x71C, clears +0x10, sets +0x30 and +0x24 to one and returns one.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_0808D4A8.c",
+          "line": 1244,
+          "detail": "When scene halfword +0x10 is zero, calls sub_0802704C(arg) and starts actor sub_080AF3F4 and returns zero. Otherwise returns zero until area change is requested; then hides screen window, waits for transition idle, stops map updates, installs gUnk_08508B54[scene word +0x40] into scene +0x71C, clears +0x10, sets +0x30 and +0x24 to one and returns one.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08028AAC.c",
+          "line": 1103,
+          "detail": "sub_0802A228 selects resource tables gUnk_084F794C,084FA298,084FD06C,0850008C,085028BC,085060D4,08508B54,0850C6E8 for literal scene selectors3..10 respectively. Numeric scene identity is supported; story/location identity remains unknown.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08021DC4.c",
+          "line": 4100,
+          "detail": "Full sub_0802704C body inspected: input is interpreted as a u16 scene record; waits screen/map startup, sets local position from record or restored position, loads current scene, consumes f71C record list in0x124 strides for types4/5, sets scene f10=1 on completion. Calling it here is synchronous initialization, distinct from later actor task startup.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Scene/table narrative identity and text are not decoded; name is limited to literal table or actor identity and operational lifecycle.",
+        "Controller entry dispatch sites are mostly opaque ROM data; no narrative identity inferred from proximity."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_0808E000",
+      "address": "0x0808E000",
+      "display_name": "HandleScene5EncounterController",
+      "summary": "When scene halfword +0x10 is zero, calls sub_0802704C(arg) and starts actor sub_080AB2F8 and returns zero. Otherwise returns zero until area change is requested; then hides screen window, waits for transition idle, stops map updates, installs gUnk_084FD06C[scene word +0x40] into scene +0x71C, clears +0x10, sets +0x30 and +0x24 to one and returns one.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_0808D4A8.c",
+          "line": 639,
+          "detail": "When scene halfword +0x10 is zero, calls sub_0802704C(arg) and starts actor sub_080AB2F8 and returns zero. Otherwise returns zero until area change is requested; then hides screen window, waits for transition idle, stops map updates, installs gUnk_084FD06C[scene word +0x40] into scene +0x71C, clears +0x10, sets +0x30 and +0x24 to one and returns one.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08028AAC.c",
+          "line": 1103,
+          "detail": "sub_0802A228 selects resource tables gUnk_084F794C,084FA298,084FD06C,0850008C,085028BC,085060D4,08508B54,0850C6E8 for literal scene selectors3..10 respectively. Numeric scene identity is supported; story/location identity remains unknown.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08021DC4.c",
+          "line": 4100,
+          "detail": "Full sub_0802704C body inspected: input is interpreted as a u16 scene record; waits screen/map startup, sets local position from record or restored position, loads current scene, consumes f71C record list in0x124 strides for types4/5, sets scene f10=1 on completion. Calling it here is synchronous initialization, distinct from later actor task startup.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Scene/table narrative identity and text are not decoded; name is limited to literal table or actor identity and operational lifecycle.",
+        "Controller entry dispatch sites are mostly opaque ROM data; no narrative identity inferred from proximity."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_0808E26C",
+      "address": "0x0808E26C",
+      "display_name": "HandleScene6EncounterController",
+      "summary": "When scene halfword +0x10 is zero, calls sub_0802704C(arg) and starts actor sub_080AC844 and returns zero. Otherwise returns zero until area change is requested; then hides screen window, waits for transition idle, stops map updates, installs gUnk_0850008C[scene word +0x40] into scene +0x71C, clears +0x10, sets +0x30 and +0x24 to one and returns one.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_0808D4A8.c",
+          "line": 779,
+          "detail": "When scene halfword +0x10 is zero, calls sub_0802704C(arg) and starts actor sub_080AC844 and returns zero. Otherwise returns zero until area change is requested; then hides screen window, waits for transition idle, stops map updates, installs gUnk_0850008C[scene word +0x40] into scene +0x71C, clears +0x10, sets +0x30 and +0x24 to one and returns one.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08028AAC.c",
+          "line": 1103,
+          "detail": "sub_0802A228 selects resource tables gUnk_084F794C,084FA298,084FD06C,0850008C,085028BC,085060D4,08508B54,0850C6E8 for literal scene selectors3..10 respectively. Numeric scene identity is supported; story/location identity remains unknown.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08021DC4.c",
+          "line": 4100,
+          "detail": "Full sub_0802704C body inspected: input is interpreted as a u16 scene record; waits screen/map startup, sets local position from record or restored position, loads current scene, consumes f71C record list in0x124 strides for types4/5, sets scene f10=1 on completion. Calling it here is synchronous initialization, distinct from later actor task startup.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Scene/table narrative identity and text are not decoded; name is limited to literal table or actor identity and operational lifecycle.",
+        "Controller entry dispatch sites are mostly opaque ROM data; no narrative identity inferred from proximity."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_0808E7FC",
+      "address": "0x0808E7FC",
+      "display_name": "HandleScene8EncounterController",
+      "summary": "When scene halfword +0x10 is zero, calls sub_0802704C(arg) and starts actor sub_080AE1B4 and returns zero. Otherwise returns zero until area change is requested; then hides screen window, waits for transition idle, stops map updates, installs gUnk_085060D4[scene word +0x40] into scene +0x71C, clears +0x10, sets +0x30 and +0x24 to one and returns one.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_0808D4A8.c",
+          "line": 1064,
+          "detail": "When scene halfword +0x10 is zero, calls sub_0802704C(arg) and starts actor sub_080AE1B4 and returns zero. Otherwise returns zero until area change is requested; then hides screen window, waits for transition idle, stops map updates, installs gUnk_085060D4[scene word +0x40] into scene +0x71C, clears +0x10, sets +0x30 and +0x24 to one and returns one.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08028AAC.c",
+          "line": 1103,
+          "detail": "sub_0802A228 selects resource tables gUnk_084F794C,084FA298,084FD06C,0850008C,085028BC,085060D4,08508B54,0850C6E8 for literal scene selectors3..10 respectively. Numeric scene identity is supported; story/location identity remains unknown.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08021DC4.c",
+          "line": 4100,
+          "detail": "Full sub_0802704C body inspected: input is interpreted as a u16 scene record; waits screen/map startup, sets local position from record or restored position, loads current scene, consumes f71C record list in0x124 strides for types4/5, sets scene f10=1 on completion. Calling it here is synchronous initialization, distinct from later actor task startup.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Scene/table narrative identity and text are not decoded; name is limited to literal table or actor identity and operational lifecycle.",
+        "Controller entry dispatch sites are mostly opaque ROM data; no narrative identity inferred from proximity."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_0808EAD8",
+      "address": "0x0808EAD8",
+      "display_name": "HandleScene9EncounterController",
+      "summary": "When scene halfword +0x10 is zero, calls sub_0802704C(arg) and starts actor sub_080B0288 and returns zero. Otherwise returns zero until area change is requested; then hides screen window, waits for transition idle, stops map updates, installs gUnk_08508B54[scene word +0x40] into scene +0x71C, clears +0x10, sets +0x30 and +0x24 to one and returns one.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_0808D4A8.c",
+          "line": 1210,
+          "detail": "When scene halfword +0x10 is zero, calls sub_0802704C(arg) and starts actor sub_080B0288 and returns zero. Otherwise returns zero until area change is requested; then hides screen window, waits for transition idle, stops map updates, installs gUnk_08508B54[scene word +0x40] into scene +0x71C, clears +0x10, sets +0x30 and +0x24 to one and returns one.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08028AAC.c",
+          "line": 1103,
+          "detail": "sub_0802A228 selects resource tables gUnk_084F794C,084FA298,084FD06C,0850008C,085028BC,085060D4,08508B54,0850C6E8 for literal scene selectors3..10 respectively. Numeric scene identity is supported; story/location identity remains unknown.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08021DC4.c",
+          "line": 4100,
+          "detail": "Full sub_0802704C body inspected: input is interpreted as a u16 scene record; waits screen/map startup, sets local position from record or restored position, loads current scene, consumes f71C record list in0x124 strides for types4/5, sets scene f10=1 on completion. Calling it here is synchronous initialization, distinct from later actor task startup.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Scene/table narrative identity and text are not decoded; name is limited to literal table or actor identity and operational lifecycle.",
+        "Controller entry dispatch sites are mostly opaque ROM data; no narrative identity inferred from proximity."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_0808EF54",
+      "address": "0x0808EF54",
+      "display_name": "HandleActor080A9950AreaExit",
+      "summary": "On zero scene +0x10, marks encounter active, initializes scene through sub_0802704C and starts sub_080A9950; returns zero. With nonzero +0x10, waits for area-change request; selects destination (0,2), clears request and encounter activity, writes scene +0x36=3, marks current level encounter cleared, clears local player flag bit 1 and state, and returns one. Does not set scene +0x30/+0x24 on the return-one branch.",
+      "confidence": "low",
+      "evidence": [
+        {
+          "source": "src/code_0808D4A8.c",
+          "line": 1465,
+          "detail": "On zero scene +0x10, marks encounter active, initializes scene through sub_0802704C and starts sub_080A9950; returns zero. With nonzero +0x10, waits for area-change request; selects destination (0,2), clears request and encounter activity, writes scene +0x36=3, marks current level encounter cleared, clears local player flag bit 1 and state, and returns one. Does not set scene +0x30/+0x24 on the return-one branch.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08021DC4.c",
+          "line": 4100,
+          "detail": "Full sub_0802704C body inspected: input is interpreted as a u16 scene record; waits screen/map startup, sets local position from record or restored position, loads current scene, consumes f71C record list in0x124 strides for types4/5, sets scene f10=1 on completion. Calling it here is synchronous initialization, distinct from later actor task startup.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Scene/table narrative identity and text are not decoded; name is limited to literal table or actor identity and operational lifecycle.",
+        "Controller entry dispatch sites are mostly opaque ROM data; no narrative identity inferred from proximity."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_0808EFEC",
+      "address": "0x0808EFEC",
+      "display_name": "HandleActor080B4C34AreaExit",
+      "summary": "On zero scene +0x10, marks encounter active, initializes scene through sub_0802704C and starts sub_080B4C34; returns zero. With nonzero +0x10, waits for area-change request; selects destination (0,2), clears request and encounter activity, writes scene +0x36=3, marks current level encounter cleared, clears local player flag bit 1 and state, and returns one. Does not set scene +0x30/+0x24 on the return-one branch.",
+      "confidence": "low",
+      "evidence": [
+        {
+          "source": "src/code_0808D4A8.c",
+          "line": 1492,
+          "detail": "On zero scene +0x10, marks encounter active, initializes scene through sub_0802704C and starts sub_080B4C34; returns zero. With nonzero +0x10, waits for area-change request; selects destination (0,2), clears request and encounter activity, writes scene +0x36=3, marks current level encounter cleared, clears local player flag bit 1 and state, and returns one. Does not set scene +0x30/+0x24 on the return-one branch.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08021DC4.c",
+          "line": 4100,
+          "detail": "Full sub_0802704C body inspected: input is interpreted as a u16 scene record; waits screen/map startup, sets local position from record or restored position, loads current scene, consumes f71C record list in0x124 strides for types4/5, sets scene f10=1 on completion. Calling it here is synchronous initialization, distinct from later actor task startup.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Scene/table narrative identity and text are not decoded; name is limited to literal table or actor identity and operational lifecycle.",
+        "Controller entry dispatch sites are mostly opaque ROM data; no narrative identity inferred from proximity."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_0808E090",
+      "address": "0x0808E090",
+      "display_name": "HandleActor0809FB6CAreaExit",
+      "summary": "On zero scene +0x10, marks encounter active, initializes scene through sub_0802704C and starts sub_0809FB6C; returns zero. With nonzero +0x10, waits for area-change request; selects destination (0,2), clears request and encounter activity, writes scene +0x36=3, marks current level encounter cleared, clears local player flag bit 1 and state, and returns one.",
+      "confidence": "low",
+      "evidence": [
+        {
+          "source": "src/code_0808D4A8.c",
+          "line": 673,
+          "detail": "On zero scene +0x10, marks encounter active, initializes scene through sub_0802704C and starts sub_0809FB6C; returns zero. With nonzero +0x10, waits for area-change request; selects destination (0,2), clears request and encounter activity, writes scene +0x36=3, marks current level encounter cleared, clears local player flag bit 1 and state, and returns one.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08021DC4.c",
+          "line": 4100,
+          "detail": "Full sub_0802704C body inspected: input is interpreted as a u16 scene record; waits screen/map startup, sets local position from record or restored position, loads current scene, consumes f71C record list in0x124 strides for types4/5, sets scene f10=1 on completion. Calling it here is synchronous initialization, distinct from later actor task startup.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Scene/table narrative identity and text are not decoded; name is limited to literal table or actor identity and operational lifecycle.",
+        "Controller entry dispatch sites are mostly opaque ROM data; no narrative identity inferred from proximity."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_0808DA94",
+      "address": "0x0808DA94",
+      "display_name": "HandleActor0809D878AreaExit",
+      "summary": "On zero scene +0x10, marks encounter active, initializes scene through sub_0802704C and starts sub_0809D878; returns zero. With nonzero +0x10, waits for area-change request; selects destination (0,2), clears request and encounter activity, writes scene +0x36=3, marks current level encounter cleared, clears local player flag bit 1 and state, and returns one.",
+      "confidence": "low",
+      "evidence": [
+        {
+          "source": "src/code_0808D4A8.c",
+          "line": 410,
+          "detail": "On zero scene +0x10, marks encounter active, initializes scene through sub_0802704C and starts sub_0809D878; returns zero. With nonzero +0x10, waits for area-change request; selects destination (0,2), clears request and encounter activity, writes scene +0x36=3, marks current level encounter cleared, clears local player flag bit 1 and state, and returns one.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08021DC4.c",
+          "line": 4100,
+          "detail": "Full sub_0802704C body inspected: input is interpreted as a u16 scene record; waits screen/map startup, sets local position from record or restored position, loads current scene, consumes f71C record list in0x124 strides for types4/5, sets scene f10=1 on completion. Calling it here is synchronous initialization, distinct from later actor task startup.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Scene/table narrative identity and text are not decoded; name is limited to literal table or actor identity and operational lifecycle.",
+        "Controller entry dispatch sites are mostly opaque ROM data; no narrative identity inferred from proximity."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_0808E2FC",
+      "address": "0x0808E2FC",
+      "display_name": "HandleActor080A1208AreaExit",
+      "summary": "On zero scene +0x10, marks encounter active, initializes scene through sub_0802704C and starts sub_080A1208; returns zero. With nonzero +0x10, waits for area-change request; selects destination (0,2), clears request and encounter activity, writes scene +0x36=3, marks current level encounter cleared, clears local player flag bit 1 and state, and returns one.",
+      "confidence": "low",
+      "evidence": [
+        {
+          "source": "src/code_0808D4A8.c",
+          "line": 814,
+          "detail": "On zero scene +0x10, marks encounter active, initializes scene through sub_0802704C and starts sub_080A1208; returns zero. With nonzero +0x10, waits for area-change request; selects destination (0,2), clears request and encounter activity, writes scene +0x36=3, marks current level encounter cleared, clears local player flag bit 1 and state, and returns one.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08021DC4.c",
+          "line": 4100,
+          "detail": "Full sub_0802704C body inspected: input is interpreted as a u16 scene record; waits screen/map startup, sets local position from record or restored position, loads current scene, consumes f71C record list in0x124 strides for types4/5, sets scene f10=1 on completion. Calling it here is synchronous initialization, distinct from later actor task startup.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Scene/table narrative identity and text are not decoded; name is limited to literal table or actor identity and operational lifecycle.",
+        "Controller entry dispatch sites are mostly opaque ROM data; no narrative identity inferred from proximity."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_0808E488",
+      "address": "0x0808E488",
+      "display_name": "HandleActor080A27B8AreaExit",
+      "summary": "On zero scene +0x10, marks encounter active, initializes scene through sub_0802704C and starts sub_080A27B8; returns zero. With nonzero +0x10, waits for area-change request; selects destination (0,2), clears request and encounter activity, writes scene +0x36=3, marks current level encounter cleared, clears local player flag bit 1 and state, and returns one. Completion also clears scene +0x10 and sets +0x30/+0x24 to one.",
+      "confidence": "low",
+      "evidence": [
+        {
+          "source": "src/code_0808D4A8.c",
+          "line": 905,
+          "detail": "On zero scene +0x10, marks encounter active, initializes scene through sub_0802704C and starts sub_080A27B8; returns zero. With nonzero +0x10, waits for area-change request; selects destination (0,2), clears request and encounter activity, writes scene +0x36=3, marks current level encounter cleared, clears local player flag bit 1 and state, and returns one. Completion also clears scene +0x10 and sets +0x30/+0x24 to one.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08021DC4.c",
+          "line": 4100,
+          "detail": "Full sub_0802704C body inspected: input is interpreted as a u16 scene record; waits screen/map startup, sets local position from record or restored position, loads current scene, consumes f71C record list in0x124 strides for types4/5, sets scene f10=1 on completion. Calling it here is synchronous initialization, distinct from later actor task startup.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Scene/table narrative identity and text are not decoded; name is limited to literal table or actor identity and operational lifecycle.",
+        "Controller entry dispatch sites are mostly opaque ROM data; no narrative identity inferred from proximity."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_0808EDF0",
+      "address": "0x0808EDF0",
+      "display_name": "HandleScene10ParallaxController",
+      "summary": "When scene halfword +0x10 is zero, calls sub_0802704C(arg) and returns zero. Otherwise returns zero until area change is requested; then hides screen window, waits for transition idle, stops map updates, installs gUnk_0850C6E8[scene word +0x40] into scene +0x71C, clears +0x10, sets +0x30 and +0x24 to one and returns one.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_0808D4A8.c",
+          "line": 1392,
+          "detail": "When scene halfword +0x10 is zero, calls sub_0802704C(arg) and returns zero. Otherwise returns zero until area change is requested; then hides screen window, waits for transition idle, stops map updates, installs gUnk_0850C6E8[scene word +0x40] into scene +0x71C, clears +0x10, sets +0x30 and +0x24 to one and returns one.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08028AAC.c",
+          "line": 1103,
+          "detail": "sub_0802A228 selects resource tables gUnk_084F794C,084FA298,084FD06C,0850008C,085028BC,085060D4,08508B54,0850C6E8 for literal scene selectors3..10 respectively. Numeric scene identity is supported; story/location identity remains unknown.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08021DC4.c",
+          "line": 4100,
+          "detail": "Full sub_0802704C body inspected: input is interpreted as a u16 scene record; waits screen/map startup, sets local position from record or restored position, loads current scene, consumes f71C record list in0x124 strides for types4/5, sets scene f10=1 on completion. Calling it here is synchronous initialization, distinct from later actor task startup.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Scene/table narrative identity and text are not decoded; name is limited to literal table or actor identity and operational lifecycle.",
+        "Controller entry dispatch sites are mostly opaque ROM data; no narrative identity inferred from proximity."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_0808EBF4",
+      "address": "0x0808EBF4",
+      "display_name": "HandleActor080A8164AreaExit",
+      "summary": "On zero scene +0x10, marks encounter active, initializes scene through sub_0802704C and starts sub_080A8164; returns zero. With nonzero +0x10, waits for area-change request; selects destination (0,2), clears request and encounter activity, writes scene +0x36=3, marks current level encounter cleared, clears local player flag bit 1 and state, and returns one.",
+      "confidence": "low",
+      "evidence": [
+        {
+          "source": "src/code_0808D4A8.c",
+          "line": 1277,
+          "detail": "On zero scene +0x10, marks encounter active, initializes scene through sub_0802704C and starts sub_080A8164; returns zero. With nonzero +0x10, waits for area-change request; selects destination (0,2), clears request and encounter activity, writes scene +0x36=3, marks current level encounter cleared, clears local player flag bit 1 and state, and returns one.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08021DC4.c",
+          "line": 4100,
+          "detail": "Full sub_0802704C body inspected: input is interpreted as a u16 scene record; waits screen/map startup, sets local position from record or restored position, loads current scene, consumes f71C record list in0x124 strides for types4/5, sets scene f10=1 on completion. Calling it here is synchronous initialization, distinct from later actor task startup.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Scene/table narrative identity and text are not decoded; name is limited to literal table or actor identity and operational lifecycle.",
+        "Controller entry dispatch sites are mostly opaque ROM data; no narrative identity inferred from proximity."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_0808EE98",
+      "address": "0x0808EE98",
+      "display_name": "HandleScene10EncounterController",
+      "summary": "When scene halfword +0x10 is zero, calls sub_0802704C(arg) and starts actor sub_080B0FC4 and returns zero. Otherwise returns zero until area change is requested; then hides screen window, waits for transition idle, stops map updates, installs gUnk_0850C6E8[scene word +0x40] into scene +0x71C, clears +0x10, sets +0x30 and +0x24 to one and returns one.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_0808D4A8.c",
+          "line": 1426,
+          "detail": "When scene halfword +0x10 is zero, calls sub_0802704C(arg) and starts actor sub_080B0FC4 and returns zero. Otherwise returns zero until area change is requested; then hides screen window, waits for transition idle, stops map updates, installs gUnk_0850C6E8[scene word +0x40] into scene +0x71C, clears +0x10, sets +0x30 and +0x24 to one and returns one.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08028AAC.c",
+          "line": 1103,
+          "detail": "sub_0802A228 selects resource tables gUnk_084F794C,084FA298,084FD06C,0850008C,085028BC,085060D4,08508B54,0850C6E8 for literal scene selectors3..10 respectively. Numeric scene identity is supported; story/location identity remains unknown.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08021DC4.c",
+          "line": 4100,
+          "detail": "Full sub_0802704C body inspected: input is interpreted as a u16 scene record; waits screen/map startup, sets local position from record or restored position, loads current scene, consumes f71C record list in0x124 strides for types4/5, sets scene f10=1 on completion. Calling it here is synchronous initialization, distinct from later actor task startup.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Scene/table narrative identity and text are not decoded; name is limited to literal table or actor identity and operational lifecycle.",
+        "Controller entry dispatch sites are mostly opaque ROM data; no narrative identity inferred from proximity."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_0808D594",
+      "address": "0x0808D594",
+      "display_name": "HandleActor0809AEE8AreaExit",
+      "summary": "On zero scene +0x10, marks encounter active, initializes scene through sub_0802704C and starts sub_0809AEE8; returns zero. With nonzero +0x10, waits for area-change request; selects destination (0,2), clears request and encounter activity, writes scene +0x36=3, marks current level encounter cleared, clears local player flag bit 1 and state, and returns one. Initialization additionally waits four frames then starts sub_0808D654 with null secondary entry; completion deactivates non-retained field items.",
+      "confidence": "low",
+      "evidence": [
+        {
+          "source": "src/code_0808D4A8.c",
+          "line": 94,
+          "detail": "On zero scene +0x10, marks encounter active, initializes scene through sub_0802704C and starts sub_0809AEE8; returns zero. With nonzero +0x10, waits for area-change request; selects destination (0,2), clears request and encounter activity, writes scene +0x36=3, marks current level encounter cleared, clears local player flag bit 1 and state, and returns one. Initialization additionally waits four frames then starts sub_0808D654 with null secondary entry; completion deactivates non-retained field items.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08021DC4.c",
+          "line": 4100,
+          "detail": "Full sub_0802704C body inspected: input is interpreted as a u16 scene record; waits screen/map startup, sets local position from record or restored position, loads current scene, consumes f71C record list in0x124 strides for types4/5, sets scene f10=1 on completion. Calling it here is synchronous initialization, distinct from later actor task startup.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Scene/table narrative identity and text are not decoded; name is limited to literal table or actor identity and operational lifecycle.",
+        "Controller entry dispatch sites are mostly opaque ROM data; no narrative identity inferred from proximity."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_0808E88C",
+      "address": "0x0808E88C",
+      "display_name": "HandleActor080A4D08AreaExit",
+      "summary": "On zero scene +0x10, marks encounter active, initializes scene through sub_0802704C and starts sub_080A4D08; returns zero. With nonzero +0x10, waits for area-change request; selects destination (0,2), clears request and encounter activity, writes scene +0x36=3, marks current level encounter cleared, clears local player flag bit 1 and state, and returns one. Initialization writes map width0=30; completion sets layers1 and3 scroll offsets to zero.",
+      "confidence": "low",
+      "evidence": [
+        {
+          "source": "src/code_0808D4A8.c",
+          "line": 1099,
+          "detail": "On zero scene +0x10, marks encounter active, initializes scene through sub_0802704C and starts sub_080A4D08; returns zero. With nonzero +0x10, waits for area-change request; selects destination (0,2), clears request and encounter activity, writes scene +0x36=3, marks current level encounter cleared, clears local player flag bit 1 and state, and returns one. Initialization writes map width0=30; completion sets layers1 and3 scroll offsets to zero.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08021DC4.c",
+          "line": 4100,
+          "detail": "Full sub_0802704C body inspected: input is interpreted as a u16 scene record; waits screen/map startup, sets local position from record or restored position, loads current scene, consumes f71C record list in0x124 strides for types4/5, sets scene f10=1 on completion. Calling it here is synchronous initialization, distinct from later actor task startup.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Scene/table narrative identity and text are not decoded; name is limited to literal table or actor identity and operational lifecycle.",
+        "Controller entry dispatch sites are mostly opaque ROM data; no narrative identity inferred from proximity."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_0808F088",
+      "address": "0x0808F088",
+      "display_name": "HandleScene10Flag1BController",
+      "summary": "When scene halfword +0x10 is zero, calls sub_0802704C(arg) and starts actor sub_080B24B8 only if progression flag0x1B is clear, otherwise calls sub_08056E24 and returns zero. Otherwise returns zero until area change is requested; then hides screen window, waits for transition idle, stops map updates, installs gUnk_0850C6E8[scene word +0x40] into scene +0x71C, clears +0x10, sets +0x30 and +0x24 to one and returns one. Initialization also calls sub_0800CE08; completion clears encounter activity and local player flag bit1/state.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_0808D4A8.c",
+          "line": 1521,
+          "detail": "When scene halfword +0x10 is zero, calls sub_0802704C(arg) and starts actor sub_080B24B8 only if progression flag0x1B is clear, otherwise calls sub_08056E24 and returns zero. Otherwise returns zero until area change is requested; then hides screen window, waits for transition idle, stops map updates, installs gUnk_0850C6E8[scene word +0x40] into scene +0x71C, clears +0x10, sets +0x30 and +0x24 to one and returns one. Initialization also calls sub_0800CE08; completion clears encounter activity and local player flag bit1/state.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08028AAC.c",
+          "line": 1103,
+          "detail": "sub_0802A228 selects resource tables gUnk_084F794C,084FA298,084FD06C,0850008C,085028BC,085060D4,08508B54,0850C6E8 for literal scene selectors3..10 respectively. Numeric scene identity is supported; story/location identity remains unknown.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08021DC4.c",
+          "line": 4100,
+          "detail": "Full sub_0802704C body inspected: input is interpreted as a u16 scene record; waits screen/map startup, sets local position from record or restored position, loads current scene, consumes f71C record list in0x124 strides for types4/5, sets scene f10=1 on completion. Calling it here is synchronous initialization, distinct from later actor task startup.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Scene/table narrative identity and text are not decoded; name is limited to literal table or actor identity and operational lifecycle.",
+        "Controller entry dispatch sites are mostly opaque ROM data; no narrative identity inferred from proximity."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_0808E9FC",
+      "address": "0x0808E9FC",
+      "display_name": "HandleScene9ParallaxController",
+      "summary": "When scene halfword +0x10 is zero, calls sub_0802704C(arg) and returns zero. Otherwise returns zero until area change is requested; then hides screen window, waits for transition idle, stops map updates, installs gUnk_08508B54[scene word +0x40] into scene +0x71C, clears +0x10, sets +0x30 and +0x24 to one and returns one.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_0808D4A8.c",
+          "line": 1172,
+          "detail": "When scene halfword +0x10 is zero, calls sub_0802704C(arg) and returns zero. Otherwise returns zero until area change is requested; then hides screen window, waits for transition idle, stops map updates, installs gUnk_08508B54[scene word +0x40] into scene +0x71C, clears +0x10, sets +0x30 and +0x24 to one and returns one.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08028AAC.c",
+          "line": 1103,
+          "detail": "sub_0802A228 selects resource tables gUnk_084F794C,084FA298,084FD06C,0850008C,085028BC,085060D4,08508B54,0850C6E8 for literal scene selectors3..10 respectively. Numeric scene identity is supported; story/location identity remains unknown.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08021DC4.c",
+          "line": 4100,
+          "detail": "Full sub_0802704C body inspected: input is interpreted as a u16 scene record; waits screen/map startup, sets local position from record or restored position, loads current scene, consumes f71C record list in0x124 strides for types4/5, sets scene f10=1 on completion. Calling it here is synchronous initialization, distinct from later actor task startup.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Scene/table narrative identity and text are not decoded; name is limited to literal table or actor identity and operational lifecycle.",
+        "Controller entry dispatch sites are mostly opaque ROM data; no narrative identity inferred from proximity."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_08053B24",
+      "address": "0x08053B24",
+      "display_name": "StartUpwardCameraSceneTask",
+      "summary": "Pans camera to (0,-20) over one interpolation duration, waits one tick, attempts to start sub_08053C5C with argument 1, and restores the screen window according to transition mode. The 30 task slots are searched; stack allocation retries indefinitely, but a full pool skips startup.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_0804D330.c",
+          "line": 4092,
+          "detail": "Pans camera to (0,-20) over one interpolation duration, waits one tick, attempts to start sub_08053C5C with argument 1, and restores the screen window according to transition mode. The 30 task slots are searched; stack allocation retries indefinitely, but a full pool skips startup.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0804D330.c",
+          "line": 4056,
+          "detail": "spawn53B checks30 slots, retries stack allocation but skips callback on full pool; pan53B sign-casts target halfwords.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Narrative/NPC identity is not established by decoded text; literal event, resource and operational role retained.",
+        "Task controlword+8 value60 is recorded without assigning scheduling priority/order meaning."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_080441C0",
+      "address": "0x080441C0",
+      "display_name": "ShowDialog140211Or140212",
+      "summary": "Returns if progression byte +0x1BA/+0x1C6 bit4 is set. Otherwise locks local player and scene input, selects message 0x140211 when +0x1B9/+0x1C5 bit2 is set or 0x140212 otherwise; waits with cancellation support and clears both locks. It does not set the tested progression bits.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_0803B69C.c",
+          "line": 5059,
+          "detail": "Returns if progression byte +0x1BA/+0x1C6 bit4 is set. Otherwise locks local player and scene input, selects message 0x140211 when +0x1B9/+0x1C5 bit2 is set or 0x140212 otherwise; waits with cancellation support and clears both locks. It does not set the tested progression bits.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Narrative/NPC identity is not established by decoded text; literal event, resource and operational role retained."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_08034900",
+      "address": "0x08034900",
+      "display_name": "RepeatDialog1401C7Boundary",
+      "summary": "Repeatedly waits for local player intersection at fixed (256,448), dimensions (32,16). If progression byte +0x1B3/+0x1BF equals 2, returns. Otherwise locks input, displays cancellable message 0x1401C7, sets actor0 direction4, moves it by (0,-10) over4, unlocks, and repeats. No one-shot completion bit is written.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_0802FEA0.c",
+          "line": 2284,
+          "detail": "Repeatedly waits for local player intersection at fixed (256,448), dimensions (32,16). If progression byte +0x1B3/+0x1BF equals 2, returns. Otherwise locks input, displays cancellable message 0x1401C7, sets actor0 direction4, moves it by (0,-10) over4, unlocks, and repeats. No one-shot completion bit is written.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Narrative/NPC identity is not established by decoded text; literal event, resource and operational role retained."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_0803188C",
+      "address": "0x0803188C",
+      "display_name": "OpenItemCollectionMenu5PreservingCamera",
+      "summary": "Locks local player and scene input; conditionally consumes menu flag bit6, hides screen, waits, stops map update, preserves signed camera scroll coordinates across item collection interaction menu startup with selector5 and task-group operations, restores camera and screen state, waits for idle and unlocks.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_0802FEA0.c",
+          "line": 786,
+          "detail": "Locks local player and scene input; conditionally consumes menu flag bit6, hides screen, waits, stops map update, preserves signed camera scroll coordinates across item collection interaction menu startup with selector5 and task-group operations, restores camera and screen state, waits for idle and unlocks.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Narrative/NPC identity is not established by decoded text; literal event, resource and operational role retained."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_080319F0",
+      "address": "0x080319F0",
+      "display_name": "OpenItemCollectionMenu6PreservingCamera",
+      "summary": "Locks local player and scene input; conditionally consumes menu flag bit6, hides screen, waits, stops map update, preserves signed camera scroll coordinates across item collection interaction menu startup with selector6 and task-group operations, restores camera and screen state, waits for idle and unlocks.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_0802FEA0.c",
+          "line": 831,
+          "detail": "Locks local player and scene input; conditionally consumes menu flag bit6, hides screen, waits, stops map update, preserves signed camera scroll coordinates across item collection interaction menu startup with selector6 and task-group operations, restores camera and screen state, waits for idle and unlocks.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Narrative/NPC identity is not established by decoded text; literal event, resource and operational role retained."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_08031B54",
+      "address": "0x08031B54",
+      "display_name": "OpenItemCollectionMenu1PreservingCamera",
+      "summary": "Locks local player and scene input; conditionally consumes menu flag bit6, hides screen, waits, stops map update, preserves signed camera scroll coordinates across item collection interaction menu startup with selector1 and task-group operations, restores camera and screen state, waits for idle and unlocks.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_0802FEA0.c",
+          "line": 876,
+          "detail": "Locks local player and scene input; conditionally consumes menu flag bit6, hides screen, waits, stops map update, preserves signed camera scroll coordinates across item collection interaction menu startup with selector1 and task-group operations, restores camera and screen state, waits for idle and unlocks.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Narrative/NPC identity is not established by decoded text; literal event, resource and operational role retained."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_0803D1F8",
+      "address": "0x0803D1F8",
+      "display_name": "AskDialog1404F8Then1404F9",
+      "summary": "Locks local player and input, prepares passed actor, asks two sequential choices 0x1404F8 and 0x1404F9. Nonzero responses independently set progression byte +0x1B8/+0x1C4 bits6 and7 and play sound0x32 unless muted. Restores actor and unlocks. Choice waits have no cancellation path.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_0803B69C.c",
+          "line": 729,
+          "detail": "Locks local player and input, prepares passed actor, asks two sequential choices 0x1404F8 and 0x1404F9. Nonzero responses independently set progression byte +0x1B8/+0x1C4 bits6 and7 and play sound0x32 unless muted. Restores actor and unlocks. Choice waits have no cancellation path.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Narrative/NPC identity is not established by decoded text; literal event, resource and operational role retained."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_080502DC",
+      "address": "0x080502DC",
+      "display_name": "StageActor13Dialog140069",
+      "summary": "Waits for scene flag bit4 clear and sub_08019C3C zero, locks input, queues callback sub_0805990C(15), opens dialog0x140069, waits30 ticks, spawns actor0x13 at (368,136), moves actor1 offscreen, waits for dialog, changes actor animation and moves it, then marks matching slot state4 if found in15 slots; unlocks. No check of actor creation success.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_0804D330.c",
+          "line": 2299,
+          "detail": "Waits for scene flag bit4 clear and sub_08019C3C zero, locks input, queues callback sub_0805990C(15), opens dialog0x140069, waits30 ticks, spawns actor0x13 at (368,136), moves actor1 offscreen, waits for dialog, changes actor animation and moves it, then marks matching slot state4 if found in15 slots; unlocks. No check of actor creation success.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Narrative/NPC identity is not established by decoded text; literal event, resource and operational role retained."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_08051A78",
+      "address": "0x08051A78",
+      "display_name": "TriggerDialog14008EOr14008F",
+      "summary": "Waits for local player intersection around (120,88), dimensions(16,24), then locks input. Progression byte +0x1B8/+0x1C4 bit7 selects cancellable message0x14008E and queues sub_0805A474(6), sub_0805990C(17); otherwise shows0x14008F. Unlocks on both branches; callback queue admission is not completion.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_0804D330.c",
+          "line": 3156,
+          "detail": "Waits for local player intersection around (120,88), dimensions(16,24), then locks input. Progression byte +0x1B8/+0x1C4 bit7 selects cancellable message0x14008E and queues sub_0805A474(6), sub_0805990C(17); otherwise shows0x14008F. Unlocks on both branches; callback queue admission is not completion.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Narrative/NPC identity is not established by decoded text; literal event, resource and operational role retained."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_0804E628",
+      "address": "0x0804E628",
+      "display_name": "AnimateActor6Dialog14005B",
+      "summary": "Argument0 displays sequential dialogs0x14005B/0x14005C with actor6 horizontal oscillations, sets scene word+0x38 bit1 and unlocks input, then falls through to argument1 behavior: forever waits120 ticks and oscillates actor6 by alternating +/-2. Other arguments return without action.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_0804D330.c",
+          "line": 768,
+          "detail": "Argument0 displays sequential dialogs0x14005B/0x14005C with actor6 horizontal oscillations, sets scene word+0x38 bit1 and unlocks input, then falls through to argument1 behavior: forever waits120 ticks and oscillates actor6 by alternating +/-2. Other arguments return without action.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Narrative/NPC identity is not established by decoded text; literal event, resource and operational role retained."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_08047970",
+      "address": "0x08047970",
+      "display_name": "SequenceActorResetTasks",
+      "summary": "Searches30 scene task slots and retries 0x400-byte allocation for callback sub_08047B2C argument0, invokes sub_0802A080, then conditionally stops that task. Closes dialog, starts callbacks with arguments2 and3 using separate pool searches, waits60 ticks, resets state12 to0 for active entity slots0..4 (stride0x2E0), then calls sub_08019F04. Saved first-task pointer is uninitialized if the pool is full in C; startup is not guaranteed.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_080443EC.c",
+          "line": 1254,
+          "detail": "Searches30 scene task slots and retries 0x400-byte allocation for callback sub_08047B2C argument0, invokes sub_0802A080, then conditionally stops that task. Closes dialog, starts callbacks with arguments2 and3 using separate pool searches, waits60 ticks, resets state12 to0 for active entity slots0..4 (stride0x2E0), then calls sub_08019F04. Saved first-task pointer is uninitialized if the pool is full in C; startup is not guaranteed.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Narrative/NPC identity is not established by decoded text; literal event, resource and operational role retained.",
+        "Task controlword+8 value60 is recorded without assigning scheduling priority/order meaning."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_08051E98",
+      "address": "0x08051E98",
+      "display_name": "StageActor9Dialog14008C",
+      "summary": "Creates actor9 at(88,70), sets animation17, locks input, restores screen, starts song217, shows dialogs0x14008C and0x14008D, changes animation16 and moves actor upward80 over60, marks matching slot duration4 if found among15. Waits for dialog, unlocks, starts song165 and sets scene halfword+4 bit5.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_0804D330.c",
+          "line": 3351,
+          "detail": "Creates actor9 at(88,70), sets animation17, locks input, restores screen, starts song217, shows dialogs0x14008C and0x14008D, changes animation16 and moves actor upward80 over60, marks matching slot duration4 if found among15. Waits for dialog, unlocks, starts song165 and sets scene halfword+4 bit5.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Narrative/NPC identity is not established by decoded text; literal event, resource and operational role retained."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_0803C4C0",
+      "address": "0x0803C4C0",
+      "display_name": "StageDialogs140205Then140204",
+      "summary": "Locks input, fades screen, closes dialog, positions actor0 at x236 plus multiplayer offset and y160, sets direction4/animation0, waits30, restores screen, clears scene word+0x6C bit0, shows0x140205, waits200 ticks, invokes sub_0805CDF8, shows cancellable0x140204, unlocks and resets local player state0.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_0803B69C.c",
+          "line": 345,
+          "detail": "Locks input, fades screen, closes dialog, positions actor0 at x236 plus multiplayer offset and y160, sets direction4/animation0, waits30, restores screen, clears scene word+0x6C bit0, shows0x140205, waits200 ticks, invokes sub_0805CDF8, shows cancellable0x140204, unlocks and resets local player state0.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Narrative/NPC identity is not established by decoded text; literal event, resource and operational role retained."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_0804778C",
+      "address": "0x0804778C",
+      "display_name": "StartCameraActorResetScene",
+      "summary": "If scene word+0x38 bit0 is clear, locks local player/input, pans camera to(0,-120), restores screen, attempts callback sub_08047970 in30-slot pool with retry allocation, and sets that scene bit. If already set, restores screen and resets state12 to0 on active entity slots0..4, then calls sub_08019F04. First branch leaves input locked for asynchronous continuation.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_080443EC.c",
+          "line": 1213,
+          "detail": "If scene word+0x38 bit0 is clear, locks local player/input, pans camera to(0,-120), restores screen, attempts callback sub_08047970 in30-slot pool with retry allocation, and sets that scene bit. If already set, restores screen and resets state12 to0 on active entity slots0..4, then calls sub_08019F04. First branch leaves input locked for asynchronous continuation.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Narrative/NPC identity is not established by decoded text; literal event, resource and operational role retained.",
+        "Task controlword+8 value60 is recorded without assigning scheduling priority/order meaning."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_08043664",
+      "address": "0x08043664",
+      "display_name": "ChooseDialog140207ActorSequence",
+      "summary": "Locks local player and input. If progression byte +0x1BA/+0x1C6 bit4 is clear, local player0 is asked choice0x140207; nonzero choice queues sub_0805990C(28), shows cancellable0x140208 and queues sub_08043850 with argument; zero shows0x140209. Other players show0x14020A. Unlocks even when gate already set; queue completion is not awaited.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_0803B69C.c",
+          "line": 4556,
+          "detail": "Locks local player and input. If progression byte +0x1BA/+0x1C6 bit4 is clear, local player0 is asked choice0x140207; nonzero choice queues sub_0805990C(28), shows cancellable0x140208 and queues sub_08043850 with argument; zero shows0x140209. Other players show0x14020A. Unlocks even when gate already set; queue completion is not awaited.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Narrative/NPC identity is not established by decoded text; literal event, resource and operational role retained."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_08043850",
+      "address": "0x08043850",
+      "display_name": "RunActor41TimedAnimationSequence",
+      "summary": "Finds first active actor resource0x41 among15 slots (returns handle0 if absent). Finds actor through t44_findActor, applies direction/animation sequence with waits30,60,60,60,30,10,60,250; marks actor, sets states6 then7 around last wait and invokes sub_0802A7DC. Finally sets local player flag bit0 and calls sub_0800D0F4; intentionally ends with input locked.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_0803B69C.c",
+          "line": 4659,
+          "detail": "Finds first active actor resource0x41 among15 slots (returns handle0 if absent). Finds actor through t44_findActor, applies direction/animation sequence with waits30,60,60,60,30,10,60,250; marks actor, sets states6 then7 around last wait and invokes sub_0802A7DC. Finally sets local player flag bit0 and calls sub_0800D0F4; intentionally ends with input locked.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0803B69C.c",
+          "line": 4625,
+          "detail": "Actor finder scans15 active-mask slots at stride0x70 for resource0x41; missing result0 redirects actor commands to local-player handle semantics. Mark helper treats handles>0x100000 as scene actor,1..5 as entity indices,0 as local player.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Narrative/NPC identity is not established by decoded text; literal event, resource and operational role retained."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_080400D4",
+      "address": "0x080400D4",
+      "display_name": "PanCameraDialog1400E1",
+      "summary": "Locks input, positions actor0 by local-player index at y245, sets direction4/animation0, waits30 and restores screen. Moves actor north117 over117, pans camera to(0,-24), shows cancellable0x1400E1, pans camera back(0,0), calls sub_0800CFA4, unlocks and sets local player state0.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_0803B69C.c",
+          "line": 2431,
+          "detail": "Locks input, positions actor0 by local-player index at y245, sets direction4/animation0, waits30 and restores screen. Moves actor north117 over117, pans camera to(0,-24), shows cancellable0x1400E1, pans camera back(0,0), calls sub_0800CFA4, unlocks and sets local player state0.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Narrative/NPC identity is not established by decoded text; literal event, resource and operational role retained."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_0804B100",
+      "address": "0x0804B100",
+      "display_name": "InitializeDialog14003EActors",
+      "summary": "Reads progression gate; binds callback for actor2 when clear, otherwise moves actors1 and2 to(9999,9999). When scene flag16 absent, gate clear and sub_0800CCCC zero, locks input, restores transition, shows0x14003E, sets scene flag16 and unlocks; other branch only restores transition.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_080443EC.c",
+          "line": 3795,
+          "detail": "Reads progression gate; binds callback for actor2 when clear, otherwise moves actors1 and2 to(9999,9999). When scene flag16 absent, gate clear and sub_0800CCCC zero, locks input, restores transition, shows0x14003E, sets scene flag16 and unlocks; other branch only restores transition.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080443EC.c",
+          "line": 3780,
+          "detail": "Gate byte is+0x1B9/+0x1C5 and extracted value is ((s16)u16/4)&1; byte source means nonnegative0..255 here. Scene one-shot bit16 lives at+0x38.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Narrative/NPC identity is not established by decoded text; literal event, resource and operational role retained."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_0805247C",
+      "address": "0x0805247C",
+      "display_name": "StartActor3Through5Scene",
+      "summary": "Clears progression byte +0x1B5/+0x1C1, starts callback for actors3,4,5. Progression byte +0x1B8/+0x1C4 bit4 either hides actor9 at(9999,9999) or requests its callback. Restores screen according to transition mode and waits idle. No player lock is acquired here.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_0804D330.c",
+          "line": 3503,
+          "detail": "Clears progression byte +0x1B5/+0x1C1, starts callback for actors3,4,5. Progression byte +0x1B8/+0x1C4 bit4 either hides actor9 at(9999,9999) or requests its callback. Restores screen according to transition mode and waits idle. No player lock is acquired here.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Narrative/NPC identity is not established by decoded text; literal event, resource and operational role retained."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_080402F4",
+      "address": "0x080402F4",
+      "display_name": "PanCameraDialog1400EC",
+      "summary": "Locks input, positions actor0 by local-player index at y128, sets direction4, clears local player flag bit1 and calls sub_08067D74. Waits2 ticks, restores screen, pans to(0,-24), shows cancellable0x1400EC, pans back(0,0), clears player bit0 and unlocks input.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_0803B69C.c",
+          "line": 2504,
+          "detail": "Locks input, positions actor0 by local-player index at y128, sets direction4, clears local player flag bit1 and calls sub_08067D74. Waits2 ticks, restores screen, pans to(0,-24), shows cancellable0x1400EC, pans back(0,0), clears player bit0 and unlocks input.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Narrative/NPC identity is not established by decoded text; literal event, resource and operational role retained."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_08040530",
+      "address": "0x08040530",
+      "display_name": "PanCameraDialog1400ED",
+      "summary": "Locks input, positions actor0 by local-player index at y128, sets direction4, clears local player flag bit1 and calls sub_08067D74. Waits2 ticks, restores screen, pans to(0,-24), shows cancellable0x1400ED, pans back(0,0), clears player bit0 and unlocks input.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_0803B69C.c",
+          "line": 2574,
+          "detail": "Locks input, positions actor0 by local-player index at y128, sets direction4, clears local player flag bit1 and calls sub_08067D74. Waits2 ticks, restores screen, pans to(0,-24), shows cancellable0x1400ED, pans back(0,0), clears player bit0 and unlocks input.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Narrative/NPC identity is not established by decoded text; literal event, resource and operational role retained."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_08041E8C",
+      "address": "0x08041E8C",
+      "display_name": "PanCameraDialog140100",
+      "summary": "Locks input, schedules player-dependent actor movement, sets actor0 direction4, clears player flag bit1 and calls sub_08067D74. Waits2 ticks, restores screen, pans(0,-24) over10, displays cancellable0x140100, pans back over34, then clears player bit0 and unlocks.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_0803B69C.c",
+          "line": 3683,
+          "detail": "Locks input, schedules player-dependent actor movement, sets actor0 direction4, clears player flag bit1 and calls sub_08067D74. Waits2 ticks, restores screen, pans(0,-24) over10, displays cancellable0x140100, pans back over34, then clears player bit0 and unlocks.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Narrative/NPC identity is not established by decoded text; literal event, resource and operational role retained."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_08042390",
+      "address": "0x08042390",
+      "display_name": "PanCameraDialog140103",
+      "summary": "Locks input, schedules player-dependent actor movement, sets actor0 direction4, clears player flag bit1 and calls sub_08067D74. Waits2 ticks, restores screen, pans(0,-24) over10, displays cancellable0x140103, pans back over34, then clears player bit0 and unlocks.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_0803B69C.c",
+          "line": 3859,
+          "detail": "Locks input, schedules player-dependent actor movement, sets actor0 direction4, clears player flag bit1 and calls sub_08067D74. Waits2 ticks, restores screen, pans(0,-24) over10, displays cancellable0x140103, pans back over34, then clears player bit0 and unlocks.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Narrative/NPC identity is not established by decoded text; literal event, resource and operational role retained."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_0804BEF8",
+      "address": "0x0804BEF8",
+      "display_name": "AskItem22Dialog140045",
+      "summary": "Returns immediately when progression byte +0x1B8/+0x1C4 bit6 is set. Otherwise locks input, counts category1/id0x22 across25 item records starting+0x150 stride16. If present asks0x140045; response exactly1 queues player-dependent confirmation callback; other responses rearm spatial trigger. If absent shows0x140044 and rearms. Rearming uses30 task slots and unchecked0x400 allocation. Always unlocks after handled branch; does not remove items itself.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_080443EC.c",
+          "line": 4434,
+          "detail": "Returns immediately when progression byte +0x1B8/+0x1C4 bit6 is set. Otherwise locks input, counts category1/id0x22 across25 item records starting+0x150 stride16. If present asks0x140045; response exactly1 queues player-dependent confirmation callback; other responses rearm spatial trigger. If absent shows0x140044 and rearms. Rearming uses30 task slots and unchecked0x400 allocation. Always unlocks after handled branch; does not remove items itself.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Narrative/NPC identity is not established by decoded text; literal event, resource and operational role retained."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_0804EABC",
+      "address": "0x0804EABC",
+      "display_name": "InitializeActor20039Progression",
+      "summary": "Unless scene word+0x38 bit2 set, tests progression byte+0x1B7/+0x1C3 bits1/2. For bit1 set and bit2 clear, positions actor1(128,80), waits entity active bit0, binds sub_0804ED18 and creates actor0x20039 with slot configuration and sub_0805A1B4 callback. Otherwise hides actor1 and queues sub_08059954(2). Restores transition and waits bit2; marks matching actor slot state4. On hidden path reused var_r7 is callback address, not a valid created actor handle. If initial scene gate set only restores screen.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_0804D330.c",
+          "line": 936,
+          "detail": "Unless scene word+0x38 bit2 set, tests progression byte+0x1B7/+0x1C3 bits1/2. For bit1 set and bit2 clear, positions actor1(128,80), waits entity active bit0, binds sub_0804ED18 and creates actor0x20039 with slot configuration and sub_0805A1B4 callback. Otherwise hides actor1 and queues sub_08059954(2). Restores transition and waits bit2; marks matching actor slot state4. On hidden path reused var_r7 is callback address, not a valid created actor handle. If initial scene gate set only restores screen.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Narrative/NPC identity is not established by decoded text; literal event, resource and operational role retained."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_0804F128",
+      "address": "0x0804F128",
+      "display_name": "StageActor1Dialog14005D",
+      "summary": "Locks input, offsets actor0 by multiplayer position, places actor1(120,240), restores screen, waits60, attempts callback51F128 in30 task slots with retry allocation, waits80, writes local player halfword+0x11E=4, plays0xB7/0xBD, moves actor1 to(120,80) over400, sets actor0 state16 and shows0x14005D. Starts song11, sets scene halfword+4 bit5, unlocks and resets local player state0.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_0804D330.c",
+          "line": 1304,
+          "detail": "Locks input, offsets actor0 by multiplayer position, places actor1(120,240), restores screen, waits60, attempts callback51F128 in30 task slots with retry allocation, waits80, writes local player halfword+0x11E=4, plays0xB7/0xBD, moves actor1 to(120,80) over400, sets actor0 state16 and shows0x14005D. Starts song11, sets scene halfword+4 bit5, unlocks and resets local player state0.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Narrative/NPC identity is not established by decoded text; literal event, resource and operational role retained."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_080308B4",
+      "address": "0x080308B4",
+      "display_name": "ShowProgressionDialogs1400DC",
+      "summary": "Locks input and selects message IDs0x1400DC..0x1400E0 for progression byte+0x1B2/+0x1BE values0..4. Each message supports cancellation. Value3 additionally writes3 to+0x1B3/+0x1BF. Unsupported values show nothing. Clears player bit0 and unlocks on all paths.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_0802FEA0.c",
+          "line": 304,
+          "detail": "Locks input and selects message IDs0x1400DC..0x1400E0 for progression byte+0x1B2/+0x1BE values0..4. Each message supports cancellation. Value3 additionally writes3 to+0x1B3/+0x1BF. Unsupported values show nothing. Clears player bit0 and unlocks on all paths.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Narrative/NPC identity is not established by decoded text; literal event, resource and operational role retained."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_0804C948",
+      "address": "0x0804C948",
+      "display_name": "StartSixSceneTasksZeroThroughFive",
+      "summary": "Restores transition when permitted, then independently attempts six sub_0805664C tasks with arguments0..5. Each searches30 slots, retries0x400 stack allocation until nonzero, initializes control fields and starts task; a full pool skips that argument. No readiness/completion wait.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_080443EC.c",
+          "line": 4847,
+          "detail": "Restores transition when permitted, then independently attempts six sub_0805664C tasks with arguments0..5. Each searches30 slots, retries0x400 stack allocation until nonzero, initializes control fields and starts task; a full pool skips that argument. No readiness/completion wait.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Narrative/NPC identity is not established by decoded text; literal event, resource and operational role retained.",
+        "Task controlword+8 value60 is recorded without assigning scheduling priority/order meaning."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_0804DB48",
+      "address": "0x0804DB48",
+      "display_name": "StartSixSceneTasksSixThroughEleven",
+      "summary": "Restores transition when permitted, then independently attempts six sub_0805664C tasks with arguments6..11. Each searches30 slots, retries0x400 stack allocation until nonzero, initializes control fields and starts task; a full pool skips that argument. No readiness/completion wait.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_0804D330.c",
+          "line": 282,
+          "detail": "Restores transition when permitted, then independently attempts six sub_0805664C tasks with arguments6..11. Each searches30 slots, retries0x400 stack allocation until nonzero, initializes control fields and starts task; a full pool skips that argument. No readiness/completion wait.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Narrative/NPC identity is not established by decoded text; literal event, resource and operational role retained.",
+        "Task controlword+8 value60 is recorded without assigning scheduling priority/order meaning."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_08042938",
+      "address": "0x08042938",
+      "display_name": "ReplaceActor3ADialog140106",
+      "summary": "Locks input, schedules player-dependent actor placement, sets actor0 direction4, marks passed actor matching slot state4, creates actor0x3A at(120,82), configures slot extents8/16 and flag16, assigns sub_080308B4 callback, sets progression byte1, clears player flag bit1, waits2 ticks, restores transition, pans(0,-24), shows0x140106. Returns with player flag bit0 and input lock still set; no cleanup here.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_0803B69C.c",
+          "line": 4084,
+          "detail": "Locks input, schedules player-dependent actor placement, sets actor0 direction4, marks passed actor matching slot state4, creates actor0x3A at(120,82), configures slot extents8/16 and flag16, assigns sub_080308B4 callback, sets progression byte1, clears player flag bit1, waits2 ticks, restores transition, pans(0,-24), shows0x140106. Returns with player flag bit0 and input lock still set; no cleanup here.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Narrative/NPC identity is not established by decoded text; literal event, resource and operational role retained."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_0803FE34",
+      "address": "0x0803FE34",
+      "display_name": "OscillateSevenActorsUntilSceneGate",
+      "summary": "Creates seven actors using resources0x10033,0x60022,0x34,0x10026,0x7002A,0x1000D,0x15; repeatedly queues vertical -4/+4 motion over4 until scene word+0x38 bit0 becomes set. Then waits the same bit becomes clear and searches15 actor slots for each created handle, setting halfword+0x36=4 when found. Full searches yield once and skip missing handles; no allocation success test.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_0803B69C.c",
+          "line": 2262,
+          "detail": "Creates seven actors using resources0x10033,0x60022,0x34,0x10026,0x7002A,0x1000D,0x15; repeatedly queues vertical -4/+4 motion over4 until scene word+0x38 bit0 becomes set. Then waits the same bit becomes clear and searches15 actor slots for each created handle, setting halfword+0x36=4 when found. Full searches yield once and skip missing handles; no allocation success test.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0803B69C.c",
+          "line": 2260,
+          "detail": "firstFE34 and testFE34 both normalize scene word+0x38 bit0; first loop waits set, following loop waits clear.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Narrative/NPC identity is not established by decoded text; literal event, resource and operational role retained."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_0804534C",
+      "address": "0x0804534C",
+      "display_name": "AskDialog14021CEmitItem29",
+      "summary": "Locks input, asks choice0x14021C. Nonzero choice finds first empty bag slot; nonnegative result plays sound0x33, attempts adding one category1/id0x29 item with zeroed payload; insertion return is ignored, queues sub_08059968(20), shows cancellable0x14021D. Negative result shows0x14021E then rearms spatial trigger; zero choice rearms directly. Rearm searches30 task slots and uses unchecked0x400 allocation. Clears player bit0 and unlocks on all final paths.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_080443EC.c",
+          "line": 527,
+          "detail": "Locks input, asks choice0x14021C. Nonzero choice finds first empty bag slot; nonnegative result plays sound0x33, attempts adding one category1/id0x29 item with zeroed payload; insertion return is ignored, queues sub_08059968(20), shows cancellable0x14021D. Negative result shows0x14021E then rearms spatial trigger; zero choice rearms directly. Rearm searches30 task slots and uses unchecked0x400 allocation. Clears player bit0 and unlocks on all final paths.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080443EC.c",
+          "line": 488,
+          "detail": "FX534C45 searches30 slots, constructs trigger at(0x9700,0x16D00), dimensions16x8 with own callback, allocates0x400 unchecked, starts sub_0805A874 and yields twice; caller still clears input lock after full-pool goto done.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Narrative/NPC identity is not established by decoded text; literal event, resource and operational role retained."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_080537DC",
+      "address": "0x080537DC",
+      "display_name": "PanDialog1400A8Or1400A9",
+      "summary": "Locks input, offsets actor0 for multiplayer, restores transition, waits20, pans to(-offset,-64) over60-style interpolation, selects0x1400A8 or0x1400A9 by scene flag1, waits dialog, pans back(0,0), starts song0x194 and sets scene halfword+4 bit5. Unlocks on normal return. Dialog helper sets scene word+0x38 bit0 on either message branch; first-use versus later-use differs only by message ID.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_0804D330.c",
+          "line": 3951,
+          "detail": "Locks input, offsets actor0 for multiplayer, restores transition, waits20, pans to(-offset,-64) over60-style interpolation, selects0x1400A8 or0x1400A9 by scene flag1, waits dialog, pans back(0,0), starts song0x194 and sets scene halfword+4 bit5. Unlocks on normal return. Dialog helper sets scene word+0x38 bit0 on either message branch; first-use versus later-use differs only by message ID.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0804D330.c",
+          "line": 3524,
+          "detail": "t53_open37DC waits dialogue idle then starts literal message and ORs requested bit into scene word+0x38 regardless of selected message.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Narrative/NPC identity is not established by decoded text; literal event, resource and operational role retained."
+      ]
+    }
+  ]
+}

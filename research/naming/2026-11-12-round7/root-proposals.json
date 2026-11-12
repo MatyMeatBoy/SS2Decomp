@@ -1,0 +1,416 @@
+[
+  {
+    "canonical_symbol": "sub_08001634",
+    "address": "0x08001634",
+    "display_name": "NoOpVariant10",
+    "summary": "Returns immediately without observable state changes or a result.",
+    "confidence": "high",
+    "evidence": [
+      {
+        "source": "src/code_08000EC8.c",
+        "line": 357,
+        "detail": "Complete void body is empty; ordinal distinguishes this entry from other proven no-op entries without implying a hidden purpose.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ],
+    "open_questions": [
+      "Original intended hook purpose is unproved."
+    ]
+  },
+  {
+    "canonical_symbol": "sub_08006E54",
+    "address": "0x08006E54",
+    "display_name": "NoOpVariant11",
+    "summary": "Returns immediately without observable state changes or a result.",
+    "confidence": "high",
+    "evidence": [
+      {
+        "source": "src/code_08006D24.c",
+        "line": 72,
+        "detail": "Complete void body is empty; ordinal distinguishes identical behavior at separate canonical entries.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ],
+    "open_questions": [
+      "Original intended hook purpose is unproved."
+    ]
+  },
+  {
+    "canonical_symbol": "sub_08009034",
+    "address": "0x08009034",
+    "display_name": "ReadSecondHalfwordMinusOne",
+    "summary": "Reads the unsigned halfword at input offset2 and returns its promoted value minus1 as s32.",
+    "confidence": "high",
+    "evidence": [
+      {
+        "source": "src/code_08006D24.c",
+        "line": 1656,
+        "detail": "Single return reads M2C_FIELD(arg0,u16*,2)-1: zero returns-1 and no u16 narrowing or null check occurs.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ],
+    "open_questions": [
+      "Meaning of this structure member is unproved."
+    ]
+  },
+  {
+    "canonical_symbol": "sub_08006E58",
+    "address": "0x08006E58",
+    "display_name": "StartSong98",
+    "summary": "Unconditionally requests m4a song number98.",
+    "confidence": "high",
+    "evidence": [
+      {
+        "source": "src/code_08006D24.c",
+        "line": 75,
+        "detail": "Only statement calls m4aSongNumStart(0x62); this wrapper does not test mute or gameplay flags.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ],
+    "open_questions": []
+  },
+  {
+    "canonical_symbol": "sub_08057314",
+    "address": "0x08057314",
+    "display_name": "QueryBossRetryPortalRequest",
+    "summary": "Returns scene flags bit8 as0 or1.",
+    "confidence": "high",
+    "evidence": [
+      {
+        "source": "src/code_080571A4.c",
+        "line": 86,
+        "detail": "Reads the u16 scene header at+4, shifts8 and masks1. Caller restoration path uses this request to recreate the established boss-retry portal.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_08021DC4.c",
+        "line": 675,
+        "detail": "Scene restoration tests57314 and calls confirmed boss-retry portal starter267DC when set.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ],
+    "open_questions": []
+  },
+  {
+    "canonical_symbol": "sub_080572E4",
+    "address": "0x080572E4",
+    "display_name": "RequestBossRetryPortal",
+    "summary": "Sets scene flags bit8 while preserving other flags.",
+    "confidence": "high",
+    "evidence": [
+      {
+        "source": "src/code_080571A4.c",
+        "line": 79,
+        "detail": "ORs gGameState->flags with0x100, the same header bit queried by57314 and consumed by boss-retry portal restoration.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ],
+    "open_questions": []
+  },
+  {
+    "canonical_symbol": "sub_080572FC",
+    "address": "0x080572FC",
+    "display_name": "ClearBossRetryPortalRequest",
+    "summary": "Clears scene flags bit8 while preserving the remaining header bits.",
+    "confidence": "high",
+    "evidence": [
+      {
+        "source": "src/code_080571A4.c",
+        "line": 83,
+        "detail": "Masks the u16 scene header+4 with0xFEFF; counterpart572E4 sets0x100 and57314 reads exactly that bit.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ],
+    "open_questions": []
+  },
+  {
+    "canonical_symbol": "sub_080571A4",
+    "address": "0x080571A4",
+    "display_name": "SetEnemySpawnSlotState",
+    "summary": "On parent or loopback only, stores the input byte in scene spawn slot group*5+slot.",
+    "confidence": "high",
+    "evidence": [
+      {
+        "source": "src/code_080571A4.c",
+        "line": 7,
+        "detail": "Link parent/loopback predicate02204 gates a single byte write to scene+1C8+u8group*5+u8slot; neither index is bounds checked.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_08021DC4.c",
+        "line": 1432,
+        "detail": "Spawn controller obtains scene+1C8 as the grouped spawn-slot state base.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_080153A4.c",
+        "line": 985,
+        "detail": "Enemy lifecycle helper1681C aliases571A4 for grouped slot-state writes.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ],
+    "open_questions": []
+  },
+  {
+    "canonical_symbol": "sub_080571D8",
+    "address": "0x080571D8",
+    "display_name": "MatchEnemySpawnSlotState",
+    "summary": "Returns1 exactly when the selected grouped spawn-slot byte equals the input byte.",
+    "confidence": "high",
+    "evidence": [
+      {
+        "source": "src/code_080571A4.c",
+        "line": 17,
+        "detail": "Reads scene+1C8+u8group*5+u8slot and compares value, returning0/1; unlike setter there is no parent guard or bounds check.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ],
+    "open_questions": []
+  },
+  {
+    "canonical_symbol": "sub_08057210",
+    "address": "0x08057210",
+    "display_name": "HasEnemySpawnStateTwo",
+    "summary": "Returns1 if any of the five selected spawn-group bytes equals2, otherwise0.",
+    "confidence": "high",
+    "evidence": [
+      {
+        "source": "src/code_080571A4.c",
+        "line": 28,
+        "detail": "Scans offsets0..4 at scene+1C8+u8group*5 and early returns1 for byte2; it does not test every nonzero state.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ],
+    "open_questions": [
+      "Exact lifecycle meaning of state2 is deliberately excluded from this predicate name."
+    ]
+  },
+  {
+    "canonical_symbol": "sub_08057254",
+    "address": "0x08057254",
+    "display_name": "HasNoBusySpawnSlots",
+    "summary": "Returns1 when none of five spawn-group bytes equals1 or2, otherwise0.",
+    "confidence": "high",
+    "evidence": [
+      {
+        "source": "src/code_080571A4.c",
+        "line": 44,
+        "detail": "Scans group*5 at scene+1C8 and returns0 immediately for byte2 or byte1; any other byte is accepted, not just zero.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ],
+    "open_questions": [
+      "Busy denotes precisely states1/2 here; other state meanings remain unproved."
+    ]
+  },
+  {
+    "canonical_symbol": "sub_080572A4",
+    "address": "0x080572A4",
+    "display_name": "ClearSceneRecordArrays",
+    "summary": "Zeros ten paired scene words and ten separately located scene flag bytes.",
+    "confidence": "high",
+    "evidence": [
+      {
+        "source": "src/code_080571A4.c",
+        "line": 67,
+        "detail": "Loopi0..9 clears scene+160+i*8 and+164+i*8 plus byte scene+22C+i. The struct gap0x7C follows the80-byte pair array, locating flags at22C.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ],
+    "open_questions": [
+      "Gameplay identity of these record pairs and flags remains unproved."
+    ]
+  },
+  {
+    "canonical_symbol": "sub_08057B2C",
+    "address": "0x08057B2C",
+    "display_name": "SetBankedSceneProgressByte",
+    "summary": "Writes an indexed byte in the normal or advanced scene progress bank.",
+    "confidence": "high",
+    "evidence": [
+      {
+        "source": "src/code_080571A4.c",
+        "line": 495,
+        "detail": "CE30 selects scene+1BC when nonzero or+1B0 otherwise, then writes low8-bit value at unchecked u32index.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ],
+    "open_questions": [
+      "Individual progress-byte meanings vary by index; this wrapper does not validate them."
+    ]
+  },
+  {
+    "canonical_symbol": "sub_08057B64",
+    "address": "0x08057B64",
+    "display_name": "GetBankedSceneProgressByte",
+    "summary": "Returns the indexed byte from the current normal or advanced scene progress bank.",
+    "confidence": "high",
+    "evidence": [
+      {
+        "source": "src/code_080571A4.c",
+        "line": 504,
+        "detail": "CE30 zero selects scene+1B0, otherwise+1BC; unchecked u32index is returned asu8.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ],
+    "open_questions": [
+      "Individual progress-byte meanings vary by index."
+    ]
+  },
+  {
+    "canonical_symbol": "sub_08057C34",
+    "address": "0x08057C34",
+    "display_name": "GetWorldMapAvailabilityBit",
+    "summary": "Returns the selected destination bit from the normal or advanced availability mask.",
+    "confidence": "high",
+    "evidence": [
+      {
+        "source": "src/code_080571A4.c",
+        "line": 545,
+        "detail": "Decrements destination then ANDs1u<<index with scene+78 or+80 selected byCE30; returns a mask bit, not normalized boolean. Zero input/shift domain is unchecked.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_08009088.c",
+        "line": 2036,
+        "detail": "World-map controller BEC0 aliases57C34 as its destination-bit query and skips destinations whose returned bit iszero.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ],
+    "open_questions": []
+  },
+  {
+    "canonical_symbol": "sub_08057C6C",
+    "address": "0x08057C6C",
+    "display_name": "SetWorldMapAvailabilityBit",
+    "summary": "Sets the selected destination bit and returns the complete updated current-mode mask.",
+    "confidence": "high",
+    "evidence": [
+      {
+        "source": "src/code_080571A4.c",
+        "line": 552,
+        "detail": "Decrements input then ORs1u<<index into scene+78 when CE30zero or+80 otherwise; returns the full word, not just the selected bit. Shift domain is unchecked.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ],
+    "open_questions": []
+  },
+  {
+    "canonical_symbol": "sub_08057644",
+    "address": "0x08057644",
+    "display_name": "RevealScreenAndWait",
+    "summary": "When no fullscreen menu is active, requests a reveal matching transition mode and yields until idle.",
+    "confidence": "high",
+    "evidence": [
+      {
+        "source": "src/code_080571A4.c",
+        "line": 285,
+        "detail": "CC98zero gates entire function; mode0 calls brightness fade-in/wait576A8, mode1 requests window reveal1AB50(6), mode2 requests window-preserving brightness fade1AB90(6); then loops on IsScreenTransitionIdle with signal1 yields. No timeout or success result.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_080571A4.c",
+        "line": 298,
+        "detail": "576A8 requests brightness fade-in with0x1E and waits for the same transition-idle predicate.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ],
+    "open_questions": []
+  },
+  {
+    "canonical_symbol": "sub_0800663C",
+    "address": "0x0800663C",
+    "display_name": "StartRoleSelectedMenuTask",
+    "summary": "Allocates an8KiB stack and starts the global menu control using the role-selected callback.",
+    "confidence": "high",
+    "evidence": [
+      {
+        "source": "src/code_08002118.c",
+        "line": 3023,
+        "detail": "Unchecked01494(0x2000); role byte03002838==1 picks0608C otherwise05B88; writes stack end+1FFC, allocation base, control word10 and field24zero, then00274(control,a). No pre-existing-control or allocation failure guard.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_08002118.c",
+        "line": 2501,
+        "detail": "Selected callback05B88 is aliased menu5B; body initializes menu sprites, selection state and an input/render loop.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_08002118.c",
+        "line": 2750,
+        "detail": "Selected callback0608C is aliased menu6C; body similarly initializes menu sprites and selection/input state.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ],
+    "open_questions": []
+  },
+  {
+    "canonical_symbol": "sub_08013E90",
+    "address": "0x08013E90",
+    "display_name": "MovePositionWithMapCollision",
+    "summary": "Advances a fixed-point position along a direction after optional two-pass map collision redirection, returning final direction.",
+    "confidence": "high",
+    "evidence": [
+      {
+        "source": "src/code_0800CF58.c",
+        "line": 5738,
+        "detail": "Computes sine-based candidate using divisor304 for vertical directions0/4 and256 otherwise, callsB118 unless bypass nonzero, redirects via result-1 then repeats. A blocked pass leaves position unchanged; after second redirect it recomputes displacement again and commits without a third collision test. Flags are narrowed tou16 then OR2 when56E50zero; direction/speed/index domains unchecked.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ],
+    "open_questions": []
+  },
+  {
+    "canonical_symbol": "sub_0800AEF4",
+    "address": "0x0800AEF4",
+    "display_name": "UpdateMapFootprintOccupancy",
+    "summary": "Marks or removes a rectangular tile footprint by rewriting tile floor fields and type nibbles.",
+    "confidence": "high",
+    "evidence": [
+      {
+        "source": "src/code_08009088.c",
+        "line": 1279,
+        "detail": "Converts pixelu16x/y totile coordinates, rejects start beyond map dimensions and zerow/h, then loops ty..ty+h and tx-w/2..tx+w/2. Mark mode writes typesA/C with floor1, preserving level11 type8; remove mode clears floor/typeC, restores floor from upper nibble forA, or clears floor on8. Entire rectangle is not clipped.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ],
+    "open_questions": [
+      "Type valuesA/C/8 are observed contracts; entity identity is intentionally excluded."
+    ]
+  },
+  {
+    "canonical_symbol": "sub_08013850",
+    "address": "0x08013850",
+    "display_name": "ResetPlayerAndSharedState",
+    "summary": "Replaces shared runtime allocations, resets four player records and initializes shared arrays and default control values.",
+    "confidence": "high",
+    "evidence": [
+      {
+        "source": "src/code_0800CF58.c",
+        "line": 5485,
+        "detail": "Frees030034E0/03004210 then unchecked allocCA4/51C; clears selected fields in all four player records and sets five/four slot arraysFFFF. Zeros multiple shared arrays plus whole51C allocation, calls137A0 for0..3, initializes shared default words1/20000 and ten record values57E3F/99. This is selective initialization, not a full clear ofCA4 or players.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ],
+    "open_questions": [
+      "Exact gameplay identities of every shared subarray are unproved."
+    ]
+  },
+  {
+    "canonical_symbol": "sub_0800B118",
+    "address": "0x0800B118",
+    "display_name": "ResolveMapCollisionDirection",
+    "summary": "Returns0 for blocked tile collision or an accepted/redirected direction plus1 without moving the caller.",
+    "confidence": "high",
+    "evidence": [
+      {
+        "source": "src/code_08009088.c",
+        "line": 1340,
+        "detail": "Offsets y by200 and samples3x3 tile collision nibbles using coordinate>>11; flags1 selects map1, otherwise level8 variants select widths90/60/default. Out-of-bounds samples become1; flag2 adds low-byte1 blocking and flag4 may clear samples on high-byte10. Center collision codes0..13 and neighboring codes route direction-specific return0 or direction+1; default preserves direction. No map writes occur.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ],
+    "open_questions": []
+  }
+]

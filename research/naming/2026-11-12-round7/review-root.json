@@ -1,0 +1,398 @@
+{
+  "sub_08001634": {
+    "decision": "accept",
+    "reason": "Independently read complete primary body and relevant supporting source. Observed widths, masks, guards, return values and side effects support this name and narrative."
+  },
+  "sub_08006E54": {
+    "decision": "accept",
+    "reason": "Independently read complete primary body and relevant supporting source. Observed widths, masks, guards, return values and side effects support this name and narrative."
+  },
+  "sub_08009034": {
+    "decision": "accept",
+    "reason": "Independently read complete primary body and relevant supporting source. Observed widths, masks, guards, return values and side effects support this name and narrative."
+  },
+  "sub_08006E58": {
+    "decision": "accept",
+    "reason": "Independently read complete primary body and relevant supporting source. Observed widths, masks, guards, return values and side effects support this name and narrative."
+  },
+  "sub_08057314": {
+    "decision": "fix",
+    "reason": "Remove unproved pending-request semantics: running portal sets the same bit itself, and restoration consumes its retained state.",
+    "corrected_row": {
+      "canonical_symbol": "sub_08057314",
+      "address": "0x08057314",
+      "display_name": "QueryBossRetryPortalFlag",
+      "summary": "Returns scene header+4 flags bit8 as0 or1.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_080571A4.c",
+          "line": 86,
+          "detail": "Reads unsigned scene header+4 bit8 as normalized0/1.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08021DC4.c",
+          "line": 675,
+          "detail": "Scene restoration tests57314 and calls confirmed boss-retry portal starter267DC when set.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08021DC4.c",
+          "line": 3360,
+          "detail": "The running portal callback sub_080263B4 itself ORs scene+4 with0x100 at initialization and clears that bit on the cleanup branch at3509. Some interruption returns bypass clearing. Restoration at675 reads the bit and restarts the portal task. Thus presence/restoration state is established; pending request semantics are not.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08021DC4.c",
+          "line": 3538,
+          "detail": "sub_080267DC installs sub_080263B4 in the fixed scene task and starts it; this is distinct from the simple header-bit setters.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": []
+    }
+  },
+  "sub_080572E4": {
+    "decision": "fix",
+    "reason": "Remove unproved pending-request semantics: running portal sets the same bit itself, and restoration consumes its retained state.",
+    "corrected_row": {
+      "canonical_symbol": "sub_080572E4",
+      "address": "0x080572E4",
+      "display_name": "SetBossRetryPortalFlag",
+      "summary": "Sets scene header+4 flags bit8 while preserving other flags.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_080571A4.c",
+          "line": 79,
+          "detail": "ORs0x100 into the unsigned scene header+4 while preserving its other bits.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08021DC4.c",
+          "line": 3360,
+          "detail": "The running portal callback sub_080263B4 itself ORs scene+4 with0x100 at initialization and clears that bit on the cleanup branch at3509. Some interruption returns bypass clearing. Restoration at675 reads the bit and restarts the portal task. Thus presence/restoration state is established; pending request semantics are not.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08021DC4.c",
+          "line": 3538,
+          "detail": "sub_080267DC installs sub_080263B4 in the fixed scene task and starts it; this is distinct from the simple header-bit setters.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": []
+    }
+  },
+  "sub_080572FC": {
+    "decision": "fix",
+    "reason": "Remove unproved pending-request semantics: running portal sets the same bit itself, and restoration consumes its retained state.",
+    "corrected_row": {
+      "canonical_symbol": "sub_080572FC",
+      "address": "0x080572FC",
+      "display_name": "ClearBossRetryPortalFlag",
+      "summary": "Clears scene header+4 flags bit8 while preserving the remaining header bits.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_080571A4.c",
+          "line": 83,
+          "detail": "ANDs0xFEFF into the unsigned scene header+4 while preserving its other bits.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08021DC4.c",
+          "line": 3360,
+          "detail": "The running portal callback sub_080263B4 itself ORs scene+4 with0x100 at initialization and clears that bit on the cleanup branch at3509. Some interruption returns bypass clearing. Restoration at675 reads the bit and restarts the portal task. Thus presence/restoration state is established; pending request semantics are not.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08021DC4.c",
+          "line": 3538,
+          "detail": "sub_080267DC installs sub_080263B4 in the fixed scene task and starts it; this is distinct from the simple header-bit setters.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": []
+    }
+  },
+  "sub_080571A4": {
+    "decision": "fix",
+    "reason": "Supporting spawn-controller line should identify actual controller and its state-base binding.",
+    "corrected_row": {
+      "canonical_symbol": "sub_080571A4",
+      "address": "0x080571A4",
+      "display_name": "SetEnemySpawnSlotState",
+      "summary": "On parent or loopback only, stores the input byte in scene spawn slot group*5+slot.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_080571A4.c",
+          "line": 7,
+          "detail": "Link parent/loopback predicate02204 gates a single byte write to scene+1C8+u8group*5+u8slot; neither index is bounds checked.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08021DC4.c",
+          "line": 1432,
+          "detail": "Spawn controller obtains scene+1C8 as the grouped spawn-slot state base.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080153A4.c",
+          "line": 985,
+          "detail": "Enemy lifecycle helper1681C aliases571A4 for grouped slot-state writes.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08021DC4.c",
+          "line": 1450,
+          "detail": "State23A3C places grouped slot bytes at scene+0x1C8. The full controller at1526 initializes non-state3 active slots to1 at1543 and writes2 only after spawn-event admission succeeds at1581/1582.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08002118.c",
+          "line": 100,
+          "detail": "sub_08002204 returns1 when link flag bit1 is clear; otherwise returns normalized link-status bit7. Setter authority is this exact predicate, with no admission result or bounds validation.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": []
+    }
+  },
+  "sub_080571D8": {
+    "decision": "accept",
+    "reason": "Independently read complete primary body and relevant supporting source. Observed widths, masks, guards, return values and side effects support this name and narrative."
+  },
+  "sub_08057210": {
+    "decision": "accept",
+    "reason": "Independently read complete primary body and relevant supporting source. Observed widths, masks, guards, return values and side effects support this name and narrative."
+  },
+  "sub_08057254": {
+    "decision": "fix",
+    "reason": "Busy is supported operationally by pending/admitted states; retain exact predicate and add the primary lifecycle proof.",
+    "corrected_row": {
+      "canonical_symbol": "sub_08057254",
+      "address": "0x08057254",
+      "display_name": "HasNoBusySpawnSlots",
+      "summary": "Returns1 when none of five spawn-group bytes equals1 or2, otherwise0.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_080571A4.c",
+          "line": 44,
+          "detail": "Scans group*5 at scene+1C8 and returns0 immediately for byte2 or byte1; any other byte is accepted, not just zero.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08021DC4.c",
+          "line": 1543,
+          "detail": "Spawn controller initializes active pending slots to1; at1581/1582 a successful sub_0806603C admission changes them to2. The controller waits while either1 or2 remains and accepts other bytes. State2 is queue-admitted state, not proof of completed spawning.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Busy denotes precisely states1/2 here; other state meanings remain unproved."
+      ]
+    }
+  },
+  "sub_080572A4": {
+    "decision": "fix",
+    "reason": "Disambiguate ten pairs from ten total words.",
+    "corrected_row": {
+      "canonical_symbol": "sub_080572A4",
+      "address": "0x080572A4",
+      "display_name": "ClearSceneRecordArrays",
+      "summary": "Zeros ten pairs of scene words and ten separately located scene flag bytes.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_080571A4.c",
+          "line": 67,
+          "detail": "Loopi0..9 clears scene+160+i*8 and+164+i*8 plus byte scene+22C+i. The struct gap0x7C follows the80-byte pair array, locating flags at22C.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Gameplay identity of these record pairs and flags remains unproved."
+      ]
+    }
+  },
+  "sub_08057B2C": {
+    "decision": "accept",
+    "reason": "Independently read complete primary body and relevant supporting source. Observed widths, masks, guards, return values and side effects support this name and narrative."
+  },
+  "sub_08057B64": {
+    "decision": "accept",
+    "reason": "Independently read complete primary body and relevant supporting source. Observed widths, masks, guards, return values and side effects support this name and narrative."
+  },
+  "sub_08057C34": {
+    "decision": "fix",
+    "reason": "Strengthen the world-map interpretation with actual selection and rendering consumers, rather than just an extern alias.",
+    "corrected_row": {
+      "canonical_symbol": "sub_08057C34",
+      "address": "0x08057C34",
+      "display_name": "GetWorldMapAvailabilityBit",
+      "summary": "Returns the selected destination bit from the normal or advanced availability mask.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_080571A4.c",
+          "line": 545,
+          "detail": "Decrements destination then ANDs1u<<index with scene+78 or+80 selected byCE30; returns a mask bit, not normalized boolean. Zero input/shift domain is unchecked.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08009088.c",
+          "line": 2036,
+          "detail": "World-map controller BEC0 aliases57C34 as its destination-bit query and skips destinations whose returned bit iszero.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08009088.c",
+          "line": 2178,
+          "detail": "World-map selection loop scans destination ids0..23 and skips nonzero ids for which hasBEC0(i), aliased57C34, returns zero; id0 bypasses the test. The rendering loop at2336 applies the same gate. This proves availability use, not completion status.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": []
+    }
+  },
+  "sub_08057C6C": {
+    "decision": "fix",
+    "reason": "Pair setter primitive with the availability consumer; distinguish full updated mask result.",
+    "corrected_row": {
+      "canonical_symbol": "sub_08057C6C",
+      "address": "0x08057C6C",
+      "display_name": "SetWorldMapAvailabilityBit",
+      "summary": "Sets the selected destination bit and returns the complete updated current-mode mask.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_080571A4.c",
+          "line": 552,
+          "detail": "Decrements input then ORs1u<<index into scene+78 when CE30zero or+80 otherwise; returns the full word, not just the selected bit. Shift domain is unchecked.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08009088.c",
+          "line": 2178,
+          "detail": "The matching getter57C34 gates nonzero world-map destination selection and rendering at2336. Setter57C6C is called through clrBEC0 at2164/2171 to make ids0x11/0x17 available; that alias name is misleading because the primitive ORs the bit.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": []
+    }
+  },
+  "sub_08057644": {
+    "decision": "accept",
+    "reason": "Independently read complete primary body and relevant supporting source. Observed widths, masks, guards, return values and side effects support this name and narrative."
+  },
+  "sub_0800663C": {
+    "decision": "fix",
+    "reason": "Global03002838 is a u32 input selection; role identity and byte width are not proved.",
+    "corrected_row": {
+      "canonical_symbol": "sub_0800663C",
+      "address": "0x0800663C",
+      "display_name": "StartSelectedMenuVariant",
+      "summary": "Allocates an unchecked0x2000-byte stack, selects callback0800608C when the global selection equals1 or08005B88 otherwise, initializes the global menu task control and starts it with the signed input argument.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_08002118.c",
+          "line": 3023,
+          "detail": "Reads u32 gUnk_03002838, compares exactly1, writes callback/stack-top+0x1FFC/base/control+8=10/control+0x24=0, and invokes00274(control,a). Allocation failure and pre-existing active control are not checked.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08002118.c",
+          "line": 2501,
+          "detail": "Selected callback05B88 is aliased menu5B; body initializes menu sprites, selection state and an input/render loop.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08002118.c",
+          "line": 2750,
+          "detail": "Selected callback0608C is aliased menu6C; body similarly initializes menu sprites and selection/input state.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "include/variables.h",
+          "line": 141,
+          "detail": "gUnk_03002838 is declared u32, not u8.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08002118.c",
+          "line": 423,
+          "detail": "Input-driven selection loop initializes03002838 to0, changes it to1/0 for direction keys at439/445, and uses it in subsequent callback dispatch at494; no generic role meaning is required.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": []
+    }
+  },
+  "sub_08013E90": {
+    "decision": "accept",
+    "reason": "Independently read complete primary body and relevant supporting source. Observed widths, masks, guards, return values and side effects support this name and narrative."
+  },
+  "sub_0800AEF4": {
+    "decision": "accept",
+    "reason": "Independently read complete primary body and relevant supporting source. Observed widths, masks, guards, return values and side effects support this name and narrative."
+  },
+  "sub_08013850": {
+    "decision": "fix",
+    "reason": "Clarify selective subrecord reset helper effects and the no-op fourth helper call.",
+    "corrected_row": {
+      "canonical_symbol": "sub_08013850",
+      "address": "0x08013850",
+      "display_name": "ResetPlayerAndSharedState",
+      "summary": "Replaces shared runtime allocations, resets four player records and initializes shared arrays and default control values.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_0800CF58.c",
+          "line": 5485,
+          "detail": "Frees030034E0/03004210 then unchecked allocCA4/51C; clears selected fields in all four player records and sets five/four slot arraysFFFF. Zeros multiple shared arrays plus whole51C allocation, calls137A0 for0..3, initializes shared default words1/20000 and ten record values57E3F/99. This is selective initialization, not a full clear ofCA4 or players.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0800CF58.c",
+          "line": 5418,
+          "detail": "sub_080137A0 handles indices0/1/2 by clearing three sixteen-byte records at shared+0x100/+0x110/+0x120; index3 falls through without writes.13850 calls0..3, so this is three record resets, not four.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0801AAF8.c",
+          "line": 2201,
+          "detail": "sub_0801E0BC writes six halfwords through offset0xA;13850 uses it on player+0x4C, player+0x7C and shared+0x24. No whole-player or whole0xCA4 clear is implied.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Exact gameplay identities of every shared subarray are unproved."
+      ]
+    }
+  },
+  "sub_0800B118": {
+    "decision": "fix",
+    "reason": "Use exact hexadecimal offset and flag-mask wording; no sample equality test on the high byte is implied.",
+    "corrected_row": {
+      "canonical_symbol": "sub_0800B118",
+      "address": "0x0800B118",
+      "display_name": "ResolveMapCollisionDirection",
+      "summary": "Returns0 for blocked tile collision or an accepted/redirected direction plus1 without moving the caller.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_08009088.c",
+          "line": 1340,
+          "detail": "Adds0x200 to fixed-point y and samples3x3 collision nibbles at coordinate>>11. Flags bit0 selects map1 and bypasses the extra map0 flag transforms. Otherwise level8 variants select map widths90/60/default; coordinates at or outside the excluded zero-edge/bounds yield code1. Flags bit1 ORs collision-code bit0 when the complete low byte equals1; flags bit2 clears a sample when high-byte bit0x10 is set. Codes0..13 and neighbors redirect or block; default preserves direction. Returns0 or input/redirected direction+1 without map or coordinate writes.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": []
+    }
+  }
+}
