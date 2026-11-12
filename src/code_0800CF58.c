@@ -1908,13 +1908,12 @@ block_447:
                 }
                 temp_r3_4 = ((struct PlayerD368 *)arg0)->f18 & temp_r1_23;
                 if (temp_r3_4 == 0) {
-                    temp_r0_41 = ((struct PlayerD368 *)arg0)->f26;
-                    if (temp_r0_41 == 0) {
+                    if (((struct PlayerD368 *)arg0)->f26 == 0) {
                         goto state3ZeroStageD368;
                     } else {
                         ((struct PlayerD368 *)arg0)->f20 = 5U;
                         if (((struct PlayerD368 *)arg0)->f10 != 9) {
-                            temp_r0_42 = ((s8) ((struct PlayerD368 *)arg0)->f6C * 0xA) + *(u16 *)((((struct PlayerD368 *)arg0)->f26 * 2) + (u8 *)&d368_gUnk_0847ACE8);
+                            { u16 i26 = ((struct PlayerD368 *)arg0)->f26; temp_r0_42 = ((s8) ((struct PlayerD368 *)arg0)->f6C * 0xA) + gUnk_0847ACE8[i26]; }
                             var_r2_7 = temp_r0_42;
                             if ((s32) (temp_r0_42 << 0x10) < 0) {
                                 var_r2_7 = 0;
@@ -2037,8 +2036,8 @@ block_590:
                         sp144 = 0;
                         break;
 state3ZeroStageD368:
-                        ((struct PlayerD368 *)arg0)->f24 = temp_r0_41;
-                        ((struct PlayerD368 *)arg0)->f26 = temp_r0_41;
+                        ((struct PlayerD368 *)arg0)->f24 = 0;
+                        ((struct PlayerD368 *)arg0)->f26 = 0;
                         sp130 = 0;
                         sp134 = 0;
                         ((struct PlayerD368 *)arg0)->f20 = 0U;
@@ -2171,12 +2170,11 @@ block_627:
                 }
                 temp_r3_5 = ((struct PlayerD368 *)arg0)->f18 & temp_r1_25;
                 if (temp_r3_5 == 0) {
-                    temp_r0_49 = ((struct PlayerD368 *)arg0)->f26;
-                    if (temp_r0_49 == 0) {
+                    if (((struct PlayerD368 *)arg0)->f26 == 0) {
                         goto state4ZeroStageD368;
                     }
                     if (((struct PlayerD368 *)arg0)->f10 != 9) {
-                        temp_r0_50 = ((s8) ((struct PlayerD368 *)arg0)->f6C * 0xA) + *(u16 *)((((struct PlayerD368 *)arg0)->f26 * 2) + (u8 *)&d368_gUnk_0847ACE8);
+                        { u16 i26 = ((struct PlayerD368 *)arg0)->f26; temp_r0_50 = ((s8) ((struct PlayerD368 *)arg0)->f6C * 0xA) + gUnk_0847ACE8[i26]; }
                         var_r2_9 = temp_r0_50;
                         if ((s32) (temp_r0_50 << 0x10) < 0) {
                             var_r2_9 = 0;
@@ -2303,8 +2301,8 @@ state4ResetProgressD368:
                     asm volatile(""); /* ROM keeps this tail separate */
                     break;
 state4ZeroStageD368:
-                        ((struct PlayerD368 *)arg0)->f26 = temp_r0_49;
-                        ((struct PlayerD368 *)arg0)->f24 = temp_r0_49;
+                        ((struct PlayerD368 *)arg0)->f26 = 0;
+                        ((struct PlayerD368 *)arg0)->f24 = 0;
                         sp144 = 0;
                         sp130 = 0;
                         sp134 = 0;
