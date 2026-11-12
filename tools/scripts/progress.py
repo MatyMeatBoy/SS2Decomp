@@ -439,6 +439,8 @@ def main():
     work_by_address = load_function_work(ROOT, {f["addr"] for m in modules for f in m["funcs"]})
     inventory = json.loads(Path(args.out, "functions.json").read_text(encoding="utf-8"))
     names_by_address = {f["addr"]: f for f in inventory["functions"]}
+    from export_names import write_outputs as write_name_exports
+    write_name_exports(inventory["functions"], args.out)
     for module in modules:
         for function in module["funcs"]:
             node = names_by_address.get(function["addr"], {})

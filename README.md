@@ -62,6 +62,14 @@ yet. Names are display names in `tools/config/function_names.json`; canonical
 To help: [naming pipeline](docs/agents/NAMING_PIPELINE.md),
 [identification summary](docs/progress/identification.md).
 
+For a port or a debugger the names are exported on every update:
+[symbol file](docs/progress/function_names.sym) (`ADDRESS Name`, loads in mGBA
+and no$gba), [C header](docs/progress/function_names.h) (`#define Name
+sub_XXXXXXXX`) and a [table](docs/progress/function_names.csv) with a coarse
+subsystem tag per function (audio, video, link, save, map, combat...). The
+[name audit](docs/progress/name_audit.md) lists names that still describe shape
+instead of purpose.
+
 </details>
 
 <details>
