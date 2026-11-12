@@ -7,24 +7,24 @@
  ],
  "bytes_total": 16017660,
  "split": {
-  "bytes": 15663356,
-  "percent": 97.78804144925039,
+  "bytes": 15791888,
+  "percent": 98.59048075686461,
   "objects": 11343,
-  "objects_expected": 11840,
-  "percent_objects": 95.80236486486487,
-  "blobs": 35,
-  "blob_bytes": 354304,
-  "pending_targets": 497
+  "objects_expected": 11734,
+  "percent_objects": 96.66780296574058,
+  "blobs": 6,
+  "blob_bytes": 225772,
+  "pending_targets": 391
  },
  "typed": {
-  "bytes": 15486933,
-  "percent": 96.68661340045924,
-  "raw_incbin_bytes": 530727
+  "bytes": 15779027,
+  "percent": 98.51018812985167,
+  "raw_incbin_bytes": 238633
  },
  "named": {
   "objects": 11,
-  "objects_expected": 11840,
-  "percent_objects": 0.0929054054054054
+  "objects_expected": 11734,
+  "percent_objects": 0.09374467359809102
  },
  "ranges": [
   {
@@ -40,7 +40,7 @@
   {
    "rom_offset": 760280,
    "size": 248,
-   "state": "blob"
+   "state": "typed"
   },
   {
    "rom_offset": 760528,
@@ -50,46 +50,11 @@
   {
    "rom_offset": 767696,
    "size": 20,
-   "state": "split"
-  },
-  {
-   "rom_offset": 767716,
-   "size": 404,
    "state": "typed"
   },
   {
-   "rom_offset": 768120,
-   "size": 180,
-   "state": "split"
-  },
-  {
-   "rom_offset": 768300,
-   "size": 48,
-   "state": "split"
-  },
-  {
-   "rom_offset": 768348,
-   "size": 24,
-   "state": "split"
-  },
-  {
-   "rom_offset": 768372,
-   "size": 132,
-   "state": "split"
-  },
-  {
-   "rom_offset": 768504,
-   "size": 24,
-   "state": "split"
-  },
-  {
-   "rom_offset": 768528,
-   "size": 60,
-   "state": "split"
-  },
-  {
-   "rom_offset": 768588,
-   "size": 68,
+   "rom_offset": 767716,
+   "size": 940,
    "state": "typed"
   },
   {
@@ -44845,7 +44810,7 @@
   {
    "rom_offset": 4697404,
    "size": 42336,
-   "state": "blob"
+   "state": "typed"
   },
   {
    "rom_offset": 4739740,
@@ -44860,92 +44825,32 @@
   {
    "rom_offset": 4782664,
    "size": 288,
-   "state": "split"
+   "state": "typed"
   },
   {
    "rom_offset": 4782952,
    "size": 20,
-   "state": "split"
-  },
-  {
-   "rom_offset": 4782972,
-   "size": 872,
    "state": "typed"
   },
   {
-   "rom_offset": 4783844,
-   "size": 4,
-   "state": "split"
-  },
-  {
-   "rom_offset": 4783848,
-   "size": 4,
-   "state": "split"
-  },
-  {
-   "rom_offset": 4783852,
-   "size": 4,
-   "state": "split"
+   "rom_offset": 4782972,
+   "size": 884,
+   "state": "typed"
   },
   {
    "rom_offset": 4783856,
    "size": 64,
-   "state": "split"
+   "state": "typed"
   },
   {
    "rom_offset": 4783920,
-   "size": 4,
-   "state": "split"
-  },
-  {
-   "rom_offset": 4783924,
-   "size": 4,
-   "state": "split"
-  },
-  {
-   "rom_offset": 4783928,
-   "size": 4,
-   "state": "split"
-  },
-  {
-   "rom_offset": 4783932,
-   "size": 4,
-   "state": "split"
-  },
-  {
-   "rom_offset": 4783936,
-   "size": 4,
-   "state": "split"
-  },
-  {
-   "rom_offset": 4783940,
-   "size": 4,
-   "state": "split"
-  },
-  {
-   "rom_offset": 4783944,
-   "size": 4,
-   "state": "split"
-  },
-  {
-   "rom_offset": 4783948,
-   "size": 4,
-   "state": "split"
-  },
-  {
-   "rom_offset": 4783952,
-   "size": 4,
-   "state": "split"
-  },
-  {
-   "rom_offset": 4783956,
-   "size": 460,
+   "size": 496,
    "state": "typed"
   },
   {
    "rom_offset": 4784416,
    "size": 58464,
-   "state": "blob"
+   "state": "typed"
   },
   {
    "rom_offset": 4842880,
@@ -44964,12 +44869,7 @@
   },
   {
    "rom_offset": 4847736,
-   "size": 3640,
-   "state": "blob"
-  },
-  {
-   "rom_offset": 4851376,
-   "size": 41776,
+   "size": 45416,
    "state": "typed"
   },
   {
@@ -45069,803 +44969,8 @@
   },
   {
    "rom_offset": 4896184,
-   "size": 19984,
+   "size": 21352,
    "state": "typed"
-  },
-  {
-   "rom_offset": 4916168,
-   "size": 8,
-   "state": "split"
-  },
-  {
-   "rom_offset": 4916176,
-   "size": 8,
-   "state": "split"
-  },
-  {
-   "rom_offset": 4916184,
-   "size": 8,
-   "state": "split"
-  },
-  {
-   "rom_offset": 4916192,
-   "size": 8,
-   "state": "split"
-  },
-  {
-   "rom_offset": 4916200,
-   "size": 8,
-   "state": "split"
-  },
-  {
-   "rom_offset": 4916208,
-   "size": 8,
-   "state": "split"
-  },
-  {
-   "rom_offset": 4916216,
-   "size": 8,
-   "state": "split"
-  },
-  {
-   "rom_offset": 4916224,
-   "size": 8,
-   "state": "split"
-  },
-  {
-   "rom_offset": 4916232,
-   "size": 8,
-   "state": "split"
-  },
-  {
-   "rom_offset": 4916240,
-   "size": 8,
-   "state": "split"
-  },
-  {
-   "rom_offset": 4916248,
-   "size": 8,
-   "state": "split"
-  },
-  {
-   "rom_offset": 4916256,
-   "size": 8,
-   "state": "split"
-  },
-  {
-   "rom_offset": 4916264,
-   "size": 8,
-   "state": "split"
-  },
-  {
-   "rom_offset": 4916272,
-   "size": 8,
-   "state": "split"
-  },
-  {
-   "rom_offset": 4916280,
-   "size": 8,
-   "state": "split"
-  },
-  {
-   "rom_offset": 4916288,
-   "size": 8,
-   "state": "split"
-  },
-  {
-   "rom_offset": 4916296,
-   "size": 8,
-   "state": "split"
-  },
-  {
-   "rom_offset": 4916304,
-   "size": 8,
-   "state": "split"
-  },
-  {
-   "rom_offset": 4916312,
-   "size": 8,
-   "state": "split"
-  },
-  {
-   "rom_offset": 4916320,
-   "size": 8,
-   "state": "split"
-  },
-  {
-   "rom_offset": 4916328,
-   "size": 8,
-   "state": "split"
-  },
-  {
-   "rom_offset": 4916336,
-   "size": 8,
-   "state": "split"
-  },
-  {
-   "rom_offset": 4916344,
-   "size": 8,
-   "state": "split"
-  },
-  {
-   "rom_offset": 4916352,
-   "size": 8,
-   "state": "split"
-  },
-  {
-   "rom_offset": 4916360,
-   "size": 8,
-   "state": "split"
-  },
-  {
-   "rom_offset": 4916368,
-   "size": 8,
-   "state": "split"
-  },
-  {
-   "rom_offset": 4916376,
-   "size": 8,
-   "state": "split"
-  },
-  {
-   "rom_offset": 4916384,
-   "size": 8,
-   "state": "split"
-  },
-  {
-   "rom_offset": 4916392,
-   "size": 8,
-   "state": "split"
-  },
-  {
-   "rom_offset": 4916400,
-   "size": 8,
-   "state": "split"
-  },
-  {
-   "rom_offset": 4916408,
-   "size": 8,
-   "state": "split"
-  },
-  {
-   "rom_offset": 4916416,
-   "size": 8,
-   "state": "split"
-  },
-  {
-   "rom_offset": 4916424,
-   "size": 8,
-   "state": "split"
-  },
-  {
-   "rom_offset": 4916432,
-   "size": 8,
-   "state": "split"
-  },
-  {
-   "rom_offset": 4916440,
-   "size": 8,
-   "state": "split"
-  },
-  {
-   "rom_offset": 4916448,
-   "size": 8,
-   "state": "split"
-  },
-  {
-   "rom_offset": 4916456,
-   "size": 8,
-   "state": "split"
-  },
-  {
-   "rom_offset": 4916464,
-   "size": 8,
-   "state": "split"
-  },
-  {
-   "rom_offset": 4916472,
-   "size": 8,
-   "state": "split"
-  },
-  {
-   "rom_offset": 4916480,
-   "size": 8,
-   "state": "split"
-  },
-  {
-   "rom_offset": 4916488,
-   "size": 8,
-   "state": "split"
-  },
-  {
-   "rom_offset": 4916496,
-   "size": 8,
-   "state": "split"
-  },
-  {
-   "rom_offset": 4916504,
-   "size": 8,
-   "state": "split"
-  },
-  {
-   "rom_offset": 4916512,
-   "size": 8,
-   "state": "split"
-  },
-  {
-   "rom_offset": 4916520,
-   "size": 8,
-   "state": "split"
-  },
-  {
-   "rom_offset": 4916528,
-   "size": 8,
-   "state": "split"
-  },
-  {
-   "rom_offset": 4916536,
-   "size": 8,
-   "state": "split"
-  },
-  {
-   "rom_offset": 4916544,
-   "size": 8,
-   "state": "split"
-  },
-  {
-   "rom_offset": 4916552,
-   "size": 8,
-   "state": "split"
-  },
-  {
-   "rom_offset": 4916560,
-   "size": 8,
-   "state": "split"
-  },
-  {
-   "rom_offset": 4916568,
-   "size": 8,
-   "state": "split"
-  },
-  {
-   "rom_offset": 4916576,
-   "size": 8,
-   "state": "split"
-  },
-  {
-   "rom_offset": 4916584,
-   "size": 8,
-   "state": "split"
-  },
-  {
-   "rom_offset": 4916592,
-   "size": 8,
-   "state": "split"
-  },
-  {
-   "rom_offset": 4916600,
-   "size": 8,
-   "state": "split"
-  },
-  {
-   "rom_offset": 4916608,
-   "size": 8,
-   "state": "split"
-  },
-  {
-   "rom_offset": 4916616,
-   "size": 8,
-   "state": "split"
-  },
-  {
-   "rom_offset": 4916624,
-   "size": 8,
-   "state": "split"
-  },
-  {
-   "rom_offset": 4916632,
-   "size": 8,
-   "state": "split"
-  },
-  {
-   "rom_offset": 4916640,
-   "size": 8,
-   "state": "split"
-  },
-  {
-   "rom_offset": 4916648,
-   "size": 8,
-   "state": "split"
-  },
-  {
-   "rom_offset": 4916656,
-   "size": 8,
-   "state": "split"
-  },
-  {
-   "rom_offset": 4916664,
-   "size": 8,
-   "state": "split"
-  },
-  {
-   "rom_offset": 4916672,
-   "size": 8,
-   "state": "split"
-  },
-  {
-   "rom_offset": 4916680,
-   "size": 8,
-   "state": "split"
-  },
-  {
-   "rom_offset": 4916688,
-   "size": 8,
-   "state": "split"
-  },
-  {
-   "rom_offset": 4916696,
-   "size": 8,
-   "state": "split"
-  },
-  {
-   "rom_offset": 4916704,
-   "size": 8,
-   "state": "split"
-  },
-  {
-   "rom_offset": 4916712,
-   "size": 8,
-   "state": "split"
-  },
-  {
-   "rom_offset": 4916720,
-   "size": 8,
-   "state": "split"
-  },
-  {
-   "rom_offset": 4916728,
-   "size": 8,
-   "state": "split"
-  },
-  {
-   "rom_offset": 4916736,
-   "size": 8,
-   "state": "split"
-  },
-  {
-   "rom_offset": 4916744,
-   "size": 8,
-   "state": "split"
-  },
-  {
-   "rom_offset": 4916752,
-   "size": 8,
-   "state": "split"
-  },
-  {
-   "rom_offset": 4916760,
-   "size": 8,
-   "state": "split"
-  },
-  {
-   "rom_offset": 4916768,
-   "size": 8,
-   "state": "split"
-  },
-  {
-   "rom_offset": 4916776,
-   "size": 8,
-   "state": "split"
-  },
-  {
-   "rom_offset": 4916784,
-   "size": 8,
-   "state": "split"
-  },
-  {
-   "rom_offset": 4916792,
-   "size": 8,
-   "state": "split"
-  },
-  {
-   "rom_offset": 4916800,
-   "size": 8,
-   "state": "split"
-  },
-  {
-   "rom_offset": 4916808,
-   "size": 8,
-   "state": "split"
-  },
-  {
-   "rom_offset": 4916816,
-   "size": 8,
-   "state": "split"
-  },
-  {
-   "rom_offset": 4916824,
-   "size": 8,
-   "state": "split"
-  },
-  {
-   "rom_offset": 4916832,
-   "size": 8,
-   "state": "split"
-  },
-  {
-   "rom_offset": 4916840,
-   "size": 8,
-   "state": "split"
-  },
-  {
-   "rom_offset": 4916848,
-   "size": 8,
-   "state": "split"
-  },
-  {
-   "rom_offset": 4916856,
-   "size": 8,
-   "state": "split"
-  },
-  {
-   "rom_offset": 4916864,
-   "size": 8,
-   "state": "split"
-  },
-  {
-   "rom_offset": 4916872,
-   "size": 8,
-   "state": "split"
-  },
-  {
-   "rom_offset": 4916880,
-   "size": 8,
-   "state": "split"
-  },
-  {
-   "rom_offset": 4916888,
-   "size": 8,
-   "state": "split"
-  },
-  {
-   "rom_offset": 4916896,
-   "size": 8,
-   "state": "split"
-  },
-  {
-   "rom_offset": 4916904,
-   "size": 8,
-   "state": "split"
-  },
-  {
-   "rom_offset": 4916912,
-   "size": 8,
-   "state": "split"
-  },
-  {
-   "rom_offset": 4916920,
-   "size": 8,
-   "state": "split"
-  },
-  {
-   "rom_offset": 4916928,
-   "size": 8,
-   "state": "split"
-  },
-  {
-   "rom_offset": 4916936,
-   "size": 8,
-   "state": "split"
-  },
-  {
-   "rom_offset": 4916944,
-   "size": 8,
-   "state": "split"
-  },
-  {
-   "rom_offset": 4916952,
-   "size": 8,
-   "state": "split"
-  },
-  {
-   "rom_offset": 4916960,
-   "size": 8,
-   "state": "split"
-  },
-  {
-   "rom_offset": 4916968,
-   "size": 8,
-   "state": "split"
-  },
-  {
-   "rom_offset": 4916976,
-   "size": 8,
-   "state": "split"
-  },
-  {
-   "rom_offset": 4916984,
-   "size": 8,
-   "state": "split"
-  },
-  {
-   "rom_offset": 4916992,
-   "size": 8,
-   "state": "split"
-  },
-  {
-   "rom_offset": 4917000,
-   "size": 8,
-   "state": "split"
-  },
-  {
-   "rom_offset": 4917008,
-   "size": 8,
-   "state": "split"
-  },
-  {
-   "rom_offset": 4917016,
-   "size": 8,
-   "state": "split"
-  },
-  {
-   "rom_offset": 4917024,
-   "size": 16,
-   "state": "split"
-  },
-  {
-   "rom_offset": 4917040,
-   "size": 8,
-   "state": "split"
-  },
-  {
-   "rom_offset": 4917048,
-   "size": 8,
-   "state": "split"
-  },
-  {
-   "rom_offset": 4917056,
-   "size": 8,
-   "state": "split"
-  },
-  {
-   "rom_offset": 4917064,
-   "size": 8,
-   "state": "split"
-  },
-  {
-   "rom_offset": 4917072,
-   "size": 8,
-   "state": "split"
-  },
-  {
-   "rom_offset": 4917080,
-   "size": 8,
-   "state": "split"
-  },
-  {
-   "rom_offset": 4917088,
-   "size": 8,
-   "state": "split"
-  },
-  {
-   "rom_offset": 4917096,
-   "size": 8,
-   "state": "split"
-  },
-  {
-   "rom_offset": 4917104,
-   "size": 8,
-   "state": "split"
-  },
-  {
-   "rom_offset": 4917112,
-   "size": 8,
-   "state": "split"
-  },
-  {
-   "rom_offset": 4917120,
-   "size": 8,
-   "state": "split"
-  },
-  {
-   "rom_offset": 4917128,
-   "size": 8,
-   "state": "split"
-  },
-  {
-   "rom_offset": 4917136,
-   "size": 8,
-   "state": "split"
-  },
-  {
-   "rom_offset": 4917144,
-   "size": 8,
-   "state": "split"
-  },
-  {
-   "rom_offset": 4917152,
-   "size": 8,
-   "state": "split"
-  },
-  {
-   "rom_offset": 4917160,
-   "size": 8,
-   "state": "split"
-  },
-  {
-   "rom_offset": 4917168,
-   "size": 8,
-   "state": "split"
-  },
-  {
-   "rom_offset": 4917176,
-   "size": 8,
-   "state": "split"
-  },
-  {
-   "rom_offset": 4917184,
-   "size": 8,
-   "state": "split"
-  },
-  {
-   "rom_offset": 4917192,
-   "size": 8,
-   "state": "split"
-  },
-  {
-   "rom_offset": 4917200,
-   "size": 8,
-   "state": "split"
-  },
-  {
-   "rom_offset": 4917208,
-   "size": 8,
-   "state": "split"
-  },
-  {
-   "rom_offset": 4917216,
-   "size": 8,
-   "state": "split"
-  },
-  {
-   "rom_offset": 4917224,
-   "size": 8,
-   "state": "split"
-  },
-  {
-   "rom_offset": 4917232,
-   "size": 8,
-   "state": "split"
-  },
-  {
-   "rom_offset": 4917240,
-   "size": 8,
-   "state": "split"
-  },
-  {
-   "rom_offset": 4917248,
-   "size": 8,
-   "state": "split"
-  },
-  {
-   "rom_offset": 4917256,
-   "size": 8,
-   "state": "split"
-  },
-  {
-   "rom_offset": 4917264,
-   "size": 8,
-   "state": "split"
-  },
-  {
-   "rom_offset": 4917272,
-   "size": 8,
-   "state": "split"
-  },
-  {
-   "rom_offset": 4917280,
-   "size": 8,
-   "state": "split"
-  },
-  {
-   "rom_offset": 4917288,
-   "size": 8,
-   "state": "split"
-  },
-  {
-   "rom_offset": 4917296,
-   "size": 8,
-   "state": "split"
-  },
-  {
-   "rom_offset": 4917304,
-   "size": 8,
-   "state": "split"
-  },
-  {
-   "rom_offset": 4917312,
-   "size": 8,
-   "state": "split"
-  },
-  {
-   "rom_offset": 4917320,
-   "size": 8,
-   "state": "split"
-  },
-  {
-   "rom_offset": 4917328,
-   "size": 8,
-   "state": "split"
-  },
-  {
-   "rom_offset": 4917336,
-   "size": 88,
-   "state": "blob"
-  },
-  {
-   "rom_offset": 4917424,
-   "size": 8,
-   "state": "split"
-  },
-  {
-   "rom_offset": 4917432,
-   "size": 8,
-   "state": "split"
-  },
-  {
-   "rom_offset": 4917440,
-   "size": 8,
-   "state": "split"
-  },
-  {
-   "rom_offset": 4917448,
-   "size": 8,
-   "state": "split"
-  },
-  {
-   "rom_offset": 4917456,
-   "size": 8,
-   "state": "split"
-  },
-  {
-   "rom_offset": 4917464,
-   "size": 8,
-   "state": "split"
-  },
-  {
-   "rom_offset": 4917472,
-   "size": 8,
-   "state": "split"
-  },
-  {
-   "rom_offset": 4917480,
-   "size": 8,
-   "state": "split"
-  },
-  {
-   "rom_offset": 4917488,
-   "size": 16,
-   "state": "blob"
-  },
-  {
-   "rom_offset": 4917504,
-   "size": 8,
-   "state": "split"
-  },
-  {
-   "rom_offset": 4917512,
-   "size": 8,
-   "state": "split"
-  },
-  {
-   "rom_offset": 4917520,
-   "size": 8,
-   "state": "split"
-  },
-  {
-   "rom_offset": 4917528,
-   "size": 8,
-   "state": "split"
   },
   {
    "rom_offset": 4917536,
@@ -46110,7 +45215,7 @@
   {
    "rom_offset": 4917920,
    "size": 2300,
-   "state": "split"
+   "state": "typed"
   },
   {
    "rom_offset": 4920220,
@@ -46155,7 +45260,7 @@
   {
    "rom_offset": 4921840,
    "size": 608,
-   "state": "split"
+   "state": "typed"
   },
   {
    "rom_offset": 4922448,
@@ -46165,17 +45270,17 @@
   {
    "rom_offset": 4922688,
    "size": 56,
-   "state": "split"
+   "state": "typed"
   },
   {
    "rom_offset": 4922744,
    "size": 1584,
-   "state": "split"
+   "state": "typed"
   },
   {
    "rom_offset": 4924328,
    "size": 264,
-   "state": "split"
+   "state": "typed"
   },
   {
    "rom_offset": 4924592,
@@ -46185,22 +45290,22 @@
   {
    "rom_offset": 5139928,
    "size": 3600,
-   "state": "split"
+   "state": "typed"
   },
   {
    "rom_offset": 5143528,
    "size": 7680,
-   "state": "split"
+   "state": "typed"
   },
   {
    "rom_offset": 5151208,
    "size": 7680,
-   "state": "blob"
+   "state": "typed"
   },
   {
    "rom_offset": 5158888,
    "size": 240,
-   "state": "split"
+   "state": "typed"
   },
   {
    "rom_offset": 5159128,
@@ -46210,26 +45315,16 @@
   {
    "rom_offset": 5160168,
    "size": 64,
-   "state": "split"
+   "state": "typed"
   },
   {
    "rom_offset": 5160232,
    "size": 16,
-   "state": "split"
-  },
-  {
-   "rom_offset": 5160248,
-   "size": 60,
    "state": "typed"
   },
   {
-   "rom_offset": 5160308,
-   "size": 8,
-   "state": "split"
-  },
-  {
-   "rom_offset": 5160316,
-   "size": 64,
+   "rom_offset": 5160248,
+   "size": 132,
    "state": "typed"
   },
   {
@@ -46260,7 +45355,7 @@
   {
    "rom_offset": 5160468,
    "size": 32,
-   "state": "split"
+   "state": "typed"
   },
   {
    "rom_offset": 5160500,
@@ -46300,7 +45395,7 @@
   {
    "rom_offset": 5160830,
    "size": 430,
-   "state": "split"
+   "state": "typed"
   },
   {
    "rom_offset": 5161260,
@@ -46325,7 +45420,7 @@
   {
    "rom_offset": 5164720,
    "size": 216,
-   "state": "split"
+   "state": "typed"
   },
   {
    "rom_offset": 5164936,
@@ -46360,42 +45455,42 @@
   {
    "rom_offset": 5180584,
    "size": 584,
-   "state": "split"
+   "state": "typed"
   },
   {
    "rom_offset": 5181168,
    "size": 876,
-   "state": "split"
+   "state": "typed"
   },
   {
    "rom_offset": 5182044,
    "size": 876,
-   "state": "split"
+   "state": "typed"
   },
   {
    "rom_offset": 5182920,
    "size": 876,
-   "state": "split"
+   "state": "typed"
   },
   {
    "rom_offset": 5183796,
    "size": 876,
-   "state": "split"
+   "state": "typed"
   },
   {
    "rom_offset": 5184672,
    "size": 876,
-   "state": "blob"
+   "state": "typed"
   },
   {
    "rom_offset": 5185548,
    "size": 876,
-   "state": "split"
+   "state": "typed"
   },
   {
    "rom_offset": 5186424,
    "size": 876,
-   "state": "split"
+   "state": "typed"
   },
   {
    "rom_offset": 5187300,
@@ -46405,52 +45500,52 @@
   {
    "rom_offset": 5187332,
    "size": 876,
-   "state": "split"
+   "state": "typed"
   },
   {
    "rom_offset": 5188208,
    "size": 876,
-   "state": "split"
+   "state": "typed"
   },
   {
    "rom_offset": 5189084,
    "size": 876,
-   "state": "split"
+   "state": "typed"
   },
   {
    "rom_offset": 5189960,
    "size": 876,
-   "state": "split"
+   "state": "typed"
   },
   {
    "rom_offset": 5190836,
    "size": 876,
-   "state": "split"
+   "state": "typed"
   },
   {
    "rom_offset": 5191712,
    "size": 876,
-   "state": "split"
+   "state": "typed"
   },
   {
    "rom_offset": 5192588,
    "size": 876,
-   "state": "split"
+   "state": "typed"
   },
   {
    "rom_offset": 5193464,
    "size": 584,
-   "state": "split"
+   "state": "typed"
   },
   {
    "rom_offset": 5194048,
    "size": 876,
-   "state": "split"
+   "state": "typed"
   },
   {
    "rom_offset": 5194924,
    "size": 876,
-   "state": "blob"
+   "state": "typed"
   },
   {
    "rom_offset": 5195800,
@@ -46460,77 +45555,77 @@
   {
    "rom_offset": 5195840,
    "size": 584,
-   "state": "split"
+   "state": "typed"
   },
   {
    "rom_offset": 5196424,
    "size": 876,
-   "state": "split"
+   "state": "typed"
   },
   {
    "rom_offset": 5197300,
    "size": 876,
-   "state": "blob"
+   "state": "typed"
   },
   {
    "rom_offset": 5198176,
    "size": 876,
-   "state": "split"
+   "state": "typed"
   },
   {
    "rom_offset": 5199052,
    "size": 876,
-   "state": "split"
+   "state": "typed"
   },
   {
    "rom_offset": 5199928,
    "size": 876,
-   "state": "split"
+   "state": "typed"
   },
   {
    "rom_offset": 5200804,
    "size": 876,
-   "state": "split"
+   "state": "typed"
   },
   {
    "rom_offset": 5201680,
    "size": 876,
-   "state": "split"
+   "state": "typed"
   },
   {
    "rom_offset": 5202556,
    "size": 876,
-   "state": "split"
+   "state": "typed"
   },
   {
    "rom_offset": 5203432,
    "size": 584,
-   "state": "blob"
+   "state": "typed"
   },
   {
    "rom_offset": 5204016,
    "size": 876,
-   "state": "split"
+   "state": "typed"
   },
   {
    "rom_offset": 5204892,
    "size": 876,
-   "state": "split"
+   "state": "typed"
   },
   {
    "rom_offset": 5205768,
    "size": 876,
-   "state": "split"
+   "state": "typed"
   },
   {
    "rom_offset": 5206644,
    "size": 876,
-   "state": "split"
+   "state": "typed"
   },
   {
    "rom_offset": 5207520,
    "size": 876,
-   "state": "split"
+   "state": "typed"
   },
   {
    "rom_offset": 5208396,
@@ -46540,67 +45635,67 @@
   {
    "rom_offset": 5208456,
    "size": 876,
-   "state": "split"
+   "state": "typed"
   },
   {
    "rom_offset": 5209332,
    "size": 876,
-   "state": "split"
+   "state": "typed"
   },
   {
    "rom_offset": 5210208,
    "size": 876,
-   "state": "split"
+   "state": "typed"
   },
   {
    "rom_offset": 5211084,
    "size": 876,
-   "state": "split"
+   "state": "typed"
   },
   {
    "rom_offset": 5211960,
    "size": 876,
-   "state": "split"
+   "state": "typed"
   },
   {
    "rom_offset": 5212836,
    "size": 876,
-   "state": "split"
+   "state": "typed"
   },
   {
    "rom_offset": 5213712,
    "size": 584,
-   "state": "split"
+   "state": "typed"
   },
   {
    "rom_offset": 5214296,
    "size": 876,
-   "state": "split"
+   "state": "typed"
   },
   {
    "rom_offset": 5215172,
    "size": 876,
-   "state": "split"
+   "state": "typed"
   },
   {
    "rom_offset": 5216048,
    "size": 584,
-   "state": "split"
+   "state": "typed"
   },
   {
    "rom_offset": 5216632,
    "size": 876,
-   "state": "split"
+   "state": "typed"
   },
   {
    "rom_offset": 5217508,
    "size": 584,
-   "state": "split"
+   "state": "typed"
   },
   {
    "rom_offset": 5218092,
    "size": 876,
-   "state": "split"
+   "state": "typed"
   },
   {
    "rom_offset": 5218968,
@@ -46610,72 +45705,72 @@
   {
    "rom_offset": 5219020,
    "size": 876,
-   "state": "split"
+   "state": "typed"
   },
   {
    "rom_offset": 5219896,
    "size": 584,
-   "state": "split"
+   "state": "typed"
   },
   {
    "rom_offset": 5220480,
    "size": 876,
-   "state": "split"
+   "state": "typed"
   },
   {
    "rom_offset": 5221356,
    "size": 876,
-   "state": "split"
+   "state": "typed"
   },
   {
    "rom_offset": 5222232,
    "size": 876,
-   "state": "split"
+   "state": "typed"
   },
   {
    "rom_offset": 5223108,
    "size": 876,
-   "state": "split"
+   "state": "typed"
   },
   {
    "rom_offset": 5223984,
    "size": 876,
-   "state": "split"
+   "state": "typed"
   },
   {
    "rom_offset": 5224860,
    "size": 876,
-   "state": "split"
+   "state": "typed"
   },
   {
    "rom_offset": 5225736,
    "size": 876,
-   "state": "split"
+   "state": "typed"
   },
   {
    "rom_offset": 5226612,
    "size": 876,
-   "state": "split"
+   "state": "typed"
   },
   {
    "rom_offset": 5227488,
    "size": 876,
-   "state": "split"
+   "state": "typed"
   },
   {
    "rom_offset": 5228364,
    "size": 876,
-   "state": "split"
+   "state": "typed"
   },
   {
    "rom_offset": 5229240,
    "size": 584,
-   "state": "split"
+   "state": "typed"
   },
   {
    "rom_offset": 5229824,
    "size": 876,
-   "state": "split"
+   "state": "typed"
   },
   {
    "rom_offset": 5230700,
@@ -46685,87 +45780,87 @@
   {
    "rom_offset": 5230756,
    "size": 584,
-   "state": "split"
+   "state": "typed"
   },
   {
    "rom_offset": 5231340,
    "size": 584,
-   "state": "split"
+   "state": "typed"
   },
   {
    "rom_offset": 5231924,
    "size": 584,
-   "state": "split"
+   "state": "typed"
   },
   {
    "rom_offset": 5232508,
    "size": 584,
-   "state": "split"
+   "state": "typed"
   },
   {
    "rom_offset": 5233092,
    "size": 876,
-   "state": "split"
+   "state": "typed"
   },
   {
    "rom_offset": 5233968,
    "size": 584,
-   "state": "split"
+   "state": "typed"
   },
   {
    "rom_offset": 5234552,
    "size": 584,
-   "state": "split"
+   "state": "typed"
   },
   {
    "rom_offset": 5235136,
    "size": 876,
-   "state": "split"
+   "state": "typed"
   },
   {
    "rom_offset": 5236012,
    "size": 1168,
-   "state": "split"
+   "state": "typed"
   },
   {
    "rom_offset": 5237180,
    "size": 584,
-   "state": "split"
+   "state": "typed"
   },
   {
    "rom_offset": 5237764,
    "size": 876,
-   "state": "split"
+   "state": "typed"
   },
   {
    "rom_offset": 5238640,
    "size": 584,
-   "state": "split"
+   "state": "typed"
   },
   {
    "rom_offset": 5239224,
    "size": 876,
-   "state": "split"
+   "state": "typed"
   },
   {
    "rom_offset": 5240100,
    "size": 584,
-   "state": "split"
+   "state": "typed"
   },
   {
    "rom_offset": 5240684,
    "size": 584,
-   "state": "split"
+   "state": "typed"
   },
   {
    "rom_offset": 5241268,
    "size": 876,
-   "state": "split"
+   "state": "typed"
   },
   {
    "rom_offset": 5242144,
    "size": 876,
-   "state": "blob"
+   "state": "typed"
   },
   {
    "rom_offset": 5243020,
@@ -46775,67 +45870,67 @@
   {
    "rom_offset": 5243088,
    "size": 584,
-   "state": "blob"
+   "state": "typed"
   },
   {
    "rom_offset": 5243672,
    "size": 876,
-   "state": "split"
+   "state": "typed"
   },
   {
    "rom_offset": 5244548,
    "size": 876,
-   "state": "split"
+   "state": "typed"
   },
   {
    "rom_offset": 5245424,
    "size": 584,
-   "state": "split"
+   "state": "typed"
   },
   {
    "rom_offset": 5246008,
    "size": 584,
-   "state": "split"
+   "state": "typed"
   },
   {
    "rom_offset": 5246592,
    "size": 876,
-   "state": "split"
+   "state": "typed"
   },
   {
    "rom_offset": 5247468,
    "size": 876,
-   "state": "split"
+   "state": "typed"
   },
   {
    "rom_offset": 5248344,
    "size": 876,
-   "state": "split"
+   "state": "typed"
   },
   {
    "rom_offset": 5249220,
    "size": 876,
-   "state": "split"
+   "state": "typed"
   },
   {
    "rom_offset": 5250096,
    "size": 876,
-   "state": "split"
+   "state": "typed"
   },
   {
    "rom_offset": 5250972,
    "size": 584,
-   "state": "split"
+   "state": "typed"
   },
   {
    "rom_offset": 5251556,
    "size": 876,
-   "state": "split"
+   "state": "typed"
   },
   {
    "rom_offset": 5252432,
    "size": 876,
-   "state": "split"
+   "state": "typed"
   },
   {
    "rom_offset": 5253308,
@@ -46845,97 +45940,97 @@
   {
    "rom_offset": 5253360,
    "size": 876,
-   "state": "split"
+   "state": "typed"
   },
   {
    "rom_offset": 5254236,
    "size": 876,
-   "state": "split"
+   "state": "typed"
   },
   {
    "rom_offset": 5255112,
    "size": 584,
-   "state": "split"
+   "state": "typed"
   },
   {
    "rom_offset": 5255696,
    "size": 876,
-   "state": "split"
+   "state": "typed"
   },
   {
    "rom_offset": 5256572,
    "size": 584,
-   "state": "split"
+   "state": "typed"
   },
   {
    "rom_offset": 5257156,
    "size": 876,
-   "state": "split"
+   "state": "typed"
   },
   {
    "rom_offset": 5258032,
    "size": 876,
-   "state": "split"
+   "state": "typed"
   },
   {
    "rom_offset": 5258908,
    "size": 876,
-   "state": "split"
+   "state": "typed"
   },
   {
    "rom_offset": 5259784,
    "size": 584,
-   "state": "split"
+   "state": "typed"
   },
   {
    "rom_offset": 5260368,
    "size": 876,
-   "state": "split"
+   "state": "typed"
   },
   {
    "rom_offset": 5261244,
    "size": 584,
-   "state": "split"
+   "state": "typed"
   },
   {
    "rom_offset": 5261828,
    "size": 876,
-   "state": "split"
+   "state": "typed"
   },
   {
    "rom_offset": 5262704,
    "size": 584,
-   "state": "split"
+   "state": "typed"
   },
   {
    "rom_offset": 5263288,
    "size": 584,
-   "state": "split"
+   "state": "typed"
   },
   {
    "rom_offset": 5263872,
    "size": 584,
-   "state": "split"
+   "state": "typed"
   },
   {
    "rom_offset": 5264456,
    "size": 876,
-   "state": "split"
+   "state": "typed"
   },
   {
    "rom_offset": 5265332,
    "size": 876,
-   "state": "split"
+   "state": "typed"
   },
   {
    "rom_offset": 5266208,
    "size": 584,
-   "state": "split"
+   "state": "typed"
   },
   {
    "rom_offset": 5266792,
    "size": 876,
-   "state": "split"
+   "state": "typed"
   },
   {
    "rom_offset": 5267668,
@@ -46945,87 +46040,87 @@
   {
    "rom_offset": 5267744,
    "size": 584,
-   "state": "split"
+   "state": "typed"
   },
   {
    "rom_offset": 5268328,
    "size": 584,
-   "state": "split"
+   "state": "typed"
   },
   {
    "rom_offset": 5268912,
    "size": 584,
-   "state": "split"
+   "state": "typed"
   },
   {
    "rom_offset": 5269496,
    "size": 584,
-   "state": "split"
+   "state": "typed"
   },
   {
    "rom_offset": 5270080,
    "size": 584,
-   "state": "split"
+   "state": "typed"
   },
   {
    "rom_offset": 5270664,
    "size": 584,
-   "state": "split"
+   "state": "typed"
   },
   {
    "rom_offset": 5271248,
    "size": 584,
-   "state": "split"
+   "state": "typed"
   },
   {
    "rom_offset": 5271832,
    "size": 584,
-   "state": "split"
+   "state": "typed"
   },
   {
    "rom_offset": 5272416,
    "size": 584,
-   "state": "split"
+   "state": "typed"
   },
   {
    "rom_offset": 5273000,
    "size": 584,
-   "state": "split"
+   "state": "typed"
   },
   {
    "rom_offset": 5273584,
    "size": 876,
-   "state": "split"
+   "state": "typed"
   },
   {
    "rom_offset": 5274460,
    "size": 584,
-   "state": "split"
+   "state": "typed"
   },
   {
    "rom_offset": 5275044,
    "size": 584,
-   "state": "split"
+   "state": "typed"
   },
   {
    "rom_offset": 5275628,
    "size": 584,
-   "state": "split"
+   "state": "typed"
   },
   {
    "rom_offset": 5276212,
    "size": 584,
-   "state": "split"
+   "state": "typed"
   },
   {
    "rom_offset": 5276796,
    "size": 876,
-   "state": "split"
+   "state": "typed"
   },
   {
    "rom_offset": 5277672,
    "size": 876,
-   "state": "split"
+   "state": "typed"
   },
   {
    "rom_offset": 5278548,
@@ -47035,107 +46130,107 @@
   {
    "rom_offset": 5278616,
    "size": 584,
-   "state": "split"
+   "state": "typed"
   },
   {
    "rom_offset": 5279200,
    "size": 584,
-   "state": "split"
+   "state": "typed"
   },
   {
    "rom_offset": 5279784,
    "size": 876,
-   "state": "split"
+   "state": "typed"
   },
   {
    "rom_offset": 5280660,
    "size": 584,
-   "state": "split"
+   "state": "typed"
   },
   {
    "rom_offset": 5281244,
    "size": 876,
-   "state": "split"
+   "state": "typed"
   },
   {
    "rom_offset": 5282120,
    "size": 876,
-   "state": "split"
+   "state": "typed"
   },
   {
    "rom_offset": 5282996,
    "size": 876,
-   "state": "split"
+   "state": "typed"
   },
   {
    "rom_offset": 5283872,
    "size": 876,
-   "state": "split"
+   "state": "typed"
   },
   {
    "rom_offset": 5284748,
    "size": 876,
-   "state": "split"
+   "state": "typed"
   },
   {
    "rom_offset": 5285624,
    "size": 876,
-   "state": "split"
+   "state": "typed"
   },
   {
    "rom_offset": 5286500,
    "size": 876,
-   "state": "split"
+   "state": "typed"
   },
   {
    "rom_offset": 5287376,
    "size": 584,
-   "state": "split"
+   "state": "typed"
   },
   {
    "rom_offset": 5287960,
    "size": 876,
-   "state": "split"
+   "state": "typed"
   },
   {
    "rom_offset": 5288836,
    "size": 584,
-   "state": "split"
+   "state": "typed"
   },
   {
    "rom_offset": 5289420,
    "size": 584,
-   "state": "split"
+   "state": "typed"
   },
   {
    "rom_offset": 5290004,
    "size": 584,
-   "state": "split"
+   "state": "typed"
   },
   {
    "rom_offset": 5290588,
    "size": 584,
-   "state": "split"
+   "state": "typed"
   },
   {
    "rom_offset": 5291172,
    "size": 584,
-   "state": "split"
+   "state": "typed"
   },
   {
    "rom_offset": 5291756,
    "size": 584,
-   "state": "split"
+   "state": "typed"
   },
   {
    "rom_offset": 5292340,
    "size": 584,
-   "state": "split"
+   "state": "typed"
   },
   {
    "rom_offset": 5292924,
    "size": 876,
-   "state": "split"
+   "state": "typed"
   },
   {
    "rom_offset": 5293800,
@@ -47145,27 +46240,27 @@
   {
    "rom_offset": 5293884,
    "size": 876,
-   "state": "split"
+   "state": "typed"
   },
   {
    "rom_offset": 5294760,
    "size": 876,
-   "state": "split"
+   "state": "typed"
   },
   {
    "rom_offset": 5295636,
    "size": 584,
-   "state": "split"
+   "state": "typed"
   },
   {
    "rom_offset": 5296220,
    "size": 584,
-   "state": "split"
+   "state": "typed"
   },
   {
    "rom_offset": 5296804,
    "size": 584,
-   "state": "split"
+   "state": "typed"
   },
   {
    "rom_offset": 5297388,
@@ -47175,22 +46270,22 @@
   {
    "rom_offset": 5297416,
    "size": 584,
-   "state": "split"
+   "state": "typed"
   },
   {
    "rom_offset": 5298000,
    "size": 584,
-   "state": "split"
+   "state": "typed"
   },
   {
    "rom_offset": 5298584,
    "size": 584,
-   "state": "split"
+   "state": "typed"
   },
   {
    "rom_offset": 5299168,
    "size": 584,
-   "state": "split"
+   "state": "typed"
   },
   {
    "rom_offset": 5299752,
@@ -47200,27 +46295,27 @@
   {
    "rom_offset": 5299768,
    "size": 876,
-   "state": "split"
+   "state": "typed"
   },
   {
    "rom_offset": 5300644,
    "size": 584,
-   "state": "split"
+   "state": "typed"
   },
   {
    "rom_offset": 5301228,
    "size": 584,
-   "state": "split"
+   "state": "typed"
   },
   {
    "rom_offset": 5301812,
    "size": 584,
-   "state": "split"
+   "state": "typed"
   },
   {
    "rom_offset": 5302396,
    "size": 584,
-   "state": "split"
+   "state": "typed"
   },
   {
    "rom_offset": 5302980,
@@ -47240,22 +46335,22 @@
   {
    "rom_offset": 5303596,
    "size": 584,
-   "state": "split"
+   "state": "typed"
   },
   {
    "rom_offset": 5304180,
    "size": 876,
-   "state": "split"
+   "state": "typed"
   },
   {
    "rom_offset": 5305056,
    "size": 876,
-   "state": "split"
+   "state": "typed"
   },
   {
    "rom_offset": 5305932,
    "size": 584,
-   "state": "split"
+   "state": "typed"
   },
   {
    "rom_offset": 5306516,
@@ -47265,22 +46360,22 @@
   {
    "rom_offset": 5306532,
    "size": 584,
-   "state": "split"
+   "state": "typed"
   },
   {
    "rom_offset": 5307116,
    "size": 876,
-   "state": "split"
+   "state": "typed"
   },
   {
    "rom_offset": 5307992,
    "size": 876,
-   "state": "blob"
+   "state": "typed"
   },
   {
    "rom_offset": 5308868,
    "size": 876,
-   "state": "split"
+   "state": "typed"
   },
   {
    "rom_offset": 5309744,
@@ -47290,37 +46385,37 @@
   {
    "rom_offset": 5309760,
    "size": 584,
-   "state": "blob"
+   "state": "typed"
   },
   {
    "rom_offset": 5310344,
    "size": 584,
-   "state": "blob"
+   "state": "typed"
   },
   {
    "rom_offset": 5310928,
    "size": 584,
-   "state": "split"
+   "state": "typed"
   },
   {
    "rom_offset": 5311512,
    "size": 584,
-   "state": "split"
+   "state": "typed"
   },
   {
    "rom_offset": 5312096,
    "size": 584,
-   "state": "split"
+   "state": "typed"
   },
   {
    "rom_offset": 5312680,
    "size": 584,
-   "state": "split"
+   "state": "typed"
   },
   {
    "rom_offset": 5313264,
    "size": 584,
-   "state": "split"
+   "state": "typed"
   },
   {
    "rom_offset": 5313848,
@@ -47330,32 +46425,32 @@
   {
    "rom_offset": 5313876,
    "size": 876,
-   "state": "split"
+   "state": "typed"
   },
   {
    "rom_offset": 5314752,
    "size": 584,
-   "state": "split"
+   "state": "typed"
   },
   {
    "rom_offset": 5315336,
    "size": 876,
-   "state": "split"
+   "state": "typed"
   },
   {
    "rom_offset": 5316212,
    "size": 584,
-   "state": "split"
+   "state": "typed"
   },
   {
    "rom_offset": 5316796,
    "size": 876,
-   "state": "blob"
+   "state": "typed"
   },
   {
    "rom_offset": 5317672,
    "size": 584,
-   "state": "blob"
+   "state": "typed"
   },
   {
    "rom_offset": 5318256,
@@ -47365,27 +46460,27 @@
   {
    "rom_offset": 5318280,
    "size": 1168,
-   "state": "blob"
+   "state": "typed"
   },
   {
    "rom_offset": 5319448,
    "size": 876,
-   "state": "blob"
+   "state": "typed"
   },
   {
    "rom_offset": 5320324,
    "size": 584,
-   "state": "blob"
+   "state": "typed"
   },
   {
    "rom_offset": 5320908,
    "size": 876,
-   "state": "blob"
+   "state": "typed"
   },
   {
    "rom_offset": 5321784,
    "size": 584,
-   "state": "blob"
+   "state": "typed"
   },
   {
    "rom_offset": 5322368,
@@ -47395,52 +46490,52 @@
   {
    "rom_offset": 5322388,
    "size": 584,
-   "state": "blob"
+   "state": "typed"
   },
   {
    "rom_offset": 5322972,
    "size": 876,
-   "state": "blob"
+   "state": "typed"
   },
   {
    "rom_offset": 5323848,
    "size": 876,
-   "state": "split"
+   "state": "typed"
   },
   {
    "rom_offset": 5324724,
    "size": 584,
-   "state": "split"
+   "state": "typed"
   },
   {
    "rom_offset": 5325308,
    "size": 584,
-   "state": "split"
+   "state": "typed"
   },
   {
    "rom_offset": 5325892,
    "size": 584,
-   "state": "blob"
+   "state": "typed"
   },
   {
    "rom_offset": 5326476,
    "size": 584,
-   "state": "blob"
+   "state": "typed"
   },
   {
    "rom_offset": 5327060,
    "size": 584,
-   "state": "split"
+   "state": "typed"
   },
   {
    "rom_offset": 5327644,
    "size": 584,
-   "state": "split"
+   "state": "typed"
   },
   {
    "rom_offset": 5328228,
    "size": 584,
-   "state": "blob"
+   "state": "typed"
   },
   {
    "rom_offset": 5328812,
@@ -47450,27 +46545,27 @@
   {
    "rom_offset": 5328852,
    "size": 584,
-   "state": "blob"
+   "state": "typed"
   },
   {
    "rom_offset": 5329436,
    "size": 876,
-   "state": "split"
+   "state": "typed"
   },
   {
    "rom_offset": 5330312,
    "size": 876,
-   "state": "split"
+   "state": "typed"
   },
   {
    "rom_offset": 5331188,
    "size": 876,
-   "state": "split"
+   "state": "typed"
   },
   {
    "rom_offset": 5332064,
    "size": 876,
-   "state": "split"
+   "state": "typed"
   },
   {
    "rom_offset": 5332940,
@@ -47480,32 +46575,32 @@
   {
    "rom_offset": 5332960,
    "size": 584,
-   "state": "split"
+   "state": "typed"
   },
   {
    "rom_offset": 5333544,
    "size": 876,
-   "state": "split"
+   "state": "typed"
   },
   {
    "rom_offset": 5334420,
    "size": 876,
-   "state": "split"
+   "state": "typed"
   },
   {
    "rom_offset": 5335296,
    "size": 876,
-   "state": "split"
+   "state": "typed"
   },
   {
    "rom_offset": 5336172,
    "size": 876,
-   "state": "split"
+   "state": "typed"
   },
   {
    "rom_offset": 5337048,
    "size": 584,
-   "state": "split"
+   "state": "typed"
   },
   {
    "rom_offset": 5337632,
@@ -47515,137 +46610,82 @@
   {
    "rom_offset": 5337656,
    "size": 876,
-   "state": "split"
+   "state": "typed"
   },
   {
    "rom_offset": 5338532,
    "size": 876,
-   "state": "split"
+   "state": "typed"
   },
   {
    "rom_offset": 5339408,
    "size": 876,
-   "state": "split"
+   "state": "typed"
   },
   {
    "rom_offset": 5340284,
    "size": 584,
-   "state": "split"
+   "state": "typed"
   },
   {
    "rom_offset": 5340868,
    "size": 584,
-   "state": "split"
-  },
-  {
-   "rom_offset": 5341452,
-   "size": 20,
    "state": "typed"
   },
   {
-   "rom_offset": 5341472,
-   "size": 12,
-   "state": "split"
-  },
-  {
-   "rom_offset": 5341484,
-   "size": 12,
-   "state": "split"
-  },
-  {
-   "rom_offset": 5341496,
-   "size": 12,
-   "state": "split"
-  },
-  {
-   "rom_offset": 5341508,
-   "size": 12,
-   "state": "split"
-  },
-  {
-   "rom_offset": 5341520,
-   "size": 12,
-   "state": "split"
-  },
-  {
-   "rom_offset": 5341532,
-   "size": 12,
-   "state": "split"
-  },
-  {
-   "rom_offset": 5341544,
-   "size": 12,
-   "state": "split"
-  },
-  {
-   "rom_offset": 5341556,
-   "size": 12,
-   "state": "split"
-  },
-  {
-   "rom_offset": 5341568,
-   "size": 12,
-   "state": "split"
-  },
-  {
-   "rom_offset": 5341580,
-   "size": 12,
-   "state": "split"
-  },
-  {
-   "rom_offset": 5341592,
-   "size": 708,
+   "rom_offset": 5341452,
+   "size": 848,
    "state": "typed"
   },
   {
    "rom_offset": 5342300,
    "size": 48,
-   "state": "split"
+   "state": "typed"
   },
   {
    "rom_offset": 5342348,
    "size": 48,
-   "state": "split"
+   "state": "typed"
   },
   {
    "rom_offset": 5342396,
    "size": 48,
-   "state": "split"
+   "state": "typed"
   },
   {
    "rom_offset": 5342444,
    "size": 48,
-   "state": "split"
+   "state": "typed"
   },
   {
    "rom_offset": 5342492,
    "size": 48,
-   "state": "split"
+   "state": "typed"
   },
   {
    "rom_offset": 5342540,
    "size": 48,
-   "state": "split"
+   "state": "typed"
   },
   {
    "rom_offset": 5342588,
    "size": 64,
-   "state": "split"
+   "state": "typed"
   },
   {
    "rom_offset": 5342652,
    "size": 64,
-   "state": "split"
+   "state": "typed"
   },
   {
    "rom_offset": 5342716,
    "size": 64,
-   "state": "split"
+   "state": "typed"
   },
   {
    "rom_offset": 5342780,
    "size": 160,
-   "state": "split"
+   "state": "typed"
   },
   {
    "rom_offset": 5342940,
@@ -47655,12 +46695,12 @@
   {
    "rom_offset": 5342972,
    "size": 40,
-   "state": "split"
+   "state": "typed"
   },
   {
    "rom_offset": 5343012,
    "size": 48,
-   "state": "split"
+   "state": "typed"
   },
   {
    "rom_offset": 5343060,
@@ -47675,7 +46715,7 @@
   {
    "rom_offset": 5343472,
    "size": 72,
-   "state": "split"
+   "state": "typed"
   },
   {
    "rom_offset": 5343544,
