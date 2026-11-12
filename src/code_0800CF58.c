@@ -3092,7 +3092,7 @@ retry63_0_done:
                                 M2C_FIELD(var_r6_8, u16 *, 2) = (u16) ((struct PlayerD368 *)arg0)->f0;
                                 M2C_FIELD(var_r6_8, s16 *, 4) = (s16) var_r4_11;
                                 M2C_FIELD(var_r6_8, u16 *, 6) = d368_sub_0801E0AC(d368_gUnk_030034E0 + 0x30, 5);
-                                M2C_FIELD(var_r6_8, s16 *, 0) = 0x708;
+                                ((struct EffectD368 *)var_r6_8)->f0 = 0x708;
                                 ((struct PlayerD368 *)arg0)->f30 = (u32) (((struct PlayerD368 *)arg0)->f30 | 0x20000);
                                 d368_sub_0805867C(0x16F);
                             }
