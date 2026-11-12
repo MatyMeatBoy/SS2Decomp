@@ -1,0 +1,806 @@
+{
+  "source_revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7",
+  "policy": "Frozen research, not naming credit. See independent decisions and accepted catalog rows.",
+  "proposals": [
+    {
+      "canonical_symbol": "sub_0808D0B0",
+      "address": "0x0808D0B0",
+      "display_name": "EndLocalPlayerSceneEvent",
+      "summary": "Clears local-player render suppression and requests its flags update, ends the local-player event lock/input suppression, then sets player flag bit12.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_08087CC0.c",
+          "line": 3848,
+          "detail": "Calls57934 then57984, clearing local-player masks2 and1 plus scene event-lock bit11.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08058790.c",
+          "line": 23,
+          "detail": "Final wrapper587E4 calls15D74.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080153A4.c",
+          "line": 418,
+          "detail": "15D74 sets local-player flags mask0x1000.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0808D4A8.c",
+          "line": 1879,
+          "detail": "Scene initializer schedules this cleanup callback after its scene event setup.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Player flag bit12 purpose remains unproven; name claims event ending rather than universal control or visibility restoration."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_0808D11C",
+      "address": "0x0808D11C",
+      "display_name": "UpdateMap1SceneExit",
+      "summary": "Initializes an uninitialized scene; on its exit flag requests hide/map-task stop and waits, selects map-set1 current-area record, clears initialization, marks continuation and returns1; other paths return0.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_08087CC0.c",
+          "line": 3871,
+          "detail": "Checks scene+0x10; zero calls common scene initialization and returns0.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08087CC0.c",
+          "line": 3884,
+          "detail": "After exit predicate and transition wait, selects current-area record into+0x71C, clears+0x10 and sets+0x30/+0x24=1.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08021DC4.c",
+          "line": 810,
+          "detail": "Map-set1 destination selector uses identical resource table.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080542C4.c",
+          "line": 1217,
+          "detail": "Exit predicate reads scene flags halfword+4 bit4.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Map-set1 copies have identical behavior; distinct synonymous names do not claim distinct scene identity."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_0808D190",
+      "address": "0x0808D190",
+      "display_name": "HandleMap1SceneExit",
+      "summary": "Initializes an uninitialized scene; on its exit flag requests hide/map-task stop and waits, selects map-set1 current-area record, clears initialization, marks continuation and returns1; other paths return0.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_08087CC0.c",
+          "line": 3900,
+          "detail": "Checks scene+0x10; zero calls common scene initialization and returns0.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08087CC0.c",
+          "line": 3913,
+          "detail": "After exit predicate and transition wait, selects current-area record into+0x71C, clears+0x10 and sets+0x30/+0x24=1.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08021DC4.c",
+          "line": 810,
+          "detail": "Map-set1 destination selector uses identical resource table.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080542C4.c",
+          "line": 1217,
+          "detail": "Exit predicate reads scene flags halfword+4 bit4.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Map-set1 copies have identical behavior; distinct synonymous names do not claim distinct scene identity."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_0808D204",
+      "address": "0x0808D204",
+      "display_name": "ProcessMap1SceneExit",
+      "summary": "Initializes an uninitialized scene; on its exit flag requests hide/map-task stop and waits, selects map-set1 current-area record, clears initialization, marks continuation and returns1; other paths return0.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_08087CC0.c",
+          "line": 3929,
+          "detail": "Checks scene+0x10; zero calls common scene initialization and returns0.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08087CC0.c",
+          "line": 3942,
+          "detail": "After exit predicate and transition wait, selects current-area record into+0x71C, clears+0x10 and sets+0x30/+0x24=1.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08021DC4.c",
+          "line": 810,
+          "detail": "Map-set1 destination selector uses identical resource table.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080542C4.c",
+          "line": 1217,
+          "detail": "Exit predicate reads scene flags halfword+4 bit4.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Map-set1 copies have identical behavior; distinct synonymous names do not claim distinct scene identity."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_0808D31C",
+      "address": "0x0808D31C",
+      "display_name": "UpdateMap2SceneExit",
+      "summary": "Initializes an uninitialized scene; on its exit flag requests hide/map-task stop and waits, selects map-set2 current-area record, clears initialization, marks continuation and returns1; other paths return0.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_08087CC0.c",
+          "line": 3991,
+          "detail": "Checks scene+0x10; zero calls common scene initialization and returns0.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08087CC0.c",
+          "line": 4004,
+          "detail": "After exit predicate and transition wait, selects current-area record into+0x71C, clears+0x10 and sets+0x30/+0x24=1.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08021DC4.c",
+          "line": 816,
+          "detail": "Map-set2 destination selector uses identical resource table.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080542C4.c",
+          "line": 1217,
+          "detail": "Exit predicate reads scene flags halfword+4 bit4.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": []
+    },
+    {
+      "canonical_symbol": "sub_0808D390",
+      "address": "0x0808D390",
+      "display_name": "HandleMap2SceneExit",
+      "summary": "Initializes scene or, on exit, requests hide/map-task stop and waits, selects map-set2 current-area record, clears initialization, marks continuation and returns1; otherwise returns0.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_08087CC0.c",
+          "line": 4020,
+          "detail": "Initialization branch calls2704C and returns0.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08087CC0.c",
+          "line": 4033,
+          "detail": "Exit path selects084F4818[current area], clears+0x10 and sets+0x30/+0x24=1.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08021DC4.c",
+          "line": 816,
+          "detail": "Map-set2 selector uses same table084F4818.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Behavior-identical to8D31C; distinct synonymous name claims no different scene identity."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_0808D278",
+      "address": "0x0808D278",
+      "display_name": "UpdateEncounterActorSceneExit",
+      "summary": "Initializes scene and starts an encounter actor task, or on exit selects destination0/2, clears encounter/exit flags, removes nonretained field items, marks the current level cleared, resets local player state and returns1; otherwise0.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_08087CC0.c",
+          "line": 3958,
+          "detail": "Checks scene initialization; exit branch selects0/2, clears flags and sets scene+0x36=3.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08087CC0.c",
+          "line": 3966,
+          "detail": "Deactivates field items lacking retain flag, marks current level cleared, clears player render suppression/state and marks continuation.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08087CC0.c",
+          "line": 3980,
+          "detail": "Initial branch marks encounter active and starts actor callback98108 with destructor99720 through five-slot actor pool.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Actor identity is not inferred; two handlers differ in actor callback/destructor, not in a proven scene/story label."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_0808D404",
+      "address": "0x0808D404",
+      "display_name": "HandleEncounterActorSceneExit",
+      "summary": "Initializes scene and starts an encounter actor task, or on exit selects destination0/2, clears encounter/exit flags, removes nonretained field items, marks the current level cleared, resets local player state and returns1; otherwise0.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_08087CC0.c",
+          "line": 4049,
+          "detail": "Checks scene initialization; exit branch selects0/2, clears flags and sets scene+0x36=3.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08087CC0.c",
+          "line": 4057,
+          "detail": "Deactivates field items lacking retain flag, marks current level cleared, clears player render suppression/state and marks continuation.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08087CC0.c",
+          "line": 4071,
+          "detail": "Initial branch marks encounter active and starts actor callback99838 with destructor9ADE8 through five-slot actor pool.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Actor identity is not inferred; two handlers differ in actor callback/destructor, not in a proven scene/story label."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_0808A294",
+      "address": "0x0808A294",
+      "display_name": "UpdateMapZeroArea14Scene",
+      "summary": "On first call places local player at selected entry, loads map-set0 area14, waits map ready, updates camera, starts its scene callback and releases input/menu suppression; later tests three table exits with destination entry1.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_08087CC0.c",
+          "line": 1468,
+          "detail": "Initialization waits transition idle, selects entry coordinates at table+4+entry*0x24 and sets current/previous player positions.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08087CC0.c",
+          "line": 1487,
+          "detail": "Loads map-set0 area14 and waits map ready before updating camera.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08087CC0.c",
+          "line": 1492,
+          "detail": "Schedules2D8C4, allows menu/input, sets initialization/activity1.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08087CC0.c",
+          "line": 1497,
+          "detail": "Only later calls run confirmed three-entry exit helper with destination-entry1; return1 means transition fields prepared.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": []
+    },
+    {
+      "canonical_symbol": "sub_08089EC4",
+      "address": "0x08089EC4",
+      "display_name": "UpdateMapZeroArea16Scene",
+      "summary": "Places local player at selected entry, loads map-set0 area16 and starts its callback; when player tile y exceeds37, hides/stops map update and prepares map-set0 destination8 entry1, returning1; otherwise0.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_08087CC0.c",
+          "line": 1302,
+          "detail": "First-call path sets current/previous position from selected table entry.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08087CC0.c",
+          "line": 1313,
+          "detail": "Loads0/16, waits ready, updates camera and starts2E7AC, marks initialized and releases suppression.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08087CC0.c",
+          "line": 1325,
+          "detail": "On the same call or later, tileY>37 triggers hide/wait and destination8/entry1; clears initialization/activity.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": []
+    },
+    {
+      "canonical_symbol": "sub_08089204",
+      "address": "0x08089204",
+      "display_name": "UpdateMapZeroArea2Scene",
+      "summary": "Initializes map-set0 area2 at selected player entry and starts its scene callback; tileY==31 then prepares destination8 entry2 after hide/wait, returning1; otherwise0.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_08087CC0.c",
+          "line": 770,
+          "detail": "Waits transition idle, places player from input table and marks map-set0.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08087CC0.c",
+          "line": 776,
+          "detail": "Restores vitals when flag0x2000 set, clears player0x400 and requests flags update.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08087CC0.c",
+          "line": 784,
+          "detail": "Loads0/2, waits map ready, writes alternate height32, updates camera and starts2AA28.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08087CC0.c",
+          "line": 801,
+          "detail": "Exact tileY31 triggers hide/map stop/wait, destination8 entry2 and initialization/activity clear.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": []
+    },
+    {
+      "canonical_symbol": "sub_08089384",
+      "address": "0x08089384",
+      "display_name": "UpdateMapZeroArea3Or20",
+      "summary": "Initializes map-set0 area20 when level10 is cleared or area3 otherwise; starts scene callback, then on later calls handles table exits with entry3 or tileY>55 transition to destination0 entry3.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_08087CC0.c",
+          "line": 831,
+          "detail": "Entry initialization waits transition idle and places current/previous local player position.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08087CC0.c",
+          "line": 842,
+          "detail": "Level10-cleared predicate selects load area20 versus3; map readiness and camera update follow.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08087CC0.c",
+          "line": 852,
+          "detail": "Starts2C674 and marks initialized; initialization returns0 before exit checks.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08087CC0.c",
+          "line": 862,
+          "detail": "Later checks table exits with entry3, then tileY>55 prepares destination0 entry3 and returns1.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": []
+    },
+    {
+      "canonical_symbol": "sub_08089500",
+      "address": "0x08089500",
+      "display_name": "UpdateMapZeroArea4Scene",
+      "summary": "Loads map-set0 area4, using selected entry normally or per-player return positions with vitals/encounter cleanup when local departure is pending; starts the matching callback and later prepares table exits with entry4.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_08087CC0.c",
+          "line": 902,
+          "detail": "Normal entry uses supplied position and clears player flag mask0x2026.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08087CC0.c",
+          "line": 909,
+          "detail": "Pending-return branch distinguishes active encounter cleanup versus player-area-return task, sets per-ID x positions and y82, restores vitals and queues attributes.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08087CC0.c",
+          "line": 952,
+          "detail": "Loads0/4 after10 signal waits, updates camera and starts3D99C for pending departure or2CF84 otherwise.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08087CC0.c",
+          "line": 961,
+          "detail": "Pending departure branch clears its flag; marks initialized and releases input/menu suppression.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08087CC0.c",
+          "line": 974,
+          "detail": "Subsequent calls use three-entry scene exit helper with destination entry4.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Return path inherits helper allocation/queue limits; name does not promise all cleanup or peer delivery completes."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_08089784",
+      "address": "0x08089784",
+      "display_name": "UpdateMapZeroArea5Scene",
+      "summary": "Initializes map-set0 area5 and its scene callback, then when local tileY>30 hides/stops map update and prepares destination8 entry3; returns1 only for prepared exit.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_08087CC0.c",
+          "line": 998,
+          "detail": "Selects entry position, writes current/previous player position and marks map-set0.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08087CC0.c",
+          "line": 1009,
+          "detail": "Loads0/5, waits ready, sets alternate height32, updates camera and starts2D050; releases input/menu suppression.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08087CC0.c",
+          "line": 1022,
+          "detail": "Checks tileY>30 even after initialization; prepares destination8/entry3 and clears initialization/activity after hide/wait.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": []
+    },
+    {
+      "canonical_symbol": "sub_080898D4",
+      "address": "0x080898D4",
+      "display_name": "UpdateMapZeroArea12Scene",
+      "summary": "Initializes map-set0 area12 and callback; later checks three table exits with special destination7 entry rules, while tileY>17 also prepares destination0 entry1; returns1 on a prepared exit.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_08087CC0.c",
+          "line": 1060,
+          "detail": "Initial placement/load0/12/readiness/camera and callback2D200 setup.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08087CC0.c",
+          "line": 1083,
+          "detail": "Later table exits require horizontal tile difference<=1 and exact tileY.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08087CC0.c",
+          "line": 1095,
+          "detail": "Destination7 via exit3 selects entry1, via exit1 preserves entry; all other matches set entry0.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08087CC0.c",
+          "line": 1110,
+          "detail": "After initialization or unmatched table checks tileY>17 selects destination0 entry1; exit paths clear initialization/activity after hide/wait.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": []
+    },
+    {
+      "canonical_symbol": "sub_08089AE4",
+      "address": "0x08089AE4",
+      "display_name": "UpdateMapZeroArea6Scene",
+      "summary": "Initializes map-set0 area6, preserving only player flag0x2000 and starting scene callback; later table exits set entry1/2 for exit1/2 while exit3 preserves entry, then prepare destination and return1.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_08087CC0.c",
+          "line": 1148,
+          "detail": "Initial branch uses selected table position for current/previous player coordinates.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08087CC0.c",
+          "line": 1160,
+          "detail": "Masks player flags with0x2000, preserving only that bit; requests flags update.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08087CC0.c",
+          "line": 1162,
+          "detail": "Loads0/6, waits ready, updates camera, starts2D2C8 and releases input/menu suppression; initialization returns0.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08087CC0.c",
+          "line": 1181,
+          "detail": "Later matching table exit hides/waits and sets entry1 for first,2 for second; third leaves entry unchanged. Sets destination/script and clears initialization/activity.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": []
+    },
+    {
+      "canonical_symbol": "sub_08089CA0",
+      "address": "0x08089CA0",
+      "display_name": "UpdateMapZeroArea13Scene",
+      "summary": "Initializes map-set0 area13 preserving only player flag0x2000; later table exits map first/second to entry1 and third to0, while tileY>17 prepares destination1 entry2; returns1 on prepared exit.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_08087CC0.c",
+          "line": 1220,
+          "detail": "Places player from table, masks flags with0x2000 and requests flags update.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08087CC0.c",
+          "line": 1233,
+          "detail": "Loads0/13, waits ready, updates camera and starts2D568; marks initialized and releases suppression.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08087CC0.c",
+          "line": 1251,
+          "detail": "Later table match hides/waits; exits1/2 select entry1 and exit3 selects0; prepares table destination.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08087CC0.c",
+          "line": 1269,
+          "detail": "After initialization or no table match, tileY>17 prepares destination1 entry2 after hide/wait.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": []
+    },
+    {
+      "canonical_symbol": "sub_0808A008",
+      "address": "0x0808A008",
+      "display_name": "UpdateMapZeroArea8Scene",
+      "summary": "Initializes map-set0 area8 and optional song219, handles table exits with destination7 entry rules, and prepares destination1 entry3 at tileX>27 or destination0 entry4 at tileY>36; returns1 on prepared exit.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_08087CC0.c",
+          "line": 1364,
+          "detail": "Initial placement/load0/8/readiness/camera; marks initialized and releases input suppression.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08087CC0.c",
+          "line": 1383,
+          "detail": "Requests song219 only when multiplayer predicate false and scene event26 clear; schedules2D73C and allows menu.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08087CC0.c",
+          "line": 1395,
+          "detail": "Later table exits: destination7/exit3 selects entry1, destination7/exit1 preserves entry; others select0.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08087CC0.c",
+          "line": 1417,
+          "detail": "TileX>27 takes priority, selecting destination1 entry3; otherwise tileY>36 selects destination0 entry4; both checked even after initialization.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": []
+    },
+    {
+      "canonical_symbol": "sub_0808A4D4",
+      "address": "0x0808A4D4",
+      "display_name": "UpdateMapZeroArea7Scene",
+      "summary": "Initializes map-set0 area7, handles table exits with destination7 entry rules, and prepares destination1 entry4 at tileX<=1 or destination0 entry5 at tileY>36; returns1 on prepared exit.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_08087CC0.c",
+          "line": 1599,
+          "detail": "Initial placement/load0/7/readiness/camera; sets flags and starts2D800, allowing input/menu.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08087CC0.c",
+          "line": 1627,
+          "detail": "Later table exits use exact tileY and horizontal difference<=1; destination7/exit3 selects1, destination7/exit1 preserves entry, others select0.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08087CC0.c",
+          "line": 1649,
+          "detail": "TileX<=1 takes priority and selects destination1 entry4 after hide/wait.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08087CC0.c",
+          "line": 1664,
+          "detail": "Otherwise tileY>36 selects destination0 entry5; initialization/activity cleared on all exit paths.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": []
+    },
+    {
+      "canonical_symbol": "sub_0808A380",
+      "address": "0x0808A380",
+      "display_name": "UpdateMapZeroArea11Scene",
+      "summary": "Initializes map-set0 area11 and scene callback, then handles table exits with destination entry0 or tileY>37 transition to destination10 entry2, returning1 on prepared exit.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_08087CC0.c",
+          "line": 1524,
+          "detail": "Selects entry position, writes player current/previous coordinates and loads0/11.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08087CC0.c",
+          "line": 1544,
+          "detail": "Waits map ready, updates camera, starts2DE0C and releases input/menu suppression.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08087CC0.c",
+          "line": 1553,
+          "detail": "Only later calls use three-entry exit helper with destination entry0.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08087CC0.c",
+          "line": 1561,
+          "detail": "Boundary checked even after initialization: tileY>37 triggers hide/wait and destination10 entry2 with initialization/activity reset.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": []
+    },
+    {
+      "canonical_symbol": "sub_0808A830",
+      "address": "0x0808A830",
+      "display_name": "UpdateMapZeroArea9Scene",
+      "summary": "Initializes map-set0 area9 and scene callback, later handles table exits with entry1, and at tileY>37 allows menu requests then prepares destination13 entry2 after hide/wait; returns1 on prepared exit.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_08087CC0.c",
+          "line": 1756,
+          "detail": "Places player from selected entry and loads0/9, waits map readiness and updates camera.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08087CC0.c",
+          "line": 1780,
+          "detail": "Starts2E110, permits input/menu requests and marks initialized.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08087CC0.c",
+          "line": 1785,
+          "detail": "Later table exits use destination entry1.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08087CC0.c",
+          "line": 1793,
+          "detail": "Boundary checked even after initialization; calls AllowLocalPlayerGameMenuRequest, unlike most sibling exit paths, then selects destination13 entry2 and clears initialization/activity.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": []
+    },
+    {
+      "canonical_symbol": "sub_0808AA70",
+      "address": "0x0808AA70",
+      "display_name": "UpdateMapZeroArea17Scene",
+      "summary": "Initializes map-set0 area17, starts selected screen reveal and allows menu requests; later table exits select entry1 for exit1 or0 for exits2/3 and prepare their destination, returning1.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_08087CC0.c",
+          "line": 1882,
+          "detail": "Waits transition idle and positions local player using table entry.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08087CC0.c",
+          "line": 1893,
+          "detail": "Loads0/17, waits map readiness, updates camera, schedules59FBC reveal and allows menu; initialization returns0.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08087CC0.c",
+          "line": 1911,
+          "detail": "Later match requires horizontal tile difference<=1 and exact tileY; hides/waits, chooses entry1 for first exit otherwise0, sets destination/script and clears initialization/activity.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Unlike area18 sibling, initialization does not call15C38 to clear local input suppression; no unrestricted input guarantee is claimed."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_0808AC08",
+      "address": "0x0808AC08",
+      "display_name": "UpdateMapZeroArea18Scene",
+      "summary": "Initializes map-set0 area18, starts selected screen reveal and releases input/menu suppression; later any matching table exit prepares its destination with entry1 after hide/wait, returning1.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_08087CC0.c",
+          "line": 1955,
+          "detail": "Initial entry positioning/load0/18/map readiness and camera update.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08087CC0.c",
+          "line": 1971,
+          "detail": "Schedules59FBC reveal, allows menu and clears player input suppression, sets initialized/activity and returns0.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08087CC0.c",
+          "line": 1984,
+          "detail": "Later three-entry match hides/waits; always sets destination entry1, destination/script from matched exit, clears initialization/activity and returns1.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": []
+    },
+    {
+      "canonical_symbol": "sub_0808AD90",
+      "address": "0x0808AD90",
+      "display_name": "UpdateMapZeroArea19Scene",
+      "summary": "Initializes map-set0 area19 with scene actor and portal tasks; later table exits cancel the portal and prepare entry2 destinations, while a scene-exit flag runs a callback to completion then selects map-set13 area0 entry1 and resets local player state.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_08087CC0.c",
+          "line": 2025,
+          "detail": "Initial player entry/load0/19/readiness/camera; starts2E6E0 actor callback and26C54 portal task, permits input/menu and marks initialized.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08087CC0.c",
+          "line": 2055,
+          "detail": "Later table match hides/waits, cancels embedded portal task via56EA4 and prepares destination/script entry2.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08087CC0.c",
+          "line": 2069,
+          "detail": "Separate exit-flag path starts444C0 then polls57424 task scheduling until inactive; no link-error abort.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08087CC0.c",
+          "line": 2073,
+          "detail": "Selects map-set13 area0, clears exit flag, sets entry1, clears player render-suppression/state and sets scene continuation halfwords; returns1.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Scene callback task-pool exhaustion and scheduling helper undefined-result behavior are inherited; wait does not guarantee safe behavior for an invalid task handle."
+      ]
+    }
+  ]
+}

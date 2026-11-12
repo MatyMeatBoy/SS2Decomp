@@ -1,0 +1,465 @@
+[
+  {
+    "canonical_symbol": "sub_08058830",
+    "decision": "accept",
+    "reason": "Bit8 predicate and equivalent57314 consumer select portal startup; ending portal clears same bit.",
+    "evidence": [
+      {
+        "source": "src/code_08058790.c",
+        "line": 41,
+        "detail": "Extracts scene+4 bit8.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_080571A4.c",
+        "line": 87,
+        "detail": "Counterpart57314 extracts identical bit.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_08021DC4.c",
+        "line": 675,
+        "detail": "Scene restoration starts confirmed boss-retry portal267DC when counterpart is true; otherwise starts ordinary player-return task.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_08021DC4.c",
+        "line": 3509,
+        "detail": "Boss-retry portal callback263B4 clears the same request bit on its ending path.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ]
+  },
+  {
+    "canonical_symbol": "sub_08058C74",
+    "decision": "accept",
+    "reason": "STRH stores low16; independently inspected matching object confirms unchanged full R0 reaches5AD78; callee activates weapon slots.",
+    "evidence": [
+      {
+        "source": "src/code_08058790.c",
+        "line": 246,
+        "detail": "Writes supplied halfword to inventory manager+0x68.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_08058790.c",
+        "line": 247,
+        "detail": "Calls weapon-slot activation helper.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_08058790.c",
+        "line": 247,
+        "detail": "Read-only root matching-object disassembly: text+0x4E4 pushLR; +4E6..4EA use onlyR1 to resolve manager+68; +4EC STRH R0,[R1]; +4EE BL with relocation5AD78. R0 is unchanged between entry/store/call, proving full-register forwarding despite omitted C argument.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_0805A630.c",
+        "line": 446,
+        "detail": "Activation helper clears slot activation bytes, validates kind2 and updates local weapon subtype/queues attributes.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ]
+  },
+  {
+    "canonical_symbol": "sub_08058844",
+    "decision": "accept",
+    "reason": "All145 nonzero count-byte predicate agrees with card type8 deposit/withdraw consumers.",
+    "evidence": [
+      {
+        "source": "src/code_08058790.c",
+        "line": 47,
+        "detail": "Scans bytes0..144 at inventory+C10, counts nonzero entries and compares count145.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_0807A5D4.c",
+        "line": 7774,
+        "detail": "Monster-card catalog save view places counts at+C10.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_0807A5D4.c",
+        "line": 7911,
+        "detail": "Catalog deposits increment these per-card-ID counts and withdrawal path8139 decrements them.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ]
+  },
+  {
+    "canonical_symbol": "sub_08059340",
+    "decision": "accept",
+    "reason": "Exact literal10 setter targets the two bytes consumed by item0x2E collection dialogue; no NPC identity claimed.",
+    "evidence": [
+      {
+        "source": "src/code_08058790.c",
+        "line": 491,
+        "detail": "Stores literal10 to advanced+0x1BD or normal+0x1B1.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_0802FEA0.c",
+        "line": 4811,
+        "detail": "Collection dialogue reads same banked byte and treats values>9 as complete.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_0802FEA0.c",
+        "line": 4816,
+        "detail": "Counts bag kind1/item0x2E records; accepted path removes those items and accumulates same byte.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_0802FEA0.c",
+        "line": 4845,
+        "detail": "After total exceeds9, linked callback request invokes59340, fixing stored completed count at10.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ]
+  },
+  {
+    "canonical_symbol": "sub_08058AD0",
+    "decision": "accept",
+    "reason": "Scans connected records current appearance halfword; transformation writer confirms it is not necessarily saved class.",
+    "evidence": [
+      {
+        "source": "src/code_08058790.c",
+        "line": 181,
+        "detail": "Scans connected-player count with0x14C-byte records and tests+64 for6/8.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_0801AAF8.c",
+        "line": 849,
+        "detail": "Attribute calculation initially copies saved class into current appearance64.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_0801AAF8.c",
+        "line": 1024,
+        "detail": "Transformation modifier can replace64 with job appearance+10, so no saved-class guarantee.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ]
+  },
+  {
+    "canonical_symbol": "sub_080592FC",
+    "decision": "accept",
+    "reason": "Interaction wrapper sets/clears local input and event bits around catalog UI; callee restoration is on normal return.",
+    "evidence": [
+      {
+        "source": "src/code_08058790.c",
+        "line": 477,
+        "detail": "Sets player flag0 and begins event lock before2A19C call; clears both afterward.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_08028AAC.c",
+        "line": 1050,
+        "detail": "2A19C hides display, requests background reload, saves scroll, starts catalog UI and waits11201100; restores scroll/menu and signals map reload afterward.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_08028AAC.c",
+        "line": 4058,
+        "detail": "Actor constructor installs592FC as interaction callback, tying wrapper to scene interaction.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ]
+  },
+  {
+    "canonical_symbol": "sub_08058790",
+    "decision": "accept",
+    "reason": "Both one-count loops wait once; HUD hold remains set; tilemap call marks and queues rather than clearing.",
+    "evidence": [
+      {
+        "source": "src/code_08058790.c",
+        "line": 8,
+        "detail": "Sets HUD-hold scene flag via0CF90.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_08058790.c",
+        "line": 9,
+        "detail": "First one-count loop performs exactly1 signal wait even if link error then breaks.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_08058790.c",
+        "line": 13,
+        "detail": "Calls MarkAndQueueTextTilemapRows(0,2), not a text clear.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_08058790.c",
+        "line": 14,
+        "detail": "Second one-count loop performs1 signal wait; no hold-clear call occurs.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ]
+  },
+  {
+    "canonical_symbol": "sub_0800D164",
+    "decision": "accept",
+    "reason": "Exact exit-monitor loop and startup callback are supported; recorded no-yield lifetime edge correctly limits contract.",
+    "evidence": [
+      {
+        "source": "src/code_0800CF58.c",
+        "line": 96,
+        "detail": "Yields while no scene exit and selection bit5 is set.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_0800CF58.c",
+        "line": 99,
+        "detail": "If selection bit5 remains set starts277E0 via scene callback task with argument0; no success check.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_0800CF58.c",
+        "line": 102,
+        "detail": "Yields until scene-exit flag clears then repeats; no return path.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_08009088.c",
+        "line": 2144,
+        "detail": "World-map selection task starts this exact monitor callback.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ]
+  },
+  {
+    "canonical_symbol": "sub_08058EF8",
+    "decision": "accept",
+    "reason": "Fixed trade-table index1 and actor-facing wrapper are exact; engine only awards reward on accepted response.",
+    "evidence": [
+      {
+        "source": "src/code_08058790.c",
+        "line": 360,
+        "detail": "Sets player flag0 and event lock, turns arg0 toward local-player selector0, calls445E8(1,arg0), then clears locks.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_080443EC.c",
+        "line": 257,
+        "detail": "Trade engine reads requested type/id/count and branches on available inventory.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_080443EC.c",
+        "line": 287,
+        "detail": "Accepted trade removes required items, gives reward and marks configured event flag; no actor/story name inferred.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_08028AAC.c",
+        "line": 5834,
+        "detail": "Constructor selects58EF8 as actor interaction callback.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ]
+  },
+  {
+    "canonical_symbol": "sub_08059418",
+    "decision": "accept",
+    "reason": "Mode flag selects fixed table indices2/3; no NPC or guaranteed successful-trade claim.",
+    "evidence": [
+      {
+        "source": "src/code_08058790.c",
+        "line": 513,
+        "detail": "Begins local input/event locks and turns supplied actor toward player.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_08058790.c",
+        "line": 516,
+        "detail": "Selects trade entry2 when normal,3 when advanced, forwarding actor handle.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_08058790.c",
+        "line": 518,
+        "detail": "Clears player flag0/event lock after trade engine returns.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_080443EC.c",
+        "line": 287,
+        "detail": "Shared trade engine removes matching inventory and grants configured reward on accepted trade.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ]
+  },
+  {
+    "canonical_symbol": "sub_08058B08",
+    "decision": "accept",
+    "reason": "Free30-slot search and retry allocation start asynchronous child; child restores previous tracker, conditional on menu/mute, with early link-error exit.",
+    "evidence": [
+      {
+        "source": "src/code_08058790.c",
+        "line": 191,
+        "detail": "Packs two16-bit arguments and installs5A9F4 in first free of30 controls; retries0x400 allocation, starts task and returns without completion wait.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_0805A630.c",
+        "line": 220,
+        "detail": "Child uses only low8 song ID, saves previous tracker, starts song unless link mute and waits high16 count with link-error early break.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_0805A630.c",
+        "line": 235,
+        "detail": "After waits restores previous tracked song unless full-screen menu active.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ]
+  },
+  {
+    "canonical_symbol": "sub_08058C08",
+    "decision": "accept",
+    "reason": "Distinct child invokes map music selection with saved song/current level rather than directly restoring prior tracked song.",
+    "evidence": [
+      {
+        "source": "src/code_08058790.c",
+        "line": 230,
+        "detail": "Packs two16-bit arguments, finds first free of30 controls, retries0x400 stack allocation and starts5AAB8; full pool returns without startup.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_0805A630.c",
+        "line": 265,
+        "detail": "Child uses high16 wait count/low8 song, saves previous tracker and requests song subject to link-mute flag.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_0805A630.c",
+        "line": 279,
+        "detail": "Waits signal1 until countdown exhausted or link error, then calls map-music selector(current level,saved song,1) unless full-screen menu active.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ]
+  },
+  {
+    "canonical_symbol": "sub_0801500C",
+    "decision": "fix",
+    "reason": "Name and scheduling contract are supported; narrow evidence wording to the actual packed attack-info level field rather than asserting skill semantics.",
+    "evidence": [
+      {
+        "source": "src/code_0800CF58.c",
+        "line": 6460,
+        "detail": "Rejects already scheduled indexed task, installs14E68 and raw order key0x34, retries0x400 allocation.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_0800CF58.c",
+        "line": 6468,
+        "detail": "Schedules controller with player index, without waiting for completion or validating index.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_0800CF58.c",
+        "line": 6411,
+        "detail": "Controller loops while animation unfinished and attack kind5; local keys change aim.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_0800CF58.c",
+        "line": 6438,
+        "detail": "Frame gate spawns confirmed fast aimed projectile760E8 while count>0, initialized skill level+2.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ],
+    "corrected_row": {
+      "canonical_symbol": "sub_0801500C",
+      "address": "0x0801500C",
+      "display_name": "StartPlayerAimedVolleyTask",
+      "summary": "If the indexed player task is idle, retries stack allocation and schedules the aimed-volley controller with that player index.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_0800CF58.c",
+          "line": 6460,
+          "detail": "Rejects already scheduled indexed task, installs14E68 and raw order key0x34, retries0x400 allocation.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0800CF58.c",
+          "line": 6468,
+          "detail": "Schedules controller with player index, without waiting for completion or validating index.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0800CF58.c",
+          "line": 6411,
+          "detail": "Controller loops while animation unfinished and attack kind5; local keys change aim.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0800CF58.c",
+          "line": 6438,
+          "detail": "Frame gate spawns fast aimed projectile760E8 while count>0; count is initialized from the packed attack-info 3-bit level field plus2 (lines6407..6410). No skill identity is inferred.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": []
+    }
+  },
+  {
+    "canonical_symbol": "sub_08014C04",
+    "decision": "accept",
+    "reason": "Wait condition, state preservation guards and bookkeeping effects match; starter binds weapon subtypes2/8.",
+    "evidence": [
+      {
+        "source": "src/code_0800CF58.c",
+        "line": 6275,
+        "detail": "Gates sound w26+256 on state!=13, non-map-set0 and non-world-map selection.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_0800CF58.c",
+        "line": 6278,
+        "detail": "Waits signal1 while animation completion halfwordB6=0 and state5.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_0800CF58.c",
+        "line": 6281,
+        "detail": "Preserves states14/10/11 and state under flag0x2000; otherwise writes0. Clears24/26/122 and copies26 to28.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_0800CF58.c",
+        "line": 6351,
+        "detail": "Weapon attack task starter selects callback for weapon subtypes2 and8.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ]
+  },
+  {
+    "canonical_symbol": "sub_08058CC4",
+    "decision": "accept",
+    "reason": "Exact subtype-to-sound mapping and mute guard match; weapon resource9B sources and attack frame consumers establish operational role.",
+    "evidence": [
+      {
+        "source": "src/code_08058790.c",
+        "line": 262,
+        "detail": "Switch maps numeric input to checked audio-start calls20/19/27; each branch checks link mask0x20.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_080A9680.c",
+        "line": 3137,
+        "detail": "Enemy attack setup reads subtype from weapon-resource family0xB field9B into x34.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_080A9680.c",
+        "line": 3237,
+        "detail": "Attack animation frame gate supplies that subtype to58CC4; other enemies use same resource9B field at3647.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ]
+  }
+]

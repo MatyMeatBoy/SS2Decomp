@@ -1,0 +1,47 @@
+[
+  {
+    "canonical_symbol": "sub_0800CEC4",
+    "decision": "accept",
+    "reason": "Mask0xFFFFDFFF clears only bit13; paired query independently terminates effect loops. No task restart/cancellation is performed."
+  },
+  {
+    "canonical_symbol": "sub_0800D000",
+    "decision": "accept",
+    "reason": "OR0x400000 sets bit22 only; exit transition marks it and music consumer selects track0x40. Setter makes no audio call."
+  },
+  {
+    "canonical_symbol": "sub_0800D014",
+    "decision": "accept",
+    "reason": "AND0xFFBFFFFF clears bit22 only; no song stop/restore is executed. Same music override predicate verified."
+  },
+  {
+    "canonical_symbol": "sub_0800D038",
+    "decision": "accept",
+    "reason": "OR0x800000 sets only bit23; HUD interactive loop breaks on paired predicate, while actual menu cleanup is separate."
+  },
+  {
+    "canonical_symbol": "sub_0800D04C",
+    "decision": "accept",
+    "reason": "AND0xFF7FFFFF clears only bit23; cleanup calls it after restoring input/scene state. No menu close or restart happens inside helper."
+  },
+  {
+    "canonical_symbol": "sub_0800D070",
+    "decision": "accept",
+    "reason": "OR0x01000000 marks bit24; regeneration task brackets reload/barriers with this setter and D084. Name describes a marker, not reload execution."
+  },
+  {
+    "canonical_symbol": "sub_0800D084",
+    "decision": "accept",
+    "reason": "AND0xFEFFFFFF clears bit24 only; map regeneration task invokes it after restoring scene table and destination-zero selector waits for marker clear."
+  },
+  {
+    "canonical_symbol": "sub_0800D12C",
+    "decision": "accept",
+    "reason": "OR0x100000 sets bit20 only; receiver tag0x9F marks request before separately requesting area coordinates, with no enqueue inside this helper."
+  },
+  {
+    "canonical_symbol": "sub_0800D140",
+    "decision": "accept",
+    "reason": "AND0xFFEFFFFF clears bit20 only; area transition checks request to preserve retry fields then explicitly clears it. No retry itself executes in helper."
+  }
+]

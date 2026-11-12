@@ -1,0 +1,252 @@
+{
+  "source_revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7",
+  "policy": "Frozen research, not naming credit. See independent decisions and accepted catalog rows.",
+  "proposals": [
+    {
+      "canonical_symbol": "sub_0800CEC4",
+      "address": "0x0800CEC4",
+      "display_name": "ClearEffectAnimationStopRequest",
+      "summary": "Clears scene flag bit13 without stopping or restarting an effect task itself.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_0800CBBC.c",
+          "line": 139,
+          "detail": "Clears bit13 and preserves all other scene flags.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0805FB7C.c",
+          "line": 2207,
+          "detail": "The paired bit13 query ends TaskAnimateWorldEffect independently of world-stop and scene-exit flags.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": []
+    },
+    {
+      "canonical_symbol": "sub_0800D000",
+      "address": "0x0800D000",
+      "display_name": "MarkExitMusicOverride",
+      "summary": "Sets scene bit22, the marker for the exit-music override; does not start a song itself.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_0800CF58.c",
+          "line": 36,
+          "detail": "Sets scene bit22, the marker for the exit-music override; does not start a song itself.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08009088.c",
+          "line": 666,
+          "detail": "The paired bit22 query selects block_127, whose body requests track0x40, in the non-map-set-zero path.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08021DC4.c",
+          "line": 2250,
+          "detail": "RunLevelExitTransition sets the marker on its exit-audio path; later clears it.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": []
+    },
+    {
+      "canonical_symbol": "sub_0800D014",
+      "address": "0x0800D014",
+      "display_name": "ClearExitMusicOverride",
+      "summary": "Clears scene bit22 without stopping or restoring a song itself.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_0800CF58.c",
+          "line": 39,
+          "detail": "Clears scene bit22 without stopping or restoring a song itself.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08009088.c",
+          "line": 666,
+          "detail": "The paired bit22 query selects block_127, whose body requests track0x40, in the non-map-set-zero path.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08021DC4.c",
+          "line": 2250,
+          "detail": "RunLevelExitTransition sets the marker on its exit-audio path; later clears it.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": []
+    },
+    {
+      "canonical_symbol": "sub_0800D038",
+      "address": "0x0800D038",
+      "display_name": "RequestItemUiAbort",
+      "summary": "Sets scene bit23, requesting item-UI interruption without synchronously closing a menu.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_0800CF58.c",
+          "line": 45,
+          "detail": "Sets scene bit23, requesting item-UI interruption without synchronously closing a menu.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0805FB7C.c",
+          "line": 694,
+          "detail": "The three-slot item-selection HUD exits its interactive wait when the paired bit23 predicate is nonzero.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0805FB7C.c",
+          "line": 1865,
+          "detail": "Item-menu cleanup clears this request after restoring scene/input state.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": []
+    },
+    {
+      "canonical_symbol": "sub_0800D04C",
+      "address": "0x0800D04C",
+      "display_name": "ClearItemUiAbortRequest",
+      "summary": "Clears the scene bit23 item-UI abort request, preserving other scene flags.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_0800CF58.c",
+          "line": 48,
+          "detail": "Clears the scene bit23 item-UI abort request, preserving other scene flags.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0805FB7C.c",
+          "line": 694,
+          "detail": "The three-slot item-selection HUD exits its interactive wait when the paired bit23 predicate is nonzero.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0805FB7C.c",
+          "line": 1865,
+          "detail": "Item-menu cleanup clears this request after restoring scene/input state.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": []
+    },
+    {
+      "canonical_symbol": "sub_0800D070",
+      "address": "0x0800D070",
+      "display_name": "MarkMapReloadPhase",
+      "summary": "Sets scene bit24, marking map reload in progress; does not reload data itself.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_0800CF58.c",
+          "line": 54,
+          "detail": "Sets scene bit24, marking map reload in progress; does not reload data itself.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08021DC4.c",
+          "line": 4481,
+          "detail": "Area-regeneration task277E0 sets bit24 before link barriers and sub_08023684 map regeneration; clears it through D084 at completion.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08009088.c",
+          "line": 2384,
+          "detail": "World-map destination-zero dispatch waits for the same phase marker to clear.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": []
+    },
+    {
+      "canonical_symbol": "sub_0800D084",
+      "address": "0x0800D084",
+      "display_name": "ClearMapReloadPhase",
+      "summary": "Clears scene bit24, the map-reload phase marker, without executing reload cleanup itself.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_0800CF58.c",
+          "line": 57,
+          "detail": "Clears scene bit24, the map-reload phase marker, without executing reload cleanup itself.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08021DC4.c",
+          "line": 4481,
+          "detail": "Area-regeneration task277E0 sets bit24 before link barriers and sub_08023684 map regeneration; clears it through D084 at completion.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08009088.c",
+          "line": 2384,
+          "detail": "World-map destination-zero dispatch waits for the same phase marker to clear.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": []
+    },
+    {
+      "canonical_symbol": "sub_0800D12C",
+      "address": "0x0800D12C",
+      "display_name": "MarkBossRetryRequested",
+      "summary": "Sets scene bit20 to mark a received boss-retry request; does not queue a new request or perform the retry.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_0800CF58.c",
+          "line": 86,
+          "detail": "Sets scene bit20 to mark a received boss-retry request; does not queue a new request or perform the retry.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080659B0.c",
+          "line": 1424,
+          "detail": "Incoming message case0x1E (tag0x9F) sets this marker and requests saved player-area coordinates.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08021DC4.c",
+          "line": 4253,
+          "detail": "Area transition uses the paired bit20 predicate to preserve retry-specific fields, then clears it; the boss retry portal also consumes this predicate.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": []
+    },
+    {
+      "canonical_symbol": "sub_0800D140",
+      "address": "0x0800D140",
+      "display_name": "ClearBossRetryRequest",
+      "summary": "Clears scene bit20, the received boss-retry marker, retaining every other scene flag.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_0800CF58.c",
+          "line": 89,
+          "detail": "Clears scene bit20, the received boss-retry marker, retaining every other scene flag.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080659B0.c",
+          "line": 1424,
+          "detail": "Incoming message case0x1E (tag0x9F) sets this marker and requests saved player-area coordinates.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08021DC4.c",
+          "line": 4253,
+          "detail": "Area transition uses the paired bit20 predicate to preserve retry-specific fields, then clears it; the boss retry portal also consumes this predicate.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": []
+    }
+  ]
+}

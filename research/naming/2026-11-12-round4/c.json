@@ -1,0 +1,927 @@
+{
+  "source_revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7",
+  "policy": "Frozen research, not naming credit. See independent decisions and accepted catalog rows.",
+  "proposals": [
+    {
+      "canonical_symbol": "sub_08068868",
+      "address": "0x08068868",
+      "display_name": "ReturnOneVariant1",
+      "summary": "Returns the constant signed integer one without reading inputs or changing state.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_08068670.c",
+          "line": 102,
+          "detail": "Body returns literal1; no observable side effects or direct source callers were found.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Original intended interface role is unknown; the display name states only the exact constant-return contract."
+      ],
+      "role_limit": "Ordinal follows canonical-address order solely to distinguish identical constant-one contracts; it claims no hidden gameplay distinction."
+    },
+    {
+      "canonical_symbol": "sub_0806886C",
+      "address": "0x0806886C",
+      "display_name": "ReturnOneVariant2",
+      "summary": "Returns the constant signed integer one without reading inputs or changing state.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_08068670.c",
+          "line": 105,
+          "detail": "Body returns literal1; no observable side effects or direct source callers were found.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Original intended interface role is unknown; the display name states only the exact constant-return contract."
+      ],
+      "role_limit": "Ordinal follows canonical-address order solely to distinguish identical constant-one contracts; it claims no hidden gameplay distinction."
+    },
+    {
+      "canonical_symbol": "sub_08068870",
+      "address": "0x08068870",
+      "display_name": "ReturnOneVariant3",
+      "summary": "Returns the constant signed integer one without reading inputs or changing state.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_08068670.c",
+          "line": 108,
+          "detail": "Body returns literal1; no observable side effects or direct source callers were found.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Original intended interface role is unknown; the display name states only the exact constant-return contract."
+      ],
+      "role_limit": "Ordinal follows canonical-address order solely to distinguish identical constant-one contracts; it claims no hidden gameplay distinction."
+    },
+    {
+      "canonical_symbol": "sub_0806888C",
+      "address": "0x0806888C",
+      "display_name": "ReturnOneVariant4",
+      "summary": "Returns the constant signed integer one without reading inputs or changing state.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_08068670.c",
+          "line": 120,
+          "detail": "Body returns literal1; no observable side effects or direct source callers were found.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Original intended interface role is unknown; the display name states only the exact constant-return contract."
+      ],
+      "role_limit": "Ordinal follows canonical-address order solely to distinguish identical constant-one contracts; it claims no hidden gameplay distinction."
+    },
+    {
+      "canonical_symbol": "sub_080688F4",
+      "address": "0x080688F4",
+      "display_name": "",
+      "summary": "Returns immediately without changing state.",
+      "confidence": "low",
+      "evidence": [
+        {
+          "source": "src/code_08068670.c",
+          "line": 140,
+          "detail": "Lines 140-142 define an empty leaf; no direct source callers found.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "What interface or lifecycle role does this empty stub serve?"
+      ]
+    },
+    {
+      "canonical_symbol": "sub_08069AEC",
+      "address": "0x08069AEC",
+      "display_name": "TaskAnimateWorldSequenceZero",
+      "summary": "Advances sprite sequence0 at packed signed-halfword world coordinates until completion, gates drawing on scene flags and releases the low-halfword effect-pool slot.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_08068670.c",
+          "line": 1041,
+          "detail": "Truncates slot to 16 bits and unpacks x/y as signed halfwords.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08068670.c",
+          "line": 1048,
+          "detail": "Advances animation each iteration even while drawing gates are set; no world-stop test is present.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08068670.c",
+          "line": 1055,
+          "detail": "Clears the pool bit after animation completion.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Sprite descriptor is not initialized except style[5]=8; source does not establish a resource identity."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_08069BBC",
+      "address": "0x08069BBC",
+      "display_name": "TryStartWorldSequenceZero",
+      "summary": "If a free32-slot effect bit and0x400-byte allocation are available, initializes and starts the world sequence0 task with packed coordinates and marks the slot occupied.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_08068670.c",
+          "line": 1070,
+          "detail": "Searches the first clear bit among 32 pool bits, returning when full.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08068670.c",
+          "line": 1087,
+          "detail": "Allocates 0x 400 once; null returns without scheduling or setting the occupancy bit.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08068670.c",
+          "line": 1097,
+          "detail": "Initializes priority 52, task entry 69AEC and stack top allocation+0x3FC.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08068670.c",
+          "line": 1101,
+          "detail": "Passes(b<<16)|a without masking a and marks the slot after task start; no completion wait.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": []
+    },
+    {
+      "canonical_symbol": "sub_080216BC",
+      "address": "0x080216BC",
+      "display_name": "TaskAnimateWorldEffect1",
+      "summary": "Loads effect resource0x5008C and animates sequence1 at packed world coordinates while scene gates permit, then releases its pool slot on completion or world stop.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_0801E244.c",
+          "line": 2198,
+          "detail": "Initializes resource 0x 5008C, loads palette 23 and remaps sprite palette entries to7/8.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0801E244.c",
+          "line": 2202,
+          "detail": "Unpacks two world coordinates through fixed-point storage.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0801E244.c",
+          "line": 2208,
+          "detail": "Both animation advancement and drawing occur only while three scene gates are clear.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0801E244.c",
+          "line": 2218,
+          "detail": "Clears the slot bit on loop exit.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": []
+    },
+    {
+      "canonical_symbol": "sub_08020F74",
+      "address": "0x08020F74",
+      "display_name": "TaskAnimateWorldEffect14",
+      "summary": "Loads resource0x5008C and advances sequence14 at packed world coordinates until completion or world stop, gating drawing and releasing its pool slot.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_0801E244.c",
+          "line": 1936,
+          "detail": "Initializes effect resource and palette.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0801E244.c",
+          "line": 1946,
+          "detail": "Animation advancement occurs before draw-state gates, so it continues through gated frames.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0801E244.c",
+          "line": 1958,
+          "detail": "Clears the pool slot on exit.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": []
+    },
+    {
+      "canonical_symbol": "sub_08020E08",
+      "address": "0x08020E08",
+      "display_name": "TaskAnimateActorEffect8",
+      "summary": "Loads resource0x5008C and animates sequence8 following a player or enemy position, drawing on alternating pool-slot parity and releasing its slot on completion or world stop.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_0801E244.c",
+          "line": 1887,
+          "detail": "Initializes resource and remaps palette entries7/8.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0801E244.c",
+          "line": 1897,
+          "detail": "Advances animation independently of drawing gates.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0801E244.c",
+          "line": 1899,
+          "detail": "Player IDs0..3 use packed snapshots; higher IDs map to enemy indexID-4 at stride 0x2E0.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0801E244.c",
+          "line": 1915,
+          "detail": "Draws only when global frame parity matches pool-slot parity.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0801E244.c",
+          "line": 1920,
+          "detail": "Releases pool occupancy bit on exit.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": []
+    },
+    {
+      "canonical_symbol": "sub_080210A8",
+      "address": "0x080210A8",
+      "display_name": "TaskAnimateSelectedActorEffect",
+      "summary": "Loads resource0x50074 and advances the selected low-halfword sequence following a player or enemy, then releases the pool slot packed in the first argument on completion or world stop.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_0801E244.c",
+          "line": 1980,
+          "detail": "Initializes resource 0x 50074 and palette 23 with remapping7/8.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0801E244.c",
+          "line": 1985,
+          "detail": "First argument upper halfword supplies pool bit and lower halfword supplies target actor ID.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0801E244.c",
+          "line": 1992,
+          "detail": "Advances animation using arg1 low halfword before draw gates.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0801E244.c",
+          "line": 1996,
+          "detail": "Targets0..3 use player snapshots; IDs4+ map to enemy slots and positions are refreshed each draw.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0801E244.c",
+          "line": 2014,
+          "detail": "Releases packed pool bit on loop exit.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": []
+    },
+    {
+      "canonical_symbol": "sub_08021214",
+      "address": "0x08021214",
+      "display_name": "TaskAnimateSelectedWorldEffect",
+      "summary": "Loads resource0x50074, plays a sequence selected by argument low byte at packed world coordinates, and releases the upper-halfword pool slot on completion or world stop.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_0801E244.c",
+          "line": 2031,
+          "detail": "Initializes resource 0x 50074 and shared palette 23.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0801E244.c",
+          "line": 2037,
+          "detail": "Second argument upper halfword selects pool bit; low byte selects animation and sound offset 0x 115.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0801E244.c",
+          "line": 2045,
+          "detail": "Advances animation even while rendering gates suppress drawing.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0801E244.c",
+          "line": 2053,
+          "detail": "Clears selected pool bit on exit.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": []
+    },
+    {
+      "canonical_symbol": "sub_0802133C",
+      "address": "0x0802133C",
+      "display_name": "TaskAnimateActorEffect34",
+      "summary": "Loads resource0x5008C and animates sequence34 at the actor position sampled once on entry, then releases its slot on completion or world stop.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_0801E244.c",
+          "line": 2073,
+          "detail": "Initializes resource 0x 5008C and palette 23 remapped7/8.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0801E244.c",
+          "line": 2080,
+          "detail": "Samples player snapshot or enemy fixed-point coordinates before the loop.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0801E244.c",
+          "line": 2093,
+          "detail": "Advances sequence 34 before rendering gates.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0801E244.c",
+          "line": 2101,
+          "detail": "Clears pool bit on exit.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": []
+    },
+    {
+      "canonical_symbol": "sub_08021490",
+      "address": "0x08021490",
+      "display_name": "TaskAnimateActorEffect11",
+      "summary": "Loads resource0x5008C and animates sequence11 following the current player or enemy position, then releases its slot on completion or world stop.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_0801E244.c",
+          "line": 2121,
+          "detail": "Initializes resource 0x 5008C and shared palette 23 remapped7/8.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0801E244.c",
+          "line": 2130,
+          "detail": "Advances sequence 11 before drawing gates.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0801E244.c",
+          "line": 2132,
+          "detail": "Refreshes player/enemy position inside each permitted draw iteration.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0801E244.c",
+          "line": 2150,
+          "detail": "Clears pool bit on exit.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": []
+    },
+    {
+      "canonical_symbol": "sub_08021AD8",
+      "address": "0x08021AD8",
+      "display_name": "TaskAnimateWorldEffect41",
+      "summary": "Unless world-map selection is already active, animates resource0x5008C sequence41 at packed coordinates with mode-selected drawing and releases its slot after completion or scene/world stop.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_0801E244.c",
+          "line": 2352,
+          "detail": "World-map-active early return occurs before resource loading and bypasses final pool-bit clear.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0801E244.c",
+          "line": 2357,
+          "detail": "Second argument packs draw mode in upper halfword and pool bit in lower halfword.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0801E244.c",
+          "line": 2365,
+          "detail": "Stops for world-stop or map-set-zero; overlay/coordinated-attack gates suspend progression and drawing.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0801E244.c",
+          "line": 2381,
+          "detail": "Advances sequence 41; mode selects map-priority draw at y+1 or descriptor draw at y.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0801E244.c",
+          "line": 2398,
+          "detail": "Normal exit clears pool bit; initial world-map early return does not.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "The world-map early-return path leaves the scheduler pool bit set; no cleanup guarantee is inferred."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_0801FB14",
+      "address": "0x0801FB14",
+      "display_name": "DamageFirstOverlappingSceneObject",
+      "summary": "Damages the first eligible scene object overlapping supplied fixed-point position and bounds, marks reaction state10, appends a damage record and returns1; returns0 if none.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_0801E244.c",
+          "line": 1174,
+          "detail": "Zero object count returns0; scene object list begins at 0x 58C with stride 0x 24.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0801E244.c",
+          "line": 1178,
+          "detail": "Skips states 10..12 and resource flags byte6 bits0/1.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0801E244.c",
+          "line": 1201,
+          "detail": "Tests inclusive rectangular overlap using summed half extents.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0801E244.c",
+          "line": 1222,
+          "detail": "Subtracts signed supplied damage into u 16 health; if stored high bit set, appends 0xFFF sentinel and clears health, otherwise appends original damage.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0801E244.c",
+          "line": 1232,
+          "detail": "Sets reaction state 10 and immediately returns1.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08021DC4.c",
+          "line": 5062,
+          "detail": "Damage-record append silently returns when its 11-entry buffer is full; this function does not check admission.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Damage/health ranges must avoid unintended halfword wrap; clamp tests stored bit15, not full-width subtraction sign."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_0801FC34",
+      "address": "0x0801FC34",
+      "display_name": "DamageAllOverlappingSceneObjects",
+      "summary": "Damages every eligible overlapping scene object, marks reaction state10 and appends records; returns0 for an empty list, otherwise preserves input-position residue until a hit replaces it with the append helper return residue.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_0801E244.c",
+          "line": 1255,
+          "detail": "Initializes return register to input position rather than a hit count or boolean.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0801E244.c",
+          "line": 1279,
+          "detail": "Empty list returns0.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0801E244.c",
+          "line": 1283,
+          "detail": "Skips states 10..12 and resource flags bit0 only, allowing bit1 objects unlike the first-hit helper.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0801E244.c",
+          "line": 1334,
+          "detail": "Subtracts into halfword health; stored bit 15 causes health zero and 0xFFF record sentinel.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0801E244.c",
+          "line": 1340,
+          "detail": "Result receives return from a helper whose actual source signature is void, so no meaningful success value is established.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0801E244.c",
+          "line": 1347,
+          "detail": "Continues scanning after each hit, refreshing scene count; returns current residue at 1356.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Return value is not a reliable hit count or success boolean; append helper is declared s32 locally but defined void."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_0801F99C",
+      "address": "0x0801F99C",
+      "display_name": "AttackFirstOverlappingSceneObject",
+      "summary": "Computes randomized local-player attack damage for the first eligible overlapping scene object, updates its halfword health and reaction state, appends damage and returns hit presence.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_0801E244.c",
+          "line": 1112,
+          "detail": "Empty object list returns0; states 10..12 and resource flag bits0/1 are excluded.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0801E244.c",
+          "line": 1119,
+          "detail": "Inclusive summed-half-extents overlap chooses the first hit.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0801E244.c",
+          "line": 1120,
+          "detail": "Uses local attack 0x 58, object defense and 100..149 percent random variance in a quadratic damage formula with minimum1.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0801E244.c",
+          "line": 1126,
+          "detail": "Subtracts into u 16 health, zeroing it when bit 15 becomes set, records normalized class and requests hit audio.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0801E244.c",
+          "line": 1130,
+          "detail": "Appends damage record, sets state 10 and returns1; no-hit path returns0.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Power+defense denominator is not guarded against zero; record-buffer admission is not checked."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_0801ED8C",
+      "address": "0x0801ED8C",
+      "display_name": "ComputeEnemyAttackPlayerDamage",
+      "summary": "Computes randomized enemy-versus-player damage with critical and elemental resistance scaling, returning a critical marker outside encounter mode and issuing hit audio inside it.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_0801E244.c",
+          "line": 632,
+          "detail": "Looks up enemy attack resource via key 0x 22C and reads player defense 0x5A.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0801E244.c",
+          "line": 635,
+          "detail": "Critical roll selects divisor 100 and world critical sprite; ordinary hit uses 200.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0801E244.c",
+          "line": 644,
+          "detail": "Quadratic randomized damage helper truncates to u 16 and ensures a minimum1 before element scaling.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0801E244.c",
+          "line": 648,
+          "detail": "Element1..7 selects six resistance slots; signed resistance is squared in 5000/(r*r+2500), then halfword high-bit and nonpositive-result checks enforce minimum1.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0801E244.c",
+          "line": 692,
+          "detail": "Encounter mode plays critical/class-hit audio and returns unmarked halfword damage; otherwise critical result is ORed with 0x 8000.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0801E244.c",
+          "line": 1775,
+          "detail": "Enemy-contact caller consumes the high bit as critical and strips it before pending-health accumulation.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Attack+defense division is unguarded for zero; no hit/team eligibility is checked in this calculator."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_08069080",
+      "address": "0x08069080",
+      "display_name": "TryQueueScaledStatusEffect",
+      "summary": "For effect kinds1/4, computes a resistance-and-level chance, scales magnitude and enqueues a status record; a local target outside player-battle rules also gains resistance feedback and a status marker.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_08068670.c",
+          "line": 658,
+          "detail": "Kinds1/4 use resistance indices0/3 and distinct probability divisors 25/50; all other kinds return.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08068670.c",
+          "line": 666,
+          "detail": "Applies signed player modifier for local target or player-battle-rules player targets.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08068670.c",
+          "line": 668,
+          "detail": "Writes packet kind only on successful chance; failure leaves preexisting stack bits rather than explicitly clearing kind.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08068670.c",
+          "line": 670,
+          "detail": "Reads packet kind1/4 to choose 450..549 or 700..799 magnitude factor; other byte values return.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08068670.c",
+          "line": 680,
+          "detail": "Enemy type3 returns; packet uses mapped actor ID and u 16 magnitude.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08068670.c",
+          "line": 685,
+          "detail": "Calls status-record enqueue without checking success; a local target outside player-battle rules also invokes resistance feedback and writes the status marker.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Failed probability test leaves packet-kind bits uninitialized in the matching C; no guaranteed failed-roll no-op is claimed.",
+        "No team or full target-domain validation exists here; target IDs must be valid."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_0801E5B0",
+      "address": "0x0801E5B0",
+      "display_name": "ComputePlayerAttackEnemyDamage",
+      "summary": "Calculates player-versus-enemy damage from attack state, class/skill scaling, critical variance, defense and eligible elemental resistance, with selected linked-skill and audiovisual side effects.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_0801E244.c",
+          "line": 333,
+          "detail": "Normal critical roll uses divisor 100 or 200 and sound/sprite feedback; nonzero noCrit uses divisor 1000 with no critical roll.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0801E244.c",
+          "line": 345,
+          "detail": "Charged state5 selects class/action-specific power formulas; otherwise flag 0x 200000 selects magic-scaled power and default uses base attack.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0801E244.c",
+          "line": 415,
+          "detail": "Uses randomized quadratic damage against enemy defense 0x1CE.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0801E244.c",
+          "line": 416,
+          "detail": "Only valid selected equipment applies attack element against enemy resistance array 0x 218; clamps truncated nonpositive result to1 at this stage.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0801E244.c",
+          "line": 426,
+          "detail": "Class0 target-state2 bonus and class3 linked-effect enqueue are conditional on saved skills.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0801E244.c",
+          "line": 433,
+          "detail": "Class7 nearby-facing bonus uses signed directional difference and returns final u 16 result without a universal final clamp.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0801E244.c",
+          "line": 977,
+          "detail": "Enemy hit application consumes this calculator.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Attack+defense and magic-stat denominators are unguarded for pathological inputs; target validity/team/duplicate-hit filtering is caller responsibility."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_0801E988",
+      "address": "0x0801E988",
+      "display_name": "ComputePlayerAttackPlayerDamage",
+      "summary": "Calculates player-versus-player damage with class/attack scaling, critical variance and player resistance, adds the state5 percentage bonus, then returns the signed-quarter result as a halfword with zero changed to1.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_0801E244.c",
+          "line": 474,
+          "detail": "Critical roll and feedback choose divisor 100/200; nonzero noCrit selects 1000.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0801E244.c",
+          "line": 486,
+          "detail": "Charged and magic-flag power branches mirror the enemy-target calculator.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0801E244.c",
+          "line": 557,
+          "detail": "Valid equipment element uses player resistance array 0x7C with intermediate minimum1.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0801E244.c",
+          "line": 567,
+          "detail": "State5 applies a 10 percent bonus before later class bonuses.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0801E244.c",
+          "line": 573,
+          "detail": "Class3 can enqueue linked effect and class7 compares target packed facing for directional bonus.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0801E244.c",
+          "line": 591,
+          "detail": "Casts damage to s 16 before division by4, casts quotient to u 16, and changes only zero to1; a universal positive clamp is not present.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0801E244.c",
+          "line": 1060,
+          "detail": "Player-on-player hit application consumes this calculator.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "No team/death/duplicate-hit filtering exists inside the calculator; caller must supply valid combat targets and denominator domains."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_0801F79C",
+      "address": "0x0801F79C",
+      "display_name": "QueuePlayerAttackAgainstPlayer",
+      "summary": "Builds a player-target hit packet, applies signed source health/energy recovery with upper caps, records hit history and enqueues or merges the packet; target health is applied by the receiver.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_0801E244.c",
+          "line": 1054,
+          "detail": "Flags bit0 selects divisor 1000 damage OR 0x 8000 and zero impulse/direction; ordinary path computes direction and kind8 charged-attack scaling.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0801E244.c",
+          "line": 1070,
+          "detail": "Rolls target status kind from player resistances and attack element.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0801E244.c",
+          "line": 1071,
+          "detail": "Adds damage-derived signed source health and energy recovery; caps only above maxima, with halfword truncation.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0801E244.c",
+          "line": 1078,
+          "detail": "Stores source attack sequence into target history before link enqueue.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0801E244.c",
+          "line": 1080,
+          "detail": "Calls EnqueueOrMergeLinkHit without queue-capacity guard or checking its result.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080659B0.c",
+          "line": 356,
+          "detail": "Hit queue merges only pending tag 0x8A with same target byte; adds u 16 damage and overwrites direction/impulse, otherwise appends.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080659B0.c",
+          "line": 1130,
+          "detail": "Receiver applies pending player damage and knockback for local target; this producer does not mutate target health.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0801E244.c",
+          "line": 1622,
+          "detail": "Contact caller checks distinct nonzero teams>2 and target states before invoking player-hit helper.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Queue-full failure does not roll back source recovery/history writes; enqueue/merge does not guarantee delivery.",
+        "Target/source bounds and team eligibility are caller preconditions, not enforced here."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_0801F374",
+      "address": "0x0801F374",
+      "display_name": "ApplyPlayerAttackToEnemy",
+      "summary": "Unless the link queue is full, calculates and applies pending enemy damage/status/knockback and source recovery, records hit credit and enqueues or merges a hit notification with optional class effects.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_0801E244.c",
+          "line": 968,
+          "detail": "Full link queue returns before mutation, even if a same-target message could otherwise merge.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0801E244.c",
+          "line": 970,
+          "detail": "Flags bit0 selects reduced divisor 1000 damage with 0x 8000 marker and zero impulse/direction; normal path sets reaction state 10.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0801E244.c",
+          "line": 978,
+          "detail": "Impulse combines attack/source modifier minus enemy resistance, clearing on bit7 or resistance 0xFF; normal path applies charged/type/class bonuses.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0801E244.c",
+          "line": 1000,
+          "detail": "Normal path applies signed source recovery and upper health/energy caps; flags-bit0 path skips this recovery block.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0801E244.c",
+          "line": 1005,
+          "detail": "Rolls/initializes status records and optional effect presentation.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0801E244.c",
+          "line": 1014,
+          "detail": "Marks local-player hit-credit bit, writes source sequence, accumulates damage masked 0x7FFF and stores display damage.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0801E244.c",
+          "line": 1020,
+          "detail": "Resets enemy animation state except enemy type3, applies knockback and enqueues hit without checking result.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0801E244.c",
+          "line": 1030,
+          "detail": "Class5 may enqueue effect6; class2 chance success may enqueue critical marker.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080659B0.c",
+          "line": 356,
+          "detail": "Notification queue can merge pending same-target tag 0x8A; this is queue admission, not delivery.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0801E244.c",
+          "line": 1573,
+          "detail": "Upstream player-contact loop rejects same-team/zero-team actors and duplicate hit sequences before invoking this helper.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "No source/target team or active-state validation inside this application helper; upstream callers own those filters.",
+        "Packet/health arithmetic truncates to halfwords and no rollback is performed after later notification admission failures."
+      ]
+    }
+  ]
+}
