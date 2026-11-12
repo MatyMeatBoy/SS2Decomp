@@ -88,19 +88,29 @@ Every splitter is "ROM is the judge": run it, `make -j8 compare`, commit.
    scalar element type. 236 objects went this way; the type is the code's own
    statement, not a guess from the bytes.
 
-State at the end of the session: **97.8% split, 96.7% described**, ROM
-identical. `data_extract.py check` passes for all 9,218 declared objects.
+7. **Let the compiler measure the structs.** `data_structs.py` finds the struct
+   type the C gives each label (also through an `asm("label")` alias, and
+   through the element type of a pointer table that reaches it), appends
+   `sizeof(struct T)` probes to a copy of the source file, compiles it with
+   agbcc and accepts the object as a record array only when its size is a
+   whole number of records. Where the table is `void *[]`, the stride comes
+   from the code that steps through it (212 area-object arrays, 0x124 bytes).
 
-### Left for workers (547 objects, 530 KB, 3.3%)
+State at the end of the session: **98.6% split, 98.5% described**, ROM
+identical. `data_extract.py check` passes for all declared objects.
+
+### Left for workers (111 objects, 238 KB, 1.5%)
 
 List them: raw objects that are not typed in `data_progress.json` (`ranges`
-with state `split` or `blob`). Three groups:
+with state `split` or `blob`).
 
-| Group | Size | What to do |
+| Object | Size | Note |
 | --- | ---: | --- |
-| Struct arrays the C already declares (`extern struct T label[]`) | 193 KB | write one record per line from the struct layout; add the label to `data_arrays.txt` once stride * count equals the size |
-| Objects reached only through pointer tables | 162 KB | read the function that reads the table; usually a script, an animation list or a small table per map |
-| `gUnk_08FD5298`: 175 KB after the aux archive, no reference found | 175 KB | check if anything addresses it; it looks like 4bpp pixels and may be unused |
+| `gUnk_08FD5298` | 175,464 | bytes after the aux archive up to the end of the ROM. No code and no table refers to it (the only pointer-like words that hit it lie inside sound samples). Looks like leftover 4bpp pixels. Keep it raw and labelled as unused unless a reference turns up |
+| `gUnk_0848529C` | 42,864 | the C uses 216-byte records (`struct Item855D4`); 198 records fit and 96 bytes follow. Find the count in the code, then cut and declare |
+| `gUnk_08479140` | 6,948 | 88-byte records (`struct Cls2B70`); 78 fit and 84 bytes follow. Same procedure |
+| `gUnk_0849E770`, `gUnk_08478470`, `gXcmdTable` | 10,032 | several views in C (bytes, words, structs, function pointers); read the users |
+| 105 small objects | about 3,000 | targets of pointer tables with `void *` or mixed declarations |
 
 Rules stay the same: prove the format from the code, add a check to
 `data_extract.py`, run `make -j8 compare`, one family per commit. Describing a

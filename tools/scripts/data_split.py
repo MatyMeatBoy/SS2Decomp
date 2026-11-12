@@ -294,7 +294,7 @@ def scalars():
     The element type is the code's own statement about the object; nothing is inferred from the bytes."""
     rom = rom_bytes()
     declared = {}
-    for path in sorted((ROOT / "src").glob("*.c")) + sorted((ROOT / "include").glob("*.h")):
+    for path in sorted((ROOT / "src").glob("*.c")) + sorted((ROOT / "include").rglob("*.h")):
         for m in EXTERN.finditer(path.read_text(encoding="utf-8", errors="replace")):
             kind = m[1].replace("const ", "").replace("volatile ", "").strip()
             declared.setdefault(m[5] or m[3], set()).add(kind + m[2] if m[4] else "single:" + kind + m[2])

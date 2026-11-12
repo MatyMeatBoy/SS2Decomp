@@ -80,6 +80,9 @@ def main():
             if k.startswith(("struct ", "union ")):
                 wanted.setdefault(p, set()).add(k)
     size_of = sizes(wanted)
+    missing = sorted({p.name for p, kinds in wanted.items() if not any((p, k) in size_of for k in kinds)})
+    if missing:
+        print("could not probe: " + ", ".join(missing))
     rows, scalar_done, scalar_bytes = [], 0, 0
     rom = data_split.rom_bytes()
     import struct as st
@@ -89,7 +92,7 @@ def main():
                           and size % size_of[(p, k)] == 0}, reverse=True)
         scalars = {k for p, k, _ in seen if k in data_split.SCALAR}
         kinds = {k for p, k, _ in seen}
-        if strides and not scalars:
+        if strides:            # a struct view wins over a byte/word view of the same object
             stride, kind, where = strides[0]
             rows.append("%s 0x%X %d src/%s %s" % (name, stride, size // stride, where, kind))
         elif len(kinds) == 1 and len(scalars) == 1:
