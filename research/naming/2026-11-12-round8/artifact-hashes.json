@@ -1,65 +1,65 @@
 {
-  "policy": "Integrity checks only; not semantic proof.",
+  "policy": "SHA256 of repository-normalized Git blob bytes (LF line endings). Integrity only, not semantic proof.",
   "artifacts": [
     {
       "path": "research/naming/2026-11-12-round8/a.json",
-      "sha256": "fe933f14603dd9d44e5f45bbf9e1c7d6ed103e5bb3d35a5497b3566dc7ce73d4"
+      "sha256": "4dc6552b16ef636b4ee85a214a85713e063b7e48a823c1b300fc3d1161496a51"
     },
     {
       "path": "research/naming/2026-11-12-round8/accepted.json",
-      "sha256": "78dcd35fe300e61d098e1524484f18ec29275c566ad96fd59522e36b9c8ded16"
+      "sha256": "d95f75ee630e1531ac34afff63355cf64830807aac26fc58c20c8a8b0d4699d1"
     },
     {
       "path": "research/naming/2026-11-12-round8/alias-accepted.json",
-      "sha256": "157861842f9454f12a4b3959b457eaf95f4e63a6c5e195f6b29d1ac8ead3f751"
+      "sha256": "c2979019eade97185d03e486c5b5a7fe89cf674b9b81f7ac961953ee5eb10c77"
     },
     {
       "path": "research/naming/2026-11-12-round8/alias-b-proposals.json",
-      "sha256": "c2f357415150a9ccd7977fc6091006398cc5ea01c0550c2cd90d57eabcf36d5c"
+      "sha256": "e01e1af5dd29aa6774d00de300e03c582ad2a0092ee3f1bd25d0c17ee3f8dd58"
     },
     {
       "path": "research/naming/2026-11-12-round8/alias-c-proposals.json",
-      "sha256": "e8817fce0f7d562becff058430a18222ded50f283dbc5a0c43d5cb6e16799bb9"
+      "sha256": "7c55e7405768cb2f086345380cb77a76af6e10b99564ab8da2f891e312bd3055"
     },
     {
       "path": "research/naming/2026-11-12-round8/b.json",
-      "sha256": "f2d0ba1ecc13dcf6652b4a2572a02cac4d638d60f1ea88c11b038110084d35de"
+      "sha256": "eaded557fd62da3b8bda9c2345c39a97c68991f0dea7e055e4589a8b398998a4"
     },
     {
       "path": "research/naming/2026-11-12-round8/c.json",
-      "sha256": "1eddf3ae135c48ee545ff1477c63de5a3901869df0397608b16b751d61ef9cbc"
+      "sha256": "ade4b4e9303fa893cc91528cdee03d385393d73e0de5d12ba1db5c91e1426770"
     },
     {
       "path": "research/naming/2026-11-12-round8/coordinator-source-audit.json",
-      "sha256": "9a52b38b8c8b162938aae780e418f533ba451b4b775b4198d1c6c3b0dea191ff"
+      "sha256": "241fe46ba55b0feaee31b5f4eb496b930d4910854a775d067691f016293d0fd4"
     },
     {
       "path": "research/naming/2026-11-12-round8/manifest.json",
-      "sha256": "d140340344a045be6c74ac88e5346a0308b79beab728817cf2f79bde84f8bfa2"
+      "sha256": "6d5f5f23c05ce437c70b5294be3ba1e11214dcd543337bfcc05539f65c7f94cb"
     },
     {
       "path": "research/naming/2026-11-12-round8/prior-artifact-hashes.json",
-      "sha256": "211b3a18ed39790582769a6ae4e7f01b7770a5c78299488fdd797e122e7aa65e"
+      "sha256": "85717e10317c8f384c94587930694f166e792c979cec894fe89df18063b251b7"
     },
     {
       "path": "research/naming/2026-11-12-round8/review-a.json",
-      "sha256": "105e2bfa2129e8e0c509689994fcfc461602be8c596317ecbbd34835889363e4"
+      "sha256": "83bd1984547fb0693d94c1f81b1cbd7c68e9381b789a580766c870ee64c636f3"
     },
     {
       "path": "research/naming/2026-11-12-round8/review-alias-b.json",
-      "sha256": "e7ef7c428e0a50321164b65f9be432204ae1fa72cd2e2fb1992f7ca1a5c8f4bd"
+      "sha256": "42aeb12ef4cf2be529d244b340557ac1ae34bca65ba3d2bfd5e3e551c6cf59a3"
     },
     {
       "path": "research/naming/2026-11-12-round8/review-alias-c.json",
-      "sha256": "b4e1cda1684e64dc5c4339b379ca98bbd5885366ee58fdd6317a0891325ca6ef"
+      "sha256": "2aa37abc0350dc5eb9de6c819ddbc128e88afc0e982b8e7defc0f618527a0053"
     },
     {
       "path": "research/naming/2026-11-12-round8/review-b.json",
-      "sha256": "834e52ceed9ae7c873fec4fd98a91cb0d52ed9d64da7d99a67075342cf45ab2c"
+      "sha256": "1ce9b3e9f6a530e240f362357c54d5917ef03239b1c00699c35c966d5210adfd"
     },
     {
       "path": "research/naming/2026-11-12-round8/review-c.json",
-      "sha256": "75812535abd6cc3d3881139a79a42d60e36a7c2ea99eb829bbdb53859967ddba"
+      "sha256": "d1ded2bdd0bb23495348408ea0cf4c2cbdd26484aaaa2f6a135aa298d4196922"
     }
   ]
 }
