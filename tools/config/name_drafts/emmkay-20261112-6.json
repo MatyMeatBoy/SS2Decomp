@@ -1,0 +1,466 @@
+[
+  {
+    "canonical_symbol": "sub_0802EA50",
+    "address": "0x0802EA50",
+    "display_name": "RunColosseumRankResultDialogue",
+    "summary": "Royal Colosseum receptionist (speaker pG) result dialogue: picks one of a run of lines 'You won at Rank N. Now, you can attempt Rank N+1.' by the rank just cleared.",
+    "confidence": "high",
+    "evidence": [
+      {
+        "source": "src/code_08028AAC.c",
+        "line": 6180,
+        "detail": "Shows 0x1401EA, decoded 'You won at Rank 2. Now, you can attempt Rank 3.'",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_08028AAC.c",
+        "line": 6189,
+        "detail": "Shows 0x1401EB, the Rank 3 result line.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_08028AAC.c",
+        "line": 6198,
+        "detail": "Shows 0x1401EC, the Rank 4 result line.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      }
+    ],
+    "open_questions": []
+  },
+  {
+    "canonical_symbol": "sub_0802F208",
+    "address": "0x0802F208",
+    "display_name": "RunColosseumBattleStartCall",
+    "summary": "Shows the colosseum receptionist's 'Ready!' call (0x1401F9, speaker pG) and plays jingle 0x36 before a colosseum fight.",
+    "confidence": "medium",
+    "evidence": [
+      {
+        "source": "src/code_08028AAC.c",
+        "line": 6405,
+        "detail": "Shows 0x1401F9, decoded 'Ready!' by speaker pG, the Royal Colosseum receptionist.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_08028AAC.c",
+        "line": 6425,
+        "detail": "Plays jingle 0x36 through AudioStartSongChecked.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      }
+    ],
+    "open_questions": []
+  },
+  {
+    "canonical_symbol": "sub_0803C008",
+    "address": "0x0803C008",
+    "display_name": "RunRoyalColosseumReception",
+    "summary": "Royal Colosseum reception: greets the player (0x1401E3 'Welcome to the Royal Colosseum'), asks for the 211G entrance fee (0x1401E4) and explains the rules (0x1401E6).",
+    "confidence": "high",
+    "evidence": [
+      {
+        "source": "src/code_0803B69C.c",
+        "line": 270,
+        "detail": "Shows 0x1401E3, decoded 'Welcome to the Royal Colosseum. Do you know how things work here?'",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_0803B69C.c",
+        "line": 277,
+        "detail": "Asks 0x1401E4, decoded 'Will you pay the entrance fee of 211G?'",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_0803B69C.c",
+        "line": 288,
+        "detail": "Shows the rules explanation 0x1401E6.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      }
+    ],
+    "open_questions": []
+  },
+  {
+    "canonical_symbol": "sub_0803294C",
+    "address": "0x0803294C",
+    "display_name": "RunWorriedAboutAndyDialogue",
+    "summary": "NPC who worries about Andy: picks one line of the 'That Andy...' series (0x1401A0-0x1401A4) by game progress.",
+    "confidence": "medium",
+    "evidence": [
+      {
+        "source": "src/code_0802FEA0.c",
+        "line": 1373,
+        "detail": "Shows 0x1401A4, decoded 'That Andy... Why does he make me worry so much?'",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_0802FEA0.c",
+        "line": 1379,
+        "detail": "Shows 0x1401A3, another 'That Andy...' line.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_0802FEA0.c",
+        "line": 1397,
+        "detail": "Shows 0x1401A0.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      }
+    ],
+    "open_questions": [
+      "The speaker's own name is not given."
+    ]
+  },
+  {
+    "canonical_symbol": "sub_08033198",
+    "address": "0x08033198",
+    "display_name": "RunRescuedShipChildReward",
+    "summary": "Child rescued from the pirate ship thanks the player and gives an item found on the ship: 'Thanks! I was really scared! Please take this...' (0x140224), then 'Received Power Potion.' (0x140225) or a Quick Chicken.",
+    "confidence": "medium",
+    "evidence": [
+      {
+        "source": "src/code_0802FEA0.c",
+        "line": 1558,
+        "detail": "Shows 0x140224, decoded as thanks and an item found on the ship.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_0802FEA0.c",
+        "line": 1565,
+        "detail": "Plays item jingle 0x33.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_0802FEA0.c",
+        "line": 1584,
+        "detail": "Shows 0x140225, decoded 'Received Power Potion.'",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      }
+    ],
+    "open_questions": []
+  },
+  {
+    "canonical_symbol": "sub_08033650",
+    "address": "0x08033650",
+    "display_name": "RunWellMonsterQuestDialogue",
+    "summary": "NPC troubled by monsters coming out of the well in the backyard; after they are defeated thanks the player and gives a gift (0x14026D).",
+    "confidence": "high",
+    "evidence": [
+      {
+        "source": "src/code_0802FEA0.c",
+        "line": 1734,
+        "detail": "Shows 0x140272, decoded 'You defeated the monsters for me?'",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_0802FEA0.c",
+        "line": 1740,
+        "detail": "Shows 0x14026D, decoded '...Thank you so much. I`m saved. I have a gift for you...'",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_0802FEA0.c",
+        "line": 1743,
+        "detail": "Plays item jingle 0x33.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      }
+    ],
+    "open_questions": []
+  },
+  {
+    "canonical_symbol": "sub_08037DFC",
+    "address": "0x08037DFC",
+    "display_name": "RunMonsterDictionaryKeeperDialogue",
+    "summary": "NPC who hands out the empty ancient Monster Dictionary ('If you find Monster Cards, put them in this book.', 0x140108) and comments on progress; on completion gives the Angel`s Necklace (0x140114).",
+    "confidence": "high",
+    "evidence": [
+      {
+        "source": "src/code_0802FEA0.c",
+        "line": 4246,
+        "detail": "Shows 0x140108, decoded 'This is an ancient Monster Dictionary... If you find Monster Cards, put them in this book.'",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_0802FEA0.c",
+        "line": 4156,
+        "detail": "Shows 0x140113, the reaction to the finished dictionary.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_0802FEA0.c",
+        "line": 4180,
+        "detail": "Shows 0x140114, decoded 'Received Angel`s Necklace'.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      }
+    ],
+    "open_questions": []
+  },
+  {
+    "canonical_symbol": "sub_0803898C",
+    "address": "0x0803898C",
+    "display_name": "RunMushroomGrandpaRewardDialogue",
+    "summary": "Grandfather whose granddaughters are careless: thanks the player ('Thank you, <name>. Hahahahaha.', 0x14027E) and gives a Matsutake (0x140280) or Shiitake.",
+    "confidence": "medium",
+    "evidence": [
+      {
+        "source": "src/code_0802FEA0.c",
+        "line": 4399,
+        "detail": "Shows 0x14027E, decoded as the grandfather's thanks.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_0802FEA0.c",
+        "line": 4428,
+        "detail": "Plays item jingle 0x33.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_0802FEA0.c",
+        "line": 4435,
+        "detail": "Shows 0x140280, decoded 'Received Matsutake.'",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      }
+    ],
+    "open_questions": []
+  },
+  {
+    "canonical_symbol": "sub_08038D18",
+    "address": "0x08038D18",
+    "display_name": "RunMissingRedShoeDialogue",
+    "summary": "NPC missing a red shoe ('Hmph, where did my other red shoe go? I can`t go outside like this.', 0x14022C) who rewards its return with a Blue Shoe (0x14022E).",
+    "confidence": "high",
+    "evidence": [
+      {
+        "source": "src/code_0802FEA0.c",
+        "line": 4492,
+        "detail": "Shows 0x14022C, decoded as the missing red shoe complaint.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_0802FEA0.c",
+        "line": 4519,
+        "detail": "Schedules the reward callback and plays jingle 0x33.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_0802FEA0.c",
+        "line": 4521,
+        "detail": "Shows 0x14022E, decoded 'Received Blue Shoe.'",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      }
+    ],
+    "open_questions": []
+  },
+  {
+    "canonical_symbol": "sub_080392B4",
+    "address": "0x080392B4",
+    "display_name": "RunLostUmbrellaGirlDialogue",
+    "summary": "Girl who has lost her favourite umbrella ('!Giggle! Please don`t stare at me.' 0x140263) and reacts when the player brings it ('Ah, my umbrella.' 0x140265).",
+    "confidence": "medium",
+    "evidence": [
+      {
+        "source": "src/code_0802FEA0.c",
+        "line": 4589,
+        "detail": "Shows 0x140263, decoded '!Giggle! Please don`t stare at me.'",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_0802FEA0.c",
+        "line": 4607,
+        "detail": "Asks 0x140265, decoded 'Ah, my umbrella. Were you hiding it?'",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      }
+    ],
+    "open_questions": []
+  },
+  {
+    "canonical_symbol": "sub_08039F00",
+    "address": "0x08039F00",
+    "display_name": "RunFlowerNecklaceGirlDialogue",
+    "summary": "Girl who wishes for flowers; when given them ('Are those flowers for me?', 0x14025B) she makes the player a Flower Necklace (0x14025E/0x14025F).",
+    "confidence": "high",
+    "evidence": [
+      {
+        "source": "src/code_0802FEA0.c",
+        "line": 4819,
+        "detail": "Asks 0x14025B, decoded '...Are those flowers for me?'",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_0802FEA0.c",
+        "line": 4843,
+        "detail": "Shows 0x14025E, decoded 'I made this for you, <name>.'",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_0802FEA0.c",
+        "line": 4847,
+        "detail": "Plays item jingle 0x33.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      }
+    ],
+    "open_questions": []
+  },
+  {
+    "canonical_symbol": "sub_0803A460",
+    "address": "0x0803A460",
+    "display_name": "RunQuatroSiblingHidingDialogue",
+    "summary": "Child hiding after breaking Brother Quatro`s treasure chest; picks one of lines 0x140130-0x14013A by progress (e.g. 'Brother Quatro... Will he forgive me?').",
+    "confidence": "medium",
+    "evidence": [
+      {
+        "source": "src/code_0802FEA0.c",
+        "line": 4925,
+        "detail": "Shows 0x14013A, decoded 'Brother Quatro... Will he forgive me?'",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_0802FEA0.c",
+        "line": 4933,
+        "detail": "Shows 0x140139, another line of the same series.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      }
+    ],
+    "open_questions": []
+  },
+  {
+    "canonical_symbol": "sub_0803BC3C",
+    "address": "0x0803BC3C",
+    "display_name": "RunSnowDreamingGirlDialogue",
+    "summary": "Girl who has only seen snow in books and asks the player about it ('I want to see snow!', 0x14028B); later gives a Magic Belt (0x14028D).",
+    "confidence": "medium",
+    "evidence": [
+      {
+        "source": "src/code_0803B69C.c",
+        "line": 199,
+        "detail": "Shows 0x14028B, decoded '...I want to see snow! I`ve only seen it in books.'",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_0803B69C.c",
+        "line": 220,
+        "detail": "Adds the reward item with TryAddItemToBag.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_0803B69C.c",
+        "line": 225,
+        "detail": "Shows 0x14028D, decoded 'Received Magic Belt.'",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      }
+    ],
+    "open_questions": []
+  },
+  {
+    "canonical_symbol": "sub_0803C4C0",
+    "address": "0x0803C4C0",
+    "display_name": "RunPrayerToLightInteraction",
+    "summary": "Shows '<name> says a prayer' (0x140205) and the reply 'Let the Light be with you.' (0x140204).",
+    "confidence": "medium",
+    "evidence": [
+      {
+        "source": "src/code_0803B69C.c",
+        "line": 379,
+        "detail": "Shows 0x140205, decoded '<name> says a prayer'.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_0803B69C.c",
+        "line": 386,
+        "detail": "Shows 0x140204, decoded 'Let the Light be with you.'",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      }
+    ],
+    "open_questions": []
+  },
+  {
+    "canonical_symbol": "sub_0803C698",
+    "address": "0x0803C698",
+    "display_name": "RunChigeStallDialogue",
+    "summary": "Food stall: 'You wanna taste the Chige that I made?' (0x140292), quotes a price such as 211G (0x140296) and sells Chige.",
+    "confidence": "high",
+    "evidence": [
+      {
+        "source": "src/code_0803B69C.c",
+        "line": 434,
+        "detail": "Shows 0x140292, decoded 'Welcome ... You wanna taste the Chige that I made?'",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_0803B69C.c",
+        "line": 440,
+        "detail": "Asks 0x140296, decoded 'That`ll be 211G, OK?'",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      }
+    ],
+    "open_questions": []
+  },
+  {
+    "canonical_symbol": "sub_0803CC50",
+    "address": "0x0803CC50",
+    "display_name": "RunDebugDungeonClearPrompt",
+    "summary": "Debug-style prompt that asks 'Finished Dungeon N?' for a range of dungeons (0x1404EE-0x1404F7).",
+    "confidence": "medium",
+    "evidence": [
+      {
+        "source": "src/code_0803B69C.c",
+        "line": 541,
+        "detail": "Asks 0x1404F7, decoded 'Finished Dungeon 21?'",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_0803B69C.c",
+        "line": 559,
+        "detail": "Asks 0x1404F6, the previous dungeon's question.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      }
+    ],
+    "open_questions": [
+      "Whether this is reachable in retail play is not checked."
+    ]
+  },
+  {
+    "canonical_symbol": "sub_0803D454",
+    "address": "0x0803D454",
+    "display_name": "RunDebugShopStockPrompt",
+    "summary": "Debug-style prompt that asks 'Make the shops sell items for Dungeon N?' (0x1404FB onward) and plays jingle 0x32 on yes.",
+    "confidence": "medium",
+    "evidence": [
+      {
+        "source": "src/code_0803B69C.c",
+        "line": 825,
+        "detail": "Asks 0x1404FB, decoded 'Make the shops sell items for Dungeon 3?'",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_0803B69C.c",
+        "line": 828,
+        "detail": "Plays jingle 0x32 after a yes.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      }
+    ],
+    "open_questions": [
+      "Whether this is reachable in retail play is not checked."
+    ]
+  },
+  {
+    "canonical_symbol": "sub_0804D330",
+    "address": "0x0804D330",
+    "display_name": "RunHobbitThievesMeetingScene",
+    "summary": "Thieves' meeting: 'Let`s do this properly... We`ll begin with Bobbin`s report...' (0x14004E) followed by the report of stealing treasure from the castle (0x14004F onward).",
+    "confidence": "medium",
+    "evidence": [
+      {
+        "source": "src/code_0804D330.c",
+        "line": 56,
+        "detail": "Shows 0x14004E, decoded as the start of the meeting with Bobbin`s report.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_0804D330.c",
+        "line": 75,
+        "detail": "Shows 0x14004F, decoded as the report of sneaking into the castle and stealing treasure.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      }
+    ],
+    "open_questions": [
+      "'Hobbit' comes from the castle line 0x1400EF ('Hobbits are stealing from the castle!'), not from this function's text."
+    ]
+  }
+]
