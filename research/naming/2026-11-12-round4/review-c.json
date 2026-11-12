@@ -1,0 +1,271 @@
+[
+  {
+    "canonical_symbol": "sub_08068868",
+    "decision": "accept",
+    "reason": "Primary body returns signed literal1. Variant ordinal is explicitly a neutral address-order disambiguator, not gameplay semantics; intended interface remains unknown."
+  },
+  {
+    "canonical_symbol": "sub_0806886C",
+    "decision": "accept",
+    "reason": "Primary body returns signed literal1. Variant ordinal is explicitly a neutral address-order disambiguator, not gameplay semantics; intended interface remains unknown."
+  },
+  {
+    "canonical_symbol": "sub_08068870",
+    "decision": "accept",
+    "reason": "Primary body returns signed literal1. Variant ordinal is explicitly a neutral address-order disambiguator, not gameplay semantics; intended interface remains unknown."
+  },
+  {
+    "canonical_symbol": "sub_0806888C",
+    "decision": "accept",
+    "reason": "Primary body returns signed literal1. Variant ordinal is explicitly a neutral address-order disambiguator, not gameplay semantics; intended interface remains unknown."
+  },
+  {
+    "canonical_symbol": "sub_080688F4",
+    "decision": "accept",
+    "reason": "Empty body supports only immediate no-op return. Low confidence/empty display name appropriately preserve the unknown interface role as a draft."
+  },
+  {
+    "canonical_symbol": "sub_08069AEC",
+    "decision": "accept",
+    "reason": "Signed16 coordinate unpack and slot-low16 narrowing are exact. Animation0 advances before draw gates and no world-stop predicate exists; uninitialized sprite descriptor/resource limitation is explicitly preserved."
+  },
+  {
+    "canonical_symbol": "sub_08069BBC",
+    "decision": "fix",
+    "reason": "Pool scan/allocation failure and unmasked packed-coordinate startup are correct. Narrow task+8 priority claim to stored control key, consistent with scheduler evidence limits.",
+    "corrected_row": {
+      "canonical_symbol": "sub_08069BBC",
+      "address": "0x08069BBC",
+      "display_name": "TryStartWorldSequenceZero",
+      "summary": "If a free32-slot effect bit and0x400-byte allocation are available, initializes and starts the world sequence0 task with packed coordinates and marks the slot occupied.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_08068670.c",
+          "line": 1070,
+          "detail": "Searches the first clear bit among 32 pool bits, returning when full.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08068670.c",
+          "line": 1087,
+          "detail": "Allocates 0x 400 once; null returns without scheduling or setting the occupancy bit.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08068670.c",
+          "line": 1097,
+          "detail": "Initializes task+8 control key0x34 (52), not an independently established priority, task entry 69AEC and stack top allocation+0x3FC.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08068670.c",
+          "line": 1101,
+          "detail": "Passes(b<<16)|a without masking a and marks the slot after task start; no completion wait.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": []
+    }
+  },
+  {
+    "canonical_symbol": "sub_080216BC",
+    "decision": "accept",
+    "reason": "Resource5008C/palette23/remap7/8 and sequence1 verified. Both progression and drawing are inside all three gates; world-stop loop exit clears pool bit."
+  },
+  {
+    "canonical_symbol": "sub_08020F74",
+    "decision": "accept",
+    "reason": "Resource5008C/sequence14 exact. Advances animation before draw gates, reloads palette on frame parity during drawing and releases pool bit on animation/world-stop exit."
+  },
+  {
+    "canonical_symbol": "sub_08020E08",
+    "decision": "accept",
+    "reason": "Sequence8 advancement independent of drawing gates; target IDs0..3 use packed snapshots, IDs4+ enemy indexID-4; draw parity matches slot parity and all loop exits clear slot."
+  },
+  {
+    "canonical_symbol": "sub_080210A8",
+    "decision": "accept",
+    "reason": "Resource50074, sequence low16 and first-argument upper16 pool bit/lower16 target verified. Animation advances before draw gates, positions refresh only in permitted draws and loop exit clears packed bit."
+  },
+  {
+    "canonical_symbol": "sub_08021214",
+    "decision": "accept",
+    "reason": "Resource50074, second-argument low8 sequence/sound offset115 and upper16 pool bit exact. Packed world coordinates and unconditional animation advancement versus gated drawing confirmed."
+  },
+  {
+    "canonical_symbol": "sub_0802133C",
+    "decision": "accept",
+    "reason": "Resource5008C/sequence34 exact. Actor position is sampled once before the loop, so stationary sampled-position summary is correct; animation advances before drawing gates and slot clears on exit."
+  },
+  {
+    "canonical_symbol": "sub_08021490",
+    "decision": "accept",
+    "reason": "Resource5008C/sequence11 exact. Actor/player position refresh occurs inside each permitted draw iteration; animation progresses outside gates and slot clears on loop exit."
+  },
+  {
+    "canonical_symbol": "sub_08021AD8",
+    "decision": "accept",
+    "reason": "Verified early CD34 return skips both resource setup and final occupancy clear. Mode upper16/pool lower16, sequence41, mode-specific y/y+1 draw, world/mapset-zero stop and overlay gates are all accurate; cleanup leak is explicitly stated."
+  },
+  {
+    "canonical_symbol": "sub_0801FB14",
+    "decision": "accept",
+    "reason": "Confirmed first-hit early return, states10..12 skip and resource flags&3 eligibility. Inclusive shifted-difference bounds, stored16-bit high-bit clamp/FFF sentinel, reaction10 and unchecked bounded append are exact."
+  },
+  {
+    "canonical_symbol": "sub_0801FC34",
+    "decision": "accept",
+    "reason": "Confirmed all-hit continuation and flags&1 (bit1 objects remain eligible), unlike first-hit helper. Return begins as input-position residue, becomes void-append ABI residue only after a hit, and is0 for empty list; not hit count/boolean. Stored-halfword clamp is exact."
+  },
+  {
+    "canonical_symbol": "sub_0801F99C",
+    "decision": "accept",
+    "reason": "Confirmed first eligible overlap/flags&3, local power/defense quadratic random100..149 scaling with minimum1, stored-halfword high-bit zeroing, class/audio/append and hit boolean exits. No denominator or append-admission guard is invented."
+  },
+  {
+    "canonical_symbol": "sub_0801ED8C",
+    "decision": "accept",
+    "reason": "Attack-resource key, defense, critical100 versus normal200 divisor and u16 intermediate minimum verified. Elements1..7 map to six resistance slots (6/7 share last); signed resistance square, final narrowing/minimum, encounter audio versus critical high-bit return match."
+  },
+  {
+    "canonical_symbol": "sub_08069080",
+    "decision": "accept",
+    "reason": "Kinds1/4 probability divisors25/50, signed modifier, partial uninitialized packet-kind on failed roll, magnitude ranges450..549/700..799 and u16 enqueue fields verified. Local feedback/status marker and ignored enqueue result are accurate; draft explicitly disclaims failed-roll no-op and full target validity."
+  },
+  {
+    "canonical_symbol": "sub_0801E5B0",
+    "decision": "fix",
+    "reason": "Damage role, critical divisors100/200 versus noCrit1000, class/charged/magic branches, equipment resistance and conditional linked effects all verified. Narrow open-question arithmetic risk: u16 mind+0x48 is always at least72, so it cannot be a zero divisor.",
+    "corrected_row": {
+      "canonical_symbol": "sub_0801E5B0",
+      "address": "0x0801E5B0",
+      "display_name": "ComputePlayerAttackEnemyDamage",
+      "summary": "Calculates player-versus-enemy damage from attack state, class/skill scaling, critical variance, defense and eligible elemental resistance, with selected linked-skill and audiovisual side effects.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_0801E244.c",
+          "line": 333,
+          "detail": "Normal critical roll uses divisor 100 or 200 and sound/sprite feedback; nonzero noCrit uses divisor 1000 with no critical roll.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0801E244.c",
+          "line": 345,
+          "detail": "Charged state5 selects class/action-specific power formulas; otherwise flag 0x 200000 selects magic-scaled power and default uses base attack.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0801E244.c",
+          "line": 415,
+          "detail": "Uses randomized quadratic damage against enemy defense 0x1CE.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0801E244.c",
+          "line": 416,
+          "detail": "Only valid selected equipment applies attack element against enemy resistance array 0x 218; clamps truncated nonpositive result to1 at this stage.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0801E244.c",
+          "line": 426,
+          "detail": "Class0 target-state2 bonus and class3 linked-effect enqueue are conditional on saved skills.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0801E244.c",
+          "line": 433,
+          "detail": "Class7 nearby-facing bonus uses signed directional difference and returns final u 16 result without a universal final clamp.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0801E244.c",
+          "line": 977,
+          "detail": "Enemy hit application consumes this calculator.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Attack+defense can be zero and is not guarded; target validity/team/duplicate-hit filtering is caller responsibility. The magic-stat denominator is u16 mind+0x48 and is therefore nonzero within its stored domain."
+      ]
+    }
+  },
+  {
+    "canonical_symbol": "sub_0801E988",
+    "decision": "accept",
+    "reason": "Critical/noCrit divisors and mirrored power/resistance branches verified; state5 multiplies by110percent before class effects. Final result casts to s16, divides by4, narrows to u16 and only replaces zero with1; no universal positive clamp is claimed."
+  },
+  {
+    "canonical_symbol": "sub_0801F79C",
+    "decision": "fix",
+    "reason": "Source recovery/history mutations occur before unchecked notify admission, including queue-full cases; bit0 damage and charged scaling verified. Correct summary receiver wording:1130 adds to target pending damage+0x88, not direct HP subtraction.",
+    "corrected_row": {
+      "canonical_symbol": "sub_0801F79C",
+      "address": "0x0801F79C",
+      "display_name": "QueuePlayerAttackAgainstPlayer",
+      "summary": "Builds a player-target hit packet, applies signed source health/energy recovery with upper caps, records hit history and attempts enqueue/merge; the receiver accumulates target pending damage and applies knockback/status rather than this producer directly changing target health.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_0801E244.c",
+          "line": 1054,
+          "detail": "Flags bit0 selects divisor 1000 damage OR 0x 8000 and zero impulse/direction; ordinary path computes direction and kind8 charged-attack scaling.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0801E244.c",
+          "line": 1070,
+          "detail": "Rolls target status kind from player resistances and attack element.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0801E244.c",
+          "line": 1071,
+          "detail": "Adds damage-derived signed source health and energy recovery; caps only above maxima, with halfword truncation.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0801E244.c",
+          "line": 1078,
+          "detail": "Stores source attack sequence into target history before link enqueue.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0801E244.c",
+          "line": 1080,
+          "detail": "Calls EnqueueOrMergeLinkHit without queue-capacity guard or checking its result.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080659B0.c",
+          "line": 356,
+          "detail": "Hit queue merges only pending tag 0x8A with same target byte; adds u 16 damage and overwrites direction/impulse, otherwise appends.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080659B0.c",
+          "line": 1130,
+          "detail": "Receiver applies pending player damage and knockback for local target; this producer does not mutate target health.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0801E244.c",
+          "line": 1622,
+          "detail": "Contact caller checks distinct nonzero teams>2 and target states before invoking player-hit helper.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Queue-full failure does not roll back source recovery/history writes; enqueue/merge does not guarantee delivery.",
+        "Target/source bounds and team eligibility are caller preconditions, not enforced here."
+      ]
+    }
+  },
+  {
+    "canonical_symbol": "sub_0801F374",
+    "decision": "accept",
+    "reason": "Full-queue guard executes before any target/source mutation, unlike F79C. Verified normal/bit0 branches, signed source recovery upper caps, status application, hit-credit/history, masked pending damage, knockback, unchecked later notify and class effects. Same-target queue merge eligibility does not bypass initial capacity guard."
+  }
+]

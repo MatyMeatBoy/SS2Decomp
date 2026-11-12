@@ -1,0 +1,158 @@
+[
+  {
+    "canonical_symbol": "sub_0808D0B0",
+    "decision": "accept",
+    "reason": "All three calls traced:57934 clears render mask2 and requests link flags update,57984 clears input mask1 and event lock,587E4->15D74 sets bit12. Medium confidence and explicit unknown bit12 purpose appropriately avoid a broader restoration claim."
+  },
+  {
+    "canonical_symbol": "sub_0808D11C",
+    "decision": "accept",
+    "reason": "Primary body selects exact map-set1 table independently matched to selector case1; initialization returns0, exit-request branch requests hide/map stop, polls transition idle, writes current-area record+0x71C, clears+0x10, sets+0x30/+0x24=1 and returns1. Identical copies have no invented distinct scene identity."
+  },
+  {
+    "canonical_symbol": "sub_0808D190",
+    "decision": "accept",
+    "reason": "Primary body selects exact map-set1 table independently matched to selector case1; initialization returns0, exit-request branch requests hide/map stop, polls transition idle, writes current-area record+0x71C, clears+0x10, sets+0x30/+0x24=1 and returns1. Identical copies have no invented distinct scene identity."
+  },
+  {
+    "canonical_symbol": "sub_0808D204",
+    "decision": "accept",
+    "reason": "Primary body selects exact map-set1 table independently matched to selector case1; initialization returns0, exit-request branch requests hide/map stop, polls transition idle, writes current-area record+0x71C, clears+0x10, sets+0x30/+0x24=1 and returns1. Identical copies have no invented distinct scene identity."
+  },
+  {
+    "canonical_symbol": "sub_0808D31C",
+    "decision": "accept",
+    "reason": "Primary body selects exact map-set2 table independently matched to selector case2; initialization returns0, exit-request branch requests hide/map stop, polls transition idle, writes current-area record+0x71C, clears+0x10, sets+0x30/+0x24=1 and returns1. Identical copies have no invented distinct scene identity."
+  },
+  {
+    "canonical_symbol": "sub_0808D390",
+    "decision": "accept",
+    "reason": "Exact map-set2 table084F4818 and initialization/exit branches match its twin; continuation stores and return values are correct."
+  },
+  {
+    "canonical_symbol": "sub_0808D278",
+    "decision": "accept",
+    "reason": "Checked distinct initial/exit branches and callback98108/destructor99720. Exit clears encounter/request, deactivates nonretained item records via5D518, marks current level clear and resets only the stated player bits/state."
+  },
+  {
+    "canonical_symbol": "sub_0808D404",
+    "decision": "accept",
+    "reason": "Same verified exit behavior as8D278; initial callback99838/destructor9ADE8 are independently correct. No NPC identity is inferred."
+  },
+  {
+    "canonical_symbol": "sub_0808A294",
+    "decision": "accept",
+    "reason": "Map loader arguments0/14, selected position row and current/previous coordinates match; scene callback/input/menu release and later-only88B6C(table,1) exit handling are correctly distinguished."
+  },
+  {
+    "canonical_symbol": "sub_08089EC4",
+    "decision": "accept",
+    "reason": "Loader0/16 and callback2E7AC are exact. Signed tileY comparison is >37 and is evaluated even after initialization; hide/idle poll and destination8 entry1 with activity reset match."
+  },
+  {
+    "canonical_symbol": "sub_08089204",
+    "decision": "accept",
+    "reason": "Confirmed load0/2, vitals conditional, flag400 clear and exact tileY==31 boundary after initialization; destination8 entry2 and continuation reset are exact. No artwork/NPC identity inferred."
+  },
+  {
+    "canonical_symbol": "sub_08089384",
+    "decision": "accept",
+    "reason": "Level10-cleared predicate selects exact load0/20 versus0/3; initialization returns0 before exits. Later88B6C entry3 check precedes signed tileY>55 boundary to destination0 entry3."
+  },
+  {
+    "canonical_symbol": "sub_08089500",
+    "decision": "accept",
+    "reason": "Normal entry mask~0x2026, pending-return encounter cleanup versus player-return task, per-ID coordinates and vitals restoration match. Exact load0/4 and callback selection3D99C/2CF84 confirmed; later-only table exit uses entry4."
+  },
+  {
+    "canonical_symbol": "sub_08089784",
+    "decision": "accept",
+    "reason": "Exact load0/5, second map-height halfword32 and callback2D050 confirmed. Signed tileY>30 check runs even on initialization call and prepares destination8 entry3."
+  },
+  {
+    "canonical_symbol": "sub_080898D4",
+    "decision": "accept",
+    "reason": "Exact load0/12. Later-only table exits require |tileX-exitX|<=1 and exact tileY; destination7 exit3 selects1, exit1 preserves, otherwise0. TileY>17 boundary runs after initialization or no table match and selects0/1."
+  },
+  {
+    "canonical_symbol": "sub_08089AE4",
+    "decision": "accept",
+    "reason": "Verified player flags &=0x2000 preserves only that bit, not clears it. Exact load0/6; initialization returns0. Later exits1/2 set entry1/2 while exit3 preserves the current entry, with exact horizontal<=1/vertical-equality tests."
+  },
+  {
+    "canonical_symbol": "sub_08089CA0",
+    "decision": "accept",
+    "reason": "Same &=0x2000 preservation correctly stated. Exact load0/13; table exits1/2->entry1 and3->0; signed tileY>17 fallback applies even after initialization and prepares destination1 entry2."
+  },
+  {
+    "canonical_symbol": "sub_0808A008",
+    "decision": "accept",
+    "reason": "Exact load0/8, song0xDB conditions and callback2D73C confirmed. Table-exit entry rules match; signed tileX>27 boundary has priority over tileY>36, and both run after initialization too."
+  },
+  {
+    "canonical_symbol": "sub_0808A4D4",
+    "decision": "accept",
+    "reason": "Exact load0/7 and callback2D800. Table matching and destination7 entry rules match; signed tileX<=1 boundary precedes tileY>36, preparing1/4 versus0/5 with reset stores."
+  },
+  {
+    "canonical_symbol": "sub_0808A380",
+    "decision": "accept",
+    "reason": "Exact load0/11, callback2DE0C and input/menu release. Later-only88B6C(table,0) precedes signed tileY>37 fallback; boundary also runs after initialization and prepares destination10 entry2."
+  },
+  {
+    "canonical_symbol": "sub_0808A830",
+    "decision": "accept",
+    "reason": "Exact load0/9, callback2E110, later-only table helper entry1, and signed tileY>37 boundary all match. Boundary calls15EF8 (allow menu), not15ED4, before preparing destination13 entry2."
+  },
+  {
+    "canonical_symbol": "sub_0808AA70",
+    "decision": "accept",
+    "reason": "Exact load0/17, reveal callback59FBC, menu permission and immediate initialization return0 confirmed; no15C38 input-clear call occurs. Later table exits require horizontal<=1/exactY and choose entry1 only for exit1, otherwise0."
+  },
+  {
+    "canonical_symbol": "sub_0808AC08",
+    "decision": "accept",
+    "reason": "Exact load0/18, reveal callback59FBC and both menu/input suppression clears confirmed. Initialization returns0; later three table exits always select entry1 and reset initialization/activity."
+  },
+  {
+    "canonical_symbol": "sub_0808AD90",
+    "decision": "fix",
+    "reason": "Map IDs, portal cancellation and both paths verified. Replace callback-to-completion claim:57424 tests scheduler membership only, so task inactivity can also follow cancellation and cannot prove successful callback completion. Existing invalid-handle caveat remains necessary.",
+    "corrected_row": {
+      "canonical_symbol": "sub_0808AD90",
+      "address": "0x0808AD90",
+      "display_name": "UpdateMapZeroArea19Scene",
+      "summary": "Initializes map-set0 area19 with scene actor and portal tasks; later table exits cancel the portal and prepare entry2 destinations. An area-change request starts a callback and waits until its control is no longer scheduled, then selects map-set13 area0 entry1 and resets local-player state.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_08087CC0.c",
+          "line": 2025,
+          "detail": "Initial player entry/load0/19/readiness/camera; starts2E6E0 actor callback and26C54 portal task, permits input/menu and marks initialized.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08087CC0.c",
+          "line": 2055,
+          "detail": "Later table match hides/waits, cancels embedded portal task via56EA4 and prepares destination/script entry2.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08087CC0.c",
+          "line": 2069,
+          "detail": "Separate exit-flag path starts444C0 then polls57424 task scheduling until inactive; no link-error abort.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08087CC0.c",
+          "line": 2073,
+          "detail": "Selects map-set13 area0, clears exit flag, sets entry1, clears player render-suppression/state and sets scene continuation halfwords; returns1.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Scene callback task-pool exhaustion and scheduling helper undefined-result behavior are inherited; wait does not guarantee safe behavior for an invalid task handle."
+      ]
+    }
+  }
+]

@@ -1,0 +1,51 @@
+[
+  {
+    "canonical_symbol": "sub_080585F4",
+    "address": "0x080585F4",
+    "display_name": "",
+    "summary": "Calls the nearby field-item lookup with x/y shifted8, then calls the linked item-removal producer; recovered C omits the lookup key and removal pointer arguments.",
+    "confidence": "low",
+    "evidence": [
+      {
+        "source": "src/code_08057CAC.c",
+        "line": 500,
+        "detail": "Calls field-item lookup with2 explicit arguments and discards C result, then removal with no explicit argument.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_0805D094.c",
+        "line": 136,
+        "detail": "Lookup requires position and matching key; may return0.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_08068670.c",
+        "line": 67,
+        "detail": "Queue producer dereferences supplied pointer+0xC before enqueuing item ID.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ],
+    "open_questions": [
+      "Original wrapper assembly/register flow is needed to establish the implicit lookup key and whether lookup return r0 is passed to removal; recovered C alone does not define those calls safely.",
+      "What do actual callers provide in the original third argument register? No source caller of this wrapper was found."
+    ]
+  },
+  {
+    "canonical_symbol": "sub_080688F4",
+    "address": "0x080688F4",
+    "display_name": "",
+    "summary": "Returns immediately without changing state.",
+    "confidence": "low",
+    "evidence": [
+      {
+        "source": "src/code_08068670.c",
+        "line": 140,
+        "detail": "Lines 140-142 define an empty leaf; no direct source callers found.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ],
+    "open_questions": [
+      "What interface or lifecycle role does this empty stub serve?"
+    ]
+  }
+]

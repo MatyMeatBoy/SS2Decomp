@@ -1,0 +1,664 @@
+[
+  {
+    "canonical_symbol": "sub_08057CAC",
+    "decision": "accept",
+    "display_name": "ClearWorldMapDestinationAvailability",
+    "reasoning": "Exact destination-1 mode-bank clear, full-mask return and world-map selection/icon consumers independently checked.",
+    "evidence": [
+      {
+        "source": "src/code_08057CAC.c",
+        "line": 6,
+        "detail": "Decrements destination and clears1u<<index in normal+0x78 or advanced+0x80; returns resulting word.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_08009088.c",
+        "line": 2179,
+        "detail": "World-map query skips unavailable nonzero destinations; icon loop repeats filtering at2337.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ]
+  },
+  {
+    "canonical_symbol": "sub_08057CEC",
+    "decision": "fix",
+    "display_name": "GetWorldMapAvailabilityMask",
+    "reasoning": "Whole word accessor role is supported; original name contains six words, so omit redundant Destination.",
+    "evidence": [
+      {
+        "source": "src/code_08057CAC.c",
+        "line": 17,
+        "detail": "Returns signed32 mask at scene+0x78 when normal; otherwise+0x80.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_08009088.c",
+        "line": 2179,
+        "detail": "Per-bit query of same bank governs destination selection and icons.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ],
+    "corrected_row": {
+      "canonical_symbol": "sub_08057CEC",
+      "address": "0x08057CEC",
+      "display_name": "GetWorldMapAvailabilityMask",
+      "summary": "Returns the whole current-mode world-map destination availability word without changing state.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_08057CAC.c",
+          "line": 17,
+          "detail": "Returns signed32 mask at scene+0x78 when normal; otherwise+0x80.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08009088.c",
+          "line": 2179,
+          "detail": "Per-bit query of same bank governs destination selection and icons.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": []
+    }
+  },
+  {
+    "canonical_symbol": "sub_08057D14",
+    "decision": "accept",
+    "display_name": "SetSceneEncounterClearSnapshot",
+    "reasoning": "Snapshot field identity closed by direct initialization/restoration writers sourcing encounter-clear mask, independent of unused accessor callers.",
+    "evidence": [
+      {
+        "source": "src/code_08057CAC.c",
+        "line": 27,
+        "detail": "Exact full32 scene+0x50 write/read.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_08021DC4.c",
+        "line": 610,
+        "detail": "Initial scene writes GetLevelEncounterClearedMask into this field; restoration repeats at4232.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_080571A4.c",
+        "line": 530,
+        "detail": "Source mask getter returns mode-banked encounter-clear field+0x74/+0x7C.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ]
+  },
+  {
+    "canonical_symbol": "sub_08057D20",
+    "decision": "accept",
+    "display_name": "GetSceneEncounterClearSnapshot",
+    "reasoning": "Snapshot field identity closed by direct initialization/restoration writers sourcing encounter-clear mask, independent of unused accessor callers.",
+    "evidence": [
+      {
+        "source": "src/code_08057CAC.c",
+        "line": 30,
+        "detail": "Exact full32 scene+0x50 write/read.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_08021DC4.c",
+        "line": 610,
+        "detail": "Initial scene writes GetLevelEncounterClearedMask into this field; restoration repeats at4232.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_080571A4.c",
+        "line": 530,
+        "detail": "Source mask getter returns mode-banked encounter-clear field+0x74/+0x7C.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ]
+  },
+  {
+    "canonical_symbol": "sub_08058524",
+    "decision": "accept",
+    "display_name": "IsSceneAreaEventMarked",
+    "reasoning": "Exact normalized bit test and area-event bank identity verified; distinct from persistent mode-banked flags.",
+    "evidence": [
+      {
+        "source": "src/code_08057CAC.c",
+        "line": 465,
+        "detail": "Tests1<<bit in scene+0x38 and returns normalized Boolean.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_080542C4.c",
+        "line": 979,
+        "detail": "Inventory-gate local completion predicate reads same area-event word.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ]
+  },
+  {
+    "canonical_symbol": "sub_08058608",
+    "decision": "accept",
+    "display_name": "QueryMapSetZeroActive",
+    "reasoning": "Direct predicate forwarding and layout-selector flag role verified; returns query without loading or changing map.",
+    "evidence": [
+      {
+        "source": "src/code_08057CAC.c",
+        "line": 504,
+        "detail": "Returns0CCCC predicate unchanged.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_0800CBBC.c",
+        "line": 55,
+        "detail": "Underlying query extracts scene flags bit3.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_08021DC4.c",
+        "line": 1265,
+        "detail": "Map-set0 layout selector marks that bit and other map sets clear it.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ]
+  },
+  {
+    "canonical_symbol": "sub_08058614",
+    "decision": "accept",
+    "display_name": "GetCurrentMapAreaIndex",
+    "reasoning": "Exact u16 accessor, map-struct offset and loader input assignment independently checked.",
+    "evidence": [
+      {
+        "source": "src/code_08057CAC.c",
+        "line": 508,
+        "detail": "Returns map-state f90 as u16.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_08009088.c",
+        "line": 341,
+        "detail": "Loader writes second index argument to map+0x90 and first map-set argument+0x8C.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ]
+  },
+  {
+    "canonical_symbol": "sub_0805874C",
+    "decision": "accept",
+    "display_name": "ResetActorActionSelectionWrapper",
+    "reasoning": "Calls exact actor reset callee; medium confidence and unresolved input ABI caveat are necessary. Does not claim repaired/no-argument callee interface.",
+    "evidence": [
+      {
+        "source": "src/code_08057CAC.c",
+        "line": 571,
+        "detail": "Calls1A388 with no explicit recovered-C argument.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_08017F7C.c",
+        "line": 1257,
+        "detail": "Callee indexes actor then sets flag7A bit2, clears AI201 and writes action1FD=255.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ]
+  },
+  {
+    "canonical_symbol": "sub_08058778",
+    "decision": "accept",
+    "display_name": "RegenerateItemCollectionBanksWrapper",
+    "reasoning": "Callee regeneration role checked via actual bank writes and input-mode clamp. Wrapper lacks explicit mode argument in C, so ABI caveat retained.",
+    "evidence": [
+      {
+        "source": "src/code_08057CAC.c",
+        "line": 580,
+        "detail": "Calls5C7B8 with no explicit recovered-C argument.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_0805A630.c",
+        "line": 1864,
+        "detail": "Selects normal/advanced three-bank sets and derives progression count from destination mask.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_0805A630.c",
+        "line": 1890,
+        "detail": "Writes12 records to first bank; second bank follows.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_0805A630.c",
+        "line": 1979,
+        "detail": "Clamps mode>1 to0 and writes third12-record bank, randomizing/clearing sentinel slots.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ]
+  },
+  {
+    "canonical_symbol": "sub_08058784",
+    "decision": "accept",
+    "display_name": "ProcessFieldItemRecipeWrapper",
+    "reasoning": "Wrapper/callee scans, consumption and one-shot parent drop request verified. Return1 does not guarantee drop enqueue succeeded; current summary correctly states attempt.",
+    "evidence": [
+      {
+        "source": "src/code_08057CAC.c",
+        "line": 583,
+        "detail": "Returns5CDF8 result directly.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_0805A630.c",
+        "line": 2185,
+        "detail": "Scans16 active field items for each of4 regions; requires exactly1 per region.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_0805A630.c",
+        "line": 2235,
+        "detail": "Checks4 item type/value pairs against recipe.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_0805A630.c",
+        "line": 2255,
+        "detail": "Matched recipe clears4 active fields with waits; parent-only drop request at2289 is not retried/checked before return1.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ]
+  },
+  {
+    "canonical_symbol": "sub_080584FC",
+    "decision": "accept",
+    "display_name": "MarkSceneAreaEvent",
+    "reasoning": "Exact scene+0x38 area-event bit operation, distinct from persistent mode banks. Input shift index is unchecked.",
+    "evidence": [
+      {
+        "source": "src/code_08057CAC.c",
+        "line": 458,
+        "detail": "Sets/clears1<<arg0 at scene word+0x38, preserving other bits.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_080542C4.c",
+        "line": 979,
+        "detail": "Inventory gate checks same area event word; conditional completion path requests setter-family callback.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ]
+  },
+  {
+    "canonical_symbol": "sub_08058510",
+    "decision": "accept",
+    "display_name": "UnmarkSceneAreaEvent",
+    "reasoning": "Exact scene+0x38 area-event bit operation, distinct from persistent mode banks. Input shift index is unchecked.",
+    "evidence": [
+      {
+        "source": "src/code_08057CAC.c",
+        "line": 461,
+        "detail": "Sets/clears1<<arg0 at scene word+0x38, preserving other bits.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_080542C4.c",
+        "line": 979,
+        "detail": "Inventory gate checks same area event word; conditional completion path requests setter-family callback.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ]
+  },
+  {
+    "canonical_symbol": "sub_08058420",
+    "decision": "fix",
+    "display_name": "TestExitOrEnemySurvival",
+    "reasoning": "Role supported, but pending damage is explicitly unsigned16, not a32-bit word; supplied callee evidence line921 points into a different function in pinned checkout. Correct width and source line.",
+    "evidence": [
+      {
+        "source": "src/code_08057CAC.c",
+        "line": 412,
+        "detail": "Reads scene flags+4 bit4 and returns1 if set; otherwise calls19C3C at420. Null checks later do not guard initial read.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_08017F7C.c",
+        "line": 840,
+        "detail": "Five-slot enemy predicate compares signed16 health at+0x5C against unsigned16 pending damage at+0x4A; C promotions produce signed integer subtraction.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_08087CC0.c",
+        "line": 2675,
+        "detail": "Scene loop consumes predicate as exit-request-or-surviving-enemy condition, not transition completion.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ],
+    "corrected_row": {
+      "canonical_symbol": "sub_08058420",
+      "address": "0x08058420",
+      "display_name": "TestExitOrEnemySurvival",
+      "summary": "Returns1 when scene exit-request bit4 is set; otherwise returns whether any of five active enemies has signed16 health greater than unsigned16 pending damage, returning0 if none do.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_08057CAC.c",
+          "line": 412,
+          "detail": "Reads scene flags+4 bit4 and returns1 if set; otherwise calls19C3C at420. Null checks later do not guard initial read.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08017F7C.c",
+          "line": 840,
+          "detail": "Five-slot enemy predicate compares signed16 health at+0x5C against unsigned16 pending damage at+0x4A; C promotions produce signed integer subtraction.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08087CC0.c",
+          "line": 2675,
+          "detail": "Scene loop consumes predicate as exit-request-or-surviving-enemy condition, not transition completion.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": []
+    }
+  },
+  {
+    "canonical_symbol": "sub_08058280",
+    "decision": "accept",
+    "display_name": "ResetActiveEnemyScriptStates",
+    "reasoning": "Exact state12->0 filter and common flag-helper side effects checked; does not imply all enemy state/resources reset.",
+    "evidence": [
+      {
+        "source": "src/code_08057CAC.c",
+        "line": 343,
+        "detail": "Scans exactly5 slots, only active and state12 records get state0.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_08057CAC.c",
+        "line": 348,
+        "detail": "Calls19F04 unconditionally after scan.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_08017F7C.c",
+        "line": 1016,
+        "detail": "Common helper sets scene+5A=1 and AI201=1 only on active actors with flag7A bit2.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ]
+  },
+  {
+    "canonical_symbol": "sub_08058498",
+    "decision": "accept",
+    "display_name": "WaitForPlayerBoxConfirmation",
+    "reasoning": "Exact overlap+pressed-bit AND condition, one-time player capture and map-set0 abort branch verified. No outside-entry, link-error or timeout claim.",
+    "evidence": [
+      {
+        "source": "src/code_08057CAC.c",
+        "line": 444,
+        "detail": "Packs low16 width/height; shifts x/y8; player point box size0.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_08057CAC.c",
+        "line": 450,
+        "detail": "Captures local record then loops while no overlap OR pressed bit0 clear.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_08057CAC.c",
+        "line": 453,
+        "detail": "Inside wait loop returns when map-set0 predicate true; otherwise signal1 wait.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ]
+  },
+  {
+    "canonical_symbol": "sub_08057FBC",
+    "decision": "accept",
+    "display_name": "SetSceneEntityOverlayAnimation",
+    "reasoning": "Selector domains, low16 writes and all three actor/enemy/player animation consumers verified. Missing actor yields once; unsupported intermediate selectors return unchanged.",
+    "evidence": [
+      {
+        "source": "src/code_08057CAC.c",
+        "line": 176,
+        "detail": "Searches15 actor handles and writes overlay+0x42; enemies1..5 resolve key then call19EB8; selector0 writes player11E.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_08021DC4.c",
+        "line": 5230,
+        "detail": "Actor consumes42 as auxiliary overlay, draws y-32.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_0800CF58.c",
+        "line": 4708,
+        "detail": "Player consumes11E via auxiliary animation and draws y-42, clearing on completion.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ]
+  },
+  {
+    "canonical_symbol": "sub_080586EC",
+    "decision": "accept",
+    "display_name": "ConfigureEnemyLocalCallback",
+    "reasoning": "Medium callback descriptor interpretation supported by local-versus-linked consumer branch; exact missing-register ABI remains explicitly unresolved.",
+    "evidence": [
+      {
+        "source": "src/code_08057CAC.c",
+        "line": 556,
+        "detail": "Zero index returns; decrements1-based index and waits active bit without bound or abort.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_08057CAC.c",
+        "line": 565,
+        "detail": "Stores words30/34 and clears linked fields38/3C.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_08017F7C.c",
+        "line": 553,
+        "detail": "Scripted state12/substate8 tests30 for local task call, otherwise uses38/3C linked callback. C local call omits explicit callback argument.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ]
+  },
+  {
+    "canonical_symbol": "sub_08058574",
+    "decision": "accept",
+    "display_name": "StartObjectBreakCallbackTask",
+    "reasoning": "30-slot starter and child descriptor semantics checked, including2 waits, unchecked stack allocation and child scene-exit abort. Startup is distinct from callback completion.",
+    "evidence": [
+      {
+        "source": "src/code_08057CAC.c",
+        "line": 484,
+        "detail": "Searches30 controls; initializes descriptor words3/4 and child2A104, allocates0x400 once, schedules and waits twice.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_08028AAC.c",
+        "line": 1013,
+        "detail": "Child copies callback/argument from words3/4, waits object state12 unless scene exit, then starts callback in free control with retry allocation.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ]
+  },
+  {
+    "canonical_symbol": "sub_08058334",
+    "decision": "accept",
+    "display_name": "HandleOverlapCallbackAndExit",
+    "reasoning": "Exact overlap,30-slot child attempt and unconditional current-task exit after matching overlap verified, including no-slot path.",
+    "evidence": [
+      {
+        "source": "src/code_08057CAC.c",
+        "line": 374,
+        "detail": "Player box size24/32 and target pixel coordinates shifted8.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_08057CAC.c",
+        "line": 378,
+        "detail": "On overlap scans30 slots, retries stack allocation if free, schedules callback with0.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_08057CAC.c",
+        "line": 391,
+        "detail": "Exits current task regardless of child startup success; no overlap returns normally.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ]
+  },
+  {
+    "canonical_symbol": "sub_080585F4",
+    "decision": "reject",
+    "display_name": "",
+    "reasoning": "Defer as proposed: missing lookup key and removal pointer materially affect meaning/safety. Recovered C alone cannot establish implicit register forwarding or null handling.",
+    "evidence": [
+      {
+        "source": "src/code_08057CAC.c",
+        "line": 500,
+        "detail": "Calls field-item lookup with2 explicit arguments and discards C result, then removal with no explicit argument.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_0805D094.c",
+        "line": 136,
+        "detail": "Lookup requires position and matching key; may return0.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_08068670.c",
+        "line": 67,
+        "detail": "Queue producer dereferences supplied pointer+0xC before enqueuing item ID.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ]
+  },
+  {
+    "canonical_symbol": "sub_08059CEC",
+    "decision": "accept",
+    "display_name": "RunActorMessage538",
+    "reasoning": "Primary lock/turn/slot waits/message/suspend/restore path and actor interaction registration independently checked. Decimal suffix is exact message-resource index, not address or invented character identity. No direct guarantee of termination during initial slot waits.",
+    "evidence": [
+      {
+        "source": "src/code_08059534.c",
+        "line": 251,
+        "detail": "Sets local-player flag0, begins event lock, turns supplied actor toward local-player selector0; waits dialogue/text slots.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_08059534.c",
+        "line": 256,
+        "detail": "Starts family0x14 message index538; polls completion and closes used windows on world-task suspension.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_08059534.c",
+        "line": 264,
+        "detail": "Restores supplied actor facing then clears player flag0 and event lock.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_08028AAC.c",
+        "line": 4333,
+        "detail": "Scene actor constructor installs this callback in interaction field+0x44 after handle lookup.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ]
+  },
+  {
+    "canonical_symbol": "sub_08059DA0",
+    "decision": "accept",
+    "display_name": "RunActorMessage539",
+    "reasoning": "Primary lock/turn/slot waits/message/suspend/restore path and actor interaction registration independently checked. Decimal suffix is exact message-resource index, not address or invented character identity. No direct guarantee of termination during initial slot waits.",
+    "evidence": [
+      {
+        "source": "src/code_08059534.c",
+        "line": 271,
+        "detail": "Sets local-player flag0, begins event lock, turns supplied actor toward local-player selector0; waits dialogue/text slots.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_08059534.c",
+        "line": 276,
+        "detail": "Starts family0x14 message index539; polls completion and closes used windows on world-task suspension.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_08059534.c",
+        "line": 284,
+        "detail": "Restores supplied actor facing then clears player flag0 and event lock.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_08028AAC.c",
+        "line": 4369,
+        "detail": "Scene actor constructor installs this callback in interaction field+0x44 after handle lookup.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ]
+  },
+  {
+    "canonical_symbol": "sub_08059E54",
+    "decision": "accept",
+    "display_name": "RunActorMessage383",
+    "reasoning": "Primary lock/turn/slot waits/message/suspend/restore path and actor interaction registration independently checked. Decimal suffix is exact message-resource index, not address or invented character identity. No direct guarantee of termination during initial slot waits.",
+    "evidence": [
+      {
+        "source": "src/code_08059534.c",
+        "line": 291,
+        "detail": "Sets local-player flag0, begins event lock, turns supplied actor toward local-player selector0; waits dialogue/text slots.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_08059534.c",
+        "line": 296,
+        "detail": "Starts family0x14 message index383; polls completion and closes used windows on world-task suspension.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_08059534.c",
+        "line": 304,
+        "detail": "Restores supplied actor facing then clears player flag0 and event lock.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_08028AAC.c",
+        "line": 5957,
+        "detail": "Scene actor constructor installs this callback in interaction field+0x44 after handle lookup.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ]
+  },
+  {
+    "canonical_symbol": "sub_08059F08",
+    "decision": "accept",
+    "display_name": "RunActorMessage384",
+    "reasoning": "Primary lock/turn/slot waits/message/suspend/restore path and actor interaction registration independently checked. Decimal suffix is exact message-resource index, not address or invented character identity. No direct guarantee of termination during initial slot waits.",
+    "evidence": [
+      {
+        "source": "src/code_08059534.c",
+        "line": 311,
+        "detail": "Sets local-player flag0, begins event lock, turns supplied actor toward local-player selector0; waits dialogue/text slots.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_08059534.c",
+        "line": 316,
+        "detail": "Starts family0x14 message index384; polls completion and closes used windows on world-task suspension.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_08059534.c",
+        "line": 324,
+        "detail": "Restores supplied actor facing then clears player flag0 and event lock.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_08028AAC.c",
+        "line": 5993,
+        "detail": "Scene actor constructor installs this callback in interaction field+0x44 after handle lookup.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ]
+  }
+]
