@@ -2046,34 +2046,28 @@ state3ZeroStageD368:
                     } else {
                         if (((struct PlayerD368 *)arg0)->f10 != 9) {
                             sp128 = d368_sub_0801D34C();
-                            var_r0_8 = D368_Level2(arg0);
-                            var_r5 = (u16) var_r0_8;
-                            if (sp128 <= (u32) var_r5) {
-                                if (sp128 > (u32) ((struct PlayerD368 *)arg0)->f26) {
+                            var_r5 = D368_Level2(arg0);
+                            if (sp128 > (u32) var_r5) {
+                                sp128 = (u32) var_r5;
+                                if ((u32) var_r5 > (u32) ((struct PlayerD368 *)arg0)->f26) {
                                     sp128 = 0;
-                                    goto block_612;
                                 }
-                                goto block_611;
-                            }
-                            goto block_607;
-                        }
-                        sp128 = d368_sub_0801D34C();
-                        var_r5 = (u16) d368_sub_08079FD0(d368_sub_0801DEB8()) - 1;
-                        if (sp128 > (u32) var_r5) {
-block_607:
-                            sp128 = (u32) var_r5;
-                            if ((u32) var_r5 > (u32) ((struct PlayerD368 *)arg0)->f26) {
+                            } else if (sp128 > (u32) ((struct PlayerD368 *)arg0)->f26) {
                                 sp128 = 0;
-                                goto block_612;
                             }
-                            goto block_611;
+                        } else {
+                            sp128 = d368_sub_0801D34C();
+                            var_r5 = (u16) d368_sub_08079FD0(d368_sub_0801DEB8()) - 1;
+                            if (sp128 > (u32) var_r5) {
+                                sp128 = (u32) var_r5;
+                                if ((u32) var_r5 > (u32) ((struct PlayerD368 *)arg0)->f26) {
+                                    sp128 = 0;
+                                }
+                            } else if (sp128 > (u32) ((struct PlayerD368 *)arg0)->f26) {
+                                sp128 = 0;
+                            }
                         }
-                        if (sp128 > (u32) ((struct PlayerD368 *)arg0)->f26) {
-                            sp128 = 0;
-                        }
-block_611:
                         if (sp128 == 0) {
-block_612:
                             sp130 = (s32) (u16) (sp130 + sp134);
                         } else {
                             ((struct PlayerD368 *)arg0)->f26 = (u16) sp128;
