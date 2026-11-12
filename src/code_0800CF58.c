@@ -1044,10 +1044,8 @@ void sub_0800D368(void *arg0) {
             sp168 = sp16C;
             sp128 = 1;
             do {
-                u32 historyBase;
-                historyBase = (u32)((struct PlayerD368 *)arg0)->fAC.ptr;
-                temp_r1 = (u16 *)(historyBase + (sp128 << 2));
-                *temp_r1 = *(temp_r1 - 0x2);
+                struct HistD368 { u16 a; s16 b; } *h = (struct HistD368 *)((struct PlayerD368 *)arg0)->fAC.ptr;
+                h[sp128].a = h[sp128 - 1].a;
                 temp_r4 = sp128 + 1;
                 sp128 = temp_r4;
             } while (temp_r4 <= 0x1FU);
@@ -4787,7 +4785,7 @@ animationClassDoneD368:
                 } else if (d368_sub_0800CD8C() != 0) {
 
                 } else if (sp15C == 1) {
-                    temp_r8 = d368_sub_08007290(M2C_FIELD(d368_gUnk_030034E0, u16 *, 0x132) | 0x110000);
+                    lookupStats = (void *) d368_sub_08007290(M2C_FIELD(d368_gUnk_030034E0, u16 *, 0x132) | 0x110000);
                     temp_r1_55 = ((struct PlayerD368 *)arg0)->f148;
                     if (((u8) M2C_FIELD(temp_r1_55, u8 *, 6) >> 3) == 6) {
                         var_r5 = 1;
@@ -4796,6 +4794,7 @@ animationClassDoneD368:
                         var_r5 = 0;
                         var_r6_8 = (u32) (M2C_FIELD(temp_r1_55, s32 *, 4) << 0xD) >> 0x18;
                     }
+                    asm("" : : "r"(var_r6_8));
                     var_r4_11 = 0;
                     var_r3_12 = 0;
                     while ((sp128 = var_r3_12) < d368_sub_08002164()) {
@@ -4814,7 +4813,7 @@ animationClassDoneD368:
                         var_r3_12 = sp128 + 1;
                     }
                     if (var_r4_11 == d368_sub_0800CBCC()) {
-                        d368_sub_08067F94((u32) M2C_FIELD(temp_r8, u32 *, 0xA4) >> 4, var_r6_8, var_r4_11);
+                        d368_sub_08067F94((u32) M2C_FIELD(lookupStats, u32 *, 0xA4) >> 4, var_r6_8, var_r4_11);
                         d368_sub_0800CBEC();
                     }
                 }
