@@ -3599,7 +3599,12 @@ retry63_1_done:
                     break;
                 case 7:                             /* switch 17 */
                     temp_r0_103 = ((struct PlayerD368 *)arg0)->f10;
-                    if (temp_r0_103 != 1) {
+                    if (temp_r0_103 == 1) {
+                        temp_r4_27 = ((struct PlayerD368 *)arg0)->f144;
+                        temp_r0_100 = d368_sub_0800CCCC();
+                        temp_r0_100 = ((s32) ((0U - (u32) temp_r0_100) | (u32) temp_r0_100) >> 0x1F) & 0x20;
+                        ((union RecordD368 *)temp_r4_27)->w1_b0_n6.value = temp_r0_100;
+                    } else {
                         if (temp_r0_103 != 8) {
 
                         } else {
@@ -3619,11 +3624,6 @@ retry63_1_done:
                             }
                             break;
                         }
-                    } else {
-                        temp_r4_27 = ((struct PlayerD368 *)arg0)->f144;
-                        temp_r0_100 = d368_sub_0800CCCC();
-                        temp_r0_100 = ((s32) ((0U - (u32) temp_r0_100) | (u32) temp_r0_100) >> 0x1F) & 0x20;
-                        ((union RecordD368 *)temp_r4_27)->w1_b0_n6.value = temp_r0_100;
                     }
                     break;
                 case 9:                             /* switch 17 */
