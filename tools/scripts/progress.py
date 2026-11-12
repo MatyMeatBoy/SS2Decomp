@@ -457,9 +457,8 @@ def main():
     for filename, label, value, percent in (
             ("tab_code.svg", "Code", "%.2f%%" % summary["all"]["percent_complete"], summary["all"]["percent_complete"]),
             ("tab_names.svg", "Names", "%.2f%%" % names_percent, names_percent),
-            ("tab_data.svg", "Data", "split %s | typed %s | named %s" % (
-                data_percent(data["split"]["percent"]), data_percent(data["typed"]["percent"]),
-                data_percent(data["named"]["percent_objects"])), data["typed"]["percent"])):
+            ("tab_data.svg", "Data", "split %s | described %s" % (
+                data_percent(data["split"]["percent"]), data_percent(data["typed"]["percent"])), data["typed"]["percent"])):
         Path(args.out, filename).write_text(badge_svg(label, value, pct_color(percent)), encoding="utf-8", newline="\n")
     for key, label in (("all", "matched + linked"), ("game", "game code"), ("lib", "libraries")):
         s = summary[key]

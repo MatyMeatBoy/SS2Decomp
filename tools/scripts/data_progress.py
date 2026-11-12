@@ -33,7 +33,7 @@ TYPED_PREFIXES = {"gSoundSample_": "m4a sample", "gSong_": "m4a song header or t
 # (data_split.py ssdt). Split, not typed: the format inside each resource is still unknown.
 SPLIT_PREFIXES = ("gResMain_", "gResAux_", "gTextL")
 RAW_LINE = re.compile(r'^[ 	]*(?:([A-Za-z_]\w*):|\.incbin\s+"%s"\s*,\s*(\S+?)\s*,\s*(\S+?))[ 	]*(?:@.*)?$' % re.escape(REFERENCE), re.M)
-STATE_TEXT = {"typed": "typed in source", "split": "split object, still raw bytes", "blob": "blob with known objects inside"}
+STATE_TEXT = {"typed": "described in source", "split": "split object, still raw bytes", "blob": "blob with known objects inside"}
 
 
 def data_span(root):
@@ -157,14 +157,12 @@ def render_svg(report):
     split, typed, named, total = report["split"], report["typed"], report["named"], report["bytes_total"]
     rows = [("1 · Split into objects", split["percent"],
              "%s / %s bytes · %s of at least %s objects" % (num(split["bytes"]), num(total), num(split["objects"]), num(split["objects_expected"])), MINT),
-            ("2 · Typed (written in source, not copied)", typed["percent"],
-             "%s / %s bytes" % (num(typed["bytes"]), num(total)), GREEN),
-            ("3 · Named objects", named["percent_objects"],
-             "%s of at least %s objects" % (num(named["objects"]), num(named["objects_expected"])), GREEN)]
-    parts = ['<svg xmlns="http://www.w3.org/2000/svg" width="%d" height="318" viewBox="0 0 %d 318" role="img" aria-labelledby="dtitle ddesc">' % (width, width),
-             '<title id="dtitle">Data progress: split, typed and named</title>',
-             '<desc id="ddesc">Three independent levels for the data area of the ROM, and a map of that area by state.</desc>',
-             '<rect width="%d" height="318" rx="10" fill="%s"/>' % (width, BG),
+            ("2 · Described (format written in source, not copied from the ROM)", typed["percent"],
+             "%s / %s bytes" % (num(typed["bytes"]), num(total)), GREEN)]
+    parts = ['<svg xmlns="http://www.w3.org/2000/svg" width="%d" height="262" viewBox="0 0 %d 262" role="img" aria-labelledby="dtitle ddesc">' % (width, width),
+             '<title id="dtitle">Data progress: split and described</title>',
+             '<desc id="ddesc">Two levels for the data area of the ROM, and a map of that area by state.</desc>',
+             '<rect width="%d" height="262" rx="10" fill="%s"/>' % (width, BG),
              '<g font-family="DejaVu Sans,Arial,sans-serif" fill="%s">' % FG,
              '<text x="18" y="25" font-size="14" font-weight="bold">Data · %.1f MiB of the ROM</text>' % (total / 1048576)]
     for i, (label, percent, detail, color) in enumerate(rows):
@@ -175,7 +173,7 @@ def render_svg(report):
                   '<rect x="18" y="%d" width="%d" height="12" rx="3" fill="#30363d"/>' % (y + 7, bar),
                   '<rect class="progress-fill" x="18" y="%d" width="%.4f" height="12" rx="2" fill="%s"/>' % (y + 7, bar * percent / 100, color),
                   '<text x="18" y="%d" font-size="10" fill="%s">%s</text></g>' % (y + 33, DIM, escape(detail))]
-    y = 228
+    y = 172
     lo = report["data_rom_offsets"][0]
     parts.append('<text x="18" y="%d" font-size="12" font-weight="bold">Map of the data area (left = 0x%06X, right = 0x%06X)</text>' % (y, lo, report["data_rom_offsets"][1]))
     parts.append('<rect x="18" y="%d" width="%d" height="26" fill="%s"/>' % (y + 8, bar, PANEL))
@@ -190,11 +188,11 @@ def render_svg(report):
         parts.append('<rect class="map" x="%.3f" y="%d" width="%.3f" height="26" fill="%s"><title>0x%06X, %d bytes: %s</title></rect>' % (
             18 + bar * (offset - lo) / total, y + 8, max(bar * size / total, 0.4), colors[state], offset, size, STATE_TEXT[state]))
     lx = 18
-    for color, text in ((GREEN, "typed in source"), (MINT, "split object, raw bytes"), (GREY, "blob still to split")):
+    for color, text in ((GREEN, "described in source"), (MINT, "split object, raw bytes"), (GREY, "blob still to split")):
         parts += ['<rect x="%d" y="%d" width="11" height="11" fill="%s"/>' % (lx, y + 44, color),
                   '<text x="%d" y="%d" font-size="11">%s</text>' % (lx + 15, y + 54, text)]
         lx += 34 + len(text) * 6
-    parts.append('<text x="18" y="304" font-size="10" fill="%s">Levels are independent. Object counts are a lower bound from pointer references. Field names are not measured.</text>' % DIM)
+    parts.append('<text x="18" y="248" font-size="10" fill="%s">Described is the figure other decompilations report as data progress. Object counts are a lower bound.</text>' % DIM)
     parts += ['</g></svg>']
     return "\n".join(parts) + "\n"
 
@@ -203,13 +201,13 @@ def render_markdown(report):
     s, t, n, total = report["split"], report["typed"], report["named"], report["bytes_total"]
     return "\n".join([
         "# Data progress", "",
-        "The data area is %d bytes (ROM offsets 0x%06X-0x%06X). Three levels are measured separately." % (
+        "The data area is %d bytes (ROM offsets 0x%06X-0x%06X). Two levels are measured." % (
             total, report["data_rom_offsets"][0], report["data_rom_offsets"][1]), "",
         "| Level | Meaning | Progress | Count |", "| --- | --- | ---: | ---: |",
         "| 1. Split | labelled object with no known object start inside it | %s | %d / %d bytes |" % (fmt(s["percent"]), s["bytes"], total),
         "| | objects labelled so far | %s | %d of at least %d |" % (fmt(s["percent_objects"]), s["objects"], s["objects_expected"]),
-        "| 2. Typed | written in source instead of copied from the reference ROM | %s | %d / %d bytes |" % (fmt(t["percent"]), t["bytes"], total),
-        "| 3. Named | object with a descriptive label | %s | %d of at least %d |" % (fmt(n["percent_objects"]), n["objects"], n["objects_expected"]), "",
+        "| 2. Described | format known and written in source instead of copied from the reference ROM | %s | %d / %d bytes |" % (fmt(t["percent"]), t["bytes"], total),
+        "",
         "%d blobs (%d bytes) still contain %d known object starts." % (s["blobs"], s["blob_bytes"], s["pending_targets"]), "",
         report["limits"], "",
         "Method and worker guide: [data pipeline](../agents/DATA_PIPELINE.md).", ""])
