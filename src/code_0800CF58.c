@@ -4901,9 +4901,10 @@ animationClassDoneD368:
                     if (0x200 & M2C_FIELD(d368_gUnk_03005CF4, u16 *, 4)) {
 
                     } else {
-                        sp128 = sp1A4;
                         if ((u32) ((struct PlayerD368 *)arg0)->f64 > 9U) {
                             sp128 = 0;
+                        } else {
+                            sp128 = sp1A4;
                         }
                         if (d368_sub_0800CC98() == 0) {
                             switch (sp128) {
@@ -5085,12 +5086,12 @@ animationClassDoneD368:
                 d368_sub_0800BC08((u16) M2C_FIELD(sp180, u16 *, 0) >> 4, (u32) ((u32) M2C_FIELD(sp180, u16 *, 2) << 0x14) >> 0x14, &coordF0, &coordF2, (0x30), ((u32) ((u32) M2C_FIELD(sp180, u8 *, 4) << 0x1A) >> 0x1A));
                 if (((u32) ((u32) M2C_FIELD(sp180, u8 *, 4) << 0x1A) >> 0x1A) & 0x20) {
                     if (d368_sub_0800CCCC() != 0) {
-                        sp128 = 0;
-                        if ((((u32) ((u32) M2C_FIELD(sp180, u8 *, 4) << 0x1A) >> 0x1A) & ~0x20) == gUnk_03003170.f90) {
-                            sp128 = 1;
-                            goto block_1716;
+                        if ((((u32) ((u32) M2C_FIELD(sp180, u8 *, 4) << 0x1A) >> 0x1A) & ~0x20) != gUnk_03003170.f90) {
+                            sp128 = 0;
+                            goto block_1714;
                         }
-                        goto block_1714;
+                        sp128 = 1;
+                        goto block_1716;
                     }
                     sp128 = 0;
                 } else {
@@ -5139,9 +5140,10 @@ block_1716:
                                 if (!(temp_r1_57 & 0x80000)) {
                                     d368_sub_08007870(coordF0, coordF2 - (sp118 >> 8), ((struct PlayerD368 *)arg0)->fB0, ((struct PlayerD368 *)arg0)->fB2, (sp160), (&sp10.f1C), (sp10.f8), (sp10.f0));
                                     if (!(0x200 & M2C_FIELD(d368_gUnk_03005CF4, u16 *, 4))) {
-                                        sp128 = sp1A4;
                                         if ((u32) ((struct PlayerD368 *)arg0)->f64 > 9U) {
                                             sp128 = 0;
+                                        } else {
+                                            sp128 = sp1A4;
                                         }
                                         switch (sp128) {
                                         case 12:
