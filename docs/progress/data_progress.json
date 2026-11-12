@@ -1,0 +1,2092 @@
+{
+ "schema_version": 1,
+ "unit": "bytes",
+ "data_rom_offsets": [
+  759556,
+  16777216
+ ],
+ "bytes_total": 16017660,
+ "split": {
+  "bytes": 103326,
+  "percent": 0.6450754979191717,
+  "objects": 412,
+  "objects_expected": 15240,
+  "percent_objects": 2.7034120734908136,
+  "blobs": 70,
+  "blob_bytes": 15914334,
+  "pending_targets": 14828
+ },
+ "typed": {
+  "bytes": 1280,
+  "percent": 0.00799117973536709,
+  "raw_incbin_bytes": 16016380
+ },
+ "named": {
+  "objects": 11,
+  "objects_expected": 15240,
+  "percent_objects": 0.07217847769028872
+ },
+ "ranges": [
+  {
+   "rom_offset": 759556,
+   "size": 640,
+   "state": "typed"
+  },
+  {
+   "rom_offset": 760196,
+   "size": 68,
+   "state": "split"
+  },
+  {
+   "rom_offset": 760264,
+   "size": 12,
+   "state": "split"
+  },
+  {
+   "rom_offset": 760276,
+   "size": 4,
+   "state": "split"
+  },
+  {
+   "rom_offset": 760280,
+   "size": 248,
+   "state": "blob"
+  },
+  {
+   "rom_offset": 760528,
+   "size": 7168,
+   "state": "split"
+  },
+  {
+   "rom_offset": 767696,
+   "size": 20,
+   "state": "split"
+  },
+  {
+   "rom_offset": 767716,
+   "size": 256,
+   "state": "split"
+  },
+  {
+   "rom_offset": 767972,
+   "size": 4,
+   "state": "split"
+  },
+  {
+   "rom_offset": 767976,
+   "size": 144,
+   "state": "split"
+  },
+  {
+   "rom_offset": 768120,
+   "size": 180,
+   "state": "split"
+  },
+  {
+   "rom_offset": 768300,
+   "size": 48,
+   "state": "split"
+  },
+  {
+   "rom_offset": 768348,
+   "size": 24,
+   "state": "split"
+  },
+  {
+   "rom_offset": 768372,
+   "size": 132,
+   "state": "split"
+  },
+  {
+   "rom_offset": 768504,
+   "size": 24,
+   "state": "split"
+  },
+  {
+   "rom_offset": 768528,
+   "size": 60,
+   "state": "split"
+  },
+  {
+   "rom_offset": 768588,
+   "size": 16,
+   "state": "split"
+  },
+  {
+   "rom_offset": 768604,
+   "size": 52,
+   "state": "split"
+  },
+  {
+   "rom_offset": 768656,
+   "size": 2892,
+   "state": "blob"
+  },
+  {
+   "rom_offset": 771548,
+   "size": 48,
+   "state": "split"
+  },
+  {
+   "rom_offset": 771596,
+   "size": 2794580,
+   "state": "blob"
+  },
+  {
+   "rom_offset": 3566176,
+   "size": 352,
+   "state": "blob"
+  },
+  {
+   "rom_offset": 3566528,
+   "size": 256,
+   "state": "typed"
+  },
+  {
+   "rom_offset": 3566784,
+   "size": 256,
+   "state": "split"
+  },
+  {
+   "rom_offset": 3567040,
+   "size": 12,
+   "state": "split"
+  },
+  {
+   "rom_offset": 3567052,
+   "size": 4,
+   "state": "split"
+  },
+  {
+   "rom_offset": 3567056,
+   "size": 60,
+   "state": "split"
+  },
+  {
+   "rom_offset": 3567116,
+   "size": 2,
+   "state": "split"
+  },
+  {
+   "rom_offset": 3567118,
+   "size": 38,
+   "state": "split"
+  },
+  {
+   "rom_offset": 3567156,
+   "size": 200,
+   "state": "split"
+  },
+  {
+   "rom_offset": 3567356,
+   "size": 200,
+   "state": "split"
+  },
+  {
+   "rom_offset": 3567556,
+   "size": 147500,
+   "state": "blob"
+  },
+  {
+   "rom_offset": 3715056,
+   "size": 154460,
+   "state": "blob"
+  },
+  {
+   "rom_offset": 3869516,
+   "size": 163744,
+   "state": "blob"
+  },
+  {
+   "rom_offset": 4033260,
+   "size": 163512,
+   "state": "blob"
+  },
+  {
+   "rom_offset": 4196772,
+   "size": 164500,
+   "state": "blob"
+  },
+  {
+   "rom_offset": 4361272,
+   "size": 5972,
+   "state": "blob"
+  },
+  {
+   "rom_offset": 4367244,
+   "size": 840,
+   "state": "split"
+  },
+  {
+   "rom_offset": 4368084,
+   "size": 23780,
+   "state": "blob"
+  },
+  {
+   "rom_offset": 4391864,
+   "size": 17280,
+   "state": "blob"
+  },
+  {
+   "rom_offset": 4409144,
+   "size": 29072,
+   "state": "split"
+  },
+  {
+   "rom_offset": 4438216,
+   "size": 27600,
+   "state": "blob"
+  },
+  {
+   "rom_offset": 4465816,
+   "size": 33672,
+   "state": "blob"
+  },
+  {
+   "rom_offset": 4499488,
+   "size": 17200,
+   "state": "split"
+  },
+  {
+   "rom_offset": 4516688,
+   "size": 7040,
+   "state": "blob"
+  },
+  {
+   "rom_offset": 4523728,
+   "size": 146412,
+   "state": "blob"
+  },
+  {
+   "rom_offset": 4670140,
+   "size": 15488,
+   "state": "blob"
+  },
+  {
+   "rom_offset": 4685628,
+   "size": 264,
+   "state": "split"
+  },
+  {
+   "rom_offset": 4685892,
+   "size": 276,
+   "state": "split"
+  },
+  {
+   "rom_offset": 4686168,
+   "size": 200,
+   "state": "split"
+  },
+  {
+   "rom_offset": 4686368,
+   "size": 212,
+   "state": "split"
+  },
+  {
+   "rom_offset": 4686580,
+   "size": 28,
+   "state": "split"
+  },
+  {
+   "rom_offset": 4686608,
+   "size": 40,
+   "state": "split"
+  },
+  {
+   "rom_offset": 4686648,
+   "size": 64,
+   "state": "split"
+  },
+  {
+   "rom_offset": 4686712,
+   "size": 20,
+   "state": "split"
+  },
+  {
+   "rom_offset": 4686732,
+   "size": 160,
+   "state": "split"
+  },
+  {
+   "rom_offset": 4686892,
+   "size": 16,
+   "state": "split"
+  },
+  {
+   "rom_offset": 4686908,
+   "size": 16,
+   "state": "split"
+  },
+  {
+   "rom_offset": 4686924,
+   "size": 16,
+   "state": "split"
+  },
+  {
+   "rom_offset": 4686940,
+   "size": 16,
+   "state": "split"
+  },
+  {
+   "rom_offset": 4686956,
+   "size": 4,
+   "state": "split"
+  },
+  {
+   "rom_offset": 4686960,
+   "size": 2780,
+   "state": "split"
+  },
+  {
+   "rom_offset": 4689740,
+   "size": 78,
+   "state": "split"
+  },
+  {
+   "rom_offset": 4689818,
+   "size": 170,
+   "state": "split"
+  },
+  {
+   "rom_offset": 4689988,
+   "size": 16,
+   "state": "split"
+  },
+  {
+   "rom_offset": 4690004,
+   "size": 96,
+   "state": "split"
+  },
+  {
+   "rom_offset": 4690100,
+   "size": 16,
+   "state": "split"
+  },
+  {
+   "rom_offset": 4690116,
+   "size": 124,
+   "state": "split"
+  },
+  {
+   "rom_offset": 4690240,
+   "size": 6948,
+   "state": "split"
+  },
+  {
+   "rom_offset": 4697188,
+   "size": 132,
+   "state": "split"
+  },
+  {
+   "rom_offset": 4697320,
+   "size": 16,
+   "state": "split"
+  },
+  {
+   "rom_offset": 4697336,
+   "size": 18,
+   "state": "split"
+  },
+  {
+   "rom_offset": 4697354,
+   "size": 18,
+   "state": "split"
+  },
+  {
+   "rom_offset": 4697372,
+   "size": 32,
+   "state": "split"
+  },
+  {
+   "rom_offset": 4697404,
+   "size": 42336,
+   "state": "blob"
+  },
+  {
+   "rom_offset": 4739740,
+   "size": 42864,
+   "state": "blob"
+  },
+  {
+   "rom_offset": 4782604,
+   "size": 60,
+   "state": "split"
+  },
+  {
+   "rom_offset": 4782664,
+   "size": 288,
+   "state": "split"
+  },
+  {
+   "rom_offset": 4782952,
+   "size": 20,
+   "state": "split"
+  },
+  {
+   "rom_offset": 4782972,
+   "size": 8,
+   "state": "split"
+  },
+  {
+   "rom_offset": 4782980,
+   "size": 12,
+   "state": "split"
+  },
+  {
+   "rom_offset": 4782992,
+   "size": 12,
+   "state": "split"
+  },
+  {
+   "rom_offset": 4783004,
+   "size": 12,
+   "state": "split"
+  },
+  {
+   "rom_offset": 4783016,
+   "size": 12,
+   "state": "split"
+  },
+  {
+   "rom_offset": 4783028,
+   "size": 12,
+   "state": "split"
+  },
+  {
+   "rom_offset": 4783040,
+   "size": 12,
+   "state": "split"
+  },
+  {
+   "rom_offset": 4783052,
+   "size": 12,
+   "state": "split"
+  },
+  {
+   "rom_offset": 4783064,
+   "size": 12,
+   "state": "split"
+  },
+  {
+   "rom_offset": 4783076,
+   "size": 12,
+   "state": "split"
+  },
+  {
+   "rom_offset": 4783088,
+   "size": 12,
+   "state": "split"
+  },
+  {
+   "rom_offset": 4783100,
+   "size": 12,
+   "state": "split"
+  },
+  {
+   "rom_offset": 4783112,
+   "size": 12,
+   "state": "split"
+  },
+  {
+   "rom_offset": 4783124,
+   "size": 12,
+   "state": "split"
+  },
+  {
+   "rom_offset": 4783136,
+   "size": 12,
+   "state": "split"
+  },
+  {
+   "rom_offset": 4783148,
+   "size": 12,
+   "state": "split"
+  },
+  {
+   "rom_offset": 4783160,
+   "size": 12,
+   "state": "split"
+  },
+  {
+   "rom_offset": 4783172,
+   "size": 12,
+   "state": "split"
+  },
+  {
+   "rom_offset": 4783184,
+   "size": 12,
+   "state": "split"
+  },
+  {
+   "rom_offset": 4783196,
+   "size": 12,
+   "state": "split"
+  },
+  {
+   "rom_offset": 4783208,
+   "size": 12,
+   "state": "split"
+  },
+  {
+   "rom_offset": 4783220,
+   "size": 12,
+   "state": "split"
+  },
+  {
+   "rom_offset": 4783232,
+   "size": 12,
+   "state": "split"
+  },
+  {
+   "rom_offset": 4783244,
+   "size": 12,
+   "state": "split"
+  },
+  {
+   "rom_offset": 4783256,
+   "size": 12,
+   "state": "split"
+  },
+  {
+   "rom_offset": 4783268,
+   "size": 12,
+   "state": "split"
+  },
+  {
+   "rom_offset": 4783280,
+   "size": 12,
+   "state": "split"
+  },
+  {
+   "rom_offset": 4783292,
+   "size": 12,
+   "state": "split"
+  },
+  {
+   "rom_offset": 4783304,
+   "size": 12,
+   "state": "split"
+  },
+  {
+   "rom_offset": 4783316,
+   "size": 12,
+   "state": "split"
+  },
+  {
+   "rom_offset": 4783328,
+   "size": 12,
+   "state": "split"
+  },
+  {
+   "rom_offset": 4783340,
+   "size": 12,
+   "state": "split"
+  },
+  {
+   "rom_offset": 4783352,
+   "size": 12,
+   "state": "split"
+  },
+  {
+   "rom_offset": 4783364,
+   "size": 12,
+   "state": "split"
+  },
+  {
+   "rom_offset": 4783376,
+   "size": 12,
+   "state": "split"
+  },
+  {
+   "rom_offset": 4783388,
+   "size": 12,
+   "state": "split"
+  },
+  {
+   "rom_offset": 4783400,
+   "size": 12,
+   "state": "split"
+  },
+  {
+   "rom_offset": 4783412,
+   "size": 12,
+   "state": "split"
+  },
+  {
+   "rom_offset": 4783424,
+   "size": 12,
+   "state": "split"
+  },
+  {
+   "rom_offset": 4783436,
+   "size": 12,
+   "state": "split"
+  },
+  {
+   "rom_offset": 4783448,
+   "size": 12,
+   "state": "split"
+  },
+  {
+   "rom_offset": 4783460,
+   "size": 12,
+   "state": "split"
+  },
+  {
+   "rom_offset": 4783472,
+   "size": 12,
+   "state": "split"
+  },
+  {
+   "rom_offset": 4783484,
+   "size": 12,
+   "state": "split"
+  },
+  {
+   "rom_offset": 4783496,
+   "size": 12,
+   "state": "split"
+  },
+  {
+   "rom_offset": 4783508,
+   "size": 12,
+   "state": "split"
+  },
+  {
+   "rom_offset": 4783520,
+   "size": 12,
+   "state": "split"
+  },
+  {
+   "rom_offset": 4783532,
+   "size": 12,
+   "state": "split"
+  },
+  {
+   "rom_offset": 4783544,
+   "size": 12,
+   "state": "split"
+  },
+  {
+   "rom_offset": 4783556,
+   "size": 12,
+   "state": "split"
+  },
+  {
+   "rom_offset": 4783568,
+   "size": 12,
+   "state": "split"
+  },
+  {
+   "rom_offset": 4783580,
+   "size": 12,
+   "state": "split"
+  },
+  {
+   "rom_offset": 4783592,
+   "size": 12,
+   "state": "split"
+  },
+  {
+   "rom_offset": 4783604,
+   "size": 12,
+   "state": "split"
+  },
+  {
+   "rom_offset": 4783616,
+   "size": 12,
+   "state": "split"
+  },
+  {
+   "rom_offset": 4783628,
+   "size": 12,
+   "state": "split"
+  },
+  {
+   "rom_offset": 4783640,
+   "size": 12,
+   "state": "split"
+  },
+  {
+   "rom_offset": 4783652,
+   "size": 12,
+   "state": "split"
+  },
+  {
+   "rom_offset": 4783664,
+   "size": 12,
+   "state": "split"
+  },
+  {
+   "rom_offset": 4783676,
+   "size": 12,
+   "state": "split"
+  },
+  {
+   "rom_offset": 4783688,
+   "size": 12,
+   "state": "split"
+  },
+  {
+   "rom_offset": 4783700,
+   "size": 12,
+   "state": "split"
+  },
+  {
+   "rom_offset": 4783712,
+   "size": 12,
+   "state": "split"
+  },
+  {
+   "rom_offset": 4783724,
+   "size": 12,
+   "state": "split"
+  },
+  {
+   "rom_offset": 4783736,
+   "size": 12,
+   "state": "split"
+  },
+  {
+   "rom_offset": 4783748,
+   "size": 36,
+   "state": "split"
+  },
+  {
+   "rom_offset": 4783784,
+   "size": 12,
+   "state": "split"
+  },
+  {
+   "rom_offset": 4783796,
+   "size": 12,
+   "state": "split"
+  },
+  {
+   "rom_offset": 4783808,
+   "size": 12,
+   "state": "split"
+  },
+  {
+   "rom_offset": 4783820,
+   "size": 12,
+   "state": "split"
+  },
+  {
+   "rom_offset": 4783832,
+   "size": 12,
+   "state": "split"
+  },
+  {
+   "rom_offset": 4783844,
+   "size": 4,
+   "state": "split"
+  },
+  {
+   "rom_offset": 4783848,
+   "size": 4,
+   "state": "split"
+  },
+  {
+   "rom_offset": 4783852,
+   "size": 4,
+   "state": "split"
+  },
+  {
+   "rom_offset": 4783856,
+   "size": 64,
+   "state": "split"
+  },
+  {
+   "rom_offset": 4783920,
+   "size": 4,
+   "state": "split"
+  },
+  {
+   "rom_offset": 4783924,
+   "size": 4,
+   "state": "split"
+  },
+  {
+   "rom_offset": 4783928,
+   "size": 4,
+   "state": "split"
+  },
+  {
+   "rom_offset": 4783932,
+   "size": 4,
+   "state": "split"
+  },
+  {
+   "rom_offset": 4783936,
+   "size": 4,
+   "state": "split"
+  },
+  {
+   "rom_offset": 4783940,
+   "size": 4,
+   "state": "split"
+  },
+  {
+   "rom_offset": 4783944,
+   "size": 4,
+   "state": "split"
+  },
+  {
+   "rom_offset": 4783948,
+   "size": 4,
+   "state": "split"
+  },
+  {
+   "rom_offset": 4783952,
+   "size": 4,
+   "state": "split"
+  },
+  {
+   "rom_offset": 4783956,
+   "size": 460,
+   "state": "blob"
+  },
+  {
+   "rom_offset": 4784416,
+   "size": 58464,
+   "state": "blob"
+  },
+  {
+   "rom_offset": 4842880,
+   "size": 432,
+   "state": "split"
+  },
+  {
+   "rom_offset": 4843312,
+   "size": 16,
+   "state": "typed"
+  },
+  {
+   "rom_offset": 4843328,
+   "size": 32,
+   "state": "split"
+  },
+  {
+   "rom_offset": 4843360,
+   "size": 16,
+   "state": "split"
+  },
+  {
+   "rom_offset": 4843376,
+   "size": 4360,
+   "state": "blob"
+  },
+  {
+   "rom_offset": 4847736,
+   "size": 3640,
+   "state": "blob"
+  },
+  {
+   "rom_offset": 4851376,
+   "size": 4704,
+   "state": "blob"
+  },
+  {
+   "rom_offset": 4856080,
+   "size": 3640,
+   "state": "blob"
+  },
+  {
+   "rom_offset": 4859720,
+   "size": 5880,
+   "state": "blob"
+  },
+  {
+   "rom_offset": 4865600,
+   "size": 112,
+   "state": "split"
+  },
+  {
+   "rom_offset": 4865712,
+   "size": 3472,
+   "state": "blob"
+  },
+  {
+   "rom_offset": 4869184,
+   "size": 4200,
+   "state": "blob"
+  },
+  {
+   "rom_offset": 4873384,
+   "size": 4368,
+   "state": "blob"
+  },
+  {
+   "rom_offset": 4877752,
+   "size": 3864,
+   "state": "blob"
+  },
+  {
+   "rom_offset": 4881616,
+   "size": 952,
+   "state": "blob"
+  },
+  {
+   "rom_offset": 4882568,
+   "size": 1064,
+   "state": "blob"
+  },
+  {
+   "rom_offset": 4883632,
+   "size": 1680,
+   "state": "blob"
+  },
+  {
+   "rom_offset": 4885312,
+   "size": 896,
+   "state": "blob"
+  },
+  {
+   "rom_offset": 4886208,
+   "size": 5824,
+   "state": "blob"
+  },
+  {
+   "rom_offset": 4892032,
+   "size": 448,
+   "state": "blob"
+  },
+  {
+   "rom_offset": 4892480,
+   "size": 112,
+   "state": "split"
+  },
+  {
+   "rom_offset": 4892592,
+   "size": 448,
+   "state": "blob"
+  },
+  {
+   "rom_offset": 4893040,
+   "size": 112,
+   "state": "split"
+  },
+  {
+   "rom_offset": 4893152,
+   "size": 8,
+   "state": "split"
+  },
+  {
+   "rom_offset": 4893160,
+   "size": 328,
+   "state": "split"
+  },
+  {
+   "rom_offset": 4893488,
+   "size": 8,
+   "state": "split"
+  },
+  {
+   "rom_offset": 4893496,
+   "size": 328,
+   "state": "split"
+  },
+  {
+   "rom_offset": 4893824,
+   "size": 8,
+   "state": "split"
+  },
+  {
+   "rom_offset": 4893832,
+   "size": 328,
+   "state": "split"
+  },
+  {
+   "rom_offset": 4894160,
+   "size": 8,
+   "state": "split"
+  },
+  {
+   "rom_offset": 4894168,
+   "size": 328,
+   "state": "split"
+  },
+  {
+   "rom_offset": 4894496,
+   "size": 8,
+   "state": "split"
+  },
+  {
+   "rom_offset": 4894504,
+   "size": 328,
+   "state": "split"
+  },
+  {
+   "rom_offset": 4894832,
+   "size": 8,
+   "state": "split"
+  },
+  {
+   "rom_offset": 4894840,
+   "size": 328,
+   "state": "split"
+  },
+  {
+   "rom_offset": 4895168,
+   "size": 8,
+   "state": "split"
+  },
+  {
+   "rom_offset": 4895176,
+   "size": 328,
+   "state": "split"
+  },
+  {
+   "rom_offset": 4895504,
+   "size": 8,
+   "state": "split"
+  },
+  {
+   "rom_offset": 4895512,
+   "size": 328,
+   "state": "split"
+  },
+  {
+   "rom_offset": 4895840,
+   "size": 8,
+   "state": "split"
+  },
+  {
+   "rom_offset": 4895848,
+   "size": 328,
+   "state": "split"
+  },
+  {
+   "rom_offset": 4896176,
+   "size": 8,
+   "state": "split"
+  },
+  {
+   "rom_offset": 4896184,
+   "size": 1112,
+   "state": "blob"
+  },
+  {
+   "rom_offset": 4897296,
+   "size": 20624,
+   "state": "blob"
+  },
+  {
+   "rom_offset": 4917920,
+   "size": 2300,
+   "state": "split"
+  },
+  {
+   "rom_offset": 4920220,
+   "size": 32,
+   "state": "split"
+  },
+  {
+   "rom_offset": 4920252,
+   "size": 40,
+   "state": "split"
+  },
+  {
+   "rom_offset": 4920292,
+   "size": 60,
+   "state": "split"
+  },
+  {
+   "rom_offset": 4920352,
+   "size": 52,
+   "state": "split"
+  },
+  {
+   "rom_offset": 4920404,
+   "size": 56,
+   "state": "split"
+  },
+  {
+   "rom_offset": 4920460,
+   "size": 68,
+   "state": "split"
+  },
+  {
+   "rom_offset": 4920528,
+   "size": 52,
+   "state": "split"
+  },
+  {
+   "rom_offset": 4920580,
+   "size": 72,
+   "state": "split"
+  },
+  {
+   "rom_offset": 4920652,
+   "size": 68,
+   "state": "split"
+  },
+  {
+   "rom_offset": 4920720,
+   "size": 84,
+   "state": "split"
+  },
+  {
+   "rom_offset": 4920804,
+   "size": 4,
+   "state": "split"
+  },
+  {
+   "rom_offset": 4920808,
+   "size": 16,
+   "state": "split"
+  },
+  {
+   "rom_offset": 4920824,
+   "size": 20,
+   "state": "split"
+  },
+  {
+   "rom_offset": 4920844,
+   "size": 4,
+   "state": "split"
+  },
+  {
+   "rom_offset": 4920848,
+   "size": 16,
+   "state": "split"
+  },
+  {
+   "rom_offset": 4920864,
+   "size": 16,
+   "state": "split"
+  },
+  {
+   "rom_offset": 4920880,
+   "size": 28,
+   "state": "split"
+  },
+  {
+   "rom_offset": 4920908,
+   "size": 24,
+   "state": "split"
+  },
+  {
+   "rom_offset": 4920932,
+   "size": 20,
+   "state": "split"
+  },
+  {
+   "rom_offset": 4920952,
+   "size": 40,
+   "state": "split"
+  },
+  {
+   "rom_offset": 4920992,
+   "size": 20,
+   "state": "split"
+  },
+  {
+   "rom_offset": 4921012,
+   "size": 24,
+   "state": "split"
+  },
+  {
+   "rom_offset": 4921036,
+   "size": 20,
+   "state": "split"
+  },
+  {
+   "rom_offset": 4921056,
+   "size": 384,
+   "state": "split"
+  },
+  {
+   "rom_offset": 4921440,
+   "size": 4,
+   "state": "split"
+  },
+  {
+   "rom_offset": 4921444,
+   "size": 8,
+   "state": "split"
+  },
+  {
+   "rom_offset": 4921452,
+   "size": 388,
+   "state": "split"
+  },
+  {
+   "rom_offset": 4921840,
+   "size": 608,
+   "state": "split"
+  },
+  {
+   "rom_offset": 4922448,
+   "size": 240,
+   "state": "typed"
+  },
+  {
+   "rom_offset": 4922688,
+   "size": 56,
+   "state": "split"
+  },
+  {
+   "rom_offset": 4922744,
+   "size": 1584,
+   "state": "split"
+  },
+  {
+   "rom_offset": 4924328,
+   "size": 264,
+   "state": "split"
+  },
+  {
+   "rom_offset": 4924592,
+   "size": 84,
+   "state": "split"
+  },
+  {
+   "rom_offset": 4924676,
+   "size": 215252,
+   "state": "blob"
+  },
+  {
+   "rom_offset": 5139928,
+   "size": 3600,
+   "state": "split"
+  },
+  {
+   "rom_offset": 5143528,
+   "size": 7680,
+   "state": "split"
+  },
+  {
+   "rom_offset": 5151208,
+   "size": 7680,
+   "state": "blob"
+  },
+  {
+   "rom_offset": 5158888,
+   "size": 240,
+   "state": "split"
+  },
+  {
+   "rom_offset": 5159128,
+   "size": 1040,
+   "state": "split"
+  },
+  {
+   "rom_offset": 5160168,
+   "size": 64,
+   "state": "split"
+  },
+  {
+   "rom_offset": 5160232,
+   "size": 16,
+   "state": "split"
+  },
+  {
+   "rom_offset": 5160248,
+   "size": 16,
+   "state": "split"
+  },
+  {
+   "rom_offset": 5160264,
+   "size": 4,
+   "state": "split"
+  },
+  {
+   "rom_offset": 5160268,
+   "size": 16,
+   "state": "split"
+  },
+  {
+   "rom_offset": 5160284,
+   "size": 24,
+   "state": "typed"
+  },
+  {
+   "rom_offset": 5160308,
+   "size": 8,
+   "state": "split"
+  },
+  {
+   "rom_offset": 5160316,
+   "size": 64,
+   "state": "split"
+  },
+  {
+   "rom_offset": 5160380,
+   "size": 2,
+   "state": "split"
+  },
+  {
+   "rom_offset": 5160382,
+   "size": 10,
+   "state": "split"
+  },
+  {
+   "rom_offset": 5160392,
+   "size": 64,
+   "state": "split"
+  },
+  {
+   "rom_offset": 5160456,
+   "size": 2,
+   "state": "split"
+  },
+  {
+   "rom_offset": 5160458,
+   "size": 10,
+   "state": "split"
+  },
+  {
+   "rom_offset": 5160468,
+   "size": 32,
+   "state": "split"
+  },
+  {
+   "rom_offset": 5160500,
+   "size": 4,
+   "state": "split"
+  },
+  {
+   "rom_offset": 5160504,
+   "size": 28,
+   "state": "split"
+  },
+  {
+   "rom_offset": 5160532,
+   "size": 48,
+   "state": "split"
+  },
+  {
+   "rom_offset": 5160580,
+   "size": 2,
+   "state": "split"
+  },
+  {
+   "rom_offset": 5160582,
+   "size": 54,
+   "state": "split"
+  },
+  {
+   "rom_offset": 5160636,
+   "size": 2,
+   "state": "split"
+  },
+  {
+   "rom_offset": 5160638,
+   "size": 94,
+   "state": "split"
+  },
+  {
+   "rom_offset": 5160732,
+   "size": 98,
+   "state": "split"
+  },
+  {
+   "rom_offset": 5160830,
+   "size": 430,
+   "state": "split"
+  },
+  {
+   "rom_offset": 5161260,
+   "size": 32,
+   "state": "split"
+  },
+  {
+   "rom_offset": 5161292,
+   "size": 16,
+   "state": "split"
+  },
+  {
+   "rom_offset": 5161308,
+   "size": 16,
+   "state": "split"
+  },
+  {
+   "rom_offset": 5161324,
+   "size": 16,
+   "state": "split"
+  },
+  {
+   "rom_offset": 5161340,
+   "size": 18,
+   "state": "split"
+  },
+  {
+   "rom_offset": 5161358,
+   "size": 18,
+   "state": "split"
+  },
+  {
+   "rom_offset": 5161376,
+   "size": 32,
+   "state": "split"
+  },
+  {
+   "rom_offset": 5161408,
+   "size": 16,
+   "state": "split"
+  },
+  {
+   "rom_offset": 5161424,
+   "size": 16,
+   "state": "split"
+  },
+  {
+   "rom_offset": 5161440,
+   "size": 168,
+   "state": "split"
+  },
+  {
+   "rom_offset": 5161608,
+   "size": 168,
+   "state": "split"
+  },
+  {
+   "rom_offset": 5161776,
+   "size": 168,
+   "state": "split"
+  },
+  {
+   "rom_offset": 5161944,
+   "size": 168,
+   "state": "split"
+  },
+  {
+   "rom_offset": 5162112,
+   "size": 96,
+   "state": "split"
+  },
+  {
+   "rom_offset": 5162208,
+   "size": 96,
+   "state": "split"
+  },
+  {
+   "rom_offset": 5162304,
+   "size": 96,
+   "state": "split"
+  },
+  {
+   "rom_offset": 5162400,
+   "size": 96,
+   "state": "split"
+  },
+  {
+   "rom_offset": 5162496,
+   "size": 96,
+   "state": "split"
+  },
+  {
+   "rom_offset": 5162592,
+   "size": 96,
+   "state": "split"
+  },
+  {
+   "rom_offset": 5162688,
+   "size": 36,
+   "state": "split"
+  },
+  {
+   "rom_offset": 5162724,
+   "size": 36,
+   "state": "split"
+  },
+  {
+   "rom_offset": 5162760,
+   "size": 36,
+   "state": "split"
+  },
+  {
+   "rom_offset": 5162796,
+   "size": 36,
+   "state": "split"
+  },
+  {
+   "rom_offset": 5162832,
+   "size": 36,
+   "state": "split"
+  },
+  {
+   "rom_offset": 5162868,
+   "size": 36,
+   "state": "split"
+  },
+  {
+   "rom_offset": 5162904,
+   "size": 36,
+   "state": "split"
+  },
+  {
+   "rom_offset": 5162940,
+   "size": 36,
+   "state": "split"
+  },
+  {
+   "rom_offset": 5162976,
+   "size": 36,
+   "state": "split"
+  },
+  {
+   "rom_offset": 5163012,
+   "size": 36,
+   "state": "split"
+  },
+  {
+   "rom_offset": 5163048,
+   "size": 36,
+   "state": "split"
+  },
+  {
+   "rom_offset": 5163084,
+   "size": 36,
+   "state": "split"
+  },
+  {
+   "rom_offset": 5163120,
+   "size": 64,
+   "state": "split"
+  },
+  {
+   "rom_offset": 5163184,
+   "size": 64,
+   "state": "split"
+  },
+  {
+   "rom_offset": 5163248,
+   "size": 48,
+   "state": "split"
+  },
+  {
+   "rom_offset": 5163296,
+   "size": 48,
+   "state": "split"
+  },
+  {
+   "rom_offset": 5163344,
+   "size": 80,
+   "state": "split"
+  },
+  {
+   "rom_offset": 5163424,
+   "size": 80,
+   "state": "split"
+  },
+  {
+   "rom_offset": 5163504,
+   "size": 80,
+   "state": "split"
+  },
+  {
+   "rom_offset": 5163584,
+   "size": 80,
+   "state": "split"
+  },
+  {
+   "rom_offset": 5163664,
+   "size": 80,
+   "state": "split"
+  },
+  {
+   "rom_offset": 5163744,
+   "size": 80,
+   "state": "split"
+  },
+  {
+   "rom_offset": 5163824,
+   "size": 84,
+   "state": "split"
+  },
+  {
+   "rom_offset": 5163908,
+   "size": 20,
+   "state": "split"
+  },
+  {
+   "rom_offset": 5163928,
+   "size": 24,
+   "state": "split"
+  },
+  {
+   "rom_offset": 5163952,
+   "size": 24,
+   "state": "typed"
+  },
+  {
+   "rom_offset": 5163976,
+   "size": 20,
+   "state": "split"
+  },
+  {
+   "rom_offset": 5163996,
+   "size": 40,
+   "state": "split"
+  },
+  {
+   "rom_offset": 5164036,
+   "size": 40,
+   "state": "split"
+  },
+  {
+   "rom_offset": 5164076,
+   "size": 584,
+   "state": "split"
+  },
+  {
+   "rom_offset": 5164660,
+   "size": 26,
+   "state": "split"
+  },
+  {
+   "rom_offset": 5164686,
+   "size": 34,
+   "state": "split"
+  },
+  {
+   "rom_offset": 5164720,
+   "size": 216,
+   "state": "split"
+  },
+  {
+   "rom_offset": 5164936,
+   "size": 96,
+   "state": "split"
+  },
+  {
+   "rom_offset": 5165032,
+   "size": 96,
+   "state": "split"
+  },
+  {
+   "rom_offset": 5165128,
+   "size": 312,
+   "state": "split"
+  },
+  {
+   "rom_offset": 5165440,
+   "size": 96,
+   "state": "split"
+  },
+  {
+   "rom_offset": 5165536,
+   "size": 312,
+   "state": "split"
+  },
+  {
+   "rom_offset": 5165848,
+   "size": 192,
+   "state": "split"
+  },
+  {
+   "rom_offset": 5166040,
+   "size": 96,
+   "state": "split"
+  },
+  {
+   "rom_offset": 5166136,
+   "size": 96,
+   "state": "split"
+  },
+  {
+   "rom_offset": 5166232,
+   "size": 96,
+   "state": "split"
+  },
+  {
+   "rom_offset": 5166328,
+   "size": 48,
+   "state": "split"
+  },
+  {
+   "rom_offset": 5166376,
+   "size": 96,
+   "state": "split"
+  },
+  {
+   "rom_offset": 5166472,
+   "size": 96,
+   "state": "split"
+  },
+  {
+   "rom_offset": 5166568,
+   "size": 96,
+   "state": "split"
+  },
+  {
+   "rom_offset": 5166664,
+   "size": 96,
+   "state": "split"
+  },
+  {
+   "rom_offset": 5166760,
+   "size": 96,
+   "state": "split"
+  },
+  {
+   "rom_offset": 5166856,
+   "size": 288,
+   "state": "split"
+  },
+  {
+   "rom_offset": 5167144,
+   "size": 288,
+   "state": "split"
+  },
+  {
+   "rom_offset": 5167432,
+   "size": 96,
+   "state": "split"
+  },
+  {
+   "rom_offset": 5167528,
+   "size": 96,
+   "state": "split"
+  },
+  {
+   "rom_offset": 5167624,
+   "size": 96,
+   "state": "split"
+  },
+  {
+   "rom_offset": 5167720,
+   "size": 96,
+   "state": "split"
+  },
+  {
+   "rom_offset": 5167816,
+   "size": 96,
+   "state": "split"
+  },
+  {
+   "rom_offset": 5167912,
+   "size": 96,
+   "state": "split"
+  },
+  {
+   "rom_offset": 5168008,
+   "size": 144,
+   "state": "split"
+  },
+  {
+   "rom_offset": 5168152,
+   "size": 144,
+   "state": "split"
+  },
+  {
+   "rom_offset": 5168296,
+   "size": 11800,
+   "state": "blob"
+  },
+  {
+   "rom_offset": 5180096,
+   "size": 80,
+   "state": "typed"
+  },
+  {
+   "rom_offset": 5180176,
+   "size": 2,
+   "state": "split"
+  },
+  {
+   "rom_offset": 5180178,
+   "size": 238,
+   "state": "split"
+  },
+  {
+   "rom_offset": 5180416,
+   "size": 40,
+   "state": "split"
+  },
+  {
+   "rom_offset": 5180456,
+   "size": 8,
+   "state": "split"
+  },
+  {
+   "rom_offset": 5180464,
+   "size": 4,
+   "state": "split"
+  },
+  {
+   "rom_offset": 5180468,
+   "size": 86,
+   "state": "split"
+  },
+  {
+   "rom_offset": 5180554,
+   "size": 6746,
+   "state": "blob"
+  },
+  {
+   "rom_offset": 5187300,
+   "size": 8500,
+   "state": "blob"
+  },
+  {
+   "rom_offset": 5195800,
+   "size": 12596,
+   "state": "blob"
+  },
+  {
+   "rom_offset": 5208396,
+   "size": 10572,
+   "state": "blob"
+  },
+  {
+   "rom_offset": 5218968,
+   "size": 11732,
+   "state": "blob"
+  },
+  {
+   "rom_offset": 5230700,
+   "size": 12320,
+   "state": "blob"
+  },
+  {
+   "rom_offset": 5243020,
+   "size": 10288,
+   "state": "blob"
+  },
+  {
+   "rom_offset": 5253308,
+   "size": 14360,
+   "state": "blob"
+  },
+  {
+   "rom_offset": 5267668,
+   "size": 10880,
+   "state": "blob"
+  },
+  {
+   "rom_offset": 5278548,
+   "size": 15252,
+   "state": "blob"
+  },
+  {
+   "rom_offset": 5293800,
+   "size": 960,
+   "state": "blob"
+  },
+  {
+   "rom_offset": 5294760,
+   "size": 2628,
+   "state": "blob"
+  },
+  {
+   "rom_offset": 5297388,
+   "size": 20,
+   "state": "split"
+  },
+  {
+   "rom_offset": 5297408,
+   "size": 2344,
+   "state": "blob"
+  },
+  {
+   "rom_offset": 5299752,
+   "size": 3228,
+   "state": "blob"
+  },
+  {
+   "rom_offset": 5302980,
+   "size": 604,
+   "state": "blob"
+  },
+  {
+   "rom_offset": 5303584,
+   "size": 2932,
+   "state": "blob"
+  },
+  {
+   "rom_offset": 5306516,
+   "size": 3228,
+   "state": "blob"
+  },
+  {
+   "rom_offset": 5309744,
+   "size": 4104,
+   "state": "blob"
+  },
+  {
+   "rom_offset": 5313848,
+   "size": 4408,
+   "state": "blob"
+  },
+  {
+   "rom_offset": 5318256,
+   "size": 4112,
+   "state": "blob"
+  },
+  {
+   "rom_offset": 5322368,
+   "size": 6444,
+   "state": "blob"
+  },
+  {
+   "rom_offset": 5328812,
+   "size": 4128,
+   "state": "blob"
+  },
+  {
+   "rom_offset": 5332940,
+   "size": 4692,
+   "state": "blob"
+  },
+  {
+   "rom_offset": 5337632,
+   "size": 3820,
+   "state": "blob"
+  },
+  {
+   "rom_offset": 5341452,
+   "size": 140,
+   "state": "blob"
+  },
+  {
+   "rom_offset": 5341592,
+   "size": 40,
+   "state": "split"
+  },
+  {
+   "rom_offset": 5341632,
+   "size": 74,
+   "state": "split"
+  },
+  {
+   "rom_offset": 5341706,
+   "size": 580,
+   "state": "blob"
+  },
+  {
+   "rom_offset": 5342286,
+   "size": 14,
+   "state": "split"
+  },
+  {
+   "rom_offset": 5342300,
+   "size": 48,
+   "state": "split"
+  },
+  {
+   "rom_offset": 5342348,
+   "size": 48,
+   "state": "split"
+  },
+  {
+   "rom_offset": 5342396,
+   "size": 48,
+   "state": "split"
+  },
+  {
+   "rom_offset": 5342444,
+   "size": 48,
+   "state": "split"
+  },
+  {
+   "rom_offset": 5342492,
+   "size": 48,
+   "state": "split"
+  },
+  {
+   "rom_offset": 5342540,
+   "size": 48,
+   "state": "split"
+  },
+  {
+   "rom_offset": 5342588,
+   "size": 64,
+   "state": "split"
+  },
+  {
+   "rom_offset": 5342652,
+   "size": 64,
+   "state": "split"
+  },
+  {
+   "rom_offset": 5342716,
+   "size": 64,
+   "state": "split"
+  },
+  {
+   "rom_offset": 5342780,
+   "size": 160,
+   "state": "split"
+  },
+  {
+   "rom_offset": 5342940,
+   "size": 16,
+   "state": "split"
+  },
+  {
+   "rom_offset": 5342956,
+   "size": 16,
+   "state": "split"
+  },
+  {
+   "rom_offset": 5342972,
+   "size": 40,
+   "state": "split"
+  },
+  {
+   "rom_offset": 5343012,
+   "size": 48,
+   "state": "split"
+  },
+  {
+   "rom_offset": 5343060,
+   "size": 2,
+   "state": "split"
+  },
+  {
+   "rom_offset": 5343062,
+   "size": 18,
+   "state": "split"
+  },
+  {
+   "rom_offset": 5343080,
+   "size": 76,
+   "state": "split"
+  },
+  {
+   "rom_offset": 5343156,
+   "size": 8,
+   "state": "split"
+  },
+  {
+   "rom_offset": 5343164,
+   "size": 128,
+   "state": "split"
+  },
+  {
+   "rom_offset": 5343292,
+   "size": 92,
+   "state": "split"
+  },
+  {
+   "rom_offset": 5343384,
+   "size": 80,
+   "state": "split"
+  },
+  {
+   "rom_offset": 5343464,
+   "size": 8,
+   "state": "split"
+  },
+  {
+   "rom_offset": 5343472,
+   "size": 72,
+   "state": "split"
+  },
+  {
+   "rom_offset": 5343544,
+   "size": 9597468,
+   "state": "blob"
+  },
+  {
+   "rom_offset": 14941012,
+   "size": 1836204,
+   "state": "blob"
+  }
+ ],
+ "limits": "Split and named use a heuristic list of candidate object starts, so the expected object count is a lower bound. Typed means the bytes are written in source instead of copied from the reference ROM; it does not prove the format is understood."
+}

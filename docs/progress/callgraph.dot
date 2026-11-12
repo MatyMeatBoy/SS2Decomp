@@ -1569,7 +1569,7 @@ digraph calls {
   "sub_080920E4" [label="StartSongAndSoundTestMenuTask"];
   "sub_08092124" [label="sub_08092124"];
   "sub_08092190" [label="sub_08092190"];
-  "sub_080921E4" [label="sub_080921E4"];
+  "sub_080921E4" [label="LoadGraphicsResourceAndPalette"];
   "sub_080922B4" [label="sub_080922B4"];
   "sub_08092344" [label="sub_08092344"];
   "sub_08092348" [label="sub_08092348"];
