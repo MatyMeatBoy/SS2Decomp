@@ -89,6 +89,11 @@ def main():
             if kind == "text" and (data[-1] != 0xFD or 0xFD in data[:-1]):
                 errors += 1
                 print("%s: a string must end with its only 0xFD" % label)
+            if kind == "sprite_anim":
+                frames, anims, frame_at, anim_at = struct.unpack_from("<HHii", data, 0)
+                if frame_at != 12 or not 12 + 12 * frames <= anim_at or anim_at + 12 * anims > size:
+                    errors += 1
+                    print("%s: sprite record tables do not fit" % label)
             if kind == "tiles4" and size % 32:
                 errors += 1
                 print("%s: tile data is not a multiple of 32 bytes" % label)
