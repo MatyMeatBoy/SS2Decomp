@@ -4796,7 +4796,7 @@ animationClassDoneD368:
                             }
                         }
                     }
-                    sp164 = (u32) (0x7F000000 & ((sp164 + 2) << 0x18)) >> 0x18;
+                    { u32 v164 = (sp164 + 2) << 0x18; u32 m164 = 0x7F000000; m164 &= v164; sp164 = m164 >> 0x18; }
                     { struct PalBufD368 *pal = (void *)&d368_gUnk_03001F40; pal->c[((struct PlayerD368 *)arg0)->f0 + 0x10][15] = 0; }
                     temp_r0_163 = sp128 - 1;
                     if (temp_r0_163 > 0xDU) {
@@ -5015,7 +5015,7 @@ block_1716:
                                         }
                                     }
                                 }
-                                sp164 = (u32) (0x7F000000 & ((sp164 + 2) << 0x18)) >> 0x18;
+                                { u32 v164 = (sp164 + 2) << 0x18; u32 m164 = 0x7F000000; m164 &= v164; sp164 = m164 >> 0x18; }
                                 { struct PalBufD368 *pal = (void *)&d368_gUnk_03001F40; pal->c[((struct PlayerD368 *)arg0)->f0 + 0x10][15] = 0; }
                                 temp_r0_161 = sp128 - 1;
                                 if (temp_r0_161 > 0xDU) {
