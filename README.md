@@ -84,20 +84,8 @@ CI regenerates the [complete function/name inventory](docs/progress/functions.js
 [raw data inventory](docs/progress/data_inventory.json) without a ROM. The graph
 records source observations and unresolved calls; it is not a complete runtime graph.
 
-## ROM regions
-
-[![Regional code and data source progress](docs/progress/regional_progress.svg?v=90f4c355)](docs/progress/regional_progress.md)
-
-**EU remains the main target.** These additional bars separate matching C and
-data reproduced from source for each ROM. The regional EU code bar covers SDK,
-linked and original-assembly intervals as well, so its byte counts differ from
-the game-only main badge. USA/Japan count only independently verified regional C
-intervals. Raw ROM copies and `.incbin` data earn no source credit; source-data
-coverage does not measure how much data is understood. Tiny positive coverage
-is shown as `<0.01%`.
-
-See [regional builds and evidence](docs/agents/REGIONS.md) for ROM identities,
-layout boundaries and receipt refresh instructions. Function naming is active again now that the code matches:
+This project targets the European ROM only until further notice.
+Function naming is active again now that the code matches:
 see the [naming pipeline](docs/agents/NAMING_PIPELINE.md) and the
 [identification method](docs/agents/IDENTIFICATION_METHOD.md).
 
