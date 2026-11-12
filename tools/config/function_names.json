@@ -2507,7 +2507,7 @@
     {
       "address": "0x0801A70C",
       "canonical_symbol": "sub_0801A70C",
-      "display_name": "InitTextFontResources",
+      "display_name": "InitializeTextFontResources",
       "status": "confirmed",
       "domain": "game",
       "evidence": [
@@ -2543,7 +2543,7 @@
     {
       "address": "0x08065158",
       "canonical_symbol": "sub_08065158",
-      "display_name": "InitSpriteResourceDescriptor",
+      "display_name": "InitializeSpriteResourceDescriptor",
       "status": "confirmed",
       "domain": "game",
       "evidence": [
@@ -3159,7 +3159,7 @@
     {
       "address": "0x080653B8",
       "canonical_symbol": "sub_080653B8",
-      "display_name": "InitSpriteScalePulse",
+      "display_name": "InitializeSpriteScalePulse",
       "status": "confirmed",
       "domain": "game",
       "evidence": [
@@ -3341,7 +3341,7 @@
     {
       "address": "0x08065CA8",
       "canonical_symbol": "sub_08065CA8",
-      "display_name": "InitLinkMessageQueuesAndTasks",
+      "display_name": "InitializeLinkMessageQueuesAndTasks",
       "status": "confirmed",
       "domain": "game",
       "evidence": [
@@ -5417,7 +5417,7 @@
     {
       "address": "0x0801DB94",
       "canonical_symbol": "sub_0801DB94",
-      "display_name": "InitActorStatusEffectRecord",
+      "display_name": "InitializeActorStatusEffectRecord",
       "status": "confirmed",
       "domain": "game",
       "evidence": [
@@ -6734,7 +6734,7 @@
     {
       "address": "0x0801A508",
       "canonical_symbol": "sub_0801A508",
-      "display_name": "InitTextTilemapStateAndCommonTiles",
+      "display_name": "InitializeTextTilemapStateAndCommonTiles",
       "status": "confirmed",
       "domain": "game",
       "evidence": [
@@ -22745,7 +22745,7 @@
     {
       "address": "0x0808381C",
       "canonical_symbol": "sub_0808381C",
-      "display_name": "RunItemMenuMessageDialog",
+      "display_name": "RunItemMenuMessageDialogue",
       "status": "confirmed",
       "domain": "game",
       "evidence": [
@@ -41378,7 +41378,7 @@
     {
       "address": "0x080441C0",
       "canonical_symbol": "sub_080441C0",
-      "display_name": "ShowDialog529Or530",
+      "display_name": "ShowDialogue529Or530",
       "status": "confirmed",
       "domain": "game",
       "evidence": [
@@ -41393,7 +41393,7 @@
     {
       "address": "0x08034900",
       "canonical_symbol": "sub_08034900",
-      "display_name": "RepeatDialog455Boundary",
+      "display_name": "RepeatDialogue455Boundary",
       "status": "confirmed",
       "domain": "game",
       "evidence": [
@@ -41453,7 +41453,7 @@
     {
       "address": "0x0803D1F8",
       "canonical_symbol": "sub_0803D1F8",
-      "display_name": "AskDialog1272Then1273",
+      "display_name": "AskDialogue1272Then1273",
       "status": "confirmed",
       "domain": "game",
       "evidence": [
@@ -41468,7 +41468,7 @@
     {
       "address": "0x080502DC",
       "canonical_symbol": "sub_080502DC",
-      "display_name": "StageActor13Dialog105",
+      "display_name": "StageActor13Dialogue105",
       "status": "confirmed",
       "domain": "game",
       "evidence": [
@@ -41483,7 +41483,7 @@
     {
       "address": "0x08051A78",
       "canonical_symbol": "sub_08051A78",
-      "display_name": "TriggerDialog142Or143",
+      "display_name": "TriggerDialogue142Or143",
       "status": "confirmed",
       "domain": "game",
       "evidence": [
@@ -41498,7 +41498,7 @@
     {
       "address": "0x0804E628",
       "canonical_symbol": "sub_0804E628",
-      "display_name": "AnimateActor6Dialog91",
+      "display_name": "AnimateActor6Dialogue91",
       "status": "confirmed",
       "domain": "game",
       "evidence": [
@@ -41528,7 +41528,7 @@
     {
       "address": "0x08051E98",
       "canonical_symbol": "sub_08051E98",
-      "display_name": "StageActor9Dialog140",
+      "display_name": "StageActor9Dialogue140",
       "status": "confirmed",
       "domain": "game",
       "evidence": [
@@ -41573,7 +41573,7 @@
     {
       "address": "0x08043664",
       "canonical_symbol": "sub_08043664",
-      "display_name": "ChooseDialog519ActorSequence",
+      "display_name": "ChooseDialogue519ActorSequence",
       "status": "confirmed",
       "domain": "game",
       "evidence": [
@@ -41609,7 +41609,7 @@
     {
       "address": "0x080400D4",
       "canonical_symbol": "sub_080400D4",
-      "display_name": "PanCameraDialog225",
+      "display_name": "PanCameraDialogue225",
       "status": "confirmed",
       "domain": "game",
       "evidence": [
@@ -41624,7 +41624,7 @@
     {
       "address": "0x0804B100",
       "canonical_symbol": "sub_0804B100",
-      "display_name": "InitializeDialog62Actors",
+      "display_name": "InitializeDialogue62Actors",
       "status": "confirmed",
       "domain": "game",
       "evidence": [
@@ -41660,7 +41660,7 @@
     {
       "address": "0x080402F4",
       "canonical_symbol": "sub_080402F4",
-      "display_name": "PanCameraDialog236",
+      "display_name": "PanCameraDialogue236",
       "status": "confirmed",
       "domain": "game",
       "evidence": [
@@ -41675,7 +41675,7 @@
     {
       "address": "0x08040530",
       "canonical_symbol": "sub_08040530",
-      "display_name": "PanCameraDialog237",
+      "display_name": "PanCameraDialogue237",
       "status": "confirmed",
       "domain": "game",
       "evidence": [
@@ -41690,7 +41690,7 @@
     {
       "address": "0x08041E8C",
       "canonical_symbol": "sub_08041E8C",
-      "display_name": "PanCameraDialog256",
+      "display_name": "PanCameraDialogue256",
       "status": "confirmed",
       "domain": "game",
       "evidence": [
@@ -41711,7 +41711,7 @@
     {
       "address": "0x08042390",
       "canonical_symbol": "sub_08042390",
-      "display_name": "PanCameraDialog259",
+      "display_name": "PanCameraDialogue259",
       "status": "confirmed",
       "domain": "game",
       "evidence": [
@@ -41732,7 +41732,7 @@
     {
       "address": "0x0804BEF8",
       "canonical_symbol": "sub_0804BEF8",
-      "display_name": "AskItem22Dialog69",
+      "display_name": "AskItem22Dialogue69",
       "status": "confirmed",
       "domain": "game",
       "evidence": [
@@ -41762,7 +41762,7 @@
     {
       "address": "0x0804F128",
       "canonical_symbol": "sub_0804F128",
-      "display_name": "StageActor1Dialog93",
+      "display_name": "StageActor1Dialogue93",
       "status": "confirmed",
       "domain": "game",
       "evidence": [
@@ -41822,7 +41822,7 @@
     {
       "address": "0x08042938",
       "canonical_symbol": "sub_08042938",
-      "display_name": "ReplaceActor3ADialog262",
+      "display_name": "ReplaceActor3ADialogue262",
       "status": "confirmed",
       "domain": "game",
       "evidence": [
@@ -41858,7 +41858,7 @@
     {
       "address": "0x0804534C",
       "canonical_symbol": "sub_0804534C",
-      "display_name": "AskDialog540EmitItem29",
+      "display_name": "AskDialogue540EmitItem29",
       "status": "confirmed",
       "domain": "game",
       "evidence": [
@@ -41879,7 +41879,7 @@
     {
       "address": "0x080537DC",
       "canonical_symbol": "sub_080537DC",
-      "display_name": "PanDialog168Or169",
+      "display_name": "PanDialogue168Or169",
       "status": "confirmed",
       "domain": "game",
       "evidence": [
@@ -45350,7 +45350,7 @@
     {
       "address": "0x0802FEA0",
       "canonical_symbol": "sub_0802FEA0",
-      "display_name": "ShowProgressionRewardDialog197",
+      "display_name": "ShowProgressionRewardDialogue197",
       "status": "confirmed",
       "domain": "game",
       "evidence": [
@@ -45365,7 +45365,7 @@
     {
       "address": "0x08030480",
       "canonical_symbol": "sub_08030480",
-      "display_name": "ShowProgressionDialog210",
+      "display_name": "ShowProgressionDialogue210",
       "status": "confirmed",
       "domain": "game",
       "evidence": [
@@ -45401,7 +45401,7 @@
     {
       "address": "0x08034F64",
       "canonical_symbol": "sub_08034F64",
-      "display_name": "ShowProgressionDialog456",
+      "display_name": "ShowProgressionDialogue456",
       "status": "confirmed",
       "domain": "game",
       "evidence": [
@@ -45437,7 +45437,7 @@
     {
       "address": "0x0803B194",
       "canonical_symbol": "sub_0803B194",
-      "display_name": "ShowProgressionDialog321",
+      "display_name": "ShowProgressionDialogue321",
       "status": "confirmed",
       "domain": "game",
       "evidence": [
@@ -45452,7 +45452,7 @@
     {
       "address": "0x0803C008",
       "canonical_symbol": "sub_0803C008",
-      "display_name": "SpendHundredCurrencyDialog484",
+      "display_name": "SpendHundredCurrencyDialogue484",
       "status": "confirmed",
       "domain": "game",
       "evidence": [
@@ -45467,7 +45467,7 @@
     {
       "address": "0x0803D99C",
       "canonical_symbol": "sub_0803D99C",
-      "display_name": "StageVariantActorDialogScene",
+      "display_name": "StageVariantActorDialogueScene",
       "status": "confirmed",
       "domain": "game",
       "evidence": [
@@ -45482,7 +45482,7 @@
     {
       "address": "0x0803E638",
       "canonical_symbol": "sub_0803E638",
-      "display_name": "StageDialog1147Through1152",
+      "display_name": "StageDialogue1147Through1152",
       "status": "confirmed",
       "domain": "game",
       "evidence": [
@@ -45497,7 +45497,7 @@
     {
       "address": "0x08041030",
       "canonical_symbol": "sub_08041030",
-      "display_name": "StageActorProgressionDialogSequence",
+      "display_name": "StageActorProgressionDialogueSequence",
       "status": "confirmed",
       "domain": "game",
       "evidence": [
@@ -45512,7 +45512,7 @@
     {
       "address": "0x08041B7C",
       "canonical_symbol": "sub_08041B7C",
-      "display_name": "ReplaceProgressionActorDialogScene",
+      "display_name": "ReplaceProgressionActorDialogueScene",
       "status": "confirmed",
       "domain": "game",
       "evidence": [
@@ -45533,7 +45533,7 @@
     {
       "address": "0x08042BB0",
       "canonical_symbol": "sub_08042BB0",
-      "display_name": "StagePairedActorDialogScene",
+      "display_name": "StagePairedActorDialogueScene",
       "status": "confirmed",
       "domain": "game",
       "evidence": [
@@ -45554,7 +45554,7 @@
     {
       "address": "0x08045B68",
       "canonical_symbol": "sub_08045B68",
-      "display_name": "StageResourceActorDialogSequence",
+      "display_name": "StageResourceActorDialogueSequence",
       "status": "confirmed",
       "domain": "game",
       "evidence": [
@@ -45569,7 +45569,7 @@
     {
       "address": "0x08049EBC",
       "canonical_symbol": "sub_08049EBC",
-      "display_name": "PanDialog48Or49",
+      "display_name": "PanDialogue48Or49",
       "status": "confirmed",
       "domain": "game",
       "evidence": [
@@ -45716,7 +45716,7 @@
     {
       "address": "0x0804FF04",
       "canonical_symbol": "sub_0804FF04",
-      "display_name": "InitializeDialog104ActorScene",
+      "display_name": "InitializeDialogue104ActorScene",
       "status": "confirmed",
       "domain": "game",
       "evidence": [
@@ -45746,7 +45746,7 @@
     {
       "address": "0x080529E0",
       "canonical_symbol": "sub_080529E0",
-      "display_name": "PanDialog150Or156",
+      "display_name": "PanDialogue150Or156",
       "status": "confirmed",
       "domain": "game",
       "evidence": [
@@ -45761,7 +45761,7 @@
     {
       "address": "0x080531C4",
       "canonical_symbol": "sub_080531C4",
-      "display_name": "PanDialog162Or165",
+      "display_name": "PanDialogue162Or165",
       "status": "confirmed",
       "domain": "game",
       "evidence": [
@@ -45782,7 +45782,7 @@
     {
       "address": "0x08053510",
       "canonical_symbol": "sub_08053510",
-      "display_name": "PanDialog160Or161",
+      "display_name": "PanDialogue160Or161",
       "status": "confirmed",
       "domain": "game",
       "evidence": [
@@ -45797,7 +45797,7 @@
     {
       "address": "0x08053E3C",
       "canonical_symbol": "sub_08053E3C",
-      "display_name": "BindActorsAndProgressionDialog",
+      "display_name": "BindActorsAndProgressionDialogue",
       "status": "confirmed",
       "domain": "game",
       "evidence": [
@@ -46247,7 +46247,7 @@
     {
       "address": "0x08030B28",
       "canonical_symbol": "sub_08030B28",
-      "display_name": "ShowHighestProgressBitDialog",
+      "display_name": "ShowHighestProgressBitDialogue",
       "status": "confirmed",
       "domain": "game",
       "evidence": [
@@ -46262,7 +46262,7 @@
     {
       "address": "0x08032DE4",
       "canonical_symbol": "sub_08032DE4",
-      "display_name": "ConsumeItem29ProgressDialog",
+      "display_name": "ConsumeItem29ProgressDialogue",
       "status": "confirmed",
       "domain": "game",
       "evidence": [
@@ -46322,7 +46322,7 @@
     {
       "address": "0x080392B4",
       "canonical_symbol": "sub_080392B4",
-      "display_name": "ExchangeProgressionItemDialog",
+      "display_name": "ExchangeProgressionItemDialogue",
       "status": "confirmed",
       "domain": "game",
       "evidence": [
@@ -46352,7 +46352,7 @@
     {
       "address": "0x0803AE6C",
       "canonical_symbol": "sub_0803AE6C",
-      "display_name": "AskAvailabilityDialog629",
+      "display_name": "AskAvailabilityDialogue629",
       "status": "confirmed",
       "domain": "game",
       "evidence": [
@@ -46457,7 +46457,7 @@
     {
       "address": "0x08044EB4",
       "canonical_symbol": "sub_08044EB4",
-      "display_name": "WatchProgressionDialogChanges",
+      "display_name": "WatchProgressionDialogueChanges",
       "status": "confirmed",
       "domain": "game",
       "evidence": [
@@ -46493,7 +46493,7 @@
     {
       "address": "0x0804DDBC",
       "canonical_symbol": "sub_0804DDBC",
-      "display_name": "StageActorCameraDialogScene",
+      "display_name": "StageActorCameraDialogueScene",
       "status": "confirmed",
       "domain": "game",
       "evidence": [
@@ -46841,7 +46841,7 @@
     {
       "address": "0x08061910",
       "canonical_symbol": "sub_08061910",
-      "display_name": "ShowShutdownDialogAndReset",
+      "display_name": "ShowShutdownDialogueAndReset",
       "status": "confirmed",
       "domain": "game",
       "evidence": [
@@ -47459,7 +47459,7 @@
     {
       "address": "0x08048A74",
       "canonical_symbol": "sub_08048A74",
-      "display_name": "RunEnsembleDialogAndMotion",
+      "display_name": "RunEnsembleDialogueAndMotion",
       "status": "confirmed",
       "domain": "game",
       "evidence": [
@@ -47480,7 +47480,7 @@
     {
       "address": "0x0804BC38",
       "canonical_symbol": "sub_0804BC38",
-      "display_name": "StageActorDialogSpatialMonitor",
+      "display_name": "StageActorDialogueSpatialMonitor",
       "status": "confirmed",
       "domain": "game",
       "evidence": [
