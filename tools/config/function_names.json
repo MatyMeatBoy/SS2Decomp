@@ -25894,6 +25894,51 @@
           "detail": "Canonical Thumb entry for sub_0803C3C8. Original EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc; static source/instruction evidence only."
         }
       ]
+    },
+    {
+      "address": "0x080921E4",
+      "canonical_symbol": "sub_080921E4",
+      "display_name": "LoadGraphicsResourceAndPalette",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_0808FB5C.c",
+          "line": 1858,
+          "detail": "Line 1858 resolves id to a resource; lines 1859\u20131860 resolve its tile data and associated palette.",
+          "revision": "fb07f967a30fbbf8315eabb9a66a73e5fdf82fe0"
+        },
+        {
+          "source": "src/code_0808FB5C.c",
+          "line": 1864,
+          "detail": "Line 1864 queues a 0x800-byte tile copy into VRAM; lines 1863\u20131867 repeat for 16 successive chunks with a signal wait after each.",
+          "revision": "fb07f967a30fbbf8315eabb9a66a73e5fdf82fe0"
+        },
+        {
+          "source": "src/code_0808FB5C.c",
+          "line": 1870,
+          "detail": "Line 1870 queues the raw payload following the resource header into the requested 0x800-byte VRAM block when the id flag tested on line 1868 is set.",
+          "revision": "fb07f967a30fbbf8315eabb9a66a73e5fdf82fe0"
+        },
+        {
+          "source": "src/code_0808FB5C.c",
+          "line": 1874,
+          "detail": "Line 1874 otherwise decompresses the payload; line 1875 queues its copy, lines 1878\u20131880 wait eight times, and line 1881 frees the buffer only when non-null.",
+          "revision": "fb07f967a30fbbf8315eabb9a66a73e5fdf82fe0"
+        },
+        {
+          "source": "src/code_0808FB5C.c",
+          "line": 1883,
+          "detail": "Loads 16 palette groups starting at index zero; line 1884 clears the first palette-shadow halfword (vramFlag096 aliases gUnk_03001F40 at line 1849), and line 1885 returns the palette address.",
+          "revision": "fb07f967a30fbbf8315eabb9a66a73e5fdf82fe0"
+        },
+        {
+          "source": "src/code_08092D60.c",
+          "line": 1552,
+          "revision": "fb07f967a30fbbf8315eabb9a66a73e5fdf82fe0",
+          "detail": "ConfigureBg2AffineDisplay calls this loader with resource id 5 and VRAM block 0x1C after setting up BG2; corroborates the graphics-loading role without attributing a particular screen or game mode."
+        }
+      ]
     }
   ]
 }
