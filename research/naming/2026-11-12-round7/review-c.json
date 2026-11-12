@@ -1,0 +1,697 @@
+[
+  {
+    "canonical_symbol": "sub_080B6068",
+    "decision": "fix",
+    "reason": "Argument zero is incidental call-site syntax; helper stops tracked song regardless of an input argument.",
+    "corrected_row": {
+      "canonical_symbol": "sub_080B6068",
+      "address": "0x080B6068",
+      "display_name": "UpdateDualWindowTransition",
+      "summary": "Stops and clears tracked audio, sets the shared transition flag, conditionally configures display state, increments an eight-bit tick and writes two window ranges; returns zero through tick 119, otherwise resets display state and returns one.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_080B3648.c",
+          "line": 1543,
+          "detail": "Stops and clears tracked audio, sets the shared transition flag, conditionally configures display state, increments an eight-bit tick and writes two window ranges; returns zero through tick 119, otherwise resets display state and returns one.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0808FB5C.c",
+          "line": 128,
+          "detail": "Observed caller or callback binding: while(!(u8)sub_080B6068()) sub_080003F0();",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0808FB5C.c",
+          "line": 146,
+          "detail": "Observed caller or callback binding: while ((sub_080B6068() << 24) == 0) sub_080003F0();",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08057CAC.c",
+          "line": 537,
+          "detail": "sub_080586B4 reads tracked song, stops its low16 id, clears tracker and returns old tracker; no parameter-specific stop meaning is inferred.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Higher-level encounter/artwork identity and caller input domains remain unproved; name describes the local contract."
+      ]
+    }
+  },
+  {
+    "canonical_symbol": "sub_0809EF84",
+    "decision": "accept",
+    "reason": "Independently read full primary body at revision3a130d and necessary callback/helper context; concrete movement, contact, phase and exit contract supports this draft without artwork identity. Low confidence lifecycle drafts retain their stated limits."
+  },
+  {
+    "canonical_symbol": "sub_080A2720",
+    "decision": "accept",
+    "reason": "Independently read full primary body at revision3a130d and necessary callback/helper context; concrete movement, contact, phase and exit contract supports this draft without artwork identity. Low confidence lifecycle drafts retain their stated limits."
+  },
+  {
+    "canonical_symbol": "sub_080B4A7C",
+    "decision": "fix",
+    "reason": "The local alias delay actually lies at player+0xCC; describe exact motion fields instead of inferring a delay.",
+    "corrected_row": {
+      "canonical_symbol": "sub_080B4A7C",
+      "address": "0x080B4A7C",
+      "display_name": "AimSelectedPlayerAtTarget",
+      "summary": "For an active selected player outside states 11/14/12 and flag 0x2000, derives an eight-direction result toward the supplied fixed-point position and writes halfwords +0xCC=0x240 and +0xC8=8; all rejected paths leave those fields unchanged.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_080B3648.c",
+          "line": 754,
+          "detail": "For an active selected player outside states 11/14/12 and flag 0x2000, derives an eight-direction result toward the supplied fixed-point position and writes halfwords +0xCC=0x240 and +0xC8=8; all rejected paths leave those fields unchanged.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080B3648.c",
+          "line": 744,
+          "detail": "B4A7CPlayer layout puts time at0xC8,result at0xCA,delay at0xCC; the function writes direction result at0xCA then the two other halfwords.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Higher-level encounter/artwork identity and caller input domains remain unproved; name describes the local contract."
+      ]
+    }
+  },
+  {
+    "canonical_symbol": "sub_080AC214",
+    "decision": "accept",
+    "reason": "Independently read full primary body at revision3a130d and necessary callback/helper context; concrete movement, contact, phase and exit contract supports this draft without artwork identity. Low confidence lifecycle drafts retain their stated limits."
+  },
+  {
+    "canonical_symbol": "sub_080B5F94",
+    "decision": "fix",
+    "reason": "draw5F94 is an alias of blend-state helper0903C, not a sprite-frame renderer.",
+    "corrected_row": {
+      "canonical_symbol": "sub_080B5F94",
+      "address": "0x080B5F94",
+      "display_name": "RunDualBackgroundScroll",
+      "summary": "Resets two ticks and a flag, then yields forever while conditionally scrolling backgrounds 1 and 3 in opposite horizontal directions and writing table-derived blend parameters; a shared flag changes the scroll increments and blend-parameter base.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_080B3648.c",
+          "line": 1490,
+          "detail": "Resets two ticks and a flag, then yields forever while conditionally scrolling backgrounds 1 and 3 in opposite horizontal directions and writing table-derived blend parameters; a shared flag changes the scroll increments and blend-parameter base.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080B3648.c",
+          "line": 1712,
+          "detail": "Observed caller or callback binding: t->fC = (u32)sub_080B5F94;",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080B3648.c",
+          "line": 1489,
+          "detail": "draw5F94 aliases canonical sub_0800903C; setScroll5F94 aliases0BBD8. The sampled value goes into blend arguments, not sprite animation.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Higher-level encounter/artwork identity and caller input domains remain unproved; name describes the local contract."
+      ]
+    }
+  },
+  {
+    "canonical_symbol": "sub_080B2200",
+    "decision": "accept",
+    "reason": "Independently read full primary body at revision3a130d and necessary callback/helper context; concrete movement, contact, phase and exit contract supports this draft without artwork identity. Low confidence lifecycle drafts retain their stated limits."
+  },
+  {
+    "canonical_symbol": "sub_080B5E64",
+    "decision": "fix",
+    "reason": "Entries1..4 are actor-array records, not established network peers.",
+    "corrected_row": {
+      "canonical_symbol": "sub_080B5E64",
+      "address": "0x080B5E64",
+      "display_name": "ApplyPrimaryActorContact",
+      "summary": "Scans active entries 1 through 4 within distance 19 of the primary actor; with lifecycle/pause/serial gates satisfied, writes state 10, adds the hit helper result, advances the primary actor serial and applies outward direction, speed 0x400 and counter 8.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_080B3648.c",
+          "line": 1429,
+          "detail": "Scans active entries 1 through 4 within distance 19 of the primary actor; with lifecycle/pause/serial gates satisfied, writes state 10, adds the hit helper result, advances the primary actor serial and applies outward direction, speed 0x400 and counter 8.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080B3648.c",
+          "line": 1246,
+          "detail": "Observed caller or callback binding: b5E64_4C34();",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080B3648.c",
+          "line": 1429,
+          "detail": "Iterates actor records of stride0x2E0 under actor mask bits1..4; there is no peer transport/connection query in this body.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Higher-level encounter/artwork identity and caller input domains remain unproved; name describes the local contract."
+      ]
+    }
+  },
+  {
+    "canonical_symbol": "sub_080A9680",
+    "decision": "accept",
+    "reason": "Independently read full primary body at revision3a130d and necessary callback/helper context; concrete movement, contact, phase and exit contract supports this draft without artwork identity. Low confidence lifecycle drafts retain their stated limits."
+  },
+  {
+    "canonical_symbol": "sub_080A8F90",
+    "decision": "accept",
+    "reason": "Independently read full primary body at revision3a130d and necessary callback/helper context; concrete movement, contact, phase and exit contract supports this draft without artwork identity. Low confidence lifecycle drafts retain their stated limits."
+  },
+  {
+    "canonical_symbol": "sub_0809EDFC",
+    "decision": "accept",
+    "reason": "Independently read full primary body at revision3a130d and necessary callback/helper context; concrete movement, contact, phase and exit contract supports this draft without artwork identity. Low confidence lifecycle drafts retain their stated limits."
+  },
+  {
+    "canonical_symbol": "sub_080B44F0",
+    "decision": "accept",
+    "reason": "Independently read full primary body at revision3a130d and necessary callback/helper context; concrete movement, contact, phase and exit contract supports this draft without artwork identity. Low confidence lifecycle drafts retain their stated limits."
+  },
+  {
+    "canonical_symbol": "sub_080B2058",
+    "decision": "fix",
+    "reason": "Team setter is invoked immediately after queued spawn request and before presence wait; it may find no matching active actor. Do not guarantee team3 was applied.",
+    "corrected_row": {
+      "canonical_symbol": "sub_080B2058",
+      "address": "0x080B2058",
+      "display_name": "RunArenaImpactSpawn",
+      "summary": "Disables combat targeting for the global actor, animates resource 0x50020 at the supplied position with sound 0x1A5 and yield iterations; the source loop continues while animation result is zero or the post-increment counter exceeds 59. If actor field 0x5C and sub_08002204 permit, scans two actor-key slots, requests an enemy spawn into the first absent slot, calls the actor-key team setter with 3 and waits for active actor presence. Restores actor combat team 2 and clears task control+8 on normal exit. Spawn definition is 0x084AA580 with byte variant.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_080A9680.c",
+          "line": 4922,
+          "detail": "Disables combat targeting for the global actor, animates resource 0x50020 at the supplied position with sound 0x1A5 and yield iterations; the source loop continues while animation result is zero or the post-increment counter exceeds 59. If actor field 0x5C and sub_08002204 permit, scans two actor-key slots, requests an enemy spawn into the first absent slot, calls the actor-key team setter with 3 and waits for active actor presence. Restores actor combat team 2 and clears task control+8 on normal exit. Spawn definition is 0x084AA580 with byte variant.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080A9680.c",
+          "line": 5047,
+          "detail": "Observed caller or callback binding: *(u32 *)(obj + 0xC) = (u32)sub_080B2058;",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08017F7C.c",
+          "line": 1051,
+          "detail": "sub_08019FD8 forms a resource/index/value/sequence descriptor and submits it through sub_0806603C; sub_0801A040 at 1065 delegates to actor-key presence lookup. The task waits for presence and does not establish delivery from the request return alone.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08017F7C.c",
+          "line": 1092,
+          "detail": "sub_0801A0A4 writes actor+0x1DC=2; sub_0801A0B0 at 1095 writes zero. The surrounding task therefore changes combat-team/targeting state, rather than acquiring and releasing a generic lock.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08017F7C.c",
+          "line": 1098,
+          "detail": "sub_0801A0BC scans currently active actors by key, writes team byte only when a match exists, and otherwise returns; the spawn task does not repeat this setter after its presence wait.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "The source uses actor-presence/spawn helpers, not a message API. Counter-loop intent and spawn artwork identity remain unproved.",
+        "Spawn request submission does not itself prove successful queue admission; the later presence query is the observed readiness gate."
+      ]
+    }
+  },
+  {
+    "canonical_symbol": "sub_080B6178",
+    "decision": "fix",
+    "reason": "Team setter is invoked immediately after queued spawn request and before presence wait; it may find no matching active actor. Do not guarantee team3 was applied.",
+    "corrected_row": {
+      "canonical_symbol": "sub_080B6178",
+      "address": "0x080B6178",
+      "display_name": "RunAlternateImpactSpawn",
+      "summary": "Disables combat targeting for the global actor, animates resource 0x50020 at the supplied position with sound 0x1A5 and yield iterations; the source loop continues while animation result is zero or the post-increment counter exceeds 59. If actor field 0x5C and sub_08002204 permit, scans two actor-key slots, requests an enemy spawn into the first absent slot, calls the actor-key team setter with 3 and waits for active actor presence. Restores actor combat team 2 and clears task control+8 on normal exit. Spawn definition is 0x084ABA10 with high/low selector-byte nibbles.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_080B3648.c",
+          "line": 1618,
+          "detail": "Disables combat targeting for the global actor, animates resource 0x50020 at the supplied position with sound 0x1A5 and yield iterations; the source loop continues while animation result is zero or the post-increment counter exceeds 59. If actor field 0x5C and sub_08002204 permit, scans two actor-key slots, requests an enemy spawn into the first absent slot, calls the actor-key team setter with 3 and waits for active actor presence. Restores actor combat team 2 and clears task control+8 on normal exit. Spawn definition is 0x084ABA10 with high/low selector-byte nibbles.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080B3648.c",
+          "line": 1750,
+          "detail": "Observed caller or callback binding: *(u32 *)(obj + 0xC) = (u32)sub_080B6178;",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08017F7C.c",
+          "line": 1051,
+          "detail": "sub_08019FD8 forms a resource/index/value/sequence descriptor and submits it through sub_0806603C; sub_0801A040 at 1065 delegates to actor-key presence lookup. The task waits for presence and does not establish delivery from the request return alone.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08017F7C.c",
+          "line": 1092,
+          "detail": "sub_0801A0A4 writes actor+0x1DC=2; sub_0801A0B0 at 1095 writes zero. The surrounding task therefore changes combat-team/targeting state, rather than acquiring and releasing a generic lock.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08017F7C.c",
+          "line": 1098,
+          "detail": "sub_0801A0BC scans currently active actors by key, writes team byte only when a match exists, and otherwise returns; the spawn task does not repeat this setter after its presence wait.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "The source uses actor-presence/spawn helpers, not a message API. Counter-loop intent and spawn artwork identity remain unproved.",
+        "Spawn request submission does not itself prove successful queue admission; the later presence query is the observed readiness gate."
+      ]
+    }
+  },
+  {
+    "canonical_symbol": "sub_080A9100",
+    "decision": "accept",
+    "reason": "Independently read full primary body at revision3a130d and necessary callback/helper context; concrete movement, contact, phase and exit contract supports this draft without artwork identity. Low confidence lifecycle drafts retain their stated limits."
+  },
+  {
+    "canonical_symbol": "sub_080A6510",
+    "decision": "accept",
+    "reason": "Independently read full primary body at revision3a130d and necessary callback/helper context; concrete movement, contact, phase and exit contract supports this draft without artwork identity. Low confidence lifecycle drafts retain their stated limits."
+  },
+  {
+    "canonical_symbol": "sub_080A66E0",
+    "decision": "accept",
+    "reason": "Independently read full primary body at revision3a130d and necessary callback/helper context; concrete movement, contact, phase and exit contract supports this draft without artwork identity. Low confidence lifecycle drafts retain their stated limits."
+  },
+  {
+    "canonical_symbol": "sub_080A1DA8",
+    "decision": "accept",
+    "reason": "Independently read full primary body at revision3a130d and necessary callback/helper context; concrete movement, contact, phase and exit contract supports this draft without artwork identity. Low confidence lifecycle drafts retain their stated limits."
+  },
+  {
+    "canonical_symbol": "sub_0809D374",
+    "decision": "accept",
+    "reason": "Independently read full primary body at revision3a130d and necessary callback/helper context; concrete movement, contact, phase and exit contract supports this draft without artwork identity. Low confidence lifecycle drafts retain their stated limits."
+  },
+  {
+    "canonical_symbol": "sub_080A47A0",
+    "decision": "accept",
+    "reason": "Independently read full primary body at revision3a130d and necessary callback/helper context; concrete movement, contact, phase and exit contract supports this draft without artwork identity. Low confidence lifecycle drafts retain their stated limits."
+  },
+  {
+    "canonical_symbol": "sub_080ADE30",
+    "decision": "accept",
+    "reason": "Independently read full primary body at revision3a130d and necessary callback/helper context; concrete movement, contact, phase and exit contract supports this draft without artwork identity. Low confidence lifecycle drafts retain their stated limits."
+  },
+  {
+    "canonical_symbol": "sub_0809A5E0",
+    "decision": "accept",
+    "reason": "Independently read full primary body at revision3a130d and necessary callback/helper context; concrete movement, contact, phase and exit contract supports this draft without artwork identity. Low confidence lifecycle drafts retain their stated limits."
+  },
+  {
+    "canonical_symbol": "sub_080AC5B4",
+    "decision": "accept",
+    "reason": "Independently read full primary body at revision3a130d and necessary callback/helper context; concrete movement, contact, phase and exit contract supports this draft without artwork identity. Low confidence lifecycle drafts retain their stated limits."
+  },
+  {
+    "canonical_symbol": "sub_080AE1B4",
+    "decision": "accept",
+    "reason": "Independently read full primary body at revision3a130d and necessary callback/helper context; concrete movement, contact, phase and exit contract supports this draft without artwork identity. Low confidence lifecycle drafts retain their stated limits."
+  },
+  {
+    "canonical_symbol": "sub_08098F2C",
+    "decision": "accept",
+    "reason": "Independently read full primary body at revision3a130d and necessary callback/helper context; concrete movement, contact, phase and exit contract supports this draft without artwork identity. Low confidence lifecycle drafts retain their stated limits."
+  },
+  {
+    "canonical_symbol": "sub_080A4520",
+    "decision": "accept",
+    "reason": "Independently read full primary body at revision3a130d and necessary callback/helper context; concrete movement, contact, phase and exit contract supports this draft without artwork identity. Low confidence lifecycle drafts retain their stated limits."
+  },
+  {
+    "canonical_symbol": "sub_080AB054",
+    "decision": "accept",
+    "reason": "Independently read full primary body at revision3a130d and necessary callback/helper context; concrete movement, contact, phase and exit contract supports this draft without artwork identity. Low confidence lifecycle drafts retain their stated limits."
+  },
+  {
+    "canonical_symbol": "sub_08099468",
+    "decision": "accept",
+    "reason": "Independently read full primary body at revision3a130d and necessary callback/helper context; concrete movement, contact, phase and exit contract supports this draft without artwork identity. Low confidence lifecycle drafts retain their stated limits."
+  },
+  {
+    "canonical_symbol": "sub_080A6258",
+    "decision": "accept",
+    "reason": "Independently read full primary body at revision3a130d and necessary callback/helper context; concrete movement, contact, phase and exit contract supports this draft without artwork identity. Low confidence lifecycle drafts retain their stated limits."
+  },
+  {
+    "canonical_symbol": "sub_080B24B8",
+    "decision": "accept",
+    "reason": "Independently read full primary body at revision3a130d and necessary callback/helper context; concrete movement, contact, phase and exit contract supports this draft without artwork identity. Low confidence lifecycle drafts retain their stated limits."
+  },
+  {
+    "canonical_symbol": "sub_0809919C",
+    "decision": "accept",
+    "reason": "Independently read full primary body at revision3a130d and necessary callback/helper context; concrete movement, contact, phase and exit contract supports this draft without artwork identity. Low confidence lifecycle drafts retain their stated limits."
+  },
+  {
+    "canonical_symbol": "sub_080AC2E8",
+    "decision": "accept",
+    "reason": "Independently read full primary body at revision3a130d and necessary callback/helper context; concrete movement, contact, phase and exit contract supports this draft without artwork identity. Low confidence lifecycle drafts retain their stated limits."
+  },
+  {
+    "canonical_symbol": "sub_080B5B90",
+    "decision": "accept",
+    "reason": "Independently read full primary body at revision3a130d and necessary callback/helper context; concrete movement, contact, phase and exit contract supports this draft without artwork identity. Low confidence lifecycle drafts retain their stated limits."
+  },
+  {
+    "canonical_symbol": "sub_080A1FF4",
+    "decision": "accept",
+    "reason": "Independently read full primary body at revision3a130d and necessary callback/helper context; concrete movement, contact, phase and exit contract supports this draft without artwork identity. Low confidence lifecycle drafts retain their stated limits."
+  },
+  {
+    "canonical_symbol": "sub_0809C1B4",
+    "decision": "accept",
+    "reason": "Independently read full primary body at revision3a130d and necessary callback/helper context; concrete movement, contact, phase and exit contract supports this draft without artwork identity. Low confidence lifecycle drafts retain their stated limits."
+  },
+  {
+    "canonical_symbol": "sub_0809C8F4",
+    "decision": "accept",
+    "reason": "Independently read full primary body at revision3a130d and necessary callback/helper context; concrete movement, contact, phase and exit contract supports this draft without artwork identity. Low confidence lifecycle drafts retain their stated limits."
+  },
+  {
+    "canonical_symbol": "sub_080A68B0",
+    "decision": "accept",
+    "reason": "Independently read full primary body at revision3a130d and necessary callback/helper context; concrete movement, contact, phase and exit contract supports this draft without artwork identity. Low confidence lifecycle drafts retain their stated limits."
+  },
+  {
+    "canonical_symbol": "sub_080A230C",
+    "decision": "accept",
+    "reason": "Independently read full primary body at revision3a130d and necessary callback/helper context; concrete movement, contact, phase and exit contract supports this draft without artwork identity. Low confidence lifecycle drafts retain their stated limits."
+  },
+  {
+    "canonical_symbol": "sub_080A92C0",
+    "decision": "accept",
+    "reason": "Independently read full primary body at revision3a130d and necessary callback/helper context; concrete movement, contact, phase and exit contract supports this draft without artwork identity. Low confidence lifecycle drafts retain their stated limits."
+  },
+  {
+    "canonical_symbol": "sub_080A05B4",
+    "decision": "accept",
+    "reason": "Independently read full primary body at revision3a130d and necessary callback/helper context; concrete movement, contact, phase and exit contract supports this draft without artwork identity. Low confidence lifecycle drafts retain their stated limits."
+  },
+  {
+    "canonical_symbol": "sub_080B4690",
+    "decision": "accept",
+    "reason": "Independently read full primary body at revision3a130d and necessary callback/helper context; concrete movement, contact, phase and exit contract supports this draft without artwork identity. Low confidence lifecycle drafts retain their stated limits."
+  },
+  {
+    "canonical_symbol": "sub_0809C4E8",
+    "decision": "accept",
+    "reason": "Independently read full primary body at revision3a130d and necessary callback/helper context; concrete movement, contact, phase and exit contract supports this draft without artwork identity. Low confidence lifecycle drafts retain their stated limits."
+  },
+  {
+    "canonical_symbol": "sub_0809F4A8",
+    "decision": "fix",
+    "reason": "Shared angle increments inside the particle loop on odd frame-counter values; exact quarter-cycle separation is not maintained.",
+    "corrected_row": {
+      "canonical_symbol": "sub_0809F4A8",
+      "address": "0x0809F4A8",
+      "display_name": "RunFourOrbitingDamageProjectiles",
+      "summary": "Runs four projectiles using per-index i*64 angle offsets through growing radius and timed animation phases, then expands their radius during a 240-step final phase; each permits one distance-11 serial-gated mode-dependent queued damage request and conditionally draws. Clears the shared task control+8 on completion.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_0809D878.c",
+          "line": 1167,
+          "detail": "Runs four projectiles using per-index i*64 angle offsets through growing radius and timed animation phases, then expands their radius during a 240-step final phase; each permits one distance-11 serial-gated mode-dependent queued damage request and conditionally draws. Clears the shared task control+8 on completion.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0809D878.c",
+          "line": 1436,
+          "detail": "Observed caller or callback binding: t->fC = (u32)sub_0809F4A8;",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0809D878.c",
+          "line": 1247,
+          "detail": "Each position uses (angle+(i<<6))%255; angle may increment after each particle. Thus offsets are specified in the formula, not guaranteed equal phase spacing.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Higher-level encounter/artwork identity and caller input domains remain unproved; name describes the local contract.",
+        "Damage queue admission is not checked here; a queued damage request is not proof of applied damage or completion."
+      ]
+    }
+  },
+  {
+    "canonical_symbol": "sub_080A0B44",
+    "decision": "accept",
+    "reason": "Independently read full primary body at revision3a130d and necessary callback/helper context; concrete movement, contact, phase and exit contract supports this draft without artwork identity. Low confidence lifecycle drafts retain their stated limits."
+  },
+  {
+    "canonical_symbol": "sub_080A6BE8",
+    "decision": "accept",
+    "reason": "Independently read full primary body at revision3a130d and necessary callback/helper context; concrete movement, contact, phase and exit contract supports this draft without artwork identity. Low confidence lifecycle drafts retain their stated limits."
+  },
+  {
+    "canonical_symbol": "sub_080A705C",
+    "decision": "accept",
+    "reason": "Independently read full primary body at revision3a130d and necessary callback/helper context; concrete movement, contact, phase and exit contract supports this draft without artwork identity. Low confidence lifecycle drafts retain their stated limits."
+  },
+  {
+    "canonical_symbol": "sub_0809F018",
+    "decision": "accept",
+    "reason": "Independently read full primary body at revision3a130d and necessary callback/helper context; concrete movement, contact, phase and exit contract supports this draft without artwork identity. Low confidence lifecycle drafts retain their stated limits."
+  },
+  {
+    "canonical_symbol": "sub_0809A834",
+    "decision": "accept",
+    "reason": "Independently read full primary body at revision3a130d and necessary callback/helper context; concrete movement, contact, phase and exit contract supports this draft without artwork identity. Low confidence lifecycle drafts retain their stated limits."
+  },
+  {
+    "canonical_symbol": "sub_0809CC2C",
+    "decision": "fix",
+    "reason": "Companion suggests an unproved gameplay identity; indexed actor slots are directly established.",
+    "corrected_row": {
+      "canonical_symbol": "sub_0809CC2C",
+      "address": "0x0809CC2C",
+      "display_name": "RunIndexedPursuitMeleeActor",
+      "summary": "Initializes actor slots index+1 at fixed positions with mask bits and two sprite resources, synchronizes state changes by actor id, pursues a selected player, attempts a facing hit on attack frame 1/tick 0, then waits a mode-dependent cooldown. Runs until the main object's active field clears or death helper succeeds; clears its mask bit, blinks and conditionally performs a thirty-step experience-award sequence.",
+      "confidence": "low",
+      "evidence": [
+        {
+          "source": "src/code_08097E28.c",
+          "line": 2600,
+          "detail": "Initializes actor slots index+1 at fixed positions with mask bits and two sprite resources, synchronizes state changes by actor id, pursues a selected player, attempts a facing hit on attack frame 1/tick 0, then waits a mode-dependent cooldown. Runs until the main object's active field clears or death helper succeeds; clears its mask bit, blinks and conditionally performs a thirty-step experience-award sequence.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08097E28.c",
+          "line": 3062,
+          "detail": "Observed caller or callback binding: t->fC = (u32)sub_0809CC2C;",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0801E244.c",
+          "line": 142,
+          "detail": "sub_0801E46C computes the numeric defeat award; sub_0801E4CC at line 174 adds it to inventory+0x1C and conditionally advances level once. These are experience operations, not item drops.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Encounter/artwork identity remains unproved. Broad state-machine name is provisional; local motions, phase gates and cleanup are directly observed."
+      ]
+    }
+  },
+  {
+    "canonical_symbol": "sub_080A35D0",
+    "decision": "accept",
+    "reason": "Independently read full primary body at revision3a130d and necessary callback/helper context; concrete movement, contact, phase and exit contract supports this draft without artwork identity. Low confidence lifecycle drafts retain their stated limits."
+  },
+  {
+    "canonical_symbol": "sub_080A3D2C",
+    "decision": "accept",
+    "reason": "Independently read full primary body at revision3a130d and necessary callback/helper context; concrete movement, contact, phase and exit contract supports this draft without artwork identity. Low confidence lifecycle drafts retain their stated limits."
+  },
+  {
+    "canonical_symbol": "sub_080A756C",
+    "decision": "fix",
+    "reason": "Boarding/landing is an artwork narrative; preserve precise scripted motion and player gates in a neutral name.",
+    "corrected_row": {
+      "canonical_symbol": "sub_080A756C",
+      "address": "0x080A756C",
+      "display_name": "RunScriptedCameraTransition",
+      "summary": "Animates resources0x5000F/0x50010 through fixed coordinate and camera phases. One packed player meeting y<=0x7B and state0x11 starts a phase; a later scan waits while any packed player has y>0x7C with state0x11. Shows message0x14008B, sets player flags1/0x20, shifts BG2 and actor/shadow/player y, waits a timer and synchronizes0xDEADFACE. Host path advances map id; exit clears player flags and actor mask.",
+      "confidence": "low",
+      "evidence": [
+        {
+          "source": "src/code_080A3D2C.c",
+          "line": 1978,
+          "detail": "Animates resources0x5000F/0x50010 through fixed coordinate and camera phases. One packed player meeting y<=0x7B and state0x11 starts a phase; a later scan waits while any packed player has y>0x7C with state0x11. Shows message0x14008B, sets player flags1/0x20, shifts BG2 and actor/shadow/player y, waits a timer and synchronizes0xDEADFACE. Host path advances map id; exit clears player flags and actor mask.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0808D4A8.c",
+          "line": 1040,
+          "detail": "Observed caller or callback binding: sub_0801674C((u32)sub_080A756C, 0);",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080A3D2C.c",
+          "line": 1978,
+          "detail": "Primary body has eight numbered camera/coordinate phases; local variable dragon is not proof of artwork or a boarding event.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Encounter/artwork identity remains unproved. Broad state-machine name is provisional; local motions, phase gates and cleanup are directly observed."
+      ]
+    }
+  },
+  {
+    "canonical_symbol": "sub_080AD534",
+    "decision": "fix",
+    "reason": "Predecessor operation writes team2; re-enable is broader than the primitive proves.",
+    "corrected_row": {
+      "canonical_symbol": "sub_080AD534",
+      "address": "0x080AD534",
+      "display_name": "RunIndexedFollowingSegmentActor",
+      "summary": "Initializes low-byte-indexed actor slots and follows the preceding position/direction sample, publishing its own sample for the next segment. Synchronizes fade/shake/fade phases with state bytes, tests short contact hits on a thirty-step cooldown and renders damage feedback. Death requests remote full-HP damage for its actor key, clears mask/state, sets predecessor team field to2 when index is nonzero, blinks and conditionally runs a experience-award sequence.",
+      "confidence": "low",
+      "evidence": [
+        {
+          "source": "src/code_080A9680.c",
+          "line": 2474,
+          "detail": "Initializes low-byte-indexed actor slots and follows the preceding position/direction sample, publishing its own sample for the next segment. Synchronizes fade/shake/fade phases with state bytes, tests short contact hits on a thirty-step cooldown and renders damage feedback. Death requests remote full-HP damage for its actor key, clears mask/state, sets predecessor team field to2 when index is nonzero, blinks and conditionally runs a experience-award sequence.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080A9680.c",
+          "line": 2810,
+          "detail": "Observed caller or callback binding: t->fC = (u32)sub_080AD534;",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08067B4C.c",
+          "line": 78,
+          "detail": "Cleanup helper sub_08067CA8 admits a type-0x89 record carrying the actor key only if queue count is at most 49; callers here do not check admission. It does not free a resource locally or prove remote completion.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0801E244.c",
+          "line": 142,
+          "detail": "sub_0801E46C computes the numeric defeat award; sub_0801E4CC at line 174 adds it to inventory+0x1C and conditionally advances level once. These are experience operations, not item drops.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08017F7C.c",
+          "line": 1092,
+          "detail": "sub_0801A0A4 writes byte+0x1DC=2. It does not allocate, reactivate a mask bit or restore HP.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Encounter/artwork identity remains unproved. Broad state-machine name is provisional; local motions, phase gates and cleanup are directly observed."
+      ]
+    }
+  },
+  {
+    "canonical_symbol": "sub_0809E468",
+    "decision": "accept",
+    "reason": "Independently read full primary body at revision3a130d and necessary callback/helper context; concrete movement, contact, phase and exit contract supports this draft without artwork identity. Low confidence lifecycle drafts retain their stated limits."
+  },
+  {
+    "canonical_symbol": "sub_0809FB6C",
+    "decision": "accept",
+    "reason": "Independently read full primary body at revision3a130d and necessary callback/helper context; concrete movement, contact, phase and exit contract supports this draft without artwork identity. Low confidence lifecycle drafts retain their stated limits."
+  },
+  {
+    "canonical_symbol": "sub_080A1208",
+    "decision": "accept",
+    "reason": "Independently read full primary body at revision3a130d and necessary callback/helper context; concrete movement, contact, phase and exit contract supports this draft without artwork identity. Low confidence lifecycle drafts retain their stated limits."
+  },
+  {
+    "canonical_symbol": "sub_0809D878",
+    "decision": "accept",
+    "reason": "Independently read full primary body at revision3a130d and necessary callback/helper context; concrete movement, contact, phase and exit contract supports this draft without artwork identity. Low confidence lifecycle drafts retain their stated limits."
+  },
+  {
+    "canonical_symbol": "sub_080B0288",
+    "decision": "accept",
+    "reason": "Independently read full primary body at revision3a130d and necessary callback/helper context; concrete movement, contact, phase and exit contract supports this draft without artwork identity. Low confidence lifecycle drafts retain their stated limits."
+  },
+  {
+    "canonical_symbol": "sub_080AC844",
+    "decision": "accept",
+    "reason": "Independently read full primary body at revision3a130d and necessary callback/helper context; concrete movement, contact, phase and exit contract supports this draft without artwork identity. Low confidence lifecycle drafts retain their stated limits."
+  },
+  {
+    "canonical_symbol": "sub_08099838",
+    "decision": "accept",
+    "reason": "Independently read full primary body at revision3a130d and necessary callback/helper context; concrete movement, contact, phase and exit contract supports this draft without artwork identity. Low confidence lifecycle drafts retain their stated limits."
+  },
+  {
+    "canonical_symbol": "sub_080A27B8",
+    "decision": "fix",
+    "reason": "Use attachment relation rather than companion identity, identify field+5C exactly, and preserve cleanup order after synchronization/message.",
+    "corrected_row": {
+      "canonical_symbol": "sub_080A27B8",
+      "address": "0x080A27B8",
+      "display_name": "RunPatternedAttachmentEncounter",
+      "summary": "Places main actor at fixed position, restores field+0x5C to999 on hits, and alternates timed pursuit/contact with event-selected15-byte configurations for one primary attachment and three indexed children. Ends when linked actor+0x5C clears or termination occurs. Normal exit clears actor mask, synchronizes0xDEADFACE, shows message0x140065, then releases three task groups and conditionally performs experience/transition work. Palette-wait termination clears only its mask bit and returns.",
+      "confidence": "low",
+      "evidence": [
+        {
+          "source": "src/code_0809D878.c",
+          "line": 2999,
+          "detail": "Places main actor at fixed position, restores field+0x5C to999 on hits, and alternates timed pursuit/contact with event-selected15-byte configurations for one primary attachment and three indexed children. Ends when linked actor+0x5C clears or termination occurs. Normal exit clears actor mask, synchronizes0xDEADFACE, shows message0x140065, then releases three task groups and conditionally performs experience/transition work. Palette-wait termination clears only its mask bit and returns.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0808D4A8.c",
+          "line": 931,
+          "detail": "Observed caller or callback binding: sub_0801674C((u32)sub_080A27B8,(u32)sub_080A49A8);",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0801E244.c",
+          "line": 142,
+          "detail": "sub_0801E46C computes the numeric defeat award; sub_0801E4CC at line 174 adds it to inventory+0x1C and conditionally advances level once. These are experience operations, not item drops.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0809D878.c",
+          "line": 3258,
+          "detail": "Three release calls4BFC,4B10,4A54 appear after the synchronization and message wait; field+5C is explicitly restored to999 when state10 is observed.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Encounter/artwork identity remains unproved. Broad state-machine name is provisional; local motions, phase gates and cleanup are directly observed."
+      ]
+    }
+  },
+  {
+    "canonical_symbol": "sub_08098108",
+    "decision": "accept",
+    "reason": "Independently read full primary body at revision3a130d and necessary callback/helper context; concrete movement, contact, phase and exit contract supports this draft without artwork identity. Low confidence lifecycle drafts retain their stated limits."
+  },
+  {
+    "canonical_symbol": "sub_080A8164",
+    "decision": "accept",
+    "reason": "Independently read full primary body at revision3a130d and necessary callback/helper context; concrete movement, contact, phase and exit contract supports this draft without artwork identity. Low confidence lifecycle drafts retain their stated limits."
+  },
+  {
+    "canonical_symbol": "sub_080B280C",
+    "decision": "accept",
+    "reason": "Independently read full primary body at revision3a130d and necessary callback/helper context; concrete movement, contact, phase and exit contract supports this draft without artwork identity. Low confidence lifecycle drafts retain their stated limits."
+  }
+]

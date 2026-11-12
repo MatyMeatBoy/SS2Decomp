@@ -1,0 +1,128 @@
+[
+  {
+    "canonical_symbol": "sub_080441C0",
+    "before": "ShowDialog140211Or140212",
+    "after": "ShowDialog529Or530",
+    "reason": "Represent bank0x14 dialogue resource entry in decimal; complete hexadecimal key remains in source evidence."
+  },
+  {
+    "canonical_symbol": "sub_08034900",
+    "before": "RepeatDialog1401C7Boundary",
+    "after": "RepeatDialog455Boundary",
+    "reason": "Represent bank0x14 dialogue resource entry in decimal; complete hexadecimal key remains in source evidence."
+  },
+  {
+    "canonical_symbol": "sub_0803D1F8",
+    "before": "AskDialog1404F8Then1404F9",
+    "after": "AskDialog1272Then1273",
+    "reason": "Represent bank0x14 dialogue resource entry in decimal; complete hexadecimal key remains in source evidence."
+  },
+  {
+    "canonical_symbol": "sub_080502DC",
+    "before": "StageActor13Dialog140069",
+    "after": "StageActor13Dialog105",
+    "reason": "Represent bank0x14 dialogue resource entry in decimal; complete hexadecimal key remains in source evidence."
+  },
+  {
+    "canonical_symbol": "sub_08051A78",
+    "before": "TriggerDialog14008EOr14008F",
+    "after": "TriggerDialog142Or143",
+    "reason": "Represent bank0x14 dialogue resource entry in decimal; complete hexadecimal key remains in source evidence."
+  },
+  {
+    "canonical_symbol": "sub_0804E628",
+    "before": "AnimateActor6Dialog14005B",
+    "after": "AnimateActor6Dialog91",
+    "reason": "Represent bank0x14 dialogue resource entry in decimal; complete hexadecimal key remains in source evidence."
+  },
+  {
+    "canonical_symbol": "sub_08051E98",
+    "before": "StageActor9Dialog14008C",
+    "after": "StageActor9Dialog140",
+    "reason": "Represent bank0x14 dialogue resource entry in decimal; complete hexadecimal key remains in source evidence."
+  },
+  {
+    "canonical_symbol": "sub_0803C4C0",
+    "before": "StageDialogs140205Then140204",
+    "after": "StageDialogs517Then516",
+    "reason": "Represent bank0x14 dialogue resource entry in decimal; complete hexadecimal key remains in source evidence."
+  },
+  {
+    "canonical_symbol": "sub_08043664",
+    "before": "ChooseDialog140207ActorSequence",
+    "after": "ChooseDialog519ActorSequence",
+    "reason": "Represent bank0x14 dialogue resource entry in decimal; complete hexadecimal key remains in source evidence."
+  },
+  {
+    "canonical_symbol": "sub_080400D4",
+    "before": "PanCameraDialog1400E1",
+    "after": "PanCameraDialog225",
+    "reason": "Represent bank0x14 dialogue resource entry in decimal; complete hexadecimal key remains in source evidence."
+  },
+  {
+    "canonical_symbol": "sub_0804B100",
+    "before": "InitializeDialog14003EActors",
+    "after": "InitializeDialog62Actors",
+    "reason": "Represent bank0x14 dialogue resource entry in decimal; complete hexadecimal key remains in source evidence."
+  },
+  {
+    "canonical_symbol": "sub_080402F4",
+    "before": "PanCameraDialog1400EC",
+    "after": "PanCameraDialog236",
+    "reason": "Represent bank0x14 dialogue resource entry in decimal; complete hexadecimal key remains in source evidence."
+  },
+  {
+    "canonical_symbol": "sub_08040530",
+    "before": "PanCameraDialog1400ED",
+    "after": "PanCameraDialog237",
+    "reason": "Represent bank0x14 dialogue resource entry in decimal; complete hexadecimal key remains in source evidence."
+  },
+  {
+    "canonical_symbol": "sub_08041E8C",
+    "before": "PanCameraDialog140100",
+    "after": "PanCameraDialog256",
+    "reason": "Represent bank0x14 dialogue resource entry in decimal; complete hexadecimal key remains in source evidence."
+  },
+  {
+    "canonical_symbol": "sub_08042390",
+    "before": "PanCameraDialog140103",
+    "after": "PanCameraDialog259",
+    "reason": "Represent bank0x14 dialogue resource entry in decimal; complete hexadecimal key remains in source evidence."
+  },
+  {
+    "canonical_symbol": "sub_0804BEF8",
+    "before": "AskItem22Dialog140045",
+    "after": "AskItem22Dialog69",
+    "reason": "Represent bank0x14 dialogue resource entry in decimal; complete hexadecimal key remains in source evidence."
+  },
+  {
+    "canonical_symbol": "sub_0804F128",
+    "before": "StageActor1Dialog14005D",
+    "after": "StageActor1Dialog93",
+    "reason": "Represent bank0x14 dialogue resource entry in decimal; complete hexadecimal key remains in source evidence."
+  },
+  {
+    "canonical_symbol": "sub_080308B4",
+    "before": "ShowProgressionDialogs1400DC",
+    "after": "ShowProgressionDialogs220",
+    "reason": "Represent bank0x14 dialogue resource entry in decimal; complete hexadecimal key remains in source evidence."
+  },
+  {
+    "canonical_symbol": "sub_08042938",
+    "before": "ReplaceActor3ADialog140106",
+    "after": "ReplaceActor3ADialog262",
+    "reason": "Represent bank0x14 dialogue resource entry in decimal; complete hexadecimal key remains in source evidence."
+  },
+  {
+    "canonical_symbol": "sub_0804534C",
+    "before": "AskDialog14021CEmitItem29",
+    "after": "AskDialog540EmitItem29",
+    "reason": "Represent bank0x14 dialogue resource entry in decimal; complete hexadecimal key remains in source evidence."
+  },
+  {
+    "canonical_symbol": "sub_080537DC",
+    "before": "PanDialog1400A8Or1400A9",
+    "after": "PanDialog168Or169",
+    "reason": "Represent bank0x14 dialogue resource entry in decimal; complete hexadecimal key remains in source evidence."
+  }
+]

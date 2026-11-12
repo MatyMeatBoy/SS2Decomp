@@ -1,0 +1,508 @@
+[
+  {
+    "canonical_symbol": "sub_0809CC2C",
+    "address": "0x0809CC2C",
+    "display_name": "RunIndexedPursuitMeleeActor",
+    "summary": "Initializes actor slots index+1 at fixed positions with mask bits and two sprite resources, synchronizes state changes by actor id, pursues a selected player, attempts a facing hit on attack frame 1/tick 0, then waits a mode-dependent cooldown. Runs until the main object's active field clears or death helper succeeds; clears its mask bit, blinks and conditionally performs a thirty-step experience-award sequence.",
+    "confidence": "low",
+    "evidence": [
+      {
+        "source": "src/code_08097E28.c",
+        "line": 2600,
+        "detail": "Initializes actor slots index+1 at fixed positions with mask bits and two sprite resources, synchronizes state changes by actor id, pursues a selected player, attempts a facing hit on attack frame 1/tick 0, then waits a mode-dependent cooldown. Runs until the main object's active field clears or death helper succeeds; clears its mask bit, blinks and conditionally performs a thirty-step experience-award sequence.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_08097E28.c",
+        "line": 3062,
+        "detail": "Observed caller or callback binding: t->fC = (u32)sub_0809CC2C;",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_0801E244.c",
+        "line": 142,
+        "detail": "sub_0801E46C computes the numeric defeat award; sub_0801E4CC at line 174 adds it to inventory+0x1C and conditionally advances level once. These are experience operations, not item drops.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ],
+    "open_questions": [
+      "Encounter/artwork identity remains unproved. Broad state-machine name is provisional; local motions, phase gates and cleanup are directly observed."
+    ]
+  },
+  {
+    "canonical_symbol": "sub_080A35D0",
+    "address": "0x080A35D0",
+    "display_name": "RunSelectedAttachmentActor",
+    "summary": "Initializes actor slot 1 linked to a main object's serial and position, synchronizes startup by actor id, follows the selected table offset with mode-selected animation and collision dimensions, and handles damage blinking. An inactive selector waits hidden until death; the death path requests remote full-HP damage for its actor key and enters an endless attachment-rendering yield loop rather than returning.",
+    "confidence": "low",
+    "evidence": [
+      {
+        "source": "src/code_0809D878.c",
+        "line": 3320,
+        "detail": "Initializes actor slot 1 linked to a main object's serial and position, synchronizes startup by actor id, follows the selected table offset with mode-selected animation and collision dimensions, and handles damage blinking. An inactive selector waits hidden until death; the death path requests remote full-HP damage for its actor key and enters an endless attachment-rendering yield loop rather than returning.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_080A3D2C.c",
+        "line": 534,
+        "detail": "Observed caller or callback binding: t->fC = (u32)sub_080A35D0;",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_08067B4C.c",
+        "line": 78,
+        "detail": "Cleanup helper sub_08067CA8 admits a type-0x89 record carrying the actor key only if queue count is at most 49; callers here do not check admission. It does not free a resource locally or prove remote completion.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ],
+    "open_questions": [
+      "Encounter/artwork identity remains unproved. Broad state-machine name is provisional; local motions, phase gates and cleanup are directly observed."
+    ]
+  },
+  {
+    "canonical_symbol": "sub_080A3D2C",
+    "address": "0x080A3D2C",
+    "display_name": "RunIndexedAttachmentActor",
+    "summary": "Initializes actor slots index plus 2 linked to a main object, follows per-index direction/activation arrays with table offsets and mode-specific animation, and processes damage/death. Hidden inactive paths wait for death; cleanup requests remote full-HP damage for its actor key, clears per-index animation state, blinks twenty-one iterations and conditionally performs a thirty-step experience-award sequence.",
+    "confidence": "low",
+    "evidence": [
+      {
+        "source": "src/code_080A3D2C.c",
+        "line": 93,
+        "detail": "Initializes actor slots index plus 2 linked to a main object, follows per-index direction/activation arrays with table offsets and mode-specific animation, and processes damage/death. Hidden inactive paths wait for death; cleanup requests remote full-HP damage for its actor key, clears per-index animation state, blinks twenty-one iterations and conditionally performs a thirty-step experience-award sequence.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_080A3D2C.c",
+        "line": 592,
+        "detail": "Observed caller or callback binding: *((s32 *) (((s8 *) entry) + 0xC)) = (s32) sub_080A3D2C;",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_08067B4C.c",
+        "line": 78,
+        "detail": "Cleanup helper sub_08067CA8 admits a type-0x89 record carrying the actor key only if queue count is at most 49; callers here do not check admission. It does not free a resource locally or prove remote completion.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_0801E244.c",
+        "line": 142,
+        "detail": "sub_0801E46C computes the numeric defeat award; sub_0801E4CC at line 174 adds it to inventory+0x1C and conditionally advances level once. These are experience operations, not item drops.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ],
+    "open_questions": [
+      "Encounter/artwork identity remains unproved. Broad state-machine name is provisional; local motions, phase gates and cleanup are directly observed."
+    ]
+  },
+  {
+    "canonical_symbol": "sub_080A756C",
+    "address": "0x080A756C",
+    "display_name": "RunScriptedCameraTransition",
+    "summary": "Animates resources0x5000F/0x50010 through fixed coordinate and camera phases. One packed player meeting y<=0x7B and state0x11 starts a phase; a later scan waits while any packed player has y>0x7C with state0x11. Shows message0x14008B, sets player flags1/0x20, shifts BG2 and actor/shadow/player y, waits a timer and synchronizes0xDEADFACE. Host path advances map id; exit clears player flags and actor mask.",
+    "confidence": "low",
+    "evidence": [
+      {
+        "source": "src/code_080A3D2C.c",
+        "line": 1978,
+        "detail": "Animates resources0x5000F/0x50010 through fixed coordinate and camera phases. One packed player meeting y<=0x7B and state0x11 starts a phase; a later scan waits while any packed player has y>0x7C with state0x11. Shows message0x14008B, sets player flags1/0x20, shifts BG2 and actor/shadow/player y, waits a timer and synchronizes0xDEADFACE. Host path advances map id; exit clears player flags and actor mask.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_0808D4A8.c",
+        "line": 1040,
+        "detail": "Observed caller or callback binding: sub_0801674C((u32)sub_080A756C, 0);",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_080A3D2C.c",
+        "line": 1978,
+        "detail": "Primary body has eight numbered camera/coordinate phases; local variable dragon is not proof of artwork or a boarding event.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ],
+    "open_questions": [
+      "Encounter/artwork identity remains unproved. Broad state-machine name is provisional; local motions, phase gates and cleanup are directly observed."
+    ]
+  },
+  {
+    "canonical_symbol": "sub_080AD534",
+    "address": "0x080AD534",
+    "display_name": "RunIndexedFollowingSegmentActor",
+    "summary": "Initializes low-byte-indexed actor slots and follows the preceding position/direction sample, publishing its own sample for the next segment. Synchronizes fade/shake/fade phases with state bytes, tests short contact hits on a thirty-step cooldown and renders damage feedback. Death requests remote full-HP damage for its actor key, clears mask/state, sets predecessor team field to2 when index is nonzero, blinks and conditionally runs a experience-award sequence.",
+    "confidence": "low",
+    "evidence": [
+      {
+        "source": "src/code_080A9680.c",
+        "line": 2474,
+        "detail": "Initializes low-byte-indexed actor slots and follows the preceding position/direction sample, publishing its own sample for the next segment. Synchronizes fade/shake/fade phases with state bytes, tests short contact hits on a thirty-step cooldown and renders damage feedback. Death requests remote full-HP damage for its actor key, clears mask/state, sets predecessor team field to2 when index is nonzero, blinks and conditionally runs a experience-award sequence.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_080A9680.c",
+        "line": 2810,
+        "detail": "Observed caller or callback binding: t->fC = (u32)sub_080AD534;",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_08067B4C.c",
+        "line": 78,
+        "detail": "Cleanup helper sub_08067CA8 admits a type-0x89 record carrying the actor key only if queue count is at most 49; callers here do not check admission. It does not free a resource locally or prove remote completion.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_0801E244.c",
+        "line": 142,
+        "detail": "sub_0801E46C computes the numeric defeat award; sub_0801E4CC at line 174 adds it to inventory+0x1C and conditionally advances level once. These are experience operations, not item drops.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_08017F7C.c",
+        "line": 1092,
+        "detail": "sub_0801A0A4 writes byte+0x1DC=2. It does not allocate, reactivate a mask bit or restore HP.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ],
+    "open_questions": [
+      "Encounter/artwork identity remains unproved. Broad state-machine name is provisional; local motions, phase gates and cleanup are directly observed."
+    ]
+  },
+  {
+    "canonical_symbol": "sub_0809E468",
+    "address": "0x0809E468",
+    "display_name": "RunBg2ScanlinePhaseController",
+    "summary": "Installs the EDFC HBlank and EF84 VBlank callbacks, manages BG1/BG2 priorities, scroll/blend/VCOUNT transitions through nine modes, and in mode 4 continuously writes selected-player direction 0/magnitude 0x120/counter 8. Busy paths disable callbacks/display effects once; after the main object's active field clears it resets phase globals and continues an endless baseline-background yield loop.",
+    "confidence": "low",
+    "evidence": [
+      {
+        "source": "src/code_0809D878.c",
+        "line": 439,
+        "detail": "Installs the EDFC HBlank and EF84 VBlank callbacks, manages BG1/BG2 priorities, scroll/blend/VCOUNT transitions through nine modes, and in mode 4 continuously writes selected-player direction 0/magnitude 0x120/counter 8. Busy paths disable callbacks/display effects once; after the main object's active field clears it resets phase globals and continues an endless baseline-background yield loop.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_0809D878.c",
+        "line": 1327,
+        "detail": "Observed caller or callback binding: gTP03000318->fC = (u32)sub_0809E468;",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ],
+    "open_questions": [
+      "Encounter/artwork identity remains unproved. Broad state-machine name is provisional; local motions, phase gates and cleanup are directly observed."
+    ]
+  },
+  {
+    "canonical_symbol": "sub_0809FB6C",
+    "address": "0x0809FB6C",
+    "display_name": "RunOrbitingStrikeActor",
+    "summary": "Initializes an actor and palette, moves it on an expanding bounded elliptical table orbit, and synchronizes event-selected strike callbacks with a completion byte, alternating with a separate task sequence after two rounds. Resource-failure termination clears its mask bit and returns early; normal death/termination cleans effect tasks, synchronizes 0xDEADFACE, conditionally computes and grants defeat experience and requests/waits the final transition.",
+    "confidence": "low",
+    "evidence": [
+      {
+        "source": "src/code_0809D878.c",
+        "line": 1499,
+        "detail": "Initializes an actor and palette, moves it on an expanding bounded elliptical table orbit, and synchronizes event-selected strike callbacks with a completion byte, alternating with a separate task sequence after two rounds. Resource-failure termination clears its mask bit and returns early; normal death/termination cleans effect tasks, synchronizes 0xDEADFACE, conditionally computes and grants defeat experience and requests/waits the final transition.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_0808D4A8.c",
+        "line": 700,
+        "detail": "Observed caller or callback binding: sub_0801674C((u32)sub_0809FB6C, (u32)sub_080A0F64);",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_0801E244.c",
+        "line": 142,
+        "detail": "sub_0801E46C computes the numeric defeat award; sub_0801E4CC at line 174 adds it to inventory+0x1C and conditionally advances level once. These are experience operations, not item drops.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ],
+    "open_questions": [
+      "Encounter/artwork identity remains unproved. Broad state-machine name is provisional; local motions, phase gates and cleanup are directly observed."
+    ]
+  },
+  {
+    "canonical_symbol": "sub_080A1208",
+    "address": "0x080A1208",
+    "display_name": "RunPursuitEightProjectileActor",
+    "summary": "Initializes two sprite resources and player serial histories, pursues a selected player with speed 0xC0 and timed cap, then applies a facing hit and admits eight direction-indexed projectile tasks using game-mode-selected pool callbacks; alternates attack and recovery waits. Resource-failure termination clears its mask bit; normal exit clears active mask, cleans tasks, synchronizes, shows message 0x140061 and performs conditional experience/transition.",
+    "confidence": "low",
+    "evidence": [
+      {
+        "source": "src/code_0809D878.c",
+        "line": 2297,
+        "detail": "Initializes two sprite resources and player serial histories, pursues a selected player with speed 0xC0 and timed cap, then applies a facing hit and admits eight direction-indexed projectile tasks using game-mode-selected pool callbacks; alternates attack and recovery waits. Resource-failure termination clears its mask bit; normal exit clears active mask, cleans tasks, synchronizes, shows message 0x140061 and performs conditional experience/transition.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_0808D4A8.c",
+        "line": 840,
+        "detail": "Observed caller or callback binding: sub_0801674C((u32)sub_080A1208,(u32)sub_080A2698);",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_0801E244.c",
+        "line": 142,
+        "detail": "sub_0801E46C computes the numeric defeat award; sub_0801E4CC at line 174 adds it to inventory+0x1C and conditionally advances level once. These are experience operations, not item drops.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ],
+    "open_questions": [
+      "Encounter/artwork identity remains unproved. Broad state-machine name is provisional; local motions, phase gates and cleanup are directly observed."
+    ]
+  },
+  {
+    "canonical_symbol": "sub_0809D878",
+    "address": "0x0809D878",
+    "display_name": "RunWaypointProjectileCycleActor",
+    "summary": "Initializes actor/resource/history state, cycles through five fixed waypoints at movement parameter 0x140 with sinusoidal y offsets, and alternates four player-targeted projectile admissions with an orbiting attack, invoking a special sequence every sixth attack. Allocation-wait termination clears its mask bit; normal exit cleans tasks, synchronizes 0xDEADFACE, shows message 0x140047, conditionally computes and grants defeat experience and completes the transition.",
+    "confidence": "low",
+    "evidence": [
+      {
+        "source": "src/code_0809D878.c",
+        "line": 86,
+        "detail": "Initializes actor/resource/history state, cycles through five fixed waypoints at movement parameter 0x140 with sinusoidal y offsets, and alternates four player-targeted projectile admissions with an orbiting attack, invoking a special sequence every sixth attack. Allocation-wait termination clears its mask bit; normal exit cleans tasks, synchronizes 0xDEADFACE, shows message 0x140047, conditionally computes and grants defeat experience and completes the transition.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_0808D4A8.c",
+        "line": 437,
+        "detail": "Observed caller or callback binding: sub_0801674C((u32)sub_0809D878, (u32)sub_0809F8C8);",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_0801E244.c",
+        "line": 142,
+        "detail": "sub_0801E46C computes the numeric defeat award; sub_0801E4CC at line 174 adds it to inventory+0x1C and conditionally advances level once. These are experience operations, not item drops.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ],
+    "open_questions": [
+      "Encounter/artwork identity remains unproved. Broad state-machine name is provisional; local motions, phase gates and cleanup are directly observed."
+    ]
+  },
+  {
+    "canonical_symbol": "sub_080B0288",
+    "address": "0x080B0288",
+    "display_name": "RunPursuitAnimatedMeleeActor",
+    "summary": "Initializes three sprite resources and player serial history, pursues selected players using movement parameter 0x140/range 0x1C, plays a resource-derived sound at attack frame 2/tick 0, increments attack serial on animation completion and waits before repeating. After death/termination it synchronizes cleanup, shows a flag-selected message, runs timed animation and blend effects, then conditionally computes and grants defeat experience and requests transition.",
+    "confidence": "low",
+    "evidence": [
+      {
+        "source": "src/code_080A9680.c",
+        "line": 4067,
+        "detail": "Initializes three sprite resources and player serial history, pursues selected players using movement parameter 0x140/range 0x1C, plays a resource-derived sound at attack frame 2/tick 0, increments attack serial on animation completion and waits before repeating. After death/termination it synchronizes cleanup, shows a flag-selected message, runs timed animation and blend effects, then conditionally computes and grants defeat experience and requests transition.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_0808D4A8.c",
+        "line": 1219,
+        "detail": "Observed caller or callback binding: sub_0801674C((u32)sub_080B0288,(u32)sub_080B0F9C);",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_0801E244.c",
+        "line": 142,
+        "detail": "sub_0801E46C computes the numeric defeat award; sub_0801E4CC at line 174 adds it to inventory+0x1C and conditionally advances level once. These are experience operations, not item drops.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ],
+    "open_questions": [
+      "Encounter/artwork identity remains unproved. Broad state-machine name is provisional; local motions, phase gates and cleanup are directly observed."
+    ]
+  },
+  {
+    "canonical_symbol": "sub_080AC844",
+    "address": "0x080AC844",
+    "display_name": "RunSegmentedPathEncounterActor",
+    "summary": "Initializes four following segment tasks and shared position/direction samples, moves the main actor at parameter 0x240, alternates movement with synchronized segment state-byte phases 1/2/0 and toggles main collision by active mask. Tests contact hits with a thirty-step cooldown; allocation-wait termination returns after mask clearing, while normal death/termination cleans segments, synchronizes, blinks, conditionally computes and grants defeat experience and requests transition.",
+    "confidence": "low",
+    "evidence": [
+      {
+        "source": "src/code_080A9680.c",
+        "line": 2075,
+        "detail": "Initializes four following segment tasks and shared position/direction samples, moves the main actor at parameter 0x240, alternates movement with synchronized segment state-byte phases 1/2/0 and toggles main collision by active mask. Tests contact hits with a thirty-step cooldown; allocation-wait termination returns after mask clearing, while normal death/termination cleans segments, synchronizes, blinks, conditionally computes and grants defeat experience and requests transition.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_0808D4A8.c",
+        "line": 788,
+        "detail": "Observed caller or callback binding: sub_0801674C((u32)sub_080AC844, (u32)sub_080AE080);",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_0801E244.c",
+        "line": 142,
+        "detail": "sub_0801E46C computes the numeric defeat award; sub_0801E4CC at line 174 adds it to inventory+0x1C and conditionally advances level once. These are experience operations, not item drops.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ],
+    "open_questions": [
+      "Encounter/artwork identity remains unproved. Broad state-machine name is provisional; local motions, phase gates and cleanup are directly observed."
+    ]
+  },
+  {
+    "canonical_symbol": "sub_08099838",
+    "address": "0x08099838",
+    "display_name": "RunPursuitFallingStrikeActor",
+    "summary": "Initializes two sprite resources, pursues selected players with mode-dependent speed/duration, attempts a frame-2 contact hit with quake, then admits falling strikes for each player or five single-player targets and waits before repeating. Allocation-wait termination clears its mask bit; normal exit cleans effects, synchronizes 0xDEADFACE, shows message 0x14003C, conditionally computes and grants defeat experience and requests transition.",
+    "confidence": "low",
+    "evidence": [
+      {
+        "source": "src/code_08097E28.c",
+        "line": 981,
+        "detail": "Initializes two sprite resources, pursues selected players with mode-dependent speed/duration, attempts a frame-2 contact hit with quake, then admits falling strikes for each player or five single-player targets and waits before repeating. Allocation-wait termination clears its mask bit; normal exit cleans effects, synchronizes 0xDEADFACE, shows message 0x14003C, conditionally computes and grants defeat experience and requests transition.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_08087CC0.c",
+        "line": 4071,
+        "detail": "Observed caller or callback binding: sub_0801674C((u32)sub_08099838, (u32)sub_0809ADE8);",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_0801E244.c",
+        "line": 142,
+        "detail": "sub_0801E46C computes the numeric defeat award; sub_0801E4CC at line 174 adds it to inventory+0x1C and conditionally advances level once. These are experience operations, not item drops.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ],
+    "open_questions": [
+      "Encounter/artwork identity remains unproved. Broad state-machine name is provisional; local motions, phase gates and cleanup are directly observed."
+    ]
+  },
+  {
+    "canonical_symbol": "sub_080A27B8",
+    "address": "0x080A27B8",
+    "display_name": "RunPatternedAttachmentEncounter",
+    "summary": "Places main actor at fixed position, restores field+0x5C to999 on hits, and alternates timed pursuit/contact with event-selected15-byte configurations for one primary attachment and three indexed children. Ends when linked actor+0x5C clears or termination occurs. Normal exit clears actor mask, synchronizes0xDEADFACE, shows message0x140065, then releases three task groups and conditionally performs experience/transition work. Palette-wait termination clears only its mask bit and returns.",
+    "confidence": "low",
+    "evidence": [
+      {
+        "source": "src/code_0809D878.c",
+        "line": 2999,
+        "detail": "Places main actor at fixed position, restores field+0x5C to999 on hits, and alternates timed pursuit/contact with event-selected15-byte configurations for one primary attachment and three indexed children. Ends when linked actor+0x5C clears or termination occurs. Normal exit clears actor mask, synchronizes0xDEADFACE, shows message0x140065, then releases three task groups and conditionally performs experience/transition work. Palette-wait termination clears only its mask bit and returns.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_0808D4A8.c",
+        "line": 931,
+        "detail": "Observed caller or callback binding: sub_0801674C((u32)sub_080A27B8,(u32)sub_080A49A8);",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_0801E244.c",
+        "line": 142,
+        "detail": "sub_0801E46C computes the numeric defeat award; sub_0801E4CC at line 174 adds it to inventory+0x1C and conditionally advances level once. These are experience operations, not item drops.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_0809D878.c",
+        "line": 3258,
+        "detail": "Three release calls4BFC,4B10,4A54 appear after the synchronization and message wait; field+5C is explicitly restored to999 when state10 is observed.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ],
+    "open_questions": [
+      "Encounter/artwork identity remains unproved. Broad state-machine name is provisional; local motions, phase gates and cleanup are directly observed."
+    ]
+  },
+  {
+    "canonical_symbol": "sub_08098108",
+    "address": "0x08098108",
+    "display_name": "RunAlternatingProjectileChargeActor",
+    "summary": "Initializes two sprite resources, pursues selected players, then alternates an animation-driven rotating projectile burst with a timed close-pursuit/contact phase followed by wandering recovery. Game mode controls timings and projectile arguments. Allocation-wait termination clears its mask bit; normal death/termination cleans projectiles, synchronizes, shows message 0x140032 and conditionally computes and grants defeat experience before transition.",
+    "confidence": "low",
+    "evidence": [
+      {
+        "source": "src/code_08097E28.c",
+        "line": 269,
+        "detail": "Initializes two sprite resources, pursues selected players, then alternates an animation-driven rotating projectile burst with a timed close-pursuit/contact phase followed by wandering recovery. Game mode controls timings and projectile arguments. Allocation-wait termination clears its mask bit; normal death/termination cleans projectiles, synchronizes, shows message 0x140032 and conditionally computes and grants defeat experience before transition.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_08087CC0.c",
+        "line": 3980,
+        "detail": "Observed caller or callback binding: sub_0801674C((u32)sub_08098108, (u32)sub_08099720);",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_0801E244.c",
+        "line": 142,
+        "detail": "sub_0801E46C computes the numeric defeat award; sub_0801E4CC at line 174 adds it to inventory+0x1C and conditionally advances level once. These are experience operations, not item drops.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ],
+    "open_questions": [
+      "Encounter/artwork identity remains unproved. Broad state-machine name is provisional; local motions, phase gates and cleanup are directly observed."
+    ]
+  },
+  {
+    "canonical_symbol": "sub_080A8164",
+    "address": "0x080A8164",
+    "display_name": "RunPathDamageAttackActor",
+    "summary": "Initializes three sprite resources at a fixed position, moves slowly toward a fixed target with alternating event-selected projectile and offset-contact attacks, and traverses a scripted path between approaches. Applies horizontal contact push and position rollback outside the path phase; allocation-wait termination clears its mask bit, while normal exit cleans tasks, synchronizes, shows message 0x140090 and conditionally computes and grants defeat experience before transition.",
+    "confidence": "low",
+    "evidence": [
+      {
+        "source": "src/code_080A3D2C.c",
+        "line": 2513,
+        "detail": "Initializes three sprite resources at a fixed position, moves slowly toward a fixed target with alternating event-selected projectile and offset-contact attacks, and traverses a scripted path between approaches. Applies horizontal contact push and position rollback outside the path phase; allocation-wait termination clears its mask bit, while normal exit cleans tasks, synchronizes, shows message 0x140090 and conditionally computes and grants defeat experience before transition.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_0808D4A8.c",
+        "line": 1304,
+        "detail": "Observed caller or callback binding: sub_0801674C((u32)sub_080A8164,(u32)sub_080A97E0);",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_0801E244.c",
+        "line": 142,
+        "detail": "sub_0801E46C computes the numeric defeat award; sub_0801E4CC at line 174 adds it to inventory+0x1C and conditionally advances level once. These are experience operations, not item drops.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ],
+    "open_questions": [
+      "Encounter/artwork identity remains unproved. Broad state-machine name is provisional; local motions, phase gates and cleanup are directly observed."
+    ]
+  },
+  {
+    "canonical_symbol": "sub_080B280C",
+    "address": "0x080B280C",
+    "display_name": "RunPairedActorAttackCycle",
+    "summary": "Initializes the base actor with three sprite resources and alternates approach/tracking, four projectile admissions, sustained side-position effects and animation-frame-gated offset hits through synchronized actor-id phases. Before a linked actor deactivates it follows a shared center; afterward it independently targets players. On death/termination clears its mask/collision dimensions, requests remote full-HP damage for its actor key, performs a finishing animation and conditional thirty-step experience-award sequence.",
+    "confidence": "low",
+    "evidence": [
+      {
+        "source": "src/code_080A9680.c",
+        "line": 5299,
+        "detail": "Initializes the base actor with three sprite resources and alternates approach/tracking, four projectile admissions, sustained side-position effects and animation-frame-gated offset hits through synchronized actor-id phases. Before a linked actor deactivates it follows a shared center; afterward it independently targets players. On death/termination clears its mask/collision dimensions, requests remote full-HP damage for its actor key, performs a finishing animation and conditional thirty-step experience-award sequence.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_08067B4C.c",
+        "line": 78,
+        "detail": "Cleanup helper sub_08067CA8 admits a type-0x89 record carrying the actor key only if queue count is at most 49; callers here do not check admission. It does not free a resource locally or prove remote completion.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_0801E244.c",
+        "line": 142,
+        "detail": "sub_0801E46C computes the numeric defeat award; sub_0801E4CC at line 174 adds it to inventory+0x1C and conditionally advances level once. These are experience operations, not item drops.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ],
+    "open_questions": [
+      "Encounter/artwork identity remains unproved. Broad state-machine name is provisional; local motions, phase gates and cleanup are directly observed."
+    ],
+    "supporting_evidence": [
+      {
+        "source": "src/code_080A9680.c",
+        "line": 5134,
+        "detail": "Observed caller or callback binding: taskA0B24B8->fC = (u32)sub_080B280C;",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ]
+  }
+]

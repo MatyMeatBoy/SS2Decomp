@@ -1,0 +1,776 @@
+[
+  {
+    "canonical_symbol": "sub_080B4B48",
+    "decision": "accept",
+    "reason": "Full primary body and relevant installed callback/support helpers agree with gate, pool bound and allocation/cleanup contract; no narrative identity inferred."
+  },
+  {
+    "canonical_symbol": "sub_080B64A4",
+    "decision": "accept",
+    "reason": "Full primary body and relevant installed callback/support helpers agree with gate, pool bound and allocation/cleanup contract; no narrative identity inferred."
+  },
+  {
+    "canonical_symbol": "sub_08099788",
+    "decision": "accept",
+    "reason": "Full primary body and relevant installed callback/support helpers agree with gate, pool bound and allocation/cleanup contract; no narrative identity inferred."
+  },
+  {
+    "canonical_symbol": "sub_0809AE50",
+    "decision": "accept",
+    "reason": "Full primary body and relevant installed callback/support helpers agree with gate, pool bound and allocation/cleanup contract; no narrative identity inferred."
+  },
+  {
+    "canonical_symbol": "sub_0809D6D8",
+    "decision": "accept",
+    "reason": "Full primary body and relevant installed callback/support helpers agree with gate, pool bound and allocation/cleanup contract; no narrative identity inferred."
+  },
+  {
+    "canonical_symbol": "sub_0809D810",
+    "decision": "accept",
+    "reason": "Full primary body and relevant installed callback/support helpers agree with gate, pool bound and allocation/cleanup contract; no narrative identity inferred."
+  },
+  {
+    "canonical_symbol": "sub_080A2698",
+    "decision": "accept",
+    "reason": "Full primary body and relevant installed callback/support helpers agree with gate, pool bound and allocation/cleanup contract; no narrative identity inferred."
+  },
+  {
+    "canonical_symbol": "sub_080A4B10",
+    "decision": "accept",
+    "reason": "Full primary body and relevant installed callback/support helpers agree with gate, pool bound and allocation/cleanup contract; no narrative identity inferred."
+  },
+  {
+    "canonical_symbol": "sub_080A7E94",
+    "decision": "accept",
+    "reason": "Full primary body and relevant installed callback/support helpers agree with gate, pool bound and allocation/cleanup contract; no narrative identity inferred."
+  },
+  {
+    "canonical_symbol": "sub_080A7F5C",
+    "decision": "accept",
+    "reason": "Full primary body and relevant installed callback/support helpers agree with gate, pool bound and allocation/cleanup contract; no narrative identity inferred."
+  },
+  {
+    "canonical_symbol": "sub_080A97E0",
+    "decision": "accept",
+    "reason": "Full primary body and relevant installed callback/support helpers agree with gate, pool bound and allocation/cleanup contract; no narrative identity inferred."
+  },
+  {
+    "canonical_symbol": "sub_080A9844",
+    "decision": "accept",
+    "reason": "Full primary body and relevant installed callback/support helpers agree with gate, pool bound and allocation/cleanup contract; no narrative identity inferred."
+  },
+  {
+    "canonical_symbol": "sub_080AE080",
+    "decision": "accept",
+    "reason": "Full primary body and relevant installed callback/support helpers agree with gate, pool bound and allocation/cleanup contract; no narrative identity inferred."
+  },
+  {
+    "canonical_symbol": "sub_080AE0E4",
+    "decision": "accept",
+    "reason": "Full primary body and relevant installed callback/support helpers agree with gate, pool bound and allocation/cleanup contract; no narrative identity inferred."
+  },
+  {
+    "canonical_symbol": "sub_08099720",
+    "decision": "accept",
+    "reason": "Full primary body and relevant installed callback/support helpers agree with gate, pool bound and allocation/cleanup contract; no narrative identity inferred."
+  },
+  {
+    "canonical_symbol": "sub_0809ADE8",
+    "decision": "accept",
+    "reason": "Full primary body and relevant installed callback/support helpers agree with gate, pool bound and allocation/cleanup contract; no narrative identity inferred."
+  },
+  {
+    "canonical_symbol": "sub_0809D5E4",
+    "decision": "accept",
+    "reason": "Full primary body and relevant installed callback/support helpers agree with gate, pool bound and allocation/cleanup contract; no narrative identity inferred."
+  },
+  {
+    "canonical_symbol": "sub_0809FA28",
+    "decision": "fix",
+    "reason": "Supporting lifetime statement is off by one: decrement-until0xFFFF produces421 iterations, not420. Display name and release summary are supported.",
+    "corrected_row": {
+      "canonical_symbol": "sub_0809FA28",
+      "address": "0x0809FA28",
+      "display_name": "ReleaseTrackingLaunchTasks",
+      "summary": "Returns if gUnk_03000324 is null; otherwise cancels four scheduled controls, frees array and clears global.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_0809D878.c",
+          "line": 1354,
+          "detail": "Returns if gUnk_03000324 is null; otherwise cancels four scheduled controls, frees array and clears global.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0809D878.c",
+          "line": 887,
+          "detail": "Callback initializes remaining=420 and decrements after each iteration until u16 underflow to0xFFFF:421 total iterations. Warning countdown270 tracks selected player for270 iterations, then moves by the last vector for151 iterations. Invalid unavailable player selectors may exit early; out-of-domain selectors are not validated comprehensively.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "asm/nonmatchings/sched/sub_08000470.s",
+          "line": 1,
+          "detail": "Tests whether the control address appears in the scheduled linked list.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "asm/nonmatchings/sched/sub_080003A8.s",
+          "line": 1,
+          "detail": "Cancellation invokes callback at control+0x24 when nonzero; continuation sub_080003C0 frees stack allocation at+0x20 and unlinks control.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "asm/nonmatchings/sched/sub_080003C0.s",
+          "line": 1,
+          "detail": "Cancellation continuation frees the task stack, decrements task count, clears status+4 and unlinks the control; pool owner subsequently frees control array.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Character/artwork identity not inferred; effect names describe static behavior."
+      ]
+    }
+  },
+  {
+    "canonical_symbol": "sub_080A80D8",
+    "decision": "accept",
+    "reason": "Full primary body and relevant installed callback/support helpers agree with gate, pool bound and allocation/cleanup contract; no narrative identity inferred."
+  },
+  {
+    "canonical_symbol": "sub_080B2330",
+    "decision": "accept",
+    "reason": "Full primary body and relevant installed callback/support helpers agree with gate, pool bound and allocation/cleanup contract; no narrative identity inferred."
+  },
+  {
+    "canonical_symbol": "sub_080B4B7C",
+    "decision": "accept",
+    "reason": "Full primary body and relevant installed callback/support helpers agree with gate, pool bound and allocation/cleanup contract; no narrative identity inferred."
+  },
+  {
+    "canonical_symbol": "sub_080B6324",
+    "decision": "accept",
+    "reason": "Full primary body and relevant installed callback/support helpers agree with gate, pool bound and allocation/cleanup contract; no narrative identity inferred."
+  },
+  {
+    "canonical_symbol": "sub_080B640C",
+    "decision": "accept",
+    "reason": "Full primary body and relevant installed callback/support helpers agree with gate, pool bound and allocation/cleanup contract; no narrative identity inferred."
+  },
+  {
+    "canonical_symbol": "sub_080B6360",
+    "decision": "accept",
+    "reason": "Full primary body and relevant installed callback/support helpers agree with gate, pool bound and allocation/cleanup contract; no narrative identity inferred."
+  },
+  {
+    "canonical_symbol": "sub_0809D574",
+    "decision": "accept",
+    "reason": "Full primary body and relevant installed callback/support helpers agree with gate, pool bound and allocation/cleanup contract; no narrative identity inferred."
+  },
+  {
+    "canonical_symbol": "sub_0809F8C8",
+    "decision": "accept",
+    "reason": "Full primary body and relevant installed callback/support helpers agree with gate, pool bound and allocation/cleanup contract; no narrative identity inferred."
+  },
+  {
+    "canonical_symbol": "sub_080A0F64",
+    "decision": "accept",
+    "reason": "Full primary body and relevant installed callback/support helpers agree with gate, pool bound and allocation/cleanup contract; no narrative identity inferred."
+  },
+  {
+    "canonical_symbol": "sub_080A49A8",
+    "decision": "accept",
+    "reason": "Full primary body and relevant installed callback/support helpers agree with gate, pool bound and allocation/cleanup contract; no narrative identity inferred."
+  },
+  {
+    "canonical_symbol": "sub_080AF2BC",
+    "decision": "accept",
+    "reason": "Full primary body and relevant installed callback/support helpers agree with gate, pool bound and allocation/cleanup contract; no narrative identity inferred."
+  },
+  {
+    "canonical_symbol": "sub_080B22E8",
+    "decision": "accept",
+    "reason": "Full primary body and relevant installed callback/support helpers agree with gate, pool bound and allocation/cleanup contract; no narrative identity inferred."
+  },
+  {
+    "canonical_symbol": "sub_080A7DEC",
+    "decision": "accept",
+    "reason": "Full primary body and relevant installed callback/support helpers agree with gate, pool bound and allocation/cleanup contract; no narrative identity inferred."
+  },
+  {
+    "canonical_symbol": "sub_080AF304",
+    "decision": "accept",
+    "reason": "Full primary body and relevant installed callback/support helpers agree with gate, pool bound and allocation/cleanup contract; no narrative identity inferred."
+  },
+  {
+    "canonical_symbol": "sub_080A26D0",
+    "decision": "accept",
+    "reason": "Full primary body and complete installed callback confirm operational name, pool bound, argument narrowing, allocation failure path and cleanup contract; numeric controlword is not assigned gameplay purpose."
+  },
+  {
+    "canonical_symbol": "sub_080A4C24",
+    "decision": "fix",
+    "reason": "Preserve odd guard lifecycle: scheduled controls pass caller guard and mutate fields, while registration does not re-register them. Names remain supported; add explicit limitation.",
+    "corrected_row": {
+      "canonical_symbol": "sub_080A4C24",
+      "address": "0x080A4C24",
+      "display_name": "StartOffsetAttachmentRenderer",
+      "summary": "Returns only when control is unscheduled with nonzero +8; writes controlword0x44, allocates0x400 without null check, installs callback and no destructor, then registers task. The initial guard also permits an already scheduled control: it can overwrite its fields/stack allocation before sub_08000274 sees scheduled membership and returns without registering again. Thus invoking registration here does not guarantee a new callback instance; ordinary use requires an unscheduled idle control.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_080A3D2C.c",
+          "line": 620,
+          "detail": "Returns only when control is unscheduled with nonzero +8; writes controlword0x44, allocates0x400 without null check, installs callback and no destructor, then registers task.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080A3D2C.c",
+          "line": 427,
+          "detail": "Callback waits for a nonzero frame flag, renders selected animation at parent position plus direction-table offset and exits on three global stop predicates.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "asm/nonmatchings/sched/sub_08000274.s",
+          "line": 1,
+          "detail": "Task registration returns without re-registering scheduled controls; otherwise creates saved argument frame. Registration is not callback completion; +8 is described as controlword, not a gameplay priority.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "asm/nonmatchings/sched/sub_08000274.s",
+          "line": 1,
+          "detail": "Membership test occurs at entry; result1 branches directly to return before list insertion or saved frame creation. Combined with caller guard (membership==0 && controlword!=0), scheduled controls pass through caller mutations but registration performs no restart.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Exact character/artwork identity remains unclaimed; names describe callback contract.",
+        "Do callers always enforce idle unscheduled control before this starter? No safe restart or preservation of a previously allocated stack is established here."
+      ]
+    }
+  },
+  {
+    "canonical_symbol": "sub_080A8114",
+    "decision": "fix",
+    "reason": "Preserve odd guard lifecycle: scheduled controls pass caller guard and mutate fields, while registration does not re-register them. Names remain supported; add explicit limitation.",
+    "corrected_row": {
+      "canonical_symbol": "sub_080A8114",
+      "address": "0x080A8114",
+      "display_name": "StartDualScrollTask",
+      "summary": "Returns only for unscheduled control with nonzero +8; writes0x44, allocates0x200 without null check, installs dual-scroll callback and registers with two zero arguments. The initial guard also permits an already scheduled control: it can overwrite its fields/stack allocation before sub_08000274 sees scheduled membership and returns without registering again. Thus invoking registration here does not guarantee a new callback instance; ordinary use requires an unscheduled idle control.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_080A3D2C.c",
+          "line": 2418,
+          "detail": "Returns only for unscheduled control with nonzero +8; writes0x44, allocates0x200 without null check, installs dual-scroll callback and registers with two zero arguments.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080A3D2C.c",
+          "line": 1922,
+          "detail": "Callback increments two fixed-point accumulators and uses sine table to update blend and background1/3 scrolling forever.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "asm/nonmatchings/sched/sub_08000274.s",
+          "line": 1,
+          "detail": "Task registration returns without re-registering scheduled controls; otherwise creates saved argument frame. Registration is not callback completion; +8 is described as controlword, not a gameplay priority.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "asm/nonmatchings/sched/sub_08000274.s",
+          "line": 1,
+          "detail": "Membership test occurs at entry; result1 branches directly to return before list insertion or saved frame creation. Combined with caller guard (membership==0 && controlword!=0), scheduled controls pass through caller mutations but registration performs no restart.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Exact character/artwork identity remains unclaimed; names describe callback contract.",
+        "Do callers always enforce idle unscheduled control before this starter? No safe restart or preservation of a previously allocated stack is established here."
+      ]
+    }
+  },
+  {
+    "canonical_symbol": "sub_080B63BC",
+    "decision": "fix",
+    "reason": "Preserve odd guard lifecycle: scheduled controls pass caller guard and mutate fields, while registration does not re-register them. Names remain supported; add explicit limitation.",
+    "corrected_row": {
+      "canonical_symbol": "sub_080B63BC",
+      "address": "0x080B63BC",
+      "display_name": "StartStagedDualScrollTask",
+      "summary": "Returns only for unscheduled control with nonzero +8; writes0x44, allocates0x400 without null check, installs staged-scroll callback and registers task. The initial guard also permits an already scheduled control: it can overwrite its fields/stack allocation before sub_08000274 sees scheduled membership and returns without registering again. Thus invoking registration here does not guarantee a new callback instance; ordinary use requires an unscheduled idle control.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_080B3648.c",
+          "line": 1701,
+          "detail": "Returns only for unscheduled control with nonzero +8; writes0x44, allocates0x400 without null check, installs staged-scroll callback and registers task.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080B3648.c",
+          "line": 1490,
+          "detail": "Callback resets stage bytes, scrolls two backgrounds, and switches base amplitude and speeds when the stage flag changes.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "asm/nonmatchings/sched/sub_08000274.s",
+          "line": 1,
+          "detail": "Task registration returns without re-registering scheduled controls; otherwise creates saved argument frame. Registration is not callback completion; +8 is described as controlword, not a gameplay priority.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "asm/nonmatchings/sched/sub_08000274.s",
+          "line": 1,
+          "detail": "Membership test occurs at entry; result1 branches directly to return before list insertion or saved frame creation. Combined with caller guard (membership==0 && controlword!=0), scheduled controls pass through caller mutations but registration performs no restart.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Exact character/artwork identity remains unclaimed; names describe callback contract.",
+        "Do callers always enforce idle unscheduled control before this starter? No safe restart or preservation of a previously allocated stack is established here."
+      ]
+    }
+  },
+  {
+    "canonical_symbol": "sub_0809FB18",
+    "decision": "fix",
+    "reason": "Preserve odd guard lifecycle: scheduled controls pass caller guard and mutate fields, while registration does not re-register them. Names remain supported; add explicit limitation.",
+    "corrected_row": {
+      "canonical_symbol": "sub_0809FB18",
+      "address": "0x0809FB18",
+      "display_name": "StartExpandingOrbitAttack",
+      "summary": "Returns for null control or unscheduled control with nonzero +8. Writes0x40 before allocating0x400; null allocation returns with0x40 retained. Installs orbit callback and registers. The initial guard also permits an already scheduled control: it can overwrite its fields/stack allocation before sub_08000274 sees scheduled membership and returns without registering again. Thus invoking registration here does not guarantee a new callback instance; ordinary use requires an unscheduled idle control.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_0809D878.c",
+          "line": 1421,
+          "detail": "Returns for null control or unscheduled control with nonzero +8. Writes0x40 before allocating0x400; null allocation returns with0x40 retained. Installs orbit callback and registers.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0809D878.c",
+          "line": 1167,
+          "detail": "Callback renders four particles with per-index (i<<6) angular offsets; it holds successive animation phases, then increases orbit amplitude and tests contact during its final phase. The shared angle can advance inside the per-particle loop.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "asm/nonmatchings/sched/sub_08000274.s",
+          "line": 1,
+          "detail": "Task registration returns without re-registering scheduled controls; otherwise creates saved argument frame. Registration is not callback completion; +8 is described as controlword, not a gameplay priority.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "asm/nonmatchings/sched/sub_08000274.s",
+          "line": 1,
+          "detail": "Membership test occurs at entry; result1 branches directly to return before list insertion or saved frame creation. Combined with caller guard (membership==0 && controlword!=0), scheduled controls pass through caller mutations but registration performs no restart.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Exact character/artwork identity remains unclaimed; names describe callback contract.",
+        "Do callers always enforce idle unscheduled control before this starter? No safe restart or preservation of a previously allocated stack is established here."
+      ]
+    }
+  },
+  {
+    "canonical_symbol": "sub_080A11B4",
+    "decision": "fix",
+    "reason": "Preserve odd guard lifecycle: scheduled controls pass caller guard and mutate fields, while registration does not re-register them. Names remain supported; add explicit limitation.",
+    "corrected_row": {
+      "canonical_symbol": "sub_080A11B4",
+      "address": "0x080A11B4",
+      "display_name": "StartLimitedRetargetProjectile",
+      "summary": "Returns for unscheduled control with nonzero +8. Allocates0x400; failure returns. Installs sub_080A0B44 with controlword0x46, no destructor, registers task. The initial guard also permits an already scheduled control: it can overwrite its fields/stack allocation before sub_08000274 sees scheduled membership and returns without registering again. Thus invoking registration here does not guarantee a new callback instance; ordinary use requires an unscheduled idle control.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_0809D878.c",
+          "line": 2253,
+          "detail": "Returns for unscheduled control with nonzero +8. Allocates0x400; failure returns. Installs sub_080A0B44 with controlword0x46, no destructor, registers task.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0809D878.c",
+          "line": 1948,
+          "detail": "Callback selects one player, charges through animation phases, recomputes velocity at bounded intervals for up to17 retarget steps, and ends after flight counter exceeds480.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "asm/nonmatchings/sched/sub_08000274.s",
+          "line": 1,
+          "detail": "Task registration returns without re-registering scheduled controls; otherwise creates saved argument frame. Registration is not callback completion; +8 is described as controlword, not a gameplay priority.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "asm/nonmatchings/sched/sub_08000274.s",
+          "line": 1,
+          "detail": "Membership test occurs at entry; result1 branches directly to return before list insertion or saved frame creation. Combined with caller guard (membership==0 && controlword!=0), scheduled controls pass through caller mutations but registration performs no restart.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Exact character/artwork identity remains unclaimed; names describe callback contract.",
+        "Do callers always enforce idle unscheduled control before this starter? No safe restart or preservation of a previously allocated stack is established here."
+      ]
+    }
+  },
+  {
+    "canonical_symbol": "sub_080A4A7C",
+    "decision": "fix",
+    "reason": "Preserve odd guard lifecycle: scheduled controls pass caller guard and mutate fields, while registration does not re-register them. Names remain supported; add explicit limitation.",
+    "corrected_row": {
+      "canonical_symbol": "sub_080A4A7C",
+      "address": "0x080A4A7C",
+      "display_name": "StartPrimaryAttachmentActor",
+      "summary": "Returns only for unscheduled control with nonzero +8; writes0x44 and allocates0x400 without failure check, installs primary attachment callback and mask-clearing destructor, registers task. The initial guard also permits an already scheduled control: it can overwrite its fields/stack allocation before sub_08000274 sees scheduled membership and returns without registering again. Thus invoking registration here does not guarantee a new callback instance; ordinary use requires an unscheduled idle control.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_080A3D2C.c",
+          "line": 523,
+          "detail": "Returns only for unscheduled control with nonzero +8; writes0x44 and allocates0x400 without failure check, installs primary attachment callback and mask-clearing destructor, registers task.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0809D878.c",
+          "line": 3320,
+          "detail": "Callback uses actor slot1, follows main actor plus selected offset, renders slot-dependent animation, and has a persistent post-death animation loop.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "asm/nonmatchings/sched/sub_08000274.s",
+          "line": 1,
+          "detail": "Task registration returns without re-registering scheduled controls; otherwise creates saved argument frame. Registration is not callback completion; +8 is described as controlword, not a gameplay priority.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "asm/nonmatchings/sched/sub_08000274.s",
+          "line": 1,
+          "detail": "Membership test occurs at entry; result1 branches directly to return before list insertion or saved frame creation. Combined with caller guard (membership==0 && controlword!=0), scheduled controls pass through caller mutations but registration performs no restart.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Exact character/artwork identity remains unclaimed; names describe callback contract.",
+        "Do callers always enforce idle unscheduled control before this starter? No safe restart or preservation of a previously allocated stack is established here."
+      ]
+    }
+  },
+  {
+    "canonical_symbol": "sub_080A803C",
+    "decision": "fix",
+    "reason": "Preserve odd guard lifecycle: scheduled controls pass caller guard and mutate fields, while registration does not re-register them. Names remain supported; add explicit limitation.",
+    "corrected_row": {
+      "canonical_symbol": "sub_080A803C",
+      "address": "0x080A803C",
+      "display_name": "StartTwelveTargetShots",
+      "summary": "Returns only for unscheduled control with nonzero +8; allocates0x400 and returns on failure. Installs twelve-shot callback, clears destructor, writes0x40 and registers. The initial guard also permits an already scheduled control: it can overwrite its fields/stack allocation before sub_08000274 sees scheduled membership and returns without registering again. Thus invoking registration here does not guarantee a new callback instance; ordinary use requires an unscheduled idle control.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_080A3D2C.c",
+          "line": 2379,
+          "detail": "Returns only for unscheduled control with nonzero +8; allocates0x400 and returns on failure. Installs twelve-shot callback, clears destructor, writes0x40 and registers.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080A3D2C.c",
+          "line": 1822,
+          "detail": "Callback staggers12 projectiles by i*20+30, samples player targets during delay, moves each in24 steps and checks contact at arrival.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "asm/nonmatchings/sched/sub_08000274.s",
+          "line": 1,
+          "detail": "Task registration returns without re-registering scheduled controls; otherwise creates saved argument frame. Registration is not callback completion; +8 is described as controlword, not a gameplay priority.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "asm/nonmatchings/sched/sub_08000274.s",
+          "line": 1,
+          "detail": "Membership test occurs at entry; result1 branches directly to return before list insertion or saved frame creation. Combined with caller guard (membership==0 && controlword!=0), scheduled controls pass through caller mutations but registration performs no restart.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Exact character/artwork identity remains unclaimed; names describe callback contract.",
+        "Do callers always enforce idle unscheduled control before this starter? No safe restart or preservation of a previously allocated stack is established here."
+      ]
+    }
+  },
+  {
+    "canonical_symbol": "sub_080B236C",
+    "decision": "accept",
+    "reason": "Full primary body and complete installed callback confirm operational name, pool bound, argument narrowing, allocation failure path and cleanup contract; numeric controlword is not assigned gameplay purpose."
+  },
+  {
+    "canonical_symbol": "sub_080B6448",
+    "decision": "accept",
+    "reason": "Full primary body and complete installed callback confirm operational name, pool bound, argument narrowing, allocation failure path and cleanup contract; numeric controlword is not assigned gameplay purpose."
+  },
+  {
+    "canonical_symbol": "sub_0809AE88",
+    "decision": "accept",
+    "reason": "Full primary body and complete installed callback confirm operational name, pool bound, argument narrowing, allocation failure path and cleanup contract; numeric controlword is not assigned gameplay purpose."
+  },
+  {
+    "canonical_symbol": "sub_0809F998",
+    "decision": "fix",
+    "reason": "Preserve odd guard lifecycle: scheduled controls pass caller guard and mutate fields, while registration does not re-register them. Names remain supported; add explicit limitation.",
+    "corrected_row": {
+      "canonical_symbol": "sub_0809F998",
+      "address": "0x0809F998",
+      "display_name": "StartScanlinePushTask",
+      "summary": "Returns only for unscheduled control with nonzero +8. Repeatedly allocates0x400 and yields even on success until allocation succeeds; installs callback, no destructor, writes0x3E and registers. The initial guard also permits an already scheduled control: it can overwrite its fields/stack allocation before sub_08000274 sees scheduled membership and returns without registering again. Thus invoking registration here does not guarantee a new callback instance; ordinary use requires an unscheduled idle control.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_0809D878.c",
+          "line": 1318,
+          "detail": "Returns only for unscheduled control with nonzero +8. Repeatedly allocates0x400 and yields even on success until allocation succeeds; installs callback, no destructor, writes0x3E and registers.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0809D878.c",
+          "line": 439,
+          "detail": "Callback drives scanline callbacks, BG ordering/scroll and staged blend transitions; phase4 writes local-player direction0, speed0x120 and timer8.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "asm/nonmatchings/sched/sub_08000274.s",
+          "line": 1,
+          "detail": "Task registration returns without re-registering scheduled controls; otherwise creates saved argument frame. Registration is not callback completion; +8 is described as controlword, not a gameplay priority.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "asm/nonmatchings/sched/sub_08000274.s",
+          "line": 1,
+          "detail": "Membership test occurs at entry; result1 branches directly to return before list insertion or saved frame creation. Combined with caller guard (membership==0 && controlword!=0), scheduled controls pass through caller mutations but registration performs no restart.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Exact character/artwork identity remains unclaimed; names describe callback contract.",
+        "Do callers always enforce idle unscheduled control before this starter? No safe restart or preservation of a previously allocated stack is established here."
+      ]
+    }
+  },
+  {
+    "canonical_symbol": "sub_080A0FEC",
+    "decision": "fix",
+    "reason": "Preserve odd guard lifecycle: scheduled controls pass caller guard and mutate fields, while registration does not re-register them. Names remain supported; add explicit limitation.",
+    "corrected_row": {
+      "canonical_symbol": "sub_080A0FEC",
+      "address": "0x080A0FEC",
+      "display_name": "StartFixedImpactAttack",
+      "summary": "Returns only for unscheduled control with nonzero +8. Allocates0x400; failure writes caller byte1. Success installs callback with0x44 and forwards byte kind plus byte-pointer. The initial guard also permits an already scheduled control: it can overwrite its fields/stack allocation before sub_08000274 sees scheduled membership and returns without registering again. Thus invoking registration here does not guarantee a new callback instance; ordinary use requires an unscheduled idle control.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_0809D878.c",
+          "line": 2156,
+          "detail": "Returns only for unscheduled control with nonzero +8. Allocates0x400; failure writes caller byte1. Success installs callback with0x44 and forwards byte kind plus byte-pointer.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0809D878.c",
+          "line": 1757,
+          "detail": "Callback selects four fixed impact arrangements, tests contact at animation frame2/phase0, triggers shake/camera and signals caller byte1 when finished.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "asm/nonmatchings/sched/sub_08000274.s",
+          "line": 1,
+          "detail": "Task registration returns without re-registering scheduled controls; otherwise creates saved argument frame. Registration is not callback completion; +8 is described as controlword, not a gameplay priority.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "asm/nonmatchings/sched/sub_08000274.s",
+          "line": 1,
+          "detail": "Membership test occurs at entry; result1 branches directly to return before list insertion or saved frame creation. Combined with caller guard (membership==0 && controlword!=0), scheduled controls pass through caller mutations but registration performs no restart.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Exact character/artwork identity remains unclaimed; names describe callback contract.",
+        "Do callers always enforce idle unscheduled control before this starter? No safe restart or preservation of a previously allocated stack is established here."
+      ]
+    }
+  },
+  {
+    "canonical_symbol": "sub_0809F934",
+    "decision": "accept",
+    "reason": "Full primary body and complete installed callback confirm operational name, pool bound, argument narrowing, allocation failure path and cleanup contract; numeric controlword is not assigned gameplay purpose."
+  },
+  {
+    "canonical_symbol": "sub_080A7ECC",
+    "decision": "accept",
+    "reason": "Full primary body and complete installed callback confirm operational name, pool bound, argument narrowing, allocation failure path and cleanup contract; numeric controlword is not assigned gameplay purpose."
+  },
+  {
+    "canonical_symbol": "sub_080A7F94",
+    "decision": "accept",
+    "reason": "Full primary body and complete installed callback confirm operational name, pool bound, argument narrowing, allocation failure path and cleanup contract; numeric controlword is not assigned gameplay purpose."
+  },
+  {
+    "canonical_symbol": "sub_080A987C",
+    "decision": "accept",
+    "reason": "Full primary body and complete installed callback confirm operational name, pool bound, argument narrowing, allocation failure path and cleanup contract; numeric controlword is not assigned gameplay purpose."
+  },
+  {
+    "canonical_symbol": "sub_080B2454",
+    "decision": "fix",
+    "reason": "Preserve odd guard lifecycle: scheduled controls pass caller guard and mutate fields, while registration does not re-register them. Names remain supported; add explicit limitation.",
+    "corrected_row": {
+      "canonical_symbol": "sub_080B2454",
+      "address": "0x080B2454",
+      "display_name": "StartActorOverlayRenderer",
+      "summary": "Null control returns; unscheduled control with nonzero word returns. Retries0x400 allocation with a yield on every attempt; installs actor-following overlay callback, no destructor and word0x44. The initial guard also permits an already scheduled control: it can overwrite its fields/stack allocation before sub_08000274 sees scheduled membership and returns without registering again. Thus invoking registration here does not guarantee a new callback instance; ordinary use requires an unscheduled idle control.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_080A9680.c",
+          "line": 5080,
+          "detail": "Null control returns; unscheduled control with nonzero word returns. Retries0x400 allocation with a yield on every attempt; installs actor-following overlay callback, no destructor and word0x44.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080A9680.c",
+          "line": 4980,
+          "detail": "Callback loads sprite0x50089 and repeatedly renders animation0x18 at owning actor coordinates; it has no exit.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "asm/nonmatchings/sched/sub_08000274.s",
+          "line": 1,
+          "detail": "Membership test occurs at entry; result1 branches directly to return before list insertion or saved frame creation. Combined with caller guard (membership==0 && controlword!=0), scheduled controls pass through caller mutations but registration performs no restart.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Character/artwork identity not inferred; names describe statically observed contract.",
+        "Do callers always enforce idle unscheduled control before this starter? No safe restart or preservation of a previously allocated stack is established here."
+      ]
+    }
+  },
+  {
+    "canonical_symbol": "sub_0809D77C",
+    "decision": "fix",
+    "reason": "Replace ambiguous exact wait90/180 claim with actual postincrement comparison; names and starter contract supported.",
+    "corrected_row": {
+      "canonical_symbol": "sub_0809D77C",
+      "address": "0x0809D77C",
+      "display_name": "StartChasingChildActor",
+      "summary": "Scans two controls for unscheduled plus word0; writes byte index+0x46, allocates0x400 without checking failure, installs chase callback and mask-clearing destructor, forwards index.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_08097E28.c",
+          "line": 3045,
+          "detail": "Scans two controls for unscheduled plus word0; writes byte index+0x46, allocates0x400 without checking failure, installs chase callback and mask-clearing destructor, forwards index.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08097E28.c",
+          "line": 2600,
+          "detail": "Callback creates actor index+1, chooses player target and approaches it, performs timed attack, and returns from rest when timer++ >= limit with mode-dependent limit90/180. It tears down on child or parent death; these limits are not exact90/180 iteration durations.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Character/artwork identity not inferred; names describe statically observed contract."
+      ]
+    }
+  },
+  {
+    "canonical_symbol": "sub_0809FA64",
+    "decision": "accept",
+    "reason": "Full primary body and complete installed callback confirm operational name, pool bound, argument narrowing, allocation failure path and cleanup contract; numeric controlword is not assigned gameplay purpose."
+  },
+  {
+    "canonical_symbol": "sub_080A49EC",
+    "decision": "accept",
+    "reason": "Full primary body and complete installed callback confirm operational name, pool bound, argument narrowing, allocation failure path and cleanup contract; numeric controlword is not assigned gameplay purpose."
+  },
+  {
+    "canonical_symbol": "sub_080A4B48",
+    "decision": "accept",
+    "reason": "Full primary body and complete installed callback confirm operational name, pool bound, argument narrowing, allocation failure path and cleanup contract; numeric controlword is not assigned gameplay purpose."
+  },
+  {
+    "canonical_symbol": "sub_080AE11C",
+    "decision": "accept",
+    "reason": "Full primary body and complete installed callback confirm operational name, pool bound, argument narrowing, allocation failure path and cleanup contract; numeric controlword is not assigned gameplay purpose."
+  },
+  {
+    "canonical_symbol": "sub_0809D710",
+    "decision": "fix",
+    "reason": "Supporting lifetime statement is off by one:180 initial timer produces181 iterations under decrement-until0xFFFF.",
+    "corrected_row": {
+      "canonical_symbol": "sub_0809D710",
+      "address": "0x0809D710",
+      "display_name": "StartKnockbackAura",
+      "summary": "Scans three controls for unscheduled plus word0; allocates0x400 and returns on failure. Installs aura callback without destructor, writes0x46 and forwards two scheduler words.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_08097E28.c",
+          "line": 3016,
+          "detail": "Scans three controls for unscheduled plus word0; allocates0x400 and returns on failure. Installs aura callback without destructor, writes0x46 and forwards two scheduler words.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08097E28.c",
+          "line": 2493,
+          "detail": "Callback receives first word as actor pointer; initializes timer180, executes contact/render loop then decrements u16 timer until0xFFFF, giving181 loop iterations. Radius threshold47 and outward directional knockback are explicit; second scheduler word has no claimed callback role.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Character/artwork identity not inferred; names describe statically observed contract."
+      ]
+    }
+  },
+  {
+    "canonical_symbol": "sub_080A1F88",
+    "decision": "accept",
+    "reason": "Full primary body and complete installed callback confirm operational name, pool bound, argument narrowing, allocation failure path and cleanup contract; numeric controlword is not assigned gameplay purpose."
+  },
+  {
+    "canonical_symbol": "sub_080AF350",
+    "decision": "accept",
+    "reason": "Full primary body and complete installed callback confirm operational name, pool bound, argument narrowing, allocation failure path and cleanup contract; numeric controlword is not assigned gameplay purpose."
+  },
+  {
+    "canonical_symbol": "sub_080997C0",
+    "decision": "accept",
+    "reason": "Full primary body and complete installed callback confirm operational name, pool bound, argument narrowing, allocation failure path and cleanup contract; numeric controlword is not assigned gameplay purpose."
+  },
+  {
+    "canonical_symbol": "sub_080B4BB8",
+    "decision": "accept",
+    "reason": "Full primary body and complete installed callback confirm operational name, pool bound, argument narrowing, allocation failure path and cleanup contract; numeric controlword is not assigned gameplay purpose."
+  },
+  {
+    "canonical_symbol": "sub_080A74E8",
+    "decision": "accept",
+    "reason": "Full primary body and complete installed callback confirm operational name, pool bound, argument narrowing, allocation failure path and cleanup contract; numeric controlword is not assigned gameplay purpose."
+  },
+  {
+    "canonical_symbol": "sub_080B1FD4",
+    "decision": "accept",
+    "reason": "Full primary body and complete installed callback confirm operational name, pool bound, argument narrowing, allocation failure path and cleanup contract; numeric controlword is not assigned gameplay purpose."
+  },
+  {
+    "canonical_symbol": "sub_0809D620",
+    "decision": "accept",
+    "reason": "Full primary body and complete installed callback confirm operational name, pool bound, argument narrowing, allocation failure path and cleanup contract; numeric controlword is not assigned gameplay purpose."
+  },
+  {
+    "canonical_symbol": "sub_080B2780",
+    "decision": "accept",
+    "reason": "Full primary body and complete installed callback confirm operational name, pool bound, argument narrowing, allocation failure path and cleanup contract; numeric controlword is not assigned gameplay purpose."
+  }
+]

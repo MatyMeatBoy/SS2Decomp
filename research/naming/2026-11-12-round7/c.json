@@ -1,0 +1,1712 @@
+{
+  "source_revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7",
+  "policy": "Frozen research proposals; only reviewed accepted catalog rows earn credit.",
+  "proposals": [
+    {
+      "canonical_symbol": "sub_080B6068",
+      "address": "0x080B6068",
+      "display_name": "UpdateDualWindowTransition",
+      "summary": "Stops and clears tracked audio using argument zero, sets the shared transition flag, conditionally configures display state, increments an eight-bit tick and writes two window ranges; returns zero through tick 119, otherwise resets display state and returns one.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_080B3648.c",
+          "line": 1543,
+          "detail": "Stops and clears tracked audio using argument zero, sets the shared transition flag, conditionally configures display state, increments an eight-bit tick and writes two window ranges; returns zero through tick 119, otherwise resets display state and returns one.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0808FB5C.c",
+          "line": 128,
+          "detail": "Observed caller or callback binding: while(!(u8)sub_080B6068()) sub_080003F0();",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0808FB5C.c",
+          "line": 146,
+          "detail": "Observed caller or callback binding: while ((sub_080B6068() << 24) == 0) sub_080003F0();",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Higher-level encounter/artwork identity and caller input domains remain unproved; name describes the local contract."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_0809EF84",
+      "address": "0x0809EF84",
+      "display_name": "ApplyModeBg2Visibility",
+      "summary": "When sub_0800CD8C returns zero, waits for VBlank and clears DISPCNT bit 0x400 in modes 3/5 or sets it in modes 0/1/2/4/7/8; returns the status unchanged.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_0809D878.c",
+          "line": 828,
+          "detail": "When sub_0800CD8C returns zero, waits for VBlank and clears DISPCNT bit 0x400 in modes 3/5 or sets it in modes 0/1/2/4/7/8; returns the status unchanged.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0809D878.c",
+          "line": 478,
+          "detail": "Observed caller or callback binding: sub_080011E4(sub_0809EF84);",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0809D878.c",
+          "line": 745,
+          "detail": "Observed caller or callback binding: sub_080011E4(sub_0809EF84);",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Higher-level encounter/artwork identity and caller input domains remain unproved; name describes the local contract."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_080A2720",
+      "address": "0x080A2720",
+      "display_name": "AdmitPairedPoolEffectTask",
+      "summary": "Chooses an eight-entry task pool from the byte mode, skips active tasks or nonzero control+8, allocates 0x400 bytes, assigns callbacks only for modes 0/1, sets stack top and control+8 to 0x46, then registers with mode and the unsigned halfword argument; exhaustion or allocation failure returns without admission.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_0809D878.c",
+          "line": 2903,
+          "detail": "Chooses an eight-entry task pool from the byte mode, skips active tasks or nonzero control+8, allocates 0x400 bytes, assigns callbacks only for modes 0/1, sets stack top and control+8 to 0x46, then registers with mode and the unsigned halfword argument; exhaustion or allocation failure returns without admission.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0809D878.c",
+          "line": 2435,
+          "detail": "Observed caller or callback binding: sub_080A2720(kind, 0);",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0809D878.c",
+          "line": 2436,
+          "detail": "Observed caller or callback binding: sub_080A2720(kind, 1);",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Higher-level encounter/artwork identity and caller input domains remain unproved; name describes the local contract."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_080B4A7C",
+      "address": "0x080B4A7C",
+      "display_name": "AimSelectedPlayerAtTarget",
+      "summary": "For an active selected player outside states 11/14/12 and flag 0x2000, derives an eight-direction result toward the supplied fixed-point position and writes delay 0x240 and time 8; all rejected paths leave those fields unchanged.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_080B3648.c",
+          "line": 754,
+          "detail": "For an active selected player outside states 11/14/12 and flag 0x2000, derives an eight-direction result toward the supplied fixed-point position and writes delay 0x240 and time 8; all rejected paths leave those fields unchanged.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Higher-level encounter/artwork identity and caller input domains remain unproved; name describes the local contract."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_080AC214",
+      "address": "0x080AC214",
+      "display_name": "AimPlayerAtGlobalObject",
+      "summary": "Returns unless the low argument byte is zero and the selected player passes state/flag/active checks; aims from player to global object and writes direction, magnitude 0x200 and counter 1.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_080A9680.c",
+          "line": 1593,
+          "detail": "Returns unless the low argument byte is zero and the selected player passes state/flag/active checks; aims from player to global object and writes direction, magnitude 0x200 and counter 1.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080A9680.c",
+          "line": 1387,
+          "detail": "Observed caller or callback binding: projTickB2F8(proj);",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Higher-level encounter/artwork identity and caller input domains remain unproved; name describes the local contract."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_080B5F94",
+      "address": "0x080B5F94",
+      "display_name": "RunDualBackgroundScroll",
+      "summary": "Resets two ticks and a flag, then yields forever while conditionally scrolling backgrounds 1 and 3 in opposite horizontal directions and drawing table-derived frames; a shared flag changes the scroll increments and frame base.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_080B3648.c",
+          "line": 1490,
+          "detail": "Resets two ticks and a flag, then yields forever while conditionally scrolling backgrounds 1 and 3 in opposite horizontal directions and drawing table-derived frames; a shared flag changes the scroll increments and frame base.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080B3648.c",
+          "line": 1712,
+          "detail": "Observed caller or callback binding: t->fC = (u32)sub_080B5F94;",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Higher-level encounter/artwork identity and caller input domains remain unproved; name describes the local contract."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_080B2200",
+      "address": "0x080B2200",
+      "display_name": "RunObjectAttachedAnimation",
+      "summary": "Initializes animation resource 0x50089 and yields forever, conditionally loading its palette, projecting the global object's position, advancing animation 0x18 and submitting a sprite.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_080A9680.c",
+          "line": 4980,
+          "detail": "Initializes animation resource 0x50089 and yields forever, conditionally loading its palette, projecting the global object's position, advancing animation 0x18 and submitting a sprite.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080A9680.c",
+          "line": 5091,
+          "detail": "Observed caller or callback binding: gTaskP030007AC->fC = (u32)sub_080B2200;",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Higher-level encounter/artwork identity and caller input domains remain unproved; name describes the local contract."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_080B5E64",
+      "address": "0x080B5E64",
+      "display_name": "ApplyBossContactToPeers",
+      "summary": "Scans active entries 1 through 4 within distance 19 of the global boss; with lifecycle/pause/serial gates satisfied, writes state 10, adds the hit helper result, advances the boss serial and applies outward direction, speed 0x400 and counter 8.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_080B3648.c",
+          "line": 1429,
+          "detail": "Scans active entries 1 through 4 within distance 19 of the global boss; with lifecycle/pause/serial gates satisfied, writes state 10, adds the hit helper result, advances the boss serial and applies outward direction, speed 0x400 and counter 8.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080B3648.c",
+          "line": 1246,
+          "detail": "Observed caller or callback binding: b5E64_4C34();",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Higher-level encounter/artwork identity and caller input domains remain unproved; name describes the local contract."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_080A9680",
+      "address": "0x080A9680",
+      "display_name": "RestorePlayerOnObjectIntersection",
+      "summary": "Rejects locked/inactive or excluded-state players, constructs player and object line segments, and on intersection restores current x/y from saved coordinates and returns one; all other paths return zero.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_080A9680.c",
+          "line": 46,
+          "detail": "Rejects locked/inactive or excluded-state players, constructs player and object line segments, and on intersection restores current x/y from saved coordinates and returns one; all other paths return zero.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Higher-level encounter/artwork identity and caller input domains remain unproved; name describes the local contract."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_080A8F90",
+      "address": "0x080A8F90",
+      "display_name": "PushPlayerFromObjectHorizontally",
+      "summary": "Within distance 19, after object/player lifecycle, timer, pause and serial gates, writes direction 1 or 5 according to relative x, magnitude 0x400 and counter 8; it does not update the serial table or apply damage itself.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_080A3D2C.c",
+          "line": 2930,
+          "detail": "Within distance 19, after object/player lifecycle, timer, pause and serial gates, writes direction 1 or 5 according to relative x, magnitude 0x400 and counter 8; it does not update the serial table or apply damage itself.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080A3D2C.c",
+          "line": 2744,
+          "detail": "Observed caller or callback binding: a8F90_8164();",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Higher-level encounter/artwork identity and caller input domains remain unproved; name describes the local contract."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_0809EDFC",
+      "address": "0x0809EDFC",
+      "display_name": "UpdateHblankBg2Mode",
+      "summary": "Waits for HBlank, then uses the shared mode to update BG2 scrolling, DISPCNT bit 0x400 and, in modes 1/8, BLDALPHA; scrolling modes decrement/wrap a vertical offset and sample a wave table. The live incoming r0 is preserved as its return rather than a computed status.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_0809D878.c",
+          "line": 771,
+          "detail": "Waits for HBlank, then uses the shared mode to update BG2 scrolling, DISPCNT bit 0x400 and, in modes 1/8, BLDALPHA; scrolling modes decrement/wrap a vertical offset and sample a wave table. The live incoming r0 is preserved as its return rather than a computed status.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0809D878.c",
+          "line": 477,
+          "detail": "Observed caller or callback binding: sub_0800115C((u32)sub_0809EDFC);",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0809D878.c",
+          "line": 744,
+          "detail": "Observed caller or callback binding: sub_0800115C((u32)sub_0809EDFC);",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Higher-level encounter/artwork identity and caller input domains remain unproved; name describes the local contract."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_080B44F0",
+      "address": "0x080B44F0",
+      "display_name": "ApplyOffsetRadiusPlayerHit",
+      "summary": "Tests distance strictly below the unsigned radius around object position plus supplied offsets; after pause/lifecycle/serial gates writes player state 10 and marker 0xFFFE, adds the hit helper result, records and increments the object serial, and returns one; otherwise returns zero.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_080B3648.c",
+          "line": 586,
+          "detail": "Tests distance strictly below the unsigned radius around object position plus supplied offsets; after pause/lifecycle/serial gates writes player state 10 and marker 0xFFFE, adds the hit helper result, records and increments the object serial, and returns one; otherwise returns zero.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080B3648.c",
+          "line": 311,
+          "detail": "Observed caller or callback binding: hitflag = hitB3648(gActB3648, off, 0x30);",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080B3648.c",
+          "line": 337,
+          "detail": "Observed caller or callback binding: hitflag = hitB3648(gActB3648, off, 0x28);",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Higher-level encounter/artwork identity and caller input domains remain unproved; name describes the local contract."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_080B2058",
+      "address": "0x080B2058",
+      "display_name": "RunArenaImpactSpawn",
+      "summary": "Disables combat targeting for the global actor, animates resource 0x50020 at the supplied position with sound 0x1A5 and yield iterations; the source loop continues while animation result is zero or the post-increment counter exceeds 59. If actor field 0x5C and sub_08002204 permit, scans two actor-key slots, requests an enemy spawn into the first absent slot, sets its team to 3 and waits for active actor presence. Restores actor combat team 2 and clears task control+8 on normal exit. Spawn definition is 0x084AA580 with byte variant.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_080A9680.c",
+          "line": 4922,
+          "detail": "Disables combat targeting for the global actor, animates resource 0x50020 at the supplied position with sound 0x1A5 and yield iterations; the source loop continues while animation result is zero or the post-increment counter exceeds 59. If actor field 0x5C and sub_08002204 permit, scans two actor-key slots, requests an enemy spawn into the first absent slot, sets its team to 3 and waits for active actor presence. Restores actor combat team 2 and clears task control+8 on normal exit. Spawn definition is 0x084AA580 with byte variant.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080A9680.c",
+          "line": 5047,
+          "detail": "Observed caller or callback binding: *(u32 *)(obj + 0xC) = (u32)sub_080B2058;",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08017F7C.c",
+          "line": 1051,
+          "detail": "sub_08019FD8 forms a resource/index/value/sequence descriptor and submits it through sub_0806603C; sub_0801A040 at 1065 delegates to actor-key presence lookup. The task waits for presence and does not establish delivery from the request return alone.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08017F7C.c",
+          "line": 1092,
+          "detail": "sub_0801A0A4 writes actor+0x1DC=2; sub_0801A0B0 at 1095 writes zero. The surrounding task therefore changes combat-team/targeting state, rather than acquiring and releasing a generic lock.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "The source uses actor-presence/spawn helpers, not a message API. Counter-loop intent and spawn artwork identity remain unproved.",
+        "Spawn request submission does not itself prove successful queue admission; the later presence query is the observed readiness gate."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_080B6178",
+      "address": "0x080B6178",
+      "display_name": "RunAlternateImpactSpawn",
+      "summary": "Disables combat targeting for the global actor, animates resource 0x50020 at the supplied position with sound 0x1A5 and yield iterations; the source loop continues while animation result is zero or the post-increment counter exceeds 59. If actor field 0x5C and sub_08002204 permit, scans two actor-key slots, requests an enemy spawn into the first absent slot, sets its team to 3 and waits for active actor presence. Restores actor combat team 2 and clears task control+8 on normal exit. Spawn definition is 0x084ABA10 with high/low font-byte nibbles.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_080B3648.c",
+          "line": 1618,
+          "detail": "Disables combat targeting for the global actor, animates resource 0x50020 at the supplied position with sound 0x1A5 and yield iterations; the source loop continues while animation result is zero or the post-increment counter exceeds 59. If actor field 0x5C and sub_08002204 permit, scans two actor-key slots, requests an enemy spawn into the first absent slot, sets its team to 3 and waits for active actor presence. Restores actor combat team 2 and clears task control+8 on normal exit. Spawn definition is 0x084ABA10 with high/low font-byte nibbles.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080B3648.c",
+          "line": 1750,
+          "detail": "Observed caller or callback binding: *(u32 *)(obj + 0xC) = (u32)sub_080B6178;",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08017F7C.c",
+          "line": 1051,
+          "detail": "sub_08019FD8 forms a resource/index/value/sequence descriptor and submits it through sub_0806603C; sub_0801A040 at 1065 delegates to actor-key presence lookup. The task waits for presence and does not establish delivery from the request return alone.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08017F7C.c",
+          "line": 1092,
+          "detail": "sub_0801A0A4 writes actor+0x1DC=2; sub_0801A0B0 at 1095 writes zero. The surrounding task therefore changes combat-team/targeting state, rather than acquiring and releasing a generic lock.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "The source uses actor-presence/spawn helpers, not a message API. Counter-loop intent and spawn artwork identity remain unproved.",
+        "Spawn request submission does not itself prove successful queue admission; the later presence query is the observed readiness gate."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_080A9100",
+      "address": "0x080A9100",
+      "display_name": "RequestOffsetContactDamage",
+      "summary": "Tests a table-offset object position against the selected player within distance 19, with pause/lifecycle/timer/serial gates; requests sub_08029A7C with mode-dependent amounts, writes marker 0xFFFE, records/increments serial and sets direction 1, magnitude 0x400 and counter 0x50.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_080A3D2C.c",
+          "line": 2989,
+          "detail": "Tests a table-offset object position against the selected player within distance 19, with pause/lifecycle/timer/serial gates; requests sub_08029A7C with mode-dependent amounts, writes marker 0xFFFE, records/increments serial and sets direction 1, magnitude 0x400 and counter 0x50.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080A3D2C.c",
+          "line": 2723,
+          "detail": "Observed caller or callback binding: a9100_8164();",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Higher-level encounter/artwork identity and caller input domains remain unproved; name describes the local contract."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_080A6510",
+      "address": "0x080A6510",
+      "display_name": "ApplyCaptureRadiusPlayerHit",
+      "summary": "Within distance 47 and only when shared byte equals 255, applies a serial-gated hit to the selected player and returns one; if signed field 0xC4 exceeds updated field 0x88, clears the shared byte and invokes transition helpers. Rejections return zero.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_080A3D2C.c",
+          "line": 1453,
+          "detail": "Within distance 47 and only when shared byte equals 255, applies a serial-gated hit to the selected player and returns one; if signed field 0xC4 exceeds updated field 0x88, clears the shared byte and invokes transition helpers. Rejections return zero.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080A3D2C.c",
+          "line": 1060,
+          "detail": "Observed caller or callback binding: h1084D0A6510();",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Higher-level encounter/artwork identity and caller input domains remain unproved; name describes the local contract."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_080A66E0",
+      "address": "0x080A66E0",
+      "display_name": "AdvancePlayerRepositionSequence",
+      "summary": "When the shared byte differs from 255, first restores selected player current/saved coordinates to an origin, then advances toward a player-count-indexed target by twentieths; after twenty counter steps resets the counter/shared byte, invokes transition helpers and requests mode-dependent randomized player damage through sub_08029A7C. Returns one only on that completion.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_080A3D2C.c",
+          "line": 1550,
+          "detail": "When the shared byte differs from 255, first restores selected player current/saved coordinates to an origin, then advances toward a player-count-indexed target by twentieths; after twenty counter steps resets the counter/shared byte, invokes transition helpers and requests mode-dependent randomized player damage through sub_08029A7C. Returns one only on that completion.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080A3D2C.c",
+          "line": 1204,
+          "detail": "Observed caller or callback binding: if (checkHit != 0 && (u8)h1084D0A66E0(&hitFlag) != 0)",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Higher-level encounter/artwork identity and caller input domains remain unproved; name describes the local contract."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_080A1DA8",
+      "address": "0x080A1DA8",
+      "display_name": "ApplyFacingPointPlayerHit",
+      "summary": "Within distance 31 of the player's packed position, tests the object's eight-way facing against the target sector and lifecycle/pause/player gates; writes hit state/marker, adds helper result and records/increments serial. It does not test a prior serial before applying.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_0809D878.c",
+          "line": 2602,
+          "detail": "Within distance 31 of the player's packed position, tests the object's eight-way facing against the target sector and lifecycle/pause/player gates; writes hit state/marker, adds helper result and records/increments serial. It does not test a prior serial before applying.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0809D878.c",
+          "line": 2433,
+          "detail": "Observed caller or callback binding: sub_080A1DA8();",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Higher-level encounter/artwork identity and caller input domains remain unproved; name describes the local contract."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_0809D374",
+      "address": "0x0809D374",
+      "display_name": "ApplyFacingRadiusPlayerHit",
+      "summary": "Within distance 47 of the selected player's packed position and matching the object's eight-way facing sector, applies a lifecycle/pause/serial-gated hit; records/increments serial and returns one, otherwise zero.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_08097E28.c",
+          "line": 2858,
+          "detail": "Within distance 47 of the selected player's packed position and matching the object's eight-way facing sector, applies a lifecycle/pause/serial-gated hit; records/increments serial and returns one, otherwise zero.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08097E28.c",
+          "line": 2728,
+          "detail": "Observed caller or callback binding: done = s9D374(ent);",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Higher-level encounter/artwork identity and caller input domains remain unproved; name describes the local contract."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_080A47A0",
+      "address": "0x080A47A0",
+      "display_name": "RunDirectionalAttachmentSprite",
+      "summary": "Waits while shared frame is zero; selects animation by frame/side, offsets object position using direction tables, updates palette and sprite placement, yields, and exits when one of three lifecycle predicates becomes nonzero.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_080A3D2C.c",
+          "line": 427,
+          "detail": "Waits while shared frame is zero; selects animation by frame/side, offsets object position using direction tables, updates palette and sprite placement, yields, and exits when one of three lifecycle predicates becomes nonzero.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080A3D2C.c",
+          "line": 631,
+          "detail": "Observed caller or callback binding: t->fC = (u32)sub_080A47A0;",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Higher-level encounter/artwork identity and caller input domains remain unproved; name describes the local contract."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_080ADE30",
+      "address": "0x080ADE30",
+      "display_name": "ApplyShortContactPlayerHit",
+      "summary": "Within distance 15 and with pause/lifecycle/player timer/serial gates satisfied, writes state 10 and marker, adds helper result, records/increments serial, and applies outward direction, magnitude 0x400 and counter 8; returns one on application, otherwise zero.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_080A9680.c",
+          "line": 2707,
+          "detail": "Within distance 15 and with pause/lifecycle/player timer/serial gates satisfied, writes state 10 and marker, adds helper result, records/increments serial, and applies outward direction, magnitude 0x400 and counter 8; returns one on application, otherwise zero.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080A9680.c",
+          "line": 2309,
+          "detail": "Observed caller or callback binding: else if (touchC844(a) != 0)",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080A9680.c",
+          "line": 2651,
+          "detail": "Observed caller or callback binding: else if (hitAD534(actorsAD534[idx]))",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Higher-level encounter/artwork identity and caller input domains remain unproved; name describes the local contract."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_0809A5E0",
+      "address": "0x0809A5E0",
+      "display_name": "ApplyWideContactPlayerHit",
+      "summary": "Within distance 47 and with pause/lifecycle/serial gates satisfied, writes state 10 and marker, adds helper result, records/increments serial, and applies outward direction, magnitude 0x400 and counter 8; returns one on application, otherwise zero.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_08097E28.c",
+          "line": 1317,
+          "detail": "Within distance 47 and with pause/lifecycle/serial gates satisfied, writes state 10 and marker, adds helper result, records/increments serial, and applies outward direction, magnitude 0x400 and counter 8; returns one on application, otherwise zero.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08097E28.c",
+          "line": 1131,
+          "detail": "Observed caller or callback binding: cooldown = cool99();",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Higher-level encounter/artwork identity and caller input domains remain unproved; name describes the local contract."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_080AC5B4",
+      "address": "0x080AC5B4",
+      "display_name": "ApplyDoubleContactPlayerHit",
+      "summary": "Tests distance 39 using a vertically offset player position and pause/lifecycle/serial gates; writes state 10 and marker, adds twice the hit helper result, records/increments serial, applies outward direction with magnitude 0x400/counter 22 and plays sound 0xBB. Returns one for application, otherwise zero.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_080A9680.c",
+          "line": 1839,
+          "detail": "Tests distance 39 using a vertically offset player position and pause/lifecycle/serial gates; writes state 10 and marker, adds twice the hit helper result, records/increments serial, applies outward direction with magnitude 0x400/counter 22 and plays sound 0xBB. Returns one for application, otherwise zero.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080A9680.c",
+          "line": 1350,
+          "detail": "Observed caller or callback binding: proj = projStartB2F8();",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Higher-level encounter/artwork identity and caller input domains remain unproved; name describes the local contract."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_080AE1B4",
+      "address": "0x080AE1B4",
+      "display_name": "RunPlayerCountActorEncounter",
+      "summary": "Clears per-player hit histories, starts one actor per player, waits for startup and then all actors to become inactive or termination; signals and waits for 0xDEADFACE, waits for another busy predicate, optionally runs thirty-step experience-award sequences, and requests the ending transition.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_080A9680.c",
+          "line": 2827,
+          "detail": "Clears per-player hit histories, starts one actor per player, waits for startup and then all actors to become inactive or termination; signals and waits for 0xDEADFACE, waits for another busy predicate, optionally runs thirty-step experience-award sequences, and requests the ending transition.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0808D4A8.c",
+          "line": 1073,
+          "detail": "Observed caller or callback binding: sub_0801674C((u32)sub_080AE1B4, (u32)sub_080AF2AC);",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Higher-level encounter/artwork identity and caller input domains remain unproved; name describes the local contract."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_08098F2C",
+      "address": "0x08098F2C",
+      "display_name": "ApplyTimedWideContactHit",
+      "summary": "Within distance 47 and pause/lifecycle/serial gates applies a hit and outward push with magnitude 0x400/counter 16, recording the current serial; whenever the selected player's counter is zero, increments the object serial. No explicit C return value is produced.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_08097E28.c",
+          "line": 684,
+          "detail": "Within distance 47 and pause/lifecycle/serial gates applies a hit and outward push with magnitude 0x400/counter 16, recording the current serial; whenever the selected player's counter is zero, increments the object serial. No explicit C return value is produced.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08097E28.c",
+          "line": 464,
+          "detail": "Observed caller or callback binding: countdown = countdown108();",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Higher-level encounter/artwork identity and caller input domains remain unproved; name describes the local contract."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_080A4520",
+      "address": "0x080A4520",
+      "display_name": "ApplyTimedMediumContactHit",
+      "summary": "Within distance 39 and pause/lifecycle/serial gates applies a hit and outward push with magnitude 0x400/counter 16, recording the current serial; whenever the selected player's counter is zero, increments the object serial.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_080A3D2C.c",
+          "line": 273,
+          "detail": "Within distance 39 and pause/lifecycle/serial gates applies a hit and outward push with magnitude 0x400/counter 16, recording the current serial; whenever the selected player's counter is zero, increments the object serial.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Higher-level encounter/artwork identity and caller input domains remain unproved; name describes the local contract."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_080AB054",
+      "address": "0x080AB054",
+      "display_name": "ApplyOffsetContactKnockback",
+      "summary": "Tests the selected player strictly inside the low-halfword radius around object pixel position plus signed x/y offsets; applies a serial-gated hit, records/increments serial and outward magnitude 0x400/counter 16, returning one on application and zero otherwise.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_080A9680.c",
+          "line": 892,
+          "detail": "Tests the selected player strictly inside the low-halfword radius around object pixel position plus signed x/y offsets; applies a serial-gated hit, records/increments serial and outward magnitude 0x400/counter 16, returning one on application and zero otherwise.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080A9680.c",
+          "line": 487,
+          "detail": "Observed caller or callback binding: proj = shot9950(gB9950, off, 0x18);",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080A9680.c",
+          "line": 511,
+          "detail": "Observed caller or callback binding: proj = shot9950(gB9950, off, 0x10);",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Higher-level encounter/artwork identity and caller input domains remain unproved; name describes the local contract."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_08099468",
+      "address": "0x08099468",
+      "display_name": "RunLinearDamageProjectile",
+      "summary": "Uses direction-minus-one to derive table velocities, advances a projectile for 270 yield iterations, conditionally animates resource 0x50130 and requests sub_08029CEC(1,30,5) on serial-gated player contact within distance 19; clears current task control+8 on normal completion.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_08097E28.c",
+          "line": 798,
+          "detail": "Uses direction-minus-one to derive table velocities, advances a projectile for 270 yield iterations, conditionally animates resource 0x50130 and requests sub_08029CEC(1,30,5) on serial-gated player contact within distance 19; clears current task control+8 on normal completion.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08097E28.c",
+          "line": 915,
+          "detail": "Observed caller or callback binding: t->fC = (u32)sub_08099468;",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Higher-level encounter/artwork identity and caller input domains remain unproved; name describes the local contract.",
+        "Damage queue admission is not checked here; a queued damage request is not proof of applied damage or completion."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_080A6258",
+      "address": "0x080A6258",
+      "display_name": "ApplyLowerContactCaptureHit",
+      "summary": "Tests distance 23 around object y plus 12, applies a serial-gated hit with outward magnitude 0x400/counter 8 and returns one; a nonzero byte argument additionally permits the signed field comparison that starts the shared-byte reposition sequence. Rejections return zero.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_080A3D2C.c",
+          "line": 1371,
+          "detail": "Tests distance 23 around object y plus 12, applies a serial-gated hit with outward magnitude 0x400/counter 8 and returns one; a nonzero byte argument additionally permits the signed field comparison that starts the shared-byte reposition sequence. Rejections return zero.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080A3D2C.c",
+          "line": 996,
+          "detail": "Observed caller or callback binding: h1084D0A6258(0);",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080A3D2C.c",
+          "line": 1086,
+          "detail": "Observed caller or callback binding: healed = h1084D0A6258(1);",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Higher-level encounter/artwork identity and caller input domains remain unproved; name describes the local contract."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_080B24B8",
+      "address": "0x080B24B8",
+      "display_name": "RunPairedActorEncounter",
+      "summary": "Allocates and starts two 0x800-stack actor tasks with control+8 values 0x40/0x41, waits for resource admission, clears histories and starts the arena; updates a shared tracking/moving point until termination or both actors deactivate, then signals/waits cleanup and transitions. Resource failure termination clears the actor mask bit and returns early.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_080A9680.c",
+          "line": 5120,
+          "detail": "Allocates and starts two 0x800-stack actor tasks with control+8 values 0x40/0x41, waits for resource admission, clears histories and starts the arena; updates a shared tracking/moving point until termination or both actors deactivate, then signals/waits cleanup and transitions. Resource failure termination clears the actor mask bit and returns early.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0808D4A8.c",
+          "line": 1535,
+          "detail": "Observed caller or callback binding: sub_0801674C((u32)sub_080B24B8,(u32)sub_080B2780);",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Higher-level encounter/artwork identity and caller input domains remain unproved; name describes the local contract."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_0809919C",
+      "address": "0x0809919C",
+      "display_name": "RunShortDamageRay",
+      "summary": "Selects one of eight origin offsets and a table direction, advances ten yield iterations, requests a visual at the terminal counter and sub_08029CEC(1,5,1) on serial-gated distance-19 contact; records serial without increment and clears current task control+8 at exit.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_08097E28.c",
+          "line": 733,
+          "detail": "Selects one of eight origin offsets and a table direction, advances ten yield iterations, requests a visual at the terminal counter and sub_08029CEC(1,5,1) on serial-gated distance-19 contact; records serial without increment and clears current task control+8 at exit.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08097E28.c",
+          "line": 917,
+          "detail": "Observed caller or callback binding: t->fC = (u32)sub_0809919C;",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Higher-level encounter/artwork identity and caller input domains remain unproved; name describes the local contract.",
+        "Damage queue admission is not checked here; a queued damage request is not proof of applied damage or completion."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_080AC2E8",
+      "address": "0x080AC2E8",
+      "display_name": "QueryOrApplyAdjustedContact",
+      "summary": "Nonzero byte input returns whether selected-player counter 0xC8 is nonzero after computing geometry, without applying a hit; zero input tests distance 47 with side-dependent vertical adjustment and pause/lifecycle/serial gates, applies hit and outward magnitude 0x200/counter 16, records/increments serial and returns one. Rejected zero-input paths return zero.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_080A9680.c",
+          "line": 1633,
+          "detail": "Nonzero byte input returns whether selected-player counter 0xC8 is nonzero after computing geometry, without applying a hit; zero input tests distance 47 with side-dependent vertical adjustment and pause/lifecycle/serial gates, applies hit and outward magnitude 0x200/counter 16, records/increments serial and returns one. Rejected zero-input paths return zero.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080A9680.c",
+          "line": 1388,
+          "detail": "Observed caller or callback binding: proj = projNextB2F8(proj);",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Higher-level encounter/artwork identity and caller input domains remain unproved; name describes the local contract."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_080B5B90",
+      "address": "0x080B5B90",
+      "display_name": "RequestTypedBossContactDamage",
+      "summary": "Within distance 19 and active/lifecycle/pause/player gates, dispatches sub_08029A7C by byte kind and game mode, writes player marker and records/increments boss serial, then applies direction, magnitude 0x400 and counter 8; returns 0x28 on application or zero on rejection. It does not reject previously seen serials.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_080B3648.c",
+          "line": 1331,
+          "detail": "Within distance 19 and active/lifecycle/pause/player gates, dispatches sub_08029A7C by byte kind and game mode, writes player marker and records/increments boss serial, then applies direction, magnitude 0x400 and counter 8; returns 0x28 on application or zero on rejection. It does not reject previously seen serials.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080B3648.c",
+          "line": 1243,
+          "detail": "Observed caller or callback binding: cooldown = att4C34(cycle2);",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Higher-level encounter/artwork identity and caller input domains remain unproved; name describes the local contract."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_080A1FF4",
+      "address": "0x080A1FF4",
+      "display_name": "RunDelayedRadialDamageProjectile",
+      "summary": "Starts at a facing-offset object position, waits 90 yield iterations, then increases radial distance by 0x200 along the low-byte direction-times-32 angle; for a 361-iteration lifetime conditionally renders resource 0x5000C and permits one serial-gated distance-23 queued damage request. Clears current task control+8 at normal exit.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_0809D878.c",
+          "line": 2699,
+          "detail": "Starts at a facing-offset object position, waits 90 yield iterations, then increases radial distance by 0x200 along the low-byte direction-times-32 angle; for a 361-iteration lifetime conditionally renders resource 0x5000C and permits one serial-gated distance-23 queued damage request. Clears current task control+8 at normal exit.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0809D878.c",
+          "line": 2921,
+          "detail": "Observed caller or callback binding: case 0: t->fC = (u32)t107Callback0; break;",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Higher-level encounter/artwork identity and caller input domains remain unproved; name describes the local contract.",
+        "Damage queue admission is not checked here; a queued damage request is not proof of applied damage or completion."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_0809C1B4",
+      "address": "0x0809C1B4",
+      "display_name": "RunDelayedSpiralDamageProjectile",
+      "summary": "Waits 120 iterations at object position, then increases radius by 0x200 while rotating a byte angle in a mode/parity-dependent direction; conditionally renders resource 0x50005, permits one distance-9 serial-gated queued damage request and clears current task control+8 after the 361-iteration lifetime.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_08097E28.c",
+          "line": 2175,
+          "detail": "Waits 120 iterations at object position, then increases radius by 0x200 while rotating a byte angle in a mode/parity-dependent direction; conditionally renders resource 0x50005, permits one distance-9 serial-gated queued damage request and clears current task control+8 after the 361-iteration lifetime.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08097E28.c",
+          "line": 2974,
+          "detail": "Observed caller or callback binding: t->fC = (u32)sub_0809C1B4;",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Higher-level encounter/artwork identity and caller input domains remain unproved; name describes the local contract.",
+        "Damage queue admission is not checked here; a queued damage request is not proof of applied damage or completion."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_0809C8F4",
+      "address": "0x0809C8F4",
+      "display_name": "RunStationaryRadiusHitEffect",
+      "summary": "For 181 yield iterations conditionally animates resource 0x50005 at the supplied object, blinking on alternating iterations; permits one distance-47 serial-gated hit with outward magnitude 0x400/counter 8, then clears current task control+8.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_08097E28.c",
+          "line": 2493,
+          "detail": "For 181 yield iterations conditionally animates resource 0x50005 at the supplied object, blinking on alternating iterations; permits one distance-47 serial-gated hit with outward magnitude 0x400/counter 8, then clears current task control+8.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08097E28.c",
+          "line": 3041,
+          "detail": "Observed caller or callback binding: do { t->f10 = t->f20 + 0x3FC; t->fC = (u32) sub_0809C8F4; t->f24 = z; t->f8 = 0x46; sub_08000274_3((u32)t, a, arg); } while (0);",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Higher-level encounter/artwork identity and caller input domains remain unproved; name describes the local contract."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_080A68B0",
+      "address": "0x080A68B0",
+      "display_name": "RunAcceleratingFallingProjectile",
+      "summary": "Uses a halfword argument to delay launch by argument times 17 with a byte wait counter; after launch optionally drifts x by 0xC0, increases y velocity by 18, conditionally draws and applies distance-15 serial-gated hits. Lifecycle exits clear task control+8; normal timed exit additionally increments object serial after yielding.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_080A3D2C.c",
+          "line": 1609,
+          "detail": "Uses a halfword argument to delay launch by argument times 17 with a byte wait counter; after launch optionally drifts x by 0xC0, increases y velocity by 18, conditionally draws and applies distance-15 serial-gated hits. Lifecycle exits clear task control+8; normal timed exit additionally increments object serial after yielding.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080A3D2C.c",
+          "line": 2306,
+          "detail": "Observed caller or callback binding: *(u32 *)(entry + 0xC) = (u32)sub_080A68B0;",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Higher-level encounter/artwork identity and caller input domains remain unproved; name describes the local contract."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_080A230C",
+      "address": "0x080A230C",
+      "display_name": "RunRetargetingDamageProjectile",
+      "summary": "Waits halfword argument times 20, selects a target, then waits 120 more iterations; periodically recomputes velocity for six samples, moves at one-and-a-half velocity and later expires after a final counter interval. Allows one distance-23 serial-gated queued damage request, renders resource 0x5000C and clears task control+8 after stopping sound 0xC2.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_0809D878.c",
+          "line": 2787,
+          "detail": "Waits halfword argument times 20, selects a target, then waits 120 more iterations; periodically recomputes velocity for six samples, moves at one-and-a-half velocity and later expires after a final counter interval. Allows one distance-23 serial-gated queued damage request, renders resource 0x5000C and clears task control+8 after stopping sound 0xC2.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0809D878.c",
+          "line": 2922,
+          "detail": "Observed caller or callback binding: case 1: t->fC = (u32)t107Callback1; break;",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Higher-level encounter/artwork identity and caller input domains remain unproved; name describes the local contract.",
+        "Damage queue admission is not checked here; a queued damage request is not proof of applied damage or completion."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_080A92C0",
+      "address": "0x080A92C0",
+      "display_name": "RunThreeSegmentDamageProjectile",
+      "summary": "Uses the low halfword kind to choose offset and a fixed destination, moves at four times the vector helper output until within threshold 0x18, permits one distance-11 serial-gated queued damage request and conditionally draws three offset sprite segments; clears current task control+8 on arrival.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_080A3D2C.c",
+          "line": 3067,
+          "detail": "Uses the low halfword kind to choose offset and a fixed destination, moves at four times the vector helper output until within threshold 0x18, permits one distance-11 serial-gated queued damage request and conditionally draws three offset sprite segments; clears current task control+8 on arrival.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080A9680.c",
+          "line": 165,
+          "detail": "Observed caller or callback binding: do { t->f10 = t->f20 + 0x3FC; t->fC = (u32) sub_080A92C0; t->f24 = z; t->f8 = 0x40; sub_08000274_2(t, arg); } while (0);",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Higher-level encounter/artwork identity and caller input domains remain unproved; name describes the local contract.",
+        "Damage queue admission is not checked here; a queued damage request is not proof of applied damage or completion."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_080A05B4",
+      "address": "0x080A05B4",
+      "display_name": "RunArenaStrikeAnimation",
+      "summary": "Uses low-byte kind to choose animation and one of fixed strike targets, renders resource 0x5000A and applies a serial-gated distance-39 hit on animation frame 2/tick 0; triggers camera/effect helpers once at that frame, waits out its timer, writes the supplied completion byte and clears current task control+8.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_0809D878.c",
+          "line": 1757,
+          "detail": "Uses low-byte kind to choose animation and one of fixed strike targets, renders resource 0x5000A and applies a serial-gated distance-39 hit on animation frame 2/tick 0; triggers camera/effect helpers once at that frame, waits out its timer, writes the supplied completion byte and clears current task control+8.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0809D878.c",
+          "line": 2170,
+          "detail": "Observed caller or callback binding: t->fC = (u32)sub_080A05B4;",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Higher-level encounter/artwork identity and caller input domains remain unproved; name describes the local contract."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_080B4690",
+      "address": "0x080B4690",
+      "display_name": "RunDelayedAimedDamageProjectile",
+      "summary": "Waits low-halfword index times 48, picks an origin side from facing or shared mode and aims once at a selected packed player position; advances at one-and-a-half velocity for 241 iterations, applies distance-23 queued damage requests with a 16-step cooldown and serial updates, then clears the indexed task control+8.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_080B3648.c",
+          "line": 640,
+          "detail": "Waits low-halfword index times 48, picks an origin side from facing or shared mode and aims once at a selected packed player position; advances at one-and-a-half velocity for 241 iterations, applies distance-23 queued damage requests with a 16-step cooldown and serial updates, then clears the indexed task control+8.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080B3648.c",
+          "line": 864,
+          "detail": "Observed caller or callback binding: do { t->f10 = t->f20 + 0x3FC; t->fC = (u32) sub_080B4690; t->f24 = z; t->f8 = arg + 0x40; sub_08000274_3((u32)t, a, arg); } while (0);",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Higher-level encounter/artwork identity and caller input domains remain unproved; name describes the local contract.",
+        "Damage queue admission is not checked here; a queued damage request is not proof of applied damage or completion."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_0809C4E8",
+      "address": "0x0809C4E8",
+      "display_name": "RunPlayerTrackingDamageProjectile",
+      "summary": "Selects a player by halfword selector with player-count checks, waits 120 iterations at object position, then repeatedly aims and moves toward that player's current or packed position; conditionally renders and permits one distance-15 serial-gated queued damage request across 361 iterations. Invalid unavailable-player paths also clear task control+8.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_08097E28.c",
+          "line": 2268,
+          "detail": "Selects a player by halfword selector with player-count checks, waits 120 iterations at object position, then repeatedly aims and moves toward that player's current or packed position; conditionally renders and permits one distance-15 serial-gated queued damage request across 361 iterations. Invalid unavailable-player paths also clear task control+8.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08097E28.c",
+          "line": 2972,
+          "detail": "Observed caller or callback binding: t->fC = (u32)sub_0809C4E8;",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Higher-level encounter/artwork identity and caller input domains remain unproved; name describes the local contract.",
+        "Damage queue admission is not checked here; a queued damage request is not proof of applied damage or completion."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_0809F4A8",
+      "address": "0x0809F4A8",
+      "display_name": "RunFourOrbitingDamageProjectiles",
+      "summary": "Runs four quarter-cycle-separated projectiles through growing radius and timed animation phases, then expands their radius during a 240-step final phase; each permits one distance-11 serial-gated mode-dependent queued damage request and conditionally draws. Clears the shared task control+8 on completion.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_0809D878.c",
+          "line": 1167,
+          "detail": "Runs four quarter-cycle-separated projectiles through growing radius and timed animation phases, then expands their radius during a 240-step final phase; each permits one distance-11 serial-gated mode-dependent queued damage request and conditionally draws. Clears the shared task control+8 on completion.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0809D878.c",
+          "line": 1436,
+          "detail": "Observed caller or callback binding: t->fC = (u32)sub_0809F4A8;",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Higher-level encounter/artwork identity and caller input domains remain unproved; name describes the local contract.",
+        "Damage queue admission is not checked here; a queued damage request is not proof of applied damage or completion."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_080A0B44",
+      "address": "0x080A0B44",
+      "display_name": "RunAnimatedHomingDamageProjectile",
+      "summary": "Runs startup and animation-countdown phases, then moves a projectile with periodically refreshed velocity toward a selected player for a bounded final phase; conditionally renders two sprite resources, permits one distance-15 serial-gated queued damage request, and clears task control+8 before a final yield.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_0809D878.c",
+          "line": 1948,
+          "detail": "Runs startup and animation-countdown phases, then moves a projectile with periodically refreshed velocity toward a selected player for a bounded final phase; conditionally renders two sprite resources, permits one distance-15 serial-gated queued damage request, and clears task control+8 before a final yield.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0809D878.c",
+          "line": 2265,
+          "detail": "Observed caller or callback binding: t->fC = (u32)sub_080A0B44;",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Higher-level encounter/artwork identity and caller input domains remain unproved; name describes the local contract.",
+        "Damage queue admission is not checked here; a queued damage request is not proof of applied damage or completion."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_080A6BE8",
+      "address": "0x080A6BE8",
+      "display_name": "RunFourTurningHitProjectiles",
+      "summary": "Builds four staggered projectiles on one side of the object; halfword input chooses turn direction and delay order, game mode chooses spacing. Turns each every ten active steps while accelerating, conditionally draws and permits one distance-15 serial-gated hit per projectile; clears task control+8 after 241 iterations.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_080A3D2C.c",
+          "line": 1711,
+          "detail": "Builds four staggered projectiles on one side of the object; halfword input chooses turn direction and delay order, game mode chooses spacing. Turns each every ten active steps while accelerating, conditionally draws and permits one distance-15 serial-gated hit per projectile; clears task control+8 after 241 iterations.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080A3D2C.c",
+          "line": 2361,
+          "detail": "Observed caller or callback binding: *(u32 *)(entry + 0xC) = (u32)sub_080A6BE8;",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Higher-level encounter/artwork identity and caller input domains remain unproved; name describes the local contract."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_080A705C",
+      "address": "0x080A705C",
+      "display_name": "RunTwelveTargetedHitProjectiles",
+      "summary": "Creates twelve staggered projectiles that sample player targets during delay and interpolate toward the last target over 24 steps; tests one distance-11 serial-gated hit at each arrival, conditionally starts a reposition sequence and stores player y minus 0x800, waits until all finish, then clears task control+8.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_080A3D2C.c",
+          "line": 1822,
+          "detail": "Creates twelve staggered projectiles that sample player targets during delay and interpolate toward the last target over 24 steps; tests one distance-11 serial-gated hit at each arrival, conditionally starts a reposition sequence and stores player y minus 0x800, waits until all finish, then clears task control+8.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080A3D2C.c",
+          "line": 2390,
+          "detail": "Observed caller or callback binding: *(u32 *)(entry + 0xC) = (u32)sub_080A705C;",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Higher-level encounter/artwork identity and caller input domains remain unproved; name describes the local contract."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_0809F018",
+      "address": "0x0809F018",
+      "display_name": "RunChargedTargetedDamageProjectile",
+      "summary": "Validates player selector against player count, spends 270 iterations sampling a current or packed player target from object position, then moves at three times the final velocity for the remainder of a 421-step lifetime; permits one distance-11 serial-gated queued damage request and clears task control+8 on both unavailable-player and normal exits.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_0809D878.c",
+          "line": 887,
+          "detail": "Validates player selector against player count, spends 270 iterations sampling a current or packed player target from object position, then moves at three times the final velocity for the remainder of a 421-step lifetime; permits one distance-11 serial-gated queued damage request and clears task control+8 on both unavailable-player and normal exits.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0809D878.c",
+          "line": 1397,
+          "detail": "Observed caller or callback binding: do { t->f10 = t->f20 + 0x1FC; t->fC = (u32) sub_0809F018; t->f24 = z; t->f8 = 0x40; sub_08000274_2(t, arg); } while (0);",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Higher-level encounter/artwork identity and caller input domains remain unproved; name describes the local contract.",
+        "Damage queue admission is not checked here; a queued damage request is not proof of applied damage or completion."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_0809A834",
+      "address": "0x0809A834",
+      "display_name": "RunTargetedFallingStrike",
+      "summary": "Chooses a player position or fixed single-player fallback, descends by reducing vertical separation 0x400 per iteration, tests a distance-15 serial-gated queued damage request when separation becomes negative, then blinks for 121 iterations and clears task control+8; invalid selectors clear that field and return early.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_08097E28.c",
+          "line": 1375,
+          "detail": "Chooses a player position or fixed single-player fallback, descends by reducing vertical separation 0x400 per iteration, tests a distance-15 serial-gated queued damage request when separation becomes negative, then blinks for 121 iterations and clears task control+8; invalid selectors clear that field and return early.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08097E28.c",
+          "line": 1605,
+          "detail": "Observed caller or callback binding: do { t->f10 = t->f20 + 0x3FC; t->fC = (u32) sub_0809A834; t->f24 = z; t->f8 = 0x46; sub_08000274_2(t, arg); } while (0);",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Higher-level encounter/artwork identity and caller input domains remain unproved; name describes the local contract.",
+        "Damage queue admission is not checked here; a queued damage request is not proof of applied damage or completion."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_0809CC2C",
+      "address": "0x0809CC2C",
+      "display_name": "RunIndexedPursuitMeleeActor",
+      "summary": "Initializes indexed companion entries at fixed positions with mask bits and two sprite resources, synchronizes state changes by actor id, pursues a selected player, attempts a facing hit on attack frame 1/tick 0, then waits a mode-dependent cooldown. Runs until the main object's active field clears or death helper succeeds; clears its mask bit, blinks and conditionally performs a thirty-step experience-award sequence.",
+      "confidence": "low",
+      "evidence": [
+        {
+          "source": "src/code_08097E28.c",
+          "line": 2600,
+          "detail": "Initializes indexed companion entries at fixed positions with mask bits and two sprite resources, synchronizes state changes by actor id, pursues a selected player, attempts a facing hit on attack frame 1/tick 0, then waits a mode-dependent cooldown. Runs until the main object's active field clears or death helper succeeds; clears its mask bit, blinks and conditionally performs a thirty-step experience-award sequence.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08097E28.c",
+          "line": 3062,
+          "detail": "Observed caller or callback binding: t->fC = (u32)sub_0809CC2C;",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0801E244.c",
+          "line": 142,
+          "detail": "sub_0801E46C computes the numeric defeat award; sub_0801E4CC at line 174 adds it to inventory+0x1C and conditionally advances level once. These are experience operations, not item drops.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Encounter/artwork identity remains unproved. Broad state-machine name is provisional; local motions, phase gates and cleanup are directly observed."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_080A35D0",
+      "address": "0x080A35D0",
+      "display_name": "RunSelectedAttachmentActor",
+      "summary": "Initializes actor slot 1 linked to a main object's serial and position, synchronizes startup by actor id, follows the selected table offset with mode-selected animation and collision dimensions, and handles damage blinking. An inactive selector waits hidden until death; the death path requests remote full-HP damage for its actor key and enters an endless attachment-rendering yield loop rather than returning.",
+      "confidence": "low",
+      "evidence": [
+        {
+          "source": "src/code_0809D878.c",
+          "line": 3320,
+          "detail": "Initializes actor slot 1 linked to a main object's serial and position, synchronizes startup by actor id, follows the selected table offset with mode-selected animation and collision dimensions, and handles damage blinking. An inactive selector waits hidden until death; the death path requests remote full-HP damage for its actor key and enters an endless attachment-rendering yield loop rather than returning.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080A3D2C.c",
+          "line": 534,
+          "detail": "Observed caller or callback binding: t->fC = (u32)sub_080A35D0;",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08067B4C.c",
+          "line": 78,
+          "detail": "Cleanup helper sub_08067CA8 admits a type-0x89 record carrying the actor key only if queue count is at most 49; callers here do not check admission. It does not free a resource locally or prove remote completion.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Encounter/artwork identity remains unproved. Broad state-machine name is provisional; local motions, phase gates and cleanup are directly observed."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_080A3D2C",
+      "address": "0x080A3D2C",
+      "display_name": "RunIndexedAttachmentActor",
+      "summary": "Initializes actor slots index plus 2 linked to a main object, follows per-index direction/activation arrays with table offsets and mode-specific animation, and processes damage/death. Hidden inactive paths wait for death; cleanup requests remote full-HP damage for its actor key, clears per-index animation state, blinks twenty-one iterations and conditionally performs a thirty-step experience-award sequence.",
+      "confidence": "low",
+      "evidence": [
+        {
+          "source": "src/code_080A3D2C.c",
+          "line": 93,
+          "detail": "Initializes actor slots index plus 2 linked to a main object, follows per-index direction/activation arrays with table offsets and mode-specific animation, and processes damage/death. Hidden inactive paths wait for death; cleanup requests remote full-HP damage for its actor key, clears per-index animation state, blinks twenty-one iterations and conditionally performs a thirty-step experience-award sequence.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080A3D2C.c",
+          "line": 592,
+          "detail": "Observed caller or callback binding: *((s32 *) (((s8 *) entry) + 0xC)) = (s32) sub_080A3D2C;",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08067B4C.c",
+          "line": 78,
+          "detail": "Cleanup helper sub_08067CA8 admits a type-0x89 record carrying the actor key only if queue count is at most 49; callers here do not check admission. It does not free a resource locally or prove remote completion.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0801E244.c",
+          "line": 142,
+          "detail": "sub_0801E46C computes the numeric defeat award; sub_0801E4CC at line 174 adds it to inventory+0x1C and conditionally advances level once. These are experience operations, not item drops.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Encounter/artwork identity remains unproved. Broad state-machine name is provisional; local motions, phase gates and cleanup are directly observed."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_080A756C",
+      "address": "0x080A756C",
+      "display_name": "RunBoardingCameraSequence",
+      "summary": "Animates resources 0x5000F/0x50010 through fixed approach and landing positions while panning the camera; waits for all packed player positions to meet y/state gates, opens message 0x14008B, sets player flags 1 and 0x20, scrolls background 2 while shifting actor/shadow/player y, waits a timer, synchronizes 0xDEADFACE and conditionally advances map id before clearing player flags and actor mask.",
+      "confidence": "low",
+      "evidence": [
+        {
+          "source": "src/code_080A3D2C.c",
+          "line": 1978,
+          "detail": "Animates resources 0x5000F/0x50010 through fixed approach and landing positions while panning the camera; waits for all packed player positions to meet y/state gates, opens message 0x14008B, sets player flags 1 and 0x20, scrolls background 2 while shifting actor/shadow/player y, waits a timer, synchronizes 0xDEADFACE and conditionally advances map id before clearing player flags and actor mask.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0808D4A8.c",
+          "line": 1040,
+          "detail": "Observed caller or callback binding: sub_0801674C((u32)sub_080A756C, 0);",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Encounter/artwork identity remains unproved. Broad state-machine name is provisional; local motions, phase gates and cleanup are directly observed."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_080AD534",
+      "address": "0x080AD534",
+      "display_name": "RunIndexedFollowingSegmentActor",
+      "summary": "Initializes low-byte-indexed actor slots and follows the preceding position/direction sample, publishing its own sample for the next segment. Synchronizes fade/shake/fade phases with state bytes, tests short contact hits on a thirty-step cooldown and renders damage feedback. Death requests remote full-HP damage for its actor key, clears mask/state, re-enables the predecessor, blinks and conditionally runs a experience-award sequence.",
+      "confidence": "low",
+      "evidence": [
+        {
+          "source": "src/code_080A9680.c",
+          "line": 2474,
+          "detail": "Initializes low-byte-indexed actor slots and follows the preceding position/direction sample, publishing its own sample for the next segment. Synchronizes fade/shake/fade phases with state bytes, tests short contact hits on a thirty-step cooldown and renders damage feedback. Death requests remote full-HP damage for its actor key, clears mask/state, re-enables the predecessor, blinks and conditionally runs a experience-award sequence.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080A9680.c",
+          "line": 2810,
+          "detail": "Observed caller or callback binding: t->fC = (u32)sub_080AD534;",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08067B4C.c",
+          "line": 78,
+          "detail": "Cleanup helper sub_08067CA8 admits a type-0x89 record carrying the actor key only if queue count is at most 49; callers here do not check admission. It does not free a resource locally or prove remote completion.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0801E244.c",
+          "line": 142,
+          "detail": "sub_0801E46C computes the numeric defeat award; sub_0801E4CC at line 174 adds it to inventory+0x1C and conditionally advances level once. These are experience operations, not item drops.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Encounter/artwork identity remains unproved. Broad state-machine name is provisional; local motions, phase gates and cleanup are directly observed."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_0809E468",
+      "address": "0x0809E468",
+      "display_name": "RunBg2ScanlinePhaseController",
+      "summary": "Installs the EDFC HBlank and EF84 VBlank callbacks, manages BG1/BG2 priorities, scroll/blend/VCOUNT transitions through nine modes, and in mode 4 continuously writes selected-player direction 0/magnitude 0x120/counter 8. Busy paths disable callbacks/display effects once; after the main object's active field clears it resets phase globals and continues an endless baseline-background yield loop.",
+      "confidence": "low",
+      "evidence": [
+        {
+          "source": "src/code_0809D878.c",
+          "line": 439,
+          "detail": "Installs the EDFC HBlank and EF84 VBlank callbacks, manages BG1/BG2 priorities, scroll/blend/VCOUNT transitions through nine modes, and in mode 4 continuously writes selected-player direction 0/magnitude 0x120/counter 8. Busy paths disable callbacks/display effects once; after the main object's active field clears it resets phase globals and continues an endless baseline-background yield loop.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0809D878.c",
+          "line": 1327,
+          "detail": "Observed caller or callback binding: gTP03000318->fC = (u32)sub_0809E468;",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Encounter/artwork identity remains unproved. Broad state-machine name is provisional; local motions, phase gates and cleanup are directly observed."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_0809FB6C",
+      "address": "0x0809FB6C",
+      "display_name": "RunOrbitingStrikeActor",
+      "summary": "Initializes an actor and palette, moves it on an expanding bounded elliptical table orbit, and synchronizes event-selected strike callbacks with a completion byte, alternating with a separate task sequence after two rounds. Resource-failure termination clears its mask bit and returns early; normal death/termination cleans effect tasks, synchronizes 0xDEADFACE, conditionally computes and grants defeat experience and requests/waits the final transition.",
+      "confidence": "low",
+      "evidence": [
+        {
+          "source": "src/code_0809D878.c",
+          "line": 1499,
+          "detail": "Initializes an actor and palette, moves it on an expanding bounded elliptical table orbit, and synchronizes event-selected strike callbacks with a completion byte, alternating with a separate task sequence after two rounds. Resource-failure termination clears its mask bit and returns early; normal death/termination cleans effect tasks, synchronizes 0xDEADFACE, conditionally computes and grants defeat experience and requests/waits the final transition.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0808D4A8.c",
+          "line": 700,
+          "detail": "Observed caller or callback binding: sub_0801674C((u32)sub_0809FB6C, (u32)sub_080A0F64);",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0801E244.c",
+          "line": 142,
+          "detail": "sub_0801E46C computes the numeric defeat award; sub_0801E4CC at line 174 adds it to inventory+0x1C and conditionally advances level once. These are experience operations, not item drops.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Encounter/artwork identity remains unproved. Broad state-machine name is provisional; local motions, phase gates and cleanup are directly observed."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_080A1208",
+      "address": "0x080A1208",
+      "display_name": "RunPursuitEightProjectileActor",
+      "summary": "Initializes two sprite resources and player serial histories, pursues a selected player with speed 0xC0 and timed cap, then applies a facing hit and admits eight direction-indexed projectile tasks using game-mode-selected pool callbacks; alternates attack and recovery waits. Resource-failure termination clears its mask bit; normal exit clears active mask, cleans tasks, synchronizes, shows message 0x140061 and performs conditional experience/transition.",
+      "confidence": "low",
+      "evidence": [
+        {
+          "source": "src/code_0809D878.c",
+          "line": 2297,
+          "detail": "Initializes two sprite resources and player serial histories, pursues a selected player with speed 0xC0 and timed cap, then applies a facing hit and admits eight direction-indexed projectile tasks using game-mode-selected pool callbacks; alternates attack and recovery waits. Resource-failure termination clears its mask bit; normal exit clears active mask, cleans tasks, synchronizes, shows message 0x140061 and performs conditional experience/transition.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0808D4A8.c",
+          "line": 840,
+          "detail": "Observed caller or callback binding: sub_0801674C((u32)sub_080A1208,(u32)sub_080A2698);",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0801E244.c",
+          "line": 142,
+          "detail": "sub_0801E46C computes the numeric defeat award; sub_0801E4CC at line 174 adds it to inventory+0x1C and conditionally advances level once. These are experience operations, not item drops.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Encounter/artwork identity remains unproved. Broad state-machine name is provisional; local motions, phase gates and cleanup are directly observed."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_0809D878",
+      "address": "0x0809D878",
+      "display_name": "RunWaypointProjectileCycleActor",
+      "summary": "Initializes actor/resource/history state, cycles through five fixed waypoints at movement parameter 0x140 with sinusoidal y offsets, and alternates four player-targeted projectile admissions with an orbiting attack, invoking a special sequence every sixth attack. Allocation-wait termination clears its mask bit; normal exit cleans tasks, synchronizes 0xDEADFACE, shows message 0x140047, conditionally computes and grants defeat experience and completes the transition.",
+      "confidence": "low",
+      "evidence": [
+        {
+          "source": "src/code_0809D878.c",
+          "line": 86,
+          "detail": "Initializes actor/resource/history state, cycles through five fixed waypoints at movement parameter 0x140 with sinusoidal y offsets, and alternates four player-targeted projectile admissions with an orbiting attack, invoking a special sequence every sixth attack. Allocation-wait termination clears its mask bit; normal exit cleans tasks, synchronizes 0xDEADFACE, shows message 0x140047, conditionally computes and grants defeat experience and completes the transition.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0808D4A8.c",
+          "line": 437,
+          "detail": "Observed caller or callback binding: sub_0801674C((u32)sub_0809D878, (u32)sub_0809F8C8);",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0801E244.c",
+          "line": 142,
+          "detail": "sub_0801E46C computes the numeric defeat award; sub_0801E4CC at line 174 adds it to inventory+0x1C and conditionally advances level once. These are experience operations, not item drops.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Encounter/artwork identity remains unproved. Broad state-machine name is provisional; local motions, phase gates and cleanup are directly observed."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_080B0288",
+      "address": "0x080B0288",
+      "display_name": "RunPursuitAnimatedMeleeActor",
+      "summary": "Initializes three sprite resources and player serial history, pursues selected players using movement parameter 0x140/range 0x1C, plays a resource-derived sound at attack frame 2/tick 0, increments attack serial on animation completion and waits before repeating. After death/termination it synchronizes cleanup, shows a flag-selected message, runs timed animation and blend effects, then conditionally computes and grants defeat experience and requests transition.",
+      "confidence": "low",
+      "evidence": [
+        {
+          "source": "src/code_080A9680.c",
+          "line": 4067,
+          "detail": "Initializes three sprite resources and player serial history, pursues selected players using movement parameter 0x140/range 0x1C, plays a resource-derived sound at attack frame 2/tick 0, increments attack serial on animation completion and waits before repeating. After death/termination it synchronizes cleanup, shows a flag-selected message, runs timed animation and blend effects, then conditionally computes and grants defeat experience and requests transition.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0808D4A8.c",
+          "line": 1219,
+          "detail": "Observed caller or callback binding: sub_0801674C((u32)sub_080B0288,(u32)sub_080B0F9C);",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0801E244.c",
+          "line": 142,
+          "detail": "sub_0801E46C computes the numeric defeat award; sub_0801E4CC at line 174 adds it to inventory+0x1C and conditionally advances level once. These are experience operations, not item drops.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Encounter/artwork identity remains unproved. Broad state-machine name is provisional; local motions, phase gates and cleanup are directly observed."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_080AC844",
+      "address": "0x080AC844",
+      "display_name": "RunSegmentedPathEncounterActor",
+      "summary": "Initializes four following segment tasks and shared position/direction samples, moves the main actor at parameter 0x240, alternates movement with synchronized segment state-byte phases 1/2/0 and toggles main collision by active mask. Tests contact hits with a thirty-step cooldown; allocation-wait termination returns after mask clearing, while normal death/termination cleans segments, synchronizes, blinks, conditionally computes and grants defeat experience and requests transition.",
+      "confidence": "low",
+      "evidence": [
+        {
+          "source": "src/code_080A9680.c",
+          "line": 2075,
+          "detail": "Initializes four following segment tasks and shared position/direction samples, moves the main actor at parameter 0x240, alternates movement with synchronized segment state-byte phases 1/2/0 and toggles main collision by active mask. Tests contact hits with a thirty-step cooldown; allocation-wait termination returns after mask clearing, while normal death/termination cleans segments, synchronizes, blinks, conditionally computes and grants defeat experience and requests transition.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0808D4A8.c",
+          "line": 788,
+          "detail": "Observed caller or callback binding: sub_0801674C((u32)sub_080AC844, (u32)sub_080AE080);",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0801E244.c",
+          "line": 142,
+          "detail": "sub_0801E46C computes the numeric defeat award; sub_0801E4CC at line 174 adds it to inventory+0x1C and conditionally advances level once. These are experience operations, not item drops.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Encounter/artwork identity remains unproved. Broad state-machine name is provisional; local motions, phase gates and cleanup are directly observed."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_08099838",
+      "address": "0x08099838",
+      "display_name": "RunPursuitFallingStrikeActor",
+      "summary": "Initializes two sprite resources, pursues selected players with mode-dependent speed/duration, attempts a frame-2 contact hit with quake, then admits falling strikes for each player or five single-player targets and waits before repeating. Allocation-wait termination clears its mask bit; normal exit cleans effects, synchronizes 0xDEADFACE, shows message 0x14003C, conditionally computes and grants defeat experience and requests transition.",
+      "confidence": "low",
+      "evidence": [
+        {
+          "source": "src/code_08097E28.c",
+          "line": 981,
+          "detail": "Initializes two sprite resources, pursues selected players with mode-dependent speed/duration, attempts a frame-2 contact hit with quake, then admits falling strikes for each player or five single-player targets and waits before repeating. Allocation-wait termination clears its mask bit; normal exit cleans effects, synchronizes 0xDEADFACE, shows message 0x14003C, conditionally computes and grants defeat experience and requests transition.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08087CC0.c",
+          "line": 4071,
+          "detail": "Observed caller or callback binding: sub_0801674C((u32)sub_08099838, (u32)sub_0809ADE8);",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0801E244.c",
+          "line": 142,
+          "detail": "sub_0801E46C computes the numeric defeat award; sub_0801E4CC at line 174 adds it to inventory+0x1C and conditionally advances level once. These are experience operations, not item drops.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Encounter/artwork identity remains unproved. Broad state-machine name is provisional; local motions, phase gates and cleanup are directly observed."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_080A27B8",
+      "address": "0x080A27B8",
+      "display_name": "RunPatternedCompanionEncounter",
+      "summary": "Places the main actor at a fixed position, maintains its active field at 999 when hit, and alternates timed pursuit/contact with event-selected fifteen-byte pattern configurations controlling one attachment and three companions. Ends when a separate linked actor becomes inactive or termination occurs; cleans pattern tasks, synchronizes, shows message 0x140065 and conditionally performs experience/transition sequence. Allocation-wait termination only clears its mask bit and returns.",
+      "confidence": "low",
+      "evidence": [
+        {
+          "source": "src/code_0809D878.c",
+          "line": 2999,
+          "detail": "Places the main actor at a fixed position, maintains its active field at 999 when hit, and alternates timed pursuit/contact with event-selected fifteen-byte pattern configurations controlling one attachment and three companions. Ends when a separate linked actor becomes inactive or termination occurs; cleans pattern tasks, synchronizes, shows message 0x140065 and conditionally performs experience/transition sequence. Allocation-wait termination only clears its mask bit and returns.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0808D4A8.c",
+          "line": 931,
+          "detail": "Observed caller or callback binding: sub_0801674C((u32)sub_080A27B8,(u32)sub_080A49A8);",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0801E244.c",
+          "line": 142,
+          "detail": "sub_0801E46C computes the numeric defeat award; sub_0801E4CC at line 174 adds it to inventory+0x1C and conditionally advances level once. These are experience operations, not item drops.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Encounter/artwork identity remains unproved. Broad state-machine name is provisional; local motions, phase gates and cleanup are directly observed."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_08098108",
+      "address": "0x08098108",
+      "display_name": "RunAlternatingProjectileChargeActor",
+      "summary": "Initializes two sprite resources, pursues selected players, then alternates an animation-driven rotating projectile burst with a timed close-pursuit/contact phase followed by wandering recovery. Game mode controls timings and projectile arguments. Allocation-wait termination clears its mask bit; normal death/termination cleans projectiles, synchronizes, shows message 0x140032 and conditionally computes and grants defeat experience before transition.",
+      "confidence": "low",
+      "evidence": [
+        {
+          "source": "src/code_08097E28.c",
+          "line": 269,
+          "detail": "Initializes two sprite resources, pursues selected players, then alternates an animation-driven rotating projectile burst with a timed close-pursuit/contact phase followed by wandering recovery. Game mode controls timings and projectile arguments. Allocation-wait termination clears its mask bit; normal death/termination cleans projectiles, synchronizes, shows message 0x140032 and conditionally computes and grants defeat experience before transition.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08087CC0.c",
+          "line": 3980,
+          "detail": "Observed caller or callback binding: sub_0801674C((u32)sub_08098108, (u32)sub_08099720);",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0801E244.c",
+          "line": 142,
+          "detail": "sub_0801E46C computes the numeric defeat award; sub_0801E4CC at line 174 adds it to inventory+0x1C and conditionally advances level once. These are experience operations, not item drops.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Encounter/artwork identity remains unproved. Broad state-machine name is provisional; local motions, phase gates and cleanup are directly observed."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_080A8164",
+      "address": "0x080A8164",
+      "display_name": "RunPathDamageAttackActor",
+      "summary": "Initializes three sprite resources at a fixed position, moves slowly toward a fixed target with alternating event-selected projectile and offset-contact attacks, and traverses a scripted path between approaches. Applies horizontal contact push and position rollback outside the path phase; allocation-wait termination clears its mask bit, while normal exit cleans tasks, synchronizes, shows message 0x140090 and conditionally computes and grants defeat experience before transition.",
+      "confidence": "low",
+      "evidence": [
+        {
+          "source": "src/code_080A3D2C.c",
+          "line": 2513,
+          "detail": "Initializes three sprite resources at a fixed position, moves slowly toward a fixed target with alternating event-selected projectile and offset-contact attacks, and traverses a scripted path between approaches. Applies horizontal contact push and position rollback outside the path phase; allocation-wait termination clears its mask bit, while normal exit cleans tasks, synchronizes, shows message 0x140090 and conditionally computes and grants defeat experience before transition.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0808D4A8.c",
+          "line": 1304,
+          "detail": "Observed caller or callback binding: sub_0801674C((u32)sub_080A8164,(u32)sub_080A97E0);",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0801E244.c",
+          "line": 142,
+          "detail": "sub_0801E46C computes the numeric defeat award; sub_0801E4CC at line 174 adds it to inventory+0x1C and conditionally advances level once. These are experience operations, not item drops.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Encounter/artwork identity remains unproved. Broad state-machine name is provisional; local motions, phase gates and cleanup are directly observed."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_080B280C",
+      "address": "0x080B280C",
+      "display_name": "RunPairedActorAttackCycle",
+      "summary": "Initializes the base actor with three sprite resources and alternates approach/tracking, four projectile admissions, sustained side-position effects and animation-frame-gated offset hits through synchronized actor-id phases. Before a linked actor deactivates it follows a shared center; afterward it independently targets players. On death/termination clears its mask/collision dimensions, requests remote full-HP damage for its actor key, performs a finishing animation and conditional thirty-step experience-award sequence.",
+      "confidence": "low",
+      "evidence": [
+        {
+          "source": "src/code_080A9680.c",
+          "line": 5299,
+          "detail": "Initializes the base actor with three sprite resources and alternates approach/tracking, four projectile admissions, sustained side-position effects and animation-frame-gated offset hits through synchronized actor-id phases. Before a linked actor deactivates it follows a shared center; afterward it independently targets players. On death/termination clears its mask/collision dimensions, requests remote full-HP damage for its actor key, performs a finishing animation and conditional thirty-step experience-award sequence.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080A9680.c",
+          "line": 5134,
+          "detail": "Observed caller or callback binding: taskA0B24B8->fC = (u32)sub_080B280C;",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08067B4C.c",
+          "line": 78,
+          "detail": "Cleanup helper sub_08067CA8 admits a type-0x89 record carrying the actor key only if queue count is at most 49; callers here do not check admission. It does not free a resource locally or prove remote completion.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0801E244.c",
+          "line": 142,
+          "detail": "sub_0801E46C computes the numeric defeat award; sub_0801E4CC at line 174 adds it to inventory+0x1C and conditionally advances level once. These are experience operations, not item drops.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Encounter/artwork identity remains unproved. Broad state-machine name is provisional; local motions, phase gates and cleanup are directly observed."
+      ]
+    }
+  ]
+}

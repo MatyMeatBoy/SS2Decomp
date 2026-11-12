@@ -1,0 +1,2247 @@
+{
+  "source_revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7",
+  "policy": "Frozen research proposals; only reviewed accepted catalog rows earn credit.",
+  "proposals": [
+    {
+      "canonical_symbol": "sub_080B4B48",
+      "address": "0x080B4B48",
+      "display_name": "AllocateDelayedAimTaskPool",
+      "summary": "Allocates 0xA0 bytes into gUnk_030007D0; on success clears +8 in four 0x28-byte controls. Allocation failure leaves the global null.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_080B3648.c",
+          "line": 801,
+          "detail": "Allocates 0xA0 bytes into gUnk_030007D0; on success clears +8 in four 0x28-byte controls. Allocation failure leaves the global null.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080B3648.c",
+          "line": 640,
+          "detail": "Consumer sub_080B4BB8 installs sub_080B4690; it waits index*48 yields then aims from an actor-side offset at a selected player and moves with fixed velocity.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Only storage initialization is claimed; registration and callback completion are separate operations."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_080B64A4",
+      "address": "0x080B64A4",
+      "display_name": "FlagFourActorEntries",
+      "summary": "ORs bit 0 into halfword +0x7A of actor-array entries 1 through 4 at stride 0x2E0; does not test the connected-entry mask.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_080B3648.c",
+          "line": 1757,
+          "detail": "ORs bit 0 into halfword +0x7A of actor-array entries 1 through 4 at stride 0x2E0; does not test the connected-entry mask.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Artwork and character identity are not inferred."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_08099788",
+      "address": "0x08099788",
+      "display_name": "ReleaseRadialAttackTasks",
+      "summary": "For all 64 controls at gUnk_030002D8, cancels scheduled tasks; then frees the control array and clears its global.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_08097E28.c",
+          "line": 871,
+          "detail": "For all 64 controls at gUnk_030002D8, cancels scheduled tasks; then frees the control array and clears its global.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08097E28.c",
+          "line": 897,
+          "detail": "Starter chooses short corner-origin directional traces or longer sprite projectiles according to sub_0800CE30()==1.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "asm/nonmatchings/sched/sub_08000470.s",
+          "line": 1,
+          "detail": "Tests whether the control address appears in the scheduled linked list.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "asm/nonmatchings/sched/sub_080003A8.s",
+          "line": 1,
+          "detail": "Cancellation invokes callback at control+0x24 when nonzero; continuation sub_080003C0 frees stack allocation at+0x20 and unlinks control.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "asm/nonmatchings/sched/sub_080003C0.s",
+          "line": 1,
+          "detail": "Cancellation continuation frees the task stack, decrements task count, clears status+4 and unlinks the control; pool owner subsequently frees control array.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Artwork and character identity are not inferred."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_0809AE50",
+      "address": "0x0809AE50",
+      "display_name": "ReleaseFallingTargetTasks",
+      "summary": "For five controls at gUnk_030002E4, cancels scheduled tasks; frees the control array and clears its global. No null guard.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_08097E28.c",
+          "line": 1553,
+          "detail": "For five controls at gUnk_030002E4, cancels scheduled tasks; frees the control array and clears its global. No null guard.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08097E28.c",
+          "line": 1375,
+          "detail": "Installed task834 selects a player or one of four single-player fixed positions, descends onto that position, tests contact, and blinks after impact.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "asm/nonmatchings/sched/sub_08000470.s",
+          "line": 1,
+          "detail": "Tests whether the control address appears in the scheduled linked list.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "asm/nonmatchings/sched/sub_080003A8.s",
+          "line": 1,
+          "detail": "Cancellation invokes callback at control+0x24 when nonzero; continuation sub_080003C0 frees stack allocation at+0x20 and unlinks control.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "asm/nonmatchings/sched/sub_080003C0.s",
+          "line": 1,
+          "detail": "Cancellation continuation frees the task stack, decrements task count, clears status+4 and unlinks the control; pool owner subsequently frees control array.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Artwork and character identity are not inferred."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_0809D6D8",
+      "address": "0x0809D6D8",
+      "display_name": "ReleaseKnockbackAuraTasks",
+      "summary": "Cancels scheduled tasks in three controls at gUnk_030002F8, frees the array and clears its global.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_08097E28.c",
+          "line": 2992,
+          "detail": "Cancels scheduled tasks in three controls at gUnk_030002F8, frees the array and clears its global.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08097E28.c",
+          "line": 2493,
+          "detail": "Starter sub_0809D710 installs sub_0809C8F4, an actor-centered radius-47 contact effect with directional knockback.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "asm/nonmatchings/sched/sub_08000470.s",
+          "line": 1,
+          "detail": "Tests whether the control address appears in the scheduled linked list.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "asm/nonmatchings/sched/sub_080003A8.s",
+          "line": 1,
+          "detail": "Cancellation invokes callback at control+0x24 when nonzero; continuation sub_080003C0 frees stack allocation at+0x20 and unlinks control.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "asm/nonmatchings/sched/sub_080003C0.s",
+          "line": 1,
+          "detail": "Cancellation continuation frees the task stack, decrements task count, clears status+4 and unlinks the control; pool owner subsequently frees control array.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Artwork and character identity are not inferred."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_0809D810",
+      "address": "0x0809D810",
+      "display_name": "ReleaseChasingChildTasks",
+      "summary": "Cancels scheduled tasks in two controls at gUnk_03000308, frees the array and clears its global. Actor identity is not established.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_08097E28.c",
+          "line": 3073,
+          "detail": "Cancels scheduled tasks in two controls at gUnk_03000308, frees the array and clears its global. Actor identity is not established.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08097E28.c",
+          "line": 2600,
+          "detail": "Child callback uses actor index+1, approaches a selected player then runs an attack and a90/180-count rest; own death or parent +0x5C==0 leads to teardown.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "asm/nonmatchings/sched/sub_08000470.s",
+          "line": 1,
+          "detail": "Tests whether the control address appears in the scheduled linked list.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "asm/nonmatchings/sched/sub_080003A8.s",
+          "line": 1,
+          "detail": "Cancellation invokes callback at control+0x24 when nonzero; continuation sub_080003C0 frees stack allocation at+0x20 and unlinks control.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "asm/nonmatchings/sched/sub_080003C0.s",
+          "line": 1,
+          "detail": "Cancellation continuation frees the task stack, decrements task count, clears status+4 and unlinks the control; pool owner subsequently frees control array.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Artwork and character identity are not inferred."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_080A2698",
+      "address": "0x080A2698",
+      "display_name": "CleanupDualEightSlotActor",
+      "summary": "When actor +0x5C is nonzero, releases both eight-control arrays; always clears peer rings and active mask and releases the shared palette slot.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_0809D878.c",
+          "line": 2874,
+          "detail": "When actor +0x5C is nonzero, releases both eight-control arrays; always clears peer rings and active mask and releases the shared palette slot.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0809D878.c",
+          "line": 2656,
+          "detail": "sub_080A1F88 stops song 0xC2 and cancels/frees both eight-entry control arrays.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08067B4C.c",
+          "line": 380,
+          "detail": "sub_08068384 obtains connected player count then writes -1 to ten records per player and clears its state.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080153A4.c",
+          "line": 1362,
+          "detail": "Palette release subtracts4 from u16 slot; when mask bit is set it decrements refcount or clears the three-word slot and mask bit. Caller passes its stored shared slot.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Artwork and character identity are not inferred."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_080A4B10",
+      "address": "0x080A4B10",
+      "display_name": "ReleaseOffsetAttachmentTasks",
+      "summary": "Cancels scheduled tasks in three controls at gUnk_0300035C, frees the array and clears its global. No null guard.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_080A3D2C.c",
+          "line": 551,
+          "detail": "Cancels scheduled tasks in three controls at gUnk_0300035C, frees the array and clears its global. No null guard.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080A3D2C.c",
+          "line": 93,
+          "detail": "Callback creates indexed actor slots 2..4 and tracks parent position plus direction-table offsets; inactive attachment flags suppress collision dimensions.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "asm/nonmatchings/sched/sub_08000470.s",
+          "line": 1,
+          "detail": "Tests whether the control address appears in the scheduled linked list.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "asm/nonmatchings/sched/sub_080003A8.s",
+          "line": 1,
+          "detail": "Cancellation invokes callback at control+0x24 when nonzero; continuation sub_080003C0 frees stack allocation at+0x20 and unlinks control.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "asm/nonmatchings/sched/sub_080003C0.s",
+          "line": 1,
+          "detail": "Cancellation continuation frees the task stack, decrements task count, clears status+4 and unlinks the control; pool owner subsequently frees control array.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Artwork and character identity are not inferred."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_080A7E94",
+      "address": "0x080A7E94",
+      "display_name": "ReleaseFallingVolleyTasks",
+      "summary": "Cancels scheduled tasks in eight controls at gUnk_03000408, frees array and clears global.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_080A3D2C.c",
+          "line": 2266,
+          "detail": "Cancels scheduled tasks in eight controls at gUnk_03000408, frees array and clears global.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080A3D2C.c",
+          "line": 1609,
+          "detail": "t109Run68B0 delays by index*17, then increases vertical speed by 18 per iteration and adds horizontal 0xC0 for odd indices.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "asm/nonmatchings/sched/sub_08000470.s",
+          "line": 1,
+          "detail": "Tests whether the control address appears in the scheduled linked list.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "asm/nonmatchings/sched/sub_080003A8.s",
+          "line": 1,
+          "detail": "Cancellation invokes callback at control+0x24 when nonzero; continuation sub_080003C0 frees stack allocation at+0x20 and unlinks control.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "asm/nonmatchings/sched/sub_080003C0.s",
+          "line": 1,
+          "detail": "Cancellation continuation frees the task stack, decrements task count, clears status+4 and unlinks the control; pool owner subsequently frees control array.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Artwork and character identity are not inferred."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_080A7F5C",
+      "address": "0x080A7F5C",
+      "display_name": "ReleaseTurningVolleyTasks",
+      "summary": "Cancels scheduled tasks in two controls at gUnk_0300040C, frees array and clears global.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_080A3D2C.c",
+          "line": 2321,
+          "detail": "Cancels scheduled tasks in two controls at gUnk_0300040C, frees array and clears global.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080A3D2C.c",
+          "line": 1711,
+          "detail": "Installed callback emits four staggered particles with cyclic eight-direction turns and increasing speed.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "asm/nonmatchings/sched/sub_08000470.s",
+          "line": 1,
+          "detail": "Tests whether the control address appears in the scheduled linked list.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "asm/nonmatchings/sched/sub_080003A8.s",
+          "line": 1,
+          "detail": "Cancellation invokes callback at control+0x24 when nonzero; continuation sub_080003C0 frees stack allocation at+0x20 and unlinks control.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "asm/nonmatchings/sched/sub_080003C0.s",
+          "line": 1,
+          "detail": "Cancellation continuation frees the task stack, decrements task count, clears status+4 and unlinks the control; pool owner subsequently frees control array.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Artwork and character identity are not inferred."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_080A97E0",
+      "address": "0x080A97E0",
+      "display_name": "CleanupFixedDestinationActor",
+      "summary": "If actor +0x5C is nonzero, releases its three-control attack pool; always clears peer rings, zeroes active mask, and releases palette.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_080A9680.c",
+          "line": 97,
+          "detail": "If actor +0x5C is nonzero, releases its three-control attack pool; always clears peer rings, zeroes active mask, and releases palette.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080A3D2C.c",
+          "line": 3067,
+          "detail": "Installed pool callback moves a three-sprite effect toward one of two fixed destinations selected by narrowed argument.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08067B4C.c",
+          "line": 380,
+          "detail": "sub_08068384 obtains connected player count then writes -1 to ten records per player and clears its state.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080153A4.c",
+          "line": 1362,
+          "detail": "Palette release subtracts4 from u16 slot; when mask bit is set it decrements refcount or clears the three-word slot and mask bit. Caller passes its stored shared slot.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Artwork and character identity are not inferred."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_080A9844",
+      "address": "0x080A9844",
+      "display_name": "ReleaseFixedDestinationTasks",
+      "summary": "Cancels scheduled tasks in three controls at gUnk_03000424, frees array and clears global.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_080A9680.c",
+          "line": 116,
+          "detail": "Cancels scheduled tasks in three controls at gUnk_03000424, frees array and clears global.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080A3D2C.c",
+          "line": 3067,
+          "detail": "Installed callback chooses fixed target (0x2000,0x10000) or (0x3000,0x11000) and moves by four times its computed vector.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "asm/nonmatchings/sched/sub_08000470.s",
+          "line": 1,
+          "detail": "Tests whether the control address appears in the scheduled linked list.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "asm/nonmatchings/sched/sub_080003A8.s",
+          "line": 1,
+          "detail": "Cancellation invokes callback at control+0x24 when nonzero; continuation sub_080003C0 frees stack allocation at+0x20 and unlinks control.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "asm/nonmatchings/sched/sub_080003C0.s",
+          "line": 1,
+          "detail": "Cancellation continuation frees the task stack, decrements task count, clears status+4 and unlinks the control; pool owner subsequently frees control array.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Artwork and character identity are not inferred."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_080AE080",
+      "address": "0x080AE080",
+      "display_name": "CleanupFollowingChainActor",
+      "summary": "If actor +0x5C is nonzero, releases four-control child pool; always clears peer rings, active mask and shared palette slot.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_080A9680.c",
+          "line": 2753,
+          "detail": "If actor +0x5C is nonzero, releases four-control child pool; always clears peer rings, active mask and shared palette slot.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080A9680.c",
+          "line": 2474,
+          "detail": "Installed indexed children follow previous position/direction records and publish their own record for the next child.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08067B4C.c",
+          "line": 380,
+          "detail": "sub_08068384 obtains connected player count then writes -1 to ten records per player and clears its state.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080153A4.c",
+          "line": 1362,
+          "detail": "Palette release subtracts4 from u16 slot; when mask bit is set it decrements refcount or clears the three-word slot and mask bit. Caller passes its stored shared slot.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Artwork and character identity are not inferred."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_080AE0E4",
+      "address": "0x080AE0E4",
+      "display_name": "ReleaseFollowingChainTasks",
+      "summary": "Cancels scheduled tasks in four controls at gUnk_030004C8, frees array and clears global.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_080A9680.c",
+          "line": 2768,
+          "detail": "Cancels scheduled tasks in four controls at gUnk_030004C8, frees array and clears global.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080A9680.c",
+          "line": 2474,
+          "detail": "Child callback uses index+1 actor, follows preceding position/direction data and publishes its position for the next index.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "asm/nonmatchings/sched/sub_08000470.s",
+          "line": 1,
+          "detail": "Tests whether the control address appears in the scheduled linked list.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "asm/nonmatchings/sched/sub_080003A8.s",
+          "line": 1,
+          "detail": "Cancellation invokes callback at control+0x24 when nonzero; continuation sub_080003C0 frees stack allocation at+0x20 and unlinks control.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "asm/nonmatchings/sched/sub_080003C0.s",
+          "line": 1,
+          "detail": "Cancellation continuation frees the task stack, decrements task count, clears status+4 and unlinks the control; pool owner subsequently frees control array.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Artwork and character identity are not inferred."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_08099720",
+      "address": "0x08099720",
+      "display_name": "CleanupRadialAttackActor",
+      "summary": "If actor +0x5C is nonzero, releases 64 attack controls and calls sub_080656EC; always clears peer rings, active mask and palette slot.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_08097E28.c",
+          "line": 855,
+          "detail": "If actor +0x5C is nonzero, releases 64 attack controls and calls sub_080656EC; always clears peer rings, active mask and palette slot.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08097E28.c",
+          "line": 871,
+          "detail": "Pool release cancels each scheduled control and frees gUnk_030002D8.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08067B4C.c",
+          "line": 380,
+          "detail": "sub_08068384 obtains connected player count then writes -1 to ten records per player and clears its state.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080153A4.c",
+          "line": 1362,
+          "detail": "Palette release subtracts4 from u16 slot; when mask bit is set it decrements refcount or clears the three-word slot and mask bit. Caller passes its stored shared slot.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Artwork and character identity are not inferred."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_0809ADE8",
+      "address": "0x0809ADE8",
+      "display_name": "CleanupFallingTargetActor",
+      "summary": "If actor +0x5C is nonzero, calls sub_08097C6C and releases five attack controls; always clears peer rings, active mask and palette slot.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_08097E28.c",
+          "line": 1537,
+          "detail": "If actor +0x5C is nonzero, calls sub_08097C6C and releases five attack controls; always clears peer rings, active mask and palette slot.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08097E28.c",
+          "line": 1553,
+          "detail": "Pool release cancels each scheduled control and frees gUnk_030002E4.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08067B4C.c",
+          "line": 380,
+          "detail": "sub_08068384 obtains connected player count then writes -1 to ten records per player and clears its state.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080153A4.c",
+          "line": 1362,
+          "detail": "Palette release subtracts4 from u16 slot; when mask bit is set it decrements refcount or clears the three-word slot and mask bit. Caller passes its stored shared slot.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Artwork and character identity are not inferred."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_0809D5E4",
+      "address": "0x0809D5E4",
+      "display_name": "ReleaseSpiralHomingTasks",
+      "summary": "Stops song 0xE6, cancels scheduled tasks in eight controls at gUnk_030002F4, frees array and clears global.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_08097E28.c",
+          "line": 2930,
+          "detail": "Stops song 0xE6, cancels scheduled tasks in eight controls at gUnk_030002F4, frees array and clears global.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08097E28.c",
+          "line": 2954,
+          "detail": "Starter selects expanding spiral or player-homing callback based on mode and intro flag.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "asm/nonmatchings/sched/sub_08000470.s",
+          "line": 1,
+          "detail": "Tests whether the control address appears in the scheduled linked list.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "asm/nonmatchings/sched/sub_080003A8.s",
+          "line": 1,
+          "detail": "Cancellation invokes callback at control+0x24 when nonzero; continuation sub_080003C0 frees stack allocation at+0x20 and unlinks control.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "asm/nonmatchings/sched/sub_080003C0.s",
+          "line": 1,
+          "detail": "Cancellation continuation frees the task stack, decrements task count, clears status+4 and unlinks the control; pool owner subsequently frees control array.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Character/artwork identity not inferred; effect names describe static behavior."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_0809FA28",
+      "address": "0x0809FA28",
+      "display_name": "ReleaseTrackingLaunchTasks",
+      "summary": "Returns if gUnk_03000324 is null; otherwise cancels four scheduled controls, frees array and clears global.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_0809D878.c",
+          "line": 1354,
+          "detail": "Returns if gUnk_03000324 is null; otherwise cancels four scheduled controls, frees array and clears global.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0809D878.c",
+          "line": 887,
+          "detail": "Callback initializes remaining=420 and decrements after each iteration until u16 underflow to0xFFFF:421 total iterations. Warning countdown270 tracks selected player for270 iterations, then moves by the last vector for151 iterations. Invalid unavailable player selectors may exit early; out-of-domain selectors are not validated comprehensively.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "asm/nonmatchings/sched/sub_08000470.s",
+          "line": 1,
+          "detail": "Tests whether the control address appears in the scheduled linked list.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "asm/nonmatchings/sched/sub_080003A8.s",
+          "line": 1,
+          "detail": "Cancellation invokes callback at control+0x24 when nonzero; continuation sub_080003C0 frees stack allocation at+0x20 and unlinks control.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "asm/nonmatchings/sched/sub_080003C0.s",
+          "line": 1,
+          "detail": "Cancellation continuation frees the task stack, decrements task count, clears status+4 and unlinks the control; pool owner subsequently frees control array.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Character/artwork identity not inferred; effect names describe static behavior."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_080A80D8",
+      "address": "0x080A80D8",
+      "display_name": "ReleaseDualScrollTask",
+      "summary": "Resets six-argument display effect, cancels gUnk_03000418 if scheduled, frees its control and clears global.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_080A3D2C.c",
+          "line": 2410,
+          "detail": "Resets six-argument display effect, cancels gUnk_03000418 if scheduled, frees its control and clears global.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080A3D2C.c",
+          "line": 1922,
+          "detail": "Installed callback applies sine-based blend parameters and advances horizontal scrolls on backgrounds 1 and 3 forever.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "asm/nonmatchings/sched/sub_08000470.s",
+          "line": 1,
+          "detail": "Tests whether the control address appears in the scheduled linked list.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "asm/nonmatchings/sched/sub_080003A8.s",
+          "line": 1,
+          "detail": "Cancellation invokes callback at control+0x24 when nonzero; continuation sub_080003C0 frees stack allocation at+0x20 and unlinks control.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "asm/nonmatchings/sched/sub_080003C0.s",
+          "line": 1,
+          "detail": "Cancellation continuation frees the task stack, decrements task count, clears status+4 and unlinks the control; pool owner subsequently frees control array.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Character/artwork identity not inferred; effect names describe static behavior."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_080B2330",
+      "address": "0x080B2330",
+      "display_name": "AllocateFixedSpawnEffectTask",
+      "summary": "Zeros two halfword actor keys, allocates one 0x28-byte task control and clears +8 only if allocation succeeds.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_080A9680.c",
+          "line": 5016,
+          "detail": "Zeros two halfword handles, allocates one 0x28-byte task control and clears +8 only if allocation succeeds.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080A9680.c",
+          "line": 4922,
+          "detail": "Installed position callback animates resource 0x50020 then may request spawn from definition gUnk_084AA580 with selector arguments (0,gByte0300079C).",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08017F7C.c",
+          "line": 1051,
+          "detail": "sub_08019FD8 constructs an8-byte descriptor using definition+index*0x38, byte value/index and sequence, enqueues through sub_0806603C and returns sequence+value; caller waits for actor-key presence via sub_0801A040. Queue admission is not delivery.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08017F7C.c",
+          "line": 1092,
+          "detail": "sub_0801A0A4 writes team2, sub_0801A0B0 writes team0, and sub_0801A0BC finds an active actor by key and writes supplied team byte; these are not UI locks.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Only storage initialization is claimed; registration and callback completion are separate operations.",
+        "Spawn definition bytes are opaque incbin data; no character identity or guaranteed spawn delivery is claimed."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_080B4B7C",
+      "address": "0x080B4B7C",
+      "display_name": "ReleaseDelayedAimTaskPool",
+      "summary": "Null global returns early; otherwise cancels four scheduled controls, frees gUnk_030007D0 and clears it.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_080B3648.c",
+          "line": 820,
+          "detail": "Null global returns early; otherwise cancels four scheduled controls, frees gUnk_030007D0 and clears it.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080B3648.c",
+          "line": 640,
+          "detail": "Pool callback delays index*48 yields, selects an actor-side origin and aims once at selected player; lifetime 0xF1 iterations.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "asm/nonmatchings/sched/sub_08000470.s",
+          "line": 1,
+          "detail": "Tests whether the control address appears in the scheduled linked list.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "asm/nonmatchings/sched/sub_080003A8.s",
+          "line": 1,
+          "detail": "Cancellation invokes callback at control+0x24 when nonzero; continuation sub_080003C0 frees stack allocation at+0x20 and unlinks control.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "asm/nonmatchings/sched/sub_080003C0.s",
+          "line": 1,
+          "detail": "Cancellation continuation frees the task stack, decrements task count, clears status+4 and unlinks the control; pool owner subsequently frees control array.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Character/artwork identity not inferred; effect names describe static behavior."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_080B6324",
+      "address": "0x080B6324",
+      "display_name": "CleanupPackedSpawnScrollActor",
+      "summary": "If actor +0x5C is nonzero, releases packed-spawn task and scroll task; always clears peer rings, active mask and palette slot.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_080B3648.c",
+          "line": 1676,
+          "detail": "If actor +0x5C is nonzero, releases packed-spawn-effect task and scroll task; always clears peer rings, active mask and palette slot.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080B3648.c",
+          "line": 1576,
+          "detail": "Spawn release cancels/frees its control, sets actor +0x7A bit0 for masked entries1..4, and clears two handles.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08067B4C.c",
+          "line": 380,
+          "detail": "sub_08068384 obtains connected player count then writes -1 to ten records per player and clears its state.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080153A4.c",
+          "line": 1362,
+          "detail": "Palette release subtracts4 from u16 slot; when mask bit is set it decrements refcount or clears the three-word slot and mask bit. Caller passes its stored shared slot.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Character/artwork identity not inferred; effect names describe static behavior."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_080B640C",
+      "address": "0x080B640C",
+      "display_name": "AllocatePackedSpawnEffectTask",
+      "summary": "Zeros two halfword actor keys, allocates one 0x28-byte task control and clears +8 only on success.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_080B3648.c",
+          "line": 1716,
+          "detail": "Zeros two halfword handles, allocates one 0x28-byte task control and clears +8 only on success.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080B3648.c",
+          "line": 1618,
+          "detail": "Position callback animates resource 0x50020 then requests enemy spawn from a definition with selector high nibble and low nibble of font0B6178.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08017F7C.c",
+          "line": 1051,
+          "detail": "sub_08019FD8 constructs an8-byte descriptor using definition+index*0x38, byte value/index and sequence, enqueues through sub_0806603C and returns sequence+value; caller waits for actor-key presence via sub_0801A040. Queue admission is not delivery.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08017F7C.c",
+          "line": 1092,
+          "detail": "sub_0801A0A4 writes team2, sub_0801A0B0 writes team0, and sub_0801A0BC finds an active actor by key and writes supplied team byte; these are not UI locks.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Only storage initialization is claimed; registration and callback completion are separate operations.",
+        "Spawn definition bytes are opaque incbin data; no character identity or guaranteed spawn delivery is claimed."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_080B6360",
+      "address": "0x080B6360",
+      "display_name": "ReleaseStagedDualScrollTask",
+      "summary": "Resets six-argument display effect; cancels gUnk_030007E4 if scheduled; frees and clears control only if nonnull.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_080B3648.c",
+          "line": 1685,
+          "detail": "Resets six-argument display effect; cancels gUnk_030007E4 if scheduled; frees and clears control only if nonnull.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080B3648.c",
+          "line": 1490,
+          "detail": "Installed loop scrolls backgrounds1/3 with two speed regimes selected by gFlag5F94 and draws sine-sampled blend values.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "asm/nonmatchings/sched/sub_08000470.s",
+          "line": 1,
+          "detail": "Tests whether the control address appears in the scheduled linked list.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "asm/nonmatchings/sched/sub_080003A8.s",
+          "line": 1,
+          "detail": "Cancellation invokes callback at control+0x24 when nonzero; continuation sub_080003C0 frees stack allocation at+0x20 and unlinks control.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "asm/nonmatchings/sched/sub_080003C0.s",
+          "line": 1,
+          "detail": "Cancellation continuation frees the task stack, decrements task count, clears status+4 and unlinks the control; pool owner subsequently frees control array.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Character/artwork identity not inferred; effect names describe static behavior."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_0809D574",
+      "address": "0x0809D574",
+      "display_name": "CleanupSpiralHomingActor",
+      "summary": "Stops song0xE6; actor +0x5C nonzero triggers release of eight spiral/homing controls, three aura controls and two chase children; always clears peer rings, mask and palette.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_08097E28.c",
+          "line": 2908,
+          "detail": "Stops song0xE6; actor +0x5C nonzero triggers release of eight spiral/homing controls, three aura controls and two chase children; always clears peer rings, mask and palette.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08097E28.c",
+          "line": 2930,
+          "detail": "First nested release stops song0xE6 again, cancels eight scheduled controls, frees pool and clears pointer.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08067B4C.c",
+          "line": 380,
+          "detail": "sub_08068384 obtains connected player count then writes -1 to ten records per player and clears its state.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080153A4.c",
+          "line": 1362,
+          "detail": "Palette release subtracts4 from u16 slot; when mask bit is set it decrements refcount or clears the three-word slot and mask bit. Caller passes its stored shared slot.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Character/artwork identity not inferred; effect names describe static behavior."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_0809F8C8",
+      "address": "0x0809F8C8",
+      "display_name": "CleanupTrackingOrbitActor",
+      "summary": "Actor +0x5C nonzero releases orbit task, four tracking-launch controls, background task and auxiliary scale task; always clears peer rings, mask and palette.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_0809D878.c",
+          "line": 1284,
+          "detail": "Actor +0x5C nonzero releases orbit task, four tracking-launch controls, background task and auxiliary scale task; always clears peer rings, mask and palette.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0809D878.c",
+          "line": 1284,
+          "detail": "Conditional release order is sub_0809FAEC, sub_0809FA28, sub_0809F934, sub_08097C6C.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08067B4C.c",
+          "line": 380,
+          "detail": "sub_08068384 obtains connected player count then writes -1 to ten records per player and clears its state.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080153A4.c",
+          "line": 1362,
+          "detail": "Palette release subtracts4 from u16 slot; when mask bit is set it decrements refcount or clears the three-word slot and mask bit. Caller passes its stored shared slot.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Character/artwork identity not inferred; effect names describe static behavior."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_080A0F64",
+      "address": "0x080A0F64",
+      "display_name": "CleanupImpactHomingActor",
+      "summary": "Actor +0x5C nonzero releases impact task, auxiliary task, homing task and scale task; always clears peer rings, mask and palette.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_0809D878.c",
+          "line": 2130,
+          "detail": "Actor +0x5C nonzero releases impact task, auxiliary task, homing task and scale task; always clears peer rings, mask and palette.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0809D878.c",
+          "line": 1757,
+          "detail": "Impact callback uses four fixed origins/impact X targets, animation-frame contact, camera/shake effects, and sets caller byte on completion.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08067B4C.c",
+          "line": 380,
+          "detail": "sub_08068384 obtains connected player count then writes -1 to ten records per player and clears its state.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080153A4.c",
+          "line": 1362,
+          "detail": "Palette release subtracts4 from u16 slot; when mask bit is set it decrements refcount or clears the three-word slot and mask bit. Caller passes its stored shared slot.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Character/artwork identity not inferred; effect names describe static behavior."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_080A49A8",
+      "address": "0x080A49A8",
+      "display_name": "CleanupOffsetAttachmentActor",
+      "summary": "Stops song0xDF; actor +0x5C nonzero releases attachment render task, three attachment actors and primary attachment task; always clears peer rings, mask and palette.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_080A3D2C.c",
+          "line": 487,
+          "detail": "Stops song0xDF; actor +0x5C nonzero releases attachment render task, three attachment actors and primary attachment task; always clears peer rings, mask and palette.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080A3D2C.c",
+          "line": 93,
+          "detail": "Indexed actors track parent position plus offsets, with collision dimensions controlled by attachment flag and direction.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08067B4C.c",
+          "line": 380,
+          "detail": "sub_08068384 obtains connected player count then writes -1 to ten records per player and clears its state.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080153A4.c",
+          "line": 1362,
+          "detail": "Palette release subtracts4 from u16 slot; when mask bit is set it decrements refcount or clears the three-word slot and mask bit. Caller passes its stored shared slot.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Character/artwork identity not inferred; effect names describe static behavior."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_080AF2BC",
+      "address": "0x080AF2BC",
+      "display_name": "AllocatePlayerCloneTaskPool",
+      "summary": "Clears pool pointer then allocates count*0x28 bytes; clears +8 in each count-controlled record with no allocation-null check.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_080A9680.c",
+          "line": 3429,
+          "detail": "Clears pool pointer then allocates count*0x28 bytes; clears +8 in each count-controlled record with no allocation-null check.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080A9680.c",
+          "line": 2835,
+          "detail": "Caller sets count from sub_08002164, initializes per-index history and starts indexed clone tasks.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Only storage initialization is claimed; registration and callback completion are separate operations."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_080B22E8",
+      "address": "0x080B22E8",
+      "display_name": "CleanupFixedSpawnActor",
+      "summary": "If actor +0x5C nonzero, resets display parameters, calls sub_08098060 and releases position-spawn task; always clears peer rings, mask and palette.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_080A9680.c",
+          "line": 5006,
+          "detail": "If actor +0x5C nonzero, resets display parameters, calls sub_08098060 and releases position-spawn-effect task; always clears peer rings, mask and palette.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080A9680.c",
+          "line": 4905,
+          "detail": "Nested release cancels/frees task, flags masked actor entries and clears two spawn-key slots only if control was nonnull.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08067B4C.c",
+          "line": 380,
+          "detail": "sub_08068384 obtains connected player count then writes -1 to ten records per player and clears its state.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080153A4.c",
+          "line": 1362,
+          "detail": "Palette release subtracts4 from u16 slot; when mask bit is set it decrements refcount or clears the three-word slot and mask bit. Caller passes its stored shared slot.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Character/artwork identity not inferred; effect names describe static behavior."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_080A7DEC",
+      "address": "0x080A7DEC",
+      "display_name": "CleanupFallingTurningVolleyActor",
+      "summary": "If actor +0x5C nonzero, releases falling-volley pool, turning-volley pool, twelve-shot task and scroll task, then stops song0x1A1; always clears peer rings, mask and palette.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_080A3D2C.c",
+          "line": 2237,
+          "detail": "If actor +0x5C nonzero, releases falling-volley pool, turning-volley pool, twelve-shot task and scroll task, then stops song0x1A1; always clears peer rings, mask and palette.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080A3D2C.c",
+          "line": 2237,
+          "detail": "Four task-release calls are conditional; palette release and peer/mask clearing are outside that branch.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08067B4C.c",
+          "line": 380,
+          "detail": "sub_08068384 obtains connected player count then writes -1 to ten records per player and clears its state.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080153A4.c",
+          "line": 1362,
+          "detail": "Palette release subtracts4 from u16 slot; when mask bit is set it decrements refcount or clears the three-word slot and mask bit. Caller passes its stored shared slot.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Character/artwork identity not inferred; effect names describe static behavior."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_080AF304",
+      "address": "0x080AF304",
+      "display_name": "ReleasePlayerCloneTasks",
+      "summary": "Iterates dynamic count, cancels scheduled controls; frees and clears pool pointer only if nonnull.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_080A9680.c",
+          "line": 3457,
+          "detail": "Iterates dynamic count, cancels scheduled controls; frees and clears pool pointer only if nonnull.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080A9680.c",
+          "line": 2973,
+          "detail": "Callback copies player class/equipment attributes into indexed enemy actors, then selects chase, melee or cast behavior by class.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "asm/nonmatchings/sched/sub_08000470.s",
+          "line": 1,
+          "detail": "Tests whether the control address appears in the scheduled linked list.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "asm/nonmatchings/sched/sub_080003A8.s",
+          "line": 1,
+          "detail": "Cancellation invokes callback at control+0x24 when nonzero; continuation sub_080003C0 frees stack allocation at+0x20 and unlinks control.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "asm/nonmatchings/sched/sub_080003C0.s",
+          "line": 1,
+          "detail": "Cancellation continuation frees the task stack, decrements task count, clears status+4 and unlinks the control; pool owner subsequently frees control array.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Character/artwork identity not inferred; effect names describe static behavior."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_080A26D0",
+      "address": "0x080A26D0",
+      "display_name": "AllocateDualEightSlotPools",
+      "summary": "Allocates two 0x140-byte pools at gUnk_03000350/354 and clears +8 of eight 0x28-byte controls in each. Neither allocation is checked for failure.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_0809D878.c",
+          "line": 2882,
+          "detail": "Allocates two 0x140-byte pools at gUnk_03000350/354 and clears +8 of eight 0x28-byte controls in each. Neither allocation is checked for failure.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0809D878.c",
+          "line": 2656,
+          "detail": "Paired cleanup cancels all scheduled controls in both arrays, frees each and clears both globals.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "asm/nonmatchings/sched/sub_08000274.s",
+          "line": 1,
+          "detail": "Task registration returns without re-registering scheduled controls; otherwise creates saved argument frame. Registration is not callback completion; +8 is described as controlword, not a gameplay priority.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Only storage initialization is claimed; registration and callback completion are separate operations."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_080A4C24",
+      "address": "0x080A4C24",
+      "display_name": "StartOffsetAttachmentRenderer",
+      "summary": "Returns only when control is unscheduled with nonzero +8; writes controlword0x44, allocates0x400 without null check, installs callback and no destructor, then registers task. The initial guard also permits an already scheduled control: it can overwrite its fields/stack allocation before sub_08000274 sees scheduled membership and returns without registering again. Thus invoking registration here does not guarantee a new callback instance; ordinary use requires an unscheduled idle control.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_080A3D2C.c",
+          "line": 620,
+          "detail": "Returns only when control is unscheduled with nonzero +8; writes controlword0x44, allocates0x400 without null check, installs callback and no destructor, then registers task.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080A3D2C.c",
+          "line": 427,
+          "detail": "Callback waits for a nonzero frame flag, renders selected animation at parent position plus direction-table offset and exits on three global stop predicates.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "asm/nonmatchings/sched/sub_08000274.s",
+          "line": 1,
+          "detail": "Task registration returns without re-registering scheduled controls; otherwise creates saved argument frame. Registration is not callback completion; +8 is described as controlword, not a gameplay priority.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "asm/nonmatchings/sched/sub_08000274.s",
+          "line": 1,
+          "detail": "Membership test occurs at entry; result1 branches directly to return before list insertion or saved frame creation. Combined with caller guard (membership==0 && controlword!=0), scheduled controls pass through caller mutations but registration performs no restart.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Exact character/artwork identity remains unclaimed; names describe callback contract.",
+        "Do callers always enforce idle unscheduled control before this starter? No safe restart or preservation of a previously allocated stack is established here."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_080A8114",
+      "address": "0x080A8114",
+      "display_name": "StartDualScrollTask",
+      "summary": "Returns only for unscheduled control with nonzero +8; writes0x44, allocates0x200 without null check, installs dual-scroll callback and registers with two zero arguments. The initial guard also permits an already scheduled control: it can overwrite its fields/stack allocation before sub_08000274 sees scheduled membership and returns without registering again. Thus invoking registration here does not guarantee a new callback instance; ordinary use requires an unscheduled idle control.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_080A3D2C.c",
+          "line": 2418,
+          "detail": "Returns only for unscheduled control with nonzero +8; writes0x44, allocates0x200 without null check, installs dual-scroll callback and registers with two zero arguments.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080A3D2C.c",
+          "line": 1922,
+          "detail": "Callback increments two fixed-point accumulators and uses sine table to update blend and background1/3 scrolling forever.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "asm/nonmatchings/sched/sub_08000274.s",
+          "line": 1,
+          "detail": "Task registration returns without re-registering scheduled controls; otherwise creates saved argument frame. Registration is not callback completion; +8 is described as controlword, not a gameplay priority.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "asm/nonmatchings/sched/sub_08000274.s",
+          "line": 1,
+          "detail": "Membership test occurs at entry; result1 branches directly to return before list insertion or saved frame creation. Combined with caller guard (membership==0 && controlword!=0), scheduled controls pass through caller mutations but registration performs no restart.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Exact character/artwork identity remains unclaimed; names describe callback contract.",
+        "Do callers always enforce idle unscheduled control before this starter? No safe restart or preservation of a previously allocated stack is established here."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_080B63BC",
+      "address": "0x080B63BC",
+      "display_name": "StartStagedDualScrollTask",
+      "summary": "Returns only for unscheduled control with nonzero +8; writes0x44, allocates0x400 without null check, installs staged-scroll callback and registers task. The initial guard also permits an already scheduled control: it can overwrite its fields/stack allocation before sub_08000274 sees scheduled membership and returns without registering again. Thus invoking registration here does not guarantee a new callback instance; ordinary use requires an unscheduled idle control.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_080B3648.c",
+          "line": 1701,
+          "detail": "Returns only for unscheduled control with nonzero +8; writes0x44, allocates0x400 without null check, installs staged-scroll callback and registers task.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080B3648.c",
+          "line": 1490,
+          "detail": "Callback resets stage bytes, scrolls two backgrounds, and switches base amplitude and speeds when the stage flag changes.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "asm/nonmatchings/sched/sub_08000274.s",
+          "line": 1,
+          "detail": "Task registration returns without re-registering scheduled controls; otherwise creates saved argument frame. Registration is not callback completion; +8 is described as controlword, not a gameplay priority.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "asm/nonmatchings/sched/sub_08000274.s",
+          "line": 1,
+          "detail": "Membership test occurs at entry; result1 branches directly to return before list insertion or saved frame creation. Combined with caller guard (membership==0 && controlword!=0), scheduled controls pass through caller mutations but registration performs no restart.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Exact character/artwork identity remains unclaimed; names describe callback contract.",
+        "Do callers always enforce idle unscheduled control before this starter? No safe restart or preservation of a previously allocated stack is established here."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_0809FB18",
+      "address": "0x0809FB18",
+      "display_name": "StartExpandingOrbitAttack",
+      "summary": "Returns for null control or unscheduled control with nonzero +8. Writes0x40 before allocating0x400; null allocation returns with0x40 retained. Installs orbit callback and registers. The initial guard also permits an already scheduled control: it can overwrite its fields/stack allocation before sub_08000274 sees scheduled membership and returns without registering again. Thus invoking registration here does not guarantee a new callback instance; ordinary use requires an unscheduled idle control.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_0809D878.c",
+          "line": 1421,
+          "detail": "Returns for null control or unscheduled control with nonzero +8. Writes0x40 before allocating0x400; null allocation returns with0x40 retained. Installs orbit callback and registers.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0809D878.c",
+          "line": 1167,
+          "detail": "Callback renders four particles with per-index (i<<6) angular offsets; it holds successive animation phases, then increases orbit amplitude and tests contact during its final phase. The shared angle can advance inside the per-particle loop.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "asm/nonmatchings/sched/sub_08000274.s",
+          "line": 1,
+          "detail": "Task registration returns without re-registering scheduled controls; otherwise creates saved argument frame. Registration is not callback completion; +8 is described as controlword, not a gameplay priority.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "asm/nonmatchings/sched/sub_08000274.s",
+          "line": 1,
+          "detail": "Membership test occurs at entry; result1 branches directly to return before list insertion or saved frame creation. Combined with caller guard (membership==0 && controlword!=0), scheduled controls pass through caller mutations but registration performs no restart.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Exact character/artwork identity remains unclaimed; names describe callback contract.",
+        "Do callers always enforce idle unscheduled control before this starter? No safe restart or preservation of a previously allocated stack is established here."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_080A11B4",
+      "address": "0x080A11B4",
+      "display_name": "StartLimitedRetargetProjectile",
+      "summary": "Returns for unscheduled control with nonzero +8. Allocates0x400; failure returns. Installs sub_080A0B44 with controlword0x46, no destructor, registers task. The initial guard also permits an already scheduled control: it can overwrite its fields/stack allocation before sub_08000274 sees scheduled membership and returns without registering again. Thus invoking registration here does not guarantee a new callback instance; ordinary use requires an unscheduled idle control.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_0809D878.c",
+          "line": 2253,
+          "detail": "Returns for unscheduled control with nonzero +8. Allocates0x400; failure returns. Installs sub_080A0B44 with controlword0x46, no destructor, registers task.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0809D878.c",
+          "line": 1948,
+          "detail": "Callback selects one player, charges through animation phases, recomputes velocity at bounded intervals for up to17 retarget steps, and ends after flight counter exceeds480.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "asm/nonmatchings/sched/sub_08000274.s",
+          "line": 1,
+          "detail": "Task registration returns without re-registering scheduled controls; otherwise creates saved argument frame. Registration is not callback completion; +8 is described as controlword, not a gameplay priority.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "asm/nonmatchings/sched/sub_08000274.s",
+          "line": 1,
+          "detail": "Membership test occurs at entry; result1 branches directly to return before list insertion or saved frame creation. Combined with caller guard (membership==0 && controlword!=0), scheduled controls pass through caller mutations but registration performs no restart.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Exact character/artwork identity remains unclaimed; names describe callback contract.",
+        "Do callers always enforce idle unscheduled control before this starter? No safe restart or preservation of a previously allocated stack is established here."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_080A4A7C",
+      "address": "0x080A4A7C",
+      "display_name": "StartPrimaryAttachmentActor",
+      "summary": "Returns only for unscheduled control with nonzero +8; writes0x44 and allocates0x400 without failure check, installs primary attachment callback and mask-clearing destructor, registers task. The initial guard also permits an already scheduled control: it can overwrite its fields/stack allocation before sub_08000274 sees scheduled membership and returns without registering again. Thus invoking registration here does not guarantee a new callback instance; ordinary use requires an unscheduled idle control.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_080A3D2C.c",
+          "line": 523,
+          "detail": "Returns only for unscheduled control with nonzero +8; writes0x44 and allocates0x400 without failure check, installs primary attachment callback and mask-clearing destructor, registers task.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0809D878.c",
+          "line": 3320,
+          "detail": "Callback uses actor slot1, follows main actor plus selected offset, renders slot-dependent animation, and has a persistent post-death animation loop.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "asm/nonmatchings/sched/sub_08000274.s",
+          "line": 1,
+          "detail": "Task registration returns without re-registering scheduled controls; otherwise creates saved argument frame. Registration is not callback completion; +8 is described as controlword, not a gameplay priority.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "asm/nonmatchings/sched/sub_08000274.s",
+          "line": 1,
+          "detail": "Membership test occurs at entry; result1 branches directly to return before list insertion or saved frame creation. Combined with caller guard (membership==0 && controlword!=0), scheduled controls pass through caller mutations but registration performs no restart.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Exact character/artwork identity remains unclaimed; names describe callback contract.",
+        "Do callers always enforce idle unscheduled control before this starter? No safe restart or preservation of a previously allocated stack is established here."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_080A803C",
+      "address": "0x080A803C",
+      "display_name": "StartTwelveTargetShots",
+      "summary": "Returns only for unscheduled control with nonzero +8; allocates0x400 and returns on failure. Installs twelve-shot callback, clears destructor, writes0x40 and registers. The initial guard also permits an already scheduled control: it can overwrite its fields/stack allocation before sub_08000274 sees scheduled membership and returns without registering again. Thus invoking registration here does not guarantee a new callback instance; ordinary use requires an unscheduled idle control.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_080A3D2C.c",
+          "line": 2379,
+          "detail": "Returns only for unscheduled control with nonzero +8; allocates0x400 and returns on failure. Installs twelve-shot callback, clears destructor, writes0x40 and registers.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080A3D2C.c",
+          "line": 1822,
+          "detail": "Callback staggers12 projectiles by i*20+30, samples player targets during delay, moves each in24 steps and checks contact at arrival.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "asm/nonmatchings/sched/sub_08000274.s",
+          "line": 1,
+          "detail": "Task registration returns without re-registering scheduled controls; otherwise creates saved argument frame. Registration is not callback completion; +8 is described as controlword, not a gameplay priority.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "asm/nonmatchings/sched/sub_08000274.s",
+          "line": 1,
+          "detail": "Membership test occurs at entry; result1 branches directly to return before list insertion or saved frame creation. Combined with caller guard (membership==0 && controlword!=0), scheduled controls pass through caller mutations but registration performs no restart.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Exact character/artwork identity remains unclaimed; names describe callback contract.",
+        "Do callers always enforce idle unscheduled control before this starter? No safe restart or preservation of a previously allocated stack is established here."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_080B236C",
+      "address": "0x080B236C",
+      "display_name": "StartFixedSpawnEffect",
+      "summary": "Returns for null control, scheduled control, nonzero +8 or failed0x400 allocation. Installs fixed-selector position effect with word0x3B and forwards two words to scheduler.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_080A9680.c",
+          "line": 5030,
+          "detail": "Returns for null control, scheduled control, nonzero +8 or failed0x400 allocation. Installs fixed-selector position effect with word0x3B and forwards two words to scheduler.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080A9680.c",
+          "line": 4922,
+          "detail": "Callback consumes two words as position, renders0x50020 animation then optionally requests enemy spawn with resource selector (0,byte).",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "asm/nonmatchings/sched/sub_08000274.s",
+          "line": 1,
+          "detail": "Task registration returns without re-registering scheduled controls; otherwise creates saved argument frame. Registration is not callback completion; +8 is described as controlword, not a gameplay priority.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08017F7C.c",
+          "line": 1051,
+          "detail": "sub_08019FD8 constructs an8-byte descriptor using definition+index*0x38, byte value/index and sequence, enqueues through sub_0806603C and returns sequence+value; caller waits for actor-key presence via sub_0801A040. Queue admission is not delivery.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08017F7C.c",
+          "line": 1092,
+          "detail": "sub_0801A0A4 writes team2, sub_0801A0B0 writes team0, and sub_0801A0BC finds an active actor by key and writes supplied team byte; these are not UI locks.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Exact character/artwork identity remains unclaimed; names describe callback contract.",
+        "Spawn definition bytes are opaque incbin data; no character identity or guaranteed spawn delivery is claimed."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_080B6448",
+      "address": "0x080B6448",
+      "display_name": "StartPackedSpawnEffect",
+      "summary": "Returns for null control, scheduled control, nonzero +8 or failed0x400 allocation. Installs packed-selector position effect with word0x3B and forwards two words to scheduler.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_080B3648.c",
+          "line": 1730,
+          "detail": "Returns for null control, scheduled control, nonzero +8 or failed0x400 allocation. Installs packed-selector position effect with word0x3B and forwards two words to scheduler.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080B3648.c",
+          "line": 1618,
+          "detail": "Callback consumes position and later splits a selector byte into high/low nibbles for resource opening.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "asm/nonmatchings/sched/sub_08000274.s",
+          "line": 1,
+          "detail": "Task registration returns without re-registering scheduled controls; otherwise creates saved argument frame. Registration is not callback completion; +8 is described as controlword, not a gameplay priority.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08017F7C.c",
+          "line": 1051,
+          "detail": "sub_08019FD8 constructs an8-byte descriptor using definition+index*0x38, byte value/index and sequence, enqueues through sub_0806603C and returns sequence+value; caller waits for actor-key presence via sub_0801A040. Queue admission is not delivery.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08017F7C.c",
+          "line": 1092,
+          "detail": "sub_0801A0A4 writes team2, sub_0801A0B0 writes team0, and sub_0801A0BC finds an active actor by key and writes supplied team byte; these are not UI locks.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Exact character/artwork identity remains unclaimed; names describe callback contract.",
+        "Spawn definition bytes are opaque incbin data; no character identity or guaranteed spawn delivery is claimed."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_0809AE88",
+      "address": "0x0809AE88",
+      "display_name": "StartFallingTargetAttack",
+      "summary": "Scans five controls for unscheduled plus +8==0; returns if exhausted or allocation0x400 fails. Installs callback, clears destructor, writes0x46 and forwards u16 selector.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_08097E28.c",
+          "line": 1580,
+          "detail": "Scans five controls for unscheduled plus +8==0; returns if exhausted or allocation0x400 fails. Installs callback, clears destructor, writes0x46 and forwards u16 selector.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08097E28.c",
+          "line": 1375,
+          "detail": "Callback chooses player/fixed ground target, descends at0x400 per iteration, checks impact radius15 and blinks afterward; invalid selectors clear task word.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "asm/nonmatchings/sched/sub_08000274.s",
+          "line": 1,
+          "detail": "Task registration returns without re-registering scheduled controls; otherwise creates saved argument frame. Registration is not callback completion; +8 is described as controlword, not a gameplay priority.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Exact character/artwork identity remains unclaimed; names describe callback contract."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_0809F998",
+      "address": "0x0809F998",
+      "display_name": "StartScanlinePushTask",
+      "summary": "Returns only for unscheduled control with nonzero +8. Repeatedly allocates0x400 and yields even on success until allocation succeeds; installs callback, no destructor, writes0x3E and registers. The initial guard also permits an already scheduled control: it can overwrite its fields/stack allocation before sub_08000274 sees scheduled membership and returns without registering again. Thus invoking registration here does not guarantee a new callback instance; ordinary use requires an unscheduled idle control.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_0809D878.c",
+          "line": 1318,
+          "detail": "Returns only for unscheduled control with nonzero +8. Repeatedly allocates0x400 and yields even on success until allocation succeeds; installs callback, no destructor, writes0x3E and registers.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0809D878.c",
+          "line": 439,
+          "detail": "Callback drives scanline callbacks, BG ordering/scroll and staged blend transitions; phase4 writes local-player direction0, speed0x120 and timer8.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "asm/nonmatchings/sched/sub_08000274.s",
+          "line": 1,
+          "detail": "Task registration returns without re-registering scheduled controls; otherwise creates saved argument frame. Registration is not callback completion; +8 is described as controlword, not a gameplay priority.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "asm/nonmatchings/sched/sub_08000274.s",
+          "line": 1,
+          "detail": "Membership test occurs at entry; result1 branches directly to return before list insertion or saved frame creation. Combined with caller guard (membership==0 && controlword!=0), scheduled controls pass through caller mutations but registration performs no restart.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Exact character/artwork identity remains unclaimed; names describe callback contract.",
+        "Do callers always enforce idle unscheduled control before this starter? No safe restart or preservation of a previously allocated stack is established here."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_080A0FEC",
+      "address": "0x080A0FEC",
+      "display_name": "StartFixedImpactAttack",
+      "summary": "Returns only for unscheduled control with nonzero +8. Allocates0x400; failure writes caller byte1. Success installs callback with0x44 and forwards byte kind plus byte-pointer. The initial guard also permits an already scheduled control: it can overwrite its fields/stack allocation before sub_08000274 sees scheduled membership and returns without registering again. Thus invoking registration here does not guarantee a new callback instance; ordinary use requires an unscheduled idle control.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_0809D878.c",
+          "line": 2156,
+          "detail": "Returns only for unscheduled control with nonzero +8. Allocates0x400; failure writes caller byte1. Success installs callback with0x44 and forwards byte kind plus byte-pointer.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0809D878.c",
+          "line": 1757,
+          "detail": "Callback selects four fixed impact arrangements, tests contact at animation frame2/phase0, triggers shake/camera and signals caller byte1 when finished.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "asm/nonmatchings/sched/sub_08000274.s",
+          "line": 1,
+          "detail": "Task registration returns without re-registering scheduled controls; otherwise creates saved argument frame. Registration is not callback completion; +8 is described as controlword, not a gameplay priority.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "asm/nonmatchings/sched/sub_08000274.s",
+          "line": 1,
+          "detail": "Membership test occurs at entry; result1 branches directly to return before list insertion or saved frame creation. Combined with caller guard (membership==0 && controlword!=0), scheduled controls pass through caller mutations but registration performs no restart.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Exact character/artwork identity remains unclaimed; names describe callback contract.",
+        "Do callers always enforce idle unscheduled control before this starter? No safe restart or preservation of a previously allocated stack is established here."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_0809F934",
+      "address": "0x0809F934",
+      "display_name": "ReleaseScanlinePushTask",
+      "summary": "When background control is scheduled, disables display hooks/effects and cancels it; always frees control and clears global. No null guard on scheduler test.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_0809D878.c",
+          "line": 1304,
+          "detail": "When background control is scheduled, disables display hooks/effects and cancels it; always frees control and clears global. No null guard on scheduler test.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0809D878.c",
+          "line": 439,
+          "detail": "Callback owns staged BG effects and scanline hooks; cleanup explicitly clears hooks via sub_0800115C/11E4 before cancel.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "asm/nonmatchings/sched/sub_08000274.s",
+          "line": 1,
+          "detail": "Task registration returns without re-registering scheduled controls; otherwise creates saved argument frame. Registration is not callback completion; +8 is described as controlword, not a gameplay priority.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "asm/nonmatchings/sched/sub_08000470.s",
+          "line": 1,
+          "detail": "Tests whether the control address appears in the scheduled linked list.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "asm/nonmatchings/sched/sub_080003A8.s",
+          "line": 1,
+          "detail": "Cancellation invokes callback at control+0x24 when nonzero; continuation sub_080003C0 frees stack allocation at+0x20 and unlinks control.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "asm/nonmatchings/sched/sub_080003C0.s",
+          "line": 1,
+          "detail": "Cancellation continuation frees the task stack, decrements task count, clears status+4 and unlinks the control; pool owner subsequently frees control array.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Exact character/artwork identity remains unclaimed; names describe callback contract."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_080A7ECC",
+      "address": "0x080A7ECC",
+      "display_name": "StartFallingVolley",
+      "summary": "Scans eight controls for unscheduled plus word0; allocates0x400 and returns on failure. Installs callback, clears destructor, writes0x40 and forwards u16 volley index.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_080A3D2C.c",
+          "line": 2287,
+          "detail": "Scans eight controls for unscheduled plus word0; allocates0x400 and returns on failure. Installs callback, clears destructor, writes0x40 and forwards u16 volley index.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080A3D2C.c",
+          "line": 1609,
+          "detail": "Callback delays index*17, applies downward acceleration18 and odd-index horizontal drift0xC0; stop predicates clear controlword early.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "asm/nonmatchings/sched/sub_08000274.s",
+          "line": 1,
+          "detail": "Task registration returns without re-registering scheduled controls; otherwise creates saved argument frame. Registration is not callback completion; +8 is described as controlword, not a gameplay priority.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Exact character/artwork identity remains unclaimed; names describe callback contract."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_080A7F94",
+      "address": "0x080A7F94",
+      "display_name": "StartTurningVolley",
+      "summary": "Scans two controls for unscheduled plus word0; allocates0x400 and returns on failure. Installs callback, clears destructor, writes0x40 and forwards u16 side selector.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_080A3D2C.c",
+          "line": 2342,
+          "detail": "Scans two controls for unscheduled plus word0; allocates0x400 and returns on failure. Installs callback, clears destructor, writes0x40 and forwards u16 side selector.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080A3D2C.c",
+          "line": 1711,
+          "detail": "Callback creates four delayed particles at left/right actor offsets; selector controls cyclic turn direction and stagger order.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "asm/nonmatchings/sched/sub_08000274.s",
+          "line": 1,
+          "detail": "Task registration returns without re-registering scheduled controls; otherwise creates saved argument frame. Registration is not callback completion; +8 is described as controlword, not a gameplay priority.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Exact character/artwork identity remains unclaimed; names describe callback contract."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_080A987C",
+      "address": "0x080A987C",
+      "display_name": "StartFixedDestinationAttack",
+      "summary": "Scans three controls for unscheduled plus word0, allocates0x400 and returns on failure; installs fixed-destination callback with no destructor, word0x40, forwards u16 kind.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_080A9680.c",
+          "line": 140,
+          "detail": "Scans three controls for unscheduled plus word0, allocates0x400 and returns on failure; installs fixed-destination callback with no destructor, word0x40, forwards u16 kind.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080A3D2C.c",
+          "line": 3067,
+          "detail": "Callback narrows argument to u16, chooses between two fixed destinations, advances by vector*4 and tests one contact while rendering three sprites.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Character/artwork identity not inferred; names describe statically observed contract."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_080B2454",
+      "address": "0x080B2454",
+      "display_name": "StartActorOverlayRenderer",
+      "summary": "Null control returns; unscheduled control with nonzero word returns. Retries0x400 allocation with a yield on every attempt; installs actor-following overlay callback, no destructor and word0x44. The initial guard also permits an already scheduled control: it can overwrite its fields/stack allocation before sub_08000274 sees scheduled membership and returns without registering again. Thus invoking registration here does not guarantee a new callback instance; ordinary use requires an unscheduled idle control.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_080A9680.c",
+          "line": 5080,
+          "detail": "Null control returns; unscheduled control with nonzero word returns. Retries0x400 allocation with a yield on every attempt; installs actor-following overlay callback, no destructor and word0x44.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080A9680.c",
+          "line": 4980,
+          "detail": "Callback loads sprite0x50089 and repeatedly renders animation0x18 at owning actor coordinates; it has no exit.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "asm/nonmatchings/sched/sub_08000274.s",
+          "line": 1,
+          "detail": "Membership test occurs at entry; result1 branches directly to return before list insertion or saved frame creation. Combined with caller guard (membership==0 && controlword!=0), scheduled controls pass through caller mutations but registration performs no restart.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Character/artwork identity not inferred; names describe statically observed contract.",
+        "Do callers always enforce idle unscheduled control before this starter? No safe restart or preservation of a previously allocated stack is established here."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_0809D77C",
+      "address": "0x0809D77C",
+      "display_name": "StartChasingChildActor",
+      "summary": "Scans two controls for unscheduled plus word0; writes byte index+0x46, allocates0x400 without checking failure, installs chase callback and mask-clearing destructor, forwards index.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_08097E28.c",
+          "line": 3045,
+          "detail": "Scans two controls for unscheduled plus word0; writes byte index+0x46, allocates0x400 without checking failure, installs chase callback and mask-clearing destructor, forwards index.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08097E28.c",
+          "line": 2600,
+          "detail": "Callback creates actor index+1, chooses player target and approaches it, performs timed attack, and returns from rest when timer++ >= limit with mode-dependent limit90/180. It tears down on child or parent death; these limits are not exact90/180 iteration durations.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Character/artwork identity not inferred; names describe statically observed contract."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_0809FA64",
+      "address": "0x0809FA64",
+      "display_name": "StartTrackingLaunchProjectile",
+      "summary": "Null pool returns; scans four controls for unscheduled plus word0; allocation0x200 failure returns. Installs tracking-launch callback, no destructor, word0x40, forwards u16 selector.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_0809D878.c",
+          "line": 1368,
+          "detail": "Null pool returns; scans four controls for unscheduled plus word0; allocation0x200 failure returns. Installs tracking-launch callback, no destructor, word0x40, forwards u16 selector.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0809D878.c",
+          "line": 887,
+          "detail": "Callback tracks selected player through warning period then moves along its final aim vector; unavailable player selectors end early.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Character/artwork identity not inferred; names describe statically observed contract."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_080A49EC",
+      "address": "0x080A49EC",
+      "display_name": "InitializeOffsetAttachmentState",
+      "summary": "Clears five byte state fields and two three-byte arrays, allocates0x28 for the primary attachment control and unconditionally clears its +8. Allocation failure is unchecked.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_080A3D2C.c",
+          "line": 508,
+          "detail": "Clears five byte state fields and two three-byte arrays, allocates0x28 for the primary attachment control and unconditionally clears its +8. Allocation failure is unchecked.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080A3D2C.c",
+          "line": 500,
+          "detail": "Aliases bind these state bytes/arrays and task pointer to attachment actor globals used by following starters and callbacks.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Only storage initialization is claimed; registration and callback completion are separate operations."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_080A4B48",
+      "address": "0x080A4B48",
+      "display_name": "StartOffsetAttachmentChild",
+      "summary": "Truncates signed formal to u16; scans three controls for unscheduled plus word0; writes narrowed index+0x46, allocates0x400 unchecked and installs indexed attachment callback/destructor.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_080A3D2C.c",
+          "line": 572,
+          "detail": "Truncates signed formal to u16; scans three controls for unscheduled plus word0; writes narrowed index+0x46, allocates0x400 unchecked and installs indexed attachment callback/destructor.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080A3D2C.c",
+          "line": 93,
+          "detail": "Callback uses index+2 actor slot, follows parent plus direction-table offset, and clears mask through destructor sub_080A4BB0.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Character/artwork identity not inferred; names describe statically observed contract."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_080AE11C",
+      "address": "0x080AE11C",
+      "display_name": "StartFollowingChainChild",
+      "summary": "Scans four controls for unscheduled plus word0; writes byte index+0x40, allocates0x400 unchecked, installs indexed follower callback and destructor, forwards index and zero.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_080A9680.c",
+          "line": 2793,
+          "detail": "Scans four controls for unscheduled plus word0; writes byte index+0x40, allocates0x400 unchecked, installs indexed follower callback and destructor, forwards index and zero.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080A9680.c",
+          "line": 2474,
+          "detail": "Follower uses previous position/direction records and publishes its own, with staged fade/shake states and predecessor reactivation on death.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Character/artwork identity not inferred; names describe statically observed contract."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_0809D710",
+      "address": "0x0809D710",
+      "display_name": "StartKnockbackAura",
+      "summary": "Scans three controls for unscheduled plus word0; allocates0x400 and returns on failure. Installs aura callback without destructor, writes0x46 and forwards two scheduler words.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_08097E28.c",
+          "line": 3016,
+          "detail": "Scans three controls for unscheduled plus word0; allocates0x400 and returns on failure. Installs aura callback without destructor, writes0x46 and forwards two scheduler words.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08097E28.c",
+          "line": 2493,
+          "detail": "Callback receives first word as actor pointer; initializes timer180, executes contact/render loop then decrements u16 timer until0xFFFF, giving181 loop iterations. Radius threshold47 and outward directional knockback are explicit; second scheduler word has no claimed callback role.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Character/artwork identity not inferred; names describe statically observed contract."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_080A1F88",
+      "address": "0x080A1F88",
+      "display_name": "ReleaseDualEightSlotPools",
+      "summary": "Stops song0xC2; cancels scheduled controls in both eight-entry arrays, frees each and clears both globals. No null guards on arrays.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_0809D878.c",
+          "line": 2656,
+          "detail": "Stops song0xC2; cancels scheduled controls in both eight-entry arrays, frees each and clears both globals. No null guards on arrays.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0809D878.c",
+          "line": 2882,
+          "detail": "Initializer allocates0x140 for each array and clears +8 of eight0x28-byte records.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "asm/nonmatchings/sched/sub_08000470.s",
+          "line": 1,
+          "detail": "Tests whether the control address appears in the scheduled linked list.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "asm/nonmatchings/sched/sub_080003A8.s",
+          "line": 1,
+          "detail": "Cancellation invokes callback at control+0x24 when nonzero; continuation sub_080003C0 frees stack allocation at+0x20 and unlinks control.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "asm/nonmatchings/sched/sub_080003C0.s",
+          "line": 1,
+          "detail": "Cancellation continuation frees the task stack, decrements task count, clears status+4 and unlinks the control; pool owner subsequently frees control array.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Character/artwork identity not inferred; names describe statically observed contract."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_080AF350",
+      "address": "0x080AF350",
+      "display_name": "StartPlayerCloneActor",
+      "summary": "Scans dynamic-count controls for unscheduled plus word0; rechecks count, allocates0x400 unchecked, installs clone callback/destructor, writes byte index+0x44 and forwards index.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_080A9680.c",
+          "line": 3478,
+          "detail": "Scans dynamic-count controls for unscheduled plus word0; rechecks count, allocates0x400 unchecked, installs clone callback/destructor, writes byte index+0x44 and forwards index.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080A9680.c",
+          "line": 2973,
+          "detail": "Callback copies player class/equipment properties into indexed enemy actor and selects chase/melee/casting branches by class, with post-death blink loop.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Character/artwork identity not inferred; names describe statically observed contract."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_080997C0",
+      "address": "0x080997C0",
+      "display_name": "StartRadialAttack",
+      "summary": "Scans64 controls for unscheduled plus word0; allocates0x400 and returns on failure. Mode1 installs sprite projectile callback, otherwise corner-trace callback; writes0x46 and forwards two u16 arguments.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_08097E28.c",
+          "line": 897,
+          "detail": "Scans64 controls for unscheduled plus word0; allocates0x400 and returns on failure. Mode1 installs sprite projectile callback, otherwise corner-trace callback; writes0x46 and forwards two u16 arguments.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08097E28.c",
+          "line": 733,
+          "detail": "Corner callback starts at one of eight actor offsets, moves by directional sine samples for10 iterations; other callback creates0x50130 projectile at speed0x180 for270 iterations.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Character/artwork identity not inferred; names describe statically observed contract."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_080B4BB8",
+      "address": "0x080B4BB8",
+      "display_name": "StartDelayedAimProjectile",
+      "summary": "Null pool returns; scans four controls for unscheduled plus word0; allocation0x400 failure returns. Installs delayed-aim callback with no destructor, writes u16 argument+0x40 and forwards byte kind plus u16 index.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_080B3648.c",
+          "line": 834,
+          "detail": "Null pool returns; scans four controls for unscheduled plus word0; allocation0x400 failure returns. Installs delayed-aim callback with no destructor, writes u16 argument+0x40 and forwards byte kind plus u16 index.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080B3648.c",
+          "line": 640,
+          "detail": "Callback waits index*48 yields, chooses left/right origin from actor-facing or shared direction, targets selected player once, then flies and tests repeated contacts with16-count cooldown.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Character/artwork identity not inferred; names describe statically observed contract."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_080A74E8",
+      "address": "0x080A74E8",
+      "display_name": "DualScrollBlendTask",
+      "summary": "Infinite task accumulates0x2AA and0x88 per iteration, samples signed sine table shifted6, and when both gates are clear writes blend parameters plus BG1/BG3 horizontal scrolls; yields every iteration.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_080A3D2C.c",
+          "line": 1922,
+          "detail": "Infinite task accumulates0x2AA and0x88 per iteration, samples signed sine table shifted6, and when both gates are clear writes blend parameters plus BG1/BG3 horizontal scrolls; yields every iteration.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080A3D2C.c",
+          "line": 1922,
+          "detail": "u8 sample index wraps naturally; blend arguments are (2,0x3C,1,(u16)(sample+7),(u16)(15-sample),0). No runtime frames or artwork semantics inferred.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Character/artwork identity not inferred; names describe statically observed contract."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_080B1FD4",
+      "address": "0x080B1FD4",
+      "display_name": "ReleaseFixedSpawnEffect",
+      "summary": "Only if control nonnull: cancels scheduled task, frees and clears pointer, flags masked actor entries1..4 at +0x7A bit0, and clears two actor keys. Null control preserves all those fields.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_080A9680.c",
+          "line": 4905,
+          "detail": "Only if control nonnull: cancels scheduled task, frees and clears pointer, flags masked actor entries1..4 at +0x7A bit0, and clears two handles. Null control preserves all those fields.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080A9680.c",
+          "line": 4922,
+          "detail": "Position callback sets actor team field to0, animates resource0x50020, optionally requests fixed-selector enemy spawn, restores actor team field to2 and clears controlword.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "asm/nonmatchings/sched/sub_08000470.s",
+          "line": 1,
+          "detail": "Tests whether the control address appears in the scheduled linked list.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "asm/nonmatchings/sched/sub_080003A8.s",
+          "line": 1,
+          "detail": "Cancellation invokes callback at control+0x24 when nonzero; continuation sub_080003C0 frees stack allocation at+0x20 and unlinks control.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "asm/nonmatchings/sched/sub_080003C0.s",
+          "line": 1,
+          "detail": "Cancellation continuation frees the task stack, decrements task count, clears status+4 and unlinks the control; pool owner subsequently frees control array.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08017F7C.c",
+          "line": 1051,
+          "detail": "sub_08019FD8 constructs an8-byte descriptor using definition+index*0x38, byte value/index and sequence, enqueues through sub_0806603C and returns sequence+value; caller waits for actor-key presence via sub_0801A040. Queue admission is not delivery.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08017F7C.c",
+          "line": 1092,
+          "detail": "sub_0801A0A4 writes team2, sub_0801A0B0 writes team0, and sub_0801A0BC finds an active actor by key and writes supplied team byte; these are not UI locks.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Character/artwork identity not inferred; names describe statically observed contract.",
+        "Spawn definition bytes are opaque incbin data; no character identity or guaranteed spawn delivery is claimed."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_0809D620",
+      "address": "0x0809D620",
+      "display_name": "StartSpiralHomingProjectile",
+      "summary": "Scans eight controls for unscheduled plus word0; allocates0x400 and returns on failure. Mode1 with intro flag0 selects homing callback, otherwise expanding spiral; clears destructor, writes0x46 and forwards u16 selector.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_08097E28.c",
+          "line": 2954,
+          "detail": "Scans eight controls for unscheduled plus word0; allocates0x400 and returns on failure. Mode1 with intro flag0 selects homing callback, otherwise expanding spiral; clears destructor, writes0x46 and forwards u16 selector.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08097E28.c",
+          "line": 2175,
+          "detail": "Spiral waits120 counts then increases radius0x200 and changes angle each iteration; homing alternative continuously retargets selected player after same delay.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Character/artwork identity not inferred; names describe statically observed contract."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_080B2780",
+      "address": "0x080B2780",
+      "display_name": "CleanupPairedDelayedAimActors",
+      "summary": "When either actor +0x5C is nonzero, releases four-projectile pool, auxiliary scale task, and two actor controls; always clears peer rings, active mask and palette slot. Both zero skips all task cleanup.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_080A9680.c",
+          "line": 5206,
+          "detail": "When either actor +0x5C is nonzero, releases four-projectile pool, auxiliary scale task, and two actor controls; always clears peer rings, active mask and palette slot. Both zero skips all task cleanup.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080A9680.c",
+          "line": 5101,
+          "detail": "Two aliased task controls, two actor pointers and shared palette globals belong to paired-actor setup sub_080B24B8; delayed-aim pool initialized during setup.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08067B4C.c",
+          "line": 380,
+          "detail": "sub_08068384 obtains connected player count then writes -1 to ten records per player and clears its state.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080153A4.c",
+          "line": 1362,
+          "detail": "Palette release subtracts4 from u16 slot; when mask bit is set it decrements refcount or clears the three-word slot and mask bit. Caller passes its stored shared slot.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Character/artwork identity not inferred; names describe statically observed contract."
+      ]
+    }
+  ]
+}
