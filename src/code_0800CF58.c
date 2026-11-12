@@ -392,7 +392,7 @@ void sub_0800D368(void *arg0) {
     u16 coordFC;
     u16 coordFE;
     u64 historyPair;
-    u64 localRecord;
+    struct LRecD368 { u32 b0:8; u32 b1:8; u32 b2:8; u32 b3:8; u32 lo16:16; u32 hi16:16; } localRecord;
     u32 localDirectionD368;
     u32 angleWordD368;
     u32 localDamageD368;
@@ -3956,15 +3956,13 @@ state17Case9D368:
                             temp_r1_45 = &peersD368[temp_r2_48 - 4];
                             if (((struct PeerD368 *)temp_r1_45)->f1DC != 0) {
                                 ((struct PeerD368 *)temp_r1_45)->fC = 0xA;
-                                localDamageD368 = (u16) ((s16) ((struct PlayerD368 *)arg0)->f38 * 4);
-                                M2C_FIELD((s32 *)&localRecord, u32 *, 4) = localDamageD368 | (M2C_FIELD((s32 *)&localRecord, u32 *, 4) & 0xFFFF0000);
-                                M2C_FIELD((s32 *)&localRecord, u32 *, 0) &= 0xFFFF00FF;
-                                M2C_FIELD((s32 *)&localRecord, u32 *, 0) = (M2C_FIELD((s32 *)&localRecord, u32 *, 0) & 0xFF00FFFF) | 0x200000;
+                                localRecord.lo16 = (s16) ((struct PlayerD368 *)arg0)->f38 * 4;
+                                localRecord.b1 = 0;
+                                localRecord.b2 = 0x20;
                                 angleWordD368 = ((u32) ArcTan2((s16) ((s32) (((u32) ((struct PeerD368 *)temp_r1_45)->f14 - (u32) ((struct PlayerD368 *)arg0)->f8C) << 8) >> 0x10), (s16) ((s32) (((u32) ((struct PeerD368 *)temp_r1_45)->f18 - (u32) ((struct PlayerD368 *)arg0)->f90) << 8) >> 0x10)) << 0x10);
-                                localDirectionD368 = ((u32) directionTableD368[(angleWordD368 >> 0x1C)] << 0x18);
-                                M2C_FIELD((s32 *)&localRecord, s32 *, 0) = (M2C_FIELD((s32 *)&localRecord, s32 *, 0) & 0xFFFFFF) | localDirectionD368;
+                                localRecord.b3 = directionTableD368[(angleWordD368 >> 0x1C)];
                                 ((struct PeerD368 *)temp_r1_45)->f54 = (s32) ((struct PlayerD368 *)arg0)->fDC;
-                                M2C_FIELD((s32 *)&localRecord, s32 *, 0) = (u8) (((struct PeerD368 *)temp_r1_45)->f0 + 4) | (M2C_FIELD((s32 *)&localRecord, s32 *, 0) & 0xFFFFFF00);
+                                localRecord.b0 = ((struct PeerD368 *)temp_r1_45)->f0 + 4;
                                 ((struct PeerD368 *)temp_r1_45)->f4A = (u16) (((struct PeerD368 *)temp_r1_45)->f4A + M2C_FIELD((s32 *)&localRecord, u16 *, 4));
                                 ((struct PeerD368 *)temp_r1_45)->f4C = (s32) M2C_FIELD((s32 *)&localRecord, u16 *, 4);
                                 ((struct PeerD368 *)temp_r1_45)->f62 = (s16) (u8) ((u32) M2C_FIELD((s32 *)&localRecord, s32 *, 0) >> 8);
