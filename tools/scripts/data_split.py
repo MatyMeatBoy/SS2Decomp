@@ -9,6 +9,8 @@
                                the object under LABEL starts with COUNT pointers: write them as label
                                references and label every target (PREFIX_NNNN or gUnk_08XXXXXX)
   data_split.py ptrtables MIN  do that for every raw object that begins with at least MIN pointers
+  data_split.py scalars        write raw objects as .byte/.2byte/.4byte when all their C declarations agree on
+                               one scalar element type
   data_split.py cuts FILE      cut at the ROM offsets listed in FILE (`OFFSET [label]` per line, hex);
                                unnamed cuts get the canonical gUnk_08XXXXXX label
 
@@ -281,6 +283,42 @@ def ptrtables_auto(minimum):
         total += ptrtable(*todo) + 1
 
 
+SCALAR = {"u8": (1, "B", ".byte"), "s8": (1, "b", ".byte"), "u16": (2, "H", ".2byte"), "s16": (2, "h", ".2byte"),
+          "u32": (4, "I", ".4byte"), "s32": (4, "i", ".4byte")}
+EXTERN = re.compile(r'\bextern\s+((?:const\s+|volatile\s+)*(?:struct\s+|union\s+)?\w+)\s*(\**)\s*(\w+)\s*((?:\[[^\]]*\])*)'
+                    r'\s*(?:asm\(\s*"(\w+)"\s*\))?\s*;')
+
+
+def scalars():
+    """Write raw objects as numbers when every C declaration of the label agrees on one scalar element type.
+    The element type is the code's own statement about the object; nothing is inferred from the bytes."""
+    rom = rom_bytes()
+    declared = {}
+    for path in sorted((ROOT / "src").glob("*.c")) + sorted((ROOT / "include").glob("*.h")):
+        for m in EXTERN.finditer(path.read_text(encoding="utf-8", errors="replace")):
+            kind = m[1].replace("const ", "").replace("volatile ", "").strip()
+            declared.setdefault(m[5] or m[3], set()).add(kind + m[2] if m[4] else "single:" + kind + m[2])
+    done = size_done = 0
+    for offset, (label, size) in sorted(raw_objects().items()):
+        kinds = declared.get(label, set())
+        if len(kinds) != 1 or next(iter(kinds)) not in SCALAR:
+            continue
+        width, code, directive = SCALAR[next(iter(kinds))]
+        if size % width or offset % width:
+            continue
+        values = struct.unpack_from("<%d%s" % (size // width, code), rom, offset)
+        per_line = 16 if width < 4 else 8
+        fmt = "%d" if width < 4 else "0x%08X"
+        if width == 4:
+            values = [v & 0xFFFFFFFF for v in values]
+        lines = ["\t%s %s" % (directive, ", ".join(fmt % v for v in values[i:i + per_line]))
+                 for i in range(0, len(values), per_line)]
+        replace_range(offset, offset + size, "\n".join(lines))
+        done += 1
+        size_done += size
+    print("%d object(s), %d bytes written as numbers" % (done, size_done))
+
+
 if __name__ == "__main__":
     if len(sys.argv) >= 2 and sys.argv[1] == "m4a":
         m4a()
@@ -290,6 +328,8 @@ if __name__ == "__main__":
         ptrtable(sys.argv[2], int(sys.argv[3], 0), sys.argv[4] if len(sys.argv) == 5 else None)
     elif len(sys.argv) == 3 and sys.argv[1] == "ptrtables":
         print("%d object(s) written" % ptrtables_auto(int(sys.argv[2], 0)))
+    elif len(sys.argv) == 2 and sys.argv[1] == "scalars":
+        scalars()
     elif len(sys.argv) == 3 and sys.argv[1] == "cuts":
         wanted = {}
         for line in Path(sys.argv[2]).read_text(encoding="utf-8").splitlines():
