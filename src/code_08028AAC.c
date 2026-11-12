@@ -284,16 +284,16 @@ void task026E4(u32 id,u32 value)
     u8 *row;
     u8 *found;
     u32 index;
-    register u32 key asm("r2");
-    register u32 savedValue asm("r5");
-    register u32 offset asm("r1");
-    register struct Monster026E4 **monsterAddress asm("r0");
-    register u32 playerIndex asm("r0");
+    u32 key;
+    u32 savedValue;
+    u32 offset;
+    struct Monster026E4 **monsterAddress;
+    u32 playerIndex;
     register struct Player026E4 *playerBase asm("r1");
     key=id;
     asm("" : "+r"(key));
     savedValue=(u16)value;
-    asm("" : "+r"(savedValue));
+    
     if(key>0x100000U) {
         row=scene026E4+0x7A4;
         index=0;
@@ -305,7 +305,7 @@ search:
         sub_080003F0();
         found=0;
 consume:
-        asm("" : "+r"(found));
+        
         if(found!=0) {
             *(u16 *)(found+0x24)=savedValue;
             *(u16 *)(found+0x36)=3;
@@ -320,13 +320,13 @@ matched:
         if(key<=4) {
             monsterAddress=&monsters026E4;
             offset=key*0x2E0;
-            asm("" : "+r"(offset) : "r"(monsterAddress) : "memory");
+            
             *(u16 *)((u8 *)*monsterAddress+offset+8)=savedValue;
         }
     } else {
         playerIndex=sub_080020F4()*0x14C;
         playerBase=players026E4;
-        asm("" : "+r"(playerIndex), "+r"(playerBase));
+        
         ((struct Player026E4 *)(playerIndex+(u32)playerBase))->value=savedValue;
     }
 done:
@@ -1228,7 +1228,7 @@ void sub_0802A228(u32 arg0, s32 arg1) {
         current=stateA228; var_r3 = &current->table;
         var_r1 = gUnk_0851810C;
 block_30:
-        asm("" : : "r"(var_r1));
+        
         *var_r3 = var_r1[arg1];
         current->flags = (u16) (0x10 | current->flags);
         break;
@@ -1367,7 +1367,7 @@ void sub_0802A7DC(void)
   sub_0802A644(0x49B);
   sub_0802A644(0x49C);
   sub_0802A644(0x49D);
-  counter=&gUnk_03005CF8; asm("" : "+r"(counter));
+  counter=&gUnk_03005CF8; 
   sub_08006C30(30);
   *counter = 0;
   sub_0801AA8C(30);
@@ -1408,15 +1408,15 @@ void sub_0802A7DC(void)
   sub_0808899C();
 }
 s32 sub_0802A9B0(void) {
-    register u32 var_r5 asm("r5") = 0x533;
+    u32 var_r5 = 0x533;
     register u8 **seqAddr asm("r6");
     register u8 **globalAddr asm("r0");
-    register u8 *seq asm("r1");
+    u8 *seq;
     s32 var_r7;
-    register volatile u16 *attrs asm("r4");
+    volatile u16 *attrs;
     register s32 var_r3 asm("r3");
     register u16 temp_r1 asm("r1");
-    register u16 temp_r2 asm("r2");
+    u16 temp_r2;
     do {
         u8 *temp_r0 = (u8 *)sub_08007290(0x140000 | var_r5);
         attrs = (volatile u16 *)(temp_r0 + 2);
@@ -1624,10 +1624,10 @@ void sub_0802AA28(void) {
                 }
                 {
                     register s32 flagByte27 asm("r1") = *var_r2_34;
-                    asm("" : "+r"(flagByte27));
+                    
                     {
-                        register s32 flagResult27 asm("r0") = flagByte27 | 4;
-                        asm("" : "+r"(flagResult27));
+                        s32 flagResult27 = flagByte27 | 4;
+                        
                         *var_r2_34 = flagResult27;
                     }
                 }
@@ -1833,14 +1833,14 @@ found27scan_83:
             temp_r4 = 6;
             temp_r4 = ((s32) *var_r0_5 >> temp_r4) & bitMask27;
                 bitMask27 = 1;
-                asm("" : "+r"(bitMask27));
+                
                 if (sub_0800CE30() != 0) {
                     var_r0_6 = stateAA28 + 0x1C4;
                 } else {
                     var_r0_6 = stateAA28 + 0x1B8;
                 }
                 byteWord27 = *var_r0_6;
-                asm("" : "+r"(byteWord27));
+                
                 bitResult27 = (byteWord27 >> 7) & bitMask27;
                 asm("" : "+r"(bitResult27));
                 bit7Word27 = bitResult27;
@@ -2548,9 +2548,9 @@ void sub_0802B8A4(void) {
     s32 temp_r4_5;
     s32 temp_r6;
     s32 temp_r6_2;
-    register s32 temp_r7 asm("r7");
+    s32 temp_r7;
     register s32 zeroArg028 asm("r0");
-    register s32 var_r0_8 asm("r0");
+    s32 var_r0_8;
     s32 var_r1_15;
     s32 var_r2_19;
     s32 var_r4_4;
@@ -2618,7 +2618,7 @@ found028b1:
         *(u32 *)((u8 *)var_r2_2 + 0x3C) = (s32) (*(u32 *)((u8 *)var_r2_2 + 0x3C) | 0x10);
     }
     callback0 = (s32)sub_08031FF8;
-    asm("" : "+r"(callback0));
+    
     var_r1_2 = (s32 *)(gUnk_03005CF4 + 0x7A4);
     var_r2_3 = 0;
     do {
@@ -2630,7 +2630,7 @@ found028b8:
     if (var_r0 != NULL) {
         *(u32 *)((u8 *)var_r0 + 0x44) = callback0;
     }
-    taskCallback0=(s32)sub_08032598; asm("" : "+r"(taskCallback0));
+    taskCallback0=(s32)sub_08032598; 
     var_r4 = gUnk_03005CF4+0xE34; var_r5=0; goto checkTask16;
 nextTask16:
     var_r5++; var_r4+=0x28;
@@ -2657,7 +2657,7 @@ found028b23:
         *(u32 *)((u8 *)var_r2_5 + 0x3C) = (s32) (*(u32 *)((u8 *)var_r2_5 + 0x3C) | 0x10);
     }
     callback1 = (s32)sub_0803294C;
-    asm("" : "+r"(callback1));
+    
     var_r1_4 = (s32 *)(gUnk_03005CF4 + 0x7A4);
     var_r2_6 = 0;
     do {
@@ -2684,7 +2684,7 @@ found028b37:
         *(u32 *)((u8 *)var_r2_8 + 0x3C) = (s32) (*(u32 *)((u8 *)var_r2_8 + 0x3C) | 0x10);
     }
     callback2 = (s32)sub_08033B3C;
-    asm("" : "+r"(callback2));
+    
     var_r1_6 = (s32 *)(gUnk_03005CF4 + 0x7A4);
     var_r2_9 = 0;
     do {
@@ -2712,7 +2712,7 @@ found028b53:
             *(u32 *)((u8 *)var_r2_11 + 0x3C) = (s32) (*(u32 *)((u8 *)var_r2_11 + 0x3C) | 0x10);
         }
     callback3 = (s32)sub_08059168;
-    asm("" : "+r"(callback3));
+    
     var_r1_8 = (s32 *)(gUnk_03005CF4 + 0x7A4);
     var_r2_12 = 0;
     do {
@@ -2740,7 +2740,7 @@ found028b65:
         *(u32 *)((u8 *)var_r2_14 + 0x3C) = (s32) (*(u32 *)((u8 *)var_r2_14 + 0x3C) | 0x10);
     }
     callback4 = (s32)sub_08032DE4;
-    asm("" : "+r"(callback4));
+    
     var_r1_10 = (s32 *)(gUnk_03005CF4 + 0x7A4);
     var_r2_15 = 0;
     do {
@@ -2772,7 +2772,7 @@ latefound028b99: var_r0_7 = var_r1_12; goto found028b99;
         var_r0_6 = (u8 *)(gUnk_03005CF4 + 0x1B7);
     }
 selectedFlag028b:
-    { register s32 value asm("r0"); register s32 bit asm("r2"); value=*var_r0_6; asm("" : "+r"(value)); bit=value>>2; bit &= 1; asm("" : "+r"(bit)); if (bit) {
+    { register s32 value asm("r0"); register s32 bit asm("r2"); value=*var_r0_6; asm("" : "+r"(value)); bit=value>>2; bit &= 1;  if (bit) {
         temp_r4_5 = sub_080289C0(0x28, 0xBF, 0xF9);
     var_r1_11 = (s32 *)(gUnk_03005CF4 + 0x7A4);
     var_r2_16 = 0;
@@ -2788,7 +2788,7 @@ found028b93:
             *(u32 *)((u8 *)var_r2_17 + 0x3C) = (s32) (*(u32 *)((u8 *)var_r2_17 + 0x3C) | 0x10);
         }
     callback5 = (s32)sub_08033198;
-    asm("" : "+r"(callback5));
+    
     var_r1_12 = (s32 *)(gUnk_03005CF4 + 0x7A4);
     var_r2_18 = 0;
     do {
@@ -2801,7 +2801,7 @@ found028b99:
             *(u32 *)((u8 *)var_r0_7 + 0x44) = callback5;
         }
     } else {
-    taskCallback1=(s32)sub_08045660; asm("" : "+r"(taskCallback1));
+    taskCallback1=(s32)sub_08045660; 
     var_r4_2 = gUnk_03005CF4+0xE34; var_r5_2=0; goto checkTask106;
 nextTask106:
     var_r5_2++; var_r4_2+=0x28;
@@ -2815,7 +2815,7 @@ doneTask106:;
 
     }
     }
-    taskCallback2=(s32)sub_08056538; asm("" : "+r"(taskCallback2));
+    taskCallback2=(s32)sub_08056538; 
     var_r4_3 = gUnk_03005CF4+0xE34; var_r5_3=0; goto checkTask114;
 nextTask114:
     var_r5_3++; var_r4_3+=0x28;
@@ -2828,30 +2828,30 @@ checkTask114:
 doneTask114:;
 
     {
-    register u32 mask028 asm("r1");
+    u32 mask028;
     if (sub_0800CE30() != 0) {
         var_r0_8=(u32)((u8 *)gUnk_03005CF4+0x80);
-        asm("" : "+r"(var_r0_8));
-        mask028=16; asm("" : "+r"(mask028));
+        
+        mask028=16; 
         var_r0_8=*(u32 *)var_r0_8;
-        asm("" : "+r"(var_r0_8));
+        
     } else {
         var_r0_8=(u32)gUnk_03005CF4;
-        asm("" : "+r"(var_r0_8));
-        mask028=16; asm("" : "+r"(mask028));
+        
+        mask028=16; 
         var_r0_8=*(u32 *)(var_r0_8+0x78);
-        asm("" : "+r"(var_r0_8));
+        
     }
-    asm("" : "+r"(var_r0_8));
+    
     var_r0_8 &= mask028;
     if (var_r0_8) goto inventory028;
     }
     goto inventoryDone028;
 inventory028:
     {
-    register s32 bit028 asm("r4")=1;
-    register s32 flag028 asm("r6");
-    register s32 player028 asm("r2");
+    s32 bit028=1;
+    s32 flag028;
+    s32 player028;
     register s32 count028 asm("r4");
     register s32 saved028 asm("r5");
     register u32 index028 asm("r3");
@@ -2861,11 +2861,11 @@ inventory028:
         } else {
             var_r0_9 = (u8 *)(gUnk_03005CF4 + 0x1B7);
         }
-        { register s32 byte028 asm("r0")=*var_r0_9;
-          asm("" : "+r"(byte028));
+        { s32 byte028=*var_r0_9;
+          
           flag028=byte028>>1; flag028 &= bit028;
-          asm("" : "+r"(flag028)); }
-        player028=sub_080020F4(); asm("" : "+r"(player028));
+           }
+        player028=sub_080020F4(); 
         count028 = 0;
         index028 = 0;
         var_r1_13 = (u8 *)gUnk_030034E0 + 0x150;
@@ -2876,7 +2876,7 @@ inventory028:
             var_r1_13 += 0x10;
             index028 += 1;
         } while (index028 <= 0x18U);
-        saved028=count028; asm("" : "+r"(saved028));
+        saved028=count028; 
         count028 = 0;
         index028 = 0;
         var_r1_14 = (u8 *)gUnk_030034E0 + 0x2E0;
@@ -2888,7 +2888,7 @@ inventory028:
             index028 += 1;
         } while (index028 <= 0x4AU);
         if ((flag028 == 0) && (player028 == 0) && (saved028 == 0) && (count028 == 0)) {
-    argsCb0=sub_0804534C; asm("" : "+r"(argsCb0));
+    argsCb0=sub_0804534C; 
     var_r4_6=gUnk_03005CF4+0xE34; var_r5_4=0; goto checkArgs0;
 nextArgs0:
     var_r5_4++;var_r4_6+=0x28;
@@ -2896,8 +2896,8 @@ checkArgs0:
     if(var_r5_4>29) goto doneArgs0;
     temp_r0_4=sub_08000470(var_r4_6);if(temp_r0_4!=0) goto nextArgs0;
     args.x=0x9700; args.y=0x16D00;args.a=16;args.b=8;args.callback=argsCb0;
-    asm("" : "+r"(temp_r0_4));
-    { register u32 z asm("r0")=0; asm("" : "+r"(z) : "m"(args.callback)); args.zero=z; }
+    
+    { register u32 z asm("r0")=0;  args.zero=z; }
     *(u32 *)((u8 *)var_r4_6 + 0x8)=60; temp_r0_5=sub_08001494(0x400); *(u32 *)((u8 *)var_r4_6 + 0x20)=temp_r0_5; *(u32 *)((u8 *)var_r4_6 + 0xC)=(u32)sub_0805A874; *(u32 *)((u8 *)var_r4_6 + 0x10)=(u32)temp_r0_5+0x3FC; *(u32 *)((u8 *)var_r4_6 + 0x24)=temp_r0_4;
     sub_08000274(var_r4_6,(u32)&args,1);sub_080003F0();sub_080003F0();
 doneArgs0:;
@@ -2913,18 +2913,18 @@ inventoryDone028:;
     }
     {
     register u32 selected028 asm("r6")=*var_r0_10;
-    register u32 one028 asm("r0")=1;
+    u32 one028=1;
     asm("" : "+r"(selected028), "+r"(one028));
     selected028 &= one028;
     if (!selected028) goto normalMode028b;
     }
         {
-        register u32 playerOffset028 asm("r2");
-        register u32 stride028 asm("r1");
-        register u32 playerRet028 asm("r0")=sub_080020F4();
-        asm("" : "+r"(playerRet028));
+        u32 playerOffset028;
+        u32 stride028;
+        u32 playerRet028=sub_080020F4();
+        
         stride028=0x14C;
-        asm("" : "+r"(stride028));
+        
         playerOffset028=playerRet028;
         playerOffset028 *= stride028;
         temp_r2_2=(void *)(playerOffset028+(u32)gUnk_03003CE0);
@@ -2936,17 +2936,17 @@ inventoryDone028:;
         switch (temp_r0_7) {                        /* switch 1; irregular */
         case 0:                                     /* switch 1 */
             var_r2_19 = 0x1B8;
-            zeroArg028=0; asm("" : "+r"(zeroArg028), "+r"(var_r2_19));
+            zeroArg028=0; 
             var_r1_15 = 0xF0;
             goto block_163;
         case 1:                                     /* switch 1 */
             var_r1_15 = 0x104;
             var_r2_19 = 0x1C2;
-            zeroArg028=0; asm("" : "+r"(zeroArg028), "+r"(var_r2_19), "+r"(var_r1_15));
+            zeroArg028=0; 
             goto block_163;
         case 2:                                     /* switch 1 */
             var_r2_19 = 0x1C2;
-            zeroArg028=0; asm("" : "+r"(zeroArg028), "+r"(var_r2_19));
+            zeroArg028=0; 
             var_r1_15 = 0xDC;
 block_163:
             sub_08028AAC(zeroArg028, var_r1_15, var_r2_19, 0);
@@ -2996,7 +2996,7 @@ checkTimer182:
         sub_080003F0();
         if (sub_080021A8() == 0) goto loop_182;
 doneTimer182:;
-    taskCallback3=(s32)sub_0803F18C; asm("" : "+r"(taskCallback3));
+    taskCallback3=(s32)sub_0803F18C; 
     var_r4_9 = gUnk_03005CF4+0xE34; var_r5_5=0; goto checkTask185;
 nextTask185:
     var_r5_5++; var_r4_9+=0x28;
@@ -3010,8 +3010,8 @@ doneTask185:;
 
         sub_0802939C(temp_r7, 8);
         sub_08028D98(temp_r7, 0, -0x12C, 0x12C);
-        { register u32 base028 asm("r0")=(u32)gUnk_03005CF4; register u32 off028 asm("r2"); asm("" : "+r"(base028)); off028=0x7A4;
-          asm("" : "+r"(off028) : "r"(temp_r7));
+        { u32 base028=(u32)gUnk_03005CF4; register u32 off028 asm("r2");  off028=0x7A4;
+          
           var_r1_16=(s32 *)(base028+off028); }
         var_r2_20 = 0;
 loop_192:
@@ -3034,8 +3034,8 @@ loop_199:
         sub_080003F0();
 checkWait199:
         if (sub_0801AAE0() == 0) goto loop_199;
-        { register u32 base028 asm("r0")=(u32)gUnk_03005CF4; register u32 off028 asm("r7"); asm("" : "+r"(base028)); off028=0x7A4;
-          asm("" : "+r"(off028));
+        { u32 base028=(u32)gUnk_03005CF4; register u32 off028 asm("r7");  off028=0x7A4;
+          
           var_r5_6=base028+off028; }
         var_r6 = 0;
         do {
@@ -3070,8 +3070,8 @@ checkWait216:
         }
 modeDone028b:;
     if ((sub_0800CF48() != 0) || (((u16) *(u16 *)((u8 *)gUnk_03005CF4 + 0x4) >> 8) & 1)) {
-    argsCb1=sub_0802C144; asm("" : "+r"(argsCb1));
-    { register u32 base028 asm("r0")=(u32)gUnk_03005CF4; register u32 off028 asm("r1"); asm("" : "+r"(base028)); off028=0xE34;
+    argsCb1=sub_0802C144; 
+    { u32 base028=(u32)gUnk_03005CF4; register u32 off028 asm("r1");  off028=0xE34;
       asm("" : "+r"(off028));
       var_r4_10=base028+off028; }
     var_r5_7=0; goto checkArgs1;
@@ -3081,8 +3081,8 @@ checkArgs1:
     if(var_r5_7>29) goto doneArgs1;
     temp_r0_9=sub_08000470(var_r4_10);if(temp_r0_9!=0) goto nextArgs1;
     args.x=0xF000; args.y=0x1C000;args.a=64;args.b=8;args.callback=argsCb1;
-    asm("" : "+r"(temp_r0_9));
-    { register u32 z asm("r0")=0; asm("" : "+r"(z) : "m"(args.callback)); args.zero=z; }
+    
+    { register u32 z asm("r0")=0;  args.zero=z; }
     *(u32 *)((u8 *)var_r4_10 + 0x8)=60; temp_r0_10=sub_08001494(0x400); *(u32 *)((u8 *)var_r4_10 + 0x20)=temp_r0_10; *(u32 *)((u8 *)var_r4_10 + 0xC)=(u32)sub_0805A874; { register u32 off028 asm("r2")=0x3FC;
     asm("" : "+r"(off028));
     *(u32 *)((u8 *)var_r4_10 + 0x10)=(u32)temp_r0_10+off028; } *(u32 *)((u8 *)var_r4_10 + 0x24)=temp_r0_9;
@@ -3103,12 +3103,12 @@ void sub_0802C144(void) {
     struct Task028C144 *task;
     u32 i, free, index;
     void (*callback)(void);
-    register struct Player *player asm("r2");
+    struct Player *player;
     register u32 offset asm("r2");
     offset = 0x14C * sub_080020F4();
-    asm("" : "+r"(offset));
+    
     player = (struct Player *)(offset + (u32)gUnk_03003CE0);
-    asm("" : "+r"(player));
+    
     player->flags |= 1;
     sub_0800D0F4();
     while (sub_0805F184() != 0) sub_080003F0();
@@ -3123,7 +3123,7 @@ void sub_0802C144(void) {
         sub_080290E4(0,4);
         sub_08028D98(0,0,-20,20);
         callback = sub_0802C144;
-        asm("" : "+r"(callback));
+        
         task = (struct Task028C144 *)(gs028C144 + 0xE34);
         i = 0;
         goto check;
@@ -3139,9 +3139,9 @@ check:
         args.a = 64;
         args.b = 8;
         args.callback = callback;
-        asm("" : "+r"(free));
+        
         { register u32 zero asm("r0") = 0;
-          asm("" : "+r"(zero) : "m"(args.callback));
+          
           args.zero = zero; }
         task->f8 = 60;
         task->f20 = sub_08001494(0x400);
@@ -3154,9 +3154,9 @@ check:
     }
 done:
     offset = 0x14C * sub_080020F4();
-    asm("" : "+r"(offset));
+    
     player = (struct Player *)(offset + (u32)gUnk_03003CE0);
-    asm("" : "+r"(player));
+    
     player->flags &= ~1;
     sub_0800D108();
     gUnk_03003CE0[sub_080020F4()].state = 0;
@@ -3207,7 +3207,7 @@ found3:
 found4:
  if(res2) res2[17]=cb;
  if(sub_0800CE30()) flag=(u8 *)(gUnk_03005CF4+0x1C5); else flag=(u8 *)(gUnk_03005CF4+0x1B9);
- value=(s32)*flag; asm("" : "+r"(value)); bits=value>>5; bits &= 1; asm("" : "+r"(bits)); if(!bits) {
+ value=(s32)*flag; asm("" : "+r"(value)); bits=value>>5; bits &= 1;  if(!bits) {
  handle=sub_080289C0(7,0xDA,0xCF); sub_0802939C(handle,1);
  sub_0802939C(sub_080289C0(8,0xF6,0xCF),2);
  handle=sub_080289C0(6,0xE9,0xCF);
@@ -3334,14 +3334,14 @@ void sub_0802C674(void) {
     s32 callback0, callback1, callback2, callback3, callback4;
     s32 taskCallback0, taskCallback1, taskCallback2, taskCallback3, taskCallback4, taskCallback5;
     s32 callback, taskCallback;
-    register s32 bitFlag028c asm("r2");
+    s32 bitFlag028c;
     register u32 *root028c asm("r1");
     s32 temp_r0_8;
-    register s32 temp_r4_2 asm("r4");
-    register s32 optionalCb028c asm("r5");
+    s32 temp_r4_2;
+    s32 optionalCb028c;
     s32 temp_r4_3;
     s32 temp_r4_4;
-    register s32 temp_r5 asm("r5");
+    s32 temp_r5;
     s32 temp_r6;
     s32 temp_r6_2;
     s32 temp_r6_3;
@@ -3417,7 +3417,7 @@ found028b14:
             *(u16 *)((u8 *)var_r2_8 + 0x1A) = 0x1E;
             *(u32 *)((u8 *)var_r2_8 + 0x3C) = (s32) (*(u32 *)((u8 *)var_r2_8 + 0x3C) | 0x10);
         }
-    callback=(s32)sub_08033C40; asm("" : "+r"(callback));
+    callback=(s32)sub_08033C40; 
     var_r1_2=(s32 *)(gUnk_03005CF4+0x7A4); var_r2_3=0;
 scanEntry0:
     if(*var_r1_2==var_r6) goto sharedEntryFound028;
@@ -3440,7 +3440,7 @@ found028b27:
             *(u32 *)((u8 *)var_r2_11 + 0x3C) = (s32) (*(u32 *)((u8 *)var_r2_11 + 0x3C) | 0x10);
         }
     callback = (s32)sub_08033C40;
-    asm("" : "+r"(callback));
+    
     var_r1_6 = (s32 *)(gUnk_03005CF4 + 0x7A4);
     var_r2_12 = 0;
     do {
@@ -3452,7 +3452,7 @@ found028b33:
         if (var_r0_3 != NULL) {
             *(u32 *)((u8 *)var_r0_3 + 0x44) = callback;
         }
-    taskCallback0=(s32)sub_08034900; asm("" : "+r"(taskCallback0));
+    taskCallback0=(s32)sub_08034900; 
     var_r4=gUnk_03005CF4+0xE34; var_r5=0; goto checkEntryTask;
 nextEntryTask:
     var_r5++; var_r4+=0x28;
@@ -3480,7 +3480,7 @@ found028b49:
             *(u16 *)((u8 *)var_r2_2 + 0x1A) = 4;
             *(u32 *)((u8 *)var_r2_2 + 0x3C) = (s32) (*(u32 *)((u8 *)var_r2_2 + 0x3C) | 0x10);
         }
-    callback=(s32)sub_08033C40; asm("" : "+r"(callback));
+    callback=(s32)sub_08033C40; 
     var_r1_2=(s32 *)(gUnk_03005CF4+0x7A4); var_r2_3=0;
 scanEntry2:
     if(*var_r1_2==var_r6) goto sharedEntryFound028;
@@ -3506,7 +3506,7 @@ found028b61:
             *(u16 *)((u8 *)var_r2_5 + 0x1A) = 4;
             *(u32 *)((u8 *)var_r2_5 + 0x3C) = (s32) (*(u32 *)((u8 *)var_r2_5 + 0x3C) | 0x10);
         }
-    callback=(s32)sub_08033C40; asm("" : "+r"(callback));
+    callback=(s32)sub_08033C40; 
     var_r1_2=(s32 *)(gUnk_03005CF4+0x7A4); var_r2_3=0;
 scanEntry3:
     if(*var_r1_2==var_r6) goto sharedEntryFound028;
@@ -3529,26 +3529,26 @@ entryDone028:;
     {
 
     register u32 base028c asm("r0");
-    register u32 off028c asm("r2");
+    u32 off028c;
     if(sub_0800CE30()!=0) {
         root028c=(u32 *)&gUnk_03005CF4;
-        asm("" : "+r"(root028c));
+        
         base028c=*root028c; off028c=0x1C5;
-        asm("" : "+r"(base028c), "+r"(off028c));
+        
     } else {
         root028c=(u32 *)&gUnk_03005CF4;
-        asm("" : "+r"(root028c));
+        
         base028c=*root028c; off028c=0x1B9;
-        asm("" : "+r"(base028c), "+r"(off028c));
+        
     }
-    { register s32 byte028c asm("r0")=*(u8 *)(base028c+off028c);
-      asm("" : "+r"(byte028c));
+    { s32 byte028c=*(u8 *)(base028c+off028c);
+      
       bitFlag028c=byte028c>>5; bitFlag028c &= 1;
-      asm("" : "+r"(bitFlag028c)); }
+       }
     }
     if (temp_r4 != 0) goto optional028c;
     {
-    taskCallback1=(s32)sub_08034488; asm("" : "+r"(taskCallback1));
+    taskCallback1=(s32)sub_08034488; 
     var_r4_2 = *root028c+0xE34; var_r5_2=0; goto checkTask81;
 nextTask81:
     var_r5_2++; var_r4_2+=0x28;
@@ -3599,7 +3599,7 @@ found028b99:
             *(u32 *)((u8 *)var_r2_15 + 0x3C) = (s32) (*(u32 *)((u8 *)var_r2_15 + 0x3C) | 0x10);
         }
     optionalCb028c = (s32)sub_080376CC;
-    asm("" : "+r"(optionalCb028c));
+    
     var_r1_8 = (s32 *)(gUnk_03005CF4 + 0x7A4);
     var_r2_16 = 0;
     do {
@@ -3629,7 +3629,7 @@ found028b112:
         *(u32 *)((u8 *)var_r2_18 + 0x3C) = (s32) (*(u32 *)((u8 *)var_r2_18 + 0x3C) | 0x10);
     }
     callback0 = (s32)sub_0803540C;
-    asm("" : "+r"(callback0));
+    
     var_r1_10 = (s32 *)(gUnk_03005CF4 + 0x7A4);
     var_r2_19 = 0;
     do {
@@ -3641,7 +3641,7 @@ found028b118:
     if (var_r0_6 != NULL) {
         *(u32 *)((u8 *)var_r0_6 + 0x44) = callback0;
     }
-    taskCallback2=(s32)sub_08035914; asm("" : "+r"(taskCallback2));
+    taskCallback2=(s32)sub_08035914; 
     var_r4_3 = gUnk_03005CF4+0xE34; var_r5_3=0; goto checkTask125;
 nextTask125:
     var_r5_3++; var_r4_3+=0x28;
@@ -3668,7 +3668,7 @@ found028b132:
         *(u32 *)((u8 *)var_r2_21 + 0x3C) = (s32) (*(u32 *)((u8 *)var_r2_21 + 0x3C) | 0x10);
     }
     callback1 = (s32)sub_0803540C;
-    asm("" : "+r"(callback1));
+    
     var_r1_12 = (s32 *)(gUnk_03005CF4 + 0x7A4);
     var_r2_22 = 0;
     do {
@@ -3680,7 +3680,7 @@ found028b139:
     if (var_r0_7 != NULL) {
         *(u32 *)((u8 *)var_r0_7 + 0x44) = callback1;
     }
-    taskCallback3=(s32)sub_080359E8; asm("" : "+r"(taskCallback3));
+    taskCallback3=(s32)sub_080359E8; 
     var_r4_4 = gUnk_03005CF4+0xE34; var_r5_4=0; goto checkTask147;
 nextTask147:
     var_r5_4++; var_r4_4+=0x28;
@@ -3707,7 +3707,7 @@ found028b154:
         *(u32 *)((u8 *)var_r2_24 + 0x3C) = (s32) (*(u32 *)((u8 *)var_r2_24 + 0x3C) | 0x10);
     }
     callback2 = (s32)sub_0803540C;
-    asm("" : "+r"(callback2));
+    
     var_r1_14 = (s32 *)(gUnk_03005CF4 + 0x7A4);
     var_r2_25 = 0;
     do {
@@ -3719,7 +3719,7 @@ found028b161:
     if (var_r0_8 != NULL) {
         *(u32 *)((u8 *)var_r0_8 + 0x44) = callback2;
     }
-    taskCallback4=(s32)sub_08035A88; asm("" : "+r"(taskCallback4));
+    taskCallback4=(s32)sub_08035A88; 
     var_r4_5 = gUnk_03005CF4+0xE34; var_r5_5=0; goto checkTask169;
 nextTask169:
     var_r5_5++; var_r4_5+=0x28;
@@ -3746,7 +3746,7 @@ found028b176:
         *(u32 *)((u8 *)var_r2_27 + 0x3C) = (s32) (*(u32 *)((u8 *)var_r2_27 + 0x3C) | 0x10);
     }
     callback3 = (s32)sub_08034A5C;
-    asm("" : "+r"(callback3));
+    
     var_r1_16 = (s32 *)(gUnk_03005CF4 + 0x7A4);
     var_r2_28 = 0;
     do {
@@ -3761,21 +3761,21 @@ found028b183:
     sub_0802939C(temp_r4_3, 1);
     {
     register u32 base028c asm("r0");
-    register u32 off028c asm("r2");
+    u32 off028c;
     register s32 flag028c asm("r4");
     if(sub_0800CE30()!=0) {
-        root028c=(u32 *)&gUnk_03005CF4; asm("" : "+r"(root028c));
+        root028c=(u32 *)&gUnk_03005CF4; 
         base028c=*root028c; off028c=0x1C5;
-        asm("" : "+r"(base028c), "+r"(off028c));
+        
     } else {
-        root028c=(u32 *)&gUnk_03005CF4; asm("" : "+r"(root028c));
+        root028c=(u32 *)&gUnk_03005CF4; 
         base028c=*root028c; off028c=0x1B9;
-        asm("" : "+r"(base028c), "+r"(off028c));
+        
     }
-    { register s32 byte028c asm("r0")=*(u8 *)(base028c+off028c);
+    { s32 byte028c=*(u8 *)(base028c+off028c);
       asm("" : "+r"(byte028c)); flag028c=byte028c>>2;
-      byte028c=1; asm("" : "+r"(byte028c)); flag028c &= byte028c;
-      asm("" : "+r"(flag028c)); }
+      byte028c=1;  flag028c &= byte028c;
+       }
     if (!flag028c) goto tailTask211;
     {
         temp_r4_4 = sub_080289C0(0xF, 0x128, 0x18E);
@@ -3793,7 +3793,7 @@ found028b196:
             *(u32 *)((u8 *)var_r2_31 + 0x3C) = (s32) (*(u32 *)((u8 *)var_r2_31 + 0x3C) | 0x10);
         }
     callback4 = (s32)sub_08034F64;
-    asm("" : "+r"(callback4));
+    
     var_r1_18 = (s32 *)(gUnk_03005CF4 + 0x7A4);
     var_r2_32 = 0;
     do {
@@ -3812,7 +3812,7 @@ islandTail218:
     var_r2_34=var_r1_19; goto found028b218;
 tailTask211:
     {
-    taskCallback5=(s32)sub_08044D1C; asm("" : "+r"(taskCallback5));
+    taskCallback5=(s32)sub_08044D1C; 
     var_r4_6 = *root028c+0xE34; var_r5_6=0; goto checkTask211;
 nextTask211:
     var_r5_6++; var_r4_6+=0x28;
@@ -5076,8 +5076,8 @@ extern void sub_0802939C(s32, s32);
 struct TaskP30DE { u32 f0, f4, f8, fC, f10, f14, f18, f1C, f20, f24; };
 extern void taskStart30DE(void *, u32) asm("sub_08000274");
 void sub_0802DE0C(void) {
-    register u8 **base asm("r0");
-    register u8 **bs asm("r1");
+    u8 **base;
+    u8 **bs;
     s32 *var_r1;
     u32 var_r2;
     s32 *res;
@@ -5088,7 +5088,7 @@ void sub_0802DE0C(void) {
     s32 first, first_cb;
     register s32 mask asm("r4");
     s32 bits, bytebit;
-    register s32 first_bits asm("r1");
+    s32 first_bits;
     s32 mask2;
     s32 raw;
     s32 *word;
@@ -6027,7 +6027,7 @@ void sub_0802EA50(s32 arg0) {
     u8 *p0, *pRead, *pWrite;
     register s32 tmp asm("r0");
     s32 raw;
-    register u8 *fb asm("r2"); register u32 fm asm("r1");
+    u8 *fb; u32 fm;
     u32 *flagdest;
     u32 setmask;
     struct Player *player;
@@ -6551,7 +6551,7 @@ void sub_0802F578(void)
     u16 count;
     register u32 raw asm("r1");
     u32 dialog;
-    register u32 value asm("r4");
+    u32 value;
     offset = sub_080020F4();
     offset *= 0x14C;
     p = (struct Player *)((u8 *)gUnk_03003CE0 + offset);
@@ -6692,7 +6692,7 @@ void sub_0802FA80(void)
     u8 *base;
     u32 field;
     u32 dialog;
-    register u32 value asm("r4");
+    u32 value;
     offset = sub_080020F4();
     offset *= 0x14C;
     p = (struct Player *)((u8 *)gUnk_03003CE0 + offset);

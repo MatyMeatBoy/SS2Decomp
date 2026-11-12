@@ -28,7 +28,7 @@ void sub_0801E278(s32 arg0,u32 arg1)
     u8 *entry,*found;
     register u32 type asm("r8")=100;
     register s32 invalid=-1;
-    asm("" : "+r"(type));
+    
 again:
     entry=*(u8 **)(arg0+0x34);
     i=0;
@@ -53,7 +53,7 @@ void sub_0801E2CC(s32 arg0,u32 arg1)
     u8 *entry,*found;
     register u32 type asm("r8")=100;
     register s32 invalid=-1;
-    asm("" : "+r"(type));
+    
 again:
     entry=(u8 *)(arg0+0x8C);
     i=0;
@@ -415,7 +415,7 @@ s32 sub_0801E5B0(struct Atk5B0 *atk, struct Tgt5B0 *tgt, u8 *record, s32 noCrit)
     result = inl_08021C74(power, defense, divisor);
     if (ctx[*(u16 *)(ctx + 0x68) * 16 + 0x79] == 1) {
         {
-            register u32 fw asm("r0") = inl_08021D00(*(u16 *)(record + 0xBC), result, (u8 *)tgt, 0x218);
+            u32 fw = inl_08021D00(*(u16 *)(record + 0xBC), result, (u8 *)tgt, 0x218);
             asm("" : "+r"(fw));
             fw <<= 16;
             result = fw >> 16;
@@ -424,7 +424,7 @@ s32 sub_0801E5B0(struct Atk5B0 *atk, struct Tgt5B0 *tgt, u8 *record, s32 noCrit)
         }
     }
     if (!sub_0801DE60() && *(u16 *)(combat5B0 + 0x4C) && tgt->kind == 2) {
-        register u32 cur asm("r4") = result;
+        u32 cur = result;
         result = inl_08021CE4(cur, sub_0801E0AC((s32)(combat5B0 + 0x30), 6) * 2 + 10);
         sub_0805865C(0x27);
     }
@@ -556,7 +556,7 @@ s32 sub_0801E988(struct Atk5B0 *atk, struct Tgt988 *tgt, u8 *record, s32 noCrit)
     result = inl_08021C74(power, defense, divisor);
     if (ctx[*(u16 *)(ctx + 0x68) * 16 + 0x79] == 1) {
         {
-            register u32 fw asm("r0") = inl_08021D00(*(u16 *)(record + 0xBC), result, (u8 *)tgt, 0x7C);
+            u32 fw = inl_08021D00(*(u16 *)(record + 0xBC), result, (u8 *)tgt, 0x7C);
             asm("" : "+r"(fw));
             fw <<= 16;
             result = fw >> 16;
@@ -567,7 +567,7 @@ s32 sub_0801E988(struct Atk5B0 *atk, struct Tgt988 *tgt, u8 *record, s32 noCrit)
     if (atk->type == 5)
         result = inl_08021CE4(result, 10);
     if (!sub_0801DE60() && *(u16 *)(combat5B0 + 0x4C) && tgt->kind == 2) {
-        register u32 cur asm("r4") = result;
+        u32 cur = result;
         result = inl_08021CE4(cur, sub_0801E0AC((s32)(combat5B0 + 0x30), 6) * 2 + 10);
     }
     if (sub_0801DE60() == 3 && *(u16 *)(combat5B0 + 0x44))
@@ -683,7 +683,7 @@ u32 sub_0801ED8C(void *arg0, void *arg1)
   }
 
   {
-    register u32 finishWord asm("r0") = damage;
+    u32 finishWord = damage;
     asm("" : "+r"(finishWord));
     finishWord <<= 16;
     result = finishWord >> 16;
@@ -735,7 +735,7 @@ s32 sub_0801EF14(void *arg0,void *arg1)
     weighted=(s32)((u32)scaled*variance)/200;
     {
         register u32 quotient asm("r1")=(u16)weighted;
-        asm("" : "+r"(quotient));
+        
         firstDamage=quotient/10U;
     }
     if(!firstDamage) firstDamage=1;
@@ -755,7 +755,7 @@ attenuate:
         break;
     }
     {
-        register u32 finishWord asm("r0")=damage;
+        u32 finishWord=damage;
         asm("" : "+r"(finishWord));
         finishWord<<=16;
         result=finishWord>>16;
@@ -837,17 +837,17 @@ void sub_0801F1C4(void *position, u8 *object, u16 amount)
                     (s32)((*(s32 *)(object + 0x18) - *((s32 *)position + 1)) << 8) >> 16);
     packet.direction = gUnk_084790B4[angle >> 12];
     packet.player = object[2];
-    asm("" ::: "r1", "r2");
+    
     *(u16 *)(object + 0x4A) = packet.amount + *(u16 *)(object + 0x4A);
     *(u32 *)(object + 0x4C) = packet.amount;
     {
-        register u32 power asm("r0") = packet.power;
-        asm("" : "+r"(power));
+        u32 power = packet.power;
+        
         *(u16 *)(object + 0x62) = power;
     }
     {
         register u32 shifted asm("r1") = *(u32 *)&packet << 8;
-        asm("" : "+r"(shifted));
+        
         impulse = shifted >> 24;
     }
     *(u16 *)(object + 0x7C) = impulse;
@@ -861,16 +861,16 @@ void sub_0801F1C4(void *position, u8 *object, u16 amount)
         *(u32 *)&packet &= 0xFF00FFFF;
     sub_0801F2CC(object, (u8 *)&packet);
     {
-        register s32 direction asm("r0") = packet.direction;
-        asm("" : "+r"(direction));
+        s32 direction = packet.direction;
+        
         *(s16 *)(object + 0x7E) = direction;
     }
     *(u16 *)(object + 0x58) = 100;
     {
         s32 selected = sub_080020F4();
-        register u16 *flags asm("r3") = (u16 *)(object + 0x5A);
-        register u32 players asm("r2") = (u32)gUnk_03003CE0;
-        asm("" : "+r"(flags), "+r"(players));
+        u16 *flags = (u16 *)(object + 0x5A);
+        u32 players = (u32)gUnk_03003CE0;
+        
         *flags |= 1 << *(u16 *)(players + selected * 0x14C);
     }
     sub_080660EC(&packet);
@@ -1074,7 +1074,7 @@ void sub_0801F79C(u8 *source,u8 *target,u8 *attack,s32 flags)
     if(*(s16 *)(source+0xC2)>*(s16 *)(source+0x60)) *(u16 *)(source+0xC2)=*(u16 *)(source+0x60);
     historyIndex=*(u16 *)source*4;
     history=(u32 *)(target+0xF8);
-    asm("" : "+r"(history) : "r"(historyIndex));
+    
     *(u32 *)((u8 *)history+historyIndex)=*(u32 *)(source+0xDC);
     packetAddress->player=*(u16 *)target;
     notify02079(packetAddress);
@@ -1143,23 +1143,23 @@ s32 sub_0801FB14(void *arg0, void *arg1, s32 damage)
 {
     union Size02014 size;
     u8 *item;
-    register u8 *data asm("r2");
+    u8 *data;
     u32 count;
-    register u32 refreshed asm("r0");
-    register u32 index asm("r6");
+    u32 refreshed;
+    u32 index;
     s32 dx;
     s32 dy;
-    register s32 hit asm("r0");
+    s32 hit;
     register u32 sizeWord asm("r0");
-    register u32 width asm("r2");
-    register u32 heightBits asm("r2");
+    u32 width;
+    u32 heightBits;
     register u32 keepMask asm("r1");
-    register u8 *position asm("r12") = arg0;
+    u8 *position = arg0;
     u16 *bounds = arg1;
-    register union Size02014 *sizePtr asm("r5");
-    register s32 savedDamage asm("r8") = damage;
-    register u8 **sceneAddress asm("r9");
-    register u8 *initialScene asm("r1");
+    union Size02014 *sizePtr;
+    s32 savedDamage = damage;
+    u8 **sceneAddress;
+    u8 *initialScene;
     register u32 initialCount asm("r2");
     s32 rawX, rawY;
 
@@ -1190,7 +1190,7 @@ s32 sub_0801FB14(void *arg0, void *arg1, s32 damage)
         size.word=sizeWord;
         sizePtr=&size;
         {
-            register s32 *coordinates asm("r1") = (s32 *)position;
+            s32 *coordinates = (s32 *)position;
             rawX=coordinates[0]-*(s32 *)item;
             rawY=coordinates[1]-*(s32 *)(item+4);
         }
@@ -1200,12 +1200,12 @@ s32 sub_0801FB14(void *arg0, void *arg1, s32 damage)
         {
         if(dx <= (s32)(bounds[0]+size.fields.width)>>1) {
 
-            register s32 absoluteY asm("r2") = dy;
-            register u32 boundHeight asm("r1");
-            register u32 objectHeight asm("r0");
+            s32 absoluteY = dy;
+            u32 boundHeight;
+            u32 objectHeight;
             if(absoluteY<0) absoluteY=-absoluteY;
             boundHeight=bounds[1];
-            asm("" : "+r"(boundHeight));
+            
             objectHeight=sizePtr->fields.height;
             boundHeight=boundHeight+objectHeight;
             boundHeight=(s32)boundHeight>>1;
@@ -1215,10 +1215,10 @@ s32 sub_0801FB14(void *arg0, void *arg1, s32 damage)
         }
         asm("" : "+r"(hit));
         if(hit) {
-            register u32 zero asm("r5");
-            register u32 reduced asm("r0")=*(u16 *)(item+0x10);
+            u32 zero;
+            u32 reduced=*(u16 *)(item+0x10);
             register s32 damageCopy asm("r2")=savedDamage;
-            asm("" : "+r"(damageCopy) : "r"(reduced));
+            
             reduced-=damageCopy;
             zero=0;
             *(u16 *)(item+0x10)=reduced;
@@ -1236,7 +1236,7 @@ next:
         index++;
         item+=0x24;
         {
-            register u8 **address asm("r1") = sceneAddress;
+            u8 **address = sceneAddress;
             refreshed=*(u32 *)(*address+0x48);
         }
     } while(index<refreshed);
@@ -1251,30 +1251,30 @@ s32 sub_0801FC34(void *arg0, void *arg1, s32 damage)
 {
     union Size02034 size;
     u8 *item;
-    register u8 *position asm("r10") = arg0;
+    u8 *position = arg0;
     register s32 result asm("r0") = (s32)position;
-    register u16 *bounds asm("r9") = arg1;
-    register s32 savedDamage asm("r8") = damage;
-    register u8 **sceneAddress asm("r12");
-    register u8 **initialAddress asm("r1");
-    register u8 *initialScene asm("r2");
+    u16 *bounds = arg1;
+    s32 savedDamage = damage;
+    u8 **sceneAddress;
+    u8 **initialAddress;
+    u8 *initialScene;
     register u32 initialCount asm("r3");
     u32 index;
-    register u32 refreshed asm("r1");
-    register u8 *data asm("r3");
+    u32 refreshed;
+    u8 *data;
     register u32 sizeWord asm("r1");
-    register u32 width asm("r3");
-    register u32 heightBits asm("r3");
+    u32 width;
+    u32 heightBits;
     register u32 keepMask asm("r2");
-    register union Size02034 *sizePtr asm("r6");
-    register s32 dy asm("r5");
-    register s32 hit asm("r1");
+    union Size02034 *sizePtr;
+    s32 dy;
+    s32 hit;
     s32 rawX, dx;
-    register s32 rawY asm("r1");
+    s32 rawY;
     initialAddress=&scene02034;
     initialScene=*initialAddress;
     initialCount=*(u32 *)(initialScene+0x48);
-    asm("" : : "r"(initialCount));
+    
     sceneAddress=initialAddress;
     if(initialCount==0) return 0;
     item=initialScene+0x58C;
@@ -1299,7 +1299,7 @@ s32 sub_0801FC34(void *arg0, void *arg1, s32 damage)
             rawY=coordinates[1];
             {
                 register s32 otherY asm("r2") = *(s32 *)(item+4);
-                asm("" : "+r"(rawY), "+r"(otherY));
+                
                 rawY-=otherY;
             }
         }
@@ -1307,16 +1307,16 @@ s32 sub_0801FC34(void *arg0, void *arg1, s32 damage)
         dx=rawX>>8;
         if(dx<0) dx=-dx;
         {
-            register u16 *widthBounds asm("r2") = bounds;
+            u16 *widthBounds = bounds;
             if(dx <= (s32)(widthBounds[0]+size.fields.width)>>1) {
-                register s32 absoluteY asm("r3") = dy;
-                register u32 boundHeight asm("r2");
-                register u32 objectHeight asm("r1");
+                s32 absoluteY = dy;
+                u32 boundHeight;
+                u32 objectHeight;
                 if(absoluteY<0) absoluteY=-absoluteY;
                 {
-                register u16 *heightBounds asm("r1") = bounds;
+                u16 *heightBounds = bounds;
                 boundHeight=heightBounds[1];
-                asm("" : "+r"(boundHeight));
+                
                 objectHeight=sizePtr->fields.height;
                 boundHeight=boundHeight+objectHeight;
                 boundHeight=(s32)boundHeight>>1;
@@ -1327,10 +1327,10 @@ s32 sub_0801FC34(void *arg0, void *arg1, s32 damage)
         }
         asm("" : "+r"(hit));
         if(hit) {
-            register u32 zero asm("r5");
-            register u32 reduced asm("r0")=*(u16 *)(item+0x10);
+            u32 zero;
+            u32 reduced=*(u16 *)(item+0x10);
             register s32 damageCopy asm("r2")=savedDamage;
-            asm("" : "+r"(damageCopy) : "r"(reduced));
+            
             reduced-=damageCopy;
             zero=0;
             *(u16 *)(item+0x10)=reduced;
@@ -1348,10 +1348,10 @@ next:
         index++;
         item+=0x24;
         {
-            register u8 **address asm("r2") = sceneAddress;
+            u8 **address = sceneAddress;
             refreshed=*(u32 *)(*address+0x48);
         }
-        asm("" : "+r"(result));
+        
     } while(index<refreshed);
     return result;
 }

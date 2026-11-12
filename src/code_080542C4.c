@@ -442,7 +442,7 @@ void sub_08055974(void)
         }
     }
     {
-        register u32 v asm("r1");
+        u32 v;
         register u32 one asm("r0");
         if (sub_0800CE30() != 0)
             flag = gUnk_03005CF4 + 0x1C6;
@@ -497,7 +497,7 @@ void sub_08055A60(void)
         }
     }
     {
-    register u32 j asm("r6");
+    u32 j;
     register u32 f asm("r5");
     cb2 = sub_0805A384;
     task = (struct T56Task *)(gUnk_03005CF4 + 0xE34);
@@ -682,7 +682,7 @@ static inline void SpawnArgs56(u8 *state, u32 value, u32 n)
     u32 args[6];
     void (*cb)(u32) = sub_080560D0;
     struct T56Task *task = (struct T56Task *)(state + 0xE34);
-    register u32 i asm("r6") = 0;
+    u32 i = 0;
     register u32 free asm("r5");
     goto check;
 next:
@@ -743,7 +743,7 @@ static inline void SpawnArgsG56(u32 value, u32 n)
     u32 args[6];
     void (*cb)(u32) = sub_080560D0;
     struct T56Task *task = (struct T56Task *)((u8 *)gUnk_03005CF4 + 0xE34);
-    register u32 i asm("r6") = 0;
+    u32 i = 0;
     register u32 free asm("r5");
     goto check;
 next:
@@ -766,7 +766,7 @@ check:
 }
 void sub_080560D0(u32 arg0)
 {
-    register u8 *state asm("r2");
+    u8 *state;
     register u32 bit asm("r1");
     switch (arg0) {
     case 0:
@@ -1134,7 +1134,7 @@ void sub_08056CB4(u32 value)
     else
         base = (u8 *)gUnk_03005CF4 + 0x1B5;
     {
-        register s32 check asm("r0") = *base;
+        s32 check = *base;
         if (check > 7)
             return;
     }
@@ -1316,7 +1316,7 @@ u32 sub_08057068(void *arg)
     entry = (u8 *)gUnk_03005CF4 + 0x7A4;
     data = 0x80010;
     for (i = 0; i <= 14; i++, entry += 0x70) {
-        register u8 *state asm("r0") = (u8 *)gUnk_03005CF4;
+        u8 *state = (u8 *)gUnk_03005CF4;
         u32 flag = 1 << i;
         if ((*(u32 *)(state + 0x54) & flag) && (*(u32 *)(entry + 0x3C) & 0x10)) {
             if (sub_08021FE0(arg, entry + 8, &data, entry + 0x18))
@@ -1329,7 +1329,7 @@ void sub_080570DC(u32 all)
 {
     extern u32 gUnk_03005CF0;
     u8 *entry = (u8 *)gUnk_03005CF4 + 0xE34;
-    register u32 i asm("r5");
+    u32 i;
     i = 0;
     do {
         if (sub_08000470((u32)entry))
@@ -1365,7 +1365,7 @@ void sub_08057170(void)
     u32 i, j;
     for (i = 0; i < 20; i++)
         for (j = 0; j < 5; j++) {
-            register u8 *base asm("r0") = (u8 *)gUnk_03005CF4;
+            u8 *base = (u8 *)gUnk_03005CF4;
             u32 index = j + i * 5;
             base += 0x1C8;
             base += index;

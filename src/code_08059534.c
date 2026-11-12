@@ -343,7 +343,7 @@ void sub_0805A004(u32 mode)
     case 1:
         sub_08028AAC(7, 0x80, 0x58, 0);
         { u32 *flags = (u32 *)((u8 *)gGameState + 0x38);
-          register u32 mask asm("r1") = 0x10;
+          u32 mask = 0x10;
           *flags |= mask; }
         break;
     }
@@ -387,8 +387,8 @@ void sub_0805A0EC(u32 owner)
     extern u8 * volatile mapObjects asm("gUnk_030034E0");
     u32 remaining;
     u32 i;
-    register u32 zero asm("r5");
-    register u8 * volatile *map asm("r6");
+    u32 zero;
+    u8 * volatile *map;
     if (sub_080020F4() != owner) return;
     remaining = 1;
     i = 0;
@@ -396,9 +396,9 @@ void sub_0805A0EC(u32 owner)
     zero = 0;
 loop:
     {
-        register u8 *base asm("r0") = *map;
+        u8 *base = *map;
         u8 *slot = base + i * 16;
-        register u32 offset asm("r0") = 0x150;
+        u32 offset = 0x150;
         u16 *status = (u16 *)(slot + offset);
         if (*status == 1) {
             offset = 0x152;
@@ -427,7 +427,7 @@ void sub_0805A138(u32 mode)
             sub_08006D08(0x17B);
         sub_08028AAC(7, 0x270F, 0x270F, 0);
         { u32 *flags = (u32 *)((u8 *)gGameState + 0x38);
-          register u32 mask asm("r1") = 8;
+          u32 mask = 8;
           *flags |= mask; }
         break;
     }
@@ -478,7 +478,7 @@ void sub_0805A2E4(void)
 {
     register u8 *field asm("r1");
     u32 old;
-    register u32 mask asm("r0");
+    u32 mask;
     if (sub_0800CE30()) field = (u8 *)gGameState + 0x1C4;
     else field = (u8 *)gGameState + 0x1B8;
     old = *field;
@@ -501,7 +501,7 @@ void sub_0805A350(void)
 {
     u8 *field;
     u32 old;
-    register u32 mask asm("r0");
+    u32 mask;
     if (sub_0800CE30()) field = (u8 *)gGameState + 0x1C6;
     else field = (u8 *)gGameState + 0x1BA;
     old = *field;
@@ -558,15 +558,15 @@ u16 sub_0805A4A0(u16 index)
 void sub_0805A4BC(u32 arg)
 {
     u32 mem;
-    register u8 *base asm("r0");
-    register u8 **owner asm("r4") = (u8 **)&gUnk_03005CF4;
+    u8 *base;
+    u8 **owner = (u8 **)&gUnk_03005CF4;
     if (sub_08000470((u32)*owner + 0x6F4) != 0) return;
     goto allocate;
 retry:
     sub_080003F0();
 allocate:
     {
-        register u32 slotOffset asm("r2");
+        u32 slotOffset;
         mem = sub_08001494(0xC00);
         slotOffset = 0x714;
         *(u32 *)(*owner + slotOffset) = mem;
@@ -591,8 +591,8 @@ void *sub_0805A58C(u32 arg0, u32 callback)
 {
     u32 i;
     u32 mem;
-    register u8 *base asm("r1") = (u8 *)gGameState;
-    register u32 offset asm("r2") = 0xE34;
+    u8 *base = (u8 *)gGameState;
+    u32 offset = 0xE34;
     u8 *entry = base + offset;
     i = 0;
     goto search;

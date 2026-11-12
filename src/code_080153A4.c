@@ -51,17 +51,17 @@ void sub_08015464(void)
 {
     struct PlayerW12 *p = (struct PlayerW12 *)&gUnk_03003CE0[sub_080020F4()];
     u16 saved = p->w26;
-    register u16 *done asm("r6");
+    u16 *done;
     u32 initial;
     if (p->state != 0xD && sub_0800CCCC() == 0 && sub_0800CD34() == 0)
         sub_0805865C(saved + 0xF9);
     {
-        register u16 *view asm("r0") = &p->wB6;
+        u16 *view = &p->wB6;
         register u32 loaded asm("r1") = *view;
         asm("" : "+r"(view), "+r"(loaded));
         done = view;
         initial = loaded;
-        asm("" : "+r"(done));
+        
     }
     while (initial == 0 && p->state == 5) {
         u32 *counter = (u32 *)((u8 *)p + 0xDC);
@@ -475,25 +475,25 @@ u32 sub_08015E84(u8 *arg0)
 {
     register s32 signedByte asm("r2") = (s8)arg0[0x6C];
     register s32 half asm("r1");
-    asm("" : "+r"(signedByte));
+    
     half = signedByte * 5;
-    asm("" : "+r"(half));
+    
     {
         s32 i = 7;
         register u16 *table asm("r2") = gUnk_0847ACE8;
         register s32 delta asm("r6") = half * 2;
         s16 *value;
         table += 7;
-        asm("" : "+r"(table), "+r"(delta));
+        
         value = (s16 *)(arg0 + 0xC2);
         for (; i >= 0; table--, i--) {
             u16 threshold = delta + *table;
             s32 current;
             if ((s16)threshold < 0)
                 threshold = 0;
-            asm("" : : : "memory");
+            
             current = *value;
-            asm("" : "+r"(current));
+            
             if (current >= (s16)threshold)
                 return (u16)i;
     }
@@ -986,10 +986,10 @@ extern void sound1681C(u8,u32,s32) asm("sub_080571A4");
 void sub_0801681C(u16 index) {
     struct State1681C state;
     struct { s32 x, y; } coords;
-    register struct Record1681C *record asm("r3");
-    register struct Record1681C *loaded asm("r0");
+    struct Record1681C *record;
+    struct Record1681C *loaded;
     register u32 value asm("r1");
-    register struct State1681C *statePtr asm("r2");
+    struct State1681C *statePtr;
     u8 *source, *entry;
     s32 kind;
     s32 *pos;
@@ -1035,18 +1035,18 @@ extern void callback168FC(void) asm("sub_0801681C");
 extern void sound168FC(u8,u8,s32) asm("sub_080571A4");
 s32 sub_080168FC(struct Pair168FC *arg) {
     u16 index;
-    register s32 mask asm("r0");
-    register volatile u16 *bitPointer asm("r2");
+    s32 mask;
+    volatile u16 *bitPointer;
     register u32 one asm("r1");
     register struct Task *task asm("r1");
     register struct Task *initialBase asm("r1");
-    register struct Task *initialTask asm("r0");
+    struct Task *initialTask;
     register u32 factor asm("r2");
-    register u32 stackOffset asm("r3");
+    u32 stackOffset;
     register u32 top asm("r0");
-    register u32 memory asm("r2");
+    u32 memory;
     register u32 offset4 asm("r5");
-    register u32 taskState asm("r6");
+    u32 taskState;
     index = 0;
     bitPointer = &bits168FC;
     mask = *bitPointer;
@@ -1095,10 +1095,10 @@ void sub_080169C8(void) {
     register u32 i asm("r5");
     u32 taskOffset;
     u32 objectOffset;
-    register u32 j asm("r5");
-    register u32 secondOffset asm("r4");
+    u32 j;
+    u32 secondOffset;
     s32 *secondBase;
-    register u32 loopZero asm("r1");
+    u32 loopZero;
     register u32 k asm("r5");
     u16 *flag;
     u32 *word1, *word2;
@@ -1465,7 +1465,7 @@ extern void notify16F28(u32) asm("sub_080662C4");
 
 static inline u8 roll16F28(struct Roll16F28 *t)
 {
-    register u32 i asm("r3");
+    u32 i;
     register u32 r asm("r2");
     u8 sum;
     u8 res;
@@ -1846,54 +1846,54 @@ extern u8 T015CDirections[] asm("gUnk_084790B4");
 extern u8 T015CAngles[] asm("gUnk_0849E730");
 extern u16 T015CProbe(u8,s32,s32,s32) asm("sub_0800B118");
 void sub_08017C6C(struct T015CEntity *p) {
-    register s32 x asm("r8");
-    register s32 y asm("r9");
+    s32 x;
+    s32 y;
     s32 dx,ax;
-    register s32 delta asm("r5");
+    s32 delta;
     u16 *cp;
     s16 dy;
     register u32 angle asm("r0");
-    register s32 idx asm("r1");
-    register u32 cosindex asm("r1");
-    register u32 finalindex asm("r0");
-    register s32 finalproduct asm("r0");
-    register u8 *anglesptr asm("r1");
-    register u32 minus asm("r4");
+    s32 idx;
+    u32 cosindex;
+    u32 finalindex;
+    s32 finalproduct;
+    u8 *anglesptr;
+    u32 minus;
     register u32 hitraw asm("r0");
-    register u32 hit asm("r1");
+    u32 hit;
     s32 ay;
-    register s32 index asm("r2");
+    s32 index;
     u32 sumraw;
     u16 cursor;
     u32 nextvalue;
     register u32 offset asm("r0");
-    register u32 *flagptr asm("r0");
-    register u32 angleword asm("r0");
-    register u32 *phaseptr asm("r0");
-    register u32 phase asm("r1");
+    u32 *flagptr;
+    u32 angleword;
+    u32 *phaseptr;
+    u32 phase;
     register u32 id asm("r2");
     register u32 bit asm("r0");
     register u32 mask asm("r1");
-    register struct T015CEntity **baseptr asm("r1");
+    struct T015CEntity **baseptr;
     register struct T015CEntity *base asm("r1");
     register u32 loadtemp asm("r0");
     register u32 dxraw asm("r1");
-    register u32 dyraw asm("r0");
-    register s32 deltaraw asm("r2");
-    register s32 product asm("r1");
-    register s32 signedangle asm("r3");
+    u32 dyraw;
+    s32 deltaraw;
+    s32 product;
+    s32 signedangle;
     s32 cosine;
-    register u32 cursorraw asm("r3");
+    u32 cursorraw;
     register u32 one asm("r5");
     u32 radiusraw;
     u32 flags;
     register u16 radius asm("sl");
     u16 dist;
-    register s32 px asm("r4");
-    register s32 py asm("r2");
-    register s16 *sines asm("r6");
+    s32 px;
+    s32 py;
+    s16 *sines;
     u8 r;
-    register struct T015CEntity *q asm("r3");
+    struct T015CEntity *q;
     x=p->x; y=p->y;
     cp=&p->cursor; loadtemp=*cp;
     cursorraw=loadtemp << 16;
@@ -2026,16 +2026,16 @@ s32 sub_08017EC8(u8 *arg0)
     register u32 count asm("r5");
     register u32 i asm("r6");
     register u8 *lo asm("r2");
-    register u32 high asm("r1");
+    u32 high;
     if (*(u16 *)(arg0 + 0x7A) & 0x40) return 1;
     size = 0x014001E0;
     lo = arg0 + 0x22E;
-    asm("" : "+r"(lo));
+    
     high = arg0[0x22F] << 16;
-    asm("" : "+r"(high), "+r"(lo));
+    
     rect = *lo | high;
     found = 0;
-    asm("" : "+r"(found));
+    
     count = sub_08002164();
     p = T015EPlayers;
     i = 0;
@@ -2048,6 +2048,6 @@ s32 sub_08017EC8(u8 *arg0)
         i++;
         p++;
     } while (i < count);
-    asm("" : "+r"(count), "+r"(i), "+r"(found));
+    
     return found;
 }
