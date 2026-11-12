@@ -2791,16 +2791,20 @@ block_882:
             case 2:                                 /* switch 4 */
                 temp_r0_67 = d368_sub_0801DE60();
                 switch (temp_r0_67) {
-                default:
-                    var_r1_8 = ((struct PlayerD368 *)arg0)->fD8;
+                default: {
+                    register s32 *pzD368 asm("r2"); register s32 *qzD368 asm("r4");
+                    pzD368 = &((struct PlayerD368 *)arg0)->fD8;
+                    var_r1_8 = *pzD368;
+                    qzD368 = pzD368;
                     if (var_r1_8 <= 0x17) {
                         temp_r0_68 = var_r1_8 - 8;
-                        ((struct PlayerD368 *)arg0)->fD8 = temp_r0_68;
+                        *qzD368 = temp_r0_68;
                         if (temp_r0_68 <= 0) {
-                            ((struct PlayerD368 *)arg0)->fD8 = 0;
+                            *pzD368 = 0;
                         }
                     } else {
-                        ((struct PlayerD368 *)arg0)->fD8 = var_r1_8 - (var_r1_8 >> 1);
+                        *qzD368 = var_r1_8 - (var_r1_8 >> 1);
+                    }
                     }
                     break;
                 case 3:
