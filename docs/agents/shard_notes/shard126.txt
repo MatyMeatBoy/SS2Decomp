@@ -1,26 +1,25 @@
 
-2026-11-12 (claude-fable-w7, second pass): sub_0800D368
-  End: 25176 bytes (ROM 25180), nmscore 2684, structural hunks 56 / 70 insns, raw hunks 137. The draft is
-  byte-identical to the ROM up to 0x0800F378; the only earlier difference is an r3/r4 swap inside the third
-  inlined level loop (0x0800ED00-0x0800ED4A: i has priority 0.722, the table giv 0.717, the ROM allocates the
-  giv first).
+2026-11-12 (claude-fable-w7, third pass): sub_0800D368
+  End: 25188 bytes (ROM 25180), structural hunks 20 / 35 insns, raw hunks 74 / 614 insns (was 137 / 768).
   What landed:
-  - Key-mask temporaries (f18/f1A values in switch 4 cases 0 and 1) are u16; with direct f12 reads the ROM's
-    `adds r0, r2, #0; ands r0, r1` shape comes out by itself. Cases 5-7 read f12 directly too (no keys local);
-    cases 3 and 4 keep their keys local (direct reads grow the frame there).
-  - f26 zero test without a temporary (`if (f26 == 0)`), the zero stage stores literal 0, and the cost is
-    `{ u16 i26 = f26; x = (s8)f6C * 10 + gUnk_0847ACE8[i26]; }`: the ROM rereads f26 after `f20 = 5`.
-    Reason: CSE drops every non-MEM expression that contains a MEM (zero_extend of a load) at any store.
-  - Switch 4 case 0 tail: `fDC += 1` and the fD8 decay as plain field code, one goto to the end of the chain.
-  - Switches 5 and 7 are natural: every case carries its own reset / keep-state code and jump2 cross-jumps
-    the copies exactly like the ROM once the reload rotation before them is right. Case 2 must test
-    `(DEB8() != 7) || (table[f0] == 0)` first (keep-state branch before the reset branch).
-  - sp128 clamp duplicated per branch (`if (sp128 > lv) { sp128 = lv; if (lv > f26) sp128 = 0; } else if
-    (sp128 > f26) sp128 = 0;`), which gives the exact size.
-  Open, in address order:
-  - 0xF378-0xF3BC (switch 4 case 5, sub_08013E90): the ROM is two separate calls whose 6-insn tails were
-    cross-jumped. Writing two calls gives the exact tail text but jump2 refuses to merge: find_basic_blocks
-    leaves a `(use (const_int 0))` after a CALL_INSN that falls into a label, so the two tails differ. Need a
+  - sp194 is u16 and the inventory read is `inv->f56[inv->f54]` (struct InvD368): the ROM's double f54 load
+    through one pointer and everything after it up to 0x104FA now match. This was the main rotation offender.
+  - The local 8-byte record is `struct LRecD368 { u32 b0:8, b1:8, b2:8, b3:8; u32 lo16:16, hi16:16; }` with
+    bit-field stores in the other-party branch and a byte view ({ u8 b0..b3; u16 w; }) in the same-party one.
+  - `*(u32 *)(p + 0xF8 + idx * 4)` is a struct array member (`->fF8[idx]`): (base + 0xF8) + idx * 4.
+  - One r4 scratch variable: var_r4_11 absorbs temp_r0_78 (DE60 result of the hit-cancel path) and nine
+    temp_r4_*/var_r4_* temporaries; its priority hack drops from 7 asm refs to 2. The effect-slot pointer of
+    that path is var_r6_8 (r6), whose own hack is gone; the slot's f0 is stored through struct EffectD368.
+  - 107 pointer temporaries of the form `t = arg0->f144; ((union RecordD368 *)t)->x.value = v;` inlined to
+    `((union RecordD368 *)arg0->f144)->x.value = v;` (bit-field stores then allocate like the ROM).
+  - Switch 17 case 7 has its own copy of the case 9 body instead of a goto.
+  Open (shunks.txt): 0xF3BC (two sub_08013E90 calls, see above), 0xF8D0 (fD8 = 0 through the first pointer),
+  0x1069A (r5/r6: the &f144 pointer vs the hoisted 15 mask, and 0x144 is a reload in the ROM), 0x1099E
+  (case 7 copy is cross-jumped whole because the rotation before it is off by one), 0x10E02 (byte 7 store),
+  0x115D6 (second sub_08007290 site still pins r8), 0x12BF2/0x12C08, 0x13338/0x134A0.
+  A semantic warning from the type search: retyping temp_r1_26 to s16 lowers the count but truncates a
+  32-bit load; do not take type changes without reading the affected insns.
+ label, so the two tails differ. Need a
     source shape where the second call is not directly followed by a label when flow/gcse run.
   - 0xF494 (2 sites): the ROM loads gUnk_030034E0->f54 twice through one &f54 pointer (compare with a MEM
     operand, then a reload for the index); the draft reuses sp194 after the equality test.
