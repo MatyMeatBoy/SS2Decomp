@@ -33,6 +33,47 @@ def objects():
     return found
 
 
+def lz77(data, start):
+    """BIOS LZ77 stream at data[start:]. Returns (end offset, decoded bytes) or None."""
+    if start + 4 > len(data) or data[start] != 0x10:
+        return None
+    size, p, out = int.from_bytes(data[start + 1:start + 4], "little"), start + 4, bytearray()
+    if not size:
+        return None
+    while len(out) < size:
+        if p >= len(data):
+            return None
+        flags = data[p]
+        p += 1
+        for _ in range(8):
+            if len(out) >= size:
+                break
+            if flags & 0x80:
+                if p + 1 >= len(data):
+                    return None
+                back, count = ((data[p] & 15) << 8 | data[p + 1]) + 1, (data[p] >> 4) + 3
+                if back > len(out):
+                    return None
+                for _ in range(count):
+                    out.append(out[-back])
+                p += 2
+            else:
+                out.append(data[p])
+                p += 1
+            flags <<= 1
+    return p, bytes(out[:size])
+
+
+def map_body(data):
+    """The decoded map of a category 2 resource, or None when it does not walk exactly."""
+    packed = lz77(data, 16)
+    body = packed[1] if packed and len(data) - packed[0] < 4 else data[16:]
+    if len(body) < 16:
+        return None
+    width, height = struct.unpack_from("<hh", body, 0)
+    return body if width > 0 and height > 0 and len(body) == 16 + width * height * 8 else None
+
+
 def png(path, width, height, rgb):
     def chunk(tag, body):
         return struct.pack(">I", len(body)) + tag + body + struct.pack(">I", zlib.crc32(tag + body) & 0xFFFFFFFF)
@@ -94,6 +135,9 @@ def main():
                 if frame_at != 12 or not 12 + 12 * frames <= anim_at or anim_at + 12 * anims > size:
                     errors += 1
                     print("%s: sprite record tables do not fit" % label)
+            if kind == "map" and map_body(data) is None:
+                errors += 1
+                print("%s: map does not decode to 16 + w*h*8 bytes" % label)
             if kind == "tiles4" and size % 32:
                 errors += 1
                 print("%s: tile data is not a multiple of 32 bytes" % label)

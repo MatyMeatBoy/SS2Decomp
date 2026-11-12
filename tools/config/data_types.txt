@@ -17,3 +17,8 @@
 # Category 5: sprite frame and animation records, struct Root4SpriteRecord / Root4SpriteFrame / Root4SpriteAnim in
 # src/code_08006D24.c (drawn by sub_080072A0). Same ids as the sprite graphics of category 6.
 ^gRes(Main|Aux)_Cat5_\d+$     sprite_anim  header {u16 frames, u16 anims, s32 frame offset = 12, s32 anim offset}; both tables fit in every resource
+#
+# Category 2: area maps, read by LoadWorldMapArea (sub_08009930). 16-byte record header, then the map either
+# LZ77-compressed or raw (key bit 0x40000000). Map: s16 width, s16 height in a 16-byte header, width*height
+# 6-byte cells, then width*height 16-bit entries of the second plane.
+^gResMain_Cat2_\d+$          map      all 226 walk exactly: 205 compressed, 21 raw; decoded size = 16 + w*h*8

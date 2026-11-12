@@ -71,6 +71,11 @@ identical after every step. The order matters more than the tools:
    a tileset, a palette) is the proof that the format is right. This took the
    described share from 18% to 73%.
 
+   The same step with a structural check instead of a picture covered the
+   strings (terminator), the sprite records (struct from `sub_080072A0`: both
+   tables must fit) and the 226 area maps (`LoadWorldMapArea` gives the layout;
+   every one decodes to exactly 16 + w*h*8 bytes). Described share: 92%.
+
 What did not work: scanning the whole data area for words that look like
 pointers. In sample and graphics bytes it finds thousands of false targets
 (`data_targets.txt` started with 14,859; about 870 remain relevant). Keep that
