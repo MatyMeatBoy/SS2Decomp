@@ -1,0 +1,2541 @@
+[
+  {
+    "canonical_symbol": "sub_080922B4",
+    "address": "0x080922B4",
+    "display_name": "InitializeCoordinatedAttackPresentationCallbacks",
+    "summary": "Populates eight paired setup and animation callback slots used by the coordinated attack presentation dispatcher.",
+    "confidence": "high",
+    "evidence": [
+      {
+        "source": "src/code_0808FB5C.c",
+        "line": 1891,
+        "detail": "Assigns setup/animation callbacks for slots 6,7,0,1,2,4,5,3 through line 1907.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_0805FB7C.c",
+        "line": 2879,
+        "detail": "Coordinated attack flow starts dispatcher and waits for completion signal.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ],
+    "open_questions": [],
+    "supporting_evidence": [
+      {
+        "source": "src/code_0808FB5C.c",
+        "line": 1946,
+        "detail": "Dispatcher invokes selected setup then animation callback and signals completion.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ]
+  },
+  {
+    "canonical_symbol": "sub_08090330",
+    "address": "0x08090330",
+    "display_name": "UpdateOscillatingMap22SceneExit",
+    "summary": "Initializes scene and starts vertical scene/camera offset oscillation, setting a map height bound to 20 when area index is zero; on exit hides the display, selects map-set 22 area records and marks continuation.",
+    "confidence": "high",
+    "evidence": [
+      {
+        "source": "src/code_0808FB5C.c",
+        "line": 427,
+        "detail": "Initializes and installs scene callback 8E130; when map area/index zero writes map halfword+0x72=20.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_0808FB5C.c",
+        "line": 430,
+        "detail": "On exit predicate requests hide and waits, then selects table 08517220[current area], clears initialization and sets continuation halfwords.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_08021DC4.c",
+        "line": 936,
+        "detail": "Map-set 22 selector uses same table 08517220.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_08009088.c",
+        "line": 1140,
+        "detail": "Map+0x72 is vertical tile-position bound, not a timer.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ],
+    "open_questions": []
+  },
+  {
+    "canonical_symbol": "sub_080943F8",
+    "address": "0x080943F8",
+    "display_name": "ConfigureRandomBlendAttackPresentation",
+    "summary": "Loads two presentation backgrounds, installs rendering overrides and starts the scrolling random-blend background task.",
+    "confidence": "high",
+    "evidence": [
+      {
+        "source": "src/code_08092D60.c",
+        "line": 843,
+        "detail": "Configures BG1 with screen block 28, resource 4 and BG0 block 24 resource 3.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_08092D60.c",
+        "line": 849,
+        "detail": "Installs three rendering overrides with values 0,2,2.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_08092D60.c",
+        "line": 852,
+        "detail": "Allocates and starts confirmed random background blend task before applying display.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_0808FB5C.c",
+        "line": 1900,
+        "detail": "Setup callback 2 is paired with animation 93BAC by coordinated attack callback table.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ],
+    "open_questions": []
+  },
+  {
+    "canonical_symbol": "sub_0809007C",
+    "address": "0x0809007C",
+    "display_name": "UpdateEncounterMap19SceneExit",
+    "summary": "Initializes scene, optionally starts enemy spawn groups and waits 120 signals during an encounter; on scene exit hides display, selects map-set 19 area record and marks continuation.",
+    "confidence": "high",
+    "evidence": [
+      {
+        "source": "src/code_0808FB5C.c",
+        "line": 300,
+        "detail": "Initialization calls common helper; active encounter clears scene+C, starts spawn groups with map halfwords+0x8C/+0x90 and waits 120 signals.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_0808FB5C.c",
+        "line": 307,
+        "detail": "Exit path hides and waits, selects 08513680[current area], clears initialization and sets+0x30/+0x24.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_08021DC4.c",
+        "line": 918,
+        "detail": "Map-set 19 destination selector uses 08513680.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_0800CBBC.c",
+        "line": 96,
+        "detail": "Encounter predicate reads scene flags bit 7.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ],
+    "open_questions": []
+  },
+  {
+    "canonical_symbol": "sub_08090290",
+    "address": "0x08090290",
+    "display_name": "UpdateMapZeroExitReset",
+    "summary": "Initializes scene or, on exit, cancels scene task banks, selects map-set 0 area 0, clears exit state, sets local team to 1 and action to 4, and marks continuation.",
+    "confidence": "high",
+    "evidence": [
+      {
+        "source": "src/code_0808FB5C.c",
+        "line": 400,
+        "detail": "Initialization branch calls common scene initializer.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_0808FB5C.c",
+        "line": 402,
+        "detail": "Exit branch cancels callback/object tasks and selects destination(0,0).",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_0808FB5C.c",
+        "line": 406,
+        "detail": "Sets local player team byte+0x68=1, clears exit flag and scene+0x36.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_0808FB5C.c",
+        "line": 409,
+        "detail": "Clears player flag 2, sets state 0/action 4 and scene+0x30/+0x24=1.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ],
+    "open_questions": []
+  },
+  {
+    "canonical_symbol": "sub_08092EB4",
+    "address": "0x08092EB4",
+    "display_name": "ConfigureScanlineWarpAttackPresentation",
+    "summary": "Loads two backgrounds, resets their scrolls, installs rendering overrides and starts BG1 scanline sine-scroll DMA for coordinated attack presentation slot 0.",
+    "confidence": "high",
+    "evidence": [
+      {
+        "source": "src/code_08092D60.c",
+        "line": 99,
+        "detail": "Loads resources 10/11 into BG0/BG1 screen blocks 24/28 with priorities 2/1.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_08092D60.c",
+        "line": 105,
+        "detail": "Clears four scroll halfwords and installs three overrides with value 1.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_08092D60.c",
+        "line": 112,
+        "detail": "Starts confirmed BG1 scanline DMA scroll and applies display.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_0808FB5C.c",
+        "line": 1896,
+        "detail": "Registers as coordinated attack setup slot 0 paired with 92F58.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ],
+    "open_questions": []
+  },
+  {
+    "canonical_symbol": "sub_08092CB8",
+    "address": "0x08092CB8",
+    "display_name": "ConfigureShakingAttackPresentation",
+    "summary": "Loads two backgrounds, disables blend, installs rendering overrides and allocates/starts periodic scene-shake offset production for presentation slot 7.",
+    "confidence": "high",
+    "evidence": [
+      {
+        "source": "src/code_0808FB5C.c",
+        "line": 2279,
+        "detail": "Loads resource 1 into BG1 block 24 and resource 2 into BG0 block 28.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_0808FB5C.c",
+        "line": 2285,
+        "detail": "Disables blend and installs three overrides with value 1.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_0808FB5C.c",
+        "line": 2289,
+        "detail": "Allocates then starts confirmed periodic scene-shake offset task.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ],
+    "open_questions": [],
+    "supporting_evidence": [
+      {
+        "source": "src/code_0808FB5C.c",
+        "line": 1894,
+        "detail": "Registers paired with animation 923FC in presentation slot 7.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ]
+  },
+  {
+    "canonical_symbol": "sub_08094590",
+    "address": "0x08094590",
+    "display_name": "ConfigureScrollingBlendAttackPresentation",
+    "summary": "Loads two backgrounds with object-window display mode, resets scrolls, installs rendering overrides and starts BG scrolling/blending task for attack presentation slot 4.",
+    "confidence": "high",
+    "evidence": [
+      {
+        "source": "src/code_08092D60.c",
+        "line": 909,
+        "detail": "Enables BG0/BG1/OBJ and object window, loads resources 12/13 into blocks 24/28.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_08092D60.c",
+        "line": 916,
+        "detail": "Clears four scroll halfwords and installs three overrides with value 2.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_08092D60.c",
+        "line": 920,
+        "detail": "Allocates and starts background scroll/blend task.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_0808FB5C.c",
+        "line": 1902,
+        "detail": "Registers as setup slot 4 paired with 94638.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ],
+    "open_questions": []
+  },
+  {
+    "canonical_symbol": "sub_080934D4",
+    "address": "0x080934D4",
+    "display_name": "ConfigureStaticBackgroundAttackPresentation",
+    "summary": "Loads two backgrounds, sets BG0 vertical scroll to 48, disables blend and installs rendering overrides for coordinated attack presentation slot 1.",
+    "confidence": "high",
+    "evidence": [
+      {
+        "source": "src/code_08092D60.c",
+        "line": 341,
+        "detail": "Loads BG0 resource 6 block 24 priority 0 and BG1 resource 7 block 28 priority 2.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_08092D60.c",
+        "line": 347,
+        "detail": "Writes four scroll shadow halfwords as 0,48,0,0.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_08092D60.c",
+        "line": 351,
+        "detail": "Disables blend and sets three rendering overrides to 2, then applies display.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_0808FB5C.c",
+        "line": 1898,
+        "detail": "Registers as setup slot 1 paired with 93584.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ],
+    "open_questions": []
+  },
+  {
+    "canonical_symbol": "sub_0808FE04",
+    "address": "0x0808FE04",
+    "display_name": "UpdateCallbackSceneExit",
+    "summary": "Initializes a scene and starts callback 5CB8C, or on scene exit cancels a caller-preserved task plus scene task banks, selects destination 0/0 and resets local-player state.",
+    "confidence": "medium",
+    "evidence": [
+      {
+        "source": "src/code_0808FB5C.c",
+        "line": 178,
+        "detail": "Exit path checks initialized scene and exit predicate; otherwise returns 0.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_0808FB5C.c",
+        "line": 180,
+        "detail": "Calls CancelTaskIfScheduled with incoming r4 value, not an initialized C argument.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_0808FB5C.c",
+        "line": 181,
+        "detail": "Cancels callback/object task banks, selects destination 0/0, sets local team 1, clears exit flag, state and player flag 2, sets action 4 and continuation flags.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_0808FB5C.c",
+        "line": 208,
+        "detail": "Initialization calls common helper and schedules 5CB8C with argument 0.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ],
+    "open_questions": [
+      "What task control does the caller-preserved r4 value represent? Body leaves it uninitialized until after the cancellation call; conventional C parameter contract cannot be inferred."
+    ]
+  },
+  {
+    "canonical_symbol": "sub_08094A00",
+    "address": "0x08094A00",
+    "display_name": "ConfigureSineBlendAttackPresentation",
+    "summary": "Loads two backgrounds, clears scrolls, initializes blend state and rendering overrides, and starts the sine-scroll/blend background task for presentation slot 5.",
+    "confidence": "high",
+    "evidence": [
+      {
+        "source": "src/code_08092D60.c",
+        "line": 1075,
+        "detail": "Loads resources 8/9 into BG0/BG1 screen blocks 24/28.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_08092D60.c",
+        "line": 1081,
+        "detail": "Clears scrolls, initializes blend and sets three rendering overrides to 2.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_08092D60.c",
+        "line": 1086,
+        "detail": "Allocates and starts confirmed sine-scroll/blend task.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_0808FB5C.c",
+        "line": 1904,
+        "detail": "Registers as setup slot 5 paired with 94AB8.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ],
+    "open_questions": []
+  },
+  {
+    "canonical_symbol": "sub_0808FC50",
+    "address": "0x0808FC50",
+    "display_name": "UpdateSceneExitWithMessages",
+    "summary": "Initializes a scene and actor task, handles exit by selecting destination 0/2 and resetting local player/encounter state, and independently runs the scene-message exit sequence when scene flag bit 3 is set.",
+    "confidence": "medium",
+    "evidence": [
+      {
+        "source": "src/code_0808FB5C.c",
+        "line": 106,
+        "detail": "Initial branch marks encounter, initializes scene and starts actor taskB4C34 with destructorB6324, then marks encounter again.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_0808FB5C.c",
+        "line": 111,
+        "detail": "Exit branch handles audio, destination 0/2, exit-flag clearing, scene mode 3 and local-player reset.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_0808FB5C.c",
+        "line": 125,
+        "detail": "Independent scene flag bit 3 branch starts local event, stops enemies, closes window, runs 23 messages and waits for exit or link error.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_0808FB5C.c",
+        "line": 138,
+        "detail": "Clears scene bit 3 after message branch; all exits return 0.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ],
+    "open_questions": [
+      "Exact actor/story identity of B4C34/B6324 is not established; proposed name claims only observable scene exit/message orchestration."
+    ]
+  },
+  {
+    "canonical_symbol": "sub_08094638",
+    "address": "0x08094638",
+    "display_name": "RunRepeatingAttackSpritePresentation",
+    "summary": "Runs forward/reverse effect animation around a selected central sprite until (2*count modulo 256)+2 forward completions or link error, then hides display and releases background task/overrides.",
+    "confidence": "high",
+    "evidence": [
+      {
+        "source": "src/code_08092D60.c",
+        "line": 942,
+        "detail": "Computes unsigned-byte completion limit count*2.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_08092D60.c",
+        "line": 948,
+        "detail": "Selects central resource from signed choice-1 plus 50041 and effect resource 50045.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_08092D60.c",
+        "line": 972,
+        "detail": "Steps effect animation backward and forward, draws stretched/ordinary copies and central sprite.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_08092D60.c",
+        "line": 995,
+        "detail": "Increments byte completion count but compares previous count to limit, requiring limit+2 completions.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_08092D60.c",
+        "line": 999,
+        "detail": "Link error also exits; lines 1001-1005 hide/wait, stop background task, disable overrides, clear window shadow and display bits.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ],
+    "open_questions": [
+      "Valid choice/resource domain is unchecked. Rendering calls are dereferenced without null checks; no allocation or draw-safety guarantee is implied."
+    ]
+  },
+  {
+    "canonical_symbol": "sub_08094AB8",
+    "address": "0x08094AB8",
+    "display_name": "RunShrinkingOrbitAttackPresentation",
+    "summary": "Shows a selected sprite, moves it downward and performs shrinking sine-table orbits using u8(count*3) repetitions, then hides and destroys background state; zero repetitions leave the orbit phase after its first update, and link error exits early.",
+    "confidence": "high",
+    "evidence": [
+      {
+        "source": "src/code_08092D60.c",
+        "line": 1110,
+        "detail": "Stores count*3 in unsigned-byte repetition counter; signed choice-1 selects resource and one of four positions.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_08092D60.c",
+        "line": 1136,
+        "detail": "Waits, moves selected sprite down, then enters shrinking-radius orbit phase.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_08092D60.c",
+        "line": 1140,
+        "detail": "Computes orbit from sine table, decreases radius 4 and advances angle 2; at radius 0 decrements byte repetition count.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_08092D60.c",
+        "line": 1171,
+        "detail": "Link error forces exit; lines 1173-1176 hide/wait, fade audio, destroy background task and clear rendering overrides.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_08092D60.c",
+        "line": 1147,
+        "detail": "The zero test runs after each orbit-state update, so an initially zero repetition byte immediately selects the final wait state after one orbital position update.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ],
+    "open_questions": [
+      "A zero initial repetition byte wraps to255 at first decrement, producing256 cycles rather than zero. Input choice outside1..4 leaves initial position unset; first state2 drawing may precede orbit-coordinate initialization.",
+      "Choice low byte must select1..4: other values do not initialize the sprite position."
+    ]
+  },
+  {
+    "canonical_symbol": "sub_0809561C",
+    "address": "0x0809561C",
+    "display_name": "RunStaggeredAttackSpriteFormation",
+    "summary": "For a positive signed count capped at20, allocates staggered sprite states, moves them to table positions, synchronizes timed looping/nonlooping animation phases, then hides display and frees state; link error can end the presentation.",
+    "confidence": "high",
+    "evidence": [
+      {
+        "source": "src/code_08092D60.c",
+        "line": 1626,
+        "detail": "Clamps signed count above 20, retries count*24 allocation and clears it; initializes resources 50046/50047.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_08092D60.c",
+        "line": 1647,
+        "detail": "Starts first sprite with 30-delay; lines 1656-1663 release each next sprite with 30-delay.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_08092D60.c",
+        "line": 1667,
+        "detail": "Moves each sprite to its indexed table target before phase transitions.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_08092D60.c",
+        "line": 1705,
+        "detail": "Timed states wait120 and30, select nonlooping animation7, then after completion restore looped animation1 and wait90.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_08092D60.c",
+        "line": 1755,
+        "detail": "Once every sprite reaches state 3, advances formation to phase 4; renders in reverse order.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_08092D60.c",
+        "line": 1764,
+        "detail": "Link error exits; hide/wait, stop sound 18A and free state on lines 1767-1771.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_08092D60.c",
+        "line": 1758,
+        "detail": "The visible-named byte is passed as animation advance loop control; sprite drawing at1759 is unconditional for every indexed state.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ],
+    "open_questions": [
+      "Caller must supply a positive count: count<=0 is not rejected before writing ents[0], and negative allocation sizes are not normalized. The table/sprite identities are not inferred.",
+      "Caller must provide positive count; only upper bound20 is clamped and ents[0] is written even for a nonpositive input."
+    ]
+  },
+  {
+    "canonical_symbol": "sub_08090B84",
+    "address": "0x08090B84",
+    "display_name": "TaskSoundTestSpriteConvergence",
+    "summary": "Allocates two sprite states, moves them in from opposite sides, switches animations through timed phases, moves both off the right side, waits 61 signals and frees shared state unless externally cleared.",
+    "confidence": "high",
+    "evidence": [
+      {
+        "source": "src/code_0808FB5C.c",
+        "line": 742,
+        "detail": "Allocates shared 0x88-byte state and initializes resources 5008A/500BE at opposite x positions.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_0808FB5C.c",
+        "line": 765,
+        "detail": "States 0-2 move sprites toward center and change sequences at 31/13 ticks.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_0808FB5C.c",
+        "line": 796,
+        "detail": "State 3 waits 97 ticks; states 4-5 move both right with sequence changes after 25 ticks and until second sprite passes 287.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_0808FB5C.c",
+        "line": 831,
+        "detail": "Final phase waits 61 signals; shared-pointer clear also exits; lines 845-847 free/clear pointer if still set.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ],
+    "open_questions": [
+      "Initial sprite initialization dereferences allocation before a null guard, so no allocation-failure safety is claimed."
+    ],
+    "supporting_evidence": [
+      {
+        "source": "src/code_0808FB5C.c",
+        "line": 1822,
+        "detail": "Installed as sound test animation callback 0; random starter selects from this table.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ]
+  },
+  {
+    "canonical_symbol": "sub_08090E38",
+    "address": "0x08090E38",
+    "display_name": "TaskSoundTestTripleTraverse",
+    "summary": "Selects one of three sprite/resource pairs, moves left from x 256 to 128, plays its paired nonlooping animation, restores traversal resource, exits left past-16, waits 61 signals and frees shared state unless cleared.",
+    "confidence": "high",
+    "evidence": [
+      {
+        "source": "src/code_0808FB5C.c",
+        "line": 868,
+        "detail": "Allocates 0x44 bytes, consumes RNG modulo 3 and selects initial resources 50012/13/14.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_0808FB5C.c",
+        "line": 897,
+        "detail": "Moves left 1 pixel per iteration to 128, switches to paired resources 50015/16/17 and disables looping.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_0808FB5C.c",
+        "line": 920,
+        "detail": "After animation completes restores matching original resource, then resumes left movement.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_0808FB5C.c",
+        "line": 948,
+        "detail": "Final state waits 61 signals; shared-pointer clear also exits; free/clear on lines 959-961.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ],
+    "open_questions": [
+      "Initial sprite initialization precedes the null-pointer check; sprite character identities are not established."
+    ],
+    "supporting_evidence": [
+      {
+        "source": "src/code_0808FB5C.c",
+        "line": 1823,
+        "detail": "Sound test callback table slot 1 selects this task.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ]
+  },
+  {
+    "canonical_symbol": "sub_080910A8",
+    "address": "0x080910A8",
+    "display_name": "TaskSoundTestTraverseVariant2",
+    "summary": "Runs sound-test callback-table variant 2: randomly chooses one of two resource pairs (50022/50023 to 50024/50025), traverses left to center, plays paired nonlooping animation, traverses offscreen, waits 61 signals and releases shared state.",
+    "confidence": "high",
+    "evidence": [
+      {
+        "source": "src/code_0808FB5C.c",
+        "line": 982,
+        "detail": "Allocates/publishes 0x44-byte shared state, consumes RNG modulo 2 and selects initial resource.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_0808FB5C.c",
+        "line": 987,
+        "detail": "Initializes selected traversal resource at x 256,y 88; movement reduces x 1 each iteration.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_0808FB5C.c",
+        "line": 1013,
+        "detail": "At x 128 switches to paired resource; animation completion restores traversal resource and left movement.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_0808FB5C.c",
+        "line": 1053,
+        "detail": "After x<=-16 waits 61 signals; shared-pointer zero also exits; remaining pointer is freed/cleared.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ],
+    "open_questions": [
+      "Variant number names the actual sound-test callback-table index, not an address. Resource artwork/character identity is not established. Allocation is dereferenced before its null check."
+    ],
+    "supporting_evidence": [
+      {
+        "source": "src/code_0808FB5C.c",
+        "line": 1824,
+        "detail": "Actual callback table index 2 identifies this variant without guessing character identity.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_0808FB5C.c",
+        "line": 605,
+        "detail": "TaskRunSongAndSoundTestMenu starts random table dispatch while playback is active; table indices2..8 bind these exact traversal variants without artwork interpretation.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ]
+  },
+  {
+    "canonical_symbol": "sub_080912CC",
+    "address": "0x080912CC",
+    "display_name": "TaskSoundTestTraverseVariant3",
+    "summary": "Runs sound-test callback-table variant 3: randomly chooses one of two resource pairs (5001D/5001F to 5001E/50021), traverses left to center, plays paired nonlooping animation, traverses offscreen, waits 61 signals and releases shared state.",
+    "confidence": "high",
+    "evidence": [
+      {
+        "source": "src/code_0808FB5C.c",
+        "line": 1087,
+        "detail": "Allocates/publishes 0x44-byte shared state, consumes RNG modulo 2 and selects initial resource.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_0808FB5C.c",
+        "line": 1092,
+        "detail": "Initializes selected traversal resource at x 256,y 88; movement reduces x 1 each iteration.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_0808FB5C.c",
+        "line": 1118,
+        "detail": "At x 128 switches to paired resource; animation completion restores traversal resource and left movement.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_0808FB5C.c",
+        "line": 1158,
+        "detail": "After x<=-16 waits 61 signals; shared-pointer zero also exits; remaining pointer is freed/cleared.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ],
+    "open_questions": [
+      "Variant number names the actual sound-test callback-table index, not an address. Resource artwork/character identity is not established. Allocation is dereferenced before its null check."
+    ],
+    "supporting_evidence": [
+      {
+        "source": "src/code_0808FB5C.c",
+        "line": 1825,
+        "detail": "Actual callback table index 3 identifies this variant without guessing character identity.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_0808FB5C.c",
+        "line": 605,
+        "detail": "TaskRunSongAndSoundTestMenu starts random table dispatch while playback is active; table indices2..8 bind these exact traversal variants without artwork interpretation.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ]
+  },
+  {
+    "canonical_symbol": "sub_080914F0",
+    "address": "0x080914F0",
+    "display_name": "TaskSoundTestTraverseVariant4",
+    "summary": "Runs sound-test callback-table variant 4: randomly chooses one of two resource pairs (5002B/5002A to 5002C/5002D), traverses left to center, plays paired nonlooping animation, traverses offscreen, waits 61 signals and releases shared state.",
+    "confidence": "high",
+    "evidence": [
+      {
+        "source": "src/code_0808FB5C.c",
+        "line": 1192,
+        "detail": "Allocates/publishes 0x44-byte shared state, consumes RNG modulo 2 and selects initial resource.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_0808FB5C.c",
+        "line": 1197,
+        "detail": "Initializes selected traversal resource at x 256,y 88; movement reduces x 1 each iteration.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_0808FB5C.c",
+        "line": 1223,
+        "detail": "At x 128 switches to paired resource; animation completion restores traversal resource and left movement.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_0808FB5C.c",
+        "line": 1263,
+        "detail": "After x<=-16 waits 61 signals; shared-pointer zero also exits; remaining pointer is freed/cleared.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ],
+    "open_questions": [
+      "Variant number names the actual sound-test callback-table index, not an address. Resource artwork/character identity is not established. Allocation is dereferenced before its null check."
+    ],
+    "supporting_evidence": [
+      {
+        "source": "src/code_0808FB5C.c",
+        "line": 1826,
+        "detail": "Actual callback table index 4 identifies this variant without guessing character identity.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_0808FB5C.c",
+        "line": 605,
+        "detail": "TaskRunSongAndSoundTestMenu starts random table dispatch while playback is active; table indices2..8 bind these exact traversal variants without artwork interpretation.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ]
+  },
+  {
+    "canonical_symbol": "sub_08091714",
+    "address": "0x08091714",
+    "display_name": "TaskSoundTestTraverseVariant5",
+    "summary": "Runs sound-test callback-table variant 5 with a random choice of two resource pairs (50030/50031 to 50033/50032): moves left to center, plays paired nonlooping animation, continues offscreen, waits 61 signals and releases shared state.",
+    "confidence": "high",
+    "evidence": [
+      {
+        "source": "src/code_0808FB5C.c",
+        "line": 1296,
+        "detail": "Allocates/publishes 0x44 bytes and consumes RNG.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_0808FB5C.c",
+        "line": 1301,
+        "detail": "Selects initial resource from two RNG-modulo 2 variants.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_0808FB5C.c",
+        "line": 1327,
+        "detail": "At x 128 switches to paired resource and nonlooping sequence 10; completion restores original traversal resource.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_0808FB5C.c",
+        "line": 1367,
+        "detail": "After moving from x 256 through center to x<=-16, waits 61 signals; shared-pointer zero also exits.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_0808FB5C.c",
+        "line": 1378,
+        "detail": "Frees/clears shared allocation when pointer is still nonzero.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ],
+    "open_questions": [
+      "Variant number is the actual sound-test callback-table index; distinguishing artwork identity remains unproven. Initial resource/state initialization dereferences allocation before a null check."
+    ],
+    "supporting_evidence": [
+      {
+        "source": "src/code_0808FB5C.c",
+        "line": 1827,
+        "detail": "Installed at actual sound-test callback-table index 5; ordinal label claims no character identity.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_0808FB5C.c",
+        "line": 605,
+        "detail": "TaskRunSongAndSoundTestMenu starts random table dispatch while playback is active; table indices2..8 bind these exact traversal variants without artwork interpretation.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ]
+  },
+  {
+    "canonical_symbol": "sub_08091938",
+    "address": "0x08091938",
+    "display_name": "TaskSoundTestTraverseVariant6",
+    "summary": "Runs sound-test callback-table variant 6 with a random choice of two resource pairs (50035/50037 to 50036/50038): moves left to center, plays paired nonlooping animation, continues offscreen, waits 61 signals and releases shared state.",
+    "confidence": "high",
+    "evidence": [
+      {
+        "source": "src/code_0808FB5C.c",
+        "line": 1400,
+        "detail": "Allocates/publishes 0x44 bytes and consumes RNG.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_0808FB5C.c",
+        "line": 1405,
+        "detail": "Selects initial resource from two RNG-modulo 2 variants.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_0808FB5C.c",
+        "line": 1431,
+        "detail": "At x 128 switches to paired resource and nonlooping sequence 10; completion restores original traversal resource.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_0808FB5C.c",
+        "line": 1471,
+        "detail": "After moving from x 256 through center to x<=-16, waits 61 signals; shared-pointer zero also exits.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_0808FB5C.c",
+        "line": 1482,
+        "detail": "Frees/clears shared allocation when pointer is still nonzero.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ],
+    "open_questions": [
+      "Variant number is the actual sound-test callback-table index; distinguishing artwork identity remains unproven. Initial resource/state initialization dereferences allocation before a null check."
+    ],
+    "supporting_evidence": [
+      {
+        "source": "src/code_0808FB5C.c",
+        "line": 1828,
+        "detail": "Installed at actual sound-test callback-table index 6; ordinal label claims no character identity.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_0808FB5C.c",
+        "line": 605,
+        "detail": "TaskRunSongAndSoundTestMenu starts random table dispatch while playback is active; table indices2..8 bind these exact traversal variants without artwork interpretation.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ]
+  },
+  {
+    "canonical_symbol": "sub_08091B5C",
+    "address": "0x08091B5C",
+    "display_name": "TaskSoundTestTraverseVariant7",
+    "summary": "Runs sound-test callback-table variant 7 with a fixed resource pair (50027 to 50028): moves left to center, plays paired nonlooping animation, continues offscreen, waits 61 signals and releases shared state.",
+    "confidence": "high",
+    "evidence": [
+      {
+        "source": "src/code_0808FB5C.c",
+        "line": 1503,
+        "detail": "Allocates/publishes 0x44 bytes and consumes RNG.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_0808FB5C.c",
+        "line": 1506,
+        "detail": "Always selects fixed initial resource despite consuming RNG.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_0808FB5C.c",
+        "line": 1526,
+        "detail": "At x 128 switches to paired resource and nonlooping sequence 10; completion restores original traversal resource.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_0808FB5C.c",
+        "line": 1554,
+        "detail": "After moving from x 256 through center to x<=-16, waits 61 signals; shared-pointer zero also exits.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_0808FB5C.c",
+        "line": 1565,
+        "detail": "Frees/clears shared allocation when pointer is still nonzero.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ],
+    "open_questions": [
+      "Variant number is the actual sound-test callback-table index; distinguishing artwork identity remains unproven. Initial resource/state initialization dereferences allocation before a null check."
+    ],
+    "supporting_evidence": [
+      {
+        "source": "src/code_0808FB5C.c",
+        "line": 1829,
+        "detail": "Installed at actual sound-test callback-table index 7; ordinal label claims no character identity.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_0808FB5C.c",
+        "line": 605,
+        "detail": "TaskRunSongAndSoundTestMenu starts random table dispatch while playback is active; table indices2..8 bind these exact traversal variants without artwork interpretation.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ]
+  },
+  {
+    "canonical_symbol": "sub_08091CF8",
+    "address": "0x08091CF8",
+    "display_name": "TaskSoundTestTraverseVariant8",
+    "summary": "Runs sound-test callback-table variant 8 with a fixed resource pair (50019 to 5001A): moves left to center, plays paired nonlooping animation, continues offscreen, waits 61 signals and releases shared state.",
+    "confidence": "high",
+    "evidence": [
+      {
+        "source": "src/code_0808FB5C.c",
+        "line": 1586,
+        "detail": "Allocates/publishes 0x44 bytes and consumes RNG.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_0808FB5C.c",
+        "line": 1589,
+        "detail": "Always selects fixed initial resource despite consuming RNG.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_0808FB5C.c",
+        "line": 1609,
+        "detail": "At x 128 switches to paired resource and nonlooping sequence 10; completion restores original traversal resource.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_0808FB5C.c",
+        "line": 1637,
+        "detail": "After moving from x 256 through center to x<=-16, waits 61 signals; shared-pointer zero also exits.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_0808FB5C.c",
+        "line": 1648,
+        "detail": "Frees/clears shared allocation when pointer is still nonzero.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ],
+    "open_questions": [
+      "Variant number is the actual sound-test callback-table index; distinguishing artwork identity remains unproven. Initial resource/state initialization dereferences allocation before a null check."
+    ],
+    "supporting_evidence": [
+      {
+        "source": "src/code_0808FB5C.c",
+        "line": 1830,
+        "detail": "Installed at actual sound-test callback-table index 8; ordinal label claims no character identity.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_0808FB5C.c",
+        "line": 605,
+        "detail": "TaskRunSongAndSoundTestMenu starts random table dispatch while playback is active; table indices2..8 bind these exact traversal variants without artwork interpretation.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ]
+  },
+  {
+    "canonical_symbol": "sub_0805A350",
+    "address": "0x0805A350",
+    "display_name": "SetSceneEventFlag24",
+    "summary": "Sets mode-banked persistent scene event flag 24, preserving the other flag bits.",
+    "confidence": "high",
+    "evidence": [
+      {
+        "source": "src/code_08059534.c",
+        "line": 505,
+        "detail": "Chooses advanced+0x1C6 or normal+0x1BA and ORs bit0, equivalent to bit24 of banks+0x1C3/+0x1B7.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ],
+    "open_questions": [
+      "No individual story or quest meaning is assigned to event flag 24."
+    ],
+    "supporting_evidence": [
+      {
+        "source": "src/code_08059534.c",
+        "line": 120,
+        "detail": "General scene-event setter uses byte index bit>>3 and matching banks.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ]
+  },
+  {
+    "canonical_symbol": "sub_0805A404",
+    "address": "0x0805A404",
+    "display_name": "ParkSceneEntityWithSong",
+    "summary": "Conditionally starts song 0x23 when scene-flags bit 3 and the link-error song mute are clear, then immediately relocates the supplied entity selector to (9999,9999).",
+    "confidence": "high",
+    "evidence": [
+      {
+        "source": "src/code_08059534.c",
+        "line": 529,
+        "detail": "Only requests song35 when scene bit3 and link mask0x20 are clear.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_08059534.c",
+        "line": 532,
+        "detail": "Moves original selector to9999/9999 with zero duration.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_08028AAC.c",
+        "line": 40,
+        "detail": "Movement helper truncates pixel coordinates/duration to u16 and writes directly on zero duration, with type-specific handling.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ],
+    "open_questions": []
+  },
+  {
+    "canonical_symbol": "sub_0805A43C",
+    "address": "0x0805A43C",
+    "display_name": "SetInventoryGateArbitrationStatus",
+    "summary": "Writes the low-byte inventory-gate arbitration status to the active Normal or Advanced Mode scene bank.",
+    "confidence": "high",
+    "evidence": [
+      {
+        "source": "src/code_08059534.c",
+        "line": 538,
+        "detail": "Chooses advanced+0x1C1 or normal+0x1B5 and writes u8 input.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_080542C4.c",
+        "line": 1141,
+        "detail": "Arbitrator sends requester value+8 through this callback and writes low byte locally.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_080542C4.c",
+        "line": 1093,
+        "detail": "Gate waits for status>7 and compares low2bits with local player ID before consuming inventory.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ],
+    "open_questions": []
+  },
+  {
+    "canonical_symbol": "sub_08059968",
+    "address": "0x08059968",
+    "display_name": "ClearBankedSceneEventFlag",
+    "summary": "Clears the requested persistent scene-event bit in the active mode bank, without validating the bit index.",
+    "confidence": "high",
+    "evidence": [
+      {
+        "source": "src/code_08059534.c",
+        "line": 134,
+        "detail": "Computes byte index and bit mask, clears in selected bank at lines136-139.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_080571A4.c",
+        "line": 444,
+        "detail": "Confirmed counterpart uses identical bank selection and bit clearing.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ],
+    "open_questions": []
+  },
+  {
+    "canonical_symbol": "sub_08056CB4",
+    "address": "0x08056CB4",
+    "display_name": "ArbitrateInventoryGateActivation",
+    "summary": "On local player ID0 only, if the active-bank arbitration byte is at most7, requests linked status value+8 and writes its low byte locally; otherwise leaves state unchanged.",
+    "confidence": "high",
+    "evidence": [
+      {
+        "source": "src/code_080542C4.c",
+        "line": 1130,
+        "detail": "Returns for nonzero local player ID; status>7 guard follows.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_080542C4.c",
+        "line": 1141,
+        "detail": "Adds8, requests callback and stores low byte locally without checking enqueue result.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ],
+    "open_questions": [],
+    "supporting_evidence": [
+      {
+        "source": "src/code_080542C4.c",
+        "line": 1090,
+        "detail": "Inventory gate sends its local ID through arbitrator, then waits and checks winner low2bits.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ]
+  },
+  {
+    "canonical_symbol": "sub_0805A318",
+    "address": "0x0805A318",
+    "display_name": "HasPlayerAppearance6Or8",
+    "summary": "Scans connected-player records and returns1 if any current appearance/class halfword at +0x64 equals6 or8, otherwise0.",
+    "confidence": "high",
+    "evidence": [
+      {
+        "source": "src/code_08059534.c",
+        "line": 492,
+        "detail": "Scans connected player records at0x14C stride; returns1 for current +0x64 value6 or8.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_0801AAF8.c",
+        "line": 849,
+        "detail": "Initially writes saved class to field64.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_0801AAF8.c",
+        "line": 1024,
+        "detail": "Transformation branch replaces field64 with job appearance code+10.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ],
+    "open_questions": [
+      "The numeric appearance/class codes are retained; no specific character class names are assigned."
+    ]
+  },
+  {
+    "canonical_symbol": "sub_08059A94",
+    "address": "0x08059A94",
+    "display_name": "MarkWorldMapDestinationAvailable",
+    "summary": "Sets 1<<(destination-1) in the mode-selected world-map destination availability mask at scene+0x78 or+0x80, preserving the remaining bits.",
+    "confidence": "high",
+    "evidence": [
+      {
+        "source": "src/code_08059534.c",
+        "line": 180,
+        "detail": "Subtracts1 and ORs corresponding bit into mode bank+0x80/+0x78.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_080571A4.c",
+        "line": 545,
+        "detail": "Paired query reads the identical mask bit.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_08009088.c",
+        "line": 2179,
+        "detail": "World-map selection skips destination when paired query is false; icon loop repeats at2337.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ],
+    "open_questions": [
+      "No bounds check is performed before destination-1 and bit shifting; names do not promise valid behavior for every integer input."
+    ]
+  },
+  {
+    "canonical_symbol": "sub_080599D8",
+    "address": "0x080599D8",
+    "display_name": "EnsureWorldMapDestinationAvailable",
+    "summary": "Sets 1<<(destination-1) in the mode-selected world-map destination availability mask at scene+0x78 or+0x80, first skipping the write when already set.",
+    "confidence": "high",
+    "evidence": [
+      {
+        "source": "src/code_08059534.c",
+        "line": 149,
+        "detail": "Computes destination-1, checks selected bank mask; if absent queries mode again and sets corresponding bank.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_08009088.c",
+        "line": 2179,
+        "detail": "World-map selection uses matching query to exclude unavailable destinations.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ],
+    "open_questions": [
+      "No bounds check is performed before destination-1 and bit shifting; names do not promise valid behavior for every integer input."
+    ]
+  },
+  {
+    "canonical_symbol": "sub_08059FBC",
+    "address": "0x08059FBC",
+    "display_name": "RunSelectedScreenReveal",
+    "summary": "Unless a full-screen menu is active, mode0 runs brightness fade-in-and-wait, mode1 requests window reveal(6), mode2 requests window-preserving brightness fade-in(6), then yields until the transition controller reports idle.",
+    "confidence": "high",
+    "evidence": [
+      {
+        "source": "src/code_08059534.c",
+        "line": 330,
+        "detail": "Full-screen menu suppresses all work.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_08059534.c",
+        "line": 331,
+        "detail": "Dispatches recognized modes0,1,2 to three reveal paths; no default branch.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_08059534.c",
+        "line": 336,
+        "detail": "Always waits until transition idle after switch, even for unrecognized modes.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_0801AAF8.c",
+        "line": 14,
+        "detail": "Mode accessor returns1 when bit8 set, otherwise0 or2 from bit0x20; all switch cases are covered.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ],
+    "open_questions": []
+  },
+  {
+    "canonical_symbol": "sub_0805A004",
+    "address": "0x0805A004",
+    "display_name": "PositionSelectedMapObject",
+    "summary": "For mode0 immediately places map-object selector6 at (128,88); for mode1 places selector7 there and sets scene-area event bit4; other modes do nothing.",
+    "confidence": "high",
+    "evidence": [
+      {
+        "source": "src/code_08059534.c",
+        "line": 342,
+        "detail": "Mode0 positions selector6 at128/88 with zero duration.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_08059534.c",
+        "line": 344,
+        "detail": "Mode1 positions selector7 then ORs scene+0x38 mask0x10; other modes do nothing.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_08028AAC.c",
+        "line": 65,
+        "detail": "Selectors6/7 select map-object records and zero-duration path writes position/updates collision footprint.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ],
+    "open_questions": []
+  },
+  {
+    "canonical_symbol": "sub_0805A0EC",
+    "address": "0x0805A0EC",
+    "display_name": "RemoveBagItem34ForPlayer",
+    "summary": "Only when the supplied player ID equals the local ID, scans 25 bag slots and clears kind/id of the first kind1 item with ID0x22; leaves remaining item bytes and other slots unchanged.",
+    "confidence": "high",
+    "evidence": [
+      {
+        "source": "src/code_08059534.c",
+        "line": 392,
+        "detail": "Nonlocal owner returns; scans kind/id at inventory+0x150/+0x152 with16-byte stride.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_08059534.c",
+        "line": 403,
+        "detail": "Only kind1/item34 matches; clears those halfwords and returns after first.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_08057CAC.c",
+        "line": 313,
+        "detail": "Generic bag remover uses identical pairs and clearing operation.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ],
+    "open_questions": []
+  },
+  {
+    "canonical_symbol": "sub_08059A40",
+    "address": "0x08059A40",
+    "display_name": "RepeatLocalPlayerEventLock",
+    "summary": "For each u16 loop counter starting1 while it is less than signed count, reasserts local-player flag1 and the event lock, then performs one signal1 wait; does not release either flag.",
+    "confidence": "high",
+    "evidence": [
+      {
+        "source": "src/code_08059534.c",
+        "line": 167,
+        "detail": "u16 loop starts1, reasserts player flag0 and event lock each iteration.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_08059534.c",
+        "line": 170,
+        "detail": "One signal wait per iteration; link error breaks only inner one-count loop.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ],
+    "open_questions": [
+      "For count<=1 no loop runs; for count>65535 the u16 loop counter wraps and cannot reach count. No fixed elapsed-time or full-domain termination guarantee is implied."
+    ]
+  },
+  {
+    "canonical_symbol": "sub_0805A088",
+    "address": "0x0805A088",
+    "display_name": "RequestLinkedCallbackOnOverlap",
+    "summary": "Captures the local-player record, waits until its point box overlaps the fixed box centered at (183,225) with size(10,40), then attempts one linked sub_0804BC38 callback request with the supplied argument.",
+    "confidence": "high",
+    "evidence": [
+      {
+        "source": "src/code_08059534.c",
+        "line": 377,
+        "detail": "Target183/225 Q8 and size10/40; player size initialized0.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_08059534.c",
+        "line": 380,
+        "detail": "Captures local-player record then yields until overlap.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_08059534.c",
+        "line": 383,
+        "detail": "Enqueues callback4BC38 with original argument once, without retry/result check.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ],
+    "open_questions": [
+      "A player already overlapping can trigger immediately; there is no outside observation, confirmation-button condition or link-error escape in this helper."
+    ]
+  },
+  {
+    "canonical_symbol": "sub_0805A4BC",
+    "address": "0x0805A4BC",
+    "display_name": "StartSceneObjectGroupTask",
+    "summary": "If scene control+0x6F4 is unscheduled, retries a0xC00-byte stack allocation with signal1 waits, installs the scene-object group callback and starts it with the supplied scene-record pointer.",
+    "confidence": "high",
+    "evidence": [
+      {
+        "source": "src/code_08059534.c",
+        "line": 563,
+        "detail": "Returns if embedded scene task+0x6F4 is already scheduled.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_08059534.c",
+        "line": 570,
+        "detail": "Retries0xC00 stack allocation, installs27C1C callback, stack top+0xBFC and null destructor, then starts task.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_08021DC4.c",
+        "line": 4766,
+        "detail": "Callback walks typed records and extracts groups from tags8/9.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ],
+    "open_questions": []
+  },
+  {
+    "canonical_symbol": "sub_0805A3B0",
+    "address": "0x0805A3B0",
+    "display_name": "RunMapObjectMovementSequence",
+    "summary": "Conditionally starts song0x17B, parks map-object selector7 at(9999,9999), then requests an interpolated vertical offset(0,-12) for selector6 with duration60.",
+    "confidence": "high",
+    "evidence": [
+      {
+        "source": "src/code_08059534.c",
+        "line": 519,
+        "detail": "Conditionally requests song0x17B.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_08059534.c",
+        "line": 522,
+        "detail": "Immediately positions map-object7 offscreen, then executes relative movement of object6 by0/-12 with duration60.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_08028AAC.c",
+        "line": 199,
+        "detail": "Map-object relative interpolation uses floor step1024/frames, sampling through1023 without endpoint snap.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ],
+    "open_questions": []
+  },
+  {
+    "canonical_symbol": "sub_0805A138",
+    "address": "0x0805A138",
+    "display_name": "RequestOrParkMapObject",
+    "summary": "Mode0 requests this callback linked with mode1 and guard1; mode1 conditionally starts song0x17B, parks map-object selector7 at(9999,9999) and sets scene-area event bit3; other modes do nothing.",
+    "confidence": "high",
+    "evidence": [
+      {
+        "source": "src/code_08059534.c",
+        "line": 423,
+        "detail": "Mode0 enqueues same callback with mode1/guard1; result ignored.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_08059534.c",
+        "line": 426,
+        "detail": "Mode1 conditionally starts song0x17B, positions map object7 offscreen and sets scene area bit3.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_080443EC.c",
+        "line": 4709,
+        "detail": "Area-bit3 selects trigger installation versus direct offscreen positioning.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ],
+    "open_questions": []
+  },
+  {
+    "canonical_symbol": "sub_0805A258",
+    "address": "0x0805A258",
+    "display_name": "RevealSceneThenMoveEnemy",
+    "summary": "Unless a full-screen menu is active, runs the selected screen-reveal request and waits for idle; then loops animation1 on enemy selector1 and requests relative movement(240,0) with interpolation duration400.",
+    "confidence": "high",
+    "evidence": [
+      {
+        "source": "src/code_08059534.c",
+        "line": 459,
+        "detail": "Skips reveal only under fullscreen menu; otherwise selects reveal and waits idle.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_08059534.c",
+        "line": 468,
+        "detail": "Sets loop animation1 on selector1 and executes relative offset240/0 with duration400.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_08028AAC.c",
+        "line": 225,
+        "detail": "Selectors1..5 select enemy pool rather than map objects.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ],
+    "open_questions": [
+      "No direct source caller was found for this helper; the specific scene/enemy identity is not assigned. Timed movement has no exact endpoint snap guarantee."
+    ]
+  },
+  {
+    "canonical_symbol": "sub_08054514",
+    "address": "0x08054514",
+    "display_name": "MoveAndStopPairedActors",
+    "summary": "Creates actor variants0x24 and0x10024 at x312 with y176/200, moves the first upward200 pixels over interpolation duration200, then requests both actor loops to stop through record state4.",
+    "confidence": "high",
+    "evidence": [
+      {
+        "source": "src/code_080542C4.c",
+        "line": 110,
+        "detail": "Spawns variants0x24/0x10024 and moves first vertically-200 with duration200.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_080542C4.c",
+        "line": 127,
+        "detail": "Writes state4 to first matching handle; second loop does likewise at143.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_08021DC4.c",
+        "line": 5200,
+        "detail": "Actor task loops while field36!=4, then clears handle ID at5242.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ],
+    "open_questions": []
+  },
+  {
+    "canonical_symbol": "sub_0805A1B4",
+    "address": "0x0805A1B4",
+    "display_name": "ShowSceneInteractionMessage",
+    "summary": "Locks local-player input/event state, waits for free dialogue and text-window slots, shows message0x14022A until complete or world-task suspension, then releases the input flag and event lock.",
+    "confidence": "high",
+    "evidence": [
+      {
+        "source": "src/code_08059534.c",
+        "line": 442,
+        "detail": "Sets player flag0 and begins event lock; waits for dialogue/text slots to become unused.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_08059534.c",
+        "line": 446,
+        "detail": "Requests message0x14022A; polls completion, closes windows and breaks on world-task suspend.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_08059534.c",
+        "line": 454,
+        "detail": "Clears local-player flag0 and ends event lock.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_0804D330.c",
+        "line": 1025,
+        "detail": "Actor interaction field44 receives this exact callback.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ],
+    "open_questions": [
+      "No decoded text is available in this checkout to assign the message a character or story identity."
+    ]
+  },
+  {
+    "canonical_symbol": "sub_08055BA4",
+    "address": "0x08055BA4",
+    "display_name": "CycleMapObjectVerticalRoute",
+    "summary": "Copies its position/route tables, then indefinitely cycles32 route entries: places map-object6 at x120 and selected y, moves it up28, waits the entry delay, moves it down28, parks it at(9999,9999), and performs up to30 further signal1 waits.",
+    "confidence": "high",
+    "evidence": [
+      {
+        "source": "src/code_080542C4.c",
+        "line": 552,
+        "detail": "Copies positions and256-byte route table.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_080542C4.c",
+        "line": 564,
+        "detail": "Positions object6 at selected y; interpolates-28 over10, waits entry delay, interpolates+28 over10 and parks offscreen.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_080542C4.c",
+        "line": 574,
+        "detail": "Second delay starts30; link error skips remainder; index advances modulo32 and outer loop repeats forever.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ],
+    "open_questions": [
+      "No gate, trap or story identity is inferred from the repeated movement. Timed offsets do not promise exact endpoint snapping."
+    ]
+  },
+  {
+    "canonical_symbol": "sub_080545A0",
+    "address": "0x080545A0",
+    "display_name": "ResetEnemiesAfterOptionalReveal",
+    "summary": "Unless a full-screen menu is active, runs the selected screen-reveal path and waits for transition idle; then stores tracked song11 and conditionally starts/continues it, changes active enemy records in state12 to0, and invokes the common enemy-update flag helper. This is a separate behavior-identical copy of the other three helpers.",
+    "confidence": "high",
+    "evidence": [
+      {
+        "source": "src/code_080542C4.c",
+        "line": 170,
+        "detail": "Full-screen-menu predicate gates reveal dispatch and idle wait; all following audio/enemy updates still execute when reveal skipped.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_080542C4.c",
+        "line": 185,
+        "detail": "Stores tracked song11 with guarded start/continue; scans active enemy states12->0 and invokes19F04.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_08017F7C.c",
+        "line": 1016,
+        "detail": "19F04 sets scene+0x5A=1 and AI byte201=1 for active actors with flag7A bit2; no broader reset.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ],
+    "open_questions": [
+      "No direct source callers or symbolic data references distinguish this copy from its three behavior twins; distinct names are synonymous labels, not distinct scene identities."
+    ],
+    "supporting_evidence": [
+      {
+        "source": "src/code_080542C4.c",
+        "line": 160,
+        "detail": "Shared reset loop touches exactly five active-mask enemy records and only state12.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ]
+  },
+  {
+    "canonical_symbol": "sub_080558D0",
+    "address": "0x080558D0",
+    "display_name": "ResetEnemiesWithOptionalReveal",
+    "summary": "Unless a full-screen menu is active, runs the selected screen-reveal path and waits for transition idle; then stores tracked song11 and conditionally starts/continues it, changes active enemy records in state12 to0, and invokes the common enemy-update flag helper. This is a separate behavior-identical copy of the other three helpers.",
+    "confidence": "high",
+    "evidence": [
+      {
+        "source": "src/code_080542C4.c",
+        "line": 405,
+        "detail": "Full-screen-menu predicate gates reveal dispatch and idle wait; all following audio/enemy updates still execute when reveal skipped.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_080542C4.c",
+        "line": 420,
+        "detail": "Stores tracked song11 with guarded start/continue; scans active enemy states12->0 and invokes19F04.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_08017F7C.c",
+        "line": 1016,
+        "detail": "19F04 sets scene+0x5A=1 and AI byte201=1 for active actors with flag7A bit2; no broader reset.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ],
+    "open_questions": [
+      "No direct source callers or symbolic data references distinguish this copy from its three behavior twins; distinct names are synonymous labels, not distinct scene identities."
+    ],
+    "supporting_evidence": [
+      {
+        "source": "src/code_080542C4.c",
+        "line": 160,
+        "detail": "Shared reset loop touches exactly five active-mask enemy records and only state12.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ]
+  },
+  {
+    "canonical_symbol": "sub_080563F0",
+    "address": "0x080563F0",
+    "display_name": "ResetEnemiesFollowingOptionalReveal",
+    "summary": "Unless a full-screen menu is active, runs the selected screen-reveal path and waits for transition idle; then stores tracked song11 and conditionally starts/continues it, changes active enemy records in state12 to0, and invokes the common enemy-update flag helper. This is a separate behavior-identical copy of the other three helpers.",
+    "confidence": "high",
+    "evidence": [
+      {
+        "source": "src/code_080542C4.c",
+        "line": 839,
+        "detail": "Full-screen-menu predicate gates reveal dispatch and idle wait; all following audio/enemy updates still execute when reveal skipped.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_080542C4.c",
+        "line": 854,
+        "detail": "Stores tracked song11 with guarded start/continue; scans active enemy states12->0 and invokes19F04.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_08017F7C.c",
+        "line": 1016,
+        "detail": "19F04 sets scene+0x5A=1 and AI byte201=1 for active actors with flag7A bit2; no broader reset.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ],
+    "open_questions": [
+      "No direct source callers or symbolic data references distinguish this copy from its three behavior twins; distinct names are synonymous labels, not distinct scene identities."
+    ],
+    "supporting_evidence": [
+      {
+        "source": "src/code_080542C4.c",
+        "line": 160,
+        "detail": "Shared reset loop touches exactly five active-mask enemy records and only state12.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ]
+  },
+  {
+    "canonical_symbol": "sub_08056494",
+    "address": "0x08056494",
+    "display_name": "RestoreEnemiesAfterOptionalReveal",
+    "summary": "Unless a full-screen menu is active, runs the selected screen-reveal path and waits for transition idle; then stores tracked song11 and conditionally starts/continues it, changes active enemy records in state12 to0, and invokes the common enemy-update flag helper. This is a separate behavior-identical copy of the other three helpers.",
+    "confidence": "high",
+    "evidence": [
+      {
+        "source": "src/code_080542C4.c",
+        "line": 864,
+        "detail": "Full-screen-menu predicate gates reveal dispatch and idle wait; all following audio/enemy updates still execute when reveal skipped.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_080542C4.c",
+        "line": 879,
+        "detail": "Stores tracked song11 with guarded start/continue; scans active enemy states12->0 and invokes19F04.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_08017F7C.c",
+        "line": 1016,
+        "detail": "19F04 sets scene+0x5A=1 and AI byte201=1 for active actors with flag7A bit2; no broader reset.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ],
+    "open_questions": [
+      "No direct source callers or symbolic data references distinguish this copy from its three behavior twins; distinct names are synonymous labels, not distinct scene identities."
+    ],
+    "supporting_evidence": [
+      {
+        "source": "src/code_080542C4.c",
+        "line": 160,
+        "detail": "Shared reset loop touches exactly five active-mask enemy records and only state12.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ]
+  },
+  {
+    "canonical_symbol": "sub_0801E0A0",
+    "address": "0x0801E0A0",
+    "display_name": "GetSavedPlayerPaletteIndex",
+    "summary": "Returns the saved player sprite palette index as a halfword without changing state.",
+    "confidence": "high",
+    "evidence": [
+      {
+        "source": "src/code_0801AAF8.c",
+        "line": 2190,
+        "detail": "Reads save-record halfword 0xC.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_0800CF58.c",
+        "line": 4778,
+        "detail": "Player drawing selects its 32-byte palette slice using player byte 0x66.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ],
+    "open_questions": [],
+    "supporting_evidence": [
+      {
+        "source": "src/code_0801AAF8.c",
+        "line": 850,
+        "detail": "Equipment stat recalculation copies this save field into player byte 0x66.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ]
+  },
+  {
+    "canonical_symbol": "sub_0801DF08",
+    "address": "0x0801DF08",
+    "display_name": "RestoreLocalPlayerVitalState",
+    "summary": "Restores local player health to maximum, restores energy for normalized class 1, sets state zero and overwrites flags with 0x40.",
+    "confidence": "high",
+    "evidence": [
+      {
+        "source": "src/code_0801AAF8.c",
+        "line": 2120,
+        "detail": "Copies maximum health 0x62 to current health 0xC4.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_0801AAF8.c",
+        "line": 2122,
+        "detail": "Only normalized class 1 copies maximum energy 0x60 to current energy 0xC2.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_0801AAF8.c",
+        "line": 2126,
+        "detail": "Sets player state 0x20 to zero and flags 0x30 to exactly 0x40, not an OR update.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ],
+    "open_questions": []
+  },
+  {
+    "canonical_symbol": "sub_08017E34",
+    "address": "0x08017E34",
+    "display_name": "IsActorWithinScreenMargin",
+    "summary": "Returns one when the actor projects within x -63..299 and y -63..199 and at least one connected player is not marked excluded; otherwise returns zero.",
+    "confidence": "high",
+    "evidence": [
+      {
+        "source": "src/code_080153A4.c",
+        "line": 1992,
+        "detail": "Projects actor fixed-point coordinates 0x14/0x18 to screen coordinates.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_080153A4.c",
+        "line": 2002,
+        "detail": "Requires one connected snapshot without flag 0x20 and unsigned screen-x-plus-63 no greater than 362.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_080153A4.c",
+        "line": 2003,
+        "detail": "Checks screen y greater than -64 and no greater than 199; player position is not used in the bounds test.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ],
+    "open_questions": []
+  },
+  {
+    "canonical_symbol": "sub_08017EC8",
+    "address": "0x08017EC8",
+    "display_name": "ShouldKeepEnemyActive",
+    "summary": "Returns one when the enemy keep-active flag is set or its bounds overlap a 480-by-320 activation box around an eligible connected player; otherwise returns zero.",
+    "confidence": "high",
+    "evidence": [
+      {
+        "source": "src/code_080153A4.c",
+        "line": 2030,
+        "detail": "Enemy flags 0x7A bit 6 forces true.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_080153A4.c",
+        "line": 2031,
+        "detail": "Builds player-centered size 480 by 320; enemy width/height come from bytes 0x22E/0x22F.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_080153A4.c",
+        "line": 2043,
+        "detail": "Skips snapshots whose packed flags include 0x20 and tests remaining positions against enemy bounds.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_08017F7C.c",
+        "line": 614,
+        "detail": "Enemy update sets removal flag 0x7A bit0 and exits when this returns zero unless flag bit3 exempts it.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ],
+    "open_questions": []
+  },
+  {
+    "canonical_symbol": "sub_0801CC10",
+    "address": "0x0801CC10",
+    "display_name": "AdjustLocalHealthNearPlayer",
+    "summary": "Adds a signed amount to living local-player health when targeting self or when within the indexed player rectangle, then caps health at maximum.",
+    "confidence": "high",
+    "evidence": [
+      {
+        "source": "src/code_0801AAF8.c",
+        "line": 1476,
+        "detail": "Converts local coordinates and indexed player snapshot coordinates to tile units.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_0801AAF8.c",
+        "line": 1493,
+        "detail": "Self-target bypasses range checks, but only adds when local current health is positive.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_0801AAF8.c",
+        "line": 1506,
+        "detail": "Other-player case adds only for x distance <=13, y distance <=9 and living local player.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_0801AAF8.c",
+        "line": 1511,
+        "detail": "Caps signed resulting health at maximum; no lower clamp or revival is implemented.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_0801AAF8.c",
+        "line": 1506,
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7",
+        "detail": "Distance magnitudes are narrowed to u16 then compared as s16; for out-of-range wrapped values this is not an unrestricted real-coordinate range check. Health addition stores low16 bits before signed comparison with maximum, with no lower clamp."
+      }
+    ],
+    "open_questions": [
+      "No direct source callers found; sign and permitted domain of amount depend on the caller."
+    ]
+  },
+  {
+    "canonical_symbol": "sub_0801DEB8",
+    "address": "0x0801DEB8",
+    "display_name": "GetEquippedItemAbilityId",
+    "summary": "Returns equipped resource ability byte 0xA7 when its kind byte is 9, otherwise zero, assuming the selected item resource is valid.",
+    "confidence": "high",
+    "evidence": [
+      {
+        "source": "src/code_0801AAF8.c",
+        "line": 2107,
+        "detail": "Uses selected equipment slot at save offset 0x68 and item stride 16.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_0801AAF8.c",
+        "line": 2109,
+        "detail": "Resource lookup is conditional on selected-slot validity; invalid slot sets resource to null.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_0801AAF8.c",
+        "line": 2113,
+        "detail": "Reads resource kind 0x9B even when resource is null; kind 9 returns ability byte 0xA7.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_0800CF58.c",
+        "line": 1942,
+        "detail": "The returned ID indexes ability energy cost, with specific IDs selecting active-ability guards.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_0800CF58.c",
+        "line": 3503,
+        "detail": "Player outgoing action snapshot stores this result in its five-bit ability-ID field.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ],
+    "open_questions": [
+      "Caller must ensure a valid selected item: the function does not safely return zero for a null resource."
+    ]
+  },
+  {
+    "canonical_symbol": "sub_08067E08",
+    "address": "0x08067E08",
+    "display_name": "QueueLinkSceneEventFlags",
+    "summary": "Enqueues scene event flags from offset 0x3C as tag 0x90 and returns queue-admission success, without waiting for reception.",
+    "confidence": "high",
+    "evidence": [
+      {
+        "source": "src/code_08067B4C.c",
+        "line": 141,
+        "detail": "Rejects when outgoing message count exceeds 49.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_08067B4C.c",
+        "line": 143,
+        "detail": "Appends active tag 0x90, copying scene word 0x3C as one-chunk payload.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_080659B0.c",
+        "line": 1195,
+        "detail": "Matching receiver ORs payload bits into scene field 0x38.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_08021DC4.c",
+        "line": 4210,
+        "detail": "Area transition copies scene snapshot field 0x98 into outgoing event-mask field 0x3C.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_080542C4.c",
+        "line": 979,
+        "detail": "Area-event gate completion tests bits of receiver destination scene word 0x38.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ],
+    "open_questions": [
+      "No direct source caller found; exact bit-domain labels are not established, so the name describes the observable completion-bit exchange."
+    ]
+  },
+  {
+    "canonical_symbol": "sub_080153A4",
+    "address": "0x080153A4",
+    "display_name": "TaskRunMovingChargedAttack",
+    "summary": "Moves the local player at charge-tier-dependent speed until attack animation completion or state change, then clears charge bookkeeping while preserving damage/death states.",
+    "confidence": "high",
+    "evidence": [
+      {
+        "source": "src/code_080153A4.c",
+        "line": 34,
+        "detail": "Movement speed is u16 charge tier times40 plus128, passed as signed halfword.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_080153A4.c",
+        "line": 35,
+        "detail": "Waits while B6 animation-completion flag zero and player state5; moves through13E90 and updates collision each iteration.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_080153A4.c",
+        "line": 41,
+        "detail": "Preserves states10/11 or spectator flag; clears charge fields and stores previous tier.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_0800CF58.c",
+        "line": 1910,
+        "detail": "Input charge-release path enters state5 only with nonzero charge tier.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ],
+    "open_questions": [],
+    "supporting_evidence": [
+      {
+        "source": "src/code_080153A4.c",
+        "line": 145,
+        "detail": "Scheduler selects this helper for kind5 subtype4.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ]
+  },
+  {
+    "canonical_symbol": "sub_08015464",
+    "address": "0x08015464",
+    "display_name": "TaskRunChargedAttackAnimation",
+    "summary": "Waits for local charged-attack animation completion, increments hit sequence on selected animation frames and clears charged-action bookkeeping.",
+    "confidence": "high",
+    "evidence": [
+      {
+        "source": "src/code_080153A4.c",
+        "line": 66,
+        "detail": "Waits while state5 and B6 completion flag zero.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_080153A4.c",
+        "line": 68,
+        "detail": "Frames2/5/7 increment attack sequence 0xDC when subframe B4 equals1.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_080153A4.c",
+        "line": 80,
+        "detail": "Preserves states10/11 and spectator state before clearing charge bookkeeping.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_0800CF58.c",
+        "line": 4701,
+        "detail": "Main player task stores animation-advance completion result in B6.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ],
+    "open_questions": [],
+    "supporting_evidence": [
+      {
+        "source": "src/code_080153A4.c",
+        "line": 143,
+        "detail": "Scheduler selects this helper for kind5 except subtype4.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ]
+  },
+  {
+    "canonical_symbol": "sub_08015620",
+    "address": "0x08015620",
+    "display_name": "TaskTimeChargedAttackFrames",
+    "summary": "Runs a state5 timer of eight times charge-tier-plus-three animation-complete ticks, advances local hit sequence each sixteen ticks and clears charge bookkeeping.",
+    "confidence": "high",
+    "evidence": [
+      {
+        "source": "src/code_080153A4.c",
+        "line": 168,
+        "detail": "Reads packed charge tier and initializes timer(level+3)*8.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_080153A4.c",
+        "line": 172,
+        "detail": "Timer decreases only while state5 and B6 nonzero, with signal1 waits.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_080153A4.c",
+        "line": 175,
+        "detail": "Only local player increments attack sequence at timer multiples16.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_080153A4.c",
+        "line": 180,
+        "detail": "Local state reset preserves10/11 and spectator flag; bookkeeping clears for all players.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ],
+    "open_questions": [],
+    "supporting_evidence": [
+      {
+        "source": "src/code_080153A4.c",
+        "line": 259,
+        "detail": "Scheduler registers this helper for action kind1.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ]
+  },
+  {
+    "canonical_symbol": "sub_08015A48",
+    "address": "0x08015A48",
+    "display_name": "TaskRepeatChargedAttackAnimation",
+    "summary": "Replays a charge-tier-plus-one attack animation sequence, advancing hit IDs and resetting animation frames between repetitions, then clears charge bookkeeping.",
+    "confidence": "high",
+    "evidence": [
+      {
+        "source": "src/code_080153A4.c",
+        "line": 319,
+        "detail": "Initializes repeat count to snapshot tier+1 and animation to snapshot top nibble+8.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_080153A4.c",
+        "line": 326,
+        "detail": "B6 completion decrements count, increments hit sequence and clears B6/B2/B4 to restart.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_080153A4.c",
+        "line": 334,
+        "detail": "Stops when count zero or snapshot state no longer5.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_080153A4.c",
+        "line": 338,
+        "detail": "Local state reset uses snapshot state10/11 and spectator guards; clears charge fields.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ],
+    "open_questions": [],
+    "supporting_evidence": [
+      {
+        "source": "src/code_080153A4.c",
+        "line": 364,
+        "detail": "Scheduler registers this helper for kind8.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ]
+  },
+  {
+    "canonical_symbol": "sub_0801551C",
+    "address": "0x0801551C",
+    "display_name": "StartLocalChargedAttackTask",
+    "summary": "Starts a local charged-attack task for action kinds4/5 with allocation retries; an already-scheduled task instead causes guarded state reset and returns.",
+    "confidence": "high",
+    "evidence": [
+      {
+        "source": "src/code_080153A4.c",
+        "line": 133,
+        "detail": "Duplicate embedded task path resets local state outside10/11 and spectator before returning.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_080153A4.c",
+        "line": 140,
+        "detail": "Kind5 subtype4 dispatches moving helper, other kind5 animation helper, kind4 task152CC; unsupported kinds return.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_080153A4.c",
+        "line": 153,
+        "detail": "Stores task scheduling-control key52, retries 0x400 stack allocation with signal1 waits and assigns stack top+0x3FC.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_080153A4.c",
+        "line": 158,
+        "detail": "Starts task and does not wait for completion.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_0800CF58.c",
+        "line": 1978,
+        "detail": "Charge-release path enters state5, increments hit sequence and invokes this scheduler.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ],
+    "open_questions": []
+  },
+  {
+    "canonical_symbol": "sub_08015820",
+    "address": "0x08015820",
+    "display_name": "StartClassSevenChargedAttack",
+    "summary": "Starts the indexed player charged-attack task used by class7 for action kinds1/8, retrying stack allocation and returning immediately after scheduling.",
+    "confidence": "high",
+    "evidence": [
+      {
+        "source": "src/code_080153A4.c",
+        "line": 250,
+        "detail": "Already-scheduled path may reset only local player state outside10/11 and spectator, then returns without allocation.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_080153A4.c",
+        "line": 257,
+        "detail": "Kind1 selects timed attack15620 and kind8 selects ranged attack156FC; unsupported kinds return.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_080153A4.c",
+        "line": 267,
+        "detail": "Stores task scheduling-control key52, retries 0x400 stack allocation with signal1 waits and sets stack top+0x3FC.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_080153A4.c",
+        "line": 272,
+        "detail": "Starts the indexed task and passes the player index; does not wait for task completion.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_0800CF58.c",
+        "line": 4410,
+        "detail": "Main class7 charged-animation dispatch invokes this helper for kinds1/8.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ],
+    "open_questions": []
+  },
+  {
+    "canonical_symbol": "sub_08015B20",
+    "address": "0x08015B20",
+    "display_name": "StartClassFiveChargedAttack",
+    "summary": "Starts the indexed player charged-attack task used by class5 for action kinds6/8, retrying stack allocation and returning immediately after scheduling.",
+    "confidence": "high",
+    "evidence": [
+      {
+        "source": "src/code_080153A4.c",
+        "line": 352,
+        "detail": "Already-scheduled path may reset only local player state outside10/11 and spectator, then returns.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_080153A4.c",
+        "line": 359,
+        "detail": "Kind6 selects moving two-cycle helper15914 and kind8 selects repeated animation15A48; unsupported kinds return.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_080153A4.c",
+        "line": 369,
+        "detail": "Stores task scheduling-control key52, retries 0x400 allocation with signal1 waits and sets stack top+0x3FC.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_080153A4.c",
+        "line": 374,
+        "detail": "Starts indexed task with player index, without waiting for completion.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_0800CF58.c",
+        "line": 4398,
+        "detail": "Main class5 charged-animation dispatch invokes this helper for kinds6/8.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ],
+    "open_questions": []
+  },
+  {
+    "canonical_symbol": "sub_08015F44",
+    "address": "0x08015F44",
+    "display_name": "GetLastAreaSpawnList",
+    "summary": "For map sets1..15, returns the pointer to the first enemy-spawn-group record for the final area; unsupported map sets have no defined return value.",
+    "confidence": "high",
+    "evidence": [
+      {
+        "source": "src/code_080153A4.c",
+        "line": 521,
+        "detail": "Reads area count for the map set and subtracts one.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_080153A4.c",
+        "line": 523,
+        "detail": "Switch selects the map-set spawn-group pointer table for values1..15.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_080153A4.c",
+        "line": 540,
+        "detail": "Dereferences the selected final-area table entry and returns that pointer as u32.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_08021DC4.c",
+        "line": 1736,
+        "detail": "StartEnemySpawnGroupsForMapArea selects the same pointer tables.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_08021DC4.c",
+        "line": 1761,
+        "detail": "The area starter dereferences table[area] to obtain its first enemy-spawn-group record.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ],
+    "open_questions": [
+      "No direct source caller found; callers must supply supported map sets1..15."
+    ]
+  },
+  {
+    "canonical_symbol": "sub_0801602C",
+    "address": "0x0801602C",
+    "display_name": "GetPresetAreaSpawnList",
+    "summary": "For map sets1..15, returns the first enemy-spawn-group record pointer from a fixed per-set area index; unsupported map sets have no defined return value.",
+    "confidence": "high",
+    "evidence": [
+      {
+        "source": "src/code_080153A4.c",
+        "line": 547,
+        "detail": "Selects a fixed area entry for map sets1..15; defaults return an uninitialized result.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_080153A4.c",
+        "line": 552,
+        "detail": "Sets5/6/8/9/10 select areas11/5/14/16/3 respectively; other supported sets select area0.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_080153A4.c",
+        "line": 565,
+        "detail": "Dereferences selected pointer-to-pointer and returns first group-record pointer as u32.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_08021DC4.c",
+        "line": 1761,
+        "detail": "StartEnemySpawnGroupsForMapArea reads identical tables as area-indexed enemy spawn-group lists.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ],
+    "open_questions": [
+      "No source caller found; the gameplay rationale for the preset area choices is unknown, so no boss label is inferred."
+    ]
+  },
+  {
+    "canonical_symbol": "sub_080684E8",
+    "address": "0x080684E8",
+    "display_name": "GetReceivedLinkByte173",
+    "summary": "Returns the shared received tag-0xAD byte without changing state.",
+    "confidence": "high",
+    "evidence": [
+      {
+        "source": "src/code_08067B4C.c",
+        "line": 426,
+        "detail": "Returns u8 global 03006224.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_080659B0.c",
+        "line": 1551,
+        "detail": "Receiver case 0x2C, corresponding to tag 0xAD, overwrites the byte from payload d[0].",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_080659B0.c",
+        "line": 184,
+        "detail": "Link initialization resets the byte to 0xFF.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ],
+    "open_questions": [
+      "No getter caller or byte consumer found; what encounter decision does this channel carry?"
+    ],
+    "role_limit": "Exact observable protocol/scan contract only; no hidden encounter or gameplay meaning is inferred."
+  },
+  {
+    "canonical_symbol": "sub_080684F4",
+    "address": "0x080684F4",
+    "display_name": "ResetReceivedLinkByte173",
+    "summary": "Resets the shared received tag-0xAD byte to 0xFF; the declared nonvoid function has no explicit return.",
+    "confidence": "high",
+    "evidence": [
+      {
+        "source": "src/code_08067B4C.c",
+        "line": 430,
+        "detail": "Writes 0xFF to byte 03006224 and supplies no C return value.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_080659B0.c",
+        "line": 1551,
+        "detail": "Incoming tag 0xAD writes this byte.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_080A9680.c",
+        "line": 5127,
+        "detail": "Dual-actor encounter initialization resets this channel before starting its two actor tasks.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ],
+    "open_questions": [
+      "No subsequent consumer found; the dual-actor startup association alone does not identify the channel meaning."
+    ],
+    "role_limit": "Exact observable protocol/scan contract only; no hidden encounter or gameplay meaning is inferred."
+  },
+  {
+    "canonical_symbol": "sub_08068540",
+    "address": "0x08068540",
+    "display_name": "GetReceivedLinkByte174",
+    "summary": "Returns the shared received tag-0xAE byte without changing state.",
+    "confidence": "high",
+    "evidence": [
+      {
+        "source": "src/code_08067B4C.c",
+        "line": 434,
+        "detail": "Returns u8 global 03006228.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_080659B0.c",
+        "line": 1554,
+        "detail": "Receiver case 0x2D, corresponding to tag 0xAE, stores payload d[0] into this byte.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_080659B0.c",
+        "line": 185,
+        "detail": "Link initialization sets it to 0xFF.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ],
+    "open_questions": [
+      "No getter caller or byte consumer found; what value does the channel represent?"
+    ],
+    "role_limit": "Exact observable protocol/scan contract only; no hidden encounter or gameplay meaning is inferred."
+  },
+  {
+    "canonical_symbol": "sub_0806854C",
+    "address": "0x0806854C",
+    "display_name": "ResetReceivedLinkByte174",
+    "summary": "Resets the shared received tag-0xAE byte to 0xFF; the declared nonvoid function has no explicit return.",
+    "confidence": "high",
+    "evidence": [
+      {
+        "source": "src/code_08067B4C.c",
+        "line": 438,
+        "detail": "Writes 0xFF to byte 03006228, with no explicit C return.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_080659B0.c",
+        "line": 1554,
+        "detail": "Incoming tag 0xAE writes this same byte.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ],
+    "open_questions": [
+      "No reset caller or channel consumer found; what operation is reset?"
+    ],
+    "role_limit": "Exact observable protocol/scan contract only; no hidden encounter or gameplay meaning is inferred."
+  },
+  {
+    "canonical_symbol": "sub_0801DF4C",
+    "address": "0x0801DF4C",
+    "display_name": "ScanActorIds",
+    "summary": "Scans up to five actor records for a matching halfword ID, then returns without a result or side effect.",
+    "confidence": "high",
+    "evidence": [
+      {
+        "source": "src/code_0801AAF8.c",
+        "line": 2135,
+        "detail": "Searches five records using u32 loop index.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_0801AAF8.c",
+        "line": 2137,
+        "detail": "Compares each record halfword id at offset 2 with the full u32 id and stops at the first match; no state write or return value follows.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ],
+    "open_questions": [
+      "No source caller found; what original interface was this side-effect-free scan intended to provide?"
+    ],
+    "role_limit": "Exact observable protocol/scan contract only; no hidden encounter or gameplay meaning is inferred."
+  },
+  {
+    "canonical_symbol": "sub_080684A8",
+    "address": "0x080684A8",
+    "display_name": "EnqueueLinkByte173",
+    "summary": "If the outgoing queue has fewer than 50 entries, appends tag 0xAD with the zero-extended u8 input as one-chunk payload and returns one; otherwise returns zero.",
+    "confidence": "high",
+    "evidence": [
+      {
+        "source": "src/code_08067B4C.c",
+        "line": 424,
+        "detail": "Checks queue count <=49, appends active tag 0xAD entry at stride 0x88, zero-extends u8 payload, sets chunk count one and increments the queue.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_080659B0.c",
+        "line": 1551,
+        "detail": "Receiver truncates payload d[0] into shared byte 03006224.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ],
+    "open_questions": [
+      "No producer caller or received-value consumer found; what shared encounter choice does tag 0xAD communicate? Enqueue success alone does not prove transmission or reception."
+    ],
+    "role_limit": "Exact observable protocol/scan contract only; no hidden encounter or gameplay meaning is inferred."
+  },
+  {
+    "canonical_symbol": "sub_08068500",
+    "address": "0x08068500",
+    "display_name": "EnqueueLinkByte174",
+    "summary": "If the outgoing queue has fewer than 50 entries, appends tag 0xAE with the zero-extended u8 input as one-chunk payload and returns one; otherwise returns zero.",
+    "confidence": "high",
+    "evidence": [
+      {
+        "source": "src/code_08067B4C.c",
+        "line": 432,
+        "detail": "Checks queue count <=49, appends active tag 0xAE entry at stride 0x88, zero-extends u8 payload, sets chunk count one and increments the queue.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_080659B0.c",
+        "line": 1554,
+        "detail": "Receiver truncates payload d[0] into shared byte 03006228.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ],
+    "open_questions": [
+      "No producer caller or received-value consumer found; what shared encounter choice does tag 0xAE communicate? Enqueue success alone does not prove transmission or reception."
+    ],
+    "role_limit": "Exact observable protocol/scan contract only; no hidden encounter or gameplay meaning is inferred."
+  }
+]

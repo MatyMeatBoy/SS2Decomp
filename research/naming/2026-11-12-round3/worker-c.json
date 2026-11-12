@@ -1,0 +1,806 @@
+{
+  "source_revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7",
+  "policy": "Frozen research candidates, not confirmed names. See independent review and catalog.",
+  "proposals": [
+    {
+      "canonical_symbol": "sub_08067B4C",
+      "address": "0x08067B4C",
+      "display_name": "",
+      "summary": "Returns immediately without changing state.",
+      "confidence": "low",
+      "evidence": [
+        {
+          "source": "src/code_08067B4C.c",
+          "line": 10,
+          "detail": "Lines 10-12 define an empty leaf; no direct source callers found.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "What intended interface or callback role does this empty stub serve?"
+      ]
+    },
+    {
+      "canonical_symbol": "sub_0801E0A0",
+      "address": "0x0801E0A0",
+      "display_name": "GetSavedPlayerPaletteIndex",
+      "summary": "Returns the saved player sprite palette index as a halfword without changing state.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_0801AAF8.c",
+          "line": 2190,
+          "detail": "Reads save-record halfword 0xC.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0801AAF8.c",
+          "line": 850,
+          "detail": "Equipment stat recalculation copies this save field into player byte 0x66.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0800CF58.c",
+          "line": 4778,
+          "detail": "Player drawing selects its 32-byte palette slice using player byte 0x66.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": []
+    },
+    {
+      "canonical_symbol": "sub_0801DF08",
+      "address": "0x0801DF08",
+      "display_name": "RestoreLocalPlayerVitalState",
+      "summary": "Restores local player health to maximum, restores energy for normalized class 1, sets state zero and overwrites flags with 0x40.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_0801AAF8.c",
+          "line": 2120,
+          "detail": "Copies maximum health 0x62 to current health 0xC4.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0801AAF8.c",
+          "line": 2122,
+          "detail": "Only normalized class 1 copies maximum energy 0x60 to current energy 0xC2.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0801AAF8.c",
+          "line": 2126,
+          "detail": "Sets player state 0x20 to zero and flags 0x30 to exactly 0x40, not an OR update.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": []
+    },
+    {
+      "canonical_symbol": "sub_08017E34",
+      "address": "0x08017E34",
+      "display_name": "IsActorWithinScreenMargin",
+      "summary": "Returns one when the actor projects within x -63..299 and y -63..199 and at least one connected player is not marked excluded; otherwise returns zero.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_080153A4.c",
+          "line": 1992,
+          "detail": "Projects actor fixed-point coordinates 0x14/0x18 to screen coordinates.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080153A4.c",
+          "line": 2002,
+          "detail": "Requires one connected snapshot without flag 0x20 and unsigned screen-x-plus-63 no greater than 362.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080153A4.c",
+          "line": 2003,
+          "detail": "Checks screen y greater than -64 and no greater than 199; player position is not used in the bounds test.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": []
+    },
+    {
+      "canonical_symbol": "sub_08017EC8",
+      "address": "0x08017EC8",
+      "display_name": "ShouldKeepEnemyActive",
+      "summary": "Returns one when the enemy keep-active flag is set or its bounds overlap a 480-by-320 activation box around an eligible connected player; otherwise returns zero.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_080153A4.c",
+          "line": 2030,
+          "detail": "Enemy flags 0x7A bit 6 forces true.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080153A4.c",
+          "line": 2031,
+          "detail": "Builds player-centered size 480 by 320; enemy width/height come from bytes 0x22E/0x22F.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080153A4.c",
+          "line": 2043,
+          "detail": "Skips snapshots whose packed flags include 0x20 and tests remaining positions against enemy bounds.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08017F7C.c",
+          "line": 614,
+          "detail": "Enemy update sets removal flag 0x7A bit0 and exits when this returns zero unless flag bit3 exempts it.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": []
+    },
+    {
+      "canonical_symbol": "sub_080684E8",
+      "address": "0x080684E8",
+      "display_name": "",
+      "summary": "Returns the shared received tag-0xAD byte without changing state.",
+      "confidence": "low",
+      "evidence": [
+        {
+          "source": "src/code_08067B4C.c",
+          "line": 426,
+          "detail": "Returns u8 global 03006224.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080659B0.c",
+          "line": 1551,
+          "detail": "Receiver case 0x2C, corresponding to tag 0xAD, overwrites the byte from payload d[0].",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080659B0.c",
+          "line": 184,
+          "detail": "Link initialization resets the byte to 0xFF.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "No getter caller or byte consumer found; what encounter decision does this channel carry?"
+      ]
+    },
+    {
+      "canonical_symbol": "sub_080684F4",
+      "address": "0x080684F4",
+      "display_name": "",
+      "summary": "Resets the shared received tag-0xAD byte to 0xFF; the declared nonvoid function has no explicit return.",
+      "confidence": "low",
+      "evidence": [
+        {
+          "source": "src/code_08067B4C.c",
+          "line": 430,
+          "detail": "Writes 0xFF to byte 03006224 and supplies no C return value.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080659B0.c",
+          "line": 1551,
+          "detail": "Incoming tag 0xAD writes this byte.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080A9680.c",
+          "line": 5127,
+          "detail": "Dual-actor encounter initialization resets this channel before starting its two actor tasks.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "No subsequent consumer found; the dual-actor startup association alone does not identify the channel meaning."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_08068540",
+      "address": "0x08068540",
+      "display_name": "",
+      "summary": "Returns the shared received tag-0xAE byte without changing state.",
+      "confidence": "low",
+      "evidence": [
+        {
+          "source": "src/code_08067B4C.c",
+          "line": 434,
+          "detail": "Returns u8 global 03006228.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080659B0.c",
+          "line": 1554,
+          "detail": "Receiver case 0x2D, corresponding to tag 0xAE, stores payload d[0] into this byte.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080659B0.c",
+          "line": 185,
+          "detail": "Link initialization sets it to 0xFF.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "No getter caller or byte consumer found; what value does the channel represent?"
+      ]
+    },
+    {
+      "canonical_symbol": "sub_0806854C",
+      "address": "0x0806854C",
+      "display_name": "",
+      "summary": "Resets the shared received tag-0xAE byte to 0xFF; the declared nonvoid function has no explicit return.",
+      "confidence": "low",
+      "evidence": [
+        {
+          "source": "src/code_08067B4C.c",
+          "line": 438,
+          "detail": "Writes 0xFF to byte 03006228, with no explicit C return.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080659B0.c",
+          "line": 1554,
+          "detail": "Incoming tag 0xAE writes this same byte.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "No reset caller or channel consumer found; what operation is reset?"
+      ]
+    },
+    {
+      "canonical_symbol": "sub_0801DF4C",
+      "address": "0x0801DF4C",
+      "display_name": "",
+      "summary": "Scans up to five actor records for a matching halfword ID, then returns without a result or side effect.",
+      "confidence": "low",
+      "evidence": [
+        {
+          "source": "src/code_0801AAF8.c",
+          "line": 2135,
+          "detail": "Searches five records using u32 loop index.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0801AAF8.c",
+          "line": 2137,
+          "detail": "Compares each record halfword id at offset 2 with the full u32 id and stops at the first match; no state write or return value follows.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "No source caller found; what original interface was this side-effect-free scan intended to provide?"
+      ]
+    },
+    {
+      "canonical_symbol": "sub_080684A8",
+      "address": "0x080684A8",
+      "display_name": "",
+      "summary": "If the outgoing queue has fewer than 50 entries, appends tag 0xAD with the zero-extended u8 input as one-chunk payload and returns one; otherwise returns zero.",
+      "confidence": "low",
+      "evidence": [
+        {
+          "source": "src/code_08067B4C.c",
+          "line": 424,
+          "detail": "Checks queue count <=49, appends active tag 0xAD entry at stride 0x88, zero-extends u8 payload, sets chunk count one and increments the queue.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080659B0.c",
+          "line": 1551,
+          "detail": "Receiver truncates payload d[0] into shared byte 03006224.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "No producer caller or received-value consumer found; what shared encounter choice does tag 0xAD communicate? Enqueue success alone does not prove transmission or reception."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_08068500",
+      "address": "0x08068500",
+      "display_name": "",
+      "summary": "If the outgoing queue has fewer than 50 entries, appends tag 0xAE with the zero-extended u8 input as one-chunk payload and returns one; otherwise returns zero.",
+      "confidence": "low",
+      "evidence": [
+        {
+          "source": "src/code_08067B4C.c",
+          "line": 432,
+          "detail": "Checks queue count <=49, appends active tag 0xAE entry at stride 0x88, zero-extends u8 payload, sets chunk count one and increments the queue.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080659B0.c",
+          "line": 1554,
+          "detail": "Receiver truncates payload d[0] into shared byte 03006228.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "No producer caller or received-value consumer found; what shared encounter choice does tag 0xAE communicate? Enqueue success alone does not prove transmission or reception."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_0801CC10",
+      "address": "0x0801CC10",
+      "display_name": "AdjustLocalHealthNearPlayer",
+      "summary": "Adds a signed amount to living local-player health when targeting self or when within the indexed player rectangle, then caps health at maximum.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_0801AAF8.c",
+          "line": 1476,
+          "detail": "Converts local coordinates and indexed player snapshot coordinates to tile units.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0801AAF8.c",
+          "line": 1493,
+          "detail": "Self-target bypasses range checks, but only adds when local current health is positive.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0801AAF8.c",
+          "line": 1506,
+          "detail": "Other-player case adds only for x distance <=13, y distance <=9 and living local player.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0801AAF8.c",
+          "line": 1511,
+          "detail": "Caps signed resulting health at maximum; no lower clamp or revival is implemented.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "No direct source callers found; sign and permitted domain of amount depend on the caller."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_0801DEB8",
+      "address": "0x0801DEB8",
+      "display_name": "GetEquippedItemAbilityId",
+      "summary": "Returns equipped resource ability byte 0xA7 when its kind byte is 9, otherwise zero, assuming the selected item resource is valid.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_0801AAF8.c",
+          "line": 2107,
+          "detail": "Uses selected equipment slot at save offset 0x68 and item stride 16.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0801AAF8.c",
+          "line": 2109,
+          "detail": "Resource lookup is conditional on selected-slot validity; invalid slot sets resource to null.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0801AAF8.c",
+          "line": 2113,
+          "detail": "Reads resource kind 0x9B even when resource is null; kind 9 returns ability byte 0xA7.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0800CF58.c",
+          "line": 1942,
+          "detail": "The returned ID indexes ability energy cost, with specific IDs selecting active-ability guards.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0800CF58.c",
+          "line": 3503,
+          "detail": "Player outgoing action snapshot stores this result in its five-bit ability-ID field.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Caller must ensure a valid selected item: the function does not safely return zero for a null resource."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_08067E08",
+      "address": "0x08067E08",
+      "display_name": "QueueLinkSceneEventFlags",
+      "summary": "Enqueues scene event flags from offset 0x3C as tag 0x90 and returns queue-admission success, without waiting for reception.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_08067B4C.c",
+          "line": 141,
+          "detail": "Rejects when outgoing message count exceeds 49.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08067B4C.c",
+          "line": 143,
+          "detail": "Appends active tag 0x90, copying scene word 0x3C as one-chunk payload.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080659B0.c",
+          "line": 1195,
+          "detail": "Matching receiver ORs payload bits into scene field 0x38.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08021DC4.c",
+          "line": 4210,
+          "detail": "Area transition copies scene snapshot field 0x98 into outgoing event-mask field 0x3C.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080542C4.c",
+          "line": 979,
+          "detail": "Area-event gate completion tests bits of receiver destination scene word 0x38.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "No direct source caller found; exact bit-domain labels are not established, so the name describes the observable completion-bit exchange."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_080153A4",
+      "address": "0x080153A4",
+      "display_name": "TaskRunMovingChargedAttack",
+      "summary": "Moves the local player at charge-tier-dependent speed until attack animation completion or state change, then clears charge bookkeeping while preserving damage/death states.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_080153A4.c",
+          "line": 34,
+          "detail": "Movement speed is u16 charge tier times40 plus128, passed as signed halfword.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080153A4.c",
+          "line": 35,
+          "detail": "Waits while B6 animation-completion flag zero and player state5; moves through13E90 and updates collision each iteration.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080153A4.c",
+          "line": 41,
+          "detail": "Preserves states10/11 or spectator flag; clears charge fields and stores previous tier.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080153A4.c",
+          "line": 145,
+          "detail": "Scheduler selects this helper for kind5 subtype4.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0800CF58.c",
+          "line": 1910,
+          "detail": "Input charge-release path enters state5 only with nonzero charge tier.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": []
+    },
+    {
+      "canonical_symbol": "sub_08015464",
+      "address": "0x08015464",
+      "display_name": "TaskRunChargedAttackAnimation",
+      "summary": "Waits for local charged-attack animation completion, increments hit sequence on selected animation frames and clears charged-action bookkeeping.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_080153A4.c",
+          "line": 66,
+          "detail": "Waits while state5 and B6 completion flag zero.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080153A4.c",
+          "line": 68,
+          "detail": "Frames2/5/7 increment attack sequence 0xDC when subframe B4 equals1.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080153A4.c",
+          "line": 80,
+          "detail": "Preserves states10/11 and spectator state before clearing charge bookkeeping.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080153A4.c",
+          "line": 143,
+          "detail": "Scheduler selects this helper for kind5 except subtype4.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0800CF58.c",
+          "line": 4701,
+          "detail": "Main player task stores animation-advance completion result in B6.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": []
+    },
+    {
+      "canonical_symbol": "sub_08015620",
+      "address": "0x08015620",
+      "display_name": "TaskTimeChargedAttackFrames",
+      "summary": "Runs a state5 timer of eight times charge-tier-plus-three animation-complete ticks, advances local hit sequence each sixteen ticks and clears charge bookkeeping.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_080153A4.c",
+          "line": 168,
+          "detail": "Reads packed charge tier and initializes timer(level+3)*8.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080153A4.c",
+          "line": 172,
+          "detail": "Timer decreases only while state5 and B6 nonzero, with signal1 waits.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080153A4.c",
+          "line": 175,
+          "detail": "Only local player increments attack sequence at timer multiples16.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080153A4.c",
+          "line": 180,
+          "detail": "Local state reset preserves10/11 and spectator flag; bookkeeping clears for all players.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080153A4.c",
+          "line": 259,
+          "detail": "Scheduler registers this helper for action kind1.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": []
+    },
+    {
+      "canonical_symbol": "sub_08015A48",
+      "address": "0x08015A48",
+      "display_name": "TaskRepeatChargedAttackAnimation",
+      "summary": "Replays a charge-tier-plus-one attack animation sequence, advancing hit IDs and resetting animation frames between repetitions, then clears charge bookkeeping.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_080153A4.c",
+          "line": 319,
+          "detail": "Initializes repeat count to snapshot tier+1 and animation to snapshot top nibble+8.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080153A4.c",
+          "line": 326,
+          "detail": "B6 completion decrements count, increments hit sequence and clears B6/B2/B4 to restart.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080153A4.c",
+          "line": 334,
+          "detail": "Stops when count zero or snapshot state no longer5.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080153A4.c",
+          "line": 338,
+          "detail": "Local state reset uses snapshot state10/11 and spectator guards; clears charge fields.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080153A4.c",
+          "line": 364,
+          "detail": "Scheduler registers this helper for kind8.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": []
+    },
+    {
+      "canonical_symbol": "sub_0801551C",
+      "address": "0x0801551C",
+      "display_name": "StartLocalChargedAttackTask",
+      "summary": "Starts a local charged-attack task for action kinds4/5 with allocation retries; an already-scheduled task instead causes guarded state reset and returns.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_080153A4.c",
+          "line": 133,
+          "detail": "Duplicate embedded task path resets local state outside10/11 and spectator before returning.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080153A4.c",
+          "line": 140,
+          "detail": "Kind5 subtype4 dispatches moving helper, other kind5 animation helper, kind4 task152CC; unsupported kinds return.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080153A4.c",
+          "line": 153,
+          "detail": "Sets priority52, retries 0x400 stack allocation with signal1 waits and assigns stack top+0x3FC.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080153A4.c",
+          "line": 158,
+          "detail": "Starts task and does not wait for completion.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0800CF58.c",
+          "line": 1978,
+          "detail": "Charge-release path enters state5, increments hit sequence and invokes this scheduler.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": []
+    },
+    {
+      "canonical_symbol": "sub_08015820",
+      "address": "0x08015820",
+      "display_name": "StartClassSevenChargedAttack",
+      "summary": "Starts the indexed player charged-attack task used by class7 for action kinds1/8, retrying stack allocation and returning immediately after scheduling.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_080153A4.c",
+          "line": 250,
+          "detail": "Already-scheduled path may reset only local player state outside10/11 and spectator, then returns without allocation.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080153A4.c",
+          "line": 257,
+          "detail": "Kind1 selects timed attack15620 and kind8 selects ranged attack156FC; unsupported kinds return.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080153A4.c",
+          "line": 267,
+          "detail": "Sets priority52, retries 0x400 stack allocation with signal1 waits and sets stack top+0x3FC.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080153A4.c",
+          "line": 272,
+          "detail": "Starts the indexed task and passes the player index; does not wait for task completion.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0800CF58.c",
+          "line": 4410,
+          "detail": "Main class7 charged-animation dispatch invokes this helper for kinds1/8.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": []
+    },
+    {
+      "canonical_symbol": "sub_08015B20",
+      "address": "0x08015B20",
+      "display_name": "StartClassFiveChargedAttack",
+      "summary": "Starts the indexed player charged-attack task used by class5 for action kinds6/8, retrying stack allocation and returning immediately after scheduling.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_080153A4.c",
+          "line": 352,
+          "detail": "Already-scheduled path may reset only local player state outside10/11 and spectator, then returns.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080153A4.c",
+          "line": 359,
+          "detail": "Kind6 selects moving two-cycle helper15914 and kind8 selects repeated animation15A48; unsupported kinds return.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080153A4.c",
+          "line": 369,
+          "detail": "Sets priority52, retries 0x400 allocation with signal1 waits and sets stack top+0x3FC.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080153A4.c",
+          "line": 374,
+          "detail": "Starts indexed task with player index, without waiting for completion.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0800CF58.c",
+          "line": 4398,
+          "detail": "Main class5 charged-animation dispatch invokes this helper for kinds6/8.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": []
+    },
+    {
+      "canonical_symbol": "sub_08015F44",
+      "address": "0x08015F44",
+      "display_name": "GetLastAreaSpawnList",
+      "summary": "For map sets1..15, returns the pointer to the first enemy-spawn-group record for the final area; unsupported map sets have no defined return value.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_080153A4.c",
+          "line": 521,
+          "detail": "Reads area count for the map set and subtracts one.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080153A4.c",
+          "line": 523,
+          "detail": "Switch selects the map-set spawn-group pointer table for values1..15.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080153A4.c",
+          "line": 540,
+          "detail": "Dereferences the selected final-area table entry and returns that pointer as u32.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08021DC4.c",
+          "line": 1736,
+          "detail": "StartEnemySpawnGroupsForMapArea selects the same pointer tables.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08021DC4.c",
+          "line": 1761,
+          "detail": "The area starter dereferences table[area] to obtain its first enemy-spawn-group record.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "No direct source caller found; callers must supply supported map sets1..15."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_0801602C",
+      "address": "0x0801602C",
+      "display_name": "GetPresetAreaSpawnList",
+      "summary": "For map sets1..15, returns the first enemy-spawn-group record pointer from a fixed per-set area index; unsupported map sets have no defined return value.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_080153A4.c",
+          "line": 547,
+          "detail": "Selects a fixed area entry for map sets1..15; defaults return an uninitialized result.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080153A4.c",
+          "line": 552,
+          "detail": "Sets5/6/8/9/10 select areas11/5/14/16/3 respectively; other supported sets select area0.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080153A4.c",
+          "line": 565,
+          "detail": "Dereferences selected pointer-to-pointer and returns first group-record pointer as u32.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08021DC4.c",
+          "line": 1761,
+          "detail": "StartEnemySpawnGroupsForMapArea reads identical tables as area-indexed enemy spawn-group lists.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "No source caller found; the gameplay rationale for the preset area choices is unknown, so no boss label is inferred."
+      ]
+    }
+  ]
+}
