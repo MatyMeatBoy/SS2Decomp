@@ -1,0 +1,13 @@
+{
+  "research_records": 111,
+  "unique_functions": 110,
+  "accepted": 110,
+  "new_catalog_rows": 108,
+  "promoted_existing_proposals": 2,
+  "source_revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7",
+  "review_notes": [
+    "Three initially cyclic canonical-role bindings6171C/61830/66624 corrected by independent source review.",
+    "585F4 omitted-argument forwarding closed by matching-object audit.",
+    "Neutral no-op/bit/word/minimum contracts retain unknown-purpose notes; variant ordinals claim no gameplay identity."
+  ]
+}

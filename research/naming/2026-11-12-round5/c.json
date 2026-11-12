@@ -1,0 +1,490 @@
+{
+  "source_revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7",
+  "policy": "Frozen proposals, including superseded mappings; reviewed accepted rows alone earn credit.",
+  "proposals": [
+    {
+      "canonical_symbol": "sub_08067AC0",
+      "address": "0x08067AC0",
+      "display_name": "ReturnOneVariant5",
+      "summary": "Returns signed integer1 without reading arguments or changing state.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_080659B0.c",
+          "line": 1584,
+          "detail": "Exact literal-one body; ordinal only distinguishes identical implementations in canonical address order, continuing variants1..4. No hidden gameplay role is claimed.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "No source consumers or callback bindings were found; intended original role is unknown."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_08067AC4",
+      "address": "0x08067AC4",
+      "display_name": "ReturnOneVariant6",
+      "summary": "Returns signed integer1 without reading arguments or changing state.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_080659B0.c",
+          "line": 1587,
+          "detail": "Exact literal-one body; ordinal only distinguishes identical implementations in canonical address order, continuing variants1..4. No hidden gameplay role is claimed.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "No source consumers or callback bindings were found; intended original role is unknown."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_08067AC8",
+      "address": "0x08067AC8",
+      "display_name": "ReturnOneVariant7",
+      "summary": "Returns signed integer1 without reading arguments or changing state.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_080659B0.c",
+          "line": 1590,
+          "detail": "Exact literal-one body; ordinal only distinguishes identical implementations in canonical address order, continuing variants1..4. No hidden gameplay role is claimed.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "No source consumers or callback bindings were found; intended original role is unknown."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_08067ACC",
+      "address": "0x08067ACC",
+      "display_name": "ReturnOneVariant8",
+      "summary": "Returns signed integer1 without reading arguments or changing state.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_080659B0.c",
+          "line": 1593,
+          "detail": "Exact literal-one body; ordinal only distinguishes identical implementations in canonical address order, continuing variants1..4. No hidden gameplay role is claimed.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "No source consumers or callback bindings were found; intended original role is unknown."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_08067AD0",
+      "address": "0x08067AD0",
+      "display_name": "ReturnOneVariant9",
+      "summary": "Returns signed integer1 without reading arguments or changing state.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_080659B0.c",
+          "line": 1596,
+          "detail": "Exact literal-one body; ordinal only distinguishes identical implementations in canonical address order, continuing variants1..4. No hidden gameplay role is claimed.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "No source consumers or callback bindings were found; intended original role is unknown."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_08067AD4",
+      "address": "0x08067AD4",
+      "display_name": "ReturnOneVariant10",
+      "summary": "Returns signed integer1 without reading arguments or changing state.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_080659B0.c",
+          "line": 1599,
+          "detail": "Exact literal-one body; ordinal only distinguishes identical implementations in canonical address order, continuing variants1..4. No hidden gameplay role is claimed.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "No source consumers or callback bindings were found; intended original role is unknown."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_08067AD8",
+      "address": "0x08067AD8",
+      "display_name": "ReturnOneVariant11",
+      "summary": "Returns signed integer1 without reading arguments or changing state.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_080659B0.c",
+          "line": 1602,
+          "detail": "Exact literal-one body; ordinal only distinguishes identical implementations in canonical address order, continuing variants1..4. No hidden gameplay role is claimed.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "No source consumers or callback bindings were found; intended original role is unknown."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_08067ADC",
+      "address": "0x08067ADC",
+      "display_name": "ReturnOneVariant12",
+      "summary": "Returns signed integer1 without reading arguments or changing state.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_080659B0.c",
+          "line": 1605,
+          "detail": "Exact literal-one body; ordinal only distinguishes identical implementations in canonical address order, continuing variants1..4. No hidden gameplay role is claimed.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "No source consumers or callback bindings were found; intended original role is unknown."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_08067AE0",
+      "address": "0x08067AE0",
+      "display_name": "ReturnOneVariant13",
+      "summary": "Returns signed integer1 without reading arguments or changing state.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_080659B0.c",
+          "line": 1608,
+          "detail": "Exact literal-one body; ordinal only distinguishes identical implementations in canonical address order, continuing variants1..4. No hidden gameplay role is claimed.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "No source consumers or callback bindings were found; intended original role is unknown."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_08067AE4",
+      "address": "0x08067AE4",
+      "display_name": "ReturnOneVariant14",
+      "summary": "Returns signed integer1 without reading arguments or changing state.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_080659B0.c",
+          "line": 1611,
+          "detail": "Exact literal-one body; ordinal only distinguishes identical implementations in canonical address order, continuing variants1..4. No hidden gameplay role is claimed.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "No source consumers or callback bindings were found; intended original role is unknown."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_08067AE8",
+      "address": "0x08067AE8",
+      "display_name": "ReturnOneVariant15",
+      "summary": "Returns signed integer1 without reading arguments or changing state.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_080659B0.c",
+          "line": 1614,
+          "detail": "Exact literal-one body; ordinal only distinguishes identical implementations in canonical address order, continuing variants1..4. No hidden gameplay role is claimed.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "No source consumers or callback bindings were found; intended original role is unknown."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_08067AEC",
+      "address": "0x08067AEC",
+      "display_name": "NoOpVariant1",
+      "summary": "Returns immediately without observable side effects.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_080659B0.c",
+          "line": 1617,
+          "detail": "Empty void body; ordinal distinguishes three identical no-op implementations in canonical address order. No callback or gameplay role is claimed.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "No source consumers or callback bindings were found; intended original role is unknown."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_08067AF0",
+      "address": "0x08067AF0",
+      "display_name": "ReturnOneVariant16",
+      "summary": "Returns signed integer1 without reading arguments or changing state.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_080659B0.c",
+          "line": 1620,
+          "detail": "Exact literal-one body; ordinal only distinguishes identical implementations in canonical address order, continuing variants1..4. No hidden gameplay role is claimed.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "No source consumers or callback bindings were found; intended original role is unknown."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_08067AF4",
+      "address": "0x08067AF4",
+      "display_name": "NoOpVariant2",
+      "summary": "Returns immediately without observable side effects.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_080659B0.c",
+          "line": 1623,
+          "detail": "Empty void body; ordinal distinguishes three identical no-op implementations in canonical address order. No callback or gameplay role is claimed.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "No source consumers or callback bindings were found; intended original role is unknown."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_08067AF8",
+      "address": "0x08067AF8",
+      "display_name": "NoOpVariant3",
+      "summary": "Returns immediately without observable side effects.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_080659B0.c",
+          "line": 1626,
+          "detail": "Empty void body; ordinal distinguishes three identical no-op implementations in canonical address order. No callback or gameplay role is claimed.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "No source consumers or callback bindings were found; intended original role is unknown."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_0806514C",
+      "address": "0x0806514C",
+      "display_name": "",
+      "summary": "Writes zero to global word03006028 during subsystem initialization.",
+      "confidence": "low",
+      "evidence": [
+        {
+          "source": "src/code_0805FB7C.c",
+          "line": 3181,
+          "detail": "Only observed operation is zero store to global word.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08001A50.c",
+          "line": 95,
+          "detail": "Initialization sequence calls this helper; exhaustive source/data symbol search found no other accesses.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Need a reader/writer or external ABI binding for global03006028 to establish useful operational meaning."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_08065AE8",
+      "address": "0x08065AE8",
+      "display_name": "IsCoordinatedAttackActive",
+      "summary": "Returns normalized0/1 from HasCoordinatedAttackState.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_080659B0.c",
+          "line": 81,
+          "detail": "Calls58DB0; zero maps0, nonzero maps1. Approved predicate role is coordinated attack state.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": []
+    },
+    {
+      "canonical_symbol": "sub_080653FC",
+      "address": "0x080653FC",
+      "display_name": "CancelItemSelectionHudTask",
+      "summary": "Cancels indexed item-selection HUD control only if scheduled; does not validate index.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_0805FB7C.c",
+          "line": 3284,
+          "detail": "Computes control06160+index*40, checks scheduling and invokes task cancellation.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0805FB7C.c",
+          "line": 1022,
+          "detail": "61688 binds same control array to60E44 item-selection HUD callback.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0805FB7C.c",
+          "line": 893,
+          "detail": "HUD callback shows selected group of three item slots and inventory counts.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": []
+    },
+    {
+      "canonical_symbol": "sub_08065AFC",
+      "address": "0x08065AFC",
+      "display_name": "StartAreaTitleTask",
+      "summary": "If title task is idle, marks local-player flag0x80, allocates stack and schedules area-title display; returns without completion wait.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_080659B0.c",
+          "line": 86,
+          "detail": "Checks061E0 scheduled status, sets local flag0x80, allocates0x400 via01638 without explicit null guard, binds6335C and starts task.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0805FB7C.c",
+          "line": 2091,
+          "detail": "Child chooses level/area animation IDs, draws120 signal waits when area nonzero, then clears local flag0x80; area0 skips draw loop.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "No allocation-failure guard or index/implicit task argument contract is added."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_080655CC",
+      "address": "0x080655CC",
+      "display_name": "DrawItemRecordName",
+      "summary": "For nonnull records of kinds2..5, draws language-selected31-byte resource13 name; negative alignment centers using13-pixel text measurement.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_0805FB7C.c",
+          "line": 3371,
+          "detail": "Kinds0/1 and unsupported values return. Kinds2..5 load record[2]|0x130000, add language*31 and draw at u16 coordinates. Negative align uses signed16 offset -(length*13>>1).",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": []
+    },
+    {
+      "canonical_symbol": "sub_08061688",
+      "address": "0x08061688",
+      "display_name": "StartIndexedItemSelectionHud",
+      "summary": "Allocates0x200-byte stack and starts indexed item-selection HUD; zero index uses order key0x65 and nonzero0x3C, with index passed as animation mode.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_0805FB7C.c",
+          "line": 1024,
+          "detail": "No schedule or index guard; retries01494 allocation while yielding; taskMem64 aliases06180, same task-control+0x20 stack field. Sets callback60E44, stacktop+1FC and zero finalizer.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0805FB7C.c",
+          "line": 796,
+          "detail": "Callback argument controls animation; manipulates selected item index, draws three-item group and bag counts, and exits/aborts on scene/UI state predicates.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Caller must provide valid control index and inactive ownership; no completion wait is performed."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_08061830",
+      "address": "0x08061830",
+      "display_name": "DrawExperienceAwardNumber",
+      "summary": "Draws four-digit experience award and fixed marker above supplied world-position object unless map-set0 or fullscreen-menu guard suppresses it.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_0805FB7C.c",
+          "line": 1079,
+          "detail": "Projects object x/y+14/+18, draws four digits with style2 then fixed animation4/frame6 marker. Negative value becomes0x7FFFFFFF in digit helper; four digits extracted without caller range guard.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08017F7C.c",
+          "line": 785,
+          "detail": "Enemy-defeat path computes experience award, draws this helper while position rises, then adds award to local experience.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Visual meaning of fixed animation4/frame6 marker not independently identified; name describes number source."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_08066624",
+      "address": "0x08066624",
+      "display_name": "PlayPlayerLevelUpEffect",
+      "summary": "Plays sound37 and48 signal-step rising animation14, suppressing draw under fullscreen menu; then sets supplied player flag8.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_0805FB7C.c",
+          "line": 1104,
+          "detail": "Snapshots fixed-point position8C/90, decreases y by0x20 per step, steps animation14 and draws at projected position minus8; exactly48 waits independent of menu suppression.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0801E244.c",
+          "line": 192,
+          "detail": "Experience threshold path advances level, increases progression counters and invokes effect for local player.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": []
+    },
+    {
+      "canonical_symbol": "sub_0806171C",
+      "address": "0x0806171C",
+      "display_name": "EnqueueLinkSnapshot171",
+      "summary": "Attempts one queue admission for tag171 containing mode-selected saved words, two7-byte groups, two5-byte groups and normalized mode byte; returns1 on admission and0 when queue full.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_080659B0.c",
+          "line": 637,
+          "detail": "Rejects count>49; writes0x88-byte entry, active word1, tag0xAB, payload two u32 from save+4/+8 or+C/+10, byte ranges140..146,14C..152,147..14B,153..157; finalbyte saveword0==1; declares five8-byte chunks and increments count.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080659B0.c",
+          "line": 1028,
+          "detail": "Receiver normalizes tags by subtracting0x81, binding0xAB to case0x2A.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080659B0.c",
+          "line": 1514,
+          "detail": "Receiver routes first two words to scene74/78 or7C/80, clears opposite pair, copies two7/two5 groups then maps finalbyte to scene70=1/2.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08021DC4.c",
+          "line": 590,
+          "detail": "Scene restoration initiates this send when link mode is active.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Admission is not delivery or synchronization completion; the33 initialized payload bytes occupy five chunks, with final chunk padding not explicitly initialized here. Original hidden progression interpretation is not claimed."
+      ]
+    }
+  ]
+}

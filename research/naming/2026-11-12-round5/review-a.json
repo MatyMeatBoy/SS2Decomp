@@ -1,0 +1,122 @@
+[
+  {
+    "canonical_symbol": "sub_0803E5D8",
+    "decision": "accept",
+    "reason": "Confirmed byte read/add/u8/store and caller equality barrier against captured connected-player count. Modulo256 and separate mode queries preserved."
+  },
+  {
+    "canonical_symbol": "sub_0803B69C",
+    "decision": "accept",
+    "reason": "Confirmed infinite animation/movement order and constructor callback. Countdown link-error escape never exits outer loop; animation wait limitations retained."
+  },
+  {
+    "canonical_symbol": "sub_0803F18C",
+    "decision": "accept",
+    "reason": "Confirmed all four input branches share local upward300 move and arbitrary other inputs still request animation/reset state. Delay is link-error shortened."
+  },
+  {
+    "canonical_symbol": "sub_08035A88",
+    "decision": "accept",
+    "reason": "Confirmed animations0..3 and240/240/180/60 waits in infinite loop; constructor callback exact."
+  },
+  {
+    "canonical_symbol": "sub_080359E8",
+    "decision": "accept",
+    "reason": "Confirmed looping0, three animation1 wait requests,100 delay and2/3 countdown phases; stale-completion and non-aborting link errors appropriately caveated."
+  },
+  {
+    "canonical_symbol": "sub_080435C4",
+    "decision": "accept",
+    "reason": "Confirmed point-vs64x8 overlap at120/240 and signed relative zero-duration y237 adjustment. Height alias03003D70 equals player0 base+90, so fractional y is retained; infinite loop has no abort."
+  },
+  {
+    "canonical_symbol": "sub_08031CB8",
+    "decision": "accept",
+    "reason": "Confirmed literal menu variant, signed16 scroll save/restore,11201100 wait, hide/idle/four waits/fullscreen toggles,514C8 wake and normal-path unlock.84F9C starts82BB0, whose exit wakes the signal; no success promise or timeout."
+  },
+  {
+    "canonical_symbol": "sub_08031D88",
+    "decision": "accept",
+    "reason": "Confirmed literal menu variant, signed16 scroll save/restore,11201100 wait, hide/idle/four waits/fullscreen toggles,514C8 wake and normal-path unlock.84F9C starts82BB0, whose exit wakes the signal; no success promise or timeout."
+  },
+  {
+    "canonical_symbol": "sub_08031E58",
+    "decision": "accept",
+    "reason": "Confirmed literal menu variant, signed16 scroll save/restore,11201100 wait, hide/idle/four waits/fullscreen toggles,514C8 wake and normal-path unlock.84F9C starts82BB0, whose exit wakes the signal; no success promise or timeout."
+  },
+  {
+    "canonical_symbol": "sub_08031F28",
+    "decision": "accept",
+    "reason": "Confirmed literal menu variant, signed16 scroll save/restore,11201100 wait, hide/idle/four waits/fullscreen toggles,514C8 wake and normal-path unlock.84F9C starts82BB0, whose exit wakes the signal; no success promise or timeout."
+  },
+  {
+    "canonical_symbol": "sub_0803E510",
+    "decision": "accept",
+    "reason": "Confirmed resource0x1404E9=1257, local animation0, actor-facing save/restore, suspension close branch and unconditional local state0 after unlocking."
+  },
+  {
+    "canonical_symbol": "sub_08035914",
+    "decision": "accept",
+    "reason": "Confirmed six0/1 phases with200/180/120/360/180/240 waits, infinite outer loop and constructor callback."
+  },
+  {
+    "canonical_symbol": "sub_0803D36C",
+    "decision": "accept",
+    "reason": "Confirmed resource0x1404FA=1274 response mode-2; nonzero response writes10 to1B3/1BF and conditionally plays50. Same byte is a dialogue state-machine selector; no unsupported quest identity."
+  },
+  {
+    "canonical_symbol": "sub_0803AD74",
+    "decision": "accept",
+    "reason": "Confirmed resource290 then291, repeated busy-slot waits, suspension breaks each completion loop only, and final unlock. No false success assertion."
+  },
+  {
+    "canonical_symbol": "sub_08043A4C",
+    "decision": "accept",
+    "reason": "Confirmed bank+1BA/+1C6 bit4 is persistent event28, resource0x14020B=523, input/event locks and suspension-close path. Body never sets gate, correctly repeatable."
+  },
+  {
+    "canonical_symbol": "sub_08043B20",
+    "decision": "accept",
+    "reason": "Confirmed literal message524 and shared event28 clear-only gate, without gate mutation. Both busy waits precede message; suspension closes windows and exits completion loop, then input/event locks clear. Constructor callback identity also verified."
+  },
+  {
+    "canonical_symbol": "sub_08043BF4",
+    "decision": "accept",
+    "reason": "Confirmed literal message525 and shared event28 clear-only gate, without gate mutation. Both busy waits precede message; suspension closes windows and exits completion loop, then input/event locks clear. Constructor callback identity also verified."
+  },
+  {
+    "canonical_symbol": "sub_08043CC8",
+    "decision": "accept",
+    "reason": "Confirmed literal message526 and shared event28 clear-only gate, without gate mutation. Both busy waits precede message; suspension closes windows and exits completion loop, then input/event locks clear. Constructor callback identity also verified."
+  },
+  {
+    "canonical_symbol": "sub_08043D9C",
+    "decision": "accept",
+    "reason": "Confirmed literal message527 and shared event28 clear-only gate, without gate mutation. Both busy waits precede message; suspension closes windows and exits completion loop, then input/event locks clear. Constructor callback identity also verified."
+  },
+  {
+    "canonical_symbol": "sub_08043E70",
+    "decision": "accept",
+    "reason": "Confirmed literal message528 and shared event28 clear-only gate, without gate mutation. Both busy waits precede message; suspension closes windows and exits completion loop, then input/event locks clear. Constructor callback identity also verified."
+  },
+  {
+    "canonical_symbol": "sub_08043F44",
+    "decision": "accept",
+    "reason": "Confirmed resource low16 message531, modebank byte1BA/1C6 bit4 (event28), no gate write, local input/event lock and suspension-close completion escape. Matching area constructor registers exact callback; no NPC label or one-shot promise."
+  },
+  {
+    "canonical_symbol": "sub_08044018",
+    "decision": "accept",
+    "reason": "Confirmed resource low16 message532, modebank byte1BA/1C6 bit4 (event28), no gate write, local input/event lock and suspension-close completion escape. Matching area constructor registers exact callback; no NPC label or one-shot promise."
+  },
+  {
+    "canonical_symbol": "sub_080440EC",
+    "decision": "accept",
+    "reason": "Confirmed resource low16 message533, modebank byte1BA/1C6 bit4 (event28), no gate write, local input/event lock and suspension-close completion escape. Matching area constructor registers exact callback; no NPC label or one-shot promise."
+  },
+  {
+    "canonical_symbol": "sub_08044318",
+    "decision": "accept",
+    "reason": "Confirmed resource low16 message534, modebank byte1BA/1C6 bit4 (event28), no gate write, local input/event lock and suspension-close completion escape. Matching area constructor registers exact callback; no NPC label or one-shot promise."
+  }
+]

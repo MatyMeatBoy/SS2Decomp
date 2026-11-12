@@ -1,0 +1,896 @@
+{
+  "source_revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7",
+  "policy": "Frozen proposals, including superseded mappings; reviewed accepted rows alone earn credit.",
+  "proposals": [
+    {
+      "canonical_symbol": "sub_0803E5D8",
+      "address": "0x0803E5D8",
+      "display_name": "IncrementSceneBarrierArrivalCount",
+      "summary": "Increments the normal/advanced scene interaction barrier byte modulo256; mode is queried separately for read and write.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_0803B69C.c",
+          "line": 1352,
+          "detail": "Reads advanced+0x1C1 or normal+0x1B5, increments into u8, then queries mode again to store.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0803B69C.c",
+          "line": 1295,
+          "detail": "Scene movement sequence requests increment through linked callback after local movement/flags update.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0803B69C.c",
+          "line": 1175,
+          "detail": "Sequence captures connected-player count; line1304 waits until banked byte equals that count, establishing barrier-arrival role.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": []
+    },
+    {
+      "canonical_symbol": "sub_0803B69C",
+      "address": "0x0803B69C",
+      "display_name": "CycleActorHorizontalRoute",
+      "summary": "Repeats actor animation/movement sequence indefinitely: left10 with looping animation8, left4 with animation8, looping9 with100 waits, animation10 completion wait,30 waits, then right14.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_0803B69C.c",
+          "line": 6,
+          "detail": "Requests looping8, relative movement-10 over600, nonloop8/-4 over10, then looping9.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0803B69C.c",
+          "line": 11,
+          "detail": "Waits up to100 signals, then animation10 completion and up to30 signals before+14 over20.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08028AAC.c",
+          "line": 4716,
+          "detail": "Constructor installs this exact function as actor autonomous task callback.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Link error shortens counted waits but never exits outer loop; timed interpolation does not guarantee endpoint snap. Animation-wait helper can inherit stale-completion behavior."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_0803F18C",
+      "address": "0x0803F18C",
+      "display_name": "MovePlayerUpwardAfterDelay",
+      "summary": "Waits up to30 signals, requests looping local-player animation8, moves upward300 with duration300 for input0..3, and unconditionally sets local player state0.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_0803B69C.c",
+          "line": 1823,
+          "detail": "Initial30-count signal wait may end early on link error.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0803B69C.c",
+          "line": 1831,
+          "detail": "Requests local-player loop8; switch inputs0,1,2,3 all execute identical upward movement; other inputs skip movement.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0803B69C.c",
+          "line": 1846,
+          "detail": "Resolves local-player record and resets state+0x20 to0 regardless of switch branch.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08028AAC.c",
+          "line": 2999,
+          "detail": "Scene constructor schedules this callback through delayed task setup.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": []
+    },
+    {
+      "canonical_symbol": "sub_08035A88",
+      "address": "0x08035A88",
+      "display_name": "CycleTimedActorAnimations",
+      "summary": "Indefinitely requests actor animations0,1,2,3 separated by240,240,180,60 signal waits respectively; link error only shortens each wait.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_0802FEA0.c",
+          "line": 2758,
+          "detail": "Animation0 then240-count wait; animation1 then240-count wait.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0802FEA0.c",
+          "line": 2764,
+          "detail": "Animation2 then180-count wait; animation3 then60-count wait, outer loop repeats.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08028AAC.c",
+          "line": 3722,
+          "detail": "Actor constructor installs this exact autonomous animation callback.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": []
+    },
+    {
+      "canonical_symbol": "sub_080359E8",
+      "address": "0x080359E8",
+      "display_name": "CycleRepeatedActorAnimationSequence",
+      "summary": "Indefinitely loops animation0 with240 waits, plays/waits animation1 three times, waits100, requests animation2 with200 waits and animation3 with180 waits.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_0802FEA0.c",
+          "line": 2710,
+          "detail": "Requests looping animation0 then up to240 waits.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0802FEA0.c",
+          "line": 2720,
+          "detail": "Requests animation1 with completion wait three consecutive times, then100-count delay.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0802FEA0.c",
+          "line": 2732,
+          "detail": "Animation2/200 waits and animation3/180 waits complete repeating cycle.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08028AAC.c",
+          "line": 3683,
+          "detail": "Actor constructor installs this autonomous callback.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Link error only shortens countdown waits; animation completion helper may return on stale completion and has no link-error escape."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_080435C4",
+      "address": "0x080435C4",
+      "display_name": "TaskSnapPlayerToHeight237",
+      "summary": "Repeatedly waits for the local-player point to overlap a64-by8 box centered at120/240, then immediately adjusts its integer pixel y to237 while preserving subpixel fraction and repeats.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_0803B69C.c",
+          "line": 4529,
+          "detail": "Initializes player point size0 and target Q8 position120/240.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0803B69C.c",
+          "line": 4537,
+          "detail": "Packs target dimensions64 and8 into config0x00080040.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0803B69C.c",
+          "line": 4545,
+          "detail": "Polls confirmed AABB-overlap helper, yielding while outside.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0803B69C.c",
+          "line": 4548,
+          "detail": "Uses signed relative y offset237-currentPixelY with zero duration; retains fractional position, yields once and repeats.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0803B69C.c",
+          "line": 4476,
+          "detail": "Area setup starts this exact callback task.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "No link-error, exit-flag or timeout escape exists in this body; no general collision barrier or unrestricted coordinate clamping is inferred."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_08031CB8",
+      "address": "0x08031CB8",
+      "display_name": "RunItemCollectionMenu9Event",
+      "summary": "Locks local-player input/event state, hides display and requests map reload, runs item-collection menu variant9 while preserving signed camera scroll, then restores menu/map flags and releases locks on normal return.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_0802FEA0.c",
+          "line": 937,
+          "detail": "Sets local-player flag0 and event lock; marks menu fade and requests hide6 followed by idle wait.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0802FEA0.c",
+          "line": 950,
+          "detail": "Runs shared Keep31CB8 with literal menu variant9 between fullscreen-menu mark/clear.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0802FEA0.c",
+          "line": 924,
+          "detail": "Shared helper saves signed scroll halfwords+0x7C/+0x7E, starts confirmed item-collection menu84F9C, waits signal11201100 and restores scroll.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0802FEA0.c",
+          "line": 952,
+          "detail": "Wakes map reload signal514C8, clears menu-fade flag, waits transition idle then releases local input/event locks.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Literal menu variant is the distinguishing input; no shop/NPC identity inferred. All restoration is normal path after blocking waits; no timeout or cancellation handling in wrapper."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_08031D88",
+      "address": "0x08031D88",
+      "display_name": "RunItemCollectionMenu8Event",
+      "summary": "Locks local-player input/event state, hides display and requests map reload, runs item-collection menu variant8 while preserving signed camera scroll, then restores menu/map flags and releases locks on normal return.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_0802FEA0.c",
+          "line": 966,
+          "detail": "Sets local-player flag0 and event lock; marks menu fade and requests hide6 followed by idle wait.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0802FEA0.c",
+          "line": 979,
+          "detail": "Runs shared Keep31CB8 with literal menu variant8 between fullscreen-menu mark/clear.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0802FEA0.c",
+          "line": 924,
+          "detail": "Shared helper saves signed scroll halfwords+0x7C/+0x7E, starts confirmed item-collection menu84F9C, waits signal11201100 and restores scroll.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0802FEA0.c",
+          "line": 981,
+          "detail": "Wakes map reload signal514C8, clears menu-fade flag, waits transition idle then releases local input/event locks.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Literal menu variant is the distinguishing input; no shop/NPC identity inferred. All restoration is normal path after blocking waits; no timeout or cancellation handling in wrapper."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_08031E58",
+      "address": "0x08031E58",
+      "display_name": "RunItemCollectionMenu7Event",
+      "summary": "Locks local-player input/event state, hides display and requests map reload, runs item-collection menu variant7 while preserving signed camera scroll, then restores menu/map flags and releases locks on normal return.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_0802FEA0.c",
+          "line": 995,
+          "detail": "Sets local-player flag0 and event lock; marks menu fade and requests hide6 followed by idle wait.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0802FEA0.c",
+          "line": 1008,
+          "detail": "Runs shared Keep31CB8 with literal menu variant7 between fullscreen-menu mark/clear.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0802FEA0.c",
+          "line": 924,
+          "detail": "Shared helper saves signed scroll halfwords+0x7C/+0x7E, starts confirmed item-collection menu84F9C, waits signal11201100 and restores scroll.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0802FEA0.c",
+          "line": 1010,
+          "detail": "Wakes map reload signal514C8, clears menu-fade flag, waits transition idle then releases local input/event locks.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Literal menu variant is the distinguishing input; no shop/NPC identity inferred. All restoration is normal path after blocking waits; no timeout or cancellation handling in wrapper."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_08031F28",
+      "address": "0x08031F28",
+      "display_name": "RunItemCollectionMenu2Event",
+      "summary": "Locks local-player input/event state, hides display and requests map reload, runs item-collection menu variant2 while preserving signed camera scroll, then restores menu/map flags and releases locks on normal return.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_0802FEA0.c",
+          "line": 1024,
+          "detail": "Sets local-player flag0 and event lock; marks menu fade and requests hide6 followed by idle wait.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0802FEA0.c",
+          "line": 1037,
+          "detail": "Runs shared Keep31CB8 with literal menu variant2 between fullscreen-menu mark/clear.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0802FEA0.c",
+          "line": 924,
+          "detail": "Shared helper saves signed scroll halfwords+0x7C/+0x7E, starts confirmed item-collection menu84F9C, waits signal11201100 and restores scroll.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0802FEA0.c",
+          "line": 1039,
+          "detail": "Wakes map reload signal514C8, clears menu-fade flag, waits transition idle then releases local input/event locks.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Literal menu variant is the distinguishing input; no shop/NPC identity inferred. All restoration is normal path after blocking waits; no timeout or cancellation handling in wrapper."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_0803E510",
+      "address": "0x0803E510",
+      "display_name": "RunActorMessage1257",
+      "summary": "Locks local-player input/event state, requests player animation0 and turns the supplied actor toward player, shows message1257 until done or suspension, restores facing/locks then unconditionally sets local-player state0.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_0803B69C.c",
+          "line": 1325,
+          "detail": "Sets local-player flag0/event lock, requests player animation0 and actor facing toward selector0.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0803B69C.c",
+          "line": 1331,
+          "detail": "Requests family0x14 message0x4E9=1257; completion loop closes windows on world suspension.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0803B69C.c",
+          "line": 1339,
+          "detail": "Restores actor facing, releases locks and writes local-player state0 at1345.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0803B69C.c",
+          "line": 1250,
+          "detail": "Area sequence registers this exact actor interaction callback.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Numeric message ID retained because no locally decoded text establishes character/story identity."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_08035914",
+      "address": "0x08035914",
+      "display_name": "CycleAlternatingActorAnimations",
+      "summary": "Indefinitely alternates actor animations0/1 across six phases with signal-wait limits200,180,120,360,180,240; link errors shorten waits without ending the cycle.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_0802FEA0.c",
+          "line": 2687,
+          "detail": "Requests animations0/1 with200/180 waits.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0802FEA0.c",
+          "line": 2693,
+          "detail": "Second pair uses120/360 waits; third pair180/240; enclosing loop repeats.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08028AAC.c",
+          "line": 3644,
+          "detail": "Actor constructor installs this autonomous animation callback.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": []
+    },
+    {
+      "canonical_symbol": "sub_0803D36C",
+      "address": "0x0803D36C",
+      "display_name": "ConfirmMessage1274AndSetProgress",
+      "summary": "Locks player event/input, turns supplied actor to player and asks message1274; nonzero response requests sound50 and sets active-bank progress byte to10, then facing/locks are restored.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_0803B69C.c",
+          "line": 780,
+          "detail": "Begins input/event locks and turns actor toward local player.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0803B69C.c",
+          "line": 784,
+          "detail": "Requests family0x14 message0x4FA=1274 with response mode-2 and waits completion with no suspension escape.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0803B69C.c",
+          "line": 786,
+          "detail": "Nonzero response requests sound0x32 unless link mute; writes10 to advanced+0x1BF or normal+0x1B3.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0803B69C.c",
+          "line": 799,
+          "detail": "Restores actor facing, clears player flag0/event lock.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0802FEA0.c",
+          "line": 1870,
+          "detail": "Another dialogue state machine switches on the same banked progress byte, supporting progress-state role without assigning quest identity.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": []
+    },
+    {
+      "canonical_symbol": "sub_0803AD74",
+      "address": "0x0803AD74",
+      "display_name": "RunSceneMessages290And291",
+      "summary": "Holds local-player event/input locks while showing messages290 then291; each completion wait can close windows on suspension, and second message still runs before locks are released.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_0802FEA0.c",
+          "line": 5128,
+          "detail": "Begins local-player event/input lock and waits for free dialogue/text slots.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0802FEA0.c",
+          "line": 5132,
+          "detail": "Runs family0x14 message0x122=290; suspension breaks only its completion loop.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0802FEA0.c",
+          "line": 5140,
+          "detail": "Waits slots again and runs0x123=291 even after earlier suspension; then clears locks.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "No NPC/story identity inferred from numeric message resources."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_08043A4C",
+      "address": "0x08043A4C",
+      "display_name": "ShowEventGatedMessage523",
+      "summary": "When persistent event28 is clear in the selected mode bank, locks local-player input/event state, displays message523 until complete or suspension and releases locks; when set does nothing.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_0803B69C.c",
+          "line": 4700,
+          "detail": "Chooses advanced+0x1C6 or normal+0x1BA and tests bit4, equivalent to event28 in banks+0x1C3/+0x1B7.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0803B69C.c",
+          "line": 4714,
+          "detail": "Sets local-player flag0/event lock and waits dialogue/text slots.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0803B69C.c",
+          "line": 4718,
+          "detail": "Displays0x14020B (message523); suspension closes windows then exits wait; clears locks at4727-4728.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0803B69C.c",
+          "line": 4322,
+          "detail": "Area setup installs this as actor interaction callback.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "This helper never sets event28, so it is not inherently a one-shot message."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_08043B20",
+      "address": "0x08043B20",
+      "display_name": "ShowEventGatedMessage524",
+      "summary": "If persistent event28 is clear in the active mode bank, holds local-player input/event locks while displaying message524, closes dialogue on suspension and releases locks; event28 set returns without work.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_0803B69C.c",
+          "line": 4741,
+          "detail": "Selects advanced+0x1C6 or normal+0x1BA, tests bit4: persistent event28, without changing it.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0803B69C.c",
+          "line": 4755,
+          "detail": "Begins player input/event lock and waits for dialogue/text slots.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0803B69C.c",
+          "line": 4759,
+          "detail": "Starts literal message resource0x14020C; waits completion with suspension-close escape.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0803B69C.c",
+          "line": 4768,
+          "detail": "Clears player flag0 and ends event lock on normal function return.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0803B69C.c",
+          "line": 4330,
+          "detail": "Area setup installs callback on actor interaction field+0x44 through helper4174.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Numeric resource ID retained; no NPC/story identity inferred. Helper does not set its gate and can repeat while event28 stays clear."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_08043BF4",
+      "address": "0x08043BF4",
+      "display_name": "ShowEventGatedMessage525",
+      "summary": "If persistent event28 is clear in the active mode bank, holds local-player input/event locks while displaying message525, closes dialogue on suspension and releases locks; event28 set returns without work.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_0803B69C.c",
+          "line": 4782,
+          "detail": "Selects advanced+0x1C6 or normal+0x1BA, tests bit4: persistent event28, without changing it.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0803B69C.c",
+          "line": 4796,
+          "detail": "Begins player input/event lock and waits for dialogue/text slots.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0803B69C.c",
+          "line": 4800,
+          "detail": "Starts literal message resource0x14020D; waits completion with suspension-close escape.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0803B69C.c",
+          "line": 4809,
+          "detail": "Clears player flag0 and ends event lock on normal function return.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0803B69C.c",
+          "line": 4338,
+          "detail": "Area setup installs callback on actor interaction field+0x44 through helper4174.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Numeric resource ID retained; no NPC/story identity inferred. Helper does not set its gate and can repeat while event28 stays clear."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_08043CC8",
+      "address": "0x08043CC8",
+      "display_name": "ShowEventGatedMessage526",
+      "summary": "If persistent event28 is clear in the active mode bank, holds local-player input/event locks while displaying message526, closes dialogue on suspension and releases locks; event28 set returns without work.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_0803B69C.c",
+          "line": 4823,
+          "detail": "Selects advanced+0x1C6 or normal+0x1BA, tests bit4: persistent event28, without changing it.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0803B69C.c",
+          "line": 4837,
+          "detail": "Begins player input/event lock and waits for dialogue/text slots.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0803B69C.c",
+          "line": 4841,
+          "detail": "Starts literal message resource0x14020E; waits completion with suspension-close escape.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0803B69C.c",
+          "line": 4850,
+          "detail": "Clears player flag0 and ends event lock on normal function return.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0803B69C.c",
+          "line": 4346,
+          "detail": "Area setup installs callback on actor interaction field+0x44 through helper4174.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Numeric resource ID retained; no NPC/story identity inferred. Helper does not set its gate and can repeat while event28 stays clear."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_08043D9C",
+      "address": "0x08043D9C",
+      "display_name": "ShowEventGatedMessage527",
+      "summary": "If persistent event28 is clear in the active mode bank, holds local-player input/event locks while displaying message527, closes dialogue on suspension and releases locks; event28 set returns without work.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_0803B69C.c",
+          "line": 4864,
+          "detail": "Selects advanced+0x1C6 or normal+0x1BA, tests bit4: persistent event28, without changing it.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0803B69C.c",
+          "line": 4878,
+          "detail": "Begins player input/event lock and waits for dialogue/text slots.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0803B69C.c",
+          "line": 4882,
+          "detail": "Starts literal message resource0x14020F; waits completion with suspension-close escape.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0803B69C.c",
+          "line": 4891,
+          "detail": "Clears player flag0 and ends event lock on normal function return.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0803B69C.c",
+          "line": 4412,
+          "detail": "Area setup installs callback on actor interaction field+0x44 through helper4174.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Numeric resource ID retained; no NPC/story identity inferred. Helper does not set its gate and can repeat while event28 stays clear."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_08043E70",
+      "address": "0x08043E70",
+      "display_name": "ShowEventGatedMessage528",
+      "summary": "If persistent event28 is clear in the active mode bank, holds local-player input/event locks while displaying message528, closes dialogue on suspension and releases locks; event28 set returns without work.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_0803B69C.c",
+          "line": 4905,
+          "detail": "Selects advanced+0x1C6 or normal+0x1BA, tests bit4: persistent event28, without changing it.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0803B69C.c",
+          "line": 4919,
+          "detail": "Begins player input/event lock and waits for dialogue/text slots.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0803B69C.c",
+          "line": 4923,
+          "detail": "Starts literal message resource0x140210; waits completion with suspension-close escape.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0803B69C.c",
+          "line": 4932,
+          "detail": "Clears player flag0 and ends event lock on normal function return.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0803B69C.c",
+          "line": 4420,
+          "detail": "Area setup installs callback on actor interaction field+0x44 through helper4174.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Numeric resource ID retained; no NPC/story identity inferred. Helper does not set its gate and can repeat while event28 stays clear."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_08043F44",
+      "address": "0x08043F44",
+      "display_name": "ShowEventGatedMessage531",
+      "summary": "If persistent event28 is clear in the active mode bank, holds local-player input/event locks while displaying message531, closes dialogue on suspension and releases locks; event28 set returns without work.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_0803B69C.c",
+          "line": 4946,
+          "detail": "Selects advanced+0x1C6 or normal+0x1BA and tests bit4, equivalent to event28 in persistent banks.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0803B69C.c",
+          "line": 4960,
+          "detail": "Begins player input/event lock and waits for dialogue/text slots.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0803B69C.c",
+          "line": 4964,
+          "detail": "Starts literal resource0x140213; waits completion with suspension-close escape.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0803B69C.c",
+          "line": 4973,
+          "detail": "Clears player flag0 and ends event lock.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0803B69C.c",
+          "line": 4452,
+          "detail": "Area setup installs this actor interaction callback via helper4174, whose field44 write is explicit.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Numeric resource ID retained; no NPC/story identity inferred. Helper never sets event28 and is not inherently one-shot."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_08044018",
+      "address": "0x08044018",
+      "display_name": "ShowEventGatedMessage532",
+      "summary": "If persistent event28 is clear in the active mode bank, holds local-player input/event locks while displaying message532, closes dialogue on suspension and releases locks; event28 set returns without work.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_0803B69C.c",
+          "line": 4987,
+          "detail": "Selects advanced+0x1C6 or normal+0x1BA and tests bit4, equivalent to event28 in persistent banks.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0803B69C.c",
+          "line": 5001,
+          "detail": "Begins player input/event lock and waits for dialogue/text slots.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0803B69C.c",
+          "line": 5005,
+          "detail": "Starts literal resource0x140214; waits completion with suspension-close escape.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0803B69C.c",
+          "line": 5014,
+          "detail": "Clears player flag0 and ends event lock.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0803B69C.c",
+          "line": 4436,
+          "detail": "Area setup installs this actor interaction callback via helper4174, whose field44 write is explicit.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Numeric resource ID retained; no NPC/story identity inferred. Helper never sets event28 and is not inherently one-shot."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_080440EC",
+      "address": "0x080440EC",
+      "display_name": "ShowEventGatedMessage533",
+      "summary": "If persistent event28 is clear in the active mode bank, holds local-player input/event locks while displaying message533, closes dialogue on suspension and releases locks; event28 set returns without work.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_0803B69C.c",
+          "line": 5028,
+          "detail": "Selects advanced+0x1C6 or normal+0x1BA and tests bit4, equivalent to event28 in persistent banks.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0803B69C.c",
+          "line": 5042,
+          "detail": "Begins player input/event lock and waits for dialogue/text slots.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0803B69C.c",
+          "line": 5046,
+          "detail": "Starts literal resource0x140215; waits completion with suspension-close escape.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0803B69C.c",
+          "line": 5055,
+          "detail": "Clears player flag0 and ends event lock.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0803B69C.c",
+          "line": 4444,
+          "detail": "Area setup installs this actor interaction callback via helper4174, whose field44 write is explicit.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Numeric resource ID retained; no NPC/story identity inferred. Helper never sets event28 and is not inherently one-shot."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_08044318",
+      "address": "0x08044318",
+      "display_name": "ShowEventGatedMessage534",
+      "summary": "If persistent event28 is clear in the active mode bank, holds local-player input/event locks while displaying message534, closes dialogue on suspension and releases locks; event28 set returns without work.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_0803B69C.c",
+          "line": 5135,
+          "detail": "Selects advanced+0x1C6 or normal+0x1BA and tests bit4, equivalent to event28 in persistent banks.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0803B69C.c",
+          "line": 5149,
+          "detail": "Begins player input/event lock and waits for dialogue/text slots.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0803B69C.c",
+          "line": 5153,
+          "detail": "Starts literal resource0x140216; waits completion with suspension-close escape.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0803B69C.c",
+          "line": 5162,
+          "detail": "Clears player flag0 and ends event lock.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0803B69C.c",
+          "line": 4428,
+          "detail": "Area setup installs this actor interaction callback via helper4174, whose field44 write is explicit.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Numeric resource ID retained; no NPC/story identity inferred. Helper never sets event28 and is not inherently one-shot."
+      ]
+    }
+  ]
+}

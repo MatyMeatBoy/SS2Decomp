@@ -16893,7 +16893,7 @@
       "address": "0x08015D74",
       "canonical_symbol": "sub_08015D74",
       "display_name": "SetLocalPlayerFlagBit12",
-      "status": "proposed",
+      "status": "confirmed",
       "domain": "game",
       "evidence": [
         {
@@ -16907,6 +16907,12 @@
           "line": 350,
           "revision": "8d4618912c1c6cadb3f315aad7386e582d3de83c",
           "detail": "Canonical Thumb entry for sub_08015D74. Original EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc; static source/instruction evidence only."
+        },
+        {
+          "source": "src/code_080153A4.c",
+          "line": 420,
+          "detail": "Sets local-player flags bit12; preserves every other bit. Intended gameplay purpose remains unknown.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
         }
       ]
     },
@@ -16914,7 +16920,7 @@
       "address": "0x08015D98",
       "canonical_symbol": "sub_08015D98",
       "display_name": "ClearLocalPlayerFlagBit12",
-      "status": "proposed",
+      "status": "confirmed",
       "domain": "game",
       "evidence": [
         {
@@ -16928,6 +16934,12 @@
           "line": 351,
           "revision": "8d4618912c1c6cadb3f315aad7386e582d3de83c",
           "detail": "Canonical Thumb entry for sub_08015D98. Original EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc; static source/instruction evidence only."
+        },
+        {
+          "source": "src/code_080153A4.c",
+          "line": 424,
+          "detail": "Clears local-player flags bit12; preserves every other bit. Intended gameplay purpose remains unknown.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
         }
       ]
     },
@@ -34291,6 +34303,2544 @@
           "source": "src/code_080A9680.c",
           "line": 3237,
           "detail": "Attack animation frame gate supplies that subtype to58CC4; other enemies use same resource9B field at3647.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ]
+    },
+    {
+      "address": "0x0803E5D8",
+      "canonical_symbol": "sub_0803E5D8",
+      "display_name": "IncrementSceneBarrierArrivalCount",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_0803B69C.c",
+          "line": 1352,
+          "detail": "Reads advanced+0x1C1 or normal+0x1B5, increments into u8, then queries mode again to store.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0803B69C.c",
+          "line": 1295,
+          "detail": "Scene movement sequence requests increment through linked callback after local movement/flags update.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0803B69C.c",
+          "line": 1175,
+          "detail": "Sequence captures connected-player count; line1304 waits until banked byte equals that count, establishing barrier-arrival role.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ]
+    },
+    {
+      "address": "0x0803B69C",
+      "canonical_symbol": "sub_0803B69C",
+      "display_name": "CycleActorHorizontalRoute",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_0803B69C.c",
+          "line": 6,
+          "detail": "Requests looping8, relative movement-10 over600, nonloop8/-4 over10, then looping9.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0803B69C.c",
+          "line": 11,
+          "detail": "Waits up to100 signals, then animation10 completion and up to30 signals before+14 over20.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08028AAC.c",
+          "line": 4716,
+          "detail": "Constructor installs this exact function as actor autonomous task callback.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ]
+    },
+    {
+      "address": "0x0803F18C",
+      "canonical_symbol": "sub_0803F18C",
+      "display_name": "MovePlayerUpwardAfterDelay",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_0803B69C.c",
+          "line": 1823,
+          "detail": "Initial30-count signal wait may end early on link error.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0803B69C.c",
+          "line": 1831,
+          "detail": "Requests local-player loop8; switch inputs0,1,2,3 all execute identical upward movement; other inputs skip movement.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0803B69C.c",
+          "line": 1846,
+          "detail": "Resolves local-player record and resets state+0x20 to0 regardless of switch branch.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08028AAC.c",
+          "line": 2999,
+          "detail": "Scene constructor schedules this callback through delayed task setup.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ]
+    },
+    {
+      "address": "0x08035A88",
+      "canonical_symbol": "sub_08035A88",
+      "display_name": "CycleTimedActorAnimations",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_0802FEA0.c",
+          "line": 2758,
+          "detail": "Animation0 then240-count wait; animation1 then240-count wait.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0802FEA0.c",
+          "line": 2764,
+          "detail": "Animation2 then180-count wait; animation3 then60-count wait, outer loop repeats.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08028AAC.c",
+          "line": 3722,
+          "detail": "Actor constructor installs this exact autonomous animation callback.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ]
+    },
+    {
+      "address": "0x080359E8",
+      "canonical_symbol": "sub_080359E8",
+      "display_name": "CycleRepeatedActorAnimationSequence",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_0802FEA0.c",
+          "line": 2710,
+          "detail": "Requests looping animation0 then up to240 waits.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0802FEA0.c",
+          "line": 2720,
+          "detail": "Requests animation1 with completion wait three consecutive times, then100-count delay.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0802FEA0.c",
+          "line": 2732,
+          "detail": "Animation2/200 waits and animation3/180 waits complete repeating cycle.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08028AAC.c",
+          "line": 3683,
+          "detail": "Actor constructor installs this autonomous callback.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ]
+    },
+    {
+      "address": "0x080435C4",
+      "canonical_symbol": "sub_080435C4",
+      "display_name": "TaskSnapPlayerToHeight237",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_0803B69C.c",
+          "line": 4529,
+          "detail": "Initializes player point size0 and target Q8 position120/240.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0803B69C.c",
+          "line": 4537,
+          "detail": "Packs target dimensions64 and8 into config0x00080040.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0803B69C.c",
+          "line": 4545,
+          "detail": "Polls confirmed AABB-overlap helper, yielding while outside.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0803B69C.c",
+          "line": 4548,
+          "detail": "Uses signed relative y offset237-currentPixelY with zero duration; retains fractional position, yields once and repeats.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0803B69C.c",
+          "line": 4476,
+          "detail": "Area setup starts this exact callback task.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ]
+    },
+    {
+      "address": "0x08031CB8",
+      "canonical_symbol": "sub_08031CB8",
+      "display_name": "RunItemCollectionMenu9Event",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_0802FEA0.c",
+          "line": 937,
+          "detail": "Sets local-player flag0 and event lock; marks menu fade and requests hide6 followed by idle wait.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0802FEA0.c",
+          "line": 950,
+          "detail": "Runs shared Keep31CB8 with literal menu variant9 between fullscreen-menu mark/clear.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0802FEA0.c",
+          "line": 952,
+          "detail": "Wakes map reload signal514C8, clears menu-fade flag, waits transition idle then releases local input/event locks.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0802FEA0.c",
+          "line": 924,
+          "detail": "Shared helper saves signed scroll halfwords+0x7C/+0x7E, starts confirmed item-collection menu84F9C, waits signal11201100 and restores scroll.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ]
+    },
+    {
+      "address": "0x08031D88",
+      "canonical_symbol": "sub_08031D88",
+      "display_name": "RunItemCollectionMenu8Event",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_0802FEA0.c",
+          "line": 966,
+          "detail": "Sets local-player flag0 and event lock; marks menu fade and requests hide6 followed by idle wait.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0802FEA0.c",
+          "line": 979,
+          "detail": "Runs shared Keep31CB8 with literal menu variant8 between fullscreen-menu mark/clear.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0802FEA0.c",
+          "line": 981,
+          "detail": "Wakes map reload signal514C8, clears menu-fade flag, waits transition idle then releases local input/event locks.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0802FEA0.c",
+          "line": 924,
+          "detail": "Shared helper saves signed scroll halfwords+0x7C/+0x7E, starts confirmed item-collection menu84F9C, waits signal11201100 and restores scroll.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ]
+    },
+    {
+      "address": "0x08031E58",
+      "canonical_symbol": "sub_08031E58",
+      "display_name": "RunItemCollectionMenu7Event",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_0802FEA0.c",
+          "line": 995,
+          "detail": "Sets local-player flag0 and event lock; marks menu fade and requests hide6 followed by idle wait.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0802FEA0.c",
+          "line": 1008,
+          "detail": "Runs shared Keep31CB8 with literal menu variant7 between fullscreen-menu mark/clear.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0802FEA0.c",
+          "line": 1010,
+          "detail": "Wakes map reload signal514C8, clears menu-fade flag, waits transition idle then releases local input/event locks.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0802FEA0.c",
+          "line": 924,
+          "detail": "Shared helper saves signed scroll halfwords+0x7C/+0x7E, starts confirmed item-collection menu84F9C, waits signal11201100 and restores scroll.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ]
+    },
+    {
+      "address": "0x08031F28",
+      "canonical_symbol": "sub_08031F28",
+      "display_name": "RunItemCollectionMenu2Event",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_0802FEA0.c",
+          "line": 1024,
+          "detail": "Sets local-player flag0 and event lock; marks menu fade and requests hide6 followed by idle wait.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0802FEA0.c",
+          "line": 1037,
+          "detail": "Runs shared Keep31CB8 with literal menu variant2 between fullscreen-menu mark/clear.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0802FEA0.c",
+          "line": 1039,
+          "detail": "Wakes map reload signal514C8, clears menu-fade flag, waits transition idle then releases local input/event locks.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0802FEA0.c",
+          "line": 924,
+          "detail": "Shared helper saves signed scroll halfwords+0x7C/+0x7E, starts confirmed item-collection menu84F9C, waits signal11201100 and restores scroll.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ]
+    },
+    {
+      "address": "0x0803E510",
+      "canonical_symbol": "sub_0803E510",
+      "display_name": "RunActorMessage1257",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_0803B69C.c",
+          "line": 1325,
+          "detail": "Sets local-player flag0/event lock, requests player animation0 and actor facing toward selector0.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0803B69C.c",
+          "line": 1331,
+          "detail": "Requests family0x14 message0x4E9=1257; completion loop closes windows on world suspension.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0803B69C.c",
+          "line": 1339,
+          "detail": "Restores actor facing, releases locks and writes local-player state0 at1345.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0803B69C.c",
+          "line": 1250,
+          "detail": "Area sequence registers this exact actor interaction callback.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ]
+    },
+    {
+      "address": "0x08035914",
+      "canonical_symbol": "sub_08035914",
+      "display_name": "CycleAlternatingActorAnimations",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_0802FEA0.c",
+          "line": 2687,
+          "detail": "Requests animations0/1 with200/180 waits.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0802FEA0.c",
+          "line": 2693,
+          "detail": "Second pair uses120/360 waits; third pair180/240; enclosing loop repeats.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08028AAC.c",
+          "line": 3644,
+          "detail": "Actor constructor installs this autonomous animation callback.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ]
+    },
+    {
+      "address": "0x0803D36C",
+      "canonical_symbol": "sub_0803D36C",
+      "display_name": "ConfirmDialogueAndSetProgress",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_0803B69C.c",
+          "line": 780,
+          "detail": "Begins input/event locks and turns actor toward local player.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0803B69C.c",
+          "line": 784,
+          "detail": "Requests family0x14 message0x4FA=1274 with response mode-2 and waits completion with no suspension escape.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0803B69C.c",
+          "line": 786,
+          "detail": "Nonzero response requests sound0x32 unless link mute; writes10 to advanced+0x1BF or normal+0x1B3.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0803B69C.c",
+          "line": 799,
+          "detail": "Restores actor facing, clears player flag0/event lock.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0802FEA0.c",
+          "line": 1870,
+          "detail": "Another dialogue state machine switches on the same banked progress byte, supporting progress-state role without assigning quest identity.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ]
+    },
+    {
+      "address": "0x0803AD74",
+      "canonical_symbol": "sub_0803AD74",
+      "display_name": "RunSceneMessages290And291",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_0802FEA0.c",
+          "line": 5128,
+          "detail": "Begins local-player event/input lock and waits for free dialogue/text slots.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0802FEA0.c",
+          "line": 5132,
+          "detail": "Runs family0x14 message0x122=290; suspension breaks only its completion loop.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0802FEA0.c",
+          "line": 5140,
+          "detail": "Waits slots again and runs0x123=291 even after earlier suspension; then clears locks.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ]
+    },
+    {
+      "address": "0x08043A4C",
+      "canonical_symbol": "sub_08043A4C",
+      "display_name": "ShowEventGatedMessage523",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_0803B69C.c",
+          "line": 4700,
+          "detail": "Chooses advanced+0x1C6 or normal+0x1BA and tests bit4, equivalent to event28 in banks+0x1C3/+0x1B7.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0803B69C.c",
+          "line": 4714,
+          "detail": "Sets local-player flag0/event lock and waits dialogue/text slots.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0803B69C.c",
+          "line": 4718,
+          "detail": "Displays0x14020B (message523); suspension closes windows then exits wait; clears locks at4727-4728.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0803B69C.c",
+          "line": 4322,
+          "detail": "Area setup installs this as actor interaction callback.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ]
+    },
+    {
+      "address": "0x08043B20",
+      "canonical_symbol": "sub_08043B20",
+      "display_name": "ShowEventGatedMessage524",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_0803B69C.c",
+          "line": 4741,
+          "detail": "Selects advanced+0x1C6 or normal+0x1BA, tests bit4: persistent event28, without changing it.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0803B69C.c",
+          "line": 4755,
+          "detail": "Begins player input/event lock and waits for dialogue/text slots.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0803B69C.c",
+          "line": 4759,
+          "detail": "Starts literal message resource0x14020C; waits completion with suspension-close escape.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0803B69C.c",
+          "line": 4768,
+          "detail": "Clears player flag0 and ends event lock on normal function return.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0803B69C.c",
+          "line": 4330,
+          "detail": "Area setup installs callback on actor interaction field+0x44 through helper4174.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ]
+    },
+    {
+      "address": "0x08043BF4",
+      "canonical_symbol": "sub_08043BF4",
+      "display_name": "ShowEventGatedMessage525",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_0803B69C.c",
+          "line": 4782,
+          "detail": "Selects advanced+0x1C6 or normal+0x1BA, tests bit4: persistent event28, without changing it.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0803B69C.c",
+          "line": 4796,
+          "detail": "Begins player input/event lock and waits for dialogue/text slots.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0803B69C.c",
+          "line": 4800,
+          "detail": "Starts literal message resource0x14020D; waits completion with suspension-close escape.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0803B69C.c",
+          "line": 4809,
+          "detail": "Clears player flag0 and ends event lock on normal function return.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0803B69C.c",
+          "line": 4338,
+          "detail": "Area setup installs callback on actor interaction field+0x44 through helper4174.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ]
+    },
+    {
+      "address": "0x08043CC8",
+      "canonical_symbol": "sub_08043CC8",
+      "display_name": "ShowEventGatedMessage526",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_0803B69C.c",
+          "line": 4823,
+          "detail": "Selects advanced+0x1C6 or normal+0x1BA, tests bit4: persistent event28, without changing it.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0803B69C.c",
+          "line": 4837,
+          "detail": "Begins player input/event lock and waits for dialogue/text slots.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0803B69C.c",
+          "line": 4841,
+          "detail": "Starts literal message resource0x14020E; waits completion with suspension-close escape.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0803B69C.c",
+          "line": 4850,
+          "detail": "Clears player flag0 and ends event lock on normal function return.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0803B69C.c",
+          "line": 4346,
+          "detail": "Area setup installs callback on actor interaction field+0x44 through helper4174.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ]
+    },
+    {
+      "address": "0x08043D9C",
+      "canonical_symbol": "sub_08043D9C",
+      "display_name": "ShowEventGatedMessage527",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_0803B69C.c",
+          "line": 4864,
+          "detail": "Selects advanced+0x1C6 or normal+0x1BA, tests bit4: persistent event28, without changing it.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0803B69C.c",
+          "line": 4878,
+          "detail": "Begins player input/event lock and waits for dialogue/text slots.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0803B69C.c",
+          "line": 4882,
+          "detail": "Starts literal message resource0x14020F; waits completion with suspension-close escape.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0803B69C.c",
+          "line": 4891,
+          "detail": "Clears player flag0 and ends event lock on normal function return.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0803B69C.c",
+          "line": 4412,
+          "detail": "Area setup installs callback on actor interaction field+0x44 through helper4174.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ]
+    },
+    {
+      "address": "0x08043E70",
+      "canonical_symbol": "sub_08043E70",
+      "display_name": "ShowEventGatedMessage528",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_0803B69C.c",
+          "line": 4905,
+          "detail": "Selects advanced+0x1C6 or normal+0x1BA, tests bit4: persistent event28, without changing it.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0803B69C.c",
+          "line": 4919,
+          "detail": "Begins player input/event lock and waits for dialogue/text slots.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0803B69C.c",
+          "line": 4923,
+          "detail": "Starts literal message resource0x140210; waits completion with suspension-close escape.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0803B69C.c",
+          "line": 4932,
+          "detail": "Clears player flag0 and ends event lock on normal function return.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0803B69C.c",
+          "line": 4420,
+          "detail": "Area setup installs callback on actor interaction field+0x44 through helper4174.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ]
+    },
+    {
+      "address": "0x08043F44",
+      "canonical_symbol": "sub_08043F44",
+      "display_name": "ShowEventGatedMessage531",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_0803B69C.c",
+          "line": 4946,
+          "detail": "Selects advanced+0x1C6 or normal+0x1BA and tests bit4, equivalent to event28 in persistent banks.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0803B69C.c",
+          "line": 4960,
+          "detail": "Begins player input/event lock and waits for dialogue/text slots.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0803B69C.c",
+          "line": 4964,
+          "detail": "Starts literal resource0x140213; waits completion with suspension-close escape.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0803B69C.c",
+          "line": 4973,
+          "detail": "Clears player flag0 and ends event lock.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0803B69C.c",
+          "line": 4452,
+          "detail": "Area setup installs this actor interaction callback via helper4174, whose field44 write is explicit.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ]
+    },
+    {
+      "address": "0x08044018",
+      "canonical_symbol": "sub_08044018",
+      "display_name": "ShowEventGatedMessage532",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_0803B69C.c",
+          "line": 4987,
+          "detail": "Selects advanced+0x1C6 or normal+0x1BA and tests bit4, equivalent to event28 in persistent banks.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0803B69C.c",
+          "line": 5001,
+          "detail": "Begins player input/event lock and waits for dialogue/text slots.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0803B69C.c",
+          "line": 5005,
+          "detail": "Starts literal resource0x140214; waits completion with suspension-close escape.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0803B69C.c",
+          "line": 5014,
+          "detail": "Clears player flag0 and ends event lock.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0803B69C.c",
+          "line": 4436,
+          "detail": "Area setup installs this actor interaction callback via helper4174, whose field44 write is explicit.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ]
+    },
+    {
+      "address": "0x080440EC",
+      "canonical_symbol": "sub_080440EC",
+      "display_name": "ShowEventGatedMessage533",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_0803B69C.c",
+          "line": 5028,
+          "detail": "Selects advanced+0x1C6 or normal+0x1BA and tests bit4, equivalent to event28 in persistent banks.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0803B69C.c",
+          "line": 5042,
+          "detail": "Begins player input/event lock and waits for dialogue/text slots.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0803B69C.c",
+          "line": 5046,
+          "detail": "Starts literal resource0x140215; waits completion with suspension-close escape.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0803B69C.c",
+          "line": 5055,
+          "detail": "Clears player flag0 and ends event lock.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0803B69C.c",
+          "line": 4444,
+          "detail": "Area setup installs this actor interaction callback via helper4174, whose field44 write is explicit.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ]
+    },
+    {
+      "address": "0x08044318",
+      "canonical_symbol": "sub_08044318",
+      "display_name": "ShowEventGatedMessage534",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_0803B69C.c",
+          "line": 5135,
+          "detail": "Selects advanced+0x1C6 or normal+0x1BA and tests bit4, equivalent to event28 in persistent banks.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0803B69C.c",
+          "line": 5149,
+          "detail": "Begins player input/event lock and waits for dialogue/text slots.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0803B69C.c",
+          "line": 5153,
+          "detail": "Starts literal resource0x140216; waits completion with suspension-close escape.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0803B69C.c",
+          "line": 5162,
+          "detail": "Clears player flag0 and ends event lock.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0803B69C.c",
+          "line": 4428,
+          "detail": "Area setup installs this actor interaction callback via helper4174, whose field44 write is explicit.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ]
+    },
+    {
+      "address": "0x08052FE8",
+      "canonical_symbol": "sub_08052FE8",
+      "display_name": "QueueClass6Event32Update",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_0804D330.c",
+          "line": 3749,
+          "detail": "Clears byte+1BB/+1C7 bit0; conditionally enqueues5990C argument32 and always enqueues3E5D8.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0803B69C.c",
+          "line": 1349,
+          "detail": "Callback increments byte+1B5 normal or+1C1 advanced, wrapping as u8.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ]
+    },
+    {
+      "address": "0x0804EE20",
+      "canonical_symbol": "sub_0804EE20",
+      "display_name": "SpawnAndMovePairedActors",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_0804D330.c",
+          "line": 1159,
+          "detail": "Calls289C0 twice,28D98 on first handle, then scans15 actor records for each handle and writes state+36=4.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08028AAC.c",
+          "line": 169,
+          "detail": "Relative motion narrows offsets to signed16 and duration to unsigned16, supports local/enemy/map-object/handle selector domains, and samples interpolation without an endpoint snap. Fixed duration200 here is within terminating range.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ]
+    },
+    {
+      "address": "0x08053C5C",
+      "canonical_symbol": "sub_08053C5C",
+      "display_name": "ActivatePairedEnemyOverlays",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_0804D330.c",
+          "line": 4108,
+          "detail": "Waits2A080, overlays two consecutive enemy slots, moves selectors1/2 and resets active states12.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08028AAC.c",
+          "line": 974,
+          "detail": "2A080 repeatedly checks connected player positions against a packed rectangle and yields until an eligible player overlaps.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ]
+    },
+    {
+      "address": "0x0804FA68",
+      "canonical_symbol": "sub_0804FA68",
+      "display_name": "HandleMapObjectPlacementEvent0",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_0804D330.c",
+          "line": 1837,
+          "detail": "Mode switch, guarded callback enqueue, effect41 requests and scene+38 bit update establish the numeric placement event.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ]
+    },
+    {
+      "address": "0x08050524",
+      "canonical_symbol": "sub_08050524",
+      "display_name": "HandleMapObjectPlacementEvent1",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_0804D330.c",
+          "line": 2424,
+          "detail": "Mode switch, guarded callback enqueue, effect41 requests and scene+38 bit update establish the numeric placement event.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ]
+    },
+    {
+      "address": "0x080523D8",
+      "canonical_symbol": "sub_080523D8",
+      "display_name": "HandleMapObjectPlacementEvent4",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_0804D330.c",
+          "line": 3479,
+          "detail": "Mode switch and calls68820,73E2C,28AAC end with scene+38 numeric bit update.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ]
+    },
+    {
+      "address": "0x08053120",
+      "canonical_symbol": "sub_08053120",
+      "display_name": "HandleMapObjectPlacementEvent2",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_0804D330.c",
+          "line": 3785,
+          "detail": "Mode switch and calls68820,73E2C,28AAC end with scene+38 numeric bit update.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ]
+    },
+    {
+      "address": "0x08053A80",
+      "canonical_symbol": "sub_08053A80",
+      "display_name": "RestoreEnemiesWithOptionalReveal",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_0804D330.c",
+          "line": 4030,
+          "detail": "Selected reveal then SetMode53A80(11), Clr53A80 and19F04; inline helpers at4017/4023 track audio and reset only active state12.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ]
+    },
+    {
+      "address": "0x08053CF4",
+      "canonical_symbol": "sub_08053CF4",
+      "display_name": "RestoreEnemiesFollowingOptionalReveal",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_0804D330.c",
+          "line": 4143,
+          "detail": "Selected reveal then SetMode53A80(11), Clr53A80 and19F04; inline helpers at4017/4023 track audio and reset only active state12.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ]
+    },
+    {
+      "address": "0x08053D98",
+      "canonical_symbol": "sub_08053D98",
+      "display_name": "ResetEnemiesWithConditionalReveal",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_0804D330.c",
+          "line": 4168,
+          "detail": "Selected reveal then SetMode53A80(11), Clr53A80 and19F04; inline helpers at4017/4023 track audio and reset only active state12.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ]
+    },
+    {
+      "address": "0x08051DF0",
+      "canonical_symbol": "sub_08051DF0",
+      "display_name": "HandleMapObjectPlacementEvent3",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_0804D330.c",
+          "line": 3320,
+          "detail": "Guarded enqueue68820 and effect helper3318; mode1 ends with28AAC selector7 and scene+38 |=8.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ]
+    },
+    {
+      "address": "0x080505C8",
+      "canonical_symbol": "sub_080505C8",
+      "display_name": "ResetEnemiesAfterConditionalDelay",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_0804D330.c",
+          "line": 2463,
+          "detail": "Body's flags4 test gates30-signal wait; final five-slot active-mask scan resets only state12.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ]
+    },
+    {
+      "address": "0x08053060",
+      "canonical_symbol": "sub_08053060",
+      "display_name": "ArmPlacementEvent2AndReveal",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_0804D330.c",
+          "line": 3773,
+          "detail": "Calls t53_request2060(t53_cb3060,0,6); alias at3772 is53120; request wrapper3422 constructs2A104 task.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08028AAC.c",
+          "line": 1011,
+          "detail": "Watcher polls selected object state+14==12, aborts on scene+4 bit4 while waiting, then seeks a free30-slot callback task and retries allocation.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ]
+    },
+    {
+      "address": "0x08055C58",
+      "canonical_symbol": "sub_08055C58",
+      "display_name": "CreateActorType62Interaction",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_080542C4.c",
+          "line": 599,
+          "detail": "Actor creation and handle lookup configure+18/+1A,+3C and callback+44; callback662 performs mode-dependent interaction under input/event locks.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ]
+    },
+    {
+      "address": "0x0804F998",
+      "canonical_symbol": "sub_0804F998",
+      "display_name": "InitializePlacementEvent0Scene",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_0804D330.c",
+          "line": 1788,
+          "detail": "Task callback2A104 receives descriptor4FA68,arg0 and object index6; flags1 selects setup versus restored position.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08028AAC.c",
+          "line": 1011,
+          "detail": "Watcher polls selected object state+14==12, aborts on scene+4 bit4 while waiting, then seeks a free30-slot callback task and retries allocation.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ]
+    },
+    {
+      "address": "0x08050454",
+      "canonical_symbol": "sub_08050454",
+      "display_name": "InitializePlacementEvent1Scene",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_0804D330.c",
+          "line": 2375,
+          "detail": "Descriptor50524,arg0 is passed to2A104 for object6; scene flags2 select watcher versus immediate placement.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08028AAC.c",
+          "line": 1011,
+          "detail": "Watcher polls selected object state+14==12, aborts on scene+4 bit4 while waiting, then seeks a free30-slot callback task and retries allocation.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ]
+    },
+    {
+      "address": "0x08051BFC",
+      "canonical_symbol": "sub_08051BFC",
+      "display_name": "ResetEnemiesWithEntryOverlay",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_0804D330.c",
+          "line": 3220,
+          "detail": "flags4 gate two waitBFC(60) calls,2949C(1,0),19EB8 first-key overlay3; clearBFC scans all five active enemies.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ]
+    },
+    {
+      "address": "0x0805442C",
+      "canonical_symbol": "sub_0805442C",
+      "display_name": "RunGuardedEntityAscent",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_080542C4.c",
+          "line": 75,
+          "detail": "scene+38 mask2 guard;5990C argument5;54514 callback and movement28D98(arg,0,-200,200).",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08028AAC.c",
+          "line": 169,
+          "detail": "Relative motion narrows offsets to signed16 and duration to unsigned16, supports local/enemy/map-object/handle selector domains, and samples interpolation without an endpoint snap. Fixed duration200 here is within terminating range.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ]
+    },
+    {
+      "address": "0x08055974",
+      "canonical_symbol": "sub_08055974",
+      "display_name": "InitializeEvent24ObjectScene",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_080542C4.c",
+          "line": 425,
+          "detail": "Pool30 task setup precedes byte+1BA/+1C6 bit0 test and28AAC selector8; optional reveal follows.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ]
+    },
+    {
+      "address": "0x0804DA44",
+      "canonical_symbol": "sub_0804DA44",
+      "display_name": "StartRegionTriggers12And13",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_0804D330.c",
+          "line": 233,
+          "detail": "Two taskStart51DA calls carry literal12/13 after reveal; callback5664C uses spots56 indexed rectangle/destination records.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080542C4.c",
+          "line": 936,
+          "detail": "5664C uses spots56 table index for activation rectangle/destination, waits via Walk98 for overlap and pressed bit0 (or58608 cancellation), then outside mapset0 locks input/events, moves local player, unlocks and rearms. Entry only schedules it.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ]
+    },
+    {
+      "address": "0x08054644",
+      "canonical_symbol": "sub_08054644",
+      "display_name": "StartRegionTriggers14And15",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_080542C4.c",
+          "line": 190,
+          "detail": "spawn54/spawn56 launches5664C with literals14/15; callback936 indexes spots56 rectangle/destination table, waits for local activation and runs movement outside mapset0.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080542C4.c",
+          "line": 936,
+          "detail": "5664C uses spots56 table index for activation rectangle/destination, waits via Walk98 for overlap and pressed bit0 (or58608 cancellation), then outside mapset0 locks input/events, moves local player, unlocks and rearms. Entry only schedules it.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ]
+    },
+    {
+      "address": "0x080557CC",
+      "canonical_symbol": "sub_080557CC",
+      "display_name": "StartRegionTriggers57And58",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_080542C4.c",
+          "line": 379,
+          "detail": "spawn54/spawn56 launches5664C with literals57/58; callback936 indexes spots56 rectangle/destination table, waits for local activation and runs movement outside mapset0.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080542C4.c",
+          "line": 936,
+          "detail": "5664C uses spots56 table index for activation rectangle/destination, waits via Walk98 for overlap and pressed bit0 (or58608 cancellation), then outside mapset0 locks input/events, moves local player, unlocks and rearms. Entry only schedules it.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ]
+    },
+    {
+      "address": "0x0804ED18",
+      "canonical_symbol": "sub_0804ED18",
+      "display_name": "RunEvent2GuardedEntityAscent",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_0804D330.c",
+          "line": 1098,
+          "detail": "Persistent byte+1B7/+1C3 |=4 precedes scene+38 mask8 guard; callback4EE20 and upward28D98 implement guarded ascent.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08028AAC.c",
+          "line": 169,
+          "detail": "Relative motion narrows offsets to signed16 and duration to unsigned16, supports local/enemy/map-object/handle selector domains, and samples interpolation without an endpoint snap. Fixed duration200 here is within terminating range.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ]
+    },
+    {
+      "address": "0x08051CE4",
+      "canonical_symbol": "sub_08051CE4",
+      "display_name": "InitializePlacementEvent3Scene",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_0804D330.c",
+          "line": 3297,
+          "detail": "t53_startCE4(51DF0,0,6) or28AAC selector7; clearCE4(1) scans all active enemy states and calls19F04.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08028AAC.c",
+          "line": 1011,
+          "detail": "Watcher polls selected object state+14==12, aborts on scene+4 bit4 while waiting, then seeks a free30-slot callback task and retries allocation.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ]
+    },
+    {
+      "address": "0x08067AC0",
+      "canonical_symbol": "sub_08067AC0",
+      "display_name": "ReturnOneVariant5",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_080659B0.c",
+          "line": 1584,
+          "detail": "Exact literal-one body; ordinal only distinguishes identical implementations in canonical address order, continuing variants1..4. No hidden gameplay role is claimed.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ]
+    },
+    {
+      "address": "0x08067AC4",
+      "canonical_symbol": "sub_08067AC4",
+      "display_name": "ReturnOneVariant6",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_080659B0.c",
+          "line": 1587,
+          "detail": "Exact literal-one body; ordinal only distinguishes identical implementations in canonical address order, continuing variants1..4. No hidden gameplay role is claimed.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ]
+    },
+    {
+      "address": "0x08067AC8",
+      "canonical_symbol": "sub_08067AC8",
+      "display_name": "ReturnOneVariant7",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_080659B0.c",
+          "line": 1590,
+          "detail": "Exact literal-one body; ordinal only distinguishes identical implementations in canonical address order, continuing variants1..4. No hidden gameplay role is claimed.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ]
+    },
+    {
+      "address": "0x08067ACC",
+      "canonical_symbol": "sub_08067ACC",
+      "display_name": "ReturnOneVariant8",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_080659B0.c",
+          "line": 1593,
+          "detail": "Exact literal-one body; ordinal only distinguishes identical implementations in canonical address order, continuing variants1..4. No hidden gameplay role is claimed.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ]
+    },
+    {
+      "address": "0x08067AD0",
+      "canonical_symbol": "sub_08067AD0",
+      "display_name": "ReturnOneVariant9",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_080659B0.c",
+          "line": 1596,
+          "detail": "Exact literal-one body; ordinal only distinguishes identical implementations in canonical address order, continuing variants1..4. No hidden gameplay role is claimed.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ]
+    },
+    {
+      "address": "0x08067AD4",
+      "canonical_symbol": "sub_08067AD4",
+      "display_name": "ReturnOneVariant10",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_080659B0.c",
+          "line": 1599,
+          "detail": "Exact literal-one body; ordinal only distinguishes identical implementations in canonical address order, continuing variants1..4. No hidden gameplay role is claimed.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ]
+    },
+    {
+      "address": "0x08067AD8",
+      "canonical_symbol": "sub_08067AD8",
+      "display_name": "ReturnOneVariant11",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_080659B0.c",
+          "line": 1602,
+          "detail": "Exact literal-one body; ordinal only distinguishes identical implementations in canonical address order, continuing variants1..4. No hidden gameplay role is claimed.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ]
+    },
+    {
+      "address": "0x08067ADC",
+      "canonical_symbol": "sub_08067ADC",
+      "display_name": "ReturnOneVariant12",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_080659B0.c",
+          "line": 1605,
+          "detail": "Exact literal-one body; ordinal only distinguishes identical implementations in canonical address order, continuing variants1..4. No hidden gameplay role is claimed.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ]
+    },
+    {
+      "address": "0x08067AE0",
+      "canonical_symbol": "sub_08067AE0",
+      "display_name": "ReturnOneVariant13",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_080659B0.c",
+          "line": 1608,
+          "detail": "Exact literal-one body; ordinal only distinguishes identical implementations in canonical address order, continuing variants1..4. No hidden gameplay role is claimed.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ]
+    },
+    {
+      "address": "0x08067AE4",
+      "canonical_symbol": "sub_08067AE4",
+      "display_name": "ReturnOneVariant14",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_080659B0.c",
+          "line": 1611,
+          "detail": "Exact literal-one body; ordinal only distinguishes identical implementations in canonical address order, continuing variants1..4. No hidden gameplay role is claimed.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ]
+    },
+    {
+      "address": "0x08067AE8",
+      "canonical_symbol": "sub_08067AE8",
+      "display_name": "ReturnOneVariant15",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_080659B0.c",
+          "line": 1614,
+          "detail": "Exact literal-one body; ordinal only distinguishes identical implementations in canonical address order, continuing variants1..4. No hidden gameplay role is claimed.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ]
+    },
+    {
+      "address": "0x08067AEC",
+      "canonical_symbol": "sub_08067AEC",
+      "display_name": "NoOpVariant1",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_080659B0.c",
+          "line": 1617,
+          "detail": "Empty void body; ordinal distinguishes three identical no-op implementations in canonical address order. No callback or gameplay role is claimed.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ]
+    },
+    {
+      "address": "0x08067AF0",
+      "canonical_symbol": "sub_08067AF0",
+      "display_name": "ReturnOneVariant16",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_080659B0.c",
+          "line": 1620,
+          "detail": "Exact literal-one body; ordinal only distinguishes identical implementations in canonical address order, continuing variants1..4. No hidden gameplay role is claimed.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ]
+    },
+    {
+      "address": "0x08067AF4",
+      "canonical_symbol": "sub_08067AF4",
+      "display_name": "NoOpVariant2",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_080659B0.c",
+          "line": 1623,
+          "detail": "Empty void body; ordinal distinguishes three identical no-op implementations in canonical address order. No callback or gameplay role is claimed.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ]
+    },
+    {
+      "address": "0x08067AF8",
+      "canonical_symbol": "sub_08067AF8",
+      "display_name": "NoOpVariant3",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_080659B0.c",
+          "line": 1626,
+          "detail": "Empty void body; ordinal distinguishes three identical no-op implementations in canonical address order. No callback or gameplay role is claimed.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ]
+    },
+    {
+      "address": "0x08065AE8",
+      "canonical_symbol": "sub_08065AE8",
+      "display_name": "IsCoordinatedAttackActive",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_080659B0.c",
+          "line": 81,
+          "detail": "Calls58DB0; zero maps0, nonzero maps1. Approved predicate role is coordinated attack state.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ]
+    },
+    {
+      "address": "0x080653FC",
+      "canonical_symbol": "sub_080653FC",
+      "display_name": "CancelItemSelectionHudTask",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_0805FB7C.c",
+          "line": 3284,
+          "detail": "Computes control06160+index*40, checks scheduling and invokes task cancellation.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0805FB7C.c",
+          "line": 1022,
+          "detail": "61688 binds same control array to60E44 item-selection HUD callback.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0805FB7C.c",
+          "line": 893,
+          "detail": "HUD callback shows selected group of three item slots and inventory counts.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ]
+    },
+    {
+      "address": "0x08065AFC",
+      "canonical_symbol": "sub_08065AFC",
+      "display_name": "StartAreaTitleTask",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_080659B0.c",
+          "line": 86,
+          "detail": "Checks061E0 scheduled status, sets local flag0x80, allocates0x400 via01638 without explicit null guard, binds6335C and starts task.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0805FB7C.c",
+          "line": 2091,
+          "detail": "Child chooses level/area animation IDs, draws120 signal waits when area nonzero, then clears local flag0x80; area0 skips draw loop.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ]
+    },
+    {
+      "address": "0x080655CC",
+      "canonical_symbol": "sub_080655CC",
+      "display_name": "DrawItemRecordName",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_0805FB7C.c",
+          "line": 3371,
+          "detail": "Kinds0/1 and unsupported values return. Kinds2..5 load record[2]|0x130000, add language*31 and draw at u16 coordinates. Negative align uses signed16 offset -(length*13>>1).",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ]
+    },
+    {
+      "address": "0x08061688",
+      "canonical_symbol": "sub_08061688",
+      "display_name": "StartIndexedItemSelectionHud",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_0805FB7C.c",
+          "line": 1024,
+          "detail": "No schedule or index guard; retries01494 allocation while yielding; taskMem64 aliases06180, same task-control+0x20 stack field. Sets callback60E44, stacktop+1FC and zero finalizer.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0805FB7C.c",
+          "line": 796,
+          "detail": "Callback argument controls animation; manipulates selected item index, draws three-item group and bag counts, and exits/aborts on scene/UI state predicates.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ]
+    },
+    {
+      "address": "0x08061830",
+      "canonical_symbol": "sub_08061830",
+      "display_name": "PlayPlayerLevelUpEffect",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_0805FB7C.c",
+          "line": 1104,
+          "detail": "Snapshots fixed-point position8C/90, decreases y by0x20 per step, steps animation14 and draws at projected position minus8; exactly48 waits independent of menu suppression.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0801E244.c",
+          "line": 192,
+          "detail": "Experience threshold path advances level, increases progression counters and invokes effect for local player.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ]
+    },
+    {
+      "address": "0x08066624",
+      "canonical_symbol": "sub_08066624",
+      "display_name": "EnqueueLinkSnapshot171",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_080659B0.c",
+          "line": 623,
+          "detail": "Rejects count>49; writes0x88-byte entry, active word1, tag0xAB, payload two u32 from save+4/+8 or+C/+10, byte ranges140..146,14C..152,147..14B,153..157; finalbyte saveword0==1; declares five8-byte chunks and increments count.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08021DC4.c",
+          "line": 590,
+          "detail": "Scene restoration initiates this send when link mode is active.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080659B0.c",
+          "line": 1028,
+          "detail": "Receiver normalizes tags by subtracting0x81, binding0xAB to case0x2A.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080659B0.c",
+          "line": 1514,
+          "detail": "Receiver routes first two words to scene74/78 or7C/80, clears opposite pair, copies two7/two5 groups then maps finalbyte to scene70=1/2. Receiver struct at929 places group0 at1B0 (7+5 bytes) and group1 at1BC; thus destination a ranges1B0..1B6/1BC..1C2 and b ranges1B7..1BB/1C3..1C7.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ]
+    },
+    {
+      "address": "0x0806171C",
+      "canonical_symbol": "sub_0806171C",
+      "display_name": "DrawExperienceAwardNumber",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_0805FB7C.c",
+          "line": 1079,
+          "detail": "Projects object x/y+14/+18, draws four digits with style2 then fixed animation4/frame6 marker. Negative value becomes0x7FFFFFFF in digit helper; four digits extracted without caller range guard.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08017F7C.c",
+          "line": 785,
+          "detail": "Enemy-defeat path computes experience award, draws this helper while position rises, then adds award to local experience.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ]
+    },
+    {
+      "address": "0x08058E54",
+      "canonical_symbol": "sub_08058E54",
+      "display_name": "RunLockedDialogue1261",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08058790.c",
+          "line": 347,
+          "detail": "Locks local input/events, waits for free dialogue/text slots, opens bank20 message1261, polls completion with suspend-abort, then clears normal-path locks. Initial slot waits have no abort test.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ]
+    },
+    {
+      "address": "0x08059374",
+      "canonical_symbol": "sub_08059374",
+      "display_name": "RunLockedDialogue292",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08058790.c",
+          "line": 500,
+          "detail": "Locks local input/events, waits for free dialogue/text slots, opens bank20 message292, polls completion with suspend-abort, then clears normal-path locks. Initial slot waits have no abort test.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ]
+    },
+    {
+      "address": "0x08058F4C",
+      "canonical_symbol": "sub_08058F4C",
+      "display_name": "RunFacingDialogue263",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08058790.c",
+          "line": 375,
+          "detail": "Locks input/events, turns selected entity toward player, shows bank20 message263 with slot waits and suspend-abort, restores facing gradually and clears normal-path locks. Inherits facing-helper enemy-selector caveat.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ]
+    },
+    {
+      "address": "0x08059000",
+      "canonical_symbol": "sub_08059000",
+      "display_name": "RunFacingDialogue421",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08058790.c",
+          "line": 395,
+          "detail": "Locks input/events, turns selected entity toward player, shows bank20 message421 with slot waits and suspend-abort, restores facing gradually and clears normal-path locks. No NPC identity inferred.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ]
+    },
+    {
+      "address": "0x080590B4",
+      "canonical_symbol": "sub_080590B4",
+      "display_name": "RunFacingDialogue422",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08058790.c",
+          "line": 415,
+          "detail": "Locks input/events, turns selected entity toward player, shows bank20 message422 with slot waits and suspend-abort, restores facing gradually and clears normal-path locks. No NPC identity inferred.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ]
+    },
+    {
+      "address": "0x08059168",
+      "canonical_symbol": "sub_08059168",
+      "display_name": "RunFacingDialogue423",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08058790.c",
+          "line": 435,
+          "detail": "Locks input/events, turns selected entity toward player, shows bank20 message423 with slot waits and suspend-abort, restores facing gradually and clears normal-path locks. No NPC identity inferred.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ]
+    },
+    {
+      "address": "0x08058B74",
+      "canonical_symbol": "sub_08058B74",
+      "display_name": "StartSongWithDeferredChange",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08058790.c",
+          "line": 212,
+          "detail": "Stores/conditionally starts supplied tracked song, then searches30 callback slots and retries stack allocation for delayed replacement. Full pool retains initial song change without scheduling. Packs arg1-1 modulo65536 in high16; replacement callback uses low8 of arg2 and can shorten waits on link error, skip change during full-screen menu.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0805A630.c",
+          "line": 241,
+          "detail": "AA68 waits on packed high16 with link-error shortening, then stores/starts low8 song only when no full-screen menu is active.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0805A630.c",
+          "line": 241,
+          "detail": "AA68 waits on packed high16 with link-error shortening, then stores/starts low8 song only when no full-screen menu is active.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ]
+    },
+    {
+      "address": "0x08015150",
+      "canonical_symbol": "sub_08015150",
+      "display_name": "TaskCountClass3ChargedHits",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_0800CF58.c",
+          "line": 6495,
+          "detail": "While local state5 animation is incomplete, frames1/4/5 at subframe0 increment32-bit hit sequence every matching observation; no independent edge guarantee. Final reset preserves10/11 and spectator, clears charge bookkeeping.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0800CF58.c",
+          "line": 1936,
+          "detail": "Main player input-release normalized-class3 branch invokes151E0; its kind2/4 dispatch installs15090/15150.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0800CF58.c",
+          "line": 1936,
+          "detail": "Main player input-release normalized-class3 branch invokes151E0; its kind2/4 dispatch installs15090/15150.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ]
+    },
+    {
+      "address": "0x08015090",
+      "canonical_symbol": "sub_08015090",
+      "display_name": "TaskRunClass3ChargedLunge",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_0800CF58.c",
+          "line": 6478,
+          "detail": "Moves local charged attacker at table speed*8/10 plus movement modifier, saving prior position and resolving collision until completion/state change; clears charge bookkeeping with10/11/spectator state guards.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0800CF58.c",
+          "line": 1936,
+          "detail": "Main player input-release normalized-class3 branch invokes151E0; its kind2/4 dispatch installs15090/15150.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0800CF58.c",
+          "line": 1936,
+          "detail": "Main player input-release normalized-class3 branch invokes151E0; its kind2/4 dispatch installs15090/15150.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ]
+    },
+    {
+      "address": "0x08014B28",
+      "canonical_symbol": "sub_08014B28",
+      "display_name": "TaskRunClass0ChargedLunge",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_0800CF58.c",
+          "line": 6254,
+          "detail": "Moves local charged attacker at table speed plus modifier and resolves collision until animation completes or state changes; preserves states14/10/11 and spectator before normal reset and charge cleanup.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0800CF58.c",
+          "line": 1932,
+          "detail": "Main player input-release normalized-class0 branch invokes14D60; its kind1/3 dispatch installs14B28/14C8C.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0800CF58.c",
+          "line": 1932,
+          "detail": "Main player input-release normalized-class0 branch invokes14D60; its kind1/3 dispatch installs14B28/14C8C.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ]
+    },
+    {
+      "address": "0x08014C8C",
+      "canonical_symbol": "sub_08014C8C",
+      "display_name": "TaskCountClass0ChargedHits",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_0800CF58.c",
+          "line": 6311,
+          "detail": "During local charged animation, increments hit sequence when frame equals next u16 step1,4,7,... and differs from previous captured frame. Preserves14/10/11 and spectator before charge cleanup.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0800CF58.c",
+          "line": 1932,
+          "detail": "Main player input-release normalized-class0 branch invokes14D60; its kind1/3 dispatch installs14B28/14C8C.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0800CF58.c",
+          "line": 1932,
+          "detail": "Main player input-release normalized-class0 branch invokes14D60; its kind1/3 dispatch installs14B28/14C8C.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ]
+    },
+    {
+      "address": "0x080152CC",
+      "canonical_symbol": "sub_080152CC",
+      "display_name": "TaskChargedLungeKind4",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_0800CF58.c",
+          "line": 6563,
+          "detail": "Runs charged lunge at signed16 narrowed tier*80+256 speed, with collision updates; frame3/subframe1 increments hit sequence per observation. Exits on completion/state change and clears bookkeeping, preserving10/11/spectator.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ]
+    },
+    {
+      "address": "0x08014D60",
+      "canonical_symbol": "sub_08014D60",
+      "display_name": "StartClassZeroChargedAttack",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_0800CF58.c",
+          "line": 6343,
+          "detail": "Normalized class0 charge starter dispatches weapon kinds1/3 to lunge/hit-counter and2/8 to animation finalizer; unsupported kinds return. Existing task triggers guarded state reset; otherwise retries0x400 stack allocation and starts with scheduling key52, without completion wait.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0800CF58.c",
+          "line": 1932,
+          "detail": "Main player input-release normalized-class0 branch invokes14D60; its kind1/3 dispatch installs14B28/14C8C.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0800CF58.c",
+          "line": 1932,
+          "detail": "Main player input-release normalized-class0 branch invokes14D60; its kind1/3 dispatch installs14B28/14C8C.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ]
+    },
+    {
+      "address": "0x080151E0",
+      "canonical_symbol": "sub_080151E0",
+      "display_name": "StartClassThreeChargedAttack",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_0800CF58.c",
+          "line": 6541,
+          "detail": "Normalized class3 charge starter selects scaled lunge for kind2 and hit counter for kind4, returning for other kinds. Duplicate task triggers guarded state reset; otherwise retries0x400 allocation and starts with scheduling key52, without completion wait.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0800CF58.c",
+          "line": 1936,
+          "detail": "Main player input-release normalized-class3 branch invokes151E0; its kind2/4 dispatch installs15090/15150.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0800CF58.c",
+          "line": 1936,
+          "detail": "Main player input-release normalized-class3 branch invokes151E0; its kind2/4 dispatch installs15090/15150.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ]
+    },
+    {
+      "address": "0x080156FC",
+      "canonical_symbol": "sub_080156FC",
+      "display_name": "TaskRunClass7ChargedVolley",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_080153A4.c",
+          "line": 194,
+          "detail": "Packed tiers1..7 normalize remaining projectile attempts to5; tier0 skips loop. Selected even frame/subframe2 observations advance hit ID and spread selector, attempt projectile start and decrement count. Snapshot state change exits early; charge bookkeeping clears.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0800CF58.c",
+          "line": 4409,
+          "detail": "Normalized-class7 dispatch invokes15820 for kinds1/8;15820 kind8 installs156FC.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ]
+    },
+    {
+      "address": "0x08015914",
+      "canonical_symbol": "sub_08015914",
+      "display_name": "TaskRunClass5ChargedLunge",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_080153A4.c",
+          "line": 283,
+          "detail": "Moves indexed charged attacker until two completion-flag observations or snapshot state change. Flag is not reset after first decrement, so two distinct animation cycles are not proven. Uses half-table speed plus modifier; normal local-state guards and charge cleanup follow.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0800CF58.c",
+          "line": 4397,
+          "detail": "Normalized-class5 dispatch invokes15B20; kind6 installs15914.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ]
+    },
+    {
+      "address": "0x08014E68",
+      "canonical_symbol": "sub_08014E68",
+      "display_name": "TaskRunAimedChargedVolley",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_0800CF58.c",
+          "line": 6407,
+          "detail": "Updates local aim from held directions and attempts packed three-bit level+2 fast projectile starts on odd-frame/subframe2 observations. Count decrements despite projectile allocation failure. Snapshot state/animation terminate loop; preserves14/10/11/spectator before local reset and charge cleanup.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08073E2C.c",
+          "line": 1252,
+          "detail": "760E8 scans16 per-player active bits, rejects fullpool or failed3C0hex allocation; caller decrements attempt count regardless.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ]
+    },
+    {
+      "address": "0x08013CEC",
+      "canonical_symbol": "sub_08013CEC",
+      "display_name": "RevertBlockedPlayerMovement",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_0800CF58.c",
+          "line": 5679,
+          "detail": "Unless player flag0x20 bypasses all checks, conditionally tests five active eligible enemies using16x16 player box and facing-relative overlap, restoring prior position on blocked movement. Always then tests map/object blockage and restores prior position on failure. Map-set-zero and flag0x40000 bypass enemy tests only.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ]
+    },
+    {
+      "address": "0x080137A0",
+      "canonical_symbol": "sub_080137A0",
+      "display_name": "ClearSelectedEquipmentRecord",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_0800CF58.c",
+          "line": 5418,
+          "detail": "Writes zero type/id halfwords plus12 bytes at local save100/110/120 for selectors0/1/2 respectively.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0805D094.c",
+          "line": 25,
+          "detail": "100 headgear kind4,110 body kind3 and120 glove kind5 feed equipment activation checks and resource class/level requirements.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0800CF58.c",
+          "line": 3020,
+          "detail": "Caller passes selected record to EnqueueLinkFieldItemSpawnRequest then clears it without checking admission result;3352 repeats this flow. This clears equipped record, not skill-group state.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ]
+    },
+    {
+      "address": "0x0800D1B0",
+      "canonical_symbol": "sub_0800D1B0",
+      "display_name": "IsLocalPlayerDamageSuppressed",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_0800CF58.c",
+          "line": 107,
+          "detail": "Returns0/1. Tests local active68, flag400, state12, coordinated attack58DB0, scene predicatesD11C/CCCC/CDF8; battle-rules+encounter-finished; explicit level/area list; special scene rule when no enemy has health above pending damage. No hidden meaning is assigned to exclusion list.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0805A630.c",
+          "line": 1407,
+          "detail": "Item effects10/11 reject creating/refreshing effect records6/7 when gate1.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08073E2C.c",
+          "line": 3397,
+          "detail": "Area-damage collision branch uses gate0 before queueing local-player damage;3549 has explicit alternate branch under separate scene rule.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0800CF58.c",
+          "line": 5619,
+          "detail": "ApplyPlayerPendingDamageAndReportDefeat subtracts pending88/8A from healthC4 only when gate0; when1 it clears pending words without applying.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0800CF58.c",
+          "line": 1620,
+          "detail": "Effect kinds5/6 add periodic damage into pending88 only when gate0; these are status-effect countdown ticks, not held-input gating.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ]
+    },
+    {
+      "address": "0x08013C3C",
+      "canonical_symbol": "sub_08013C3C",
+      "display_name": "CachePlayerEnemyAimDirections",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_0800CF58.c",
+          "line": 5645,
+          "detail": "For enemy slots0..4 with active mask and matching frame-counter parity, ArcTan2(enemy-player coordinates) is rounded into halfword values0..15 at126+2*i. Remainder exactly0x800 rounds downward; greater rounds upward.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0800CF58.c",
+          "line": 3819,
+          "detail": "Attack record generation maps cached selected-enemy direction through directionTable into player facing and packed record heading;3898 and3925 also consume cache for enemy-directed attacks.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0800CF58.c",
+          "line": 1075,
+          "detail": "Main player updater invokes cache refresh; parity distributes computation across updates.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ]
+    },
+    {
+      "address": "0x080140AC",
+      "canonical_symbol": "sub_080140AC",
+      "display_name": "AdvancePlayerForcedMotion",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_0800CF58.c",
+          "line": 5785,
+          "detail": "Channel1 C8 duration/CA direction/CC signed speed and channel2 CE/D0/D2 update8C/90 through13E90 with collision bypass0; both can move in one call.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0800CF58.c",
+          "line": 5798,
+          "detail": "Nonzero signedD4 holds speed until CE expires, then CE=(u16)(signedD4/2), values>3 become4, D4 clears and speed becomes512. Otherwise D2 arithmetic-shifts right1 and clamps signed result below64 to64, even on last duration tick.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0801E244.c",
+          "line": 1786,
+          "detail": "Enemy hit handling applies impulse packet and writes attacker direction into playerD0, establishing second channel as hit-induced motion.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0800CF58.c",
+          "line": 3232,
+          "detail": "Main player update invokes after regular D8 movement and enemy collision handling, before map position adjustment.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ]
+    },
+    {
+      "address": "0x0801A628",
+      "canonical_symbol": "sub_0801A628",
+      "display_name": "NoOpVariant5",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08017F7C.c",
+          "line": 1392,
+          "detail": "Lines 1392-1394 define an empty leaf function.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08017F7C.c",
+          "line": 1392,
+          "detail": "Re-read exact body and helper/bit operation at pinned source. Name describes only observable contract; numeric suffix distinguishes identical no-ops by ascending address starting4, not any gameplay/interface role.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ]
+    },
+    {
+      "address": "0x08021C6C",
+      "canonical_symbol": "sub_08021C6C",
+      "display_name": "NoOpVariant6",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_0801E244.c",
+          "line": 2400,
+          "detail": "Lines 2400-2402 define an empty leaf; src/code_08009088.c:1940-1941 calls it immediately after AllocateActorSpriteEffectTaskPool during scene resource startup.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0801E244.c",
+          "line": 2400,
+          "detail": "Re-read exact body and helper/bit operation at pinned source. Name describes only observable contract; numeric suffix distinguishes identical no-ops by ascending address starting4, not any gameplay/interface role.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ]
+    },
+    {
+      "address": "0x08021C70",
+      "canonical_symbol": "sub_08021C70",
+      "display_name": "NoOpVariant7",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_0801E244.c",
+          "line": 2403,
+          "detail": "Lines 2403-2405 define an empty leaf; src/code_08009088.c:1965-1966 calls it immediately after FreeActorSpriteEffectTaskPool during teardown.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0801E244.c",
+          "line": 2403,
+          "detail": "Re-read exact body and helper/bit operation at pinned source. Name describes only observable contract; numeric suffix distinguishes identical no-ops by ascending address starting4, not any gameplay/interface role.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ]
+    },
+    {
+      "address": "0x0801A500",
+      "canonical_symbol": "sub_0801A500",
+      "display_name": "NoOpVariant4",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08017F7C.c",
+          "line": 1338,
+          "detail": "Lines 1338-1340 define an empty variadic function between glyph tile queuing and text initialization.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08017F7C.c",
+          "line": 1338,
+          "detail": "Re-read exact body and helper/bit operation at pinned source. Name describes only observable contract; numeric suffix distinguishes identical no-ops by ascending address starting4, not any gameplay/interface role.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ]
+    },
+    {
+      "address": "0x0801A62C",
+      "canonical_symbol": "sub_0801A62C",
+      "display_name": "SetSharedHalfwordToOne",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08017F7C.c",
+          "line": 1395,
+          "detail": "Exact leaf assigns1 to gUnk_03005C98; no arguments, calls, reads or return-value contract.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "include/variables.h",
+          "line": 165,
+          "detail": "Global is declared s16. Matching code_08017F7C.o text+26B0..26B8 uses MOVS R0,1; STRH R0,[R1]; BX LR, relocation to gUnk_03005C98, corroborating16-bit write.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08017F7C.c",
+          "line": 1344,
+          "detail": "Initialization clears same halfword; flagged tilemap-row clearing also clears it at1365. Bounded exact-symbol, numeric-address and neighboring-alias search found no other consumer or caller; proximity alone does not establish ownership.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ]
+    },
+    {
+      "address": "0x0801A650",
+      "canonical_symbol": "sub_0801A650",
+      "display_name": "UpdateSharedHalfwordMinimum",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08017F7C.c",
+          "line": 1410,
+          "detail": "Body compares (u32)global > arg0, then conditionally stores(u16)arg0. This is unsigned minimum update, not signed clamp or unconditional truncation.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "include/variables.h",
+          "line": 164,
+          "detail": "Global is volatile unsigned short. Matching code_08017F7C.o text+26D4..26E4 uses LDRH, CMP full incomingR0 copiedR1, unsigned BLS skip, conditional STRH and BX LR.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08017F7C.c",
+          "line": 1346,
+          "detail": "Initialization sets this halfword to18. Bounded symbol/address/alias search found no additional reader or direct caller, so no text-row, clipping, priority or limit ownership is established.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ]
+    },
+    {
+      "address": "0x080587E4",
+      "canonical_symbol": "sub_080587E4",
+      "display_name": "SetLocalPlayerBit12Wrapper",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08058790.c",
+          "line": 23,
+          "detail": "Wrapper calls sub_08015D74 and does no other work.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080153A4.c",
+          "line": 420,
+          "detail": "Target sets local player flags bit 12 at record offset 0x30.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0803B69C.c",
+          "line": 1240,
+          "detail": "The set helper is used around Boken dialogue; the paired clear occurs at 1307.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08068670.c",
+          "line": 1523,
+          "detail": "The set helper is also used in an ability-effect loop; paired cleanup clears it at 1540.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08058790.c",
+          "line": 23,
+          "detail": "Re-read exact mask/shift and wrapper target. Bit12 names are literal bit operations; no unknown gameplay effect is asserted.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ]
+    },
+    {
+      "address": "0x080587F0",
+      "canonical_symbol": "sub_080587F0",
+      "display_name": "ClearLocalPlayerBit12Wrapper",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08058790.c",
+          "line": 26,
+          "detail": "Wrapper calls sub_08015D98 and does no other work.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080153A4.c",
+          "line": 424,
+          "detail": "Target clears local player flags bit 12 at record offset 0x30.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0803B69C.c",
+          "line": 1240,
+          "detail": "The set helper is used around Boken dialogue; the paired clear occurs at 1307.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08068670.c",
+          "line": 1523,
+          "detail": "The set helper is also used in an ability-effect loop; paired cleanup clears it at 1540.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08058790.c",
+          "line": 26,
+          "detail": "Re-read exact mask/shift and wrapper target. Bit12 names are literal bit operations; no unknown gameplay effect is asserted.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ]
+    },
+    {
+      "address": "0x0800CE78",
+      "canonical_symbol": "sub_0800CE78",
+      "display_name": "IsSceneFlagBit12Set",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_0800CBBC.c",
+          "line": 127,
+          "detail": "Exact body manipulates only bit 12 of gUnk_03003478; no direct source caller or paired predicate consumer was found.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0800CBBC.c",
+          "line": 127,
+          "detail": "Re-read exact mask/shift and wrapper target. Bit12 names are literal bit operations; no unknown gameplay effect is asserted.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ]
+    },
+    {
+      "address": "0x0800CE88",
+      "canonical_symbol": "sub_0800CE88",
+      "display_name": "SetSceneFlagBit12",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_0800CBBC.c",
+          "line": 130,
+          "detail": "Exact body manipulates only bit 12 of gUnk_03003478; no direct source caller or paired predicate consumer was found.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0800CBBC.c",
+          "line": 130,
+          "detail": "Re-read exact mask/shift and wrapper target. Bit12 names are literal bit operations; no unknown gameplay effect is asserted.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ]
+    },
+    {
+      "address": "0x0800CE9C",
+      "canonical_symbol": "sub_0800CE9C",
+      "display_name": "ClearSceneFlagBit12",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_0800CBBC.c",
+          "line": 133,
+          "detail": "Exact body manipulates only bit 12 of gUnk_03003478; no direct source caller or paired predicate consumer was found.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0800CBBC.c",
+          "line": 133,
+          "detail": "Re-read exact mask/shift and wrapper target. Bit12 names are literal bit operations; no unknown gameplay effect is asserted.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ]
+    },
+    {
+      "address": "0x08067B4C",
+      "canonical_symbol": "sub_08067B4C",
+      "display_name": "NoOpVariant8",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08067B4C.c",
+          "line": 10,
+          "detail": "Lines 10-12 define an empty leaf; no direct source callers found.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08067B4C.c",
+          "line": 10,
+          "detail": "Re-read exact body and helper/bit operation at pinned source. Name describes only observable contract; numeric suffix distinguishes identical no-ops by ascending address starting4, not any gameplay/interface role.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ]
+    },
+    {
+      "address": "0x080688F4",
+      "canonical_symbol": "sub_080688F4",
+      "display_name": "NoOpVariant9",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08068670.c",
+          "line": 140,
+          "detail": "Lines 140-142 define an empty leaf; no direct source callers found.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08068670.c",
+          "line": 140,
+          "detail": "Re-read exact body and helper/bit operation at pinned source. Name describes only observable contract; numeric suffix distinguishes identical no-ops by ascending address starting4, not any gameplay/interface role.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ]
+    },
+    {
+      "address": "0x0806514C",
+      "canonical_symbol": "sub_0806514C",
+      "display_name": "ClearSharedWord",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_0805FB7C.c",
+          "line": 3181,
+          "detail": "Exact leaf stores0 to gUnk_03006028; no reads, input-dependent branches or other work.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "include/variables.h",
+          "line": 175,
+          "detail": "Global is declared s32. Matching code_0805FB7C.o text+55D0..55D8 uses MOVS R0,0; STR R0,[R1]; BX LR with relocation to gUnk_03006028.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08001A50.c",
+          "line": 95,
+          "detail": "Startup sub_08001B78 calls this helper among independent subsystem initializers. Exact-symbol/numeric-address/neighboring-alias searches found no other access. Adjacent0300602C pointer is separately bound; its popup-task consumers do not prove03006028 ownership.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ]
+    },
+    {
+      "address": "0x080585F4",
+      "canonical_symbol": "sub_080585F4",
+      "display_name": "EnqueueNearbyFieldItemRemoval",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08057CAC.c",
+          "line": 499,
+          "detail": "Matching-object audit text+948..958: LSLS R0/R1,#8; BL5D37C; immediately BL687A8. IncomingR2 is untouched before finder and finder-returnedR0 is unchanged into queue helper. Final popR0 restores return address, so no returned admission result is exposed.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0805D094.c",
+          "line": 123,
+          "detail": "Finder scans16 active32-byte field records, abs((x-recordx)>>8)<=7 and same fory, compares key halfword+8; returns pointer orNULL.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08068670.c",
+          "line": 58,
+          "detail": "Queue helper rejects count>49 before pointer dereference; otherwise tag155 payload is u16 returned-record+C zeroextended, one8-byte chunk. No caller null guard exists.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080659B0.c",
+          "line": 1362,
+          "detail": "Receiver(tag-0x81)==0x1A binds tag155 to5D4C4((u16)payload0), established field-item removal consumer.",
           "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
         }
       ]

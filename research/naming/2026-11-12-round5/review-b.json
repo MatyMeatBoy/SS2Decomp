@@ -1,0 +1,426 @@
+[
+  {
+    "canonical_symbol": "sub_08052FE8",
+    "decision": "accept",
+    "display_name": "QueueClass6Event32Update",
+    "reasoning": "Verified advanced+1C7/normal+1BB mask1 is event32, class6 and mapset0 gates, unchecked queue calls, and separate banked wrapping-u8 counter callback. Medium retained: queue execution is not guaranteed.",
+    "evidence": [
+      {
+        "source": "src/code_0804D330.c",
+        "line": 3749,
+        "detail": "Clears byte+1BB/+1C7 bit0; conditionally enqueues5990C argument32 and always enqueues3E5D8.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_0803B69C.c",
+        "line": 1349,
+        "detail": "Callback increments byte+1B5 normal or+1C1 advanced, wrapping as u8.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ]
+  },
+  {
+    "canonical_symbol": "sub_0804EE20",
+    "decision": "accept",
+    "display_name": "SpawnAndMovePairedActors",
+    "reasoning": "Verified both kind literals and coordinates, first-handle relative movement, two bounded15-slot handle searches and state+36=4 writes; neither search is an unbounded wait.",
+    "evidence": [
+      {
+        "source": "src/code_0804D330.c",
+        "line": 1159,
+        "detail": "Calls289C0 twice,28D98 on first handle, then scans15 actor records for each handle and writes state+36=4.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_08028AAC.c",
+        "line": 169,
+        "detail": "Relative motion narrows offsets to signed16 and duration to unsigned16, supports local/enemy/map-object/handle selector domains, and samples interpolation without an endpoint snap. Fixed duration200 here is within terminating range.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ]
+  },
+  {
+    "canonical_symbol": "sub_08053C5C",
+    "decision": "accept",
+    "display_name": "ActivatePairedEnemyOverlays",
+    "reasoning": "Verified rectangle packing and eligible-player polling in2A080; exactly two fixed enemy slots receive overlay3/movement while the reset loop covers all five active slots with state12.",
+    "evidence": [
+      {
+        "source": "src/code_0804D330.c",
+        "line": 4108,
+        "detail": "Waits2A080, overlays two consecutive enemy slots, moves selectors1/2 and resets active states12.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_08028AAC.c",
+        "line": 974,
+        "detail": "2A080 repeatedly checks connected player positions against a packed rectangle and yields until an eligible player overlaps.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ]
+  },
+  {
+    "canonical_symbol": "sub_0804FA68",
+    "decision": "accept",
+    "display_name": "HandleMapObjectPlacementEvent0",
+    "reasoning": "Verified modes0/1 only, self-enqueue guard0, center/flanking positions, four signal waits with error escape, object selector7 and area mask1.",
+    "evidence": [
+      {
+        "source": "src/code_0804D330.c",
+        "line": 1837,
+        "detail": "Mode switch, guarded callback enqueue, effect41 requests and scene+38 bit update establish the numeric placement event.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ]
+  },
+  {
+    "canonical_symbol": "sub_08050524",
+    "decision": "accept",
+    "display_name": "HandleMapObjectPlacementEvent1",
+    "reasoning": "Verified center888,160 and flanking880/896 positions distinguish event1; mode0 guard0, mode1 four-signal wait and area mask2 match.",
+    "evidence": [
+      {
+        "source": "src/code_0804D330.c",
+        "line": 2424,
+        "detail": "Mode switch, guarded callback enqueue, effect41 requests and scene+38 bit update establish the numeric placement event.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ]
+  },
+  {
+    "canonical_symbol": "sub_080523D8",
+    "decision": "accept",
+    "display_name": "HandleMapObjectPlacementEvent4",
+    "reasoning": "Verified guard2, center200,104 and flanks192/208, selector7 and mask16 distinguish event4; four waits can shorten on link error.",
+    "evidence": [
+      {
+        "source": "src/code_0804D330.c",
+        "line": 3479,
+        "detail": "Mode switch and calls68820,73E2C,28AAC end with scene+38 numeric bit update.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ]
+  },
+  {
+    "canonical_symbol": "sub_08053120",
+    "decision": "accept",
+    "display_name": "HandleMapObjectPlacementEvent2",
+    "reasoning": "Verified guard1, center264,88 and flanks256/272, selector7 and mask4 distinguish event2.",
+    "evidence": [
+      {
+        "source": "src/code_0804D330.c",
+        "line": 3785,
+        "detail": "Mode switch and calls68820,73E2C,28AAC end with scene+38 numeric bit update.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ]
+  },
+  {
+    "canonical_symbol": "sub_08053A80",
+    "decision": "accept",
+    "display_name": "RestoreEnemiesWithOptionalReveal",
+    "reasoning": "Verified menu-active bypass applies only to reveal/wait; song11 tracking/start, active five-slot state12 reset and19F04 always execute. AI consumer flags+201 bit0 supports action-reselection request.",
+    "evidence": [
+      {
+        "source": "src/code_0804D330.c",
+        "line": 4030,
+        "detail": "Selected reveal then SetMode53A80(11), Clr53A80 and19F04; inline helpers at4017/4023 track audio and reset only active state12.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ]
+  },
+  {
+    "canonical_symbol": "sub_08053CF4",
+    "decision": "accept",
+    "display_name": "RestoreEnemiesFollowingOptionalReveal",
+    "reasoning": "Verified independent body is behavior-identical to53A80; no scene identity or stronger state12 lifecycle semantics are claimed.",
+    "evidence": [
+      {
+        "source": "src/code_0804D330.c",
+        "line": 4143,
+        "detail": "Selected reveal then SetMode53A80(11), Clr53A80 and19F04; inline helpers at4017/4023 track audio and reset only active state12.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ]
+  },
+  {
+    "canonical_symbol": "sub_08053D98",
+    "decision": "accept",
+    "display_name": "ResetEnemiesWithConditionalReveal",
+    "reasoning": "Verified third identical reveal/reset body; every reset remains filtered by active mask and state12. No broad all-enemy-state clear inferred.",
+    "evidence": [
+      {
+        "source": "src/code_0804D330.c",
+        "line": 4168,
+        "detail": "Selected reveal then SetMode53A80(11), Clr53A80 and19F04; inline helpers at4017/4023 track audio and reset only active state12.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ]
+  },
+  {
+    "canonical_symbol": "sub_08051DF0",
+    "decision": "accept",
+    "display_name": "HandleMapObjectPlacementEvent3",
+    "reasoning": "Verified event3 uses guard1, center264,344, flank256/272, mask8 and unchanged selector7. Guard number is kept distinct from event bit number.",
+    "evidence": [
+      {
+        "source": "src/code_0804D330.c",
+        "line": 3320,
+        "detail": "Guarded enqueue68820 and effect helper3318; mode1 ends with28AAC selector7 and scene+38 |=8.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ]
+  },
+  {
+    "canonical_symbol": "sub_080505C8",
+    "decision": "accept",
+    "display_name": "ResetEnemiesAfterConditionalDelay",
+    "reasoning": "Verified reveal precedes conditional30-signal delay; mask4 is set after wait even if interrupted. Final reset is active five-slot state12 only;19F04 requests subsequent AI selection.",
+    "evidence": [
+      {
+        "source": "src/code_0804D330.c",
+        "line": 2463,
+        "detail": "Body's flags4 test gates30-signal wait; final five-slot active-mask scan resets only state12.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ]
+  },
+  {
+    "canonical_symbol": "sub_08053060",
+    "decision": "accept",
+    "display_name": "ArmPlacementEvent2AndReveal",
+    "reasoning": "Verified caller requests descriptor callback53120,arg0 for object6 through2A104. Wrapper scans30 slots, unchecked allocation, two yields; watcher independently retries its child allocation, may abort before break or skip full child pool.",
+    "evidence": [
+      {
+        "source": "src/code_0804D330.c",
+        "line": 3773,
+        "detail": "Calls t53_request2060(t53_cb3060,0,6); alias at3772 is53120; request wrapper3422 constructs2A104 task.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_08028AAC.c",
+        "line": 1011,
+        "detail": "Watcher polls selected object state+14==12, aborts on scene+4 bit4 while waiting, then seeks a free30-slot callback task and retries allocation.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ]
+  },
+  {
+    "canonical_symbol": "sub_08055C58",
+    "decision": "accept",
+    "display_name": "CreateActorType62Interaction",
+    "reasoning": "Verified kind62 position120,96, two15-record searches, extents8/30, actor flag16 and callback55D1C. Each failed search yields once; no invented actor identity.",
+    "evidence": [
+      {
+        "source": "src/code_080542C4.c",
+        "line": 599,
+        "detail": "Actor creation and handle lookup configure+18/+1A,+3C and callback+44; callback662 performs mode-dependent interaction under input/event locks.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ]
+  },
+  {
+    "canonical_symbol": "sub_0804F998",
+    "decision": "accept",
+    "display_name": "InitializePlacementEvent0Scene",
+    "reasoning": "Verified area mask1 selects watcher setup versus object7 placement136,200. Watcher stack is unchecked while eventual child stack retries; entry does not wait for object breaking or callback completion.",
+    "evidence": [
+      {
+        "source": "src/code_0804D330.c",
+        "line": 1788,
+        "detail": "Task callback2A104 receives descriptor4FA68,arg0 and object index6; flags1 selects setup versus restored position.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_08028AAC.c",
+        "line": 1011,
+        "detail": "Watcher polls selected object state+14==12, aborts on scene+4 bit4 while waiting, then seeks a free30-slot callback task and retries allocation.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ]
+  },
+  {
+    "canonical_symbol": "sub_08050454",
+    "decision": "accept",
+    "display_name": "InitializePlacementEvent1Scene",
+    "reasoning": "Verified area mask2 chooses descriptor50524,arg0/object6 versus object7 position888,160. Pool30 and unchecked watcher stack match counterpart; child allocation retry is a separate stage.",
+    "evidence": [
+      {
+        "source": "src/code_0804D330.c",
+        "line": 2375,
+        "detail": "Descriptor50524,arg0 is passed to2A104 for object6; scene flags2 select watcher versus immediate placement.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_08028AAC.c",
+        "line": 1011,
+        "detail": "Watcher polls selected object state+14==12, aborts on scene+4 bit4 while waiting, then seeks a free30-slot callback task and retries allocation.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ]
+  },
+  {
+    "canonical_symbol": "sub_08051BFC",
+    "decision": "fix",
+    "display_name": "ResetEnemiesWithEntryOverlay",
+    "reasoning": "The overlay branch runs when area mask4 is clear and sets it before waiting. No proof this means first lifetime entry; summary corrected to exact guard condition. Name and all actual effects supported.",
+    "evidence": [
+      {
+        "source": "src/code_0804D330.c",
+        "line": 3220,
+        "detail": "flags4 gate two waitBFC(60) calls,2949C(1,0),19EB8 first-key overlay3; clearBFC scans all five active enemies.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ],
+    "corrected_row": {
+      "canonical_symbol": "sub_08051BFC",
+      "address": "0x08051BFC",
+      "display_name": "ResetEnemiesWithEntryOverlay",
+      "summary": "Performs optional selected reveal and waits for idle. If area event bit2 is clear, sets it, waits up to60 signals, faces enemy1 toward local player, applies overlay3 to its key, then waits up to60 signals. Link errors shorten both waits. Always resets state12 to0 in active enemy slots and requests action reselection.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_0804D330.c",
+          "line": 3220,
+          "detail": "flags4 gate two waitBFC(60) calls,2949C(1,0),19EB8 first-key overlay3; clearBFC scans all five active enemies.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": []
+    }
+  },
+  {
+    "canonical_symbol": "sub_0805442C",
+    "decision": "accept",
+    "display_name": "RunGuardedEntityAscent",
+    "reasoning": "Verified guard mask2 precedes persistent event5 queue. Outside mapset0 helper54 retries stack allocation within available30-slot task pool; full pool does not cancel one-yield/audio/facing/ascent sequence. Song stop is unconditional within that branch.",
+    "evidence": [
+      {
+        "source": "src/code_080542C4.c",
+        "line": 75,
+        "detail": "scene+38 mask2 guard;5990C argument5;54514 callback and movement28D98(arg,0,-200,200).",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_08028AAC.c",
+        "line": 169,
+        "detail": "Relative motion narrows offsets to signed16 and duration to unsigned16, supports local/enemy/map-object/handle selector domains, and samples interpolation without an endpoint snap. Fixed duration200 here is within terminating range.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ]
+  },
+  {
+    "canonical_symbol": "sub_08055974",
+    "decision": "accept",
+    "display_name": "InitializeEvent24ObjectScene",
+    "reasoning": "Verified callback55A60 starts before banked event24 test, stack allocation retries and full30-slot pool skips startup. Only event24 sets object8 position9999,9999; no callback completion wait.",
+    "evidence": [
+      {
+        "source": "src/code_080542C4.c",
+        "line": 425,
+        "detail": "Pool30 task setup precedes byte+1BA/+1C6 bit0 test and28AAC selector8; optional reveal follows.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ]
+  },
+  {
+    "canonical_symbol": "sub_0804DA44",
+    "decision": "accept",
+    "display_name": "StartRegionTriggers12And13",
+    "reasoning": "Verified reveal/wait comes before independently scheduling12/13. Task helper scans30 and retries stack allocation;5664C indexes rectangle/destination table and rearms itself after local movement.",
+    "evidence": [
+      {
+        "source": "src/code_0804D330.c",
+        "line": 233,
+        "detail": "Two taskStart51DA calls carry literal12/13 after reveal; callback5664C uses spots56 indexed rectangle/destination records.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_080542C4.c",
+        "line": 936,
+        "detail": "5664C uses spots56 table index for activation rectangle/destination, waits via Walk98 for overlap and pressed bit0 (or58608 cancellation), then outside mapset0 locks input/events, moves local player, unlocks and rearms. Entry only schedules it.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ]
+  },
+  {
+    "canonical_symbol": "sub_08054644",
+    "decision": "accept",
+    "display_name": "StartRegionTriggers14And15",
+    "reasoning": "Verified14/15 schedule before optional reveal, unlike12/13. Helper54 retries stack only after locating free slot; full30-slot pool skips start. Trigger movement is asynchronous and self-rearming.",
+    "evidence": [
+      {
+        "source": "src/code_080542C4.c",
+        "line": 190,
+        "detail": "spawn54/spawn56 launches5664C with literals14/15; callback936 indexes spots56 rectangle/destination table, waits for local activation and runs movement outside mapset0.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_080542C4.c",
+        "line": 936,
+        "detail": "5664C uses spots56 table index for activation rectangle/destination, waits via Walk98 for overlap and pressed bit0 (or58608 cancellation), then outside mapset0 locks input/events, moves local player, unlocks and rearms. Entry only schedules it.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ]
+  },
+  {
+    "canonical_symbol": "sub_080557CC",
+    "decision": "accept",
+    "display_name": "StartRegionTriggers57And58",
+    "reasoning": "Verified57/58 literal indices passed through helper56 before optional reveal. Full pool skip and allocation retry match other region trigger starters; no region identity inferred.",
+    "evidence": [
+      {
+        "source": "src/code_080542C4.c",
+        "line": 379,
+        "detail": "spawn54/spawn56 launches5664C with literals57/58; callback936 indexes spots56 rectangle/destination table, waits for local activation and runs movement outside mapset0.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_080542C4.c",
+        "line": 936,
+        "detail": "5664C uses spots56 table index for activation rectangle/destination, waits via Walk98 for overlap and pressed bit0 (or58608 cancellation), then outside mapset0 locks input/events, moves local player, unlocks and rearms. Entry only schedules it.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ]
+  },
+  {
+    "canonical_symbol": "sub_0804ED18",
+    "decision": "accept",
+    "display_name": "RunEvent2GuardedEntityAscent",
+    "reasoning": "Verified persistent bank+1B7/+1C3 mask4 writes before area mask8 guard. Outside mapset0 actor callback4EE20 startup may skip full pool but supplied-entity movement still runs. No unchecked queue completion guarantee claimed.",
+    "evidence": [
+      {
+        "source": "src/code_0804D330.c",
+        "line": 1098,
+        "detail": "Persistent byte+1B7/+1C3 |=4 precedes scene+38 mask8 guard; callback4EE20 and upward28D98 implement guarded ascent.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_08028AAC.c",
+        "line": 169,
+        "detail": "Relative motion narrows offsets to signed16 and duration to unsigned16, supports local/enemy/map-object/handle selector domains, and samples interpolation without an endpoint snap. Fixed duration200 here is within terminating range.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ]
+  },
+  {
+    "canonical_symbol": "sub_08051CE4",
+    "decision": "accept",
+    "display_name": "InitializePlacementEvent3Scene",
+    "reasoning": "Verified area mask8 chooses object6 watcher51DF0,arg0 versus object7 position264,344, then optional reveal and unconditional active-state12 reset/19F04. Wrapper allocation is unchecked; child retry and watcher abort are separate.",
+    "evidence": [
+      {
+        "source": "src/code_0804D330.c",
+        "line": 3297,
+        "detail": "t53_startCE4(51DF0,0,6) or28AAC selector7; clearCE4(1) scans all active enemy states and calls19F04.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_08028AAC.c",
+        "line": 1011,
+        "detail": "Watcher polls selected object state+14==12, aborts on scene+4 bit4 while waiting, then seeks a free30-slot callback task and retries allocation.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ]
+  }
+]
