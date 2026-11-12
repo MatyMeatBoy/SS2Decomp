@@ -29,6 +29,9 @@ GREEN, MINT, GREY, BG, PANEL, FG, DIM = "#3fb950", "#aff5b4", "#6e7681", "#0d111
 # (data_split.py). Raw bytes under such a label are typed, and addresses that
 # merely look like pointers inside them are not object starts.
 TYPED_PREFIXES = {"gSoundSample_": "m4a sample", "gSong_": "m4a song header or track", "gSongEmpty": "m4a song header"}
+# Label prefixes whose boundaries are exact because a container's own offset table gives them
+# (data_split.py ssdt). Split, not typed: the format inside each resource is still unknown.
+SPLIT_PREFIXES = ("gResMain_", "gResAux_")
 RAW_LINE = re.compile(r'^[ 	]*(?:([A-Za-z_]\w*):|\.incbin\s+"%s"\s*,\s*(\S+?)\s*,\s*(\S+?))[ 	]*(?:@.*)?$' % re.escape(REFERENCE), re.M)
 STATE_TEXT = {"typed": "typed in source", "split": "split object, still raw bytes", "blob": "blob with known objects inside"}
 
@@ -72,7 +75,8 @@ def collect(root):
             if m[1]:
                 label = m[1]
             else:
-                raw.append((int(m[2], 0), int(m[3], 0), label.startswith(tuple(TYPED_PREFIXES))))
+                raw.append((int(m[2], 0), int(m[3], 0), "typed" if label.startswith(tuple(TYPED_PREFIXES)) else
+                            "split" if label.startswith(SPLIT_PREFIXES) else ""))
     raw.sort()
     if sum(n for _, n, _ in raw) != sum(b["size"] for b in inventory["incbins"] if b["file"] == REFERENCE):
         raise ValueError("raw incbin scan disagrees with the data inventory")
@@ -88,7 +92,7 @@ def collect(root):
         if offset > cursor:
             ranges.append((cursor, offset - cursor, "typed"))
         if known:
-            ranges.append((offset, size, "typed"))
+            ranges.append((offset, size, known))
             cursor = offset + size
             continue
         inside = bisect.bisect_left(targets, offset + size) - bisect.bisect_right(targets, offset)
@@ -106,6 +110,9 @@ def collect(root):
 
     typed, split_only, blob = size_of("typed"), size_of("split"), size_of("blob")
     objects = inventory["labels_total"]
+    # Index names written by the splitters say where an object sits, not what it is.
+    mechanical = tuple(TYPED_PREFIXES) + SPLIT_PREFIXES
+    named = sum(l["descriptive"] and not l["name"].startswith(mechanical) for l in inventory["labels"])
     expected = objects + pending
     return {
         "schema_version": 1, "unit": "bytes", "data_rom_offsets": [lo, hi], "bytes_total": total,
@@ -113,8 +120,7 @@ def collect(root):
                   "objects": objects, "objects_expected": expected, "percent_objects": pct(objects, expected),
                   "blobs": sum(s == "blob" for _, _, s in ranges), "blob_bytes": blob, "pending_targets": pending},
         "typed": {"bytes": typed, "percent": pct(typed, total), "raw_incbin_bytes": total - typed},
-        "named": {"objects": inventory["labels_descriptive"], "objects_expected": expected,
-                  "percent_objects": pct(inventory["labels_descriptive"], expected)},
+        "named": {"objects": named, "objects_expected": expected, "percent_objects": pct(named, expected)},
         "ranges": [{"rom_offset": a, "size": n, "state": s} for a, n, s in ranges],
         "limits": "Split and named use a heuristic list of candidate object starts, so the expected object count "
                   "is a lower bound. Typed means the bytes are written in source instead of copied from the "

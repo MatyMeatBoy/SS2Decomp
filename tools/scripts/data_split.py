@@ -3,6 +3,8 @@
 
   data_split.py m4a            parse the m4a sound data from gSongTable (song table, song headers,
                                tracks, samples) and write it as typed objects
+  data_split.py ssdt LABEL NAME  split a resource archive ("SSDT" magic) that starts at LABEL into its header,
+                               category tables and one object per resource; NAME prefixes the new labels
   data_split.py cuts FILE      cut at the ROM offsets listed in FILE (`OFFSET [label]` per line, hex);
                                unnamed cuts get the canonical gUnk_08XXXXXX label
 
@@ -145,9 +147,58 @@ def m4a():
         path.name, len(entries), len(headers), len(tracks), len(samples), ", ".join("0x%08X" % v for v in sorted(voicegroups))))
 
 
+PAIRED = (1, 3, 6)      # categories whose ids have two resources (ResolveResourceByEncodedId kinds 7, 9, 8)
+
+
+def ssdt(label, name):
+    """Archive: "SSDT", u32 version, u32 category offsets[7]. Category: u32 count, then one offset per id
+    (two for PAIRED), relative to the category start, ascending; a resource ends where the next begins."""
+    rom = rom_bytes()
+    u32 = lambda o: struct.unpack_from("<I", rom, o)[0]
+    pattern = re.compile(r'^%s:\s*\n\s*\.incbin\s+"baserom\.gba"\s*,\s*(\S+)\s*,\s*(\S+)' % re.escape(label), re.M)
+    for path in data_files():
+        m = pattern.search(path.read_text(encoding="utf-8"))
+        if m:
+            lo, hi = int(m[1], 0), int(m[1], 0) + int(m[2], 0)
+            break
+    else:
+        raise SystemExit("no raw incbin directly under " + label)
+    if rom[lo:lo + 4] != b"SSDT":
+        raise SystemExit("no SSDT magic at 0x%X" % lo)
+    starts = [u32(lo + 8 + 4 * k) for k in range(7)] + [hi - lo]
+    if starts[0] != 0x24 or starts != sorted(starts):
+        raise SystemExit("unexpected SSDT header")
+    out = ['\t.ascii "SSDT"', "\t.4byte %d\t@ version" % u32(lo + 4)]
+    out += ["\t.4byte %s_Cat%d - %s" % (name, k, label) for k in range(7)]
+    resources = 0
+    for k in range(7):
+        base, size, count = lo + starts[k], starts[k + 1] - starts[k], u32(lo + starts[k])
+        width = 2 if k in PAIRED else 1
+        table = [u32(base + 4 + 4 * i) for i in range(count * width)]
+        cat = "%s_Cat%d" % (name, k)
+        body = ["\t.4byte %d\t@ ids" % count]
+        if count == 0:
+            if size != 4:
+                raise SystemExit("empty category %d has payload" % k)
+            out.append(labelled(cat, "\n".join(body)))
+            continue
+        if table != sorted(set(table)) or table[0] != 4 + 4 * len(table) or table[-1] >= size:
+            raise SystemExit("category %d does not have an ascending, gap-free offset table" % k)
+        names = ["%s_%04d%s" % (cat, i // width, ("", "b")[i % width] if width == 2 else "") for i in range(len(table))]
+        body += ["\t.4byte %s - %s" % (n, cat) for n in names]
+        out.append(labelled(cat, "\n".join(body)))
+        for n, a, b in zip(names, table, table[1:] + [size]):
+            out.append(labelled(n, raw(base + a, b - a)))
+        resources += len(table)
+    path = replace_range(lo, hi, "\n".join(out))
+    print("%s: %s split into %d resources" % (path.name, label, resources))
+
+
 if __name__ == "__main__":
     if len(sys.argv) >= 2 and sys.argv[1] == "m4a":
         m4a()
+    elif len(sys.argv) == 4 and sys.argv[1] == "ssdt":
+        ssdt(sys.argv[2], sys.argv[3])
     elif len(sys.argv) == 3 and sys.argv[1] == "cuts":
         wanted = {}
         for line in Path(sys.argv[2]).read_text(encoding="utf-8").splitlines():
