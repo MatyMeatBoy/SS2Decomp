@@ -1,0 +1,494 @@
+[
+  {
+    "canonical_symbol": "sub_08045AFC",
+    "decision": "accept",
+    "reason": "Banked event7 test clears event21 mask0x20 and refreshes slots mode0; no wait or event7 clear.",
+    "evidence": [
+      {
+        "source": "src/code_080443EC.c",
+        "line": 675,
+        "detail": "SelA selects bankbase1B7/1C3 bit7; SelB selects1B9/1C5 and clears bit5, hence event21.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_0805A630.c",
+        "line": 1848,
+        "detail": "C7B8 mode0 fills three12-entry slot arrays from class/progress-indexed tables and applies randomized slot generation; no inferred NPC/quest identity.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ]
+  },
+  {
+    "canonical_symbol": "sub_080455F0",
+    "decision": "accept",
+    "reason": "Event20 sampling updates entity coordinates each loop and always yields, including link-error path.",
+    "evidence": [
+      {
+        "source": "src/code_080443EC.c",
+        "line": 576,
+        "detail": "Reads1B9/1C5 bit4 and calls28AAC with duration0 in both branches; one-count wait always loops.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_08028AAC.c",
+        "line": 4214,
+        "detail": "Constructor creates kind44 at(121,390) and schedules this callback with its actor handle.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ]
+  },
+  {
+    "canonical_symbol": "sub_08044E34",
+    "decision": "accept",
+    "reason": "Before/after event13 samples test inequality, allowing either direction; animation1 requests looping.",
+    "evidence": [
+      {
+        "source": "src/code_080443EC.c",
+        "line": 352,
+        "detail": "Reads1B8/1C4 bit5 before/after wait; unequal sample calls2939C(arg,1).",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_08028AAC.c",
+        "line": 5142,
+        "detail": "Constructor directly requests animation1 if event13 is already set, otherwise schedules this exact change-watcher with actor handle.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ]
+  },
+  {
+    "canonical_symbol": "sub_0804B8EC",
+    "decision": "accept",
+    "reason": "100-step interruptible delay then513 inclusive interpolation writes; signed16 narrowing and separate-product Q10 arithmetic match.",
+    "evidence": [
+      {
+        "source": "src/code_080443EC.c",
+        "line": 4061,
+        "detail": "Calls inline moveB8EC(2,target,-300); helper4043 reads signed16 offsets and includes final weight1024.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_08009088.c",
+        "line": 1827,
+        "detail": "BB80 stores low16 x/y at camera state+80/+82; helper659F4 at src/code_080659B0.c:35 separately shifts each interpolation product.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ]
+  },
+  {
+    "canonical_symbol": "sub_0804B054",
+    "decision": "accept",
+    "reason": "Mode1 sets area bit3 before effect requests; center effectY345/objectY344 distinction and mode0 guard0 admission are exact.",
+    "evidence": [
+      {
+        "source": "src/code_080443EC.c",
+        "line": 3699,
+        "detail": "Flag8 is set BEFORE effects; effect center y159hex differs by1 from object y158hex. Mode0 alias invokes68820.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_080443EC.c",
+        "line": 3677,
+        "detail": "Entry AF80 watches object7 when area flag8 clear or restores object8 placement when set.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ]
+  },
+  {
+    "canonical_symbol": "sub_080480E8",
+    "decision": "accept",
+    "reason": "Reveal precedes watcher scheduling; callback5A3F0 selector7/index6, unchecked initial allocation and later pool/abort limits match.",
+    "evidence": [
+      {
+        "source": "src/code_080443EC.c",
+        "line": 1688,
+        "detail": "Descriptor callback5A3F0,arg7 passed to2A104 with object6 after reveal.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_08059534.c",
+        "line": 525,
+        "detail": "5A3F0 enqueues5A404 unchanged selector; latter conditionally plays35 outside mapset0 and moves selector to(9999,9999).",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_08028AAC.c",
+        "line": 1011,
+        "detail": "Watcher polls indexed object state12; can abort while waiting and skips eventual callback if pool full.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ]
+  },
+  {
+    "canonical_symbol": "sub_0804C4E8",
+    "decision": "accept",
+    "reason": "Mode0 admission1/guard0; effect41 coordinates, object7 placement and only-then event10 bit2 setting match.",
+    "evidence": [
+      {
+        "source": "src/code_080443EC.c",
+        "line": 4665,
+        "detail": "Mode1 sets1B8/1C4 bit2 after movement; mode0 calls68820 with mode1/guard0.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ]
+  },
+  {
+    "canonical_symbol": "sub_080443EC",
+    "decision": "accept",
+    "reason": "Bankbase+3 bit4=event28 gates message221; locks clear and gate remains untouched.",
+    "evidence": [
+      {
+        "source": "src/code_080443EC.c",
+        "line": 5,
+        "detail": "1BA/1C6 bit4 gates literal resource1400DD; suspension breaks only completion loop.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_0803B69C.c",
+        "line": 4354,
+        "detail": "Area setup installs this exact callback on an actor interaction field via callback2bb0.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ]
+  },
+  {
+    "canonical_symbol": "sub_0804AF80",
+    "decision": "accept",
+    "reason": "Clearbit3 schedules object7 watcher, setbit3 directly restores object8; initial allocation unchecked and delayed callback retried only after object state12.",
+    "evidence": [
+      {
+        "source": "src/code_080443EC.c",
+        "line": 3677,
+        "detail": "flags8 test selects t49_startAF80(4B054,0,7) versus28AAC(8,408,344,0).",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_080443EC.c",
+        "line": 3649,
+        "detail": "Watcher wrapper constructs2A104 descriptor and yields twice after start; no allocation retry.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_08028AAC.c",
+        "line": 1011,
+        "detail": "Watcher polls selected object state12, exits on scene+4 bit4 while waiting, and only then allocates a separate callback task if a slot exists.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ]
+  },
+  {
+    "canonical_symbol": "sub_0804C5A8",
+    "decision": "accept",
+    "reason": "Object6 watcher/parking callback5A138 with mode0 versus direct parking7 branch match; callback queueguard1 and delayed bit3 update verified.",
+    "evidence": [
+      {
+        "source": "src/code_080443EC.c",
+        "line": 4702,
+        "detail": "flags8 test and2A104 descriptor5A138,arg0,index6 establish initialization versus restored state.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_08059534.c",
+        "line": 419,
+        "detail": "5A138 mode0 enqueues mode1/guard1; mode1 conditionally plays379, parks object7, then sets area bit3.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_08028AAC.c",
+        "line": 1011,
+        "detail": "Watcher polls selected object state12, exits on scene+4 bit4 while waiting, and only then allocates a separate callback task if a slot exists.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ]
+  },
+  {
+    "canonical_symbol": "sub_0804C408",
+    "decision": "accept",
+    "reason": "Event10 set branch does not reposition; clear branch schedules unchecked object6 watcher; separate eventual callback allocation is retried and pool full can skip.",
+    "evidence": [
+      {
+        "source": "src/code_080443EC.c",
+        "line": 4625,
+        "detail": "1B8/1C4 bit2 gates2A104 descriptor4C4E8,arg0,index6; no else-position branch.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_08028AAC.c",
+        "line": 1011,
+        "detail": "Watcher polls selected object state12, exits on scene+4 bit4 while waiting, and only then allocates a separate callback task if a slot exists.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ]
+  },
+  {
+    "canonical_symbol": "sub_08049DC4",
+    "decision": "accept",
+    "reason": "Area bit5 is set before scan/admission;25bag+75stash type1/id42, local0/event13clear gate, object8 placement callback only.",
+    "evidence": [
+      {
+        "source": "src/code_080443EC.c",
+        "line": 3254,
+        "detail": "Scene+38 mask32 guards; inventory scans+150 count25/+2E0 count75 compare halfwords1,42; OR of counts,playerID,event13 must equal0.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_08059534.c",
+        "line": 351,
+        "detail": "Requested5A040 only calls28AAC(8,56,48,0), establishing placement rather than item grant.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ]
+  },
+  {
+    "canonical_symbol": "sub_08033B3C",
+    "decision": "accept",
+    "reason": "Signed character-level field20 threshold198 selects messages425/424; level progression consumer proves not currency.",
+    "evidence": [
+      {
+        "source": "src/code_0802FEA0.c",
+        "line": 1805,
+        "detail": "Signed32 save+20 comparison>0xC6 selects resources1401A9/1401A8; both completion loops have suspension escape.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_0801E244.c",
+        "line": 183,
+        "detail": "Level advancement reads+20, compares experience threshold and increments same field at192; establishes character level rather than currency.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ]
+  },
+  {
+    "canonical_symbol": "sub_08045660",
+    "decision": "accept",
+    "reason": "Event2 before/after samples accept either direction;240 delay and actor40 coordinates/config/callback match.",
+    "evidence": [
+      {
+        "source": "src/code_080443EC.c",
+        "line": 609,
+        "detail": "flag566045 selects bankbase1B7/1C3, bit566045 shifts2; changed sample gates spawn40 and callback33198.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_08028AAC.c",
+        "line": 2804,
+        "detail": "Constructor schedules this watcher on its event2-clear path; otherwise creates/configures the actor directly.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ]
+  },
+  {
+    "canonical_symbol": "sub_0803F348",
+    "decision": "accept",
+    "reason": "Finite exact left/right movement and9 shake pairs match; no animation-completion or task-success guarantee introduced.",
+    "evidence": [
+      {
+        "source": "src/code_0803B69C.c",
+        "line": 1924,
+        "detail": "Literal movement/animation order and loop counter1..9 establish finite shake sequence; no outer loop.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_0803B69C.c",
+        "line": 1595,
+        "detail": "Scene sequence selects exact3F348 alias on area event bit2-clear path, schedules it with actor handle, then waits task inactivity at1610; inactivity is not itself a success guarantee.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_08028AAC.c",
+        "line": 359,
+        "detail": "29174 dispatches nonlooping animation by actor handle, enemy1..5 or localplayer0;2939C at457 requests same animation with loop flag1. Relative movement at169 narrows offsets signed16 and duration unsigned16 and does not endpoint-snap.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ]
+  },
+  {
+    "canonical_symbol": "sub_08045E38",
+    "decision": "accept",
+    "reason": "Either-direction event5 edge,240 interruptible delay, literal kind262182 and callback3898C match.",
+    "evidence": [
+      {
+        "source": "src/code_080443EC.c",
+        "line": 791,
+        "detail": "bit5E3845 shifts bankbase flag5; kind0x40026 and callback3898C are explicit. Reuses15-record lookup and wait helper at302..323.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ]
+  },
+  {
+    "canonical_symbol": "sub_08044D1C",
+    "decision": "accept",
+    "reason": "Event18 from bankbyte+2bit; either-direction watcher,500 delay, actor15/config/callback/loopanimation17 match.",
+    "evidence": [
+      {
+        "source": "src/code_080443EC.c",
+        "line": 330,
+        "detail": "flag4D1C45 selects1B9/1C5 and bit566045 shifts2; 16+2 gives persistent event18. Explicit kind15 and callback34F64.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ]
+  },
+  {
+    "canonical_symbol": "sub_0803145C",
+    "decision": "accept",
+    "reason": "Event26 selects decimal367/368 with input/event locks and completion-only suspension escape; gate not mutated.",
+    "evidence": [
+      {
+        "source": "src/code_0802FEA0.c",
+        "line": 630,
+        "detail": "1BA/1C6 bit2 selects resources14016F/140170; both branches wait busy slots then completion with suspension escape.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_08028AAC.c",
+        "line": 4422,
+        "detail": "Actor constructor registers this exact interaction callback.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ]
+  },
+  {
+    "canonical_symbol": "sub_08031580",
+    "decision": "accept",
+    "reason": "Event26 selects decimal369/370 with identical lock/abort pattern; no inventory mutation.",
+    "evidence": [
+      {
+        "source": "src/code_0802FEA0.c",
+        "line": 680,
+        "detail": "1BA/1C6 bit2 selects resources140171/140172; both branches wait busy slots then completion with suspension escape.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_08028AAC.c",
+        "line": 4458,
+        "detail": "Actor constructor registers this exact interaction callback.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ]
+  },
+  {
+    "canonical_symbol": "sub_080444C0",
+    "decision": "accept",
+    "reason": "Literal kind589837/messages452or454/progress5, movement then state4 request and unconditional progress write before unabortable completion wait match.",
+    "evidence": [
+      {
+        "source": "src/code_080443EC.c",
+        "line": 46,
+        "detail": "kind0x9000D; resources1401C4/1401C6 mode45; actor state+36=4; progress1B3/1BF=5 before final completion wait.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_0802FEA0.c",
+        "line": 1869,
+        "detail": "Same banked1B3/1BF byte drives dialogue progress state-machine selection, without establishing story identity.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_08087CC0.c",
+        "line": 2021,
+        "detail": "Area exit handler binds eventAD9091 alias to this function; callback need not imply generic initialization.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ]
+  },
+  {
+    "canonical_symbol": "sub_08033520",
+    "decision": "accept",
+    "reason": "Both questions asked independently,1259/1260 nonzero replies queue availability masks0/1; bank78/80 readers establish world-map destination availability.",
+    "evidence": [
+      {
+        "source": "src/code_0802FEA0.c",
+        "line": 1651,
+        "detail": "Resources1404EB/1404EC response mode-2; separate nonzero branches queue45764 with0/1.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_080443EC.c",
+        "line": 632,
+        "detail": "Callback ORs banked availability+78/+80: group0 bits1..9; group1 bits10..14 and16..22. It preserves all other bits.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_080571A4.c",
+        "line": 545,
+        "detail": "57C34 reads same banks by value-1 bit; src/code_08009088.c:2179/2337 uses predicate for world-map destination selection/icons.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ]
+  },
+  {
+    "canonical_symbol": "sub_0804FB0C",
+    "decision": "accept",
+    "reason": "Scene flags+4bit5 distinguished from area flags+38; initial audio branch/mute behavior,20 delay and unabortable message100 completion match.",
+    "evidence": [
+      {
+        "source": "src/code_0804D330.c",
+        "line": 1877,
+        "detail": "Resource140064 mode45 after audio/reveal; scene flags struct at1873 maps final OR32 to+4, not area+38.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_08057CAC.c",
+        "line": 537,
+        "detail": "586B4 reads tracked song, calls checked stop and clears tracker, ignoring passed0 in recovered caller.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_08009088.c",
+        "line": 2488,
+        "detail": "CB9C returns scene bit1, initialized as multiplayer world-scene state; it is not a raw link-error query.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ]
+  },
+  {
+    "canonical_symbol": "sub_0803F210",
+    "decision": "accept",
+    "reason": "Finite20+10/58+10/58+10/40 delay sequence and repeated animation16/10 withsound85 match; no completion edge guarantee.",
+    "evidence": [
+      {
+        "source": "src/code_0803B69C.c",
+        "line": 1849,
+        "detail": "Three29174(arg,16) requests each conditionally start85, followed after10 by29174(arg,10); countdowns58,58,40.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_0803B69C.c",
+        "line": 1584,
+        "detail": "Scene routine schedules exact3F210 alias when area event bit2 is set, else3F348; eventual task inactivity wait does not change this helper's finite contract.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_08028AAC.c",
+        "line": 359,
+        "detail": "29174 dispatches nonlooping animation by actor handle, enemy1..5 or localplayer0;2939C at457 requests same animation with loop flag1. Relative movement at169 narrows offsets signed16 and duration unsigned16 and does not endpoint-snap.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ]
+  },
+  {
+    "canonical_symbol": "sub_0804AE48",
+    "decision": "accept",
+    "reason": "Independent trigger0/1 starts use30-slot search/retried allocations, then shared arbitrationbyte reset; actual callback owns rectangle leave/reenter and conditional inventory removal.",
+    "evidence": [
+      {
+        "source": "src/code_080443EC.c",
+        "line": 3623,
+        "detail": "Two startAE48 calls pass0/1 before resetting1B5/1C1. Helper3597 scans30 task slots and retries0x400 allocation.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_080542C4.c",
+        "line": 1024,
+        "detail": "567D4 uses44-byte gates567D4 table records: rectangle leave/reenter, item count, shared status arbitration; at1108 it removes required items and requests flag/event callbacks only if gate succeeds.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_080542C4.c",
+        "line": 990,
+        "detail": "Status567D4 reads same byte1B5/1C1 used by trigger arbitration; earlier scene barrier usage does not imply this entry waits for arrivals.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ]
+  }
+]

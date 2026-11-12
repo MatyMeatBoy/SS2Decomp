@@ -1,0 +1,364 @@
+[
+  {
+    "canonical_symbol": "sub_0809D558",
+    "decision": "accept",
+    "reason": "Intro global store and signed8 getter verified; zero path disables team while nonzero enables team2 and selects normal child callback."
+  },
+  {
+    "canonical_symbol": "sub_0809F90C",
+    "decision": "accept",
+    "reason": "Request byte consumed only in phases0/4, cleared on consumption, and recovery phase4 timer may set it independently."
+  },
+  {
+    "canonical_symbol": "sub_080A4CF0",
+    "decision": "fix",
+    "reason": "Body resource13/14 variant is an unsigned consumer index; nonzero gate is additional sprite drawing, not collision.",
+    "corrected_row": {
+      "canonical_symbol": "sub_080A4CF0",
+      "address": "0x080A4CF0",
+      "display_name": "SetCompositeEnemyBodyVariant",
+      "summary": "Stores the signed8 argument bits as a shared byte consumed as an unchecked unsigned sprite/palette variant index for body resources13/14. Nonzero variant also enables an additional resource14 draw under normal drawing gates; no collision-processing role is established.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_080A3D2C.c",
+          "line": 652,
+          "detail": "Exact store/getter body.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0809D878.c",
+          "line": 3201,
+          "detail": "Unsigned u8 alias modeA27 indexes the two body animation/palette records at3201 onward. At3216 nonzero variant gates an additional sprite draw using record1, subject to mapset/menu/drawing gates. Resources initialize as0x5000D/0x5000E at3037-3038.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": []
+    }
+  },
+  {
+    "canonical_symbol": "sub_080A4CFC",
+    "decision": "fix",
+    "reason": "Part/auxiliary consumers load the stored low8 value as unsigned direct array index; variant1 selects alternate formulas.",
+    "corrected_row": {
+      "canonical_symbol": "sub_080A4CFC",
+      "address": "0x080A4CFC",
+      "display_name": "SetCompositeEnemyPartVariant",
+      "summary": "Stores the signed8 argument bits as a shared byte consumed unsigned by composite parts and auxiliary sprite. Variant1 selects alternate animation formulas; direct variant array index is unchecked, so negative inputs wrap to large unsigned values.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_080A3D2C.c",
+          "line": 655,
+          "detail": "Exact store/getter body.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0809D878.c",
+          "line": 3394,
+          "detail": "u8 alias modeA35 uses variant1 formula at3394 and direct animation-record indexing3414; u8 aliases gSide3D2C and gSide47A0 select part/auxiliary sprite records atA3D2C:185/462.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": []
+    }
+  },
+  {
+    "canonical_symbol": "sub_0809D564",
+    "decision": "accept",
+    "reason": "Getter returns low byte interpreted signed8, without Boolean normalization. Epilogue and setter exact."
+  },
+  {
+    "canonical_symbol": "sub_080AF2AC",
+    "decision": "accept",
+    "reason": "AF304 walks u8 count in40-byte strides, cancels scheduled entries, frees/nulls pool only when nonnull. AF3C4 clears per-slot mask bit;68384 clears connected peer10-entry rings/status. No whole active-mask reset."
+  },
+  {
+    "canonical_symbol": "sub_080A4AD0",
+    "decision": "accept",
+    "reason": "Exact mask &=~2 preserves other slots. StarterA4A7C installs this finalizer with35D0."
+  },
+  {
+    "canonical_symbol": "sub_080A4CDC",
+    "decision": "fix",
+    "reason": "Formal signed8 values are stored as bytes but consumers read unsigned animation/direction indexes; clarify wrap and selector0 idle behavior.",
+    "corrected_row": {
+      "canonical_symbol": "sub_080A4CDC",
+      "address": "0x080A4CDC",
+      "display_name": "SetCompositeEnemyAuxiliaryAnimation",
+      "summary": "Stores animation-selector and direction argument low8 bits into shared bytes. Auxiliary sprite waits while unsigned selector0, uses selector+5 when part variant1, and indexes direction offsets by unsigned direction*4. Neither input is bounds checked; signed-negative arguments wrap to large unsigned values.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_080A3D2C.c",
+          "line": 648,
+          "detail": "Exact target body.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080A3D2C.c",
+          "line": 444,
+          "detail": "u8 aliases gFrame47A0/gDir47A0 consume globalsFC/FB; consumer444 waits selector0,448 adds5 for side1,459 uses unsigned direction*4. Shared part variant also directly indexes sprite records.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": []
+    }
+  },
+  {
+    "canonical_symbol": "sub_0809F918",
+    "decision": "fix",
+    "reason": "Allocation/control identity and unchecked store confirmed; no scheduler-order role proven for+8.",
+    "corrected_row": {
+      "canonical_symbol": "sub_0809F918",
+      "address": "0x0809F918",
+      "display_name": "AllocateBackgroundPhaseTaskControl",
+      "summary": "Allocates40-byte background phase-controller control and clears control word+8. Does not schedule task or check allocation failure.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_0809D878.c",
+          "line": 1298,
+          "detail": "Exact target body.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0809D878.c",
+          "line": 1323,
+          "detail": "Starter binds9E468 phased scrolling/VCount/background controller to same control.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": []
+    }
+  },
+  {
+    "canonical_symbol": "sub_080A0FA8",
+    "decision": "fix",
+    "reason": "Allocation/strike callback identity and unchecked store confirmed; use neutral control word+8 rather than unproved order.",
+    "corrected_row": {
+      "canonical_symbol": "sub_080A0FA8",
+      "address": "0x080A0FA8",
+      "display_name": "AllocateFixedStrikeTaskControl",
+      "summary": "Allocates40-byte fixed-strike task control and clears control word+8 without null guard; does not start execution.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_0809D878.c",
+          "line": 2141,
+          "detail": "Exact target body.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0809D878.c",
+          "line": 2156,
+          "detail": "Starter bindsA05B4, whose kinds0..3 choose fixed strike positions and test contact at animation frame2.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": []
+    }
+  },
+  {
+    "canonical_symbol": "sub_080A1170",
+    "decision": "fix",
+    "reason": "40-byte allocator and unchecked+8 zero store verified. Starter binds the claimed callback; consumer behavior supports family name. Replace unproved order label with neutral control word+8.",
+    "corrected_row": {
+      "canonical_symbol": "sub_080A1170",
+      "address": "0x080A1170",
+      "display_name": "AllocateHomingProjectileTaskControl",
+      "summary": "Allocates40-byte homing-projectile control and clears control word+8 without a null guard; does not schedule it.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_0809D878.c",
+          "line": 2236,
+          "detail": "Exact allocation and initialization body.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0809D878.c",
+          "line": 2253,
+          "detail": "Starter bindsA0B44: selects one target, periodically recomputes velocity, moves a projectile and checks local-player contact.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": []
+    }
+  },
+  {
+    "canonical_symbol": "sub_080A4BE0",
+    "decision": "fix",
+    "reason": "40-byte allocator and unchecked+8 zero store verified. Starter binds the claimed callback; consumer behavior supports family name. Replace unproved order label with neutral control word+8.",
+    "corrected_row": {
+      "canonical_symbol": "sub_080A4BE0",
+      "address": "0x080A4BE0",
+      "display_name": "AllocateCompositeAuxiliaryTaskControl",
+      "summary": "Allocates40-byte composite auxiliary-sprite control and clears control word+8 without checking allocation success. Does not start the sprite task.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_080A3D2C.c",
+          "line": 605,
+          "detail": "Exact allocation and initialization body.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080A3D2C.c",
+          "line": 621,
+          "detail": "Starter binds47A0; consumer draws animation selected by sharedFC and directionFB at actor-relative table offset.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": []
+    }
+  },
+  {
+    "canonical_symbol": "sub_080A7FF8",
+    "decision": "fix",
+    "reason": "40-byte allocator and unchecked+8 zero store verified. Starter binds the claimed callback; consumer behavior supports family name. Replace unproved order label with neutral control word+8.",
+    "corrected_row": {
+      "canonical_symbol": "sub_080A7FF8",
+      "address": "0x080A7FF8",
+      "display_name": "AllocateStaggeredProjectileTaskControl",
+      "summary": "Allocates40-byte control for the twelve staggered projectiles task and clears control word+8 without null guard. Does not start execution.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_080A3D2C.c",
+          "line": 2366,
+          "detail": "Exact allocation and initialization body.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080A3D2C.c",
+          "line": 2380,
+          "detail": "Starter binds705C: twelve projectiles launch at i*20+30, acquire player positions and interpolate over24 updates.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": []
+    }
+  },
+  {
+    "canonical_symbol": "sub_080A80BC",
+    "decision": "fix",
+    "reason": "40-byte allocator and unchecked+8 zero store verified. Starter binds the claimed callback; consumer behavior supports family name. Replace unproved order label with neutral control word+8.",
+    "corrected_row": {
+      "canonical_symbol": "sub_080A80BC",
+      "address": "0x080A80BC",
+      "display_name": "AllocateScrollingBlendTaskControl",
+      "summary": "Allocates40-byte scrolling/blend task control and clears control word+8 without null guard. Does not schedule the effect.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_080A3D2C.c",
+          "line": 2404,
+          "detail": "Exact allocation and initialization body.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080A3D2C.c",
+          "line": 2420,
+          "detail": "Starter binds74E8, which scrolls layers1/3 at different speeds and varies blend coefficients from sine table via0903C.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": []
+    }
+  },
+  {
+    "canonical_symbol": "sub_080B63A0",
+    "decision": "fix",
+    "reason": "40-byte allocator and unchecked+8 zero store verified. Starter binds the claimed callback; consumer behavior supports family name. Replace unproved order label with neutral control word+8.",
+    "corrected_row": {
+      "canonical_symbol": "sub_080B63A0",
+      "address": "0x080B63A0",
+      "display_name": "AllocateDualScrollBlendControl",
+      "summary": "Allocates40-byte dual-scroll/blend task control and clears control word+8 without null guard; does not start execution.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_080B3648.c",
+          "line": 1695,
+          "detail": "Exact allocation and initialization body.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080B3648.c",
+          "line": 1701,
+          "detail": "Starter bindsB5F94: scrolls layers1/3 in opposite directions, sine-modulates blend coefficient via0903C and changes speed/base under shared flag.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": []
+    }
+  },
+  {
+    "canonical_symbol": "sub_0809FACC",
+    "decision": "fix",
+    "reason": "Nullable40-byte allocation and+8 zero only on success verified;9FB18 binds four-orbit hazard9F4A8. Replace order label with neutral control word.",
+    "corrected_row": {
+      "canonical_symbol": "sub_0809FACC",
+      "address": "0x0809FACC",
+      "display_name": "AllocateFourOrbitingHazardsControl",
+      "summary": "Allocates40-byte control for four orbiting hazards and clears control word+8 only when allocation succeeds. Does not schedule it.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_0809D878.c",
+          "line": 1399,
+          "detail": "Exact target body.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0809D878.c",
+          "line": 1421,
+          "detail": "Starter binds9F4A8, four sine-offset positions expand around main actor and test local-player contact in final phase.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": []
+    }
+  },
+  {
+    "canonical_symbol": "sub_080AB2D8",
+    "decision": "accept",
+    "reason": "Exact68384 peer ring reset then whole enemy mask0 and16ECC palette release verified;A9950/AB2D8 registration exact. Palette release can decrement a reference rather than free underlying slot outright."
+  },
+  {
+    "canonical_symbol": "sub_080A0FC4",
+    "decision": "accept",
+    "reason": "Exact scheduled query/cancel, unconditional control free and global null; starter uses same334 control andA05B4 fixed strike. No recheck or null guard added."
+  },
+  {
+    "canonical_symbol": "sub_080A118C",
+    "decision": "accept",
+    "reason": "Exact scheduled query/cancel, free and global344 null; starter bindsA0B44 and consumer periodically steers toward chosen player."
+  },
+  {
+    "canonical_symbol": "sub_080A4A54",
+    "decision": "accept",
+    "reason": "Exact scheduled query/cancel/free/null for358; starter35D0 installsA4AD0 finalizer. Scheduler003A8 loads finalizer+24, so cancellation can clear only enemy bit1."
+  },
+  {
+    "canonical_symbol": "sub_080A4BFC",
+    "decision": "accept",
+    "reason": "Exact360 control cancel/free/null verified;A4C24 binds47A0 using the same shared animation/direction bytes."
+  },
+  {
+    "canonical_symbol": "sub_080A8014",
+    "decision": "accept",
+    "reason": "Exact410 cancel/free/null verified; bound705C twelve-projectile sequence and8090 separately consult shared414 height; destructor does not reset it."
+  },
+  {
+    "canonical_symbol": "sub_080AC81C",
+    "decision": "accept",
+    "reason": "Exact stop194, peer-ring reset, full enemy-mask reset and palette release verified;AB2F8 registration and sprite0x5001D/0x5001E confirmed."
+  },
+  {
+    "canonical_symbol": "sub_080B0F9C",
+    "decision": "accept",
+    "reason": "Signed16 actor+5C conditional98060 destroys shared2C0 sprite task; all paths reset full enemy mask. Unlike adjacentB0F70 this function never calls peer-ring reset."
+  }
+]
