@@ -1495,8 +1495,8 @@ block_197:
                 for (sp128 = 0; sp128 <= 7; sp128++, var_r6++) {
                     temp_r1_9 = var_r6->f0;
                     if ((s32) temp_r1_9 < 0 && temp_r1_9 != -2) {
-                    } else if (var_r6->f2 <= 3U && (temp_r0_17 = var_r6->f2, 1)) {
-                        switch (effectOwnerTableD368[temp_r0_17].fC) {
+                    } else if (var_r6->f2 <= 3U) {
+                        switch (effectOwnerTableD368[temp_r0_17 = var_r6->f2].fC) {
                         case 2:
                             if (var_r6->f4 != 7) break;
                             if (effectOwnerTableD368[temp_r0_17].f30 & 0x2000) continue;
@@ -1597,11 +1597,9 @@ block_197:
                             break;
                         case 1:                     /* switch 3 */
                             if (0xF1 & ((struct PlayerD368 *)arg0)->f14) {
-                                temp_r1_10 = (u16) var_r6->f0 - 6;
-                                var_r6->f0 = temp_r1_10;
-                                if ((s32) ((u32) temp_r1_10 << 0x10) < 0) {
-                                    temp_r1_10 |= 0xFFFF;
-                                    var_r6->f0 = temp_r1_10;
+                                var_r6->f0 -= 6;
+                                if ((s16) var_r6->f0 < 0) {
+                                    var_r6->f0 = -1;
                                 }
                             }
                             ((struct PlayerD368 *)arg0)->f14 = (u16) (0xFFFE & ((struct PlayerD368 *)arg0)->f14);
