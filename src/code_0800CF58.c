@@ -2414,13 +2414,12 @@ block_719:
                 break;
             case 5:                                 /* switch 4 */
                 directionD36874 = 0;
-                temp_r1_28 = ((struct PlayerD368 *)arg0)->f12;
-                if (0x40 & temp_r1_28) {
+                if (0x40 & ((struct PlayerD368 *)arg0)->f12) {
                     directionD36874 = 5;
-                } else if (0x80 & temp_r1_28) {
+                } else if (0x80 & ((struct PlayerD368 *)arg0)->f12) {
                     directionD36874 = 1;
                 }
-                if (0x20 & temp_r1_28) {
+                if (0x20 & ((struct PlayerD368 *)arg0)->f12) {
                     if (directionD36874 == 5) {
                         directionD36874 = 4;
                     } else if (directionD36874 == 1) {
@@ -2428,7 +2427,7 @@ block_719:
                     } else {
                         directionD36874 = 3;
                     }
-                } else if (0x10 & temp_r1_28) {
+                } else if (0x10 & ((struct PlayerD368 *)arg0)->f12) {
                     if (directionD36874 == 5) {
                         directionD36874 = 6;
                     } else if (directionD36874 == 1) {
@@ -2500,13 +2499,12 @@ state5Done66:
             case 6:                                 /* switch 4 */
                 sp158 = 0;
                 directionD36874 = 0;
-                temp_r1_29 = ((struct PlayerD368 *)arg0)->f12;
-                if (0x40 & temp_r1_29) {
+                if (0x40 & ((struct PlayerD368 *)arg0)->f12) {
                     directionD36874 = 5;
-                } else if (0x80 & temp_r1_29) {
+                } else if (0x80 & ((struct PlayerD368 *)arg0)->f12) {
                     directionD36874 = 1;
                 }
-                if (0x20 & temp_r1_29) {
+                if (0x20 & ((struct PlayerD368 *)arg0)->f12) {
                     if (directionD36874 == 5) {
                         directionD36874 = 4;
                     } else if (directionD36874 == 1) {
@@ -2514,7 +2512,7 @@ state5Done66:
                     } else {
                         directionD36874 = 3;
                     }
-                } else if (0x10 & temp_r1_29) {
+                } else if (0x10 & ((struct PlayerD368 *)arg0)->f12) {
                     if (directionD36874 == 5) {
                         directionD36874 = 6;
                     } else if (directionD36874 == 1) {
@@ -2640,13 +2638,12 @@ block_809:
             case 7:                                 /* switch 4 */
                 sp158 = 0;
                 directionD36874 = 0;
-                temp_r1_31 = ((struct PlayerD368 *)arg0)->f12;
-                if (0x40 & temp_r1_31) {
+                if (0x40 & ((struct PlayerD368 *)arg0)->f12) {
                     directionD36874 = 5;
-                } else if (0x80 & temp_r1_31) {
+                } else if (0x80 & ((struct PlayerD368 *)arg0)->f12) {
                     directionD36874 = 1;
                 }
-                if (0x20 & temp_r1_31) {
+                if (0x20 & ((struct PlayerD368 *)arg0)->f12) {
                     if (directionD36874 == 5) {
                         directionD36874 = 4;
                     } else if (directionD36874 == 1) {
@@ -2654,7 +2651,7 @@ block_809:
                     } else {
                         directionD36874 = 3;
                     }
-                } else if (0x10 & temp_r1_31) {
+                } else if (0x10 & ((struct PlayerD368 *)arg0)->f12) {
                     if (directionD36874 == 5) {
                         directionD36874 = 6;
                     } else if (directionD36874 == 1) {
