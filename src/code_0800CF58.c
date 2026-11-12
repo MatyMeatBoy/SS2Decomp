@@ -2540,10 +2540,10 @@ state5Done66:
                         } else {
                             sp190 = 0xFFFE;
                             ((struct PlayerD368 *)arg0)->f24 = 0U;
-                            ((struct PlayerD368 *)arg0)->f20 = 0U;
                             ((struct PlayerD368 *)arg0)->f26 = 0U;
                             sp130 = 0;
                             sp134 = 0;
+                            ((struct PlayerD368 *)arg0)->f20 = 0U;
                         }
                     } else {
                         temp_r0_57 = sp130 + sp134;
