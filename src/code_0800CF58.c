@@ -3494,8 +3494,7 @@ retry63_1_done:
                     if ((s32) (s16) ((struct PlayerD368 *)arg0)->fC4 >= (s32) (s16) ((s16) ((struct PlayerD368 *)arg0)->f62 / 3)) {
 
                     } else {
-                        temp_r2_24 = ((struct PlayerD368 *)arg0)->f144;
-                        ((union RecordD368 *)temp_r2_24)->w1_b19_n5.value = 2;
+                        ((union RecordD368 *)((struct PlayerD368 *)arg0)->f144)->w1_b19_n5.value = 2;
                         break;
                     }
                 } else if (d368_sub_0801DF8C() == 0) {
