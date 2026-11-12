@@ -11077,7 +11077,7 @@
           "source": "tools/config/functions.cfg",
           "line": 381,
           "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
-          "detail": "Complete original 1801C..19BF8 range is 7132 bytes and equals the linked ELF. Original call anchors:1809Eâ†’16E04,18340â†’16F28,1864Câ†’19CE8,18760â†’17C6C,192A0â†’65370,192CCâ†’17EC8,19340â†’07870,199C0â†’003F0 and 19BCAâ†’16ECC. Selected role-level paths inspected; no external-call count is inferred from internal BL far branches or literal data. Original EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc. Complete selected function range equals the existing linked ELF. Mapping labels were checked against source and control flow; data markers alone are not treated as literal-pool proof. Static evidence only."
+          "detail": "Complete original 1801C..19BF8 range is 7132 bytes and equals the linked ELF. Original call anchors:1809E→16E04,18340→16F28,1864C→19CE8,18760→17C6C,192A0→65370,192CC→17EC8,19340→07870,199C0→003F0 and 19BCA→16ECC. Selected role-level paths inspected; no external-call count is inferred from internal BL far branches or literal data. Original EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc. Complete selected function range equals the existing linked ELF. Mapping labels were checked against source and control flow; data markers alone are not treated as literal-pool proof. Static evidence only."
         },
         {
           "source": "src/code_08017F7C.c",
@@ -19297,7 +19297,7 @@
           "source": "src/code_08002118.c",
           "line": 508,
           "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
-          "detail": "Matched title task dispatches option index 3 to 920E4. The startup button-sequence completion query can select that option, while callback 904A4 directly browses/plays BGM/SE tables. This establishes the starterâ€™s concrete audio-test role without naming a cheat benefit, exact printed title, runtime reachability or full replay synchronization."
+          "detail": "Matched title task dispatches option index 3 to 920E4. The startup button-sequence completion query can select that option, while callback 904A4 directly browses/plays BGM/SE tables. This establishes the starter’s concrete audio-test role without naming a cheat benefit, exact printed title, runtime reachability or full replay synchronization."
         }
       ]
     },
@@ -19765,7 +19765,7 @@
           "source": "src/code_0800CF58.c",
           "line": 6018,
           "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
-          "detail": "Paired matched consumer 13BC0 applies both pending-damage halfwords to HP and reports unprotected nonpositive HP as defeat; the main player task can enter state 11 after a nonzero result, subject to further state/flag guards. This corroborates the defeat role while preserving this queryâ€™s narrower pending-damage calculation. No exact interpretation beyond this predicate is assigned to bit 0x2000."
+          "detail": "Paired matched consumer 13BC0 applies both pending-damage halfwords to HP and reports unprotected nonpositive HP as defeat; the main player task can enter state 11 after a nonzero result, subject to further state/flag guards. This corroborates the defeat role while preserving this query’s narrower pending-damage calculation. No exact interpretation beyond this predicate is assigned to bit 0x2000."
         }
       ]
     },
@@ -19834,7 +19834,7 @@
           "source": "src/code_0808FB5C.c",
           "line": 1722,
           "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
-          "detail": "Maps byte text into the menu glyph encoding using mode word 03003470. Mode 0 or unsigned values>4 accept spaceâ†’0x51, Latin A..Z/a..zâ†’byte-0x40 and digitsâ†’byte+0x10, stopping before the first other byte. Modes 1..4 use the same letter/space mappings, digitsâ†’byte+0xF and otherwise copy bytes until zero/0xFD. Each branch copies at most 255 bytes. On ordinary termination writes 0xFD; hitting that copy limit returns without appending a terminator. This is not a Unicode decoder or a universal interpretation of the mode global."
+          "detail": "Maps byte text into the menu glyph encoding using mode word 03003470. Mode 0 or unsigned values>4 accept space→0x51, Latin A..Z/a..z→byte-0x40 and digits→byte+0x10, stopping before the first other byte. Modes 1..4 use the same letter/space mappings, digits→byte+0xF and otherwise copy bytes until zero/0xFD. Each branch copies at most 255 bytes. On ordinary termination writes 0xFD; hitting that copy limit returns without appending a terminator. This is not a Unicode decoder or a universal interpretation of the mode global."
         },
         {
           "source": "tools/config/functions.cfg",
@@ -20923,7 +20923,7 @@
           "source": "src/code_0807A5D4.c",
           "line": 8887,
           "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
-          "detail": "The selected callbackâ€™s narrative caption progression and ROM Latin terms corroborate the semantic role of option 2. No exact menu-title string, unused/unreachable conclusion or active-playback state is inferred from the selector alone."
+          "detail": "The selected callback’s narrative caption progression and ROM Latin terms corroborate the semantic role of option 2. No exact menu-title string, unused/unreachable conclusion or active-playback state is inferred from the selector alone."
         }
       ]
     },
