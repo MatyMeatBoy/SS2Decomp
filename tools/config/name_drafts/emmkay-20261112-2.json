@@ -1,0 +1,594 @@
+[
+  {
+    "canonical_symbol": "sub_0804B32C",
+    "address": "0x0804B32C",
+    "display_name": "RunBokenReunionEvent",
+    "summary": "One-shot scene event: unless scene flag 0x20 was already claimed, locks the local player, plays a burst of effects, creates scene actor 15 who says dialogue 0x14003F (decoded: 'Do you remember me? I`m Boken!!'), walks it away, then sets bit 2 of the scene event byte so the event is not bound again.",
+    "confidence": "medium",
+    "evidence": [
+      {
+        "source": "src/code_080443EC.c",
+        "line": 3889,
+        "detail": "Skips the event when scene flag 0x20 is already claimed.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_080443EC.c",
+        "line": 3908,
+        "detail": "Creates scene actor 15 at (120, 80).",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_080443EC.c",
+        "line": 3914,
+        "detail": "Shows dialogue resource 0x14003F, whose text introduces Boken.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_080443EC.c",
+        "line": 3917,
+        "detail": "Moves the actor away by (0, 120) after the dialogue.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_080443EC.c",
+        "line": 3927,
+        "detail": "Sets bit 2 of the selected scene event byte; sub_0804B100 binds this callback only while that bit is clear.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      }
+    ],
+    "open_questions": [
+      "Map/area identity is not established; 'Reunion' follows the dialogue text only."
+    ]
+  },
+  {
+    "canonical_symbol": "sub_080A74E8",
+    "address": "0x080A74E8",
+    "display_name": "TaskScrollBlendOverlayLayers",
+    "summary": "Endless task that every visible frame advances BG layers 1 and 3 scroll offsets by fixed Q8 steps and sets the blend shadow with EVA/EVB pulsed from a table.",
+    "confidence": "medium",
+    "evidence": [
+      {
+        "source": "src/code_080A3D2C.c",
+        "line": 1934,
+        "detail": "Accumulates x += 0x2AA and y += 0x88 every frame.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_080A3D2C.c",
+        "line": 1936,
+        "detail": "Reads a pulse value from table 080B9704.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_080A3D2C.c",
+        "line": 1941,
+        "detail": "Calls SetBlendRegisterShadow with the pulsed coefficients.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_080A3D2C.c",
+        "line": 1942,
+        "detail": "Scrolls layer 1 horizontally with SetMapLayerDisplayScrollOffset.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_080A3D2C.c",
+        "line": 1943,
+        "detail": "Scrolls layer 3 with the second accumulator.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      }
+    ],
+    "open_questions": []
+  },
+  {
+    "canonical_symbol": "sub_080A80BC",
+    "address": "0x080A80BC",
+    "display_name": "AllocateBlendOverlayTaskControl",
+    "summary": "Allocates the 0x28-byte task control 03000418 for TaskScrollBlendOverlayLayers and clears its word +8.",
+    "confidence": "high",
+    "evidence": [
+      {
+        "source": "src/code_080A3D2C.c",
+        "line": 2407,
+        "detail": "Stores HeapAllocate(0x28) in 03000418.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_080A3D2C.c",
+        "line": 2408,
+        "detail": "Clears control word +8.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      }
+    ],
+    "open_questions": []
+  },
+  {
+    "canonical_symbol": "sub_080A80D8",
+    "address": "0x080A80D8",
+    "display_name": "FreeBlendOverlayTaskControl",
+    "summary": "Clears the blend shadow, cancels the overlay task in 03000418 if scheduled, frees the control and clears the pointer.",
+    "confidence": "high",
+    "evidence": [
+      {
+        "source": "src/code_080A3D2C.c",
+        "line": 2411,
+        "detail": "Resets SetBlendRegisterShadow to all zero.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_080A3D2C.c",
+        "line": 2413,
+        "detail": "Cancels the scheduled task.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_080A3D2C.c",
+        "line": 2415,
+        "detail": "Frees the control.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_080A3D2C.c",
+        "line": 2416,
+        "detail": "Clears 03000418.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      }
+    ],
+    "open_questions": []
+  },
+  {
+    "canonical_symbol": "sub_080A8114",
+    "address": "0x080A8114",
+    "display_name": "StartBlendOverlayTask",
+    "summary": "Unless the control is not scheduled with word +8 nonzero, allocates a 0x200-byte stack and starts TaskScrollBlendOverlayLayers on control 03000418.",
+    "confidence": "high",
+    "evidence": [
+      {
+        "source": "src/code_080A3D2C.c",
+        "line": 2422,
+        "detail": "Returns early when the task is not scheduled but word +8 is nonzero.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_080A3D2C.c",
+        "line": 2425,
+        "detail": "Allocates a 0x200-byte task stack.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_080A3D2C.c",
+        "line": 2429,
+        "detail": "Sets the callback to TaskScrollBlendOverlayLayers.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      }
+    ],
+    "open_questions": []
+  },
+  {
+    "canonical_symbol": "sub_080B5F94",
+    "address": "0x080B5F94",
+    "display_name": "TaskScrollBlendOverlayWithSlowdown",
+    "summary": "Endless task that every visible frame scrolls BG layers 1 and 3 diagonally and pulses the blend shadow; once flag 030007EA is set it switches to a slower step and a higher base coefficient.",
+    "confidence": "medium",
+    "evidence": [
+      {
+        "source": "src/code_080B3648.c",
+        "line": 1516,
+        "detail": "Enables display planes 0x1F00 while the flag is clear.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_080B3648.c",
+        "line": 1517,
+        "detail": "Steps x -= 0xAA and y += 0x2A in the normal phase.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_080B3648.c",
+        "line": 1522,
+        "detail": "After the flag is set uses base 8 and steps 0x2A/0x15.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_080B3648.c",
+        "line": 1519,
+        "detail": "Scrolls layer 1 with SetMapLayerDisplayScrollOffset.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_080B3648.c",
+        "line": 1531,
+        "detail": "Calls SetBlendRegisterShadow with the pulsed coefficient.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      }
+    ],
+    "open_questions": []
+  },
+  {
+    "canonical_symbol": "sub_080B63A0",
+    "address": "0x080B63A0",
+    "display_name": "AllocateSlowingOverlayTaskControl",
+    "summary": "Allocates the 0x28-byte task control 030007E4 for TaskScrollBlendOverlayWithSlowdown and clears its word +8.",
+    "confidence": "high",
+    "evidence": [
+      {
+        "source": "src/code_080B3648.c",
+        "line": 1698,
+        "detail": "Stores HeapAllocate(0x28) in 030007E4.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_080B3648.c",
+        "line": 1699,
+        "detail": "Clears control word +8.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      }
+    ],
+    "open_questions": []
+  },
+  {
+    "canonical_symbol": "sub_080B6360",
+    "address": "0x080B6360",
+    "display_name": "FreeSlowingOverlayTaskControl",
+    "summary": "Clears the blend shadow, cancels the overlay task in 030007E4 if scheduled, then frees the control and clears the pointer when present.",
+    "confidence": "high",
+    "evidence": [
+      {
+        "source": "src/code_080B3648.c",
+        "line": 1686,
+        "detail": "Resets SetBlendRegisterShadow to all zero.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_080B3648.c",
+        "line": 1688,
+        "detail": "Cancels the scheduled task.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_080B3648.c",
+        "line": 1691,
+        "detail": "Frees the control.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_080B3648.c",
+        "line": 1692,
+        "detail": "Clears 030007E4.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      }
+    ],
+    "open_questions": []
+  },
+  {
+    "canonical_symbol": "sub_080B63BC",
+    "address": "0x080B63BC",
+    "display_name": "StartSlowingOverlayTask",
+    "summary": "Unless the control is not scheduled with word +8 nonzero, allocates a 0x400-byte stack and starts TaskScrollBlendOverlayWithSlowdown on control 030007E4.",
+    "confidence": "high",
+    "evidence": [
+      {
+        "source": "src/code_080B3648.c",
+        "line": 1705,
+        "detail": "Returns early when the task is not scheduled but word +8 is nonzero.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_080B3648.c",
+        "line": 1708,
+        "detail": "Allocates a 0x400-byte stack.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_080B3648.c",
+        "line": 1712,
+        "detail": "Sets the callback to TaskScrollBlendOverlayWithSlowdown.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      }
+    ],
+    "open_questions": []
+  },
+  {
+    "canonical_symbol": "sub_080B2058",
+    "address": "0x080B2058",
+    "display_name": "TaskSummonMinionAtPosition",
+    "summary": "Disables the owner actor's combat targeting, plays sound 0x1A5 and animation 0 of resource 0x50020 at the given position; afterwards, if the owner is alive and this side is link parent, requests an enemy spawn for the first empty of two minion slots, sets its team and waits until it is present, then restores the owner's team.",
+    "confidence": "medium",
+    "evidence": [
+      {
+        "source": "src/code_080A9680.c",
+        "line": 4939,
+        "detail": "Calls DisableActorCombatTargeting on the owner actor 030007A0.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_080A9680.c",
+        "line": 4946,
+        "detail": "Plays sound 0x1A5.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_080A9680.c",
+        "line": 4954,
+        "detail": "Advances the summon animation until done.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_080A9680.c",
+        "line": 4968,
+        "detail": "Requests an enemy spawn with RequestEnemySpawnWithSequence for an empty minion slot.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_080A9680.c",
+        "line": 4969,
+        "detail": "Sets the spawned actor team with SetActorTeamByKey(id, 3).",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_080A9680.c",
+        "line": 4977,
+        "detail": "Restores the owner with SetActorCombatTeamTwo.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_080A9680.c",
+        "line": 4978,
+        "detail": "Clears control word +8 so the task can be started again.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      }
+    ],
+    "open_questions": []
+  },
+  {
+    "canonical_symbol": "sub_080B2330",
+    "address": "0x080B2330",
+    "display_name": "AllocateMinionSummonTaskControl",
+    "summary": "Clears the two minion id slots at 03000798 and allocates the 0x28-byte task control 030007A8, clearing its word +8.",
+    "confidence": "high",
+    "evidence": [
+      {
+        "source": "src/code_080A9680.c",
+        "line": 5024,
+        "detail": "Zeroes both minion id slots.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_080A9680.c",
+        "line": 5025,
+        "detail": "Allocates the 0x28-byte control into 030007A8.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_080A9680.c",
+        "line": 5028,
+        "detail": "Clears control word +8.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      }
+    ],
+    "open_questions": []
+  },
+  {
+    "canonical_symbol": "sub_080B236C",
+    "address": "0x080B236C",
+    "display_name": "StartMinionSummonTask",
+    "summary": "If the control exists, is not scheduled and its word +8 is zero, allocates a 0x400 stack and starts TaskSummonMinionAtPosition with the two position words.",
+    "confidence": "high",
+    "evidence": [
+      {
+        "source": "src/code_080A9680.c",
+        "line": 5039,
+        "detail": "Returns when there is no control or the task is scheduled.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_080A9680.c",
+        "line": 5041,
+        "detail": "Returns when word +8 is nonzero.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_080A9680.c",
+        "line": 5047,
+        "detail": "Sets the callback to TaskSummonMinionAtPosition.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_080A9680.c",
+        "line": 5052,
+        "detail": "Starts the task with both arguments.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      }
+    ],
+    "open_questions": []
+  },
+  {
+    "canonical_symbol": "sub_080B1FD4",
+    "address": "0x080B1FD4",
+    "display_name": "FreeMinionSummonTaskControl",
+    "summary": "If control 030007A8 exists, cancels and frees it, sets bit 0 of word +0x7A on every active enemy 1..4 and clears the two minion id slots.",
+    "confidence": "high",
+    "evidence": [
+      {
+        "source": "src/code_080A9680.c",
+        "line": 4910,
+        "detail": "Cancels the scheduled task.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_080A9680.c",
+        "line": 4911,
+        "detail": "Frees the control.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_080A9680.c",
+        "line": 4915,
+        "detail": "Sets bit 0 of +0x7A on active enemies 1..4.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_080A9680.c",
+        "line": 4917,
+        "detail": "Clears the minion id slots.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      }
+    ],
+    "open_questions": []
+  },
+  {
+    "canonical_symbol": "sub_0809919C",
+    "address": "0x0809919C",
+    "display_name": "TaskShortRangeDirectionalHitbox",
+    "summary": "Starts at one of eight offsets around the owner entity and moves 10 steps along a table direction, spawning world effect 5 every 16 steps and damaging the local player once (kind 1, amount 5) within 19 pixels.",
+    "confidence": "medium",
+    "evidence": [
+      {
+        "source": "src/code_08097E28.c",
+        "line": 741,
+        "detail": "Selects the start offset around the owner from the first argument.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_08097E28.c",
+        "line": 778,
+        "detail": "Steps x/y along sine table 080B9704 for the given direction.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_08097E28.c",
+        "line": 783,
+        "detail": "Starts StartAnimatedWorldEffectTask(x, y, 5) on step multiples of 16.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_08097E28.c",
+        "line": 784,
+        "detail": "Hit test: distance <= 0x13 plus standard player-state guards.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_08097E28.c",
+        "line": 789,
+        "detail": "Applies QueueLocalPlayerDamageAndAttemptResistanceGrowth(1, 5, 1).",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_08097E28.c",
+        "line": 794,
+        "detail": "Runs for 10 steps.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      }
+    ],
+    "open_questions": []
+  },
+  {
+    "canonical_symbol": "sub_08099468",
+    "address": "0x08099468",
+    "display_name": "TaskLongRangeDirectionalProjectile",
+    "summary": "Advanced-mode variant: draws a sprite from resource 0x50130 that travels along a table direction for 269 frames and damages the local player once (kind 1, amount 30) within 19 pixels.",
+    "confidence": "medium",
+    "evidence": [
+      {
+        "source": "src/code_08097E28.c",
+        "line": 817,
+        "detail": "Derives the velocity from sine table 080B9704 and direction table 085186DC.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_08097E28.c",
+        "line": 823,
+        "detail": "Initialises sprite resource 0x50130.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_08097E28.c",
+        "line": 826,
+        "detail": "Lifetime of 0x10D frames.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_08097E28.c",
+        "line": 842,
+        "detail": "Hit test: distance <= 0x13 plus standard guards.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_08097E28.c",
+        "line": 847,
+        "detail": "Applies QueueLocalPlayerDamageAndAttemptResistanceGrowth(1, 0x1E, 5).",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      }
+    ],
+    "open_questions": []
+  },
+  {
+    "canonical_symbol": "sub_080997C0",
+    "address": "0x080997C0",
+    "display_name": "StartDirectionalAttackTask",
+    "summary": "Finds a free control among 64 at 030002D8, allocates a 0x400 stack and starts TaskLongRangeDirectionalProjectile in advanced mode or TaskShortRangeDirectionalHitbox otherwise, passing both arguments.",
+    "confidence": "high",
+    "evidence": [
+      {
+        "source": "src/code_08097E28.c",
+        "line": 907,
+        "detail": "Searches up to 64 controls of 0x28 bytes.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_08097E28.c",
+        "line": 909,
+        "detail": "Skips scheduled or busy controls.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_08097E28.c",
+        "line": 915,
+        "detail": "Advanced mode uses TaskLongRangeDirectionalProjectile.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_08097E28.c",
+        "line": 917,
+        "detail": "Otherwise uses TaskShortRangeDirectionalHitbox.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      }
+    ],
+    "open_questions": []
+  },
+  {
+    "canonical_symbol": "sub_08099788",
+    "address": "0x08099788",
+    "display_name": "FreeDirectionalAttackTaskPool",
+    "summary": "Cancels every scheduled task among the 64 controls at 030002D8, frees the pool and clears the pointer.",
+    "confidence": "high",
+    "evidence": [
+      {
+        "source": "src/code_08097E28.c",
+        "line": 878,
+        "detail": "Visits all 64 controls.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_08097E28.c",
+        "line": 883,
+        "detail": "Cancels each scheduled task.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_08097E28.c",
+        "line": 889,
+        "detail": "Frees the pool.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_08097E28.c",
+        "line": 890,
+        "detail": "Clears 030002D8.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      }
+    ],
+    "open_questions": []
+  }
+]
