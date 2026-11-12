@@ -2,6 +2,7 @@
 """Decode the data objects whose format is declared in tools/config/data_types.txt. Needs the reference ROM.
 
   data_extract.py check           run every declared format check against the ROM bytes
+  data_extract.py text [OUT]      write the strings of each language as text_LN.txt, decoded with CHARMAP
   data_extract.py png [OUT]       write palettes and tile sheets as PNG under OUT (default build/assets)
 
 Nothing here is committed: the PNGs are derived from the ROM and are only for reading and for a port.
@@ -63,6 +64,18 @@ def tiles4(data, palette, columns=32):
     return width, height, bytes(image)
 
 
+# Game character set, as far as it is known: letters, space and the control bytes. Unknown bytes are
+# written as {XX}; extend this table when a glyph is identified in the font sheet (gResMain_Cat4_0000).
+CHARMAP = {0x51: " ", 0xFF: "\\n", 0xFD: "", 0x4F: ".", 0x50: ",",
+           0x20: chr(39), 0x3B: "!", 0x3C: "?", 0x52: chr(34)}
+CHARMAP.update({0x01 + i: chr(ord("A") + i) for i in range(26)})
+CHARMAP.update({0x21 + i: chr(ord("a") + i) for i in range(26)})
+
+
+def decode_text(data):
+    return "".join(CHARMAP.get(b, "{%02X}" % b) for b in data)
+
+
 def main():
     rom = (ROOT / "baserom.gba").read_bytes()
     found = objects()
@@ -73,11 +86,25 @@ def main():
             if kind == "palette" and size not in (512, 1024):
                 errors += 1
                 print("%s: palette of %d bytes" % (label, size))
+            if kind == "text" and (data[-1] != 0xFD or 0xFD in data[:-1]):
+                errors += 1
+                print("%s: a string must end with its only 0xFD" % label)
             if kind == "tiles4" and size % 32:
                 errors += 1
                 print("%s: tile data is not a multiple of 32 bytes" % label)
         print("%d declared object(s), %d bytes, %d error(s)" % (len(found), sum(o[2] for o in found), errors))
         sys.exit(1 if errors else 0)
+    if len(sys.argv) >= 2 and sys.argv[1] == "text":
+        out = Path(sys.argv[2] if len(sys.argv) > 2 else ROOT / "build/assets")
+        out.mkdir(parents=True, exist_ok=True)
+        files = {}
+        for label, offset, size, kind in found:
+            if kind == "text":
+                files.setdefault(label.split("_")[0], []).append("%s\t%s" % (label, decode_text(rom[offset:offset + size])))
+        for name, lines in files.items():
+            (out / (name.replace("gTextL", "text_L") + ".txt")).write_text("\n".join(lines) + "\n", encoding="utf-8")
+        print("%d string(s) in %d file(s) under %s" % (sum(map(len, files.values())), len(files), out))
+        return
     if len(sys.argv) >= 2 and sys.argv[1] == "png":
         out = Path(sys.argv[2] if len(sys.argv) > 2 else ROOT / "build/assets")
         out.mkdir(parents=True, exist_ok=True)
@@ -95,6 +122,8 @@ def main():
                 pal = by_label.get(label + "b")
                 table = colours(rom[pal[1]:pal[1] + 32]) if pal else grey
                 png(out / (label + ".png"), *tiles4(data, table))
+            else:
+                continue
             written += 1
         print("%d PNG file(s) in %s" % (written, out))
         return

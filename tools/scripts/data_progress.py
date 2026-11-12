@@ -64,7 +64,8 @@ def scan(root, rom_path):
     return len(found)
 
 
-TYPE_SIZE_RULES = {"palette": lambda size: size in (512, 1024), "tiles4": lambda size: size % 32 == 0}
+TYPE_SIZE_RULES = {"palette": lambda size: size in (512, 1024), "tiles4": lambda size: size % 32 == 0,
+                   "text": lambda size: size >= 1}
 
 
 def load_types(root):

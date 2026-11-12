@@ -4505,7 +4505,10 @@ gTextL0_1491:
 	.incbin "baserom.gba", 0x38AF87, 0x33
 	.global gTextL0_1492
 gTextL0_1492:
-	.incbin "baserom.gba", 0x38AFBA, 0x36
+	.incbin "baserom.gba", 0x38AFBA, 0x33
+	.global gUnk_0838AFED
+gUnk_0838AFED:
+	.incbin "baserom.gba", 0x38AFED, 0x3
 	.global gUnk_0838AFF0
 gUnk_0838AFF0:
 	.4byte gTextL0_0000
@@ -22427,7 +22430,10 @@ gTextL1_1491:
 	.incbin "baserom.gba", 0x400936, 0x39
 	.global gTextL1_1492
 gTextL1_1492:
-	.incbin "baserom.gba", 0x40096F, 0x35
+	.incbin "baserom.gba", 0x40096F, 0x33
+	.global gUnk_084009A2
+gUnk_084009A2:
+	.incbin "baserom.gba", 0x4009A2, 0x2
 	.global gUnk_084009A4
 gUnk_084009A4:
 	.4byte gTextL1_0000
@@ -28401,7 +28407,10 @@ gTextL2_1491:
 	.incbin "baserom.gba", 0x428BC0, 0x3B
 	.global gTextL2_1492
 gTextL2_1492:
-	.incbin "baserom.gba", 0x428BFB, 0x3D
+	.incbin "baserom.gba", 0x428BFB, 0x3C
+	.global gUnk_08428C37
+gUnk_08428C37:
+	.incbin "baserom.gba", 0x428C37, 0x1
 	.global gUnk_08428C38
 gUnk_08428C38:
 	.4byte gUnk_084020F8
