@@ -6,7 +6,7 @@ The data area is 16017660 bytes (ROM offsets 0x0B9704-0x1000000). Two levels are
 | --- | --- | ---: | ---: |
 | 1. Split | labelled object with no known object start inside it | 97.08% | 15549304 / 16017660 bytes |
 | | objects labelled so far | 92.88% | 11342 of at least 12212 |
-| 2. Described | format known and written in source instead of copied from the reference ROM | 80.52% | 12896761 / 16017660 bytes |
+| 2. Described | format known and written in source instead of copied from the reference ROM | 91.70% | 14688797 / 16017660 bytes |
 
 54 blobs (468356 bytes) still contain 870 known object starts.
 

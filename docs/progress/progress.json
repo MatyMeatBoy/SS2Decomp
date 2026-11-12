@@ -255,9 +255,9 @@
    "pending_targets": 870
   },
   "typed": {
-   "bytes": 12896761,
-   "percent": 80.51588683990046,
-   "raw_incbin_bytes": 3120899
+   "bytes": 14688797,
+   "percent": 91.70376322134445,
+   "raw_incbin_bytes": 1328863
   },
   "named": {
    "objects": 11,
