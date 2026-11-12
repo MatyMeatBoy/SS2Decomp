@@ -78,12 +78,12 @@
  "identification": {
   "game": {
    "total": 1880,
-   "identified": 1214,
+   "identified": 1308,
    "existing": 23,
-   "confirmed": 1191,
+   "confirmed": 1285,
    "proposed": 168,
-   "unidentified": 498,
-   "percent_identified": 64.57446808510639
+   "unidentified": 404,
+   "percent_identified": 69.57446808510639
   },
   "sdk": {
    "total": 155,
@@ -96,20 +96,20 @@
   },
   "all": {
    "total": 2035,
-   "identified": 1369,
+   "identified": 1463,
    "existing": 152,
-   "confirmed": 1217,
+   "confirmed": 1311,
    "proposed": 168,
-   "unidentified": 498,
-   "percent_identified": 67.27272727272727
+   "unidentified": 404,
+   "percent_identified": 71.89189189189189
   }
  },
  "data": {
-  "incbin_count": 10443,
-  "incbin_bytes": 15645814,
+  "incbin_count": 10393,
+  "incbin_bytes": 15645422,
   "labels_total": 11343,
   "labels_descriptive": 10500,
-  "explicit_data_directives": 25291,
+  "explicit_data_directives": 25389,
   "padding_directives": 0,
   "limitations": "Raw incbin ranges include padding and opaque bytes. Descriptive labels and explicit directives do not prove decoded or understood data; no decoding percentage is reported."
  },
@@ -245,24 +245,24 @@
  "data_progress": {
   "bytes_total": 16017660,
   "split": {
-   "bytes": 15791888,
-   "percent": 98.59048075686461,
+   "bytes": 15967352,
+   "percent": 99.6859216639634,
    "objects": 11343,
-   "objects_expected": 11734,
-   "percent_objects": 96.66780296574058,
-   "blobs": 6,
-   "blob_bytes": 225772,
-   "pending_targets": 391
+   "objects_expected": 11366,
+   "percent_objects": 99.7976420904452,
+   "blobs": 5,
+   "blob_bytes": 50308,
+   "pending_targets": 23
   },
   "typed": {
-   "bytes": 15779027,
-   "percent": 98.51018812985167,
-   "raw_incbin_bytes": 238633
+   "bytes": 15954883,
+   "percent": 99.60807633574443,
+   "raw_incbin_bytes": 62777
   },
   "named": {
    "objects": 11,
-   "objects_expected": 11734,
-   "percent_objects": 0.09374467359809102
+   "objects_expected": 11366,
+   "percent_objects": 0.09677986978708429
   }
  }
 }

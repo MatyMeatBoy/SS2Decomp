@@ -7,24 +7,24 @@
  ],
  "bytes_total": 16017660,
  "split": {
-  "bytes": 15791888,
-  "percent": 98.59048075686461,
+  "bytes": 15967352,
+  "percent": 99.6859216639634,
   "objects": 11343,
-  "objects_expected": 11734,
-  "percent_objects": 96.66780296574058,
-  "blobs": 6,
-  "blob_bytes": 225772,
-  "pending_targets": 391
+  "objects_expected": 11366,
+  "percent_objects": 99.7976420904452,
+  "blobs": 5,
+  "blob_bytes": 50308,
+  "pending_targets": 23
  },
  "typed": {
-  "bytes": 15779027,
-  "percent": 98.51018812985167,
-  "raw_incbin_bytes": 238633
+  "bytes": 15954883,
+  "percent": 99.60807633574443,
+  "raw_incbin_bytes": 62777
  },
  "named": {
   "objects": 11,
-  "objects_expected": 11734,
-  "percent_objects": 0.09374467359809102
+  "objects_expected": 11366,
+  "percent_objects": 0.09677986978708429
  },
  "ranges": [
   {
@@ -44969,248 +44969,8 @@
   },
   {
    "rom_offset": 4896184,
-   "size": 21352,
+   "size": 21736,
    "state": "typed"
-  },
-  {
-   "rom_offset": 4917536,
-   "size": 8,
-   "state": "split"
-  },
-  {
-   "rom_offset": 4917544,
-   "size": 8,
-   "state": "split"
-  },
-  {
-   "rom_offset": 4917552,
-   "size": 8,
-   "state": "split"
-  },
-  {
-   "rom_offset": 4917560,
-   "size": 8,
-   "state": "split"
-  },
-  {
-   "rom_offset": 4917568,
-   "size": 8,
-   "state": "split"
-  },
-  {
-   "rom_offset": 4917576,
-   "size": 8,
-   "state": "split"
-  },
-  {
-   "rom_offset": 4917584,
-   "size": 8,
-   "state": "split"
-  },
-  {
-   "rom_offset": 4917592,
-   "size": 8,
-   "state": "split"
-  },
-  {
-   "rom_offset": 4917600,
-   "size": 8,
-   "state": "split"
-  },
-  {
-   "rom_offset": 4917608,
-   "size": 8,
-   "state": "split"
-  },
-  {
-   "rom_offset": 4917616,
-   "size": 8,
-   "state": "split"
-  },
-  {
-   "rom_offset": 4917624,
-   "size": 8,
-   "state": "split"
-  },
-  {
-   "rom_offset": 4917632,
-   "size": 8,
-   "state": "split"
-  },
-  {
-   "rom_offset": 4917640,
-   "size": 8,
-   "state": "split"
-  },
-  {
-   "rom_offset": 4917648,
-   "size": 8,
-   "state": "split"
-  },
-  {
-   "rom_offset": 4917656,
-   "size": 8,
-   "state": "split"
-  },
-  {
-   "rom_offset": 4917664,
-   "size": 8,
-   "state": "split"
-  },
-  {
-   "rom_offset": 4917672,
-   "size": 8,
-   "state": "split"
-  },
-  {
-   "rom_offset": 4917680,
-   "size": 8,
-   "state": "split"
-  },
-  {
-   "rom_offset": 4917688,
-   "size": 8,
-   "state": "split"
-  },
-  {
-   "rom_offset": 4917696,
-   "size": 8,
-   "state": "split"
-  },
-  {
-   "rom_offset": 4917704,
-   "size": 8,
-   "state": "split"
-  },
-  {
-   "rom_offset": 4917712,
-   "size": 8,
-   "state": "split"
-  },
-  {
-   "rom_offset": 4917720,
-   "size": 8,
-   "state": "split"
-  },
-  {
-   "rom_offset": 4917728,
-   "size": 8,
-   "state": "split"
-  },
-  {
-   "rom_offset": 4917736,
-   "size": 8,
-   "state": "split"
-  },
-  {
-   "rom_offset": 4917744,
-   "size": 8,
-   "state": "split"
-  },
-  {
-   "rom_offset": 4917752,
-   "size": 8,
-   "state": "split"
-  },
-  {
-   "rom_offset": 4917760,
-   "size": 8,
-   "state": "split"
-  },
-  {
-   "rom_offset": 4917768,
-   "size": 8,
-   "state": "split"
-  },
-  {
-   "rom_offset": 4917776,
-   "size": 8,
-   "state": "split"
-  },
-  {
-   "rom_offset": 4917784,
-   "size": 8,
-   "state": "split"
-  },
-  {
-   "rom_offset": 4917792,
-   "size": 8,
-   "state": "split"
-  },
-  {
-   "rom_offset": 4917800,
-   "size": 8,
-   "state": "split"
-  },
-  {
-   "rom_offset": 4917808,
-   "size": 8,
-   "state": "split"
-  },
-  {
-   "rom_offset": 4917816,
-   "size": 8,
-   "state": "split"
-  },
-  {
-   "rom_offset": 4917824,
-   "size": 8,
-   "state": "split"
-  },
-  {
-   "rom_offset": 4917832,
-   "size": 8,
-   "state": "split"
-  },
-  {
-   "rom_offset": 4917840,
-   "size": 8,
-   "state": "split"
-  },
-  {
-   "rom_offset": 4917848,
-   "size": 8,
-   "state": "split"
-  },
-  {
-   "rom_offset": 4917856,
-   "size": 8,
-   "state": "split"
-  },
-  {
-   "rom_offset": 4917864,
-   "size": 8,
-   "state": "split"
-  },
-  {
-   "rom_offset": 4917872,
-   "size": 8,
-   "state": "split"
-  },
-  {
-   "rom_offset": 4917880,
-   "size": 8,
-   "state": "split"
-  },
-  {
-   "rom_offset": 4917888,
-   "size": 8,
-   "state": "split"
-  },
-  {
-   "rom_offset": 4917896,
-   "size": 8,
-   "state": "split"
-  },
-  {
-   "rom_offset": 4917904,
-   "size": 8,
-   "state": "split"
-  },
-  {
-   "rom_offset": 4917912,
-   "size": 8,
-   "state": "split"
   },
   {
    "rom_offset": 4917920,
@@ -45219,27 +44979,7 @@
   },
   {
    "rom_offset": 4920220,
-   "size": 584,
-   "state": "typed"
-  },
-  {
-   "rom_offset": 4920804,
-   "size": 4,
-   "state": "split"
-  },
-  {
-   "rom_offset": 4920808,
-   "size": 36,
-   "state": "typed"
-  },
-  {
-   "rom_offset": 4920844,
-   "size": 4,
-   "state": "split"
-  },
-  {
-   "rom_offset": 4920848,
-   "size": 592,
+   "size": 1220,
    "state": "typed"
   },
   {
@@ -55550,7 +55290,7 @@
   {
    "rom_offset": 16601752,
    "size": 175464,
-   "state": "blob"
+   "state": "typed"
   }
  ],
  "limits": "Split and named use a heuristic list of candidate object starts, so the expected object count is a lower bound. Typed means the bytes are written in source instead of copied from the reference ROM; it does not prove the format is understood."
