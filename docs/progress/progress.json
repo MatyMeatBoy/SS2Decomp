@@ -78,12 +78,12 @@
  "identification": {
   "game": {
    "total": 1880,
-   "identified": 1308,
+   "identified": 1418,
    "existing": 23,
-   "confirmed": 1285,
-   "proposed": 168,
-   "unidentified": 404,
-   "percent_identified": 69.57446808510639
+   "confirmed": 1395,
+   "proposed": 166,
+   "unidentified": 296,
+   "percent_identified": 75.42553191489361
   },
   "sdk": {
    "total": 155,
@@ -96,18 +96,18 @@
   },
   "all": {
    "total": 2035,
-   "identified": 1463,
+   "identified": 1573,
    "existing": 152,
-   "confirmed": 1311,
-   "proposed": 168,
-   "unidentified": 404,
-   "percent_identified": 71.89189189189189
+   "confirmed": 1421,
+   "proposed": 166,
+   "unidentified": 296,
+   "percent_identified": 77.29729729729729
   }
  },
  "data": {
-  "incbin_count": 10393,
+  "incbin_count": 10394,
   "incbin_bytes": 15645422,
-  "labels_total": 11343,
+  "labels_total": 11345,
   "labels_descriptive": 10500,
   "explicit_data_directives": 25389,
   "padding_directives": 0,
@@ -245,24 +245,24 @@
  "data_progress": {
   "bytes_total": 16017660,
   "split": {
-   "bytes": 15967352,
-   "percent": 99.6859216639634,
-   "objects": 11343,
-   "objects_expected": 11366,
-   "percent_objects": 99.7976420904452,
-   "blobs": 5,
-   "blob_bytes": 50308,
-   "pending_targets": 23
+   "bytes": 16017660,
+   "percent": 100.0,
+   "objects": 11345,
+   "objects_expected": 11345,
+   "percent_objects": 100.0,
+   "blobs": 0,
+   "blob_bytes": 0,
+   "pending_targets": 0
   },
   "typed": {
-   "bytes": 15954883,
-   "percent": 99.60807633574443,
-   "raw_incbin_bytes": 62777
+   "bytes": 16017660,
+   "percent": 100.0,
+   "raw_incbin_bytes": 0
   },
   "named": {
    "objects": 11,
-   "objects_expected": 11366,
-   "percent_objects": 0.09677986978708429
+   "objects_expected": 11345,
+   "percent_objects": 0.09695901278096078
   }
  }
 }
