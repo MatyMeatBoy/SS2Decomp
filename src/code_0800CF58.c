@@ -792,7 +792,6 @@ void sub_0800D368(void *arg0) {
     u32 temp_r2_48;
     u32 temp_r2_4;
     u32 temp_r2_5;
-    u32 temp_r2_61;
     u32 temp_r2_6;
     u32 temp_r3_2;
     u32 temp_r4;
@@ -3988,13 +3987,13 @@ retry63_1_done:
         if (((struct PlayerD368 *)arg0)->f20 != 0xD) {
             ((union RecordD368 *)((struct PlayerD368 *)arg0)->f144)->w1_b0_n6.value |= gUnk_03003170.f90;
             if (d368_sub_0800CFF0() == 0) {
-                temp_r2_61 = d368_sub_08002164();
+                temp_r2_12 = d368_sub_08002164();
                 /* extra refs: the limit is allocated before var_r3_8 (limit r2, var_r3_8 r3) */
-                asm("" : : "r"(temp_r2_61));asm("" : : "r"(temp_r2_61));
+                
                 var_ip = 0;
                 var_r3_8 = ((struct PlayerD368 *)arg0)->f0;
                 var_r5 = 0;
-                for (sp128 = 0; sp128 < temp_r2_61; sp128++) {
+                for (sp128 = 0; sp128 < temp_r2_12; sp128++) {
                     if (((struct PlayerD368 *)arg0)->f68 == effectOwnerTableD368[sp128].f68) {
                         var_ip += 1;
                         temp_r1_48 = effectOwnerTableD368[sp128].f148;
