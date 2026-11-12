@@ -138,6 +138,11 @@ def main():
             if kind == "map" and map_body(data) is None:
                 errors += 1
                 print("%s: map does not decode to 16 + w*h*8 bytes" % label)
+            if kind == "tilemap":
+                packed = lz77(data, 4)
+                if not (packed and size - packed[0] < 4) and size - 4 < 0x800:
+                    errors += 1
+                    print("%s: neither an exact LZ77 stream nor a raw screen block" % label)
             if kind == "tiles4" and size % 32:
                 errors += 1
                 print("%s: tile data is not a multiple of 32 bytes" % label)

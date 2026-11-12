@@ -1,6 +1,7 @@
 # Record arrays whose element size is fixed by the code that indexes them.
 # label  stride  count  evidence
-# An array is one object: addresses inside it are elements, not objects to split.
+# An array is one object: addresses inside it are elements, not objects to split. It counts as described at the
+# record level (size and count of the records); the fields are named in the C structs as they are understood.
 # data_progress.py checks stride * count against the size in data/*.s.
 gUnk_084506D0 0xC4 0x2EB src/code_08006D24.c ResolveResourceByEncodedId kind 11
 gUnk_08434738 0xB8 0x9E  src/code_08006D24.c ResolveResourceByEncodedId kind 12

@@ -66,7 +66,7 @@ def scan(root, rom_path):
 
 TYPE_SIZE_RULES = {"palette": lambda size: size in (512, 1024), "tiles4": lambda size: size % 32 == 0,
                    "text": lambda size: size >= 1, "sprite_anim": lambda size: size >= 12,
-                   "map": lambda size: size >= 36}
+                   "map": lambda size: size >= 36, "tilemap": lambda size: size >= 8}
 
 
 def load_types(root):
@@ -116,9 +116,9 @@ def collect(root):
             else:
                 if label in arrays and arrays.pop(label) != int(m[3], 0):
                     raise ValueError("%s: stride * count differs from the object size" % label)
-                raw.append((int(m[2], 0), int(m[3], 0), "typed" if label.startswith(tuple(TYPED_PREFIXES))
+                raw.append((int(m[2], 0), int(m[3], 0), "typed" if label.startswith(tuple(TYPED_PREFIXES)) or label in declared
                             or declared_type(types, label, int(m[3], 0)) else
-                            "split" if label.startswith(SPLIT_PREFIXES) or label in declared else ""))
+                            "split" if label.startswith(SPLIT_PREFIXES) else ""))
                 label = ""                 # a second incbin under one label is not that object any more
     raw.sort()
     if sum(n for _, n, _ in raw) != sum(b["size"] for b in inventory["incbins"] if b["file"] == REFERENCE):

@@ -22,3 +22,7 @@
 # LZ77-compressed or raw (key bit 0x40000000). Map: s16 width, s16 height in a 16-byte header, width*height
 # 6-byte cells, then width*height 16-bit entries of the second plane.
 ^gResMain_Cat2_\d+$          map      all 226 walk exactly: 205 compressed, 21 raw; decoded size = 16 + w*h*8
+#
+# Category 0: screen tilemaps, read by LoadBackgroundAsset (sub_0800B650). u32 header = id and flags of the
+# graphic to load with it, then the tilemap LZ77-compressed, or raw when the caller sets key bit 0x40000000.
+^gRes(Main|Aux)_Cat0_\d+$     tilemap  69 of 89 are an exact LZ77 stream after the header; the other 20 are the raw form

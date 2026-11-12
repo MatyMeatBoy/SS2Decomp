@@ -51699,4 +51699,7 @@ gResAux_Cat6_0071:
 	.incbin "baserom.gba", 0xFD1A98, 0x3600
 	.global gResAux_Cat6_0071b
 gResAux_Cat6_0071b:
-	.incbin "baserom.gba", 0xFD5098, 0x2AF68
+	.incbin "baserom.gba", 0xFD5098, 0x200
+	.global gUnk_08FD5298
+gUnk_08FD5298:
+	.incbin "baserom.gba", 0xFD5298, 0x2AD68
