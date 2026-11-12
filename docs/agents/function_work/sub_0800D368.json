@@ -1,7 +1,7 @@
 {
   "address": "0x0800D368",
-  "updated_utc": "2026-11-09T04:54:57.312215+00:00",
-  "checkpoint": "Retain the first C4-success record-byte masked result before its shared indicator tail. Byte/halfword edits improve1170/960 to1166/957; C grows25152 to25156 versus ROM25180, reducing the deficit28 to24 bytes, with frame472,502 original ordered calls and inherited SP13C incomingSP-188 unchanged. One actual AND adds2 code bytes and natural literal alignment adds2 data bytes. Strict NO MATCH/original ASM fallback; no new area state, runtime or full-match credit.",
+  "updated_utc": "2026-11-12T06:25:27.606426+00:00",
+  "checkpoint": "2026-11-12: draft matches the ROM byte for byte up to 0x0800F378; 56 register-normalised hunks remain (tools/scripts/srcdiff.py). Switches 5 and 7 are natural C, key-mask temporaries are u16. See docs/agents/shard_notes/shard126.txt.",
   "areas": [
     {
       "id": "flow",

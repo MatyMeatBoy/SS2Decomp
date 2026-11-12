@@ -1,7 +1,7 @@
 {
   "address": "0x0807C29C",
-  "updated_utc": "2026-11-09T06:46:50.971420+00:00",
-  "checkpoint": "Name the actual unsigned quotient once, its doubled value in original R1, and the resulting post-state1 row base in original R5 with initialized input-only annotations at their real consumers. The existing R6 cursor and R0 column-result boundaries remain; both X/Y indexes consume the same row base, and the fresh Y cursor read stays after X. For every u32 cursor, q=floor(cursor/3), 2q and 3q fit u32, so the one-division arithmetic preserves every original value and source effect without a new bound, ABI, width, qualifier or helper. Relative to public 77, strict halfword sequence distance improves 77 to 76, byte distance 95 to 93 and positional halfwords 129 to 128. Only seven text bytes in five instruction halfwords change, with two newly original and one lost positional halfword. The actual R1 double feeds the actual R5 ADD; post-state8 C is unchanged, but two collateral multiply-lowering instructions change and are disclosed. Size 18396, frame 60, all 393 ordered call offsets/targets, all 22 primary-case extents and eight tables are unchanged; the four known case 13 call-offset differences remain. Fresh normal NM, normal active C without NONMATCHING and zero-emission layout objects are complete ELF SHA256 94a4086d6f240367d60439470fe3b5b71c4a2597945380e02f79bdb2d7069470. All 1529 symbols, 2698 raw relocations, 1171 encoded ABS32 addends, headers, literals, outside bytes and 47 other functions are exact. Static mapped role checks cover the displaced post-state1 R3/R5 and post-state8 R1 values under the unchanged source ABI, with a concrete matched D548 R3 overwrite at the first relevant call. No all-GPR, runtime, whole-FSM or normal active-C ROM equivalence is claimed. Strict NO MATCH; all area states and full-match pending remain unchanged, with no matching-byte, percentage or area credit.",
+  "updated_utc": "2026-11-12T06:25:27.595230+00:00",
+  "checkpoint": "Matched 2026-11-12: normal C build reproduces the ROM (make compare OK). Last differences were the left-key cursor variables, the over-100000 excess variable and the belt case DROP tails; the ability path keeps one r6 pin. See docs/agents/shard_notes/shard82.txt.",
   "areas": [
     {
       "id": "item-copy-first",
@@ -24,8 +24,8 @@
     {
       "id": "match",
       "label": "Full match in normal C build",
-      "state": "pending",
-      "evidence": "Strict NO MATCH: normalized target SHA256 600459689ef1fe7f73d2f3a7afc25fb0971b6189ab7a8aa8efb8d71acb1e4548 differs from original. Current size is original 18396, frame 60, byte/halfword edits 93/76 and positional halfwords 128. Relative to public 77, these improve from 95/77 and 129 respectively; two instruction halfwords newly equal original and one positional original halfword is lost. Only seven text bytes in five instruction halfwords change. All 393 external call targets and baseline offsets are unchanged; 389 match original offsets and the same four case 13 offsets differ by -2/-4. Fresh normal NM, normal active C without NONMATCHING and zero-emission layout objects are complete-file identical, SHA256 94a4086d6f240367d60439470fe3b5b71c4a2597945380e02f79bdb2d7069470. All 1529 complete symbols, 2698 raw relocations, 1171 encoded ABS32 addends, headers, literals, outside bytes and 47 other functions are exact relative to public 77. Source/full-u32 proof retains one division, the actual doubled quotient and two-consumer row base, all guards, and X before the fresh Y read. Mapped role checks and the concrete matched D548 R3 overwrite qualify the physical scratch differences rather than asserting all-GPR equality. No new ARM/runtime, whole-FSM or arbitrary-callee proof is claimed. Historical runtime checks are not newly rerun. Normal compare still uses the original ASM fallback; normal active-C ROM matching remains pending without matching-byte, percentage or area credit. All earlier references and negative packets remain preserved."
+      "state": "done",
+      "evidence": "MATCH: make compare OK with the function as plain C (commit 6d765eeb)."
     },
     {
       "id": "exact-size",

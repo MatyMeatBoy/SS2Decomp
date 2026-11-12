@@ -1,30 +1,32 @@
 
-2026-11-12 (claude-fable-w7): sub_0800D368
-  Start (main + PR #807): 25184 bytes, structural hunks 90 / 117 insns (tools/scripts/srcdiff.py, see below).
-  End: 25184 bytes (ROM 25180), structural hunks 76 / 94 insns, raw hunks 190.
-  Measure with `python3 tools/scripts/srcdiff.py sub_0800D368`: it prints raw and register-normalised hunk
-  counts and maps every candidate instruction to its C line. Most raw hunks are reload-register rotation
-  (reload picks spill regs round-robin, last_spill_reg is global), which cascades from the previous structural
-  difference in address order; do not chase them, fix `shunks.txt` top to bottom. A change that grows the frame
-  (472 -> 476) shifts every sp offset and inflates both counts; check `sub sp` first.
-  What landed (all natural C, no new asm):
-  - History shift loop: fAC.ptr is an array of { u16 a; s16 b; }; `h[sp128].a = h[sp128 - 1].a`.
-  - Effect loop: `switch (effectOwnerTableD368[temp_r0_17 = var_r6->f2].fC)` (table literal before the index copy).
-  - f0 decrement: `var_r6->f0 -= 6; if ((s16) var_r6->f0 < 0) var_r6->f0 = -1;` (HImode 0xFFFF through a reload reg).
-  - temp_r5_4/temp_r5_5 are one variable (`= f18 * 10 + 100` in one statement at both sites).
-  - D368_Level and D368_Level2 are the same helper (`gUnk_0847ACE8[i] + h * 2`).
-  - lookupStats is the ROM r8 variable at the first and third sub_08007290 sites (the second keeps the r8 pin);
-    one asm "r" ref on var_r6_8 gives it r6 ahead of lookupStats (priority 0.327 vs 0.348). Still a hack.
-  - `sp128 = sp1A4` selection is `if (f64 > 9) sp128 = 0; else sp128 = sp1A4;` (2 sites); the f90 test is
-    `if (x != f90) { sp128 = 0; goto block_1714; } sp128 = 1; goto block_1716;`.
-  - Peer loop: a block-local base pointer `u8 *plD = &gUnk_03003CE0`, f148 as `*(void **)(off + (base + 0x148))`
-    with the folded symbol (CSE rewrites it as plD + 0x148) and fB6 as `*(u16 *)(off + plD + 0xB6)`; the loop
-    itself is a plain `for (sp128 = 0; sp128 < sub_08002164(); sp128++)`.
-  - sub_0800BC44 arguments inline (no bBC local).
-  Open, in address order (ROM offsets):
-  - 0xE506/0xE7F6 (switch 4 cases 0 and 1): the ROM reads f12 once into r1 and keeps it across every test.
-    A keys local fixes the reread, but then the f1A test becomes `ands keys, tmp` (regmove ties the dying keys
-    reg) where the ROM has `adds r0, r2, #0; ands r0, r1`: keys must not die at that insn.
+2026-11-12 (claude-fable-w7, second pass): sub_0800D368
+  End: 25176 bytes (ROM 25180), nmscore 2684, structural hunks 56 / 70 insns, raw hunks 137. The draft is
+  byte-identical to the ROM up to 0x0800F378; the only earlier difference is an r3/r4 swap inside the third
+  inlined level loop (0x0800ED00-0x0800ED4A: i has priority 0.722, the table giv 0.717, the ROM allocates the
+  giv first).
+  What landed:
+  - Key-mask temporaries (f18/f1A values in switch 4 cases 0 and 1) are u16; with direct f12 reads the ROM's
+    `adds r0, r2, #0; ands r0, r1` shape comes out by itself. Cases 5-7 read f12 directly too (no keys local);
+    cases 3 and 4 keep their keys local (direct reads grow the frame there).
+  - f26 zero test without a temporary (`if (f26 == 0)`), the zero stage stores literal 0, and the cost is
+    `{ u16 i26 = f26; x = (s8)f6C * 10 + gUnk_0847ACE8[i26]; }`: the ROM rereads f26 after `f20 = 5`.
+    Reason: CSE drops every non-MEM expression that contains a MEM (zero_extend of a load) at any store.
+  - Switch 4 case 0 tail: `fDC += 1` and the fD8 decay as plain field code, one goto to the end of the chain.
+  - Switches 5 and 7 are natural: every case carries its own reset / keep-state code and jump2 cross-jumps
+    the copies exactly like the ROM once the reload rotation before them is right. Case 2 must test
+    `(DEB8() != 7) || (table[f0] == 0)` first (keep-state branch before the reset branch).
+  - sp128 clamp duplicated per branch (`if (sp128 > lv) { sp128 = lv; if (lv > f26) sp128 = 0; } else if
+    (sp128 > f26) sp128 = 0;`), which gives the exact size.
+  Open, in address order:
+  - 0xF378-0xF3BC (switch 4 case 5, sub_08013E90): the ROM is two separate calls whose 6-insn tails were
+    cross-jumped. Writing two calls gives the exact tail text but jump2 refuses to merge: find_basic_blocks
+    leaves a `(use (const_int 0))` after a CALL_INSN that falls into a label, so the two tails differ. Need a
+    source shape where the second call is not directly followed by a label when flow/gcse run.
+  - 0xF494 (2 sites): the ROM loads gUnk_030034E0->f54 twice through one &f54 pointer (compare with a MEM
+    operand, then a reload for the index); the draft reuses sp194 after the equality test.
+  - 0xF4D4: zero stores after `sp190 = 0xFFFE` are in ROM order now; only the reload/zero registers differ.
+  - Rest of shunks.txt from 0xF61E on is not analysed.
+ insn.
   - 0xEAFC/0xEEDC: the ROM rereads f26 after `f20 = 5` (a CSE boundary between the zero test and the cost
     expression). `switch (f26)` or an empty asm after the test fix it locally but grow the frame to 476.
   - 0xEBA2, 0xEF80: branch shape; 0xECCE: a `sp144 = 0` store the draft does not emit on that path.
