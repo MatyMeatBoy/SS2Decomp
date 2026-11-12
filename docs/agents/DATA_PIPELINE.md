@@ -1,8 +1,8 @@
 # Data recognition pipeline
 
-Code is done; data is not started in any volume. On 2026-11-12 the two data
-files still hold **405 `.incbin` ranges, 16,016,380 bytes**, and 11 of 412
-labels are descriptive. Three ranges are 89% of everything:
+Before 2026-11-12 the two data files held **405 `.incbin` ranges, 16,016,380
+bytes**. Current figures are in the Data tab of the README. Three ranges were
+89% of everything at the start:
 
 | Range start | Size | Pointer targets into it | Pointer words inside | LZ77-like headers |
 | --- | ---: | ---: | ---: | ---: |
@@ -37,7 +37,68 @@ step. Existing detail on evidence standards is in
 `DATA_RECONSTRUCTION_2026_11_08.md`; that process is exact but converted 760
 bytes, so it must become mostly mechanical to reach megabytes.
 
-## Stage A: split by references (tooling, strong model, once)
+## What was done on 2026-11-12, and the method that worked
+
+One session took the data from 0.6% to 97% split and 17% typed, with the ROM
+identical after every step. The order matters more than the tools:
+
+1. **Find the containers first, by reading the loader.** Two blobs were 71% of
+   all data. `ResolveResourceByEncodedId` (`sub_08006EE0`) showed they are
+   archives with the magic `SSDT`: seven categories, each a count and a table of
+   offsets. The archive's own tables give exact object boundaries, so
+   `data_split.py ssdt` produced 1,755 resources with no guessing. Lesson: before
+   scanning for pointers, grep the C for the blob's label and read the one
+   function that indexes it.
+2. **Use standard formats where they exist.** The sound area follows the SDK
+   m4a structures. `data_split.py m4a` walks song table -> headers -> tracks and
+   the sample chain; the walk must end exactly where the next kind starts, which
+   is the proof that the parse is right.
+3. **Pointer tables last, and only from object starts.** A labelled object that
+   begins with a run of ROM pointers is a table: `data_split.py ptrtable` /
+   `ptrtables MIN` rewrites it as `.4byte label` lines and labels the targets.
+   The five text tables (1,493 strings per language) and 80 smaller tables went
+   this way.
+4. **Record arrays come from the code.** When the code computes
+   `base + STRIDE * index`, the object is one array. Declare it in
+   `tools/config/data_arrays.txt`; the progress tool checks stride * count
+   against the size.
+
+What did not work: scanning the whole data area for words that look like
+pointers. In sample and graphics bytes it finds thousands of false targets
+(`data_targets.txt` started with 14,859; about 870 remain relevant). Keep that
+list only as the list of blobs still to explain, never as a cut list.
+
+Every splitter is "ROM is the judge": run it, `make -j8 compare`, commit.
+
+### Left for workers (54 blobs, 468 KB, then typing)
+
+List them with `python3 tools/scripts/data_progress.py --out build/progress`
+(`ranges` with `state: "blob"` in the JSON). For each one:
+
+1. `grep -n LABEL src/*.c`, read the function, write down how it indexes the
+   object (stride, count, pointer, offset table).
+2. Pick the tool: `ptrtable`, a row in `data_arrays.txt`, or `cuts FILE` with
+   offsets the code proves. Do not cut on a guess.
+3. `make -j8 compare`, commit one object family per commit.
+
+Typing is the next level and is per family: the SSDT categories (sprites,
+tilesets, palettes, maps: read the loader of each category kind), the record
+arrays (one struct per array, fields from the functions that read them), the
+strings (the game's character table), m4a tracks (the SDK command set).
+
+### Reference projects worth copying from
+
+- pret (`pokeemerald`, `pokefirered`): m4a song/voice group assembly macros and
+  `mid2agb`-style track commands; graphics and palette build rules.
+- `zeldaret/tmc`, `SAT-R/sa2`: asset lists that extract typed files from the
+  base ROM at build time, so assets are named and typed without being stored
+  in the repository. That is the model to follow here for graphics.
+- `FireEmblemUniverse/fireemblem8u`: text tables and struct-array data in C.
+
+## Stage A: split by references (historical plan)
+
+The plan below was written before the session above; the container-first
+method replaced the blind reference scan. Kept for the parts still open.
 
 Write `tools/scripts/data_split.py` that:
 

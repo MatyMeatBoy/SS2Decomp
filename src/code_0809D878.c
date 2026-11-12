@@ -771,22 +771,22 @@ extern s16 wave[] asm("gUnk_080B9704");
 s32 sub_0809EDFC(void) {
  register s32 arg asm("r0");
  register volatile u16 *status asm("r3")=(volatile u16 *)0x04000004;
- register u8 *mode asm("r5");
+ u8 *mode;
  u32 bit;
- asm("" : "=r"(arg));
+ 
  bit=*status & 2;
  mode=&v20;
- if (!bit) { u32 two=2; asm("" : "+r"(two)); do {} while (!(*status & two)); }
+ if (!bit) { u32 two=2;  do {} while (!(*status & two)); }
  switch (*mode) {
  case 0:
   *(volatile u16 *)0x0400001A=v0c;
   v0c--;
-  { register s32 result asm("r1"); register volatile u16 *display asm("r4"); register s16 *waves asm("r3"); register volatile u8 *counter asm("r2");
+  { register s32 result asm("r1"); volatile u16 *display; s16 *waves; register volatile u8 *counter asm("r2");
   result=mod104((s16)v0c,255);
   v0c=result;
-  asm("" : "=r"(arg));
+  
   display=(volatile u16 *)0x04000018; waves=wave; counter=&v0e;
-  asm("" : "+r"(display), "+r"(waves), "+r"(counter));
+  
   (*counter)++;
   *display=(waves[*counter]*3)>>7; }
   break;
@@ -810,29 +810,29 @@ s32 sub_0809EDFC(void) {
  case 8:
   *(volatile u16 *)0x0400001A=v0c;
   v0c--;
-  { register s32 result asm("r1"); register volatile u16 *display asm("r4"); register s16 *waves asm("r3"); register volatile u8 *counter asm("r2");
+  { register s32 result asm("r1"); volatile u16 *display; s16 *waves; register volatile u8 *counter asm("r2");
   result=mod104((s16)v0c,255);
   v0c=result;
-  asm("" : "=r"(arg));
+  
   display=(volatile u16 *)0x04000018; waves=wave; counter=&v0e;
-  asm("" : "+r"(display), "+r"(waves), "+r"(counter));
+  
   (*counter)++;
   *display=(waves[*counter]*3)>>7; }
   *(volatile u16 *)0x04000052=(v1e&31)|0xE00;
   break;
  }
- asm volatile("" : "+r"(arg));
+ 
  return arg;
 }
 extern u8 modeEF84105 asm("gUnk_03000320");
 s32 sub_0809EF84(void)
 {
     register s32 status asm("r0")=sub_0800CD8C();
-    { register s32 checked asm("r1")=status; asm("" : "+r"(checked));
+    { s32 checked=status; asm("" : "+r"(checked));
     if(checked==0) {
-        register vu16 *statusReg asm("r3")=(vu16 *)0x04000004; asm("" : "+r"(statusReg));
+        register vu16 *statusReg asm("r3")=(vu16 *)0x04000004; 
         if(!(1 & *statusReg)) {
-            u32 one=1; asm("" : "+r"(one));
+            u32 one=1; 
             do {} while(!(one & *statusReg));
         }
         switch(modeEF84105) {
@@ -845,7 +845,7 @@ s32 sub_0809EF84(void)
         }
     }
     }
-    asm volatile("" : "+r"(status));
+    
     return status;
 }
 struct Packed9F018 { u16 x,y; };
@@ -925,14 +925,14 @@ void sub_0809F018(u16 kind)
                     tgt.x=(s32)((u32)pl[0].x<<8)>>16;
                     {
                     register s32 *playerY asm("r1") = &playerY09F018;
-                    asm("" : "+r"(playerY));
+                    
                     tgt.y=(s16)(*playerY >> 8)-12;
                     }
                 }
             } else {
             {
                 register s32 lowerSelector asm("r2") = inputKind;
-                asm("" : "+r"(lowerSelector));
+                
                 if (lowerSelector == 1)
                     goto player_1;
                 if (lowerSelector > 1)
@@ -943,7 +943,7 @@ void sub_0809F018(u16 kind)
             check_upper_players:
                 {
                     register s32 upperSelector asm("r3") = inputKind;
-                    asm("" : "+r"(upperSelector));
+                    
                     if (upperSelector == 2)
                         goto player_2;
                     if (upperSelector == 3)
@@ -956,14 +956,14 @@ void sub_0809F018(u16 kind)
                         tgt.x = (s16)(pl[0].x >> 8);
                         {
                             register s32 *playerY asm("r1") = &playerY09F018;
-                            asm("" : "+r"(playerY));
+                            
                             tgt.y = (s16)(*playerY >> 8);
                         }
                     } else {
                         {
                             register struct Packed9F018 **packedPositionSlot asm("r2") = &playerV09F018;
                             struct Packed9F018 *packedPosition;
-                            asm("" : "+r"(packedPositionSlot));
+                            
                             packedPosition = *packedPositionSlot;
                             tgt.x = packedPosition->x >> 4;
                             tgt.y = ((u32)packedPosition->y << 20) >> 20;
@@ -977,14 +977,14 @@ void sub_0809F018(u16 kind)
                         tgt.x = (s16)(pl[1].x >> 8);
                         {
                             register s32 *playerY asm("r3") = &playerY19F018;
-                            asm("" : "+r"(playerY));
+                            
                             tgt.y = (s16)(*playerY >> 8);
                         }
                     } else {
                         {
-                            register struct Packed9F018 **packedPositionSlot asm("r0") = &playerV19F018;
+                            struct Packed9F018 **packedPositionSlot = &playerV19F018;
                             struct Packed9F018 *packedPosition;
-                            asm("" : "+r"(packedPositionSlot));
+                            
                             packedPosition = *packedPositionSlot;
                             tgt.x = packedPosition->x >> 4;
                             tgt.y = ((u32)packedPosition->y << 20) >> 20;
@@ -1004,14 +1004,14 @@ void sub_0809F018(u16 kind)
                         tgt.x = (s16)(pl[2].x >> 8);
                         {
                             register s32 *playerY asm("r2") = &playerY29F018;
-                            asm("" : "+r"(playerY));
+                            
                             tgt.y = (s16)(*playerY >> 8);
                         }
                     } else {
                         {
                             register struct Packed9F018 **packedPositionSlot asm("r3") = &playerV29F018;
                             struct Packed9F018 *packedPosition;
-                            asm("" : "+r"(packedPositionSlot));
+                            
                             packedPosition = *packedPositionSlot;
                             tgt.x = packedPosition->x >> 4;
                             tgt.y = ((u32)packedPosition->y << 20) >> 20;
@@ -1022,8 +1022,8 @@ void sub_0809F018(u16 kind)
             player_3:
                 {
                     {
-                        register u32 playerCount asm("r0") = count;
-                        asm("" : "+r"(playerCount));
+                        u32 playerCount = count;
+                        
                         if (playerCount != 4)
                             goto target_ready;
                     }
@@ -1031,14 +1031,14 @@ void sub_0809F018(u16 kind)
                         tgt.x = (s16)(pl[3].x >> 8);
                         {
                             register s32 *playerY asm("r1") = &playerY39F018;
-                            asm("" : "+r"(playerY));
+                            
                             tgt.y = (s16)(*playerY >> 8);
                         }
                     } else {
                         {
                             register struct Packed9F018 **packedPositionSlot asm("r2") = &playerV39F018;
                             struct Packed9F018 *packedPosition;
-                            asm("" : "+r"(packedPositionSlot));
+                            
                             packedPosition = *packedPositionSlot;
                             tgt.x = packedPosition->x >> 4;
                             tgt.y = ((u32)packedPosition->y << 20) >> 20;
@@ -1064,7 +1064,7 @@ void sub_0809F018(u16 kind)
                 {
                     s32 xarg = (s32)((u32)pos.x << 8) >> 16;
                     s32 yarg = (s32)((u32)pos.y << 8) >> 16;
-                    asm("" : "+r"(xarg), "+r"(yarg));
+                    
                     screenXPtr = &screenX;
                     screen9F018(xarg, yarg, screenXPtr, &screenY, zero, zero);
                 }
@@ -1086,19 +1086,19 @@ void sub_0809F018(u16 kind)
         if(countdown==0) {
             dx=(pos.x>>8)-(players9F018[sub_080020F4()].x>>8);
             {
-                register u32 playerOffset asm("r0") = sub_080020F4();
+                u32 playerOffset = sub_080020F4();
                 s32 effectY = (pos.y >> 8) + 12;
                 register s32 *playerYBase asm("r3");
                 playerOffset *= 0x14C;
-                asm("" : "+r"(playerOffset));
+                
                 playerYBase = (s32 *)playersY9F018;
-                asm("" : "+r"(playerYBase));
+                
                 dy = effectY - (*(s32 *)(playerOffset + (u32)playerYBase) >> 8);
             }
             distance=Sqrt((u32)((s32)dx*dx)+(u32)({
                 register s32 square asm("r2") = dy;
                 register s32 sum asm("r1");
-                asm("" : "+r"(square));
+                
                 square *= dy;
                 asm("" : "+r"(square));
                 sum = square;
@@ -1123,8 +1123,8 @@ void sub_0809F018(u16 kind)
             player=sub_080020F4();actor=actor9F018;
             {
                 u32 offset = actor->id * 4 + player * 0x14C;
-                register u8 *base asm("r0") = (u8 *)pl + 0xE4;
-                asm("" : "+r"(base));
+                u8 *base = (u8 *)pl + 0xE4;
+                
                 *(u32 *)(offset + (u32)base) = actor->serial++;
             }
             hit=1;
@@ -1961,7 +1961,7 @@ void sub_080A0B44(void)
     u32 animArg;
     u8 timer, steps;
     u32 running, hit;
-    register u32 lastRunning asm("r4");
+    u32 lastRunning;
     s32 state;
     u8 anim;
     s32 zero, player;
@@ -2046,13 +2046,13 @@ void sub_080A0B44(void)
                 }
                 {
                     register u32 drawScratch asm("r2");
-                    register s32 drawX asm("r0");
+                    s32 drawX;
                     register u16 *drawFrame asm("r2");
-                    asm("" : "=r"(drawScratch));
+                    
                     drawX = screenX;
                     asm("" : "+r"(drawX), "+r"(drawScratch));
                     drawFrame = &frame1;
-                    asm("" : "+r"(drawFrame));
+                    
                     object = drawA0B44(drawX, 0x9F, 4, *drawFrame, 2, sprite1.payload, sprite1.data,
                                        sprite1.base);
                 }
@@ -2110,7 +2110,7 @@ void sub_080A0B44(void)
             actor = *ref;
             seenByteOffset = actor->id << 2;
             seenByteOffset += player * 0x14C;
-            asm("" : "+r"(seenByteOffset), "+r"(playerBase));
+            
             playerBase += 0xE4;
             *(u32 *)(seenByteOffset + (u32)playerBase) = actor->serial++;
         }
@@ -2122,7 +2122,7 @@ void sub_080A0B44(void)
     next:
         sub_080003F0();
         lastRunning = running;
-        asm("" : "+r"(lastRunning));
+        
     } while (lastRunning != 0);
     *(u32 *)((u8 *)sub_0800048C() + 8) = lastRunning;
     sub_080003F0();
@@ -2656,9 +2656,9 @@ void sub_080A1DA8(void)
 void sub_080A1F88(void) {
     u32 var_r4;
     u32 var_r4_2;
-    register u32 var_r5 asm("r5");
-    register u32 var_r5_2 asm("r5");
-    register u32 *ptr asm("r0");
+    u32 var_r5;
+    u32 var_r5_2;
+    u32 *ptr;
     sub_0805867C(0xC2);
     ptr = &gUnk_03000350;
     var_r5 = 0;

@@ -39,7 +39,7 @@ class DataProgressTests(unittest.TestCase):
 
     def test_outputs_are_well_formed_and_tiny_values_are_escaped(self):
         report = dp.collect(self.root)
-        report['typed']['percent'] = 0.001
+        report['typed']['bytes'], report['bytes_total'] = 1, 10 ** 6
         ET.fromstring(dp.render_svg(report))
         self.assertIn('&lt;0.01%', dp.render_svg(report))
         dp.write_outputs(self.root, self.root / 'out')

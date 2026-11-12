@@ -1,23 +1,29 @@
 # Shining Soul II (Europe) — Decompilation
 
-![matched plus linked](docs/progress/badge_all.svg?v=90f4c355)
-![matching C](docs/progress/badge_decompiled.svg?v=90f4c355)
-[![identified game functions](docs/progress/badge_names.svg?v=90f4c355)](docs/progress/identification.md)
-![game code](docs/progress/badge_game.svg?v=90f4c355)
-![libraries](docs/progress/badge_lib.svg?v=90f4c355)
-![functions](docs/progress/badge_functions.svg?v=90f4c355)
-![with C drafts](docs/progress/badge_drafts.svg?v=90f4c355)
-
-Work-in-progress **matching** decompilation of *Shining Soul II* for the Game Boy
-Advance (Europe, `AU2P`, En/Fr/De/Es/It). The build reproduces the original ROM
+A **matching** decompilation of *Shining Soul II* for the Game Boy Advance
+(Europe, `AU2P`, En/Fr/De/Es/It): C source that compiles to the original ROM,
 byte for byte.
 
-Three views of the project. Click a tab to open it; each tab shows its own figure.
+## Where the project stands
+
+| | Question | Status | What is left |
+|---|---|---|---|
+| ![code](docs/progress/tab_code.svg?v=tabs3) | Does all the code build from source and match? | **Done.** Every game function is matching C. The few routines that were hand-written assembly in the original stay as matching assembly. | Optional source cleanup: [guide](docs/agents/CLEANUP.md) |
+| ![names](docs/progress/tab_names.svg?v=tabs3) | Do we know what each function does? | **In progress.** Unnamed functions are still called `sub_XXXXXXXX`. | Name the rest: [guide](docs/agents/NAMING_PIPELINE.md) |
+| ![data](docs/progress/tab_data.svg?v=tabs3) | Are graphics, sound, text and tables separated and described, or still raw copies of the ROM? | **In progress.** Almost everything is separated into objects; sound and tables are described; graphics, maps and text contents are not yet. | Describe the formats: [guide](docs/agents/DATA_PIPELINE.md) |
+
+The ROM already rebuilds exactly, so nothing below can break the game: names
+and data descriptions only make the source readable and moddable. They are the
+long part of the work and the best place to help.
+
+## Progress in detail
+
+Three views. Click a tab to open it; the figure on each tab is its current progress.
 
 <details open>
-<summary><img src="docs/progress/tab_code.svg?v=tabs1" alt="Code progress"> &nbsp;<b>Code</b>: is it matching?</summary>
+<summary><img src="docs/progress/tab_code.svg?v=tabs3" alt="Code progress"> &nbsp;<b>Code</b>: is it matching?</summary>
 
-![code treemap](https://raw.githubusercontent.com/MatyMeatBoy/SS2Decomp/claude/rom-decompilation-research-obsal6/docs/progress/treemap.svg?v=tabs1)
+![code treemap](https://raw.githubusercontent.com/MatyMeatBoy/SS2Decomp/claude/rom-decompilation-research-obsal6/docs/progress/treemap.svg?v=tabs3)
 
 Each cell is one function (area = size in bytes):
 
@@ -44,9 +50,9 @@ See [metric definitions and naming workflow](docs/agents/PROGRESS_AND_NAMES.md).
 </details>
 
 <details>
-<summary><img src="docs/progress/tab_names.svg?v=tabs1" alt="Names progress"> &nbsp;<b>Names</b>: do we know what each function does?</summary>
+<summary><img src="docs/progress/tab_names.svg?v=tabs3" alt="Names progress"> &nbsp;<b>Names</b>: do we know what each function does?</summary>
 
-![names treemap](https://raw.githubusercontent.com/MatyMeatBoy/SS2Decomp/claude/rom-decompilation-research-obsal6/docs/progress/names_treemap.svg?v=tabs1)
+![names treemap](https://raw.githubusercontent.com/MatyMeatBoy/SS2Decomp/claude/rom-decompilation-research-obsal6/docs/progress/names_treemap.svg?v=tabs3)
 
 Same map as the code view (one cell per function, area = size), coloured by
 identification: green has a name confirmed with evidence or already present in
@@ -59,21 +65,28 @@ To help: [naming pipeline](docs/agents/NAMING_PIPELINE.md),
 </details>
 
 <details>
-<summary><img src="docs/progress/tab_data.svg?v=tabs1" alt="Data progress"> &nbsp;<b>Data</b>: is the 16 MB of data split, typed and named?</summary>
+<summary><img src="docs/progress/tab_data.svg?v=tabs3" alt="Data progress"> &nbsp;<b>Data</b>: is the 16 MB of data split and described?</summary>
 
-[![data progress](docs/progress/data_progress.svg?v=tabs1)](docs/progress/data_progress.md)
+[![data progress](docs/progress/data_progress.svg?v=tabs3)](docs/progress/data_progress.md)
 
-The data area still builds byte for byte, but mostly as raw copies of the
-reference ROM. Three levels are measured separately:
+About 16 MB of the ROM is data, not code. It always builds byte for byte; the
+question is how much of it the source *describes* instead of copying. One bar
+shows it: green is described (the figure other decompilation projects report
+as data progress), yellow is split into objects but still raw bytes, grey is
+not split yet.
 
-| Level | Meaning |
-|---|---|
-| 1. Split | the bytes belong to a labelled object with no other known object start inside it |
-| 2. Typed | the object is written in source (tables, structs, named asset files) instead of copied from the ROM |
-| 3. Named | the object has a descriptive label |
+| Level | Meaning | Example |
+|---|---|---|
+| 1. Split | the bytes belong to one labelled object with known start and end | "this is resource 12 of category 6", "this is string 404 of language 1" |
+| 2. Described | the object's format is known and written in source, not copied from the ROM | song table, song headers, sound samples, pointer tables |
 
-Object counts are a lower bound taken from pointer references
-(`tools/config/data_targets.txt`). To help:
+What is separated so far: the sound engine data (songs, tracks, samples), the
+two resource archives that hold graphics and maps (1,755 resources), the text
+of the five languages (1,493 strings each) and the game's record tables. What
+is missing is level 2 for the contents of those resources (sprites, tilesets,
+palettes, maps, text encoding, record fields).
+
+Object counts are a lower bound. To help:
 [data pipeline](docs/agents/DATA_PIPELINE.md).
 
 </details>
@@ -94,7 +107,8 @@ see the [naming pipeline](docs/agents/NAMING_PIPELINE.md) and the
 Start with the [contributor quick start](docs/agents/QUICKSTART.md). On Windows,
 **download the [ROM-free toolkit](SS2Decomp-toolkit-Windows.zip) into your own
 folder, extract it there and start with its bootstrap script**. Each contributor
-and agent needs an independent checkout and an exclusive shard assignment.
+and agent needs an independent checkout. The open work is naming functions,
+describing data and cleaning source; each guide says how to reserve a piece.
 Bring your own EU ROM; it is never included in the toolkit or uploaded to Git.
 
 Public guides, progress labels and tables, commit messages, and pull-request

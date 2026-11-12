@@ -34,9 +34,9 @@ extern u32 gUnk_084F794C[];
 u32 sub_0808D4AC(u32 arg)
 {
     u8 *base;
-    register u8 *dest asm("r3");
-    register u32 *table asm("r2");
-    register u32 one asm("r0");
+    u8 *dest;
+    u32 *table;
+    u32 one;
     if (*(u16 *)(*(u8 **)&gUnk_03005CF4 + 0x10) == 0) {
         sub_0802704C(arg);
         goto fail_d520;
@@ -63,9 +63,9 @@ fail_d520:
 u32 sub_0808D520(u32 arg)
 {
     u8 *base;
-    register u8 *dest asm("r3");
-    register u32 *table asm("r2");
-    register u32 one asm("r0");
+    u8 *dest;
+    u32 *table;
+    u32 one;
     if (*(u16 *)(*(u8 **)&gUnk_03005CF4 + 0x10) == 0) {
         sub_0802704C(arg);
         goto fail_d520;
@@ -95,7 +95,7 @@ s32 sub_0808D594(s32 arg)
 {
     u32 zero;
     u8 *base;
-    register u32 one asm("r0");
+    u32 one;
     if (*(u16 *)(*(u8 **)&gUnk_03005CF4 + 0x10)) {
         if (sub_08056E90()) {
             sub_08056FB8(0, 2);
@@ -154,13 +154,13 @@ void sub_0808D654(u8 *arg0) {
     s32 temp_r0_5;
     register s32 temp_r0_6 asm("r0");
     u16 temp_r4_2;
-    register u32 var_sl asm("r10");
+    u32 var_sl;
     register u32 temp_r8 asm("r8");
     register u32 temp_r9 asm("r9");
-    register u8 *temp_r4 asm("r4");
+    u8 *temp_r4;
     u16 *palette;
     register u32 zero asm("r5");
-    register u16 *paletteInit asm("r2");
+    u16 *paletteInit;
 
     sub_0801623C(arg0, gUnk_084A1910, 3);
     temp_r0 = (*(u16 *)(arg0 + 0x0)) + (*(u16 *)(arg0 + 0x2));
@@ -176,7 +176,7 @@ void sub_0808D654(u8 *arg0) {
     paletteInit = (u16 *)(arg0 + 0x6A);
     *paletteInit = zero;
     {
-        register u8 *hold asm("r0") = arg0 + 0x68;
+        u8 *hold = arg0 + 0x68;
         s32 val;
         *(u16 *)hold = zero;
         val = *(s16 *)(temp_r4 + 6);
@@ -301,27 +301,27 @@ block_41:
                         }
                         {
                             register s32 bits asm("r1");
-                            register u32 bit asm("r0") = 2;
-                            asm("" : "+r"(bit));
+                            u32 bit = 2;
+                            
                             bits = timer;
-                            asm("" : "+r"(bits));
+                            
                             if (bit & bits) {
-                                register u32 raw asm("r2") = offset;
-                                register u32 shifted asm("r0");
+                                u32 raw = offset;
+                                u32 shifted;
                                 register u32 mask asm("r3");
-                                asm("" : "+r"(raw));
+                                
                                 shifted = raw << 16;
-                                asm("" : "+r"(shifted));
+                                
                                 mask = 0xFFFF0000;
-                                asm("" : "+r"(mask));
+                                
                                 offset = (u32)(shifted + mask) >> 0x10;
                             }
                         }
                     }
                 } else {
-                    register u32 limit asm("r4") = 0xFFFF;
-                    register s32 z asm("r0");
-                    asm("" : "+r"(limit));
+                    u32 limit = 0xFFFF;
+                    s32 z;
+                    
                     timer = limit;
                     z = 0;
                     asm("" : "+r"(z));
@@ -330,8 +330,8 @@ block_41:
                 }
             }
             if ((sub_0800CCCC() == 0) && ((gUnk_03002344 & 1) == (1 & (*(u16 *)(arg0 + 0x0))))) {
-                register u32 data asm("r1") = anim[3];
-                asm("" : "+r"(data));
+                u32 data = anim[3];
+                
                 sub_08000AF0(layer + 0x10, (void *)data, 1U);
             }
             sub_080003F0();
@@ -350,9 +350,9 @@ done:
 u32 sub_0808D9AC(u32 arg)
 {
     u8 *base;
-    register u8 *dest asm("r3");
-    register u32 *table asm("r2");
-    register u32 one asm("r0");
+    u8 *dest;
+    u32 *table;
+    u32 one;
     if (*(u16 *)(*(u8 **)&gUnk_03005CF4 + 0x10) == 0) {
         sub_0802704C(arg);
         goto fail_d9ac;
@@ -380,9 +380,9 @@ extern u32 gUnk_084FA298[];
 u32 sub_0808DA20(u32 arg)
 {
     u8 *base;
-    register u8 *dest asm("r3");
-    register u32 *table asm("r2");
-    register u32 one asm("r0");
+    u8 *dest;
+    u32 *table;
+    u32 one;
     if (*(u16 *)(*(u8 **)&gUnk_03005CF4 + 0x10) == 0) {
         sub_0802704C(arg);
         goto fail_d520;
@@ -411,7 +411,7 @@ s32 sub_0808DA94(s32 arg)
 {
     u32 zero;
     u8 *base;
-    register u32 one asm("r0");
+    u32 one;
     if (*(u16 *)(*(u8 **)&gUnk_03005CF4 + 0x10)) {
         if (sub_08056E90()) {
             sub_08056FB8(0, 2);
@@ -472,15 +472,15 @@ void sub_0808DB38(u32 arg)
     height = 0xA000;
     speed = 0;
     {
-        register u32 maskhi asm("r5") = 0xFFFF0000;
-        register u32 masklo asm("r6") = 0xFFFF;
-        register u32 boxwidth asm("r4") = 0x10;
+        u32 maskhi = 0xFFFF0000;
+        u32 masklo = 0xFFFF;
+        u32 boxwidth = 0x10;
         size = 0x100010;
         player = &gUnk_03003CE0[sub_080020F4()];
         {
-            register u32 b asm("r0") = ((box & maskhi) | boxwidth) & masklo;
-            register u32 upper asm("r1") = 0x80000;
-            asm("" : "+r"(b), "+r"(upper));
+            u32 b = ((box & maskhi) | boxwidth) & masklo;
+            u32 upper = 0x80000;
+            
             b |= upper;
             box = b;
         }
@@ -491,7 +491,7 @@ void sub_0808DB38(u32 arg)
         { register s32 d asm("r2") = -0x200; register s32 n asm("r0"); asm("" : "+r"(d)); n = d + pos[0]; pos[0] = n; }
         height += speed;
         speed -= 0x28;
-        { register s32 hc asm("r0") = height; asm("" : "+r"(hc));
+        { s32 hc = height; asm("" : "+r"(hc));
         if (hc <= 0) {
             height = 1;
             speed = -(speed >> 1);
@@ -535,9 +535,9 @@ extern void sub_0808E130(void);
 u32 sub_0808DE08(u32 arg)
 {
     u8 *base;
-    register u8 *dest asm("r3");
-    register u32 *table asm("r2");
-    register u32 one asm("r0");
+    u8 *dest;
+    u32 *table;
+    u32 one;
     if (*(u16 *)(*(u8 **)&gUnk_03005CF4 + 0x10) == 0) {
         sub_0802704C(arg);
         sub_08057328(0, sub_0808E130);
@@ -566,9 +566,9 @@ fail_d520:
 u32 sub_0808DE94(u32 arg)
 {
     u8 *base;
-    register u8 *dest asm("r3");
-    register u32 *table asm("r2");
-    register u32 one asm("r0");
+    u8 *dest;
+    u32 *table;
+    u32 one;
     if (*(u16 *)(*(u8 **)&gUnk_03005CF4 + 0x10) == 0) {
         sub_0802704C(arg);
         sub_08057328(0, sub_0808E130);
@@ -597,9 +597,9 @@ extern void sub_0808DB38(u32);
 u32 sub_0808DF14(u32 arg)
 {
     u8 *base;
-    register u8 *dest asm("r3");
-    register u32 *table asm("r2");
-    register u32 one asm("r0");
+    u8 *dest;
+    u32 *table;
+    u32 one;
     if (*(u16 *)(*(u8 **)&gUnk_03005CF4 + 0x10) == 0) {
         sub_0802704C(arg);
         sub_08057328(0, sub_0808DB38);
@@ -639,9 +639,9 @@ fail_d520:
 u32 sub_0808E000(u32 arg)
 {
     u8 *base;
-    register u8 *dest asm("r3");
-    register u32 *table asm("r2");
-    register u32 one asm("r0");
+    u8 *dest;
+    u32 *table;
+    u32 one;
     if (*(u16 *)(*(u8 **)&gUnk_03005CF4 + 0x10) == 0) {
         sub_0800CD9C();
         sub_0802704C(arg);
@@ -674,7 +674,7 @@ s32 sub_0808E090(s32 arg)
 {
     u32 zero;
     u8 *base;
-    register u32 one asm("r0");
+    u32 one;
     if (*(u16 *)(*(u8 **)&gUnk_03005CF4 + 0x10)) {
         if (sub_08056E90()) {
             sub_08056FB8(0, 2);
@@ -721,9 +721,9 @@ void sub_0808E130(void)
 u32 sub_0808E184(u32 arg)
 {
     u8 *base;
-    register u8 *dest asm("r3");
-    register u32 *table asm("r2");
-    register u32 one asm("r0");
+    u8 *dest;
+    u32 *table;
+    u32 one;
     if (*(u16 *)(*(u8 **)&gUnk_03005CF4 + 0x10) == 0) {
         sub_0802704C(arg);
         goto fail;
@@ -750,9 +750,9 @@ fail:
 u32 sub_0808E1F8(u32 arg)
 {
     u8 *base;
-    register u8 *dest asm("r3");
-    register u32 *table asm("r2");
-    register u32 one asm("r0");
+    u8 *dest;
+    u32 *table;
+    u32 one;
     if (*(u16 *)(*(u8 **)&gUnk_03005CF4 + 0x10) == 0) {
         sub_0802704C(arg);
         goto fail;
@@ -779,9 +779,9 @@ fail:
 u32 sub_0808E26C(u32 arg)
 {
     u8 *base;
-    register u8 *dest asm("r3");
-    register u32 *table asm("r2");
-    register u32 one asm("r0");
+    u8 *dest;
+    u32 *table;
+    u32 one;
     if (*(u16 *)(*(u8 **)&gUnk_03005CF4 + 0x10) == 0) {
         sub_0800CD9C();
         sub_0802704C(arg);
@@ -845,9 +845,9 @@ u32 sub_0808E2FC(u32 arg)
 u32 sub_0808E3A0(u32 arg)
 {
     u8 *base;
-    register u8 *dest asm("r3");
-    register u32 *table asm("r2");
-    register u32 one asm("r0");
+    u8 *dest;
+    u32 *table;
+    u32 one;
     if (*(u16 *)(*(u8 **)&gUnk_03005CF4 + 0x10) == 0) {
         sub_0802704C(arg);
         goto fail_3a0;
@@ -874,9 +874,9 @@ fail_3a0:
 u32 sub_0808E414(u32 arg)
 {
     u8 *base;
-    register u8 *dest asm("r3");
-    register u32 *table asm("r2");
-    register u32 one asm("r0");
+    u8 *dest;
+    u32 *table;
+    u32 one;
     if (*(u16 *)(*(u8 **)&gUnk_03005CF4 + 0x10) == 0) {
         sub_0802704C(arg);
         goto fail_414;
@@ -1032,9 +1032,9 @@ fail:
 u32 sub_0808E774(u32 arg)
 {
     u8 *base;
-    register u8 *dest asm("r3");
-    register u32 *table asm("r2");
-    register u32 one asm("r0");
+    u8 *dest;
+    u32 *table;
+    u32 one;
     if (*(u16 *)(*(u8 **)&gUnk_03005CF4 + 0x10) == 0) {
         sub_0802704C(arg);
         sub_0801674C((u32)sub_080A756C, 0);
@@ -1064,9 +1064,9 @@ fail_e774:
 u32 sub_0808E7FC(u32 arg)
 {
     u8 *base;
-    register u8 *dest asm("r3");
-    register u32 *table asm("r2");
-    register u32 one asm("r0");
+    u8 *dest;
+    u32 *table;
+    u32 one;
     if (*(u16 *)(*(u8 **)&gUnk_03005CF4 + 0x10) == 0) {
         sub_0800CD9C();
         sub_0802704C(arg);
@@ -1361,9 +1361,9 @@ void sub_0808ECFC(void)
 u32 sub_0808ED7C(u32 arg)
 {
     u8 *base;
-    register u8 *dest asm("r3");
-    register u32 *table asm("r2");
-    register u32 one asm("r0");
+    u8 *dest;
+    u32 *table;
+    u32 one;
     if (*(u16 *)(*(u8 **)&gUnk_03005CF4 + 0x10) == 0) {
         sub_0802704C(arg);
         goto fail;
@@ -1703,7 +1703,7 @@ void sub_0808F1E4_v(struct EntF1E4 *e)
             blinkTimer = (u16)(blinkTimer - 1);
             if (blinkTimer == 0) {
                 if (e->fC == 11) {
-                    { register int or2 asm("r2"); asm("":"=r"(or2)); e->f1DC = blinkTimer; asm(""::"r"(or2)); }
+                    { register int or2 asm("r2");  e->f1DC = blinkTimer; asm(""::"r"(or2)); }
                     goto finish;
                 }
                 e->fC = blinkTimer;

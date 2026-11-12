@@ -4,12 +4,12 @@
 void RealClearChain(void *arg)
 {
     register struct SoundChannel *channel asm("r0") = arg;
-    register struct MusicPlayerTrack *track asm("r3") = channel->track;
+    struct MusicPlayerTrack *track = channel->track;
 
     if (track != 0)
     {
-        register struct SoundChannel *next asm("r1") = channel->nextChannelPointer;
-        register struct SoundChannel *prev asm("r2") = channel->prevChannelPointer;
+        struct SoundChannel *next = channel->nextChannelPointer;
+        struct SoundChannel *prev = channel->prevChannelPointer;
 
         if (prev != 0)
             prev->nextChannelPointer = next;
@@ -22,11 +22,11 @@ void RealClearChain(void *arg)
 }
 
 void ply_fine(struct MusicPlayerInfo *unused, struct MusicPlayerTrack *arg) {
- register struct MusicPlayerTrack *track asm("r5") = arg;
- register struct SoundChannel *chan asm("r4") = track->chan;
+ struct MusicPlayerTrack *track = arg;
+ struct SoundChannel *chan = track->chan;
  if(chan != 0) {
   do {
-   register unsigned int flags asm("r1")=chan->statusFlags;
+   unsigned int flags=chan->statusFlags;
    register unsigned int mask asm("r0")=0xc7;
    if(flags & mask) {mask=0x40;flags|=mask;chan->statusFlags=flags;}
    RealClearChain(chan);

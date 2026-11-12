@@ -33,9 +33,11 @@ device counts with:
 for f in src/*.c; do echo "$(grep -cE 'asm\("r[0-9]+"\)|asm\(""' $f) $f"; done | sort -rn
 ```
 
-Largest on 2026-11-12, before the automatic pass: `code_0807A5D4` 675,
-`code_080443EC` 468, `code_0802FEA0` 410, `code_08087CC0` 378,
-`code_0803B69C` 375, `code_0804D330` 258, `code_08095B04` 214.
+**Tier 1 was run over every module on 2026-11-12**: about 5,700 devices went down
+to 2,124 (63% removed). What is left needs tier 2. Largest modules now:
+`code_0807A5D4` 278, `code_080443EC` 192, `code_0802FEA0` 181, `code_0803B69C` 176,
+`code_08095B04` 140, `code_08087CC0` 134, `code_0804D330` 122; every other module
+has fewer than 70. Run tier 1 again on a module after any tier 2 change in it.
 
 ## Tier 2: guided (small model with a checklist)
 

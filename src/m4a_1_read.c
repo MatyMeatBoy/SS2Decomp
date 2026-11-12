@@ -14,7 +14,7 @@ u32 *sdkValidateKeepR0(u32 *unused) asm("sub_080B6992") __attribute__((naked));
 void MPlayJumpTableCopy(MPlayFunc *unused) __attribute__((naked));
 void MPlayJumpTableCopy(MPlayFunc *unused)
 {
-    register u32 *sdkDest asm("r0") = (u32 *)unused;
+    u32 *sdkDest = (u32 *)unused;
     asm("mov %0,lr" : "=r"(sdkReturn));
     sdkR1 = 36;
     sdkCursor = (u8 *)sdkSharedTemplate;
@@ -32,7 +32,7 @@ void sub_080B6990(void) __attribute__((naked));
 void sub_080B6990(void) { sdkValue = *sdkCursor; }
 u32 *sdkValidateKeepR0(u32 *unused)
 {
-    register u32 sdkR0 asm("r0");
+    u32 sdkR0;
     asm("push {r0}");
     sdkR0 = (u32)sdkCursor >> 25;
     if (sdkR0 != 0) goto done;

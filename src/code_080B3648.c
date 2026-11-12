@@ -758,9 +758,9 @@ void sub_080B4A7C(struct B4A7CTarget target)
     u32 index;
     u32 targetIndex;
     s32 x, y;
-    register u8 *field asm("r1");
+    u8 *field;
     register u16 *dst asm("r0");
-    register u32 output asm("r1");
+    u32 output;
     index = sub_080020F4();
     player = &players[index];
     if (player->state == 0xB) return;
@@ -1545,7 +1545,7 @@ u32 sub_080B6068(void)
     register volatile u8 *tickPtr asm("r1");
     volatile u8 *otherPtr;
     struct Display6068 *display;
-    register u32 tick asm("r2");
+    u32 tick;
     register u32 current asm("r3");
     sub_080586B4(0);
     gFlag6068 = 1;

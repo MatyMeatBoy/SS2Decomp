@@ -55,10 +55,10 @@ extern s32 sub_08096BA8(s32, s32, s32, s32);
 s32 sub_08097EF0(s32 arg0, s32 arg1) {
     register u32 temp_r4 asm("r4");
     register s32 mask asm("r2");
-    register u32 phase asm("r1");
+    u32 phase;
     s32 temp_r0;
-    register s32 var_r2 asm("r2");
-    register s32 fraction asm("r3");
+    s32 var_r2;
+    s32 fraction;
     s32 var_r7;
     register s32 current asm("r0");
 
@@ -75,9 +75,9 @@ s32 sub_08097EF0(s32 arg0, s32 arg1) {
     fraction = (temp_r0 >> 0xC) & mask;
     var_r2 = (temp_r0 >> 0x18) * 2;
     if (arg0 == 1) {
-        register s32 len asm("r1") = gUnk_030002B4;
-        register s32 next asm("r0") = var_r2 + 1;
-        asm volatile("" : "+r" (next));
+        s32 len = gUnk_030002B4;
+        s32 next = var_r2 + 1;
+        
         var_r2 = len - next;
     }
     current = (u16)gUnk_030002B8;
@@ -143,22 +143,22 @@ extern u32 gTaskArgs100[2] asm("gUnk_030002C8");
 void sub_08096FA0(void);
 void sub_08098088(u32 arg0,u32 arg1,u32 mode)
 {
-    register u32 b asm("r5")=arg1;
-    register u32 a asm("r4")=arg0;
+    u32 b=arg1;
+    u32 a=arg0;
     u32 m;
-    register s32 *taskp asm("r6");
+    s32 *taskp;
     void *buffer;
-    register u8 *task asm("r1");
+    u8 *task;
     asm volatile("" : "+r" (b), "+r" (a), "+r" (mode));
     m=(u8)mode;
     taskp=&gUnk_030002C0;
-    asm volatile("" : "+r" (taskp));
+    
     if(sub_08000470(*taskp)==0 && M2C_FIELD((void *)*taskp,u32 *,8)!=0) return;
     gTaskArgs100[0]=a;
     gTaskArgs100[1]=b;
     buffer=sub_08001494(0x400);
     task=(u8 *)*taskp;
-    asm volatile("" : "+r" (task));
+    
     M2C_FIELD(task,void **,0x20)=buffer;
     if(buffer==0) { M2C_FIELD(task,u32 *,8)=0; return; }
     M2C_FIELD(task,void **,0x10)=(u8 *)buffer+0x3FC;
@@ -1322,7 +1322,7 @@ u8 sub_0809A5E0(void)
     u16 a, lo;
     s32 id;
 
-    { register s32 k asm("r0"); register struct Entity102A5 *e asm("r1"); k=sub_080020F4(); e=entity102A5; asm("" : "+r"(k), "+r"(e)); asm("" : : "r"(players102A5)); dx=(e->x-x102A5[k*83])>>8; }
+    { s32 k; struct Entity102A5 *e; k=sub_080020F4(); e=entity102A5;  asm("" : : "r"(players102A5)); dx=(e->x-x102A5[k*83])>>8; }
     dy = (entity102A5->y - players102A5[sub_080020F4()].y) >> 8;
     if (Sqrt(dx * dx + dy * dy) <= 0x2F && sub_0800CDF8() == 0 && sub_0800CCCC() == 0 && sub_0800CD8C() == 0
         && entity102A5->state != 0xB && !(players102A5[sub_080020F4()].flags & 0x2000)
@@ -1333,7 +1333,7 @@ u8 sub_0809A5E0(void)
         players102A5[sub_080020F4()].motion = 0xFFFE;
         id = sub_080020F4();
         players102A5[id].angle += delta102A5(entity102A5, &players102A5[sub_080020F4()]);
-        { s32 i; register u32 index asm("r1"); register u32 *dest asm("r1"); register u32 n asm("r0"); struct Entity102A5 *e; i=sub_080020F4(); e=entity102A5; index=e->index; index<<=2; asm("" : "+r"(index)); index+=i*0x14c; asm("" : "+r"(index)); dest=(u32 *)((u8 *)players102A5+0xe4+index); n=e->counter; asm("" : "+r"(n), "+r"(dest)); *dest=n; e->counter=n+1; }
+        { s32 i; u32 index; u32 *dest; u32 n; struct Entity102A5 *e; i=sub_080020F4(); e=entity102A5; index=e->index; index<<=2;  index+=i*0x14c;  dest=(u32 *)((u8 *)players102A5+0xe4+index); n=e->counter;  *dest=n; e->counter=n+1; }
         dx = (x102A5[sub_080020F4()*83] - entity102A5->x) >> 8;
         dy = (players102A5[sub_080020F4()].y - entity102A5->y) >> 8;
         a = ArcTan2(dx, dy);
@@ -2295,12 +2295,12 @@ void sub_0809C4E8(u16 which)
             t.x = (s16)(pl[0].x >> 8);
             {
                 register s32 *playerY asm("r3") = &y0C4E8;
-                asm("" : "+r"(playerY));
+                
                 t.y = (s16)(*playerY >> 8);
             }
         } else {
             {
-                register s32 lowerSelector asm("r0") = which;
+                s32 lowerSelector = which;
                 asm("" : "+r"(lowerSelector));
                 if (lowerSelector == 1)
                     goto player_1;
@@ -2312,7 +2312,7 @@ void sub_0809C4E8(u16 which)
             check_upper_players:
                 {
                     register s32 upperSelector asm("r1") = which;
-                    asm("" : "+r"(upperSelector));
+                    
                     if (upperSelector == 2)
                         goto player_2;
                     if (upperSelector == 3)
@@ -2325,14 +2325,14 @@ void sub_0809C4E8(u16 which)
                         t.x = (s16)(pl[0].x >> 8);
                         {
                             register s32 *playerY asm("r2") = &y0C4E8;
-                            asm("" : "+r"(playerY));
+                            
                             t.y = (s16)(*playerY >> 8);
                         }
                     } else {
                         {
                             register struct PosC4E8 **packedPositionSlot asm("r3") = &v0C4E8;
                             struct PosC4E8 *packedPosition;
-                            asm("" : "+r"(packedPositionSlot));
+                            
                             packedPosition = *packedPositionSlot;
                             t.x = packedPosition->x >> 4;
                             t.y = ((u32)packedPosition->y << 20) >> 20;
@@ -2346,14 +2346,14 @@ void sub_0809C4E8(u16 which)
                         t.x = (s16)(pl[1].x >> 8);
                         {
                             register s32 *playerY asm("r1") = &y1C4E8;
-                            asm("" : "+r"(playerY));
+                            
                             t.y = (s16)(*playerY >> 8);
                         }
                     } else {
                         {
                             register struct PosC4E8 **packedPositionSlot asm("r2") = &v1C4E8;
                             struct PosC4E8 *packedPosition;
-                            asm("" : "+r"(packedPositionSlot));
+                            
                             packedPosition = *packedPositionSlot;
                             t.x = packedPosition->x >> 4;
                             t.y = ((u32)packedPosition->y << 20) >> 20;
@@ -2373,14 +2373,14 @@ void sub_0809C4E8(u16 which)
                         t.x = (s16)(pl[2].x >> 8);
                         {
                             register s32 *playerY asm("r1") = &y2C4E8;
-                            asm("" : "+r"(playerY));
+                            
                             t.y = (s16)(*playerY >> 8);
                         }
                     } else {
                         {
                             register struct PosC4E8 **packedPositionSlot asm("r2") = &v2C4E8;
                             struct PosC4E8 *packedPosition;
-                            asm("" : "+r"(packedPositionSlot));
+                            
                             packedPosition = *packedPositionSlot;
                             t.x = packedPosition->x >> 4;
                             t.y = ((u32)packedPosition->y << 20) >> 20;
@@ -2400,14 +2400,14 @@ void sub_0809C4E8(u16 which)
                         t.x = (s16)(pl[3].x >> 8);
                         {
                             register s32 *playerY asm("r1") = &y3C4E8;
-                            asm("" : "+r"(playerY));
+                            
                             t.y = (s16)(*playerY >> 8);
                         }
                     } else {
                         {
                             register struct PosC4E8 **packedPositionSlot asm("r2") = &v3C4E8;
                             struct PosC4E8 *packedPosition;
-                            asm("" : "+r"(packedPositionSlot));
+                            
                             packedPosition = *packedPositionSlot;
                             t.x = packedPosition->x >> 4;
                             t.y = ((u32)packedPosition->y << 20) >> 20;
@@ -2444,20 +2444,20 @@ void sub_0809C4E8(u16 which)
         }
         dx = (pos.x >> 8) - (playersC4E8[sub_080020F4()].x >> 8);
         {
-            register u32 playerOffset asm("r0") = sub_080020F4();
+            u32 playerOffset = sub_080020F4();
             s32 effectY = (pos.y >> 8) + 12;
             register s32 *playerYBase asm("r3");
             playerOffset *= 0x14C;
-            asm("" : "+r"(playerOffset));
+            
             playerYBase = (s32 *)playersYC4E8;
-            asm("" : "+r"(playerYBase));
+            
             dy = effectY - (*(s32 *)(playerOffset + (u32)playerYBase) >> 8);
         }
 
         d = sqrtC1B4((s16)dx * (s16)dx + ({
                          register s32 squaredY asm("r2") = (s16)dy;
                          register s32 ySquareForSum asm("r1");
-                         asm("" : "+r"(squaredY));
+                         
                          squaredY *= (s16)dy;
                          asm("" : "+r"(squaredY));
                          ySquareForSum = squaredY;
@@ -2827,7 +2827,7 @@ out:
     } while (--blink != 0xFFFF);
     {
         register u32 base asm("r1");
-        register u32 offset asm("r0");
+        u32 offset;
         s32 localIndex = s080020F4();
         base = (u32)playersCC2C;
         offset = localIndex * sizeof(struct PlayerCC2C);
@@ -2866,7 +2866,7 @@ s32 sub_0809D374(struct ObjectD374 *o) {
     s16 dx, dy;
     s32 ret;
     u32 angle, direction, rem;
-    asm("" : "+r"(positionBaseD374));
+    
     indexD374 = sub_080020F4();
     scaledIndexD374 = indexD374 * 0x14C;
     /* Share the position-slot base across both player lookups. */

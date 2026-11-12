@@ -49,9 +49,9 @@ s32 sub_08095D1C(u8 direction, s32 x, s32 y)
     u8 cells[9];
     volatile s32 baseX;
     u16 *volatile tiles;
-    register u32 dir asm("r9") = direction;
-    register s32 baseY asm("r8");
-    register struct Map99D1C *info asm("r12");
+    u32 dir = direction;
+    s32 baseY;
+    struct Map99D1C *info;
     register struct Map99D1C *initialInfo asm("r0");
     register u32 widthOffset asm("r3");
     u8 *scratch7;
@@ -269,7 +269,7 @@ extern s32 angleStart99(s16, s16) asm("ArcTan2");
 extern s8 motionStart99(struct MotionStart99 *, u32, u32, u32) asm("sub_08096060");
 s8 motionStart99(struct MotionStart99 *arg0, u32 arg1, u32 arg2, u32 arg3) {
     s32 rawX, dxWide, dyWide;
-    register s32 rawY asm("r4");
+    s32 rawY;
     register s32 limit asm("r4");
     s32 saveX, saveY;
     u16 distance, angle;
@@ -357,21 +357,21 @@ s32 sub_08096154(struct NearEntity99 *entity, s32 *inputLimit)
     register s32 dy asm("r6");
     register s32 x asm("r9");
     register s32 y asm("r8");
-    register s32 *distance asm("r3");
+    s32 *distance;
     s32 *firstDistance, *firstIndex, *other;
     register s32 a asm("r1");
     register s32 b asm("r0");
-    register s32 indexSwap asm("r2");
-    register struct NearPlayer99 *player asm("r4");
+    s32 indexSwap;
+    struct NearPlayer99 *player;
     u16 *target;
     register u32 i asm("r2");
     u32 count, j, next, flags;
     register u32 sortIndex asm("r2");
     register u32 temp0 asm("r0");
-    register u32 temp1 asm("r1");
+    u32 temp1;
     register u32 temp7 asm("r7");
-    register s32 *base1 asm("r1");
-    register s32 *base2 asm("r2");
+    s32 *base1;
+    s32 *base2;
     register s32 *resultLimit asm("r7");
     u16 length;
     s32 result;
@@ -472,21 +472,21 @@ s32 sub_08096274(struct NearEntity99 *entity, s32 *inputLimit)
     register s32 dy asm("r6");
     register s32 x asm("r9");
     register s32 y asm("r8");
-    register s32 *distance asm("r3");
+    s32 *distance;
     s32 *firstDistance, *firstIndex, *other;
     register s32 a asm("r1");
     register s32 b asm("r0");
-    register s32 indexSwap asm("r2");
-    register struct NearPlayer99 *player asm("r4");
+    s32 indexSwap;
+    struct NearPlayer99 *player;
     u16 *target;
     register u32 i asm("r2");
     u32 count, j, next, flags;
     register u32 sortIndex asm("r2");
     register u32 temp0 asm("r0");
-    register u32 temp1 asm("r1");
+    u32 temp1;
     register u32 temp7 asm("r7");
-    register s32 *base1 asm("r1");
-    register s32 *base2 asm("r2");
+    s32 *base1;
+    s32 *base2;
     register s32 *resultLimit asm("r7");
     u16 length;
     s32 result;
@@ -579,7 +579,7 @@ s32 sub_08096274(struct NearEntity99 *entity, s32 *inputLimit)
 }
 s32 sub_08096394(s32 inputX, s32 inputY)
 {
-    register s32 rawY asm("r5") = inputY;
+    s32 rawY = inputY;
     register s32 rawX asm("r4") = inputX;
     s32 entries[8];
     register u32 firstOffset asm("sl");
@@ -588,14 +588,14 @@ s32 sub_08096394(s32 inputX, s32 inputY)
     register s32 dy asm("r7");
     register s32 x asm("r9");
     register s32 y asm("r8");
-    register s32 *distance asm("r3");
-    register s32 *firstDistance asm("r6");
+    s32 *distance;
+    s32 *firstDistance;
     s32 *firstIndex, *other;
     register s32 a asm("r1");
     register s32 b asm("r0");
-    register s32 indexSwap asm("r2");
-    register struct NearPlayer99 *player asm("r4");
-    register u16 *target asm("r1");
+    s32 indexSwap;
+    struct NearPlayer99 *player;
+    u16 *target;
     register u32 i asm("r2");
     register u32 count asm("ip");
     u32 flags;
@@ -605,9 +605,9 @@ s32 sub_08096394(s32 inputX, s32 inputY)
     register u32 temp0 asm("r0");
     register u32 temp1 asm("r1");
     register u32 temp7 asm("r5");
-    register s32 *base1 asm("r1");
-    register s32 *base2 asm("r2");
-    register s32 *resultLimit asm("r7");
+    s32 *base1;
+    s32 *base2;
+    s32 *resultLimit;
     u16 length;
     s32 result;
     count = sub_08002164();
@@ -632,7 +632,7 @@ s32 sub_08096394(s32 inputX, s32 inputY)
             temp7 = 0x148;
             asm("" : "+r"(temp7));
             temp0 = (u32)player + temp7;
-            asm("" : "+r"(temp0));
+            
             target = *(u16 **)temp0;
             if (((u32)(*(u8 *)target << 28) >> 28) != 11) {
                 temp0 = target[0] >> 4;
@@ -649,7 +649,7 @@ s32 sub_08096394(s32 inputX, s32 inputY)
             distance += 2;
             i++;
             temp7 = 0x14C;
-            asm("" : "+r"(temp7));
+            
             player = (void *)((u32)player + temp7);
         } while (i < count);
     }
@@ -658,7 +658,7 @@ s32 sub_08096394(s32 inputX, s32 inputY)
         do {
             next = sortIndex + 1;
             j = next;
-            asm("" : "+r"(j));
+            
             if (next < count) {
                 temp0 = sortIndex * 8;
                 base1 = entries;
@@ -702,7 +702,7 @@ s32 sub_08096394(s32 inputX, s32 inputY)
 }
 s32 sub_08096494(s32 inputX, s32 inputY)
 {
-    register s32 rawY asm("r5") = inputY;
+    s32 rawY = inputY;
     register s32 rawX asm("r4") = inputX;
     s32 entries[8];
     register u32 firstOffset asm("sl");
@@ -711,14 +711,14 @@ s32 sub_08096494(s32 inputX, s32 inputY)
     register s32 dy asm("r7");
     register s32 x asm("r9");
     register s32 y asm("r8");
-    register s32 *distance asm("r3");
-    register s32 *firstDistance asm("r6");
+    s32 *distance;
+    s32 *firstDistance;
     s32 *firstIndex, *other;
     register s32 a asm("r1");
     register s32 b asm("r0");
-    register s32 indexSwap asm("r2");
-    register struct NearPlayer99 *player asm("r4");
-    register u16 *target asm("r1");
+    s32 indexSwap;
+    struct NearPlayer99 *player;
+    u16 *target;
     register u32 i asm("r2");
     register u32 count asm("ip");
     u32 flags;
@@ -728,9 +728,9 @@ s32 sub_08096494(s32 inputX, s32 inputY)
     register u32 temp0 asm("r0");
     register u32 temp1 asm("r1");
     register u32 temp7 asm("r5");
-    register s32 *base1 asm("r1");
-    register s32 *base2 asm("r2");
-    register s32 *resultLimit asm("r7");
+    s32 *base1;
+    s32 *base2;
+    s32 *resultLimit;
     u16 length;
     s32 result;
     count = sub_08002164();
@@ -755,7 +755,7 @@ s32 sub_08096494(s32 inputX, s32 inputY)
             temp7 = 0x148;
             asm("" : "+r"(temp7));
             temp0 = (u32)player + temp7;
-            asm("" : "+r"(temp0));
+            
             target = *(u16 **)temp0;
             if (((u32)(*(u8 *)target << 28) >> 28) != 11) {
                 temp0 = target[0] >> 4;
@@ -772,7 +772,7 @@ s32 sub_08096494(s32 inputX, s32 inputY)
             distance += 2;
             i++;
             temp7 = 0x14C;
-            asm("" : "+r"(temp7));
+            
             player = (void *)((u32)player + temp7);
         } while (i < count);
     }
@@ -781,7 +781,7 @@ s32 sub_08096494(s32 inputX, s32 inputY)
         do {
             next = sortIndex + 1;
             j = next;
-            asm("" : "+r"(j));
+            
             if (next < count) {
                 temp0 = sortIndex * 8;
                 base1 = entries;
@@ -827,9 +827,9 @@ struct SelectPlayer99 { u8 pad[0x30]; u32 flags; u8 pad34[0x114]; u8 *target; };
 extern struct SelectPlayer99 selectPlayers99[] asm("gUnk_03003CE0");
 s32 sub_08096594(u8 arg0)
 {
-    register s32 selected asm("r4");
+    s32 selected;
     struct SelectPlayer99 *player;
-    register u32 count asm("r5");
+    u32 count;
     u32 flags;
     register u32 i asm("r3");
     register u32 mode asm("r6");
@@ -1074,8 +1074,8 @@ struct PointAF4 { s32 x, y; };
 s32 sub_08096AF4(struct PointAF4 *input, u32 arg1) {
     register struct PointAF4 *arg0 asm("r4") = input;
     s32 temp_r1;
-    register u32 mode asm("r6");
-    register s32 sample asm("r0");
+    u32 mode;
+    s32 sample;
     u32 deltaBits;
     u8 *sineBase;
     register s32 wave asm("r1");
@@ -1134,11 +1134,11 @@ s32 sub_08096BA8(u32 inputIndex, s32 t, u32 inputMode,
 {
     volatile struct SplineFrame996BA8 frame;
     register u32 index asm("r6") = inputIndex;
-    register u32 mode asm("r8");
-    register s32 square asm("r3");
+    u32 mode;
+    s32 square;
     register s32 cube asm("r4");
     s32 twiceCube;
-    register s32 threeSquare asm("r2");
+    s32 threeSquare;
     register u32 modeLow asm("r1");
     s32 firstWeight;
     register s32 secondWeight asm("ip");
@@ -1167,8 +1167,8 @@ s32 sub_08096BA8(u32 inputIndex, s32 t, u32 inputMode,
     modeLow=mode;
     switch (modeLow) {
     case 0: {
-        register struct SplinePoint996BA8 *p asm("r2");
-        register s16 *scaleAddress asm("r6");
+        struct SplinePoint996BA8 *p;
+        s16 *scaleAddress;
         register s32 start asm("r3"), scale asm("r4");
         s32 end;
         register s32 endLoad4 asm("r4"), endCache8 asm("r8");
@@ -1389,16 +1389,16 @@ void sub_08096FA0(u8 arg0)
     volatile u16 tile,rotation;
     struct {s16 sx,sy;} screen;
     u32 counter,oldCounter;
-    register u32 animation asm("r9")=arg0;
+    u32 animation=arg0;
     register u32 finished asm("r10");
-    register s32 *view asm("r6");
+    s32 *view;
     s16 *screenX,*screenY;
     s32 paused;
     s32 blocked;
     register u32 palette asm("r4");
     u8 *drawn;
     /* The original reads incoming r10 until the first unpaused animation tick. */
-    asm("" : "=r"(finished));
+    
     init99FA0(&sprite,0x50020,8,-1,1);
     sprite.f1C=7;sprite.f1D=8;
     rotation=0;tile=0;counter=0;
@@ -1460,11 +1460,11 @@ s32 sub_080970CC(struct Entity9970D *inputEntity,
     u32 uploadPal;
     void *imageAttr;
     u32 priority;
-    register u32 phase asm("r9");
+    u32 phase;
     u16 frame;
     register s32 state asm("r8");
 
-    register u32 bankBits asm("r2"), slotBits asm("r3");
+    u32 bankBits, slotBits asm("r3");
     register u32 zero0 asm("r0");
     entity = inputEntity;
     image = inputImage;
@@ -1503,7 +1503,7 @@ s32 sub_080970CC(struct Entity9970D *inputEntity,
         u8 oldAlternate;
         {
             register u32 nextPhase asm("r1") = (phase + 1) << 16;
-            asm("" : "+r"(nextPhase));
+            
             phase = (0xF0000U & nextPhase) >> 16;
         }
         oldAlternate = alternate++;
@@ -1521,9 +1521,9 @@ s32 sub_080970CC(struct Entity9970D *inputEntity,
         }
         sub_08000AF0(uploadPal, palette, 1);
         {
-            register u32 paletteMode asm("r4") =
+            u32 paletteMode =
                 sub_0800BC44(entity->x >> 8, entity->y >> 8, 0);
-            asm("" : "+r"(paletteMode));
+            
             priority = (u8)paletteMode;
         }
         animate9970D(image, *field68, field6A, field6C, 1);
@@ -1557,7 +1557,7 @@ s32 sub_080972B8(struct Entity9972B8 *inputEntity,
                 volatile u32 inputPriority)
 {
     register struct Entity9972B8 *entity asm("r8");
-    register struct Sprite9972B8 *image asm("r6");
+    struct Sprite9972B8 *image;
     register u32 palNum asm("sl");
     u32 priority;
     u16 palette[16];
@@ -1578,8 +1578,8 @@ s32 sub_080972B8(struct Entity9972B8 *inputEntity,
     register u32 scratch2 asm("r2"), scratch3 asm("r3"), scratch4 asm("r4");
 
     u32 bankBits, slotBits;
-    register u32 priorityBits asm("r0");
-    register u32 zero0 asm("r0");
+    u32 priorityBits;
+    u32 zero0;
     entity = inputEntity;
     image = inputImage;
     priorityBits = inputPriority;
@@ -1645,7 +1645,7 @@ s32 sub_080972B8(struct Entity9972B8 *inputEntity,
                      tailZero4, tailZero4);
         /* Keep scratch values defined while constraining the signed loads. */
         tailAddress1 = palNum;
-        asm volatile("" : "=r"(scratch3), "=r"(scratch4) : "r"(tailAddress1));
+        
         tailX = *(s16 *)tailAddress1;
         asm volatile("" : "=r"(scratch2) : "r"(scratch3), "r"(scratch4));
         tailAddress3 = (u32)screenYPtr;
@@ -1681,7 +1681,7 @@ s32 sub_08097488(void *entity,void *image,u16 bank,u16 paletteNum)
     u16 *field6A;
     u32 uploadPal;
     void *imageAttr;
-    register u32 phase asm("r9");
+    u32 phase;
     u16 frame;
     s32 state;
     M2C_FIELD(image,u8 *,0x1C)=palNum;
@@ -1747,7 +1747,7 @@ s32 sub_08097658(void *entityA,void *entityB,void *imageA,void *imageB,u16 bank,
     for(i=0;i<16;i++) {
         struct FadePairColor100 *src;
         struct FadePairColor100 *dst;
-        asm volatile("" ::: "memory");
+        
         src=(void *)((u8 *)M2C_FIELD(imageA,void **,0xC)+(bank*16+i)*2);
         dst=(void *)&colors[i];
         dst->r=src->r;
@@ -1819,19 +1819,19 @@ void sub_08097978(s32 x,s32 y,s32 targetX,s32 targetY,s32 *out)
     s32 *dest=out;
     register u32 sine asm("r6");
     register s32 dx asm("r1");
-    register u32 cosine asm("r1");
+    u32 cosine;
     register s32 value asm("r0");
     asm volatile("" : "+r" (savedY), "+r" (savedX), "+r" (dest));
     dx=targetX-(savedX>>8);
-    asm volatile("" : "+r" (dx));
+    
     value=targetY-(savedY>>8);
     value <<=16;
-    asm volatile("" : "+r" (value));
+    
     sine=(u32)value>>16;
     dx <<=16;
-    asm volatile("" : "+r" (dx));
+    
     value=dx>>16;
-    asm volatile("" : "+r" (value));
+    
     if(value!=0) {
         u32 angle=((u16 (*)(s32,s16))ArcTan2)(value,(s16)sine)>>8;
         sine=(u16)gUnk_080B9704[angle+0x40];
@@ -1842,7 +1842,7 @@ void sub_08097978(s32 x,s32 y,s32 targetX,s32 targetY,s32 *out)
         if(targetY<savedY) cosine=0xFF00;
     }
     value=(s16)sine;
-    asm volatile("" : "+r" (value));
+    
     dest[0]=value;
     value=(s16)cosine;
     dest[1]=value;
@@ -1854,18 +1854,18 @@ void sub_080979D8(s32 x,s32 y,s32 targetX,s32 targetY,s32 *out)
     s32 *dest=out;
     register u32 sine asm("r6");
     register s32 dx asm("r1");
-    register u32 cosine asm("r1");
-    register s32 value asm("r0");
+    u32 cosine;
+    s32 value;
     asm volatile("" : "+r" (savedY), "+r" (savedX), "+r" (dest));
     dx=targetX-savedX;
-    asm volatile("" : "+r" (dx));
+    
     dx <<=8;
-    asm volatile("" : "+r" (dx));
+    
     value=(targetY-savedY)<<8;
-    asm volatile("" : "+r" (value));
+    
     sine=(u32)value>>16;
     value=dx>>16;
-    asm volatile("" : "+r" (value));
+    
     if(value!=0) {
         u32 angle=((u16 (*)(s32,s16))ArcTan2)(value,(s16)sine)>>8;
         dest[0]=gUnk_080B9704[angle+0x40];
@@ -1906,19 +1906,19 @@ s32 sub_08097A74(void *arg0, void *arg1, s32 arg2, s16 arg3) {
 extern void sub_08097BA4(s32, s32 *, u16);
 s32 sub_08097AC0(void *arg0,s32 arg1,s32 arg2,s32 arg3,volatile s32 arg4,volatile u32 arg5)
 {
-    register void *obj asm("r6")=arg0;
+    void *obj=arg0;
     register s32 y asm("r5")=arg2;
     register s32 x asm("r4")=arg1;
-    register s32 speed asm("r8");
+    s32 speed;
     register s32 third asm("r3")=arg3;
     u32 flag;
-    register s32 fourth asm("r3");
-    register u32 result asm("r4");
+    s32 fourth;
+    u32 result;
     asm volatile("" : "+r" (obj), "+r" (y), "+r" (x), "+r" (third) : : "memory");
     speed=third;
-    asm volatile("" : "+r" (speed) : : "memory");
+    
     fourth=arg4;
-    asm volatile("" : "+r" (fourth) : : "memory");
+    
     flag=(u8)arg5;
     result=(u8)sub_08096060(obj,x,y,(s16)fourth);
     if((s8)result!=0) {
@@ -1929,53 +1929,53 @@ s32 sub_08097AC0(void *arg0,s32 arg1,s32 arg2,s32 arg3,volatile s32 arg4,volatil
 }
 u32 sub_08097B24(const u8 *obj,s32 x,s32 y,s32 radius)
 {
-    register s32 objectX asm("r4");
-    register s32 objectY asm("r0");
+    s32 objectX;
+    s32 objectY;
     register s32 dx asm("r1");
     register s32 dy asm("r2");
     register s32 rr asm("r4");
-    register u32 square asm("r0");
-    register u32 distance asm("r0");
+    u32 square;
+    u32 distance;
     objectX=M2C_FIELD(obj,s32 *,20);
-    asm volatile("" : "+r" (objectX));
+    
     objectX <<= 8;
     objectY=M2C_FIELD(obj,s32 *,24)<<8;
-    asm volatile("" : "+r" (objectY));
+    
     dx=(s16)x;
     dx -= objectX>>16;
     dy=(s16)y;
     dy -= objectY>>16;
     rr=radius<<16;
-    asm volatile("" : "+r" (rr));
+    
     rr >>=16;
-    asm volatile("" : "+r" (dx), "+r" (dy), "+r" (rr));
+    
     dx=(s16)dx;
     square=dx*dx;
-    asm volatile("" : "+r" (square));
+    
     dy=(s16)dy;
     distance=Sqrt(square+dy*dy);
-    asm volatile("" : "+r" (distance));
+    
     return rr>(s32)distance;
 }
 u32 sub_08097B6C(s32 x0,s32 y0,s32 x1,s32 y1,s32 radius)
 {
     register s32 dx asm("r4");
     s32 dy;
-    register s32 rr asm("r5");
-    register u32 square asm("r0");
-    register u32 distance asm("r0");
+    s32 rr;
+    u32 square;
+    u32 distance;
     dx=x0-x1;
-    asm volatile("" : "+r" (dx));
+    
     dx <<= 8;
     dy=(y0-y1)<<8;
     rr=(s16)radius;
-    asm volatile("" : "+r" (dx), "+r" (rr));
+    
     dx >>= 16;
     square=dx*dx;
-    asm volatile("" : "+r" (square));
+    
     dy >>=16;
     distance=Sqrt(square+dy*dy);
-    asm volatile("" : "+r" (distance));
+    
     return rr > (s32)distance;
 }
 void sub_08097BA4(s32 velocity,s32 *position,u16 direction)

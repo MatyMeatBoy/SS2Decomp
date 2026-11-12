@@ -53,34 +53,34 @@ extern u16 nextDelay000 asm("gUnk_03002348");
 void sub_08000760(void)
 {
     register volatile u16 *oldp asm("r4");
-    register volatile u16 *nowp asm("r3");
+    volatile u16 *nowp;
     volatile u16 *savedOld;
-    register volatile u16 *savedNow asm("r4");
+    volatile u16 *savedNow;
     register u32 old asm("r2"), now asm("r1"), constant asm("r5");
     register u32 scratch asm("r0"), pressed asm("r5"), direction asm("r6"), oldDirection asm("r0");
-    register u16 *pressedp asm("r0");
-    register u16 *timer asm("r5");
+    u16 *pressedp;
+    u16 *timer;
     register u32 count asm("r0"), limit asm("r3"), compareLimit asm("r1");
-    register u16 *limitp asm("r1"), *delayp asm("r2");
+    u16 *limitp, *delayp asm("r2");
     register u32 next asm("r1"), oldDelay asm("r0");
     register u16 *resetTimer asm("r2"), *resetDelay asm("r1");
-    register volatile u16 *released asm("r2");
+    volatile u16 *released;
     register u32 byte asm("r1"), one asm("r5"), two asm("r4");
     u32 condition;
     oldp=&oldKeys000;
-    asm("" : "+r"(oldp));
+    
     nowp=&nowKeys000;
     old=*nowp;
     *oldp=old;
     now=*(volatile u16 *)0x04000130;
     constant=0x3FF;
-    asm("" : "+r"(constant));
+    
     scratch=constant;
     asm("" : "+r"(scratch) : "r"(constant));
     now^=scratch;
     *nowp=now;
     pressedp=&pressedKeys000;
-    asm("" : "+r"(pressedp));
+    
     pressed=now&~old;
     *pressedp=pressed;
     oldDirection=0xF0;
@@ -97,7 +97,7 @@ void sub_08000760(void)
         limit=*limitp;
         count=(u16)count;
         compareLimit=limit;
-        asm("" : "+r"(compareLimit) : "r"(limit));
+        
         if(count==compareLimit) repeatKeys000=direction;
         else if(count>compareLimit) {
             delayp=&delayKeys000;
@@ -118,7 +118,7 @@ void sub_08000760(void)
         repeatKeys000=pressed;
         resetTimer=&timerKeys000;
         resetDelay=&delayKeys000;
-        asm("" : "+r"(resetTimer),"+r"(resetDelay));
+        
         *resetDelay=0;
         *resetTimer=0;
     }
@@ -127,25 +127,25 @@ void sub_08000760(void)
     released=&releaseKeys000;
     *released=0;
     byte=*(volatile u8 *)oldp;
-    asm("" : : "r"(byte));
+    
     one=1;
     condition=one&byte;
     asm("" : : "r"(condition),"r"(one),"r"(byte));
     if(condition) {
         byte=*(volatile u8 *)nowp;
-        asm("" : : "r"(byte));
+        
         condition=one&byte;
         asm("" : : "r"(condition),"r"(one),"r"(byte));
         if(!condition) *released=one;
     }
     byte=*(volatile u8 *)oldp;
-    asm("" : : "r"(byte));
+    
     two=2;
     condition=two&byte;
     asm("" : : "r"(condition),"r"(two),"r"(byte));
     if(condition) {
         byte=*(volatile u8 *)nowp;
-        asm("" : : "r"(byte));
+        
         condition=two&byte;
         asm("" : : "r"(condition),"r"(two),"r"(byte));
         if(!condition) *released|=2;
@@ -229,23 +229,23 @@ void clearDisplay000(u32 a,u32 b,u32 write)
 {
     register u32 aa asm("r0")=a<<16;
     register u32 bb asm("r1")=b<<16;
-    register u32 ww asm("r2")=write<<16;
+    u32 ww=write<<16;
     register u32 first asm("r3");
     register u32 incoming asm("r0");
-    register u32 second asm("r0");
+    u32 second;
     u32 middle;
     u16 *pointer;
-    asm("" : "+r"(aa),"+r"(bb),"+r"(ww));
+    
     first=(aa&0x1F000000U)>>16;
-    asm("" : "+r"(first));
+    
     pointer=&display000;
     incoming=*pointer;
-    asm("" : "+r"(incoming));
+    
     middle=incoming&~first;
     asm("" : "+r"(middle) : "r"(incoming));
     first=middle;
     second=(bb&0xE0000000U)>>16;
-    asm("" : "+r"(second));
+    
     first&=~second;
     *pointer=first;
     if (ww) *(volatile u16 *)0x04000000=first;

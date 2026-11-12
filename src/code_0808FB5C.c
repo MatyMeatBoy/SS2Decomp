@@ -163,18 +163,18 @@ extern void startFE0495(s32) asm("sub_0802704C");
 extern void modeFE0495(s32) asm("sub_080570DC");
 s32 sub_0808FE04(s32 arg)
 {
-    register s32 stride asm("r4");
+    s32 stride;
     register u8 *base asm("r5");
     register u32 one asm("r6");
     register u32 zero asm("r8");
     struct StateFE0495 **pp;
     register u8 *p asm("r0");
     register u32 *flags asm("r2");
-    register u32 index asm("r2");
+    u32 index;
     register struct StateFE0495 *state asm("r0");
     asm("" : "=r"(stride));
     pp=&stateFE0495;
-    asm("" : "+r"(pp));
+    
     if ((*pp)->gate != 0) {
         if (!sub_08056E90()) return 0;
         sub_08058404(stride);
@@ -401,12 +401,12 @@ u32 sub_08090290(u32 arg)
     else if(sub_08056E90()) {
         sub_080570DC(1);
         sub_08056FB8(0,0);
-        firstIndex=sub_080020F4(); base=players9029095; asm volatile("" : : "r"(base));
+        firstIndex=sub_080020F4(); base=players9029095; 
         { struct Player9029095 *player=(struct Player9029095 *)(firstIndex*0x14C+(u32)base);
-          u8 *active=&player->active; asm("" : "+r"(active)); zero=0;one=1;*active=one; }
+          u8 *active=&player->active;  zero=0;one=1;*active=one; }
         sub_08056E78();
         (*holder)->w36=zero;
-        { register u32 offset asm("r2"); u8 *flagsBase; offset=sub_080020F4()*0x14C; asm("" : "+r"(offset)); flagsBase=(u8 *)base+0x30; asm("" : "+r"(flagsBase) : "r"(offset)); offset+=(u32)flagsBase; *(u32 *)offset&=~2; }
+        { register u32 offset asm("r2"); u8 *flagsBase; offset=sub_080020F4()*0x14C;  flagsBase=(u8 *)base+0x30;  offset+=(u32)flagsBase; *(u32 *)offset&=~2; }
         base[sub_080020F4()].state=zero;
         base[sub_080020F4()].action=4;
         { struct State9029095 *finalState=*holder; finalState->w30=one; finalState->w24=one; }
@@ -1659,7 +1659,7 @@ void sub_08091E94(void)
     s32 state;
     u16 count;
     heapAddress=&heapState096;
-    asm("" : "+r"(heapAddress));
+    
     memory = (u8 *)sub_08001494(0x110);
     *heapAddress = (u32)memory;
     parts[0] = memory;
@@ -1723,15 +1723,15 @@ s32 sub_08091F9C(u8 *source,u8 *output)
 {
     u32 mode;
     u8 count;
-    register u8 *cursor asm("r3");
+    u8 *cursor;
     register u32 a asm("r2");
     u8 c;
-    register u32 test asm("r0");
+    u32 test;
     cursor=source;
     asm("" : "+r"(cursor));
     mode=language096F;
     if(mode==0) goto ascii;
-    asm("" : "+r"(mode));
+    
     if(mode<=4) goto extended;
 ascii:
     count=0;
@@ -1932,10 +1932,10 @@ extern Callback096 callbacks096A[] asm("gUnk_03000210");
 extern Callback096 callbacks096B[] asm("gUnk_03000230");
 void sub_080923B4(s32 indexInput, u32 packedInput)
 {
-    register s32 slot asm("r5") = indexInput;
+    s32 slot = indexInput;
     register s32 bits asm("r4") = packedInput;
-    register Callback096 *table asm("r0");
-    register s32 high asm("r6");
+    Callback096 *table;
+    s32 high;
     asm("" : : "r"(bits));
     bits <<= 16;
     table = callbacks096A;
@@ -2162,7 +2162,7 @@ void sub_080923FC_u8(u32 arg0, u32 arg1) {
             draw923FC((s16)x, (s16)y, 0, 0, param, a.payload, a.f8, a.f0);
             {
                 s32 upper;
-                register s32 clamp asm("r3");
+                s32 clamp;
                 accum += 4;
                 offsetLo = &v923FC_252;
                 d = (s16)accum >> 8;
@@ -2173,7 +2173,7 @@ void sub_080923FC_u8(u32 arg0, u32 arg1) {
                 (*offsetHi) = upper;
                 lower = (s32)((u32)lower << 16);
                 clamp = lowerLimit >> 16;
-                asm("" : "+r"(clamp));
+                
                 if (lower <= lowerLimit)
                     (*offsetLo) = clamp;
                 if ((s16)upper > 49)

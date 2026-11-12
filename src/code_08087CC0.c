@@ -335,7 +335,7 @@ void sub_080887D4(void *arg0, void *arg1)
         fixed = route->flags & 2;
         if (fixed != 0) {
             sub_08000AF0(*(u16 *)((u8 *)arg0 + 0x40) + 20, (u8 *)sprite[3] + 0x120, 1);
-            {register u32 value asm("r0")=*(u8 *)((u8 *)arg0+0x40)+4; asm("" : "+r"(value)); *((u8 *)sprite+0x25)=value;}
+            {u32 value=*(u8 *)((u8 *)arg0+0x40)+4;  *((u8 *)sprite+0x25)=value;}
             tile = 0;
             frame = route->tile;
         } else {
@@ -982,8 +982,8 @@ s32 sub_08089784(u8 *table)
 {
     struct State978491 { u8 p0[2]; u16 destination; u8 p4[0xC]; u16 step; u8 p12[0xA]; u16 active; u8 p1E[0x18]; u16 row; u8 p38[0x6E4]; u32 script; };
     struct Pos978491 { u32 x, y; };
-    register const u16 *position asm("r4");
-    register u8 *player asm("r2");
+    const u16 *position;
+    u8 *player;
     s32 *coordinates;
     extern struct State978491 *state978491 asm("gUnk_03005CF4");
     extern u8 players978491[] asm("gUnk_03003CE0");
@@ -999,17 +999,17 @@ s32 sub_08089784(u8 *table)
         while (sub_0801AAE0() == 0)
             sub_080003F0();
         myId = sub_080020F4();
-        {register u32 delta asm("r4")=state978491->row*0x24;delta+=4;asm("" : "+r"(delta));position=(u16 *)(table+delta);}
+        {u32 delta=state978491->row*0x24;delta+=4;position=(u16 *)(table+delta);}
         sub_0800CCDC();
-        {register u8 *base asm("r3"); register u8 *px asm("r1");
-        offset=sub_080020F4();base=players978491;asm("" : "+r"(base));offset*=0x14C;px=base+0x8C;px=(u8 *)((u32)offset+(u32)px);
+        {u8 *base; register u8 *px asm("r1");
+        offset=sub_080020F4();base=players978491;offset*=0x14C;px=base+0x8C;px=(u8 *)((u32)offset+(u32)px);
         *(u32 *)px=(u32)position[0]<<8;
         px=base+0x90;px=(u8 *)((u32)offset+(u32)px);*(u32 *)px=(u32)position[1]<<8;
         offset+=(u32)base;player=(u8 *)offset;*(struct Pos978491 *)(player+0x94)=*(struct Pos978491 *)(player+0x8C);}
         sub_08009930(0, 5);
         while (sub_0800BA6C() == 0)
             sub_080003F0();
-        {register u8 *p asm("r0")=profile978491; register u32 v asm("r1");asm("" : "+r"(p)); p+=0x76;v=0x20;*(u16 *)p=v;}
+        {u8 *p=profile978491; u32 v; p+=0x76;v=0x20;*(u16 *)p=v;}
         coordinates = (s32 *)(coords978491 + myId * 0x14C);
         sub_0800AD04(coordinates, coordinates + 1, sub_0800CCCC());
         sub_08057328(0, (u32)callback978491);
@@ -1018,7 +1018,7 @@ s32 sub_08089784(u8 *table)
         state978491->active = 1;
         sub_08015C38();
     }
-    {register s32 idx asm("r0")=sub_080020F4(); register u8 *p asm("r1")=players978491; register u32 stride asm("r2")=0x14c; idx*=stride;p+=0x90;
+    {s32 idx=sub_080020F4(); u8 *p=players978491; u32 stride=0x14c; idx*=stride;p+=0x90;
     idx+=(u32)p; if ((*(s32 *)idx >> 11) > 0x1E) {
         sub_08015ED4();
         sub_0801ABE8(3);
@@ -1042,7 +1042,7 @@ s32 sub_080898D4(u8 *input)
     struct Pos98D491 { u32 x, y; };
     struct Exit98D491 { u16 x, y, destination, unused; };
     register u8 *table asm("r8")=input;
-    register const u16 *position asm("r5");
+    const u16 *position;
     u8 *player;
     s32 *coordinates;
     register const struct Exit98D491 *exit asm("r5");
@@ -1061,13 +1061,13 @@ s32 sub_080898D4(u8 *input)
         while (sub_0801AAE0() == 0)
             sub_080003F0();
         myId = sub_080020F4();
-        {register u32 delta asm("r0")=state98D491->row*0x24;delta+=4;asm("" : "+r"(delta));position=(u16 *)(table+delta);}
+        {u32 delta=state98D491->row*0x24;delta+=4;position=(u16 *)(table+delta);}
         sub_0800CCDC();
-        {register u8 *base asm("r3"); register u8 *px asm("r1");
-        offset=sub_080020F4();base=players98D491;asm("" : "+r"(base));offset*=0x14C;px=base+0x8C;px=(u8 *)((u32)offset+(u32)px);
+        {u8 *base; register u8 *px asm("r1");
+        offset=sub_080020F4();base=players98D491;offset*=0x14C;px=base+0x8C;px=(u8 *)((u32)offset+(u32)px);
         *(u32 *)px=(u32)position[0]<<8;
         px=base+0x90;px=(u8 *)((u32)offset+(u32)px);*(u32 *)px=(u32)position[1]<<8;
-        {register u8 *p asm("r2");offset+=(u32)base;p=(u8 *)offset;*(struct Pos98D491 *)(p+0x94)=*(struct Pos98D491 *)(p+0x8C);}}
+        {u8 *p;offset+=(u32)base;p=(u8 *)offset;*(struct Pos98D491 *)(p+0x94)=*(struct Pos98D491 *)(p+0x8C);}}
         sub_08009930(0, 0xC);
         while (sub_0800BA6C() == 0)
             sub_080003F0();
@@ -1081,7 +1081,7 @@ s32 sub_080898D4(u8 *input)
     } else {
     player = players98D491 + sub_080020F4() * 0x14C;
     for (exitIndex = 1; exitIndex <= 3; exitIndex++) {
-        {register u32 row asm("r0")=state98D491->row*0x24;register u32 col asm("r1");row+=4;asm("" : "+r"(row));row=(u32)table+row;col=exitIndex*8;exit=(const struct Exit98D491 *)(row+col);}
+        {register u32 row asm("r0")=state98D491->row*0x24;register u32 col asm("r1");row+=4;row=(u32)table+row;col=exitIndex*8;exit=(const struct Exit98D491 *)(row+col);}
         difference = (*(s32 *)(player + 0x8C) >> 11) - exit->x;
         if (difference < 0)
             difference = -difference;
@@ -1106,7 +1106,7 @@ s32 sub_080898D4(u8 *input)
         }
     }
     }
-    {register s32 idx asm("r0")=sub_080020F4(); register u8 *p asm("r1")=players98D491; register u32 stride asm("r2")=0x14c; idx*=stride;p+=0x90;
+    {s32 idx=sub_080020F4(); u8 *p=players98D491; u32 stride=0x14c; idx*=stride;p+=0x90;
     idx+=(u32)p; if ((*(s32 *)idx >> 11) > 0x11) {
         sub_08015ED4();
         sub_0801ABE8(3);
@@ -1129,12 +1129,12 @@ s32 sub_08089AE4(u8 *table)
     struct State9AE491 { u8 p0[2]; u16 destination; u8 p4[0xC]; u16 step; u8 p12[0xA]; u16 active; u8 p1E[0x18]; u16 row; u8 p38[0x6E4]; u32 script; };
     struct Pos9AE491 { u32 x, y; };
     struct Exit9AE491 { u16 x, y, destination, unused; };
-    register const u16 *position asm("r6");
+    const u16 *position;
     u8 *player;
     s32 *coordinates;
     register const struct Exit9AE491 *exit asm("r6");
     u32 exitIndex;
-    register u32 zero asm("r8");
+    u32 zero;
     s32 difference;
     extern struct State9AE491 *state9AE491 asm("gUnk_03005CF4");
     extern u8 players9AE491[] asm("gUnk_03003CE0");
@@ -1143,21 +1143,21 @@ s32 sub_08089AE4(u8 *table)
     extern void callback9AE491(void) asm("sub_0802D2C8");
     extern s32 sub_08009930(u32, u32);
     extern s32 sub_0800AD04(s32 *, s32 *, s32);
-    register s32 myId asm("r8"); register s32 offset asm("r2");
+    s32 myId; register s32 offset asm("r2");
 
     if (state9AE491->step == 0) {
         while (sub_0801AAE0() == 0)
             sub_080003F0();
         myId = sub_080020F4();
-        {register u32 delta asm("r0")=state9AE491->row*0x24;delta+=4;asm("" : "+r"(delta));position=(u16 *)(table+delta);}
+        {register u32 delta asm("r0")=state9AE491->row*0x24;delta+=4;position=(u16 *)(table+delta);}
         sub_0800CCDC();
-        {register u8 *base asm("r4"); register u8 *px asm("r1"); register u32 stride asm("r5");
-        offset=sub_080020F4();base=players9AE491;asm("" : "+r"(base));stride=0x14c;offset*=stride;px=base+0x8C;px=(u8 *)((u32)offset+(u32)px);
+        {u8 *base; register u8 *px asm("r1"); register u32 stride asm("r5");
+        offset=sub_080020F4();base=players9AE491;stride=0x14c;offset*=stride;px=base+0x8C;px=(u8 *)((u32)offset+(u32)px);
         *(u32 *)px=(u32)position[0]<<8;
         px=base+0x90;px=(u8 *)((u32)offset+(u32)px);*(u32 *)px=(u32)position[1]<<8;
-        {register u8 *p asm("r2");offset+=(u32)base;p=(u8 *)offset;*(struct Pos9AE491 *)(p+0x94)=*(struct Pos9AE491 *)(p+0x8C);}
+        {u8 *p;offset+=(u32)base;p=(u8 *)offset;*(struct Pos9AE491 *)(p+0x94)=*(struct Pos9AE491 *)(p+0x8C);}
         sub_0800CCDC();
-        {register u32 *flags asm("r2");register s32 index asm("r2")=myId;index*=stride;base+=0x30;index+=(u32)base;flags=(u32 *)index;*flags &= 0x2000;}}
+        {u32 *flags;s32 index=myId;index*=stride;base+=0x30;index+=(u32)base;flags=(u32 *)index;*flags &= 0x2000;}}
         sub_08067D74();
         sub_08009930(0, 6);
         while (sub_0800BA6C() == 0)
@@ -1174,7 +1174,7 @@ s32 sub_08089AE4(u8 *table)
     player = players9AE491 + sub_080020F4() * 0x14C;
     exitIndex=1;zero=0;
     for (; exitIndex <= 3; exitIndex++) {
-        {register u32 row asm("r0")=state9AE491->row*0x24;register u32 col asm("r1");row+=4;asm("" : "+r"(row));row=(u32)table+row;col=exitIndex*8;exit=(const struct Exit9AE491 *)(row+col);}
+        {register u32 row asm("r0")=state9AE491->row*0x24;register u32 col asm("r1");row+=4;row=(u32)table+row;col=exitIndex*8;exit=(const struct Exit9AE491 *)(row+col);}
         difference = (*(s32 *)(player + 0x8C) >> 11) - exit->x;
         if (difference < 0)
             difference = -difference;
@@ -1189,7 +1189,7 @@ s32 sub_08089AE4(u8 *table)
                 state9AE491->row = exitIndex;
             else if (exitIndex == 2)
                 state9AE491->row = exitIndex;
-            {register struct State9AE491 *p asm("r1")=state9AE491;
+            {struct State9AE491 *p=state9AE491;
             p->destination=exit->destination;p->script=scripts9AE491[exit->destination];p->step=zero;p->active=zero;}
             return 1;
         }
@@ -1201,7 +1201,7 @@ s32 sub_08089CA0(u8 *table)
     struct State9CA091 { u8 p0[2]; u16 destination; u8 p4[0xC]; u16 step; u8 p12[0xA]; u16 active; u8 p1E[0x18]; u16 row; u8 p38[0x6E4]; u32 script; };
     struct Pos9CA091 { u32 x, y; };
     struct Exit9CA091 { u16 x, y, destination, unused; };
-    register const u16 *position asm("r4");
+    const u16 *position;
     u8 *player;
     s32 *coordinates;
     register const struct Exit9CA091 *exit asm("r4");
@@ -1215,20 +1215,20 @@ s32 sub_08089CA0(u8 *table)
     extern void callback9CA091(void) asm("sub_0802D568");
     extern s32 sub_08009930(u32, u32);
     extern s32 sub_0800AD04(s32 *, s32 *, s32);
-    register s32 myId asm("r6"); register s32 offset asm("r2");
+    s32 myId; register s32 offset asm("r2");
 
     if (state9CA091->step == 0) {
         while (sub_0801AAE0() == 0)
             sub_080003F0();
         myId = sub_080020F4();
-        {register u32 delta asm("r0")=state9CA091->row*0x24;delta+=4;asm("" : "+r"(delta));position=(u16 *)(table+delta);}
+        {register u32 delta asm("r0")=state9CA091->row*0x24;delta+=4;position=(u16 *)(table+delta);}
         sub_0800CCDC();
-        {register u8 *base asm("r3"); register u8 *px asm("r1"); register u32 stride asm("r5");
-        offset=sub_080020F4();base=players9CA091;asm("" : "+r"(base));stride=0x14c;offset*=stride;px=base+0x8C;px=(u8 *)((u32)offset+(u32)px);
+        {u8 *base; register u8 *px asm("r1"); u32 stride;
+        offset=sub_080020F4();base=players9CA091;stride=0x14c;offset*=stride;px=base+0x8C;px=(u8 *)((u32)offset+(u32)px);
         *(u32 *)px=(u32)position[0]<<8;
         px=base+0x90;px=(u8 *)((u32)offset+(u32)px);*(u32 *)px=(u32)position[1]<<8;
-        {register u8 *p asm("r2");register struct Pos9CA091 *dest asm("r4");offset+=(u32)base;p=(u8 *)offset;dest=(struct Pos9CA091 *)(p+0x94);*dest=*(struct Pos9CA091 *)(p+0x8C);}
-        {register u32 *flags asm("r2");register s32 index asm("r2")=myId;index*=stride;base+=0x30;index+=(u32)base;flags=(u32 *)index;*flags &= 0x2000;}}
+        {u8 *p;struct Pos9CA091 *dest;offset+=(u32)base;p=(u8 *)offset;dest=(struct Pos9CA091 *)(p+0x94);*dest=*(struct Pos9CA091 *)(p+0x8C);}
+        {u32 *flags;s32 index=myId;index*=stride;base+=0x30;index+=(u32)base;flags=(u32 *)index;*flags &= 0x2000;}}
         sub_08067D74();
         sub_08009930(0, 0xD);
         while (sub_0800BA6C() == 0)
@@ -1244,7 +1244,7 @@ s32 sub_08089CA0(u8 *table)
     player = players9CA091 + sub_080020F4() * 0x14C;
     exitIndex=1;{register struct State9CA091 **p asm("r6")=&state9CA091;asm("" : "=r"(zero) : "r"(p), "0"(0));}
     for (; exitIndex <= 3; exitIndex++) {
-        {register u32 row asm("r0")=state9CA091->row*0x24;register u32 col asm("r1");row+=4;asm("" : "+r"(row));row=(u32)table+row;col=exitIndex*8;exit=(const struct Exit9CA091 *)(row+col);}
+        {register u32 row asm("r0")=state9CA091->row*0x24;register u32 col asm("r1");row+=4;row=(u32)table+row;col=exitIndex*8;exit=(const struct Exit9CA091 *)(row+col);}
         difference = (*(s32 *)(player + 0x8C) >> 11) - exit->x;
         if (difference < 0)
             difference = -difference;
@@ -1259,13 +1259,13 @@ s32 sub_08089CA0(u8 *table)
                 state9CA091->row = exitIndex;
             else if (exitIndex == 2)
                 state9CA091->row = 1;
-            else {register struct State9CA091 *p asm("r0")=state9CA091;register u32 z asm("r1")=zero;p->row=z;}
+            else {struct State9CA091 *p=state9CA091;u32 z=zero;p->row=z;}
             {register struct State9CA091 *p asm("r1")=state9CA091;p->destination=exit->destination;p->script=scripts9CA091[exit->destination];p->step=zero;p->active=zero;}
             return 1;
         }
     }
     }
-    {register s32 idx asm("r0")=sub_080020F4(); register u8 *p asm("r1")=players9CA091; register u32 stride asm("r2")=0x14c; idx*=stride;p+=0x90;
+    {s32 idx=sub_080020F4(); u8 *p=players9CA091; u32 stride=0x14c; idx*=stride;p+=0x90;
     idx+=(u32)p; if ((*(s32 *)idx >> 11) > 0x11) {
         sub_08015ED4();
         sub_0801ABE8(3);
@@ -1287,8 +1287,8 @@ s32 sub_08089EC4(u8 *table)
 {
     struct State9EC491 { u8 p0[2]; u16 destination; u8 p4[0xC]; u16 step; u8 p12[0xA]; u16 active; u8 p1E[0x18]; u16 row; u8 p38[0x6E4]; u32 script; };
     struct Pos9EC491 { u32 x, y; };
-    register const u16 *position asm("r4");
-    register u8 *player asm("r2");
+    const u16 *position;
+    u8 *player;
     s32 *coordinates;
     extern struct State9EC491 *state9EC491 asm("gUnk_03005CF4");
     extern u8 players9EC491[] asm("gUnk_03003CE0");
@@ -1303,10 +1303,10 @@ s32 sub_08089EC4(u8 *table)
         while (sub_0801AAE0() == 0)
             sub_080003F0();
         myId = sub_080020F4();
-        {register u32 delta asm("r4")=state9EC491->row*0x24;delta+=4;asm("" : "+r"(delta));position=(u16 *)(table+delta);}
+        {u32 delta=state9EC491->row*0x24;delta+=4;position=(u16 *)(table+delta);}
         sub_0800CCDC();
-        {register u8 *base asm("r3"); register u8 *px asm("r1");
-        offset=sub_080020F4();base=players9EC491;asm("" : "+r"(base));offset*=0x14C;px=base+0x8C;px=(u8 *)((u32)offset+(u32)px);
+        {u8 *base; register u8 *px asm("r1");
+        offset=sub_080020F4();base=players9EC491;offset*=0x14C;px=base+0x8C;px=(u8 *)((u32)offset+(u32)px);
         *(u32 *)px=(u32)position[0]<<8;
         px=base+0x90;px=(u8 *)((u32)offset+(u32)px);*(u32 *)px=(u32)position[1]<<8;
         offset+=(u32)base;player=(u8 *)offset;*(struct Pos9EC491 *)(player+0x94)=*(struct Pos9EC491 *)(player+0x8C);}
@@ -1321,7 +1321,7 @@ s32 sub_08089EC4(u8 *table)
         state9EC491->active = 1;
         sub_08015C38();
     }
-    { register s32 idx asm("r0")=sub_080020F4(); register u8 *p asm("r1")=players9EC491; register u32 stride asm("r2")=0x14c; idx*=stride;p+=0x90;
+    { s32 idx=sub_080020F4(); u8 *p=players9EC491; u32 stride=0x14c; idx*=stride;p+=0x90;
     idx+=(u32)p; if ((*(s32 *)idx >> 11) > 0x25) {
         sub_08015ED4();
         sub_0801ABE8(3);
@@ -1345,13 +1345,13 @@ s32 sub_0808A008(u8 *input)
     struct PosA00891 { u32 x, y; };
     struct ExitA00891 { u16 x, y, destination, unused; };
     register u8 *table asm("r8")=input;
-    register const u16 *position asm("r5");
+    const u16 *position;
     u8 *player;
     s32 *coordinates;
     register const struct ExitA00891 *exit asm("r5");
     u32 exitIndex;
     s32 difference;
-    register u8 *laterBase asm("r5"); register u32 laterStride asm("r4");
+    u8 *laterBase; register u32 laterStride asm("r4");
     extern struct StateA00891 *stateA00891 asm("gUnk_03005CF4");
     extern u8 playersA00891[] asm("gUnk_03003CE0");
     extern u8 coordsA00891[] asm("gUnk_03003D6C");
@@ -1365,13 +1365,13 @@ s32 sub_0808A008(u8 *input)
         while (sub_0801AAE0() == 0)
             sub_080003F0();
         myId = sub_080020F4();
-        {register u32 delta asm("r0")=stateA00891->row*0x24;delta+=4;asm("" : "+r"(delta));position=(u16 *)(table+delta);}
+        {u32 delta=stateA00891->row*0x24;delta+=4;position=(u16 *)(table+delta);}
         sub_0800CCDC();
-        {register u8 *base asm("r3"); register u8 *px asm("r1");
-        offset=sub_080020F4();base=playersA00891;asm("" : "+r"(base));offset*=0x14C;px=base+0x8C;px=(u8 *)((u32)offset+(u32)px);
+        {u8 *base; register u8 *px asm("r1");
+        offset=sub_080020F4();base=playersA00891;offset*=0x14C;px=base+0x8C;px=(u8 *)((u32)offset+(u32)px);
         *(u32 *)px=(u32)position[0]<<8;
         px=base+0x90;px=(u8 *)((u32)offset+(u32)px);*(u32 *)px=(u32)position[1]<<8;
-        {register u8 *p asm("r2");offset+=(u32)base;p=(u8 *)offset;*(struct PosA00891 *)(p+0x94)=*(struct PosA00891 *)(p+0x8C);}}
+        {u8 *p;offset+=(u32)base;p=(u8 *)offset;*(struct PosA00891 *)(p+0x94)=*(struct PosA00891 *)(p+0x8C);}}
         sub_08009930(0, 8);
         while (sub_0800BA6C() == 0)
             sub_080003F0();
@@ -1388,7 +1388,7 @@ s32 sub_0808A008(u8 *input)
     } else {
     player = playersA00891 + sub_080020F4() * 0x14C;
     for (exitIndex = 1; exitIndex <= 3; exitIndex++) {
-        {register u32 row asm("r0")=stateA00891->row*0x24;register u32 col asm("r1");row+=4;asm("" : "+r"(row));row=(u32)table+row;col=exitIndex*8;exit=(const struct ExitA00891 *)(row+col);}
+        {register u32 row asm("r0")=stateA00891->row*0x24;register u32 col asm("r1");row+=4;row=(u32)table+row;col=exitIndex*8;exit=(const struct ExitA00891 *)(row+col);}
         difference = (*(s32 *)(player + 0x8C) >> 11) - exit->x;
         if (difference < 0)
             difference = -difference;
@@ -1413,7 +1413,7 @@ s32 sub_0808A008(u8 *input)
         }
     }
     }
-    {register s32 idx asm("r0")=sub_080020F4(); register u8 *p asm("r1"); laterBase=playersA00891;laterStride=0x14c;idx*=laterStride;p=laterBase+0x8C;
+    {s32 idx=sub_080020F4(); u8 *p; laterBase=playersA00891;laterStride=0x14c;idx*=laterStride;p=laterBase+0x8C;
     idx+=(u32)p; if ((*(s32 *)idx >> 11) > 0x1B) {
         sub_08015ED4();
         sub_0801ABE8(3);
@@ -1428,7 +1428,7 @@ s32 sub_0808A008(u8 *input)
         stateA00891->active = 0;
         return 1;
     }
-    {register s32 idx asm("r0")=sub_080020F4(); register u8 *p asm("r1"); idx*=laterStride;p=laterBase+0x90;
+    {s32 idx=sub_080020F4(); u8 *p; idx*=laterStride;p=laterBase+0x90;
     idx+=(u32)p; if ((*(s32 *)idx >> 11) > 0x24) {
         sub_08015ED4();
         sub_0801ABE8(3);
@@ -1451,11 +1451,11 @@ s32 sub_0808A294(u8 *table)
 {
     struct StateA29491 { u8 p0[0x10]; u16 step; u8 p12[0xA]; u16 active; u8 p1E[0x18]; u16 row; };
     struct PosA29491 { u32 x, y; };
-    register const u16 *position asm("r4");
+    const u16 *position;
     u8 *player;
-    register u8 *playerBase asm("r3");
+    u8 *playerBase;
     register u32 playerOffset asm("r2");
-    register u8 *field asm("r1");
+    u8 *field;
     s32 *coordinates;
     extern struct StateA29491 *stateA29491 asm("gUnk_03005CF4");
     extern u8 playersA29491[] asm("gUnk_03003CE0");
@@ -1503,14 +1503,14 @@ s32 sub_0808A380(u8 *table)
 {
     struct StateA38091 { u8 p0[2]; u16 destination; u8 p4[0xC]; u16 step; u8 p12[0xA]; u16 active; u8 p1E[0x18]; u16 row; u8 p38[0x6E4]; u32 script; };
     struct PosA38091 { u32 x, y; };
-    register const u16 *position asm("r4");
+    const u16 *position;
     u8 *player;
-    register u8 *playerBase asm("r3");
+    u8 *playerBase;
     register u32 playerOffset asm("r2");
-    register u8 *field asm("r1");
-    register u8 *checkBase asm("r1");
-    register u32 checkStride asm("r2");
-    register u32 checkOffset asm("r0");
+    u8 *field;
+    u8 *checkBase;
+    u32 checkStride;
+    u32 checkOffset;
     s32 *coordinates;
     extern struct StateA38091 *stateA38091 asm("gUnk_03005CF4");
     extern u8 playersA38091[] asm("gUnk_03003CE0");
@@ -1580,13 +1580,13 @@ s32 sub_0808A4D4(u8 *input)
     struct PosA4D491 { u32 x, y; };
     struct ExitA4D491 { u16 x, y, destination, unused; };
     register u8 *table asm("r8")=input;
-    register const u16 *position asm("r5");
+    const u16 *position;
     u8 *player;
     s32 *coordinates;
     register const struct ExitA4D491 *exit asm("r5");
     u32 exitIndex;
     s32 difference;
-    register u8 *laterBase asm("r5"); register u32 laterStride asm("r4");
+    u8 *laterBase; register u32 laterStride asm("r4");
     extern struct StateA4D491 *stateA4D491 asm("gUnk_03005CF4");
     extern u8 playersA4D491[] asm("gUnk_03003CE0");
     extern u8 coordsA4D491[] asm("gUnk_03003D6C");
@@ -1600,13 +1600,13 @@ s32 sub_0808A4D4(u8 *input)
         while (sub_0801AAE0() == 0)
             sub_080003F0();
         myId = sub_080020F4();
-        {register u32 delta asm("r0")=stateA4D491->row*0x24;delta+=4;asm("" : "+r"(delta));position=(u16 *)(table+delta);}
+        {u32 delta=stateA4D491->row*0x24;delta+=4;position=(u16 *)(table+delta);}
         sub_0800CCDC();
-        {register u8 *base asm("r3"); register u8 *px asm("r1");
-        offset=sub_080020F4();base=playersA4D491;asm("" : "+r"(base));offset*=0x14C;px=base+0x8C;px=(u8 *)((u32)offset+(u32)px);
+        {u8 *base; register u8 *px asm("r1");
+        offset=sub_080020F4();base=playersA4D491;offset*=0x14C;px=base+0x8C;px=(u8 *)((u32)offset+(u32)px);
         *(u32 *)px=(u32)position[0]<<8;
         px=base+0x90;px=(u8 *)((u32)offset+(u32)px);*(u32 *)px=(u32)position[1]<<8;
-        {register u8 *p asm("r2");offset+=(u32)base;p=(u8 *)offset;*(struct PosA4D491 *)(p+0x94)=*(struct PosA4D491 *)(p+0x8C);}}
+        {u8 *p;offset+=(u32)base;p=(u8 *)offset;*(struct PosA4D491 *)(p+0x94)=*(struct PosA4D491 *)(p+0x8C);}}
         sub_08009930(0, 7);
         while (sub_0800BA6C() == 0)
             sub_080003F0();
@@ -1620,7 +1620,7 @@ s32 sub_0808A4D4(u8 *input)
     } else {
     player = playersA4D491 + sub_080020F4() * 0x14C;
     for (exitIndex = 1; exitIndex <= 3; exitIndex++) {
-        {register u32 row asm("r0")=stateA4D491->row*0x24;register u32 col asm("r1");row+=4;asm("" : "+r"(row));row=(u32)table+row;col=exitIndex*8;exit=(const struct ExitA4D491 *)(row+col);}
+        {register u32 row asm("r0")=stateA4D491->row*0x24;register u32 col asm("r1");row+=4;row=(u32)table+row;col=exitIndex*8;exit=(const struct ExitA4D491 *)(row+col);}
         difference = (*(s32 *)(player + 0x8C) >> 11) - exit->x;
         if (difference < 0)
             difference = -difference;
@@ -1645,7 +1645,7 @@ s32 sub_0808A4D4(u8 *input)
         }
     }
     }
-    {register s32 idx asm("r0")=sub_080020F4(); register u8 *p asm("r1"); laterBase=playersA4D491;laterStride=0x14c;idx*=laterStride;p=laterBase+0x8C;
+    {s32 idx=sub_080020F4(); u8 *p; laterBase=playersA4D491;laterStride=0x14c;idx*=laterStride;p=laterBase+0x8C;
     idx+=(u32)p; if ((*(s32 *)idx >> 11) <= 1) {
         sub_08015ED4();
         sub_0801ABE8(3);
@@ -1660,7 +1660,7 @@ s32 sub_0808A4D4(u8 *input)
         stateA4D491->active = 0;
         return 1;
     }
-    {register s32 idx asm("r0")=sub_080020F4(); register u8 *p asm("r1"); idx*=laterStride;p=laterBase+0x90;
+    {s32 idx=sub_080020F4(); u8 *p; idx*=laterStride;p=laterBase+0x90;
     idx+=(u32)p; if ((*(s32 *)idx >> 11) > 0x24) {
         sub_08015ED4();
         sub_0801ABE8(3);
@@ -1683,11 +1683,11 @@ s32 sub_0808A744(u8 *table)
 {
     struct StateA74491 { u8 p0[0x10]; u16 step; u8 p12[0xA]; u16 active; u8 p1E[0x18]; u16 row; };
     struct PosA74491 { u32 x, y; };
-    register const u16 *position asm("r4");
+    const u16 *position;
     u8 *player;
-    register u8 *playerBase asm("r3");
+    u8 *playerBase;
     register u32 playerOffset asm("r2");
-    register u8 *field asm("r1");
+    u8 *field;
     s32 *coordinates;
     extern struct StateA74491 *stateA74491 asm("gUnk_03005CF4");
     extern u8 playersA74491[] asm("gUnk_03003CE0");
@@ -1735,14 +1735,14 @@ s32 sub_0808A830(u8 *table)
 {
     struct StateA83091 { u8 p0[2]; u16 destination; u8 p4[0xC]; u16 step; u8 p12[0xA]; u16 active; u8 p1E[0x18]; u16 row; u8 p38[0x6E4]; u32 script; };
     struct PosA83091 { u32 x, y; };
-    register const u16 *position asm("r4");
+    const u16 *position;
     u8 *player;
-    register u8 *playerBase asm("r3");
+    u8 *playerBase;
     register u32 playerOffset asm("r2");
-    register u8 *field asm("r1");
-    register u8 *checkBase asm("r1");
-    register u32 checkStride asm("r2");
-    register u32 checkOffset asm("r0");
+    u8 *field;
+    u8 *checkBase;
+    u32 checkStride;
+    u32 checkOffset;
     s32 *coordinates;
     extern struct StateA83091 *stateA83091 asm("gUnk_03005CF4");
     extern u8 playersA83091[] asm("gUnk_03003CE0");
@@ -1810,11 +1810,11 @@ s32 sub_0808A984(u8 *table)
 {
     struct StateA98491 { u8 p0[0x10]; u16 step; u8 p12[0xA]; u16 active; u8 p1E[0x18]; u16 row; };
     struct PosA98491 { u32 x, y; };
-    register const u16 *position asm("r4");
+    const u16 *position;
     u8 *player;
-    register u8 *playerBase asm("r3");
+    u8 *playerBase;
     register u32 playerOffset asm("r2");
-    register u8 *field asm("r1");
+    u8 *field;
     s32 *coordinates;
     extern struct StateA98491 *stateA98491 asm("gUnk_03005CF4");
     extern u8 playersA98491[] asm("gUnk_03003CE0");
@@ -1863,7 +1863,7 @@ s32 sub_0808AA70(u8 *table)
     struct StateAA7091 { u8 p0[2]; u16 destination; u8 p4[0xC]; u16 step; u8 p12[0xA]; u16 active; u8 p1E[0x18]; u16 row; u8 p38[0x6E4]; u32 script; };
     struct PosAA7091 { u32 x, y; };
     struct ExitAA7091 { u16 x, y, destination, unused; };
-    register const u16 *position asm("r5");
+    const u16 *position;
     u8 *player;
     s32 *coordinates;
     register const struct ExitAA7091 *exit asm("r5");
@@ -1883,13 +1883,13 @@ s32 sub_0808AA70(u8 *table)
         while (sub_0801AAE0() == 0)
             sub_080003F0();
         myId = sub_080020F4();
-        {register u32 delta asm("r0")=stateAA7091->row*0x24;delta+=4;asm("" : "+r"(delta));position=(u16 *)(table+delta);}
+        {register u32 delta asm("r0")=stateAA7091->row*0x24;delta+=4;position=(u16 *)(table+delta);}
         sub_0800CCDC();
-        {register u8 *base asm("r3"); register u8 *px asm("r1");
-        offset=sub_080020F4();base=playersAA7091;asm("" : "+r"(base));offset*=0x14C;px=base+0x8C;px=(u8 *)((u32)offset+(u32)px);
+        {u8 *base; register u8 *px asm("r1");
+        offset=sub_080020F4();base=playersAA7091;offset*=0x14C;px=base+0x8C;px=(u8 *)((u32)offset+(u32)px);
         *(u32 *)px=(u32)position[0]<<8;
         px=base+0x90;px=(u8 *)((u32)offset+(u32)px);*(u32 *)px=(u32)position[1]<<8;
-        {register u8 *p asm("r2");offset+=(u32)base;p=(u8 *)offset;*(struct PosAA7091 *)(p+0x94)=*(struct PosAA7091 *)(p+0x8C);}}
+        {u8 *p;offset+=(u32)base;p=(u8 *)offset;*(struct PosAA7091 *)(p+0x94)=*(struct PosAA7091 *)(p+0x8C);}}
         sub_08009930(0, 0x11);
         while (sub_0800BA6C() == 0)
             sub_080003F0();
@@ -1904,7 +1904,7 @@ s32 sub_0808AA70(u8 *table)
     player = playersAA7091 + sub_080020F4() * 0x14C;
     exitIndex=1;{register struct StateAA7091 **p asm("r6")=&stateAA7091;asm("" : "=r"(zero) : "r"(p), "0"(0));}
     for (; exitIndex <= 3; exitIndex++) {
-        {register u32 row asm("r0")=stateAA7091->row*0x24;register u32 col asm("r1");row+=4;asm("" : "+r"(row));row=(u32)table+row;col=exitIndex*8;exit=(const struct ExitAA7091 *)(row+col);}
+        {register u32 row asm("r0")=stateAA7091->row*0x24;register u32 col asm("r1");row+=4;row=(u32)table+row;col=exitIndex*8;exit=(const struct ExitAA7091 *)(row+col);}
         difference = (*(s32 *)(player + 0x8C) >> 11) - exit->x;
         if (difference < 0)
             difference = -difference;
@@ -1918,8 +1918,8 @@ s32 sub_0808AA70(u8 *table)
             if (exitIndex == 1)
                 stateAA7091->row = exitIndex;
             else {
-                register struct StateAA7091 *p asm("r0")=stateAA7091;
-                register u32 z asm("r1")=zero;
+                struct StateAA7091 *p=stateAA7091;
+                u32 z=zero;
                 p->row=z;
             }
             {register struct StateAA7091 *p asm("r1")=stateAA7091;
@@ -1956,13 +1956,13 @@ s32 sub_0808AC08(u8 *input)
         while (sub_0801AAE0() == 0)
             sub_080003F0();
         myId = sub_080020F4();
-        {register u32 delta asm("r0")=stateAC0891->row*0x24;delta+=4;asm("" : "+r"(delta));position=(u16 *)(table+delta);}
+        {register u32 delta asm("r0")=stateAC0891->row*0x24;delta+=4;position=(u16 *)(table+delta);}
         sub_0800CCDC();
-        {register u8 *base asm("r3"); register u8 *px asm("r1");
-        offset=sub_080020F4();base=playersAC0891;asm("" : "+r"(base));offset*=0x14C;px=base+0x8C;px=(u8 *)((u32)offset+(u32)px);
+        {u8 *base; register u8 *px asm("r1");
+        offset=sub_080020F4();base=playersAC0891;offset*=0x14C;px=base+0x8C;px=(u8 *)((u32)offset+(u32)px);
         *(u32 *)px=(u32)position[0]<<8;
         px=base+0x90;px=(u8 *)((u32)offset+(u32)px);*(u32 *)px=(u32)position[1]<<8;
-        {register u8 *p asm("r2");offset+=(u32)base;p=(u8 *)offset;*(struct PosAC0891 *)(p+0x94)=*(struct PosAC0891 *)(p+0x8C);}}
+        {u8 *p;offset+=(u32)base;p=(u8 *)offset;*(struct PosAC0891 *)(p+0x94)=*(struct PosAC0891 *)(p+0x8C);}}
         sub_08009930(0, 0x12);
         while (sub_0800BA6C() == 0)
             sub_080003F0();
@@ -1977,7 +1977,7 @@ s32 sub_0808AC08(u8 *input)
     }
     player = playersAC0891 + sub_080020F4() * 0x14C;
     for (exitIndex = 1; exitIndex <= 3; exitIndex++) {
-        {register u32 row asm("r0")=stateAC0891->row*0x24;register u32 col asm("r1");row+=4;asm("" : "+r"(row));row=(u32)table+row;col=exitIndex*8;exit=(const struct ExitAC0891 *)(row+col);}
+        {register u32 row asm("r0")=stateAC0891->row*0x24;u32 col;row+=4;row=(u32)table+row;col=exitIndex*8;exit=(const struct ExitAC0891 *)(row+col);}
         difference = (*(s32 *)(player + 0x8C) >> 11) - exit->x;
         if (difference < 0)
             difference = -difference;
@@ -2003,13 +2003,13 @@ s32 sub_0808AD90(u8 *input)
     struct StateAD9091 { u8 p0[2]; u16 destination; u8 p4[0xC]; u16 step; u8 p12[0xA]; u16 active; u8 p1E[0x18]; u16 row; u8 p38[0x6E4]; u32 script; };
     struct PosAD9091 { u32 x, y; };
     struct ExitAD9091 { u16 x, y, destination, unused; };
-    register u8 *table asm("r6")=input;
-    register const u16 *position asm("r5");
+    u8 *table=input;
+    const u16 *position;
     u8 *player;
     s32 *coordinates;
     register const struct ExitAD9091 *exit asm("r5");
-    register u32 exitIndex asm("r2");
-    register u32 zero asm("r4");
+    u32 exitIndex;
+    u32 zero;
     s32 difference;
     extern struct StateAD9091 *stateAD9091 asm("gUnk_03005CF4");
     extern u8 playersAD9091[] asm("gUnk_03003CE0");
@@ -2026,13 +2026,13 @@ s32 sub_0808AD90(u8 *input)
         while (sub_0801AAE0() == 0)
             sub_080003F0();
         myId = sub_080020F4();
-        {register u32 delta asm("r0")=stateAD9091->row*0x24;delta+=4;asm("" : "+r"(delta));position=(u16 *)(table+delta);}
+        {register u32 delta asm("r0")=stateAD9091->row*0x24;delta+=4;position=(u16 *)(table+delta);}
         sub_0800CCDC();
-        {register u8 *base asm("r3"); register u8 *px asm("r1");
-        offset=sub_080020F4();base=playersAD9091;asm("" : "+r"(base));offset*=0x14C;px=base+0x8C;px=(u8 *)((u32)offset+(u32)px);
+        {u8 *base; register u8 *px asm("r1");
+        offset=sub_080020F4();base=playersAD9091;offset*=0x14C;px=base+0x8C;px=(u8 *)((u32)offset+(u32)px);
         *(u32 *)px=(u32)position[0]<<8;
         px=base+0x90;px=(u8 *)((u32)offset+(u32)px);*(u32 *)px=(u32)position[1]<<8;
-        {register u8 *p asm("r2");offset+=(u32)base;p=(u8 *)offset;*(struct PosAD9091 *)(p+0x94)=*(struct PosAD9091 *)(p+0x8C);}}
+        {u8 *p;offset+=(u32)base;p=(u8 *)offset;*(struct PosAD9091 *)(p+0x94)=*(struct PosAD9091 *)(p+0x8C);}}
         sub_08009930(0, 0x13);
         while (sub_0800BA6C() == 0)
             sub_080003F0();
@@ -2048,7 +2048,7 @@ s32 sub_0808AD90(u8 *input)
     player = playersAD9091 + sub_080020F4() * 0x14C;
     exitIndex=1;zero=0;
     do {
-        {register u32 row asm("r0")=stateAD9091->row*0x24;register u32 col asm("r1");row+=4;asm("" : "+r"(row));row=(u32)table+row;col=exitIndex*8;exit=(const struct ExitAD9091 *)(row+col);}
+        {register u32 row asm("r0")=stateAD9091->row*0x24;register u32 col asm("r1");row+=4;row=(u32)table+row;col=exitIndex*8;exit=(const struct ExitAD9091 *)(row+col);}
         difference = (*(s32 *)(player + 0x8C) >> 11) - exit->x;
         if (difference < 0)
             difference = -difference;
@@ -2060,7 +2060,7 @@ s32 sub_0808AD90(u8 *input)
                 sub_080003F0();
             sub_08056EA4();
             sub_0800BB40();
-            {register struct StateAD9091 *p asm("r1")=stateAD9091;p->row=2;
+            {struct StateAD9091 *p=stateAD9091;p->row=2;
             p->destination=exit->destination;p->script=scriptsAD9091[exit->destination];p->step=zero;p->active=zero;}
             return 1;
         }
@@ -2072,11 +2072,11 @@ s32 sub_0808AD90(u8 *input)
             sub_08057624(1);
         sub_08056FB8(0xD, 0);
         sub_08056E78();
-        {register struct StateAD9091 **st asm("r8");register struct StateAD9091 **r asm("r1")=&stateAD9091;register struct StateAD9091 *p asm("r0");
-         register u32 one asm("r4");register u8 *base asm("r6");register u32 stride asm("r5");st=r;p=*r;one=1;p->row=one;
-         {register s32 idx asm("r2")=sub_080020F4();register u8 *p asm("r0");base=playersAD9091;stride=0x14c;idx*=stride;p=base+0x30;idx+=(u32)p;*(u32 *)idx &= ~2;}
-         {register s32 idx asm("r0")=sub_080020F4();idx*=stride;idx+=(u32)base;*(u16 *)(idx+0x20)=result;}
-         {register struct StateAD9091 **r asm("r1")=st;register struct StateAD9091 *p asm("r0")=*r;*(u16 *)((u8 *)p+0x30)=one;*(u16 *)((u8 *)p+0x24)=one;}}
+        {struct StateAD9091 **st;struct StateAD9091 **r=&stateAD9091;struct StateAD9091 *p;
+         u32 one;u8 *base;u32 stride;st=r;p=*r;one=1;p->row=one;
+         {register s32 idx asm("r2")=sub_080020F4();u8 *p;base=playersAD9091;stride=0x14c;idx*=stride;p=base+0x30;idx+=(u32)p;*(u32 *)idx &= ~2;}
+         {s32 idx=sub_080020F4();idx*=stride;idx+=(u32)base;*(u16 *)(idx+0x20)=result;}
+         {struct StateAD9091 **r=st;struct StateAD9091 *p=*r;*(u16 *)((u8 *)p+0x30)=one;*(u16 *)((u8 *)p+0x24)=one;}}
         return 1;
     }
     return 0;
@@ -2084,9 +2084,9 @@ s32 sub_0808AD90(u8 *input)
 void sub_0808AFA4(const u16 *pos)
 {
     struct PositionPairAFA4 { u32 x, y; };
-    register u8 *base asm("r3");
+    u8 *base;
     register u32 offset asm("r2");
-    register u8 *field asm("r1");
+    u8 *field;
     u8 *state;
     offset = sub_080020F4();
     base = (u8 *)gUnk_03003CE0;
@@ -2448,7 +2448,7 @@ done:
     stateAF91->h36 = (i << 8) | sel | 0x8000;
     {
         register u32 selectedRow091 asm("r0") = sel + selectionStride;
-        asm("" : "+r"(selectedRow091));
+        
         stateAF91->rec = *(struct RecAF91 *)((u8 *)records + ((selectedRow091 + i) << 4));
     }
     sub_08000420(0x02688420);
@@ -2467,7 +2467,7 @@ void sub_0808B978(void) {
     volatile u32 sp38;
     volatile u32 sp3C;
     register s16 *var_r1_2 asm("r1");
-    register s16 *var_r9 asm("r9");
+    s16 *var_r9;
     s32 temp_r0;
     s32 temp_r0_2;
     s32 temp_r0_3;
@@ -2475,11 +2475,11 @@ void sub_0808B978(void) {
     s32 temp_r0_5;
     s32 temp_r0_6;
     s32 temp_r0_7;
-    register s32 temp_r1 asm("r1");
+    s32 temp_r1;
     s32 var_r1;
     register s32 var_r8 asm("r8");
     u16 temp_r1_2;
-    register s32 var_r6 asm("r6");
+    s32 var_r6;
     u32 temp_r2;
     u32 temp_r4;
     u32 temp_r4_2;
@@ -2488,12 +2488,12 @@ void sub_0808B978(void) {
     register u32 var_r1_3 asm("r1");
     register u32 temp_r5 asm("r5");
     register u32 temp_r5_2 asm("r5");
-    register u32 temp_r5_3 asm("r5");
-    register u32 temp_r5_4 asm("r5");
+    u32 temp_r5_3;
+    u32 temp_r5_4;
     u32 var_r7;
-    register u32 entry_r7 asm("r7");
+    u32 entry_r7;
     register u32 saved_reg_r8 asm("r8");
-    register s32 divisor asm("r10");
+    s32 divisor;
 
     asm("" : "=r"(var_r9), "=r"(entry_r7), "=r"(saved_reg_r8));
 
@@ -2525,12 +2525,12 @@ block_6:
     (*(u16 *)(gStateB978 + 0x5A)) = 0U;
     sub_080003F4(0x09999000);
     {
-        register u16 *times asm("r1") = gTimeB978;
-        asm("" : "+r"(times));
+        u16 *times = gTimeB978;
+        
         temp_r2 = 0xFF & (*(u16 *)(gStateB978 + 0x36));
         var_r6 = times[temp_r2];
     }
-    asm("" : "+r"(var_r6));
+    
     sp38 = 0;
     switch (temp_r2) {                              /* switch 2 */
     case 0:                                         /* switch 2 */
@@ -2545,8 +2545,8 @@ block_6:
         break;
     case 2:                                         /* switch 2 */
         {
-            register s16 *selected asm("r0") = &gUnk_084AAC80;
-            asm("" : "+r"(selected));
+            s16 *selected = &gUnk_084AAC80;
+            
             var_r9 = selected;
         }
         break;
@@ -2587,7 +2587,7 @@ block_6:
     case 9:                                         /* switch 2 */
         var_r1_2 = &gUnk_084AB5B0;
 block_20:
-        asm("" : "+r"(var_r1_2));
+        
         var_r9 = var_r1_2;
         break;
     }
@@ -2615,7 +2615,7 @@ loop_42:
             if (sub_08058900(temp_r4) != var_r6) goto category_zero_29;
             best = sub_08058934(temp_r4);
             var_r7 = 0;
-            asm("" : "+r"(var_r7));
+            
             if (best <= (u32)saved_reg_r8) goto category_done_29;
 category_two_29:
             var_r7 = 2;
@@ -2633,18 +2633,18 @@ category_done_29: ;
                 }
                 {
                 register s32 numerator asm("r0") = var_r6;
-                register s32 denominator asm("r1") = 3600;
-                register s32 quotient asm("r2");
+                s32 denominator = 3600;
+                s32 quotient;
                 asm("" : "+r"(numerator), "+r"(denominator));
                 quotient = numerator / denominator;
-                asm("" : "+r"(quotient));
+                
                 temp_r5 = (u8)var_r7;
                 sub_0805FB7C(1, 4, quotient, temp_r5);
                 }
                 {
                 register s32 numerator asm("r0") = var_r6;
-                register s32 denominator asm("r1") = 3600;
-                asm("" : "+r"(numerator), "+r"(denominator));
+                s32 denominator = 3600;
+                
                 temp_r0_2 = numerator % denominator;
                 }
                 sub_0805FB7C(4, 4, temp_r0_2 / 60, temp_r5);
@@ -2655,9 +2655,9 @@ category_done_29: ;
             var_r6 -= 1;
             {
                 register u32 elapsed asm("r2") = sp38;
-                asm("" : "+r"(elapsed));
+                
                 elapsed += 1;
-                asm("" : "+r"(elapsed));
+                
                 sp38 = elapsed;
             }
         }
@@ -2681,7 +2681,7 @@ block_44:
             asm("" : "+r"(initial));
             divisor = initial;
         }
-        asm("" : "+r"(divisor));
+        
         goto second_body;
 loop_48:
         if (gUnk_03003CE0[sub_080020F4()].state == 0xB) goto finish;
@@ -2714,7 +2714,7 @@ category_done_53: ;
                     sub_08065230(&sp4, 0, 0x28, 0x17U, temp_r0_3);
                 }
                 {
-                register s32 quotient asm("r2") = var_r6 / divisor;
+                s32 quotient = var_r6 / divisor;
                 temp_r5_2 = (u8)var_r7;
                 sub_0805FB7C(1, 4, quotient, temp_r5_2);
                 }
@@ -2728,7 +2728,7 @@ category_done_53: ;
             {
                 register u32 elapsed asm("r1") = sp38;
                 elapsed += 1;
-                asm("" : "+r"(elapsed));
+                
                 sp38 = elapsed;
             }
         }
@@ -2741,37 +2741,37 @@ block_64:
                 sub_08057624(3U);
                 {
                     register u32 step asm("r2") = 0x38;
-                    asm("" : "+r"(step));
+                    
                     var_r9 = (s16 *)((u8 *)var_r9 + step);
                 }
                 {
                     register s16 *script asm("r1") = var_r9;
-                    asm("" : "+r"(script));
+                    
                     if (*script != 0) goto loop_23;
                 }
 block_67:
                 if ((s32) var_r6 > 0) {
                     sub_0805A4BC(&gUnk_0850CAA8);
                     {
-                    register s32 cutoff asm("r4") = 3600;
-                    register s32 hundred asm("r5");
+                    s32 cutoff = 3600;
+                    s32 hundred;
                     s32 remainder;
-                    asm("" : "+r"(cutoff));
+                    
                     remainder = (var_r6 % cutoff) % 60;
                     hundred = 100;
-                    asm("" : "+r"(hundred));
+                    
                     var_r8 = (hundred * remainder) / 60;
-                    asm("" : "+r"(var_r8));
+                    
                     if (var_r6 == 1) {
                         register s32 three asm("r4") = 3;
-                        asm("" : "+r"(three));
+                        
                         {
                             u32 random = sub_080008C8() % (u32)(three - var_r8);
                             temp_r1 = var_r8;
                             asm("" : "+r"(temp_r1));
                             temp_r1 -= random;
                         }
-                        asm("" : "+r"(temp_r1));
+                        
                         var_r8 = temp_r1;
                         var_r1_3 = hundred - temp_r1;
                     } else {
@@ -2786,18 +2786,18 @@ block_67:
                             var_r8 = var_r8 + (sub_080008C8() % temp_r4_3);
                         } else {
                             register s32 full asm("r0") = 100;
-                            asm("" : "+r"(full));
+                            
                             var_r8 = full;
                         }
                         {
-                            register s32 full asm("r0") = 100;
-                            register s32 current asm("r1") = var_r8;
+                            s32 full = 100;
+                            s32 current = var_r8;
                             asm("" : "+r"(full), "+r"(current));
                             var_r1_3 = full - current;
                         }
                     }
                     }
-                    asm("" : "+r"(var_r1_3));
+                    
                     sp3C = var_r1_3;
                     (*(u16 *)(gStateB978 + 0x58)) = 1;
                 } else {
@@ -2811,14 +2811,14 @@ block_75:
             (*(u16 *)(gStateB978 + 0x58)) = 2;
             sub_080169C8();
 block_76:
-            asm("" : "+r"(var_r8), "+r"(var_r6));
+            
             hours83 = var_r6 / 3600;
-            asm("" : "+r"(var_r7));
+            
             {
-                register u32 shifted asm("r0") = var_r7 << 24;
-                asm("" : "+r"(shifted));
+                u32 shifted = var_r7 << 24;
+                
                 temp_r5_3 = shifted >> 24;
-                asm("" : "+r"(temp_r5_3));
+                
             }
             minutes83 = (var_r6 % 3600) / 60;
 goto test_83;
@@ -2839,11 +2839,11 @@ loop_83:
                 sub_08057624(1U);
                 test_83:
 {
-    register u32 offset asm("r0") = sub_080020F4() * 0x14C;
+    u32 offset = sub_080020F4() * 0x14C;
     register s32 *base asm("r2");
-    asm("" : "+r"(offset));
+    
     base = B978PlayerTime;
-    asm("" : "+r"(base));
+    
     offset += (u32)base;
     if (*(s32 *)offset > 0x1C1FF) goto loop_83;
 }
@@ -2853,10 +2853,10 @@ loop_83:
             hours91 = var_r6 / 3600;
             asm("" : "+r"(var_r7));
             {
-                register u32 shifted asm("r0") = var_r7 << 24;
-                asm("" : "+r"(shifted));
+                u32 shifted = var_r7 << 24;
+                
                 temp_r5_4 = shifted >> 24;
-                asm("" : "+r"(temp_r5_4));
+                
             }
             minutes91 = (var_r6 % 3600) / 60;
 goto test_91;
@@ -2886,7 +2886,7 @@ if (sub_08056E90() == 0) goto loop_91;
                 if (previous > elapsed) {
                     B978SetTime(temp_r4_4, elapsed);
                     {
-                        register u32 index asm("r0") = temp_r4_4;
+                        u32 index = temp_r4_4;
                         asm("" : "+r"(index));
                         sub_080589A0(index, sp3C);
                     }
@@ -2895,15 +2895,15 @@ if (sub_08056E90() == 0) goto loop_91;
                     register u32 elapsed asm("r2");
                     old = sub_08058900(temp_r4_4);
                     elapsed = sp38;
-                    asm("" : "+r"(elapsed));
+                    
                     if ((old == elapsed) && (sub_08058934(temp_r4_4) > sp3C)) {
                     {
-                        register u32 index asm("r0") = temp_r4_4;
+                        u32 index = temp_r4_4;
                         asm("" : "+r"(index));
                         B978SetTime(index, sp38);
                     }
                     {
-                        register u32 index asm("r0") = temp_r4_4;
+                        u32 index = temp_r4_4;
                         asm("" : "+r"(index));
                         sub_080589A0(index, sp3C);
                     }
@@ -2915,11 +2915,11 @@ if (sub_08056E90() == 0) goto loop_91;
                         register u32 flags asm("r1") = *(u16 *)(gStateB978 + 0x36);
                         register u32 masked asm("r0");
                         register u32 upper asm("r4");
-                        asm("" : "+r"(flags));
+                        
                         masked = 0x7FFF & flags;
-                        asm("" : "+r"(masked));
+                        
                         upper = masked >> 8;
-                        asm("" : "+r"(upper));
+                        
                         sub_080588C0(0xFF & flags, upper);
                     }
                 }
@@ -3025,11 +3025,11 @@ void sub_0808C0C4_v(void) {
     u32 sp164;
     u32 sp168;
     u32 loopCounterC0;
-    register u32 bgMaskC0 asm("r1");
-    register u16 *bgHalfC0 asm("r5");
-    register u32 bgValueC0 asm("r0");
-    register u32 portraitLookupC0 asm("r1");
-    register u32 portraitRowC0 asm("r0");
+    u32 bgMaskC0;
+    u16 *bgHalfC0;
+    u32 bgValueC0;
+    u32 portraitLookupC0;
+    u32 portraitRowC0;
     u32 countTripletC0;
     u8 *portraitBaseC0;
     u8 *portraitTableC0;
@@ -3057,7 +3057,7 @@ void sub_0808C0C4_v(void) {
     u16 temp_r2_2;
     /* Keep raw bits for halfword arithmetic and derive both comparison views. */
     u32 downShiftedC0;
-    register s32 downResultC0 asm("r0");
+    s32 downResultC0;
     u16 temp_r3;
     u16 temp_r4_9;
     u32 temp_r1_2;
@@ -3066,7 +3066,7 @@ void sub_0808C0C4_v(void) {
     u32 temp_r4_3;
     u32 var_r5_2;
     register u8 *temp_r4_10 asm("r4");
-    register u8 *temp_r4_15 asm("r4");
+    u8 *temp_r4_15;
     struct C0Item **temp_r0_2;
     struct C0Item *temp_r1;
     struct C0Item *temp_r1_7;
@@ -3467,7 +3467,7 @@ void sub_0808CB58(void) {
     register u32 var_r4 asm("r4");
     u32 var_r5_3;
     u32 var_r6_3;
-    register u32 var_sl asm("r10");
+    u32 var_sl;
     u8 *var_r5;
     u8 *var_r5_2;
     u8 temp_r0;
@@ -3504,7 +3504,7 @@ void sub_0808CB58(void) {
     var_r5 = players + 0x68;
     while ((var_r4 < sub_08002164()) && (sub_080020F4() != var_r4)) {
         {
-            register u32 off asm("r0") = stride * sub_080020F4();
+            u32 off = stride * sub_080020F4();
             asm("" : "+r"(off));
             if (*((u8 *)(off + (u32)players) + 0x68) == *var_r5) {
                 var_r6 += 1;
@@ -3518,48 +3518,48 @@ void sub_0808CB58(void) {
         table = gUnk_084F0C8A;
         {
             register s32 idx asm("r1") = *((players2 + 0x14C * sub_080020F4()) + 0x68);
-            asm("" : "+r"(idx));
+            
             tableIndex = idx - 3;
         }
         tableOffset = (s32)((((u32)tableIndex << 1) + (u32)tableIndex) << 1);
         {
-            register u32 addr asm("r0") = tableOffset;
-            asm("" : "+r"(addr));
+            u32 addr = tableOffset;
+            
             addr += (u32)table;
-            asm("" : "+r"(addr));
+            
             temp_r5 = *(u16 *)addr;
         }
         {
-            register s32 idx asm("r0") = *((players2 + 0x14C * sub_080020F4()) + 0x68);
-            asm("" : "+r"(idx));
+            s32 idx = *((players2 + 0x14C * sub_080020F4()) + 0x68);
+            
             idx -= 3;
-            asm("" : "+r"(idx));
+            
             tableOffset = (s32)((((u32)idx << 1) + (u32)idx) << 1);
         }
         {
-            register u32 addr asm("r1") = tableOffset;
-            register u8 *base asm("r0");
+            u32 addr = tableOffset;
+            u8 *base;
             asm("" : "+r"(addr));
             base = table + 2;
             asm("" : "+r"(base), "+r"(addr));
             addr += (u32)base;
-            asm("" : "+r"(addr));
+            
             tableY = (var_r6 * 10) + *(u16 *)addr;
         }
         sub_08028AAC(0, temp_r5, tableY, 0);
         {
             register s32 idx asm("r1") = *((players2 + 0x14C * sub_080020F4()) + 0x68);
-            asm("" : "+r"(idx));
+            
             tableIndex = idx - 3;
         }
         tableOffset = (s32)((((u32)tableIndex << 1) + (u32)tableIndex) << 1);
         {
-            register u32 addr asm("r0") = tableOffset;
+            u32 addr = tableOffset;
             asm("" : "+r"(addr));
             table += 4;
-            asm("" : "+r"(table));
+            
             addr += (u32)table;
-            asm("" : "+r"(addr));
+            
             sub_080290E4(0, *(s16 *)addr);
         }
     } else {
@@ -3568,10 +3568,10 @@ void sub_0808CB58(void) {
         sub_080290E4(0, *(s16 *)(table + 0x1C));
     }
     var_r4 = 0;
-    asm("" : "+r"(var_r4));
+    
     {
-        register u8 *base asm("r0") = (u8 *)gUnk_03003CE0;
-        asm("" : "+r"(base));
+        u8 *base = (u8 *)gUnk_03003CE0;
+        
         var_r6_2 = sp5C;
         var_r5_2 = base + 0x68;
     }
@@ -3588,24 +3588,24 @@ void sub_0808CB58(void) {
     var_r5_3 = 0;
 loop_27:
     {
-        register u32 index asm("r0") = sub_080020F4();
+        u32 index = sub_080020F4();
         register s32 *base asm("r1");
         register u32 address asm("r0");
-        asm("" : "+r"(index));
+        
         index <<= 2;
-        asm("" : "+r"(index));
+        
         base = sp5C;
-        asm("" : "+r"(base));
+        
         address = (u32)base + index;
-        asm("" : "+r"(address));
+        
         if (*(s32 *)address == 0) sub_08015C14();
     }
     {
-        register u32 zero asm("r1");
-        register u8 *state asm("r0") = *(u8 **)&gUnk_03005CF4 + 0x5A;
-        asm("" : "+r"(state));
+        u32 zero;
+        u8 *state = *(u8 **)&gUnk_03005CF4 + 0x5A;
+        
         zero = 0;
-        asm("" : "+r"(zero));
+        
         *(u16 *)state = zero;
         var_r4 = 0;
         var_r0 = countBase;
@@ -3618,40 +3618,40 @@ loop_27:
     var_r4 = 0;
     while (var_r4 < sub_08002164()) {
         {
-            register u8 *base asm("r3") = (u8 *)gUnk_03003CE0;
-            register u32 offset asm("r2");
+            u8 *base = (u8 *)gUnk_03003CE0;
+            u32 offset;
             register u8 *ptr asm("r0");
-            asm("" : "+r"(base));
+            
             offset = 0x14C * var_r4;
-            asm("" : "+r"(offset));
+            
             ptr = base + 0x148;
-            asm("" : "+r"(ptr));
+            
             ptr = (u8 *)(offset + (u32)ptr);
-            asm("" : "+r"(ptr), "+r"(base), "+r"(offset));
+            
             if (((u32) (**(u8 **)ptr << 0x1C) >> 0x1C) != 0xB) {
                 ptr = base + 0x30;
-                asm("" : "+r"(ptr));
+                
                 ptr = (u8 *)(offset + (u32)ptr);
-                asm("" : "+r"(ptr), "+r"(base), "+r"(offset));
+                
                 if (!(*(u32 *)ptr & 0x2000)) {
                     {
                         register u32 address asm("r0") = offset + (u32)base;
                         register u8 *team asm("r1");
                         asm("" : "+r"(address));
                         team = (u8 *)address;
-                        asm("" : "+r"(team));
+                        
                         team += 0x68;
                         temp_r0 = *team;
                     }
                     if (temp_r0 != 0) {
-                        register s32 index asm("r0") = temp_r0 - 3;
-                        register s32 *counter asm("r0");
+                        s32 index = temp_r0 - 3;
+                        s32 *counter;
                         register s32 value asm("r1");
-                        asm("" : "+r"(index));
+                        
                         counter = &countBase[index];
-                        asm("" : "+r"(counter));
+                        
                         value = *counter;
-                        asm("" : "+r"(value));
+                        
                         *counter = value + 1;
                     }
                 }
@@ -3660,12 +3660,12 @@ loop_27:
         var_r4 += 1;
     }
     {
-        register u8 **state asm("r3");
+        u8 **state;
         var_r2 = 0;
         var_r4 = 0;
-        asm("" : "+r"(var_r2), "+r"(var_r4));
+        
         state = (u8 **)&gUnk_03005CF4;
-        asm("" : "+r"(state));
+        
         var_r1 = countBase;
         do {
             if (*var_r1 != 0) {
@@ -3709,21 +3709,21 @@ next_player:
 check_player:
             if (var_r4 >= sub_08002164()) goto found_player;
             {
-                register u8 *base asm("r3") = (u8 *)gUnk_03003CE0;
-                register u32 offset asm("r2");
+                u8 *base = (u8 *)gUnk_03003CE0;
+                u32 offset;
                 register u8 *ptr asm("r0");
-                asm("" : "+r"(base));
+                
                 offset = 0x14C * var_r4;
-                asm("" : "+r"(offset));
+                
                 ptr = base;
-                asm("" : "+r"(ptr));
+                
                 ptr += 0x30;
-                asm("" : "+r"(ptr));
+                
                 ptr = (u8 *)(offset + (u32)ptr);
-                asm("" : "+r"(ptr), "+r"(base), "+r"(offset));
+                
                 if (*(u32 *)ptr & 0x2000) goto next_player;
                 ptr = (u8 *)(offset + (u32)base);
-                asm("" : "+r"(ptr));
+                
                 ptr += 0x68;
                 if (*ptr == 0) goto next_player;
             }
@@ -3744,11 +3744,11 @@ found_player:
             }
         }
         {
-            register u32 index asm("r0") = sub_080020F4();
-            register u8 *base asm("r2");
-            asm("" : "+r"(index));
+            u32 index = sub_080020F4();
+            u8 *base;
+            
             base = (u8 *)gUnk_03003CE0;
-            asm("" : "+r"(base));
+            
             *(base + index * 0x14C + 0x68) = 0;
         }
         sub_0806617C();
@@ -3757,65 +3757,65 @@ found_player:
     sub_080257D4(&gUnk_084F0C28, 0);
     sub_08056E24();
     {
-        register u32 index asm("r0") = sub_080020F4();
+        u32 index = sub_080020F4();
         register s32 *base asm("r2");
         register u32 address asm("r0");
-        asm("" : "+r"(index));
+        
         index <<= 2;
-        asm("" : "+r"(index));
+        
         base = sp5C;
-        asm("" : "+r"(base));
+        
         address = (u32)base + index;
-        asm("" : "+r"(address));
+        
         var_r0_2 = *(s32 *)address;
     }
     if (var_r0_2 == 0) {
         {
-            register u32 index asm("r0") = sub_080020F4();
-            register u8 *base asm("r1");
+            u32 index = sub_080020F4();
+            u8 *base;
             register u32 offset asm("r2");
-            register s32 *target asm("r2");
-            asm("" : "+r"(index));
+            s32 *target;
+            
             base = (u8 *)gUnk_03003CE0;
-            asm("" : "+r"(base));
+            
             offset = index * 0x14C;
-            asm("" : "+r"(offset));
+            
             base += 0x30;
-            asm("" : "+r"(base));
+            
             target = (s32 *)(offset + (u32)base);
-            asm("" : "+r"(target));
+            
             *target |= 0x400;
         }
         sub_08067D74();
     }
     while (sub_08056E90() == 0) sub_08057624(1U);
     {
-        register u32 index asm("r0") = sub_080020F4();
+        u32 index = sub_080020F4();
         register s32 *base asm("r1");
         register u32 address asm("r0");
-        asm("" : "+r"(index));
+        
         index <<= 2;
-        asm("" : "+r"(index));
+        
         base = sp5C;
-        asm("" : "+r"(base));
+        
         address = (u32)base + index;
-        asm("" : "+r"(address));
+        
         var_r0_2 = *(s32 *)address;
     }
     if ((var_r0_2 - 3) == (*(u16 *)(*(u8 **)&gUnk_03005CF4 + 0x5A))) {
         (*(u16 *)(*(u8 **)&gUnk_03005CF4 + 0x58)) = 0;
     } else {
         {
-            register u32 index asm("r0") = sub_080020F4();
-            register s32 *base asm("r2");
-            register u32 address asm("r0");
-            asm("" : "+r"(index));
+            u32 index = sub_080020F4();
+            s32 *base;
+            u32 address;
+            
             index <<= 2;
-            asm("" : "+r"(index));
+            
             base = sp5C;
-            asm("" : "+r"(base));
+            
             address = (u32)base + index;
-            asm("" : "+r"(address));
+            
             var_r1_2 = *(s32 *)address;
         }
         if (var_r1_2 == 0) {
@@ -3865,9 +3865,9 @@ void sub_0808D118(void) {
 u32 sub_0808D11C(u32 arg)
 {
     u8 *base;
-    register u8 *dest asm("r3");
-    register u32 *table asm("r2");
-    register u32 one asm("r0");
+    u8 *dest;
+    u32 *table;
+    u32 one;
     if (*(u16 *)(*(u8 **)&gUnk_03005CF4 + 0x10) == 0) {
         sub_0802704C(arg);
         goto fail;
@@ -3894,9 +3894,9 @@ fail:
 u32 sub_0808D190(u32 arg)
 {
     u8 *base;
-    register u8 *dest asm("r3");
-    register u32 *table asm("r2");
-    register u32 one asm("r0");
+    u8 *dest;
+    u32 *table;
+    u32 one;
     if (*(u16 *)(*(u8 **)&gUnk_03005CF4 + 0x10) == 0) {
         sub_0802704C(arg);
         goto fail;
@@ -3923,9 +3923,9 @@ fail:
 u32 sub_0808D204(u32 arg)
 {
     u8 *base;
-    register u8 *dest asm("r3");
-    register u32 *table asm("r2");
-    register u32 one asm("r0");
+    u8 *dest;
+    u32 *table;
+    u32 one;
     if (*(u16 *)(*(u8 **)&gUnk_03005CF4 + 0x10) == 0) {
         sub_0802704C(arg);
         goto fail;
@@ -3954,7 +3954,7 @@ s32 sub_0808D278(s32 arg)
 {
     u32 zero;
     u8 *base;
-    register u32 one asm("r0");
+    u32 one;
     if (*(u16 *)(*(u8 **)&gUnk_03005CF4 + 0x10)) {
         if (sub_08056E90()) {
             sub_08056FB8(0, 2);
@@ -3985,9 +3985,9 @@ fail:
 u32 sub_0808D31C(u32 arg)
 {
     u8 *base;
-    register u8 *dest asm("r3");
-    register u32 *table asm("r2");
-    register u32 one asm("r0");
+    u8 *dest;
+    u32 *table;
+    u32 one;
     if (*(u16 *)(*(u8 **)&gUnk_03005CF4 + 0x10) == 0) {
         sub_0802704C(arg);
         goto fail;
@@ -4014,9 +4014,9 @@ fail:
 u32 sub_0808D390(u32 arg)
 {
     u8 *base;
-    register u8 *dest asm("r3");
-    register u32 *table asm("r2");
-    register u32 one asm("r0");
+    u8 *dest;
+    u32 *table;
+    u32 one;
     if (*(u16 *)(*(u8 **)&gUnk_03005CF4 + 0x10) == 0) {
         sub_0802704C(arg);
         goto fail;
@@ -4045,7 +4045,7 @@ s32 sub_0808D404(s32 arg)
 {
     u32 zero;
     u8 *base;
-    register u32 one asm("r0");
+    u32 one;
     if (*(u16 *)(*(u8 **)&gUnk_03005CF4 + 0x10)) {
         if (sub_08056E90()) {
             sub_08056FB8(0, 2);
