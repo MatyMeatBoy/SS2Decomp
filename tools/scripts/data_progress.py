@@ -24,7 +24,7 @@ import data_inventory
 ROOT = Path(__file__).resolve().parents[2]
 TARGETS = "tools/config/data_targets.txt"
 REFERENCE = "baserom.gba"
-GREEN, MINT, GREY, BG, PANEL, FG, DIM = "#3fb950", "#aff5b4", "#6e7681", "#0d1117", "#161b22", "#e6edf3", "#8b949e"
+GREEN, MINT, YELLOW, GREY, BG, PANEL, FG, DIM = "#3fb950", "#aff5b4", "#d29922", "#6e7681", "#0d1117", "#161b22", "#e6edf3", "#8b949e"
 # Label prefixes whose format is known and checked by the tool that emitted them
 # (data_split.py). Raw bytes under such a label are typed, and addresses that
 # merely look like pointers inside them are not object starts.
@@ -153,31 +153,42 @@ def num(value):
 
 
 def render_svg(report):
-    width, bar = 760, 724
-    split, typed, named, total = report["split"], report["typed"], report["named"], report["bytes_total"]
-    rows = [("1 · Split into objects", split["percent"],
-             "%s / %s bytes · %s of at least %s objects" % (num(split["bytes"]), num(total), num(split["objects"]), num(split["objects_expected"])), MINT),
-            ("2 · Described (format written in source, not copied from the ROM)", typed["percent"],
-             "%s / %s bytes" % (num(typed["bytes"]), num(total)), GREEN)]
-    parts = ['<svg xmlns="http://www.w3.org/2000/svg" width="%d" height="262" viewBox="0 0 %d 262" role="img" aria-labelledby="dtitle ddesc">' % (width, width),
-             '<title id="dtitle">Data progress: split and described</title>',
-             '<desc id="ddesc">Two levels for the data area of the ROM, and a map of that area by state.</desc>',
-             '<rect width="%d" height="262" rx="10" fill="%s"/>' % (width, BG),
-             '<g font-family="DejaVu Sans,Arial,sans-serif" fill="%s">' % FG,
-             '<text x="18" y="25" font-size="14" font-weight="bold">Data · %.1f MiB of the ROM</text>' % (total / 1048576)]
-    for i, (label, percent, detail, color) in enumerate(rows):
-        y = 50 + i * 56
-        parts += ['<g><title>%s: %s (%s)</title>' % (escape(label), escape(fmt(percent)), escape(detail)),
-                  '<text x="18" y="%d" font-size="12" font-weight="bold">%s</text>' % (y, escape(label)),
-                  '<text x="%d" y="%d" text-anchor="end" font-size="12">%s</text>' % (18 + bar, y, escape(fmt(percent))),
-                  '<rect x="18" y="%d" width="%d" height="12" rx="3" fill="#30363d"/>' % (y + 7, bar),
-                  '<rect class="progress-fill" x="18" y="%d" width="%.4f" height="12" rx="2" fill="%s"/>' % (y + 7, bar * percent / 100, color),
-                  '<text x="18" y="%d" font-size="10" fill="%s">%s</text></g>' % (y + 33, DIM, escape(detail))]
-    y = 172
+    """One stacked bar: described (green), split but still raw (yellow), not split (grey); and the same
+    three states laid out by ROM position."""
+    width, bar, height = 760, 724, 232
+    total = report["bytes_total"]
+    typed = report["typed"]["bytes"]
+    split = report["split"]["bytes"] - typed
+    blob = total - typed - split
+    parts_of = [(typed, GREEN, "described in source"), (split, YELLOW, "split into objects, still raw bytes"),
+                (blob, GREY, "not split yet")]
+    out = ['<svg xmlns="http://www.w3.org/2000/svg" width="%d" height="%d" viewBox="0 0 %d %d" role="img" aria-labelledby="dtitle ddesc">' % (width, height, width, height),
+           '<title id="dtitle">Data progress</title>',
+           '<desc id="ddesc">Share of the data area that is described in source, split into objects, or not split yet.</desc>',
+           '<rect width="%d" height="%d" rx="10" fill="%s"/>' % (width, height, BG),
+           '<g font-family="DejaVu Sans,Arial,sans-serif" fill="%s">' % FG,
+           '<text x="18" y="25" font-size="14" font-weight="bold">Data Â· %.1f MiB of the ROM</text>' % (total / 1048576),
+           '<rect x="18" y="38" width="%d" height="22" rx="3" fill="#30363d"/>' % bar]
+    x = 18.0
+    for size, color, text in parts_of:
+        w = bar * size / total
+        if size:
+            out.append('<rect class="progress-fill" x="%.3f" y="38" width="%.3f" height="22" fill="%s"><title>%s: %s (%s bytes)</title></rect>' % (
+                x, w, color, text, escape(fmt(100.0 * size / total)), num(size)))
+        x += w
+    lx = 18
+    for size, color, text in parts_of:
+        label = "%s %s" % (fmt(100.0 * size / total), text)
+        out += ['<rect x="%d" y="72" width="11" height="11" fill="%s"/>' % (lx, color),
+                '<text x="%d" y="82" font-size="11">%s</text>' % (lx + 15, escape(label))]
+        lx += 36 + int(len(label) * 6.1)
+    out.append('<text x="18" y="106" font-size="10" fill="%s">%s of at least %s objects have their own label. Described is the figure other decompilations report.</text>' % (
+        DIM, num(report["split"]["objects"]), num(report["split"]["objects_expected"])))
+    y = 132
     lo = report["data_rom_offsets"][0]
-    parts.append('<text x="18" y="%d" font-size="12" font-weight="bold">Map of the data area (left = 0x%06X, right = 0x%06X)</text>' % (y, lo, report["data_rom_offsets"][1]))
-    parts.append('<rect x="18" y="%d" width="%d" height="26" fill="%s"/>' % (y + 8, bar, PANEL))
-    colors = {"typed": GREEN, "split": MINT, "blob": GREY}
+    out.append('<text x="18" y="%d" font-size="12" font-weight="bold">Where it is in the ROM (left = 0x%06X, right = 0x%06X)</text>' % (y, lo, report["data_rom_offsets"][1]))
+    out.append('<rect x="18" y="%d" width="%d" height="26" fill="%s"/>' % (y + 8, bar, PANEL))
+    colors = {"typed": GREEN, "split": YELLOW, "blob": GREY}
     merged = []
     for r in report["ranges"]:      # merge neighbours of one state so the picture stays small
         if merged and merged[-1][2] == r["state"]:
@@ -185,16 +196,11 @@ def render_svg(report):
         else:
             merged.append([r["rom_offset"], r["size"], r["state"]])
     for offset, size, state in merged:
-        parts.append('<rect class="map" x="%.3f" y="%d" width="%.3f" height="26" fill="%s"><title>0x%06X, %d bytes: %s</title></rect>' % (
+        out.append('<rect class="map" x="%.3f" y="%d" width="%.3f" height="26" fill="%s"><title>0x%06X, %d bytes: %s</title></rect>' % (
             18 + bar * (offset - lo) / total, y + 8, max(bar * size / total, 0.4), colors[state], offset, size, STATE_TEXT[state]))
-    lx = 18
-    for color, text in ((GREEN, "described in source"), (MINT, "split object, raw bytes"), (GREY, "blob still to split")):
-        parts += ['<rect x="%d" y="%d" width="11" height="11" fill="%s"/>' % (lx, y + 44, color),
-                  '<text x="%d" y="%d" font-size="11">%s</text>' % (lx + 15, y + 54, text)]
-        lx += 34 + len(text) * 6
-    parts.append('<text x="18" y="248" font-size="10" fill="%s">Described is the figure other decompilations report as data progress. Object counts are a lower bound.</text>' % DIM)
-    parts += ['</g></svg>']
-    return "\n".join(parts) + "\n"
+    out.append('<text x="18" y="%d" font-size="10" fill="%s">Same colours as the bar. The sound data is the green stretch; the two resource archives are the long yellow ones.</text>' % (y + 54, DIM))
+    out.append('</g></svg>')
+    return "\n".join(out) + "\n"
 
 
 def render_markdown(report):

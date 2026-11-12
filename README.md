@@ -8,9 +8,9 @@ byte for byte.
 
 | | Question | Status | What is left |
 |---|---|---|---|
-| ![code](docs/progress/tab_code.svg?v=tabs2) | Does all the code build from source and match? | **Done.** Every game function is matching C. The few routines that were hand-written assembly in the original stay as matching assembly. | Optional source cleanup: [guide](docs/agents/CLEANUP.md) |
-| ![names](docs/progress/tab_names.svg?v=tabs2) | Do we know what each function does? | **In progress.** Unnamed functions are still called `sub_XXXXXXXX`. | Name the rest: [guide](docs/agents/NAMING_PIPELINE.md) |
-| ![data](docs/progress/tab_data.svg?v=tabs2) | Are graphics, sound, text and tables separated and described, or still raw copies of the ROM? | **In progress.** Almost everything is separated into objects; sound and tables are described; graphics, maps and text contents are not yet. | Describe the formats: [guide](docs/agents/DATA_PIPELINE.md) |
+| ![code](docs/progress/tab_code.svg?v=tabs3) | Does all the code build from source and match? | **Done.** Every game function is matching C. The few routines that were hand-written assembly in the original stay as matching assembly. | Optional source cleanup: [guide](docs/agents/CLEANUP.md) |
+| ![names](docs/progress/tab_names.svg?v=tabs3) | Do we know what each function does? | **In progress.** Unnamed functions are still called `sub_XXXXXXXX`. | Name the rest: [guide](docs/agents/NAMING_PIPELINE.md) |
+| ![data](docs/progress/tab_data.svg?v=tabs3) | Are graphics, sound, text and tables separated and described, or still raw copies of the ROM? | **In progress.** Almost everything is separated into objects; sound and tables are described; graphics, maps and text contents are not yet. | Describe the formats: [guide](docs/agents/DATA_PIPELINE.md) |
 
 The ROM already rebuilds exactly, so nothing below can break the game: names
 and data descriptions only make the source readable and moddable. They are the
@@ -21,9 +21,9 @@ long part of the work and the best place to help.
 Three views. Click a tab to open it; the figure on each tab is its current progress.
 
 <details open>
-<summary><img src="docs/progress/tab_code.svg?v=tabs2" alt="Code progress"> &nbsp;<b>Code</b>: is it matching?</summary>
+<summary><img src="docs/progress/tab_code.svg?v=tabs3" alt="Code progress"> &nbsp;<b>Code</b>: is it matching?</summary>
 
-![code treemap](https://raw.githubusercontent.com/MatyMeatBoy/SS2Decomp/claude/rom-decompilation-research-obsal6/docs/progress/treemap.svg?v=tabs2)
+![code treemap](https://raw.githubusercontent.com/MatyMeatBoy/SS2Decomp/claude/rom-decompilation-research-obsal6/docs/progress/treemap.svg?v=tabs3)
 
 Each cell is one function (area = size in bytes):
 
@@ -50,9 +50,9 @@ See [metric definitions and naming workflow](docs/agents/PROGRESS_AND_NAMES.md).
 </details>
 
 <details>
-<summary><img src="docs/progress/tab_names.svg?v=tabs2" alt="Names progress"> &nbsp;<b>Names</b>: do we know what each function does?</summary>
+<summary><img src="docs/progress/tab_names.svg?v=tabs3" alt="Names progress"> &nbsp;<b>Names</b>: do we know what each function does?</summary>
 
-![names treemap](https://raw.githubusercontent.com/MatyMeatBoy/SS2Decomp/claude/rom-decompilation-research-obsal6/docs/progress/names_treemap.svg?v=tabs2)
+![names treemap](https://raw.githubusercontent.com/MatyMeatBoy/SS2Decomp/claude/rom-decompilation-research-obsal6/docs/progress/names_treemap.svg?v=tabs3)
 
 Same map as the code view (one cell per function, area = size), coloured by
 identification: green has a name confirmed with evidence or already present in
@@ -65,14 +65,15 @@ To help: [naming pipeline](docs/agents/NAMING_PIPELINE.md),
 </details>
 
 <details>
-<summary><img src="docs/progress/tab_data.svg?v=tabs2" alt="Data progress"> &nbsp;<b>Data</b>: is the 16 MB of data split and described?</summary>
+<summary><img src="docs/progress/tab_data.svg?v=tabs3" alt="Data progress"> &nbsp;<b>Data</b>: is the 16 MB of data split and described?</summary>
 
-[![data progress](docs/progress/data_progress.svg?v=tabs2)](docs/progress/data_progress.md)
+[![data progress](docs/progress/data_progress.svg?v=tabs3)](docs/progress/data_progress.md)
 
 About 16 MB of the ROM is data, not code. It always builds byte for byte; the
-question is how much of it the source *describes* instead of copying. Two
-levels are measured; the second is the figure other decompilation projects
-report as their data progress:
+question is how much of it the source *describes* instead of copying. One bar
+shows it: green is described (the figure other decompilation projects report
+as data progress), yellow is split into objects but still raw bytes, grey is
+not split yet.
 
 | Level | Meaning | Example |
 |---|---|---|
