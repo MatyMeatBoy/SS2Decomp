@@ -3497,13 +3497,7 @@ retry63_1_done:
                 ((union RecordD368 *)temp_r4_21)->w1_b0_n6.value = ((s32) ((0U - (u32) temp_r0_97) | (u32) temp_r0_97) >> 0x1F) & 0x20;
                 ((union RecordD368 *)((struct PlayerD368 *)arg0)->f144)->w1_b6_n4.value = ((struct PlayerD368 *)arg0)->f132;
                 ((union RecordD368 *)((struct PlayerD368 *)arg0)->f144)->w1_b11_n8.value = ((struct PlayerD368 *)arg0)->f26;
-                {
-                    u32 recordQueryResult126;
-                    recordQueryResult126 = d368_sub_0801DEB8();
-                    temp_r3_19 = ((struct PlayerD368 *)arg0)->f144;
-                    recordQueryResult126 *= 8;
-                    M2C_FIELD(temp_r3_19, u8 *, 6) = (u8) ((7 & M2C_FIELD(temp_r3_19, u8 *, 6)) | recordQueryResult126);
-                }
+                ((union RecordD368 *)((struct PlayerD368 *)arg0)->f144)->w1_b19_n5.value = d368_sub_0801DEB8();
                 break;
             case 4:                                 /* switch 16 */
                 ((union RecordD368 *)((struct PlayerD368 *)arg0)->f144)->w0_b0_n4.value = temp_r3_8;
@@ -3514,13 +3508,7 @@ retry63_1_done:
                 temp_r0_98 = d368_sub_0800CCCC();
                 ((union RecordD368 *)temp_r4_24)->w1_b0_n6.value = ((s32) ((0U - (u32) temp_r0_98) | (u32) temp_r0_98) >> 0x1F) & 0x20;
                 ((union RecordD368 *)((struct PlayerD368 *)arg0)->f144)->w1_b6_n4.value = ((struct PlayerD368 *)arg0)->f132;
-                {
-                    u32 recordQueryResult126;
-                    recordQueryResult126 = d368_sub_0801DEB8();
-                    temp_r3_19 = ((struct PlayerD368 *)arg0)->f144;
-                    recordQueryResult126 *= 8;
-                    M2C_FIELD(temp_r3_19, u8 *, 6) = (u8) ((7 & M2C_FIELD(temp_r3_19, u8 *, 6)) | recordQueryResult126);
-                }
+                ((union RecordD368 *)((struct PlayerD368 *)arg0)->f144)->w1_b19_n5.value = d368_sub_0801DEB8();
                 break;
             case 2:                                 /* switch 16 */
                 d368_sub_0801FDD0(arg0);
