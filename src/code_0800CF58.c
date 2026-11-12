@@ -4200,7 +4200,8 @@ selectorDone49:
                             } else {
                                 d368_sub_08065158(&sp10, 0x5011A, 0, -1, (0));
                             }
-                            goto record_nibble_result126;
+                            sp1A4 = ((union RecordD368 *)sp180)->w1_b6_n4.value;
+                            break;
                         case 2:                     /* switch 22 */
                             temp_r0_135 = ((struct PlayerD368 *)arg0)->f10;
                             switch (temp_r0_135) {
@@ -4277,7 +4278,6 @@ selectorDone49:
                             sp1A4 = ((union RecordD368 *)sp180)->w1_b6_n4.value;
                             break;
                         case 9:                     /* switch 22 */
-record_nibble_result126:
                             sp1A4 = ((union RecordD368 *)sp180)->w1_b6_n4.value;
                             break;
                         }
