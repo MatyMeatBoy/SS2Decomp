@@ -1,0 +1,878 @@
+[
+  {
+    "canonical_symbol": "sub_0805FAC0",
+    "address": "0x0805FAC0",
+    "display_name": "DrawNumberClampedTo999",
+    "summary": "Clamps a value to 999 and draws it as a hundreds digit plus a 0-99 frame (with a padding zero when needed) through oamDrawCopy004 using a style-selected number asset.",
+    "confidence": "high",
+    "evidence": [
+      {
+        "source": "src/code_0805D094.c",
+        "line": 1742,
+        "detail": "Clamps value to 999 before drawing.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_0805D094.c",
+        "line": 1744,
+        "detail": "Splits the value into value/100 and a remainder with ExtractQuotientAndStoreRemainder.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_0805D094.c",
+        "line": 1747,
+        "detail": "Draws the hundreds frame at x-12 only when it is nonzero.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_0805D094.c",
+        "line": 1749,
+        "detail": "Draws a frame-0 padding digit at x-6 when hundreds is nonzero and the remainder is below 10.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_0805D094.c",
+        "line": 1750,
+        "detail": "Always draws the remainder frame at x.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      }
+    ],
+    "open_questions": []
+  },
+  {
+    "canonical_symbol": "sub_0805B4CC",
+    "address": "0x0805B4CC",
+    "display_name": "FindFreeFieldItemCellNearby",
+    "summary": "Builds a 21x21 occupancy grid of map cells (1024-unit steps) around the in/out position, marking cells free when the map attribute low 3 bits are 0 and no active field item with key 0 is within 7 pixels, then moves the position to the first free cell of a growing square search.",
+    "confidence": "medium",
+    "evidence": [
+      {
+        "source": "src/code_0805A630.c",
+        "line": 872,
+        "detail": "Requires map attribute (DecodeMapCellAttributeAtPosition & 7) == 0 for a candidate cell.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_0805A630.c",
+        "line": 878,
+        "detail": "Scans the 16 field-item records at 03005D58 for active flag bit 0 at +0xA.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_0805A630.c",
+        "line": 884,
+        "detail": "Rejects the cell when an active record with key 0 lies within 7 pixels on both axes.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_0805A630.c",
+        "line": 893,
+        "detail": "Marks the cell free in the 21x21 scratch grid at 03000124.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_0805A630.c",
+        "line": 906,
+        "detail": "Writes the first free cell of the expanding search back to *x and *y.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      }
+    ],
+    "open_questions": [
+      "The key-0 restriction comes from id staying 0; whether that means plain dropped items is not shown here."
+    ]
+  },
+  {
+    "canonical_symbol": "sub_08057C34",
+    "address": "0x08057C34",
+    "display_name": "IsWorldMapLevelUnlocked",
+    "summary": "Returns the nonzero masked bit (1 << (level - 1)) of save word +0x78 (+0x80 in advanced mode).",
+    "confidence": "medium",
+    "evidence": [
+      {
+        "source": "src/code_080571A4.c",
+        "line": 549,
+        "detail": "Advanced mode tests bit level-1 of word +0x80.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_080571A4.c",
+        "line": 550,
+        "detail": "Normal mode tests bit level-1 of word +0x78.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_08009088.c",
+        "line": 2179,
+        "detail": "TaskSelectWorldMapDestination (src/code_08009088.c) skips destinations i whose bit is clear (hasBEC0 alias).",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      }
+    ],
+    "open_questions": []
+  },
+  {
+    "canonical_symbol": "sub_08057C6C",
+    "address": "0x08057C6C",
+    "display_name": "UnlockWorldMapLevel",
+    "summary": "ORs 1 << (level - 1) into save word +0x78 (+0x80 in advanced mode) and returns the new word.",
+    "confidence": "medium",
+    "evidence": [
+      {
+        "source": "src/code_080571A4.c",
+        "line": 557,
+        "detail": "Normal mode sets bit level-1 in word +0x78.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_080571A4.c",
+        "line": 559,
+        "detail": "Advanced mode sets bit level-1 in word +0x80.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_08009088.c",
+        "line": 2164,
+        "detail": "TaskSelectWorldMapDestination (src/code_08009088.c) sets level 0x11 after a hold counter, making it selectable by the same mask IsWorldMapLevelUnlocked tests.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      }
+    ],
+    "open_questions": []
+  },
+  {
+    "canonical_symbol": "sub_0800AEF4",
+    "address": "0x0800AEF4",
+    "display_name": "SetOrRestoreBlockedMapCells",
+    "summary": "For a w x h tile rectangle centred horizontally on pixel x and starting at pixel y, nonzero mode marks map cells blocked (low nibble 0xC, or 0xA keeping the old value in the high nibble); mode 0 restores them.",
+    "confidence": "medium",
+    "evidence": [
+      {
+        "source": "src/code_08009088.c",
+        "line": 1289,
+        "detail": "Returns when the tile x is outside the map width or negative.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_08009088.c",
+        "line": 1308,
+        "detail": "Blocking mode writes 0xA and preserves the previous attribute nibble in bits 4-7.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_08009088.c",
+        "line": 1315,
+        "detail": "Blocking mode writes 0xC for cells without that attribute.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_08009088.c",
+        "line": 1328,
+        "detail": "Restore mode clears 0xC cells.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_08009088.c",
+        "line": 1331,
+        "detail": "Restore mode puts the saved nibble back for 0xA cells.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      }
+    ],
+    "open_questions": [
+      "Callers are scene-entity movers (MoveSceneEntityToPosition); the meaning of nibble 0xC as solid is inferred."
+    ]
+  },
+  {
+    "canonical_symbol": "sub_0801B58C",
+    "address": "0x0801B58C",
+    "display_name": "ScaleItemStatBySkillLevel",
+    "summary": "Depending on the stat kind and the item record subtype byte +0x9B, reads an effective skill level and returns level + value * (level + 10) / 10 (or *(level*8+100)/100 for one case); other combinations return the value unchanged.",
+    "confidence": "medium",
+    "evidence": [
+      {
+        "source": "src/code_0801AAF8.c",
+        "line": 483,
+        "detail": "Dispatches on the stat kind argument.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_0801AAF8.c",
+        "line": 485,
+        "detail": "Subtype byte +0x9B of the item record picks which skill index is used.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_0801AAF8.c",
+        "line": 488,
+        "detail": "Returns skill level + value * (level + 10) / 10 via ReadEffectiveIndexedSkillLevel.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_0801AAF8.c",
+        "line": 532,
+        "detail": "Kind 4 with subtype 4 uses value * (level * 8 + 100) / 100 instead.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      }
+    ],
+    "open_questions": []
+  },
+  {
+    "canonical_symbol": "sub_0805C208",
+    "address": "0x0805C208",
+    "display_name": "RollRandomItemModifiers",
+    "summary": "For item slot types 2-5 resolves the item resource and, with NextRandom32, randomly decides and rolls bonus, level and element values from weighted range tables; items whose resource already lists fixed modifiers get them cleared.",
+    "confidence": "medium",
+    "evidence": [
+      {
+        "source": "src/code_0805A630.c",
+        "line": 1502,
+        "detail": "Dispatches on slot type 2/3/4/5; other types return 1.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_0805A630.c",
+        "line": 1507,
+        "detail": "Draws NextRandom32 to decide which modifiers are rolled.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_0805A630.c",
+        "line": 1609,
+        "detail": "Stores the bonus picked from the weighted range table.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_0805A630.c",
+        "line": 1626,
+        "detail": "Stores the level from table 084782F4.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_0805A630.c",
+        "line": 1649,
+        "detail": "Stores the element from one of three tables (caller flag bit 0 or advanced mode).",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_0805A630.c",
+        "line": 1672,
+        "detail": "Clears bonus, element and level when the resource has fixed modifier entries.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      }
+    ],
+    "open_questions": []
+  },
+  {
+    "canonical_symbol": "sub_0801B264",
+    "address": "0x0801B264",
+    "display_name": "ApplyItemModifierListToStats",
+    "summary": "Walks a list of (type, amount) halfword pairs and adds each amount to the matching stat or extra field, returning a bitmask of the types seen.",
+    "confidence": "medium",
+    "evidence": [
+      {
+        "source": "src/code_0801AAF8.c",
+        "line": 340,
+        "detail": "Reads the modifier type halfword.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_0801AAF8.c",
+        "line": 341,
+        "detail": "Records 1 << type in the returned flags.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_0801AAF8.c",
+        "line": 344,
+        "detail": "Type 1 adds the amount to stats[0].",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_0801AAF8.c",
+        "line": 362,
+        "detail": "Type 6 adds amount * 10 to extra +8.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_0801AAF8.c",
+        "line": 411,
+        "detail": "Type 22 sets bit 0x80 of extra +0x11.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      }
+    ],
+    "open_questions": []
+  },
+  {
+    "canonical_symbol": "sub_0805B618",
+    "address": "0x0805B618",
+    "display_name": "AcquireFieldItemRecordEvictingOldest",
+    "summary": "If all 16 field-item records are active, clears the flags of the one with the lowest age halfword; then returns the first record whose flags have both low bits clear, or null.",
+    "confidence": "high",
+    "evidence": [
+      {
+        "source": "src/code_0805A630.c",
+        "line": 933,
+        "detail": "Counts active records (flag bit 0) and tracks the lowest age.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_0805A630.c",
+        "line": 944,
+        "detail": "When more than 15 are active, clears flags of the oldest record.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_0805A630.c",
+        "line": 957,
+        "detail": "Returns the first record with flags & 3 == 0.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_0805A630.c",
+        "line": 959,
+        "detail": "Returns null when none is free.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      }
+    ],
+    "open_questions": []
+  },
+  {
+    "canonical_symbol": "sub_0805AA68",
+    "address": "0x0805AA68",
+    "display_name": "WaitThenStartSceneSong",
+    "summary": "Takes packed (frames << 16) | song, waits that many frames unless a link error appears, then (outside full-screen menus) stores the song as current and starts it unless audio flag 0x20 is set.",
+    "confidence": "high",
+    "evidence": [
+      {
+        "source": "src/code_0805A630.c",
+        "line": 244,
+        "detail": "Wait count comes from the high halfword.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_0805A630.c",
+        "line": 253,
+        "detail": "Waits one frame per count with TaskWaitForSignal1.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_0805A630.c",
+        "line": 254,
+        "detail": "Stops waiting early on LinkHasErrorFlag.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_0805A630.c",
+        "line": 257,
+        "detail": "Stores the song id in current-song 03005CF8.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_0805A630.c",
+        "line": 259,
+        "detail": "Starts it with AudioStartOrContinueSongChecked.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      }
+    ],
+    "open_questions": []
+  },
+  {
+    "canonical_symbol": "sub_0805A9F4",
+    "address": "0x0805A9F4",
+    "display_name": "PlaySongForFramesThenRestore",
+    "summary": "Takes packed (frames << 16) | song, starts the song and remembers the previous current song, waits the frames (unless a link error), then restores and restarts the previous song outside full-screen menus.",
+    "confidence": "high",
+    "evidence": [
+      {
+        "source": "src/code_0805A630.c",
+        "line": 221,
+        "detail": "Saves the previous current song 03005CF8.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_0805A630.c",
+        "line": 223,
+        "detail": "Starts the new song with AudioStartOrContinueSongChecked.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_0805A630.c",
+        "line": 232,
+        "detail": "Waits frames with TaskWaitForSignal1.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_0805A630.c",
+        "line": 236,
+        "detail": "Restores the saved song id.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_0805A630.c",
+        "line": 238,
+        "detail": "Restarts the saved song.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      }
+    ],
+    "open_questions": []
+  },
+  {
+    "canonical_symbol": "sub_0805AAB8",
+    "address": "0x0805AAB8",
+    "display_name": "PlaySongThenRestoreLevelMusic",
+    "summary": "Like PlaySongForFramesThenRestore, but after the wait it calls UpdateWorldMapMusic(current level, previous song, 1) instead of restarting the previous song directly.",
+    "confidence": "high",
+    "evidence": [
+      {
+        "source": "src/code_0805A630.c",
+        "line": 270,
+        "detail": "Saves the previous current song.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_0805A630.c",
+        "line": 272,
+        "detail": "Starts the new song.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_0805A630.c",
+        "line": 280,
+        "detail": "Waits frames unless LinkHasErrorFlag.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_0805A630.c",
+        "line": 284,
+        "detail": "Hands the previous song to UpdateWorldMapMusic for the current level.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      }
+    ],
+    "open_questions": []
+  },
+  {
+    "canonical_symbol": "sub_08057644",
+    "address": "0x08057644",
+    "display_name": "RevealScreenForTransitionMode",
+    "summary": "Outside full-screen menus, opens the screen with the method matching GetScreenTransitionMode (brightness fade-in, window reveal, or window fade-in) and waits until the transition is idle.",
+    "confidence": "high",
+    "evidence": [
+      {
+        "source": "src/code_080571A4.c",
+        "line": 288,
+        "detail": "Switches on GetScreenTransitionMode.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_080571A4.c",
+        "line": 289,
+        "detail": "Mode 0 calls FadeScreenBrightnessInAndWait.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_080571A4.c",
+        "line": 290,
+        "detail": "Mode 1 calls RequestScreenWindowReveal(6).",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_080571A4.c",
+        "line": 291,
+        "detail": "Mode 2 calls RequestWindowPreservingBrightnessFadeIn(6).",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_080571A4.c",
+        "line": 293,
+        "detail": "Waits for IsScreenTransitionIdle.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      }
+    ],
+    "open_questions": []
+  },
+  {
+    "canonical_symbol": "sub_0805DE98",
+    "address": "0x0805DE98",
+    "display_name": "CancelTextWindowAndDialogueTasks",
+    "summary": "For each of the four text-window slots and four dialogue slots whose used bit is set, cancels the slot task if scheduled and clears the used bit.",
+    "confidence": "high",
+    "evidence": [
+      {
+        "source": "src/code_0805D094.c",
+        "line": 715,
+        "detail": "Tests the used bit of window bitmap 03005D70.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_0805D094.c",
+        "line": 720,
+        "detail": "Cancels the 0x34-byte window task with CancelTaskWithDestructor.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_0805D094.c",
+        "line": 722,
+        "detail": "Clears the window used bit.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_0805D094.c",
+        "line": 732,
+        "detail": "Tests the used bit of dialogue bitmap 03005D6C.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_0805D094.c",
+        "line": 734,
+        "detail": "Cancels the 0x88-byte dialogue task.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_0805D094.c",
+        "line": 736,
+        "detail": "Clears the dialogue used bit.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      }
+    ],
+    "open_questions": []
+  },
+  {
+    "canonical_symbol": "sub_080A05B4",
+    "address": "0x080A05B4",
+    "display_name": "TaskSlamAttackWithBg2Rocking",
+    "summary": "Attack task: picks a left/right start and target column from its kind, animates the slam, damages the local player once if within 39 pixels of the impact point on frame 2, and at impact starts BG2 rocking and a sound; sets *done and releases the rocking hold when finished.",
+    "confidence": "medium",
+    "evidence": [
+      {
+        "source": "src/code_0809D878.c",
+        "line": 1776,
+        "detail": "Kind selects start x 0x2000/0xE000 and target x 0x8000/0x2000/0xE000.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_0809D878.c",
+        "line": 1801,
+        "detail": "On frame 2 tests distance <= 0x27 from the impact point to the local player.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_0809D878.c",
+        "line": 1806,
+        "detail": "Puts the hit player in state 10 and applies damage.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_0809D878.c",
+        "line": 1834,
+        "detail": "At impact calls SetBg2RockingAmplitude(20) and SetBg2EffectSineAnglePhase.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_0809D878.c",
+        "line": 1836,
+        "detail": "Sets rocking phase step 4, holds bounded recovery and plays sound 0xBE.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_0809D878.c",
+        "line": 1842,
+        "detail": "Writes 1 to the caller's done byte.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      }
+    ],
+    "open_questions": []
+  },
+  {
+    "canonical_symbol": "sub_080A0B44",
+    "address": "0x080A0B44",
+    "display_name": "TaskHomingProjectileAtSelectedPlayer",
+    "summary": "Attack task: plays a launch animation at the actor, then flies a projectile toward a player chosen by SelectPlayerInAlternatingOrder, re-aiming every 17 frames up to 17 times for at most 480 frames; contact within 15 pixels queues damage on the local player once.",
+    "confidence": "medium",
+    "evidence": [
+      {
+        "source": "src/code_0809D878.c",
+        "line": 2025,
+        "detail": "Recomputes the velocity toward the target player's position.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_0809D878.c",
+        "line": 2021,
+        "detail": "Re-aims at most 17 times.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_0809D878.c",
+        "line": 2030,
+        "detail": "Stops after 480 frames.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_0809D878.c",
+        "line": 2078,
+        "detail": "Contact requires distance <= 15 pixels.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_0809D878.c",
+        "line": 2101,
+        "detail": "Applies QueueLocalPlayerDamageAndAttemptResistanceGrowth kind 5.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      }
+    ],
+    "open_questions": []
+  },
+  {
+    "canonical_symbol": "sub_080A0FA8",
+    "address": "0x080A0FA8",
+    "display_name": "AllocateSlamAttackTaskControl",
+    "summary": "Allocates the 0x28-byte task control 03000334 used by TaskSlamAttackWithBg2Rocking and clears its word +8.",
+    "confidence": "high",
+    "evidence": [
+      {
+        "source": "src/code_0809D878.c",
+        "line": 2144,
+        "detail": "Stores HeapAllocate(0x28) in 03000334.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      }
+    ],
+    "open_questions": []
+  },
+  {
+    "canonical_symbol": "sub_080A0FC4",
+    "address": "0x080A0FC4",
+    "display_name": "FreeSlamAttackTaskControl",
+    "summary": "Cancels the slam-attack task in control 03000334 if scheduled, frees the control and clears the pointer.",
+    "confidence": "high",
+    "evidence": [
+      {
+        "source": "src/code_0809D878.c",
+        "line": 2148,
+        "detail": "Cancels the task if TaskIsScheduled.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_0809D878.c",
+        "line": 2151,
+        "detail": "Frees the control with HeapFree.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_0809D878.c",
+        "line": 2152,
+        "detail": "Clears 03000334.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      }
+    ],
+    "open_questions": []
+  },
+  {
+    "canonical_symbol": "sub_080A0FEC",
+    "address": "0x080A0FEC",
+    "display_name": "StartSlamAttackTask",
+    "summary": "Returns early when the task is not scheduled but control word +8 is nonzero; otherwise allocates a 0x400 stack and starts TaskSlamAttackWithBg2Rocking(kind, done) on control 03000334; sets *err to 1 when the stack allocation fails.",
+    "confidence": "high",
+    "evidence": [
+      {
+        "source": "src/code_0809D878.c",
+        "line": 2156,
+        "detail": "Takes the kind byte and an error/done byte pointer.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_0809D878.c",
+        "line": 2170,
+        "detail": "Sets the task callback to TaskSlamAttackWithBg2Rocking.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      }
+    ],
+    "open_questions": []
+  },
+  {
+    "canonical_symbol": "sub_080A1170",
+    "address": "0x080A1170",
+    "display_name": "AllocateHomingProjectileTaskControl",
+    "summary": "Allocates the 0x28-byte task control 03000344 used by TaskHomingProjectileAtSelectedPlayer and clears its word +8.",
+    "confidence": "high",
+    "evidence": [
+      {
+        "source": "src/code_0809D878.c",
+        "line": 2241,
+        "detail": "Stores HeapAllocate(0x28) in 03000344.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      }
+    ],
+    "open_questions": []
+  },
+  {
+    "canonical_symbol": "sub_080A118C",
+    "address": "0x080A118C",
+    "display_name": "FreeHomingProjectileTaskControl",
+    "summary": "Cancels the homing-projectile task in control 03000344 if scheduled, frees the control and clears the pointer.",
+    "confidence": "high",
+    "evidence": [
+      {
+        "source": "src/code_0809D878.c",
+        "line": 2245,
+        "detail": "Cancels the task if TaskIsScheduled.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_0809D878.c",
+        "line": 2248,
+        "detail": "Frees the control.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_0809D878.c",
+        "line": 2249,
+        "detail": "Clears 03000344.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      }
+    ],
+    "open_questions": []
+  },
+  {
+    "canonical_symbol": "sub_080A11B4",
+    "address": "0x080A11B4",
+    "display_name": "StartHomingProjectileTask",
+    "summary": "Returns early when the task is not scheduled but control word +8 is nonzero; otherwise allocates a 0x400 stack and starts TaskHomingProjectileAtSelectedPlayer on control 03000344.",
+    "confidence": "high",
+    "evidence": [
+      {
+        "source": "src/code_0809D878.c",
+        "line": 2253,
+        "detail": "Start function for control 03000344.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_0809D878.c",
+        "line": 2265,
+        "detail": "Sets the task callback to TaskHomingProjectileAtSelectedPlayer.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      }
+    ],
+    "open_questions": []
+  },
+  {
+    "canonical_symbol": "sub_080B2200",
+    "address": "0x080B2200",
+    "display_name": "TaskLoopAnimationAtOwnerActor",
+    "summary": "Never-ending task that initialises sprite resource 0x50089 and each frame (outside menus and pauses) advances animation 0x18 and draws it at the position of the actor pointed to by 030007A0.",
+    "confidence": "medium",
+    "evidence": [
+      {
+        "source": "src/code_080A9680.c",
+        "line": 4990,
+        "detail": "Initialises the sprite descriptor from resource 0x50089 with the actor palette variant 030007A4.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_080A9680.c",
+        "line": 4999,
+        "detail": "Advances animation 0x18 every visible frame.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_080A9680.c",
+        "line": 5000,
+        "detail": "Converts the actor +0x14/+0x18 position to screen coordinates.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_080A9680.c",
+        "line": 5001,
+        "detail": "Draws the animation frame at the actor position.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_080A9680.c",
+        "line": 5003,
+        "detail": "Yields each frame; the loop never exits.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      }
+    ],
+    "open_questions": []
+  },
+  {
+    "canonical_symbol": "sub_080B23FC",
+    "address": "0x080B23FC",
+    "display_name": "AllocateOwnerAnimationTaskControl",
+    "summary": "Retries HeapAllocate(0x28) every frame until it succeeds, stores the control in 030007AC and clears its word +8.",
+    "confidence": "high",
+    "evidence": [
+      {
+        "source": "src/code_080A9680.c",
+        "line": 5064,
+        "detail": "Allocates the 0x28-byte control into 030007AC.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_080A9680.c",
+        "line": 5065,
+        "detail": "Yields between failed attempts.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_080A9680.c",
+        "line": 5067,
+        "detail": "Clears control word +8.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      }
+    ],
+    "open_questions": []
+  },
+  {
+    "canonical_symbol": "sub_080B2424",
+    "address": "0x080B2424",
+    "display_name": "FreeOwnerAnimationTaskControl",
+    "summary": "If control 030007AC exists, cancels its task when scheduled, frees it and clears the pointer.",
+    "confidence": "high",
+    "evidence": [
+      {
+        "source": "src/code_080A9680.c",
+        "line": 5071,
+        "detail": "Cancels the scheduled task.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_080A9680.c",
+        "line": 5075,
+        "detail": "Frees the control.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_080A9680.c",
+        "line": 5076,
+        "detail": "Clears 030007AC.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      }
+    ],
+    "open_questions": []
+  },
+  {
+    "canonical_symbol": "sub_080B2454",
+    "address": "0x080B2454",
+    "display_name": "StartOwnerAnimationTask",
+    "summary": "If control 030007AC exists and is free to start, retries a 0x400-byte stack allocation each frame and starts TaskLoopAnimationAtOwnerActor on it.",
+    "confidence": "high",
+    "evidence": [
+      {
+        "source": "src/code_080A9680.c",
+        "line": 5084,
+        "detail": "Returns when the task is not scheduled but word +8 is nonzero.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_080A9680.c",
+        "line": 5087,
+        "detail": "Retries the 0x400 stack allocation.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_080A9680.c",
+        "line": 5091,
+        "detail": "Sets the task callback to TaskLoopAnimationAtOwnerActor.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      }
+    ],
+    "open_questions": []
+  }
+]
