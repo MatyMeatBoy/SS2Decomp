@@ -66,7 +66,7 @@ def scan(root, rom_path):
 
 TYPE_SIZE_RULES = {"palette": lambda size: size in (512, 1024), "tiles4": lambda size: size % 32 == 0,
                    "text": lambda size: size >= 1, "sprite_anim": lambda size: size >= 12,
-                   "map": lambda size: size >= 36, "tilemap": lambda size: size >= 8}
+                   "map": lambda size: size >= 36, "tilemap": lambda size: size >= 8, "unused": lambda size: True}
 
 
 def load_types(root):

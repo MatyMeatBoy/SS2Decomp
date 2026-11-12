@@ -237,11 +237,29 @@ def ptrtable(label, count, prefix=None):
         cut({lo + 4 * count: None})
     names, new = {}, {}
     objects = raw_objects()
+    addressed = {int(n[5:], 16) - ROM_BASE: n for path in data_files()
+                 for n in re.findall(r'^(gUnk_08[0-9A-F]{6}):', path.read_text(encoding="utf-8"), re.M)}
+    spans = sorted((o, o + s) for o, (_, s) in objects.items())
+
+    class Inside:
+        def __contains__(self, t):
+            import bisect
+            i = bisect.bisect_right(spans, (t, 1 << 60)) - 1
+            return i >= 0 and spans[i][0] <= t < spans[i][1]
+    inside_raw = Inside()
+    labels = set()
+    for path in data_files():
+        labels.update(re.findall(r'^([A-Za-z_][A-Za-z0-9_]*):', path.read_text(encoding="utf-8"), re.M))
     for i, t in enumerate(targets):
         if t == -ROM_BASE or t in names:
             continue
         if t in objects:
             names[t] = objects[t][0]
+        elif "gUnk_%08X" % (ROM_BASE + t) in labels:       # object already written as source
+            names[t] = "gUnk_%08X" % (ROM_BASE + t)
+        elif t not in inside_raw:                           # element of an object already written as source
+            below = max(a for a in addressed if a <= t)
+            names[t] = "%s + 0x%X" % (addressed[below], t - below)
         elif lo <= t < lo + 4 * count:
             raise SystemExit("%s: entry points into the table itself" % label)
         else:

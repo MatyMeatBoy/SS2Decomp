@@ -26,3 +26,7 @@
 # Category 0: screen tilemaps, read by LoadBackgroundAsset (sub_0800B650). u32 header = id and flags of the
 # graphic to load with it, then the tilemap LZ77-compressed, or raw when the caller sets key bit 0x40000000.
 ^gRes(Main|Aux)_Cat0_\d+$     tilemap  69 of 89 are an exact LZ77 stream after the header; the other 20 are the raw form
+#
+# Bytes between the end of the aux archive and the end of the ROM. No code, pointer table or archive entry
+# refers to them (the only pointer-like words that hit the range lie inside sound samples). Kept verbatim.
+^gUnk_08FD5298$                 unused   unreferenced; nothing reads it
