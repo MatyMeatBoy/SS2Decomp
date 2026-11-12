@@ -81,8 +81,8 @@
    "identified": 1214,
    "existing": 23,
    "confirmed": 1191,
-   "proposed": 2,
-   "unidentified": 664,
+   "proposed": 168,
+   "unidentified": 498,
    "percent_identified": 64.57446808510639
   },
   "sdk": {
@@ -99,8 +99,8 @@
    "identified": 1369,
    "existing": 152,
    "confirmed": 1217,
-   "proposed": 2,
-   "unidentified": 664,
+   "proposed": 168,
+   "unidentified": 498,
    "percent_identified": 67.27272727272727
   }
  },
