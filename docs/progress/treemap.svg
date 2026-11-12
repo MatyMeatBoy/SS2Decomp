@@ -176,11 +176,11 @@
 <rect x="150.33" y="502.68" width="6.65" height="4.32" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>EnqueueLinkMapTransition | sub_080687E8 | confirmed  0x080687E8  56 bytes  [done]</title></rect>
 <rect x="156.98" y="497.74" width="5.54" height="4.81" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>FreeLinkMessageQueueAndTaskControls | sub_08068670 | confirmed  0x08068670  52 bytes  [done]</title></rect>
 <rect x="156.98" y="502.56" width="2.77" height="4.44" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>PeekReadyOutgoingLinkMessage | sub_08068874 | confirmed  0x08068874  24 bytes  [done]</title></rect>
-<rect x="159.75" y="502.56" width="2.77" height="1.48" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>ReturnOneVariant4 | sub_0806888C | confirmed  0x0806888C  8 bytes  [done]</title></rect>
-<rect x="159.75" y="504.04" width="1.38" height="1.48" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>ReturnOneVariant1 | sub_08068868 | confirmed  0x08068868  4 bytes  [done]</title></rect>
-<rect x="161.14" y="504.04" width="1.38" height="1.48" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>ReturnOneVariant2 | sub_0806886C | confirmed  0x0806886C  4 bytes  [done]</title></rect>
-<rect x="159.75" y="505.52" width="1.38" height="1.48" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>ReturnOneVariant3 | sub_08068870 | confirmed  0x08068870  4 bytes  [done]</title></rect>
-<rect x="161.14" y="505.52" width="1.38" height="1.48" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>NoOpVariant9 | sub_080688F4 | confirmed  0x080688F4  4 bytes  [done]</title></rect>
+<rect x="159.75" y="502.56" width="2.77" height="1.48" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>UnusedReturnOneStub4 | sub_0806888C | confirmed  0x0806888C  8 bytes  [done]</title></rect>
+<rect x="159.75" y="504.04" width="1.38" height="1.48" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>UnusedReturnOneStub1 | sub_08068868 | confirmed  0x08068868  4 bytes  [done]</title></rect>
+<rect x="161.14" y="504.04" width="1.38" height="1.48" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>UnusedReturnOneStub2 | sub_0806886C | confirmed  0x0806886C  4 bytes  [done]</title></rect>
+<rect x="159.75" y="505.52" width="1.38" height="1.48" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>UnusedReturnOneStub3 | sub_08068870 | confirmed  0x08068870  4 bytes  [done]</title></rect>
+<rect x="161.14" y="505.52" width="1.38" height="1.48" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>UnusedNoOpStub9 | sub_080688F4 | confirmed  0x080688F4  4 bytes  [done]</title></rect>
 <rect x="1.0" y="357.6" width="78.8" height="13" fill="#0d1117" fill-opacity="0.75"/>
 <text x="4.0" y="367.6" fill="#e6edf3" font-size="10">code_08068670</text>
 </g>
@@ -975,8 +975,8 @@
 <rect x="717.31" y="210.82" width="3.77" height="3.73" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>ScaleValueByPercentBonus | sub_08021CE4 | confirmed  0x08021CE4  28 bytes  [done]</title></rect>
 <rect x="721.08" y="207.09" width="3.77" height="3.20" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>HasLocalPlayerActionSkillLevel | sub_0801E538 | confirmed  0x0801E538  24 bytes  [done]</title></rect>
 <rect x="721.08" y="210.29" width="3.77" height="3.20" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>FreeActorSpriteEffectTaskPool | sub_08021DAC | confirmed  0x08021DAC  24 bytes  [done]</title></rect>
-<rect x="721.08" y="213.49" width="1.89" height="1.07" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>NoOpVariant6 | sub_08021C6C | confirmed  0x08021C6C  4 bytes  [done]</title></rect>
-<rect x="722.97" y="213.49" width="1.89" height="1.07" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>NoOpVariant7 | sub_08021C70 | confirmed  0x08021C70  4 bytes  [done]</title></rect>
+<rect x="721.08" y="213.49" width="1.89" height="1.07" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>NoOpWorldSceneAllocateHook | sub_08021C6C | confirmed  0x08021C6C  4 bytes  [done]</title></rect>
+<rect x="722.97" y="213.49" width="1.89" height="1.07" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>NoOpWorldSceneFreeHook | sub_08021C70 | confirmed  0x08021C70  4 bytes  [done]</title></rect>
 <rect x="634.2" y="130.0" width="78.8" height="13" fill="#0d1117" fill-opacity="0.75"/>
 <text x="637.2" y="140.0" fill="#e6edf3" font-size="10">code_0801E244</text>
 </g>
@@ -1370,8 +1370,8 @@
 <rect x="814.97" y="291.86" width="2.03" height="2.95" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>SetActorCombatTeamTwo | sub_0801A0A4 | confirmed  0x0801A0A4  12 bytes  [done]</title></rect>
 <rect x="812.94" y="294.80" width="2.03" height="2.95" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>DisableActorCombatTargeting | sub_0801A0B0 | confirmed  0x0801A0B0  12 bytes  [done]</title></rect>
 <rect x="814.97" y="294.80" width="2.03" height="2.95" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>SetSharedHalfwordToOne | sub_0801A62C | confirmed  0x0801A62C  12 bytes  [done]</title></rect>
-<rect x="812.94" y="297.75" width="2.71" height="1.47" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>NoOpVariant4 | sub_0801A500 | confirmed  0x0801A500  8 bytes  [done]</title></rect>
-<rect x="815.65" y="297.75" width="1.35" height="1.47" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>NoOpVariant5 | sub_0801A628 | confirmed  0x0801A628  4 bytes  [done]</title></rect>
+<rect x="812.94" y="297.75" width="2.71" height="1.47" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>UnusedNoOpStub4 | sub_0801A500 | confirmed  0x0801A500  8 bytes  [done]</title></rect>
+<rect x="815.65" y="297.75" width="1.35" height="1.47" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>UnusedNoOpStub5 | sub_0801A628 | confirmed  0x0801A628  4 bytes  [done]</title></rect>
 </g>
 <g><title>code_0805D094 (10984 bytes)</title>
 <rect x="606.44" y="300.23" width="80.40" height="71.89" fill="#0d1117"/>
@@ -1581,7 +1581,7 @@
 <rect x="749.71" y="365.54" width="1.94" height="3.06" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>ResetSpriteFrameAllocationStateWrapper | sub_08008C10 | confirmed  0x08008C10  12 bytes  [done]</title></rect>
 <rect x="747.76" y="368.60" width="1.94" height="3.06" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>SetSpriteGraphicsVramBase | sub_0800907C | confirmed  0x0800907C  12 bytes  [done]</title></rect>
 <rect x="749.71" y="368.60" width="1.94" height="2.04" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>ReadSecondHalfwordMinusOne | sub_08009034 | confirmed  0x08009034  8 bytes  [done]</title></rect>
-<rect x="749.71" y="370.65" width="1.94" height="1.02" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>NoOpVariant11 | sub_08006E54 | confirmed  0x08006E54  4 bytes  [done]</title></rect>
+<rect x="749.71" y="370.65" width="1.94" height="1.02" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>UnusedNoOpStub11 | sub_08006E54 | confirmed  0x08006E54  4 bytes  [done]</title></rect>
 </g>
 <g><title>code_08095B04 (8996 bytes)</title>
 <rect x="752.65" y="300.23" width="65.35" height="72.44" fill="#0d1117"/>
@@ -1669,21 +1669,21 @@
 <rect x="761.47" y="420.03" width="5.49" height="3.60" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>InterpolateSignedValuesQ10 | sub_080659F4 | confirmed  0x080659F4  40 bytes  [done]</title></rect>
 <rect x="766.96" y="416.06" width="3.76" height="2.63" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>IsCoordinatedAttackActive | sub_08065AE8 | confirmed  0x08065AE8  20 bytes  [done]</title></rect>
 <rect x="770.71" y="416.06" width="2.25" height="2.63" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>SetFixedSpriteScale | sub_080659B0 | confirmed  0x080659B0  12 bytes  [done]</title></rect>
-<rect x="766.96" y="418.70" width="1.60" height="1.23" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>ReturnOneVariant5 | sub_08067AC0 | confirmed  0x08067AC0  4 bytes  [done]</title></rect>
-<rect x="766.96" y="419.93" width="1.60" height="1.23" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>ReturnOneVariant6 | sub_08067AC4 | confirmed  0x08067AC4  4 bytes  [done]</title></rect>
-<rect x="766.96" y="421.16" width="1.60" height="1.23" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>ReturnOneVariant7 | sub_08067AC8 | confirmed  0x08067AC8  4 bytes  [done]</title></rect>
-<rect x="766.96" y="422.40" width="1.60" height="1.23" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>ReturnOneVariant8 | sub_08067ACC | confirmed  0x08067ACC  4 bytes  [done]</title></rect>
-<rect x="768.56" y="418.70" width="1.47" height="1.35" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>ReturnOneVariant9 | sub_08067AD0 | confirmed  0x08067AD0  4 bytes  [done]</title></rect>
-<rect x="770.03" y="418.70" width="1.47" height="1.35" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>ReturnOneVariant10 | sub_08067AD4 | confirmed  0x08067AD4  4 bytes  [done]</title></rect>
-<rect x="771.50" y="418.70" width="1.47" height="1.35" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>ReturnOneVariant11 | sub_08067AD8 | confirmed  0x08067AD8  4 bytes  [done]</title></rect>
-<rect x="768.56" y="420.04" width="1.65" height="1.20" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>ReturnOneVariant12 | sub_08067ADC | confirmed  0x08067ADC  4 bytes  [done]</title></rect>
-<rect x="768.56" y="421.24" width="1.65" height="1.20" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>ReturnOneVariant13 | sub_08067AE0 | confirmed  0x08067AE0  4 bytes  [done]</title></rect>
-<rect x="768.56" y="422.43" width="1.65" height="1.20" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>ReturnOneVariant14 | sub_08067AE4 | confirmed  0x08067AE4  4 bytes  [done]</title></rect>
-<rect x="770.21" y="420.04" width="1.38" height="1.44" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>ReturnOneVariant15 | sub_08067AE8 | confirmed  0x08067AE8  4 bytes  [done]</title></rect>
-<rect x="771.59" y="420.04" width="1.38" height="1.44" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>NoOpVariant1 | sub_08067AEC | confirmed  0x08067AEC  4 bytes  [done]</title></rect>
-<rect x="770.21" y="421.48" width="1.84" height="1.08" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>ReturnOneVariant16 | sub_08067AF0 | confirmed  0x08067AF0  4 bytes  [done]</title></rect>
-<rect x="770.21" y="422.55" width="1.84" height="1.08" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>NoOpVariant2 | sub_08067AF4 | confirmed  0x08067AF4  4 bytes  [done]</title></rect>
-<rect x="772.05" y="421.48" width="0.92" height="2.15" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>NoOpVariant3 | sub_08067AF8 | confirmed  0x08067AF8  4 bytes  [done]</title></rect>
+<rect x="766.96" y="418.70" width="1.60" height="1.23" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>UnusedReturnOneStub5 | sub_08067AC0 | confirmed  0x08067AC0  4 bytes  [done]</title></rect>
+<rect x="766.96" y="419.93" width="1.60" height="1.23" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>UnusedReturnOneStub6 | sub_08067AC4 | confirmed  0x08067AC4  4 bytes  [done]</title></rect>
+<rect x="766.96" y="421.16" width="1.60" height="1.23" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>UnusedReturnOneStub7 | sub_08067AC8 | confirmed  0x08067AC8  4 bytes  [done]</title></rect>
+<rect x="766.96" y="422.40" width="1.60" height="1.23" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>UnusedReturnOneStub8 | sub_08067ACC | confirmed  0x08067ACC  4 bytes  [done]</title></rect>
+<rect x="768.56" y="418.70" width="1.47" height="1.35" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>UnusedReturnOneStub9 | sub_08067AD0 | confirmed  0x08067AD0  4 bytes  [done]</title></rect>
+<rect x="770.03" y="418.70" width="1.47" height="1.35" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>UnusedReturnOneStub10 | sub_08067AD4 | confirmed  0x08067AD4  4 bytes  [done]</title></rect>
+<rect x="771.50" y="418.70" width="1.47" height="1.35" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>UnusedReturnOneStub11 | sub_08067AD8 | confirmed  0x08067AD8  4 bytes  [done]</title></rect>
+<rect x="768.56" y="420.04" width="1.65" height="1.20" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>UnusedReturnOneStub12 | sub_08067ADC | confirmed  0x08067ADC  4 bytes  [done]</title></rect>
+<rect x="768.56" y="421.24" width="1.65" height="1.20" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>UnusedReturnOneStub13 | sub_08067AE0 | confirmed  0x08067AE0  4 bytes  [done]</title></rect>
+<rect x="768.56" y="422.43" width="1.65" height="1.20" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>UnusedReturnOneStub14 | sub_08067AE4 | confirmed  0x08067AE4  4 bytes  [done]</title></rect>
+<rect x="770.21" y="420.04" width="1.38" height="1.44" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>UnusedReturnOneStub15 | sub_08067AE8 | confirmed  0x08067AE8  4 bytes  [done]</title></rect>
+<rect x="771.59" y="420.04" width="1.38" height="1.44" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>UnusedNoOpStub1 | sub_08067AEC | confirmed  0x08067AEC  4 bytes  [done]</title></rect>
+<rect x="770.21" y="421.48" width="1.84" height="1.08" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>UnusedReturnOneStub16 | sub_08067AF0 | confirmed  0x08067AF0  4 bytes  [done]</title></rect>
+<rect x="770.21" y="422.55" width="1.84" height="1.08" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>UnusedNoOpStub2 | sub_08067AF4 | confirmed  0x08067AF4  4 bytes  [done]</title></rect>
+<rect x="772.05" y="421.48" width="0.92" height="2.15" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>UnusedNoOpStub3 | sub_08067AF8 | confirmed  0x08067AF8  4 bytes  [done]</title></rect>
 <rect x="687.8" y="373.7" width="78.8" height="13" fill="#0d1117" fill-opacity="0.75"/>
 <text x="690.8" y="383.7" fill="#e6edf3" font-size="10">code_080659B0</text>
 </g>
@@ -1838,7 +1838,7 @@
 <rect x="721.45" y="502.73" width="2.66" height="2.14" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>ResetReceivedLinkByte173 | sub_080684F4 | confirmed  0x080684F4  12 bytes  [done]</title></rect>
 <rect x="721.45" y="504.86" width="2.66" height="2.14" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>GetReceivedLinkByte174 | sub_08068540 | confirmed  0x08068540  12 bytes  [done]</title></rect>
 <rect x="724.11" y="502.73" width="1.77" height="3.20" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>ResetReceivedLinkByte174 | sub_0806854C | confirmed  0x0806854C  12 bytes  [done]</title></rect>
-<rect x="724.11" y="505.93" width="1.77" height="1.07" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>NoOpVariant8 | sub_08067B4C | confirmed  0x08067B4C  4 bytes  [done]</title></rect>
+<rect x="724.11" y="505.93" width="1.77" height="1.07" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>UnusedNoOpStub8 | sub_08067B4C | confirmed  0x08067B4C  4 bytes  [done]</title></rect>
 </g>
 <g><title>code_080571A4 (2824 bytes)</title>
 <rect x="726.88" y="424.63" width="35.42" height="41.95" fill="#0d1117"/>
@@ -1972,7 +1972,7 @@
 <rect x="785.58" y="456.85" width="2.93" height="2.53" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>SetDma3InterruptCallback | sub_080012D8 | confirmed  0x080012D8  16 bytes  [done]</title></rect>
 <rect x="788.51" y="454.32" width="2.93" height="2.53" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>SetDma0InterruptCallback | sub_080012E8 | confirmed  0x080012E8  16 bytes  [done]</title></rect>
 <rect x="788.51" y="456.85" width="2.20" height="2.53" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>ClearMemoryCopyQueue | sub_080013F8 | confirmed  0x080013F8  12 bytes  [done]</title></rect>
-<rect x="790.71" y="456.85" width="0.73" height="2.53" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>NoOpVariant10 | sub_08001634 | confirmed  0x08001634  4 bytes  [done]</title></rect>
+<rect x="790.71" y="456.85" width="0.73" height="2.53" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>UnusedNoOpStub10 | sub_08001634 | confirmed  0x08001634  4 bytes  [done]</title></rect>
 </g>
 <g><title>code_08001A50 (1736 bytes)</title>
 <rect x="792.45" y="424.63" width="25.55" height="35.75" fill="#0d1117"/>

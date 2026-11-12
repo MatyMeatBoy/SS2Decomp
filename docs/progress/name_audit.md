@@ -2,18 +2,10 @@
 
 Generated from the catalog. Each list is a queue for a reviewer; nothing here is an error by itself.
 
-## Numbered siblings (93)
+## Numbered siblings (58)
 
 Several functions share one name and differ only by a number. For a port they should say what differs (the table that stores them, the scene, the parameter).
 
-- `sub_0805A60C` ApproachAndWaitAtAreaExitDirection0 — family `ApproachAndWaitAtAreaExitDirection`, 8 members
-- `sub_0805A618` ApproachAndWaitAtAreaExitDirection1 — family `ApproachAndWaitAtAreaExitDirection`, 8 members
-- `sub_0805A624` ApproachAndWaitAtAreaExitDirection2 — family `ApproachAndWaitAtAreaExitDirection`, 8 members
-- `sub_0805A630` ApproachAndWaitAtAreaExitDirection3 — family `ApproachAndWaitAtAreaExitDirection`, 8 members
-- `sub_0805A63C` ApproachAndWaitAtAreaExitDirection4 — family `ApproachAndWaitAtAreaExitDirection`, 8 members
-- `sub_0805A648` ApproachAndWaitAtAreaExitDirection5 — family `ApproachAndWaitAtAreaExitDirection`, 8 members
-- `sub_0805A654` ApproachAndWaitAtAreaExitDirection6 — family `ApproachAndWaitAtAreaExitDirection`, 8 members
-- `sub_0805A660` ApproachAndWaitAtAreaExitDirection7 — family `ApproachAndWaitAtAreaExitDirection`, 8 members
 - `sub_080684A8` EnqueueLinkByte173 — family `EnqueueLinkByte`, 2 members
 - `sub_08068500` EnqueueLinkByte174 — family `EnqueueLinkByte`, 2 members
 - `sub_080684E8` GetReceivedLinkByte173 — family `GetReceivedLinkByte`, 2 members
@@ -23,17 +15,6 @@ Several functions share one name and differ only by a number. For a port they sh
 - `sub_08051DF0` HandleMapObjectPlacementEvent3 — family `HandleMapObjectPlacementEvent`, 5 members
 - `sub_080523D8` HandleMapObjectPlacementEvent4 — family `HandleMapObjectPlacementEvent`, 5 members
 - `sub_08053120` HandleMapObjectPlacementEvent2 — family `HandleMapObjectPlacementEvent`, 5 members
-- `sub_08001634` NoOpVariant10 — family `NoOp`, 11 members
-- `sub_08006E54` NoOpVariant11 — family `NoOp`, 11 members
-- `sub_0801A500` NoOpVariant4 — family `NoOp`, 11 members
-- `sub_0801A628` NoOpVariant5 — family `NoOp`, 11 members
-- `sub_08021C6C` NoOpVariant6 — family `NoOp`, 11 members
-- `sub_08021C70` NoOpVariant7 — family `NoOp`, 11 members
-- `sub_08067AEC` NoOpVariant1 — family `NoOp`, 11 members
-- `sub_08067AF4` NoOpVariant2 — family `NoOp`, 11 members
-- `sub_08067AF8` NoOpVariant3 — family `NoOp`, 11 members
-- `sub_08067B4C` NoOpVariant8 — family `NoOp`, 11 members
-- `sub_080688F4` NoOpVariant9 — family `NoOp`, 11 members
 - `sub_080400D4` PanCameraDialogue225 — family `PanCameraDialogue`, 5 members
 - `sub_080402F4` PanCameraDialogue236 — family `PanCameraDialogue`, 5 members
 - `sub_08040530` PanCameraDialogue237 — family `PanCameraDialogue`, 5 members
@@ -43,22 +24,6 @@ Several functions share one name and differ only by a number. For a port they sh
 - `sub_08052D0C` PanConditionalDialogs145 — family `PanConditionalDialogs`, 2 members
 - `sub_080684F4` ResetReceivedLinkByte173 — family `ResetReceivedLinkByte`, 2 members
 - `sub_0806854C` ResetReceivedLinkByte174 — family `ResetReceivedLinkByte`, 2 members
-- `sub_08067AC0` ReturnOneVariant5 — family `ReturnOne`, 16 members
-- `sub_08067AC4` ReturnOneVariant6 — family `ReturnOne`, 16 members
-- `sub_08067AC8` ReturnOneVariant7 — family `ReturnOne`, 16 members
-- `sub_08067ACC` ReturnOneVariant8 — family `ReturnOne`, 16 members
-- `sub_08067AD0` ReturnOneVariant9 — family `ReturnOne`, 16 members
-- `sub_08067AD4` ReturnOneVariant10 — family `ReturnOne`, 16 members
-- `sub_08067AD8` ReturnOneVariant11 — family `ReturnOne`, 16 members
-- `sub_08067ADC` ReturnOneVariant12 — family `ReturnOne`, 16 members
-- `sub_08067AE0` ReturnOneVariant13 — family `ReturnOne`, 16 members
-- `sub_08067AE4` ReturnOneVariant14 — family `ReturnOne`, 16 members
-- `sub_08067AE8` ReturnOneVariant15 — family `ReturnOne`, 16 members
-- `sub_08067AF0` ReturnOneVariant16 — family `ReturnOne`, 16 members
-- `sub_08068868` ReturnOneVariant1 — family `ReturnOne`, 16 members
-- `sub_0806886C` ReturnOneVariant2 — family `ReturnOne`, 16 members
-- `sub_08068870` ReturnOneVariant3 — family `ReturnOne`, 16 members
-- `sub_0806888C` ReturnOneVariant4 — family `ReturnOne`, 16 members
 - `sub_0803E510` RunActorMessage1257 — family `RunActorMessage`, 5 members
 - `sub_08059CEC` RunActorMessage538 — family `RunActorMessage`, 5 members
 - `sub_08059DA0` RunActorMessage539 — family `RunActorMessage`, 5 members
@@ -171,13 +136,13 @@ One concept, one word.
 
 | System | Functions |
 | --- | ---: |
-| map | 189 |
+| map | 191 |
 | combat | 156 |
 | scene | 154 |
 | video | 153 |
 | text | 153 |
-| game | 143 |
 | sprite | 143 |
+| game | 141 |
 | enemy | 125 |
 | menu | 111 |
 | link | 104 |

@@ -1846,7 +1846,7 @@
       "canonical_symbol": "sub_08001634",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "NoOpVariant10",
+      "display_name": "UnusedNoOpStub10",
       "name_status": "confirmed",
       "name_source": "catalog",
       "evidence": [
@@ -1855,6 +1855,12 @@
           "line": 357,
           "detail": "Complete void body is empty; ordinal distinguishes this entry from other proven no-op entries without implying a hidden purpose.",
           "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08000EC8.c",
+          "line": 357,
+          "detail": "Renamed from NoOpVariant10. No C caller in the source call graph and no pointer to this address anywhere in the ROM: an unreferenced stub, safe to leave out of a port.",
+          "revision": "698bbe6af4968fa6b9eefb01bcf0ae16639da681"
         }
       ]
     },
@@ -4231,7 +4237,7 @@
       "canonical_symbol": "sub_08006E54",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "NoOpVariant11",
+      "display_name": "UnusedNoOpStub11",
       "name_status": "confirmed",
       "name_source": "catalog",
       "evidence": [
@@ -4240,6 +4246,12 @@
           "line": 72,
           "detail": "Complete void body is empty; ordinal distinguishes identical behavior at separate canonical entries.",
           "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08006D24.c",
+          "line": 72,
+          "detail": "Renamed from NoOpVariant11. No C caller in the source call graph and no pointer to this address anywhere in the ROM: an unreferenced stub, safe to leave out of a port.",
+          "revision": "698bbe6af4968fa6b9eefb01bcf0ae16639da681"
         }
       ]
     },
@@ -13561,7 +13573,7 @@
       "canonical_symbol": "sub_0801A500",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "NoOpVariant4",
+      "display_name": "UnusedNoOpStub4",
       "name_status": "confirmed",
       "name_source": "catalog",
       "evidence": [
@@ -13576,6 +13588,12 @@
           "line": 1338,
           "detail": "Re-read exact body and helper/bit operation at pinned source. Name describes only observable contract; numeric suffix distinguishes identical no-ops by ascending address starting4, not any gameplay/interface role.",
           "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08017F7C.c",
+          "line": 1338,
+          "detail": "Renamed from NoOpVariant4. No C caller in the source call graph and no pointer to this address anywhere in the ROM: an unreferenced stub, safe to leave out of a port.",
+          "revision": "698bbe6af4968fa6b9eefb01bcf0ae16639da681"
         }
       ]
     },
@@ -13681,7 +13699,7 @@
       "canonical_symbol": "sub_0801A628",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "NoOpVariant5",
+      "display_name": "UnusedNoOpStub5",
       "name_status": "confirmed",
       "name_source": "catalog",
       "evidence": [
@@ -13696,6 +13714,12 @@
           "line": 1392,
           "detail": "Re-read exact body and helper/bit operation at pinned source. Name describes only observable contract; numeric suffix distinguishes identical no-ops by ascending address starting4, not any gameplay/interface role.",
           "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08017F7C.c",
+          "line": 1392,
+          "detail": "Renamed from NoOpVariant5. No C caller in the source call graph and no pointer to this address anywhere in the ROM: an unreferenced stub, safe to leave out of a port.",
+          "revision": "698bbe6af4968fa6b9eefb01bcf0ae16639da681"
         }
       ]
     },
@@ -17599,7 +17623,7 @@
       "canonical_symbol": "sub_08021C6C",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "NoOpVariant6",
+      "display_name": "NoOpWorldSceneAllocateHook",
       "name_status": "confirmed",
       "name_source": "catalog",
       "evidence": [
@@ -17614,6 +17638,12 @@
           "line": 2400,
           "detail": "Re-read exact body and helper/bit operation at pinned source. Name describes only observable contract; numeric suffix distinguishes identical no-ops by ascending address starting4, not any gameplay/interface role.",
           "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0801E244.c",
+          "line": 2400,
+          "detail": "Renamed from NoOpVariant6. Empty function called from TaskManageWorldSceneLifetime among the allocation calls of the world scene start (src/code_08009088.c).",
+          "revision": "698bbe6af4968fa6b9eefb01bcf0ae16639da681"
         }
       ]
     },
@@ -17629,7 +17659,7 @@
       "canonical_symbol": "sub_08021C70",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "NoOpVariant7",
+      "display_name": "NoOpWorldSceneFreeHook",
       "name_status": "confirmed",
       "name_source": "catalog",
       "evidence": [
@@ -17644,6 +17674,12 @@
           "line": 2403,
           "detail": "Re-read exact body and helper/bit operation at pinned source. Name describes only observable contract; numeric suffix distinguishes identical no-ops by ascending address starting4, not any gameplay/interface role.",
           "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0801E244.c",
+          "line": 2403,
+          "detail": "Renamed from NoOpVariant7. Empty function called from TaskManageWorldSceneLifetime among the release calls of the world scene end (src/code_08009088.c).",
+          "revision": "698bbe6af4968fa6b9eefb01bcf0ae16639da681"
         }
       ]
     },
@@ -40876,7 +40912,7 @@
       "canonical_symbol": "sub_08067AC0",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "ReturnOneVariant5",
+      "display_name": "UnusedReturnOneStub5",
       "name_status": "confirmed",
       "name_source": "catalog",
       "evidence": [
@@ -40885,6 +40921,12 @@
           "line": 1584,
           "detail": "Exact literal-one body; ordinal only distinguishes identical implementations in canonical address order, continuing variants1..4. No hidden gameplay role is claimed.",
           "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080659B0.c",
+          "line": 1584,
+          "detail": "Renamed from ReturnOneVariant5. No C caller in the source call graph and no pointer to this address anywhere in the ROM: an unreferenced stub, safe to leave out of a port.",
+          "revision": "698bbe6af4968fa6b9eefb01bcf0ae16639da681"
         }
       ]
     },
@@ -40900,7 +40942,7 @@
       "canonical_symbol": "sub_08067AC4",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "ReturnOneVariant6",
+      "display_name": "UnusedReturnOneStub6",
       "name_status": "confirmed",
       "name_source": "catalog",
       "evidence": [
@@ -40909,6 +40951,12 @@
           "line": 1587,
           "detail": "Exact literal-one body; ordinal only distinguishes identical implementations in canonical address order, continuing variants1..4. No hidden gameplay role is claimed.",
           "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080659B0.c",
+          "line": 1587,
+          "detail": "Renamed from ReturnOneVariant6. No C caller in the source call graph and no pointer to this address anywhere in the ROM: an unreferenced stub, safe to leave out of a port.",
+          "revision": "698bbe6af4968fa6b9eefb01bcf0ae16639da681"
         }
       ]
     },
@@ -40924,7 +40972,7 @@
       "canonical_symbol": "sub_08067AC8",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "ReturnOneVariant7",
+      "display_name": "UnusedReturnOneStub7",
       "name_status": "confirmed",
       "name_source": "catalog",
       "evidence": [
@@ -40933,6 +40981,12 @@
           "line": 1590,
           "detail": "Exact literal-one body; ordinal only distinguishes identical implementations in canonical address order, continuing variants1..4. No hidden gameplay role is claimed.",
           "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080659B0.c",
+          "line": 1590,
+          "detail": "Renamed from ReturnOneVariant7. No C caller in the source call graph and no pointer to this address anywhere in the ROM: an unreferenced stub, safe to leave out of a port.",
+          "revision": "698bbe6af4968fa6b9eefb01bcf0ae16639da681"
         }
       ]
     },
@@ -40948,7 +41002,7 @@
       "canonical_symbol": "sub_08067ACC",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "ReturnOneVariant8",
+      "display_name": "UnusedReturnOneStub8",
       "name_status": "confirmed",
       "name_source": "catalog",
       "evidence": [
@@ -40957,6 +41011,12 @@
           "line": 1593,
           "detail": "Exact literal-one body; ordinal only distinguishes identical implementations in canonical address order, continuing variants1..4. No hidden gameplay role is claimed.",
           "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080659B0.c",
+          "line": 1593,
+          "detail": "Renamed from ReturnOneVariant8. No C caller in the source call graph and no pointer to this address anywhere in the ROM: an unreferenced stub, safe to leave out of a port.",
+          "revision": "698bbe6af4968fa6b9eefb01bcf0ae16639da681"
         }
       ]
     },
@@ -40972,7 +41032,7 @@
       "canonical_symbol": "sub_08067AD0",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "ReturnOneVariant9",
+      "display_name": "UnusedReturnOneStub9",
       "name_status": "confirmed",
       "name_source": "catalog",
       "evidence": [
@@ -40981,6 +41041,12 @@
           "line": 1596,
           "detail": "Exact literal-one body; ordinal only distinguishes identical implementations in canonical address order, continuing variants1..4. No hidden gameplay role is claimed.",
           "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080659B0.c",
+          "line": 1596,
+          "detail": "Renamed from ReturnOneVariant9. No C caller in the source call graph and no pointer to this address anywhere in the ROM: an unreferenced stub, safe to leave out of a port.",
+          "revision": "698bbe6af4968fa6b9eefb01bcf0ae16639da681"
         }
       ]
     },
@@ -40996,7 +41062,7 @@
       "canonical_symbol": "sub_08067AD4",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "ReturnOneVariant10",
+      "display_name": "UnusedReturnOneStub10",
       "name_status": "confirmed",
       "name_source": "catalog",
       "evidence": [
@@ -41005,6 +41071,12 @@
           "line": 1599,
           "detail": "Exact literal-one body; ordinal only distinguishes identical implementations in canonical address order, continuing variants1..4. No hidden gameplay role is claimed.",
           "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080659B0.c",
+          "line": 1599,
+          "detail": "Renamed from ReturnOneVariant10. No C caller in the source call graph and no pointer to this address anywhere in the ROM: an unreferenced stub, safe to leave out of a port.",
+          "revision": "698bbe6af4968fa6b9eefb01bcf0ae16639da681"
         }
       ]
     },
@@ -41020,7 +41092,7 @@
       "canonical_symbol": "sub_08067AD8",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "ReturnOneVariant11",
+      "display_name": "UnusedReturnOneStub11",
       "name_status": "confirmed",
       "name_source": "catalog",
       "evidence": [
@@ -41029,6 +41101,12 @@
           "line": 1602,
           "detail": "Exact literal-one body; ordinal only distinguishes identical implementations in canonical address order, continuing variants1..4. No hidden gameplay role is claimed.",
           "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080659B0.c",
+          "line": 1602,
+          "detail": "Renamed from ReturnOneVariant11. No C caller in the source call graph and no pointer to this address anywhere in the ROM: an unreferenced stub, safe to leave out of a port.",
+          "revision": "698bbe6af4968fa6b9eefb01bcf0ae16639da681"
         }
       ]
     },
@@ -41044,7 +41122,7 @@
       "canonical_symbol": "sub_08067ADC",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "ReturnOneVariant12",
+      "display_name": "UnusedReturnOneStub12",
       "name_status": "confirmed",
       "name_source": "catalog",
       "evidence": [
@@ -41053,6 +41131,12 @@
           "line": 1605,
           "detail": "Exact literal-one body; ordinal only distinguishes identical implementations in canonical address order, continuing variants1..4. No hidden gameplay role is claimed.",
           "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080659B0.c",
+          "line": 1605,
+          "detail": "Renamed from ReturnOneVariant12. No C caller in the source call graph and no pointer to this address anywhere in the ROM: an unreferenced stub, safe to leave out of a port.",
+          "revision": "698bbe6af4968fa6b9eefb01bcf0ae16639da681"
         }
       ]
     },
@@ -41068,7 +41152,7 @@
       "canonical_symbol": "sub_08067AE0",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "ReturnOneVariant13",
+      "display_name": "UnusedReturnOneStub13",
       "name_status": "confirmed",
       "name_source": "catalog",
       "evidence": [
@@ -41077,6 +41161,12 @@
           "line": 1608,
           "detail": "Exact literal-one body; ordinal only distinguishes identical implementations in canonical address order, continuing variants1..4. No hidden gameplay role is claimed.",
           "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080659B0.c",
+          "line": 1608,
+          "detail": "Renamed from ReturnOneVariant13. No C caller in the source call graph and no pointer to this address anywhere in the ROM: an unreferenced stub, safe to leave out of a port.",
+          "revision": "698bbe6af4968fa6b9eefb01bcf0ae16639da681"
         }
       ]
     },
@@ -41092,7 +41182,7 @@
       "canonical_symbol": "sub_08067AE4",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "ReturnOneVariant14",
+      "display_name": "UnusedReturnOneStub14",
       "name_status": "confirmed",
       "name_source": "catalog",
       "evidence": [
@@ -41101,6 +41191,12 @@
           "line": 1611,
           "detail": "Exact literal-one body; ordinal only distinguishes identical implementations in canonical address order, continuing variants1..4. No hidden gameplay role is claimed.",
           "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080659B0.c",
+          "line": 1611,
+          "detail": "Renamed from ReturnOneVariant14. No C caller in the source call graph and no pointer to this address anywhere in the ROM: an unreferenced stub, safe to leave out of a port.",
+          "revision": "698bbe6af4968fa6b9eefb01bcf0ae16639da681"
         }
       ]
     },
@@ -41116,7 +41212,7 @@
       "canonical_symbol": "sub_08067AE8",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "ReturnOneVariant15",
+      "display_name": "UnusedReturnOneStub15",
       "name_status": "confirmed",
       "name_source": "catalog",
       "evidence": [
@@ -41125,6 +41221,12 @@
           "line": 1614,
           "detail": "Exact literal-one body; ordinal only distinguishes identical implementations in canonical address order, continuing variants1..4. No hidden gameplay role is claimed.",
           "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080659B0.c",
+          "line": 1614,
+          "detail": "Renamed from ReturnOneVariant15. No C caller in the source call graph and no pointer to this address anywhere in the ROM: an unreferenced stub, safe to leave out of a port.",
+          "revision": "698bbe6af4968fa6b9eefb01bcf0ae16639da681"
         }
       ]
     },
@@ -41140,7 +41242,7 @@
       "canonical_symbol": "sub_08067AEC",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "NoOpVariant1",
+      "display_name": "UnusedNoOpStub1",
       "name_status": "confirmed",
       "name_source": "catalog",
       "evidence": [
@@ -41149,6 +41251,12 @@
           "line": 1617,
           "detail": "Empty void body; ordinal distinguishes three identical no-op implementations in canonical address order. No callback or gameplay role is claimed.",
           "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080659B0.c",
+          "line": 1617,
+          "detail": "Renamed from NoOpVariant1. No C caller in the source call graph and no pointer to this address anywhere in the ROM: an unreferenced stub, safe to leave out of a port.",
+          "revision": "698bbe6af4968fa6b9eefb01bcf0ae16639da681"
         }
       ]
     },
@@ -41164,7 +41272,7 @@
       "canonical_symbol": "sub_08067AF0",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "ReturnOneVariant16",
+      "display_name": "UnusedReturnOneStub16",
       "name_status": "confirmed",
       "name_source": "catalog",
       "evidence": [
@@ -41173,6 +41281,12 @@
           "line": 1620,
           "detail": "Exact literal-one body; ordinal only distinguishes identical implementations in canonical address order, continuing variants1..4. No hidden gameplay role is claimed.",
           "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080659B0.c",
+          "line": 1620,
+          "detail": "Renamed from ReturnOneVariant16. No C caller in the source call graph and no pointer to this address anywhere in the ROM: an unreferenced stub, safe to leave out of a port.",
+          "revision": "698bbe6af4968fa6b9eefb01bcf0ae16639da681"
         }
       ]
     },
@@ -41188,7 +41302,7 @@
       "canonical_symbol": "sub_08067AF4",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "NoOpVariant2",
+      "display_name": "UnusedNoOpStub2",
       "name_status": "confirmed",
       "name_source": "catalog",
       "evidence": [
@@ -41197,6 +41311,12 @@
           "line": 1623,
           "detail": "Empty void body; ordinal distinguishes three identical no-op implementations in canonical address order. No callback or gameplay role is claimed.",
           "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080659B0.c",
+          "line": 1623,
+          "detail": "Renamed from NoOpVariant2. No C caller in the source call graph and no pointer to this address anywhere in the ROM: an unreferenced stub, safe to leave out of a port.",
+          "revision": "698bbe6af4968fa6b9eefb01bcf0ae16639da681"
         }
       ]
     },
@@ -41212,7 +41332,7 @@
       "canonical_symbol": "sub_08067AF8",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "NoOpVariant3",
+      "display_name": "UnusedNoOpStub3",
       "name_status": "confirmed",
       "name_source": "catalog",
       "evidence": [
@@ -41221,6 +41341,12 @@
           "line": 1626,
           "detail": "Empty void body; ordinal distinguishes three identical no-op implementations in canonical address order. No callback or gameplay role is claimed.",
           "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080659B0.c",
+          "line": 1626,
+          "detail": "Renamed from NoOpVariant3. No C caller in the source call graph and no pointer to this address anywhere in the ROM: an unreferenced stub, safe to leave out of a port.",
+          "revision": "698bbe6af4968fa6b9eefb01bcf0ae16639da681"
         }
       ]
     },
@@ -41267,7 +41393,7 @@
       "canonical_symbol": "sub_08067B4C",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "NoOpVariant8",
+      "display_name": "UnusedNoOpStub8",
       "name_status": "confirmed",
       "name_source": "catalog",
       "evidence": [
@@ -41282,6 +41408,12 @@
           "line": 10,
           "detail": "Re-read exact body and helper/bit operation at pinned source. Name describes only observable contract; numeric suffix distinguishes identical no-ops by ascending address starting4, not any gameplay/interface role.",
           "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08067B4C.c",
+          "line": 10,
+          "detail": "Renamed from NoOpVariant8. No C caller in the source call graph and no pointer to this address anywhere in the ROM: an unreferenced stub, safe to leave out of a port.",
+          "revision": "698bbe6af4968fa6b9eefb01bcf0ae16639da681"
         }
       ]
     },
@@ -43280,7 +43412,7 @@
       "canonical_symbol": "sub_08068868",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "ReturnOneVariant1",
+      "display_name": "UnusedReturnOneStub1",
       "name_status": "confirmed",
       "name_source": "catalog",
       "evidence": [
@@ -43289,6 +43421,12 @@
           "line": 102,
           "detail": "Body returns literal1; no observable side effects or direct source callers were found.",
           "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08068670.c",
+          "line": 102,
+          "detail": "Renamed from ReturnOneVariant1. No C caller in the source call graph and no pointer to this address anywhere in the ROM: an unreferenced stub, safe to leave out of a port.",
+          "revision": "698bbe6af4968fa6b9eefb01bcf0ae16639da681"
         }
       ]
     },
@@ -43304,7 +43442,7 @@
       "canonical_symbol": "sub_0806886C",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "ReturnOneVariant2",
+      "display_name": "UnusedReturnOneStub2",
       "name_status": "confirmed",
       "name_source": "catalog",
       "evidence": [
@@ -43313,6 +43451,12 @@
           "line": 105,
           "detail": "Body returns literal1; no observable side effects or direct source callers were found.",
           "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08068670.c",
+          "line": 105,
+          "detail": "Renamed from ReturnOneVariant2. No C caller in the source call graph and no pointer to this address anywhere in the ROM: an unreferenced stub, safe to leave out of a port.",
+          "revision": "698bbe6af4968fa6b9eefb01bcf0ae16639da681"
         }
       ]
     },
@@ -43328,7 +43472,7 @@
       "canonical_symbol": "sub_08068870",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "ReturnOneVariant3",
+      "display_name": "UnusedReturnOneStub3",
       "name_status": "confirmed",
       "name_source": "catalog",
       "evidence": [
@@ -43337,6 +43481,12 @@
           "line": 108,
           "detail": "Body returns literal1; no observable side effects or direct source callers were found.",
           "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08068670.c",
+          "line": 108,
+          "detail": "Renamed from ReturnOneVariant3. No C caller in the source call graph and no pointer to this address anywhere in the ROM: an unreferenced stub, safe to leave out of a port.",
+          "revision": "698bbe6af4968fa6b9eefb01bcf0ae16639da681"
         }
       ]
     },
@@ -43382,7 +43532,7 @@
       "canonical_symbol": "sub_0806888C",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "ReturnOneVariant4",
+      "display_name": "UnusedReturnOneStub4",
       "name_status": "confirmed",
       "name_source": "catalog",
       "evidence": [
@@ -43391,6 +43541,12 @@
           "line": 120,
           "detail": "Body returns literal1; no observable side effects or direct source callers were found.",
           "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08068670.c",
+          "line": 120,
+          "detail": "Renamed from ReturnOneVariant4. No C caller in the source call graph and no pointer to this address anywhere in the ROM: an unreferenced stub, safe to leave out of a port.",
+          "revision": "698bbe6af4968fa6b9eefb01bcf0ae16639da681"
         }
       ]
     },
@@ -43436,7 +43592,7 @@
       "canonical_symbol": "sub_080688F4",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "NoOpVariant9",
+      "display_name": "UnusedNoOpStub9",
       "name_status": "confirmed",
       "name_source": "catalog",
       "evidence": [
@@ -43451,6 +43607,12 @@
           "line": 140,
           "detail": "Re-read exact body and helper/bit operation at pinned source. Name describes only observable contract; numeric suffix distinguishes identical no-ops by ascending address starting4, not any gameplay/interface role.",
           "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08068670.c",
+          "line": 140,
+          "detail": "Renamed from NoOpVariant9. No C caller in the source call graph and no pointer to this address anywhere in the ROM: an unreferenced stub, safe to leave out of a port.",
+          "revision": "698bbe6af4968fa6b9eefb01bcf0ae16639da681"
         }
       ]
     },
