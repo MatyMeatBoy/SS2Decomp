@@ -4785,9 +4785,6 @@ animationClassDoneD368:
                     { u32 v164 = (sp164 + 2) << 0x18; u32 m164 = 0x7F000000; m164 &= v164; sp164 = m164 >> 0x18; }
                     { struct PalBufD368 *pal = (void *)&d368_gUnk_03001F40; pal->c[((struct PlayerD368 *)arg0)->f0 + 0x10][15] = 0; }
                     temp_r0_163 = sp128 - 1;
-                    if (temp_r0_163 > 0xDU) {
-                        goto block_1781;
-                    }
                     switch (temp_r0_163) {          /* switch 26 */
                     case 0:                         /* switch 26 */ {
                         u32 colorRedD368, colorWordD368, colorGreenD368;
@@ -4909,12 +4906,21 @@ animationClassDoneD368:
                         }
                         break;
                     case 10:                        /* switch 26 */
-                        goto shared27_10;
+                        if (d368_sub_0800CC98() == 0) {
+                            d368_sub_08022180(((struct PlayerD368 *)arg0)->f0);
+                        }
+                        break;
                     case 13:                        /* switch 26 */
-                        goto shared27_13;
+                        if (d368_sub_0800CC98() == 0) {
+                            d368_sub_08021DC4(((struct PlayerD368 *)arg0)->f0);
+                        }
+                        break;
                     case 7:                         /* switch 26 */
                     case 9:                         /* switch 26 */
-                        goto block_1781;
+                    default:
+                        coordF8 = 0;
+                        coordFA = 0;
+                        break;
                     }
                 }
             } else {
@@ -5004,9 +5010,6 @@ block_1716:
                                 { u32 v164 = (sp164 + 2) << 0x18; u32 m164 = 0x7F000000; m164 &= v164; sp164 = m164 >> 0x18; }
                                 { struct PalBufD368 *pal = (void *)&d368_gUnk_03001F40; pal->c[((struct PlayerD368 *)arg0)->f0 + 0x10][15] = 0; }
                                 temp_r0_161 = sp128 - 1;
-                                if (temp_r0_161 > 0xDU) {
-                                    goto block_1781;
-                                }
                                 switch (temp_r0_161) {
                                 case 0:             /* switch 27 */ {
                                     u32 *var_r3_13; s32 var_r1_25;
@@ -5103,20 +5106,18 @@ block_1716:
                                     }
                                     break;
                                 case 10:             /* switch 27 */
-                    shared27_10:
                         if (d368_sub_0800CC98() == 0) {
                             d368_sub_08022180(((struct PlayerD368 *)arg0)->f0);
                         }
                         break;
                                 case 13:             /* switch 27 */
-                    shared27_13:
                         if (d368_sub_0800CC98() == 0) {
                             d368_sub_08021DC4(((struct PlayerD368 *)arg0)->f0);
                         }
                         break;
                                 case 7:             /* switch 27 */
                                 case 9:             /* switch 27 */
-block_1781:
+                                default:
                                     coordF8 = 0;
                                     coordFA = 0;
                                     break;
