@@ -113,7 +113,7 @@
  "callgraph": {
   "nodes": 2035,
   "edges": 10954,
-  "unresolved_calls": 1296,
+  "unresolved_calls": 1294,
   "parsed_c_functions": 1973
  },
  "regional_progress": {
