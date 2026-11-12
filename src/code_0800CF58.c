@@ -3488,7 +3488,6 @@ retry63_1_done:
                 }
                 break;
             case 3:                                 /* switch 16 */
-                var_r5_9 = arg0 + 0x144;
                 ((union RecordD368 *)((struct PlayerD368 *)arg0)->f144)->w0_b0_n4.value = temp_r3_8;
                 ((union RecordD368 *)((struct PlayerD368 *)arg0)->f144)->w0_b4_n12.value = (s32) ((struct PlayerD368 *)arg0)->f8C >> 8;
                 ((union RecordD368 *)((struct PlayerD368 *)arg0)->f144)->w0_b16_n12.value = (((struct PlayerD368 *)arg0)->f90) >> 8;
@@ -3501,13 +3500,12 @@ retry63_1_done:
                 {
                     u32 recordQueryResult126;
                     recordQueryResult126 = d368_sub_0801DEB8();
-                    temp_r3_19 = *var_r5_9;
+                    temp_r3_19 = ((struct PlayerD368 *)arg0)->f144;
                     recordQueryResult126 *= 8;
                     M2C_FIELD(temp_r3_19, u8 *, 6) = (u8) ((7 & M2C_FIELD(temp_r3_19, u8 *, 6)) | recordQueryResult126);
                 }
                 break;
             case 4:                                 /* switch 16 */
-                var_r5_9 = arg0 + 0x144;
                 ((union RecordD368 *)((struct PlayerD368 *)arg0)->f144)->w0_b0_n4.value = temp_r3_8;
                 ((union RecordD368 *)((struct PlayerD368 *)arg0)->f144)->w0_b4_n12.value = (s32) ((struct PlayerD368 *)arg0)->f8C >> 8;
                 ((union RecordD368 *)((struct PlayerD368 *)arg0)->f144)->w0_b16_n12.value = (((struct PlayerD368 *)arg0)->f90) >> 8;
@@ -3519,7 +3517,7 @@ retry63_1_done:
                 {
                     u32 recordQueryResult126;
                     recordQueryResult126 = d368_sub_0801DEB8();
-                    temp_r3_19 = *var_r5_9;
+                    temp_r3_19 = ((struct PlayerD368 *)arg0)->f144;
                     recordQueryResult126 *= 8;
                     M2C_FIELD(temp_r3_19, u8 *, 6) = (u8) ((7 & M2C_FIELD(temp_r3_19, u8 *, 6)) | recordQueryResult126);
                 }
