@@ -1,108 +1,163 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="760" height="318" viewBox="0 0 760 318" role="img" aria-labelledby="dtitle ddesc">
-<title id="dtitle">Data progress: split, typed and named</title>
-<desc id="ddesc">Three independent levels for the data area of the ROM, and a map of that area by state.</desc>
-<rect width="760" height="318" rx="10" fill="#0d1117"/>
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="232" viewBox="0 0 760 232" role="img" aria-labelledby="dtitle ddesc">
+<title id="dtitle">Data progress</title>
+<desc id="ddesc">Share of the data area that is described in source, split into objects, or not split yet.</desc>
+<rect width="760" height="232" rx="10" fill="#0d1117"/>
 <g font-family="DejaVu Sans,Arial,sans-serif" fill="#e6edf3">
-<text x="18" y="25" font-size="14" font-weight="bold">Data · 15.3 MiB of the ROM</text>
-<g><title>1 · Split into objects: 89.47% (14,331,578 / 16,017,660 bytes · 3,439 of at least 12,355 objects)</title>
-<text x="18" y="50" font-size="12" font-weight="bold">1 · Split into objects</text>
-<text x="742" y="50" text-anchor="end" font-size="12">89.47%</text>
-<rect x="18" y="57" width="724" height="12" rx="3" fill="#30363d"/>
-<rect class="progress-fill" x="18" y="57" width="647.7889" height="12" rx="2" fill="#aff5b4"/>
-<text x="18" y="83" font-size="10" fill="#8b949e">14,331,578 / 16,017,660 bytes · 3,439 of at least 12,355 objects</text></g>
-<g><title>2 · Typed (written in source, not copied): 17.50% (2,802,880 / 16,017,660 bytes)</title>
-<text x="18" y="106" font-size="12" font-weight="bold">2 · Typed (written in source, not copied)</text>
-<text x="742" y="106" text-anchor="end" font-size="12">17.50%</text>
-<rect x="18" y="113" width="724" height="12" rx="3" fill="#30363d"/>
-<rect class="progress-fill" x="18" y="113" width="126.6905" height="12" rx="2" fill="#3fb950"/>
-<text x="18" y="139" font-size="10" fill="#8b949e">2,802,880 / 16,017,660 bytes</text></g>
-<g><title>3 · Named objects: 0.09% (11 of at least 12,355 objects)</title>
-<text x="18" y="162" font-size="12" font-weight="bold">3 · Named objects</text>
-<text x="742" y="162" text-anchor="end" font-size="12">0.09%</text>
-<rect x="18" y="169" width="724" height="12" rx="3" fill="#30363d"/>
-<rect class="progress-fill" x="18" y="169" width="0.6446" height="12" rx="2" fill="#3fb950"/>
-<text x="18" y="195" font-size="10" fill="#8b949e">11 of at least 12,355 objects</text></g>
-<text x="18" y="228" font-size="12" font-weight="bold">Map of the data area (left = 0x0B9704, right = 0x1000000)</text>
-<rect x="18" y="236" width="724" height="26" fill="#161b22"/>
-<rect class="map" x="18.000" y="236" width="0.400" height="26" fill="#3fb950"><title>0x0B9704, 640 bytes: typed in source</title></rect>
-<rect class="map" x="18.029" y="236" width="0.400" height="26" fill="#aff5b4"><title>0x0B9984, 84 bytes: split object, still raw bytes</title></rect>
-<rect class="map" x="18.033" y="236" width="0.400" height="26" fill="#6e7681"><title>0x0B99D8, 248 bytes: blob with known objects inside</title></rect>
-<rect class="map" x="18.044" y="236" width="0.400" height="26" fill="#aff5b4"><title>0x0B9AD0, 8128 bytes: split object, still raw bytes</title></rect>
-<rect class="map" x="18.411" y="236" width="0.400" height="26" fill="#6e7681"><title>0x0BBA90, 2892 bytes: blob with known objects inside</title></rect>
-<rect class="map" x="18.542" y="236" width="0.400" height="26" fill="#aff5b4"><title>0x0BC5DC, 48 bytes: split object, still raw bytes</title></rect>
-<rect class="map" x="18.544" y="236" width="126.310" height="26" fill="#3fb950"><title>0x0BC60C, 2794452 bytes: typed in source</title></rect>
-<rect class="map" x="144.854" y="236" width="0.400" height="26" fill="#aff5b4"><title>0x3669E0, 128 bytes: split object, still raw bytes</title></rect>
-<rect class="map" x="144.860" y="236" width="0.400" height="26" fill="#6e7681"><title>0x366A60, 352 bytes: blob with known objects inside</title></rect>
-<rect class="map" x="144.875" y="236" width="0.400" height="26" fill="#3fb950"><title>0x366BC0, 256 bytes: typed in source</title></rect>
-<rect class="map" x="144.887" y="236" width="0.400" height="26" fill="#aff5b4"><title>0x366CC0, 772 bytes: split object, still raw bytes</title></rect>
-<rect class="map" x="144.922" y="236" width="36.146" height="26" fill="#6e7681"><title>0x366FC4, 799688 bytes: blob with known objects inside</title></rect>
-<rect class="map" x="181.068" y="236" width="0.400" height="26" fill="#aff5b4"><title>0x42A38C, 840 bytes: split object, still raw bytes</title></rect>
-<rect class="map" x="181.106" y="236" width="1.856" height="26" fill="#6e7681"><title>0x42A6D4, 41060 bytes: blob with known objects inside</title></rect>
-<rect class="map" x="182.962" y="236" width="1.314" height="26" fill="#aff5b4"><title>0x434738, 29072 bytes: split object, still raw bytes</title></rect>
-<rect class="map" x="184.276" y="236" width="2.770" height="26" fill="#6e7681"><title>0x43B8C8, 61272 bytes: blob with known objects inside</title></rect>
-<rect class="map" x="187.045" y="236" width="0.777" height="26" fill="#aff5b4"><title>0x44A820, 17200 bytes: split object, still raw bytes</title></rect>
-<rect class="map" x="187.823" y="236" width="7.636" height="26" fill="#6e7681"><title>0x44EB50, 168940 bytes: blob with known objects inside</title></rect>
-<rect class="map" x="195.459" y="236" width="0.532" height="26" fill="#aff5b4"><title>0x477F3C, 11776 bytes: split object, still raw bytes</title></rect>
-<rect class="map" x="195.991" y="236" width="3.851" height="26" fill="#6e7681"><title>0x47AD3C, 85200 bytes: blob with known objects inside</title></rect>
-<rect class="map" x="199.842" y="236" width="0.400" height="26" fill="#aff5b4"><title>0x48FA0C, 1352 bytes: split object, still raw bytes</title></rect>
-<rect class="map" x="199.903" y="236" width="2.663" height="26" fill="#6e7681"><title>0x48FF54, 58924 bytes: blob with known objects inside</title></rect>
-<rect class="map" x="202.567" y="236" width="0.400" height="26" fill="#aff5b4"><title>0x49E580, 432 bytes: split object, still raw bytes</title></rect>
-<rect class="map" x="202.586" y="236" width="0.400" height="26" fill="#3fb950"><title>0x49E730, 16 bytes: typed in source</title></rect>
-<rect class="map" x="202.587" y="236" width="0.400" height="26" fill="#aff5b4"><title>0x49E740, 48 bytes: split object, still raw bytes</title></rect>
-<rect class="map" x="202.589" y="236" width="1.005" height="26" fill="#6e7681"><title>0x49E770, 22224 bytes: blob with known objects inside</title></rect>
-<rect class="map" x="203.594" y="236" width="0.400" height="26" fill="#aff5b4"><title>0x4A3E40, 112 bytes: split object, still raw bytes</title></rect>
-<rect class="map" x="203.599" y="236" width="1.210" height="26" fill="#6e7681"><title>0x4A3EB0, 26768 bytes: blob with known objects inside</title></rect>
-<rect class="map" x="204.809" y="236" width="0.400" height="26" fill="#aff5b4"><title>0x4AA740, 112 bytes: split object, still raw bytes</title></rect>
-<rect class="map" x="204.814" y="236" width="0.400" height="26" fill="#6e7681"><title>0x4AA7B0, 448 bytes: blob with known objects inside</title></rect>
-<rect class="map" x="204.834" y="236" width="0.400" height="26" fill="#aff5b4"><title>0x4AA970, 3144 bytes: split object, still raw bytes</title></rect>
-<rect class="map" x="204.976" y="236" width="0.982" height="26" fill="#6e7681"><title>0x4AB5B8, 21736 bytes: blob with known objects inside</title></rect>
-<rect class="map" x="205.959" y="236" width="0.400" height="26" fill="#aff5b4"><title>0x4B0AA0, 4528 bytes: split object, still raw bytes</title></rect>
-<rect class="map" x="206.163" y="236" width="0.400" height="26" fill="#3fb950"><title>0x4B1C50, 240 bytes: typed in source</title></rect>
-<rect class="map" x="206.174" y="236" width="0.400" height="26" fill="#aff5b4"><title>0x4B1D40, 1988 bytes: split object, still raw bytes</title></rect>
-<rect class="map" x="206.264" y="236" width="9.729" height="26" fill="#6e7681"><title>0x4B2504, 215252 bytes: blob with known objects inside</title></rect>
-<rect class="map" x="215.993" y="236" width="0.510" height="26" fill="#aff5b4"><title>0x4E6DD8, 11280 bytes: split object, still raw bytes</title></rect>
-<rect class="map" x="216.503" y="236" width="0.400" height="26" fill="#6e7681"><title>0x4E99E8, 7680 bytes: blob with known objects inside</title></rect>
-<rect class="map" x="216.850" y="236" width="0.400" height="26" fill="#aff5b4"><title>0x4EB7E8, 1396 bytes: split object, still raw bytes</title></rect>
-<rect class="map" x="216.913" y="236" width="0.400" height="26" fill="#3fb950"><title>0x4EBD5C, 24 bytes: typed in source</title></rect>
-<rect class="map" x="216.914" y="236" width="0.400" height="26" fill="#aff5b4"><title>0x4EBD74, 3644 bytes: split object, still raw bytes</title></rect>
-<rect class="map" x="217.079" y="236" width="0.400" height="26" fill="#3fb950"><title>0x4ECBB0, 24 bytes: typed in source</title></rect>
-<rect class="map" x="217.080" y="236" width="0.400" height="26" fill="#aff5b4"><title>0x4ECBC8, 4320 bytes: split object, still raw bytes</title></rect>
-<rect class="map" x="217.276" y="236" width="0.533" height="26" fill="#6e7681"><title>0x4EDCA8, 11800 bytes: blob with known objects inside</title></rect>
-<rect class="map" x="217.809" y="236" width="0.400" height="26" fill="#3fb950"><title>0x4F0AC0, 80 bytes: typed in source</title></rect>
-<rect class="map" x="217.813" y="236" width="0.400" height="26" fill="#aff5b4"><title>0x4F0B10, 378 bytes: split object, still raw bytes</title></rect>
-<rect class="map" x="217.830" y="236" width="5.281" height="26" fill="#6e7681"><title>0x4F0C8A, 116834 bytes: blob with known objects inside</title></rect>
-<rect class="map" x="223.111" y="236" width="0.400" height="26" fill="#aff5b4"><title>0x50D4EC, 20 bytes: split object, still raw bytes</title></rect>
-<rect class="map" x="223.111" y="236" width="1.997" height="26" fill="#6e7681"><title>0x50D500, 44184 bytes: blob with known objects inside</title></rect>
-<rect class="map" x="225.109" y="236" width="0.400" height="26" fill="#aff5b4"><title>0x518198, 114 bytes: split object, still raw bytes</title></rect>
-<rect class="map" x="225.114" y="236" width="0.400" height="26" fill="#6e7681"><title>0x51820A, 580 bytes: blob with known objects inside</title></rect>
-<rect class="map" x="225.140" y="236" width="0.400" height="26" fill="#aff5b4"><title>0x51844E, 1258 bytes: split object, still raw bytes</title></rect>
-<rect class="map" x="225.197" y="236" width="0.400" height="26" fill="#3fb950"><title>0x518938, 340 bytes: typed in source</title></rect>
-<rect class="map" x="225.212" y="236" width="5.779" height="26" fill="#aff5b4"><title>0x518A8C, 127860 bytes: split object, still raw bytes</title></rect>
-<rect class="map" x="230.991" y="236" width="0.400" height="26" fill="#3fb950"><title>0x537E00, 300 bytes: typed in source</title></rect>
-<rect class="map" x="231.005" y="236" width="46.100" height="26" fill="#aff5b4"><title>0x537F2C, 1019904 bytes: split object, still raw bytes</title></rect>
-<rect class="map" x="277.105" y="236" width="0.400" height="26" fill="#3fb950"><title>0x630F2C, 908 bytes: typed in source</title></rect>
-<rect class="map" x="277.146" y="236" width="81.000" height="26" fill="#aff5b4"><title>0x6312B8, 1792036 bytes: split object, still raw bytes</title></rect>
-<rect class="map" x="358.146" y="236" width="0.400" height="26" fill="#3fb950"><title>0x7E6ADC, 324 bytes: typed in source</title></rect>
-<rect class="map" x="358.161" y="236" width="60.217" height="26" fill="#aff5b4"><title>0x7E6C20, 1332224 bytes: split object, still raw bytes</title></rect>
-<rect class="map" x="418.377" y="236" width="0.400" height="26" fill="#3fb950"><title>0x92C020, 8 bytes: typed in source</title></rect>
-<rect class="map" x="418.378" y="236" width="1.481" height="26" fill="#aff5b4"><title>0x92C028, 32768 bytes: split object, still raw bytes</title></rect>
-<rect class="map" x="419.859" y="236" width="0.400" height="26" fill="#3fb950"><title>0x934028, 1408 bytes: typed in source</title></rect>
-<rect class="map" x="419.922" y="236" width="20.314" height="26" fill="#aff5b4"><title>0x9345A8, 449424 bytes: split object, still raw bytes</title></rect>
-<rect class="map" x="440.236" y="236" width="0.400" height="26" fill="#3fb950"><title>0x9A2138, 2812 bytes: typed in source</title></rect>
-<rect class="map" x="440.364" y="236" width="218.640" height="26" fill="#aff5b4"><title>0x9A2C34, 4837152 bytes: split object, still raw bytes</title></rect>
-<rect class="map" x="659.003" y="236" width="0.400" height="26" fill="#3fb950"><title>0xE3FB54, 96 bytes: typed in source</title></rect>
-<rect class="map" x="659.008" y="236" width="1.711" height="26" fill="#aff5b4"><title>0xE3FBB4, 37864 bytes: split object, still raw bytes</title></rect>
-<rect class="map" x="660.719" y="236" width="0.400" height="26" fill="#3fb950"><title>0xE48F9C, 68 bytes: typed in source</title></rect>
-<rect class="map" x="660.722" y="236" width="12.034" height="26" fill="#aff5b4"><title>0xE48FE0, 266240 bytes: split object, still raw bytes</title></rect>
-<rect class="map" x="672.756" y="236" width="0.400" height="26" fill="#3fb950"><title>0xE89FE0, 304 bytes: typed in source</title></rect>
-<rect class="map" x="672.770" y="236" width="1.533" height="26" fill="#aff5b4"><title>0xE8A110, 33924 bytes: split object, still raw bytes</title></rect>
-<rect class="map" x="674.303" y="236" width="0.400" height="26" fill="#3fb950"><title>0xE92594, 580 bytes: typed in source</title></rect>
-<rect class="map" x="674.330" y="236" width="67.670" height="26" fill="#aff5b4"><title>0xE927D8, 1497128 bytes: split object, still raw bytes</title></rect>
-<rect x="18" y="272" width="11" height="11" fill="#3fb950"/>
-<text x="33" y="282" font-size="11">typed in source</text>
-<rect x="142" y="272" width="11" height="11" fill="#aff5b4"/>
-<text x="157" y="282" font-size="11">split object, raw bytes</text>
-<rect x="314" y="272" width="11" height="11" fill="#6e7681"/>
-<text x="329" y="282" font-size="11">blob still to split</text>
-<text x="18" y="304" font-size="10" fill="#8b949e">Levels are independent. Object counts are a lower bound from pointer references. Field names are not measured.</text>
+<text x="18" y="25" font-size="14" font-weight="bold">Data Â· 15.3 MiB of the ROM</text>
+<rect x="18" y="38" width="724" height="22" rx="3" fill="#30363d"/>
+<rect class="progress-fill" x="18.000" y="38" width="561.088" height="22" fill="#3fb950"><title>described in source: 77.50% (12,413,413 bytes)</title></rect>
+<rect class="progress-fill" x="579.088" y="38" width="141.743" height="22" fill="#d29922"><title>split into objects, still raw bytes: 19.58% (3,135,891 bytes)</title></rect>
+<rect class="progress-fill" x="720.830" y="38" width="21.170" height="22" fill="#6e7681"><title>not split yet: 2.92% (468,356 bytes)</title></rect>
+<rect x="18" y="72" width="11" height="11" fill="#3fb950"/>
+<text x="33" y="82" font-size="11">77.50% described in source</text>
+<rect x="212" y="72" width="11" height="11" fill="#d29922"/>
+<text x="227" y="82" font-size="11">19.58% split into objects, still raw bytes</text>
+<rect x="504" y="72" width="11" height="11" fill="#6e7681"/>
+<text x="519" y="82" font-size="11">2.92% not split yet</text>
+<text x="18" y="106" font-size="10" fill="#8b949e">11,342 of at least 12,212 objects have their own label. Described is the figure other decompilations report.</text>
+<text x="18" y="132" font-size="12" font-weight="bold">Where it is in the ROM (left = 0x0B9704, right = 0x1000000)</text>
+<rect x="18" y="140" width="724" height="26" fill="#161b22"/>
+<rect class="map" x="18.000" y="140" width="0.400" height="26" fill="#3fb950"><title>0x0B9704, 640 bytes: described in source</title></rect>
+<rect class="map" x="18.029" y="140" width="0.400" height="26" fill="#d29922"><title>0x0B9984, 84 bytes: split object, still raw bytes</title></rect>
+<rect class="map" x="18.033" y="140" width="0.400" height="26" fill="#6e7681"><title>0x0B99D8, 248 bytes: blob with known objects inside</title></rect>
+<rect class="map" x="18.044" y="140" width="0.400" height="26" fill="#d29922"><title>0x0B9AD0, 8128 bytes: split object, still raw bytes</title></rect>
+<rect class="map" x="18.411" y="140" width="0.400" height="26" fill="#6e7681"><title>0x0BBA90, 2892 bytes: blob with known objects inside</title></rect>
+<rect class="map" x="18.542" y="140" width="0.400" height="26" fill="#d29922"><title>0x0BC5DC, 48 bytes: split object, still raw bytes</title></rect>
+<rect class="map" x="18.544" y="140" width="126.310" height="26" fill="#3fb950"><title>0x0BC60C, 2794452 bytes: described in source</title></rect>
+<rect class="map" x="144.854" y="140" width="0.400" height="26" fill="#d29922"><title>0x3669E0, 128 bytes: split object, still raw bytes</title></rect>
+<rect class="map" x="144.860" y="140" width="0.400" height="26" fill="#3fb950"><title>0x366A60, 20 bytes: described in source</title></rect>
+<rect class="map" x="144.860" y="140" width="0.400" height="26" fill="#6e7681"><title>0x366A74, 60 bytes: blob with known objects inside</title></rect>
+<rect class="map" x="144.863" y="140" width="0.400" height="26" fill="#d29922"><title>0x366AB0, 44 bytes: split object, still raw bytes</title></rect>
+<rect class="map" x="144.865" y="140" width="0.400" height="26" fill="#6e7681"><title>0x366ADC, 132 bytes: blob with known objects inside</title></rect>
+<rect class="map" x="144.871" y="140" width="0.400" height="26" fill="#d29922"><title>0x366B60, 96 bytes: split object, still raw bytes</title></rect>
+<rect class="map" x="144.875" y="140" width="0.400" height="26" fill="#3fb950"><title>0x366BC0, 256 bytes: described in source</title></rect>
+<rect class="map" x="144.887" y="140" width="0.400" height="26" fill="#d29922"><title>0x366CC0, 1072 bytes: split object, still raw bytes</title></rect>
+<rect class="map" x="144.935" y="140" width="6.653" height="26" fill="#3fb950"><title>0x3670F0, 147197 bytes: described in source</title></rect>
+<rect class="map" x="151.589" y="140" width="0.400" height="26" fill="#d29922"><title>0x38AFED, 3 bytes: split object, still raw bytes</title></rect>
+<rect class="map" x="151.589" y="140" width="0.400" height="26" fill="#3fb950"><title>0x38AFF0, 5972 bytes: described in source</title></rect>
+<rect class="map" x="151.859" y="140" width="0.400" height="26" fill="#d29922"><title>0x38C744, 16 bytes: split object, still raw bytes</title></rect>
+<rect class="map" x="151.860" y="140" width="21.503" height="26" fill="#3fb950"><title>0x38C754, 475726 bytes: described in source</title></rect>
+<rect class="map" x="173.362" y="140" width="0.400" height="26" fill="#d29922"><title>0x4009A2, 2 bytes: split object, still raw bytes</title></rect>
+<rect class="map" x="173.363" y="140" width="0.400" height="26" fill="#3fb950"><title>0x4009A4, 5972 bytes: described in source</title></rect>
+<rect class="map" x="173.632" y="140" width="0.400" height="26" fill="#d29922"><title>0x4020F8, 13 bytes: split object, still raw bytes</title></rect>
+<rect class="map" x="173.633" y="140" width="7.165" height="26" fill="#3fb950"><title>0x402105, 158514 bytes: described in source</title></rect>
+<rect class="map" x="180.798" y="140" width="0.400" height="26" fill="#d29922"><title>0x428C37, 1 bytes: split object, still raw bytes</title></rect>
+<rect class="map" x="180.798" y="140" width="0.400" height="26" fill="#3fb950"><title>0x428C38, 5972 bytes: described in source</title></rect>
+<rect class="map" x="181.068" y="140" width="14.923" height="26" fill="#d29922"><title>0x42A38C, 330160 bytes: split object, still raw bytes</title></rect>
+<rect class="map" x="195.991" y="140" width="3.851" height="26" fill="#6e7681"><title>0x47AD3C, 85200 bytes: blob with known objects inside</title></rect>
+<rect class="map" x="199.842" y="140" width="0.400" height="26" fill="#d29922"><title>0x48FA0C, 1352 bytes: split object, still raw bytes</title></rect>
+<rect class="map" x="199.903" y="140" width="2.663" height="26" fill="#6e7681"><title>0x48FF54, 58924 bytes: blob with known objects inside</title></rect>
+<rect class="map" x="202.567" y="140" width="0.400" height="26" fill="#d29922"><title>0x49E580, 432 bytes: split object, still raw bytes</title></rect>
+<rect class="map" x="202.586" y="140" width="0.400" height="26" fill="#3fb950"><title>0x49E730, 16 bytes: described in source</title></rect>
+<rect class="map" x="202.587" y="140" width="0.400" height="26" fill="#d29922"><title>0x49E740, 48 bytes: split object, still raw bytes</title></rect>
+<rect class="map" x="202.589" y="140" width="1.005" height="26" fill="#6e7681"><title>0x49E770, 22224 bytes: blob with known objects inside</title></rect>
+<rect class="map" x="203.594" y="140" width="0.400" height="26" fill="#d29922"><title>0x4A3E40, 112 bytes: split object, still raw bytes</title></rect>
+<rect class="map" x="203.599" y="140" width="1.210" height="26" fill="#6e7681"><title>0x4A3EB0, 26768 bytes: blob with known objects inside</title></rect>
+<rect class="map" x="204.809" y="140" width="0.400" height="26" fill="#d29922"><title>0x4AA740, 112 bytes: split object, still raw bytes</title></rect>
+<rect class="map" x="204.814" y="140" width="0.400" height="26" fill="#6e7681"><title>0x4AA7B0, 448 bytes: blob with known objects inside</title></rect>
+<rect class="map" x="204.834" y="140" width="0.400" height="26" fill="#d29922"><title>0x4AA970, 3144 bytes: split object, still raw bytes</title></rect>
+<rect class="map" x="204.976" y="140" width="0.903" height="26" fill="#6e7681"><title>0x4AB5B8, 19984 bytes: blob with known objects inside</title></rect>
+<rect class="map" x="205.879" y="140" width="0.400" height="26" fill="#d29922"><title>0x4B03C8, 1168 bytes: split object, still raw bytes</title></rect>
+<rect class="map" x="205.932" y="140" width="0.400" height="26" fill="#6e7681"><title>0x4B0858, 88 bytes: blob with known objects inside</title></rect>
+<rect class="map" x="205.936" y="140" width="0.400" height="26" fill="#d29922"><title>0x4B08B0, 64 bytes: split object, still raw bytes</title></rect>
+<rect class="map" x="205.939" y="140" width="0.400" height="26" fill="#6e7681"><title>0x4B08F0, 16 bytes: blob with known objects inside</title></rect>
+<rect class="map" x="205.940" y="140" width="0.400" height="26" fill="#d29922"><title>0x4B0900, 2716 bytes: split object, still raw bytes</title></rect>
+<rect class="map" x="206.062" y="140" width="0.400" height="26" fill="#3fb950"><title>0x4B139C, 584 bytes: described in source</title></rect>
+<rect class="map" x="206.089" y="140" width="0.400" height="26" fill="#d29922"><title>0x4B15E4, 4 bytes: split object, still raw bytes</title></rect>
+<rect class="map" x="206.089" y="140" width="0.400" height="26" fill="#3fb950"><title>0x4B15E8, 36 bytes: described in source</title></rect>
+<rect class="map" x="206.091" y="140" width="0.400" height="26" fill="#d29922"><title>0x4B160C, 4 bytes: split object, still raw bytes</title></rect>
+<rect class="map" x="206.091" y="140" width="0.400" height="26" fill="#3fb950"><title>0x4B1610, 208 bytes: described in source</title></rect>
+<rect class="map" x="206.100" y="140" width="0.400" height="26" fill="#d29922"><title>0x4B16E0, 1392 bytes: split object, still raw bytes</title></rect>
+<rect class="map" x="206.163" y="140" width="0.400" height="26" fill="#3fb950"><title>0x4B1C50, 240 bytes: described in source</title></rect>
+<rect class="map" x="206.174" y="140" width="0.400" height="26" fill="#d29922"><title>0x4B1D40, 1988 bytes: split object, still raw bytes</title></rect>
+<rect class="map" x="206.264" y="140" width="9.729" height="26" fill="#6e7681"><title>0x4B2504, 215252 bytes: blob with known objects inside</title></rect>
+<rect class="map" x="215.993" y="140" width="0.510" height="26" fill="#d29922"><title>0x4E6DD8, 11280 bytes: split object, still raw bytes</title></rect>
+<rect class="map" x="216.503" y="140" width="0.400" height="26" fill="#6e7681"><title>0x4E99E8, 7680 bytes: blob with known objects inside</title></rect>
+<rect class="map" x="216.850" y="140" width="0.400" height="26" fill="#d29922"><title>0x4EB7E8, 1396 bytes: split object, still raw bytes</title></rect>
+<rect class="map" x="216.913" y="140" width="0.400" height="26" fill="#3fb950"><title>0x4EBD5C, 24 bytes: described in source</title></rect>
+<rect class="map" x="216.914" y="140" width="0.400" height="26" fill="#d29922"><title>0x4EBD74, 3644 bytes: split object, still raw bytes</title></rect>
+<rect class="map" x="217.079" y="140" width="0.400" height="26" fill="#3fb950"><title>0x4ECBB0, 24 bytes: described in source</title></rect>
+<rect class="map" x="217.080" y="140" width="0.400" height="26" fill="#d29922"><title>0x4ECBC8, 4320 bytes: split object, still raw bytes</title></rect>
+<rect class="map" x="217.276" y="140" width="0.533" height="26" fill="#6e7681"><title>0x4EDCA8, 11800 bytes: blob with known objects inside</title></rect>
+<rect class="map" x="217.809" y="140" width="0.400" height="26" fill="#3fb950"><title>0x4F0AC0, 80 bytes: described in source</title></rect>
+<rect class="map" x="217.813" y="140" width="0.400" height="26" fill="#d29922"><title>0x4F0B10, 4496 bytes: split object, still raw bytes</title></rect>
+<rect class="map" x="218.016" y="140" width="0.400" height="26" fill="#6e7681"><title>0x4F1CA0, 876 bytes: blob with known objects inside</title></rect>
+<rect class="map" x="218.055" y="140" width="0.400" height="26" fill="#d29922"><title>0x4F200C, 1752 bytes: split object, still raw bytes</title></rect>
+<rect class="map" x="218.135" y="140" width="0.400" height="26" fill="#3fb950"><title>0x4F26E4, 32 bytes: described in source</title></rect>
+<rect class="map" x="218.136" y="140" width="0.400" height="26" fill="#d29922"><title>0x4F2704, 7592 bytes: split object, still raw bytes</title></rect>
+<rect class="map" x="218.479" y="140" width="0.400" height="26" fill="#6e7681"><title>0x4F44AC, 876 bytes: blob with known objects inside</title></rect>
+<rect class="map" x="218.519" y="140" width="0.400" height="26" fill="#3fb950"><title>0x4F4818, 40 bytes: described in source</title></rect>
+<rect class="map" x="218.521" y="140" width="0.400" height="26" fill="#d29922"><title>0x4F4840, 1460 bytes: split object, still raw bytes</title></rect>
+<rect class="map" x="218.587" y="140" width="0.400" height="26" fill="#6e7681"><title>0x4F4DF4, 876 bytes: blob with known objects inside</title></rect>
+<rect class="map" x="218.626" y="140" width="0.400" height="26" fill="#d29922"><title>0x4F5160, 5256 bytes: split object, still raw bytes</title></rect>
+<rect class="map" x="218.864" y="140" width="0.400" height="26" fill="#6e7681"><title>0x4F65E8, 584 bytes: blob with known objects inside</title></rect>
+<rect class="map" x="218.890" y="140" width="0.400" height="26" fill="#d29922"><title>0x4F6830, 4380 bytes: split object, still raw bytes</title></rect>
+<rect class="map" x="219.088" y="140" width="0.400" height="26" fill="#3fb950"><title>0x4F794C, 60 bytes: described in source</title></rect>
+<rect class="map" x="219.091" y="140" width="0.475" height="26" fill="#d29922"><title>0x4F7988, 10512 bytes: split object, still raw bytes</title></rect>
+<rect class="map" x="219.566" y="140" width="0.400" height="26" fill="#3fb950"><title>0x4FA298, 52 bytes: described in source</title></rect>
+<rect class="map" x="219.568" y="140" width="0.528" height="26" fill="#d29922"><title>0x4FA2CC, 11680 bytes: split object, still raw bytes</title></rect>
+<rect class="map" x="220.096" y="140" width="0.400" height="26" fill="#3fb950"><title>0x4FD06C, 56 bytes: described in source</title></rect>
+<rect class="map" x="220.099" y="140" width="0.515" height="26" fill="#d29922"><title>0x4FD0A4, 11388 bytes: split object, still raw bytes</title></rect>
+<rect class="map" x="220.613" y="140" width="0.400" height="26" fill="#6e7681"><title>0x4FFD20, 876 bytes: blob with known objects inside</title></rect>
+<rect class="map" x="220.653" y="140" width="0.400" height="26" fill="#3fb950"><title>0x50008C, 68 bytes: described in source</title></rect>
+<rect class="map" x="220.656" y="140" width="0.400" height="26" fill="#6e7681"><title>0x5000D0, 584 bytes: blob with known objects inside</title></rect>
+<rect class="map" x="220.683" y="140" width="0.436" height="26" fill="#d29922"><title>0x500318, 9636 bytes: split object, still raw bytes</title></rect>
+<rect class="map" x="221.118" y="140" width="0.400" height="26" fill="#3fb950"><title>0x5028BC, 52 bytes: described in source</title></rect>
+<rect class="map" x="221.120" y="140" width="0.647" height="26" fill="#d29922"><title>0x5028F0, 14308 bytes: split object, still raw bytes</title></rect>
+<rect class="map" x="221.767" y="140" width="0.400" height="26" fill="#3fb950"><title>0x5060D4, 76 bytes: described in source</title></rect>
+<rect class="map" x="221.771" y="140" width="0.488" height="26" fill="#d29922"><title>0x506120, 10804 bytes: split object, still raw bytes</title></rect>
+<rect class="map" x="222.259" y="140" width="0.400" height="26" fill="#3fb950"><title>0x508B54, 68 bytes: described in source</title></rect>
+<rect class="map" x="222.262" y="140" width="0.686" height="26" fill="#d29922"><title>0x508B98, 15184 bytes: split object, still raw bytes</title></rect>
+<rect class="map" x="222.948" y="140" width="0.400" height="26" fill="#3fb950"><title>0x50C6E8, 84 bytes: described in source</title></rect>
+<rect class="map" x="222.952" y="140" width="0.400" height="26" fill="#d29922"><title>0x50C73C, 3504 bytes: split object, still raw bytes</title></rect>
+<rect class="map" x="223.111" y="140" width="0.400" height="26" fill="#3fb950"><title>0x50D4EC, 20 bytes: described in source</title></rect>
+<rect class="map" x="223.111" y="140" width="0.400" height="26" fill="#d29922"><title>0x50D500, 2344 bytes: split object, still raw bytes</title></rect>
+<rect class="map" x="223.217" y="140" width="0.400" height="26" fill="#3fb950"><title>0x50DE28, 16 bytes: described in source</title></rect>
+<rect class="map" x="223.218" y="140" width="0.400" height="26" fill="#d29922"><title>0x50DE38, 3212 bytes: split object, still raw bytes</title></rect>
+<rect class="map" x="223.363" y="140" width="0.400" height="26" fill="#3fb950"><title>0x50EAC4, 20 bytes: described in source</title></rect>
+<rect class="map" x="223.364" y="140" width="0.400" height="26" fill="#d29922"><title>0x50EAD8, 3516 bytes: split object, still raw bytes</title></rect>
+<rect class="map" x="223.523" y="140" width="0.400" height="26" fill="#3fb950"><title>0x50F894, 16 bytes: described in source</title></rect>
+<rect class="map" x="223.524" y="140" width="0.400" height="26" fill="#d29922"><title>0x50F8A4, 1460 bytes: split object, still raw bytes</title></rect>
+<rect class="map" x="223.590" y="140" width="0.400" height="26" fill="#6e7681"><title>0x50FE58, 876 bytes: blob with known objects inside</title></rect>
+<rect class="map" x="223.629" y="140" width="0.400" height="26" fill="#d29922"><title>0x5101C4, 876 bytes: split object, still raw bytes</title></rect>
+<rect class="map" x="223.669" y="140" width="0.400" height="26" fill="#3fb950"><title>0x510530, 16 bytes: described in source</title></rect>
+<rect class="map" x="223.670" y="140" width="0.400" height="26" fill="#6e7681"><title>0x510540, 1168 bytes: blob with known objects inside</title></rect>
+<rect class="map" x="223.723" y="140" width="0.400" height="26" fill="#d29922"><title>0x5109D0, 2920 bytes: split object, still raw bytes</title></rect>
+<rect class="map" x="223.855" y="140" width="0.400" height="26" fill="#3fb950"><title>0x511538, 28 bytes: described in source</title></rect>
+<rect class="map" x="223.856" y="140" width="0.400" height="26" fill="#d29922"><title>0x511554, 2920 bytes: split object, still raw bytes</title></rect>
+<rect class="map" x="223.988" y="140" width="0.400" height="26" fill="#6e7681"><title>0x5120BC, 1460 bytes: blob with known objects inside</title></rect>
+<rect class="map" x="224.054" y="140" width="0.400" height="26" fill="#3fb950"><title>0x512670, 24 bytes: described in source</title></rect>
+<rect class="map" x="224.055" y="140" width="0.400" height="26" fill="#6e7681"><title>0x512688, 4088 bytes: blob with known objects inside</title></rect>
+<rect class="map" x="224.240" y="140" width="0.400" height="26" fill="#3fb950"><title>0x513680, 20 bytes: described in source</title></rect>
+<rect class="map" x="224.241" y="140" width="0.400" height="26" fill="#6e7681"><title>0x513694, 1460 bytes: blob with known objects inside</title></rect>
+<rect class="map" x="224.307" y="140" width="0.400" height="26" fill="#d29922"><title>0x513C48, 2044 bytes: split object, still raw bytes</title></rect>
+<rect class="map" x="224.399" y="140" width="0.400" height="26" fill="#6e7681"><title>0x514444, 1168 bytes: blob with known objects inside</title></rect>
+<rect class="map" x="224.452" y="140" width="0.400" height="26" fill="#d29922"><title>0x5148D4, 1168 bytes: split object, still raw bytes</title></rect>
+<rect class="map" x="224.504" y="140" width="0.400" height="26" fill="#6e7681"><title>0x514D64, 584 bytes: blob with known objects inside</title></rect>
+<rect class="map" x="224.531" y="140" width="0.400" height="26" fill="#3fb950"><title>0x514FAC, 40 bytes: described in source</title></rect>
+<rect class="map" x="224.533" y="140" width="0.400" height="26" fill="#6e7681"><title>0x514FD4, 584 bytes: blob with known objects inside</title></rect>
+<rect class="map" x="224.559" y="140" width="0.400" height="26" fill="#d29922"><title>0x51521C, 3504 bytes: split object, still raw bytes</title></rect>
+<rect class="map" x="224.717" y="140" width="0.400" height="26" fill="#3fb950"><title>0x515FCC, 20 bytes: described in source</title></rect>
+<rect class="map" x="224.718" y="140" width="0.400" height="26" fill="#d29922"><title>0x515FE0, 4672 bytes: split object, still raw bytes</title></rect>
+<rect class="map" x="224.930" y="140" width="0.400" height="26" fill="#3fb950"><title>0x517220, 24 bytes: described in source</title></rect>
+<rect class="map" x="224.931" y="140" width="0.400" height="26" fill="#d29922"><title>0x517238, 3796 bytes: split object, still raw bytes</title></rect>
+<rect class="map" x="225.102" y="140" width="0.400" height="26" fill="#3fb950"><title>0x51810C, 20 bytes: described in source</title></rect>
+<rect class="map" x="225.103" y="140" width="0.400" height="26" fill="#d29922"><title>0x518120, 120 bytes: split object, still raw bytes</title></rect>
+<rect class="map" x="225.109" y="140" width="0.400" height="26" fill="#3fb950"><title>0x518198, 40 bytes: described in source</title></rect>
+<rect class="map" x="225.110" y="140" width="0.400" height="26" fill="#d29922"><title>0x5181C0, 74 bytes: split object, still raw bytes</title></rect>
+<rect class="map" x="225.114" y="140" width="0.400" height="26" fill="#6e7681"><title>0x51820A, 580 bytes: blob with known objects inside</title></rect>
+<rect class="map" x="225.140" y="140" width="0.400" height="26" fill="#d29922"><title>0x51844E, 1258 bytes: split object, still raw bytes</title></rect>
+<rect class="map" x="225.197" y="140" width="0.400" height="26" fill="#3fb950"><title>0x518938, 340 bytes: described in source</title></rect>
+<rect class="map" x="225.212" y="140" width="5.779" height="26" fill="#d29922"><title>0x518A8C, 127860 bytes: split object, still raw bytes</title></rect>
+<rect class="map" x="230.991" y="140" width="46.154" height="26" fill="#3fb950"><title>0x537E00, 1021112 bytes: described in source</title></rect>
+<rect class="map" x="277.146" y="140" width="81.000" height="26" fill="#d29922"><title>0x6312B8, 1792036 bytes: split object, still raw bytes</title></rect>
+<rect class="map" x="358.146" y="140" width="61.776" height="26" fill="#3fb950"><title>0x7E6ADC, 1366732 bytes: described in source</title></rect>
+<rect class="map" x="419.922" y="140" width="20.314" height="26" fill="#d29922"><title>0x9345A8, 449424 bytes: split object, still raw bytes</title></rect>
+<rect class="map" x="440.236" y="140" width="218.771" height="26" fill="#3fb950"><title>0x9A2138, 4840060 bytes: described in source</title></rect>
+<rect class="map" x="659.008" y="140" width="1.711" height="26" fill="#d29922"><title>0xE3FBB4, 37864 bytes: split object, still raw bytes</title></rect>
+<rect class="map" x="660.719" y="140" width="12.051" height="26" fill="#3fb950"><title>0xE48F9C, 266612 bytes: described in source</title></rect>
+<rect class="map" x="672.770" y="140" width="1.533" height="26" fill="#d29922"><title>0xE8A110, 33924 bytes: split object, still raw bytes</title></rect>
+<rect class="map" x="674.303" y="140" width="59.742" height="26" fill="#3fb950"><title>0xE92594, 1321732 bytes: described in source</title></rect>
+<rect class="map" x="734.046" y="140" width="7.954" height="26" fill="#d29922"><title>0xFD5098, 175976 bytes: split object, still raw bytes</title></rect>
+<text x="18" y="186" font-size="10" fill="#8b949e">Same colours as the bar. The sound data is the green stretch; the two resource archives are the long yellow ones.</text>
 </g></svg>

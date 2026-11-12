@@ -14,8 +14,8 @@
 <text x="269.0" y="86" fill="#e6edf3" font-size="10">940 bytes; not decompiled C</text>
 <rect x="506.0" y="30" width="235.0" height="66" rx="5" fill="#161b22"/>
 <text x="516.0" y="46" fill="#e6edf3" font-size="11">Identification</text>
-<text x="516.0" y="69" fill="#3fb950" font-size="21" font-weight="600">58.67%</text>
-<text x="516.0" y="86" fill="#e6edf3" font-size="10">1194 / 2035 registered names</text>
+<text x="516.0" y="69" fill="#3fb950" font-size="21" font-weight="600">63.78%</text>
+<text x="516.0" y="86" fill="#e6edf3" font-size="10">1298 / 2035 registered names</text>
 <rect x="753.0" y="30" width="235.0" height="66" rx="5" fill="#161b22"/>
 <text x="763.0" y="46" fill="#e6edf3" font-size="11">All code</text>
 <text x="763.0" y="69" fill="#3fb950" font-size="21" font-weight="600">100.00%</text>
@@ -368,12 +368,12 @@
 <rect x="403.96" y="137.56" width="7.64" height="8.82" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0801500C | sub_0801500C | unidentified  0x0801500C  132 bytes  [done]</title></rect>
 <rect x="411.60" y="137.56" width="7.18" height="8.82" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>ApplyPlayerPendingDamageAndReportDefeat | sub_08013BC0 | confirmed  0x08013BC0  124 bytes  [done]</title></rect>
 <rect x="396.08" y="146.37" width="6.09" height="9.73" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>EnqueueCurrentClassSkillEffect | sub_0800D2F4 | confirmed  0x0800D2F4  116 bytes  [done]</title></rect>
-<rect x="396.08" y="156.10" width="6.09" height="6.37" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0800D0A8 | sub_0800D0A8 | unidentified  0x0800D0A8  76 bytes  [done]</title></rect>
+<rect x="396.08" y="156.10" width="6.09" height="6.37" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>StartWorldMapDestinationTask | sub_0800D0A8 | confirmed  0x0800D0A8  76 bytes  [done]</title></rect>
 <rect x="402.17" y="146.37" width="4.31" height="9.00" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0800D164 | sub_0800D164 | unidentified  0x0800D164  76 bytes  [done]</title></rect>
 <rect x="402.17" y="155.37" width="4.31" height="2.37" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>EnablePlayerBattleRules | sub_0800CF58 | confirmed  0x0800CF58  20 bytes  [done]</title></rect>
 <rect x="402.17" y="157.74" width="4.31" height="2.37" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>DisablePlayerBattleRules | sub_0800CF6C | confirmed  0x0800CF6C  20 bytes  [done]</title></rect>
-<rect x="402.17" y="160.11" width="4.31" height="2.37" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0800CF90 | sub_0800CF90 | unidentified  0x0800CF90  20 bytes  [done]</title></rect>
-<rect x="406.48" y="146.37" width="3.08" height="3.32" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0800CFA4 | sub_0800CFA4 | unidentified  0x0800CFA4  20 bytes  [done]</title></rect>
+<rect x="402.17" y="160.11" width="4.31" height="2.37" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>RequestPlayerHudHold | sub_0800CF90 | confirmed  0x0800CF90  20 bytes  [done]</title></rect>
+<rect x="406.48" y="146.37" width="3.08" height="3.32" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>ClearPlayerHudHold | sub_0800CFA4 | confirmed  0x0800CFA4  20 bytes  [done]</title></rect>
 <rect x="409.56" y="146.37" width="3.08" height="3.32" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>MarkCentroidAreaAttackPending | sub_0800CFC8 | confirmed  0x0800CFC8  20 bytes  [done]</title></rect>
 <rect x="412.63" y="146.37" width="3.08" height="3.32" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>ClearCentroidAreaAttackPending | sub_0800CFDC | confirmed  0x0800CFDC  20 bytes  [done]</title></rect>
 <rect x="415.71" y="146.37" width="3.08" height="3.32" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0800D000 | sub_0800D000 | unidentified  0x0800D000  20 bytes  [done]</title></rect>
@@ -387,13 +387,13 @@
 <rect x="409.72" y="153.01" width="3.24" height="3.15" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0800D12C | sub_0800D12C | unidentified  0x0800D12C  20 bytes  [done]</title></rect>
 <rect x="412.96" y="153.01" width="3.24" height="3.15" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0800D140 | sub_0800D140 | unidentified  0x0800D140  20 bytes  [done]</title></rect>
 <rect x="416.20" y="153.01" width="2.59" height="3.15" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>ArePlayerBattleRulesEnabled | sub_0800CF80 | confirmed  0x0800CF80  16 bytes  [done]</title></rect>
-<rect x="409.72" y="156.17" width="2.59" height="3.15" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0800CFB8 | sub_0800CFB8 | unidentified  0x0800CFB8  16 bytes  [done]</title></rect>
+<rect x="409.72" y="156.17" width="2.59" height="3.15" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>IsPlayerHudHoldRequested | sub_0800CFB8 | confirmed  0x0800CFB8  16 bytes  [done]</title></rect>
 <rect x="409.72" y="159.32" width="2.59" height="3.15" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>IsCentroidAreaAttackPending | sub_0800CFF0 | confirmed  0x0800CFF0  16 bytes  [done]</title></rect>
-<rect x="412.31" y="156.17" width="2.59" height="3.15" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0800D028 | sub_0800D028 | unidentified  0x0800D028  16 bytes  [done]</title></rect>
-<rect x="412.31" y="159.32" width="2.59" height="3.15" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0800D060 | sub_0800D060 | unidentified  0x0800D060  16 bytes  [done]</title></rect>
-<rect x="414.90" y="156.17" width="3.88" height="2.10" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0800D098 | sub_0800D098 | unidentified  0x0800D098  16 bytes  [done]</title></rect>
+<rect x="412.31" y="156.17" width="2.59" height="3.15" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>IsExitMusicOverrideMarked | sub_0800D028 | confirmed  0x0800D028  16 bytes  [done]</title></rect>
+<rect x="412.31" y="159.32" width="2.59" height="3.15" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>IsItemUiAbortRequested | sub_0800D060 | confirmed  0x0800D060  16 bytes  [done]</title></rect>
+<rect x="414.90" y="156.17" width="3.88" height="2.10" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>IsMapReloadPhaseMarked | sub_0800D098 | confirmed  0x0800D098  16 bytes  [done]</title></rect>
 <rect x="414.90" y="158.27" width="3.88" height="2.10" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>IsLocalPlayerEventLockActive | sub_0800D11C | confirmed  0x0800D11C  16 bytes  [done]</title></rect>
-<rect x="414.90" y="160.37" width="3.88" height="2.10" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0800D154 | sub_0800D154 | unidentified  0x0800D154  16 bytes  [done]</title></rect>
+<rect x="414.90" y="160.37" width="3.88" height="2.10" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>IsBossRetryRequested | sub_0800D154 | confirmed  0x0800D154  16 bytes  [done]</title></rect>
 <rect x="289.2" y="29.0" width="78.8" height="13" fill="#0d1117" fill-opacity="0.75"/>
 <text x="292.2" y="39.0" fill="#e6edf3" font-size="10">code_0800CF58</text>
 </g>
@@ -951,24 +951,24 @@
 <rect x="678.86" y="190.66" width="12.04" height="12.03" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0801FB14 | sub_0801FB14 | unidentified  0x0801FB14  288 bytes  [done]</title></rect>
 <rect x="678.86" y="202.69" width="12.04" height="11.86" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_080216BC | sub_080216BC | unidentified  0x080216BC  284 bytes  [done]</title></rect>
 <rect x="690.90" y="178.30" width="12.28" height="11.14" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>ComputeElementalAttackDamage | sub_0801EF14 | confirmed  0x0801EF14  272 bytes  [done]</title></rect>
-<rect x="703.18" y="178.30" width="11.92" height="11.14" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0801F1C4 | sub_0801F1C4 | unidentified  0x0801F1C4  264 bytes  [done]</title></rect>
-<rect x="715.10" y="178.30" width="9.75" height="11.14" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_080215E4 | sub_080215E4 | unidentified  0x080215E4  216 bytes  [done]</title></rect>
-<rect x="690.90" y="189.43" width="8.97" height="11.21" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08020D40 | sub_08020D40 | unidentified  0x08020D40  200 bytes  [done]</title></rect>
+<rect x="703.18" y="178.30" width="11.92" height="11.14" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>QueueEnemyDamageFromPosition | sub_0801F1C4 | confirmed  0x0801F1C4  264 bytes  [done]</title></rect>
+<rect x="715.10" y="178.30" width="9.75" height="11.14" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>TaskDrawShortEffect | sub_080215E4 | confirmed  0x080215E4  216 bytes  [done]</title></rect>
+<rect x="690.90" y="189.43" width="8.97" height="11.21" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>TaskAnimateCriticalHitSprite | sub_08020D40 | confirmed  0x08020D40  200 bytes  [done]</title></rect>
 <rect x="690.90" y="200.65" width="8.97" height="7.63" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>ApplySquaredResistanceFactor | sub_08021D00 | confirmed  0x08021D00  136 bytes  [done]</title></rect>
 <rect x="690.90" y="208.28" width="8.97" height="6.28" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>ComputeRandomizedQuadraticDamage | sub_08021C74 | confirmed  0x08021C74  112 bytes  [done]</title></rect>
 <rect x="699.87" y="189.43" width="8.65" height="6.28" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>AddExperienceAndAdvanceOneLevel | sub_0801E4CC | confirmed  0x0801E4CC  108 bytes  [done]</title></rect>
-<rect x="708.52" y="189.43" width="8.65" height="6.28" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0801FD64 | sub_0801FD64 | unidentified  0x0801FD64  108 bytes  [done]</title></rect>
-<rect x="717.17" y="189.43" width="7.69" height="6.28" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0801E378 | sub_0801E378 | unidentified  0x0801E378  96 bytes  [done]</title></rect>
-<rect x="699.87" y="195.72" width="7.15" height="6.75" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0801E3D8 | sub_0801E3D8 | unidentified  0x0801E3D8  96 bytes  [done]</title></rect>
+<rect x="708.52" y="189.43" width="8.65" height="6.28" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>QueueAttackHealthCost | sub_0801FD64 | confirmed  0x0801FD64  108 bytes  [done]</title></rect>
+<rect x="717.17" y="189.43" width="7.69" height="6.28" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>ApplyHigherIndexedSkillScaling | sub_0801E378 | confirmed  0x0801E378  96 bytes  [done]</title></rect>
+<rect x="699.87" y="195.72" width="7.15" height="6.75" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>ApplyLowerIndexedSkillScaling | sub_0801E3D8 | confirmed  0x0801E3D8  96 bytes  [done]</title></rect>
 <rect x="699.87" y="202.46" width="7.15" height="6.19" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>ResetInlineActorStatusEffectsByKey | sub_0801E2CC | confirmed  0x0801E2CC  88 bytes  [done]</title></rect>
 <rect x="699.87" y="208.65" width="7.15" height="5.91" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>ResetPlayerStatusEffectsByKey | sub_0801E278 | confirmed  0x0801E278  84 bytes  [done]</title></rect>
 <rect x="707.02" y="195.72" width="5.94" height="7.11" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>RemovePlayerEffectsByTypeAndKey | sub_0801E324 | confirmed  0x0801E324  84 bytes  [done]</title></rect>
-<rect x="712.97" y="195.72" width="5.94" height="7.11" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0801F2CC | sub_0801F2CC | unidentified  0x0801F2CC  84 bytes  [done]</title></rect>
-<rect x="718.91" y="195.72" width="5.94" height="7.11" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0801F320 | sub_0801F320 | unidentified  0x0801F320  84 bytes  [done]</title></rect>
+<rect x="712.97" y="195.72" width="5.94" height="7.11" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>ConfigureEnemyKnockbackFromHit | sub_0801F2CC | confirmed  0x0801F2CC  84 bytes  [done]</title></rect>
+<rect x="718.91" y="195.72" width="5.94" height="7.11" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>ConfigurePlayerKnockbackFromHit | sub_0801F320 | confirmed  0x0801F320  84 bytes  [done]</title></rect>
 <rect x="707.02" y="202.82" width="5.83" height="5.87" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>ComputeEnemyDefeatExperience | sub_0801E46C | confirmed  0x0801E46C  68 bytes  [done]</title></rect>
 <rect x="707.02" y="208.69" width="5.83" height="5.87" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>SetPlayerEffectAmountByTypeAndKey | sub_0801E550 | confirmed  0x0801E550  68 bytes  [done]</title></rect>
 <rect x="712.85" y="202.82" width="4.46" height="5.87" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>FindInlineActorStatusEffectByKey | sub_0801E244 | confirmed  0x0801E244  52 bytes  [done]</title></rect>
-<rect x="712.85" y="208.69" width="4.46" height="5.87" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0801E438 | sub_0801E438 | unidentified  0x0801E438  52 bytes  [done]</title></rect>
+<rect x="712.85" y="208.69" width="4.46" height="5.87" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>ComputeClassSkillEightfoldValue | sub_0801E438 | confirmed  0x0801E438  52 bytes  [done]</title></rect>
 <rect x="717.31" y="202.82" width="4.24" height="4.27" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>AllocateActorSpriteEffectTaskPool | sub_08021D88 | confirmed  0x08021D88  36 bytes  [done]</title></rect>
 <rect x="721.55" y="202.82" width="3.30" height="4.27" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>GetExperienceNeededForNextLevel | sub_0801E4B0 | confirmed  0x0801E4B0  28 bytes  [done]</title></rect>
 <rect x="717.31" y="207.09" width="3.77" height="3.73" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>MarkEightEffectRecordsFree | sub_0801E594 | confirmed  0x0801E594  28 bytes  [done]</title></rect>
@@ -982,7 +982,7 @@
 </g>
 <g><title>code_08009088 (15156 bytes)</title>
 <rect x="725.85" y="129.00" width="92.15" height="86.55" fill="#0d1117"/>
-<rect x="726.85" y="130.00" width="34.59" height="41.70" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0800BEC0 | sub_0800BEC0 | unidentified  0x0800BEC0  2868 bytes  [done]</title></rect>
+<rect x="726.85" y="130.00" width="34.59" height="41.70" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>TaskSelectWorldMapDestination | sub_0800BEC0 | confirmed  0x0800BEC0  2868 bytes  [done]</title></rect>
 <rect x="726.85" y="171.70" width="34.59" height="23.44" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>UpdateWorldMapMusic | sub_0800A34C | confirmed  0x0800A34C  1612 bytes  [done]</title></rect>
 <rect x="726.85" y="195.13" width="34.59" height="19.42" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0800B118 | sub_0800B118 | unidentified  0x0800B118  1336 bytes  [done]</title></rect>
 <rect x="761.45" y="130.00" width="31.48" height="19.30" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>UpdateWorldMapTileAnimationsAndBlend | sub_08009B84 | confirmed  0x08009B84  1208 bytes  [done]</title></rect>
@@ -1108,23 +1108,23 @@
 <rect x="578.96" y="329.95" width="9.37" height="8.55" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08090290 | sub_08090290 | unidentified  0x08090290  160 bytes  [done]</title></rect>
 <rect x="588.34" y="329.95" width="8.67" height="8.55" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08090330 | sub_08090330 | unidentified  0x08090330  148 bytes  [done]</title></rect>
 <rect x="597.00" y="329.95" width="8.43" height="8.55" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_080922B4 | sub_080922B4 | unidentified  0x080922B4  144 bytes  [done]</title></rect>
-<rect x="569.59" y="338.50" width="8.59" height="8.16" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0809011C | sub_0809011C | unidentified  0x0809011C  140 bytes  [done]</title></rect>
-<rect x="569.59" y="346.66" width="8.59" height="8.16" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08091E94 | sub_08091E94 | unidentified  0x08091E94  140 bytes  [done]</title></rect>
-<rect x="569.59" y="354.82" width="8.59" height="7.46" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0808FB5C | sub_0808FB5C | unidentified  0x0808FB5C  128 bytes  [done]</title></rect>
-<rect x="569.59" y="362.29" width="8.59" height="7.23" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0808FD88 | sub_0808FD88 | unidentified  0x0808FD88  124 bytes  [done]</title></rect>
+<rect x="569.59" y="338.50" width="8.59" height="8.16" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>UpdateSceneExitDestination | sub_0809011C | confirmed  0x0809011C  140 bytes  [done]</title></rect>
+<rect x="569.59" y="346.66" width="8.59" height="8.16" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>WaitWithSoundTestAllocation | sub_08091E94 | confirmed  0x08091E94  140 bytes  [done]</title></rect>
+<rect x="569.59" y="354.82" width="8.59" height="7.46" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>UpdateHeightLimitedMap12Scene | sub_0808FB5C | confirmed  0x0808FB5C  128 bytes  [done]</title></rect>
+<rect x="569.59" y="362.29" width="8.59" height="7.23" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>ShowMessagesAndRequestExit | sub_0808FD88 | confirmed  0x0808FD88  124 bytes  [done]</title></rect>
 <rect x="578.18" y="338.50" width="7.16" height="8.67" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>AppendThreeDigitGlyphNumber | sub_08091F20 | confirmed  0x08091F20  124 bytes  [done]</title></rect>
-<rect x="585.34" y="338.50" width="6.70" height="8.67" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0808FBDC | sub_0808FBDC | unidentified  0x0808FBDC  116 bytes  [done]</title></rect>
-<rect x="592.04" y="338.50" width="6.70" height="8.67" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08090008 | sub_08090008 | unidentified  0x08090008  116 bytes  [done]</title></rect>
-<rect x="598.74" y="338.50" width="6.70" height="8.67" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_080901A8 | sub_080901A8 | unidentified  0x080901A8  116 bytes  [done]</title></rect>
-<rect x="578.18" y="347.17" width="7.62" height="7.62" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0809021C | sub_0809021C | unidentified  0x0809021C  116 bytes  [done]</title></rect>
-<rect x="578.18" y="354.80" width="7.62" height="7.36" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0808FEB8 | sub_0808FEB8 | unidentified  0x0808FEB8  112 bytes  [done]</title></rect>
-<rect x="578.18" y="362.16" width="7.62" height="7.36" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0808FF28 | sub_0808FF28 | unidentified  0x0808FF28  112 bytes  [done]</title></rect>
-<rect x="585.80" y="347.17" width="6.62" height="8.47" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0808FF98 | sub_0808FF98 | unidentified  0x0808FF98  112 bytes  [done]</title></rect>
-<rect x="592.43" y="347.17" width="6.62" height="8.47" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_080903C4 | sub_080903C4 | unidentified  0x080903C4  112 bytes  [done]</title></rect>
-<rect x="599.05" y="347.17" width="6.39" height="8.47" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08092124 | sub_08092124 | unidentified  0x08092124  108 bytes  [done]</title></rect>
-<rect x="585.80" y="355.64" width="6.79" height="7.67" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08092348 | sub_08092348 | unidentified  0x08092348  104 bytes  [done]</title></rect>
-<rect x="585.80" y="363.32" width="6.79" height="6.20" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08092190 | sub_08092190 | unidentified  0x08092190  84 bytes  [done]</title></rect>
-<rect x="592.59" y="355.64" width="6.61" height="5.46" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_080923B4 | sub_080923B4 | unidentified  0x080923B4  72 bytes  [done]</title></rect>
+<rect x="585.34" y="338.50" width="6.70" height="8.67" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>UpdateMap12SceneExit | sub_0808FBDC | confirmed  0x0808FBDC  116 bytes  [done]</title></rect>
+<rect x="592.04" y="338.50" width="6.70" height="8.67" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>UpdateMap18SceneExit | sub_08090008 | confirmed  0x08090008  116 bytes  [done]</title></rect>
+<rect x="598.74" y="338.50" width="6.70" height="8.67" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>UpdateMap20SceneExit | sub_080901A8 | confirmed  0x080901A8  116 bytes  [done]</title></rect>
+<rect x="578.18" y="347.17" width="7.62" height="7.62" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>UpdateMap21SceneExit | sub_0809021C | confirmed  0x0809021C  116 bytes  [done]</title></rect>
+<rect x="578.18" y="354.80" width="7.62" height="7.36" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>UpdateMap15SceneExit | sub_0808FEB8 | confirmed  0x0808FEB8  112 bytes  [done]</title></rect>
+<rect x="578.18" y="362.16" width="7.62" height="7.36" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>UpdateMap16SceneExit | sub_0808FF28 | confirmed  0x0808FF28  112 bytes  [done]</title></rect>
+<rect x="585.80" y="347.17" width="6.62" height="8.47" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>UpdateMap17SceneExit | sub_0808FF98 | confirmed  0x0808FF98  112 bytes  [done]</title></rect>
+<rect x="592.43" y="347.17" width="6.62" height="8.47" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>UpdateMap23SceneExit | sub_080903C4 | confirmed  0x080903C4  112 bytes  [done]</title></rect>
+<rect x="599.05" y="347.17" width="6.39" height="8.47" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>InitializeSoundTestAnimationTasks | sub_08092124 | confirmed  0x08092124  108 bytes  [done]</title></rect>
+<rect x="585.80" y="355.64" width="6.79" height="7.67" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>StartCoordinatedAttackPresentationTask | sub_08092348 | confirmed  0x08092348  104 bytes  [done]</title></rect>
+<rect x="585.80" y="363.32" width="6.79" height="6.20" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>StartRandomSoundTestAnimation | sub_08092190 | confirmed  0x08092190  84 bytes  [done]</title></rect>
+<rect x="592.59" y="355.64" width="6.61" height="5.46" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>TaskDispatchCoordinatedAttackPresentation | sub_080923B4 | confirmed  0x080923B4  72 bytes  [done]</title></rect>
 <rect x="599.20" y="355.64" width="6.24" height="5.46" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>UpdateStartupButtonSequenceProgress | sub_080920A0 | confirmed  0x080920A0  68 bytes  [done]</title></rect>
 <rect x="592.59" y="361.10" width="5.95" height="5.39" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>StartSongAndSoundTestMenuTask | sub_080920E4 | confirmed  0x080920E4  64 bytes  [done]</title></rect>
 <rect x="592.59" y="366.48" width="5.95" height="3.03" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>FixedMultiplyQ16 | sub_0809044C | confirmed  0x0809044C  36 bytes  [done]</title></rect>
@@ -1134,8 +1134,8 @@
 <rect x="598.54" y="367.34" width="3.68" height="2.18" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>FixedReciprocalQ8 | sub_08090494 | confirmed  0x08090494  16 bytes  [done]</title></rect>
 <rect x="602.22" y="365.16" width="3.22" height="1.87" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>ResetStartupButtonSequenceProgress | sub_08092094 | confirmed  0x08092094  12 bytes  [done]</title></rect>
 <rect x="602.22" y="367.03" width="1.61" height="2.49" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>FixedMultiplyQ8 | sub_08090434 | confirmed  0x08090434  8 bytes  [done]</title></rect>
-<rect x="603.83" y="367.03" width="1.61" height="1.24" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08092344 | sub_08092344 | unidentified  0x08092344  4 bytes  [done]</title></rect>
-<rect x="603.83" y="368.27" width="1.61" height="1.24" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_080923B0 | sub_080923B0 | unidentified  0x080923B0  4 bytes  [done]</title></rect>
+<rect x="603.83" y="367.03" width="1.61" height="1.24" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>NoopSceneCleanupHook | sub_08092344 | confirmed  0x08092344  4 bytes  [done]</title></rect>
+<rect x="603.83" y="368.27" width="1.61" height="1.24" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>ReturnThree | sub_080923B0 | confirmed  0x080923B0  4 bytes  [done]</title></rect>
 <rect x="515.9" y="297.9" width="78.8" height="13" fill="#0d1117" fill-opacity="0.75"/>
 <text x="518.9" y="307.9" fill="#e6edf3" font-size="10">code_0808FB5C</text>
 </g>
@@ -1172,23 +1172,23 @@
 <rect x="599.17" y="413.34" width="6.27" height="9.57" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08056CB4 | sub_08056CB4 | unidentified  0x08056CB4  120 bytes  [done]</title></rect>
 <rect x="584.13" y="422.91" width="6.42" height="9.03" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>DoesBoxOverlapCollidableSceneObject | sub_08057068 | confirmed  0x08057068  116 bytes  [done]</title></rect>
 <rect x="584.13" y="431.95" width="6.42" height="6.54" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>StopSceneControllerAndFreeState | sub_08056D2C | confirmed  0x08056D2C  84 bytes  [done]</title></rect>
-<rect x="590.55" y="422.91" width="5.38" height="4.83" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08057170 | sub_08057170 | unidentified  0x08057170  52 bytes  [done]</title></rect>
-<rect x="595.93" y="422.91" width="4.96" height="4.83" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08057038 | sub_08057038 | unidentified  0x08057038  48 bytes  [done]</title></rect>
-<rect x="600.89" y="422.91" width="4.55" height="4.83" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08056EA4 | sub_08056EA4 | unidentified  0x08056EA4  44 bytes  [done]</title></rect>
-<rect x="590.55" y="427.75" width="4.28" height="5.14" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0805700C | sub_0805700C | unidentified  0x0805700C  44 bytes  [done]</title></rect>
+<rect x="590.55" y="422.91" width="5.38" height="4.83" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>ClearEnemySpawnSlotStates | sub_08057170 | confirmed  0x08057170  52 bytes  [done]</title></rect>
+<rect x="595.93" y="422.91" width="4.96" height="4.83" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>CountAdvancedLevelRangeClears | sub_08057038 | confirmed  0x08057038  48 bytes  [done]</title></rect>
+<rect x="600.89" y="422.91" width="4.55" height="4.83" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>CancelChaosDomainPortalTask | sub_08056EA4 | confirmed  0x08056EA4  44 bytes  [done]</title></rect>
+<rect x="590.55" y="427.75" width="4.28" height="5.14" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>CountSavedNormalLevelClears | sub_0805700C | confirmed  0x0805700C  44 bytes  [done]</title></rect>
 <rect x="590.55" y="432.88" width="4.28" height="2.80" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>ClearSceneEncounterFinished | sub_08056E38 | confirmed  0x08056E38  24 bytes  [done]</title></rect>
-<rect x="590.55" y="435.68" width="4.28" height="2.80" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08056E78 | sub_08056E78 | unidentified  0x08056E78  24 bytes  [done]</title></rect>
-<rect x="594.83" y="427.75" width="3.74" height="3.20" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08056F8C | sub_08056F8C | unidentified  0x08056F8C  24 bytes  [done]</title></rect>
-<rect x="598.57" y="427.75" width="3.74" height="3.20" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08056FE0 | sub_08056FE0 | unidentified  0x08056FE0  24 bytes  [done]</title></rect>
+<rect x="590.55" y="435.68" width="4.28" height="2.80" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>ClearSceneAreaChangeRequest | sub_08056E78 | confirmed  0x08056E78  24 bytes  [done]</title></rect>
+<rect x="594.83" y="427.75" width="3.74" height="3.20" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>ClearSceneEnemyActivationGate | sub_08056F8C | confirmed  0x08056F8C  24 bytes  [done]</title></rect>
+<rect x="598.57" y="427.75" width="3.74" height="3.20" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>ClearSceneObjectCompletionGate | sub_08056FE0 | confirmed  0x08056FE0  24 bytes  [done]</title></rect>
 <rect x="602.32" y="427.75" width="3.12" height="3.20" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>MarkSceneEncounterFinished | sub_08056E24 | confirmed  0x08056E24  20 bytes  [done]</title></rect>
 <rect x="594.83" y="430.95" width="2.65" height="3.77" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>IsSceneEncounterFinished | sub_08056E50 | confirmed  0x08056E50  20 bytes  [done]</title></rect>
-<rect x="594.83" y="434.72" width="2.65" height="3.77" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08056E64 | sub_08056E64 | unidentified  0x08056E64  20 bytes  [done]</title></rect>
-<rect x="597.48" y="430.95" width="2.65" height="3.77" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08056E90 | sub_08056E90 | unidentified  0x08056E90  20 bytes  [done]</title></rect>
-<rect x="597.48" y="434.72" width="2.65" height="3.77" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08056F78 | sub_08056F78 | unidentified  0x08056F78  20 bytes  [done]</title></rect>
-<rect x="600.13" y="430.95" width="2.65" height="3.77" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08056FA4 | sub_08056FA4 | unidentified  0x08056FA4  20 bytes  [done]</title></rect>
+<rect x="594.83" y="434.72" width="2.65" height="3.77" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>MarkSceneAreaChangeRequested | sub_08056E64 | confirmed  0x08056E64  20 bytes  [done]</title></rect>
+<rect x="597.48" y="430.95" width="2.65" height="3.77" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>IsSceneAreaChangeRequested | sub_08056E90 | confirmed  0x08056E90  20 bytes  [done]</title></rect>
+<rect x="597.48" y="434.72" width="2.65" height="3.77" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>IsEnemyActivationGateSet | sub_08056F78 | confirmed  0x08056F78  20 bytes  [done]</title></rect>
+<rect x="600.13" y="430.95" width="2.65" height="3.77" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>SetSceneEnemyActivationGate | sub_08056FA4 | confirmed  0x08056FA4  20 bytes  [done]</title></rect>
 <rect x="602.79" y="430.95" width="2.65" height="3.77" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>SelectSceneMapAreaDestinationWithWindowHide | sub_08056FB8 | confirmed  0x08056FB8  20 bytes  [done]</title></rect>
-<rect x="600.13" y="434.72" width="2.65" height="3.77" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08056FCC | sub_08056FCC | unidentified  0x08056FCC  20 bytes  [done]</title></rect>
-<rect x="602.79" y="434.72" width="2.65" height="3.77" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08056FF8 | sub_08056FF8 | unidentified  0x08056FF8  20 bytes  [done]</title></rect>
+<rect x="600.13" y="434.72" width="2.65" height="3.77" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>SetSceneObjectCompletionGate | sub_08056FCC | confirmed  0x08056FCC  20 bytes  [done]</title></rect>
+<rect x="602.79" y="434.72" width="2.65" height="3.77" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>IsSceneObjectCompletionGated | sub_08056FF8 | confirmed  0x08056FF8  20 bytes  [done]</title></rect>
 <rect x="515.9" y="371.5" width="78.8" height="13" fill="#0d1117" fill-opacity="0.75"/>
 <text x="518.9" y="381.5" fill="#e6edf3" font-size="10">code_080542C4</text>
 </g>
@@ -1236,9 +1236,9 @@
 <rect x="638.94" y="289.20" width="8.17" height="10.03" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08092EB4 | sub_08092EB4 | unidentified  0x08092EB4  164 bytes  [done]</title></rect>
 <rect x="647.11" y="268.16" width="8.71" height="8.72" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_080943F8 | sub_080943F8 | unidentified  0x080943F8  152 bytes  [done]</title></rect>
 <rect x="655.82" y="268.16" width="8.71" height="8.72" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>TaskSineScrollBg0Bg1AndPulseBlend | sub_08094DEC | confirmed  0x08094DEC  152 bytes  [done]</title></rect>
-<rect x="664.53" y="268.16" width="6.88" height="8.72" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08095A60 | sub_08095A60 | unidentified  0x08095A60  120 bytes  [done]</title></rect>
+<rect x="664.53" y="268.16" width="6.88" height="8.72" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>ConfigureSpriteOnlyAttackPresentation | sub_08095A60 | confirmed  0x08095A60  120 bytes  [done]</title></rect>
 <rect x="671.41" y="268.16" width="6.65" height="8.72" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>TaskGeneratePeriodicSceneShakeOffset | sub_08092E40 | confirmed  0x08092E40  116 bytes  [done]</title></rect>
-<rect x="647.11" y="276.88" width="6.98" height="7.74" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0809342C | sub_0809342C | unidentified  0x0809342C  108 bytes  [done]</title></rect>
+<rect x="647.11" y="276.88" width="6.98" height="7.74" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>UpdateBg1ScanlineSineScroll | sub_0809342C | confirmed  0x0809342C  108 bytes  [done]</title></rect>
 <rect x="647.11" y="284.61" width="6.98" height="7.45" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>TaskScrollBg0Bg1AndPulseBlend | sub_080948E0 | confirmed  0x080948E0  104 bytes  [done]</title></rect>
 <rect x="647.11" y="292.06" width="6.98" height="7.16" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>StartBg1HBlankDmaScroll | sub_080933A0 | confirmed  0x080933A0  100 bytes  [done]</title></rect>
 <rect x="654.09" y="276.88" width="6.08" height="7.89" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>StartBgScrollRandomBlendTask | sub_08094530 | confirmed  0x08094530  96 bytes  [done]</title></rect>
@@ -1252,7 +1252,7 @@
 <rect x="660.17" y="293.91" width="5.64" height="5.32" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>AllocateBgRandomBlendTaskControlBlock | sub_080944B4 | confirmed  0x080944B4  60 bytes  [done]</title></rect>
 <rect x="665.80" y="282.91" width="4.08" height="5.38" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>AllocatePeriodicSceneShakeControl | sub_08092DC4 | confirmed  0x08092DC4  44 bytes  [done]</title></rect>
 <rect x="669.89" y="282.91" width="4.08" height="5.38" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>StopAndFreePeriodicSceneShakeControl | sub_08092DF0 | confirmed  0x08092DF0  44 bytes  [done]</title></rect>
-<rect x="673.97" y="282.91" width="4.08" height="5.38" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08095AD8 | sub_08095AD8 | unidentified  0x08095AD8  44 bytes  [done]</title></rect>
+<rect x="673.97" y="282.91" width="4.08" height="5.38" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>RunCountedAttackSpritePresentation | sub_08095AD8 | confirmed  0x08095AD8  44 bytes  [done]</title></rect>
 <rect x="665.80" y="288.30" width="4.75" height="4.20" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>StopBg1HBlankDmaScroll | sub_08093404 | confirmed  0x08093404  40 bytes  [done]</title></rect>
 <rect x="665.80" y="292.50" width="4.75" height="3.36" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>AllocateBgScrollBlendTaskControlBlock | sub_08094948 | confirmed  0x08094948  32 bytes  [done]</title></rect>
 <rect x="665.80" y="295.86" width="4.75" height="3.36" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>AllocateBgSineScrollBlendTaskControlBlock | sub_08094E84 | confirmed  0x08094E84  32 bytes  [done]</title></rect>
@@ -1261,9 +1261,9 @@
 <rect x="670.56" y="291.23" width="2.50" height="2.40" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>SetPeriodicSceneShakePhaseIncrement | sub_08092E1C | confirmed  0x08092E1C  12 bytes  [done]</title></rect>
 <rect x="673.06" y="291.23" width="2.50" height="2.40" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>SetPeriodicSceneShakeScale | sub_08092E28 | confirmed  0x08092E28  12 bytes  [done]</title></rect>
 <rect x="675.56" y="291.23" width="2.50" height="2.40" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>GetPeriodicSceneShakeOffset | sub_08092E34 | confirmed  0x08092E34  12 bytes  [done]</title></rect>
-<rect x="670.56" y="293.63" width="2.14" height="2.80" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08094490 | sub_08094490 | unidentified  0x08094490  12 bytes  [done]</title></rect>
-<rect x="670.56" y="296.43" width="2.14" height="2.80" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0809449C | sub_0809449C | unidentified  0x0809449C  12 bytes  [done]</title></rect>
-<rect x="672.70" y="293.63" width="2.68" height="2.24" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_080944A8 | sub_080944A8 | unidentified  0x080944A8  12 bytes  [done]</title></rect>
+<rect x="670.56" y="293.63" width="2.14" height="2.80" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>RequestBgRandomBlendHold | sub_08094490 | confirmed  0x08094490  12 bytes  [done]</title></rect>
+<rect x="670.56" y="296.43" width="2.14" height="2.80" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>GetBgBlendHoldStatus | sub_0809449C | confirmed  0x0809449C  12 bytes  [done]</title></rect>
+<rect x="672.70" y="293.63" width="2.68" height="2.24" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>EnableBgRandomBlendCycling | sub_080944A8 | confirmed  0x080944A8  12 bytes  [done]</title></rect>
 <rect x="675.38" y="293.63" width="2.68" height="2.24" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>SetBg2AffinePosition | sub_080955EC | confirmed  0x080955EC  12 bytes  [done]</title></rect>
 <rect x="672.70" y="295.87" width="1.79" height="3.36" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>SetBg2AffineOffset | sub_080955F8 | confirmed  0x080955F8  12 bytes  [done]</title></rect>
 <rect x="674.49" y="295.87" width="1.79" height="3.36" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>SetBg2AffineScale | sub_08095604 | confirmed  0x08095604  12 bytes  [done]</title></rect>
@@ -1335,23 +1335,23 @@
 <rect x="772.12" y="285.40" width="7.79" height="7.17" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>MarkAndQueueTextTilemapRows | sub_0801A664 | confirmed  0x0801A664  112 bytes  [done]</title></rect>
 <rect x="772.12" y="292.57" width="7.79" height="6.66" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>RequestEnemySpawnWithSequence | sub_08019FD8 | confirmed  0x08019FD8  104 bytes  [done]</title></rect>
 <rect x="779.91" y="269.52" width="6.52" height="7.66" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>FindSharedEnemyPaletteSlot | sub_08019D7C | confirmed  0x08019D7C  100 bytes  [done]</title></rect>
-<rect x="779.91" y="277.18" width="6.52" height="7.66" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0801A0BC | sub_0801A0BC | unidentified  0x0801A0BC  100 bytes  [done]</title></rect>
+<rect x="779.91" y="277.18" width="6.52" height="7.66" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>SetActorTeamByKey | sub_0801A0BC | confirmed  0x0801A0BC  100 bytes  [done]</title></rect>
 <rect x="779.91" y="284.83" width="6.52" height="7.35" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>OffsetPointUsingDirectionLookup | sub_0801A328 | confirmed  0x0801A328  96 bytes  [done]</title></rect>
-<rect x="779.91" y="292.18" width="6.52" height="7.04" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08019F04 | sub_08019F04 | unidentified  0x08019F04  92 bytes  [done]</title></rect>
+<rect x="779.91" y="292.18" width="6.52" height="7.04" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>RequestActorActionReselection | sub_08019F04 | confirmed  0x08019F04  92 bytes  [done]</title></rect>
 <rect x="786.43" y="269.52" width="7.26" height="6.05" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>UpdateEnemyMovementKeysTowardStoredTarget | sub_0801A298 | confirmed  0x0801A298  88 bytes  [done]</title></rect>
 <rect x="786.43" y="275.57" width="7.26" height="6.05" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>InitTextFontResources | sub_0801A70C | confirmed  0x0801A70C  88 bytes  [done]</title></rect>
 <rect x="786.43" y="281.62" width="7.26" height="6.05" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>RequestScreenBrightnessFadeIn | sub_0801AA34 | confirmed  0x0801AA34  88 bytes  [done]</title></rect>
-<rect x="786.43" y="287.67" width="7.26" height="5.78" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0801A050 | sub_0801A050 | unidentified  0x0801A050  84 bytes  [done]</title></rect>
+<rect x="786.43" y="287.67" width="7.26" height="5.78" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>RequestActorRemovalByKey | sub_0801A050 | confirmed  0x0801A050  84 bytes  [done]</title></rect>
 <rect x="786.43" y="293.45" width="7.26" height="5.78" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>RequestScreenBrightnessFadeOut | sub_0801AA8C | confirmed  0x0801AA8C  84 bytes  [done]</title></rect>
 <rect x="793.69" y="269.52" width="5.83" height="6.85" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>HasEnemyWithHealthAboveRawPendingDamage | sub_08019C3C | confirmed  0x08019C3C  80 bytes  [done]</title></rect>
 <rect x="799.51" y="269.52" width="5.83" height="6.85" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>FindFreeEnemyActorSlot | sub_08019C8C | confirmed  0x08019C8C  80 bytes  [done]</title></rect>
 <rect x="805.34" y="269.52" width="5.83" height="6.85" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>InitTextTilemapStateAndCommonTiles | sub_0801A508 | confirmed  0x0801A508  80 bytes  [done]</title></rect>
 <rect x="811.17" y="269.52" width="5.83" height="6.85" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>ClearFlaggedTextTilemapRows | sub_0801A558 | confirmed  0x0801A558  80 bytes  [done]</title></rect>
 <rect x="793.69" y="276.37" width="6.46" height="5.87" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>ApplyPendingActorDamageAndCheckDeath | sub_08019CE8 | confirmed  0x08019CE8  76 bytes  [done]</title></rect>
-<rect x="793.69" y="282.24" width="6.46" height="5.87" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08019EB8 | sub_08019EB8 | unidentified  0x08019EB8  76 bytes  [done]</title></rect>
+<rect x="793.69" y="282.24" width="6.46" height="5.87" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>SetActorOverlayByKey | sub_08019EB8 | confirmed  0x08019EB8  76 bytes  [done]</title></rect>
 <rect x="793.69" y="288.11" width="6.46" height="5.56" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>HasActiveActorWithId | sub_08019D34 | confirmed  0x08019D34  72 bytes  [done]</title></rect>
 <rect x="793.69" y="293.67" width="6.46" height="5.56" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>ScaleActorStatPairForPlayerCount | sub_08019F60 | confirmed  0x08019F60  72 bytes  [done]</title></rect>
-<rect x="800.15" y="276.37" width="5.72" height="6.28" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0801A388 | sub_0801A388 | unidentified  0x0801A388  72 bytes  [done]</title></rect>
+<rect x="800.15" y="276.37" width="5.72" height="6.28" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>ResetActorActionSelection | sub_0801A388 | confirmed  0x0801A388  72 bytes  [done]</title></rect>
 <rect x="805.87" y="276.37" width="5.72" height="6.28" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>DrawScriptGlyphStringAsSprites | sub_0801A764 | confirmed  0x0801A764  72 bytes  [done]</title></rect>
 <rect x="811.59" y="276.37" width="5.41" height="6.28" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>FindActiveEnemyBySpawnId | sub_08019BF8 | confirmed  0x08019BF8  68 bytes  [done]</title></rect>
 <rect x="800.15" y="282.65" width="6.02" height="5.64" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>GetActiveActorMaskByRecordKey | sub_08019E30 | confirmed  0x08019E30  68 bytes  [done]</title></rect>
@@ -1364,11 +1364,11 @@
 <rect x="806.17" y="291.86" width="3.25" height="3.68" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>CountRenderableScriptGlyphs | sub_0801A638 | confirmed  0x0801A638  24 bytes  [done]</title></rect>
 <rect x="806.17" y="295.54" width="3.25" height="3.68" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>IsScreenTransitionIdle | sub_0801AAE0 | confirmed  0x0801AAE0  24 bytes  [done]</title></rect>
 <rect x="809.42" y="291.86" width="3.52" height="2.83" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0801A650 | sub_0801A650 | unidentified  0x0801A650  20 bytes  [done]</title></rect>
-<rect x="809.42" y="294.69" width="3.52" height="2.27" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08019E20 | sub_08019E20 | unidentified  0x08019E20  16 bytes  [done]</title></rect>
+<rect x="809.42" y="294.69" width="3.52" height="2.27" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>ReturnArgumentAfterSceneQuery | sub_08019E20 | confirmed  0x08019E20  16 bytes  [done]</title></rect>
 <rect x="809.42" y="296.96" width="3.52" height="2.27" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>QueryActiveActorIdPresence | sub_0801A040 | confirmed  0x0801A040  16 bytes  [done]</title></rect>
-<rect x="812.94" y="291.86" width="2.03" height="2.95" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08019CDC | sub_08019CDC | unidentified  0x08019CDC  12 bytes  [done]</title></rect>
-<rect x="814.97" y="291.86" width="2.03" height="2.95" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0801A0A4 | sub_0801A0A4 | unidentified  0x0801A0A4  12 bytes  [done]</title></rect>
-<rect x="812.94" y="294.80" width="2.03" height="2.95" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0801A0B0 | sub_0801A0B0 | unidentified  0x0801A0B0  12 bytes  [done]</title></rect>
+<rect x="812.94" y="291.86" width="2.03" height="2.95" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>ReturnFive | sub_08019CDC | confirmed  0x08019CDC  12 bytes  [done]</title></rect>
+<rect x="814.97" y="291.86" width="2.03" height="2.95" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>SetActorCombatTeamTwo | sub_0801A0A4 | confirmed  0x0801A0A4  12 bytes  [done]</title></rect>
+<rect x="812.94" y="294.80" width="2.03" height="2.95" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>DisableActorCombatTargeting | sub_0801A0B0 | confirmed  0x0801A0B0  12 bytes  [done]</title></rect>
 <rect x="814.97" y="294.80" width="2.03" height="2.95" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0801A62C | sub_0801A62C | unidentified  0x0801A62C  12 bytes  [done]</title></rect>
 <rect x="812.94" y="297.75" width="2.71" height="1.47" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0801A500 | sub_0801A500 | unidentified  0x0801A500  8 bytes  [done]</title></rect>
 <rect x="815.65" y="297.75" width="1.35" height="1.47" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0801A628 | sub_0801A628 | unidentified  0x0801A628  4 bytes  [done]</title></rect>
@@ -1721,19 +1721,19 @@
 <rect x="797.93" y="407.11" width="4.91" height="5.51" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0805A318 | sub_0805A318 | unidentified  0x0805A318  56 bytes  [done]</title></rect>
 <rect x="797.93" y="412.62" width="4.91" height="5.51" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0805A404 | sub_0805A404 | unidentified  0x0805A404  56 bytes  [done]</title></rect>
 <rect x="797.93" y="418.13" width="4.91" height="5.51" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0805A43C | sub_0805A43C | unidentified  0x0805A43C  56 bytes  [done]</title></rect>
-<rect x="802.85" y="407.11" width="4.72" height="5.32" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0805A054 | sub_0805A054 | unidentified  0x0805A054  52 bytes  [done]</title></rect>
-<rect x="807.56" y="407.11" width="4.72" height="5.32" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0805A2E4 | sub_0805A2E4 | unidentified  0x0805A2E4  52 bytes  [done]</title></rect>
+<rect x="802.85" y="407.11" width="4.72" height="5.32" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>KeepSceneEntityParked | sub_0805A054 | confirmed  0x0805A054  52 bytes  [done]</title></rect>
+<rect x="807.56" y="407.11" width="4.72" height="5.32" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>SetSceneEventFlagTwelve | sub_0805A2E4 | confirmed  0x0805A2E4  52 bytes  [done]</title></rect>
 <rect x="812.28" y="407.11" width="4.72" height="5.32" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0805A350 | sub_0805A350 | unidentified  0x0805A350  52 bytes  [done]</title></rect>
-<rect x="802.85" y="412.44" width="3.80" height="5.60" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0805A2B8 | sub_0805A2B8 | unidentified  0x0805A2B8  44 bytes  [done]</title></rect>
-<rect x="802.85" y="418.03" width="3.80" height="5.60" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0805A384 | sub_0805A384 | unidentified  0x0805A384  44 bytes  [done]</title></rect>
-<rect x="806.64" y="412.44" width="6.00" height="3.54" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0805A474 | sub_0805A474 | unidentified  0x0805A474  44 bytes  [done]</title></rect>
-<rect x="812.64" y="412.44" width="4.36" height="3.54" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0805A194 | sub_0805A194 | unidentified  0x0805A194  32 bytes  [done]</title></rect>
-<rect x="806.64" y="415.98" width="3.03" height="4.46" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0805A4A0 | sub_0805A4A0 | unidentified  0x0805A4A0  28 bytes  [done]</title></rect>
-<rect x="806.64" y="420.44" width="3.03" height="3.19" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08059954 | sub_08059954 | unidentified  0x08059954  20 bytes  [done]</title></rect>
-<rect x="809.67" y="415.98" width="3.66" height="2.64" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_080599B0 | sub_080599B0 | unidentified  0x080599B0  20 bytes  [done]</title></rect>
+<rect x="802.85" y="412.44" width="3.80" height="5.60" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>ParkMapObjectEight | sub_0805A2B8 | confirmed  0x0805A2B8  44 bytes  [done]</title></rect>
+<rect x="802.85" y="418.03" width="3.80" height="5.60" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>RequestGuardedEntityMovementSequence | sub_0805A384 | confirmed  0x0805A384  44 bytes  [done]</title></rect>
+<rect x="806.64" y="412.44" width="6.00" height="3.54" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>ParkSceneEntity | sub_0805A474 | confirmed  0x0805A474  44 bytes  [done]</title></rect>
+<rect x="812.64" y="412.44" width="4.36" height="3.54" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>OscillateSceneEntityVertically | sub_0805A194 | confirmed  0x0805A194  32 bytes  [done]</title></rect>
+<rect x="806.64" y="415.98" width="3.03" height="4.46" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>GetSceneEventVariantIndex | sub_0805A4A0 | confirmed  0x0805A4A0  28 bytes  [done]</title></rect>
+<rect x="806.64" y="420.44" width="3.03" height="3.19" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>SetSceneAreaEventFlag | sub_08059954 | confirmed  0x08059954  20 bytes  [done]</title></rect>
+<rect x="809.67" y="415.98" width="3.66" height="2.64" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>ClearSceneAreaEventFlag | sub_080599B0 | confirmed  0x080599B0  20 bytes  [done]</title></rect>
 <rect x="813.34" y="415.98" width="3.66" height="2.64" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>MarkSceneCallbackGuardHeld | sub_080599C4 | confirmed  0x080599C4  20 bytes  [done]</title></rect>
-<rect x="809.67" y="418.62" width="3.86" height="2.51" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0805A040 | sub_0805A040 | unidentified  0x0805A040  20 bytes  [done]</title></rect>
-<rect x="809.67" y="421.12" width="3.86" height="2.51" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0805A3F0 | sub_0805A3F0 | unidentified  0x0805A3F0  20 bytes  [done]</title></rect>
+<rect x="809.67" y="418.62" width="3.86" height="2.51" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>PositionMapObjectEight | sub_0805A040 | confirmed  0x0805A040  20 bytes  [done]</title></rect>
+<rect x="809.67" y="421.12" width="3.86" height="2.51" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>RequestLinkedSceneEntityParking | sub_0805A3F0 | confirmed  0x0805A3F0  20 bytes  [done]</title></rect>
 <rect x="813.53" y="418.62" width="1.74" height="3.34" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>ApproachAndWaitAtAreaExitDirection0 | sub_0805A60C | confirmed  0x0805A60C  12 bytes  [done]</title></rect>
 <rect x="815.26" y="418.62" width="1.74" height="3.34" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>ApproachAndWaitAtAreaExitDirection1 | sub_0805A618 | confirmed  0x0805A618  12 bytes  [done]</title></rect>
 <rect x="813.53" y="421.96" width="3.47" height="1.67" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>ApproachAndWaitAtAreaExitDirection2 | sub_0805A624 | confirmed  0x0805A624  12 bytes  [done]</title></rect>
@@ -1753,7 +1753,7 @@
 <rect x="713.30" y="434.68" width="6.40" height="8.36" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08059418 | sub_08059418 | unidentified  0x08059418  112 bytes  [done]</title></rect>
 <rect x="719.70" y="434.68" width="6.18" height="8.36" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08058B08 | sub_08058B08 | unidentified  0x08058B08  108 bytes  [done]</title></rect>
 <rect x="697.06" y="443.04" width="6.50" height="7.94" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08058C08 | sub_08058C08 | unidentified  0x08058C08  108 bytes  [done]</title></rect>
-<rect x="697.06" y="450.99" width="6.50" height="6.47" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08058DB0 | sub_08058DB0 | unidentified  0x08058DB0  88 bytes  [done]</title></rect>
+<rect x="697.06" y="450.99" width="6.50" height="6.47" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>HasCoordinatedAttackState | sub_08058DB0 | confirmed  0x08058DB0  88 bytes  [done]</title></rect>
 <rect x="697.06" y="457.46" width="6.50" height="6.18" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08058EF8 | sub_08058EF8 | unidentified  0x08058EF8  84 bytes  [done]</title></rect>
 <rect x="697.06" y="463.64" width="6.50" height="5.88" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>CountEnabledTimedStageFlags | sub_08058A80 | confirmed  0x08058A80  80 bytes  [done]</title></rect>
 <rect x="703.56" y="443.04" width="5.82" height="5.91" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08058790 | sub_08058790 | unidentified  0x08058790  72 bytes  [done]</title></rect>
@@ -1779,15 +1779,15 @@
 <rect x="720.90" y="457.77" width="2.49" height="3.84" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08058830 | sub_08058830 | unidentified  0x08058830  20 bytes  [done]</title></rect>
 <rect x="723.39" y="457.77" width="2.49" height="3.84" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>AcquireSceneCallbackGuard | sub_08058E14 | confirmed  0x08058E14  20 bytes  [done]</title></rect>
 <rect x="717.91" y="461.61" width="2.90" height="3.30" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>ClearSceneCallbackGuardBit | sub_08058E28 | confirmed  0x08058E28  20 bytes  [done]</title></rect>
-<rect x="717.91" y="464.90" width="2.90" height="2.64" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_080587FC | sub_080587FC | unidentified  0x080587FC  16 bytes  [done]</title></rect>
-<rect x="717.91" y="467.54" width="2.90" height="1.98" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_080587D8 | sub_080587D8 | unidentified  0x080587D8  12 bytes  [done]</title></rect>
+<rect x="717.91" y="464.90" width="2.90" height="2.64" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>SetActorPriorityOverrideWrapper | sub_080587FC | confirmed  0x080587FC  16 bytes  [done]</title></rect>
+<rect x="717.91" y="467.54" width="2.90" height="1.98" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>ClearPlayerHudHoldWrapper | sub_080587D8 | confirmed  0x080587D8  12 bytes  [done]</title></rect>
 <rect x="720.81" y="461.61" width="2.54" height="2.26" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_080587E4 | sub_080587E4 | unidentified  0x080587E4  12 bytes  [done]</title></rect>
 <rect x="723.34" y="461.61" width="2.54" height="2.26" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_080587F0 | sub_080587F0 | unidentified  0x080587F0  12 bytes  [done]</title></rect>
-<rect x="720.81" y="463.87" width="2.54" height="2.26" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0805880C | sub_0805880C | unidentified  0x0805880C  12 bytes  [done]</title></rect>
+<rect x="720.81" y="463.87" width="2.54" height="2.26" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>ClearActorPriorityOverrideWrapper | sub_0805880C | confirmed  0x0805880C  12 bytes  [done]</title></rect>
 <rect x="723.34" y="463.87" width="2.54" height="2.26" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>IsAdvancedModeActiveWrapper | sub_08058818 | confirmed  0x08058818  12 bytes  [done]</title></rect>
-<rect x="720.81" y="466.13" width="3.38" height="1.70" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08058824 | sub_08058824 | unidentified  0x08058824  12 bytes  [done]</title></rect>
+<rect x="720.81" y="466.13" width="3.38" height="1.70" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>QueryAreaReturnPromptMarker | sub_08058824 | confirmed  0x08058824  12 bytes  [done]</title></rect>
 <rect x="720.81" y="467.82" width="3.38" height="1.70" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>NextRandom32Wrapper | sub_08058D8C | confirmed  0x08058D8C  12 bytes  [done]</title></rect>
-<rect x="724.19" y="466.13" width="1.69" height="3.39" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08058E08 | sub_08058E08 | unidentified  0x08058E08  12 bytes  [done]</title></rect>
+<rect x="724.19" y="466.13" width="1.69" height="3.39" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>GetLocalCharacterLevel | sub_08058E08 | confirmed  0x08058E08  12 bytes  [done]</title></rect>
 </g>
 <g><title>code_08067B4C (2852 bytes)</title>
 <rect x="686.84" y="470.52" width="40.04" height="37.48" fill="#0d1117"/>
@@ -2041,14 +2041,14 @@
 <g><title>code_0800CBBC (924 bytes)</title>
 <rect x="786.88" y="477.09" width="15.73" height="30.91" fill="#0d1117"/>
 <rect x="787.88" y="478.09" width="3.43" height="4.01" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>GetClampedCoordinatedActionParticipantCount | sub_0800CBCC | confirmed  0x0800CBCC  32 bytes  [done]</title></rect>
-<rect x="791.31" y="478.09" width="3.43" height="4.01" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0800CBF8 | sub_0800CBF8 | unidentified  0x0800CBF8  32 bytes  [done]</title></rect>
-<rect x="794.75" y="478.09" width="3.43" height="4.01" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0800CC18 | sub_0800CC18 | unidentified  0x0800CC18  32 bytes  [done]</title></rect>
-<rect x="798.18" y="478.09" width="3.43" height="4.01" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0800CC48 | sub_0800CC48 | unidentified  0x0800CC48  32 bytes  [done]</title></rect>
-<rect x="787.88" y="482.09" width="3.92" height="3.50" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0800CC68 | sub_0800CC68 | unidentified  0x0800CC68  32 bytes  [done]</title></rect>
+<rect x="791.31" y="478.09" width="3.43" height="4.01" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>SetPlayerSpritePriorityOverride | sub_0800CBF8 | confirmed  0x0800CBF8  32 bytes  [done]</title></rect>
+<rect x="794.75" y="478.09" width="3.43" height="4.01" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>ClearPlayerSpritePriorityOverride | sub_0800CC18 | confirmed  0x0800CC18  32 bytes  [done]</title></rect>
+<rect x="798.18" y="478.09" width="3.43" height="4.01" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>SetActorSpritePriorityOverride | sub_0800CC48 | confirmed  0x0800CC48  32 bytes  [done]</title></rect>
+<rect x="787.88" y="482.09" width="3.92" height="3.50" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>ClearActorSpritePriorityOverride | sub_0800CC68 | confirmed  0x0800CC68  32 bytes  [done]</title></rect>
 <rect x="791.80" y="482.09" width="2.45" height="3.50" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>MarkFullScreenMenuInactive | sub_0800CCB8 | confirmed  0x0800CCB8  20 bytes  [done]</title></rect>
-<rect x="794.26" y="482.09" width="2.45" height="3.50" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0800CCEC | sub_0800CCEC | unidentified  0x0800CCEC  20 bytes  [done]</title></rect>
-<rect x="796.71" y="482.09" width="2.45" height="3.50" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0800CD20 | sub_0800CD20 | unidentified  0x0800CD20  20 bytes  [done]</title></rect>
-<rect x="799.16" y="482.09" width="2.45" height="3.50" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0800CD54 | sub_0800CD54 | unidentified  0x0800CD54  20 bytes  [done]</title></rect>
+<rect x="794.26" y="482.09" width="2.45" height="3.50" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>ClearMapSetZeroActive | sub_0800CCEC | confirmed  0x0800CCEC  20 bytes  [done]</title></rect>
+<rect x="796.71" y="482.09" width="2.45" height="3.50" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>ClearWorldSceneExitRequest | sub_0800CD20 | confirmed  0x0800CD20  20 bytes  [done]</title></rect>
+<rect x="799.16" y="482.09" width="2.45" height="3.50" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>ClearWorldMapSelectionActive | sub_0800CD54 | confirmed  0x0800CD54  20 bytes  [done]</title></rect>
 <rect x="787.88" y="485.60" width="2.75" height="3.13" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>MarkCoordinatedAttackScenePhaseInactive | sub_0800CD78 | confirmed  0x0800CD78  20 bytes  [done]</title></rect>
 <rect x="790.63" y="485.60" width="2.75" height="3.13" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>ClearSceneEncounterActive | sub_0800CDAC | confirmed  0x0800CDAC  20 bytes  [done]</title></rect>
 <rect x="793.37" y="485.60" width="2.75" height="3.13" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>RequestWorldTaskSuspend | sub_0800CDD0 | confirmed  0x0800CDD0  20 bytes  [done]</title></rect>
@@ -2059,23 +2059,23 @@
 <rect x="793.37" y="488.73" width="2.75" height="3.13" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>MarkMenuFadeTransitionInactive | sub_0800CE54 | confirmed  0x0800CE54  20 bytes  [done]</title></rect>
 <rect x="796.12" y="488.73" width="2.75" height="3.13" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0800CE88 | sub_0800CE88 | unidentified  0x0800CE88  20 bytes  [done]</title></rect>
 <rect x="798.86" y="488.73" width="2.75" height="3.13" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0800CE9C | sub_0800CE9C | unidentified  0x0800CE9C  20 bytes  [done]</title></rect>
-<rect x="787.88" y="491.86" width="2.75" height="3.13" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0800CEB0 | sub_0800CEB0 | unidentified  0x0800CEB0  20 bytes  [done]</title></rect>
+<rect x="787.88" y="491.86" width="2.75" height="3.13" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>RequestEffectAnimationStop | sub_0800CEB0 | confirmed  0x0800CEB0  20 bytes  [done]</title></rect>
 <rect x="790.63" y="491.86" width="2.75" height="3.13" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0800CEC4 | sub_0800CEC4 | unidentified  0x0800CEC4  20 bytes  [done]</title></rect>
-<rect x="793.37" y="491.86" width="2.75" height="3.13" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0800CEE8 | sub_0800CEE8 | unidentified  0x0800CEE8  20 bytes  [done]</title></rect>
-<rect x="796.12" y="491.86" width="2.75" height="3.13" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0800CEFC | sub_0800CEFC | unidentified  0x0800CEFC  20 bytes  [done]</title></rect>
-<rect x="798.86" y="491.86" width="2.75" height="3.13" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0800CF20 | sub_0800CF20 | unidentified  0x0800CF20  20 bytes  [done]</title></rect>
-<rect x="787.88" y="494.98" width="3.00" height="2.86" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0800CF34 | sub_0800CF34 | unidentified  0x0800CF34  20 bytes  [done]</title></rect>
+<rect x="793.37" y="491.86" width="2.75" height="3.13" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>MarkLocalAreaDeparturePending | sub_0800CEE8 | confirmed  0x0800CEE8  20 bytes  [done]</title></rect>
+<rect x="796.12" y="491.86" width="2.75" height="3.13" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>ClearLocalAreaDeparturePending | sub_0800CEFC | confirmed  0x0800CEFC  20 bytes  [done]</title></rect>
+<rect x="798.86" y="491.86" width="2.75" height="3.13" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>MarkAreaReturnPromptActive | sub_0800CF20 | confirmed  0x0800CF20  20 bytes  [done]</title></rect>
+<rect x="787.88" y="494.98" width="3.00" height="2.86" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>ClearAreaReturnPromptActive | sub_0800CF34 | confirmed  0x0800CF34  20 bytes  [done]</title></rect>
 <rect x="787.88" y="497.85" width="3.00" height="2.29" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>IncrementCoordinatedActionParticipantCount | sub_0800CBBC | confirmed  0x0800CBBC  16 bytes  [done]</title></rect>
-<rect x="787.88" y="500.13" width="3.00" height="2.29" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0800CC38 | sub_0800CC38 | unidentified  0x0800CC38  16 bytes  [done]</title></rect>
-<rect x="787.88" y="502.42" width="3.00" height="2.29" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0800CC88 | sub_0800CC88 | unidentified  0x0800CC88  16 bytes  [done]</title></rect>
+<rect x="787.88" y="500.13" width="3.00" height="2.29" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>IsPlayerSpritePriorityOverridden | sub_0800CC38 | confirmed  0x0800CC38  16 bytes  [done]</title></rect>
+<rect x="787.88" y="502.42" width="3.00" height="2.29" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>IsActorSpritePriorityOverridden | sub_0800CC88 | confirmed  0x0800CC88  16 bytes  [done]</title></rect>
 <rect x="787.88" y="504.71" width="3.00" height="2.29" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>IsFullScreenMenuActive | sub_0800CC98 | confirmed  0x0800CC98  16 bytes  [done]</title></rect>
 <rect x="790.88" y="494.98" width="2.68" height="2.56" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>MarkFullScreenMenuActive | sub_0800CCA8 | confirmed  0x0800CCA8  16 bytes  [done]</title></rect>
-<rect x="793.57" y="494.98" width="2.68" height="2.56" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0800CCCC | sub_0800CCCC | unidentified  0x0800CCCC  16 bytes  [done]</title></rect>
-<rect x="796.25" y="494.98" width="2.68" height="2.56" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0800CCDC | sub_0800CCDC | unidentified  0x0800CCDC  16 bytes  [done]</title></rect>
-<rect x="798.93" y="494.98" width="2.68" height="2.56" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0800CD00 | sub_0800CD00 | unidentified  0x0800CD00  16 bytes  [done]</title></rect>
-<rect x="790.88" y="497.55" width="2.91" height="2.36" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0800CD10 | sub_0800CD10 | unidentified  0x0800CD10  16 bytes  [done]</title></rect>
-<rect x="790.88" y="499.91" width="2.91" height="2.36" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0800CD34 | sub_0800CD34 | unidentified  0x0800CD34  16 bytes  [done]</title></rect>
-<rect x="790.88" y="502.27" width="2.91" height="2.36" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0800CD44 | sub_0800CD44 | unidentified  0x0800CD44  16 bytes  [done]</title></rect>
+<rect x="793.57" y="494.98" width="2.68" height="2.56" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>IsMapSetZeroActive | sub_0800CCCC | confirmed  0x0800CCCC  16 bytes  [done]</title></rect>
+<rect x="796.25" y="494.98" width="2.68" height="2.56" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>MarkMapSetZeroActive | sub_0800CCDC | confirmed  0x0800CCDC  16 bytes  [done]</title></rect>
+<rect x="798.93" y="494.98" width="2.68" height="2.56" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>IsWorldSceneExitRequested | sub_0800CD00 | confirmed  0x0800CD00  16 bytes  [done]</title></rect>
+<rect x="790.88" y="497.55" width="2.91" height="2.36" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>RequestWorldSceneExit | sub_0800CD10 | confirmed  0x0800CD10  16 bytes  [done]</title></rect>
+<rect x="790.88" y="499.91" width="2.91" height="2.36" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>IsWorldMapSelectionActive | sub_0800CD34 | confirmed  0x0800CD34  16 bytes  [done]</title></rect>
+<rect x="790.88" y="502.27" width="2.91" height="2.36" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>MarkWorldMapSelectionActive | sub_0800CD44 | confirmed  0x0800CD44  16 bytes  [done]</title></rect>
 <rect x="790.88" y="504.64" width="2.91" height="2.36" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>MarkCoordinatedAttackScenePhaseActive | sub_0800CD68 | confirmed  0x0800CD68  16 bytes  [done]</title></rect>
 <rect x="793.79" y="497.55" width="2.61" height="2.64" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>IsCoordinatedAttackScenePhaseActive | sub_0800CD8C | confirmed  0x0800CD8C  16 bytes  [done]</title></rect>
 <rect x="796.40" y="497.55" width="2.61" height="2.64" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>MarkSceneEncounterActive | sub_0800CD9C | confirmed  0x0800CD9C  16 bytes  [done]</title></rect>
@@ -2084,9 +2084,9 @@
 <rect x="793.79" y="502.46" width="3.03" height="2.27" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>IsAdvancedModeActive | sub_0800CE30 | confirmed  0x0800CE30  16 bytes  [done]</title></rect>
 <rect x="793.79" y="504.73" width="3.03" height="2.27" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>IsMenuFadeTransitionActive | sub_0800CE68 | confirmed  0x0800CE68  16 bytes  [done]</title></rect>
 <rect x="796.82" y="500.19" width="2.40" height="2.87" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0800CE78 | sub_0800CE78 | unidentified  0x0800CE78  16 bytes  [done]</title></rect>
-<rect x="799.21" y="500.19" width="2.40" height="2.87" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0800CED8 | sub_0800CED8 | unidentified  0x0800CED8  16 bytes  [done]</title></rect>
-<rect x="796.82" y="503.05" width="3.48" height="1.97" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0800CF10 | sub_0800CF10 | unidentified  0x0800CF10  16 bytes  [done]</title></rect>
-<rect x="796.82" y="505.03" width="3.48" height="1.97" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0800CF48 | sub_0800CF48 | unidentified  0x0800CF48  16 bytes  [done]</title></rect>
+<rect x="799.21" y="500.19" width="2.40" height="2.87" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>IsEffectAnimationStopRequested | sub_0800CED8 | confirmed  0x0800CED8  16 bytes  [done]</title></rect>
+<rect x="796.82" y="503.05" width="3.48" height="1.97" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>IsLocalAreaDeparturePending | sub_0800CF10 | confirmed  0x0800CF10  16 bytes  [done]</title></rect>
+<rect x="796.82" y="505.03" width="3.48" height="1.97" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>IsAreaReturnPromptActive | sub_0800CF48 | confirmed  0x0800CF48  16 bytes  [done]</title></rect>
 <rect x="800.30" y="503.05" width="1.31" height="3.95" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>ResetCoordinatedActionParticipantCount | sub_0800CBEC | confirmed  0x0800CBEC  12 bytes  [done]</title></rect>
 </g>
 <g><title>code_080016C8 (904 bytes)</title>
@@ -2335,6 +2335,6 @@
 <text x="994" y="543" fill="#e6edf3" font-size="11" text-anchor="end">All code matching: 100.00% of 758984 bytes, 2033/2033 functions (C, linked, original assembly)</text>
 </svg>
 <text x="12" y="674" fill="#e6edf3" font-size="11">Area = code bytes. Partial yellow fill = recorded milestones, not matching percentage or remaining time.</text>
-<text x="12" y="692" fill="#e6edf3" font-size="11">Data: 3015 incbin blocks (15.3 MiB), 3037 / 3439 descriptive labels; understanding: no percentage.</text>
+<text x="12" y="692" fill="#e6edf3" font-size="11">Data: 10868 incbin blocks (15.2 MiB), 10500 / 11342 descriptive labels; understanding: no percentage.</text>
 <text x="12" y="710" fill="#e6edf3" font-size="11">Graph: 2035 functions, 10951 edges, 1223 unresolved calls. Source-derived; not a complete runtime graph.</text>
 </svg>
