@@ -1,0 +1,534 @@
+{
+  "source_revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7",
+  "policy": "Frozen proposals; only independently accepted catalog rows earn credit.",
+  "proposals": [
+    {
+      "canonical_symbol": "sub_0809D558",
+      "address": "0x0809D558",
+      "display_name": "ReleaseEncounterIntroGate",
+      "summary": "Sets intro-release byte to1. Consumers leave untargetable intro handling, enable combat team2 and select the non-intro child callback.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_08097E28.c",
+          "line": 2902,
+          "detail": "Exact store/getter body.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08097E28.c",
+          "line": 1793,
+          "detail": "Sets intro-release byte to1. Consumers leave untargetable intro handling, enable combat team2 and select the non-intro child callback.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": []
+    },
+    {
+      "canonical_symbol": "sub_0809F90C",
+      "address": "0x0809F90C",
+      "display_name": "RequestBackgroundPhaseAdvance",
+      "summary": "Sets request byte to1; background controller consumes it in phases0/4 to begin its timed sequence or recovery. Does not wait.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_0809D878.c",
+          "line": 1295,
+          "detail": "Exact store/getter body.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0809D878.c",
+          "line": 635,
+          "detail": "Sets request byte to1; background controller consumes it in phases0/4 to begin its timed sequence or recovery. Does not wait.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": []
+    },
+    {
+      "canonical_symbol": "sub_080A4CF0",
+      "address": "0x080A4CF0",
+      "display_name": "SetCompositeEnemyBodyVariant",
+      "summary": "Stores signed8 variant used as direct sprite/palette index for body resources13/14 and as nonzero collision-processing gate. No bounds check.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_080A3D2C.c",
+          "line": 652,
+          "detail": "Exact store/getter body.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0809D878.c",
+          "line": 3201,
+          "detail": "Stores signed8 variant used as direct sprite/palette index for body resources13/14 and as nonzero collision-processing gate. No bounds check.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": []
+    },
+    {
+      "canonical_symbol": "sub_080A4CFC",
+      "address": "0x080A4CFC",
+      "display_name": "SetCompositeEnemyPartVariant",
+      "summary": "Stores signed8 variant used by composite parts and auxiliary sprite. Variant1 selects alternate animation formulas; index is unchecked.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_080A3D2C.c",
+          "line": 655,
+          "detail": "Exact store/getter body.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0809D878.c",
+          "line": 3394,
+          "detail": "Stores signed8 variant used by composite parts and auxiliary sprite. Variant1 selects alternate animation formulas; index is unchecked.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": []
+    },
+    {
+      "canonical_symbol": "sub_0809D564",
+      "address": "0x0809D564",
+      "display_name": "GetEncounterIntroReleaseFlag",
+      "summary": "Returns shared intro-release byte narrowed to signed8, without normalization.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_08097E28.c",
+          "line": 2905,
+          "detail": "Exact store/getter body.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08097E28.c",
+          "line": 1793,
+          "detail": "Returns shared intro-release byte narrowed to signed8, without normalization.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": []
+    },
+    {
+      "canonical_symbol": "sub_080AF2AC",
+      "address": "0x080AF2AC",
+      "display_name": "CleanupChildTasksAndLink",
+      "summary": "Cancels scheduled child controls across the configured u8 count, frees and nulls their pool, then clears connected-peer rings. Child finalizers clear their own enemy-slot bits; this wrapper does not clear the whole active mask.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_080A9680.c",
+          "line": 3423,
+          "detail": "Exact target body.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080A9680.c",
+          "line": 3458,
+          "detail": "Pool cleanup advances40 bytes across count; child callbackAE420 and finalizerAF3C4 bind same pool at3489.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": []
+    },
+    {
+      "canonical_symbol": "sub_080A4AD0",
+      "address": "0x080A4AD0",
+      "display_name": "DeactivateEnemySlotOne",
+      "summary": "Clears bit1 of the active enemy mask, leaving every other bit unchanged. Installed as composite-part task finalizer.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_080A3D2C.c",
+          "line": 538,
+          "detail": "Exact target body.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080A3D2C.c",
+          "line": 535,
+          "detail": "Task35D0 is assigned this finalizer; exact effect is mask &=~2.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": []
+    },
+    {
+      "canonical_symbol": "sub_080A4CDC",
+      "address": "0x080A4CDC",
+      "display_name": "SetCompositeEnemyAuxiliaryAnimation",
+      "summary": "Stores signed8 animation selector and direction index. Auxiliary sprite task waits for nonzero selector, uses variant-dependent animation and direction-indexed offsets; neither argument is bounds checked.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_080A3D2C.c",
+          "line": 648,
+          "detail": "Exact target body.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080A3D2C.c",
+          "line": 444,
+          "detail": "First argument writesFC, secondFB; consumer selects frame+5 for variant1 and offsets by direction*4.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": []
+    },
+    {
+      "canonical_symbol": "sub_0809F918",
+      "address": "0x0809F918",
+      "display_name": "AllocateBackgroundPhaseTaskControl",
+      "summary": "Allocates40-byte background phase-controller control and clears order field+8. Does not schedule task or check allocation failure.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_0809D878.c",
+          "line": 1298,
+          "detail": "Exact target body.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0809D878.c",
+          "line": 1323,
+          "detail": "Starter binds9E468 phased scrolling/VCount/background controller to same control.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": []
+    },
+    {
+      "canonical_symbol": "sub_080A0FA8",
+      "address": "0x080A0FA8",
+      "display_name": "AllocateFixedStrikeTaskControl",
+      "summary": "Allocates40-byte fixed-strike task control and clears order+8 without null guard; does not start execution.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_0809D878.c",
+          "line": 2141,
+          "detail": "Exact target body.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0809D878.c",
+          "line": 2156,
+          "detail": "Starter bindsA05B4, whose kinds0..3 choose fixed strike positions and test contact at animation frame2.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": []
+    },
+    {
+      "canonical_symbol": "sub_080A1170",
+      "address": "0x080A1170",
+      "display_name": "AllocateHomingProjectileTaskControl",
+      "summary": "Allocates40-byte homing-projectile control and clears order+8 without a null guard; does not schedule it.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_0809D878.c",
+          "line": 2236,
+          "detail": "Exact allocation and initialization body.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0809D878.c",
+          "line": 2253,
+          "detail": "Starter bindsA0B44: selects one target, periodically recomputes velocity, moves a projectile and checks local-player contact.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": []
+    },
+    {
+      "canonical_symbol": "sub_080A4BE0",
+      "address": "0x080A4BE0",
+      "display_name": "AllocateCompositeAuxiliaryTaskControl",
+      "summary": "Allocates40-byte composite auxiliary-sprite control and clears order+8 without checking allocation success. Does not start the sprite task.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_080A3D2C.c",
+          "line": 605,
+          "detail": "Exact allocation and initialization body.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080A3D2C.c",
+          "line": 621,
+          "detail": "Starter binds47A0; consumer draws animation selected by sharedFC and directionFB at actor-relative table offset.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": []
+    },
+    {
+      "canonical_symbol": "sub_080A7FF8",
+      "address": "0x080A7FF8",
+      "display_name": "AllocateStaggeredProjectileTaskControl",
+      "summary": "Allocates40-byte control for the twelve staggered projectiles task and clears order+8 without null guard. Does not start execution.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_080A3D2C.c",
+          "line": 2366,
+          "detail": "Exact allocation and initialization body.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080A3D2C.c",
+          "line": 2380,
+          "detail": "Starter binds705C: twelve projectiles launch at i*20+30, acquire player positions and interpolate over24 updates.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": []
+    },
+    {
+      "canonical_symbol": "sub_080A80BC",
+      "address": "0x080A80BC",
+      "display_name": "AllocateScrollingBlendTaskControl",
+      "summary": "Allocates40-byte scrolling/blend task control and clears order+8 without null guard. Does not schedule the effect.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_080A3D2C.c",
+          "line": 2404,
+          "detail": "Exact allocation and initialization body.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080A3D2C.c",
+          "line": 2420,
+          "detail": "Starter binds74E8, which scrolls layers1/3 at different speeds and varies blend coefficients from sine table via0903C.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": []
+    },
+    {
+      "canonical_symbol": "sub_080B63A0",
+      "address": "0x080B63A0",
+      "display_name": "AllocateDualScrollBlendControl",
+      "summary": "Allocates40-byte dual-scroll/blend task control and clears order+8 without null guard; does not start execution.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_080B3648.c",
+          "line": 1695,
+          "detail": "Exact allocation and initialization body.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080B3648.c",
+          "line": 1701,
+          "detail": "Starter bindsB5F94: scrolls layers1/3 in opposite directions, sine-modulates blend coefficient via0903C and changes speed/base under shared flag.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": []
+    },
+    {
+      "canonical_symbol": "sub_0809FACC",
+      "address": "0x0809FACC",
+      "display_name": "AllocateFourOrbitingHazardsControl",
+      "summary": "Allocates40-byte control for four orbiting hazards and clears order+8 only when allocation succeeds. Does not schedule it.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_0809D878.c",
+          "line": 1399,
+          "detail": "Exact target body.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0809D878.c",
+          "line": 1421,
+          "detail": "Starter binds9F4A8, four sine-offset positions expand around main actor and test local-player contact in final phase.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": []
+    },
+    {
+      "canonical_symbol": "sub_080AB2D8",
+      "address": "0x080AB2D8",
+      "display_name": "CleanupEnemyPaletteAndLink",
+      "summary": "Clears connected-peer rings, zeroes the entire active-enemy mask and releases the encounter shared palette slot. Registered cleanup for the associated enemy controller.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_080A9680.c",
+          "line": 1094,
+          "detail": "Exact target body.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0808D4A8.c",
+          "line": 1485,
+          "detail": "Registered alongsideA9950; primary body releases palette global430 without task-pool or sound cleanup.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": []
+    },
+    {
+      "canonical_symbol": "sub_080A0FC4",
+      "address": "0x080A0FC4",
+      "display_name": "DestroyFixedStrikeTaskControl",
+      "summary": "Cancels fixed-strike task if scheduled, frees its40-byte control and nulls global control pointer. No null guard before schedule query.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_0809D878.c",
+          "line": 2147,
+          "detail": "Exact target body.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0809D878.c",
+          "line": 2156,
+          "detail": "Same334 control starter bindsA05B4 fixed-position strike callback.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": []
+    },
+    {
+      "canonical_symbol": "sub_080A118C",
+      "address": "0x080A118C",
+      "display_name": "DestroyHomingProjectileTaskControl",
+      "summary": "Cancels homing-projectile task if scheduled, frees its40-byte control and nulls pointer; no null guard before schedule query.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_0809D878.c",
+          "line": 2244,
+          "detail": "Exact target body.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0809D878.c",
+          "line": 2253,
+          "detail": "Same344 starter bindsA0B44 periodic retargeting projectile task.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": []
+    },
+    {
+      "canonical_symbol": "sub_080A4A54",
+      "address": "0x080A4A54",
+      "display_name": "DestroyCompositePartTaskControl",
+      "summary": "Cancels composite-part task if scheduled, frees its40-byte control and nulls pointer. Cancellation can invoke the installed slot1-deactivation finalizer.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_080A3D2C.c",
+          "line": 516,
+          "detail": "Exact target body.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080A3D2C.c",
+          "line": 523,
+          "detail": "Same358 control bindsA35D0 and finalizerA4AD0, which clears enemy-mask bit1.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": []
+    },
+    {
+      "canonical_symbol": "sub_080A4BFC",
+      "address": "0x080A4BFC",
+      "display_name": "DestroyCompositeAuxiliaryTaskControl",
+      "summary": "Cancels auxiliary-sprite task if scheduled, frees its40-byte control and nulls global pointer. No null guard before schedule query.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_080A3D2C.c",
+          "line": 613,
+          "detail": "Exact target body.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080A3D2C.c",
+          "line": 621,
+          "detail": "Same360 starter binds47A0, which draws shared-selector/direction auxiliary sprite.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": []
+    },
+    {
+      "canonical_symbol": "sub_080A8014",
+      "address": "0x080A8014",
+      "display_name": "DestroyStaggeredProjectileTaskControl",
+      "summary": "Cancels twelve-projectile task if scheduled, frees40-byte control and nulls pointer. Does not itself reset shared projectile height.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_080A3D2C.c",
+          "line": 2372,
+          "detail": "Exact target body.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080A3D2C.c",
+          "line": 2380,
+          "detail": "Same410 starter binds705C twelve staggered targeted projectiles; height414 is separately queried by8090.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": []
+    },
+    {
+      "canonical_symbol": "sub_080AC81C",
+      "address": "0x080AC81C",
+      "display_name": "CleanupPairedSpriteEnemyEncounter",
+      "summary": "Stops sound194, clears connected-peer rings and all active-enemy bits, and releases shared encounter palette. Registered cleanup for the controller using sprite resources29/30.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_080A9680.c",
+          "line": 1990,
+          "detail": "Exact target body.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0808D4A8.c",
+          "line": 648,
+          "detail": "Cleanup registered alongsideAB2F8; primary controller initializes0x5001D/0x5001E at1222.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": []
+    },
+    {
+      "canonical_symbol": "sub_080B0F9C",
+      "address": "0x080B0F9C",
+      "display_name": "CleanupEncounterSharedSpriteTask",
+      "summary": "If current actor signed16 field+5C is nonzero, cancels/frees shared-position sprite task. Always zeroes the entire active-enemy mask; does not clear peer rings.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_080A9680.c",
+          "line": 4398,
+          "detail": "Exact target body.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0808D4A8.c",
+          "line": 1219,
+          "detail": "Registered cleanup withB0288. AdjacentB0F70 additionally clears peer rings, while this target does not.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": []
+    }
+  ]
+}

@@ -1,0 +1,684 @@
+{
+  "source_revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7",
+  "policy": "Frozen proposals; only independently accepted catalog rows earn credit.",
+  "proposals": [
+    {
+      "canonical_symbol": "sub_080B23FC",
+      "address": "0x080B23FC",
+      "display_name": "AllocateSharedAnimation24Task",
+      "summary": "Retries allocation of one40-byte task control, waits once after every attempt including success, and clears its order word.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_080A9680.c",
+          "line": 5062,
+          "detail": "Allocates28 bytes hexadecimal in do/wait loop, stores global007AC and clears+8 only; no existing allocation or scheduling guard.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080A9680.c",
+          "line": 5091,
+          "detail": "Starter binds B2200 into same control.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080A9680.c",
+          "line": 4990,
+          "detail": "B2200 draws resource0x50089 animation24 at shared actor007A0 position forever, with scene/menu suppression.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Control allocation only; other control fields remain uninitialized. No sprite resource ownership or readiness guarantee."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_0809975C",
+      "address": "0x0809975C",
+      "display_name": "AllocateDirectionalHazardTaskPool64",
+      "summary": "Allocates64 task controls and clears each order word without starting tasks or checking allocation failure.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_08097E28.c",
+          "line": 864,
+          "detail": "A00-byte allocation,64 entries stride28hex, writes only+8=0.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08097E28.c",
+          "line": 897,
+          "detail": "997C0 scans same64 controls for unscheduled+zero word, starts9919C or99468 by mode.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08097E28.c",
+          "line": 733,
+          "detail": "9919C starts from actor-relative corner and moves directional proximity-damage hazard;99468 uses moving resource130 sprite and proximity damage. Both clear current task+8 at normal ending.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": []
+    },
+    {
+      "canonical_symbol": "sub_0809AE24",
+      "address": "0x0809AE24",
+      "display_name": "AllocateTargetedHazardTaskPool5",
+      "summary": "Allocates five task controls and clears each order word; no allocation failure guard.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_08097E28.c",
+          "line": 1546,
+          "detail": "C8-byte allocation;5 controls stride28hex clear+8.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08097E28.c",
+          "line": 1580,
+          "detail": "9AE88 binds9A834 to first idle+zero-word control with supplied selector.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08097E28.c",
+          "line": 1395,
+          "detail": "Child uses resource4, selects local/remote player or fixed solo position by selector, then runs timed animated damage hazard; unsupported selectors go to cleanup.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": []
+    },
+    {
+      "canonical_symbol": "sub_0809D5B8",
+      "address": "0x0809D5B8",
+      "display_name": "AllocateDelayedHazardTaskPool8",
+      "summary": "Allocates eight task controls and clears each order word; no task startup or allocation guard.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_08097E28.c",
+          "line": 2920,
+          "detail": "140-byte allocation,8 controls stride28hex clear+8 only.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08097E28.c",
+          "line": 2954,
+          "detail": "Starter binds9C1B4 or9C4E8 depending advanced mode and variant byte; both use same pool.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08097E28.c",
+          "line": 2190,
+          "detail": "Children use resource5 with120-step delay then orbiting or player-selected proximity hazards, and clear current task order word on ending.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": []
+    },
+    {
+      "canonical_symbol": "sub_0809D7E4",
+      "address": "0x0809D7E4",
+      "display_name": "AllocateEnemySlots1And2Tasks",
+      "summary": "Allocates two task controls used for enemy slots1/2 and clears their order words.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_08097E28.c",
+          "line": 3066,
+          "detail": "50-byte allocation,2 controls stride28hex clear+8 with no failure guard.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08097E28.c",
+          "line": 3045,
+          "detail": "Starter9D77C sets order input+46hex, callback9CC2C and finalizer9D848.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08097E28.c",
+          "line": 2637,
+          "detail": "9CC2C binds actor array slot idx+1, sets active mask and table00300; finalizer uses order minus46hex to clear actor active bit.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": []
+    },
+    {
+      "canonical_symbol": "sub_0809FAEC",
+      "address": "0x0809FAEC",
+      "display_name": "FreeFourPositionHazardTask",
+      "summary": "If control exists, cancels it when scheduled, frees control and clears holder.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_0809D878.c",
+          "line": 1412,
+          "detail": "Null guard; scheduled cancel; free then global00328=0. No post-cancel recheck.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0809D878.c",
+          "line": 1421,
+          "detail": "Starter binds9F4A8 into00328.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0809D878.c",
+          "line": 1167,
+          "detail": "Child runs resource8 animation around four positions, tests/damages local player and eventually clears control+8.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": []
+    },
+    {
+      "canonical_symbol": "sub_080A4AE4",
+      "address": "0x080A4AE4",
+      "display_name": "AllocateEnemySlots2To4Tasks",
+      "summary": "Allocates three task controls for attached actor slots2..4 and clears order words; unchecked allocation.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_080A3D2C.c",
+          "line": 541,
+          "detail": "Allocates78hex bytes,3 controls stride28 clear+8.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080A3D2C.c",
+          "line": 588,
+          "detail": "Starter order=index+46, callbackA3D2C, finalizerA4BB0.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080A3D2C.c",
+          "line": 110,
+          "detail": "Callback assigns actor slotidx+2 and active bit, positions actors relative to shared main actor based on configuration.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": []
+    },
+    {
+      "canonical_symbol": "sub_080A7E68",
+      "address": "0x080A7E68",
+      "display_name": "AllocateAcceleratingProjectileTaskPool8",
+      "summary": "Allocates eight task controls for accelerating falling projectile callback; clears order words without null guard.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_080A3D2C.c",
+          "line": 2255,
+          "detail": "Allocates140hex,8 controls clear+8.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080A3D2C.c",
+          "line": 2306,
+          "detail": "Same pool starter bindsA68B0.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080A3D2C.c",
+          "line": 1629,
+          "detail": "Child delays arg*17, then moves y byspeed and increases speed18 per step; odd arg also adds horizontal192. Uses resource15 and player collision damage.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": []
+    },
+    {
+      "canonical_symbol": "sub_080A7F30",
+      "address": "0x080A7F30",
+      "display_name": "AllocateRotatingVolleyTaskPool2",
+      "summary": "Allocates two task controls for rotating four-part volley; clears order words without null guard.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_080A3D2C.c",
+          "line": 2311,
+          "detail": "Allocates50hex,2 controls clear+8.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080A3D2C.c",
+          "line": 2361,
+          "detail": "Starter bindsA6BE8 into pool.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080A3D2C.c",
+          "line": 1711,
+          "detail": "Child initializes four delayed projectile parts, changes eight-way direction periodically clockwise/counterclockwise and draws/tests local player hits.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": []
+    },
+    {
+      "canonical_symbol": "sub_080A8090",
+      "address": "0x080A8090",
+      "display_name": "UpdateVolleyRecoveryPosition",
+      "summary": "Writes stored volley-hit Y coordinate or default18432 to supplied position pairY, then returns1 only when volley task order word is zero.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_080A3D2C.c",
+          "line": 2395,
+          "detail": "Reads global00414 or4800hex, stores argument+4, reads control00410+8; no null guard or scheduling-status check.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080A3D2C.c",
+          "line": 1899,
+          "detail": "Twelve-projectile callbackA705C sets00414=local player y-2048 on hit and initializes it0.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080A3D2C.c",
+          "line": 1068,
+          "detail": "Actor state11 passes address of actor x/y; predicate true advances recovery state, resets selection and restores local input when permitted.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Zero task order is tested directly; no concurrency, task completion or valid pointer guarantee is inferred."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_080A9818",
+      "address": "0x080A9818",
+      "display_name": "AllocateResource17HazardTaskPool3",
+      "summary": "Allocates three task controls for resource17 moving hazard callback and clears order words without allocation guard.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_080A9680.c",
+          "line": 105,
+          "detail": "Allocates78hex,3 controls clear+8.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080A9680.c",
+          "line": 165,
+          "detail": "A987C bindsA92C0 into first unscheduled zero-word control.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080A3D2C.c",
+          "line": 3067,
+          "detail": "Child initializes resource0x50011, uses low16 argument as variant, snapshots actor position and runs animated moving hazard with player collision/damage.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Resource17 is literal low16 resource ID, not artwork or original enemy identity."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_080AE0B8",
+      "address": "0x080AE0B8",
+      "display_name": "AllocateEnemySlots1To4Tasks",
+      "summary": "Allocates four task controls for enemy-slot1..4 state callback and clears order words without null guard.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_080A9680.c",
+          "line": 2761,
+          "detail": "A0hex allocation,4 controls stride28 clear+8.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080A9680.c",
+          "line": 2793,
+          "detail": "Starter bindsAD534 andAE184 finalizer; order=input+40hex.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080A9680.c",
+          "line": 2495,
+          "detail": "Child truncates idx tobyte, actor array slotidx+1, sets active mask; finalizer removes matching active bit.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": []
+    },
+    {
+      "canonical_symbol": "sub_080B0F70",
+      "address": "0x080B0F70",
+      "display_name": "ResetEncounterPeerState",
+      "summary": "When shared actor health is nonzero cancels shared position sprite task; always clears connected peer rings and enemy-active mask.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_080A9680.c",
+          "line": 4391,
+          "detail": "Tests actor00788 signedhalfword+5C; conditional98060, unconditional68384 and global056FC=0.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08067B4C.c",
+          "line": 380,
+          "detail": "68384 is established connected-peer ring reset helper; this call is reset, not message delivery.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Caller must provide valid shared actor pointer. This helper does not free the actor or all encounter task pools."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_0809D6A8",
+      "address": "0x0809D6A8",
+      "display_name": "AllocateContactHazardTaskPool3",
+      "summary": "Allocates three task controls for actor-centered contact hazard and clears order words without null guard.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_08097E28.c",
+          "line": 2979,
+          "detail": "Allocates78hex,three controls clear+8 with byte loop.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08097E28.c",
+          "line": 3041,
+          "detail": "Starter binds9C8F4 into same pool.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08097E28.c",
+          "line": 2493,
+          "detail": "Child follows supplied actor position, draws resource5 animation25 on odd steps, distance<=47 hit test; accumulates pending damage and first motion channel once, then clears current control order word.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": []
+    },
+    {
+      "canonical_symbol": "sub_0809D848",
+      "address": "0x0809D848",
+      "display_name": "FinalizeEnemySlots1And2Task",
+      "summary": "Decodes current task order minus70 into actor table index, stores decoded index back and clears referenced enemy-active bit.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_08097E28.c",
+          "line": 3094,
+          "detail": "CurrentTask+8 is decremented46hex, table00300[index] actor ID selects bit to clear.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08097E28.c",
+          "line": 3063,
+          "detail": "Starter installs this callback as finalizer for9CC2C; order argument+46.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08097E28.c",
+          "line": 2637,
+          "detail": "9CC2C writes corresponding actor table and activates slotidx+1.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "No index/null guard, actor freeing or sprite cleanup is performed here."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_0809F9F8",
+      "address": "0x0809F9F8",
+      "display_name": "AllocateTargetedProjectilePool4",
+      "summary": "Allocates four controls for player-targeting resource8 projectile tasks; initializes order words only on allocation success.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_0809D878.c",
+          "line": 1334,
+          "detail": "A0hex allocation stored through volatile holder; null branch skips all stores; four+8 words cleared.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0809D878.c",
+          "line": 1397,
+          "detail": "Starter9FA64 binds9F018, uses200hex-byte stack and arg selector.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0809D878.c",
+          "line": 909,
+          "detail": "9F018 uses resource8 and player count/selector target positions; invalid unavailable player selectors cleanly exit and clear current order word.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": []
+    },
+    {
+      "canonical_symbol": "sub_080A4BB0",
+      "address": "0x080A4BB0",
+      "display_name": "FinalizeEnemySlots2To4Task",
+      "summary": "Decodes current task order minus70, stores index back and clears active bit of attached actor from three-entry table.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_080A3D2C.c",
+          "line": 599,
+          "detail": "Subtracts46hex from current control+8; table00370[index] actor ID selects active bit.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080A3D2C.c",
+          "line": 593,
+          "detail": "Attached actor task starter binds this finalizer; orderindex+46.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080A3D2C.c",
+          "line": 110,
+          "detail": "A3D2C assigns table entry to actor slotidx+2.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "No guard, actor freeing or complete encounter cleanup is implied."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_080A7E38",
+      "address": "0x080A7E38",
+      "display_name": "ReleaseLocalInputAndEnemies",
+      "summary": "Clears local-player flag0 and clears entire enemy-active mask.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_080A3D2C.c",
+          "line": 2250,
+          "detail": "Local index020F4 selects flags&~1; then056FC=0. No scheduler calls or actor freeing.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080A3D2C.c",
+          "line": 143,
+          "detail": "Attached actor and main encounter callbacks use global056FC to track active actor slots.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Literal flag0 operation is clear; no restoration of prior flag state or ownership is claimed."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_080AE184",
+      "address": "0x080AE184",
+      "display_name": "FinalizeEnemySlots1To4Task",
+      "summary": "Decodes current task order minus64, stores index back and clears referenced enemy-active bit.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_080A9680.c",
+          "line": 2814,
+          "detail": "CurrentTask+8 minus40hex indexes actor pointer table00448 and clears bit1<<actorID.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080A9680.c",
+          "line": 2811,
+          "detail": "AD534 starter installs finalizer with orderinput+40.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080A9680.c",
+          "line": 2495,
+          "detail": "Child binds actor slotidx+1 and enables active mask.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "No index/null guard or actor freeing."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_080AF3C4",
+      "address": "0x080AF3C4",
+      "display_name": "FinalizeIndexedWeaponEnemyTask",
+      "summary": "Decodes current task order minus68, stores index back and clears active bit from actor pointer in172-byte indexed record.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_080A9680.c",
+          "line": 3508,
+          "detail": "CurrentTask+8 minus44hex; table004D0+index*ACh contains actor pointer; actor firsthalfword selects active bit.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080A9680.c",
+          "line": 2820,
+          "detail": "Same table records begin with actor pointer and carry A8hex trailing bytes; state/weapon enemy callback uses entries.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080A9680.c",
+          "line": 3500,
+          "detail": "AF350 explicitly binds this finalizer with orderkind+44hex and entryAE420. AE420 selects weapon resource IDs bykind and implements indexed enemy attack state machine.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "This callback only clears activity; original enemy identity and artwork are not inferred."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_080B2424",
+      "address": "0x080B2424",
+      "display_name": "FreeSharedAnimation24Task",
+      "summary": "If shared animation24 control exists, cancels it when scheduled, then rechecks pointer before freeing and clearing it.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_080A9680.c",
+          "line": 5069,
+          "detail": "First null guard; conditional scheduled cancellation; second global null guard prevents free if cancellation cleared pointer. Frees control only.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080A9680.c",
+          "line": 5091,
+          "detail": "Same control starter binds B2200 shared actor-position animation24/resource137 renderer.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": []
+    },
+    {
+      "canonical_symbol": "sub_080A4C74",
+      "address": "0x080A4C74",
+      "display_name": "SetAttachedActorPlacement",
+      "summary": "Preserves previous non255 placement selector, stores new byte selector and writes byte direction as halfword to shared attached actor.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_080A3D2C.c",
+          "line": 635,
+          "detail": "If current003F1!=255 copy into003F2; assign newu8; actor00368+8 receivesu8 arg1 zeroextended.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0809D878.c",
+          "line": 3382,
+          "detail": "Attached actor callback uses selector255 to hide/deactivate until defeat path restores previous selector; other values select animation and main-actor relative offset.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0809D878.c",
+          "line": 3154,
+          "detail": "Main state machine supplies selector/direction and companion configurations from15-byte pattern rows.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "No selector bound checks or independent character identity is inferred; no state-transition completion wait."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_080A4CA8",
+      "address": "0x080A4CA8",
+      "display_name": "SetAttachedEnemyAnimationDirection",
+      "summary": "Sets indexed attached enemy animation/config byte, placement-direction byte and actor direction halfword.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_080A3D2C.c",
+          "line": 642,
+          "detail": "Stores low8 ofu32 a into003F8[index], low8 ofu32 b into003F4[index]; zeroextendsu8 value into actor table00370[index]+8.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080A3D2C.c",
+          "line": 155,
+          "detail": "A3D2C zero config disables attached actor; nonzero controls animation, with side-dependent+5. Placement-direction byte indexes relative-offset table.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0809D878.c",
+          "line": 3155,
+          "detail": "Main state-machine pattern row configures all three indices using this helper.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "No index, pointer or byte-domain validation; does not schedule an actor task."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_080B23C8",
+      "address": "0x080B23C8",
+      "display_name": "SetEnemySlots1To4Flag0",
+      "summary": "Sets bit0 of flags halfword+0x7A on enemy records1..4 while preserving other bits.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_080A9680.c",
+          "line": 5054,
+          "detail": "Typed record stride2E0hex places flags at7Ahex; loop i1..4 ORs1, does not touchslot0.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080A9680.c",
+          "line": 4915,
+          "detail": "Same module also sets identical mask on enemy slots in encounter effect flow; no stronger effect identity asserted.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08073E2C.c",
+          "line": 2543,
+          "detail": "Other enemy consumers test this bit together with scene-exit predicate to gate action; exact mask name avoids claiming universal removal or forced stop.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Original intended gameplay meaning remains unknown; name states literal flag operation only."
+      ]
+    }
+  ]
+}
