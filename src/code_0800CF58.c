@@ -2439,52 +2439,36 @@ block_719:
                         state5Destination67 = arg0 + 0x94;
                         var_r5_6 = arg0 + 0x8C;
                         *(struct PairD36867 *)state5Destination67 = *(struct PairD36867 *)var_r5_6;
-                        var_r3_6 = d368_sub_0800CCCC();
-                        var_r3_6 <<= 16;
-                        var_r3_6 >>= 16;
-                        var_r0_15 = (s32) ((u32) (u16) ((struct PlayerD368 *)arg0)->f40 << 0x10) >> 0x11;
-                        var_r2_10 = (u16) ((struct PlayerD368 *)arg0)->f1C;
-                        goto state5Call66;
+                        d368_sub_08013E90((s32) ((u32) (u16) ((struct PlayerD368 *)arg0)->f40 << 0x10) >> 0x11, var_r5_6, (u16) ((struct PlayerD368 *)arg0)->f1C, (u16) d368_sub_0800CCCC(), (((struct PlayerD368 *)arg0)->f30 & 0x20));
                     }
-                    goto state5Zero66;
+                    ((struct PlayerD368 *)arg0)->fD8 = 0;
+                    break;
                 case 7:
                     if (((struct PlayerD368 *)arg0)->f10 == 1) {
 state5Move66:
                         if (directionD36874 != 0) {
-                        state5Destination67 = arg0 + 0x94;
-                        var_r5_6 = arg0 + 0x8C;
-                        *(struct PairD36867 *)state5Destination67 = *(struct PairD36867 *)var_r5_6;
-                        var_r3_6 = d368_sub_0800CCCC();
-                        var_r3_6 <<= 16;
-                        var_r3_6 >>= 16;
-                        var_r0_15 = (s32) ((u32) (u16) ((struct PlayerD368 *)arg0)->f40 << 0x10) >> 0x11;
-                            var_r2_10 = directionD36874 - 1;
-                            var_r2_10 <<= 16;
-                            var_r2_10 >>= 16;
-                            goto state5Call66;
+                            state5Destination67 = arg0 + 0x94;
+                            var_r5_6 = arg0 + 0x8C;
+                            *(struct PairD36867 *)state5Destination67 = *(struct PairD36867 *)var_r5_6;
+                            d368_sub_08013E90((s32) ((u32) (u16) ((struct PlayerD368 *)arg0)->f40 << 0x10) >> 0x11, var_r5_6, (u16) (directionD36874 - 1), (u16) d368_sub_0800CCCC(), (((struct PlayerD368 *)arg0)->f30 & 0x20));
                         }
                     }
-                    goto state5Zero66;
-                default:
-                    goto state5Decay66;
-                }
-state5Call66:
-                d368_sub_08013E90(var_r0_15, var_r5_6, var_r2_10, var_r3_6, (((struct PlayerD368 *)arg0)->f30 & 0x20));
 state5Zero66:
-                ((struct PlayerD368 *)arg0)->fD8 = 0;
-                goto state5Done66;
-state5Decay66:
-                var_r1_6 = ((struct PlayerD368 *)arg0)->fD8;
-                if (var_r1_6 > 0x17) {
-                    ((struct PlayerD368 *)arg0)->fD8 = var_r1_6 - (var_r1_6 >> 1);
-                } else {
-                    temp_r0_56 = var_r1_6 - 8;
-                    ((struct PlayerD368 *)arg0)->fD8 = temp_r0_56;
-                    if (temp_r0_56 <= 0) {
-                        ((struct PlayerD368 *)arg0)->fD8 = 0;
+                    ((struct PlayerD368 *)arg0)->fD8 = 0;
+                    break;
+                default:
+                    var_r1_6 = ((struct PlayerD368 *)arg0)->fD8;
+                    if (var_r1_6 > 0x17) {
+                        ((struct PlayerD368 *)arg0)->fD8 = var_r1_6 - (var_r1_6 >> 1);
+                    } else {
+                        temp_r0_56 = var_r1_6 - 8;
+                        ((struct PlayerD368 *)arg0)->fD8 = temp_r0_56;
+                        if (temp_r0_56 <= 0) {
+                            ((struct PlayerD368 *)arg0)->fD8 = 0;
+                        }
                     }
+                    break;
                 }
-state5Done66:
                 break;
             case 6:                                 /* switch 4 */
                 sp158 = 0;
