@@ -1,0 +1,246 @@
+[
+  {
+    "canonical_symbol": "sub_0802247C",
+    "address": "0x0802247C",
+    "display_name": "StartCriticalHitSpriteTask",
+    "summary": "Finds the first free bit among 32 in occupancy word 03005CE4, uses the matching 0x28-byte control in the pool at 03005CE0, allocates a 0x400 stack and starts TaskAnimateCriticalHitSprite with the packed pixel position (x>>8 | (y>>8)<<16), then marks the bit used.",
+    "confidence": "high",
+    "evidence": [
+      {
+        "source": "src/code_08021DC4.c",
+        "line": 425,
+        "detail": "Sets the task callback to TaskAnimateCriticalHitSprite.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_08021DC4.c",
+        "line": 432,
+        "detail": "Passes the Q8 x/y packed as pixel halfwords and the pool index.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      }
+    ],
+    "open_questions": []
+  },
+  {
+    "canonical_symbol": "sub_08021F58",
+    "address": "0x08021F58",
+    "display_name": "StartShortEffectTask",
+    "summary": "Finds the first free bit among 32 in occupancy word 03005CE4, uses the matching 0x28-byte control in the pool at 03005CE0, allocates a 0x400 stack and starts TaskDrawShortEffect with the packed pixel position, then marks the bit used.",
+    "confidence": "high",
+    "evidence": [
+      {
+        "source": "src/code_08021DC4.c",
+        "line": 130,
+        "detail": "Sets the task callback to TaskDrawShortEffect.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_08021DC4.c",
+        "line": 137,
+        "detail": "Passes the Q8 x/y packed as pixel halfwords and the pool index.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      }
+    ],
+    "open_questions": []
+  },
+  {
+    "canonical_symbol": "sub_08021E44",
+    "address": "0x08021E44",
+    "display_name": "StartStatusEffectOnsetTask",
+    "summary": "Finds the first free bit among 32 in occupancy word 03005CE4, uses the matching 0x28-byte control in the pool at 03005CE0, allocates a 0x400 stack and starts task sub_080210A8 (status-effect sheet 0x50074 animation on an actor) with (pool index << 16) | actor id and the animation number, then marks the bit used.",
+    "confidence": "medium",
+    "evidence": [
+      {
+        "source": "src/code_08021DC4.c",
+        "line": 65,
+        "detail": "Sets the task callback to sub_080210A8, which plays a 0x50074 animation on the actor.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_08021DC4.c",
+        "line": 72,
+        "detail": "Packs the pool index above the actor id and passes the animation number.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_0801AAF8.c",
+        "line": 2011,
+        "detail": "InitActorStatusEffectRecord calls it with the owner and the effect animation when a status effect starts.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      }
+    ],
+    "open_questions": []
+  },
+  {
+    "canonical_symbol": "sub_0802230C",
+    "address": "0x0802230C",
+    "display_name": "StartFieldItemAppearEffectTask",
+    "summary": "Finds the first free bit among 32 in occupancy word 03005CE4, uses the matching 0x28-byte control in the pool at 03005CE0, allocates a 0x400 stack and starts task sub_08021AD8 (animation 41 of sheet 0x5008C at a position) with the packed position and draw mode, then marks the bit used.",
+    "confidence": "medium",
+    "evidence": [
+      {
+        "source": "src/code_08021DC4.c",
+        "line": 355,
+        "detail": "Sets the task callback to sub_08021AD8, which plays animation 41 of sheet 0x5008C.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_08021DC4.c",
+        "line": 362,
+        "detail": "Passes the packed position and the draw-mode/pool-index word.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_080659B0.c",
+        "line": 567,
+        "detail": "EnqueueLinkFieldItemSpawnRequest calls it at the free cell found by FindFreeFieldItemCellNearby when a field item is spawned.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      }
+    ],
+    "open_questions": []
+  },
+  {
+    "canonical_symbol": "sub_08057B64",
+    "address": "0x08057B64",
+    "display_name": "GetSceneStageByte",
+    "summary": "Returns byte [index] of the scene stage-byte array at scene state +0x1B0 (+0x1BC in advanced mode); index 3 is the +0x1B3 stage byte RunJensenDialogue dispatches on, index 0 the card-trade stage.",
+    "confidence": "high",
+    "evidence": [
+      {
+        "source": "src/code_080571A4.c",
+        "line": 507,
+        "detail": "Uses IsAdvancedModeActive to choose the bank.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_080571A4.c",
+        "line": 508,
+        "detail": "Normal bank starts at +0x1B0.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_080571A4.c",
+        "line": 510,
+        "detail": "Advanced bank starts at +0x1BC.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_080571A4.c",
+        "line": 511,
+        "detail": "Returns the indexed byte.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      }
+    ],
+    "open_questions": []
+  },
+  {
+    "canonical_symbol": "sub_08057B2C",
+    "address": "0x08057B2C",
+    "display_name": "SetSceneStageByte",
+    "summary": "Stores a byte at [index] of the scene stage-byte array at scene state +0x1B0 (+0x1BC in advanced mode), the array GetSceneStageByte reads.",
+    "confidence": "high",
+    "evidence": [
+      {
+        "source": "src/code_080571A4.c",
+        "line": 498,
+        "detail": "Uses IsAdvancedModeActive to choose the bank.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_080571A4.c",
+        "line": 499,
+        "detail": "Advanced bank starts at +0x1BC.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_080571A4.c",
+        "line": 501,
+        "detail": "Normal bank starts at +0x1B0.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_080571A4.c",
+        "line": 502,
+        "detail": "Writes the value byte.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      }
+    ],
+    "open_questions": []
+  },
+  {
+    "canonical_symbol": "sub_08057314",
+    "address": "0x08057314",
+    "display_name": "IsBossRetryPortalPending",
+    "summary": "Returns bit 8 of scene state halfword +4 as 0 or 1; scene initialisation starts the boss retry portal when it is set.",
+    "confidence": "high",
+    "evidence": [
+      {
+        "source": "src/code_080571A4.c",
+        "line": 87,
+        "detail": "Returns (halfword +4 >> 8) & 1.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_08021DC4.c",
+        "line": 675,
+        "detail": "TaskInitializeSceneAndDispatchMapEvents calls StartBossRetryPortalTask when this returns nonzero, otherwise StartPlayerAreaReturnTask.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      }
+    ],
+    "open_questions": []
+  },
+  {
+    "canonical_symbol": "sub_080572E4",
+    "address": "0x080572E4",
+    "display_name": "MarkBossRetryPortalPending",
+    "summary": "Sets bit 0x100 of scene state flags halfword +4, the bit IsBossRetryPortalPending reads.",
+    "confidence": "medium",
+    "evidence": [
+      {
+        "source": "src/code_080571A4.c",
+        "line": 81,
+        "detail": "ORs 0x100 into the scene state flags halfword +4.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      }
+    ],
+    "open_questions": []
+  },
+  {
+    "canonical_symbol": "sub_080572FC",
+    "address": "0x080572FC",
+    "display_name": "ClearBossRetryPortalPending",
+    "summary": "Clears bit 0x100 of scene state halfword +4, the bit IsBossRetryPortalPending reads.",
+    "confidence": "medium",
+    "evidence": [
+      {
+        "source": "src/code_080571A4.c",
+        "line": 84,
+        "detail": "ANDs halfword +4 with 0xFEFF.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      }
+    ],
+    "open_questions": []
+  },
+  {
+    "canonical_symbol": "sub_0805A6A0",
+    "address": "0x0805A6A0",
+    "display_name": "ClearBossRetryPortalOnExit",
+    "summary": "Task termination callback installed by StartBossRetryPortalTask: clears bit 0x100 of scene state halfword +4 when the retry portal task ends.",
+    "confidence": "high",
+    "evidence": [
+      {
+        "source": "src/code_0805A630.c",
+        "line": 28,
+        "detail": "ANDs halfword +4 with 0xFEFF.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_08021DC4.c",
+        "line": 3555,
+        "detail": "StartBossRetryPortalTask stores this function as the task termination callback (+0x17E0).",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      }
+    ],
+    "open_questions": []
+  }
+]
