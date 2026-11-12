@@ -30352,43 +30352,43 @@ gUnk_0848FED8:
 	.byte 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
 	.global gUnk_0848FEE4
 gUnk_0848FEE4:
-	.incbin "baserom.gba", 0x48FEE4, 0x4
+	.byte 4, 16, 16, 32
 	.global gUnk_0848FEE8
 gUnk_0848FEE8:
-	.incbin "baserom.gba", 0x48FEE8, 0x4
+	.byte 17, 17, 29, 20
 	.global gUnk_0848FEEC
 gUnk_0848FEEC:
-	.incbin "baserom.gba", 0x48FEEC, 0x4
+	.byte 0, 52, 0, 0
 	.global gUnk_0848FEF0
 gUnk_0848FEF0:
 	.incbin "baserom.gba", 0x48FEF0, 0x40
 	.global gUnk_0848FF30
 gUnk_0848FF30:
-	.incbin "baserom.gba", 0x48FF30, 0x4
+	.byte 8, 44, 0, 0
 	.global gUnk_0848FF34
 gUnk_0848FF34:
-	.incbin "baserom.gba", 0x48FF34, 0x4
+	.byte 8, 16, 28, 28
 	.global gUnk_0848FF38
 gUnk_0848FF38:
-	.incbin "baserom.gba", 0x48FF38, 0x4
+	.byte 0, 52, 0, 0
 	.global gUnk_0848FF3C
 gUnk_0848FF3C:
-	.incbin "baserom.gba", 0x48FF3C, 0x4
+	.byte 10, 28, 0, 0
 	.global gUnk_0848FF40
 gUnk_0848FF40:
-	.incbin "baserom.gba", 0x48FF40, 0x4
+	.byte 4, 16, 20, 22
 	.global gUnk_0848FF44
 gUnk_0848FF44:
-	.incbin "baserom.gba", 0x48FF44, 0x4
+	.byte 4, 16, 18, 26
 	.global gUnk_0848FF48
 gUnk_0848FF48:
-	.incbin "baserom.gba", 0x48FF48, 0x4
+	.byte 0, 40, 0, 0
 	.global gUnk_0848FF4C
 gUnk_0848FF4C:
-	.incbin "baserom.gba", 0x48FF4C, 0x4
+	.byte 4, 16, 20, 22
 	.global gUnk_0848FF50
 gUnk_0848FF50:
-	.incbin "baserom.gba", 0x48FF50, 0x4
+	.byte 4, 16, 20, 22
 	.global gUnk_0848FF54
 gUnk_0848FF54:
 	.4byte 0x00000009, 0x00000118, 0x000002A8, 0x00000550, 0x00000960, 0x00000F28, 0x000016F8, 0x00002120
@@ -30453,7 +30453,234 @@ gUnk_0849E770:
 	.incbin "baserom.gba", 0x49E770, 0x1108
 	.global gUnk_0849F878
 gUnk_0849F878:
-	.incbin "baserom.gba", 0x49F878, 0xE38
+	.byte 30, 0, 17, 0, 20, 0, 20, 0, 153, 192, 30, 0, 17, 0, 0, 0
+	.byte 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+	.byte 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+	.byte 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+	.byte 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+	.byte 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+	.byte 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+	.byte 40, 0, 43, 0, 12, 0, 12, 0, 27, 0, 45, 0, 39, 0, 0, 0
+	.byte 2, 0, 39, 0, 41, 0, 0, 0, 2, 0, 46, 0, 48, 0, 0, 0
+	.byte 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+	.byte 0, 0, 9, 0, 1, 0, 0, 0, 51, 0, 22, 0, 5, 0, 5, 0
+	.byte 3, 0, 52, 0, 17, 0, 0, 0, 3, 0, 55, 0, 18, 0, 0, 0
+	.byte 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+	.byte 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 9, 0, 1, 0, 0, 0
+	.byte 19, 0, 16, 0, 12, 0, 12, 0, 27, 0, 13, 0, 19, 0, 0, 0
+	.byte 27, 0, 19, 0, 20, 0, 0, 0, 27, 0, 21, 0, 9, 0, 0, 0
+	.byte 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+	.byte 0, 0, 9, 0, 1, 0, 0, 0, 10, 0, 41, 0, 12, 0, 12, 0
+	.byte 32, 0, 12, 0, 43, 0, 0, 0, 32, 0, 14, 0, 46, 0, 0, 0
+	.byte 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+	.byte 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 9, 0, 1, 0, 0, 0
+	.byte 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+	.byte 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+	.byte 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+	.byte 0, 0, 0, 0, 0, 0, 0, 0, 58, 0, 20, 0, 12, 0, 12, 0
+	.byte 36, 0, 57, 0, 16, 0, 0, 0, 36, 0, 61, 0, 18, 0, 0, 0
+	.byte 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+	.byte 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 9, 0, 1, 0, 0, 0
+	.byte 71, 0, 19, 0, 5, 0, 5, 0, 27, 0, 81, 0, 16, 0, 0, 0
+	.byte 27, 0, 81, 0, 23, 0, 0, 0, 27, 0, 82, 0, 19, 0, 0, 0
+	.byte 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+	.byte 0, 0, 9, 0, 1, 0, 0, 0, 42, 0, 19, 0, 5, 0, 5, 0
+	.byte 32, 0, 49, 0, 19, 0, 0, 0, 32, 0, 33, 0, 19, 0, 0, 0
+	.byte 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+	.byte 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 9, 0, 1, 0, 0, 0
+	.byte 19, 0, 27, 0, 12, 0, 12, 0, 37, 128, 19, 0, 27, 0, 0, 0
+	.byte 27, 0, 21, 0, 30, 0, 0, 0, 27, 0, 12, 0, 25, 0, 0, 0
+	.byte 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+	.byte 0, 0, 9, 0, 1, 0, 0, 0, 4, 0, 15, 0, 5, 0, 5, 0
+	.byte 34, 0, 8, 0, 13, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+	.byte 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+	.byte 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 9, 0, 1, 0, 0, 0
+	.byte 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+	.byte 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+	.byte 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+	.byte 0, 0, 0, 0, 0, 0, 0, 0, 10, 0, 20, 0, 12, 0, 12, 0
+	.byte 3, 0, 6, 0, 26, 0, 0, 0, 3, 0, 7, 0, 32, 0, 0, 0
+	.byte 3, 0, 12, 0, 33, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+	.byte 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 9, 0, 1, 0, 0, 0
+	.byte 24, 0, 11, 0, 12, 0, 12, 0, 27, 0, 24, 0, 11, 0, 0, 0
+	.byte 27, 0, 19, 0, 9, 0, 0, 0, 27, 0, 26, 0, 15, 0, 0, 0
+	.byte 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+	.byte 0, 0, 9, 0, 1, 0, 0, 0, 35, 0, 22, 0, 5, 0, 5, 0
+	.byte 32, 0, 29, 0, 26, 0, 0, 0, 32, 0, 27, 0, 31, 0, 0, 0
+	.byte 32, 0, 40, 0, 32, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+	.byte 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 9, 0, 1, 0, 0, 0
+	.byte 50, 0, 32, 0, 12, 0, 12, 0, 32, 0, 47, 0, 28, 0, 0, 0
+	.byte 32, 0, 48, 0, 33, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+	.byte 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+	.byte 0, 0, 9, 0, 1, 0, 0, 0, 55, 0, 25, 0, 5, 0, 5, 0
+	.byte 32, 0, 53, 0, 13, 0, 0, 0, 34, 0, 45, 0, 17, 0, 0, 0
+	.byte 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+	.byte 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 9, 0, 1, 0, 0, 0
+	.byte 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+	.byte 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+	.byte 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+	.byte 0, 0, 0, 0, 0, 0, 0, 0, 70, 0, 21, 0, 5, 0, 5, 0
+	.byte 36, 0, 67, 0, 10, 0, 0, 0, 36, 0, 73, 0, 12, 0, 0, 0
+	.byte 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+	.byte 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 9, 0, 1, 0, 0, 0
+	.byte 82, 0, 12, 0, 5, 0, 5, 0, 27, 0, 93, 0, 12, 0, 0, 0
+	.byte 27, 0, 88, 0, 14, 0, 0, 0, 32, 0, 85, 0, 18, 0, 0, 0
+	.byte 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+	.byte 0, 0, 9, 0, 1, 0, 0, 0, 85, 0, 25, 0, 5, 0, 5, 0
+	.byte 32, 0, 86, 0, 31, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+	.byte 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+	.byte 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 9, 0, 1, 0, 0, 0
+	.byte 99, 0, 26, 0, 12, 0, 12, 0, 39, 0, 100, 0, 30, 0, 0, 0
+	.byte 39, 0, 102, 0, 19, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+	.byte 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+	.byte 0, 0, 9, 0, 1, 0, 0, 0, 109, 0, 10, 0, 12, 0, 12, 0
+	.byte 36, 0, 108, 0, 11, 0, 0, 0, 36, 0, 110, 0, 13, 0, 0, 0
+	.byte 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+	.byte 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 9, 0, 1, 0, 0, 0
+	.byte 115, 0, 16, 0, 5, 0, 5, 0, 34, 0, 112, 0, 25, 0, 0, 0
+	.byte 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+	.byte 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+	.byte 0, 0, 9, 0, 1, 0, 0, 0, 59, 0, 11, 0, 5, 0, 5, 0
+	.byte 28, 0, 57, 0, 12, 0, 0, 0, 28, 0, 58, 0, 17, 0, 0, 0
+	.byte 28, 0, 53, 0, 14, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+	.byte 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 9, 0, 1, 0, 0, 0
+	.byte 57, 0, 22, 0, 5, 0, 5, 0, 32, 0, 55, 0, 26, 0, 0, 0
+	.byte 32, 0, 60, 0, 28, 0, 0, 0, 32, 0, 55, 0, 30, 0, 0, 0
+	.byte 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+	.byte 0, 0, 9, 0, 1, 0, 0, 0, 40, 0, 27, 0, 12, 0, 12, 0
+	.byte 36, 0, 38, 0, 31, 0, 0, 0, 36, 0, 40, 0, 26, 0, 0, 0
+	.byte 36, 0, 34, 0, 25, 0, 0, 0, 37, 128, 33, 0, 28, 0, 0, 0
+	.byte 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 9, 0, 1, 0, 0, 0
+	.byte 31, 0, 18, 0, 5, 0, 5, 0, 32, 0, 28, 0, 14, 0, 0, 0
+	.byte 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+	.byte 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+	.byte 0, 0, 9, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+	.byte 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+	.byte 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+	.byte 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+	.byte 18, 0, 54, 0, 100, 0, 100, 0, 36, 64, 20, 0, 18, 0, 3, 0
+	.byte 36, 64, 16, 0, 16, 0, 7, 0, 0, 0, 0, 0, 0, 0, 0, 0
+	.byte 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+	.byte 0, 0, 9, 0, 2, 0, 0, 0, 8, 0, 31, 0, 5, 0, 5, 0
+	.byte 3, 0, 7, 0, 36, 0, 0, 0, 3, 0, 4, 0, 38, 0, 0, 0
+	.byte 3, 0, 11, 0, 38, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+	.byte 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 9, 0, 1, 0, 0, 0
+	.byte 1, 0, 62, 0, 5, 0, 5, 0, 34, 0, 13, 0, 68, 0, 0, 0
+	.byte 34, 0, 12, 0, 72, 0, 0, 0, 34, 0, 19, 0, 71, 0, 0, 0
+	.byte 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+	.byte 0, 0, 9, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+	.byte 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+	.byte 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+	.byte 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+	.byte 30, 0, 70, 0, 12, 0, 12, 0, 27, 0, 27, 0, 69, 0, 0, 0
+	.byte 27, 0, 32, 0, 68, 0, 0, 0, 28, 0, 30, 0, 66, 0, 0, 0
+	.byte 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+	.byte 0, 0, 9, 0, 1, 0, 0, 0, 18, 0, 82, 0, 5, 0, 5, 0
+	.byte 39, 0, 14, 0, 75, 0, 0, 0, 39, 0, 10, 0, 79, 0, 0, 0
+	.byte 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+	.byte 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 9, 0, 1, 0, 0, 0
+	.byte 40, 0, 82, 0, 5, 0, 5, 0, 32, 0, 46, 0, 70, 0, 0, 0
+	.byte 32, 0, 49, 0, 72, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+	.byte 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+	.byte 0, 0, 9, 0, 1, 0, 0, 0, 12, 0, 34, 0, 12, 0, 12, 0
+	.byte 154, 0, 12, 0, 31, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+	.byte 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+	.byte 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 9, 0, 2, 0, 0, 0
+	.byte 48, 0, 46, 0, 12, 0, 12, 0, 154, 0, 48, 0, 31, 0, 0, 0
+	.byte 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+	.byte 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+	.byte 0, 0, 9, 0, 2, 0, 0, 0, 30, 0, 14, 0, 12, 0, 12, 0
+	.byte 154, 128, 30, 0, 13, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+	.byte 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+	.byte 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 9, 0, 2, 0, 0, 0
+	.byte 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+	.byte 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+	.byte 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+	.byte 0, 0, 0, 0, 0, 0, 0, 0, 42, 0, 21, 0, 12, 0, 12, 0
+	.byte 32, 0, 34, 0, 18, 0, 0, 0, 34, 0, 44, 0, 22, 0, 0, 0
+	.byte 35, 0, 53, 0, 16, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+	.byte 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 9, 0, 1, 0, 0, 0
+	.byte 42, 0, 21, 0, 12, 0, 12, 0, 32, 0, 40, 0, 24, 0, 0, 0
+	.byte 32, 0, 44, 0, 26, 0, 0, 0, 32, 0, 51, 0, 17, 0, 0, 0
+	.byte 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+	.byte 1, 0, 9, 0, 1, 0, 0, 0, 42, 0, 21, 0, 12, 0, 12, 0
+	.byte 32, 0, 49, 0, 19, 0, 0, 0, 34, 0, 47, 0, 19, 0, 0, 0
+	.byte 32, 0, 37, 0, 16, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+	.byte 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 9, 0, 1, 0, 0, 0
+	.byte 42, 0, 21, 0, 12, 0, 12, 0, 32, 0, 46, 0, 23, 0, 0, 0
+	.byte 32, 0, 36, 0, 16, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+	.byte 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+	.byte 1, 0, 9, 0, 1, 0, 0, 0, 30, 0, 9, 0, 5, 0, 5, 0
+	.byte 3, 0, 20, 0, 9, 0, 0, 0, 3, 0, 19, 0, 11, 0, 0, 0
+	.byte 3, 0, 16, 0, 10, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+	.byte 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 9, 0, 1, 0, 0, 0
+	.byte 12, 0, 18, 0, 5, 0, 5, 0, 27, 0, 16, 0, 10, 0, 0, 0
+	.byte 27, 0, 18, 0, 11, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+	.byte 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+	.byte 0, 0, 9, 0, 1, 0, 0, 0, 11, 0, 32, 0, 5, 0, 5, 0
+	.byte 34, 0, 4, 0, 39, 0, 0, 0, 34, 0, 7, 0, 40, 0, 0, 0
+	.byte 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+	.byte 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 9, 0, 1, 0, 0, 0
+	.byte 4, 0, 65, 0, 5, 0, 5, 0, 39, 0, 20, 0, 69, 0, 0, 0
+	.byte 39, 0, 18, 0, 72, 0, 0, 0, 32, 0, 15, 0, 70, 0, 0, 0
+	.byte 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+	.byte 0, 0, 9, 0, 1, 0, 0, 0, 47, 0, 68, 0, 12, 0, 12, 0
+	.byte 32, 0, 47, 0, 68, 0, 0, 0, 32, 0, 50, 0, 63, 0, 0, 0
+	.byte 32, 0, 52, 0, 66, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+	.byte 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 9, 0, 1, 0, 0, 0
+	.byte 42, 0, 70, 0, 12, 0, 12, 0, 27, 0, 43, 0, 67, 0, 0, 0
+	.byte 27, 0, 44, 0, 71, 0, 0, 0, 27, 0, 47, 0, 67, 0, 0, 0
+	.byte 28, 0, 48, 0, 65, 0, 0, 0, 28, 0, 50, 0, 68, 0, 0, 0
+	.byte 0, 0, 9, 0, 1, 0, 0, 0, 54, 0, 52, 0, 5, 0, 5, 0
+	.byte 39, 0, 47, 0, 40, 0, 0, 0, 39, 0, 43, 0, 43, 0, 0, 0
+	.byte 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+	.byte 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 9, 0, 1, 0, 0, 0
+	.byte 34, 0, 50, 0, 12, 0, 12, 0, 2, 0, 33, 0, 45, 0, 0, 0
+	.byte 2, 0, 26, 0, 45, 0, 0, 0, 2, 0, 31, 0, 50, 0, 0, 0
+	.byte 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+	.byte 0, 0, 9, 0, 1, 0, 0, 0, 20, 0, 54, 0, 12, 0, 12, 0
+	.byte 39, 0, 28, 0, 57, 0, 0, 0, 39, 0, 14, 0, 47, 0, 0, 0
+	.byte 39, 0, 11, 0, 57, 0, 0, 0, 32, 0, 17, 0, 51, 0, 0, 0
+	.byte 32, 0, 26, 0, 54, 0, 0, 0, 0, 0, 9, 0, 1, 0, 0, 0
+	.byte 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+	.byte 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+	.byte 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+	.byte 0, 0, 0, 0, 0, 0, 0, 0, 15, 0, 12, 0, 20, 0, 20, 0
+	.byte 191, 64, 15, 0, 10, 0, 18, 0, 192, 64, 17, 0, 10, 0, 0, 0
+	.byte 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+	.byte 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 9, 0, 2, 0, 0, 0
+	.byte 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+	.byte 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+	.byte 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+	.byte 0, 0, 0, 0, 0, 0, 0, 0, 6, 0, 41, 0, 5, 0, 5, 0
+	.byte 28, 0, 12, 0, 35, 0, 0, 0, 28, 0, 16, 0, 35, 0, 0, 0
+	.byte 34, 0, 6, 0, 54, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+	.byte 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 9, 0, 1, 0, 0, 0
+	.byte 16, 0, 40, 0, 5, 0, 5, 0, 28, 0, 16, 0, 46, 0, 0, 0
+	.byte 28, 0, 15, 0, 47, 0, 0, 0, 28, 0, 17, 0, 48, 0, 0, 0
+	.byte 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+	.byte 0, 0, 9, 0, 1, 0, 0, 0, 30, 0, 16, 0, 12, 0, 12, 0
+	.byte 36, 0, 23, 0, 16, 0, 0, 0, 37, 0, 30, 0, 11, 0, 0, 0
+	.byte 35, 128, 30, 0, 16, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+	.byte 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 9, 0, 1, 0, 0, 0
+	.byte 30, 0, 16, 0, 12, 0, 12, 0, 36, 0, 31, 0, 18, 0, 0, 0
+	.byte 39, 0, 36, 0, 14, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+	.byte 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+	.byte 1, 0, 9, 0, 1, 0, 0, 0, 30, 0, 16, 0, 12, 0, 12, 0
+	.byte 36, 0, 35, 0, 13, 0, 0, 0, 39, 0, 23, 0, 14, 0, 0, 0
+	.byte 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+	.byte 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 9, 0, 1, 0, 0, 0
+	.byte 30, 0, 16, 0, 12, 0, 12, 0, 37, 0, 30, 0, 11, 0, 0, 0
+	.byte 39, 0, 30, 0, 25, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+	.byte 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+	.byte 1, 0, 9, 0, 1, 0, 0, 0, 53, 0, 40, 0, 5, 0, 5, 0
+	.byte 34, 0, 55, 0, 46, 0, 0, 0, 28, 0, 46, 0, 35, 0, 0, 0
+	.byte 28, 0, 44, 0, 35, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+	.byte 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 9, 0, 1, 0, 0, 0
+	.byte 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+	.byte 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+	.byte 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+	.byte 0, 0, 0, 0, 0, 0, 0, 0
 	.global gUnk_084A06B0
 gUnk_084A06B0:
 	.byte 10, 0, 10, 0, 20, 0, 20, 0, 155, 128, 15, 0, 17, 0, 0, 0
@@ -34470,481 +34697,483 @@ gUnk_084ABA10:
 	.byte 0, 0, 0, 0, 0, 0, 0, 0
 	.global gUnk_084B03C8
 gUnk_084B03C8:
-	.incbin "baserom.gba", 0x4B03C8, 0x8
+	.4byte 0x0849EF80, 0x00000000
 	.global gUnk_084B03D0
 gUnk_084B03D0:
-	.incbin "baserom.gba", 0x4B03D0, 0x8
+	.4byte 0x0849F060, 0x00000000
 	.global gUnk_084B03D8
 gUnk_084B03D8:
-	.incbin "baserom.gba", 0x4B03D8, 0x8
+	.4byte 0x0849F220, 0x00000000
 	.global gUnk_084B03E0
 gUnk_084B03E0:
-	.incbin "baserom.gba", 0x4B03E0, 0x8
+	.4byte 0x0849F370, 0x00000000
 	.global gUnk_084B03E8
 gUnk_084B03E8:
-	.incbin "baserom.gba", 0x4B03E8, 0x8
+	.4byte 0x0849F568, 0x00000000
 	.global gUnk_084B03F0
 gUnk_084B03F0:
-	.incbin "baserom.gba", 0x4B03F0, 0x8
+	.4byte 0x0849F5D8, 0x00000000
 	.global gUnk_084B03F8
 gUnk_084B03F8:
-	.incbin "baserom.gba", 0x4B03F8, 0x8
+	.4byte 0x0849F798, 0x00000000
 	.global gUnk_084B0400
 gUnk_084B0400:
-	.incbin "baserom.gba", 0x4B0400, 0x8
+	.4byte 0x0849F878, 0x00000000
 	.global gUnk_084B0408
 gUnk_084B0408:
-	.incbin "baserom.gba", 0x4B0408, 0x8
+	.4byte 0x0849F8E8, 0x00000000
 	.global gUnk_084B0410
 gUnk_084B0410:
-	.incbin "baserom.gba", 0x4B0410, 0x8
+	.4byte 0x0849FA00, 0x00000000
 	.global gUnk_084B0418
 gUnk_084B0418:
-	.incbin "baserom.gba", 0x4B0418, 0x8
+	.4byte 0x0849FB50, 0x00000000
 	.global gUnk_084B0420
 gUnk_084B0420:
-	.incbin "baserom.gba", 0x4B0420, 0x8
+	.4byte 0x0849FCA0, 0x00000000
 	.global gUnk_084B0428
 gUnk_084B0428:
-	.incbin "baserom.gba", 0x4B0428, 0x8
+	.4byte 0x0849FF08, 0x00000000
 	.global gUnk_084B0430
 gUnk_084B0430:
-	.incbin "baserom.gba", 0x4B0430, 0x8
+	.4byte 0x0849FFE8, 0x00000000
 	.global gUnk_084B0438
 gUnk_084B0438:
-	.incbin "baserom.gba", 0x4B0438, 0x8
+	.4byte 0x084A0170, 0x00000000
 	.global gUnk_084B0440
 gUnk_084B0440:
-	.incbin "baserom.gba", 0x4B0440, 0x8
+	.4byte 0x084A0480, 0x00000000
 	.global gUnk_084B0448
 gUnk_084B0448:
-	.incbin "baserom.gba", 0x4B0448, 0x8
+	.4byte 0x084A04F0, 0x00000000
 	.global gUnk_084B0450
 gUnk_084B0450:
-	.incbin "baserom.gba", 0x4B0450, 0x8
+	.4byte 0x084A06B0, 0x00000000
 	.global gUnk_084B0458
 gUnk_084B0458:
-	.incbin "baserom.gba", 0x4B0458, 0x8
+	.4byte 0x084A0720, 0x00000000
 	.global gUnk_084B0460
 gUnk_084B0460:
-	.incbin "baserom.gba", 0x4B0460, 0x8
+	.4byte 0x084A0790, 0x00000000
 	.global gUnk_084B0468
 gUnk_084B0468:
-	.incbin "baserom.gba", 0x4B0468, 0x8
+	.4byte 0x084A0870, 0x00000000
 	.global gUnk_084B0470
 gUnk_084B0470:
-	.incbin "baserom.gba", 0x4B0470, 0x8
+	.4byte 0x084A0AA0, 0x00000000
 	.global gUnk_084B0478
 gUnk_084B0478:
-	.incbin "baserom.gba", 0x4B0478, 0x8
+	.4byte 0x084A0BF0, 0x00000000
 	.global gUnk_084B0480
 gUnk_084B0480:
-	.incbin "baserom.gba", 0x4B0480, 0x8
+	.4byte 0x084A0C60, 0x00000000
 	.global gUnk_084B0488
 gUnk_084B0488:
-	.incbin "baserom.gba", 0x4B0488, 0x8
+	.4byte 0x084A0E20, 0x00000000
 	.global gUnk_084B0490
 gUnk_084B0490:
-	.incbin "baserom.gba", 0x4B0490, 0x8
+	.4byte 0x084A0F38, 0x00000000
 	.global gUnk_084B0498
 gUnk_084B0498:
-	.incbin "baserom.gba", 0x4B0498, 0x8
+	.4byte 0x084A1050, 0x00000000
 	.global gUnk_084B04A0
 gUnk_084B04A0:
-	.incbin "baserom.gba", 0x4B04A0, 0x8
+	.4byte 0x084A12B8, 0x00000000
 	.global gUnk_084B04A8
 gUnk_084B04A8:
-	.incbin "baserom.gba", 0x4B04A8, 0x8
+	.4byte 0x084A1360, 0x00000000
 	.global gUnk_084B04B0
 gUnk_084B04B0:
-	.incbin "baserom.gba", 0x4B04B0, 0x8
+	.4byte 0x084A13D0, 0x00000000
 	.global gUnk_084B04B8
 gUnk_084B04B8:
-	.incbin "baserom.gba", 0x4B04B8, 0x8
+	.4byte 0x084A1638, 0x00000000
 	.global gUnk_084B04C0
 gUnk_084B04C0:
-	.incbin "baserom.gba", 0x4B04C0, 0x8
+	.4byte 0x084A16E0, 0x00000000
 	.global gUnk_084B04C8
 gUnk_084B04C8:
-	.incbin "baserom.gba", 0x4B04C8, 0x8
+	.4byte 0x084A1910, 0x00000000
 	.global gUnk_084B04D0
 gUnk_084B04D0:
-	.incbin "baserom.gba", 0x4B04D0, 0x8
+	.4byte 0x084A1980, 0x00000000
 	.global gUnk_084B04D8
 gUnk_084B04D8:
-	.incbin "baserom.gba", 0x4B04D8, 0x8
+	.4byte 0x084A1A98, 0x00000000
 	.global gUnk_084B04E0
 gUnk_084B04E0:
-	.incbin "baserom.gba", 0x4B04E0, 0x8
+	.4byte 0x084A1B40, 0x00000000
 	.global gUnk_084B04E8
 gUnk_084B04E8:
-	.incbin "baserom.gba", 0x4B04E8, 0x8
+	.4byte 0x084A1D00, 0x00000000
 	.global gUnk_084B04F0
 gUnk_084B04F0:
-	.incbin "baserom.gba", 0x4B04F0, 0x8
+	.4byte 0x084A1DE0, 0x00000000
 	.global gUnk_084B04F8
 gUnk_084B04F8:
-	.incbin "baserom.gba", 0x4B04F8, 0x8
+	.4byte 0x084A1EC0, 0x00000000
 	.global gUnk_084B0500
 gUnk_084B0500:
-	.incbin "baserom.gba", 0x4B0500, 0x8
+	.4byte 0x084A2198, 0x00000000
 	.global gUnk_084B0508
 gUnk_084B0508:
-	.incbin "baserom.gba", 0x4B0508, 0x8
+	.4byte 0x084A2208, 0x00000000
 	.global gUnk_084B0510
 gUnk_084B0510:
-	.incbin "baserom.gba", 0x4B0510, 0x8
+	.4byte 0x084A22E8, 0x00000000
 	.global gUnk_084B0518
 gUnk_084B0518:
-	.incbin "baserom.gba", 0x4B0518, 0x8
+	.4byte 0x084A2400, 0x00000000
 	.global gUnk_084B0520
 gUnk_084B0520:
-	.incbin "baserom.gba", 0x4B0520, 0x8
+	.4byte 0x084A2470, 0x00000000
 	.global gUnk_084B0528
 gUnk_084B0528:
-	.incbin "baserom.gba", 0x4B0528, 0x8
+	.4byte 0x084A2630, 0x00000000
 	.global gUnk_084B0530
 gUnk_084B0530:
-	.incbin "baserom.gba", 0x4B0530, 0x8
+	.4byte 0x084A2748, 0x00000000
 	.global gUnk_084B0538
 gUnk_084B0538:
-	.incbin "baserom.gba", 0x4B0538, 0x8
+	.4byte 0x084A27B8, 0x00000000
 	.global gUnk_084B0540
 gUnk_084B0540:
-	.incbin "baserom.gba", 0x4B0540, 0x8
+	.4byte 0x084A2828, 0x00000000
 	.global gUnk_084B0548
 gUnk_084B0548:
-	.incbin "baserom.gba", 0x4B0548, 0x8
+	.4byte 0x084A2898, 0x00000000
 	.global gUnk_084B0550
 gUnk_084B0550:
-	.incbin "baserom.gba", 0x4B0550, 0x8
+	.4byte 0x084A2B38, 0x00000000
 	.global gUnk_084B0558
 gUnk_084B0558:
-	.incbin "baserom.gba", 0x4B0558, 0x8
+	.4byte 0x084A2DD8, 0x00000000
 	.global gUnk_084B0560
 gUnk_084B0560:
-	.incbin "baserom.gba", 0x4B0560, 0x8
+	.4byte 0x084A3040, 0x00000000
 	.global gUnk_084B0568
 gUnk_084B0568:
-	.incbin "baserom.gba", 0x4B0568, 0x8
+	.4byte 0x084A30B0, 0x00000000
 	.global gUnk_084B0570
 gUnk_084B0570:
-	.incbin "baserom.gba", 0x4B0570, 0x8
+	.4byte 0x084A3388, 0x00000000
 	.global gUnk_084B0578
 gUnk_084B0578:
-	.incbin "baserom.gba", 0x4B0578, 0x8
+	.4byte 0x084A35B8, 0x00000000
 	.global gUnk_084B0580
 gUnk_084B0580:
-	.incbin "baserom.gba", 0x4B0580, 0x8
+	.4byte 0x084A3820, 0x00000000
 	.global gUnk_084B0588
 gUnk_084B0588:
-	.incbin "baserom.gba", 0x4B0588, 0x8
+	.4byte 0x084A3AC0, 0x00000000
 	.global gUnk_084B0590
 gUnk_084B0590:
-	.incbin "baserom.gba", 0x4B0590, 0x8
+	.4byte 0x084A3B30, 0x00000000
 	.global gUnk_084B0598
 gUnk_084B0598:
-	.incbin "baserom.gba", 0x4B0598, 0x8
+	.4byte 0x084A3E40, 0x00000000
 	.global gUnk_084B05A0
 gUnk_084B05A0:
-	.incbin "baserom.gba", 0x4B05A0, 0x8
+	.4byte 0x084A3EB0, 0x00000000
 	.global gUnk_084B05A8
 gUnk_084B05A8:
-	.incbin "baserom.gba", 0x4B05A8, 0x8
+	.4byte 0x084A3F20, 0x00000000
 	.global gUnk_084B05B0
 gUnk_084B05B0:
-	.incbin "baserom.gba", 0x4B05B0, 0x8
+	.4byte 0x084A41F8, 0x00000000
 	.global gUnk_084B05B8
 gUnk_084B05B8:
-	.incbin "baserom.gba", 0x4B05B8, 0x8
+	.4byte 0x084A44D0, 0x00000000
 	.global gUnk_084B05C0
 gUnk_084B05C0:
-	.incbin "baserom.gba", 0x4B05C0, 0x8
+	.4byte 0x084A4738, 0x00000000
 	.global gUnk_084B05C8
 gUnk_084B05C8:
-	.incbin "baserom.gba", 0x4B05C8, 0x8
+	.4byte 0x084A4A10, 0x00000000
 	.global gUnk_084B05D0
 gUnk_084B05D0:
-	.incbin "baserom.gba", 0x4B05D0, 0x8
+	.4byte 0x084A4C40, 0x00000000
 	.global gUnk_084B05D8
 gUnk_084B05D8:
-	.incbin "baserom.gba", 0x4B05D8, 0x8
+	.4byte 0x084A4CB0, 0x00000000
 	.global gUnk_084B05E0
 gUnk_084B05E0:
-	.incbin "baserom.gba", 0x4B05E0, 0x8
+	.4byte 0x084A4EA8, 0x00000000
 	.global gUnk_084B05E8
 gUnk_084B05E8:
-	.incbin "baserom.gba", 0x4B05E8, 0x8
+	.4byte 0x084A5148, 0x00000000
 	.global gUnk_084B05F0
 gUnk_084B05F0:
-	.incbin "baserom.gba", 0x4B05F0, 0x8
+	.4byte 0x084A5458, 0x00000000
 	.global gUnk_084B05F8
 gUnk_084B05F8:
-	.incbin "baserom.gba", 0x4B05F8, 0x8
+	.4byte 0x084A5538, 0x00000000
 	.global gUnk_084B0600
 gUnk_084B0600:
-	.incbin "baserom.gba", 0x4B0600, 0x8
+	.4byte 0x084A5618, 0x00000000
 	.global gUnk_084B0608
 gUnk_084B0608:
-	.incbin "baserom.gba", 0x4B0608, 0x8
+	.4byte 0x084A56C0, 0x00000000
 	.global gUnk_084B0610
 gUnk_084B0610:
-	.incbin "baserom.gba", 0x4B0610, 0x8
+	.4byte 0x084A58B8, 0x00000000
 	.global gUnk_084B0618
 gUnk_084B0618:
-	.incbin "baserom.gba", 0x4B0618, 0x8
+	.4byte 0x084A59D0, 0x00000000
 	.global gUnk_084B0620
 gUnk_084B0620:
-	.incbin "baserom.gba", 0x4B0620, 0x8
+	.4byte 0x084A5C38, 0x00000000
 	.global gUnk_084B0628
 gUnk_084B0628:
-	.incbin "baserom.gba", 0x4B0628, 0x8
+	.4byte 0x084A5CA8, 0x00000000
 	.global gUnk_084B0630
 gUnk_084B0630:
-	.incbin "baserom.gba", 0x4B0630, 0x8
+	.4byte 0x084A5D18, 0x00000000
 	.global gUnk_084B0638
 gUnk_084B0638:
-	.incbin "baserom.gba", 0x4B0638, 0x8
+	.4byte 0x084A5DC0, 0x00000000
 	.global gUnk_084B0640
 gUnk_084B0640:
-	.incbin "baserom.gba", 0x4B0640, 0x8
+	.4byte 0x084A5F10, 0x00000000
 	.global gUnk_084B0648
 gUnk_084B0648:
-	.incbin "baserom.gba", 0x4B0648, 0x8
+	.4byte 0x084A6178, 0x00000000
 	.global gUnk_084B0650
 gUnk_084B0650:
-	.incbin "baserom.gba", 0x4B0650, 0x8
+	.4byte 0x084A6300, 0x00000000
 	.global gUnk_084B0658
 gUnk_084B0658:
-	.incbin "baserom.gba", 0x4B0658, 0x8
+	.4byte 0x084A6370, 0x00000000
 	.global gUnk_084B0660
 gUnk_084B0660:
-	.incbin "baserom.gba", 0x4B0660, 0x8
+	.4byte 0x084A6530, 0x00000000
 	.global gUnk_084B0668
 gUnk_084B0668:
-	.incbin "baserom.gba", 0x4B0668, 0x8
+	.4byte 0x084A6680, 0x00000000
 	.global gUnk_084B0670
 gUnk_084B0670:
-	.incbin "baserom.gba", 0x4B0670, 0x8
+	.4byte 0x084A6760, 0x00000000
 	.global gUnk_084B0678
 gUnk_084B0678:
-	.incbin "baserom.gba", 0x4B0678, 0x8
+	.4byte 0x084A6920, 0x00000000
 	.global gUnk_084B0680
 gUnk_084B0680:
-	.incbin "baserom.gba", 0x4B0680, 0x8
+	.4byte 0x084A6B50, 0x00000000
 	.global gUnk_084B0688
 gUnk_084B0688:
-	.incbin "baserom.gba", 0x4B0688, 0x8
+	.4byte 0x084A6C30, 0x00000000
 	.global gUnk_084B0690
 gUnk_084B0690:
-	.incbin "baserom.gba", 0x4B0690, 0x8
+	.4byte 0x084A6DB8, 0x00000000
 	.global gUnk_084B0698
 gUnk_084B0698:
-	.incbin "baserom.gba", 0x4B0698, 0x8
+	.4byte 0x084A6E28, 0x00000000
 	.global gUnk_084B06A0
 gUnk_084B06A0:
-	.incbin "baserom.gba", 0x4B06A0, 0x8
+	.4byte 0x084A6E98, 0x00000000
 	.global gUnk_084B06A8
 gUnk_084B06A8:
-	.incbin "baserom.gba", 0x4B06A8, 0x8
+	.4byte 0x084A70C8, 0x00000000
 	.global gUnk_084B06B0
 gUnk_084B06B0:
-	.incbin "baserom.gba", 0x4B06B0, 0x8
+	.4byte 0x084A7138, 0x00000000
 	.global gUnk_084B06B8
 gUnk_084B06B8:
-	.incbin "baserom.gba", 0x4B06B8, 0x8
+	.4byte 0x084A72C0, 0x00000000
 	.global gUnk_084B06C0
 gUnk_084B06C0:
-	.incbin "baserom.gba", 0x4B06C0, 0x8
+	.4byte 0x084A7330, 0x00000000
 	.global gUnk_084B06C8
 gUnk_084B06C8:
-	.incbin "baserom.gba", 0x4B06C8, 0x8
+	.4byte 0x084A7448, 0x00000000
 	.global gUnk_084B06D0
 gUnk_084B06D0:
-	.incbin "baserom.gba", 0x4B06D0, 0x8
+	.4byte 0x084A74F0, 0x00000000
 	.global gUnk_084B06D8
 gUnk_084B06D8:
-	.incbin "baserom.gba", 0x4B06D8, 0x8
+	.4byte 0x084A76E8, 0x00000000
 	.global gUnk_084B06E0
 gUnk_084B06E0:
-	.incbin "baserom.gba", 0x4B06E0, 0x8
+	.4byte 0x084A7790, 0x00000000
 	.global gUnk_084B06E8
 gUnk_084B06E8:
-	.incbin "baserom.gba", 0x4B06E8, 0x8
+	.4byte 0x084A79F8, 0x00000000
 	.global gUnk_084B06F0
 gUnk_084B06F0:
-	.incbin "baserom.gba", 0x4B06F0, 0x8
+	.4byte 0x084A7AD8, 0x00000000
 	.global gUnk_084B06F8
 gUnk_084B06F8:
-	.incbin "baserom.gba", 0x4B06F8, 0x8
+	.4byte 0x084A7C60, 0x00000000
 	.global gUnk_084B0700
 gUnk_084B0700:
-	.incbin "baserom.gba", 0x4B0700, 0x8
+	.4byte 0x084A7CD0, 0x00000000
 	.global gUnk_084B0708
 gUnk_084B0708:
-	.incbin "baserom.gba", 0x4B0708, 0x8
+	.4byte 0x084A7D40, 0x00000000
 	.global gUnk_084B0710
 gUnk_084B0710:
-	.incbin "baserom.gba", 0x4B0710, 0x8
+	.4byte 0x084A7DB0, 0x00000000
 	.global gUnk_084B0718
 gUnk_084B0718:
-	.incbin "baserom.gba", 0x4B0718, 0x8
+	.4byte 0x084A7E20, 0x00000000
 	.global gUnk_084B0720
 gUnk_084B0720:
-	.incbin "baserom.gba", 0x4B0720, 0x10
+	.4byte 0x084A8018, 0x00000000, 0x084A8088, 0x00000000
 	.global gUnk_084B0730
 gUnk_084B0730:
-	.incbin "baserom.gba", 0x4B0730, 0x8
+	.4byte 0x084A80F8, 0x00000000
 	.global gUnk_084B0738
 gUnk_084B0738:
-	.incbin "baserom.gba", 0x4B0738, 0x8
+	.4byte 0x084A81D8, 0x00000000
 	.global gUnk_084B0740
 gUnk_084B0740:
-	.incbin "baserom.gba", 0x4B0740, 0x8
+	.4byte 0x084A8248, 0x00000000
 	.global gUnk_084B0748
 gUnk_084B0748:
-	.incbin "baserom.gba", 0x4B0748, 0x8
+	.4byte 0x084A8440, 0x00000000
 	.global gUnk_084B0750
 gUnk_084B0750:
-	.incbin "baserom.gba", 0x4B0750, 0x8
+	.4byte 0x084A84B0, 0x00000000
 	.global gUnk_084B0758
 gUnk_084B0758:
-	.incbin "baserom.gba", 0x4B0758, 0x8
+	.4byte 0x084A8520, 0x00000000
 	.global gUnk_084B0760
 gUnk_084B0760:
-	.incbin "baserom.gba", 0x4B0760, 0x8
+	.4byte 0x084A8590, 0x00000000
 	.global gUnk_084B0768
 gUnk_084B0768:
-	.incbin "baserom.gba", 0x4B0768, 0x8
+	.4byte 0x084A8750, 0x00000000
 	.global gUnk_084B0770
 gUnk_084B0770:
-	.incbin "baserom.gba", 0x4B0770, 0x8
+	.4byte 0x084A87F8, 0x00000000
 	.global gUnk_084B0778
 gUnk_084B0778:
-	.incbin "baserom.gba", 0x4B0778, 0x8
+	.4byte 0x084A8910, 0x00000000
 	.global gUnk_084B0780
 gUnk_084B0780:
-	.incbin "baserom.gba", 0x4B0780, 0x8
+	.4byte 0x084A8980, 0x00000000
 	.global gUnk_084B0788
 gUnk_084B0788:
-	.incbin "baserom.gba", 0x4B0788, 0x8
+	.4byte 0x084A8A98, 0x00000000
 	.global gUnk_084B0790
 gUnk_084B0790:
-	.incbin "baserom.gba", 0x4B0790, 0x8
+	.4byte 0x084A8B40, 0x00000000
 	.global gUnk_084B0798
 gUnk_084B0798:
-	.incbin "baserom.gba", 0x4B0798, 0x8
+	.4byte 0x084A8BB0, 0x00000000
 	.global gUnk_084B07A0
 gUnk_084B07A0:
-	.incbin "baserom.gba", 0x4B07A0, 0x8
+	.4byte 0x084A8DE0, 0x00000000
 	.global gUnk_084B07A8
 gUnk_084B07A8:
-	.incbin "baserom.gba", 0x4B07A8, 0x8
+	.4byte 0x084A8E50, 0x00000000
 	.global gUnk_084B07B0
 gUnk_084B07B0:
-	.incbin "baserom.gba", 0x4B07B0, 0x8
+	.4byte 0x084A8EC0, 0x00000000
 	.global gUnk_084B07B8
 gUnk_084B07B8:
-	.incbin "baserom.gba", 0x4B07B8, 0x8
+	.4byte 0x084A8F30, 0x00000000
 	.global gUnk_084B07C0
 gUnk_084B07C0:
-	.incbin "baserom.gba", 0x4B07C0, 0x8
+	.4byte 0x084A8FD8, 0x00000000
 	.global gUnk_084B07C8
 gUnk_084B07C8:
-	.incbin "baserom.gba", 0x4B07C8, 0x8
+	.4byte 0x084A9080, 0x00000000
 	.global gUnk_084B07D0
 gUnk_084B07D0:
-	.incbin "baserom.gba", 0x4B07D0, 0x8
+	.4byte 0x084A92B0, 0x00000000
 	.global gUnk_084B07D8
 gUnk_084B07D8:
-	.incbin "baserom.gba", 0x4B07D8, 0x8
+	.4byte 0x084A9390, 0x00000000
 	.global gUnk_084B07E0
 gUnk_084B07E0:
-	.incbin "baserom.gba", 0x4B07E0, 0x8
+	.4byte 0x084A9668, 0x00000000
 	.global gUnk_084B07E8
 gUnk_084B07E8:
-	.incbin "baserom.gba", 0x4B07E8, 0x8
+	.4byte 0x084A9780, 0x00000000
 	.global gUnk_084B07F0
 gUnk_084B07F0:
-	.incbin "baserom.gba", 0x4B07F0, 0x8
+	.4byte 0x084A9898, 0x00000000
 	.global gUnk_084B07F8
 gUnk_084B07F8:
-	.incbin "baserom.gba", 0x4B07F8, 0x8
+	.4byte 0x084A9AC8, 0x00000000
 	.global gUnk_084B0800
 gUnk_084B0800:
-	.incbin "baserom.gba", 0x4B0800, 0x8
+	.4byte 0x084A9DA0, 0x00000000
 	.global gUnk_084B0808
 gUnk_084B0808:
-	.incbin "baserom.gba", 0x4B0808, 0x8
+	.4byte 0x084A9EF0, 0x00000000
 	.global gUnk_084B0810
 gUnk_084B0810:
-	.incbin "baserom.gba", 0x4B0810, 0x8
+	.4byte 0x084AA158, 0x00000000
 	.global gUnk_084B0818
 gUnk_084B0818:
-	.incbin "baserom.gba", 0x4B0818, 0x8
+	.4byte 0x084AA238, 0x00000000
 	.global gUnk_084B0820
 gUnk_084B0820:
-	.incbin "baserom.gba", 0x4B0820, 0x8
+	.4byte 0x084AA430, 0x00000000
 	.global gUnk_084B0828
 gUnk_084B0828:
-	.incbin "baserom.gba", 0x4B0828, 0x8
+	.4byte 0x084AA580, 0x00000000
 	.global gUnk_084B0830
 gUnk_084B0830:
-	.incbin "baserom.gba", 0x4B0830, 0x8
+	.4byte 0x084AA5F0, 0x00000000
 	.global gUnk_084B0838
 gUnk_084B0838:
-	.incbin "baserom.gba", 0x4B0838, 0x8
+	.4byte 0x084AA6D0, 0x00000000
 	.global gUnk_084B0840
 gUnk_084B0840:
-	.incbin "baserom.gba", 0x4B0840, 0x8
+	.4byte 0x084AA740, 0x00000000
 	.global gUnk_084B0848
 gUnk_084B0848:
-	.incbin "baserom.gba", 0x4B0848, 0x8
+	.4byte 0x084AA7B0, 0x00000000
 	.global gUnk_084B0850
 gUnk_084B0850:
-	.incbin "baserom.gba", 0x4B0850, 0x8
+	.4byte 0x084AA820, 0x00000000
 	.global gUnk_084B0858
 gUnk_084B0858:
-	.incbin "baserom.gba", 0x4B0858, 0x58
+	.4byte 0x084AA970, 0x00000000, 0x084AA9E0, 0x00000000, 0x084AAB30, 0x00000000, 0x084AAC80, 0x00000000
+	.4byte 0x084AADD0, 0x00000000, 0x084AAF20, 0x00000000, 0x084AB070, 0x00000000, 0x084AB1C0, 0x00000000
+	.4byte 0x084AB310, 0x00000000, 0x084AB460, 0x00000000, 0x084AB5B0, 0x00000000
 	.global gUnk_084B08B0
 gUnk_084B08B0:
-	.incbin "baserom.gba", 0x4B08B0, 0x8
+	.4byte 0x084AB700, 0x00000000
 	.global gUnk_084B08B8
 gUnk_084B08B8:
-	.incbin "baserom.gba", 0x4B08B8, 0x8
+	.4byte 0x084AB770, 0x00000000
 	.global gUnk_084B08C0
 gUnk_084B08C0:
-	.incbin "baserom.gba", 0x4B08C0, 0x8
+	.4byte 0x084AB7E0, 0x00000000
 	.global gUnk_084B08C8
 gUnk_084B08C8:
-	.incbin "baserom.gba", 0x4B08C8, 0x8
+	.4byte 0x084AB850, 0x00000000
 	.global gUnk_084B08D0
 gUnk_084B08D0:
-	.incbin "baserom.gba", 0x4B08D0, 0x8
+	.4byte 0x084ABA10, 0x00000000
 	.global gUnk_084B08D8
 gUnk_084B08D8:
-	.incbin "baserom.gba", 0x4B08D8, 0x8
+	.4byte 0x084ABCB0, 0x00000000
 	.global gUnk_084B08E0
 gUnk_084B08E0:
-	.incbin "baserom.gba", 0x4B08E0, 0x8
+	.4byte 0x084ABD20, 0x00000000
 	.global gUnk_084B08E8
 gUnk_084B08E8:
-	.incbin "baserom.gba", 0x4B08E8, 0x8
+	.4byte 0x084ABD90, 0x00000000
 	.global gUnk_084B08F0
 gUnk_084B08F0:
-	.incbin "baserom.gba", 0x4B08F0, 0x10
+	.4byte 0x084ABE00, 0x00000000, 0x084ABE70, 0x00000000
 	.global gUnk_084B0900
 gUnk_084B0900:
-	.incbin "baserom.gba", 0x4B0900, 0x8
+	.4byte 0x084ABEE0, 0x00000000
 	.global gUnk_084B0908
 gUnk_084B0908:
-	.incbin "baserom.gba", 0x4B0908, 0x8
+	.4byte 0x084AC0A0, 0x00000000
 	.global gUnk_084B0910
 gUnk_084B0910:
-	.incbin "baserom.gba", 0x4B0910, 0x8
+	.4byte 0x084AC2D0, 0x00000000
 	.global gUnk_084B0918
 gUnk_084B0918:
-	.incbin "baserom.gba", 0x4B0918, 0x8
+	.4byte 0x084AC538, 0x00000000
 	.global gUnk_084B0920
 gUnk_084B0920:
 	.incbin "baserom.gba", 0x4B0920, 0x8
@@ -42206,7 +42435,7 @@ gUnk_084EBD5C:
 	.4byte 100000, 10000, 1000, 100, 10, 1
 	.global gUnk_084EBD74
 gUnk_084EBD74:
-	.incbin "baserom.gba", 0x4EBD74, 0x8
+	.2byte 61760, 61770, 61780, 61792
 	.global gUnk_084EBD7C
 gUnk_084EBD7C:
 	.2byte 61472, 61473, 61474, 61475, 61476, 61477, 61478, 61479, 61504, 61505, 61506, 61507, 61508, 61509, 61510, 61511
@@ -42257,7 +42486,20 @@ gUnk_084EBF1C:
 	.incbin "baserom.gba", 0x4EBF1C, 0x62
 	.global gUnk_084EBF7E
 gUnk_084EBF7E:
-	.incbin "baserom.gba", 0x4EBF7E, 0x1AE
+	.2byte 0, 0, 30, 40, 50, 60, 70, 80, 90, 0, 0, 48, 1, 2, 100, 150
+	.2byte 200, 250, 300, 350, 400, 0, 0, 0, 0, 0, 80, 120, 160, 200, 240, 280
+	.2byte 320, 0, 0, 16, 0, 0, 30, 50, 70, 90, 110, 130, 150, 0, 0, 0
+	.2byte 0, 1, 80, 120, 160, 200, 240, 280, 320, 0, 0, 0, 0, 2, 60, 90
+	.2byte 120, 155, 180, 210, 240, 0, 0, 0, 0, 2, 60, 90, 120, 155, 180, 210
+	.2byte 240, 0, 0, 0, 0, 2, 60, 90, 120, 155, 180, 210, 240, 0, 0, 16
+	.2byte 4, 0, 80, 120, 160, 200, 240, 280, 320, 0, 0, 39, 5, 0, 20, 30
+	.2byte 40, 50, 60, 70, 80, 0, 0, 32, 6, 3, 40, 60, 80, 100, 120, 140
+	.2byte 160, 0, 0, 50, 5, 2, 100, 150, 200, 250, 300, 350, 400, 0, 0, 0
+	.2byte 0, 0, 60, 90, 120, 155, 180, 210, 240, 0, 0, 32, 0, 0, 30, 50
+	.2byte 70, 90, 110, 130, 150, 0, 0, 28, 5, 0, 30, 50, 70, 90, 110, 130
+	.2byte 150, 0, 0, 0, 0, 2, 80, 120, 160, 200, 240, 280, 320, 0, 0, 0
+	.2byte 0, 2, 80, 120, 160, 200, 240, 280, 320, 0, 0, 0, 0, 2, 60, 90
+	.2byte 120, 150, 180, 210, 240, 0, 0
 	.global gUnk_084EC12C
 gUnk_084EC12C:
 	.incbin "baserom.gba", 0x4EC12C, 0x20
@@ -44462,34 +44704,34 @@ gUnk_0851810C:
 	.4byte gUnk_08517EC4
 	.global gUnk_08518120
 gUnk_08518120:
-	.incbin "baserom.gba", 0x518120, 0xC
+	.byte 32, 32, 66, 71, 77, 0, 0, 0, 0, 0, 0, 0
 	.global gUnk_0851812C
 gUnk_0851812C:
-	.incbin "baserom.gba", 0x51812C, 0xC
+	.byte 32, 32, 66, 71, 77, 0, 0, 0, 0, 0, 0, 0
 	.global gUnk_08518138
 gUnk_08518138:
-	.incbin "baserom.gba", 0x518138, 0xC
+	.byte 32, 32, 72, 71, 77, 0, 0, 0, 0, 0, 0, 0
 	.global gUnk_08518144
 gUnk_08518144:
-	.incbin "baserom.gba", 0x518144, 0xC
+	.byte 32, 32, 66, 71, 77, 0, 0, 0, 0, 0, 0, 0
 	.global gUnk_08518150
 gUnk_08518150:
-	.incbin "baserom.gba", 0x518150, 0xC
+	.byte 32, 32, 66, 71, 77, 0, 0, 0, 0, 0, 0, 0
 	.global gUnk_0851815C
 gUnk_0851815C:
-	.incbin "baserom.gba", 0x51815C, 0xC
+	.byte 32, 32, 32, 83, 69, 0, 0, 0, 0, 0, 0, 0
 	.global gUnk_08518168
 gUnk_08518168:
-	.incbin "baserom.gba", 0x518168, 0xC
+	.byte 32, 32, 32, 69, 83, 0, 0, 0, 0, 0, 0, 0
 	.global gUnk_08518174
 gUnk_08518174:
-	.incbin "baserom.gba", 0x518174, 0xC
+	.byte 32, 32, 32, 71, 69, 0, 0, 0, 0, 0, 0, 0
 	.global gUnk_08518180
 gUnk_08518180:
-	.incbin "baserom.gba", 0x518180, 0xC
+	.byte 32, 32, 32, 69, 83, 0, 0, 0, 0, 0, 0, 0
 	.global gUnk_0851818C
 gUnk_0851818C:
-	.incbin "baserom.gba", 0x51818C, 0xC
+	.byte 32, 32, 32, 69, 83, 0, 0, 0, 0, 0, 0, 0
 	.global gUnk_08518198
 gUnk_08518198:
 	.4byte gUnk_08518120

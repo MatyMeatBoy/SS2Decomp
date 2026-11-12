@@ -13,3 +13,34 @@ gUnk_0844EB50 0xB0 0x28  src/code_08006D24.c ResolveResourceByEncodedId kind 17
 gUnk_0842A6D4 0xA4 0x91  src/code_08006D24.c ResolveResourceByEncodedId kind 18
 gUnk_084742BC 0xB0 0x58  src/code_08006D24.c ResolveResourceByEncodedId kind 19 (the count function says 0x59; the object holds 0x58)
 gUnk_0842A38C 0xA8 5     src/code_08006D24.c ResolveResourceByEncodedId kind 21
+#
+# Added by data_structs.py: record size from sizeof() of the struct the C code uses for the label
+gUnk_080B99D8 0x4 62 src/code_08002118.c struct Coord66
+gUnk_080BB6D0 0x14 1 src/code_080542C4.c struct PositionTable56
+gUnk_0848FA48 0x20 9 src/code_0801AAF8.c struct BA74Cls
+gUnk_0848FB68 0x4 5 src/code_0801AAF8.c struct S17Pair
+gUnk_08490120 0x150 174 src/code_0801AAF8.c struct S17SetEntry
+gUnk_084B19F0 0x8 76 src/code_08021DC4.c struct Kind0284F4
+gUnk_084B1D40 0x1C 2 src/code_080542C4.c struct Scene56
+gUnk_084B1D78 0x18 66 src/code_080542C4.c struct Spot56
+gUnk_084B23A8 0x2C 6 src/code_080542C4.c struct Gate567D4
+gUnk_084E6DD8 0x24 100 src/code_0805A630.c struct LootT
+gUnk_084E7BE8 0x4 1920 src/code_0805A630.c struct C7B8Entry
+gUnk_084E99E8 0x4 1920 src/code_0805A630.c struct C7B8Entry
+gUnk_084EB7E8 0x4 60 src/code_0805A630.c struct C7B8Entry
+gUnk_084EBD28 0x4 4 src/code_0805A630.c struct CB8CColor
+gUnk_084EBE14 0x8 4 src/code_0805FB7C.c struct Pt624
+gUnk_084ECEB0 0xD8 1 src/code_0807A5D4.c struct Item855D4
+gUnk_0851845C 0x8 6 src/code_08092D60.c struct Pos2F58
+gUnk_0851848C 0x8 6 src/code_08092D60.c struct Pos2F58
+gUnk_085184BC 0x8 6 src/code_08092D60.c struct Pos2F58
+gUnk_085184EC 0x8 6 src/code_08092D60.c struct Pos2F58
+gUnk_0851851C 0x8 6 src/code_08092D60.c struct Pos2F58
+gUnk_0851854C 0x8 6 src/code_08092D60.c struct Pos2F58
+gUnk_0851857C 0x8 8 src/code_08092D60.c struct Pos2F58
+gUnk_085185BC 0x8 8 src/code_08092D60.c struct Pos2F58
+gUnk_085185FC 0x8 8 src/code_08092D60.c struct Pos2F58
+gUnk_0851863C 0x8 20 src/code_08092D60.c struct Pos956
+gUnk_085186FC 0x8 5 src/code_08097E28.c struct PosAEE8
+gUnk_08518724 0x8 6 src/code_0809D878.c struct PosD878
+gUnk_085188F0 0x8 9 src/code_080A9680.c struct XY0288
