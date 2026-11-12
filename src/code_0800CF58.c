@@ -185,7 +185,7 @@ static inline u16 D368_Level(u8 *p) {
     s32 i;
     s32 h = (s8)p[0x6C] * 5;
     for (i = 7; i >= 0; i--) {
-        u16 t = h * 2 + gUnk_0847ACE8[i];
+        u16 t = gUnk_0847ACE8[i] + h * 2;
         if ((s16)t < 0)
             t = 0;
         if (*(s16 *)(p + 0xC2) >= (s16)t)
