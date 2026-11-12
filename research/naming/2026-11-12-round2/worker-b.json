@@ -1,0 +1,779 @@
+{
+  "schema_version": 1,
+  "kind": "naming_research_drafts",
+  "source_revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7",
+  "worker": "b",
+  "policy": "Frozen research only. Candidates, including high confidence, are not confirmed until independently reviewed and integrated into the catalog.",
+  "proposals": [
+    {
+      "canonical_symbol": "sub_08056E64",
+      "address": "0x08056E64",
+      "display_name": "MarkSceneAreaChangeRequested",
+      "summary": "Sets the scene area-change request bit without starting or waiting for the transition.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_080542C4.c",
+          "line": 1211,
+          "detail": "Sets bit 4 in scene flags halfword +4.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080659B0.c",
+          "line": 1183,
+          "detail": "Link receiver case 0xC writes the incoming destination to scene+0x40, then calls this setter at line 1184.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08028AAC.c",
+          "line": 1103,
+          "detail": "RequestSceneMapAreaChange writes the requested map/area and sets scene flags mask 0x10 for nonzero maps.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0800CF58.c",
+          "line": 96,
+          "detail": "The scene transition monitor waits on the bit through sub_08056E90 and starts sub_080277E0 when it is set.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": []
+    },
+    {
+      "canonical_symbol": "sub_08056E90",
+      "address": "0x08056E90",
+      "display_name": "IsSceneAreaChangeRequested",
+      "summary": "Returns the scene area-change request bit as zero or one.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_080542C4.c",
+          "line": 1217,
+          "detail": "Extracts bit 4 of the scene flags halfword at +4.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080659B0.c",
+          "line": 1183,
+          "detail": "Receiver writes destination +0x40 then sets this bit through sub_08056E64.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0800CF58.c",
+          "line": 96,
+          "detail": "The monitor starts the area transition callback at line 100 after this predicate becomes nonzero.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": []
+    },
+    {
+      "canonical_symbol": "sub_08056E78",
+      "address": "0x08056E78",
+      "display_name": "ClearSceneAreaChangeRequest",
+      "summary": "Clears the scene area-change request bit while preserving the other scene flags.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_080542C4.c",
+          "line": 1214,
+          "detail": "Applies 0xFFEF to the scene flags halfword, clearing bit 4.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08021DC4.c",
+          "line": 4202,
+          "detail": "Area selection clears the paired bit directly immediately after clearing the bit-5 gate.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0808D4A8.c",
+          "line": 1883,
+          "detail": "Challenge entry handler takes the requested-transition path when sub_08056E90 is nonzero and clears it through this function at line 1888.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": []
+    },
+    {
+      "canonical_symbol": "sub_08056EA4",
+      "address": "0x08056EA4",
+      "display_name": "CancelChaosDomainPortalTask",
+      "summary": "Cancels the scheduled Chaos-domain portal task if its embedded control is scheduled.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_080542C4.c",
+          "line": 1220,
+          "detail": "Tests scheduling of the embedded scene task control at +0x17E4 and cancels it at line 1221 only when scheduled.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08021DC4.c",
+          "line": 3861,
+          "detail": "The starter installs sub_08026858, cataloged as RunChaosDomainPortal, at task callback +0x17F0 and starts control +0x17E4 at line 3870.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": []
+    },
+    {
+      "canonical_symbol": "sub_08057170",
+      "address": "0x08057170",
+      "display_name": "ClearEnemySpawnSlotStates",
+      "summary": "Zeros the 20-by-5 scene enemy-spawn slot-state grid.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_080542C4.c",
+          "line": 1366,
+          "detail": "Loops through 20 groups and five slots, zeroing scene+0x1C8+j+i*5 at lines 1367-1372.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080571A4.c",
+          "line": 7,
+          "detail": "The paired slot-state writer indexes the same grid as b+a*5, with writes gated by LinkIsParentOrLoopback.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08021DC4.c",
+          "line": 1432,
+          "detail": "Spawn-group completion scans the same five-byte row and compares nonzero slot count with state-2 count.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08021DC4.c",
+          "line": 1526,
+          "detail": "TaskManageEnemySpawnGroup consumes the shared per-group slot-state grid while issuing enemy spawn requests.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": []
+    },
+    {
+      "canonical_symbol": "sub_08056F78",
+      "address": "0x08056F78",
+      "display_name": "IsEnemyActivationGateSet",
+      "summary": "Returns bit 5 as 0 or 1 in the scene flags controlling release of enemy behavior from its waiting phase.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_080542C4.c",
+          "line": 1255,
+          "detail": "Returns bit 5 as 0 or 1 in the scene flags halfword +4.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08097E28.c",
+          "line": 383,
+          "detail": "Enemy behavior phase 2 remains waiting until sub_08056F78 is nonzero, then requests phase 3 through the default link barrier.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0809D878.c",
+          "line": 1572,
+          "detail": "The same predicate gates movement-amplitude updates and phase-2 release at line 1595.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08021DC4.c",
+          "line": 4202,
+          "detail": "Map-area selection resets the gate through sub_08056F8C; the alternate selection path also resets it at line 4523.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0804D330.c",
+          "line": 2076,
+          "detail": "RunOswaldAreaEntryEvent sets this same scene flag bit after its dialogue and camera return, immediately before clearing the local-player event lock; RunVaitaliAreaEntryEvent does the same at line 2679. These direct writers support release after scripted entry, independent of the unused setter call graph.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": []
+    },
+    {
+      "canonical_symbol": "sub_08056F8C",
+      "address": "0x08056F8C",
+      "display_name": "ClearSceneEnemyActivationGate",
+      "summary": "Clears bit 5 with mask 0xFFDF in the scene flags controlling release of enemy behavior from its waiting phase.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_080542C4.c",
+          "line": 1258,
+          "detail": "Clears bit 5 with mask 0xFFDF in the scene flags halfword +4.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08097E28.c",
+          "line": 383,
+          "detail": "Enemy behavior phase 2 remains waiting until sub_08056F78 is nonzero, then requests phase 3 through the default link barrier.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0809D878.c",
+          "line": 1572,
+          "detail": "The same predicate gates movement-amplitude updates and phase-2 release at line 1595.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08021DC4.c",
+          "line": 4202,
+          "detail": "Map-area selection resets the gate through sub_08056F8C; the alternate selection path also resets it at line 4523.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0804D330.c",
+          "line": 2076,
+          "detail": "RunOswaldAreaEntryEvent sets this same scene flag bit after its dialogue and camera return, immediately before clearing the local-player event lock; RunVaitaliAreaEntryEvent does the same at line 2679. These direct writers support release after scripted entry, independent of the unused setter call graph.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": []
+    },
+    {
+      "canonical_symbol": "sub_08056FA4",
+      "address": "0x08056FA4",
+      "display_name": "SetSceneEnemyActivationGate",
+      "summary": "Sets bit 5 with mask 0x20 in the scene flags controlling release of enemy behavior from its waiting phase.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_080542C4.c",
+          "line": 1262,
+          "detail": "Sets bit 5 with mask 0x20 in the scene flags halfword +4.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08097E28.c",
+          "line": 383,
+          "detail": "Enemy behavior phase 2 remains waiting until sub_08056F78 is nonzero, then requests phase 3 through the default link barrier.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0809D878.c",
+          "line": 1572,
+          "detail": "The same predicate gates movement-amplitude updates and phase-2 release at line 1595.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08021DC4.c",
+          "line": 4202,
+          "detail": "Map-area selection resets the gate through sub_08056F8C; the alternate selection path also resets it at line 4523.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0804D330.c",
+          "line": 2076,
+          "detail": "RunOswaldAreaEntryEvent sets this same scene flag bit after its dialogue and camera return, immediately before clearing the local-player event lock; RunVaitaliAreaEntryEvent does the same at line 2679. These direct writers support release after scripted entry, independent of the unused setter call graph.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": []
+    },
+    {
+      "canonical_symbol": "sub_08056FCC",
+      "address": "0x08056FCC",
+      "display_name": "SetSceneObjectCompletionGate",
+      "summary": "Sets bit 6 with mask 0x40 in scene flags, which inhibits spawn-group-only encounter completion while the scene object task owns the completion gate.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_080542C4.c",
+          "line": 1269,
+          "detail": "Sets bit 6 with mask 0x40 in scene flags halfword +4.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08021DC4.c",
+          "line": 4886,
+          "detail": "Scene object processing sets the gate when at least one configured object has a nonzero completion-trigger field, counted at lines 4811-4812 and 4858-4859.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08021DC4.c",
+          "line": 4924,
+          "detail": "On destruction of such an object, the task sends the completion notification and sets encounter-finished bit 3 at line 4930.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08021DC4.c",
+          "line": 1655,
+          "detail": "Enemy-spawn group task marks the encounter finished only when group count is zero, encounter-finished is false, this bit-6 predicate is false and mode is not 0xB.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08021DC4.c",
+          "line": 5053,
+          "detail": "Normal scene object task cleanup clears the gate through sub_08056FE0.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": []
+    },
+    {
+      "canonical_symbol": "sub_08056FE0",
+      "address": "0x08056FE0",
+      "display_name": "ClearSceneObjectCompletionGate",
+      "summary": "Clears bit 6 with mask 0xFFBF in scene flags, which inhibits spawn-group-only encounter completion while the scene object task owns the completion gate.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_080542C4.c",
+          "line": 1272,
+          "detail": "Clears bit 6 with mask 0xFFBF in scene flags halfword +4.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08021DC4.c",
+          "line": 4886,
+          "detail": "Scene object processing sets the gate when at least one configured object has a nonzero completion-trigger field, counted at lines 4811-4812 and 4858-4859.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08021DC4.c",
+          "line": 4924,
+          "detail": "On destruction of such an object, the task sends the completion notification and sets encounter-finished bit 3 at line 4930.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08021DC4.c",
+          "line": 1655,
+          "detail": "Enemy-spawn group task marks the encounter finished only when group count is zero, encounter-finished is false, this bit-6 predicate is false and mode is not 0xB.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08021DC4.c",
+          "line": 5053,
+          "detail": "Normal scene object task cleanup clears the gate through sub_08056FE0.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": []
+    },
+    {
+      "canonical_symbol": "sub_08056FF8",
+      "address": "0x08056FF8",
+      "display_name": "IsSceneObjectCompletionGated",
+      "summary": "Returns bit 6 as 0 or 1 in scene flags, which inhibits spawn-group-only encounter completion while the scene object task owns the completion gate.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_080542C4.c",
+          "line": 1275,
+          "detail": "Returns bit 6 as 0 or 1 in scene flags halfword +4.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08021DC4.c",
+          "line": 4886,
+          "detail": "Scene object processing sets the gate when at least one configured object has a nonzero completion-trigger field, counted at lines 4811-4812 and 4858-4859.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08021DC4.c",
+          "line": 4924,
+          "detail": "On destruction of such an object, the task sends the completion notification and sets encounter-finished bit 3 at line 4930.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08021DC4.c",
+          "line": 1655,
+          "detail": "Enemy-spawn group task marks the encounter finished only when group count is zero, encounter-finished is false, this bit-6 predicate is false and mode is not 0xB.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08021DC4.c",
+          "line": 5053,
+          "detail": "Normal scene object task cleanup clears the gate through sub_08056FE0.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": []
+    },
+    {
+      "canonical_symbol": "sub_0805700C",
+      "address": "0x0805700C",
+      "display_name": "CountSavedNormalLevelClears",
+      "summary": "Counts set bits 0 through 22 of the saved Normal Mode level-encounter-cleared mask and returns that count.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_080542C4.c",
+          "line": 1285,
+          "detail": "Reads the saved-data word at +4 and counts its bits 0..22 at lines 1288-1295.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0805FB7C.c",
+          "line": 1546,
+          "detail": "Save path copies scene+0x74, the Normal Mode encounter-cleared mask, to saved-data+4.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08009088.c",
+          "line": 29,
+          "detail": "Map initialization stores this count in the map-state level field through alias finishInit005; the apparent pointer argument is unused by the target.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": []
+    },
+    {
+      "canonical_symbol": "sub_08057038",
+      "address": "0x08057038",
+      "display_name": "CountAdvancedLevelRangeClears",
+      "summary": "Counts set bits 10 through 19 of the saved Advanced Mode level-encounter-cleared mask and returns the count as u16.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_080542C4.c",
+          "line": 1303,
+          "detail": "Reads saved-data word +0xC and counts only bits 10..19 at lines 1304-1307.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0805FB7C.c",
+          "line": 1558,
+          "detail": "Save path copies Advanced Mode scene encounter-cleared word +0x7C to saved-data+0xC.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "No source caller was found; the restricted bit range is established statically, without assigning a menu or reward purpose."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_08059954",
+      "address": "0x08059954",
+      "display_name": "SetSceneAreaEventFlag",
+      "summary": "Sets the requested bit in the scene-area event mask, preserving the remaining bits.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_08059534.c",
+          "line": 128,
+          "detail": "Sets 1<<arg0 in scene-state word +0x38.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080542C4.c",
+          "line": 979,
+          "detail": "Inventory-gate completion tests that same word for the configured flag; line 1113 requests sub_08059954 as a linked callback when the gate uses this mask rather than the persistent scene event-flag array.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080443EC.c",
+          "line": 2245,
+          "detail": "Script requests setting bit 3 through sub_08059954; line 2265 requests clearing bit 7 through sub_080599B0.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08021DC4.c",
+          "line": 565,
+          "detail": "Scene initialization zeroes the +0x38 mask; area selection restores or resets it at lines 4209 and 4526, distinguishing it from the mode-banked persistent event flags.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": []
+    },
+    {
+      "canonical_symbol": "sub_080599B0",
+      "address": "0x080599B0",
+      "display_name": "ClearSceneAreaEventFlag",
+      "summary": "Clears the requested bit in the scene-area event mask, preserving the remaining bits.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_08059534.c",
+          "line": 142,
+          "detail": "Clears 1<<arg0 in scene-state word +0x38.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080542C4.c",
+          "line": 979,
+          "detail": "Inventory-gate completion tests that same word for the configured flag; line 1113 requests sub_08059954 as a linked callback when the gate uses this mask rather than the persistent scene event-flag array.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080443EC.c",
+          "line": 2245,
+          "detail": "Script requests setting bit 3 through sub_08059954; line 2265 requests clearing bit 7 through sub_080599B0.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08021DC4.c",
+          "line": 565,
+          "detail": "Scene initialization zeroes the +0x38 mask; area selection restores or resets it at lines 4209 and 4526, distinguishing it from the mode-banked persistent event flags.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": []
+    },
+    {
+      "canonical_symbol": "sub_0805A2E4",
+      "address": "0x0805A2E4",
+      "display_name": "SetSceneEventFlagTwelve",
+      "summary": "Sets persistent scene event flag 12 in the Normal or Advanced Mode bank selected at the time of the query.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_08059534.c",
+          "line": 482,
+          "detail": "Selects scene byte +0x1C4 in Advanced Mode, otherwise +0x1B8, and ORs bit 4 at lines 484-487; these are byte 1/bit 4 of the established event-flag banks, hence flag 12.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0804D330.c",
+          "line": 3512,
+          "detail": "Area script checks the same byte/bit and parks entity 9 when set; otherwise it installs this callback through t53_request2060.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "The individual flag is tied to the scripted inventory gate; no character, map or quest identity is assigned."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_0805A4A0",
+      "address": "0x0805A4A0",
+      "display_name": "GetSceneEventVariantIndex",
+      "summary": "Returns the indexed stored scene-event variant halfword minus one, narrowed to u16, without validating the index or stored value.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_08059534.c",
+          "line": 556,
+          "detail": "Reads the u16 array at scene+0x22 and subtracts one for the u16 result.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08021DC4.c",
+          "line": 708,
+          "detail": "Scene event dispatcher uses this function result to index the selected event record callback array.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08021DC4.c",
+          "line": 4198,
+          "detail": "Area selection writes the destination variant into the same indexed halfword array, then subtracts one to select a 0x24-byte variant record at line 4201.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0808D4A8.c",
+          "line": 1843,
+          "detail": "Challenge scene handler also selects its 0x24-byte variant record with this accessor.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": []
+    },
+    {
+      "canonical_symbol": "sub_0805A040",
+      "address": "0x0805A040",
+      "display_name": "PositionMapObjectEight",
+      "summary": "Immediately places map-object selector 8 at pixel coordinates (56,48) through the shared scene-entity movement helper.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_08059534.c",
+          "line": 352,
+          "detail": "Calls MoveSceneEntityToPosition with selector 8, x=0x38, y=0x30 and zero interpolation duration.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08028AAC.c",
+          "line": 65,
+          "detail": "For selectors greater than 5 and at most 0x100000, the helper indexes map-object storage at scene+0x4B4+selector*0x24, so 8 is a map-object selector rather than an actor handle.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080443EC.c",
+          "line": 3276,
+          "detail": "An area script requests this as guarded linked callback when event flag 13 is clear, the local player ID is zero and item 0x2A is absent from the scanned inventories.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "No character or quest identity is assigned to map-object selector 8."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_0805A194",
+      "address": "0x0805A194",
+      "display_name": "OscillateSceneEntityVertically",
+      "summary": "Continuously issues alternating vertical pixel offsets -1 and +1 for the supplied entity selector, each using interpolation duration 3, without an exit condition.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_08059534.c",
+          "line": 437,
+          "detail": "Infinite loop alternates MoveSceneEntityByOffset(arg0,0,-1,3) and MoveSceneEntityByOffset(arg0,0,1,3).",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08028AAC.c",
+          "line": 183,
+          "detail": "Offset movement adds signed pixel offsets to current fixed-point position and interpolates while yielding; no exact destination snap is guaranteed.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0804D330.c",
+          "line": 457,
+          "detail": "Caller spawns a scene actor, installs this callback in a scene task at lines 460-471 and supplies the returned actor handle at line 474.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": []
+    },
+    {
+      "canonical_symbol": "sub_0805A054",
+      "address": "0x0805A054",
+      "display_name": "KeepSceneEntityParked",
+      "summary": "Loops indefinitely relocating the supplied entity selector to (9999,9999), with a signal-1 wait after every movement call; link error never exits the loop.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_08059534.c",
+          "line": 359,
+          "detail": "Repeatedly calls MoveSceneEntityToPosition(state,0x270F,0x270F,0).",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08059534.c",
+          "line": 366,
+          "detail": "Waits for signal 1, checks LinkHasErrorFlag and returns to the relocation label on either branch through lines 364 or 368.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080443EC.c",
+          "line": 3894,
+          "detail": "Scene script first positions selector 2 visibly at (120,80), relocates it to (9999,9999), then starts this callback with selector 2 at line 3896; selector 1 is handled similarly at lines 3906-3907.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": []
+    },
+    {
+      "canonical_symbol": "sub_0805A2B8",
+      "address": "0x0805A2B8",
+      "display_name": "ParkMapObjectEight",
+      "summary": "Immediately relocates map-object selector 8 to (9999,9999), then starts song 0x23 unless link-error song muting is set.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_08059534.c",
+          "line": 472,
+          "detail": "Calls MoveSceneEntityToPosition(8,0x270F,0x270F,0).",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08059534.c",
+          "line": 473,
+          "detail": "Tests link flags mask 0x20 and invokes AudioStartSongChecked(0x23) only when clear.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08028AAC.c",
+          "line": 65,
+          "detail": "The selector-8 movement path addresses a map object and synchronizes its collision footprint around its coordinate writes.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "No direct source caller was found; no screen or quest identity is inferred from this fixed selector."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_0805A384",
+      "address": "0x0805A384",
+      "display_name": "RequestGuardedEntityMovementSequence",
+      "summary": "Cancels the supplied nonzero scheduled task, then requests linked guarded execution of the fixed map-object movement callback with argument zero and guard bit zero.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_08059534.c",
+          "line": 513,
+          "detail": "Checks that arg0 is nonzero and scheduled, then cancels it at line 514; regardless of the check, line 516 enqueues sub_0805A3B0 with argument 0 and guard 0.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08059534.c",
+          "line": 518,
+          "detail": "Requested callback conditionally starts song 0x17B, parks map-object selector 7 at (9999,9999), then moves map-object selector 6 by (0,-12) with interpolation duration 60 at lines 519-523.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080542C4.c",
+          "line": 502,
+          "detail": "Area sequence installs this callback as a trigger and passes a previously started scene task control as its argument at lines 513-520.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080659B0.c",
+          "line": 1466,
+          "detail": "Link callback receiver dispatches guarded callback messages to the guarded scene task starter; no synchronous execution or guaranteed delivery is implied.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": []
+    },
+    {
+      "canonical_symbol": "sub_0805A3F0",
+      "address": "0x0805A3F0",
+      "display_name": "RequestLinkedSceneEntityParking",
+      "summary": "Requests linked execution of the scene-entity parking callback with the supplied entity selector, ignoring the enqueue result.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_08059534.c",
+          "line": 526,
+          "detail": "Calls EnqueueLinkSceneCallbackTask with callback sub_0805A404 and unchanged arg0.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08059534.c",
+          "line": 529,
+          "detail": "Requested callback starts song 0x23 only when the scene-flags bit-3 query sub_0800CCCC and link-error mute are both false, then relocates the supplied selector to (9999,9999) at line 532.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080443EC.c",
+          "line": 1705,
+          "detail": "Scene event installs this wrapper as its trigger callback and supplies selector 7 at lines 1716-1717.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": []
+    },
+    {
+      "canonical_symbol": "sub_0805A474",
+      "address": "0x0805A474",
+      "display_name": "ParkSceneEntity",
+      "summary": "Immediately relocates the supplied scene-entity selector to (9999,9999), then starts song 0x23 unless link-error song muting is set.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_08059534.c",
+          "line": 548,
+          "detail": "Calls MoveSceneEntityToPosition(arg0,0x270F,0x270F,0).",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08059534.c",
+          "line": 549,
+          "detail": "Tests link flags mask 0x20 and starts song 0x23 at line 550 only when clear, without the scene-flags bit-3 predicate used by sub_0805A404.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080542C4.c",
+          "line": 1114,
+          "detail": "Inventory-gate trigger requests this as guarded linked callback with the configured map-object selector event+5, after consuming items and setting completion state.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": []
+    }
+  ]
+}

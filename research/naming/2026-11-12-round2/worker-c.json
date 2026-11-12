@@ -1,0 +1,811 @@
+{
+  "schema_version": 1,
+  "kind": "naming_research_drafts",
+  "source_revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7",
+  "worker": "c",
+  "policy": "Frozen research only. Candidates, including high confidence, are not confirmed until independently reviewed and integrated into the catalog.",
+  "proposals": [
+    {
+      "canonical_symbol": "sub_0801A628",
+      "address": "0x0801A628",
+      "display_name": "ReturnImmediately",
+      "summary": "Returns immediately without reading inputs or changing state.",
+      "confidence": "low",
+      "evidence": [
+        {
+          "source": "src/code_08017F7C.c",
+          "line": 1392,
+          "detail": "Lines 1392-1394 define an empty leaf function.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "No direct source references found; intended interface role cannot be recovered from an empty body."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_08021C6C",
+      "address": "0x08021C6C",
+      "display_name": "ReturnAtSceneResourceStartup",
+      "summary": "Returns immediately without changing state.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_0801E244.c",
+          "line": 2400,
+          "detail": "Lines 2400-2402 define an empty leaf; src/code_08009088.c:1940-1941 calls it immediately after AllocateActorSpriteEffectTaskPool during scene resource startup.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": []
+    },
+    {
+      "canonical_symbol": "sub_08021C70",
+      "address": "0x08021C70",
+      "display_name": "ReturnAtSceneResourceTeardown",
+      "summary": "Returns immediately without changing state.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_0801E244.c",
+          "line": 2403,
+          "detail": "Lines 2403-2405 define an empty leaf; src/code_08009088.c:1965-1966 calls it immediately after FreeActorSpriteEffectTaskPool during teardown.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": []
+    },
+    {
+      "canonical_symbol": "sub_0801A500",
+      "address": "0x0801A500",
+      "display_name": "IgnoreVariadicArguments",
+      "summary": "Ignores all arguments and returns without changing state.",
+      "confidence": "low",
+      "evidence": [
+        {
+          "source": "src/code_08017F7C.c",
+          "line": 1338,
+          "detail": "Lines 1338-1340 define an empty variadic function between glyph tile queuing and text initialization.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "No direct source references found; original intended text interface is unknown."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_08019CDC",
+      "address": "0x08019CDC",
+      "display_name": "ReturnFive",
+      "summary": "Counts from zero through five and returns five without accessing actor records.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_08017F7C.c",
+          "line": 877,
+          "detail": "Lines 877-881 increment i until it exceeds four and return i.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": []
+    },
+    {
+      "canonical_symbol": "sub_0801A0A4",
+      "address": "0x0801A0A4",
+      "display_name": "EnableEnemyCombatTargeting",
+      "summary": "Sets the actor combat-team byte to 2, enabling its participation as an enemy target.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_08017F7C.c",
+          "line": 1093,
+          "detail": "Writes 2 to actor byte 0x1DC.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0801E244.c",
+          "line": 1573,
+          "detail": "Player attack contacts reject actors whose 0x1DC equals the player team or is zero.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08068670.c",
+          "line": 310,
+          "detail": "Ability target enumeration skips enemies whose byte 0x1DC is zero.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": []
+    },
+    {
+      "canonical_symbol": "sub_0801A0B0",
+      "address": "0x0801A0B0",
+      "display_name": "DisableActorCombatTargeting",
+      "summary": "Clears the actor combat-team byte, excluding it from attacks that require a nonzero target team.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_08017F7C.c",
+          "line": 1096,
+          "detail": "Clears actor byte 0x1DC.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0801E244.c",
+          "line": 1574,
+          "detail": "Player attack contacts reject actors with zero combat-team byte.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08068670.c",
+          "line": 310,
+          "detail": "Ability targeting skips zero-team enemies.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": []
+    },
+    {
+      "canonical_symbol": "sub_0801A0BC",
+      "address": "0x0801A0BC",
+      "display_name": "SetActorTeamByKey",
+      "summary": "Finds the first active actor with the nonzero record key and stores the low byte of value as its combat team.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_08017F7C.c",
+          "line": 1104,
+          "detail": "Rejects key zero.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08017F7C.c",
+          "line": 1109,
+          "detail": "Searches five actor records at stride 0x2E0.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08017F7C.c",
+          "line": 1111,
+          "detail": "Requires the active-mask bit and record key at offset 2 to match.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08017F7C.c",
+          "line": 1112,
+          "detail": "Stores value into combat-team byte 0x1DC.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0801E244.c",
+          "line": 1573,
+          "detail": "Attack processing rejects same-team and zero-team targets.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": []
+    },
+    {
+      "canonical_symbol": "sub_0801A050",
+      "address": "0x0801A050",
+      "display_name": "RequestActorRemovalByKey",
+      "summary": "Finds the active actor matching a nonzero record key and sets its task-exit flag.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_08017F7C.c",
+          "line": 1086,
+          "detail": "Matches active actor records by halfword key at offset 2.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08017F7C.c",
+          "line": 1087,
+          "detail": "Sets bit 0 of actor flags at offset 0x7A.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08017F7C.c",
+          "line": 215,
+          "detail": "Enemy update task runs only while this bit remains clear.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08017F7C.c",
+          "line": 809,
+          "detail": "Task teardown clears the actor active-slot bit.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": []
+    },
+    {
+      "canonical_symbol": "sub_08019EB8",
+      "address": "0x08019EB8",
+      "display_name": "SetActorOverlayByKey",
+      "summary": "Sets overlay animation index 0x88 on the first active actor matching the supplied record key.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_08017F7C.c",
+          "line": 1001,
+          "detail": "Searches active actor entries for matching halfword record key.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08017F7C.c",
+          "line": 1002,
+          "detail": "Stores the requested halfword at offset 0x88.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08017F7C.c",
+          "line": 748,
+          "detail": "Enemy update advances the overlay animation indexed by f88 and clears it at completion.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08017F7C.c",
+          "line": 754,
+          "detail": "Draws that overlay above the actor position.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": []
+    },
+    {
+      "canonical_symbol": "sub_08019F04",
+      "address": "0x08019F04",
+      "display_name": "RequestScriptedActorActionReselection",
+      "summary": "Sets scene field 0x5A to one and requests AI action reselection for each active actor carrying flag 0x7A bit 2.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_08017F7C.c",
+          "line": 1016,
+          "detail": "Sets scene halfword 0x5A to one; the broader scene meaning is not inferred.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08017F7C.c",
+          "line": 1026,
+          "detail": "Filters five actor slots by active mask.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08017F7C.c",
+          "line": 1028,
+          "detail": "For actors with flags 0x7A bit 2, overwrites AI flags 0x201 with one.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080153A4.c",
+          "line": 1561,
+          "detail": "AI flags bit 0 enters the action-selection branch.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080153A4.c",
+          "line": 1638,
+          "detail": "Action selection clears the request bit and changes the action when needed.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "What additional behavior does scene halfword 0x5A control?"
+      ]
+    },
+    {
+      "canonical_symbol": "sub_0801A388",
+      "address": "0x0801A388",
+      "display_name": "ResetActorActionSelection",
+      "summary": "Marks an actor with flag 0x7A bit 2, clears its AI flags and resets its selected action to 0xFF.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_08017F7C.c",
+          "line": 1257,
+          "detail": "Selects actor slot using the 0x2E0 record stride.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08017F7C.c",
+          "line": 1258,
+          "detail": "Sets actor flags bit 2.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08017F7C.c",
+          "line": 1259,
+          "detail": "Clears AI flags 0x201.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08017F7C.c",
+          "line": 1260,
+          "detail": "Sets selected action 0x1FD to the no-action sentinel 0xFF.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080153A4.c",
+          "line": 1638,
+          "detail": "AI action selection clears its request and assigns a new action through the same fields.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "The precise persistent policy associated with actor flags 0x7A bit 2 remains unnamed."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_0801F2CC",
+      "address": "0x0801F2CC",
+      "display_name": "ConfigureEnemyKnockbackFromHit",
+      "summary": "Configures enemy knockback duration, speed, magnitude and direction from a hit packet; zero magnitude clears duration, speed and direction.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_0801E244.c",
+          "line": 885,
+          "detail": "Reads hit-packet impulse byte 2.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0801E244.c",
+          "line": 889,
+          "detail": "Sets duration to impulse divided by four; lines 892-899 ensure minimum one tick and select speed 0x100 or 0x400.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0801E244.c",
+          "line": 902,
+          "detail": "Copies signed hit direction; lines 906-908 clear duration, speed and direction for zero impulse.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08017F7C.c",
+          "line": 361,
+          "detail": "Enemy update consumes these fields in a movement step and decrements the duration.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": []
+    },
+    {
+      "canonical_symbol": "sub_0801F320",
+      "address": "0x0801F320",
+      "display_name": "ConfigurePlayerKnockbackFromHit",
+      "summary": "Configures player knockback duration, speed, magnitude and direction from a hit packet; zero magnitude clears duration, speed and magnitude.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_0801E244.c",
+          "line": 922,
+          "detail": "Reads hit impulse byte 2.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0801E244.c",
+          "line": 927,
+          "detail": "Stores knockback duration at player offset 0xCE.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0801E244.c",
+          "line": 939,
+          "detail": "Stores signed direction; zero path at 943-945 clears duration, speed and magnitude but leaves direction unchanged.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0800CF58.c",
+          "line": 5794,
+          "detail": "Player update moves using speed 0xD2 and direction 0xD0, then decrements duration 0xCE.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": []
+    },
+    {
+      "canonical_symbol": "sub_08019E20",
+      "address": "0x08019E20",
+      "display_name": "ReturnArgumentAfterFlagQuery",
+      "summary": "Calls the scene bit-9 query, discards its result and returns the supplied argument unchanged.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_08017F7C.c",
+          "line": 944,
+          "detail": "Calls sub_0800CE30 and ignores the result.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08017F7C.c",
+          "line": 945,
+          "detail": "Returns arg0 unchanged.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0800CBBC.c",
+          "line": 115,
+          "detail": "The callee only reads bit 9 of gUnk_03003478.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": []
+    },
+    {
+      "canonical_symbol": "sub_0801A62C",
+      "address": "0x0801A62C",
+      "display_name": "SetTextTilemapLatch",
+      "summary": "Sets the text tilemap lifecycle latch to one without returning a value.",
+      "confidence": "low",
+      "evidence": [
+        {
+          "source": "src/code_08017F7C.c",
+          "line": 1396,
+          "detail": "Sets gUnk_03005C98 to one.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08017F7C.c",
+          "line": 1344,
+          "detail": "Text tilemap initialization clears the same global.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08017F7C.c",
+          "line": 1365,
+          "detail": "Clearing flagged text tilemap rows also clears the global.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "No consumer or direct caller appears in src or asm; the purpose of the latch beyond its text lifecycle association is unknown."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_0801A650",
+      "address": "0x0801A650",
+      "display_name": "LowerTextTilemapLimit",
+      "summary": "Lowers the text-associated unsigned halfword limit when the supplied unsigned value is smaller.",
+      "confidence": "low",
+      "evidence": [
+        {
+          "source": "src/code_08017F7C.c",
+          "line": 1412,
+          "detail": "Compares the current unsigned halfword gUnk_03005730 with arg0.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08017F7C.c",
+          "line": 1414,
+          "detail": "Stores the low halfword only when arg0 is smaller.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08017F7C.c",
+          "line": 1346,
+          "detail": "Text tilemap initialization sets this global to 18.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "No reader beyond this setter, or direct caller, was found; what quantity the limit bounds is unknown."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_0801F1C4",
+      "address": "0x0801F1C4",
+      "display_name": "QueueEnemyDamageFromPosition",
+      "summary": "Queues enemy damage and outward knockback from a supplied position, marks local-player hit credit and broadcasts the hit packet.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_0801E244.c",
+          "line": 832,
+          "detail": "Sets enemy state to damage reaction 10.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0801E244.c",
+          "line": 836,
+          "detail": "Computes direction from supplied position toward the enemy.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0801E244.c",
+          "line": 841,
+          "detail": "Accumulates pending damage at 0x4A and records display damage at 0x4C.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0801E244.c",
+          "line": 862,
+          "detail": "Configures enemy knockback from the packet.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0801E244.c",
+          "line": 874,
+          "detail": "Sets the local-player bit in the enemy hit-credit mask.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0801E244.c",
+          "line": 876,
+          "detail": "Calls the hit-packet link queue producer sub_080660EC.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": []
+    },
+    {
+      "canonical_symbol": "sub_0801FD64",
+      "address": "0x0801FD64",
+      "display_name": "QueueAttackHealthCost",
+      "summary": "Once per attack sequence, queues a percentage of maximum player health as self-damage when the combat team and positive rate permit it.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_0801E244.c",
+          "line": 1366,
+          "detail": "Requires attack sequence 0xDC to differ from previously charged sequence 0x10C and team byte 0x68 to be nonzero.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0801E244.c",
+          "line": 1370,
+          "detail": "Rejects zero rates and rates whose high bit is set.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0801E244.c",
+          "line": 1372,
+          "detail": "Computes max health at offset 0x62 times rate byte 0x69 divided by 100, with minimum one.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0801E244.c",
+          "line": 1375,
+          "detail": "Adds the amount to pending health deduction 0x8A; records the charged sequence and clears 0xE0.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0801E244.c",
+          "line": 1562,
+          "detail": "Called in the player attack-contact path after attack-specific frame gates.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0800CF58.c",
+          "line": 5625,
+          "detail": "Player damage application subtracts pending halfword 0x8A from current health 0xC4 and then clears it.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0801AAF8.c",
+          "line": 2072,
+          "detail": "Derived stat buffer starts at player offset 0x58; the rate byte 0x69 is its offset 0x11, initialized to zero in stat recalculation at line 865.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Which equipment or stat effect supplies the health-cost rate byte 0x69?"
+      ]
+    },
+    {
+      "canonical_symbol": "sub_0801E378",
+      "address": "0x0801E378",
+      "display_name": "ApplyHigherSkillDefenseScaling",
+      "summary": "For class 0 or 3, scales a halfword value as (signed value + 2L)*(L+10)/10 using effective skill index 4 or 3 respectively; other classes retain the input.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_0801E244.c",
+          "line": 91,
+          "detail": "Reads normalized character class.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0801E244.c",
+          "line": 95,
+          "detail": "Class 0 reads effective indexed skill 4 twice before scaling.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0801E244.c",
+          "line": 100,
+          "detail": "Class 3 reads skill 3 twice; both branches return the low halfword of the formula.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0807A5D4.c",
+          "line": 4779,
+          "detail": "Equipment detail formatting uses the scaled value minus item field 0x9B as a displayed bonus.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0801AAF8.c",
+          "line": 1111,
+          "detail": "Equipment stat recalculation independently inlines the identical class-sensitive 4/3 skill formula into the equipment defense contribution.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Exact player-facing skill label is not established; the name deliberately describes the higher-indexed member of this helper pair."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_0801E3D8",
+      "address": "0x0801E3D8",
+      "display_name": "ApplyLowerSkillDefenseScaling",
+      "summary": "For class 0 or 3, scales a halfword value as (signed value + 2L)*(L+10)/10 using effective skill index 3 or 2 respectively; other classes retain the input.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_0801E244.c",
+          "line": 109,
+          "detail": "Reads normalized character class.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0801E244.c",
+          "line": 113,
+          "detail": "Class 0 reads effective skill index 3 twice before scaling.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0801E244.c",
+          "line": 118,
+          "detail": "Class 3 reads skill index 2 twice before scaling.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0807A5D4.c",
+          "line": 4860,
+          "detail": "Equipment detail formatting chooses this helper when item field 0xA0 is nonzero, and the higher-index helper otherwise.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0801AAF8.c",
+          "line": 1136,
+          "detail": "Equipment stat recalculation independently inlines the identical class-sensitive 3/2 skill formula into the equipment defense contribution.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Exact player-facing skill label is not established; the name describes the lower-indexed member of this helper pair."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_0801E438",
+      "address": "0x0801E438",
+      "display_name": "ComputeClassSkillEightfoldValue",
+      "summary": "Returns eight times effective skill index 3 for class 0 or index 2 for class 3, and otherwise returns the low halfword of the fallback argument.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_0801E244.c",
+          "line": 130,
+          "detail": "Initializes fallback from low halfword of arg1.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0801E244.c",
+          "line": 131,
+          "detail": "Selects normalized character class.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0801E244.c",
+          "line": 134,
+          "detail": "Class 0 replaces fallback with effective skill index 3 shifted left three.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0801E244.c",
+          "line": 137,
+          "detail": "Class 3 uses index 2 shifted left three; returns the halfword result.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "No direct callers found in source or assembly; the intended consumer of the eightfold value remains unknown."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_08020D40",
+      "address": "0x08020D40",
+      "display_name": "TaskAnimateCriticalHitSprite",
+      "summary": "Animates sprite sequence 32 at packed world coordinates until completion or world exit, then releases its effect-pool slot.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_0801E244.c",
+          "line": 1854,
+          "detail": "Unpacks the first argument into fixed-point world x and y.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0801E244.c",
+          "line": 1857,
+          "detail": "Suppresses animation and drawing under three scene-state gates.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0801E244.c",
+          "line": 1859,
+          "detail": "Advances sprite sequence 32, using its completion return to terminate.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0801E244.c",
+          "line": 1864,
+          "detail": "Clears the effect-pool bit indexed by arg1.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08021DC4.c",
+          "line": 425,
+          "detail": "The critical-hit effect request sub_0802247C registers this task entry.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0801E244.c",
+          "line": 334,
+          "detail": "The favorable critical-roll branch requests this effect and sets damage divisor 100, versus 200 on the ordinary hit branch.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": []
+    },
+    {
+      "canonical_symbol": "sub_080215E4",
+      "address": "0x080215E4",
+      "display_name": "TaskDrawBriefWorldEffect",
+      "summary": "Draws sprite sequence 1 at packed world coordinates for up to 30 scheduler waits, then releases the effect-pool slot.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_0801E244.c",
+          "line": 2167,
+          "detail": "Initializes the countdown to 30.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0801E244.c",
+          "line": 2168,
+          "detail": "Unpacks supplied x and y coordinates.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0801E244.c",
+          "line": 2176,
+          "detail": "Scene-state flags gate drawing while the countdown continues.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0801E244.c",
+          "line": 2179,
+          "detail": "Draws sprite sequence 1 frame 0 at y plus one.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0801E244.c",
+          "line": 2183,
+          "detail": "Clears effect-pool slot arg1 on termination.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08021DC4.c",
+          "line": 130,
+          "detail": "World-position effect allocator sub_08021F58 registers this task and passes the slot index.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "The visual identity of sprite sequence 1 is not established; no direct source caller of the registering wrapper was found."
+      ]
+    }
+  ]
+}

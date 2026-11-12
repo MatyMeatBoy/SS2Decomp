@@ -1,0 +1,385 @@
+[
+  {
+    "canonical_symbol": "sub_08092344",
+    "decision": "accept",
+    "reason": "Empty body and its scene-shutdown caller support a no-op cleanup hook without assigning a more specific subsystem."
+  },
+  {
+    "canonical_symbol": "sub_08094490",
+    "decision": "fix",
+    "reason": "Name and handshake evidence are supported, but the setter alone cannot promise it eventually reports state 2; progression requires the running background task.",
+    "corrected_row": {
+      "canonical_symbol": "sub_08094490",
+      "address": "0x08094490",
+      "display_name": "RequestBgRandomBlendHold",
+      "summary": "Sets a request for the background random blend task to remain in blend state 2; that task writes status 2 when its state-2 counter reaches 13.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_08092D60.c",
+          "line": 857,
+          "detail": "Stores request value 1 in the hold/status byte.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08092D60.c",
+          "line": 800,
+          "detail": "In blend state 2 a nonzero request prevents the normal transition and is changed to 2 when the counter reaches 13.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08092D60.c",
+          "line": 680,
+          "detail": "The presentation requests this hold before entering its final waiting state.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": []
+    }
+  },
+  {
+    "canonical_symbol": "sub_0809449C",
+    "decision": "accept",
+    "reason": "Direct byte accessor, state-2 writer and caller wait-for-2 independently establish the hold-handshake status role."
+  },
+  {
+    "canonical_symbol": "sub_080944A8",
+    "decision": "accept",
+    "reason": "Direct enable-byte store releases state-0 counter progression in the random blend task; caller matches the described presentation phase."
+  },
+  {
+    "canonical_symbol": "sub_08092348",
+    "decision": "fix",
+    "reason": "Starter role is supported. Correct task+8 priority claim and signed-OR packing: a negative signed c overwrites the high byte rather than independently preserving b.",
+    "corrected_row": {
+      "canonical_symbol": "sub_08092348",
+      "address": "0x08092348",
+      "display_name": "StartCoordinatedAttackPresentationTask",
+      "summary": "Retries allocation of an 0x800-byte stack with signal-1 waits, then schedules the coordinated-attack dispatcher with index (s8)a and packed word ((s8)b << 8) | (s8)c; negative low-byte c sign-extends into the high byte.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_0808FB5C.c",
+          "line": 1914,
+          "detail": "Installs dispatcher 923B4 in fixed task control 030001E8.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0808FB5C.c",
+          "line": 1917,
+          "detail": "Retries stack allocation with signal waits until nonnull, then initializes stack top and task+8 control key 0x40 (not an independently established priority).",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0808FB5C.c",
+          "line": 1925,
+          "detail": "Schedules with signed low-byte index and exact packed expression ((s8)b << 8) | (s8)c. For c>=128, sign extension makes the decoded high byte -1, regardless of b; argument bytes are not independently preserved across the full u8 domain.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0805FB7C.c",
+          "line": 2879,
+          "detail": "Coordinated attack flow starts presentation and waits for completion signal 0x12001111.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": []
+    }
+  },
+  {
+    "canonical_symbol": "sub_080923B4",
+    "decision": "accept",
+    "reason": "Signed low-byte index scaling, signed unpacking of the received word, both callback invocations and exact completion wake are supported. This dispatcher does not claim the starter preserves b independently when c is negative."
+  },
+  {
+    "canonical_symbol": "sub_08092124",
+    "decision": "fix",
+    "reason": "Initialization versus scheduling is correctly distinguished; only the evidence interpretation of task+8 as priority needs narrowing to its stored control key.",
+    "corrected_row": {
+      "canonical_symbol": "sub_08092124",
+      "address": "0x08092124",
+      "display_name": "InitializeSoundTestAnimationTasks",
+      "summary": "Clears sound-test animation state, installs nine animation callbacks, and initializes the fixed animation task control without scheduling it.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_0808FB5C.c",
+          "line": 1821,
+          "detail": "Clears shared animation heap pointer.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0808FB5C.c",
+          "line": 1822,
+          "detail": "Begins assigning nine callbacks through line 1830.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0808FB5C.c",
+          "line": 1831,
+          "detail": "Initializes task fields and task+8 control key 0x3C (not an independently established priority) through line 1834.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0808FB5C.c",
+          "line": 553,
+          "detail": "Sound test menu calls this initializer.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": []
+    }
+  },
+  {
+    "canonical_symbol": "sub_08092190",
+    "decision": "accept",
+    "reason": "RNG remainder normalization selects 0..8; installs callback, allocates stack once and schedules fixed task, matching sound-test consumer. No allocation-success guarantee is claimed."
+  },
+  {
+    "canonical_symbol": "sub_0809342C",
+    "decision": "accept",
+    "reason": "DMA initializer binds source halfword to BG1HOFS; callback reads VCOUNT low byte, writes phase-indexed sine product in visible scanlines and zero otherwise."
+  },
+  {
+    "canonical_symbol": "sub_08095A60",
+    "decision": "accept",
+    "reason": "BG bits are cleared and OBJ enabled; BG0/BG1 offsets and blending reset. Direct halfword store is at palette-shadow base 03001F40, correctly described as first palette/backdrop entry, not completion status."
+  },
+  {
+    "canonical_symbol": "sub_08095AD8",
+    "decision": "fix",
+    "reason": "Role/name supported. Audio helper fades players and clears the tracked-song word rather than only fading the tracked song; preserve signed count domain limitations.",
+    "corrected_row": {
+      "canonical_symbol": "sub_08095AD8",
+      "address": "0x08095AD8",
+      "display_name": "RunCountedAttackSpritePresentation",
+      "summary": "Requests audio fade and clears the tracked-song word, runs the counted sprite presentation with its signed-byte argument, then disables three rendering overrides.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_08092D60.c",
+          "line": 1791,
+          "detail": "Requests audio fade with argument 3.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08092D60.c",
+          "line": 1792,
+          "detail": "Runs 9561C using the signed-byte argument.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08092D60.c",
+          "line": 1793,
+          "detail": "Disables all three presentation rendering overrides through line 1795.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08092D60.c",
+          "line": 1626,
+          "detail": "Callee caps count at 20, allocates counted sprite state and animates resources 50046/50047.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0808FB5C.c",
+          "line": 1893,
+          "detail": "Registers as coordinated attack presentation animation callback 6.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "The counted presentation caps only values above 20; zero and negative signed-byte counts are not validated before allocation and ents[0] writes. No full-domain success guarantee is implied."
+      ]
+    }
+  },
+  {
+    "canonical_symbol": "sub_08091E94",
+    "decision": "fix",
+    "reason": "Timing/state purpose is supported, but allocation failure skips waits entirely and cleanup frees the current shared pointer, not necessarily the original local allocation if another writer replaced it.",
+    "corrected_row": {
+      "canonical_symbol": "sub_08091E94",
+      "address": "0x08091E94",
+      "display_name": "WaitWithSoundTestAllocation",
+      "summary": "Attempts a 0x110-byte allocation and publishes its pointer; on success, yields through states 0/1/2/6 and up to 61 state-6 waits, then frees and clears the current shared pointer if nonzero, exiting early if that pointer is cleared.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_0808FB5C.c",
+          "line": 1663,
+          "detail": "Allocates 0x110 bytes and publishes pointer in the same global used by sound-test animation tasks.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0808FB5C.c",
+          "line": 1674,
+          "detail": "Advances states 0 to 1 to 2 to 6, then counts to 61; yields each iteration.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0808FB5C.c",
+          "line": 1683,
+          "detail": "Stops if state reaches 255 or external code clears shared pointer.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0808FB5C.c",
+          "line": 1685,
+          "detail": "Frees the current value of shared heapState096 and clears it when nonzero; this is not a guaranteed free of the original local memory value if shared state was replaced.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0808FB5C.c",
+          "line": 604,
+          "detail": "Sound test uses that shared pointer to gate new animation starts.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "No direct caller or callback registration for this apparently unused routine is present in source; its intended visual effect is unproven."
+      ]
+    }
+  },
+  {
+    "canonical_symbol": "sub_0808FD88",
+    "decision": "fix",
+    "reason": "Up to 23 messages may start; delay loops do not poll their completion. Exit enqueue can fail and final predicate is a request bit, so name must not promise an actual exit.",
+    "corrected_row": {
+      "canonical_symbol": "sub_0808FD88",
+      "address": "0x0808FD88",
+      "display_name": "ShowMessagesAndRequestExit",
+      "summary": "Locks the local event, stops enemy tasks, advances a closing display effect, starts up to 23 timed scene messages with interruptible signal-1 waits, then attempts a parent-or-loopback scene-exit enqueue and waits for its request flag or link error.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_0808FB5C.c",
+          "line": 144,
+          "detail": "Begins local player event and stops enemy tasks on line 145.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0808FB5C.c",
+          "line": 146,
+          "detail": "Repeatedly advances B6068 window closure until its low-byte result is nonzero.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0808FB5C.c",
+          "line": 150,
+          "detail": "Starts messages 0x483..0x499 with iteration limit 0x1A4, breaking after any start if link error is set; otherwise performs up to 0x1A7 signal-1 waits between starts. It does not poll message-task completion.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0808FB5C.c",
+          "line": 154,
+          "detail": "When LinkIsParentOrLoopback is true, calls QueueLinkSceneExitWithDestination once and ignores its success/failure result; line 155 waits only for the area-change request bit or link error, not completed transition.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080B3648.c",
+          "line": 1563,
+          "detail": "B6068 updates window bounds and reports done after tick exceeds 119.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": []
+    }
+  },
+  {
+    "canonical_symbol": "sub_0808FB5C",
+    "decision": "accept",
+    "reason": "Confirmed table alias matches destination-selector map-set 12. +0x72 is spatial: map-update reload path clamps tile y against it minus 20. Initialization, exit branch, transition-idle poll and reset stores match."
+  },
+  {
+    "canonical_symbol": "sub_0808FBDC",
+    "decision": "accept",
+    "reason": "Body selects exact map-set-12 table after window-hide idle polling, clears +0x10, sets +0x36=6 and returns 1 only on that branch; other paths return 0."
+  },
+  {
+    "canonical_symbol": "sub_0808FEB8",
+    "decision": "accept",
+    "reason": "Primary body and extern alias select exact 0850F894 table, independently matched to destination-selector case 15. Initializes only at +0x10==0; exit branch requests window hide/map stop, polls transition idle, writes +0x71C and clears +0x10 before returning 1; other paths return 0."
+  },
+  {
+    "canonical_symbol": "sub_0808FF28",
+    "decision": "accept",
+    "reason": "Primary body and extern alias select exact 08510530 table, independently matched to destination-selector case 16. Initializes only at +0x10==0; exit branch requests window hide/map stop, polls transition idle, writes +0x71C and clears +0x10 before returning 1; other paths return 0."
+  },
+  {
+    "canonical_symbol": "sub_0808FF98",
+    "decision": "accept",
+    "reason": "Primary body and extern alias select exact 08511538 table, independently matched to destination-selector case 17. Initializes only at +0x10==0; exit branch requests window hide/map stop, polls transition idle, writes +0x71C and clears +0x10 before returning 1; other paths return 0."
+  },
+  {
+    "canonical_symbol": "sub_08090008",
+    "decision": "accept",
+    "reason": "Primary body and extern alias select exact 08512670 table, independently matched to destination-selector case 18. Initializes only at +0x10==0; exit branch requests window hide/map stop, polls transition idle, writes +0x71C and clears +0x10 before returning 1; other paths return 0. Additional +0x24/+0x30 stores are present."
+  },
+  {
+    "canonical_symbol": "sub_080901A8",
+    "decision": "accept",
+    "reason": "Primary body and extern alias select exact 08514FAC table, independently matched to destination-selector case 20. Initializes only at +0x10==0; exit branch requests window hide/map stop, polls transition idle, writes +0x71C and clears +0x10 before returning 1; other paths return 0. Additional +0x24/+0x30 stores are present."
+  },
+  {
+    "canonical_symbol": "sub_0809021C",
+    "decision": "accept",
+    "reason": "Exact extern table alias 08515FCC matches selector case 21; body initialization/exit branching, transition-idle polling, current-area table lookup and return values match. Exit also sets +0x24/+0x30 to 1."
+  },
+  {
+    "canonical_symbol": "sub_080903C4",
+    "decision": "accept",
+    "reason": "Exact extern table alias 0851810C matches selector case 23; body initialization/exit branching, transition-idle polling, current-area table lookup and return values match. No extra continuation stores are claimed."
+  },
+  {
+    "canonical_symbol": "sub_0809011C",
+    "decision": "fix",
+    "reason": "Destination role is supported. Correct evidence saying it waits: this is a one-shot predicate branch. +0x74 mask 0x40000 has an established Normal Mode level-19 encounter-clear meaning through the existing mask family.",
+    "corrected_row": {
+      "canonical_symbol": "sub_0809011C",
+      "address": "0x0809011C",
+      "display_name": "UpdateSceneExitDestination",
+      "summary": "Initializes the scene or, after an area-change request, selects map-set 0 area 2, clears the request and encounter-active flags, marks Normal Mode level-19 encounter cleared, resets local-player state and writes continuation fields; always returns 0.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_0808FB5C.c",
+          "line": 330,
+          "detail": "Calls common initialization when scene +0x10 is zero; otherwise tests the area-change request predicate once. This function has no wait loop and always returns 0 at line 343.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0808FB5C.c",
+          "line": 332,
+          "detail": "Selects destination (0,2), clears exit flag and clears scene encounter-active flag.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0808FB5C.c",
+          "line": 337,
+          "detail": "Sets +0x36 to 1 and ORs mask 0x40000 into scene word +0x74.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0808FB5C.c",
+          "line": 339,
+          "detail": "Clears local player flag mask 2 and state +0x20, then sets scene +0x30/+0x24 to 1.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08021DC4.c",
+          "line": 4078,
+          "detail": "Destination selector clears initialization and stores area +0x40/map-set +0, establishing destination semantics.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080571A4.c",
+          "line": 513,
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7",
+          "detail": "IsLevelEncounterCleared tests 1<<(level-1) in scene+0x74 for Normal Mode; bit 18 (0x40000) written by the reviewed body therefore records level-19 encounter clear. MarkLevelEncounterCleared performs the paired write at lines 520-525."
+        }
+      ],
+      "open_questions": [
+        "The independent meanings of scene continuation halfwords +0x24/+0x30 remain unproven."
+      ]
+    }
+  }
+]

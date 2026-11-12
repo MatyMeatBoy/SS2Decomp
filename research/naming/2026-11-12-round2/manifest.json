@@ -1,0 +1,14 @@
+{
+  "source_revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7",
+  "functions_researched": 115,
+  "accepted": 104,
+  "deferred": 11,
+  "draft_file": "tools/config/name_drafts/codex-sol-low-20261112-2.json",
+  "policy": "Only accepted rows go into function_names.json; original proposals and independent decisions are frozen here for audit.",
+  "mechanical_name_corrections": {
+    "sub_080215E4": "TaskDrawShortEffect",
+    "sub_0800CEB0": "RequestEffectAnimationStop",
+    "sub_0800CED8": "IsEffectAnimationStopRequested"
+  },
+  "note": "Name packet placeholder regex treats some valid words adjacent to Effect as hexadecimal; role-preserving alternative names avoid that false positive."
+}
