@@ -1,0 +1,506 @@
+[
+  {
+    "canonical_symbol": "sub_0808D594",
+    "address": "0x0808D594",
+    "display_name": "HandleWizariBossScene",
+    "summary": "Area scene handler for the Wizari fight: on the first call performs standard scene setup and starts TaskWizariBossBattle; later calls return 0 until an area change is requested, then pick the exit destination, mark the level encounter cleared, reset the local player state and return 1.",
+    "confidence": "medium",
+    "evidence": [
+      {
+        "source": "src/code_0808D4A8.c",
+        "line": 121,
+        "detail": "On first call registers TaskWizariBossBattle with sub_0809D574 as finalizer through StartEnemyPoolActorTask.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_0808D4A8.c",
+        "line": 100,
+        "detail": "Afterwards waits for IsSceneAreaChangeRequested before running the exit path.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_0808D4A8.c",
+        "line": 108,
+        "detail": "On exit marks the level encounter cleared with MarkLevelEncounterCleared and returns 1.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      }
+    ],
+    "open_questions": []
+  },
+  {
+    "canonical_symbol": "sub_0808DA94",
+    "address": "0x0808DA94",
+    "display_name": "HandleFairyPrincessBossScene",
+    "summary": "Area scene handler for the Fairy Princess fight: on the first call performs standard scene setup and starts TaskFairyPrincessBossBattle; later calls return 0 until an area change is requested, then pick the exit destination, mark the level encounter cleared, reset the local player state and return 1.",
+    "confidence": "high",
+    "evidence": [
+      {
+        "source": "src/code_0808D4A8.c",
+        "line": 437,
+        "detail": "On first call registers TaskFairyPrincessBossBattle with sub_0809F8C8 as finalizer through StartEnemyPoolActorTask.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_0808D4A8.c",
+        "line": 416,
+        "detail": "Afterwards waits for IsSceneAreaChangeRequested before running the exit path.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_0808D4A8.c",
+        "line": 424,
+        "detail": "On exit marks the level encounter cleared with MarkLevelEncounterCleared and returns 1.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      }
+    ],
+    "open_questions": []
+  },
+  {
+    "canonical_symbol": "sub_0808E2FC",
+    "address": "0x0808E2FC",
+    "display_name": "HandleOswaldBossScene",
+    "summary": "Area scene handler for the Oswald fight: on the first call performs standard scene setup and starts TaskOswaldBossBattle; later calls return 0 until an area change is requested, then pick the exit destination, mark the level encounter cleared, reset the local player state and return 1.",
+    "confidence": "high",
+    "evidence": [
+      {
+        "source": "src/code_0808D4A8.c",
+        "line": 840,
+        "detail": "On first call registers TaskOswaldBossBattle with sub_080A2698 as finalizer through StartEnemyPoolActorTask.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_0808D4A8.c",
+        "line": 820,
+        "detail": "Afterwards waits for IsSceneAreaChangeRequested before running the exit path.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_0808D4A8.c",
+        "line": 828,
+        "detail": "On exit marks the level encounter cleared with MarkLevelEncounterCleared and returns 1.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      }
+    ],
+    "open_questions": []
+  },
+  {
+    "canonical_symbol": "sub_0808E88C",
+    "address": "0x0808E88C",
+    "display_name": "HandleDarkAngelBossScene",
+    "summary": "Area scene handler for the Dark Angel fight: on the first call performs standard scene setup and starts TaskDarkAngelBossBattle; later calls return 0 until an area change is requested, then pick the exit destination, mark the level encounter cleared, reset the local player state and return 1.",
+    "confidence": "high",
+    "evidence": [
+      {
+        "source": "src/code_0808D4A8.c",
+        "line": 1127,
+        "detail": "On first call registers TaskDarkAngelBossBattle with sub_080A7DEC as finalizer through StartEnemyPoolActorTask.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_0808D4A8.c",
+        "line": 1105,
+        "detail": "Afterwards waits for IsSceneAreaChangeRequested before running the exit path.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_0808D4A8.c",
+        "line": 1113,
+        "detail": "On exit marks the level encounter cleared with MarkLevelEncounterCleared and returns 1.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      }
+    ],
+    "open_questions": []
+  },
+  {
+    "canonical_symbol": "sub_0808EBF4",
+    "address": "0x0808EBF4",
+    "display_name": "HandleHottazhekGuardianBossScene",
+    "summary": "Area scene handler for the Hottazhek fire guardian fight: on the first call performs standard scene setup and starts TaskHottazhekGuardianBossBattle; later calls return 0 until an area change is requested, then pick the exit destination, mark the level encounter cleared, reset the local player state and return 1.",
+    "confidence": "high",
+    "evidence": [
+      {
+        "source": "src/code_0808D4A8.c",
+        "line": 1304,
+        "detail": "On first call registers TaskHottazhekGuardianBossBattle with sub_080A97E0 as finalizer through StartEnemyPoolActorTask.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_0808D4A8.c",
+        "line": 1283,
+        "detail": "Afterwards waits for IsSceneAreaChangeRequested before running the exit path.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_0808D4A8.c",
+        "line": 1291,
+        "detail": "On exit marks the level encounter cleared with MarkLevelEncounterCleared and returns 1.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      }
+    ],
+    "open_questions": []
+  },
+  {
+    "canonical_symbol": "sub_0808EF54",
+    "address": "0x0808EF54",
+    "display_name": "HandleDeatharteBossScene",
+    "summary": "Area scene handler for the Deatharte fight: on the first call performs standard scene setup and starts TaskDeatharteBossBattle; later calls return 0 until an area change is requested, then pick the exit destination, mark the level encounter cleared, reset the local player state and return 1.",
+    "confidence": "high",
+    "evidence": [
+      {
+        "source": "src/code_0808D4A8.c",
+        "line": 1485,
+        "detail": "On first call registers TaskDeatharteBossBattle with sub_080AB2D8 as finalizer through StartEnemyPoolActorTask.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_0808D4A8.c",
+        "line": 1470,
+        "detail": "Afterwards waits for IsSceneAreaChangeRequested before running the exit path.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_0808D4A8.c",
+        "line": 1477,
+        "detail": "On exit marks the level encounter cleared with MarkLevelEncounterCleared and returns 1.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      }
+    ],
+    "open_questions": []
+  },
+  {
+    "canonical_symbol": "sub_0808E000",
+    "address": "0x0808E000",
+    "display_name": "HandleCaptainRobertBossScene",
+    "summary": "Area scene handler for the Captain Robert fight: on the first call marks the encounter active, performs scene setup and starts TaskCaptainRobertBossBattle; later, once an area change is requested, hides the screen window, loads the next area from table 084FD06C and returns 1.",
+    "confidence": "medium",
+    "evidence": [
+      {
+        "source": "src/code_0808D4A8.c",
+        "line": 648,
+        "detail": "Starts TaskCaptainRobertBossBattle with finalizer sub_080AC81C via StartEnemyPoolActorTask.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_0808D4A8.c",
+        "line": 652,
+        "detail": "Waits for IsSceneAreaChangeRequested.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_0808D4A8.c",
+        "line": 654,
+        "detail": "Requests RequestScreenWindowHide(3) before switching area.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      }
+    ],
+    "open_questions": []
+  },
+  {
+    "canonical_symbol": "sub_0808E774",
+    "address": "0x0808E774",
+    "display_name": "HandleDarkAngelCloudDuelScene",
+    "summary": "Area scene handler that starts RunDarkAngelCloudDuelIntro as an enemy-pool task (no finalizer) on the first call and returns 1 once an area change is requested.",
+    "confidence": "medium",
+    "evidence": [
+      {
+        "source": "src/code_0808D4A8.c",
+        "line": 1040,
+        "detail": "Starts RunDarkAngelCloudDuelIntro via StartEnemyPoolActorTask with a null finalizer.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_0808D4A8.c",
+        "line": 1045,
+        "detail": "Waits for IsSceneAreaChangeRequested.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      }
+    ],
+    "open_questions": []
+  },
+  {
+    "canonical_symbol": "sub_0809D574",
+    "address": "0x0809D574",
+    "display_name": "CleanupWizariBossTask",
+    "summary": "Finalizer registered with the Wizari boss task: frees that boss's attack task pools when the boss actor still exists, clears the peer rings and active-enemy mask and releases its shared enemy palette slot.",
+    "confidence": "medium",
+    "evidence": [
+      {
+        "source": "src/code_08097E28.c",
+        "line": 2910,
+        "detail": "Stops the orb charge song 0xE6.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_08097E28.c",
+        "line": 2912,
+        "detail": "Calls FreeOrbTaskPool.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_08097E28.c",
+        "line": 2913,
+        "detail": "Calls FreeKnockbackAuraTaskPool.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_08097E28.c",
+        "line": 2914,
+        "detail": "Calls FreeHelperEnemyTaskPool.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_08097E28.c",
+        "line": 2917,
+        "detail": "Clears active-enemy mask 030056FC.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_08097E28.c",
+        "line": 2918,
+        "detail": "Releases the shared enemy palette slot.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      }
+    ],
+    "open_questions": []
+  },
+  {
+    "canonical_symbol": "sub_0809F8C8",
+    "address": "0x0809F8C8",
+    "display_name": "CleanupFairyPrincessBossTask",
+    "summary": "Finalizer registered with the Fairy Princess boss task: frees that boss's attack task pools when the boss actor still exists, clears the peer rings and active-enemy mask and releases its shared enemy palette slot.",
+    "confidence": "high",
+    "evidence": [
+      {
+        "source": "src/code_0809D878.c",
+        "line": 1286,
+        "detail": "Calls FreeOrbitRingTaskControl.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_0809D878.c",
+        "line": 1287,
+        "detail": "Calls FreeTrackStrikeTaskPool.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_0809D878.c",
+        "line": 1288,
+        "detail": "Frees the raster-effect task control 03000318.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_0809D878.c",
+        "line": 1289,
+        "detail": "Calls CancelScreenShakeAndFreeControl.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_0809D878.c",
+        "line": 1292,
+        "detail": "Clears active-enemy mask 030056FC.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_0809D878.c",
+        "line": 1293,
+        "detail": "Releases the shared enemy palette slot.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      }
+    ],
+    "open_questions": []
+  },
+  {
+    "canonical_symbol": "sub_080A2698",
+    "address": "0x080A2698",
+    "display_name": "CleanupOswaldBossTask",
+    "summary": "Finalizer registered with the Oswald boss task: frees that boss's attack task pools when the boss actor still exists, clears the peer rings and active-enemy mask and releases its shared enemy palette slot.",
+    "confidence": "high",
+    "evidence": [
+      {
+        "source": "src/code_0809D878.c",
+        "line": 2876,
+        "detail": "Frees Oswald's two attack task pools through sub_080A1F88.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_0809D878.c",
+        "line": 2879,
+        "detail": "Clears active-enemy mask 030056FC.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_0809D878.c",
+        "line": 2880,
+        "detail": "Releases the shared enemy palette slot.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      }
+    ],
+    "open_questions": []
+  },
+  {
+    "canonical_symbol": "sub_080A7DEC",
+    "address": "0x080A7DEC",
+    "display_name": "CleanupDarkAngelBossTask",
+    "summary": "Finalizer registered with the Dark Angel boss task: frees that boss's attack task pools when the boss actor still exists, clears the peer rings and active-enemy mask and releases its shared enemy palette slot.",
+    "confidence": "high",
+    "evidence": [
+      {
+        "source": "src/code_080A3D2C.c",
+        "line": 2240,
+        "detail": "Calls FreeFallingProjectileTaskPool.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_080A3D2C.c",
+        "line": 2241,
+        "detail": "Calls FreeCurvingProjectileTaskPool.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_080A3D2C.c",
+        "line": 2242,
+        "detail": "Calls FreePlayerStrikeTaskControl.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_080A3D2C.c",
+        "line": 2243,
+        "detail": "Calls FreeBlendOverlayTaskControl.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_080A3D2C.c",
+        "line": 2244,
+        "detail": "Stops song 0x1A1.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_080A3D2C.c",
+        "line": 2248,
+        "detail": "Releases the shared enemy palette slot.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      }
+    ],
+    "open_questions": []
+  },
+  {
+    "canonical_symbol": "sub_080A97E0",
+    "address": "0x080A97E0",
+    "display_name": "CleanupHottazhekGuardianTask",
+    "summary": "Finalizer registered with the Hottazhek guardian boss task: frees that boss's attack task pools when the boss actor still exists, clears the peer rings and active-enemy mask and releases its shared enemy palette slot.",
+    "confidence": "high",
+    "evidence": [
+      {
+        "source": "src/code_080A9680.c",
+        "line": 99,
+        "detail": "Calls FreeSegmentedProjectilePool.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_080A9680.c",
+        "line": 102,
+        "detail": "Clears active-enemy mask 030056FC.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_080A9680.c",
+        "line": 103,
+        "detail": "Releases the shared enemy palette slot.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      }
+    ],
+    "open_questions": []
+  },
+  {
+    "canonical_symbol": "sub_080AB2D8",
+    "address": "0x080AB2D8",
+    "display_name": "CleanupDeatharteBossTask",
+    "summary": "Finalizer registered with TaskDeatharteBossBattle: clears the peer rings and active-enemy mask and releases the boss's shared enemy palette slot.",
+    "confidence": "high",
+    "evidence": [
+      {
+        "source": "src/code_080A9680.c",
+        "line": 1095,
+        "detail": "Calls LinkClearConnectedPeerRings.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_080A9680.c",
+        "line": 1096,
+        "detail": "Clears active-enemy mask 030056FC.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_080A9680.c",
+        "line": 1097,
+        "detail": "Releases the shared enemy palette slot 03000430.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      }
+    ],
+    "open_questions": []
+  },
+  {
+    "canonical_symbol": "sub_080AC81C",
+    "address": "0x080AC81C",
+    "display_name": "CleanupCaptainRobertBossTask",
+    "summary": "Finalizer registered with TaskCaptainRobertBossBattle: stops song 0xC2, clears the peer rings and active-enemy mask and releases the shared enemy palette slot.",
+    "confidence": "medium",
+    "evidence": [
+      {
+        "source": "src/code_080A9680.c",
+        "line": 1992,
+        "detail": "Stops song 0xC2 with AudioStopSongWrapper.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_080A9680.c",
+        "line": 1994,
+        "detail": "Clears active-enemy mask 030056FC.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_080A9680.c",
+        "line": 1995,
+        "detail": "Releases the shared enemy palette slot 03000438.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      }
+    ],
+    "open_questions": []
+  },
+  {
+    "canonical_symbol": "sub_080A1F88",
+    "address": "0x080A1F88",
+    "display_name": "FreeOswaldAttackTaskPools",
+    "summary": "Stops song 0xC2, then cancels and frees the two eight-control attack task pools at 03000350 and 03000354 used during the Oswald fight.",
+    "confidence": "medium",
+    "evidence": [
+      {
+        "source": "src/code_0809D878.c",
+        "line": 2662,
+        "detail": "Stops song 0xC2.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_0809D878.c",
+        "line": 2667,
+        "detail": "Cancels each scheduled task of the first pool.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_0809D878.c",
+        "line": 2671,
+        "detail": "Frees pool 03000350.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_0809D878.c",
+        "line": 2682,
+        "detail": "Frees pool 03000354.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      }
+    ],
+    "open_questions": [
+      "The tasks in these pools are not identified yet."
+    ]
+  }
+]
