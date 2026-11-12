@@ -4868,10 +4868,7 @@ animationClassDoneD368:
                             if ((d368_gUnk_03002344 & 1) != (1 & ((struct PlayerD368 *)arg0)->f0)) {
 
                             } else {
-                                var_r1_26 = coordF0;
-                                var_r2_16 = coordF2;
-                                var_r0_37 = (u16) coordF8;
-                                goto block_1768;
+                                d368_sub_08065230(&sp44.f0, coordF0, coordF2, 0xDU, ((s32) (u16) coordF8));
                             }
                         }
                         break;
@@ -4884,8 +4881,7 @@ animationClassDoneD368:
                             if ((d368_gUnk_03002344 & renderMaskD368) != (1 & ((struct PlayerD368 *)arg0)->f0)) {
 
                             } else {
-                                var_r1_27 = coordF0;
-                                goto block_1771;
+                                d368_sub_080659BC(&sp44, coordF0, coordF2, 0xF, ((s32) (u16) coordF8), (renderMaskD368));
                             }
                         }
                         break;
@@ -4893,7 +4889,11 @@ animationClassDoneD368:
                         if (d368_sub_0800CC98() != 0) {
                             goto renderDoneD368;
                         }
-                        goto shared27_8;
+                        d368_sub_08065370(&sp44, 0xAU, (u16 *) &coordF8, &coordFA, (1));
+                        if ((d368_gUnk_03002344 & 1) == (1 & ((struct PlayerD368 *)arg0)->f0)) {
+                            d368_sub_08065230(&sp44.f0, coordF0, coordF2, 0xAU, ((s32) (u16) coordF8));
+                        }
+                        break;
                     case 11:                        /* switch 26 */
                         temp_r0_165 = d368_sub_0800CC98();
                         if (temp_r0_165 != 0) {
@@ -5081,24 +5081,17 @@ block_1716:
                                     if ((d368_gUnk_03002344 & 1) != (1 & ((struct PlayerD368 *)arg0)->f0)) {
 
                                     } else {
-                                        var_r1_26 = coordF0;
-                                        var_r2_16 = coordF2;
-                                        var_r0_37 = (u16) coordF8;
-block_1768:
-                                d368_sub_08065230(&sp44.f0, var_r1_26, var_r2_16, 0xDU, ((s32) var_r0_37));
+                                d368_sub_08065230(&sp44.f0, coordF0, coordF2, 0xDU, ((s32) (u16) coordF8));
                                     }
                                     break;
                                 case 6:             /* switch 27 */
                                     renderMaskD368 = 1;
                                     d368_sub_08065370(&sp44, 0xFU, (u16 *) &coordF8, &coordFA, (renderMaskD368));
                                     if (d368_gUnk_03002344 & renderMaskD368) {
-                                        var_r1_27 = coordF0;
-block_1771:
-                                d368_sub_080659BC(&sp44, var_r1_27, coordF2, 0xF, ((s32) (u16) coordF8), (renderMaskD368));
+                                d368_sub_080659BC(&sp44, coordF0, coordF2, 0xF, ((s32) (u16) coordF8), (renderMaskD368));
                                     }
                                     break;
                                 case 8:             /* switch 27 */
-                        shared27_8:
                             d368_sub_08065370(&sp44, 0xAU, (u16 *) &coordF8, &coordFA, (1));
                             if ((d368_gUnk_03002344 & 1) == (1 & ((struct PlayerD368 *)arg0)->f0)) {
                                 d368_sub_08065230(&sp44.f0, coordF0, coordF2, 0xAU, ((s32) (u16) coordF8));
