@@ -224,10 +224,10 @@ void sub_080013F8(void)
 }
 void sub_08001404(void)
 {
-    register volatile struct MemBlock *root asm("r1") = &gUnk_02000010;
+    volatile struct MemBlock *root = &gUnk_02000010;
     struct Heap *heap;
     register struct MemBlock *block asm("r2");
-    register u32 start asm("r8") = EWRAM_START;
+    u32 start = EWRAM_START;
     register u32 usedBit asm("r6");
     u32 flags;
     *(volatile u32 *)root = start;
@@ -299,7 +299,7 @@ void *sub_08001494(u32 size)
 void sub_08001538_free(void *) asm("sub_08001538");
 void sub_08001538_free(void *pointer)
 {
-    register struct MemBlock *block asm("r4") = (struct MemBlock *)((u8 *)pointer - 16);
+    struct MemBlock *block = (struct MemBlock *)((u8 *)pointer - 16);
     register struct MemBlock *next asm("r5");
     struct MemBlock *previous;
     struct MemBlock *limit;

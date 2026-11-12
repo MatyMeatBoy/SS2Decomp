@@ -17,6 +17,15 @@ if "--log" in sys.argv:
     args.remove(sys.argv[sys.argv.index("--log") + 1])
 PIN = re.compile(r'\bregister\s+([^;=(){}]*?)\s+asm\("r\d+"\)')
 ASM = re.compile(r'\basm(?:\s+volatile)?\s*\(\s*""[^;]*?\)\s*;')
+def put(path, text):
+    """Write with retries: Windows can refuse a write while another process scans the file."""
+    import time
+    for k in range(20):
+        try:
+            open(path, "wb").write(text.encode()); return
+        except OSError:
+            time.sleep(0.5)
+    open(path, "wb").write(text.encode())
 def say(*a):
     print(*a, flush=True)
     if log: print(*a, file=log, flush=True)
@@ -44,14 +53,14 @@ for mod in args:
         else:
             new = text[:a] + text[b:]
         tried += 1
-        open(path, "wb").write(new.encode())
+        put(path, new)
         h = build(mod)
         line = text[:a].count("\n") + 1
         if h == base:
             kept += 1; text = new; pos = a
             say("%s:%d removed %s" % (mod, line, kind))
         else:
-            open(path, "wb").write(text.encode()); pos = b
-    open(path, "wb").write(text.encode())
+            put(path, text); pos = b
+    put(path, text)
     assert build(mod) == base, "final object differs"
     say("%s: removed %d of %d devices" % (mod, kept, tried))

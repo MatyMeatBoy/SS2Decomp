@@ -168,13 +168,13 @@ void sub_0800232C(void) {
     register u32 menuInput asm("r1");
     register u32 rightMask asm("r2");
     u32 navigationCondition;
-    register u32 navigationCopy asm("r0");
-    register u32 configValue asm("r0");
-    register s32 var_r6 asm("r6");
+    u32 navigationCopy;
+    u32 configValue;
+    s32 var_r6;
     u32 var_r4;
     u32 var_r4_2;
 
-    asm("" : "=r"(var_r6));
+    
     temp_r0 = sub_0801AB24();
     if (temp_r0 == 0) {
         sub_08000A34(1, 0, 0, 0, temp_r0);
@@ -183,7 +183,7 @@ void sub_0800232C(void) {
         sp38 = (sp38 & 0xFFFF0000) | 0x1C08;
         sub_08000AA8(0U, (u16 *) &sp38);
         configValue=0x1D03;
-        asm("" : : "r"(configValue));
+        
         *(u16 *)&sp38 = configValue;
         sub_08000AA8(1U, (u16 *) &sp38);
         sub_0800BCDC(0, 1, 0x06000000, 0U, 0x10U);
@@ -194,13 +194,13 @@ void sub_0800232C(void) {
         sub_080009F8(0xF00, 0, 1);
         sub_080009C0(0x200, 0, 1);
         zero=0;
-        asm("" : "+r"(zero));
+        
         configValue=0x1C08;
-        asm("" : : "r"(configValue));
+        
         *(u16 *)&sp38 = configValue;
         sub_08000AA8(0U, (u16 *) &sp38);
         configValue=0x1D03;
-        asm("" : : "r"(configValue));
+        
         *(u16 *)&sp38 = configValue;
         sub_08000AA8(1U, (u16 *) &sp38);
         sub_0800BCDC(0, 1, 0x06000000, 0U, 0x10U);
@@ -260,9 +260,9 @@ void sub_0800232C(void) {
                 var_r6 = 0x20;
             } else if (0x80 & menuInput) {
                 navigationCopy=var_r6;
-                asm("" : : "r"(navigationCopy));
+                
                 navigationCondition=navigationCopy & rightMask;
-                asm("" : : "r"(rightMask));
+                
                 if (navigationCondition) {
                     sub_08006D08(0xEU);
                     var_r4_2 = 4;
@@ -294,15 +294,15 @@ block_30:
             }
             if (0x40 & menuInput) {
                 navigationCopy=var_r6;
-                asm("" : : "r"(navigationCopy));
+                
                 navigationCondition=navigationCopy & rightMask;
-                asm("" : : "r"(rightMask));
+                
                 if (navigationCondition) {
                     var_r4_2 = 1;
                     asm("" : : "r"(var_r4_2));
                 } else {
                     var_r4_2 = 0;
-                    asm("" : : "r"(var_r4_2));
+                    
                 }
                 goto block_46;
             }
@@ -1029,7 +1029,7 @@ void sub_08002B70_(void)
             if (saves[i].used)
                 pal2B70(i + 16, chars[i].fC + saves[i].pal * 32, 1);
             {
-                register u32 off asm("r1") = i * 8;
+                u32 off = i * 8;
                 register u32 tableX asm("r2");
                 register u32 tableY asm("r3");
                 register u32 address asm("r0");
@@ -1038,7 +1038,7 @@ void sub_08002B70_(void)
                 tableX = (u32)pos2B70;
                 address = off + tableX;
                 /* Preserve the X address before loading the separate Y table. */
-                asm("" : : "r"(address));
+                
                 x = *(s32 *)address;
                 tableY = (u32)posY2B70;
                 y = *(s32 *)(off + tableY);
@@ -1284,7 +1284,7 @@ void sub_08003984(u8 *arg0, s32 arg1) {
     u8 *temp_r2_6;
     u8 *temp_r3;
     u8 *temp_r3_3;
-    register u8 *temp_r4_19 asm("r4");
+    u8 *temp_r4_19;
     u8 *temp_r4_7;
     u8 *temp_r5;
     u8 *temp_r5_13;
@@ -1333,7 +1333,7 @@ void sub_08003984(u8 *arg0, s32 arg1) {
     bg.half = 0x1F03;
     sub_08000AA8(3U, &bg.half);
     {
-        register u32 vramC7 asm("r4") = 0x06000000;
+        u32 vramC7 = 0x06000000;
         register u32 paletteC7 asm("r5") = 0xF;
         sub_0800BCDC(0x15, 3, vramC7, 0U, paletteC7);
         sub_0800BCDC(0x16, 2, vramC7, 0U, paletteC7);
@@ -1354,7 +1354,7 @@ void sub_08003984(u8 *arg0, s32 arg1) {
         temp_r1 = var_r6 * 2;
         x[var_r6] = setupZero3984;
         {
-            register u32 initWidthC8 asm("r0") = (u32)widths;
+            u32 initWidthC8 = (u32)widths;
             initWidthC8 += temp_r1;
             *(u16 *)initWidthC8 = setupZero3984;
         }
@@ -1656,12 +1656,12 @@ loop_107:
             var_r7 = ((u8 *(*)(s32))sub_08007290)((state + 0x454) | 0x140000);
             var_r7 += 2;
             {
-                register u32 titleWidthC8 asm("r0");
-                register u32 titleBaseC8 asm("r2");
+                u32 titleWidthC8;
+                u32 titleBaseC8;
                 register u32 titleIndexC8 asm("r4");
-                register u16 *titleXC8 asm("r5");
-                register u16 *titleYC8 asm("r4");
-                register s32 titleXValueC8 asm("r1");
+                u16 *titleXC8;
+                u16 *titleYC8;
+                s32 titleXValueC8;
                 titleWidthC8 = sub_0801A638(var_r7);
                 titleBaseC8 = (u32)&gUnk_08366E0C;
                 titleIndexC8 = state * 4;
@@ -1847,14 +1847,14 @@ loop_107:
 block_175:
             var_r7 = ((u8 *(*)(s32))sub_08007290)((M2C_FIELD(arg0, u8 *, 2) + 0x4C5) | 0x140000);
             if (state != 2) {
-                register u32 menuIndexC9 asm("r2");
+                u32 menuIndexC9;
                 u32 menuLanguageC9;
                 temp_r5_13 = var_r7 + 2;
                 {
-                    register u32 titleWidthC9 asm("r0");
-                    register u32 titleBaseC9 asm("r2");
+                    u32 titleWidthC9;
+                    u32 titleBaseC9;
                     u32 titleIndexC9;
-                    register u32 titleXValueC9 asm("r1");
+                    u32 titleXValueC9;
                     titleWidthC9 = sub_0801A638(temp_r5_13);
                     titleBaseC9 = (u32)&gUnk_08366E0C;
                     titleIndexC9 = state * 4;
@@ -1974,10 +1974,10 @@ block_198:
                 var_r7 = var_r7 + 2;
                 textWidth3984 = sub_0801A638(var_r7);
                 {
-                    register u32 longBaseC9 asm("r2");
+                    u32 longBaseC9;
                     u32 longStateC9;
                     register u32 longIndexC9 asm("r4");
-                    register s32 longXC9 asm("r1");
+                    s32 longXC9;
                     longBaseC9 = (u32)&gUnk_08366E0C;
                     longStateC9 = state;
                     longIndexC9 = longStateC9 * 4;
@@ -2360,10 +2360,10 @@ block_374:
         }
         var_r8 = 0x34;
         {
-            register u8 *drawSpriteC8 asm("r0");
-            register u32 drawIndexC8 asm("r2");
-            register u32 drawBaseC8 asm("r3");
-            register u32 drawXC8 asm("r1");
+            u8 *drawSpriteC8;
+            u32 drawIndexC8;
+            u32 drawBaseC8;
+            u32 drawXC8;
             drawSpriteC8 = (u8 *)icons + var_r8 * var_r6;
             drawIndexC8 = var_r6 * 4;
             drawBaseC8 = (u32)&gUnk_08366E0C;
@@ -2394,12 +2394,12 @@ block_374:
                 }
             }
             {
-                register u8 *drawSpriteC7 asm("r0");
-                register u8 *drawBaseC7 asm("r2");
-                register u32 drawIndexC7 asm("r3");
-                register s32 drawXC7 asm("r1");
+                u8 *drawSpriteC7;
+                u8 *drawBaseC7;
+                u32 drawIndexC7;
+                s32 drawXC7;
                 s32 drawYC7;
-                register u32 ninthWidthC9 asm("r4");
+                u32 ninthWidthC9;
                 drawSpriteC7 = (u8 *)&icons[var_r6];
                 drawBaseC7 = (u8 *)&gUnk_08366E0C;
                 drawIndexC7 = var_r6 * 4;

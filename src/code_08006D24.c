@@ -142,15 +142,15 @@ s32 sub_08006EE0(s32 value, s32 *archive)
     }
     switch (kind) {
     case 0: case 2:
-        { u32 offset = (value & 0xFFFF) << 2; register u8 *entry asm("r1") = resource + 4; entry += offset; resource += *(u32 *)entry; }; break;
+        { u32 offset = (value & 0xFFFF) << 2; u8 *entry = resource + 4; entry += offset; resource += *(u32 *)entry; }; break;
     case 5:
-        { u32 offset = (value & 0xFFFF) << 2; register u8 *entry asm("r1") = resource + 4; entry += offset; resource += *(u32 *)entry; }; break;
+        { u32 offset = (value & 0xFFFF) << 2; u8 *entry = resource + 4; entry += offset; resource += *(u32 *)entry; }; break;
     case 4:
-        { u32 offset = (value & 0xFFFF) << 2; register u8 *entry asm("r1") = resource + 4; entry += offset; resource += *(u32 *)entry; }; break;
+        { u32 offset = (value & 0xFFFF) << 2; u8 *entry = resource + 4; entry += offset; resource += *(u32 *)entry; }; break;
     case 1: case 3: case 6:
-        { u32 offset = ((value & 0xFFFF) * 2) << 2; register u8 *entry asm("r1") = resource + 4; entry += offset; resource += *(u32 *)entry; }; break;
+        { u32 offset = ((value & 0xFFFF) * 2) << 2; u8 *entry = resource + 4; entry += offset; resource += *(u32 *)entry; }; break;
     case 7: case 8: case 9:
-        { u32 offset = ((value & 0xFFFF) * 2 + 1) << 2; register u8 *entry asm("r1") = resource + 4; entry += offset; resource += *(u32 *)entry; }; break;
+        { u32 offset = ((value & 0xFFFF) * 2 + 1) << 2; u8 *entry = resource + 4; entry += offset; resource += *(u32 *)entry; }; break;
     }
     return (s32)resource;
 }
@@ -486,13 +486,13 @@ extern struct Draw7870 *tail7870 asm("gUnk_030028C4");
 extern u32 count7870 asm("gUnk_030028C8");
 extern struct Draw7870 entries7870[] asm("gUnk_030028D0");
 s32 sub_08007870(s32 arg0, s32 arg1, u32 arg2, u32 arg3, s32 arg4, s32 arg5, s32 arg6, s32 arg7) {
-    register u32 temp_r5 asm("r5"); register s32 x7870 asm("r8")=arg0; register s32 y7870 asm("r6")=arg1; 
+    register u32 temp_r5 asm("r5"); s32 x7870=arg0; register s32 y7870 asm("r6")=arg1; 
     struct Draw7870 *temp_r0; register u32 priorityInput7870 asm("r0"); register u32 a7870 asm("ip"); u32 b7870;
     struct Draw7870 *temp_r1; register u32 *countAddr7870 asm("r2"); u32 countValue7870;
     struct Draw7870 *temp_r4;
-    struct Draw7870 *var_r1; register struct Draw7870 **tailAddr7870 asm("r3"); register struct Draw7870 **headAddr7870 asm("r2");
+    struct Draw7870 *var_r1; struct Draw7870 **tailAddr7870; struct Draw7870 **headAddr7870;
 
-    priorityInput7870=arg4; asm("" : "+r"(priorityInput7870), "+r"(arg2), "+r"(arg3)); a7870=(u16)arg2; asm("" : "+r"(a7870)); b7870=(u16)arg3; asm("" : "+r"(b7870)); temp_r5=(u8)priorityInput7870;
+    priorityInput7870=arg4;  a7870=(u16)arg2;  b7870=(u16)arg3;  temp_r5=(u8)priorityInput7870;
     countAddr7870=&count7870; countValue7870=*countAddr7870; if (countValue7870 > 0x31U) {
         return 0;
     }
@@ -508,11 +508,11 @@ s32 sub_08007870(s32 arg0, s32 arg1, u32 arg2, u32 arg3, s32 arg4, s32 arg5, s32
     temp_r4->data1 = arg7;
     temp_r4->prev = NULL;
     temp_r4->next = NULL;
-    asm("" ::: "r8"); temp_r4->bit3 = 0; temp_r4->bits4 = 0;
+     temp_r4->bit3 = 0; temp_r4->bits4 = 0;
     temp_r4->field24 = 0;
     temp_r4->field26 = 0;
     temp_r4->field28 = 0;
-    temp_r1=tail7870; asm("" : "+r"(temp_r1) : : "r3"); tailAddr7870=&tail7870;
+    temp_r1=tail7870;  tailAddr7870=&tail7870;
     if(temp_r1==0) {
         head7870=temp_r4;
         *tailAddr7870=temp_r4;
@@ -544,7 +544,7 @@ append:
     temp_r0=*tailAddr7870;
     temp_r0->next=temp_r4;
     temp_r4->prev=temp_r0;
-    { register u32 zero7870 asm("r0")=0; asm("" : "+r"(zero7870)); temp_r4->next=(struct Draw7870 *)zero7870; }
+    { register u32 zero7870 asm("r0")=0;  temp_r4->next=(struct Draw7870 *)zero7870; }
     *tailAddr7870=temp_r4;
 done:
     return (s32)temp_r4;

@@ -38,19 +38,19 @@ extern void bg9138(u32,void *) asm("sub_08000AA8");
 extern u32 *record9138(u32) asm("sub_08007290");
 void sub_08009138(s32 *arg0, s32 arg1) {
     union Bg9138 bg;
-    register u32 *tiles asm("r6");
+    u32 *tiles;
     u32 *palette;
     u16 i;
     s32 level = arg1;
-    register u32 alloc asm("r9"); /* Original reads incoming r9 before freeing it. */
+    u32 alloc; /* Original reads incoming r9 before freeing it. */
     mode9138(0,0);
     enable9138(0x1f00,0,1);
     bg.bits.value = 0x1c08;
     bg9138(0,&bg.raw);
     if (level == 6) {
-        register u8 *base asm("r0") = (u8 *)levels9138;
-        register u32 off asm("r1") = 0x2b8;
-        asm("" : "+r"(base), "+r"(off));
+        u8 *base = (u8 *)levels9138;
+        u32 off = 0x2b8;
+        
         base += off;
         asm("" : "+r"(base));
         bg.raw = 0x1d40 | ((struct Level9138 *)base)->flags;
@@ -558,31 +558,31 @@ void sub_0800A03C(void)
     if ((u16)(animState005.area - 7) <= 1 && sub_0800CDC0())
         return;
     {
-        register u32 index asm("r6") = 0;
+        u32 index = 0;
         register struct MapAnim005 *base asm("ip") = &animState005;
-        register struct MapPeriods005 *periods asm("r8");
-        register u16 *limitBase asm("r1");
-        register u16 *frames asm("r4");
+        struct MapPeriods005 *periods;
+        u16 *limitBase;
+        u16 *frames;
         u16 *limit;
         register u32 temp asm("r0");
-        register u32 value asm("r1");
-        register u32 offset asm("r2");
-        register u16 *entry asm("r3");
-        register u16 *timer asm("r2");
+        u32 value;
+        u32 offset;
+        u16 *entry;
+        u16 *timer;
         u32 limitCount;
         register struct MapAnim005 *state asm("r5") = &animState005;
         asm("" : "+r"(index), "+r"(base) : "r"(state));
         temp = (u32)animPeriods005;
-        asm("" : "+r"(temp));
+        
         periods = (struct MapPeriods005 *)temp;
-        asm("" : "+r"(periods));
+        
         limitBase = animLimits005;
-        asm("" : "+r"(limitBase));
+        
         frames = base->frames;
-        asm("" : "+r"(frames));
+        
         temp = alternate << 1;
         limit = (u16 *)(temp + (u32)limitBase);
-        asm("" : "+r"(limit));
+        
     loop:
         offset = index << 1;
         value = base->area;
@@ -636,7 +636,7 @@ static inline void t06_updateA298(void)
     sys->previous=sys->data;
     sys->data=(u8 *)map+16+map->w*map->h*6;
     sys->w=map->w;
-    {register u16 height asm("r0")=map->h;
+    {u16 height=map->h;
     register u16 *out asm("r1")=&sys->h;
     *out=height;}
     {register u16 *out asm("r0")=&sys->y;
@@ -645,12 +645,12 @@ static inline void t06_updateA298(void)
 void sub_0800A298(u32 index)
 {
     u8 *resource;
-    register struct T06HeaderA298 *map asm("r0");
+    struct T06HeaderA298 *map;
     struct T06SysA298 *sys=&t06_sysA298;
     sys->current=index;
     resource=(u8 *)sub_08007290(t06_levelsA298[sys->level].resources[index]);
     sys->resource=resource;
-    {register u16 *current asm("r3")=&sys->current;
+    {u16 *current=&sys->current;
     if(t06_levelsA298[sys->level].resources[*current]&0x40000000)
         map=(struct T06HeaderA298 *)(resource+16);
     else map=sub_08000BC8((u32 *)(resource+16),&sys->allocation);
@@ -1166,7 +1166,7 @@ void sub_0800A998(void)
             else
                 sub_0801AB50(6);
         }
-        { register s16 *sy asm("r6"); register s16 *sx asm("r5"); i = 1; sy = &t06_sysA998.scrollY; sx = sy - 1;
+        { s16 *sy; register s16 *sx asm("r5"); i = 1; sy = &t06_sysA998.scrollY; sx = sy - 1;
         do { sub_08009594((u16)i, *sx, *sy, flag); i++; } while (i <= 3); }
         flag = 0;
         sub_08009B84();
@@ -1245,15 +1245,15 @@ u32 sub_0800AE50(s32 x,s32 y,u32 resourceId)
     s32 width;
     register u8 *data asm("r2");
     u8 *cell;
-    register u32 word asm("r0");
-    register u32 low asm("r1");
+    u32 word;
+    u32 low;
     u32 result;
     u8 type;
     if(resourceId) {
         u8 *resource=(u8 *)sub_08007290(t06_resourceAE50(resourceId&~32,16));
-        register s16 *header asm("r2")=(s16 *)(resource+16);
-        register s32 height asm("r0");
-        register s32 count asm("r1");
+        s16 *header=(s16 *)(resource+16);
+        s32 height;
+        s32 count;
         register s32 offset asm("r0");
         width=*(s16 *)(resource+16);
         height=header[1];
@@ -1619,7 +1619,7 @@ void sub_0800B650(s32 a,s32 b,s32 c,u16 d,u16 e)
     u8 *graphics=(u8 *)sub_08007290(*header);
     void *palette=(void *)sub_08007290((u16)*header|0x70000);
     u16 i;
-    register u32 offset asm("r1");
+    u32 offset;
     u32 flag=0x40000000&a;
     if(flag)map=(u8 *)header+4;
     else {map=(u8 *)flag;map=sub_08000BC8(header+1,(void **)&map);}
@@ -1628,7 +1628,7 @@ void sub_0800B650(s32 a,s32 b,s32 c,u16 d,u16 e)
             if(*header&0x20000000) {
                 i=0;b<<=11;
                 do {
-                    register const void *source asm("r0");
+                    const void *source;
                     offset=i<<10;
                     source=graphics+offset;
                     offset+=0x4000;
@@ -1674,7 +1674,7 @@ void sub_0800B7DC(s32 a,s32 b,s32 c,u16 d,u16 e)
     u8 *graphics=(u8 *)sub_08007290(*header+gUnk_03003470);
     void *palette=(void *)sub_08007290((u16)*header|0x70000);
     u16 i;
-    register u32 offset asm("r1");
+    u32 offset;
     u32 flag=0x40000000&a;
     if(flag)map=(u8 *)header+4;
     else {map=(u8 *)flag;map=sub_08000BC8(header+1,(void **)&map);}
@@ -1683,7 +1683,7 @@ void sub_0800B7DC(s32 a,s32 b,s32 c,u16 d,u16 e)
             if(*header&0x20000000) {
                 i=0;b<<=11;
                 do {
-                    register const void *source asm("r0");
+                    const void *source;
                     offset=i<<10;
                     source=graphics+offset;
                     offset+=0x4000;
@@ -1787,14 +1787,14 @@ void *sub_0800BAA4(s16 x, s16 y) {
     return m + idx;
 }
 s32 sub_0800BAC4(s32 arg0, s32 arg1) {
-    register s32 index asm("r4") = arg1;
-    register u8 *table asm("r2") = (u8 *)gUnk_0847846C;
+    s32 index = arg1;
+    u8 *table = (u8 *)gUnk_0847846C;
     s32 offset;
     u32 *entry;
     s32 temp_r2;
     void *var_r2;
     offset = index * 4 + arg0 * 0x74;
-    asm volatile("" : "+r" (offset));
+    
     table += 0x10;
     entry = (u32 *)((u32)offset + (u32)table);
     temp_r2 = sub_08007290(*entry);
@@ -1872,7 +1872,7 @@ u32 sub_0800BC44(u32 x, u32 y, u32 alternate)
     }
     {
         u32 idx = (x + y * *w) * 2;
-        asm("" : "+r"(idx));
+        
         switch ((s32)(*(u32 *)(map + idx) << 16 >> 30)) {
         case 0: r = 2; break;
         case 1: r = 1; break;
@@ -1883,13 +1883,13 @@ u32 sub_0800BC44(u32 x, u32 y, u32 alternate)
 }
 u32 sub_0800BCA0(s32 x, s32 y, s32 which)
 {
-    register u16 *map asm("r3"); u16 *w; register s32 ix asm("r1"); register s32 iy asm("r2");
+    register u16 *map asm("r3"); u16 *w; register s32 ix asm("r1"); s32 iy;
     if (which != 0) { map = gUnk_03003170.map1; ix = x >> 11; iy = y >> 11; w = &gUnk_03003170.width1; }
     else { map = gUnk_03003170.map0; ix = x >> 11; iy = y >> 11; w = &gUnk_03003170.width0; }
     {
         register u8 *cell asm("r0");
         ix = (ix + iy * *w) * 2;
-        asm("" : "+r"(ix));
+        
         cell = (u8 *)map + ix;
         return *cell;
     }
