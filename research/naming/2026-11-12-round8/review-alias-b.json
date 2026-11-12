@@ -1,0 +1,52 @@
+[
+  {
+    "canonical_symbol": "sub_080009F8",
+    "decision": "accept",
+    "reason": "Complete clearDisplay000 body masks first input1F00,secondE000 and gates DISPCNT write by low16bits; exact neutral name supported."
+  },
+  {
+    "canonical_symbol": "sub_08005B88",
+    "decision": "accept",
+    "reason": "Complete menu5B body and run2B70 caller support two-choice save context; confirmed record6/7 writes,64bit completion token, subchoice restoration and cancel-only restart."
+  },
+  {
+    "canonical_symbol": "sub_0800608C",
+    "decision": "accept",
+    "reason": "Complete menu6C body and run2B70 caller confirm fixedselection1, no record7 write, subchoice side0 and direct-confirm callback limit."
+  },
+  {
+    "canonical_symbol": "sub_080072A0",
+    "decision": "accept",
+    "reason": "Complete oamDraw004 body confirms signed coordinates, counted clipped entries, literal128 initial boundary and partial write return0; no-copy contract supported."
+  },
+  {
+    "canonical_symbol": "sub_08007434",
+    "decision": "accept",
+    "reason": "Complete oamFrameTiles004 body confirms frame-only bound, source tileNumber*400,row400stride and literal nonsquarecase4;01348 bounded queue confirms no delivery guarantee."
+  },
+  {
+    "canonical_symbol": "sub_080076C4",
+    "decision": "accept",
+    "reason": "Complete oamDrawSeq004 confirms unchecked frame/equality animation boundary, counted clipped entries,sequential tile cursor,partial writes and return starting VRAM without tile copy."
+  },
+  {
+    "canonical_symbol": "sub_08007AA4",
+    "decision": "accept",
+    "reason": "Complete oamDrawCtx004 and draw-list caller confirm context fields, preserved affine parameters, clipped slot reuse,copy queue admission and127 overflow before current copy."
+  },
+  {
+    "canonical_symbol": "sub_08007CF0",
+    "decision": "accept",
+    "reason": "Complete oamDrawCopy004 confirms fixedobjMode0,preserved affine parameter,clippedslotreuse,sequentialtiles and queued original tile/highbits,partial overflow before copy/commit."
+  },
+  {
+    "canonical_symbol": "sub_08007F0C",
+    "decision": "accept",
+    "reason": "Complete oamDrawAff004 confirms sharedmatrix assignment,copyqueue,sourceflip scales,newmatrixcounter return,partial overflow and unspecified flips when no retained object."
+  },
+  {
+    "canonical_symbol": "sub_080081D4",
+    "decision": "accept",
+    "reason": "Complete oamDrawAffMode004 confirms transition-gatedmode,countedclipping/source-shape copy,embedded/fallback matrix paths,extra preloop matrixincrement and literal highmatrix-bit limitation."
+  }
+]

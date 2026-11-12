@@ -1,0 +1,138 @@
+[
+  {
+    "canonical_symbol": "sub_08008500",
+    "decision": "fix",
+    "reason": "Qualify matrix-counter update by nonzero frame matrixCount and distinguish deferred tile-copy requests from completed copies.",
+    "corrected_row": {
+      "canonical_symbol": "sub_08008500",
+      "address": "0x08008500",
+      "display_name": "AppendAffineSpriteObjects",
+      "summary": "Rejects starting OAM count>127 or animation index greater than record animation count with unsigned -1. Resolves the selected frame and appends its OAM entries, preserving affine parameters, offsetting signed coordinates, remapping palettes/priority, assigning sequential tile numbers and queuing source-tile copies. Off-screen objects are retained at y160 with zero shape/size. When frame matrixCount is nonzero, appends embedded affine matrices through ObjAffineSet and advances matrix counter once before the loop plus once per matrix; zero matrixCount leaves matrix counter unchanged. Normal completion advances tile counter. Returns the resulting matrix counter; OAM exhaustion returns0 after incrementing the object count, before copying the last object tiles or final counter updates.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_08006D24.c",
+          "line": 1090,
+          "detail": "Rejects starting OAM count>127 or animation index greater than record animation count with unsigned -1. Resolves the selected frame and appends its OAM entries, preserving affine parameters, offsetting signed coordinates, remapping palettes/priority, assigning sequential tile numbers and queuing source-tile copies. Off-screen objects are retained at y160 with zero shape/size. When frame matrixCount is nonzero, appends embedded affine matrices through ObjAffineSet and advances matrix counter once before the loop plus once per matrix; zero matrixCount leaves matrix counter unchanged. Normal completion advances tile counter. Returns the resulting matrix counter; OAM exhaustion returns0 after incrementing the object count, before copying the last object tiles or final counter updates.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08006D24.c",
+          "line": 1089,
+          "detail": "Alias explicitly binds this complete OAM/affine-matrix implementation to canonical0x08008500; tile copy binds0x08001348 and matrix generation binds BIOS ObjAffineSet at1083/1086.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08000EC8.c",
+          "line": 194,
+          "detail": "Tile-copy helper stores a deferred descriptor only while queued count<400; executor01394 later performs CpuFastSet/CpuSet copies.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Frame index, palette mapping, matrix capacity and record offsets are unchecked; animation count comparison permits equality. The frame matrix block increments the matrix counter once before and once per matrix; no normalized count interpretation is imposed.",
+        "Tile-copy helper01348 silently drops requests once400 are queued; queue submission does not imply transfer completion."
+      ]
+    }
+  },
+  {
+    "canonical_symbol": "sub_080087AC",
+    "decision": "fix",
+    "reason": "The tile helper queues requests, may silently drop them, and does not perform the transfer synchronously.",
+    "corrected_row": {
+      "canonical_symbol": "sub_080087AC",
+      "address": "0x080087AC",
+      "display_name": "AppendSpriteObjectsWithMode",
+      "summary": "Rejects starting OAM count>127 or animation index greater than record count with unsigned -1. Resolves selected frame, appends visible OAM entries preserving affine parameters and adding signed offsets, remaps palette and priority, writes the caller mode into the two-bit OBJ mode field and queues sequential tile copies. Off-screen entries are skipped without consuming OAM/tile slots. Normal return advances tile counter and returns this sprite tile allocation start address; OAM exhaustion returns0 after incrementing count before the last copy/final tile update.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_08006D24.c",
+          "line": 1215,
+          "detail": "Rejects starting OAM count>127 or animation index greater than record count with unsigned -1. Resolves selected frame, appends visible OAM entries preserving affine parameters and adding signed offsets, remaps palette and priority, writes the caller mode into the two-bit OBJ mode field and queues sequential tile copies. Off-screen entries are skipped without consuming OAM/tile slots. Normal return advances tile counter and returns this sprite tile allocation start address; OAM exhaustion returns0 after incrementing count before the last copy/final tile update.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0808FB5C.c",
+          "line": 1958,
+          "detail": "Caller drawSpecial923FC binds0x080087AC with final OBJ-mode argument and uses it during staged sprite blend/reveal.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08000EC8.c",
+          "line": 194,
+          "detail": "Tile-copy helper stores a deferred descriptor only while queued count<400; executor01394 later performs CpuFastSet/CpuSet copies.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Frame, palette and offset bounds are unchecked. Caller mode is truncated by the two-bit hardware field; its artwork purpose is not inferred.",
+        "Copy helper01348 silently drops requests at400 queued entries; there is no copy-admission or transfer-completion result here."
+      ]
+    }
+  },
+  {
+    "canonical_symbol": "sub_0801BA74",
+    "decision": "fix",
+    "reason": "Broken flag is tested for saved types2..5 only; saved types6/7 test valid without checking broken.",
+    "corrected_row": {
+      "canonical_symbol": "sub_0801BA74",
+      "address": "0x0801BA74",
+      "display_name": "RecomputeEquippedActorStats",
+      "summary": "Selects equipped definitions or type-matched candidate overrides for item types2..7. Saved types2..5 require valid and unbroken slots; types6/7 test validity only, with no broken check. Copies saved base stats and initializes the modifier record, applies equipment/subdefinition and combination modifiers, then processes eight active effect records by source actor class/kind, including stat changes, status selection, proximity-dependent changes and transformation definitions. Adds item bonuses and effective-skill scaling; derives modifier fields, applies halving effects, clamps nonnegative aggregate values and six resistances to0..200, and normalizes saved selection indices modulo computed limits except for type6 candidate previews. Writes actor metadata/status as well as supplied stat/modifier outputs; returns void.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_0801AAF8.c",
+          "line": 781,
+          "detail": "Selects equipped definitions or type-matched candidate overrides for item types2..7. Saved types2..5 require valid and unbroken slots; types6/7 test validity only, with no broken check. Copies saved base stats and initializes the modifier record, applies equipment/subdefinition and combination modifiers, then processes eight active effect records by source actor class/kind, including stat changes, status selection, proximity-dependent changes and transformation definitions. Adds item bonuses and effective-skill scaling; derives modifier fields, applies halving effects, clamps nonnegative aggregate values and six resistances to0..200, and normalizes saved selection indices modulo computed limits except for type6 candidate previews. Writes actor metadata/status as well as supplied stat/modifier outputs; returns void.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0807A5D4.c",
+          "line": 4041,
+          "detail": "Equipment/menu comparison caller computes current stats with null override and candidate preview stats with selected item overrides, anchoring recomputation rather than inventory mutation.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Candidate, saved equipment indices, definitions and output pointers are unchecked. The reconstructed C forms subdefinition pointer+0xA0 even when its base is zero; no arbitrary-input safety is claimed. Individual modifier-field gameplay identities remain partly unproved."
+      ]
+    }
+  },
+  {
+    "canonical_symbol": "sub_080257D4",
+    "decision": "accept",
+    "reason": "Complete aliased primary body and relevant helpers reviewed; neutral operational name and branch/lifecycle caveats agree with source."
+  },
+  {
+    "canonical_symbol": "sub_08025890",
+    "decision": "accept",
+    "reason": "Complete aliased primary body and relevant helpers reviewed; neutral operational name and branch/lifecycle caveats agree with source."
+  },
+  {
+    "canonical_symbol": "sub_08027C1C",
+    "decision": "accept",
+    "reason": "Complete aliased primary body and relevant helpers reviewed; neutral operational name and branch/lifecycle caveats agree with source."
+  },
+  {
+    "canonical_symbol": "sub_080376CC",
+    "decision": "accept",
+    "reason": "Complete aliased primary body and relevant helpers reviewed; neutral operational name and branch/lifecycle caveats agree with source."
+  },
+  {
+    "canonical_symbol": "sub_08048A74",
+    "decision": "accept",
+    "reason": "Complete aliased primary body and relevant helpers reviewed; neutral operational name and branch/lifecycle caveats agree with source."
+  },
+  {
+    "canonical_symbol": "sub_0804BC38",
+    "decision": "accept",
+    "reason": "Complete aliased primary body and relevant helpers reviewed; neutral operational name and branch/lifecycle caveats agree with source."
+  },
+  {
+    "canonical_symbol": "sub_080B60F4",
+    "decision": "accept",
+    "reason": "Complete aliased primary body and relevant helpers reviewed; neutral operational name and branch/lifecycle caveats agree with source."
+  }
+]

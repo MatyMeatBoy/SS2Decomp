@@ -1,0 +1,230 @@
+[
+  {
+    "canonical_symbol": "sub_080009F8",
+    "address": "0x080009F8",
+    "display_name": "ClearDisplayLayerWindowBits",
+    "summary": "Clears bits selected by first input mask0x1F00 and second input mask0xE000 in the display-control shadow halfword. Truncated low16bits of third input nonzero also writes the resulting halfword to hardware DISPCNT; otherwise only shadow changes.",
+    "confidence": "high",
+    "evidence": [
+      {
+        "source": "src/main.c",
+        "line": 228,
+        "detail": "Clears bits selected by first input mask0x1F00 and second input mask0xE000 in the display-control shadow halfword. Truncated low16bits of third input nonzero also writes the resulting halfword to hardware DISPCNT; otherwise only shadow changes.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ],
+    "open_questions": [
+      "No additional input validation; inputs are masks in their hardware bit positions."
+    ]
+  },
+  {
+    "canonical_symbol": "sub_08005B88",
+    "address": "0x08005B88",
+    "display_name": "RunTwoChoiceSaveMenu",
+    "summary": "Initializes sprites50002/50006 and background scroll, installs temporary display callbacks, suppresses pressed keys during transition, streams resource text through a32-byte scrolling buffer, and animates a cursor. Up/down selects0/1. Confirming1 optionally opens a left/right subchoice when record byte+5 is nonzero; otherwise forces side0. Normal exit writes choice to record+6 and side to+7 then signals0x25A112EBF. Base cancel restores callbacks and restarts02B70 using unchecked0x1000 allocation without signaling or updating record. Subchoice confirm restores callbacks; direct base confirmation does not locally restore them.",
+    "confidence": "high",
+    "evidence": [
+      {
+        "source": "src/code_08002118.c",
+        "line": 2501,
+        "detail": "Initializes sprites50002/50006 and background scroll, installs temporary display callbacks, suppresses pressed keys during transition, streams resource text through a32-byte scrolling buffer, and animates a cursor. Up/down selects0/1. Confirming1 optionally opens a left/right subchoice when record byte+5 is nonzero; otherwise forces side0. Normal exit writes choice to record+6 and side to+7 then signals0x25A112EBF. Base cancel restores callbacks and restarts02B70 using unchecked0x1000 allocation without signaling or updating record. Subchoice confirm restores callbacks; direct base confirmation does not locally restore them.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_08002118.c",
+        "line": 650,
+        "detail": "Save-slot controller run2B70 chooses this or0608C, starts with save record, and waits0x25A112EBF.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ],
+    "open_questions": [
+      "Text keys14044D/44E/451/452 are literal resources; menu wording is not decoded. Allocation failure and text-buffer lengths are unchecked."
+    ]
+  },
+  {
+    "canonical_symbol": "sub_0800608C",
+    "address": "0x0800608C",
+    "display_name": "RunFixedChoiceSaveMenu",
+    "summary": "Initializes sprites50002/50006 and background scroll, installs temporary display callbacks, suppresses pressed keys during transition, streams resource text through a32-byte scrolling buffer, and animates a cursor. Selection stays1; confirming optionally opens left/right subchoice when record byte+5 is nonzero. Confirming subchoice forces local side0, but no side is written to record. Normal exit writes record+6=1 and signals0x25A112EBF. Base cancel restores callbacks and restarts02B70 with unchecked0x1000 allocation; no signal or record update. Normal direct base confirmation does not locally restore callbacks.",
+    "confidence": "high",
+    "evidence": [
+      {
+        "source": "src/code_08002118.c",
+        "line": 2750,
+        "detail": "Initializes sprites50002/50006 and background scroll, installs temporary display callbacks, suppresses pressed keys during transition, streams resource text through a32-byte scrolling buffer, and animates a cursor. Selection stays1; confirming optionally opens left/right subchoice when record byte+5 is nonzero. Confirming subchoice forces local side0, but no side is written to record. Normal exit writes record+6=1 and signals0x25A112EBF. Base cancel restores callbacks and restarts02B70 with unchecked0x1000 allocation; no signal or record update. Normal direct base confirmation does not locally restore callbacks.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_08002118.c",
+        "line": 650,
+        "detail": "Save-slot controller chooses this when selector equals1, passes save record and waits0x25A112EBF.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ],
+    "open_questions": [
+      "Text keys14044D/450/453 remain undecoded. Side affects visible subchoice but is not persisted here."
+    ]
+  },
+  {
+    "canonical_symbol": "sub_080072A0",
+    "address": "0x080072A0",
+    "display_name": "EmitSpriteFrameObjects",
+    "summary": "Appends selected animation/frame object attributes to shadow OAM, adds screen offsets, overrides priority/palette and rebases tiles relative to first source object. Signed nine-bit x and signed byte y outside padded screen bounds become zero-size objects at y160. Initial used>128 or postincrement used>128 returns0, potentially after partial writes; invalid animation/frame emits nothing and returns1. Initial used128 is permitted before first write.",
+    "confidence": "high",
+    "evidence": [
+      {
+        "source": "src/code_08006D24.c",
+        "line": 212,
+        "detail": "Appends selected animation/frame object attributes to shadow OAM, adds screen offsets, overrides priority/palette and rebases tiles relative to first source object. Signed nine-bit x and signed byte y outside padded screen bounds become zero-size objects at y160. Initial used>128 or postincrement used>128 returns0, potentially after partial writes; invalid animation/frame emits nothing and returns1. Initial used128 is permitted before first write.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ],
+    "open_questions": [
+      "OAM array extent and source frame data are caller preconditions; return1 does not prove any object was emitted."
+    ]
+  },
+  {
+    "canonical_symbol": "sub_08007434",
+    "address": "0x08007434",
+    "display_name": "QueueSpriteFrameTileRows",
+    "summary": "Resolves animation frame then queues tile-row copies for each object shape/size. Source starts at tiles+tileNumber*0x400, destination at vram+(tileNumber-firstTile)*32; row stride is0x400. Frame outside selected animation count does nothing; animation index is not checked. Nonsquare size switches contain literalcase4 rather than3, so not every hardware size has a copy branch.",
+    "confidence": "high",
+    "evidence": [
+      {
+        "source": "src/code_08006D24.c",
+        "line": 290,
+        "detail": "Resolves animation frame then queues tile-row copies for each object shape/size. Source starts at tiles+tileNumber*0x400, destination at vram+(tileNumber-firstTile)*32; row stride is0x400. Frame outside selected animation count does nothing; animation index is not checked. Nonsquare size switches contain literalcase4 rather than3, so not every hardware size has a copy branch.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_08000EC8.c",
+        "line": 194,
+        "detail": "Copy helper appends up to400 descriptors and silently drops additional requests; queue admission is not completed transfer.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ],
+    "open_questions": [
+      "Literal row layout retained; no correction of anomalous size switch or resource layout is inferred."
+    ]
+  },
+  {
+    "canonical_symbol": "sub_080076C4",
+    "address": "0x080076C4",
+    "display_name": "EmitSequentialSpriteObjects",
+    "summary": "Appends shadow OAM for selected frame, adds offsets, remaps palette and assigns sequential destination tiles using shape/size tables. Clipped objects remain counted as zero-size y160 entries. Returns0xFFFFFFFF if initial used>128 or animationCount<index; no frame bound check and equality animationCount is allowed. Postincrement used>128 returns0 after partial writes without committing tile cursor. Success advances tile cursor and returns starting VRAM address; it performs no tile copy.",
+    "confidence": "high",
+    "evidence": [
+      {
+        "source": "src/code_08006D24.c",
+        "line": 416,
+        "detail": "Appends shadow OAM for selected frame, adds offsets, remaps palette and assigns sequential destination tiles using shape/size tables. Clipped objects remain counted as zero-size y160 entries. Returns0xFFFFFFFF if initial used>128 or animationCount<index; no frame bound check and equality animationCount is allowed. Postincrement used>128 returns0 after partial writes without committing tile cursor. Success advances tile cursor and returns starting VRAM address; it performs no tile copy.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ],
+    "open_questions": [
+      "Tile data upload is a separate responsibility; no capacity or index safety beyond literal checks is claimed."
+    ]
+  },
+  {
+    "canonical_symbol": "sub_08007AA4",
+    "address": "0x08007AA4",
+    "display_name": "EmitContextSpriteObjects",
+    "summary": "Consumes queued draw context to append visible frame objects, preserving destination affine parameters and applying context mode/mosaic/priority/palette. Clipped objects reuse destination slot and consume no tile/OAM count. Queues contiguous tile copies for retained objects. Initial used>127 or animationCount<index returns0xFFFFFFFF; postincrement used>127 returns0 before current copy and tile-cursor commit. Success commits tiles and returns starting VRAM address. Frame bounds are unchecked.",
+    "confidence": "high",
+    "evidence": [
+      {
+        "source": "src/code_08006D24.c",
+        "line": 643,
+        "detail": "Consumes queued draw context to append visible frame objects, preserving destination affine parameters and applying context mode/mosaic/priority/palette. Clipped objects reuse destination slot and consume no tile/OAM count. Queues contiguous tile copies for retained objects. Initial used>127 or animationCount<index returns0xFFFFFFFF; postincrement used>127 returns0 before current copy and tile-cursor commit. Success commits tiles and returns starting VRAM address. Frame bounds are unchecked.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_08006D24.c",
+        "line": 1651,
+        "detail": "Draw-list consumer dispatches context to this renderer.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_08000EC8.c",
+        "line": 194,
+        "detail": "Tile-copy requests silently drop when400-entry queue full.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ],
+    "open_questions": [
+      "Resource/index/pointer validity remains a caller precondition; no artwork or narrative identity is inferred."
+    ]
+  },
+  {
+    "canonical_symbol": "sub_08007CF0",
+    "address": "0x08007CF0",
+    "display_name": "EmitSpriteObjectsWithTiles",
+    "summary": "Appends visible frame objects with preserved affine parameters and objMode0, remapped palettes, offsets and sequential tiles; clipped objects reuse destination slot. Queues source tiles using source tileNumber plus high tile bits. Initial used>127 or animationCount<index returns0xFFFFFFFF; frame bounds unchecked. Postincrement used>127 returns0 before current copy/tile-cursor commit; earlier writes/copy requests remain. Success commits tile cursor and returns starting VRAM address.",
+    "confidence": "high",
+    "evidence": [
+      {
+        "source": "src/code_08006D24.c",
+        "line": 736,
+        "detail": "Appends visible frame objects with preserved affine parameters and objMode0, remapped palettes, offsets and sequential tiles; clipped objects reuse destination slot. Queues source tiles using source tileNumber plus high tile bits. Initial used>127 or animationCount<index returns0xFFFFFFFF; frame bounds unchecked. Postincrement used>127 returns0 before current copy/tile-cursor commit; earlier writes/copy requests remain. Success commits tile cursor and returns starting VRAM address.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_08000EC8.c",
+        "line": 194,
+        "detail": "Copy helper is bounded request queue; transfer completion and acceptance are not reported.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ],
+    "open_questions": [
+      "Resource/index/pointer validity remains a caller precondition; no artwork or narrative identity is inferred."
+    ]
+  },
+  {
+    "canonical_symbol": "sub_08007F0C",
+    "address": "0x08007F0C",
+    "display_name": "EmitAffineSpriteObjects",
+    "summary": "Appends visible objects with palette remap, sequential tiles and shared affine matrix; clipped entries reuse slot. Queues tiles, then builds matrix from caller scales/rotation, reversing scales using flip bits from last retained source object. Initial used>127 or animationCount<index returns0xFFFFFFFF; postincrement used>127 returns0 before current copy/matrix/tile commit. Success increments matrix counter, commits tile cursor and returns new matrix count. Matrix capacity and frame bounds unchecked.",
+    "confidence": "high",
+    "evidence": [
+      {
+        "source": "src/code_08006D24.c",
+        "line": 833,
+        "detail": "Appends visible objects with palette remap, sequential tiles and shared affine matrix; clipped entries reuse slot. Queues tiles, then builds matrix from caller scales/rotation, reversing scales using flip bits from last retained source object. Initial used>127 or animationCount<index returns0xFFFFFFFF; postincrement used>127 returns0 before current copy/matrix/tile commit. Success increments matrix counter, commits tile cursor and returns new matrix count. Matrix capacity and frame bounds unchecked.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_08000EC8.c",
+        "line": 194,
+        "detail": "Tile requests may drop silently at400 queued copies.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ],
+    "open_questions": [
+      "If no object survives, xFlip/yFlip locals lack an assigned value before scale adjustment; no deterministic empty-frame matrix contract is claimed."
+    ]
+  },
+  {
+    "canonical_symbol": "sub_080081D4",
+    "address": "0x080081D4",
+    "display_name": "EmitFrameMatrixSpriteObjects",
+    "summary": "Appends frame objects with caller mode forced0 while transition incomplete, remaps palette, assigns sequential tiles and matrix indices. Clipped entries remain counted as zero-size y160 objects and still queue tiles using original source shape. Initial used>127 or animationCount<index returns0xFFFFFFFF; frame bounds unchecked; postincrement overflow returns0 without final matrix/tile commit. Then writes embedded frame matrices or caller fallback scales/rotation, commits tiles and returns matrix counter. Embedded path increments counter once before loop and once per matrix.",
+    "confidence": "high",
+    "evidence": [
+      {
+        "source": "src/code_08006D24.c",
+        "line": 955,
+        "detail": "Appends frame objects with caller mode forced0 while transition incomplete, remaps palette, assigns sequential tiles and matrix indices. Clipped entries remain counted as zero-size y160 objects and still queue tiles using original source shape. Initial used>127 or animationCount<index returns0xFFFFFFFF; frame bounds unchecked; postincrement overflow returns0 without final matrix/tile commit. Then writes embedded frame matrices or caller fallback scales/rotation, commits tiles and returns matrix counter. Embedded path increments counter once before loop and once per matrix.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_08000EC8.c",
+        "line": 194,
+        "detail": "Tile-copy queue drops requests beyond400; no completion guarantee.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ],
+    "open_questions": [
+      "Matrix high index bits derive base matrix rather than full base+source index as literally written; matrix bounds unchecked."
+    ]
+  }
+]

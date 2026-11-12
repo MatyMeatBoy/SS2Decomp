@@ -1,0 +1,685 @@
+{
+  "sub_0801623C": {
+    "status": "accept",
+    "reason": "Complete primary body supports the proposed neutral contract and stated guards/returns."
+  },
+  "sub_08017C6C": {
+    "status": "accept",
+    "reason": "Complete primary body supports the proposed neutral contract and stated guards/returns."
+  },
+  "sub_0801B58C": {
+    "status": "accept",
+    "reason": "Complete primary body supports the proposed neutral contract and stated guards/returns."
+  },
+  "sub_08021DC4": {
+    "status": "accept",
+    "reason": "Complete primary body supports the proposed neutral contract and stated guards/returns."
+  },
+  "sub_08022078": {
+    "status": "accept",
+    "reason": "Complete primary body supports the proposed neutral contract and stated guards/returns."
+  },
+  "sub_08022504": {
+    "status": "accept",
+    "reason": "Complete primary body supports the proposed neutral contract and stated guards/returns."
+  },
+  "sub_0802258C": {
+    "status": "fix",
+    "reason": "Animation index31 is proven, but glyph identity is not established by drawing that index.",
+    "corrected_row": {
+      "canonical_symbol": "sub_0802258C",
+      "address": "0x0802258C",
+      "display_name": "AnimateRisingSprite31",
+      "summary": "Gets shared animation context, interprets packed argument low16 as signed x and high16 as signed y, loops at most20 iterations unless scene-exit predicate becomes true. When display gates clear, projects coordinates and draws context animation31; moves y upward0x80 fixed-point per iteration and yields. Always clears supplied effect mask bit on exit; no allocation/context validation.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_08021DC4.c",
+          "line": 470,
+          "detail": "Gets shared animation context, interprets packed argument low16 as signed x and high16 as signed y, loops at most20 iterations unless scene-exit predicate becomes true. When display gates clear, projects coordinates and draws context animation31; moves y upward0x80 fixed-point per iteration and yields. Always clears supplied effect mask bit on exit; no allocation/context validation.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08021DC4.c",
+          "line": 469,
+          "detail": "Explicit asm declaration binds t22_2258C to sub_0802258C; shared context acquired via sub_080653CC and renderer sub_08065230 receives resource frame31.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Narrative identity not inferred; bounds and preconditions are caller responsibilities where not checked."
+      ]
+    }
+  },
+  "sub_080239E0": {
+    "status": "fix",
+    "reason": "Use a concise operational label within five words; precise numeric selectors remain in summary/evidence.",
+    "corrected_row": {
+      "canonical_symbol": "sub_080239E0",
+      "address": "0x080239E0",
+      "display_name": "CheckZeroTwoGroupEntries",
+      "summary": "Reads five bytes from scene+0x1C8+group*5 and returns1 exactly when every byte is0 or2, including all-zero group; otherwise0. Group is u8, no index validation.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_08021DC4.c",
+          "line": 1421,
+          "detail": "Reads five bytes from scene+0x1C8+group*5 and returns1 exactly when every byte is0 or2, including all-zero group; otherwise0. Group is u8, no index validation.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Narrative identity not inferred; bounds and preconditions are caller responsibilities where not checked."
+      ]
+    }
+  },
+  "sub_08024538": {
+    "status": "accept",
+    "reason": "Complete primary body supports the proposed neutral contract and stated guards/returns."
+  },
+  "sub_0802704C": {
+    "status": "fix",
+    "reason": "Complete primary body supports the proposed neutral contract and stated guards/returns. Scheduler calls wait for signal1; elapsed-time ticks are not established.",
+    "corrected_row": {
+      "canonical_symbol": "sub_0802704C",
+      "address": "0x0802704C",
+      "display_name": "InitializeSceneRecordAndPlayer",
+      "summary": "Waits transition idle and conditional link synchronization; selects record row from scene progression counters, restores saved player/map state or installs row position/direction, clears movement flags and stops map updates. Creates up to3 record-defined actors, retries map startup and readiness, installs scene callbacks and waits120 signal1 waits where enabled. Host additionally walks zero-terminated0x124-byte scene records and emits type4/5 items without retrying insertion. Finally sets scene+0x10=1/current area, masks player flags to0x2000, synchronizes flags/attributes and resets peer records. Input/index/record sentinels are not validated; waits can be unbounded.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_08021DC4.c",
+          "line": 4100,
+          "detail": "Waits transition idle and conditional link synchronization; selects record row from scene progression counters, restores saved player/map state or installs row position/direction, clears movement flags and stops map updates. Creates up to3 record-defined actors, retries map startup and readiness, installs scene callbacks and waits120 signal1 waits where enabled. Host additionally walks zero-terminated0x124-byte scene records and emits type4/5 items without retrying insertion. Finally sets scene+0x10=1/current area, masks player flags to0x2000, synchronizes flags/attributes and resets peer records. Input/index/record sentinels are not validated; waits can be unbounded.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Literal resource/event role only; undecoded story/NPC identity remains unknown. Asynchronous requests do not establish completion."
+      ]
+    }
+  },
+  "sub_080277E0": {
+    "status": "fix",
+    "reason": "Complete primary body supports the proposed neutral contract and stated guards/returns. Scheduler calls wait for signal1; elapsed-time ticks are not established.",
+    "corrected_row": {
+      "canonical_symbol": "sub_080277E0",
+      "address": "0x080277E0",
+      "display_name": "ReloadPeerSceneRecordActors",
+      "summary": "Locks peer-scene update, waits two link barriers, preserves scene record-list pointer, updates peer map/area, chooses last type1/7 record if present, deactivates non-retained field items, clears scene flags/progress and player saved position, and creates3 row-defined actors when allowed. Retries peer map loading/readiness, initializes scene callbacks, optional120 signal1 waits, repeats link barriers, and host emits type4/5 record items without retry. Restores saved record pointer and unlocks peer update on normal completion. No timeout/failure cleanup.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_08021DC4.c",
+          "line": 4453,
+          "detail": "Locks peer-scene update, waits two link barriers, preserves scene record-list pointer, updates peer map/area, chooses last type1/7 record if present, deactivates non-retained field items, clears scene flags/progress and player saved position, and creates3 row-defined actors when allowed. Retries peer map loading/readiness, initializes scene callbacks, optional120 signal1 waits, repeats link barriers, and host emits type4/5 record items without retry. Restores saved record pointer and unlocks peer update on normal completion. No timeout/failure cleanup.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Literal resource/event role only; undecoded story/NPC identity remains unknown. Asynchronous requests do not establish completion."
+      ]
+    }
+  },
+  "sub_0802AA28": {
+    "status": "accept",
+    "reason": "Complete primary body supports the proposed neutral contract and stated guards/returns."
+  },
+  "sub_0802C2A0": {
+    "status": "accept",
+    "reason": "Complete primary body supports the proposed neutral contract and stated guards/returns."
+  },
+  "sub_0802C674": {
+    "status": "accept",
+    "reason": "Complete primary body supports the proposed neutral contract and stated guards/returns."
+  },
+  "sub_0802E7AC": {
+    "status": "accept",
+    "reason": "Complete primary body supports the proposed neutral contract and stated guards/returns."
+  },
+  "sub_0802FEA0": {
+    "status": "accept",
+    "reason": "Complete body and inline count2FEA0(n) returning n prove exactly one insertion attempt for argument1."
+  },
+  "sub_08030480": {
+    "status": "accept",
+    "reason": "Primary body supports the operational name, branch guards, request semantics and cleanup."
+  },
+  "sub_08033198": {
+    "status": "fix",
+    "reason": "Use a concise operational label within five words; precise numeric selectors remain in summary/evidence.",
+    "corrected_row": {
+      "canonical_symbol": "sub_08033198",
+      "address": "0x08033198",
+      "display_name": "AttemptPairedItemReward",
+      "summary": "Locks player/input. Nonzero local player shows0x140229. Player0 with progression byte+0x1B7/+0x1C3 bit3 already set shows0x140228; otherwise shows0x140224 and checks empty bag slot. Full bag shows0x140227. Available slot attempts item category1/id8 normal orid9 alternate with zero payload, ignores insertion result, sets bit3 unconditionally, plays0x33 and shows0x140225/226. All dialogs cancellable; clears locks on all exits. Gate is set even if insertion fails.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_0802FEA0.c",
+          "line": 1522,
+          "detail": "Locks player/input. Nonzero local player shows0x140229. Player0 with progression byte+0x1B7/+0x1C3 bit3 already set shows0x140228; otherwise shows0x140224 and checks empty bag slot. Full bag shows0x140227. Available slot attempts item category1/id8 normal orid9 alternate with zero payload, ignores insertion result, sets bit3 unconditionally, plays0x33 and shows0x140225/226. All dialogs cancellable; clears locks on all exits. Gate is set even if insertion fails.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0802FEA0.c",
+          "line": 1510,
+          "detail": "emit33198 explicitly asm-binds sub_0805AB20; result33198 normalizes FindFirstEmptyBagSlot>=0; shift33198 extracts bit3.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Message text/NPC identity not decoded; name follows literal event/inventory behavior."
+      ]
+    }
+  },
+  "sub_08034F64": {
+    "status": "accept",
+    "reason": "Primary body supports the operational name, branch guards, request semantics and cleanup."
+  },
+  "sub_08038D18": {
+    "status": "accept",
+    "reason": "Primary body supports the operational name, branch guards, request semantics and cleanup."
+  },
+  "sub_0803B194": {
+    "status": "accept",
+    "reason": "Primary body supports the operational name, branch guards, request semantics and cleanup."
+  },
+  "sub_0803C008": {
+    "status": "accept",
+    "reason": "Primary body supports the operational name, branch guards, request semantics and cleanup."
+  },
+  "sub_0803D99C": {
+    "status": "fix",
+    "reason": "Use a concise operational label within five words; precise numeric selectors remain in summary/evidence.",
+    "corrected_row": {
+      "canonical_symbol": "sub_0803D99C",
+      "address": "0x0803D99C",
+      "display_name": "StageVariantActorDialogScene",
+      "summary": "Locks input, creates resource0x6000D with callback, positions local actor by player index, clears flagbit1 and enqueues flags, restores screen. Shows cancellable0x1401E1 twice around timed player poses; attempts30-slot task sub_0805A9F4(0x1E00043) with retry stack allocation. Performs more poses/moves, shows0x1401E2, builds zero-payload(kind1,value6) record and retries sub_08067B9C at(0x3B00,0x7D00) until accepted. Unlocks and resets player halfword+0x11E; no timeout and full task pool skips effect.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_0803B69C.c",
+          "line": 908,
+          "detail": "Locks input, creates resource0x6000D with callback, positions local actor by player index, clears flagbit1 and enqueues flags, restores screen. Shows cancellable0x1401E1 twice around timed player poses; attempts30-slot task sub_0805A9F4(0x1E00043) with retry stack allocation. Performs more poses/moves, shows0x1401E2, builds zero-payload(kind1,value6) record and retries sub_08067B9C at(0x3B00,0x7D00) until accepted. Unlocks and resets player halfword+0x11E; no timeout and full task pool skips effect.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Message text/NPC identity not decoded; name follows literal event/inventory behavior.",
+        "Display-name dialog numbers are decimal low12-bit entries in resource bank0x14; complete hexadecimal keys remain in summary/evidence."
+      ]
+    }
+  },
+  "sub_0803E638": {
+    "status": "accept",
+    "reason": "Primary body supports the operational name, branch guards, request semantics and cleanup."
+  },
+  "sub_08041030": {
+    "status": "fix",
+    "reason": "Use a concise operational label within five words; precise numeric selectors remain in summary/evidence.",
+    "corrected_row": {
+      "canonical_symbol": "sub_08041030",
+      "address": "0x08041030",
+      "display_name": "StageActorProgressionDialogSequence",
+      "summary": "Locks input, creates resource0x1003B and progression callback, clears progression selector byte, positions player, enqueues flags and pans camera using interpolation increments10/34. Byte+0x1B8/+0x1C4 bit6 chooses dialogs0x1400F6..FA orFB..FE, both create/move actor0x4002F and passed actor with pose4. True branch moves saved actor and removes new actor, sets word+0x78/+0x80 bit4; false branch leaves new actor with callback and sets byte+0x1B9/+0x1C5 bit0. Both set byte bit5 and unlock.15-slot lookup failures yield and skip changes.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_0803B69C.c",
+          "line": 3068,
+          "detail": "Locks input, creates resource0x1003B and progression callback, clears progression selector byte, positions player, enqueues flags and pans camera using interpolation increments10/34. Byte+0x1B8/+0x1C4 bit6 chooses dialogs0x1400F6..FA orFB..FE, both create/move actor0x4002F and passed actor with pose4. True branch moves saved actor and removes new actor, sets word+0x78/+0x80 bit4; false branch leaves new actor with callback and sets byte+0x1B9/+0x1C5 bit0. Both set byte bit5 and unlock.15-slot lookup failures yield and skip changes.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Message text/NPC identity not decoded; name follows literal event/inventory behavior.",
+        "Display-name dialog numbers are decimal low12-bit entries in resource bank0x14; complete hexadecimal keys remain in summary/evidence."
+      ]
+    }
+  },
+  "sub_08041B7C": {
+    "status": "fix",
+    "reason": "Use a concise operational label within five words; precise numeric selectors remain in summary/evidence. Scheduler calls wait for signal1; elapsed-time ticks are not established.",
+    "corrected_row": {
+      "canonical_symbol": "sub_08041B7C",
+      "address": "0x08041B7C",
+      "display_name": "ReplaceProgressionActorDialogScene",
+      "summary": "Locks input, schedules multiplayer-dependent actor movement, sets actor0 direction4, marks passed actor state4, creates/configures resource0x1003B with progression dialog callback and clears selector byte+0x1B2/+0x1BE. Clears player flagbit1 and enqueues flags, waits2 signal1 waits, restores transition, interpolates camera to(0,-24) with increment10, shows cancellable0x1400FF, returns camera with increment34 and unlocks. Actor lookup15-slot misses yield and skip writes.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_0803B69C.c",
+          "line": 3587,
+          "detail": "Locks input, schedules multiplayer-dependent actor movement, sets actor0 direction4, marks passed actor state4, creates/configures resource0x1003B with progression dialog callback and clears selector byte+0x1B2/+0x1BE. Clears player flagbit1 and enqueues flags, waits2 signal1 waits, restores transition, interpolates camera to(0,-24) with increment10, shows cancellable0x1400FF, returns camera with increment34 and unlocks. Actor lookup15-slot misses yield and skip writes.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0803B69C.c",
+          "line": 3565,
+          "detail": "Local t43 helper aliases and body implement camera interpolation loop stepping10/34 toward fixed target, not10/34-frame durations.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Narrative identity remains unknown; literal resources, flags and operational sequence identify the contract.",
+        "Display-name dialog numbers are decimal low12-bit entries in resource bank0x14; complete hexadecimal keys remain in summary/evidence."
+      ]
+    }
+  },
+  "sub_08042BB0": {
+    "status": "fix",
+    "reason": "Use a concise operational label within five words; precise numeric selectors remain in summary/evidence.",
+    "corrected_row": {
+      "canonical_symbol": "sub_08042BB0",
+      "address": "0x08042BB0",
+      "display_name": "StagePairedActorDialogScene",
+      "summary": "Resets scene camera mode, starts song0x189 and creates/configures resources0x20/0x1F/0x13/0xA/0x3A with callbacks. Locks player, positions by multiplayer index, enqueues flags, restores transition and pans camera to(0,-24). Clears progression byte+0x1BA/+0x1C6 bit4, shows0x140206, fades then creates additional resources0x9000C/0xD/0x36/0x40007/0x50008/0x30006/0xF-or0x14000F and two0x41 actors. Binds callbacks via15-slot lookups, starts boundary task via30 slots with retry allocation, restores camera and unlocks. Then waits until byte bit4 is set; other players close dialog on completion. No timeout; full pool can skip monitor.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_0803B69C.c",
+          "line": 4261,
+          "detail": "Resets scene camera mode, starts song0x189 and creates/configures resources0x20/0x1F/0x13/0xA/0x3A with callbacks. Locks player, positions by multiplayer index, enqueues flags, restores transition and pans camera to(0,-24). Clears progression byte+0x1BA/+0x1C6 bit4, shows0x140206, fades then creates additional resources0x9000C/0xD/0x36/0x40007/0x50008/0x30006/0xF-or0x14000F and two0x41 actors. Binds callbacks via15-slot lookups, starts boundary task via30 slots with retry allocation, restores camera and unlocks. Then waits until byte bit4 is set; other players close dialog on completion. No timeout; full pool can skip monitor.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0803B69C.c",
+          "line": 4154,
+          "detail": "15-slot actor lookup returnsnull after yielding; task helper scans30 with0x400 retry allocation. Bit4 wait helper shifts byte>>4; nonzero-player finish closes dialogue.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Narrative identity remains unknown; literal resources, flags and operational sequence identify the contract.",
+        "Display-name dialog numbers are decimal low12-bit entries in resource bank0x14; complete hexadecimal keys remain in summary/evidence."
+      ]
+    }
+  },
+  "sub_08045B68": {
+    "status": "fix",
+    "reason": "Use a concise operational label within five words; precise numeric selectors remain in summary/evidence.",
+    "corrected_row": {
+      "canonical_symbol": "sub_08045B68",
+      "address": "0x08045B68",
+      "display_name": "StageResourceActorDialogSequence",
+      "summary": "Creates/configures resource0x2F and callback; waits progression byte+0x1B9/+0x1C5 bit6, closes current dialog, locks input, attempts background callback60 and queues callbacks16/5. Shows cancellable0x1400B3, moves passed actor and turns resource0x2F toward it, shows0x1400B4, moves resource actor through(120,176) to(120,240), marks slot state4 and unlocks.30 task slots full skips background task; allocation retries; queue requests not guaranteed completion.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_080443EC.c",
+          "line": 742,
+          "detail": "Creates/configures resource0x2F and callback; waits progression byte+0x1B9/+0x1C5 bit6, closes current dialog, locks input, attempts background callback60 and queues callbacks16/5. Shows cancellable0x1400B3, moves passed actor and turns resource0x2F toward it, shows0x1400B4, moves resource actor through(120,176) to(120,240), marks slot state4 and unlocks.30 task slots full skips background task; allocation retries; queue requests not guaranteed completion.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Narrative identity remains unknown; literal resources, flags and operational sequence identify the contract.",
+        "Display-name dialog numbers are decimal low12-bit entries in resource bank0x14; complete hexadecimal keys remain in summary/evidence."
+      ]
+    }
+  },
+  "sub_08049EBC": {
+    "status": "accept",
+    "reason": "Primary body supports the operational name, branch guards, request semantics and cleanup."
+  },
+  "sub_0804A188": {
+    "status": "accept",
+    "reason": "Primary body supports the operational name, branch guards, request semantics and cleanup."
+  },
+  "sub_0804A478": {
+    "status": "fix",
+    "reason": "0x080586B4 stops and clears the tracked song; it does not restore link audio.",
+    "corrected_row": {
+      "canonical_symbol": "sub_0804A478",
+      "address": "0x0804A478",
+      "display_name": "OrchestrateItem23ActorTasks",
+      "summary": "Runs actor sequence selector0 synchronously, pans camera(0,-30) increment34, then attempts four selector1..4 tasks in separate30-slot searches with retry allocation. Runs sub_0802A080, conditionally cancels saved tasks, closes dialog, restores camera increment102, attempts selectors5/6, waits30, starts tracked song2 when not linked or stops/clears the tracked song in the link branch, resets active entity state12 and calls sub_08019F04. Saved task pointers are unspecified if full-pool searches fail; no local input unlock, expected asynchronous selector1 continuation.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_080443EC.c",
+          "line": 3390,
+          "detail": "Runs actor sequence selector0 synchronously, pans camera(0,-30) increment34, then attempts four selector1..4 tasks in separate30-slot searches with retry allocation. Runs sub_0802A080, conditionally cancels saved tasks, closes dialog, restores camera increment102, attempts selectors5/6, waits30, starts tracked song2 when not linked or stops/clears the tracked song in the link branch, resets active entity state12 and calls sub_08019F04. Saved task pointers are unspecified if full-pool searches fail; no local input unlock, expected asynchronous selector1 continuation.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Narrative identity remains unknown; literal resources, flags and operational sequence identify the contract."
+      ]
+    }
+  },
+  "sub_0804A89C": {
+    "status": "accept",
+    "reason": "Primary body supports the operational name, branch guards, request semantics and cleanup."
+  },
+  "sub_0804C150": {
+    "status": "accept",
+    "reason": "Complete primary body supports operational contract, guarded branches and request/cleanup semantics."
+  },
+  "sub_0804CBBC": {
+    "status": "accept",
+    "reason": "Complete primary body supports operational contract, guarded branches and request/cleanup semantics."
+  },
+  "sub_0804D020": {
+    "status": "fix",
+    "reason": "0x080586B4 stops and clears the tracked song; link audio restoration is unproved.",
+    "corrected_row": {
+      "canonical_symbol": "sub_0804D020",
+      "address": "0x0804D020",
+      "display_name": "OrchestrateFieldItemDemonstration",
+      "summary": "Attempts selector0 demonstration task, invokes sub_0802A080, sets scene+0x38 bit2, cancels saved task if scheduled, starts song4 when not linked or stops/clears the tracked song in the link branch, closes dialog, attempts selectors1..5 and waits30. Resets state12 for active entity slots0..4 and calls sub_08019F04.30-slot pool searches can skip tasks;0x400 allocation retries; saved first task pointer is unspecified after full-pool failure.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_080443EC.c",
+          "line": 5131,
+          "detail": "Attempts selector0 demonstration task, invokes sub_0802A080, sets scene+0x38 bit2, cancels saved task if scheduled, starts song4 when not linked or stops/clears the tracked song in the link branch, closes dialog, attempts selectors1..5 and waits30. Resets state12 for active entity slots0..4 and calls sub_08019F04.30-slot pool searches can skip tasks;0x400 allocation retries; saved first task pointer is unspecified after full-pool failure.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Narrative identity remains unknown; literal event/resource contract retained."
+      ]
+    }
+  },
+  "sub_0804D330": {
+    "status": "accept",
+    "reason": "Complete primary body supports operational contract, guarded branches and request/cleanup semantics."
+  },
+  "sub_0804F390": {
+    "status": "accept",
+    "reason": "Complete primary body supports operational contract, guarded branches and request/cleanup semantics."
+  },
+  "sub_0804FF04": {
+    "status": "fix",
+    "reason": "0x080586B4 stops and clears the tracked song; link audio restoration is unproved.",
+    "corrected_row": {
+      "canonical_symbol": "sub_0804FF04",
+      "address": "0x0804FF04",
+      "display_name": "InitializeDialog104ActorScene",
+      "summary": "If progression byte+0x1B8/+0x1C4 bit7 set, hides actor1, restores transition and starts song7 when not linked or stops/clears the tracked song in the link branch and resets state12 on active entity slots0..4. Otherwise locks input and restores screen; first scene bit0 entry starts song196, pans(192,40), shows0x140068 and returns camera, setting bit0; repeat skips dialog/pan. Both unlock, start song7 when not linked or stop/clear the tracked song in the link branch, reset entities and invoke sub_080502DC synchronously. No timer/timeout for dialogue.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_0804D330.c",
+          "line": 2090,
+          "detail": "If progression byte+0x1B8/+0x1C4 bit7 set, hides actor1, restores transition and starts song7 when not linked or stops/clears the tracked song in the link branch and resets state12 on active entity slots0..4. Otherwise locks input and restores screen; first scene bit0 entry starts song196, pans(192,40), shows0x140068 and returns camera, setting bit0; repeat skips dialog/pan. Both unlock, start song7 when not linked or stop/clear the tracked song in the link branch, reset entities and invoke sub_080502DC synchronously. No timer/timeout for dialogue.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Narrative identity remains unknown; literal event/resource contract retained.",
+        "Display-name dialog numbers are decimal low12-bit entries in resource bank0x14; complete hexadecimal keys remain in summary/evidence."
+      ]
+    }
+  },
+  "sub_080509A8": {
+    "status": "accept",
+    "reason": "Complete primary body supports operational contract, guarded branches and request/cleanup semantics."
+  },
+  "sub_080529E0": {
+    "status": "accept",
+    "reason": "Complete primary body supports operational contract, guarded branches and request/cleanup semantics."
+  },
+  "sub_080531C4": {
+    "status": "accept",
+    "reason": "Complete primary body supports operational contract, guarded branches and request/cleanup semantics."
+  },
+  "sub_08053510": {
+    "status": "accept",
+    "reason": "Complete primary body supports operational contract, guarded branches and request/cleanup semantics."
+  },
+  "sub_08053E3C": {
+    "status": "fix",
+    "reason": "Use a concise operational label within five words; precise numeric selectors remain in summary/evidence.",
+    "corrected_row": {
+      "canonical_symbol": "sub_08053E3C",
+      "address": "0x08053E3C",
+      "display_name": "BindActorsAndProgressionDialog",
+      "summary": "Locks player/input and reads progression bytes+0x1BB/+0x1C7 bit1 and+0x1B7/+0x1C3 bit5. Completed branch hides actor1; seen branch hides actor1, positions actor2 and binds callback; unseen branch binds callbacks to entity slots0/1, and first scene bit0 entry pans(200,50), shows0x140283 and returns camera. Binding waits active mask bits then writes callback, argument and zero motion fields. Restores screen and unlocks on all normal exits; waits can be indefinite. No new entity allocation in this function.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_0804D330.c",
+          "line": 4221,
+          "detail": "Locks player/input and reads progression bytes+0x1BB/+0x1C7 bit1 and+0x1B7/+0x1C3 bit5. Completed branch hides actor1; seen branch hides actor1, positions actor2 and binds callback; unseen branch binds callbacks to entity slots0/1, and first scene bit0 entry pans(200,50), shows0x140283 and returns camera. Binding waits active mask bits then writes callback, argument and zero motion fields. Restores screen and unlocks on all normal exits; waits can be indefinite. No new entity allocation in this function.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0804D330.c",
+          "line": 4195,
+          "detail": "bind53E waits active entity mask, computes slot*0x2E0, writes callback+0x38, argument+0x3C and clears motion+0x30/+0x34; this is binding not allocation.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Literal observable contract retained; resource/story interpretation remains unknown where not established.",
+        "Display-name dialog numbers are decimal low12-bit entries in resource bank0x14; complete hexadecimal keys remain in summary/evidence."
+      ]
+    }
+  },
+  "sub_08054FB8": {
+    "status": "fix",
+    "reason": "Use a concise operational label within five words; precise numeric selectors remain in summary/evidence.",
+    "corrected_row": {
+      "canonical_symbol": "sub_08054FB8",
+      "address": "0x08054FB8",
+      "display_name": "StartFourFollowingSceneTasks",
+      "summary": "Independently attempts callback sub_0805664C selectors0x25..0x28, each using30 task slots and retrying0x400 stack allocation, with full-pool skip. Restores transition and waits idle. No callback readiness/completion wait or input-lock mutation.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_080542C4.c",
+          "line": 285,
+          "detail": "Independently attempts callback sub_0805664C selectors0x25..0x28, each using30 task slots and retrying0x400 stack allocation, with full-pool skip. Restores transition and waits idle. No callback readiness/completion wait or input-lock mutation.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080542C4.c",
+          "line": 57,
+          "detail": "spawn54 scans30 controls, retries0x400 allocation, initializes controlword60 and starts callback. Full-pool branch skips.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Literal observable contract retained; resource/story interpretation remains unknown where not established."
+      ]
+    }
+  },
+  "sub_08055558": {
+    "status": "fix",
+    "reason": "Use a concise operational label within five words; precise numeric selectors remain in summary/evidence.",
+    "corrected_row": {
+      "canonical_symbol": "sub_08055558",
+      "address": "0x08055558",
+      "display_name": "StartSixFollowingSceneTasks",
+      "summary": "Independently attempts callback sub_0805664C selectors0x33..0x38, each using30 task slots and retrying0x400 stack allocation, with full-pool skip. Restores transition and waits idle. No callback readiness/completion wait or input-lock mutation.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_080542C4.c",
+          "line": 354,
+          "detail": "Independently attempts callback sub_0805664C selectors0x33..0x38, each using30 task slots and retrying0x400 stack allocation, with full-pool skip. Restores transition and waits idle. No callback readiness/completion wait or input-lock mutation.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080542C4.c",
+          "line": 336,
+          "detail": "spawn56 follows same30-slot search and retry allocation pattern; six caller selectors are0x33..38.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Literal observable contract retained; resource/story interpretation remains unknown where not established."
+      ]
+    }
+  },
+  "sub_080560D0": {
+    "status": "accept",
+    "reason": "Complete primary body supports operational contract, guarded branches and request/cleanup semantics."
+  },
+  "sub_0805A9F4": {
+    "status": "accept",
+    "reason": "Complete primary body supports operational contract, guarded branches and request/cleanup semantics."
+  },
+  "sub_0805AAB8": {
+    "status": "fix",
+    "reason": "Confirmed world-map music updater does not prove unconditional fade/restoration.",
+    "corrected_row": {
+      "canonical_symbol": "sub_0805AAB8",
+      "address": "0x0805AAB8",
+      "display_name": "ReplaceSongThenUpdateMusic",
+      "summary": "Packed low8 selects song and high16 wait count. Saves current song, writes/starts replacement unless muted, waits count or link-error predicate, then if sub_0800CC98()==0 calls the conditional world-map music updater sub_0800A34C(currentLevel,savedSong,1). The updater can leave, change or stop tracked music, so restoration and a fade are not guaranteed. Zero count proceeds immediately.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_0805A630.c",
+          "line": 262,
+          "detail": "Packed low8 selects song and high16 wait count. Saves current song, writes/starts replacement unless muted, waits count or link-error predicate, then if sub_0800CC98()==0 calls the conditional world-map music updater sub_0800A34C(currentLevel,savedSong,1). The updater can leave, change or stop tracked music, so restoration and a fade are not guaranteed. Zero count proceeds immediately.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Literal observable contract retained; resource/story interpretation remains unknown where not established."
+      ]
+    }
+  },
+  "sub_0805B4CC": {
+    "status": "accept",
+    "reason": "Complete primary body and confirmed callback bindings support neutral operational name and guards, exits and cleanup."
+  },
+  "sub_0805C208": {
+    "status": "fix",
+    "reason": "Keep field8 neutral: writer proves a flag byte, while this row cites no identification consumer.",
+    "corrected_row": {
+      "canonical_symbol": "sub_0805C208",
+      "address": "0x0805C208",
+      "display_name": "RandomizeItemAttributeFields",
+      "summary": "For item types2..5, chooses weighted tables based on definition bytes/mode/caller flagbit0, randomly enables and writes fields+4(u16),+6(byte),+7(byte). Existing definition properties at3 four-byte entries force all3 fields zero. When packed attribute word+4 nonzero sets item+8 flag byte to0 if callerbit0 else1. Unknown types return1; recognized paths have no reliable return value. Tables/definition pointers are unchecked; disabled randomized fields retain prior values unless forced clear.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_0805A630.c",
+          "line": 1478,
+          "detail": "For item types2..5, chooses weighted tables based on definition bytes/mode/caller flagbit0, randomly enables and writes fields+4(u16),+6(byte),+7(byte). Existing definition properties at3 four-byte entries force all3 fields zero. When packed attribute word+4 nonzero sets item+8 flag byte to0 if callerbit0 else1. Unknown types return1; recognized paths have no reliable return value. Tables/definition pointers are unchecked; disabled randomized fields retain prior values unless forced clear.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Artwork/character/spell identity not decoded; exact operational/resource role retained."
+      ]
+    }
+  },
+  "sub_0805CB8C": {
+    "status": "accept",
+    "reason": "Complete primary body and confirmed callback bindings support neutral operational name and guards, exits and cleanup."
+  },
+  "sub_0805FAC0": {
+    "status": "accept",
+    "reason": "Complete primary body and confirmed callback bindings support neutral operational name and guards, exits and cleanup."
+  },
+  "sub_0806335C": {
+    "status": "accept",
+    "reason": "Complete primary body and confirmed callback bindings support neutral operational name and guards, exits and cleanup."
+  },
+  "sub_0806FF1C": {
+    "status": "accept",
+    "reason": "Complete primary body and confirmed callback bindings support neutral operational name and guards, exits and cleanup."
+  },
+  "sub_080923FC": {
+    "status": "accept",
+    "reason": "Complete primary body and confirmed callback bindings support neutral operational name and guards, exits and cleanup."
+  },
+  "sub_08093584": {
+    "status": "fix",
+    "reason": "Complete primary body and confirmed callback bindings support neutral operational name and guards, exits and cleanup. Scheduler calls wait for signal1; elapsed-time ticks are not established.",
+    "corrected_row": {
+      "canonical_symbol": "sub_08093584",
+      "address": "0x08093584",
+      "display_name": "AnimatePaletteRevealSideParticles",
+      "summary": "Signed first argument determines byte particle count=min((u8)(arg*4),20) and u16 recycled-particle target=(arg+1)*count. Second byte minus1 selects resource0x50031..34 and position; initializes0x50035 for20 side-entering particles. Restores screen, raises main sprite, fades palette in, reduces blend, then moves/recycles selected particles until target count. State1 exits on first iteration under timer++<=89, not90-iteration wait. Link error also exits. Hides screen and clears audio/background/display effects; invalid index leaves positions unspecified.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_08092D60.c",
+          "line": 362,
+          "detail": "Signed first argument determines byte particle count=min((u8)(arg*4),20) and u16 recycled-particle target=(arg+1)*count. Second byte minus1 selects resource0x50031..34 and position; initializes0x50035 for20 side-entering particles. Restores screen, raises main sprite, fades palette in, reduces blend, then moves/recycles selected particles until target count. State1 exits on first iteration under timer++<=89, not90-iteration wait. Link error also exits. Hides screen and clears audio/background/display effects; invalid index leaves positions unspecified.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Artwork/character/spell identity not decoded; exact operational/resource role retained."
+      ]
+    }
+  },
+  "sub_080A4D08": {
+    "status": "fix",
+    "reason": "0x08056E24 marks encounter finished;0x08067CA8 requests remote full-HP damage. Scheduler calls wait for signal1; elapsed-time ticks are not established.",
+    "corrected_row": {
+      "canonical_symbol": "sub_080A4D08",
+      "address": "0x080A4D08",
+      "display_name": "RunSprite15VolleyEncounter",
+      "summary": "Initializes actor/template/team and allocates shared palette once; sentinel0xFFFF loop only yields until global changes or scene abort clears active bit. Uses resource0x5000F, scaled stats, link barriers and mode-dependent state machine: entrance, timed waits, horizontal passes, captured-player relocation/contact damage, eight falling shots, two turning volleys and optional twelve-target attack. Renders shadow/hit flash/damage, checks death, or scene-exit enters same ending path. Ending clears entire actor mask, releases projectile pools, locks local player, queues remote full-HP damage via0x08067CA8, waits marker0xDEADFACE and scene pause, shows0x14006A, unlocks, runs defeat/drop effects, waits112 signal1 waits/link barrier, marks the encounter finished, then waits for area-change request and releases the scroll task. Unbounded waits; palette not retried locally.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_080A3D2C.c",
+          "line": 726,
+          "detail": "Initializes actor/template/team and allocates shared palette once; sentinel0xFFFF loop only yields until global changes or scene abort clears active bit. Uses resource0x5000F, scaled stats, link barriers and mode-dependent state machine: entrance, timed waits, horizontal passes, captured-player relocation/contact damage, eight falling shots, two turning volleys and optional twelve-target attack. Renders shadow/hit flash/damage, checks death, or scene-exit enters same ending path. Ending clears entire actor mask, releases projectile pools, locks local player, queues remote full-HP damage via0x08067CA8, waits marker0xDEADFACE and scene pause, shows0x14006A, unlocks, runs defeat/drop effects, waits112 signal1 waits/link barrier, marks the encounter finished, then waits for area-change request and releases the scroll task. Unbounded waits; palette not retried locally.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080A3D2C.c",
+          "line": 712,
+          "detail": "Alias h1084D0A6258 binds contact/capture helper080A6258; task starters0A7ECC/0A7F94/0A803C bind falling, turning and twelve-target callbacks, not artwork identities.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080A3D2C.c",
+          "line": 1296,
+          "detail": "Ending calls0x08067CA8, the remote entity full-HP damage request.0x08056E24 only ORs scene flags bit8 (src/code_080542C4.c:1199), marking encounter finished; area-change request is separately queried by0x08056E90.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Artwork/character/spell identity not decoded; exact operational/resource role retained."
+      ]
+    }
+  },
+  "sub_080AB2F8": {
+    "status": "fix",
+    "reason": "Ending dispatch is remote damage and encounter-finished marking, not palette freeing or area-change admission.",
+    "corrected_row": {
+      "canonical_symbol": "sub_080AB2F8",
+      "address": "0x080AB2F8",
+      "display_name": "RunChargeContactActorEncounter",
+      "summary": "Initializes template/team, allocates palette once and waits unchanged sentinel unless abort clears actor bit. Uses resources0x5001D/0x5001E, scales stats, resets peer history and waits link barrier. State machine chases selected player, waits mode-specific threshold, snapshots target for charge at0x480, or cycles aim/contact helpers; alternates animations/shadow and hit display until death or scene exit. Same ending path locks player, queues remote full-HP damage via0x08067CA8 and waits0xDEADFACE/pause, selects message0x140060 when flags6-set/22-clear else0x140058, unlocks, optionally sets flag22/song0x32, blinks21 iterations, conditionally awards experience feedback and marks the encounter finished. The alias named free is remote damage admission, not palette release; palette and marker waits have no timeout.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_080A9680.c",
+          "line": 1178,
+          "detail": "Initializes template/team, allocates palette once and waits unchanged sentinel unless abort clears actor bit. Uses resources0x5001D/0x5001E, scales stats, resets peer history and waits link barrier. State machine chases selected player, waits mode-specific threshold, snapshots target for charge at0x480, or cycles aim/contact helpers; alternates animations/shadow and hit display until death or scene exit. Same ending path locks player, queues remote full-HP damage via0x08067CA8 and waits0xDEADFACE/pause, selects message0x140060 when flags6-set/22-clear else0x140058, unlocks, optionally sets flag22/song0x32, blinks21 iterations, conditionally awards experience feedback and marks the encounter finished. The alias named free is remote damage admission, not palette release; palette and marker waits have no timeout.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080A9680.c",
+          "line": 1150,
+          "detail": "projStart/Tick/Next aliases bind080AC5B4/AC214/AC2E8 contact/aim helpers; they are not sufficient proof of a projectile allocation. Actor title intentionally uses charge/contact.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080A9680.c",
+          "line": 1163,
+          "detail": "Ending calls0x08067CA8, the remote entity full-HP damage request.0x08056E24 only ORs scene flags bit8 (src/code_080542C4.c:1199), marking encounter finished; area-change request is separately queried by0x08056E90.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Artwork/character/spell identity not decoded; exact operational/resource role retained."
+      ]
+    }
+  }
+}
