@@ -1,0 +1,195 @@
+[
+  {
+    "canonical_symbol": "sub_080684E8",
+    "address": "0x080684E8",
+    "display_name": "GetReceivedLinkByte173",
+    "summary": "Returns the shared received tag-0xAD byte without changing state.",
+    "confidence": "high",
+    "evidence": [
+      {
+        "source": "src/code_08067B4C.c",
+        "line": 426,
+        "detail": "Returns u8 global 03006224.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_080659B0.c",
+        "line": 1551,
+        "detail": "Receiver case 0x2C, corresponding to tag 0xAD, overwrites the byte from payload d[0].",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_080659B0.c",
+        "line": 184,
+        "detail": "Link initialization resets the byte to 0xFF.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ],
+    "open_questions": [
+      "No getter caller or byte consumer found; what encounter decision does this channel carry?"
+    ],
+    "role_limit": "Exact observable protocol/scan contract only; no hidden encounter or gameplay meaning is inferred."
+  },
+  {
+    "canonical_symbol": "sub_080684F4",
+    "address": "0x080684F4",
+    "display_name": "ResetReceivedLinkByte173",
+    "summary": "Resets the shared received tag-0xAD byte to 0xFF; the declared nonvoid function has no explicit return.",
+    "confidence": "high",
+    "evidence": [
+      {
+        "source": "src/code_08067B4C.c",
+        "line": 430,
+        "detail": "Writes 0xFF to byte 03006224 and supplies no C return value.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_080659B0.c",
+        "line": 1551,
+        "detail": "Incoming tag 0xAD writes this byte.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_080A9680.c",
+        "line": 5127,
+        "detail": "Dual-actor encounter initialization resets this channel before starting its two actor tasks.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ],
+    "open_questions": [
+      "No subsequent consumer found; the dual-actor startup association alone does not identify the channel meaning."
+    ],
+    "role_limit": "Exact observable protocol/scan contract only; no hidden encounter or gameplay meaning is inferred."
+  },
+  {
+    "canonical_symbol": "sub_08068540",
+    "address": "0x08068540",
+    "display_name": "GetReceivedLinkByte174",
+    "summary": "Returns the shared received tag-0xAE byte without changing state.",
+    "confidence": "high",
+    "evidence": [
+      {
+        "source": "src/code_08067B4C.c",
+        "line": 434,
+        "detail": "Returns u8 global 03006228.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_080659B0.c",
+        "line": 1554,
+        "detail": "Receiver case 0x2D, corresponding to tag 0xAE, stores payload d[0] into this byte.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_080659B0.c",
+        "line": 185,
+        "detail": "Link initialization sets it to 0xFF.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ],
+    "open_questions": [
+      "No getter caller or byte consumer found; what value does the channel represent?"
+    ],
+    "role_limit": "Exact observable protocol/scan contract only; no hidden encounter or gameplay meaning is inferred."
+  },
+  {
+    "canonical_symbol": "sub_0806854C",
+    "address": "0x0806854C",
+    "display_name": "ResetReceivedLinkByte174",
+    "summary": "Resets the shared received tag-0xAE byte to 0xFF; the declared nonvoid function has no explicit return.",
+    "confidence": "high",
+    "evidence": [
+      {
+        "source": "src/code_08067B4C.c",
+        "line": 438,
+        "detail": "Writes 0xFF to byte 03006228, with no explicit C return.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_080659B0.c",
+        "line": 1554,
+        "detail": "Incoming tag 0xAE writes this same byte.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ],
+    "open_questions": [
+      "No reset caller or channel consumer found; what operation is reset?"
+    ],
+    "role_limit": "Exact observable protocol/scan contract only; no hidden encounter or gameplay meaning is inferred."
+  },
+  {
+    "canonical_symbol": "sub_0801DF4C",
+    "address": "0x0801DF4C",
+    "display_name": "ScanActorIds",
+    "summary": "Scans up to five actor records for a matching halfword ID, then returns without a result or side effect.",
+    "confidence": "high",
+    "evidence": [
+      {
+        "source": "src/code_0801AAF8.c",
+        "line": 2135,
+        "detail": "Searches five records using u32 loop index.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_0801AAF8.c",
+        "line": 2137,
+        "detail": "Compares each record halfword id at offset 2 with the full u32 id and stops at the first match; no state write or return value follows.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ],
+    "open_questions": [
+      "No source caller found; what original interface was this side-effect-free scan intended to provide?"
+    ],
+    "role_limit": "Exact observable protocol/scan contract only; no hidden encounter or gameplay meaning is inferred."
+  },
+  {
+    "canonical_symbol": "sub_080684A8",
+    "address": "0x080684A8",
+    "display_name": "EnqueueLinkByte173",
+    "summary": "If the outgoing queue has fewer than 50 entries, appends tag 0xAD with the zero-extended u8 input as one-chunk payload and returns one; otherwise returns zero.",
+    "confidence": "high",
+    "evidence": [
+      {
+        "source": "src/code_08067B4C.c",
+        "line": 424,
+        "detail": "Checks queue count <=49, appends active tag 0xAD entry at stride 0x88, zero-extends u8 payload, sets chunk count one and increments the queue.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_080659B0.c",
+        "line": 1551,
+        "detail": "Receiver truncates payload d[0] into shared byte 03006224.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ],
+    "open_questions": [
+      "No producer caller or received-value consumer found; what shared encounter choice does tag 0xAD communicate? Enqueue success alone does not prove transmission or reception."
+    ],
+    "role_limit": "Exact observable protocol/scan contract only; no hidden encounter or gameplay meaning is inferred."
+  },
+  {
+    "canonical_symbol": "sub_08068500",
+    "address": "0x08068500",
+    "display_name": "EnqueueLinkByte174",
+    "summary": "If the outgoing queue has fewer than 50 entries, appends tag 0xAE with the zero-extended u8 input as one-chunk payload and returns one; otherwise returns zero.",
+    "confidence": "high",
+    "evidence": [
+      {
+        "source": "src/code_08067B4C.c",
+        "line": 432,
+        "detail": "Checks queue count <=49, appends active tag 0xAE entry at stride 0x88, zero-extends u8 payload, sets chunk count one and increments the queue.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_080659B0.c",
+        "line": 1554,
+        "detail": "Receiver truncates payload d[0] into shared byte 03006228.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ],
+    "open_questions": [
+      "No producer caller or received-value consumer found; what shared encounter choice does tag 0xAE communicate? Enqueue success alone does not prove transmission or reception."
+    ],
+    "role_limit": "Exact observable protocol/scan contract only; no hidden encounter or gameplay meaning is inferred."
+  }
+]

@@ -1,0 +1,37 @@
+[
+  {
+    "canonical_symbol": "sub_080684E8",
+    "decision": "accept",
+    "reason": "Accept exact latch-getter contract: returns u8 storage bound to literal tag173/174; receiver switch(tag-0x81) cases0x2C/0x2D truncate d[0] into the same shared byte. Initialization/reset0xFF is a latch sentinel, not proof of reception."
+  },
+  {
+    "canonical_symbol": "sub_080684F4",
+    "decision": "accept",
+    "reason": "Accept exact latch-reset contract: byte becomes0xFF, aliases match receiver storage, and nonvoid C definition has no explicit return. Name makes no defined return-value or hidden gameplay claim."
+  },
+  {
+    "canonical_symbol": "sub_08068540",
+    "decision": "accept",
+    "reason": "Accept exact latch-getter contract: returns u8 storage bound to literal tag173/174; receiver switch(tag-0x81) cases0x2C/0x2D truncate d[0] into the same shared byte. Initialization/reset0xFF is a latch sentinel, not proof of reception."
+  },
+  {
+    "canonical_symbol": "sub_0806854C",
+    "decision": "accept",
+    "reason": "Accept exact latch-reset contract: byte becomes0xFF, aliases match receiver storage, and nonvoid C definition has no explicit return. Name makes no defined return-value or hidden gameplay claim."
+  },
+  {
+    "canonical_symbol": "sub_0801DF4C",
+    "decision": "accept",
+    "reason": "Accept exact neutral role: reads at most five halfword actor IDs at stride0x2E0, compares against full u32 argument, stops on match, returns void without writes. No lookup result or intended gameplay effect is invented."
+  },
+  {
+    "canonical_symbol": "sub_080684A8",
+    "decision": "accept",
+    "reason": "Accept literal protocol-tag contract:173/174 match0xAD/0xAE; u8 input zero-extends to payload word, count<=49 admits one active0x88-byte entry with one chunk, increments count and returns1; full queue returns0. No delivery guarantee."
+  },
+  {
+    "canonical_symbol": "sub_08068500",
+    "decision": "accept",
+    "reason": "Accept literal protocol-tag contract:173/174 match0xAD/0xAE; u8 input zero-extends to payload word, count<=49 admits one active0x88-byte entry with one chunk, increments count and returns1; full queue returns0. No delivery guarantee."
+  }
+]

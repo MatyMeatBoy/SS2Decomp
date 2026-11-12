@@ -1,0 +1,244 @@
+[
+  {
+    "canonical_symbol": "sub_0801E0A0",
+    "decision": "accept",
+    "reason": "Coordinator independently read complete primary bodies and necessary consumers, including signed/unsigned coordinate bounds, living-health guards, palette selection, conditional energy restoration, charged-action lifecycle, queue admission, and supported map-set ranges."
+  },
+  {
+    "canonical_symbol": "sub_0801DF08",
+    "decision": "accept",
+    "reason": "Coordinator independently read complete primary bodies and necessary consumers, including signed/unsigned coordinate bounds, living-health guards, palette selection, conditional energy restoration, charged-action lifecycle, queue admission, and supported map-set ranges."
+  },
+  {
+    "canonical_symbol": "sub_08017E34",
+    "decision": "accept",
+    "reason": "Coordinator independently read complete primary bodies and necessary consumers, including signed/unsigned coordinate bounds, living-health guards, palette selection, conditional energy restoration, charged-action lifecycle, queue admission, and supported map-set ranges."
+  },
+  {
+    "canonical_symbol": "sub_08017EC8",
+    "decision": "accept",
+    "reason": "Coordinator independently read complete primary bodies and necessary consumers, including signed/unsigned coordinate bounds, living-health guards, palette selection, conditional energy restoration, charged-action lifecycle, queue admission, and supported map-set ranges."
+  },
+  {
+    "canonical_symbol": "sub_0801CC10",
+    "decision": "fix",
+    "reason": "Living-health and maximum clamp are supported; preserve signed16 distance comparisons and u16 store narrowing rather than promising full-range geometric checks.",
+    "corrected_row": {
+      "canonical_symbol": "sub_0801CC10",
+      "address": "0x0801CC10",
+      "display_name": "AdjustLocalHealthNearPlayer",
+      "summary": "Adds a signed amount to living local-player health when targeting self or when within the indexed player rectangle, then caps health at maximum.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_0801AAF8.c",
+          "line": 1476,
+          "detail": "Converts local coordinates and indexed player snapshot coordinates to tile units.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0801AAF8.c",
+          "line": 1493,
+          "detail": "Self-target bypasses range checks, but only adds when local current health is positive.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0801AAF8.c",
+          "line": 1506,
+          "detail": "Other-player case adds only for x distance <=13, y distance <=9 and living local player.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0801AAF8.c",
+          "line": 1511,
+          "detail": "Caps signed resulting health at maximum; no lower clamp or revival is implemented.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0801AAF8.c",
+          "line": 1506,
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7",
+          "detail": "Distance magnitudes are narrowed to u16 then compared as s16; for out-of-range wrapped values this is not an unrestricted real-coordinate range check. Health addition stores low16 bits before signed comparison with maximum, with no lower clamp."
+        }
+      ],
+      "open_questions": [
+        "No direct source callers found; sign and permitted domain of amount depend on the caller."
+      ]
+    }
+  },
+  {
+    "canonical_symbol": "sub_0801DEB8",
+    "decision": "accept",
+    "reason": "Coordinator independently read complete primary bodies and necessary consumers, including signed/unsigned coordinate bounds, living-health guards, palette selection, conditional energy restoration, charged-action lifecycle, queue admission, and supported map-set ranges."
+  },
+  {
+    "canonical_symbol": "sub_08067E08",
+    "decision": "accept",
+    "reason": "Coordinator independently read complete primary bodies and necessary consumers, including signed/unsigned coordinate bounds, living-health guards, palette selection, conditional energy restoration, charged-action lifecycle, queue admission, and supported map-set ranges."
+  },
+  {
+    "canonical_symbol": "sub_080153A4",
+    "decision": "accept",
+    "reason": "Coordinator independently read complete primary bodies and necessary consumers, including signed/unsigned coordinate bounds, living-health guards, palette selection, conditional energy restoration, charged-action lifecycle, queue admission, and supported map-set ranges."
+  },
+  {
+    "canonical_symbol": "sub_08015464",
+    "decision": "accept",
+    "reason": "Coordinator independently read complete primary bodies and necessary consumers, including signed/unsigned coordinate bounds, living-health guards, palette selection, conditional energy restoration, charged-action lifecycle, queue admission, and supported map-set ranges."
+  },
+  {
+    "canonical_symbol": "sub_08015620",
+    "decision": "accept",
+    "reason": "Coordinator independently read complete primary bodies and necessary consumers, including signed/unsigned coordinate bounds, living-health guards, palette selection, conditional energy restoration, charged-action lifecycle, queue admission, and supported map-set ranges."
+  },
+  {
+    "canonical_symbol": "sub_08015A48",
+    "decision": "accept",
+    "reason": "Coordinator independently read complete primary bodies and necessary consumers, including signed/unsigned coordinate bounds, living-health guards, palette selection, conditional energy restoration, charged-action lifecycle, queue admission, and supported map-set ranges."
+  },
+  {
+    "canonical_symbol": "sub_0801551C",
+    "decision": "fix",
+    "reason": "Starter role and dispatch are supported; use scheduling-control key52 rather than assuming the task+8 field is a priority.",
+    "corrected_row": {
+      "canonical_symbol": "sub_0801551C",
+      "address": "0x0801551C",
+      "display_name": "StartLocalChargedAttackTask",
+      "summary": "Starts a local charged-attack task for action kinds4/5 with allocation retries; an already-scheduled task instead causes guarded state reset and returns.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_080153A4.c",
+          "line": 133,
+          "detail": "Duplicate embedded task path resets local state outside10/11 and spectator before returning.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080153A4.c",
+          "line": 140,
+          "detail": "Kind5 subtype4 dispatches moving helper, other kind5 animation helper, kind4 task152CC; unsupported kinds return.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080153A4.c",
+          "line": 153,
+          "detail": "Stores task scheduling-control key52, retries 0x400 stack allocation with signal1 waits and assigns stack top+0x3FC.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080153A4.c",
+          "line": 158,
+          "detail": "Starts task and does not wait for completion.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0800CF58.c",
+          "line": 1978,
+          "detail": "Charge-release path enters state5, increments hit sequence and invokes this scheduler.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": []
+    }
+  },
+  {
+    "canonical_symbol": "sub_08015820",
+    "decision": "fix",
+    "reason": "Starter role and dispatch are supported; use scheduling-control key52 rather than assuming the task+8 field is a priority.",
+    "corrected_row": {
+      "canonical_symbol": "sub_08015820",
+      "address": "0x08015820",
+      "display_name": "StartClassSevenChargedAttack",
+      "summary": "Starts the indexed player charged-attack task used by class7 for action kinds1/8, retrying stack allocation and returning immediately after scheduling.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_080153A4.c",
+          "line": 250,
+          "detail": "Already-scheduled path may reset only local player state outside10/11 and spectator, then returns without allocation.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080153A4.c",
+          "line": 257,
+          "detail": "Kind1 selects timed attack15620 and kind8 selects ranged attack156FC; unsupported kinds return.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080153A4.c",
+          "line": 267,
+          "detail": "Stores task scheduling-control key52, retries 0x400 stack allocation with signal1 waits and sets stack top+0x3FC.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080153A4.c",
+          "line": 272,
+          "detail": "Starts the indexed task and passes the player index; does not wait for task completion.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0800CF58.c",
+          "line": 4410,
+          "detail": "Main class7 charged-animation dispatch invokes this helper for kinds1/8.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": []
+    }
+  },
+  {
+    "canonical_symbol": "sub_08015B20",
+    "decision": "fix",
+    "reason": "Starter role and dispatch are supported; use scheduling-control key52 rather than assuming the task+8 field is a priority.",
+    "corrected_row": {
+      "canonical_symbol": "sub_08015B20",
+      "address": "0x08015B20",
+      "display_name": "StartClassFiveChargedAttack",
+      "summary": "Starts the indexed player charged-attack task used by class5 for action kinds6/8, retrying stack allocation and returning immediately after scheduling.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_080153A4.c",
+          "line": 352,
+          "detail": "Already-scheduled path may reset only local player state outside10/11 and spectator, then returns.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080153A4.c",
+          "line": 359,
+          "detail": "Kind6 selects moving two-cycle helper15914 and kind8 selects repeated animation15A48; unsupported kinds return.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080153A4.c",
+          "line": 369,
+          "detail": "Stores task scheduling-control key52, retries 0x400 allocation with signal1 waits and sets stack top+0x3FC.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080153A4.c",
+          "line": 374,
+          "detail": "Starts indexed task with player index, without waiting for completion.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0800CF58.c",
+          "line": 4398,
+          "detail": "Main class5 charged-animation dispatch invokes this helper for kinds6/8.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": []
+    }
+  },
+  {
+    "canonical_symbol": "sub_08015F44",
+    "decision": "accept",
+    "reason": "Coordinator independently read complete primary bodies and necessary consumers, including signed/unsigned coordinate bounds, living-health guards, palette selection, conditional energy restoration, charged-action lifecycle, queue admission, and supported map-set ranges."
+  },
+  {
+    "canonical_symbol": "sub_0801602C",
+    "decision": "accept",
+    "reason": "Coordinator independently read complete primary bodies and necessary consumers, including signed/unsigned coordinate bounds, living-health guards, palette selection, conditional energy restoration, charged-action lifecycle, queue admission, and supported map-set ranges."
+  }
+]

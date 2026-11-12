@@ -1,0 +1,638 @@
+[
+  {
+    "canonical_symbol": "sub_0805A350",
+    "decision": "fix",
+    "display_name": "SetSceneEventFlag24",
+    "reasoning": "Bit24 setting and mode bank are exact; Complete implies a particular event completion contract not established by trigger order alone. Use neutral fixed-bit setter name.",
+    "evidence": [
+      {
+        "source": "src/code_08059534.c",
+        "line": 505,
+        "detail": "Chooses advanced+0x1C6 or normal+0x1BA and ORs bit0, equivalent to bit24 of banks+0x1C3/+0x1B7.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_08059534.c",
+        "line": 120,
+        "detail": "General scene-event setter uses byte index bit>>3 and matching banks.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ]
+  },
+  {
+    "canonical_symbol": "sub_0805A404",
+    "decision": "accept",
+    "display_name": "ParkSceneEntityWithSong",
+    "reasoning": "Primary conditional audio and relocation verified against actual movement helper. Invalid actor-ID selector can yield then return without relocating, inherited from callee; no universal success guarantee.",
+    "evidence": [
+      {
+        "source": "src/code_08059534.c",
+        "line": 529,
+        "detail": "Only requests song35 when scene bit3 and link mask0x20 are clear.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_08059534.c",
+        "line": 532,
+        "detail": "Moves original selector to9999/9999 with zero duration.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_08028AAC.c",
+        "line": 40,
+        "detail": "Movement helper truncates pixel coordinates/duration to u16 and writes directly on zero duration, with type-specific handling.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ]
+  },
+  {
+    "canonical_symbol": "sub_0805A43C",
+    "decision": "accept",
+    "display_name": "SetInventoryGateArbitrationStatus",
+    "reasoning": "Mode-bank selection and inventory-gate arbitration role are substantiated by both producer and waiting consumer.",
+    "evidence": [
+      {
+        "source": "src/code_08059534.c",
+        "line": 538,
+        "detail": "Chooses advanced+0x1C1 or normal+0x1B5 and writes u8 input.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_080542C4.c",
+        "line": 1141,
+        "detail": "Arbitrator sends requester value+8 through this callback and writes low byte locally.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_080542C4.c",
+        "line": 1093,
+        "detail": "Gate waits for status>7 and compares low2bits with local player ID before consuming inventory.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ]
+  },
+  {
+    "canonical_symbol": "sub_08059968",
+    "decision": "accept",
+    "display_name": "ClearBankedSceneEventFlag",
+    "reasoning": "Exact same banked bit-clear contract as confirmed counterpart; no invented story identity or bit-domain validation.",
+    "evidence": [
+      {
+        "source": "src/code_08059534.c",
+        "line": 134,
+        "detail": "Computes byte index and bit mask, clears in selected bank at lines136-139.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_080571A4.c",
+        "line": 444,
+        "detail": "Confirmed counterpart uses identical bank selection and bit clearing.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ]
+  },
+  {
+    "canonical_symbol": "sub_08056CB4",
+    "decision": "accept",
+    "display_name": "ArbitrateInventoryGateActivation",
+    "reasoning": "Guard is specifically local ID0, not a parent-or-loopback predicate. Encoded status and local copy verified; no queue-success guarantee.",
+    "evidence": [
+      {
+        "source": "src/code_080542C4.c",
+        "line": 1130,
+        "detail": "Returns for nonzero local player ID; status>7 guard follows.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_080542C4.c",
+        "line": 1141,
+        "detail": "Adds8, requests callback and stores low byte locally without checking enqueue result.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_080542C4.c",
+        "line": 1090,
+        "detail": "Inventory gate sends its local ID through arbitrator, then waits and checks winner low2bits.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ]
+  },
+  {
+    "canonical_symbol": "sub_0805A318",
+    "decision": "accept",
+    "display_name": "HasPlayerAppearance6Or8",
+    "reasoning": "Current player appearance field, not necessarily unmodified saved class, is explicitly corroborated by class initialization and transformation overwrite.",
+    "evidence": [
+      {
+        "source": "src/code_08059534.c",
+        "line": 492,
+        "detail": "Scans connected player records at0x14C stride; returns1 for current +0x64 value6 or8.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_0801AAF8.c",
+        "line": 849,
+        "detail": "Initially writes saved class to field64.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_0801AAF8.c",
+        "line": 1024,
+        "detail": "Transformation branch replaces field64 with job appearance code+10.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ]
+  },
+  {
+    "canonical_symbol": "sub_08059A94",
+    "decision": "accept",
+    "display_name": "MarkWorldMapDestinationAvailable",
+    "reasoning": "Bit mask role anchored to actual world-map selection and icon filtering; input narrowing/bounds safety not invented.",
+    "evidence": [
+      {
+        "source": "src/code_08059534.c",
+        "line": 180,
+        "detail": "Subtracts1 and ORs corresponding bit into mode bank+0x80/+0x78.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_080571A4.c",
+        "line": 545,
+        "detail": "Paired query reads the identical mask bit.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_08009088.c",
+        "line": 2179,
+        "detail": "World-map selection skips destination when paired query is false; icon loop repeats at2337.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ]
+  },
+  {
+    "canonical_symbol": "sub_080599D8",
+    "decision": "accept",
+    "display_name": "EnsureWorldMapDestinationAvailable",
+    "reasoning": "Conditional-set copy has same destination mask role. Its second mode query is distinct: no guarantee that selected bank cannot change between queries.",
+    "evidence": [
+      {
+        "source": "src/code_08059534.c",
+        "line": 149,
+        "detail": "Computes destination-1, checks selected bank mask; if absent queries mode again and sets corresponding bank.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_08009088.c",
+        "line": 2179,
+        "detail": "World-map selection uses matching query to exclude unavailable destinations.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ]
+  },
+  {
+    "canonical_symbol": "sub_08059FBC",
+    "decision": "accept",
+    "display_name": "RunSelectedScreenReveal",
+    "reasoning": "Selected reveal and idle wait are supported. Independently checked mode accessor: it returns only0,1,2, so no unrecognized-mode path is reachable through the observed accessor.",
+    "evidence": [
+      {
+        "source": "src/code_08059534.c",
+        "line": 330,
+        "detail": "Full-screen menu suppresses all work.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_08059534.c",
+        "line": 331,
+        "detail": "Dispatches recognized modes0,1,2 to three reveal paths; no default branch.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_08059534.c",
+        "line": 336,
+        "detail": "Always waits until transition idle after switch, even for unrecognized modes.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_0801AAF8.c",
+        "line": 14,
+        "detail": "Mode accessor returns1 when bit8 set, otherwise0 or2 from bit0x20; all switch cases are covered.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ]
+  },
+  {
+    "canonical_symbol": "sub_0805A004",
+    "decision": "fix",
+    "display_name": "PositionSelectedMapObject",
+    "reasoning": "Only one of two fixed objects is positioned per call; Pair could imply simultaneous placement. Selected reflects actual switch contract.",
+    "evidence": [
+      {
+        "source": "src/code_08059534.c",
+        "line": 342,
+        "detail": "Mode0 positions selector6 at128/88 with zero duration.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_08059534.c",
+        "line": 344,
+        "detail": "Mode1 positions selector7 then ORs scene+0x38 mask0x10; other modes do nothing.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_08028AAC.c",
+        "line": 65,
+        "detail": "Selectors6/7 select map-object records and zero-duration path writes position/updates collision footprint.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ]
+  },
+  {
+    "canonical_symbol": "sub_0805A0EC",
+    "decision": "accept",
+    "display_name": "RemoveBagItem34ForPlayer",
+    "reasoning": "Player-ID guard,25-slot scan and first-match-only partial clearing verified; bag interpretation independently supported by generic remover.",
+    "evidence": [
+      {
+        "source": "src/code_08059534.c",
+        "line": 392,
+        "detail": "Nonlocal owner returns; scans kind/id at inventory+0x150/+0x152 with16-byte stride.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_08059534.c",
+        "line": 403,
+        "detail": "Only kind1/item34 matches; clears those halfwords and returns after first.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_08057CAC.c",
+        "line": 313,
+        "detail": "Generic bag remover uses identical pairs and clearing operation.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ]
+  },
+  {
+    "canonical_symbol": "sub_08059A40",
+    "decision": "accept",
+    "display_name": "RepeatLocalPlayerEventLock",
+    "reasoning": "Exact count-1 repeats for count1..65535, no unlock, and inner-only link-error break checked. Counter wrap limitation correctly preserved.",
+    "evidence": [
+      {
+        "source": "src/code_08059534.c",
+        "line": 167,
+        "detail": "u16 loop starts1, reasserts player flag0 and event lock each iteration.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_08059534.c",
+        "line": 170,
+        "detail": "One signal wait per iteration; link error breaks only inner one-count loop.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ]
+  },
+  {
+    "canonical_symbol": "sub_0805A088",
+    "decision": "accept",
+    "display_name": "RequestLinkedCallbackOnOverlap",
+    "reasoning": "Fixed target, inclusive AABB semantics, one-time local-player capture and single ignored-result queue attempt verified. No false edge-trigger/button claim.",
+    "evidence": [
+      {
+        "source": "src/code_08059534.c",
+        "line": 377,
+        "detail": "Target183/225 Q8 and size10/40; player size initialized0.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_08059534.c",
+        "line": 380,
+        "detail": "Captures local-player record then yields until overlap.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_08059534.c",
+        "line": 383,
+        "detail": "Enqueues callback4BC38 with original argument once, without retry/result check.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ]
+  },
+  {
+    "canonical_symbol": "sub_0805A4BC",
+    "decision": "accept",
+    "display_name": "StartSceneObjectGroupTask",
+    "reasoning": "Actual membership guard, allocation retry, task setup and supplied argument forwarding verified. Callback walks grouped scene records; startup rather than task execution name is correct.",
+    "evidence": [
+      {
+        "source": "src/code_08059534.c",
+        "line": 563,
+        "detail": "Returns if embedded scene task+0x6F4 is already scheduled.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_08059534.c",
+        "line": 570,
+        "detail": "Retries0xC00 stack allocation, installs27C1C callback, stack top+0xBFC and null destructor, then starts task.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_08021DC4.c",
+        "line": 4766,
+        "detail": "Callback walks typed records and extracts groups from tags8/9.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ]
+  },
+  {
+    "canonical_symbol": "sub_0805A3B0",
+    "decision": "accept",
+    "display_name": "RunMapObjectMovementSequence",
+    "reasoning": "Correct sequence and numeric selector identities; interpolated relative movement is executed inline, not merely queued, and no endpoint snap guarantee is claimed.",
+    "evidence": [
+      {
+        "source": "src/code_08059534.c",
+        "line": 519,
+        "detail": "Conditionally requests song0x17B.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_08059534.c",
+        "line": 522,
+        "detail": "Immediately positions map-object7 offscreen, then executes relative movement of object6 by0/-12 with duration60.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_08028AAC.c",
+        "line": 199,
+        "detail": "Map-object relative interpolation uses floor step1024/frames, sampling through1023 without endpoint snap.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ]
+  },
+  {
+    "canonical_symbol": "sub_0805A138",
+    "decision": "accept",
+    "display_name": "RequestOrParkMapObject",
+    "reasoning": "Two-stage enqueue-versus-execute mode switch verified; guarded callback request is not confused with completed parking.",
+    "evidence": [
+      {
+        "source": "src/code_08059534.c",
+        "line": 423,
+        "detail": "Mode0 enqueues same callback with mode1/guard1; result ignored.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_08059534.c",
+        "line": 426,
+        "detail": "Mode1 conditionally starts song0x17B, positions map object7 offscreen and sets scene area bit3.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_080443EC.c",
+        "line": 4709,
+        "detail": "Area-bit3 selects trigger installation versus direct offscreen positioning.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ]
+  },
+  {
+    "canonical_symbol": "sub_0805A258",
+    "decision": "accept",
+    "display_name": "RevealSceneThenMoveEnemy",
+    "reasoning": "Correct conditional reveal and subsequent enemy selector1 animation/relative movement. Request wording in movement summary should mean inline interpolation, not background enqueue.",
+    "evidence": [
+      {
+        "source": "src/code_08059534.c",
+        "line": 459,
+        "detail": "Skips reveal only under fullscreen menu; otherwise selects reveal and waits idle.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_08059534.c",
+        "line": 468,
+        "detail": "Sets loop animation1 on selector1 and executes relative offset240/0 with duration400.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_08028AAC.c",
+        "line": 225,
+        "detail": "Selectors1..5 select enemy pool rather than map objects.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ]
+  },
+  {
+    "canonical_symbol": "sub_08054514",
+    "decision": "accept",
+    "display_name": "MoveAndStopPairedActors",
+    "reasoning": "Actor handles, upward movement and asynchronous stop requests confirmed through actor task lifetime predicate; no immediate cancellation claim.",
+    "evidence": [
+      {
+        "source": "src/code_080542C4.c",
+        "line": 110,
+        "detail": "Spawns variants0x24/0x10024 and moves first vertically-200 with duration200.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_080542C4.c",
+        "line": 127,
+        "detail": "Writes state4 to first matching handle; second loop does likewise at143.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_08021DC4.c",
+        "line": 5200,
+        "detail": "Actor task loops while field36!=4, then clears handle ID at5242.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ]
+  },
+  {
+    "canonical_symbol": "sub_0805A1B4",
+    "decision": "accept",
+    "display_name": "ShowSceneInteractionMessage",
+    "reasoning": "Actual actor interaction callback and explicit event-lock lifetime verified. Suspension branch closes dialogue windows before releasing flags.",
+    "evidence": [
+      {
+        "source": "src/code_08059534.c",
+        "line": 442,
+        "detail": "Sets player flag0 and begins event lock; waits for dialogue/text slots to become unused.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_08059534.c",
+        "line": 446,
+        "detail": "Requests message0x14022A; polls completion, closes windows and breaks on world-task suspend.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_08059534.c",
+        "line": 454,
+        "detail": "Clears local-player flag0 and ends event lock.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_0804D330.c",
+        "line": 1025,
+        "detail": "Actor interaction field44 receives this exact callback.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ]
+  },
+  {
+    "canonical_symbol": "sub_08055BA4",
+    "decision": "accept",
+    "display_name": "CycleMapObjectVerticalRoute",
+    "reasoning": "Infinite outer cycle,32-entry index wrap, per-entry vertical motion and waits independently checked. Link errors shorten current delays but never terminate route task.",
+    "evidence": [
+      {
+        "source": "src/code_080542C4.c",
+        "line": 552,
+        "detail": "Copies positions and256-byte route table.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_080542C4.c",
+        "line": 564,
+        "detail": "Positions object6 at selected y; interpolates-28 over10, waits entry delay, interpolates+28 over10 and parks offscreen.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_080542C4.c",
+        "line": 574,
+        "detail": "Second delay starts30; link error skips remainder; index advances modulo32 and outer loop repeats forever.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ]
+  },
+  {
+    "canonical_symbol": "sub_080545A0",
+    "decision": "accept",
+    "display_name": "ResetEnemiesAfterOptionalReveal",
+    "reasoning": "Primary body and shared inline helpers independently read. Identical behavior to three copies; synonymous labels distinguish symbols without claiming distinct scenes. Reset/restore is limited to state12->0 and filtered AI request writes, not health/position/resource restoration.",
+    "evidence": [
+      {
+        "source": "src/code_080542C4.c",
+        "line": 170,
+        "detail": "Full-screen-menu predicate gates reveal dispatch and idle wait; all following audio/enemy updates still execute when reveal skipped.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_080542C4.c",
+        "line": 185,
+        "detail": "Stores tracked song11 with guarded start/continue; scans active enemy states12->0 and invokes19F04.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_080542C4.c",
+        "line": 160,
+        "detail": "Shared reset loop touches exactly five active-mask enemy records and only state12.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_08017F7C.c",
+        "line": 1016,
+        "detail": "19F04 sets scene+0x5A=1 and AI byte201=1 for active actors with flag7A bit2; no broader reset.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ]
+  },
+  {
+    "canonical_symbol": "sub_080558D0",
+    "decision": "accept",
+    "display_name": "ResetEnemiesWithOptionalReveal",
+    "reasoning": "Primary body and shared inline helpers independently read. Identical behavior to three copies; synonymous labels distinguish symbols without claiming distinct scenes. Reset/restore is limited to state12->0 and filtered AI request writes, not health/position/resource restoration.",
+    "evidence": [
+      {
+        "source": "src/code_080542C4.c",
+        "line": 405,
+        "detail": "Full-screen-menu predicate gates reveal dispatch and idle wait; all following audio/enemy updates still execute when reveal skipped.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_080542C4.c",
+        "line": 420,
+        "detail": "Stores tracked song11 with guarded start/continue; scans active enemy states12->0 and invokes19F04.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_080542C4.c",
+        "line": 160,
+        "detail": "Shared reset loop touches exactly five active-mask enemy records and only state12.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_08017F7C.c",
+        "line": 1016,
+        "detail": "19F04 sets scene+0x5A=1 and AI byte201=1 for active actors with flag7A bit2; no broader reset.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ]
+  },
+  {
+    "canonical_symbol": "sub_080563F0",
+    "decision": "accept",
+    "display_name": "ResetEnemiesFollowingOptionalReveal",
+    "reasoning": "Primary body and shared inline helpers independently read. Identical behavior to three copies; synonymous labels distinguish symbols without claiming distinct scenes. Reset/restore is limited to state12->0 and filtered AI request writes, not health/position/resource restoration.",
+    "evidence": [
+      {
+        "source": "src/code_080542C4.c",
+        "line": 839,
+        "detail": "Full-screen-menu predicate gates reveal dispatch and idle wait; all following audio/enemy updates still execute when reveal skipped.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_080542C4.c",
+        "line": 854,
+        "detail": "Stores tracked song11 with guarded start/continue; scans active enemy states12->0 and invokes19F04.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_080542C4.c",
+        "line": 160,
+        "detail": "Shared reset loop touches exactly five active-mask enemy records and only state12.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_08017F7C.c",
+        "line": 1016,
+        "detail": "19F04 sets scene+0x5A=1 and AI byte201=1 for active actors with flag7A bit2; no broader reset.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ]
+  },
+  {
+    "canonical_symbol": "sub_08056494",
+    "decision": "accept",
+    "display_name": "RestoreEnemiesAfterOptionalReveal",
+    "reasoning": "Primary body and shared inline helpers independently read. Identical behavior to three copies; synonymous labels distinguish symbols without claiming distinct scenes. Reset/restore is limited to state12->0 and filtered AI request writes, not health/position/resource restoration.",
+    "evidence": [
+      {
+        "source": "src/code_080542C4.c",
+        "line": 864,
+        "detail": "Full-screen-menu predicate gates reveal dispatch and idle wait; all following audio/enemy updates still execute when reveal skipped.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_080542C4.c",
+        "line": 879,
+        "detail": "Stores tracked song11 with guarded start/continue; scans active enemy states12->0 and invokes19F04.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_080542C4.c",
+        "line": 160,
+        "detail": "Shared reset loop touches exactly five active-mask enemy records and only state12.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_08017F7C.c",
+        "line": 1016,
+        "detail": "19F04 sets scene+0x5A=1 and AI byte201=1 for active actors with flag7A bit2; no broader reset.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ]
+  }
+]
