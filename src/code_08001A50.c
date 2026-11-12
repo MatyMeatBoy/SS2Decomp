@@ -25,11 +25,13 @@ struct Heap {
     u32 size;
 };
 
+/* [MultiSioStart] Documented SDK start flag. */
 void sub_08001A50(void)
 {
     if (gUnk_030024B0[0])
         gUnk_030024B0[8] = 1;
 }
+/* [MultiSioStop] Documented SDK disable SIO and timer3. */
 void sub_08001A64(void)
 {
     sub_08000EF4();
@@ -40,6 +42,8 @@ void sub_08001A64(void)
     *(vu16 *)0x04000202 = 0xC0;
     gUnk_030024B0[8] = 0;
 }
+/* [InitializeSupportedFlashDevice] Calls IdentifyFlash, compares device ID with five supported IDs, records
+ * support flag 03000018 and installs flash timer interrupt slot 2 only when supported. */
 void sub_08001AA4(void)
 {
     extern const u16 gFlashSupportedIds[] asm("gUnk_080B99C8");
@@ -58,9 +62,14 @@ void sub_08001AA4(void)
     if (flashSupported)
         SetFlashTimerIntr(2, &flashTimerSlot);
 }
+/* [ReadFlashBytes] Direct ReadFlash wrapper forwarding sector, byte offset, destination and size; no game-save
+ * format identity is inferred. */
 void sub_08001B04(u16 sector, u32 offset, void *dest, u32 size) {
     ReadFlash(sector, offset, dest, size);
 }
+/* [ProgramSupportedFlashSector] Returns 1 when support flag 03000018 is zero; otherwise disables master
+ * interrupts, calls ProgramFlashSector, re-enables interrupts and returns its status. Does not preserve prior
+ * IME state. */
 u32 sub_08001B14(u16 sector, u8 *src)
 {
     u32 r;
@@ -75,6 +84,8 @@ u32 sub_08001B14(u16 sector, u8 *src)
     }
     return r;
 }
+/* [VerifySupportedFlashSector] Returns 1 when support flag 03000018 is zero; otherwise forwards sector and
+ * source to VerifyFlashSector, preserving its returned status rather than reducing it to a boolean. */
 u32 sub_08001B54(u16 sector, u8 *src)
 {
     u32 r;
@@ -84,6 +95,11 @@ u32 sub_08001B54(u16 sector, u8 *src)
         r = VerifyFlashSector(sector, src);
     return r;
 }
+/* [TaskGameInitializationAndSpriteFrameReset] Root cooperative task installed by AgbMain. Initializes
+ * text/UI/transition and sprite-related subsystems, resets the background graphics-key offset, then starts
+ * audio/display-idle and startup/UI tasks after scheduler waits. Its permanent loop waits and resets
+ * sprite-frame allocation state through sub_08008C1C. The reset does not itself draw sprites or flush all
+ * frame transfers. */
 void sub_08001B78(void)
 {
     sub_0801A508();
@@ -121,6 +137,7 @@ extern u32 gLinkFlags asm("gUnk_030027D0");
 extern u32 gLinkState asm("gUnk_03002730");
 extern void sub_080003F4();
 extern void sub_080586B4();
+/* [LinkSessionTask] Per-frame session task passes send/receive blocks to MultiSioMain and stores its status. */
 void sub_08001BE4(void)
 {
     u32 cnt[4];
@@ -303,6 +320,7 @@ static inline u32 GetLinkPlayerCountHS000(void)
     return count;
 }
 
+/* [LinkWaitBarrier] Tag-based NOS/OK barrier handshake. */
 s32 sub_08001DF0(u8 tag)
 {
     struct LinkEntryHS000 *entry;
@@ -359,10 +377,17 @@ s32 sub_08001DF0(u8 tag)
     }
     return 1;
 }
+/* [InitializeLinkStateFlags] Replaces the complete link-flags word at 030027D0 with 0x80000000. Called by game
+ * initialization before link-task setup. The same flags value appears at cable-transport task shutdown, so it
+ * is an initialization/inactive flag pattern rather than proof of an active peer or completed handshake. Does
+ * not clear packet buffers, reset hardware or initialize the separate link-state word itself. */
 void sub_0800207C(void)
 {
     gUnk_030027D0 = 0x80000000;
 }
+/* [StartLinkOrLoopbackSessionTask] Mode0 selects callback022A4 (copies local24-byte block into receive slot0
+ * and status0x101); mode1 selects01BE4 (MultiSioMain-backed link task). Allocates0x400-byte task stack and
+ * registers task at03002740. No behavior for unsupported modes is inferred. */
 void sub_0800208C(s32 mode)
 {
     switch (mode) {
@@ -379,10 +404,13 @@ void sub_0800208C(s32 mode)
     gUnk_03002740[9] = 0;
     sub_08000274((void *)gUnk_03002740, 0);
 }
+/* [RequestLinkSessionStop] Sets030027D0 bit0x40000000. Session callbacks01BE4 and022A4 test that bit and
+ * terminate; this helper does not wait for termination. */
 void sub_080020E0(void)
 {
     gUnk_030027D0 |= 0x40000000;
 }
+/* [LinkGetLocalPlayerId] Documented accessor for own player id. */
 s32 sub_080020F4(void)
 {
     u32 r;

@@ -1,6 +1,10 @@
 #include "global.h"
 
 s32 sub_080290E4();
+/* [ShowFirstFlaggedActorDialogue] Sets player flag1/input helper before checking mode-selected byte mask0x2.
+ * Already-set bit returns immediately retaining flag1/helper state. First visit sets mask0x2, shows140284/285
+ * around actor facing, positions actor2 and hides actor1, then restores player flag/input helper. Dialog waits
+ * have no abort path. */
 void sub_080542C4(s32 arg0)
 {
     u8 *p;
@@ -72,6 +76,8 @@ static inline void spawn54(void (*cb)(void), s32 arg)
         }
     }
 }
+/* [RunGuardedEntityAscent] scene+38 mask2 guard;5990C argument5;54514 callback and
+ * movement28D98(arg,0,-200,200). */
 void sub_0805442C(s32 arg0)
 {
     u16 n;
@@ -99,6 +105,7 @@ void sub_0805442C(s32 arg0)
         sub_08028D98(arg0, 0, -0xC8, 0xC8);
     }
 }
+/* [MoveAndStopPairedActors] Spawns variants0x24/0x10024 and moves first vertically-200 with duration200. */
 void sub_08054514(void) {
     u8 *var_r1;
     u8 *var_r1_2;
@@ -161,6 +168,8 @@ static inline void Clr53A80(u8 *p)
         if ((gM030056FC & (1 << i)) && *(u16 *)(p + 0xC) == 0xC)
             *(u16 *)(p + 0xC) = 0;
 }
+/* [ResetEnemiesAfterOptionalReveal] Full-screen-menu predicate gates reveal dispatch and idle wait; all
+ * following audio/enemy updates still execute when reveal skipped. */
 void sub_080545A0(void)
 {
     struct E2E0a *p;
@@ -187,6 +196,8 @@ void sub_080545A0(void)
     sub_08019F04();
 }
 void sub_0805664C(s32);
+/* [StartRegionTriggers14And15] spawn54/spawn56 launches5664C with literals14/15; callback936 indexes spots56
+ * rectangle/destination table, waits for local activation and runs movement outside mapset0. */
 void sub_08054644(void)
 {
     spawn54((void (*)(void))sub_0805664C, 0xE);
@@ -207,6 +218,9 @@ void sub_08054644(void)
             sub_080003F0();
     }
 }
+/* [StartFourSequentialSceneTasks] Attempts four5664C callback tasks with arguments16..19, then restores screen
+ * by transition mode and waits idle when permitted. Shared helper searches30 slots, retries0x400 stack
+ * allocation, initializes control+8=60 and starts task; full pool skips an argument. No task-completion wait. */
 void sub_08054748(void)
 {
     spawn54((void (*)(void))sub_0805664C, 0x10);
@@ -229,6 +243,9 @@ void sub_08054748(void)
             sub_080003F0();
     }
 }
+/* [StartTenSequentialSceneTasks] Attempts ten5664C callback tasks with arguments20..29 and then restores
+ * screen by transition mode and waits idle when permitted. Inline helper searches30 slots, retries0x400
+ * allocation, initializes task control and starts each task; full pool skips an argument. No completion wait. */
 void sub_08054904(void)
 {
     spawn54((void (*)(void))sub_0805664C, 0x14);
@@ -257,6 +274,9 @@ void sub_08054904(void)
             sub_080003F0();
     }
 }
+/* [StartSevenSequentialSceneTasks] Attempts seven5664C callback tasks with arguments30..36 and then restores
+ * screen by transition mode and waits idle when permitted. Inline helper searches30 slots, retries0x400
+ * allocation, initializes task control and starts each task; full pool skips an argument. No completion wait. */
 void sub_08054CE8(void)
 {
     spawn54((void (*)(void))sub_0805664C, 0x1E);
@@ -282,6 +302,9 @@ void sub_08054CE8(void)
             sub_080003F0();
     }
 }
+/* [StartFourFollowingSceneTasks] Independently attempts callback sub_0805664C selectors0x25..0x28, each
+ * using30 task slots and retrying0x400 stack allocation, with full-pool skip. Restores transition and waits
+ * idle. No callback readiness/completion wait or input-lock mutation. */
 void sub_08054FB8(void)
 {
     spawn54((void (*)(void))sub_0805664C, 0x25);
@@ -304,6 +327,10 @@ void sub_08054FB8(void)
             sub_080003F0();
     }
 }
+/* [StartTenRegionTransferTasks] Starts ten5664C tasks for table indices0x29..0x32 using30-slot scene task
+ * pool,0x400 allocation retry, word0x3C and destructor0. Fullpool silently skips each unavailable start. After
+ * attempts, clear scene gate selects screen transition route and waits idle; does not wait for transfer-task
+ * completion. */
 void sub_08055174(void)
 {
     spawn54((void (*)(void))sub_0805664C, 0x29);
@@ -351,6 +378,9 @@ static inline void spawn56(void (*cb)(s32), s32 arg)
         }
     }
 }
+/* [StartSixFollowingSceneTasks] Independently attempts callback sub_0805664C selectors0x33..0x38, each using30
+ * task slots and retrying0x400 stack allocation, with full-pool skip. Restores transition and waits idle. No
+ * callback readiness/completion wait or input-lock mutation. */
 void sub_08055558(void)
 {
     spawn56(sub_0805664C, 0x33);
@@ -376,6 +406,8 @@ void sub_08055558(void)
     }
 }
 void sub_0805664C(s32);
+/* [StartRegionTriggers57And58] spawn54/spawn56 launches5664C with literals57/58; callback936 indexes spots56
+ * rectangle/destination table, waits for local activation and runs movement outside mapset0. */
 void sub_080557CC(void)
 {
     spawn56(sub_0805664C, 0x39);
@@ -396,6 +428,8 @@ void sub_080557CC(void)
             sub_080003F0();
     }
 }
+/* [ResetEnemiesWithOptionalReveal] Full-screen-menu predicate gates reveal dispatch and idle wait; all
+ * following audio/enemy updates still execute when reveal skipped. */
 void sub_080558D0(void)
 {
     struct E2E0a *p;
@@ -422,6 +456,8 @@ void sub_080558D0(void)
     sub_08019F04();
 }
 void sub_08055A60(void);
+/* [InitializeEvent24ObjectScene] Pool30 task setup precedes byte+1BA/+1C6 bit0 test and28AAC selector8;
+ * optional reveal follows. */
 void sub_08055974(void)
 {
     void (*cb)(void) = sub_08055A60;
@@ -474,6 +510,11 @@ struct T56Task { u32 f0,f4,f8,fC,f10,f14,f18,f1C,f20,f24; };
 void sub_08055BA4(void);
 void sub_0805A384(s32);
 void sub_0805A350(s32);
+/* [StartLinkedSceneTriggerTasks] Attempts a55BA4 task with retry allocation, then separately attempts two2A104
+ * trigger-wrapper tasks configured for callbacks5A384/5A350 and modes6/8; first receives the saved task
+ * pointer, second zero. Pool-full skips admissions; trigger allocations are unchecked and some argument fields
+ * remain unspecified. If initial task pool is full, the saved pointer used by the first trigger is unspecified
+ * in C. No completion wait. */
 void sub_08055A60(void)
 {
     u32 args[6];
@@ -547,6 +588,7 @@ check2:
 struct PositionTable56 { u32 value[5]; };
 extern struct PositionTable56 positions56 asm("gUnk_080BB6D0");
 extern u8 routes56[256] asm("gUnk_080BB6E4");
+/* [CycleMapObjectVerticalRoute] Copies positions and256-byte route table. */
 void sub_08055BA4(void)
 {
     struct PositionTable56 positions = positions56;
@@ -596,6 +638,8 @@ static inline u8 *find56(s32 id)
     sub_080003F0();
     return NULL;
 }
+/* [CreateActorType62Interaction] Actor creation and handle lookup configure+18/+1A,+3C and callback+44;
+ * callback662 performs mode-dependent interaction under input/event locks. */
 void sub_08055C58(void)
 {
     s32 id = sub_080289C0(0x3E, 0x78, 0x60);
@@ -659,6 +703,10 @@ static inline void Fade55D1C(u32 n)
     while (sub_0801AAE0() == 0)
         sub_080003F0();
 }
+/* [OpenModeSelectedCollectionMenu] Locks player/input and opens collection-interaction selector4 in nonzero
+ * mode or3 otherwise via a fade/task-group transition preserving signed scroll coordinates. Waits transition
+ * idle, temporarily changes menu/map task gates, then restores camera/task state, clears player flagbit0 and
+ * ends input lock. */
 void sub_08055D1C(void)
 {
     {
@@ -703,6 +751,10 @@ check:
     sub_080003F0();
     sub_080003F0();
 }
+/* [StartFlagSelectedSceneTrigger] Reads scene+38 bits0..3 in sequence to choose value0/2/4/6/8 and trigger
+ * mode6/7/8/9/10 for callback560D0. Attempts a2A104 wrapper from30 slots with unchecked0x400 stack allocation,
+ * yields twice after startup, then restores screen and waits idle when permitted. Full pool skips admission;
+ * no callback completion wait. */
 void sub_08055E74(void)
 {
     u8 *state = (u8 *)gUnk_03005CF4;
@@ -764,6 +816,12 @@ check:
     sub_080003F0();
     sub_080003F0();
 }
+/* [AdvanceFourActorPlacementTriggers] Selectors0/2/4/6 attempt spatial-monitor tasks with own callback next
+ * even selector and progression mode7/8/9/10, then enqueue selectors1/3/5/7. Odd selectors place actors7..10
+ * at x256/384/512/608,y216 and set scene+0x38 bits0..3. Selector8 queues9; selector9 requests three effect0x29
+ * spawns near(672,296), plays0x17B and positions actor11. Monitor pool30 full skips;0x400 stack allocation
+ * unchecked, request record contains unspecified fields. Queue admission does not guarantee callbacks. Other
+ * selectors return. */
 void sub_080560D0(u32 arg0)
 {
     u8 *state;
@@ -830,6 +888,8 @@ void sub_080560D0(u32 arg0)
     }
         }
 }
+/* [ResetEnemiesFollowingOptionalReveal] Full-screen-menu predicate gates reveal dispatch and idle wait; all
+ * following audio/enemy updates still execute when reveal skipped. */
 void sub_080563F0(void)
 {
     struct E2E0a *p;
@@ -855,6 +915,8 @@ void sub_080563F0(void)
     Clr53A80(gP030056F4);
     sub_08019F04();
 }
+/* [RestoreEnemiesAfterOptionalReveal] Full-screen-menu predicate gates reveal dispatch and idle wait; all
+ * following audio/enemy updates still execute when reveal skipped. */
 void sub_08056494(void)
 {
     struct E2E0a *p;
@@ -899,6 +961,10 @@ static inline void Walk56(u32 x, u32 y, u32 a, u32 b)
     while (sub_08021FE0(entry + 0x8C, pos, &result, &packed) == 0)
         sub_080003F0();
 }
+/* [RunRepeatingRegionDamage] Waits until local player intersects table-selected rectangle, calls29CEC with
+ * table damage/action and setup1, waits table count with21A8 earlybreak, then attempts to start another
+ * instance for same index. New task allocation retries; full30-slot pool ends repetition. No table-index
+ * bounds validation or guaranteed damage application. */
 void sub_08056538(s32 arg0)
 {
     u16 wait;
@@ -933,6 +999,10 @@ static inline s32 Walk98(u32 x, u32 y, u32 a, u32 b)
     }
     return 0;
 }
+/* [RunRegionPlayerTransfer] Waits table-selected player intersection plus player+0x14 mask0x1, with58608 break
+ * from wait. If CCCC()!=1, sets player flags1/2, moves local player to tabledestination over90 frames, clears
+ * flags and restarts same indexed task. CCCC()==1 exits without transfer/restart; helper return itself does
+ * not prove intersection if break predicate fired. */
 void sub_0805664C(s32 arg0)
 {
     Walk98(spots56[arg0].x, spots56[arg0].y, (u16)spots56[arg0].lo, (u16)spots56[arg0].hi);
@@ -1021,6 +1091,10 @@ static inline void Wait567D4(void)
             break;
     }
 }
+/* [RunInventoryGateTrigger] Waits for local player to leave and re-enter configured rectangle, counts required
+ * item ID/kind across25inventory slots, arbitrates activation through link callback56CB4, consumes matching
+ * inventory entries, sets configured completion flag and dispatches configured event. Exact map/quest identity
+ * is not claimed. This C remains a NONMATCHING draft; the role is independently anchored by original ASM. */
 void sub_080567D4(s32 id)
 {
     u32 hw, hh, x, y, n;
@@ -1124,6 +1198,7 @@ already:
 }
 
 
+/* [ArbitrateInventoryGateActivation] Returns for nonzero local player ID; status>7 guard follows. */
 void sub_08056CB4(u32 value)
 {
     u8 *base;
@@ -1147,6 +1222,12 @@ void sub_08056CB4(u32 value)
         base = (u8 *)gUnk_03005CF4 + 0x1B5;
     *base = value;
 }
+/* [StopSceneControllerAndFreeState] Queries the task at current scene state+0x1794. If scheduled, requests
+ * termination with 003A8, then waits on scheduler signal 1 until that control is no longer scheduled. Frees
+ * the current global scene-state pointer and clears 03005CF4 to zero. The global pointer is reloaded after
+ * waits and again for the free; this is not a captured-pointer cleanup routine. It does not cancel the scene
+ * callback/object pools or independently free all other scene-owned allocations, and it assumes the
+ * scene-state pointer is valid when computing the embedded control. */
 void sub_08056D2C(void)
 {
     if (sub_08000470(gUnk_03005CF4 + 0x1794) != 0) {
@@ -1159,6 +1240,10 @@ void sub_08056D2C(void)
 }
 extern s32 sub_08019FA8();
 struct Bits56D80 { u16 x0 : 7, x : 9; u16 y0 : 3, y : 9, y1 : 4; u8 f : 6; };
+/* [IsPlayerWithinRangeWithFreeSpawnSlot] Returns 0 unless HasFreeEnemySpawnRequestSlot. Then, for each
+ * connected player (LinkCountConnectedPlayers), skips players whose +0x148 record byte has 0x20 or whose flags
+ * +0x30 have 0x2000, and returns 1 when |pos.x - x| < rx and |pos.y - y| < ry for that record's coordinates;
+ * otherwise 0. */
 u32 sub_08056D80(s16 *pos, u16 rx, u16 ry)
 {
     u32 n = sub_08002164();
@@ -1196,26 +1281,40 @@ u32 sub_08056D80(s16 *pos, u16 rx, u16 ry)
     }
     return found;
 }
+/* [MarkSceneEncounterFinished] ORs 0x8 into scene-state flags halfword +4.
+ * TryEnqueueSingleChunkSceneEncounterFinishedNotification documents that the link receiver calls this for tags
+ * 0x93 and 0xAF, and the enemy-task normal-exit branch in sub_0801801C calls it directly. sub_0808F088 calls
+ * it instead of spawning its encounter actors when the encounter's event flag is already set. */
 void sub_08056E24(void)
 {
     gGameState->flags |= 8;
 }
+/* [ClearSceneEncounterFinished] Clears bit 3 (mask 0xFFF7) of scene-state flags halfword +4, preserving other
+ * bits. Inverse of MarkSceneEncounterFinished. */
 void sub_08056E38(void) {
     M2C_FIELD(gUnk_03005CF4, u16 *, 4) = (u16) (0xFFF7 & M2C_FIELD(gUnk_03005CF4, u16 *, 4));
 }
+/* [IsSceneEncounterFinished] Returns bit 3 of scene-state flags halfword +4 as 0 or 1 (the bit
+ * MarkSceneEncounterFinished sets). src/code_08021DC4.c encounter loops run `while (!((flags >> 3) & 1))` on
+ * the same bit. */
 s32 sub_08056E50(void) {
     return ((u16) M2C_FIELD(gUnk_03005CF4, u16 *, 4) >> 3) & 1;
 }
+/* [MarkSceneAreaChangeRequested] Sets bit 4 in scene flags halfword +4. */
 void sub_08056E64(void)
 {
     gGameState->flags |= 0x10;
 }
+/* [ClearSceneAreaChangeRequest] Applies 0xFFEF to the scene flags halfword, clearing bit 4. */
 void sub_08056E78(void) {
     M2C_FIELD(gUnk_03005CF4, u16 *, 4) = (u16) (0xFFEF & M2C_FIELD(gUnk_03005CF4, u16 *, 4));
 }
+/* [IsSceneAreaChangeRequested] Extracts bit 4 of the scene flags halfword at +4. */
 s32 sub_08056E90(void) {
     return ((u16) M2C_FIELD(gUnk_03005CF4, u16 *, 4) >> 4) & 1;
 }
+/* [CancelChaosDomainPortalTask] Tests scheduling of the embedded scene task control at +0x17E4 and cancels it
+ * at line 1221 only when scheduled. */
 void sub_08056EA4(void) {
     if (sub_08000470(gUnk_03005CF4 + 0x17E4) != 0) {
         sub_080003A8(gUnk_03005CF4 + 0x17E4);
@@ -1225,6 +1324,11 @@ struct Ent6ED0 { u32 a, b, c, d; u32 task[2]; u32 f18; void (*f1C)(); u32 f20; u
 struct GS6ED0 { u8 pad[0x1D34]; struct Ent6ED0 ents[5]; };
 extern struct GS6ED0 *gs6ED0 asm("gUnk_03005CF4");
 extern void sub_0805A6B8();
+/* [StartDelayedTwoArgumentCallback] Finds an unscheduled slot among five 0x38-byte callback records at scene
+ * state +0x1D34. Stores the callback address, two arguments and wait-count threshold in fields +0/+4/+8/+0xC,
+ * configures the embedded task at +0x10 for sub_0805A6B8 with a 0x400-byte stack and scheduling-order key
+ * 0x46, then starts it with the record pointer. Returns without scheduling if all five slots are busy.
+ * Stack-allocation failure and callback-pointer validity are not checked. */
 void sub_08056ED0(u32 a, u32 b, u32 c, u32 d)
 {
     u32 i;
@@ -1251,29 +1355,41 @@ void sub_08056ED0(u32 a, u32 b, u32 c, u32 d)
     e->f34 = r;
     sub_08000274(e->task, e);
 }
+/* [IsEnemyActivationGateSet] Returns bit 5 as 0 or 1 in the scene flags halfword +4. */
 s32 sub_08056F78(void) {
     return ((u16) M2C_FIELD(gUnk_03005CF4, u16 *, 4) >> 5) & 1;
 }
+/* [ClearSceneEnemyActivationGate] Clears bit 5 with mask 0xFFDF in the scene flags halfword +4. */
 void sub_08056F8C(void) {
     M2C_FIELD(gUnk_03005CF4, u16 *, 4) = (u16) (0xFFDF & M2C_FIELD(gUnk_03005CF4, u16 *, 4));
 }
+/* [SetSceneEnemyActivationGate] Sets bit 5 with mask 0x20 in the scene flags halfword +4. */
 void sub_08056FA4(void)
 {
     gGameState->flags |= 0x20;
 }
+/* [SelectSceneMapAreaDestinationWithWindowHide] u16/u16 wrapper calls 26CD0 with third argument 0. That mode
+ * requests map-update stop and window-hide/wait 5768C before selecting the scene destination record and
+ * storing map-set/area fields. It inherits the selector unchecked table/index domains and does not itself load
+ * map graphics. WindowHide describes the requested transition mode; competing controller requests can affect
+ * the rendered route. */
 void sub_08056FB8(u16 arg0, u16 arg1) {
     sub_08026CD0(arg0, arg1, 0);
 }
+/* [SetSceneObjectCompletionGate] Sets bit 6 with mask 0x40 in scene flags halfword +4. */
 void sub_08056FCC(void)
 {
     gGameState->flags |= 0x40;
 }
+/* [ClearSceneObjectCompletionGate] Clears bit 6 with mask 0xFFBF in scene flags halfword +4. */
 void sub_08056FE0(void) {
     M2C_FIELD(gUnk_03005CF4, u16 *, 4) = (u16) (0xFFBF & M2C_FIELD(gUnk_03005CF4, u16 *, 4));
 }
+/* [IsSceneObjectCompletionGated] Returns bit 6 as 0 or 1 in scene flags halfword +4. */
 s32 sub_08056FF8(void) {
     return ((u16) M2C_FIELD(gUnk_03005CF4, u16 *, 4) >> 6) & 1;
 }
+/* [CountSavedNormalLevelClears] Reads the saved-data word at +4 and counts its bits 0..22 at lines 1288-1295. */
 s32 sub_0805700C(void)
 {
   s32 var_r2;
@@ -1294,6 +1410,7 @@ s32 sub_0805700C(void)
   while (var_r1 <= 0x16U);
   return var_r2;
 }
+/* [CountAdvancedLevelRangeClears] Reads saved-data word +0xC and counts only bits 10..19 at lines 1304-1307. */
 u16 sub_08057038(void)
 {
     u32 count = 0;
@@ -1306,6 +1423,10 @@ u16 sub_08057038(void)
             count++;
     return count;
 }
+/* [DoesBoxOverlapCollidableSceneObject] Returns 0 when the active-object mask scene state +0x54 is empty.
+ * Otherwise, for each of the 15 scene object records at +0x7A4 whose mask bit is set and whose record flags
+ * +0x3C contain 0x10, calls TestFixedPointAxisAlignedBoxOverlap(arg, record+8, size 0x80010, record+0x18), and
+ * returns 1 on the first overlap, else 0. */
 u32 sub_08057068(void *arg)
 {
     u8 *entry;
@@ -1325,6 +1446,13 @@ u32 sub_08057068(void *arg)
     }
     return 0;
 }
+/* [CancelSceneCallbackAndObjectTasks] Visits 30 scene callback controls at state+0xE34 and requests
+ * termination for each scheduled record. A nonzero argument additionally visits 30 controls at state+0x12E4;
+ * it always visits 15 object records at state+0x7A4 with 0x70-byte stride and cancels their embedded task
+ * at+0x48. Finally clears 03005CF0. There is no scheduler wait, state-object free or exclusion of the current
+ * task in these loops. Other embedded controls, including the scene controller at+0x1794, the 32-record pool
+ * at+0x1834 and delayed callbacks at+0x1D34, are outside the traversed ranges. The argument therefore expands
+ * one specific bank rather than promising all scene tasks are stopped. */
 void sub_080570DC(u32 all)
 {
     extern u32 gUnk_03005CF0;
@@ -1360,6 +1488,8 @@ void sub_080570DC(u32 all)
     }
     gUnk_03005CF0 = 0;
 }
+/* [ClearEnemySpawnSlotStates] Loops through 20 groups and five slots, zeroing scene+0x1C8+j+i*5 at lines
+ * 1367-1372. */
 void sub_08057170(void)
 {
     u32 i, j;

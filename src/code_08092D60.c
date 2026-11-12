@@ -13,6 +13,12 @@ M2C_UNK sub_08000990(s32, s32);
 M2C_UNK sub_080009F8(s32, s32, s32);
 M2C_UNK sub_08000A34(s32, s32, s32, s32, s32);
 
+/* [StartPeriodicSceneShakeOffsetTask] Uses the control pointer at 03000260. Returns if null, or if scheduler
+ * membership is false while control+8 is nonzero. Otherwise installs 92E40, writes raw task flags/state 0x44,
+ * allocates a 0x400-byte stack, reloads the shared control pointer, stores the stack at +0x20 and returns on
+ * allocation failure. Success sets stack top +0x3FC, null finalizer and starts the task with r1/r2 zero. This
+ * guard is not an already-running rejection: true scheduler membership reaches initialization again. No stack
+ * retry, priority inference or success return contract. */
 void sub_08092D60(void)
 {
     u32 mem;
@@ -33,9 +39,17 @@ void sub_08092D60(void)
     t->f24 = 0;
     sub_08000274_3((u32)t, 0, 0);
 }
+/* [RequestPeriodicSceneShakeOffsetStop] Clears the single active byte 03000259. The producer checks it only
+ * after its next signal-1 wait, then clears its own task flags/state and returns. This call does not
+ * synchronously stop the task, free its control or clear the last output. An invocation before the producer
+ * first executes can be overwritten by its initial active=1 assignment. */
 void sub_08092DB8(void) {
     gUnk_03000259 = 0;
 }
+/* [AllocatePeriodicSceneShakeControl] Allocates a 0x28-byte task control and unconditionally overwrites
+ * 03000260 with the result. On nonnull result initializes only control+8 to zero and sets the unsigned scale
+ * byte 03000258 to 4. Does not start the producer, initialize the active/phase/output globals or free a prior
+ * control; no repeated-allocation safety promise. */
 void sub_08092DC4(void)
 {
   s32 temp_r0;
@@ -46,6 +60,10 @@ void sub_08092DC4(void)
     gUnk_03000258 = 4;
   }
 }
+/* [StopAndFreePeriodicSceneShakeControl] If 03000260 is nonnull, checks scheduler membership and immediately
+ * stops a scheduled task through 003A8, then frees the control through 01538 and nulls its shared pointer.
+ * Does not request a cooperative wait or reset scale, phase increment, active byte or last offset; 003A8
+ * handles its scheduled stack separately. */
 void sub_08092DF0(void) {
     if (gUnk_03000260 != 0) {
         if (sub_08000470(gUnk_03000260) != 0) {
@@ -55,18 +73,37 @@ void sub_08092DF0(void) {
         gUnk_03000260 = 0;
     }
 }
+/* [SetPeriodicSceneShakePhaseIncrement] Stores the low input byte to 0300025C. The producer reads this as
+ * unsigned, adds it to its local 8-bit table index and wraps modulo 256 once per update before waiting on
+ * signal 1. Although this local C signature uses s8, bit patterns 128..255 are unsigned increments in the
+ * consumer. The producer resets the increment to 1 when first entered; no elapsed-frame or frequency-in-Hz
+ * guarantee. */
 void sub_08092E1C(s8 arg0) {
     gUnk_0300025C = arg0;
 }
+/* [SetPeriodicSceneShakeScale] Stores the low input byte to 03000258. The producer uses the same unsigned byte
+ * both to multiply its signed lookup sample and as the final remainder divisor; this is not a simple amplitude
+ * clamp. Zero is accepted by the setter but reaches a zero divisor; no validated 1..255 input domain or safe
+ * zero behavior is asserted. Does not reset phase or output. */
 void sub_08092E28(s8 arg0) {
     gUnk_03000258 = arg0;
 }
+/* [GetPeriodicSceneShakeOffset] Returns the current halfword at 0300025A with signed extension. Does not
+ * update, consume, clear or wait for a value. Output can be stale before producer execution and after
+ * stop/free; callers add or subtract it from background scroll shadows. */
 s16 sub_08092E34(void) {
     return gUnk_0300025A;
 }
 extern u8 gB03000258 asm("gUnk_03000258");
 extern u8 gB03000259 asm("gUnk_03000259");
 extern u8 gB0300025C asm("gUnk_0300025C");
+/* [TaskGeneratePeriodicSceneShakeOffset] Starts at table index 0 and writes active=1 and phase increment=1.
+ * Each iteration reads a signed halfword from periodic table 080B9704, multiplies by unsigned scale, truncates
+ * to a signed output halfword, divides that signed value by 64 with truncation toward zero, stores another
+ * halfword, then stores its signed remainder by the current unsigned scale byte. Advances the local index by
+ * the unsigned increment modulo 256 and waits on scheduler signal 1. After the wait, a zero active byte clears
+ * current task+8 and returns. Scale is not zero-checked, product truncation is material, no output reset
+ * occurs at exit, and there is no exact elapsed-frame guarantee. */
 void sub_08092E40(void)
 {
     u8 index = 0;
@@ -88,6 +125,8 @@ void sub_08092E40(void)
     *(u32 *)(sub_0800048C() + 8) = active;
 }
 extern u16 gH03001250[] asm("gUnk_03001250");
+/* [ConfigureScanlineWarpAttackPresentation] Loads resources 10/11 into BG0/BG1 screen blocks 24/28 with
+ * priorities 2/1. */
 void sub_08092EB4(void)
 {
     union { u32 word; u16 half[2]; } config;
@@ -127,6 +166,11 @@ extern void pal2F58Fade(void *, s32) asm("sub_08096EFC");
 extern s32 pos2F58Get(s32, struct Pos2F58 *) asm("sub_08097EF0");
 extern void move2F58(void *, s16, s16, s16) asm("sub_08097EB0");
 
+/* [RunOscillatingSpriteTransition] Loads selector-based sprite plus50040, transitions through table motion,
+ * timed horizontal travel and repeated vertical oscillation with limit=byte(arg0*2), modifying blend/display
+ * phase and palette.21A8==1 aborts main loop. Both normal/abort exits wait transition then reset
+ * audio/display/effect helpers. Invalid selector can leave position uninitialized; zero/wrapped limit follows
+ * literalcounter test. */
 void sub_08092F58(u8 arg0, u8 arg1)
 {
     struct Spr2F58 sprA;
@@ -279,6 +323,8 @@ extern vu8 gB03000266 asm("gUnk_03000266");
 extern u8 gB03000268 asm("gUnk_03000268");
 extern u16 gH03000264 asm("gUnk_03000264");
 extern void sub_0809342C();
+/* [StartBg1HBlankDmaScroll] Resets phase, sets amplitude 0x10 and active flag, installs DMA3/VBlank callbacks,
+ * enables interrupt 0x800 and programs DMA3 from 03000264 to BG1HOFS 04000014 with control 0xE3400001. */
 void sub_080933A0(void)
 {
     gB03000267 = 0;
@@ -298,6 +344,8 @@ void sub_080933A0(void)
     dma[2];
     }
 }
+/* [StopBg1HBlankDmaScroll] Clears active flag, disables DMA3 interrupt 0x800, waits for signal 1 then clears
+ * DMA3/VBlank callbacks. Callback 93498 observes inactive flag and disables DMA3. */
 void sub_08093404(void) {
     gUnk_03000268 = 0;
     sub_08000FD4(0x800);
@@ -305,6 +353,7 @@ void sub_08093404(void) {
     sub_080012D8(0);
     sub_080011E4(0);
 }
+/* [UpdateBg1ScanlineSineScroll] Reads current scanline from VCOUNT. */
 void sub_0809342C(void)
 {
     vu16 scanline;
@@ -315,6 +364,8 @@ void sub_0809342C(void)
     else
         gH03000264 = 0;
 }
+/* [AdvanceBg1ScrollDmaPhase] Advances phase 03000267 by 2; if active flag 03000268 is zero, masks DMA3 control
+ * to disable transfer/IRQ timing. Installed as VBlank callback by 933A0. */
 u16 sub_08093498(void)
 {
   u16 r;
@@ -330,6 +381,8 @@ u16 sub_08093498(void)
   }
   return r;
 }
+/* [ConfigureStaticBackgroundAttackPresentation] Loads BG0 resource 6 block 24 priority 0 and BG1 resource 7
+ * block 28 priority 2. */
 void sub_080934D4(void)
 {
     union { u32 word; u16 half[2]; } config;
@@ -359,6 +412,12 @@ extern s32 palStep3584(void *, u32, u16, s32) asm("sub_08096D40");
 int abs(int);
 struct Part3584 { s32 x, y; s16 vx, vy; u16 h1, h2; u8 phase, amp, type; };
 
+/* [AnimatePaletteRevealSideParticles] Signed first argument determines byte particle count=min((u8)(arg*4),20)
+ * and u16 recycled-particle target=(arg+1)*count. Second byte minus1 selects resource0x50031..34 and position;
+ * initializes0x50035 for20 side-entering particles. Restores screen, raises main sprite, fades palette in,
+ * reduces blend, then moves/recycles selected particles until target count. State1 exits on first iteration
+ * under timer++<=89, not90-iteration wait. Link error also exits. Hides screen and clears
+ * audio/background/display effects; invalid index leaves positions unspecified. */
 void sub_08093584(s8 arg0, u8 arg1)
 {
     struct Part3584 parts[20];
@@ -547,6 +606,10 @@ extern struct Pos2F58 g3BAC_857C[] asm("gUnk_0851857C");
 extern struct Pos2F58 g3BAC_85BC[] asm("gUnk_085185BC");
 extern struct Pos2F58 g3BAC_85FC[] asm("gUnk_085185FC");
 
+/* [RunStagedSpriteBurstTransition] Loads two selector sprites and5002B, follows selected table paths, animates
+ * four randomized burst slots with palette phases and increments hitcount until signedarg0*4. Waits9449C()==2
+ * after limit;21A8 aborts. Normal/abort exits run transition and restore display/effect helpers. No
+ * character/artwork or named attack inference; invalid selector/limit preconditions unchecked. */
 void sub_08093BAC(s8 arg0, u8 arg1)
 {
     struct Spr2F58 spr[2];
@@ -751,6 +814,10 @@ extern u8 g41B4_026C asm("gUnk_0300026C");
 extern u8 g41B4_0274 asm("gUnk_03000274");
 extern s16 sin41B4[] asm("gUnk_080B9704");
 static inline s16 abs41B4(s16 v) { if (v < 0) v = -v; return v; }
+/* [TaskScrollBg0Bg1WithRandomBlendState] ASM loop writes four BG0/BG1 scroll shadow halfwords: horizontal
+ * fixed-point drift and separate sine-based vertical offsets. Four-state control chooses blend coefficients
+ * and calls RNG 0086C for dwell values; flags 03000274/275/26C participate. Waits for signal 1. No weather or
+ * scene identity is inferred. */
 s32 sub_080941B4(void)
 {
     s16 counter, state; s32 x, y, b; u8 phaseB, phaseA; s16 a; s16 limit; s32 r; s32 dx = 0x200, dy = 0x44;
@@ -833,6 +900,8 @@ s32 sub_080941B4(void)
         sub_080003F0();
     }
 }
+/* [ConfigureRandomBlendAttackPresentation] Configures BG1 with screen block 28, resource 4 and BG0 block 24
+ * resource 3. */
 void sub_080943F8(void)
 {
     union { u32 word; u16 half[2]; } config;
@@ -853,15 +922,20 @@ void sub_080943F8(void)
     sub_08094530();
     sub_08000940();
 }
+/* [RequestBgRandomBlendHold] Stores request value 1 in the hold/status byte. */
 void sub_08094490(void) {
     gUnk_03000275 = 1;
 }
+/* [GetBgBlendHoldStatus] Returns gUnk_03000275. */
 u8 sub_0809449C(void) {
     return gUnk_03000275;
 }
+/* [EnableBgRandomBlendCycling] Sets cycling control byte gUnk_03000274 to 1. */
 void sub_080944A8(void) {
     gUnk_03000274 = 1;
 }
+/* [AllocateBgRandomBlendTaskControlBlock] Clears control flags 03000274/275, retries allocating 0x28-byte task
+ * control block 03000270 while waiting for signal 1, then clears priority field+8. */
 void sub_080944B4(void) {
     gUnk_03000274 = 0;
     gUnk_03000275 = 0;
@@ -871,6 +945,8 @@ void sub_080944B4(void) {
     } while (gUnk_03000270 == 0);
     M2C_FIELD(gUnk_03000270, s32 *, 8) = 0;
 }
+/* [DestroyBgRandomBlendTask] Disables blend coefficients; if global 03000270 is non-null, destroys its
+ * scheduled task when present, frees the control block and clears the global. */
 void sub_080944F0(void) {
     sub_0800903C(0, 0, 0, 0, 0, 0);
     if (gUnk_03000270 != 0) {
@@ -884,6 +960,9 @@ void sub_080944F0(void) {
 struct Task98c { u32 a0,a4,a8; void (*fC)(void); u8 *p10; u32 pad[3]; void *p20; u32 a24; };
 extern struct Task98c *task98c asm("gUnk_03000270");
 extern void taskStart98c(struct Task98c *, u32, u32) asm("sub_08000274");
+/* [StartBgScrollRandomBlendTask] Initializes global task 03000270 with callback 941B4, priority 0x44,
+ * allocation 0x400, stack top+0x3FC and null cleanup callback, then schedules it. The source retry condition
+ * checks the task pointer, not the newly allocated stack; no allocation-safety guarantee is inferred. */
 void sub_08094530(void)
 {
     if (task98c != 0 && (sub_08000470((u32)task98c) != 0 || task98c->a8 == 0)) {
@@ -900,6 +979,8 @@ void sub_08094530(void)
 }
 struct Reset98 {u16 x0,y0,x1,y1;};
 extern struct Reset98 reset98 asm("gUnk_03001250");
+/* [ConfigureScrollingBlendAttackPresentation] Enables BG0/BG1/OBJ and object window, loads resources 12/13
+ * into blocks 24/28. */
 void sub_08094590(void)
 {
     union { u32 word; u16 half[2]; } config;
@@ -929,6 +1010,7 @@ extern s32 back98c(struct Anim98c *,u16,u16 *,u16 *,s32) asm("sub_08065394");
 extern struct Sprite98c *draw98c(s16,s32,s32,u16,s32,void *,u32,u32) asm("sub_08007870");
 extern struct Sprite98c *tall98c(s16,s32,s32,u16,s32,s32,s32,void *,u32,u32) asm("sub_08007974");
 extern u16 regs98c[] asm("gUnk_03001250");
+/* [RunRepeatingAttackSpritePresentation] Computes unsigned-byte completion limit count*2. */
 void sub_08094638(u8 count,s8 choice)
 {
     struct Anim98c a,b;
@@ -1008,6 +1090,9 @@ void sub_08094638(u8 count,s8 choice)
 struct Drift98 { s16 f0,f2,f4,f6; };
 extern struct Drift98 drift98 asm("gUnk_03001250");
 extern s16 sine98[] asm("gUnk_080B9704");
+/* [TaskScrollBg0Bg1AndPulseBlend] Loop decrements the BG0 vertical scroll accumulator by 0xAA, increments BG1
+ * vertical scroll by 0x80, writes their >>8 values to shadow+2/+6 and uses sine(phase)*5/256+10 as blend EVA;
+ * phase advances 3 and waits for signal 1. */
 s32 sub_080948E0(void)
 {
     s32 y=0;
@@ -1026,6 +1111,8 @@ s32 sub_080948E0(void)
         sub_080003F0();
     }
 }
+/* [AllocateBgScrollBlendTaskControlBlock] Allocates 0x28-byte control block 03000278 and clears priority
+ * field+8 when allocation succeeds; callback 948E0 is assigned by starter 949A8. */
 void sub_08094948(void)
 {
   s32 temp_r0;
@@ -1037,6 +1124,8 @@ void sub_08094948(void)
     *((s32 *) (((s8 *) temp_r0) + new_var)) = 0;
   }
 }
+/* [DestroyBgScrollBlendTask] Disables blending; if 03000278 is non-null, destroys the scheduled task when
+ * present, frees its control block and clears the global. */
 void sub_08094968(void) {
     sub_0800903C(0, 0, 0, 0, 0, 0);
     if (gUnk_03000278 != 0) {
@@ -1050,6 +1139,8 @@ void sub_08094968(void) {
 struct Task98 { u32 a0,a4,a8; void (*fC)(void); u8 *p10; u32 pad[3]; void *p20; u32 a24; };
 extern struct Task98 *task98 asm("gUnk_03000278");
 extern void taskStart98(struct Task98 *, u32, u32) asm("sub_08000274");
+/* [StartBgScrollBlendTask] Initializes stack allocation 0x400 at global task 03000278, callback 948E0, stack
+ * top+0x3FC and priority 0x44, then schedules the task. */
 void sub_080949A8(void)
 {
     void *mem;
@@ -1065,6 +1156,7 @@ void sub_080949A8(void)
         }
     }
 }
+/* [ConfigureSineBlendAttackPresentation] Loads resources 8/9 into BG0/BG1 screen blocks 24/28. */
 void sub_08094A00(void)
 {
     union { u32 word; u16 half[2]; } config;
@@ -1095,6 +1187,8 @@ extern struct Sprite98b *draw98b(s32,s32,s32,u16,s32,void *,u32,u32) asm("sub_08
 extern struct Sprite98b *drawTall98b(s32,s32,s32,u16,s32,s32,s32,void *,u32,u32) asm("sub_08007974");
 extern s16 sine98b[] asm("gUnk_080B9704");
 extern u32 drawFlag98b asm("gUnk_03002344");
+/* [RunShrinkingOrbitAttackPresentation] Stores count*3 in unsigned-byte repetition counter; signed choice-1
+ * selects resource and one of four positions. */
 void sub_08094AB8(s8 count, s32 choice)
 {
     struct Anim98b a,b,c;
@@ -1175,6 +1269,9 @@ void sub_08094AB8(s8 count, s32 choice)
     sub_080586D0(3);
     sub_08094EA4();sub_0800CC18();sub_0800CC68();sub_08098028();
 }
+/* [TaskSineScrollBg0Bg1AndPulseBlend] Original ASM loop writes sine/cosine horizontal offsets at shadow+0/+4,
+ * vertical drift+0x100/+0x80 at+2/+6, complementary sine-driven blend coefficients 8+s and8-s, then waits for
+ * signal 1. C remains a nonmatching draft; identity comes from ASM. */
 s32 sub_08094DEC(void)
 {
     s32 y1=0;
@@ -1200,6 +1297,8 @@ s32 sub_08094DEC(void)
         sub_080003F0();
     }
 }
+/* [AllocateBgSineScrollBlendTaskControlBlock] Allocates 0x28-byte control block 0300027C and clears priority
+ * field+8 on success; callback 94DEC is assigned by starter 94EE4. */
 void sub_08094E84(void)
 {
   s32 temp_r0;
@@ -1209,6 +1308,8 @@ void sub_08094E84(void)
     *((s32 *) (((s8 *) temp_r0) + 8)) = 0;
   }
 }
+/* [DestroyBgSineScrollBlendTask] Disables blending; if 0300027C is non-null, destroys the scheduled task when
+ * present, frees its control block and clears the global. */
 void sub_08094EA4(void) {
     sub_0800903C(0, 0, 0, 0, 0, 0);
     if (gUnk_0300027C != 0) {
@@ -1220,6 +1321,8 @@ void sub_08094EA4(void) {
     }
 }
 extern struct Task98 *task98b asm("gUnk_0300027C");
+/* [StartBgSineScrollBlendTask] Initializes stack allocation 0x400 at global task 0300027C, callback 94DEC,
+ * stack top+0x3FC and priority 0x44, then schedules it. */
 void sub_08094EE4(void)
 {
     void *mem;
@@ -1250,6 +1353,12 @@ void f94_08007870(s16,s32,s32,u16,s32,void *,u32,u32) asm("sub_08007870"); void 
 void f94_0800903C(s32,s32,s32,s32,s32,void *) asm("sub_0800903C"); void f94_080009F8(s32,s32,s32) asm("sub_080009F8"); s16 f94_0800086C(void) asm("sub_0800086C"); void f94_080953F8(void) asm("sub_080953F8"); void f94_08095610(u8) asm("sub_08095610"); void f94_080586D0(s32) asm("sub_080586D0"); void f94_0800CC18(void) asm("sub_0800CC18"); void f94_0800CC68(void) asm("sub_0800CC68"); void f94_08098028(void) asm("sub_08098028");
 extern s16 v94_080B9704[] asm("gUnk_080B9704"); extern u32 v94_03002344 asm("gUnk_03002344");
 struct Global94 {u8 pad[0x3a];u16 field;}; extern struct Global94 v94_03001250 asm("gUnk_03001250");
+/* [RunCenteredSpriteBlendSequence] Initializes an argument-selected central resource and particle resource,
+ * reveals the display, then progresses through seven timed states that vary blend coefficients, animate the
+ * central sprite and repeatedly animate particles at randomized radial coordinates. Particle count starts from
+ * the byte-truncated signed argument times3. A session-reset predicate ends the loop early. Completion hides
+ * the display, waits for transition idle, stops sound, calls state/display cleanup helpers and resets blend
+ * and display masks. */
 void sub_08094F3C(s8 arg0, s32 arg1) {
     u32 sp0;
     u8 *sp4;
@@ -1506,6 +1615,9 @@ block_51:
 struct AffineControl98 {u16 scaleX,scaleY,x,y,dx,dy;u8 angle;};
 extern struct AffineControl98 affine98 asm("gUnk_03000280");
 extern u16 affineRegs98[] asm("gUnk_03001250");
+/* [UpdateBg2AffineRegisterShadow] Builds PA/PB/PC/PD from sine/cosine and reciprocal scales, then low/high
+ * reference coordinates. Writes shadow halfwords 8..15 only when all three effect checks return zero. The Y
+ * reference formula uses0x78 exactly as source; no centered-screen simplification is assumed. */
 void sub_080953F8(void)
 {
     register s16 v1,v2,v4;
@@ -1537,6 +1649,9 @@ void sub_080953F8(void)
         affineRegs98[15]=oy>>16;
     }
 }
+/* [ConfigureBg2AffineDisplay] Sets display mode 2, enables BG2/OBJ, writes BG2CNT 0x7C82, calls
+ * sub_080921E4(5,0x1C), resets transform and sets position 0, offset 0xF8 and scale 0x200 before display
+ * resume. */
 void sub_08095518(s32 unused, u32 arg1)
 {
     union { u32 word; u16 half[2]; } config;
@@ -1561,6 +1676,8 @@ void sub_08095518(s32 unused, u32 arg1)
 }
 struct Ctrl98 { u16 v0,v1,w4,w6,w8,wA; u8 b0C; };
 extern struct Ctrl98 ctrl98 asm("gUnk_03000280");
+/* [ResetBg2AffineTransform] Resets transform fields x/y/dx/dy/angle to zero and scaleX/scaleY to 0x100. The
+ * affine consumer 953F8 confirms field roles. */
 void sub_080955CC(void) {
     ctrl98.w6 = 0;
     ctrl98.w4 = 0;
@@ -1571,20 +1688,24 @@ void sub_080955CC(void) {
     ctrl98.v0 = 0x100;
 }
 
+/* [SetBg2AffinePosition] Stores the two inputs in transform offsets 4/6, used as x/y by 953F8. */
 void sub_080955EC(u16 a, u16 b)
 {
     gUnk_03000280.w4 = a;
     gUnk_03000280.w6 = b;
 }
+/* [SetBg2AffineOffset] Stores the two inputs in transform offsets 8/10, added to x/y by 953F8. */
 void sub_080955F8(u16 a, u16 b)
 {
     gUnk_03000280.w8 = a;
     gUnk_03000280.wA = b;
 }
+/* [SetBg2AffineScale] Stores the two halfword inputs at offsets 0/2, consumed as reciprocal scales by 953F8. */
 void sub_08095604(s16 arg0, s16 arg1) {
     M2C_FIELD(&gUnk_03000280, s16 *, 0) = arg0;
     M2C_FIELD(&gUnk_03000280, s16 *, 2) = arg1;
 }
+/* [SetBg2AffineAngle] Stores the byte at offset 12, used as sine/cosine lookup phase by 953F8. */
 void sub_08095610(u8 v)
 {
     gUnk_03000280.b0C = v;
@@ -1609,6 +1730,8 @@ s32 f956_080021A8() asm("sub_080021A8");
 void f956_0805865C() asm("sub_0805865C");
 void f956_0805867C() asm("sub_0805867C");
 
+/* [RunStaggeredAttackSpriteFormation] Clamps signed count above 20, retries count*24 allocation and clears it;
+ * initializes resources 50046/50047. */
 void sub_0809561C(s8 count)
 {
     struct Anim956 a;
@@ -1770,6 +1893,8 @@ void sub_0809561C(s8 count)
     f956_0805867C(0x18A);
     f956_08001538(ents);
 }
+/* [ConfigureSpriteOnlyAttackPresentation] Sets display mode and clears BG enables before enabling OBJ with
+ * 0x1000 on line 1777. */
 void sub_08095A60(void) {
     sub_08000A34(1, 0, 0, 0, 0);
     sub_080009F8(0xF00, 0, 0);
@@ -1786,6 +1911,7 @@ void sub_08095A60(void) {
     *(s16 *)&gUnk_03001F40 = 0;
     sub_08000940();
 }
+/* [RunCountedAttackSpritePresentation] Requests audio fade with argument 3. */
 void sub_08095AD8(s8 value)
 {
     sub_080586D0(3);

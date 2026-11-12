@@ -83,6 +83,11 @@ extern void sub_0809FA64(u16);
     sub_080003F0(); \
 }
 
+/* [RunWaypointProjectileCycleActor] Initializes actor/resource/history state, cycles through five fixed
+ * waypoints at movement parameter 0x140 with sinusoidal y offsets, and alternates four player-targeted
+ * projectile admissions with an orbiting attack, invoking a special sequence every sixth attack.
+ * Allocation-wait termination clears its mask bit; normal exit cleans tasks, synchronizes 0xDEADFACE, shows
+ * message 0x140047, conditionally computes and grants defeat experience and completes the transition. */
 void sub_0809D878(void *input)
 {
     struct SpriteD878 sprite;
@@ -436,6 +441,11 @@ extern s32 sub_0809EDFC(void);
 extern s32 sub_0809EF84(void);
 extern s32 modE468(s32, s32) asm("__modsi3");
 void taskE468(void) asm("sub_0809E468");
+/* [RunBg2ScanlinePhaseController] Installs the EDFC HBlank and EF84 VBlank callbacks, manages BG1/BG2
+ * priorities, scroll/blend/VCOUNT transitions through nine modes, and in mode 4 continuously writes
+ * selected-player direction 0/magnitude 0x120/counter 8. Busy paths disable callbacks/display effects once;
+ * after the main object's active field clears it resets phase globals and continues an endless
+ * baseline-background yield loop. */
 void taskE468(void)
 {
     union BgE468 bg;
@@ -768,6 +778,9 @@ extern volatile u16 v1e asm("gUnk_0300031E");
 extern u8 v20 asm("gUnk_03000320");
 extern s32 mod104(s32, s32) asm("__modsi3");
 extern s16 wave[] asm("gUnk_080B9704");
+/* [UpdateHblankBg2Mode] Waits for HBlank, then uses the shared mode to update BG2 scrolling, DISPCNT bit 0x400
+ * and, in modes 1/8, BLDALPHA; scrolling modes decrement/wrap a vertical offset and sample a wave table. The
+ * live incoming r0 is preserved as its return rather than a computed status. */
 s32 sub_0809EDFC(void) {
  register s32 arg asm("r0");
  register volatile u16 *status asm("r3")=(volatile u16 *)0x04000004;
@@ -825,6 +838,8 @@ s32 sub_0809EDFC(void) {
  return arg;
 }
 extern u8 modeEF84105 asm("gUnk_03000320");
+/* [ApplyModeBg2Visibility] When sub_0800CD8C returns zero, waits for VBlank and clears DISPCNT bit 0x400 in
+ * modes 3/5 or sets it in modes 0/1/2/4/7/8; returns the status unchanged. */
 s32 sub_0809EF84(void)
 {
     register s32 status asm("r0")=sub_0800CD8C();
@@ -884,6 +899,10 @@ extern struct Draw9F018 *draw9F018(s32,s32,u32,u32,u32,void *,u32,u32) asm("sub_
 extern void vector9F018(Vec9F018,Vec9F018,s32 *) asm("sub_08097978");
 extern void effect9F018(s32,s32,s32) asm("sub_08029CEC");
 
+/* [RunChargedTargetedDamageProjectile] Validates player selector against player count, spends 270 iterations
+ * sampling a current or packed player target from object position, then moves at three times the final
+ * velocity for the remainder of a 421-step lifetime; permits one distance-11 serial-gated queued damage
+ * request and clears task control+8 on both unavailable-player and normal exits. */
 void sub_0809F018(u16 kind)
 {
     struct Sprite9F018 sprite;
@@ -1164,6 +1183,10 @@ extern struct DrawObj9F4A8 *draw9F4A8(s32,s32,u32,u32,u32,void *,u32,u32) asm("s
 extern void effect9F4A8(s32,s32,s32) asm("sub_08029CEC");
 
 struct XY9F4A8 { s32 x, y; };
+/* [RunFourOrbitingDamageProjectiles] Runs four projectiles using per-index i*64 angle offsets through growing
+ * radius and timed animation phases, then expands their radius during a 240-step final phase; each permits one
+ * distance-11 serial-gated mode-dependent queued damage request and conditionally draws. Clears the shared
+ * task control+8 on completion. */
 void sub_0809F4A8(void)
 {
     struct Sprite9F4A8 sprite;
@@ -1281,6 +1304,8 @@ void sub_0809F4A8(void)
     } while (timer != 0);
     task9F4A8[2] = timer;
 }
+/* [CleanupTrackingOrbitActor] Actor +0x5C nonzero releases orbit task, four tracking-launch controls,
+ * background task and auxiliary scale task; always clears peer rings, mask and palette. */
 void sub_0809F8C8(void) {
     if (M2C_FIELD(gUnk_03000310, s16 *, 0x5C) != 0) {
         sub_0809FAEC();
@@ -1292,15 +1317,19 @@ void sub_0809F8C8(void) {
     gUnk_030056FC = 0;
     sub_08016ECC(gUnk_03000314);
 }
+/* [RequestBackgroundPhaseAdvance] Exact store/getter body. */
 void sub_0809F90C(void) {
     gUnk_0300031C = 1;
 }
+/* [AllocateBackgroundPhaseTaskControl] Exact target body. */
 void sub_0809F918(void)
 {
   s32 temp_r0;
   temp_r0 = (gUnk_03000318 = (s32) sub_08001494(0x28U));
   *((s32 *) (((s8 *) temp_r0) + 8)) = 0;
 }
+/* [ReleaseScanlinePushTask] When background control is scheduled, disables display hooks/effects and cancels
+ * it; always frees control and clears global. No null guard on scheduler test. */
 void sub_0809F934(void) {
     if (sub_08000470(gUnk_03000318) != 0) {
         sub_08000E48();
@@ -1315,6 +1344,9 @@ void sub_0809F934(void) {
     sub_08001538(gUnk_03000318);
     gUnk_03000318 = 0;
 }
+/* [StartScanlinePushTask] Returns only for unscheduled control with nonzero +8. Repeatedly allocates0x400 and
+ * yields even on success until allocation succeeds; installs callback, no destructor, writes0x3E and
+ * registers. */
 void sub_0809F998(void)
 {
     if (sub_08000470((u32)gTP03000318) == 0 && gTP03000318->f8 != 0)
@@ -1331,6 +1363,8 @@ void sub_0809F998(void)
 }
 struct TaskPool105 { u32 next,state,priority,entry,sp,event,prev;u16 time,pad;u32 stack,onExit; };
 extern struct TaskPool105 *volatile pool105 asm("gUnk_03000324");
+/* [AllocateTargetedProjectilePool4] A0hex allocation stored through volatile holder; null branch skips all
+ * stores; four+8 words cleared. */
 void sub_0809F9F8(void)
 {
     struct TaskPool105 *base;
@@ -1351,6 +1385,8 @@ void sub_0809F9F8(void)
         } while(remaining>=0);
     }
 }
+/* [ReleaseTrackingLaunchTasks] Returns if gUnk_03000324 is null; otherwise cancels four scheduled controls,
+ * frees array and clears global. */
 void sub_0809FA28(void)
 {
     u8 *e;
@@ -1365,6 +1401,9 @@ void sub_0809FA28(void)
     gP03000324 = (u8 *)i;
 }
 extern void sub_0809F018();
+/* [StartTrackingLaunchProjectile] Null pool returns; scans four controls for unscheduled plus word0;
+ * allocation0x200 failure returns. Installs tracking-launch callback, no destructor, word0x40, forwards u16
+ * selector. */
 void sub_0809FA64(u16 arg)
 {
   struct TaskP *t = (struct TaskP *) gP03000324;
@@ -1396,6 +1435,7 @@ void sub_0809FA64(u16 arg)
   }
  do { t->f10 = t->f20 + 0x1FC; t->fC = (u32) sub_0809F018; t->f24 = z; t->f8 = 0x40; sub_08000274_2(t, arg); } while (0);
 }
+/* [AllocateFourOrbitingHazardsControl] Exact target body. */
 void sub_0809FACC(void)
 {
   int new_var;
@@ -1409,6 +1449,7 @@ void sub_0809FACC(void)
     *((s32 *) (new_var2 + 8)) = new_var;
   }
 }
+/* [FreeFourPositionHazardTask] Null guard; scheduled cancel; free then global00328=0. No post-cancel recheck. */
 void sub_0809FAEC(void) {
     if (gUnk_03000328 != 0) {
         if (sub_08000470(gUnk_03000328) != 0) {
@@ -1418,6 +1459,8 @@ void sub_0809FAEC(void) {
         gUnk_03000328 = 0;
     }
 }
+/* [StartExpandingOrbitAttack] Returns for null control or unscheduled control with nonzero +8. Writes0x40
+ * before allocating0x400; null allocation returns with0x40 retained. Installs orbit callback and registers. */
 void sub_0809FB18(void)
 {
     u32 mem;
@@ -1496,6 +1539,11 @@ extern void sound9FB6C(s32) asm("sub_08058688");
     draw9FB6C(sx,sy,actor9FB6C->f68,actor9FB6C->f6A,2,sprite.payload,sprite.data,sprite.base); \
 }
 
+/* [RunOrbitingStrikeActor] Initializes an actor and palette, moves it on an expanding bounded elliptical table
+ * orbit, and synchronizes event-selected strike callbacks with a completion byte, alternating with a separate
+ * task sequence after two rounds. Resource-failure termination clears its mask bit and returns early; normal
+ * death/termination cleans effect tasks, synchronizes 0xDEADFACE, conditionally computes and grants defeat
+ * experience and requests/waits the final transition. */
 void sub_0809FB6C(void *input)
 {
     struct Sprite9FB6C sprite;
@@ -1754,6 +1802,10 @@ extern void shake105(s32,u32) asm("sub_08097D3C");
 extern void sub_08097D64(void);
 extern void sub_080A104C(void);
 extern void sub_080A1058(void);
+/* [RunArenaStrikeAnimation] Uses low-byte kind to choose animation and one of fixed strike targets, renders
+ * resource 0x5000A and applies a serial-gated distance-39 hit on animation frame 2/tick 0; triggers
+ * camera/effect helpers once at that frame, waits out its timer, writes the supplied completion byte and
+ * clears current task control+8. */
 void sub_080A05B4(u32 kind,void *done)
 {
     struct Sprite105 spr;
@@ -1857,6 +1909,14 @@ extern void sub_080968C0(void);
 extern s32 sub_08096AF4(void *, s32);
 extern void sub_08097D7C(u8, s8);
 extern void sub_08097E28(void *, s32);
+/* [TaskUpdateBg2RockingAndScenePositions] Resets the BG2 transform through 9689C, sets position (0,56), and
+ * writes fixed map-state 0x03003170 halfwords +0x70/+0x72/+0x74/+0x76 to 30/25/30/25. Clears mode byte
+ * 03000338, then loops forever: calls the transform stepper with unsigned phase-step 0300033B and signed
+ * amplitude 0300033C; relaxes parameters according to the mode/hold/countdown bytes; sets transform
+ * position(0,s16(100-scrollY)); calls the gated BG2 rotation-shadow updater; copies local player live
+ * coordinates to prior-coordinate fields through repeated local-ID queries; calls the gated warp/clamp helpers
+ * for that player position and 16 records through pointer global 0x03005D58 with stride 0x20 when record+A
+ * mask1 is set and r... */
 void sub_080A099C(void)
 {
     s32 a;
@@ -1945,6 +2005,10 @@ extern void effectA0B44(s32, s32, s32) asm("sub_08029CEC");
 extern s32 pickA0B44(s32) asm("sub_08096594");
 extern void setupA0B44(s32) asm("sub_08097A38");
 
+/* [RunAnimatedHomingDamageProjectile] Runs startup and animation-countdown phases, then moves a projectile
+ * with periodically refreshed velocity toward a selected player for a bounded final phase; conditionally
+ * renders two sprite resources, permits one distance-15 serial-gated queued damage request, and clears task
+ * control+8 before a final yield. */
 void sub_080A0B44(void)
 {
     struct SpriteA0B44 sprite1, sprite2;
@@ -2127,6 +2191,8 @@ void sub_080A0B44(void)
     *(u32 *)((u8 *)sub_0800048C() + 8) = lastRunning;
     sub_080003F0();
 }
+/* [CleanupImpactHomingActor] Actor +0x5C nonzero releases impact task, auxiliary task, homing task and scale
+ * task; always clears peer rings, mask and palette. */
 void sub_080A0F64(void) {
     if (M2C_FIELD(gUnk_0300032C, s16 *, 0x5C) != 0) {
         sub_080A0FC4();
@@ -2138,12 +2204,14 @@ void sub_080A0F64(void) {
     gUnk_030056FC = 0;
     sub_08016ECC(gUnk_03000330);
 }
+/* [AllocateFixedStrikeTaskControl] Exact target body. */
 void sub_080A0FA8(void)
 {
   s32 temp_r0;
   temp_r0 = (gUnk_03000334 = (s32) sub_08001494(0x28U));
   *((s32 *) (((s8 *) temp_r0) + 8)) = 0;
 }
+/* [DestroyFixedStrikeTaskControl] Exact target body. */
 void sub_080A0FC4(void) {
     if (sub_08000470(gUnk_03000334) != 0) {
         sub_080003A8(gUnk_03000334);
@@ -2153,6 +2221,8 @@ void sub_080A0FC4(void) {
 }
 extern struct TaskP *gTP03000334 asm("gUnk_03000334");
 extern void sub_080A05B4();
+/* [StartFixedImpactAttack] Returns only for unscheduled control with nonzero +8. Allocates0x400; failure
+ * writes caller byte1. Success installs callback with0x44 and forwards byte kind plus byte-pointer. */
 void sub_080A0FEC(u8 a, u8 *err)
 {
     u32 mem;
@@ -2172,35 +2242,72 @@ void sub_080A0FEC(u8 a, u8 *err)
     t->f8 = 0x44;
     sub_08000274_3((u32)t, a, (u32)err);
 }
+/* [HoldBoundedBg2RockingRecovery] Sets hold byte 03000339 to 1. In the nonzero-mode branch of A099C, this
+ * bypasses the recovery countdown and its phase-step/amplitude adjustments. It does not pause phase
+ * advancement, affine-shadow updates, player/record warping or the task itself. Mode zero ignores this hold
+ * byte and continues its independent amplitude-to-zero recovery. No timer or transform state is changed here. */
 void sub_080A104C(void) {
     gUnk_03000339 = 1;
 }
+/* [ReleaseBoundedBg2RockingRecovery] Clears hold byte 03000339 and resets the shared recovery countdown
+ * 0300033A to 20. The next task updates may resume bounded recovery when nonzero mode is selected; zero mode
+ * also sees the restarted countdown. Does not immediately change amplitude/phase step, request a zero target,
+ * update affine registers or wait. Countdown units are task updates, not guaranteed elapsed frames. */
 void sub_080A1058(void) {
     gUnk_03000339 = 0;
     gUnk_0300033A = 0x14;
 }
+/* [SetBg2RockingPhaseStep] Stores the low input byte at 0300033B. The consumer reads it unsigned as the phase
+ * increment passed to 97D7C; values 128..255 are not interpreted as negative despite the local s8 setter
+ * signature. The producer starter resets it to 1, and one task mode later decrements values>1 on its
+ * countdown. Setter itself does not clamp, reset phase or update affine registers immediately. */
 void sub_080A1070(s8 arg0) {
     gUnk_0300033B = arg0;
 }
+/* [SetBg2RockingAmplitude] Stores the low input byte at 0300033C. A099C reads it signed when calling97D7C,
+ * which computes the periodic transform angle from it. Later task updates can move the amplitude toward zero
+ * or reduce magnitudes beyond 6 according to observed mode/hold bytes. Setter does not validate range, reset
+ * phase or immediately publish BG2 shadow state. */
 void sub_080A107C(s8 arg0) {
     gUnk_0300033C = arg0;
 }
+/* [GetBg2RockingAmplitudeBits] Returns the raw amplitude byte 0300033C zero-extended to u8. This differs from
+ * the signed interpretation used by the rocking task: negative amplitude patterns return values 128..255. No
+ * consumption, state update, wait or active-status query. */
 u8 sub_080A1088(void) {
     return (u8) gUnk_0300033C;
 }
+/* [SelectBg2RockingBoundedRecovery] Sets mode byte 03000338 to 1 and immediately writes signed amplitude +6 to
+ * 0300033C. In this mode, if hold is clear, the task countdown periodically decrements an unsigned phase step
+ * only when >1, and moves signed amplitudes outside [-6,6] one unit toward that band. Step zero remains zero;
+ * amplitudes already inside the band are not raised to magnitude 6 by recovery itself. Does not release hold,
+ * restart the countdown, reset phase or immediately write the BG2 shadow. The task resets this mode byte on
+ * first entry. */
 void sub_080A1094(void) {
     gUnk_03000338 = 1;
     gUnk_0300033C = 6;
 }
+/* [SelectBg2RockingZeroRecovery] Clears mode byte 03000338. On future countdown expirations, A099C then moves
+ * the signed amplitude one unit toward zero; the phase step is not reduced in this branch and hold byte 339 is
+ * ignored. Does not immediately zero amplitude, reset timer/phase, stop the task or restore transformed
+ * positions. This selects recovery behavior rather than an active/inactive status for the whole effect. */
 void sub_080A10AC(void) {
     gUnk_03000338 = 0;
 }
+/* [AllocateBg2RockingTaskControl] Allocates a 0x28-byte control, overwrites shared pointer 03000340 with the
+ * result and writes control+8=0. Allocation failure is not checked before that dereference. Does not
+ * initialize the transform/phase/amplitude globals, start the task or free a prior control; repeated
+ * allocation and null safety are not established. */
 void sub_080A10B8(void)
 {
   s32 temp_r0;
   gUnk_03000340 = (temp_r0 = (s32) sub_08001494(0x28U));
   *((s32 *) (((s8 *) temp_r0) + 8)) = 0;
 }
+/* [StopAndFreeBg2RockingTaskControl] Checks scheduler membership of shared control 03000340, stops it through
+ * 003A8 if scheduled, then frees the control and nulls its pointer. No initial null guard. Does not request
+ * cooperative task exit, restore player/record coordinates, reset BG2 affine state or clear the rocking
+ * parameters. */
 void sub_080A10D4(void) {
     if (sub_08000470(gUnk_03000340) != 0) {
         sub_080003A8(gUnk_03000340);
@@ -2214,6 +2321,12 @@ extern u8 gB0300033C asm("gUnk_0300033C");
 extern u8 gB03000339 asm("gUnk_03000339");
 extern u8 gB0300033A asm("gUnk_0300033A");
 extern void sub_080A099C();
+/* [StartBg2RockingAndPositionWarpTask] Checks control 03000340 membership, returning only if not scheduled and
+ * control+8 is nonzero. No null guard, and already-scheduled controls are not rejected. Sets phase-step 1,
+ * amplitude 0, hold 0 and countdown 20; allocates a 0x400-byte stack; reloads the control pointer and stores
+ * stack/top/callback A099C/null-finalizer/raw flags 0x40, then starts with r1/r2=0. The allocation result is
+ * not checked before top/result are used. No retry, priority inference, success return or safe repeated-start
+ * guarantee. The task itself resets mode 03000338 on entry. */
 void sub_080A10FC(void)
 {
     u32 mem;
@@ -2233,6 +2346,7 @@ void sub_080A10FC(void)
     t->f8 = 0x40;
     sub_08000274_3((u32)t, 0, 0);
 }
+/* [AllocateHomingProjectileTaskControl] Exact allocation and initialization body. */
 void sub_080A1170(void)
 {
   int new_var;
@@ -2241,6 +2355,7 @@ void sub_080A1170(void)
   temp_r0 = (gUnk_03000344 = (s32) sub_08001494(0x28U));
   *((s32 *) (new_var2 = ((s8 *) temp_r0) + (new_var = 8))) = 0;
 }
+/* [DestroyHomingProjectileTaskControl] Exact target body. */
 void sub_080A118C(void) {
     if (sub_08000470(gUnk_03000344) != 0) {
         sub_080003A8(gUnk_03000344);
@@ -2250,6 +2365,8 @@ void sub_080A118C(void) {
 }
 extern struct TaskP *gTP03000344 asm("gUnk_03000344");
 extern void sub_080A0B44();
+/* [StartLimitedRetargetProjectile] Returns for unscheduled control with nonzero +8. Allocates0x400; failure
+ * returns. Installs sub_080A0B44 with controlword0x46, no destructor, registers task. */
 void sub_080A11B4(void)
 {
     u32 mem;
@@ -2294,6 +2411,11 @@ extern void sub_080A2720(u8 mode, u16 arg);
     sub_080003F0(); \
 }
 
+/* [RunPursuitEightProjectileActor] Initializes two sprite resources and player serial histories, pursues a
+ * selected player with speed 0xC0 and timed cap, then applies a facing hit and admits eight direction-indexed
+ * projectile tasks using game-mode-selected pool callbacks; alternates attack and recovery waits.
+ * Resource-failure termination clears its mask bit; normal exit clears active mask, cleans tasks,
+ * synchronizes, shows message 0x140061 and performs conditional experience/transition. */
 void sub_080A1208(void *input)
 {
     struct SpriteD878 spriteA;
@@ -2599,6 +2721,9 @@ struct PlayerA1DA8 { u8 p0[0x20]; u16 state; u8 p22[14]; u32 flags; u8 p34[0x34]
 extern struct PlayerA1DA8 gPlayersA1DA8[] asm("gUnk_03003CE0");
 extern s16 atanA1DA8(s16,s16) asm("ArcTan2");
 extern s16 sub_0801ED8C(void *, void *);
+/* [ApplyFacingPointPlayerHit] Within distance 31 of the player's packed position, tests the object's eight-way
+ * facing against the target sector and lifecycle/pause/player gates; writes hit state/marker, adds helper
+ * result and records/increments serial. It does not test a prior serial before applying. */
 void sub_080A1DA8(void)
 {
     u32 x, y;
@@ -2653,6 +2778,8 @@ void sub_080A1DA8(void)
         gPlayersA1DA8[sub_080020F4()].fE4[gActorA1DA8->f0] = gActorA1DA8->f50++;
     }
 }
+/* [ReleaseDualEightSlotPools] Stops song0xC2; cancels scheduled controls in both eight-entry arrays, frees
+ * each and clears both globals. No null guards on arrays. */
 void sub_080A1F88(void) {
     u32 var_r4;
     u32 var_r4_2;
@@ -2696,6 +2823,10 @@ extern void sub_08065158(void *, u32, u16, s32, s32);
 extern void sub_0800BC08(s32, s32, s16 *, s16 *, s32, s32);
 extern s32 sub_08007870(s16, s16, s32, u16, s32, void *, u32, u32);
 extern void sub_08029CEC(s32, s32, s32);
+/* [RunDelayedRadialDamageProjectile] Starts at a facing-offset object position, waits 90 yield iterations,
+ * then increases radial distance by 0x200 along the low-byte direction-times-32 angle; for a 361-iteration
+ * lifetime conditionally renders resource 0x5000C and permits one serial-gated distance-23 queued damage
+ * request. Clears current task control+8 at normal exit. */
 void sub_080A1FF4(void *unused, u16 direction)
 {
     struct AnimA1FF4 anim;
@@ -2784,6 +2915,10 @@ struct PlayerT107C {
     u32 serial[25]; u16 *data;
 };
 extern struct PlayerT107C t107PlayersC[] asm("gUnk_03003CE0");
+/* [RunRetargetingDamageProjectile] Waits halfword argument times 20, selects a target, then waits 120 more
+ * iterations; periodically recomputes velocity for six samples, moves at one-and-a-half velocity and later
+ * expires after a final counter interval. Allows one distance-23 serial-gated queued damage request, renders
+ * resource 0x5000C and clears task control+8 after stopping sound 0xC2. */
 void sub_080A230C(void *unused, u16 delay)
 {
     struct AnimT107A230C anim;
@@ -2871,6 +3006,8 @@ void sub_080A230C(void *unused, u16 delay)
     *(u32 *)((u8 *)sub_0800048C() + 8) = active;
     sub_080003F0();
 }
+/* [CleanupDualEightSlotActor] When actor +0x5C is nonzero, releases both eight-control arrays; always clears
+ * peer rings and active mask and releases the shared palette slot. */
 void sub_080A2698(void) {
     if (M2C_FIELD(gUnk_03000348, s16 *, 0x5C) != 0) {
         sub_080A1F88();
@@ -2879,6 +3016,8 @@ void sub_080A2698(void) {
     gUnk_030056FC = 0;
     sub_08016ECC(gUnk_0300034C);
 }
+/* [AllocateDualEightSlotPools] Allocates two 0x140-byte pools at gUnk_03000350/354 and clears +8 of eight
+ * 0x28-byte controls in each. Neither allocation is checked for failure. */
 void sub_080A26D0(void)
 {
   long i;
@@ -2900,6 +3039,10 @@ extern void t107Callback1(void) asm("sub_080A230C");
 struct T107Task { u32 f0, f4, f8, fC, f10, f14, f18, f1C, f20, f24; };
 extern struct T107Task *t107Pool0 asm("gUnk_03000350");
 extern struct T107Task *t107Pool1 asm("gUnk_03000354");
+/* [AdmitPairedPoolEffectTask] Chooses an eight-entry task pool from the byte mode, skips active tasks or
+ * nonzero control+8, allocates 0x400 bytes, assigns callbacks only for modes 0/1, sets stack top and control+8
+ * to 0x46, then registers with mode and the unsigned halfword argument; exhaustion or allocation failure
+ * returns without admission. */
 void sub_080A2720(u8 mode, u16 arg) {
     struct T107Task *t;
     u8 i;
@@ -2996,6 +3139,11 @@ extern void s6171CA27(void *, s32) asm("sub_0806171C");
 
 #define TAIL_A27()                                                                                         {                                                                                                          s32 z;                                                                                                 playersA27[sub_080020F4()].flags |= 1;                                                                 if (sub_0800CCCC() == 0 && sub_0800CC98() == 0 && sub_0800CD8C() == 0 && (z = sub_0800CD34()) == 0) {             sub_08000AF0(tileA27 + 0x10, (void *)(animsA27[0].fC + *pD6 * 32), 1);                                pal = sub_0800BC44(selfA27->x >> 8, selfA27->y >> 8, 0);                                               selfA27->f6E = animA27(&animsA27[0], selfA27->f68, &selfA27->f6A, &selfA27->f6C, 1);                   coordsA27((s16)(selfA27->x >> 8), (s16)(selfA27->y >> 8), &sx, &sy, z, z);                             drawA27(sx, sy, selfA27->f68, selfA27->f6A, pal, animsA27[0].attr, animsA27[0].f8, animsA27[0].f0);         }                                                                                                      yieldA27();                                                                                        }
 
+/* [RunPatternedAttachmentEncounter] Places main actor at fixed position, restores field+0x5C to999 on hits,
+ * and alternates timed pursuit/contact with event-selected15-byte configurations for one primary attachment
+ * and three indexed children. Ends when linked actor+0x5C clears or termination occurs. Normal exit clears
+ * actor mask, synchronizes0xDEADFACE, shows message0x140065, then releases three task groups and conditionally
+ * performs experience/transition work. Palette-wait termination clears only its mask bit and returns. */
 void sub_080A27B8(struct EntA27 *self)
 {
     s16 sx, sy;
@@ -3317,6 +3465,11 @@ extern void coordsA35(s32, s32, s16 *, s16 *, s32, s32) asm("sub_0800BC08");
 extern void yieldA35(void) asm("sub_080003F0");
 
 void t107MainD(void) asm("sub_080A35D0");
+/* [RunSelectedAttachmentActor] Initializes actor slot 1 linked to a main object's serial and position,
+ * synchronizes startup by actor id, follows the selected table offset with mode-selected animation and
+ * collision dimensions, and handles damage blinking. An inactive selector waits hidden until death; the death
+ * path requests remote full-HP damage for its actor key and enters an endless attachment-rendering yield loop
+ * rather than returning. */
 void t107MainD(void)
 {
     s16 sx, sy;

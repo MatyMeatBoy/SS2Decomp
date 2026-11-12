@@ -1,5 +1,7 @@
 #include "global.h"
 
+/* [FindInlineActorStatusEffectByKey] Scans eight embedded actor records at+0x8C for counter not-1, matching
+ * key+4 and category100+2; returns first pointer or null. */
 s32 sub_0801E244(s32 arg0, s32 arg1)
 {
   int new_var;
@@ -22,6 +24,9 @@ s32 sub_0801E244(s32 arg0, s32 arg1)
   }
   goto loop_1;
 }
+/* [ResetPlayerStatusEffectsByKey] Repeatedly finds category100 records with matching key in player effect list
+ * at+0x34 and calls1DB94(ownerID,record,0). Default initializer sets counter0xFFFF and key0; repeats until
+ * none remain. */
 void sub_0801E278(s32 arg0,u32 arg1)
 {
     u32 i;
@@ -47,6 +52,9 @@ scan:
         if(found) goto again;
     }
 }
+/* [ResetInlineActorStatusEffectsByKey] Repeatedly finds category100 records with matching key at actor+0x8C
+ * and calls1DB94(actorID+4,record,0), freeing them through its default initializer. Completes only when no
+ * matching nonfree record remains. */
 void sub_0801E2CC(s32 arg0,u32 arg1)
 {
     u32 i;
@@ -76,6 +84,9 @@ struct RemoveEntry019 { u16 id:16; u16 type,key; u8 pad[34]; };
 struct RemovePlayer019 { u8 pad[0x34]; struct RemoveEntry019 *entries; u8 tail[0x114]; };
 extern struct RemovePlayer019 removePlayers019[] asm("gUnk_03003CE0");
 extern void removeEntries019(u32,u32,u32) asm("sub_0801E324");
+/* [RemovePlayerEffectsByTypeAndKey] Selects player effect list via playerIndex, scans eight records for
+ * counter not-1 and matching type/key, sets only counter to0xFFFF. Existing alias removeEntries019 is
+ * superseded by this reviewed narrower identity; other record bytes remain unchanged. */
 void removeEntries019(u32 type,u32 playerIndex,u32 key)
 {
     struct RemoveEntry019 *entry=removePlayers019[playerIndex].entries;
@@ -86,6 +97,8 @@ void removeEntries019(u32 type,u32 playerIndex,u32 key)
     }
 }
 extern u32 statRead019(s32,s32) asm("sub_0801E0AC");
+/* [ApplyHigherIndexedSkillScaling] Class0 reads effective skill4 twice; class3 reads skill3 twice on
+ * lines100-102; formula uses signed input halfword and returns low halfword. */
 u16 sub_0801E378(s32 arg0,u16 value)
 {
     u8 mode=sub_0801DE60();
@@ -104,6 +117,8 @@ u16 sub_0801E378(s32 arg0,u16 value)
     }
     return value;
 }
+/* [ApplyLowerIndexedSkillScaling] Class0 uses skill3 and class3 uses skill2 on lines118-120; same scaling
+ * arithmetic and low-halfword return. */
 u16 sub_0801E3D8(s32 arg0,u16 value)
 {
     u8 mode=sub_0801DE60();
@@ -122,6 +137,7 @@ u16 sub_0801E3D8(s32 arg0,u16 value)
     }
     return value;
 }
+/* [ComputeClassSkillEightfoldValue] Fallback is low16 of arg1. */
 u16 sub_0801E438(s32 arg0, u32 arg1)
 {
     u16 value;
@@ -139,6 +155,11 @@ u16 sub_0801E438(s32 arg0, u32 arg1)
     }
     return value;
 }
+/* [ComputeEnemyDefeatExperience] Takes the character save (level word +0x20) and the defeated enemy's data
+ * (word +0x10, byte +0x22). Let L = level + 1 and limit = max(3L, level + 13). Returns 9L when the enemy word
+ * exceeds limit, otherwise 3 * enemy word, multiplied by 10 when byte +0x22 is 3.
+ * AddExperienceAndAdvanceOneLevel's evidence records that the matched actor defeat/loot path computes its
+ * reward through this function before adding it. The exact meaning of the enemy fields is not claimed. */
 s32 sub_0801E46C(void *arg0, void *arg1) {
     s32 temp_r1;
     s32 temp_r1_2;
@@ -166,11 +187,18 @@ s32 sub_0801E46C(void *arg0, void *arg1) {
     }
     return var_r1;
 }
+/* [GetExperienceNeededForNextLevel] Indexes threshold table0848FF54 using saved level word+0x20 and subtracts
+ * accumulated experience word+0x1C.1E4CC uses these same fields/table when awarding experience and advancing
+ * level. */
 s32 sub_0801E4B0(void) {
     s32 *p = (s32 *) gUnk_030034E0;
     s32 idx = p[8];
     return gUnk_0848FF54[idx] - p[7];
 }
+/* [AddExperienceAndAdvanceOneLevel] Rejects when local runtime player flags contain0x2000 or unsigned saved
+ * level>198. Adds supplied amount to experience+0x1C; if threshold table value reached, increments level once,
+ * adds4 to halfword+0x1A and1 to+0x30, calls61830 and returns1. Does not loop across multiple levels or
+ * subtract threshold; exact point names are not inferred. */
 s32 sub_0801E4CC(u8 *arg0, s32 arg1) {
     s32 idx = sub_080020F4();
     u32 flags = gUnk_03003CE0[idx].flags;
@@ -195,6 +223,10 @@ s32 sub_0801E4CC(u8 *arg0, s32 arg1) {
     sub_08061830(&gUnk_03003CE0[sub_080020F4()]);
     return 1;
 }
+/* [HasLocalPlayerActionSkillLevel] Calls the local class/action skill-level getter 1CCC8 and returns exactly 1
+ * when its low 16 bits are nonzero, otherwise 0. Does not test energy affordability, validate the
+ * action/resource domain or change player state. The long-long zero local in the matched C is a
+ * code-generation form, not evidence of a 64-bit skill value. */
 s32 sub_0801E538(void)
 {
   long long new_var;
@@ -212,6 +244,8 @@ s32 sub_0801E538(void)
   }
   return 1;
 }
+/* [SetPlayerEffectAmountByTypeAndKey] Scans eight player effect records and for every nonfree matching
+ * type/key writes supplied16-bit amount/value at+6. Does not change counter, type or key. */
 void sub_0801E550(s32 arg0, s32 arg1, s32 arg2, s32 arg3)
 {
     u8 *p;
@@ -232,6 +266,9 @@ void sub_0801E550(s32 arg0, s32 arg1, s32 arg2, s32 arg3)
         p += 0x28;
     } while (i <= 7);
 }
+/* [MarkEightEffectRecordsFree] Walks eight40-byte records, writes0xFFFF to each counter halfword and preserves
+ * remaining fields. Source performs a volatile read and redundant OR/write; no bytewise clearing or allocator
+ * free occurs. */
 void sub_0801E594(void *arg0)
 {
   u8 *p;
@@ -308,6 +345,8 @@ static inline s32 inl_08021D00(u16 arg0, s32 arg1, u8 *base, s32 off) {
     }
     return var_r3;
 }
+/* [ComputePlayerAttackEnemyDamage] Normal critical roll uses divisor 100 or 200 and sound/sprite feedback;
+ * nonzero noCrit uses divisor 1000 with no critical roll. */
 s32 sub_0801E5B0(struct Atk5B0 *atk, struct Tgt5B0 *tgt, u8 *record, s32 noCrit)
 {
     u8 *ctx;
@@ -449,6 +488,8 @@ s32 sub_0801E5B0(struct Atk5B0 *atk, struct Tgt5B0 *tgt, u8 *record, s32 noCrit)
 }
 struct Pos988 { u16 a; u8 b, c; };
 struct Tgt988 { u16 id; u8 pad2[0x1E]; u16 kind; u8 pad22[0x38]; u16 defense; u8 pad5C[0x20]; u16 resist[6]; u8 pad88[0xC0]; struct Pos988 *pos; };
+/* [ComputePlayerAttackPlayerDamage] Critical roll and feedback choose divisor 100/200; nonzero noCrit selects
+ * 1000. */
 s32 sub_0801E988(struct Atk5B0 *atk, struct Tgt988 *tgt, u8 *record, s32 noCrit)
 {
     u8 *ctx;
@@ -609,6 +650,8 @@ static inline s32 inl_ED8C(u16 arg0, u16 arg1, u32 arg2) {
     }
     return (s32) var_r0;
 }
+/* [ComputeEnemyAttackPlayerDamage] Looks up enemy attack resource via key 0x 22C and reads player defense
+ * 0x5A. */
 u32 sub_0801ED8C(void *arg0, void *arg1)
 {
   struct CombatActorD8C *src = arg0;
@@ -712,6 +755,13 @@ u32 sub_0801ED8C(void *arg0, void *arg1)
 }
 struct CombatCtx019 { u8 pad[0x14]; u16 resist[6]; u8 pad20[8]; u16 key; };
 struct CombatActor019 { u8 pad[0x1CC]; u16 attack,defense; u8 pad1D0[0x34]; struct CombatCtx019 ctx; };
+/* [ComputeElementalAttackDamage] Loads unsigned 16-bit attack and defense from actor +0x1CC/+0x1CE. Casts
+ * NextRandom32 to u16 before modulo 50, then adds 100 for variance. Computes signed division of the low-32-bit
+ * product attack*attack*10 by attack+defense, then signed division of the low-32-bit product with variance by
+ * 200. Truncates that result to u16 before unsigned division by 10; replaces zero with 1. Item resource
+ * (0xB0000 | attacker context key) supplies element halfword +0xBC. Elements 1..7 select target resistance
+ * entries 0..5, with elements 6/7 sharing entry 5. Resistance is interpreted as s16 for r*r;
+ * damage*5000/(r*r+2500) is truncated to u16 and a set sign bit becomes 1. */
 s32 sub_0801EF14(void *arg0,void *arg1)
 {
     struct CombatActor019 *src=arg0,*dst=arg1;
@@ -786,6 +836,11 @@ static inline s32 overlapF024(s32 *arg0, s32 *arg1, u16 *arg2, u16 *arg3) {
     return 0;
 }
 struct SizeF024 { u16 w, h; };
+/* [TestItemAttackBoxesAgainstTarget] For item record obj, places a square box of size obj[+0xA6] at reach
+ * obj[+0xA5] along the facing direction (sine table, centre raised by 0x400). Tests it against the target box
+ * (w, h) with the shared fixed-point overlap helper and returns 1 on a hit. Unless item kind +0x9B is 9, it
+ * also tests a second box (reach +0xA7, size +0xA8). Kinds 3 and 8 return 0 for certain normalized class
+ * indices (GetNormalizedCharacterClassIndex 2, plus 7 for kind 8). */
 s32 sub_0801F024(u8 *obj, u16 dir, s32 *pos, s32 *target, u32 w, u32 h)
 {
     s32 box[2];
@@ -822,6 +877,7 @@ check2:
 extern s32 sub_080020F4(void);
 extern void sub_0801F2CC(u8 *,u8 *);
 struct Sh20F1C4Packet { u8 player:8; u8 power:8; u8 impulse:8; s32 direction:8; u32 amount:16; u32 unused:16; };
+/* [QueueEnemyDamageFromPosition] Sets reaction state10, builds amount and direction from supplied position. */
 void sub_0801F1C4(void *position, u8 *object, u16 amount)
 {
     struct Sh20F1C4Packet packet;
@@ -877,6 +933,8 @@ void sub_0801F1C4(void *position, u8 *object, u16 amount)
 }
 struct Sh20F2CC { u8 pad[0x7C]; u16 duration; s16 direction; u16 speed; u16 value; };
 struct Sh20F2CCData { u8 pad[2]; u8 value; s8 direction; };
+/* [ConfigureEnemyKnockbackFromHit] Reads impulse byte; duration max(1,impulse/4), speed 256 or 1024, magnitude
+ * and signed direction written on nonzero path. */
 void sub_0801F2CC(u8 *object, u8 *data)
 {
   u8 duration;
@@ -910,6 +968,8 @@ void sub_0801F2CC(u8 *object, u8 *data)
 }
 struct Sh20F320 { u32 alignment; u8 pad[0xCA]; u16 duration; s16 direction; u16 speed; u16 value; };
 struct Sh20F320Data { u8 pad[2]; u8 value; s32 direction:8; };
+/* [ConfigurePlayerKnockbackFromHit] Writes player knockback duration +0xCE; lines 932-939 write speed,
+ * magnitude and signed direction. */
 void sub_0801F320(u8 *object, u8 *data)
 {
 
@@ -956,6 +1016,8 @@ extern void status02074(u16,s32) asm("sub_080680B4");
 extern void *lookup02074(u8 *,s32) asm("sub_0801E104");
 extern void critical02074(u16) asm("sub_08068030");
 struct Packet02074 {u8 player:8;u8 power:8;u8 impulse:8;s32 direction:8;u32 amount:16;u32 unused:16;};
+/* [ApplyPlayerAttackToEnemy] Full link queue returns before mutation, even if a same-target message could
+ * otherwise merge. */
 void sub_0801F374(u8 *source,u8 *target,u8 *attack,s32 flags)
 {
     struct Packet02074 packet;
@@ -1039,6 +1101,8 @@ extern void hit02079(void *,void *,s32,u16,s32) asm("sub_08069388");
 extern void notify02079(void *) asm("sub_080660EC");
 extern void display02079(void *,s32,s32,u16,s32,s32) asm("sub_08069080");
 struct Packet02079 {u8 player:8;u8 power:8;u8 impulse:8;s32 direction:8;u32 amount:16;u32 unused:16;};
+/* [QueuePlayerAttackAgainstPlayer] Flags bit0 selects divisor 1000 damage OR 0x 8000 and zero
+ * impulse/direction; ordinary path computes direction and kind8 charged-attack scaling. */
 void sub_0801F79C(u8 *source,u8 *target,u8 *attack,s32 flags)
 {
     struct Packet02079 packet;
@@ -1101,6 +1165,8 @@ static inline s32 coll02099(s32 *pos,struct Item02099 *item,u16 *box,struct Size
     if((dx<0?-dx:dx)<=(box[0]+sz->width)>>1 && (dy<0?-dy:dy)<=(box[1]+sz->height)>>1) r=1; else r=0;
     return r;
 }
+/* [AttackFirstOverlappingSceneObject] Empty object list returns0; states 10..12 and resource flag bits0/1 are
+ * excluded. */
 s32 sub_0801F99C(s32 *pos, u16 *box)
 {
     struct Size02099 size;
@@ -1139,6 +1205,8 @@ extern u8 *scene02014 asm("gUnk_03005CF4");
 extern u8 players02014[] asm("gUnk_03003CE0");
 extern void damage02014(u32,s32,u8) asm("sub_08028368");
 union Size02014 { volatile u32 word; struct { u32 width:16; u32 height:16; } fields; };
+/* [DamageFirstOverlappingSceneObject] Zero object count returns0; scene object list begins at 0x 58C with
+ * stride 0x 24. */
 s32 sub_0801FB14(void *arg0, void *arg1, s32 damage)
 {
     union Size02014 size;
@@ -1247,6 +1315,8 @@ extern u8 *scene02034 asm("gUnk_03005CF4");
 extern s32 damage02034(u32, s32, u8) asm("sub_08028368");
 union Size02034 { volatile u32 word; struct { u32 width:16; u32 height:16; } fields; };
 /* Preserve r0 on skipped entries and the effect helper's result on hits. */
+/* [DamageAllOverlappingSceneObjects] Initializes return register to input position rather than a hit count or
+ * boolean. */
 s32 sub_0801FC34(void *arg0, void *arg1, s32 damage)
 {
     union Size02034 size;
@@ -1356,6 +1426,7 @@ next:
     return result;
 }
 struct Sh20FD64 { u8 pad0[0x62]; s16 amount; u8 pad64[4]; u8 enabled; u8 rate; u8 pad6A[0x20]; u16 accumulator; u8 pad8C[0x50]; u32 current; u32 pending; u8 padE4[0x28]; u32 previous; };
+/* [QueueAttackHealthCost] Requires differing current/previous sequence and nonzero player team. */
 void sub_0801FD64(void *arg0)
 {
 
@@ -1445,6 +1516,11 @@ extern void hitPFDD0(u8 *,u8 *,u8 *,s32) asm("sub_0801F79C");
 extern void missFDD0(s32,s32) asm("sub_080223F4");
 extern void dmgFDD0(u32,u32,u8) asm("sub_08028368");
 #define COPY4(t) (atkFDD0[0xA5]=(t)[0],atkFDD0[0xA6]=(t)[1],atkFDD0[0xA7]=(t)[2],atkFDD0[0xA8]=(t)[3])
+/* [ResolvePlayerAttackContacts] Copies the attack template and adjusts geometry/power for player states2/5,
+ * class/frame/tick gates and charge flags; rejected states or frames return early. Resolves active hostile
+ * actor contacts with serial/team filtering and randomized full/partial/miss outcomes, damages eligible field
+ * objects, and when team>2 similarly processes opposing players using packed positions and seen serials. Pause
+ * gates bound actor/player scans; field-object scan remains independent. */
 void sub_0801FDD0(u8 *p)
 {
     struct PosFDD0 pos;
@@ -1678,6 +1754,12 @@ extern void stat20680(u16,void *,u8) asm("sub_0801DB94");
 extern void counter20680(u32,u32) asm("sub_08022504");
 static inline s32 roll20680(s16 *a,s16 *b){ u16 c=((*a+10)*125)/(*a+*b+20); u16 r=(u16)sub_080008C8()%100; s32 x=(s16)c; return x>=r; }
 static inline s32 seen20680(u32 *h,u8 *e){ return *(u32 *)((*(u16 *)e<<2)+(u8 *)h)!=*(u32 *)(e+0x50); }
+/* [ProcessEnemyAttackContacts] Complete matching body plus inline helpers and complete original20680..20D40
+ * read. Enemy actor pointer; global guards, effective state2, excluded actor byte1FD values19/20decimal
+ * (0x13/0x14), optional animation-frame checks, and item attack-resource kind7 rejection precede collision
+ * work. Actor BYTE+201 mask0x2 selects a scan of five enemy slots requiring08002204()!=0, excluding
+ * self/inactive/state11..12/nonpositive pending-adjusted health/zero1DC targets and duplicate serial
+ * target54==attacker50. */
 void sub_08020680(u8 *e)
 {
     struct Packet20680 packet;
@@ -1840,6 +1922,7 @@ void sub_08020680(u8 *e)
 }
 extern void t21_BC08(s32, s32, s16 *, s16 *, s32, s32) asm("sub_0800BC08");
 void t21_20D40(s32 arg0, s32 arg1) asm("sub_08020D40");
+/* [TaskAnimateCriticalHitSprite] Unpacks packed world coordinates into Q8 values. */
 void t21_20D40(s32 arg0, s32 arg1)
 {
     s16 x, y;
@@ -1871,6 +1954,7 @@ extern struct T21Entity20E08 *t21_entities20E08 asm("gUnk_030056F4");
 extern void t21_init20E08(void *, u32, s32, s32, s32) asm("sub_08065158");
 extern void t21_7870(s32, s32, s32, s32, u32, void *, u32, u32) asm("sub_08007870");
 void t21_20E08(u32 arg0, s32 arg1) asm("sub_08020E08");
+/* [TaskAnimateActorEffect8] Initializes resource and remaps palette entries7/8. */
 void t21_20E08(u32 arg0, s32 arg1)
 {
     struct T21Anim20E08 data;
@@ -1923,6 +2007,7 @@ struct T21Anim20F74 { u32 a; u32 unused; u32 b; void *palette; u8 pad[12]; u8 sp
 extern void t21_init20F74(void *, u32, s32, s32, s32) asm("sub_08065158");
 extern void t21_7870(s32, s32, s32, s32, u32, void *, u32, u32) asm("sub_08007870");
 void t21_20F74(s32 arg0, s32 arg1) asm("sub_08020F74");
+/* [TaskAnimateWorldSprite14] Initializes effect resource and palette. */
 void t21_20F74(s32 arg0, s32 arg1)
 {
     struct T21Anim20F74 data;
@@ -1964,6 +2049,7 @@ struct T21Entity210A8 { u8 pad[0x14]; s32 x, y; u8 tail[0x2C4]; };
 extern struct T21Entity210A8 *t21_entities210A8 asm("gUnk_030056F4");
 extern void t21_init210A8(void *, u32, s32, s32, s32) asm("sub_08065158");
 void t21_210A8(u32 arg0, s32 arg1) asm("sub_080210A8");
+/* [TaskAnimateSelectedActorEffect] Initializes resource 0x 50074 and palette 23 with remapping7/8. */
 void t21_210A8(u32 arg0, s32 arg1)
 {
     struct T21Anim210A8 data;
@@ -2017,6 +2103,7 @@ struct T21Anim21214 { u32 a; u32 unused; u32 b; void *palette; u8 pad[12]; u8 sp
 extern void t21_init21214(void *, u32, s32, s32, s32) asm("sub_08065158");
 extern void t21_7870(s32, s32, s32, s32, u32, void *, u32, u32) asm("sub_08007870");
 void t21_21214(u32 arg0, u32 arg1) asm("sub_08021214");
+/* [TaskAnimateSelectedWorldSprite] Initializes resource 0x 50074 and shared palette 23. */
 void t21_21214(u32 arg0, u32 arg1)
 {
     struct T21Anim21214 data;
@@ -2059,6 +2146,7 @@ struct T21Entity2133C { u8 pad[0x14]; s32 x, y; u8 tail[0x2C4]; };
 extern struct T21Entity2133C *t21_entities2133C asm("gUnk_030056F4");
 extern void t21_init2133C(void *, u32, s32, s32, s32) asm("sub_08065158");
 void t21_2133C(u32 arg0, s32 arg1) asm("sub_0802133C");
+/* [TaskAnimateActorEffect34] Initializes resource 0x 5008C and palette 23 remapped7/8. */
 void t21_2133C(u32 arg0, s32 arg1)
 {
     struct T21Anim2133C data;
@@ -2107,6 +2195,7 @@ struct T21Entity21490 { u8 pad[0x14]; s32 x, y; u8 tail[0x2C4]; };
 extern struct T21Entity21490 *t21_entities21490 asm("gUnk_030056F4");
 extern void t21_init21490(void *, u32, s32, s32, s32) asm("sub_08065158");
 void t21_21490(u32 arg0, s32 arg1) asm("sub_08021490");
+/* [TaskAnimateActorEffect11] Initializes resource 0x 5008C and shared palette 23 remapped7/8. */
 void t21_21490(u32 arg0, s32 arg1)
 {
     struct T21Anim21490 data;
@@ -2151,6 +2240,7 @@ void t21_21490(u32 arg0, s32 arg1)
 }
 extern void t21_7870(s32, s32, s32, s32, u32, void *, u32, u32) asm("sub_08007870");
 void t21_215E4(s32 arg0, s32 arg1) asm("sub_080215E4");
+/* [TaskDrawShortEffect] Countdown starts30; pre-decrement test produces at most30 draw/wait iterations. */
 void t21_215E4(s32 arg0, s32 arg1)
 {
     struct { u32 a; u32 unused; u32 b; u8 pad[0x10]; u8 sprite[0x18]; } data;
@@ -2185,6 +2275,8 @@ void t21_215E4(s32 arg0, s32 arg1)
 struct T21Anim216BC { u32 a; u32 unused; u32 b; void *palette; u8 pad[12]; u8 sprite[24]; };
 extern void t21_init216BC(void *, u32, s32, s32, s32) asm("sub_08065158");
 void t21_216BC(s32 arg0, s32 arg1) asm("sub_080216BC");
+/* [TaskAnimateWorldSprite1] Initializes resource 0x 5008C, loads palette 23 and remaps sprite palette entries
+ * to7/8. */
 void t21_216BC(s32 arg0, s32 arg1)
 {
     struct T21Anim216BC data;
@@ -2224,6 +2316,13 @@ struct T21Entity217D8 { u8 pad[0x14]; s32 x, y; u8 tail[0x2C4]; };
 extern struct T21Entity217D8 *t21_entities217D8 asm("gUnk_030056F4");
 extern void t21_init217D8(void *, u32, s32, s32, s32) asm("sub_08065158");
 void t21_217D8(u32 arg0, s32 arg1) asm("sub_080217D8");
+/* [TaskShowResistanceIncreaseIndicator] Packed r0: low16 actor id, high16 selector; r1 pool bit.
+ * Resource5008C, palette23, descriptor bytes7/8. Captures actor position once: ids0..3 read player position
+ * at+148, ids>=4 use enemy base+(id-4)*2E0+14/18. Initializes frame counters and20-iteration timer; each body
+ * raises captured y when03002344 bit0 is0. UnderCC98/CD8C guards usesCCCC as tile-query mode, updates/draws
+ * animation(u16)(selector+1), yields, then exits on timer/shutdown and clears pool bit03005CE4. No stat
+ * mutation, following current actor motion, completion-time or successful visibility guarantee; no
+ * actor/resource/selector/bit validation. */
 void t21_217D8(u32 arg0, s32 arg1)
 {
     struct T21Anim217D8 data;
@@ -2281,6 +2380,13 @@ struct T21Entity21960 { u8 pad[0x14]; s32 x, y; u8 tail[0x2C4]; };
 extern struct T21Entity21960 *t21_entities21960 asm("gUnk_030056F4");
 extern void t21_init21960(void *, u32, s32, s32, s32) asm("sub_08065158");
 void t21_21960(u32 arg0, s32 arg1) asm("sub_08021960");
+/* [TaskShowResistanceDecreaseIndicator] Packed r0 low16 actor id/high16 selector, r1 pool bit.
+ * Resource5008C/palette23 and initial position domains as217D8, captured once.60-iteration timer; raises y
+ * when03002344 low2bits are0. UnderCC98/CD8C guards queries tile modeCCCC but discards result; animation
+ * updater receives(u16)(selector+33), drawing65230 receives(u16)(selector+34), an original distinction
+ * preserved. Yields and clears pool bit on timer/shutdown. Does not decrement resistance or validate
+ * selector/actor/bit; visibility or exact elapsed duration is not guaranteed. Position is captured when the
+ * task actually starts, not when requested by its starter. */
 void t21_21960(u32 arg0, s32 arg1)
 {
     struct T21Anim21960 data;
@@ -2331,6 +2437,8 @@ void t21_21960(u32 arg0, s32 arg1)
 struct T21Anim21AD8 { u32 a; u32 unused; u32 b; void *palette; u8 pad[12]; u8 sprite[24]; };
 extern void t21_init21AD8(void *, u32, s32, s32, s32) asm("sub_08065158");
 void t21_21AD8(u32 arg0, u32 arg1) asm("sub_08021AD8");
+/* [TaskAnimateWorldSprite41] World-map-active early return occurs before resource loading and bypasses final
+ * pool-bit clear. */
 void t21_21AD8(u32 arg0, u32 arg1)
 {
     struct T21Anim21AD8 data;
@@ -2397,12 +2505,19 @@ void t21_21AD8(u32 arg0, u32 arg1)
     }
     gUnk_03005CE4 &= ~(1 << arg1);
 }
+/* [NoOpWorldSceneAllocateHook] Lines 2400-2402 define an empty leaf; src/code_08009088.c:1940-1941 calls it
+ * immediately after AllocateActorSpriteEffectTaskPool during scene resource startup. */
 void sub_08021C6C(void) {
 
 }
+/* [NoOpWorldSceneFreeHook] Lines 2403-2405 define an empty leaf; src/code_08009088.c:1965-1966 calls it
+ * immediately after FreeActorSpriteEffectTaskPool during teardown. */
 void sub_08021C70(void) {
 
 }
+/* [ComputeRandomizedQuadraticDamage] Combines a random factor from 100 through 149 with a * a * 10 / (a + b),
+ * divides by the third input and 10 with the original 16-bit truncations, and replaces a zero result with 1.
+ * Matched combat callers use it for damage calculation. */
 s32 sub_08021C74(u16 arg0, u16 arg1, u16 arg2) {
     u16 temp_r5;
     u16 var_r0;
@@ -2414,9 +2529,15 @@ s32 sub_08021C74(u16 arg0, u16 arg1, u16 arg2) {
     }
     return (s32) var_r0;
 }
+/* [ScaleValueByPercentBonus] Returns signed division of ((bonus + 100) * value) by 100, truncated to u16. The
+ * original uses low 32-bit multiplication and does not saturate the result. */
 u16 sub_08021CE4(u16 arg0, u16 arg1) {
     return __divsi3((arg1 + 0x64) * arg0, 0x64);
 }
+/* [ApplySquaredResistanceFactor] For selectors 1 through 7, selects one of six signed resistance halfwords,
+ * with selectors 6/7 sharing index 5. Scales the 16-bit amount by 5000 / (resistance * resistance + 2500),
+ * truncates to u16 and replaces high-bit results with 1. Other selectors retain the input amount; matched
+ * combat callers supply a target resistance array. */
 s32 sub_08021D00(u16 arg0, u16 arg1, u16 *arg2) {
     s16 temp_r1;
     u16 var_r3;
@@ -2453,10 +2574,15 @@ s32 sub_08021D00(u16 arg0, u16 arg1, u16 *arg2) {
     }
     return var_r3;
 }
+/* [AllocateActorSpriteEffectTaskPool] Allocates 0x500 bytes for 32 task records of 0x28 bytes at 0x03005CE0
+ * and clears activity bitmap 0x03005CE4. Actor status/damage sprite starters in 0x08021DC4..0x08022504 use
+ * this pool. */
 void sub_08021D88(void) {
     gUnk_03005CE0 = sub_08001494(0x500);
     gUnk_03005CE4 = 0;
 }
+/* [FreeActorSpriteEffectTaskPool] Frees the actor sprite-effect task pool at 0x03005CE0 and clears its
+ * pointer. It does not cancel active tasks or reset activity bitmap 0x03005CE4. */
 void sub_08021DAC(void) {
     sub_08001538(gUnk_03005CE0);
     gUnk_03005CE0 = 0;

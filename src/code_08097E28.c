@@ -16,6 +16,10 @@ extern s32 gUnk_03000308;
 extern s32 *gUnk_03000300[];
 extern s32 gUnk_030056FC;
 
+/* [ClampPositionToSineShiftedSceneBounds] When four effect predicates allow it, clamps Y to the sine-shifted
+ * inclusive band 0x7000..0xA000 using transform angle +0xD and the signed input halfword. Also clamps X to
+ * 0x900..0xE000. The sine product retains the original low-32-bit left shift by 8 and arithmetic right shift
+ * by 16. */
 void sub_08097E28(void *arg0, u16 arg1) {
     s32 temp_r1;
     s32 temp_r2;
@@ -41,6 +45,9 @@ void sub_08097E28(void *arg0, u16 arg1) {
 }
 
 
+/* [ConfigureCubicPathPlayback] Stores the point-array pointer at 0x030002B0, count at +4, tangent scale at +6
+ * and phase step at +8, then resets phase +0xA to zero. Halfword inputs keep their low 16 bits. The evaluator
+ * and playback step consume these fields; no count or pointer validation is performed here. */
 void sub_08097EB0(s32 arg0, s16 arg1, s16 arg2, s16 arg3) {
     gUnk_030002B8 = arg3;
     gUnk_030002B6 = arg2;
@@ -48,10 +55,16 @@ void sub_08097EB0(s32 arg0, s16 arg1, s16 arg2, s16 arg3) {
     gUnk_030002B0 = arg0;
     gUnk_030002B4 = arg1;
 }
+/* [GetCubicPathPlaybackPhase] Returns the current phase halfword at 0x030002BA with signed 16-bit extension.
+ * It does not normalize the phase or advance playback. */
 s16 sub_08097EE4(void) {
     return gUnk_030002BA;
 }
 extern s32 sub_08096BA8(s32, s32, s32, s32);
+/* [StepCubicPathPlayback] Uses the entry phase low 12 bits and point count to derive a segment index and Q12
+ * fraction, with reverse indexing for mode 1. Stores the next phase by adding the unsigned step halfword, then
+ * evaluates the old phase through sub_08096BA8. Returns 2 if the entry signed phase exceeded 0xFFF, overridden
+ * by 1 if the evaluator rejects the index; otherwise 0. */
 s32 sub_08097EF0(s32 arg0, s32 arg1) {
     register u32 temp_r4 asm("r4");
     register s32 mask asm("r2");
@@ -91,6 +104,9 @@ s32 sub_08097EF0(s32 arg0, s32 arg1) {
     return var_r7;
 }
 struct Color100 { u32 r:5; u32 g:5; u32 b:5; u32 flag:1; };
+/* [CopyPalette16RgbChannels] Copies the three RGB555 channel fields of 16 palette entries while preserving
+ * destination bit 15. This differs from a raw halfword copy and does not clear that bit. The original performs
+ * word reads but updates destination channel bytes/halfwords. */
 void sub_08097F70(s32 dst, s32 src)
 {
     u8 i = 0;
@@ -108,30 +124,46 @@ void sub_08097F70(s32 dst, s32 src)
         i++;
     } while (i<=15);
 }
+/* [ResetSpritePriorityOverride] Clears both the sprite-priority override value byte at 0x030002BC and the
+ * complete flags byte at 0x030002BD. In contrast, the disable operation clears only flag bit 0. */
 void sub_08097FE4(void) {
     gUnk_030002BC = 0;
     gUnk_030002BD = 0;
 }
+/* [GetSpritePriorityOverrideValue] Returns the override value byte at 0x030002BC. Sprite callers use it
+ * instead of map-derived draw priority when override flag bit 0 is set; this getter does not inspect the flag. */
 u8 sub_08097FF8(void) {
     return gUnk_030002BC;
 }
+/* [GetSpritePriorityOverrideFlags] Returns the complete flags byte at 0x030002BD. Sprite callers test bit 0 to
+ * choose the stored priority override; this function does not reduce the byte to a boolean. */
 u8 sub_08098004(void) {
     return gUnk_030002BD;
 }
+/* [SetSpritePriorityOverride] Stores the input low byte as the sprite-priority override and sets flags bit 0
+ * while retaining the other flag bits. It does not validate the draw-priority range. */
 void sub_08098010(u8 arg0) {
     gUnk_030002BC = arg0;
     gUnk_030002BD |= 1;
 }
+/* [DisableSpritePriorityOverride] Clears the stored override value and flags bit 0, retaining the other flag
+ * bits. Sprite consumers then use their map/default priority path. */
 void sub_08098028(void) {
     gUnk_030002BC = 0;
     gUnk_030002BD &= 0xFE;
 }
+/* [AllocateSharedPositionSpriteTaskControl] Allocates a 0x28-byte task control at 0x030002C0 and initializes
+ * field +8 to zero. The original immediately writes the returned pointer without an allocation-failure check;
+ * this name does not imply safe failure handling. */
 void sub_08098044(void)
 {
   s32 temp_r0;
   temp_r0 = (gUnk_030002C0 = (s32) sub_08001494(0x28U));
   *((s32 *) (((s8 *) temp_r0) + 8)) = 0;
 }
+/* [CancelAndFreeSharedPositionSpriteTask] Queries whether the shared-position sprite task control is
+ * scheduled, cancels it when scheduled, then frees its control and clears the global pointer. It does not
+ * independently null-check the control before the scheduler query. */
 void sub_08098060(void) {
     if (sub_08000470(gUnk_030002C0) != 0) {
         sub_080003A8(gUnk_030002C0);
@@ -141,6 +173,10 @@ void sub_08098060(void) {
 }
 extern u32 gTaskArgs100[2] asm("gUnk_030002C8");
 void sub_08096FA0(void);
+/* [StartSharedPositionSpriteTask] Stores the two world-position words at 0x030002C8, allocates a 0x400-byte
+ * stack, selects callback sub_08096FA0 and starts it with the input animation low byte. It rejects the
+ * unscheduled/nonzero-state combination; it is not a simple idle-only guard. Stack allocation failure clears
+ * control +8 before returning. */
 void sub_08098088(u32 arg0,u32 arg1,u32 mode)
 {
     u32 b=arg1;
@@ -167,6 +203,9 @@ void sub_08098088(u32 arg0,u32 arg1,u32 mode)
     M2C_FIELD(task,u32 *,8)=0x44;
     sub_08000274(task,m);
 }
+/* [IsSharedPositionSpriteTaskIdle] Returns 1 exactly when shared sprite task control +8 is zero, otherwise 0.
+ * The animation callback clears this field at exit. This is a state-field query, not a scheduler membership
+ * query, and assumes the control pointer exists. */
 s32 sub_080980F0(void)
 {
     if (M2C_FIELD((void *)gUnk_030002C0, u32 *, 8))
@@ -266,6 +305,11 @@ extern void screenS108(s16,s16,s16 *,s16 *,s32,s32) asm("sub_0800BC08");
     sub_080003F0(); \
 }
 
+/* [RunAlternatingProjectileChargeActor] Initializes two sprite resources, pursues selected players, then
+ * alternates an animation-driven rotating projectile burst with a timed close-pursuit/contact phase followed
+ * by wandering recovery. Game mode controls timings and projectile arguments. Allocation-wait termination
+ * clears its mask bit; normal death/termination cleans projectiles, synchronizes, shows message 0x140032 and
+ * conditionally computes and grants defeat experience before transition. */
 void sub_08098108(void *input)
 {
     struct Sprite108 spriteA;
@@ -681,6 +725,9 @@ struct Entity98F {u16 index;u8 p2[10];u16 state;u8 pE[6];s32 x,y;u8 p1C[0x34];u3
 extern struct Player98F players98F[] asm("gUnk_03003CE0");
 extern struct Entity98F *entity98F asm("gUnk_030002D0");
 extern u16 delta98F(void *, void *) asm("sub_0801ED8C");
+/* [ApplyTimedWideContactHit] Within distance 47 and pause/lifecycle/serial gates applies a hit and outward
+ * push with magnitude 0x400/counter 16, recording the current serial; whenever the selected player's counter
+ * is zero, increments the object serial. No explicit C return value is produced. */
 u8 sub_08098F2C(void)
 {
     s16 dx, dy;
@@ -730,6 +777,9 @@ struct Entity99468 {u16 index;u8 p2[10];u16 state;u8 pE[6];s32 x,y;u8 p1C[0x34];
 extern struct Player99468 players99468[] asm("gUnk_03003CE0");
 extern struct Entity99468 *entity99468 asm("gUnk_030002D0");
 extern void sub_08065748();
+/* [RunShortDamageRay] Selects one of eight origin offsets and a table direction, advances ten yield
+ * iterations, requests a visual at the terminal counter and sub_08029CEC(1,5,1) on serial-gated distance-19
+ * contact; records serial without increment and clears current task control+8 at exit. */
 void sub_0809919C(u32 corner, s32 dir)
 {
     s32 x;
@@ -795,6 +845,9 @@ void sub_0809919C(u32 corner, s32 dir)
     *(u32 *)((u8 *)sub_0800048C() + 8) = 0;
 }
 struct Sprite99468 {u32 f0,f4,f8,fC;u8 pad10[12];u8 f1C,f1D;u8 pad1E[22];};
+/* [RunLinearDamageProjectile] Uses direction-minus-one to derive table velocities, advances a projectile for
+ * 270 yield iterations, conditionally animates resource 0x50130 and requests sub_08029CEC(1,30,5) on
+ * serial-gated player contact within distance 19; clears current task control+8 on normal completion. */
 void sub_08099468(u32 unused, s32 dir)
 {
     struct Sprite99468 sprite;
@@ -852,6 +905,8 @@ void sub_08099468(u32 unused, s32 dir)
     } while (--count != -1);
     *(u32 *)((u8 *)sub_0800048C() + 8) = 0;
 }
+/* [CleanupRadialAttackActor] If actor +0x5C is nonzero, releases 64 attack controls and calls sub_080656EC;
+ * always clears peer rings, active mask and palette slot. */
 void sub_08099720(void) {
     if (M2C_FIELD(gUnk_030002D0, s16 *, 0x5C) != 0) {
         sub_08099788();
@@ -861,6 +916,7 @@ void sub_08099720(void) {
     gUnk_030056FC = 0;
     sub_08016ECC(gUnk_030002D4);
 }
+/* [AllocateDirectionalHazardTaskPool64] A00-byte allocation,64 entries stride28hex, writes only+8=0. */
 void sub_0809975C(void)
 {
     u32 i;
@@ -868,6 +924,8 @@ void sub_0809975C(void)
     for (i = 0; i < 64; i++)
         M2C_FIELD((u8 *)gUnk_030002D8 + i * 0x28, s32 *, 8) = 0;
 }
+/* [ReleaseRadialAttackTasks] For all 64 controls at gUnk_030002D8, cancels scheduled tasks; then frees the
+ * control array and clears its global. */
 void sub_08099788(void)
 {
   u32 i;
@@ -894,6 +952,9 @@ extern struct TaskP97C0 *gTP030002D8 asm("gUnk_030002D8");
 extern void sub_08000274_3(u32, u32, u32) asm("sub_08000274");
 extern void sub_08099468();
 extern void sub_0809919C();
+/* [StartRadialAttack] Scans64 controls for unscheduled plus word0; allocates0x400 and returns on failure.
+ * Mode1 installs sprite projectile callback, otherwise corner-trace callback; writes0x46 and forwards two u16
+ * arguments. */
 void sub_080997C0(u16 a, u16 b)
 {
     struct TaskP97C0 *t = gTP030002D8;
@@ -978,6 +1039,11 @@ extern void end99(void) asm("sub_0809AE50");
 
 #define RENDER_99() {     s32 zero;     players99[sub_080020F4()].flags |= 1;     if (sub_0800CCCC() == 0 && sub_0800CC98() == 0) {         zero = sub_0800CD34();         if (zero == 0) {             sub_08000AF0(palette99 + 0x10, (u8 *)sprite->palette + (PAL99 << 5), 1);             priority = sub_0800BC44(actor99->x >> 8, actor99->y >> 8, 0);             actor99->f6E = anim99(sprite, 0, &actor99->frame, &actor99->tick, 1);             screen99((actor99->x << 8) >> 16, (actor99->y << 8) >> 16, &sx, &sy, zero, zero);             draw99(sx, sy, actor99->anim, actor99->frame, priority, sprite->payload, sprite->data, sprite->base);             if (blink99 & 1)                 draw99(sx, sy - 1, 0x18, 0, priority, sprite->payload, sprite->data, sprite->base);         }     }     sub_080003F0(); }
 
+/* [RunPursuitFallingStrikeActor] Initializes two sprite resources, pursues selected players with
+ * mode-dependent speed/duration, attempts a frame-2 contact hit with quake, then admits falling strikes for
+ * each player or five single-player targets and waits before repeating. Allocation-wait termination clears its
+ * mask bit; normal exit cleans effects, synchronizes 0xDEADFACE, shows message 0x14003C, conditionally
+ * computes and grants defeat experience and requests transition. */
 void sub_08099838(void *input)
 {
     struct Sprite99 spriteA;
@@ -1314,6 +1380,9 @@ struct Entity102A5 {u16 index;u8 p2[10];u16 state;u8 pE[6];s32 x,y;u8 p1C[0x34];
 extern struct Player102A5 players102A5[] asm("gUnk_03003CE0");
 extern struct Entity102A5 *entity102A5 asm("gUnk_030002DC");
 extern u16 delta102A5(void *, void *) asm("sub_0801ED8C");
+/* [ApplyWideContactPlayerHit] Within distance 47 and with pause/lifecycle/serial gates satisfied, writes state
+ * 10 and marker, adds helper result, records/increments serial, and applies outward direction, magnitude 0x400
+ * and counter 8; returns one on application, otherwise zero. */
 u8 sub_0809A5E0(void)
 {
     s16 dx, dy;
@@ -1372,6 +1441,10 @@ extern void coords834(s32,s32,s16 *,s16 *,s32,void *) asm("sub_0800BC08");
 extern void init834(void *,s32,s32,s32,s32) asm("sub_08065158");
 extern struct Obj834 *self834(void) asm("sub_0800048C");
 void task834(u32 who) asm("sub_0809A834");
+/* [RunTargetedFallingStrike] Chooses a player position or fixed single-player fallback, descends by reducing
+ * vertical separation 0x400 per iteration, tests a distance-15 serial-gated queued damage request when
+ * separation becomes negative, then blinks for 121 iterations and clears task control+8; invalid selectors
+ * clear that field and return early. */
 void task834(u32 who)
 {
     struct Sprite834 sprite;
@@ -1534,6 +1607,8 @@ void task834(u32 who)
     p = self834();
     p->f8 = 0;
 }
+/* [CleanupFallingTargetActor] If actor +0x5C is nonzero, calls sub_08097C6C and releases five attack controls;
+ * always clears peer rings, active mask and palette slot. */
 void sub_0809ADE8(void) {
     if (M2C_FIELD(gUnk_030002DC, s16 *, 0x5C) != 0) {
         sub_08097C6C();
@@ -1543,6 +1618,7 @@ void sub_0809ADE8(void) {
     gUnk_030056FC = 0;
     sub_08016ECC(gUnk_030002E0);
 }
+/* [AllocateTargetedHazardTaskPool5] C8-byte allocation;5 controls stride28hex clear+8. */
 void sub_0809AE24(void)
 {
     u32 i;
@@ -1550,6 +1626,8 @@ void sub_0809AE24(void)
     for (i = 0; i < 5; i++)
         M2C_FIELD((u8 *)gUnk_030002E4 + i * 0x28, s32 *, 8) = 0;
 }
+/* [ReleaseFallingTargetTasks] For five controls at gUnk_030002E4, cancels scheduled tasks; frees the control
+ * array and clears its global. No null guard. */
 void sub_0809AE50(void)
 {
   u32 i;
@@ -1577,6 +1655,8 @@ extern void sub_08000274_1(u32) asm("sub_08000274");
 extern void sub_08000274_2(void *, u32) asm("sub_08000274");
 extern u8 *gP030002E4 asm("gUnk_030002E4");
 extern void sub_0809A834();
+/* [StartFallingTargetAttack] Scans five controls for unscheduled plus +8==0; returns if exhausted or
+ * allocation0x400 fails. Installs callback, clears destructor, writes0x46 and forwards u16 selector. */
 void sub_0809AE88(u16 arg)
 {
   struct TaskP *t = (struct TaskP *) gP030002E4;
@@ -1674,6 +1754,12 @@ extern void sub_0809D7E4(void);
     sub_080003F0(); \
 }
 
+/* [RunWaypointOrbitCloneEncounter] Initializes combat actor resources and palette, waiting on exhausted
+ * palette allocation until session/area abort clears its active bit. Synchronizes phases over the link
+ * barrier. Before intro activation disables combat targeting and draws the intro resource; active phases
+ * traverse five configured waypoints, invoke indexed event/flash helpers, and in the selected mode create two
+ * actor copies that orbit with the main actor for three wraps. Updates damage feedback and animation until
+ * death/session/area exit. */
 void sub_0809AEE8(void *input)
 {
     s16 i;
@@ -2172,6 +2258,10 @@ extern void sub_08029CEC(s32, s32, s32);
 struct TaskC1B4 { u32 f0, f4, f8; };
 extern struct TaskC1B4 *taskC1B4(void) asm("sub_0800048C");
 
+/* [RunDelayedSpiralDamageProjectile] Waits 120 iterations at object position, then increases radius by 0x200
+ * while rotating a byte angle in a mode/parity-dependent direction; conditionally renders resource 0x50005,
+ * permits one distance-9 serial-gated queued damage request and clears current task control+8 after the
+ * 361-iteration lifetime. */
 void sub_0809C1B4(u16 arg0)
 {
     struct SprC1B4 spr;
@@ -2265,6 +2355,10 @@ extern struct PosC4E8 *v2C4E8 asm("gUnk_030040C0");
 extern struct PosC4E8 *v3C4E8 asm("gUnk_0300420C");
 extern u8 aimC4E8(s32, s32, s32, s32) asm("sub_08095FC8");
 extern void moveC4E8(s32, struct XYC4E8 *, u8) asm("sub_08097BA4");
+/* [RunPlayerTrackingDamageProjectile] Selects a player by halfword selector with player-count checks, waits
+ * 120 iterations at object position, then repeatedly aims and moves toward that player's current or packed
+ * position; conditionally renders and permits one distance-15 serial-gated queued damage request across 361
+ * iterations. Invalid unavailable-player paths also clear task control+8. */
 void sub_0809C4E8(u16 which)
 {
     register struct PlayerC4E8 *pl asm("r9");
@@ -2490,6 +2584,9 @@ extern u16 atanC8F4(s16, s16) asm("ArcTan2");
 extern u16 hitC8F4(void *, void *) asm("sub_0801ED8C");
 
 void sub_0809C8F4_(struct ObjC1B4 *o) asm("sub_0809C8F4");
+/* [RunStationaryRadiusHitEffect] For 181 yield iterations conditionally animates resource 0x50005 at the
+ * supplied object, blinking on alternating iterations; permits one distance-47 serial-gated hit with outward
+ * magnitude 0x400/counter 8, then clears current task control+8. */
 void sub_0809C8F4_(struct ObjC1B4 *o)
 {
     struct SprC1B4 spr;
@@ -2597,6 +2694,11 @@ extern s32 s080020F4(void) asm("sub_080020F4");
 extern void yieldCC2C(void) asm("sub_080003F0");
 
 void sub_0809CC2C_(u8 idx) asm("sub_0809CC2C");
+/* [RunIndexedPursuitMeleeActor] Initializes actor slots index+1 at fixed positions with mask bits and two
+ * sprite resources, synchronizes state changes by actor id, pursues a selected player, attempts a facing hit
+ * on attack frame 1/tick 0, then waits a mode-dependent cooldown. Runs until the main object's active field
+ * clears or death helper succeeds; clears its mask bit, blinks and conditionally performs a thirty-step
+ * experience-award sequence. */
 void sub_0809CC2C_(u8 idx)
 {
     struct SprCC2C spr1;
@@ -2855,6 +2957,9 @@ extern struct PlayerD374 playersD374[] asm("gUnk_03003CE0");
 extern u16 sqrtD374(s32) asm("Sqrt");
 extern u16 atanD374(s16,s16) asm("ArcTan2");
 extern u16 hitD374(void *,void *) asm("sub_0801ED8C");
+/* [ApplyFacingRadiusPlayerHit] Within distance 47 of the selected player's packed position and matching the
+ * object's eight-way facing sector, applies a lifecycle/pause/serial-gated hit; records/increments serial and
+ * returns one, otherwise zero. */
 s32 sub_0809D374(struct ObjectD374 *o) {
     u16 x = (u32)(o->x << 8) >> 16;
     u16 y = (u32)(o->y << 8) >> 16;
@@ -2899,12 +3004,16 @@ s32 sub_0809D374(struct ObjectD374 *o) {
     }
     return ret;
 }
+/* [ReleaseEncounterIntroGate] Exact store/getter body. */
 void sub_0809D558(void) {
     gUnk_030002E8 = 1;
 }
+/* [GetEncounterIntroReleaseFlag] Exact store/getter body. */
 s8 sub_0809D564(void) {
     return (s8) (u8) gUnk_030002E8;
 }
+/* [CleanupSpiralHomingActor] Stops song0xE6; actor +0x5C nonzero triggers release of eight spiral/homing
+ * controls, three aura controls and two chase children; always clears peer rings, mask and palette. */
 void sub_0809D574(void)
 {
     sub_0805867C(0xE6);
@@ -2917,6 +3026,7 @@ void sub_0809D574(void)
     gUnk_030056FC = 0;
     sub_08016ECC(gUnkVu16_030002F0);
 }
+/* [AllocateDelayedHazardTaskPool8] 140-byte allocation,8 controls stride28hex clear+8 only. */
 void sub_0809D5B8(void)
 {
   int i;
@@ -2927,6 +3037,8 @@ void sub_0809D5B8(void)
   }
 
 }
+/* [ReleaseSpiralHomingTasks] Stops song 0xE6, cancels scheduled tasks in eight controls at gUnk_030002F4,
+ * frees array and clears global. */
 void sub_0809D5E4(void)
 {
   u32 i;
@@ -2951,6 +3063,9 @@ extern struct TaskP *gTP030002F4 asm("gUnk_030002F4");
 extern s8 gS030002E8 asm("gUnk_030002E8");
 extern void sub_0809C4E8();
 extern void sub_0809C1B4();
+/* [StartSpiralHomingProjectile] Scans eight controls for unscheduled plus word0; allocates0x400 and returns on
+ * failure. Mode1 with intro flag0 selects homing callback, otherwise expanding spiral; clears destructor,
+ * writes0x46 and forwards u16 selector. */
 void sub_0809D620(u16 a)
 {
     struct TaskP *t = gTP030002F4;
@@ -2976,6 +3091,7 @@ check:
     t->f8 = 0x46;
     sub_08000274_2(t, a);
 }
+/* [AllocateContactHazardTaskPool3] Allocates78hex,three controls clear+8 with byte loop. */
 void sub_0809D6A8(void)
 {
   u8 var_r2;
@@ -2989,6 +3105,8 @@ void sub_0809D6A8(void)
   }
   while (((u32) var_r2) <= 2U);
 }
+/* [ReleaseKnockbackAuraTasks] Cancels scheduled tasks in three controls at gUnk_030002F8, frees the array and
+ * clears its global. */
 void sub_0809D6D8(void)
 {
   s32 var_r4;
@@ -3013,6 +3131,8 @@ void sub_0809D6D8(void)
   gUnk_030002F8 = new_var2;
 }
 extern u8 *gP030002F8 asm("gUnk_030002F8");
+/* [StartKnockbackAura] Scans three controls for unscheduled plus word0; allocates0x400 and returns on failure.
+ * Installs aura callback without destructor, writes0x46 and forwards two scheduler words. */
 void sub_0809D710(u32 a, u16 arg)
 {
   struct TaskP *t = (struct TaskP *) gP030002F8;
@@ -3042,6 +3162,9 @@ void sub_0809D710(u32 a, u16 arg)
 }
 extern struct TaskP *gTP03000308 asm("gUnk_03000308");
 extern void sub_0809D848();
+/* [StartChasingChildActor] Scans two controls for unscheduled plus word0; writes byte index+0x46,
+ * allocates0x400 without checking failure, installs chase callback and mask-clearing destructor, forwards
+ * index. */
 void sub_0809D77C(u8 a)
 {
     struct TaskP *t = gTP03000308;
@@ -3063,6 +3186,7 @@ check:
     t->f24 = (u32)sub_0809D848;
     sub_08000274_2(t, a);
 }
+/* [AllocateEnemySlots1And2Tasks] 50-byte allocation,2 controls stride28hex clear+8 with no failure guard. */
 void sub_0809D7E4(void)
 {
     u32 i;
@@ -3070,6 +3194,8 @@ void sub_0809D7E4(void)
     for (i = 0; i < 2; i++)
         M2C_FIELD((u8 *)gUnk_03000308 + i * 0x28, s32 *, 8) = 0;
 }
+/* [ReleaseChasingChildTasks] Cancels scheduled tasks in two controls at gUnk_03000308, frees the array and
+ * clears its global. Actor identity is not established. */
 void sub_0809D810(void)
 {
   u32 i;
@@ -3091,6 +3217,8 @@ void sub_0809D810(void)
   sub_08001538(gUnk_03000308);
   gUnk_03000308 = i;
 }
+/* [FinalizeEnemySlots1And2Task] CurrentTask+8 is decremented46hex, table00300[index] actor ID selects bit to
+ * clear. */
 void sub_0809D848(void)
 {
     s32 *obj = (s32 *)sub_0800048C();

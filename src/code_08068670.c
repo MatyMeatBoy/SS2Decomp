@@ -4,6 +4,10 @@ void sub_08066720(void);
 
 extern u8 gUnk_084EBF1C[];
 
+/* [FreeLinkMessageQueueAndTaskControls] Frees the three allocations made by InitLinkMessageQueuesAndTasks:
+ * sender task control 0x03006368, the four peer task controls 0x03006258 and the 50-entry message queue
+ * 0x03006300, and clears the three pointers. StartLinkMessageTasks installs it as the cleanup of the outgoing
+ * queue-monitor task. It does not cancel tasks itself. */
 void sub_08068670(void) {
     sub_08001538(gUnk_03006258);
     sub_08001538(gUnk_03006368);
@@ -12,6 +16,8 @@ void sub_08068670(void) {
     gUnk_03006368 = 0;
     gUnk_03006300 = 0;
 }
+/* [EnqueueLinkFieldItemRecord] Matched producer sub_080686A4 enqueues tag 0x98 in the 0x88-byte link queue; 4
+ * eight-byte chunks. Payload: 32-byte field-item record. */
 u32 sub_080686A4(const void *src)
 {
     u8 *entry;
@@ -27,6 +33,8 @@ u32 sub_080686A4(const void *src)
     }
     return 0;
 }
+/* [EnqueueLinkFieldItemPickupRequest] Matched producer sub_080686F4 enqueues tag 0x99 in the 0x88-byte link
+ * queue; 1 eight-byte chunks. Payload: u32+0 = u16 field-item record+C ID. */
 u32 sub_080686F4(const u8 *arg0)
 {
     u8 *entry;
@@ -46,6 +54,8 @@ u32 sub_080686F4(const u8 *arg0)
     gUnk_03006338++;
     return 1;
 }
+/* [EnqueueLinkFieldItemPickupReply] Matched producer sub_08068758 enqueues tag 0x9A in the 0x88-byte link
+ * queue; 1 eight-byte chunks. Payload: u16+0 success; u16+2 recipient ID; u32+4 = u16 field-item ID. */
 u32 sub_08068758(u16 lo, u16 hi, const u8 *src)
 {
     u32 *count;
@@ -55,6 +65,8 @@ u32 sub_08068758(u16 lo, u16 hi, const u8 *src)
     *(u32 *)(e+4)=1; e[0]=0x9A; *(u32 *)(e+8)=((u32)hi<<16)|lo;
     *(u32 *)(e+0xC)=*(const u16 *)(src+0xC); e[1]=1; (*count)++; return 1;
 }
+/* [EnqueueLinkFieldItemRemoval] Matched producer sub_080687A8 enqueues tag 0x9B in the 0x88-byte link queue; 1
+ * eight-byte chunks. Payload: u32+0 = u16 field-item ID. */
 u32 sub_080687A8(const u8 *arg0)
 {
     u8 *entry;
@@ -69,6 +81,8 @@ u32 sub_080687A8(const u8 *arg0)
     (*n)++;
     return 1;
 }
+/* [EnqueueLinkMapTransition] Matched producer sub_080687E8 enqueues tag 0x9F in the 0x88-byte link queue; 1
+ * eight-byte chunks. Payload: u32+0=1, unused by dispatch. */
 s32 sub_080687E8(void)
 {
     u8 *p;
@@ -82,6 +96,8 @@ s32 sub_080687E8(void)
     gUnk_03006338++;
     return 1;
 }
+/* [EnqueueLinkGuardedSceneCallbackTask] Enqueues tag 0xA4, two 8-byte chunks: word 0=a(callback), word
+ * 1=b(argument), word 2=c(guard bit). */
 u32 sub_08068820(void *a, void *b, void *c)
 {
     u8 *entry;
@@ -98,15 +114,24 @@ u32 sub_08068820(void *a, void *b, void *c)
     (*n)++;
     return 1;
 }
+/* [UnusedReturnOneStub1] Body returns literal1; no observable side effects or direct source callers were
+ * found. */
 s32 sub_08068868(void) {
     return 1;
 }
+/* [UnusedReturnOneStub2] Body returns literal1; no observable side effects or direct source callers were
+ * found. */
 s32 sub_0806886C(void) {
     return 1;
 }
+/* [UnusedReturnOneStub3] Body returns literal1; no observable side effects or direct source callers were
+ * found. */
 s32 sub_08068870(void) {
     return 1;
 }
+/* [PeekReadyOutgoingLinkMessage] Returns the first entry of outgoing link queue 0x03006300 when its word +4 is
+ * 1 (the value every TryEnqueue producer stores), otherwise null. It neither removes the entry nor checks the
+ * queue count. */
 void *sub_08068874(void)
 {
     void *p = (void *)gUnk_03006300;
@@ -114,11 +139,16 @@ void *sub_08068874(void)
         return p;
     return NULL;
 }
+/* [UnusedReturnOneStub4] Body returns literal1; no observable side effects or direct source callers were
+ * found. */
 s32 sub_0806888C(void)
 {
     u8 buf[136];
     return 1;
 }
+/* [StartLinkBroadcastMessageTask] Returns at once if sender task control 0x03006368 is already scheduled.
+ * Otherwise allocates a 0x800-byte stack (retrying with TaskWaitForSignal1), installs callback
+ * LinkBroadcastMessageTask with order key 0x65 and no destructor, and starts it with arguments (a, b). */
 void sub_08068894(u32 a, u32 b)
 {
     u8 *obj;
@@ -137,9 +167,17 @@ void sub_08068894(u32 a, u32 b)
     *(u32 *)(obj + 0x24) = 0;
     sub_08000274_(obj, a, b);
 }
+/* [UnusedNoOpStub9] Lines 140-142 define an empty leaf; no direct source callers found. */
 void sub_080688F4(void) {
 
 }
+/* [WaitAndFreePlayerEffectTaskPools] For full incoming r0 index, checks pointer array030063B0[index] for
+ * nonzero and, if nonzero, repeatedly queries only that current base task control, yielding while active. The
+ * pointer is reloaded after each yield. It then unconditionally frees the current030063B0[index] pointer and
+ * zeros its array slot. Similarly checks shared03006370 for nonzero and waits only its reloaded base task
+ * control. It next unconditionally frees03006380[index], zeros that array slot, unconditionally frees
+ * shared03006370 and03006420, and zeros both shared pointers. It does not iterate all16 or32 controls, clear
+ * the per-player active mask, or establish whole-pool quiescence. */
 void sub_080688F8(u32 index)
 {
     extern u32 slots[] asm("gUnk_030063B0");
@@ -163,6 +201,11 @@ void sub_080688F8(u32 index)
     task = 0;
     buffer = 0;
 }
+/* [GetAffordableActionEnergyCostPlusOne] For the local player, returns 0 if the requested level is zero or
+ * signed current energy is below the clamped cost. Otherwise returns s16(cost + 1). Reads a signed halfword at
+ * 084EBF1C + 24*action + 6 + 2*(level-1), adds 10*signed_byte(player +0x6C), narrows the sum to s16 and
+ * replaces a negative cost with zero. The function only queries affordability: no energy write occurs. Invalid
+ * action/level indices are unchecked, and cost 32767 produces return -32768 by the signed-halfword encoding. */
 s32 sub_0806898C(s32 arg0, s32 arg1)
 {
     struct CostEntry { u8 pad[6]; s16 cost[9]; };
@@ -195,6 +238,13 @@ s32 sub_0806898C(s32 arg0, s32 arg1)
     return (s16)(result + 1);
 }
 struct Position68 { s32 x, y; };
+/* [ProcessAbilityHitsInSquareAtPosition] Machine ABI: r0=x, r1=y, r2=ability descriptor; source expresses a
+ * two-word position struct by value. Returns 0 if 58DB0 or CDF8 is nonzero. Inclusive square radius is 32 for
+ * kind 12, 22 for kind 13, otherwise halfword 084EC17C[full-word level], interpreted signed16. If full-word
+ * target >3, first scans five active enemies with state !=11 and active byte +1DC nonzero. Uses signed16 pixel
+ * deltas derived from coordinates with eight fractional bits. In-range encounter sets result bit 0 even when
+ * authority/history blocks processing. Local caster, or enemy caster on host path, may overwrite descriptor
+ * target with enemy.id+4 and call 694AC; special kinds 4/7 instead call 29B98 directly. */
 s32 sub_08068A00(struct Position68 pos, u8 *attack) {
     void sub_08029A7C(u32, s32, s32);
     void sub_08029B98(u32, u32, s32, s32, s32, s32);
@@ -608,6 +658,13 @@ extern struct AttackTable69 attackTable69[] asm("gUnk_084EBF1C");
 extern u16 attackSpecial69[] asm("gUnk_084EC15C");
 extern u32 attackRoot69(s32) asm("Sqrt");
 extern u16 attackAdjust69(u16,u16,s32) asm("sub_08021D00");
+/* [CalculateRandomizedAbilityDamage] Reads attacker word +0, ability kind word +0xC, power word +0x10 and
+ * level word +0x14. Attacker <=3 selects signed player halfword +0x3C at stride 0x14C; otherwise signed enemy
+ * halfword at enemy-base + attacker*0x2E0-0x978 (thus +0x208 for slot attacker-4). Multiplies power+20, low
+ * halfword of Sqrt(stat+15), a level factor and unsigned RNG remainder20+100, with 32-bit multiply wrapping;
+ * unsigned division by27000. Ordinary factor is signed halfword 084EBF1C[kind*24] times level+1; kind19
+ * instead uses unsigned halfword 084EC15C[level>>16] times ((level&65535)+1). Full incoming r1 is an optional
+ * resistance-array pointer, not a target slot or entity index. */
 s32 sub_08068F9C(struct Attack69 *a,s32 target)
 {
     s32 value;
@@ -644,6 +701,8 @@ extern u8 *effectEnemies69 asm("gUnk_030056F4");
 extern u8 *effectStats69 asm("gUnk_030034E0");
 extern void effectApply69(struct Payload69 *) asm("sub_08067D28");
 extern void effectFeedback69(u32,u32,void *) asm("sub_08069224");
+/* [TryQueueScaledStatusEffect] Kinds1/4 use resistance indices0/3 and distinct probability divisors 25/50; all
+ * other kinds return. */
 void sub_08069080(struct Resist69 *res,u16 magnitude,u32 level,u32 unused,u32 target,s32 kind)
 {
     /* The original preserves the incoming stack bits outside the fields written. */
@@ -688,6 +747,13 @@ afterModify:;
         player->state=kind;
     }
 }
+/* [TryIncreaseEffectResistanceStat] Returns0 immediately when sub_0800CF80 is nonzero; otherwise RNG unsigned
+ * remainder100 and full incoming kind choose signed halfword stats[kind-1], with kinds6/7 sharing stats[5].
+ * Kind0 returns0. For valid kinds1..7 chance=max(0, signed_div((u16(magnitude)*6-stat+50),(stat+1))-2);
+ * random<chance triggers halfword increment. Signed post-increment value above100 is clamped100, except kind2
+ * compares above99. Nonclamped increments call sub_08022200(localPlayer,kind); both gain and no-gain return
+ * original kind, not a success Boolean. Out-of-range kinds reach calculation without initialized stat
+ * register; stat=-1 gives a zero divisor. */
 s32 sub_08069224(u32 kind,u16 magnitude,s16 *stats)
 {
     s32 stat;
@@ -721,6 +787,13 @@ s32 sub_08069224(u32 kind,u16 magnitude,s16 *stats)
 struct ResistPlayer69 {u8 pad0[0x73];s8 modifier;u8 pad74[0x14C-0x74];};
 extern struct ResistPlayer69 resistPlayers69[] asm("gUnk_03003CE0");
 extern u8 *resistEnemies69 asm("gUnk_030056F4");
+/* [RollTargetStatusEffectKind] Machine ABI: r0 output packet, r1 signed-halfword resistance array, r2 low16
+ * magnitude/level factor, r3 low16 effect kind, fifth stack word low16 target slot. RNG remainder100.
+ * Kinds2,3,5,6,7 form the wrapped32-bit product (100-selected resistance)*(magnitude*10+5), reinterpret it
+ * signed and signed-divide by100,50,25,50,50 respectively; all other kinds, including30, yield probability0.
+ * For local target, or any player target<=3 when sub_0800CF80 is nonzero, multiply probability by signed
+ * player byte+0x73 then unsigned divide by100 (so negative intermediates do not imply negative probability).
+ * Writes output byte+1 to kind low8 iff unsigned probability>random, else0. */
 void sub_08069388(u8 *out,s16 *res,u16 magnitude,u16 kind,u16 target)
 {
     s32 stat;
@@ -768,6 +841,12 @@ extern u32 hitArc69(s32,s32) asm("ArcTan2");
 extern void hitDisplay69(void *) asm("sub_080660EC");
 extern void *hitFreeSlot69(void *,u32) asm("sub_0801E104");
 /* Empty constraints retain the original register/address lifetimes; they emit no instructions. */
+/* [ApplyAbilityDamageAndStatusToTarget] r0 points to six-word ability descriptor. Returns on 58DB0/CDF8
+ * nonzero. Full-word attacker/target select player stride 0x14C or enemy index-4 stride 0x2E0. Player target
+ * clears word +110 before rejecting team byte +68 zero; enemy rejects active byte +1DC zero. Calls 68F9C with
+ * resistance pointer player+7C/enemy+218; signed damage is divided by 8 for player or 1 for enemy, then
+ * truncated16. Eight-byte stack packet retains unwritten reserved bits and upper amount halfword. Kind19 may
+ * initialize status 3, but subsequent 69388 can overwrite it. */
 void sub_080694AC(struct HitAttack69 *arg0) {
     struct HitPacket69 packet;
     register s32 var_r0_2 asm("r0");
@@ -941,6 +1020,13 @@ extern void statusInit69(struct StatusSprite69 *,u32,u32,s32,u32) asm("sub_08065
 extern u32 statusStep69(struct StatusSprite69 *,u32,u16 *,u16 *,u32) asm("sub_08065370");
 extern u32 statusCoords69(s32,s32,s16 *,s16 *,u32,u32) asm("sub_0800BC08");
 extern void statusDraw69(s32,s32,u32,u32,u32,void *,u32,u32) asm("sub_08007870");
+/* [AnimateStatusEffectAtFixedPosition] Reads x/y unsigned halfwords+0/+2, kind halfword+4 and shared-pool slot
+ * halfword+0xA from descriptor. Initializes sprite resource0x5008C, style bytes7/8. Maps kinds1/5 to
+ * animation28, kind2 to29, kind6 to32, kind14 to13; all other kinds clear shared mask bit and return. Selected
+ * path repeatedly sign-extends stored coordinates for screen projection, steps animation, conditionally draws
+ * only when three gating helpers return0, and yields one tick even on the finishing iteration. On animation
+ * completion clears word mask0300641C bit(1<<slot). No entity following, timeout, slot range check or
+ * animation-completion bound is established; gating suppresses drawing, not advancement. */
 void sub_080698D4(struct StatusPosition69 *pos)
 {
     struct StatusSprite69 obj;
@@ -986,6 +1072,14 @@ extern u8 *gInfo9A30 asm("gUnk_03006420");
 extern u8 *gTasks9A30 asm("gUnk_03006370");
 extern void sub_08000274_2(void *, void *) asm("sub_08000274");
 extern void sub_080698D4();
+/* [StartFixedPositionStatusEffectTask] Searches first zero bit among32 in word0300641C; all occupied returns
+ * without writes. Stores signed r0/r1 coordinates arithmetic-shifted8 then truncated16 into 12-byte descriptor
+ * in pointer03006420; stores incoming r2 low16 at+8, r3 low16 at+4, fifth stack argument low16 at+6, and slot
+ * halfword+0xA. Allocates0x500-byte stack and writes pointer to selected 0x28-byte task control+0x20 in
+ * pointer03006370; failure returns after descriptor writes AND storing zero at the selected task control
+ * +0x20, with mask unchanged. Success sets priority word+8=0x34, entry+0xC=sub_080698D4, stack
+ * top+0x10=allocation+0x4FC, cleanup+0x24=0, registers task with descriptor pointer then ORs selected mask
+ * bit. */
 void sub_08069A30(s32 x, s32 y, u32 b, u16 c, u16 d)
 {
     u32 i = 0;
@@ -1027,6 +1121,7 @@ extern vu32 effectMask69 asm("gUnk_0300641C");
 extern u32 effectStep69(struct Effect69 *,u16,u16 *,u16 *,u32) asm("sub_08065370");
 extern u32 effectCoords69(s32,s32,s16 *,s16 *,u32,u32) asm("sub_0800BC08");
 extern void effectDraw69(s32,s32,u32,u32,u32,void *,u32,u32) asm("sub_08007870");
+/* [TaskAnimateWorldSequenceZero] Truncates slot to 16 bits and unpacks x/y as signed halfwords. */
 void sub_08069AEC(u32 pos,u32 slot)
 {
     struct Effect69 obj;
@@ -1059,6 +1154,7 @@ extern u32 gMask0300641C asm("gUnk_0300641C");
 extern struct Task9BBC *gTasks03006370 asm("gUnk_03006370");
 extern void sub_08000274_3(u32, u32, u32) asm("sub_08000274");
 extern void sub_08069AEC();
+/* [TryStartWorldSequenceZero] Searches the first clear bit among 32 pool bits, returning when full. */
 void sub_08069BBC(u32 a, u32 b)
 {
   int new_var;
@@ -1125,6 +1221,13 @@ extern s32 z069Hit(s32,s32,void *) asm("sub_08068A00");
 extern void z069Init(void *,s32,s32,s32,s32) asm("sub_08065158");
 extern void z069Spawn(s32,s32,u32,s32,s32) asm("sub_08069A30");
 extern u32 sub_0807A040();
+/* [RunStraightAbilityProjectile] Enemy windup waits halfword+6A>=byte+0x22B; during wait
+ * aborts56E90nonzero,BA6C0,state10/11. Saves player+DC serial and restores it each local-player flight tick.
+ * Resolves target ID but flight direction remains owner facing from0847AD0A; does not steer toward target.
+ * Initial position owner packed sprite or enemy x/y, advances4*sine before flight then2*sine per tick. Sprite
+ * resource50049 for levels<=5 or50048 otherwise; animation group from decremented level and direction. u16
+ * timeout=level*8+20. Each tick ends on local state11/12/D11C,BA6C0,56E90nonzero,68A00nonzero with original
+ * level0,or local1FB14nonzero using0x80008box and signed randomized damage. */
 void sub_08069C44(struct Z069A *arg) {
     struct Z069S sprite;
     s16 dx,dy;
@@ -1269,6 +1372,13 @@ void sub_08069C44(struct Z069A *arg) {
     if(player<=3 && player!=local) p->counter++;
     z069F[player]&=~(1<<bit);
 }
+/* [RunRetargetingSegmentAbilityProjectile] Enemy windup and local/enemy payment as common. Begins ahead of
+ * owner at4*sine. Each segment reinitializes sprite50091 for remaining level<=5 else5008E; resolves current
+ * target (player IDs or active enemy ID halfword+2), computes one ArcTan2 aim angle at SEGMENT START and then
+ * flies straight at2*sine/tick. Invalid targetFFFF preserves prior direction. Segment
+ * u16timeout=remaining*8+20; ends on68A00 bit1 set, local1FB14nonzero,timeout,BA6C0,56E90nonzero or
+ * localstate11/12/D11C. Terrain low-nibble/mask0x10 clear immediately spawns69A30(kind2) and goes to final
+ * exit. */
 void sub_0806A19C(struct Z069A *arg) {
     struct Z069S sprite;
     s16 dx,dy;
@@ -1459,6 +1569,13 @@ extern s32 t070Hit(s32,s32,void *) asm("sub_08068A00");
 extern s16 t070Damage(void *,s32) asm("sub_08068F9C");
 extern void t070Effect(void *,void *,s16) asm("sub_0801FB14");
 extern void t070Animate(void *,u32,u16 *,s16 *,s32) asm("sub_08065370");
+/* [RunPlayerCenteredPersistentAbilityHit] Reads descriptor owner/bit,low16level. Local owner pays
+ * low16cost6898C-1 from resource+C2 clamped0; owner>3 instead deducts signed cost-table halfword from
+ * enemy+5E; insufficient signed result clears mask,zeros resource and returns before normal cleanup15D98.
+ * Other path initializes resource5008C animation20 and180-iteration u16 countdown. Each loop first tests
+ * local-owner cancellation helpers/state11/12; calls68A00 at player packed sprite position (or enemy x/y).
+ * Nonzero hit result with level0 exits, clearing player flags mask0x10010 for player owner. Local owner also
+ * calls15D74 and1FB14 with player x/y,0x200020 box and signed randomized ability damage. */
 void sub_0806A88C(struct T070Args *arg) {
     struct T070Sprite sprite;
     s16 dx,dy;
@@ -1566,6 +1683,14 @@ extern s32 x071Effect(void *,void *,s16) asm("sub_0801FB14");
 extern s16 x071Damage(void *,s32) asm("sub_08068F9C");
 extern void x071Impact(void *,s32,s32) asm("sub_08079ED0");
 extern void x071Draw(s32,s32,u16,u16,u32,void *,u32,u32) asm("sub_08007870");
+/* [RunStraightAbilityProjectileWithImpactTask] Resolves input target ID to establish player/enemy domain;
+ * owner-facing direction stays fixed. Enemy windup waits+6A>=+22B with abort checks. Starts4*sine ahead,
+ * moves2*sine/tick; sprite50051(level<=4),50054(<=6),5005F(other), animation groups use level-1/-5/-7,
+ * u16timeout=originalLevel*8+20 and square hit radius084EC17C[descriptor FULLword+14]. Rather than
+ * calling68A00 during flight, scans eligible active enemies or opponent players within strict radius on each
+ * axis and checks state/attack history and authority; remote-player enemy encounters may write enemy owner+58
+ * without triggering local impact. Local1FB14 or blocking terrain also triggers impact; terrain
+ * additionally69A30(kind13). */
 void sub_0806ABC0(struct T071A *arg) {
     struct T071S sprite;
     s16 dx,dy;
@@ -1761,6 +1886,13 @@ extern void y073Spawn(s32,s32,u32,s32,s32) asm("sub_08069A30");
 extern void y073Send(void *) asm("sub_080694AC");
 extern void y073Draw(s32,s32,u32,u16,u32,void *,u32,u32) asm("sub_08007870");
 extern u16 y073Atan(s16,s16) asm("ArcTan2");
+/* [RunStaggeredForwardConeAbility] Pays resource first, initializes five animation/frame slots and cumulative
+ * byte delays starting0 with RNG%20+10. Enemy windup waits+6A>=+22B with standard aborts. WhenCDF8zero, target
+ * FULLword+8<=3 selects eligible opponent player targets (nonzero team,sprite lowkind not10/11/14,bit5clear);
+ * else active enemy slots with state!=11 and active byte+1DCnonzero. Cone selection uses signed16 angle
+ * difference from owner-facing in32direction bins, subtract32 only when>16, abs<=5, and strict independent X/Y
+ * limits from084EC12C[low16originalLevel] BEFORE clamping display level<=6. Uses sprite50074. If none
+ * selected, animates at owner position+20*sine without applying hit, then requests69A30(kind3). */
 void sub_0806B3C4(struct Y073A *arg) {
     struct Y073S sprite;
     u8 targets[8];
@@ -1996,6 +2128,12 @@ extern u8 terrBE(s32, s32, s32) asm("sub_0800AE50");
 extern u8 shadeBE(s32, s32, s32) asm("sub_0800BC44");
 extern u16 atanBE(s16, s16) asm("ArcTan2");
 
+/* [RunMultiHitHomingAbilityProjectile] Enemy windup differs: requires+6A>byte+0x22B, aborting standard wait
+ * gates/state10/11. Levels0..7 initialize hit budgets1,2,3,4,5,6,6,6 and
+ * lifetimes30,180,180,240,240,300,300,300; other levels leave hit budget uninitialized. Resolves current
+ * target by player ID or active enemy+2, invalid=>FFFF; start owner-facing position+5*sine. For player owner
+ * nonzero level forces+B2=1; then waits+B2==1, aborting state10 or game-state halfword+4 mask0x0002 clear
+ * (bit1). Sprite50097, animation index = u16(level-1), replaced with0 when bit15 is set. */
 void sub_0806BE24(struct ArgBE *arg)
 {
     struct SprBE spr;
@@ -2244,6 +2382,13 @@ extern void sendC568(void *) asm("sub_080694AC");
 extern void drawC568(s32, s32, u16, u16, u8, void *, u32, u32) asm("sub_08007870");
 extern void palC568(u32, u32, u32) asm("sub_08000AF0");
 
+/* [RunStaggeredRectangularAreaAbility] ABI r0 points to24-byte ability descriptor: owner word+0,slot
+ * word+4,target-domain word+8,ability kind word+C,level low HALFWORD+14 (local cost helper receives full
+ * word+14). Enemy owner waits +6Ahalfword>=+22Bbyte; 56E90, BA6C zero or state10/11 abort and clear slot.
+ * Enemy resource+5Ehalfword subtracts signed table cost and clamps0/returns if signed low16 negative. Local
+ * player resource+C2halfword subtracts low16(6898C(kind,fulllevel)-1) then clamps0 if signed low16 negative.
+ * Remote players do not pay locally. Target-domain <=3 selects player scan, otherwise five active enemies. No
+ * table bounds checks or exact named skill inferred. */
 void sub_0806C568(struct ArgC568 *arg)
 {
     struct SprC568 desc;
@@ -2568,6 +2713,13 @@ struct T71CDFPlayer {
     u8 * f148;
 };
  extern struct T71CDFPlayer t71CDFPlayers[] asm("gUnk_03003CE0");
+/* [ApplyAreaHealingAndStatusRecovery] Descriptor owner/bit are full words. Clamps full-word level >7 to7 in
+ * place, then uses low16. Enemy windup waits +6A >= byte +22B with abort checks; local resource cost uses
+ * u16(6898C-1) from +C2 with signed-negative clamp0; enemy uses signed table cost from +5E, with failure
+ * clearing mask and resource. Player owner waits +B4>6, aborting state10. Candidate players require sprite
+ * byte4 bit5 clear and same owner team, or team0 when CF80=0; nonzero level and abs(s16 delta >>3)<=12 on each
+ * axis. Stores Sqrt distance for healing falloff. Enemy geometry unusually reads low16 caster fixed-point
+ * coordinates and compares unscaled candidate word deltas; no normalized radius is inferred. */
 void sub_0806CDF0(void *arg0)
 {
   u8 sp0[4];
@@ -3044,6 +3196,13 @@ extern struct T072D4Player t072D4Players[] asm("gUnk_03003CE0");
 extern u32 t072D4Flags[] asm("gUnk_030063E0");
 void sub_08074DE8(u32, u32);
 extern void t072D4_E0BC(void *, s16) asm("sub_0801E0BC");
+/* [ApplyNearbyAllyResistanceBuff] Waits until owner halfword+B4>6, aborting if state+20==10 during wait.
+ * Selects players with same nonzero team byte+68, sprite byte+4 bit5 clear, and abs((s16)delta>>3)<(level+1)*2
+ * in each axis; level5 bypasses distance checks. Starts visual10 for all candidates. For local recipient
+ * searches timer>0,kind4,source<=3 whose player class+64==4; upgrades only when existing level<new. Upgrade
+ * replaces source with current owner. New slot requires timer=-1; writes
+ * kind4,source,level,timer=(level*10+40)*60 and six halfwords at+1C..26=level*10 through1E0BC. Local-owner
+ * branch clears owner halfwords+24/+26. */
 void sub_0806D4A4(struct T072D4Args *arg) {
     u8 list[4];
     u32 x;
@@ -3193,6 +3352,12 @@ struct T072Player { u8 pad0[0x20]; u16 state; u8 pad22[2]; u16 x24, x26; u8 pad2
 struct T072Args { u32 player, bit, f8, value, f10, level; };
 extern struct T072Player t072Players[] asm("gUnk_03003CE0");
 extern u32 t072Flags[] asm("gUnk_030063E0");
+/* [ApplyNearbyAllyFourAttributeBuff] Waits owner+B4>6 and aborts state10 during wait. Same candidate filter
+ * as6D4A4 (same nonzero team,sprite bit5clear,abs(s16delta>>3)<(level+1)*2;level5 no distance limit) and
+ * starts visual11. Locally searches active kind5 from source player class+64==4; accepts refresh when existing
+ * level<=new (equal level DOES reset timer). New free slot kind5; timer=(level*10+40)*60; halfwords+8,+A,+C,+E
+ * each=level*8. Local-owner refresh also replaces source owner; remote-owner refresh leaves stored source
+ * unchanged. Local-owner path clears+24/+26. */
 void sub_0806D7EC(struct T072Args *arg) {
     u8 list[4];
     u32 x;
@@ -3342,6 +3507,13 @@ struct T072DBPlayer { u8 pad0[0x20]; u16 state; u8 pad22[2]; u16 x24, x26; u8 pa
 struct T072DBArgs { u32 player, bit, f8, value, f10, level; };
 extern struct T072DBPlayer t072DBPlayers[] asm("gUnk_03003CE0");
 extern u32 t072DBFlags[] asm("gUnk_030063E0");
+/* [ApplyNearbyAllyCombatBonusBuff] Waits owner+B4>6, aborts state10 during wait. Selects same nonzero
+ * team,sprite bit5clear,nonzero level and abs(s16delta>>3)<=12 on each axis; computes Sqrt distances but does
+ * not sort/use them. Starts visual9 then waits owner+B6!=0 with no later cancellation check. Local-owner
+ * active-slot test is deliberately asymmetric: it checks LOCAL player class+64==4,kind3,timer>0 and
+ * source<=99; remote-owner test checks source<=3 and SOURCE player class+64==4. Only stronger level upgrades;
+ * sets timer=(level*10+40)*60 and halfword+10=level*20, leaving existing source unchanged. New timer=-1 slot
+ * records current source,kind3,level,same timer/bonus. Local-owner clears+24/+26. */
 void sub_0806DB1C(struct T072DBArgs *arg) {
     u8 list[4];
     s16 distances[6];
@@ -3499,6 +3671,13 @@ void t072DEInit(void *,s32,s32,s32,s32) asm("sub_08065158");
 void t072DECoords(s32,s32,s16 *,s16 *,s32,void *) asm("sub_0800BC08");
 void t072DEDraw(s16,s16,u16,u16,u32,void *,u32,u32) asm("sub_08007870");
 void t072DESend(struct T072DEArgs *) asm("sub_080694AC");
+/* [RunStaggeredForwardConeAbilityOnAnimationCompletion] ABI r0 points to24-byte ability descriptor: owner
+ * word+0,slot word+4,target-domain word+8,ability kind word+C,level low HALFWORD+14 (local cost helper
+ * receives full word+14). Enemy owner waits +6Ahalfword>=+22Bbyte; 56E90, BA6C zero or state10/11 abort and
+ * clear slot. Enemy resource+5Ehalfword subtracts signed table cost and clamps0/returns if signed low16
+ * negative. Local player resource+C2halfword subtracts low16(6898C(kind,fulllevel)-1) then clamps0 if signed
+ * low16 negative. Remote players do not pay locally. Target-domain <=3 selects player scan, otherwise five
+ * active enemies. No table bounds checks or exact named skill inferred. */
 void sub_0806DE94(struct T072DEArgs *arg) {
     struct T072DESprite sprite;
     u8 targets[8];
@@ -3736,6 +3915,13 @@ extern void drawE7D4(s32, s32, u16, u16, u8, void *, u32, u32) asm("sub_08007870
 extern void palE7D4(u32, u32, u32) asm("sub_08000AF0");
 extern s32 testE7D4(struct PosE7D4 *, void *, struct BoxE7D4 *, struct BoxE7D4 *) asm("sub_08021FE0");
 
+/* [RunStaggeredAreaAbilityWithSecondaryImpactRequests] ABI r0 points to24-byte ability descriptor: owner
+ * word+0,slot word+4,target-domain word+8,ability kind word+C,level low HALFWORD+14 (local cost helper
+ * receives full word+14). Enemy owner waits +6Ahalfword>=+22Bbyte; 56E90, BA6C zero or state10/11 abort and
+ * clear slot. Enemy resource+5Ehalfword subtracts signed table cost and clamps0/returns if signed low16
+ * negative. Local player resource+C2halfword subtracts low16(6898C(kind,fulllevel)-1) then clamps0 if signed
+ * low16 negative. Remote players do not pay locally. Target-domain <=3 selects player scan, otherwise five
+ * active enemies. No table bounds checks or exact named skill inferred. */
 void sub_0806E7D4(struct ArgE7D4 *arg)
 {
     struct SprE7D4 spr;
@@ -4033,6 +4219,13 @@ static inline void healNumF0CC(struct PosF0CC *pos, u32 v)
     }
 }
 
+/* [RunReturningDrainAbilityProjectile] ABI r0=24-byte descriptor; owner word+0,slot word+4,target low16+8,kind
+ * word+C,level low16+14. Player owner obtains packed position and aims once toward resolved target or facing.
+ * Enemy readiness/cost paths exist but read uninitialized player-base spill before cost: no safe enemy-owner
+ * contract. Initial resource0x500D0; player sprite word+4 bits14..16 inclusive (three bits) determine sound,
+ * enemy cost table level and outbound lifetime (value*8+20), independently of descriptor ability level. Local
+ * resource+C2 halfword pays low16(6898C-1),clamped on signed low16 negative. Outbound initial4*sine then2*sine
+ * per iteration. */
 void sub_0806F0CC(struct ArgF0CC *arg)
 {
     s32 dd0;
@@ -4389,6 +4582,13 @@ struct T06FE1CArgs { u32 player, bit, f8, value, f10, level; };
 extern struct T06FE1CPlayer t06FE1CPlayers[] asm("gUnk_03003CE0");
 extern u32 t06FE1CFlags[] asm("gUnk_030063E0");
 extern u16 gUnk_084EC1C0[];
+/* [ApplyTimedPlayerTransformation] Reads full owner/bit and low16level. For local owner pays
+ * low16(cost6898C-1) from+C2 with signed-negative clamp0; all paths then wait owner halfword+B6 nonzero, no
+ * cancellation/timeout. Only local owner allocates effect kind4 via1E164(player,4); allocation NULL skips
+ * writes. Success writes source halfword+2=owner,timer
+ * halfword=(level*5+15)*60,kind+4=4,form-index+6=halfword084EC1C0[level]-1; clears owner halfwords+24/+26 only
+ * on success. Clears owner mask bit on normal exit. Owner>3 leaves player-base register uninitialized before
+ * wait; no safe enemy contract. */
 void sub_0806FE1C(struct T06FE1CArgs *arg)
 {
     u8 buf[0x10];
@@ -4485,6 +4685,13 @@ u16 t6fSeekPl(void *, s32, s32) asm("sub_0807414C");
 u16 t6fSeekEn(u16, s32, s32, s32, s32) asm("sub_08074398");
 u8 t6fTerrain(s32, s32, s32) asm("sub_0800AE50");
 
+/* [RunReturningHomingAttack] Rejects busy owner by clearing pending bit; otherwise sets busy, waits enemy
+ * startup animation threshold, spends enemy resource+0x5E or local-player energy+C2 with clamp0, initializes
+ * resource0x500A5 and level-derived hit count=level+2. Orbits owner while searching, homes using sine
+ * velocity, strike animation applies authority-gated calculated damage and decrements count, returns toward
+ * origin then searches again. Scene/player/menu gates end loops; normal/early exits clear busy/pending bit.
+ * Target sentinels0xFF/0xFFFF differ across branches; enemy-owner branches use pl pointer uninitialized in C,
+ * and return-origin uses tracked enemy pointer rather than guaranteed owner. */
 void sub_0806FF1C(struct T6fArg *arg0) {
     struct T6fDesc desc;
     s16 f0, f1;
@@ -4968,6 +5175,12 @@ s32 t6gSolo(void) asm("sub_0800CB9C");
 s32 t6gAnim(void *, u32, s16 *, s16 *, s32) asm("sub_08065370");
 
 struct T6gXY { s32 x, y; };
+/* [RunOrbitingTargetStrikeSprite] Rejects a busy owner by clearing the requested flag; otherwise claims the
+ * owner busy byte. Waits for enemy readiness with scene/state aborts, applies owner-specific resource cost,
+ * and initializes a level-selected directional sprite. It follows an offset rotating around its owner until a
+ * target is found, pursues a target subject to terrain timeout, plays strike animation and dispatches the
+ * burst helper on completion, then returns and repeats for a finite level-derived count. Abort/normal end
+ * clears busy and the requested owner flag. */
 void sub_080710DC(struct T6fArg *arg0) {
     struct T6fDesc desc;
     s16 f0, f1;
@@ -5456,6 +5669,12 @@ s16 t39Calc(void *, void *) asm("sub_08068F9C");
 void t39PlHit(s32, s32, s32) asm("sub_08029A7C");
 void t39EnHit(s32, s32, s32, s32, s32, s32) asm("sub_08029B98");
 
+/* [RunStaggeredFallingTargetSprites] Splits the packed argument into low-half kind and high-half draw
+ * selector, applies local-owner cost and waits for player readiness with state/session abort. Collects
+ * eligible opposing players or live enemies within kind-selected rectangular ranges. Animates randomly delayed
+ * accelerating falls on collected targets, dispatching chance-selected hit requests only on the relevant
+ * authoritative local participant. With no targets animates a forward fall and short flicker instead. Finally
+ * waits for player completion and clears the owner flag. */
 void sub_08072390(struct T39Arg *arg0) {
     struct T39Desc desc;
     u8 targets[8];
@@ -5702,6 +5921,11 @@ struct T75Eff *t75AllocE(void *, s32) asm("sub_0801E104");
 void t75Init(void *, s32, s32, s32, s32) asm("sub_08065158");
 void t75Coords(s32, s32, s16 *, s16 *, s32, s32) asm("sub_0800BC08");
 void t75Draw(s32, s32, s32, u32, u32, void *, u32, u32) asm("sub_08007870");
+/* [RunProbabilisticAreaStatus] For local owner subtracts computed cost from halfword+C2 and signed-clamps
+ * zero. Waits owner readiness or early-clears ownerbit on state/game gate. Selects eligible opposite-team
+ * players or active actors inside table rectangle with level/stat RNG test; staggered animation10
+ * applies/upgrades kind4 timed slots only on authoritative local target/owner. No targets draws forward
+ * fallback. Final owner-done wait precedes flagclear; invalid owner>3 may leave player pointer uninitialized. */
 void sub_08072D5C(struct T75Arg *arg0) {
     struct T75Desc desc;
     u8 targets[8];
@@ -5932,6 +6156,11 @@ struct Arg07356C { u32 owner; u32 bit; u8 pad8[4]; s32 fC; u8 pad10[4]; u32 leve
 extern struct Ply07356C players07656C[] asm("gUnk_03003CE0");
 extern u32 flags07656C[] asm("gUnk_030063E0");
 extern void effect07656C(s32,u32) asm("sub_08074DE8");
+/* [ApplyTimedBuffToLocalOwnerOrNearbyAlly] Reads full descriptor owner and mask-bit, low16 level at+0x14;
+ * local owner deducts low16(cost6898C-1) from resource halfword+C2 and clamps signed-negative result0. Scans
+ * players for sprite byte+4 bit5 clear, same team as owner, nonzero level, and
+ * abs((s16)coordinateDelta>>3)<=12 on each axis; stores candidate IDs in4-byte array (Sqrt distances are also
+ * stored but not used to sort). */
 void sub_0807356C(struct Arg07356C *arg0)
 {
     u8 ids[4];
@@ -6100,6 +6329,13 @@ static inline struct Task07386C *task07386C(u32 who, u32 i)
     u8 *p = (u8 *)tasks07386C[who];
     return (struct Task07386C *)(i * 0x28 + (u32)p);
 }
+/* [DispatchAbilityTaskOrSelfBuff] Machine ABI preserves full words who,kind,target/parameter,level and fifth
+ * stack value. Finds free bit among16 in030063E0[who]; no slot returns immediately. Writes six-word descriptor
+ * {who,slot,arg2,kind,stackArg,arg3} at03006380[who]+slot*24. Kinds1..21 except6 install specific ability
+ * callbacks (mapping literal jump table in proof); kind6 instead locally deducts low16(cost6898C-1) from
+ * player halfword+C2, clamps signed-negative result0, searches8 effect slots stride0x28 for active type6 from
+ * same owner or free timer=-1, and installs/upgrades level from player+26 with halfword
+ * duration(level*10+40)*60. */
 void sub_0807386C(s32 who, s32 kind, s32 c, s32 d, s32 e)
 {
     struct Ply07356C *player;
@@ -6250,6 +6486,12 @@ extern u32 flags076CF4 asm("gUnk_030063E0");
 extern void coords076CF4(s32,s32,s16*,s16*,s32,void*) asm("sub_0800BC08");
 extern void draw076CF4(s32,s32,u32,u32,u32,void*,u32,u32) asm("sub_08007870");
 extern void init076CF4(void*,s32,s32,s32,s32) asm("sub_08065158");
+/* [TaskAnimateFixedWorldSpriteEffect] Initializes sprite resource 5008C, sets the first two remap entries to 7
+ * and 8, and uploads two palette banks starting at bank 23. Caches descriptor Q8 X/Y shifted right unsigned by
+ * 8, animation selector and draw-mode flag once at entry. While scene pause gates CC98/CD8C are clear, queries
+ * map draw mode, advances the low-halfword animation with loop flag 0, transforms the cached world position
+ * and draws either map-derived mode at screen Y +1 or ordinary descriptor mode 0. Waits on scheduler signal 1
+ * every iteration, including the completion iteration, then clears its descriptor-slot bit in bitmap 030063E0. */
 void sub_08073CF4(u32 *arg0)
 {
     struct Sprite076CF4 sprite;

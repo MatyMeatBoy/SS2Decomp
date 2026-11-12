@@ -9,6 +9,12 @@ struct Task50D3 {u32 f0,f4,f8,fC,f10,f14,f18,f1C,f20,f24;};
 extern void taskStart50D3(void *,u32) asm("sub_08000274");
 struct Command50D3 {u16 one,kind;u8 data[12];};
 union Fixed50D3 {s32 whole;struct{u16 lo;s16 hi;}part;};
+/* [RunFieldItemDemonstrationStages] Selector0 shows0x14004E..57, pans camera increment34 to(0,-30), unlocks
+ * input, retries field category1 item records with ids0x1C/2/0x2F/0x1A at(0xE800,0x8C00), starts selector6
+ * actor oscillation tasks between messages, removes items by tag6 and flushes requests. Selectors1..5 set
+ * entity poses3 and face local player; selector6 oscillates actors1/2/4/5 vertically -4/+4. Unknown selectors
+ * return. Pool30 full skips optional tasks, stack allocation and field request admission retry without
+ * timeout; admission not delivery. */
 void sub_0804D330(u32 arg0) {
     s32 camY,camX;
     struct Command50D3 cmd; struct Command50D3 *cmdp;
@@ -230,6 +236,8 @@ extern void sub_080576A8(void);
 extern void sub_0805664C(s32);
 struct Task51DA { u32 f0,f4,f8,fC,f10,f14,f18,f1C,f20,f24; };
 extern void taskStart51DA(void *,u32) asm("sub_08000274");
+/* [StartRegionTriggers12And13] Two taskStart51DA calls carry literal12/13 after reveal; callback5664C uses
+ * spots56 indexed rectangle/destination records. */
 void sub_0804DA44(void) {
     struct Task51DA *task;
     u32 i,mem;
@@ -279,6 +287,9 @@ void sub_0804DA44(void) {
 }
 struct Task51DB { u32 f0,f4,f8,fC,f10,f14,f18,f1C,f20,f24; };
 extern void taskStart51DB(void *,u32) asm("sub_08000274");
+/* [StartSceneTasks6To11] Restores transition when permitted, then independently attempts six sub_0805664C
+ * tasks with arguments6..11. Each searches30 slots, retries0x400 stack allocation until nonzero, initializes
+ * control fields and starts task; a full pool skips that argument. No readiness/completion wait. */
 void sub_0804DB48(void) {
     struct Task51DB *task;
     u32 i,mem;
@@ -384,6 +395,11 @@ union Fixed51DD { s32 whole; struct { u16 lo; s16 hi; } part; };
 struct Task51DD { u32 f0,f4,f8,fC,f10,f14,f18,f1C,f20,f24; };
 extern void taskStart51DD(void *,u32) asm("sub_08000274");
 struct HalfDD {u32 pad; u16 flags;};
+/* [StageActorCameraDialogueScene] Locks player/input, positions actor0 and creates resource11, attempts a
+ * callback task with retry stack allocation, restores screen and starts song0xD9. Scene+38 bit1 chooses
+ * dialogs140048/49/4A or14004C/4D around camera pans and actor movement; then stops the saved task if active,
+ * marks created slot4, restores camera/song11, resets actor state12, sets scene headerbit5 and unlocks. Full
+ * task-pool path leaves saved task value unspecified in C; creation unchecked. */
 void sub_0804DDBC(void) {
     s32 out[6];
     s32 *sp20,*sp24;
@@ -616,6 +632,10 @@ extern void taskStart51E3(void *,u32) asm("sub_08000274");
 static inline u8 testMask51E3(u32 value,u32 mask) { u32 result=value & mask; if(result)result=1; return result; }
 struct WrapperTask51E3 { u32 f0,f4,f8,fC; u8 *f10; u32 f14,f18,f1C; u8 *f20; u32 f24; };
 struct Args51E3 { u32 a,b,c; void (*callback)(s32); void *data; u32 f; };
+/* [InitializeFlaggedRegionScene] State mask0x1 hides selectors6/7 and returns after gated transition.
+ * Otherwise optionally sets player flag1 when mask0x2 clear, waits transition, starts wrapper2A104 with
+ * callback4E7B8 and selector6 plus mode-dependent4E628 task. Wrapper allocation is unchecked; latter retries
+ * allocation; full30-slot pools skip starts. This function does not itself clear player flag1. */
 void sub_0804E360(void) {
     struct Args51E3 args;
     struct WrapperTask51E3 *firstTask;
@@ -765,6 +785,9 @@ wrapper_check2:
     }
     }
 }
+/* [AnimateActor6Dialogue91] Argument0 displays sequential dialogs0x14005B/0x14005C with actor6 horizontal
+ * oscillations, sets scene word+0x38 bit1 and unlocks input, then falls through to argument1 behavior: forever
+ * waits120 ticks and oscillates actor6 by alternating +/-2. Other arguments return without action. */
 void sub_0804E628(s32 arg0) {
     u16 timer;
     u32 handle, current;
@@ -820,6 +843,11 @@ extern void sub_0802939C(s32,s32);
 struct State51E7 { u8 pad[0x38]; u32 flags; };
 extern struct State51E7 *state51E7 asm("gUnk_03005CF4");
 static inline void firstEffect51E7(s32 value){sub_08073E2C(value,value,0x29,1);}
+/* [RunSingleActorMotionSequence] Argument0 queues self with1; argument1 returns if scene+38 bit0 is already
+ * set, otherwise sets it before a pause-mode rejection. Active path locks player/input, triggers four
+ * fixed-position effects, creates/moves resource2F through two dialogs140059/5A, hides actor7, unlocks, then
+ * moves the created actor offscreen and marks matched slot4. Other arguments return. Task admission/creation
+ * success unchecked. */
 void sub_0804E7B8(s32 arg0) {
     s32 x,y;
     s32 *var_r1;
@@ -933,6 +961,13 @@ extern void sub_0804ED18(s32);
 extern void sub_0805A1B4(s32);
 struct Entity51EA { u8 pad[0x30]; u32 f30,f34,f38,f3C; };
 extern struct Entity51EA *entities51EA asm("gUnk_030056F4");
+/* [InitializeActor20039Progression] Unless scene word+0x38 bit2 set, tests progression byte+0x1B7/+0x1C3
+ * bits1/2. For bit1 set and bit2 clear, positions actor1(128,80), waits entity active bit0, binds sub_0804ED18
+ * and creates actor0x20039 with slot configuration and sub_0805A1B4 callback. Otherwise hides actor1 and
+ * queues sub_08059954(2). Restores transition and waits bit2; marks matching actor slot state4. The
+ * created-actor handle variable is initialized only in the creation branch in C; the hidden branch still
+ * reaches the common handle search without a proven initialized value. If initial scene gate set only restores
+ * screen. */
 void sub_0804EABC(void) {
     s32 *var_r0_3;
     s32 *var_r1;
@@ -1095,6 +1130,8 @@ extern void sub_080290E4(s32,s32);
 extern void sub_0804EE20(void);
 struct Task51ED { u32 f0,f4,f8,fC,f10,f14,f18,f1C,f20,f24; };
 extern void taskStart51ED(void *,u32) asm("sub_08000274");
+/* [RunEvent2GuardedEntityAscent] Persistent byte+1B7/+1C3 |=4 precedes scene+38 mask8 guard; callback4EE20 and
+ * upward28D98 implement guarded ascent. */
 void sub_0804ED18(s32 arg0) {
     u8 *p;
     register u8 **stateAddr asm("r2");
@@ -1156,6 +1193,8 @@ void sub_0804ED18(s32 arg0) {
         } else sub_08028D98(arg0,0,-0xC8,0xC8);
     }
 }
+/* [SpawnAndMovePairedActors] Calls289C0 twice,28D98 on first handle, then scans15 actor records for each
+ * handle and writes state+36=4. */
 void sub_0804EE20(void) {
     s32 *var_r1;
     s32 *var_r1_2;
@@ -1202,6 +1241,13 @@ extern void sub_080576A8(void);
 extern void cameraMove51(s16,s16) asm("sub_0800BB80");
 union Fixed51EE { s32 whole; struct { u16 lo; s16 hi; } part; };
 struct Flag51EE { u32 pad; u16 flags; };
+/* [RunCaptainRobertAreaEntryEvent] Sets local player flags bit 0 (input suppression) and calls
+ * BeginLocalPlayerEventLock. Stores 0xC4 in the tracked-song word 0x03005CF8 and, unless the link-error song
+ * mute is set, calls AudioStartOrContinueSongChecked(0xC4). After exactly one TaskWaitForSignal1
+ * (LinkHasErrorFlag can only end that one-iteration loop), and unless IsFullScreenMenuActive, it runs the
+ * transition selected by GetScreenTransitionMode (0: FadeScreenBrightnessInAndWait; 1: sub_0801AB50(6); 2:
+ * sub_0801AB90(6)) and waits for IsScreenTransitionIdle. Then up to 20 more signal-1 waits, ending early when
+ * LinkHasErrorFlag is set. */
 void sub_0804EEA8(void) {
     s32 out[4];
     s32 *px2, *py2;
@@ -1301,6 +1347,10 @@ extern void taskStart51F1(void *,u32) asm("sub_08000274");
 struct Player51F1 { u8 a[0x11E]; u16 f11E; u8 b[0x14C-0x120]; };
 extern struct Player51F1 players51F1[] asm("gUnk_03003CE0");
 struct Flag51F1 { u32 pad; u16 flags; };
+/* [StageActor1Dialogue93] Locks input, offsets actor0 by multiplayer position, places actor1(120,240),
+ * restores screen, waits60, attempts callback51F128 in30 task slots with retry allocation, waits80, writes
+ * local player halfword+0x11E=4, plays0xB7/0xBD, moves actor1 to(120,80) over400, sets actor0 state16 and
+ * shows0x14005D. Starts song11, sets scene halfword+4 bit5, unlocks and resets local player state0. */
 void sub_0804F128(void) {
     s32 var_r4;
     s32 temp_r0;
@@ -1417,6 +1467,10 @@ extern s16 cameraYF390 asm("gUnk_030031F2");
 extern void localF390_BB94(s16,s16) asm("sub_0800BB94");
 extern void localF390_97D18(s32,s32) asm("sub_08097D18");
 struct PrefixF390 { s32 out[20]; struct TileSys *level; s32 *p0,*p1,*p2,*p3; u32 iteration; };
+/* [ShakeCameraAndAuxiliaryOffset] Runs finite vertical camera shake interpolations with increment0x200
+ * over0..0x400: -1/0,-2/0, then59 repetitions of-3/0, then-2/0,-1/0. Each interpolation writes camera offset
+ * and inverse auxiliary offset through sub_08097D18 and yields; each phase followed by up to2 signal waits
+ * (link-error shortcut). Finishes at zero offset. No player/input lock or allocation. */
 void sub_0804F390(void) {
     struct PrefixF390 L;
     register u32 progress0 asm("r0");
@@ -1785,6 +1839,8 @@ extern void sub_080576A8(void);
 struct TaskF998 { u32 f0,f4,f8,fC; u8 *f10; u32 f14,f18,f1C; u8 *f20; u32 f24; };
 struct StateF998 { u8 pad0[0x38]; u32 flags; u8 pad3C[0xE34-0x3C]; struct TaskF998 tasks[30]; };
 extern struct StateF998 *stateF998 asm("gUnk_03005CF4");
+/* [InitializePlacementEvent0Scene] Task callback2A104 receives descriptor4FA68,arg0 and object index6; flags1
+ * selects setup versus restored position. */
 void sub_0804F998(void) {
     u32 args[6];
     struct TaskF998 *task;
@@ -1834,6 +1890,8 @@ check:
 }
 struct StateFA68 { u8 pad[0x38]; u32 flags38; };
 extern struct StateFA68 *stateFA68 asm("gUnk_03005CF4");
+/* [HandleMapObjectPlacementEvent0] Mode switch, guarded callback enqueue, effect41 requests and scene+38 bit
+ * update establish the numeric placement event. */
 void sub_0804FA68(s32 arg0) {
     u16 ticks;
     s32 x;
@@ -1874,6 +1932,8 @@ struct StateFB0C { u8 pad[4]; u16 flags; };
 extern struct PlayerFB0C playersFB0C[] asm("gUnk_03003CE0");
 extern struct StateFB0C *stateFB0C asm("gUnk_03005CF4");
 extern void sub_080586B4(s32);
+/* [RunSceneMessage100] Resource140064 mode45 after audio/reveal; scene flags struct at1873 maps final OR32
+ * to+4, not area+38. */
 void sub_0804FB0C(void) {
     s32 temp_r0;
     u16 var_r4;
@@ -1931,6 +1991,13 @@ struct StateFC3C { u8 pad[4]; u16 flags; u8 pad6[0x38-6]; u32 eventFlags; };
 extern struct PlayerFC3C playersFC3C[] asm("gUnk_03003CE0");
 extern struct StateFC3C *stateFC3C asm("gUnk_03005CF4");
 extern void localFC3C_BB80(s16,s16) asm("sub_0800BB80");
+/* [RunOswaldAreaEntryEvent] Sets local player flags bit 0 (input suppression) and calls
+ * BeginLocalPlayerEventLock. Chooses an x offset: 0 when LinkCountConnectedPlayers is 1, otherwise
+ * -0xC/0xC/-0x24/0x24 for local IDs 0..3 (other IDs leave it unset). Applies it to entity selector 0 with
+ * MoveSceneEntityByOffset(0, dx, 0, 0). After exactly one TaskWaitForSignal1 and unless
+ * IsFullScreenMenuActive, it runs the GetScreenTransitionMode transition (0: FadeScreenBrightnessInAndWait; 1:
+ * sub_0801AB50(6); 2: sub_0801AB90(6)) and waits for IsScreenTransitionIdle. It stores 0xD9 in the
+ * tracked-song word 0x03005CF8 and starts or continues it unless the link-error mute is set. */
 void sub_0804FC3C(void) {
     struct { s32 x,y,nextX,nextY; s32 *nextXp,*nextYp; } L;
     s32 sp0;
@@ -2087,6 +2154,12 @@ extern struct EntityFF04 *entitiesFF04 asm("gUnk_030056F4");
 extern struct StateFF04 *stateFF04 asm("gUnk_03005CF4");
 extern void localFF04_BB80(s16,s16) asm("sub_0800BB80");
 extern void sub_080502DC(void);
+/* [InitializeDialogue104ActorScene] If progression byte+0x1B8/+0x1C4 bit7 set, hides actor1, restores
+ * transition and starts song7 when not linked or stops/clears the tracked song in the link branch and resets
+ * state12 on active entity slots0..4. Otherwise locks input and restores screen; first scene bit0 entry starts
+ * song196, pans(192,40), shows0x140068 and returns camera, setting bit0; repeat skips dialog/pan. Both unlock,
+ * start song7 when not linked or stop/clear the tracked song in the link branch, reset entities and invoke
+ * sub_080502DC synchronously. No timer/timeout for dialogue. */
 void sub_0804FF04(void) {
     register s32 *a0 asm("r0");
     register s32 a1 asm("r1");
@@ -2296,6 +2369,10 @@ extern struct Player502DC players502DC[] asm("gUnk_03003CE0");
 extern void sub_0802939C(s32,s32);
 extern void sub_0802A01C(void);
 extern void sub_0805990C(void);
+/* [StageActor13Dialogue105] Waits for scene flag bit4 clear and sub_08019C3C zero, locks input, queues
+ * callback sub_0805990C(15), opens dialog0x140069, waits30 ticks, spawns actor0x13 at (368,136), moves actor1
+ * offscreen, waits for dialog, changes actor animation and moves it, then marks matching slot state4 if found
+ * in15 slots; unlocks. No check of actor creation success. */
 void sub_080502DC(void) {
     struct Slot502DC *slot;
     struct Player502DC *player;
@@ -2372,6 +2449,8 @@ after3:
 struct TaskF50454 { u32 f0,f4,f8,fC; u8 *f10; u32 f14,f18,f1C; u8 *f20; u32 f24; };
 struct StateF50454 { u8 pad0[0x38]; u32 flags; u8 pad3C[0xE34-0x3C]; struct TaskF50454 tasks[30]; };
 extern struct StateF50454 *stateF50454 asm("gUnk_03005CF4");
+/* [InitializePlacementEvent1Scene] Descriptor50524,arg0 is passed to2A104 for object6; scene flags2 select
+ * watcher versus immediate placement. */
 void sub_08050454(void) {
     u32 args[6];
     struct TaskF50454 *task;
@@ -2421,6 +2500,8 @@ check:
 }
 struct State50524 { u8 pad[0x38]; u32 flags38; };
 extern struct State50524 *state50524 asm("gUnk_03005CF4");
+/* [HandleMapObjectPlacementEvent1] Mode switch, guarded callback enqueue, effect41 requests and scene+38 bit
+ * update establish the numeric placement event. */
 void sub_08050524(s32 arg0) {
     u16 ticks;
     s32 x;
@@ -2460,6 +2541,8 @@ struct State505C8 { u8 pad[0x38]; u32 flags; };
 struct Entity505C8 { u8 pad[0xC]; u16 state; u8 tail[0x2E0-0xE]; };
 extern struct State505C8 *state505C8 asm("gUnk_03005CF4");
 extern struct Entity505C8 *entities505C8 asm("gUnk_030056F4");
+/* [ResetEnemiesAfterConditionalDelay] Body's flags4 test gates30-signal wait; final five-slot active-mask scan
+ * resets only state12. */
 void sub_080505C8(void) {
     register u32 ticks asm("r4");
     register u32 stride asm("r0");
@@ -2516,6 +2599,13 @@ struct StateF50688 { u8 pad[4]; u16 flags; u8 pad6[0x38-6]; u32 eventFlags; u8 p
 extern struct PlayerF50688 playersF50688[] asm("gUnk_03003CE0");
 extern struct StateF50688 *stateF50688 asm("gUnk_03005CF4");
 extern void localF50688_BB80(s16,s16) asm("sub_0800BB80");
+/* [RunVaitaliAreaEntryEvent] Sets local player flags bit 0 (input suppression) and calls
+ * BeginLocalPlayerEventLock. Chooses an x offset: 0 when LinkCountConnectedPlayers is 1, otherwise
+ * -0xC/0xC/-0x24/0x24 for local IDs 0..3 (other IDs leave it unset). Applies it to entity selector 0 with
+ * MoveSceneEntityByOffset(0, dx, 0, 0). It then spawns a scene object with
+ * SpawnSceneObjectAndWaitForStartupStateChange(0x12, 0xF0, 0xA0), starts its animation 0 looping
+ * (LoopSceneEntityAnimation) and moves entity selector 1 to (0x270F, 0x270F) at once with
+ * MoveSceneEntityToPosition. */
 void sub_08050688(void) {
     struct { s32 x,y,nextX,nextY,ui; s32 *nextXp,*nextYp; } L;
     struct SlotF50688 *slot;
@@ -2693,6 +2783,12 @@ extern void local509A8_BB80(s16,s16) asm("sub_0800BB80");
 extern void sub_0802A080(s32,s32,s32,s32);
 extern void sub_08050E48(void);
 extern void sub_08051A78(void);
+/* [InitializeActor6ProgressionSequence] If progression byte+0x1B9/+0x1C5 bit1 set, hides actor6, restores
+ * transition and resets active entity state12. Otherwise player0 attempts boundary callback sub_08051A78;
+ * first scene bit0 entry locks input, pans(0,-116), sets bit0/song196 and starts sub_08050E48 selector0,
+ * waits800, pans(0,-30), unlocks and invokes sub_0802A080. If scene bit1 then returns unlocked; otherwise
+ * relocks, cancels saved task when scheduled, closes dialog and attempts selector1 continuation, returning
+ * still locked. Repeat scene-bit0 entry restores screen/entities.30-slot full skips startup; stack retries. */
 void sub_080509A8(void) {
     void (*callback)(void);
     struct {s32 x,y,nextX,nextY; s32 *nextXP,*nextYP;} L;
@@ -3136,6 +3232,11 @@ packetRetry:
 }
 
 void t53_impl0E48(s32 arg0) asm("sub_08050E48");
+/* [RunStagedDialogueItemScene] Case0 sequences actor facing/movement and messages14006B..080, retries
+ * world-item request(type10,value300) until admitted, calls5D37C/687A8 and starts case2 helper, then falls
+ * into case1. Case1 sets player flag1, shows081..08A, retries item1:6 world request, moves/hides actor2, sets
+ * state mask0x2 and restores input, resetting active actor state12. Case2 moves actor1 after wait; unknown
+ * cases do nothing. */
 void t53_impl0E48(s32 arg0) {t53_scene0E48(arg0,0x7800,0x7800);}
 extern u8 *t53_gsA78 asm("gUnk_03005CF4");
 extern s32 t53_transformA78(void *,void *,void *,void *) asm("sub_08021FE0");
@@ -3153,6 +3254,10 @@ static inline u32 t53_selectA78(u16 mask)
     value=*p;
     return (value>>7)&mask;
 }
+/* [TriggerDialogue142Or143] Waits for local player intersection around (120,88), dimensions(16,24), then locks
+ * input. Progression byte +0x1B8/+0x1C4 bit7 selects cancellable message0x14008E and queues sub_0805A474(6),
+ * sub_0805990C(17); otherwise shows0x14008F. Unlocks on both branches; callback queue admission is not
+ * completion. */
 void sub_08051A78(void)
 {
     struct {s32 x,y,zero;u32 packed;} pos;
@@ -3217,6 +3322,8 @@ static inline void t53_clearBFC(u16 one)
     }while(i<=4);
     sub_08019F04();
 }
+/* [ResetEnemiesWithEntryOverlay] flags4 gate two waitBFC(60) calls,2949C(1,0),19EB8 first-key overlay3;
+ * clearBFC scans all five active enemies. */
 void sub_08051BFC(void)
 {
     if(sub_0800CC98()==0) {
@@ -3294,6 +3401,8 @@ static inline void t53_clearCE4(u16 one)
     }while(i<=4);
     sub_08019F04();
 }
+/* [InitializePlacementEvent3Scene] t53_startCE4(51DF0,0,6) or28AAC selector7; clearCE4(1) scans all active
+ * enemy states and calls19F04. */
 void sub_08051CE4(void)
 {
     if (t53_hasCE4(t53_gsCE4, 8) == 0) {
@@ -3317,6 +3426,8 @@ static inline void t53_flagDF0(u8 *ptr, u32 mask)
 { *(u32 *)(ptr + 0x38) |= mask; }
 static inline void t53_effectDF0(s32 x, s32 y)
 { sub_08073E2C(x, y, 41, 1); }
+/* [HandleMapObjectPlacementEvent3] Guarded enqueue68820 and effect helper3318; mode1 ends with28AAC selector7
+ * and scene+38 |=8. */
 void sub_08051DF0(s32 arg0)
 {
     u16 timer;
@@ -3348,6 +3459,10 @@ static inline void t53_lockE98(void)
 { struct Player *p = &gUnk_03003CE0[sub_080020F4()]; p->flags |= 1; }
 static inline void t53_unlockE98(void)
 { struct Player *p = &gUnk_03003CE0[sub_080020F4()]; p->flags &= ~1; }
+/* [StageActor9Dialogue140] Creates actor9 at(88,70), sets animation17, locks input, restores screen, starts
+ * song217, shows dialogs0x14008C and0x14008D, changes animation16 and moves actor upward80 over60, marks
+ * matching slot duration4 if found among15. Waits for dialog, unlocks, starts song165 and sets scene
+ * halfword+4 bit5. */
 void sub_08051E98(void)
 {
     u32 actor,dialog;
@@ -3455,6 +3570,10 @@ static inline u8 t53_has2060(u8 *ptr,u16 mask)
     if(value!=0)value=1;
     return value;
 }
+/* [StartPlayerSelectedSceneTasks] Attempts callback tasks59/60/61 plus one of62..65 selected by local-player
+ * index; when scene+38 bit4 is clear also requests a separate callback for actor6. Restores screen by mode and
+ * waits idle when permitted. No completion wait or input lock in this wrapper; helper admission failure can
+ * skip startup. */
 void sub_08052060(void)
 {
     t53_start2060(t53_cb2060,59);
@@ -3476,6 +3595,8 @@ void sub_08052060(void)
         while(sub_0801AAE0()==0)sub_080003F0();
     }
 }
+/* [HandleMapObjectPlacementEvent4] Mode switch and calls68820,73E2C,28AAC end with scene+38 numeric bit
+ * update. */
 void sub_080523D8(s32 arg0)
 {
     u16 timer;
@@ -3500,6 +3621,9 @@ void sub_080523D8(s32 arg0)
 }
 extern void t53_cb247C(void) asm("sub_080567D4");
 extern void t53_cbReq247C(void) asm("sub_0805A2E4");
+/* [StartActor3Through5Scene] Clears progression byte +0x1B5/+0x1C1, starts callback for actors3,4,5.
+ * Progression byte +0x1B8/+0x1C4 bit4 either hides actor9 at(9999,9999) or requests its callback. Restores
+ * screen according to transition mode and waits idle. No player lock is acquired here. */
 void sub_0805247C(void)
 {
     register u32 one asm("r4");
@@ -3537,6 +3661,10 @@ static inline u32 t53_open37DC(u32 id, u32 bit)
 }
 extern void t53_cam37DC(s32, s32) asm("sub_0800BB80");
 struct Signed37DC { u8 pad[0x80]; s16 x, y; };
+/* [PanConditionalDialogs147] Locks player/input, offsets actor0 for multiplayer and queries5A318; restores
+ * screen, starts song0xD9 and pans to(-offset,-64) with step17. Query result and scene+38 bit1
+ * select140093/94/99/9A; dialog helper sets bit1. Pans back step34, starts song0xA5, sets headerbit5 and
+ * unlocks. */
 void sub_080526B4(void)
 {
     s32 out[4];
@@ -3606,6 +3734,10 @@ void sub_080526B4(void)
     t53_unlock0E48();
     sub_0800D108();
 }
+/* [PanDialogue150Or156] Locks input, offsets actor0 by multiplayer position, obtains sub_0805A318 result,
+ * restores screen, starts song217, waits20 and pans(-offset,-64) increment17. Scene+0x38 bit2 and helper
+ * result choose message0x140096/97/9C/9D; open helper sets bit2. Waits dialog, returns camera increment34,
+ * starts song165, sets scene halfword+4 bit5 and unlocks. */
 void sub_080529E0(void)
 {
     s32 out[4];
@@ -3675,6 +3807,9 @@ void sub_080529E0(void)
     t53_unlock0E48();
     sub_0800D108();
 }
+/* [PanConditionalDialogs145] Locks player/input, places actor0 by player count/index, sets facing5, restores
+ * screen, starts song0xD9 and pans to(160,-80) with step17. Scene+38 bit0 selects140091/92; dialog helper sets
+ * bit0. Pans back with step34, starts song11, sets headerbit5 and unlocks. */
 void sub_08052D0C(void)
 {
     s32 out[4];
@@ -3746,6 +3881,8 @@ static inline u8 *Sel2FE8(void)
         return gGS2FE8 + 0x1C7;
     return gGS2FE8 + 0x1BB;
 }
+/* [QueueClass6Event32Update] Clears byte+1BB/+1C7 bit0; conditionally enqueues5990C argument32 and always
+ * enqueues3E5D8. */
 void sub_08052FE8(void)
 {
     u8 mode;
@@ -3770,6 +3907,8 @@ void sub_08052FE8(void)
     sub_08068070((u32)sub_0803E5D8, 0);
 }
 extern void t53_cb3060(void) asm("sub_08053120");
+/* [ArmPlacementEvent2AndReveal] Calls t53_request2060(t53_cb3060,0,6); alias at3772 is53120; request
+ * wrapper3422 constructs2A104 task. */
 void sub_08053060(void)
 {
     if (t53_test3060(t53_gs2060, 4) == 0) t53_request2060(t53_cb3060, 0, 6);
@@ -3782,6 +3921,8 @@ void sub_08053060(void)
         while (sub_0801AAE0() == 0) sub_080003F0();
     }
 }
+/* [HandleMapObjectPlacementEvent2] Mode switch and calls68820,73E2C,28AAC end with scene+38 numeric bit
+ * update. */
 void sub_08053120(s32 arg0)
 {
     u16 timer;
@@ -3816,6 +3957,10 @@ static inline u8 t53_busy31C4(void)
     }
     return 0;
 }
+/* [PanDialogue162Or165] Locks input, offsets actor0, obtains helper predicate, restores screen/song217,
+ * waits20 and pans(-offset,-64) increment17. Scene+0x38 bit0 and helper result select first-use0x1400A2
+ * or0x1400A5; repeats always0x1400A3. Open helper sets bit0. Waits dialog, returns camera increment34, starts
+ * song11, sets scene halfword+4 bit5 and unlocks. */
 void sub_080531C4(void)
 {
     s32 out[4];
@@ -3885,6 +4030,10 @@ void sub_080531C4(void)
     t53_unlock0E48();
     sub_0800D108();
 }
+/* [PanDialogue160Or161] Locks local player/input, applies multiplayer xoffset, restores transition and starts
+ * song0x193, waits20, pans(-offset,-64) interpolation increment17. Scene word+0x38 bit1 selects0x1400A0
+ * first-use or0x1400A1 repeat; open helper sets bit1. Waits dialog, pans back increment34, starts song12, sets
+ * scene halfword+4 bit5 and unlocks. */
 void sub_08053510(void)
 {
     s32 out[4];
@@ -3948,6 +4097,11 @@ void sub_08053510(void)
     t53_unlock0E48();
     sub_0800D108();
 }
+/* [PanDialogue168Or169] Locks input, offsets actor0 for multiplayer, restores transition, waits20, pans
+ * to(-offset,-64) with interpolation increment17 over0..1024, selects0x1400A8 or0x1400A9 by scene flag1, waits
+ * dialog, pans back(0,0) with increment34 over0..1024, starts song0x194 and sets scene halfword+4 bit5.
+ * Unlocks on normal return. Dialog helper sets scene word+0x38 bit0 on either message branch; first-use versus
+ * later-use differs only by message ID. */
 void sub_080537DC(void)
 {
     s32 out[4];
@@ -4027,6 +4181,8 @@ static inline void Clr53A80(u8 *p)
         if ((gM030056FC & (1 << i)) && *(u16 *)(p + 0xC) == 0xC)
             *(u16 *)(p + 0xC) = 0;
 }
+/* [RestoreEnemiesWithOptionalReveal] Selected reveal then SetMode53A80(11), Clr53A80 and19F04; inline helpers
+ * at4017/4023 track audio and reset only active state12. */
 void sub_08053A80(void)
 {
     struct E2E0a *p;
@@ -4089,6 +4245,9 @@ static inline void pan53B(u16 x, u16 y, u16 duration)
         sub_080003F0();
     }
 }
+/* [StartUpwardCameraSceneTask] Pans camera to (0,-20) over one interpolation duration, waits one tick,
+ * attempts to start sub_08053C5C with argument 1, and restores the screen window according to transition mode.
+ * The 30 task slots are searched; stack allocation retries indefinitely, but a full pool skips startup. */
 void sub_08053B24(void)
 {
     u16 n;
@@ -4105,6 +4264,8 @@ void sub_08053B24(void)
         while (sub_0801AAE0() == 0) sub_080003F0();
     }
 }
+/* [ActivatePairedEnemyOverlays] Waits2A080, overlays two consecutive enemy slots, moves selectors1/2 and
+ * resets active states12. */
 void sub_08053C5C(void)
 {
     u8 *base;
@@ -4140,6 +4301,8 @@ void sub_08053C5C(void)
     } while (i <= 4);
     sub_08019F04();
 }
+/* [RestoreEnemiesFollowingOptionalReveal] Selected reveal then SetMode53A80(11), Clr53A80 and19F04; inline
+ * helpers at4017/4023 track audio and reset only active state12. */
 void sub_08053CF4(void)
 {
     struct E2E0a *p;
@@ -4165,6 +4328,8 @@ void sub_08053CF4(void)
     Clr53A80(gP030056F4);
     sub_08019F04();
 }
+/* [ResetEnemiesWithConditionalReveal] Selected reveal then SetMode53A80(11), Clr53A80 and19F04; inline helpers
+ * at4017/4023 track audio and reset only active state12. */
 void sub_08053D98(void)
 {
     struct E2E0a *p;
@@ -4218,6 +4383,12 @@ static inline void fade53E(void)
         while (sub_0801AAE0() == 0) sub_080003F0();
     }
 }
+/* [BindActorsAndProgressionDialogue] Locks player/input and reads progression bytes+0x1BB/+0x1C7 bit1
+ * and+0x1B7/+0x1C3 bit5. Completed branch hides actor1; seen branch hides actor1, positions actor2 and binds
+ * callback; unseen branch binds callbacks to entity slots0/1, and first scene bit0 entry pans(200,50),
+ * shows0x140283 and returns camera. Binding waits active mask bits then writes callback, argument and zero
+ * motion fields. Restores screen and unlocks on all normal exits; waits can be indefinite. No new entity
+ * allocation in this function. */
 void sub_08053E3C(void)
 {
     u8 *p;

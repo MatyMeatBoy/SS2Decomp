@@ -32,6 +32,13 @@ static inline struct Actor028AAC *find028AAC(u32 id)
     return NULL;
 }
 void sub_08028AAC_v(u32 who, s32 ax, s32 ay, s32 af) asm("sub_08028AAC");
+/* [MoveSceneEntityToPosition] Converts unsigned pixel coordinates to 24.8 fixed point and linearly
+ * interpolates all supported entity positions with sub_080659F4, yielding each step; zero frames writes
+ * immediately. Player/enemy previous coordinates are synchronized; map objects unmark/remark their collision
+ * footprint. Original ABI truncates X,Y,frames to unsigned16. Selector>0x100000 searches15 actors by word ID;
+ * missing actor yields once then returns.6..0x100000 directly indexes map-object base+0x4B4+selector*0x24
+ * WITHOUT capacity check;1..5 enemies,0 localplayer. Coordinates shifted8;timed step=floor(1024/frames),sample
+ * t=0 while t<=1023. */
 void sub_08028AAC_v(u32 who, s32 ax, s32 ay, s32 af)
 {
     u32 t, step;
@@ -166,6 +173,12 @@ static inline struct Actor028D98 *find028D98(u32 id)
     return NULL;
 }
 void sub_08028D98_v(u32 who, s32 ax, s32 ay, s32 af) asm("sub_08028D98");
+/* [MoveSceneEntityByOffset] Sign-extends pixel offsets and adds them to the current 24.8 coordinates; timed
+ * paths interpolate from saved positions, zero frames translates immediately. The same selector distinguishes
+ * scene actors, map objects, enemies and local player. Original ABI offsets use signedlow16 shifted8;frames
+ * unsignedlow16. Same movement selector domains and unchecked object index as28AAC. Timed interpolation uses
+ * floor(1024/frames),samples<1024 without endpoint snap;frames>1024 gives step0/no loop progress. Zero frames
+ * translates then yields once. Actor failed lookup yields once then returns. */
 void sub_08028D98_v(u32 who, s32 ax, s32 ay, s32 af)
 {
     u32 t, step;
@@ -279,6 +292,12 @@ extern struct Monster026E4 *monsters026E4 asm("gUnk_030056F4");
 struct Player026E4 {u8 pad[0x1C];u16 value;u8 tail[0x12E];};
 extern struct Player026E4 players026E4[] asm("gUnk_03003CE0");
 void task026E4(u32,u32) asm("sub_080290E4");
+/* [SetSceneEntityFacing] Writes direction at actor +0x24, enemy +8, or local player +0x1C. Actor path requests
+ * mode 3 at +0x36 and yields until the update consumes it. Original290E8..EA narrowsdirection low16. Actor
+ * IDs>0x100000 search15 records;missing yields once/returns. Actor+24STRH direction,+36STRH3 then repeatedly
+ * yields while+36==3,without timeout/cancel. Enemy selector1..5 writesSTRH+8;all other nonzero
+ * selectors<=0x100000 return after subtract/rangecheck;0 writes localplayer+1C. This setter DOES NOT support
+ * map-object selector6+. No direction0..7 validation. */
 void task026E4(u32 id,u32 value)
 {
     u8 *row;
@@ -401,6 +420,12 @@ void sub_08029174_v(u32 target, u16 val)
 }
 /* Like sub_08029174, then wait until the text has finished. */
 void sub_0802926C_v(u32 target, u16 val) asm("sub_0802926C");
+/* [PlaySceneEntityAnimationAndWait] Same state setup as sub_08029174, then yields until actor +0x32, enemy
+ * +0x6E or player +0xB6 is nonzero. Actor path resets completion+32 then at leastoneyield;enemy+6E
+ * andplayer+B6 ARE NOT RESET beforetesting,so stale nonzero completion canreturn immediately (29302/29382)
+ * before newanimationruns. No timeout/cancel or guaranteed complete-new-animation contract. Otherwise sameABI
+ * setup as29174. Original0D368packet/step closure establishesplayerB6meaning only,not an assumption
+ * fromtextcomments. */
 void sub_0802926C_v(u32 target, u16 val)
 {
     if (target > 0x100000) {
@@ -454,6 +479,13 @@ void sub_0802926C_v(u32 target, u16 val)
 }
 /* Same as sub_08029174, but the text is started in its "continue" mode. */
 void sub_0802939C_v(u32 target, u16 val) asm("sub_0802939C");
+/* [LoopSceneEntityAnimation] Same animation request as sub_08029174 with actor +0x34, enemy +0x72 and player
+ * +0xBE set to 1 rather than 0. Player loop behavior is established by the original consumer below. Player
+ * original loopclosed:2939C stores+BE=1;114FA..11508 packsbyte6bit7;123E4..E8 readsloop;12646..54
+ * feeds65370,whichforwardsfifthargto08CC4;08D12..1A nonzeroloopresetsframe0,08D1C..28
+ * zerofreezeslastframeandreturns1. Actor+34/enemy+72writes independentlyconfirmed;their complete
+ * consumerloopcontracts notestablishedinthisreview. All selectors notjustmapobjects
+ * supportedonlyactor/enemy/local. Nameapprovedforclosedplayerpath,otherflagroles stated narrowly. */
 void sub_0802939C_v(u32 target, u16 val)
 {
     if (target > 0x100000) {
@@ -533,6 +565,13 @@ static inline struct ActorPos02949C *find02949C(u32 id)
 }
 /* Turn `who` step by step until it faces `toward` (actor id, enemy 1..5 or
  * local player 0 for both). */
+/* [TurnSceneEntityTowardEntity] Resolves positions of both entity selectors, computes ArcTan2 of their
+ * difference, maps to an eight-direction table, saves original facing into goal, then calls sub_080290E4 in
+ * shortest wrapping steps with two-tick waits until facing the target. Original reads both supported selector
+ * domains actor>0x100000,enemy1..5,local0;invalidnonzero<=0x100000 or missingactor returns. Saves original
+ * direction halfword to actor+26/enemy+A/player+1E;differences narrow signed16
+ * afterfixedcoordinates>>8;ArcTan2 maps16sectors via084790B4 to8directions. Repeated calls290E4 with
+ * wrappingdirection and2-yield helper;021A8 shortens eachwait only,not outerloop cancellation. */
 void sub_0802949C(u32 who, u32 toward)
 {
     struct ActorPos02949C *a;
@@ -762,6 +801,13 @@ void sub_08029788_v(u32 target)
 struct P96C { u16 id; u8 pad2[0x2E]; u32 flags; u8 pad34[0x2C]; u16 f60; u16 f62; u8 pad64[4]; u8 f68; u8 pad69[0x59]; u16 fC2; u16 fC4; u8 tail[0x14C-0xC6]; };
 extern struct P96C players96C[] asm("gUnk_03003CE0");
 #define DRAIN_96C(n) p=&players96C[index]; do { h=(void*)sub_0801E1D8(p,n,100); if(h) {sub_0801DB94(p->id,h,0); asm("":"+r"(h));} } while(h)
+/* [RestoreLocalPlayerVitals] Copies local player maximum fields+0x62 and+0x60 to current HP+0xC4 and MP+0xC2,
+ * marks active byte+0x68=1, clears flags0x2002, then repeatedly finds and reinitializes status records for
+ * types6,7,5,4,2 using lookup key100. Does not claim every status type is cleared or active buffs preserved.
+ * Original2999E..A4 maskFFFFDFFD clears BOTH0x2000 and0x2 (mask2002), not just2000. HP/MP current/max accesses
+ * STRH/LDRH; active+68 isBYTE. Status helper iterations6,7,5,4,2 are distinct original loops with key100
+ * and1DB94(owner,record,0); lookup progress is required for termination and not proven for arbitrary corrupted
+ * status lists. No universal remove-all-status or network acknowledgement contract. */
 void sub_0802996C(void) {
  s32 index; void *h; struct P96C *p;
  index=sub_080020F4();
@@ -777,6 +823,13 @@ extern void initA7C(void*,void*,u16,u16,u32) asm("sub_08069388");
 extern void runA7C(void*,u16,s32,u32,u32,u32) asm("sub_08069080");
 extern u16 valueA7C(u16,u16,void*) asm("sub_08021D00");
 extern u16 scaleA7C(u16,u16,u16) asm("sub_08021C74");
+/* [QueueRandomizedLocalPlayerDamage] For eligible active local player outside scene-stop gates and
+ * states10/11/14, first computes randomized quadratic damage using amount,player+0x5A,200; rolls target status
+ * kind, updates an effect slot if found, applies squared resistance factor, sets state10 and accumulates
+ * resulting halfword into pending damage+0x88. Clears+0x110,+0xC8,+0xCA,+0xE0 and invokes69080
+ * secondary-effect handling. Queues hit state rather than directly decrementing current HP. Original29AD0..B2E
+ * narrows amount, action and setup argument to low16 for arithmetic/status helpers. Eligibility gates
+ * independently verified; pending+88 ADDS with STRH wrap, not HP subtraction. */
 void sub_08029A7C(u32 action,u32 amount,s32 argument)
 {
  u8 result[8]; u8 *res; u8 *player; u32 flags; s32 handle; u16 kind;
@@ -809,6 +862,13 @@ extern void *lookupB98(u8*,u32) asm("sub_0801E104");
 extern void runB98(void*,u16,u32,s32,s32,u32) asm("sub_08069080");
 extern u16 valueB98(u16,u16,void*) asm("sub_08021D00");
 extern u16 scaleB98(u16,u16,u16) asm("sub_08021C74");
+/* [QueueRandomizedEnemyDamage] Checks active-enemy mask, byte1DC and state not10/11, then computes randomized
+ * quadratic damage via21C74(amount low16, defense halfword1CE,200) and applies squared
+ * resistance21D00(action,amount,enemy+218). Initializes effect packet through69388 and optional1DB94 except
+ * enemy class226==3. Sets stateC=10; writes packet target byte from enemy+2, damage half+4 and auxiliary
+ * lowbytes from args5/6, applies hit-motion1F2CC, sets attacker58 to local player, ASSIGNS pending4A and
+ * last4C (does not add), ORs local player bit into5A, calls EnqueueOrMergeLinkHit660EC; display69080 skipped
+ * for class3. */
 void sub_08029B98(s32 index,u32 action,u32 amount,u32 argument,u16 arg4,u16 arg5)
 {
  struct ResultB98 result; struct ResultB98 *res; struct ResultB98 *res1; u8 *object; void *handle;
@@ -840,6 +900,13 @@ extern void extraCEC(u32,u16,u8*) asm("sub_08069224");
 extern void initCEC(void*,void*,u16,u16,u32) asm("sub_08069388");
 extern void runCEC(void*,u16,s32,u32,u32,u32) asm("sub_08069080");
 extern u16 valueCEC(u16,u16,void*) asm("sub_08021D00");
+/* [QueueLocalPlayerDamageAndAttemptResistanceGrowth] Uses same eligible local-player pending-hit route as29A7C
+ * but omits randomized quadratic preprocessing. Applies resistance factor, records action atplayer+0xE0,
+ * calls69224(action,adjustedAmount,save+0x24), sets state10 and accumulates pending damage+0x88;
+ * clears110/C8/CA and invokes69080 secondary effects. Helper69224 probabilistically increments the
+ * corresponding one ofsix resistance progression halfwords with caps; growth is attempted, not guaranteed.
+ * Existing catalog names69224 TryIncreaseEffectResistanceStat; source and original call08029DA0 anchor this
+ * role independently of field alias guesses. */
 void sub_08029CEC(u32 action,u32 amount,s32 argument)
 {
  u8 result[8]; u8 *res; u8 *player; u32 flags; s32 handle; u16 kind;
@@ -870,6 +937,12 @@ extern void initE0C(void*,void*,u16,u16,u16) asm("sub_08069388");
 extern void *lookupE0C(u8*,u32) asm("sub_0801E104");
 extern void runE0C(void*,u16,u32,s32,s32,u32) asm("sub_08069080");
 extern u16 valueE0C(u16,u16,void*) asm("sub_08021D00");
+/* [QueueEnemyDamage] Enemy mask/active1DC/stateC exclusions10/11 as29B98, but NO quadratic randomization:
+ * applies21D00(action low16,amount low16,enemy+218). For class226!=3 initializes69388 packet and optional1DB94
+ * effect; class3 bypasses packet initialization but retains send, so packet effect byte1 may be uninitialized.
+ * Sets stateC10, ASSIGNS pending4A and last4C, fills packet targetbyte from enemy+2, damage+4, auxiliary
+ * lowbytes args5/6. Clears impulse byte2 when bit80 or enemy word210==FF; calls1F2CC, sets attacker58=local
+ * player, sends660EC and displays69080 except class3. Unlike29B98 does not OR local bit5A. */
 void sub_08029E0C(s32 index,u32 action,u32 amount,u32 argument,u16 arg4,u16 arg5)
 {
  u8 zero; struct ResultE0C result; struct ResultE0C *res; struct ResultE0C *res1; u8 *object; void *handle;
@@ -903,6 +976,13 @@ extern u8 *stateF54 asm("gUnk_03005CF4");
 extern void finishF54(void) asm("sub_0800035C");
 extern s32 overlapF54(struct V2W12 *,struct V2W12 *,u32 *,u32 *) asm("sub_08021FE0");
 extern void startF54(struct TaskF54 *,u32) asm("sub_08000274");
+/* [TriggerSceneEventForPlayerRectangleOverlap] Scans replicated player positions against supplied rectangle
+ * center and width/height using08021FE0 with packed player extents0x200018. On overlap searches30 scene event
+ * task slots, retries0x400 stack allocation for the first free slot, starts supplied callback, then
+ * calls0800035C to terminate current task. If no task slot exists it still terminates; it is not a persistent
+ * wait-for-entry helper or guaranteed event delivery. Original performs one scan, returns normally with no
+ * hit; unlikeA080 it does NOT reject packet flag20. Player extents are unsignedhalfwords24x32; supplied
+ * rectangle extents narrowedlow16;21FE0 inclusive AABB. */
 void sub_08029F54(s32 x,s32 y,u32 low,s32 high,volatile u32 callback)
 {
     struct V2W12 center;
@@ -949,6 +1029,13 @@ void sub_08029F54(s32 x,s32 y,u32 low,s32 high,volatile u32 callback)
         index=next;
     }
 }
+/* [ReleaseDeferredEnemyDeathRemoval] Scans five active enemy slots(stride2E0), targets only enemy flags7A
+ * mask8. Sets death/removal timer64=30, flag66=1 and clears7A mask8; no HP or state check and no direct
+ * damage. Semantic closure in matched enemy updater1801C: original1864C health consumer19CE8 result writes
+ * flag66;1865E..70 mask8 suppresses lethal removal by zeroing timer64 andflag66. Original192E8..1934C
+ * whenflag66 nonzero decrements timer64, blinks using predecrement timer mask0x2 under drawgates, then exits
+ * update at zero. Caller502DC source2320..2349 polls19C3C while scene+4 mask0x10 is clear; a set mask forces
+ * wait=1 and prevents this loop from completing. */
 void sub_0802A01C(void)
 {
   u8 *p = gUnk_030056F4;
@@ -971,6 +1058,13 @@ struct PackedA080 {u16 low:4;u16 x:12;u16 y:12;u16 high:4;u8 flags:6;u8 unused:2
 struct RefA080 {struct PackedA080 *position;u8 padding[0x148];};
 extern struct RefA080 refsA080[] asm("gUnk_03003E28");
 extern s32 overlapA080(struct V2W12 *,struct V2W12 *,u32 *,u32 *) asm("sub_08021FE0");
+/* [WaitForAnyPlayerInRectangle] Decodes each player replicated 12-bit XY coordinate into 24.8 values, rejects
+ * flag 0x20, tests sub_08021FE0 against center and supplied width/height with zero player extents, and yields
+ * until any eligible player overlaps. OriginalA084/A092 narrowextentsunsigned16;x/y shifted8 full32.
+ * Playercount02164 checkedoneachiteration,refs03003E28+index14C dereferencedwithoutnull/capacityguard.
+ * Packetlowhalf>>4 isX12bits,secondhalf&FFF isY;byte4mask20excludes.21FE0 inclusiveabsaxes
+ * <=sumunsignedhalfextents/2,hereplayerextents0. ScansALLplayersafterhit,thenALWAYSyields oncebefore
+ * return;zeroplayercountwaitsforever,no timeout/cancel. */
 void sub_0802A080(s32 x,s32 y,u32 low,s32 high)
 {
     struct V2W12 center;
@@ -1008,6 +1102,13 @@ struct TaskP2A1 { u32 f0, f4, f8, fC, f10, f14, f18, f1C, f20, f24; };
 extern u8 *gGS2A1 asm("gUnk_03005CF4");
 extern void sub_08000274_2(void *, u32) asm("sub_08000274");
 void sub_0802A104_v(struct TaskP2A1 *src, u32 idx) asm("sub_0802A104");
+/* [StartSceneEventAfterObjectBreak] Waits for selected scene object state+0x14 to equal12, aborting on scene
+ * flags+0x4 mask0x10; then starts descriptor callback/argument in first free30-slot scene event task pool,
+ * retrying allocation. Object stride0x24 and base0x4B4 mean selector6 addresses first destructible at0x58C.
+ * Full task pool returns without event. Descriptor WORD+C callback andWORD+10argument captured before waiting.
+ * Object address=game+4B4+selector*36 with no bounds guard. State+14 readLDRH. If already12, scene-stop flag
+ * check is bypassed; otherwise scene+4mask10 returns. Full30-slot pool returns, allocation retries without
+ * cancellation after free slot selected. No successful event delivery guaranteed. */
 void sub_0802A104_v(struct TaskP2A1 *src, u32 idx)
 {
     u32 arg = src->f10;
@@ -1042,6 +1143,11 @@ check:
 }
 void sub_080867F8(void);
 
+/* [OpenMonsterCardCatalogAndRestoreScene] Marks menu fade active, requests window hide10 and waits transition
+ * idle, requests map background reload and full-screen menu state, then starts867F8. Saves layer scroll
+ * coordinates, waits on signal11201100, restores scroll/menu flags and waits transition idle again.
+ * Consumer867F8 starts855D4, whose monster-card inventory/count/monster-stat UI and English prompt140542
+ * identify the monster-card catalog screen. */
 void sub_0802A19C(void) {
     s16 *p4;
     s16 *p5;
@@ -1100,6 +1206,13 @@ extern u32 gUnk_08514FAC[];
 extern u32 gUnk_08515FCC[];
 extern u32 gUnk_08517220[];
 extern u32 gUnk_0851810C[];
+/* [RequestSceneMapAreaChange] Requests map update task stop through0800BB40 and yields up to5 ticks, selects
+ * one of24 map-group tables and replaces scene event pointer+0x71C with the selected area descriptor. Map0
+ * calls0800CCDC and resets variant+0x36; other maps call0800CCEC and set scene flags mask0x10. Writes
+ * requested mapID+0 and areaID+0x40, clears transition phase+0x10 and stops scene tasks through28918. No
+ * separate pending descriptor at+0x720 is asserted. Original map argument switch accepts0..23; area argument
+ * is used unchecked as WORD-pointer-table index. Outside switch, still writes HALFWORD game+10=0,
+ * WORD+40=area, HALFWORD+0=low16map and calls28918 while oldtable may remain. */
 void sub_0802A228(u32 arg0, s32 arg1) {
     register u32 *var_r1 asm("r1");
     u32 *var_r3; struct StateA228 *current;
@@ -1242,6 +1355,13 @@ block_30:
 struct ColorA590 {u32 r:5;u32 g:5;u32 b:5;u32 unused:1;};
 extern struct ColorA590 paletteA590[] asm("gUnk_03001F40");
 extern void copyA590(const void *,void *,u32) asm("CpuSet");
+/* [ConvertPaletteBanksToGrayscale] Copies count 32-byte palette banks starting at first from gUnk_03001F40 to
+ * a heap backup; for every 15-bit BGR entry computes the integer mean of the three five-bit channels and
+ * writes that mean into all three channels. Queues palette upload through sub_08000B38 and frees backup.
+ * Originalfirst/count narrowedunsigned16;allocatescount*32 withoutnullcheck andindexes03001F40+first*32
+ * withoutbankbounds. Copy count*8words;sourcepixels readLDR32 at2bytestride,onlylow15bitsused;
+ * RGBarithmeticmeanfloor/3,bit15destinationpreserved bymaskedbyte/halfwordwrites. Calls00B38thenfreesbackup;
+ * no allocationfailure or palettecapacitycontract. FullprimaryC/originalA59C..A62A agree. */
 void sub_0802A590(u16 first,u16 count)
 {
     struct ColorA590 *backup;
@@ -1271,6 +1391,14 @@ void sub_0802A590(u16 first,u16 count)
 extern u8 nameA644[] asm("gUnk_03003CE2");
 extern void clearA644(s32,s32) asm("sub_0801A664");
 extern void drawA644(u8*,s32,u32) asm("sub_0801A3D0");
+/* [DisplayTypewriterNarrationText] Reads resource 0x140000|id after its two-byte header and progressively
+ * draws two 32-byte text rows at tile rows 15 and 17 through QueueTextGlyphTiles. Handles FD end, FF
+ * linebreak, FC zero-terminated player-slot-0 name substitution from gUnk_03003CE2, and FE clear/pause.
+ * Reveals a byte every seven iterations and clears tilemap rows on completion. Original ASM 0802A67E..A684
+ * compares the preincremented counter to 5 (0..5 skipped, 6 consumed); 0802A6C8..A704 reads the
+ * zero-terminated substitution bytes at 03003CE2. OriginalA67E..684 preincrementvalue>5
+ * meansoneencodedbyte/actionevery7outeriterations;FE180-yieldpause021A8can
+ * shorten;postFDunconditional180-yieldholdthen clear(15,4),oneyield. */
 void sub_0802A644(s32 id)
 {
  u8 text[0x80]; u8 *stream,*line; u32 row,column,tick,i,y;  u16 wait; u8 nameIndex; u8 *names;
@@ -1312,6 +1440,12 @@ extern void sub_0805DC1C(s32,s32,s32,s32);
 extern void sub_0808899C(void);
 extern void sub_0802A590(u16,u16);
 extern void sub_0802A644(s32);
+/* [RunEndingEpilogue] Sets local-player flag masks one and two at separate stages, activates scene flag0x200,
+ * desaturates palette banks, configures display blend/window registers, runs four narration text resources
+ * 0x49A..0x49D, fades out, stops actor tasks and transitions to sub_0808899C. English resources14049A..49D
+ * identify the ending epilogue: peace returns to Klantol Castle, King Marcel/Queen/Camille praise the named
+ * hero, and final resource49D reads The End... OriginalA8CA..DE invokes49A..49D and
+ * ownEnglishROM=ELFpayloadreceiptsconfirmrestoredKlantolpeace,KingMarcel,Queen,Camille,andliteralTheEnd. */
 void sub_0802A7DC(void)
 {
   u16 wait;
@@ -1407,6 +1541,12 @@ void sub_0802A7DC(void)
 
   sub_0808899C();
 }
+/* [FindCharacterNameStartingBonusIndex] Searches thirteen name resources 0x140533 through 0x14053F in
+ * ascending order. Compares resource halfwords beginning at +2, terminated by halfword 0x00FF, against current
+ * character name bytes beginning at save +0. Requires all compared symbols to match and the saved name to
+ * contain byte 0xFD at exactly that length. Returns the first matched resource index 0..12, or -1. Does not
+ * hash/randomize a name, change stats itself, enforce a maximum name length or validate resource
+ * pointers/terminators. */
 s32 sub_0802A9B0(void) {
     u32 var_r5 = 0x533;
     register u8 **seqAddr asm("r6");
@@ -1477,6 +1617,13 @@ extern void sub_080308B4(void);
 extern void sub_08030B28(void);
 extern void sub_08044EB4(void);
 extern void sub_08045B68(void);
+/* [InitializeProgressionActorScene] Branches on progression byte+0x1B3/+0x1BF: value10 becomes5 and runs
+ * sub_08042BB0; values>1 create resource0x3003D, install progression dialog callback and restore screen;
+ * values0/1 create configured actors0x20,0x1F,0x13,0xA,0x3F plus progression-selected
+ * actor0x1003B/0x3A/0x2003C/0x3003D/0x40040. Binds callbacks through15-slot scans, selects scenes from
+ * low10bit progression XOR saved word, updates progression flags, sometimes changes scene(0,3), otherwise
+ * attempts background actor tasks. Task pool30 full skips startup,0x400 allocation retries; missing actor
+ * handles skip configuration after one yield; unsupported selector can leave handle unspecified. */
 void sub_0802AA28(void) {
     struct Slot27 { u8 pad[0x20]; void *data; u32 off24; };
     s32 sp0;
@@ -2508,6 +2655,11 @@ extern void sub_08045660(void);
 extern void sub_08056538(void);
 extern void sub_08059168(void);
 extern void sub_0805990C(void);
+/* [InitializeObjectTwentyScene] Creates scene objects with literal kinds0x14,0x15,0x20039,0x1C and
+ * conditional0x60017/0x28; configures interaction records and callbacks. Starts30-slot support tasks with
+ * allocation retry, conditionally checks inventories for item1:0x29, schedules callback work, and runs
+ * optional message0x140482/player-position sequence. Missing object searches yield once and skip writes;
+ * argument-block task allocations are unchecked. */
 void sub_0802B8A4(void) {
     struct Args028B8A4 args;
     void (*argsCb0)(void), (*argsCb1)(void);
@@ -3097,6 +3249,13 @@ doneArgs1:;
 struct Task028C144 { u32 f0,f4,f8,fC,f10,f14,f18,f1C,f20,f24; };
 struct Args028C144 { s32 x,y; u16 a,b; void (*callback)(void); u32 zero, pad; };
 extern u8 *gs028C144 asm("gUnk_03005CF4");
+/* [PromptCastleExitToWorldMap] Locks local player flag1 viaD0F4, waits dialogue idle, opens1404E3 and waits
+ * completion. Original English resource explicitly warns that entering a location from World Map removes
+ * castle floor items, retry gate and angel, then asks Go to the World Map. Nonzero result selects player
+ * animation8, faces0 and moves relative(0,+32) over duration parameter20. Zero result faces4/moves(0,-20),
+ * re-registers a5A874 rectangle trigger at fixedpoint(F000,1C000), dimensions64x8, with this same callback;
+ * searches30eventslots and does not check malloc result before pointer arithmetic. Both tails clearflag1
+ * viaD108 and set localplayerstate0. */
 void sub_0802C144(void) {
     struct Args028C144 args;
     u32 result;
@@ -3180,6 +3339,11 @@ extern void sub_08031B54(void);
 extern void sub_08031CB8(void);
 extern void sub_08031D88(void);
 extern void sub_08031E58(void);
+/* [InitializeItemCollectionMenuActors] Creates five resource0x20039 interaction actors at literal coordinates
+ * and binds menu selectors5/6 plus other interaction callbacks. Progression byte+0x1B9/+0x1C5 bit5 selects
+ * alternate resource7/8/6 arrangement and menu1 callback. Every slot lookup scans15 records stride0x70, yields
+ * once and skips mutation if absent. Actor allocations are not checked separately; final screen transition
+ * restore waits idle. */
 void sub_0802C2A0(void) {
  s32 handle, cb, mode; register s32 bits asm("r1"); register s32 value asm("r0"); s32 *p, *res, *res2; u32 i; u8 *flag;
  handle=sub_080289C0(0x20039,0x1A8,0xCF);
@@ -3289,6 +3453,13 @@ extern void sub_08035B18(void);
 extern void sub_080368F4(void);
 extern void sub_080376CC(void);
 extern void sub_08044D1C(void);
+/* [InitializeActorCProgressionScene] Progression byte+0x1B3/+0x1BF selects actor0xC or0x9000C and associated
+ * callbacks; value1 starts boundary monitor, value0 starts intro task. Configures actors0x1E,0x2D,0x1D with
+ * independent asynchronous tasks and resource5 with interaction callback; optional resource6 and0xF depend
+ * progression bits. Resource0x4002B receives normal/alternate-mode callback. Slot scans15 skip missing
+ * handles; task scans30 skip full pool, retry0x400 stack allocation. Entry value1 waits fade and unlocks local
+ * player/input; other branches restore screen only. Unsupported progression values can leave primary handle
+ * unspecified. */
 void sub_0802C674(void) {
     register void (*var_r4_7)(void) asm("r4");
     s32 *var_r0_10;
@@ -3921,6 +4092,13 @@ s32 sub_0801AB24(void);
 void sub_080576A8(void);
 void sub_0801AB50(s32);
 void sub_0801AB90(s32);
+/* [CreateRestInteractionSceneActor] Creates kind0x2000D actor at pixel(440,96), sets interaction dimensions8x4
+ * and flag0x10 and callback08037B04. That callback faces the player, displays resource1401DF asking whether
+ * the named player needs rest, branches on yes and runs a rest animation/restore sequence. No inn location or
+ * character name is inferred. Original independently confirms two separate searches of15 actor records
+ * (stride0x70, word ID compare). Missing search yields once and skips the corresponding write; first search
+ * writes halfword extents+18/+1A and word+3C OR10, second writes callback WORD+44. It does not return an actor
+ * handle or success result. */
 void sub_0802CF84(void) {
     s32 *var_r1;
     u32 var_r2;
@@ -3991,6 +4169,9 @@ extern s32 sub_0801AB24(void);
 extern void sub_080576A8(void);
 extern void sub_0801AB50(s32);
 extern void sub_0801AB90(s32);
+/* [InitializeObjectFortyEightGroup] Creates kinds0x30,0x20039 and0x5002A at fixed coordinates; found records
+ * get dimensions8/4, flag0x10 and respective callbacks. Each lookup scans15 records; missing match yields once
+ * and skips writes. If scene gate is clear, selects existing transition route and waits for transition idle. */
 void sub_0802D050(void) {
     s32 *var_r1;
     u32 var_r2;
@@ -4126,6 +4307,13 @@ found6:
         }
     }
 }
+/* [CreateLesterSceneActor] Creates kind0x31 actor at pixel(382,102), sets interaction extents8x4 and flag0x10,
+ * installs dialogue callback08030F54 at actor+44 and restores screen transition state. Callback consumes
+ * story-dependent texts163..16E; original163 explicitly introduces Lester, a guard at Klantol Castle.
+ * Independent original confirms kind/coordinates, two separate15record word-ID searches, extents STRH+18/+1A,
+ * flags WORD+3C OR10 and callback WORD+44. A missing lookup yields once and skips only its write; no
+ * creation-success result or capacity guarantee. Transition helper selection waits1AAE0 without timeout. D200
+ * Thumb literal30F55 connects Lester self-introduction163, not inferred solely from actor31. */
 void sub_0802D200(void) {
     s32 *var_r1;
     u32 var_r2;
@@ -4196,6 +4384,11 @@ extern void sub_08059CEC(void);
 extern void sub_08059DA0(void);
 struct TaskP29D2 { u32 f0, f4, f8, fC, f10, f14, f18, f1C, f20, f24; };
 extern void taskStart29D2(void *, u32) asm("sub_08000274");
+/* [InitializeFiveSceneActors] Creates resources0x2C/0x15/0x20016/0x47/0x70010 at fixed positions, attempts
+ * a0x400-stack callback task for the first actor, and sets extents8/4, flag0x10 and callbacks on matched slots
+ * for the other four. Task allocation retries; full pool skips startup and failed slot searches yield then
+ * skip writes. Finally restores the screen by transition mode and waits for idle when permitted; no input lock
+ * is acquired. */
 void sub_0802D2C8(void) {
     s32 *var_r1;
     u32 var_r2;
@@ -4389,6 +4582,10 @@ found8:
 extern void sub_0803145C(void);
 extern void sub_08031580(void);
 extern void sub_08033650(void);
+/* [InitializeTwinObjectFortyNine] Creates two kind0x31 objects at fixed positions and installs distinct
+ * callbacks. Mode-selected save flag2 enables additional kind0x10034. Found records get dimensions8/4 and
+ * flag0x10; missing matches yield once and skip writes. Clear scene gate triggers selected transition and idle
+ * wait. */
 void sub_0802D568(void) {
     s32 *var_r1;
     u32 var_r2;
@@ -4530,6 +4727,13 @@ found6:
         }
     }
 }
+/* [CreateGalicSceneActor] Creates kind0x48 actor at pixel(88,64), sets interaction extents8x4 and flag0x10,
+ * installs callback080399E4 and restores screen transition state. The callback selects texts173..17E;
+ * original173 self-introduces Galic guarding the entrance and complains about hunger. Independent original
+ * confirms kind/coordinates, two separate15record word-ID searches, extents STRH+18/+1A, flags WORD+3C OR10
+ * and callback WORD+44. A missing lookup yields once and skips only its write; no creation-success result or
+ * capacity guarantee. Transition helper selection waits1AAE0 without timeout. D73C Thumb399E5 connects Galic
+ * self-introduction173, not inferred solely from actor48. */
 void sub_0802D73C(void) {
     s32 *var_r1;
     u32 var_r2;
@@ -4593,6 +4797,13 @@ found2:
         }
     }
 }
+/* [CreateAzieSceneActor] Creates kind0x23 actor at pixel(64,70), sets interaction extents8x4 and flag0x10,
+ * installs callback080316A4 and restores screen transition state. Callback text18B self-introduces Azie as a
+ * traveling apprentice for the smith; further18C..18D explain fusing materials and smith payment. Independent
+ * original confirms kind/coordinates, two separate15record word-ID searches, extents STRH+18/+1A, flags
+ * WORD+3C OR10 and callback WORD+44. A missing lookup yields once and skips only its write; no
+ * creation-success result or capacity guarantee. Transition helper selection waits1AAE0 without timeout. D800
+ * Thumb316A5 connects Azie self-introduction18B, not inferred solely from actor23. */
 void sub_0802D800(void) {
     s32 *var_r1;
     u32 var_r2;
@@ -4662,6 +4873,10 @@ extern void sub_0803B720(void);
 extern void sub_0803BC3C(void);
 struct TaskP29D8 { u32 f0, f4, f8, fC, f10, f14, f18, f1C, f20, f24; };
 extern void taskStart29D8(void *, u32) asm("sub_08000274");
+/* [InitializeObjectFiftyFourGroup] Creates kinds0x36,0x40027,0x35 plus0xB0036/0xC0036. Configures first three
+ * found records and callbacks, and starts helper task for first object from30-slot pool with0x400 allocation
+ * retry. Full task pool silently skips start; missing lookups skip writes after yield. Clear scene gate
+ * selects transition and waits idle. */
 void sub_0802D8C4(void) {
     s32 *var_r1;
     u32 var_r2;
@@ -4823,6 +5038,11 @@ extern void sub_080595E0(void);
 extern void sub_0805968C(void);
 extern void sub_08059738(void);
 extern void sub_080597E4(void);
+/* [InitializeSixVariant19Actors] Creates six fixed-position
+ * resources0x50019/0x40019/0x70019/0x19/0x4001B/0x10019 and binds their literal callbacks after separate
+ * fifteen-slot searches; matched slots receive extents8/4 and flag0x10. Failed searches yield once and skip
+ * writes, actor creation success is unchecked. Restores screen by transition mode and waits idle when
+ * permitted. */
 void sub_0802DAF0(void) {
     s32 *var_r1;
     u32 var_r2;
@@ -5075,6 +5295,10 @@ extern void sub_08045E38(void);
 extern void sub_0802939C(s32, s32);
 struct TaskP30DE { u32 f0, f4, f8, fC, f10, f14, f18, f1C, f20, f24; };
 extern void taskStart30DE(void *, u32) asm("sub_08000274");
+/* [InitializeObjectThirtySevenGroup] Creates kind0x25 and configures callback; flag-selected branch either
+ * loops animation1 or starts helper task. Another flag branch creates/configures0x40029 or starts alternative
+ * task. Always creates kind0x33 callback object. Lookup failures skip writes after yield; task starts retry
+ * allocation or skip when pool full. Ends with gated transition/idle wait. */
 void sub_0802DE0C(void) {
     u8 **base;
     u8 **bs;
@@ -5277,6 +5501,10 @@ extern void sub_0803AD74(void);
 extern void sub_08059374(void);
 extern void sub_0803AE6C(void);
 extern void sub_0802939C(s32, s32);
+/* [InitializeSixMixedSceneActors] Creates six fixed-position resources0x38/0x10022/0x31/0x60019/0x32/0x60018,
+ * binds literal callbacks and slot extents/flags after fifteen-slot searches, and sets animations9/3 on the
+ * third/sixth actors. Failed searches yield once and skip writes; creation success unchecked. Restores screen
+ * by transition mode and waits idle when permitted. */
 void sub_0802E110(void) {
     s32 *var_r1;
     u32 var_r2;
@@ -5527,6 +5755,9 @@ extern void sub_08045F44(void);
 extern void sub_08046F28(void);
 extern void sub_08046490(void);
 extern void sub_080469DC(void);
+/* [InitializeObjectSixtySixGroup] Creates five fixed-position kinds0x42,0x44,0x45,0x46,0x43; attaches distinct
+ * callbacks, dimensions and flag0x10 only to found records. First dimensions0x50/4, others8/4. Each missing
+ * lookup yields once and skips writes. Clear scene gate selects screen transition route and waits idle. */
 void sub_0802E444(void) {
     s32 *var_r1;
     u32 var_r2;
@@ -5735,6 +5966,13 @@ found10:
     }
 }
 extern void sub_08033C40(void);
+/* [CreateJensenSceneActor] Creates kind0x9000C actor at pixel(292,123), sets its interaction dimensions8x4 and
+ * flags0x10, and installs callback08033C40 at actor+44. The callback selects story-dependent dialogue
+ * including resource1401B6, whose original English text explicitly introduces the speaker as Jensen and offers
+ * banana juice. Original independently confirms two separate searches of15 actor records (stride0x70, word ID
+ * compare). Missing search yields once and skips the corresponding write; first search writes halfword
+ * extents+18/+1A and word+3C OR10, second writes callback WORD+44. It does not return an actor handle or
+ * success result. */
 void sub_0802E6E0(void) {
     s32 *var_r1;
     u32 var_r2;
@@ -5803,6 +6041,10 @@ extern void sub_08059C38(void);
 extern void sub_08059B84(void);
 extern void sub_08059E54(void);
 extern void sub_08059F08(void);
+/* [InitializeFiveResourceInteractionActors] Creates resources0x70023,0x1A,0x1004A,0x31,0x32 at fixed
+ * coordinates and assigns callbacks sub_08058EF8/08059C38/08059B84/08059E54/08059F08. Each configuration
+ * searches15 actor records, sets extents8x4/interaction flag0x10 and callback if found; missing lookup yields
+ * once and skips update. Restores screen transition and waits idle. No allocation-failure branch. */
 void sub_0802E7AC(void) {
     s32 *var_r1;
     u32 var_r2;
@@ -6013,6 +6255,11 @@ found10:
 extern void sub_0803C008(void);
 extern void sub_08031F28(void);
 extern void sub_080290E4(s32, s32);
+/* [InitializeObjectThirtyThreeGroup] Creates kind0x21 and8 callbacks and loops second animation2; hides
+ * selector6 at9999,9999 when savebit/playercount gate holds. Nonzero input positions player. Input1 counts
+ * eleven completion bits and shows changed-count messages0x1401EA..1F3, setting0x80000 at eleven; input2
+ * shows1F4. Cases1/2 set/clear player flag1 around sequence; message abort gate closes UI. Other inputs only
+ * gated transition wait. */
 void sub_0802EA50(s32 arg0) {
     s32 *var_r1;
     u32 var_r2;
@@ -6341,6 +6588,10 @@ extern void sub_0802F424(s32);
 struct TaskP30F2 { u32 f0, f4, f8, fC, f10, f14, f18, f1C, f20, f24; };
 extern void taskStart30F2(void *, u32) asm("sub_08000274");
 struct Entry30F2 { u8 pad[12]; u16 state; u8 end[0x2E0 - 14]; };
+/* [RunObjectThirtyThreeRelease] Clears mode-selected byte mask0x8, sets player flag1 and creates kind0x21;
+ * transitions, signals0x09999000, runs timed animation/message0x1401F9 sequence and starts helper task
+ * from30-slot pool with allocation retry. Full pool skips helper. Clears player flag1, resets active actor
+ * state12 to0 and calls19F04 on normal exit. */
 void sub_0802F208(void) {
     s32 *var_r1_2;
     s32 *var_r2_2;
@@ -6440,6 +6691,14 @@ tail_body:
     sub_08019F04();
 }
 
+/* [MoveSceneActorOutAndDespawn] Selects animation5 and requests relative movement offset(40,100) pixels in
+ * single-player or(0,100) multiplayer with duration parameter60, then resolves actor byID and writes
+ * state+0x36=4. The movement helper quantizes the interpolation step as1024/60, so neither exactly60
+ * iterations nor exact final displacement is asserted. The actor updater stops on state4 and clears actorID,
+ * proving despawn. Only found actor gets STRH+36=4 after movement; absent actor yields once and returns.
+ * Nonactor selectors can still make animation/movement helper calls but do not establish actor deletion.
+ * Original284F4 exits loop on state4 and clears WORD ID, closing deferred despawn; helper itself only requests
+ * it. */
 void sub_0802F424(s32 arg0) {
     s32 *var_r1;
     u32 var_r2;
@@ -6477,6 +6736,13 @@ found:
     }
 }
 extern void sub_0803C3C8(void);
+/* [CreateTempleOfLightAttendantSceneActor] Creates kind0x2E actor at pixel(268,135), sets interaction
+ * dimensions8x4/flag0x10 and callback0803C3C8. Callback resource140203 describes Temple of Light, four
+ * sacrificial items and guidance; yes invokes0803C4C0, whose resource140205 says NAME says a prayer. Exact
+ * character personal name and priest title are not inferred. Original independently confirms two separate
+ * searches of15 actor records (stride0x70, word ID compare). Missing search yields once and skips the
+ * corresponding write; first search writes halfword extents+18/+1A and word+3C OR10, second writes callback
+ * WORD+44. It does not return an actor handle or success result. */
 void sub_0802F4B0(void) {
     s32 *var_r1;
     u32 var_r2;
@@ -6542,6 +6808,10 @@ found2:
 }
 extern u8 *gState2F578 asm("gUnk_03005CF4");
 extern void cb2F578(void) asm("sub_0805990C");
+/* [ShowObjectThirtyTwoDialogue] Sets local player flag1, chooses message by highest set progress bit256..1 or
+ * default. Bit8 branch additionally tests byte mask0x1 and, when byte mask0x80 set, requests
+ * callback5990C(0x16), waits up to100 yields and returns without clearing flag1 or calling D108. Other exits
+ * clear flag1 and restore input helper; UI abort closes active dialog. */
 void sub_0802F578(void)
 {
     register u32 offset asm("r2");
@@ -6685,6 +6955,13 @@ void sub_0802F578(void)
 
 
 extern u8 *gState2FA80 asm("gUnk_03005CF4");
+/* [RunQueenYvonneDialogue] Full matching body6648..end and complete original2FA80..2FEA0 read. Sets local
+ * player flags bit0 and callsD0F4. Chooses scene word+7C whenCE30 is nonzero, else+74; priority bits8 down to0
+ * select resource1400C4 down to1400BC, no tested bit selects1400BB. Each branch waits5F184 and5EF90 with
+ * yields, starts fixed-layout dialogue5DF38(1,15,2,0,-1,resource), then waits5EEFC. CDF8 during that final
+ * wait invokes5EFBC and exits wait. Common cleanup reloads current local-player index, clears bit0 and
+ * callsD108. Initial busy waits lack this abort test; no guaranteed progress, successful allocation/display or
+ * preservation of prior bit0 state is claimed. */
 void sub_0802FA80(void)
 {
     register u32 offset asm("r2");

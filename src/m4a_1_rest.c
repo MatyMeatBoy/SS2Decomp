@@ -4,6 +4,8 @@ register u32 sdkR2 asm("r2");
 register u32 sdkR3 asm("r3");
 register u32 sdkWideRepeat asm("r12");
 void sub_080B69D8(void) __attribute__((naked));
+/* [ply_patt] Checks patternLevel<3, saves cmdPtr+4 at patternStack[level], increments level, tails goto;
+ * overflow tails fine. */
 void sub_080B69D8(void)
 {
     u32 threshold = 3;
@@ -24,6 +26,8 @@ stop:
 }
 
 void sub_080B69AC(void);
+/* [ply_pend] If level>0, decrements level and restores saved cmdPtr; bx lr at6A06. Semantic body20B ends6A08;
+ * configured68B container also holds rept46B and2B alignment. */
 void sub_080B69F4(void)
 {
     sdkR2 = sdkTrack->patternLevel;

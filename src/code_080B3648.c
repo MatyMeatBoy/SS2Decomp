@@ -93,6 +93,11 @@ void dropEndB3648(void *, s32) asm("sub_0801E4CC");
 s32 doorB3648(void *, void *) asm("sub_0805C620");
 s32 exitB3648(s32, s32, void *) asm("sub_08066490");
 
+/* [RunLinkedTargetContactActor] Initializes actor slot1 and four sprites, follows shared paired center until
+ * linked actor HP clears, then team/fade transition enables independent player pursuit, aimed point travel
+ * with virtual height offset, landing-radius and animation-frame offset contacts. Actor-id synchronization
+ * gates phases. Death clears mask/collision sizes, queues remote fullHP damage, runs finish/experience; host
+ * drop predicate may retry queued item spawn until admission or transition. No door/exit identity inferred. */
 void sub_080B3648(void)
 {
     struct AnimB3648 anim[4];
@@ -583,6 +588,9 @@ struct Player0B44F0 { u8 p0[0x20]; u16 state; u8 p22[0xE]; u32 flags; u8 p34[0x3
 extern struct Player0B44F0 players0B44F0[] asm("gUnk_03003CE0");
 extern u16 hit0B44F0(void *, void *) asm("sub_0801ED8C");
 s32 sub_080B44F0_v(struct Boss0B44F0 *b, s32 ox, s32 oy, u16 range) asm("sub_080B44F0");
+/* [ApplyOffsetRadiusPlayerHit] Tests distance strictly below the unsigned radius around object position plus
+ * supplied offsets; after pause/lifecycle/serial gates writes player state 10 and marker 0xFFFE, adds the hit
+ * helper result, records and increments the object serial, and returns one; otherwise returns zero. */
 s32 sub_080B44F0_v(struct Boss0B44F0 *b, s32 ox, s32 oy, u16 range)
 {
     s32 hit;
@@ -637,6 +645,10 @@ extern void sel0B4690(s32) asm("sub_08097A38");
 extern void aim0B4690(struct Vec0B4690, struct Vec0B4690, struct Vec0B4690 *) asm("sub_08097978");
 extern void hurt0B4690(s32, s32, s32) asm("sub_08029CEC");
 /* Projectile task: fly from beside the boss towards a player, hurting the local player on contact. */
+/* [RunDelayedAimedDamageProjectile] Waits low-halfword index times 48, picks an origin side from facing or
+ * shared mode and aims once at a selected packed player position; advances at one-and-a-half velocity for 241
+ * iterations, applies distance-23 queued damage requests with a 16-step cooldown and serial updates, then
+ * clears the indexed task control+8. */
 void sub_080B4690(u32 a0, u32 a1)
 {
     struct Anim0B4690 anim;
@@ -751,6 +763,9 @@ struct B4A7CPlayer {
 extern struct B4A7CPlayer playersB4A7C[] asm("gUnk_03003CE0");
 extern u8 sub_08095FC8(s32, s32, s32, s32);
 struct B4A7CTarget { s32 x, y; };
+/* [AimSelectedPlayerAtTarget] For an active selected player outside states 11/14/12 and flag 0x2000, derives
+ * an eight-direction result toward the supplied fixed-point position and writes halfwords +0xCC=0x240 and
+ * +0xC8=8; all rejected paths leave those fields unchanged. */
 void sub_080B4A7C(struct B4A7CTarget target)
 {
     struct B4A7CPlayer *player;
@@ -798,6 +813,8 @@ void sub_080B4A7C(struct B4A7CTarget target)
     dst = &player->time;
     *dst = 8;
 }
+/* [AllocateDelayedAimTaskPool] Allocates 0xA0 bytes into gUnk_030007D0; on success clears +8 in four 0x28-byte
+ * controls. Allocation failure leaves the global null. */
 void sub_080B4B48(void)
 {
   u8 var_r2;
@@ -817,6 +834,8 @@ void sub_080B4B48(void)
 extern void sub_08000274_1(u32) asm("sub_08000274");
 extern void sub_08000274_2(void *, u32) asm("sub_08000274");
 extern u8 *gP030007D0 asm("gUnk_030007D0");
+/* [ReleaseDelayedAimTaskPool] Null global returns early; otherwise cancels four scheduled controls, frees
+ * gUnk_030007D0 and clears it. */
 void sub_080B4B7C(void)
 {
     u8 *e;
@@ -831,6 +850,9 @@ void sub_080B4B7C(void)
     gP030007D0 = (u8 *)i;
 }
 extern void sub_080B4690();
+/* [StartDelayedAimProjectile] Null pool returns; scans four controls for unscheduled plus word0;
+ * allocation0x400 failure returns. Installs delayed-aim callback with no destructor, writes u16 argument+0x40
+ * and forwards byte kind plus u16 index. */
 void sub_080B4BB8(u8 a, u16 arg)
 {
   struct TaskP *t;
@@ -937,6 +959,13 @@ static inline s32 ABS4C34(s32 x) { if (x < 0) x = -x; return x; }
         sub_080003F0();                                                                                \
     } while (0)
 
+/* [RunChargeCycleProjectileEncounter] Initializes the actor and palette, waiting for palette availability with
+ * active-bit cleanup on session/area abort. Synchronizes phases and cycles charge preparation, player-target
+ * pursuit with decaying speed and timeout, recovery, type13 projectile request and conditional encoded-event
+ * selection/relocation. Calls the cycle-indexed attack helper during charge phases and updates
+ * animation/damage feedback. On death/session/area exit clears its active bit, stops the auxiliary task,
+ * dispatches remote full-HP damage, synchronizes the completion token, shows resource0x1400A7 and runs
+ * transition/reward feedback when eligible; finally synchronizes and marks the encounter finished. */
 void sub_080B4C34(struct Act4C34 *a)
 {
     struct AnimB3648 anim;
@@ -1328,6 +1357,10 @@ extern struct Player0B5B90 players0B5B90[] asm("gUnk_03003CE0");
 extern struct Boss0B5B90 *boss0B5B90 asm("gUnk_030007DC");
 extern s32 atan0B5B90(s16, s16) asm("ArcTan2");
 /* Damage and knock back the player when it touches the boss. */
+/* [RequestTypedBossContactDamage] Within distance 19 and active/lifecycle/pause/player gates, dispatches
+ * sub_08029A7C by byte kind and game mode, writes player marker and records/increments boss serial, then
+ * applies direction, magnitude 0x400 and counter 8; returns 0x28 on application or zero on rejection. It does
+ * not reject previously seen serials. */
 u32 sub_080B5B90(u8 kind)
 {
     u8 k;
@@ -1426,6 +1459,9 @@ extern struct Boss0B5E64 *boss0B5E64 asm("gUnk_030007DC");
 extern s32 hit0B5E64(void *, void *) asm("sub_0801EF14");
 extern s32 atan0B5E64(s16, s16) asm("ArcTan2");
 /* Damage and knock back every active enemy that touches the boss. */
+/* [ApplyPrimaryActorContact] Scans active entries 1 through 4 within distance 19 of the primary actor; with
+ * lifecycle/pause/serial gates satisfied, writes state 10, adds the hit helper result, advances the primary
+ * actor serial and applies outward direction, speed 0x400 and counter 8. */
 void sub_080B5E64(void)
 {
     struct Enemy0B5E64 *e;
@@ -1487,6 +1523,9 @@ extern s16 gTable5F94[] asm("gUnk_080B9704");
 extern void setScreen5F94(u32, u32, u32) asm("sub_080009C0");
 extern void setScroll5F94(u32, s32, u32) asm("sub_0800BBD8");
 extern void draw5F94(u32, u32, u32, u32, u32, u32) asm("sub_0800903C");
+/* [RunDualBackgroundScroll] Resets two ticks and a flag, then yields forever while conditionally scrolling
+ * backgrounds 1 and 3 in opposite horizontal directions and writing table-derived blend parameters; a shared
+ * flag changes the scroll increments and blend-parameter base. */
 void sub_080B5F94(void)
 {
     u32 x;
@@ -1540,6 +1579,9 @@ struct Display6068 { u8 pad[0x30]; u16 item30; u16 pad32; u16 item34; u16 pad36;
 extern struct Display6068 gDisplay6068 asm("gUnk_03001250");
 extern void setScreen6068(u32, u32, u32) asm("sub_080009C0");
 extern void resetScreen6068(u32, u32, u32) asm("sub_080009F8");
+/* [UpdateDualWindowTransition] Stops and clears tracked audio, sets the shared transition flag, conditionally
+ * configures display state, increments an eight-bit tick and writes two window ranges; returns zero through
+ * tick 119, otherwise resets display state and returns one. */
 u32 sub_080B6068(void)
 {
     register volatile u8 *tickPtr asm("r1");
@@ -1573,6 +1615,9 @@ extern u32 gMask60F4 asm("gUnk_030056FC");
 extern u8 *gIcons60F4 asm("gUnk_030056F4");
 extern u16 gArray60F4[] asm("gUnk_030007D4");
 void clearTask60F4(void) asm("sub_080B60F4");
+/* [StopTaskRestoreActorFlags] If stored task pointer is null returns without other writes. Otherwise stops it
+ * when active, frees task-control allocation, clears pointer, sets actor+0x7A bit0 for active entity slots1..4
+ * and clears two stored halfword actor keys. Returns without an explicit completion wait. */
 void clearTask60F4(void)
 {
     u8 **task = &gTask60F4;
@@ -1615,6 +1660,12 @@ extern void show0B6178(u32, u32) asm("sub_0801A0BC");
 /* The position is passed by value as an 8-byte struct (r0/r1 copied as one pair), like sub_080B2058. */
 struct PosB6178 { s32 x, y; };
 void sub_080B6178_v(struct PosB6178 pos) asm("sub_080B6178");
+/* [RunAlternateImpactSpawn] Disables combat targeting for the global actor, animates resource 0x50020 at the
+ * supplied position with sound 0x1A5 and yield iterations; the source loop continues while animation result is
+ * zero or the post-increment counter exceeds 59. If actor field 0x5C and sub_08002204 permit, scans two
+ * actor-key slots, requests an enemy spawn into the first absent slot, calls the actor-key team setter with 3
+ * and waits for active actor presence. Restores actor combat team 2 and clears task control+8 on normal exit.
+ * Spawn definition is 0x084ABA10 with high/low selector-byte nibbles. */
 void sub_080B6178_v(struct PosB6178 pos)
 {
     struct Spr0B6178 s;
@@ -1673,6 +1724,8 @@ void sub_080B6178_v(struct PosB6178 pos)
     unlock0B6178(ptr0B6178);
     task0B6178->f8 = 0;
 }
+/* [CleanupPackedSpawnScrollActor] If actor +0x5C is nonzero, releases packed-spawn-effect task and scroll
+ * task; always clears peer rings, active mask and palette slot. */
 void sub_080B6324(void) {
     if (M2C_FIELD(gUnk_030007DC, s16 *, 0x5C) != 0) {
         sub_080B60F4();
@@ -1682,6 +1735,8 @@ void sub_080B6324(void) {
     gUnk_030056FC = 0;
     sub_08016ECC(gUnk_030007E0);
 }
+/* [ReleaseStagedDualScrollTask] Resets six-argument display effect; cancels gUnk_030007E4 if scheduled; frees
+ * and clears control only if nonnull. */
 void sub_080B6360(void) {
     sub_0800903C(0, 0, 0, 0, 0, 0);
     if (sub_08000470(gUnk_030007E4) != 0) {
@@ -1692,12 +1747,15 @@ void sub_080B6360(void) {
         gUnk_030007E4 = 0;
     }
 }
+/* [AllocateDualScrollBlendControl] Exact allocation and initialization body. */
 void sub_080B63A0(void)
 {
   s32 temp_r0;
   gUnk_030007E4 = (temp_r0 = (s32) sub_08001494(0x28U));
   *((s32 *) (((s8 *) temp_r0) + 8)) = 0;
 }
+/* [StartStagedDualScrollTask] Returns only for unscheduled control with nonzero +8; writes0x44, allocates0x400
+ * without null check, installs staged-scroll callback and registers task. */
 void sub_080B63BC(void)
 {
     u32 mem;
@@ -1713,6 +1771,8 @@ void sub_080B63BC(void)
     t->f24 = 0;
     sub_08000274_3((u32)t, 0, 0);
 }
+/* [AllocatePackedSpawnEffectTask] Zeros two halfword handles, allocates one 0x28-byte task control and clears
+ * +8 only on success. */
 void sub_080B640C(void)
 {
     u8 i;
@@ -1727,6 +1787,8 @@ void sub_080B640C(void)
     if (p != 0)
         *(u32 *)(p + 8) = 0;
 }
+/* [StartPackedSpawnEffect] Returns for null control, scheduled control, nonzero +8 or failed0x400 allocation.
+ * Installs packed-selector position effect with word0x3B and forwards two words to scheduler. */
 void sub_080B6448(u32 a, u32 b)
 {
     register u32 first asm("r6") = a;
@@ -1754,6 +1816,8 @@ void sub_080B6448(u32 a, u32 b)
     second = b;
     sub_08000274_4(taskArg, first, second, z);
 }
+/* [FlagFourActorEntries] ORs bit 0 into halfword +0x7A of actor-array entries 1 through 4 at stride 0x2E0;
+ * does not test the connected-entry mask. */
 void sub_080B64A4(void)
 {
     register void *volatile *base asm("r4");

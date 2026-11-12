@@ -190,6 +190,8 @@ done:
 INCLUDE_ASM("asm/nonmatchings/m4a_1_vsync", MPlayMain);
 #endif
 void sub_080B6DD0(u32 channel) __attribute__((naked));
+/* [SoundCallR3Veneer] Executable body is bx r3 (2 bytes), followed by 2 bytes alignment and 12 bytes literal
+ * pool. Shared indirect-call veneer, not a dedicated MPlayMain handler. */
 void sub_080B6DD0(u32 channel) { asm("bx r3"); }
 const u8 *const tableLiteral asm("_080B6DD4") A = cgbTable;
 struct SoundInfo **const infoLiteral asm("_080B6DD8") A = &sdkInfo;

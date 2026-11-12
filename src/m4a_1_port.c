@@ -9,6 +9,8 @@ register unsigned int sdkLink asm("lr");
 void sub_080B69AC(void);
 void sub_080B69AE(void);
 void sub_080B6B24(void) __attribute__((naked));
+/* [ply_port] First operand unguarded register offset; byte write to0x04000060+offset; second operand guarded
+ * via69AE, cmdPtr advances2. */
 void sub_080B6B24(void) {
  sdkSavedReturn=sdkLink;
  sdkTemp=(u32)sdkTrack->cmdPtr;

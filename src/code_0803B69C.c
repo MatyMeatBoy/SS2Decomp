@@ -1,5 +1,7 @@
 #include "global.h"
 
+/* [CycleActorHorizontalRoute] Requests looping8, relative movement-10 over600, nonloop8/-4 over10, then
+ * looping9. */
 void sub_0803B69C(s32 arg0) {
     u16 n;
     for (;;) {
@@ -24,6 +26,9 @@ void sub_0803B69C(s32 arg0) {
         sub_08028D98(arg0, 14, 0, 20);
     }
 }
+/* [ShowProgressionDialogs333] Locks local player/input and prepares actor; progression byte1BA/1C6 bit2
+ * overrides with140158, otherwise highest completion bit0..9 chooses14014E..140157 with14014D fallback. All
+ * message waits permit cancellation; restores actor and clears both locks after selection. */
 void sub_0803B720(s32 arg0) {
     register u32 offset asm("r2");
     u8 *p;
@@ -160,6 +165,11 @@ static inline void t39_bc3c_init(struct T39BC3CItem *p,u32 id,u32 kind) {registe
 static inline void t39_bc3c_clear(u8 *p) {register u32 i asm("r4")=0;register u8 *out asm("r1")=p;do {out[i]=0;i++;}while(i<=11);}
 static inline u32 t39_bc3c_one(void) {return 1;}
 
+/* [ExchangeItemFortyEight] When mode-selected byte mask0x1 is clear, displays message28B and host with
+ * inventory type1:id0x30 removes one matching item, sets entity animation/state3, attempts inventory insertion
+ * of one descriptor6:0x52 or1:0x63 by mode, requests callback5990C(8), then shows result. Completed-bit path
+ * shows28F. Player flag1/input helper are restored on normal exit; dialog abort only closes dialog, not whole
+ * transaction. Inventory insertion return is ignored; consumed inputs are not restored on insertion failure. */
 void sub_0803BC3C(u32 arg0) {
  struct T39BC3CItem req;
  u8 unused[16];
@@ -243,6 +253,11 @@ while(!sub_0805EEFC((void *)msg)) {if(sub_0800CDF8()) {sub_0805EFBC();break;} su
 struct T39C008Item {u16 id,pad;s32 count;u32 a,b;};
 static inline s32 t39_c008_byte(u8 *p) { return *p; }
 static inline s32 t39_c008_test(s32 value,u32 one) { return (value>>3)&one; }
+/* [SpendHundredCurrencyDialogue484] Locks input; multiplayer shows0x1401F5. In single player, progression
+ * byte+0x1B9/+0x1C5 bit3 already set shows0x1401E9. Otherwise asks0x1401E3, possibly repeats0x1401E5 until
+ * zero choice, then asks0x1401E4. Response1 sums currency id10 across25 bag slots and15*storagePages records;
+ * total>99 shows0x1401E6, hides actor6, calls SpendInventoryCurrency(100) and sets bit3. Insufficient total
+ * shows0x1401E8, other response0x1401E7. Clears locks; no rollback if spender outcome differs. */
 void sub_0803C008(void) {
     register u32 offset asm("r2");
     u8 *p,*q;
@@ -313,6 +328,12 @@ while(!sub_0805EEFC((void *)msg)) {if(sub_0800CDF8()) {sub_0805EFBC();break;} su
     sub_0800D108();
 }
 extern void sub_0803C4C0(void);
+/* [RunTempleOfLightAttendantDialogue] Sets local player flags bit 0 (input suppression) and
+ * BeginLocalPlayerEventLock, with no facing change. Waits for a free dialogue-task slot, asks 0x140203 with
+ * timing -2 and waits for completion without an abort test. When DialogueSelectionIsZero returns 1, it calls
+ * EnqueueLinkGuardedSceneCallbackTask(sub_0803C4C0, 0, 0) (result ignored) and returns at once, leaving local
+ * flag bit 0 and the event lock set for the requested callback. Otherwise it shows 0x140204 with the usual
+ * slot waits and IsWorldTaskSuspendRequested abort, clears local flag bit 0 and calls EndLocalPlayerEventLock. */
 void sub_0803C3C8(void) {
     u32 msg;
     u8 *p;
@@ -342,6 +363,10 @@ void sub_0803C3C8(void) {
     *(u32 *)(p + 0x30) &= ~1;
     sub_0800D108();
 }
+/* [StageDialogs517Then516] Locks input, fades screen, closes dialog, positions actor0 at x236 plus multiplayer
+ * offset and y160, sets direction4/animation0, waits30, restores screen, clears scene word+0x6C bit0,
+ * shows0x140205, waits200 ticks, invokes sub_0805CDF8, shows cancellable0x140204, unlocks and resets local
+ * player state0. */
 void sub_0803C4C0(void) {
     s32 x;
     u16 n;
@@ -406,6 +431,11 @@ static inline void t39_c698_store(u32 value) {register u32 shifted asm("r0");u32
  if(sub_0800CE30()) {base=(u8 *)gUnk_03005CF4;off=0x1C2;} else {base=(u8 *)gUnk_03005CF4;off=0x1B6;}
  *(base+off)=v;
 }
+/* [BuyProgressiveItem24] Locks player/input and sets actor animation2, shows140292 and asks a tier-dependent
+ * choice140296..14029F from progression byte1B6/1C2. Nonzero response totals kind10 quantities across
+ * bag/storage, requires100*(tier+1) and a nonnegative slot query, debits via7C014 and submits item1/24,
+ * incrementing tier unless9. Refusal, insufficient total or no slot show distinct dialogs. Restores animation0
+ * and unlocks; insertion result ignored, unsupported tier leaves response unspecified in C. */
 void sub_0803C698(s32 arg0) {
  struct T39C698Req req;
  u8 unused[16];
@@ -502,6 +532,10 @@ while(!sub_0805EEFC((void *)msg)) {if(sub_0800CDF8()) {sub_0805EFBC();break;} su
  offset=sub_080020F4();offset*=0x14C;p=(u8 *)gUnk_03003CE0+offset;
  *(u32 *)(p+0x30)&=~1;sub_0800D108();
 }
+/* [ConfirmProgressStageAdvance] Sets player flag1, faces entity and picks yes/no message0x1404EE..4F7 from
+ * highest progress bit256..1/default. Confirmation ORs next bit into mode-selected progress word; noninitial
+ * stages also write lower-bit mask to state+0x50. Decline leaves progress unchanged. Restores entity29788 and
+ * player flag/input helper; waits have no abort branch. */
 void sub_0803CC50(s32 arg0) {
     u8 **var_r2;
     u8 **gp3;
@@ -726,6 +760,9 @@ block_119:
 extern void sub_0802949C(s32,s32);
 extern void sub_08029788(s32);
 extern u8 *gStateD1F8 asm("gUnk_03005CF4");
+/* [AskDialogue1272Then1273] Locks local player and input, prepares passed actor, asks two sequential choices
+ * 0x1404F8 and 0x1404F9. Nonzero responses independently set progression byte +0x1B8/+0x1C4 bits6 and7 and
+ * play sound0x32 unless muted. Restores actor and unlocks. Choice waits have no cancellation path. */
 void sub_0803D1F8(s32 arg0) {
  register s32 offset asm("r2");
  u8 *p;
@@ -767,6 +804,7 @@ void sub_0803D1F8(s32 arg0) {
 extern void sub_0802949C(s32, s32);
 extern void sub_08029788(s32);
 extern u8 *gStateD36C asm("gUnk_03005CF4");
+/* [ConfirmDialogueAndSetProgress] Begins input/event locks and turns actor toward local player. */
 void sub_0803D36C(s32 arg0) {
     register s32 offset asm("r2");
     u8 *p;
@@ -805,6 +843,10 @@ void sub_0803D36C(s32 arg0) {
 }
 
 extern u8 *gStateD454 asm("gUnk_03005CF4");
+/* [AskSequentialDestinationUnlocks] Locks player/input and prepares actor, asks1404FB..140503 sequentially;
+ * each nonzero response sets current-mode availability bits1..9 respectively and may play sound0x32, while the
+ * first zero stops later choices. Calls5C7B8(0), restores actor and unlocks on all handled exits; no
+ * cancellation branch in choices. */
 void sub_0803D454(s32 arg0) {
  register s32 offset asm("r2");
  u8 *p;
@@ -905,6 +947,12 @@ static inline u8 *findD99C(u32 arg) {
  for(i=0;i<15;i++,p+=0x70) if(*(u32 *)p==key) return p;
  sub_080003F0(); return 0;
 }
+/* [StageVariantActorDialogueScene] Locks input, creates resource0x6000D with callback, positions local actor
+ * by player index, clears flagbit1 and enqueues flags, restores screen. Shows cancellable0x1401E1 twice around
+ * timed player poses; attempts30-slot task sub_0805A9F4(0x1E00043) with retry stack allocation. Performs more
+ * poses/moves, shows0x1401E2, builds zero-payload(kind1,value6) record and retries sub_08067B9C
+ * at(0x3B00,0x7D00) until accepted. Unlocks and resets player halfword+0x11E; no timeout and full task pool
+ * skips effect. */
 void sub_0803D99C(void) {
     struct CmdD99C cmd;
     register s32 offset asm("r2");
@@ -1115,6 +1163,13 @@ static inline void setDE84(u32 arg) {
     }
     else {register u32 off asm("r0");off=sub_080020F4()*0x14C;p=(u8 *)gUnk_03003CE0+off;*(u16 *)(p+0x11E)=value;}
 }
+/* [RunBokenAreaEntryEvent] Sets local player flags bit 0 (input suppression) and BeginLocalPlayerEventLock.
+ * Spawns actor A with SpawnSceneObjectAndWaitForStartupStateChange(0xF, 0x42, 0xC0), sets its extents 8x4 and
+ * record flag 0x10, loops its animation 0x14 and faces it in direction 7. Moves selector 1 to (0x270F, 0x270F)
+ * at once and places selector 0 by local ID (0: 0x10A,0xC0; 1: 0x11A,0xB0; 2: 0x11A,0xD0; 3: 0x12A,0xC0).
+ * RequestScreenBrightnessFadeIn(0x1E), then waits for IsScreenTransitionIdle. Shows narration 0x1404E4 when
+ * LinkCountConnectedPlayers is 1, otherwise 0x1404E5 (timing 45). Selector 0 animates (8), faces 2, moves by
+ * (-0xA6, 0) over 0x96 with MoveSceneEntityByOffset and returns to animation 0. */
 void sub_0803DE84(void) {
     register s32 offset asm("r2");
     s32 sp14;
@@ -1315,6 +1370,8 @@ taskCheck:
 
 struct E510Player { u8 pad[0x20]; u16 value; };
 extern void sub_08029174(s32, s32);
+/* [RunActorMessage1257] Sets local-player flag0/event lock, requests player animation0 and actor facing toward
+ * selector0. */
 void sub_0803E510(s32 arg0) {
     register s32 offset asm("r2");
     u8 *p;
@@ -1346,6 +1403,8 @@ void sub_0803E510(s32 arg0) {
 }
 
 
+/* [IncrementSceneBarrierArrivalCount] Reads advanced+0x1C1 or normal+0x1B5, increments into u8, then queries
+ * mode again to store. */
 void sub_0803E5D8(void)
 {
     u8 next;
@@ -1371,6 +1430,13 @@ extern void cameraE638(s32,s32) asm("sub_0800BB80");
 extern void musicE638(u32) asm("sub_08006CD0");
 static inline u8 *findE638(u32 input) {register u32 key asm("r9")=input;u8 *p=gStateE638+0x7A4;u32 i;for(i=0;i<15;i++,p+=0x70) if(*(u32 *)p==key) return p;sub_080003F0();return 0;}
 static inline u8 testE638(u32 value,u32 mask) {u32 result=value&mask;if(result)result=1;return result;}
+/* [StageDialogue1147Through1152] Clears config halfword+0x68 and calls sub_0805AD78(0), locks player/input,
+ * creates resources0x20/0x37/0x40031, positions player by multiplayer index and pans camera. Runs
+ * dialogs0x14047B..480 with actor movements and songs, sets scene word+0x38 bit0, schedules local-player0
+ * callbacks and scene-bit-selected background sequence, waits task disappearance then bit1. Task scans30 skip
+ * full pool and retry stacks; selected task pointer is unspecified if pool exhausted before wait. Finishes
+ * fade, marks actor slot state4, clears scene bit0, waits60 and changes scene to(12,2). Input lock is not
+ * locally cleared before scene transition. */
 void sub_0803E638(void) {
     s32 out[4];
     u8 *setPointerE638;
@@ -1672,6 +1738,10 @@ setReadyE638:
 
 struct SignedEE88 {u8 pad[0x80];s16 x,y;};
 extern void cameraEE88(s32,s32) asm("sub_0800BB80");
+/* [RunPairedObjectIntroSequence] Sets player flag1, creates kinds0x20/0x31, moves local player to
+ * index-dependent position and pans camera for player1..3. Waits transitions and message0x140481, marks found
+ * records field+0x36=4, sets mode-selected bytebit1, calls scene transition2A228(0,0), then restores player
+ * flag/input helper. Missing object lookups yield once and skip field writes. */
 void sub_0803EE88(void) {
     s32 actor1,actor2; s32 out[6]; union {s32 all;struct {u16 low;s16 high;} half;} tx1,ty1,tx2,ty2,tx3,ty3; s32 step; u32 poolOffset; register s32 offset asm("r2"); s32 player;
     s32 temp_r6;
@@ -1816,6 +1886,7 @@ loop_38:
 
 
 
+/* [MovePlayerUpwardAfterDelay] Initial30-count signal wait may end early on link error. */
 void sub_0803F18C(s32 arg0) {
     u16 n;
     u8 *q;
@@ -1846,6 +1917,8 @@ void sub_0803F18C(s32 arg0) {
     q = (u8 *)gUnk_03003CE0 + sub_080020F4() * 0x14C;
     *(u16 *)(q + 0x20) = 0;
 }
+/* [RunActorAnimationSoundTriplet] Three29174(arg,16) requests each conditionally start85, followed after10
+ * by29174(arg,10); countdowns58,58,40. */
 void sub_0803F210(s32 arg0) {
     u16 n;
 
@@ -1921,6 +1994,8 @@ void sub_0803F210(s32 arg0) {
         n--;
     }
 }
+/* [RunActorHorizontalShakeSequence] Literal movement/animation order and loop counter1..9 establish finite
+ * shake sequence; no outer loop. */
 void sub_0803F348(s32 arg0) {
     u16 var_r5;
     u16 var_r5_2;
@@ -1962,6 +2037,11 @@ struct TaskF454 {u32 f0,f4,f8;u32 fC;u8 *f10;u32 f14,f18,f1C;u8 *f20;u32 f24;};
 static inline u32 normF454(u32 input) {register u32 value asm("r0")=input<<16;return value>>16;}
 static inline u32 incF454(u32 input) {register u32 value asm("r0")=input+1;return (u16)value;}
 static inline u32 decF454(u32 n) {register u32 value asm("r0")=n-1;return (u16)value;}
+/* [DispatchSceneMotionPhase] Dispatches cases0..14 into timed player animations/motion, projectile effects,
+ * state+0x38 bits, object0x460049 spawning/marking and recursive local/remote task requests.30-slot local
+ * helper starts retry allocation or skip when full; missing object searches skip mark. All cases including
+ * unknown input end by clearing local player state+0x20. Timed waits can break on21A8; no narrative event
+ * identity inferred. */
 void sub_0803F454(u32 arg0) {
     register u32 n asm("r4"); register u32 loopIndex asm("r5"); s32 *var_r1_2; u32 callback;
     s32 temp_r0_4;
@@ -2259,6 +2339,11 @@ while (n != 0) {sub_080003F0();if(sub_080021A8())break;n=decF454(n);}
 }
 static inline u32 firstFE34(u8 *base) {u32 bit=1;register u32 result asm("r0")=*(u32 *)(base+0x38);result &= bit;if(result)result=1;return result;}
 static inline u8 testFE34(u32 value, u32 mask) {u32 result=value & mask; if(result)result=1;return result;}
+/* [OscillateSevenActorsUntilGate] Creates seven actors using
+ * resources0x10033,0x60022,0x34,0x10026,0x7002A,0x1000D,0x15; repeatedly queues vertical -4/+4 motion over4
+ * until scene word+0x38 bit0 becomes set. Then waits the same bit becomes clear and searches15 actor slots for
+ * each created handle, setting halfword+0x36=4 when found. Full searches yield once and skip missing handles;
+ * no allocation success test. */
 void sub_0803FE34(void) {
     s32 sp0; register u32 one asm("sl"); u32 mask; u32 bits; u32 bits2; u8 *base;
     s32 sp4;
@@ -2428,6 +2513,9 @@ loop_48:
 }
 extern void camera400D4(s32, s32) asm("sub_0800BB80");
 struct Signed400D4 { u8 pad[0x80]; s16 x, y; };
+/* [PanCameraDialogue225] Locks input, positions actor0 by local-player index at y245, sets
+ * direction4/animation0, waits30 and restores screen. Moves actor north117 over117, pans camera to(0,-24),
+ * shows cancellable0x1400E1, pans camera back(0,0), calls sub_0800CFA4, unlocks and sets local player state0. */
 void sub_080400D4(void) {
     s32 out[4];
     register s32 *py asm("r5");
@@ -2501,6 +2589,9 @@ endSwitch:
 
 extern void camera402F4(s32, s32) asm("sub_0800BB80");
 struct Signed402F4 { u8 pad[0x80]; s16 x, y; };
+/* [PanCameraDialogue236] Locks input, positions actor0 by local-player index at y128, sets direction4, clears
+ * local player flag bit1 and calls sub_08067D74. Waits2 ticks, restores screen, pans to(0,-24), shows
+ * cancellable0x1400EC, pans back(0,0), clears player bit0 and unlocks input. */
 void sub_080402F4(void) {
     s32 out[4];
     register s32 *py asm("r6");
@@ -2571,6 +2662,9 @@ endSwitch:
 }
 extern void camera40530(s32, s32) asm("sub_0800BB80");
 struct Signed40530 { u8 pad[0x80]; s16 x, y; };
+/* [PanCameraDialogue237] Locks input, positions actor0 by local-player index at y128, sets direction4, clears
+ * local player flag bit1 and calls sub_08067D74. Waits2 ticks, restores screen, pans to(0,-24), shows
+ * cancellable0x1400ED, pans back(0,0), clears player bit0 and unlocks input. */
 void sub_08040530(void) {
     s32 out[4];
     register s32 *py asm("r6");
@@ -2642,6 +2736,12 @@ endSwitch:
 extern void t42_camera(s32,s32) asm("sub_0800BB80");
 extern void sub_080308B4(void);
 struct T42Cam { u8 pad[0x80]; s16 x,y; };
+/* [StageReplacementActorCameraDialogs] Locks player/input, positions actor0 by player index, clears player
+ * flagbit1 and pans to(0,-24) using step10. Progression byte1B8/1C4 bit6 chooses parallel dialog
+ * sequences1400EE..1400F1 or1400F2..1400F5; both pan to(0,48), create/move resource36, mark supplied actor and
+ * temporary actor state4 if found, and create40040 with308B4 callback/extents8/16. Sets progression
+ * byte1B2/1BE=4, returns camera to0 using step34 and unlocks. Creation failures unchecked; missing slots yield
+ * and skip writes. */
 void sub_0804076C(s32 arg0) {
     s32 out[12];
     s32 flagResult;
@@ -3065,6 +3165,12 @@ loop_174:
 extern void t42b_camera(s32,s32) asm("sub_0800BB80");
 struct T42bCam { u8 pad[0x80]; s16 x,y; };
 extern void sub_08058F4C(void);
+/* [StageActorProgressionDialogueSequence] Locks input, creates resource0x1003B and progression callback,
+ * clears progression selector byte, positions player, enqueues flags and pans camera using interpolation
+ * increments10/34. Byte+0x1B8/+0x1C4 bit6 chooses dialogs0x1400F6..FA orFB..FE, both create/move actor0x4002F
+ * and passed actor with pose4. True branch moves saved actor and removes new actor, sets word+0x78/+0x80 bit4;
+ * false branch leaves new actor with callback and sets byte+0x1B9/+0x1C5 bit0. Both set byte bit5 and
+ * unlock.15-slot lookup failures yield and skip changes. */
 void sub_08041030(s32 arg0, s32 arg1) {
     s32 out[12];
     s32 saved;
@@ -3584,6 +3690,11 @@ static inline void t43_flag1b7c(u8 *p, u32 mask) {
  u32 bits = mask;
  *(u32 *)(p+0x3c) = value | bits;
 }
+/* [ReplaceProgressionActorDialogueScene] Locks input, schedules multiplayer-dependent actor movement, sets
+ * actor0 direction4, marks passed actor state4, creates/configures resource0x1003B with progression dialog
+ * callback and clears selector byte+0x1B2/+0x1BE. Clears player flagbit1 and enqueues flags, waits2 signal1
+ * waits, restores transition, interpolates camera to(0,-24) with increment10, shows cancellable0x1400FF,
+ * returns camera with increment34 and unlocks. Actor lookup15-slot misses yield and skip writes. */
 void sub_08041B7C(s32 arg0) {
     struct T43Slot1b7c *var_r1_2;
     struct T43Slot1b7c *var_r2_3;
@@ -3680,6 +3791,10 @@ static inline void t43_move1e8c(s16 step, s16 tx, s16 ty) {
   sub_080003F0();
  }
 }
+/* [PanCameraDialogue256] Locks input, schedules player-dependent actor movement, sets actor0 direction4,
+ * clears player flag bit1 and calls sub_08067D74. Waits2 ticks, restores screen, pans to(0,-24) using
+ * interpolation increment10 through a0..1024 loop, displays cancellable0x140100, pans back using increment34
+ * through the same interpolation range, then clears player bit0 and unlocks. */
 void sub_08041E8C(void) {
     s32 temp_r0_2;
     u16 var_r4;
@@ -3761,6 +3876,10 @@ static inline s32 t43_test20c8(void) {
  s32 value = *t43_select20c8();
  return (value >> 7) & one;
 }
+/* [PanCameraPairedProgressDialogs] Locks player/input, positions actor0 by player index, clears player
+ * flagbit1 and restores transition after a two-tick interruptible wait. Pans to(0,-24) using interpolation
+ * step10, shows cancellable140102 when progression byte1B8/1C4 bit7 is set or140101 otherwise, pans back using
+ * step34, then clears both locks. */
 void sub_080420C8(void) {
     s32 temp_r0_2;
     u16 var_r4;
@@ -3856,6 +3975,10 @@ static inline void t43_move2390(s16 step, s16 tx, s16 ty) {
   sub_080003F0();
  }
 }
+/* [PanCameraDialogue259] Locks input, schedules player-dependent actor movement, sets actor0 direction4,
+ * clears player flag bit1 and calls sub_08067D74. Waits2 ticks, restores screen, pans to(0,-24) using
+ * interpolation increment10 through a0..1024 loop, displays cancellable0x140103, pans back using increment34
+ * through the same interpolation range, then clears player bit0 and unlocks. */
 void sub_08042390(void) {
     s32 temp_r0_2;
     u16 var_r4;
@@ -3959,6 +4082,10 @@ static inline u8 *t43_select25cc(void) {
  if (sub_0800CE30() != 0) return (u8 *)gUnk_03005CF4+0x1BE;
  return (u8 *)gUnk_03005CF4+0x1B2;
 }
+/* [ReplaceObjectAfterDialogue] Sets player flag1, positions local player by local index, updates facing/flag2
+ * and transition state, pans camera and shows messages0x140104/105. Marks input object for removal, creates
+ * kind0x2003C with callback308B4 and dimensions8/16 when found, restores camera, writes selected state2 and
+ * clears player flag1/input helper. Missing lookups skip writes; dialog abort closes only current message. */
 void sub_080425CC(s32 arg0) {
     struct T43Slot25cc *var_r1_2;
     struct T43Slot25cc *var_r2_3;
@@ -4081,6 +4208,11 @@ static inline u8 *t43_select2938(void) {
  if (sub_0800CE30() != 0) return (u8 *)gUnk_03005CF4+0x1BE;
  return (u8 *)gUnk_03005CF4+0x1B2;
 }
+/* [ReplaceActor3ADialogue262] Locks input, schedules player-dependent actor placement, sets actor0 direction4,
+ * marks passed actor matching slot state4, creates actor0x3A at(120,82), configures slot extents8/16 and
+ * flag16, assigns sub_080308B4 callback, sets progression byte1, clears player flag bit1, waits2 ticks,
+ * restores transition, pans(0,-24), shows0x140106. Returns with player flag bit0 and input lock still set; no
+ * cleanup here. */
 void sub_08042938(s32 arg0) {
     struct T43Slot2938 *var_r0;
     struct T43Slot2938 *var_r1_2;
@@ -4258,6 +4390,14 @@ check:
  p->f8=60; p->fc=callback; p->f10=mem+0x3fc; p->f24=0;
  sub_08000274((u32)p,0);
 }
+/* [StagePairedActorDialogueScene] Resets scene camera mode, starts song0x189 and creates/configures
+ * resources0x20/0x1F/0x13/0xA/0x3A with callbacks. Locks player, positions by multiplayer index, enqueues
+ * flags, restores transition and pans camera to(0,-24). Clears progression byte+0x1BA/+0x1C6 bit4,
+ * shows0x140206, fades then creates additional
+ * resources0x9000C/0xD/0x36/0x40007/0x50008/0x30006/0xF-or0x14000F and two0x41 actors. Binds callbacks
+ * via15-slot lookups, starts boundary task via30 slots with retry allocation, restores camera and unlocks.
+ * Then waits until byte bit4 is set; other players close dialog on completion. No timeout; full pool can skip
+ * monitor. */
 void sub_08042BB0(void) {
     struct T43Slot2bb0 *var_r2_11;
     struct T43Slot2bb0 *var_r2_14;
@@ -4505,6 +4645,7 @@ extern u8 players35C4[] asm("gUnk_03003CE0");
 extern u8 heights35C4[] asm("gUnk_03003D70");
 struct Pos35C4 { s32 x, y; };
 extern s32 move35C4(void *, void *, void *, void *) asm("sub_08021FE0");
+/* [TaskSnapPlayerToHeight237] Initializes player point size0 and target Q8 position120/240. */
 void sub_080435C4(void)
 {
     struct Pos35C4 position;
@@ -4553,6 +4694,10 @@ void reaction4385044(void) asm("sub_08043850");
 extern u8 *state44 asm("gUnk_03005CF4");
 extern u8 players44[] asm("gUnk_03003CE0");
 void sub_08043664_ptr(void *) asm("sub_08043664");
+/* [ChooseDialogue519ActorSequence] Locks local player and input. If progression byte +0x1BA/+0x1C6 bit4 is
+ * clear, local player0 is asked choice0x140207; nonzero choice queues sub_0805990C(28), shows
+ * cancellable0x140208 and queues sub_08043850 with argument; zero shows0x140209. Other players show0x14020A.
+ * Unlocks even when gate already set; queue completion is not awaited. */
 void sub_08043664_ptr(void *arg0)
 {
     u8 *player;
@@ -4656,6 +4801,10 @@ static inline void t44_markActor(u32 actor)
         *(u16 *)(player+0x11E)=one;
     }
 }
+/* [RunActor41TimedAnimationSequence] Finds first active actor resource0x41 among15 slots (returns handle0 if
+ * absent). Finds actor through t44_findActor, applies direction/animation sequence with
+ * waits30,60,60,60,30,10,60,250; marks actor, sets states6 then7 around last wait and invokes sub_0802A7DC.
+ * Finally sets local player flag bit0 and calls sub_0800D0F4; intentionally ends with input locked. */
 void sub_08043850(void)
 {
     u8 *player;
@@ -4687,6 +4836,8 @@ void sub_08043850(void)
 }
 extern u8 *state44 asm("gUnk_03005CF4");
 extern u8 players44[] asm("gUnk_03003CE0");
+/* [ShowEventGatedMessage523] Chooses advanced+0x1C6 or normal+0x1BA and tests bit4, equivalent to event28 in
+ * banks+0x1C3/+0x1B7. */
 void sub_08043A4C(void)
 {
     u8 *flag;
@@ -4728,6 +4879,8 @@ void sub_08043A4C(void)
         sub_0800D108();
     }
 }
+/* [ShowEventGatedMessage524] Selects advanced+0x1C6 or normal+0x1BA, tests bit4: persistent event28, without
+ * changing it. */
 void sub_08043B20(void)
 {
     u8 *flag;
@@ -4769,6 +4922,8 @@ void sub_08043B20(void)
         sub_0800D108();
     }
 }
+/* [ShowEventGatedMessage525] Selects advanced+0x1C6 or normal+0x1BA, tests bit4: persistent event28, without
+ * changing it. */
 void sub_08043BF4(void)
 {
     u8 *flag;
@@ -4810,6 +4965,8 @@ void sub_08043BF4(void)
         sub_0800D108();
     }
 }
+/* [ShowEventGatedMessage526] Selects advanced+0x1C6 or normal+0x1BA, tests bit4: persistent event28, without
+ * changing it. */
 void sub_08043CC8(void)
 {
     u8 *flag;
@@ -4851,6 +5008,8 @@ void sub_08043CC8(void)
         sub_0800D108();
     }
 }
+/* [ShowEventGatedMessage527] Selects advanced+0x1C6 or normal+0x1BA, tests bit4: persistent event28, without
+ * changing it. */
 void sub_08043D9C(void)
 {
     u8 *flag;
@@ -4892,6 +5051,8 @@ void sub_08043D9C(void)
         sub_0800D108();
     }
 }
+/* [ShowEventGatedMessage528] Selects advanced+0x1C6 or normal+0x1BA, tests bit4: persistent event28, without
+ * changing it. */
 void sub_08043E70(void)
 {
     u8 *flag;
@@ -4933,6 +5094,8 @@ void sub_08043E70(void)
         sub_0800D108();
     }
 }
+/* [ShowEventGatedMessage531] Selects advanced+0x1C6 or normal+0x1BA and tests bit4, equivalent to event28 in
+ * persistent banks. */
 void sub_08043F44(void)
 {
     u8 *flag;
@@ -4974,6 +5137,8 @@ void sub_08043F44(void)
         sub_0800D108();
     }
 }
+/* [ShowEventGatedMessage532] Selects advanced+0x1C6 or normal+0x1BA and tests bit4, equivalent to event28 in
+ * persistent banks. */
 void sub_08044018(void)
 {
     u8 *flag;
@@ -5015,6 +5180,8 @@ void sub_08044018(void)
         sub_0800D108();
     }
 }
+/* [ShowEventGatedMessage533] Selects advanced+0x1C6 or normal+0x1BA and tests bit4, equivalent to event28 in
+ * persistent banks. */
 void sub_080440EC(void)
 {
     u8 *flag;
@@ -5056,6 +5223,9 @@ void sub_080440EC(void)
         sub_0800D108();
     }
 }
+/* [ShowDialogue529Or530] Returns if progression byte +0x1BA/+0x1C6 bit4 is set. Otherwise locks local player
+ * and scene input, selects message 0x140211 when +0x1B9/+0x1C5 bit2 is set or 0x140212 otherwise; waits with
+ * cancellation support and clears both locks. It does not set the tested progression bits. */
 void sub_080441C0(void)
 {
     u8 *flag;
@@ -5122,6 +5292,8 @@ void sub_080441C0(void)
     *(u32 *)(player + 0x30) &= ~1;
     sub_0800D108();
 }
+/* [ShowEventGatedMessage534] Selects advanced+0x1C6 or normal+0x1BA and tests bit4, equivalent to event28 in
+ * persistent banks. */
 void sub_08044318(void)
 {
     u8 *flag;

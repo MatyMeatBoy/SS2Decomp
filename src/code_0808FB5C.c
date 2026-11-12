@@ -45,6 +45,8 @@ extern u32 gUnk_03000230;
 typedef void (*Handler)(void);
 
 extern u32 tableFB5C[] asm("gUnk_0850DE28");
+/* [UpdateHeightLimitedMap12Scene] Checks scene initialization halfword +0x10 and calls the common initializer
+ * when zero. */
 u32 sub_0808FB5C(u32 arg)
 {
     u8 *base;
@@ -70,6 +72,8 @@ u32 sub_0808FB5C(u32 arg)
 fail:
     return 0;
 }
+/* [UpdateMap12SceneExit] Checks scene initialization halfword +0x10 and calls the common initializer when
+ * zero. */
 u32 sub_0808FBDC(u32 arg0)
 {
     u8 *gs;
@@ -98,6 +102,8 @@ extern struct Display8FC5095 display8FC5095 asm("gUnk_03003170");
 extern void callbackA8FC5095(void) asm("sub_080B4C34");
 extern void callbackB8FC5095(void) asm("sub_080B6324");
 extern void callbacks8FC5095(void (*)(void),void (*)(void)) asm("sub_0801674C");
+/* [UpdateSceneExitWithMessages] Initial branch marks encounter, initializes scene and starts actor taskB4C34
+ * with destructorB6324, then marks encounter again. */
 u32 sub_0808FC50(u32 arg)
 {
     struct State8FC5095 **holder=&state8FC5095;
@@ -139,6 +145,7 @@ u32 sub_0808FC50(u32 arg)
     }
     return 0;
 }
+/* [ShowMessagesAndRequestExit] Begins local player event and stops enemy tasks on line 145. */
 void sub_0808FD88(void) {
     u32 i;
     sub_0805795C();
@@ -161,6 +168,7 @@ extern void callbackFE0495(void) asm("sub_0805CB8C");
 extern void installFE0495(u32,void (*)(void)) asm("sub_08057328");
 extern void startFE0495(s32) asm("sub_0802704C");
 extern void modeFE0495(s32) asm("sub_080570DC");
+/* [UpdateCallbackSceneExit] Exit path checks initialized scene and exit predicate; otherwise returns 0. */
 s32 sub_0808FE04(s32 arg)
 {
     s32 stride;
@@ -209,6 +217,8 @@ s32 sub_0808FE04(s32 arg)
     installFE0495(0,callbackFE0495);
     return 0;
 }
+/* [UpdateMap15SceneExit] Checks scene initialization halfword +0x10 and calls the common initializer when
+ * zero. */
 u32 sub_0808FEB8(u32 arg0)
 {
     u8 *gs;
@@ -227,6 +237,8 @@ u32 sub_0808FEB8(u32 arg0)
     }
     return 0;
 }
+/* [UpdateMap16SceneExit] Checks scene initialization halfword +0x10 and calls the common initializer when
+ * zero. */
 u32 sub_0808FF28(u32 arg0)
 {
     u8 *gs;
@@ -245,6 +257,8 @@ u32 sub_0808FF28(u32 arg0)
     }
     return 0;
 }
+/* [UpdateMap17SceneExit] Checks scene initialization halfword +0x10 and calls the common initializer when
+ * zero. */
 u32 sub_0808FF98(u32 arg0)
 {
     u8 *gs;
@@ -263,6 +277,7 @@ u32 sub_0808FF98(u32 arg0)
     }
     return 0;
 }
+/* [UpdateMap18SceneExit] Checks initialization halfword and initializes through common helper when zero. */
 u32 sub_08090008(u32 arg0)
 {
     u8 *gs;
@@ -291,6 +306,8 @@ struct Display9007C95 {u8 p0[0x8C];u16 x,p8E,y;};
 extern struct State9007C95 *state9007C95 asm("gUnk_03005CF4");
 extern struct Display9007C95 display9007C95 asm("gUnk_03003170");
 extern u32 table9007C95[] asm("gUnk_08513680");
+/* [UpdateEncounterMap19SceneExit] Initialization calls common helper; active encounter clears scene+C, starts
+ * spawn groups with map halfwords+0x8C/+0x90 and waits 120 signals. */
 u32 sub_0809007C(u32 arg)
 {
     struct State9007C95 **holder=&state9007C95;
@@ -322,6 +339,8 @@ struct State9011C95 { u8 p0[0x10];u16 mode;u8 p12[0x12];u16 w24;u8 p26[0xA];u16 
 struct Player9011C95 {u8 p0[0x20];u16 state;u8 p22[0xE];u32 flags;u8 rest[0x118];};
 extern struct State9011C95 *state9011C95 asm("gUnk_03005CF4");
 extern struct Player9011C95 players9011C95[] asm("gUnk_03003CE0");
+/* [UpdateSceneExitDestination] Calls common initialization when scene +0x10 is zero; otherwise tests the
+ * area-change request predicate once. This function has no wait loop and always returns 0 at line 343. */
 u32 sub_0809011C(u32 arg)
 {
     struct State9011C95 **holder=&state9011C95;
@@ -342,6 +361,7 @@ u32 sub_0809011C(u32 arg)
     }
     return 0;
 }
+/* [UpdateMap20SceneExit] Checks initialization halfword and initializes through common helper when zero. */
 u32 sub_080901A8(u32 arg0)
 {
     u8 *gs;
@@ -365,6 +385,7 @@ u32 sub_080901A8(u32 arg0)
     }
     return 0;
 }
+/* [UpdateMap21SceneExit] Checks initialization halfword and initializes through common helper when zero. */
 u32 sub_0809021C(u32 arg0)
 {
     u8 *gs;
@@ -392,6 +413,7 @@ struct State9029095 { u8 p0[0x10];u16 mode;u8 p12[0x12];u16 w24;u8 p26[0xA];u16 
 struct Player9029095 {u8 p0[0x1C];u16 action;u8 p1E[2];u16 state;u8 p22[0xE];u32 flags;u8 p34[0x34];u8 active;u8 rest[0xE3];};
 extern struct State9029095 *state9029095 asm("gUnk_03005CF4");
 extern struct Player9029095 players9029095[] asm("gUnk_03003CE0");
+/* [UpdateMapZeroExitReset] Initialization branch calls common scene initializer. */
 u32 sub_08090290(u32 arg)
 {
     struct State9029095 **holder=&state9029095;
@@ -420,6 +442,8 @@ extern struct Display9033095 display9033095 asm("gUnk_03003170");
 extern u32 table9033095[] asm("gUnk_08517220");
 extern void callback9033095(void) asm("sub_0808E130");
 extern void setCallback9033095(u32,void (*)(void)) asm("sub_08057328");
+/* [UpdateOscillatingMap22SceneExit] Initializes and installs scene callback 8E130; when map area/index zero
+ * writes map halfword+0x72=20. */
 u32 sub_08090330(u32 arg)
 {
     struct State9033095 *state;
@@ -441,6 +465,7 @@ u32 sub_08090330(u32 arg)
     }
     return 0;
 }
+/* [UpdateMap23SceneExit] Checks initialization halfword and initializes through common helper when zero. */
 u32 sub_080903C4(u32 arg0)
 {
     u8 *gs;
@@ -459,25 +484,35 @@ u32 sub_080903C4(u32 arg0)
     }
     return 0;
 }
+/* [FixedMultiplyQ8] Matching C computes signed 32-bit product arg1 * arg0 then arithmetic right shift 8. This
+ * confirms an 8-fractional-bit multiply; SDK origin is not established. */
 s32 sub_08090434(s32 arg0, s32 arg1) {
     return (s32) (arg1 * arg0) >> 8;
 }
+/* [FixedDivideQ8Low32] Computes signed division of (s32)((u32)a << 8) by b. The numerator shift keeps only the
+ * low 32 bits; this name does not imply a widened intermediate or a division-by-zero guard. */
 s32 sub_0809043C(s32 a,s32 b)
 {
     register s32 value asm("r2")=a;
     asm("" : "+r"(value));
     return (s32)((u32)value<<8)/b;
 }
+/* [FixedMultiplyQ16] Multiplies two signed 32-bit inputs in a 64-bit intermediate, then returns the low 32
+ * bits of product shifted right 16; SDK origin is not established. */
 s32 sub_0809044C(s32 arg0, s32 arg1)
 {
   unsigned long long new_var;
   new_var = ((s64) arg0) * arg1;
   return (s32) (new_var >> 16);
 }
+/* [FixedDivideQ16] Promotes inputs to signed 64-bit, shifts numerator left 16, divides by denominator and
+ * returns signed 32-bit result; no explicit zero guard or SDK origin is established. */
 s32 sub_08090470(s32 arg0, s32 arg1)
 {
     s64 a = arg0; s64 b = arg1; return (s32)((a << 16) / b);
 }
+/* [FixedReciprocalQ8] Matching C returns 0x10000/arg0: reciprocal in 8-fractional-bit representation. No
+ * explicit divide-by-zero guard; SDK origin is not established. */
 s32 sub_08090494(s32 arg0) {
     return 0x10000 / arg0;
 }
@@ -501,6 +536,11 @@ extern u16 repeat90495 asm("gUnk_0300130C");
 extern u16 pressed90495 asm("gUnk_03001324");
 extern s32 lang90495 asm("gUnk_03003470");
 extern void palette90495(u32,u32,u32) asm("sub_08000AF0");
+/* [TaskRunSongAndSoundTestMenu] Runs an animated song/sound-test UI. Selection mode chooses either a 37-entry
+ * song table (085181C0, indices 0..36) or a 290-entry sound table (0851820A, indices 0..289). Start toggles
+ * selection mode only when no song is flagged playing; Left/Right changes the selected list, Up/Down wraps its
+ * index when the debounce counter is zero, A starts the selected ID and B stops audio in selection mode or
+ * exits the idle mode. These are input-update/task-loop semantics, not fixed elapsed-frame guarantees. */
 void sub_080904A4(void) {
     struct Sprite90495 sprite;
     u16 frames[6],ticks[6],next[6],flags[6],results[6];
@@ -732,6 +772,8 @@ extern void init095_08090B84(void *,s32,s32,s32,s32) asm("sub_08065158");
 extern void palette095_08090B84(u32,u32,u32) asm("sub_08000AF0");
 extern s32 step095_08090B84(void *,u16,u16 *,u16 *,s32) asm("sub_08065370");
 extern void draw095_08090B84(s32,s32,u16,u16,s32,void *,u32,u32) asm("sub_08007870");
+/* [TaskSoundTestSpriteConvergence] Allocates shared 0x88-byte state and initializes resources 5008A/500BE at
+ * opposite x positions. */
 void sub_08090B84(void) {
     struct Anim095_08090B84 *p[2];
     struct Anim095_08090B84 *a;
@@ -854,6 +896,8 @@ extern void init095_08090E38(void *,s32,s32,s32,s32) asm("sub_08065158");
 extern void palette095_08090E38(u32,u32,u32) asm("sub_08000AF0");
 extern s32 step095_08090E38(void *,u16,u16 *,u16 *,s32) asm("sub_08065370");
 extern void draw095_08090E38(s32,s32,u16,u16,s32,void *,u32,u32) asm("sub_08007870");
+/* [TaskSoundTestTripleTraverse] Allocates 0x44 bytes, consumes RNG modulo 3 and selects initial resources
+ * 50012/13/14. */
 void sub_08090E38(void) {
     struct Anim095_08090E38 *a;
     s32 flag;
@@ -968,6 +1012,8 @@ extern void init095_080910A8(void *,s32,s32,s32,s32) asm("sub_08065158");
 extern void palette095_080910A8(u32,u32,u32) asm("sub_08000AF0");
 extern s32 step095_080910A8(void *,u32,u16 *,u16 *,s32) asm("sub_08065370");
 extern void draw095_080910A8(s32,s32,u32,u32,s32,void *,u32,u32) asm("sub_08007870");
+/* [TaskSoundTestTraverseVariant2] Allocates/publishes 0x44-byte shared state, consumes RNG modulo 2 and
+ * selects initial resource. */
 void sub_080910A8(void) {
     struct Anim095_080910A8 *a;
     s32 flag;
@@ -1073,6 +1119,8 @@ extern void init095_080912CC(void *,s32,s32,s32,s32) asm("sub_08065158");
 extern void palette095_080912CC(u32,u32,u32) asm("sub_08000AF0");
 extern s32 step095_080912CC(void *,u32,u16 *,u16 *,s32) asm("sub_08065370");
 extern void draw095_080912CC(s32,s32,u32,u32,s32,void *,u32,u32) asm("sub_08007870");
+/* [TaskSoundTestTraverseVariant3] Allocates/publishes 0x44-byte shared state, consumes RNG modulo 2 and
+ * selects initial resource. */
 void sub_080912CC(void) {
     struct Anim095_080912CC *a;
     s32 flag;
@@ -1178,6 +1226,8 @@ extern void init096_080914F0(void *,s32,s32,s32,s32) asm("sub_08065158");
 extern void palette096_080914F0(u32,u32,u32) asm("sub_08000AF0");
 extern s32 step096_080914F0(void *,u16,u16 *,u16 *,s32) asm("sub_08065370");
 extern void draw096_080914F0(s32,s32,u16,u16,s32,void *,u32,u32) asm("sub_08007870");
+/* [TaskSoundTestTraverseVariant4] Allocates/publishes 0x44-byte shared state, consumes RNG modulo 2 and
+ * selects initial resource. */
 void sub_080914F0(void) {
     struct Anim096_080914F0 *a;
     s32 flag;
@@ -1282,6 +1332,7 @@ extern void init096_08091714(void *,s32,s32,s32,s32) asm("sub_08065158");
 extern void palette096_08091714(u32,u32,u32) asm("sub_08000AF0");
 extern s32 step096_08091714(void *,u16,u16 *,u16 *,s32) asm("sub_08065370");
 extern void draw096_08091714(s32,s32,u16,u16,s32,void *,u32,u32) asm("sub_08007870");
+/* [TaskSoundTestTraverseVariant5] Allocates/publishes 0x44 bytes and consumes RNG. */
 void sub_08091714(void) {
     struct Anim096_08091714 *a;
     s32 flag;
@@ -1386,6 +1437,7 @@ extern void init096_08091938(void *,s32,s32,s32,s32) asm("sub_08065158");
 extern void palette096_08091938(u32,u32,u32) asm("sub_08000AF0");
 extern s32 step096_08091938(void *,u16,u16 *,u16 *,s32) asm("sub_08065370");
 extern void draw096_08091938(s32,s32,u16,u16,s32,void *,u32,u32) asm("sub_08007870");
+/* [TaskSoundTestTraverseVariant6] Allocates/publishes 0x44 bytes and consumes RNG. */
 void sub_08091938(void) {
     struct Anim096_08091938 *a;
     s32 flag;
@@ -1490,6 +1542,7 @@ extern void init096_08091B5C(void *,s32,s32,s32,s32) asm("sub_08065158");
 extern void palette096_08091B5C(u32,u32,u32) asm("sub_08000AF0");
 extern s32 step096_08091B5C(void *,u16,u16 *,u16 *,s32) asm("sub_08065370");
 extern void draw096_08091B5C(s32,s32,u16,u16,s32,void *,u32,u32) asm("sub_08007870");
+/* [TaskSoundTestTraverseVariant7] Allocates/publishes 0x44 bytes and consumes RNG. */
 void sub_08091B5C(void) {
     struct Anim096_08091B5C *a;
     s32 flag;
@@ -1573,6 +1626,7 @@ extern void init096_08091CF8(void *,s32,s32,s32,s32) asm("sub_08065158");
 extern void palette096_08091CF8(u32,u32,u32) asm("sub_08000AF0");
 extern s32 step096_08091CF8(void *,u16,u16 *,u16 *,s32) asm("sub_08065370");
 extern void draw096_08091CF8(s32,s32,u16,u16,s32,void *,u32,u32) asm("sub_08007870");
+/* [TaskSoundTestTraverseVariant8] Allocates/publishes 0x44 bytes and consumes RNG. */
 void sub_08091CF8(void) {
     struct Anim096_08091CF8 *a;
     s32 flag;
@@ -1651,6 +1705,8 @@ void sub_08091CF8(void) {
     }
 }
 extern u32 heapState096 asm("gUnk_0300016C");
+/* [WaitWithSoundTestAllocation] Allocates 0x110 bytes and publishes pointer in the same global used by
+ * sound-test animation tasks. */
 void sub_08091E94(void)
 {
     u8 *memory;
@@ -1689,6 +1745,11 @@ loop:
 }
 
 
+/* [AppendThreeDigitGlyphNumber] Narrows the input number to u16 and seeks the first zero/0xFD byte in the
+ * existing destination, inspecting at most offsets 0..254. At that position, or offset 255 when none is found,
+ * writes space glyph 0x51, three numeric glyph bytes and terminator 0xFD. The numeric bytes are
+ * (u8)(number/100+0x41), (u8)((number%100)/10+0x41) and (u8)(number%10+0x41). Values 0..999 therefore use
+ * three zero-padded digit fields; no range clamp makes larger u16 inputs a general decimal formatter. */
 void sub_08091F20(u16 number, u8 *text)
 {
     u8 count;
@@ -1719,6 +1780,12 @@ append:
     text[1] = 0xFD;
 }
 extern u32 language096F asm("gUnk_03003470");
+/* [EncodeMenuTextAsGlyphBytes] Maps byte text into the menu glyph encoding using mode word 03003470. Mode 0 or
+ * unsigned values>4 accept space→0x51, Latin A..Z/a..z→byte-0x40 and digits→byte+0x10, stopping before the
+ * first other byte. Modes 1..4 use the same letter/space mappings, digits→byte+0xF and otherwise copy bytes
+ * until zero/0xFD. Each branch copies at most 255 bytes. On ordinary termination writes 0xFD; hitting that
+ * copy limit returns without appending a terminator. This is not a Unicode decoder or a universal
+ * interpretation of the mode global. */
 s32 sub_08091F9C(u8 *source,u8 *output)
 {
     u32 mode;
@@ -1782,15 +1849,26 @@ done:
 
 
 
+/* [IsStartupButtonSequenceComplete] Returns exactly 1 when byte 03000168 equals 13, otherwise 0. This byte is
+ * the progress/latch consumed by the startup sequence updater. Querying it does not change the latch, poll
+ * input or independently select a title option. */
 u32 sub_08092080(void)
 {
     if (gUnk_03000168 == 0xD)
         return 1;
     return 0;
 }
+/* [ResetStartupButtonSequenceProgress] Stores byte zero to startup button-sequence progress/latch 03000168.
+ * Does not clear held/pressed input, change the ROM sequence table or directly close the menu enabled by
+ * completion. */
 void sub_08092094(void) {
     gUnk_03000168 = 0;
 }
+/* [UpdateStartupButtonSequenceProgress] If progress byte 03000168 already equals 13, returns immediately.
+ * Otherwise compares ROM byte 0851844E[progress] with the full pressed-key halfword 03001324: exact equality
+ * increments the byte, a different nonzero press resets it to zero, and a zero press leaves progress
+ * unchanged. Reaching 13 requests audio resource 0x33 through 5865C. Completion is latched until explicitly
+ * reset; a mismatch does not retry the same press as sequence entry zero. */
 void sub_080920A0(void)
 {
     if (gUnk_03000168 == 0xD)
@@ -1802,6 +1880,10 @@ void sub_080920A0(void)
     if (gUnk_03000168 == 0xD)
         sub_0805865C(0x33);
 }
+/* [StartSongAndSoundTestMenuTask] Initializes task control 030001C0 with callback 904A4, null destructor, a
+ * 0x800-byte stack, stack pointer base+0x7FC and scheduling-order key 0x40. Clears the control previous/next
+ * link fields and starts with both callback argument words zero. Does not locally check prior scheduler
+ * membership or allocation failure before reinitializing the control. */
 void sub_080920E4(void)
 {
     u32 zero;
@@ -1815,6 +1897,7 @@ void sub_080920E4(void)
     gTask01C0.f18 = zero;
     sub_08000274_3((u32)&gTask01C0, 0, 0);
 }
+/* [InitializeSoundTestAnimationTasks] Clears shared animation heap pointer. */
 void sub_08092124(void)
 {
     u32 zero;
@@ -1833,6 +1916,7 @@ void sub_08092124(void)
     gTask0170.f0 = zero;
     gTask0170.f18 = zero;
 }
+/* [StartRandomSoundTestAnimation] Chooses absolute signed random remainder modulo nine. */
 void sub_08092190(void)
 {
     s32 i = (s16)((s16)sub_0800086C() % 9);
@@ -1847,6 +1931,8 @@ void sub_08092190(void)
     sub_08000274_3((u32)&gTask0170, 0, 0);
 }
 extern s16 vramFlag096 asm("gUnk_03001F40");
+/* [LoadGraphicsResourceAndPalette] Line 1858 resolves id to a resource; lines 1859–1860 resolve its tile data
+ * and associated palette. */
 s32 sub_080921E4(u32 id, s32 block)
 {
     void *buffer;
@@ -1884,6 +1970,8 @@ s32 sub_080921E4(u32 id, s32 block)
     vramFlag096 = 0;
     return palette;
 }
+/* [InitializeCoordinatedAttackPresentationCallbacks] Assigns setup/animation callbacks for slots
+ * 6,7,0,1,2,4,5,3 through line 1907. */
 void sub_080922B4(void)
 {
     volatile Handler *a = (volatile Handler *)&gUnk_03000210;
@@ -1906,9 +1994,11 @@ void sub_080922B4(void)
     a[3] = sub_08095518;
     b[3] = sub_08094F3C;
 }
+/* [NoopSceneCleanupHook] Empty void function body. */
 void sub_08092344(void) {
 
 }
+/* [StartCoordinatedAttackPresentationTask] Installs dispatcher 923B4 in fixed task control 030001E8. */
 void sub_08092348(u8 a, u8 b, u8 c)
 {
     gTask01E8.fC = (u32)sub_080923B4;
@@ -1924,12 +2014,15 @@ void sub_08092348(u8 a, u8 b, u8 c)
     gTask01E8.f24 = 0;
     sub_08000274_3((u32)&gTask01E8, (s8)a, ((s8)b << 8) | (s8)c);
 }
+/* [ReturnThree] Unconditionally returns literal3; no inputs or global reads/writes. */
 s32 sub_080923B0(void) {
     return 3;
 }
 typedef void (*Callback096)(s32, s32);
 extern Callback096 callbacks096A[] asm("gUnk_03000210");
 extern Callback096 callbacks096B[] asm("gUnk_03000230");
+/* [TaskDispatchCoordinatedAttackPresentation] Converts signed low byte of index to a four-byte callback-table
+ * offset. */
 void sub_080923B4(s32 indexInput, u32 packedInput)
 {
     s32 slot = indexInput;
@@ -2268,6 +2361,7 @@ end:
     sub_0800CC68();
     sub_08098028();
 }
+/* [ConfigureShakingAttackPresentation] Loads resource 1 into BG1 block 24 and resource 2 into BG0 block 28. */
 void sub_08092CB8(void)
 {
     union { u32 word; u16 half[2]; } config;

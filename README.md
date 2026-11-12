@@ -62,6 +62,9 @@ yet. Names are display names in `tools/config/function_names.json`; canonical
 To help: [naming pipeline](docs/agents/NAMING_PIPELINE.md),
 [identification summary](docs/progress/identification.md).
 
+Each function in `src/` carries its name and a short description as a comment
+above it (generated from the catalog by `tools/scripts/annotate_names.py`).
+
 For a port or a debugger the names are exported on every update:
 [symbol file](docs/progress/function_names.sym) (`ADDRESS Name`, loads in mGBA
 and no$gba), [C header](docs/progress/function_names.h) (`#define Name

@@ -4,61 +4,100 @@ extern void sub_08000274_2(void *, u32) asm("sub_08000274");
 struct Task28 { u32 f0, f4, f8, fC, f10, f14, f18, f1C, f20, f24; };
 extern struct Task28 gTasks03003C40[] asm("gUnk_03003C40");
 
+/* [EnablePlayerBattleRules] Sets bit 16 of scene-flags word 03003478, preserving other bits. Battle-result
+ * tasks set this flag, and action/targeting routines use it to enable their player-battle rule branches. Does
+ * not initialize participants or networking, and does not establish that a battle has started merely by this
+ * store. */
 void sub_0800CF58(void) {
     gUnk_03003478 |= 0x10000;
 }
+/* [DisablePlayerBattleRules] Clears bit 16 of scene-flags word 03003478, preserving every other bit. Inverse
+ * of CF58. Does not disconnect peers, reset team/participation bytes, restore health or wait for the battle
+ * task to finish. */
 void sub_0800CF6C(void) {
     gUnk_03003478 &= 0xFFFEFFFF;
 }
+/* [ArePlayerBattleRulesEnabled] Returns scene-flags bit 16 as exact 0 or 1. This is a software rules flag used
+ * by battle targeting/actions, not hardware link status or a peer-count query. Does not validate participation
+ * state or imply that any opponent is present. */
 s32 sub_0800CF80(void) {
     return ((u32) gUnk_03003478 >> 0x10) & 1;
 }
+/* [RequestPlayerHudHold] Sets scene bit 17, which holds the player-status HUD update loop; preserves other
+ * flags. */
 void sub_0800CF90(void) {
     gUnk_03003478 |= 0x20000;
 }
+/* [ClearPlayerHudHold] Clears scene bit 17 and returns the address of the scene-flags word; does not return
+ * the updated flag value. */
 s32 sub_0800CFA4(void) {
     gUnk_03003478 &= 0xFFFDFFFF;
     return (s32) &gUnk_03003478;
 }
+/* [IsPlayerHudHoldRequested] Returns scene bit 17 as exactly 0 or 1; the player-status HUD waits while it is
+ * set. */
 s32 sub_0800CFB8(void) {
     return ((u32) gUnk_03003478 >> 0x11) & 1;
 }
+/* [MarkCentroidAreaAttackPending] Sets bit 18 of scene flags 0x03003478. The matched tag-0xA5 writer
+ * sub_080680F8 calls it only after queue-space and pending-flag checks succeed, before committing the
+ * eligible-player-centroid area-attack message. The existing flag blocks repeat attack enqueues. */
 void sub_0800CFC8(void) {
     gUnk_03003478 |= 0x40000;
 }
+/* [ClearCentroidAreaAttackPending] Clears bit 18 of scene flags 0x03003478 while retaining the other bits.
+ * Original area-attack task sub_08078BCC calls this during cleanup only if the selected player +0x68 byte
+ * still equals the saved group byte. Cleanup does not clear the flag on the mismatch path; no universal
+ * team-ID meaning is asserted for that byte. */
 void sub_0800CFDC(void) {
     gUnk_03003478 &= 0xFFFBFFFF;
 }
+/* [IsCentroidAreaAttackPending] Returns scene flag bit 18 as 0 or 1. Matched link writers including tag 0xA5
+ * refuse enqueueing while it is set; the area-attack cleanup clears it on its matching-group path. This is a
+ * pending-operation gate, not a transport-connection or handshake-status query. */
 s32 sub_0800CFF0(void) {
     return ((u32) gUnk_03003478 >> 0x12) & 1;
 }
+/* [MarkExitMusicOverride] Sets scene bit22, the marker for the exit-music override; does not start a song
+ * itself. */
 void sub_0800D000(void) {
     gUnk_03003478 |= 0x400000;
 }
+/* [ClearExitMusicOverride] Clears scene bit22 without stopping or restoring a song itself. */
 void sub_0800D014(void) {
     gUnk_03003478 &= 0xFFBFFFFF;
 }
+/* [IsExitMusicOverrideMarked] Returns scene flags bit 22. */
 s32 sub_0800D028(void) {
     return ((u32) gUnk_03003478 >> 0x16) & 1;
 }
+/* [RequestItemUiAbort] Sets scene bit23, requesting item-UI interruption without synchronously closing a menu. */
 void sub_0800D038(void) {
     gUnk_03003478 |= 0x800000;
 }
+/* [ClearItemUiAbortRequest] Clears the scene bit23 item-UI abort request, preserving other scene flags. */
 void sub_0800D04C(void) {
     gUnk_03003478 &= 0xFF7FFFFF;
 }
+/* [IsItemUiAbortRequested] Returns scene flags bit 23. */
 s32 sub_0800D060(void) {
     return ((u32) gUnk_03003478 >> 0x17) & 1;
 }
+/* [MarkMapReloadPhase] Sets scene bit24, marking map reload in progress; does not reload data itself. */
 void sub_0800D070(void) {
     gUnk_03003478 |= 0x01000000;
 }
+/* [ClearMapReloadPhase] Clears scene bit24, the map-reload phase marker, without executing reload cleanup
+ * itself. */
 void sub_0800D084(void) {
     gUnk_03003478 &= 0xFEFFFFFF;
 }
+/* [IsMapReloadPhaseMarked] Returns exactly scene flags bit 24. */
 s32 sub_0800D098(void) {
     return ((u32) gUnk_03003478 >> 0x18) & 1;
 }
+/* [StartWorldMapDestinationTask] Installs the destination-selector entry; subsequent code retries allocation
+ * until nonzero, assigns stack top +0x7FC and starts the task. */
 void sub_0800D0A8(void) {
     gUnk_03003480[3] = (s32) sub_0800BEC0;
     while (1) {
@@ -73,24 +112,36 @@ void sub_0800D0A8(void) {
     gUnk_03003480[9] = 0;
     sub_08000274(gUnk_03003480, 0);
 }
+/* [BeginLocalPlayerEventLock] Sets bit 11 (0x800) of scene-flags word 0x03003478, preserving all other bits.
+ * Paired clear sub_0800D108 and query sub_0800D11C. */
 void sub_0800D0F4(void) {
     gUnk_03003478 |= 0x800;
 }
+/* [EndLocalPlayerEventLock] Clears bit 11 (0x800) of scene-flags word 03003478 with mask 0xFFFFF7FF,
+ * preserving other bits. Clears the bit set by BeginLocalPlayerEventLock; it does not itself alter the player
+ * record or input registers. */
 void sub_0800D108(void) {
     gUnk_03003478 &= 0xFFFFF7FF;
 }
+/* [IsLocalPlayerEventLockActive] Returns bit 11 of scene-flags word 0x03003478 as 0 or 1. */
 s32 sub_0800D11C(void) {
     return ((u32) gUnk_03003478 >> 0xB) & 1;
 }
+/* [MarkBossRetryRequested] Sets scene bit20 to mark a received boss-retry request; does not queue a new
+ * request or perform the retry. */
 void sub_0800D12C(void) {
     gUnk_03003478 |= 0x100000;
 }
+/* [ClearBossRetryRequest] Clears scene bit20, the received boss-retry marker, retaining every other scene
+ * flag. */
 void sub_0800D140(void) {
     gUnk_03003478 &= 0xFFEFFFFF;
 }
+/* [IsBossRetryRequested] Reads scene flags bit 20. */
 s32 sub_0800D154(void) {
     return ((u32) gUnk_03003478 >> 0x14) & 1;
 }
+/* [TaskMonitorWorldMapExit] Yields while no scene exit and selection bit5 is set. */
 void sub_0800D164(void) {
     while (1) {
         while (sub_08056E90() == 0 && ((u32) gUnk_03003478 >> 5) & 1) {
@@ -104,6 +155,9 @@ void sub_0800D164(void) {
         }
     }
 }
+/* [IsLocalPlayerDamageSuppressed] Returns0/1. Tests local active68, flag400, state12, coordinated attack58DB0,
+ * scene predicatesD11C/CCCC/CDF8; battle-rules+encounter-finished; explicit level/area list; special scene
+ * rule when no enemy has health above pending damage. No hidden meaning is assigned to exclusion list. */
 s32 sub_0800D1B0(void) {
     s32 r4;
     s32 idx;
@@ -145,6 +199,9 @@ s32 sub_0800D1B0(void) {
     }
     return r4;
 }
+/* [EnqueueCurrentClassSkillEffect] Matched function queries current class 1DE60. For classes 0/2/5, if current
+ * save+0x50 nonzero, gets skill 7 level through 1E0AC and calls 67FE0(7,level). For class 3, if save+0x4C
+ * nonzero, gets skill 6 level and calls 67FE0(6,level). Other classes return. */
 void sub_0800D2F4(void) {
     s32 r;
     s32 p;
@@ -221,6 +278,10 @@ static inline u16 D368_Level3(u8 *p) {
     return 0;
 }
 /* Complete control-flow draft; matching and type audit remain in progress. */
+/* [TaskPlayerGameplayState] Matched sub_080135C4 chooses Player[id] at 0x03003CE0 stride 0x14C, wires link
+ * send/receive pointers+0x144/+0x148, sets remote state 13/local 0, assigns task entry sub_0800D368 and starts
+ * it with the Player pointer at lines 5816-5819. This independently establishes a per-player gameplay task; it
+ * is not only a menu or link transport task. */
 void sub_0800D368(void *arg0) {
     struct PairD36867 { s32 x,y; };
     void *state5Destination67;
@@ -5371,6 +5432,7 @@ extern void t6_start135(void *, void *) asm("sub_08000274");
 extern void *t6_send135(u32) asm("sub_08002118");
 extern void t6_init135(struct T6Player135) asm("sub_0801E024");
 extern void t6_cpuset(const void *, void *, u32) asm("CpuSet");
+/* [LinkCreatePlayerEntity] Creates player entity and assigns per-slot send and receive block pointers. */
 void sub_080135C4(u16 id) {
     vu16 zero;
     u8 *stack;
@@ -5415,6 +5477,8 @@ void sub_080135C4(u16 id) {
 }
 struct Team6State137A0 { u8 pad[0x100]; u16 a, b; u8 c[12]; u16 d, e; u8 f[12]; u16 g, h; u8 j[12]; };
 extern struct Team6State137A0 *team6_state137A0 asm("gUnk_030034E0");
+/* [ClearSelectedEquipmentRecord] Writes zero type/id halfwords plus12 bytes at local save100/110/120 for
+ * selectors0/1/2 respectively. */
 void sub_080137A0(u32 arg0) {
     u32 i;
     switch (arg0) {
@@ -5482,6 +5546,10 @@ struct P13850 {
 extern struct P13850 pl13850[] asm("gUnk_03003CE0");
 extern struct State13850 *st13850 asm("gUnk_030034E0");
 extern struct Data13850 *dt13850 asm("gUnk_03004210");
+/* [ResetPlayerAndSharedState] Frees030034E0/03004210 then unchecked allocCA4/51C; clears selected fields in
+ * all four player records and sets five/four slot arraysFFFF. Zeros multiple shared arrays plus whole51C
+ * allocation, calls137A0 for0..3, initializes shared default words1/20000 and ten record values57E3F/99. This
+ * is selective initialization, not a full clear ofCA4 or players. */
 void sub_08013850(void)
 {
     struct State13850 *s;
@@ -5610,6 +5678,12 @@ void sub_08013850(void)
         s->q34[j].a = 0;
     }
 }
+/* [ApplyPlayerPendingDamageAndReportDefeat] Calls condition helper D1B0 first. When nonzero, clears pending
+ * halfwords +0x88/+0x8A and returns 0 without changing HP. Otherwise subtracts those two halfwords from the
+ * supplied player HP+C4, stores the 16-bit results, clears both pending fields, and tests the final signed
+ * 16-bit HP. A nonpositive result becomes HP 0/return 1 unless protection flag 0x100000 is set, in which case
+ * HP becomes 1 and the helper returns 0. On positive HP, clears word+0xE0 and returns 0. It does not itself
+ * enter a defeated animation/state. */
 s32 sub_08013BC0(u8 *arg0) {
     u16 *p;
     u16 *q;
@@ -5642,6 +5716,9 @@ s32 sub_08013BC0(u8 *arg0) {
     }
     return 0;
 }
+/* [CachePlayerEnemyAimDirections] For enemy slots0..4 with active mask and matching frame-counter parity,
+ * ArcTan2(enemy-player coordinates) is rounded into halfword values0..15 at126+2*i. Remainder exactly0x800
+ * rounds downward; greater rounds upward. */
 void sub_08013C3C(u8 *arg0) {
     u8 *p = gUnk_030056F4;
     u16 i = 0;
@@ -5666,6 +5743,10 @@ void sub_08013C3C(u8 *arg0) {
 struct Box13CEC { u32 w:16; u32 h:16; };
 extern s32 test13CEC(s32 *, s32 *, struct Box13CEC *, struct Box13CEC *) asm("sub_08021FE0");
 extern s32 blk13CEC(s32 *) asm("sub_08057068");
+/* [RevertBlockedPlayerMovement] Unless player flag0x20 bypasses all checks, conditionally tests five active
+ * eligible enemies using16x16 player box and facing-relative overlap, restoring prior position on blocked
+ * movement. Always then tests map/object blockage and restores prior position on failure. Map-set-zero and
+ * flag0x40000 bypass enemy tests only. */
 void sub_08013CEC(u8 *arg0)
 {
     struct Box13CEC size;
@@ -5735,6 +5816,11 @@ void sub_08013CEC(u8 *arg0)
         *(s32 *)(arg0 + 0x90) = *(s32 *)(arg0 + 0x98);
     }
 }
+/* [MovePositionWithMapCollision] Computes sine-based candidate using divisor304 for vertical directions0/4
+ * and256 otherwise, callsB118 unless bypass nonzero, redirects via result-1 then repeats. A blocked pass
+ * leaves position unchanged; after second redirect it recomputes displacement again and commits without a
+ * third collision test. Flags are narrowed tou16 then OR2 when56E50zero; direction/speed/index domains
+ * unchecked. */
 u16 sub_08013E90(s32 arg0, s32 *arg1, u16 arg2, s32 arg3, s32 arg4) {
     u32 flags;
     u16 dir;
@@ -5782,6 +5868,8 @@ u16 sub_08013E90(s32 arg0, s32 *arg1, u16 arg2, s32 arg3, s32 arg4) {
 end:
     return dir;
 }
+/* [AdvancePlayerForcedMotion] Channel1 C8 duration/CA direction/CC signed speed and channel2 CE/D0/D2
+ * update8C/90 through13E90 with collision bypass0; both can move in one call. */
 void sub_080140AC(u8 *arg0) {
     u16 t;
     s32 v;
@@ -5856,6 +5944,12 @@ extern u16 gBg14170[] asm("gUnk_03005740");
 extern u8 *gSave14170 asm("gUnk_030034E0");
 
 void hud14170(struct Actor14170 *arg0) asm("sub_08014170");
+/* [TaskPlayerStatusHud] Matched ordinary C definition hud14170 receives a player-record pointer. Allocates
+ * tile buffers of 0xA0, 0xA0 and 0x60 bytes, updates two 40-unit health/energy bars and a third 24-unit status
+ * bar, and draws health/current maximum numbers plus energy values divided by ten. It also draws
+ * position-relative action-state indicators. The third bar exact gameplay label is not established here. This
+ * is not a pure renderer: it can upper-clamp player current health, energy and the third value while updating
+ * the displays. */
 void hud14170(struct Actor14170 *arg0)
 {
     u8 spr1[0x34];
@@ -6238,6 +6332,9 @@ void hud14170(struct Actor14170 *arg0)
     sub_08001538((s32)buf2);
     sub_08001538((s32)buf3);
 }
+/* [TaskRunClass0ChargedLunge] Moves local charged attacker at table speed plus modifier and resolves collision
+ * until animation completes or state changes; preserves states14/10/11 and spectator before normal reset and
+ * charge cleanup. */
 void sub_08014B28(void) {
     struct PlayerW12 *p;
     u16 id;
@@ -6267,6 +6364,7 @@ void sub_08014B28(void) {
     p->w26 = 0;
     p->w122 = 0;
 }
+/* [TaskFinalizePlayerWeaponAttack] Gates sound w26+256 on state!=13, non-map-set0 and non-world-map selection. */
 void sub_08014C04(void) {
     struct PlayerW12 *p = (struct PlayerW12 *)&gUnk_03003CE0[sub_080020F4()];
     u16 r5 = p->w26;
@@ -6290,6 +6388,9 @@ void sub_08014C04(void) {
     p->w122 = 0;
 }
 extern u32 check14C(void) asm("sub_0801DE60");
+/* [TaskCountClass0ChargedHits] During local charged animation, increments hit sequence when frame equals next
+ * u16 step1,4,7,... and differs from previous captured frame. Preserves14/10/11 and spectator before charge
+ * cleanup. */
 void sub_08014C8C(void) {
     struct PlayerW12 *p = (struct PlayerW12 *)&gUnk_03003CE0[sub_080020F4()];
     u16 value = p->w26;
@@ -6331,6 +6432,10 @@ void sub_08014C8C(void) {
 struct PlrKind14 { u8 pad0[0x10]; u16 kind; u8 pad12[0x14C - 0x12]; };
 extern struct PlrKind14 kinds14[] asm("gUnk_03003CE0");
 extern struct Task tasks14[] asm("gUnk_03003C40");
+/* [StartClassZeroChargedAttack] Normalized class0 charge starter dispatches weapon kinds1/3 to
+ * lunge/hit-counter and2/8 to animation finalizer; unsupported kinds return. Existing task triggers guarded
+ * state reset; otherwise retries0x400 stack allocation and starts with scheduling key52, without completion
+ * wait. */
 void sub_08014D60(void)
 {
     s32 index = sub_080020F4();
@@ -6394,6 +6499,10 @@ struct Plr14 {
 };
 extern struct Plr14 players14[] asm("gUnk_03003CE0");
 extern void sub_080760E8();
+/* [TaskRunAimedChargedVolley] Updates local aim from held directions and attempts packed three-bit level+2
+ * fast projectile starts on odd-frame/subframe2 observations. Count decrements despite projectile allocation
+ * failure. Snapshot state/animation terminate loop; preserves14/10/11/spectator before local reset and charge
+ * cleanup. */
 void sub_08014E68(s32 index)
 {
     struct Plr14 *p = &players14[index];
@@ -6454,6 +6563,8 @@ void sub_08014E68(s32 index)
     p->w26 = 0;
     p->w122 = 0;
 }
+/* [StartPlayerAimedVolleyTask] Rejects already scheduled indexed task, installs14E68 and raw order key0x34,
+ * retries0x400 allocation. */
 void sub_0801500C(u32 idx)
 {
     u32 mem;
@@ -6467,6 +6578,9 @@ void sub_0801500C(u32 idx)
     gTasks03003C40[idx].f24 = 0;
     sub_08000274_2(&gTasks03003C40[idx], idx);
 }
+/* [TaskRunClass3ChargedLunge] Moves local charged attacker at table speed*8/10 plus movement modifier, saving
+ * prior position and resolving collision until completion/state change; clears charge bookkeeping
+ * with10/11/spectator state guards. */
 void sub_08015090(void)
 {
     struct PlayerW12 *p = (struct PlayerW12 *)&gUnk_03003CE0[sub_080020F4()];
@@ -6489,6 +6603,9 @@ void sub_08015090(void)
     p->w26 = 0;
     p->w122 = 0;
 }
+/* [TaskCountClass3ChargedHits] While local state5 animation is incomplete, frames1/4/5 at subframe0
+ * increment32-bit hit sequence every matching observation; no independent edge guarantee. Final reset
+ * preserves10/11 and spectator, clears charge bookkeeping. */
 void sub_08015150(void)
 {
     struct PlayerW12 *p = (struct PlayerW12 *)&gUnk_03003CE0[sub_080020F4()];
@@ -6518,6 +6635,9 @@ extern void sub_08015090(void);
 extern void sub_08015150(void);
 struct View151E {u8 pad0[16];u16 mode;u8 pad12[14];u16 state;u8 pad22[14];u32 flags;u8 pad34[0x118];};
 extern struct View151E players151E[] asm("gUnk_03003CE0");
+/* [StartClassThreeChargedAttack] Normalized class3 charge starter selects scaled lunge for kind2 and hit
+ * counter for kind4, returning for other kinds. Duplicate task triggers guarded state reset; otherwise
+ * retries0x400 allocation and starts with scheduling key52, without completion wait. */
 void sub_080151E0(void)
 {
     u32 index = sub_080020F4();
@@ -6557,6 +6677,9 @@ void sub_080151E0(void)
     }
 }
 
+/* [TaskChargedLungeKind4] Runs charged lunge at signed16 narrowed tier*80+256 speed, with collision updates;
+ * frame3/subframe1 increments hit sequence per observation. Exits on completion/state change and clears
+ * bookkeeping, preserving10/11/spectator. */
 void sub_080152CC(void)
 {
     struct PlayerW12 *p = (struct PlayerW12 *)&gUnk_03003CE0[sub_080020F4()];

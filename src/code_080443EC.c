@@ -2,6 +2,8 @@
 
 extern u8 *state44 asm("gUnk_03005CF4");
 extern u8 players44[] asm("gUnk_03003CE0");
+/* [ShowEventGatedMessage221] 1BA/1C6 bit4 gates literal resource1400DD; suspension breaks only completion
+ * loop. */
 void sub_080443EC(void)
 {
     u8 *flag;
@@ -43,6 +45,8 @@ void sub_080443EC(void)
         sub_0800D108();
     }
 }
+/* [RunProgressFiveActorSequence] kind0x9000D; resources1401C4/1401C6 mode45; actor state+36=4;
+ * progress1B3/1BF=5 before final completion wait. */
 void sub_080444C0(void)
 {
     u32 actor;
@@ -241,6 +245,11 @@ static inline void mark2_5E8(u32 target)
     }
 }
 
+/* [ExecuteTableDrivenItemTrade] Locks player/input, selects literal messages by player index and trade record,
+ * counts required item type/id and returns through unlock when insufficient. Eligible branches mark actor,
+ * optionally ask a choice, and responses1/2 remove required items, submit configured rewards, set configured
+ * progression flag and show completion message; zero only shows refusal. Other-player once-only branch shows
+ * message without exchange. Table index unchecked; downstream insertion success not tested. */
 void sub_080445E8(s32 arg0, u32 arg1)
 {
     s32 second;
@@ -327,6 +336,8 @@ static inline u8 *flag4D1C45(u8 **st) {
     return *st + 0x1B9;
 }
 static inline u32 spawn4D1C45(s32 a, s32 b, s32 c) { return sub_080289C0(a, b, c); }
+/* [SpawnActorAfterEvent18Change] flag4D1C45 selects1B9/1C5 and bit566045 shifts2; 16+2 gives persistent
+ * event18. Explicit kind15 and callback34F64. */
 void sub_08044D1C(void) {
     s32 bit;
     u32 id;
@@ -349,6 +360,7 @@ again:
     setcb566045(st, id, (u32)callback4D1C45);
     sub_0802939C(id, 0x11);
 }
+/* [AnimateAfterEvent13Change] Reads1B8/1C4 bit5 before/after wait; unequal sample calls2939C(arg,1). */
 void sub_08044E34(s32 arg0) {
     register s32 arg asm("r8") = arg0;
     s32 *base;
@@ -454,6 +466,11 @@ static inline void fxEB445(u8 **st) {
     {struct Player *p;register u32 idx asm("r2");idx=sub_080020F4();idx*=0x14C;p=(struct Player *)((u8 *)gUnk_03003CE0+idx);p->flags &= ~1;} \
     sub_0800D108(); \
 }
+/* [WatchProgressionDialogueChanges] Continuously watches progression bits6/7 in the selected byte1B8/1C4.
+ * After an interruptible 2200/3200 wait closes the dialog, locks local events/input, attempts a callback task,
+ * moves the supplied actor through the scripted positions, shows resource0x1400EA/0x1400EB, then places the
+ * actor at its final position with extents8/4, flag0x10 and callback. Queues token0x5990C23 and unlocks. The
+ * watcher continues rather than returning. */
 void sub_08044EB4(u32 id) {
     s32 a, b, c, d;
     u32 dlg;
@@ -524,6 +541,11 @@ static inline s32 result534C45(void) {
     if (v < 0) r = 0;
     return r;
 }
+/* [AskDialogue540EmitItem29] Locks input, asks choice0x14021C. Nonzero choice finds first empty bag slot;
+ * nonnegative result plays sound0x33, attempts adding one category1/id0x29 item with zeroed payload; insertion
+ * return is ignored, queues sub_08059968(20), shows cancellable0x14021D. Negative result shows0x14021E then
+ * rearms spatial trigger; zero choice rearms directly. Rearm searches30 task slots and uses unchecked0x400
+ * allocation. Clears player bit0 and unlocks on all final paths. */
 void sub_0804534C(void) {
     u32 dlg;
     u32 i;
@@ -573,6 +595,8 @@ done:
     {struct Player *p;register u32 idx asm("r2");idx=sub_080020F4();idx*=0x14C;p=(struct Player *)((u8 *)gUnk_03003CE0+idx);p->flags &= ~1;}
     sub_0800D108();
 }
+/* [TrackEvent20EntityPosition] Reads1B9/1C5 bit4 and calls28AAC with duration0 in both branches; one-count
+ * wait always loops. */
 void sub_080455F0(s32 arg0) {
     s32 arg = arg0;
     register s32 mask asm("r6");
@@ -606,6 +630,8 @@ wait:
     if (sub_080021A8() == 0) goto dec;
     goto loop;
 }
+/* [SpawnActor40AfterEvent2Change] flag566045 selects bankbase1B7/1C3, bit566045 shifts2; changed sample gates
+ * spawn40 and callback33198. */
 void sub_08045660(void) {
     s32 bit;
     u32 id;
@@ -629,6 +655,8 @@ again:
 }
 extern u8 *state576445 asm("gUnk_03005CF4");
 #define set576445(bit) { if (sub_0800CE30()) { u32 *p = (u32 *)(state576445 + 0x80); u32 m = (bit); *p |= m; } else { u32 *p = (u32 *)(state576445 + 0x78); u32 m = (bit); *p |= m; } }
+/* [SetProgressBitGroups] Input0 ORs mode-selected progress bits1..9; input1 ORs10..14 and16..22, leaving bit15
+ * untouched. Other values do nothing. Uses inline setter for each bit; no clearing or scene transition. */
 void sub_08045764(s32 arg0) {
     switch (arg0) {
     case 0:
@@ -672,6 +700,8 @@ static inline struct Bits5AFC *SelB_5AFC(void)
         return (struct Bits5AFC *)(gGS5AFC + 0x1C5);
     return (struct Bits5AFC *)(gGS5AFC + 0x1B9);
 }
+/* [ClearEvent21WhenEvent7Set] SelA selects bankbase1B7/1C3 bit7; SelB selects1B9/1C5 and clears bit5, hence
+ * event21. */
 void sub_08045AFC(void)
 {
     if (*(u8 *)SelA_5AFC() >> 7) {
@@ -739,6 +769,11 @@ static inline void setcbB6845(u32 id, u32 cb) {
     struct Actor566045 *a = findB6845(id);
     if (a) a->callback = cb;
 }
+/* [StageResourceActorDialogueSequence] Creates/configures resource0x2F and callback; waits progression
+ * byte+0x1B9/+0x1C5 bit6, closes current dialog, locks input, attempts background callback60 and queues
+ * callbacks16/5. Shows cancellable0x1400B3, moves passed actor and turns resource0x2F toward it,
+ * shows0x1400B4, moves resource actor through(120,176) to(120,240), marks slot state4 and unlocks.30 task
+ * slots full skips background task; allocation retries; queue requests not guaranteed completion. */
 void sub_08045B68(u32 arg0) {
     u32 id;
     u32 dlg;
@@ -788,6 +823,8 @@ void sub_08045B68(u32 arg0) {
 extern void callback5E3845(void) asm("sub_0803898C");
 static inline s32 bit5E3845(u8 *p, s32 one) { s32 raw = *p;  return (raw >> 5) & one; }
 static inline u32 spawn5E3845(s32 a, s32 b, s32 c) { return sub_080289C0(a, b, c); }
+/* [SpawnActorAfterEvent5Change] bit5E3845 shifts bankbase flag5; kind0x40026 and callback3898C are explicit.
+ * Reuses15-record lookup and wait helper at302..323. */
 void sub_08045E38(void) {
     s32 bit;
     u32 id;
@@ -868,6 +905,12 @@ static inline void setlvF4445(u32 id, u16 v) {
         ((struct PlF4445 *)(sub_080020F4() * 0x14C + (u32)playersF4445))->f11E = level;
     }
 }
+/* [RunHamasanDialogue] Sets local player flags bit 0 (input suppression) and BeginLocalPlayerEventLock. Plays
+ * scene animation 6 on the argument entity (PlaySceneEntityAnimation) when the local player's pixel x (+0x8C
+ * >> 8) exceeds 0x1E7, otherwise animation 2. Reads scene event flags 0x22..0x25 (bits 2..5 of event-flag byte
+ * +0x1BB, or +0x1C7 when scene flag bit 9 is set). When all four are set it only shows 0x1402A9. Otherwise,
+ * when its own flag 0x22 is set, it only shows 0x1402A8. Otherwise it shows 0x1402A1 and counts bag records
+ * (character +0x150, 25 slots) with kind 5 and ID 0xA6. */
 void sub_08045F44(u32 inputId) {
     u32 id = inputId;
     struct CmdF4445 cmd;
@@ -983,6 +1026,12 @@ extern void sub_0805990C(void);
 static inline u32 load46490(u16 *p) {u32 v=*p;return v;}
 static inline u32 count46490(u32 n) { return n; }
 static inline u8 *find46490(u32 actor) { u8 *p;u32 i;s32 raw=(s32)state46490;u32 off=0x7A4;p=(u8 *)raw+off;i=0;do{if(*(u32 *)p==actor)return p;i++;p+=0x70;}while(i<=14);sub_080003F0();return 0; }
+/* [RunBakatarDialogue] Sets local player flags bit 0 (input suppression) and BeginLocalPlayerEventLock. Plays
+ * scene animation 6 on the argument entity (PlaySceneEntityAnimation) when the local player's pixel x (+0x8C
+ * >> 8) exceeds 0x1CD, otherwise animation 2. Reads scene event flags 0x22..0x25 (bits 2..5 of event-flag byte
+ * +0x1BB, or +0x1C7 when scene flag bit 9 is set). If its own flag 0x23 is set it only shows 0x1402B1, or
+ * 0x1402B2 when all four flags are set. Otherwise it shows 0x1402AA and counts bag records (character +0x150,
+ * 25 slots) with kind 3 and ID 0x15. */
 void sub_08046490(u32 arg0){
  struct Item46490 cmd; u8 unused[16];
  u32 arg=arg0;
@@ -1040,6 +1089,12 @@ extern u8 *items469DC asm("gUnk_030034E0");
 static inline u32 load469DC(u16 *p) {u32 v=*p;return v;}
 static inline u32 count469DC(u32 n) { return n; }
 static inline u8 *find469DC(u32 actor) { u8 *p;u32 i;s32 raw=(s32)state469DC;u32 off=0x7A4;p=(u8 *)raw+off;i=0;do{if(*(u32 *)p==actor)return p;i++;p+=0x70;}while(i<=14);sub_080003F0();return 0; }
+/* [RunJackieDialogue] Sets local player flags bit 0 (input suppression) and BeginLocalPlayerEventLock. Plays
+ * scene animation 5 on the argument entity (PlaySceneEntityAnimation) when the local player's pixel x (+0x8C
+ * >> 8) exceeds 0x224, otherwise animation 3. Reads scene event flags 0x22..0x25 (bits 2..5 of event-flag byte
+ * +0x1BB, or +0x1C7 when scene flag bit 9 is set). If its own flag 0x24 is set it only shows 0x1402BA, or
+ * 0x1402BB when all four flags are set. Otherwise it shows 0x1402B3 and counts bag records (character +0x150,
+ * 25 slots) with kind 4 and ID 3. */
 void sub_080469DC(u32 arg0){
  struct Item469DC cmd; u8 unused[16];
  u32 arg=arg0;
@@ -1097,6 +1152,12 @@ extern u8 *items46F28 asm("gUnk_030034E0");
 static inline u32 load46F28(u16 *p) {u32 v=*p;return v;}
 static inline u32 count46F28(u32 n) { return n; }
 static inline u8 *find46F28(u32 actor) { u8 *p;u32 i;s32 raw=(s32)state46F28;u32 off=0x7A4;p=(u8 *)raw+off;i=0;do{if(*(u32 *)p==actor)return p;i++;p+=0x70;}while(i<=14);sub_080003F0();return 0; }
+/* [RunKeitaDialogue] Sets local player flags bit 0 (input suppression) and BeginLocalPlayerEventLock. Plays
+ * scene animation 6 on the argument entity (PlaySceneEntityAnimation) when the local player's pixel x (+0x8C
+ * >> 8) exceeds 0x1AF, otherwise animation 2. Reads scene event flags 0x22..0x25 (bits 2..5 of event-flag byte
+ * +0x1BB, or +0x1C7 when scene flag bit 9 is set). If its own flag 0x25 is set it only shows 0x1402C3, or
+ * 0x1402C4 when all four flags are set. Otherwise it shows 0x1402BC and counts bag records (character +0x150,
+ * 25 slots) with kind 2 and ID 0x38. */
 void sub_08046F28(u32 arg0){
  struct Item46F28 cmd; u8 unused[16];
  u32 arg=arg0;
@@ -1155,6 +1216,12 @@ extern void sub_0805990C(void);
 static inline u32 load47474(u16 *p) {u32 v=*p;return v;}
 static inline u32 count47474(u32 n) { return n; }
 static inline u8 *find47474(u32 actor) { u8 *p;u32 i;s32 raw=(s32)state47474;u32 off=0x7A4;p=(u8 *)raw+off;i=0;do{if(*(u32 *)p==actor)return p;i++;p+=0x70;}while(i<=14);sub_080003F0();return 0; }
+/* [ExchangeItemFortyTwo] Sets player flag1 and faces entity. If mode-selected byte mask0x20 clear, shows22B
+ * and, when inventory contains type1:id0x2A, consumes one, updates entity animation/state3, attempts inventory
+ * insertion of one descriptor1:0x2B, queues callback5990C(13) and shows22E. Completed-bit path shows230;
+ * no-item path only initial message. All normal exits clear flag/input helper; message abort does not cancel
+ * later transaction. Inventory insertion return is ignored; consumed inputs are not restored on insertion
+ * failure. */
 void sub_08047474(u32 arg0) {
  struct Item47474 cmd; u8 unused[16];
  u32 arg=arg0;
@@ -1210,6 +1277,10 @@ extern u8 *state778C asm("gUnk_03005CF4");
 extern void camera778C(s32,s32) asm("sub_0800BB80");
 extern void sub_08047970(void);
 static inline u32 bool778C(u8 *base, u32 *unused) { register u32 bit asm("r4"); register u32 value asm("r0");bit=1;value=*(u32 *)(base+0x38);value &= bit;if(value)value=1;return value; }
+/* [StartCameraActorResetScene] If scene word+0x38 bit0 is clear, locks local player/input, pans camera
+ * to(0,-120), restores screen, attempts callback sub_08047970 in30-slot pool with retry allocation, and sets
+ * that scene bit. If already set, restores screen and resets state12 to0 on active entity slots0..4, then
+ * calls sub_08019F04. First branch leaves input locked for asynchronous continuation. */
 void sub_0804778C(void) {
  volatile s32 out[2]; s32 sx,sy; s32 i; register s32 step asm("sl"); s32 *py;
  union { s32 all; struct { u16 low; s16 high; } half; } tx,ty;
@@ -1251,6 +1322,11 @@ extern u32 t47Mask asm("gUnk_030056FC");
 extern u8 *t47Players asm("gUnk_030056F4");
 extern void sub_08047B2C(void);
 extern void sub_0802A080(s32,s32,s32,s32);
+/* [SequenceActorResetTasks] Searches30 scene task slots and retries 0x400-byte allocation for callback
+ * sub_08047B2C argument0, invokes sub_0802A080, then conditionally stops that task. Closes dialog, starts
+ * callbacks with arguments2 and3 using separate pool searches, waits60 ticks, resets state12 to0 for active
+ * entity slots0..4 (stride0x2E0), then calls sub_08019F04. Saved first-task pointer is uninitialized if the
+ * pool is full in C; startup is not guaranteed. */
 void sub_08047970(void)
 {
     struct T47Task970 *task;
@@ -1377,6 +1453,10 @@ void t47B2C(s32 arg0) asm("sub_08047B2C");
 struct T47BPlayer { u16 f0,id; u8 pad[0x2DC]; };
 extern struct T47BPlayer *t47BPlayerRows asm("gUnk_030056F4");
 void t47B2C(s32 arg0) asm("sub_08047B2C");
+/* [RunTwelveMessageCameraSequence] Case0 waits, moves actor selector1, shows messages0x140000..00B with
+ * alternating actor1/2 motion and pans camera toward0,0; clears local player flag1/input helper midway.
+ * Cases2/3 play sound, set respective actor state3 and facing. Other inputs return unchanged. Dialog waits
+ * have no abort path; timed waits can break on21A8. */
 void t47B2C(s32 arg0) {
     volatile s32 pos[2];
     s32 *yp;
@@ -1685,6 +1765,7 @@ extern s32 sub_0801AB24(void);
 extern void sub_0801AB50(s32);
 extern void sub_0801AB90(s32);
 extern void sub_080576A8(void);
+/* [ArmObjectSevenParking] Descriptor callback5A3F0,arg7 passed to2A104 with object6 after reveal. */
 void sub_080480E8(void)
 {
     u32 args[6];
@@ -1740,6 +1821,11 @@ extern u32 t47CMask asm("gUnk_030056FC");
 extern void t47CSetCamera(s32,s32) asm("sub_0800BB80");
 static inline u32 t47CNorm0(u32 x){register u32 r asm("r0")=x;if(r!=0)r=1;return r;}
 static inline u32 t47CTest8(u8 *p){u32 m=8;register u32 r asm("r1")=*(u32 *)(p+0x38);r&=m;if(r!=0)r=1;return r;}
+/* [InitializePairedSceneContinuations] First scene+38 bit1 entry sets that bit, counts item1/22 across
+ * bag/storage and progressionbit6 to choose a player0 callback argument, optionally starts song0xC4, locks
+ * input, pans to(0,-35), restores screen and attempts two callback tasks with args0/1, returning with locks
+ * retained. Reentry restores screen, resets active actor state12, and conditionally restarts arg1 plus
+ * scene/music callbacks. Pool-full skips admissions; stacks retry; no completion wait. */
 void sub_0804819C(void) {
     volatile s32 pos[2];
     void (*cb)(s32);
@@ -2001,6 +2087,11 @@ extern u32 t47DMask asm("gUnk_030056FC");
 extern void sub_08048A74(void);
 static inline u32 t47DTest(u8 *p){u32 m=8;u32 r=*(u32 *)(p+0x38);r&=m;if(r!=0)r=1;return r;}
 static inline u32 t47DTest4(u8 *p){u32 m=4;u32 r=*(u32 *)(p+0x38);r&=m;if(r!=0)r=1;return r;}
+/* [CoordinateActorStateRecovery] Case0 starts48A74 task, configures scene rectangle and returns early on flag
+ * predicate. Another flag selects five helper tasks then player release and actor state12 reset; alternative
+ * queues callback59954(7), cancels saved first task if scheduled, closes UI and starts mode1 helper. Case1
+ * polls state gates, queues callbacks, shows14002F and restores player input. Local starts retry allocations,
+ * fullpool skip; saved pointer may be unset if first task pool full. */
 void sub_08048570(s32 arg0)
 {
     struct T47DTask *task;
@@ -2287,6 +2378,12 @@ extern u32 t47EMask asm("gUnk_030056FC");
 void t47EScript(u32 arg0) asm("sub_08048A74");
 static inline u32 t47ETest10(u8 *p){u32 m=0x10;register u32 r asm("r0")=*(u32 *)(p+0x38);r&=m;if(r!=0)r=1;return r;}
 static inline void t47ESet4(u8 *p){register u32 m asm("r1")=4;u32 r=*(u32 *)(p+0x38);*(u32 *)(p+0x38)=r|m;}
+/* [RunEnsembleDialogueAndMotion] Selector0 unlocks input, runs sequential resource dialogs0x14000C..0x140023
+ * with actor bobs/moves, chooses0x140024/25 or0x140033/34 from scene word38 bit4, continues0x140026..28, sets
+ * scene bit2 and interpolates camera back to zero. Selector1 runs0x140029..2E, performs actor poses/bobs,
+ * independently attempts selector2..5 tasks from30 controls with retrying0x400 stacks/full-pool skip, restores
+ * camera, unlocks and resets active entity state12 before invoking update helper. Selectors2..6 play
+ * configured sounds when allowed, set an entity pose3 and face the local player; other selectors return. */
 void t47EScript(u32 arg0) {
     struct T47EFrame frame;
     register s32 *stack asm("sp");
@@ -3251,6 +3348,8 @@ struct T48Item { s16 id; u16 kind; u8 pad[12]; };
 extern u8 *t48State asm("gUnk_03005CF4");
 extern u8 *t48Items asm("gUnk_030034E0");
 static inline s32 t48id(struct T48Item *p) { u32 x = (u16)p->id;  return x; }
+/* [InitializeAbsentItem42ObjectPlacement] Scene+38 mask32 guards; inventory scans+150 count25/+2E0 count75
+ * compare halfwords1,42; OR of counts,playerID,event13 must equal0. */
 void sub_08049DC4(void) {
     s32 value; register s32 loaded asm("r0"); s32 other; s32 flag; register s32 count2 asm("r5"); u8 *state; register s32 count asm("r3"); register s32 saved asm("r6"); s32 bits; register s32 off asm("r4"); register s32 off1 asm("r5"); s32 flagmask; register s32 mask asm("r5");
     u32 i; u32 j;
@@ -3299,6 +3398,10 @@ static inline void t48moveFirstE(s16 step,s16 tx,s16 ty) {
 }
 static inline void t48musicE(u32 track) { register u32 v asm("r1")=track;  gUnk_03005CF8=v; { register u32 bits asm("r1"); u32 flags=gUnk_030027D0;  bits=32;  if(!(flags&bits)) sub_08006CB4(track); } }
 
+/* [PanDialogue48Or49] Locks input and places actor0 at(240+multiplayerOffset,240), restores transition, starts
+ * song217, waits20 and pans to(-offset,-108) using interpolation increment17. Scene word+0x38 bit6 selects
+ * first-use dialog0x140030 orrepeat0x140031; sets bit6 regardless then waits dialog. Returns camera(0,0)
+ * increment34, starts song11, sets scene halfword+4 bit5 and unlocks. */
 void sub_08049EBC(void) {
  s32 off; u16 n; s32 v; u32 req; u8 *p; register s32 idx asm("r2"); s32 mask; u8 *gp; register u8 *gp2 asm("r2"); u32 word; u32 req3; register u32 hv asm("r1");
  idx=sub_080020F4()*0x14C;  p=(u8 *)gUnk_03003CE0+idx;
@@ -3350,6 +3453,11 @@ static inline void t48modeA(void){if(sub_0800CC98()==0){switch(sub_0801AB24()){c
 static inline void t48waitA(u16 n){goto check;next:n--;if(n==0)return;check:sub_080003F0();if(sub_080021A8()==0)goto next;}
 static inline u32 t48boolA(u8 *p,u32 mask){u32 r=*(u32 *)(p+0x38)&mask;if(r)r=1;return r;}
 static inline void t48musicA(u32 track){register u32 v asm("r1")=track;gUnk_03005CF8=v;if(!(gUnk_030027D0&32))sub_08006CB4(track);}
+/* [StartCameraItem23Sequence] Tests scene word+0x38 bit0. First branch locks input, sets bit0, pans(0,-60)
+ * increment0x400, attempts sub_0804A478 task, waits2, restores transition and starts song196; leaves lock for
+ * continuation. Repeat branch restores transition, runs sub_0802A080, attempts sub_0804A89C selectors5/6,
+ * waits30, resets state12 to0 for active entity slots0..4 and calls sub_08019F04. Task pool30 full skips
+ * startup,0x400 stack allocations retry. */
 void sub_0804A188(void){
  u32 bit;u8 *player;u8 *base;register u32 one asm("r4");register s32 *flags asm("r5"); u8 *p; u32 i; u32 shifted; register u32 stride asm("r0");
  base=t48stateA;one=1;bit=t48boolA(base,one); asm("" : "+r"(bit));
@@ -3387,6 +3495,12 @@ static inline void t48moveK(s16 step,s16 tx,s16 ty) {
 }
 static inline void t48waitK(u16 n){goto check;next:n--;if(n==0)return;check:sub_080003F0();if(sub_080021A8()==0)goto next;}
 extern void t48actorK(s32) asm("sub_0804A89C");
+/* [OrchestrateItem23ActorTasks] Runs actor sequence selector0 synchronously, pans camera(0,-30) increment34,
+ * then attempts four selector1..4 tasks in separate30-slot searches with retry allocation. Runs sub_0802A080,
+ * conditionally cancels saved tasks, closes dialog, restores camera increment102, attempts selectors5/6,
+ * waits30, starts tracked song2 when not linked or stops/clears the tracked song in the link branch, resets
+ * active entity state12 and calls sub_08019F04. Saved task pointers are unspecified if full-pool searches
+ * fail; no local input unlock, expected asynchronous selector1 continuation. */
 void sub_0804A478(void){
  struct T48TaskK *t1,*t2,*t3,*t4;
  u8 *p;u32 i;register s32 *flags asm("r5");u32 shifted;register u32 stride asm("r0");
@@ -3446,6 +3560,12 @@ static inline s32 t48byteB(u8 *p){register s32 v asm("r0")=*p;asm("" : "+r"(v));
 static inline void t48initB(struct T48ReqB *p,u32 id,u32 kind){register u32 a asm("r1")=id;u32 b=kind;struct T48ReqB *out;asm("" : "+r"(a),"+r"(b));out=p;out->unk0=a;out->unk2=b;}
 static inline void t48clearB(u8 *dst){u32 i=0;register u8 *p asm("r2")=dst;do{p[i]=0;i++;}while(i<=11);}
 extern void t48implB(u32) asm("sub_0804A89C");
+/* [RunItem23SceneSequence] Selector0 creates resources0x3004B/0x7004B and stages dialogs0x140035..37 with
+ * moves and state4 removals. Selector1 unlocks input then shows0x140038 and starts0x140039 without waiting.
+ * Selectors2/3/4 wait500 then move actors1/2/6 through timed paths; selector2 host counts category1/id35
+ * across bag/storage and progression bit before retrying category1/id35-or1 field spawn at(0x9300,0x8800).
+ * Selector4 removes field items by tag4 and flushes requests. Selectors5/6 set corresponding entity pose3 and
+ * face local player. Other selectors do nothing; queued spawns can wait indefinitely. */
 void t48implB(u32 arg0) {
     struct T48ReqB sp8;
     struct T48SlotB *var_r1;
@@ -3620,6 +3740,8 @@ check:
     task->arg = 0;
     sub_08000274(task, arg);
 }
+/* [InitializeInventoryGateTriggers0And1] Two startAE48 calls pass0/1 before resetting1B5/1C1. Helper3597
+ * scans30 task slots and retries0x400 allocation. */
 void sub_0804AE48(void)
 {
     s32 zero;
@@ -3674,6 +3796,8 @@ check:
             sub_080003F0();
             sub_080003F0();
 }
+/* [InitializeObjectEightPlacementEvent3] flags8 test selects t49_startAF80(4B054,0,7)
+ * versus28AAC(8,408,344,0). */
 void sub_0804AF80(void)
 {
     if (t49_hasAF80(t49_gsAF80, 8) == 0) {
@@ -3696,6 +3820,8 @@ static inline void t49_flagB054(u8 *ptr, u32 mask)
 { *(u32 *)(ptr + 0x38) |= mask; }
 static inline void t49_effectB054(s32 x, s32 y)
 { sub_08073E2C(x, y, 41, 1); }
+/* [HandleObjectEightPlacementEvent3] Flag8 is set BEFORE effects; effect center y159hex differs by1 from
+ * object y158hex. Mode0 alias invokes68820. */
 void sub_0804B054(s32 arg0)
 {
     u16 timer;
@@ -3792,6 +3918,9 @@ static inline void t49_lockB100(void)
 { struct Player *p = &gUnk_03003CE0[sub_080020F4()]; p->flags |= 1; }
 static inline void t49_unlockB100(void)
 { struct Player *p = &gUnk_03003CE0[sub_080020F4()]; p->flags &= ~1; }
+/* [InitializeDialogue62Actors] Reads progression gate; binds callback for actor2 when clear, otherwise moves
+ * actors1 and2 to(9999,9999). When scene flag16 absent, gate clear and sub_0800CCCC zero, locks input,
+ * restores transition, shows0x14003E, sets scene flag16 and unlocks; other branch only restores transition. */
 void sub_0804B100(void)
 {
     u8 *selected;
@@ -3880,6 +4009,10 @@ static inline u8 *t49_selectB32C(void)
     if (sub_0800CE30() != 0) return t49_gsB32C + 0x1C5;
     return t49_gsB32C + 0x1B9;
 }
+/* [RunActorReplacementEffects] If scene gate clear and first claim of state mask0x20, sets player flag1, hides
+ * actors2/1, starts helper tasks and emits animation41 effects, creates kind15 and runs message14003F plus
+ * downward motion, then marks object and restores player input. Already-claimed/gated path skips sequence.
+ * Both paths set mode-selected byte mask0x4. Helper starts retry allocation or skip fullpool. */
 void sub_0804B32C(void)
 {
     u32 actor, dialog;
@@ -3993,6 +4126,10 @@ static inline u32 t49_hasB61C(u8 *ptr, u32 mask)
 { return *(u32 *)(ptr + 0x38) & mask; }
 static inline void t49_flagB61C(u8 *ptr, u32 mask)
 { *(u32 *)(ptr + 0x38) |= mask; }
+/* [RunOffsetCameraDialogue] Sets player flag1, positions local player using playercount/index offsets and
+ * camera toward(-offset,-300), waits transition and music217, shows14003B or14003D selected by state mask0x40
+ * and sets it, returns camera, tracks music11, sets state halfword+4 bit32 and restores player input. Player
+ * indices outside0..3 can leave offset unset. */
 void sub_0804B61C(void)
 {
     s32 offset;
@@ -4058,6 +4195,8 @@ static inline void t49_moveB8EC(s16 step, s16 tx, s16 ty)
         sub_080003F0();
     }
 }
+/* [InterpolateCameraOffsetAfterDelay] Calls inline moveB8EC(2,target,-300); helper4043 reads signed16 offsets
+ * and includes final weight1024. */
 void sub_0804B8EC(s32 arg0)
 {
     register s32 target asm("r6") = arg0;
@@ -4123,6 +4262,10 @@ static inline void t49_moveB984(s16 tx,s16 ty)
         sub_080003F0();
     }
 }
+/* [InitializeFlaggedObjectNineteen] Mode-selected byte mask0x40 hides selector6 and skips creation. Otherwise
+ * creates kind19 at flag-dependent coordinates, positions selector6, and either starts rectangle callback with
+ * unchecked0x400 allocation or conditionally queues item descriptor3:0x23/0x91 until accepted and starts
+ * helper. Sets state mask0x1 for packet branch. Ends gated transition/idle wait; full taskpool skips start. */
 void sub_0804B984(void)
 {
     union { struct T49PacketB984 packet; struct T49ReqB984 req; } data;
@@ -4315,6 +4458,12 @@ static inline void t49_stateBC38(u32 actor)
     }
 }
 void t49_sceneBC38(u32 arg0) asm("sub_0804BC38");
+/* [StageActorDialogueSpatialMonitor] Returns if scene word38 bit1 set; otherwise sets it immediately and
+ * proceeds only when query0x0800CCCC is zero and current area4. Locks input and repeatedly searches15 active
+ * actor records for resource19 with one signal wait per attempt. Starts song196 when allowed, sets selected
+ * actor pose3, moves it to(184,187), shows resource0x140043, then unlocks and starts song3 or stops/clears
+ * tracked song for link mode. Attempts30-slot spatial monitor callback0x0804BEF8 with original argument and
+ * rectangle center(0xB700,0xC800), extents20/14. */
 void t49_sceneBC38(u32 arg0)
 {
     register u32 savedArg asm("r9")=arg0;
@@ -4431,6 +4580,11 @@ check:
 }
 static inline void t49_confirmScheduleBEF8(u32 player)
 { t49_scheduleBEF8(t49_confirmBEF8, player); }
+/* [AskItem22Dialogue69] Returns immediately when progression byte +0x1B8/+0x1C4 bit6 is set. Otherwise locks
+ * input, counts category1/id0x22 across25 item records starting+0x150 stride16. If present asks0x140045;
+ * response exactly1 queues player-dependent confirmation callback; other responses rearm spatial trigger. If
+ * absent shows0x140044 and rearms. Rearming uses30 task slots and unchecked0x400 allocation. Always unlocks
+ * after handled branch; does not remove items itself. */
 void sub_0804BEF8(u32 arg0)
 {
     u32 count;
@@ -4535,6 +4689,12 @@ static inline u32 t49_gateC150(s32 alternate, u16 level)
     if (savedLevel == 4) second = 1;
     return first & second;
 }
+/* [MarkProgression6SceneExit] Sets progression byte+0x1B8/+0x1C4 bit6 immediately. Returns if scene word+0x38
+ * bit2 already set; otherwise player0 queues callback with passed argument and sets scene bit2. Only when
+ * sub_0800CCCC()==0 and mapArea f90==4, locks input, hides actor6, closes dialog, shows0x140046, finds active
+ * actor resource19 among15 (defaults handle0), moves it through fixed path and marks state4, restores camera
+ * increment34 and unlocks. Nonmatching map branch leaves only flags/callback request changed; missing actor
+ * handle0 directs movement to local player. */
 void sub_0804C150(u32 arg0)
 {
     u8 *selected;
@@ -4622,6 +4782,8 @@ extern void sub_0805A138(s32);
 extern void sub_0804C4E8(s32);
 struct Task50C4 {u32 f0,f4,f8,fC;u8 *f10;u32 f14,f18,f1C;u8 *f20;u32 f24;};
 struct Args50C4 {u32 a,b,c;void (*callback)(s32);void *data;u32 f;};
+/* [InitializePersistentEvent10Placement] 1B8/1C4 bit2 gates2A104 descriptor4C4E8,arg0,index6; no else-position
+ * branch. */
 void sub_0804C408(void){
     struct Args50C4 args;
     struct Task50C4 *task;
@@ -4662,6 +4824,8 @@ check:
         while(!sub_0801AAE0())sub_080003F0();
     }
 }
+/* [HandlePersistentEvent10Placement] Mode1 sets1B8/1C4 bit2 after movement; mode0 calls68820 with
+ * mode1/guard0. */
 void sub_0804C4E8(s32 arg0) {
     s32 var_r0;
     s32 x;register s32 y asm("r1"); register u32 raw asm("r2");register u32 byteMask asm("r0");
@@ -4699,6 +4863,8 @@ extern void sub_0805A138(s32);
 extern void sub_0804C4E8(s32);
 struct Task50C5 {u32 f0,f4,f8,fC;u8 *f10;u32 f14,f18,f1C;u8 *f20;u32 f24;};
 struct Args50C5 {u32 a,b,c;void (*callback)(s32);void *data;u32 f;};
+/* [InitializeObjectSevenParkingEvent3] flags8 test and2A104 descriptor5A138,arg0,index6 establish
+ * initialization versus restored state. */
 void sub_0804C5A8(void){
     struct Args50C5 args;
     struct Task50C5 *task;
@@ -4741,6 +4907,10 @@ extern void sub_080576A8(void);
 extern void cameraMove50C6(s16,s16) asm("sub_0800BB80");
 union Fixed50C6 { s32 whole; struct { u16 lo; s16 hi; } part; };
 struct Flag50C6 { u32 pad; u16 flags; };
+/* [RunRepeatCameraDialogue] Sets player flag1, positions by playercount/index offset at y240, transitions and
+ * tracks song217. Pans toward(-offset,-116), chooses message140040/041 by state mask0x10 and sets it, restores
+ * camera, tracks song11, sets statehalfword+4 bit32 and restores player input. No dialog-abort branch; invalid
+ * player index may leave offset unset. */
 void sub_0804C67C(void) {
     s32 out[4];
     s32 *px2, *py2;
@@ -4844,6 +5014,9 @@ extern void sub_080576A8(void);
 extern void sub_0805664C(s32);
 struct Task50C9 { u32 f0,f4,f8,fC,f10,f14,f18,f1C,f20,f24; };
 extern void taskStart50C9(void *,u32) asm("sub_08000274");
+/* [StartSceneTasks0To5] Restores transition when permitted, then independently attempts six sub_0805664C tasks
+ * with arguments0..5. Each searches30 slots, retries0x400 stack allocation until nonzero, initializes control
+ * fields and starts task; a full pool skips that argument. No readiness/completion wait. */
 void sub_0804C948(void) {
     struct Task50C9 *task;
     u32 i,mem;
@@ -4951,6 +5124,11 @@ struct Task50CB {u32 f0,f4,f8,fC,f10,f14,f18,f1C,f20,f24;};
 extern void taskStart50CB(void *,u32) asm("sub_08000274");
 union Fixed50CB {s32 whole;struct{u16 lo;s16 hi;}part;};
 static inline u8 test50CB(u32 value,u32 mask){u32 result=value&mask;if(result)result=1;return result;}
+/* [InitializeFieldItemDemonstrationScene] Tests scene+0x38 bits0/2. First entry sets bit0, locks input, pans
+ * camera(0,-160), restores transition, attempts sub_0804D020 task and starts song196, leaving input locked for
+ * continuation. Repeat bit0-set/bit2-clear invokes sub_0802A080 and attempts demonstration selectors1..5;
+ * bit2-set skips them. Repeat branches reset state12 for active entity slots0..4 and call sub_08019F04.30 task
+ * slots full skip starts; stack allocations retry indefinitely. */
 void sub_0804CBBC(void){
     s32 outY,outX;
     u8 *state,*entry;
@@ -5128,6 +5306,11 @@ struct Task50D0 { u32 f0,f4,f8,fC,f10,f14,f18,f1C,f20,f24; };
 extern void taskStart50D0(void *,u32) asm("sub_08000274");
 extern void sub_0802A080(s32,s32,s32,s32);
 extern void sub_080586B4(s32);
+/* [OrchestrateFieldItemDemonstration] Attempts selector0 demonstration task, invokes sub_0802A080, sets
+ * scene+0x38 bit2, cancels saved task if scheduled, starts song4 when not linked or stops/clears the tracked
+ * song in the link branch, closes dialog, attempts selectors1..5 and waits30. Resets state12 for active entity
+ * slots0..4 and calls sub_08019F04.30-slot pool searches can skip tasks;0x400 allocation retries; saved first
+ * task pointer is unspecified after full-pool failure. */
 void sub_0804D020(void) {
     struct Task50D0 *task;
     u32 i,mem;

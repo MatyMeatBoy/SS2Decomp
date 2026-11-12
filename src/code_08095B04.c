@@ -8,6 +8,10 @@ struct Motion95 {u32 unk0,unk4; s16 unk8; u8 pad[10]; s32 unk14,unk18;};
 extern s16 sine95[] asm("gUnk_080B9704");
 extern u16 angles95[] asm("gUnk_085186DC");
 extern u16 query95(u8,s32,s32) asm("sub_08095D1C");
+/* [MoveActorAndReturnFacingChange] Computes a direction-based displacement, queries sub_08095D1C for a
+ * redirected facing and repeats the displacement/query. It commits coordinates only after the second nonzero
+ * query result. Returns whether facing changed from entry, rather than whether position changed. Directions
+ * 0/4 divide vertical displacement by 304; other directions use 256. */
 s32 sub_08095B04(struct Motion95 *p, s32 speed)
 {
     s32 x=p->unk14;
@@ -44,6 +48,10 @@ s32 sub_08095B04(struct Motion95 *p, s32 speed)
 }
 struct Map99D1C { u8 pad0[0x68]; u16 *tiles; u32 pad6C; u16 width,height; };
 extern struct Map99D1C map99D1C asm("gUnk_03003170");
+/* [RedirectFacingFromTileNeighborhood] Samples a 3 by 3 collision-nibble neighborhood around the fixed-point
+ * position after adding 0x200 to Y and shifting coordinates right by 11. Border/outside cells use category 1.
+ * Center category 1 redirects facing according to neighboring cells; other categories return direction + 1.
+ * The result is a one-based direction, not a collision boolean. */
 s32 sub_08095D1C(u8 direction, s32 x, s32 y)
 {
     u8 cells[9];
@@ -141,6 +149,9 @@ s32 sub_08095D1C(u8 direction, s32 x, s32 y)
     }
 }
 extern s32 angleE70(s16, s16) asm("ArcTan2");
+/* [SetActorFacingTowardIntegerPoint] Computes ArcTan2 toward a signed 16-bit integer point from actor
+ * coordinates +0x14/+0x18, rounds to an octant with a strict midpoint comparison, and maps octants to facing
+ * values 6, 7, 0, 1, 2, 3, 4, 5. Stores halfword +8 and returns its low byte. */
 s32 sub_08095E70(struct Motion95 *p, s16 x, s16 y)
 {
     s32 rawX, rawY, dx, dy;
@@ -175,6 +186,9 @@ struct TargetF10 { u16 x, y; };
 struct PlayerF10 { u8 pad[0x148]; struct TargetF10 *target; };
 extern struct PlayerF10 playersF10[] asm("gUnk_03003CE0");
 extern s32 angleF10(s16, s16) asm("ArcTan2");
+/* [SetActorFacingTowardPlayerPacket] Uses the same octant/facing conversion as sub_08095E70, with target
+ * coordinates read through player +0x148: X is packet halfword 0 >> 4 and Y is the low 12 bits of halfword 1.
+ * Stores actor facing halfword +8. The player index is not validated here. */
 s32 sub_08095F10(struct Motion95 *p, u8 index)
 {
     s32 rawX, rawY, dx, dy;
@@ -213,6 +227,8 @@ s32 sub_08095F10(struct Motion95 *p, u8 index)
     return (u8)p->unk8;
 }
 extern s32 arcTan2_99(s16, s16) asm("ArcTan2");
+/* [GetOctantFacingBetweenPoints] Truncates integer coordinate deltas to s16, computes ArcTan2, rounds with the
+ * original strict octant midpoint comparison and returns the mapped facing byte 6, 7, 0, 1, 2, 3, 4, 5. */
 s32 sub_08095FC8(s16 arg0, s16 arg1, s16 arg2, s16 arg3) {
     u16 angle;
     u32 temp_r0;
@@ -267,6 +283,10 @@ s32 sub_08095FC8(s16 arg0, s16 arg1, s16 arg2, s16 arg3) {
 struct MotionStart99 { u32 unk0; u16 code, phase; s16 direction; u8 padA[10]; s32 x, y, previousX, previousY; };
 extern s32 angleStart99(s16, s16) asm("ArcTan2");
 extern s8 motionStart99(struct MotionStart99 *, u32, u32, u32) asm("sub_08096060");
+/* [PrepareActorMovementTowardPoint] Computes signed 16-bit target deltas and a Sqrt distance truncated to u16.
+ * It sets actor facing +8, direction code +4, clears phase +6 and copies current coordinates to
+ * previous-coordinate fields +0x1C/+0x20. Returns 0 only when the signed 16-bit radius exceeds distance;
+ * otherwise 1. It does not advance position. */
 s8 motionStart99(struct MotionStart99 *arg0, u32 arg1, u32 arg2, u32 arg3) {
     s32 rawX, dxWide, dyWide;
     s32 rawY;
@@ -347,6 +367,11 @@ s8 motionStart99(struct MotionStart99 *arg0, u32 arg1, u32 arg2, u32 arg3) {
 struct NearEntity99 { u8 pad[0x14]; s32 x, y; };
 struct NearPlayer99 { u8 pad[0x30]; u32 flags; u8 pad34[0x114]; u16 *target; };
 extern struct NearPlayer99 nearPlayers99[] asm("gUnk_03003CE0");
+/* [SelectPlayerByAscendingDistanceWithinLimit] Builds player distance/index pairs from packet coordinates
+ * relative to actor +0x14/+0x18, sorts squared distances ascending and compares the first Sqrt result,
+ * narrowed to u16, against the supplied inclusive limit. On acceptance updates the limit and returns the
+ * stored index; otherwise returns 10. Flag-rejected entries retain distance 0x7FFFFFFF without initializing
+ * their index, so this is not a general valid-player guarantee. */
 s32 sub_08096154(struct NearEntity99 *entity, s32 *inputLimit)
 {
     register s32 *limit asm("sl") = inputLimit;
@@ -462,6 +487,10 @@ s32 sub_08096154(struct NearEntity99 *entity, s32 *inputLimit)
     }
     return result;
 }
+/* [SelectPlayerByDescendingDistanceWithinLimit] Uses the same packet-distance records and inclusive output
+ * limit as sub_08096154, but sorts squared distances descending. Discarded entries keep the high sentinel and
+ * can sort first; their index may be unwritten. Returns 10 when the resulting truncated distance exceeds the
+ * input limit. The name describes the actual ordering rather than guaranteeing a farthest eligible player. */
 s32 sub_08096274(struct NearEntity99 *entity, s32 *inputLimit)
 {
     register s32 *limit asm("sl") = inputLimit;
@@ -577,6 +606,10 @@ s32 sub_08096274(struct NearEntity99 *entity, s32 *inputLimit)
     }
     return result;
 }
+/* [SelectPlayerByAscendingDistanceToPoint] Uses the supplied fixed-point X/Y shifted right by 8, builds packet
+ * squared-distance/index pairs and sorts them ascending. Returns the first stored index without a
+ * distance-limit check. Flag-rejected records retain a high distance sentinel and may have an unwritten index;
+ * no empty/all-rejected result is established. */
 s32 sub_08096394(s32 inputX, s32 inputY)
 {
     s32 rawY = inputY;
@@ -700,6 +733,9 @@ s32 sub_08096394(s32 inputX, s32 inputY)
     }
     return entries[1];
 }
+/* [SelectPlayerByDescendingDistanceToPoint] Like sub_08096394, but sorts squared distances descending before
+ * returning the first index. High sentinels for rejected entries remain in the ordering, so the result does
+ * not independently guarantee a valid farthest player. */
 s32 sub_08096494(s32 inputX, s32 inputY)
 {
     s32 rawY = inputY;
@@ -825,6 +861,10 @@ s32 sub_08096494(s32 inputX, s32 inputY)
 }
 struct SelectPlayer99 { u8 pad[0x30]; u32 flags; u8 pad34[0x114]; u8 *target; };
 extern struct SelectPlayer99 selectPlayers99[] asm("gUnk_03003CE0");
+/* [SelectPlayerInAlternatingOrder] Uses the low bit of counter array 0x03000290 at the supplied byte index to
+ * choose one of two player visitation orders. Rejects flags 0x2000/0x40002 and packet state nibble 11 while
+ * scanning. Returns the first accepted selection, or the final selection if all attempts are rejected; it does
+ * not return a distinct no-player sentinel. */
 s32 sub_08096594(u8 arg0)
 {
     s32 selected;
@@ -881,6 +921,11 @@ extern u16 angles99640[] asm("gUnk_0849E730");
 extern u16 query99640(u8,s32,s32,s32) asm("sub_0800B118");
 extern u32 sqrt99640(s32) asm("Sqrt");
 extern u16 angle99640(s32,s32) asm("ArcTan2");
+/* [TrySeparateSameRowActors] Scans five actor slots, skipping its own index and inactive slots, while
+ * retaining entry position. Only pairs with truncated integer |dx| <= 7 and dy == 0 reach separation logic;
+ * self state 11 is skipped. Uses summed radius bytes, Sqrt and ArcTan2 to propose displacement, then
+ * sub_0800B118 to redirect it before storing actor coordinates. This is narrower than a general overlap
+ * resolver. */
 void sub_08096640(struct Body99640 *arg0)
 {
     struct Body99640 *self = arg0;
@@ -939,6 +984,10 @@ extern struct ShakeView99 *shakeView99 asm("gUnk_030034E0");
 extern struct Task *shakeTask99 asm("gUnk_03000298");
 extern void shakeOffset99(u32, s32) asm("sub_0800BB80");
 extern void shakeRoutine99(u32) asm("sub_080967D0");
+/* [TaskApplySineScreenShake] Generates a byte-wrapping sine phase modulo 90, flips odd derived offsets and
+ * sends the vertical offset through sub_0800BB80 when four effect predicates allow it. Also writes half the
+ * signed saved record value at +0x18 during the effect, restores it at completion and clears task control +8.
+ * The counter ends at the original 0xFFFF sentinel; scheduler waits do not prove fixed elapsed frames. */
 void shakeRoutine99(u32 arg0) {
     struct ShakeView99 *view;
     s16 temp_r1;
@@ -979,6 +1028,9 @@ void shakeRoutine99(u32 arg0) {
 }
 struct Ctrl99 { u16 scaleX, scaleY, x, y, a, b; u8 c, d, e, f; };
 extern struct Ctrl99 ctrl99 asm("gUnk_030002A0");
+/* [ResetBg2EffectTransformControl] Resets the transform block at 0x030002A0: position, offset and
+ * phase/angle/pause bytes become zero, and both scale halfwords become 0x100. Consumers
+ * sub_080968C0/sub_080969CC write the BG2 affine-register shadow. */
 void sub_0809689C(void)
 {
     ctrl99.y = 0;
@@ -992,6 +1044,10 @@ void sub_0809689C(void)
     ctrl99.scaleY = 0x100;
     ctrl99.scaleX = 0x100;
 }
+/* [UpdateBg2EffectRotationShadow] Builds a unit-scale sine/cosine affine matrix from the transform angle and
+ * position/offset sums. Writes BG2 matrix/reference shadow halfwords 8 through 15 only when four effect
+ * predicates return zero. The Y reference expression uses 0x78 exactly, rather than substituting an assumed
+ * screen center. */
 void sub_080968C0(void) {
     u32 sumX, sumY;
     register u32 lastY asm("r5");
@@ -1029,6 +1085,9 @@ void sub_080968C0(void) {
 
 struct ScaleControl99 { u16 scaleX, scaleY, w4, w6, w8, wA; u8 b0C, b0D, pad0E, b0F; };
 extern struct ScaleControl99 scaleControl99 asm("gUnk_030002A0");
+/* [UpdateBg2EffectScaledAffineShadow] Builds the same BG2 affine shadow as sub_080968C0, with reciprocal X/Y
+ * scales through sub_08090494 and sub_08090434. Scale fields are read as unsigned halfwords. The four effect
+ * predicates gate shadow writes; there is no zero-scale guard here. */
 void sub_080969CC(void) {
     u32 sumX, sumY;
     s16 sineA, sineB, sineD;
@@ -1071,6 +1130,10 @@ void sub_080969CC(void) {
 }
 
 struct PointAF4 { s32 x, y; };
+/* [WarpPositionUsingTransformAngleDelta] When four effect predicates allow it, applies a sine of
+ * previous-angle minus current-angle from transform 0x030002A0. Nonzero mode first shifts X by signed current
+ * angle times 16; Y displacement is scaled around X = 0x8000. Zero mode keeps X and changes the Y sign by side
+ * of that reference. Returns the low signed 16 bits of the derived X distance, or zero when gated. */
 s32 sub_08096AF4(struct PointAF4 *input, u32 arg1) {
     register struct PointAF4 *arg0 asm("r4") = input;
     s32 temp_r1;
@@ -1129,6 +1192,11 @@ extern struct SplinePoint996BA8 *points996BA8 asm("gUnk_030002B0");
 extern s16 count996BA8 asm("gUnk_030002B4");
 extern s16 tangentScale996BA8 asm("gUnk_030002B6");
 
+/* [EvaluateQ12CubicPathSegment] Builds four Q12 cubic basis weights from t and evaluates X/Y using endpoints
+ * p0/p2 and scaled p1/p3 tangent differences. Mode 0 reads forward and rejects index > count - 4 with the
+ * original unsigned comparison; mode 1 reads backward and rejects index <= 2 without an upper bound. Other
+ * modes return 0 without output. Low-32-bit arithmetic and the Y-side scale reload remain part of the
+ * behavior. */
 s32 sub_08096BA8(u32 inputIndex, s32 t, u32 inputMode,
                 struct SplinePoint996BA8 *output)
 {
@@ -1269,6 +1337,10 @@ s32 sub_08096BA8(u32 inputIndex, s32 t, u32 inputMode,
     return 0;
 }
 struct PaletteLerp99 { u32 r:5; u32 g:5; u32 b:5; u32 unused:1; };
+/* [StepPalette16TowardTargetByRatio] When frame < duration, updates 16 RGB555 entries in place as current +
+ * (target - current) * frame / duration per channel, clears bit 15 and returns 0. At or after duration it
+ * returns 1 without writing or copying the target endpoint. Repeated calls use already-modified current
+ * colors. */
 s32 sub_08096D40(u16 *initialPalette, u16 *target, u16 frame, u16 duration)
 {
     u16 *palette;
@@ -1319,6 +1391,10 @@ s32 sub_08096D40(u16 *initialPalette, u16 *target, u16 frame, u16 duration)
 }
 struct PaletteStep99 { u32 r:5; u32 g:5; u32 b:5; u32 unused:1; };
 extern s32 paletteStep99(u16 *, u8, u16, u16) asm("sub_08096E20");
+/* [AddScaledChannelOffsetToPalette16] When frame < duration, sign-extends the amount byte and adds amount *
+ * frame / duration to every channel of 16 RGB555 entries. Each sum is narrowed to u16 before unsigned
+ * comparison with 31, so negative underflow becomes 31. Clears bit 15 and returns 0; at or after duration
+ * returns 1 without writing. */
 s32 paletteStep99(u16 *palette, u8 amount, u16 frame, u16 duration)
 {
     u8 i;
@@ -1352,6 +1428,9 @@ s32 paletteStep99(u16 *palette, u8 amount, u16 frame, u16 duration)
     return done;
 }
 struct Palette99 { u32 r:5; u32 g:5; u32 b:5; u32 unused:1; };
+/* [AddPalette16ChannelOffset] Loops16two-byte BGR555 entries, signed8delta independently added to5bit
+ * channels, casts each sum tou16 then unsigned caps31. Clears bit15. Caller93BAC uses+6, uploads palette,
+ * then-6. Not conventional signed lower+upper clamp, not source-equivalent to SA2 palette function. */
 void sub_08096EFC(u16 *palette, s8 amount)
 {
     u8 i = 0;
@@ -1382,6 +1461,10 @@ extern void init99FA0(void *,s32,s32,s32,s32) asm("sub_08065158");
 extern u32 animate99FA0(void *,u32,volatile u16 *,volatile u16 *,s32) asm("sub_08065370");
 extern void coords99FA0(s32,s32,s16 *,s16 *,s32,void *) asm("sub_0800BC08");
 extern u8 *draw99FA0(s32,s32,u32,u32,u32,void *,u32,u32) asm("sub_08007870");
+/* [TaskAnimateSpriteAtSharedWorldPosition] Initializes sprite resource 0x50020 and plays sound 0x1A5,
+ * animating at shared world position 0x030002C8 and clearing task 0x030002C0 +8 at exit. The original
+ * animation-finished register is incoming until the first unpaused tick. The post-finish unsigned branch can
+ * exit on the first finished iteration; no additional 60-frame delay is promised. */
 void sub_08096FA0(u8 arg0)
 {
     struct Sprite99FA0 sprite;
@@ -1444,6 +1527,10 @@ extern s32 animate9970D(void *, u16, u16 *, u16 *, s32) asm("sub_08065370");
 extern void coords9970D(s32, s32, s16 *, s16 *, u32, u32) asm("sub_0800BC08");
 extern void draw9970D(s16, s16, u16, u16, u32, u32, u32, void *, u32, void *) asm("sub_08007974");
 
+/* [AnimateActorMosaicBrightenTransition] Copies 16 palette colors, alternates object mosaic X/Y sizes, then
+ * adds positive channel offsets through sub_08096E20 after a hold phase. Each iteration advances actor
+ * animation, projects/draws it with map-derived priority, uploads the palette and waits. Clears mosaic at
+ * completion and returns 1. Initial local palette bit 15 is not explicitly copied. */
 s32 sub_080970CC(struct Entity9970D *inputEntity,
                 struct Sprite9970D *inputImage, u32 bank, u32 slot)
 {
@@ -1552,6 +1639,9 @@ extern s32 animate9972B8(void *, u16, u16 *, u16 *, s32) asm("sub_08065370");
 extern void coords9972B8(s32, s32, s16 *, s16 *, u32, u32) asm("sub_0800BC08");
 extern void draw9972B8(s16, s16, u16, u16, u32, u32, u32, void *, u32, void *) asm("sub_08007974");
 
+/* [AnimateActorMosaicBrightenWithPriority] Runs the same palette/mosaic/animation transition as sub_080970CC
+ * while using the supplied priority low byte instead of querying map priority. It still projects current actor
+ * coordinates, draws, uploads the palette, waits and clears mosaic at completion. */
 s32 sub_080972B8(struct Entity9972B8 *inputEntity,
                 struct Sprite9972B8 *inputImage, u32 bank, u32 slot,
                 volatile u32 inputPriority)
@@ -1668,6 +1758,9 @@ extern void sub_0800BC08(s32,s32,s16 *,s16 *,u32,u32);
 extern void sub_08007974(s16,s16,u16,u16,u32,u32,u32,void *,u32,void *);
 extern void fadeScroll100(u32,u32,u32,u32) asm("sub_08009088");
 extern s8 sub_08096E20(u16 *,s32,u16,s32);
+/* [DrawActorMosaicBrightenTransition] Runs a palette-brightening and alternating object-mosaic sequence using
+ * current actor animation/frame fields without calling the animation-step helper. Projects/draws with
+ * map-derived priority, uploads the palette and waits each iteration, then clears mosaic and returns 1. */
 s32 sub_08097488(void *entity,void *image,u16 bank,u16 paletteNum)
 {
     u32 palNum=paletteNum;
@@ -1733,6 +1826,10 @@ s32 sub_08097488(void *entity,void *image,u16 bank,u16 paletteNum)
     return 1;
 }
 struct FadePairColor100 { u16 r:5; u16 g:5; u16 b:5; u16 unused:1; };
+/* [AnimateActorPairMosaicBrightenTransition] Applies the palette/mosaic transition to two actor/image pairs,
+ * advancing both animations and drawing both through one palette slot in sequence. The first draw has an
+ * input-selected horizontal offset of +/-9 and vertical offset 21. During brightening, the first palette uses
+ * the old counter and the second uses its incremented value. Clears mosaic at completion. */
 s32 sub_08097658(void *entityA,void *entityB,void *imageA,void *imageB,u16 bank,u16 paletteNum,u8 reverse)
 {
     u16 colors[32];
@@ -1812,6 +1909,9 @@ s32 sub_08097658(void *entityA,void *entityB,void *imageA,void *imageB,u16 bank,
     fadeScroll100(0,0,0,0);
     return 1;
 }
+/* [ComputeQ8DirectionFromMixedUnitPoints] Computes a Q8 sine/cosine direction from signed 16-bit deltas
+ * targetX - (x >> 8) and targetY - (y >> 8). In the zero-X branch it compares targetY against unshifted input
+ * Y, preserving the mixed-unit behavior. Outputs are signed 16-bit values stored in two words. */
 void sub_08097978(s32 x,s32 y,s32 targetX,s32 targetY,s32 *out)
 {
     register s32 savedY asm("r5")=y;
@@ -1847,6 +1947,9 @@ void sub_08097978(s32 x,s32 y,s32 targetX,s32 targetY,s32 *out)
     value=(s16)cosine;
     dest[1]=value;
 }
+/* [ComputeQ8DirectionFromFixedPoints] Computes a Q8 direction from fixed-point coordinate differences using
+ * low-32-bit left shift by 8 and arithmetic right shift by 16 before ArcTan2. In the zero-X branch it returns
+ * (0,-256) when targetY < inputY and (0,+256) otherwise, including coincident points. */
 void sub_080979D8(s32 x,s32 y,s32 targetX,s32 targetY,s32 *out)
 {
     register s32 savedY asm("r5")=y;
@@ -1876,10 +1979,14 @@ void sub_080979D8(s32 x,s32 y,s32 targetX,s32 targetY,s32 *out)
         if(targetY<savedY) dest[1]=-0x100;
     }
 }
+/* [AdvancePlayerSelectionOrderCounter] Increments the byte at 0x03000290 indexed by the low input byte, with
+ * byte wrap. Its low bit selects the visitation order in sub_08096594. No index bound check is performed. */
 void sub_08097A38(u8 i)
 {
     gUnk_03000290[i]++;
 }
+/* [ResetPlayerSelectionOrderCounters] Clears all five bytes at 0x03000290 used for player-selection order
+ * counters. It does not select a target or reset player records. */
 void sub_08097A4C(void)
 {
     gUnk_03000290[4] = 0;
@@ -1888,10 +1995,15 @@ void sub_08097A4C(void)
     gUnk_03000290[1] = 0;
     gUnk_03000290[0] = 0;
 }
+/* [ResetPlayerSelectionOrderCounter] Clears one byte in the player-selection order counter array at
+ * 0x03000290, indexed by the low input byte. No index bound check is performed. */
 void sub_08097A60(u8 i)
 {
     gUnk_03000290[i] = 0;
 }
+/* [StepActorTowardPlayerOutsideRadius] Prepares actor movement toward the player packet position through
+ * sub_08096060. If outside the strict radius, performs one sub_08013E90 movement step and stores its facing
+ * result. Returns the outside-radius flag; it does not loop until the target is reached. */
 s32 sub_08097A74(void *arg0, void *arg1, s32 arg2, s16 arg3) {
     s8 temp_r5;
     void *temp_r0;
@@ -1904,6 +2016,9 @@ s32 sub_08097A74(void *arg0, void *arg1, s32 arg2, s16 arg3) {
     return (s32) temp_r5;
 }
 extern void sub_08097BA4(s32, s32 *, u16);
+/* [StepActorTowardPointWithOptionalCollision] Prepares target/facing through sub_08096060, then performs one
+ * movement step only when outside the radius. The low-byte option selects collision-aware sub_08013E90 or
+ * direct sine movement sub_08097BA4. Returns the signed-byte outside-radius flag. */
 s32 sub_08097AC0(void *arg0,s32 arg1,s32 arg2,s32 arg3,volatile s32 arg4,volatile u32 arg5)
 {
     void *obj=arg0;
@@ -1927,6 +2042,9 @@ s32 sub_08097AC0(void *arg0,s32 arg1,s32 arg2,s32 arg3,volatile s32 arg4,volatil
     }
     return (s8)result;
 }
+/* [IsIntegerPointInsideActorRadius] Converts actor coordinates +0x14/+0x18 to signed 16-bit integer
+ * coordinates, narrows query coordinates/radius and deltas, and returns whether the signed radius is strictly
+ * greater than Sqrt distance truncated to u16. Boundary equality is excluded. */
 u32 sub_08097B24(const u8 *obj,s32 x,s32 y,s32 radius)
 {
     s32 objectX;
@@ -1957,6 +2075,9 @@ u32 sub_08097B24(const u8 *obj,s32 x,s32 y,s32 radius)
     
     return rr>(s32)distance;
 }
+/* [AreFixedPointsWithinStrictRadius] Converts fixed-point coordinate differences through low-32-bit left shift
+ * by 8 and arithmetic right shift by 16. Returns whether a signed 16-bit radius is strictly greater than Sqrt
+ * distance truncated to u16. Boundary equality is excluded. */
 u32 sub_08097B6C(s32 x0,s32 y0,s32 x1,s32 y1,s32 radius)
 {
     register s32 dx asm("r4");
@@ -1978,6 +2099,9 @@ u32 sub_08097B6C(s32 x0,s32 y0,s32 x1,s32 y1,s32 radius)
     
     return rr > (s32)distance;
 }
+/* [AdvancePositionByFacingAndSpeed] Advances a two-word position using speed times sine/cosine selected by
+ * facing. X uses division by 256; Y uses 304 for directions 0/4 and 256 otherwise. It does not query map
+ * collision. */
 void sub_08097BA4(s32 velocity,s32 *position,u16 direction)
 {
     if(direction==0 || direction==4)
@@ -1986,6 +2110,8 @@ void sub_08097BA4(s32 velocity,s32 *position,u16 direction)
         position[1] += velocity*gUnk_080B9704[gUnk_085186DC[direction]]/256;
     position[0] += velocity*gUnk_080B9704[gUnk_085186DC[direction]+0x40]/256;
 }
+/* [AllocateScreenShakeTaskControl] Allocates one 0x28-byte screen-shake task control at 0x03000298 and
+ * initializes field +8 to zero when allocation succeeds. It does not start the callback or allocate its stack. */
 void sub_08097C4C(void)
 {
   s8 *new_var2;
@@ -1999,6 +2125,9 @@ void sub_08097C4C(void)
     *((s32 *) (new_var2 + 8)) = 0;
   }
 }
+/* [CancelScreenShakeAndFreeControl] If the shake control exists and field +8 is nonzero, restores the saved
+ * halfword to the record at 0x030034E0 +0x18 and cancels the task. Frees the control and clears its global
+ * pointer. */
 void sub_08097C6C(void)
 {
     u32 *obj = (u32 *)gUnk_03000298;
@@ -2012,6 +2141,10 @@ void sub_08097C6C(void)
         gUnk_03000298 = 0;
     }
 }
+/* [StartScreenShakeTask] Requires an allocated idle control, allocates a 0x200-byte stack and starts callback
+ * sub_080967D0 with the input narrowed to s16. Saves the halfword at record 0x030034E0 +0x18 for restoration.
+ * Stack allocation failure returns without starting; no scheduling priority or fixed elapsed-time guarantee is
+ * inferred. */
 void sub_08097CA8(u16 value)
 {
     u8 *task;
@@ -2033,24 +2166,34 @@ void sub_08097CA8(u16 value)
     sub_08000274_(task, (u32)(s32)(s16)value, 0);
     ss2ScaleSave = *(u16 *)((u8 *)gUnk_030034E0 + 0x18);
 }
+/* [SetBg2EffectTransformPosition] Stores the low 16 bits of two inputs at transform 0x030002A0 +4/+6. BG2
+ * affine consumers add these position fields to the separate offset fields. */
 void sub_08097D0C(u16 a, u16 b)
 {
     gUnk_030002A0.w4 = a;
     gUnk_030002A0.w6 = b;
 }
+/* [SetBg2EffectTransformOffset] Stores the low 16 bits of two inputs at transform +8/+0xA, added to position
+ * fields by BG2 affine consumers. */
 void sub_08097D18(u16 a, u16 b)
 {
     gUnk_030002A0.w8 = a;
     gUnk_030002A0.wA = b;
 }
+/* [SetBg2EffectTransformAngle] Stores the low byte of the input in transform angle +0xD, used to index
+ * sine/cosine by the BG2 affine consumers. */
 void sub_08097D24(u8 v)
 {
     gUnk_030002A0.b0D = v;
 }
+/* [SetBg2EffectTransformScale] Stores scale input halfwords at transform +0/+2. The scaled affine consumer
+ * reads their unsigned bit patterns for reciprocal scaling; no nonzero validation occurs here. */
 void sub_08097D30(s16 arg0, s16 arg1) {
     M2C_FIELD(&gUnk_030002A0, s16 *, 0) = arg0;
     M2C_FIELD(&gUnk_030002A0, s16 *, 2) = arg1;
 }
+/* [SetBg2EffectSineAnglePhase] Stores the phase input low byte at transform +0xC, computes (sine[phase] *
+ * (s8)amplitude) >> 8 and writes its low byte to both current angle +0xD and previous angle +0xE. */
 void sub_08097D3C(u32 index, s32 scale)
 {
     s32 value;
@@ -2059,14 +2202,21 @@ void sub_08097D3C(u32 index, s32 scale)
     gUnk_030002A0.b0D = value;
     gUnk_030002A0.pad0E = value;
 }
+/* [ResumeBg2EffectSineAngleUpdates] Clears transform pause byte +0xF. Only the sine phase/angle update in
+ * sub_08097D7C is gated by this byte; it does not restart an affine task. */
 void sub_08097D64(void)
 {
     gUnk_030002A0.b0F = 0;
 }
+/* [PauseBg2EffectSineAngleUpdates] Sets transform pause byte +0xF to 1, suppressing the sine phase/angle
+ * update in sub_08097D7C. */
 void sub_08097D70(void)
 {
     gUnk_030002A0.b0F = 1;
 }
+/* [AdvanceBg2EffectSineAngleIfEnabled] Always copies current angle +0xD to previous angle +0xE. When pause
+ * byte +0xF is zero, recomputes angle from current phase and signed amplitude byte, then increments phase by
+ * the unsigned step byte with 8-bit wrap. */
 void sub_08097D7C(u8 angle, u8 scale)
 {
     u8 *state = (u8 *)&gUnk_030002A0;
@@ -2077,6 +2227,10 @@ void sub_08097D7C(u8 angle, u8 scale)
         state[0xC] += (u8)angle;
     }
 }
+/* [GetOutsideSineShiftedYBandMask] When four effect predicates return zero, computes a sine shift from
+ * transform angle +0xD and the signed low halfword of the third input. Returns mask 0xF when supplied Y is
+ * outside inclusive bounds 0x7000 - shift through 0xA000 - shift; otherwise 0. First/fourth inputs are unused
+ * here. */
 u32 sub_08097DBC(u32 arg0, s32 y, u16 angle, u32 arg3)
 {
     s32 scaled;

@@ -169,3 +169,13 @@ only in their state block; scene scripts are numbered by the dialogue id they
 show. Those need game knowledge (the text, the scene) rather than code reading.
 The 25 `ReturnOne/NoOp` functions with no caller and no pointer in the ROM are
 now `Unused...Stub`: a port can drop them.
+
+## Comments in the source
+
+`python3 tools/scripts/annotate_names.py` writes each function's display name
+and the first evidence description as a comment above its definition in
+`src/*.c` (`/* [Name] what it does ... */`). The comments are generated: do not
+edit them in the C; improve the catalog row and run the tool again (it replaces
+its own blocks). Run it after every naming or renaming round, then
+`make -j8 compare`. `--check` lists functions without a comment. Functions that
+live in assembly (scheduler, start-up) have no C definition to annotate.

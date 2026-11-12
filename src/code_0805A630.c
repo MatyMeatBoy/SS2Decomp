@@ -1,21 +1,45 @@
 #include "global.h"
 struct Entry61 { u32 words[4]; };
 
+/* [ApproachAndWaitAtAreaExitDirection3] Forwards the original input pointer in R0 to 2413C with second
+ * argument exactly 3, then returns without a result contract. It inherits the movement, waiting, cancellation
+ * and early-exit limits of the exit-approach body; it does not independently register a task or select/store
+ * the destination. Direction is the observed numeric selector, not an inferred compass label. */
 void sub_0805A630(s32 arg0) {
     sub_0802413C(arg0, 3);
 }
+/* [ApproachAndWaitAtAreaExitDirection4] Forwards the original input pointer in R0 to 2413C with second
+ * argument exactly 4, then returns without a result contract. It inherits the movement, waiting, cancellation
+ * and early-exit limits of the exit-approach body; it does not independently register a task or select/store
+ * the destination. Direction is the observed numeric selector, not an inferred compass label. */
 void sub_0805A63C(s32 arg0) {
     sub_0802413C(arg0, 4);
 }
+/* [ApproachAndWaitAtAreaExitDirection5] Forwards the original input pointer in R0 to 2413C with second
+ * argument exactly 5, then returns without a result contract. It inherits the movement, waiting, cancellation
+ * and early-exit limits of the exit-approach body; it does not independently register a task or select/store
+ * the destination. Direction is the observed numeric selector, not an inferred compass label. */
 void sub_0805A648(s32 arg0) {
     sub_0802413C(arg0, 5);
 }
+/* [ApproachAndWaitAtAreaExitDirection6] Forwards the original input pointer in R0 to 2413C with second
+ * argument exactly 6, then returns without a result contract. It inherits the movement, waiting, cancellation
+ * and early-exit limits of the exit-approach body; it does not independently register a task or select/store
+ * the destination. Direction is the observed numeric selector, not an inferred compass label. */
 void sub_0805A654(s32 arg0) {
     sub_0802413C(arg0, 6);
 }
+/* [ApproachAndWaitAtAreaExitDirection7] Forwards the original input pointer in R0 to 2413C with second
+ * argument exactly 7, then returns without a result contract. It inherits the movement, waiting, cancellation
+ * and early-exit limits of the exit-approach body; it does not independently register a task or select/store
+ * the destination. Direction is the observed numeric selector, not an inferred compass label. */
 void sub_0805A660(s32 arg0) {
     sub_0802413C(arg0, 7);
 }
+/* [CancelScheduledEnemySpawnGroupTasks] Visits 32 scene task controls at +0x1834 with stride 0x28. For each,
+ * checks scheduler membership and calls 003A8 only when present, rereading the scene pointer for cancellation.
+ * Does not directly clear enemy actors, group slot states, the group count, network queues or the group-record
+ * pointer table. */
 void sub_0805A66C(void)
 {
     u32 i = 0;
@@ -24,9 +48,16 @@ void sub_0805A66C(void)
     for (; i <= 0x1F; offset += 0x28, i++)
         if (sub_08000470((u32)*owner + offset)) sub_080003A8((u32)*owner + offset);
 }
+/* [ClearSceneRequestFlag] Clears mask0x100 in game-state halfword+4 and preserves other bits; no allocation,
+ * wait or return value. */
 void sub_0805A6A0(void) {
     M2C_FIELD(gUnk_03005CF4, u16 *, 4) = (u16) (0xFEFF & M2C_FIELD(gUnk_03005CF4, u16 *, 4));
 }
+/* [TaskRunDelayedTwoArgumentCallback] Counts scheduler waits until its counter is at least the record word at
+ * +0xC, then invokes callback +0 with arguments +4 and +8. Re-reads the wait threshold after each wait and
+ * reads the callback/arguments only after waiting finishes, so the record remains live mutable input. A zero
+ * threshold invokes the callback without an internal wait. No fixed elapsed-video-frame guarantee is
+ * established. */
 void sub_0805A6B8(void *arg0)
 {
     u32 i;
@@ -34,16 +65,31 @@ void sub_0805A6B8(void *arg0)
         sub_080003F0();
     ((void (*)(s32, s32))M2C_FIELD(arg0, u32 *, 0))(M2C_FIELD(arg0, s32 *, 4), M2C_FIELD(arg0, s32 *, 8));
 }
+/* [IsSceneObjectInteractionBlocked] Returns exactly bit 7 of the current scene flags halfword at state+4 as
+ * zero or one. This is the flag used by animated scene objects to suppress starting their interaction
+ * callbacks. It does not query callback task activity, count outstanding callbacks or report whether the
+ * entire game is paused. */
 s32 sub_0805A6DC(void) {
     return ((u16) M2C_FIELD(gUnk_03005CF4, u16 *, 4) >> 7) & 1;
 }
+/* [BlockSceneObjectInteraction] Sets bit 7 in the current scene flags halfword and preserves the other bits.
+ * The animated scene-object task checks this gate before starting its player-confirm interaction callback. It
+ * does not schedule a task, disable object drawing or cancel an existing callback. */
 void sub_0805A6F0(void)
 {
     gGameState->flags |= 0x80;
 }
+/* [UnblockSceneObjectInteraction] Clears bit 7 in the current scene flags halfword and preserves the other
+ * bits. This is also installed as the destructor of the interaction callback task created by 5A58C. The
+ * operation clears a flag without counting other outstanding tasks or restoring an earlier flag value. */
 void sub_0805A704(void) {
     M2C_FIELD(gUnk_03005CF4, u16 *, 4) = (u16) (0xFF7F & M2C_FIELD(gUnk_03005CF4, u16 *, 4));
 }
+/* [FindSharedObjectPaletteSlot] Reads active bitmap 03005CFC once and scans the same three registry records in
+ * ascending index order 0..2. Requires the full key, zero-extended u16 secondary selector and a nonzero 32-bit
+ * reference count, then returns handle index+4; otherwise returns 65535. It does not allocate a slot,
+ * increment a reference count, modify the bitmap or inspect uploaded colors. Its search order and
+ * nonzero-count condition differ from acquisition. */
 u32 sub_0805A71C(u32 key, u16 value)
 {
     extern u32 activeSlots asm("gUnk_03005CFC");
@@ -72,6 +118,10 @@ next:
     if (i <= 2) goto loop;
     return 0xFFFF;
 }
+/* [ReleaseSceneObjectOnTaskExit] Destructor for scene object tasks. For the record whose embedded task control
+ * (+0x48) is the argument, calls ReleaseSharedObjectPaletteSlot with its handle +0x40 and clears that record's
+ * bit in the active-object mask scene state +0x54. CancelSceneCallbackAndObjectTasks documents that the object
+ * constructor installs this destructor. */
 void sub_0805A780(void *target)
 {
     u8 *base = (u8 *)gGameState;
@@ -84,6 +134,13 @@ void sub_0805A780(void *target)
         }
     }
 }
+/* [SpawnSceneObjectAtPixelPosition] Searches the 15 embedded object task controls for the lowest inactive
+ * slot, independently of the object bitmap. Sets its active bit, assigns the next full 32-bit object ID and
+ * increments the scene counter, stores the full kind word and startup word+0x3C=1, and converts pixel x/y to
+ * Q8 by low 32-bit left shift 8. Allocates a 0x400-byte stack once, registers callback 284F4, flags 0x3C,
+ * stack top allocation+0x3FC and destructor 5A780, starts it with the object-record pointer, then returns that
+ * record current ID. A full task pool returns 0. Allocation failure, type/resource bounds and ID wrap are not
+ * checked here; it does not wait for resource or palette setup. */
 u32 sub_0805A7C4(u32 id, u32 x, u32 y)
 {
     u32 i;
@@ -121,6 +178,13 @@ search:
     sub_08000274((u32)task, (u32)entry);
     return *(u32 *)entry;
 }
+/* [TaskStartSceneCallbackOnPlayerAreaEntry] Captures the current local-player runtime position pointer once
+ * and copies five trigger arguments before any scheduler waits: target Q8 x/y, packed u16 width/height,
+ * callback and callback argument. Uses a zero-size local-player box with the matched fixed-point AABB test.
+ * For nonzero mode, first waits while overlapping; all modes then wait until overlapping and call
+ * 57328(argument, callback) once. Bounds are inclusive under the callee, which shifts signed coordinate
+ * differences before absolute value. A mode 0 trigger already containing the player can dispatch immediately;
+ * mode 1 requires an outside observation first. */
 void sub_0805A874(const u32 *args, u32 mode)
 {
     extern u8 playerPositions[] asm("gUnk_03003D6C");
@@ -143,6 +207,10 @@ void sub_0805A874(const u32 *args, u32 mode)
         sub_080003F0();
     sub_08057328(value, callback);
 }
+/* [StartSecondarySceneTask] Scans30 controls at game state+0x12E4 for an unscheduled control, retries0x400
+ * allocation with yields, installs supplied callback with word0x3C/destructor0, forwards argument and returns
+ * control. Fullpool reaches C end without defined return expression; no promised null return or callback
+ * completion. */
 void *sub_0805A8F8(u32 arg0, u32 callback)
 {
     u32 i;
@@ -178,6 +246,9 @@ allocate:
 done:
     ;
 }
+/* [FindSceneObjectByHandle] Returns the first of the 15 scene object records at scene state +0x7A4 (0x70-byte
+ * stride) whose word +0 equals the argument. When none matches, it performs one TaskWaitForSignal1 and returns
+ * null. */
 void *sub_0805A960(u32 value)
 {
     u8 *entry = *(u8 **)0x03005CF4 + 0x7A4;
@@ -187,6 +258,9 @@ void *sub_0805A960(u32 value)
     sub_080003F0();
     return 0;
 }
+/* [WriteActiveActorWordPairs] Zero index returns; otherwise decrements index, waits until matching actor-mask
+ * bit is set, selects actor stride0x2E0 and writes supplied words at+0x38/+0x3C while zeroing+0x30/+0x34. No
+ * index bounds validation or termination escape from inactive-bit wait. */
 void sub_0805A994(u32 index, u32 a, u32 b)
 {
     u32 bit;
@@ -209,6 +283,10 @@ void sub_0805A994(u32 index, u32 a, u32 b)
     *(u32 *)(entry + 0x30) = 0;
     *(u32 *)(entry + 0x34) = 0;
 }
+/* [TemporarilyReplaceSongAndRestore] Packed low8 selects song and high16 count of signal waits. Saves current
+ * song, writes new song global and starts audio unless muted; waits count or first link-error predicate. If
+ * sub_0800CC98()==0 at finish, restores global and previous audio; otherwise leaves replacement global. Zero
+ * count restores immediately; no allocation. */
 void sub_0805A9F4(u32 packed)
 {
     register u32 value asm("r2") = packed;
@@ -238,6 +316,10 @@ test:
             ((void (*)(u32))sub_08006CB4)(saved);
     }
 }
+/* [StartPackedDelayedSong] Uses the high halfword as an interruptible wait count and low byte as song id.
+ * After wait, only when no fullscreen menu is active updates the tracked song and starts it unless audio mute
+ * flag0x20 is set. Zero delay skips wait; interruption skips remaining wait but still reaches menu-gated audio
+ * action. */
 void sub_0805AA68(u32 packed)
 {
     u32 value = packed;
@@ -259,6 +341,10 @@ test:
             ((void (*)(u32))sub_08006CB4)(value);
     }
 }
+/* [ReplaceSongThenUpdateMusic] Packed low8 selects song and high16 wait count. Saves current song,
+ * writes/starts replacement unless muted, waits count or link-error predicate, then if sub_0800CC98()==0 calls
+ * the conditional world-map music updater sub_0800A34C(currentLevel,savedSong,1). The updater can leave,
+ * change or stop tracked music, so restoration and a fade are not guaranteed. Zero count proceeds immediately. */
 void sub_0805AAB8(u32 packed)
 {
     register u32 value asm("r2") = packed;
@@ -314,6 +400,13 @@ static inline s32 FindStackableField(s32 start)
     return sel;
 }
 
+/* [TryAddItemToBag] Attempts to add an item record to 25 bag slots at character +0x150. For kind 10, searches
+ * from the previous selected index for the largest signed nonnegative amount not exactly 100000, preferring
+ * the earlier index on ties. Adds incoming amount using 32-bit wrapping arithmetic: a sum at most 100000 is
+ * stored and succeeds; a larger sum fills the existing stack to 100000 and replaces the input record amount
+ * with the remainder before continuing. Otherwise copies all 16 input bytes to the first kind-zero slot.
+ * Returns 1 for a merge/copy or 0 with no empty slot. Failure may follow partial mutation; the input
+ * kind/amount is not validated, and a new stack is not necessarily capped. */
 u32 sub_0805AB20(struct ItemSlot *item)
 {
     s32 prev;
@@ -381,6 +474,13 @@ static inline s32 FindStackableStash(s32 start)
     return sel;
 }
 
+/* [TryAddItemToStash] Attempts stash insertion using records at character +0x2E0. Currency candidate search
+ * spans configured_rows*15 records, with the same signed-largest/exact-100000 exclusion as bag insertion.
+ * After selecting a candidate, an original guard skips merging when configured_rows*15 exceeds 24; thus two or
+ * more rows take the empty-slot fallback. That fallback scans only 25 records, regardless of configured
+ * capacity, and copies through 5D028. Returns 1 for a merge/copy or 0 for no empty candidate. A selected empty
+ * index outside configured capacity is redirected to slot zero by the callee, so success does not prove a free
+ * configured slot was used. */
 u32 sub_0805AC08(struct ItemSlot *item)
 {
     s32 prev;
@@ -426,6 +526,11 @@ call:
 ret:
     return 1;
 }
+/* [GetActiveWeaponResource] Returns a category-0xB weapon resource for the local player. When player +0xC
+ * differs from +0x64, uses the resource ID at player pointer +0x138 then +0x28. Otherwise uses selected
+ * item-slot ID from manager +0x70 + selection *16, but returns null when that slot activation byte +9 is zero.
+ * The alternate-player-state meaning is left unresolved; this helper performs no weapon-index bounds
+ * validation. */
 u32 sub_0805AD18(void)
 {
     extern u8 *mapObjects asm("gUnk_030034E0");
@@ -443,6 +548,11 @@ u32 sub_0805AD18(void)
     return sub_08007290(id);
 }
 s32 impl_0805AD78(u32 index) asm("sub_0805AD78");
+/* [ActivateWeaponSlot] Clears activation bytes of the local player's item-selection slots, then validates the
+ * indexed kind-2 item through sub_0805AE34. On success marks that slot active and stores its weapon resource
+ * subtype +0x9B into local player +0x10; otherwise stores zero there. Finally enqueues/replaces link tag 0x83
+ * through sub_08065DAC and returns that queue operation result, not a pure activation-success boolean. It does
+ * not itself store manager selection +0x68 or validate the supplied index. */
 s32 impl_0805AD78(u32 index)
 {
     extern u8 *mapItems asm("gUnk_030034E0");
@@ -496,6 +606,11 @@ s32 impl_0805AD78(u32 index)
     }
     return sub_08065DAC();
 }
+/* [CanSelectWeaponItem] Returns 0 for null, non-kind-2 items or a nonzero item +8 byte. Resolves the
+ * category-0xB weapon record, checks its permission mask +0xAE using current class, then accepts subtype 9
+ * directly or requires record +0xAC not exceed the low halfword of sub_0801D028(subtype). The original passes
+ * subtype +0x9B in retained r0 even though the local C call has no explicit argument. No prototype change,
+ * unrelated character-level interpretation or broader item-kind eligibility is inferred. */
 u32 sub_0805AE34(const u8 *item)
 {
     u8 *resource;
@@ -520,6 +635,12 @@ reject:
 }
 extern u32 gUnk_084B24B0[];
 extern u32 gUnk_084B2504[];
+/* [CalculateItemValue] Computes a kind-specific item value from resource base price or count. Kinds 2..5
+ * return 1 for nonzero item byte +8; otherwise use optional category-0x13 modifier, item bytes +6/+7 as
+ * indices into two scaling tables, and sequential unsigned multiply/divide-by-10 stages. Kind 10 uses its raw
+ * count; kind 9 IDs 0..4 multiply halfword +4 by 100, 250, 200, 10 or 20. Other supported kinds read their
+ * respective resource prices. Null pointers and modifier/table indices are not validated. This is a common
+ * valuation input, not universally the final shop sale price. */
 u32 sub_0805AE94(u8 *item)
 {
     u32 flag = 0;
@@ -587,6 +708,10 @@ u32 sub_0805AE94(u8 *item)
     value = value * gUnk_084B2504[quality] / 10;
     return value;
 }
+/* [CalculateEquipmentRepairCost] For kinds 2..5, reads the category-B weapon base price at +0xA0 or
+ * category-C/D/E base price at +0x9C. Queries flag keys 10 down to 1 until success or the lower limit. In the
+ * CE30 mode returns half the base; otherwise caps that key at 5 and returns base times key divided by 10.
+ * Other kinds have zero base. No null check. The flag keys are not named as a repair skill or discount rank. */
 u32 sub_0805B068(const u8 *item)
 {
     u32 divisor;
@@ -626,6 +751,9 @@ common:
     value = value * divisor / 10;
     return value;
 }
+/* [SumBagAndStashCurrency] Sums word +4 for kind-10 entries in all 25 bag records at manager +0x150 and all 75
+ * stash records at +0x2E0, stride 16. Returns the 32-bit sum without considering configured stash capacity or
+ * clamping overflow. */
 u32 sub_0805B0F0(void)
 {
     extern u8 *mapObjects asm("gUnk_030034E0");
@@ -659,6 +787,13 @@ u32 sub_0805B0F0(void)
     return first;
 }
 void impl_0805B140(void) asm("sub_0805B140");
+/* [TaskDrawWorldItemIcons] While scene stop predicate CB78 is false, waits on scheduler signal 1 and, when
+ * gates CD34/CC98/CD8C allow, scans sixteen 0x20-byte world-item records through pointer global 0x03005D58.
+ * For active records (halfword +0xA bit 0), passes Q8 x/y and the item payload at +0x10 to icon renderer 5FC80
+ * with world flag 1. CCCC mode filters metadata halfword +8: the nonzero branch requires metadata>>5 nonzero
+ * and compares metadata with bit 0x20 cleared against scene-area halfword 03003170+0x90; the zero branch
+ * requires metadata>>5 zero. On stop, frees and nulls the item-record buffer, waits until each of six controls
+ * through pointer global 0x03005D60 is unscheduled, then frees that control buffer. */
 void impl_0805B140(void)
 {
     extern u8 *slotsMemory asm("gUnk_03005D58");
@@ -703,6 +838,12 @@ test:
             sub_080003F0();
     sub_08001538(secondaryTasks);
 }
+/* [InitializeWorldItemPoolAndStartDrawTask] Allocates 0x200 bytes and stores the buffer pointer in global
+ * 0x03005D58 for sixteen 0x20-byte item records and clears each record with a halfword fill. Allocates a
+ * 0xF0-byte six-task buffer through pointer global 0x03005D60 without an explicit clear here, then allocates
+ * and byte-clears a separate 0x1B9-byte buffer through pointer global 0x03000124 and sets sequence halfword
+ * 03005D5C to 1. Registers world-item draw callback 5B140 on fixed control 03005D30, allocates a 0x400-byte
+ * stack, sets top allocation+0x3FC, flags 0x41 and null destructor, then starts it. */
 void sub_0805B21C(void)
 {
     extern u8 *slotsMemory asm("gUnk_03005D58");
@@ -759,6 +900,11 @@ static inline u8 *find2C4(s32 px, s32 py, u32 kind)
 }
 /* nov03-w2: 518 bytes, 82 diff lines. do/while(0) around the first loop and the b-loop body set the
    allocation priorities; left: 0x11170 temp, px gets r8 instead of sl (b+1 should get r8). */
+/* [PlaceFieldItemNearPosition] Rejects zero input item type; when all16 field entries have activebit0, clears
+ * the lowest sequence entry. Builds a21x21 map/nearby-item availability grid, takes first slot with
+ * flagsbits0/1 clear, copies item payload and sequence, then chooses first valid expanding-square position or
+ * original position, marks active and returns its pointer. Sequence wraps after65534; nofree path returns the
+ * past-end scan pointer. Input kind/map selection and occupiedbit semantics are literal, not artwork identity. */
 u8 *sub_0805B2C4(s32 x, s32 y, u32 kind, u16 *data)
 {
     u8 *e;
@@ -861,6 +1007,12 @@ u8 *sub_0805B2C4(s32 x, s32 y, u32 kind, u16 *data)
     }
     return e;
 }
+/* [FindNearbyUnblockedUnoccupiedPosition] Builds21x21 scratch grid at4-unit spacing around input fixed-point
+ * position, rejecting terrain low3bits and proximity within signed7px of active id0 entries among16 field
+ * records. Then scans nested square neighborhoods radii0..9 in increasing radius and lexicographic x/y order,
+ * bounds[-r,r), taking first clear point and writing x/y. Radius0 tests none; maximum positive offset8,
+ * negative-9 despite grid spanning-10..10. Leaves position unchanged if no tested clear point; no scratch/null
+ * validation. */
 void sub_0805B4CC(s32 *x, s32 *y)
 {
     s32 i, j, r;
@@ -913,6 +1065,9 @@ void sub_0805B4CC(s32 *x, s32 *y)
 }
 struct Slot60 { u8 pad[10]; u16 flags; u16 age; u8 tail[18]; };
 extern struct Slot60 *slots60 asm("gUnk_03005D58");
+/* [AcquireFieldItemSlot] Scans16 field slots and, only if all have activebit0, clears flags of the smallest
+ * sequence value entry. Returns first entry whose flagbits0/1 are both clear, or null if none. Does not
+ * initialize or mark the returned slot; sequence ties keep earliest index. */
 void *sub_0805B618(void)
 {
     u16 temp;
@@ -998,6 +1153,13 @@ extern void b688_sub_0806818C(u32, u32, s32, s32, u32) asm("sub_0806818C");
 extern void b688_sub_0806823C(u32, u32, s32, s32, u32) asm("sub_0806823C");
 extern void b688_sub_0800BC08(s32, s32, s16 *, s16 *, s32, s32) asm("sub_0800BC08");
 extern void b688_sub_08007870(s32, s32, u32, u32, u8, void *, s32, s32) asm("sub_08007870");
+/* [RunThrownItemTrajectory] Builds an item sprite from throwing player's packed position/direction/power,
+ * moves with map collision and a two-bounce height arc, and conditionally renders sprite/shadow. Eligible
+ * player/enemy contact dispatches item/effect requests only for local thrower, or deactivates matching neutral
+ * object classes, then returns. Area change returns without landing; remote throwers return after flight.
+ * Local landing dispatches kind-specific requests or a field-item request, searches a nearby position and
+ * draws for5/30 more steps. Enemy serial-key comparison uses an uninitialized value in C; request success is
+ * unchecked. */
 void sub_0805B688(u16 who, u16 itemId)
 {
     struct B688Anim anim;
@@ -1284,6 +1446,12 @@ extern struct BD5CPlayer bd5cPlayers[] asm("gUnk_03003CE0");
 extern struct BD5CMap *bd5cMap asm("gUnk_030034E0");
 extern u32 sub_080665B0(u32);
 extern void sub_08074DE8(u32, s32);
+/* [ApplyLocalConsumableAction] Rejects null/wrong item type, pause/state/flag gates, then dispatches resource
+ * kind: scaled HP/MP restoration, capped saved stat increments, status-slot removal/replacement, return-state
+ * setup, full restoration or other effect request. Returns0 on unsupported/ineligible kinds; kind10 returns1
+ * early, other successful kinds return1 after sounds. Does not remove input item from inventory; multiple
+ * resource/status/world gates are kind-specific. Resource kind16 calls665B0 with resource halfword+A2 but
+ * returns0 despite that side effect. */
 s32 sub_0805BD5C(u16 *item, s32 level)
 {
     struct BD5CPlayer *player;
@@ -1475,6 +1643,12 @@ extern u8 gUnk_08478378[];
 
 struct C208Slot { u16 type; u16 arg; u16 bonus; u8 element; u8 level; u8 flag; };
 struct C208Range { u16 value; u16 upper; };
+/* [RandomizeItemAttributeFields] For item types2..5, chooses weighted tables based on definition
+ * bytes/mode/caller flagbit0, randomly enables and writes fields+4(u16),+6(byte),+7(byte). Existing definition
+ * properties at3 four-byte entries force all3 fields zero. When packed attribute word+4 nonzero sets item+8
+ * flag byte to0 if callerbit0 else1. Unknown types return1; recognized paths have no reliable return value.
+ * Tables/definition pointers are unchecked; disabled randomized fields retain prior values unless forced
+ * clear. */
 s32 sub_0805C208(void *arg0, s32 arg1)
 {
     u8 *o0;
@@ -1700,6 +1874,10 @@ s32 sub_0805C208(void *arg0, s32 arg1)
 }
 struct LootT { u16 chance; u16 pad; u16 *groups[8]; };
 extern struct LootT gUnk_084E6DD8[];
+/* [GenerateTieredRandomItem] Clears16-byte output. Count0 returns0; otherwise decrements tier, rolls threshold
+ * flag and weighted category table (category8 maps6), writes matching itemtype/id, randomized type10 amount or
+ * type9 level/mode value, optionally calls modifier helper. Returns1 even if no weighted entry matched;
+ * tier/category/table bounds and divisor validity are unchecked. */
 u32 sub_0805C4FC(u8 *out, u32 count, u32 category)
 {
     u32 zero = 0;
@@ -1753,6 +1931,12 @@ u32 sub_0805C4FC(u8 *out, u32 count, u32 category)
 }
 struct DropC620 { u16 type, val; u32 hi; };
 struct ExC620 { u8 pad[0x2C]; struct DropC620 drops[3]; };
+/* [GenerateActorDropRecord] Zeros16 output bytes, tries three cumulative configured drop intervals using
+ * a16-bit random roll and returns1 on a permitted configured result. Otherwise clamps entity player-index
+ * field, rolls against player/player-count chance and optionally calls category generator with mode-dependent
+ * category. Copies entity+214 into type9 payload, rejects type10 unless flag227bit0 and clears out-of-range
+ * generated types. Fallback returns generator status or0; C omits some returns, matching-object ABI preserves
+ * that status for accepted types9/10. */
 u32 sub_0805C620(u8 *entity, u16 *out)
 {
     extern u8 c620Players[] asm("gUnk_03003CE0");
@@ -1845,6 +2029,11 @@ extern struct C7B8Entry c7b8TableB[][20][12] asm("gUnk_084E99E8");
 extern struct C7B8Entry c7b8TableC[][12] asm("gUnk_084EB7E8");
 /* Callers ignore the result; the original has no return value. */
 void c7b8_void(u32) asm("sub_0805C7B8");
+/* [PopulateThreeItemPools] Chooses mode-specific three twelve-slot arrays; progression bits1..9 plus mode
+ * baseline select class/table row. Copies first two templates, counts-1 placeholders, randomly selects
+ * distinct nonempty entries to duplicate into slots9+ with modifier helper, clearing fields at loop-index
+ * slots as written. Third table clamps mode>1 to0, clears type2 fields and resolves0xFFFF entries by
+ * coinflip/generator tier20. Invalid table domains and picked==0 cases unchecked. */
 void c7b8_void(u32 mode)
 {
     struct C7B8Pick picks[12];
@@ -2000,6 +2189,10 @@ void c7b8_void(u32 mode)
     }
 }
 struct Record60 { u16 type, value, timer; u8 a, b, c, d; u8 tail[6]; };
+/* [BuildTwelveItemRecords] Copies twelve type/value pairs from an unchecked indexed0x30-byte table row. Type2
+ * also clears its extra fields; sentinelFFFF independently randomizes each entry to empty or delegates
+ * category20 generation with the row index. No aggregate success result; per-entry generator result is
+ * ignored. */
 void sub_0805CB04(s32 index, struct Record60 *out)
 {
     register u16 type asm("r1");
@@ -2063,6 +2256,10 @@ extern struct CB8CColor cb8c_colors[] asm("gUnk_084EBD28");
 extern u16 cb8c_pal[][16] asm("gUnk_03001F40");
 extern s16 cb8c_sine[] asm("gUnk_080B9704");
 
+/* [PulseFieldOccupancyPalette] Infinite task counts active entries among16 field slots inside each of4
+ * inclusive fixed rectangles after coordinate scaling. Exactly one entry advances phase4 modulo128 and
+ * sine-scales rectangle base RGB into palette14 entries12..15. Other counts halve each RGB distance toward8,
+ * reset phase0 and write palette. Yields once each iteration; no exit/restoration or allocation. */
 void sub_0805CB8C(void)
 {
     u8 unused[16];
@@ -2138,6 +2335,11 @@ struct PuzzleItem61 { u16 type,value; union { u32 wide; struct {u16 a;u8 b,c;} p
 extern struct PuzzleSlot61 *puzzleSlots61 asm("gUnk_03005D58");
 extern u32 puzzleBounds61[] asm("gUnk_084EBCE8");
 extern u16 puzzleRecipes61[] asm("gUnk_084EB8D8");
+/* [ResolveFourAreaItemRecipe] Requires exactly one active field item in each of four table-defined inclusive
+ * coordinate bounds, then searches ordered four-item recipes until zero sentinel. On a match animates/removes
+ * each input with waits, constructs result payload by type, requests a field reward at fixed(0xF700,0x6E00)
+ * only on authority, starts another visual and returns1. Missing/extra items or no recipe returns0. Reward
+ * admission ignored; success denotes recipe match/input consumption. */
 s32 sub_0805CDF8(void) {
     struct PuzzleSlot61 *sp0[4];
     struct PuzzleItem61 sp10;
@@ -2305,29 +2507,42 @@ block_32:
     }
     goto loop_1;
 }
+/* [FindFirstEmptyBagSlot] Returns the first kind-zero entry index among 25 bag records at manager +0x150,
+ * stride 16, or -1. Does not reserve or clear the returned record. */
 s32 sub_0805CFA0(void) {
     u32 i;
     u8 *p;
     for(i=0,p=(u8 *)gUnk_030034E0+0x150;i<=24;p+=16,i++) if(*(u16 *)p==0) return i;
     return -1;
 }
+/* [FindFirstEmptyStashSlotInFirst25] Returns the first kind-zero entry index among only the first 25 stash
+ * records at manager +0x2E0, stride 16, or -1. This is not a scan of all 75 physical stash records or the
+ * configured row count. */
 s32 sub_0805CFCC(void) {
     u32 i;
     u8 *p;
     for(i=0,p=(u8 *)gUnk_030034E0+0x2E0;i<=24;p+=16,i++) if(*(u16 *)p==0) return i;
     return -1;
 }
+/* [CopyItemToBagSlot] Narrows the supplied index to one byte, substitutes index zero when greater than 24, and
+ * copies all 16 item bytes to the bag record. No null, empty-slot or item-kind check. */
 void sub_0805CFF8(u8 index, const struct Entry61 *src)
 {
     if(index>24) index=0;
     *(struct Entry61 *)((u8 *)gUnk_030034E0+0x150+index*16)=*src;
 }
+/* [CopyItemToStashSlot] Narrows the index to one byte. If index is at least manager halfword +0x6A times 15,
+ * substitutes zero, then copies all 16 bytes to stash +0x2E0 + index*16. A zero configured count still writes
+ * slot zero. No null, empty-slot check or independent physical-capacity clamp. */
 void sub_0805D028(u8 index,const struct Entry61 *src) {
     u8 *base=(u8 *)gUnk_030034E0;
     s32 count=*(u16 *)(base+0x6A);
     if(index>=count*15) index=0;
     *(struct Entry61 *)(base+index*16+0x2E0)=*src;
 }
+/* [CopyWeaponItemToSelectionSlot] Accepts only kind-2 items, copies all 16 bytes into manager +0x70 + index*16
+ * and returns 1; otherwise returns 0. Does not validate index, select the slot or refresh activation. Weapon
+ * identity is supported by category-B original item-name resources. */
 u32 sub_0805D064(const struct Entry61 *src,u32 index) {
     register u32 savedIndex asm("r3")=index;
     struct Entry61 *dst;

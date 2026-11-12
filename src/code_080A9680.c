@@ -43,6 +43,9 @@ extern s32 gUnk_030056FC;
 struct Player111 { u8 pad0[0x20]; u16 state; u8 pad22[0xE]; u32 flags; u8 pad34[0x34]; u8 active; u8 pad69[0x23]; s32 x, y, oldX, oldY; u8 pad9C[0x2C]; u16 lock; u8 padCA[0x82]; };
 extern struct Player111 players111[] asm("gUnk_03003CE0");
 extern s32 *object111 asm("gUnk_0300041C");
+/* [RestorePlayerOnObjectIntersection] Rejects locked/inactive or excluded-state players, constructs player and
+ * object line segments, and on intersection restores current x/y from saved coordinates and returns one; all
+ * other paths return zero. */
 s32 sub_080A9680(void)
 {
     s32 playerLine[4];
@@ -94,6 +97,8 @@ s32 sub_080A9680(void)
 fail:
     return 0;
 }
+/* [CleanupFixedDestinationActor] If actor +0x5C is nonzero, releases its three-control attack pool; always
+ * clears peer rings, zeroes active mask, and releases palette. */
 void sub_080A97E0(void) {
     if (M2C_FIELD(gUnk_0300041C, s16 *, 0x5C) != 0) {
         sub_080A9844();
@@ -102,6 +107,7 @@ void sub_080A97E0(void) {
     gUnk_030056FC = 0;
     sub_08016ECC(gUnk_03000420);
 }
+/* [AllocateResource17HazardTaskPool3] Allocates78hex,3 controls clear+8. */
 void sub_080A9818(void)
 {
   int i;
@@ -113,6 +119,8 @@ void sub_080A9818(void)
   }
 
 }
+/* [ReleaseFixedDestinationTasks] Cancels scheduled tasks in three controls at gUnk_03000424, frees array and
+ * clears global. */
 void sub_080A9844(void)
 {
   u32 i;
@@ -137,6 +145,8 @@ void sub_080A9844(void)
 extern void sub_08000274_1(u32) asm("sub_08000274");
 extern void sub_08000274_2(void *, u32) asm("sub_08000274");
 extern u8 *gP03000424 asm("gUnk_03000424");
+/* [StartFixedDestinationAttack] Scans three controls for unscheduled plus word0, allocates0x400 and returns on
+ * failure; installs fixed-destination callback with no destructor, word0x40, forwards u16 kind. */
 void sub_080A987C(u16 arg)
 {
   struct TaskP *t = (struct TaskP *) gP03000424;
@@ -165,6 +175,9 @@ void sub_080A987C(u16 arg)
  do { t->f10 = t->f20 + 0x3FC; t->fC = (u32) sub_080A92C0; t->f24 = z; t->f8 = 0x40; sub_08000274_2(t, arg); } while (0);
 }
 extern u32 sub_080A9910_3(u32, u32, u32) asm("sub_080A9910");
+/* [PointsHaveDifferentLineSideSigns] Calls canonicalA9910(a,b,c) andA9910(a,b,d), returns1iff result words
+ * differ. Includes collinear zero vsnonzero, so do not name general segment intersection; no guarantee about
+ * full geometric crossing. */
 u32 sub_080A98E0(u32 a, u32 b, u32 c, u32 d)
 {
     u32 v[2];
@@ -175,6 +188,9 @@ u32 sub_080A98E0(u32 a, u32 b, u32 c, u32 d)
     return 0;
 }
 struct V { s32 x, y; };
+/* [PointOrientationSign32] Loads three points of2signed32 coordinates, computes low32bits
+ * of(bx-ax)*(cy-ay)-(by-ay)*(cx-ax), returns1/0/-1 via signed comparison. Arithmetic wraps at32bits; no exact
+ * orientation guarantee for overflow. No SDK provenance established. */
 s32 sub_080A9910(struct V *a, struct V *b, struct V *c)
 {
     struct V v1, v2;
@@ -278,6 +294,12 @@ void fall9950(void *, s32) asm("sub_0806171C");
 void dropEnd9950(void *, s32) asm("sub_0801E4CC");
 
 void sub_080A9950_v(struct Act9950 *a) asm("sub_080A9950");
+/* [RunDualActorContactCycle] Initializes linked actorpair at same fixed point and shared palette. Primary
+ * drives chosen-player pursuit, three offset/radius contact phases, fast point chase, team0/2
+ * vulnerability/restoration and kind4 effect start; actor1 tracks position and drives final contact.
+ * Palette-wait termination clears only primary maskbit. Normal death/termination clears mask, queues remote
+ * actor damage, synchronizesDEADFACE, shows14009F, runs paired finish and conditional experience award then
+ * transition. */
 void sub_080A9950_v(struct Act9950 *a)
 {
     struct Anim9950 anim0;
@@ -889,6 +911,9 @@ extern struct P112A players112A[] asm("gUnk_03003CE0");
 extern s32 x112A asm("gUnk_03003D6C");
 extern u32 atan112A(s32,s32) asm("ArcTan2");
 extern s32 hit112A(void *,void *) asm("sub_0801ED8C");
+/* [ApplyOffsetContactKnockback] Tests the selected player strictly inside the low-halfword radius around
+ * object pixel position plus signed x/y offsets; applies a serial-gated hit, records/increments serial and
+ * outward magnitude 0x400/counter 16, returning one on application and zero otherwise. */
 s32 sub_080AB054(struct O112A *arg0, s32 arg1, s32 arg2, u32 arg3) {
     volatile s32 sp0;
     register struct P112A *base asm("r10");
@@ -1091,6 +1116,7 @@ done:
     return sp0;
 }
 
+/* [CleanupEnemyPaletteAndLink] Exact target body. */
 void sub_080AB2D8(void) {
     sub_08068384();
     gUnk_030056FC = 0;
@@ -1175,6 +1201,11 @@ void fallB2F8(void *, s32) asm("sub_0806171C");
 void dropEndB2F8(void *, s32) asm("sub_0801E4CC");
 
 void sub_080AB2F8_v(struct ActB2F8 *a) asm("sub_080AB2F8");
+/* [RunChargeContactActorEncounter] Initializes template/team, allocates palette once and waits unchanged
+ * sentinel unless abort clears actor bit. Uses resources0x5001D/0x5001E, scales stats, resets peer history and
+ * waits link barrier. State machine chases selected player, waits mode-specific threshold, snapshots target
+ * for charge at0x480, or cycles aim/contact helpers; alternates animations/shadow and hit display until death
+ * or scene exit. */
 void sub_080AB2F8_v(struct ActB2F8 *a)
 {
     struct AnimB2F8 anim[2];
@@ -1590,6 +1621,9 @@ struct P113214 { u8 pad0[0x20]; u16 state; u8 pad22[14]; u32 flags; u8 pad34[0x3
 extern struct P113214 p113214[] asm("gUnk_03003CE0");
 extern s32 *obj113214 asm("gUnk_03000434");
 extern u8 angle113214(s32,s32,s32,s32) asm("sub_08095FC8");
+/* [AimPlayerAtGlobalObject] Returns unless the low argument byte is zero and the selected player passes
+ * state/flag/active checks; aims from player to global object and writes direction, magnitude 0x200 and
+ * counter 1. */
 void sub_080AC214(s32 arg0)
 {
     struct P113214 *base;
@@ -1630,6 +1664,10 @@ extern struct O1132 *obj1132 asm("gUnk_03000434");
 extern s32 y1132 asm("gUnk_03003D70");
 extern u32 atan1132(s32,s32) asm("ArcTan2");
 extern s32 hit1132(void *,void *) asm("sub_0801ED8C");
+/* [QueryOrApplyAdjustedContact] Nonzero byte input returns whether selected-player counter 0xC8 is nonzero
+ * after computing geometry, without applying a hit; zero input tests distance 47 with side-dependent vertical
+ * adjustment and pause/lifecycle/serial gates, applies hit and outward magnitude 0x200/counter 16,
+ * records/increments serial and returns one. Rejected zero-input paths return zero. */
 s32 sub_080AC2E8(u8 arg0) {
     u32 sp0;
     u32 arg;
@@ -1836,6 +1874,10 @@ extern struct O1135 *obj1135 asm("gUnk_03000434");
 extern s32 y1135 asm("gUnk_03003D70");
 extern u32 atan1135(s32,s32) asm("ArcTan2");
 extern s32 hit1135(void *,void *) asm("sub_0801ED8C");
+/* [ApplyDoubleContactPlayerHit] Tests distance 39 using a vertically offset player position and
+ * pause/lifecycle/serial gates; writes state 10 and marker, adds twice the hit helper result,
+ * records/increments serial, applies outward direction with magnitude 0x400/counter 22 and plays sound 0xBB.
+ * Returns one for application, otherwise zero. */
 s32 sub_080AC5B4(void) {
     volatile s32 sp0;
     struct P1135 *base;
@@ -1987,6 +2029,7 @@ done:
 
 
 
+/* [CleanupPairedSpriteEnemyEncounter] Exact target body. */
 void sub_080AC81C(void)
 {
     sub_0805867C(0xC2);
@@ -2072,6 +2115,11 @@ void fallC844(void *, s32) asm("sub_0806171C");
 void dropEndC844(void *, s32) asm("sub_0801E4CC");
 
 void sub_080AC844_v(struct ActC844 *a) asm("sub_080AC844");
+/* [RunSegmentedPathEncounterActor] Initializes four following segment tasks and shared position/direction
+ * samples, moves the main actor at parameter 0x240, alternates movement with synchronized segment state-byte
+ * phases 1/2/0 and toggles main collision by active mask. Tests contact hits with a thirty-step cooldown;
+ * allocation-wait termination returns after mask clearing, while normal death/termination cleans segments,
+ * synchronizes, blinks, conditionally computes and grants defeat experience and requests transition. */
 void sub_080AC844_v(struct ActC844 *a)
 {
     u8 unused[0x34];
@@ -2471,6 +2519,11 @@ void freeAD534(u16) asm("sub_08067CA8");
 void fallAD534(void *, s32) asm("sub_0806171C");
 
 void sub_080AD534_v(u32 idx) asm("sub_080AD534");
+/* [RunIndexedFollowingSegmentActor] Initializes low-byte-indexed actor slots and follows the preceding
+ * position/direction sample, publishing its own sample for the next segment. Synchronizes fade/shake/fade
+ * phases with state bytes, tests short contact hits on a thirty-step cooldown and renders damage feedback.
+ * Death requests remote full-HP damage for its actor key, clears mask/state, sets predecessor team field to2
+ * when index is nonzero, blinks and conditionally runs a experience-award sequence. */
 void sub_080AD534_v(u32 idx)
 {
     u16 pal[16];
@@ -2704,6 +2757,9 @@ struct Entity114DE {u16 index;u8 p2[10];u16 state;u8 pE[6];s32 x,y;u8 p1C[0x34];
 extern s32 x114DE[] asm("gUnk_03003D6C");
 extern struct Player114DE players114DE[] asm("gUnk_03003CE0");
 extern u16 delta114DE(void *, void *) asm("sub_0801ED8C");
+/* [ApplyShortContactPlayerHit] Within distance 15 and with pause/lifecycle/player timer/serial gates
+ * satisfied, writes state 10 and marker, adds helper result, records/increments serial, and applies outward
+ * direction, magnitude 0x400 and counter 8; returns one on application, otherwise zero. */
 s32 sub_080ADE30(struct Entity114DE *entity102A5)
 {
     s16 dx, dy;
@@ -2750,6 +2806,8 @@ s32 sub_080ADE30(struct Entity114DE *entity102A5)
     }
     return result;
 }
+/* [CleanupFollowingChainActor] If actor +0x5C is nonzero, releases four-control child pool; always clears peer
+ * rings, active mask and shared palette slot. */
 void sub_080AE080(void) {
     if (M2C_FIELD(gUnk_03000440, s16 *, 0x5C) != 0) {
         sub_080AE0E4();
@@ -2758,6 +2816,7 @@ void sub_080AE080(void) {
     gUnk_030056FC = 0;
     sub_08016ECC(gUnk_030004BE);
 }
+/* [AllocateEnemySlots1To4Tasks] A0hex allocation,4 controls stride28 clear+8. */
 void sub_080AE0B8(void)
 {
     u32 i;
@@ -2765,6 +2824,8 @@ void sub_080AE0B8(void)
     for (i = 0; i < 4; i++)
         M2C_FIELD((u8 *)gUnk_030004C8 + i * 0x28, s32 *, 8) = 0;
 }
+/* [ReleaseFollowingChainTasks] Cancels scheduled tasks in four controls at gUnk_030004C8, frees array and
+ * clears global. */
 void sub_080AE0E4(void)
 {
   u32 i;
@@ -2790,6 +2851,8 @@ struct TaskPE11C { u32 f0, f4, f8, fC, f10, f14, f18, f1C, f20, f24; };
 extern struct TaskPE11C *gTP030004C8 asm("gUnk_030004C8");
 extern void sub_080AE184();
 extern void sub_080AD534();
+/* [StartFollowingChainChild] Scans four controls for unscheduled plus word0; writes byte index+0x40,
+ * allocates0x400 unchecked, installs indexed follower callback and destructor, forwards index and zero. */
 void sub_080AE11C(u8 a)
 {
     struct TaskPE11C *t = gTP030004C8;
@@ -2811,6 +2874,8 @@ check:
     t->f24 = (u32)sub_080AE184;
     sub_08000274_3((u32)t, a, 0);
 }
+/* [FinalizeEnemySlots1To4Task] CurrentTask+8 minus40hex indexes actor pointer table00448 and clears
+ * bit1<<actorID. */
 void sub_080AE184(void)
 {
     s32 *obj = (s32 *)sub_0800048C();
@@ -2824,6 +2889,10 @@ extern u8 count114E asm("gUnk_03000780");
 extern void sub_080AF2BC(void);
 extern void sub_080AF350(u8);
 extern void sub_0806171C(void *,s32);
+/* [RunPlayerCountActorEncounter] Clears per-player hit histories, starts one actor per player, waits for
+ * startup and then all actors to become inactive or termination; signals and waits for 0xDEADFACE, waits for
+ * another busy predicate, optionally runs thirty-step experience-award sequences, and requests the ending
+ * transition. */
 void sub_080AE1B4(void)
 {
     u8 i,j,clear;
@@ -2970,6 +3039,11 @@ void loadPalAE420(u32, u32, u32) asm("sub_08000AF0");
 u8 prioAE420(s32, s32, s32) asm("sub_0800BC44");
 
 void sub_080AE420_v(u32 idx) asm("sub_080AE420");
+/* [RunPlayerDerivedCombatActor] Truncates index tobyte, creates indexed actor from player0
+ * class/stat/equipment fields and class animation tables, sets team4 and mode-scaled HP. Actor-id
+ * synchronization gates pursuit, melee animation and kind-dependent effect/cast task starts. On death yields,
+ * queues remote fullHP damage, decodes taskword-0x44 toclear actor mask and enters endless blinking
+ * death-animation loop. No actor/palette free or normal return is claimed. */
 void sub_080AE420_v(u32 idx)
 {
     u16 tmp6A;
@@ -3420,12 +3494,15 @@ void sub_080AE420_v(u32 idx)
         sub_080003F0();
     }
 }
+/* [CleanupChildTasksAndLink] Exact target body. */
 void sub_080AF2AC(void) {
     sub_080AF304();
     sub_08068384();
 }
 extern u8 *gEntriesAF2BC asm("gUnk_03000784");
 extern u8 gEntryCountAF2BC asm("gUnk_03000780");
+/* [AllocatePlayerCloneTaskPool] Clears pool pointer then allocates count*0x28 bytes; clears +8 in each
+ * count-controlled record with no allocation-null check. */
 void sub_080AF2BC(void)
 {
     u8 *volatile *entries;
@@ -3454,6 +3531,8 @@ void sub_080AF2BC(void)
 }
 extern u8 *gEntriesAF304 asm("gUnk_03000784");
 extern u8 gEntryCountAF304 asm("gUnk_03000780");
+/* [ReleasePlayerCloneTasks] Iterates dynamic count, cancels scheduled controls; frees and clears pool pointer
+ * only if nonnull. */
 void sub_080AF304(void)
 {
     u8 *start = gEntriesAF304;
@@ -3475,6 +3554,8 @@ void sub_080AF304(void)
 }
 extern u8 *gEntriesAF350C asm("gUnk_03000784");
 extern volatile u8 gEntryCountAF350C asm("gUnk_03000780");
+/* [StartPlayerCloneActor] Scans dynamic-count controls for unscheduled plus word0; rechecks count,
+ * allocates0x400 unchecked, installs clone callback/destructor, writes byte index+0x44 and forwards index. */
 void sub_080AF350(u8 kind)
 {
     u8 *entry = gEntriesAF350C;
@@ -3505,6 +3586,8 @@ extern u8 *gP03000784 asm("gUnk_03000784");
 extern u8 gB03000780 asm("gUnk_03000780");
 extern u8 gArr030004D0[] asm("gUnk_030004D0");
 extern u32 gM030056FC asm("gUnk_030056FC");
+/* [FinalizeIndexedEnemyTask] CurrentTask+8 minus44hex; table004D0+index*ACh contains actor pointer; actor
+ * firsthalfword selects active bit. */
 void sub_080AF3C4(void)
 {
   u8 *new_var4;
@@ -3600,6 +3683,13 @@ void fallF3F4(void *, s32) asm("sub_0806171C");
 void dropEndF3F4(void *, s32) asm("sub_0801E4CC");
 
 void sub_080AF3F4_v(struct ActF3F4 *a) asm("sub_080AF3F4");
+/* [RunPursuitStrikeProjectileEncounter] Initializes three animation resources and combat stats, synchronizes
+ * link phases and chooses an initial waiting or pursuit path from participant count/player kind. Alternates
+ * pursuit to two distance thresholds with an animation-driven strike or a delayed type13 projectile request,
+ * separated by timed recovery; animation and damage feedback continue until death/session/area exit. Locks the
+ * local player, dispatches remote full-HP damage, synchronizes the completion token and shows resource0x14009E
+ * or0x140098. Then runs the disappearance effect, unlocks, conditionally generates reward feedback and marks
+ * the encounter finished. */
 void sub_080AF3F4_v(struct ActF3F4 *a)
 {
     struct AnimF3F4 anim[3];
@@ -4064,6 +4154,11 @@ void fall0288(void *, s32) asm("sub_0806171C");
 void dropEnd0288(void *, s32) asm("sub_0801E4CC");
 
 void sub_080B0288_v(struct Act0288 *a) asm("sub_080B0288");
+/* [RunPursuitAnimatedMeleeActor] Initializes three sprite resources and player serial history, pursues
+ * selected players using movement parameter 0x140/range 0x1C, plays a resource-derived sound at attack frame
+ * 2/tick 0, increments attack serial on animation completion and waits before repeating. After
+ * death/termination it synchronizes cleanup, shows a flag-selected message, runs timed animation and blend
+ * effects, then conditionally computes and grants defeat experience and requests transition. */
 void sub_080B0288_v(struct Act0288 *a)
 {
     struct Anim0288 anim[3];
@@ -4388,6 +4483,8 @@ void sub_080B0288_v(struct Act0288 *a)
     }
     sub_08056E24();
 }
+/* [ResetEncounterPeerState] Tests actor00788 signedhalfword+5C; conditional98060, unconditional68384 and
+ * global056FC=0. */
 void sub_080B0F70(void) {
     if (M2C_FIELD(gUnk_03000788, s16 *, 0x5C) != 0) {
         sub_08098060();
@@ -4395,6 +4492,7 @@ void sub_080B0F70(void) {
     sub_08068384();
     gUnk_030056FC = 0;
 }
+/* [CleanupEncounterSharedSpriteTask] Exact target body. */
 void sub_080B0F9C(void) {
     if (M2C_FIELD(gUnk_03000788, s16 *, 0x5C) != 0) {
         sub_08098060();
@@ -4424,6 +4522,11 @@ void blendB0FC4(s32, s32, s32, s32) asm("sub_08009088");
 static inline s32 absB0FC4(s32 x) { if (x < 0) x = -x; return x; }
 
 void sub_080B0FC4_v(struct Act0288 *a) asm("sub_080B0FC4");
+/* [RunRelocatingCombatActor] Initializes resources50089/87/88 and palette, pursues players alternating close
+ * melee and ranged kind13 starts, and after count8 relocates through nine fixed points using blend effects.
+ * Home-position helper is B236C spawn-effect request, not teleport. Modulo expression4%cnt++ has no
+ * explicitzero guard. Palette-wait termination onlyclears maskbit; normal exit cleans effects, queues remote
+ * damage, synchronizes, shows message, conditionally awards experience and transitions. */
 void sub_080B0FC4_v(struct Act0288 *a)
 {
     struct Anim0288 anim[3];
@@ -4902,6 +5005,8 @@ void sub_080B0FC4_v(struct Act0288 *a)
         sub_080003F0();
     b2424B0FC4();
 }
+/* [ReleaseFixedSpawnEffect] Only if control nonnull: cancels scheduled task, frees and clears pointer, flags
+ * masked actor entries1..4 at +0x7A bit0, and clears two handles. Null control preserves all those fields. */
 void sub_080B1FD4(void)
 {
     u8 i;
@@ -4919,6 +5024,12 @@ void sub_080B1FD4(void)
 }
 struct PosB58 { s32 x, y; };
 /* The position is passed by value as an 8-byte struct (r0/r1 copied as one DImode pair). */
+/* [RunArenaImpactSpawn] Disables combat targeting for the global actor, animates resource 0x50020 at the
+ * supplied position with sound 0x1A5 and yield iterations; the source loop continues while animation result is
+ * zero or the post-increment counter exceeds 59. If actor field 0x5C and sub_08002204 permit, scans two
+ * actor-key slots, requests an enemy spawn into the first absent slot, calls the actor-key team setter with 3
+ * and waits for active actor presence. Restores actor combat team 2 and clears task control+8 on normal exit.
+ * Spawn definition is 0x084AA580 with byte variant. */
 void sub_080B2058(struct PosB58 pos)
 {
     struct Spr2200 s;
@@ -4977,6 +5088,9 @@ void sub_080B2058(struct PosB58 pos)
     sub_0801A0A4_1(gPtr030007A0);
     gTaskP030007A8->f8 = 0;
 }
+/* [RunObjectAttachedAnimation] Initializes animation resource 0x50089 and yields forever, conditionally
+ * loading its palette, projecting the global object's position, advancing animation 0x18 and submitting a
+ * sprite. */
 s32 sub_080B2200(void)
 {
     struct Spr2200 s;
@@ -5003,6 +5117,8 @@ s32 sub_080B2200(void)
         sub_080003F0();
     }
 }
+/* [CleanupFixedSpawnActor] If actor +0x5C nonzero, resets display parameters, calls sub_08098060 and releases
+ * position-spawn-effect task; always clears peer rings, mask and palette. */
 void sub_080B22E8(void) {
     if (M2C_FIELD(gUnk_030007A0, s16 *, 0x5C) != 0) {
         sub_08009088(0, 0, 0, 0);
@@ -5013,6 +5129,8 @@ void sub_080B22E8(void) {
     gUnk_030056FC = 0;
     sub_08016ECC(gUnk_030007A4);
 }
+/* [AllocateFixedSpawnEffectTask] Zeros two halfword handles, allocates one 0x28-byte task control and clears
+ * +8 only if allocation succeeds. */
 void sub_080B2330(void)
 {
     u8 i;
@@ -5027,6 +5145,8 @@ void sub_080B2330(void)
     if (p != 0)
         *(u32 *)(p + 8) = 0;
 }
+/* [StartFixedSpawnEffect] Returns for null control, scheduled control, nonzero +8 or failed0x400 allocation.
+ * Installs fixed-selector position effect with word0x3B and forwards two words to scheduler. */
 void sub_080B236C(u32 a, u32 b)
 {
     register u32 first asm("r6") = a;
@@ -5053,12 +5173,16 @@ void sub_080B236C(u32 a, u32 b)
 }
 struct Ene0B23C8 { u8 pad0[0x7A]; u16 flags; u8 pad7C[0x264]; };
 extern struct Ene0B23C8 *enemies0B23C8 asm("gUnk_030056F4");
+/* [SetEnemySlots1To4Flag0] Other enemy consumers test this bit together with scene-exit predicate to gate
+ * action; exact mask name avoids claiming universal removal or forced stop. */
 void sub_080B23C8(void)
 {
     u8 i;
     for (i = 1; i <= 4; i++)
         enemies0B23C8[i].flags |= 1;
 }
+/* [AllocateSharedAnimation24Task] Allocates28 bytes hexadecimal in do/wait loop, stores global007AC and
+ * clears+8 only; no existing allocation or scheduling guard. */
 void sub_080B23FC(void) {
     do {
         gUnk_030007AC = sub_08001494(0x28);
@@ -5066,6 +5190,8 @@ void sub_080B23FC(void) {
     } while (gUnk_030007AC == 0);
     M2C_FIELD(gUnk_030007AC, s32 *, 8) = 0;
 }
+/* [FreeSharedAnimation24Task] First null guard; conditional scheduled cancellation; second global null guard
+ * prevents free if cancellation cleared pointer. Frees control only. */
 void sub_080B2424(void) {
     if (gUnk_030007AC != 0) {
         if (sub_08000470(gUnk_030007AC) != 0) {
@@ -5077,6 +5203,9 @@ void sub_080B2424(void) {
         }
     }
 }
+/* [StartActorOverlayRenderer] Null control returns; unscheduled control with nonzero word returns.
+ * Retries0x400 allocation with a yield on every attempt; installs actor-following overlay callback, no
+ * destructor and word0x44. */
 void sub_080B2454(void)
 {
     if (gTaskP030007AC == 0)
@@ -5117,6 +5246,10 @@ extern void fade0B24B8(s32) asm("sub_080586B4");
 extern void start0B24B8(void *, u32, u32) asm("sub_08000274");
 extern void sub_080B280C(void);
 extern void sub_080B3648(void);
+/* [RunPairedActorEncounter] Allocates and starts two 0x800-stack actor tasks with control+8 values 0x40/0x41,
+ * waits for resource admission, clears histories and starts the arena; updates a shared tracking/moving point
+ * until termination or both actors deactivate, then signals/waits cleanup and transitions. Resource failure
+ * termination clears the actor mask bit and returns early. */
 void sub_080B24B8(struct Actor0B24B8 *actor)
 {
     u8 i, j;
@@ -5203,6 +5336,9 @@ void sub_080B24B8(struct Actor0B24B8 *actor)
     sub_08067BF8();
     sub_08056E24();
 }
+/* [CleanupPairedDelayedAimActors] When either actor +0x5C is nonzero, releases four-projectile pool, auxiliary
+ * scale task, and two actor controls; always clears peer rings, active mask and palette slot. Both zero skips
+ * all task cleanup. */
 void sub_080B2780(void) {
     if ((M2C_FIELD(gUnk_030007B8, s16 *, 0x5C) != 0) || (M2C_FIELD(gUnk_030007BC, s16 *, 0x5C) != 0)) {
         sub_080B4B7C();
@@ -5296,6 +5432,12 @@ u8 shade2_280C(void) asm("sub_08097FF8");
 
 static inline void aimAt280C(s32 tx, s32 ty) { actor280C->f8 = aim280C(actor280C->f14 >> 8, actor280C->f18 >> 8, tx, ty); }
 
+/* [RunPairedActorAttackCycle] Initializes the base actor with three sprite resources and alternates
+ * approach/tracking, four projectile admissions, sustained side-position effects and animation-frame-gated
+ * offset hits through synchronized actor-id phases. Before a linked actor deactivates it follows a shared
+ * center; afterward it independently targets players. On death/termination clears its mask/collision
+ * dimensions, requests remote full-HP damage for its actor key, performs a finishing animation and conditional
+ * thirty-step experience-award sequence. */
 void sub_080B280C(void)
 {
     struct Spr280C spr[3];

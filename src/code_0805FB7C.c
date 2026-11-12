@@ -7,6 +7,12 @@ extern s32 gUnk_03006208;
 extern void sub_0801A664(s32, s32);
 extern u16 digitBasesFB63[] asm("gUnk_084EBD74");
 extern u8 tileMap63[] asm("gUnk_03005740");
+/* [DrawCappedThreeDigitTileNumber] Clamps the unsigned input to 999 and uses an unchecked u8 style index into
+ * digit-base table 084EBD74. Writes the ones tile at RAM tilemap 03005740 + y*64 + x*2, the hundreds tile two
+ * entries to the left only when nonzero, and the tens tile one entry to the left when either higher digit is
+ * nonzero. Adds digits to the selected tile base with halfword stores and queues row y through 1A664(y,1).
+ * Suppressed leading digits leave existing tiles unchanged; this does not clear or zero-pad a three-character
+ * field. The x coordinate identifies the ones column, not the leftmost digit. */
 void sub_0805FB7C(s32 x, s32 y, u32 value, u8 style)
 {
     u16 digits[3];
@@ -26,6 +32,11 @@ void sub_0805FB7C(s32 x, s32 y, u32 value, u8 style)
     sub_0801A664(y, 1);
 }
 extern u16 digitBases63[] asm("gUnk_084EBD74");
+/* [WriteCappedThreeDigitTiles] Writes up to three right-aligned digit tiles ending at the supplied u16
+ * pointer. Clamps an unsigned value to999, selects a tile base with an unchecked u8 index, writes ones at
+ * out[0], hundreds at out[-2] only when nonzero and tens at out[-1] when hundreds or tens are nonzero. Leading
+ * suppressed positions retain prior contents; there is no blank fill, terminator or row-update request.
+ * Pointer capacity and style bounds are caller obligations, not checked here. */
 void sub_0805FC0C(u16 *out, u32 value, u8 index)
 {
     u16 digits[3];
@@ -58,6 +69,12 @@ extern s32 drawIcon63(s32, s32, u16, u16, s32, s32, s32, s32) asm("sub_08007CF0"
 extern void scaledIcon63(s32, s32, u16, u16, s32, void *, s32, s32, s32, s32, s32) asm("sub_08007F0C");
 /* The attribute field is the canonical DDC symbol; the record starts 28 bytes earlier. */
 extern struct IconAsset63 drawingAssets63[] asm("gUnk_03005DDC-28");
+/* [DrawItemIcon] Selects an icon frame and shared asset group from the item kind/ID resource descriptor,
+ * returning for kind0 or unsupported kinds. Supported kinds1..10 use their respective descriptor offsets;
+ * kind10 always resolves resource160000. Item byte+8 selects the next asset group for kinds2..5, while
+ * kinds2..4 can supply an overlay selector from byte+7 (kind2 falls back to resource+0xBC). Flag1 treats the
+ * two input coordinates as Q8 world positions, converts/culls them and draws with the world-order helper; this
+ * path returns before the UI flag handling. */
 void sub_0805FC80(struct IconPosition63 pos, u16 *item, u32 flags)
 {
     u16 *entry = item;
@@ -235,6 +252,10 @@ extern void clearFF63(s32, s32) asm("sub_0801A664");
 extern u32 widthFF63(u8 *) asm("sub_0801A638");
 extern s32 checkFF63(void) asm("sub_0801DE60");
 extern s32 divFF63(s32 *, u32) asm("sub_08000498");
+/* [DrawFormattedItemText] Chooses item resource text by category and language, constructs formatting for
+ * flags/grade/suffix/level and numeric special case, supports several display modes and optional horizontal
+ * centering before drawing. Does not modify the item record. This C remains a NONMATCHING draft; the role is
+ * independently anchored by original ASM. */
 void sub_0805FFBC(s32 x, s32 y, struct ItemName63 *item, s32 flags)
 {
     u8 buf[32];
@@ -561,6 +582,13 @@ static inline void HudDraw63(struct IconAsset63 *obj, s32 x, s32 y, u16 anim, u1
 {
     hudSprite63(x, y, anim, frame, 0, obj->attr, obj->f8, obj->f0);
 }
+/* [TaskThreeSlotItemSelectionHud] Displays a paged item-selection HUD with three item records per page from
+ * manager 0x030034E0 +0x70 and selection +0x68. L-key pressed edge 0x200 advances/wraps the selection and
+ * invokes selection updater sub_0805AD78. Maintains background-frame tiles, item icons and selection cursor,
+ * with optional slide-in/out presentation. Mode zero keeps the HUD active; nonzero waits signal 0x18A92
+ * between presentations. Tests the shared world-scene stop request at update boundaries; a blocked event wait
+ * still requires its wakeup. Count and change-tracking bytes come from local player +0x77/+0x78. Exact
+ * weapon-only semantics are not established by the SS2 evidence used here. */
 void sub_080605D0(s32 animate)
 {
     struct HudMgr63 *mgr;
@@ -769,6 +797,11 @@ void sub_080605D0(s32 animate)
 extern u32 taskMem63[] asm("gUnk_03006130");
 extern struct Task tasks63[] asm("gUnk_03006110");
 extern void sub_080605D0(s32);
+/* [StartThreeSlotItemSelectionHud] Configures the selected task slot at 0x03006110 + index *0x28 for callback
+ * sub_080605D0. Uses scheduling-order key 0x65 for slot 0 or 0x3C otherwise, retries a 0x200-byte stack
+ * allocation while yielding, stores stack pointer base +0x1FC and null destructor, then starts the callback
+ * with the same index. Thus slot zero chooses the persistent presentation and nonzero chooses animated
+ * presentation. This starter does not validate the index or check scheduler membership before allocating. */
 void sub_08060DB0(s32 index)
 {
     u32 *memOut;
@@ -793,6 +826,11 @@ extern struct HudPos63 hudPosE63[] asm("gUnk_084EBE08");
 extern struct HudPos63 hudPosYE63[] asm("gUnk_084EBE0A");
 extern void hudItemE63(s32, s32, struct HudSlotE63 *, s32) asm("sub_0805FC80");
 extern void hudNumberE63(s32, s32, u32, u8) asm("sub_0805FAC0");
+/* [RunSlidingQuickItemHud] Runs until termination, drawing a three-entry page of quick-item icons/counts and
+ * selection marker while updating selection on key0x100, clearing player action fields and selected states.
+ * Animated mode slides in, times out/restarts and hides on pause/menu/scene/player gates; persistent mode
+ * stays visible and waits a shared dirty flag. Renders slide-out then loops, with terminal paths returning
+ * rather than clearing manager allocations. */
 void sub_08060E44(s32 animate)
 {
     struct HudSlotE63 tmp;
@@ -1021,6 +1059,8 @@ void sub_08060E44(s32 animate)
 extern u32 taskMem64[] asm("gUnk_03006180");
 extern struct Task tasks64[] asm("gUnk_03006160");
 extern void sub_08060E44(s32);
+/* [StartIndexedItemSelectionHud] No schedule or index guard; retries01494 allocation while yielding; taskMem64
+ * aliases06180, same task-control+0x20 stack field. Sets callback60E44, stacktop+1FC and zero finalizer. */
 void sub_08061688(s32 index)
 {
     u32 *memOut;
@@ -1076,6 +1116,9 @@ static inline void NumberDigits64(s32 x,s32 y,s32 number,u32 kind,u8 count)
         }
     }
 }
+/* [DrawExperienceAwardNumber] Projects object x/y+14/+18, draws four digits with style2 then fixed
+ * animation4/frame6 marker. Negative value becomes0x7FFFFFFF in digit helper; four digits extracted without
+ * caller range guard. */
 void sub_0806171C(void *raw,s32 value)
 {
     struct NumberPlayer64 *object = raw;
@@ -1101,6 +1144,8 @@ static inline void DrawRise64(struct RiseSprite64 *obj,u32 x,u32 y,u16 anim,u16 
 {
     sub_08007CF0(x,y,anim,frame,0,(s32)obj->attr,obj->data,obj->base);
 }
+/* [PlayPlayerLevelUpEffect] Snapshots fixed-point position8C/90, decreases y by0x20 per step, steps
+ * animation14 and draws at projected position minus8; exactly48 waits independent of menu suppression. */
 void sub_08061830(void *raw)
 {
     struct RisePlayer64 *player = raw;
@@ -1142,6 +1187,10 @@ extern void resetFade64(s32) asm("sub_0801AA8C");
 extern void resetDisplay64(u32,u32,u32) asm("sub_080009F8");
 extern void resetEnable64(u32,u32,u32) asm("sub_080009C0");
 extern void resetSound64(u32) asm("sub_080570DC");
+/* [ShowShutdownDialogueAndReset] Waits for display transitions, stops fixed, paired, and per-player task
+ * controls, refreshes dialog state, clears the dialog tile area and configures BG0. Opens resource 0x1404E2,
+ * waits for its completion while maintaining display state, closes it, fades out, then invokes SoftReset(0).
+ * There is no ordinary successful return before reset. */
 void sub_08061910(void)
 {
   union 
@@ -1328,6 +1377,11 @@ extern u8 linkEnemies64[] asm("gUnk_03004220");
 extern u32 linkMap64[] asm("gUnk_03003170");
 #define LKILL64(p) do { if(resetRunning64(p)) resetKill64(p); } while(0)
 #define LWAIT64() do { if(sub_080021A8()) return; sub_080003F0(); } while(0)
+/* [StopSessionTasksThenReset] Performs session/display preparation and a 100-yield delay, stops fixed
+ * controls, five enemy controls, masked item effects, paired controls and per-player controls. All initial
+ * LWAIT64 waits return early if 0x021A8 reports nonzero. After eight more such waits returns if 0x021A8
+ * reports nonzero; otherwise configures the dialog display and enters recovery waits/retries, ending in
+ * SoftReset(0). */
 void sub_08061B88(void)
 {
     union { u32 raw; struct {u32 value:16;u32 upper:16;} bits; } control;
@@ -1399,6 +1453,11 @@ extern u8 savePlayerPtr64[] asm("gUnk_03003D14");
 extern u8 saveMap64[] asm("gUnk_03003170");
 struct SaveMapS64 { u8 pad0[0x8C]; u16 f8C; u16 f8E; u16 f90; };
 extern struct SaveMapS64 saveMapS64 asm("gUnk_03003170");
+/* [CoordinateSnapshotSaveFlow] Enters scene guard; blocked predicates restore guard and return. Mode0 prompts
+ * confirmation then builds runtime snapshottypes2/3/4 and writes save; mode1 prepares type2 without prompt;
+ * other modes update host progression and clear16 saved equipment fields. Writes show success/failure dialogs;
+ * zero write result can fade/reset in mode0/other branch, mode1 returns normally. Link-handshake early returns
+ * skip final guard restoration. Cancellation/main normal paths restore guard. */
 void sub_08061E44(s32 arg0) { u32 var_r5;
     u8 *data;
     u8 *stats;
@@ -2076,6 +2135,11 @@ static inline void t65_flags(void) {
  { u32 *p=(u32 *)offset; *p &= ~0x80; }
 }
 static inline u16 t65_width(struct T65Pair *p) {register struct T65Pair *p1 asm("r1")=p; return p1->x;}
+/* [RenderSceneEntrySpritePair] When scene area nonzero, selects first sprite id=level+20 (or38 for high
+ * levels) and second area/final-area sprite id, runs120 iterations advancing animations and drawing centered
+ * at(120,54)/(120,106) with blend0x3030. Clears blend after loop. Always clears local player flag0x80,
+ * including area0 skip. Local sprite descriptor graphics/base fields are not initialized explicitly in this
+ * body; cannot infer decoded labels/artwork or resource readiness from C alone. */
 void sub_0806335C(void)
 {
     struct T65Draw a, b;
@@ -2140,6 +2204,12 @@ static inline s32 t65P_init(struct T65Popup *obj,u32 resource,s32 index,s32 size
     return (s32)obj;
 }
 void t65_popupImplementation(u32,u32) asm("sub_080634D8");
+/* [TaskAnimateWorldEffect] Task callback under the existing t65_popupImplementation ABI alias. Resolves
+ * animation resource 0x50130 and related graphics/palette records, takes signed coordinates from the low/high
+ * halfwords of argument 0 and a palette selector from argument 1 high halfword. Projects those world
+ * coordinates with 0BC08 and advances/draws animation 10 until completion or explicit stop predicates after a
+ * signal 1 wait. The pool header chooses between projection-fade draw 07870 and fixed-mode draw 07CF0. Exact
+ * visual effect is not assigned. */
 void t65_popupImplementation(u32 packed,u32 arg)
 {
     struct T65Popup draw;
@@ -2251,6 +2321,11 @@ struct Remote65C {
     } byte4;
 };
 static inline s32 t65C_measure(u32 id,u16 *w,u16 *h,u8 *d){ return sub_08008CC4(id,w,h,d,1); }
+/* [TaskAnimatePlayerAreaDeparture] Callback under t65C_impl. Uses the full supplied player index with stride
+ * 0x14C, captures packed entity world coordinates and resolves appearance plus resource 0x5005E. Projects the
+ * captured position and draws player animation 0x21 with a rising vertical offset. The signed halfword counter
+ * advances from 0 through 159 only when both 56E90 and 58DB0 return zero; waits use scheduler signal 1, so no
+ * exact elapsed video-frame duration is claimed. A nonzero 0CF80 skips this animation. */
 void t65C_impl(s32 index)
 {
     struct T65CPopup label,sprite;
@@ -2383,6 +2458,11 @@ static inline s32 t65B_init(struct T65BPopup *obj,u32 resource,s32 index,s32 siz
     return (s32)obj;
 }
 void t65B_impl(s32) asm("sub_08063B80");
+/* [TaskPlayerAreaReturnPrompt] Per-player callback under t65B_impl, using full index times 0x14C. Draws
+ * resource 0x5005E at world coordinates (184-index*24,312) while 0CCCC is nonzero. Local interaction uses a Q8
+ * position and packed rectangle dimensions through 21FE0. With blocking halfword 03003200 zero, no existing
+ * dialogue, 0CDF8 zero and player input halfword+0x14 bit0 set, it sets player flags+0x30 bit0 and opens
+ * dialogue key 0x1404E0 through 5DF38. */
 void t65B_impl(s32 index)
 {
     struct T65BPopup draw;
@@ -2590,6 +2670,11 @@ static inline void t65E_draw(struct T65EPopup *obj,s32 x,s32 y,u16 anim,u16 fram
 {
     sub_08007CF0(x,y,anim,frame,flag,(s32)obj->palette,(s32)obj->data,obj->base);
 }
+/* [AnimateAscendingPlayerSpriteTrails] Configures three background layers and selects players with packed
+ * entity kind 14. Initializes one sprite resource per selected player and five delayed vertical trail samples,
+ * then accelerates those samples upward and draws them until all trailing samples leave above the screen.
+ * Fades while continuing their motion, clears VRAM and restores display layers. Session-abort predicates
+ * return immediately without the final display cleanup. */
 void sub_08063E30(void)
 {
     struct T65EPopup sprites[4];
@@ -2779,6 +2864,13 @@ static inline s32 init441(struct Pop441 *obj, u32 resource, s32 index, s32 size)
 }
 
 void BattleResult441(u16 *arg0, u32 arg1) asm("sub_0806441C");
+/* [TaskResolveCoordinatedAttack] Coordinated attack-resolution task, despite the existing BattleResult441 ABI
+ * alias. In its normal gated path, captures participating player packets with low-nibble state 0xE,
+ * temporarily clears local participation byte +0x68, waits for shared effects and invokes the 92348 visual
+ * task using two packed argument bytes plus a recomputed participant count. Uses synchronization marker 0x586
+ * around the sequence. The locally owning participant computes variant-dependent attack amounts, scans five
+ * enemy slots, processes active entries with nonzero byte +0x1DC through resistance/damage handling and queues
+ * hit/effect results; other participants update the shared contribution mask. */
 void BattleResult441(u16 *arg0, u32 arg1)
 {
     struct Pop441 obj;
@@ -3068,6 +3160,13 @@ extern u8 *gA4210 asm("gUnk_03004210");
 extern u8 *gA5CF4 asm("gUnk_03005CF4");
 #define W64E(p, o) (*(u32 *)((p) + (o)))
 #define BA64E(p, o, i) (((struct { u8 pad[o]; u8 a[8]; } *)(p))->a[i])
+/* [TaskSaveCharacterToFlash] Coordinates the character flash-save flow after closing dialogue windows, waiting
+ * for a scene gate and performing 60 scheduler signal-1 waits while clearing UI rows. Parent/loopback copies
+ * current-mode progress words and both byte-array sets into associated-state 03004210; the child branch
+ * restores only current-mode progress/arrays from that state and applies additional flag cleanup. Clears
+ * sixteen associated-state halfwords, writes its state word 2 and copies scene halfword +0x14A to
+ * associated-state +0xDA, then calls 7A124 once. Success shows resource 1403D9, waits for its window and fade,
+ * requests scene stop and calls SoftReset(0). */
 void sub_08064E14(s32 arg0)
 {
     u32 val;
@@ -3178,10 +3277,15 @@ void sub_08064E14(s32 arg0)
     if (arg0 == 0)
         SoftReset(0);
 }
+/* [ClearSharedWord] Exact leaf stores0 to gUnk_03006028; no reads, input-dependent branches or other work. */
 void sub_0806514C(void) {
     gUnk_03006028 = 0;
 }
 struct Init66 { s32 f0, f4, f8, fC, f10, f14, f18; u8 data[16]; };
+/* [InitializeSpriteResourceDescriptor] Resolves supplied metadataID then same low16index|0x60000 pixeldata
+ * and|0x80000 palette into descriptor+8/+0/+0xC, choosing primary/auxarchive by flag. Optionally uploads
+ * palette via00AF0, sets16identityremapbytes and defaults via653B8. Caller5E0C4 uses IDs500A8/A7/C1; decoded
+ * companions match portrait offsets from publicextractor. */
 s32 sub_08065158(struct Init66 *obj, u32 resource, s32 index, s32 size, s32 alternate)
 {
     void *table = &gUnk_08518938;
@@ -3214,23 +3318,32 @@ s32 sub_08065158(struct Init66 *obj, u32 resource, s32 index, s32 size, s32 alte
     sub_080653B8(obj, 0x120, 0xE0, 8);
     return (s32)obj;
 }
+/* [InvalidateSpriteResourceDescriptor] Sets descriptor resource ID at+0x10 to -1 and zeros
+ * metadata/pixel/palette pointers at+8/+0/+0xC. Does not free memory or clear every descriptor field. */
 void sub_08065204(void *arg0) {
     M2C_FIELD(arg0, s32 *, 0x10) = -1;
     M2C_FIELD(arg0, s32 *, 8) = 0;
     M2C_FIELD(arg0, s32 *, 0) = 0;
     M2C_FIELD(arg0, s32 *, 0xC) = 0;
 }
+/* [UploadSpriteDescriptorPalette] Uploads descriptor palette with bank index+16, source pointer+0xC plus
+ * index*32 and count+0x18. Does not allocate or load a new descriptor. */
 void sub_08065214(void *arg0) {
     s32 temp_r2;
 
     temp_r2 = M2C_FIELD(arg0, s32 *, 0x14);
     sub_08000AF0(temp_r2 + 0x10, M2C_FIELD(arg0, s32 *, 0xC) + (temp_r2 << 5), M2C_FIELD(arg0, s32 *, 0x18));
 }
+/* [DrawSpriteResourceDescriptor] Calls07CF0 with position, animation/frame, mode0 and descriptor remap+0x1C,
+ * metadata+8 and pixel data+0. Narrow wrapper role anchored by existing OAM draw-copy implementation. */
 void sub_08065230(void *arg0, s32 arg1, s32 arg2, u16 arg3, s32 arg4) {
     sub_08007CF0(arg1, arg2, arg3, (u16) arg4, 0, arg0 + 0x1C, M2C_FIELD(arg0, s32 *, 8), M2C_FIELD(arg0, s32 *, 0));
 }
 extern void sub_08007F0C(s32, s32, u16, u16, s32, void *, s32, s32, s32, s32, s32);
 struct Bounce66 { s32 f0, f4, f8; u8 pad[0x20]; u16 value; u16 step; s16 upper; s16 lower; };
+/* [DrawSpriteWithPulsingScale] Advances scale halfword+0x2C by signed step+0x2E; reverses step after crossing
+ * upper/lower bounds+0x30/+0x32; calls affine draw07F0C with same signed scale for X/Y and angle255. Does not
+ * clamp scale at the bounds. */
 void sub_08065264(struct Bounce66 *obj, s32 x, s32 y, u16 a, u16 b)
 {
     u16 step = obj->step;
@@ -3243,6 +3356,8 @@ void sub_08065264(struct Bounce66 *obj, s32 x, s32 y, u16 a, u16 b)
         obj->step = -obj->step;
     sub_08007F0C(x, y, a, b, 0, (u8 *)obj + 0x1C, obj->f8, obj->f0, (s16)obj->value, (s16)obj->value, 255);
 }
+/* [DrawSpriteWithPulsingScaleAndMode] Same scale update and bound-based step reversal as65264; forwards
+ * explicit low-byte mode to affine draw07F0C. */
 void sub_080652E0(struct Bounce66 *obj, s32 x, s32 y, u16 a, u16 b, u16 c)
 {
     u16 step = obj->step;
@@ -3255,12 +3370,18 @@ void sub_080652E0(struct Bounce66 *obj, s32 x, s32 y, u16 a, u16 b, u16 c)
         obj->step = -obj->step;
     sub_08007F0C(x, y, a, b, (u8)c, (u8 *)obj + 0x1C, obj->f8, obj->f0, (s16)obj->value, (s16)obj->value, 255);
 }
+/* [AdvanceSpriteDescriptorAnimation] Forwards animation ID, frame pointer, timer pointer, metadata pointer
+ * descriptor+8 and loop flag to08CC4. */
 s32 sub_08065370(void *arg0, u16 arg1, s32 arg2, s32 arg3, s32 arg4) {
     return sub_08008CC4(arg1, arg2, arg3, M2C_FIELD(arg0, s32 *, 8), arg4);
 }
+/* [ReverseSpriteDescriptorAnimation] Forwards animation ID, frame pointer, timer pointer, descriptor+8 and
+ * loop flag to08D38. */
 s32 sub_08065394(void *arg0, u16 arg1, s32 arg2, s32 arg3, s32 arg4) {
     return sub_08008D38(arg1, arg2, arg3, M2C_FIELD(arg0, s32 *, 8), arg4);
 }
+/* [InitializeSpriteScalePulse] Sets current scale+0x2C to0x100, stores input upper/lower bounds at+0x30/+0x32
+ * and step at+0x2E; consumers65264/652E0 establish scale-pulse roles. */
 void sub_080653B8(void *arg0, s16 arg1, s16 arg2, s16 arg3)
 {
   int new_var;
@@ -3270,9 +3391,16 @@ void sub_080653B8(void *arg0, s16 arg1, s16 arg2, s16 arg3)
   *((s16 *) (((s8 *) arg0) + 0x32)) = arg2;
   *((s16 *) (((s8 *) arg0) + 0x2E)) = arg3;
 }
+/* [GetSharedGlyphSpriteDescriptor] Returns address03005D80;65424 uses this same object to draw numeric glyph
+ * sprites. No ownership transfer or initialization is performed. */
 M2C_UNK *sub_080653CC(void) {
     return &gUnk_03005D80;
 }
+/* [StopThreeSlotItemSelectionHud] Computes task control 03006110 + index*0x28, queries scheduler membership
+ * through 00470 and calls 003A8 only if present. No index range validation, wait, cooperative slide-out,
+ * tilemap clear or inventory-state reset is performed here. The constructor 60DB0 installs 605D0 into this
+ * same indexed control array, anchoring the three-slot item-selection HUD role. Forced task stop does not
+ * imply that every visual field is reset. */
 void sub_080653D4(s32 arg0) {
     void *temp_r4;
 
@@ -3281,6 +3409,8 @@ void sub_080653D4(s32 arg0) {
         sub_080003A8((s32) temp_r4);
     }
 }
+/* [CancelItemSelectionHudTask] Computes control06160+index*40, checks scheduling and invokes task
+ * cancellation. */
 void sub_080653FC(s32 arg0) {
     void *temp_r4;
 
@@ -3290,6 +3420,9 @@ void sub_080653FC(s32 arg0) {
     }
 }
 extern u32 gUnk_084EBD4C[];
+/* [DrawRightAlignedSpriteNumber] Divides number by descending powers of ten, suppresses leading zeros except
+ * final digit, and draws digit sprites6pixels apart ending at input x. Inputs style/digits truncate tou8;
+ * negative number substitutes0x7FFFFFFF. Style3 maps animation13. */
 void sub_08065424(s32 x, s32 y, s32 number, u32 argStyle, u32 argDigits)
 {
     u8 buffer[12];
@@ -3340,6 +3473,9 @@ extern u32 gUnk_084EBD4C[];
 extern u16 gTiles74[] asm("gUnk_084EBD74");
 extern u16 gBg5740[][32] asm("gUnk_03005740");
 extern void sub_0801A664(s32, s32);
+/* [DrawRightAlignedTilemapNumber] Builds decimal digits using descending divisors; writes digit tiles ending
+ * at input x in03005740[y], suppressing leading zeros except final digit, then marks row via1A664. Negative
+ * number substitutes0x7FFFFFFF. */
 void sub_08065504(s32 x, s32 y, s32 number, u8 style, u8 digits)
 {
     u8 buffer[12];
@@ -3368,6 +3504,8 @@ void sub_08065504(s32 x, s32 y, s32 number, u8 style, u8 digits)
     sub_0801A664(y, 1);
 }
 extern void textDraw66(s32, s32, s32) asm("sub_0801A3D0");
+/* [DrawItemRecordName] Kinds0/1 and unsupported values return. Kinds2..5 load record[2]|0x130000, add
+ * language*31 and draw at u16 coordinates. Negative align uses signed16 offset -(length*13>>1). */
 void sub_080655CC(s32 x, s32 y, u16 *data, s32 align)
 {
     s32 text;
@@ -3390,6 +3528,10 @@ void sub_080655CC(s32 x, s32 y, u16 *data, s32 align)
 }
 struct Task6654 { u32 f0, f4, f8; void (*fC)(); u8 *f10; u32 f14, f18, f1C; u8 *f20; u32 f24; };
 extern struct Task6654 task6654 asm("gUnk_03006000");
+/* [StartFourChoiceGameMenuTask] Retries allocating a 0x400-byte stack for task control 03006000, waiting on
+ * scheduler signal 1 after each null allocation. Sets task flags 0x34, callback 624D8, stack top allocation
+ * +0x3FC and null destructor, then starts the task. There is no scheduled-task guard or wait for menu
+ * completion; the flags word does not establish an explicit priority. */
 void sub_08065654(void)
 {
     u8 *mem;
@@ -3401,6 +3543,9 @@ void sub_08065654(void)
     task6654.f24 = 0;
     sub_08000274(&task6654);
 }
+/* [IsFourChoiceGameMenuTaskScheduled] Returns exactly zero or one according to TaskIsScheduled(03006000). It
+ * checks the task control used by the four-choice animated game menu starter; it does not inspect visible
+ * window state, current selection or link readiness. */
 s32 sub_0806569C(void)
 {
   M2C_UNK **new_var2;
@@ -3423,6 +3568,10 @@ s32 sub_0806569C(void)
 struct S602C_E { u32 x; u8 pad[0x24]; };
 struct S602C { u32 a; u32 b; u32 c; struct S602C_E e[30]; };
 extern struct S602C *gS602C asm("gUnk_0300602C");
+/* [AllocateAnimatedWorldEffectTaskPool] Allocates 0x4B4 bytes into 0300602C, stores the full supplied word in
+ * the four-byte pool header and clears only word+8 of each of thirty 0x28-byte task controls beginning at
+ * allocation+4. Other task fields and stacks are not initialized here. It does not check allocation failure,
+ * cancel an old pool or start effects. */
 void sub_080656B8(u32 a)
 {
     u32 i;
@@ -3431,6 +3580,11 @@ void sub_080656B8(u32 a)
     for (i = 0; i < 30; i++)
         gS602C->e[i].x = 0;
 }
+/* [CancelAndFreeAnimatedWorldEffectTaskPool] Captures pool base+4 and visits all thirty controls. For each,
+ * repeatedly checks scheduler membership and calls 003A8 while scheduled; there is no explicit signal wait in
+ * this cancellation loop. Finally frees the pointer currently stored at 0300602C and sets that global to the
+ * final zero membership result. Does not run each animation to normal completion, preserve visual output or
+ * guard an uninitialized pool pointer. */
 void sub_080656EC(void)
 {
     u8 *base = (u8 *)gUnk_0300602C + 4;
@@ -3444,6 +3598,11 @@ void sub_080656EC(void)
     sub_08001538(gUnk_0300602C);
     gUnk_0300602C = result;
 }
+/* [StartAnimatedWorldEffectTask] Searches thirty controls for the first both unscheduled and word+8 equal to
+ * zero. Attempts one 0x400-byte stack allocation; returns silently if no slot or allocation fails. On success
+ * sets task key+8=0x3C, callback634D8, stack top+0x3FC and null finalizer, then schedules with argument
+ * 0=(b<<16)|a and argument 1=slotIndex|(c<<16). Inputs are full 32-bit operands with no independent
+ * coordinate/palette masks before packing; no enqueue or link-message operation occurs. */
 void sub_08065748(u32 a, u32 b, u32 c)
 {
     u32 result;
@@ -3470,6 +3629,11 @@ void sub_08065748(u32 a, u32 b, u32 c)
     sub_08000274(entry, (b << 16) | a, i | (c << 16));
 }
 extern s32 gUnk_03006030;
+/* [StartPlayerAreaReturnTask] Searches four 0x28-byte task controls addressed by the pointer global 03006030
+ * for the first not scheduled, returning silently if all four are occupied. Repeatedly allocates a 0x400-byte
+ * stack, waiting on scheduler signal 1 between failed attempts. Writes task control+8=0x3C, stack
+ * pointer+0x10=allocation+0x3FC and null finalizer+0x24, then schedules with the full supplied first argument
+ * as callback player index. Field+8 is not interpreted as priority. */
 void sub_080657C4(u32 a, u32 mode)
 {
     u32 i;
@@ -3493,6 +3657,9 @@ void sub_080657C4(u32 a, u32 mode)
     *(u32 *)(entry + 0x24) = 0;
     sub_08000274(entry, a);
 }
+/* [StartPlayerNameDisplayTask] Scans four task slots at 03006208 for an inactive slot, attempts one 0x400-byte
+ * stack allocation, and starts name-display callback 65BD0 with player index and frame arguments. Allocation
+ * failure returns immediately. This pool differs from actor effects at 03006030. */
 void sub_08065838(u32 a, u32 b)
 {
     u32 result;
@@ -3516,6 +3683,8 @@ void sub_08065838(u32 a, u32 b)
     *(u32 *)(entry + 0x24) = result;
     sub_08000274(entry, a, b);
 }
+/* [AllocatePlayerNameTaskSlots] Allocates four 0x28-byte task slots at 03006208 and clears field +8 of each.
+ * Starter 65838 installs name-display callback 65BD0 into this pool. */
 void sub_080658A0(void)
 {
     u32 i;
@@ -3523,6 +3692,8 @@ void sub_080658A0(void)
     for (i = 0; i < 4; i++)
         M2C_FIELD((u8 *)gUnk_03006208 + i * 0x28, s32 *, 8) = 0;
 }
+/* [WaitAndFreePlayerNameTaskSlots] Yields until all four name-display task slots at 03006208 are inactive,
+ * frees the pool, and clears the global using the final zero activity result. It does not cancel tasks. */
 void sub_080658CC(void)
 {
     s32 base = gUnk_03006208;
@@ -3536,6 +3707,12 @@ void sub_080658CC(void)
     sub_08001538(gUnk_03006208);
     gUnk_03006208 = result;
 }
+/* [StartCoordinatedAttackTask] If shared control 030061E0 is not scheduled, sets flags 0x3C and retries
+ * allocation of a 0xC00-byte stack with scheduler signal 1 waits on failure. Registers callback 6441C, stack
+ * top allocation +0xBFC, null destructor and both supplied arguments. Returns immediately when the shared
+ * control is already scheduled and does not wait for attack resolution or validate the callback arguments.
+ * This same control is used by other menu/action starters, so the guard is not a participant-count or
+ * networking-readiness test. */
 void sub_08065918(u32 a, u32 b)
 {
     u8 *mem;
@@ -3551,6 +3728,10 @@ void sub_08065918(u32 a, u32 b)
 }
 struct P148 { u8 pad[0x148]; u8 *p; };
 extern struct P148 gP148[] asm("gUnk_03003CE0");
+/* [HasCoordinatedAttackParticipant] Scans the counted player list and returns exactly 1 on the first player
+ * whose packet pointer +0x148 references a byte with low nibble 0xE, otherwise 0. Does not query task
+ * scheduling, count participants, test link errors or validate packet pointers. The result describes current
+ * packet state only; it does not guarantee any participant remains in that state after a yield. */
 u32 sub_08065974(void)
 {
     u32 n = sub_08002164();

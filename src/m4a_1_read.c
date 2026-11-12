@@ -29,6 +29,8 @@ loop:
 asm(".align 2,0");
 void sub_080B6990(void) __attribute__((naked));
 /* This entry falls through into the validator, preserving the shared ABI. */
+/* [SoundReadGuardedByte] Reads byte at r2 into r3, falls through to source-address guard. Not an independent C
+ * body. */
 void sub_080B6990(void) { sdkValue = *sdkCursor; }
 u32 *sdkValidateKeepR0(u32 *unused)
 {
@@ -49,8 +51,12 @@ done:
 asm("bx lr");
 const u32 *const sdkSharedTemplate asm("_080B69A8") A = sdkJumpTableTemplate;
 void sub_080B69AC(void) __attribute__((naked));
+/* [SoundReadTrackByteGuarded] Loads track.cmdPtr at r1+0x40 then falls through69AE; complete shared helper
+ * body ends69B6. */
 void sub_080B69AC(void) { sdkCursor = sdkTrack->cmdPtr; }
 void sub_080B69AE(void) __attribute__((naked));
+/* [SoundReadTrackByteFromCursorGuarded] Uses supplied r2 cursor, stores r2+1 to track.cmdPtr, reads byte then
+ * tail-branches guard6992. Direct caller ply_port supplies cursor after register-index byte. */
 void sub_080B69AE(void)
 {
     sdkValue = (u32)(sdkCursor + 1);

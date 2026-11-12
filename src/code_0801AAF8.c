@@ -1,11 +1,16 @@
 #include "global.h"
 
+/* [HasPositiveScreenTransitionPassedDuration] Returns1 exactly when direction03000026 is1 and unsigned
+ * progress03000022 exceeds duration03000020; otherwise0. Does not itself test active request flags. */
 s32 sub_0801AAF8(void)
 {
     if (gUnk_03000026 == 1 && gUnk_03000022 > gUnk_03000020)
         return 1;
     return 0;
 }
+/* [GetScreenTransitionMode] Returns1 if flag8 is set, otherwise2 if flag0x20 is set, otherwise0. These are
+ * request-selected mode flags; this predicate does not check active request bits or require completion.
+ * Controller1A7AC eventually clears active0x16 while preserving these mode flags. */
 u32 sub_0801AB24(void)
 {
     extern volatile u16 flagBits asm("gUnk_03000028");
@@ -15,6 +20,12 @@ u32 sub_0801AB24(void)
     else result = 1;
     return result;
 }
+/* [RequestScreenWindowReveal] Stores direction -1, the low 16-bit argument as duration and progress 0, wakes
+ * scheduler signal 0x64 (100), then sets active request bit 0x4 and clears mode bit 0x20. It preserves the
+ * other request bits. When the controller selects its window route, this requests the reveal endpoint by
+ * restoring window masks and disabling WIN0, with duration overwritten to 2 by that route. It does not wait
+ * for transition completion or directly change display registers. Competing active bits can select a different
+ * controller route. */
 void sub_0801AB50(u16 arg0)
 {
     u32 m = 0x21;
@@ -24,6 +35,13 @@ void sub_0801AB50(u16 arg0)
     sub_08000420(100);
     gUnk_03000028 = (gUnk_03000028 | 4) & -m;
 }
+/* [RequestWindowPreservingBrightnessFadeIn] Returns unchanged when the signed direction is negative and
+ * progress has bit 0x8000 set. Otherwise stores direction -1 and the u16 argument into duration and progress,
+ * wakes signal 0x64 (100), then sets active bit 0x10 and clears mode bit 0x8, preserving the other bits
+ * including active 0x2 and mode 0x20. This requests the brightness-ramp branch that normally decreases its
+ * coefficient from 16 toward 0 while retaining window configuration. Higher-priority active 0x2 may select the
+ * other brightness path instead; the name describes the requested mode, not an unconditional preservation
+ * guarantee under overlapping requests. It does not validate duration or wait for completion. */
 void sub_0801AB90(u16 arg0) {
     volatile u16 *p;
     u16 value;
@@ -38,6 +56,12 @@ void sub_0801AB90(u16 arg0) {
         *p = value;
     }
 }
+/* [RequestScreenWindowHide] Stores direction +1, the low 16 bits of the input as duration and progress 0,
+ * wakes scheduler signal 0x64 (100), then sets active bit 0x4 plus mode flag0x8 while clearing mode bit 0x20.
+ * Other active request bits are preserved. If its window route is selected, the controller configures a
+ * full-screen WIN0 with inside layers masked and enables that window, then leaves progress 1/direction 0. The
+ * route overwrites duration to 2; the input does not establish its elapsed duration. The helper returns after
+ * requesting, and does not promise a particular hidden color or immediate completion. */
 void sub_0801ABE8(u32 arg0) {
     int new_var;
     gUnk_03000026 = 1;
@@ -47,6 +71,13 @@ void sub_0801ABE8(u32 arg0) {
     new_var = 0x21;
     gUnk_03000028 = (gUnk_03000028 | 0xC) & (-new_var);
 }
+/* [RequestWindowPreservingBrightnessFadeOut] Returns unchanged when direction equals 1 and unsigned progress
+ * already exceeds the current duration. Otherwise stores direction +1, the u16 argument as duration and
+ * progress 0, wakes signal 0x64 (100), then sets active bit 0x10 and mode flag0x20 while clearing mode bit
+ * 0x8. Other active bits remain. It requests the brightness-ramp branch that normally increases its
+ * coefficient from 0 toward 16 without reconfiguring the windows; existing active 0x2 has higher controller
+ * priority. This is a request with a concrete guard, not a guarantee that windows remain fixed under other
+ * concurrent requests, every duration is valid or completion takes a specified number of frames. */
 void sub_0801AC24(u16 arg0) {
     int mask = 9;
     if (gUnk_03000026 != 1 || gUnk_03000022 <= gUnk_03000020) {
@@ -57,6 +88,8 @@ void sub_0801AC24(u16 arg0) {
         gUnk_03000028 = (gUnk_03000028 | 0x30) & -mask;
     }
 }
+/* [IsScreenTransitionIdleAtZero] Requires active mask0x16 clear, direction-1 and progress0. Returns0
+ * otherwise. This is stronger than general idle test1AAE0; no wall-clock timing guarantee. */
 s32 sub_0801AC78(void) {
     s32 var_r2;
 
@@ -144,6 +177,13 @@ extern u8 gUnk_0848FECC[];
 extern u8 gUnk_0848FED8[];
 struct S17Stats32 { u32 words[8]; };
 struct S17Effect { u16 type, id, value; u8 b6, b7, b8; u8 pad[7]; };
+/* [InitializeNewCharacterStatsAndItems] Copies a raw-class-indexed 32-byte stat template into current
+ * character +0x10, writes class-dependent weapon/equipment defaults, activates weapon slot 0 and refreshes
+ * equipment activation fields. Seeds bag slots 0..4 from table 0848FB68 and slot 24 from 0848FB7C, then
+ * applies a 2A9B0-selected stat/item bonus. Finally sets selected weapon index zero, recalculates local
+ * runtime stats and upper-clamps current energy/health against their separate maxima. Does not clear the
+ * entire character/inventory record, fill health/energy to maximum or write a save sector. Exact class, item
+ * and bonus-selector game titles remain unassigned. */
 void sub_0801ACB8(void)
 {
     struct S17Effect effect;
@@ -332,6 +372,9 @@ void sub_0801ACB8(void)
 }
 
 
+/* [ApplyThreeTypedStatModifiers] Processes exactly three4-byte type/value records, adds or sets selected
+ * halfword/byte fields in stats and extra buffers, and returns ORed type bits plus composite flags for
+ * types1/3/4. Unknown types still contribute their shifted bit but have no switch effect; no input validation. */
 u32 sub_0801B264(void *mods, u16 *stats, u8 *extra)
 {
     u32 flags = 0;
@@ -477,6 +520,10 @@ u32 sub_0801B264(void *mods, u16 *stats, u8 *extra)
 
 
 
+/* [ScaleItemSkillValue] Selects effective indexed skill level from item byte+0x9B and supplied kind0..8;
+ * qualifying combinations add level and scale signed16 input by(level+10)/10, except kind4/item4
+ * uses(level*8+100)/100. Arithmetic result narrows to u16 before return; unsupported combinations return
+ * original u16. Calls effective-level helper twice per applicable branch; does not mutate item/stats. */
 s32 sub_0801B58C(u8 *item, s32 stats, u16 value, u16 kind)
 {
     register s32 factor asm("r4");
@@ -556,6 +603,10 @@ s32 sub_0801B58C(u8 *item, s32 stats, u16 value, u16 kind)
 
 
 
+/* [AddToSixHalfwordValues] Adds the signed low-halfword delta to six consecutive halfwords at byte offsets 0,
+ * 2, 4, 6, 8 and 10, storing each low 16-bit result in ascending order. The buffer needs at least 12 writable
+ * bytes. There is no saturation, bounds/null check, heap allocation or external call; negative deltas are
+ * allowed by the signed argument. */
 void sub_0801B6F4(s16 *p, s16 delta) {
     p[0] = delta + p[0];
     p[1] = delta + p[1];
@@ -564,6 +615,10 @@ void sub_0801B6F4(s16 *p, s16 delta) {
     p[4] = delta + p[4];
     p[5] = delta + p[5];
 }
+/* [SubtractFromSixHalfwordValues] Subtracts the signed low-halfword delta from six consecutive halfwords at
+ * byte offsets 0 through 10, storing each low 16-bit result in ascending order. A negative delta therefore
+ * adds its magnitude modulo 65536. Does not saturate, validate the 12-byte writable buffer, allocate memory or
+ * call another function. */
 void sub_0801B720(s16 *p, s16 delta) {
     p[0] = p[0] - delta;
     p[1] = p[1] - delta;
@@ -577,6 +632,11 @@ struct S17ItemB8 { u8 data[0xB8]; };
 struct S17ItemB4 { u8 data[0xB4]; };
 struct S17ItemB0 { u8 data[0xB0]; };
 struct S17Set { u8 pad[0x136]; u16 slots[6]; };
+/* [MatchesEquipmentSetRequirements] Checks six required resource-index halfwords at set record +0x136. Value
+ * 65535 ignores that requirement; otherwise the corresponding supplied resource pointer must be nonnull and
+ * its resource-array index must equal the requirement. Returns exactly 1 when every required position matches,
+ * otherwise 0. An all-65535 record therefore succeeds even with no supplied resources. It does not load
+ * current equipment, require all six positions, validate asset membership or check pointer/table bounds. */
 s32 sub_0801B74C(struct S17Set *set, struct S17ItemC4 *a, struct S17ItemB8 *b, struct S17ItemB8 *c, struct S17ItemB8 *d, struct S17ItemB4 *e, struct S17ItemB0 *f)
 {
     s32 matched = 0;
@@ -622,6 +682,11 @@ struct S17SetEntry { u8 data[0x150]; };
 extern struct S17SetEntry gUnk_08490120[];
 struct S17State { u8 pad[0x5B4]; struct S17SetEntry *active; };
 extern struct S17State *s17_state asm("gUnk_03006440");
+/* [FindMatchingEquipmentSetBonusData] Tries candidate set IDs from six supplied resource records in argument
+ * order a/b/c/d/e/f. Skips null pointers and zero IDs; ID fields are +0xC2 for a, +0xB4 for b/c/d, +0xB0 for e
+ * and +0xAC for f. Each nonzero ID selects a 0x150-byte record from 08490120 and calls the six-position set
+ * predicate. Returns the first matching record address +0x144, or zero if none. It does not scan all set
+ * records, allocate/copy the bonus data or validate candidate IDs against table length. */
 s32 sub_0801B8A8(struct S17ItemC4 *a, struct S17ItemB8 *b, struct S17ItemB8 *c, struct S17ItemB8 *d, struct S17ItemB4 *e, struct S17ItemB0 *f)
 {
     struct S17SetEntry *set;
@@ -778,6 +843,11 @@ static __inline__ u16 BA74_atk(s32 value, s32 stats)
 /* Recomputes a unit's stats from its equipment slots and active effects. Returns void; it is
  * defined through an asm label because functions.h declares sub_0801BA74 with M2C_UNK. */
 void BA74_StatsCalc(struct BA74Unit *arg0, struct BA74Sel *arg1, struct BA74Stats *arg2, struct BA74Mod *arg3, s32 arg4) asm("sub_0801BA74");
+/* [RecomputeEquippedActorStats] Selects equipped definitions or type-matched candidate overrides for item
+ * types2..7. Saved types2..5 require valid and unbroken slots; types6/7 test validity only, with no broken
+ * check. Copies saved base stats and initializes the modifier record, applies equipment/subdefinition and
+ * combination modifiers, then processes eight active effect records by source actor class/kind, including stat
+ * changes, status selection, proximity-dependent changes and transformation definitions. */
 void BA74_StatsCalc(struct BA74Unit *arg0, struct BA74Sel *arg1, struct BA74Stats *arg2, struct BA74Mod *arg3, s32 arg4)
 {
     u16 i;
@@ -1266,6 +1336,10 @@ struct RescueC8F0Slot { s16 timer; u16 source, kind, value; u8 pad[0x10]; s32 sc
 
 extern u8 rescueC8F0Records[] asm("gUnk_03003CE0");
 extern s32 rescueC8F0Test(s32 *, void *, s32 *, s32 *) asm("sub_08021FE0");
+/* [UpdateActorTimedStatusSlots] Applies resource modifier triplet and rebuilds derived halfwords/status. Actor
+ * byte at +0x226 equal to 3 returns before slot processing. Processes eight0x28-byte timed slots:
+ * player-sourced kinds alter derived values/status; other sources set status or periodic pending damage.
+ * Timers below0 except-2 are skipped; active timers decrement unless-2. */
 void sub_0801C8F0(struct RescueC8F0Entity *arg0) {
     s32 zero;
     s32 pos[2];
@@ -1459,6 +1533,8 @@ processed:
     }
 }
 
+/* [AdjustLocalHealthNearPlayer] Converts local coordinates and indexed player snapshot coordinates to tile
+ * units. */
 void sub_0801CC10(u32 arg0, s32 arg1)
 {
   u8 *p = (u8 *) (&gUnk_03003CE0[sub_080020F4()]);
@@ -1516,6 +1592,12 @@ void sub_0801CC10(u32 arg0, s32 arg1)
 struct RescueCCC8Record { u8 pad[0x10]; u16 kind; u8 tail[0x13a]; };
 extern struct RescueCCC8Record rescueCCC8Records[] asm("gUnk_03003CE0");
 extern u8 *rescueCCC8Current asm("gUnk_030034E0");
+/* [ReadLocalPlayerActionSkillLevel] Reads a class-mapped raw skill-level halfword from the current character
+ * save. Selects the local player record and its halfword +0x10 action selector; saved class 8 maps to 6 before
+ * narrowing the class to u8. Recognized class/action combinations return save halfwords +0x34 through +0x4C.
+ * For selected action 9 paths, resource byte +0xA7 selects the skill slot when resource byte +0x9B equals 9.
+ * Unrecognized dispatch keys take the explicit zero result. It does not map stored level 7 to 8, spend energy,
+ * modify a skill or identify an exact skill title. */
 s32 sub_0801CCC8(void) {
  struct RescueCCC8Record *p;
  u16 kind;
@@ -1637,6 +1719,11 @@ return 0;
 }
 
 extern u8 *rescueD028Current asm("gUnk_030034E0");
+/* [ReadCharacterActionSkillLevelBySelector] Uses the low 16 bits of the supplied action selector and the
+ * current saved character class to choose a raw skill-level halfword at save +0x34 through +0x4C. Class 8 maps
+ * to 6 before u8 class dispatch. Unlike 1CCC8, it does not query local player ID or load Player+0x10; the
+ * selector comes from the argument. Unrecognized dispatch keys return zero. It does not apply the effective
+ * mapping of level 7 to 8, spend energy, change a skill or identify a particular action title. */
 s32 sub_0801D028(u16 arg0) {
  u16 kind;
  u8 cls, v;
@@ -1758,6 +1845,10 @@ return 0;
 struct RescueD34CRecord { u8 pad[0x10]; u16 kind; u8 tail[0x13a]; };
 extern struct RescueD34CRecord rescueD34CRecords[] asm("gUnk_03003CE0");
 extern u8 *rescueD34CCurrent asm("gUnk_030034E0");
+/* [GetClassActionCappedValue] Maps saved class8 to6, switches local runtime action kind and class to selected
+ * saved halfwords, and for weapon-dependent kinds caps against active weapon resource+0xAC. Unmatched
+ * combinations return0. Some weapon paths assign null for empty slot then read it; no safe arbitrary
+ * empty-slot contract is claimed. */
 s32 sub_0801D34C(void) {
  struct RescueD34CRecord *p;
  u8 *cap;
@@ -1885,6 +1976,12 @@ struct RescueD7ACRecord { u8 pad0[0xc]; u16 state; u8 padE[0x26]; struct RescueD
 extern struct RescueD7ACRecord rescueD7ACRecords[] asm("gUnk_03003CE0");
 extern u32 rescueD7ACEntities asm("gUnk_030056F4");
 extern u32 rescueD7ACMask asm("gUnk_030056FC");
+/* [ApplyLinkedClassSkillEffect] Matched routine switches on source Player+0xC, which is the class ID, despite
+ * its local struct calling the field state. Classes 0/2/5 accept key 7 and require matching byte+0x68; class 0
+ * also excludes self. Updates existing persistent record {counter=-2, source, key 7} or initializes a free one
+ * with amount=value. Class 3 handles key 6 and encoded key 4 target effects with counter 120. Detailed skill
+ * titles are unproved. Player+0x68 is treated only as an observed group/participation selector here; exact
+ * team/alive/ready semantics are not established by equality alone. */
 void sub_0801D7AC(s32 source, s32 target, u32 kind, s32 value) {
  struct RescueD7ACRecord *p;
  u32 baseAddress = (u32)rescueD7ACRecords;
@@ -1985,6 +2082,10 @@ break;
 }
 
 struct StatusRecord019 { s16 counter; u16 category,key; s16 amount; u8 pad8[16]; u32 active; u8 tail[12]; };
+/* [InitializeActorStatusEffectRecord] Sets record category to100; status selector configures key, duration,
+ * sounds and sometimes health-derived damage amount. Owner0..3 selects player and larger IDs select0x2E0-byte
+ * actor records. Default selector sets key0 and counter0xFFFF, marking slot free. Individual poison/freeze/etc
+ * identities are not assigned here. */
 void sub_0801DB94(s32 owner,void *record,s32 status)
 {
     struct StatusRecord019 *entry=record;
@@ -2056,24 +2157,45 @@ void sub_0801DB94(s32 owner,void *record,s32 status)
 finish:
     entry->counter=duration;
 }
+/* [RecalculateLocalPlayerStats] Calls1E024 on local player selected by020F4.1E024 invokes existing stats
+ * calculator1BA74, clamps current health and enqueues updates when appearance fields change. */
 void sub_0801DD9C(void) {
     sub_0801E024(&gUnk_03003CE0[sub_080020F4()]);
 }
+/* [CopyCharacterBaseStatsToBuffer] Copies 32 bytes from current character save +0x10 to the supplied buffer
+ * via CpuSet, eight 32-bit units. Does not recalculate effective player stats, validate the pointer or
+ * synchronize any appearance changes. */
 void sub_0801DDB8(s32 arg0) {
     CpuSet(gUnk_030034E0 + 0x10, arg0, 0x04000008);
 }
+/* [CopyCharacterBaseStatsFromBuffer] Copies 32 bytes from the supplied buffer into current character save
+ * +0x10 via CpuSet, eight 32-bit units. Does not validate field values, recalculate the runtime player or
+ * update the save storage on its own. */
 void sub_0801DDD4(s32 arg0) {
     CpuSet(arg0, gUnk_030034E0 + 0x10, 0x04000008);
 }
+/* [CopyLocalPlayerEffectiveAttributesToBuffer] Copies the local runtime player 32-byte effective attribute
+ * block at player +0x38 to the caller buffer. Selects player using 020F4 and stride 0x14C; CpuSet uses eight
+ * words. Does not fetch the save base block or recalculate attributes before copying them. */
 void sub_0801DDF0(void *arg0) {
     CpuSet(gUnk_03003D18 + sub_080020F4() * 0x14C, arg0, 0x04000008);
 }
+/* [CopyLocalPlayerDerivedStatsToBuffer] Copies the entire local runtime player 48-byte derived-parameter block
+ * at player +0x58 to the supplied buffer. Selects player using 020F4 and stride 0x14C; CpuSet uses 24
+ * halfwords. Performs no recalculation or field filtering before the transfer. */
 void sub_0801DE18(void *arg0) {
     CpuSet(gUnk_03003D38 + sub_080020F4() * 0x14C, arg0, 0x18);
 }
+/* [CopyLocalPlayerDerivedStatsFromBuffer] Copies 48 bytes from the supplied buffer into the local runtime
+ * player derived-parameter block at +0x58. Selects player using 020F4 and stride 0x14C; CpuSet uses 24
+ * halfwords. Does not validate individual values, clamp current energy/health against new maxima, recalculate
+ * attributes or enqueue appearance synchronization. */
 void sub_0801DE3C(void *arg0) {
     CpuSet(arg0, gUnk_03003D38 + sub_080020F4() * 0x14C, 0x18);
 }
+/* [GetNormalizedCharacterClassIndex] Reads character save halfword+0xA and maps8 to6, returning other values
+ * truncated tou8. Consumers5D210/5D278/5D2E0 use result to select class bit in equipment-permission mask,
+ * anchoring class-index role. No particular numeric class names are assigned. */
 u8 sub_0801DE60(void)
 {
   u16 temp_r0;
@@ -2091,16 +2213,22 @@ u8 sub_0801DE60(void)
     return 6U;
   }
 }
+/* [CopyCharacterSkillTableToBuffer] Copies36 bytes from current character save+0x30 to caller buffer using
+ * by-value nine-word structure. Stats calculator1BA74 receives this same block and indexed skill reader1E0AC
+ * consumes its entries. */
 void sub_0801DE78(void *arg0) {
     struct S36 { u32 w[9]; } *dst = arg0;
     struct S36 *src = (struct S36 *) ((u8 *) gUnk_030034E0 + 0x30);
     *dst = *src;
 }
+/* [CopyCharacterSkillTableFromBuffer] Copies36 bytes from caller buffer to current character save+0x30;
+ * inverse data transfer of1DE78. Does not recalculate derived stats or validate individual skill values. */
 void sub_0801DE98(void *arg0) {
     struct S36 { u32 w[9]; } *src = arg0;
     struct S36 *dst = (struct S36 *) ((u8 *) gUnk_030034E0 + 0x30);
     *dst = *src;
 }
+/* [GetEquippedItemAbilityId] Uses selected equipment slot at save offset 0x68 and item stride 16. */
 u32 sub_0801DEB8(void)
 {
     u8 *table = (u8 *)gUnk_030034E0;
@@ -2114,6 +2242,7 @@ u32 sub_0801DEB8(void)
         return resource[0xA7];
     return 0;
 }
+/* [RestoreLocalPlayerVitalState] Copies maximum health 0x62 to current health 0xC4. */
 void sub_0801DF08(void) {
     u8 *p = (u8 *) &gUnk_03003CE0[sub_080020F4()];
 
@@ -2128,6 +2257,7 @@ void sub_0801DF08(void) {
 }
 struct MonDF4C { u16 f0; u16 id; u8 pad[0x2DC]; };
 extern struct MonDF4C *monstersDF4C asm("gUnk_030056F4");
+/* [ScanActorIds] Searches five records using u32 loop index. */
 void sub_0801DF4C(u32 id)
 {
     struct MonDF4C *monster;
@@ -2138,9 +2268,16 @@ void sub_0801DF4C(u32 id)
             break;
     }
 }
+/* [GetCurrentCharacterSaveRecord] Returns global pointer030034E0 unchanged. Character-selection load/store
+ * code and inventory/skill consumers anchor this as current character save record, not runtime Player
+ * record03003CE0. */
 s32 sub_0801DF80(void) {
     return gUnk_030034E0;
 }
+/* [IsLocalPlayerDefeatConditionMet] Queries the local player and returns 0 immediately if flags+0x30 has bit
+ * 0x100000. Otherwise returns 1 if state+0x20 is 11, current HP+C4 is zero, the signed low-halfword result of
+ * HP minus pending damage+0x88 is nonpositive, or flags has bit 0x2000. Returns0 on the remaining path. It
+ * does not subtract damage, clear flags or transition the player state. */
 s32 sub_0801DF8C(void) {
     u8 *p = (u8 *) &gUnk_03003CE0[sub_080020F4()];
     u32 flags = *(u32 *) (p + 0x30);
@@ -2161,6 +2298,10 @@ s32 sub_0801DF8C(void) {
     }
     return 0;
 }
+/* [CopyClassStatTemplates] Copies two raw class-indexed ROM records to separate output buffers: 32 bytes from
+ * 0848FA48 + index*32 and 48 bytes from 0849E580 + index*48. Uses inline word loads/stores and performs no
+ * equipment/effect calculation. The index is unchecked and is not normalized from class 8 to 6 by this
+ * function. */
 void sub_0801DFE8(s32 arg0, void *arg1, void *arg2) {
     struct S32 { u32 w[8]; } *d1 = arg1;
     struct S48 { u32 w[12]; } *d2 = arg2;
@@ -2171,6 +2312,9 @@ void sub_0801DFE8(s32 arg0, void *arg1, void *arg2) {
     s2 = (struct S48 *) gUnk_0849E580;
     *d2 = s2[arg0];
 }
+/* [RecalculatePlayerStatsAndSyncAppearance] Preserves appearance/resource fields+0x64/+0x66, runs1BA74 with
+ * current character skill table, clamps signed current health+0xC4 to maximum+0x62, then queues6617C and
+ * updates equipment via5AD78 if either preserved appearance field changed. */
 void sub_0801E024(void *arg0) {
     u16 temp_r7;
     u8 temp_r8;
@@ -2186,9 +2330,13 @@ void sub_0801E024(void *arg0) {
         sub_0805AD78(M2C_FIELD(gUnk_030034E0, u16 *, 0x68));
     }
 }
+/* [GetSavedPlayerPaletteIndex] Reads save-record halfword 0xC. */
 u16 sub_0801E0A0(void) {
     return M2C_FIELD(gUnk_030034E0, u16 *, 0xC);
 }
+/* [ReadEffectiveIndexedSkillLevel] Reads halfword at skill-table base+4+((u16)index)*4 and maps stored7 to8.
+ * Numerous class-specific attack/defense calculations in1BA74 and1E378/1E3D8 consume it as skill level. No
+ * general cap or monotonic mapping beyond7->8 is claimed. */
 u16 sub_0801E0AC(s32 arg0, s32 arg1) {
     u16 var_r0;
 
@@ -2198,6 +2346,8 @@ u16 sub_0801E0AC(s32 arg0, s32 arg1) {
     }
     return var_r0;
 }
+/* [FillSixHalfwordStatValues] Stores same16-bit input into six consecutive halfwords. Nearby callers operate
+ * on six-channel attribute/resistance values; no particular element order is inferred. */
 void sub_0801E0BC(void *arg0, u16 arg1) {
     u16 temp_r1;
 
@@ -2209,6 +2359,8 @@ void sub_0801E0BC(void *arg0, u16 arg1) {
     M2C_FIELD(arg0, u16 *, 8) = temp_r1;
     M2C_FIELD(arg0, u16 *, 0xA) = temp_r1;
 }
+/* [AddSixHalfwordStatValues] Adds six source halfwords independently into corresponding destination halfwords,
+ * truncating each sum tou16. No saturation or overflow detection. */
 void sub_0801E0D0(u16 *dst, const u16 *src)
 {
     dst[0] = dst[0] + src[0];
@@ -2218,6 +2370,8 @@ void sub_0801E0D0(u16 *dst, const u16 *src)
     dst[4] = dst[4] + src[4];
     dst[5] = dst[5] + src[5];
 }
+/* [FindFreeInlineActorEffectRecord] Scans eight40-byte effect records embedded at actor+0x8C and returns first
+ * whose signed counter is-1; null when full. Does not reserve or initialize result. */
 void *sub_0801E104(u8 *arg0) {
     u8 *p = arg0 + 0x8c;
     u32 i = 0;
@@ -2232,6 +2386,9 @@ void *sub_0801E104(u8 *arg0) {
     } while (i <= 7);
     return 0;
 }
+/* [FindFreeOrMatchingInlineActorEffect] Scans same eight embedded records and returns first either
+ * free(counter-1) OR matching type halfword+2 and key halfword+4. A free record earlier in array wins over a
+ * later match. */
 s32 sub_0801E12C(s32 arg0, s32 arg1, s32 arg2)
 {
   u32 var_r1;
@@ -2254,6 +2411,9 @@ s32 sub_0801E12C(s32 arg0, s32 arg1, s32 arg2)
   }
   goto loop_1;
 }
+/* [FindFreeOrMatchingPlayerEffect] Scans eight40-byte records through player+0x34 pointer; accepts first
+ * counter-1, or counter-2 with supplied key+4 and owner/player ID+0 matching record+2. No search priority for
+ * existing match over earlier free slot. */
 s32 sub_0801E164(void *arg0, s32 arg1)
 {
   s16 temp_r0;
@@ -2264,6 +2424,8 @@ s32 sub_0801E164(void *arg0, s32 arg1)
  do { loop_1: temp_r0 = *((s16 *) (((s8 *) var_r2) + 0)); if ((temp_r0 == (-1)) || (((temp_r0 == (-2)) && ((*((u16 *) (((s8 *) var_r2) + 4))) == arg1)) && ((*((u16 *) (((s8 *) arg0) + 0))) == (*((u16 *) (((s8 *) var_r2) + 2)))))) { return (s32) var_r2; } var_r1 += 1; var_r2 += 0x28; if (var_r1 > 7U) { return 0; } } while (0);
   goto loop_1;
 }
+/* [FindPlayerStatusEffectByKey] Scans eight records through actor+0x34; requires counter not-1, supplied key
+ * at+4 and status category100 at+2. Returns first match or null. */
 void *sub_0801E1A4(u8 *arg0, s32 arg1) {
     u8 *p = *(u8 **) (arg0 + 0x34);
     u32 i = 0;
@@ -2277,6 +2439,8 @@ void *sub_0801E1A4(u8 *arg0, s32 arg1) {
     } while (i <= 7);
     return 0;
 }
+/* [FindPlayerEffectByTypeAndKey] Scans eight records through actor+0x34 for counter not-1, supplied key+4 and
+ * supplied type+2; returns first pointer or null. */
 s32 sub_0801E1D8(void *arg0, s32 arg1, s32 arg2)
 {
   u32 var_r1;
@@ -2299,6 +2463,8 @@ s32 sub_0801E1D8(void *arg0, s32 arg1, s32 arg2)
   }
   goto loop_1;
 }
+/* [FindInlineActorEffectByTypeAndKey] Scans eight records at actor+0x8C for counter not-1, supplied key+4 and
+ * supplied type+2; returns first pointer or null. */
 void *sub_0801E20C(u8 *arg0, s32 arg1, s32 arg2) {
     u8 *p = arg0 + 0x8c;
     u32 i = 0;

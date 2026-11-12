@@ -12,6 +12,7 @@ void sub_08006C14_(void) __asm__("sub_08006C14");
 
 void sub_08006C30_(u16 s) __asm__("sub_08006C30");
 
+/* [LinkGetSendBlock] Documented per-player send block accessor. */
 u8 *sub_08002118(u32 idx)
 {
     u32 id;
@@ -32,6 +33,7 @@ u8 *sub_08002118(u32 idx)
     }
     return 0;
 }
+/* [LinkCountConnectedPlayers] Documented accessor for connected player count. */
 u32 sub_08002164(void)
 {
   u32 var_r1;
@@ -56,6 +58,8 @@ u32 sub_08002164(void)
   }
   return var_r2;
 }
+/* [LinkHasErrorFlag] Returns030027D0 bit3 only in link mode (bit1); otherwise returns0.01BE4 sets bit3 when
+ * its error-handling path runs. Does not return raw hardware error status. */
 s32 sub_080021A8(void)
 {
   if (!(2 & gUnk_030027D0))
@@ -71,12 +75,20 @@ s32 sub_080021A8(void)
   }
   return (((u32) gUnk_030027D0) >> 3) & 1;
 }
+/* [EnableLinkErrorWaits] Sets030027D0 bit2.01BE4 gates waiting on error signal0x1F40 on this flag, for
+ * repeated hardware error or a peer receive counter above0300272C. Lobby066BC sets it after successful GO
+ * handshake. */
 void sub_080021C4(void) {
     gUnk_030027D0 |= 4;
 }
+/* [DisableLinkErrorWaits] Clears030027D0 bit2; inverse operation of021C4. Does not stop MultiSio or the
+ * session task. */
 void sub_080021D4(void) {
     gUnk_030027D0 &= ~4;
 }
+/* [LinkHasMissingPeerDataFlag] Returns030027D0 bit4 only in link mode; otherwise0.01BE4 clears bit4 every
+ * frame, then sets it immediately when any counted peer lacks its receive-success bit. This does not itself
+ * imply the timeout threshold was crossed. */
 s32 sub_080021E8(void)
 {
   u32 new_var;
@@ -97,6 +109,8 @@ s32 sub_080021E8(void)
   new_var = (u32) gUnk_030027D0;
   return (new_var >> 4) & 1;
 }
+/* [LinkIsParentOrLoopback] Returns1 when link-mode flag is absent, otherwise returns03002730 status bit7
+ * (MultiSio parent flag). It is not simply local ID==0. */
 s32 sub_08002204(void)
 {
   int new_var;
@@ -107,12 +121,18 @@ s32 sub_08002204(void)
   }
   return (((u32) gUnk_03002730) >> 7) & 1;
 }
+/* [LinkIsSessionActive] Returns030027D0 bit0.01BE4 and022A4 set active during their loops and clear it by
+ * replacing flags with0x80000000 at exit. */
 s32 sub_08002228(void) {
     return gUnk_030027D0 & 1;
 }
+/* [LinkGetReceiveBlock] Documented per-player receive block accessor. */
 void *sub_08002238(s32 arg0) {
     return (&((struct Sz24 *)&gUnk_03002770)[arg0]);
 }
+/* [LinkWaitAllConnectedReceiveFlags] In link mode captures status bits8..11 as wanted peer mask, yields
+ * signal1 and waits until status bits0..3 exactly equal it. Loopback returns immediately. No conventional
+ * barrier tag or timeout is supplied here. */
 void sub_0800224C(void)
 {
     u32 *p;
@@ -131,9 +151,14 @@ void sub_0800224C(void)
         } while (got != want);
     }
 }
+/* [SetLinkPeerTimeoutThreshold] Stores a 32-bit peer timeout threshold at 0x0300272C. Matched link transport
+ * sub_08001BE4 compares each remote peer's consecutive missing-packet loop counter against this value, with
+ * additional special handling when it equals 0x50. It does not validate the threshold, restart transport or
+ * establish a fixed wall-clock/video-frame timeout. */
 void sub_08002298(s32 arg0) {
     gUnk_0300272C = arg0;
 }
+/* [LinkLoopbackTask] Copies local send block to receive block zero each frame and sets status 0x101. */
 void sub_080022A4(void)
 {
     gUnk_030027D0 = 1;
@@ -145,9 +170,12 @@ void sub_080022A4(void)
     gUnk_03002730 = 0;
     gUnk_030027D0 = 0x80000000;
 }
+/* [LinkIsCableMode] Returns030027D0 bit1, the mode flag set by01BE4 and absent from022A4 loopback. */
 s32 sub_080022F4(void) {
     return ((u32) gUnk_030027D0 >> 1) & 1;
 }
+/* [LinkClearErrorAndWakeWaiters] In link mode clears030027D0 bit3 and calls TaskWakeBySignal(0x1F40). Outside
+ * link mode does nothing. No broader recovery guarantee is inferred. */
 void sub_08002304(void) {
     if (2 & gUnk_030027D0) {
         gUnk_030027D0 &= ~8;
@@ -160,6 +188,12 @@ extern u16 repeatMenu000 asm("gUnk_03001308");
 extern u16 pressedMenu000 asm("gUnk_03001324");
 extern void spriteInitMenu000(void *,s32,s32,s32,s32) asm("sub_08065158");
 extern void spriteDrawMenu000(void *,s32,s32,u32,s32) asm("sub_08065230");
+/* [TaskLanguageSelection] Displays startup backgrounds/transitions and a five-choice language-selection
+ * sprite. Repeated directional keys move the selection through cases 0..4; pressed A confirms. After
+ * transition completion, reads one halfword from ROM 08366DC0 using the selected index, stores it in 03003470,
+ * waits once and wakes scheduler signal 0x14. The original map is 0,2,1,3,4. A preserved navigation-history
+ * register can be read before a directional path initializes it; no general navigation-state initialization
+ * fix or elapsed-time guarantee is inferred. */
 void sub_0800232C(void) {
     u32 sprite[13];
     s32 sp38;
@@ -338,6 +372,9 @@ block_46:
     sub_080003F0();
     sub_08000420(0x14);
 }
+/* [StartLanguageSelectionTask] Allocates one 0x400-byte stack, configures task 030027E0 with callback 0232C,
+ * zero destructor and callback argument zero, then starts it. No scheduled-task check or allocation-failure
+ * guard is present. Task field +8 is set to1; no priority scale or delayed start is inferred. */
 void sub_08002658(void)
 {
     s32 temp_r2;
@@ -358,6 +395,10 @@ extern void anim2694(void *, u16, u16 *, u16 *, s32) asm("sub_08065370");
 extern void draw2694(void *, s32, s32, u16, u16) asm("sub_08065230");
 extern void init2694(void *, s32, s32, s32, s32) asm("sub_08065158");
 extern void bg2694(u16, u32 *) asm("sub_08000AA8");
+/* [TaskTitleModeSelection] Persistent menu task waits for signal0x14, handles Start/A/Up/Down, draws
+ * title/menu resources, stores mode selection03002838. Mode0 stops cable session and starts loopback; mode1
+ * uses cable session; both start save-slot screen065B0. Modes2/3 invoke88914/920E4. Exact visible option
+ * strings remain unverified. */
 void sub_08002694(void)
 {
     u8 anim[0x34];
@@ -514,6 +555,7 @@ void sub_08002694(void)
         }
     }
 }
+/* [StartTitleModeSelectionTask] Allocates0x200-byte stack, registers task03002810 callback02694. */
 void sub_08002A54(void)
 {
     s32 temp_r2;
@@ -526,6 +568,9 @@ void sub_08002A54(void)
     gUnk_03002810.u8 = 1;
     sub_08000274(&gUnk_03002810.u0, 0);
 }
+/* [IsTitleStoryOptionSelected] Returns 1 exactly when title-selection word 03002838 equals 2, otherwise 0. It
+ * neither starts the presentation nor reports whether its task is currently running. The title dispatcher
+ * assigns option 2 to 88914, which installs story-introduction callback 86860. */
 u32 sub_08002A8C(void)
 {
     u32 r = 0;
@@ -533,6 +578,13 @@ u32 sub_08002A8C(void)
         r = 1;
     return r;
 }
+/* [InitializeSavedCharacterSelectionDisplay] Prepares the saved-character selection display: calls display
+ * setup helpers with the original parameters, writes BG0..BG3 control halfwords 0x1C08/0x1D01/0x1E02/0x1F03,
+ * loads background assets 0x19/0x14/0x13 using relative screen blocks 3/2/1 (absolute 31/30/29), graphics base
+ * 0x06000000, first palette group 0 and palette count 15, then sets blend shadow through 0903C(4,8,1,0,8,0).
+ * Those screen blocks correspond to the configured BG3/BG2/BG1 controls. It does not allocate save summaries,
+ * select a save slot or start a task. Its body has no explicit scheduler wait, but the background loader can
+ * submit transfers and yield; completed screen presentation is not guaranteed by this helper. */
 void sub_08002AA0(void)
 {
 	u32 sp8;
@@ -679,6 +731,10 @@ static inline void newGame2B70(struct Save2B70 *s, void *all)
 
 void sub_08002B70_(void) asm("sub_08002B70");
 /* Save-slot select screen (8 slots, copy / erase prompts). */
+/* [TaskSelectSavedCharacter] Loads eight saved-character records with7A378; displays class sprites, names,
+ * level and stats; supports slot selection, creation/edit tasks and erase7A2E0; writes selection with7A4B4.
+ * Final selected mode1 starts multiplayer lobby06B2C, mode0 continues0CB3C(0). No save-record field beyond
+ * observed usage is renamed. */
 void sub_08002B70_(void)
 {
     struct Chr2B70 chars[8];
@@ -1162,6 +1218,10 @@ struct Sprite3984 { u8 first[12]; u8 *data; u8 rest[36]; };
 struct Resource3984 { u32 id; u8 rest[0x54]; };
 extern struct Resource3984 resource3984[] asm("gUnk_08479140");
 
+/* [TaskCharacterSetupAndNameEntry] Language-specific sprite setup and keyboard cursor selection; character
+ * class/palette presentation and editable name at supplied record+0x10. Cleanup normalizes name terminators,
+ * marks record used and wakes the requesting task. No particular default name or encoding is claimed. This C
+ * remains a NONMATCHING draft; the role is independently anchored by original ASM. */
 void sub_08003984(u8 *arg0, s32 arg1) {
     u32 gridResultC5;
     u32 gridResult2C5;
@@ -2420,6 +2480,12 @@ epilogue3984:
 struct FadeColor5A24 { u32 red:5; u32 green:5; u32 blue:5; };
 struct FadeDest5A24 { u16 red:5; u16 green:5; u16 blue:5; };
 extern void fadeCopy5A24(const void *, void *, u32) asm("CpuSet");
+/* [TaskDimPaletteBanksUntilReleased] Treats low/high halfwords of range as first palette bank and bank count.
+ * Saves count*32 bytes from the palette shadow, sets hold word 0300001C to1 and starts factor 1024. The target
+ * is the low halfword of floor((low 16(percent)*1024)/100). While factor exceeds target, scales saved RGB5
+ * channels into the shadow, preserving bit 15, reduces the factor toward target and submits palettes with one
+ * scheduler wait per iteration. The last written factor need not equal target because the step is applied
+ * after drawing. If target>=1024 this scaling loop is skipped. */
 void sub_08005A24(u32 range, s32 percent)
 {
     u32 start;
@@ -2498,6 +2564,13 @@ extern void callback5B(void) asm("sub_08002B70");
 extern u16 keys5B asm("gUnk_03001308");
 extern void sub_080066A8(void);
 void menu5B(struct Menu5B *) asm("sub_08005B88");
+/* [RunTwoChoiceSaveMenu] Initializes sprites50002/50006 and background scroll, installs temporary display
+ * callbacks, suppresses pressed keys during transition, streams resource text through a32-byte scrolling
+ * buffer, and animates a cursor. Up/down selects0/1. Confirming1 optionally opens a left/right subchoice when
+ * record byte+5 is nonzero; otherwise forces side0. Normal exit writes choice to record+6 and side to+7 then
+ * signals0x25A112EBF. Base cancel restores callbacks and restarts02B70 using unchecked0x1000 allocation
+ * without signaling or updating record. Subchoice confirm restores callbacks; direct base confirmation does
+ * not locally restore them. */
 void menu5B(struct Menu5B *arg) {
     u16 sp4[2], sp8[2];
     u8 spC[0x34], sp40[0x34], sp74[4], sp78[33], sp9C[36];
@@ -2747,6 +2820,13 @@ extern void callback6C(void) asm("sub_08002B70");
 extern u16 keys6C asm("gUnk_03001308");
 extern void sub_080066A8(void);
 void menu6C(struct Menu6C *) asm("sub_0800608C");
+/* [RunFixedChoiceSaveMenu] Initializes sprites50002/50006 and background scroll, installs temporary display
+ * callbacks, suppresses pressed keys during transition, streams resource text through a32-byte scrolling
+ * buffer, and animates a cursor. Selection stays1; confirming optionally opens left/right subchoice when
+ * record byte+5 is nonzero. Confirming subchoice forces local side0, but no side is written to record. Normal
+ * exit writes record+6=1 and signals0x25A112EBF. Base cancel restores callbacks and restarts02B70 with
+ * unchecked0x1000 allocation; no signal or record update. Normal direct base confirmation does not locally
+ * restore callbacks. */
 void menu6C(struct Menu6C *arg) {
     u16 sp4[2], sp8[2];
     u8 spC[0x34], sp40[0x34], sp74[4], sp78[33], sp9C[36];
@@ -2976,9 +3056,16 @@ void menu6C(struct Menu6C *arg) {
         arg->f6 = 1;
     finish6C(0x25A112EBFULL);
 }
+/* [ReleasePaletteDimmingHold] Writes zero to the entire shared palette-dimming hold word 0300001C. This
+ * releases the post-dimming wait in task 05A24; it does not cancel the task or interrupt its earlier factor
+ * loop, and it does not itself restore palette bytes. */
 void sub_08006544(void) {
     gUnk_0300001C = 0;
 }
+/* [StartPaletteDimmingHoldTask] Narrows first bank, bank count and percentage to16 bits. If task 030061E0 is
+ * already scheduled, returns without starting another. Otherwise packs bank count in high 16 and first bank in
+ * low 16, allocates an unchecked 0x400-byte stack, sets callback 05A24 and zero destructor, and starts it with
+ * packed range plus percentage. It does not itself set/release the hold or validate palette range. */
 void sub_08006550(u16 arg0, u16 arg1, u16 arg2) {
     s32 ret;
     u32 packed;
@@ -2994,6 +3081,8 @@ void sub_08006550(u16 arg0, u16 arg1, u16 arg2) {
         (sub_08000274_)(&gUnk_030061E0, packed, arg2);
     }
 }
+/* [StartSavedCharacterSelectionTask] Cancels existing03002840 task if active, allocates0x1000-byte stack,
+ * registers02B70 callback. */
 void sub_080065B0(void) {
     s32 temp_r0;
 
@@ -3008,6 +3097,11 @@ void sub_080065B0(void) {
     M2C_FIELD(&gUnk_03002840, s32 *, 0x24) = 0;
     sub_08000274(&gUnk_03002840, 0);
 }
+/* [StartCharacterSetupAndNameEntryTask] Allocates a 0x2000-byte stack and configures shared task control
+ * 03003480 with callback 03984, stack base at control+0x20, stack top base+0x1FFC at+0x10, word+8=10 and null
+ * finalizer+0x24. Schedules through 00274 with both original 32-bit inputs retained as the callback arguments.
+ * It does not check task membership or allocation failure, retry allocation, initialize the supplied record or
+ * assign a semantic priority to word+8. */
 void sub_080065FC(s32 a, s32 b)
 {
     u8 *p = sub_08001494(
@@ -3020,6 +3114,9 @@ void sub_080065FC(s32 a, s32 b)
     ((void (*)(void *, s32, s32))sub_08000274)((void *)&gUnk_03003480,
                  a, b);
 }
+/* [StartSelectedMenuVariant] Reads u32 gUnk_03002838, compares exactly1, writes
+ * callback/stack-top+0x1FFC/base/control+8=10/control+0x24=0, and invokes00274(control,a). Allocation failure
+ * and pre-existing active control are not checked. */
 void sub_0800663C(s32 a)
 {
     u8 *p = sub_08001494(
@@ -3035,11 +3132,18 @@ void sub_0800663C(s32 a)
     sub_08000274((void *)&gUnk_03003480,
                  a);
 }
+/* [ApplyCharacterMenuVerticalScroll] Writes halfword 0xFFFC, signed -4, directly to BG0VOFS hardware 04000012.
+ * No shadow-state update or input parameter. The character file-selection menu installs this routine through
+ * VCount callback setter 0115C; no HBlank or unconditional frame timing is inferred. */
 void sub_08006694(void)
 {
   short new_var;
   *((s16 *) 0x04000012) = (new_var = 0xFFFC);
 }
+/* [ApplyCharacterMenuHorizontalScroll] Copies the low halfword of menu-scroll word 03003474 directly to
+ * BG0HOFS hardware 04000010. Matched character-options menu increments this word when scrolling help text and
+ * installs the callback through0115C. This is a menu-mode use of storage that world gameplay also reuses as a
+ * coordinated-action participant counter; no universal global-variable rename is proposed. */
 void sub_080066A8(void) {
     *(s16 *)0x04000010 = (s16) gUnk_03003474;
 }
@@ -3058,6 +3162,11 @@ extern void call66_0801AB50(s32) asm("sub_0801AB50");
 extern void call66_08088914(void) asm("sub_08088914");
 extern void call66_0800035C(void) asm("sub_0800035C");
 extern void yield66(u64) asm("sub_080003F4");
+/* [TaskLinkLobbyReadyGo] Lobby uses24-byte blocks via02118. Clients advertise ASCII OK at bytes8/9; host
+ * requires all connected peers ready and A press, then advertises GO for six iterations. Host byte10 publishes
+ * two options; clients mirror them. B cancels; client cancel waits more than60iterations. Success enables021C4
+ * and continues0CB3C(1); cancel requests020E0, waits70yields and wakes title signal0x14. Function is matching
+ * C at this revision; no runtime trace has been collected. */
 void sub_080066BC(void)
 {
     u8 gfx[0x34];
@@ -3254,6 +3363,8 @@ done:
     }
     call66_0800035C();
 }
+/* [StartLinkLobbyReadyGoTask] Allocates0x400-byte stack, registers066BC callback on task030061E0. Called
+ * by02B70 after multiplayer character selection. */
 void sub_08006B2C(void)
 {
     u8 *p = sub_08001494(
@@ -3266,9 +3377,14 @@ void sub_08006B2C(void)
     sub_08000274((void *)&gUnk_030061E0,
                  0);
 }
+/* [AudioApplyDefaultSoundMode] Calls m4aSoundMode with literal0x93D800. Default describes this fixed
+ * initializer setting only; no undocumented frequency/channel interpretation is inferred. */
 void sub_08006B60(void) {
     m4aSoundMode(0x93D800);
 }
+/* [AudioSetFourTrackPlayerVolume] Index0..3 selects one of music-player controls030075C0/7600/7640/7690; calls
+ * m4aMPlayVolumeControl with track mask0xF and supplied volume. Invalid index has no initialized player
+ * pointer in source. */
 void sub_08006B70(u32 a, u16 v)
 {
     struct MusicPlayerInfo *p;
@@ -3289,9 +3405,13 @@ void sub_08006B70(u32 a, u16 v)
     m4aMPlayVolumeControl(p, 0xF,
                           v);
 }
+/* [AudioSetSoundMode] Forwards supplied mode directly to m4aSoundMode without additional validation. */
 void sub_08006BB4(u32 mode) {
     m4aSoundMode(mode);
 }
+/* [TaskStopSoundEnableDisplayAndYieldForever] Clears sound VSync/game-enable flags, calls00940 which clears
+ * DISPCNT forced-blank and enables sound VSync, stops all music players, calls06BF8 again, then yields signal1
+ * forever. Display is enabled, not forced blank. No game-over/error meaning is inferred. */
 void sub_08006BC0(void) {
     gUnk_03002870 = 0;
     gUnk_030028AC = 0;
@@ -3302,10 +3422,13 @@ loop_1:
     sub_080003F0();
     goto loop_1;
 }
+/* [AudioStopAllPlayersAndDisableVSync] Calls m4aMPlayAllStop then06C14, whose guarded path clears03002870 and
+ * calls m4aSoundVSyncOff. */
 void sub_08006BE8(void) {
     m4aMPlayAllStop();
     sub_08006C14();
 }
+/* [AudioEnableVSyncIfDisabled] If03002870 is0, sets it to1 and calls m4aSoundVSyncOn; otherwise does nothing. */
 void sub_08006BF8(void) {
     if (gUnk_03002870 == 0) {
         gUnk_03002870 = 1;
@@ -3319,6 +3442,8 @@ void sub_08006C14_(void)
         m4aSoundVSyncOff();
     }
 }
+/* [AudioFadeOutFourPlayers] Calls m4aMPlayFadeOut on four player controls030075C0/7600/7640/7690 with
+ * same16-bit speed argument. */
 void sub_08006C30_(u16 s)
 {
     m4aMPlayFadeOut(&gUnk_030075C0,
@@ -3330,6 +3455,9 @@ void sub_08006C30_(u16 s)
     m4aMPlayFadeOut(&gUnk_03007690,
                     s);
 }
+/* [AudioStartSongIfPlaybackEnabled] Starts a 16-bit song ID through m4aSongNumStart when the ID is at most
+ * 0x1AB and gUnk_030028AC is nonzero. Matched sub_08006E64 sets this playback guard and stops the first music
+ * player when clearing it. */
 void sub_08006C70(u16 arg0) {
     u16 temp_r1;
 
@@ -3338,6 +3466,7 @@ void sub_08006C70(u16 arg0) {
         m4aSongNumStart((s32) temp_r1);
     }
 }
+/* [AudioStartOrChangeSongChecked] Calls m4aSongNumStartOrChange for16-bit ID<=0x1AB; otherwise no operation. */
 void sub_08006C98(u16 arg0) {
     u16 temp_r1;
 
@@ -3346,6 +3475,8 @@ void sub_08006C98(u16 arg0) {
         m4aSongNumStartOrChange(temp_r1);
     }
 }
+/* [AudioStartOrContinueSongChecked] Calls m4aSongNumStartOrContinue for16-bit ID<=0x1AB; otherwise no
+ * operation. */
 void sub_08006CB4(u16 arg0) {
     u16 temp_r1;
 
@@ -3354,6 +3485,7 @@ void sub_08006CB4(u16 arg0) {
         m4aSongNumStartOrContinue(temp_r1);
     }
 }
+/* [AudioStopSongChecked] Calls m4aSongNumStop for16-bit ID<=0x1AB; otherwise no operation. */
 void sub_08006CD0(u16 arg0) {
     u16 temp_r1;
 
@@ -3362,6 +3494,7 @@ void sub_08006CD0(u16 arg0) {
         m4aSongNumStop(temp_r1);
     }
 }
+/* [AudioContinueSongChecked] Calls m4aSongNumContinue for16-bit ID<=0x1AB; otherwise no operation. */
 void sub_08006CEC(u16 arg0) {
     u16 temp_r1;
 
@@ -3370,6 +3503,8 @@ void sub_08006CEC(u16 arg0) {
         m4aSongNumContinue(temp_r1);
     }
 }
+/* [AudioStartSongChecked] Calls m4aSongNumStart for16-bit ID<=0x1AB; otherwise no operation. No030028AC enable
+ * check in this wrapper. */
 void sub_08006D08(u16 arg0) {
     u16 temp_r1;
 

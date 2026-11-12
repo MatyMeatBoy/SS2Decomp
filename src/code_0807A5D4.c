@@ -102,6 +102,13 @@ static inline struct MgrA5D4 *readMgrA5D4(void) {
     asm("" : "+r"(addr));
     return *addr;
 }
+/* [TaskCharacterStatAndSkillAllocationMenu] No meaningful input or return. Uses shared manager0x03006440,
+ * local player and saved-character pointer0x030034E0. Initializes graphics, two tabs and five-effect task
+ * pool, gated by initial scene/player conditions. State0/1 shows stats/skills; A enters temporary edits
+ * state2/3. Four stat rows spend available halfword points, with maxima500 except row3 max333; left only
+ * reverses changes from this session, A commits32-byte saved-stat block, B discards deltas. Eight skill rows
+ * spend points into level/progress, level capped7; A commits36-byte work block and B restores snapshot;
+ * successful level increments start indicator task. */
 void sub_0807A5D4_v(void)
 {
     struct StatsA5D4 stats;
@@ -724,6 +731,13 @@ void sub_0801A3D0(u8 *arg0, u32 arg1, u32 arg2);
 void sub_0805FC80(s32 x, s32 y, void *item, s32 mode);
 
 void sub_0807B7B4_v(void) asm("sub_0807B7B4");
+/* [TaskInventoryMenu] The ordinary matched task body sets the item-menu manager mode to 2 and prepares the
+ * local-player inventory screen/background resources. Under its scene and player guards, initializes menu
+ * activity/state/cursor/held-item fields and runs while manager +0x24 remains nonzero and 021A8 reports no
+ * cancellation. Each iteration invokes the shared 7C29C interaction handler, then selects the item-contents
+ * drawing path or an item/set-detail path from manager flags/state. This is the outer inventory-menu task,
+ * distinct from the shared interaction handler or a pure drawing pass; no exact localized screen title is
+ * assigned. */
 void sub_0807B7B4_v(void)
 {
 
@@ -887,6 +901,11 @@ void sub_0807B7B4_v(void)
     sub_08057624(10);
     sub_08000420(0x11201100);
 }
+/* [RemoveItemFromInventoryLocation] Dispatches a location kind and index: 0 bag, 1 weapon-selection slot,
+ * 2/3/4 fixed headgear/glove/body slots, 5 coordinated-action item, 6 ring, and 11/13/16 the menu record array
+ * at +0x104. Clears only the item kind halfword, then refreshes selected weapon or fixed equipment activation
+ * when applicable. It does not erase the full record, check the index, or remove a quantity from a stack.
+ * Unsupported location kinds do nothing. Location kind is distinct from item kind. */
 void sub_0807BD78(u32 kind, u32 index)
 {
     switch (kind) {
@@ -924,6 +943,11 @@ void sub_0807BD78(u32 kind, u32 index)
     }
 }
 struct Copy7BEA0 { u32 words[4]; };
+/* [PlaceItemInInventoryLocation] Copies all 16 source item bytes into a location selected by kind/index: bag,
+ * weapon-selection slot, fixed equipment or menu stock buffer. Refreshes activation for the selected weapon
+ * and fixed equipment. For location kind 5 additionally resets halfword manager +0x136 before its refresh.
+ * Unlike removal, only location kinds 13 and 16 address the menu array; kind 11 does nothing. No index, null
+ * or eligibility validation is performed here; unsupported kinds do nothing. */
 void sub_0807BEA0(u32 kind, u32 index, struct Copy7BEA0 *item)
 {
     switch (kind) {
@@ -966,6 +990,13 @@ void sub_0807BEA0(u32 kind, u32 index, struct Copy7BEA0 *item)
     }
 }
 struct Item7C014 { u16 kind; u16 pad; u32 count; u32 rest[2]; };
+/* [SpendInventoryCurrency] Spends the requested unsigned amount from kind-10 stacks, repeatedly selecting the
+ * smallest count among 25 bag records first. When bag stacks are exhausted, uses 75 stash records, or the menu
+ * array at +0x104 when menu mode equals 4. Fully consumed bag entries are removed by 5D580, preserving their
+ * count bytes; fully consumed secondary entries clear both kind and count. Stops after satisfying the amount
+ * or finding no secondary stack. No success value, up-front affordability check or rollback on insufficient
+ * funds is provided. Minimum searches use strict unsigned less-than against 0xFFFFFFFF, so malformed stacks
+ * with that exact count are not selected. */
 void sub_0807C014(u32 arg0)
 {
     u32 amount = arg0;
@@ -1059,6 +1090,13 @@ loop:
 }
 struct Item7C114 { u16 kind; u16 pad; u32 count; u8 flag; u8 rest[7]; };
 struct Manager7C114 { u32 kind; u32 f4; u32 f8; u8 padC[12]; u32 f18; u32 f1C; u32 f20; u8 pad24[0xD0]; struct Item7C114 item; };
+/* [SellHeldInventoryItem] Removes the held item from its recorded source location and values it with 5AE94.
+ * Kind-10 money retains that value; ordinary other kinds divide by 10 with a minimum of 1. For kinds 2..5 a
+ * nonzero broken byte forces proceeds 1, while unbroken equipment divides by 10 without a minimum. Builds a
+ * temporary kind-10 record and tries bag insertion 5AB20. On success clears the 16-byte held record, updates
+ * menu locations, plays sound 0x63 and returns 1; on failure restores the source item with 7BEA0, plays 0x61
+ * and returns 0. The currency temporary initializes kind and count only; no claim of zeroed remaining fields
+ * or fully atomic bag insertion is made. */
 s32 sub_0807C114(void)
 {
     struct Item7C114 item;
@@ -1107,6 +1145,12 @@ one:
         return 0;
     }
 }
+/* [DrawItemMenuBinaryChoiceIndicator] Reads the item-menu manager word +4 as a binary zero/nonzero selection.
+ * Uses the sprite at +0xA4 and animation-progress halfwords +0x4C/+0x50 or +0x4E/+0x52 through 65370, then
+ * issues three draws at x=0x68/0x78/0x88 and y=0x78. The two branches select different center frames and swap
+ * which side uses 65230 versus 65264. Any nonzero selection follows the same branch; an input domain
+ * restricted to 0 or 1 is not assumed. Animation-state mutation is part of this drawing helper, so it is not a
+ * side-effect-free renderer. */
 void sub_0807C1D8(void) {
     u8 *manager;
     register u32 saved asm("r5");
@@ -1165,6 +1209,12 @@ struct Player82 { u8 pad[0x77]; u8 f77; u8 f78; u8 pad79[0x8C - 0x79]; s32 f8C; 
 extern struct Player82 gPlayers82[] asm("gUnk_03003CE0");
 /* Second name for the gMgr82 slot: GCC does not merge it with gMgr82, but it still assembles to a gUnk_03006440 relocation like the ROM. */
 extern struct Mgr82 *gMgr82Slot082 asm("gUnk_03006440");
+/* [ProcessItemMenuInteractionState] The compiling NONMATCHING draft describes the shared item-menu input and
+ * interaction-state handler; equivalent C is not established. Original 7C2A8..7C2C4 reads manager 03006440
+ * +0x28 bit0 and masks input halfwords, while 7C2C6..7C2E8 additionally gates input through 1AAE0/CD8C. The
+ * scene/query path 7C2EA..7C320 can clear manager +0x24. Original 7C322..7C338 reads the word at manager +0x18
+ * and dispatches states 0..21. This is an interaction-state routine rather than the outer scheduler callback,
+ * a pure predicate or an unconditional frame advance. */
 void sub_0807C29C(void) {
     u16 keys; u16 down; u32 cur, val, i, n, from, saved, have, ok, slot, base, col; s32 d, idx; u8 *text; u16 target, lo, hi;
     struct Item82 *item; struct Item82 *held;
@@ -3790,6 +3840,12 @@ extern s16 gUnk_084ECBBC[];
     chk: if (r == 0) mode = 10; break; \
     }
 
+/* [DrawItemMenuContents] The matched drawing pass visits 25 bag records at character/inventory base +0x150,
+ * stride 16, and calls the shared item-icon renderer with kind-dependent selection-validation flags. It then
+ * draws the current three-entry equipment page from +0x70 and fixed equipment records
+ * +0x100/+0x110/+0x120/+0x130/+0x140 subject to menu mode. The inventory base is reached through pointer
+ * global 030034E0; the independent menu manager is reached through 03006440. Selected held sources may blink
+ * using frame parity. Valid item/page/table domains are not independently proved. */
 void sub_08080A78(void)
 {
     u32 i;
@@ -3988,6 +4044,13 @@ void sub_08080A78(void)
 #undef ITEM_MODE
 extern u8 *manager811 asm("gUnk_03006440");
 extern u8 *bank811 asm("gUnk_030034E0");
+/* [DrawItemMenuPlayerStatPreview] r0 player pointer. Uses item-menu current-pointer+0xF0 if manager
+ * state+0x1C=22, otherwise held record+0xF4. Calls0x0801BA74 with player, selected record (or null), two stack
+ * outputs and save-state+0x30. Item kinds2..5 use null when byte+8 is nonzero; kind1 uses null then increments
+ * output base-stat halfword for subtype8/9/10/11 at offsets0/2/6/4. Other kinds pass record unchanged. Draws12
+ * signed-halfword preview values against player fields+0x58/+0x5A,+0x7C..+0x86,+0x38/+0x3E/+0x3C/+0x3A with
+ * color2 if greater,1 if less,0 if equal using0x0805FB7C. Does not equip the candidate item or establish
+ * semantics for unsupported item kinds. */
 void sub_080811E0(u8 *arg0) {
  struct Half811 { s16 first; u16 second; };
  s16 sp4[16];
@@ -4209,6 +4272,12 @@ extern s32 decimalDivisors8518[] asm("gUnk_084EBD5C");
 extern s32 sub_08000498(s32 *, s32);
 extern s32 sub_0801A638(u8 *);
 extern void sub_0801A3D0(u8 *, u32, u32);
+/* [DrawEncodedTextWithUnsignedNumber] r0 x, r1 y, r2 encoded source and r3 number; x/y/number truncated to
+ * u16. Fifth incoming stack word bit0 selects horizontal centering. Skips two source bytes and expands
+ * each0xF7 token into decimal digits0x41+digit using six divisors100000..1, suppressing leading zeros except
+ * final digit; copies other bytes until0xFD. Builds local32-byte text, u16 length with no bounds validation,
+ * terminates0xFD and draws via0x0801A3D0 at u16(x-(width>>1)) when centered, else x. No text-capacity check or
+ * bounded search for a missing source terminator; not ASCII formatting. */
 void sub_08081518(u32 arg0, u32 arg1, u8 *arg2, u32 arg3, volatile s32 arg4)
 {
     struct {
@@ -4454,6 +4523,12 @@ u16 local815F4_sub_0801E3D8(s32, u16, u8) asm("sub_0801E3D8");
         }                                                              \
         text85[var_r7 + var_r8 * 0x20] = 0xFD;                         \
     }
+/* [DrawItemMenuDetailedItemPanel] r0 item-record pointer. Always draws item label at(15,18) and icon
+ * at(120,32) before type dispatch. Loads type-specific resources for kind1..10; unsupported kinds return after
+ * initial label/icon. Builds centered multiline descriptions in shared text buffer0x03000128, expands0xF7
+ * numeric tokens using six divisors100000..1, and computes signed-halfword/byte equipment values from record
+ * fields and current saved skills/class. Kinds2..5 byte+8 nonzero suppress equipment detail mask; otherwise
+ * computes skill-based bonus display without applying item. */
 void sub_080815F4(void *arg0) {
     /* m2c register names are kept: one function-scope var_r8 (r8) serves the kind-1 length, the line
        splitter, the icon/detail loop counters and the digit-tail x; one var_r6 (r6) is the source
@@ -4993,6 +5068,13 @@ struct Icon82960 { u16 unk0; s16 unk2; u32 zero; u8 flag; u8 pad[7]; };
 struct Stat82960 { volatile u16 unk0; u16 unk2; };
 struct Manager82960 { u8 pad[0x74]; struct { s32 y; s32 pad; } entries[6]; };
 struct Record82960 { u16 names[5][31]; u16 items[6]; u16 pad; struct Stat82960 stats[3]; };
+/* [DrawLocalizedEquipmentSetSummary] r0 record pointer; null returns with no drawing. Draws title
+ * resource0x1403EC at row3, localized record name selected by global0x03003470 (31 halfwords per language),
+ * truncating each character to byte, ending at low-byte zero or after31 characters then0xFD. Draws six
+ * available equipment references at record+0x136, omitting high-bit0x8000 entries; slot-to-item-kind
+ * mapping2,4,3,5,6,7, centered icon row with manager animation offsets. Scans three4-byte modifiers at+0x144,
+ * excluding type0/41, selects positive/negative text resource from signed value bit15, draws absolute u16
+ * magnitude via0x08081518 with layout based on total valid modifiers. */
 void sub_08082960(struct Record82960 *arg0) {
     s32 var_r4;
     u32 var_r5;
@@ -5162,6 +5244,12 @@ union Config82BB0 { u32 word; u16 half[2]; };
 struct Stage82BB0 { u8 pad[0x1FA]; u16 value; };
 struct Keys82BB0 { u16 x0,x2,x4,x6,x8,xA,xC,xE; };
 void sub_08082BB0_u32(u32 arg0) asm("sub_08082BB0");
+/* [TaskItemCollectionInteractionMenu] Full-word r0 selects interaction variant:7/8/9 map manager modes4/5/6;
+ * other values mode3. Initializes shared manager, localized graphics, player/inventory state, collection
+ * records at+0x104, currency totals and VCOUNT callbacks, then starts item-menu subtask. Main loop while
+ * manager+0x24 nonzero and no link error runs interaction state machine0x0807C29C unless manager flag2, draws
+ * current/held items or detailed record view, refreshes signed stat preview and inventory contents, with
+ * variant-specific collection background updates. */
 void sub_08082BB0_u32(u32 arg0) {
     struct PlayerWords82BB0 { u8 pad[0x8C]; u32 w8C, w90; u8 tail[0x14C - 0x94]; };
     extern struct PlayerWords82BB0 players82BB0[] asm("gUnk_03003CE0");
@@ -5706,6 +5794,13 @@ block_61:
     sub_08085398();
     sub_08000420(0x11201100);
 }
+/* [RunItemMenuMessageDialogue] Full-word r0 indexes sprite/message tables0x084ECBDC/0x084ECC04 without bounds
+ * check. Initializes local descriptor, picks palette source variant for indices3/4/9, sets manager word+0x28
+ * bit1. Expands message byte0xFC from save-state name stream at0x030034E0 into local32-byte buffer with u16
+ * indices; no capacity checks. Slides descriptor to(240,136), reveals text progressively centered on row18,
+ * then waits for input halfword0x03001324 bit0 while blinking0xA0 marker. On acknowledgement plays song15 and
+ * slides away, yielding throughout. Suspend-request or link-error exits skip animation; all exits clear
+ * manager bit1. Does not claim debounce, exact input-newness or explicit text erase. */
 void sub_0808381C(u32 index)
 {
     /* Empty constraints preserve the original register lifetimes and truncations. */
@@ -5878,6 +5973,13 @@ done:
     manager = (u8 *)gUnk_03006440;
     *(u32 *)(manager + 0x28) &= ~2u;
 }
+/* [RunItemMenuMessageWithVariantPanels] Full-word r0 message-table index. Chooses visual mode from
+ * flag-query0x08057AE8(21) only when current area0, otherwise mode2. Mode0 initializes three descriptor
+ * resources0x500CC/CB/CA, mode1 middleCB, mode2 rightCA; uses palette variants and eased panel slide-in/out,
+ * setting manager+0x28 bit1 while active. Looks up message via0x084ECC04[index]|0x140000, skips2-byte header,
+ * progressively copies into32-byte local text with u16 indices, draws centered row18, then waits
+ * input0x03001324 bit0 with blinking0xA0 marker. A acknowledgement plays sound15; suspend request/link error
+ * skips to cleanup, and all paths clear manager bit1. No binary choice result or item mutation here. */
 void sub_08083AE8(u32 input)
 
 {
@@ -6474,6 +6576,13 @@ LAB_080841de:
   *(u32 *)(*(int *)((u32)&gUnk_03006440) + 0x28) = *(u32 *)(*(int *)((u32)&gUnk_03006440) + 0x28) & 0xfffffffd;
   return;
 }
+/* [ClassifyThreeItemSubtypePattern] r0 points to three16-byte item records. Requires unsigned kind halfwords
+ * at+0/+16/+32 all9 or returns0. Reads subtype halfwords+2/+18/+34 and returns a pure ordered-pattern
+ * code:000=>1,222=>2,111=>3,
+ * all-distinct0..2=>4;020/101/010/121/212/202=>5..10;002/110/001/112/221/220/200/011/100/211/122/022=>11..22;333=>23,444=>24.
+ * Everything else returns0, including mixed3/4. No side effects, RNG or validation of pointed storage. Does
+ * not guess material names for kind9 or subtype values. Complete original configured body audited against ROM;
+ * copied verified-main ELF static equality, no local build or runtime test. */
 u32 sub_08084200(const u8 *arg0)
 {
     u16 b;
@@ -6550,6 +6659,13 @@ u32 sub_08084200(const u8 *arg0)
     if (*(const u16 *)(arg0 + 0x02) == 4 && *(const u16 *)(arg0 + 0x12) == 4 && *(const u16 *)(arg0 + 0x22) == 4) return 24;
     return 0;
 }
+/* [SynthesizeRandomItemFromThreeInputs] r0 points to at least three16-byte item records PLUS metadata word
+ * at+0x34; r1 points to16-byte output. Randomly permutes three inputs via rejection sampling. Classifies
+ * original ordered triple through0x08084200; nonzero class and RNG low16<=saved-state word+0x6C can select
+ * class/tier recipe tables, tier from summed unsigned values with boundaries100/300/500. Fallback uses first
+ * randomized equipment record or random nonempty saved stock entries for kind9; empty stock can loop
+ * indefinitely. Further randomized property/value inheritance uses other two records and compatibility flags,
+ * with an inherited r9 path for unsupported kinds. */
 void sub_0808441C(u16 *param_1, u32 *param_2)
 {
     /* Combine three randomized records and update the shared success value. */
@@ -7438,6 +7554,13 @@ copyOutput8441C:
     }
 }
 
+/* [StartCharacterStatAndSkillMenuTask] No arguments or meaningful return. Retries exact allocation
+ * of0x624=1572 bytes for shared manager0x03006440, yielding after failures, initializes first word0. Then
+ * retries1024-byte task stack on fixed task0x03006450, sets top+1020, priority100, finalizer0x08085484 and
+ * callback0x0807A5D4, scheduler argument0. No active-task or existing-manager protection; starts request and
+ * does not wait for menu closure. Complete pinned matching source body and complete original configured range
+ * inspected, including long-range continuations. Original range equals copied verified-main ELF; no local
+ * build or runtime test. */
 void sub_08084EAC(void)
 {
     while ((gUnk_03006440 = sub_08001494(0x624)) == 0)
@@ -7451,6 +7574,12 @@ void sub_08084EAC(void)
     task84eac[3] = (u32)sub_0807A5D4;
     sub_08000274((M2C_UNK *)task84eac, 0);
 }
+/* [StartInventoryMenuTask] Retries allocation of a 0x624-byte item-menu manager through global 03006440,
+ * clears only its first word, then retries a 0x900-byte stack allocation. Initializes the existing
+ * task-control record with stack top allocation +0x8FC, flags/state word +8 equal 0x64, finalizer 854A0 and
+ * callback 7B7B4, then registers it through 00274 with argument zero. Failed allocations wait on scheduler
+ * signal 1. It does not initialize every manager field, impose a retry bound or establish priority from the
+ * task flag word. */
 void sub_08084F24(void)
 {
     while ((gUnk_03006440 = sub_08001494(0x624)) == 0)
@@ -7464,6 +7593,12 @@ void sub_08084F24(void)
     task84f24[3] = (u32)sub_0807B7B4;
     sub_08000274((M2C_UNK *)task84f24, 0);
 }
+/* [StartItemCollectionInteractionMenuTask] Full-word r0 interaction variant forwarded unchanged.
+ * Retries1572-byte manager allocation into0x03006440 and zeros its first word; retries2560-byte stack on fixed
+ * task0x03006450. Sets stack top+2556, priority100, callback0x08082BB0 and finalizer0x08085518, then starts
+ * task with variant argument. No existing-manager/task activity guard and no wait for menu completion;
+ * allocation failures yield. Complete pinned matching source body and original configured range preserved for
+ * independent static audit; original equals copied verified-main ELF, no local build or runtime test. */
 void sub_08084F9C(u32 arg)
 {
     while ((gUnk_03006440 = sub_08001494(0x624)) == 0)
@@ -7477,6 +7612,12 @@ void sub_08084F9C(u32 arg)
     task84f9c[3] = (u32)sub_08082BB0;
     sub_08000274((M2C_UNK *)task84f9c, arg);
 }
+/* [DrawSkillProgressTileRun] r0 is an unbounded row index, r1 an unsigned count clamped to seven, and r2 a
+ * tile variant. Writes count halfwords of ((u16)(variant+0x16B)|0xE000) at text-map +0x2C+(index+5)*64; queues
+ * row index+5 only when count is nonzero. Does not clear remaining tiles. Original caller 0x0807B53E supplies
+ * skill level+1 and variant 3; 0x0807B54E supplies progress and variant 0. No row validation. Complete
+ * original configured body and literal use audited against EU ROM; copied verified-main ELF equality is static
+ * corroboration, not a new build or runtime test. */
 void sub_08085014(u32 index, u32 count, u32 value)
 {
     u32 i;
@@ -7489,6 +7630,11 @@ void sub_08085014(u32 index, u32 count, u32 value)
     }
     if (count != 0) sub_0801A664(index+5,1);
 }
+/* [DrawAvailableSkillPointTiles] Unsigned r0 count <=9 writes that many 0xE16B halfwords at text-map +0xE8 and
+ * queues row 3 only for nonzero count. Above nine writes 0xE16B/0xE16A then draws the count at (24,3).
+ * Original caller 0x0807B4FC loads the points halfword from the same skill data whose per-skill level/progress
+ * drives 0x08085014. No clearing of unused tiles. Complete original configured body and literal use audited
+ * against EU ROM; copied verified-main ELF equality is static corroboration, not a new build or runtime test. */
 void sub_08085064(u32 count)
 {
     u32 i;
@@ -7503,6 +7649,13 @@ void sub_08085064(u32 count)
     }
 }
 extern u32 digits850C0[] asm("gUnk_084EBD5C");
+/* [ExpandEncodedTextUnsignedNumberToken] r0 source, low 16 bits of r1 number, r2 destination. Skips two source
+ * bytes; copies byte stream until 0xFD, replacing every 0xF7 with decimal digits encoded 0x41+digit. Reads six
+ * 32-bit divisors 100000,10000,1000,100,10,1 at 0x084EBD5C and suppresses leading zero digits but retains
+ * final zero. Output length wraps u16; appends 0xFD and returns dst+length-1, including dst-1 for empty text.
+ * No destination-capacity check or bounded search for a missing source terminator; no claim of ASCII output.
+ * Complete original configured body and literal use audited against EU ROM; copied verified-main ELF equality
+ * is static corroboration, not a new build or runtime test. */
 u8 *sub_080850C0(u8 *src, u16 value, u8 *dst)
 {
     u16 n;
@@ -7539,6 +7692,12 @@ u8 *sub_080850C0(u8 *src, u16 value, u8 *dst)
     dst[n] = 0xFD;
     return dst + (n - 1);
 }
+/* [AllocateSkillMenuEffectTaskPool] No input or meaningful return. Repeatedly allocates 200 bytes, storing
+ * pointer at item-menu manager +0x620 and yielding after failures. Initializes only word +8 in five 40-byte
+ * task controls to zero; other bytes are not initialized. Caller 0x0807A832 performs menu setup; 0x08085218
+ * consumes this exact pool for skill-increase effects. Complete original configured body and literal use
+ * audited against EU ROM; copied verified-main ELF equality is static corroboration, not a new build or
+ * runtime test. */
 void sub_0808516C(void)
 {
     u32 i;
@@ -7547,6 +7706,12 @@ void sub_0808516C(void)
     for (i = 0; i <= 4; i++)
         *(u32 *)(*(u32 *)(gUnk_03006440 + 0x620) + i * 0x28 + 8) = 0;
 }
+/* [WaitForSkillMenuEffectsAndFreeTaskPool] Captures the initial pool pointer at manager+0x620 and sequentially
+ * polls activity for its five 40-byte controls, yielding while each is active. After waiting it reloads the
+ * manager through global03006440, frees the current +0x620 field, reloads the manager again and stores the
+ * final zero activity-query result there. The captured waited-on pool and later freed current pointer are not
+ * assumed identical across yields. Does not request cancellation, free per-task stacks directly, or validate
+ * manager/pool. Original menu task calls at 0x0807B740 on teardown. */
 void sub_080851B8(void)
 {
     u8 *entries = *(u8 **)(gUnk_03006440 + 0x620);
@@ -7559,6 +7724,13 @@ void sub_080851B8(void)
     sub_08001538(*(s32 *)(gUnk_03006440 + 0x620));
     *(u32 *)(gUnk_03006440 + 0x620) = result;
 }
+/* [StartSkillIncreaseIndicatorTask] r0/r1 are full-word x/y forwarded as scheduler arguments. Scans five pool
+ * controls, skipping active entries and any nonzero word +8. First eligible entry gets word+8=60 before
+ * attempting a 1024-byte stack allocation. Allocation failure returns without restoring word+8; full pool also
+ * returns. Success installs callback 0x08085534, stack top allocation+1020 and null finalizer then starts
+ * task. Original caller 0x0807AE14 follows skill-level increment and point deduction, not arbitrary completion
+ * signalling. Complete original configured body and literal use audited against EU ROM; copied verified-main
+ * ELF equality is static corroboration, not a new build or runtime test. */
 void sub_08085218(u32 arg0, u32 arg1)
 {
     u8 *entry = *(u8 **)(gUnk_03006440 + 0x620);
@@ -7583,17 +7755,31 @@ check:
     *(u32 *)(entry + 0x24) = 0;
     sub_08000274_(entry,arg0,arg1);
 }
+/* [VCountApplyBg0FourPixelVerticalOffset] Writes halfword 4 directly to BG0VOFS hardware register 04000012,
+ * sets the next VCount compare line to 159 and replaces the VCount callback with sibling 852AC. Does not
+ * modify BG0 scroll shadow, enable the VCount interrupt, preserve an arbitrary prior scroll value or stop the
+ * alternating callback chain. */
 void sub_0808528C(void) {
     *(s16 *)0x04000012 = 4;
     sub_08001108(0x9F);
     sub_0800115C((s32) &sub_080852AC);
 }
+/* [VCountResetBg0VerticalOffset] Writes halfword zero directly to BG0VOFS hardware register 04000012, sets
+ * next VCount compare line to 136 and installs sibling 8528C. It resets this hardware offset rather than
+ * restoring an arbitrary saved value. The callback chain continues; this is not a function to disable the band
+ * or the VCount interrupt. */
 void sub_080852AC(void)
 {
     *(u16 *)0x04000012 = 0;
     sub_08001108(0x88);
     sub_0800115C((s32)sub_0808528C);
 }
+/* [CopyItemMenuCollectionRecords] r0 source; manager pointer is read from 0x03006440. Copies complete 16-byte
+ * records as four words into manager+0x104: 75 records when manager word zero equals 4, otherwise 12. Returns
+ * void; no source-size, overlap or manager validation. Consumers include currency summation at 0x08085330 and
+ * item menu initialization caller 0x08083182/0x080831C8. Does not infer shop versus stash from mode alone.
+ * Complete original configured body and literal use audited against EU ROM; copied verified-main ELF equality
+ * is static corroboration, not a new build or runtime test. */
 void sub_080852CC(struct Entry852CC *src)
 {
     u32 i;
@@ -7609,6 +7795,11 @@ void sub_080852CC(struct Entry852CC *src)
         }
     }
 }
+/* [SumItemMenuStashOrStockCurrency] In item-menu mode 4, sums word +4 for kind-10 entries among exactly 75
+ * records at manager +0x104, stride 16. Otherwise returns 5D404, the stash sum at character/inventory base
+ * +0x2E0 through pointer global 030034E0. These are distinct from the menu manager through global 03006440.
+ * This helper never adds the bag total; the separate 8543C query adds bag currency only in mode 4. Original
+ * arithmetic returns the low 32-bit sum without saturation or capacity checks. */
 u32 sub_08085330(void)
 {
     u32 total = 0;
@@ -7627,11 +7818,22 @@ u32 sub_08085330(void)
     }
     return total;
 }
+/* [AllocateItemMenuSubtaskControl] Retries a 0x28-byte allocation until nonnull, storing every attempt in the
+ * word at item-menu manager +0x620 through pointer global 03006440. Each failed attempt waits for scheduler
+ * signal 1 through 003F0. It allocates the child task-control record only: it does not clear the record,
+ * allocate its execution stack, select a callback or register the task. There is no bounded retry count or
+ * proved manager lifetime. */
 void sub_0808536C(void)
 {
     while ((M2C_FIELD(gUnk_03006440, s32 *, 0x620) = sub_08001494(0x28)) == 0)
         sub_080003F0();
 }
+/* [WaitForItemMenuSubtaskAndFreeControl] Captures the task-control pointer at item-menu manager +0x620 and
+ * polls 00470 until it is absent from the scheduled-task list, yielding on scheduler signal 1 between nonzero
+ * results. Then reloads the global manager and frees its current +0x620 pointer through 01538; reloads the
+ * manager again and stores the zero query result at +0x620. The polled captured pointer and later freed
+ * current field are not assumed identical across yields. It does not explicitly free the execution-stack field
+ * or impose a timeout. */
 void sub_08085398(void)
 {
     u32 value = *(u32 *)(gUnk_03006440 + 0x620);
@@ -7641,6 +7843,12 @@ void sub_08085398(void)
     sub_08001538(*(u32 *)(gUnk_03006440 + 0x620));
     *(u32 *)(gUnk_03006440 + 0x620) = result;
 }
+/* [StartItemMenuSubtask] Captures the task-control pointer at item-menu manager +0x620, retries allocation of
+ * a 0x400-byte stack with signal-1 waits, and writes each attempt to that captured control +0x20. Sets task +8
+ * to 0x50, callback +0xC to 83AE8 only when the complete argument equals 1 and otherwise to 8381C, stack top
+ * +0x10 to allocation +0x3FC, and finalizer +0x24 to zero. Registers the control through 00274, forwarding the
+ * complete argument. The flag word is not identified as priority, and non-1 arguments are not restricted to
+ * zero. */
 void sub_080853DC(u32 arg)
 {
     u8 *base = *(u8 **)0x03006440;
@@ -7660,6 +7868,11 @@ void sub_080853DC(u32 arg)
     *(u32 *)(task + 0x24) = 0;
     sub_08000274((M2C_UNK *)task, (s32)arg);
 }
+/* [ReadItemMenuCurrencyTotal] Reads the current item-menu manager word at +0. In mode 4, sums word +4 for
+ * kind-10 records among exactly 75 entries at manager +0x104, stride 16, then adds the bag-currency result
+ * from 5D3D4. In every other mode, returns 5D404 directly, which sums the 75-entry stash at base *(u8
+ * **)0x030034E0 + 0x2E0. This is a mode-dependent currency total, not an unconditional bag-plus-stash sum. The
+ * original performs low-32-bit word additions without saturation or capacity checks. */
 u32 sub_0808543C(void)
 {
     u8 *base = (u8 *)gUnk_03006440;
@@ -7682,6 +7895,11 @@ u32 sub_0808543C(void)
     }
     return total;
 }
+/* [ClearAndFreeItemMenuManager] Unconditionally loads pointer global0x03006440, writes word0 at pointee+0,
+ * frees pointee with0x08001538 and clears pointer global. Original instructions have no null check despite
+ * empty conditional in source. Registered finalizer by0x08084EAC for shared manager menu task0x0807A5D4. No
+ * pool wait, task cancellation or other field cleanup here. Complete original configured body and literals
+ * audited against ROM; copied verified-main ELF static equality, no local build or runtime test. */
 void sub_08085484(void)
 {
   s32 p = gUnk_03006440;
@@ -7692,10 +7910,21 @@ void sub_08085484(void)
   sub_08001538(p);
   gUnk_03006440 = 0;
 }
+/* [FreeInventoryMenuManager] Loads pointer global0x03006440, calls heap free0x08001538, then clears global
+ * pointer. Does not write pointee first or test null. Original0x08084F24 registers it as finalizer of
+ * confirmed TaskInventoryMenu0x0807B7B4. Does not itself cancel tasks or free pool. Complete original
+ * configured body and literals audited against ROM; copied verified-main ELF static equality, no local build
+ * or runtime test. */
 void sub_080854A0(void) {
     sub_08001538(gUnk_03006440);
     gUnk_03006440 = 0;
 }
+/* [ClearHeldItemMenuRecord] Fills the 16-byte held-item record at menu manager +0xF4 with zero using CpuSet
+ * control 0x05000004, then reloads global 03006440 and writes word 22 at manager +0x1C and word zero at +0x20.
+ * Matched inventory movement/sale helpers and original 7C29C item-validation paths identify these as the held
+ * record and its source/index fields. It does not restore or transfer the item to another location, free the
+ * manager or clear the separate +0x18 interaction state. No direct caller or runtime reachability is
+ * established by this row. */
 void sub_080854B8(void)
 {
     u32 zero = 0;
@@ -7705,6 +7934,12 @@ void sub_080854B8(void)
     *(u32 *)(p + 0x1C) = 0x16;
     *(u32 *)(p + 0x20) = 0;
 }
+/* [CountDecimalDigitsCappedAtSix] Unsigned full-word r0 value. Starts result6 and compares
+ * thresholds100000,10000,1000,100,10,1 from word table0x084EBD4C offsets16..36. Decrements while
+ * threshold>value, returning0 for zero,1..5 for1..99999, and6 for every value>=100000 including values with
+ * more than six decimal digits. No mutation or division. This is a capped display-width helper, not a true
+ * unbounded digit count. Complete original configured body and literals audited against ROM; copied
+ * verified-main ELF static equality, no local build or runtime test. */
 s32 sub_080854E8(u32 value)
 {
     s32 result = 6;
@@ -7720,6 +7955,13 @@ s32 sub_080854E8(u32 value)
     }
     return result;
 }
+/* [ClearAndFreeFullScreenItemMenuManager] Unconditionally loads shared item-menu pointer global0x03006440,
+ * writes word0 at pointee+0, calls heap free0x08001538, then clears pointer global. No null check or
+ * nested-pool cleanup. Original0x08084F9C registers as finalizer of full-screen item-menu callback0x08082BB0,
+ * which selects manager modes3/4/5/6 from its incoming mode. Same operation sequence as0x08085484 but distinct
+ * canonical entry and registration; raw bytes differ because the relative call to heap free has a different
+ * displacement. No collection-only domain is established. Complete original configured body and literals
+ * audited against ROM; copied verified-main ELF static equality, no local build or runtime test. */
 void sub_08085518(void)
 {
   s32 p = gUnk_03006440;
@@ -7731,6 +7973,13 @@ void sub_08085518(void)
 }
 extern u16 flags85534 asm("gUnk_03001308");
 void sub_08065230(void *, s32, s32, u16, s32);
+/* [TaskAnimateSkillIncreaseIndicator] Task receives full-word x/y in r0/r1, gets shared sprite context, starts
+ * song 0x25, then performs exactly 30 iterations. Each clears halfword global 0x03001308 bits 0x30, decrements
+ * y when global tick word &3 is zero, advances descriptor 14 with two u16 local animation counters, draws
+ * descriptor 14 at x/y using first counter, and yields. Finally clears current task control word+8.
+ * Coordinates and input-mask side effects are explicit; no claim of resource freeing or runtime visual
+ * confirmation. Complete original configured body and literal use audited against EU ROM; copied verified-main
+ * ELF equality is static corroboration, not a new build or runtime test. */
 void sub_08085534(s32 arg0, s32 arg1)
 {
     u16 a;
@@ -7856,6 +8105,13 @@ extern void f855_00420(s32) asm("sub_08000420");
 
 void sub_080855D4_v(void) asm("sub_080855D4");
 
+/* [TaskMonsterCardCatalogAndBagTransfer] No meaningful arguments or return. Before menu, scans25 bag records
+ * at saved-character+0x150 and deposits kind8 records into byte counts at+0xC10 by item-id when existing
+ * count<=98, increments to at most99, clears only kind/id halfwords of deposited bag records. Deposits occur
+ * before cancellation and are not rolled back. Animates deposited records, then browses category
+ * table0x084ECC2C with end-category100, localized resource0x120000 names/details and per-id owned counts.
+ * Modes0 category list,1 detail,3 detail-field grid; grid13 A constructs kind8/id record and attempts
+ * TryAddItemToBag, decrements collection count only on success. No spending currency or purchase logic. */
 void sub_080855D4_v(void)
 {
     u8 name[0x20];
@@ -8386,6 +8642,11 @@ exit:
     f855_0CFA4();
     f855_00420(0x11201100);
 }
+/* [FreeMonsterCardCatalogManager] No arguments or meaningful return. Frees current pointer global0x03006478
+ * then clears it; no null check, pointee-zeroing, nested cleanup or task cancellation.0x080867F8 registers it
+ * as finalizer for catalog task0x080855D4. Does not restore graphics or reverse deposited/withdrawn records.
+ * Complete pinned matching source body and complete original configured range inspected, including long-range
+ * continuations. Original range equals copied verified-main ELF; no local build or runtime test. */
 void sub_080867E0(void) {
     sub_08001538(gUnk_03006478);
     gUnk_03006478 = 0;
@@ -8395,6 +8656,12 @@ extern struct Task6450b gTask6450b asm("gUnk_03006450");
 extern u32 gW03006478 asm("gUnk_03006478");
 extern void sub_08000274_2(void *, u32) asm("sub_08000274");
 extern void sub_080867E0();
+/* [StartMonsterCardCatalogTask] No arguments or meaningful return. Repeatedly allocates96-byte manager into
+ * global0x03006478, yielding on failure, then retries3072-byte stack for fixed task control0x03006450. Sets
+ * top+3068, priority100, callback0x080855D4, finalizer0x080867E0, starts with argument0. Does not initialize
+ * manager contents itself, check active task, protect previous manager, or wait for catalog closure. Complete
+ * pinned matching source body and complete original configured range inspected, including long-range
+ * continuations. Original range equals copied verified-main ELF; no local build or runtime test. */
 void sub_080867F8(void)
 {
     while ((gW03006478 = sub_08001494(0x60)) == 0)
@@ -8424,6 +8691,10 @@ void sub_080009F8(s32, s32, s32);
 #define SKIP_KEYS2() if (sub_0801AAE0() != 0 && (keys86860 & 8) && gUnk_03002838 == 0) skip = 1
 
 /* Intro sequence (logo, scrolling scenes, staff texts); any skip jumps to the common exit. */
+/* [TaskPlayStoryIntroduction] Runs the story-introduction presentation: changes background assets, animates
+ * sprites and scrolling, varies audio volumes and advances timed caption sections through 88A60/889D4. Caption
+ * IDs span 0x45D..0x47A. The task uses scheduler waits and counters; no exact elapsed-video-frame duration is
+ * asserted. */
 void sub_08086860(void)
 {
     u8 obj[0x34];
@@ -9119,6 +9390,13 @@ end:
 struct Rgb087788 { u16 r:5, g:5, b:5, x:1; };
 struct RgbWord087788 { u32 r:5, g:5, b:5, x:1; };
 /* Fade a palette range toward grey level `fade & 0x1F` over `fade >> 16` frames. */
+/* [TaskFadePaletteBanksTowardGray] r0 packs first palette-bank index in low16 and bank count in high16; r1
+ * packs target gray component in low5 and duration in high16. Allocates count*32 snapshot bytes and copies
+ * banks from 0x03001F40+first*32. For u16 frame 0 through duration-1, interpolates each RGB5 component from
+ * snapshot toward gray using signed division by duration, preserving current destination bit15, queues palette
+ * update and yields. Frees snapshot after loop; duration zero still snapshots/frees but does not divide. Does
+ * not force final target on exit or check allocation/range. Source uses 32-bit component loads with 2-byte
+ * source stride, which must not be silently recast as a proven safe halfword ABI. */
 void sub_08087788(u32 palette, u32 fade)
 {
     u16 entry = palette;
@@ -9149,6 +9427,13 @@ void sub_08087788(u32 palette, u32 fade)
     }
     sub_08001538((u32)buffer);
 }
+/* [TaskModulatePaletteBanksWhileEnabled] r0 packs low16 first bank/high16 bank count; r1 points to a full-word
+ * enable flag. Always allocates and snapshots count*32 bytes first. While pointed word is nonzero, scales each
+ * saved RGB5 component by u16 factor/1024 (initial factor100), preserves current destination bit15, queues
+ * palette update, yields, then updates factor using signed-halfword lookup table 0x080B9704 and
+ * phase-dependent angle/base. Angle wraps to0 only above256; phase changes from global tick modulo3 and timers
+ * from RNG modulo10/30. Frees snapshot when flag is zero, without restoring original palette. No allocation,
+ * pointer or bank-range checks; no runtime flicker claim. */
 void sub_080878AC(u32 arg0, s32 *state)
 {
     u16 entry = (u16)arg0;
@@ -9219,6 +9504,13 @@ extern void text087A5C(u8 *, u32, u32) asm("sub_0801A3D0");
 extern void close087A5C(u32, u32) asm("sub_0801A664");
 extern void fade087A5C(u32, u32, u32, u16, u16, u32) asm("sub_0800903C");
 /* Show a centred multi-line message (party names expanded) while fading it in. */
+/* [TaskDisplayCenteredSceneMessage] r0 message id is ORed with0x140000 for resource lookup; low16 r1 is
+ * iteration limit, high16 layout mode. Initializes eight32-byte lines to0xFD, skips resource header2,
+ * handles0xFF newline and0xFE newline plus2 skipped payload bytes, and expands0xF6/F4/F3/F2 from player-name
+ * buffers at player-base+2/+0x14E/+0x29A/+0x3E6. Name reads use current output column as index, not separate
+ * token-local index. No line/column/resource bounds validation. Each iteration updates blend shadow with
+ * coefficients initially0/16, approaching16/0 except tick multiples16; mode0 centers nonempty first4 lines on
+ * rows12,14,16,18; mode1 first2 on16,18; mode2 all8 on2..16. Other modes draw no text. */
 void sub_08087A5C(u32 msg, u32 arg1)
 {
     u8 lines[8][32];

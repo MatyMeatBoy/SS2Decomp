@@ -2,6 +2,9 @@
 
 extern void *gUnk_030031D4;
 
+/* [SetMosaicBlockSizeShadow] Writes a | (b << 4) | (c << 8) | (d << 12) to display shadow +0x3C. The display
+ * copier sends it to MOSAIC at 0x0400004C. Byte inputs are not individually masked to four bits before the
+ * halfword store. */
 void sub_08009088(u8 a, u8 b, u8 c, u8 d)
 {
     gUnk_03001250[0x3c / 2] = a | (b << 4) | (c << 8) | (d << 12);
@@ -10,6 +13,12 @@ extern void *buffersInit005[4] asm("gUnk_03003460");
 struct InitState005 { struct Layer layers[4]; u32 field60; void *field64; void *field68; u8 rest[0x20]; u16 level; u16 pad8E; u16 field90; };
 extern struct InitState005 stateInit005 asm("gUnk_03003170");
 extern u16 finishInit005(u16 *) asm("sub_0805700C");
+/* [InitializeWorldMapResources] Initializes shared world-map state at 0x03003170. Allocates a 0x20000-byte
+ * decoded-map buffer and three 0x800-byte background tilemap buffers, clears the primary map/layer pointers
+ * and layer source-scroll fields, and enables camera-relative scrolling for layers 1..3. Sets the initial area
+ * index to zero and stores sub_0805700C's return value as the map-set index. The callee counts set bits 0..22
+ * at options 03004210+4, ignores the passed area address and does not write an output there. It does not start
+ * the map update task or guard allocation failure. */
 void sub_080090B0(void)
 {
     u32 i;
@@ -36,6 +45,12 @@ extern void mode9138(u32,u32) asm("sub_08000990");
 extern void enable9138(u32,u32,u32) asm("sub_080009F8");
 extern void bg9138(u32,void *) asm("sub_08000AA8");
 extern u32 *record9138(u32) asm("sub_08007290");
+/* [LoadWorldMapBackgroundGraphics] Configures display/background control state for the selected map set,
+ * resolves graphics and palette resource keys from the map record, submits 16 chunks of 0x800 graphics bytes
+ * to background VRAM and loads 15 palette banks. Certain map sets select a palette at +0x200 or different
+ * display enables. Checks two scene-stop predicates before each graphics chunk and cancels pending transfers
+ * on that exit. Original successful path frees the incoming r9 value, which is not initialized within this
+ * function; this is preserved ABI behavior, not a newly inferred argument or safe-allocation contract. */
 void sub_08009138(s32 *arg0, s32 arg1) {
     union Bg9138 bg;
     u32 *tiles;
@@ -84,6 +99,12 @@ extern u16 *bgBuffers005[4] asm("gUnk_03003460");
 extern void cameraMap005(u32 *,u32 *,u32) asm("sub_0800AD04");
 extern void rowMap005(struct Layer *,s16,s16) asm("sub_080094CC");
 extern void copyMap005(const void *,void *,u32) asm("sub_08001348");
+/* [InitializeMapBackgroundLayer] Selects one of three tile planes after the map header using (3 - layer) *
+ * width * height * 2, records its dimensions/index and clears layer scroll/offset fields. Enables
+ * camera-relative source scrolling, updates the camera from the input tile coordinates, fills the circular
+ * tilemap through the row-copy helper and submits 0x800 bytes to the selected background screen block. The
+ * original row loop retains its unsigned starting coordinate and signed comparison; this name does not imply
+ * input validation. */
 void sub_080092C8(u16 index, s16 *map, u16 x, u16 y)
 {
     u32 posX;
@@ -125,6 +146,10 @@ void sub_080092C8(u16 index, s16 *map, u16 x, u16 y)
     sub_080003F0();
 }
 extern u16 *bgBuffers005[4] asm("gUnk_03003460");
+/* [CopyMapColumnToCircularTilemap] Copies 21 halfword entries from a source map column into the layer's
+ * 32-by-32 background tilemap buffer. Clamps negative signed pixel coordinates to zero, converts them to tile
+ * coordinates, and wraps destination row positions at 32 while continuing sequential source rows. Source map
+ * bounds are not checked. */
 void sub_080093E4(struct Layer *entry, s16 x, s16 y)
 {
     s16 pos[2];
@@ -168,6 +193,10 @@ void sub_080093E4(struct Layer *entry, s16 x, s16 y)
 }
 
 extern u16 *bgBuffers005[4] asm("gUnk_03003460");
+/* [CopyMapRowToCircularTilemap] Copies a 32-entry source map row to the layer's circular background tilemap.
+ * Clamps negative signed pixel coordinates to zero, uses low eight pixel bits for the destination tile
+ * position, and splits the halfword copy at the right edge before continuing at the left edge. Source map
+ * bounds are not checked. */
 void sub_080094CC(struct Layer *entry, s16 x, s16 y)
 {
     s16 pos[2];
@@ -198,6 +227,12 @@ static inline s16 S16_8009594(s16 v) { return v; }
 /* Separate C name: later callers in this file keep the implicit int prototype they were matched with. */
 s32 sub_08009594_(u16 index, u16 x, u16 y, s32 force) asm("sub_08009594");
 /* Returns nothing useful; the original epilogue keeps r0 (pop {r1}), so it is non-void. */
+/* [UpdateMapBackgroundLayerScroll] Updates one loaded background layer from camera pixel scroll. Chooses
+ * camera-relative or absolute source scroll using layer +0x16 and +8/+0xA, copies newly exposed source
+ * rows/columns into the circular tilemap, and submits the tilemap when tile movement or force requires it.
+ * Several map-set/area exceptions bypass or adjust source updates. Finally writes the background scroll shadow
+ * using scene draw offsets and layer display offsets, masked to eight bits. Missing layer data returns
+ * immediately; the return register is not a documented success value. */
 s32 sub_08009594_(u16 index, u16 x, u16 y, s32 force)
 {
     u16 *offsets = gUnk_03001250;
@@ -325,6 +360,11 @@ extern void displayEnable005(u32,u32,u32) asm("sub_080009F8");
 extern void loadSetup005(u32 *,u32) asm("sub_08009138");
 extern u32 *loadRecord005(u32) asm("sub_08007290");
 union LoadBg005 { struct { u32 value:16; } bits; u16 raw; };
+/* [LoadWorldMapArea] Rejects while the map running flag or its task control is active. Stores map-set/area
+ * indices, sets callback sub_0800A998, resolves/decompresses the map record and its cell-plane
+ * pointer/dimensions, clears camera offsets and starts task 0x03003430. A guarded map-set 5/area 13 path
+ * instead constructs a 30-by-32 cell plane and loads special background assets. Returns 0 when busy and 1
+ * after scheduling. It does not validate resource indices or establish peer synchronization by itself. */
 s32 sub_08009930(u32 area,u32 index)
 {
     s16 *map;
@@ -388,6 +428,12 @@ struct Periods9B84 { u16 periods[4]; u8 rest[108]; };
 extern struct TileAnim9B84 tileAnim005 asm("gUnk_03003170");
 extern struct Periods9B84 animPeriods9B84[] asm("gUnk_08478470");
 extern u16 animLimits9B84[2] asm("gUnk_08478F4C");
+/* [UpdateWorldMapTileAnimationsAndBlend] Applies map-set/area-specific blend profiles and updates four
+ * background tile-animation streams. Enabled period entries increment 16-bit timers; when the prior timer
+ * reaches its period, reset it and advance/wrap the frame counter. When a timer is zero, submits the selected
+ * graphics frame to VRAM 0x06007000 plus stream *0x400. Frame limits select a normal/alternate animation
+ * layout from the map set. Numerous map/scene conditions bypass parts or all of the update; periods count
+ * calls rather than guaranteeing elapsed video frames. */
 void sub_08009B84(void)
 {
     u32 alternate,i;
@@ -482,6 +528,11 @@ struct MapPeriods005 {
 extern struct MapAnim005 animState005 asm("gUnk_03003170");
 extern struct MapPeriods005 animPeriods005[] asm("gUnk_08478470");
 extern u16 animLimits005[2] asm("gUnk_08478F4C");
+/* [AdvanceWorldMapTileAnimationCounters] Advances the same four map tile-animation frame/timer pairs used by
+ * sub_08009B84, retaining the map-set/area and scene-flag exclusions. Uses the prior 16-bit timer value for
+ * the period comparison, resets/advances when it reaches the period, and wraps at the selected frame limit.
+ * This sibling performs no graphics transfer or blend update. Matched world-scene logic calls it while the map
+ * background task is waiting on signal 0x514C8. */
 void sub_0800A03C(void)
 {
     u32 alternate, i;
@@ -642,6 +693,12 @@ static inline void t06_updateA298(void)
     {u16 *out=&sys->y;
     *out=0;out--;*out=0;}
 }
+/* [SwitchWorldMapAreaCellData] Changes the current area index within the selected map set, resolves its
+ * resource and selects raw or decompressed map data. Saves the old primary cell-plane pointer as the alternate
+ * pointer, installs the new primary plane after the header and three tile planes, updates primary width/height
+ * and clears camera scroll. Does not reconfigure display backgrounds, schedule a new map task, validate
+ * indices or update alternate dimensions. Stores the area low halfword; the first resource lookup still uses
+ * the full input index. */
 void sub_0800A298(u32 index)
 {
     u8 *resource;
@@ -660,6 +717,12 @@ void sub_0800A298(u32 index)
 extern s32 t06_musicA34C(u32) asm("sub_08058688");
 extern s32 t06_stopA34C(s32) asm("sub_080586B4");
 extern s32 t06_checkA34C(s32) asm("sub_08057AE8");
+/* [UpdateWorldMapMusic] Updates world-map music from the supplied map-set/context, current world-map
+ * level/area fields and scene/event queries. Depending on its branch it leaves tracked music unchanged,
+ * requests a song through 58688, or stops tracked music through 586B4. The ordinary matched C was read
+ * completely. Witnessed non-multiplayer dispatch includes map-set 11 requesting song 0x187, map-set 14
+ * requesting 0x186 and map-set 21 requesting 3. These numeric IDs are not assigned track titles or location
+ * names. */
 void sub_0800A34C(u32 music, s32 previous, s32 changed) {
     u32 selection;
     if (sub_0800CB9C() == 0) {
@@ -1103,6 +1166,11 @@ static inline void t06_layersA998(u16 x, u16 y)
     sub_080092C8(3, t06_sysA998.header, x, y);
 }
 union T06BgA998 { struct { u32 value:16; } bits; u16 raw; };
+/* [TaskUpdateWorldMapBackgrounds] Task callback for the loaded world-map backgrounds. Initializes layers from
+ * the local player position, selects map audio, handles reload requests by waiting on signal 0x514C8 and
+ * rebuilding display/layer state, updates layers 1..3 and animated tiles, and yields. Stops on the local
+ * map-stop bit or the shared world-scene stop request, then writes terminal state 0x80000000. Initial
+ * force-update state is incoming r10 until the first update; no fixed elapsed-frame guarantee is asserted. */
 void sub_0800A998(void)
 {
     struct T06PlayerA998 *player;
@@ -1189,6 +1257,12 @@ struct CameraAD04 {
 };
 extern struct CameraAD04 cameraAD04 asm("gUnk_03003170");
 
+/* [UpdateCameraFromWorldPosition] Updates camera scroll from Q8 world-position words, centering at pixel
+ * offsets (120,96) with the stored tracking offsets. Selects primary/alternate map dimensions for upper bounds
+ * and clamps negative scroll to zero. When map flag 0x10 is set, skips target tracking and restores
+ * tracking-offset plus saved relative position after the clamp; therefore that mode does not guarantee the
+ * final camera position remains clamped. Rewrites the input words using signed 16-bit pixel components while
+ * preserving each low fractional byte. */
 u32 sub_0800AD04(u32 *px, u32 *py, u32 alt)
 {
     u32 dx = (u16)(*px >> 8);
@@ -1240,6 +1314,13 @@ static inline u32 t06_decodeAE50(u32 value,u8 type)
     if(t==1)return v|t;
     return (u8)v;
 }
+/* [DecodeMapCellAttributeAtPosition] Uses two-byte map-cell stride at Q8 world position (x >> 11, y >> 11),
+ * but loads a 32-bit word at the cell address to extract bits 8..11 and bit 12; separately reads the cell's
+ * low byte as type. For a nonzero resourceId, obtains the selected map resource, reads signed-halfword
+ * width/height at +0x10/+0x12, and uses cell base resource+0x20+6*width*height. Otherwise uses current map
+ * state map0/mapW, with widths 90 and 60 for level 8 sub-areas 18 and 2/12. Forms a five-bit value from the
+ * extracted bits; type 1 ORs bit 0, other types preserve its low byte. No collision/terrain meaning or
+ * bounds/alignment safety is claimed. */
 u32 sub_0800AE50(s32 x,s32 y,u32 resourceId)
 {
     s32 width;
@@ -1276,6 +1357,10 @@ u32 sub_0800AE50(s32 x,s32 y,u32 resourceId)
 }
 union CellAEF4u { u8 raw; struct { u16 lo:4; u16 hi:4; u16 flo:4; u16 fhi:4; } __attribute__((packed)) b; } __attribute__((packed));
 struct CellAEF4 { union CellAEF4u u; } __attribute__((packed));
+/* [UpdateMapFootprintOccupancy] Converts pixelu16x/y totile coordinates, rejects start beyond map dimensions
+ * and zerow/h, then loops ty..ty+h and tx-w/2..tx+w/2. Mark mode writes typesA/C with floor1, preserving
+ * level11 type8; remove mode clears floor/typeC, restores floor from upper nibble forA, or clears floor on8.
+ * Entire rectangle is not clipped. */
 void sub_0800AEF4(u16 x, u16 y, u32 w, u32 h, s32 mode) {
     s16 tx = x >> 3;
     s16 ty = y >> 3;
@@ -1337,6 +1422,12 @@ void sub_0800AEF4(u16 x, u16 y, u32 w, u32 h, s32 mode) {
         }
     }
 }
+/* [ResolveMapCollisionDirection] Adds0x200 to fixed-point y and samples3x3 collision nibbles at
+ * coordinate>>11. Flags bit0 selects map1 and bypasses the extra map0 flag transforms. Otherwise level8
+ * variants select map widths90/60/default; coordinates at or outside the excluded zero-edge/bounds yield
+ * code1. Flags bit1 ORs collision-code bit0 when the complete low byte equals1; flags bit2 clears a sample
+ * when high-byte bit0x10 is set. Codes0..13 and neighbors redirect or block; default preserves direction.
+ * Returns0 or input/redirected direction+1 without map or coordinate writes. */
 s32 sub_0800B118(u8 direction, s32 x, s32 y, s32 flags)
 {
     u32 cells[3][3];
@@ -1611,6 +1702,12 @@ L_B63C:return direction+1;
 }
 extern u8 t06_displayB650 asm("gUnk_0300129C");
 extern u16 t06_doneB650 asm("gUnk_03001F40");
+/* [LoadBackgroundAsset] Resolves a background asset header, graphics and palette. Uses raw tilemap bytes at
+ * header +4 when resource bit 30 is set, otherwise decompresses and later frees a temporary tilemap. Copies
+ * graphics to the supplied destination, a 0x800-byte tilemap to VRAM + screenBlock * 0x800, and the requested
+ * palette banks. Graphics header flags choose a 0x4000- or 0x8000-byte transfer and optional destination
+ * +0x4000. Display-shadow bit 7 chooses direct CpuFastSet copies versus submitted chunks with scheduler waits.
+ * It does not check transfer bounds or promise exact elapsed frames. */
 void sub_0800B650(s32 a,s32 b,s32 c,u16 d,u16 e)
 {
     u8 *map;
@@ -1666,6 +1763,11 @@ void sub_0800B650(s32 a,s32 b,s32 c,u16 d,u16 e)
 }
 extern u8 t06_displayB7DC asm("gUnk_0300129C");
 extern u16 t06_doneB7DC asm("gUnk_03001F40");
+/* [LoadBackgroundAssetWithGraphicsKeyOffset] Background asset loader with the same raw/decompressed tilemap,
+ * graphics-size/destination branches, palette loading and cleanup as sub_0800B650. Its distinguishing behavior
+ * adds global 0x03003470 to the header graphics key before resolving graphics. The tilemap and palette keys
+ * are not offset. The meaning or allowed range of the global offset is not inferred as a character/class
+ * identifier. */
 void sub_0800B7DC(s32 a,s32 b,s32 c,u16 d,u16 e)
 {
     u8 *map;
@@ -1719,6 +1821,10 @@ void sub_0800B7DC(s32 a,s32 b,s32 c,u16 d,u16 e)
     sub_08000AF0(d,palette,palettes);
     t06_doneB7DC=0;
 }
+/* [LoadBackgroundTilemapScreenBlock] Loads exactly 0x800 tilemap bytes into VRAM + screenBlock * 0x800. Uses
+ * resource +4 directly when bit 30 is set, otherwise decompresses that data to temporary memory, waits once
+ * after transfer and frees the temporary. Display-shadow bit 7 selects direct CpuFastSet versus the submitted
+ * transfer helper. Graphics and palettes are not loaded by this helper. */
 void sub_0800B974(u32 a, u32 b) {
     void *tmp;
     void *p;
@@ -1741,6 +1847,10 @@ void sub_0800B974(u32 a, u32 b) {
         sub_08001538((s32) tmp);
     }
 }
+/* [LoadBackgroundTilemapScreenBlockPair] Sibling tilemap loader copying exactly 0x1000 bytes, covering two
+ * consecutive 0x800-byte screen blocks starting at the supplied screenBlock. Uses raw resource +4 or a
+ * decompressed temporary, and chooses direct versus submitted copies from display-shadow bit 7. Waits and
+ * frees the temporary only when the resource was decompressed; does not load graphics or palettes. */
 void sub_0800B9F0(u32 a, u32 b) {
     void *tmp;
     void *p;
@@ -1763,10 +1873,18 @@ void sub_0800B9F0(u32 a, u32 b) {
         sub_08001538((s32) tmp);
     }
 }
+/* [IsWorldMapReadyFlagSet] Returns bit 6 of the world-map flags word, as 0 or 1. Matched map-update task
+ * initializes flags to 1, sets this bit after its first completed update iteration and scheduler wait, and
+ * replaces flags with 0x80000000 on exit. Cell-plane loader BAC4 also sets flags to 0x40. Readiness here is
+ * this event/activity gate: the bit can coexist with pending reload bits and does not prove graphics-upload
+ * completion or that every map resource has finished loading. */
 u32 sub_0800BA6C(void)
 {
     return (gUnk_03003170.flags >> 6) & 1;
 }
+/* [ClearLoadedMapLayerDimensionsAndTileOrigin] If the indexed layer has a nonzero data pointer, clears its
+ * width, height and cached tile X/Y origin. Leaves the data pointer, layer offsets and camera-relative mode
+ * intact. Does not validate the layer index. */
 void sub_0800BA80(u16 i)
 {
     struct Layer *l = &gUnk_03003170.layers[i];
@@ -1778,6 +1896,9 @@ void sub_0800BA80(u16 i)
         l->x = 0;
     }
 }
+/* [GetPrimaryMapCellPointerAtPixelPosition] Returns a halfword-cell pointer into the primary map at 0x030031D8
+ * using signed 16-bit pixel coordinates, arithmetic shift by 3 and primary-map width. Returns the pointer
+ * without reading the cell or checking coordinates against map bounds. */
 void *sub_0800BAA4(s16 x, s16 y) {
     struct TileSys *t = &gUnk_03003170;
     u16 *m = t->map0;
@@ -1786,6 +1907,12 @@ void *sub_0800BAA4(s16 x, s16 y) {
     s32 idx = (a >> 3) + (b >> 3) * t->width0;
     return m + idx;
 }
+/* [LoadWorldMapCellPlane] Looks up a cell resource key at ROM 0847846C + first index*0x74 + 0x10 + second
+ * index*4 and resolves it. If key bit 0x40000000 is set, uses resource +0x10 directly; otherwise decompresses
+ * resource +0x10 through 00BC8 using shared buffer pointer 030031D4. Stores the cell-plane pointer at body
+ * +0x10 + 6*signed_width*signed_height, copies the two header halfwords to map-state +0x78/+0x7A, overwrites
+ * all map flags with 0x40 and returns 1. Does not rebuild background layers, update every map-header field,
+ * validate indices/dimensions or report a separate failure result. */
 s32 sub_0800BAC4(s32 arg0, s32 arg1) {
     s32 index = arg1;
     u8 *table = (u8 *)gUnk_0847846C;
@@ -1809,14 +1936,23 @@ s32 sub_0800BAC4(s32 arg0, s32 arg1) {
     gUnk_03003170.flags = 0x40;
     return 1;
 }
+/* [RequestMapUpdateTaskStop] Sets bit 1 of map state 0x03003170 +0x9C. The matched map update task tests it at
+ * its outer-loop boundary and exits to terminal state. The setter itself does not synchronously cancel or wait
+ * for the task. */
 void sub_0800BB40(void)
 {
     gUnk_03003170.flags |= 2;
 }
+/* [RequestMapBackgroundReload] Sets map flags 0xC while retaining other state. The update task responds by
+ * waiting on signal 0x514C8, then rebuilding background state and clearing these bits after wakeup. It
+ * requests a deferred reload rather than reloading immediately. */
 void sub_0800BB54(void)
 {
     gUnk_03003170.flags |= 0xC;
 }
+/* [IsMapBackgroundReloadPending] Returns 1 when either of map flags 0x4 or 0x8 is set, otherwise 0. These are
+ * the deferred background-reload flags tested and cleared by the map update task. The helper reduces their
+ * combined value to a boolean. */
 u32 sub_0800BB68(void)
 {
     u32 r = gUnk_03003170.flags & 0xC;
@@ -1824,16 +1960,27 @@ u32 sub_0800BB68(void)
         r = 1;
     return r;
 }
+/* [SetCameraTrackingOffset] Stores the low 16 bits of the two inputs at map state +0x80/+0x82. The camera
+ * updater adds these values to the target pixel coordinates before centering and subtracts them when caching
+ * relative position. Scene effects also vary these fields for camera movement/shake. This setter does not
+ * directly write final scroll or perform bounds checks. */
 void sub_0800BB80(u16 a, u16 b)
 {
     gUnk_03003170.f80 = a;
     gUnk_03003170.f82 = b;
 }
+/* [SetSceneDrawOffset] Stores the input low halfwords at map state +0x84/+0x86. Background scrolling adds
+ * these offsets, while world-pixel-to-screen projection subtracts them together with camera scroll. These
+ * fields are distinct from the camera-tracking offsets at +0x80/+0x82. */
 void sub_0800BB94(u16 a, u16 b)
 {
     gUnk_03003170.offX = a;
     gUnk_03003170.offY = b;
 }
+/* [SetMapLayerSourceScroll] When scene flag query sub_0800CCCC is zero, stores the two low halfwords in
+ * indexed layer +8/+0xA. The layer updater adds them to camera scroll in camera-relative mode and uses them
+ * directly as source scroll in absolute mode. Leaves the values unchanged when the predicate is nonzero; no
+ * map/layer range validation is performed. */
 void sub_0800BBA8(u16 i, u16 a, u16 b)
 {
     if (sub_0800CCCC() == 0)
@@ -1842,6 +1989,9 @@ void sub_0800BBA8(u16 i, u16 a, u16 b)
         gUnk_03003170.layers[i].w3 = b;
     }
 }
+/* [SetMapLayerDisplayScrollOffset] When scene flag query sub_0800CCCC is zero, stores the two low halfwords in
+ * indexed layer +4/+6. The updater adds these after camera/source and scene draw offsets when writing the
+ * background display-scroll shadow. These fields do not change which source map cells are copied. */
 void sub_0800BBD8(u16 i, u16 a, u16 b)
 {
     if (sub_0800CCCC() == 0)
@@ -1850,11 +2000,20 @@ void sub_0800BBD8(u16 i, u16 a, u16 b)
         gUnk_03003170.layers[i].w1 = b;
     }
 }
+/* [WorldPixelsToSceneDrawPosition] Converts signed 16-bit world-pixel coordinates to two screen draw-position
+ * halfwords by subtracting camera scroll plus the scene draw offsets. Returns 1 unconditionally, performs no
+ * visibility test, and consumes only the four register arguments; extra stack words at some call sites do not
+ * establish extra semantic parameters. */
 u32 sub_0800BC08(s16 x, s16 y, s16 *out_x, s16 *out_y) {
     *out_x = (s16)x - (gUnk_03003170.scrollX + gUnk_03003170.offX);
     *out_y = (s16)y - (gUnk_03003170.scrollY + gUnk_03003170.offY);
     return 1;
 }
+/* [GetMapCellSpritePriority] Reads the primary or alternate map cell at unsigned pixel coordinates shifted
+ * right by three. Maps cell bits 14..15 values 0/1/2 to sprite-priority values 2/1/3. Encoding 3 returns the
+ * original incoming X value left in r0, not a normalized priority; this path is preserved original-register
+ * behavior. Matched actor renderers use the result as the sprite draw priority. It does not check map bounds
+ * or guarantee a result in 1..3. */
 u32 sub_0800BC44(u32 x, u32 y, u32 alternate)
 {
     u8 *map;
@@ -1881,6 +2040,9 @@ u32 sub_0800BC44(u32 x, u32 y, u32 alternate)
     }
     return r;
 }
+/* [GetMapCellLowByteAtQ8Position] Chooses primary or alternate map pointer and width from the third argument,
+ * converts signed Q8 world coordinates to 8-pixel tile indices by arithmetic right shift 11, and returns only
+ * the cell's low byte. Does not return the whole map halfword or check bounds. */
 u32 sub_0800BCA0(s32 x, s32 y, s32 which)
 {
     register u16 *map asm("r3"); u16 *w; register s32 ix asm("r1"); s32 iy;
@@ -1894,12 +2056,27 @@ u32 sub_0800BCA0(s32 x, s32 y, s32 which)
         return *cell;
     }
 }
+/* [LoadBackgroundAssetAtRelativeScreenBlock] Forwards the asset key and graphics destination unchanged to
+ * 0x0800B650, adding 28 to the caller screen-block parameter before that loader computes VRAM +
+ * screenBlock*0x800. Narrows the fourth palette argument and fifth stack argument to u16 and forwards them. No
+ * validation restricts the relative block to 0..3 or establishes safe VRAM bounds; no overlay/story/UI title
+ * is inferred. The underlying loader retains its decompression, transfer, palette and scheduler behavior. */
 void sub_0800BCDC(s32 a, s32 b, s32 c, u16 d, u16 e) {
     sub_0800B650(a, b + 0x1c, c, d, e);
 }
+/* [LoadBackgroundAssetWithGraphicsKeyOffsetAtRelativeScreenBlock] Forwards the asset key and graphics
+ * destination unchanged to 0x0800B7DC, adding 28 to the caller screen-block parameter before that loader
+ * computes VRAM + screenBlock*0x800. Narrows the fourth palette argument and fifth stack argument to u16 and
+ * forwards them. No validation restricts the relative block to 0..3 or establishes safe VRAM bounds; no
+ * overlay/story/UI title is inferred. The underlying loader retains its decompression, transfer, palette and
+ * scheduler behavior. */
 void sub_0800BCFC(s32 a, s32 b, s32 c, u16 d, u16 e) {
     sub_0800B7DC(a, b + 0x1c, c, d, e);
 }
+/* [IsLastAreaInCurrentMapSet] Returns whether the current area index at map state +0x90 equals the selected
+ * map-set record count minus one. The count comes from the first halfword of a 0x74-byte table record selected
+ * by map state +0x8C. This is an index/table query, not proof that the game or dungeon has been completed; it
+ * does not validate the count or index. */
 u32 sub_0800BD1C(void)
 {
   u16 lv;
@@ -1909,10 +2086,20 @@ u32 sub_0800BD1C(void)
   }
   return 0;
 }
+/* [SetMapLayerCameraRelativeMode] Stores the input low halfword in indexed layer +0x16. The layer updater uses
+ * nonzero to add source-scroll fields to the input camera position, and zero to use those source-scroll fields
+ * as absolute coordinates. This is not a layer visibility toggle and does not normalize the stored value to
+ * 0/1. */
 void sub_0800BD48(s32 i, u16 v)
 {
     gUnk_03003170.layers[i].s16 = v;
 }
+/* [TaskManageWorldSceneLifetime] Captures the starting scheduled-task count, initializes each player and the
+ * map, field-item and actor-effect resources, including background task startup. Enables the guarded
+ * song-playback flag. Waits for a link error, scene-exit condition or stop request, then stops all music
+ * players, requests scene-task termination and releases effect/task pools. Wakes signals 0x514C8 and
+ * 0x11201100, then yields until the scheduled-task count is no greater than the entry count. The mode argument
+ * controls flag bit 1; its full meaning is not asserted. */
 void sub_0800BD5C(s32 arg) {
     u32 t;
     u32 i;
@@ -2050,6 +2237,8 @@ void msgBEC0(s32, s32) asm("sub_0801A664");
 void goBEC0(u32, s32) asm("sub_08022E60");
 void sub_0800D164(void);
 
+/* [TaskSelectWorldMapDestination] Marks world-map selection active before initializing its graphics and player
+ * cursor state. */
 void sub_0800BEC0(void)
 {
     struct SprABEC0 sprA;
@@ -2422,6 +2611,12 @@ struct Rgb0C9F4 { u16 r:5, g:5, b:5, x:1; };
 struct RgbWord0C9F4 { u32 r:5, g:5, b:5, x:1; };
 /* Pulse a palette range: scale each color of a saved copy by a sine
  * brightness until *done becomes non-zero, then free the copy. */
+/* [PulsePaletteRangeUntilFlag] Uses the low 16 bits of argument 0 as starting palette group and the upper 16
+ * bits as group count. Retries allocation of count * 32 bytes with scheduler signal-1 waits, snapshots that
+ * palette-shadow range through CpuSet, then repeatedly scales its saved RGB5 channels into the original shadow
+ * range until the supplied word flag is nonzero. Each channel is min(31, (scale * originalChannel) >> 10);
+ * destination bit 15 is preserved by masked writes. No count/start/pointer validation, allocation retry bound
+ * or exclusive palette ownership is established. */
 void sub_0800C9F4(u32 range, s32 *done)
 {
     u16 start = range;
@@ -2468,9 +2663,16 @@ void sub_0800C9F4(u32 range, s32 *done)
     }
     sub_08001538(copy);
 }
+/* [ResetWorldSceneFlags] Clears the entire scene-control word at 0x03003478. This includes the scene stop
+ * request and pending centroid-area-attack flag; it does not reset the separate participant counter at
+ * 0x03003474. The scene setup path sub_0807A4B4 calls it before selecting a saved scene entry. */
 void sub_0800CB30(void) {
     gUnk_03003478 = 0;
 }
+/* [StartWorldSceneLifetimeTask] Initializes task control 0x030034B0 with callback sub_0800BD5C, a 0x400-byte
+ * allocated stack, stack pointer base +0x3FC, state/flags field +8 equal to 0x64 and null destructor. Starts
+ * it with the input mode. It does not guard stack-allocation failure. Character selection and successful lobby
+ * completion call it with modes 0 and 1 respectively. */
 void sub_0800CB3C(s32 a) {
     gUnk_030034B0[3] = (s32) sub_0800BD5C;
     gUnk_030034B0[8] = (s32) sub_08001494(0x400);
@@ -2479,15 +2681,28 @@ void sub_0800CB3C(s32 a) {
     gUnk_030034B0[9] = 0;
     sub_08000274(gUnk_030034B0, a);
 }
+/* [IsWorldSceneStopRequested] Returns bit 0 of scene flags 0x03003478 as 0 or 1. World-scene lifetime and
+ * map/actor tasks use this query to leave their update loops. It is a stop request, not proof that all tasks
+ * have completed cleanup. */
 s32 sub_0800CB78(void) {
     return gUnk_03003478 & 1;
 }
+/* [ClearWorldSceneStopRequest] Clears only scene flag bit 0 at 0x03003478, retaining all other bits. The
+ * paired query is consumed as the world-scene stop condition. No direct C caller for this clear helper was
+ * found at the pinned revision. */
 void sub_0800CB88(void) {
     gUnk_03003478 &= ~1;
 }
+/* [IsMultiplayerWorldScene] Returns bit 1 of scene-flags word 03003478 as 0 or 1 without changing it.
+ * World-scene lifetime task BD5C initializes this bit from its start argument. The complete flags word is also
+ * reset by CB30 and restored from scene copies elsewhere, so BD5C is not the only operation that can write
+ * this bit. */
 s32 sub_0800CB9C(void) {
     return ((u32) gUnk_03003478 >> 1) & 1;
 }
+/* [RequestWorldSceneStop] Sets scene flag bit 0 at 0x03003478 while preserving all other bits. The
+ * scene-lifetime task sets it before releasing pools, and map/actor tasks leave their loops when the paired
+ * query observes it. Setting the bit does not itself cancel or wait for any task. */
 void sub_0800CBAC(void) {
     gUnk_03003478 |= 1;
 }

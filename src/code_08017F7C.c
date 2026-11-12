@@ -15,6 +15,12 @@ struct T015Pos { u16 x, y; u8 flags:6; u8 rest:2; };
 struct T015Player { u8 pad[0x148]; struct T015Pos *pos; };
 extern struct T015Player T015Players[] asm("gUnk_03003CE0");
 extern s32 T015Test(s32 *, void *, s32 *, u32 *) asm("sub_08021FE0");
+/* [IsSpawnPositionInAnyPlayerActivationBox] Tests the supplied Q8 position against the packed positions of all
+ * participants reported by 02164. Skips only participants whose packed flags byte+4 includes mask 0x20. Uses a
+ * 480x320 box centered on each player and a 32x32 box centered on the supplied position, decoding packet x/y
+ * as 12-bit unsigned pixels shifted8. Accumulates a Boolean across the full scan rather than returning on the
+ * first match. No health, pose, player+0x68 group or local/remote filter is added; this is not a
+ * radial-distance or visible-screen test. */
 s32 sub_08017F7C(void *arg0)
 {
     s32 pos[2];
@@ -90,6 +96,10 @@ extern struct T015LPl T015L_players[] asm("gUnk_03003CE0");
 #define T015L_DRAW ((void (*)(s32, s32, u16, u16, u32, void *, u32, u32))T015L_sub_08007870)
 #define T015L_F7A T015L_FIELD(arg0, u16 *, 0x7A)
 #define T015L_STATE (*(u16 *)gUnk_03005CF4)
+/* [TaskUpdateAndRenderEnemyActor] Matched enemy constructor 1641C installs 1801C as the task callback in fixed
+ * controls 03004220 and starts it with the selected 0x2E0-byte enemy actor from 030056F4. It sets the
+ * corresponding 030056FC actor bit and copies a 0xD8-byte definition to actor+0x204 beforehand. This
+ * independently anchors the input as an enemy actor pointer rather than relying on the large draft type names. */
 void sub_0801801C(struct T015LActor *arg0) {
     struct T015LStack stack;
     u32 shift;
@@ -815,6 +825,11 @@ void sub_0801801C(struct T015LActor *arg0) {
 
 #undef T015L_FIELD
 
+/* [FindActiveEnemyBySpawnId] Narrows the identifier to16 bits, snapshots active mask 030056FC and scans the
+ * five 0x2E0-byte actors at 030056F4 in ascending order. Returns the first active actor whose halfword+2
+ * equals the supplied spawn identifier, or null. Identifier0 is searched normally, unlike existence helper
+ * 19D34 which rejects0. Does not require nonzero health, a particular state or targetability, and does not
+ * mark/reserve the actor. */
 void *sub_08019BF8(u16 id)
 {
     u8 *entry = (u8 *)gUnk_030056F4;
@@ -827,6 +842,11 @@ void *sub_08019BF8(u16 id)
             return entry;
     return 0;
 }
+/* [HasEnemyWithHealthAboveRawPendingDamage] Snapshots actor mask 030056FC and scans five 0x2E0-byte actors.
+ * Returns exactly1 if any active actor has signed 16 health+0x5C minus the entire unsigned 16 pending-damage
+ * word+0x4A strictly greater than0, otherwise0. Does not mutate health/damage or check state, targetability,
+ * task membership or species. Empty mask returns 0. The raw word includes its high bit; this is not simply an
+ * active-mask query or a fully equivalent prediction of applying pending damage. */
 u32 sub_08019C3C(void)
 {
     if (gUnk_030056FC != 0) {
@@ -849,6 +869,9 @@ yes:
 no:
     return 0;
 }
+/* [FindFreeEnemyActorSlot] Queries the five bits of actor mask 030056FC. Returns the lowest clear index 0..4
+ * normally, the highest clear index 4..0 whenCDC0 is nonzero, or-1 when all five slots are occupied. It only
+ * queries: no mask write, stack allocation, task creation or reservation occurs. */
 s32 sub_08019C8C(void)
 {
     s32 i;
@@ -872,6 +895,8 @@ s32 sub_08019C8C(void)
     }
     return -1;
 }
+/* [ReturnFive] Initializes unsigned counter zero, increments until greater than four and returns five at line
+ * 881. */
 u32 sub_08019CDC(void)
 {
     u32 i = 0;
@@ -880,6 +905,9 @@ u32 sub_08019CDC(void)
     } while (i <= 4);
     return i;
 }
+/* [ApplyPendingActorDamageAndCheckDeath] Subtracts the low 15 bits of actor halfword +0x4A from health +0x5C,
+ * then clears pending damage. A zero or high-bit halfword result sets state +0xC to 11, clears health and
+ * returns 1; otherwise returns 0. */
 u32 sub_08019CE8(u8 *obj)
 {
     struct State { u8 pad[0x4A]; u16 timer; u8 pad2[0x10]; s16 health; };
@@ -912,6 +940,11 @@ u16 value;
     }
     return 0;
 }
+/* [FindSharedEnemyPaletteSlot] Searches three 12-byte records at 03005700 with active mask 030056F8 in
+ * ascending order. Requires the active bit, matching full 32-bit first key, second key matching the low 16
+ * input bits and nonzero 32-bit reference count. Returns handle 4..6 for the first match or 0xFFFF. Does not
+ * acquire, increment or allocate a slot. This is the enemy registry, separate from object registry
+ * 03005CFC/03005D00. */
 s32 sub_08019D7C(u32 arg0, u32 arg1)
 {
     extern u32 activeFlags asm("gUnk_030056F8");
@@ -928,6 +961,9 @@ s32 sub_08019D7C(u32 arg0, u32 arg1)
     }
     return 0xFFFF;
 }
+/* [HasActiveActorWithRecordKey] Scans five active actor slots for a word at +0x2C equal to the supplied record
+ * key. Returns 1 for the first match, otherwise 0. No particular spawn-group or script identity is assigned to
+ * that key. */
 u32 sub_08019DE0(u32 value)
 {
     u8 *entry = gUnk_030056F4;
@@ -940,10 +976,13 @@ u32 sub_08019DE0(u32 value)
     }
     return 0;
 }
+/* [ReturnArgumentAfterSceneQuery] Calls scene flag query and returns original argument at line 945. */
 s32 sub_08019E20(s32 arg0) {
     sub_0800CE30();
     return arg0;
 }
+/* [GetActiveActorMaskByRecordKey] Returns a bitmap of all active actor slots whose word at +0x2C equals the
+ * supplied record key. The search covers five slots and preserves every match. */
 s32 sub_08019E30(s32 arg0)
 {
   s32 temp_r1;
@@ -968,6 +1007,10 @@ s32 sub_08019E30(s32 arg0)
   while (var_r2 <= 4U);
   return var_r4;
 }
+/* [GetEnemySpawnRequestMaskByRecord] Snapshots the 16-bit request mask 03005724 and scans only slots0..1. For
+ * each active slot, compares the full 32-bit first descriptor word in 030042E8 to the input value and ORs that
+ * slot into the result. Returns0..3 as a mask of active requests sharing that record pointer; no nested
+ * spawn-point comparison, actor-pool test, key narrowing or mutation occurs. */
 u32 sub_08019E74(u32 value)
 {
     u32 result = 0;
@@ -981,6 +1024,7 @@ u32 sub_08019E74(u32 value)
     }
     return result;
 }
+/* [SetActorOverlayByKey] Finds first active actor matching key and stores halfword +0x88 on line 1002. */
 void sub_08019EB8(u16 key, u16 value)
 {
     s32 bit;
@@ -1004,6 +1048,7 @@ test:
 end:
     return;
 }
+/* [RequestActorActionReselection] Sets scene halfword +0x5A to 1. */
 void sub_08019F04(void)
 {
     u8 *player;
@@ -1032,6 +1077,10 @@ loop:
     player += 0x2E0;
     if (i <= 4) goto loop;
 }
+/* [ScaleActorStatPairForPlayerCount] Uses the connected-player count from sub_08002164 to index three-word
+ * rate records at 0x0848FA0C. Always scales signed input halfword +6 by rate A / 100; when the count exceeds
+ * 1, also scales halfword +0 as (value + 2) * rate B / 100. Products use low 32 bits and unsigned division. A
+ * matched caller identifies the +6 value as an input to actor health initialization. */
 void sub_08019F60(s16 *data)
 {
     struct Rate { u32 a, b, c; };
@@ -1040,6 +1089,9 @@ void sub_08019F60(s16 *data)
     data[3] = data[3] * rates[index].a / 100;
     if (index > 1) data[0] = (data[0] + 2) * rates[index].b / 100;
 }
+/* [HasFreeEnemySpawnRequestSlot] Checks only bits 0 and 1 of request mask 03005724 and returns exactly 1 when
+ * either is clear, otherwise 0. It does not reserve a slot or inspect the separate five-enemy actor mask
+ * 030056FC. */
 u32 sub_08019FA8(void)
 {
     u16 i;
@@ -1048,6 +1100,11 @@ u32 sub_08019FA8(void)
     if (i > 1) return 0;
     else return 1;
 }
+/* [RequestEnemySpawnWithSequence] Builds an eight-byte descriptor: table + full index * 0x38 in word0, low
+ * eight bits of value at byte 4, low eight bits of index at byte 5 and old scene+8 sequence at halfword6.
+ * Updates the scene sequence to old + 1 + value modulo 65536 before attempting 6603C. Ignores enqueue
+ * success/failure and returns old sequence + descriptor byte 4 modulo 65536; this is not the updated counter
+ * or a success indication. No index/value bounds check occurs. */
 u16 sub_08019FD8(const void *table, u32 index, u32 value)
 {
     struct Descriptor { u32 resource; u32 value:8; u32 index:8; u32 sequence:16; } descriptor;
@@ -1062,9 +1119,12 @@ u16 sub_08019FD8(const void *table, u32 index, u32 value)
     sub_0806603C(&descriptor);
     return descriptor.sequence + descriptor.value;
 }
+/* [QueryActiveActorIdPresence] Forwards a 16-bit ID to sub_08019D34 and returns its active-actor presence
+ * result without additional filtering. */
 s32 sub_0801A040(u16 arg0) {
     return sub_08019D34(arg0);
 }
+/* [RequestActorRemovalByKey] First active matching nonzero key receives +0x7A bit0. */
 void sub_0801A050(u16 key)
 {
     u8 *entry;
@@ -1089,12 +1149,15 @@ void sub_0801A050(u16 key)
         }
     }
 }
+/* [SetActorCombatTeamTwo] Stores signed byte value 2 at actor offset 0x1DC. */
 void sub_0801A0A4(void *arg0) {
     M2C_FIELD(arg0, s8 *, 0x1DC) = 2;
 }
+/* [DisableActorCombatTargeting] Clears actor team byte +0x1DC. */
 void sub_0801A0B0(void *arg0) {
     M2C_FIELD(arg0, s8 *, 0x1DC) = 0;
 }
+/* [SetActorTeamByKey] Returns for zero key; loops five active slots and matches +2 key. */
 void sub_0801A0BC(u16 key, u16 value)
 {
     u8 *entry;
@@ -1114,6 +1177,10 @@ void sub_0801A0BC(u16 key, u16 value)
         }
     }
 }
+/* [DrawFloatingNumberAtActorPosition] Extracts flag 0x8000 as a style selector, clamps the remaining value to
+ * 999, projects actor coordinates at +0x14/+0x18 through sub_0800BC08 and draws a four-digit sprite number
+ * through sub_08065424. The screen X coordinate is reduced by 8; the caller supplies a vertical offset. The
+ * special style is 3, otherwise 0. */
 void sub_0801A120(u8 *obj, u32 value, u16 offset)
 {
     s16 x, y;
@@ -1132,6 +1199,10 @@ void sub_0801A120(u8 *obj, u32 value, u16 offset)
     else
         sub_08065424(x, y + (s16)offset, value, 0, 4);
 }
+/* [FindNearestOtherActiveActor] Scans five active actors other than the supplied pointer. It shifts signed
+ * coordinate differences right by 8, computes integer Sqrt distance, truncates it to u16 and selects the first
+ * strictly smallest distance below 65535. Returns the slot and writes distance, or returns 0xFF without
+ * writing distance when none qualifies. */
 u32 sub_0801A1C8(u8 *obj, s32 *distance)
 {
     s32 nearest = 0xFFFF;
@@ -1162,6 +1233,8 @@ u32 sub_0801A1C8(u8 *obj, s32 *distance)
         return result;
     }
 }
+/* [FindFreeActorSlot] Returns the first clear bit index from 0 through 4 in actor activity bitmap 0x030056FC,
+ * or -1 if all slots are occupied. It does not allocate or initialize the slot. */
 s32 sub_0801A270(void)
 {
   int new_var;
@@ -1177,6 +1250,13 @@ s32 sub_0801A270(void)
 
   return -1;
 }
+/* [UpdateEnemyMovementKeysTowardStoredTarget] Uses existing target pixels at actor+0x24/+0x28 and current Q8
+ * position+0x14/+0x18. Calls 16C88 and updates input halfword+4 only when 03002344%25 equals actor slot+0
+ * times5; radius is the low 16 signed second argument. Unlike 16D40, it does not refresh a player/enemy
+ * tracking target. Increments unsigned 16 counter+0x44 each invocation and clears counter/input when the
+ * wrapped result>180. No slot, target, pointer or radius validation and no elapsed-frame guarantee. No source
+ * caller was found in the pinned src tree; role is anchored by exact common actor fields and the matched
+ * tracking sibling. */
 void sub_0801A298(u8 *obj, u16 value)
 {
     u32 zero;
@@ -1195,6 +1275,9 @@ void sub_0801A298(u8 *obj, u16 value)
         *(u16 *)(obj + 4) = zero;
     }
 }
+/* [RollThreeEntryWeightedChoice] Rolls the 32-bit RNG result modulo 100 and scans at most three four-byte
+ * records. It accumulates weight byte +1 with 8-bit wrap and returns the first record byte when roll < sum;
+ * otherwise returns 0xFF. */
 s32 sub_0801A2F0(u8 *arg0)
 {
     u32 i;
@@ -1219,6 +1302,9 @@ test:
 end:
     return result;
 }
+/* [OffsetPointUsingDirectionLookup] Uses a 16-bit direction to index angle table 0x0847AD0A, combines
+ * sine/cosine with unsigned 16-bit input coordinates and speed, then stores output X/Y after shifting right by
+ * 8. Speed with bit 0x8000 becomes zero. The volatile Y output also receives an intermediate unshifted value. */
 void sub_0801A328(u16 x, u16 y, u16 speed, u32 direction, volatile s32 *out)
 {
     volatile s32 *output = out;
@@ -1241,6 +1327,7 @@ void sub_0801A328(u16 x, u16 y, u16 speed, u32 direction, volatile s32 *out)
     output[1] = tempY >> 8;
     output[0] = tempX >> 8;
 }
+/* [ResetActorActionSelection] Indexes actor slot without active-mask or bounds validation. */
 void sub_0801A388(u32 index)
 {
     struct Entity {
@@ -1286,6 +1373,10 @@ static inline void FlushRows16(u32 index, u32 count)
         sub_08001348(gUnk_03005740 + index * 0x40, destination, pending * 0x40);
     }
 }
+/* [QueueTextGlyphTiles] Reads scriptbytes until0xFD or>0xF1; glyph=((byte-1)&255), font=03005CA0[0],
+ * queues64bytes fromfont+glyph*128 toVRAM0600B000+uploadcursor via01348, writes two consecutive maptiles and
+ * advancescursor64. This proves256slotstride128 and used64B per glyph; byte0 maps255, not a Cstring
+ * terminator. No full script encoding map claimed. */
 void sub_0801A3D0(const u8 *script, u16 x, u32 row)
 {
     register u32 column asm("sl") = x;
@@ -1335,9 +1426,14 @@ void sub_0801A3D0(const u8 *script, u16 x, u32 row)
         script++;
     }
 }
+/* [UnusedNoOpStub4] Lines 1338-1340 define an empty variadic function between glyph tile queuing and text
+ * initialization. */
 void sub_0801A500(u32 a, u32 b, u32 c, ...)
 {
 }
+/* [InitializeTextTilemapStateAndCommonTiles] Resets text state, clears flagged rows through 1A558, copies
+ * common tiles from 080B9AD0 to VRAM 0600C000 with CpuFastSet, and marks all 20 text rows. Font resource
+ * descriptors are initialized separately by 1A70C. */
 void sub_0801A508(void)
 {
     u32 i;
@@ -1349,6 +1445,8 @@ void sub_0801A508(void)
     for (i = 0; i <= 0x13; i++)
         gUnk_03005C40[i] = 1;
 }
+/* [ClearFlaggedTextTilemapRows] Clears 64 bytes for each flagged row of RAM tilemap 03005740 with CpuFastSet
+ * fill, clears each row flag, and resets 03005C54 and 03005C98. It does not directly clear VRAM. */
 void sub_0801A558(void)
 {
     u8 *flag = gUnk_03005C40;
@@ -1364,6 +1462,9 @@ void sub_0801A558(void)
     gUnk_03005C54 = 0;
     gUnk_03005C98 = 0;
 }
+/* [WriteZeroTerminatedUiTileString] Writes bytes as tile indices plus 0x200 and palette bits into the RAM
+ * tilemap, queues rows through 1A664, and stops at zero. The newline comparison follows tile/palette
+ * composition; conventional newline behavior is not established. */
 void sub_0801A5A8(const u8 *script, u8 x, u8 row, u8 palette)
 {
     u32 offset = row * 64;
@@ -1389,12 +1490,17 @@ void sub_0801A5A8(const u8 *script, u8 x, u8 row, u8 palette)
     sub_0801A664(row, 1);
     gUnk_03005C94 = 1;
 }
+/* [UnusedNoOpStub5] Lines 1392-1394 define an empty leaf function. */
 void sub_0801A628(void) {
 
 }
+/* [SetSharedHalfwordToOne] Exact leaf assigns1 to gUnk_03005C98; no arguments, calls, reads or return-value
+ * contract. */
 void sub_0801A62C(void) {
     gUnk_03005C98 = 1;
 }
+/* [CountRenderableScriptGlyphs] Counts bytes until 0xFD or a value above 0xF1. Zero counts as a glyph; this is
+ * not a zero-terminated string length. */
 s32 sub_0801A638(u8 *p)
 {
     s32 n = 0;
@@ -1407,6 +1513,8 @@ s32 sub_0801A638(u8 *p)
     }
     return n;
 }
+/* [UpdateSharedHalfwordMinimum] Body compares (u32)global > arg0, then conditionally stores(u16)arg0. This is
+ * unsigned minimum update, not signed clamp or unconditional truncation. */
 void sub_0801A650(u32 arg0)
 {
   if (((u32) gUnk_03005730) > arg0)
@@ -1414,6 +1522,9 @@ void sub_0801A650(u32 arg0)
     gUnk_03005730 = (u16) arg0;
   }
 }
+/* [MarkAndQueueTextTilemapRows] Marks previously unflagged rows in 03005C40 and queues RAM tilemap spans from
+ * 03005740 to VRAM 0600E000 through 01348 in 64-byte row units. The original index progression does not
+ * establish arbitrary-range bounds safety. */
 s32 sub_0801A664(u32 index, u32 count)
 {
     u32 pending = 0;
@@ -1441,6 +1552,10 @@ s32 sub_0801A664(u32 index, u32 count)
         sub_08001348(gUnk_03005740 + index * 0x40, destination, pending * 0x40);
     }
 }
+/* [LoadMenuSpritePaletteVariant] For mode 0 resolves resource 0x80006; for mode 1 resolves 0x8004A, both
+ * through 06EE0 with resource table 08518938. Passes the resolved address plus 0x120 to palette-shadow loader
+ * 00AF0 at palette group 25 with count 1. The mode is compared as a full word. Does not validate the resource
+ * pointer, create sprites or wait for palette transfer. No safe default is established for other mode values. */
 void sub_0801A6D4(u32 mode)
 {
     u8 *base;
@@ -1453,6 +1568,9 @@ load:
     }
     sub_08000AF0(0x19, base + 0x120, 1);
 }
+/* [InitializeTextFontResources] Resets glyph upload cursor03005C54; asks count07164(4), resolves each
+ * i|0x40000 through07290 into03005CA0; initializes additional spriteglyphresource5004A. Class4 count1 and
+ * offset table resolve resource40000 to glyphbank92C028 in ownEUdump. */
 void sub_0801A70C(void)
 {
     u32 count, i;
@@ -1462,6 +1580,9 @@ void sub_0801A70C(void)
         gUnk_03005CA0[i] = sub_08007290(i | 0x40000);
     sub_08065158(gUnk_03005C60, 0x5004A, 0, -1, 0);
 }
+/* [DrawScriptGlyphStringAsSprites] Walks bytes until 0xFD or a value above 0xF1, passes frame (u16)(byte - 1)
+ * to 65230 using descriptor 03005C60, and advances X by 8 with 16-bit wrap. Byte zero passes frame 65535
+ * rather than terminating the string. */
 void sub_0801A764(const u8 *script, u16 x, u16 y)
 {
     u32 count;
@@ -1483,6 +1604,10 @@ static inline void blendB16(s32 a, s32 b, s32 c)
 {
     sub_080009C0(a, b, c);
 }
+/* [TaskScreenBrightnessAndWindowTransitions] Waits on signal100; handles requested transitions through shadow
+ * BLDCNT at03001290 and BLDY at03001294 plus window IN/OUT and boundary registers. Advances signed direction
+ * against duration, yields during ramps, clears active request mask0x16 and waits again. Does not name a
+ * particular game screen or color. */
 void sub_0801A7AC(void)
 {
     struct Transition16Display {
@@ -1708,6 +1833,9 @@ again:
     }
     goto again;
 }
+/* [StartScreenTransitionControllerTask] Initializes screen blend/window transition controls03000020..28,
+ * writes BLDCNT0xBF and BLDY0x10, flushes video shadow then allocates0x400-byte stack and starts1A7AC on
+ * task03000030. No allocation-failure guard or task priority is inferred. */
 void sub_0801A9BC(void)
 {
     u8 *base = (u8 *)gUnk_03001250;
@@ -1732,6 +1860,10 @@ void sub_0801A9BC(void)
     task[9] = zero;
     sub_08000274(task, 0);
 }
+/* [RequestScreenBrightnessFadeIn] Requests mode mask0x2, signed direction-1 and progress=duration; wakes
+ * signal100. Controller1A7AC maps progress/duration*16 to BLDY, so brightness fade parameter decreases
+ * toward0. Existing already-finished-negative guard may return without request; no color/elapsed-millisecond
+ * guarantee. */
 void sub_0801AA34(u16 value)
 {
     s32 mask;
@@ -1744,6 +1876,9 @@ void sub_0801AA34(u16 value)
     mask = 0x29;
     gUnk_03000028 = (gUnk_03000028 | 2) & -mask;
 }
+/* [RequestScreenBrightnessFadeOut] Requests mode mask0x2, direction+1 and progress0; wakes signal100.
+ * Controller1A7AC drives BLDY toward16. Existing positive-completed guard may skip request; exact color
+ * depends on BLDCNT configuration. */
 void sub_0801AA8C(u16 value)
 {
     s32 mask;
@@ -1756,6 +1891,8 @@ void sub_0801AA8C(u16 value)
     mask = 0x29;
     gUnk_03000028 = (gUnk_03000028 | 2) & -mask;
 }
+/* [IsScreenTransitionIdle] Returns1 exactly when active transition request mask0x16 in03000028 is clear.
+ * Completion mode masks0x8/0x20 and controller marker mask0x1 are excluded from this test. */
 s32 sub_0801AAE0(void)
 {
   s32 var_r2;

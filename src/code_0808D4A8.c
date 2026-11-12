@@ -27,10 +27,15 @@ void sub_080AF2AC(void);
 #include "global.h"
 extern u32 gUnk_0850C6E8[] __asm__("gUnk_0850C6E8");
 
+/* [EmptySceneControllerHook] Empty callable hook; returns without reading or modifying state. */
 void sub_0808D4A8(void) {
 
 }
 extern u32 gUnk_084F794C[];
+/* [HandleScene3Controller] When scene halfword +0x10 is zero, calls sub_0802704C(arg) and returns zero.
+ * Otherwise returns zero until area change is requested; then hides screen window, waits for transition idle,
+ * stops map updates, installs gUnk_084F794C[scene word +0x40] into scene +0x71C, clears +0x10, sets +0x30 and
+ * +0x24 to one and returns one. */
 u32 sub_0808D4AC(u32 arg)
 {
     u8 *base;
@@ -60,6 +65,10 @@ u32 sub_0808D4AC(u32 arg)
 fail_d520:
     return 0;
 }
+/* [HandleScene3AlternateController] When scene halfword +0x10 is zero, calls sub_0802704C(arg) and returns
+ * zero. Otherwise returns zero until area change is requested; then hides screen window, waits for transition
+ * idle, stops map updates, installs gUnk_084F794C[scene word +0x40] into scene +0x71C, clears +0x10, sets
+ * +0x30 and +0x24 to one and returns one. */
 u32 sub_0808D520(u32 arg)
 {
     u8 *base;
@@ -91,6 +100,12 @@ fail_d520:
 }
 extern void sub_0809AEE8(void);
 extern void sub_0808D654(u8 *);
+/* [HandleDelayedSecondaryEncounterExit] On zero scene +0x10, marks encounter active, initializes scene through
+ * sub_0802704C and starts sub_0809AEE8; returns zero. With nonzero +0x10, waits for area-change request;
+ * selects destination (0,2), clears request and encounter activity, writes scene +0x36=3, marks current level
+ * encounter cleared, clears local player flag bit 1 and state, and returns one. Initialization additionally
+ * waits four frames then starts sub_0808D654 with null secondary entry; completion deactivates non-retained
+ * field items. The return-one branch sets scene halfwords +0x30 and +0x24 to one; it does not clear +0x10. */
 s32 sub_0808D594(s32 arg)
 {
     u32 zero;
@@ -138,6 +153,13 @@ extern u32 sub_08065158(void *, u32, u32, s32, s32);
 extern void sub_0800BC08(s32, s32, void *, void *, s32, s32);
 extern s32 *sub_08007870(s32, s32, u32, u32, u32, void *, u32, u32);
 static inline void d654InitAnimation(u32 *a, u32 b, u32 c, s32 d, s32 e) { sub_08065158(a, b, c, d, e); }
+/* [TaskDestructibleActorWithHealthPaletteSteps] r0 actor pointer. Initializes from0x084A1910 with argument3,
+ * adds actor id halfword+0 to halfword+2, reads signed-halfword stat data at+0x204, sets health/current max to
+ * data+6*3 and second stat to data+4*20, initializes animation/palette/damage state. Loop runs actor update
+ * while scene shutdown/terminal predicates remain0. Actor state0 initializes resource0x5005D slot5; state10
+ * starts8-tick flashing, state11 starts20-tick flashing and audio command(2). Applies pending damage when
+ * flashing ends, maps signed health-percent to palette indices0..7 with thresholds89/69/49/29/19/14/9, draws
+ * with scene guards and staggered palette uploads, shows temporary damage numbers. */
 void sub_0808D654(u8 *arg0) {
     u32 anim[26];
     s16 x, y;
@@ -347,6 +369,10 @@ done:
     sub_08016ECC(5);
 }
 
+/* [HandleScene4Controller] When scene halfword +0x10 is zero, calls sub_0802704C(arg) and returns zero.
+ * Otherwise returns zero until area change is requested; then hides screen window, waits for transition idle,
+ * stops map updates, installs gUnk_084FA298[scene word +0x40] into scene +0x71C, clears +0x10, sets +0x30 and
+ * +0x24 to one and returns one. */
 u32 sub_0808D9AC(u32 arg)
 {
     u8 *base;
@@ -377,6 +403,10 @@ fail_d9ac:
     return 0;
 }
 extern u32 gUnk_084FA298[];
+/* [HandleScene4AlternateController] When scene halfword +0x10 is zero, calls sub_0802704C(arg) and returns
+ * zero. Otherwise returns zero until area change is requested; then hides screen window, waits for transition
+ * idle, stops map updates, installs gUnk_084FA298[scene word +0x40] into scene +0x71C, clears +0x10, sets
+ * +0x30 and +0x24 to one and returns one. */
 u32 sub_0808DA20(u32 arg)
 {
     u8 *base;
@@ -407,6 +437,11 @@ fail_d520:
     return 0;
 }
 extern void sub_0809D878(void);
+/* [HandleWaypointEncounterExit] On zero scene +0x10, marks encounter active, initializes scene through
+ * sub_0802704C and starts sub_0809D878; returns zero. With nonzero +0x10, waits for area-change request;
+ * selects destination (0,2), clears request and encounter activity, writes scene +0x36=3, marks current level
+ * encounter cleared, clears local player flag bit 1 and state, and returns one. The return-one branch sets
+ * scene halfwords +0x30 and +0x24 to one; it does not clear +0x10. */
 s32 sub_0808DA94(s32 arg)
 {
     u32 zero;
@@ -446,6 +481,13 @@ extern s32 sub_08021FE0(void *, void *, void *, void *);
 extern void sub_08029A7C(s32, s32, s32);
 /* The frame/attribute pairs and screen coordinates have distinct stack storage.
  * Register allocation and call scheduling still differ from the original. */
+/* [TaskAnimateBouncingLeftwardSceneHazard] r0 lane selector 0..3 chooses unsigned Q8 y=140/148/166/170; other
+ * inputs leave y stack slot undefined. Starts x=980 Q8, height=160 Q8, velocity0; moves x left2 pixels each
+ * iteration, adds velocity to height, subtracts40 from velocity, bounces at height<=0 using height1 and
+ * negative arithmetic-half velocity. One-time overlap check when height>>8<=7 invokes local-player hit
+ * handler0x08029A7C(0,16,1); one-time first-positive-velocity sound46. Animates resource0x50122, draws
+ * ground-shadow and elevated sprite only when four scene predicates permit, but physics/hit checks continue
+ * while drawing suppressed. */
 void sub_0808DB38(u32 arg)
 {
     u32 anim[13];
@@ -532,6 +574,11 @@ void sub_0808DB38(u32 arg)
 
 extern u32 gUnk_084FD06C[];
 extern void sub_0808E130(void);
+/* [HandleScene5TimedShakeController] When scene halfword +0x10 is zero, calls sub_0802704C(arg) and returns
+ * zero. Otherwise returns zero until area change is requested; then hides screen window, waits for transition
+ * idle, stops map updates, installs gUnk_084FD06C[scene word +0x40] into scene +0x71C, clears +0x10, sets
+ * +0x30 and +0x24 to one and returns one. Initialization starts sub_0808E130 through scene-hook registration
+ * and writes map halfword pad72=20. */
 u32 sub_0808DE08(u32 arg)
 {
     u8 *base;
@@ -563,6 +610,11 @@ u32 sub_0808DE08(u32 arg)
 fail_d520:
     return 0;
 }
+/* [HandleScene5ShakeController] When scene halfword +0x10 is zero, calls sub_0802704C(arg) and returns zero.
+ * Otherwise returns zero until area change is requested; then hides screen window, waits for transition idle,
+ * stops map updates, installs gUnk_084FD06C[scene word +0x40] into scene +0x71C, clears +0x10, sets +0x30 and
+ * +0x24 to one and returns one. Initialization additionally starts scene hook sub_0808E130 via
+ * sub_08057328(0,...); that hook repeatedly applies a sine-derived camera offset. */
 u32 sub_0808DE94(u32 arg)
 {
     u8 *base;
@@ -594,6 +646,13 @@ fail_de94:
     return 0;
 }
 extern void sub_0808DB38(u32);
+/* [UpdateBouncingHazardSceneAndQueueLanes] r0 scene input. If scene halfword+0x10=0, initializes
+ * via0x0802704C, starts local bouncing-hazard callback with argument0, and requests sound247 through5865C
+ * (global27D0 mask20 may suppress the audio call). Otherwise terminal flag+4 bit4 triggers transition request
+ * mode3 and wait, calls5867C with incomingr0=247 to stop that sound, next resource from0x084FD06C[scene
+ * word+0x40] into+0x71C, clears+0x10, sets+0x24/+0x30=1, returns1. Every other path, including initialization,
+ * continues to parent-or-loopback and tick&127 gating: RNG&7==4 enqueues four hazard lanes0..3, otherwise a
+ * second RNG&3 selects one. Returns0 without verifying enqueues. */
 u32 sub_0808DF14(u32 arg)
 {
     u8 *base;
@@ -636,6 +695,11 @@ fail_d520:
     }
     return 0;
 }
+/* [HandleScene5EncounterController] When scene halfword +0x10 is zero, calls sub_0802704C(arg) and starts
+ * actor sub_080AB2F8 and returns zero. Otherwise returns zero until area change is requested; then hides
+ * screen window, waits for transition idle, stops map updates, installs gUnk_084FD06C[scene word +0x40] into
+ * scene +0x71C, clears +0x10, sets +0x30 and +0x24 to one and returns one. Initialization calls sub_0800CD9C
+ * before scene setup and again after actor-task startup. */
 u32 sub_0808E000(u32 arg)
 {
     u8 *base;
@@ -670,6 +734,11 @@ fail_e000:
     return 0;
 }
 extern void sub_0809FB6C(void);
+/* [HandleOrbitingStrikeEncounterExit] On zero scene +0x10, marks encounter active, initializes scene through
+ * sub_0802704C and starts sub_0809FB6C; returns zero. With nonzero +0x10, waits for area-change request;
+ * selects destination (0,2), clears request and encounter activity, writes scene +0x36=3, marks current level
+ * encounter cleared, clears local player flag bit 1 and state, and returns one. The return-one branch sets
+ * scene halfwords +0x30 and +0x24 to one; it does not clear +0x10. */
 s32 sub_0808E090(s32 arg)
 {
     u32 zero;
@@ -702,6 +771,13 @@ fail:
     return 0;
 }
 extern u16 gUnk_03003200;
+/* [TaskOscillateVerticalSceneOrCameraOffset] Nonstandard machine entry: preserved r4 supplies initial phase;
+ * body never initializes it from r0 or zero. Each infinite iteration updates phase=u16(r4+1), resets phase0
+ * when above255, reads signed16 lookup0x080B9704[phase], takes machine (sample<<18) arithmetic-shift24,
+ * negates/truncates signed16. If global halfword0x03003200 is0 writes scene draw offset(0,value)
+ * via0x0800BB94, otherwise camera-tracking offset via0x0800BB80. Yields forever, with no menu/suspend checks
+ * or restoration. Descriptive role does not establish a conventional C initial-phase ABI or deterministic
+ * first offset. */
 void sub_0808E130(void)
 {
     u16 value;
@@ -718,6 +794,10 @@ void sub_0808E130(void)
         sub_080003F0();
     }
 }
+/* [HandleScene6Controller] When scene halfword +0x10 is zero, calls sub_0802704C(arg) and returns zero.
+ * Otherwise returns zero until area change is requested; then hides screen window, waits for transition idle,
+ * stops map updates, installs gUnk_0850008C[scene word +0x40] into scene +0x71C, clears +0x10, sets +0x30 and
+ * +0x24 to one and returns one. */
 u32 sub_0808E184(u32 arg)
 {
     u8 *base;
@@ -747,6 +827,10 @@ u32 sub_0808E184(u32 arg)
 fail:
     return 0;
 }
+/* [HandleScene6AlternateController] When scene halfword +0x10 is zero, calls sub_0802704C(arg) and returns
+ * zero. Otherwise returns zero until area change is requested; then hides screen window, waits for transition
+ * idle, stops map updates, installs gUnk_0850008C[scene word +0x40] into scene +0x71C, clears +0x10, sets
+ * +0x30 and +0x24 to one and returns one. */
 u32 sub_0808E1F8(u32 arg)
 {
     u8 *base;
@@ -776,6 +860,11 @@ u32 sub_0808E1F8(u32 arg)
 fail:
     return 0;
 }
+/* [HandleScene6EncounterController] When scene halfword +0x10 is zero, calls sub_0802704C(arg) and starts
+ * actor sub_080AC844 and returns zero. Otherwise returns zero until area change is requested; then hides
+ * screen window, waits for transition idle, stops map updates, installs gUnk_0850008C[scene word +0x40] into
+ * scene +0x71C, clears +0x10, sets +0x30 and +0x24 to one and returns one. Initialization calls sub_0800CD9C
+ * before scene setup and again after actor-task startup. */
 u32 sub_0808E26C(u32 arg)
 {
     u8 *base;
@@ -811,6 +900,11 @@ fail_e26c:
 }
 extern void sub_080A1208(void);
 extern void sub_080A2698(void);
+/* [HandleEightProjectileEncounterExit] On zero scene +0x10, marks encounter active, initializes scene through
+ * sub_0802704C and starts sub_080A1208; returns zero. With nonzero +0x10, waits for area-change request;
+ * selects destination (0,2), clears request and encounter activity, writes scene +0x36=3, marks current level
+ * encounter cleared, clears local player flag bit 1 and state, and returns one. The return-one branch sets
+ * scene halfwords +0x30 and +0x24 to one; it does not clear +0x10. */
 u32 sub_0808E2FC(u32 arg)
 {
     u32 zero;
@@ -842,6 +936,10 @@ u32 sub_0808E2FC(u32 arg)
     }
     return 0;
 }
+/* [HandleScene7Controller] When scene halfword +0x10 is zero, calls sub_0802704C(arg) and returns zero.
+ * Otherwise returns zero until area change is requested; then hides screen window, waits for transition idle,
+ * stops map updates, installs gUnk_085028BC[scene word +0x40] into scene +0x71C, clears +0x10, sets +0x30 and
+ * +0x24 to one and returns one. */
 u32 sub_0808E3A0(u32 arg)
 {
     u8 *base;
@@ -871,6 +969,10 @@ u32 sub_0808E3A0(u32 arg)
 fail_3a0:
     return 0;
 }
+/* [HandleScene7AlternateController] When scene halfword +0x10 is zero, calls sub_0802704C(arg) and returns
+ * zero. Otherwise returns zero until area change is requested; then hides screen window, waits for transition
+ * idle, stops map updates, installs gUnk_085028BC[scene word +0x40] into scene +0x71C, clears +0x10, sets
+ * +0x30 and +0x24 to one and returns one. */
 u32 sub_0808E414(u32 arg)
 {
     u8 *base;
@@ -902,6 +1004,11 @@ fail_414:
 }
 extern void sub_080A27B8(void);
 extern void sub_080A49A8(void);
+/* [HandleCompanionPatternEncounterExit] On zero scene +0x10, marks encounter active, initializes scene through
+ * sub_0802704C and starts sub_080A27B8; returns zero. With nonzero +0x10, waits for area-change request;
+ * selects destination (0,2), clears request and encounter activity, writes scene +0x36=3, marks current level
+ * encounter cleared, clears local player flag bit 1 and state, and returns one. Completion also clears scene
+ * +0x10 and sets +0x30/+0x24 to one. */
 u32 sub_0808E488(u32 arg)
 {
     u32 zero;
@@ -939,6 +1046,13 @@ extern s32 visE530(s32,s32,s32) asm("sub_0800BC44");
 extern void *drawE530(u16,u16,u32,u32,u8,void*,u32,u32) asm("sub_08007870");
 extern void spawnE530(s32,s32,s32,s32,s32) asm("sub_08079888");
 void sub_0808E530_v(u32 arg) asm("sub_0808E530");
+/* [TaskAnimateFallingAreaDamageIndicator] Packed full-word r0: low16 x in pixels; bits16..23 variant.
+ * If0x0800CCCC predicate nonzero returns immediately. Otherwise initializes sprite resource0x500F1; variant0
+ * chooses frame14, variant1 frame15, other variants leave frame stack slot undefined. World point
+ * is(x<<8,80<<8), height80<<8 and velocity0; every iteration adds velocity to height, subtracts32 from
+ * velocity, conditionally draws sprite at world screen position and adjusts the returned object with
+ * object.wordC -= arithmetic_shift_right(height,8), then yields. Draw suppressed by four scene predicates, but
+ * physics continues. Stops when scene flag+4 bit4 set or signed height<=0. */
 void sub_0808E530_v(u32 arg)
 {
     u8 sprite[0x34];
@@ -988,6 +1102,12 @@ void sub_0808E530_v(u32 arg)
 extern u32 tableE66C[] asm("gUnk_085060D4");
 extern void taskE94C(void) asm("sub_0808E94C");
 extern void taskE970(void) asm("sub_0808E970");
+/* [UpdateAutoscrollAndFallingAreaDamageScene] r0 scene input. On initial scene halfword+0x10=0 calls0x0802704C
+ * then dispatches by map halfword+0x90: cases2/12 write scene-global halfword0x03003170+0x70=30 (the C alias
+ * width0 does not prove a map-dimension change) then start layer3 autoscroll; case4 requests linked guarded
+ * falling-area-damage callback0x0808E970 with full-word guard-index argument0x80000000, not a preformed bit
+ * mask and also starts autoscroll; cases6/8/10/14 start only autoscroll; case17 calls0x0802996C; other values
+ * do neither. Returns0 on initialization. */
 u32 sub_0808E66C(u32 arg)
 {
     u8 *base;
@@ -1029,6 +1149,11 @@ common:
 fail:
     return 0;
 }
+/* [HandleScene8MenuBlockingController] When scene halfword +0x10 is zero, calls sub_0802704C(arg) and starts
+ * actor sub_080A756C and returns zero. Otherwise returns zero until area change is requested; then hides
+ * screen window, waits for transition idle, stops map updates, installs gUnk_085060D4[scene word +0x40] into
+ * scene +0x71C, clears +0x10, sets +0x30 and +0x24 to one and returns one. Initialization additionally calls
+ * sub_08015ED4 to block local game-menu requests and sub_08015D74 to set local player flag bit12. */
 u32 sub_0808E774(u32 arg)
 {
     u8 *base;
@@ -1061,6 +1186,11 @@ u32 sub_0808E774(u32 arg)
 fail_e774:
     return 0;
 }
+/* [HandleScene8EncounterController] When scene halfword +0x10 is zero, calls sub_0802704C(arg) and starts
+ * actor sub_080AE1B4 and returns zero. Otherwise returns zero until area change is requested; then hides
+ * screen window, waits for transition idle, stops map updates, installs gUnk_085060D4[scene word +0x40] into
+ * scene +0x71C, clears +0x10, sets +0x30 and +0x24 to one and returns one. Initialization calls sub_0800CD9C
+ * before scene setup and again after actor-task startup. */
 u32 sub_0808E7FC(u32 arg)
 {
     u8 *base;
@@ -1096,6 +1226,12 @@ fail_e7fc:
 }
 extern void sub_080A4D08(void);
 extern void sub_080A7DEC(void);
+/* [HandleLayerResetEncounterExit] On zero scene +0x10, marks encounter active, initializes scene through
+ * sub_0802704C and starts sub_080A4D08; returns zero. With nonzero +0x10, waits for area-change request;
+ * selects destination (0,2), clears request and encounter activity, writes scene +0x36=3, marks current level
+ * encounter cleared, clears local player flag bit 1 and state, and returns one. Initialization writes map
+ * width0=30; completion sets layers1 and3 scroll offsets to zero. The return-one branch sets scene halfwords
+ * +0x30 and +0x24 to one; it does not clear +0x10. */
 u32 sub_0808E88C(u32 arg)
 {
     u32 zero;
@@ -1129,6 +1265,12 @@ u32 sub_0808E88C(u32 arg)
     }
     return 0;
 }
+/* [TaskAutoScrollLayerThreeSourceHorizontally] No arguments or return path. Sets layer3 camera-relative mode
+ * to0 once, then adds42 to a32-bit accumulator initially0 each iteration. Passes signed result of
+ * (accumulator<<8) arithmetic-shift16 as layer3 source x, y0, then yields forever. This has machine-width
+ * wrap/truncation behavior, not an unbounded real-valued position. Source-scroll setter may suppress writes
+ * under its own scene guard; task does not check full-screen-menu state. Complete original configured body
+ * audited against ROM; copied verified-main ELF static equality, no local build or runtime test. */
 void sub_0808E94C(void)
 {
     s32 value = 0;
@@ -1140,6 +1282,13 @@ void sub_0808E94C(void)
         sub_080003F0();
     }
 }
+/* [TaskPeriodicallyQueueFallingAreaDamageIndicator] No arguments or meaningful return. While scene
+ * flags-halfword+4 bit4 is0, checks helper0x08058DB0 then global32-bit tick&127. Only when both zero does it
+ * enqueue link-scene-callback0x0808E530 with RNG%320+80 as full argument (80..399, variant bits0). Yields once
+ * every loop regardless; checks terminal flag before first loop and after each yield. Does not verify enqueue
+ * success, execute the animation inline or wait for animation completion. Predicate0x08058DB0 is retained
+ * without assigning an unproved gameplay meaning; dispatch frequency is tick-gated, not guaranteed one
+ * animation per128 real frames. */
 void sub_0808E970(void)
 {
     while (sub_08056E90() == 0) {
@@ -1151,6 +1300,13 @@ void sub_0808E970(void)
     }
 }
 extern void scrollE9B8(u32,s32,u32) asm("sub_0800BBD8");
+/* [TaskBlendAndAutoScrollLayerDisplayOffsets] No arguments or return path. Two32-bit accumulators start0 and
+ * increase682 and136 per iteration. Sets blend-register shadow arguments(2,0x1C,1,4,12,0), then layer1 and
+ * layer3 horizontal DISPLAY offsets to arithmetic-shift8 accumulators with vertical offsets0, then yields
+ * forever. Does not modify source-cell positions or camera-relative mode. No menu pause check in this body;
+ * callee setters retain their own scene guard. Complete original configured body audited against ROM; copied
+ * verified-main ELF static equality, no local build or runtime test. Independent original setters truncate
+ * source/display x/y to low16 before storing layer halfwords; accumulator arithmetic remains32-bit. */
 void sub_0808E9B8(void)
 {
     s32 x = 0;
@@ -1169,6 +1325,12 @@ void sub_0808E9B8(void)
 extern u32 tableE9FC[] asm("gUnk_08508B54");
 extern void sub_0808ECA0(void);
 extern void sub_0808ECD0(void);
+/* [HandleScene9ParallaxController] When scene halfword +0x10 is zero, calls sub_0802704C(arg) and returns
+ * zero. Otherwise returns zero until area change is requested; then hides screen window, waits for transition
+ * idle, stops map updates, installs gUnk_08508B54[scene word +0x40] into scene +0x71C, clears +0x10, sets
+ * +0x30 and +0x24 to one and returns one. Initialization starts sub_0808ECA0 for map f90 values0/2/6/13 or
+ * sub_0808ECD0 for value10. The former applies layer3 horizontal parallax; the latter repeatedly changes
+ * layer3 offsets. */
 u32 sub_0808E9FC(u32 arg)
 {
     u8 *base;
@@ -1207,6 +1369,11 @@ fail:
 extern u32 tableEAD8[] asm("gUnk_08508B54");
 extern void sub_080B0288(void);
 extern void sub_080B0F9C(void);
+/* [HandleScene9EncounterController] When scene halfword +0x10 is zero, calls sub_0802704C(arg) and starts
+ * actor sub_080B0288 and returns zero. Otherwise returns zero until area change is requested; then hides
+ * screen window, waits for transition idle, stops map updates, installs gUnk_08508B54[scene word +0x40] into
+ * scene +0x71C, clears +0x10, sets +0x30 and +0x24 to one and returns one. Initialization calls sub_0800CD9C
+ * before scene setup and again after actor-task startup. */
 u32 sub_0808EAD8(u32 arg)
 {
     u8 *base;
@@ -1241,6 +1408,11 @@ fail:
 extern u32 tableEB68[] asm("gUnk_08508B54");
 extern void sub_080AF3F4(void);
 extern void sub_080B0F70(void);
+/* [HandleScene9AlternateEncounterController] When scene halfword +0x10 is zero, calls sub_0802704C(arg) and
+ * starts actor sub_080AF3F4 and returns zero. Otherwise returns zero until area change is requested; then
+ * hides screen window, waits for transition idle, stops map updates, installs gUnk_08508B54[scene word +0x40]
+ * into scene +0x71C, clears +0x10, sets +0x30 and +0x24 to one and returns one. Initialization calls
+ * sub_0800CD9C before scene setup. The return-one path calls sub_0800CDAC to clear encounter activity. */
 u32 sub_0808EB68(u32 arg)
 {
     u8 *base;
@@ -1274,6 +1446,12 @@ fail:
 extern void sub_080A8164(void);
 extern void sub_0808ECD0(void);
 extern void sub_080A97E0(void);
+/* [HandlePathAttackEncounterExit] On zero scene +0x10, marks encounter active, initializes scene through
+ * sub_0802704C and starts sub_080A8164; returns zero. With nonzero +0x10, waits for area-change request;
+ * selects destination (0,2), clears request and encounter activity, writes scene +0x36=3, marks current level
+ * encounter cleared, clears local player flag bit 1 and state, and returns one. The return-one branch sets
+ * scene halfwords +0x30 and +0x24 to one; it does not clear +0x10. Initialization additionally starts
+ * sub_0808ECD0 through scene-hook registration. */
 u32 sub_0808EBF4(u32 arg)
 {
     u32 zero;
@@ -1307,6 +1485,13 @@ u32 sub_0808EBF4(u32 arg)
 }
 extern s16 scrollPosECA0 asm("gUnk_030031EC");
 extern void scrollECA0(u32,s32,u32) asm("sub_0800BBA8");
+/* [TaskTrackHalfCameraXOnLayerThree] No arguments or return path. Each iteration skips updates while
+ * full-screen-menu flag is active; otherwise sets layer3 camera-relative mode0 and source x to signed-halfword
+ * global0x030031EC divided by2 with truncation toward zero, source y0. Always yields. Identity is
+ * camera-linked half-rate horizontal parallax from shared camera-position field, not autonomous scrolling;
+ * source setter has its own guard. Complete original configured body audited against ROM; copied verified-main
+ * ELF static equality, no local build or runtime test. Independent original setters truncate source/display
+ * x/y to low16 before storing layer halfwords; accumulator arithmetic remains32-bit. */
 void sub_0808ECA0(void)
 {
     s16 *pos = &scrollPosECA0;
@@ -1318,6 +1503,14 @@ void sub_0808ECA0(void)
         sub_080003F0();
     }
 }
+/* [TaskScrollLayerThreeDisplayDiagonally] Nonstandard machine entry: preserved r4 is initial32-bit
+ * accumulator, not initialized in body or loaded from r0. Sets layer3 camera-relative mode0 once. Each
+ * iteration when full-screen-menu predicate is0 subtracts42 from r4, computes
+ * (arithmetic_shift_right(r4,8)&15), passes same value as horizontal/vertical DISPLAY offset for layer3;
+ * always yields. Menu pauses accumulation, unlike drawing-only suppression elsewhere. No return, reset,
+ * source-cell movement or guaranteed initial zero; setter retains its own scene guard. Complete original
+ * configured body audited against ROM; copied verified-main ELF static equality, no local build or runtime
+ * test. */
 void sub_0808ECD0(void)
 {
     s32 value;
@@ -1335,6 +1528,13 @@ void sub_0808ECD0(void)
     }
 }
 extern void scrollECFC(s32,s32,s16) asm("sub_0800BBA8");
+/* [TaskVerticalParallaxModulo320] No arguments or return path. Initially writes halfwords30 at cached tile-row
+ * halfwords for layer1/2 at0x03003170+0x1A/+0x32. Reads signed-halfword camera position at+0x7E. While no
+ * full-screen menu: sets layer1/2 camera-relative mode0, source x0 and source y respectively (position*2)%320
+ * and ((position*15)/10)%320, signed division/remainder truncating toward zero then signed-halfword
+ * truncation. While menu active: instead writes21 and40 to+0x1A/+0x32, without scroll update. This task does
+ * not explicitly restore30 when the menu closes; renderer09594 can subsequently overwrite these cached
+ * tile-row values. The stores do not establish a menu layout or map-dimension change. */
 void sub_0808ECFC(void)
 {
     u8 *base;
@@ -1358,6 +1558,10 @@ void sub_0808ECFC(void)
         sub_080003F0();
     }
 }
+/* [HandleScene10Controller] When scene halfword +0x10 is zero, calls sub_0802704C(arg) and returns zero.
+ * Otherwise returns zero until area change is requested; then hides screen window, waits for transition idle,
+ * stops map updates, installs gUnk_0850C6E8[scene word +0x40] into scene +0x71C, clears +0x10, sets +0x30 and
+ * +0x24 to one and returns one. */
 u32 sub_0808ED7C(u32 arg)
 {
     u8 *base;
@@ -1389,6 +1593,11 @@ fail:
 }
 extern u32 tableEDF0[] asm("gUnk_0850C6E8");
 extern void sub_0808ECFC(void);
+/* [HandleScene10ParallaxController] When scene halfword +0x10 is zero, calls sub_0802704C(arg) and returns
+ * zero. Otherwise returns zero until area change is requested; then hides screen window, waits for transition
+ * idle, stops map updates, installs gUnk_0850C6E8[scene word +0x40] into scene +0x71C, clears +0x10, sets
+ * +0x30 and +0x24 to one and returns one. Initialization writes pad72=60 for map f90 values1/16 and starts
+ * sub_0808ECFC for values3/13; that hook vertically scrolls layers1/2 at different rates. */
 u32 sub_0808EDF0(u32 arg)
 {
     u8 *base;
@@ -1423,6 +1632,12 @@ fail:
 extern u32 tableEE98[] asm("gUnk_0850C6E8");
 extern void sub_080B0FC4(void);
 extern void sub_080B22E8(void);
+/* [HandleScene10EncounterController] When scene halfword +0x10 is zero, calls sub_0802704C(arg) and starts
+ * actor sub_080B0FC4 and returns zero. Otherwise returns zero until area change is requested; then hides
+ * screen window, waits for transition idle, stops map updates, installs gUnk_0850C6E8[scene word +0x40] into
+ * scene +0x71C, clears +0x10, sets +0x30 and +0x24 to one and returns one. Initialization brackets actor-task
+ * startup with sub_0800CD9C. Completion calls sub_0800CDAC, clears local player flag bit1 and sets local
+ * player state zero. */
 u32 sub_0808EE98(u32 arg)
 {
     u8 *base;
@@ -1462,6 +1677,11 @@ fail:
 }
 extern void sub_080A9950(void);
 extern void sub_080AB2D8(void);
+/* [HandleAreaTwoEncounterExit] On zero scene +0x10, marks encounter active, initializes scene through
+ * sub_0802704C and starts sub_080A9950; returns zero. With nonzero +0x10, waits for area-change request;
+ * selects destination (0,2), clears request and encounter activity, writes scene +0x36=3, marks current level
+ * encounter cleared, clears local player flag bit 1 and state, and returns one. Does not set scene +0x30/+0x24
+ * on the return-one branch. */
 u32 sub_0808EF54(u32 arg)
 {
     u32 zero;
@@ -1489,6 +1709,12 @@ u32 sub_0808EF54(u32 arg)
 }
 extern void sub_080B4C34(void);
 extern void sub_080B6324(void);
+/* [HandleFieldClearingEncounterExit] On zero scene +0x10, marks encounter active, initializes scene through
+ * sub_0802704C and starts sub_080B4C34; returns zero. With nonzero +0x10, waits for area-change request;
+ * selects destination (0,2), clears request and encounter activity, writes scene +0x36=3, marks current level
+ * encounter cleared, clears local player flag bit 1 and state, and returns one. Does not set scene +0x30/+0x24
+ * on the return-one branch. The return-one branch also deactivates non-retained field items through
+ * sub_0805D518. */
 u32 sub_0808EFEC(u32 arg)
 {
     u32 zero;
@@ -1518,6 +1744,12 @@ u32 sub_0808EFEC(u32 arg)
 extern u32 tableF088[] asm("gUnk_0850C6E8");
 extern void sub_080B24B8(void);
 extern void sub_080B2780(void);
+/* [HandleScene10Flag1BController] When scene halfword +0x10 is zero, calls sub_0802704C(arg) and starts actor
+ * sub_080B24B8 only if progression flag0x1B is clear, otherwise calls sub_08056E24 and returns zero. Otherwise
+ * returns zero until area change is requested; then hides screen window, waits for transition idle, stops map
+ * updates, installs gUnk_0850C6E8[scene word +0x40] into scene +0x71C, clears +0x10, sets +0x30 and +0x24 to
+ * one and returns one. Initialization also calls sub_0800CE08; completion clears encounter activity and local
+ * player flag bit1/state. */
 u32 sub_0808F088(u32 arg)
 {
     u8 *base;
@@ -1562,6 +1794,13 @@ fail:
 }
 extern u32 tableF15C[] asm("gUnk_0850C6E8");
 extern void sub_0808F1E4(void);
+/* [HandleThreeSubtypeRewardActorScene] r0 scene descriptor. Initialization when scene halfword+0x10=0
+ * calls0x0800CD9C, standard scene initialization, registers actor callback0x0808F1E4 through0x0801674C with
+ * null finalizer, calls0x0800CD9C again and returns0. Initialized state returns0 until terminal flag+4 bit4,
+ * then hides/waits, flushes, calls0x0800CDAC, installs constant resource0x0850C6E8[19] at scene+0x71C,
+ * clears+0x10 and sets halfwords+0x30/+0x24=1, returns1. Does not infer actor creation success or completion
+ * merely from registration. Complete pinned matching source body and original configured range preserved for
+ * static audit; original range equals copied verified-main ELF, no local build or runtime test. */
 u32 sub_0808F15C(u32 arg)
 {
     u8 *base;
@@ -1785,6 +2024,13 @@ finish:
     freeF1E4(slot);
 }
 extern s16 scrollPosF6A8 asm("gUnk_030031EE");
+/* [TaskVerticalParallaxWrapped512] No arguments or return path. When full-screen menu is inactive sets
+ * layer1/2 camera-relative mode0, source x0, source y respectively (signed-halfword global0x030031EE*2)&511
+ * and ((signed position*15)/10)&511. Division truncates toward zero before bitmask; negative positions
+ * therefore wrap through mask rather than signed remainder320 used by0x0808ECFC. Always yields, skipping
+ * updates under menu. No exit or layout halfword writes; source setters retain own scene guard. Complete
+ * original configured body audited against ROM; copied verified-main ELF static equality, no local build or
+ * runtime test. */
 void sub_0808F6A8(void)
 {
     s16 *pos = &scrollPosF6A8;
@@ -1828,6 +2074,12 @@ extern void F700_AD04(void *, void *, s32) asm("sub_0800AD04");
 extern void F700_9930(u16, u32) asm("sub_08009930");
 extern s32 F700_A4A0(s32) asm("sub_0805A4A0");
 extern void F700_7328(u32, void (*)()) asm("sub_08057328");
+/* [HandleChallengeStageEntryAndSelectionGate] r0 route descriptor. On uninitialized scene waits screen
+ * transition, clears terminal flag, initializes scene flags/player entry from route mapping0x0805A4A0, with
+ * position u16 x/y shifted8 and copied backup pair, camera/map setup and20 one-tick waits. Applies route
+ * state, starts script, starts local-player/event callbacks and marks initialized. If already initialized and
+ * terminal flag set, configures retry/return fields, local player state0/animation4 and halfword+0x36=0,
+ * sets+0x30/+0x24=1, returns1. */
 u32 sub_0808F700(u16 *arg)
 {
     s32 idx;
@@ -1926,6 +2178,13 @@ extern void F9E0_AD04(void *, void *, s32) asm("sub_0800AD04");
 extern void F9E0_9930(u16, u32) asm("sub_08009930");
 extern s32 F9E0_A4A0(s32) asm("sub_0805A4A0");
 extern void F9E0_7328(u32, void (*)(void)) asm("sub_08057328");
+/* [HandleTimedOrBattleChallengeScene] r0 route descriptor. Initial scene state waits transition, resets scene
+ * flags, maps route and local-player x from unsigned16 record shifted8, forces y446 Q8 and copies position
+ * backup. If player flag0x2000 set clears0x2002 and copies halfword fields+0x60/+0x62 to+0xC2/+0xC4. Loads
+ * current area/map, waits readiness, sets width halfword+0x76=32 and camera, marks initialized. Selects
+ * callback0x0808B978 when scene-entry halfword+0x36 has0x8000, otherwise confirmed battle winner/results
+ * task0x0808CB58. Initialized terminal-flag path performs flush/reset calls, installs0x0850D4EC[scene
+ * word+0x40], clears+0x10, returns1; other paths return0. */
 u32 sub_0808F9E0(u16 *arg)
 {
     s32 idx;

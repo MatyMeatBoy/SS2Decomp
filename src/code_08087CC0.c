@@ -53,6 +53,12 @@ static inline void StartText090(u32 msg, u32 arg) {
     task87CC0.f24 = 0;
     sub_08000274(&task87CC0, msg, arg);
 }
+/* [TaskPlayCreditsSpriteSequenceAndReset] No conventional arguments. Initializes background/text and music,
+ * chooses first message0x504..0x507 by player count1..4, then sequences messages0x508..0x532 with explicit
+ * tick waits and sprite-route requests0x08088AA8, synchronizing scheduler mask0xF1FFF111 between route
+ * cohorts. Messages use layout2 and variable duration through0x08087A5C. Checks link-error predicate after the
+ * explicit message/route waits and returns immediately on error, without guaranteed common cleanup; the final
+ * teardown wait120 has no subsequent link-error check before SoftReset. */
 void sub_08087CC0(void) {
     struct Bits090 sp0;
     u32 msg;
@@ -310,6 +316,13 @@ void sub_08087CC0(void) {
 struct Route090 { s16 x, y, endX, endY; s32 resource; u16 tile; u16 pad; u32 flags, duration; };
 void spriteInit090(void *, s32, s32, s32, s32) asm("sub_08065158");
 void draw090(s32, s32, s32, u16, s32, void *, u32, u32) asm("sub_08007870");
+/* [TaskPlayScriptedSpriteRouteSequence] r0 points to scene slot with u16 index at+0x40; r1 to 24-byte route
+ * records. First waits using scheduler value0xF1FFF111 even for empty sequence. Duration word+20=0 terminates.
+ * Per record initializes resource word+8, computes unsigned step1024/duration, interpolates signed-halfword
+ * x/y start/end at+0/+2/+4/+6 using progress before increment, draws and yields until progress>1023 or global
+ * abort predicate. Flags bit0 feeds animation; bit1 selects fixed u16 frame+12 and alternate resource
+ * offset0x120. Palette/descriptor fields derive slot index. Advances24 bytes only on ordinary route
+ * completion. */
 void sub_080887D4(void *arg0, void *arg1)
 {
     u32 sprite[13];
@@ -359,6 +372,10 @@ void sub_080887D4(void *arg0, void *arg1)
 
 struct Task6450 { u32 f0, f4, f8, fC, f10, f14, f18, f1C, f20, f24; };
 extern struct Task6450 gTask6450 asm("gUnk_03006450");
+/* [StartStoryIntroductionTask] Allocates a 0x1000-byte stack for shared UI task control 03006450, sets stack
+ * pointer base+0xFFC, scheduling-order key 0x64, null destructor and story callback 86860, then starts with
+ * first callback argument zero. It does not locally check allocation failure or prior membership before
+ * reinitializing the control; no semantic second callback argument is established. */
 void sub_08088914(void)
 {
     gTask6450.f20 = sub_08001494(0x1000);
@@ -371,6 +388,11 @@ void sub_08088914(void)
 struct Task3480 { u32 f0, f4, f8, fC, f10, f14, f18, f1C, f20, f24; };
 extern struct Task3480 gTask3480 asm("gUnk_03003480");
 extern void sub_08087788();
+/* [StartPaletteGrayFadeTask] Four register arguments: low16 r0 first bank, low16 r1 bank count, low16 r2 gray
+ * argument, low16 r3 duration. Packs these into two words passed to callback 0x08087788; allocates1024-byte
+ * stack into fixed task control0x03003480, top+1020, priority word+8=10 and finalizer0, then scheduler start.
+ * No allocation/activity check and no wait for fade completion. Complete original configured body audited
+ * against ROM, statically equal to copied verified-main ELF; no local build or runtime test. */
 void sub_0808894C(u16 a, u32 b, u16 c, u32 d)
 {
     u32 p1 = b << 16 | a;
@@ -382,6 +404,11 @@ void sub_0808894C(u16 a, u32 b, u16 c, u32 d)
     gTask3480.f24 = 0;
     sub_08000274_3((u32)&gTask3480, p1, p2);
 }
+/* [StartCreditsSpriteSequenceTask] No arguments or meaningful return. Allocates4096-byte stack into fixed task
+ * control0x03006450, sets top+4092, priority100, finalizer0 and callback0x08087CC0, then starts with
+ * argument0. No allocation failure/activity check, previous-stack protection, or wait for narrative
+ * sequence/reset completion. Complete pinned matching source body and original configured range preserved for
+ * independent static audit; original equals copied verified-main ELF, no local build or runtime test. */
 void sub_0808899C(void)
 {
     gTask6450.f20 = sub_08001494(0x1000);
@@ -393,6 +420,11 @@ void sub_0808899C(void)
 }
 struct Task61B0 { u32 f0, f4, f8, fC, f10, f14, f18, f1C, f20, f24; };
 extern struct Task61B0 gTask61B0 asm("gUnk_030061B0");
+/* [StartFourLineSceneMessageTask] r0 full message id; low16 r1 iteration limit. Allocates3072-byte stack and
+ * registers callback0x08087A5C on fixed task control0x030061B0, stack top+3068, priority10, finalizer0;
+ * forwards limit with high layout bits0. Thus callback uses four-line layout. No malloc/activity check or
+ * completion wait. Complete original configured body audited against ROM; copied verified-main ELF static
+ * equality does not imply a new build or runtime test. */
 void sub_080889D4(u32 arg0, u16 arg1)
 {
     gTask61B0.f20 = sub_08001494(0xC00);
@@ -403,6 +435,11 @@ void sub_080889D4(u32 arg0, u16 arg1)
     sub_08000274_3((u32)&gTask61B0, arg0, arg1);
 }
 extern void sub_080878AC();
+/* [StartEnabledPaletteModulationTask] Three register arguments: low16 r0 first bank, low16 r1 count, full-word
+ * r2 enable-pointer forwarded unchanged. Packs bank range for callback0x080878AC and uses same fixed task
+ * control0x03003480 as gray-fade starter. Allocates1024-byte stack, sets top+1020, priority10, finalizer0,
+ * starts scheduler. No allocation/activity check; request is not completion. Complete original configured body
+ * audited against ROM, statically equal to copied verified-main ELF; no local build or runtime test. */
 void sub_08088A18(u16 a, u32 b, u32 c)
 {
     u32 p1 = b << 16 | a;
@@ -414,6 +451,11 @@ void sub_08088A18(u16 a, u32 b, u32 c)
     gTask3480.f24 = 0;
     sub_08000274_3((u32)&gTask3480, p1, p2);
 }
+/* [StartTwoLineSceneMessageTask] r0 full message id; low16 r1 iteration limit. Allocates3072-byte stack and
+ * registers callback0x08087A5C on fixed task control0x030061B0, stack top+3068, priority10, finalizer0;
+ * forwards limit|0x10000, selecting two centered lines. No malloc/activity check or completion wait. Complete
+ * original configured body audited against ROM; copied verified-main ELF static equality does not imply a new
+ * build or runtime test. */
 void sub_08088A60(u32 arg0, u16 arg1)
 {
     gTask61B0.f20 = sub_08001494(0xC00);
@@ -423,6 +465,13 @@ void sub_08088A60(u32 arg0, u16 arg1)
     gTask61B0.f24 = 0;
     sub_08000274_3((u32)&gTask61B0, arg0, arg1 | 0x10000);
 }
+/* [StartScriptedSpriteRouteTask] Full-word r0 route pointer. Scans15 slots of112 bytes at scene-state+0x7A4,
+ * testing embedded task control at slot+0x48 rather than a stored pointer. First inactive slot gets u16
+ * index+0x40; allocates2048-byte stack into+0x68, callback0x080887D4 at+0x54, top allocation+2044 at+0x58,
+ * priority10 at+0x50, finalizer0 at+0x6C. Starts callback with slot pointer and original route pointer, then
+ * waits2 ticks and returns; full pool returns immediately. No malloc check or wait for route completion.
+ * Repeated callers in0x08087CC0 pass distinct ROM route records. Complete original configured body audited
+ * against ROM, statically equal to copied verified-main ELF; no local build or runtime test. */
 void sub_08088AA8(u32 arg)
 {
     u8 *base = (u8 *)gUnk_03005CF4;
@@ -445,6 +494,11 @@ void sub_08088AA8(u32 arg)
         }
     }
 }
+/* [StartEightLineSceneMessageTask] r0 full message id; low16 r1 iteration limit. Allocates3072-byte stack and
+ * registers callback0x08087A5C on fixed task control0x030061B0, stack top+3068, priority10, finalizer0;
+ * forwards limit|0x20000, selecting eight centered lines. No malloc/activity check or completion wait.
+ * Complete original configured body audited against ROM; copied verified-main ELF static equality does not
+ * imply a new build or runtime test. */
 void sub_08088B24(u32 arg0, u16 arg1)
 {
     gTask61B0.f20 = sub_08001494(0xC00);
@@ -454,6 +508,13 @@ void sub_08088B24(u32 arg0, u16 arg1)
     gTask61B0.f24 = 0;
     sub_08000274_3((u32)&gTask61B0, arg0, arg1 | 0x20000);
 }
+/* [TryTriggerThreeEntrySceneExit] r0 route table; full-word r1 destination-entry selector written as u16. Gets
+ * local player, reads signed32 fixed positions+0x8C/+0x90 shifted11. Tests indices1..3 of8-byte exit records
+ * following table+4+u16(scene+0x36)*0x24, requiring horizontal distance<=1 and exact y, both record
+ * coordinates unsigned16. First match sets local-player flag22 via0x08015ED4, requests transition mode3
+ * through0801ABE8, flushes/awaits transition with yields, then writes destination selector+0x36, destination
+ * scene u16+2, resource pointer from table0x084F0AC0[destination] into+0x71C, clears halfwords+0x10/+0x1C and
+ * returns1. No match returns0 with no transition. */
 u32 sub_08088B6C(u8 *tbl, u32 arg1)
 {
     u8 *p = (u8 *)&gUnk_03003CE0[sub_080020F4()];
@@ -507,6 +568,11 @@ struct Warp8_090 { u16 x, y, dest, pad; };
 extern u8 playerCoord88C24[] asm("gUnk_03003D6C");
 extern u32 sceneTable88C24[] asm("gUnk_084F0AC0");
 void callback2B8A4_090(void) asm("sub_0802B8A4");
+/* [HandleSplitScenePortalTransitions] On first entry waits for transition idle, places the local player at the
+ * selected spawn or alternate fixed coordinates, initializes camera/session state and scene flags and
+ * schedules the continuation. Later returns 1 for the shared transition helper, lower-bound exit, or either
+ * upper portal near tile x6/x53 y9; those portals select scene10/13 with spawn3 and clear initialization
+ * flags. Returns 0 when no transition is selected. */
 s32 sub_08088C24(u8 *arg0) {
     struct Warp090 *w;
     s32 idx;
@@ -633,6 +699,12 @@ s32 sub_08088C24(u8 *arg0) {
 extern u8 playerCoord88F30[] asm("gUnk_03003D6C");
 extern u32 sceneTable88F30[] asm("gUnk_084F0AC0");
 void callback2C2A0_090(void) asm("sub_0802C2A0");
+/* [HandleThreePortalSceneTransitions] On first entry waits for transition idle, places the local player from
+ * the selected spawn record, initializes camera and scene flags and schedules the continuation. Otherwise
+ * tests three nearby portal records and chooses their destination with special spawn4/5 for records2/3 leading
+ * to scene0. Also handles lower exit to scene6 spawn3 and left/right exits to scene10/13 spawn0. Transition
+ * paths stop map updates, wait for fade and return1; no match returns0. The left boundary path clears
+ * scene+0x10 only, unlike the other boundary paths that also clear +0x1C. */
 s32 sub_08088F30(u8 *arg0) {
     s32 idx;
     struct Warp090 *warp;
@@ -761,6 +833,7 @@ s32 sub_08088F30(u8 *arg0) {
 extern u8 playerCoord89204[] asm("gUnk_03003D6C");
 extern u32 sceneTable89204[] asm("gUnk_084F0AC0");
 void callback2AA28_090(void) asm("sub_0802AA28");
+/* [UpdateMapZeroArea2Scene] Waits transition idle, places player from input table and marks map-set0. */
 s32 sub_08089204(u8 *arg0) {
     s32 idx;
     struct Warp090 *warp;
@@ -823,6 +896,8 @@ s32 sub_08089204(u8 *arg0) {
 extern u8 playerCoord89384[] asm("gUnk_03003D6C");
 extern u32 sceneTable89384[] asm("gUnk_084F0AC0");
 void callback2C674_090(void) asm("sub_0802C674");
+/* [UpdateMapZeroArea3Or20] Entry initialization waits transition idle and places current/previous local player
+ * position. */
 s32 sub_08089384(u8 *arg0) {
     s32 idx;
     struct Warp090 *warp;
@@ -887,6 +962,7 @@ extern u8 playerCoord89500[] asm("gUnk_03003D6C");
 void spriteInit090(void *, s32, s32, s32, s32) asm("sub_08065158");
 void callback3D99C_090(void) asm("sub_0803D99C");
 void callback2CF84_090(void) asm("sub_0802CF84");
+/* [UpdateMapZeroArea4Scene] Normal entry uses supplied position and clears player flag mask0x2026. */
 s32 sub_08089500(u8 *arg0) {
     u32 sprite[13];
     u32 idx;
@@ -978,6 +1054,8 @@ ret0:
 }
 
 
+/* [UpdateMapZeroArea5Scene] Selects entry position, writes current/previous player position and marks
+ * map-set0. */
 s32 sub_08089784(u8 *table)
 {
     struct State978491 { u8 p0[2]; u16 destination; u8 p4[0xC]; u16 step; u8 p12[0xA]; u16 active; u8 p1E[0x18]; u16 row; u8 p38[0x6E4]; u32 script; };
@@ -1036,6 +1114,7 @@ s32 sub_08089784(u8 *table)
     return 0;
     }
 }
+/* [UpdateMapZeroArea12Scene] Initial placement/load0/12/readiness/camera and callback2D200 setup. */
 s32 sub_080898D4(u8 *input)
 {
     struct State98D491 { u8 p0[2]; u16 destination; u8 p4[0xC]; u16 step; u8 p12[0xA]; u16 active; u8 p1E[0x18]; u16 row; u8 p38[0x6E4]; u32 script; };
@@ -1124,6 +1203,8 @@ s32 sub_080898D4(u8 *input)
     return 0;
     }
 }
+/* [UpdateMapZeroArea6Scene] Initial branch uses selected table position for current/previous player
+ * coordinates. */
 s32 sub_08089AE4(u8 *table)
 {
     struct State9AE491 { u8 p0[2]; u16 destination; u8 p4[0xC]; u16 step; u8 p12[0xA]; u16 active; u8 p1E[0x18]; u16 row; u8 p38[0x6E4]; u32 script; };
@@ -1196,6 +1277,7 @@ s32 sub_08089AE4(u8 *table)
     }
     return 0;
 }
+/* [UpdateMapZeroArea13Scene] Places player from table, masks flags with0x2000 and requests flags update. */
 s32 sub_08089CA0(u8 *table)
 {
     struct State9CA091 { u8 p0[2]; u16 destination; u8 p4[0xC]; u16 step; u8 p12[0xA]; u16 active; u8 p1E[0x18]; u16 row; u8 p38[0x6E4]; u32 script; };
@@ -1283,6 +1365,7 @@ s32 sub_08089CA0(u8 *table)
     return 0;
     }
 }
+/* [UpdateMapZeroArea16Scene] First-call path sets current/previous position from selected table entry. */
 s32 sub_08089EC4(u8 *table)
 {
     struct State9EC491 { u8 p0[2]; u16 destination; u8 p4[0xC]; u16 step; u8 p12[0xA]; u16 active; u8 p1E[0x18]; u16 row; u8 p38[0x6E4]; u32 script; };
@@ -1339,6 +1422,8 @@ s32 sub_08089EC4(u8 *table)
     return 0;
     }
 }
+/* [UpdateMapZeroArea8Scene] Initial placement/load0/8/readiness/camera; marks initialized and releases input
+ * suppression. */
 s32 sub_0808A008(u8 *input)
 {
     struct StateA00891 { u8 p0[2]; u16 destination; u8 p4[0xC]; u16 step; u8 p12[0xA]; u16 active; u8 p1E[0x18]; u16 row; u8 p38[0x6E4]; u32 script; };
@@ -1447,6 +1532,8 @@ s32 sub_0808A008(u8 *input)
     }
     }
 }
+/* [UpdateMapZeroArea14Scene] Initialization waits transition idle, selects entry coordinates at
+ * table+4+entry*0x24 and sets current/previous player positions. */
 s32 sub_0808A294(u8 *table)
 {
     struct StateA29491 { u8 p0[0x10]; u16 step; u8 p12[0xA]; u16 active; u8 p1E[0x18]; u16 row; };
@@ -1499,6 +1586,7 @@ s32 sub_0808A294(u8 *table)
     }
     return 0;
 }
+/* [UpdateMapZeroArea11Scene] Selects entry position, writes player current/previous coordinates and loads0/11. */
 s32 sub_0808A380(u8 *table)
 {
     struct StateA38091 { u8 p0[2]; u16 destination; u8 p4[0xC]; u16 step; u8 p12[0xA]; u16 active; u8 p1E[0x18]; u16 row; u8 p38[0x6E4]; u32 script; };
@@ -1574,6 +1662,8 @@ s32 sub_0808A380(u8 *table)
     }
     return 0;
 }
+/* [UpdateMapZeroArea7Scene] Initial placement/load0/7/readiness/camera; sets flags and starts2D800, allowing
+ * input/menu. */
 s32 sub_0808A4D4(u8 *input)
 {
     struct StateA4D491 { u8 p0[2]; u16 destination; u8 p4[0xC]; u16 step; u8 p12[0xA]; u16 active; u8 p1E[0x18]; u16 row; u8 p38[0x6E4]; u32 script; };
@@ -1679,6 +1769,11 @@ s32 sub_0808A4D4(u8 *input)
     }
     }
 }
+/* [HandleKnightsGuildRoom] Machine ABI r0 is the room record/table pointer. When the scene halfword at +0x10
+ * is zero, waits for sub_0801AAE0, selects input+4+u16(scene+0x36)*0x24, stores the unsigned entry coordinate
+ * halfwords shifted left8 into local player words +0x8C/+0x90 and copies these to +0x94/+0x98. Initializes
+ * display through sub_08009930, waits for sub_0800BA6C, calls sub_0800AD04 with position pointers and
+ * sub_0800CCCC result, schedules the room NPC population callback and sets scene halfwords +0x10/+0x1C to1. */
 s32 sub_0808A744(u8 *table)
 {
     struct StateA74491 { u8 p0[0x10]; u16 step; u8 p12[0xA]; u16 active; u8 p1E[0x18]; u16 row; };
@@ -1731,6 +1826,8 @@ s32 sub_0808A744(u8 *table)
     }
     return 0;
 }
+/* [UpdateMapZeroArea9Scene] Places player from selected entry and loads0/9, waits map readiness and updates
+ * camera. */
 s32 sub_0808A830(u8 *table)
 {
     struct StateA83091 { u8 p0[2]; u16 destination; u8 p4[0xC]; u16 step; u8 p12[0xA]; u16 active; u8 p1E[0x18]; u16 row; u8 p38[0x6E4]; u32 script; };
@@ -1806,6 +1903,12 @@ s32 sub_0808A830(u8 *table)
     }
     return 0;
 }
+/* [HandleKlantolTimesEditingRoom] Machine ABI r0 is the room record/table pointer. When the scene halfword at
+ * +0x10 is zero, waits for sub_0801AAE0, selects input+4+u16(scene+0x36)*0x24, stores the unsigned entry
+ * coordinate halfwords shifted left8 into local player words +0x8C/+0x90 and copies these to +0x94/+0x98.
+ * Initializes display through sub_08009930, waits for sub_0800BA6C, calls sub_0800AD04 with position pointers
+ * and sub_0800CCCC result, schedules the room NPC population callback and sets scene halfwords +0x10/+0x1C
+ * to1. */
 s32 sub_0808A984(u8 *table)
 {
     struct StateA98491 { u8 p0[0x10]; u16 step; u8 p12[0xA]; u16 active; u8 p1E[0x18]; u16 row; };
@@ -1858,6 +1961,7 @@ s32 sub_0808A984(u8 *table)
     }
     return 0;
 }
+/* [UpdateMapZeroArea17Scene] Waits transition idle and positions local player using table entry. */
 s32 sub_0808AA70(u8 *table)
 {
     struct StateAA7091 { u8 p0[2]; u16 destination; u8 p4[0xC]; u16 step; u8 p12[0xA]; u16 active; u8 p1E[0x18]; u16 row; u8 p38[0x6E4]; u32 script; };
@@ -1931,6 +2035,7 @@ s32 sub_0808AA70(u8 *table)
     }
     return 0;
 }
+/* [UpdateMapZeroArea18Scene] Initial entry positioning/load0/18/map readiness and camera update. */
 s32 sub_0808AC08(u8 *input)
 {
     struct StateAC0891 { u8 p0[2]; u16 destination; u8 p4[0xC]; u16 step; u8 p12[0xA]; u16 active; u8 p1E[0x18]; u16 row; u8 p38[0x6E4]; u32 script; };
@@ -1998,6 +2103,8 @@ s32 sub_0808AC08(u8 *input)
     }
     return 0;
 }
+/* [UpdateMapZeroArea19Scene] Initial player entry/load0/19/readiness/camera; starts2E6E0 actor callback
+ * and26C54 portal task, permits input/menu and marks initialized. */
 s32 sub_0808AD90(u8 *input)
 {
     struct StateAD9091 { u8 p0[2]; u16 destination; u8 p4[0xC]; u16 step; u8 p12[0xA]; u16 active; u8 p1E[0x18]; u16 row; u8 p38[0x6E4]; u32 script; };
@@ -2081,6 +2188,12 @@ s32 sub_0808AD90(u8 *input)
     }
     return 0;
 }
+/* [SetLocalPlayerPositionFromUnsignedPixelPair] r0 points to two unsigned16 pixel coordinates. Selects local
+ * player in0x14C-byte runtime array, shifts each input left8 and writes32-bit world positions+0x8C/+0x90, then
+ * copies both words to+0x94/+0x98. No motion request, camera update, flags, collision, source/null checks or
+ * return value. Inputs65535 remain positive0x00FFFF00 rather than signed16 coordinates. Complete original
+ * configured body audited against ROM; copied verified-main ELF static equality, no local build or runtime
+ * test. */
 void sub_0808AFA4(const u16 *pos)
 {
     struct PositionPairAFA4 { u32 x, y; };
@@ -2135,6 +2248,11 @@ extern u16 data084AB468AF91[] asm("gUnk_084AB468");
 extern u16 data084AB5B8AF91[] asm("gUnk_084AB5B8");
 extern void sub_0808AFE8_v(void) asm("sub_0808AFE8");
 
+/* [RunTimedStageSelectionMenu] Runs a selection UI for up to ten sequentially eligible stage rows, each with
+ * three 16-byte item records. Shows target and recorded time fields, per-row text and item icons; a separate
+ * detail mode invokes item label 5FFBC and detail renderer 815F4. This NONMATCHING body is a reading aid; the
+ * narrow UI role is independently corroborated by original call paths, not a claim of draft equivalence or an
+ * exact in-game mode title. */
 void sub_0808AFE8_v(void)
 {
     extern u32 sub_08058878(u32, u32);
@@ -2461,6 +2579,12 @@ extern u16 gTimeB978[] asm("gUnk_084F0C00");
 extern u8 gUnk_084F0C28[], gUnk_0850CAA8[];
 extern s32 B978PlayerTime[] asm("gUnk_03003D70");
 extern void sub_0802F208(void);
+/* [TaskRunTimedScriptedStageChallenge] No conventional argument handling. Uses low8 scene halfword+0x36 as
+ * stage index0..9 for countdown table0x084F0C00 and one of ten scripts; out-of-range leaves script pointer
+ * inherited/undefined. Preserved incoming r8 participates in early best-time comparison before later
+ * fractional display computation; no zero ABI invented. Initializes title/UI/local-player callback,
+ * executes56-byte script entries, waits script completion while drawing countdown minutes/seconds/hundredths
+ * and decrementing remaining/incrementing elapsed only when scene halfword+0x5A is nonzero. */
 void sub_0808B978(void) {
     s32 hours83, minutes83, hours91, minutes91;
     u8 sp4[0x34];
@@ -2953,6 +3077,13 @@ void sub_0808C020_v(void) asm("sub_0808C020");
 
 extern void C020Launch(s32,s32,s32,s32,void (*)(void),u32) asm("sub_08057DD0");
 static inline __attribute__((always_inline)) void C020Forward(s32 a,s32 b,s32 c,s32 d,void (*e)(void),u32 f) { C020Launch(a,b,c,d,e,f); }
+/* [RunAreaEntryInputPrompt] No input arguments or meaningful return. Selects local player and text0x1403D1,
+ * repeatedly draws text+2 at(9,18). Reads entire input halfword0x03001324: any nonzero input requests movement
+ * to(current pixel x,364), waits while movement pending and scene flags-halfword+4 bit4 remains0, then ORs
+ * player flags0x403 and returns. With zero input, unsigned comparison pixelY<=329 re-registers this callback
+ * through area-entry task at(120,330), extent(240,80), argument0, and returns; otherwise waits1tick and
+ * repeats. Negative pixelY fails unsigned bound. No input mask/debounce; movement wait can end because scene
+ * flag set, not proven arrival. */
 void sub_0808C020_v(void)
 {
     s32 text;
@@ -3011,6 +3142,9 @@ extern u8 C0Vc(u32) asm("sub_08001108");
         } \
     }
 extern void sub_0808C0C4_v(void) asm("sub_0808C0C4");
+/* [TaskBattleTeamSetup] Original text operand 0x1401F6 resolves through matched 6EE0/7290 language 0 pointer
+ * table 0x0838AFF0 to ROM 0x0837E84A. Static rendering with ROM font 0 reads Please choose a team. Same
+ * operand appears at line 522. EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc. No runtime UI trace. */
 void sub_0808C0C4_v(void) {
     u16 sp10[2];
     u16 sp14[2];
@@ -3441,6 +3575,9 @@ extern u32 sub_08065158(void *, u32, u32, s32, s32);
 extern void sub_080290E4(s32, s32);
 extern void sub_080257D4(void *, s32);
 extern void sub_0801A664(s32, s32);
+/* [TaskBattleTeamWinnerAndResults] Matched task uses link barrier 67C18/67C08/67BF8, positions participants by
+ * byte+0x68 minus3, counts non-eliminated players into four group slots at 3634-3643, waits until at most one
+ * occupied group remains stable, then identifies winner and displays result text. */
 void sub_0808CB58(void) {
     u32 anim[13];
     s32 counts[4];
@@ -3832,6 +3969,12 @@ found_player:
 }
 
 extern void sub_0808D118(void);
+/* [StartStageSelectionOrBattleTeamSetupTask] No arguments or meaningful return. Allocates4096-byte stack on
+ * fixed task control0x03006450, stack top+4092, priority100 and no-op finalizer0x0808D118. If scene flag
+ * multiplayer predicate0x0800CB9C returns nonzero, selects confirmed TaskBattleTeamSetup0x0808C0C4; otherwise
+ * confirmed RunTimedStageSelectionMenu0x0808AFE8. Starts selected task with argument0; no allocation/activity
+ * check or completion wait. Complete original configured body audited against ROM; copied verified-main ELF
+ * static equality does not imply a new build or runtime test. */
 void sub_0808D05C(void)
 {
     gTask6450.f20 = sub_08001494(0x1000);
@@ -3844,11 +3987,19 @@ void sub_0808D05C(void)
         gTask6450.fC = (u32)sub_0808AFE8;
     sub_08000274((u32)&gTask6450, 0);
 }
+/* [EndLocalPlayerSceneEvent] Calls57934 then57984, clearing local-player masks2 and1 plus scene event-lock
+ * bit11. */
 void sub_0808D0B0(void) {
     sub_08057934();
     sub_08057984();
     sub_080587E4();
 }
+/* [WaitForPlayerFlagAndStartAreaEntryPrompt] No input arguments or meaningful return. Selects local player
+ * once; waits1tick repeatedly until player flags-word+0x30 mask0x4000 becomes nonzero, with no timeout or
+ * abort check. Then starts area-entry callback0x0808C020 at(120,330), extent(120,80), argument0 and returns.
+ * Does not clear0x4000, execute prompt inline or wait for prompt completion; unknown gameplay meaning of flag
+ * remains unclaimed. Complete original configured body audited against ROM; copied verified-main ELF static
+ * equality, no local build or runtime test. */
 void sub_0808D0C4(void)
 {
     u8 *state = (u8 *)gUnk_03003CE0 + sub_080020F4() * 0x14C;
@@ -3859,9 +4010,13 @@ void sub_0808D0C4(void)
     }
     sub_08057DD0(0x78, 0x14A, 0x78, 0x50, (u32)sub_0808C020, 0);
 }
+/* [NoOpSceneTaskFinalizer] Empty routine with original BX LR plus unreachable zero padding. Matched
+ * initializer 8D05C installs it as task+0x24 of fixed control 03006450; this establishes a real finalizer
+ * role, without assigning an exact menu/class identity to its possible callbacks. */
 void sub_0808D118(void) {
 
 }
+/* [UpdateMap1SceneExit] Checks scene+0x10; zero calls common scene initialization and returns0. */
 u32 sub_0808D11C(u32 arg)
 {
     u8 *base;
@@ -3891,6 +4046,7 @@ u32 sub_0808D11C(u32 arg)
 fail:
     return 0;
 }
+/* [HandleMap1SceneExit] Checks scene+0x10; zero calls common scene initialization and returns0. */
 u32 sub_0808D190(u32 arg)
 {
     u8 *base;
@@ -3920,6 +4076,7 @@ u32 sub_0808D190(u32 arg)
 fail:
     return 0;
 }
+/* [ProcessMap1SceneExit] Checks scene+0x10; zero calls common scene initialization and returns0. */
 u32 sub_0808D204(u32 arg)
 {
     u8 *base;
@@ -3950,6 +4107,8 @@ fail:
     return 0;
 }
 extern void sub_08098108(void);
+/* [UpdateEncounterActorSceneExit] Checks scene initialization; exit branch selects0/2, clears flags and sets
+ * scene+0x36=3. */
 s32 sub_0808D278(s32 arg)
 {
     u32 zero;
@@ -3982,6 +4141,7 @@ s32 sub_0808D278(s32 arg)
 fail:
     return 0;
 }
+/* [UpdateMap2SceneExit] Checks scene+0x10; zero calls common scene initialization and returns0. */
 u32 sub_0808D31C(u32 arg)
 {
     u8 *base;
@@ -4011,6 +4171,7 @@ u32 sub_0808D31C(u32 arg)
 fail:
     return 0;
 }
+/* [HandleMap2SceneExit] Initialization branch calls2704C and returns0. */
 u32 sub_0808D390(u32 arg)
 {
     u8 *base;
@@ -4041,6 +4202,8 @@ fail:
     return 0;
 }
 extern void sub_08099838(void);
+/* [HandleEncounterActorSceneExit] Checks scene initialization; exit branch selects0/2, clears flags and sets
+ * scene+0x36=3. */
 s32 sub_0808D404(s32 arg)
 {
     u32 zero;

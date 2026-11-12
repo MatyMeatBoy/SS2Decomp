@@ -22,6 +22,9 @@ extern u8 gUnk_03005D70;
 extern s32 gUnk_03005D68;
 extern u8 gUnk_03005D6C;
 
+/* [RefreshHeadgearActivation] For the equipped record at manager +0x100, writes activation byte +9 to 1
+ * exactly when its kind is 4 and validator 0805D210 accepts it; otherwise writes zero. Does not copy, swap or
+ * remove the item. No useful return-value contract is established by the original body. */
 s32 sub_0805D094(void) {
     u8 *base=(u8 *)gUnk_030034E0;
     if(*(u16 *)(base+0x100)==4) {
@@ -29,6 +32,9 @@ s32 sub_0805D094(void) {
         else M2C_FIELD((void *)gUnk_030034E0,u8 *,0x109)=0;
     } else *(u8 *)(base+0x109)=0;
 }
+/* [RefreshBodyEquipmentActivation] For the equipped record at manager +0x110, writes activation byte +9 to 1
+ * exactly when its kind is 3 and validator 0805D278 accepts it; otherwise writes zero. Does not copy, swap or
+ * remove the item. No useful return-value contract is established by the original body. */
 s32 sub_0805D0E8(void) {
     u8 *base=(u8 *)gUnk_030034E0;
     if(*(u16 *)(base+0x110)==3) {
@@ -36,6 +42,9 @@ s32 sub_0805D0E8(void) {
         else M2C_FIELD((void *)gUnk_030034E0,u8 *,0x119)=0;
     } else *(u8 *)(base+0x119)=0;
 }
+/* [RefreshGloveActivation] For the equipped record at manager +0x120, writes activation byte +9 to 1 exactly
+ * when its kind is 5 and validator 0805D2E0 accepts it; otherwise writes zero. Does not copy, swap or remove
+ * the item. No useful return-value contract is established by the original body. */
 s32 sub_0805D13C(void) {
     u8 *base=(u8 *)gUnk_030034E0;
     if(*(u16 *)(base+0x120)==5) {
@@ -43,16 +52,26 @@ s32 sub_0805D13C(void) {
         else M2C_FIELD((void *)gUnk_030034E0,u8 *,0x129)=0;
     } else *(u8 *)(base+0x129)=0;
 }
+/* [UpdateTypeSevenActivation] Saved record+0x130 type7 sets activation byte+0x13A to1; otherwise clears that
+ * byte and local runtime halfword+0xC6. Function has signed return declaration but no C return expression; no
+ * status return contract claimed. */
 s32 sub_0805D190(void) {
     u8 *base=(u8 *)gUnk_030034E0;
     if(*(u16 *)(base+0x130)==7) *(u8 *)(base+0x13A)=1;
     else { gReset61[sub_080020F4()].reset=0; M2C_FIELD((void *)gUnk_030034E0,u8 *,0x13A)=0; }
 }
+/* [RefreshRingActivation] Sets equipped manager +0x140 record activation byte +9 to 1 when its kind is 6,
+ * otherwise zero. No class, requirement or broken-item check is made here; no useful return contract is
+ * inferred. */
 s32 sub_0805D1E0(void) {
     u8 *base=(u8 *)gUnk_030034E0;
     if(*(u16 *)(base+0x140)==6) *(u8 *)(base+0x149)=1;
     else *(u8 *)(base+0x149)=0;
 }
+/* [CanEquipHeadgearItem] Returns 0 for null, kind other than 4, or nonzero item byte +8. Resolves category D,
+ * requires the class permission bit in record halfword +0xA2 indexed by the low byte of 1DE60, then requires
+ * record byte +0xA0 not exceed signed local-player halfword +0x38. Returns 1 only when all tests pass. The
+ * player field is not renamed as an unrelated stat. */
 u32 sub_0805D210(void *state) {
     u8 *resource;
     s32 offset;
@@ -69,6 +88,10 @@ u32 sub_0805D210(void *state) {
     }
     return 0;
 }
+/* [CanEquipBodyItem] Returns 0 for null, kind other than 3, or nonzero item byte +8. Resolves category C,
+ * requires the class permission bit in record halfword +0xA2 indexed by the low byte of 1DE60, then requires
+ * record byte +0xA0 not exceed signed local-player halfword +0x38. Returns 1 only when all tests pass. The
+ * player field is not renamed as an unrelated stat. */
 u32 sub_0805D278(void *state) {
     u8 *resource;
     s32 offset;
@@ -85,6 +108,10 @@ u32 sub_0805D278(void *state) {
     }
     return 0;
 }
+/* [CanEquipGloveItem] Returns 0 for null, kind other than 5, or nonzero item byte +8. Resolves category E,
+ * requires the class permission bit in record halfword +0xA2 indexed by the low byte of 1DE60, then requires
+ * record byte +0xA1 not exceed signed local-player halfword +0x38. Returns 1 only when all tests pass. The
+ * player field is not renamed as an unrelated stat. */
 u32 sub_0805D2E0(void *arg0) {
     s32 temp_r4;
     s32 player;
@@ -106,6 +133,8 @@ u32 sub_0805D2E0(void *arg0) {
     }
     return 0U;
 }
+/* [HasNonfullBagCurrencyStack] Returns 1 if any of the 25 bag records is kind 10 with unsigned count at most
+ * 99999; otherwise 0. It does not accept an empty bag slot as a substitute and does not check stash stacks. */
 u32 sub_0805D348(void)
 {
   u8 *entry = ((u8 *) gUnk_030034E0) + 0x150;
@@ -120,6 +149,9 @@ u32 sub_0805D348(void)
 
   return 0;
 }
+/* [FindNearbyFieldItemByKey] Scans 16 field-item records of 32 bytes at 03005D58 for active flag bit 0 at
+ * +0xA, matching key +8, and absolute((query - record position) >> 8) <= 7 on both axes. Returns the first
+ * match or null. The arithmetic shift precedes absolute value. */
 void *sub_0805D37C(s32 x, s32 y, s32 key) {
     u8 *entry;
     u32 i;
@@ -140,6 +172,8 @@ void *sub_0805D37C(s32 x, s32 y, s32 key) {
     } while (i <= 0xF);
     return 0;
 }
+/* [SumBagCurrency] Sums the raw word +4 of kind-10 entries among exactly 25 records at manager +0x150, stride
+ * 16, and returns the low 32-bit total without capacity or overflow checks. */
 s32 sub_0805D3D4(void) {
     s32 var_r3;
     u32 var_r2;
@@ -157,6 +191,8 @@ s32 sub_0805D3D4(void) {
     } while (var_r2 <= 0x18U);
     return var_r3;
 }
+/* [SumStashCurrency] Sums the raw word +4 of kind-10 entries among exactly 75 records at manager +0x2E0,
+ * stride 16, and returns the low 32-bit total without capacity or overflow checks. */
 s32 sub_0805D404(void) {
     s32 var_r3;
     u32 var_r2;
@@ -174,6 +210,8 @@ s32 sub_0805D404(void) {
     } while (var_r2 <= 0x4AU);
     return var_r3;
 }
+/* [FindFreeFieldItemRecord] Returns the first of 16 field-item records whose flags at +0xA have both low bits
+ * clear, or null. It does not reserve or initialize the record. */
 void *sub_0805D434(void)
 {
     u8 *entry = gUnk_03005D58;
@@ -183,6 +221,8 @@ void *sub_0805D434(void)
             return entry;
     return 0;
 }
+/* [FindActiveFieldItemById] Returns the first of 16 field-item records with flag bit 0 at +0xA set and
+ * matching 16-bit ID at +0xC, or null. */
 void *sub_0805D460(unsigned short id)
 {
   u8 *entry = gUnk_03005D58;
@@ -197,6 +237,9 @@ void *sub_0805D460(unsigned short id)
 
   return 0;
 }
+/* [FindFieldItemByIdInStateTwo] Scans 16 field-item records for flags at +0xA equal to exactly 2 and ID at
+ * +0xC equal to the input. Receiver 6690C uses it after pickup reservation; the name preserves the whole-flags
+ * test without assigning a universal state meaning. */
 void *sub_0805D498(unsigned short id)
 {
   u8 *entry = gUnk_03005D58;
@@ -211,6 +254,9 @@ void *sub_0805D498(unsigned short id)
 
   return 0;
 }
+/* [DeactivateFieldItemsById] Clears flags at +0xA and ID at +0xC on every matching-ID record among 16
+ * field-item records and returns whether any matched. It requires no active flag and retains positions and
+ * payload. */
 s32 sub_0805D4C4(u16 arg0) {
     s32 var_r4;
     u32 var_r2;
@@ -230,6 +276,8 @@ s32 sub_0805D4C4(u16 arg0) {
     } while (var_r2 <= 0xFU);
     return var_r4;
 }
+/* [ResetFieldItemRecordsAndIdCounter] Sets field-item ID counter 03005D5C to 1 and clears flags and IDs on 16
+ * records, retaining positions, keys and payload. */
 void sub_0805D4F4(void) {
     u32 i;
     u8 *entry;
@@ -243,6 +291,8 @@ void sub_0805D4F4(void) {
         entry += 0x20;
     } while (i <= 0xF);
 }
+/* [DeactivateFieldItemsWithoutRetainFlag] Clears flags and IDs on records whose key at +8 lacks bit 0x20.
+ * Retention describes this operation only; no particular map or save lifetime is inferred. */
 void sub_0805D518(void) {
     u16 temp_r0;
     u32 var_r3;
@@ -260,6 +310,9 @@ void sub_0805D518(void) {
         var_r2 += 0x20;
     } while (var_r3 <= 0xFU);
 }
+/* [FindBagItemOneIndex] Scans25 sixteen-byte bag records from inventory+150 and returns first zero-based index
+ * with category1 and id equal to the signed argument; otherwise returns-1. No inventory/null validation and no
+ * mutation. */
 s32 sub_0805D548(s32 arg0) {
     u32 var_r2;
     void *var_r1;
@@ -277,6 +330,8 @@ loop_1:
     }
     goto loop_1;
 }
+/* [ClearInventoryItemKindAtIndex] For index <= 24, clears only the kind halfword in the 16-byte inventory slot
+ * at 030034E0 + 0x150 + index * 16. ID, amount and remaining bytes are retained. */
 void sub_0805D580(u32 index)
 {
   s8 *new_var;
@@ -288,6 +343,11 @@ void sub_0805D580(u32 index)
     *((u16 *) (new_var + 0)) = 0;
   }
 }
+/* [ClearBagCurrencyAndReturnHalfTotal] First sums all kind-10 bag counts over 25 records and saves the
+ * unsigned total shifted right by one. Then visits the bag again and clears each still-kind-10 record via
+ * 5D580. Returns the saved half total. It clears every currency stack rather than leaving half the money in
+ * the bag; count payload bytes remain because 5D580 clears only the kind halfword. No death-penalty or drop
+ * semantics are claimed. */
 u32 sub_0805D5A0(void) {
     u32 total=0;
     u32 j;
@@ -307,6 +367,11 @@ u32 sub_0805D5A0(void) {
     }
     return result;
 }
+/* [FindLargestUncappedBagCurrencyStack] Searches bag indices max(start,0)..24 and returns the first index with
+ * the largest signed nonnegative count among kind-10 records, excluding count exactly 100000. Returns -1 when
+ * none qualifies or start> 24. Uncapped here means not equal to the cap: malformed counts above 100000 are not
+ * rejected, and high-bit signed-negative words are ignored. Equal counts retain the earlier index. Does not
+ * reserve or mutate a stack. */
 s32 sub_0805D5F4(s32 start) {
     u8 *entry;
     s32 bestIndex=start;
@@ -323,6 +388,12 @@ s32 sub_0805D5F4(s32 start) {
     if(bestValue<0) return -1;
     return bestIndex;
 }
+/* [FindLargestUncappedStashCurrencyStack] Searches stash records starting at max(start,0), stopping before 15
+ * times the unsigned halfword at character/inventory base +0x6A. That base is read through pointer global
+ * 030034E0. Returns the first index with the largest signed nonnegative kind-10 count other than exactly
+ * 100000, or -1 if none. It does not scan a fixed75 records independently of configured capacity, cap the
+ * capacity to physical storage, reserve a slot or reject counts above 100000. Equal maxima retain the earlier
+ * index. */
 s32 sub_0805D650(s32 arg0) {
     s32 temp_r0;
     s32 temp_r0_2;
@@ -361,6 +432,9 @@ s32 sub_0805D650(s32 arg0) {
     return var_r4;
 }
 
+/* [AdmitThrownItemTask] Searches six0x28-byte task controls for an inactive entry, writes control+8=0x34,
+ * allocates0x800 bytes unchecked, assigns thrown-item callback5B688 and stack top+7FC, then starts it with two
+ * unsigned halfword arguments. Full pool silently skips startup; no allocation or completion result. */
 void sub_0805D6B8(u16 a,u16 b) {
     u8 *entry=(u8 *)gUnk_03005D60;
     u32 i;
@@ -379,6 +453,13 @@ void sub_0805D6B8(u16 a,u16 b) {
         }
     }
 }
+/* [StartTextWindowTask] Finds a free low-four bitmap slot, initializes its 0x34-byte text-window task and
+ * starts matching window animator 5D854 with a retried 0x400-byte stack allocation; returns the record
+ * pointer, or zero if all slots are used. All four rectangle inputs are narrowed to bytes. Centers are first
+ * derived from the unbounded narrowed dimensions, then stored dimensions are clamped to width 1..28 and height
+ * 1..18. Preserves original coordinate corrections: X plus half-width above 30 sets X to 30 minus half-width;
+ * Y plus half-height above 20 sets Y to 30 minus half-height, not 20. Lower corrections test bit 7 of
+ * center-minus-half. Thus no general on-screen rectangle guarantee is inferred. */
 s32 sub_0805D720(u8 arg0, u8 arg1, u32 arg2, u32 arg3) {
     u32 center;
     register u32 half asm("r1");
@@ -499,6 +580,9 @@ extern s32 d854_clearRows(u32, u32) asm("sub_0801A664");
 
 /* Animate a window's opening, steady display and closing states. */
 void d854_impl(void *arg) asm("sub_0805D854");
+/* [TaskAnimateTextWindowFrame] Matching window task opens width and height, configures window shadows, palette
+ * and frame tiles, holds state 3, then closes on state 4 and clears its used-slot bit before task exit.
+ * Dialogue interpreter 5E0C4 is separate. */
 void d854_impl(void *arg)
 {
     struct D854Window *window = arg;
@@ -628,6 +712,10 @@ static inline u8 findFreeDC1C(void)
     return 0xFF;
 }
 
+/* [CreateClampedBorderWindow] Truncates all inputs tobytes; no free window slot returns. Marks selected
+ * windowstate1, resets scroll, computes center from original sizes, clamps dimensions1..28/1..18, adjusts
+ * centers, draws border tiles and window clipping and requests line refresh. Upper y test uses20 but
+ * assigns30-halfHeight as written; arbitrary coordinates are not asserted safe. */
 void sub_0805DC1C(u32 xArg, u32 yArg, u32 widthArg, u32 heightArg)
 {
     u8 x = xArg, y = yArg, width = widthArg, height = heightArg;
@@ -702,6 +790,9 @@ void sub_0805DC1C(u32 xArg, u32 yArg, u32 widthArg, u32 heightArg)
     pos = window->height;
     sub_0801A664(~(pos >> 1) + window->y, pos + 3);
 }
+/* [StopMaskedItemEffectTasks] For two four-entry pools, checks corresponding mask bits, stops tasks only if
+ * active and clears each checked bit. First pool stride0x34, second0x88; does not free the pool allocations or
+ * reset unmasked entries. No return value. */
 void sub_0805DE98(void) {
     s32 temp_r4;
     s32 var_r6;
@@ -740,6 +831,10 @@ void sub_0805DE98(void) {
     } while (var_r5_2 <= 3U);
 }
 
+/* [StartFixedLayoutDialogueTask] Finds one of four free 0x88-byte dialogue tasks, starts a window at fixed
+ * layout (0, 14, 27, 3), initializes script, timing and selection, allocates a 0x800-byte stack, and starts
+ * 5E0C4. The first four parameters are unused. Positive duration becomes 140; duration -2 selects a special UI
+ * sprite. */
 u32 sub_0805DF38(u32 unused0,u32 unused1,u32 unused2,u32 unused3,s32 duration,u32 resource)
 {
     u32 index;
@@ -865,6 +960,10 @@ extern u8 gUnk_084EBD48[];
 extern void draw0C4(void *, s32, s32, u32, s32) asm("sub_08065230");
 
 void e0c4Impl(struct Task0C4 *task) asm("sub_0805E0C4");
+/* [TaskDialogueScriptWindow] Window task interprets byte script controls, resolves player-name/numeric
+ * substitutions and portrait resources, advances text according to timing/input, and draws buffered lines.
+ * Exact script opcode names and complete encoding remain unassigned. This C remains a NONMATCHING draft; the
+ * role is independently anchored by original ASM. */
 void e0c4Impl(struct Task0C4 *task)
 {
     u8 lines[2][30];
@@ -1463,6 +1562,9 @@ done:
         sub_080003F0();
     }
 }
+/* [TryRequestDialogueWindowClose] Returns 1 for null. For window state 3, requests state 4 when its used bit
+ * is set, plays sound 0xDD, sets dialogue state +0x74 to 7, and returns 1. Window state 0 also returns 1;
+ * other states return 0. */
 s32 sub_0805EE6C(void *arg0) {
     s32 var_r0;
     s32 var_r3;
@@ -1502,6 +1604,8 @@ block_15:
     return 1;
 }
 
+/* [TextWindowIsFullyOpen] Returns whether window byte +0x30 equals 3, the steady open state established by
+ * matching task 5D854. Requires a nonnull input. */
 u32 sub_0805EEDC(u8 *p)
 {
     u32 r = 0;
@@ -1509,6 +1613,8 @@ u32 sub_0805EEDC(u8 *p)
         r = 1;
     return r;
 }
+/* [TextWindowIsClosed] Returns whether window byte +0x30 equals 0, the exit/closed state in matching task
+ * 5D854. Requires a nonnull input. */
 u32 sub_0805EEEC(u8 *p)
 {
     u32 r = 0;
@@ -1516,6 +1622,8 @@ u32 sub_0805EEEC(u8 *p)
         r = 1;
     return r;
 }
+/* [DialogueStateIsComplete] Returns 0 for null; otherwise tests whether dialogue state word +0x74 is zero. It
+ * does not inspect scheduler activity or the used-slot bitmap. */
 s32 sub_0805EEFC(void *arg0)
 {
     s32 r;
@@ -1526,6 +1634,8 @@ s32 sub_0805EEFC(void *arg0)
         r = 1;
     return r;
 }
+/* [DialogueSelectionIsZero] Returns 0 for null; otherwise tests whether selection halfword +0x80 is zero. It
+ * does not return the selected index or a general accept/cancel result. */
 u32 sub_0805EF14(u8 *arg0)
 {
     u32 r;
@@ -1534,6 +1644,10 @@ u32 sub_0805EF14(u8 *arg0)
     if (*(u16 *)(arg0 + 0x80) == 0) r = 1;
     return r;
 }
+/* [CancelUsedTextWindowTasks] Visits four window slots whose current used bit in 03005D70 is set. If scheduler
+ * query 00470 says the corresponding 0x34-byte task is scheduled, cancels it through 003A8; then clears its
+ * used bit even if unscheduled. Does not explicitly clear window state +0x30, dialogue state, all record bytes
+ * or hardware window registers. This differs from requesting an animated close. */
 void sub_0805EF2C(void) {
     s32 temp_r4;
     s32 var_r6;
@@ -1556,11 +1670,15 @@ void sub_0805EF2C(void) {
         var_r5 += 1;
     } while (var_r5 <= 3U);
 }
+/* [SetDialogueSelectionIndex] For a nonnull pointer, truncates the input to 16 bits and writes dialogue
+ * selection +0x80 without checking the option count. */
 void sub_0805EF84(u8 *p, u32 v)
 {
     if (p != 0)
         *(u16 *)(p + 0x80) = v;
 }
+/* [IsAnyTextWindowSlotUsed] Tests the low four used bits of window bitmap 03005D70. Dialogue tasks have a
+ * separate bitmap at 03005D6C. */
 u32 sub_0805EF90(void)
 {
   char i;
@@ -1576,6 +1694,11 @@ u32 sub_0805EF90(void)
 }
 extern u8 *efbcBase62 asm("gUnk_03005D68");
 void sub_0805EFBC_impl(void) asm("sub_0805EFBC");
+/* [CloseUsedDialogueWindowsAndWait] Caches the dialogue pool base 03005D68, then visits slots 0..3 and checks
+ * each used bit in 03005D6C when reached. For a used 0x88-byte dialogue record, repeatedly calls 5EE6C with
+ * scheduler waits until close is accepted, then waits until its state word +0x74 becomes zero via 5EEFC.
+ * Processes slots sequentially; it does not cancel task headers or revisit earlier slots allocated later. No
+ * timeout or fixed elapsed-frame guarantee. */
 void sub_0805EFBC_impl(void)
 {
     u8 i;
@@ -1589,6 +1712,11 @@ void sub_0805EFBC_impl(void)
         }
     }
 }
+/* [InitializeTextWindowGraphicsAndPool] Copies 0x4000 bytes of resolved resource key 0x10010003 plus global
+ * 03003470 to VRAM 06008000 with CpuFastSet. Loads one 32-byte palette from resource 70003 +0x1E0 into
+ * palette-shadow bank 15 through 00AF0, allocates 0xD0 bytes for four 0x34-byte window records, and clears
+ * their used bitmap. Does not initialize every allocated byte or guard allocation failure, free a previous
+ * pool or allocate the distinct dialogue-task pool. */
 void sub_0805F020(void)
 {
     void *src = sub_08007290((u8 *)(uintptr_t)gUnk_03003470 + 0x10010003);
@@ -1603,11 +1731,18 @@ void sub_0805F020(void)
     gUnk_03005D64 = sub_08001494(0xD0);
     gUnk_03005D70 = 0;
 }
+/* [ReloadTextWindowGraphics] Submits a 0x4000-byte copy of resource key 0x10010003 plus global 03003470 to
+ * VRAM 06008000, reloads the palette-shadow bank 15 from resource 70003 +0x1E0, then waits for scheduler
+ * signal 1 once. Does not reallocate window pool or clear used bits. Transfer queue 01348 silently drops
+ * submissions when full, so this routine does not establish unconditional completed hardware upload or a fixed
+ * elapsed-video-frame wait. */
 void sub_0805F07C(void) {
     sub_08001348(sub_08007290(gUnk_03003470 + 0x10010003), 0x06008000, 0x4000);
     sub_08000AF0(0xF, sub_08007290(0x70003) + 0x1E0, 1);
     sub_080003F0();
 }
+/* [FindFreeTextWindowSlot] Returns the first clear bit index among the low four bits of window bitmap
+ * 03005D70, or 0xFF. It does not reserve the slot. */
 u32 sub_0805F0C4(void)
 {
   unsigned char i;
@@ -1621,6 +1756,9 @@ u32 sub_0805F0C4(void)
 
   return 0xFF;
 }
+/* [RequestTextWindowClose] For a window whose index byte +0x31 has its used bit set, accepts states 1,2,3 or4,
+ * writes state4 and plays sound 0xDD. Other states or unused slots do nothing. Repeating while already state4
+ * can play the sound again. Does not wait for closure, alter dialogue state or validate a null pointer/index. */
 void sub_0805F0F0(void *arg0) {
     u8 temp_r1;
 
@@ -1629,11 +1767,15 @@ void sub_0805F0F0(void *arg0) {
         sub_0805865C(0xDD);
     }
 }
+/* [AllocateDialogueTaskPool] Allocates 0x220 bytes at 03005D68 for four 0x88-byte dialogue records and clears
+ * their used bitmap 03005D6C. It does not initialize the entire allocation. */
 void sub_0805F134(void)
 {
     gUnk_03005D68 = sub_08001494(0x220);
     gUnk_03005D6C = 0;
 }
+/* [FindFreeDialogueTaskSlot] Returns the first clear bit index among the low four bits of dialogue bitmap
+ * 03005D6C, or 0xFF. It does not reserve the slot. */
 u32 sub_0805F158(void)
 {
   char i;
@@ -1647,6 +1789,8 @@ u32 sub_0805F158(void)
 
   return 0xFF;
 }
+/* [IsAnyDialogueTaskSlotUsed] Tests whether any low-four used bit of dialogue bitmap 03005D6C is set,
+ * separately from window bitmap 03005D70. */
 u32 sub_0805F184(void)
 {
   char i;
@@ -1699,6 +1843,10 @@ static inline void load62(u32 id,struct Asset62 *p,s32 a,s32 b,void *t) {
     }
 }
 void sub_0805F1B0_void(void) asm("sub_0805F1B0");
+/* [LoadSixteenSpriteAssets] Loads four fixed sprites, one selected sprite50006..5000A for selector0..4, and
+ * eleven more fixed sprites. Each inline loader stores metadata, fetches sprite/animation/palette resources in
+ * sequence, and on any null stops only that asset setup. Success optionally uploads palette, sets
+ * identity16-entry remap and initializes bounds. Invalid selector leaves selected asset unchanged. */
 void sub_0805F1B0_void(void) {
     load62(0x5000B,&asset62_03006040,9,-1,&gUnk_08518938);
     load62(0x50003,&asset62_03006074,9,-1,&gUnk_08518938);
@@ -1735,6 +1883,10 @@ void sub_0805F1B0_void(void) {
 }
 struct NumAsset63 { u32 f0, f4, f8; u8 data[40]; };
 extern struct NumAsset63 numAssets63[] asm("gUnk_03006040");
+/* [DrawClampedThreeDigitNumber] Clamps unsigned value to999, extracts hundreds quotient and stores remainder
+ * modulo100, uses style-indexed descriptor. Draws hundreds at x-12 if nonzero; draws leading0 at x-6 only when
+ * hundreds present and remainder<=9; draws remainder as frame index0..99 at x. No descriptor/style validation.
+ * Uses paired-digit glyph frames, not three repeated decimal division calls. */
 void sub_0805FAC0(s32 x, s32 y, u32 value, u8 style)
 {
     u8 digits[2];

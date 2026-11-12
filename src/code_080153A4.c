@@ -25,6 +25,7 @@ extern u32 *gUnk_084B15F8[];
 extern u32 *gUnk_084B160C[];
 extern u32 *gUnk_084B1610[];
 
+/* [TaskRunMovingChargedAttack] Movement speed is u16 charge tier times40 plus128, passed as signed halfword. */
 void sub_080153A4(void)
 {
     struct PlayerW12 *p = (struct PlayerW12 *)&gUnk_03003CE0[sub_080020F4()];
@@ -47,6 +48,7 @@ void sub_080153A4(void)
     p->w26 = 0;
     p->w122 = 0;
 }
+/* [TaskRunChargedAttackAnimation] Waits while state5 and B6 completion flag zero. */
 void sub_08015464(void)
 {
     struct PlayerW12 *p = (struct PlayerW12 *)&gUnk_03003CE0[sub_080020F4()];
@@ -126,6 +128,8 @@ struct Plr15 {
 };
 extern struct Plr15 players15[] asm("gUnk_03003CE0");
 void sub_08077444();
+/* [StartLocalChargedAttackTask] Duplicate embedded task path resets local state outside10/11 and spectator
+ * before returning. */
 void sub_0801551C(void)
 {
     s32 index = sub_080020F4();
@@ -157,6 +161,7 @@ void sub_0801551C(void)
     tasks15[index].u24 = 0;
     sub_08000274(&tasks15[index]);
 }
+/* [TaskTimeChargedAttackFrames] Reads packed charge tier and initializes timer(level+3)*8. */
 void sub_08015620(s32 index)
 {
     u8 unused[0x34];
@@ -186,6 +191,9 @@ void sub_08015620(s32 index)
     p->w26 = 0;
     p->w122 = 0;
 }
+/* [TaskRunClass7ChargedVolley] Packed tiers1..7 normalize remaining projectile attempts to5; tier0 skips loop.
+ * Selected even frame/subframe2 observations advance hit ID and spread selector, attempt projectile start and
+ * decrement count. Snapshot state change exits early; charge bookkeeping clears. */
 void sub_080156FC(s32 index)
 {
     struct Plr15 *p = &players15[index];
@@ -244,6 +252,8 @@ void sub_080156FC(s32 index)
     p->w26 = 0;
     p->w122 = 0;
 }
+/* [StartClassSevenChargedAttack] Already-scheduled path may reset only local player state outside10/11 and
+ * spectator, then returns without allocation. */
 void sub_08015820(s32 index)
 {
     s32 memory;
@@ -271,6 +281,9 @@ void sub_08015820(s32 index)
     tasks15[index].u24 = 0;
     sub_08000274(&tasks15[index], index);
 }
+/* [TaskRunClass5ChargedLunge] Moves indexed charged attacker until two completion-flag observations or
+ * snapshot state change. Flag is not reset after first decrement, so two distinct animation cycles are not
+ * proven. Uses half-table speed plus modifier; normal local-state guards and charge cleanup follow. */
 void sub_08015914(s32 index)
 {
     struct Plr15 *p = &players15[index];
@@ -311,6 +324,8 @@ void sub_08015914(s32 index)
     p->w26 = 0;
     p->w122 = 0;
 }
+/* [TaskRepeatChargedAttackAnimation] Initializes repeat count to snapshot tier+1 and animation to snapshot top
+ * nibble+8. */
 void sub_08015A48(s32 index)
 {
     struct Plr15 *p = &players15[index];
@@ -346,6 +361,8 @@ void sub_08015A48(s32 index)
 }
 void sub_08015914();
 void sub_08015A48();
+/* [StartClassFiveChargedAttack] Already-scheduled path may reset only local player state outside10/11 and
+ * spectator, then returns. */
 void sub_08015B20(s32 index)
 {
     s32 memory;
@@ -373,14 +390,29 @@ void sub_08015B20(s32 index)
     tasks15[index].u24 = 0;
     sub_08000274(&tasks15[index], index);
 }
+/* [SuppressLocalPlayerInput] Resolves the local player through 020F4 and ORs mask 0x1 into its 32-bit flags at
+ * base03003CE0+index*0x14C+0x30. The observed controller bypasses both direct input acquisition and
+ * movement-to-point key generation while this mask is set. This call does not clear pending movement mask 0x4,
+ * inputs immediately, create a task, send a packet or wait. It requests suppression for the next controller
+ * update; other global suppression conditions remain separate. */
 void sub_08015C14(void) {
 
     gUnk_03003CE0[sub_080020F4()].flags |= 1;
 }
+/* [ReleaseLocalPlayerInputSuppression] Resolves the local player and clears only mask 0x1 from its 32-bit
+ * flags. Does not clear other suppression conditions or a pending movement-to-point request. If mask 0x4
+ * remains set, the next controller can generate target movement keys instead of reading direct user input;
+ * this is not a guarantee of unrestricted input or immediate motion. No packet or wait. */
 void sub_08015C38(void) {
 
     gUnk_03003CE0[sub_080020F4()].flags &= ~1;
 }
+/* [RequestLocalPlayerMovementToPoint] Stores both full 32-bit inputs to local player+0x9C/+0xA0, then ORs
+ * flags mask 0x24. The controller uses mask 4 to generate eight-way input keys toward these targets,
+ * interpreted there as signed16-bit pixel coordinates, with integer-Sqrt distance threshold 8 after signed16
+ * target/delta narrowing. This setter does not immediately change position, clear higher-priority
+ * input-suppression mask 1, validate coordinates, wait for arrival, publish a packet or establish
+ * pathfinding/reachability. An outstanding request can remain pending while suppression blocks processing. */
 void sub_08015C5C(s32 arg0, s32 arg1) {
     void *temp_r2;
 
@@ -389,40 +421,81 @@ void sub_08015C5C(s32 arg0, s32 arg1) {
     M2C_FIELD((temp_r2 + 0x9C), s32 *, 4) = arg1;
     M2C_FIELD(temp_r2, s32 *, 0x30) = (s32) (M2C_FIELD(temp_r2, s32 *, 0x30) | 0x24);
 }
+/* [SetLocalPlayerSpriteHideFlag] Queries the local player index, selects the 0x14C-byte runtime record, ORs
+ * 0x80000 into its full 32-bit flags at +0x30 and then calls EnqueueLinkPlayerFlags. Preserves other flag bits
+ * and ignores enqueue success. Does not stop the actor task, clear other visibility flags, wait for a peer or
+ * validate the player index. */
 void sub_08015C8C(void) {
     struct Player *p = &gUnk_03003CE0[sub_080020F4()];
     p->flags |= 0x80000;
     sub_08067D74();
 }
+/* [ClearLocalPlayerSpriteHideFlag] Queries the local player index, clears only bit 19 using full-word mask
+ * 0xFFF7FFFF at Player+0x30 and calls EnqueueLinkPlayerFlags afterward. Ignores enqueue success. Removing this
+ * particular hide flag does not guarantee a visible sprite: other scene/player draw gates and animation state
+ * remain effective. */
 void sub_08015CB4(void) {
     struct Player *p = &gUnk_03003CE0[sub_080020F4()];
     p->flags &= 0xFFF7FFFF;
     sub_08067D74();
 }
+/* [EnableLocalPlayerDefeatProtection] Sets bit 0x100000 in flags+0x30 of the player selected by 020F4, using
+ * 0x14C-byte player stride and preserving other bits. No HP, pending damage, player state or input flags are
+ * changed immediately. */
 void sub_08015CE0(void) {
     struct Player *p = &gUnk_03003CE0[sub_080020F4()];
     p->flags |= 0x100000;
 }
+/* [DisableLocalPlayerDefeatProtection] Clears bit 0x100000 in flags+0x30 of the player selected by 020F4,
+ * using 0x14C-byte player stride and preserving other bits. No HP, pending damage, player state or input flags
+ * are changed immediately. */
 void sub_08015D04(void) {
     struct Player *p = &gUnk_03003CE0[sub_080020F4()];
     p->flags &= 0xFFEFFFFF;
 }
+/* [SetLocalPlayerRenderSuppression] Sets mask2 in the local player word+0x30. Original D368 at08012614..1261E
+ * tests mask2; set transfers to the common tail08013556, which yields and either loops or cleans up using the
+ * existing frame, rather than returning into the skipped render block. The skipped block includes main
+ * animation65370, player sprite07870, status overlay and additional visual work. A separate
+ * branch0800FFF8..10002 skips damage-number rendering5FAC0 when mask2 is set. Other gameplay, movement and
+ * damage processing precedes these branches; no invulnerability, removal, cancellation or universal visibility
+ * guarantee is inferred. Clearing permits these paths subject to their other independent gates. */
 void sub_08015D2C(void) {
 
     gUnk_03003CE0[sub_080020F4()].flags |= 2;
 }
+/* [ClearLocalPlayerRenderSuppression] Clears mask2 in the local player word+0x30. Original D368
+ * at08012614..1261E tests mask2; set transfers to the common tail08013556, which yields and either loops or
+ * cleans up using the existing frame, rather than returning into the skipped render block. The skipped block
+ * includes main animation65370, player sprite07870, status overlay and additional visual work. A separate
+ * branch0800FFF8..10002 skips damage-number rendering5FAC0 when mask2 is set. Other gameplay, movement and
+ * damage processing precedes these branches; no invulnerability, removal, cancellation or universal visibility
+ * guarantee is inferred. Clearing permits these paths subject to their other independent gates. */
 void sub_08015D50(void) {
 
     gUnk_03003CE0[sub_080020F4()].flags &= ~2;
 }
+/* [SetLocalPlayerFlagBit12] Sets bit 12 (mask 0x1000) of the local player's runtime flags word +0x30 (player
+ * LinkGetLocalPlayerId in the 0x14C-byte array 0x03003CE0), preserving the other bits. The bit's gameplay
+ * meaning is not claimed. This mechanical label remains a proposal and does not count as semantic
+ * identification. */
 void sub_08015D74(void) {
 
     gUnk_03003CE0[sub_080020F4()].flags |= 0x1000;
 }
+/* [ClearLocalPlayerFlagBit12] Clears bit 12 (mask 0x1000) of the local player's runtime flags word +0x30
+ * (player LinkGetLocalPlayerId in the 0x14C-byte array 0x03003CE0), preserving the other bits. The bit's
+ * gameplay meaning is not claimed. This mechanical label remains a proposal and does not count as semantic
+ * identification. */
 void sub_08015D98(void) {
 
     gUnk_03003CE0[sub_080020F4()].flags &= 0xFFFFEFFF;
 }
+/* [DampValueTowardZero] Updates an in-place signed word. For current > 23 stores current minus its arithmetic
+ * half, giving ceil(current/2) in that positive range. Otherwise subtracts 8 and replaces a nonpositive result
+ * with zero. No null check. The original subtraction is 32-bit wrapping: extreme negative inputs can underflow
+ * to positive, so the name describes ordinary counter damping rather than a proven all-s32
+ * nonnegative/clamping invariant. */
 void sub_08015DC0(s32 *p)
 {
     s32 v = *p;
@@ -433,6 +506,11 @@ void sub_08015DC0(s32 *p)
         *p = v - (v >> 1);
     }
 }
+/* [ApproachTargetByHalfStep] Computes arithmetic half of target minus current; adds that half if positive,
+ * otherwise adds1. If the resulting value is at least target by signed comparison, replaces it with target.
+ * For ordinary current<=target without overflow this advances toward target with a minimum increment1; current
+ * above target normally clamps down immediately. Original arithmetic wraps at 32 bits, so no overflow-free or
+ * all-input monotonicity guarantee is inferred. */
 void sub_08015DE0(s32 *value, s32 target)
 {
     s32 current = *value;
@@ -441,6 +519,11 @@ void sub_08015DE0(s32 *value, s32 target)
     if (target <= *value)
         *value = target;
 }
+/* [StartPlayerStatusHudTask] Prepares control 03003C10 with flags/state 0x34, allocates one 0x400-byte stack,
+ * installs callback 14170, sets stack top to allocation +0x3FC and destructor to null, then starts it with the
+ * original complete argument. The callback interprets that argument as a player-record pointer; this starter
+ * does not select the local player implicitly. It performs no explicit scheduled-membership check, allocation
+ * retry/null check, prior-stack cleanup or completion wait. */
 void sub_08015E00(s32 arg0)
 {
   s8 *new_var;
@@ -454,6 +537,11 @@ void sub_08015E00(s32 arg0)
   *((s32 *) (new_var + 0x24)) = 0;
   sub_08000274(&gUnk_03003C10, arg0);
 }
+/* [DeductPlayerEnergyTierCost] Subtracts a table-derived tier cost from the supplied player record at +0xC2.
+ * Reads halfword table 0847ACE8[index] plus 10*signed_byte(player +0x6C), truncates to signed 16 bits and
+ * replaces a negative cost with zero. Stores the low halfword after subtraction and clamps it to zero only if
+ * that stored halfword is negative as s16. Does not validate the table index or prove affordability before
+ * subtraction. */
 void sub_08015E3C(u8 *arg0, s32 arg1) {
     u16 r3;
     u16 *p;
@@ -471,6 +559,10 @@ void sub_08015E3C(u8 *arg0, s32 arg1) {
     }
 }
 extern u16 gUnk_0847ACE8[];
+/* [FindHighestAffordablePlayerEnergyTier] Checks indices 7 down to 0 of table 0847ACE8, adding
+ * 10*signed_byte(player +0x6C), truncating to signed halfword and clamping a negative cost to zero. Returns
+ * the first index whose cost is at most signed current energy +0xC2, or 0 if none passes. Thus return 0 also
+ * represents an affordable index-zero tier. Does not spend energy or validate the player pointer. */
 u32 sub_08015E84(u8 *arg0)
 {
     register s32 signedByte asm("r2") = (s8)arg0[0x6C];
@@ -503,17 +595,34 @@ u32 sub_08015E84(u8 *arg0)
 
 
 
+/* [BlockLocalPlayerGameMenuRequest] Sets mask0x00400000 in the local player word+0x30. Original D368 input
+ * path0800DC5C tests halfword+0x14 mask8. At0800DCC8..DCD2 the flag rejects that path; only if all other
+ * independent gates pass does0800DD40..DD5E mark local runtime+0x30 mask1, clear player input
+ * halfwords+0x14/+0x12 and call65654. The complete starter65654 registers624D8, the resource-backed
+ * four-choice animated game menu. This role is request blocking: clearing alone does not open a menu; setting
+ * does not cancel an active menu or block every direct starter call or every other menu. */
 void sub_08015ED4(void) {
 
     gUnk_03003CE0[sub_080020F4()].flags |= 0x400000;
 }
+/* [AllowLocalPlayerGameMenuRequest] Clears mask0x00400000 in the local player word+0x30. Original D368 input
+ * path0800DC5C tests halfword+0x14 mask8. At0800DCC8..DCD2 the flag rejects that path; only if all other
+ * independent gates pass does0800DD40..DD5E mark local runtime+0x30 mask1, clear player input
+ * halfwords+0x14/+0x12 and call65654. The complete starter65654 registers624D8, the resource-backed
+ * four-choice animated game menu. This role is request blocking: clearing alone does not open a menu; setting
+ * does not cancel an active menu or block every direct starter call or every other menu. */
 void sub_08015EF8(void) {
 
     gUnk_03003CE0[sub_080020F4()].flags &= 0xFFBFFFFF;
 }
+/* [IsLocalPlayerMovementToPointPending] Returns exactly local player flags mask 0x4 normalized to 0/1. It is a
+ * request-state query; it does not measure velocity, animation, physical movement or arrival on its own. The
+ * controller clears 0x24 when its target-key helper returns0, after which it sets input-suppression mask 1. No
+ * consumption, wait, link error check or peer scan. */
 u32 sub_08015F20(void) {
     return (gUnk_03003CE0[sub_080020F4()].flags >> 2) & 1;
 }
+/* [GetLastAreaSpawnList] Reads area count for the map set and subtracts one. */
 u32 sub_08015F44(s32 level)
 {
     register u32 **table asm("r0");
@@ -540,6 +649,8 @@ u32 sub_08015F44(s32 level)
     result = *table[last];
     return result;
 }
+/* [GetPresetAreaSpawnList] Selects a fixed area entry for map sets1..15; defaults return an uninitialized
+ * result. */
 u32 sub_0801602C(s32 level)
 {
     u32 *entry;
@@ -565,6 +676,13 @@ u32 sub_0801602C(s32 level)
     result = *entry;
     return result;
 }
+/* [AllocateAndInitializeEnemyPools] Allocates 0xE60 bytes for five 0x2E0-byte enemy actors at 030056F4,0x50
+ * bytes for two 40-byte request task controls at 030056F0 and 0x10 bytes for two eight-byte request
+ * descriptors at 030042E8. Clears actor, enemy-palette and request masks 030056FC/030056F8/03005724. For actor
+ * slots0..4 calls 7A064(slot+4) and zeroes only selected fields+0/+8/+0xC/+0x10/+0x14/+0x18/+0x4A; this is not
+ * a full buffer memset. Clears all three 12-byte palette registry records 03005700. Does not initialize all
+ * request-control/descriptor bytes, start actor tasks, check allocations or guard against double
+ * initialization. */
 void sub_08016114(void)
 {
     u8 *p;
@@ -599,6 +717,12 @@ void sub_08016114(void)
     }
     }
 }
+/* [StopEnemyTasksAndFreePools] For each set request-mask bit 0..1, stops its40-byte task control in 030056F0.
+ * For each set enemy-mask bit 0..4, stops its fixed control in 03004220, then calls 688F8 for actor IDs4..8
+ * regardless of that bit. Frees the request-control buffer, five-actor buffer and request-descriptor buffer,
+ * then nulls only 030056F0 and 030056F4. Does not explicitly null 030042E8, clear the three activity masks,
+ * reset palette records or erase palette RAM. No explicit signal wait/retry loop occurs in this body;
+ * stop/destructor callees retain their own behavior. */
 void sub_080161A4(void) {
     u16 var_r4;
     u16 var_r4_2;
@@ -688,6 +812,11 @@ extern struct Gs1623C *gs1623C asm("gUnk_03005CF4");
 extern u8 tables1623C[][0xD8] asm("gUnk_0847AD3C");
 extern void cpuset1623C(const void *, void *, u32) asm("CpuSet");
 extern void memcpy1623C(void *, const void *, u32) asm("memcpy");
+/* [InitializeActorFromSceneDefinition] Uses indexed scene entry flags low12bits minus1 (plus0xC5 in alternate
+ * mode) to select actor template, copies0xD8 bytes, sets fixed-point position/direction and source pointer,
+ * resets motion/combat/team fields and eight item slots, then maps entry flags0x8000/0x4000/0x2000 into
+ * actor+0x7A bits1/2/3. Flag0x4000 also clears+0x201 and sets+0x1FD=0xFF. No bounds or null validation of
+ * source/template indices. */
 void sub_0801623C(struct Obj1623C *obj, struct Src1623C *src, u32 idx)
 {
     struct Entry1623C *entry = (struct Entry1623C *)src + idx;
@@ -813,6 +942,13 @@ extern void startTask1641C(void *, void *) asm("sub_08000274");
 extern void cpuset1641C(const void *, void *, u32) asm("CpuSet");
 struct Plr1641C { u8 pad0[0x2C]; u16 w2C; u8 pad2E[0x14C - 0x2E]; };
 extern struct Plr1641C players1641C[] asm("gUnk_03003CE0");
+/* [TryCreateEnemyFromSpawnState] Returns0 if all five bits of actor mask 030056FC are occupied. Searches slots
+ * ascending normally, descending underCDC0; on success marks one slot and initializes its 0x2E0-byte actor in
+ * 030056F4. Species/resource index is (spawn flags &0xFFF)-1, plus 0xC5 underCE30, with 0xD8-byte definitions
+ * at 0847AD3C; raw request bit 0x80 can select the following definition when definition byte 0x47 is nonzero.
+ * Stores spawn identifier at actor+2, unsigned source coordinates shifted11 at+0x14/+0x18, coordinates
+ * shifted3 at+0x24/+0x28 and copies the selected definition to+0x204. Copies raw request/group halfwords
+ * to+0x84/+0x86 after clearing request bit 0x80 from+0x84. */
 s32 sub_0801641C(struct Src1641C *src)
 {
     s32 i;
@@ -943,6 +1079,11 @@ extern u32 poolFlags014 asm("gUnk_030056FC");
 extern void startPool014(void *,void *) asm("sub_08000274");
 extern u8 *poolObjects014 asm("gUnk_030056F4");
 extern struct Task taskArray014s[] asm("gUnk_03004220");
+/* [StartEnemyPoolActorTask] Finds the first clear bit of the five-slot enemy-actor mask 0x030056FC and returns
+ * 0 if all five are in use. Otherwise it marks the slot, takes the slot's 0x2E0-byte actor record from the
+ * pool 0x030056F4, stores the slot index at +0 and (slot+4)<<24 at +0x50, and fills task control
+ * 0x03004220[slot]: callback arg0, a 0x800-byte stack from HeapAllocate (not checked for failure), order key
+ * 0x3C and destructor arg1. It then calls StartTask with the actor record as argument and returns 1. */
 s32 sub_0801674C(s32 arg0, s32 arg1)
 {
     s32 i;
@@ -983,6 +1124,13 @@ extern struct Record1681C *volatile records1681C asm("gUnk_030042E8");
 extern s32 step1681C(struct State1681C *) asm("sub_0801641C");
 extern s32 position1681C(s32 *) asm("sub_08017F7C");
 extern void sound1681C(u8,u32,s32) asm("sub_080571A4");
+/* [TaskProcessEnemySpawnRequest] Copies one request record into local spawn state. Byte4 &0x7F selects a
+ * point: flags at+8, unsigned x/y at+0xA/+0xC and a halfword at+0xE. Copies descriptor byte 5, raw byte 4 and
+ * sequence+masked index; extra fields come from record+0x30/+0x32/+0x34. If point flags 0x4000 are clear and
+ * 17F7C is false, writes scene grid value 1 through 571A4 using byte 5/masked byte 4 and finishes without
+ * spawning. Otherwise waits on signal 1 first, then exits on scene stop, cancellation, live request byte
+ * 4==0xFF or successful 1641C; while actor capacity is full it retries only while the same proximity/force
+ * condition holds. It does not wait outside proximity until a player arrives. */
 void sub_0801681C(u16 index) {
     struct State1681C state;
     struct { s32 x, y; } coords;
@@ -1033,6 +1181,12 @@ extern struct Task *volatile tasks168FC asm("gUnk_030056F0");
 extern struct Task *volatile runtimeTasks168FC asm("gUnk_030056F0");
 extern void callback168FC(void) asm("sub_0801681C");
 extern void sound168FC(u8,u8,s32) asm("sub_080571A4");
+/* [TryStartEnemySpawnRequestTask] Scans request-mask bits 0..1. Full pool returns-1, optionally writing scene
+ * grid value 1 through 571A4 using descriptor bytes5 and4 without masking byte 4. Otherwise copies all eight
+ * descriptor bytes, assigns 1681C as callback and retries a 0x200-byte stack allocation with signal 1 waits
+ * until nonnull. Writes stack top+0x1FC, raw flags 0x96+slot and zeroes task fields+0/+0x18/+0x24; starts with
+ * the request-slot index, then sets the busy bit and returns0. Flags do not establish a task priority.
+ * Allocation retries reload the task-array pointer; no captured-pointer lifetime guarantee is inferred. */
 s32 sub_080168FC(struct Pair168FC *arg) {
     u16 index;
     s32 mask;
@@ -1091,6 +1245,13 @@ full:
     return 0;
 }
 extern void sound169C8(u8,u8,s32) asm("sub_080571A4");
+/* [StopEnemyTasksAndClearPoolState] Queries actual scheduler membership of each of five fixed enemy controls
+ * through 00470. For each scheduled task, stops it, reloads the actor buffer and sets
+ * health+0x5C=0/state+0xC=11, then writes scene-grid value 3 through 571A4 using the actor low
+ * bytes+0x86/+0x84. Separately stops each scheduled task in the two-control request buffer. Clears all three
+ * enemy palette registry records and masks 03005724/030056FC/030056F8. Does not free/null the actor,
+ * request-control or descriptor buffers, and does not promise all actor bytes or unscheduled actors are
+ * rewritten. Scene-grid notification is not sound playback. */
 void sub_080169C8(void) {
     register u32 i asm("r5");
     u32 taskOffset;
@@ -1153,6 +1314,11 @@ static inline u32 findMask(s32 owner)
     }
     return mask;
 }
+/* [RequestEnemyRemovalBySpawnRecord] Finds all active enemies whose full 32-bit field+0x2C equals the supplied
+ * spawn-record address, then ORs mask 0x1 into each matching actor flags halfword+0x7A. For both active
+ * request slots whose descriptor word0 matches that address, sets descriptor byte 4 to 0xFF. It only marks
+ * matching actors and pending requests: no scheduler stop, free, yield or mask clear occurs. Matching is by
+ * record pointer, not spawn identifier+2 or an actor slot. No input0 sentinel is checked. */
 void sub_08016A7C(s32 owner)
 {
     u32 found;
@@ -1173,6 +1339,13 @@ struct Pos16B30 { u32 kind:4; u32 x:12; u32 y:12; u32 pad2:4; u32 f4:6; u32 f4b:
 struct Dist16B30 { s32 dist; s32 index; };
 struct Plr16B30 { u16 id; u8 pad2[0x2E]; u32 flags; u8 pad34[0x30]; u16 kind; u8 pad66[0xE2]; struct Pos16B30 *pos; };
 extern struct Plr16B30 players16B30[] asm("gUnk_03003CE0");
+/* [SelectNearestPlayerForEnemy] Uses a four-entry local distance/index array with loops bounded by participant
+ * count 02164, without a count clamp. Origin is enemy live Q8 coordinates+0x14/+0x18 shifted8; candidate
+ * coordinates are packed player positions at player+0x148. Rejects player flags 0x2000/0x40002 and player
+ * kind+0x64==9; kind>9 additionally requires the enemy+0x5A bit indexed by player ID. Packed kind 0xB or
+ * packed flags 0x20 leave squared distance at 0x7FFFFFFF. Sorts pairs by signed 32-bit squared distance;
+ * narrows Sqrt of the first result to16 bits. Returns10 without updating the distance ceiling when distance
+ * exceeds signed*best; otherwise stores distance and returns the first pair index. */
 s32 sub_08016B30(u8 *self, s32 *best)
 {
     struct Dist16B30 list[4];
@@ -1228,6 +1401,13 @@ s32 sub_08016B30(u8 *self, s32 *best)
         return list[0].index;
     }
 }
+/* [ComputeEightWayMovementKeysToPoint] Takes Q8 origin x/y, pixel target x/y and low 16 signed stopping radius
+ * as a fifth stack argument. Original converts each origin to signed 16 pixels with
+ * shift-left8/arithmetic-right16, narrows target coordinates and each difference to signed 16, sums the low
+ * 32-bit squares and narrows Sqrt to unsigned 16. Returns0 when that nonnegative distance<=signed radius.
+ * Otherwise quantizes low 16 ArcTan2 into eight 45-degree bins, rounding up only when the within-bin fraction
+ * is strictly greater than half (ties stay in the lower bin), and returns movement
+ * masks10/90/80/A0/20/60/40/50 hex. */
 s32 sub_08016C88(s32 arg0, s32 arg1, s32 arg2, s32 arg3, u16 arg4)
 {
   s16 dx;
@@ -1302,6 +1482,13 @@ s32 sub_08016C88(s32 arg0, s32 arg1, s32 arg2, s32 arg3, u16 arg4)
   return 0;
 }
 extern s32 aimD40(s32,s32,s32,s32,s32) asm("sub_08016C88");
+/* [UpdateEnemyTrackingMovementKeys] Every invocation refreshes integer-pixel target fields+0x24/+0x28 from the
+ * actor+0x1FC high nibble. If actor byte+0x201 mask 0x2 is set, tracks a 030056F4 enemy actor by that index
+ * and shifts its live Q8 coordinates8. Otherwise tracks that player index at 03003CE0 and decodes its packed
+ * 12-bit pixel coordinates through+0x148, reloading the packet pointer for the second coordinate. No
+ * target-index, activity, pointer, health or group validation occurs. Updates actor input+4 through 16C88 only
+ * when global counter 03002344%25 equals actor slot+0 times5; second argument is narrowed to signed 16 as the
+ * radius. */
 void sub_08016D40(u8 *object, u16 arg) {
     u8 *source;
     u16 *volatile *packed;
@@ -1332,6 +1519,12 @@ void sub_08016D40(u8 *object, u16 arg) {
 struct Reg16E04 { s32 key; s32 sub; s32 count; };
 extern u32 used16E04 asm("gUnk_030056F8");
 extern struct Reg16E04 regs16E04[] asm("gUnk_03005700");
+/* [AcquireSharedEnemyPaletteSlot] First scans the three active12-byte records 03005700 in ascending order for
+ * full 32-bit key plus low 16 selector, increments its32-bit reference count and returns handle 4..6. Matching
+ * does not require the old count to be nonzero. If no match, allocates the first clear slot, stores both
+ * keys/count 1 and sets its bit in 030056F8. Returns 0xFFFF if all three slots are active and no key pair
+ * matches. The original word increment wraps with no overflow guard; this differs from find 19D7C which
+ * requires a nonzero count. */
 u16 sub_08016E04(s32 key, u16 sub)
 {
     u32 i;
@@ -1359,6 +1552,11 @@ u16 sub_08016E04(s32 key, u16 sub)
 extern u32 gW6ECC_56F8 asm("gUnk_030056F8");
 extern u32 gT6ECC_5700 asm("gUnk_03005700");
 void sub_08016ECC_u16(u16 arg0) asm("sub_08016ECC");
+/* [ReleaseSharedEnemyPaletteSlot] Computes low 16(handle-4), then checks its active bit in 030056F8. For an
+ * active record, an unsigned32-bit count<=1 clears all three words and its mask bit; a larger count is
+ * decremented. Inactive handles make no change on the valid4..6 domain. No explicit range validation is
+ * performed, so arbitrary invalid handles are not promised safe. No palette colors are erased and no
+ * actor/request-task mask is changed. */
 void sub_08016ECC_u16(u16 arg0)
 {
   u32 *flagp;
@@ -1517,6 +1715,12 @@ static inline void seek16F28(struct Obj16F28 *self, u16 *range, u32 tx, u32 ty)
         self->input = aim16F28(self->x, self->y, self->tx, self->ty, 8);
 }
 
+/* [UpdateTableDrivenEnemyActions] Updates actor action selection and synthesized input: authority-gated
+ * weighted tables depend on hit/animation readiness, target distance, relative parameter and HP percentage;
+ * flag2 temporarily targets another active actor instead of a player and expires after900 updates.
+ * Chooses/revises facing, notifies action changes, and drives timed waits, follow/offset-target movement, and
+ * attack inputs. Non-authority paths still synthesize current action input; target and table indices are
+ * unchecked. Counter uses ++f8A > 900; zero-start expiry is the 901st update. */
 void sub_08016F28(struct Obj16F28 *self)
 {
     u8 act;
@@ -1845,6 +2049,11 @@ extern struct T015CEntity *T015CEntities asm("gUnk_030056F4");
 extern u8 T015CDirections[] asm("gUnk_084790B4");
 extern u8 T015CAngles[] asm("gUnk_0849E730");
 extern u16 T015CProbe(u8,s32,s32,s32) asm("sub_0800B118");
+/* [AdjustActorNeighborSeparation] On frame parity matching actor id, clears actor flag0x10 and checks one
+ * cursor-selected entity0..4 when active mask/radii permit. Only within signed dx/dy bounds7, sets flag0x10,
+ * computes radius overlap and trigonometric displacement, probes collision, and writes adjusted position only
+ * for nonzero probe result. Advances cursor, resetting to actor id+1 when beyond range; parity mismatch
+ * preserves cursor/flags. Radius temporary narrows to byte. */
 void sub_08017C6C(struct T015CEntity *p) {
     s32 x;
     s32 y;
@@ -1978,6 +2187,7 @@ reset:
 
 
 
+/* [IsActorWithinScreenMargin] Projects actor fixed-point coordinates 0x14/0x18 to screen coordinates. */
 s32 sub_08017E34(s32 *arg0) {
     u8 *base;
     u32 n;
@@ -2016,6 +2226,7 @@ struct T015EPos { u16 x, y; u8 flags:6; u8 rest:2; };
 struct T015EPlayer { u8 pad[0x148]; struct T015EPos *pos; };
 extern struct T015EPlayer T015EPlayers[] asm("gUnk_03003CE0");
 extern s32 T015ETest(s32 *, void *, s32 *, u32 *) asm("sub_08021FE0");
+/* [ShouldKeepEnemyActive] Enemy flags 0x7A bit 6 forces true. */
 s32 sub_08017EC8(u8 *arg0)
 {
     s32 pos[2];

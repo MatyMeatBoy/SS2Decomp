@@ -10,6 +10,13 @@ extern void sub_08000274_2(void *, void *) asm("sub_08000274");
 extern void sub_08073CF4();
 extern void sub_0807A120();
 void sub_08073E2C_v(u32 a, u32 b, u32 c, u32 d) asm("sub_08073E2C");
+/* [TryStartFixedWorldSpriteEffectTask] Finds the first clear bit among 16 slots in shared bitmap 030063E0,
+ * writes a six-word descriptor in the metadata pool reached through pointer global 03006380 and normalizes
+ * fourth argument to 0/1. Stores an initial zero word, slot, draw mode, animation, Q8 Y and Q8 X. Makes one
+ * allocation attempt for a 0x400-byte stack in the task-control pool reached through pointer global 030063B0;
+ * returns if full or allocation fails. On success registers callback 73CF4, flags 0x34, stack top +0x3FC and
+ * no-op destructor 7A120, then sets its bitmap bit. Metadata/task stack-pointer fields can already have
+ * changed on allocation failure. */
 void sub_08073E2C_v(u32 a, u32 b, u32 c, u32 d)
 {
     u32 i = 0;
@@ -82,6 +89,13 @@ static inline s32 diffBEE8(u32 a, u16 b) {
  { s32 t = (s16)angle; if (t < -8) angle = t + 16; }
  d = (s16)angle; if (d < 0) d = -d;
  return d; }
+/* [SelectLocalPlayerFacingConeTarget] Uses local live Q8 coordinates +0x8C/+0x90 as the origin and
+ * packet-facing data via +0x148. With battle rules enabled, first selects the nearest in-range peer whose
+ * +0x68 byte is nonzero and differs from the local byte, using peer packet coordinates. If none qualifies,
+ * selects among five active enemies with state not 11, nonzero health +0x5C and nonzero byte +0x1DC. Returns
+ * player ID +0 or enemy ID +2, or 0xFF. An eligible player takes priority over every enemy regardless of their
+ * relative distances. Cone width is a low-halfword wrapped angular-bin threshold; range comparison is unsigned
+ * and strict. */
 u16 sub_08073EE8(u16 width, s32 range)
 {
     struct Ply076EE8 *player, *cand;
@@ -172,6 +186,13 @@ static inline s32 diffB414C(u32 a, u16 b) {
  { register s32 t asm("r0") = (s16)angle; if (t < -8) { t += 16; angle = t; } } 
  d = (s16)angle; if (d < 0) d = -d;
  return d; }
+/* [SelectPlayerFacingConeTarget] Selects a facing-cone target for a supplied player pointer. Uses that player
+ * packet position/facing via +0x148, unlike the local-live-coordinate sibling 73EE8. Applies the same
+ * battle-enabled differently grouped nonzero-peer priority, then five-enemy fallback, returning player ID,
+ * enemy ID or 0xFF. Peer packet positions are subtracted as integer pixels; enemy Q8 coordinates are shifted
+ * to pixels before subtracting the origin packet position. Width is a low-halfword angular-bin threshold and
+ * range comparison is unsigned/strict. Distance is narrowed to u16, ties retain the first index and 65535 is
+ * excluded by the initial best sentinel. */
 s32 sub_0807414C(struct Ply076EE8 *player, u16 width, u32 range)
 {
     struct Ply076EE8 *cand;
@@ -374,6 +395,13 @@ extern u32 effectStep77(struct EffectSprite77 *,u16,u16 *,u16 *,u32) asm("sub_08
 extern void effectPosition77(s32,s32,s16 *,s16 *,u32,u32) asm("sub_0800BC08");
 extern void effectDraw77(s32,s32,u16,u16,u8,void *,void *,u32) asm("sub_08007870");
 extern void effectPalette77(u32,void *,u32) asm("sub_08000AF0");
+/* [AnimateEntityHealingActivation] Machine ABI r0=entity owner, r1=task-slot. Initializes resource 0x5008C,
+ * style8, mode -1 and palette bytes7/8. Each iteration re-reads the attached position: owners0..3 use player
+ * stride0x14C, pointer +148, packed x=halfword0>>4 and y=halfword2&0xFFF; owner>=4 uses enemy stride0x2E0,
+ * words +14/+18 truncated to signed16 after shifting right8. Converts through BC08, advances animation 16 with
+ * halfword frame/timer, retains only low16 completion return, and draws at converted y+1 with draw flag1.
+ * CC98/CD8C/CCCC suppress drawing only; stepping/yield continue. Global02344 bit0 suppresses palette load
+ * only. */
 void sub_08074530(u32 who,u32 slot)
 {
     struct EffectSprite77 sprite;
@@ -404,6 +432,13 @@ void sub_08074530(u32 who,u32 slot)
     }
     effectMasks77[who]&=~(1<<slot);
 }
+/* [AnimateEntityResistanceBuffActivation] Machine ABI r0=entity owner, r1=task-slot. Initializes resource
+ * 0x5008C, style8, mode -1 and palette bytes7/8. Each iteration re-reads the attached position: owners0..3 use
+ * player stride0x14C, pointer +148, packed x=halfword0>>4 and y=halfword2&0xFFF; owner>=4 uses enemy
+ * stride0x2E0, words +14/+18 truncated to signed16 after shifting right8. Converts through BC08, advances
+ * animation 18 with halfword frame/timer, retains only low16 completion return, and draws at converted y+1
+ * with draw flag1. CC98/CD8C/CCCC suppress drawing only; stepping/yield continue. Global02344 bit0 suppresses
+ * palette load only. */
 void sub_080746A4(u32 who,u32 slot)
 {
     struct EffectSprite77 sprite;
@@ -434,6 +469,13 @@ void sub_080746A4(u32 who,u32 slot)
     }
     effectMasks77[who]&=~(1<<slot);
 }
+/* [AnimateEntityCombatBonusBuffActivation] Machine ABI r0=entity owner, r1=task-slot. Initializes resource
+ * 0x5008C, style8, mode -1 and palette bytes7/8. Each iteration re-reads the attached position: owners0..3 use
+ * player stride0x14C, pointer +148, packed x=halfword0>>4 and y=halfword2&0xFFF; owner>=4 uses enemy
+ * stride0x2E0, words +14/+18 truncated to signed16 after shifting right8. Converts through BC08, advances
+ * animation 17 with halfword frame/timer, retains only low16 completion return, and draws at converted y+1
+ * with draw flag1. CC98/CD8C/CCCC suppress drawing only; stepping/yield continue. Global02344 bit0 suppresses
+ * palette load only. */
 void sub_08074818(u32 who,u32 slot)
 {
     struct EffectSprite77 sprite;
@@ -464,6 +506,13 @@ void sub_08074818(u32 who,u32 slot)
     }
     effectMasks77[who]&=~(1<<slot);
 }
+/* [AnimateEntityFourAttributeBuffActivation] Machine ABI r0=entity owner, r1=task-slot. Initializes resource
+ * 0x5008C, style8, mode -1 and palette bytes7/8. Each iteration re-reads the attached position: owners0..3 use
+ * player stride0x14C, pointer +148, packed x=halfword0>>4 and y=halfword2&0xFFF; owner>=4 uses enemy
+ * stride0x2E0, words +14/+18 truncated to signed16 after shifting right8. Converts through BC08, advances
+ * animation 19 with halfword frame/timer, retains only low16 completion return, and draws at converted y+1
+ * with draw flag1. CC98/CD8C/CCCC suppress drawing only; stepping/yield continue. Global02344 bit0 suppresses
+ * palette load only. */
 void sub_0807498C(u32 who,u32 slot)
 {
     struct EffectSprite77 sprite;
@@ -494,6 +543,13 @@ void sub_0807498C(u32 who,u32 slot)
     }
     effectMasks77[who]&=~(1<<slot);
 }
+/* [AnimateEntitySelfBuffActivation] Machine ABI r0=entity owner, r1=task-slot. Initializes resource 0x5008C,
+ * style8, mode -1 and palette bytes7/8. Each iteration re-reads the attached position: owners0..3 use player
+ * stride0x14C, pointer +148, packed x=halfword0>>4 and y=halfword2&0xFFF; owner>=4 uses enemy stride0x2E0,
+ * words +14/+18 truncated to signed16 after shifting right8. Converts through BC08, advances animation 1 with
+ * halfword frame/timer, retains only low16 completion return, and draws at converted y+1 with draw flag1.
+ * CC98/CD8C/CCCC suppress drawing only; stepping/yield continue. Global02344 bit0 suppresses palette load
+ * only. */
 void sub_08074B00(u32 who,u32 slot)
 {
     struct EffectSprite77 sprite;
@@ -524,6 +580,12 @@ void sub_08074B00(u32 who,u32 slot)
     }
     effectMasks77[who]&=~(1<<slot);
 }
+/* [AnimateAllyBuffActivation] Complete original08074C74..08074DE8 audited ROM=ELF. ABI r0 entity index/r1 task
+ * bit; player<=3 uses packed x12/y12 via pointer+148, enemy indexwho-4 uses signed16 pixel truncation of its
+ * Q8 position words via(s32)((u32)word<<8)>>16. Resource5008D animation9 follows live entity position and
+ * draws atscreenY-24 with visibility arg0; frame/timerhalfwords initialized0,stylebytes7/8. Animation advances
+ * even when CC98/CD8C/CCCC suppress drawing; even globalframe copies2palette units bank23. Each iteration
+ * yields; completion clears030063E0[who] bit(slot). No ownerbounds/cancellation/timeout. */
 void sub_08074C74(u32 who,u32 slot)
 {
     struct EffectSprite77 sprite;
@@ -558,6 +620,13 @@ struct Task4DE8 { u32 f0,f4,f8,fC,f10,f14,f18,f1C,f20,f24; };
 extern u32 masks4DE8[] asm("gUnk_030063E0");
 extern u8 *lists4DE8[] asm("gUnk_030063B0");
 extern void spawn4DE8(void *,u32,u32) asm("sub_08000274");
+/* [StartEntityAttachedAbilityVisual] For full who index selects first free bit among16 in030063E0[who]. Both
+ * who<=3 and who>3 branches accept only type6,8,9,10,11,20, selecting
+ * callbacks74B00,74530,74818,746A4,7498C,74C74 respectively; unsupported type/full pool returns. Writes
+ * callback before allocating0x680-byte stack into030063B0[who]+slot*0x28+20. Failure leaves callback changed
+ * but mask unchanged; success sets priority0x34, stack+67C, cleanup0, starts task with who/slot and sets mask.
+ * Pinned complete callback bodies follow player sprite position for who<4 or enemy coordinates indexed who-4,
+ * step/draw distinct animations then clear slot bit. */
 void sub_08074DE8(u32 who, s32 type)
 {
     u32 i, mem;
@@ -664,6 +733,13 @@ extern void pal5088(u32, void *, u32) asm("sub_08000AF0");
 extern u32 rand5088(void) asm("sub_080008C8");
 extern void hit5088(u32, u32, u32, u32, u32, u32) asm("sub_08029E0C");
 
+/* [RunThreeStaggeredForwardHitAnimations] ABI r0=full player index, r1=full slot bit. Initializes three
+ * positions from player sprite, one facing angle, resource5008C and animation14; u16 start delays are1,9,17.
+ * Local caster sets flag word+30 bit0, saves LOW16 of serial word+DC then increments full word, and computes
+ * u16 damage=RNG%50+50*1E0AC(profile+30,5). Each active animation moves 2*sine per tick and steps frames;
+ * drawing occurs only while completion0 and display gates clear. Only local caster with completion EXACTLY1
+ * scans five active enemies within signed16 pixel deltas <=27 on both axes, state!=11 and serial word+54
+ * different from saved LOW16 serial. */
 void sub_08075088(u32 who, u32 slot)
 {
     struct Spr5088 spr;
@@ -766,6 +842,13 @@ extern u32 gMasks5494[] asm("gUnk_030063E0");
 extern u8 *gLists5494[] asm("gUnk_030063B0");
 extern void sub_08000274_3(u32, u32, u32) asm("sub_08000274");
 extern void sub_08075088();
+/* [StartThreeStaggeredForwardHitAnimations] Full incoming r0 is player index. Finds first zero bit among16
+ * in030063E0[index]; no slot returns. Allocates0x400-byte stack and stores pointer at selected0x28-byte task
+ * control+20 in pool030063B0[index]. Allocation failure returns with mask unchanged. Success sets
+ * priority+8=0x34, callback+C=75088, stack top+10=allocation+3FC and cleanup+24=0. Registers task with player
+ * index and slot, then ORs slot mask bit. Complete consumer75088 initializes three forward hit animations with
+ * delays1/9/17 and local enemy-hit processing. No index validation, retry, synchronous hit or returned
+ * completion status. */
 void sub_08075494(u32 who)
 {
     u32 i = 0;
@@ -800,6 +883,12 @@ void sub_08075494(u32 who)
 }
 struct EffectBits77 { u32 kind:4; u32 x:12; u32 y:12; u32 pad:4; u32 low:5; u32 flag:1; };
 struct EffectHolder77 { u8 pad[0x148]; struct EffectBits77 *entity; };
+/* [RunPlayerVanishAnimationAndTemporaryVisibilityEffect] Complete original 08075520..080756EC reviewed. ABI r0
+ * player index/r1 task bit; waits while packed entity kind low4 is10, then advances resource5008D animation8
+ * at the live player position. Once animation completes, sets player word +30 bit18 (0x40000) for current
+ * local id and bit19 (0x80000) for another player, yields exactly60 times, clears corresponding bit and
+ * task-mask bit. Local-id comparison is repeated during clearing, so identity changes can leave the original
+ * bit set. No owner bounds, waits have no timeout, draw gates do not stop animation. */
 void sub_08075520(u32 who,u32 slot)
 {
     struct EffectSprite77 sprite;
@@ -833,6 +922,13 @@ void sub_08075520(u32 who,u32 slot)
     effectMasks77[who] &= ~(1<<slot);
 }
 extern void sub_08075520();
+/* [StartPlayerVanishVisibilityEffectTask] Complete original 080756EC..08075778 reviewed. ABI r0 player index;
+ * finds first free bit0..15 in 030063E0[player], allocates0x400 stack, writes task at
+ * 030063B0[player]+slot*0x28, priority0x34, callback08075521, top stack+0x3FC and zero finalizer, starts with
+ * r1 player/r2 slot then marks busy only after scheduler registration. Returns when all16 slots busy or
+ * allocation fails (null is stored at task+0x20 first). No owner bound check, independent scheduler-membership
+ * guard, wait or return success promise. Callback performs the independently anchored vanish/visibility
+ * behavior. */
 void sub_080756EC(u32 who)
 {
     u32 i = 0;
@@ -909,6 +1005,13 @@ static inline s32 wait5778(struct Ply5778 *p, u32 n)
     return 0;
 }
 
+/* [RunPlayerFastAimedAttackProjectile] Descriptor pointer in r0: owner word+0, slot word+4, target halfword+8,
+ * parameter word+10, flags word+14. Player owner only; no owner bounds checks. Takes initial packed player
+ * coordinates and computes aim once toward target, falling back to facing; restored original target selects
+ * player-versus-enemy collision domain. Only local owner initializes attack template 0xC4 bytes, low16 serial
+ * from player+DC and power from signed halfword+3A (tripled when kind nonzero); remote paths may still read
+ * these uninitialized spills before authority checks. Flags bit15 enables a temporary player flag 0x200000 and
+ * cumulatively adds 0x18 to attack byte+A9 on successful rolls. */
 void sub_08075778(struct Arg5778 *arg)
 {
     struct Spr5778 spr;
@@ -1249,6 +1352,13 @@ extern u8 *gLists60E8[] asm("gUnk_030063B0");
 extern u8 *gInfo60E8[] asm("gUnk_03006380");
 extern void sub_08000274_2(void *, void *) asm("sub_08000274");
 extern void sub_08075778();
+/* [StartPlayerFastAimedAttackProjectile] ABI r0=owner,r1=target word,r2=flags word,r3=lifetime parameter.
+ * Searches16 owner occupancy bits; full pool returns. Allocates0x3C0, stores task+20 pointer even on failure;
+ * zero returns. On success fills24-byte descriptor owner+0,slot+4,target WORD+8 (callback reads
+ * halfword),flags+14,parameter+10, leaving +C untouched; task priority0x34,callback75778,stack
+ * allocation+3BC,cleanup0. Scheduler ABI r0=task,r1=descriptor,then occupancy set. Starts asynchronous player
+ * projectile; no hit/completion status. Complete original configured body inspected and equal to local EU
+ * ROM/supplied verified-main ELF; static research only, no worker build or runtime testing. */
 void sub_080760E8(u32 who, u32 a, u32 b, u32 c)
 {
     u32 i = 0;
@@ -1335,6 +1445,13 @@ static inline s32 wait61A4(struct Ply61A4 *p, u32 n)
 }
 
 void sub_080761A4_c(struct Arg61A4 *arg) asm("sub_080761A4");
+/* [RunPlayerAttackProjectileWithPiercingVariants] Descriptor pointer in r0: owner word+0, slot word+4, target
+ * halfword+8, parameter word+10, flags word+14. Player owner only; no owner bounds checks. Takes initial
+ * packed player coordinates and computes aim once toward target, falling back to facing; restored original
+ * target selects player-versus-enemy collision domain. Only local owner initializes attack template 0xC4
+ * bytes, low16 serial from player+DC and power from signed halfword+3A (tripled when kind nonzero); remote
+ * paths may still read these uninitialized spills before authority checks. Flags bit15 enables a temporary
+ * player flag 0x200000 and cumulatively adds 0x18 to attack byte+A9 on successful rolls. */
 void sub_080761A4_c(struct Arg61A4 *arg)
 {
     struct Spr61A4 spr;
@@ -1660,6 +1777,13 @@ extern u8 *infoA88[] asm("gUnk_03006380");
 extern struct PlayerA88 playersA88[] asm("gUnk_03003CE0");
 extern void sub_080761A4(void);
 extern void taskA88(void *) asm("sub_08000274");
+/* [StartPlayerAttackProjectileWithPiercingVariants] ABI r0=owner,r1=target word,r2=flags word,r3=lifetime
+ * parameter. Finds16 owner occupancy slots; successful0x800 allocation builds descriptor owner+0,slot+4,target
+ * word+8,flags word+14,parameter word+10,leaves+C untouched. Task priority0x34,callback761A4,stack
+ * allocation+7FC,cleanup0; scheduler receives task/descriptor and then occupancy set. Full-pool local owner in
+ * state5 resets state0,+122halfword0,+28halfword=LOW16 incoming flags. Allocation failure stores null task+20
+ * then attempts same local state recovery through incoming r5, which was not initialized to player pointer on
+ * this path: no safe failure recovery is claimed. Asynchronous starter, not completion. */
 void sub_08076A88(u32 who, u32 a, u32 b, u32 c) {
     register u32 aa asm("r10") = a;
     u32 bb = b;
@@ -1760,6 +1884,13 @@ static inline s32 move6BA0(s32 v, s32 spd)
     return v * spd;
 }
 
+/* [RunPlayerAttackProjectileWithSpreadAim] Descriptor pointer in r0: owner word+0, slot word+4, target
+ * halfword+8, parameter word+10, flags word+14. Player owner only; no owner bounds checks. Takes initial
+ * packed player coordinates and computes aim once toward target, falling back to facing; restored original
+ * target selects player-versus-enemy collision domain. Only local owner initializes attack template 0xC4
+ * bytes, low16 serial from player+DC and power from signed halfword+3A (tripled when kind nonzero); remote
+ * paths may still read these uninitialized spills before authority checks. Flags bit15 enables a temporary
+ * player flag 0x200000 and cumulatively adds 0x18 to attack byte+A9 on successful rolls. */
 void sub_08076BA0(struct Arg6BA0 *arg)
 {
     s16 ang; /* declared first: orders the GCSE copies of ang and who*4 on the stack as in ROM */
@@ -2085,6 +2216,13 @@ extern u32 gMasks7444[] asm("gUnk_030063E0");
 extern u8 *gLists7444[] asm("gUnk_030063B0");
 extern u8 *gInfo7444[] asm("gUnk_03006380");
 extern void sub_08076BA0();
+/* [StartPlayerAttackProjectileWithSpreadAim] Machine ABI r0=owner,r1=target word,r2=flags word,r3=low
+ * parameter word,fifth stack argument=spread. Finds16 owner occupancy slots,allocates0x800 and stores task+20;
+ * full pool/null allocation return. Success descriptor owner+0,slot+4,target word+8,flags
+ * word+14,word+10=(spread<<16)|incoming r3 WITHOUT masking low parameter,so incoming r3 upper bits also
+ * contribute to spread halfword. Callback76BA0 reads target low16,spread halfword+12 and kind halfword+14.
+ * Descriptor+C untouched. Task priority0x34,callback76BA0,stack allocation+7FC,cleanup0; scheduler receives
+ * task/descriptor and bit set after registration. */
 void sub_08077444(u32 who, u32 a, u32 b, u32 c, u32 d)
 {
     u32 i = 0;
@@ -2153,6 +2291,13 @@ extern u32 rand7508(void) asm("sub_080008C8");
 extern s32 roll7508(s32, s32) asm("sub_080223A4");
 extern void send7508(void *) asm("sub_080660EC");
 
+/* [RunEnemyAimedDamageProjectile] Machine ABI r0=enemy index, r1=packed target high16 and task-slot low4. Uses
+ * enemy-indexed resource/palette with special resource 0x5001E for byte +226==3. Computes aim once from target
+ * position; restricts angular deviation from facing, then moves three sine-table units per iteration for a
+ * 34-count lifetime. Waits enemy halfword +6A to reach byte +22B; early cancellation clears owner+4 task bit.
+ * Player-domain scan geometrically checks all players but damage/avoidance applies only local authority;
+ * success adds halfword damage to player +88 and records serial history. Avoidance adds quarter damage
+ * (minimum 1) to +8A without setting stop-hit. */
 void sub_08077508(u32 who, u32 arg)
 {
     struct Spr7508 spr;
@@ -2385,6 +2530,13 @@ struct Task7D04 { u32 f0, f4, f8, fC, f10, f14, f18, f1C, f20, f24; };
 extern u32 gMasks7D04[] asm("gUnk_030063E0");
 extern u8 *gLists7D04[] asm("gUnk_030063B0");
 extern void sub_08077508();
+/* [StartEnemyAimedDamageProjectile] Searches 16 bits in 030063E0[enemyIndex+4]. Writes priority 0x34 to
+ * selected 40-byte task record before allocating 0x400 bytes; allocation pointer stored at +20 even on
+ * failure. Success sets callback 77508, stack top allocation+0x3FC, cleanup zero and starts scheduler with
+ * r1=original enemy index and r2=(incoming target word<<16)|slot, thereby retaining only low16 target bits.
+ * Sets occupancy bit after scheduler registration. Exhaustion or allocation failure returns without starting;
+ * failure does not roll back priority. This schedules asynchronous work and does not report projectile
+ * completion. */
 void sub_08077D04(u32 who, u32 b)
 {
     u32 i;
@@ -2449,6 +2601,12 @@ extern u32 rand7DAC(void) asm("sub_080008C8");
 extern s32 roll7DAC(s32, s32) asm("sub_080223A4");
 extern void send7DAC(void *) asm("sub_080660EC");
 
+/* [RunEnemyDamageProjectileWithSceneObjectCollision] Machine ABI r0=enemy index, r1=target high16/task-slot
+ * low4. Aims once and restricts deviation using table 0847AD0A; selects enemy-indexed projectile resource.
+ * Waits +6A >= byte +22B with 56E90 abort conditional on enemy halfword +7A bit0; BA6C/state10/11 also abort.
+ * Runs 34-count flight, moving signed sine*20/10 each ordinary iteration. Player domain checks only local
+ * player word +8C/+90; close sprite kind14 or team0 consumes a count via continue without movement/yield.
+ * Local hit and avoidance both stop; failed hit roll does not necessarily stop. */
 void sub_08077DAC(u32 who, u32 arg)
 {
     struct Spr7DAC spr;
@@ -2651,6 +2809,14 @@ check:
     f7DAC[who + 4] &= ~(1 << bit);
 }
 extern void sub_08077DAC();
+/* [StartEnemyDamageProjectileWithSceneObjectCollision] Finds one of 16 owner+4 occupancy bits and selects
+ * 40-byte task record. Priority 0x34 is written before 0x400-byte allocation; pointer stored at +20, zero
+ * returns without callback/occupancy update. Success installs 77DAC callback, stack allocation+0x3FC and zero
+ * cleanup, registers r1=enemy index and r2=(target word<<16)|slot, then sets occupancy bit. Input target is
+ * truncated to low16 by packing. Full pool returns without starting. This starts the asynchronous
+ * collision-probing projectile; it gives no completion result. Complete original configured body inspected and
+ * equal to the local EU ROM and supplied verified-main ELF. Static research only; no worker build or runtime
+ * testing. */
 void sub_0807854C(u32 who, u32 b)
 {
     u32 i;
@@ -2706,6 +2872,12 @@ extern void hit85F4(u32, s32, s32, u32, s32) asm("sub_08079888");
 extern void init85F4(void *, s32, s32, s32, s32) asm("sub_08065158");
 extern void miss85F4(u32, u32, s32, s32, s32) asm("sub_0806818C");
 
+/* [RunEnemyProjectileSpawningAreaDamage] Machine ABI r0=enemy index, r1=target high16/task-slot low4. Resource
+ * 0x500AF; enemy byte +1FD==0x14 chooses subtype base0/palette14, otherwise base1/palette15. Computes
+ * restricted aim once. Wait/cancellation is conditional on enemy +7A bit0 for 56E90, plus BA6C and
+ * states10/11. Runs 34-count flight at signed sine*20/10. Player domain checks only local player position
+ * within signed16 axis distance <=7, non-team0/spritekind14 and flags mask0x2 clear, then directly starts
+ * 79888(owner enemy.id+4, fixed x/y, subtype base+4, extra0). */
 void sub_080785F4(u32 who, u32 arg)
 {
     struct Spr85F4 spr;
@@ -2868,6 +3040,13 @@ clear:
     f85F4[who + 4] &= ~(1 << bit);
 }
 extern void sub_080785F4();
+/* [StartEnemyProjectileSpawningAreaDamage] Uses occupancy mask 030063E0[enemy index+4] with 16 slots. Writes
+ * task priority 0x34, allocates 0x400 bytes and stores pointer at +20; failure leaves priority/pointer write
+ * but no occupancy bit. Success callback is 785F4, stack top allocation+0x3FC, cleanup zero; scheduler
+ * receives original enemy index and packed target low16 in high16 plus slot in low4. Occupancy set only after
+ * registration. Full pool/failure does not start work; asynchronous starter provides no impact or completion
+ * status. Complete original configured body inspected and equal to the local EU ROM and supplied verified-main
+ * ELF. Static research only; no worker build or runtime testing. */
 void sub_08078B24(u32 who, u32 b)
 {
     u32 i;
@@ -2928,6 +3107,10 @@ extern void areaBCC(struct VecBCC *, struct BoxBCC *, u32) asm("sub_0801FB14");
 extern void sendBCC(struct PacketBCC *) asm("sub_080660EC");
 extern s16 atanBCC(s16, s16) asm("ArcTan2");
 extern s32 sqrtBCC(s32) asm("Sqrt");
+/* [TaskEligiblePlayerCentroidAreaAttack] Matched 793BC starts 78BCC with owner player ID and a per-owner
+ * effect-pool slot. Receiver6690C case 0x24/tag 0xA5 calls 793BC(sender); the message payload is unused.
+ * Player+0x68 is treated only as an observed group/participation selector here; exact team/alive/ready
+ * semantics are not established by equality alone. */
 void sub_08078BCC(s32 who, s32 bit)
 {
     struct PlayerBCC *members[4];
@@ -3214,6 +3397,9 @@ struct Task93BC { u32 f0, f4, f8, fC, f10, f14, f18, f1C, f20, f24; };
 extern u32 gMasks93BC[] asm("gUnk_030063E0");
 extern u8 *gLists93BC[] asm("gUnk_030063B0");
 extern void sub_08078BCC();
+/* [StartEligiblePlayerCentroidAreaAttack] Matched starter finds an unused bit among 16 per-owner effect slots,
+ * allocates 0x400 bytes, assigns task 78BCC, starts it with owner and slot, then marks slot used.
+ * Allocation/no-slot failures return without starting an effect; task field+8 is not priority proof. */
 void sub_080793BC(u32 who)
 {
     u32 i;
@@ -3270,6 +3456,11 @@ extern void sub_0801FC34_458(s32 *, s32 *, u32) asm("sub_0801FC34");
 extern void sub_08022028_458(s32 *, void *, u32) asm("sub_08022028");
 extern void sub_08029A7C_458(s32, u32, s32) asm("sub_08029A7C");
 extern u8 *sub_08007290_458(u32) asm("sub_08007290");
+/* [TaskTimedAreaDamageEffect] Matched task reads world position and subtype from info record. Subtypes 0..5
+ * select countdown 0/120/180, one of two hitboxes and random damage 50..69 or 100..139; draws numeric
+ * countdown, then area visual 22078 and collision/damage calls 1FC34/1F1C4/29A7C/22028. Releases owner
+ * effect-pool bit on exit. Resource identities do not establish an exact bomb/item name; durations are counted
+ * yields, not promised elapsed frames. */
 void sub_08079458(struct Info458 *info)
 {
     struct Spr458 spr;
@@ -3424,6 +3615,9 @@ extern u8 *gLists9888[] asm("gUnk_030063B0");
 extern u8 *gInfo9888[] asm("gUnk_03006380");
 extern void sub_08000274_2(void *, void *) asm("sub_08000274");
 extern void sub_08079458();
+/* [StartTimedAreaDamageEffect] Matched starter allocates one of 16 per-owner effect tasks with 0x400 bytes;
+ * stores owner, slot, X/Y, subtype and extra word, starts 79458. The task selects timing/damage by subtype and
+ * does not read the stored extra word. */
 void sub_08079888(u32 who, u32 a, u32 b, u32 c, u32 d)
 {
     u32 i = 0;
@@ -3481,6 +3675,11 @@ extern void sub_0801FB14_948(s32 *, s32 *, u32) asm("sub_0801FB14");
 extern s32 sub_08021FE0_948(s32 *, s32 *, s32 *, struct Box948 *) asm("sub_08021FE0");
 extern void sub_0801F1C4_948(s32 *, void *, u32) asm("sub_0801F1C4");
 extern void sub_08029CEC_948(s32, s32, s32) asm("sub_08029CEC");
+/* [TaskRepeatingAreaDamageEffect] Matched task renders startup animation then an area effect for 180 counted
+ * loop iterations, testing overlaps and applying damage 10 to eligible actors/players. A per-hit counter
+ * suppresses repeated hits until it increments when frame counter&31==0. Releases owner effect-pool slot.
+ * Exact item/element identity remains unresolved; X/Y are used, stored subtype/extra values are not read by
+ * this body. */
 void sub_08079948(struct Info9888 *info)
 {
     struct Spr948 spr;
@@ -3567,6 +3766,9 @@ void sub_08079948(struct Info9888 *info)
     gMasks9888[who] &= ~(1 << i);
 }
 extern void sub_08079948();
+/* [StartRepeatingAreaDamageEffect] Matched starter allocates an unused per-owner task, stores
+ * owner/slot/X/Y/subtype/extra value and starts 79948. The body uses position/owner/slot, not the stored
+ * subtype or extra value. */
 void sub_08079CC4(u32 who, u32 a, u32 b, u32 c, u32 d)
 {
     u32 i = 0;
@@ -3615,6 +3817,13 @@ extern void sub_0800BC08_6(s32, s32, s16 *, s16 *, s32, s32) asm("sub_0800BC08")
 extern u32 sub_08065370_5r(void *, u32, u16 *, u16 *, s32) asm("sub_08065370");
 extern void sub_08065158_5(void *, u32, u32, s32, s32) asm("sub_08065158");
 extern void sub_08068A00(s32, s32, void *);
+/* [ProcessAbilityHitAndAnimateAtPackedPosition] r0 points to six-word ability descriptor; r1 packs coordinate
+ * halfwords. Initializes sprite5008C,palette bank0x17 (23), style bytes7/8; unpacks low/high16 coordinate
+ * fields and shifts each left8. Calls hit processor68A00 once with x inr0,y inr1,descriptor inr2 before
+ * checking abort helper0CB78. Then while abort helper zero and low16 animation completion zero, advances
+ * animation21, conditionally projects/draws when three display gates zero; visibility may be zeroed for level4
+ * helper0CDC0 and actual draw additionally requires03002344 bit0. Y screen coordinate+1; yields each
+ * iteration. Both normal/abort exits clear mask030063E0[descriptor.owner] bit descriptor.slot. */
 void sub_08079D84(struct Info9888 *info, u32 packed)
 {
     struct SprD84 s;
@@ -3654,6 +3863,13 @@ void sub_08079D84(struct Info9888 *info, u32 packed)
     gMasks9888[info->who] &= ~(1 << info->i);
 }
 extern void sub_08000274_9ed0(void *, void *, u32) asm("sub_08000274");
+/* [StartAbilityHitAnimationAtPosition] r0 source six-word ability descriptor,r1/r2 full coordinate words.
+ * Searches free bit among16 in030063E0[source.owner], otherwise returns. Allocates0x400 stack, writes
+ * selected0x28 task+20; failure returns with no descriptor copy/mask change. Success copies all24bytes
+ * into03006380[owner]+slot*24 then replaces descriptor.slot, sets priority0x34, callback79D84,
+ * stack+3FC,cleanup0 and registers callback with descriptor and packed coordinate word=(r1 logical>>8)|((r2
+ * logical>>8)<<16). There is no mask of x before OR, so x bits24..31 can affect packed Y low8; do not assume
+ * arbitrary signed/large coordinates round-trip. Sets owner slot mask after task registration. */
 void sub_08079ED0(struct Info9888 *src, u32 x, u32 y)
 {
     u32 i = 0;
@@ -3685,6 +3901,10 @@ void sub_08079ED0(struct Info9888 *src, u32 x, u32 y)
     sub_08000274_9ed0(t, *(u8 **)((u8 *)gInfo9888 + w) + i * 0x18, (x >> 8) | ((y >> 8) << 16));
     gMasks9888[src->who] |= 1 << i;
 }
+/* [FindAffordableActionTierPlusOne] For a supplied action, queries 6898C at levels 7 down to 1. Narrows each
+ * result minus one to s16 and requires this to be nonnegative and no greater than signed local energy +0xC2.
+ * Returns queried level + 1, so successful results are 8 through 2; returns 0 when none passes and never tests
+ * level 0. Does not spend energy or establish an exact displayed skill-level interpretation. */
 s32 sub_08079FD0(s32 arg0) {
     s16 temp_r1;
     s32 var_r4;
@@ -3706,10 +3926,21 @@ loop_1:
     }
     goto loop_1;
 }
+/* [SelectLocalPlayerFacingConeTargetWithDefaultRange] Forwards the low 16-bit cone-width parameter to 73EE8
+ * with fixed range 0x7FFFFFFF, then returns only the low16 bits of its result. It retains the callee
+ * player-first preference, concrete eligible-group byte comparisons, five-enemy filters and 0xFF no-target
+ * result. The default range does not remove u16 distance narrowing or the initial best-distance 65535
+ * exclusion. Does not create an effect, send a packet, reserve a target or wait. */
 u16 sub_0807A028(u16 arg0) {
     return sub_08073EE8(arg0, 0x7FFFFFFF);
 }
 extern s32 sub_08074398_5(u16, u16, s32, s32, s32) asm("sub_08074398");
+/* [SelectTargetNearPointWithDefaultRange] Forwards low 16-bit self-player index and excluded-enemy ID plus the
+ * two full 32-bit Q8 origin coordinates to the five-argument 74398 ABI, supplies range 0x7FFFFFFF as its fifth
+ * stack argument, and narrows the result to u16. The excluded ID remains enemy-only; eligible players retain
+ * priority regardless of enemy distance. No self-index validation, target reservation, wait or network
+ * publication. The default range does not remove distance truncation or the callee strict best-distance 65535
+ * bound. */
 u16 sub_0807A040(u16 a, u16 b, s32 c, s32 d)
 {
     return sub_08074398_5(a, b, c, d, 0x7FFFFFFF);
@@ -3722,6 +3953,12 @@ extern u32 gA7A064_63B0[] asm("gUnk_030063B0");
 extern u32 gA7A064_6380[] asm("gUnk_03006380");
 extern u32 gW7A064_6370 asm("gUnk_03006370");
 extern u32 gW7A064_6420 asm("gUnk_03006420");
+/* [AllocatePlayerEffectTaskPools] For full incoming r0 index k, clears byte arrays 03006410[k] and
+ * 03006430[k], word mask 030063E0[k], and shared word 0300641C. Allocates 0x280 bytes into word pointer array
+ * 030063B0[k] (sixteen 0x28-byte task controls) and 0x180 into 03006380[k] (sixteen 0x18-byte records). Only
+ * k==0 additionally allocates shared 0x500-byte task pool 03006370 and 0x180-byte record pool 03006420. No
+ * bounds check, retry, allocation-failure cleanup, or returned status is established; earlier buffers are not
+ * freed. */
 void sub_0807A064(u32 k)
 {
 
@@ -3738,6 +3975,11 @@ void sub_0807A064(u32 k)
         gW7A064_6420 = sub_08001494(sz);
     }
 }
+/* [DeductLocalPlayerActionEnergyCost] Reads action/level from descriptor words +0xC/+0x14, calls 6898C and
+ * subtracts u16(result - 1) from local player energy +0xC2. Stores low 16 bits, then replaces a negative
+ * stored s16 value with zero. Does not independently reject failed affordability: when 6898C returns 0, the
+ * subtracted halfword is 65535, which can increase energy by one modulo 16 bits. No maximum clamp, descriptor
+ * validation or rollback is performed. */
 void sub_0807A0E0(void *arg0)
 {
     u8 *p = (u8 *)&gUnk_03003CE0[sub_080020F4()];
@@ -3748,6 +3990,9 @@ void sub_0807A0E0(void *arg0)
     if ((s16)n < 0)
         *f = 0;
 }
+/* [NoOpEffectTaskFinalizer] Empty routine: no data-memory reads or writes, nested calls or return-value
+ * initialization. Its role is anchored by actual task-control finalizer assignments rather than assigning
+ * semantic names to otherwise unexplained constant-return stubs. */
 void sub_0807A120(void) {
 
 }
@@ -3760,6 +4005,13 @@ static inline u8 Sum_A124(const u8 *data, u32 length)
         sum += *p;
     return ~sum;
 }
+/* [SaveCurrentCharacterSlot] Allocates two 4096-byte temporary buffers, copies character record payload 0xCA4
+ * bytes from 030034E0 and associated state payload 0x51C bytes from 03004210, and appends complemented
+ * modulo-256 byte sums. Programs sectors save_halfword(+0xE) and that sector +8. Ignores the first programming
+ * status; tests the low halfword of the second status, then verifies both complete sectors and returns their
+ * ORed verification result, or the second programming failure. Zero indicates success. Frees both buffers on
+ * its ordinary exits. Does not check allocation failure, initialize remaining buffer padding or retry a failed
+ * operation. */
 u32 sub_0807A124(void)
 {
     u32 sz = 0x1000;
@@ -3795,6 +4047,12 @@ static inline u8 Sum_A20C(const u8 *data, u32 length)
         sum += *p;
     return ~sum;
 }
+/* [LoadCharacterSaveSlotIfChecksumsValid] Narrows the sector argument to u8 and reads 4096 bytes from that
+ * sector and sector +8 into separate temporary buffers. Checks complemented byte-sum checksums over 0xCA4 and
+ * 0x51C payload bytes. If both pass, copies both payloads into the current character and associated-state
+ * globals and returns 1; otherwise returns 0 without either payload copy. Frees both buffers. Does not
+ * validate character fields, restrict sectors to the eight menu slots, recalculate stats or check allocation
+ * success. */
 s32 sub_0807A20C(u8 a)
 {
     u32 sz = 0x1000;
@@ -3813,6 +4071,12 @@ s32 sub_0807A20C(u8 a)
     sub_08001538((s32)q);
     return 0;
 }
+/* [InvalidateCharacterSaveSlot] Narrows sector to u8, allocates buffers of 0xCA8 and 0x520 bytes and fills
+ * each allocated range with zero. Repeatedly programs the selected sector, then sector +8, until each
+ * programming status low halfword is zero. Stored checksum bytes +0xCA4/+0x51C are zero rather than the
+ * required 255 for all-zero payloads, thereby invalidating these records. Frees buffers and returns 1 after
+ * both loops finish. Busy retries have no scheduler wait or bound; allocation failures are unchecked and no
+ * verification call follows. These buffers do not establish that every byte of each full flash sector is zero. */
 s32 sub_0807A2E0(u8 a)
 {
     u8 *p = sub_08001494(0xCA8);
@@ -3845,6 +4109,13 @@ extern struct Pl378 gPl378[] asm("gUnk_03003CE0");
 extern s32 sub_0807A20C(u8);
 extern void sub_08013850();
 extern void CpuSet_378(void *, void *, u32) asm("CpuSet");
+/* [BuildCharacterSaveSlotSummaries] Iterates eight character slots through paired loader 7A20C and writes
+ * 0x6C-byte summary records. Invalid slots are zero-filled; valid slots receive validity/class/metadata,
+ * selected associated-state fields, 32 saved base-stat bytes, 48 recalculated local runtime derived bytes and
+ * ten name bytes. Valid summaries are partial writes, leaving fields such as byte +4 and name bytes 10..11
+ * untouched. Returns 1 if any valid slot has associated-state word +4 bit 12, otherwise 0.
+ * Loading/recalculation changes current global character/runtime state and is not restored to the initially
+ * active slot. */
 u32 sub_0807A378(struct Sum378 *e)
 {
     u32 ret;
@@ -3907,6 +4178,13 @@ u32 sub_0807A378(struct Sum378 *e)
 struct Row4B4 { u8 p[6]; u16 h; u8 q[24]; };
 struct Opt4B4 { u8 pad[0x1E0]; struct Row4B4 rows[16]; };
 extern struct Opt4B4 *gOpt4B4 asm("gUnk_03004210");
+/* [LoadOrInitializeCharacterSlot] Prepares character state through 13850/0CB30, narrows selected index to u8
+ * and attempts paired loading via 7A20C. On failure, copies class/metadata bytes from the indexed 0x6C-byte
+ * summary into save halfwords +0xA/+0xC, stores slot +0xE, copies ten name bytes and invokes new-character
+ * initializer 1ACB8. That path clears byte +4 of the first summary record, not the indexed record. On
+ * successful loading, selected-summary bytes +7/+6 control a scene-flag setter and clearing sixteen
+ * associated-state halfwords at +0x1E6 + i*0x20. Returns 1 on either ordinary path; this is not the paired
+ * loader success boolean. Does not validate index, write flash or prove every summary field was initialized. */
 u32 sub_0807A4B4(struct Sum378 *entries, u8 index)
 {
     struct Save378 *save;
@@ -3934,6 +4212,10 @@ u32 sub_0807A4B4(struct Sum378 *entries, u8 index)
     }
     return 1;
 }
+/* [ComputeComplementedByteSum] Returns the bitwise complement of the modulo-256 sum of the requested byte
+ * sequence, narrowed to u8. Zero length returns 255 without reading data. No pointer validation or
+ * checksum-field comparison is performed. Matched save writer/readers inline the same sum/complement algorithm
+ * for their payload checksums; they do not call this out-of-line helper. */
 u8 sub_0807A544(const u8 *data, u32 length)
 {
     u8 sum = 0;
@@ -3952,6 +4234,11 @@ static inline u8 Sum_A56C(const u8 *data, u32 length)
         sum += *p;
     return ~sum;
 }
+/* [IsCharacterSaveSectorChecksumValid] Reads 0xCA8 bytes from a sector selected by the low input byte into a
+ * temporary buffer and compares byte +0xCA4 with the complemented modulo-256 sum of the preceding 0xCA4 bytes.
+ * Frees the buffer and returns exactly 1 or 0. Does not read the associated sector +8, load global character
+ * state, validate record fields or inspect the final three bytes. Allocation failure and sector range are
+ * unchecked. */
 u32 sub_0807A56C(u8 sector)
 {
     u32 sz = 0xCA8;

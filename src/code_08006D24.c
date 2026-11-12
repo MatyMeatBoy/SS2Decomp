@@ -4,6 +4,8 @@ void sub_08006D5C_(u16 n) __asm__("sub_08006D5C");
 
 void sub_08006E84_(void) __asm__("sub_08006E84");
 
+/* [AudioStartOrChangeSong] Matching game wrapper calls m4aSongNumStartOrChange. Checks song ID<=0x1AB before
+ * delegating. The wrapper remains game-domain; the named SDK callee is a separate function. */
 void sub_08006D24(u16 arg0) {
     u16 temp_r1;
 
@@ -12,6 +14,8 @@ void sub_08006D24(u16 arg0) {
         m4aSongNumStartOrChange(temp_r1);
     }
 }
+/* [AudioStartOrContinueSong] Matching game wrapper calls m4aSongNumStartOrContinue. Checks song ID<=0x1AB
+ * before delegating. The wrapper remains game-domain; the named SDK callee is a separate function. */
 void sub_08006D40(u16 arg0) {
     u16 temp_r1;
 
@@ -20,11 +24,16 @@ void sub_08006D40(u16 arg0) {
         m4aSongNumStartOrContinue(temp_r1);
     }
 }
+/* [AudioStopSong] Matching game wrapper calls m4aSongNumStop. Existing trailing-underscore C alias resolves to
+ * the canonical function. Checks song ID<=0x1AB. The wrapper remains game-domain; the named SDK callee is a
+ * separate function. */
 void sub_08006D5C_(u16 n)
 {
     if (n <= 0x1AB)
         m4aSongNumStop(n);
 }
+/* [AudioContinueSong] Matching game wrapper calls m4aSongNumContinue. Checks song ID<=0x1AB before delegating.
+ * The wrapper remains game-domain; the named SDK callee is a separate function. */
 void sub_08006D78(u16 arg0) {
     u16 temp_r1;
 
@@ -33,48 +42,79 @@ void sub_08006D78(u16 arg0) {
         m4aSongNumContinue(temp_r1);
     }
 }
+/* [AudioStartPlayer] Matching game wrapper calls MPlayStart. Forwards music-player and song-header pointers.
+ * The wrapper remains game-domain; the named SDK callee is a separate function. */
 void sub_08006D94(struct MusicPlayerInfo *mplayInfo, struct SongHeader *songHeader) {
     MPlayStart(mplayInfo, songHeader);
 }
+/* [AudioStopPlayer] Matching game wrapper calls m4aMPlayStop. Forwards the supplied music-player pointer. The
+ * wrapper remains game-domain; the named SDK callee is a separate function. */
 void sub_08006DA0(struct MusicPlayerInfo *mplayInfo) {
     m4aMPlayStop(mplayInfo);
 }
+/* [AudioStopAllPlayers] Matching game wrapper calls m4aMPlayAllStop. Direct no-argument wrapper. The wrapper
+ * remains game-domain; the named SDK callee is a separate function. */
 void sub_08006DAC(void) {
     m4aMPlayAllStop();
 }
+/* [AudioContinueAllPlayers] Matching game wrapper calls m4aMPlayAllContinue. Direct no-argument wrapper. The
+ * wrapper remains game-domain; the named SDK callee is a separate function. */
 void sub_08006DB8(void) {
     m4aMPlayAllContinue();
 }
+/* [AudioFadeOutPlayer] Matching game wrapper calls m4aMPlayFadeOut. Forwards music-player pointer and fade
+ * speed. The wrapper remains game-domain; the named SDK callee is a separate function. */
 void sub_08006DC4(struct MusicPlayerInfo *mplayInfo, u16 speed) {
     m4aMPlayFadeOut(mplayInfo, speed);
 }
+/* [AudioSetPlayerTempo] Matching game wrapper calls m4aMPlayTempoControl. Forwards player pointer and tempo.
+ * The wrapper remains game-domain; the named SDK callee is a separate function. */
 void sub_08006DD4(struct MusicPlayerInfo *mplayInfo, u16 tempo) {
     m4aMPlayTempoControl(mplayInfo, tempo);
 }
+/* [AudioSetTrackVolume] Matching game wrapper calls m4aMPlayVolumeControl. Forwards player pointer, track mask
+ * and volume. The wrapper remains game-domain; the named SDK callee is a separate function. */
 void sub_08006DE4(struct MusicPlayerInfo *mplayInfo, u16 trackBits, u16 volume) {
     m4aMPlayVolumeControl(mplayInfo, trackBits, volume);
 }
+/* [AudioSetTrackPitch] Matching game wrapper calls m4aMPlayPitchControl. Forwards player pointer, track mask
+ * and signed pitch. The wrapper remains game-domain; the named SDK callee is a separate function. */
 void sub_08006DF8(struct MusicPlayerInfo *mplayInfo, u16 trackBits, s16 pitch) {
     m4aMPlayPitchControl(mplayInfo, trackBits, pitch);
 }
+/* [AudioSetTrackPan] Matching game wrapper calls m4aMPlayPanpotControl. Forwards player pointer, track mask
+ * and signed pan. The wrapper remains game-domain; the named SDK callee is a separate function. */
 void sub_08006E0C(struct MusicPlayerInfo *mplayInfo, u16 trackBits, s8 pan) {
     m4aMPlayPanpotControl(mplayInfo, trackBits, pan);
 }
+/* [AudioSetTrackModDepth] Matching game wrapper calls m4aMPlayModDepthSet. Forwards player pointer, track mask
+ * and modulation depth. The wrapper remains game-domain; the named SDK callee is a separate function. */
 void sub_08006E20(struct MusicPlayerInfo *mplayInfo, u16 trackBits, u8 modDepth) {
     m4aMPlayModDepthSet(mplayInfo, trackBits, modDepth);
 }
+/* [AudioSetTrackLfoSpeed] Matching game wrapper calls m4aMPlayLFOSpeedSet. Forwards player pointer, track mask
+ * and LFO speed. The wrapper remains game-domain; the named SDK callee is a separate function. */
 void sub_08006E34(struct MusicPlayerInfo *mplayInfo, u16 trackBits, u8 lfoSpeed) {
     m4aMPlayLFOSpeedSet(mplayInfo, trackBits, lfoSpeed);
 }
+/* [AudioInitializePlayerImmediately] Matching game wrapper calls m4aMPlayImmInit. Forwards music-player
+ * pointer. The wrapper remains game-domain; the named SDK callee is a separate function. */
 void sub_08006E48(struct MusicPlayerInfo *mplayInfo) {
     m4aMPlayImmInit(mplayInfo);
 }
+/* [UnusedNoOpStub11] Complete void body is empty; ordinal distinguishes identical behavior at separate
+ * canonical entries. */
 void sub_08006E54(void) {
 
 }
+/* [StartSong98] Only statement calls m4aSongNumStart(0x62); this wrapper does not test mute or gameplay flags. */
 void sub_08006E58(void) {
     m4aSongNumStart(0x62);
 }
+/* [AudioSetSongPlaybackGuard] Stores the input low byte as a word in playback guard 0x030028AC. When zero,
+ * additionally stops only the first music player at 0x030075C0; when nonzero, does not start or resume any
+ * player. Matched guarded song-start sub_08006C70 tests this value. It does not globally enable/disable every
+ * sound API or stop all four players. */
 void sub_08006E64(u8 v)
 {
     gUnk_030028AC = v;
@@ -82,6 +122,11 @@ void sub_08006E64(u8 v)
         m4aMPlayStop(&gUnk_030075C0
                      );
 }
+/* [StartAudioDisplayIdleTask] Allocates a 0x400-byte stack for task control 0x03002880, selects callback
+ * sub_08006BC0 and destructor sub_08006BE8, sets its scheduling-order key to 1000 and starts it with zero. The
+ * callback clears playback state, enables display, stops players, enables sound VSync and yields forever; the
+ * destructor stops players and disables sound VSync. This starter has no allocation-failure or
+ * already-scheduled guard. */
 void sub_08006E84_(void)
 {
     u8 *p = sub_08001494(
@@ -96,6 +141,9 @@ void sub_08006E84_(void)
     sub_08000274((void *)&gUnk_03002880,
                  0);
 }
+/* [AudioFadeOutFirstPlayer] Passes the input low halfword as fade speed to m4aMPlayFadeOut for the first
+ * music-player structure at 0x030075C0. Does not select a player from an index, fade all players or clear the
+ * tracked-song state by itself. */
 void sub_08006EC8(u16 s)
 {
     m4aMPlayFadeOut((struct MusicPlayerInfo *)&gUnk_030075C0,
@@ -107,6 +155,10 @@ extern u8 gUnk_084506D0[], gUnk_08434738[], gUnk_0843B8C8[], gUnk_08442498[];
 extern u8 gUnk_084303B8[], gUnk_0844A820[], gUnk_0844EB50[], gUnk_0842A6D4[];
 extern u8 gUnk_084742BC[], gUnk_0842A38C[], gUnk_0847838C[];
 extern u8 *gUnk_0838AFF0[], *gUnk_084009A4[], *gUnk_08428C38[], *gUnk_083D8AEC[], *gUnk_083B0B4C[];
+/* [ResolveResourceByEncodedId] Dispatches category=(id>>16)&0xFFF, index=id&0xFFFF. Categories0..9 resolve
+ * section-relative offsets in supplied archive;1/3/6 use even entries and7/9/8 use odd partners.
+ * Categories11..22 select fixed game tables/records;10 or>22 returns0. No general index bounds checks. Runtime
+ * source role, not SDK provenance. */
 s32 sub_08006EE0(s32 value, s32 *archive)
 {
     u8 *resource;
@@ -155,6 +207,9 @@ s32 sub_08006EE0(s32 value, s32 *archive)
     return (s32)resource;
 }
 struct ResourceTable7164 { u32 first, second; u32 offsets[10]; };
+/* [GetMainResourceCategoryCount] Uses category arg&0xFFF and primaryarchive gUnk_08518938; categories0..9
+ * return section word0, others return explicit hardcoded counts/zero. Count is logical entries, not
+ * uniqueassets nor decodedbytes. */
 s32 sub_08007164(u32 value)
 {
     register s32 result asm("r4");
@@ -195,9 +250,13 @@ s32 sub_08007164(u32 value)
     }
     return result;
 }
+/* [ResolveAuxResourceById] Passes encoded resource id and gUnk_08E3FB54 to06EE0. Own EUdump root at0xE3FB54
+ * also starts SSDT. Does not validate id or prove contents of every auxsection. */
 s32 sub_08007280(M2C_UNK arg0) {
     return sub_08006EE0(arg0, &gUnk_08E3FB54);
 }
+/* [ResolveMainResourceById] Passes encoded resource id and gUnk_08518938 to06EE0. Own EUdump root at0x518938
+ * starts SSDT. Used by font initializer1A70C and many graphics/text consumers. */
 s32 sub_08007290(s32 arg0) {
     return sub_08006EE0(arg0, &gUnk_08518938);
 }
@@ -209,6 +268,11 @@ struct Root4SpriteRecord { u16 unk0; u16 animCount; s32 frames; s32 anims; };
 extern struct Root4OamData root4OamBuffer[] asm("gUnk_03001330");
 extern u32 root4OamUsed asm("gUnk_030028B4");
 s32 oamDraw004(s32,s32,u16,u16,u8,u8,struct Root4SpriteRecord *,u16) asm("sub_080072A0");
+/* [EmitSpriteFrameObjects] Appends selected animation/frame object attributes to shadow OAM, adds screen
+ * offsets, overrides priority/palette and rebases tiles relative to first source object. Signed nine-bit x and
+ * signed byte y outside padded screen bounds become zero-size objects at y160. Initial used>128 or
+ * postincrement used>128 returns0, potentially after partial writes; invalid animation/frame emits nothing and
+ * returns1. Initial used128 is permitted before first write. */
 s32 oamDraw004(s32 x, s32 y, u16 anim, u16 frame, u8 priority, u8 palette,
                     struct Root4SpriteRecord *record, u16 tileBase)
 {
@@ -287,6 +351,10 @@ struct Root4TileSpriteAnim { u16 unk0; u16 unk2; u16 frameCount; u16 unk6; s32 f
 struct Root4TileSpriteRecord { u16 unk0; u16 animCount; s32 frames; s32 anims; };
 extern void tileQueue004(const void *src, void *dest, u32 size) asm("sub_08001348");
 void oamFrameTiles004(u16, u16, struct Root4TileSpriteRecord *, u8 *, u8 *) asm("sub_08007434");
+/* [QueueSpriteFrameTileRows] Resolves animation frame then queues tile-row copies for each object shape/size.
+ * Source starts at tiles+tileNumber*0x400, destination at vram+(tileNumber-firstTile)*32; row stride is0x400.
+ * Frame outside selected animation count does nothing; animation index is not checked. Nonsquare size switches
+ * contain literalcase4 rather than3, so not every hardware size has a copy branch. */
 void oamFrameTiles004(u16 anim, u16 frame, struct Root4TileSpriteRecord *record, u8 *tiles, u8 *vram)
 {
     struct Root4TileSpriteFrame *frames;
@@ -413,6 +481,11 @@ extern const u32 root4SeqNonSquare[] asm("gUnk_0847842C");
 extern const u32 root4SeqSquare[] asm("gUnk_0847843C");
 extern u32 root4SeqVram asm("gUnk_030028BC");
 u32 oamDrawSeq004(s32,s32,u16,u16,u8,u8 *,struct Root4SeqSpriteRecord *) asm("sub_080076C4");
+/* [EmitSequentialSpriteObjects] Appends shadow OAM for selected frame, adds offsets, remaps palette and
+ * assigns sequential destination tiles using shape/size tables. Clipped objects remain counted as zero-size
+ * y160 entries. Returns0xFFFFFFFF if initial used>128 or animationCount<index; no frame bound check and
+ * equality animationCount is allowed. Postincrement used>128 returns0 after partial writes without committing
+ * tile cursor. Success advances tile cursor and returns starting VRAM address; it performs no tile copy. */
 u32 oamDrawSeq004(s32 x, s32 y, u16 anim, u16 frame, u8 priority, u8 *palettes,
                  struct Root4SeqSpriteRecord *record)
 {
@@ -485,6 +558,13 @@ extern struct Draw7870 *head7870 asm("gUnk_030028C0");
 extern struct Draw7870 *tail7870 asm("gUnk_030028C4");
 extern u32 count7870 asm("gUnk_030028C8");
 extern struct Draw7870 entries7870[] asm("gUnk_030028D0");
+/* [InsertSpriteDrawRequestByYAndPriority] Allocates a 0x2C-byte record from the shared 50-entry sprite draw
+ * pool, stores position, animation/frame, palette map, sprite record and graphics pointer, and clears
+ * mosaic/object-mode fields. Inserts before the first existing request whose signed Y is less than the new Y
+ * and whose stored 3-bit priority is at least the new priority input byte; otherwise appends. This is the
+ * original pair of predicates, not a claim of a total lexicographic Y/priority sort. Returns null when full,
+ * otherwise the new record. Stores priority low 3 bits but compares the full input low byte; record bit 7 is
+ * retained. */
 s32 sub_08007870(s32 arg0, s32 arg1, u32 arg2, u32 arg3, s32 arg4, s32 arg5, s32 arg6, s32 arg7) {
     register u32 temp_r5 asm("r5"); s32 x7870=arg0; register s32 y7870 asm("r6")=arg1; 
     struct Draw7870 *temp_r0; register u32 priorityInput7870 asm("r0"); register u32 a7870 asm("ip"); u32 b7870;
@@ -559,6 +639,11 @@ done:
 
 
 
+/* [InsertSpriteDrawRequestWithEffectsByYAndPriority] Sibling 50-entry draw-pool allocator with the same
+ * Y/priority insertion predicates, additionally storing one mosaic bit and a 3-bit object-mode field. These
+ * fields are consumed as OAM mosaic/object mode by the matched renderer; the sixth argument is not a flip
+ * selector despite its local C variable name. Animation/frame are low halfwords, priority is stored in 3 bits
+ * but compared as the input low byte, and record bit 7 is retained. Returns null when the pool is full. */
 struct Draw7870 *sub_08007974(s32 x, s32 y, u16 a, u16 b, u8 priority, u8 flip, u8 mode, u32 d2, u32 d0, u32 d1) {
     struct Draw7870 *e;
     struct Draw7870 *it;
@@ -640,6 +725,11 @@ extern void root4CtxCopy(const void *src, void *dest, u32 size) asm("sub_0800134
 extern u32 root4CtxVram asm("gUnk_030028BC");
 struct Root4CtxDraw { u32 prev,next; s32 x,y; u16 anim,frame; struct Root4CtxSpriteRecord *record; u8 *tiles,*palettes; u16 pad20; u8 priority:3; u8 mosaic:1; u8 mode:3; u8 top:1; };
 u32 oamDrawCtx004(struct Root4CtxDraw *) asm("sub_08007AA4");
+/* [EmitContextSpriteObjects] Consumes queued draw context to append visible frame objects, preserving
+ * destination affine parameters and applying context mode/mosaic/priority/palette. Clipped objects reuse
+ * destination slot and consume no tile/OAM count. Queues contiguous tile copies for retained objects. Initial
+ * used>127 or animationCount<index returns0xFFFFFFFF; postincrement used>127 returns0 before current copy and
+ * tile-cursor commit. Success commits tiles and returns starting VRAM address. Frame bounds are unchecked. */
 u32 oamDrawCtx004(struct Root4CtxDraw *context)
 {
     struct Root4CtxSpriteFrame *frames;
@@ -733,6 +823,11 @@ extern const u32 root4CopySquare[] asm("gUnk_0847843C");
 extern void root4CopyCopy(const void *src, void *dest, u32 size) asm("sub_08001348");
 extern u32 root4CopyVram asm("gUnk_030028BC");
 u32 oamDrawCopy004(s32,s32,u16,u16,u8,u8 *,struct Root4CopySpriteRecord *,u8 *) asm("sub_08007CF0");
+/* [EmitSpriteObjectsWithTiles] Appends visible frame objects with preserved affine parameters and objMode0,
+ * remapped palettes, offsets and sequential tiles; clipped objects reuse destination slot. Queues source tiles
+ * using source tileNumber plus high tile bits. Initial used>127 or animationCount<index returns0xFFFFFFFF;
+ * frame bounds unchecked. Postincrement used>127 returns0 before current copy/tile-cursor commit; earlier
+ * writes/copy requests remain. Success commits tile cursor and returns starting VRAM address. */
 u32 oamDrawCopy004(s32 x, s32 y, u16 anim, u16 frame, u8 priority, u8 *palettes,
                  struct Root4CopySpriteRecord *record, u8 *tiles)
 {
@@ -830,6 +925,12 @@ struct Root4AffObjAffineSrcData { s16 xScale; s16 yScale; u16 rotation; };
 extern void root4AffSet(struct Root4AffObjAffineSrcData *src, void *dest, s32 count, s32 offset) asm("ObjAffineSet");
 extern u32 root4AffMatrices asm("gUnk_030028B0");
 u32 oamDrawAff004(s32,s32,u16,u16,u8,u8 *,struct Root4AffSpriteRecord *,u8 *,u16,u16,u16) asm("sub_08007F0C");
+/* [EmitAffineSpriteObjects] Appends visible objects with palette remap, sequential tiles and shared affine
+ * matrix; clipped entries reuse slot. Queues tiles, then builds matrix from caller scales/rotation, reversing
+ * scales using flip bits from last retained source object. Initial used>127 or animationCount<index
+ * returns0xFFFFFFFF; postincrement used>127 returns0 before current copy/matrix/tile commit. Success
+ * increments matrix counter, commits tile cursor and returns new matrix count. Matrix capacity and frame
+ * bounds unchecked. */
 u32 oamDrawAff004(s32 x, s32 y, u16 anim, u16 frame, u8 priority, u8 *palettes,
                  struct Root4AffSpriteRecord *record, u8 *tiles, u16 xScale, u16 yScale,
                  u16 rotation)
@@ -952,6 +1053,12 @@ struct Root4AffModeObjAffineSrcData { s16 xScale; s16 yScale; u16 rotation; };
 extern void root4AffModeSet(struct Root4AffModeObjAffineSrcData *src, void *dest, s32 count, s32 offset) asm("ObjAffineSet");
 extern u32 root4AffModeMatrices asm("gUnk_030028B0");
 u32 oamDrawAffMode004(s32,s32,u16,u16,u8,u8 *,struct Root4AffModeSpriteRecord *,u8 *,u16,u16,u16,u8) asm("sub_080081D4");
+/* [EmitFrameMatrixSpriteObjects] Appends frame objects with caller mode forced0 while transition incomplete,
+ * remaps palette, assigns sequential tiles and matrix indices. Clipped entries remain counted as zero-size
+ * y160 objects and still queue tiles using original source shape. Initial used>127 or animationCount<index
+ * returns0xFFFFFFFF; frame bounds unchecked; postincrement overflow returns0 without final matrix/tile commit.
+ * Then writes embedded frame matrices or caller fallback scales/rotation, commits tiles and returns matrix
+ * counter. Embedded path increments counter once before loop and once per matrix. */
 u32 oamDrawAffMode004(s32 x, s32 y, u16 anim, u16 frame, u8 priority, u8 *palettes,
                  struct Root4AffModeSpriteRecord *record, u8 *tiles, u16 xScale, u16 yScale,
                  u16 rotation, u8 mode)
@@ -1087,6 +1194,13 @@ extern void root4Aff2Set(struct Root4Aff2ObjAffineSrcData *src, void *dest, s32 
 struct Root4Aff2OamAttr1Hi { u8 xHi:1; u8 matrixLo:3; u8 matrix2:1; u8 matrix3:1; u8 size:2; };
 extern u32 root4Aff2Matrices asm("gUnk_030028B0");
 u32 oamDrawAff2004(s32,s32,u16,u16,u8,u8 *,struct Root4Aff2SpriteRecord *,u8 *) asm("sub_08008500");
+/* [AppendAffineSpriteObjects] Rejects starting OAM count>127 or animation index greater than record animation
+ * count with unsigned -1. Resolves the selected frame and appends its OAM entries, preserving affine
+ * parameters, offsetting signed coordinates, remapping palettes/priority, assigning sequential tile numbers
+ * and queuing source-tile copies. Off-screen objects are retained at y160 with zero shape/size. When frame
+ * matrixCount is nonzero, appends embedded affine matrices through ObjAffineSet and advances matrix counter
+ * once before the loop plus once per matrix; zero matrixCount leaves matrix counter unchanged. Normal
+ * completion advances tile counter. */
 u32 oamDrawAff2004(s32 x, s32 y, u16 anim, u16 frame, u8 priority, u8 *palettes,
                  struct Root4Aff2SpriteRecord *record, u8 *tiles)
 {
@@ -1212,6 +1326,12 @@ extern const u32 root4ModeSquare[] asm("gUnk_0847843C");
 extern void root4ModeCopy(const void *src, void *dest, u32 size) asm("sub_08001348");
 extern u32 root4ModeVram asm("gUnk_030028BC");
 u32 oamDrawMode004(s32,s32,u16,u16,u8,u8 *,struct Root4ModeSpriteRecord *,u8 *,u8) asm("sub_080087AC");
+/* [AppendSpriteObjectsWithMode] Rejects starting OAM count>127 or animation index greater than record count
+ * with unsigned -1. Resolves selected frame, appends visible OAM entries preserving affine parameters and
+ * adding signed offsets, remaps palette and priority, writes the caller mode into the two-bit OBJ mode field
+ * and queues sequential tile copies. Off-screen entries are skipped without consuming OAM/tile slots. Normal
+ * return advances tile counter and returns this sprite tile allocation start address; OAM exhaustion returns0
+ * after incrementing count before the last copy/final tile update. */
 u32 oamDrawMode004(s32 x, s32 y, u16 anim, u16 frame, u8 priority, u8 *palettes,
                  struct Root4ModeSpriteRecord *record, u8 *tiles, u8 objMode)
 {
@@ -1363,6 +1483,13 @@ extern void queueCopy005(const void *,void *,u32) asm("sub_08001348");
 extern u32 vramCopy005 asm("gUnk_030028BC");
 
 
+/* [WriteSpriteFrameOamAndQueueTiles] Writes one animation frame's parts directly into shadow OAM at the
+ * current usage count, preserving each destination affine parameter. Initially returns -1 if at least 128
+ * entries are used or the animation index exceeds record count. Offsets parts by (x,y), hides/skips those
+ * outside x -64..240 and y -64..160, and applies priority, mosaic, remapped palette and tile numbers. After
+ * writing a visible part, increments OAM usage; reaching 128 returns 0 before queuing that part's pixel data
+ * and before updating global tile usage, even if it was the last part. Earlier accepted parts have already
+ * been queued to OBJ VRAM. */
 u32 sub_080089DC(s32 x, s32 y, u16 anim, u16 frame, u8 priority, u8 mosaic, u8 *palettes,
                  struct RecordCopy005 *record, u8 *tiles)
 {
@@ -1444,6 +1571,10 @@ u32 sub_080089DC(s32 x, s32 y, u16 anim, u16 frame, u8 priority, u8 mosaic, u8 *
     usedTilesCopy005 += tile;
     return vramCopy005 + base * 32;
 }
+/* [ResetSpriteFrameAllocationStateWrapper] No-argument wrapper whose complete body calls 08C1C and returns. It
+ * adds no initialization, memory clearing or scheduling of its own. The callee resets six sprite frame
+ * allocation/draw accounting words and chooses the OBJ graphics base according to display mode; it does not
+ * clear OAM or graphics memory. No direct caller or runtime reachability of this wrapper is asserted. */
 void sub_08008C10(void) {
     sub_08008C1C();
 }
@@ -1457,6 +1588,10 @@ struct DispCnt8C1C { u32 mode:3; u32 rest:29; };
 extern struct DispCnt8C1C gW8C1C_128C asm("gUnk_0300129C");
 extern u32 gW8C1C_28BC asm("gUnk_030028BC");
 void sub_08008C1C_v(void) asm("sub_08008C1C");
+/* [ResetSpriteFrameAllocationState] Clears six per-frame sprite allocation/draw counters, including OAM usage,
+ * graphics-tile usage and affine-matrix usage. Selects OBJ graphics base 0x06010000 for display modes 0..2 or
+ * 0x06014000 for modes 3..5. Other display-mode values leave the previous graphics base unchanged. This resets
+ * accounting/base state, not the OAM contents or graphics memory. */
 void sub_08008C1C_v(void)
 {
     gW8C1C_28B4 = 0;
@@ -1482,6 +1617,9 @@ void sub_08008C1C_v(void)
         break;
     }
 }
+/* [AdvanceSpriteAnimationFrame] Selects animation entry by12-byte stride, resets out-of-range frame to0,
+ * increments timer until duration reached then advances frame; loop flag wraps to0, otherwise holds final
+ * frame and returns1. Existing bounds comparison is count<index, not index>=count. */
 u32 sub_08008CC4(u32 arg0, u16 *arg1, u16 *arg2, u8 *arg3, u32 arg4)
 {
     u16 idx = arg0;
@@ -1520,6 +1658,9 @@ u32 sub_08008CC4(u32 arg0, u16 *arg1, u16 *arg2, u8 *arg3, u32 arg4)
     }
     return ret;
 }
+/* [ReverseSpriteAnimationFrame] Uses high-bit underflow of16-bit timer/frame to step animation backwards,
+ * initializes underflowed frame to last frame, loops or holds first frame and returns1. Existing count/index
+ * comparison retained; no bounds safety promise. */
 s32 sub_08008D38(u16 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4)
 {
     u16 *state = (u16 *)arg1;
@@ -1568,6 +1709,9 @@ extern const u32 animSizes005[] asm("gUnk_0847844C");
 extern const u32 animSquare005[] asm("gUnk_0847845C");
 struct SpritePart005 { u8 unk0; u8 unk1; u8 unk2; u8 unk3; u16 tile:10; u16 tileHigh:2; u16 unk4_12:4; u16 unk6; } __attribute__((packed, aligned(2)));
 extern void animCopy005(const void *,void *,u32) asm("sub_08001348");
+/* [QueueSpriteFramePartTileCopies] Resolves animation/frame to sprite-part list, derives each part tile index
+ * and shape-based byte size, then queues sequential pixel-data copies via01348. Does not program DMA hardware
+ * directly. */
 void sub_08008DB8(u16 animId, u16 frame, struct AnimHeader005 *data, u8 *tiles, u8 *dest)
 {
     u8 *out;
@@ -1606,6 +1750,11 @@ extern struct DrawNode005 *headDraw005 asm("gUnk_030028C0");
 extern struct DrawNode005 *tailDraw005 asm("gUnk_030028C4");
 extern u32 usedDraw005 asm("gUnk_030028C8");
 extern struct DrawNode005 poolDraw005[50] asm("gUnk_030028D0");
+/* [AppendSpriteDrawRequest] Allocates a record from the same shared 50-entry sprite draw pool, stores
+ * position/animation/frame, priority and palette/record/graphics pointers, clears mosaic/object-mode fields
+ * and appends it to the draw list. Performs no Y/priority ordering search. Returns null when full. Although
+ * the local struct calls the low 3-bit field mode, the common renderer uses it as sprite priority; record bit
+ * 7 is retained. */
 struct DrawNode005 *sub_08008E74(u32 a,u32 b,u16 c,u16 d,u8 e,void *f,u32 g,u32 h)
 {
     struct DrawNode005 *node;
@@ -1624,6 +1773,11 @@ struct DrawNode005 *sub_08008E74(u32 a,u32 b,u16 c,u16 d,u8 e,void *f,u32 g,u32 
     }
     return node;
 }
+/* [AppendSpriteDrawRequestWithMosaicAndObjectMode] Appends a record from the common 50-entry sprite draw pool
+ * while storing explicit mosaic and object-mode fields. Priority occupies low 3 bits, mosaic uses bit 3 and
+ * object mode uses bits 4..6; bit 7 is preserved. The common renderer maps these to OAM attributes, with the
+ * hardware object-mode assignment retaining its own field width. Performs no Y/priority ordering search and
+ * returns null when full. */
 struct DrawNode005 *sub_08008F2C(u32 a,u32 b,u16 c,u16 d,u8 e,u8 flag,u8 bits,void *f,u32 g,u32 h)
 {
     struct DrawNode005 *node;
@@ -1642,6 +1796,10 @@ struct DrawNode005 *sub_08008F2C(u32 a,u32 b,u16 c,u16 d,u8 e,u8 flag,u8 bits,vo
     }
     return node;
 }
+/* [RenderQueuedSpriteDrawRequests] Walks the sprite draw list beginning at 0x030028C0 and invokes matched
+ * renderer sub_08007AA4 for each record, following +4 next pointers. Leaves the queue links/count intact and
+ * ignores individual renderer return values. The common scheduler-frame service calls it before marking VBlank
+ * transfer work ready; it is not itself a queue-clear or hardware-OAM upload routine. */
 void sub_08009014(void) {
     void *var_r4;
 
@@ -1653,9 +1811,13 @@ void sub_08009014(void) {
         } while (var_r4 != NULL);
     }
 }
+/* [ReadSecondHalfwordMinusOne] Single return reads M2C_FIELD(arg0,u16*,2)-1: zero returns-1 and no u16
+ * narrowing or null check occurs. */
 s32 sub_08009034(void *arg0) {
     return M2C_FIELD(arg0, u16 *, 2) - 1;
 }
+/* [SetBlendRegisterShadow] Packs target masks/effect into shadow+0x40, EVA/EVB into+0x42 and brightness
+ * into+0x44; B50 copies these to BLDCNT/BLDALPHA/BLDY at 0x50/0x52/0x54. */
 void sub_0800903C(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5)
 {
     u16 a = arg0;
@@ -1669,6 +1831,10 @@ void sub_0800903C(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5)
     gUnk_03001250[0x42 / 2] = d | (e << 8);
     gUnk_03001250[0x44 / 2] = f;
 }
+/* [SetSpriteGraphicsVramBase] Stores the complete input word as the shared sprite graphics destination base at
+ * 0x030028BC. Matched sprite renderers add tile usage times 32 to this base when queuing graphics transfers.
+ * It does not validate that the input is aligned or lies in OBJ VRAM, and does not clear allocation counters
+ * or copy graphics itself. */
 void sub_0800907C(s32 arg0) {
     gUnk_030028BC = arg0;
 }

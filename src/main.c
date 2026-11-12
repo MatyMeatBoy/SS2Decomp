@@ -50,6 +50,9 @@ extern u16 pressedKeys000 asm("gUnk_03001324"), timerKeys000 asm("gUnk_03001320"
 extern u16 repeatKeys000 asm("gUnk_03001308"), delayKeys000 asm("gUnk_03002340");
 extern u16 releaseKeys000 asm("gUnk_03001328"), firstDelay000 asm("gUnk_03001730");
 extern u16 nextDelay000 asm("gUnk_03002348");
+/* [UpdateKeyStateAndDirectionalRepeat] Reads active-low KEYINPUT and updates current, previous and pressed-key
+ * masks. Maintains directional repeat counters and separately records A/B release edges. A direction change
+ * copies all newly pressed keys into the repeat mask. */
 void sub_08000760(void)
 {
     register volatile u16 *oldp asm("r4");
@@ -151,6 +154,8 @@ void sub_08000760(void)
         if(!condition) *released|=2;
     }
 }
+/* [NextRandom16] Updates the eight-byte feedback state03001318, then combines two state-selected bytes as a
+ * 16-bit result. Does not establish a standard RNG algorithm or SDK origin. */
 s16 sub_0800086C(void)
 {
   s32 i;
@@ -169,6 +174,8 @@ s16 sub_0800086C(void)
   t = 8;
   return gUnk_03001318[gUnk_03001318[2] & 7] | (gUnk_03001318[gUnk_03001318[3] & 7] << t);
 }
+/* [NextRandom32] Updates the same eight-byte feedback state, then combines four state-selected bytes into a
+ * 32-bit result; shares transition structure with 0086C. */
 u32 sub_080008C8(void)
 {
   s32 i;
@@ -187,9 +194,15 @@ u32 sub_080008C8(void)
   return gUnk_03001318[gUnk_03001318[2] & 7] | (gUnk_03001318[gUnk_03001318[3] & 7] << t)
        | (gUnk_03001318[gUnk_03001318[0] & 7] << 16) | (gUnk_03001318[gUnk_03001318[1] & 7] << 24);
 }
+/* [NoOpInterruptDispatchCallback] Empty callback whose original body is BX LR plus unreachable zero padding.
+ * Its interrupt-dispatch role is independently established by actual ROM template references and the
+ * copying/indexing consumer, rather than its empty behavior alone. It has no data-memory effects and does not
+ * itself acknowledge interrupt flags. */
 void sub_0800093C(void) {
 
 }
+/* [DisableForcedBlank] Enables DISPSTAT flag 8, clears forcedBlank in display shadow, writes DISPCNT and
+ * invokes 06BF8. No broader scene identity is inferred. */
 void sub_08000940(void)
 {
     sub_08001040(8);
@@ -197,6 +210,8 @@ void sub_08000940(void)
     REG_DISPCNT = *(u16 *)&gUnk_0300129C;
     sub_08006BF8();
 }
+/* [EnableForcedBlank] Clears DISPSTAT flags 0x18, sets forcedBlank in display shadow, writes DISPCNT and
+ * invokes 06C14. */
 void sub_08000968(void)
 {
     sub_080010AC(0x18);
@@ -204,6 +219,7 @@ void sub_08000968(void)
     REG_DISPCNT = *(u16 *)&gUnk_0300129C;
     sub_08006C14();
 }
+/* [SetDisplayMode] Sets mode field in DISPCNT shadow and optionally writes hardware. */
 void sub_08000990(u16 mode, u16 write)
 {
     gUnk_0300129C.mode = mode;
@@ -211,6 +227,8 @@ void sub_08000990(u16 mode, u16 write)
         REG_DISPCNT = *(u16 *)&gUnk_0300129C;
 }
 void sub_080009C0_u16(u16, u16, u16) asm("sub_080009C0");
+/* [EnableDisplayPlanesAndWindows] ORs first argument mask 0x1F00 and second mask 0xE000 into DISPCNT shadow,
+ * optionally writing hardware; does not clear other bits. */
 void sub_080009C0_u16(u16 a, u16 b, u16 write)
 {
     u32 first;
@@ -225,6 +243,9 @@ void sub_080009C0_u16(u16 a, u16 b, u16 write)
 }
 extern u16 display000 asm("gUnk_0300129C");
 void clearDisplay000(u32,u32,u32) asm("sub_080009F8");
+/* [ClearDisplayLayerWindowBits] Clears bits selected by first input mask0x1F00 and second input mask0xE000 in
+ * the display-control shadow halfword. Truncated low16bits of third input nonzero also writes the resulting
+ * halfword to hardware DISPCNT; otherwise only shadow changes. */
 void clearDisplay000(u32 a,u32 b,u32 write)
 {
     register u32 aa asm("r0")=a<<16;
@@ -250,6 +271,8 @@ void clearDisplay000(u32 a,u32 b,u32 write)
     *pointer=first;
     if (ww) *(volatile u16 *)0x04000000=first;
 }
+/* [SetDisplayFrameAndObjOptions] Sets frameSelect, hblankIntervalFree and objMapping1D fields from three
+ * boolean arguments, optionally writing DISPCNT. */
 void sub_08000A34(u16 a, u16 b, u16 c, u16 unused, u16 write)
 {
     gUnk_0300129C.frameSelect = c != 0;

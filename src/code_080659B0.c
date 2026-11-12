@@ -13,6 +13,10 @@ extern M2C_UNK sub_08000274_task(void *) __asm__("sub_08000274");
 
 extern s32 gUnk_03006030;
 
+/* [SetFixedSpriteScale] Stores the low-halfword supplied sprite scale at descriptor +0x2C and clears signed
+ * pulse step +0x2E plus upper/lower scale bounds +0x30/+0x32. With step zero, existing pulse-draw helpers
+ * retain this scale instead of advancing the oscillator. Does not draw, alter palette/remap data or initialize
+ * a new sprite resource. */
 void sub_080659B0(void *arg0, s16 arg1)
 {
   s8 *new_var;
@@ -29,9 +33,14 @@ void sub_080659B0(void *arg0, s16 arg1)
   *((s16 *) (new_var + 0x32)) = 0;
   *((s16 *) (new_var + 0x2E)) = new_var3;
 }
+/* [DrawSpriteDescriptorWithMode] Calls07CF0 with x/y, animation/frame, low-byte mode and descriptor
+ * remap+0x1C, metadata+8, pixel data+0. Unlike65230, caller supplies mode. */
 void sub_080659BC(void *arg0, s32 arg1, s32 arg2, u16 arg3, s32 arg4, s32 arg5) {
     sub_08007CF0(arg1, arg2, arg3, (u16) arg4, (s32) (u8) arg5, arg0 + 0x1C, M2C_FIELD(arg0, s32 *, 8), M2C_FIELD(arg0, s32 *, 0));
 }
+/* [InterpolateSignedValuesQ10] If endpoints equal stores endpoint; otherwise stores arithmetic-shifted right
+ * endpoint*weight>>10 plus left endpoint*(0x400-weight)>>10. Each term shifts separately, so this is not one
+ * combined higher-precision interpolation. */
 void sub_080659F4(s32 *arg0, s32 arg1, s32 arg2, s32 arg3)
 {
   if (arg1 == arg2)
@@ -46,6 +55,9 @@ void sub_080659F4(s32 *arg0, s32 arg1, s32 arg2, s32 arg3)
 }
 extern void sub_0801A3D0(s32, u16, u16);
 extern void sub_0801A664(u16, s32);
+/* [TaskDisplayTimedCenteredText] Resolves text resource0x140000|id, centers by text length/2, conditionally
+ * draws for supplied frame count while yielding signal1 each iteration, then clears text row15. Zero count
+ * skips loop; signed negative counts have no general safety guarantee. */
 void sub_08065A1C(u32 a, s32 frames)
 {
     s32 color = 15;
@@ -65,6 +77,9 @@ void sub_08065A1C(u32 a, s32 frames)
 extern u32 sub_08001638(u32);
 struct Task6A90 { u32 f0, f4, f8; void (*fC)(); u8 *f10; u32 f14, f18, f1C; u8 *f20; u32 f24; };
 extern struct Task6A90 task6A90 asm("gUnk_030061B0");
+/* [StartTimedCenteredTextTask] If task030061B0 inactive, obtains0x200-byte stack from allocator01638 while
+ * yielding on failure and starts65A1C with id/frame arguments. Task field+8 is0x3C; no priority interpretation
+ * inferred. */
 void sub_08065A90(u32 a, u32 b)
 {
     u8 *mem;
@@ -78,11 +93,15 @@ void sub_08065A90(u32 a, u32 b)
         sub_08000274(&task6A90, a, b);
     }
 }
+/* [IsCoordinatedAttackActive] Calls58DB0; zero maps0, nonzero maps1. Approved predicate role is coordinated
+ * attack state. */
 s32 sub_08065AE8(void)
 {
   int new_var;
  do { if (sub_08058DB0() == 0) { return 0; } return 1; } while (0); new_var = 0; do { } while (new_var);
 }
+/* [StartAreaTitleTask] Checks061E0 scheduled status, sets local flag0x80, allocates0x400 via01638 without
+ * explicit null guard, binds6335C and starts task. */
 void sub_08065AFC(void)
 {
     struct Unk030061E0 *task = &gUnk_030061E0;
@@ -101,6 +120,10 @@ void sub_08065AFC(void)
     task->f24 = 0;
     sub_08000274_task(task);
 }
+/* [AllocateFourActorEffectTaskSlots] Allocates0xA0 bytes for four0x28-byte task slots at03006030 and zeros
+ * each slot field+8.657C4 uses these slots for callbacks636B0/63B80, which render player sprite effects in
+ * projected world coordinates. Allocation failure is not guarded. These are distinct from player-name
+ * slots03006208. */
 void sub_08065B58(void)
 {
     u32 i;
@@ -108,6 +131,9 @@ void sub_08065B58(void)
     for (i = 0; i < 4; i++)
         M2C_FIELD((u8 *)gUnk_03006030 + i * 0x28, s32 *, 8) = 0;
 }
+/* [WaitAndFreeActorEffectTaskSlots] Yields until each of four actor effect task slots03006030 is inactive,
+ * frees allocated task array and stores zero returned by final activity test to global. Does not cancel active
+ * tasks. */
 void sub_08065B84(void)
 {
     s32 base = gUnk_03006030;
@@ -124,6 +150,9 @@ void sub_08065B84(void)
 extern void sub_0800BC08(u32, u32, s16 *, s16 *, s32, s32);
 extern void draw66(const u8 *, s32, s32) asm("sub_0801A764");
 void ss2_08065BD0(s32 index, s32 frames) asm("sub_08065BD0");
+/* [TaskDisplayPlayerNameAboveActor] For given player index, reads network-position record at player+0x148,
+ * projects coordinates with0BC08, horizontally centers name bytes player+2 via1A638 and draws at
+ * projectedY-0x30 for supplied count while yielding. */
 void ss2_08065BD0(s32 index, s32 frames)
 {
     s16 x;
@@ -146,6 +175,11 @@ void ss2_08065BD0(s32 index, s32 frames)
 }
 struct TaskC50 { u32 f0, f4, f8, fC, f10, f14, f18, f1C, f20, f24; };
 extern struct TaskC50 gTaskC50 asm("gUnk_03002840");
+/* [StartCharacterFlashSaveTask] If task control 03002840 is not already scheduled, sets its flags word to 0x3C
+ * and retries allocating a 0xC00-byte stack, waiting on scheduler signal 1 between null results. Registers
+ * callback 64E14, stack top allocation +0xBFC, null destructor and the original argument. Returns without
+ * starting another copy when already scheduled. Does not perform the flash save or wait for its result; the
+ * task argument controls failure-path reset behavior, not a menu index or explicit priority. */
 void sub_08065C50(u32 arg)
 {
     if (sub_08000470((u32)&gTaskC50) == 0) {
@@ -161,6 +195,9 @@ void sub_08065C50(u32 arg)
 extern u8 gLinkFlagByte asm("gUnk_03006220");
 extern u32 gRingIdx[] asm("gUnk_03006210");
 extern u32 gRingBuf[] asm("gUnk_03006260");
+/* [InitializeLinkMessageQueuesAndTasks] Allocates sender task0x28, four peer tasks0xA0 and fifty0x88-byte
+ * messages0x1A90; resets active fields, ring counters/sentinel words and control bytes; calls67AFC to start
+ * sender/receiver tasks. */
 void sub_08065CA8(void)
 {
     register u32 clear asm("r2");
@@ -211,6 +248,8 @@ void sub_08065CA8(void)
     } while (i < 4);
     sub_08067AFC();
 }
+/* [EnqueueLinkPlayerName] Matched producer sub_08065D50 enqueues tag 0x81 in the 0x88-byte link queue; 2
+ * eight-byte chunks. Payload: bytes+0..9 = current save record+0..9. */
 u32 sub_08065D50(void)
 {
     u8 *entry;
@@ -229,6 +268,11 @@ u32 sub_08065D50(void)
     return 1;
 }
 struct Root67Player10 {u8 pad[0x10];u16 w10;u8 pad2[0x14C-0x12];};
+/* [TryEnqueueLocalWeaponSubtypeUpdate] Rejects outgoing count greater than 49 before searching existing
+ * records. Otherwise scans the current count of 0x88-byte entries for the first whose word+4 is exactly 1 and
+ * tag is 0x83. If found, overwrites only entry+8 (payload word 0) with the zero-extended local player
+ * halfword+0x10 and returns 1; it does not increment count or reset that record's chunk count. It does not
+ * rewrite every duplicate tag. */
 u32 sub_08065DAC(void)
 {
     u8 *p;
@@ -266,6 +310,12 @@ u32 sub_08065DAC(void)
 struct PeerRingE38 { s32 values[10]; };
 extern struct PeerRingE38 peerRingsE38[] asm("gUnk_03006260");
 void removeRingMessage67(s32 needle) asm("sub_08065E38");
+/* [RemoveFirstLinkRingValuePerParticipant] Captures participant count 02164, then scans each participant
+ * ten-word value array at 03006260 with an inclusive j<=cursor bound from 03006210. On its first equal 32-bit
+ * value, shifts later words through the old cursor one slot left, writes 0xFFFFFFFF at the final slot,
+ * decrements that cursor and stops scanning that participant. It changes only local ring state: no outgoing
+ * packet, wait, callback invocation or global queue removal occurs. Count/cursor bounds and the sentinel value
+ * are not validated. Searching 0xFFFFFFFF can match an empty sentinel and underflow a zero cursor. */
 void removeRingMessage67(s32 needle)
 {
     u32 peer, count, j, k;
@@ -283,6 +333,12 @@ void removeRingMessage67(s32 needle)
     }
 }
 void removeAllRingMessages67(s32 needle) asm("sub_08065F08");
+/* [RemoveLinkRingValueMatchesPerParticipant] Uses the same local participant rings, inclusive cursor bound,
+ * shift/fill and cursor decrement as 65E38, but continues its forward scan rather than breaking after a match.
+ * The next index is old j+1 even after shifting, so an adjacent matching value shifted into j is skipped; this
+ * does not guarantee all occurrences are removed. Does not transmit, wait or clear the full ring. Neither
+ * participant/cursor bounds nor 0xFFFFFFFF sentinel input is validated; a zero-cursor sentinel match can
+ * underflow the cursor and invalidate later scan bounds. */
 void removeAllRingMessages67(s32 needle)
 {
     u32 peer, count, j, k;
@@ -299,6 +355,13 @@ void removeAllRingMessages67(s32 needle)
         }
     }
 }
+/* [QueueLinkSceneLayoutSelections] Queues message 0x85 by CpuSet of ten halfwords (20 bytes) from game-state
+ * pointer +0x22; receiver copies the same 20-byte block to its game-state +0x22. The block is the scene
+ * layout-selection array: element zero is initialized to 1 and scene-record ids index one-based row
+ * selections. The producer does not validate record ids, row counts or selection values. Complete producer
+ * body: unsigned queue count >49 returns 0 without modifying the queue; accepted path uses 0x88-byte entry,
+ * stores word 1 at +4, message byte at +0, payload at +8, chunk-count byte at +1, increments count, returns 1.
+ * Profile pair and entity IDs use one 8-byte chunk; state block uses three. */
 u32 sub_08065FE8(void)
 {
     u32 *n = (u32 *)0x03006338;
@@ -317,6 +380,12 @@ u32 sub_08065FE8(void)
 extern u8 gLinkFlagByte asm("gUnk_03006220");
 extern s32 sub_08017F7C(s32 *);
 extern u32 root67QueueCountCheck asm("gUnk_03006338");
+/* [TryEnqueueEnemySpawnRequest] Returns 0 when outgoing queue count exceeds49, the selected point fails 17F7C
+ * without flags 0x4000, or pending byte 03006220 is nonzero. Selection is descriptor byte 4 &0x7F. Reads
+ * signed 16-bit point coordinates at record+0xA/+0xC and shifts them left11 for proximity testing. On success
+ * sets the pending byte, writes tag 0x86, copies exactly eight payload bytes with CpuSet control 0x04000002,
+ * sets chunk count 1, increments the queue count and returns1. Queue records are 0x88 bytes; the request does
+ * not directly reserve an actor or request-task slot. */
 u32 sub_0806603C(s32 *src)
 {
     s32 pos[2];
@@ -340,6 +409,9 @@ u32 sub_0806603C(s32 *src)
     gUnk_03006338++;
     return 1;
 }
+/* [EnqueueOrMergeLinkHit] Matched producer sub_080660EC enqueues tag 0x8A in the 0x88-byte link queue; 1
+ * eight-byte chunks. Payload: byte+0 target ID; byte+1 effect key; bytes+2/+3 auxiliary hit fields; u16+4
+ * damage/flag. */
 u32 sub_080660EC(u8 *src)
 {
     u8 *p;
@@ -373,6 +445,8 @@ u32 sub_080660EC(u8 *src)
 }
 u32 queuePlayerBlob067(void) asm("sub_0806617C");
 extern u8 root67Payload[] asm("gUnk_03003D38");
+/* [EnqueueLinkPlayerAttributes] Matched producer sub_0806617C enqueues tag 0x8E in the 0x88-byte link queue; 6
+ * eight-byte chunks. Payload: 48 bytes from local Player+58. */
 u32 queuePlayerBlob067(void)
 {
     u8 *p;
@@ -408,6 +482,8 @@ u32 queuePlayerBlob067(void)
 }
 u32 queuePlayerState067(void) asm("sub_08066220");
 extern u8 root67Player38Payload[] asm("gUnk_03003D18");
+/* [EnqueueLinkPlayerDerivedStats] Matched producer sub_08066220 enqueues tag 0x8F in the 0x88-byte link queue;
+ * 4 eight-byte chunks. Payload: 32 bytes from local Player+38. */
 u32 queuePlayerState067(void)
 {
     u8 *p;
@@ -445,6 +521,13 @@ struct PacketC467 { u8 tag,length; u16 unused; u32 active; struct { u32 first; u
 struct EntityC467 {u16 unused,id;u8 pad[0x1F8];u32 velocity[2];u8 tail[0xDC];};
 extern struct PacketC467 *packetsC467 asm("gUnk_03006300");
 extern struct EntityC467 *entitiesC467 asm("gUnk_030056F4");
+/* [TryEnqueueLinkEnemyActionState] Queues or coalesces an eight-byte action-state snapshot from enemy slot
+ * index *0x2E0 at actor+0x1FC. Immediately returns 0 when outgoing count exceeds 49, even if an existing
+ * pending update could otherwise match. With available capacity, scans current records for status word 1/tag
+ * 0x91/payload halfword+6 equal to actor+2; the first match gets only its eight payload bytes refreshed and
+ * returns 1 without count growth. Otherwise appends a status 1/tag 0x91/one-chunk record, copies
+ * actor+0x1FC..0x203, increments count and returns 1. It does not update status 2 records, validate the
+ * signed/full-width slot index or copy world coordinates. */
 u32 sub_080662C4(s32 idx)
 {
     struct PacketC467 *p;
@@ -505,6 +588,8 @@ u32 sub_080662C4(s32 idx)
 extern volatile u32 root67Count asm("gUnk_03006338");
 extern u8 *root67Entries asm("gUnk_03006300");
 extern u8 *root67Sources asm("gUnk_030056F4");
+/* [EnqueueLinkEntityPosition] Matched producer sub_080663A4 enqueues tag 0x92 in the 0x88-byte link queue; 2
+ * eight-byte chunks. Payload: u32+0 entity ID; u32+4 entity+14 X; u32+8 entity+18 Y. */
 u32 sub_080663A4(u32 index)
 {
     register u32 count asm("r2") = root67Count;
@@ -524,6 +609,9 @@ u32 sub_080663A4(u32 index)
     return 1;
 }
 extern u8 *root67State asm("gUnk_03005CF4");
+/* [EnqueueLinkSceneDamageList] Matched producer sub_08066404 enqueues tag 0x94 in the 0x88-byte link queue;
+ * ceil((4+4*n)/8) eight-byte chunks. Payload: u32+0 count; n records at+4: u16 amount, u8 target slot, u8
+ * auxiliary flag. */
 u32 sub_08066404(void)
 {
     u32 count = root67Count;
@@ -548,6 +636,8 @@ u32 sub_08066404(void)
     }
     return 1;
 }
+/* [EnqueueLinkFieldItemSpawnRequest] Matched producer sub_08066490 enqueues tag 0x95 in the 0x88-byte link
+ * queue; 3 eight-byte chunks. Payload: u32+0 X; u32+4 Y; bytes+8..17 item record. */
 u32 sub_08066490(u32 a, u32 b, u32 *src)
 {
     u8 *p;
@@ -569,6 +659,9 @@ u32 sub_08066490(u32 a, u32 b, u32 *src)
         return 1;
     }
 }
+/* [EnqueueLinkFieldItemSpawnWithSelector] Matched producer sub_08066520 enqueues tag 0x96 in the 0x88-byte
+ * link queue; 4 eight-byte chunks. Payload: u32+0 X; u32+4 Y; u32+8 explicit u16 kind; bytes+C..1B item
+ * record. */
 u32 sub_08066520(u32 a, u32 b, u16 c, u32 *src)
 {
     u8 *p;
@@ -592,6 +685,8 @@ u32 sub_08066520(u32 a, u32 b, u16 c, u32 *src)
     }
 }
 /* Enqueue tag 0xA6 (round end value), coalescing with a pending 0xA6; refused while sub_0800CFF0() != 0. */
+/* [EnqueueLinkPlayerOverheadAnimation] Matched producer 665B0 coalesces tag0xA6 and sends one word; receiver
+ * 6690C case 0x25 at line 1472 writes its low 16 bits to sender Player+0x11E. */
 u32 sub_080665B0(u32 value)
 {
     u8 *p;
@@ -620,6 +715,9 @@ u32 sub_080665B0(u32 value)
 }
 extern u8 *syncData67 asm("gUnk_03004210");
 extern u32 checkCount67 asm("gUnk_03006338");
+/* [EnqueueLinkSnapshot171] Rejects count>49; writes0x88-byte entry, active word1, tag0xAB, payload two u32
+ * from save+4/+8 or+C/+10, byte ranges140..146,14C..152,147..14B,153..157; finalbyte saveword0==1; declares
+ * five8-byte chunks and increments count. */
 u32 sub_08066624(void)
 {
     u8 *entry;
@@ -702,6 +800,8 @@ extern s32 gUnk_03006030;
 /* Link message broadcast (lobby data sync). msg[0] = tag, msg[1] = number of 8-byte chunks, msg+8 = payload.
  * Writes into our MultiSio send block (sub_08002118(state.myId) + 8): [0]=id/cmd, [1]=cmd (0xB1 announce, 0xB2 chunk, 0x80 idle),
  * [2]=chunk number, [4..11]=8 payload bytes. Peers acknowledge by echoing bytes into their own block at offset 0x14+id. */
+/* [LinkBroadcastMessageTask] Announces tagged message, sends eight-byte chunks, waits for peer
+ * acknowledgments. */
 void sub_08066720(u8 *msg)
 {
     struct {u8 *peers[4];volatile u32 myId;u32 lastPos;} state;
@@ -791,6 +891,9 @@ void sub_08066720(u8 *msg)
 }
 /* Link sender task spawner: when the first queued message (gUnk_03006300[0], 0x88 bytes) is pending (+4 == 1),
  * start sub_08066720 as a task on it (task object = *gUnk_03006368, stack 0x800). */
+/* [TaskLinkOutgoingMessageQueue] Matched task loops over head entry pending state1; when no active broadcast
+ * task, allocates0x800 bytes and starts66720 with headmessage. Does not create receiver tasks. Yields each
+ * iteration. */
 void sub_08066898(void)
 {
     u8 *q;
@@ -940,6 +1043,7 @@ extern struct RxGs2 *gRxGs2 asm("gUnk_03005CF4");
         } \
     } while (0)
 
+/* [LinkReceivePeerMessageTask] Per-peer receiver acknowledges announce/chunks and dispatches message tag. */
 void sub_0806690C(u32 peer)
 {
     u32 d[64];
@@ -1563,6 +1667,8 @@ restart:
         goto restart;
     }
 }
+/* [StartLinkPeerReceiverTask] If indexed task is inactive, assigns6690C, allocates0xC00 bytes, sets
+ * stackend+0xBFC and taskflags/state, starts it with peerindex. Task field+8 is not interpreted as priority. */
 void sub_08067A68(u32 index)
 {
     struct Task { u32 pad[2]; u32 type; void (*fn)(u32); u8 *stack; u8 pad14[12]; u8 *mem; u32 state; };
@@ -1581,51 +1687,84 @@ void sub_08067A68(u32 index)
         sub_08000274(entry, index);
     }
 }
+/* [UnusedReturnOneStub5] Exact literal-one body; ordinal only distinguishes identical implementations in
+ * canonical address order, continuing variants1..4. No hidden gameplay role is claimed. */
 s32 sub_08067AC0(void) {
     return 1;
 }
+/* [UnusedReturnOneStub6] Exact literal-one body; ordinal only distinguishes identical implementations in
+ * canonical address order, continuing variants1..4. No hidden gameplay role is claimed. */
 s32 sub_08067AC4(void) {
     return 1;
 }
+/* [UnusedReturnOneStub7] Exact literal-one body; ordinal only distinguishes identical implementations in
+ * canonical address order, continuing variants1..4. No hidden gameplay role is claimed. */
 s32 sub_08067AC8(void) {
     return 1;
 }
+/* [UnusedReturnOneStub8] Exact literal-one body; ordinal only distinguishes identical implementations in
+ * canonical address order, continuing variants1..4. No hidden gameplay role is claimed. */
 s32 sub_08067ACC(void) {
     return 1;
 }
+/* [UnusedReturnOneStub9] Exact literal-one body; ordinal only distinguishes identical implementations in
+ * canonical address order, continuing variants1..4. No hidden gameplay role is claimed. */
 s32 sub_08067AD0(void) {
     return 1;
 }
+/* [UnusedReturnOneStub10] Exact literal-one body; ordinal only distinguishes identical implementations in
+ * canonical address order, continuing variants1..4. No hidden gameplay role is claimed. */
 s32 sub_08067AD4(void) {
     return 1;
 }
+/* [UnusedReturnOneStub11] Exact literal-one body; ordinal only distinguishes identical implementations in
+ * canonical address order, continuing variants1..4. No hidden gameplay role is claimed. */
 s32 sub_08067AD8(void) {
     return 1;
 }
+/* [UnusedReturnOneStub12] Exact literal-one body; ordinal only distinguishes identical implementations in
+ * canonical address order, continuing variants1..4. No hidden gameplay role is claimed. */
 s32 sub_08067ADC(void) {
     return 1;
 }
+/* [UnusedReturnOneStub13] Exact literal-one body; ordinal only distinguishes identical implementations in
+ * canonical address order, continuing variants1..4. No hidden gameplay role is claimed. */
 s32 sub_08067AE0(void) {
     return 1;
 }
+/* [UnusedReturnOneStub14] Exact literal-one body; ordinal only distinguishes identical implementations in
+ * canonical address order, continuing variants1..4. No hidden gameplay role is claimed. */
 s32 sub_08067AE4(void) {
     return 1;
 }
+/* [UnusedReturnOneStub15] Exact literal-one body; ordinal only distinguishes identical implementations in
+ * canonical address order, continuing variants1..4. No hidden gameplay role is claimed. */
 s32 sub_08067AE8(void) {
     return 1;
 }
+/* [UnusedNoOpStub1] Empty void body; ordinal distinguishes three identical no-op implementations in canonical
+ * address order. No callback or gameplay role is claimed. */
 void sub_08067AEC(void) {
 
 }
+/* [UnusedReturnOneStub16] Exact literal-one body; ordinal only distinguishes identical implementations in
+ * canonical address order, continuing variants1..4. No hidden gameplay role is claimed. */
 s32 sub_08067AF0(void) {
     return 1;
 }
+/* [UnusedNoOpStub2] Empty void body; ordinal distinguishes three identical no-op implementations in canonical
+ * address order. No callback or gameplay role is claimed. */
 void sub_08067AF4(void) {
 
 }
+/* [UnusedNoOpStub3] Empty void body; ordinal distinguishes three identical no-op implementations in canonical
+ * address order. No callback or gameplay role is claimed. */
 void sub_08067AF8(void) {
 
 }
+/* [StartLinkMessageTasks] Initializes outgoing queue-monitor task66898 with0x400-byte allocation and68670
+ * cleanup; then starts67A68 for every connected player, including ownID. No transport/session initialization
+ * inferred beyond these task creations. */
 void sub_08067AFC(void)
 {
     extern u8 task[] asm("gUnk_03006310");

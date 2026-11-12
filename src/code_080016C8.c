@@ -20,6 +20,7 @@ struct Heap {
     u32 size;
 };
 
+/* [HeapLargestFreeBlockSpan] Returns maximum free block span while walking heap blocks. */
 u32 sub_080016C8(void)
 {
     u32 best = 0;
@@ -34,6 +35,7 @@ u32 sub_080016C8(void)
     }
     return best;
 }
+/* [HeapTotalFreeBlockSpan] Accumulates free block spans while walking heap blocks. */
 u32 sub_080016EC(void)
 {
     u32 total = 0;
@@ -45,6 +47,7 @@ u32 sub_080016EC(void)
     }
     return total;
 }
+/* [MultiSioInit] Documented SDK initialization: reset registers, copy ISR, initialize buffers. */
 void sub_0800170C(void)
 {
     s32 i;
@@ -70,6 +73,7 @@ void sub_0800170C(void)
     sub_08000F64(0x80);
     sub_08000F2C();
 }
+/* [MultiSioMain] Documented SDK per-frame send24/receive4x24 processing and status flags. */
 u32 sub_08001804(void *sendp, void *recvp)
 {
     struct SioMultiCnt sioCntBak;
@@ -108,6 +112,7 @@ u32 sub_08001804(void *sendp, void *recvp)
     return gMultiSioArea.recvSuccessFlags | ((gMultiSioArea.type == 8) ? 0x80 : 0) | (gMultiSioArea.connectedFlags << 8) | (gMultiSioArea.hardError ? 0x1000 : 0) | ((sioCntBak.id >= 4) ? 0x2000 : 0) | ((gMultiSioArea.recvFlagsAvailableCounter >> 3) << 15);
 }
 
+/* [MultiSioSendDataSet] Documented SDK 24-byte send-buffer copy and checksum. */
 void sub_0800191C(void *sendp)
 {
     s32 checkSum = 0;
@@ -127,6 +132,7 @@ void sub_0800191C(void *sendp)
         *(vu16 *)0x0400010E = 0xC0;
 }
 
+/* [MultiSioRecvDataCheck] Documented SDK checksum verification and 4x24 receive copy. */
 u32 sub_08001990(void *recvp)
 {
     u32 (*recvBufChange)(void) = (u32 (*)(void))gMultiSioRecvFuncBuf;
