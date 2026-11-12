@@ -811,7 +811,6 @@ void sub_0800D368(void *arg0) {
     s32 temp_r0_55;
     s32 temp_r0_67;
     s32 temp_r0_6;
-    s32 temp_r0_78;
     s32 temp_r1_44;
     s32 temp_r1_47;
     u32 temp_r1_54;
@@ -3096,12 +3095,12 @@ retry63_0_done:
                     } else {
                         ((struct PlayerD368 *)arg0)->f20 = temp_r0_77;
                         ((struct PlayerD368 *)arg0)->f114 = 0x14U;
-                        temp_r0_78 = d368_sub_0801DE60();
-                        if ((temp_r0_78 == 5) && !(((struct PlayerD368 *)arg0)->f30 & 0x20000) && (d368_sub_0801E0AC(d368_gUnk_030034E0 + 0x30, 5) != 0) && ((resourceLimitWord319D368 = (u32) ((struct PlayerD368 *)arg0)->f62 << 0x10, (s32) (s16) ((struct PlayerD368 *)arg0)->fC4 < ((s32) resourceLimitWord319D368 >> 0x11)))) {
+                        var_r4_11 = d368_sub_0801DE60();
+                        if ((var_r4_11 == 5) && !(((struct PlayerD368 *)arg0)->f30 & 0x20000) && (d368_sub_0801E0AC(d368_gUnk_030034E0 + 0x30, 5) != 0) && ((resourceLimitWord319D368 = (u32) ((struct PlayerD368 *)arg0)->f62 << 0x10, (s32) (s16) ((struct PlayerD368 *)arg0)->fC4 < ((s32) resourceLimitWord319D368 >> 0x11)))) {
                             temp_r0_79 = d368_sub_0801E164(arg0, 5);
                             if (temp_r0_79 != 0) {
                                 M2C_FIELD(temp_r0_79, u16 *, 2) = (u16) ((struct PlayerD368 *)arg0)->f0;
-                                M2C_FIELD(temp_r0_79, s16 *, 4) = (s16) temp_r0_78;
+                                M2C_FIELD(temp_r0_79, s16 *, 4) = (s16) var_r4_11;
                                 M2C_FIELD(temp_r0_79, u16 *, 6) = d368_sub_0801E0AC(d368_gUnk_030034E0 + 0x30, 5);
                                 M2C_FIELD(temp_r0_79, s16 *, 0) = 0x708;
                                 ((struct PlayerD368 *)arg0)->f30 = (u32) (((struct PlayerD368 *)arg0)->f30 | 0x20000);
