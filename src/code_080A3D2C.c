@@ -271,7 +271,7 @@ extern u8 *object1084520 asm("gUnk_03000364");
 extern s32 angle1084520(s16,s16) asm("ArcTan2");
 extern s32 damage1084520(void*,void*) asm("sub_0801ED8C");
 void sub_080A4520(void) {
-    register s16 *var_r0 asm("r0");
+    s16 *var_r0;
     register s32 dir asm("r1");
     s16 temp_r1;
     s16 temp_r4_2;
@@ -281,7 +281,7 @@ void sub_080A4520(void) {
     u16 temp_r4;
     u16 temp_r4_4;
     register u32 temp_r0 asm("r0");
-    register u32 var_r4 asm("r4");
+    u32 var_r4;
     void *temp_r1_2;
     void *temp_r4_3;
 
@@ -324,15 +324,15 @@ void sub_080A4520(void) {
             register s32 d asm("r0") = damage1084520(temp_r4_3, &players1084520[sub_080020F4()]);
             register u32 i asm("r1") = temp_r5;
             register u8 *base asm("r7") = (u8 *)players1084520;
-            register u32 t asm("r2");
-            asm("" : "+r"(d), "+r"(i), "+r"(base));
+            u32 t;
+            
             i *= 0x14c;
-            asm("" : "+r"(i));
+            
             i += (u32)base;
-            asm("" : "+r"(i));
+            
             i += 0x88;
             t = *(u16 *)i;
-            asm("" : "+r"(d), "+r"(i), "+r"(t));
+            
             *(u16 *)i = d + t;
         }
         players1084520[sub_080020F4()].history[(*(u16 *)((u8 *)(object1084520) + (0)))] = (*(u32 *)((u8 *)(object1084520) + (0x50)));
@@ -340,9 +340,9 @@ void sub_080A4520(void) {
         new_var = (((s32) players1084520[sub_080020F4()].y >> 8) - ((s32) (*(s32 *)((u8 *)(object1084520) + (0x18))) >> 8));
         temp_r0 = (u32)angle1084520((s16) temp_r4_4, (s16) new_var) << 0x10;
         {
-            register u32 r asm("r1") = temp_r0 * 8;
+            u32 r = temp_r0 * 8;
             var_r4 = temp_r0 >> 0x1D;
-            asm("" : "+r"(r), "+r"(var_r4));
+            
             if (r > 0x80000000U) {
                 if (var_r4 <= 6U) {
                     var_r4 += 1;
@@ -354,14 +354,14 @@ void sub_080A4520(void) {
         if (var_r4 == 0) goto zero;
         if (var_r4 == 1) goto one;
         {
-            register u32 i asm("r0") = sub_080020F4();
+            u32 i = sub_080020F4();
             register u8 *base asm("r2") = (u8 *)players1084520;
             u8 *p;
-            asm("" : "+r"(i), "+r"(base));
+            
             i *= 0x14C;
-            asm("" : "+r"(i));
+            
             i += (u32)base;
-            asm("" : "+r"(i));
+            
             p = (u8 *)i;
             dir = var_r4 - 2;
             var_r0 = (s16 *)(p + 0xCA);
@@ -369,14 +369,14 @@ void sub_080A4520(void) {
         goto store;
 zero:
         {
-            register u32 i asm("r0") = sub_080020F4();
+            u32 i = sub_080020F4();
             register u8 *base asm("r2") = (u8 *)players1084520;
             u8 *p;
-            asm("" : "+r"(i), "+r"(base));
+            
             i *= 0x14C;
-            asm("" : "+r"(i));
+            
             i += (u32)base;
-            asm("" : "+r"(i));
+            
             p = (u8 *)i;
             var_r0 = (s16 *)(p + 0xCA);
         }
@@ -384,14 +384,14 @@ zero:
         goto store;
 one:
         {
-            register u32 i asm("r0") = sub_080020F4();
+            u32 i = sub_080020F4();
             register u8 *base asm("r2") = (u8 *)players1084520;
             u8 *p;
-            asm("" : "+r"(i), "+r"(base));
+            
             i *= 0x14C;
-            asm("" : "+r"(i));
+            
             i += (u32)base;
-            asm("" : "+r"(i));
+            
             p = (u8 *)i;
             var_r0 = (s16 *)(p + 0xCA);
         }
@@ -455,7 +455,7 @@ void sub_080A47A0_v(void)
         pos.y = *(s32 *)(gObj47A0 + 0x18);
         {
             s32 k = gDir47A0 * 4;
-            register u32 ox asm("r2") = (u32)gOffX47A0;
+            u32 ox = (u32)gOffX47A0;
             pos.x += *(s16 *)(k + ox);
             /* Keep the table address live until the x-offset load completes. */
             asm("" : : "r"(ox));
@@ -1667,7 +1667,7 @@ void t109Run68B0(u16 arg0) {
             dst = &t109P68B0[i];
             value = dst->f88;
             dst->f88 = amount + value;
-            { s32 player=sub_080020F4(); register struct T109Obj68B0 *p asm("r2"); register struct T109Obj68B0 **a asm("r3")=&t109O68B0; asm("" : "+r"(a)); p=*a; t109Serial68B0[player][p->id]=p->serial; }
+            { s32 player=sub_080020F4(); struct T109Obj68B0 *p; register struct T109Obj68B0 **a asm("r3")=&t109O68B0; asm("" : "+r"(a)); p=*a; t109Serial68B0[player][p->id]=p->serial; }
 contactDone:
             if (sub_0800CCCC() == 0 && sub_0800CC98() == 0 && sub_0800CD8C() == 0) {
                 zero = sub_0800CD34();

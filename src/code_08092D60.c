@@ -1275,8 +1275,8 @@ void sub_08094F3C(s8 arg0, s32 arg1) {
     struct {s32 x:16,y:16;} particle;
     s16 randomValue;
     s32 tableValue;
-    register s32 temp_r6 asm("r6");
-    register s32 var_r8 asm("r8");
+    s32 temp_r6;
+    s32 var_r8;
     u32 temp_r0_2;
     u32 temp_r1;
     u32 temp_r1_2;
@@ -1287,18 +1287,18 @@ void sub_08094F3C(s8 arg0, s32 arg1) {
     sp9C = (s32) (u8) (arg0 * 3);
     /* Keep the original initialization lifetimes; the empty constraint emits no code. */
     {
-    register s32 negativeOne asm("r6");
+    s32 negativeOne;
     register s32 one asm("r4");
     register s32 zero asm("r5");
-    register s32 animationId asm("r1");
+    s32 animationId;
     animationId=((s32) ((u32)shifted + 0xFF000000) >> 0x18) + 0x5002C;
     negativeOne=-1;
     one=1;
     sp0 = one;
     f94_08065158(&sp18, animationId, 7, negativeOne, sp0);
     {
-        register u8 *zeroDestination asm("r0")=&sp18.payload[7];
-        asm("" : : "r"(zeroDestination));
+        u8 *zeroDestination=&sp18.payload[7];
+        
         zero=0; asm("" : "+r"(zero));
         *zeroDestination = zero;
     }
@@ -1332,7 +1332,7 @@ loop_4:
     f94_08000AF0(0x10U, sp18.fC + 0xE0, 1U);
     {
         register u32 one asm("r0") = 1;
-        asm("" : "+r"(one));
+        
         sp0 = one;
     }
     f94_08065370(&sp18, 0U, &sp80, &sp82, sp0);
@@ -1386,12 +1386,12 @@ loop_4:
     case 3:
         {
             register s32 value asm("r4") = sp94;
-            asm("" : "+r"(value));
+            
             if ((u32)value <= 0xFU) {
                 register u32 next asm("r0") = value;
                 asm("" : "+r"(next));
                 next += 1;
-                asm("" : "+r"(next));
+                
                 sp94 = (s32)(u8)next;
             }
         }
@@ -1407,9 +1407,9 @@ loop_4:
         break;
     case 2:
         {
-            register u32 mask asm("r0") = 4;
+            u32 mask = 4;
             register u32 timer asm("r4");
-            asm("" : "+r"(mask));
+            
             timer = sp90;
             asm("" : "+r"(timer));
             if (mask & timer) {
@@ -1441,7 +1441,7 @@ block_37:
         f94_08007974(base.x >> 8, base.y >> 8, 0, sp80, 0, NULL, 1, sp18.payload, sp18.f8, sp18.f0);
         break;
     case 1: {
-        register u16 *p84 asm("r4") = &sp84[0]; register u16 *p86 asm("r3") = &sp86[0]; register s32 z asm("r5"); asm("" : "+r"(p84)); z = 0;
+        register u16 *p84 asm("r4") = &sp84[0]; register u16 *p86 asm("r3") = &sp86[0]; s32 z;  z = 0;
         temp_r6 = f94_08065370(&sp4C, 0U, p84, p86, z);
         if (v94_03002344 & 1) {
             f94_08000AF0(0x11U, sp4C.fC + 0x100, 1U);

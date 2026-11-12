@@ -5,10 +5,10 @@ void sub_080B6DD0(u32 channel);
 
 void TrackStop(struct MusicPlayerInfo *unused, struct MusicPlayerTrack *arg)
 {
-    register struct MusicPlayerTrack *track asm("r5") = arg;
-    register struct SoundChannel *channel asm("r4");
+    struct MusicPlayerTrack *track = arg;
+    struct SoundChannel *channel;
     u32 zero;
-    register u32 sdkR0 asm("r0");
+    u32 sdkR0;
     register u32 sdkR1 asm("r1");
     sdkR1 = track->flags;
     sdkR0 = 0x80;
@@ -65,9 +65,9 @@ void ply_note(u32 cmd, struct MusicPlayerInfo *player, struct MusicPlayerTrack *
     register u32 a1 asm("r1");
     register u32 a2 asm("r2");
     register struct MusicPlayerTrack *trk asm("r5");
-    register struct SoundChannel *chan asm("r4");
+    struct SoundChannel *chan;
     register u32 r6v asm("r6");
-    register u32 r7v asm("r7");
+    u32 r7v;
     register u32 r8v asm("r8");
     register struct ToneData *tone asm("r9");
     u32 threshold;
@@ -147,7 +147,7 @@ void ply_note(u32 cmd, struct MusicPlayerInfo *player, struct MusicPlayerTrack *
             goto ret;
         r6v--;
         a0 = r6v << 6;
-        asm("" : : "r"(a0), "r"(r6v));
+        
         chan = (struct SoundChannel *)((u8 *)chan + a0);
         a1 = chan->statusFlags;
         if (!(a1 & 0xC7))
@@ -227,7 +227,7 @@ chosen:
     a1 = frame->rhythm;
     if (a1 != 0) {
         a1 -= 0xC0;
-        asm("" : "+r"(a1));
+        
         trk->panX = a1 << 1;
         trk->flags |= 3;
     }
@@ -280,11 +280,11 @@ ret:
 void ply_endtie(struct MusicPlayerInfo *unused, struct MusicPlayerTrack *arg) __attribute__((naked));
 void ply_endtie(struct MusicPlayerInfo *unused, struct MusicPlayerTrack *arg)
 {
-    register struct MusicPlayerTrack *track asm("r1");
+    struct MusicPlayerTrack *track;
     register u8 *cursor asm("r2");
     register u32 key asm("r3");
-    register struct SoundChannel *channel asm("r1");
-    register u32 activeMask asm("r4");
+    struct SoundChannel *channel;
+    u32 activeMask;
     register u32 stopMask asm("r5");
     u32 threshold;
     /* ABI glue only: preserve the two callee-saved mask registers. */
@@ -310,8 +310,8 @@ loaded:
 /* Explicit C loop keeps the SDK exit block inside the traversal. */
 loop:
         {
-            register u32 flags asm("r2") = channel->statusFlags;
-            register u32 midiKey asm("r0");
+            u32 flags = channel->statusFlags;
+            u32 midiKey;
             if ((activeMask & flags) == 0) goto next;
             if ((stopMask & flags) != 0) goto next;
             midiKey = channel->midiKey;

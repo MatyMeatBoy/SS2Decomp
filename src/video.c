@@ -124,7 +124,7 @@ void sub_08000C50(void)
 }
 void sub_08000D0C(void)
 {
-    register u32 value asm("r0");
+    u32 value;
     u16 half;
     WAIT_NOT_BLANK();
     SET_IME(0);
@@ -163,7 +163,7 @@ void sub_08000D8C(void)
 }
 void sub_08000E48(void)
 {
-    register u32 value asm("r0");
+    u32 value;
     u16 half;
     WAIT_NOT_BLANK();
     SET_IME(0);

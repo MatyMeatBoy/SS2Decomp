@@ -93,12 +93,12 @@ s16 sub_0801A638_s16(u8 *) asm("sub_0801A638");
 
 void sub_0807A5D4_v(void) asm("sub_0807A5D4");
 static inline struct DataA5D4 *readDataA5D4(void) {
-    register struct DataA5D4 **addr asm("r0") = &dataA5D4;
+    struct DataA5D4 **addr = &dataA5D4;
     asm("" : "+r"(addr));
     return *addr;
 }
 static inline struct MgrA5D4 *readMgrA5D4(void) {
-    register struct MgrA5D4 **addr asm("r0") = &mgrA5D4;
+    struct MgrA5D4 **addr = &mgrA5D4;
     asm("" : "+r"(addr));
     return *addr;
 }
@@ -212,11 +212,11 @@ void sub_0807A5D4_v(void)
                     *(vu16 *)&readDataA5D4()->stats.points;
                     readMgrA5D4()->state = 2;
                     {
-                        register u16 *fillAddr asm("r0") = &zero1;
+                        u16 *fillAddr = &zero1;
                         register u32 fillZero asm("r1");
-                        asm("" : : "r"(fillAddr));
+                        
                         fillZero = 0;
-                        asm("" : "+r"(fillZero));
+                        
                         *fillAddr = fillZero;
                         CpuSet(fillAddr, &stats, 0x01000010);
                     }
@@ -224,7 +224,7 @@ void sub_0807A5D4_v(void)
                     {
                         struct MgrA5D4 *mgr = readMgrA5D4();
                         register u32 reset asm("r0") = 0;
-                        asm("" : "+r"(reset));
+                        
                         mgr->cursor = reset;
                         mgr->prev = reset;
                     }
@@ -247,15 +247,15 @@ void sub_0807A5D4_v(void)
                     *(vu16 *)&readDataA5D4()->skills.points;
                     readMgrA5D4()->state = 3;
                     {
-                        register u16 *fillAddr asm("r0") = &zero2;
+                        u16 *fillAddr = &zero2;
                         register u32 fillZero asm("r1");
-                        asm("" : : "r"(fillAddr));
+                        
                         fillZero = 0;
-                        asm("" : "+r"(fillZero));
+                        
                         *fillAddr = fillZero;
                         {
-                            register struct SkillsA5D4 *fillDest asm("r1") = &delta;
-                            asm("" : "+r"(fillDest));
+                            struct SkillsA5D4 *fillDest = &delta;
+                            
                             CpuSet(fillAddr, fillDest, 0x01000012);
                         }
                     }
@@ -264,7 +264,7 @@ void sub_0807A5D4_v(void)
                     {
                         struct MgrA5D4 *mgr = readMgrA5D4();
                         register u32 reset asm("r0") = 0;
-                        asm("" : "+r"(reset));
+                        
                         mgr->cursor = reset;
                         mgr->prev = reset;
                     }
@@ -891,13 +891,13 @@ void sub_0807BD78(u32 kind, u32 index)
 {
     switch (kind) {
     case 0: {
-        register u8 *base asm("r0") = (u8 *)gUnk_030034E0;
-        register u32 offset asm("r1") = index * 16;
+        u8 *base = (u8 *)gUnk_030034E0;
+        u32 offset = index * 16;
         *(u16 *)(base + offset + 0x150) = 0;
         break; }
     case 1: {
-        register u8 *base asm("r2") = (u8 *)gUnk_030034E0;
-        register u8 *dest asm("r0") = base + index * 16;
+        u8 *base = (u8 *)gUnk_030034E0;
+        u8 *dest = base + index * 16;
         *(u16 *)(dest + 0x70) = 0;
         if (index == *(u16 *)(base + 0x68)) sub_0805AD78(index);
         break; }
@@ -917,8 +917,8 @@ void sub_0807BD78(u32 kind, u32 index)
         *(u16 *)((u8 *)gUnk_030034E0 + 0x140) = 0;
         sub_0805D1E0(); break;
     case 11: case 13: case 16:
-        { register u8 *base asm("r0") = (u8 *)gUnk_03006440;
-        register u32 offset asm("r1") = index * 16;
+        { u8 *base = (u8 *)gUnk_03006440;
+        u32 offset = index * 16;
         *(u16 *)(base + offset + 0x104) = 0;
         break; }
     }
@@ -928,14 +928,14 @@ void sub_0807BEA0(u32 kind, u32 index, struct Copy7BEA0 *item)
 {
     switch (kind) {
     case 0:
-        { register u8 *base asm("r1") = (u8 *)gUnk_030034E0;
-        register u32 offset asm("r0") = index * 16;
+        { u8 *base = (u8 *)gUnk_030034E0;
+        u32 offset = index * 16;
         base += offset;
         base += 0x150;
         *(struct Copy7BEA0 *)base = *item; } break;
     case 1:
-        { register u8 *base asm("r1") = (u8 *)gUnk_030034E0;
-        register u32 offset asm("r0") = index * 16;
+        { u8 *base = (u8 *)gUnk_030034E0;
+        u32 offset = index * 16;
         base += offset;
         base += 0x70;
         *(struct Copy7BEA0 *)base = *item; }
@@ -958,8 +958,8 @@ void sub_0807BEA0(u32 kind, u32 index, struct Copy7BEA0 *item)
         *(struct Copy7BEA0 *)((u8 *)gUnk_030034E0 + 0x140) = *item;
         sub_0805D1E0(); break;
     case 13: case 16:
-        { register u8 *base asm("r1") = (u8 *)gUnk_03006440;
-        register u32 offset asm("r0") = index * 16;
+        { u8 *base = (u8 *)gUnk_03006440;
+        u32 offset = index * 16;
         base += offset;
         base += 0x104;
         *(struct Copy7BEA0 *)base = *item; } break;
@@ -968,18 +968,18 @@ void sub_0807BEA0(u32 kind, u32 index, struct Copy7BEA0 *item)
 struct Item7C014 { u16 kind; u16 pad; u32 count; u32 rest[2]; };
 void sub_0807C014(u32 arg0)
 {
-    register u32 amount asm("r4") = arg0;
+    u32 amount = arg0;
     register u32 minimum asm("r5");
-    register u32 selected asm("r6");
-    register u32 i asm("r3");
+    u32 selected;
+    u32 i;
     u32 remaining;
-    register u8 *base asm("r0");
-    register u32 offset asm("r7");
+    u8 *base;
+    u32 offset;
     register s32 *ptr1 asm("r1");
     register s32 *ptr7 asm("r7");
-    register struct Item7C014 *chosen asm("r10");
-    register s32 *inventory asm("r8") = &gUnk_030034E0;
-    register s32 *inventory2 asm("r9") = inventory;
+    struct Item7C014 *chosen;
+    s32 *inventory = &gUnk_030034E0;
+    s32 *inventory2 = inventory;
     u8 *cursor;
     register u32 *count asm("r2");
 
@@ -1003,8 +1003,8 @@ loop:
     } while (i <= 24);
     if (selected <= 24) {
         if (minimum >= amount) {
-            register u32 *item asm("r0");
-            register u32 value asm("r1");
+            u32 *item;
+            u32 value;
             ptr1 = inventory;
             item = (u32 *)*ptr1;
             value = selected * 16;
@@ -1040,8 +1040,8 @@ loop:
         } while (i <= 74);
         if (selected != 75) {
             if (minimum < amount) {
-                register struct Item7C014 *p asm("r1") = chosen;
-                register u32 zero asm("r0");
+                struct Item7C014 *p = chosen;
+                u32 zero;
                 amount -= p->count;
                 zero = 0;
                 p->count = zero;
@@ -1050,7 +1050,7 @@ loop:
             }
             {
                 register struct Item7C014 *p asm("r2") = chosen;
-                register u32 result asm("r0") = p->count - amount;
+                u32 result = p->count - amount;
                 p->count = result;
                 if (result == 0) p->kind = result;
             }
@@ -1092,8 +1092,8 @@ one:
     ((struct Manager7C114 *)gUnk_03006440)->f18 = ((struct Manager7C114 *)gUnk_03006440)->f1C;
     ((struct Manager7C114 *)gUnk_03006440)->f4 = ((struct Manager7C114 *)gUnk_03006440)->f20;
     ((struct Manager7C114 *)gUnk_03006440)->f8 = ((struct Manager7C114 *)gUnk_03006440)->f20 + 1;
-    { register u32 *zp asm("r0") = &zero;
-    register void *dst asm("r1");
+    { u32 *zp = &zero;
+    void *dst;
     zero = 0;
     dst = &((struct Manager7C114 *)gUnk_03006440)->item;
     CpuSet(zp, dst, 0x05000004); }
@@ -1154,7 +1154,7 @@ extern struct Mgr82 *gMgr82 asm("gUnk_03006440");
 extern struct Inv82 *gInv82 asm("gUnk_030034E0");
 static inline void Drop82(vu32 *z) { *z = 0; CpuSet((void *)z, &gMgr82->held, 0x05000004); gMgr82->heldFrom = 0x16; gMgr82->heldIdx = 0; }
 /* Same as Drop82, but the empty volatile asm keeps cross-jumping from merging this tail with another identical DROP tail (the ROM keeps them separate because its registers differ). */
-static inline void Drop82Sep(vu32 *z) { *z = 0; CpuSet((void *)z, &gMgr82->held, 0x05000004); gMgr82->heldFrom = 0x16; gMgr82->heldIdx = 0; asm volatile(""); }
+static inline void Drop82Sep(vu32 *z) { *z = 0; CpuSet((void *)z, &gMgr82->held, 0x05000004); gMgr82->heldFrom = 0x16; gMgr82->heldIdx = 0;  }
 #define DROP82() Drop82(&sp14)
 /* Drop82P: the DROP through a pointer to gMgr82 (the observed unallocated function-scope gp, so reload re-loads the address at each use like the ROM; or a pointer kept in a register). The inline form computes z (add r0, sp, #20) before the zero store, like the ROM. */
 static inline void Drop82P(vu32 *z, struct Mgr82 **g) { *z = 0; CpuSet((void *)z, &(*g)->held, 0x05000004); (*g)->heldFrom = 0x16; (*g)->heldIdx = 0; }
@@ -1176,7 +1176,7 @@ void sub_0807C29C(void) {
     struct Mgr82 **gp;
 
     /* Preserve the existing flags-read address lifetime. */
-    { struct Mgr82 **q; q = &gMgr82; asm("" : "=r"(q) : "0"(q));
+    { struct Mgr82 **q; q = &gMgr82; 
     if ((*q)->flags & 1) {
         keys29_03001308 = 0;
         keys29_03001324 &= ~1;
@@ -2828,7 +2828,7 @@ void sub_0807C29C(void) {
                         }
                         { /* ROM: &sp14 first, zero for the CpuSet source in r1, then a fresh zero in r4 for heldIdx after the call */
                             vu32 *z082p = &sp14;
-                            register u32 z082 asm("r1") = 0;
+                            u32 z082 = 0;
                             *z082p = z082;
                             CpuSet((void *)z082p, &(*gp)->held, 0x05000004);
                             (*gp)->heldFrom = 0x16;
@@ -3136,14 +3136,14 @@ void sub_0807C29C(void) {
             sub_0805865C(0x62);
         } else if (keys29_03001324 & 1) {
             u32 *p;
-            register struct Inv82 *inventoryBase082 asm("r0");
+            struct Inv82 *inventoryBase082;
             gMgr82->stock[3] = gMgr82->held;
             inventoryBase082 = gInv82;
             have = gMgr82->heldIdx;
             { /* ROM: idx*16 first, then (inventory + items[0].count) + idx*16; one barrier keeps that grouping */
                 u32 off082 = have * sizeof(struct Item82);
                 inventoryBase082 = (struct Inv82 *)((u8 *)inventoryBase082 + offsetof(struct Inv82, items) + offsetof(struct Item82, count));
-                asm("" : "+r"(inventoryBase082) : "r"(off082));
+                
                 p = (u32 *)((u8 *)inventoryBase082 + off082);
             }
             if (*p == gMgr82->held.count)
@@ -3366,12 +3366,12 @@ done82:
             register u32 beltDoubleQuotient082 asm("r1");
             register u32 beltRowBase082 asm("r5");
             beltCursorValue082 = gMgr82->cursor;
-            asm("" : "+r"(beltCursorValue082));
+            
             beltQuotient082 = beltCursorValue082 / 3;
             beltDoubleQuotient082 = beltQuotient082 + beltQuotient082;
-            asm("" : : "r"(beltDoubleQuotient082));
+            
             beltRowBase082 = beltDoubleQuotient082 + beltQuotient082;
-            asm("" : : "r"(beltRowBase082));
+            
             /* The column is computed inside the index (after the &posX address), like the ROM. */
             gMgr82->posX = gUnk_084ECBBC[({
                 beltColumnValue082 = beltCursorValue082 - beltRowBase082;
@@ -3451,26 +3451,26 @@ done82:
             struct C82 *positionY82;
             register u32 rowCursorValue082 asm("r6");
             rowCursorValue082 = gMgr82->cursor;
-            asm("" : "+r"(rowCursorValue082));
+            
             {
                 /* Same row-base split as case 1: q + q in r1, then + q in r5. */
                 u32 rowQuotient082 = rowCursorValue082 / 3;
                 register u32 rowDouble082 asm("r1") = rowQuotient082 + rowQuotient082;
                 register u32 rowBase082 asm("r5");
-                asm("" : : "r"(rowDouble082));
+                
                 rowBase082 = rowDouble082 + rowQuotient082;
                 asm("" : "+r"(rowBase082));
                 base = rowBase082;
             }
             idx = base + 3;
             rowEnd082 = (u32)idx;
-            asm("" : "+r"(rowEnd082));
+            
             {
                 /* cursor + 1 stays a separate r0 value, computed after the &posX address. */
                 register u32 nextCursorX asm("r0");
                 gMgr82->posX = gUnk_084ECBB0[(rowEnd082 - ({
                     nextCursorX = rowCursorValue082 + 1;
-                    asm("" : "+r"(nextCursorX));
+                    
                     nextCursorX;
                 })) * 2] + 0xB8;
             }
@@ -4219,18 +4219,18 @@ void sub_08081518(u32 arg0, u32 arg1, u8 *arg2, u32 arg3, volatile s32 arg4)
         u8 *volatile source;
         s32 *volatile num;
     } frame;
-    register u32 savedX asm("r10") = (u16)arg0;
+    u32 savedX = (u16)arg0;
     register u32 savedNumber asm("r9");
     register u32 length asm("r8");
-    register u8 *source asm("r2");
+    u8 *source;
     s32 *num;
     u32 token;
-    register u8 *out asm("r4");
+    u8 *out;
     u16 digit;
     register s32 *divisor asm("r6");
     u32 started;
     u16 offset;
-    asm("" : "+r"(savedX));
+    
     frame.y = (u16)arg1;
     savedNumber = (u16)arg3;
     source = arg2 + 2;
@@ -4249,8 +4249,8 @@ processToken:
         source++;
         do {
             u32 value;
-            register s32 denominator asm("r1") = *divisor;
-            register s32 *callNum asm("r0") = num;
+            s32 denominator = *divisor;
+            s32 *callNum = num;
             asm("" : "+r"(denominator), "+r"(callNum));
             frame.source = source;
             frame.num = num;
@@ -4283,16 +4283,16 @@ checkToken:
     {
         register u8 *end asm("r0") = frame.text;
         register u32 terminator asm("r1");
-        asm("" : "+r"(end));
+        
         end += length;
-        asm("" : "+r"(end));
+        
         terminator = 0xFD;
         *end = terminator;
     }
     {
-        register u32 mask asm("r0") = 1;
+        u32 mask = 1;
         register u32 flags asm("r2");
-        asm("" : "+r"(mask));
+        
         flags = arg4;
         flags &= mask;
         if (flags)
@@ -4303,8 +4303,8 @@ checkToken:
     {
         /* A byte offset keeps agbcc's base/offset operand order; never dereferenced. */
         register u8 *xCopy asm("r4") = (u8 *)savedX;
-        register u32 drawX asm("r1");
-        register u8 *drawText asm("r0");
+        u32 drawX;
+        u8 *drawText;
         asm("" : "+r"(xCopy));
         drawX = (u16)(u32)(xCopy + offset);
         drawText = frame.text;
@@ -4564,7 +4564,7 @@ void sub_080815F4(void *arg0) {
                     var_r0 = var_r1;
                     asm("" : "+r"(var_r0));
                     if (var_r0 == 0xFF) {
-                        asm("" : : "r"(var_r1));
+                        
                         var_r6++;
                         break;
                     }
@@ -5028,7 +5028,7 @@ void sub_08082960(struct Record82960 *arg0) {
     temp_r0 = arg0->names[gUnk_03003470][0];
     *var_r2 = temp_r0;
     first_byte = (u32)temp_r0 << 24;
-    asm("" : "+r"(first_byte));
+    
     var_r4 = (s32)var_r2;
     if (first_byte != 0) {
         do {
@@ -5261,7 +5261,7 @@ void sub_08082BB0_u32(u32 arg0) {
     void *var_r2_3;
 
     /* Original r8 has no dominating initialization before its first flag-4 use. */
-    asm("" : "+r"(var_r8));
+    
     sp44 = &gUnk_03003CE0[sub_080020F4()];
     sub_080009F8(0x1F00, 0, 1);
     keys82BB0.x2 = 0;
@@ -5398,10 +5398,10 @@ void sub_08082BB0_u32(u32 arg0) {
         row82BB0 = (u32 *)manager82BB0;
         temp_r2 = var_r6 * 8;
         rowzero82BB0 = (u32 *)((u8 *)row82BB0 + 0x74);
-        asm("" : "+r"(rowzero82BB0));
+        
         *(u32 *)((u8 *)rowzero82BB0 + temp_r2) = 0;
         row82BB0 = (u32 *)((u8 *)row82BB0 + 0x78);
-        asm("" : "+r"(row82BB0));
+        
         row82BB0 = (u32 *)((u8 *)row82BB0 + temp_r2);
         *row82BB0 = var_r6 % 5U;
         var_r6 += 1;
@@ -5424,7 +5424,7 @@ void sub_08082BB0_u32(u32 arg0) {
     case 1:                                         /* switch 5 */
         sub_0805CB04(2, ((u8 *)manager82BB0) + 0x104);
         setup82BB0 = (u8 *)manager82BB0;
-        asm("" : "+r"(setup82BB0) : "i"(2));
+        
         goto block_61;
     case 2:                                         /* switch 5 */
         sub_0805CB04(3, ((u8 *)manager82BB0) + 0x104);
@@ -5473,10 +5473,10 @@ block_61:
         mode_slot82BB0 = &bank82BB0;
         mode_index82BB0 = *(s32 *)((u8 *)manager82BB0 + 0x44);
         mode_offset82BB0 = mode_index82BB0 * 0xF0;
-        asm("" : "+r"(mode_offset82BB0), "+r"(mode_index82BB0) : "r"(mode_slot82BB0));
+        
         mode_offset82BB0 += 0x2E0;
-        asm("" : "+r"(mode_offset82BB0) : "r"(mode_slot82BB0));
-        { register s32 slot82BB0 asm("r1") = (s32)*mode_slot82BB0; register s32 sum82BB0 asm("r0") = slot82BB0; sum82BB0 = slot82BB0 + mode_offset82BB0; sub_080852CC(sum82BB0); }
+        
+        { s32 slot82BB0 = (s32)*mode_slot82BB0; register s32 sum82BB0 asm("r0") = slot82BB0; sum82BB0 = slot82BB0 + mode_offset82BB0; sub_080852CC(sum82BB0); }
         break;
     case 8:                                         /* switch 5 */
         var_r6 = 0;
@@ -5533,7 +5533,7 @@ block_61:
                         } else {
                             resource_word82BB0 = sub_08007290(table82BB0Text[*(s32 *)((u8 *)manager82BB0 + 4)] | 0x140000);
                             temp_r4_2 = (u8 *)(resource_word82BB0 + 2);
-                            asm("" : "+r"(resource_word82BB0), "+r"(temp_r4_2));
+                            
                             sub_0801A3D0(temp_r4_2, (u16) (0xF - ((u32) sub_0801A638(temp_r4_2) >> 1)), 0x12);
                         }
                     }
@@ -5605,14 +5605,14 @@ block_61:
                 fade_sprite82BB0 = (u8 *)manager82BB0 + 0x5EC;
                 fade_x82BB0 = var_r8 + 0xD0;
                 fade_y82BB0 = gUnk_080B9704[*(s32 *)((u8 *)manager82BB0 + 0x5C)];
-                asm("" : "+r"(fade_y82BB0) : "r"(fade_sprite82BB0), "r"(fade_x82BB0));
+                
                 fade_y82BB0 = (fade_y82BB0 >> 5) + *(s32 *)((u8 *)manager82BB0 + 0x54) + 0x60;
                 sub_08065230(fade_sprite82BB0, fade_x82BB0, fade_y82BB0, 2U, temp_r5);
                 temp_r0_15 = (*(s32 *)((u8 *)(((u8 *)manager82BB0)) + 0x18));
                 if (((temp_r0_15 == 0) || (temp_r0_15 == 0x11)) && (temp_r0_15 != 0x12)) {
                     resource_word82BB0 = sub_08007290(0x140185);
                     temp_r4_3 = (u8 *)(resource_word82BB0 + 2);
-                    asm("" : "+r"(resource_word82BB0), "+r"(temp_r4_3));
+                    
                     sub_0801A3D0(temp_r4_3, (u16) (0xF - ((u32) sub_0801A638(temp_r4_3) >> 1)), 0x12);
                 }
             } else {
@@ -5713,13 +5713,13 @@ void sub_0808381C(u32 index)
     u8 text[32];
     u8 liveText[32];
     volatile u32 visible;
-    register u8 *source asm("r4");
+    u8 *source;
     u8 *manager;
     u16 sourceOffset;
     u16 textLength;
     register u32 dictionaryOffset asm("ip");
 
-    register u32 countdown asm("r6");
+    u32 countdown;
     s16 amount;
     u16 x;
     extern u16 keys8381C asm("gUnk_03001324");
@@ -5742,22 +5742,22 @@ void sub_0808381C(u32 index)
     sourceOffset = 0;
     if (source[2] != 0xFD) {
         do {
-            if (*(u8 *)((u32)source + ({ s32 offset = sourceOffset + 2; asm("" : "+r"(offset)); offset; })) == 0xFC) {
+            if (*(u8 *)((u32)source + ({ s32 offset = sourceOffset + 2;  offset; })) == 0xFC) {
                 u8 *destination;
                 u8 *dictionary;
                 u32 previous;
                 destination = text + textLength++;
                 dictionary = (u8 *)gUnk_030034E0;
-                asm("" : "+r"(dictionary));
+                
                 previous = dictionaryOffset;
                 dictionaryOffset = (u16)(previous + 1);
                 *destination = dictionary[previous];
                 if (dictionary[dictionaryOffset] == 0xFD)
                     sourceOffset++;
             } else {
-                text[textLength++] = *({ register u8 *pointer asm("r1") = source + ({ s32 offset = sourceOffset++ + 2; asm("" : "+r"(offset)); offset; }); asm("" : "+r"(pointer)); pointer; });
+                text[textLength++] = *({ u8 *pointer = source + ({ s32 offset = sourceOffset++ + 2;  offset; });  pointer; });
             }
-        } while (*(u8 *)((u32)source + ({ s32 offset = sourceOffset + 2; asm("" : "+r"(offset)); offset; })) != 0xFD);
+        } while (*(u8 *)((u32)source + ({ s32 offset = sourceOffset + 2;  offset; })) != 0xFD);
     }
     text[textLength] = 0xFD;
 
@@ -5767,9 +5767,9 @@ void sub_0808381C(u32 index)
         if (countdown == 1)
             countdown = 0;
         {
-            register s32 scaled asm("r0") = countdown << 16;
-            register s32 initial asm("r4") = scaled >> 16;
-            asm("" : "+r"(scaled), "+r"(initial));
+            s32 scaled = countdown << 16;
+            s32 initial = scaled >> 16;
+            
             amount = initial - (scaled >> 17);
         }
         countdown = (u16)amount;
@@ -5780,7 +5780,7 @@ void sub_0808381C(u32 index)
     {
         register u32 i asm("r5");
         register u32 lastIndex asm("ip");
-        register u32 blink asm("r5");
+        u32 blink;
         for (i = 0; i <= (u32)sub_0801A638(text);) {
             if (sub_0800CDF8() != 0 || sub_080021A8() != 0)
                 goto done;
@@ -5788,7 +5788,7 @@ void sub_0808381C(u32 index)
             {
                 register u32 next asm("r1") = i + 1;
                 liveText[next] = 0xFD;
-                asm("" : "+r"(next));
+                
                 i = (u16)next;
             }
             sub_08065230(((u8 *)descriptorWords), 0xF0, 0x88, 0, 0);
@@ -5799,18 +5799,18 @@ void sub_0808381C(u32 index)
 
         {
             register u32 previous asm("r0") = i - 1;
-            asm("" : "+r"(previous));
+            
             lastIndex = (u16)previous;
         }
         blink = 0;
         if ((keys8381C & 1) == 0) {
 
-            register u8 *cursor asm("r6");
+            u8 *cursor;
             u8 *cursorEnd;
             {
                 u8 *base = liveText;
-                register u32 previous asm("r0");
-                asm("" : "+r"(base));
+                u32 previous;
+                
                 previous = lastIndex;
                 cursor = base + previous;
                 cursorEnd = base + (previous + 1);
@@ -5821,13 +5821,13 @@ void sub_0808381C(u32 index)
                     goto done;
                 {
                 register u32 previousBlink asm("r1") = blink;
-                register u32 nextBlink asm("r0") = previousBlink + 1;
-                asm("" : "+r"(previousBlink), "+r"(nextBlink));
+                u32 nextBlink = previousBlink + 1;
+                
                 blink = (u16)nextBlink;
                 if (previousBlink <= 0x1D)
-                    visible = ({ register u32 value asm("r1") = 1; asm("" : "+r"(value)); value; });
+                    visible = ({ register u32 value asm("r1") = 1;  value; });
                 else if (blink > 0x1D)
-                    visible = ({ register u32 value asm("r0") = 0; asm("" : "+r"(value)); value; });
+                    visible = ({ register u32 value asm("r0") = 0;  value; });
                 }
                 if (blink > 0x28)
                     blink = 0;
@@ -5839,7 +5839,7 @@ void sub_0808381C(u32 index)
                 }
                 {
                 register u8 *liveBase asm("r4") = liveText;
-                asm("" : "+r"(liveBase));
+                
                 sub_08065230(((u8 *)descriptorWords), 0xF0, 0x88, 0, 0);
                 x = 0x0F - ((u32)sub_0801A638(text) >> 1);
                 sub_0801A3D0(liveBase, x, 0x12);
@@ -5860,9 +5860,9 @@ void sub_0808381C(u32 index)
         if (countdown == 0x9F)
             countdown = 0xA0;
         {
-            register s32 initial asm("r4") = countdown << 16;
+            s32 initial = countdown << 16;
             initial >>= 16;
-            asm("" : "+r"(initial));
+            
             amount = initial - ((initial - 0xA0) >> 1);
         }
         countdown = (u16)amount;
@@ -5881,7 +5881,7 @@ done:
 void sub_08083AE8(u32 input)
 
 {
-    register u32 param_1 asm("r8") = input;
+    u32 param_1 = input;
     /* Preserve the original 208-byte frame, including its outgoing argument. */
     extern u32 gUnk_084ECC04[];
     extern u16 sub_08057AE8(s32);
@@ -5901,18 +5901,18 @@ void sub_08083AE8(u32 input)
   short sVar10;
   u16 uVar11;
   u32 uVar12;
-  register u32 unaff_r9 asm("r9");
+  u32 unaff_r9;
   register u32 unaff_r10 asm("r10");
   u32 in_lr;
 
-  asm("" : "=r"(stack), "=r"(unaff_r9), "=r"(unaff_r10));
+  
   if (gUnk_03003170.curLevel == 0) uVar1 = sub_08057AE8(0x15);
   else uVar1 = 2;
   switch ((s32)uVar1) {
   case 1:
     {
-      register u8 *panel asm("r4") = stack + 0x38;
-      asm("" : "+r"(panel));
+      u8 *panel = stack + 0x38;
+      
       sub_08065158(panel, 0x500CB, 0, -1, 0);
       sub_08000AF0(0x15, *(u32 *)(panel + 0xC) + 0x1C0, 1);
       unaff_r9 = ({ register u32 value asm("r1") = 0x77; asm("" : "+r"(value)); value; });
@@ -5920,34 +5920,34 @@ void sub_08083AE8(u32 input)
     }
   case 2:
     {
-      register u8 *panel asm("r4") = stack + 0x6C;
-      asm("" : "+r"(panel));
+      u8 *panel = stack + 0x6C;
+      
       sub_08065158(panel, 0x500CA, 0, -1, 0);
       {
-      register u32 palette asm("r1") = *(u32 *)(panel + 0xC);
-      asm("" : "+r"(palette));
-      sub_08000AF0(0x15, palette + ({ register u32 offset asm("r0") = 0x1C0; asm("" : "+r"(offset)); offset; }), 1);
+      u32 palette = *(u32 *)(panel + 0xC);
+      
+      sub_08000AF0(0x15, palette + ({ u32 offset = 0x1C0;  offset; }), 1);
       }
       unaff_r10 = ({ register u32 value asm("r1") = 0x77; asm("" : "+r"(value)); value; });
     }
 setCountdown:
-    *(u32 *)(stack + 0xC4) = ({ register u32 value asm("r2") = 0x77; asm("" : "+r"(value)); value; });
+    *(u32 *)(stack + 0xC4) = ({ register u32 value asm("r2") = 0x77;  value; });
     break;
   case 0:
     {
-      register u8 *middle asm("r6");
-      register u8 *right asm("r5");
+      u8 *middle;
+      u8 *right;
       sub_08065158(frameStorage83AE8, 0x500CC, 0, -1, 0);
       middle = stack + 0x38;
-      asm("" : "+r"(middle));
+      
       sub_08065158(middle, 0x500CB, 0, -1, 0);
       right = stack + 0x6C;
-      asm("" : "+r"(right));
+      
       sub_08065158(right, 0x500CA, 0, -1, 0);
       sub_08000AF0(0x14, *(u32 *)(stack + 0x10) + 0x1C0, 1);
       sub_08000AF0(0x15, *(u32 *)(middle + 0xC) + 0x1C0, 1);
       sub_08000AF0(0x1E, *(u32 *)(right + 0xC) + 0x1C0, 1);
-      *(u32 *)(stack + 0xC4) = ({ register u32 value asm("r0") = 0x77; asm("" : "+r"(value)); value; });
+      *(u32 *)(stack + 0xC4) = ({ u32 value = 0x77;  value; });
       unaff_r9 = ({ register u32 value asm("r1") = 0xAE; asm("" : "+r"(value)); value; });
       unaff_r10 = ({ register u32 value asm("r2") = 0x40; asm("" : "+r"(value)); value; });
     }
@@ -5955,56 +5955,56 @@ setCountdown:
   }
   (*(u8 *)((stack + 4) + 0x2A)) = 4;
   (*(u8 *)((stack + 4) + 0x5E)) = 5;
-  (*(u32 *)((stack + 4) + 0xBC)) = sub_08007290(({ register u32 *table asm("r1") = gUnk_084ECC04; register u32 index asm("r2"); register u32 *entry asm("r0"); asm("" : "+r"(table)); index = param_1; asm("" : "+r"(index)); entry = (u32 *)((index << 2) + (u32)table); asm("" : "+r"(entry)); *entry; }) | 0x140000);
+  (*(u32 *)((stack + 4) + 0xBC)) = sub_08007290(({ register u32 *table asm("r1") = gUnk_084ECC04; register u32 index asm("r2"); register u32 *entry asm("r0");  index = param_1; asm("" : "+r"(index)); entry = (u32 *)((index << 2) + (u32)table);  *entry; }) | 0x140000);
   *(u32 *)(*(int *)((u32)&gUnk_03006440) + 0x28) = *(u32 *)(*(int *)((u32)&gUnk_03006440) + 0x28) | 2;
-  if (({ register u32 raw asm("r1") = *(u32 *)(stack + 0xC4); register s32 scaled asm("r0"); asm("" : "+r"(raw)); scaled = raw << 16; asm("" : "+r"(scaled)); scaled; }) > 0) {
-    register u8 *middle asm("r5") = stack + 0x38;
-    register u32 paletteOffset asm("r6") = 0x1C0;
-    register s32 shiftedCount asm("r4");
-    asm("" : "+r"(middle), "+r"(paletteOffset));
+  if (({ register u32 raw asm("r1") = *(u32 *)(stack + 0xC4); register s32 scaled asm("r0");  scaled = raw << 16;  scaled; }) > 0) {
+    u8 *middle = stack + 0x38;
+    u32 paletteOffset = 0x1C0;
+    s32 shiftedCount;
+    
     do {
-      register s32 zero asm("r2");
+      s32 zero;
       if (sub_0800CDF8() != 0) goto LAB_080841de;
       zero = sub_080021A8();
-      asm("" : "+r"(zero) : : "r4");
+      
       if (zero != 0) goto LAB_080841de;
-      if (({ register u32 raw asm("r1") = *(u32 *)(stack + 0xC4); register s32 scaled asm("r0"); asm("" : "+r"(raw)); scaled = raw << 16; asm("" : "+r"(scaled)); scaled >> 16; }) == 1) *(u32 *)(stack + 0xC4) = ({ register u32 value asm("r0") = 0; asm("" : "+r"(value)); value; });
+      if (({ register u32 raw asm("r1") = *(u32 *)(stack + 0xC4); register s32 scaled asm("r0");  scaled = raw << 16;  scaled >> 16; }) == 1) *(u32 *)(stack + 0xC4) = ({ register u32 value asm("r0") = 0;  value; });
       {
         register u32 raw asm("r1") = *(u32 *)(stack + 0xC4);
-        register s32 scaled asm("r0");
+        s32 scaled;
         register s32 signedValue asm("r1");
-        asm("" : "+r"(raw));
+        
         scaled = raw << 16;
         signedValue = scaled >> 16;
-        asm("" : "+r"(scaled), "+r"(signedValue));
+        
         signedValue = (u16)(signedValue - (scaled >> 17));
-        asm("" : "+r"(signedValue));
+        
         *(u32 *)(stack + 0xC4) = signedValue;
       }
-      if (({ register u32 raw asm("r1") = unaff_r9; register s32 scaled asm("r0"); asm("" : "+r"(raw)); scaled = raw << 16; asm("" : "+r"(scaled)); scaled >> 16; }) == 1) unaff_r9 = ({ register u32 value asm("r0") = 0; asm("" : "+r"(value)); value; });
+      if (({ register u32 raw asm("r1") = unaff_r9; register s32 scaled asm("r0");  scaled = raw << 16;  scaled >> 16; }) == 1) unaff_r9 = ({ register u32 value asm("r0") = 0;  value; });
       {
-        register u32 raw asm("r1") = unaff_r9;
-        register s32 scaled asm("r0");
+        u32 raw = unaff_r9;
+        s32 scaled;
         register s32 signedValue asm("r1");
-        asm("" : "+r"(raw));
+        
         scaled = raw << 16;
         signedValue = scaled >> 16;
-        asm("" : "+r"(scaled), "+r"(signedValue));
+        
         signedValue = (u16)(signedValue - (scaled >> 17));
-        asm("" : "+r"(signedValue));
+        
         unaff_r9 = signedValue;
       }
-      if (({ register u32 raw asm("r1") = unaff_r10; register s32 scaled asm("r0"); asm("" : "+r"(raw)); scaled = raw << 16; asm("" : "+r"(scaled)); scaled >> 16; }) == 1) unaff_r10 = ({ register u32 value asm("r0") = 0; asm("" : "+r"(value)); value; });
+      if (({ register u32 raw asm("r1") = unaff_r10; register s32 scaled asm("r0");  scaled = raw << 16;  scaled >> 16; }) == 1) unaff_r10 = ({ register u32 value asm("r0") = 0;  value; });
       {
         register u32 raw asm("r1") = unaff_r10;
-        register s32 scaled asm("r0");
+        s32 scaled;
         register s32 signedValue asm("r1");
-        asm("" : "+r"(raw));
+        
         scaled = raw << 16;
         signedValue = scaled >> 16;
-        asm("" : "+r"(scaled), "+r"(signedValue));
+        
         signedValue = (u16)(signedValue - (scaled >> 17));
-        asm("" : "+r"(signedValue));
+        
         unaff_r10 = signedValue;
       }
       {
@@ -6013,46 +6013,46 @@ setCountdown:
         if (uVar1 == 1) goto phase1Middle;
         if (uVar1 > 1) goto phase1Greater;
         if (uVar1 == 0) goto phase1All;
-        shiftedCount = ({ register u32 value asm("r2") = *(u32 *)(stack + 0xC4); asm("" : "+r"(value)); value; }) << 16;
+        shiftedCount = ({ register u32 value asm("r2") = *(u32 *)(stack + 0xC4);  value; }) << 16;
         goto phase1Yield;
 phase1Greater:
         if (uVar1 == 2) goto phase1Right;
         goto phase1SingleEnd;
 phase1Middle:
-        x = ({ register u32 raw asm("r0") = unaff_r9; register s32 x asm("r1"); asm("" : "+r"(raw)); x = raw << 16; asm("" : "+r"(x)); x >>= 16; x + 0xB9; });
+        x = ({ register u32 raw asm("r0") = unaff_r9; register s32 x asm("r1");  x = raw << 16;  x >>= 16; x + 0xB9; });
         *(u32 *)stack = zero;
-        asm("" : : "m"(*(u32 *)stack));
+        
         panel = middle;
         goto phase1Single;
 phase1Right:
-        x = ({ register u32 raw asm("r0") = unaff_r10; register s32 x asm("r1"); asm("" : "+r"(raw)); x = raw << 16; asm("" : "+r"(x)); x >>= 16; x + 0xB9; });
+        x = ({ register u32 raw asm("r0") = unaff_r10; register s32 x asm("r1");  x = raw << 16;  x >>= 16; x + 0xB9; });
         *(u32 *)stack = zero;
-        asm("" : : "m"(*(u32 *)stack));
+        
         panel = stack + 0x6C;
 phase1Single:
         sub_08065230(panel, x, 0x88, 0, *(u32 *)stack);
         {
-          register u32 palette asm("r1") = *(u32 *)(middle + 0xC);
+          u32 palette = *(u32 *)(middle + 0xC);
           register u32 paletteOffset asm("r2");
-          asm("" : "+r"(palette));
+          
           paletteOffset = 0x1C0;
           asm("" : "+r"(paletteOffset));
           sub_08000AF0(0x15, palette + paletteOffset, 1);
         }
 phase1SingleEnd:
-        shiftedCount = ({ register u32 value asm("r0") = *(u32 *)(stack + 0xC4); asm("" : "+r"(value)); value; }) << 16;
+        shiftedCount = ({ u32 value = *(u32 *)(stack + 0xC4);  value; }) << 16;
         goto phase1Yield;
 phase1All:
         {
-          register u8 *right asm("r4");
+          u8 *right;
           sub_08000AF0(0x14, *(u32 *)(stack + 0x10) + paletteOffset, 1);
           sub_08000AF0(0x15, *(u32 *)(middle + 0xC) + paletteOffset, 1);
           right = stack + 0x6C;
-          asm("" : "+r"(right));
+          
           sub_08000AF0(0x1E, *(u32 *)(right + 0xC) + paletteOffset, 1);
-          sub_08065230(right, ({ register u32 raw asm("r2") = unaff_r10; register s32 x asm("r1"); asm("" : "+r"(raw)); x = raw << 16; asm("" : "+r"(x)); x >>= 16; x + 0xF0; }), 0x88, 0, 0);
-          sub_08065230(middle, ({ register u32 raw asm("r0") = unaff_r9; register s32 x asm("r1"); asm("" : "+r"(raw)); x = raw << 16; asm("" : "+r"(x)); x >>= 16; x + 0x82; }), 0x88, 0, 0);
-          shiftedCount = ({ register u32 value asm("r1") = *(u32 *)(stack + 0xC4); asm("" : "+r"(value)); value; }) << 16;
+          sub_08065230(right, ({ register u32 raw asm("r2") = unaff_r10; s32 x; asm("" : "+r"(raw)); x = raw << 16;  x >>= 16; x + 0xF0; }), 0x88, 0, 0);
+          sub_08065230(middle, ({ register u32 raw asm("r0") = unaff_r9; s32 x;  x = raw << 16;  x >>= 16; x + 0x82; }), 0x88, 0, 0);
+          shiftedCount = ({ register u32 value asm("r1") = *(u32 *)(stack + 0xC4);  value; }) << 16;
           sub_08065230(frameStorage83AE8, (shiftedCount >> 16) + 0xB9, 0x88, 0, 0);
         }
       }
@@ -6061,45 +6061,45 @@ phase1Yield:
     } while (shiftedCount > 0);
   }
   {
-    register u32 revealIndex asm("r8");
-    register u32 lastIndex asm("r10");
-    register u32 blink asm("r8");
+    u32 revealIndex;
+    u32 lastIndex;
+    u32 blink;
     revealIndex = ({ register u32 value asm("r2") = 0; asm("" : "+r"(value)); value; });
     *(u32 *)(stack + 0xCC) = *(u32 *)(stack + 0xC0) + 2;
     while (revealIndex <= (u32)sub_0801A638(*(u8 **)(stack + 0xCC))) {
-      register s32 zero asm("r1");
+      s32 zero;
       if (sub_0800CDF8() != 0) goto LAB_080841de;
       zero = sub_080021A8();
-      asm("" : "+r"(zero) : : "r4", "r9", "r10");
+      
       if (zero != 0) goto LAB_080841de;
       switch (uVar1) {
       case 1:
         {
-          register u8 *middle asm("r4") = stack + 0x38;
-          asm("" : "+r"(middle));
+          u8 *middle = stack + 0x38;
+          
           sub_08065230(middle, 0xB9, 0x88, 0, zero);
-          { register u32 palette asm("r1") = *(u32 *)(middle + 0xC); register u32 offset asm("r2"); asm("" : "+r"(palette)); offset = 0x1C0; asm("" : "+r"(offset)); palette += offset; sub_08000AF0(0x15, palette, 1); }
+          { u32 palette = *(u32 *)(middle + 0xC); register u32 offset asm("r2");  offset = 0x1C0; asm("" : "+r"(offset)); palette += offset; sub_08000AF0(0x15, palette, 1); }
         }
         break;
       case 2:
         sub_08065230(stack + 0x6C, 0xB9, 0x88, 0, zero);
-        { register u32 palette asm("r1") = *(u32 *)(stack + 0x44); register u32 offset asm("r0"); asm("" : "+r"(palette)); offset = 0x1C0; asm("" : "+r"(offset)); palette += offset; sub_08000AF0(0x15, palette, 1); }
+        { u32 palette = *(u32 *)(stack + 0x44); u32 offset;  offset = 0x1C0;  palette += offset; sub_08000AF0(0x15, palette, 1); }
         break;
       case 0:
         {
-          register u8 *middle asm("r6");
-          register u8 *right asm("r5");
+          u8 *middle;
+          u8 *right;
           register u32 paletteOffset asm("r4");
-          register u32 palette asm("r1") = *(u32 *)(stack + 0x10);
-          asm("" : "+r"(palette));
+          u32 palette = *(u32 *)(stack + 0x10);
+          
           paletteOffset = 0x1C0;
-          asm("" : "+r"(paletteOffset));
+          
           sub_08000AF0(0x14, palette + paletteOffset, 1);
           middle = stack + 0x38;
-          asm("" : "+r"(middle));
+          
           sub_08000AF0(0x15, *(u32 *)(middle + 0xC) + paletteOffset, 1);
           right = stack + 0x6C;
-          asm("" : "+r"(right));
+          
           sub_08000AF0(0x1E, *(u32 *)(right + 0xC) + paletteOffset, 1);
           sub_08065230(right, 0xF0, 0x88, 0, 0);
           sub_08065230(middle, 0x82, 0x88, 0, 0);
@@ -6108,95 +6108,95 @@ phase1Yield:
         break;
       }
       {
-        register u8 *buffer asm("r4") = stack + 0xA0;
+        u8 *buffer = stack + 0xA0;
         register u32 old asm("r2");
-        register u8 *destination asm("r1");
-        register u32 offset asm("r0");
+        u8 *destination;
+        u32 offset;
         register u8 *source asm("r2");
         register u8 *address asm("r0");
-        register u32 next asm("r1");
-        asm("" : "+r"(buffer));
+        u32 next;
+        
         old = revealIndex;
         asm("" : "+r"(old));
         destination = buffer + old;
-        asm("" : "+r"(destination));
+        
         offset = revealIndex + 2;
-        asm("" : "+r"(offset));
+        
         source = *(u8 **)(stack + 0xC0);
-        asm("" : "+r"(source));
+        
         address = source + offset;
-        asm("" : "+r"(address));
+        
         *destination = *address;
         next = revealIndex + 1;
         buffer[next] = 0xFD;
-        asm("" : "+r"(next));
+        
         revealIndex = (u16)next;
         sub_0801A3D0(buffer, (u16)(0xF - ((u32)sub_0801A638(*(u8 **)(stack + 0xCC)) >> 1)), 0x12);
         sub_080003F0();
       }
     }
     {
-      register u32 previous asm("r0") = revealIndex - 1;
-      asm("" : "+r"(previous));
+      u32 previous = revealIndex - 1;
+      
       lastIndex = (u16)previous;
     }
     blink = ({ register u32 value asm("r0") = 0; asm("" : "+r"(value)); value; });
     if ((keys83AE8 & 1) == 0) {
-      register u8 *buffer asm("r9");
-      register u8 *middle asm("r5");
+      u8 *buffer;
+      u8 *middle;
       {
         register u8 *base asm("r1") = stack + 0xA0;
-        asm("" : "+r"(base));
+        
         buffer = base;
       }
       middle = stack + 0x38;
-      asm("" : "+r"(buffer), "+r"(middle));
+      
       do {
         if (sub_0800CDF8() != 0) goto LAB_080841de;
-        if (({ register s32 status asm("r0") = sub_080021A8(); asm("" : "+r"(status) : : "r4", "r6"); status; }) != 0) goto LAB_080841de;
+        if (({ s32 status = sub_080021A8();  status; }) != 0) goto LAB_080841de;
         {
           register u32 previous asm("r1") = blink;
-          register u32 next asm("r0") = previous + 1;
-          asm("" : "+r"(previous), "+r"(next));
+          u32 next = previous + 1;
+          
           blink = (u16)next;
-          if (previous <= 0x1D) *(u32 *)(stack + 0xC8) = ({ register u32 value asm("r2") = 1; asm("" : "+r"(value)); value; });
-          else if (({ register u32 value asm("r0") = blink; asm("" : "+r"(value)); value; }) > 0x1D) *(u32 *)(stack + 0xC8) = ({ register u32 value asm("r1") = 0; asm("" : "+r"(value)); value; });
+          if (previous <= 0x1D) *(u32 *)(stack + 0xC8) = ({ register u32 value asm("r2") = 1;  value; });
+          else if (({ u32 value = blink;  value; }) > 0x1D) *(u32 *)(stack + 0xC8) = ({ register u32 value asm("r1") = 0;  value; });
         }
         if (({ register u32 value asm("r2") = blink; asm("" : "+r"(value)); value; }) > 0x28) blink = ({ register u32 value asm("r0") = 0; asm("" : "+r"(value)); value; });
-        if (({ register u32 value asm("r1") = *(u32 *)(stack + 0xC8); asm("" : "+r"(value)); value; })) {
+        if (({ register u32 value asm("r1") = *(u32 *)(stack + 0xC8);  value; })) {
           buffer[lastIndex] = 0xA0;
           {
-            register u32 next asm("r0") = lastIndex + 1;
+            u32 next = lastIndex + 1;
             register u8 *end asm("r0");
-            register u32 terminator asm("r1");
-            asm("" : "+r"(next));
+            u32 terminator;
+            
             end = buffer + next;
-            asm("" : "+r"(end));
+            
             terminator = 0xFD;
-            asm("" : "+r"(terminator));
+            
             *end = terminator;
           }
         } else buffer[lastIndex] = 0xFD;
         {
           register u8 *drawBuffer asm("r6") = frameStorage83AE8 + 0x9C;
-          asm("" : "+r"(drawBuffer));
+          
           switch (uVar1) {
           case 1:
             sub_08065230(middle, 0xB9, 0x88, 0, 0);
-            { register u32 palette asm("r1") = *(u32 *)(middle + 0xC); register u32 offset asm("r2"); asm("" : "+r"(palette)); offset = 0x1C0; asm("" : "+r"(offset)); palette += offset; sub_08000AF0(0x15, palette, 1); }
+            { u32 palette = *(u32 *)(middle + 0xC); register u32 offset asm("r2");  offset = 0x1C0; asm("" : "+r"(offset)); palette += offset; sub_08000AF0(0x15, palette, 1); }
             break;
           case 2:
             sub_08065230(frameStorage83AE8 + 0x68, 0xB9, 0x88, 0, 0);
-            { register u32 palette asm("r1") = *(u32 *)(middle + 0xC); register u32 offset asm("r0"); asm("" : "+r"(palette)); offset = 0x1C0; asm("" : "+r"(offset)); palette += offset; sub_08000AF0(0x15, palette, 1); }
+            { u32 palette = *(u32 *)(middle + 0xC); u32 offset;  offset = 0x1C0;  palette += offset; sub_08000AF0(0x15, palette, 1); }
             break;
           case 0:
             {
-              register u8 *right asm("r4");
-              { register u32 palette asm("r1") = *(u32 *)(stack + 0x10); register u32 offset asm("r2"); asm("" : "+r"(palette)); offset = 0x1C0; asm("" : "+r"(offset)); palette += offset; sub_08000AF0(0x14, palette, 1); }
-              { register u32 palette asm("r1") = *(u32 *)(middle + 0xC); register u32 offset asm("r0"); asm("" : "+r"(palette)); offset = 0x1C0; asm("" : "+r"(offset)); palette += offset; sub_08000AF0(0x15, palette, 1); }
+              u8 *right;
+              { u32 palette = *(u32 *)(stack + 0x10); register u32 offset asm("r2");  offset = 0x1C0; asm("" : "+r"(offset)); palette += offset; sub_08000AF0(0x14, palette, 1); }
+              { u32 palette = *(u32 *)(middle + 0xC); u32 offset;  offset = 0x1C0; asm("" : "+r"(offset)); palette += offset; sub_08000AF0(0x15, palette, 1); }
               right = stack + 0x6C;
-              asm("" : "+r"(right));
-              { register u32 palette asm("r1") = *(u32 *)(right + 0xC); register u32 offset asm("r2"); asm("" : "+r"(palette)); offset = 0x1C0; asm("" : "+r"(offset)); palette += offset; sub_08000AF0(0x1E, palette, 1); }
+              
+              { u32 palette = *(u32 *)(right + 0xC); register u32 offset asm("r2");  offset = 0x1C0; asm("" : "+r"(offset)); palette += offset; sub_08000AF0(0x1E, palette, 1); }
               sub_08065230(right, 0xF0, 0x88, 0, 0);
               sub_08065230(middle, 0x82, 0x88, 0, 0);
               sub_08065230(frameStorage83AE8, 0xB9, 0x88, 0, 0);
@@ -6211,7 +6211,7 @@ phase1Yield:
   }
   {
     register u32 zero asm("r0") = 0;
-    asm("" : "+r"(zero));
+    
     *(u32 *)(stack + 0xC4) = zero;
     unaff_r9 = zero;
     unaff_r10 = zero;
@@ -6220,44 +6220,44 @@ phase1Yield:
   switch (uVar1) {
   case 1:
     {
-      register u8 *panel asm("r6") = stack + 0x38;
-      register s32 amount asm("r4");
-      asm("" : "+r"(panel));
+      u8 *panel = stack + 0x38;
+      s32 amount;
+      
       do {
-        register s32 zero asm("r5");
+        s32 zero;
         if (sub_0800CDF8() != 0) goto LAB_080841de;
         zero = sub_080021A8();
-        asm("" : "+r"(zero) : : "r4");
+        
         if (zero != 0) goto LAB_080841de;
         {
-          register u32 raw asm("r1") = unaff_r9;
+          u32 raw = unaff_r9;
           register s32 value asm("r0");
-          register s32 delta asm("r1");
-          asm("" : "+r"(raw));
+          s32 delta;
+          
           value = raw << 16;
           value >>= 16;
-          asm("" : "+r"(value));
+          
           delta = value - 0x77;
           delta >>= 1;
-          asm("" : "+r"(delta));
+          
           value = (u16)(value - delta);
-          asm("" : "+r"(value));
+          
           unaff_r9 = value;
         }
 
         {
-          register u32 palette asm("r1") = *(u32 *)(panel + 0xC);
+          u32 palette = *(u32 *)(panel + 0xC);
           register u32 paletteOffset asm("r2");
-          asm("" : "+r"(palette));
+          
           paletteOffset = 0x1C0;
           asm("" : "+r"(paletteOffset));
           sub_08000AF0(0x15, palette + paletteOffset, 1);
         }
         {
           register u32 raw asm("r0") = unaff_r9;
-          asm("" : "+r"(raw));
+          
           amount = raw << 16;
-          asm("" : "+r"(amount));
+          
           amount >>= 16;
         }
         sub_08065230(panel, amount + 0xB9, 0x88, 0, zero);
@@ -6267,44 +6267,44 @@ phase1Yield:
     break;
   case 2:
     {
-      register u8 *panel asm("r6") = stack + 0x6C;
-      register s32 amount asm("r4");
-      asm("" : "+r"(panel));
+      u8 *panel = stack + 0x6C;
+      s32 amount;
+      
       do {
-        register s32 zero asm("r5");
+        s32 zero;
         if (sub_0800CDF8() != 0) goto LAB_080841de;
         zero = sub_080021A8();
-        asm("" : "+r"(zero) : : "r4");
+        
         if (zero != 0) goto LAB_080841de;
         {
           register u32 raw asm("r1") = unaff_r10;
           register s32 value asm("r0");
-          register s32 delta asm("r1");
-          asm("" : "+r"(raw));
+          s32 delta;
+          
           value = raw << 16;
           value >>= 16;
-          asm("" : "+r"(value));
+          
           delta = value - 0x77;
           delta >>= 1;
-          asm("" : "+r"(delta));
+          
           value = (u16)(value - delta);
-          asm("" : "+r"(value));
+          
           unaff_r10 = value;
         }
 
         {
-          register u32 palette asm("r1") = *(u32 *)(panel + 0xC);
+          u32 palette = *(u32 *)(panel + 0xC);
           register u32 paletteOffset asm("r2");
-          asm("" : "+r"(palette));
+          
           paletteOffset = 0x1C0;
           asm("" : "+r"(paletteOffset));
           sub_08000AF0(0x15, palette + paletteOffset, 1);
         }
         {
           register u32 raw asm("r0") = unaff_r10;
-          asm("" : "+r"(raw));
+          
           amount = raw << 16;
-          asm("" : "+r"(amount));
+          
           amount >>= 16;
         }
         sub_08065230(panel, amount + 0xB9, 0x88, 0, zero);
@@ -6315,62 +6315,62 @@ phase1Yield:
   case 0:
     for (;;) {
       register s32 zero asm("r8");
-      register s32 shiftedCount asm("r2");
-      register s32 firstCount asm("r4");
-      register s32 secondCount asm("r5");
+      s32 shiftedCount;
+      s32 firstCount;
+      s32 secondCount;
       s32 thirdCount;
-      register u8 *middle asm("r6");
-      register u8 *right asm("r5");
+      u8 *middle;
+      u8 *right;
       if (sub_0800CDF8() != 0) goto LAB_080841de;
       {
         s32 status = sub_080021A8();
         zero = status;
-        asm("" : : "r"(zero) : "r4", "r5", "r6");
+        
         if (status != 0) goto LAB_080841de;
       }
       {
         register u32 raw asm("r1") = *(u32 *)(stack + 0xC4);
-        register s32 delta asm("r0");
-        asm("" : "+r"(raw));
+        s32 delta;
+        
         shiftedCount = raw << 16;
         shiftedCount >>= 16;
-        asm("" : "+r"(shiftedCount));
+        
         delta = shiftedCount - 0x77;
         delta >>= 1;
-        asm("" : "+r"(delta));
+        
         shiftedCount -= delta;
-        asm("" : "+r"(shiftedCount));
+        
         shiftedCount <<= 16;
-        asm("" : "+r"(shiftedCount));
+        
       }
         {
-          register u32 raw asm("r1") = unaff_r9;
+          u32 raw = unaff_r9;
           register s32 value asm("r0");
-          register s32 delta asm("r1");
-          asm("" : "+r"(raw));
+          s32 delta;
+          
           value = raw << 16;
           value >>= 16;
-          asm("" : "+r"(value));
+          
           delta = value - 0xAE;
           delta >>= 1;
-          asm("" : "+r"(delta));
+          
           value = (u16)(value - delta);
-          asm("" : "+r"(value));
+          
           unaff_r9 = value;
         }
         {
           register u32 raw asm("r1") = unaff_r10;
           register s32 value asm("r0");
-          register s32 delta asm("r1");
+          s32 delta;
           asm("" : "+r"(raw));
           value = raw << 16;
           value >>= 16;
-          asm("" : "+r"(value));
+          
           delta = value - 0x40;
           delta >>= 1;
-          asm("" : "+r"(delta));
+          
           value = (u16)(value - delta);
-          asm("" : "+r"(value));
+          
           unaff_r10 = value;
         }
       *(u32 *)(stack + 0xC4) = (u32)shiftedCount >> 16;
@@ -6378,7 +6378,7 @@ phase1Yield:
       {
         register s32 delta asm("r0") = shiftedCount - 0x77;
         if (delta < 0) delta = -delta;
-        if (delta == 1) *(u32 *)(stack + 0xC4) = ({ register u32 value asm("r1") = 0x77; asm("" : "+r"(value)); value; });
+        if (delta == 1) *(u32 *)(stack + 0xC4) = ({ register u32 value asm("r1") = 0x77;  value; });
       }
       {
         register u32 raw asm("r2") = unaff_r9;
@@ -6386,48 +6386,48 @@ phase1Yield:
         asm("" : "+r"(raw));
         delta = raw << 16;
         delta >>= 16;
-        asm("" : "+r"(delta));
+        
         delta -= 0xAE;
         if (delta < 0) delta = -delta;
-        if (delta == 1) unaff_r9 = ({ register u32 value asm("r0") = 0xAE; asm("" : "+r"(value)); value; });
+        if (delta == 1) unaff_r9 = ({ u32 value = 0xAE;  value; });
       }
       {
         register u32 raw asm("r1") = unaff_r10;
         register s32 delta asm("r0");
-        asm("" : "+r"(raw));
+        
         delta = raw << 16;
         delta >>= 16;
-        asm("" : "+r"(delta));
+        
         delta -= 0x40;
         if (delta < 0) delta = -delta;
         if (delta == 1) unaff_r10 = ({ register u32 value asm("r2") = 0x40; asm("" : "+r"(value)); value; });
       }
       {
         register u32 paletteOffset asm("r4");
-        register u32 palette asm("r1") = *(u32 *)(stack + 0x10);
-        asm("" : "+r"(palette));
+        u32 palette = *(u32 *)(stack + 0x10);
+        
         paletteOffset = 0x1C0;
-        asm("" : "+r"(paletteOffset));
+        
         sub_08000AF0(0x14, palette + paletteOffset, 1);
         middle = stack + 0x38;
-        asm("" : "+r"(middle));
+        
         sub_08000AF0(0x15, *(u32 *)(middle + 0xC) + paletteOffset, 1);
         right = stack + 0x6C;
-        asm("" : "+r"(right));
+        
         sub_08000AF0(0x1E, *(u32 *)(right + 0xC) + paletteOffset, 1);
       }
       {
         register u32 raw asm("r1") = unaff_r10;
         register s32 scaled asm("r0");
-        asm("" : "+r"(raw));
+        
         scaled = raw << 16;
-        asm("" : "+r"(scaled));
+        
         thirdCount = scaled >> 16;
       }
       {
-        register s32 x asm("r1") = thirdCount + 0xF0;
+        s32 x = thirdCount + 0xF0;
         register u32 stackZero asm("r2");
-        asm("" : "+r"(x));
+        
         stackZero = zero;
         asm("" : "+r"(stackZero));
         sub_08065230(right, x, 0x88, 0, stackZero);
@@ -6435,30 +6435,30 @@ phase1Yield:
       {
         register u32 raw asm("r1") = unaff_r9;
         register s32 scaled asm("r0");
-        asm("" : "+r"(raw));
+        
         scaled = raw << 16;
-        asm("" : "+r"(scaled));
+        
         secondCount = scaled >> 16;
       }
       {
-        register s32 x asm("r1") = secondCount + 0x82;
+        s32 x = secondCount + 0x82;
         register u32 stackZero asm("r2");
-        asm("" : "+r"(x));
+        
         stackZero = zero;
         asm("" : "+r"(stackZero));
         sub_08065230(middle, x, 0x88, 0, stackZero);
       }
       {
         register u32 raw asm("r0") = *(u32 *)(stack + 0xC4);
-        asm("" : "+r"(raw));
+        
         firstCount = raw << 16;
         firstCount >>= 16;
-        asm("" : "+r"(firstCount));
+        
       }
       {
-        register s32 x asm("r1") = firstCount + 0xB9;
+        s32 x = firstCount + 0xB9;
         register u32 stackZero asm("r2");
-        asm("" : "+r"(x));
+        
         stackZero = zero;
         asm("" : "+r"(stackZero));
         sub_08065230(frameStorage83AE8, x, 0x88, 0, stackZero);
@@ -6495,20 +6495,20 @@ u32 sub_08084200(const u8 *arg0)
     if (*(const u16 *)(arg0 + 0x02) == 1 && *(const u16 *)(arg0 + 0x12) == 2 && *(const u16 *)(arg0 + 0x22) == 1) return 8;
     {
         /* Keep the original halfword extensions across the shared tests. */
-        register u32 d asm("r2");
+        u32 d;
         register u32 raw asm("r0");
         if (*(const u16 *)(arg0 + 0x02) == 2 &&
             ({
                 raw = *(const u16 *)(arg0 + 0x12);
                 asm("" : "+r"(raw));
                 d = raw;
-                asm("" : "+r"(d));
+                
                 d;
             }) == 1 && *(const u16 *)(arg0 + 0x22) == 2) return 9;
         if (*(const u16 *)(arg0 + 0x02) == 2 &&
             ({
                 raw = d << 16;
-                asm("" : "+r"(raw));
+                
                 raw;
             }) == 0 && *(const u16 *)(arg0 + 0x22) == 2) return 10;
     }
@@ -6518,14 +6518,14 @@ u32 sub_08084200(const u8 *arg0)
     if (*(const u16 *)(arg0 + 0x02) == 1 && *(const u16 *)(arg0 + 0x12) == 1 && *(const u16 *)(arg0 + 0x22) == 2) return 14;
     {
         /* Keep the original halfword extensions across the shared tests. */
-        register u32 d asm("r2");
+        u32 d;
         register u32 raw asm("r0");
         if (*(const u16 *)(arg0 + 0x02) == 2 &&
             ({
                 raw = *(const u16 *)(arg0 + 0x12);
                 asm("" : "+r"(raw));
                 d = raw;
-                asm("" : "+r"(d));
+                
                 d;
             }) == 2 && *(const u16 *)(arg0 + 0x22) == 1) return 15;
         if (*(const u16 *)(arg0 + 0x02) == 2 &&
@@ -6537,7 +6537,7 @@ u32 sub_08084200(const u8 *arg0)
         if (*(const u16 *)(arg0 + 0x02) == 2 &&
             ({
                 raw = d << 16;
-                asm("" : "+r"(raw));
+                
                 raw;
             }) == 0 && *(const u16 *)(arg0 + 0x22) == 0) return 17;
     }
@@ -6596,25 +6596,25 @@ void sub_0808441C(u16 *param_1, u32 *param_2)
     u8 frameStorage8441C[128];
     register u8 *stack asm("sp");
     register struct Record8441C *result;
-    register struct Record8441C *second asm("r10");
+    struct Record8441C *second;
     register struct Record8441C *third asm("r8");
-    register u32 firstIndex asm("r5");
-    register u32 secondIndex asm("r4");
+    u32 firstIndex;
+    u32 secondIndex;
     register u32 thirdIndex asm("r6");
     register u32 tier asm("r6");
-    register u32 randomIndex asm("r5");
-    register const u16 *entry asm("r1");
-    register const u32 *tripleTable asm("r1");
+    u32 randomIndex;
+    const u16 *entry;
+    const u32 *tripleTable;
     s32 classification;
-    register u32 unaff_r9 asm("r9");
-    asm("" : "=r"(stack), "=r"(unaff_r9));
+    u32 unaff_r9;
+    
     *(u16 **)(stack + 0x5C) = param_1;
     *(u32 **)(stack + 0x60) = param_2;
     {
       register u32 zeroHalf asm("r4") = 0;
-      register struct Record8441C *initial asm("r0") = (struct Record8441C *)(stack + 0x30);
-      register u32 zeroByte asm("r1") = 0;
-      asm("" : "+r"(zeroHalf), "+r"(initial), "+r"(zeroByte));
+      struct Record8441C *initial = (struct Record8441C *)(stack + 0x30);
+      u32 zeroByte = 0;
+      
       initial->type = zeroHalf;
       initial->subtype = zeroHalf;
       initial->byte6 = zeroByte;
@@ -6623,8 +6623,8 @@ void sub_0808441C(u16 *param_1, u32 *param_2)
       firstIndex = 0;
       result = initial;
     }
-    second = ({ register struct Record8441C *p asm("r0") = (struct Record8441C *)(stack + 0x10); asm("" : "+r"(p)); p; });
-    third = ({ register struct Record8441C *p asm("r1") = (struct Record8441C *)(stack + 0x20); asm("" : "+r"(p)); p; });
+    second = ({ struct Record8441C *p = (struct Record8441C *)(stack + 0x10);  p; });
+    third = ({ register struct Record8441C *p asm("r1") = (struct Record8441C *)(stack + 0x20);  p; });
     {
       register u8 *temporary asm("r2") = stack;
       asm("" : "+r"(temporary));
@@ -6632,61 +6632,61 @@ void sub_0808441C(u16 *param_1, u32 *param_2)
       *(u8 **)(stack + 0x78) = temporary;
     }
     {
-      register u8 *bytes asm("r1") = stack + 0x34;
+      u8 *bytes = stack + 0x34;
       register u32 zero asm("r2") = 0;
-      asm("" : "+r"(bytes), "+r"(zero));
+      
       do { bytes[firstIndex] = zero; firstIndex++; } while (firstIndex <= 0xB);
     }
     firstIndex = (u32)sub_080008C8() % 3;
     {
-      register u32 offset asm("r0") = firstIndex << 4;
+      u32 offset = firstIndex << 4;
       register struct Record8441C *destination asm("r1");
       register struct Record8441C *input asm("r3");
-      register struct Record8441C *source asm("r0");
-      asm("" : "+r"(offset));
+      struct Record8441C *source;
+      
       destination = (struct Record8441C *)stack;
       asm("" : "+r"(destination));
       input = *(struct Record8441C **)(stack + 0x5C);
-      asm("" : "+r"(input));
+      
       source = (struct Record8441C *)(offset + (u32)input);
-      asm("" : "+r"(source));
+      
       *destination = *source;
       input++;
       *(struct Record8441C **)(stack + 0x7C) = input;
     }
     {
       register u8 *next asm("r3") = *(u8 **)(stack + 0x5C);
-      asm("" : "+r"(next));
+      
       next += 0x20;
       *(u8 **)(stack + 0x74) = next;
     }
     do { secondIndex = (u32)sub_080008C8() % 3; } while (firstIndex == secondIndex);
     {
-      register u32 offset asm("r0") = secondIndex << 4;
+      u32 offset = secondIndex << 4;
       register struct Record8441C *destination asm("r1");
       register struct Record8441C *input asm("r6");
-      register struct Record8441C *source asm("r0");
-      asm("" : "+r"(offset));
+      struct Record8441C *source;
+      
       destination = second;
       asm("" : "+r"(destination));
       input = *(struct Record8441C **)(stack + 0x5C);
-      asm("" : "+r"(input));
+      
       source = (struct Record8441C *)(offset + (u32)input);
-      asm("" : "+r"(source));
+      
       *destination = *source;
 
     }
     do { thirdIndex = (u32)sub_080008C8() % 3; } while (firstIndex == thirdIndex || secondIndex == thirdIndex);
     {
-      register u32 offset asm("r0") = thirdIndex << 4;
+      u32 offset = thirdIndex << 4;
       register struct Record8441C *destination asm("r1");
-      register struct Record8441C *input asm("r2");
+      struct Record8441C *input;
       register struct Record8441C *source asm("r0");
-      asm("" : "+r"(offset));
+      
       destination = third;
       asm("" : "+r"(destination));
       input = *(struct Record8441C **)(stack + 0x5C);
-      asm("" : "+r"(input));
+      
       source = (struct Record8441C *)(offset + (u32)input);
       asm("" : "+r"(source));
       *destination = *source;
@@ -6697,7 +6697,7 @@ void sub_0808441C(u16 *param_1, u32 *param_2)
     if (((u32)sub_080008C8() & 0xFFFF) > *(u32 *)((u32)gUnk_030034E0 + 0x6C)) goto LAB_0808481c;
     {
       register struct Record8441C *input asm("r6") = *(struct Record8441C **)(stack + 0x5C);
-      asm("" : "+r"(input));
+      
       tier = (u32)input[0].value + (u32)input[1].value + (u32)input[2].value;
     }
     if (tier <= 99) goto lowTier8441C;
@@ -6710,39 +6710,39 @@ void sub_0808441C(u16 *param_1, u32 *param_2)
     switch (classification) {
     case 1:
       randomIndex = (u32)sub_080008C8() % 14;
-      { register const u32 *table asm("r2") = table8441C_084EC1E0;
-        register u32 index asm("r1") = randomIndex << 2;
-        register u32 row asm("r0") = tier * 56;
+      { const u32 *table = table8441C_084EC1E0;
+        u32 index = randomIndex << 2;
+        u32 row = tier * 56;
         entry = (const u16 *)(index + row + (u32)table);
-        asm("" : "+r"(entry) : "r"(row), "r"(randomIndex), "r"(table), "i"(1)); }
+         }
       goto applyEntry8441C;
     case 2:
       randomIndex = (u32)sub_080008C8() % 14;
-      { register const u32 *table asm("r2") = table8441C_084EC288;
-        register u32 index asm("r1") = randomIndex << 2;
-        register u32 row asm("r0") = tier * 56;
+      { const u32 *table = table8441C_084EC288;
+        u32 index = randomIndex << 2;
+        u32 row = tier * 56;
         entry = (const u16 *)(index + row + (u32)table);
         asm("" : "+r"(entry) : "r"(row), "r"(randomIndex), "r"(table), "i"(2)); }
       goto applyEntry8441C;
     case 3:
       randomIndex = (u32)sub_080008C8() % 14;
-      { register const u32 *table asm("r2") = table8441C_084EC330;
-        register u32 index asm("r1") = randomIndex << 2;
-        register u32 row asm("r0") = tier * 56;
+      { const u32 *table = table8441C_084EC330;
+        u32 index = randomIndex << 2;
+        u32 row = tier * 56;
         entry = (const u16 *)(index + row + (u32)table);
         asm("" : "+r"(entry) : "r"(row), "r"(randomIndex), "r"(table), "i"(3)); }
       goto applyEntry8441C;
     case 4:
       randomIndex = (u32)sub_080008C8() % 14;
-      { register const u32 *table asm("r2") = table8441C_084EC3D8;
-        register u32 index asm("r1") = randomIndex << 2;
-        register u32 row asm("r0") = tier * 56;
+      { const u32 *table = table8441C_084EC3D8;
+        u32 index = randomIndex << 2;
+        u32 row = tier * 56;
         entry = (const u16 *)(index + row + (u32)table);
         asm("" : "+r"(entry) : "r"(row), "r"(randomIndex), "r"(table), "i"(4)); }
       goto applyEntry8441C;
     case 5:
       { register u32 index asm("r1") = (u32)sub_080008C8() & 7;
-        register const u32 *table asm("r2") = table8441C_084EC480;
+        const u32 *table = table8441C_084EC480;
         register u32 row asm("r0");
         index <<= 2;
         row = tier << 5;
@@ -6751,7 +6751,7 @@ void sub_0808441C(u16 *param_1, u32 *param_2)
       goto applyEntry8441C;
     case 6:
       { register u32 index asm("r1") = (u32)sub_080008C8() & 7;
-        register const u32 *table asm("r2") = table8441C_084EC4E0;
+        const u32 *table = table8441C_084EC4E0;
         register u32 row asm("r0");
         index <<= 2;
         row = tier << 5;
@@ -6760,7 +6760,7 @@ void sub_0808441C(u16 *param_1, u32 *param_2)
       goto applyEntry8441C;
     case 7:
       { register u32 index asm("r1") = (u32)sub_080008C8() & 7;
-        register const u32 *table asm("r2") = table8441C_084EC540;
+        const u32 *table = table8441C_084EC540;
         register u32 row asm("r0");
         index <<= 2;
         row = tier << 5;
@@ -6769,7 +6769,7 @@ void sub_0808441C(u16 *param_1, u32 *param_2)
       goto applyEntry8441C;
     case 8:
       { register u32 index asm("r1") = (u32)sub_080008C8() & 7;
-        register const u32 *table asm("r2") = table8441C_084EC5A0;
+        const u32 *table = table8441C_084EC5A0;
         register u32 row asm("r0");
         index <<= 2;
         row = tier << 5;
@@ -6778,7 +6778,7 @@ void sub_0808441C(u16 *param_1, u32 *param_2)
       goto applyEntry8441C;
     case 9:
       { register u32 index asm("r1") = (u32)sub_080008C8() & 7;
-        register const u32 *table asm("r2") = table8441C_084EC600;
+        const u32 *table = table8441C_084EC600;
         register u32 row asm("r0");
         index <<= 2;
         row = tier << 5;
@@ -6787,7 +6787,7 @@ void sub_0808441C(u16 *param_1, u32 *param_2)
       goto applyEntry8441C;
     case 10:
       { register u32 index asm("r1") = (u32)sub_080008C8() & 7;
-        register const u32 *table asm("r2") = table8441C_084EC660;
+        const u32 *table = table8441C_084EC660;
         register u32 row asm("r0");
         index <<= 2;
         row = tier << 5;
@@ -6842,12 +6842,12 @@ void sub_0808441C(u16 *param_1, u32 *param_2)
       randomIndex = (u32)sub_080008C8() % 3;
       tripleTable = table8441C_084EC84C;
 tripleEntry8441C:
-      { register const u16 *p asm("r0") = (const u16 *)(((tier * 3 + randomIndex) << 2) + (u32)tripleTable);
+      { const u16 *p = (const u16 *)(((tier * 3 + randomIndex) << 2) + (u32)tripleTable);
          result->type = p[0]; result->subtype = p[1]; }
       goto finalize8441C;
     case 23:
       { register u32 index asm("r1") = (u32)sub_080008C8() & 3;
-        register const u32 *table asm("r2") = table8441C_084EC870;
+        const u32 *table = table8441C_084EC870;
         register u32 row asm("r0");
         index <<= 2;
         row = (tier + 1) << 4;
@@ -6856,7 +6856,7 @@ tripleEntry8441C:
       goto applyEntry8441C;
     case 24:
       { register u32 index asm("r1") = (u32)sub_080008C8() & 3;
-        register const u32 *table asm("r2") = table8441C_084EC8B0;
+        const u32 *table = table8441C_084EC8B0;
         register u32 row asm("r0");
         index <<= 2;
         row = (tier + 1) << 4;
@@ -6870,14 +6870,14 @@ lowTier8441C:
     if (classification == 24) goto low24;
     goto LAB_0808481c;
 low23:
-    { register u32 index asm("r1") = (u32)sub_080008C8() & 3;
-      register const u32 *table asm("r0");
+    { u32 index = (u32)sub_080008C8() & 3;
+      const u32 *table;
        table = table8441C_084EC870;
       entry = (const u16 *)((index << 2) + (u32)table); }
     goto applyEntry8441C;
 low24:
-    { register u32 index asm("r1") = (u32)sub_080008C8() & 3;
-      register const u32 *table asm("r0");
+    { u32 index = (u32)sub_080008C8() & 3;
+      const u32 *table;
        table = table8441C_084EC8B0;
       entry = (const u16 *)((index << 2) + (u32)table); }
 applyEntry8441C:
@@ -6888,7 +6888,7 @@ LAB_0808481c:
     switch (((struct Record8441C *)stack)->type) {
     case 9:
       {
-        register s32 subtype asm("r4") = ((struct Record8441C *)stack)->subtype;
+        s32 subtype = ((struct Record8441C *)stack)->subtype;
         if (subtype == 3) goto rareFirst8441C;
         if (subtype == 4) goto rareSecond8441C;
         if (((u32)sub_080008C8() & 1) == 0) goto inventorySecond8441C;
@@ -6897,12 +6897,12 @@ rareFirst8441C:
         randomIndex = (u32)sub_080008C8();
         randomIndex &= subtype;
     {
-      register struct Triple8441C *temporary asm("r1") = (struct Triple8441C *)(stack + 0x4C);
-      register const u32 *table asm("r3");
-      register const struct Triple8441C *source asm("r0");
+      struct Triple8441C *temporary = (struct Triple8441C *)(stack + 0x4C);
+      const u32 *table;
+      const struct Triple8441C *source;
       table = table8441C_084EC8F0;
-      { register u32 offset asm("r0") = randomIndex * 12;
-        register struct Triple8441C *destination asm("r2");
+      { u32 offset = randomIndex * 12;
+        struct Triple8441C *destination;
         destination = temporary;
         source = (const struct Triple8441C *)(offset + (u32)table);
         *destination = *source; }
@@ -6913,14 +6913,14 @@ rareFirst8441C:
         goto finalize8441C;
 rareSecond8441C:
         randomIndex = (u32)sub_080008C8();
-        { register u32 mask asm("r0") = 3;  randomIndex &= mask; }
+        { u32 mask = 3;  randomIndex &= mask; }
     {
-      register struct Triple8441C *temporary asm("r1") = (struct Triple8441C *)(stack + 0x4C);
-      register const u32 *table asm("r3");
-      register const struct Triple8441C *source asm("r0");
+      struct Triple8441C *temporary = (struct Triple8441C *)(stack + 0x4C);
+      const u32 *table;
+      const struct Triple8441C *source;
       table = table8441C_084EC920;
-      { register u32 offset asm("r0") = randomIndex * 12;
-        register struct Triple8441C *destination asm("r2");
+      { u32 offset = randomIndex * 12;
+        struct Triple8441C *destination;
         destination = temporary;
         source = (const struct Triple8441C *)(offset + (u32)table);
         *destination = *source; }
@@ -6931,10 +6931,10 @@ rareSecond8441C:
 inventoryFirst8441C:
         do {
       randomIndex = (u32)sub_080008C8() % 12;
-      asm("" : "+r"(randomIndex));
+      
       {
-        register u8 *source asm("r0") = (u8 *)(u32)gUnk_030034E0;
-        register u32 byteOffset asm("r1") = randomIndex << 4;
+        u8 *source = (u8 *)(u32)gUnk_030034E0;
+        u32 byteOffset = randomIndex << 4;
         register struct Record8441C *destination asm("r1");
         register u32 baseOffset asm("r5");
         source += byteOffset;
@@ -6947,7 +6947,7 @@ inventoryFirst8441C:
       }
 
         } while (result->type == 0);
-        { register u32 loaded asm("r0") = sub_08007290(result->subtype | 0xB0000);
+        { u32 loaded = sub_08007290(result->subtype | 0xB0000);
           *(u32 *)(stack + 0x64) = loaded;
           if (*(u16 *)(loaded + 0xBC) != 0) goto finalize8441C; }
         if (*(u16 *)((u8 *)result + 6) != 0) goto finalize8441C;
@@ -6955,13 +6955,13 @@ inventoryFirst8441C:
         goto secondAttribute8441C;
 inventorySecond8441C:
         {
-          register struct Record8441C *inventoryResult asm("r4") = result;
+          struct Record8441C *inventoryResult = result;
           do {
       randomIndex = (u32)sub_080008C8() % 12;
-      asm("" : "+r"(randomIndex));
+      
       {
-        register u8 *source asm("r0") = (u8 *)(u32)gUnk_030034E0;
-        register u32 byteOffset asm("r1") = randomIndex << 4;
+        u8 *source = (u8 *)(u32)gUnk_030034E0;
+        u32 byteOffset = randomIndex << 4;
         register struct Record8441C *destination asm("r1");
         register u32 baseOffset asm("r5");
         source += byteOffset;
@@ -6989,12 +6989,12 @@ inventorySecond8441C:
         goto thirdValue8441C;
       }
     case 2:
-      { register u32 hold2 asm("r2"), hold3 asm("r3");
+      { u32 hold2, hold3 asm("r3");
         *result = *(struct Record8441C *)stack;
          }
       goto secondAttribute8441C;
     case 3: case 4: case 5:
-      { register u32 hold5 asm("r5"), hold6 asm("r6");
+      { u32 hold5, hold6 asm("r6");
         *result = *(struct Record8441C *)stack;
          }
       goto thirdValue8441C;
@@ -7003,16 +7003,16 @@ inventorySecond8441C:
 secondAttribute8441C:
     if (((u32)sub_080008C8() & 0xFFFF) <= *(u32 *)((u32)gUnk_030034E0 + 0x6C)) {
       register struct Record8441C *attributeRecord asm("r0") = second;
-      register s32 attributeType asm("r1");
+      s32 attributeType;
       attributeType = attributeRecord->type;
       switch (attributeType) {
       case 9:
         {
-          register s32 subtype asm("r4") = attributeRecord->subtype;
+          s32 subtype = attributeRecord->subtype;
           switch (subtype) {
           case 0:
             randomIndex = (u32)sub_080008C8() % 3;
-            asm("" : "+r"(randomIndex));
+            
             unaff_r9 = ({ register u32 value asm("r6") = 1; asm("" : "+r"(value)); value; });
             if (randomIndex == 0) unaff_r9 = ({ register u32 value asm("r0") = 3; asm("" : "+r"(value)); value; });
             break;
@@ -7023,34 +7023,34 @@ secondAttribute8441C:
             break;
           case 2:
             randomIndex = (u32)sub_080008C8() % 3;
-            asm("" : "+r"(randomIndex));
+            
             unaff_r9 = ({ register u32 value asm("r3") = 6; asm("" : "+r"(value)); value; });
             if (randomIndex == 0) unaff_r9 = ({ register u32 value asm("r4") = 5; asm("" : "+r"(value)); value; });
             break;
-          default: unaff_r9 = ({ register u32 value asm("r5") = 0;  value; }); break;
+          default: unaff_r9 = ({ u32 value = 0;  value; }); break;
           }
         }
         break;
       case 2:
-        unaff_r9 = ({ register struct Record8441C *p asm("r6") = second; register u32 value asm("r6");  value = p->byte7;  value; });
+        unaff_r9 = ({ struct Record8441C *p = second; u32 value;  value = p->byte7;  value; });
         break;
-      case 3: case 4: case 5: unaff_r9 = ({ register u32 value asm("r0") = 0; asm("" : "+r"(value)); value; }); break;
+      case 3: case 4: case 5: unaff_r9 = ({ u32 value = 0;  value; }); break;
       default: break;
       }
       switch (result->type) {
       case 3: case 4: case 5: result->byte7 = 0; break;
-      default: { register u32 attribute asm("r1") = unaff_r9;  result->byte7 = attribute; } break;
+      default: { u32 attribute = unaff_r9;  result->byte7 = attribute; } break;
       }
     }
 thirdValue8441C:
     {
-      register u32 chance asm("r4");
+      u32 chance;
       u32 tableValue;
       register u32 offset asm("r1");
-      register const u32 *table asm("r2");
+      const u32 *table;
       {
-        register u32 random asm("r1") = (u32)sub_080008C8() & 0xFFFF;
-        register u32 limit asm("r0");
+        u32 random = (u32)sub_080008C8() & 0xFFFF;
+        u32 limit;
         limit = *(u32 *)((u32)gUnk_030034E0 + 0x6C);
         chance = 0;
         if (random <= limit) chance = 1;
@@ -7086,7 +7086,7 @@ resultTwo8441C:
       }
 randomSpecial8441C:
       randomIndex = sub_080008C8();
-      { register u32 mask asm("r0") = 3; randomIndex &= mask;  }
+      { u32 mask = 3; randomIndex &= mask;  }
       if (!chance) goto randomSpecialNo;
       table = table8441C_084ECA90;
 sharedOffset8441C:
@@ -7130,7 +7130,7 @@ resultTwoOrdinary8441C:
       }
 randomOrdinary8441C:
       randomIndex = sub_080008C8();
-      { register u32 mask asm("r0") = 3; randomIndex &= mask;  }
+      { u32 mask = 3; randomIndex &= mask;  }
       if (!chance) goto randomOrdinary8441Cno;
       table = table8441C_084EC950;
       offset = randomIndex << 2;
@@ -7158,7 +7158,7 @@ permittedEight8441C:
       }
 randomOther8441C:
       randomIndex = sub_080008C8();
-      { register u32 mask asm("r0") = 3; randomIndex &= mask;  }
+      { u32 mask = 3; randomIndex &= mask;  }
       if (!chance) goto randomOther8441Cno;
       table = table8441C_084EC9F0;
       offset = randomIndex << 2;
@@ -7168,20 +7168,20 @@ randomOther8441Cno:
       table = table8441C_084ECA40;
       goto sharedOffset8441C;
 permittedOther8441C:
-      { register struct Record8441C *valueRecord asm("r4") = third;
-        register u8 *properties asm("r1");
+      { struct Record8441C *valueRecord = third;
+        u8 *properties;
         u32 initial, type, flags, allowed;
         initial = valueRecord->value;
         if (initial == 0) { result->value = initial; goto finalize8441C; }
-        { register u32 argument asm("r0") = initial;
-          register u32 tag asm("r1") = 0x130000;
+        { u32 argument = initial;
+          u32 tag = 0x130000;
           asm("" : "+r"(argument), "+r"(tag));
           properties = (u8 *)sub_08007290(argument | tag); }
         type = (u16)(result->type - 3);
         if (type > 1) goto permittedOne8441C;
-        { register u8 *address asm("r0") = properties;
-          register u32 bits asm("r1");
-          register u32 mask asm("r0");
+        { u8 *address = properties;
+          u32 bits;
+          u32 mask;
           address += 0xAC;
           bits = *(u16 *)address;
           mask = 2; mask &= bits;
@@ -7191,8 +7191,8 @@ permittedOther8441C:
         result->value = valueRecord->value;
         goto finalize8441C;
 permittedOne8441C:
-        { register u8 *address asm("r0") = properties;
-          register u32 mask asm("r1");
+        { u8 *address = properties;
+          u32 mask;
           address += 0xAC;
           flags = *(u16 *)address;
           mask = 1; mask &= flags;
@@ -7208,14 +7208,14 @@ setValue8441C:
 
 finalize8441C:
     {
-      register u32 *stateAddress asm("r8");
-      register u32 *weight asm("r4");
-      register struct Record8441C *input asm("r5");
+      u32 *stateAddress;
+      u32 *weight;
+      struct Record8441C *input;
       stateAddress = ({ register u32 *p asm("r6") = (u32 *)&gUnk_030034E0; asm("" : "+r"(p)); p; });
       weight = *(u32 *volatile *)(stack + 0x78);
       input = *(struct Record8441C *volatile *)(stack + 0x5C);
       do {
-        register u32 normalized asm("r0");
+        u32 normalized;
         switch ((s32)input->type) {
         case 2: case 3: case 4: case 5: goto weightByte8441C;
         case 9: break;
@@ -7226,19 +7226,19 @@ finalize8441C:
           normalized = input->value;
           *weight = normalized;
           normalized /= (u32)20;
-          asm("" : "+r"(normalized) : "i"(20));
+          
           goto weightStore8441C;
         case 1:
           normalized = input->value;
           *weight = normalized;
           normalized = (normalized << 3) / 100;
-          asm("" : "+r"(normalized) : "i"(800));
+          
           goto weightStore8441C;
         case 2:
           normalized = input->value;
           *weight = normalized;
           normalized /= (u32)10;
-          asm("" : "+r"(normalized) : "i"(10));
+          
           goto weightStore8441C;
         default:
           normalized = input->value;
@@ -7260,44 +7260,44 @@ weightStore8441C:
       } while (weight <= *(u32 *volatile *)(stack + 0x78) + 2);
       {
         register u32 factor asm("r6") = *(u32 *)(*(volatile u32 *)(stack + 0x5C) + 0x34);
-        register u32 score asm("r5");
-        register u32 sum asm("r0");
-        register u32 *values asm("r2");
-        register u32 multiplier asm("r1");
-        register u32 *global asm("r3");
-        asm("" : : "r"(factor));
+        u32 score;
+        u32 sum;
+        u32 *values;
+        u32 multiplier;
+        u32 *global;
+        
         factor = factor / 10000 + 1;
-        asm("" : "+r"(factor));
+        
         sum = *(u32 *)(stack + 0x40);
-        asm("" : "+r"(sum));
+        
         values = *(u32 *volatile *)(stack + 0x78);
-        asm("" : "+r"(values));
+        
         sum += values[1];
         sum += values[2];
         sum += factor;
         global = stateAddress;
-        asm("" : "+r"(global));
+        
         multiplier = *(u32 *)(*global + 0x6C);
         asm("" : : "r"(values));
         sum *= multiplier;
         score = (sum >> 18) + 3;
         if (score > 19) score = 20;
         {
-          register u32 random asm("r0") = sub_080008C8();
-          register const u32 *weights asm("r8");
-          register u32 range asm("r1");
+          u32 random = sub_080008C8();
+          const u32 *weights;
+          u32 range;
           register u32 roll asm("r6");
           register u32 index asm("r4");
-          register u32 value asm("r0");
-          register const u32 *base asm("r1");
-          asm("" : "+r"(random));
-          weights = ({ register const u32 *p asm("r4") = table8441C_084ECB30; asm("" : "+r"(p)); p; });
+          u32 value;
+          const u32 *base;
+          
+          weights = ({ const u32 *p = table8441C_084ECB30;  p; });
           range = score << 2;
           range += (u32)weights;
           range = *(u32 *)range + 1;
           roll = random % range;
           index = 0;
-          asm("" : "+r"(index));
+          
           if (index >= score) goto afterWeight8441C;
           if (index > roll) goto scanWeight8441C;
           base = weights;
@@ -7315,10 +7315,10 @@ compareWeight8441C:
           result->byte6 = index;
 afterWeight8441C:
           { register u32 *metadata asm("r2") = *(u32 *volatile *)(stack + 0x5C);
-            asm("" : "+r"(metadata)); roll = metadata[13]; }
+             roll = metadata[13]; }
           roll += (u32)sub_080008C8() % 200000;
           index = 0;
-          asm("" : "+r"(index));
+          
           if (index > roll) goto scanBonus8441C;
           value = table8441C_084ECB84[0];
           if (roll < value) goto afterBonus8441C;
@@ -7348,7 +7348,7 @@ afterBonus8441C:
 scanProperty2:
       randomIndex++;
       if (randomIndex > 2) goto copyOutput8441C;
-      if (({ register u32 offset asm("r0") = randomIndex << 2; register u8 *properties asm("r3"); asm("" : "+r"(offset)); properties = *(u8 **)(stack + 0x64); asm("" : "+r"(properties)); *(u16 *)(properties + offset + 0xB0); }) == 0) goto scanProperty2;
+      if (({ register u32 offset asm("r0") = randomIndex << 2; register u8 *properties asm("r3");  properties = *(u8 **)(stack + 0x64);  *(u16 *)(properties + offset + 0xB0); }) == 0) goto scanProperty2;
       goto clearByZero8441C;
     case 3:
       randomIndex = 0;
@@ -7356,7 +7356,7 @@ scanProperty2:
 scanProperty3:
       randomIndex++;
       if (randomIndex > 2) goto copyOutput8441C;
-      if (({ register u32 offset asm("r0") = randomIndex << 2; register u8 *properties asm("r4"); asm("" : "+r"(offset)); properties = *(u8 **)(stack + 0x68); asm("" : "+r"(properties)); *(u16 *)(properties + offset + 0xA4); }) == 0) goto scanProperty3;
+      if (({ register u32 offset asm("r0") = randomIndex << 2; register u8 *properties asm("r4");  properties = *(u8 **)(stack + 0x68);  *(u16 *)(properties + offset + 0xA4); }) == 0) goto scanProperty3;
       goto clearByZero8441C;
     case 4:
       randomIndex = 0;
@@ -7364,7 +7364,7 @@ scanProperty3:
 scanProperty4:
       randomIndex++;
       if (randomIndex > 2) goto copyOutput8441C;
-      if (({ register u32 offset asm("r0") = randomIndex << 2; register u8 *properties asm("r6"); asm("" : "+r"(offset)); properties = *(u8 **)(stack + 0x6C); asm("" : "+r"(properties)); *(u16 *)(properties + offset + 0xA4); }) == 0) goto scanProperty4;
+      if (({ register u32 offset asm("r0") = randomIndex << 2; register u8 *properties asm("r6");  properties = *(u8 **)(stack + 0x6C);  *(u16 *)(properties + offset + 0xA4); }) == 0) goto scanProperty4;
       goto clearByZero8441C;
     case 5:
       randomIndex = 0;
@@ -7376,7 +7376,7 @@ clearByIndex8441C:
 scanProperty5:
       randomIndex++;
       if (randomIndex > 2) goto copyOutput8441C;
-      if (({ register u32 offset asm("r0") = randomIndex << 2; register u8 *properties asm("r1"); asm("" : "+r"(offset)); properties = *(u8 **)(stack + 0x70); asm("" : "+r"(properties)); *(u16 *)(properties + offset + 0xA4); }) == 0) goto scanProperty5;
+      if (({ register u32 offset asm("r0") = randomIndex << 2; register u8 *properties asm("r1");  properties = *(u8 **)(stack + 0x70);  *(u16 *)(properties + offset + 0xA4); }) == 0) goto scanProperty5;
       goto clearByZero8441C;
 clearByZero8441C:
       result->value = 0;
@@ -7387,37 +7387,37 @@ clearByZero8441C:
 copyOutput8441C:
     {
       register struct Record8441C *output asm("r1") = *(struct Record8441C **)(stack + 0x60);
-      register struct Record8441C *source asm("r0");
-      register u32 hold5 asm("r5"), hold6 asm("r6");
+      struct Record8441C *source;
+      u32 hold5, hold6 asm("r6");
       asm("" : "+r"(output));
       source = result;
       asm("" : "+r"(source), "=r"(hold5), "=r"(hold6));
       *output = *source;
-      asm("" : : "r"(hold5), "r"(hold6));
+      
     }
     {
       register u32 firstPrice asm("r4") = sub_0805AE94(*(void **)(stack + 0x5C));
-      register u32 secondPrice asm("r6");
-      register u32 thirdPrice asm("r5");
-      register u32 outputPrice asm("r8");
-      register u32 *globalAddress asm("r9");
+      u32 secondPrice;
+      u32 thirdPrice;
+      u32 outputPrice;
+      u32 *globalAddress;
       u8 *state;
-      asm("" : "+r"(firstPrice));
+      
       secondPrice = sub_0805AE94(*(void **)(stack + 0x7C));
       asm("" : "+r"(secondPrice));
       thirdPrice = sub_0805AE94(*(void **)(stack + 0x74));
       asm("" : "+r"(thirdPrice));
       outputPrice = sub_0805AE94(*(void **)(stack + 0x60));
-      asm("" : "+r"(outputPrice));
+      
       { register u32 *p asm("r0") = (u32 *)&gUnk_030034E0;
-        asm("" : "+r"(p));
+        
         globalAddress = p;
-        asm("" : : "r"(globalAddress), "r"(p));
+        
         state = (u8 *)*p; }
       firstPrice += secondPrice;
       firstPrice += thirdPrice;
       { register u32 *input asm("r1") = *(u32 *volatile *)(stack + 0x5C);
-        asm("" : "+r"(input));
+        
         firstPrice += input[13]; }
       firstPrice = *(u32 *)(state + 0x6C) + firstPrice / 10;
       firstPrice -= outputPrice / 10;
@@ -7425,14 +7425,14 @@ copyOutput8441C:
       if ((s32)firstPrice < 0) *(u32 *)(state + 0x6C) = 0;
       {
         register u32 *address asm("r2") = globalAddress;
-        register u8 *current asm("r1");
-        register s32 value asm("r0");
+        u8 *current;
+        s32 value;
         register u32 maximum asm("r2");
         asm("" : "+r"(address));
         current = (u8 *)*address;
         value = *(s32 *)(current + 0x6C);
         maximum = 0xFFFF;
-        asm("" : "+r"(maximum));
+        
         if (value > (s32)maximum) *(u32 *)(current + 0x6C) = maximum;
       }
     }
