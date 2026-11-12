@@ -100,6 +100,13 @@ CLAUDE.md                  Claude Code instructions
 
 For parallel coordination, read [PARALLEL.md](docs/agents/PARALLEL.md). Obtain current availability from `claim.py status` and current progress from the generated reports; static examples and historical handoffs are not live ownership records.
 
+## After the match: cleanup, names and data
+
+All game functions match. To help now, pick one of `docs/agents/CLEANUP.md` (remove register pins; scripted),
+`docs/agents/NAMING_PIPELINE.md` (name functions from self-contained packets) or `docs/agents/DATA_PIPELINE.md`
+(split and type the 16 MB of data). `docs/agents/GIANT_FUNCTION_PLAYBOOK.md` records how the hardest functions
+were matched.
+
 ## Function identification and source reports
 
 Read [progress metrics, names and call graph](docs/agents/PROGRESS_AND_NAMES.md).

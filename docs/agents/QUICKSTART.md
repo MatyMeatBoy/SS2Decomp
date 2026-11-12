@@ -60,6 +60,18 @@ The toolkit's `README.txt` includes the same setup steps in English.
 On Linux, WSL or macOS, follow the native setup in [CONTRIBUTING.md](../../CONTRIBUTING.md)
 in an independent clone; the packaged Windows executables are not native tools.
 
+## What to work on now
+
+Game code is fully matched (2026-11-12). Current work, all gated by `make compare` staying OK:
+
+- **Cleanup** of register pins and empty asm: [CLEANUP.md](CLEANUP.md). One module per worker; mostly a script.
+- **Function names**: [NAMING_PIPELINE.md](NAMING_PIPELINE.md). Small models answer one packet per function.
+- **Data** splitting and typing: [DATA_PIPELINE.md](DATA_PIPELINE.md).
+- Background and lessons: [HANDOFF_2026-11-12.md](HANDOFF_2026-11-12.md),
+  [GIANT_FUNCTION_PLAYBOOK.md](GIANT_FUNCTION_PLAYBOOK.md).
+
+The shard queue below applies to matching work and to the two remaining m4a assembly routines.
+
 ## Join the shared work queue
 
 Configure your own Git name/email. For the PR commands below, install and
