@@ -1,0 +1,122 @@
+[
+  {
+    "canonical_symbol": "sub_08056E64",
+    "decision": "accept",
+    "reason": "Coordinator read primary body and the cited producer/consumer paths at pinned 3a130dff; behavior, access widths, loop bounds, mode-bank selection and conditional exits support the stated narrow role."
+  },
+  {
+    "canonical_symbol": "sub_08056E90",
+    "decision": "accept",
+    "reason": "Coordinator read primary body and the cited producer/consumer paths at pinned 3a130dff; behavior, access widths, loop bounds, mode-bank selection and conditional exits support the stated narrow role."
+  },
+  {
+    "canonical_symbol": "sub_08056E78",
+    "decision": "accept",
+    "reason": "Coordinator read primary body and the cited producer/consumer paths at pinned 3a130dff; behavior, access widths, loop bounds, mode-bank selection and conditional exits support the stated narrow role."
+  },
+  {
+    "canonical_symbol": "sub_08056EA4",
+    "decision": "accept",
+    "reason": "Coordinator read primary body and the cited producer/consumer paths at pinned 3a130dff; behavior, access widths, loop bounds, mode-bank selection and conditional exits support the stated narrow role."
+  },
+  {
+    "canonical_symbol": "sub_08057170",
+    "decision": "accept",
+    "reason": "Coordinator read primary body and the cited producer/consumer paths at pinned 3a130dff; behavior, access widths, loop bounds, mode-bank selection and conditional exits support the stated narrow role."
+  },
+  {
+    "canonical_symbol": "sub_08056F78",
+    "decision": "accept",
+    "reason": "Coordinator read primary body and the cited producer/consumer paths at pinned 3a130dff; behavior, access widths, loop bounds, mode-bank selection and conditional exits support the stated narrow role."
+  },
+  {
+    "canonical_symbol": "sub_08056F8C",
+    "decision": "accept",
+    "reason": "Coordinator read primary body and the cited producer/consumer paths at pinned 3a130dff; behavior, access widths, loop bounds, mode-bank selection and conditional exits support the stated narrow role."
+  },
+  {
+    "canonical_symbol": "sub_08056FA4",
+    "decision": "accept",
+    "reason": "Coordinator read primary body and the cited producer/consumer paths at pinned 3a130dff; behavior, access widths, loop bounds, mode-bank selection and conditional exits support the stated narrow role."
+  },
+  {
+    "canonical_symbol": "sub_08056FCC",
+    "decision": "accept",
+    "reason": "Coordinator read primary body and the cited producer/consumer paths at pinned 3a130dff; behavior, access widths, loop bounds, mode-bank selection and conditional exits support the stated narrow role."
+  },
+  {
+    "canonical_symbol": "sub_08056FE0",
+    "decision": "accept",
+    "reason": "Coordinator read primary body and the cited producer/consumer paths at pinned 3a130dff; behavior, access widths, loop bounds, mode-bank selection and conditional exits support the stated narrow role."
+  },
+  {
+    "canonical_symbol": "sub_08056FF8",
+    "decision": "accept",
+    "reason": "Coordinator read primary body and the cited producer/consumer paths at pinned 3a130dff; behavior, access widths, loop bounds, mode-bank selection and conditional exits support the stated narrow role."
+  },
+  {
+    "canonical_symbol": "sub_0805700C",
+    "decision": "accept",
+    "reason": "Coordinator read primary body and the cited producer/consumer paths at pinned 3a130dff; behavior, access widths, loop bounds, mode-bank selection and conditional exits support the stated narrow role."
+  },
+  {
+    "canonical_symbol": "sub_08057038",
+    "decision": "accept",
+    "reason": "Coordinator read primary body and the cited producer/consumer paths at pinned 3a130dff; behavior, access widths, loop bounds, mode-bank selection and conditional exits support the stated narrow role."
+  },
+  {
+    "canonical_symbol": "sub_08059954",
+    "decision": "accept",
+    "reason": "Coordinator read primary body and the cited producer/consumer paths at pinned 3a130dff; behavior, access widths, loop bounds, mode-bank selection and conditional exits support the stated narrow role."
+  },
+  {
+    "canonical_symbol": "sub_080599B0",
+    "decision": "accept",
+    "reason": "Coordinator read primary body and the cited producer/consumer paths at pinned 3a130dff; behavior, access widths, loop bounds, mode-bank selection and conditional exits support the stated narrow role."
+  },
+  {
+    "canonical_symbol": "sub_0805A2E4",
+    "decision": "accept",
+    "reason": "Coordinator read primary body and the cited producer/consumer paths at pinned 3a130dff; behavior, access widths, loop bounds, mode-bank selection and conditional exits support the stated narrow role."
+  },
+  {
+    "canonical_symbol": "sub_0805A4A0",
+    "decision": "accept",
+    "reason": "Coordinator read primary body and the cited producer/consumer paths at pinned 3a130dff; behavior, access widths, loop bounds, mode-bank selection and conditional exits support the stated narrow role."
+  },
+  {
+    "canonical_symbol": "sub_0805A040",
+    "decision": "accept",
+    "reason": "Coordinator read primary body and the cited producer/consumer paths at pinned 3a130dff; behavior, access widths, loop bounds, mode-bank selection and conditional exits support the stated narrow role."
+  },
+  {
+    "canonical_symbol": "sub_0805A194",
+    "decision": "accept",
+    "reason": "Coordinator read primary body and the cited producer/consumer paths at pinned 3a130dff; behavior, access widths, loop bounds, mode-bank selection and conditional exits support the stated narrow role."
+  },
+  {
+    "canonical_symbol": "sub_0805A054",
+    "decision": "accept",
+    "reason": "Coordinator read primary body and the cited producer/consumer paths at pinned 3a130dff; behavior, access widths, loop bounds, mode-bank selection and conditional exits support the stated narrow role."
+  },
+  {
+    "canonical_symbol": "sub_0805A2B8",
+    "decision": "accept",
+    "reason": "Coordinator read primary body and the cited producer/consumer paths at pinned 3a130dff; behavior, access widths, loop bounds, mode-bank selection and conditional exits support the stated narrow role."
+  },
+  {
+    "canonical_symbol": "sub_0805A384",
+    "decision": "accept",
+    "reason": "Coordinator read primary body and the cited producer/consumer paths at pinned 3a130dff; behavior, access widths, loop bounds, mode-bank selection and conditional exits support the stated narrow role."
+  },
+  {
+    "canonical_symbol": "sub_0805A3F0",
+    "decision": "accept",
+    "reason": "Coordinator read primary body and the cited producer/consumer paths at pinned 3a130dff; behavior, access widths, loop bounds, mode-bank selection and conditional exits support the stated narrow role."
+  },
+  {
+    "canonical_symbol": "sub_0805A474",
+    "decision": "accept",
+    "reason": "Coordinator read primary body and the cited producer/consumer paths at pinned 3a130dff; behavior, access widths, loop bounds, mode-bank selection and conditional exits support the stated narrow role."
+  }
+]

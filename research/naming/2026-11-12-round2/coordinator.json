@@ -1,0 +1,880 @@
+{
+  "schema_version": 1,
+  "kind": "naming_research_drafts",
+  "source_revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7",
+  "worker": "coordinator",
+  "policy": "Frozen research only. Candidates, including high confidence, are not confirmed until independently reviewed and integrated into the catalog.",
+  "proposals": [
+    {
+      "canonical_symbol": "sub_0800CBF8",
+      "address": "0x0800CBF8",
+      "display_name": "SetPlayerSpritePriorityOverride",
+      "summary": "Stores the zero-extended u16 priority override and sets scene bit 15; does not draw a sprite.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_0800CBBC.c",
+          "line": 16,
+          "detail": "Stores the zero-extended u16 priority override and sets scene bit 15; does not draw a sprite.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0800CF58.c",
+          "line": 4720,
+          "detail": "After querying sub_0800CC38, the player task replaces GetMapCellSpritePriority output with the low byte of the override before queuing its sprite draw request.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": []
+    },
+    {
+      "canonical_symbol": "sub_0800CC18",
+      "address": "0x0800CC18",
+      "display_name": "ClearPlayerSpritePriorityOverride",
+      "summary": "Zeros the player priority override and clears scene bit 15, preserving other scene flags.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_0800CBBC.c",
+          "line": 20,
+          "detail": "Zeros the player priority override and clears scene bit 15, preserving other scene flags.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0800CF58.c",
+          "line": 4720,
+          "detail": "After querying sub_0800CC38, the player task replaces GetMapCellSpritePriority output with the low byte of the override before queuing its sprite draw request.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": []
+    },
+    {
+      "canonical_symbol": "sub_0800CC38",
+      "address": "0x0800CC38",
+      "display_name": "IsPlayerSpritePriorityOverridden",
+      "summary": "Returns exactly 0 or 1 from scene bit 15, selecting the override consumed by the player draw paths.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_0800CBBC.c",
+          "line": 24,
+          "detail": "Returns exactly 0 or 1 from scene bit 15, selecting the override consumed by the player draw paths.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0800CF58.c",
+          "line": 4720,
+          "detail": "After querying sub_0800CC38, the player task replaces GetMapCellSpritePriority output with the low byte of the override before queuing its sprite draw request.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": []
+    },
+    {
+      "canonical_symbol": "sub_0800CC48",
+      "address": "0x0800CC48",
+      "display_name": "SetActorSpritePriorityOverride",
+      "summary": "Stores a zero-extended u16 actor sprite priority override, sets scene bit 19, and returns the entire updated flag word.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_0800CBBC.c",
+          "line": 29,
+          "detail": "Stores a zero-extended u16 actor sprite priority override, sets scene bit 19, and returns the entire updated flag word.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08017F7C.c",
+          "line": 603,
+          "detail": "The actor task replaces GetMapCellSpritePriority output when sub_0800CC88 is nonzero; bg then supplies sprite priority to T015L_DRAW.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": []
+    },
+    {
+      "canonical_symbol": "sub_0800CC68",
+      "address": "0x0800CC68",
+      "display_name": "ClearActorSpritePriorityOverride",
+      "summary": "Zeros the actor sprite priority override, clears scene bit 19, and returns the entire updated scene flag word.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_0800CBBC.c",
+          "line": 37,
+          "detail": "Zeros the actor sprite priority override, clears scene bit 19, and returns the entire updated scene flag word.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08017F7C.c",
+          "line": 603,
+          "detail": "The actor task replaces GetMapCellSpritePriority output when sub_0800CC88 is nonzero; bg then supplies sprite priority to T015L_DRAW.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": []
+    },
+    {
+      "canonical_symbol": "sub_0800CC88",
+      "address": "0x0800CC88",
+      "display_name": "IsActorSpritePriorityOverridden",
+      "summary": "Returns exactly 0 or 1 from scene bit 19, which selects the actor sprite priority override.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_0800CBBC.c",
+          "line": 43,
+          "detail": "Returns exactly 0 or 1 from scene bit 19, which selects the actor sprite priority override.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08017F7C.c",
+          "line": 603,
+          "detail": "The actor task replaces GetMapCellSpritePriority output when sub_0800CC88 is nonzero; bg then supplies sprite priority to T015L_DRAW.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": []
+    },
+    {
+      "canonical_symbol": "sub_080587FC",
+      "address": "0x080587FC",
+      "display_name": "SetActorPriorityOverrideWrapper",
+      "summary": "Calls the actor sprite priority override helper and discards its scene-flag return value.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_08058790.c",
+          "line": 28,
+          "detail": "The complete wrapper forwards its u16 input, if any, to sub_0800CC48 and performs no other work.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08017F7C.c",
+          "line": 603,
+          "detail": "The shared override replaces the actor map-cell sprite priority before sprite requests are queued.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": []
+    },
+    {
+      "canonical_symbol": "sub_0805880C",
+      "address": "0x0805880C",
+      "display_name": "ClearActorPriorityOverrideWrapper",
+      "summary": "Calls the actor sprite priority override helper and discards its scene-flag return value.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_08058790.c",
+          "line": 31,
+          "detail": "The complete wrapper forwards its u16 input, if any, to sub_0800CC68 and performs no other work.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08017F7C.c",
+          "line": 603,
+          "detail": "The shared override replaces the actor map-cell sprite priority before sprite requests are queued.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": []
+    },
+    {
+      "canonical_symbol": "sub_0800CCCC",
+      "address": "0x0800CCCC",
+      "display_name": "IsMapSetZeroActive",
+      "summary": "Returns scene bit 3 as exactly 0 or 1; it selects the map-set-zero layout path, without loading a map.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_0800CBBC.c",
+          "line": 55,
+          "detail": "Returns scene bit 3 as exactly 0 or 1; it selects the map-set-zero layout path, without loading a map.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08021DC4.c",
+          "line": 802,
+          "detail": "Map selector case 0 marks bit 3 and selects this map-set-zero table; cases 1 through 23 clear it before selecting their corresponding map tables.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08009088.c",
+          "line": 369,
+          "detail": "LoadWorldMapArea uses the bit to choose the map1 layout pointer instead of the map0 pointer and dimensions. No precise town or story label is inferred.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": []
+    },
+    {
+      "canonical_symbol": "sub_0800CCDC",
+      "address": "0x0800CCDC",
+      "display_name": "MarkMapSetZeroActive",
+      "summary": "Sets scene bit 3, marking the map-set-zero layout path; retains all other flags.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_0800CBBC.c",
+          "line": 58,
+          "detail": "Sets scene bit 3, marking the map-set-zero layout path; retains all other flags.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08021DC4.c",
+          "line": 802,
+          "detail": "Map selector case 0 marks bit 3 and selects this map-set-zero table; cases 1 through 23 clear it before selecting their corresponding map tables.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08009088.c",
+          "line": 369,
+          "detail": "LoadWorldMapArea uses the bit to choose the map1 layout pointer instead of the map0 pointer and dimensions. No precise town or story label is inferred.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": []
+    },
+    {
+      "canonical_symbol": "sub_0800CCEC",
+      "address": "0x0800CCEC",
+      "display_name": "ClearMapSetZeroActive",
+      "summary": "Clears scene bit 3, selecting the nonzero-map-set layout path; retains all other flags.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_0800CBBC.c",
+          "line": 61,
+          "detail": "Clears scene bit 3, selecting the nonzero-map-set layout path; retains all other flags.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08021DC4.c",
+          "line": 802,
+          "detail": "Map selector case 0 marks bit 3 and selects this map-set-zero table; cases 1 through 23 clear it before selecting their corresponding map tables.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08009088.c",
+          "line": 369,
+          "detail": "LoadWorldMapArea uses the bit to choose the map1 layout pointer instead of the map0 pointer and dimensions. No precise town or story label is inferred.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": []
+    },
+    {
+      "canonical_symbol": "sub_0800CD00",
+      "address": "0x0800CD00",
+      "display_name": "IsWorldSceneExitRequested",
+      "summary": "Returns scene bit 4, a stop predicate consumed by the world-scene lifetime and HUD/effect loops.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_0800CBBC.c",
+          "line": 64,
+          "detail": "Returns scene bit 4, a stop predicate consumed by the world-scene lifetime and HUD/effect loops.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08009088.c",
+          "line": 1948,
+          "detail": "TaskManageWorldSceneLifetime exits its running loop when this predicate becomes nonzero before running scene shutdown; this does not claim a particular producer or transport event.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0800CF58.c",
+          "line": 5907,
+          "detail": "The player-status HUD also stops its lifetime loop when the same predicate is nonzero.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": []
+    },
+    {
+      "canonical_symbol": "sub_0800CD10",
+      "address": "0x0800CD10",
+      "display_name": "RequestWorldSceneExit",
+      "summary": "Sets scene bit 4 while preserving other bits; marks the world-scene stop predicate without cancelling tasks itself.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_0800CBBC.c",
+          "line": 67,
+          "detail": "Sets scene bit 4 while preserving other bits; marks the world-scene stop predicate without cancelling tasks itself.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08009088.c",
+          "line": 1948,
+          "detail": "TaskManageWorldSceneLifetime exits its running loop when this predicate becomes nonzero before running scene shutdown; this does not claim a particular producer or transport event.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0800CF58.c",
+          "line": 5907,
+          "detail": "The player-status HUD also stops its lifetime loop when the same predicate is nonzero.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": []
+    },
+    {
+      "canonical_symbol": "sub_0800CD20",
+      "address": "0x0800CD20",
+      "display_name": "ClearWorldSceneExitRequest",
+      "summary": "Clears scene bit 4 while preserving other bits; does not itself restart any stopped task.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_0800CBBC.c",
+          "line": 70,
+          "detail": "Clears scene bit 4 while preserving other bits; does not itself restart any stopped task.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08009088.c",
+          "line": 1948,
+          "detail": "TaskManageWorldSceneLifetime exits its running loop when this predicate becomes nonzero before running scene shutdown; this does not claim a particular producer or transport event.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0800CF58.c",
+          "line": 5907,
+          "detail": "The player-status HUD also stops its lifetime loop when the same predicate is nonzero.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": []
+    },
+    {
+      "canonical_symbol": "sub_0800CD34",
+      "address": "0x0800CD34",
+      "display_name": "IsWorldMapSelectionActive",
+      "summary": "Returns scene bit 5, marked during the world-map destination selection task.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_0800CBBC.c",
+          "line": 73,
+          "detail": "Returns scene bit 5, marked during the world-map destination selection task.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08009088.c",
+          "line": 2095,
+          "detail": "World-map destination task sets the marker before loading map graphics, moving/selecting among 24 destinations and coordinating player choices.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08009088.c",
+          "line": 2415,
+          "detail": "The same task clears the marker after destination dispatch and scene cleanup.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": []
+    },
+    {
+      "canonical_symbol": "sub_0800CD44",
+      "address": "0x0800CD44",
+      "display_name": "MarkWorldMapSelectionActive",
+      "summary": "Sets the world-map selection marker (scene bit 5), preserving other flags; does not launch the selection task.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_0800CBBC.c",
+          "line": 76,
+          "detail": "Sets the world-map selection marker (scene bit 5), preserving other flags; does not launch the selection task.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08009088.c",
+          "line": 2095,
+          "detail": "World-map destination task sets the marker before loading map graphics, moving/selecting among 24 destinations and coordinating player choices.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08009088.c",
+          "line": 2415,
+          "detail": "The same task clears the marker after destination dispatch and scene cleanup.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": []
+    },
+    {
+      "canonical_symbol": "sub_0800CD54",
+      "address": "0x0800CD54",
+      "display_name": "ClearWorldMapSelectionActive",
+      "summary": "Clears the world-map selection marker (scene bit 5), preserving other flags; does not cancel the selection task.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_0800CBBC.c",
+          "line": 79,
+          "detail": "Clears the world-map selection marker (scene bit 5), preserving other flags; does not cancel the selection task.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08009088.c",
+          "line": 2095,
+          "detail": "World-map destination task sets the marker before loading map graphics, moving/selecting among 24 destinations and coordinating player choices.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08009088.c",
+          "line": 2415,
+          "detail": "The same task clears the marker after destination dispatch and scene cleanup.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": []
+    },
+    {
+      "canonical_symbol": "sub_0800CF90",
+      "address": "0x0800CF90",
+      "display_name": "RequestPlayerHudHold",
+      "summary": "Sets scene bit 17, which holds the player-status HUD update loop; preserves other flags.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_0800CF58.c",
+          "line": 17,
+          "detail": "Sets scene bit 17, which holds the player-status HUD update loop; preserves other flags.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [],
+      "supporting_evidence": [
+        {
+          "source": "src/code_0800CF58.c",
+          "line": 5908,
+          "detail": "TaskPlayerStatusHud waits for signal 1 while this predicate or the coordinated-attack phase is nonzero, resetting its cached displayed values. The hold alone does not prove all world tasks are paused.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ]
+    },
+    {
+      "canonical_symbol": "sub_0800CFA4",
+      "address": "0x0800CFA4",
+      "display_name": "ClearPlayerHudHold",
+      "summary": "Clears scene bit 17 and returns the address of the scene-flags word; does not return the updated flag value.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_0800CF58.c",
+          "line": 20,
+          "detail": "Clears scene bit 17 and returns the address of the scene-flags word; does not return the updated flag value.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [],
+      "supporting_evidence": [
+        {
+          "source": "src/code_0800CF58.c",
+          "line": 5908,
+          "detail": "TaskPlayerStatusHud waits for signal 1 while this predicate or the coordinated-attack phase is nonzero, resetting its cached displayed values. The hold alone does not prove all world tasks are paused.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ]
+    },
+    {
+      "canonical_symbol": "sub_0800CFB8",
+      "address": "0x0800CFB8",
+      "display_name": "IsPlayerHudHoldRequested",
+      "summary": "Returns scene bit 17 as exactly 0 or 1; the player-status HUD waits while it is set.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_0800CF58.c",
+          "line": 24,
+          "detail": "Returns scene bit 17 as exactly 0 or 1; the player-status HUD waits while it is set.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [],
+      "supporting_evidence": [
+        {
+          "source": "src/code_0800CF58.c",
+          "line": 5908,
+          "detail": "TaskPlayerStatusHud waits for signal 1 while this predicate or the coordinated-attack phase is nonzero, resetting its cached displayed values. The hold alone does not prove all world tasks are paused.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ]
+    },
+    {
+      "canonical_symbol": "sub_080587D8",
+      "address": "0x080587D8",
+      "display_name": "ClearPlayerHudHoldWrapper",
+      "summary": "Calls ClearPlayerHudHold and discards its returned scene-flag address.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_08058790.c",
+          "line": 19,
+          "detail": "Body calls sub_0800CFA4 and performs no other work.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0800CF58.c",
+          "line": 20,
+          "detail": "Target clears the HUD hold bit; player-status HUD consumes the paired predicate sub_0800CFB8.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": []
+    },
+    {
+      "canonical_symbol": "sub_0800CF20",
+      "address": "0x0800CF20",
+      "display_name": "MarkAreaReturnPromptActive",
+      "summary": "Sets scene bit 21, the marker used around an area-return prompt task; does not open the prompt itself.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_0800CBBC.c",
+          "line": 154,
+          "detail": "Sets scene bit 21, the marker used around an area-return prompt task; does not open the prompt itself.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0805FB7C.c",
+          "line": 2493,
+          "detail": "TaskPlayerAreaReturnPrompt marks the bit before its map-set-zero prompt loop; confirmation and final cleanup clear it through sub_0800CF34. Multiple instances share a single uncounted marker.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": []
+    },
+    {
+      "canonical_symbol": "sub_0800CF34",
+      "address": "0x0800CF34",
+      "display_name": "ClearAreaReturnPromptActive",
+      "summary": "Clears scene bit 21, preserving other flags; does not destroy a prompt or count concurrent instances.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_0800CBBC.c",
+          "line": 157,
+          "detail": "Clears scene bit 21, preserving other flags; does not destroy a prompt or count concurrent instances.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0805FB7C.c",
+          "line": 2493,
+          "detail": "TaskPlayerAreaReturnPrompt marks the bit before its map-set-zero prompt loop; confirmation and final cleanup clear it through sub_0800CF34. Multiple instances share a single uncounted marker.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": []
+    },
+    {
+      "canonical_symbol": "sub_0800CF48",
+      "address": "0x0800CF48",
+      "display_name": "IsAreaReturnPromptActive",
+      "summary": "Returns scene bit 21 as exactly 0 or 1, the area-return-prompt marker; it is not a count of prompt tasks.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_0800CBBC.c",
+          "line": 160,
+          "detail": "Returns scene bit 21 as exactly 0 or 1, the area-return-prompt marker; it is not a count of prompt tasks.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0805FB7C.c",
+          "line": 2493,
+          "detail": "TaskPlayerAreaReturnPrompt marks the bit before its map-set-zero prompt loop; confirmation and final cleanup clear it through sub_0800CF34. Multiple instances share a single uncounted marker.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": []
+    },
+    {
+      "canonical_symbol": "sub_0800CEE8",
+      "address": "0x0800CEE8",
+      "display_name": "MarkLocalAreaDeparturePending",
+      "summary": "Sets scene bit 14, marking local player area departure pending; does not complete departure.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_0800CBBC.c",
+          "line": 145,
+          "detail": "Sets scene bit 14, marking local player area departure pending; does not complete departure.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0805FB7C.c",
+          "line": 2268,
+          "detail": "TaskAnimatePlayerAreaDeparture marks the bit for the local player before its departure animation and later clears it on its return-to-map path.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0805FB7C.c",
+          "line": 2530,
+          "detail": "Area-return prompt confirmation selects player state 12/substate 1 and marks the same pending-departure bit before clearing its own prompt marker.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": []
+    },
+    {
+      "canonical_symbol": "sub_0800CEFC",
+      "address": "0x0800CEFC",
+      "display_name": "ClearLocalAreaDeparturePending",
+      "summary": "Clears scene bit 14, preserving other flags; does not itself reposition the player.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_0800CBBC.c",
+          "line": 148,
+          "detail": "Clears scene bit 14, preserving other flags; does not itself reposition the player.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0805FB7C.c",
+          "line": 2268,
+          "detail": "TaskAnimatePlayerAreaDeparture marks the bit for the local player before its departure animation and later clears it on its return-to-map path.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0805FB7C.c",
+          "line": 2530,
+          "detail": "Area-return prompt confirmation selects player state 12/substate 1 and marks the same pending-departure bit before clearing its own prompt marker.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": []
+    },
+    {
+      "canonical_symbol": "sub_0800CF10",
+      "address": "0x0800CF10",
+      "display_name": "IsLocalAreaDeparturePending",
+      "summary": "Returns scene bit 14 as exactly 0 or 1, reflecting the local area-departure marker.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_0800CBBC.c",
+          "line": 151,
+          "detail": "Reads bit 14 of the scene flag word.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0805FB7C.c",
+          "line": 2268,
+          "detail": "Local area-departure animation sets the same bit; its cleanup and scene destination transitions clear it.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": []
+    },
+    {
+      "canonical_symbol": "sub_0800D0A8",
+      "address": "0x0800D0A8",
+      "display_name": "StartWorldMapDestinationTask",
+      "summary": "Allocates a 0x800-byte stack with signal-1 retries, installs the world-map destination task entry, initializes task scheduling-control field 100 and starts it.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_0800CF58.c",
+          "line": 63,
+          "detail": "Installs the destination-selector entry; subsequent code retries allocation until nonzero, assigns stack top +0x7FC and starts the task.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08009088.c",
+          "line": 2053,
+          "detail": "Target loads destination map graphics, moves player cursors, tests 24 selectable destination rectangles and dispatches the chosen map set.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": []
+    },
+    {
+      "canonical_symbol": "sub_0800BEC0",
+      "address": "0x0800BEC0",
+      "display_name": "TaskSelectWorldMapDestination",
+      "summary": "Runs world-map cursor movement and destination selection, coordinates connected-player confirmation, dispatches the selected map set and restores scene state.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_08009088.c",
+          "line": 2095,
+          "detail": "Marks world-map selection active before initializing its graphics and player cursor state.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08009088.c",
+          "line": 2178,
+          "detail": "Tests unlocked destinations against position/range tables; later renders those destination markers and centered name text.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08009088.c",
+          "line": 2349,
+          "detail": "Shows the text resource associated with the currently selected destination.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08009088.c",
+          "line": 2364,
+          "detail": "Host waits for all connected players to confirm the same destination; clients await host mode 2.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08009088.c",
+          "line": 2387,
+          "detail": "Invokes the map-set destination selector, then clears the active marker and restores related scene state.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": []
+    },
+    {
+      "canonical_symbol": "sub_080587E4",
+      "address": "0x080587E4",
+      "display_name": "",
+      "summary": "Function remains under active context tracing.",
+      "confidence": "low",
+      "evidence": [],
+      "open_questions": [
+        "Trace all writers, consumers and callback references to establish the narrow role."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_080587F0",
+      "address": "0x080587F0",
+      "display_name": "",
+      "summary": "Function remains under active context tracing.",
+      "confidence": "low",
+      "evidence": [],
+      "open_questions": [
+        "Trace all writers, consumers and callback references to establish the narrow role."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_08058824",
+      "address": "0x08058824",
+      "display_name": "",
+      "summary": "Function remains under active context tracing.",
+      "confidence": "low",
+      "evidence": [],
+      "open_questions": [
+        "Trace all writers, consumers and callback references to establish the narrow role."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_08058E08",
+      "address": "0x08058E08",
+      "display_name": "",
+      "summary": "Function remains under active context tracing.",
+      "confidence": "low",
+      "evidence": [],
+      "open_questions": [
+        "Trace all writers, consumers and callback references to establish the narrow role."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_0800CE78",
+      "address": "0x0800CE78",
+      "display_name": "",
+      "summary": "Function remains under active context tracing.",
+      "confidence": "low",
+      "evidence": [],
+      "open_questions": [
+        "Trace all writers, consumers and callback references to establish the narrow role."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_0800CED8",
+      "address": "0x0800CED8",
+      "display_name": "",
+      "summary": "Function remains under active context tracing.",
+      "confidence": "low",
+      "evidence": [],
+      "open_questions": [
+        "Trace all writers, consumers and callback references to establish the narrow role."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_0800D028",
+      "address": "0x0800D028",
+      "display_name": "",
+      "summary": "Function remains under active context tracing.",
+      "confidence": "low",
+      "evidence": [],
+      "open_questions": [
+        "Trace all writers, consumers and callback references to establish the narrow role."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_0800D060",
+      "address": "0x0800D060",
+      "display_name": "",
+      "summary": "Function remains under active context tracing.",
+      "confidence": "low",
+      "evidence": [],
+      "open_questions": [
+        "Trace all writers, consumers and callback references to establish the narrow role."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_0800D098",
+      "address": "0x0800D098",
+      "display_name": "",
+      "summary": "Function remains under active context tracing.",
+      "confidence": "low",
+      "evidence": [],
+      "open_questions": [
+        "Trace all writers, consumers and callback references to establish the narrow role."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_0800D154",
+      "address": "0x0800D154",
+      "display_name": "",
+      "summary": "Function remains under active context tracing.",
+      "confidence": "low",
+      "evidence": [],
+      "open_questions": [
+        "Trace all writers, consumers and callback references to establish the narrow role."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_0800CE88",
+      "address": "0x0800CE88",
+      "display_name": "",
+      "summary": "Function remains under active context tracing.",
+      "confidence": "low",
+      "evidence": [],
+      "open_questions": [
+        "Trace all writers, consumers and callback references to establish the narrow role."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_0800CE9C",
+      "address": "0x0800CE9C",
+      "display_name": "",
+      "summary": "Function remains under active context tracing.",
+      "confidence": "low",
+      "evidence": [],
+      "open_questions": [
+        "Trace all writers, consumers and callback references to establish the narrow role."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_0800CEB0",
+      "address": "0x0800CEB0",
+      "display_name": "",
+      "summary": "Function remains under active context tracing.",
+      "confidence": "low",
+      "evidence": [],
+      "open_questions": [
+        "Trace all writers, consumers and callback references to establish the narrow role."
+      ]
+    }
+  ]
+}

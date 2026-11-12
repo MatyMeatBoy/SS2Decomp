@@ -1,0 +1,579 @@
+[
+  {
+    "canonical_symbol": "sub_08021C6C",
+    "decision": "reject",
+    "display_name": "",
+    "reasoning": "Empty body is proven, but placement after another allocator does not establish this function owns resource startup. Defer semantic lifecycle name.",
+    "evidence": [
+      {
+        "source": "src/code_0801E244.c",
+        "line": 2400,
+        "detail": "Empty void body; no reads or writes.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_08009088.c",
+        "line": 1941,
+        "detail": "Only observed invocation is in a larger scene startup sequence; it does not identify a subsystem contract.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ]
+  },
+  {
+    "canonical_symbol": "sub_08021C70",
+    "decision": "reject",
+    "display_name": "",
+    "reasoning": "Empty body is proven, but adjacency to an unrelated freeing helper does not establish a resource-teardown contract. Defer semantic lifecycle name.",
+    "evidence": [
+      {
+        "source": "src/code_0801E244.c",
+        "line": 2403,
+        "detail": "Empty void body; no reads or writes.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_08009088.c",
+        "line": 1966,
+        "detail": "Call occurs in larger scene cleanup sequence without arguments or identifying data flow.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ]
+  },
+  {
+    "canonical_symbol": "sub_08019CDC",
+    "decision": "accept",
+    "display_name": "ReturnFive",
+    "reasoning": "Exact neutral observable contract, with no unsupported actor-capacity role.",
+    "evidence": [
+      {
+        "source": "src/code_08017F7C.c",
+        "line": 877,
+        "detail": "Initializes unsigned counter zero, increments until greater than four and returns five at line 881.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ]
+  },
+  {
+    "canonical_symbol": "sub_0801A0A4",
+    "decision": "fix",
+    "display_name": "SetActorCombatTeamTwo",
+    "reasoning": "Field is a combat-team/filter value, but assigning 2 does not universally enable targeting: consumers reject equal teams. Exact team assignment is narrower than EnableEnemyCombatTargeting.",
+    "evidence": [
+      {
+        "source": "src/code_08017F7C.c",
+        "line": 1093,
+        "detail": "Stores signed byte value 2 at actor offset 0x1DC.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_0801E244.c",
+        "line": 1573,
+        "detail": "Player attack contacts reject an actor whose team equals the attacker team, and line 1574 rejects zero.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ]
+  },
+  {
+    "canonical_symbol": "sub_0801A0B0",
+    "decision": "accept",
+    "display_name": "DisableActorCombatTargeting",
+    "reasoning": "Zero team is explicitly filtered by attack and ability consumers; name claims the exclusion role, not synchronous task removal.",
+    "evidence": [
+      {
+        "source": "src/code_08017F7C.c",
+        "line": 1096,
+        "detail": "Clears actor team byte +0x1DC.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_0801E244.c",
+        "line": 1574,
+        "detail": "Attack contacts reject zero-team actors.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_08068670.c",
+        "line": 310,
+        "detail": "Ability target enumeration rejects zero-team enemies.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ]
+  },
+  {
+    "canonical_symbol": "sub_0801A0BC",
+    "decision": "fix",
+    "display_name": "SetActorTeamByKey",
+    "reasoning": "Behavior and combat-team interpretation are supported, but original name has six PascalCase words. Remove redundant Combat while retaining exact indexed-team setter role.",
+    "evidence": [
+      {
+        "source": "src/code_08017F7C.c",
+        "line": 1104,
+        "detail": "Returns for zero key; loops five active slots and matches +2 key.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_08017F7C.c",
+        "line": 1112,
+        "detail": "Writes low byte of value to team +0x1DC.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_0801E244.c",
+        "line": 1573,
+        "detail": "Attack consumer compares target team to attacker team and excludes zero.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ]
+  },
+  {
+    "canonical_symbol": "sub_0801A050",
+    "decision": "accept",
+    "display_name": "RequestActorRemovalByKey",
+    "reasoning": "Correctly describes a request rather than synchronous removal; direct task loop and cleanup corroborate effect.",
+    "evidence": [
+      {
+        "source": "src/code_08017F7C.c",
+        "line": 1086,
+        "detail": "First active matching nonzero key receives +0x7A bit0.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_08017F7C.c",
+        "line": 215,
+        "detail": "Actor task loop exits when bit0 is set.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_08017F7C.c",
+        "line": 809,
+        "detail": "Task exit clears actor active-slot bit.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ]
+  },
+  {
+    "canonical_symbol": "sub_08019EB8",
+    "decision": "fix",
+    "display_name": "SetActorOverlayByKey",
+    "reasoning": "Overlay animation interpretation is substantiated, but original name has six words; shorten without changing role.",
+    "evidence": [
+      {
+        "source": "src/code_08017F7C.c",
+        "line": 1001,
+        "detail": "Finds first active actor matching key and stores halfword +0x88 on line 1002.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_08017F7C.c",
+        "line": 748,
+        "detail": "Actor task advances animation indexed by +0x88 and clears it on completion.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_08017F7C.c",
+        "line": 754,
+        "detail": "Draws overlay at actor position with y minus 32.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ]
+  },
+  {
+    "canonical_symbol": "sub_08019F04",
+    "decision": "fix",
+    "display_name": "RequestActorActionReselection",
+    "reasoning": "Action request is supported by explicit AI consumer; remove Scripted because the persistent policy represented by actor flag bit2 is not yet established. Summary must retain its active-slot/bit2 filtering and scene halfword side effect.",
+    "evidence": [
+      {
+        "source": "src/code_08017F7C.c",
+        "line": 1016,
+        "detail": "Sets scene halfword +0x5A to 1.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_08017F7C.c",
+        "line": 1028,
+        "detail": "For active actors with +0x7A bit2 overwrites +0x201 with 1.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_080153A4.c",
+        "line": 1561,
+        "detail": "AI request bit0 enters action-selection path, later cleared at line 1638.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ]
+  },
+  {
+    "canonical_symbol": "sub_0801A388",
+    "decision": "accept",
+    "display_name": "ResetActorActionSelection",
+    "reasoning": "Exact action/AI reset; summary appropriately leaves the policy bit unnamed.",
+    "evidence": [
+      {
+        "source": "src/code_08017F7C.c",
+        "line": 1257,
+        "detail": "Indexes actor slot without active-mask or bounds validation.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_08017F7C.c",
+        "line": 1258,
+        "detail": "Sets +0x7A bit2, clears AI flags +0x201 and sets action +0x1FD to 255.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_080153A4.c",
+        "line": 1639,
+        "detail": "AI selection compares and assigns +0x1FD action.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ]
+  },
+  {
+    "canonical_symbol": "sub_0801F2CC",
+    "decision": "accept",
+    "display_name": "ConfigureEnemyKnockbackFromHit",
+    "reasoning": "Primary writes and actor movement consumer establish knockback. Zero input clears duration/speed/direction but deliberately leaves stored magnitude unchanged.",
+    "evidence": [
+      {
+        "source": "src/code_0801E244.c",
+        "line": 885,
+        "detail": "Reads impulse byte; duration max(1,impulse/4), speed 256 or 1024, magnitude and signed direction written on nonzero path.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_0801E244.c",
+        "line": 906,
+        "detail": "Zero path clears duration, speed and direction only.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_08017F7C.c",
+        "line": 361,
+        "detail": "Actor task moves using speed/direction and decrements duration.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ]
+  },
+  {
+    "canonical_symbol": "sub_0801F320",
+    "decision": "accept",
+    "display_name": "ConfigurePlayerKnockbackFromHit",
+    "reasoning": "Player offsets and movement consumer establish role; asymmetric zero path is correctly documented.",
+    "evidence": [
+      {
+        "source": "src/code_0801E244.c",
+        "line": 927,
+        "detail": "Writes player knockback duration +0xCE; lines 932-939 write speed, magnitude and signed direction.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_0801E244.c",
+        "line": 943,
+        "detail": "Zero input clears duration/speed/magnitude, leaving direction untouched.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_0800CF58.c",
+        "line": 5794,
+        "detail": "Movement consumes +0xD2 speed and +0xD0 direction then decrements +0xCE duration.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ]
+  },
+  {
+    "canonical_symbol": "sub_08019E20",
+    "decision": "fix",
+    "display_name": "ReturnArgumentAfterSceneQuery",
+    "reasoning": "Exact neutral identity contract supported; shorten original six-word name. Scene query return is discarded, with no writes in query.",
+    "evidence": [
+      {
+        "source": "src/code_08017F7C.c",
+        "line": 944,
+        "detail": "Calls scene flag query and returns original argument at line 945.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_0800CBBC.c",
+        "line": 115,
+        "detail": "Query reads scene flags bit9 only.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ]
+  },
+  {
+    "canonical_symbol": "sub_0801F1C4",
+    "decision": "accept",
+    "display_name": "QueueEnemyDamageFromPosition",
+    "reasoning": "Damage accumulation, vector-derived direction, hit-credit and queue producer are directly visible. Broadcast wording in summary should be request/queue rather than guaranteed transport.",
+    "evidence": [
+      {
+        "source": "src/code_0801E244.c",
+        "line": 832,
+        "detail": "Sets reaction state10, builds amount and direction from supplied position.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_0801E244.c",
+        "line": 841,
+        "detail": "Accumulates pending damage +0x4A and stores amount +0x4C.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_0801E244.c",
+        "line": 862,
+        "detail": "Configures knockback; line 874 records local-player credit and line 876 calls link hit-packet queue.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ],
+    "corrected_summary": "Queues enemy damage and position-derived knockback, marks local-player hit credit, and requests enqueue or merge of the link hit packet."
+  },
+  {
+    "canonical_symbol": "sub_0801FD64",
+    "decision": "accept",
+    "display_name": "QueueAttackHealthCost",
+    "reasoning": "Caller and damage accumulator consumer substantiate attack-sequence health cost; rate range is 1..127 and once-per-sequence guard only updates after permitted charge.",
+    "evidence": [
+      {
+        "source": "src/code_0801E244.c",
+        "line": 1366,
+        "detail": "Requires differing current/previous sequence and nonzero player team.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_0801E244.c",
+        "line": 1372,
+        "detail": "Calculates signed maximum-health field times rate /100, enforces nonzero minimum and adds to pending +0x8A.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_0801E244.c",
+        "line": 1562,
+        "detail": "Attack-contact path calls this after frame gates.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_0800CF58.c",
+        "line": 5625,
+        "detail": "Damage application subtracts pending +0x8A from current HP and clears it.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ]
+  },
+  {
+    "canonical_symbol": "sub_0801E378",
+    "decision": "accept",
+    "display_name": "ApplyHigherIndexedSkillScaling",
+    "reasoning": "Class/skill mapping, signed input interpretation and output halfword truncation checked. Neutral higher-index pair label avoids unsupported player-facing skill identity.",
+    "evidence": [
+      {
+        "source": "src/code_0801E244.c",
+        "line": 95,
+        "detail": "Class0 reads effective skill4 twice; class3 reads skill3 twice on lines100-102; formula uses signed input halfword and returns low halfword.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_0801AAF8.c",
+        "line": 1111,
+        "detail": "Equipment contribution independently uses matching 4/3 formula.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_0807A5D4.c",
+        "line": 4779,
+        "detail": "Equipment UI uses helper result minus raw item value as bonus.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_0801AAF8.c",
+        "line": 2195,
+        "detail": "Skill reader selects indexed halfword and remaps7 to8.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ]
+  },
+  {
+    "canonical_symbol": "sub_0801E3D8",
+    "decision": "accept",
+    "display_name": "ApplyLowerIndexedSkillScaling",
+    "reasoning": "Lower-index member uses3/2 compared with4/3, and UI selection corroborates paired role; no skill labels inferred.",
+    "evidence": [
+      {
+        "source": "src/code_0801E244.c",
+        "line": 113,
+        "detail": "Class0 uses skill3 and class3 uses skill2 on lines118-120; same scaling arithmetic and low-halfword return.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_0801AAF8.c",
+        "line": 1136,
+        "detail": "Equipment calculation independently uses matching3/2 formula when item fieldA0 is nonzero.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_0807A5D4.c",
+        "line": 4864,
+        "detail": "Equipment UI calls lower-index helper under same item-field condition.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ]
+  },
+  {
+    "canonical_symbol": "sub_0801E438",
+    "decision": "accept",
+    "display_name": "ComputeClassSkillEightfoldValue",
+    "reasoning": "Exact neutral contract is supported even without callers; retains fallback and halfword truncation rather than inventing a combat-stat consumer.",
+    "evidence": [
+      {
+        "source": "src/code_0801E244.c",
+        "line": 130,
+        "detail": "Fallback is low16 of arg1.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_0801E244.c",
+        "line": 134,
+        "detail": "Class0 reads effective skill3 and multiplies by8; class3 uses skill2 on line137; returns u16 on line140.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_0801AAF8.c",
+        "line": 2195,
+        "detail": "Indexed skill read remaps stored7 to8.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ]
+  },
+  {
+    "canonical_symbol": "sub_08020D40",
+    "decision": "accept",
+    "display_name": "TaskAnimateCriticalHitSprite",
+    "reasoning": "Effect identity anchored by actual critical-roll damage branch and registration, not sprite proximity. Stop request and gated animation progress match summary.",
+    "evidence": [
+      {
+        "source": "src/code_0801E244.c",
+        "line": 1854,
+        "detail": "Unpacks packed world coordinates into Q8 values.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_0801E244.c",
+        "line": 1856,
+        "detail": "Loops until world stop request or sequence completion, with scene gates on advancement/drawing.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_0801E244.c",
+        "line": 1859,
+        "detail": "Advances sequence32 and draws it; line1864 clears indexed pool bit.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_08021DC4.c",
+        "line": 425,
+        "detail": "Critical effect producer installs this task callback.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_0801E244.c",
+        "line": 334,
+        "detail": "Favorable critical branch requests producer at336 and selects divisor100 versus ordinary200.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ]
+  },
+  {
+    "canonical_symbol": "sub_080215E4",
+    "decision": "accept",
+    "display_name": "TaskDrawBriefWorldEffect",
+    "reasoning": "Neutral visual role, exact30 scheduler waits maximum, gated drawing and slot release all verified. No particular icon identity inferred.",
+    "evidence": [
+      {
+        "source": "src/code_0801E244.c",
+        "line": 2167,
+        "detail": "Countdown starts30; pre-decrement test produces at most30 draw/wait iterations.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_0801E244.c",
+        "line": 2176,
+        "detail": "Scene gates suppress drawing while countdown continues.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_0801E244.c",
+        "line": 2179,
+        "detail": "Draws sequence1 frame0 at world-to-screen position with y+1.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_0801E244.c",
+        "line": 2183,
+        "detail": "Clears indexed effect-pool occupancy bit.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_08021DC4.c",
+        "line": 130,
+        "detail": "Allocator installs callback and supplies packed position plus pool index.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ]
+  },
+  {
+    "canonical_symbol": "sub_0801A628",
+    "decision": "reject",
+    "display_name": "",
+    "reasoning": "Defer empty no-consumer routine; Text role is inferred only from proximity.",
+    "evidence": [
+      {
+        "source": "src/code_08017F7C.c",
+        "line": 1392,
+        "detail": "Primary body inspected; cross-reference search in src/asm finds no caller or semantic read consumer establishing proposed role.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ]
+  },
+  {
+    "canonical_symbol": "sub_0801A500",
+    "decision": "reject",
+    "display_name": "",
+    "reasoning": "Defer correctly typed empty variadic routine with no source/ASM consumers; formatting interface is not proven.",
+    "evidence": [
+      {
+        "source": "src/code_08017F7C.c",
+        "line": 1338,
+        "detail": "Primary body inspected; cross-reference search in src/asm finds no caller or semantic read consumer establishing proposed role.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ]
+  },
+  {
+    "canonical_symbol": "sub_0801A62C",
+    "decision": "reject",
+    "display_name": "",
+    "reasoning": "Defer semantic latch name: writes1 and text initialization clears it, but no consumer proves the bit purpose.",
+    "evidence": [
+      {
+        "source": "src/code_08017F7C.c",
+        "line": 1396,
+        "detail": "Primary body inspected; cross-reference search in src/asm finds no caller or semantic read consumer establishing proposed role.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ]
+  },
+  {
+    "canonical_symbol": "sub_0801A650",
+    "decision": "reject",
+    "display_name": "",
+    "reasoning": "Defer semantic text-limit name: conditional minimum update is clear, but no consumer proves what the halfword limits.",
+    "evidence": [
+      {
+        "source": "src/code_08017F7C.c",
+        "line": 1412,
+        "detail": "Primary body inspected; cross-reference search in src/asm finds no caller or semantic read consumer establishing proposed role.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ]
+  }
+]

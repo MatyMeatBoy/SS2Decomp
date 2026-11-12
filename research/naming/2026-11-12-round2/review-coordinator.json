@@ -1,0 +1,147 @@
+[
+  {
+    "canonical_symbol": "sub_0800CBF8",
+    "decision": "accept",
+    "reason": "Verified primary stores/masks and exact return type; player draw at 4718-4726 consumes low-byte override, actor draw at 602-620 consumes actor override."
+  },
+  {
+    "canonical_symbol": "sub_0800CC18",
+    "decision": "accept",
+    "reason": "Verified primary stores/masks and exact return type; player draw at 4718-4726 consumes low-byte override, actor draw at 602-620 consumes actor override."
+  },
+  {
+    "canonical_symbol": "sub_0800CC38",
+    "decision": "accept",
+    "reason": "Verified primary stores/masks and exact return type; player draw at 4718-4726 consumes low-byte override, actor draw at 602-620 consumes actor override."
+  },
+  {
+    "canonical_symbol": "sub_0800CC48",
+    "decision": "accept",
+    "reason": "Verified primary stores/masks and exact return type; player draw at 4718-4726 consumes low-byte override, actor draw at 602-620 consumes actor override."
+  },
+  {
+    "canonical_symbol": "sub_0800CC68",
+    "decision": "accept",
+    "reason": "Verified primary stores/masks and exact return type; player draw at 4718-4726 consumes low-byte override, actor draw at 602-620 consumes actor override."
+  },
+  {
+    "canonical_symbol": "sub_0800CC88",
+    "decision": "accept",
+    "reason": "Bit 19 query is consumed at actor draw lines 602-603; bg is passed as sprite priority at line 620."
+  },
+  {
+    "canonical_symbol": "sub_080587FC",
+    "decision": "accept",
+    "reason": "Wrapper forwards u16 arg0 to CC48 and discards its full-flags return; actor draw consumer independently verified."
+  },
+  {
+    "canonical_symbol": "sub_0805880C",
+    "decision": "accept",
+    "reason": "Void wrapper calls no-argument CC68 and discards its full-flags return; clear behavior verified."
+  },
+  {
+    "canonical_symbol": "sub_0800CCCC",
+    "decision": "accept",
+    "reason": "Bit 3 maps to selector case 0 at 799-805 and alternative map1 loading at 369; numeric MapSetZero avoids unsupported location labels."
+  },
+  {
+    "canonical_symbol": "sub_0800CCDC",
+    "decision": "accept",
+    "reason": "Sets only bit 3; map selector case 0 calls this setter before selecting its table."
+  },
+  {
+    "canonical_symbol": "sub_0800CCEC",
+    "decision": "accept",
+    "reason": "Clears only bit 3; map selector cases 1-23 clear it and map loader chooses its other layout branch."
+  },
+  {
+    "canonical_symbol": "sub_0800CD00",
+    "decision": "accept",
+    "reason": "Reads bit 4; scene lifetime 1948 and HUD 5907 exit on it independently of CB78 bit 0."
+  },
+  {
+    "canonical_symbol": "sub_0800CD10",
+    "decision": "accept",
+    "reason": "Sets only scene-exit bit 4; paired predicate terminates scene lifetime loop. No task cancellation is claimed."
+  },
+  {
+    "canonical_symbol": "sub_0800CD20",
+    "decision": "accept",
+    "reason": "Clears only scene-exit bit 4; does not itself restart the terminated scene/HUD loops."
+  },
+  {
+    "canonical_symbol": "sub_0800CD34",
+    "decision": "accept",
+    "reason": "Full BEC0 body sets bit 5 at 2095, runs map destination selection and clears bit at 2415; aliases bind to same flags word."
+  },
+  {
+    "canonical_symbol": "sub_0800CD44",
+    "decision": "accept",
+    "reason": "Sets only bit 5; BEC0 independently establishes marker lifetime around destination selection."
+  },
+  {
+    "canonical_symbol": "sub_0800CD54",
+    "decision": "accept",
+    "reason": "Clears only bit 5; BEC0 clears marker after dispatch and cleanup, without the helper cancelling any task."
+  },
+  {
+    "canonical_symbol": "sub_0800CF90",
+    "decision": "accept",
+    "reason": "Sets bit 17; HUD inner loop 5908-5910 explicitly waits and invalidates displayed-value caches while paired query is true."
+  },
+  {
+    "canonical_symbol": "sub_0800CFA4",
+    "decision": "accept",
+    "reason": "Clears bit 17 and returns flags-word ADDRESS at line 21, consistent with summary; HUD consumer establishes hold role."
+  },
+  {
+    "canonical_symbol": "sub_0800CFB8",
+    "decision": "accept",
+    "reason": "Reads exactly bit 17; HUD 5908-5910 consumes it as a wait predicate with cache reset."
+  },
+  {
+    "canonical_symbol": "sub_080587D8",
+    "decision": "accept",
+    "reason": "Void wrapper calls CFA4 and discards its address return; HUD hold consumer verified."
+  },
+  {
+    "canonical_symbol": "sub_0800CF20",
+    "decision": "accept",
+    "reason": "Sets bit 21 before area-return prompt loop at 2493; single-bit marker semantics supported without task-count guarantee."
+  },
+  {
+    "canonical_symbol": "sub_0800CF34",
+    "decision": "accept",
+    "reason": "Clears bit 21; confirmed prompt path clears it at 2532 and common finish clears it again at 2554."
+  },
+  {
+    "canonical_symbol": "sub_0800CF48",
+    "decision": "accept",
+    "reason": "Reads bit 21; prompt task brackets lifetime with its paired setters, and scene music selection consumes the query at 1008."
+  },
+  {
+    "canonical_symbol": "sub_0800CEE8",
+    "decision": "accept",
+    "reason": "Sets bit 14 for local departure at 2268 and local prompt confirmation at 2531; pending marker wording preserves noncompletion."
+  },
+  {
+    "canonical_symbol": "sub_0800CEFC",
+    "decision": "accept",
+    "reason": "Clears only bit 14; departure cleanup path invokes it at 2346 and does its own positioning separately."
+  },
+  {
+    "canonical_symbol": "sub_0800CF10",
+    "decision": "accept",
+    "reason": "Bit 14 query is sourced by local departure/confirmation and gates player-state reset at 2905-2906."
+  },
+  {
+    "canonical_symbol": "sub_0800D0A8",
+    "decision": "accept",
+    "reason": "Full startup body 63-74 installs BEC0, retries 0x800 allocation on signal 1, sets stack top +0x7FC and priority 100, and calls StartTask."
+  },
+  {
+    "canonical_symbol": "sub_0800BEC0",
+    "decision": "accept",
+    "reason": "Full body read: 24 destination rectangles, cursor movement, confirmation tally and host/client mode handshake, destination dispatch through 22E60, then marker/state cleanup."
+  }
+]

@@ -1,0 +1,264 @@
+[
+  {
+    "canonical_symbol": "sub_0801A628",
+    "address": "0x0801A628",
+    "display_name": "",
+    "summary": "Returns immediately without reading inputs or changing state.",
+    "confidence": "low",
+    "evidence": [
+      {
+        "source": "src/code_08017F7C.c",
+        "line": 1392,
+        "detail": "Lines 1392-1394 define an empty leaf function.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ],
+    "open_questions": [
+      "No direct source references found; intended interface role cannot be recovered from an empty body.",
+      "Defer empty no-consumer routine; Text role is inferred only from proximity."
+    ]
+  },
+  {
+    "canonical_symbol": "sub_08021C6C",
+    "address": "0x08021C6C",
+    "display_name": "",
+    "summary": "Returns immediately without changing state.",
+    "confidence": "low",
+    "evidence": [
+      {
+        "source": "src/code_0801E244.c",
+        "line": 2400,
+        "detail": "Lines 2400-2402 define an empty leaf; src/code_08009088.c:1940-1941 calls it immediately after AllocateActorSpriteEffectTaskPool during scene resource startup.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ],
+    "open_questions": [
+      "Empty body is proven, but placement after another allocator does not establish this function owns resource startup. Defer semantic lifecycle name."
+    ]
+  },
+  {
+    "canonical_symbol": "sub_08021C70",
+    "address": "0x08021C70",
+    "display_name": "",
+    "summary": "Returns immediately without changing state.",
+    "confidence": "low",
+    "evidence": [
+      {
+        "source": "src/code_0801E244.c",
+        "line": 2403,
+        "detail": "Lines 2403-2405 define an empty leaf; src/code_08009088.c:1965-1966 calls it immediately after FreeActorSpriteEffectTaskPool during teardown.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ],
+    "open_questions": [
+      "Empty body is proven, but adjacency to an unrelated freeing helper does not establish a resource-teardown contract. Defer semantic lifecycle name."
+    ]
+  },
+  {
+    "canonical_symbol": "sub_0801A500",
+    "address": "0x0801A500",
+    "display_name": "",
+    "summary": "Ignores all arguments and returns without changing state.",
+    "confidence": "low",
+    "evidence": [
+      {
+        "source": "src/code_08017F7C.c",
+        "line": 1338,
+        "detail": "Lines 1338-1340 define an empty variadic function between glyph tile queuing and text initialization.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ],
+    "open_questions": [
+      "No direct source references found; original intended text interface is unknown.",
+      "Defer correctly typed empty variadic routine with no source/ASM consumers; formatting interface is not proven."
+    ]
+  },
+  {
+    "canonical_symbol": "sub_0801A62C",
+    "address": "0x0801A62C",
+    "display_name": "",
+    "summary": "Sets the text tilemap lifecycle latch to one without returning a value.",
+    "confidence": "low",
+    "evidence": [
+      {
+        "source": "src/code_08017F7C.c",
+        "line": 1396,
+        "detail": "Sets gUnk_03005C98 to one.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_08017F7C.c",
+        "line": 1344,
+        "detail": "Text tilemap initialization clears the same global.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_08017F7C.c",
+        "line": 1365,
+        "detail": "Clearing flagged text tilemap rows also clears the global.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ],
+    "open_questions": [
+      "No consumer or direct caller appears in src or asm; the purpose of the latch beyond its text lifecycle association is unknown.",
+      "Defer semantic latch name: writes1 and text initialization clears it, but no consumer proves the bit purpose."
+    ]
+  },
+  {
+    "canonical_symbol": "sub_0801A650",
+    "address": "0x0801A650",
+    "display_name": "",
+    "summary": "Lowers the text-associated unsigned halfword limit when the supplied unsigned value is smaller.",
+    "confidence": "low",
+    "evidence": [
+      {
+        "source": "src/code_08017F7C.c",
+        "line": 1412,
+        "detail": "Compares the current unsigned halfword gUnk_03005730 with arg0.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_08017F7C.c",
+        "line": 1414,
+        "detail": "Stores the low halfword only when arg0 is smaller.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_08017F7C.c",
+        "line": 1346,
+        "detail": "Text tilemap initialization sets this global to 18.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ],
+    "open_questions": [
+      "No reader beyond this setter, or direct caller, was found; what quantity the limit bounds is unknown.",
+      "Defer semantic text-limit name: conditional minimum update is clear, but no consumer proves what the halfword limits."
+    ]
+  },
+  {
+    "canonical_symbol": "sub_080587E4",
+    "address": "0x080587E4",
+    "display_name": "",
+    "summary": "Calls sub_08015D74, which sets bit 12 of the local player flags without changing other bits.",
+    "confidence": "low",
+    "evidence": [
+      {
+        "source": "src/code_08058790.c",
+        "line": 23,
+        "detail": "Wrapper calls sub_08015D74 and does no other work.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_080153A4.c",
+        "line": 420,
+        "detail": "Target sets local player flags bit 12 at record offset 0x30.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_0803B69C.c",
+        "line": 1240,
+        "detail": "The set helper is used around Boken dialogue; the paired clear occurs at 1307.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_08068670.c",
+        "line": 1523,
+        "detail": "The set helper is also used in an ability-effect loop; paired cleanup clears it at 1540.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ],
+    "open_questions": [
+      "No direct flag12 consumer found despite mask/shift searches; dialogue and ability usage do not establish a common gameplay effect. What does the bit control?"
+    ]
+  },
+  {
+    "canonical_symbol": "sub_080587F0",
+    "address": "0x080587F0",
+    "display_name": "",
+    "summary": "Calls sub_08015D98, which clears bit 12 of the local player flags without changing other bits.",
+    "confidence": "low",
+    "evidence": [
+      {
+        "source": "src/code_08058790.c",
+        "line": 26,
+        "detail": "Wrapper calls sub_08015D98 and does no other work.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_080153A4.c",
+        "line": 424,
+        "detail": "Target clears local player flags bit 12 at record offset 0x30.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_0803B69C.c",
+        "line": 1240,
+        "detail": "The set helper is used around Boken dialogue; the paired clear occurs at 1307.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_08068670.c",
+        "line": 1523,
+        "detail": "The set helper is also used in an ability-effect loop; paired cleanup clears it at 1540.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ],
+    "open_questions": [
+      "No direct flag12 consumer found despite mask/shift searches; dialogue and ability usage do not establish a common gameplay effect. What does the bit control?"
+    ]
+  },
+  {
+    "canonical_symbol": "sub_0800CE78",
+    "address": "0x0800CE78",
+    "display_name": "",
+    "summary": "Returns scene-flags bit 12 as 0 or 1 without changing state.",
+    "confidence": "low",
+    "evidence": [
+      {
+        "source": "src/code_0800CBBC.c",
+        "line": 127,
+        "detail": "Exact body manipulates only bit 12 of gUnk_03003478; no direct source caller or paired predicate consumer was found.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ],
+    "open_questions": [
+      "What operation sets or consumes scene bit 12? No operational role is established by the source references."
+    ]
+  },
+  {
+    "canonical_symbol": "sub_0800CE88",
+    "address": "0x0800CE88",
+    "display_name": "",
+    "summary": "Sets scene-flags bit 12 while preserving all other bits.",
+    "confidence": "low",
+    "evidence": [
+      {
+        "source": "src/code_0800CBBC.c",
+        "line": 130,
+        "detail": "Exact body manipulates only bit 12 of gUnk_03003478; no direct source caller or paired predicate consumer was found.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ],
+    "open_questions": [
+      "What operation sets or consumes scene bit 12? No operational role is established by the source references."
+    ]
+  },
+  {
+    "canonical_symbol": "sub_0800CE9C",
+    "address": "0x0800CE9C",
+    "display_name": "",
+    "summary": "Clears scene-flags bit 12 while preserving all other bits.",
+    "confidence": "low",
+    "evidence": [
+      {
+        "source": "src/code_0800CBBC.c",
+        "line": 133,
+        "detail": "Exact body manipulates only bit 12 of gUnk_03003478; no direct source caller or paired predicate consumer was found.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ],
+    "open_questions": [
+      "What operation sets or consumes scene bit 12? No operational role is established by the source references."
+    ]
+  }
+]

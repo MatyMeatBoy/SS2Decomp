@@ -1,0 +1,477 @@
+{
+  "schema_version": 1,
+  "kind": "naming_research_drafts",
+  "source_revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7",
+  "proposals": [
+    {
+      "canonical_symbol": "sub_08058E08",
+      "address": "0x08058E08",
+      "display_name": "GetLocalCharacterLevel",
+      "summary": "Returns the signed word holding the local saved character level without changing state.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_08058790.c",
+          "line": 328,
+          "detail": "Returns save-record word at offset 0x20.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0801E244.c",
+          "line": 183,
+          "detail": "Level advancement reads this word as the current level.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0801E244.c",
+          "line": 192,
+          "detail": "Level advancement increments the same save field by one when accumulated experience reaches its threshold.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": []
+    },
+    {
+      "canonical_symbol": "sub_08058824",
+      "address": "0x08058824",
+      "display_name": "QueryAreaReturnPromptMarker",
+      "summary": "Returns the area-return-prompt marker through sub_0800CF48 without changing state.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_08058790.c",
+          "line": 38,
+          "detail": "Returns sub_0800CF48 directly.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0800CBBC.c",
+          "line": 160,
+          "detail": "Target returns scene bit 21 as 0 or 1.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0805FB7C.c",
+          "line": 2493,
+          "detail": "Area-return prompt task sets this marker before its loop.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0805FB7C.c",
+          "line": 2554,
+          "detail": "Prompt common finish clears the shared marker.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": []
+    },
+    {
+      "canonical_symbol": "sub_0800CE78",
+      "address": "0x0800CE78",
+      "display_name": "",
+      "summary": "Returns scene-flags bit 12 as 0 or 1 without changing state.",
+      "confidence": "low",
+      "evidence": [
+        {
+          "source": "src/code_0800CBBC.c",
+          "line": 127,
+          "detail": "Exact body manipulates only bit 12 of gUnk_03003478; no direct source caller or paired predicate consumer was found.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "What operation sets or consumes scene bit 12? No operational role is established by the source references."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_0800CE88",
+      "address": "0x0800CE88",
+      "display_name": "",
+      "summary": "Sets scene-flags bit 12 while preserving all other bits.",
+      "confidence": "low",
+      "evidence": [
+        {
+          "source": "src/code_0800CBBC.c",
+          "line": 130,
+          "detail": "Exact body manipulates only bit 12 of gUnk_03003478; no direct source caller or paired predicate consumer was found.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "What operation sets or consumes scene bit 12? No operational role is established by the source references."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_0800CE9C",
+      "address": "0x0800CE9C",
+      "display_name": "",
+      "summary": "Clears scene-flags bit 12 while preserving all other bits.",
+      "confidence": "low",
+      "evidence": [
+        {
+          "source": "src/code_0800CBBC.c",
+          "line": 133,
+          "detail": "Exact body manipulates only bit 12 of gUnk_03003478; no direct source caller or paired predicate consumer was found.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "What operation sets or consumes scene bit 12? No operational role is established by the source references."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_080587E4",
+      "address": "0x080587E4",
+      "display_name": "",
+      "summary": "Calls sub_08015D74, which sets bit 12 of the local player flags without changing other bits.",
+      "confidence": "low",
+      "evidence": [
+        {
+          "source": "src/code_08058790.c",
+          "line": 23,
+          "detail": "Wrapper calls sub_08015D74 and does no other work.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080153A4.c",
+          "line": 420,
+          "detail": "Target sets local player flags bit 12 at record offset 0x30.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0803B69C.c",
+          "line": 1240,
+          "detail": "The set helper is used around Boken dialogue; the paired clear occurs at 1307.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08068670.c",
+          "line": 1523,
+          "detail": "The set helper is also used in an ability-effect loop; paired cleanup clears it at 1540.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "No direct flag12 consumer found despite mask/shift searches; dialogue and ability usage do not establish a common gameplay effect. What does the bit control?"
+      ]
+    },
+    {
+      "canonical_symbol": "sub_080587F0",
+      "address": "0x080587F0",
+      "display_name": "",
+      "summary": "Calls sub_08015D98, which clears bit 12 of the local player flags without changing other bits.",
+      "confidence": "low",
+      "evidence": [
+        {
+          "source": "src/code_08058790.c",
+          "line": 26,
+          "detail": "Wrapper calls sub_08015D98 and does no other work.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080153A4.c",
+          "line": 424,
+          "detail": "Target clears local player flags bit 12 at record offset 0x30.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0803B69C.c",
+          "line": 1240,
+          "detail": "The set helper is used around Boken dialogue; the paired clear occurs at 1307.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08068670.c",
+          "line": 1523,
+          "detail": "The set helper is also used in an ability-effect loop; paired cleanup clears it at 1540.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "No direct flag12 consumer found despite mask/shift searches; dialogue and ability usage do not establish a common gameplay effect. What does the bit control?"
+      ]
+    },
+    {
+      "canonical_symbol": "sub_08058DB0",
+      "address": "0x08058DB0",
+      "display_name": "HasCoordinatedAttackState",
+      "summary": "Returns one when the coordinated-attack scene phase is marked, the local player has state 14, or any connected player snapshot has state nibble 14; otherwise returns zero.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_08058790.c",
+          "line": 310,
+          "detail": "Normalizes the coordinated-attack phase query to boolean.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08058790.c",
+          "line": 314,
+          "detail": "Includes local player state 14.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08058790.c",
+          "line": 318,
+          "detail": "Scans each connected player snapshot at offset 0x148 and includes low state nibble 14.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0800CF58.c",
+          "line": 1447,
+          "detail": "The ability activation branch enters state 14 and notifies peers.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0805FB7C.c",
+          "line": 3027,
+          "detail": "The known coordinated-attack task waits for this composite predicate; lines 3034-3035 then test peer state 14 explicitly.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": []
+    },
+    {
+      "canonical_symbol": "sub_0800D028",
+      "address": "0x0800D028",
+      "display_name": "IsExitMusicOverrideMarked",
+      "summary": "Returns scene bit 22 as zero or one, selecting music track 0x40 in the non-map-set-zero scene music path.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_0800CF58.c",
+          "line": 42,
+          "detail": "Returns scene flags bit 22.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08009088.c",
+          "line": 666,
+          "detail": "Outside map-set zero, a set flag jumps to block_127.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08009088.c",
+          "line": 907,
+          "detail": "Block_127 requests music track 0x40.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08021DC4.c",
+          "line": 2250,
+          "detail": "Level-exit transition sets the marker alongside exit audio request.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08021DC4.c",
+          "line": 2856,
+          "detail": "Level-exit transition later clears the marker.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": []
+    },
+    {
+      "canonical_symbol": "sub_0800D060",
+      "address": "0x0800D060",
+      "display_name": "IsItemUiAbortRequested",
+      "summary": "Returns scene bit 23 as zero or one, used to interrupt item-selection HUD and item-menu interaction paths.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_0800CF58.c",
+          "line": 51,
+          "detail": "Returns scene flags bit 23.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0805FB7C.c",
+          "line": 694,
+          "detail": "Three-slot item-selection HUD includes the flag among abort conditions.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0805FB7C.c",
+          "line": 1715,
+          "detail": "Item-menu BUSY predicate includes this flag.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080A3D2C.c",
+          "line": 1440,
+          "detail": "Surviving boss-contact damage sets this flag when an item-menu or overlay phase is active.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0805FB7C.c",
+          "line": 2051,
+          "detail": "Item-menu cleanup clears the flag.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": []
+    },
+    {
+      "canonical_symbol": "sub_0800CEB0",
+      "address": "0x0800CEB0",
+      "display_name": "RequestWorldEffectStop",
+      "summary": "Sets scene bit 13, the stop predicate checked by world-effect and selected boss-effect loops.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_0800CBBC.c",
+          "line": 136,
+          "detail": "Sets only scene flags bit 13.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0800CBBC.c",
+          "line": 142,
+          "detail": "Paired predicate CED8 reads exactly bit 13.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0805FB7C.c",
+          "line": 2207,
+          "detail": "World-effect animation exits when CED8 is set, independently of world shutdown and scene exit.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080A3D2C.c",
+          "line": 483,
+          "detail": "A boss world-sprite loop also exits on CED8.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "No direct caller of the setter was found; the source establishes its effect on consumers, not which event requests it."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_0800CED8",
+      "address": "0x0800CED8",
+      "display_name": "IsWorldEffectStopRequested",
+      "summary": "Returns scene bit 13 as zero or one, used as a stop predicate by world-effect and selected boss-effect loops.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_0800CBBC.c",
+          "line": 142,
+          "detail": "Returns exactly scene flags bit 13.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0805FB7C.c",
+          "line": 2207,
+          "detail": "TaskAnimateWorldEffect breaks its animation loop when this predicate becomes true.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080A3D2C.c",
+          "line": 483,
+          "detail": "Boss sprite-loop exit also checks this predicate alongside independent world-stop and scene-exit flags.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080A3D2C.c",
+          "line": 1683,
+          "detail": "Another boss-effect loop uses the same independent termination predicate.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": []
+    },
+    {
+      "canonical_symbol": "sub_0800D098",
+      "address": "0x0800D098",
+      "display_name": "IsMapReloadPhaseMarked",
+      "summary": "Returns scene bit 24 as zero or one, marking the map-reload phase that destination selection and local departure cleanup wait to finish.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_0800CF58.c",
+          "line": 60,
+          "detail": "Returns exactly scene flags bit 24.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08021DC4.c",
+          "line": 4481,
+          "detail": "Map reload task 277E0 sets this marker before link barriers and area regeneration.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08021DC4.c",
+          "line": 4503,
+          "detail": "The marked task regenerates the area through sub_08023684.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08021DC4.c",
+          "line": 4649,
+          "detail": "Task restores the saved scene table and clears the marker before returning.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08009088.c",
+          "line": 2384,
+          "detail": "Destination zero dispatch waits while the same bit24 is set.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0805FB7C.c",
+          "line": 2329,
+          "detail": "Local departure cleanup also waits for the query to clear.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": []
+    },
+    {
+      "canonical_symbol": "sub_0800D154",
+      "address": "0x0800D154",
+      "display_name": "IsBossRetryRequested",
+      "summary": "Returns scene bit 20 as zero or one, reporting the received boss-retry request consumed by the retry portal and area transition.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_0800CF58.c",
+          "line": 92,
+          "detail": "Reads scene flags bit 20.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080659B0.c",
+          "line": 1424,
+          "detail": "Incoming message case 0x1E sets the bit then requests the local player saved area coordinates.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08068670.c",
+          "line": 79,
+          "detail": "Producer sub_080687E8 queues matching tag 0x9F.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08021DC4.c",
+          "line": 3456,
+          "detail": "Boss retry portal invokes that producer after all connected players meet its readiness test.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08021DC4.c",
+          "line": 3361,
+          "detail": "Retry portal loop stops when the marker query becomes true.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08021DC4.c",
+          "line": 4253,
+          "detail": "Area transition checks the marker to preserve retry-specific fields and then clears it.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": []
+    }
+  ]
+}

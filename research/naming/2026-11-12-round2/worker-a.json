@@ -1,0 +1,887 @@
+{
+  "schema_version": 1,
+  "kind": "naming_research_drafts",
+  "source_revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7",
+  "worker": "a",
+  "policy": "Frozen research only. Candidates, including high confidence, are not confirmed until independently reviewed and integrated into the catalog.",
+  "proposals": [
+    {
+      "canonical_symbol": "sub_08092344",
+      "address": "0x08092344",
+      "display_name": "NoopSceneCleanupHook",
+      "summary": "Returns without reading or changing state.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_0808FB5C.c",
+          "line": 1909,
+          "detail": "Empty void function body.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08009088.c",
+          "line": 1969,
+          "detail": "Called among scene shutdown/reset helpers before transition synchronization.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Whether this empty hook has a more specific intended subsystem cannot be recovered from its body."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_080923B0",
+      "address": "0x080923B0",
+      "display_name": "",
+      "summary": "Returns the constant 3, which a coordinated-attack damage path compares against 6.",
+      "confidence": "low",
+      "evidence": [
+        {
+          "source": "src/code_0808FB5C.c",
+          "line": 1928,
+          "detail": "Unconditionally returns 3.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0805FB7C.c",
+          "line": 2966,
+          "detail": "Case 6 checks this result against 6 to choose zero damage versus the normal damage calculation.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "What semantic quantity does the constant 3 represent? No mutable state or other callers identify the intended quantity."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_08094490",
+      "address": "0x08094490",
+      "display_name": "RequestBgRandomBlendHold",
+      "summary": "Requests the background random blend task to hold its third blend state and eventually report state 2.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_08092D60.c",
+          "line": 857,
+          "detail": "Stores request value 1 in the hold/status byte.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08092D60.c",
+          "line": 800,
+          "detail": "In blend state 2 a nonzero request prevents the normal transition and is changed to 2 when the counter reaches 13.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08092D60.c",
+          "line": 680,
+          "detail": "The presentation requests this hold before entering its final waiting state.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": []
+    },
+    {
+      "canonical_symbol": "sub_0809449C",
+      "address": "0x0809449C",
+      "display_name": "GetBgBlendHoldStatus",
+      "summary": "Returns the background random blend hold handshake byte without changing it.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_08092D60.c",
+          "line": 860,
+          "detail": "Returns gUnk_03000275.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08092D60.c",
+          "line": 800,
+          "detail": "Background task consumes a nonzero request and changes it to 2 at counter 13.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08092D60.c",
+          "line": 698,
+          "detail": "Presentation waits for this accessor to return 2 before exiting.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": []
+    },
+    {
+      "canonical_symbol": "sub_080944A8",
+      "address": "0x080944A8",
+      "display_name": "EnableBgRandomBlendCycling",
+      "summary": "Enables progression from the initial random background blend state.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_08092D60.c",
+          "line": 863,
+          "detail": "Sets cycling control byte gUnk_03000274 to 1.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08092D60.c",
+          "line": 774,
+          "detail": "Background task remains in state 0 while this byte is zero; with it set the counter may advance to state 1.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08092D60.c",
+          "line": 656,
+          "detail": "Presentation enables progression during its repeated sprite-effect phase.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": []
+    },
+    {
+      "canonical_symbol": "sub_08092348",
+      "address": "0x08092348",
+      "display_name": "StartCoordinatedAttackPresentationTask",
+      "summary": "Allocates an 0x800-byte stack and schedules the coordinated attack presentation dispatcher with a signed byte index and packed signed byte arguments.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_0808FB5C.c",
+          "line": 1914,
+          "detail": "Installs dispatcher 923B4 in fixed task control 030001E8.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0808FB5C.c",
+          "line": 1917,
+          "detail": "Retries stack allocation with signal waits until nonnull, then initializes stack top and priority 0x40.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0808FB5C.c",
+          "line": 1925,
+          "detail": "Schedules the task with byte index and packed arguments.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0805FB7C.c",
+          "line": 2879,
+          "detail": "Coordinated attack flow starts presentation and waits for completion signal 0x12001111.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": []
+    },
+    {
+      "canonical_symbol": "sub_080923B4",
+      "address": "0x080923B4",
+      "display_name": "TaskDispatchCoordinatedAttackPresentation",
+      "summary": "Calls indexed setup and animation callbacks with two unpacked signed bytes, then signals coordinated attack presentation completion.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_0808FB5C.c",
+          "line": 1942,
+          "detail": "Converts signed low byte of index to a four-byte callback-table offset.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0808FB5C.c",
+          "line": 1944,
+          "detail": "Extracts signed high and low parameter bytes.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0808FB5C.c",
+          "line": 1946,
+          "detail": "Calls setup callback and line 1947 calls matching animation callback.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0808FB5C.c",
+          "line": 1948,
+          "detail": "Wakes completion signal 0x12001111.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0805FB7C.c",
+          "line": 2880,
+          "detail": "Coordinated attack caller waits for that exact signal.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": []
+    },
+    {
+      "canonical_symbol": "sub_08092124",
+      "address": "0x08092124",
+      "display_name": "InitializeSoundTestAnimationTasks",
+      "summary": "Clears sound-test animation state, installs nine animation callbacks, and initializes the fixed animation task control without scheduling it.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_0808FB5C.c",
+          "line": 1821,
+          "detail": "Clears shared animation heap pointer.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0808FB5C.c",
+          "line": 1822,
+          "detail": "Begins assigning nine callbacks through line 1830.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0808FB5C.c",
+          "line": 1831,
+          "detail": "Initializes task fields and priority 0x3C through line 1834.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0808FB5C.c",
+          "line": 553,
+          "detail": "Sound test menu calls this initializer.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": []
+    },
+    {
+      "canonical_symbol": "sub_08092190",
+      "address": "0x08092190",
+      "display_name": "StartRandomSoundTestAnimation",
+      "summary": "Selects one of nine sound-test animation callbacks using RNG, allocates its stack and schedules the fixed task.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_0808FB5C.c",
+          "line": 1838,
+          "detail": "Chooses absolute signed random remainder modulo nine.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0808FB5C.c",
+          "line": 1843,
+          "detail": "Stores selected callback into task control.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0808FB5C.c",
+          "line": 1845,
+          "detail": "Allocates 0x400-byte stack and line 1847 schedules task.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0808FB5C.c",
+          "line": 604,
+          "detail": "Sound test invokes it while playing and shared animation heap is zero.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": []
+    },
+    {
+      "canonical_symbol": "sub_0809342C",
+      "address": "0x0809342C",
+      "display_name": "UpdateBg1ScanlineSineScroll",
+      "summary": "Computes the BG1 horizontal scroll DMA source from scanline, sine phase and amplitude, or zeroes it outside visible scanlines.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_08092D60.c",
+          "line": 312,
+          "detail": "Reads current scanline from VCOUNT.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08092D60.c",
+          "line": 314,
+          "detail": "On scanlines 0..159 writes sine-table value times amplitude shifted by eight into DMA source halfword.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08092D60.c",
+          "line": 316,
+          "detail": "Uses zero outside visible scanlines.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08092D60.c",
+          "line": 295,
+          "detail": "DMA source is this halfword and line 296 targets BG1HOFS at 04000014.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": []
+    },
+    {
+      "canonical_symbol": "sub_08095A60",
+      "address": "0x08095A60",
+      "display_name": "ConfigureSpriteOnlyAttackPresentation",
+      "summary": "Configures a display with sprites enabled and backgrounds disabled, installs rendering overrides, resets BG scroll and blend state, and clears the first backdrop palette entry.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_08092D60.c",
+          "line": 1774,
+          "detail": "Sets display mode and clears BG enables before enabling OBJ with 0x1000 on line 1777.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08092D60.c",
+          "line": 1778,
+          "detail": "Installs three rendering overrides with value 1 through line 1780.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08092D60.c",
+          "line": 1781,
+          "detail": "Zeroes BG0/BG1 scroll halfwords through line 1784, disables blend and zeroes palette entry zero.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0808FB5C.c",
+          "line": 1891,
+          "detail": "Registers this as setup callback 6 paired with 95AD8 in coordinated attack dispatcher.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": []
+    },
+    {
+      "canonical_symbol": "sub_08095AD8",
+      "address": "0x08095AD8",
+      "display_name": "RunCountedAttackSpritePresentation",
+      "summary": "Fades tracked audio, runs the counted sprite presentation, then disables the three rendering overrides.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_08092D60.c",
+          "line": 1791,
+          "detail": "Requests audio fade with argument 3.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08092D60.c",
+          "line": 1792,
+          "detail": "Runs 9561C using the signed-byte argument.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08092D60.c",
+          "line": 1793,
+          "detail": "Disables all three presentation rendering overrides through line 1795.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08092D60.c",
+          "line": 1626,
+          "detail": "Callee caps count at 20, allocates counted sprite state and animates resources 50046/50047.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0808FB5C.c",
+          "line": 1893,
+          "detail": "Registers as coordinated attack presentation animation callback 6.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": []
+    },
+    {
+      "canonical_symbol": "sub_08091E94",
+      "address": "0x08091E94",
+      "display_name": "WaitWithSoundTestAllocation",
+      "summary": "Allocates shared sound-test animation storage, yields through a short state sequence and 61-count delay, then frees the storage unless externally cleared.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_0808FB5C.c",
+          "line": 1663,
+          "detail": "Allocates 0x110 bytes and publishes pointer in the same global used by sound-test animation tasks.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0808FB5C.c",
+          "line": 1674,
+          "detail": "Advances states 0 to 1 to 2 to 6, then counts to 61; yields each iteration.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0808FB5C.c",
+          "line": 1683,
+          "detail": "Stops if state reaches 255 or external code clears shared pointer.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0808FB5C.c",
+          "line": 1685,
+          "detail": "Frees and clears shared pointer if still nonzero.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0808FB5C.c",
+          "line": 604,
+          "detail": "Sound test uses that shared pointer to gate new animation starts.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "No direct caller or callback registration for this apparently unused routine is present in source; its intended visual effect is unproven."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_0808FD88",
+      "address": "0x0808FD88",
+      "display_name": "RunSceneMessagesAndExit",
+      "summary": "Locks the local event, clears enemy tasks, performs a closing display transition, starts 23 timed scene messages, then requests a parent-controlled scene exit and waits for exit or link error.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_0808FB5C.c",
+          "line": 144,
+          "detail": "Begins local player event and stops enemy tasks on line 145.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0808FB5C.c",
+          "line": 146,
+          "detail": "Repeatedly advances B6068 window closure until its low-byte result is nonzero.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0808FB5C.c",
+          "line": 150,
+          "detail": "Starts scene messages 0x483 through 0x499 with limit 0x1A4 and waits 0x1A7 between them unless link error.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0808FB5C.c",
+          "line": 154,
+          "detail": "Parent or loopback queues scene exit, then line 155 waits for exit flag or link error.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080B3648.c",
+          "line": 1563,
+          "detail": "B6068 updates window bounds and reports done after tick exceeds 119.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": []
+    },
+    {
+      "canonical_symbol": "sub_0808FB5C",
+      "address": "0x0808FB5C",
+      "display_name": "UpdateHeightLimitedMap12Scene",
+      "summary": "Initializes an uninitialized scene; on its exit flag, requests window hide and map-task stop, selects the current area record from map-set 12, clears initialization state and sets scene field +0x36 to 6 and returns 1; otherwise returns 0. Initialization also sets the map height bound halfword to 30.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_0808FB5C.c",
+          "line": 53,
+          "detail": "Checks scene initialization halfword +0x10 and calls the common initializer when zero.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0808FB5C.c",
+          "line": 66,
+          "detail": "After exit-flag check and transition wait, selects gUnk_0850DE28[scene word +0x40] into record pointer +0x71C.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08021DC4.c",
+          "line": 876,
+          "detail": "Destination-selector case 12 chooses the same table, establishing map-set identity without assigning a place name.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080542C4.c",
+          "line": 1217,
+          "detail": "Exit predicate tests scene flags halfword +4 bit 4.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08021DC4.c",
+          "line": 4363,
+          "detail": "Scene initializer consumes +0x71C as typed scene records, including records that queue object spawns.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0808FB5C.c",
+          "line": 55,
+          "detail": "Initial path writes map height bound at +0x72 to 30; map-update consumer uses this value to clamp vertical tile position.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08009088.c",
+          "line": 1140,
+          "detail": "Map update clamps vertical tile position to map halfword +0x72 minus 20, proving a spatial bound rather than delay.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": []
+    },
+    {
+      "canonical_symbol": "sub_0808FBDC",
+      "address": "0x0808FBDC",
+      "display_name": "UpdateMap12SceneExit",
+      "summary": "Initializes an uninitialized scene; on its exit flag, requests window hide and map-task stop, selects the current area record from map-set 12, clears initialization state and sets scene field +0x36 to 6 and returns 1; otherwise returns 0.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_0808FB5C.c",
+          "line": 76,
+          "detail": "Checks scene initialization halfword +0x10 and calls the common initializer when zero.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0808FB5C.c",
+          "line": 85,
+          "detail": "After exit-flag check and transition wait, selects gUnk_0850DE28[scene word +0x40] into record pointer +0x71C.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08021DC4.c",
+          "line": 876,
+          "detail": "Destination-selector case 12 chooses the same table, establishing map-set identity without assigning a place name.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080542C4.c",
+          "line": 1217,
+          "detail": "Exit predicate tests scene flags halfword +4 bit 4.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08021DC4.c",
+          "line": 4363,
+          "detail": "Scene initializer consumes +0x71C as typed scene records, including records that queue object spawns.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": []
+    },
+    {
+      "canonical_symbol": "sub_0808FEB8",
+      "address": "0x0808FEB8",
+      "display_name": "UpdateMap15SceneExit",
+      "summary": "Initializes an uninitialized scene; on its exit flag, requests window hide and map-task stop, selects the current area record from map-set 15, clears initialization state and returns 1; otherwise returns 0.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_0808FB5C.c",
+          "line": 215,
+          "detail": "Checks scene initialization halfword +0x10 and calls the common initializer when zero.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0808FB5C.c",
+          "line": 224,
+          "detail": "After exit-flag check and transition wait, selects gUnk_0850F894[scene word +0x40] into record pointer +0x71C.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08021DC4.c",
+          "line": 894,
+          "detail": "Destination-selector case 15 chooses the same table, establishing map-set identity without assigning a place name.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080542C4.c",
+          "line": 1217,
+          "detail": "Exit predicate tests scene flags halfword +4 bit 4.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08021DC4.c",
+          "line": 4363,
+          "detail": "Scene initializer consumes +0x71C as typed scene records, including records that queue object spawns.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": []
+    },
+    {
+      "canonical_symbol": "sub_0808FF28",
+      "address": "0x0808FF28",
+      "display_name": "UpdateMap16SceneExit",
+      "summary": "Initializes an uninitialized scene; on its exit flag, requests window hide and map-task stop, selects the current area record from map-set 16, clears initialization state and returns 1; otherwise returns 0.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_0808FB5C.c",
+          "line": 233,
+          "detail": "Checks scene initialization halfword +0x10 and calls the common initializer when zero.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0808FB5C.c",
+          "line": 242,
+          "detail": "After exit-flag check and transition wait, selects gUnk_08510530[scene word +0x40] into record pointer +0x71C.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08021DC4.c",
+          "line": 900,
+          "detail": "Destination-selector case 16 chooses the same table, establishing map-set identity without assigning a place name.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080542C4.c",
+          "line": 1217,
+          "detail": "Exit predicate tests scene flags halfword +4 bit 4.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08021DC4.c",
+          "line": 4363,
+          "detail": "Scene initializer consumes +0x71C as typed scene records, including records that queue object spawns.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": []
+    },
+    {
+      "canonical_symbol": "sub_0808FF98",
+      "address": "0x0808FF98",
+      "display_name": "UpdateMap17SceneExit",
+      "summary": "Initializes an uninitialized scene; on its exit flag, requests window hide and map-task stop, selects the current area record from map-set 17, clears initialization state and returns 1; otherwise returns 0.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_0808FB5C.c",
+          "line": 251,
+          "detail": "Checks scene initialization halfword +0x10 and calls the common initializer when zero.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0808FB5C.c",
+          "line": 260,
+          "detail": "After exit-flag check and transition wait, selects gUnk_08511538[scene word +0x40] into record pointer +0x71C.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08021DC4.c",
+          "line": 906,
+          "detail": "Destination-selector case 17 chooses the same table, establishing map-set identity without assigning a place name.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080542C4.c",
+          "line": 1217,
+          "detail": "Exit predicate tests scene flags halfword +4 bit 4.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08021DC4.c",
+          "line": 4363,
+          "detail": "Scene initializer consumes +0x71C as typed scene records, including records that queue object spawns.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": []
+    },
+    {
+      "canonical_symbol": "sub_08090008",
+      "address": "0x08090008",
+      "display_name": "UpdateMap18SceneExit",
+      "summary": "Initializes an uninitialized scene; on scene exit, requests window hide and map-task stop, selects the current area record from map-set 18, clears initialization state and returns 1; otherwise returns 0. The exit path also sets scene halfwords +0x24 and +0x30 to 1.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_0808FB5C.c",
+          "line": 269,
+          "detail": "Checks initialization halfword and initializes through common helper when zero.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0808FB5C.c",
+          "line": 278,
+          "detail": "After exit predicate and transition wait, selects gUnk_08512670[current area] into +0x71C and clears +0x10.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08021DC4.c",
+          "line": 912,
+          "detail": "Destination-selector case 18 uses the identical table, establishing numeric map-set role.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080542C4.c",
+          "line": 1217,
+          "detail": "Exit predicate reads scene flags +4 bit 4.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08021DC4.c",
+          "line": 4363,
+          "detail": "Common initialization consumes +0x71C as scene records.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": []
+    },
+    {
+      "canonical_symbol": "sub_080901A8",
+      "address": "0x080901A8",
+      "display_name": "UpdateMap20SceneExit",
+      "summary": "Initializes an uninitialized scene; on scene exit, requests window hide and map-task stop, selects the current area record from map-set 20, clears initialization state and returns 1; otherwise returns 0. The exit path also sets scene halfwords +0x24 and +0x30 to 1.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_0808FB5C.c",
+          "line": 348,
+          "detail": "Checks initialization halfword and initializes through common helper when zero.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0808FB5C.c",
+          "line": 357,
+          "detail": "After exit predicate and transition wait, selects gUnk_08514FAC[current area] into +0x71C and clears +0x10.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08021DC4.c",
+          "line": 924,
+          "detail": "Destination-selector case 20 uses the identical table, establishing numeric map-set role.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080542C4.c",
+          "line": 1217,
+          "detail": "Exit predicate reads scene flags +4 bit 4.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08021DC4.c",
+          "line": 4363,
+          "detail": "Common initialization consumes +0x71C as scene records.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": []
+    },
+    {
+      "canonical_symbol": "sub_0809021C",
+      "address": "0x0809021C",
+      "display_name": "UpdateMap21SceneExit",
+      "summary": "Initializes an uninitialized scene; on scene exit, requests window hide and map-task stop, selects the current area record from map-set 21, clears initialization state and returns 1; otherwise returns 0. The exit path also sets scene halfwords +0x24 and +0x30 to 1.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_0808FB5C.c",
+          "line": 371,
+          "detail": "Checks initialization halfword and initializes through common helper when zero.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0808FB5C.c",
+          "line": 380,
+          "detail": "After exit predicate and transition wait, selects gUnk_08515FCC[current area] into +0x71C and clears +0x10.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08021DC4.c",
+          "line": 930,
+          "detail": "Destination-selector case 21 uses the identical table, establishing numeric map-set role.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080542C4.c",
+          "line": 1217,
+          "detail": "Exit predicate reads scene flags +4 bit 4.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08021DC4.c",
+          "line": 4363,
+          "detail": "Common initialization consumes +0x71C as scene records.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": []
+    },
+    {
+      "canonical_symbol": "sub_080903C4",
+      "address": "0x080903C4",
+      "display_name": "UpdateMap23SceneExit",
+      "summary": "Initializes an uninitialized scene; on scene exit, requests window hide and map-task stop, selects the current area record from map-set 23, clears initialization state and returns 1; otherwise returns 0.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_0808FB5C.c",
+          "line": 447,
+          "detail": "Checks initialization halfword and initializes through common helper when zero.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0808FB5C.c",
+          "line": 456,
+          "detail": "After exit predicate and transition wait, selects gUnk_0851810C[current area] into +0x71C and clears +0x10.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08021DC4.c",
+          "line": 942,
+          "detail": "Destination-selector case 23 uses the identical table, establishing numeric map-set role.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080542C4.c",
+          "line": 1217,
+          "detail": "Exit predicate reads scene flags +4 bit 4.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08021DC4.c",
+          "line": 4363,
+          "detail": "Common initialization consumes +0x71C as scene records.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": []
+    },
+    {
+      "canonical_symbol": "sub_0809011C",
+      "address": "0x0809011C",
+      "display_name": "UpdateSceneExitDestination",
+      "summary": "Initializes the scene or, after an exit request, selects map-set 0 area 2, clears exit and encounter state, resets the local player state and marks scene continuation fields.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_0808FB5C.c",
+          "line": 330,
+          "detail": "Initializes only when scene +0x10 is zero; otherwise waits for scene exit predicate.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0808FB5C.c",
+          "line": 332,
+          "detail": "Selects destination (0,2), clears exit flag and clears scene encounter-active flag.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0808FB5C.c",
+          "line": 337,
+          "detail": "Sets +0x36 to 1 and ORs mask 0x40000 into scene word +0x74.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0808FB5C.c",
+          "line": 339,
+          "detail": "Clears local player flag mask 2 and state +0x20, then sets scene +0x30/+0x24 to 1.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08021DC4.c",
+          "line": 4078,
+          "detail": "Destination selector clears initialization and stores area +0x40/map-set +0, establishing destination semantics.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "The independent gameplay meaning of scene word +0x74 mask 0x40000 and continuation halfwords +0x24/+0x30 is not yet proven; proposed name claims only destination handling."
+      ]
+    }
+  ]
+}
