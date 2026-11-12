@@ -5276,8 +5276,8 @@ block_1788:
                             coordF0 = (s16) ((u16) coordF0 - 2);
                             break;
                         case 4:                     /* switch 29 */
-                            var_r0_40 = (u16) coordF2 - 0xA;
-                            goto block_1830;
+                            coordF2 = (u16) coordF2 - 0xA;
+                            break;
                         case 5:                     /* switch 29 */
                             coordF2 = (u16) coordF2 - 2;
                             coordF0 = (s16) ((u16) coordF0 + 2);
@@ -5288,9 +5288,7 @@ block_1788:
                             break;
                         case 7:                     /* switch 29 */
                             coordF0 = (s16) ((u16) coordF0 + 2);
-                            var_r0_40 = (u16) coordF2 + 2;
-block_1830:
-                            coordF2 = var_r0_40;
+                            coordF2 = (u16) coordF2 + 2;
                             break;
                         }
                         if ((d368_gUnk_03002344 & 1) == (1 & ((struct PlayerD368 *)arg0)->f0)) {
@@ -5339,8 +5337,8 @@ block_1830:
                         coordF0 = (s16) ((u16) coordF0 - 2);
                         break;
                     case 4:                         /* switch 30 */
-                        var_r0_41 = (u16) coordF2 - 0xA;
-                            goto block_1860;
+                        coordF2 = (u16) coordF2 - 0xA;
+                        break;
                     case 5:                         /* switch 30 */
                         coordF2 = (u16) coordF2 - 2;
                         coordF0 = (s16) ((u16) coordF0 + 2);
@@ -5351,9 +5349,7 @@ block_1830:
                         break;
                     case 7:                         /* switch 30 */
                         coordF0 = (s16) ((u16) coordF0 + 2);
-                        var_r0_41 = (u16) coordF2 + 2;
-block_1860:
-                            coordF2 = var_r0_41;
+                        coordF2 = (u16) coordF2 + 2;
                             break;
                     }
                     if ((d368_gUnk_03002344 & 1) == (1 & ((struct PlayerD368 *)arg0)->f0)) {
