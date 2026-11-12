@@ -1,0 +1,916 @@
+[
+  {
+    "canonical_symbol": "sub_0809975C",
+    "address": "0x0809975C",
+    "display_name": "AllocateDirectionalAttackTaskPool",
+    "summary": "Allocates 0xA00 bytes at 030002D8 for 64 task controls of 0x28 bytes (the pool StartDirectionalAttackTask uses) and clears each control word +8.",
+    "confidence": "high",
+    "evidence": [
+      {
+        "source": "src/code_08097E28.c",
+        "line": 867,
+        "detail": "Allocates 0xA00 bytes into 030002D8.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_08097E28.c",
+        "line": 869,
+        "detail": "Clears word +8 of each of the 64 controls.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      }
+    ],
+    "open_questions": []
+  },
+  {
+    "canonical_symbol": "sub_080A92C0",
+    "address": "0x080A92C0",
+    "display_name": "TaskSegmentedProjectileToFixedPoint",
+    "summary": "Starting near the owner (offset chosen by kind), moves a three-part sprite (frames 3/4/5 of resource 0x50011, 32 px apart) toward one of two fixed points at 4x speed until within 0x18, damaging the local player once within 11 pixels (15, or 40 in advanced mode).",
+    "confidence": "medium",
+    "evidence": [
+      {
+        "source": "src/code_080A3D2C.c",
+        "line": 3091,
+        "detail": "Initialises sprite resource 0x50011.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_080A3D2C.c",
+        "line": 3095,
+        "detail": "Kind selects the start offset from the owner.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_080A3D2C.c",
+        "line": 3104,
+        "detail": "Plays sound 0xE4.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_080A3D2C.c",
+        "line": 3113,
+        "detail": "Steers toward fixed point (0x2000,0x10000) or (0x3000,0x11000).",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_080A3D2C.c",
+        "line": 3116,
+        "detail": "Stops when within 0x18 of the point.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_080A3D2C.c",
+        "line": 3125,
+        "detail": "Measures distance to the local player.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_080A3D2C.c",
+        "line": 3137,
+        "detail": "Applies 40 damage in advanced mode, 15 otherwise.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_080A3D2C.c",
+        "line": 3160,
+        "detail": "Draws three frames (3, 4, 5) 32 pixels apart.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      }
+    ],
+    "open_questions": []
+  },
+  {
+    "canonical_symbol": "sub_080A9818",
+    "address": "0x080A9818",
+    "display_name": "AllocateSegmentedProjectilePool",
+    "summary": "Allocates three 0x28-byte task controls at 03000424 and clears each word +8.",
+    "confidence": "high",
+    "evidence": [
+      {
+        "source": "src/code_080A9680.c",
+        "line": 109,
+        "detail": "Allocates 0x78 bytes into 03000424.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_080A9680.c",
+        "line": 112,
+        "detail": "Clears word +8 of each of the three controls.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      }
+    ],
+    "open_questions": []
+  },
+  {
+    "canonical_symbol": "sub_080A987C",
+    "address": "0x080A987C",
+    "display_name": "StartSegmentedProjectileTask",
+    "summary": "Finds a free control among the three at 03000424, allocates a 0x400 stack and starts TaskSegmentedProjectileToFixedPoint with the kind argument.",
+    "confidence": "high",
+    "evidence": [
+      {
+        "source": "src/code_080A9680.c",
+        "line": 152,
+        "detail": "Searches three controls.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_080A9680.c",
+        "line": 157,
+        "detail": "Skips scheduled or busy controls.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_080A9680.c",
+        "line": 165,
+        "detail": "Sets the callback to TaskSegmentedProjectileToFixedPoint and starts it.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      }
+    ],
+    "open_questions": []
+  },
+  {
+    "canonical_symbol": "sub_080A9844",
+    "address": "0x080A9844",
+    "display_name": "FreeSegmentedProjectilePool",
+    "summary": "Cancels every scheduled task among the three controls at 03000424, frees the pool and clears the pointer.",
+    "confidence": "high",
+    "evidence": [
+      {
+        "source": "src/code_080A9680.c",
+        "line": 123,
+        "detail": "Visits three controls.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_080A9680.c",
+        "line": 128,
+        "detail": "Cancels each scheduled task.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_080A9680.c",
+        "line": 134,
+        "detail": "Frees the pool.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_080A9680.c",
+        "line": 135,
+        "detail": "Clears 03000424.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      }
+    ],
+    "open_questions": []
+  },
+  {
+    "canonical_symbol": "sub_0809C8F4",
+    "address": "0x0809C8F4",
+    "display_name": "TaskKnockbackAuraAroundOwner",
+    "summary": "For 181 frames draws blinking animation 0x19 of resource 0x50005 on the owner and, the first time the local player comes within 47 pixels, damages them and knocks them back away from the owner with sound 0xE2.",
+    "confidence": "medium",
+    "evidence": [
+      {
+        "source": "src/code_08097E28.c",
+        "line": 2506,
+        "detail": "Initialises sprite resource 0x50005.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_08097E28.c",
+        "line": 2509,
+        "detail": "Runs for 180+1 frames.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_08097E28.c",
+        "line": 2514,
+        "detail": "Advances animation 0x19, drawn on odd frames only.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_08097E28.c",
+        "line": 2522,
+        "detail": "Hit test: distance <= 0x2F plus standard player-state guards.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_08097E28.c",
+        "line": 2532,
+        "detail": "Adds the contact damage from sub_0801ED8C to the player.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_08097E28.c",
+        "line": 2536,
+        "detail": "Uses ArcTan2 from the owner to the player to pick the knockback direction.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_08097E28.c",
+        "line": 2547,
+        "detail": "Sets knockback speed 0x400 for 8 frames.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_08097E28.c",
+        "line": 2549,
+        "detail": "Plays sound 0xE2.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      }
+    ],
+    "open_questions": []
+  },
+  {
+    "canonical_symbol": "sub_0809D6A8",
+    "address": "0x0809D6A8",
+    "display_name": "AllocateKnockbackAuraTaskPool",
+    "summary": "Allocates three 0x28-byte task controls at 030002F8 and clears each word +8.",
+    "confidence": "high",
+    "evidence": [
+      {
+        "source": "src/code_08097E28.c",
+        "line": 2983,
+        "detail": "Allocates 0x78 bytes into 030002F8.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_08097E28.c",
+        "line": 2987,
+        "detail": "Clears word +8 of each of the three controls.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      }
+    ],
+    "open_questions": []
+  },
+  {
+    "canonical_symbol": "sub_0809D6D8",
+    "address": "0x0809D6D8",
+    "display_name": "FreeKnockbackAuraTaskPool",
+    "summary": "Cancels every scheduled task among the three controls at 030002F8, frees the pool and clears the pointer.",
+    "confidence": "high",
+    "evidence": [
+      {
+        "source": "src/code_08097E28.c",
+        "line": 3003,
+        "detail": "Visits the three controls and checks TaskIsScheduled.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_08097E28.c",
+        "line": 3005,
+        "detail": "Cancels each scheduled task.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_08097E28.c",
+        "line": 3012,
+        "detail": "Frees the pool.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_08097E28.c",
+        "line": 3013,
+        "detail": "Clears 030002F8.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      }
+    ],
+    "open_questions": []
+  },
+  {
+    "canonical_symbol": "sub_0809D710",
+    "address": "0x0809D710",
+    "display_name": "StartKnockbackAuraTask",
+    "summary": "Finds a free control among the three at 030002F8, allocates a 0x400 stack and starts TaskKnockbackAuraAroundOwner with both arguments.",
+    "confidence": "high",
+    "evidence": [
+      {
+        "source": "src/code_08097E28.c",
+        "line": 3028,
+        "detail": "Searches three controls.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_08097E28.c",
+        "line": 3033,
+        "detail": "Skips scheduled or busy controls.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_08097E28.c",
+        "line": 3041,
+        "detail": "Sets the callback to TaskKnockbackAuraAroundOwner and starts it.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      }
+    ],
+    "open_questions": []
+  },
+  {
+    "canonical_symbol": "sub_0809C1B4",
+    "address": "0x0809C1B4",
+    "display_name": "TaskSpiralOrbFromOwner",
+    "summary": "Charges for 120 frames at the owner (sound 0xE6, then 0xE7), then flies animation 0x1A of resource 0x50005 outward on a growing spiral whose start angle is index*32; damages the local player once within 9 pixels (12, or 70 in advanced mode).",
+    "confidence": "medium",
+    "evidence": [
+      {
+        "source": "src/code_08097E28.c",
+        "line": 2196,
+        "detail": "Start angle is the index argument times 32.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_08097E28.c",
+        "line": 2198,
+        "detail": "Waits 120 frames at the owner before moving.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_08097E28.c",
+        "line": 2199,
+        "detail": "Plays sound 0xE6.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_08097E28.c",
+        "line": 2206,
+        "detail": "Plays sound 0xE7 when the charge ends.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_08097E28.c",
+        "line": 2213,
+        "detail": "Grows the spiral radius by 0x200 per frame.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_08097E28.c",
+        "line": 2233,
+        "detail": "Hit test: distance <= 9 after the charge.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_08097E28.c",
+        "line": 2240,
+        "detail": "Damage 70 in advanced mode, 12 otherwise.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      }
+    ],
+    "open_questions": []
+  },
+  {
+    "canonical_symbol": "sub_0809C4E8",
+    "address": "0x0809C4E8",
+    "display_name": "TaskOrbChasingIndexedPlayer",
+    "summary": "Advanced-mode variant: charges 120 frames at the owner, then steers animation 0x1A toward the player chosen by its index (or that player's packed home position on remote sides) and damages the local player once within 15 pixels.",
+    "confidence": "medium",
+    "evidence": [
+      {
+        "source": "src/code_08097E28.c",
+        "line": 2285,
+        "detail": "Reads the participant count to validate the player index.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_08097E28.c",
+        "line": 2289,
+        "detail": "Plays sound 0xE6.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_08097E28.c",
+        "line": 2426,
+        "detail": "Plays sound 0xE7 when the charge ends.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_08097E28.c",
+        "line": 2428,
+        "detail": "Aims at the chosen player's position each frame.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_08097E28.c",
+        "line": 2467,
+        "detail": "Hit test: distance <= 15.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_08097E28.c",
+        "line": 2473,
+        "detail": "Applies damage 70.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      }
+    ],
+    "open_questions": []
+  },
+  {
+    "canonical_symbol": "sub_0809D5B8",
+    "address": "0x0809D5B8",
+    "display_name": "AllocateOrbTaskPool",
+    "summary": "Allocates eight 0x28-byte task controls at 030002F4 and clears each word +8.",
+    "confidence": "high",
+    "evidence": [
+      {
+        "source": "src/code_08097E28.c",
+        "line": 2923,
+        "detail": "Allocates 0x140 bytes into 030002F4.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_08097E28.c",
+        "line": 2926,
+        "detail": "Clears word +8 of each of the eight controls.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      }
+    ],
+    "open_questions": []
+  },
+  {
+    "canonical_symbol": "sub_0809D5E4",
+    "address": "0x0809D5E4",
+    "display_name": "FreeOrbTaskPool",
+    "summary": "Stops the orb charge song 0xE6, cancels every scheduled task among the eight controls at 030002F4, frees the pool and clears the pointer.",
+    "confidence": "high",
+    "evidence": [
+      {
+        "source": "src/code_08097E28.c",
+        "line": 2936,
+        "detail": "Stops song 0xE6 with AudioStopSongWrapper.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_08097E28.c",
+        "line": 2941,
+        "detail": "Cancels each scheduled task.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_08097E28.c",
+        "line": 2947,
+        "detail": "Frees the pool.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_08097E28.c",
+        "line": 2948,
+        "detail": "Clears 030002F4.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      }
+    ],
+    "open_questions": []
+  },
+  {
+    "canonical_symbol": "sub_0809D620",
+    "address": "0x0809D620",
+    "display_name": "StartOrbTask",
+    "summary": "Finds a free control among the eight at 030002F4 and starts TaskOrbChasingIndexedPlayer (advanced mode with 030002E8 clear) or TaskSpiralOrbFromOwner with the index argument.",
+    "confidence": "high",
+    "evidence": [
+      {
+        "source": "src/code_08097E28.c",
+        "line": 2964,
+        "detail": "Searches eight controls.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_08097E28.c",
+        "line": 2966,
+        "detail": "Skips scheduled or busy controls.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_08097E28.c",
+        "line": 2971,
+        "detail": "Advanced mode with 030002E8 zero selects TaskOrbChasingIndexedPlayer.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_08097E28.c",
+        "line": 2974,
+        "detail": "Otherwise selects TaskSpiralOrbFromOwner.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      }
+    ],
+    "open_questions": []
+  },
+  {
+    "canonical_symbol": "sub_0809CC2C",
+    "address": "0x0809CC2C",
+    "display_name": "TaskHelperEnemyChasingPlayers",
+    "summary": "Runs one of two helper enemies in enemy slots 1-2: registers it in the active-enemy mask at a fixed start x, initialises its stats from the owner's record (sprites 0x5004C/0x5004B) and chases players picked by SelectPlayerInAlternatingOrder (faster in advanced mode) until its health reaches zero, then clears its mask bit.",
+    "confidence": "medium",
+    "evidence": [
+      {
+        "source": "src/code_08097E28.c",
+        "line": 2639,
+        "detail": "Sets the enemy's bit in active mask 030056FC.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_08097E28.c",
+        "line": 2642,
+        "detail": "Places helper 0 or 1 at a fixed x.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_08097E28.c",
+        "line": 2658,
+        "detail": "Initialises sprites 0x5004C and 0x5004B.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_08097E28.c",
+        "line": 2680,
+        "detail": "Advanced mode uses limit 90 and speed 0x100, else 180 and 0x80.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_08097E28.c",
+        "line": 2712,
+        "detail": "Picks the target player with SelectPlayerInAlternatingOrder.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_08097E28.c",
+        "line": 2812,
+        "detail": "Clears the enemy's mask bit when it is defeated.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      }
+    ],
+    "open_questions": [
+      "Whether these are a boss's summoned helpers is inferred from the boss module only."
+    ]
+  },
+  {
+    "canonical_symbol": "sub_0809D848",
+    "address": "0x0809D848",
+    "display_name": "ReleaseHelperEnemySlotOnExit",
+    "summary": "Task destructor for TaskHelperEnemyChasingPlayers: subtracts 0x46 from the control word +8 to get the helper index and clears that helper's bit in the active-enemy mask 030056FC.",
+    "confidence": "medium",
+    "evidence": [
+      {
+        "source": "src/code_08097E28.c",
+        "line": 3096,
+        "detail": "Reads the current task control with sub_0800048C.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_08097E28.c",
+        "line": 3097,
+        "detail": "Recovers the index from control word +8 (set to index + 0x46 at start).",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_08097E28.c",
+        "line": 3098,
+        "detail": "Clears the helper's bit in 030056FC.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      }
+    ],
+    "open_questions": []
+  },
+  {
+    "canonical_symbol": "sub_0809D7E4",
+    "address": "0x0809D7E4",
+    "display_name": "AllocateHelperEnemyTaskPool",
+    "summary": "Allocates two 0x28-byte task controls at 03000308 and clears each word +8.",
+    "confidence": "high",
+    "evidence": [
+      {
+        "source": "src/code_08097E28.c",
+        "line": 3069,
+        "detail": "Allocates 0x50 bytes into 03000308.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_08097E28.c",
+        "line": 3071,
+        "detail": "Clears word +8 of both controls.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      }
+    ],
+    "open_questions": []
+  },
+  {
+    "canonical_symbol": "sub_0809D810",
+    "address": "0x0809D810",
+    "display_name": "FreeHelperEnemyTaskPool",
+    "summary": "Cancels every scheduled task among the two controls at 03000308, frees the pool and clears the pointer.",
+    "confidence": "high",
+    "evidence": [
+      {
+        "source": "src/code_08097E28.c",
+        "line": 3080,
+        "detail": "Visits both controls.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_08097E28.c",
+        "line": 3085,
+        "detail": "Cancels each scheduled task.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_08097E28.c",
+        "line": 3091,
+        "detail": "Frees the pool.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_08097E28.c",
+        "line": 3092,
+        "detail": "Clears 03000308.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      }
+    ],
+    "open_questions": []
+  },
+  {
+    "canonical_symbol": "sub_0809D77C",
+    "address": "0x0809D77C",
+    "display_name": "StartHelperEnemyTask",
+    "summary": "Finds a free control among the two at 03000308, stores index + 0x46 in word +8, allocates a 0x400 stack and starts TaskHelperEnemyChasingPlayers with ReleaseHelperEnemySlotOnExit as destructor.",
+    "confidence": "high",
+    "evidence": [
+      {
+        "source": "src/code_08097E28.c",
+        "line": 3059,
+        "detail": "Stores index + 0x46 in control word +8.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_08097E28.c",
+        "line": 3062,
+        "detail": "Sets the callback to TaskHelperEnemyChasingPlayers.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_08097E28.c",
+        "line": 3063,
+        "detail": "Sets the destructor to ReleaseHelperEnemySlotOnExit.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      }
+    ],
+    "open_questions": []
+  },
+  {
+    "canonical_symbol": "sub_0809F018",
+    "address": "0x0809F018",
+    "display_name": "TaskTrackThenStrikeIndexedPlayer",
+    "summary": "For the player chosen by its index (skipped when that player does not exist), shows a marker that follows the player for 270 frames (blinking in the last 90, sounds 0xB5/0xB6), then strikes the final spot, damaging the local player once within 11 pixels (12, or 40 in advanced mode).",
+    "confidence": "medium",
+    "evidence": [
+      {
+        "source": "src/code_0809D878.c",
+        "line": 909,
+        "detail": "Initialises sprite resource 0x50008.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_0809D878.c",
+        "line": 911,
+        "detail": "Exits when the indexed player does not exist for the participant count.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_0809D878.c",
+        "line": 914,
+        "detail": "Sets a 270-frame tracking countdown and 420-frame lifetime.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_0809D878.c",
+        "line": 915,
+        "detail": "Plays sound 0xB5.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_0809D878.c",
+        "line": 1085,
+        "detail": "Plays sound 0xB6 just before the strike.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_0809D878.c",
+        "line": 1109,
+        "detail": "Hit requires distance <= 11 after the countdown.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_0809D878.c",
+        "line": 1120,
+        "detail": "Damage 40 in advanced mode, 12 otherwise.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      }
+    ],
+    "open_questions": []
+  },
+  {
+    "canonical_symbol": "sub_0809F4A8",
+    "address": "0x0809F4A8",
+    "display_name": "TaskExpandingOrbitRingOfFour",
+    "summary": "Grows four objects around the owner to radius 24, plays four 30-60 frame animation stages, then spins and expands the ring for 240 frames, damaging the local player once per object within 11 pixels.",
+    "confidence": "medium",
+    "evidence": [
+      {
+        "source": "src/code_0809D878.c",
+        "line": 1193,
+        "detail": "Lifetime of 240 frames in the final stage.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_0809D878.c",
+        "line": 1203,
+        "detail": "Stage 0 grows the radius to 24.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_0809D878.c",
+        "line": 1212,
+        "detail": "Stages 1-4 step animations 17-20.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_0809D878.c",
+        "line": 1242,
+        "detail": "Final stage expands the radius by 2 every other frame.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_0809D878.c",
+        "line": 1247,
+        "detail": "Places the four objects 64 angle units apart around the owner.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_0809D878.c",
+        "line": 1263,
+        "detail": "Per-object hit test within 11 pixels.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      }
+    ],
+    "open_questions": []
+  },
+  {
+    "canonical_symbol": "sub_0809FA28",
+    "address": "0x0809FA28",
+    "display_name": "FreeTrackStrikeTaskPool",
+    "summary": "If the four-control pool at 03000324 exists, cancels each scheduled task, frees the pool and clears the pointer.",
+    "confidence": "high",
+    "evidence": [
+      {
+        "source": "src/code_0809D878.c",
+        "line": 1358,
+        "detail": "Returns when the pool is absent.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_0809D878.c",
+        "line": 1362,
+        "detail": "Cancels each scheduled task.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_0809D878.c",
+        "line": 1364,
+        "detail": "Frees the pool.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_0809D878.c",
+        "line": 1365,
+        "detail": "Clears 03000324.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      }
+    ],
+    "open_questions": []
+  },
+  {
+    "canonical_symbol": "sub_0809FA64",
+    "address": "0x0809FA64",
+    "display_name": "StartTrackStrikeTask",
+    "summary": "Finds a free control among the four at 03000324, allocates a 0x200 stack and starts TaskTrackThenStrikeIndexedPlayer with the player index.",
+    "confidence": "high",
+    "evidence": [
+      {
+        "source": "src/code_0809D878.c",
+        "line": 1384,
+        "detail": "Searches four controls.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_0809D878.c",
+        "line": 1389,
+        "detail": "Skips scheduled or busy controls.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_0809D878.c",
+        "line": 1397,
+        "detail": "Sets the callback to TaskTrackThenStrikeIndexedPlayer and starts it.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      }
+    ],
+    "open_questions": []
+  },
+  {
+    "canonical_symbol": "sub_0809FACC",
+    "address": "0x0809FACC",
+    "display_name": "AllocateOrbitRingTaskControl",
+    "summary": "Allocates the 0x28-byte task control 03000328 and clears its word +8 when the allocation succeeds.",
+    "confidence": "high",
+    "evidence": [
+      {
+        "source": "src/code_0809D878.c",
+        "line": 1404,
+        "detail": "Stores HeapAllocate(0x28) in 03000328.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_0809D878.c",
+        "line": 1409,
+        "detail": "Clears control word +8.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      }
+    ],
+    "open_questions": []
+  },
+  {
+    "canonical_symbol": "sub_0809FAEC",
+    "address": "0x0809FAEC",
+    "display_name": "FreeOrbitRingTaskControl",
+    "summary": "If control 03000328 exists, cancels its task when scheduled, frees it and clears the pointer.",
+    "confidence": "high",
+    "evidence": [
+      {
+        "source": "src/code_0809D878.c",
+        "line": 1413,
+        "detail": "Checks the control exists.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_0809D878.c",
+        "line": 1415,
+        "detail": "Cancels the scheduled task.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_0809D878.c",
+        "line": 1417,
+        "detail": "Frees the control.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_0809D878.c",
+        "line": 1418,
+        "detail": "Clears 03000328.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      }
+    ],
+    "open_questions": []
+  },
+  {
+    "canonical_symbol": "sub_0809FB18",
+    "address": "0x0809FB18",
+    "display_name": "StartOrbitRingTask",
+    "summary": "If the control exists and may start, allocates a 0x400 stack and starts TaskExpandingOrbitRingOfFour on control 03000328.",
+    "confidence": "high",
+    "evidence": [
+      {
+        "source": "src/code_0809D878.c",
+        "line": 1427,
+        "detail": "Returns when the task is not scheduled but word +8 is nonzero.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_0809D878.c",
+        "line": 1436,
+        "detail": "Sets the callback to TaskExpandingOrbitRingOfFour.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      }
+    ],
+    "open_questions": []
+  },
+  {
+    "canonical_symbol": "sub_0809F9F8",
+    "address": "0x0809F9F8",
+    "display_name": "AllocateTrackStrikeTaskPool",
+    "summary": "Allocates four 0x28-byte task controls at 03000324 and, on success, clears each word +8.",
+    "confidence": "high",
+    "evidence": [
+      {
+        "source": "src/code_0809D878.c",
+        "line": 1341,
+        "detail": "Allocates 0xA0 bytes for the pool.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_0809D878.c",
+        "line": 1348,
+        "detail": "Clears word +8 of each of the four controls.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      }
+    ],
+    "open_questions": []
+  }
+]
