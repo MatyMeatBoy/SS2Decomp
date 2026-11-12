@@ -180,7 +180,6 @@ block_c:
         sub_08067FE0(6, v);
     }
 }
-#ifdef NONMATCHING
 static inline u16 D368_Level(u8 *p) {
     s32 i;
     s32 h = (s8)p[0x6C] * 5;
@@ -197,6 +196,20 @@ static inline u16 D368_Level2(u8 *p) {
     s32 i;
     s32 h = (s8)p[0x6C] * 5;
     for (i = 7; i >= 0; i--) {
+        u16 t = gUnk_0847ACE8[i] + h * 2;
+        if ((s16)t < 0)
+            t = 0;
+        if (*(s16 *)(p + 0xC2) >= (s16)t)
+            return i;
+    }
+    return 0;
+}
+static inline u16 D368_Level3(u8 *p) {
+    s32 i;
+    s32 h = (s8)p[0x6C] * 5;
+    i = 7;
+    asm("");
+    for (; i >= 0; i--) {
         u16 t = gUnk_0847ACE8[i] + h * 2;
         if ((s16)t < 0)
             t = 0;
@@ -2045,7 +2058,7 @@ state3ZeroStageD368:
                     } else {
                         if (((struct PlayerD368 *)arg0)->f10 != 9) {
                             sp128 = d368_sub_0801D34C();
-                            var_r5 = D368_Level2(arg0);
+                            var_r5 = D368_Level3(arg0);
                             if (sp128 > (u32) var_r5) {
                                 sp128 = (u32) var_r5;
                                 if ((u32) var_r5 > (u32) ((struct PlayerD368 *)arg0)->f26) {
@@ -5340,9 +5353,6 @@ block_1788:
     d368_sub_08000420(0x18A93);
     d368_sub_0800035C();
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_0800CF58", sub_0800D368);
-#endif
 /* Create the player entity for a link slot `id` (0..3). struct Player (0x14C bytes): +0 id, +0x20 state (0 local, 0xD remote),
  * +0x34 -> 8 x 0x28 byte slots, +0xAC -> 0x100 byte buffer, +0x13C/+0x140 -> local player template data,
  * +0x144 -> this slot's link SEND block (sub_08002118), +0x148 -> RECV block (sub_08002238).

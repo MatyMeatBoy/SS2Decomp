@@ -1,34 +1,34 @@
 
-2026-11-12 (claude-fable-w7, fourth pass): sub_0800D368
-  End: 25188 bytes (ROM 25180), structural hunks 16 / 31 insns, raw hunks 67 / 294 insns (2.6% of 11286).
-  - Switches 29 and 30 (coordinate nudges): case 4 is `coordF2 -= 10; break;` and case 7 ends in its own
-    `coordF2 += 2;`. The shared `strh r0, [r2]` in the ROM is a one-insn cross-jump that only happens because
-    the reload rotation gives both sites r2; the m2c goto hid that and kept the rotation wrong to the end.
-  - Rule that held every time: where the ROM shows a shared tail, first write each site in full and let jump2
-    merge; a goto is only right when the tails cannot be merged by the compiler (different registers).
-  Open: 0xED00 (r3/r4 in the third level loop), 0xF3BC, 0xF8D0, 0x1069A, 0x1099E, 0x10E02, 0x115D6,
-  0x12BF2 (the ROM has `beq +2; b break; b block_1776`, the draft the inverted pair; `break`, an explicit
-  goto to a label after the switch and a nested if all give the same RTL), 0x12C08.
-lot's f0 is stored through struct EffectD368.
-  - 107 pointer temporaries of the form `t = arg0->f144; ((union RecordD368 *)t)->x.value = v;` inlined to
-    `((union RecordD368 *)arg0->f144)->x.value = v;` (bit-field stores then allocate like the ROM).
-  - Switch 17 case 7 has its own copy of the case 9 body instead of a goto.
-  Open (shunks.txt): 0xF3BC (two sub_08013E90 calls, see above), 0xF8D0 (fD8 = 0 through the first pointer),
-  0x1069A (r5/r6: the &f144 pointer vs the hoisted 15 mask, and 0x144 is a reload in the ROM), 0x1099E
-  (case 7 copy is cross-jumped whole because the rotation before it is off by one), 0x10E02 (byte 7 store),
-  0x115D6 (second sub_08007290 site still pins r8), 0x12BF2/0x12C08, 0x13338/0x134A0.
-  A semantic warning from the type search: retyping temp_r1_26 to s16 lowers the count but truncates a
-  32-bit load; do not take type changes without reading the affected insns.
- label, so the two tails differ. Need a
-    source shape where the second call is not directly followed by a label when flow/gcse run.
-  - 0xF494 (2 sites): the ROM loads gUnk_030034E0->f54 twice through one &f54 pointer (compare with a MEM
-    operand, then a reload for the index); the draft reuses sp194 after the equality test.
-  - 0xF4D4: zero stores after `sp190 = 0xFFFE` are in ROM order now; only the reload/zero registers differ.
-  - Rest of shunks.txt from 0xF61E on is not analysed.
- insn.
-  - 0xEAFC/0xEEDC: the ROM rereads f26 after `f20 = 5` (a CSE boundary between the zero test and the cost
-    expression). `switch (f26)` or an empty asm after the test fix it locally but grow the frame to 476.
-  - 0xEBA2, 0xEF80: branch shape; 0xECCE: a `sp144 = 0` store the draft does not emit on that path.
+2026-11-12 (claude-fable-w7, final pass): sub_0800D368 MATCHED.
+  `make compare` is OK with the function as plain C (25180 bytes, identical relocations).
+  What closed the last 16 structural sites, in the order they fell:
+  - var_r5_9 was an m2c pointer temporary (direct `arg0->f144` reads); var_r5_10 is a real variable and stays.
+  - Bit-field stores whose field ends at the top of its byte need no mask in agbcc: the DEB8 result goes in
+    with `rec->w1_b19_n5.value = d368_sub_0801DEB8();`.
+  - Switch 17 case 7 is `switch (f10) { case 1: <own copy of the case 9 body>; break; case 8: ...; }`.
+  - Byte 7 of the record: `{ void *p = *var_r5_10; u32 sh = sp170 << 1; *(s8 *)(p + 7) = (*(s8 *)(p + 7) &
+    ~0xE) | sh; }`. The s8 view keeps the SImode -15 mask; the block-local pointer gives r2.
+  - `sp164 = ((sp164 + 2) << 24 & 0x7F000000) >> 24` needs the mask as the AND destination:
+    `{ u32 v = (sp164 + 2) << 24; u32 m = 0x7F000000; m &= v; sp164 = m >> 24; }`.
+  - Second sub_08007290 site: a block-local `u8 *st = temp_r0_120;` lets CSE keep `st + 0xA4` (the r8 pin
+    itself stays; removing it makes GCSE stretch lookupStats over the whole loop).
+  - The last var_r5 range (sprite ids 0x17/0x1A/0x16) is its own variable: CSE picks the equivalent register
+    with the latest last use, so a merged var_r5 replaced sp128 in the peer-loop entry test.
+  - Switch 4 case 5: every case ends in its own `fD8 = 0; break;` and the two sub_08013E90 calls are written
+    out. find_basic_blocks puts a `(use (const_int 0))` after a call that is followed by a label; with the
+    reset after each `if`, both calls get one and jump2 can merge the 6-insn tails. Case 0 jumps to case 7's
+    reset (a constant-0 store there would reuse the switch value).
+  - Switches 22, 26 and 27: every `goto` into another case's code became that code, and the `if (x > 0xD)
+    goto` range checks became `default:` beside cases 7 and 9. The hidden copies consume reload registers in
+    rotation order, which is what the rest of the function needed.
+  Three deliberate non-source devices remain, each commented in the code:
+  - var_r4_11 keeps two empty asm refs (priority over var_r5) and temp_r2_61 two (limit before var_r3_8).
+  - Switch 4 case 2 default: the fD8 pointer pair is pinned to r2/r4 (the ROM stores the clamp-to-zero through
+    the first pointer; cse2 replaces it with the PRE register otherwise).
+  - D368_Level3 is D368_Level2 with one empty asm after `i = 7`: the loop counter and the table giv tie at
+    priority 0.722 vs 0.717 at the third call site and the ROM allocates the giv first.
+  temp_r0_120 is still `register ... asm("r8")` at the second lookup site.
+ the draft does not emit on that path.
   - 0x10E02: byte 7 store, the ROM computes `sp170 << 1` before loading the byte and keeps the SImode -15 mask.
   - 0x110C8-0x11216, 0x115DA, 0x13338/0x1339A/0x134A0/0x13502: not analysed yet.
   Method that worked: read the ROM order of loads, pick the C whose evaluation order and CSE boundaries give
