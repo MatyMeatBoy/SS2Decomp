@@ -4791,8 +4791,7 @@ animationClassDoneD368:
                     }
                     asm("" : : "r"(var_r6_8));
                     var_r4_11 = 0;
-                    var_r3_12 = 0;
-                    while ((sp128 = var_r3_12) < d368_sub_08002164()) {
+                    for (sp128 = 0; sp128 < d368_sub_08002164(); sp128++) {
                         u8 *plD = (u8 *)&d368_gUnk_03003CE0; temp_r1_56 = 0x14C * sp128;
                         temp_r2_63 = *(void **)(temp_r1_56 + ((u8 *)&d368_gUnk_03003CE0 + 0x148));
                         if ((((u32) ((u32) M2C_FIELD(temp_r2_63, u8 *, 0) << 0x1C) >> 0x1C) == 0xE) && (*(u16 *)(temp_r1_56 + plD + 0xB6) != 0)) {
@@ -4805,7 +4804,6 @@ animationClassDoneD368:
                                 var_r4_11 += 1;
                             }
                         }
-                        var_r3_12 = sp128 + 1;
                     }
                     if (var_r4_11 == d368_sub_0800CBCC()) {
                         d368_sub_08067F94((u32) M2C_FIELD(lookupStats, u32 *, 0xA4) >> 4, var_r6_8, var_r4_11);
