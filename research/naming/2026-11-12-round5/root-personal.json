@@ -1,0 +1,386 @@
+{
+  "source_revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7",
+  "policy": "Frozen proposals, including superseded mappings; reviewed accepted rows alone earn credit.",
+  "proposals": [
+    {
+      "canonical_symbol": "sub_08015D74",
+      "address": "0x08015D74",
+      "display_name": "SetLocalPlayerFlagBit12",
+      "summary": "Sets local-player flags bit12; preserves every other bit. Intended gameplay purpose remains unknown.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_080153A4.c",
+          "line": 420,
+          "detail": "Sets local-player flags bit12; preserves every other bit. Intended gameplay purpose remains unknown.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Gameplay purpose of bit12 remains unproven; exact operation only."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_08015D98",
+      "address": "0x08015D98",
+      "display_name": "ClearLocalPlayerFlagBit12",
+      "summary": "Clears local-player flags bit12; preserves every other bit. Intended gameplay purpose remains unknown.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_080153A4.c",
+          "line": 424,
+          "detail": "Clears local-player flags bit12; preserves every other bit. Intended gameplay purpose remains unknown.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Gameplay purpose of bit12 remains unproven; exact operation only."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_08058E54",
+      "address": "0x08058E54",
+      "display_name": "RunLockedDialogue1261",
+      "summary": "Locks local input/events, waits for free dialogue/text slots, opens bank20 message1261, polls completion with suspend-abort, then clears normal-path locks. Initial slot waits have no abort test.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_08058790.c",
+          "line": 347,
+          "detail": "Locks local input/events, waits for free dialogue/text slots, opens bank20 message1261, polls completion with suspend-abort, then clears normal-path locks. Initial slot waits have no abort test.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": []
+    },
+    {
+      "canonical_symbol": "sub_08059374",
+      "address": "0x08059374",
+      "display_name": "RunLockedDialogue292",
+      "summary": "Locks local input/events, waits for free dialogue/text slots, opens bank20 message292, polls completion with suspend-abort, then clears normal-path locks. Initial slot waits have no abort test.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_08058790.c",
+          "line": 500,
+          "detail": "Locks local input/events, waits for free dialogue/text slots, opens bank20 message292, polls completion with suspend-abort, then clears normal-path locks. Initial slot waits have no abort test.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": []
+    },
+    {
+      "canonical_symbol": "sub_08058F4C",
+      "address": "0x08058F4C",
+      "display_name": "RunFacingDialogue263",
+      "summary": "Locks input/events, turns selected entity toward player, shows bank20 message263 with slot waits and suspend-abort, restores facing gradually and clears normal-path locks. Inherits facing-helper enemy-selector caveat.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_08058790.c",
+          "line": 375,
+          "detail": "Locks input/events, turns selected entity toward player, shows bank20 message263 with slot waits and suspend-abort, restores facing gradually and clears normal-path locks. Inherits facing-helper enemy-selector caveat.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": []
+    },
+    {
+      "canonical_symbol": "sub_08059000",
+      "address": "0x08059000",
+      "display_name": "RunFacingDialogue421",
+      "summary": "Locks input/events, turns selected entity toward player, shows bank20 message421 with slot waits and suspend-abort, restores facing gradually and clears normal-path locks. No NPC identity inferred.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_08058790.c",
+          "line": 395,
+          "detail": "Locks input/events, turns selected entity toward player, shows bank20 message421 with slot waits and suspend-abort, restores facing gradually and clears normal-path locks. No NPC identity inferred.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": []
+    },
+    {
+      "canonical_symbol": "sub_080590B4",
+      "address": "0x080590B4",
+      "display_name": "RunFacingDialogue422",
+      "summary": "Locks input/events, turns selected entity toward player, shows bank20 message422 with slot waits and suspend-abort, restores facing gradually and clears normal-path locks. No NPC identity inferred.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_08058790.c",
+          "line": 415,
+          "detail": "Locks input/events, turns selected entity toward player, shows bank20 message422 with slot waits and suspend-abort, restores facing gradually and clears normal-path locks. No NPC identity inferred.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": []
+    },
+    {
+      "canonical_symbol": "sub_08059168",
+      "address": "0x08059168",
+      "display_name": "RunFacingDialogue423",
+      "summary": "Locks input/events, turns selected entity toward player, shows bank20 message423 with slot waits and suspend-abort, restores facing gradually and clears normal-path locks. No NPC identity inferred.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_08058790.c",
+          "line": 435,
+          "detail": "Locks input/events, turns selected entity toward player, shows bank20 message423 with slot waits and suspend-abort, restores facing gradually and clears normal-path locks. No NPC identity inferred.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": []
+    },
+    {
+      "canonical_symbol": "sub_08058B74",
+      "address": "0x08058B74",
+      "display_name": "StartSongWithDeferredChange",
+      "summary": "Stores/conditionally starts supplied tracked song, then searches30 callback slots and retries stack allocation for delayed replacement. Full pool retains initial song change without scheduling. Packs arg1-1 modulo65536 in high16; replacement callback uses low8 of arg2 and can shorten waits on link error, skip change during full-screen menu.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_08058790.c",
+          "line": 212,
+          "detail": "Stores/conditionally starts supplied tracked song, then searches30 callback slots and retries stack allocation for delayed replacement. Full pool retains initial song change without scheduling. Packs arg1-1 modulo65536 in high16; replacement callback uses low8 of arg2 and can shorten waits on link error, skip change during full-screen menu.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [],
+      "supporting_evidence": [
+        {
+          "source": "src/code_0805A630.c",
+          "line": 241,
+          "detail": "AA68 waits on packed high16 with link-error shortening, then stores/starts low8 song only when no full-screen menu is active.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ]
+    },
+    {
+      "canonical_symbol": "sub_08015150",
+      "address": "0x08015150",
+      "display_name": "TaskCountClass3ChargedHits",
+      "summary": "While local state5 animation is incomplete, frames1/4/5 at subframe0 increment32-bit hit sequence every matching observation; no independent edge guarantee. Final reset preserves10/11 and spectator, clears charge bookkeeping.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_0800CF58.c",
+          "line": 6495,
+          "detail": "While local state5 animation is incomplete, frames1/4/5 at subframe0 increment32-bit hit sequence every matching observation; no independent edge guarantee. Final reset preserves10/11 and spectator, clears charge bookkeeping.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [],
+      "supporting_evidence": [
+        {
+          "source": "src/code_0800CF58.c",
+          "line": 1936,
+          "detail": "Main player input-release normalized-class3 branch invokes151E0; its kind2/4 dispatch installs15090/15150.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ]
+    },
+    {
+      "canonical_symbol": "sub_08015090",
+      "address": "0x08015090",
+      "display_name": "TaskRunClass3ChargedLunge",
+      "summary": "Moves local charged attacker at table speed*8/10 plus movement modifier, saving prior position and resolving collision until completion/state change; clears charge bookkeeping with10/11/spectator state guards.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_0800CF58.c",
+          "line": 6478,
+          "detail": "Moves local charged attacker at table speed*8/10 plus movement modifier, saving prior position and resolving collision until completion/state change; clears charge bookkeeping with10/11/spectator state guards.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [],
+      "supporting_evidence": [
+        {
+          "source": "src/code_0800CF58.c",
+          "line": 1936,
+          "detail": "Main player input-release normalized-class3 branch invokes151E0; its kind2/4 dispatch installs15090/15150.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ]
+    },
+    {
+      "canonical_symbol": "sub_08014B28",
+      "address": "0x08014B28",
+      "display_name": "TaskRunClass0ChargedLunge",
+      "summary": "Moves local charged attacker at table speed plus modifier and resolves collision until animation completes or state changes; preserves states14/10/11 and spectator before normal reset and charge cleanup.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_0800CF58.c",
+          "line": 6254,
+          "detail": "Moves local charged attacker at table speed plus modifier and resolves collision until animation completes or state changes; preserves states14/10/11 and spectator before normal reset and charge cleanup.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [],
+      "supporting_evidence": [
+        {
+          "source": "src/code_0800CF58.c",
+          "line": 1932,
+          "detail": "Main player input-release normalized-class0 branch invokes14D60; its kind1/3 dispatch installs14B28/14C8C.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ]
+    },
+    {
+      "canonical_symbol": "sub_08014C8C",
+      "address": "0x08014C8C",
+      "display_name": "TaskCountClass0ChargedHits",
+      "summary": "During local charged animation, increments hit sequence when frame equals next u16 step1,4,7,... and differs from previous captured frame. Preserves14/10/11 and spectator before charge cleanup.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_0800CF58.c",
+          "line": 6311,
+          "detail": "During local charged animation, increments hit sequence when frame equals next u16 step1,4,7,... and differs from previous captured frame. Preserves14/10/11 and spectator before charge cleanup.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [],
+      "supporting_evidence": [
+        {
+          "source": "src/code_0800CF58.c",
+          "line": 1932,
+          "detail": "Main player input-release normalized-class0 branch invokes14D60; its kind1/3 dispatch installs14B28/14C8C.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ]
+    },
+    {
+      "canonical_symbol": "sub_080152CC",
+      "address": "0x080152CC",
+      "display_name": "TaskChargedLungeKind4",
+      "summary": "Runs charged lunge at signed16 narrowed tier*80+256 speed, with collision updates; frame3/subframe1 increments hit sequence per observation. Exits on completion/state change and clears bookkeeping, preserving10/11/spectator.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_0800CF58.c",
+          "line": 6563,
+          "detail": "Runs charged lunge at signed16 narrowed tier*80+256 speed, with collision updates; frame3/subframe1 increments hit sequence per observation. Exits on completion/state change and clears bookkeeping, preserving10/11/spectator.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": []
+    },
+    {
+      "canonical_symbol": "sub_08014D60",
+      "address": "0x08014D60",
+      "display_name": "StartClassZeroChargedAttack",
+      "summary": "Normalized class0 charge starter dispatches weapon kinds1/3 to lunge/hit-counter and2/8 to animation finalizer; unsupported kinds return. Existing task triggers guarded state reset; otherwise retries0x400 stack allocation and starts with scheduling key52, without completion wait.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_0800CF58.c",
+          "line": 6343,
+          "detail": "Normalized class0 charge starter dispatches weapon kinds1/3 to lunge/hit-counter and2/8 to animation finalizer; unsupported kinds return. Existing task triggers guarded state reset; otherwise retries0x400 stack allocation and starts with scheduling key52, without completion wait.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [],
+      "supporting_evidence": [
+        {
+          "source": "src/code_0800CF58.c",
+          "line": 1932,
+          "detail": "Main player input-release normalized-class0 branch invokes14D60; its kind1/3 dispatch installs14B28/14C8C.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ]
+    },
+    {
+      "canonical_symbol": "sub_080151E0",
+      "address": "0x080151E0",
+      "display_name": "StartClassThreeChargedAttack",
+      "summary": "Normalized class3 charge starter selects scaled lunge for kind2 and hit counter for kind4, returning for other kinds. Duplicate task triggers guarded state reset; otherwise retries0x400 allocation and starts with scheduling key52, without completion wait.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_0800CF58.c",
+          "line": 6541,
+          "detail": "Normalized class3 charge starter selects scaled lunge for kind2 and hit counter for kind4, returning for other kinds. Duplicate task triggers guarded state reset; otherwise retries0x400 allocation and starts with scheduling key52, without completion wait.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [],
+      "supporting_evidence": [
+        {
+          "source": "src/code_0800CF58.c",
+          "line": 1936,
+          "detail": "Main player input-release normalized-class3 branch invokes151E0; its kind2/4 dispatch installs15090/15150.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ]
+    },
+    {
+      "canonical_symbol": "sub_080156FC",
+      "address": "0x080156FC",
+      "display_name": "TaskRunClass7ChargedVolley",
+      "summary": "Packed tiers1..7 normalize remaining projectile attempts to5; tier0 skips loop. Selected even frame/subframe2 observations advance hit ID and spread selector, attempt projectile start and decrement count. Snapshot state change exits early; charge bookkeeping clears.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_080153A4.c",
+          "line": 194,
+          "detail": "Packed tiers1..7 normalize remaining projectile attempts to5; tier0 skips loop. Selected even frame/subframe2 observations advance hit ID and spread selector, attempt projectile start and decrement count. Snapshot state change exits early; charge bookkeeping clears.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": []
+    },
+    {
+      "canonical_symbol": "sub_08015914",
+      "address": "0x08015914",
+      "display_name": "TaskRunClass5ChargedLunge",
+      "summary": "Moves indexed charged attacker until two completion-flag observations or snapshot state change. Flag is not reset after first decrement, so two distinct animation cycles are not proven. Uses half-table speed plus modifier; normal local-state guards and charge cleanup follow.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_080153A4.c",
+          "line": 283,
+          "detail": "Moves indexed charged attacker until two completion-flag observations or snapshot state change. Flag is not reset after first decrement, so two distinct animation cycles are not proven. Uses half-table speed plus modifier; normal local-state guards and charge cleanup follow.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": []
+    },
+    {
+      "canonical_symbol": "sub_08014E68",
+      "address": "0x08014E68",
+      "display_name": "TaskRunAimedChargedVolley",
+      "summary": "Updates local aim from held directions and attempts packed three-bit level+2 fast projectile starts on odd-frame/subframe2 observations. Count decrements despite projectile allocation failure. Snapshot state/animation terminate loop; preserves14/10/11/spectator before local reset and charge cleanup.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_0800CF58.c",
+          "line": 6407,
+          "detail": "Updates local aim from held directions and attempts packed three-bit level+2 fast projectile starts on odd-frame/subframe2 observations. Count decrements despite projectile allocation failure. Snapshot state/animation terminate loop; preserves14/10/11/spectator before local reset and charge cleanup.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": []
+    },
+    {
+      "canonical_symbol": "sub_08013CEC",
+      "address": "0x08013CEC",
+      "display_name": "RevertBlockedPlayerMovement",
+      "summary": "Unless player flag0x20 bypasses all checks, conditionally tests five active eligible enemies using16x16 player box and facing-relative overlap, restoring prior position on blocked movement. Always then tests map/object blockage and restores prior position on failure. Map-set-zero and flag0x40000 bypass enemy tests only.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_0800CF58.c",
+          "line": 5679,
+          "detail": "Unless player flag0x20 bypasses all checks, conditionally tests five active eligible enemies using16x16 player box and facing-relative overlap, restoring prior position on blocked movement. Always then tests map/object blockage and restores prior position on failure. Map-set-zero and flag0x40000 bypass enemy tests only.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": []
+    }
+  ]
+}

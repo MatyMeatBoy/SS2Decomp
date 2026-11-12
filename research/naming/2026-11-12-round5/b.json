@@ -1,0 +1,464 @@
+{
+  "source_revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7",
+  "policy": "Frozen proposals, including superseded mappings; reviewed accepted rows alone earn credit.",
+  "proposals": [
+    {
+      "canonical_symbol": "sub_08052FE8",
+      "address": "0x08052FE8",
+      "display_name": "QueueClass6Event32Update",
+      "summary": "Clears persistent mode-bank event32, then queues its setting only for normalized class6 outside mapset0; always queues a mode-bank byte counter increment. Queue success is ignored.",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "source": "src/code_0804D330.c",
+          "line": 3749,
+          "detail": "Clears byte+1BB/+1C7 bit0; conditionally enqueues5990C argument32 and always enqueues3E5D8.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0803B69C.c",
+          "line": 1349,
+          "detail": "Callback increments byte+1B5 normal or+1C1 advanced, wrapping as u8.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "The counter's broader gameplay meaning is not established; the name describes only the proven class/event operation."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_0804EE20",
+      "address": "0x0804EE20",
+      "display_name": "SpawnAndMovePairedActors",
+      "summary": "Spawns actor kinds36 and65572 at (128,56) and (128,80), moves the first up200 over duration200, then requests both actors stop via state4. Missing handle searches yield once.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_0804D330.c",
+          "line": 1159,
+          "detail": "Calls289C0 twice,28D98 on first handle, then scans15 actor records for each handle and writes state+36=4.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08028AAC.c",
+          "line": 169,
+          "detail": "Relative motion narrows offsets to signed16 and duration to unsigned16, supports local/enemy/map-object/handle selector domains, and samples interpolation without an endpoint snap. Fixed duration200 here is within terminating range.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": []
+    },
+    {
+      "canonical_symbol": "sub_08053C5C",
+      "address": "0x08053C5C",
+      "display_name": "ActivatePairedEnemyOverlays",
+      "summary": "Waits for a participating player to overlap the rectangle centered(113,227) with packed extents160,60; applies overlay3 to the first two enemy keys, conditionally plays song382, moves both enemies down8 immediately, clears active enemy state12 and requests action reselection.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_0804D330.c",
+          "line": 4108,
+          "detail": "Waits2A080, overlays two consecutive enemy slots, moves selectors1/2 and resets active states12.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08028AAC.c",
+          "line": 974,
+          "detail": "2A080 repeatedly checks connected player positions against a packed rectangle and yields until an eligible player overlaps.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": []
+    },
+    {
+      "canonical_symbol": "sub_0804FA68",
+      "address": "0x0804FA68",
+      "display_name": "HandleMapObjectPlacementEvent0",
+      "summary": "Mode0 queues this callback in mode1 with guard0; mode1 requests effect41 at(136,200), waits up to four task signals unless link error, requests two flanking effects, conditionally plays song379, places map object7 at the center and sets area event bit0. Other modes do nothing; enqueue/effect failures are not checked.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_0804D330.c",
+          "line": 1837,
+          "detail": "Mode switch, guarded callback enqueue, effect41 requests and scene+38 bit update establish the numeric placement event.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": []
+    },
+    {
+      "canonical_symbol": "sub_08050524",
+      "address": "0x08050524",
+      "display_name": "HandleMapObjectPlacementEvent1",
+      "summary": "Mode0 queues this callback in mode1 with guard0; mode1 requests effect41 at(888,160), waits up to four task signals unless link error, requests two flanking effects, conditionally plays song379, places map object7 at the center and sets area event bit1. Other modes do nothing; enqueue/effect failures are not checked.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_0804D330.c",
+          "line": 2424,
+          "detail": "Mode switch, guarded callback enqueue, effect41 requests and scene+38 bit update establish the numeric placement event.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": []
+    },
+    {
+      "canonical_symbol": "sub_080523D8",
+      "address": "0x080523D8",
+      "display_name": "HandleMapObjectPlacementEvent4",
+      "summary": "Mode0 queues itself in mode1 with guard2; mode1 requests center effect41 at(200,104), waits up to four signals with link-error escape, requests flanking effects eight pixels either side, conditionally plays song379, places object7 at center and sets area event bit4. Other modes do nothing; queue/effect success is ignored.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_0804D330.c",
+          "line": 3479,
+          "detail": "Mode switch and calls68820,73E2C,28AAC end with scene+38 numeric bit update.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": []
+    },
+    {
+      "canonical_symbol": "sub_08053120",
+      "address": "0x08053120",
+      "display_name": "HandleMapObjectPlacementEvent2",
+      "summary": "Mode0 queues itself in mode1 with guard1; mode1 requests center effect41 at(264,88), waits up to four signals with link-error escape, requests flanking effects eight pixels either side, conditionally plays song379, places object7 at center and sets area event bit2. Other modes do nothing; queue/effect success is ignored.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_0804D330.c",
+          "line": 3785,
+          "detail": "Mode switch and calls68820,73E2C,28AAC end with scene+38 numeric bit update.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": []
+    },
+    {
+      "canonical_symbol": "sub_08053A80",
+      "address": "0x08053A80",
+      "display_name": "RestoreEnemiesWithOptionalReveal",
+      "summary": "Unless a fullscreen menu is active, requests the selected screen reveal and waits for transition idle. Tracks song11 and conditionally starts/continues it, changes active enemy state12 to0, then requests action reselection. Behavior is identical to the other optional-reveal enemy reset copies; no distinct scene identity is implied.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_0804D330.c",
+          "line": 4030,
+          "detail": "Selected reveal then SetMode53A80(11), Clr53A80 and19F04; inline helpers at4017/4023 track audio and reset only active state12.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": []
+    },
+    {
+      "canonical_symbol": "sub_08053CF4",
+      "address": "0x08053CF4",
+      "display_name": "RestoreEnemiesFollowingOptionalReveal",
+      "summary": "Unless a fullscreen menu is active, requests the selected screen reveal and waits for transition idle. Tracks song11 and conditionally starts/continues it, changes active enemy state12 to0, then requests action reselection. Behavior is identical to the other optional-reveal enemy reset copies; no distinct scene identity is implied.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_0804D330.c",
+          "line": 4143,
+          "detail": "Selected reveal then SetMode53A80(11), Clr53A80 and19F04; inline helpers at4017/4023 track audio and reset only active state12.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": []
+    },
+    {
+      "canonical_symbol": "sub_08053D98",
+      "address": "0x08053D98",
+      "display_name": "ResetEnemiesWithConditionalReveal",
+      "summary": "Unless a fullscreen menu is active, requests the selected screen reveal and waits for transition idle. Tracks song11 and conditionally starts/continues it, changes active enemy state12 to0, then requests action reselection. Behavior is identical to the other optional-reveal enemy reset copies; no distinct scene identity is implied.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_0804D330.c",
+          "line": 4168,
+          "detail": "Selected reveal then SetMode53A80(11), Clr53A80 and19F04; inline helpers at4017/4023 track audio and reset only active state12.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": []
+    },
+    {
+      "canonical_symbol": "sub_08051DF0",
+      "address": "0x08051DF0",
+      "display_name": "HandleMapObjectPlacementEvent3",
+      "summary": "Mode0 queues itself with mode1 and guard1. Mode1 requests effect41 centered(264,344), waits up to four signals with link-error escape, requests effects at x256/272, conditionally plays song379, places map object7 at center and sets area event bit3. Other modes do nothing; effect/enqueue success ignored.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_0804D330.c",
+          "line": 3320,
+          "detail": "Guarded enqueue68820 and effect helper3318; mode1 ends with28AAC selector7 and scene+38 |=8.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": []
+    },
+    {
+      "canonical_symbol": "sub_080505C8",
+      "address": "0x080505C8",
+      "display_name": "ResetEnemiesAfterConditionalDelay",
+      "summary": "Performs optional selected reveal and waits for transition idle. If area event bit2 is clear, waits up to30 signals with link-error escape then sets the bit. Clears active enemy state12 to0 and requests action reselection.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_0804D330.c",
+          "line": 2463,
+          "detail": "Body's flags4 test gates30-signal wait; final five-slot active-mask scan resets only state12.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": []
+    },
+    {
+      "canonical_symbol": "sub_08053060",
+      "address": "0x08053060",
+      "display_name": "ArmPlacementEvent2AndReveal",
+      "summary": "If area event bit2 is clear, schedules an object6-break watcher that calls placement event2 in mode0. Then performs optional selected reveal and waits for idle. A full callback pool silently skips watcher creation; stack allocation is unchecked and the entry does not wait for the event. The watcher can abort on scene flag16 while waiting for object state12, or skip its eventual callback if that task pool is full.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_0804D330.c",
+          "line": 3773,
+          "detail": "Calls t53_request2060(t53_cb3060,0,6); alias at3772 is53120; request wrapper3422 constructs2A104 task.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08028AAC.c",
+          "line": 1011,
+          "detail": "Watcher polls selected object state+14==12, aborts on scene+4 bit4 while waiting, then seeks a free30-slot callback task and retries allocation.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": []
+    },
+    {
+      "canonical_symbol": "sub_08055C58",
+      "address": "0x08055C58",
+      "display_name": "CreateActorType62Interaction",
+      "summary": "Spawns actor kind62 at(120,96), locates it among15 scene actor records, sets extents8/30 and flag16, and installs callback55D1C. Then performs optional selected reveal and waits for idle. Failed actor lookups yield once and skip their writes.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_080542C4.c",
+          "line": 599,
+          "detail": "Actor creation and handle lookup configure+18/+1A,+3C and callback+44; callback662 performs mode-dependent interaction under input/event locks.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": []
+    },
+    {
+      "canonical_symbol": "sub_0804F998",
+      "address": "0x0804F998",
+      "display_name": "InitializePlacementEvent0Scene",
+      "summary": "If area event bit0 is clear, schedules an object6-break watcher invoking placement event0 mode0; otherwise immediately positions object7 at(136,200). Performs optional selected reveal and waits for idle. Watcher pool exhaustion skips creation and stack allocation is unchecked. The watcher can abort on scene flag16 while waiting for object state12, or skip its eventual callback if that task pool is full.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_0804D330.c",
+          "line": 1788,
+          "detail": "Task callback2A104 receives descriptor4FA68,arg0 and object index6; flags1 selects setup versus restored position.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08028AAC.c",
+          "line": 1011,
+          "detail": "Watcher polls selected object state+14==12, aborts on scene+4 bit4 while waiting, then seeks a free30-slot callback task and retries allocation.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": []
+    },
+    {
+      "canonical_symbol": "sub_08050454",
+      "address": "0x08050454",
+      "display_name": "InitializePlacementEvent1Scene",
+      "summary": "If area event bit1 is clear, schedules an object6-break watcher invoking placement event1 mode0; otherwise positions object7 immediately at(888,160). Performs optional selected reveal and waits for idle. Full task pool skips watcher; stack allocation unchecked. The watcher can abort on scene flag16 while waiting for object state12, or skip its eventual callback if that task pool is full.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_0804D330.c",
+          "line": 2375,
+          "detail": "Descriptor50524,arg0 is passed to2A104 for object6; scene flags2 select watcher versus immediate placement.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08028AAC.c",
+          "line": 1011,
+          "detail": "Watcher polls selected object state+14==12, aborts on scene+4 bit4 while waiting, then seeks a free30-slot callback task and retries allocation.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": []
+    },
+    {
+      "canonical_symbol": "sub_08051BFC",
+      "address": "0x08051BFC",
+      "display_name": "ResetEnemiesWithEntryOverlay",
+      "summary": "Performs optional selected reveal. On first entry marked by area event bit2, sets that bit, waits up to60 signals, faces enemy1 toward local player, applies overlay3 to its key, then waits up to60 signals. Link errors shorten both waits. Always clears active enemy state12 and requests reselection.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_0804D330.c",
+          "line": 3220,
+          "detail": "flags4 gate two waitBFC(60) calls,2949C(1,0),19EB8 first-key overlay3; clearBFC scans all five active enemies.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": []
+    },
+    {
+      "canonical_symbol": "sub_0805442C",
+      "address": "0x0805442C",
+      "display_name": "RunGuardedEntityAscent",
+      "summary": "Returns if area event bit1 is set; otherwise sets it and queues persistent event5. Outside mapset0, starts a paired-actor callback, yields once, conditionally plays song117, faces the supplied entity upward, moves it up200 over duration200, and stops song117. In mapset0 only the movement runs. The guard is not rolled back if task/queue creation fails.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_080542C4.c",
+          "line": 75,
+          "detail": "scene+38 mask2 guard;5990C argument5;54514 callback and movement28D98(arg,0,-200,200).",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08028AAC.c",
+          "line": 169,
+          "detail": "Relative motion narrows offsets to signed16 and duration to unsigned16, supports local/enemy/map-object/handle selector domains, and samples interpolation without an endpoint snap. Fixed duration200 here is within terminating range.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": []
+    },
+    {
+      "canonical_symbol": "sub_08055974",
+      "address": "0x08055974",
+      "display_name": "InitializeEvent24ObjectScene",
+      "summary": "Starts scene callback55A60 if a free scene task slot exists, retrying its stack allocation. If persistent mode-bank event24 is set, parks map object8 at(9999,9999). Then performs optional selected reveal and waits for idle; does not wait for the scene callback.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_080542C4.c",
+          "line": 425,
+          "detail": "Pool30 task setup precedes byte+1BA/+1C6 bit0 test and28AAC selector8; optional reveal follows.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": []
+    },
+    {
+      "canonical_symbol": "sub_0804DA44",
+      "address": "0x0804DA44",
+      "display_name": "StartRegionTriggers12And13",
+      "summary": "Performs optional selected reveal and waits for idle, then independently schedules region-trigger callback5664C with table indices12 and13. Each start searches30 scene slots and retries stack allocation; a full pool skips that trigger. Does not wait for trigger execution.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_0804D330.c",
+          "line": 233,
+          "detail": "Two taskStart51DA calls carry literal12/13 after reveal; callback5664C uses spots56 indexed rectangle/destination records.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080542C4.c",
+          "line": 936,
+          "detail": "5664C uses spots56 table index for activation rectangle/destination, waits via Walk98 for overlap and pressed bit0 (or58608 cancellation), then outside mapset0 locks input/events, moves local player, unlocks and rearms. Entry only schedules it.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": []
+    },
+    {
+      "canonical_symbol": "sub_08054644",
+      "address": "0x08054644",
+      "display_name": "StartRegionTriggers14And15",
+      "summary": "Independently schedules callback5664C with region/destination table indices14 and15, then performs optional selected reveal and waits for transition idle. The30-slot scene task pool may skip either start when full; each available-slot stack allocation retries. Does not wait for region-trigger execution.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_080542C4.c",
+          "line": 190,
+          "detail": "spawn54/spawn56 launches5664C with literals14/15; callback936 indexes spots56 rectangle/destination table, waits for local activation and runs movement outside mapset0.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080542C4.c",
+          "line": 936,
+          "detail": "5664C uses spots56 table index for activation rectangle/destination, waits via Walk98 for overlap and pressed bit0 (or58608 cancellation), then outside mapset0 locks input/events, moves local player, unlocks and rearms. Entry only schedules it.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": []
+    },
+    {
+      "canonical_symbol": "sub_080557CC",
+      "address": "0x080557CC",
+      "display_name": "StartRegionTriggers57And58",
+      "summary": "Independently schedules callback5664C with region/destination table indices57 and58, then performs optional selected reveal and waits for transition idle. The30-slot scene task pool may skip either start when full; each available-slot stack allocation retries. Does not wait for region-trigger execution.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_080542C4.c",
+          "line": 379,
+          "detail": "spawn54/spawn56 launches5664C with literals57/58; callback936 indexes spots56 rectangle/destination table, waits for local activation and runs movement outside mapset0.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080542C4.c",
+          "line": 936,
+          "detail": "5664C uses spots56 table index for activation rectangle/destination, waits via Walk98 for overlap and pressed bit0 (or58608 cancellation), then outside mapset0 locks input/events, moves local player, unlocks and rearms. Entry only schedules it.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": []
+    },
+    {
+      "canonical_symbol": "sub_0804ED18",
+      "address": "0x0804ED18",
+      "display_name": "RunEvent2GuardedEntityAscent",
+      "summary": "Always sets persistent mode-bank event2. If area event bit3 is already set, returns; otherwise sets it and moves the supplied entity upward200 over duration200. Outside mapset0 also schedules paired actors, yields once, conditionally plays song117, faces the entity upward, then stops song117 after movement. Full task pool does not prevent the movement.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_0804D330.c",
+          "line": 1098,
+          "detail": "Persistent byte+1B7/+1C3 |=4 precedes scene+38 mask8 guard; callback4EE20 and upward28D98 implement guarded ascent.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08028AAC.c",
+          "line": 169,
+          "detail": "Relative motion narrows offsets to signed16 and duration to unsigned16, supports local/enemy/map-object/handle selector domains, and samples interpolation without an endpoint snap. Fixed duration200 here is within terminating range.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": []
+    },
+    {
+      "canonical_symbol": "sub_08051CE4",
+      "address": "0x08051CE4",
+      "display_name": "InitializePlacementEvent3Scene",
+      "summary": "If area event bit3 is clear, schedules an object6-break watcher invoking placement event3 mode0; otherwise positions object7 immediately at(264,344). Performs optional selected reveal and waits for idle, then clears active enemy state12 to0 and requests action reselection. Watcher creation skips a full pool and does not check stack allocation. The watcher can abort on scene flag16 while waiting for object state12, or skip its eventual callback if that task pool is full.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_0804D330.c",
+          "line": 3297,
+          "detail": "t53_startCE4(51DF0,0,6) or28AAC selector7; clearCE4(1) scans all active enemy states and calls19F04.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08028AAC.c",
+          "line": 1011,
+          "detail": "Watcher polls selected object state+14==12, aborts on scene+4 bit4 while waiting, then seeks a free30-slot callback task and retries allocation.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": []
+    }
+  ]
+}

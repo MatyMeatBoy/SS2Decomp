@@ -1,0 +1,480 @@
+[
+  {
+    "canonical_symbol": "sub_08067AC0",
+    "decision": "accept",
+    "display_name": "ReturnOneVariant5",
+    "reasoning": "Independently verified exact s32(void) return1 body. Variant ordinal distinguishes duplicate bodies only; no callback or gameplay purpose inferred.",
+    "evidence": [
+      {
+        "source": "src/code_080659B0.c",
+        "line": 1584,
+        "detail": "Exact literal-one body; ordinal only distinguishes identical implementations in canonical address order, continuing variants1..4. No hidden gameplay role is claimed.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ]
+  },
+  {
+    "canonical_symbol": "sub_08067AC4",
+    "decision": "accept",
+    "display_name": "ReturnOneVariant6",
+    "reasoning": "Independently verified exact s32(void) return1 body. Variant ordinal distinguishes duplicate bodies only; no callback or gameplay purpose inferred.",
+    "evidence": [
+      {
+        "source": "src/code_080659B0.c",
+        "line": 1587,
+        "detail": "Exact literal-one body; ordinal only distinguishes identical implementations in canonical address order, continuing variants1..4. No hidden gameplay role is claimed.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ]
+  },
+  {
+    "canonical_symbol": "sub_08067AC8",
+    "decision": "accept",
+    "display_name": "ReturnOneVariant7",
+    "reasoning": "Independently verified exact s32(void) return1 body. Variant ordinal distinguishes duplicate bodies only; no callback or gameplay purpose inferred.",
+    "evidence": [
+      {
+        "source": "src/code_080659B0.c",
+        "line": 1590,
+        "detail": "Exact literal-one body; ordinal only distinguishes identical implementations in canonical address order, continuing variants1..4. No hidden gameplay role is claimed.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ]
+  },
+  {
+    "canonical_symbol": "sub_08067ACC",
+    "decision": "accept",
+    "display_name": "ReturnOneVariant8",
+    "reasoning": "Independently verified exact s32(void) return1 body. Variant ordinal distinguishes duplicate bodies only; no callback or gameplay purpose inferred.",
+    "evidence": [
+      {
+        "source": "src/code_080659B0.c",
+        "line": 1593,
+        "detail": "Exact literal-one body; ordinal only distinguishes identical implementations in canonical address order, continuing variants1..4. No hidden gameplay role is claimed.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ]
+  },
+  {
+    "canonical_symbol": "sub_08067AD0",
+    "decision": "accept",
+    "display_name": "ReturnOneVariant9",
+    "reasoning": "Independently verified exact s32(void) return1 body. Variant ordinal distinguishes duplicate bodies only; no callback or gameplay purpose inferred.",
+    "evidence": [
+      {
+        "source": "src/code_080659B0.c",
+        "line": 1596,
+        "detail": "Exact literal-one body; ordinal only distinguishes identical implementations in canonical address order, continuing variants1..4. No hidden gameplay role is claimed.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ]
+  },
+  {
+    "canonical_symbol": "sub_08067AD4",
+    "decision": "accept",
+    "display_name": "ReturnOneVariant10",
+    "reasoning": "Verified exact signed return1 body and no argument/state use. Ordinal is only duplicate implementation identifier, not semantic variant.",
+    "evidence": [
+      {
+        "source": "src/code_080659B0.c",
+        "line": 1599,
+        "detail": "Exact literal-one body; ordinal only distinguishes identical implementations in canonical address order, continuing variants1..4. No hidden gameplay role is claimed.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ]
+  },
+  {
+    "canonical_symbol": "sub_08067AD8",
+    "decision": "accept",
+    "display_name": "ReturnOneVariant11",
+    "reasoning": "Verified exact signed return1 body and no argument/state use. Ordinal is only duplicate implementation identifier, not semantic variant.",
+    "evidence": [
+      {
+        "source": "src/code_080659B0.c",
+        "line": 1602,
+        "detail": "Exact literal-one body; ordinal only distinguishes identical implementations in canonical address order, continuing variants1..4. No hidden gameplay role is claimed.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ]
+  },
+  {
+    "canonical_symbol": "sub_08067ADC",
+    "decision": "accept",
+    "display_name": "ReturnOneVariant12",
+    "reasoning": "Verified exact signed return1 body and no argument/state use. Ordinal is only duplicate implementation identifier, not semantic variant.",
+    "evidence": [
+      {
+        "source": "src/code_080659B0.c",
+        "line": 1605,
+        "detail": "Exact literal-one body; ordinal only distinguishes identical implementations in canonical address order, continuing variants1..4. No hidden gameplay role is claimed.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ]
+  },
+  {
+    "canonical_symbol": "sub_08067AE0",
+    "decision": "accept",
+    "display_name": "ReturnOneVariant13",
+    "reasoning": "Verified exact signed return1 body and no argument/state use. Ordinal is only duplicate implementation identifier, not semantic variant.",
+    "evidence": [
+      {
+        "source": "src/code_080659B0.c",
+        "line": 1608,
+        "detail": "Exact literal-one body; ordinal only distinguishes identical implementations in canonical address order, continuing variants1..4. No hidden gameplay role is claimed.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ]
+  },
+  {
+    "canonical_symbol": "sub_08067AE4",
+    "decision": "accept",
+    "display_name": "ReturnOneVariant14",
+    "reasoning": "Verified exact signed return1 body and no argument/state use. Ordinal is only duplicate implementation identifier, not semantic variant.",
+    "evidence": [
+      {
+        "source": "src/code_080659B0.c",
+        "line": 1611,
+        "detail": "Exact literal-one body; ordinal only distinguishes identical implementations in canonical address order, continuing variants1..4. No hidden gameplay role is claimed.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ]
+  },
+  {
+    "canonical_symbol": "sub_08067AE8",
+    "decision": "accept",
+    "display_name": "ReturnOneVariant15",
+    "reasoning": "Verified exact signed return1 body; variant only disambiguates identical implementations.",
+    "evidence": [
+      {
+        "source": "src/code_080659B0.c",
+        "line": 1614,
+        "detail": "Exact literal-one body; ordinal only distinguishes identical implementations in canonical address order, continuing variants1..4. No hidden gameplay role is claimed.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ]
+  },
+  {
+    "canonical_symbol": "sub_08067AEC",
+    "decision": "accept",
+    "display_name": "NoOpVariant1",
+    "reasoning": "Verified correctly typed void(void) empty body, not an unresolved variadic decompilation. Immediate no-op is exact contract; variant ordinal claims no hidden domain.",
+    "evidence": [
+      {
+        "source": "src/code_080659B0.c",
+        "line": 1617,
+        "detail": "Empty void body; ordinal distinguishes three identical no-op implementations in canonical address order. No callback or gameplay role is claimed.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ]
+  },
+  {
+    "canonical_symbol": "sub_08067AF0",
+    "decision": "accept",
+    "display_name": "ReturnOneVariant16",
+    "reasoning": "Verified exact signed return1 body; variant only disambiguates identical implementations.",
+    "evidence": [
+      {
+        "source": "src/code_080659B0.c",
+        "line": 1620,
+        "detail": "Exact literal-one body; ordinal only distinguishes identical implementations in canonical address order, continuing variants1..4. No hidden gameplay role is claimed.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ]
+  },
+  {
+    "canonical_symbol": "sub_08067AF4",
+    "decision": "accept",
+    "display_name": "NoOpVariant2",
+    "reasoning": "Verified correctly typed void(void) empty body, not an unresolved variadic decompilation. Immediate no-op is exact contract; variant ordinal claims no hidden domain.",
+    "evidence": [
+      {
+        "source": "src/code_080659B0.c",
+        "line": 1623,
+        "detail": "Empty void body; ordinal distinguishes three identical no-op implementations in canonical address order. No callback or gameplay role is claimed.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ]
+  },
+  {
+    "canonical_symbol": "sub_08067AF8",
+    "decision": "accept",
+    "display_name": "NoOpVariant3",
+    "reasoning": "Verified correctly typed void(void) empty body, not an unresolved variadic decompilation. Immediate no-op is exact contract; variant ordinal claims no hidden domain.",
+    "evidence": [
+      {
+        "source": "src/code_080659B0.c",
+        "line": 1626,
+        "detail": "Empty void body; ordinal distinguishes three identical no-op implementations in canonical address order. No callback or gameplay role is claimed.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ]
+  },
+  {
+    "canonical_symbol": "sub_0806514C",
+    "decision": "reject",
+    "display_name": "",
+    "reasoning": "Verified sole zero store and initializer caller. No meaningful reader/domain established; keep low unnamed draft deferred.",
+    "evidence": [
+      {
+        "source": "src/code_0805FB7C.c",
+        "line": 3181,
+        "detail": "Only observed operation is zero store to global word.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_08001A50.c",
+        "line": 95,
+        "detail": "Initialization sequence calls this helper; exhaustive source/data symbol search found no other accesses.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ]
+  },
+  {
+    "canonical_symbol": "sub_08065AE8",
+    "decision": "accept",
+    "display_name": "IsCoordinatedAttackActive",
+    "reasoning": "Verified wrapper normalizes58DB0 to0/1. Primary58DB0 combines existing global predicate, local state14 and connected-player packed low-nibble kind14; approved coordinated-attack family is supported.",
+    "evidence": [
+      {
+        "source": "src/code_080659B0.c",
+        "line": 81,
+        "detail": "Calls58DB0; zero maps0, nonzero maps1. Approved predicate role is coordinated attack state.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ]
+  },
+  {
+    "canonical_symbol": "sub_080653FC",
+    "decision": "accept",
+    "display_name": "CancelItemSelectionHudTask",
+    "reasoning": "Verified06160+index*40 control lookup and scheduled-only cancellation. Same control/60E44 binding is item-selection HUD, not unrelated task array. No index bounds guard.",
+    "evidence": [
+      {
+        "source": "src/code_0805FB7C.c",
+        "line": 3284,
+        "detail": "Computes control06160+index*40, checks scheduling and invokes task cancellation.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_0805FB7C.c",
+        "line": 1022,
+        "detail": "61688 binds same control array to60E44 item-selection HUD callback.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_0805FB7C.c",
+        "line": 893,
+        "detail": "HUD callback shows selected group of three item slots and inventory counts.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ]
+  },
+  {
+    "canonical_symbol": "sub_08065AFC",
+    "decision": "accept",
+    "display_name": "StartAreaTitleTask",
+    "reasoning": "Verified idle-only061E0 admission, local flag80,01638 allocation and6335C binding. Child derives area/level title IDs, draws120 yields only for nonzero area, clears flag; starter does not wait.",
+    "evidence": [
+      {
+        "source": "src/code_080659B0.c",
+        "line": 86,
+        "detail": "Checks061E0 scheduled status, sets local flag0x80, allocates0x400 via01638 without explicit null guard, binds6335C and starts task.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_0805FB7C.c",
+        "line": 2091,
+        "detail": "Child chooses level/area animation IDs, draws120 signal waits when area nonzero, then clears local flag0x80; area0 skips draw loop.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ]
+  },
+  {
+    "canonical_symbol": "sub_080655CC",
+    "decision": "accept",
+    "display_name": "DrawItemRecordName",
+    "reasoning": "Verified nonnull record kinds2..5 only, resource13 plus data[2], language31-byte stride and signed16 centering offset. Coordinate narrowing to u16 and ignored nonnegative align are consistent.",
+    "evidence": [
+      {
+        "source": "src/code_0805FB7C.c",
+        "line": 3371,
+        "detail": "Kinds0/1 and unsupported values return. Kinds2..5 load record[2]|0x130000, add language*31 and draw at u16 coordinates. Negative align uses signed16 offset -(length*13>>1).",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ]
+  },
+  {
+    "canonical_symbol": "sub_08061688",
+    "decision": "accept",
+    "display_name": "StartIndexedItemSelectionHud",
+    "reasoning": "Verified indexed06160 task,06180 alias to its+20 memory field,0x200 allocation retry and0x1FC top. Order65 only for index0,3C otherwise; no active/index guard, no completion wait.",
+    "evidence": [
+      {
+        "source": "src/code_0805FB7C.c",
+        "line": 1024,
+        "detail": "No schedule or index guard; retries01494 allocation while yielding; taskMem64 aliases06180, same task-control+0x20 stack field. Sets callback60E44, stacktop+1FC and zero finalizer.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_0805FB7C.c",
+        "line": 796,
+        "detail": "Callback argument controls animation; manipulates selected item index, draws three-item group and bag counts, and exits/aborts on scene/UI state predicates.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ]
+  },
+  {
+    "canonical_symbol": "sub_08061830",
+    "decision": "fix",
+    "display_name": "PlayPlayerLevelUpEffect",
+    "reasoning": "Canonical mapping corrected from primary function definition, not proposal ordering. Actual61830 is48-yield rising animation14 and player flag8 setter; experience-threshold caller1E244:195 proves level-up role. Original XP-number role belongs6171C.",
+    "evidence": [
+      {
+        "source": "src/code_0805FB7C.c",
+        "line": 1104,
+        "detail": "Snapshots fixed-point position8C/90, decreases y by0x20 per step, steps animation14 and draws at projected position minus8; exactly48 waits independent of menu suppression.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_0801E244.c",
+        "line": 192,
+        "detail": "Experience threshold path advances level, increases progression counters and invokes effect for local player.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ],
+    "corrected_row": {
+      "canonical_symbol": "sub_08061830",
+      "address": "0x08061830",
+      "display_name": "PlayPlayerLevelUpEffect",
+      "summary": "Plays sound37 and48 signal-step rising animation14, suppressing draw under fullscreen menu; then sets supplied player flag8.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_0805FB7C.c",
+          "line": 1104,
+          "detail": "Snapshots fixed-point position8C/90, decreases y by0x20 per step, steps animation14 and draws at projected position minus8; exactly48 waits independent of menu suppression.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0801E244.c",
+          "line": 192,
+          "detail": "Experience threshold path advances level, increases progression counters and invokes effect for local player.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": []
+    }
+  },
+  {
+    "canonical_symbol": "sub_08066624",
+    "decision": "fix",
+    "display_name": "EnqueueLinkSnapshot171",
+    "reasoning": "Canonical mapping corrected from primary function definition, not proposal ordering. Actual66624 is queue tagAB admission, count<=49,33 initialized bytes and five8-byte chunks. Receiver case2A maps words to74/78 or7C/80 and clears opposite pair; groups to1B0..1B6/1BC..1C2/1B7..1BB/1C3..1C7; byte to70=1/2. Original level-up role belongs61830.",
+    "evidence": [
+      {
+        "source": "src/code_080659B0.c",
+        "line": 623,
+        "detail": "Rejects count>49; writes0x88-byte entry, active word1, tag0xAB, payload two u32 from save+4/+8 or+C/+10, byte ranges140..146,14C..152,147..14B,153..157; finalbyte saveword0==1; declares five8-byte chunks and increments count.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_080659B0.c",
+        "line": 1028,
+        "detail": "Receiver normalizes tags by subtracting0x81, binding0xAB to case0x2A.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_080659B0.c",
+        "line": 1514,
+        "detail": "Receiver routes first two words to scene74/78 or7C/80, clears opposite pair, copies two7/two5 groups then maps finalbyte to scene70=1/2. Receiver struct at929 places group0 at1B0 (7+5 bytes) and group1 at1BC; thus destination a ranges1B0..1B6/1BC..1C2 and b ranges1B7..1BB/1C3..1C7.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_08021DC4.c",
+        "line": 590,
+        "detail": "Scene restoration initiates this send when link mode is active.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ],
+    "corrected_row": {
+      "canonical_symbol": "sub_08066624",
+      "address": "0x08066624",
+      "display_name": "EnqueueLinkSnapshot171",
+      "summary": "Attempts one queue admission for tag171 containing mode-selected saved words, two7-byte groups, two5-byte groups and normalized mode byte; returns1 on admission and0 when queue full.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_080659B0.c",
+          "line": 623,
+          "detail": "Rejects count>49; writes0x88-byte entry, active word1, tag0xAB, payload two u32 from save+4/+8 or+C/+10, byte ranges140..146,14C..152,147..14B,153..157; finalbyte saveword0==1; declares five8-byte chunks and increments count.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080659B0.c",
+          "line": 1028,
+          "detail": "Receiver normalizes tags by subtracting0x81, binding0xAB to case0x2A.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080659B0.c",
+          "line": 1514,
+          "detail": "Receiver routes first two words to scene74/78 or7C/80, clears opposite pair, copies two7/two5 groups then maps finalbyte to scene70=1/2. Receiver struct at929 places group0 at1B0 (7+5 bytes) and group1 at1BC; thus destination a ranges1B0..1B6/1BC..1C2 and b ranges1B7..1BB/1C3..1C7.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08021DC4.c",
+          "line": 590,
+          "detail": "Scene restoration initiates this send when link mode is active.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Admission is not delivery or synchronization completion; the33 initialized payload bytes occupy five chunks, with final chunk padding not explicitly initialized here. Original hidden progression interpretation is not claimed."
+      ]
+    }
+  },
+  {
+    "canonical_symbol": "sub_0806171C",
+    "decision": "fix",
+    "display_name": "DrawExperienceAwardNumber",
+    "reasoning": "Canonical mapping corrected from primary function definition, not proposal ordering. Actual6171C projects object+14/+18, draws style2 number with4 digit positions and animation4/frame6 marker; enemy-defeat caller791 supplies computed XP. Original queue role belongs66624.",
+    "evidence": [
+      {
+        "source": "src/code_0805FB7C.c",
+        "line": 1079,
+        "detail": "Projects object x/y+14/+18, draws four digits with style2 then fixed animation4/frame6 marker. Negative value becomes0x7FFFFFFF in digit helper; four digits extracted without caller range guard.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_08017F7C.c",
+        "line": 785,
+        "detail": "Enemy-defeat path computes experience award, draws this helper while position rises, then adds award to local experience.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ],
+    "corrected_row": {
+      "canonical_symbol": "sub_0806171C",
+      "address": "0x0806171C",
+      "display_name": "DrawExperienceAwardNumber",
+      "summary": "Draws four-digit experience award and fixed marker above supplied world-position object unless map-set0 or fullscreen-menu guard suppresses it.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_0805FB7C.c",
+          "line": 1079,
+          "detail": "Projects object x/y+14/+18, draws four digits with style2 then fixed animation4/frame6 marker. Negative value becomes0x7FFFFFFF in digit helper; four digits extracted without caller range guard.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08017F7C.c",
+          "line": 785,
+          "detail": "Enemy-defeat path computes experience award, draws this helper while position rises, then adds award to local experience.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Visual meaning of fixed animation4/frame6 marker not independently identified; name describes number source."
+      ]
+    }
+  }
+]

@@ -1,0 +1,435 @@
+{
+  "source_revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7",
+  "policy": "Frozen proposals, including superseded mappings; reviewed accepted rows alone earn credit.",
+  "proposals": [
+    {
+      "canonical_symbol": "sub_0801A628",
+      "address": "0x0801A628",
+      "display_name": "NoOpVariant5",
+      "summary": "Returns immediately without reading inputs or changing state.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_08017F7C.c",
+          "line": 1392,
+          "detail": "Lines 1392-1394 define an empty leaf function.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08017F7C.c",
+          "line": 1392,
+          "detail": "Re-read exact body and helper/bit operation at pinned source. Name describes only observable contract; numeric suffix distinguishes identical no-ops by ascending address starting4, not any gameplay/interface role.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Original intended purpose remains unknown; no semantic role is claimed beyond the exact empty body."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_08021C6C",
+      "address": "0x08021C6C",
+      "display_name": "NoOpVariant6",
+      "summary": "Returns immediately without changing state.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_0801E244.c",
+          "line": 2400,
+          "detail": "Lines 2400-2402 define an empty leaf; src/code_08009088.c:1940-1941 calls it immediately after AllocateActorSpriteEffectTaskPool during scene resource startup.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0801E244.c",
+          "line": 2400,
+          "detail": "Re-read exact body and helper/bit operation at pinned source. Name describes only observable contract; numeric suffix distinguishes identical no-ops by ascending address starting4, not any gameplay/interface role.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Original intended purpose remains unknown; no semantic role is claimed beyond the exact empty body."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_08021C70",
+      "address": "0x08021C70",
+      "display_name": "NoOpVariant7",
+      "summary": "Returns immediately without changing state.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_0801E244.c",
+          "line": 2403,
+          "detail": "Lines 2403-2405 define an empty leaf; src/code_08009088.c:1965-1966 calls it immediately after FreeActorSpriteEffectTaskPool during teardown.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0801E244.c",
+          "line": 2403,
+          "detail": "Re-read exact body and helper/bit operation at pinned source. Name describes only observable contract; numeric suffix distinguishes identical no-ops by ascending address starting4, not any gameplay/interface role.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Original intended purpose remains unknown; no semantic role is claimed beyond the exact empty body."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_0801A500",
+      "address": "0x0801A500",
+      "display_name": "NoOpVariant4",
+      "summary": "Ignores all arguments and returns without changing state.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_08017F7C.c",
+          "line": 1338,
+          "detail": "Lines 1338-1340 define an empty variadic function between glyph tile queuing and text initialization.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08017F7C.c",
+          "line": 1338,
+          "detail": "Re-read exact body and helper/bit operation at pinned source. Name describes only observable contract; numeric suffix distinguishes identical no-ops by ascending address starting4, not any gameplay/interface role.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Original intended purpose remains unknown; no semantic role is claimed beyond the exact empty body."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_0801A62C",
+      "address": "0x0801A62C",
+      "display_name": "SetSharedHalfwordToOne",
+      "summary": "Writes literal1 to the shared signed16-bit storage at gUnk_03005C98 and returns. No flag, latch, rendering or completion meaning is asserted.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_08017F7C.c",
+          "line": 1395,
+          "detail": "Exact leaf assigns1 to gUnk_03005C98; no arguments, calls, reads or return-value contract.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "include/variables.h",
+          "line": 165,
+          "detail": "Global is declared s16. Matching code_08017F7C.o text+26B0..26B8 uses MOVS R0,1; STRH R0,[R1]; BX LR, relocation to gUnk_03005C98, corroborating16-bit write.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08017F7C.c",
+          "line": 1344,
+          "detail": "Initialization clears same halfword; flagged tilemap-row clearing also clears it at1365. Bounded exact-symbol, numeric-address and neighboring-alias search found no other consumer or caller; proximity alone does not establish ownership.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Intended purpose and reader remain unknown; only the exact shared-halfword write is named.",
+        "No direct source/assembly/data caller or consumer was found; unobserved external or indirect access cannot be excluded."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_0801A650",
+      "address": "0x0801A650",
+      "display_name": "UpdateSharedHalfwordMinimum",
+      "summary": "Reads volatile unsigned16-bit gUnk_03005730, compares its zero-extended value with the full unsigned32-bit argument, and stores the argument's low16 bits only when it is smaller. Values65536 or greater never update; equal values do not store.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_08017F7C.c",
+          "line": 1410,
+          "detail": "Body compares (u32)global > arg0, then conditionally stores(u16)arg0. This is unsigned minimum update, not signed clamp or unconditional truncation.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "include/variables.h",
+          "line": 164,
+          "detail": "Global is volatile unsigned short. Matching code_08017F7C.o text+26D4..26E4 uses LDRH, CMP full incomingR0 copiedR1, unsigned BLS skip, conditional STRH and BX LR.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08017F7C.c",
+          "line": 1346,
+          "detail": "Initialization sets this halfword to18. Bounded symbol/address/alias search found no additional reader or direct caller, so no text-row, clipping, priority or limit ownership is established.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "What quantity this unsigned minimum tracks remains unknown; the name states only the exact operation.",
+        "The initial value18 and neighboring tilemap code do not prove this is a rendering limit."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_080587E4",
+      "address": "0x080587E4",
+      "display_name": "SetLocalPlayerBit12Wrapper",
+      "summary": "Calls sub_08015D74, which sets bit 12 of the local player flags without changing other bits.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_08058790.c",
+          "line": 23,
+          "detail": "Wrapper calls sub_08015D74 and does no other work.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080153A4.c",
+          "line": 420,
+          "detail": "Target sets local player flags bit 12 at record offset 0x30.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0803B69C.c",
+          "line": 1240,
+          "detail": "The set helper is used around Boken dialogue; the paired clear occurs at 1307.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08068670.c",
+          "line": 1523,
+          "detail": "The set helper is also used in an ability-effect loop; paired cleanup clears it at 1540.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08058790.c",
+          "line": 23,
+          "detail": "Re-read exact mask/shift and wrapper target. Bit12 names are literal bit operations; no unknown gameplay effect is asserted.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Gameplay meaning of this bit remains unknown."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_080587F0",
+      "address": "0x080587F0",
+      "display_name": "ClearLocalPlayerBit12Wrapper",
+      "summary": "Calls sub_08015D98, which clears bit 12 of the local player flags without changing other bits.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_08058790.c",
+          "line": 26,
+          "detail": "Wrapper calls sub_08015D98 and does no other work.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080153A4.c",
+          "line": 424,
+          "detail": "Target clears local player flags bit 12 at record offset 0x30.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0803B69C.c",
+          "line": 1240,
+          "detail": "The set helper is used around Boken dialogue; the paired clear occurs at 1307.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08068670.c",
+          "line": 1523,
+          "detail": "The set helper is also used in an ability-effect loop; paired cleanup clears it at 1540.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08058790.c",
+          "line": 26,
+          "detail": "Re-read exact mask/shift and wrapper target. Bit12 names are literal bit operations; no unknown gameplay effect is asserted.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Gameplay meaning of this bit remains unknown."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_0800CE78",
+      "address": "0x0800CE78",
+      "display_name": "IsSceneFlagBit12Set",
+      "summary": "Returns scene-flags bit 12 as 0 or 1 without changing state.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_0800CBBC.c",
+          "line": 127,
+          "detail": "Exact body manipulates only bit 12 of gUnk_03003478; no direct source caller or paired predicate consumer was found.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0800CBBC.c",
+          "line": 127,
+          "detail": "Re-read exact mask/shift and wrapper target. Bit12 names are literal bit operations; no unknown gameplay effect is asserted.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Gameplay meaning of this bit remains unknown."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_0800CE88",
+      "address": "0x0800CE88",
+      "display_name": "SetSceneFlagBit12",
+      "summary": "Sets scene-flags bit 12 while preserving all other bits.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_0800CBBC.c",
+          "line": 130,
+          "detail": "Exact body manipulates only bit 12 of gUnk_03003478; no direct source caller or paired predicate consumer was found.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0800CBBC.c",
+          "line": 130,
+          "detail": "Re-read exact mask/shift and wrapper target. Bit12 names are literal bit operations; no unknown gameplay effect is asserted.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Gameplay meaning of this bit remains unknown."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_0800CE9C",
+      "address": "0x0800CE9C",
+      "display_name": "ClearSceneFlagBit12",
+      "summary": "Clears scene-flags bit 12 while preserving all other bits.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_0800CBBC.c",
+          "line": 133,
+          "detail": "Exact body manipulates only bit 12 of gUnk_03003478; no direct source caller or paired predicate consumer was found.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0800CBBC.c",
+          "line": 133,
+          "detail": "Re-read exact mask/shift and wrapper target. Bit12 names are literal bit operations; no unknown gameplay effect is asserted.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Gameplay meaning of this bit remains unknown."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_08067B4C",
+      "address": "0x08067B4C",
+      "display_name": "NoOpVariant8",
+      "summary": "Returns immediately without changing state.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_08067B4C.c",
+          "line": 10,
+          "detail": "Lines 10-12 define an empty leaf; no direct source callers found.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08067B4C.c",
+          "line": 10,
+          "detail": "Re-read exact body and helper/bit operation at pinned source. Name describes only observable contract; numeric suffix distinguishes identical no-ops by ascending address starting4, not any gameplay/interface role.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Original intended purpose remains unknown; no semantic role is claimed beyond the exact empty body."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_080688F4",
+      "address": "0x080688F4",
+      "display_name": "NoOpVariant9",
+      "summary": "Returns immediately without changing state.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_08068670.c",
+          "line": 140,
+          "detail": "Lines 140-142 define an empty leaf; no direct source callers found.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08068670.c",
+          "line": 140,
+          "detail": "Re-read exact body and helper/bit operation at pinned source. Name describes only observable contract; numeric suffix distinguishes identical no-ops by ascending address starting4, not any gameplay/interface role.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "Original intended purpose remains unknown; no semantic role is claimed beyond the exact empty body."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_0806514C",
+      "address": "0x0806514C",
+      "display_name": "ClearSharedWord",
+      "summary": "Writes zero to the shared32-bit word gUnk_03006028 and returns. Startup calls this helper; no subsystem ownership, queue meaning or completion semantics is asserted.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_0805FB7C.c",
+          "line": 3181,
+          "detail": "Exact leaf stores0 to gUnk_03006028; no reads, input-dependent branches or other work.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "include/variables.h",
+          "line": 175,
+          "detail": "Global is declared s32. Matching code_0805FB7C.o text+55D0..55D8 uses MOVS R0,0; STR R0,[R1]; BX LR with relocation to gUnk_03006028.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08001A50.c",
+          "line": 95,
+          "detail": "Startup sub_08001B78 calls this helper among independent subsystem initializers. Exact-symbol/numeric-address/neighboring-alias searches found no other access. Adjacent0300602C pointer is separately bound; its popup-task consumers do not prove03006028 ownership.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "The intended use and any reader of this shared word remain unknown.",
+        "No other source/assembly/data reader or writer was found; proximity to other subsystem globals does not establish semantics."
+      ]
+    },
+    {
+      "canonical_symbol": "sub_080585F4",
+      "address": "0x080585F4",
+      "display_name": "EnqueueNearbyFieldItemRemoval",
+      "summary": "Scales incoming x/y registers by256, finds nearby field item matching incomingR2 key and immediately passes returned pointer to one-shot removal queue admission; no null guard or delivery wait.",
+      "confidence": "high",
+      "evidence": [
+        {
+          "source": "src/code_08057CAC.c",
+          "line": 499,
+          "detail": "Matching-object audit text+948..958: LSLS R0/R1,#8; BL5D37C; immediately BL687A8. IncomingR2 is untouched before finder and finder-returnedR0 is unchanged into queue helper. Final popR0 restores return address, so no returned admission result is exposed.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_0805D094.c",
+          "line": 123,
+          "detail": "Finder scans16 active32-byte field records, abs((x-recordx)>>8)<=7 and same fory, compares key halfword+8; returns pointer orNULL.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_08068670.c",
+          "line": 58,
+          "detail": "Queue helper rejects count>49 before pointer dereference; otherwise tag155 payload is u16 returned-record+C zeroextended, one8-byte chunk. No caller null guard exists.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        },
+        {
+          "source": "src/code_080659B0.c",
+          "line": 1362,
+          "detail": "Receiver(tag-0x81)==0x1A binds tag155 to5D4C4((u16)payload0), established field-item removal consumer.",
+          "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+        }
+      ],
+      "open_questions": [
+        "C formal omits incomingR2 and forwarded pointer. Valid key/register input and finder success are caller preconditions on any admitted queue path; failed search with queue space would dereferenceNULL."
+      ]
+    }
+  ]
+}

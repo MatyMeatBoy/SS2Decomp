@@ -1,0 +1,124 @@
+[
+  {
+    "canonical_symbol": "sub_080137A0",
+    "decision": "accept",
+    "display_name": "ClearSelectedEquipmentRecord",
+    "reasoning": "Verified offset100/110/120 record layout of two halfwords plus12 bytes and selector0..2 only. Equipment consumers test record kinds4/3/5; no skill-state, field-item deletion or attribute recomputation inferred.",
+    "evidence": [
+      {
+        "source": "src/code_0800CF58.c",
+        "line": 5418,
+        "detail": "Writes zero type/id halfwords plus12 bytes at local save100/110/120 for selectors0/1/2 respectively.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_0805D094.c",
+        "line": 25,
+        "detail": "100 headgear kind4,110 body kind3 and120 glove kind5 feed equipment activation checks and resource class/level requirements.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_0800CF58.c",
+        "line": 3020,
+        "detail": "Caller passes selected record to EnqueueLinkFieldItemSpawnRequest then clears it without checking admission result;3352 repeats this flow. This clears equipped record, not skill-group state.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ]
+  },
+  {
+    "canonical_symbol": "sub_0800D1B0",
+    "decision": "accept",
+    "display_name": "IsLocalPlayerDamageSuppressed",
+    "reasoning": "Verified normalized shared local damage gate and pending-damage consumer: true clears pending88/8A without subtracting C4. Explicit area/rule conditions are literal exclusions; name correctly limits scope to suppression predicate rather than universal invulnerability.",
+    "evidence": [
+      {
+        "source": "src/code_0800CF58.c",
+        "line": 107,
+        "detail": "Returns0/1. Tests local active68, flag400, state12, coordinated attack58DB0, scene predicatesD11C/CCCC/CDF8; battle-rules+encounter-finished; explicit level/area list; special scene rule when no enemy has health above pending damage. No hidden meaning is assigned to exclusion list.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_0800CF58.c",
+        "line": 5619,
+        "detail": "ApplyPlayerPendingDamageAndReportDefeat subtracts pending88/8A from healthC4 only when gate0; when1 it clears pending words without applying.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_0800CF58.c",
+        "line": 1620,
+        "detail": "Effect kinds5/6 add periodic damage into pending88 only when gate0; these are status-effect countdown ticks, not held-input gating.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_0805A630.c",
+        "line": 1407,
+        "detail": "Item effects10/11 reject creating/refreshing effect records6/7 when gate1.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_08073E2C.c",
+        "line": 3397,
+        "detail": "Area-damage collision branch uses gate0 before queueing local-player damage;3549 has explicit alternate branch under separate scene rule.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ]
+  },
+  {
+    "canonical_symbol": "sub_08013C3C",
+    "decision": "accept",
+    "display_name": "CachePlayerEnemyAimDirections",
+    "reasoning": "Verified five enemy slots, active mask plus frame parity, enemy-player vector narrowing into ArcTan2, exact0x800-down/>0x800-up rounding and mask15 at126+2*i. Attack producer consumes selected cache entry; no targeting/visibility work claimed.",
+    "evidence": [
+      {
+        "source": "src/code_0800CF58.c",
+        "line": 5645,
+        "detail": "For enemy slots0..4 with active mask and matching frame-counter parity, ArcTan2(enemy-player coordinates) is rounded into halfword values0..15 at126+2*i. Remainder exactly0x800 rounds downward; greater rounds upward.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_0800CF58.c",
+        "line": 3819,
+        "detail": "Attack record generation maps cached selected-enemy direction through directionTable into player facing and packed record heading;3898 and3925 also consume cache for enemy-directed attacks.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_0800CF58.c",
+        "line": 1075,
+        "detail": "Main player updater invokes cache refresh; parity distributes computation across updates.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ]
+  },
+  {
+    "canonical_symbol": "sub_080140AC",
+    "decision": "accept",
+    "display_name": "AdvancePlayerForcedMotion",
+    "reasoning": "Verified both duration channels call collision-aware13E90 and may move in same call. Channel2 D4 nonzero holds speed while duration remains; on expiry signedD4/2 reinterpretsu16 and caps>3 to4, resetsD4 and sets512. Otherwise signed arithmetic half-speed clamps below64 even last tick. Enemy-hit writer supplies D0; generic forced motion avoids universal knockback claim.",
+    "evidence": [
+      {
+        "source": "src/code_0800CF58.c",
+        "line": 5785,
+        "detail": "Channel1 C8 duration/CA direction/CC signed speed and channel2 CE/D0/D2 update8C/90 through13E90 with collision bypass0; both can move in one call.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_0800CF58.c",
+        "line": 5798,
+        "detail": "Nonzero signedD4 holds speed until CE expires, then CE=(u16)(signedD4/2), values>3 become4, D4 clears and speed becomes512. Otherwise D2 arithmetic-shifts right1 and clamps signed result below64 to64, even on last duration tick.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_0800CF58.c",
+        "line": 3232,
+        "detail": "Main player update invokes after regular D8 movement and enemy collision handling, before map position adjustment.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      },
+      {
+        "source": "src/code_0801E244.c",
+        "line": 1786,
+        "detail": "Enemy hit handling applies impulse packet and writes attacker direction into playerD0, establishing second channel as hit-induced motion.",
+        "revision": "3a130dffdff91bb6ce8fbc19e19c2e6c074223a7"
+      }
+    ]
+  }
+]
