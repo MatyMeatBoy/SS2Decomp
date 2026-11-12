@@ -10,8 +10,8 @@
       "rom_sha256": "e5c64a1740263e9b26120e487f3688fbbf7b3954a2c043c0d84c333df467e0b2",
       "code": {
         "total": 758984,
-        "percent": 99.53464104645157,
-        "matching": 755452
+        "percent": 100.0,
+        "matching": 758984
       },
       "data": {
         "total": 16017660,
@@ -119,5 +119,5 @@
       "evidence_revision": "8a7c8ef382cd6832f3e53eef82a6e0f07da7c11c"
     }
   },
-  "limits": "Code includes literal pools/alignment and excludes the header/startup prelude. Data includes opaque assets/padding. Raw ROM gaps/incbins, linked binaries, drafts and names earn no source credit. Data source coverage is not a measure of understanding."
+  "limits": "Code includes literal pools/alignment and excludes the header/startup prelude. Data includes opaque assets/padding. EU code counts matching C, the original hand-written assembly kept as assembly, and linked toolchain libraries. Raw ROM gaps/incbins, drafts and names earn no source credit. Data source coverage is not a measure of understanding."
 }

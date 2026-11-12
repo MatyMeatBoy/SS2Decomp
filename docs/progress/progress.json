@@ -20,7 +20,8 @@
   "bytes_decompilable": 745152,
   "funcs_all": 1884,
   "bytes_all": 746140,
-  "percent_decompiled": 100.0
+  "percent_decompiled": 100.0,
+  "percent_complete": 100.0
  },
  "lib": {
   "bytes_total": 11240,
@@ -43,7 +44,8 @@
   "bytes_decompilable": 10300,
   "funcs_all": 149,
   "bytes_all": 12844,
-  "percent_decompiled": 100.0
+  "percent_decompiled": 100.0,
+  "percent_complete": 100.0
  },
  "all": {
   "bytes_total": 756392,
@@ -66,7 +68,8 @@
   "bytes_decompilable": 755452,
   "funcs_all": 2033,
   "bytes_all": 758984,
-  "percent_decompiled": 100.0
+  "percent_decompiled": 100.0,
+  "percent_complete": 100.0
  },
  "asm": {
   "bytes": 2592,
@@ -113,7 +116,7 @@
  "callgraph": {
   "nodes": 2035,
   "edges": 10951,
-  "unresolved_calls": 1291,
+  "unresolved_calls": 1252,
   "parsed_c_functions": 1973
  },
  "regional_progress": {
@@ -128,8 +131,8 @@
     "rom_sha256": "e5c64a1740263e9b26120e487f3688fbbf7b3954a2c043c0d84c333df467e0b2",
     "code": {
      "total": 758984,
-     "percent": 99.53464104645157,
-     "matching": 755452
+     "percent": 100.0,
+     "matching": 758984
     },
     "data": {
      "total": 16017660,
@@ -237,6 +240,6 @@
     "evidence_revision": "8a7c8ef382cd6832f3e53eef82a6e0f07da7c11c"
    }
   },
-  "limits": "Code includes literal pools/alignment and excludes the header/startup prelude. Data includes opaque assets/padding. Raw ROM gaps/incbins, linked binaries, drafts and names earn no source credit. Data source coverage is not a measure of understanding."
+  "limits": "Code includes literal pools/alignment and excludes the header/startup prelude. Data includes opaque assets/padding. EU code counts matching C, the original hand-written assembly kept as assembly, and linked toolchain libraries. Raw ROM gaps/incbins, drafts and names earn no source credit. Data source coverage is not a measure of understanding."
  }
 }

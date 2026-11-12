@@ -17,9 +17,9 @@
 <text x="516.0" y="69" fill="#3fb950" font-size="21" font-weight="600">58.62%</text>
 <text x="516.0" y="86" fill="#e6edf3" font-size="10">1193 / 2035 registered names</text>
 <rect x="753.0" y="30" width="235.0" height="66" rx="5" fill="#161b22"/>
-<text x="763.0" y="46" fill="#e6edf3" font-size="11">Historical C + linked</text>
-<text x="763.0" y="69" fill="#e6edf3" font-size="21" font-weight="600">100.00%</text>
-<text x="763.0" y="86" fill="#e6edf3" font-size="10">2007 / 2007 functions</text>
+<text x="763.0" y="46" fill="#e6edf3" font-size="11">All code</text>
+<text x="763.0" y="69" fill="#3fb950" font-size="21" font-weight="600">100.00%</text>
+<text x="763.0" y="86" fill="#e6edf3" font-size="10">2033 / 2033 functions; C + linked + original asm</text>
 <svg x="0" y="104" xmlns="http://www.w3.org/2000/svg" width="1000" height="550" viewBox="0 0 1000 550" font-family="Segoe UI,Helvetica,Arial,sans-serif">
 <rect width="100%" height="100%" fill="#0d1117"/>
 <rect x="0.0" y="0" width="818.0" height="26" fill="#161b22"/>
@@ -2023,20 +2023,20 @@
 </g>
 <g><title>sched (988 bytes)</title>
 <rect x="786.88" y="460.38" width="31.12" height="16.71" fill="#0d1117"/>
-<rect x="787.88" y="461.38" width="11.32" height="14.71" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>ExtractQuotientAndStoreRemainder | sub_08000498 | confirmed  0x08000498  384 bytes  [asm]</title></rect>
-<rect x="799.20" y="461.38" width="6.84" height="14.71" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>StartTask | sub_08000274 | confirmed  0x08000274  232 bytes  [asm]</title></rect>
-<rect x="806.04" y="461.38" width="5.90" height="4.11" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>InitializeRootTaskAndEnterScheduler | sub_0800023C | confirmed  0x0800023C  56 bytes  [asm]</title></rect>
-<rect x="811.94" y="461.38" width="5.06" height="4.11" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>UnlinkAndFreeExitingTask | sub_08000378 | confirmed  0x08000378  48 bytes  [asm]</title></rect>
-<rect x="806.04" y="465.49" width="3.76" height="5.53" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>UnlinkAndFreeCancelledTask | sub_080003C0 | confirmed  0x080003C0  48 bytes  [asm]</title></rect>
-<rect x="806.04" y="471.02" width="3.76" height="5.07" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>TaskWaitForSignal | sub_080003F4 | confirmed  0x080003F4  44 bytes  [asm]</title></rect>
-<rect x="809.80" y="465.49" width="3.81" height="4.09" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>TaskHasWaiterForSignal | sub_08000440 | confirmed  0x08000440  36 bytes  [asm]</title></rect>
-<rect x="813.61" y="465.49" width="3.39" height="4.09" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>TaskWakeBySignal | sub_08000420 | confirmed  0x08000420  32 bytes  [asm]</title></rect>
-<rect x="809.80" y="469.59" width="3.73" height="3.25" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>ExitCurrentTask | sub_0800035C | confirmed  0x0800035C  28 bytes  [asm]</title></rect>
-<rect x="809.80" y="472.84" width="3.73" height="3.25" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>TaskIsScheduled | sub_08000470 | confirmed  0x08000470  28 bytes  [asm]</title></rect>
-<rect x="813.53" y="469.59" width="3.47" height="3.00" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>CancelTaskWithDestructor | sub_080003A8 | confirmed  0x080003A8  24 bytes  [asm]</title></rect>
-<rect x="813.53" y="472.59" width="1.73" height="3.00" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>TaskGetCount | sub_08000464 | confirmed  0x08000464  12 bytes  [asm]</title></rect>
-<rect x="815.27" y="472.59" width="1.73" height="3.00" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>TaskGetCurrent | sub_0800048C | confirmed  0x0800048C  12 bytes  [asm]</title></rect>
-<rect x="813.53" y="475.59" width="3.47" height="0.50" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>TaskWaitForSignal1 | sub_080003F0 | confirmed  0x080003F0  4 bytes  [asm]</title></rect>
+<rect x="787.88" y="461.38" width="11.32" height="14.71" fill="#aff5b4" stroke="#56d364" stroke-width="0.6"><title>ExtractQuotientAndStoreRemainder | sub_08000498 | confirmed  0x08000498  384 bytes  [original hand-written assembly, matching]</title></rect>
+<rect x="799.20" y="461.38" width="6.84" height="14.71" fill="#aff5b4" stroke="#56d364" stroke-width="0.6"><title>StartTask | sub_08000274 | confirmed  0x08000274  232 bytes  [original hand-written assembly, matching]</title></rect>
+<rect x="806.04" y="461.38" width="5.90" height="4.11" fill="#aff5b4" stroke="#56d364" stroke-width="0.6"><title>InitializeRootTaskAndEnterScheduler | sub_0800023C | confirmed  0x0800023C  56 bytes  [original hand-written assembly, matching]</title></rect>
+<rect x="811.94" y="461.38" width="5.06" height="4.11" fill="#aff5b4" stroke="#56d364" stroke-width="0.6"><title>UnlinkAndFreeExitingTask | sub_08000378 | confirmed  0x08000378  48 bytes  [original hand-written assembly, matching]</title></rect>
+<rect x="806.04" y="465.49" width="3.76" height="5.53" fill="#aff5b4" stroke="#56d364" stroke-width="0.6"><title>UnlinkAndFreeCancelledTask | sub_080003C0 | confirmed  0x080003C0  48 bytes  [original hand-written assembly, matching]</title></rect>
+<rect x="806.04" y="471.02" width="3.76" height="5.07" fill="#aff5b4" stroke="#56d364" stroke-width="0.6"><title>TaskWaitForSignal | sub_080003F4 | confirmed  0x080003F4  44 bytes  [original hand-written assembly, matching]</title></rect>
+<rect x="809.80" y="465.49" width="3.81" height="4.09" fill="#aff5b4" stroke="#56d364" stroke-width="0.6"><title>TaskHasWaiterForSignal | sub_08000440 | confirmed  0x08000440  36 bytes  [original hand-written assembly, matching]</title></rect>
+<rect x="813.61" y="465.49" width="3.39" height="4.09" fill="#aff5b4" stroke="#56d364" stroke-width="0.6"><title>TaskWakeBySignal | sub_08000420 | confirmed  0x08000420  32 bytes  [original hand-written assembly, matching]</title></rect>
+<rect x="809.80" y="469.59" width="3.73" height="3.25" fill="#aff5b4" stroke="#56d364" stroke-width="0.6"><title>ExitCurrentTask | sub_0800035C | confirmed  0x0800035C  28 bytes  [original hand-written assembly, matching]</title></rect>
+<rect x="809.80" y="472.84" width="3.73" height="3.25" fill="#aff5b4" stroke="#56d364" stroke-width="0.6"><title>TaskIsScheduled | sub_08000470 | confirmed  0x08000470  28 bytes  [original hand-written assembly, matching]</title></rect>
+<rect x="813.53" y="469.59" width="3.47" height="3.00" fill="#aff5b4" stroke="#56d364" stroke-width="0.6"><title>CancelTaskWithDestructor | sub_080003A8 | confirmed  0x080003A8  24 bytes  [original hand-written assembly, matching]</title></rect>
+<rect x="813.53" y="472.59" width="1.73" height="3.00" fill="#aff5b4" stroke="#56d364" stroke-width="0.6"><title>TaskGetCount | sub_08000464 | confirmed  0x08000464  12 bytes  [original hand-written assembly, matching]</title></rect>
+<rect x="815.27" y="472.59" width="1.73" height="3.00" fill="#aff5b4" stroke="#56d364" stroke-width="0.6"><title>TaskGetCurrent | sub_0800048C | confirmed  0x0800048C  12 bytes  [original hand-written assembly, matching]</title></rect>
+<rect x="813.53" y="475.59" width="3.47" height="0.50" fill="#aff5b4" stroke="#56d364" stroke-width="0.6"><title>TaskWaitForSignal1 | sub_080003F0 | confirmed  0x080003F0  4 bytes  [original hand-written assembly, matching]</title></rect>
 </g>
 <g><title>code_0800CBBC (924 bytes)</title>
 <rect x="786.88" y="477.09" width="15.73" height="30.91" fill="#0d1117"/>
@@ -2199,7 +2199,7 @@
 </g>
 <g><title>m4a_1_sound (1064 bytes)</title>
 <rect x="909.50" y="315.76" width="88.50" height="79.98" fill="#0d1117"/>
-<rect x="910.50" y="316.76" width="75.77" height="77.98" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>SoundMainRAM | SoundMainRAM | existing  0x080B656C  932 bytes  [asm]</title></rect>
+<rect x="910.50" y="316.76" width="75.77" height="77.98" fill="#aff5b4" stroke="#56d364" stroke-width="0.6"><title>SoundMainRAM | SoundMainRAM | existing  0x080B656C  932 bytes  [original hand-written assembly, matching]</title></rect>
 <rect x="986.27" y="316.76" width="10.73" height="77.98" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>SoundMain | SoundMain | existing  0x080B64E8  132 bytes  [done]</title></rect>
 <rect x="910.5" y="316.8" width="67.6" height="13" fill="#0d1117" fill-opacity="0.75"/>
 <text x="913.5" y="326.8" fill="#e6edf3" font-size="10">m4a_1_sound</text>
@@ -2217,7 +2217,7 @@
 </g>
 <g><title>m4a_1_vsync (676 bytes)</title>
 <rect x="820.00" y="456.02" width="86.51" height="51.98" fill="#0d1117"/>
-<rect x="821.00" y="457.02" width="75.51" height="49.98" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>MPlayMain | MPlayMain | existing  0x080B6B74  604 bytes  [asm]</title></rect>
+<rect x="821.00" y="457.02" width="75.51" height="49.98" fill="#aff5b4" stroke="#56d364" stroke-width="0.6"><title>MPlayMain | MPlayMain | existing  0x080B6B74  604 bytes  [original hand-written assembly, matching]</title></rect>
 <rect x="896.51" y="457.02" width="9.00" height="38.87" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>m4aSoundVSync | m4aSoundVSync | existing  0x080B6B3C  56 bytes  [done]</title></rect>
 <rect x="896.51" y="495.89" width="9.00" height="11.11" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>SoundCallR3Veneer | sub_080B6DD0 | confirmed  0x080B6DD0  16 bytes  [done]</title></rect>
 <rect x="821.0" y="457.0" width="67.6" height="13" fill="#0d1117" fill-opacity="0.75"/>
@@ -2261,16 +2261,16 @@
 </g>
 <g><title>libagbsyscall (68 bytes)</title>
 <rect x="941.19" y="464.91" width="20.38" height="22.20" fill="#0d1117"/>
-<rect x="942.19" y="465.91" width="18.38" height="8.32" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>SoftReset | SoftReset | existing  0x080B8598  28 bytes  [asm]</title></rect>
-<rect x="942.19" y="474.23" width="5.51" height="7.92" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>VBlankIntrWait | VBlankIntrWait | existing  0x080B8590  8 bytes  [asm]</title></rect>
-<rect x="942.19" y="482.15" width="5.51" height="3.96" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>ArcTan2 | ArcTan2 | existing  0x080B8570  4 bytes  [asm]</title></rect>
-<rect x="947.70" y="474.23" width="5.51" height="3.96" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>CpuFastSet | CpuFastSet | existing  0x080B8574  4 bytes  [asm]</title></rect>
-<rect x="947.70" y="478.19" width="5.51" height="3.96" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>CpuSet | CpuSet | existing  0x080B8578  4 bytes  [asm]</title></rect>
-<rect x="947.70" y="482.15" width="5.51" height="3.96" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>Div | Div | existing  0x080B857C  4 bytes  [asm]</title></rect>
-<rect x="953.21" y="474.23" width="3.68" height="5.94" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>LZ77UnCompWram | LZ77UnCompWram | existing  0x080B8580  4 bytes  [asm]</title></rect>
-<rect x="956.89" y="474.23" width="3.68" height="5.94" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>ObjAffineSet | ObjAffineSet | existing  0x080B8584  4 bytes  [asm]</title></rect>
-<rect x="953.21" y="480.17" width="3.68" height="5.94" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>RegisterRamReset | RegisterRamReset | existing  0x080B8588  4 bytes  [asm]</title></rect>
-<rect x="956.89" y="480.17" width="3.68" height="5.94" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>Sqrt | Sqrt | existing  0x080B858C  4 bytes  [asm]</title></rect>
+<rect x="942.19" y="465.91" width="18.38" height="8.32" fill="#aff5b4" stroke="#56d364" stroke-width="0.6"><title>SoftReset | SoftReset | existing  0x080B8598  28 bytes  [original hand-written assembly, matching]</title></rect>
+<rect x="942.19" y="474.23" width="5.51" height="7.92" fill="#aff5b4" stroke="#56d364" stroke-width="0.6"><title>VBlankIntrWait | VBlankIntrWait | existing  0x080B8590  8 bytes  [original hand-written assembly, matching]</title></rect>
+<rect x="942.19" y="482.15" width="5.51" height="3.96" fill="#aff5b4" stroke="#56d364" stroke-width="0.6"><title>ArcTan2 | ArcTan2 | existing  0x080B8570  4 bytes  [original hand-written assembly, matching]</title></rect>
+<rect x="947.70" y="474.23" width="5.51" height="3.96" fill="#aff5b4" stroke="#56d364" stroke-width="0.6"><title>CpuFastSet | CpuFastSet | existing  0x080B8574  4 bytes  [original hand-written assembly, matching]</title></rect>
+<rect x="947.70" y="478.19" width="5.51" height="3.96" fill="#aff5b4" stroke="#56d364" stroke-width="0.6"><title>CpuSet | CpuSet | existing  0x080B8578  4 bytes  [original hand-written assembly, matching]</title></rect>
+<rect x="947.70" y="482.15" width="5.51" height="3.96" fill="#aff5b4" stroke="#56d364" stroke-width="0.6"><title>Div | Div | existing  0x080B857C  4 bytes  [original hand-written assembly, matching]</title></rect>
+<rect x="953.21" y="474.23" width="3.68" height="5.94" fill="#aff5b4" stroke="#56d364" stroke-width="0.6"><title>LZ77UnCompWram | LZ77UnCompWram | existing  0x080B8580  4 bytes  [original hand-written assembly, matching]</title></rect>
+<rect x="956.89" y="474.23" width="3.68" height="5.94" fill="#aff5b4" stroke="#56d364" stroke-width="0.6"><title>ObjAffineSet | ObjAffineSet | existing  0x080B8584  4 bytes  [original hand-written assembly, matching]</title></rect>
+<rect x="953.21" y="480.17" width="3.68" height="5.94" fill="#aff5b4" stroke="#56d364" stroke-width="0.6"><title>RegisterRamReset | RegisterRamReset | existing  0x080B8588  4 bytes  [original hand-written assembly, matching]</title></rect>
+<rect x="956.89" y="480.17" width="3.68" height="5.94" fill="#aff5b4" stroke="#56d364" stroke-width="0.6"><title>Sqrt | Sqrt | existing  0x080B858C  4 bytes  [original hand-written assembly, matching]</title></rect>
 </g>
 <g><title>m4a_1_read (64 bytes)</title>
 <rect x="941.19" y="487.11" width="20.38" height="20.89" fill="#0d1117"/>
@@ -2326,13 +2326,15 @@
 </g>
 <rect x="6" y="514" width="11" height="11" fill="#3fb950"/>
 <text x="21" y="524" fill="#e6edf3" font-size="11">matching C / linked</text>
-<rect x="150" y="514" width="11" height="11" fill="#d29922"/>
-<text x="165" y="524" fill="#e6edf3" font-size="11">draft / work milestones</text>
-<rect x="318" y="514" width="11" height="11" fill="#6e7681"/>
-<text x="333" y="524" fill="#e6edf3" font-size="11">no matching C / original ASM</text>
-<text x="994" y="543" fill="#e6edf3" font-size="11" text-anchor="end">Matching + linked: 100.00% of 756392 code bytes, 2007/2007 functions</text>
+<rect x="150" y="514" width="11" height="11" fill="#aff5b4"/>
+<text x="165" y="524" fill="#e6edf3" font-size="11">original hand-written assembly (matching)</text>
+<rect x="426" y="514" width="11" height="11" fill="#d29922"/>
+<text x="441" y="524" fill="#e6edf3" font-size="11">draft / work milestones</text>
+<rect x="594" y="514" width="11" height="11" fill="#6e7681"/>
+<text x="609" y="524" fill="#e6edf3" font-size="11">no matching C</text>
+<text x="994" y="543" fill="#e6edf3" font-size="11" text-anchor="end">All code matching: 100.00% of 758984 bytes, 2033/2033 functions (C, linked, original assembly)</text>
 </svg>
 <text x="12" y="674" fill="#e6edf3" font-size="11">Area = code bytes. Partial yellow fill = recorded milestones, not matching percentage or remaining time.</text>
 <text x="12" y="692" fill="#e6edf3" font-size="11">Data: 405 incbin blocks (15.3 MiB), 11 / 412 descriptive labels; understanding: no percentage.</text>
-<text x="12" y="710" fill="#e6edf3" font-size="11">Graph: 2035 functions, 10951 edges, 1291 unresolved calls. Source-derived; not a complete runtime graph.</text>
+<text x="12" y="710" fill="#e6edf3" font-size="11">Graph: 2035 functions, 10951 edges, 1252 unresolved calls. Source-derived; not a complete runtime graph.</text>
 </svg>
