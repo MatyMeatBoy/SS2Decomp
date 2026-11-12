@@ -6523,14 +6523,14 @@ void sub_080151E0(void)
     u32 index = sub_080020F4();
     u32 mem;
     if (sub_08000470((u32)&gTasks03003C40[index]) != 0) {
-        register struct View151E *base asm("r3") = players151E;
+        struct View151E *base = players151E;
         u32 offset;
         struct View151E *p;
         
         offset = index * sizeof(*base);
         p = (struct View151E *)(offset + (u32)base);
         if ((u16)(p->state - 10) > 1) {
-            register u32 *flags asm("r0") = &base->flags;
+            u32 *flags = &base->flags;
             u32 masked;
             
             masked = *(u32 *)(offset + (u32)flags) & 0x2000;

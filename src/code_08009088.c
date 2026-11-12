@@ -631,15 +631,15 @@ extern struct T06SysA298 t06_sysA298 asm("gUnk_03003170");
 extern struct T06LevelA298 t06_levelsA298[] asm("gUnk_0847846C");
 static inline void t06_updateA298(void)
 {
-    register struct T06SysA298 *sys asm("r4")=&t06_sysA298;
+    struct T06SysA298 *sys=&t06_sysA298;
     struct T06HeaderA298 *map=sys->header;
     sys->previous=sys->data;
     sys->data=(u8 *)map+16+map->w*map->h*6;
     sys->w=map->w;
     {u16 height=map->h;
-    register u16 *out asm("r1")=&sys->h;
+    u16 *out=&sys->h;
     *out=height;}
-    {register u16 *out asm("r0")=&sys->y;
+    {u16 *out=&sys->y;
     *out=0;out--;*out=0;}
 }
 void sub_0800A298(u32 index)
@@ -1236,7 +1236,7 @@ static inline u32 t06_resourceAE50(u32 index,u16 offset)
 static inline u32 t06_decodeAE50(u32 value,u8 type)
 {
     register u32 v asm("r0")=value;
-    register u32 t asm("r1")=type;
+    s16 t=type;
     if(t==1)return v|t;
     return (u8)v;
 }

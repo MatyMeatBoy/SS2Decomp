@@ -1658,7 +1658,7 @@ loop_107:
             {
                 u32 titleWidthC8;
                 u32 titleBaseC8;
-                register u32 titleIndexC8 asm("r4");
+                s32 titleIndexC8;
                 u16 *titleXC8;
                 u16 *titleYC8;
                 s32 titleXValueC8;
