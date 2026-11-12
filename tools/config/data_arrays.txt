@@ -1,0 +1,14 @@
+# Record arrays whose element size is fixed by the code that indexes them.
+# label  stride  count  evidence
+# An array is one object: addresses inside it are elements, not objects to split.
+# data_progress.py checks stride * count against the size in data/*.s.
+gUnk_084506D0 0xC4 0x2EB src/code_08006D24.c ResolveResourceByEncodedId kind 11
+gUnk_08434738 0xB8 0x9E  src/code_08006D24.c ResolveResourceByEncodedId kind 12
+gUnk_0843B8C8 0xB8 0x96  src/code_08006D24.c ResolveResourceByEncodedId kind 13
+gUnk_08442498 0xB8 0xB7  src/code_08006D24.c ResolveResourceByEncodedId kind 14
+gUnk_084303B8 0xB4 0x60  src/code_08006D24.c ResolveResourceByEncodedId kind 15
+gUnk_0844A820 0xAC 0x64  src/code_08006D24.c ResolveResourceByEncodedId kind 16
+gUnk_0844EB50 0xB0 0x28  src/code_08006D24.c ResolveResourceByEncodedId kind 17
+gUnk_0842A6D4 0xA4 0x91  src/code_08006D24.c ResolveResourceByEncodedId kind 18
+gUnk_084742BC 0xB0 0x58  src/code_08006D24.c ResolveResourceByEncodedId kind 19 (the count function says 0x59; the object holds 0x58)
+gUnk_0842A38C 0xA8 5     src/code_08006D24.c ResolveResourceByEncodedId kind 21

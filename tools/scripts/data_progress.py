@@ -64,19 +64,35 @@ def scan(root, rom_path):
     return len(found)
 
 
+def load_arrays(root):
+    """{label: stride * count} from tools/config/data_arrays.txt."""
+    path = Path(root, "tools/config/data_arrays.txt")
+    arrays = {}
+    for line in path.read_text(encoding="utf-8").splitlines() if path.exists() else []:
+        fields = line.split("#")[0].split()
+        if fields:
+            arrays[fields[0]] = int(fields[1], 0) * int(fields[2], 0)
+    return arrays
+
+
 def collect(root):
     lo, hi = data_span(root)
     total = hi - lo
     inventory = data_inventory.collect(root)
-    raw = []                           # (offset, size, typed by its label)
+    arrays = load_arrays(root)
+    declared = set(arrays)
+    raw = []                           # (offset, size, state fixed by its label)
     for path in sorted((Path(root) / "data").glob("*.s")):
         label = ""
         for m in RAW_LINE.finditer(path.read_text(encoding="utf-8")):
             if m[1]:
                 label = m[1]
             else:
+                if label in arrays and arrays.pop(label) != int(m[3], 0):
+                    raise ValueError("%s: stride * count differs from the object size" % label)
                 raw.append((int(m[2], 0), int(m[3], 0), "typed" if label.startswith(tuple(TYPED_PREFIXES)) else
-                            "split" if label.startswith(SPLIT_PREFIXES) else ""))
+                            "split" if label.startswith(SPLIT_PREFIXES) or label in declared else ""))
+                label = ""                 # a second incbin under one label is not that object any more
     raw.sort()
     if sum(n for _, n, _ in raw) != sum(b["size"] for b in inventory["incbins"] if b["file"] == REFERENCE):
         raise ValueError("raw incbin scan disagrees with the data inventory")
