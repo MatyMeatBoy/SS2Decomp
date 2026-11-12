@@ -1535,7 +1535,7 @@ block_197:
                                         struct EffectD368 *q = peersD368[var_r5].effects;
                                         var_r4_11 = 0;
                                         /* extra refs: global alloc must give found (r4) priority over var_r5 (r5) */
-                                        asm("" : : "r"(var_r4_11));asm("" : : "r"(var_r4_11));
+                                        
                                         for (sp128 = 0; sp128 <= 7; sp128++, q++) {
                                             if (q->f0 == -2 && q->f4 == 6 && q->f2 == ((struct PlayerD368 *)arg0)->f0) {
                                                 var_r4_11 = 1;
