@@ -63,6 +63,14 @@ identical after every step. The order matters more than the tools:
    `tools/config/data_arrays.txt`; the progress tool checks stride * count
    against the size.
 
+5. **Declare formats by family, and prove them by decoding.** Inside the
+   archives, categories 1, 3 and 6 pair a graphic with a palette and category 4
+   is one tile sheet. `tools/config/data_types.txt` declares that with a label
+   pattern; `data_extract.py check` tests the sizes and `data_extract.py png`
+   writes every palette and tile sheet as PNG. Looking at three PNGs (a sprite,
+   a tileset, a palette) is the proof that the format is right. This took the
+   described share from 18% to 73%.
+
 What did not work: scanning the whole data area for words that look like
 pointers. In sample and graphics bytes it finds thousands of false targets
 (`data_targets.txt` started with 14,859; about 870 remain relevant). Keep that

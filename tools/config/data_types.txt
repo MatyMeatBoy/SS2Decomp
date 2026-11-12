@@ -1,0 +1,11 @@
+# Formats of data objects that stay as raw bytes in data/*.s but whose format is known.
+# label-regex  type  evidence
+# Types: palette = BGR555 colours, 512 or 1024 bytes; tiles4 = 4bpp 8x8 tiles, 32 bytes each.
+# data_progress.py applies the size rule of the type from source alone; data_extract.py decodes
+# the objects from the ROM (check, png). A label that fails its size rule is not counted.
+#
+# Resource archives (ResolveResourceByEncodedId): categories 1, 3 and 6 hold a graphic and, in the
+# second slot ("b"), its palette; category 4 is one tile sheet.
+^gRes(Main|Aux)_Cat[136]_\d+b$  palette  second slot of a paired category; every size is 512 or 1024
+^gRes(Main|Aux)_Cat[136]_\d+$   tiles4   first slot of a paired category; every size is a multiple of 32; nibble rows repeat with period 4
+^gResMain_Cat4_\d+$             tiles4   single 32768-byte sheet

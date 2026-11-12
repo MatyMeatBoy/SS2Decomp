@@ -64,6 +64,29 @@ def scan(root, rom_path):
     return len(found)
 
 
+TYPE_SIZE_RULES = {"palette": lambda size: size in (512, 1024), "tiles4": lambda size: size % 32 == 0}
+
+
+def load_types(root):
+    """[(compiled label regex, type)] from tools/config/data_types.txt."""
+    path = Path(root, "tools/config/data_types.txt")
+    rules = []
+    for line in path.read_text(encoding="utf-8").splitlines() if path.exists() else []:
+        fields = line.split("#")[0].split()
+        if fields:
+            if fields[1] not in TYPE_SIZE_RULES:
+                raise ValueError("unknown data type " + fields[1])
+            rules.append((re.compile(fields[0]), fields[1]))
+    return rules
+
+
+def declared_type(rules, label, size):
+    for pattern, kind in rules:
+        if pattern.search(label):
+            return kind if TYPE_SIZE_RULES[kind](size) else None
+    return None
+
+
 def load_arrays(root):
     """{label: stride * count} from tools/config/data_arrays.txt."""
     path = Path(root, "tools/config/data_arrays.txt")
@@ -80,6 +103,7 @@ def collect(root):
     total = hi - lo
     inventory = data_inventory.collect(root)
     arrays = load_arrays(root)
+    types = load_types(root)
     declared = set(arrays)
     raw = []                           # (offset, size, state fixed by its label)
     for path in sorted((Path(root) / "data").glob("*.s")):
@@ -90,7 +114,8 @@ def collect(root):
             else:
                 if label in arrays and arrays.pop(label) != int(m[3], 0):
                     raise ValueError("%s: stride * count differs from the object size" % label)
-                raw.append((int(m[2], 0), int(m[3], 0), "typed" if label.startswith(tuple(TYPED_PREFIXES)) else
+                raw.append((int(m[2], 0), int(m[3], 0), "typed" if label.startswith(tuple(TYPED_PREFIXES))
+                            or declared_type(types, label, int(m[3], 0)) else
                             "split" if label.startswith(SPLIT_PREFIXES) or label in declared else ""))
                 label = ""                 # a second incbin under one label is not that object any more
     raw.sort()
