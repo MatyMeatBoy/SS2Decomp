@@ -3976,14 +3976,14 @@ state17Case9D368:
                                 temp_r1_45 = (0x14C * temp_r2_48) + (u8 *)&d368_gUnk_03003CE0;
                                 temp_r1_44 = M2C_FIELD(temp_r1_45, u8 *, 0x68);
                                 if ((temp_r1_44 != 0) && (temp_r1_44 == ((struct PlayerD368 *)arg0)->f68)) {
-                                    M2C_FIELD((s32 *)&localRecord, u16 *, 4) = (u16) ((struct PlayerD368 *)arg0)->f38;
-                                    { s8 z; asm("" : "=r"(z) : "0"(0)); M2C_FIELD((s32 *)&localRecord, s8 *, 1) = z; }
-                                    M2C_FIELD((s32 *)&localRecord, s8 *, 2) = 0x20;
+                                    ((struct LByteD368 { u8 b0, b1, b2, b3; u16 w; } *)&localRecord)->w = ((struct PlayerD368 *)arg0)->f38;
+                                    ((struct LByteD368 *)&localRecord)->b1 = 0;
+                                    ((struct LByteD368 *)&localRecord)->b2 = 0x20;
                                     temp_r2_49 = M2C_FIELD(temp_r1_45, void **, 0x148);
                                     angleWordD368 = ((u32) ArcTan2((s16) (((u16) M2C_FIELD(temp_r2_49, u16 *, 0) >> 4) - ((s32) ((struct PlayerD368 *)arg0)->f8C >> 8)), (s16) (((u32) ((u32) M2C_FIELD(temp_r2_49, u16 *, 2) << 0x14) >> 0x14) - ((s32) ((struct PlayerD368 *)arg0)->f90 >> 8))) << 0x10);
-                                    M2C_FIELD((s32 *)&localRecord, u8 *, 3) = (u8) directionTableD368[(angleWordD368 >> 0x1C)];
+                                    ((struct LByteD368 *)&localRecord)->b3 = directionTableD368[(angleWordD368 >> 0x1C)];
                                     *(u32 *)(temp_r1_45 + 0xF8 + (((struct PlayerD368 *)arg0)->f0 * 4)) = ((struct PlayerD368 *)arg0)->fDC;
-                                    M2C_FIELD((s32 *)&localRecord, s8 *, 0) = (s8) M2C_FIELD(temp_r1_45, u16 *, 0);
+                                    ((struct LByteD368 *)&localRecord)->b0 = M2C_FIELD(temp_r1_45, u16 *, 0);
                                     d368_sub_080660EC((s32 *)&localRecord);
                                 }
                                 var_r1_14 = arg0 + 0x110;
