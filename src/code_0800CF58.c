@@ -432,7 +432,7 @@ void sub_0800D368(void *arg0) {
     s32 sp188;
     s32 sp18C;
     s32 sp190;
-    s32 sp194;
+    u16 sp194;
     s32 sp198;
     s32 regenerationBaseD368;
     s32 regenerationTermD368;
@@ -2531,8 +2531,8 @@ state5Done66:
                 } else {
                     temp_r2_14 = ((struct PlayerD368 *)arg0)->f12 & ((struct PlayerD368 *)arg0)->f1A;
                     if (temp_r2_14 == 0) {
-                        if ((((struct PlayerD368 *)arg0)->f26 != 0) && (sp194 == M2C_FIELD(d368_gUnk_030034E0, u16 *, 0x54))) {
-                            sp190 = (s32) (u16) (*(u16 *)(d368_gUnk_030034E0 + 0x56 + (M2C_FIELD(d368_gUnk_030034E0, u16 *, 0x54) * 2)) - 1);
+                        if ((((struct PlayerD368 *)arg0)->f26 != 0) && (sp194 == ((struct InvD368 *)d368_gUnk_030034E0)->f54)) {
+                            sp190 = (s32) (u16) (((struct InvD368 *)d368_gUnk_030034E0)->f56[((struct InvD368 *)d368_gUnk_030034E0)->f54] - 1);
                             ((struct PlayerD368 *)arg0)->f20 = 8U;
                             ((struct PlayerD368 *)arg0)->fB4 = temp_r2_14;
                             *(u16 *)((arg0 + 0xB4) - 2) = temp_r2_14;
@@ -2669,8 +2669,8 @@ block_809:
                 } else {
                     temp_r2_16 = ((struct PlayerD368 *)arg0)->f12 & ((struct PlayerD368 *)arg0)->f1A;
                     if (temp_r2_16 == 0) {
-                        if ((((struct PlayerD368 *)arg0)->f26 != 0) && (sp194 == M2C_FIELD(d368_gUnk_030034E0, u16 *, 0x54))) {
-                            sp190 = (s32) (u16) (*(u16 *)(d368_gUnk_030034E0 + 0x56 + (M2C_FIELD(d368_gUnk_030034E0, u16 *, 0x54) * 2)) - 1);
+                        if ((((struct PlayerD368 *)arg0)->f26 != 0) && (sp194 == ((struct InvD368 *)d368_gUnk_030034E0)->f54)) {
+                            sp190 = (s32) (u16) (((struct InvD368 *)d368_gUnk_030034E0)->f56[((struct InvD368 *)d368_gUnk_030034E0)->f54] - 1);
                             ((struct PlayerD368 *)arg0)->f20 = 8U;
                             ((struct PlayerD368 *)arg0)->fB4 = temp_r2_16;
                             *(u16 *)((arg0 + 0xB4) - 2) = temp_r2_16;
