@@ -1703,9 +1703,8 @@ block_197:
                         ((struct PlayerD368 *)arg0)->f24 = temp_r1_18;
                         sp130 = 0;
                         sp134 = (s32) (u16) ((s32) (M2C_FIELD((void *) d368_sub_08007290(M2C_FIELD((d368_gUnk_030034E0 + (M2C_FIELD(d368_gUnk_030034E0, u16 *, 0x68) << 4)), u16 *, 0x72) | 0xB0000), u16 *, 0xAA) * (s8) ((struct PlayerD368 *)arg0)->f71) / 10);
-                        var_r4_3 = &((struct PlayerD368 *)arg0)->fDC;
-                        var_r0_5 = *var_r4_3 + 1;
-                        goto block_447;
+                        ((struct PlayerD368 *)arg0)->fDC += 1;
+                        goto state0TailD368;
                     }
                 }
                 if ((d368_sub_0800CCCC() == 0) && (temp_r4_8 = ((struct PlayerD368 *)arg0)->f30 & 0x3400, (temp_r4_8 == 0)) && (sp158 > 0x14U) && (temp_r1 = (u16 *)d368_gUnk_030034E0,
@@ -1734,20 +1733,16 @@ block_197:
                 } else if (directionD36874 != 0) {
                     ((struct PlayerD368 *)arg0)->f20 = 1U;
                 } else {
-                    var_r4_3 = arg0 + 0xD8;
-                    temp_r1_19 = *var_r4_3;
-                    if (temp_r1_19 <= 0x17) {
-                        temp_r0_30 = temp_r1_19 - 8;
-                        *var_r4_3 = temp_r0_30;
-                        if (temp_r0_30 <= 0) {
-                            *var_r4_3 = directionD36874;
+                    if (((struct PlayerD368 *)arg0)->fD8 <= 0x17) {
+                        ((struct PlayerD368 *)arg0)->fD8 -= 8;
+                        if (((struct PlayerD368 *)arg0)->fD8 <= 0) {
+                            ((struct PlayerD368 *)arg0)->fD8 = directionD36874;
                         }
                     } else {
-                        var_r0_5 = temp_r1_19 - (temp_r1_19 >> 1);
-block_447:
-                        *var_r4_3 = var_r0_5;
+                        ((struct PlayerD368 *)arg0)->fD8 -= ((struct PlayerD368 *)arg0)->fD8 >> 1;
                     }
                 }
+state0TailD368:
                 temp_r0_31 = d368_sub_0800CCCC();
                 if ((temp_r0_31 == 0) && (sp154 > 0x14U) && (((struct PlayerD368 *)arg0)->f10 == 0xA) && ((s32) (s16) ((struct PlayerD368 *)arg0)->fC2 > 0)) {
                     if (d368_sub_0801DF8C() == 0) {
@@ -1941,20 +1936,15 @@ block_447:
                                 temp_r4_10 = ((struct PlayerD368 *)arg0)->f10;
                                 if (temp_r4_10 == 9) {
                                     var_r0_12 = (s16) d368_sub_0806898C(d368_sub_0801DEB8(), ((struct PlayerD368 *)arg0)->f26);
-                                    if (var_r0_12 != 0) {
-                                        if ((d368_sub_0801DEB8() == 7) && (byteTable6410D368[((struct PlayerD368 *)arg0)->f0] != 0)) {
-                                            var_r0_12 = 0;
-                                            goto block_588;
-                                        } else {
-                                        goto block_582;
-                                        }
-                                    } else {
-                                        goto block_581;
-                                    }
+                                    if (var_r0_12 == 0)
+                                        goto resetAD368;
+                                    if ((d368_sub_0801DEB8() != 7) || (byteTable6410D368[((struct PlayerD368 *)arg0)->f0] == 0))
+                                        goto keepStateD368;
+                                    var_r0_12 = 0;
+                                    goto resetBD368;
                                 } else {
                                     ((struct PlayerD368 *)arg0)->fDC += 1;
-                                    asm volatile(""); /* ROM keeps this fDC step apart from case 7's */
-                                    goto block_590;
+                                    ((struct PlayerD368 *)arg0)->f20 = 5U;
                                 }
                                 break;
                             case 5:                 /* switch 5 */
@@ -1980,20 +1970,24 @@ block_447:
                                                 ((struct PlayerD368 *)arg0)->fDC += 1;
                                             } else {
                                                 var_r0_12 = 0;
-                                                ((struct PlayerD368 *)arg0)->f26 = (u16) var_r0_12;
-                                                ((struct PlayerD368 *)arg0)->f24 = (u16) var_r0_12;
+resetAD368:
+                                                ((struct PlayerD368 *)arg0)->f26 = var_r0_12;
+                                                ((struct PlayerD368 *)arg0)->f24 = var_r0_12;
                                                 sp130 = 0;
                                                 sp134 = 0;
                                                 ((struct PlayerD368 *)arg0)->f20 = 0U;
-                                                asm volatile(""); /* ROM keeps this reset apart from the shared one in case 7 */
                                             }
                                         } else {
-block_582:
+keepStateD368:
                                             ((struct PlayerD368 *)arg0)->f20 = temp_r4_10;
                                             ((struct PlayerD368 *)arg0)->fDC += 1;
                                         }
                                     } else {
-                                        goto block_588;
+                                        ((struct PlayerD368 *)arg0)->f26 = var_r0_12;
+                                        ((struct PlayerD368 *)arg0)->f24 = var_r0_12;
+                                        sp130 = 0;
+                                        sp134 = 0;
+                                        ((struct PlayerD368 *)arg0)->f20 = 0U;
                                     }
                                     break;
                                 case 4:
@@ -2015,17 +2009,15 @@ block_582:
                                             sp170 &= 7;
                                         }
                                     } else {
-block_588:
-block_581:
-                                        ((struct PlayerD368 *)arg0)->f26 = (u16) var_r0_12;
-                                        ((struct PlayerD368 *)arg0)->f24 = (u16) var_r0_12;
+resetBD368:
+                                        ((struct PlayerD368 *)arg0)->f26 = var_r0_12;
+                                        ((struct PlayerD368 *)arg0)->f24 = var_r0_12;
                                         sp130 = 0;
                                         sp134 = 0;
                                         ((struct PlayerD368 *)arg0)->f20 = 0U;
                                     }
                                 } else {
                                     ((struct PlayerD368 *)arg0)->fDC += 1;
-block_590:
                                     ((struct PlayerD368 *)arg0)->f20 = 5U;
                                 }
                                 break;
