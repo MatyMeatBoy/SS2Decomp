@@ -5973,4 +5973,23 @@ gUnk_083669E0:
 	.incbin "baserom.gba", 0x3669E0, 0x80
 	.global gSetup512KInfos
 gSetup512KInfos:
-	.incbin "baserom.gba", 0x366A60, 0x160
+	.4byte gUnk_08366ADC
+	.4byte gUnk_08366B8C
+	.4byte gUnk_08366B60
+	.4byte gUnk_08366AB0
+	.4byte gSetup512KInfos
+	.global gUnk_08366A74
+gUnk_08366A74:
+	.incbin "baserom.gba", 0x366A74, 0x3C
+	.global gUnk_08366AB0
+gUnk_08366AB0:
+	.incbin "baserom.gba", 0x366AB0, 0x2C
+	.global gUnk_08366ADC
+gUnk_08366ADC:
+	.incbin "baserom.gba", 0x366ADC, 0x84
+	.global gUnk_08366B60
+gUnk_08366B60:
+	.incbin "baserom.gba", 0x366B60, 0x2C
+	.global gUnk_08366B8C
+gUnk_08366B8C:
+	.incbin "baserom.gba", 0x366B8C, 0x34
