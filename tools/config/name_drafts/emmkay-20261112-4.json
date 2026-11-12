@@ -1,0 +1,896 @@
+[
+  {
+    "canonical_symbol": "sub_080A68B0",
+    "address": "0x080A68B0",
+    "display_name": "TaskStaggeredFallingProjectile",
+    "summary": "Waits index*17 frames at the owner, then drops animation 2 of resource 0x5000F with growing downward speed (drifting right for odd indices) for up to 240 frames, adding contact damage to the local player within 15 pixels; plays sound 0x1A4.",
+    "confidence": "medium",
+    "evidence": [
+      {
+        "source": "src/code_080A3D2C.c",
+        "line": 1627,
+        "detail": "Initialises sprite resource 0x5000F.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_080A3D2C.c",
+        "line": 1634,
+        "detail": "Plays sound 0x1A4.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_080A3D2C.c",
+        "line": 1635,
+        "detail": "Start delay is index * 17 frames.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_080A3D2C.c",
+        "line": 1643,
+        "detail": "Odd indices drift 0xC0 per frame horizontally.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_080A3D2C.c",
+        "line": 1645,
+        "detail": "Vertical speed grows by 18 per frame.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_080A3D2C.c",
+        "line": 1651,
+        "detail": "Contact requires distance <= 15.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_080A3D2C.c",
+        "line": 1669,
+        "detail": "Adds the contact damage to the player.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_080A3D2C.c",
+        "line": 1689,
+        "detail": "Runs at most 240 frames.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      }
+    ],
+    "open_questions": []
+  },
+  {
+    "canonical_symbol": "sub_080A6BE8",
+    "address": "0x080A6BE8",
+    "display_name": "TaskFourCurvingProjectiles",
+    "summary": "Launches four staggered projectiles from beside the owner that rotate their eight-way direction every 9 frames (clockwise or not by the argument) while accelerating, for 240 frames; each damages the local player once within 15 pixels.",
+    "confidence": "medium",
+    "evidence": [
+      {
+        "source": "src/code_080A3D2C.c",
+        "line": 1730,
+        "detail": "Stagger spacing is 8 frames in advanced mode, else 16.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_080A3D2C.c",
+        "line": 1733,
+        "detail": "Clockwise start directions and offset +0x800 from the owner.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_080A3D2C.c",
+        "line": 1754,
+        "detail": "Plays sound 0x1A2 when each projectile starts.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_080A3D2C.c",
+        "line": 1759,
+        "detail": "Rotates the direction one step every 9 frames.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_080A3D2C.c",
+        "line": 1768,
+        "detail": "Increases speed each frame.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_080A3D2C.c",
+        "line": 1781,
+        "detail": "Contact requires distance <= 15.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_080A3D2C.c",
+        "line": 1800,
+        "detail": "Runs 240 frames.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      }
+    ],
+    "open_questions": []
+  },
+  {
+    "canonical_symbol": "sub_080A705C",
+    "address": "0x080A705C",
+    "display_name": "TaskStrikesAtPlayerPositions",
+    "summary": "Launches twelve strikes from the owner, each picking a player at a staggered delay (30 + 20*i frames) and travelling to that player's position in 24 steps; landing within 11 pixels damages the local player once.",
+    "confidence": "medium",
+    "evidence": [
+      {
+        "source": "src/code_080A3D2C.c",
+        "line": 1844,
+        "detail": "Initialises twelve strikes at the owner.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_080A3D2C.c",
+        "line": 1848,
+        "detail": "Delay is i*20 + 30 frames.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_080A3D2C.c",
+        "line": 1862,
+        "detail": "Chooses the target player with SelectPlayerInAlternatingOrder.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_080A3D2C.c",
+        "line": 1871,
+        "detail": "Moves 1/24 of the way to the target each frame.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_080A3D2C.c",
+        "line": 1879,
+        "detail": "Landing hit test within 11 pixels.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_080A3D2C.c",
+        "line": 1918,
+        "detail": "Ends when no strike is active.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      }
+    ],
+    "open_questions": []
+  },
+  {
+    "canonical_symbol": "sub_080A7E68",
+    "address": "0x080A7E68",
+    "display_name": "AllocateFallingProjectileTaskPool",
+    "summary": "Allocates 8 0x28-byte task controls at 03000408 and clears each word +8.",
+    "confidence": "high",
+    "evidence": [
+      {
+        "source": "src/code_080A3D2C.c",
+        "line": 2258,
+        "detail": "Allocates 0x140 bytes into 03000408.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_080A3D2C.c",
+        "line": 2262,
+        "detail": "Clears word +8 of each control.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      }
+    ],
+    "open_questions": []
+  },
+  {
+    "canonical_symbol": "sub_080A7E94",
+    "address": "0x080A7E94",
+    "display_name": "FreeFallingProjectileTaskPool",
+    "summary": "Cancels every scheduled task among the 8 controls at 03000408, frees the pool and clears the pointer.",
+    "confidence": "high",
+    "evidence": [
+      {
+        "source": "src/code_080A3D2C.c",
+        "line": 2273,
+        "detail": "Visits the eight controls.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_080A3D2C.c",
+        "line": 2278,
+        "detail": "Cancels each scheduled task.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_080A3D2C.c",
+        "line": 2284,
+        "detail": "Frees the pool.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_080A3D2C.c",
+        "line": 2285,
+        "detail": "Clears 03000408.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      }
+    ],
+    "open_questions": []
+  },
+  {
+    "canonical_symbol": "sub_080A7ECC",
+    "address": "0x080A7ECC",
+    "display_name": "StartFallingProjectileTask",
+    "summary": "Finds a free control among the 8 at 03000408, allocates a 0x400 stack and starts TaskStaggeredFallingProjectile.",
+    "confidence": "high",
+    "evidence": [
+      {
+        "source": "src/code_080A3D2C.c",
+        "line": 2298,
+        "detail": "Searches eight controls.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_080A3D2C.c",
+        "line": 2299,
+        "detail": "Skips scheduled or busy controls.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_080A3D2C.c",
+        "line": 2306,
+        "detail": "Sets the callback to TaskStaggeredFallingProjectile.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      }
+    ],
+    "open_questions": []
+  },
+  {
+    "canonical_symbol": "sub_080A7F30",
+    "address": "0x080A7F30",
+    "display_name": "AllocateCurvingProjectileTaskPool",
+    "summary": "Allocates 2 0x28-byte task controls at 0300040C and clears each word +8.",
+    "confidence": "high",
+    "evidence": [
+      {
+        "source": "src/code_080A3D2C.c",
+        "line": 2314,
+        "detail": "Allocates 0x50 bytes into 0300040C.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_080A3D2C.c",
+        "line": 2317,
+        "detail": "Clears word +8 of both controls.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      }
+    ],
+    "open_questions": []
+  },
+  {
+    "canonical_symbol": "sub_080A7F5C",
+    "address": "0x080A7F5C",
+    "display_name": "FreeCurvingProjectileTaskPool",
+    "summary": "Cancels every scheduled task among the 2 controls at 0300040C, frees the pool and clears the pointer.",
+    "confidence": "high",
+    "evidence": [
+      {
+        "source": "src/code_080A3D2C.c",
+        "line": 2328,
+        "detail": "Visits both controls.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_080A3D2C.c",
+        "line": 2333,
+        "detail": "Cancels each scheduled task.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_080A3D2C.c",
+        "line": 2339,
+        "detail": "Frees the pool.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_080A3D2C.c",
+        "line": 2340,
+        "detail": "Clears 0300040C.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      }
+    ],
+    "open_questions": []
+  },
+  {
+    "canonical_symbol": "sub_080A7F94",
+    "address": "0x080A7F94",
+    "display_name": "StartCurvingProjectileTask",
+    "summary": "Finds a free control among the 2 at 0300040C, allocates a 0x400 stack and starts TaskFourCurvingProjectiles.",
+    "confidence": "high",
+    "evidence": [
+      {
+        "source": "src/code_080A3D2C.c",
+        "line": 2353,
+        "detail": "Searches two controls.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_080A3D2C.c",
+        "line": 2354,
+        "detail": "Skips scheduled or busy controls.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_080A3D2C.c",
+        "line": 2361,
+        "detail": "Sets the callback to TaskFourCurvingProjectiles.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      }
+    ],
+    "open_questions": []
+  },
+  {
+    "canonical_symbol": "sub_080A7FF8",
+    "address": "0x080A7FF8",
+    "display_name": "AllocatePlayerStrikeTaskControl",
+    "summary": "Allocates the 0x28-byte task control 03000410 for TaskStrikesAtPlayerPositions and clears its word +8.",
+    "confidence": "high",
+    "evidence": [
+      {
+        "source": "src/code_080A3D2C.c",
+        "line": 2369,
+        "detail": "Stores HeapAllocate(0x28) in 03000410.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_080A3D2C.c",
+        "line": 2370,
+        "detail": "Clears control word +8.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      }
+    ],
+    "open_questions": []
+  },
+  {
+    "canonical_symbol": "sub_080A8014",
+    "address": "0x080A8014",
+    "display_name": "FreePlayerStrikeTaskControl",
+    "summary": "Cancels the strike task in 03000410 if scheduled, frees the control and clears the pointer.",
+    "confidence": "high",
+    "evidence": [
+      {
+        "source": "src/code_080A3D2C.c",
+        "line": 2374,
+        "detail": "Cancels the scheduled task.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_080A3D2C.c",
+        "line": 2376,
+        "detail": "Frees the control.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_080A3D2C.c",
+        "line": 2377,
+        "detail": "Clears 03000410.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      }
+    ],
+    "open_questions": []
+  },
+  {
+    "canonical_symbol": "sub_080A803C",
+    "address": "0x080A803C",
+    "display_name": "StartPlayerStrikeTask",
+    "summary": "Unless the control is not scheduled with word +8 nonzero, allocates a 0x400 stack and starts TaskStrikesAtPlayerPositions on control 03000410.",
+    "confidence": "high",
+    "evidence": [
+      {
+        "source": "src/code_080A3D2C.c",
+        "line": 2383,
+        "detail": "Returns early when the task is not scheduled but word +8 is nonzero.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_080A3D2C.c",
+        "line": 2390,
+        "detail": "Sets the callback to TaskStrikesAtPlayerPositions.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      }
+    ],
+    "open_questions": []
+  },
+  {
+    "canonical_symbol": "sub_080B4690",
+    "address": "0x080B4690",
+    "display_name": "TaskAimedShotFromOwnerSide",
+    "summary": "After an index*48-frame delay, fires animation 10 of resource 0x50130 from the left or right side of the owner (by its facing or a mode byte) toward a player's position, for 240 frames; contact within 23 pixels damages the local player (30) with a 16-frame rehit delay.",
+    "confidence": "medium",
+    "evidence": [
+      {
+        "source": "src/code_080B3648.c",
+        "line": 660,
+        "detail": "Waits idx * 48 frames before firing.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_080B3648.c",
+        "line": 662,
+        "detail": "Initialises sprite resource 0x50130.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_080B3648.c",
+        "line": 685,
+        "detail": "Starts 0x3000 left or right of the owner.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_080B3648.c",
+        "line": 702,
+        "detail": "Plays sound 0xA6.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_080B3648.c",
+        "line": 710,
+        "detail": "Aims at the chosen player with ComputeQ8DirectionFromMixedUnitPoints.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_080B3648.c",
+        "line": 726,
+        "detail": "Hit test within 23 pixels.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_080B3648.c",
+        "line": 734,
+        "detail": "Applies QueueLocalPlayerDamageAndAttemptResistanceGrowth(1, 30, 4).",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_080B3648.c",
+        "line": 742,
+        "detail": "Clears its control word +8 when done.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      }
+    ],
+    "open_questions": []
+  },
+  {
+    "canonical_symbol": "sub_080B4B48",
+    "address": "0x080B4B48",
+    "display_name": "AllocateAimedShotTaskPool",
+    "summary": "Allocates four 0x28-byte task controls at 030007D0 and, on success, clears each word +8.",
+    "confidence": "high",
+    "evidence": [
+      {
+        "source": "src/code_080B3648.c",
+        "line": 805,
+        "detail": "Allocates 0xA0 bytes into 030007D0.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_080B3648.c",
+        "line": 811,
+        "detail": "Clears word +8 of each of the four controls.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      }
+    ],
+    "open_questions": []
+  },
+  {
+    "canonical_symbol": "sub_080B4B7C",
+    "address": "0x080B4B7C",
+    "display_name": "FreeAimedShotTaskPool",
+    "summary": "If the pool at 030007D0 exists, cancels each scheduled task, frees the pool and clears the pointer.",
+    "confidence": "high",
+    "evidence": [
+      {
+        "source": "src/code_080B3648.c",
+        "line": 824,
+        "detail": "Returns when the pool is absent.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_080B3648.c",
+        "line": 828,
+        "detail": "Cancels each scheduled task.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_080B3648.c",
+        "line": 830,
+        "detail": "Frees the pool.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_080B3648.c",
+        "line": 831,
+        "detail": "Clears 030007D0.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      }
+    ],
+    "open_questions": []
+  },
+  {
+    "canonical_symbol": "sub_080B4BB8",
+    "address": "0x080B4BB8",
+    "display_name": "StartAimedShotTask",
+    "summary": "Finds a free control among the four at 030007D0, sets word +8 to index + 0x40 and starts TaskAimedShotFromOwnerSide(kind, index) on a 0x400 stack.",
+    "confidence": "high",
+    "evidence": [
+      {
+        "source": "src/code_080B3648.c",
+        "line": 851,
+        "detail": "Searches four controls.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_080B3648.c",
+        "line": 856,
+        "detail": "Skips scheduled or busy controls.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_080B3648.c",
+        "line": 864,
+        "detail": "Sets the callback to TaskAimedShotFromOwnerSide and starts it.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      }
+    ],
+    "open_questions": []
+  },
+  {
+    "canonical_symbol": "sub_08061910",
+    "address": "0x08061910",
+    "display_name": "ShowLinkErrorAndSoftReset",
+    "summary": "Called when the link error flag is set: fades and blanks the screen, stops audio and the world scene, cancels the scene, player and text-window tasks, shows dialogue 0x1404E2 ('Communication error... Returning to the Title Screen...'), fades out and calls SoftReset.",
+    "confidence": "high",
+    "evidence": [
+      {
+        "source": "src/code_08009088.c",
+        "line": 1956,
+        "detail": "TaskManageWorldSceneLifetime calls it only when LinkHasErrorFlag is nonzero.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_0805FB7C.c",
+        "line": 1178,
+        "detail": "Disables audio VSync with AudioDisableVSyncIfEnabled.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_0805FB7C.c",
+        "line": 1185,
+        "detail": "Requests the world scene stop.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_0805FB7C.c",
+        "line": 1186,
+        "detail": "Cancels used text-window tasks.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_0805FB7C.c",
+        "line": 1309,
+        "detail": "Shows dialogue 0x1404E2, which decodes to the communication-error message.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_0805FB7C.c",
+        "line": 1319,
+        "detail": "Requests a brightness fade-out.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_0805FB7C.c",
+        "line": 1325,
+        "detail": "Calls SoftReset(0).",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      }
+    ],
+    "open_questions": []
+  },
+  {
+    "canonical_symbol": "sub_08061E44",
+    "address": "0x08061E44",
+    "display_name": "PromptSaveAndReturnToTitle",
+    "summary": "Asks dialogue 0x1403D6 (or 0x1403D7 in multiplayer world scenes): 'After saving, you'll return to the Title Screen... Would you like to save?'; on yes it fills the save record from the local player, writes it and reports 'Data saved.' (0x1403D9) or 'Failed to save... Please try again.' (0x1403DA).",
+    "confidence": "high",
+    "evidence": [
+      {
+        "source": "src/code_0805FB7C.c",
+        "line": 1425,
+        "detail": "Chooses the save prompt 0x1403D7 or 0x1403D6, decoded as the save-and-return-to-title question.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_0805FB7C.c",
+        "line": 1430,
+        "detail": "Returns when the player answers no.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_0805FB7C.c",
+        "line": 1453,
+        "detail": "Copies local player fields into the save record.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_0805FB7C.c",
+        "line": 1489,
+        "detail": "Shows 0x1403D9, decoded 'Data saved.'",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_0805FB7C.c",
+        "line": 1498,
+        "detail": "Shows 0x1403DA, decoded 'Failed to save... Please try again.'",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      }
+    ],
+    "open_questions": []
+  },
+  {
+    "canonical_symbol": "sub_0804BEF8",
+    "address": "0x0804BEF8",
+    "display_name": "RunPrisonDoorKeyPrompt",
+    "summary": "Locked-door callback: counts bag items of kind 1 / id 0x22; with one it asks 'Use the Prison Key?' (0x140045) and on yes schedules the opening, otherwise shows 'The prison door is locked and it won't budge.' (0x140044) and re-arms itself.",
+    "confidence": "high",
+    "evidence": [
+      {
+        "source": "src/code_080443EC.c",
+        "line": 4447,
+        "detail": "Counts bag records with kind 1 and id 0x22.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_080443EC.c",
+        "line": 4453,
+        "detail": "Asks dialogue 0x140045, decoded 'Use the Prison Key?'.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_080443EC.c",
+        "line": 4455,
+        "detail": "Accepts when the selection is the first option.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_080443EC.c",
+        "line": 4463,
+        "detail": "Shows 0x140044, decoded 'The prison door is locked and it won`t budge.'",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_080443EC.c",
+        "line": 4465,
+        "detail": "Re-registers itself as the trigger callback for the door rectangle.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      }
+    ],
+    "open_questions": []
+  },
+  {
+    "canonical_symbol": "sub_0804534C",
+    "address": "0x0804534C",
+    "display_name": "RunHiddenGrandsonLetterPickup",
+    "summary": "Asks 'Something is hidden in the grass... Pick it up?' (0x14021C); on yes and with bag space plays a jingle, adds item kind 1 / id 0x29 once and shows 'Found Grandson`s Letter.' (0x14021D), otherwise 'Inventory is full.' (0x14021E).",
+    "confidence": "high",
+    "evidence": [
+      {
+        "source": "src/code_080443EC.c",
+        "line": 537,
+        "detail": "Asks 0x14021C, decoded as the hidden-item pickup question.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_080443EC.c",
+        "line": 540,
+        "detail": "Requires a free bag slot.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_080443EC.c",
+        "line": 545,
+        "detail": "Builds an add-item command of kind 1.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_080443EC.c",
+        "line": 546,
+        "detail": "Sets the added item id to 0x29.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_080443EC.c",
+        "line": 550,
+        "detail": "Adds the item once with TryAddItemToBag (loop count 1).",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_080443EC.c",
+        "line": 554,
+        "detail": "Shows 0x14021D, decoded 'Found Grandson`s Letter.'",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_080443EC.c",
+        "line": 562,
+        "detail": "Shows 0x14021E, decoded 'Inventory is full.'",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      }
+    ],
+    "open_questions": []
+  },
+  {
+    "canonical_symbol": "sub_08051A78",
+    "address": "0x08051A78",
+    "display_name": "RunTowerPasswordDoorEvent",
+    "summary": "Waits until the local player stands in the box in front of the door, then if scene event bit 7 is set says the password ('<name> says the password, Patience.', 0x14008E) and schedules the opening callbacks; otherwise shows 'Don`t know the password.' (0x14008F).",
+    "confidence": "high",
+    "evidence": [
+      {
+        "source": "src/code_0804D330.c",
+        "line": 3168,
+        "detail": "Waits for TestFixedPointAxisAlignedBoxOverlap with the door box at (0x7800, 0x5800).",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_0804D330.c",
+        "line": 3174,
+        "detail": "Tests bit 7 of the scene event byte +0x1B8 (+0x1C4 advanced).",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_0804D330.c",
+        "line": 3177,
+        "detail": "Shows 0x14008E, decoded as saying the password 'Patience'.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_0804D330.c",
+        "line": 3182,
+        "detail": "Schedules the door-opening callbacks.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_0804D330.c",
+        "line": 3187,
+        "detail": "Shows 0x14008F, decoded 'Don`t know the password.'",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      }
+    ],
+    "open_questions": []
+  },
+  {
+    "canonical_symbol": "sub_080502DC",
+    "address": "0x080502DC",
+    "display_name": "RunTowerPasswordHintEvent",
+    "summary": "Scene event in which a rescued sleeper thanks the player and tells the tower door password (dialogue 0x140069: '...You have to say the password... Patience...'), then leaves.",
+    "confidence": "medium",
+    "evidence": [
+      {
+        "source": "src/code_0804D330.c",
+        "line": 2323,
+        "detail": "Locks local player input.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_0804D330.c",
+        "line": 2328,
+        "detail": "Shows 0x140069, decoded as the thanks and the tower password 'Patience'.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_0804D330.c",
+        "line": 2338,
+        "detail": "Creates scene actor 0x13 at (0x170, 0x88).",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_0804D330.c",
+        "line": 2348,
+        "detail": "Moves entity 1 off-screen to (9999, 9999).",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      }
+    ],
+    "open_questions": [
+      "The speaker's name is not given in the text."
+    ]
+  },
+  {
+    "canonical_symbol": "sub_080542C4",
+    "address": "0x080542C4",
+    "display_name": "RunStarvingMushroomSeekerEvent",
+    "summary": "One-shot event (scene event byte bit 1): an NPC eats ('Munch, munch!', 0x140284), turns, explains he nearly starved after his girls ate his mushrooms and got lost (0x140285), then the scene entities are moved away.",
+    "confidence": "medium",
+    "evidence": [
+      {
+        "source": "src/code_080542C4.c",
+        "line": 25,
+        "detail": "Returns when bit 1 of scene event byte +0x1BB (+0x1C7 advanced) is already set.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_080542C4.c",
+        "line": 32,
+        "detail": "Sets that event bit so the scene runs once.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_080542C4.c",
+        "line": 37,
+        "detail": "Shows 0x140284, decoded as eating sounds.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_080542C4.c",
+        "line": 40,
+        "detail": "Turns the argument entity with SetSceneEntityFacing.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_080542C4.c",
+        "line": 45,
+        "detail": "Shows 0x140285, decoded as the lost mushroom gatherer's story.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_080542C4.c",
+        "line": 48,
+        "detail": "Moves entity 2 to (0x138, 0xC8).",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      }
+    ],
+    "open_questions": [
+      "The NPC's name is not given in the text."
+    ]
+  },
+  {
+    "canonical_symbol": "sub_080444C0",
+    "address": "0x080444C0",
+    "display_name": "RunAngelaChaseScene",
+    "summary": "Creates scene actor 0x9000D, shows a line calling after Angela ('Hm? ...Angela!!' 0x1401C4, or '...Angela!! Wait!' 0x1401C6 when the stage byte is 5), moves the actor away and sets the scene stage byte (+0x1B3/+0x1BF) to 5.",
+    "confidence": "medium",
+    "evidence": [
+      {
+        "source": "src/code_080443EC.c",
+        "line": 55,
+        "detail": "Creates scene actor 0x9000D at (0xF0, 0xE6).",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_080443EC.c",
+        "line": 63,
+        "detail": "Chooses the line by whether stage byte +0x1B3 is already 5.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_080443EC.c",
+        "line": 66,
+        "detail": "Shows 0x1401C4, decoded 'Hm? ...Angela!!'.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_080443EC.c",
+        "line": 70,
+        "detail": "Shows 0x1401C6, decoded '...Angela!! Wait!'.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_080443EC.c",
+        "line": 72,
+        "detail": "Moves the actor to (0xF0, 0x88).",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_080443EC.c",
+        "line": 94,
+        "detail": "Stores 5 in the stage byte.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      }
+    ],
+    "open_questions": [
+      "Who calls after Angela is not named here; RunJensenDialogue reads the same stage byte."
+    ]
+  }
+]
