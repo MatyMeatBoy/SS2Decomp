@@ -1,0 +1,332 @@
+[
+  {
+    "canonical_symbol": "sub_080526B4",
+    "address": "0x080526B4",
+    "display_name": "RunChaosKnightRivalFirstEncounter",
+    "summary": "First meeting with the Chaos Knight rival (speaker QA): 'What are you doing here? This is no place for a kid... I`ll play with you to kill some time.' (0x140093), with brother variants 0x140099/0x14009A and a repeat line 0x140094.",
+    "confidence": "high",
+    "evidence": [
+      {
+        "source": "src/code_0804D330.c",
+        "line": 3586,
+        "detail": "Shows 0x140093, decoded as the rival's first challenge.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_0804D330.c",
+        "line": 3585,
+        "detail": "Uses the brother variant 0x140099 for the alternative player branch.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_0804D330.c",
+        "line": 3588,
+        "detail": "Shows the repeat-visit line 0x140094.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      }
+    ],
+    "open_questions": [
+      "The rival's name is never given in his lines; he says 'I am one of the Chaos Knights' (0x1400A5). For a Vampiel player the same speaker (code QA) is the player's brother."
+    ]
+  },
+  {
+    "canonical_symbol": "sub_080529E0",
+    "address": "0x080529E0",
+    "display_name": "RunChaosKnightRivalSecondEncounter",
+    "summary": "Second meeting with the Chaos Knight rival: 'Oh, it`s you... You`re here already? ... attack with all your might!' (0x140096), with brother variant 0x14009C ('Have you finally decided to become my partner?... my brother') and repeat lines.",
+    "confidence": "high",
+    "evidence": [
+      {
+        "source": "src/code_0804D330.c",
+        "line": 3655,
+        "detail": "Shows 0x140096, decoded as the second challenge.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_0804D330.c",
+        "line": 3654,
+        "detail": "Uses the brother variant 0x14009C.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_0804D330.c",
+        "line": 3657,
+        "detail": "Shows the repeat-visit line 0x140097.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      }
+    ],
+    "open_questions": [
+      "The rival's name is never given in his lines; he says 'I am one of the Chaos Knights' (0x1400A5). For a Vampiel player the same speaker (code QA) is the player's brother."
+    ]
+  },
+  {
+    "canonical_symbol": "sub_080531C4",
+    "address": "0x080531C4",
+    "display_name": "RunChaosKnightRivalFinalEncounter",
+    "summary": "Final meeting with the Chaos Knight rival: 'You have come... The world shall soon be immersed in Darkness.' (0x1400A2), or for the brother branch 'I am one of the Chaos Knights... brothers reunited in Darkness must fight' (0x1400A5).",
+    "confidence": "high",
+    "evidence": [
+      {
+        "source": "src/code_0804D330.c",
+        "line": 3865,
+        "detail": "Shows 0x1400A2, decoded as the final confrontation.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_0804D330.c",
+        "line": 3864,
+        "detail": "Uses 0x1400A5, decoded 'I am one of the Chaos Knights... My brother!'.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_0804D330.c",
+        "line": 3866,
+        "detail": "Shows the repeat-visit line 0x1400A3.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      }
+    ],
+    "open_questions": [
+      "The rival's name is never given in his lines; he says 'I am one of the Chaos Knights' (0x1400A5). For a Vampiel player the same speaker (code QA) is the player's brother."
+    ]
+  },
+  {
+    "canonical_symbol": "sub_080B0288",
+    "address": "0x080B0288",
+    "display_name": "TaskChaosKnightRivalFirstBattle",
+    "summary": "Boss task for the first Chaos Knight rival fight (sprites 0x50087-0x50089); when it ends shows 'What!? Such strength... that`s it for today. Get stronger!' (0x140095) or the brother variant 0x14009B.",
+    "confidence": "high",
+    "evidence": [
+      {
+        "source": "src/code_080A9680.c",
+        "line": 4095,
+        "detail": "Initialises the rival sprites from resources 0x50089/0x50087/0x50088.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_080A9680.c",
+        "line": 4313,
+        "detail": "Shows 0x140095, decoded as the rival breaking off the first fight.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_080A9680.c",
+        "line": 4311,
+        "detail": "Shows the brother variant 0x14009B.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      }
+    ],
+    "open_questions": [
+      "The rival's name is never given in his lines; he says 'I am one of the Chaos Knights' (0x1400A5). For a Vampiel player the same speaker (code QA) is the player's brother."
+    ]
+  },
+  {
+    "canonical_symbol": "sub_080AF3F4",
+    "address": "0x080AF3F4",
+    "display_name": "TaskChaosKnightRivalSecondBattle",
+    "summary": "Boss task for the second Chaos Knight rival fight; when it ends shows 'Wait! Let`s stop here! ... I challenge you to a duel! We`ll surely meet again.' (0x140098) or the brother variant 0x14009E.",
+    "confidence": "high",
+    "evidence": [
+      {
+        "source": "src/code_080A9680.c",
+        "line": 3633,
+        "detail": "Initialises the same rival sprites 0x50089/0x50087/0x50088.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_080A9680.c",
+        "line": 3912,
+        "detail": "Shows 0x140098, decoded as the rival stopping the second fight.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_080A9680.c",
+        "line": 3910,
+        "detail": "Shows the brother variant 0x14009E.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      }
+    ],
+    "open_questions": [
+      "The rival's name is never given in his lines; he says 'I am one of the Chaos Knights' (0x1400A5). For a Vampiel player the same speaker (code QA) is the player's brother."
+    ]
+  },
+  {
+    "canonical_symbol": "sub_080B0FC4",
+    "address": "0x080B0FC4",
+    "display_name": "TaskChaosKnightRivalFinalBattle",
+    "summary": "Boss task for the final Chaos Knight rival fight; when he is beaten shows '...I was unable to win? Impossible! ... Farewell, hero...' (0x1400A4) or the brother farewell 0x1400A6.",
+    "confidence": "high",
+    "evidence": [
+      {
+        "source": "src/code_080A9680.c",
+        "line": 4469,
+        "detail": "Initialises the rival sprites 0x50089/0x50087/0x50088.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_080A9680.c",
+        "line": 4872,
+        "detail": "Shows 0x1400A4, decoded as the rival's final defeat.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_080A9680.c",
+        "line": 4870,
+        "detail": "Shows 0x1400A6, decoded '...I am satisfied as a Vampiel... my beloved brother'.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      }
+    ],
+    "open_questions": [
+      "The rival's name is never given in his lines; he says 'I am one of the Chaos Knights' (0x1400A5). For a Vampiel player the same speaker (code QA) is the player's brother."
+    ]
+  },
+  {
+    "canonical_symbol": "sub_0808EAD8",
+    "address": "0x0808EAD8",
+    "display_name": "HandleChaosKnightRivalFirstScene",
+    "summary": "Area scene handler for the first Chaos Knight rival fight: on the first call does scene setup and starts TaskChaosKnightRivalFirstBattle; once an area change is requested it hides the screen window, loads the next area descriptor and returns 1.",
+    "confidence": "high",
+    "evidence": [
+      {
+        "source": "src/code_0808D4A8.c",
+        "line": 1219,
+        "detail": "Starts TaskChaosKnightRivalFirstBattle with finalizer sub_080B0F9C through StartEnemyPoolActorTask.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_0808D4A8.c",
+        "line": 1223,
+        "detail": "Returns 0 until IsSceneAreaChangeRequested.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      }
+    ],
+    "open_questions": []
+  },
+  {
+    "canonical_symbol": "sub_0808EB68",
+    "address": "0x0808EB68",
+    "display_name": "HandleChaosKnightRivalSecondScene",
+    "summary": "Area scene handler for the second Chaos Knight rival fight: on the first call does scene setup and starts TaskChaosKnightRivalSecondBattle; once an area change is requested it hides the screen window, loads the next area descriptor and returns 1.",
+    "confidence": "high",
+    "evidence": [
+      {
+        "source": "src/code_0808D4A8.c",
+        "line": 1253,
+        "detail": "Starts TaskChaosKnightRivalSecondBattle with finalizer sub_080B0F70 through StartEnemyPoolActorTask.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_0808D4A8.c",
+        "line": 1256,
+        "detail": "Returns 0 until IsSceneAreaChangeRequested.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      }
+    ],
+    "open_questions": []
+  },
+  {
+    "canonical_symbol": "sub_0808EE98",
+    "address": "0x0808EE98",
+    "display_name": "HandleChaosKnightRivalFinalScene",
+    "summary": "Area scene handler for the final Chaos Knight rival fight: on the first call does scene setup and starts TaskChaosKnightRivalFinalBattle; once an area change is requested it hides the screen window, loads the next area descriptor and returns 1.",
+    "confidence": "high",
+    "evidence": [
+      {
+        "source": "src/code_0808D4A8.c",
+        "line": 1437,
+        "detail": "Starts TaskChaosKnightRivalFinalBattle with finalizer sub_080B22E8 through StartEnemyPoolActorTask.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_0808D4A8.c",
+        "line": 1441,
+        "detail": "Returns 0 until IsSceneAreaChangeRequested.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      }
+    ],
+    "open_questions": []
+  },
+  {
+    "canonical_symbol": "sub_080B0F9C",
+    "address": "0x080B0F9C",
+    "display_name": "CleanupChaosKnightRivalFirstTask",
+    "summary": "Finalizer of TaskChaosKnightRivalFirstBattle: frees the shared-position sprite task if the rival actor exists and clears the active-enemy mask.",
+    "confidence": "high",
+    "evidence": [
+      {
+        "source": "src/code_080A9680.c",
+        "line": 4400,
+        "detail": "Calls CancelAndFreeSharedPositionSpriteTask while the actor is alive.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_080A9680.c",
+        "line": 4402,
+        "detail": "Clears active-enemy mask 030056FC.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      }
+    ],
+    "open_questions": []
+  },
+  {
+    "canonical_symbol": "sub_080B0F70",
+    "address": "0x080B0F70",
+    "display_name": "CleanupChaosKnightRivalSecondTask",
+    "summary": "Finalizer of TaskChaosKnightRivalSecondBattle: frees the shared-position sprite task if the rival actor exists, clears the peer rings and the active-enemy mask.",
+    "confidence": "high",
+    "evidence": [
+      {
+        "source": "src/code_080A9680.c",
+        "line": 4393,
+        "detail": "Calls CancelAndFreeSharedPositionSpriteTask while the actor is alive.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_080A9680.c",
+        "line": 4395,
+        "detail": "Calls LinkClearConnectedPeerRings.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_080A9680.c",
+        "line": 4396,
+        "detail": "Clears active-enemy mask 030056FC.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      }
+    ],
+    "open_questions": []
+  },
+  {
+    "canonical_symbol": "sub_080B22E8",
+    "address": "0x080B22E8",
+    "display_name": "CleanupChaosKnightRivalFinalTask",
+    "summary": "Finalizer of TaskChaosKnightRivalFinalBattle: resets mosaic, frees the shared-position sprite task and the minion-summon task control, clears the peer rings and active-enemy mask and releases the palette slot.",
+    "confidence": "high",
+    "evidence": [
+      {
+        "source": "src/code_080A9680.c",
+        "line": 5008,
+        "detail": "Resets SetMosaicBlockSizeShadow(0,0,0,0).",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_080A9680.c",
+        "line": 5009,
+        "detail": "Calls CancelAndFreeSharedPositionSpriteTask.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_080A9680.c",
+        "line": 5010,
+        "detail": "Calls FreeMinionSummonTaskControl.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      },
+      {
+        "source": "src/code_080A9680.c",
+        "line": 5014,
+        "detail": "Releases the shared enemy palette slot.",
+        "revision": "a4c7f1ed05a7a50cf412cc15cbb63bfa73d2b428"
+      }
+    ],
+    "open_questions": []
+  }
+]
