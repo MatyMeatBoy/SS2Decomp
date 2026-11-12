@@ -4904,7 +4904,7 @@ animationClassDoneD368:
                             } else if ((d368_gUnk_03002344 & 1) != (1 & ((struct PlayerD368 *)arg0)->f0)) {
 
                             } else {
-                                goto block_1776;
+                                d368_sub_08065230(&sp44.f0, coordF0, coordF2, 0xCU, ((s32) (u16) coordF8));
                             }
                         }
                         break;
@@ -5106,7 +5106,6 @@ block_1771:
                                     break;
                                 case 11:            /* switch 27 */
                                     if ((d368_sub_08065370(&sp44, 0xCU, (u16 *) &coordF8, &coordFA, (0)) == 0) && (d368_gUnk_03002344 & 1)) {
-block_1776:
                                 d368_sub_08065230(&sp44.f0, coordF0, coordF2, 0xCU, ((s32) (u16) coordF8));
                                     }
                                     break;
