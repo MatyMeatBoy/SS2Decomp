@@ -13,7 +13,7 @@ s32 _call_via_r2(s32, s32, s32);
 void sub_0800023C(void *);
 M2C_UNK sub_08000274();
 void sub_08000274_4(void *, u32, u32, u32) __asm__("sub_08000274");
-s32 sub_080003A8(s32);
+void sub_080003A8(s32);     /* ends another task; returns nothing */
 s32 sub_080003F0();
 void sub_08000420(s32);
 s32 sub_08000440(s32);

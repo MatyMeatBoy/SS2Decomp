@@ -1,4 +1,6 @@
 #include "global.h"
+/* Declared here with the return type of its definition: the call sites ignore the result either way. */
+extern void sub_0802939C(s32, s32);
 
 extern u8 *state44 asm("gUnk_03005CF4");
 extern u8 players44[] asm("gUnk_03003CE0");

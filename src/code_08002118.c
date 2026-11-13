@@ -1,4 +1,6 @@
 #include "global.h"
+/* Declared here with the return type of its definition: the call sites ignore the result either way. */
+extern void sub_080920E4(void);
 
 extern u8 gUnk_03002710[];
 

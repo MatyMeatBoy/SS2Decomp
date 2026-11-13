@@ -1521,7 +1521,7 @@ extern s32 random9FB6C(void) asm("sub_0800086C");
 extern void callback9FB6C(u32,u8 *) asm("sub_080A0FEC");
 extern void reset9FB6C(void) asm("sub_0806849C");
 extern void paletteFree9FB6C(u32) asm("sub_08067CA8");
-extern void transition9FB6C(void *,void *,u32,u32,u32) asm("sub_080972B8");
+extern s32 transition9FB6C(void *,void *,u32,u32,u32) asm("sub_080972B8");
 extern s32 reward9FB6C(void *,void *) asm("sub_0801E46C");
 extern void rise9FB6C(void *,s32) asm("sub_0806171C");
 extern void rewardDone9FB6C(void *,s32) asm("sub_0801E4CC");

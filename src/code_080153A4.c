@@ -1,4 +1,6 @@
 #include "global.h"
+/* Declared here with the return type of its definition: the call sites ignore the result either way. */
+extern void sub_08013CEC();
 extern u32 gA03005700[] asm("gUnk_03005700");
 extern u32 gW030042E8 asm("gUnk_030042E8");
 extern u32 gW030056F0 asm("gUnk_030056F0");

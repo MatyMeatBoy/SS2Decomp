@@ -2172,7 +2172,7 @@ void local245CC_sub_0801A3D0(u8 *, u16, s32) asm("sub_0801A3D0");               
 u32 local245CC_sub_0801A638(u8 *) asm("sub_0801A638");                             /* extern */
 void local245CC_sub_0801A664(s32, s32) asm("sub_0801A664");                     /* extern */
 void local245CC_sub_0801E278(u8 *, s32) asm("sub_0801E278");                    /* extern */
-void local245CC_sub_08057328(s32, void (*)(s32)) asm("sub_08057328");           /* extern */
+s32 local245CC_sub_08057328(s32, void (*)(s32)) asm("sub_08057328");           /* extern */
 void local245CC_sub_08057624(s32) asm("sub_08057624");                          /* extern */
 void local245CC_sub_0805865C(s32) asm("sub_0805865C");                          /* extern */
 void local245CC_sub_08058B74(s32, s32, s32) asm("sub_08058B74");                /* extern */

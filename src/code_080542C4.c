@@ -1,6 +1,6 @@
 #include "global.h"
 
-s32 sub_080290E4();
+void sub_080290E4();
 /* [ShowFirstFlaggedActorDialogue] Sets player flag1/input helper before checking mode-selected byte mask0x2.
  * Already-set bit returns immediately retaining flag1/helper state. First visit sets mask0x2, shows140284/285
  * around actor facing, positions actor2 and hides actor1, then restores player flag/input helper. Dialog waits
@@ -57,7 +57,7 @@ void sub_080542C4(s32 arg0)
     sub_0800D108();
 }
 extern u32 sub_0805990C;
-s32 sub_080290E4();
+void sub_080290E4();
 static inline void spawn54(void (*cb)(void), s32 arg)
 {
     u8 *task = (u8 *)gUnk_03005CF4 + 0xE34;

@@ -1014,7 +1014,7 @@ extern void notify02074(void *) asm("sub_080660EC");
 extern void display02074(void *,u16,s32,u16,s32,s32) asm("sub_08069080");
 extern void status02074(u16,s32) asm("sub_080680B4");
 extern void *lookup02074(u8 *,s32) asm("sub_0801E104");
-extern void critical02074(u16) asm("sub_08068030");
+extern u32 critical02074(u16) asm("sub_08068030");
 struct Packet02074 {u8 player:8;u8 power:8;u8 impulse:8;s32 direction:8;u32 amount:16;u32 unused:16;};
 /* [ApplyPlayerAttackToEnemy] Full link queue returns before mutation, even if a same-target message could
  * otherwise merge. */

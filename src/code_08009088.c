@@ -2223,7 +2223,7 @@ void unselBEC0(void *, s32, s32, u32, u16, s32) asm("sub_080659BC");
 s32 hasBEC0(u32) asm("sub_08057C34");
 s32 itemBEC0(s32, s32) asm("sub_0805813C");
 void setBEC0(s32) asm("sub_08057CAC");
-void clrBEC0(s32) asm("sub_08057C6C");
+u32 clrBEC0(s32) asm("sub_08057C6C");
 void sndBEC0(s32) asm("sub_0805865C");
 void bgmBEC0(s32) asm("sub_08058688");
 s32 taskBEC0(s32, void *) asm("sub_08057328");

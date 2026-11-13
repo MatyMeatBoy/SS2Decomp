@@ -922,11 +922,12 @@ void sub_08066898(void)
  * phase B acks the tag until the sender switches to chunk mode (blk[1]==0xB2), phase C receives 8-byte chunks into a 0x100
  * byte buffer acking each one, then the tag is dispatched. All waits are VBlank-synchronised stop-and-wait handshakes. */
 #define XF(n) extern u32 x_##n() __asm__(#n);
+extern void x_sub_0801D7AC() __asm__("sub_0801D7AC");     /* returns nothing */
 XF(sub_080168FC) XF(sub_08016A7C) XF(sub_08056E24) XF(sub_08056E64) XF(sub_08056FB8) XF(sub_08057170)
 XF(sub_08057328) XF(sub_08057430) XF(sub_0805865C) XF(sub_0805AB20) XF(sub_0805B2C4) XF(sub_0805B618)
 XF(sub_0805BD5C) XF(sub_0805D37C) XF(sub_0805D460) XF(sub_0805D498) XF(sub_0805D4C4) XF(sub_08065918)
 XF(sub_08065C50) XF(sub_08066490) XF(sub_0800CC98) XF(sub_0800CE30) XF(sub_0800D12C)
-XF(sub_08019BF8) XF(sub_08007290) XF(sub_0801D7AC) XF(sub_0801DB94) XF(sub_0801E104) XF(sub_0801E164)
+XF(sub_08019BF8) XF(sub_08007290) XF(sub_0801DB94) XF(sub_0801E104) XF(sub_0801E164)
 XF(sub_0801E1A4) XF(sub_0801E244) XF(sub_0801F2CC) XF(sub_0801F320) XF(sub_08021E44) XF(sub_08022200)
 XF(sub_0802230C) XF(sub_08074DE8) XF(sub_08079888) XF(sub_08079CC4) XF(sub_080793BC) XF(sub_080008C8)
 XF(sub_08000420)
