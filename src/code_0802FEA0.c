@@ -1,4 +1,5 @@
 #include "global.h"
+extern void sub_08084F9C();
 
 extern u8 *gState2FEA0 asm("gUnk_03005CF4");
 struct Cmd2FEA0 { u16 kind, value; u8 data[12]; };

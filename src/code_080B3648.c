@@ -1,4 +1,5 @@
 #include "global.h"
+extern void sub_08029A7C();
 extern u16 gArr030007D4[] asm("gUnk_030007D4");
 extern u8 *gPtr030007EC asm("gUnk_030007EC");
 extern void sub_080A4AD0();

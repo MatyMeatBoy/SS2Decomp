@@ -25,6 +25,15 @@ void sub_080AE1B4(void);
 void sub_080AF2AC(void);
 
 #include "global.h"
+extern void sub_0808D05C();
+extern void sub_0805A66C();
+extern void sub_0805A4BC();
+extern void sub_080576C4();
+extern void sub_080570DC();
+extern void sub_0802996C();
+extern void sub_0802704C();
+extern void sub_080257D4();
+extern void sub_080169C8();
 extern u32 gUnk_0850C6E8[] __asm__("gUnk_0850C6E8");
 
 /* [EmptySceneControllerHook] Empty callable hook; returns without reading or modifying state. */

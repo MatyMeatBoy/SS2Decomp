@@ -1,4 +1,9 @@
 #include "global.h"
+extern void sub_08084F9C();
+extern void sub_080576A8();
+extern void sub_08029CEC();
+extern void sub_0801AB90();
+extern void sub_0801AB50();
 
 void sub_080290E4();
 /* [ShowFirstFlaggedActorDialogue] Sets player flag1/input helper before checking mode-selected byte mask0x2.

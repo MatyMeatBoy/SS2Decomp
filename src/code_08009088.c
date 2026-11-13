@@ -1,4 +1,12 @@
 #include "global.h"
+extern void sub_0805D4F4();
+extern void sub_0805A66C();
+extern void sub_080572A4();
+extern void sub_08057170();
+extern void sub_0801AB90();
+extern void sub_0801AB50();
+extern void sub_0801AA34();
+extern void sub_080169C8();
 
 extern void *gUnk_030031D4;
 

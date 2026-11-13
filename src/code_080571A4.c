@@ -1,4 +1,9 @@
 #include "global.h"
+extern void sub_08084F9C();
+extern void sub_0801AB90();
+extern void sub_0801AB50();
+extern void sub_0801AA8C();
+extern void sub_0801AA34();
 
 u32 sub_0805DF38(u32 arg0, u32 arg1, u32 arg2, u32 arg3, s32 arg4, u32 arg5);
 s32 sub_0805EEFC(void *arg0);

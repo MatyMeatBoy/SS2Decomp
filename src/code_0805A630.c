@@ -1,4 +1,7 @@
 #include "global.h"
+extern void sub_0805FC80();
+extern void sub_08028498();
+extern void sub_0800A34C();
 struct Entry61 { u32 words[4]; };
 
 /* [ApproachAndWaitAtAreaExitDirection3] Forwards the original input pointer in R0 to 2413C with second

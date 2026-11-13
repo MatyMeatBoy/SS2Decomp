@@ -1,4 +1,6 @@
 #include "global.h"
+extern void sub_0805FAC0();
+extern void sub_0801ACB8();
 
 extern s32 sub_08074398(u16, u16, s32);
 

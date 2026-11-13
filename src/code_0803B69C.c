@@ -1,4 +1,5 @@
 #include "global.h"
+extern void sub_0802A7DC();
 
 /* [CycleActorHorizontalRoute] Requests looping8, relative movement-10 over600, nonloop8/-4 over10, then
  * looping9. */

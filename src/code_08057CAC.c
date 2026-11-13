@@ -1,4 +1,6 @@
 #include "global.h"
+extern void sub_08023ED8();
+extern void sub_08019EB8();
 
 /* [ClearWorldMapDestinationAvailability] Decrements destination and clears1u<<index in normal+0x78 or
  * advanced+0x80; returns resulting word. */

@@ -1,4 +1,7 @@
 #include "global.h"
+extern void sub_08065424();
+extern void sub_08065264();
+extern void sub_0805CB04();
 struct Entry852CC { u32 data[4]; };
 extern struct Collection852CC *collection852CC asm("gUnk_03006440");
 struct Collection852CC { u32 kind; u8 pad[0x100]; struct Entry852CC entries[1]; };

@@ -1,4 +1,7 @@
 #include "global.h"
+extern void sub_0802A19C();
+extern void sub_08029788();
+extern void sub_0802949C();
 
 extern u32 sub_0805AB20(void *arg0);
 

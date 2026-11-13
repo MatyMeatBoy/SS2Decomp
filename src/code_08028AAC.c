@@ -1,4 +1,5 @@
 #include "global.h"
+extern void sub_08028918();
 
 void sub_080003F4(s32);
 void sub_080867F8(void);

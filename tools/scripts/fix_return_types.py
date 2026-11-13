@@ -8,9 +8,11 @@ every call), and it is wrong C everywhere.
 
 For every function defined in src/, this finds the declarations in the other files (by name or through an
 `asm("name")` alias) whose void-ness differs from the definition and rewrites their return type. A file that
-calls such a function with no declaration at all gets one after its includes. Each file's changes are kept only
-if its object file stays byte-identical; if not, they are tried one at a time and the ones that change the
-object or do not compile are dropped and listed. Finish with `make -j8 compare`.
+calls a function that returns nothing without any declaration (the compiler then assumes `int`) gets
+`extern void name();` after its includes. Each file's changes are kept only if its object file stays
+byte-identical; if not, they are halved until the ones that change the object or do not compile are alone,
+and those are dropped and listed. `--headers` does the same for the shared declarations in include/, checked
+with the whole ROM. Finish with `make -j8 compare`.
 """
 import hashlib, re, subprocess, sys
 from pathlib import Path
@@ -35,6 +37,42 @@ def build(module):
     if done.returncode:
         return None
     return hashlib.sha1(Path("build/src/%s.o" % module).read_bytes()).hexdigest()
+
+
+def headers(defined):
+    """Shared declarations: every module sees them, so the check is the ROM itself."""
+    changed = 0
+    originals = {}
+    for path in sorted(Path("include").rglob("*.h")):
+        text = path.read_bytes().decode("utf-8", errors="replace")
+        edits = []
+        for m in DECLARATION.finditer(text):
+            real = m[6] or m[3]
+            if m[3] in KEYWORDS or real not in defined or set(m[2].split()) & KEYWORDS:
+                continue
+            wanted = defined[real][0]
+            if not wanted or is_void(m[2]) == is_void(wanted) or "struct" in wanted or not re.fullmatch(r'[\w \*]+', wanted):
+                continue
+            edits.append((m.start(), m.end(), m[1] + wanted + (" " if not wanted.endswith("*") else "") + text[m.start(3):m.end()], real))
+        if edits:
+            originals[path] = text
+            for start, end, new, real in sorted(edits, key=lambda e: -e[0]):
+                text = text[:start] + new + text[end:]
+                print("  %s: %s" % (path.name, new.strip()[:100]))
+            path.write_bytes(text.encode("utf-8"))
+            changed += len(edits)
+    if not changed:
+        print("no shared declaration disagrees")
+        return 0
+    done = subprocess.run(["make", "-j8", "compare"], capture_output=True, text=True)
+    if done.stdout.strip().endswith(": OK"):
+        print("%d shared declaration(s) corrected; the ROM matches" % changed)
+        return 0
+    for path, text in originals.items():
+        path.write_bytes(text.encode("utf-8"))
+    print("the ROM no longer builds or matches with these %d change(s); all were undone" % changed)
+    print("\n".join(l for l in (done.stdout + done.stderr).splitlines() if "rror" in l or "conflicting" in l or "void value" in l)[:1500])
+    return 1
 
 
 def main():
@@ -64,6 +102,24 @@ def main():
                 continue
             new = m[1] + wanted + (" " if not wanted.endswith("*") else "") + text[m.start(3):m.end()]
             plans.setdefault(path, []).append((m.start(), m.end(), new, real))
+    # 3. calls with no declaration in sight: the compiler assumes a function returning int
+    header_text = "\n".join(p.read_bytes().decode("utf-8", errors="replace") for p in sorted(Path("include").rglob("*.h")))
+    in_headers = {m[6] or m[3] for m in DECLARATION.finditer(header_text)} | set(re.findall(r'\b(\w+)\s*\(', header_text))
+    for path, text in texts.items():
+        known = {m[6] or m[3] for m in DECLARATION.finditer(text)} | {m[3] for m in DECLARATION.finditer(text)}
+        known |= {m[2] for m in DEFINITION.finditer(text)} | {m[4] for m in DEFINITION.finditer(text) if m[4]}
+        include = None
+        for m in re.finditer(r'^#include[^\n]*\n', text, re.M):
+            include = m
+        if include is None:
+            continue
+        for name, (kind, home) in sorted(defined.items()):
+            if home == path or name in known or name in in_headers or not is_void(kind):
+                continue
+            if re.search(r'(?<![\w.>])%s\s*\(' % re.escape(name), text):
+                plans.setdefault(path, []).append((include.end(), include.end(), "extern void %s();\n" % name, name))
+    if "--headers" in sys.argv:
+        return headers(defined)
     total = sum(len(v) for v in plans.values())
     print("%d declaration(s) in %d file(s) disagree with the definition's return type" % (total, len(plans)))
     if dry:

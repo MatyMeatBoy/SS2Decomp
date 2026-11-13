@@ -1,4 +1,6 @@
 #include "global.h"
+extern void sub_08065424();
+extern void sub_080009F8();
 
 extern u8 gUnk_03005C60[];
 extern u32 gUnk_03005CA0[];

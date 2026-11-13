@@ -1,4 +1,9 @@
 #include "global.h"
+extern void sub_080920A0();
+extern void sub_0801AB90();
+extern void sub_0801AA34();
+extern void sub_0800208C();
+extern void sub_08000990();
 /* Declared here with the return type of its definition: the call sites ignore the result either way. */
 extern void sub_080920E4(void);
 

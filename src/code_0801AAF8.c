@@ -1,4 +1,6 @@
 #include "global.h"
+extern void sub_0807BEA0();
+extern void sub_0805CFF8();
 
 /* [HasPositiveScreenTransitionPassedDuration] Returns1 exactly when direction03000026 is1 and unsigned
  * progress03000022 exceeds duration03000020; otherwise0. Does not itself test active request flags. */

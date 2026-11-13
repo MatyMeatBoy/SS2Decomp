@@ -1,6 +1,7 @@
 #include "global.h"
 #include "lib/agb_flash/agb_flash.h"
 #include "lib/agb_flash/flash_internal.h"
+extern void sub_0800170C();
 
 extern u8 gUnk_03000018;
 extern u32 VerifyFlashSector(u16 sectorNum, u8 *src);

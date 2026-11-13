@@ -1,4 +1,11 @@
 #include "global.h"
+extern void sub_080576A8();
+extern void sub_08029788();
+extern void sub_0802949C();
+extern void sub_0802939C();
+extern void sub_08023ED8();
+extern void sub_0801AB90();
+extern void sub_0801AB50();
 
 /* [RunRomblemDialogue] Sets bit 0 of the local player's flags +0x30 (the input-suppression bit) and calls
  * BeginLocalPlayerEventLock. Turns the scene entity selected by the argument toward selector 0 with

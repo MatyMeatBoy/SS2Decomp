@@ -1,4 +1,11 @@
 #include "global.h"
+extern void sub_08084F24();
+extern void sub_08084EAC();
+extern void sub_0805EF2C();
+extern void sub_0805DE98();
+extern void sub_08057A5C();
+extern void sub_0801AB90();
+extern void sub_08000990();
 
 void sub_080605D0(s32 index);
 

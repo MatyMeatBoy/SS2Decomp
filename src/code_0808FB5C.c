@@ -1,4 +1,15 @@
 #include "global.h"
+extern void sub_08092D60();
+extern void sub_080889D4();
+extern void sub_08058790();
+extern void sub_0805795C();
+extern void sub_08023F98();
+extern void sub_0801AB50();
+extern void sub_0801AA8C();
+extern void sub_0801A6D4();
+extern void sub_080169C8();
+extern void sub_080009F8();
+extern void sub_08000990();
 extern u32 gTbl08515FCC[] asm("gUnk_08515FCC");
 extern u32 gTbl08514FAC[] asm("gUnk_08514FAC");
 extern u32 gTbl08512670[] asm("gUnk_08512670");
