@@ -1931,7 +1931,7 @@ struct PlayerFB0C { u8 pad[0x30]; u32 flags; u8 tail[0x14C-0x34]; };
 struct StateFB0C { u8 pad[4]; u16 flags; };
 extern struct PlayerFB0C playersFB0C[] asm("gUnk_03003CE0");
 extern struct StateFB0C *stateFB0C asm("gUnk_03005CF4");
-extern void sub_080586B4(s32);
+extern s32 sub_080586B4(s32);
 /* [RunSceneMessage100] Resource140064 mode45 after audio/reveal; scene flags struct at1873 maps final OR32
  * to+4, not area+38. */
 void sub_0804FB0C(void) {
@@ -3242,7 +3242,7 @@ extern u8 *t53_gsA78 asm("gUnk_03005CF4");
 extern s32 t53_transformA78(void *,void *,void *,void *) asm("sub_08021FE0");
 extern void t53_cb1A78(void) asm("sub_0805A474");
 extern void t53_cb2A78(void) asm("sub_0805990C");
-extern void t53_scheduleA78(void *,u32) asm("sub_08068070");
+extern u32 t53_scheduleA78(void *,u32) asm("sub_08068070");
 static inline void t53_unlockA78(void)
 {struct Player *p=&gUnk_03003CE0[sub_080020F4()];p->flags&=~1;}
 static inline u32 t53_selectA78(u16 mask)
@@ -3421,7 +3421,7 @@ void sub_08051CE4(void)
     t53_clearCE4(1);
 }
 extern u8 *t53_gsDF0 asm("gUnk_03005CF4");
-extern void t53_spawnDF0(void *, s32, s32) asm("sub_08068820");
+extern u32 t53_spawnDF0(void *, s32, s32) asm("sub_08068820");
 static inline void t53_flagDF0(u8 *ptr, u32 mask)
 { *(u32 *)(ptr + 0x38) |= mask; }
 static inline void t53_effectDF0(s32 x, s32 y)

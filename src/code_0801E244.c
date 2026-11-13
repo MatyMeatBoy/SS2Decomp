@@ -884,7 +884,7 @@ void sub_0801F1C4(void *position, u8 *object, u16 amount)
     u16 angle;
     register u32 impulse asm("r2");
     extern u8 gUnk_084790B4[];
-    extern void sub_080660EC(void *);
+    extern u32 sub_080660EC(void *);
     *(u16 *)(object + 0xC) = 10;
     packet.amount = amount;
     packet.power = 0;
@@ -1010,9 +1010,9 @@ extern u8 players02074[] asm("gUnk_03003CE0");
 extern u8 *inventory02074 asm("gUnk_030034E0");
 extern u16 amount02074(void *,void *,void *,s32) asm("sub_0801E5B0");
 extern void hit02074(void *,void *,s32,u16,s32) asm("sub_08069388");
-extern void notify02074(void *) asm("sub_080660EC");
+extern u32 notify02074(void *) asm("sub_080660EC");
 extern void display02074(void *,u16,s32,u16,s32,s32) asm("sub_08069080");
-extern void status02074(u16,s32) asm("sub_080680B4");
+extern u32 status02074(u16,s32) asm("sub_080680B4");
 extern void *lookup02074(u8 *,s32) asm("sub_0801E104");
 extern u32 critical02074(u16) asm("sub_08068030");
 struct Packet02074 {u8 player:8;u8 power:8;u8 impulse:8;s32 direction:8;u32 amount:16;u32 unused:16;};
@@ -1098,7 +1098,7 @@ void sub_0801F374(u8 *source,u8 *target,u8 *attack,s32 flags)
 extern u8 directions02079[] asm("gUnk_084790B4");
 extern u16 amount02079(void *,void *,void *,s32) asm("sub_0801E988");
 extern void hit02079(void *,void *,s32,u16,s32) asm("sub_08069388");
-extern void notify02079(void *) asm("sub_080660EC");
+extern u32 notify02079(void *) asm("sub_080660EC");
 extern void display02079(void *,s32,s32,u16,s32,s32) asm("sub_08069080");
 struct Packet02079 {u8 player:8;u8 power:8;u8 impulse:8;s32 direction:8;u32 amount:16;u32 unused:16;};
 /* [QueuePlayerAttackAgainstPlayer] Flags bit0 selects divisor 1000 damage OR 0x 8000 and zero
@@ -1744,10 +1744,10 @@ extern u16 amtA20680(u8 *,u8 *) asm("sub_0801EF14");
 extern u16 amtB20680(u8 *,u8 *) asm("sub_0801ED8C");
 extern void hit20680(struct Packet20680 *,u8 *,s32,u16,s32) asm("sub_08069388");
 extern void disp20680(u8 *,u16,s32,s32,s32,s32) asm("sub_08069080");
-extern void notify20680(struct Packet20680 *) asm("sub_080660EC");
+extern u32 notify20680(struct Packet20680 *) asm("sub_080660EC");
 extern void apply20680(u8 *,struct Packet20680 *) asm("sub_0801F2CC");
 extern void applyB20680(u8 *,struct Packet20680 *) asm("sub_0801F320");
-extern void exp20680(u8,u16,u8 *) asm("sub_08069224");
+extern s32 exp20680(u8,u16,u8 *) asm("sub_08069224");
 extern void *statA20680(u8 *,u8) asm("sub_0801E1A4");
 extern void *statB20680(u8 *,s32) asm("sub_0801E164");
 extern void stat20680(u16,void *,u8) asm("sub_0801DB94");
@@ -1920,7 +1920,7 @@ void sub_08020680(u8 *e)
         sub_0805865C(0x55);
     }
 }
-extern void t21_BC08(s32, s32, s16 *, s16 *, s32, s32) asm("sub_0800BC08");
+extern u32 t21_BC08(s32, s32, s16 *, s16 *, s32, s32) asm("sub_0800BC08");
 void t21_20D40(s32 arg0, s32 arg1) asm("sub_08020D40");
 /* [TaskAnimateCriticalHitSprite] Unpacks packed world coordinates into Q8 values. */
 void t21_20D40(s32 arg0, s32 arg1)
@@ -1951,7 +1951,7 @@ struct T21Player20E08 { u16 *position; u8 pad[0x148]; };
 extern struct T21Player20E08 t21_players20E08[] asm("gUnk_03003E28");
 struct T21Entity20E08 { u8 pad[0x14]; s32 x, y; u8 tail[0x2C4]; };
 extern struct T21Entity20E08 *t21_entities20E08 asm("gUnk_030056F4");
-extern void t21_init20E08(void *, u32, s32, s32, s32) asm("sub_08065158");
+extern s32 t21_init20E08(void *, u32, s32, s32, s32) asm("sub_08065158");
 extern void t21_7870(s32, s32, s32, s32, u32, void *, u32, u32) asm("sub_08007870");
 void t21_20E08(u32 arg0, s32 arg1) asm("sub_08020E08");
 /* [TaskAnimateActorEffect8] Initializes resource and remaps palette entries7/8. */
@@ -2004,7 +2004,7 @@ void t21_20E08(u32 arg0, s32 arg1)
     gUnk_03005CE4 &= ~(1 << arg1);
 }
 struct T21Anim20F74 { u32 a; u32 unused; u32 b; void *palette; u8 pad[12]; u8 sprite[24]; };
-extern void t21_init20F74(void *, u32, s32, s32, s32) asm("sub_08065158");
+extern s32 t21_init20F74(void *, u32, s32, s32, s32) asm("sub_08065158");
 extern void t21_7870(s32, s32, s32, s32, u32, void *, u32, u32) asm("sub_08007870");
 void t21_20F74(s32 arg0, s32 arg1) asm("sub_08020F74");
 /* [TaskAnimateWorldSprite14] Initializes effect resource and palette. */
@@ -2047,7 +2047,7 @@ struct T21Player210A8 { u8 pad[0x148]; u16 *position; };
 extern struct T21Player210A8 t21_players210A8[] asm("gUnk_03003CE0");
 struct T21Entity210A8 { u8 pad[0x14]; s32 x, y; u8 tail[0x2C4]; };
 extern struct T21Entity210A8 *t21_entities210A8 asm("gUnk_030056F4");
-extern void t21_init210A8(void *, u32, s32, s32, s32) asm("sub_08065158");
+extern s32 t21_init210A8(void *, u32, s32, s32, s32) asm("sub_08065158");
 void t21_210A8(u32 arg0, s32 arg1) asm("sub_080210A8");
 /* [TaskAnimateSelectedActorEffect] Initializes resource 0x 50074 and palette 23 with remapping7/8. */
 void t21_210A8(u32 arg0, s32 arg1)
@@ -2100,7 +2100,7 @@ void t21_210A8(u32 arg0, s32 arg1)
     gUnk_03005CE4 &= ~(1 << bit);
 }
 struct T21Anim21214 { u32 a; u32 unused; u32 b; void *palette; u8 pad[12]; u8 sprite[24]; };
-extern void t21_init21214(void *, u32, s32, s32, s32) asm("sub_08065158");
+extern s32 t21_init21214(void *, u32, s32, s32, s32) asm("sub_08065158");
 extern void t21_7870(s32, s32, s32, s32, u32, void *, u32, u32) asm("sub_08007870");
 void t21_21214(u32 arg0, u32 arg1) asm("sub_08021214");
 /* [TaskAnimateSelectedWorldSprite] Initializes resource 0x 50074 and shared palette 23. */
@@ -2144,7 +2144,7 @@ struct T21Player2133C { u8 pad[0x148]; u16 *position; };
 extern struct T21Player2133C t21_players2133C[] asm("gUnk_03003CE0");
 struct T21Entity2133C { u8 pad[0x14]; s32 x, y; u8 tail[0x2C4]; };
 extern struct T21Entity2133C *t21_entities2133C asm("gUnk_030056F4");
-extern void t21_init2133C(void *, u32, s32, s32, s32) asm("sub_08065158");
+extern s32 t21_init2133C(void *, u32, s32, s32, s32) asm("sub_08065158");
 void t21_2133C(u32 arg0, s32 arg1) asm("sub_0802133C");
 /* [TaskAnimateActorEffect34] Initializes resource 0x 5008C and palette 23 remapped7/8. */
 void t21_2133C(u32 arg0, s32 arg1)
@@ -2193,7 +2193,7 @@ struct T21Player21490 { u8 pad[0x148]; u16 *position; };
 extern struct T21Player21490 t21_players21490[] asm("gUnk_03003CE0");
 struct T21Entity21490 { u8 pad[0x14]; s32 x, y; u8 tail[0x2C4]; };
 extern struct T21Entity21490 *t21_entities21490 asm("gUnk_030056F4");
-extern void t21_init21490(void *, u32, s32, s32, s32) asm("sub_08065158");
+extern s32 t21_init21490(void *, u32, s32, s32, s32) asm("sub_08065158");
 void t21_21490(u32 arg0, s32 arg1) asm("sub_08021490");
 /* [TaskAnimateActorEffect11] Initializes resource 0x 5008C and shared palette 23 remapped7/8. */
 void t21_21490(u32 arg0, s32 arg1)
@@ -2273,7 +2273,7 @@ void t21_215E4(s32 arg0, s32 arg1)
     gUnk_03005CE4 &= ~(1 << arg1);
 }
 struct T21Anim216BC { u32 a; u32 unused; u32 b; void *palette; u8 pad[12]; u8 sprite[24]; };
-extern void t21_init216BC(void *, u32, s32, s32, s32) asm("sub_08065158");
+extern s32 t21_init216BC(void *, u32, s32, s32, s32) asm("sub_08065158");
 void t21_216BC(s32 arg0, s32 arg1) asm("sub_080216BC");
 /* [TaskAnimateWorldSprite1] Initializes resource 0x 5008C, loads palette 23 and remaps sprite palette entries
  * to7/8. */
@@ -2314,7 +2314,7 @@ struct T21Player217D8 { u8 pad[0x148]; u16 *position; };
 extern struct T21Player217D8 t21_players217D8[] asm("gUnk_03003CE0");
 struct T21Entity217D8 { u8 pad[0x14]; s32 x, y; u8 tail[0x2C4]; };
 extern struct T21Entity217D8 *t21_entities217D8 asm("gUnk_030056F4");
-extern void t21_init217D8(void *, u32, s32, s32, s32) asm("sub_08065158");
+extern s32 t21_init217D8(void *, u32, s32, s32, s32) asm("sub_08065158");
 void t21_217D8(u32 arg0, s32 arg1) asm("sub_080217D8");
 /* [TaskShowResistanceIncreaseIndicator] Packed r0: low16 actor id, high16 selector; r1 pool bit.
  * Resource5008C, palette23, descriptor bytes7/8. Captures actor position once: ids0..3 read player position
@@ -2378,7 +2378,7 @@ struct T21Player21960 { u8 pad[0x148]; u16 *position; };
 extern struct T21Player21960 t21_players21960[] asm("gUnk_03003CE0");
 struct T21Entity21960 { u8 pad[0x14]; s32 x, y; u8 tail[0x2C4]; };
 extern struct T21Entity21960 *t21_entities21960 asm("gUnk_030056F4");
-extern void t21_init21960(void *, u32, s32, s32, s32) asm("sub_08065158");
+extern s32 t21_init21960(void *, u32, s32, s32, s32) asm("sub_08065158");
 void t21_21960(u32 arg0, s32 arg1) asm("sub_08021960");
 /* [TaskShowResistanceDecreaseIndicator] Packed r0 low16 actor id/high16 selector, r1 pool bit.
  * Resource5008C/palette23 and initial position domains as217D8, captured once.60-iteration timer; raises y
@@ -2435,7 +2435,7 @@ void t21_21960(u32 arg0, s32 arg1)
     }    gUnk_03005CE4 &= ~(1 << arg1);
 }
 struct T21Anim21AD8 { u32 a; u32 unused; u32 b; void *palette; u8 pad[12]; u8 sprite[24]; };
-extern void t21_init21AD8(void *, u32, s32, s32, s32) asm("sub_08065158");
+extern s32 t21_init21AD8(void *, u32, s32, s32, s32) asm("sub_08065158");
 void t21_21AD8(u32 arg0, u32 arg1) asm("sub_08021AD8");
 /* [TaskAnimateWorldSprite41] World-map-active early return occurs before resource loading and bypasses final
  * pool-bit clear. */

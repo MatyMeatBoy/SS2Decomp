@@ -1144,15 +1144,15 @@ struct B688Obj { u8 pad0[0xA0]; u16 kind; u8 padA2[2]; u32 hitMask; u8 gfx; };
 extern struct B688Player b688Players[] asm("gUnk_03003CE0");
 extern u8 *b688Map asm("gUnk_030034E0");
 extern u8 *b688Enemies asm("gUnk_030056F4");
-extern void b688_sub_08065158(struct B688Anim *, u32, u32, u32, u32) asm("sub_08065158");
+extern s32 b688_sub_08065158(struct B688Anim *, u32, u32, u32, u32) asm("sub_08065158");
 extern s32 b688_sub_08021FE0(struct B688Pos *, void *, void *, void *) asm("sub_08021FE0");
-extern void b688_sub_08068144(u32) asm("sub_08068144");
-extern void b688_sub_08067F4C(u32, u32, u32) asm("sub_08067F4C");
-extern void b688_sub_08067F04(u32, u32, u32) asm("sub_08067F04");
-extern void b688_sub_0806818C(u32, u32, s32, s32, u32) asm("sub_0806818C");
-extern void b688_sub_0806823C(u32, u32, s32, s32, u32) asm("sub_0806823C");
-extern void b688_sub_0800BC08(s32, s32, s16 *, s16 *, s32, s32) asm("sub_0800BC08");
-extern void b688_sub_08007870(s32, s32, u32, u32, u8, void *, s32, s32) asm("sub_08007870");
+extern u32 b688_sub_08068144(u32) asm("sub_08068144");
+extern s32 b688_sub_08067F4C(u32, u32, u32) asm("sub_08067F4C");
+extern s32 b688_sub_08067F04(u32, u32, u32) asm("sub_08067F04");
+extern s32 b688_sub_0806818C(u32, u32, s32, s32, u32) asm("sub_0806818C");
+extern u32 b688_sub_0806823C(u32, u32, s32, s32, u32) asm("sub_0806823C");
+extern u32 b688_sub_0800BC08(s32, s32, s16 *, s16 *, s32, s32) asm("sub_0800BC08");
+extern s32 b688_sub_08007870(s32, s32, u32, u32, u8, void *, s32, s32) asm("sub_08007870");
 /* [RunThrownItemTrajectory] Builds an item sprite from throwing player's packed position/direction/power,
  * moves with map collision and a two-bounce height arc, and conditionally renders sprite/shadow. Eligible
  * player/enemy contact dispatches item/effect requests only for local thrower, or deactivates matching neutral

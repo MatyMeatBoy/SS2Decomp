@@ -390,10 +390,10 @@ extern struct EffectPlayer77 effectPlayers77[] asm("gUnk_03003CE0");
 extern struct EffectEnemy77 *effectEnemies77 asm("gUnk_030056F4");
 extern u32 effectMasks77[] asm("gUnk_030063E0");
 extern u32 effectFlags77 asm("gUnk_03002344");
-extern void effectInit77(struct EffectSprite77 *,u32,u32,s32,u32) asm("sub_08065158");
+extern s32 effectInit77(struct EffectSprite77 *,u32,u32,s32,u32) asm("sub_08065158");
 extern u32 effectStep77(struct EffectSprite77 *,u16,u16 *,u16 *,u32) asm("sub_08065370");
-extern void effectPosition77(s32,s32,s16 *,s16 *,u32,u32) asm("sub_0800BC08");
-extern void effectDraw77(s32,s32,u16,u16,u8,void *,void *,u32) asm("sub_08007870");
+extern u32 effectPosition77(s32,s32,s16 *,s16 *,u32,u32) asm("sub_0800BC08");
+extern s32 effectDraw77(s32,s32,u16,u16,u8,void *,void *,u32) asm("sub_08007870");
 extern void effectPalette77(u32,void *,u32) asm("sub_08000AF0");
 /* [AnimateEntityHealingActivation] Machine ABI r0=entity owner, r1=task-slot. Initializes resource 0x5008C,
  * style8, mode -1 and palette bytes7/8. Each iteration re-reads the attached position: owners0..3 use player
@@ -725,10 +725,10 @@ extern u16 dir5088[] asm("gUnk_0847AD0A");
 extern s16 sin5088[] asm("gUnk_080B9704");
 extern s16 off5088[][2] asm("gUnk_084EBEBC");
 extern u8 *party5088 asm("gUnk_030034E0");
-extern void init5088(void *, u32, u32, s32, u32) asm("sub_08065158");
+extern s32 init5088(void *, u32, u32, s32, u32) asm("sub_08065158");
 extern u16 step5088(void *, u32, u16 *, u16 *, u32) asm("sub_08065370");
-extern void pos5088(s32, s32, s16 *, s16 *, u32, u32) asm("sub_0800BC08");
-extern void draw5088(s32, s32, u32, u32, u8, void *, void *, u32) asm("sub_08007870");
+extern u32 pos5088(s32, s32, s16 *, s16 *, u32, u32) asm("sub_0800BC08");
+extern s32 draw5088(s32, s32, u32, u32, u8, void *, void *, u32) asm("sub_08007870");
 extern void pal5088(u32, void *, u32) asm("sub_08000AF0");
 extern u32 rand5088(void) asm("sub_080008C8");
 extern void hit5088(u32, u32, u32, u32, u32, u32) asm("sub_08029E0C");
@@ -977,9 +977,9 @@ extern u8 *inv5778 asm("gUnk_030034E0");
 extern u16 dir5778[] asm("gUnk_0847AD0A");
 extern s16 sin5778[] asm("gUnk_080B9704");
 extern s16 offX5778[][2] asm("gUnk_084EBEBC");
-extern void init5778(void *, u32, u32, s32, u32) asm("sub_08065158");
+extern s32 init5778(void *, u32, u32, s32, u32) asm("sub_08065158");
 extern u16 step5778(void *, u32, u16 *, u16 *, u32) asm("sub_08065370");
-extern void pos5778(s32, s32, s16 *, s16 *, u32, u32) asm("sub_0800BC08");
+extern u32 pos5778(s32, s32, s16 *, s16 *, u32, u32) asm("sub_0800BC08");
 extern void draw5778(void *, s32, s32, s32, u32, u32) asm("sub_080659BC");
 extern void *tmpl5778(void) asm("sub_0805AD18");
 extern s32 roll5778(s32, s32) asm("sub_080223A4");
@@ -1416,10 +1416,10 @@ extern u8 *inv61A4 asm("gUnk_030034E0");
 extern u16 dir61A4[] asm("gUnk_0847AD0A");
 extern s16 sin61A4[] asm("gUnk_080B9704");
 extern s16 off61A4[][2] asm("gUnk_084EBEBC");
-extern void init61A4(void *, u32, u32, u32, u32) asm("sub_08065158");
+extern s32 init61A4(void *, u32, u32, u32, u32) asm("sub_08065158");
 extern u16 step61A4(void *, u32, u16 *, u16 *, u32) asm("sub_08065370");
-extern void pos61A4(s32, s32, s16 *, s16 *, u32, u32) asm("sub_0800BC08");
-extern void draw61A4(s32, s32, u16, u16, u8, void *, void *, u32) asm("sub_08007870");
+extern u32 pos61A4(s32, s32, s16 *, s16 *, u32, u32) asm("sub_0800BC08");
+extern s32 draw61A4(s32, s32, u16, u16, u8, void *, void *, u32) asm("sub_08007870");
 extern void *tmpl61A4(void) asm("sub_0805AD18");
 extern s32 roll61A4(s32, s32) asm("sub_080223A4");
 extern s32 test61A4(struct Pos61A4 *, void *, struct Box61A4 *, struct Box61A4 *) asm("sub_08021FE0");
@@ -1867,9 +1867,9 @@ extern u8 *inv6BA0 asm("gUnk_030034E0");
 extern u16 dir6BA0[] asm("gUnk_0847AD0A");
 extern s16 sin6BA0[] asm("gUnk_080B9704");
 extern s16 off6BA0[][2] asm("gUnk_084EBEBC");
-extern void init6BA0(void *, u32, u32, u32, u32) asm("sub_08065158");
-extern void pos6BA0(s32, s32, s16 *, s16 *, u32, u32) asm("sub_0800BC08");
-extern void draw6BA0(s32, s32, u16, u16, u8, void *, void *, u32) asm("sub_08007870");
+extern s32 init6BA0(void *, u32, u32, u32, u32) asm("sub_08065158");
+extern u32 pos6BA0(s32, s32, s16 *, s16 *, u32, u32) asm("sub_0800BC08");
+extern s32 draw6BA0(s32, s32, u16, u16, u8, void *, void *, u32) asm("sub_08007870");
 extern void *tmpl6BA0(void) asm("sub_0805AD18");
 extern s32 roll6BA0(s32, s32) asm("sub_080223A4");
 extern s32 test6BA0(struct Pos6BA0 *, void *, struct Box6BA0 *, struct Box6BA0 *) asm("sub_08021FE0");
@@ -2281,15 +2281,15 @@ extern struct Tbl7508 tbl7508[] asm("gUnk_08479140");
 extern u32 e7508Mask asm("gUnk_030056FC");
 extern u16 atan7508(s16, s16) asm("ArcTan2");
 extern u8 *cfg7508(s32) asm("sub_08007290");
-extern void coords7508(s32, s32, s16 *, s16 *, s32, s32) asm("sub_0800BC08");
+extern u32 coords7508(s32, s32, s16 *, s16 *, s32, s32) asm("sub_0800BC08");
 extern u16 dmgE7508(void *, void *) asm("sub_0801EF14");
 extern u16 dmgP7508(void *, void *) asm("sub_0801ED8C");
-extern void draw7508(s32, s32, u16, u16, u8, void *, u32, u32) asm("sub_08007870");
-extern void init7508(void *, u32, s32, s32, s32) asm("sub_08065158");
+extern s32 draw7508(s32, s32, u16, u16, u8, void *, u32, u32) asm("sub_08007870");
+extern s32 init7508(void *, u32, s32, s32, s32) asm("sub_08065158");
 extern void miss7508(s32, s32) asm("sub_08022504");
 extern u32 rand7508(void) asm("sub_080008C8");
 extern s32 roll7508(s32, s32) asm("sub_080223A4");
-extern void send7508(void *) asm("sub_080660EC");
+extern u32 send7508(void *) asm("sub_080660EC");
 
 /* [RunEnemyAimedDamageProjectile] Machine ABI r0=enemy index, r1=packed target high16 and task-slot low4. Uses
  * enemy-indexed resource/palette with special resource 0x5001E for byte +226==3. Computes aim once from target
@@ -2589,17 +2589,17 @@ extern u32 e7DACMask asm("gUnk_030056FC");
 extern u16 atan7DAC(s16, s16) asm("ArcTan2");
 extern s32 cdf8_7DAC(void) asm("sub_0800CDF8");
 extern u8 *cfg7DAC(s32) asm("sub_08007290");
-extern void coords7DAC(s32, s32, s16 *, s16 *, s32, s32) asm("sub_0800BC08");
+extern u32 coords7DAC(s32, s32, s16 *, s16 *, s32, s32) asm("sub_0800BC08");
 extern s32 d11c_7DAC(void) asm("sub_0800D11C");
 extern u16 dmgE7DAC(void *, void *) asm("sub_0801EF14");
 extern u16 dmgP7DAC(void *, void *) asm("sub_0801ED8C");
-extern void draw7DAC(s32, s32, u16, u16, u8, void *, u32, u32) asm("sub_08007870");
+extern s32 draw7DAC(s32, s32, u16, u16, u8, void *, u32, u32) asm("sub_08007870");
 extern s32 effect7DAC(s32 *, u32 *, s32) asm("sub_0801FB14");
-extern void init7DAC(void *, u32, s32, s32, s32) asm("sub_08065158");
+extern s32 init7DAC(void *, u32, s32, s32, s32) asm("sub_08065158");
 extern void miss7DAC(s32, s32) asm("sub_08022504");
 extern u32 rand7DAC(void) asm("sub_080008C8");
 extern s32 roll7DAC(s32, s32) asm("sub_080223A4");
-extern void send7DAC(void *) asm("sub_080660EC");
+extern u32 send7DAC(void *) asm("sub_080660EC");
 
 /* [RunEnemyDamageProjectileWithSceneObjectCollision] Machine ABI r0=enemy index, r1=target high16/task-slot
  * low4. Aims once and restricts deviation using table 0847AD0A; selects enemy-indexed projectile resource.
@@ -2866,11 +2866,11 @@ extern s16 sin85F4[] asm("gUnk_080B9704");
 extern s16 off85F4[][2] asm("gUnk_084EBEBC");
 extern u32 e85F4Mask asm("gUnk_030056FC");
 extern u16 atan85F4(s16, s16) asm("ArcTan2");
-extern void coords85F4(s32, s32, s16 *, s16 *, s32, s32) asm("sub_0800BC08");
+extern u32 coords85F4(s32, s32, s16 *, s16 *, s32, s32) asm("sub_0800BC08");
 extern s32 effect85F4(s32 *, u32 *, s32) asm("sub_0801FB14");
 extern void hit85F4(u32, s32, s32, u32, s32) asm("sub_08079888");
-extern void init85F4(void *, s32, s32, s32, s32) asm("sub_08065158");
-extern void miss85F4(u32, u32, s32, s32, s32) asm("sub_0806818C");
+extern s32 init85F4(void *, s32, s32, s32, s32) asm("sub_08065158");
+extern s32 miss85F4(u32, u32, s32, s32, s32) asm("sub_0806818C");
 
 /* [RunEnemyProjectileSpawningAreaDamage] Machine ABI r0=enemy index, r1=target high16/task-slot low4. Resource
  * 0x500AF; enemy byte +1FD==0x14 chooses subtype base0/palette14, otherwise base1/palette15. Computes
@@ -3096,15 +3096,15 @@ extern u32 enemyMaskBCC asm("gUnk_030056FC");
 extern u32 flagsBCC asm("gUnk_03002344");
 extern u32 masksBCC[] asm("gUnk_030063E0");
 extern s16 sinBCC[] asm("gUnk_080B9704");
-extern void initBCC(void *, u32, u32, s32, u32) asm("sub_08065158");
+extern s32 initBCC(void *, u32, u32, s32, u32) asm("sub_08065158");
 extern u16 stepBCC(void *, u32, u16 *, u16 *, u32) asm("sub_08065370");
-extern void posBCC(s32, s32, s16 *, s16 *, u32, u32) asm("sub_0800BC08");
+extern u32 posBCC(s32, s32, s16 *, s16 *, u32, u32) asm("sub_0800BC08");
 extern void drawBCC(void *, s32, s32, u32, u32) asm("sub_08065230");
 extern void palBCC(u32, void *, u32) asm("sub_08000AF0");
 extern u32 randBCC(void) asm("sub_080008C8");
 extern s32 testBCC(struct VecBCC *, void *, struct BoxBCC *, struct BoxBCC *) asm("sub_08021FE0");
-extern void areaBCC(struct VecBCC *, struct BoxBCC *, u32) asm("sub_0801FB14");
-extern void sendBCC(struct PacketBCC *) asm("sub_080660EC");
+extern s32 areaBCC(struct VecBCC *, struct BoxBCC *, u32) asm("sub_0801FB14");
+extern u32 sendBCC(struct PacketBCC *) asm("sub_080660EC");
 extern s16 atanBCC(s16, s16) asm("ArcTan2");
 extern s32 sqrtBCC(s32) asm("Sqrt");
 /* [TaskEligiblePlayerCentroidAreaAttack] Matched 793BC starts 78BCC with owner player ID and a per-owner
@@ -3444,15 +3444,15 @@ struct Pl458 { u8 p0[0x20]; u16 state; u8 p22[0xE]; u32 flags; u8 p34[0x34]; u8 
 struct En458 { u8 p0[0x14]; s32 pos[2]; u8 p1C[0x38]; u32 lastHit; u8 p58[0x184]; u8 active; u8 p1DD[0x51]; u8 bw, bh; u8 p230[0xB0]; };
 extern struct Pl458 gPl458[] asm("gUnk_03003CE0");
 extern struct En458 *gEn458 asm("gUnk_030056F4");
-extern void sub_08065158_458(void *, u32, u32, u32, u32) asm("sub_08065158");
-extern void sub_08065370_458(void *, u32, u16 *, u16 *, s32) asm("sub_08065370");
-extern void sub_0800BC08_458(s32, s32, s16 *, s16 *, s32, s32) asm("sub_0800BC08");
-extern void sub_08007870_458(s32, s32, u32, u32, u8, void *, u32, u32) asm("sub_08007870");
-extern void sub_0801FB14_458(s32 *, s32 *, u32) asm("sub_0801FB14");
+extern s32 sub_08065158_458(void *, u32, u32, u32, u32) asm("sub_08065158");
+extern s32 sub_08065370_458(void *, u32, u16 *, u16 *, s32) asm("sub_08065370");
+extern u32 sub_0800BC08_458(s32, s32, s16 *, s16 *, s32, s32) asm("sub_0800BC08");
+extern s32 sub_08007870_458(s32, s32, u32, u32, u8, void *, u32, u32) asm("sub_08007870");
+extern s32 sub_0801FB14_458(s32 *, s32 *, u32) asm("sub_0801FB14");
 extern s32 sub_08021FE0_458(s32 *, s32 *, s32 *, struct Box458 *) asm("sub_08021FE0");
 extern void sub_0801F1C4_458(s32 *, void *, u32) asm("sub_0801F1C4");
 extern void sub_08029CEC_458(s32, s32, s32) asm("sub_08029CEC");
-extern void sub_0801FC34_458(s32 *, s32 *, u32) asm("sub_0801FC34");
+extern s32 sub_0801FC34_458(s32 *, s32 *, u32) asm("sub_0801FC34");
 extern void sub_08022028_458(s32 *, void *, u32) asm("sub_08022028");
 extern void sub_08029A7C_458(s32, u32, s32) asm("sub_08029A7C");
 extern u8 *sub_08007290_458(u32) asm("sub_08007290");
@@ -3667,11 +3667,11 @@ struct Pl948 { u8 p0[0x20]; u16 state; u8 p22[0xE]; u32 flags; u8 p34[0x34]; u8 
 struct En948 { u8 p0[0x14]; s32 pos[2]; u8 p1C[0x38]; u32 lastHit; u8 p58[0x184]; u8 active; u8 p1DD[0x51]; u8 bw, bh; u8 p230[0xB0]; };
 extern struct Pl948 gPl948[] asm("gUnk_03003CE0");
 extern struct En948 *gEn948 asm("gUnk_030056F4");
-extern void sub_08065158_948(void *, u32, u32, u32, u32) asm("sub_08065158");
-extern void sub_08065370_948(void *, u32, u16 *, u16 *, s32) asm("sub_08065370");
-extern void sub_0800BC08_948(s32, s32, s16 *, s16 *, s32, s32) asm("sub_0800BC08");
-extern void sub_08007870_948(s32, s32, u32, u16, u8, void *, u32, u32) asm("sub_08007870");
-extern void sub_0801FB14_948(s32 *, s32 *, u32) asm("sub_0801FB14");
+extern s32 sub_08065158_948(void *, u32, u32, u32, u32) asm("sub_08065158");
+extern s32 sub_08065370_948(void *, u32, u16 *, u16 *, s32) asm("sub_08065370");
+extern u32 sub_0800BC08_948(s32, s32, s16 *, s16 *, s32, s32) asm("sub_0800BC08");
+extern s32 sub_08007870_948(s32, s32, u32, u16, u8, void *, u32, u32) asm("sub_08007870");
+extern s32 sub_0801FB14_948(s32 *, s32 *, u32) asm("sub_0801FB14");
 extern s32 sub_08021FE0_948(s32 *, s32 *, s32 *, struct Box948 *) asm("sub_08021FE0");
 extern void sub_0801F1C4_948(s32 *, void *, u32) asm("sub_0801F1C4");
 extern void sub_08029CEC_948(s32, s32, s32) asm("sub_08029CEC");
@@ -3813,10 +3813,10 @@ void sub_08079CC4(u32 who, u32 a, u32 b, u32 c, u32 d)
     gMasks9888[who] |= 1 << i;
 }
 struct SprD84 { s32 f0, f4, f8, fC, f10, f14, f18; u8 b1C[0x18]; };
-extern void sub_0800BC08_6(s32, s32, s16 *, s16 *, s32, s32) asm("sub_0800BC08");
+extern u32 sub_0800BC08_6(s32, s32, s16 *, s16 *, s32, s32) asm("sub_0800BC08");
 extern u32 sub_08065370_5r(void *, u32, u16 *, u16 *, s32) asm("sub_08065370");
-extern void sub_08065158_5(void *, u32, u32, s32, s32) asm("sub_08065158");
-extern void sub_08068A00(s32, s32, void *);
+extern s32 sub_08065158_5(void *, u32, u32, s32, s32) asm("sub_08065158");
+extern s32 sub_08068A00(s32, s32, void *);
 /* [ProcessAbilityHitAndAnimateAtPackedPosition] r0 points to six-word ability descriptor; r1 packs coordinate
  * halfwords. Initializes sprite5008C,palette bank0x17 (23), style bytes7/8; unpacks low/high16 coordinate
  * fields and shifts each left8. Calls hit processor68A00 once with x inr0,y inr1,descriptor inr2 before

@@ -699,7 +699,7 @@ struct Payload69 {union {u32 raw;struct {u32 who:8,kind:8,upper:16;} bits;} cont
 extern struct EffectPlayer69 effectPlayers69[] asm("gUnk_03003CE0");
 extern u8 *effectEnemies69 asm("gUnk_030056F4");
 extern u8 *effectStats69 asm("gUnk_030034E0");
-extern void effectApply69(struct Payload69 *) asm("sub_08067D28");
+extern u32 effectApply69(struct Payload69 *) asm("sub_08067D28");
 extern void effectFeedback69(u32,u32,void *) asm("sub_08069224");
 /* [TryQueueScaledStatusEffect] Kinds1/4 use resistance indices0/3 and distinct probability divisors 25/50; all
  * other kinds return. */
@@ -838,7 +838,7 @@ extern void hitStatus69(void *,void *,u32,u32,u32) asm("sub_08069388");
 extern void hitAux69(void *,u32,u32,u32,u32,s32) asm("sub_08069080");
 extern void hitRecover69(u32,u32,void *) asm("sub_08069224");
 extern u32 hitArc69(s32,s32) asm("ArcTan2");
-extern void hitDisplay69(void *) asm("sub_080660EC");
+extern u32 hitDisplay69(void *) asm("sub_080660EC");
 extern void *hitFreeSlot69(void *,u32) asm("sub_0801E104");
 /* Empty constraints retain the original register/address lifetimes; they emit no instructions. */
 /* [ApplyAbilityDamageAndStatusToTarget] r0 points to six-word ability descriptor. Returns on 58DB0/CDF8
@@ -1016,10 +1016,10 @@ block_27:
 struct StatusSprite69 {u32 data,unk4,tiles;u8 *palette;s32 unk10;u32 paletteId,paletteCount;u8 style[16];s16 scale,step,max,min;};
 struct StatusPosition69 {u16 x,y,kind,unused6,unused8,slot;};
 extern vu32 statusMask69 asm("gUnk_0300641C");
-extern void statusInit69(struct StatusSprite69 *,u32,u32,s32,u32) asm("sub_08065158");
+extern s32 statusInit69(struct StatusSprite69 *,u32,u32,s32,u32) asm("sub_08065158");
 extern u32 statusStep69(struct StatusSprite69 *,u32,u16 *,u16 *,u32) asm("sub_08065370");
 extern u32 statusCoords69(s32,s32,s16 *,s16 *,u32,u32) asm("sub_0800BC08");
-extern void statusDraw69(s32,s32,u32,u32,u32,void *,u32,u32) asm("sub_08007870");
+extern s32 statusDraw69(s32,s32,u32,u32,u32,void *,u32,u32) asm("sub_08007870");
 /* [AnimateStatusEffectAtFixedPosition] Reads x/y unsigned halfwords+0/+2, kind halfword+4 and shared-pool slot
  * halfword+0xA from descriptor. Initializes sprite resource0x5008C, style bytes7/8. Maps kinds1/5 to
  * animation28, kind2 to29, kind6 to32, kind14 to13; all other kinds clear shared mask bit and return. Selected
@@ -1120,7 +1120,7 @@ struct Effect69 { u32 data,unk4,tiles; u8 *palette; s32 unk10; u32 paletteId,pal
 extern vu32 effectMask69 asm("gUnk_0300641C");
 extern u32 effectStep69(struct Effect69 *,u16,u16 *,u16 *,u32) asm("sub_08065370");
 extern u32 effectCoords69(s32,s32,s16 *,s16 *,u32,u32) asm("sub_0800BC08");
-extern void effectDraw69(s32,s32,u32,u32,u32,void *,u32,u32) asm("sub_08007870");
+extern s32 effectDraw69(s32,s32,u32,u32,u32,void *,u32,u32) asm("sub_08007870");
 /* [TaskAnimateWorldSequenceZero] Truncates slot to 16 bits and unpacks x/y as signed halfwords. */
 void sub_08069AEC(u32 pos,u32 slot)
 {
@@ -1212,13 +1212,13 @@ extern u8 z069Frm[] asm("gUnk_084790B4");
 extern struct Z069Off z069Off[] asm("gUnk_084EBEBC");
 extern u8 *z069Cfg asm("gUnk_03005CF4");
 extern u32 z069EMask asm("gUnk_030056FC");
-extern void z069Animate(void *,u32,u16 *,s16 *,s32) asm("sub_08065370");
-extern void z069Coords(s32,s32,s16 *,s16 *,s32,s32) asm("sub_0800BC08");
+extern s32 z069Animate(void *,u32,u16 *,s16 *,s32) asm("sub_08065370");
+extern u32 z069Coords(s32,s32,s16 *,s16 *,s32,s32) asm("sub_0800BC08");
 extern s16 z069Damage(void *,s32) asm("sub_08068F9C");
-extern void z069Draw(s32,s32,u16,u16,u32,void *,u32,u32) asm("sub_08007870");
+extern s32 z069Draw(s32,s32,u16,u16,u32,void *,u32,u32) asm("sub_08007870");
 extern s32 z069Effect(void *,void *,s16) asm("sub_0801FB14");
 extern s32 z069Hit(s32,s32,void *) asm("sub_08068A00");
-extern void z069Init(void *,s32,s32,s32,s32) asm("sub_08065158");
+extern s32 z069Init(void *,s32,s32,s32,s32) asm("sub_08065158");
 extern void z069Spawn(s32,s32,u32,s32,s32) asm("sub_08069A30");
 extern u32 sub_0807A040();
 /* [RunStraightAbilityProjectile] Enemy windup waits halfword+6A>=byte+0x22B; during wait
@@ -1562,13 +1562,13 @@ extern struct T070Enemy *t070Enemies asm("gUnk_030056F4");
 extern u32 t070Flags[] asm("gUnk_030063E0");
 struct T070Cost { s16 pad[3]; s16 values[9]; };
 extern struct T070Cost t070Costs[] asm("gUnk_084EBF1C");
-extern void t070Init(void *,s32,s32,s32,s32) asm("sub_08065158");
-extern void t070Coords(s32,s32,s16 *,s16 *,s32,void *) asm("sub_0800BC08");
-extern void t070Draw(s32,s32,u16,u16,u32,void *,u32,u32) asm("sub_08007870");
+extern s32 t070Init(void *,s32,s32,s32,s32) asm("sub_08065158");
+extern u32 t070Coords(s32,s32,s16 *,s16 *,s32,void *) asm("sub_0800BC08");
+extern s32 t070Draw(s32,s32,u16,u16,u32,void *,u32,u32) asm("sub_08007870");
 extern s32 t070Hit(s32,s32,void *) asm("sub_08068A00");
 extern s16 t070Damage(void *,s32) asm("sub_08068F9C");
-extern void t070Effect(void *,void *,s16) asm("sub_0801FB14");
-extern void t070Animate(void *,u32,u16 *,s16 *,s32) asm("sub_08065370");
+extern s32 t070Effect(void *,void *,s16) asm("sub_0801FB14");
+extern s32 t070Animate(void *,u32,u16 *,s16 *,s32) asm("sub_08065370");
 /* [RunPlayerCenteredPersistentAbilityHit] Reads descriptor owner/bit,low16level. Local owner pays
  * low16cost6898C-1 from resource+C2 clamped0; owner>3 instead deducts signed cost-table halfword from
  * enemy+5E; insufficient signed result clears mask,zeros resource and returns before normal cleanup15D98.
@@ -1675,14 +1675,14 @@ extern struct T071Off t071Off[] asm("gUnk_084EBEBC");
 struct T071Nib {u8 lo:4; u8 hi:4;};
 extern u8 *t071Cfg asm("gUnk_03005CF4");
 extern u8 t071Mode[] asm("gUnk_03003170");
-extern void x071Init(void *,s32,s32,s32,s32) asm("sub_08065158");
-extern void x071Coords(s32,s32,s16 *,s16 *,s32,void *) asm("sub_0800BC08");
-extern void x071Animate(void *,u32,u16 *,s16 *,s32) asm("sub_08065370");
+extern s32 x071Init(void *,s32,s32,s32,s32) asm("sub_08065158");
+extern u32 x071Coords(s32,s32,s16 *,s16 *,s32,void *) asm("sub_0800BC08");
+extern s32 x071Animate(void *,u32,u16 *,s16 *,s32) asm("sub_08065370");
 extern void x071Spawn(s32,s32,u32,s32,s32) asm("sub_08069A30");
 extern s32 x071Effect(void *,void *,s16) asm("sub_0801FB14");
 extern s16 x071Damage(void *,s32) asm("sub_08068F9C");
 extern void x071Impact(void *,s32,s32) asm("sub_08079ED0");
-extern void x071Draw(s32,s32,u16,u16,u32,void *,u32,u32) asm("sub_08007870");
+extern s32 x071Draw(s32,s32,u16,u16,u32,void *,u32,u32) asm("sub_08007870");
 /* [RunStraightAbilityProjectileWithImpactTask] Resolves input target ID to establish player/enemy domain;
  * owner-facing direction stays fixed. Enemy windup waits+6A>=+22B with abort checks. Starts4*sine ahead,
  * moves2*sine/tick; sprite50051(level<=4),50054(<=6),5005F(other), animation groups use level-1/-5/-7,
@@ -1879,12 +1879,12 @@ extern u16 y073Dir[] asm("gUnk_0847AD0A");
 extern s16 y073Sin[] asm("gUnk_080B9704");
 extern u8 y073Cost[] asm("gUnk_084EBF1C");
 extern struct Y073R y073Range[] asm("gUnk_084EC12C");
-extern void y073Init(void *,s32,s32,s32,s32) asm("sub_08065158");
-extern void y073Coords(s32,s32,s16 *,s16 *,s32,void *) asm("sub_0800BC08");
+extern s32 y073Init(void *,s32,s32,s32,s32) asm("sub_08065158");
+extern u32 y073Coords(s32,s32,s16 *,s16 *,s32,void *) asm("sub_0800BC08");
 extern s32 y073Animate(void *,u32,u16 *,s16 *,s32) asm("sub_08065370");
 extern void y073Spawn(s32,s32,u32,s32,s32) asm("sub_08069A30");
 extern void y073Send(void *) asm("sub_080694AC");
-extern void y073Draw(s32,s32,u32,u16,u32,void *,u32,u32) asm("sub_08007870");
+extern s32 y073Draw(s32,s32,u32,u16,u32,void *,u32,u32) asm("sub_08007870");
 extern u16 y073Atan(s16,s16) asm("ArcTan2");
 /* [RunStaggeredForwardConeAbility] Pays resource first, initializes five animation/frame slots and cumulative
  * byte delays starting0 with RNG%20+10. Enemy windup waits+6A>=+22B with standard aborts. WhenCDF8zero, target
@@ -2117,11 +2117,11 @@ extern struct CtlBE *ctlBE asm("gUnk_03005CF4");
 extern u16 angBE[] asm("gUnk_0847AD0A");
 extern s16 sinBE[] asm("gUnk_080B9704");
 extern u8 costBE[] asm("gUnk_084EBF1C");
-extern void initBE(void *, s32, s32, s32, s32) asm("sub_08065158");
-extern void coordsBE(s32, s32, s16 *, s16 *, s32, s32) asm("sub_0800BC08");
+extern s32 initBE(void *, s32, s32, s32, s32) asm("sub_08065158");
+extern u32 coordsBE(s32, s32, s16 *, s16 *, s32, s32) asm("sub_0800BC08");
 extern s32 animBE(void *, u32, u16 *, u16 *, s32) asm("sub_08065370");
 extern void spawnBE(s32, s32, u32, s32, s32) asm("sub_08069A30");
-extern void drawBE(s32, s32, u32, u32, u32, void *, u32, u32) asm("sub_08007870");
+extern s32 drawBE(s32, s32, u32, u32, u32, void *, u32, u32) asm("sub_08007870");
 extern void palBE(u32, u32, u32) asm("sub_08000AF0");
 extern s32 hitBE(s32, s32, void *) asm("sub_08068A00");
 extern u8 terrBE(s32, s32, s32) asm("sub_0800AE50");
@@ -2374,12 +2374,12 @@ extern u16 dirC568[] asm("gUnk_0849E730");
 extern s16 sinC568[] asm("gUnk_080B9704");
 extern u8 costC568[] asm("gUnk_084EBF1C");
 extern struct RangeC568 rangeC568[] asm("gUnk_084EC12C");
-extern void initC568(void *, s32, s32, s32, s32) asm("sub_08065158");
-extern void coordsC568(s32, s32, s16 *, s16 *, s32, s32) asm("sub_0800BC08");
+extern s32 initC568(void *, s32, s32, s32, s32) asm("sub_08065158");
+extern u32 coordsC568(s32, s32, s16 *, s16 *, s32, s32) asm("sub_0800BC08");
 extern s32 animC568(void *, u32, u16 *, u16 *, s32) asm("sub_08065370");
 extern void spawnC568(s32, s32, u32, s32, s32) asm("sub_08069A30");
 extern void sendC568(void *) asm("sub_080694AC");
-extern void drawC568(s32, s32, u16, u16, u8, void *, u32, u32) asm("sub_08007870");
+extern s32 drawC568(s32, s32, u16, u16, u8, void *, u32, u32) asm("sub_08007870");
 extern void palC568(u32, u32, u32) asm("sub_08000AF0");
 
 /* [RunStaggeredRectangularAreaAbility] ABI r0 points to24-byte ability descriptor: owner word+0,slot
@@ -3667,9 +3667,9 @@ extern struct T072DEEnemy *t072DEEnemies asm("gUnk_030056F4");
 extern u32 t072DEFlags[] asm("gUnk_030063E0");
 extern s16 t072DECosts[] asm("gUnk_084EBF1C");
 extern u16 t072DEDirections[] asm("gUnk_0849E730");
-void t072DEInit(void *,s32,s32,s32,s32) asm("sub_08065158");
-void t072DECoords(s32,s32,s16 *,s16 *,s32,void *) asm("sub_0800BC08");
-void t072DEDraw(s16,s16,u16,u16,u32,void *,u32,u32) asm("sub_08007870");
+s32 t072DEInit(void *,s32,s32,s32,s32) asm("sub_08065158");
+u32 t072DECoords(s32,s32,s16 *,s16 *,s32,void *) asm("sub_0800BC08");
+s32 t072DEDraw(s16,s16,u16,u16,u32,void *,u32,u32) asm("sub_08007870");
 void t072DESend(struct T072DEArgs *) asm("sub_080694AC");
 /* [RunStaggeredForwardConeAbilityOnAnimationCompletion] ABI r0 points to24-byte ability descriptor: owner
  * word+0,slot word+4,target-domain word+8,ability kind word+C,level low HALFWORD+14 (local cost helper
@@ -3906,12 +3906,12 @@ extern u16 dirE7D4[] asm("gUnk_0849E730");
 extern s16 sinE7D4[] asm("gUnk_080B9704");
 extern u8 costE7D4[] asm("gUnk_084EBF1C");
 extern struct BoxE7D4 rangeE7D4[] asm("gUnk_084EC1A0");
-extern void initE7D4(void *, s32, s32, s32, s32) asm("sub_08065158");
-extern void coordsE7D4(s32, s32, s16 *, s16 *, s32, s32) asm("sub_0800BC08");
+extern s32 initE7D4(void *, s32, s32, s32, s32) asm("sub_08065158");
+extern u32 coordsE7D4(s32, s32, s16 *, s16 *, s32, s32) asm("sub_0800BC08");
 extern s32 animE7D4(void *, u32, u16 *, u16 *, s32) asm("sub_08065370");
 extern void spawnE7D4(s32, s32, u32, s32, s32) asm("sub_08069A30");
 extern void sendE7D4(void *) asm("sub_080694AC");
-extern void drawE7D4(s32, s32, u16, u16, u8, void *, u32, u32) asm("sub_08007870");
+extern s32 drawE7D4(s32, s32, u16, u16, u8, void *, u32, u32) asm("sub_08007870");
 extern void palE7D4(u32, u32, u32) asm("sub_08000AF0");
 extern s32 testE7D4(struct PosE7D4 *, void *, struct BoxE7D4 *, struct BoxE7D4 *) asm("sub_08021FE0");
 
@@ -4192,12 +4192,12 @@ extern s16 sinF0CC[] asm("gUnk_080B9704");
 extern u8 costF0CC[] asm("gUnk_084EBF1C");
 extern u8 kF0CC[] asm("gUnk_084790B4");
 extern struct OffF0CC offF0CC[] asm("gUnk_084EBEBC");
-extern void initF0CC(void *, s32, s32, s32, s32) asm("sub_08065158");
-extern void coordsF0CC(s32, s32, s16 *, s16 *, s32, s32) asm("sub_0800BC08");
+extern s32 initF0CC(void *, s32, s32, s32, s32) asm("sub_08065158");
+extern u32 coordsF0CC(s32, s32, s16 *, s16 *, s32, s32) asm("sub_0800BC08");
 extern s32 animF0CC(void *, u32, u16 *, u16 *, s32) asm("sub_08065370");
 extern void spawnF0CC(s32, s32, u32, s32, s32) asm("sub_08069A30");
 extern void sendF0CC(void *) asm("sub_080694AC");
-extern void drawF0CC(s32, s32, u32, u32, u32, void *, u32, u32) asm("sub_08007870");
+extern s32 drawF0CC(s32, s32, u32, u32, u32, void *, u32, u32) asm("sub_08007870");
 extern void palF0CC(u32, u32, u32) asm("sub_08000AF0");
 extern u16 drainF0CC(void *, void *) asm("sub_08068F9C");
 extern void numF0CC(s32, s32, u32, u32) asm("sub_0805FAC0");
@@ -4633,7 +4633,7 @@ void sub_0806FE1C(struct T06FE1CArgs *arg)
     t06FE1CFlags[player] &= ~(1 << bit);
 }
 u8 t6f_sub_080003F0() asm("sub_080003F0");
-u8 t6f_sub_08000AF0(s32, s32, s32) asm("sub_08000AF0");
+void t6f_sub_08000AF0(s32, s32, s32) asm("sub_08000AF0");
 s32 t6f_sub_080020F4() asm("sub_080020F4");
 u32 t6f_sub_08002164() asm("sub_08002164");
 s32 t6f_sub_0800BA6C() asm("sub_0800BA6C");
@@ -4646,7 +4646,7 @@ s32 t6f_sub_0800CF10() asm("sub_0800CF10");
 u8 *t6f_sub_0800D11C() asm("sub_0800D11C");
 s32 t6f_sub_0801DF8C() asm("sub_0801DF8C");
 s32 t6f_sub_08056E90() asm("sub_08056E90");
-u8 t6f_sub_0805865C(s32) asm("sub_0805865C");
+void t6f_sub_0805865C(s32) asm("sub_0805865C");
 s32 t6f_sub_08058DB0() asm("sub_08058DB0");
 s32 t6f_sub_0806898C(s32, s32) asm("sub_0806898C");
 struct T6fPos { u32 kind : 4; u32 x : 12; u32 y : 12; u32 dir : 4; u32 f4 : 6; };
@@ -4671,11 +4671,11 @@ extern s16 gT6fSin[] asm("gUnk_080B9704");
 extern struct T6fTile gT6fTile asm("gUnk_03003170");
 extern struct T6fCtl *gT6fCtl asm("gUnk_03005CF4");
 extern u32 gT6fFrame asm("gUnk_03002344");
-void t6fInit(void *, s32, s32, s32, s32) asm("sub_08065158");
+s32 t6fInit(void *, s32, s32, s32, s32) asm("sub_08065158");
 u16 t6fAnim(void *, u32, s16 *, s16 *, s32) asm("sub_08065370");
-void t6fCoords(s32, s32, s16 *, s16 *, s32, s32) asm("sub_0800BC08");
+u32 t6fCoords(s32, s32, s16 *, s16 *, s32, s32) asm("sub_0800BC08");
 u8 t6fPal(s32, s32, s32) asm("sub_0800BC44");
-void t6fDraw(s32, s32, u32, u16, u32, void *, u32, u32) asm("sub_08007870");
+s32 t6fDraw(s32, s32, u32, u16, u32, void *, u32, u32) asm("sub_08007870");
 u16 t6fSqrt(s32) asm("Sqrt");
 s16 t6fCalc(void *, s32) asm("sub_08068F9C");
 void t6fPlHit(u32, s32, u32) asm("sub_08029A7C");
@@ -5662,9 +5662,9 @@ extern u16 gT39Dirs[] asm("gUnk_0849E730");
 extern u16 gT39Kinds[] asm("gUnk_084EBF1C");
 struct T39Tile { u8 p0[0x8C]; u16 h8C; };
 extern struct T39Tile gT39Tile asm("gUnk_03003170");
-void t39Init(void *, s32, s32, s32, s32) asm("sub_08065158");
-void t39Coords(s32, s32, s16 *, s16 *, s32, s32) asm("sub_0800BC08");
-void t39Draw(s32, s32, u16, u16, u8, void *, u32, u32) asm("sub_08007870");
+s32 t39Init(void *, s32, s32, s32, s32) asm("sub_08065158");
+u32 t39Coords(s32, s32, s16 *, s16 *, s32, s32) asm("sub_0800BC08");
+s32 t39Draw(s32, s32, u16, u16, u8, void *, u32, u32) asm("sub_08007870");
 s16 t39Calc(void *, void *) asm("sub_08068F9C");
 void t39PlHit(s32, s32, s32) asm("sub_08029A7C");
 void t39EnHit(s32, s32, s32, s32, s32, s32) asm("sub_08029B98");
@@ -5918,9 +5918,9 @@ struct T75Eff *t75Find(void *, s32, s32) asm("sub_0801E1D8");
 struct T75Eff *t75Alloc(void *, s32) asm("sub_0801E164");
 struct T75Eff *t75FindE(void *, s32, s32) asm("sub_0801E20C");
 struct T75Eff *t75AllocE(void *, s32) asm("sub_0801E104");
-void t75Init(void *, s32, s32, s32, s32) asm("sub_08065158");
-void t75Coords(s32, s32, s16 *, s16 *, s32, s32) asm("sub_0800BC08");
-void t75Draw(s32, s32, s32, u32, u32, void *, u32, u32) asm("sub_08007870");
+s32 t75Init(void *, s32, s32, s32, s32) asm("sub_08065158");
+u32 t75Coords(s32, s32, s16 *, s16 *, s32, s32) asm("sub_0800BC08");
+s32 t75Draw(s32, s32, s32, u32, u32, void *, u32, u32) asm("sub_08007870");
 /* [RunProbabilisticAreaStatus] For local owner subtracts computed cost from halfword+C2 and signed-clamps
  * zero. Waits owner readiness or early-clears ownerbit on state/game gate. Selects eligible opposite-team
  * players or active actors inside table rectangle with level/stat RNG test; staggered animation10
@@ -6483,9 +6483,9 @@ void sub_0807386C(s32 who, s32 kind, s32 c, s32 d, s32 e)
 struct Sprite076CF4 {u32 f0,f4,f8,fC;u8 pad10[12];u8 f1C,f1D;u8 pad1E[22];};
 extern u32 animate076CF4(void*,u16,u16*,u16*,s32) asm("sub_08065370");
 extern u32 flags076CF4 asm("gUnk_030063E0");
-extern void coords076CF4(s32,s32,s16*,s16*,s32,void*) asm("sub_0800BC08");
-extern void draw076CF4(s32,s32,u32,u32,u32,void*,u32,u32) asm("sub_08007870");
-extern void init076CF4(void*,s32,s32,s32,s32) asm("sub_08065158");
+extern u32 coords076CF4(s32,s32,s16*,s16*,s32,void*) asm("sub_0800BC08");
+extern s32 draw076CF4(s32,s32,u32,u32,u32,void*,u32,u32) asm("sub_08007870");
+extern s32 init076CF4(void*,s32,s32,s32,s32) asm("sub_08065158");
 /* [TaskAnimateFixedWorldSpriteEffect] Initializes sprite resource 5008C, sets the first two remap entries to 7
  * and 8, and uploads two palette banks starting at bank 23. Caches descriptor Q8 X/Y shifted right unsigned by
  * 8, animation selector and draw-mode flag once at entry. While scene pause gates CC98/CD8C are clear, queries

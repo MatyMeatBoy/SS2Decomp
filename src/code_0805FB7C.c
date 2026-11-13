@@ -4,7 +4,7 @@ void sub_080605D0(s32 index);
 
 extern s32 gUnk_03006208;
 
-extern void sub_0801A664(s32, s32);
+extern s32 sub_0801A664(s32, s32);
 extern u16 digitBasesFB63[] asm("gUnk_084EBD74");
 extern u8 tileMap63[] asm("gUnk_03005740");
 /* [DrawCappedThreeDigitTileNumber] Clamps the unsigned input to 999 and uses an unchecked u8 style index into
@@ -61,12 +61,12 @@ tens:
 struct IconAsset63 { s32 f0, f4, f8; u8 padC[0x10]; u8 attr[0x10]; u16 value, step; s16 upper, lower; };
 extern struct IconAsset63 iconAssets63[] asm("gUnk_03005DC0");
 extern struct IconAsset63 iconOverlay63 asm("gUnk_03005D80");
-extern void sub_0800BC08(s16, s16, s16 *, s16 *, s32, s32);
-extern void sub_08008E74(s32, s32, u16, u16, u8, void *, s32, s32);
-extern void sub_08007F0C(s32, s32, u16, u16, s32, void *, s32, s32, s32, s32, s32);
+extern u32 sub_0800BC08(s16, s16, s16 *, s16 *, s32, s32);
+extern struct DrawNode005 *sub_08008E74(s32, s32, u16, u16, u8, void *, s32, s32);
+extern u32 sub_08007F0C(s32, s32, u16, u16, s32, void *, s32, s32, s32, s32, s32);
 struct IconPosition63 { s32 x, y; };
 extern s32 drawIcon63(s32, s32, u16, u16, s32, s32, s32, s32) asm("sub_08007CF0");
-extern void scaledIcon63(s32, s32, u16, u16, s32, void *, s32, s32, s32, s32, s32) asm("sub_08007F0C");
+extern u32 scaledIcon63(s32, s32, u16, u16, s32, void *, s32, s32, s32, s32, s32) asm("sub_08007F0C");
 /* The attribute field is the canonical DDC symbol; the record starts 28 bytes earlier. */
 extern struct IconAsset63 drawingAssets63[] asm("gUnk_03005DDC-28");
 /* [DrawItemIcon] Selects an icon frame and shared asset group from the item kind/ID resource descriptor,
@@ -248,7 +248,7 @@ struct ItemName63 { u16 kind; u16 id; u16 suffix; u8 level; u8 grade; u8 broken;
 extern u8 *resFF63(s32) asm("sub_08007290");
 extern u32 digitDivFF63[] asm("gUnk_084EBD5C");
 extern void textFF63(u8 *, u16, u16) asm("sub_0801A3D0");
-extern void clearFF63(s32, s32) asm("sub_0801A664");
+extern s32 clearFF63(s32, s32) asm("sub_0801A664");
 extern u32 widthFF63(u8 *) asm("sub_0801A638");
 extern s32 checkFF63(void) asm("sub_0801DE60");
 extern s32 divFF63(s32 *, u32) asm("sub_08000498");
@@ -575,9 +575,9 @@ extern struct HudPos63 hudPos63[] asm("gUnk_084EBDBC");
 extern struct HudPos63 hudPosY63[] asm("gUnk_084EBDBE");
 extern struct IconAsset63 hudIcon63 asm("gUnk_03005D80");
 extern void hudItem63(s32, s32, struct HudSlot63 *, s32) asm("sub_0805FC80");
-extern void hudSprite63(s32, s32, u16, u16, s32, void *, s32, s32) asm("sub_08007CF0");
+extern u32 hudSprite63(s32, s32, u16, u16, s32, void *, s32, s32) asm("sub_08007CF0");
 extern void hudSound63(s32) asm("sub_080003F4");
-extern void hudSelect63(u16) asm("sub_0805AD78");
+extern s32 hudSelect63(u16) asm("sub_0805AD78");
 static inline void HudDraw63(struct IconAsset63 *obj, s32 x, s32 y, u16 anim, u16 frame)
 {
     hudSprite63(x, y, anim, frame, 0, obj->attr, obj->f8, obj->f0);
@@ -1082,7 +1082,7 @@ struct NumberPlayer64 { u8 pad0[0x14]; s32 x,y; };
 struct NumberSprite64 { u32 base,unused,data; u8 padC[0x10]; u8 attr[24]; };
 extern struct NumberSprite64 numberSprite64 asm("gUnk_03005D80");
 extern const u32 numberPowers64[] asm("gUnk_084EBD4C");
-extern void numberCoords64(s32,s32,s16 *,s16 *,u32,u32) asm("sub_0800BC08");
+extern u32 numberCoords64(s32,s32,s16 *,s16 *,u32,u32) asm("sub_0800BC08");
 static inline void NumberDraw64(struct NumberSprite64 *obj,u32 x,u32 y,u16 anim,u16 frame)
 {
     sub_08007CF0(x,y,anim,frame,0,(s32)obj->attr,obj->data,obj->base);
@@ -1135,7 +1135,7 @@ void sub_0806171C(void *raw,s32 value)
 struct RisePlayer64 { u8 pad0[0x30]; u32 flags; u8 pad34[0x58]; s32 x,y; };
 struct RiseSprite64 { u32 base,unused,data; u8 padC[0x10]; u8 attr[24]; };
 extern struct RiseSprite64 riseSprite64 asm("gUnk_03005D80");
-extern void riseCoords64(s32,s32,s16 *,s16 *,u32,u32) asm("sub_0800BC08");
+extern u32 riseCoords64(s32,s32,s16 *,s16 *,u32,u32) asm("sub_0800BC08");
 static inline u32 StepRise64(struct RiseSprite64 *obj,u16 anim,u16 *frame,u16 *timer,u32 loop)
 {
     return sub_08008CC4(anim,frame,timer,(u8 *)obj->data,loop);
@@ -1703,8 +1703,8 @@ extern u16 keys624 asm("gUnk_03001324");
 extern u16 held624 asm("gUnk_03001308");
 extern u8 *party624 asm("gUnk_030034E0");
 extern u8 *state624 asm("gUnk_03005CF4");
-extern void draw624(s32, s32, u16, u16, s32, void *, s32, s32) asm("sub_08007CF0");
-extern void drawScaled624(s32, s32, u16, u16, s32, void *, s32, s32, s32, s32, s32) asm("sub_08007F0C");
+extern u32 draw624(s32, s32, u16, u16, s32, void *, s32, s32) asm("sub_08007CF0");
+extern u32 drawScaled624(s32, s32, u16, u16, s32, void *, s32, s32, s32, s32, s32) asm("sub_08007F0C");
 extern s32 load624() asm("sub_08006EE0");
 extern u8 *window624(s32, s32, s32, s32) asm("sub_0805D720");
 extern void text624(u8 *, u32, u32) asm("sub_0801A3D0");
@@ -2183,8 +2183,8 @@ void sub_0806335C(void)
 struct T65Popup { u32 base, unk4; u8 *data; u32 sound, resource, style, mode; u8 palette[24]; };
 extern u8 t65_popupResource[] asm("gUnk_08518938");
 extern u32 *t65_popupTasks asm("gUnk_0300602C");
-extern void t65_position(s32,s32,s16 *,s16 *,u32,u32) asm("sub_0800BC08");
-extern void t65_draw(s32,s32,u32,u32,u32,void *,u8 *,u32) asm("sub_08007870");
+extern u32 t65_position(s32,s32,s16 *,s16 *,u32,u32) asm("sub_0800BC08");
+extern s32 t65_draw(s32,s32,u32,u32,u32,void *,u8 *,u32) asm("sub_08007870");
 static inline s32 t65P_init(struct T65Popup *obj,u32 resource,s32 index,s32 size)
 {
     void *table = t65_popupResource;
@@ -2287,8 +2287,8 @@ extern struct T65CState t65C_state asm("gUnk_03003170");
 extern u8 t65C_resources[] asm("gUnk_08518938");
 extern u32 t65C_flags asm("gUnk_03002344");
 extern u8 *t65C_game asm("gUnk_03005CF4");
-extern void t65C_position(s32,s32,s16 *,s16 *,u32,u32) asm("sub_0800BC08");
-extern void t65C_overlay(s32,s32,u32,u32,u32,void *,u8 *,u32) asm("sub_08008E74");
+extern u32 t65C_position(s32,s32,s16 *,s16 *,u32,u32) asm("sub_0800BC08");
+extern struct DrawNode005 *t65C_overlay(s32,s32,u32,u32,u32,void *,u8 *,u32) asm("sub_08008E74");
 #define T65C_H(p,o) (*(u16 *)((p)+(o)))
 #define T65C_W(p,o) (*(u32 *)((p)+(o)))
 #define T65C_ENTITY(p) (*(u8 **)((p)+0x148))
@@ -2435,9 +2435,9 @@ extern struct T65BPlayer t65B_players[] asm("gUnk_03003CE0");
 extern u8 t65B_resources[] asm("gUnk_08518938");
 extern u16 t65B_blocked asm("gUnk_03003200");
 extern u32 t65B_flags asm("gUnk_03002344");
-extern void t65B_position(s32,s32,s16 *,s16 *,u32,u32) asm("sub_0800BC08");
+extern u32 t65B_position(s32,s32,s16 *,s16 *,u32,u32) asm("sub_0800BC08");
 extern u8 *t65B_draw(s32,s32,u32,u32,u32,void *,u8 *,u32) asm("sub_08007870");
-extern void t65B_overlay(s32,s32,u32,u32,u32,void *,u8 *,u32) asm("sub_08008E74");
+extern struct DrawNode005 *t65B_overlay(s32,s32,u32,u32,u32,void *,u8 *,u32) asm("sub_08008E74");
 extern s32 t65B_intersect(s32 *,void *,s32 *,s32 *) asm("sub_08021FE0");
 static inline s32 t65B_init(struct T65BPopup *obj,u32 resource,s32 index,s32 size)
 {
@@ -2820,15 +2820,15 @@ s32 f441_sub_08021C74(s32, s32, s32) asm("sub_08021C74");
 s32 f441_sub_08021D00(s32, s32, void *) asm("sub_08021D00");
 void f441_sub_08069388(void *, void *, s32, s32, s32) asm("sub_08069388");
 void f441_sub_08069080(void *, s32, s32, s32, s32, s32) asm("sub_08069080");
-void f441_sub_080660EC(void *) asm("sub_080660EC");
+u32 f441_sub_080660EC(void *) asm("sub_080660EC");
 void f441_sub_08092348(s32, s32, s32) asm("sub_08092348");
 void f441_sub_080009F8(s32, s32, s32) asm("sub_080009F8");
 void f441_sub_0800A34C(s32, s32, s32) asm("sub_0800A34C");
 void f441_sub_08000AF0(s32, s32, s32) asm("sub_08000AF0");
 void f441_sub_080003F4(s32) asm("sub_080003F4");
 void f441_sub_0801A6D4(s32) asm("sub_0801A6D4");
-void f441_sub_0801A664(s32, s32) asm("sub_0801A664");
-void f441_sub_08007CF0(s32, s32, s32, s32, s32, s32, s32, s32) asm("sub_08007CF0");
+s32 f441_sub_0801A664(s32, s32) asm("sub_0801A664");
+u32 f441_sub_08007CF0(s32, s32, s32, s32, s32, s32, s32, s32) asm("sub_08007CF0");
 u32 f441_sub_08008CC4(u32, u16 *, u16 *, s32, u32) asm("sub_08008CC4");
 u32 f441_sub_080923B0(void) asm("sub_080923B0");
 
@@ -3339,7 +3339,7 @@ void sub_08065214(void *arg0) {
 void sub_08065230(void *arg0, s32 arg1, s32 arg2, u16 arg3, s32 arg4) {
     sub_08007CF0(arg1, arg2, arg3, (u16) arg4, 0, arg0 + 0x1C, M2C_FIELD(arg0, s32 *, 8), M2C_FIELD(arg0, s32 *, 0));
 }
-extern void sub_08007F0C(s32, s32, u16, u16, s32, void *, s32, s32, s32, s32, s32);
+extern u32 sub_08007F0C(s32, s32, u16, u16, s32, void *, s32, s32, s32, s32, s32);
 struct Bounce66 { s32 f0, f4, f8; u8 pad[0x20]; u16 value; u16 step; s16 upper; s16 lower; };
 /* [DrawSpriteWithPulsingScale] Advances scale halfword+0x2C by signed step+0x2E; reverses step after crossing
  * upper/lower bounds+0x30/+0x32; calls affine draw07F0C with same signed scale for X/Y and angle255. Does not
@@ -3472,7 +3472,7 @@ void sub_08065424(s32 x, s32 y, s32 number, u32 argStyle, u32 argDigits)
 extern u32 gUnk_084EBD4C[];
 extern u16 gTiles74[] asm("gUnk_084EBD74");
 extern u16 gBg5740[][32] asm("gUnk_03005740");
-extern void sub_0801A664(s32, s32);
+extern s32 sub_0801A664(s32, s32);
 /* [DrawRightAlignedTilemapNumber] Builds decimal digits using descending divisors; writes digit tiles ending
  * at input x in03005740[y], suppressing leading zeros except final digit, then marks row via1A664. Negative
  * number substitutes0x7FFFFFFF. */

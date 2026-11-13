@@ -188,7 +188,7 @@ extern u16 screen000[] asm("gUnk_03001250");
 extern const u16 languages000[] asm("gUnk_08366DC0");
 extern u16 repeatMenu000 asm("gUnk_03001308");
 extern u16 pressedMenu000 asm("gUnk_03001324");
-extern void spriteInitMenu000(void *,s32,s32,s32,s32) asm("sub_08065158");
+extern s32 spriteInitMenu000(void *,s32,s32,s32,s32) asm("sub_08065158");
 extern void spriteDrawMenu000(void *,s32,s32,u32,s32) asm("sub_08065230");
 /* [TaskLanguageSelection] Displays startup backgrounds/transitions and a five-choice language-selection
  * sprite. Repeated directional keys move the selection through cases 0..4; pressed A confirms. After
@@ -393,9 +393,9 @@ void sub_08002658(void)
 }
 extern u16 gUnk_03001308;
 extern u16 gUnk_0300130C;
-extern void anim2694(void *, u16, u16 *, u16 *, s32) asm("sub_08065370");
+extern s32 anim2694(void *, u16, u16 *, u16 *, s32) asm("sub_08065370");
 extern void draw2694(void *, s32, s32, u16, u16) asm("sub_08065230");
-extern void init2694(void *, s32, s32, s32, s32) asm("sub_08065158");
+extern s32 init2694(void *, s32, s32, s32, s32) asm("sub_08065158");
 extern void bg2694(u16, u32 *) asm("sub_08000AA8");
 /* [TaskTitleModeSelection] Persistent menu task waits for signal0x14, handles Start/A/Up/Down, draws
  * title/menu resources, stores mode selection03002838. Mode0 stops cable session and starts loopback; mode1
@@ -670,27 +670,27 @@ extern void *memcpy2B70(void *, const void *, u32) asm("memcpy");
 extern struct Save2B70 *alloc2B70(u32) asm("sub_08001494");
 extern void *loadAll2B70() asm("sub_0807A378");
 extern void *blank2B70(void) asm("sub_080653CC");
-extern void init2B70(void *, u32, s32, u32, s32) asm("sub_08065158");
-extern void anim2B70(void *, u16, u16 *, u16 *, s32) asm("sub_08065370");
+extern s32 init2B70(void *, u32, s32, u32, s32) asm("sub_08065158");
+extern s32 anim2B70(void *, u16, u16 *, u16 *, s32) asm("sub_08065370");
 extern void draw2B70(void *, s32, s32, u16, s32) asm("sub_08065230");
 extern void drawB2B70(void *, s32, s32, s32, s32) asm("sub_08065264");
 extern u32 vmode2B70(u8) asm("sub_08001108");
 extern u32 handler2B70(u32) asm("sub_0800115C");
 extern void se2B70(s32) asm("sub_0805865C");
-extern void clear2B70(s32, s32) asm("sub_0801A664");
+extern s32 clear2B70(s32, s32) asm("sub_0801A664");
 extern u8 *msg2B70(s32) asm("sub_08007290");
 extern u8 *msgB2B70(s32) asm("sub_08007290");
 extern void text2B70(u8 *, u16, u16) asm("sub_0801A3D0");
 extern void num2B70(s32, s32, s32, s32) asm("sub_0805FB7C");
-extern void obj2B70(s32, s32, u16, u16, s32, void *, u32, u32) asm("sub_08007CF0");
+extern u32 obj2B70(s32, s32, u16, u16, s32, void *, u32, u32) asm("sub_08007CF0");
 extern void pal2B70(u32, const void *, u32) asm("sub_08000AF0");
 extern void wait2B70(u64) asm("sub_080003F4");
 extern void start2B70() asm("sub_08000274");
-extern void erase2B70(u8) asm("sub_0807A2E0");
-extern void store2B70(struct Save2B70 *, u8) asm("sub_0807A4B4");
-extern void fadeOut2B70(s32) asm("sub_080586D0");
-extern void bgmStop2B70(s32) asm("sub_080586B4");
-extern void bgmPlay2B70(s32) asm("sub_08058688");
+extern s32 erase2B70(u8) asm("sub_0807A2E0");
+extern u32 store2B70(struct Save2B70 *, u8) asm("sub_0807A4B4");
+extern s32 fadeOut2B70(s32) asm("sub_080586D0");
+extern s32 bgmStop2B70(s32) asm("sub_080586B4");
+extern s32 bgmPlay2B70(s32) asm("sub_08058688");
 extern void bgmWait2B70(u16) asm("sub_08057624");
 extern void winOpen2B70(s32) asm("sub_0801AB50");
 extern void winClose2B70(s32) asm("sub_0801ABE8");
@@ -1200,15 +1200,15 @@ struct Reg3984 { u16 h0,v0,h1,v1,h2,v2,h3,v3; };
 extern struct Reg3984 reg3984 asm("gUnk_03001250");
 extern u16 keys3984 asm("gUnk_03001324");
 M2C_UNK memcpy(u8 *, s32 *, s32);                   /* extern */
-M2C_UNK sub_080009F8(s32, s32, s32);                /* extern */
+void sub_080009F8(s32, s32, s32);                /* extern */
 void sub_08006550(u16, u16, u16);                /* extern */
-M2C_UNK sub_0801A3D0(u8 *, u16, u16);               /* extern */
+void sub_0801A3D0(u8 *, u16, u16);               /* extern */
 M2C_UNK sub_0801A664(s32, s32);                     /* extern */
-M2C_UNK sub_0801A6D4(s32);                          /* extern */
-M2C_UNK sub_0801AB50(s32);                          /* extern */
+void sub_0801A6D4(s32);                          /* extern */
+void sub_0801AB50(s32);                          /* extern */
 M2C_UNK sub_08058688(s32);                          /* extern */
 M2C_UNK sub_08065158(u8 *, s32, s32, s32, s32);     /* extern */
-M2C_UNK sub_08065264(u8 *, s32, s32, s32, s32);     /* extern */
+void sub_08065264(u8 *, s32, s32, s32, s32);     /* extern */
 extern u16 gUnk_03001308;
 extern s32 gUnk_080B99D4;
 extern M2C_UNK gUnk_08366E0C;
@@ -2555,11 +2555,11 @@ struct Task5B {u32 f0,f4,f8,fC,f10,f14,f18,f1C,f20,f24;};
 extern struct Task5B task5B asm("gUnk_03002840");
 extern u16 data5B asm("gUnk_080B99D4");
 extern u8 *resource5B(u32) asm("sub_08007290");
-extern void sprite5B(void *,u32,s32,s32,s32) asm("sub_08065158");
+extern s32 sprite5B(void *,u32,s32,s32,s32) asm("sub_08065158");
 extern void text5B(u8 *,u16,u16) asm("sub_0801A3D0");
 extern void copy5B(void *,const void *,u32) asm("memcpy");
 extern void mode5B(s32) asm("sub_0801A6D4");
-extern void fade5B(s32,s32) asm("sub_0801A664");
+extern s32 fade5B(s32,s32) asm("sub_0801A664");
 extern void reg5B(s32,s32,s32) asm("sub_080009F8");
 extern void start5B(s32) asm("sub_0801AB50");
 extern void callback5B(void) asm("sub_08002B70");
@@ -2811,11 +2811,11 @@ struct Task6C {u32 f0,f4,f8,fC,f10,f14,f18,f1C,f20,f24;};
 extern struct Task6C task6C asm("gUnk_03002840");
 extern u16 data6C asm("gUnk_080B99D4");
 extern u8 *resource6C(u32) asm("sub_08007290");
-extern void sprite6C(void *,u32,s32,s32,s32) asm("sub_08065158");
+extern s32 sprite6C(void *,u32,s32,s32,s32) asm("sub_08065158");
 extern void text6C(u8 *,u16,u16) asm("sub_0801A3D0");
 extern void copy6C(void *,const void *,u32) asm("memcpy");
 extern void mode6C(s32) asm("sub_0801A6D4");
-extern void fade6C(s32,s32) asm("sub_0801A664");
+extern s32 fade6C(s32,s32) asm("sub_0801A664");
 extern void reg6C(s32,s32,s32) asm("sub_080009F8");
 extern void start6C(s32) asm("sub_0801AB50");
 extern void callback6C(void) asm("sub_08002B70");
@@ -3155,9 +3155,9 @@ struct Coord66 {u16 x,y;};
 extern const struct Coord66 coords66[] asm("gUnk_080B99D8");
 extern u8 *peer66(u32) asm("sub_08002118");
 extern void setup66(s32,s32,s32,s32,s32) asm("sub_08000A34");
-extern void sprite66(void *,s32,s32,s32,s32) asm("sub_08065158");
+extern s32 sprite66(void *,s32,s32,s32,s32) asm("sub_08065158");
 extern void draw66(void *,s32,s32,s32,s32) asm("sub_08065230");
-extern void anim66(void *,s32,u16 *,u16 *,s32) asm("sub_08065370");
+extern s32 anim66(void *,s32,u16 *,u16 *,s32) asm("sub_08065370");
 extern void call66_080009F8(s32,s32,s32) asm("sub_080009F8");
 extern void call66_0801AA8C(s32) asm("sub_0801AA8C");
 extern void call66_0801AB50(s32) asm("sub_0801AB50");

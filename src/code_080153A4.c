@@ -9,7 +9,7 @@ extern u32 gW030056F8 asm("gUnk_030056F8");
 extern u32 gW030056FC asm("gUnk_030056FC");
 extern u8 *gP030056F4 asm("gUnk_030056F4");
 
-void sub_0800BC08(s32, s32, u16 *, s16 *, s32, s32);
+u32 sub_0800BC08(s32, s32, u16 *, s16 *, s32, s32);
 extern u8 gUnk_03003E28[];
 extern u32 *gUnk_084B139C[];
 extern u32 *gUnk_084B13BC[];
@@ -1661,7 +1661,7 @@ extern u32 frame16F28 asm("gUnk_03002344");
 extern s32 aim16F28(s32, s32, s32, s32, s32) asm("sub_08016C88");
 extern void follow16F28(struct Obj16F28 *, u32) asm("sub_08016D40");
 extern s32 nearest16F28(struct Obj16F28 *, s32 *) asm("sub_08016B30");
-extern void notify16F28(u32) asm("sub_080662C4");
+extern u32 notify16F28(u32) asm("sub_080662C4");
 
 static inline u8 roll16F28(struct Roll16F28 *t)
 {

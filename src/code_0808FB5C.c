@@ -101,7 +101,7 @@ extern struct Player8FC5095 players8FC5095[] asm("gUnk_03003CE0");
 extern struct Display8FC5095 display8FC5095 asm("gUnk_03003170");
 extern void callbackA8FC5095(void) asm("sub_080B4C34");
 extern void callbackB8FC5095(void) asm("sub_080B6324");
-extern void callbacks8FC5095(void (*)(void),void (*)(void)) asm("sub_0801674C");
+extern s32 callbacks8FC5095(void (*)(void),void (*)(void)) asm("sub_0801674C");
 /* [UpdateSceneExitWithMessages] Initial branch marks encounter, initializes scene and starts actor taskB4C34
  * with destructorB6324, then marks encounter again. */
 u32 sub_0808FC50(u32 arg)
@@ -165,7 +165,7 @@ struct StateFE0495 {u8 pad[0x10];u16 gate;u8 pad12[0x12];u16 f24;u8 pad26[10];u1
 extern struct StateFE0495 *stateFE0495 asm("gUnk_03005CF4");
 extern u8 playersFE0495[] asm("gUnk_03003CE0");
 extern void callbackFE0495(void) asm("sub_0805CB8C");
-extern void installFE0495(u32,void (*)(void)) asm("sub_08057328");
+extern s32 installFE0495(u32,void (*)(void)) asm("sub_08057328");
 extern void startFE0495(s32) asm("sub_0802704C");
 extern void modeFE0495(s32) asm("sub_080570DC");
 /* [UpdateCallbackSceneExit] Exit path checks initialized scene and exit predicate; otherwise returns 0. */
@@ -441,7 +441,7 @@ extern struct State9033095 *state9033095 asm("gUnk_03005CF4");
 extern struct Display9033095 display9033095 asm("gUnk_03003170");
 extern u32 table9033095[] asm("gUnk_08517220");
 extern void callback9033095(void) asm("sub_0808E130");
-extern void setCallback9033095(u32,void (*)(void)) asm("sub_08057328");
+extern s32 setCallback9033095(u32,void (*)(void)) asm("sub_08057328");
 /* [UpdateOscillatingMap22SceneExit] Initializes and installs scene callback 8E130; when map area/index zero
  * writes map halfword+0x72=20. */
 u32 sub_08090330(u32 arg)
@@ -522,9 +522,9 @@ extern u16 sounds90495[] asm("gUnk_0851820A");
 extern u8 *texts90495[][2] asm("gUnk_08518198");
 extern u8 empty90495[] asm("gUnk_080BB7E4");
 extern void sub_08000A34_90495(s32,s32,s32,s32,s32) asm("sub_08000A34");
-extern void sub_08065158_90495(void *,s32,s32,s32,s32) asm("sub_08065158");
+extern s32 sub_08065158_90495(void *,s32,s32,s32,s32) asm("sub_08065158");
 extern s32 sub_08065370_90495(void *,u16,u16 *,u16 *,s32) asm("sub_08065370");
-extern void sub_08007870_90495(s32,s32,u16,u16,s32,void *,u32,u32) asm("sub_08007870");
+extern s32 sub_08007870_90495(s32,s32,u16,u16,s32,void *,u32,u32) asm("sub_08007870");
 extern void sub_08091F9C_90495(u8 *,u8 *) asm("sub_08091F9C");
 extern void sub_08091F20_90495(u16,u8 *) asm("sub_08091F20");
 extern void sub_080921E4_90495(s32,s32) asm("sub_080921E4");
@@ -768,10 +768,10 @@ void sub_080904A4(void) {
 
 struct Anim095_08090B84 {u32 f0,f4,f8,fC;u8 pad10[12];u8 payload[24];s32 x,y;u16 frame,tick,next,pad42;};
 extern u32 heap095_08090B84 asm("gUnk_0300016C");
-extern void init095_08090B84(void *,s32,s32,s32,s32) asm("sub_08065158");
+extern s32 init095_08090B84(void *,s32,s32,s32,s32) asm("sub_08065158");
 extern void palette095_08090B84(u32,u32,u32) asm("sub_08000AF0");
 extern s32 step095_08090B84(void *,u16,u16 *,u16 *,s32) asm("sub_08065370");
-extern void draw095_08090B84(s32,s32,u16,u16,s32,void *,u32,u32) asm("sub_08007870");
+extern s32 draw095_08090B84(s32,s32,u16,u16,s32,void *,u32,u32) asm("sub_08007870");
 /* [TaskSoundTestSpriteConvergence] Allocates shared 0x88-byte state and initializes resources 5008A/500BE at
  * opposite x positions. */
 void sub_08090B84(void) {
@@ -892,10 +892,10 @@ void sub_08090B84(void) {
 extern s16 random095_08090E38(void) asm("sub_0800086C");
 struct Anim095_08090E38 {u32 f0,f4,f8,fC;u8 pad10[12];u8 payload[24];s32 x,y;u16 frame,tick,next,pad42;};
 extern u32 heap095_08090E38 asm("gUnk_0300016C");
-extern void init095_08090E38(void *,s32,s32,s32,s32) asm("sub_08065158");
+extern s32 init095_08090E38(void *,s32,s32,s32,s32) asm("sub_08065158");
 extern void palette095_08090E38(u32,u32,u32) asm("sub_08000AF0");
 extern s32 step095_08090E38(void *,u16,u16 *,u16 *,s32) asm("sub_08065370");
-extern void draw095_08090E38(s32,s32,u16,u16,s32,void *,u32,u32) asm("sub_08007870");
+extern s32 draw095_08090E38(s32,s32,u16,u16,s32,void *,u32,u32) asm("sub_08007870");
 /* [TaskSoundTestTripleTraverse] Allocates 0x44 bytes, consumes RNG modulo 3 and selects initial resources
  * 50012/13/14. */
 void sub_08090E38(void) {
@@ -1008,10 +1008,10 @@ void sub_08090E38(void) {
 extern s16 random095_080910A8(void) asm("sub_0800086C");
 struct Anim095_080910A8 {u32 f0,f4,f8,fC;u8 pad10[12];u8 payload[24];s32 x,y;u16 frame,tick,next,pad42;};
 extern u32 heap095_080910A8 asm("gUnk_0300016C");
-extern void init095_080910A8(void *,s32,s32,s32,s32) asm("sub_08065158");
+extern s32 init095_080910A8(void *,s32,s32,s32,s32) asm("sub_08065158");
 extern void palette095_080910A8(u32,u32,u32) asm("sub_08000AF0");
 extern s32 step095_080910A8(void *,u32,u16 *,u16 *,s32) asm("sub_08065370");
-extern void draw095_080910A8(s32,s32,u32,u32,s32,void *,u32,u32) asm("sub_08007870");
+extern s32 draw095_080910A8(s32,s32,u32,u32,s32,void *,u32,u32) asm("sub_08007870");
 /* [TaskSoundTestTraverseVariant2] Allocates/publishes 0x44-byte shared state, consumes RNG modulo 2 and
  * selects initial resource. */
 void sub_080910A8(void) {
@@ -1115,10 +1115,10 @@ void sub_080910A8(void) {
 extern s16 random095_080912CC(void) asm("sub_0800086C");
 struct Anim095_080912CC {u32 f0,f4,f8,fC;u8 pad10[12];u8 payload[24];s32 x,y;u16 frame,tick,next,pad42;};
 extern u32 heap095_080912CC asm("gUnk_0300016C");
-extern void init095_080912CC(void *,s32,s32,s32,s32) asm("sub_08065158");
+extern s32 init095_080912CC(void *,s32,s32,s32,s32) asm("sub_08065158");
 extern void palette095_080912CC(u32,u32,u32) asm("sub_08000AF0");
 extern s32 step095_080912CC(void *,u32,u16 *,u16 *,s32) asm("sub_08065370");
-extern void draw095_080912CC(s32,s32,u32,u32,s32,void *,u32,u32) asm("sub_08007870");
+extern s32 draw095_080912CC(s32,s32,u32,u32,s32,void *,u32,u32) asm("sub_08007870");
 /* [TaskSoundTestTraverseVariant3] Allocates/publishes 0x44-byte shared state, consumes RNG modulo 2 and
  * selects initial resource. */
 void sub_080912CC(void) {
@@ -1222,10 +1222,10 @@ void sub_080912CC(void) {
 extern s16 random096(void) asm("sub_0800086C");
 struct Anim096_080914F0 {u32 f0,f4,f8,fC;u8 pad10[12];u8 payload[24];s32 x,y;u16 frame,tick,next,pad42;};
 extern u32 heap096_080914F0 asm("gUnk_0300016C");
-extern void init096_080914F0(void *,s32,s32,s32,s32) asm("sub_08065158");
+extern s32 init096_080914F0(void *,s32,s32,s32,s32) asm("sub_08065158");
 extern void palette096_080914F0(u32,u32,u32) asm("sub_08000AF0");
 extern s32 step096_080914F0(void *,u16,u16 *,u16 *,s32) asm("sub_08065370");
-extern void draw096_080914F0(s32,s32,u16,u16,s32,void *,u32,u32) asm("sub_08007870");
+extern s32 draw096_080914F0(s32,s32,u16,u16,s32,void *,u32,u32) asm("sub_08007870");
 /* [TaskSoundTestTraverseVariant4] Allocates/publishes 0x44-byte shared state, consumes RNG modulo 2 and
  * selects initial resource. */
 void sub_080914F0(void) {
@@ -1328,10 +1328,10 @@ void sub_080914F0(void) {
 }
 struct Anim096_08091714 {u32 f0,f4,f8,fC;u8 pad10[12];u8 payload[24];s32 x,y;u16 frame,tick,next,pad42;};
 extern u32 heap096_08091714 asm("gUnk_0300016C");
-extern void init096_08091714(void *,s32,s32,s32,s32) asm("sub_08065158");
+extern s32 init096_08091714(void *,s32,s32,s32,s32) asm("sub_08065158");
 extern void palette096_08091714(u32,u32,u32) asm("sub_08000AF0");
 extern s32 step096_08091714(void *,u16,u16 *,u16 *,s32) asm("sub_08065370");
-extern void draw096_08091714(s32,s32,u16,u16,s32,void *,u32,u32) asm("sub_08007870");
+extern s32 draw096_08091714(s32,s32,u16,u16,s32,void *,u32,u32) asm("sub_08007870");
 /* [TaskSoundTestTraverseVariant5] Allocates/publishes 0x44 bytes and consumes RNG. */
 void sub_08091714(void) {
     struct Anim096_08091714 *a;
@@ -1433,10 +1433,10 @@ void sub_08091714(void) {
 }
 struct Anim096_08091938 {u32 f0,f4,f8,fC;u8 pad10[12];u8 payload[24];s32 x,y;u16 frame,tick,next,pad42;};
 extern u32 heap096_08091938 asm("gUnk_0300016C");
-extern void init096_08091938(void *,s32,s32,s32,s32) asm("sub_08065158");
+extern s32 init096_08091938(void *,s32,s32,s32,s32) asm("sub_08065158");
 extern void palette096_08091938(u32,u32,u32) asm("sub_08000AF0");
 extern s32 step096_08091938(void *,u16,u16 *,u16 *,s32) asm("sub_08065370");
-extern void draw096_08091938(s32,s32,u16,u16,s32,void *,u32,u32) asm("sub_08007870");
+extern s32 draw096_08091938(s32,s32,u16,u16,s32,void *,u32,u32) asm("sub_08007870");
 /* [TaskSoundTestTraverseVariant6] Allocates/publishes 0x44 bytes and consumes RNG. */
 void sub_08091938(void) {
     struct Anim096_08091938 *a;
@@ -1538,10 +1538,10 @@ void sub_08091938(void) {
 }
 struct Anim096_08091B5C {u32 f0,f4,f8,fC;u8 pad10[12];u8 payload[24];s32 x,y;u16 frame,tick,next,pad42;};
 extern u32 heap096_08091B5C asm("gUnk_0300016C");
-extern void init096_08091B5C(void *,s32,s32,s32,s32) asm("sub_08065158");
+extern s32 init096_08091B5C(void *,s32,s32,s32,s32) asm("sub_08065158");
 extern void palette096_08091B5C(u32,u32,u32) asm("sub_08000AF0");
 extern s32 step096_08091B5C(void *,u16,u16 *,u16 *,s32) asm("sub_08065370");
-extern void draw096_08091B5C(s32,s32,u16,u16,s32,void *,u32,u32) asm("sub_08007870");
+extern s32 draw096_08091B5C(s32,s32,u16,u16,s32,void *,u32,u32) asm("sub_08007870");
 /* [TaskSoundTestTraverseVariant7] Allocates/publishes 0x44 bytes and consumes RNG. */
 void sub_08091B5C(void) {
     struct Anim096_08091B5C *a;
@@ -1622,10 +1622,10 @@ void sub_08091B5C(void) {
 }
 struct Anim096_08091CF8 {u32 f0,f4,f8,fC;u8 pad10[12];u8 payload[24];s32 x,y;u16 frame,tick,next,pad42;};
 extern u32 heap096_08091CF8 asm("gUnk_0300016C");
-extern void init096_08091CF8(void *,s32,s32,s32,s32) asm("sub_08065158");
+extern s32 init096_08091CF8(void *,s32,s32,s32,s32) asm("sub_08065158");
 extern void palette096_08091CF8(u32,u32,u32) asm("sub_08000AF0");
 extern s32 step096_08091CF8(void *,u16,u16 *,u16 *,s32) asm("sub_08065370");
-extern void draw096_08091CF8(s32,s32,u16,u16,s32,void *,u32,u32) asm("sub_08007870");
+extern s32 draw096_08091CF8(s32,s32,u16,u16,s32,void *,u32,u32) asm("sub_08007870");
 /* [TaskSoundTestTraverseVariant8] Allocates/publishes 0x44 bytes and consumes RNG. */
 void sub_08091CF8(void) {
     struct Anim096_08091CF8 *a;
@@ -2046,9 +2046,9 @@ extern u16 v923FC_250 asm("gUnk_03000250");
 extern s16 v923FC_252 asm("gUnk_03000252");
 extern u16 v923FC_254 asm("gUnk_03000254");
 extern s16 v923FC_256 asm("gUnk_03000256");
-extern void init923FC(void *,s32,s32,s32,s32) asm("sub_08065158");
-extern void draw923FC(s32,s32,u16,s32,s32,void *,u32,u32) asm("sub_08007870");
-extern void drawSpecial923FC(s32,s32,u16,s32,s32,void *,u32,u32,u8) asm("sub_080087AC");
+extern s32 init923FC(void *,s32,s32,s32,s32) asm("sub_08065158");
+extern s32 draw923FC(s32,s32,u16,s32,s32,void *,u32,u32) asm("sub_08007870");
+extern u32 drawSpecial923FC(s32,s32,u16,s32,s32,void *,u32,u32,u8) asm("sub_080087AC");
 extern void fade923FC(s32,s32,s32,s32,s32,void *) asm("sub_0800903C");
 extern s16 random923FC(void) asm("sub_0800086C");
 int abs(int);

@@ -1,5 +1,5 @@
 #include "global.h"
-extern void sub_08065158(void *,s32,s32,s32,s32);
+extern s32 sub_08065158(void *,s32,s32,s32,s32);
 extern void sub_0805E0C4(void);
 extern void sub_0805D854(void);
 extern void sub_0805B688(void);

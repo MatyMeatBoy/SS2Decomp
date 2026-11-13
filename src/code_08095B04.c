@@ -1457,9 +1457,9 @@ void sub_08096EFC(u16 *palette, s8 amount)
 struct Sprite99FA0 {u32 f0,f4,f8,fC;u8 pad10[12];u8 f1C,f1D;u8 pad1E[22];};
 extern s32 view99FA0[2] asm("gUnk_030002C8");
 extern u8 *state99FA0 asm("gUnk_030002C0");
-extern void init99FA0(void *,s32,s32,s32,s32) asm("sub_08065158");
+extern s32 init99FA0(void *,s32,s32,s32,s32) asm("sub_08065158");
 extern u32 animate99FA0(void *,u32,volatile u16 *,volatile u16 *,s32) asm("sub_08065370");
-extern void coords99FA0(s32,s32,s16 *,s16 *,s32,void *) asm("sub_0800BC08");
+extern u32 coords99FA0(s32,s32,s16 *,s16 *,s32,void *) asm("sub_0800BC08");
 extern u8 *draw99FA0(s32,s32,u32,u32,u32,void *,u32,u32) asm("sub_08007870");
 /* [TaskAnimateSpriteAtSharedWorldPosition] Initializes sprite resource 0x50020 and plays sound 0x1A5,
  * animating at shared world position 0x030002C8 and clearing task 0x030002C0 +8 at exit. The original
@@ -1524,8 +1524,8 @@ struct Color9970D { u32 r:5; u32 g:5; u32 b:5; u32 unused:1; };
 extern void scroll9970D(u32, u32, u32, u32) asm("sub_08009088");
 extern s32 fade9970D(u16 *, s32, u16, s32) asm("sub_08096E20");
 extern s32 animate9970D(void *, u16, u16 *, u16 *, s32) asm("sub_08065370");
-extern void coords9970D(s32, s32, s16 *, s16 *, u32, u32) asm("sub_0800BC08");
-extern void draw9970D(s16, s16, u16, u16, u32, u32, u32, void *, u32, void *) asm("sub_08007974");
+extern u32 coords9970D(s32, s32, s16 *, s16 *, u32, u32) asm("sub_0800BC08");
+extern struct Draw7870 *draw9970D(s16, s16, u16, u16, u32, u32, u32, void *, u32, void *) asm("sub_08007974");
 
 /* [AnimateActorMosaicBrightenTransition] Copies 16 palette colors, alternates object mosaic X/Y sizes, then
  * adds positive channel offsets through sub_08096E20 after a hold phase. Each iteration advances actor
@@ -1636,8 +1636,8 @@ struct Color9972B8 { u32 r:5; u32 g:5; u32 b:5; u32 unused:1; };
 extern void scroll9972B8(u32, u32, u32, u32) asm("sub_08009088");
 extern s32 fade9972B8(u16 *, s32, u16, s32) asm("sub_08096E20");
 extern s32 animate9972B8(void *, u16, u16 *, u16 *, s32) asm("sub_08065370");
-extern void coords9972B8(s32, s32, s16 *, s16 *, u32, u32) asm("sub_0800BC08");
-extern void draw9972B8(s16, s16, u16, u16, u32, u32, u32, void *, u32, void *) asm("sub_08007974");
+extern u32 coords9972B8(s32, s32, s16 *, s16 *, u32, u32) asm("sub_0800BC08");
+extern struct Draw7870 *draw9972B8(s16, s16, u16, u16, u32, u32, u32, void *, u32, void *) asm("sub_08007974");
 
 /* [AnimateActorMosaicBrightenWithPriority] Runs the same palette/mosaic/animation transition as sub_080970CC
  * while using the supplied priority low byte instead of querying map priority. It still projects current actor
@@ -1754,8 +1754,8 @@ s32 sub_080972B8(struct Entity9972B8 *inputEntity,
     return 1;
 }
 struct FadeColor100 { u32 r:5; u32 g:5; u32 b:5; u32 unused:1; };
-extern void sub_0800BC08(s32,s32,s16 *,s16 *,u32,u32);
-extern void sub_08007974(s16,s16,u16,u16,u32,u32,u32,void *,u32,void *);
+extern u32 sub_0800BC08(s32,s32,s16 *,s16 *,u32,u32);
+extern struct Draw7870 *sub_08007974(s16,s16,u16,u16,u32,u32,u32,void *,u32,void *);
 extern void fadeScroll100(u32,u32,u32,u32) asm("sub_08009088");
 extern s8 sub_08096E20(u16 *,s32,u16,s32);
 /* [DrawActorMosaicBrightenTransition] Runs a palette-brightening and alternating object-mosaic sequence using

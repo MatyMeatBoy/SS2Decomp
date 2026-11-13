@@ -3,7 +3,7 @@
 extern u8 *gState2FEA0 asm("gUnk_03005CF4");
 struct Cmd2FEA0 { u16 kind, value; u8 data[12]; };
 extern void cb2FEA0(void) asm("sub_0805990C");
-extern void emit2FEA0(struct Cmd2FEA0 *) asm("sub_0805AB20");
+extern u32 emit2FEA0(struct Cmd2FEA0 *) asm("sub_0805AB20");
 static inline u32 count2FEA0(u32 n) { return n; }
 /* [ShowProgressionRewardDialogue197] Locks local player/input and prepares passed actor. Chooses cancellable
  * dialogs0x1400C5..0x1400CC by highest progression bit2..8 in scene+0x74/+0x7C. For local player0 with
@@ -1575,7 +1575,7 @@ done:
 }
 extern u8 *state33198 asm("gUnk_03005CF4");
 struct Cmd33198 { u16 kind, value; u8 data[12]; };
-extern void emit33198(struct Cmd33198 *) asm("sub_0805AB20");
+extern u32 emit33198(struct Cmd33198 *) asm("sub_0805AB20");
 static inline u32 count33198(u32 n) { return n; }
 static inline s32 shift33198(s32 v) { s32 t; t = v; asm("" : "+r"(t)); return t >> 3; }
 static inline s32 result33198(void) {
@@ -1777,7 +1777,7 @@ void sub_08033520(s32 arg0)
 }
 struct Cmd33650 { u16 kind,value;u8 data[12]; };
 extern u8 *state33650 asm("gUnk_03005CF4");
-extern void emit33650(struct Cmd33650 *) asm("sub_0805AB20");
+extern u32 emit33650(struct Cmd33650 *) asm("sub_0805AB20");
 static inline u32 count33650(u32 n){return n;}
 static inline s32 result33650(void){register s32 r asm("r1");s32 v=sub_0805CFA0();r=1;if(v<0)r=0;return r;}
 /* [OfferModeDependentRewardCommand] Locks player/input and prepares actor; progression byte1BA/1C6 bit1 blocks
@@ -2886,7 +2886,7 @@ extern u8 *state35B18 asm("gUnk_03005CF4");
 extern u32 flags35B18 asm("gUnk_030027D0");
 extern void sub_0802949C(s32, s32);
 extern void sub_08029788(s32);
-extern void emit35B18(struct Cmd35B18 *) asm("sub_0805AB20");
+extern u32 emit35B18(struct Cmd35B18 *) asm("sub_0805AB20");
 
 static inline u32 count35B18(u32 n) { return n; }
 /* [RunZaviCardTradeDialogue] Sets local player flags bit 0 (input suppression), calls
@@ -3328,7 +3328,7 @@ extern u8 *state368F4 asm("gUnk_03005CF4");
 extern u32 flags368F4 asm("gUnk_030027D0");
 extern void sub_0802949C(s32, s32);
 extern void sub_08029788(s32);
-extern void emit368F4(struct Cmd368F4 *) asm("sub_0805AB20");
+extern u32 emit368F4(struct Cmd368F4 *) asm("sub_0805AB20");
 
 static inline u32 count368F4(u32 n) { return n; }
 /* [RunZaviAlternateCardTradeDialogue] Sets local player flags bit 0 (input suppression), calls
@@ -3770,7 +3770,7 @@ struct T36AActor { u32 id; u8 pad4[0x3E]; u16 unk42; u8 pad44[0x2C]; };
 extern u8 *t36AState asm("gUnk_03005CF4");
 extern u8 *t36AInventory asm("gUnk_030034E0");
 extern u8 *t36AOther asm("gUnk_030056F4");
-extern void t36AEmit(struct T36ACmd *) asm("sub_0805AB20");
+extern u32 t36AEmit(struct T36ACmd *) asm("sub_0805AB20");
 extern void sub_0805990C(void);
 extern void sub_08019EB8(u16, s32);
 static inline u32 t36ATest(u8 *p, u32 one) { s32 v = *p;  return (v >> 7) & one; }
@@ -4206,7 +4206,7 @@ actor_done:
 struct T36CCmd { u16 unk0,unk2; u8 data[12]; };
 extern u8 *t36CState asm("gUnk_03005CF4");
 extern u8 *t36CInventory asm("gUnk_030034E0");
-extern void t36CEmit(struct T36CCmd *) asm("sub_0805AB20");
+extern u32 t36CEmit(struct T36CCmd *) asm("sub_0805AB20");
 extern void sub_0805990C(void);
 extern void sub_0802949C(s32,s32);
 static inline u32 t36CTest2(u8 *p) { register s32 v asm("r0")=*p; s32 shifted; u32 mask;  shifted=v>>2;  mask=1; return shifted&mask; }
@@ -4506,7 +4506,7 @@ void sub_080384D4(s32 arg0) {
 
 extern u8 *state3898C asm("gUnk_03005CF4");
 struct Cmd3898C { u16 kind, value; u8 data[12]; };
-extern void emit3898C(struct Cmd3898C *) asm("sub_0805AB20");
+extern u32 emit3898C(struct Cmd3898C *) asm("sub_0805AB20");
 extern void cb3898C(void) asm("sub_0805990C");
 static inline u32 count3898C(u32 n) { return n; }
 static inline s32 shift3898C(s32 v, u32 n) { register s32 t asm("r0"); t=v; asm("" : "+r"(t)); return t >> n; }
@@ -4621,7 +4621,7 @@ done:
 struct Cmd38D18 {u16 kind,value;u8 data[12];};
 extern u8 *state38D18 asm("gUnk_03005CF4");
 extern u8 *items38D18 asm("gUnk_030034E0");
-extern void emit38D18(struct Cmd38D18 *) asm("sub_0805AB20");
+extern u32 emit38D18(struct Cmd38D18 *) asm("sub_0805AB20");
 extern void cb38D18(void) asm("sub_0805990C");
 static inline u32 count38D18(u32 n){return n;}
 static inline u8 *find38D18(u32 actor) { u8 *p;u32 i;s32 raw=(s32)state38D18;u32 off=0x7A4;p=(u8 *)raw+off;i=0;do{if(*(u32 *)p==actor)return p;i++;p+=0x70;}while(i<=14);sub_080003F0();return 0; }
@@ -4725,7 +4725,7 @@ done:
 
 extern u8 *state392B4 asm("gUnk_03005CF4");
 extern u8 *items392B4 asm("gUnk_030034E0");
-extern void emit392B4(s16 *) asm("sub_0805AB20");
+extern u32 emit392B4(s16 *) asm("sub_0805AB20");
 extern void cb392B4(void) asm("sub_0805990C");
 static inline u32 count392B4(u32 n){return n;}
 static inline u8 *find392B4(u32 actor) { u8 *p;u32 i;s32 raw=(s32)state392B4;u32 off=0x7A4;p=(u8 *)raw+off;i=0;do{if(*(u32 *)p==actor)return p;i++;p+=0x70;}while(i<=14);sub_080003F0();return 0; }
@@ -4951,7 +4951,7 @@ void sub_080399E4(u32 arg0) {
 extern u8 *state39F00 asm("gUnk_03005CF4");
 extern u8 *inv39F00 asm("gUnk_030034E0");
 struct Cmd39F00 { u16 kind,value; u8 data[12]; };
-extern void emit39F00(struct Cmd39F00 *) asm("sub_0805AB20");
+extern u32 emit39F00(struct Cmd39F00 *) asm("sub_0805AB20");
 static inline u32 count39F00(u32 n){return n;}
 /* [ProcessItemFortySixCollection] Host may confirm transfer of all inventory type1:id0x2E slots into saved
  * byte total; deletes matching slot kind/id and truncates stored total tobyte. Reaching total>9 attempts

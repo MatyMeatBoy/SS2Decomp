@@ -120,7 +120,7 @@ extern struct Rec44 *records5E8 asm("gUnk_030056F4");
 extern struct Inv44 *inventory5E8 asm("gUnk_030034E0");
 extern u32 audioFlags5E8 asm("gUnk_030027D0");
 extern void rec5E8(u32, u32) asm("sub_08019EB8");
-extern void emit5E8(void *) asm("sub_0805AB20");
+extern u32 emit5E8(void *) asm("sub_0805AB20");
 
 static inline void msg5E8(u16 id)
 {
@@ -502,7 +502,7 @@ extern void callback9968534C45(void) asm("sub_08059968");
 extern u32 flags534C45 asm("gUnk_030027D0");
 struct Spawn534C45 { u32 x, y; u16 w, h; void *cb; u32 zero; u8 pad[12]; };
 struct Cmd534C45 { u16 kind, value; u8 data[12]; };
-extern void emit534C45(struct Cmd534C45 *) asm("sub_0805AB20");
+extern u32 emit534C45(struct Cmd534C45 *) asm("sub_0805AB20");
 static inline u32 count534C45(u32 n) { return n; }
 #define FX534C45(next, check)                                              \
     {                                                           \
@@ -857,7 +857,7 @@ extern u8 *invF4445 asm("gUnk_030034E0");
 extern u8 *recordsF4445 asm("gUnk_030056F4");
 extern u32 audioF4445 asm("gUnk_030027D0");
 extern void cb990CF4445(void) asm("sub_0805990C");
-extern void emitF4445(struct CmdF4445 *) asm("sub_0805AB20");
+extern u32 emitF4445(struct CmdF4445 *) asm("sub_0805AB20");
 extern void sub_08029174(s32,s32);
 extern void sub_08019EB8(u16,s32);
 static inline u32 countF4445(u32 n) { return n; }
@@ -1818,7 +1818,7 @@ extern u8 t47CActors[] asm("gUnk_03003CE0");
 extern s16 t47CCamera[] asm("gUnk_03003170");
 extern void t47CCallback(s32) asm("sub_08048570");
 extern void sub_0805A004(void);
-extern void sub_080586B4(s32);
+extern s32 sub_080586B4(s32);
 extern u32 t47CMask asm("gUnk_030056FC");
 extern void t47CSetCamera(s32,s32) asm("sub_0800BB80");
 static inline u32 t47CNorm0(u32 x){register u32 r asm("r0")=x;if(r!=0)r=1;return r;}
@@ -3817,7 +3817,7 @@ void sub_0804AF80(void)
     }
 }
 extern u8 *t49_gsB054 asm("gUnk_03005CF4");
-extern void t49_spawnB054(void *, s32, s32) asm("sub_08068820");
+extern u32 t49_spawnB054(void *, s32, s32) asm("sub_08068820");
 static inline void t49_flagB054(u8 *ptr, u32 mask)
 { *(u32 *)(ptr + 0x38) |= mask; }
 static inline void t49_effectB054(s32 x, s32 y)
@@ -4536,7 +4536,7 @@ extern u8 *t49_gsBEF8 asm("gUnk_03005CF4");
 extern u8 *t49_itemsBEF8 asm("gUnk_030034E0");
 extern void t49_taskBEF8(void) asm("sub_0805A874");
 extern void t49_confirmBEF8(void) asm("sub_0804C150");
-extern void t49_scheduleBEF8(void *, u32) asm("sub_08068070");
+extern u32 t49_scheduleBEF8(void *, u32) asm("sub_08068070");
 void sub_0804BEF8(u32 arg0);
 static inline u32 t49_flagBEF8(u16 mask)
 {
@@ -4626,7 +4626,7 @@ void sub_0804BEF8(u32 arg0)
 struct T49EntryC150 { u32 id, kind; u8 pad[0x2E]; u16 duration; u8 tail[0x38]; };
 extern u8 *t49_gsC150 asm("gUnk_03005CF4");
 extern void t49_cbC150(void) asm("sub_0805A0EC");
-extern void t49_scheduleC150(void *, u32) asm("sub_08068070");
+extern u32 t49_scheduleC150(void *, u32) asm("sub_08068070");
 extern void t49_BB80C150(s32, s32) asm("sub_0800BB80");
 
 
@@ -5307,7 +5307,7 @@ extern void sub_0804D330(s32);
 struct Task50D0 { u32 f0,f4,f8,fC,f10,f14,f18,f1C,f20,f24; };
 extern void taskStart50D0(void *,u32) asm("sub_08000274");
 extern void sub_0802A080(s32,s32,s32,s32);
-extern void sub_080586B4(s32);
+extern s32 sub_080586B4(s32);
 /* [OrchestrateFieldItemDemonstration] Attempts selector0 demonstration task, invokes sub_0802A080, sets
  * scene+0x38 bit2, cancels saved task if scheduled, starts song4 when not linked or stops/clears the tracked
  * song in the link branch, closes dialog, attempts selectors1..5 and waits30. Resets state12 for active entity

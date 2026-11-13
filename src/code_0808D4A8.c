@@ -150,7 +150,7 @@ extern s32 sub_08019CE8(void *);
 extern void sub_0801A120(void *, s32, s32);
 extern void sub_0801C8F0(void *);
 extern u32 sub_08065158(void *, u32, u32, s32, s32);
-extern void sub_0800BC08(s32, s32, void *, void *, s32, s32);
+extern u32 sub_0800BC08(s32, s32, void *, void *, s32, s32);
 extern s32 *sub_08007870(s32, s32, u32, u32, u32, void *, u32, u32);
 static inline void d654InitAnimation(u32 *a, u32 b, u32 c, s32 d, s32 e) { sub_08065158(a, b, c, d, e); }
 /* [TaskDestructibleActorWithHealthPaletteSteps] r0 actor pointer. Initializes from0x084A1910 with argument3,
@@ -475,7 +475,7 @@ fail:
     return 0;
 }
 extern u32 sub_08065158(void *, u32, u32, s32, s32);
-extern void sub_0800BC08(s32, s32, void *, void *, s32, s32);
+extern u32 sub_0800BC08(s32, s32, void *, void *, s32, s32);
 extern s32 *sub_08007870(s32, s32, u32, u32, u32, void *, u32, u32);
 extern s32 sub_08021FE0(void *, void *, void *, void *);
 extern void sub_08029A7C(s32, s32, s32);
@@ -1040,8 +1040,8 @@ u32 sub_0808E488(u32 arg)
     }
     return 0;
 }
-extern void initE530(void*,u32,u32,s32,u32) asm("sub_08065158");
-extern void coordE530(s16,s16,u16*,u16*,s32,s32) asm("sub_0800BC08");
+extern s32 initE530(void*,u32,u32,s32,u32) asm("sub_08065158");
+extern u32 coordE530(s16,s16,u16*,u16*,s32,s32) asm("sub_0800BC08");
 extern s32 visE530(s32,s32,s32) asm("sub_0800BC44");
 extern void *drawE530(u16,u16,u32,u32,u8,void*,u32,u32) asm("sub_08007870");
 extern void spawnE530(s32,s32,s32,s32,s32) asm("sub_08079888");
@@ -1852,10 +1852,10 @@ extern s32 hpF1E4(struct EntF1E4 *) asm("sub_08019CE8");
 extern void setFlagF1E4(s32, s32) asm("sub_08057A20");
 extern void clrFlagF1E4(s32, s32) asm("sub_08057AA4");
 extern void sfxF1E4(s32) asm("sub_0805865C");
-extern void initF1E4(struct AnimF1E4 *, u32, u32, s32, u32) asm("sub_08065158");
+extern s32 initF1E4(struct AnimF1E4 *, u32, u32, s32, u32) asm("sub_08065158");
 extern u32 prioF1E4(s32, s32, s32) asm("sub_0800BC44");
-extern void coordF1E4(s16, s16, s16 *, s16 *, s32, s32) asm("sub_0800BC08");
-extern void drawF1E4(s32, s32, u32, u32, u32, void *, s32, s32) asm("sub_08007870");
+extern u32 coordF1E4(s16, s16, s16 *, s16 *, s32, s32) asm("sub_0800BC08");
+extern s32 drawF1E4(s32, s32, u32, u32, u32, void *, s32, s32) asm("sub_08007870");
 extern void hitNumF1E4(struct EntF1E4 *, s32, s16) asm("sub_0801A120");
 extern u32 dropF1E4(s32, s32, u16 *) asm("sub_08066490");
 extern void palF1E4(u32, const void *, u32) asm("sub_08000AF0");
@@ -2070,10 +2070,10 @@ extern u8 F9E0pos[] asm("gUnk_03003D6C");
 extern u32 gUnk_0850D4EC[];
 extern u32 gUnk_0850D500[];
 extern void sub_0802EA50(void);
-extern void F700_AD04(void *, void *, s32) asm("sub_0800AD04");
-extern void F700_9930(u16, u32) asm("sub_08009930");
+extern u32 F700_AD04(void *, void *, s32) asm("sub_0800AD04");
+extern s32 F700_9930(u16, u32) asm("sub_08009930");
 extern s32 F700_A4A0(s32) asm("sub_0805A4A0");
-extern void F700_7328(u32, void (*)()) asm("sub_08057328");
+extern s32 F700_7328(u32, void (*)()) asm("sub_08057328");
 /* [HandleChallengeStageEntryAndSelectionGate] r0 route descriptor. On uninitialized scene waits screen
  * transition, clears terminal flag, initializes scene flags/player entry from route mapping0x0805A4A0, with
  * position u16 x/y shifted8 and copied backup pair, camera/map setup and20 one-tick waits. Applies route
@@ -2174,10 +2174,10 @@ u32 sub_0808F700(u16 *arg)
 extern u32 gUnk_0850D4EC[];
 extern void sub_0808B978(void);
 extern void sub_0808CB58(void);
-extern void F9E0_AD04(void *, void *, s32) asm("sub_0800AD04");
-extern void F9E0_9930(u16, u32) asm("sub_08009930");
+extern u32 F9E0_AD04(void *, void *, s32) asm("sub_0800AD04");
+extern s32 F9E0_9930(u16, u32) asm("sub_08009930");
 extern s32 F9E0_A4A0(s32) asm("sub_0805A4A0");
-extern void F9E0_7328(u32, void (*)(void)) asm("sub_08057328");
+extern s32 F9E0_7328(u32, void (*)(void)) asm("sub_08057328");
 /* [HandleTimedOrBattleChallengeScene] r0 route descriptor. Initial scene state waits transition, resets scene
  * flags, maps route and local-player x from unsigned16 record shifted8, forces y446 Q8 and copies position
  * backup. If player flag0x2000 set clears0x2002 and copies halfword fields+0x60/+0x62 to+0xC2/+0xC4. Loads

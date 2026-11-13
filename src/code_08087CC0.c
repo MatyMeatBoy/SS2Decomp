@@ -314,8 +314,8 @@ void sub_08087CC0(void) {
 
 
 struct Route090 { s16 x, y, endX, endY; s32 resource; u16 tile; u16 pad; u32 flags, duration; };
-void spriteInit090(void *, s32, s32, s32, s32) asm("sub_08065158");
-void draw090(s32, s32, s32, u16, s32, void *, u32, u32) asm("sub_08007870");
+s32 spriteInit090(void *, s32, s32, s32, s32) asm("sub_08065158");
+s32 draw090(s32, s32, s32, u16, s32, void *, u32, u32) asm("sub_08007870");
 /* [TaskPlayScriptedSpriteRouteSequence] r0 points to scene slot with u16 index at+0x40; r1 to 24-byte route
  * records. First waits using scheduler value0xF1FFF111 even for empty sequence. Duration word+20=0 terminates.
  * Per record initializes resource word+8, computes unsigned step1024/duration, interpolates signed-halfword
@@ -959,7 +959,7 @@ s32 sub_08089384(u8 *arg0) {
 
 
 extern u8 playerCoord89500[] asm("gUnk_03003D6C");
-void spriteInit090(void *, s32, s32, s32, s32) asm("sub_08065158");
+s32 spriteInit090(void *, s32, s32, s32, s32) asm("sub_08065158");
 void callback3D99C_090(void) asm("sub_0803D99C");
 void callback2CF84_090(void) asm("sub_0802CF84");
 /* [UpdateMapZeroArea4Scene] Normal entry uses supplied position and clears player flag mask0x2026. */
@@ -2261,7 +2261,7 @@ void sub_0808AFE8_v(void)
     extern u32 sub_08065158(void *, u32, u32, s32, s32);
     extern void sub_080009F8(u32, u32, u32);
     extern void sub_0801A3D0(u8 *, u16, s32);
-    extern void sub_0801A664(s32, s32);
+    extern s32 sub_0801A664(s32, s32);
     extern void sub_0801AA8C(s32);
     extern void sub_0801AB50(s32);
     extern void sub_0805FB7C(s32, s32, u32, u8);
@@ -3124,7 +3124,7 @@ struct C0Slot { struct C0Item *item; u8 pad[0x148]; };
 extern struct C0Slot gSlotsC0[] asm("gUnk_03003E28");
 /* Seat coordinates: [category][seat in category][x, y, z]. */
 extern u16 gSeatPosC0[][3][3] asm("gUnk_084F0C30");
-extern void C0Draw(u32, u32, u32, u32, u32, void *, s32, s32) asm("sub_08007870");
+extern s32 C0Draw(u32, u32, u32, u32, u32, void *, s32, s32) asm("sub_08007870");
 extern u8 C0Vc(u32) asm("sub_08001108");
 #define C0_CENTER_TEXT(id) do { temp_r4_15 = sub_08007290(id) + 2; sub_0801A3D0(temp_r4_15, (u16)(0xF - ((u32)sub_0801A638(temp_r4_15) >> 1)), 0x12); } while (0)
 /* Clear the per-category counters, then draw every free portrait at its seat. */
@@ -3574,7 +3574,7 @@ extern void sub_080003F4(s32);
 extern u32 sub_08065158(void *, u32, u32, s32, s32);
 extern void sub_080290E4(s32, s32);
 extern void sub_080257D4(void *, s32);
-extern void sub_0801A664(s32, s32);
+extern s32 sub_0801A664(s32, s32);
 /* [TaskBattleTeamWinnerAndResults] Matched task uses link barrier 67C18/67C08/67BF8, positions participants by
  * byte+0x68 minus3, counts non-eliminated players into four group slots at 3634-3643, waits until at most one
  * occupied group remains stable, then identifies winner and displays result text. */

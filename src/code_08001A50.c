@@ -136,7 +136,7 @@ extern u8 gLinkRecvBufs[] asm("gUnk_03002770");
 extern u32 gLinkFlags asm("gUnk_030027D0");
 extern u32 gLinkState asm("gUnk_03002730");
 extern void sub_080003F4();
-extern void sub_080586B4();
+extern s32 sub_080586B4();
 /* [LinkSessionTask] Per-frame session task passes send/receive blocks to MultiSioMain and stores its status. */
 void sub_08001BE4(void)
 {

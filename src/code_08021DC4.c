@@ -530,7 +530,7 @@ void sub_08022504(s32 arg0, s32 arg1) {
         }
     }
 }
-extern void t22_bc08(s16, s16, s16 *, s16 *, u32, s32) asm("sub_0800BC08");
+extern u32 t22_bc08(s16, s16, s16 *, s16 *, u32, s32) asm("sub_0800BC08");
 void t22_2258C(s32, s32) asm("sub_0802258C");
 /* [AnimateRisingSprite31] Gets shared animation context, interprets packed argument low16 as signed x and
  * high16 as signed y, loops at most20 iterations unless scene-exit predicate becomes true. When display gates
@@ -2141,12 +2141,12 @@ s32 local245CC_sub_0800CCCC(void) asm("sub_0800CCCC"); s32 local245CC_sub_0800CD
 void local245CC_sub_08024538(s32) asm("sub_08024538");
 void local245CC_sub_0805A60C(s32) asm("sub_0805A60C");
 u8 *local245CC_sub_08007290(u32) asm("sub_08007290");
-void local245CC_sub_08065158(struct Anim245CC *,u32,s32,s32,s32) asm("sub_08065158");
-void local245CC_sub_08007870(s32,s16,u32,u16,u32,void *,s32,s32) asm("sub_08007870");
-void local245CC_sub_08008E74(s16,s16,u32,u16,u32,void *,s32,s32) asm("sub_08008E74");
-void local245CC_sub_0800BC08(s16,s16,s16 *,s16 *,u32,s32) asm("sub_0800BC08");
+s32 local245CC_sub_08065158(struct Anim245CC *,u32,s32,s32,s32) asm("sub_08065158");
+s32 local245CC_sub_08007870(s32,s16,u32,u16,u32,void *,s32,s32) asm("sub_08007870");
+struct DrawNode005 *local245CC_sub_08008E74(s16,s16,u32,u16,u32,void *,s32,s32) asm("sub_08008E74");
+u32 local245CC_sub_0800BC08(s16,s16,s16 *,s16 *,u32,s32) asm("sub_0800BC08");
 void local245CC_sub_08057DD0(u32,u32,u16,u16,void (*)(s32),struct Input245CC *) asm("sub_08057DD0");
-void local245CC_sub_08065370(struct Anim245CC *,u32,u16 *,u16 *,u32) asm("sub_08065370");
+s32 local245CC_sub_08065370(struct Anim245CC *,u32,u16 *,u16 *,u32) asm("sub_08065370");
 void local245CC_sub_080003F0() asm("sub_080003F0");                             /* extern */
 s32 local245CC_sub_0800048C() asm("sub_0800048C");                                 /* extern */
 void local245CC_sub_08000AF0(s32, void *, s32) asm("sub_08000AF0");             /* extern */
@@ -2170,7 +2170,7 @@ void local245CC_sub_0800D000() asm("sub_0800D000");                             
 void local245CC_sub_0800D014() asm("sub_0800D014");                             /* extern */
 void local245CC_sub_0801A3D0(u8 *, u16, s32) asm("sub_0801A3D0");               /* extern */
 u32 local245CC_sub_0801A638(u8 *) asm("sub_0801A638");                             /* extern */
-void local245CC_sub_0801A664(s32, s32) asm("sub_0801A664");                     /* extern */
+s32 local245CC_sub_0801A664(s32, s32) asm("sub_0801A664");                     /* extern */
 void local245CC_sub_0801E278(u8 *, s32) asm("sub_0801E278");                    /* extern */
 s32 local245CC_sub_08057328(s32, void (*)(s32)) asm("sub_08057328");           /* extern */
 void local245CC_sub_08057624(s32) asm("sub_08057624");                          /* extern */
@@ -2187,7 +2187,7 @@ void local245CC_sub_0805A660(s32) asm("sub_0805A660");                          
 s32 local245CC_sub_0805D37C(s32, s32, u32) asm("sub_0805D37C");                    /* extern */
 s32 local245CC_sub_0805F184() asm("sub_0805F184");                                 /* extern */
 s32 local245CC_sub_0806569C() asm("sub_0806569C");                                 /* extern */
-void local245CC_sub_08067D74() asm("sub_08067D74");                             /* extern */
+u32 local245CC_sub_08067D74() asm("sub_08067D74");                             /* extern */
 s32 local245CC_sub_08067DC8() asm("sub_08067DC8");                                 /* extern */
 
 /* [RunLevelExitTransition] Consumes map exit descriptor XY/destination/flags, displays English resource1403D1
@@ -3089,10 +3089,10 @@ int abs(int);
 extern u8 *t24_text25890(u32) asm("sub_08007290");
 extern u32 sub_08002164(void);
 extern u32 t24_width25890(void *) asm("sub_0801A638");
-extern void sub_08065158(void *,u32,u32,s32,u32);
-extern void t24_anim25890(void *,u32,u16 *,u16 *,u32) asm("sub_08065370");
-extern void sub_08008E74(s16,s16,u32,u16,u32,void *,u32,u32);
-extern void t24_project25890(s16,s16,s16 *,s16 *,u32,u32) asm("sub_0800BC08");
+extern s32 sub_08065158(void *,u32,u32,s32,u32);
+extern s32 t24_anim25890(void *,u32,u16 *,u16 *,u32) asm("sub_08065370");
+extern struct DrawNode005 *sub_08008E74(s16,s16,u32,u16,u32,void *,u32,u32);
+extern u32 t24_project25890(s16,s16,s16 *,s16 *,u32,u32) asm("sub_0800BC08");
 void t24_gate25890(u16 *arg0) asm("sub_08025890");
 /* [RunCooperativeExitPortal] Builds a sprite at record coordinates times8 and waits for scene flag8, with
  * session and player-removal exits. While scene flag16 remains clear, renders the portal/particles, displays
@@ -3445,10 +3445,10 @@ extern void t24_callback080263B4(void) asm("sub_08024538");
 extern u8 *t24_call08007290_080263B4(u32) asm("sub_08007290");
 extern u32 sub_08002164(void);
 extern u32 t24_call0801A638_080263B4(void *) asm("sub_0801A638");
-extern void sub_08065158(void *, u32, u32, s32, u32);
-extern void t24_call08065370_080263B4(void *, u32, u16 *, u16 *, u32) asm("sub_08065370");
-extern void sub_08008E74(s16, s16, u32, u16, u32, void *, u32, u32);
-extern void sub_0800BC08(s32, s32, s16 *, s16 *, u32, u32);
+extern s32 sub_08065158(void *, u32, u32, s32, u32);
+extern s32 t24_call08065370_080263B4(void *, u32, u16 *, u16 *, u32) asm("sub_08065370");
+extern struct DrawNode005 *sub_08008E74(s16, s16, u32, u16, u32, void *, u32, u32);
+extern u32 sub_0800BC08(s32, s32, s16 *, s16 *, u32, u32);
 /* [RunBossRetryPortal] Loads text resource1403D3 (English To boss lair retry), animates portal sprite5000D
  * animation0 at (120,320) on map0. Tests local and replicated player proximity/readiness; all participants
  * ready with the original counter greater than2 triggers sub_080687E8, then clears transient state.
@@ -3726,10 +3726,10 @@ extern void t24_callback08026858(void) asm("sub_08024538");
 extern u8 *t24_call08007290_08026858(u32) asm("sub_08007290");
 extern u32 sub_08002164(void);
 extern u32 t24_call0801A638_08026858(void *) asm("sub_0801A638");
-extern void sub_08065158(void *, u32, u32, s32, u32);
-extern void t24_call08065370_08026858(void *, u32, u16 *, u16 *, u32) asm("sub_08065370");
-extern void sub_08008E74(s16, s16, u32, u16, u32, void *, u32, u32);
-extern void sub_0800BC08(s32, s32, s16 *, s16 *, u32, u32);
+extern s32 sub_08065158(void *, u32, u32, s32, u32);
+extern s32 t24_call08065370_08026858(void *, u32, u16 *, u16 *, u32) asm("sub_08065370");
+extern struct DrawNode005 *sub_08008E74(s16, s16, u32, u16, u32, void *, u32, u32);
+extern u32 sub_0800BC08(s32, s32, s16 *, s16 *, u32, u32);
 /* [RunChaosDomainPortal] Loads text resource1403D4 (English To Chaos domain), animates portal sprite5000D
  * animation1 at (240,136) on map19. Tests proximity and replicated player readiness; after all participants
  * ready sets scene+40=0x92BC, waits08067DC8, then runs its completion path and clears transient state on
@@ -4844,9 +4844,9 @@ loop_63:
 struct T025State { u8 pad0[4]; u16 flags; u8 pad6[10]; u16 f10; u8 pad12[18]; u16 f24; u8 pad26[10]; u16 f30; u8 pad32[4]; u16 f36; };
 extern struct T025State *t025State asm("gUnk_03005CF4");
 extern void sub_0802704C(s32);
-extern void sub_08057BD0();
-extern void sub_08057C6C(s32);
-extern void sub_08057CAC(s32);
+extern u32 sub_08057BD0();
+extern u32 sub_08057C6C(s32);
+extern u32 sub_08057CAC(s32);
 /* [HandlePairedLevelEncounterExit] Initial scene state invokes scene setup and marks encounter active; scene
  * flagbit4 then triggers destination selection, clears encounter activity/flagbit4, sets exit mode3 and marks
  * progression. Levels15/16 additionally enable the opposite world-map destination and call57CAC for current
@@ -4914,10 +4914,10 @@ extern struct T025World27C *t025World27C asm("gUnk_03005CF4");
 extern struct T025Resource27C t025Resources27C[] asm("gUnk_0849E760");
 extern struct T025Config27C t025Configs27C[] asm("gUnk_084B1860");
 extern struct T025Player27C t025Players27C[] asm("gUnk_03003CE0");
-extern void t025Init27C(void *, s32, s32, s32, s32) asm("sub_08065158");
+extern s32 t025Init27C(void *, s32, s32, s32, s32) asm("sub_08065158");
 extern void t025Hide27C(u32, u32, u32, u32, s32) asm("sub_0800AEF4");
-extern void t025Position27C(s32, s32, s16 *, s16 *, s32, s32) asm("sub_0800BC08");
-extern void t025Draw27C(s32, s32, u32, u32, u32, void *, u8 *, u32) asm("sub_08007870");
+extern u32 t025Position27C(s32, s32, s16 *, s16 *, s32, s32) asm("sub_0800BC08");
+extern s32 t025Draw27C(s32, s32, u32, u32, u32, void *, u8 *, u32) asm("sub_08007870");
 extern u32 t025Item27C(void *, u32, u32) asm("sub_0805C4FC");
 extern void t025Effects27C(u16 *) asm("sub_08027C1C");
 
@@ -5363,14 +5363,14 @@ extern struct Ply0284F4 players0284F4[] asm("gUnk_03003CE0");
 extern struct State0284F4 *state0284F4 asm("gUnk_03005CF4");
 extern s16 dirs0284F4[] asm("gUnk_0849E730");
 extern s16 offs0284F4[] asm("gUnk_080B9704");
-extern void animInit0284F4(struct Anim0284F4 *, u32, s32, s32, s32) asm("sub_08065158");
+extern s32 animInit0284F4(struct Anim0284F4 *, u32, s32, s32, s32) asm("sub_08065158");
 extern s32 animStep0284F4(struct Anim0284F4 *, u32, u16 *, u16 *, u32) asm("sub_08065370");
 extern void animDraw0284F4(struct Anim0284F4 *, s32, s32, u32, u32) asm("sub_08065230");
 extern u16 slot0284F4(s32, u32) asm("sub_080283C4");
 extern s32 overlap0284F4(s32 *, struct Pt0284F4 *, u32 *, struct Size0284F4 *) asm("sub_08021FE0");
-extern void hit0284F4(u32, u32) asm("sub_0805A58C");
-extern void toScreen0284F4(s16, s16, s16 *, s16 *, u32, s32) asm("sub_0800BC08");
-extern void draw0284F4(s32, s32, u32, u32, u32, void *, s32, s32) asm("sub_08007870");
+extern void *hit0284F4(u32, u32) asm("sub_0805A58C");
+extern u32 toScreen0284F4(s16, s16, s16 *, s16 *, u32, s32) asm("sub_0800BC08");
+extern s32 draw0284F4(s32, s32, u32, u32, u32, void *, s32, s32) asm("sub_08007870");
 extern void pal0284F4(u32, const void *, u32) asm("sub_08000AF0");
 extern u32 prio0284F4(s32, s32, s32) asm("sub_0800BC44");
 
@@ -5474,7 +5474,7 @@ struct Box028830 { s32 a, b; };
 struct Arg028830 { struct Box028830 box; u32 c; s32 d, e; };
 extern struct Ply028830 players028830[] asm("gUnk_03003CE0");
 extern s32 overlap028830(s32 *, struct Box028830 *, s32 *, u32 *) asm("sub_08021FE0");
-extern void done028830(s32, s32) asm("sub_08057328");
+extern s32 done028830(s32, s32) asm("sub_08057328");
 /* Optionally wait until no player overlaps the area, then wait until one
  * does and fire the area's callback. */
 void sub_08028830_v(struct Arg028830 *arg, s32 waitClear) asm("sub_08028830");

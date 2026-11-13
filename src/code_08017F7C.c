@@ -63,8 +63,8 @@ struct T015LActor { u16 f0; u16 f2; u16 f4; u16 f6; u16 f8; u8 padA[0x2]; u16 fC
 struct T015LAnim { s32 f0,f4,f8,fC,f10,f14,f18; s8 data[24]; };
 struct T015LStack { u32 packet[4]; struct T015LAnim main,auxA,auxB,base; s16 x,y; u16 step; s16 state; u16 phase,phase2; s32 rng; };
 #define T015L_FIELD(p,t,o) (*(t)((u8 *)(p)+(o)))
-extern void T015L_sub_08007870(s16, s16, u16, u16, u32, void *, u32, u32) asm("sub_08007870");
-extern void T015L_sub_0800BC08(s32, s32, s16 *, void *, s32, void *) asm("sub_0800BC08");
+extern s32 T015L_sub_08007870(s16, s16, u16, u16, u32, void *, u32, u32) asm("sub_08007870");
+extern u32 T015L_sub_0800BC08(s32, s32, s16 *, void *, s32, void *) asm("sub_0800BC08");
 extern void T015L_sub_08015DE0(s32 *, s32) asm("sub_08015DE0");
 extern u16 T015L_sub_08016E04(u16, u16) asm("sub_08016E04");
 extern void T015L_sub_08016F28(void *) asm("sub_08016F28");
@@ -77,9 +77,9 @@ extern void T015L_sub_08020680(void *) asm("sub_08020680");
 extern void T015L_sub_080571A4(u8, u8, s32) asm("sub_080571A4");
 extern s32 T015L_sub_0805C620(void *, u32 *) asm("sub_0805C620");
 extern void T015L_sub_0806171C(void *, s32) asm("sub_0806171C");
-extern void T015L_sub_08065158(s32 *, s32, s32, s32, s32) asm("sub_08065158");
+extern s32 T015L_sub_08065158(s32 *, s32, s32, s32, s32) asm("sub_08065158");
 extern s32 T015L_sub_08067CA8(u16) asm("sub_08067CA8");
-extern void T015L_sub_08067E60(u16) asm("sub_08067E60");
+extern s32 T015L_sub_08067E60(u16) asm("sub_08067E60");
 extern void T015L_sub_0807386C(s32, s32, s16, s32, s32) asm("sub_0807386C");
 extern void T015L_sub_08077D04(u16, s16) asm("sub_08077D04");
 extern void T015L_sub_0807854C(u16, s16) asm("sub_0807854C");

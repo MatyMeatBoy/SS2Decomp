@@ -1422,7 +1422,7 @@ extern u8 *gStateE638 asm("gUnk_03005CF4");
 struct TileE638 {u8 pad[0x80];s16 x,y;};
 extern struct TileE638 tileE638 asm("gUnk_03003170");
 extern u8 *gConfigE638 asm("gUnk_030034E0");
-extern void sub_0801A664(s32,s32);
+extern s32 sub_0801A664(s32,s32);
 extern void callbackE638A(void) asm("sub_0803F210");
 extern void callbackE638B(void) asm("sub_0803F348");
 extern void callbackE638C(void) asm("sub_0803F454");
@@ -4312,7 +4312,7 @@ static inline void t43_flag2bb0(u8 *p, u32 mask) {
  register u32 bits asm("r1") = mask;
  *(u32 *)(p+0x3c) = value | bits;
 }
-void sub_0801A664(s32, s32);                           /* extern */
+s32 sub_0801A664(s32, s32);                           /* extern */
 void sub_0801AA34(s32);                                /* extern */
 void sub_0801AA8C(s32);                                /* extern */
 s32 sub_0801AB24();                                 /* extern */

@@ -856,7 +856,7 @@ void sub_08029A7C(u32 action,u32 amount,s32 argument)
 struct ResultB98 {u8 a,b,c,d;u16 value;u16 pad;};
 #define H_B9(p,n) (*(u16*)((p)+(n)))
 #define W_B9(p,n) (*(u32*)((p)+(n)))
-extern void finishB98(void*) asm("sub_080660EC");
+extern u32 finishB98(void*) asm("sub_080660EC");
 extern void initB98(void*,void*,u16,u16,u16) asm("sub_08069388");
 extern void *lookupB98(u8*,u32) asm("sub_0801E104");
 extern void runB98(void*,u16,u32,s32,s32,u32) asm("sub_08069080");
@@ -896,7 +896,7 @@ void sub_08029B98(s32 index,u32 action,u32 amount,u32 argument,u16 arg4,u16 arg5
 #define H_CE(p,n) (*(u16*)((p)+(n)))
 #define W_CE(p,n) (*(u32*)((p)+(n)))
 extern u8 *stateCEC asm("gUnk_030034E0");
-extern void extraCEC(u32,u16,u8*) asm("sub_08069224");
+extern s32 extraCEC(u32,u16,u8*) asm("sub_08069224");
 extern void initCEC(void*,void*,u16,u16,u32) asm("sub_08069388");
 extern void runCEC(void*,u16,s32,u32,u32,u32) asm("sub_08069080");
 extern u16 valueCEC(u16,u16,void*) asm("sub_08021D00");
@@ -932,7 +932,7 @@ void sub_08029CEC(u32 action,u32 amount,s32 argument)
 struct ResultE0C {u8 a,b,c,d;u16 value;u16 pad;};
 #define H_E0(p,n) (*(u16*)((p)+(n)))
 #define W_E0(p,n) (*(u32*)((p)+(n)))
-extern void finishE0C(void*) asm("sub_080660EC");
+extern u32 finishE0C(void*) asm("sub_080660EC");
 extern void initE0C(void*,void*,u16,u16,u16) asm("sub_08069388");
 extern void *lookupE0C(u8*,u32) asm("sub_0801E104");
 extern void runE0C(void*,u16,u32,s32,s32,u32) asm("sub_08069080");
@@ -1389,7 +1389,7 @@ void sub_0802A590(u16 first,u16 count)
     sub_08001538((s32)backup);
 }
 extern u8 nameA644[] asm("gUnk_03003CE2");
-extern void clearA644(s32,s32) asm("sub_0801A664");
+extern s32 clearA644(s32,s32) asm("sub_0801A664");
 extern void drawA644(u8*,s32,u32) asm("sub_0801A3D0");
 /* [DisplayTypewriterNarrationText] Reads resource 0x140000|id after its two-byte header and progressively
  * draws two 32-byte text rows at tile rows 15 and 17 through QueueTextGlyphTiles. Handles FD end, FF

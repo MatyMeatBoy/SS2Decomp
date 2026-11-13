@@ -9,9 +9,9 @@ void sub_0809342C(void);
 u16 sub_08093498(void);
 
 #include "global.h"
-M2C_UNK sub_08000990(s32, s32);
-M2C_UNK sub_080009F8(s32, s32, s32);
-M2C_UNK sub_08000A34(s32, s32, s32, s32, s32);
+void sub_08000990(s32, s32);
+void sub_080009F8(s32, s32, s32);
+void sub_08000A34(s32, s32, s32, s32, s32);
 
 /* [StartPeriodicSceneShakeOffsetTask] Uses the control pointer at 03000260. Returns if null, or if scheduler
  * membership is false while control+8 is nonzero. Otherwise installs 92E40, writes raw task flags/state 0x44,
@@ -157,8 +157,8 @@ extern struct Pos2F58 gP0851845C asm("gUnk_0851845C");
 extern struct Pos2F58 gP0851848C asm("gUnk_0851848C");
 extern struct Pos2F58 gP085184BC asm("gUnk_085184BC");
 extern struct Pos2F58 gP085184EC asm("gUnk_085184EC");
-extern void spr2F58Init(void *, s32, s32, s32, s32) asm("sub_08065158");
-extern void spr2F58Anim(void *, u32, u16 *, u16 *, s32) asm("sub_08065370");
+extern s32 spr2F58Init(void *, s32, s32, s32, s32) asm("sub_08065158");
+extern s32 spr2F58Anim(void *, u32, u16 *, u16 *, s32) asm("sub_08065370");
 extern s32 *spr2F58DrawA(s32, s32, s32, u16, s32, void *, u32, u32) asm("sub_08007870");
 extern s32 *spr2F58DrawB(s32, s32, s32, u16, s32, s32, s32, void *, u32, u32) asm("sub_08007974");
 extern void pal2F58Load(void *, u32) asm("sub_08097F70");
@@ -596,8 +596,8 @@ void sub_08093584(s8 arg0, u8 arg1)
 extern s16 rand3BAC(void) asm("sub_0800086C");
 extern u8 palStep3BAC(void *, u32, u16, s32) asm("sub_08096D40");
 extern u8 palFlash3BAC(void *, s32, u16, s32) asm("sub_08096E20");
-extern void draw3BAC(s16, s16, s32, s32, s32, void *, u32, u32, s32) asm("sub_080087AC");
-extern void draw3BACc(s16, s16, u16, u16, s32, void *, u32, u32) asm("sub_08007870");
+extern u32 draw3BAC(s16, s16, s32, s32, s32, void *, u32, u32, s32) asm("sub_080087AC");
+extern s32 draw3BACc(s16, s16, u16, u16, s32, void *, u32, u32) asm("sub_08007870");
 extern s32 anim3BAC(void *, u16, u16 *, u16 *, s32) asm("sub_08065370");
 extern u8 gUnk_0300026C;
 extern struct Pos2F58 g3BAC_851C asm("gUnk_0851851C");
@@ -1004,7 +1004,7 @@ void sub_08094590(void)
 }
 struct Anim98c { u32 f0,f4,f8,fC,f10,f14,f18; u8 payload[24]; };
 struct Sprite98c { u32 f0,f4,f8; s32 y; };
-extern void init98c(struct Anim98c *,s32,s32,s32,s32) asm("sub_08065158");
+extern s32 init98c(struct Anim98c *,s32,s32,s32,s32) asm("sub_08065158");
 extern s32 step98c(struct Anim98c *,u16,u16 *,u16 *,s32) asm("sub_08065370");
 extern s32 back98c(struct Anim98c *,u16,u16 *,u16 *,s32) asm("sub_08065394");
 extern struct Sprite98c *draw98c(s16,s32,s32,u16,s32,void *,u32,u32) asm("sub_08007870");
@@ -1181,7 +1181,7 @@ void sub_08094A00(void)
 }
 struct Anim98b { u32 f0,f4,f8,fC,f10,f14,f18; u8 payload[24]; };
 struct Sprite98b {u32 f0,f4,f8; s32 y;};
-extern void init98b(struct Anim98b *,s32,s32,s32,s32) asm("sub_08065158");
+extern s32 init98b(struct Anim98b *,s32,s32,s32,s32) asm("sub_08065158");
 extern s32 step98b(struct Anim98b *,u16,u16 *,u16 *,s32) asm("sub_08065370");
 extern struct Sprite98b *draw98b(s32,s32,s32,u16,s32,void *,u32,u32) asm("sub_08007870");
 extern struct Sprite98b *drawTall98b(s32,s32,s32,u16,s32,s32,s32,void *,u32,u32) asm("sub_08007974");
@@ -1342,14 +1342,14 @@ struct Anim94 {u32 f0,f4,f8,fC,f10,f14,f18; u8 payload[24];};
 struct Ent94 {s32 x,y; u8 state,visible,index,delay; u16 timer,anim,frame,tick,result,pad;};
 struct Pos94 {s32 x,y;};
 struct Ent94 *f94_08001494(s32) asm("sub_08001494"); void f94_08001538(void *) asm("sub_08001538"); void f94_080003F0(void) asm("sub_080003F0");
- void f94_08065158(struct Anim94 *,s32,s32,s32,s32) asm("sub_08065158");
+ s32 f94_08065158(struct Anim94 *,s32,s32,s32,s32) asm("sub_08065158");
 s32 f94_08065370(struct Anim94 *,u16,u16 *,u16 *,s32) asm("sub_08065370");
-void f94_080087AC(s32,s32,u16,u16,s32,void *,u32,u32,s32) asm("sub_080087AC");
+u32 f94_080087AC(s32,s32,u16,u16,s32,void *,u32,u32,s32) asm("sub_080087AC");
 s32 f94_08097B6C(s32,s32,s32,s32,s32) asm("sub_08097B6C"); void f94_080979D8(s32,s32,s32,s32,struct Pos94 *) asm("sub_080979D8");
 void f94_08000AF0(u32,u32,u32) asm("sub_08000AF0"); void f94_0801AB50(s32) asm("sub_0801AB50"); s32 f94_0801AAE0(void) asm("sub_0801AAE0"); void f94_0801ABE8(s32) asm("sub_0801ABE8"); s32 f94_080021A8(void) asm("sub_080021A8"); void f94_0805865C(s32) asm("sub_0805865C"); void f94_0805867C(s32) asm("sub_0805867C");
 extern struct Pos94 v94_0851863C[] asm("gUnk_0851863C");
 
-void f94_08007870(s16,s32,s32,u16,s32,void *,u32,u32) asm("sub_08007870"); void f94_08007974(s32,s32,s32,u16,s32,s32,s32,void *,u32,u32) asm("sub_08007974");
+s32 f94_08007870(s16,s32,s32,u16,s32,void *,u32,u32) asm("sub_08007870"); void f94_08007974(s32,s32,s32,u16,s32,s32,s32,void *,u32,u32) asm("sub_08007974");
 void f94_0800903C(s32,s32,s32,s32,s32,void *) asm("sub_0800903C"); void f94_080009F8(s32,s32,s32) asm("sub_080009F8"); s16 f94_0800086C(void) asm("sub_0800086C"); void f94_080953F8(void) asm("sub_080953F8"); void f94_08095610(u8) asm("sub_08095610"); void f94_080586D0(s32) asm("sub_080586D0"); void f94_0800CC18(void) asm("sub_0800CC18"); void f94_0800CC68(void) asm("sub_0800CC68"); void f94_08098028(void) asm("sub_08098028");
 extern s16 v94_080B9704[] asm("gUnk_080B9704"); extern u32 v94_03002344 asm("gUnk_03002344");
 struct Global94 {u8 pad[0x3a];u16 field;}; extern struct Global94 v94_03001250 asm("gUnk_03001250");
@@ -1717,9 +1717,9 @@ extern struct Pos956 pos956_0851863C[] asm("gUnk_0851863C");
 struct Ent956 *f956_08001494() asm("sub_08001494");
 void f956_08001538() asm("sub_08001538");
 void f956_080003F0() asm("sub_080003F0");
-void f956_08065158() asm("sub_08065158");
+s32 f956_08065158() asm("sub_08065158");
 s32 f956_08065370() asm("sub_08065370");
-void f956_080087AC() asm("sub_080087AC");
+u32 f956_080087AC() asm("sub_080087AC");
 s32 f956_08097B6C() asm("sub_08097B6C");
 void f956_080979D8() asm("sub_080979D8");
 void f956_08000AF0() asm("sub_08000AF0");
