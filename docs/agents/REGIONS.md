@@ -116,6 +116,41 @@ the normal compiler flags and never patches generated opcodes or invents region
 globals. Broader source reuse requires verified per-symbol addresses, data layouts
 and ABI contracts; interior-byte anchors alone are not callable entry points.
 
+## Region-only C sources
+
+Functions that exist only in one regional ROM, or whose regional form has no
+same-address EU counterpart, can be written as C in `src/regions/<region>/*.c`
+(`usa` or `jp`). The EU build never compiles these files (`C_SRCS` is
+`src/*.c`). `make REGION=<region> compare` compiles them with the normal game
+compiler and flags, places each definition at the address in its name and
+requires the whole regional ROM to match.
+
+Naming is the address, as for `sub_`/`gUnk_` in EU:
+
+- definitions are `<region>_sub_<ADDRESS>` (for example `usa_sub_0801A1C8`);
+- regional callees and globals are referenced as `<region>_sub_<ADDRESS>` and
+  `<region>_gUnk_<ADDRESS>` through `asm("...")` labels, so no regional symbol
+  table is needed and no EU name is reused for a different address;
+- plain EU names (`sub_08000274`) resolve to the EU address and may only be used
+  for helpers verified to sit at the same address with the same code.
+
+The report lists these intervals separately as `region_only_functions`.
+
+USA (AU2E) currently has four region-only functions in
+`src/regions/usa/usa_only.c`, found by aligning the ordered EU and USA function
+lists (link order is preserved; 2029 of 2033 USA functions pair with an EU
+function):
+
+| USA address | Size | EU relation |
+| --- | ---: | --- |
+| `0801A1C8` | 0x32 | 16-bit-text form of `CountRenderableScriptGlyphs` (`sub_0801A638`); USA text uses halfword glyphs ending in `0xFFFD` |
+| `0805E02C` | 0x1B0 | No EU counterpart; unreferenced dialogue-task starter with caller-supplied window layout |
+| `08067CA4` | 0x5C | `EnqueueLinkEntityPosition` (`sub_080663A4`) moved in link order; USA enemy records are 0x454 bytes (EU 0x2E0) |
+| `080813D8` | 0xC0 | 16-bit-text form of `ExpandEncodedTextUnsignedNumberToken` (`sub_080850C0`) |
+
+Most other USA functions differ from EU only in literal-pool addresses and
+regional constants; they need regional symbol addresses, not new source.
+
 ## Speedrun research
 
 The supplied USA movie was recorded for VBA-rr. A fresh BizHawk/mGBA replay did
