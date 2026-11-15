@@ -1,5 +1,6 @@
 """Regional reconstruction keeps C provenance and reference bytes separate."""
 from pathlib import Path
+import re
 import shutil
 import subprocess
 import sys
@@ -168,6 +169,35 @@ class RegionFragmentTests(unittest.TestCase):
             region_build.link_layout(layout, script, root / 'output.elf', root / 'output.gba')
             self.assertEqual((root / 'output.gba').read_bytes(), rom_data)
 
+
+class RegionOnlySourceTests(unittest.TestCase):
+    def test_regional_names_encode_their_own_address(self):
+        self.assertEqual(region_build.region_symbol_address('usa_sub_0801A1C8', 'usa'), 0x0801A1C9)
+        self.assertEqual(region_build.region_symbol_address('usa_gUnk_03005EBC', 'usa'), 0x03005EBC)
+        self.assertIsNone(region_build.region_symbol_address('usa_sub_0801A1C8', 'jp'))
+        self.assertIsNone(region_build.region_symbol_address('sub_0801A1C8', 'usa'))
+        self.assertIsNone(region_build.region_symbol_address('usa_sub_801A1C8', 'usa'))
+
+    def test_only_called_thumb_symbols_become_absolute_thumb_entries(self):
+        symbols = {'usa_sub_0805D6E8': 0x0805D6E9, 'sub_08001494': 0x08001495,
+                   'usa_gUnk_03005EBC': 0x03005EBC}
+        text = region_build.thumb_call_targets({'usa_sub_0805D6E8', 'sub_08001494',
+                                                'usa_gUnk_03005EBC'}, symbols)
+        self.assertIn('.thumb_set usa_sub_0805D6E8, 0x0805d6e8', text)
+        self.assertIn('.thumb_set sub_08001494, 0x08001494', text)
+        self.assertNotIn('usa_gUnk_03005EBC', text)
+        with self.assertRaisesRegex(RegionError, 'Unresolved'):
+            region_build.thumb_call_targets({'missing_function'}, symbols)
+
+    def test_region_only_sources_live_outside_the_eu_build(self):
+        for region in ('usa', 'jp'):
+            sources = sorted((region_build.ROOT / 'src/regions' / region).glob('*.c'))
+            self.assertTrue(sources, region)
+            for source in sources:
+                text = source.read_text(encoding='utf-8')
+                for name in re.findall(r'^\w[\w \*]*?\b(\w+)\s*\([^;{]*\)\s*$\n\{', text, re.M):
+                    with self.subTest(region=region, source=source.name, name=name):
+                        self.assertIsNotNone(region_build.region_symbol_address(name, region))
 
 if __name__ == '__main__':
     unittest.main()
