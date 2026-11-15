@@ -151,6 +151,34 @@ function):
 Most other USA functions differ from EU only in literal-pool addresses and
 regional constants; they need regional symbol addresses, not new source.
 
+Japan (AU2J) has 27 region-only functions in `src/regions/jp/jp_only.c`. The
+same alignment pairs 2006 of 2035 Japanese functions with an EU function; of
+the 29 unpaired entries, `08065274` and `08065428` are not functions but
+interior blocks (no prologue) of the Japanese `TaskResolveCoordinatedAttack`
+(EU `sub_0806441C`, Japan `080649F4`). Japanese layout differences used by
+these sources: player records are 0x154 bytes with the flags word at +0x38
+(EU 0x14C and +0x30) based at `03003D80`, enemy records are 0x454 bytes, text
+is 16-bit ending in `0xFFFD`, and digit glyphs start at `0xEF` (EU/USA `0x41`).
+
+| Japan address | Size | EU relation |
+| --- | ---: | --- |
+| `0801A1F4` | 0x32 | Same code as USA `0801A1C8` (16-bit `CountRenderableScriptGlyphs`) |
+| `0801C87C` | 0x7C | `AddExperienceAndAdvanceOneLevel` (`sub_0801E4CC`) with the Japanese player layout |
+| `0802A01C` | 0xC0 | `HandleOverlapCallbackAndExit` (`sub_08058334`) moved in link order; player stride 0x154 |
+| `0805E734` | 0x1B0 | Same code as USA `0805E02C`; unreferenced |
+| `08068508` | 0x5C | `EnqueueLinkEntityPosition` (`sub_080663A4`), enemy stride 0x454 |
+| `08081E08` | 0xC0 | USA `080813D8` form of `ExpandEncodedTextUnsignedNumberToken` with glyph base `0xEF` |
+| 21 dialogue functions | 0xA8-0xB8 | EU `sub_08058E54`-`sub_0805A1B4` dialogue runners, placed next to their scenes |
+
+The 21 dialogue functions are the EU runners identified by text id
+(`RunLockedDialogue1261`, `RunFacingDialogue263/421/422/423`,
+`RunPostRestInteractionDialogue`, `RunLockedDialogue292`, the Quincy, Romblem,
+Pelign, Cognito, Delongue, Vegitar, Hoursey, Hiryu and Oldie dialogues,
+`RunActorMessage538/539/383/384` and `ShowSceneInteractionMessage`). EU keeps
+them together in one module; Japan links each one into the module of its
+scene. They come in three shapes: 0xB8 turns the entity toward the player and
+restores its facing, 0xB4 only turns it, and 0xA8 turns nothing.
+
 ## Speedrun research
 
 The supplied USA movie was recorded for VBA-rr. A fresh BizHawk/mGBA replay did
