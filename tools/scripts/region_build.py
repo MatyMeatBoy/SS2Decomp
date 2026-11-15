@@ -184,6 +184,124 @@ def linked_symbols_and_fragments(elf_path, assembly_dir):
     return symbols, fragments
 
 
+REGION_SYMBOL = re.compile(r'(?P<region>usa|jp)_(?P<kind>sub|gUnk)_(?P<address>[0-9A-F]{8})')
+GAME_CC1 = ['tools/agbcc/bin/agbcc', '-mthumb-interwork', '-Wimplicit', '-Wparentheses', '-O2',
+            '-fhex-asm', '-fprologue-bugfix']
+GAME_CPP = ['-nostdinc', '-I', 'tools/agbcc/include', '-iquote', 'include', '-undef', '-std=gnu17']
+
+
+def region_symbol_address(name, region):
+    """usa_sub_0801A1C8 / usa_gUnk_03005EBC name a regional address; functions get the Thumb bit."""
+    match = REGION_SYMBOL.fullmatch(name)
+    if not match or match['region'] != region:
+        return None
+    address = int(match['address'], 16)
+    return address | 1 if match['kind'] == 'sub' else address
+
+
+def region_only_fragments(region, target_rom, out, prefix='arm-none-eabi-'):
+    """Compile src/regions/<region>/*.c with the game compiler.
+
+    Every definition must be named <region>_sub_<ADDRESS>; it is placed at that address and must
+    reproduce the regional ROM bytes there. References to <region>_sub_/<region>_gUnk_ symbols are
+    resolved from their names; any other symbol resolves through the normal EU build.
+    """
+    sources = sorted((ROOT / 'src/regions' / region).glob('*.c'))
+    fragments, references, called = [], set(), set()
+    work = Path(out) / 'region_only'
+    work.mkdir(parents=True, exist_ok=True)
+    for source in sources:
+        stem = work / source.stem
+        run([prefix + 'cpp', *GAME_CPP, source, '-o', stem.with_suffix('.i')], stem.with_suffix('.cpp.log'))
+        run([*GAME_CC1, stem.with_suffix('.i'), '-o', stem.with_suffix('.s')], stem.with_suffix('.cc1.log'))
+        text = stem.with_suffix('.s').read_text(encoding='utf-8')
+        called |= set(re.findall(r'^\s*bl\s+(' + IDENTIFIER + r')\s*$', text, re.M))
+        run([prefix + 'as', '-mcpu=arm7tdmi', '-o', stem.with_suffix('.o'), stem.with_suffix('.s')],
+            stem.with_suffix('.as.log'))
+        with stem.with_suffix('.o').open('rb') as stream:
+            elf = ELFFile(stream)
+            table = elf.get_section_by_name('.symtab')
+            sizes = {sym.name: int(sym['st_size']) for sym in table.iter_symbols()
+                     if sym['st_info']['type'] == 'STT_FUNC'}
+            references |= {sym.name for sym in table.iter_symbols()
+                           if sym.name and sym['st_shndx'] == 'SHN_UNDEF'}
+        for name, assembly in extract_functions(text).items():
+            address = region_symbol_address(name, region)
+            if address is None or not address & 1:
+                raise RegionError('%s: regional definition %s must be named %s_sub_<ADDRESS>'
+                                  % (source.name, name, region))
+            address &= ~1
+            size = sizes.get(name, 0)
+            offset = address - ROM_BASE
+            if size <= 0 or offset < 0 or offset + size > len(target_rom):
+                raise RegionError('Regional function outside the ROM: %s' % name)
+            fragments.append(Fragment(name, address, target_rom[offset:offset + size], assembly,
+                                      'regions/%s/%s' % (region, source.stem)))
+    symbols = {}
+    for name in references:
+        address = region_symbol_address(name, region)
+        if address is not None:
+            symbols[name] = address
+    return fragments, symbols, references & called
+
+
+def relocated_fragments(region, fragments, selected, target_rom, eu_symbols):
+    """EU C functions that a regional ROM keeps with identical code at another address.
+
+    tools/config/region_symbols_<region>.json (written by region_symbols.py) maps the EU address
+    of each such function to its regional address, and the EU value of every symbol it references
+    to the regional value. The EU compiler assembly is reused unchanged except that those references
+    (and the function's own label) are renamed into a __<region>_ namespace, so the EU values stay
+    available to same-address fragments. Returns (fragments, symbols, called names).
+    """
+    path = ROOT / 'tools/config' / ('region_symbols_%s.json' % region)
+    if not path.exists():
+        return [], {}, set()
+    table = json.loads(path.read_text(encoding='utf-8'))
+    if table.get('region') != region:
+        raise RegionError('%s is not the %s symbol table' % (path.name, region))
+    functions = {int(eu, 16): int(value, 16) for eu, value in table['functions'].items()}
+    values = {int(eu, 16): int(value, 16) for eu, value in table['symbols'].items()}
+    by_address = {fragment.address: fragment for fragment in fragments}
+    taken = {fragment.name for fragment in selected}
+    prefix = '__%s_' % region
+    result, symbols, called = [], {}, set()
+    for eu, address in functions.items():
+        fragment = by_address.get(eu)
+        if fragment is None:
+            raise RegionError('%s places 0x%08X, which is not an EU C function' % (path.name, eu))
+        if fragment.name in taken:
+            continue
+        tokens = set(re.findall(r'(?<![\w.$])' + IDENTIFIER, fragment.assembly))
+        renamed = {name for name in tokens if name in eu_symbols}
+        for name in renamed - {fragment.name}:
+            if eu_symbols[name] not in values:
+                raise RegionError('%s: no %s value for %s' % (fragment.name, region, name))
+            symbols[prefix + name] = values[eu_symbols[name]]
+        assembly = re.sub(r'(?<![\w.$])(' + IDENTIFIER + r')',
+                          lambda match: prefix + match[1] if match[1] in renamed else match[1],
+                          fragment.assembly)
+        called |= set(re.findall(r'^\s*bl\s+(' + IDENTIFIER + r')\s*$', assembly, re.M))
+        offset = address - ROM_BASE
+        result.append(Fragment(prefix + fragment.name, address,
+                               target_rom[offset:offset + len(fragment.data)], assembly, fragment.module))
+    return result, symbols, called
+
+
+def thumb_call_targets(references, symbols):
+    """Absolute Thumb entries for BL targets of region-only code (BL needs a Thumb symbol, not an ABS value).
+
+    Names that are only used as data (function pointers) keep their linker value with the Thumb bit."""
+    lines = []
+    for name in sorted(references):
+        value = symbols.get(name)
+        if value is None:
+            raise RegionError('Unresolved regional reference: %s' % name)
+        if value & 1 and re.fullmatch(IDENTIFIER, name):
+            lines.append('.thumb_set %s, 0x%08x' % (name, value & ~1))
+    return '\n'.join(lines) + '\n' if lines else ''
+
+
 def validate_output_paths(rom, out, output):
     references = {Path(rom).resolve(), (ROOT / 'baserom.gba').resolve(),
                   (ROOT / 'baserom_usa.gba').resolve(), (ROOT / 'baserom_jp.gba').resolve()}
@@ -215,10 +333,25 @@ def build(region, rom, out, output, prefix='arm-none-eabi-'):
     selected = select_fragments(fragments, eu_data, target_data)
     if not selected:
         raise RegionError('No verified shared C intervals; refusing a reference-only output')
+    relocated, relocated_symbols, relocated_calls = relocated_fragments(region, fragments, selected,
+                                                                       target_data, symbols)
+    regional, regional_symbols, regional_refs = region_only_fragments(region, target_data, out, prefix)
+    regional_symbols = {**relocated_symbols, **regional_symbols}
+    for name, value in regional_symbols.items():
+        if name in symbols and symbols[name] != value:
+            raise RegionError('Regional symbol conflicts with the EU build: %s' % name)
+        symbols[name] = value
+    shared_count = len(selected)
+    selected = validate_intervals(selected + relocated + regional, len(target_data))
     layout, gaps = render_layout(rom, identity['size'], selected)
+    defined = {item.name for item in selected}
+    thumb_targets = thumb_call_targets((regional_refs | relocated_calls) - defined, symbols)
+    layout += thumb_targets
+    set_names = set(re.findall(r'^\.thumb_set (\S+),', thumb_targets, re.M))
     assembly_path, script_path = out / 'layout.s', out / 'layout.ld'
     assembly_path.write_text(layout, encoding='utf-8', newline='\n')
-    script_path.write_text(render_linker(symbols, {item.name for item in selected}, identity['size']),
+    script_path.write_text(render_linker(symbols, {item.name for item in selected} | set_names,
+                                         identity['size']),
                            encoding='utf-8', newline='\n')
     elf_path, binary_path = out / 'linked.elf', out / 'linked.gba'
     link_layout(assembly_path, script_path, elf_path, binary_path, prefix)
@@ -239,9 +372,12 @@ def build(region, rom, out, output, prefix='arm-none-eabi-'):
             if result[offset:offset + len(fragment.data)] != fragment.data:
                 raise RegionError('C interval changed: %s' % fragment.name)
     compiled_bytes = sum(len(item.data) for item in selected)
+    regional_names = {item.name for item in regional}
+    relocated_names = {item.name for item in relocated}
+    relocated_prefix = '__%s_' % region
     report = {
         'schema_version': 1, 'region': region, 'identity': identity,
-        'method': 'same-address exact normal C intervals with explicit reference-byte gaps',
+        'method': 'exact normal C intervals (same-address and relocated EU, region-only) with explicit reference-byte gaps',
         'eu_source_rom_sha256': eu_identity['sha256'],
         'compiled_intervals': len(selected), 'compiled_interval_bytes': compiled_bytes,
         'reference_bytes': sum(length for _, length in gaps), 'rom_bytes': len(result),
@@ -249,15 +385,26 @@ def build(region, rom, out, output, prefix='arm-none-eabi-'):
         'limitation': 'This is not full regional C coverage or the EU matching/name percentage. Unchanged addresses do not establish a general regional relocation map.',
         'functions': [{'canonical_eu_symbol': item.name, 'address': '0x%08X' % item.address,
                        'bytes': len(item.data), 'module': item.module,
-                       'sha256': hashlib.sha256(item.data).hexdigest()} for item in selected],
+                       'sha256': hashlib.sha256(item.data).hexdigest()}
+                      for item in selected if item.name not in regional_names | relocated_names],
+        'relocated_functions': [{'canonical_eu_symbol': item.name[len(relocated_prefix):],
+                                 'address': '0x%08X' % item.address, 'bytes': len(item.data),
+                                 'module': item.module, 'sha256': hashlib.sha256(item.data).hexdigest()}
+                                for item in selected if item.name in relocated_names],
+        'region_only_functions': [{'symbol': item.name, 'address': '0x%08X' % item.address,
+                                   'bytes': len(item.data), 'module': item.module,
+                                   'sha256': hashlib.sha256(item.data).hexdigest()}
+                                  for item in selected if item.name in regional_names],
     }
     (out / 'report.json').write_text(json.dumps(report, indent=2) + '\n', encoding='utf-8')
     output.parent.mkdir(parents=True, exist_ok=True)
     shutil.copyfile(binary_path, output)
     shutil.copyfile(elf_path, output.with_suffix('.elf'))
     print('%s: OK (%s)' % (output.name, identity['sha1']))
-    print('%s compiled C intervals, %s bytes; %s reference bytes. Regional C coverage is incomplete.' %
-          (len(selected), compiled_bytes, report['reference_bytes']))
+    print('%s compiled C intervals (%s same-address EU, %s relocated EU, %s region-only), %s bytes; '
+          '%s reference bytes. Regional C coverage is incomplete.' %
+          (len(selected), shared_count, len(relocated), len(regional), compiled_bytes,
+           report['reference_bytes']))
     return report
 
 
