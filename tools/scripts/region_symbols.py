@@ -22,6 +22,7 @@ table. It holds addresses only (no ROM bytes). The regional build still requires
 hash to match, so a wrong entry cannot be admitted silently. Run after a normal EU `make compare`.
 """
 import argparse
+import bisect
 from collections import defaultdict
 import json
 from pathlib import Path
@@ -196,9 +197,38 @@ def derive(rom):
                 address - region_build.ROM_BASE:][:len(fragment.data)] == fragment.data):
             placed[fragment.name] = address
             needs[fragment.name] = found
+    # The running delta misses functions after a run of regional differences; retry each remaining
+    # function with the shift of the placed functions on either side of it.
+    sizes = {fragment.name: len(fragment.data) for fragment in fragments}
+    by_name = {fragment.name: fragment for fragment in fragments}
+    ordered = sorted(placed, key=lambda name: by_name[name].address)
+    for fragment in fragments:
+        relocs = relocations.get(fragment.name)
+        if fragment.name in placed or relocs is None or not self_contained(fragment, relocs, symbols):
+            continue
+        eu_order = [by_name[name].address for name in ordered]
+        index = bisect.bisect_left(eu_order, fragment.address)
+        neighbours = [ordered[item] for item in (index - 1, index) if 0 <= item < len(ordered)]
+        candidates = []
+        for name in neighbours:
+            address = fragment.address + placed[name] - by_name[name].address
+            low = placed[neighbours[0]] + sizes[neighbours[0]] if index > 0 else region_build.ROM_BASE
+            high = placed[neighbours[-1]] if index < len(ordered) else rom_end
+            if address in candidates or not low <= address or address + len(fragment.data) > high:
+                continue
+            if address == fragment.address and target_rom[address - region_build.ROM_BASE:][
+                    :len(fragment.data)] == fragment.data:
+                continue
+            found = resolve(fragment, relocs, symbols, eu_rom, target_rom, address)
+            if found is not None:
+                candidates.append(address)
+                result = found
+        if len(candidates) == 1:
+            placed[fragment.name] = candidates[0]
+            needs[fragment.name] = result
+            ordered.insert(index, fragment.name)
     # Resolve every symbol; drop conflicting symbols, overlapping placements and the functions that
     # need them.
-    sizes = {fragment.name: len(fragment.data) for fragment in fragments}
     while True:
         ordered = sorted(placed, key=placed.get)
         for first, second in zip(ordered, ordered[1:]):

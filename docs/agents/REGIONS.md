@@ -53,9 +53,9 @@ SHA-256 values are pinned in `tools/config/rom_regions.json`.
 
 ## Coverage and limitations
 
-The verified USA build contains 1,257 compiler-backed C intervals (16 same-address
-EU, 1,237 relocated EU, 4 region-only) totaling 165,148 bytes; Japan contains
-1,250 (16, 1,207 and 27) totaling 162,924 bytes. Consult each generated report for the actual current counts, canonical EU symbols, addresses,
+The verified USA build contains 1,265 compiler-backed C intervals (16 same-address
+EU, 1,245 relocated EU, 4 region-only) totaling 165,792 bytes; Japan contains
+1,270 (16, 1,227 and 27) totaling 164,410 bytes. Consult each generated report for the actual current counts, canonical EU symbols, addresses,
 sizes and per-function hashes. The admitted intervals include complete function
 literal pools. Top-level assembly and `INCLUDE_ASM` fallbacks receive no C credit.
 
@@ -148,7 +148,8 @@ python3 tools/scripts/region_symbols.py --region jp
 `region_symbols.py` pairs each EU C function with the regional address where all
 non-relocated bytes are identical (tracking the running address shift, with a
 unique-match search nearby and a pass for functions located by their callers' BL
-targets). It then solves each relocation for the regional value of its symbol.
+targets, and a pass that retries the shift of the placed functions on either
+side). It then solves each relocation for the regional value of its symbol.
 A symbol with two different regional values is dropped, together with every
 function that needs it. Functions whose assembly uses a symbol the assembler
 resolved inside the EU object (no relocation) are skipped. The tables hold
