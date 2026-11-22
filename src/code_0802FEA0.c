@@ -1950,7 +1950,7 @@ void sub_08033C40(u32 arg0){
  u8 *data;
  u32 dialog;
  u8 *selected;u32 value;
- {struct Player *p;register u32 idx asm("r2");idx=sub_080020F4();idx*=0x14C;p=(struct Player *)((u8 *)gUnk_03003CE0+idx);p->flags|=1;}
+ {struct Player *p;register u32 idx asm("r2");idx=sub_080020F4();idx*=PLAYER_SIZE;p=(struct Player *)((u8 *)gUnk_03003CE0+idx);p->flags|=1;}
  sub_0800D0F4();
  if(sub_0800CE30()){base=state33C40;field=0x1BF;selected=base+field;}else{off=0x1B3;selected=state33C40+off;}
  switch(*selected){case 0:goto case0;case 1:goto case1;case 2:goto case2;case 3:goto case3;case 4:goto case4;case 5:goto case5;default:goto done;}
@@ -2088,7 +2088,7 @@ case5:
  dialog=sub_0805DF38(1,15,2,0,-1,0x1401C5);
  while(!sub_0805EEFC((void *)dialog)){if(sub_0800CDF8()){sub_0805EFBC();break;}sub_080003F0();}
 done:
- {struct Player *p;register u32 idx asm("r2");idx=sub_080020F4();idx*=0x14C;p=(struct Player *)((u8 *)gUnk_03003CE0+idx);p->flags &= ~1;}sub_0800D108();
+ {struct Player *p;register u32 idx asm("r2");idx=sub_080020F4();idx*=PLAYER_SIZE;p=(struct Player *)((u8 *)gUnk_03003CE0+idx);p->flags &= ~1;}sub_0800D108();
 }
 extern void sub_08029174(s32,s32);
 extern void sub_0802926C(s32,s32);
@@ -3017,7 +3017,7 @@ while (sub_0805EF90() != 0) { sub_080003F0(); }
 while (sub_0805EEFC((void *) temp_r4_3) == 0) { if (sub_0800CDF8() != 0) { sub_0805EFBC(); break; } sub_080003F0(); }
                 var_r3 = 0;
                 var_r2 = 0;
-                var_r1_2 = (struct Cmd35B18 *)(inv35B18 + 0x150);
+                var_r1_2 = (struct Cmd35B18 *)(inv35B18 + SAVE_FIELD(0x150));
                 do {
                     if ((*(u16 *)var_r1_2 == 8) && (*(u16 *)((u8 *)var_r1_2 + 2) == 6)) {
                         var_r3 += 1;
@@ -3037,9 +3037,9 @@ while (sub_0805EEFC((void *) temp_r4_4) == 0) { sub_080003F0(); }
                         left=3;scan=0;data=sp8.data;inventory=&inv35B18;zero=0;
                         do {
                             u8 *slot; register u8 *v asm("r0"); u32 k; u16 *kind;
-                            v=*inventory;slot=v+scan*16;k=0x150;kind=(u16 *)(slot+k);
+                            v=*inventory;slot=v+scan*16;k=SAVE_FIELD(0x150);kind=(u16 *)(slot+k);
                             if(*kind!=8)goto next1;
-                            { u16 *value; k=0x152;value=(u16 *)(slot+k);if(*value!=6)goto next1;left--;*kind=zero;*value=zero;if(!left)goto removed1; }
+                            { u16 *value; k=SAVE_FIELD(0x152);value=(u16 *)(slot+k);if(*value!=6)goto next1;left--;*kind=zero;*value=zero;if(!left)goto removed1; }
 next1: scan++;
                         }while(scan<=24);
 removed1:
@@ -3071,7 +3071,7 @@ while (sub_0805EF90() != 0) { sub_080003F0(); }
 while (sub_0805EEFC((void *) temp_r4_7) == 0) { if (sub_0800CDF8() != 0) { sub_0805EFBC(); break; } sub_080003F0(); }
                 var_r3_3 = 0;
                 var_r2_2 = 0;
-                var_r1_4 = (struct Cmd35B18 *)(inv35B18 + 0x150);
+                var_r1_4 = (struct Cmd35B18 *)(inv35B18 + SAVE_FIELD(0x150));
                 do {
                     if ((*(u16 *)var_r1_4 == 8) && (*(u16 *)((u8 *)var_r1_4 + 2) == 0x23)) {
                         var_r3_3 += 1;
@@ -3091,9 +3091,9 @@ while (sub_0805EEFC((void *) temp_r4_8) == 0) { sub_080003F0(); }
                         left=3;scan=0;data=sp8.data;inventory=&inv35B18;zero=0;
                         do {
                             u8 *slot; register u8 *v asm("r0"); u32 k; u16 *kind;
-                            v=*inventory;slot=v+scan*16;k=0x150;kind=(u16 *)(slot+k);
+                            v=*inventory;slot=v+scan*16;k=SAVE_FIELD(0x150);kind=(u16 *)(slot+k);
                             if(*kind!=8)goto next2;
-                            { u16 *value; k=0x152;value=(u16 *)(slot+k);if(*value!=0x23)goto next2;left--;*kind=zero;*value=zero;if(!left)goto removed2; }
+                            { u16 *value; k=SAVE_FIELD(0x152);value=(u16 *)(slot+k);if(*value!=0x23)goto next2;left--;*kind=zero;*value=zero;if(!left)goto removed2; }
 next2: scan++;
                         }while(scan<=24);
 removed2:
@@ -3125,7 +3125,7 @@ while (sub_0805EF90() != 0) { sub_080003F0(); }
 while (sub_0805EEFC((void *) temp_r4_11) == 0) { if (sub_0800CDF8() != 0) { sub_0805EFBC(); break; } sub_080003F0(); }
                 var_r3_5 = 0;
                 var_r2_3 = 0;
-                var_r1_6 = (struct Cmd35B18 *)(inv35B18 + 0x150);
+                var_r1_6 = (struct Cmd35B18 *)(inv35B18 + SAVE_FIELD(0x150));
                 do {
                     if ((*(u16 *)var_r1_6 == 8) && (*(u16 *)((u8 *)var_r1_6 + 2) == 0x41)) {
                         var_r3_5 += 1;
@@ -3145,9 +3145,9 @@ while (sub_0805EEFC((void *) temp_r4_12) == 0) { sub_080003F0(); }
                         left=3;scan=0;data=sp8.data;inventory=&inv35B18;zero=0;
                         do {
                             u8 *slot; register u8 *v asm("r0"); u32 k; u16 *kind;
-                            v=*inventory;slot=v+scan*16;k=0x150;kind=(u16 *)(slot+k);
+                            v=*inventory;slot=v+scan*16;k=SAVE_FIELD(0x150);kind=(u16 *)(slot+k);
                             if(*kind!=8)goto next3;
-                            { u16 *value; k=0x152;value=(u16 *)(slot+k);if(*value!=0x41)goto next3;left--;*kind=zero;*value=zero;if(!left)goto removed3; }
+                            { u16 *value; k=SAVE_FIELD(0x152);value=(u16 *)(slot+k);if(*value!=0x41)goto next3;left--;*kind=zero;*value=zero;if(!left)goto removed3; }
 next3: scan++;
                         }while(scan<=24);
 removed3:
@@ -3179,7 +3179,7 @@ while (sub_0805EF90() != 0) { sub_080003F0(); }
 while (sub_0805EEFC((void *) temp_r4_15) == 0) { if (sub_0800CDF8() != 0) { sub_0805EFBC(); break; } sub_080003F0(); }
                 var_r3_7 = 0;
                 var_r2_4 = 0;
-                var_r1_8 = (struct Cmd35B18 *)(inv35B18 + 0x150);
+                var_r1_8 = (struct Cmd35B18 *)(inv35B18 + SAVE_FIELD(0x150));
                 do {
                     if ((*(u16 *)var_r1_8 == 8) && (*(u16 *)((u8 *)var_r1_8 + 2) == 0x59)) {
                         var_r3_7 += 1;
@@ -3199,9 +3199,9 @@ while (sub_0805EEFC((void *) temp_r4_16) == 0) { sub_080003F0(); }
                         left=3;scan=0;data=sp8.data;inventory=&inv35B18;asm("" : "+r"(inventory));zero=0;
                         do {
                             u8 *slot; register u8 *v asm("r0"); u32 k; u16 *kind;
-                            v=*inventory;slot=v+scan*16;k=0x150;kind=(u16 *)(slot+k);
+                            v=*inventory;slot=v+scan*16;k=SAVE_FIELD(0x150);kind=(u16 *)(slot+k);
                             if(*kind!=8)goto next4;
-                            { u16 *value; k=0x152;value=(u16 *)(slot+k);if(*value!=0x59)goto next4;left--;*kind=zero;*value=zero;if(!left)goto removed4; }
+                            { u16 *value; k=SAVE_FIELD(0x152);value=(u16 *)(slot+k);if(*value!=0x59)goto next4;left--;*kind=zero;*value=zero;if(!left)goto removed4; }
 next4: scan++;
                         }while(scan<=24);
 removed4:
@@ -3233,7 +3233,7 @@ while (sub_0805EF90() != 0) { sub_080003F0(); }
 while (sub_0805EEFC((void *) temp_r4_19) == 0) { if (sub_0800CDF8() != 0) { sub_0805EFBC(); break; } sub_080003F0(); }
                 var_r3_9 = 0;
                 var_r2_5 = 0;
-                var_r1_10 = (struct Cmd35B18 *)(inv35B18 + 0x150);
+                var_r1_10 = (struct Cmd35B18 *)(inv35B18 + SAVE_FIELD(0x150));
                 do {
                     if ((*(u16 *)var_r1_10 == 8) && (*(u16 *)((u8 *)var_r1_10 + 2) == 0x6F)) {
                         var_r3_9 += 1;
@@ -3251,9 +3251,9 @@ while (sub_0805EEFC((void *) temp_r4_21) == 0) { sub_080003F0(); }
                         left=3;scan=0;data=sp8.data;inventory=&inv35B18;zero=0;
                         do {
                             u8 *slot; register u8 *v asm("r0"); u32 k; u16 *kind;
-                            v=*inventory;slot=v+scan*16;k=0x150;kind=(u16 *)(slot+k);
+                            v=*inventory;slot=v+scan*16;k=SAVE_FIELD(0x150);kind=(u16 *)(slot+k);
                             if(*kind!=8)goto next5;
-                            { u16 *value; k=0x152;value=(u16 *)(slot+k);if(*value!=0x6F)goto next5;left--;*kind=zero;*value=zero;if(!left)goto removed5; }
+                            { u16 *value; k=SAVE_FIELD(0x152);value=(u16 *)(slot+k);if(*value!=0x6F)goto next5;left--;*kind=zero;*value=zero;if(!left)goto removed5; }
 next5: scan++;
                         }while(scan<=24);
 removed5:
@@ -3460,7 +3460,7 @@ while (sub_0805EF90() != 0) { sub_080003F0(); }
 while (sub_0805EEFC((void *) temp_r4_3) == 0) { if (sub_0800CDF8() != 0) { sub_0805EFBC(); break; } sub_080003F0(); }
                 var_r3 = 0;
                 var_r2 = 0;
-                var_r1_2 = (struct Cmd368F4 *)(inv368F4 + 0x150);
+                var_r1_2 = (struct Cmd368F4 *)(inv368F4 + SAVE_FIELD(0x150));
                 do {
                     if ((*(u16 *)var_r1_2 == 8) && (*(u16 *)((u8 *)var_r1_2 + 2) == 0)) {
                         var_r3 += 1;
@@ -3480,9 +3480,9 @@ while (sub_0805EEFC((void *) temp_r4_4) == 0) { sub_080003F0(); }
                         left=3;scan=0;data=sp8.data;inventoryFirst=&inv368F4;
                         do {
                             u8 *slot; register u8 *v asm("r0"); u32 k; u16 *kind;
-                            v=*inventoryFirst;slot=v+scan*16;k=0x150;kind=(u16 *)(slot+k);
+                            v=*inventoryFirst;slot=v+scan*16;k=SAVE_FIELD(0x150);kind=(u16 *)(slot+k);
                             if(*kind!=8)goto next1;
-                            { register u16 *value asm("r1"); k=0x152;value=(u16 *)(slot+k);k=*value;if(k!=0)goto next1;left--;*kind=k;*value=k;if(!left)goto removed1; }
+                            { register u16 *value asm("r1"); k=SAVE_FIELD(0x152);value=(u16 *)(slot+k);k=*value;if(k!=0)goto next1;left--;*kind=k;*value=k;if(!left)goto removed1; }
 next1: scan++;
                         }while(scan<=24);
 removed1:
@@ -3514,7 +3514,7 @@ while (sub_0805EF90() != 0) { sub_080003F0(); }
 while (sub_0805EEFC((void *) temp_r4_7) == 0) { if (sub_0800CDF8() != 0) { sub_0805EFBC(); break; } sub_080003F0(); }
                 var_r3_3 = 0;
                 var_r2_2 = 0;
-                var_r1_4 = (struct Cmd368F4 *)(inv368F4 + 0x150);
+                var_r1_4 = (struct Cmd368F4 *)(inv368F4 + SAVE_FIELD(0x150));
                 do {
                     if ((*(u16 *)var_r1_4 == 8) && (*(u16 *)((u8 *)var_r1_4 + 2) == 0x2B)) {
                         var_r3_3 += 1;
@@ -3534,9 +3534,9 @@ while (sub_0805EEFC((void *) temp_r4_8) == 0) { sub_080003F0(); }
                         left=3;scan=0;data=sp8.data;inventory=&inv368F4;zero=0;
                         do {
                             u8 *slot; register u8 *v asm("r0"); u32 k; u16 *kind;
-                            v=*inventory;slot=v+scan*16;k=0x150;kind=(u16 *)(slot+k);
+                            v=*inventory;slot=v+scan*16;k=SAVE_FIELD(0x150);kind=(u16 *)(slot+k);
                             if(*kind!=8)goto next2;
-                            { u16 *value; k=0x152;value=(u16 *)(slot+k);if(*value!=0x2B)goto next2;left--;*kind=zero;*value=zero;if(!left)goto removed2; }
+                            { u16 *value; k=SAVE_FIELD(0x152);value=(u16 *)(slot+k);if(*value!=0x2B)goto next2;left--;*kind=zero;*value=zero;if(!left)goto removed2; }
 next2: scan++;
                         }while(scan<=24);
 removed2:
@@ -3568,7 +3568,7 @@ while (sub_0805EF90() != 0) { sub_080003F0(); }
 while (sub_0805EEFC((void *) temp_r4_11) == 0) { if (sub_0800CDF8() != 0) { sub_0805EFBC(); break; } sub_080003F0(); }
                 var_r3_5 = 0;
                 var_r2_3 = 0;
-                var_r1_6 = (struct Cmd368F4 *)(inv368F4 + 0x150);
+                var_r1_6 = (struct Cmd368F4 *)(inv368F4 + SAVE_FIELD(0x150));
                 do {
                     if ((*(u16 *)var_r1_6 == 8) && (*(u16 *)((u8 *)var_r1_6 + 2) == 0x50)) {
                         var_r3_5 += 1;
@@ -3588,9 +3588,9 @@ while (sub_0805EEFC((void *) temp_r4_12) == 0) { sub_080003F0(); }
                         left=3;scan=0;data=sp8.data;inventory=&inv368F4;zero=0;
                         do {
                             u8 *slot; register u8 *v asm("r0"); u32 k; u16 *kind;
-                            v=*inventory;slot=v+scan*16;k=0x150;kind=(u16 *)(slot+k);
+                            v=*inventory;slot=v+scan*16;k=SAVE_FIELD(0x150);kind=(u16 *)(slot+k);
                             if(*kind!=8)goto next3;
-                            { u16 *value; k=0x152;value=(u16 *)(slot+k);if(*value!=0x50)goto next3;left--;*kind=zero;*value=zero;if(!left)goto removed3; }
+                            { u16 *value; k=SAVE_FIELD(0x152);value=(u16 *)(slot+k);if(*value!=0x50)goto next3;left--;*kind=zero;*value=zero;if(!left)goto removed3; }
 next3: scan++;
                         }while(scan<=24);
 removed3:
@@ -3622,7 +3622,7 @@ while (sub_0805EF90() != 0) { sub_080003F0(); }
 while (sub_0805EEFC((void *) temp_r4_15) == 0) { if (sub_0800CDF8() != 0) { sub_0805EFBC(); break; } sub_080003F0(); }
                 var_r3_7 = 0;
                 var_r2_4 = 0;
-                var_r1_8 = (struct Cmd368F4 *)(inv368F4 + 0x150);
+                var_r1_8 = (struct Cmd368F4 *)(inv368F4 + SAVE_FIELD(0x150));
                 do {
                     if ((*(u16 *)var_r1_8 == 8) && (*(u16 *)((u8 *)var_r1_8 + 2) == 0x5C)) {
                         var_r3_7 += 1;
@@ -3642,9 +3642,9 @@ while (sub_0805EEFC((void *) temp_r4_16) == 0) { sub_080003F0(); }
                         left=3;scan=0;data=sp8.data;inventory=&inv368F4;zero=0;
                         do {
                             u8 *slot; register u8 *v asm("r0"); u32 k; u16 *kind;
-                            v=*inventory;slot=v+scan*16;k=0x150;kind=(u16 *)(slot+k);
+                            v=*inventory;slot=v+scan*16;k=SAVE_FIELD(0x150);kind=(u16 *)(slot+k);
                             if(*kind!=8)goto next4;
-                            { u16 *value; k=0x152;value=(u16 *)(slot+k);if(*value!=0x5C)goto next4;left--;*kind=zero;*value=zero;if(!left)goto removed4; }
+                            { u16 *value; k=SAVE_FIELD(0x152);value=(u16 *)(slot+k);if(*value!=0x5C)goto next4;left--;*kind=zero;*value=zero;if(!left)goto removed4; }
 next4: scan++;
                         }while(scan<=24);
 removed4:
@@ -3676,7 +3676,7 @@ while (sub_0805EF90() != 0) { sub_080003F0(); }
 while (sub_0805EEFC((void *) temp_r4_19) == 0) { if (sub_0800CDF8() != 0) { sub_0805EFBC(); break; } sub_080003F0(); }
                 var_r3_9 = 0;
                 var_r2_5 = 0;
-                var_r1_10 = (struct Cmd368F4 *)(inv368F4 + 0x150);
+                var_r1_10 = (struct Cmd368F4 *)(inv368F4 + SAVE_FIELD(0x150));
                 do {
                     if ((*(u16 *)var_r1_10 == 8) && (*(u16 *)((u8 *)var_r1_10 + 2) == 0x65)) {
                         var_r3_9 += 1;
@@ -3694,9 +3694,9 @@ while (sub_0805EEFC((void *) temp_r4_21) == 0) { sub_080003F0(); }
                         left=3;scan=0;data=sp8.data;inventory=&inv368F4;asm("" : "+r"(inventory));zero=0;
                         do {
                             u8 *slot; register u8 *v asm("r0"); u32 k; u16 *kind;
-                            v=*inventory;slot=v+scan*16;k=0x150;kind=(u16 *)(slot+k);
+                            v=*inventory;slot=v+scan*16;k=SAVE_FIELD(0x150);kind=(u16 *)(slot+k);
                             if(*kind!=8)goto next5;
-                            { u16 *value; k=0x152;value=(u16 *)(slot+k);if(*value!=0x65)goto next5;left--;*kind=zero;*value=zero;if(!left)goto removed5; }
+                            { u16 *value; k=SAVE_FIELD(0x152);value=(u16 *)(slot+k);if(*value!=0x65)goto next5;left--;*kind=zero;*value=zero;if(!left)goto removed5; }
 next5: scan++;
                         }while(scan<=24);
 removed5:

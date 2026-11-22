@@ -5270,7 +5270,7 @@ void sub_0804CBBC(void){
     entry=gUnk_030056F4;idx=0;entryFlags=&gUnk_030056FC;callback=1;zero=0;
 clearFirst:
     if((*entryFlags & (bitTemp=callback<<idx)) && *(u16 *)(entry+0xC)==0xC) *(u16 *)(entry+0xC)=zero;
-    idx++;entry+=0x2E0;
+    idx++;entry+=ENEMY_SIZE;
     if(idx<=4)goto clearFirst;
     sub_08019F04();
     }else{
@@ -5294,7 +5294,7 @@ clearFirst:
     entry=gUnk_030056F4;idx=0;entryFlags=&gUnk_030056FC;callback=1;zero=0;
 clearLast:
     if((*entryFlags & (bitTemp=callback<<idx)) && *(u16 *)(entry+0xC)==0xC) *(u16 *)(entry+0xC)=zero;
-    idx++;entry+=0x2E0;
+    idx++;entry+=ENEMY_SIZE;
     if(idx<=4)goto clearLast;
     sub_08019F04();
     }

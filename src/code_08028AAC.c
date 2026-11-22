@@ -4057,8 +4057,8 @@ loop_238:
         sub_080003F0();
 checkWait238:
         if(sub_0801AAE0()==0) goto loop_238;
-        temp_r2 = (void *)(0x14C * sub_080020F4() + (u32)gUnk_03003CE0);
-        *(u32 *)((u8 *)temp_r2 + 0x30) = (s32) (*(u32 *)((u8 *)temp_r2 + 0x30) & ~1);
+        temp_r2 = (void *)(PLAYER_SIZE * sub_080020F4() + (u32)gUnk_03003CE0);
+        *(u32 *)((u8 *)temp_r2 + PLAYER_FIELD(0x30)) = (s32) (*(u32 *)((u8 *)temp_r2 + PLAYER_FIELD(0x30)) & ~1);
         sub_0800D108();
         return;
     }

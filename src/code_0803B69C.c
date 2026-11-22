@@ -2336,7 +2336,7 @@ done183: ;
 while (n != 0) {sub_080003F0();if(sub_080021A8())break;n=decF454(n);}
         break;
     }
-    var_r0=sub_080020F4();var_r1=0x14C;var_r0*=var_r1;var_r1=(s32)gUnk_03003CE0;var_r0+=var_r1;var_r1=0;*(u16 *)(var_r0+0x20)=var_r1;
+    var_r0=sub_080020F4();var_r1=PLAYER_SIZE;var_r0*=var_r1;var_r1=(s32)gUnk_03003CE0;var_r0+=var_r1;var_r1=0;*(u16 *)(var_r0+PLAYER_FIELD(0x20))=var_r1;
 }
 static inline u32 firstFE34(u8 *base) {u32 bit=1;register u32 result asm("r0")=*(u32 *)(base+0x38);result &= bit;if(result)result=1;return result;}
 static inline u8 testFE34(u32 value, u32 mask) {u32 result=value & mask; if(result)result=1;return result;}

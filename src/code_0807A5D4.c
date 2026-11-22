@@ -1208,7 +1208,7 @@ static inline void Drop82P(vu32 *z, struct Mgr82 **g) { *z = 0; CpuSet((void *)z
 /* Drop82PH: CpuSet's destination is the held pointer already in a register (ROM: mov r1, r9); z remains the zero source. */
 static inline void Drop82PH(vu32 *z, struct Item82 *h, struct Mgr82 **g) { *z = 0; CpuSet((void *)z, h, 0x05000004); (*g)->heldFrom = 0x16; (*g)->heldIdx = 0; }
 #define REFRESH82() { sub_0805AD78(gInv82->equip); sub_0805D094(); sub_0805D0E8(); sub_0805D13C(); }
-struct Player82 { u8 pad[0x77]; u8 f77; u8 f78; u8 pad79[0x8C - 0x79]; s32 f8C; s32 f90; u8 pad94[0xC6 - 0x94]; u16 fC6; u8 rest[0x14C - 0xC8]; };
+struct Player82 { u8 pad[PLAYER_FIELD(0x77)]; u8 f77; u8 f78; u8 pad79[PLAYER_FIELD(0x8C) - PLAYER_FIELD(0x79)]; s32 f8C; s32 f90; u8 pad94[PLAYER_FIELD(0xC6) - PLAYER_FIELD(0x94)]; u16 fC6; u8 rest[PLAYER_SIZE - PLAYER_FIELD(0xC8)]; };
 extern struct Player82 gPlayers82[] asm("gUnk_03003CE0");
 /* Second name for the gMgr82 slot: GCC does not merge it with gMgr82, but it still assembles to a gUnk_03006440 relocation like the ROM. */
 extern struct Mgr82 *gMgr82Slot082 asm("gUnk_03006440");
