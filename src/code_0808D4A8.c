@@ -510,7 +510,7 @@ void sub_0808DB38(u32 arg)
     u32 pr;
     s32 *sprite;
 
-    sub_08065158(anim, 0x50122, 0, -1, 0);
+    sub_08065158(anim, RES_ID(0x50122), 0, -1, 0);
     sub_08000AF0(0x15, (void *)anim[3], 1);
     *(u8 *)&anim[7] = 5;
     switch (arg) {
@@ -552,7 +552,7 @@ void sub_0808DB38(u32 arg)
             if (sub_0800CCCC() == 0) sub_0805865C(0x2E);
             sound = 0;
         }
-        if (hit && (height >> 8) <= 7 && sub_08021FE0(pos, (u8 *)player + 0x8C, &size, &box)) {
+        if (hit && (height >> 8) <= 7 && sub_08021FE0(pos, (u8 *)player + PLAYER_FIELD(0x8C), &size, &box)) {
             hit = 0;
             sub_08029A7C(0, 0x10, 1);
         }
@@ -568,7 +568,7 @@ void sub_0808DB38(u32 arg)
         sub_080003F0();
     }
     if (!sub_0800CCCC()) sub_0805865C(0x29);
-    sub_08065158(anim, 0x50053, 0, -1, 0);
+    sub_08065158(anim, RES_ID(0x50053), 0, -1, 0);
     a1 = 0;
     a0 = 0;
     while (!sub_08065370(anim, 6, (s32)&a0, (s32)&a1, 0)) {
@@ -1073,7 +1073,7 @@ void sub_0808E530_v(u32 arg)
     s32 vis;
 
     if (sub_0800CCCC() == 0) {
-        initE530(sprite, 0x500F1, 0, -1, 0);
+        initE530(sprite, RES_ID(0x500F1), 0, -1, 0);
         switch ((arg >> 16) & 0xFF) {
         case 0:
             frame = 14;

@@ -1023,10 +1023,10 @@ loop:
     i = 0;
     ptr1 = inventory2;
     base = (u8 *)*ptr1;
-    count = (u32 *)(base + 0x154);
+    count = (u32 *)(base + SAVE_FIELD(0x154));
     cursor = (u8 *)*ptr1;
     do {
-        register u32 fieldOffset asm("r7") = 0x150;
+        register u32 fieldOffset asm("r7") = SAVE_FIELD(0x150);
         if (*(u16 *)(cursor + fieldOffset) == 10) {
             u32 value = *count;
             if (value < minimum) { selected = i; minimum = value; }
@@ -1042,7 +1042,7 @@ loop:
             ptr1 = inventory;
             item = (u32 *)*ptr1;
             value = selected * 16;
-            item = (u32 *)((u8 *)item + 0x154);
+            item = (u32 *)((u8 *)item + SAVE_FIELD(0x154));
             item = (u32 *)((u8 *)item + value);
             value = *item - amount;
             *item = value;
@@ -1053,7 +1053,7 @@ loop:
             ptr7 = inventory2;
             base = (u8 *)*ptr7;
             index = selected * 16;
-            base += 0x154;
+            base += SAVE_FIELD(0x154);
             base += index;
             amount -= *(u32 *)base;
             sub_0805D580(selected);
@@ -1061,7 +1061,7 @@ loop:
         }
     } else {
         selected = 75;
-        if (*(u32 *)gUnk_03006440 != 4) { ptr7 = inventory; base = (u8 *)*ptr7; cursor = base + 0x2E0; }
+        if (*(u32 *)gUnk_03006440 != 4) { ptr7 = inventory; base = (u8 *)*ptr7; cursor = base + SAVE_FIELD(0x2E0); }
         else { offset = 0x104; cursor = (u8 *)gUnk_03006440 + offset; }
         i = 0;
         do {
@@ -8743,7 +8743,7 @@ void sub_08086860(void)
     sub_08057624(5);
     sub_08001538((s32)buf);
     gUnk_03001250[7] = 200;
-    obj86860(obj, 0x5011F, 0, 2, 0);
+    obj86860(obj, RES_ID(0x5011F), 0, 2, 0);
     sub_0805865C(0x172);
     sub_0805865C(0x171);
     sub_0805865C(0x178);
@@ -9007,7 +9007,7 @@ dropped:
     sub_0805865C(0x177);
     sub_0801AA8C(0x1E);
     sub_08057624(0x3C);
-    obj86860(obj, 0x5011E, 0, 2, 0);
+    obj86860(obj, RES_ID(0x5011E), 0, 2, 0);
     sub_0800B650(0x45, 0x1E, 0x06000000, 0, 0xF);
     sub_0801AA34(0x1E);
     i = 1;

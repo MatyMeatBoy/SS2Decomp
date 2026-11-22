@@ -770,7 +770,7 @@ u32 sub_0805B0F0(void)
     u32 secondOffset;
     map = &mapObjects;
     base = *map;
-    firstOffset = 0x150;
+    firstOffset = SAVE_FIELD(0x150);
     entry = base + firstOffset;
     do {
         if (*(u16 *)entry == 0xA) first += *(u32 *)(entry + 4);
@@ -780,7 +780,7 @@ u32 sub_0805B0F0(void)
     i = 0;
     map = &mapObjects;
     base = *map;
-    secondOffset = 0x2E0;
+    secondOffset = SAVE_FIELD(0x2E0);
     entry = base + secondOffset;
     do {
         if (*(u16 *)entry == 0xA) second += *(u32 *)(entry + 4);
@@ -2524,7 +2524,7 @@ s32 sub_0805CFA0(void) {
 s32 sub_0805CFCC(void) {
     u32 i;
     u8 *p;
-    for(i=0,p=(u8 *)gUnk_030034E0+0x2E0;i<=24;p+=16,i++) if(*(u16 *)p==0) return i;
+    for(i=0,p=(u8 *)gUnk_030034E0+SAVE_FIELD(0x2E0);i<=24;p+=16,i++) if(*(u16 *)p==0) return i;
     return -1;
 }
 /* [CopyItemToBagSlot] Narrows the supplied index to one byte, substitutes index zero when greater than 24, and
@@ -2539,9 +2539,9 @@ void sub_0805CFF8(u8 index, const struct Entry61 *src)
  * slot zero. No null, empty-slot check or independent physical-capacity clamp. */
 void sub_0805D028(u8 index,const struct Entry61 *src) {
     u8 *base=(u8 *)gUnk_030034E0;
-    s32 count=*(u16 *)(base+0x6A);
+    s32 count=*(u16 *)(base+SAVE_FIELD(0x6A));
     if(index>=count*15) index=0;
-    *(struct Entry61 *)(base+index*16+0x2E0)=*src;
+    *(struct Entry61 *)(base+index*16+SAVE_FIELD(0x2E0))=*src;
 }
 /* [CopyWeaponItemToSelectionSlot] Accepts only kind-2 items, copies all 16 bytes into manager +0x70 + index*16
  * and returns 1; otherwise returns 0. Does not validate index, select the slot or refresh activation. Weapon

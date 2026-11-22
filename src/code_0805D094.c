@@ -200,7 +200,7 @@ s32 sub_0805D404(void) {
 
     var_r3 = 0;
     var_r2 = 0;
-    var_r1 = gUnk_030034E0 + 0x2E0;
+    var_r1 = gUnk_030034E0 + SAVE_FIELD(0x2E0);
     do {
         if (M2C_FIELD(var_r1, u16 *, 0) == 0xA) {
             var_r3 += M2C_FIELD(var_r1, s32 *, 4);
@@ -406,10 +406,10 @@ s32 sub_0805D650(s32 arg0) {
     if (var_r4 < 0) {
         var_r4 = 0;
     }
-    var_r3 = (u8 *)gUnk_030034E0 + ((var_r4 * 0x10) + 0x2E0);
+    var_r3 = (u8 *)gUnk_030034E0 + ((var_r4 * 0x10) + SAVE_FIELD(0x2E0));
     var_r5 = -1;
     var_r2 = var_r4;
-    temp_r0 = M2C_FIELD((void *)gUnk_030034E0,u16 *,0x6A) * 0xF;
+    temp_r0 = M2C_FIELD((void *)gUnk_030034E0,u16 *,SAVE_FIELD(0x6A)) * 0xF;
     
     if (var_r4 < temp_r0) {
         s32 excluded=100000;

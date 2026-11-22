@@ -2018,7 +2018,7 @@ void t21_20F74(s32 arg0, s32 arg1)
     s32 zero;
     u32 tile;
     s32 dx, dy, sx;
-    t21_init20F74(&data, 0x5008C, 1, -1, 0);
+    t21_init20F74(&data, RES_ID(0x5008C), 1, -1, 0);
     sub_08000AF0(23, data.palette, 2);
     data.sprite[0] = 7;
     data.sprite[1] = 8;
@@ -2115,7 +2115,7 @@ void t21_21214(u32 arg0, u32 arg1)
     u16 id;
     s32 zero;
     u32 tile;
-    t21_init21214(&data, 0x50074, 1, -1, 0);
+    t21_init21214(&data, RES_ID(0x50074), 1, -1, 0);
     sub_08000AF0(23, data.palette, 2);
     data.sprite[0] = 7;
     data.sprite[1] = 8;
@@ -2287,7 +2287,7 @@ void t21_216BC(s32 arg0, s32 arg1)
     s32 zero;
     u8 tile;
     s32 dx, dy;
-    t21_init216BC(&data, 0x5008C, 1, -1, 0);
+    t21_init216BC(&data, RES_ID(0x5008C), 1, -1, 0);
     sub_08000AF0(23, data.palette, 2);
     data.sprite[0] = 7;
     data.sprite[1] = 8;
@@ -2458,7 +2458,7 @@ void t21_21AD8(u32 arg0, u32 arg1)
     u8 tile;
     zero = sub_0800CD34();
     if (zero != 0) return;
-    t21_init21AD8(&data, 0x5008C, 1, -1, zero);
+    t21_init21AD8(&data, RES_ID(0x5008C), 1, -1, zero);
     data.sprite[0] = 7;
     data.sprite[1] = 8;
     sub_08000AF0(23, data.palette, 2);

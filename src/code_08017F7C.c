@@ -1564,7 +1564,7 @@ void sub_0801A6D4(u32 mode)
     u32 resource;
     switch (mode) {
     case 0: resource = 0x80006; goto load;
-    case 1: resource = 0x8004A;
+    case 1: resource = RES_ID(0x8004A);
 load:
         base = (u8 *)sub_08006EE0(resource, (void *)&gUnk_08518938);
     }
@@ -1580,7 +1580,7 @@ void sub_0801A70C(void)
     count = sub_08007164(4);
     for (i = 0; i < count; i++)
         gUnk_03005CA0[i] = sub_08007290(i | 0x40000);
-    sub_08065158(gUnk_03005C60, 0x5004A, 0, -1, 0);
+    sub_08065158(gUnk_03005C60, RES_ID(0x5004A), 0, -1, 0);
 }
 /* [DrawScriptGlyphStringAsSprites] Walks bytes until 0xFD or a value above 0xF1, passes frame (u16)(byte - 1)
  * to 65230 using descriptor 03005C60, and advances X by 8 with 16-bit wrap. Byte zero passes frame 65535

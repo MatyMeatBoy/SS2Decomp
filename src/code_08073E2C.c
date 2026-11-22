@@ -413,7 +413,7 @@ void sub_08074530(u32 who,u32 slot)
     struct EffectEnemy77 *enemy;
     u16 done;
     frame=0;timer=0;
-    effectInit77(&sprite,0x5008C,8,-1,0);
+    effectInit77(&sprite,RES_ID(0x5008C),8,-1,0);
     sprite.palette[0]=7;sprite.palette[1]=8;
     done=0;
     if(who<4) player=&effectPlayers77[who];
@@ -450,7 +450,7 @@ void sub_080746A4(u32 who,u32 slot)
     struct EffectEnemy77 *enemy;
     u16 done;
     frame=0;timer=0;
-    effectInit77(&sprite,0x5008C,8,-1,0);
+    effectInit77(&sprite,RES_ID(0x5008C),8,-1,0);
     sprite.palette[0]=7;sprite.palette[1]=8;
     done=0;
     if(who<4) player=&effectPlayers77[who];
@@ -487,7 +487,7 @@ void sub_08074818(u32 who,u32 slot)
     struct EffectEnemy77 *enemy;
     u16 done;
     frame=0;timer=0;
-    effectInit77(&sprite,0x5008C,8,-1,0);
+    effectInit77(&sprite,RES_ID(0x5008C),8,-1,0);
     sprite.palette[0]=7;sprite.palette[1]=8;
     done=0;
     if(who<4) player=&effectPlayers77[who];
@@ -524,7 +524,7 @@ void sub_0807498C(u32 who,u32 slot)
     struct EffectEnemy77 *enemy;
     u16 done;
     frame=0;timer=0;
-    effectInit77(&sprite,0x5008C,8,-1,0);
+    effectInit77(&sprite,RES_ID(0x5008C),8,-1,0);
     sprite.palette[0]=7;sprite.palette[1]=8;
     done=0;
     if(who<4) player=&effectPlayers77[who];
@@ -561,7 +561,7 @@ void sub_08074B00(u32 who,u32 slot)
     struct EffectEnemy77 *enemy;
     u16 done;
     frame=0;timer=0;
-    effectInit77(&sprite,0x5008C,8,-1,0);
+    effectInit77(&sprite,RES_ID(0x5008C),8,-1,0);
     sprite.palette[0]=7;sprite.palette[1]=8;
     done=0;
     if(who<4) player=&effectPlayers77[who];
@@ -597,7 +597,7 @@ void sub_08074C74(u32 who,u32 slot)
     struct EffectEnemy77 *enemy;
     u16 done;
     frame=0;timer=0;
-    effectInit77(&sprite,0x5008D,8,-1,0);
+    effectInit77(&sprite,RES_ID(0x5008D),8,-1,0);
     sprite.palette[0]=7;sprite.palette[1]=8;
     done=0;
     if(who<4) player=&effectPlayers77[who];
@@ -900,7 +900,7 @@ void sub_08075520(u32 who,u32 slot)
     u16 done,i;
     u8 visible;
     frame=0;timer=0;
-    effectInit77(&sprite,0x5008D,8,-1,0);
+    effectInit77(&sprite,RES_ID(0x5008D),8,-1,0);
     sprite.palette[0]=7;sprite.palette[1]=8;
     done=0;
     player=(struct EffectHolder77 *)&gUnk_03003CE0[who];
@@ -3840,7 +3840,7 @@ void sub_08079D84(struct Info9888 *info, u32 packed)
     s32 y;
     u8 k;
     sub_080020F4();
-    sub_08065158_5(&s, 0x5008C, 1, -1, 0);
+    sub_08065158_5(&s, RES_ID(0x5008C), 1, -1, 0);
     sub_08000AF0(0x17, (void *)s.fC, 2);
     s.b1C[0] = 7;
     s.b1C[1] = 8;

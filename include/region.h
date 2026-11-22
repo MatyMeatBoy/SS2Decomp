@@ -11,16 +11,20 @@
 // Enemy actor records (array at *gUnk_030056F4): EU 0x2E0 bytes, USA 0x454 (ENEMY_SIZE).
 // Character save record (pointer gUnk_030034E0): USA inserts 10 bytes before EU +0x0A and
 // keeps the word-aligned block at EU +0x10 (USA +0x1C) aligned. SAVE_FIELD(o) maps EU offsets.
+// Resource ids (archive << 16 | entry): many USA archive 5/6/8 entries are numbered 4 lower
+// (EU 0x5008C = USA 0x50088), but not all of them; RES_ID(id) marks the uses verified per function.
 #ifdef REGION_USA
 #define PLAYER_SIZE 0x158
 #define PLAYER_FIELD(o) ((o) < 0x0C ? (o) : (o) < 0x2A ? (o) + 10 : (o) + 12)
 #define SAVE_FIELD(o) ((o) < 0x0A ? (o) : (o) < 0x10 ? (o) + 10 : (o) + 12)
 #define ENEMY_SIZE 0x454
+#define RES_ID(id) ((id) - 4)
 #else
 #define PLAYER_SIZE 0x14C
 #define PLAYER_FIELD(o) (o)
 #define SAVE_FIELD(o) (o)
 #define ENEMY_SIZE 0x2E0
+#define RES_ID(id) (id)
 #endif
 
 #endif // GUARD_REGION_H

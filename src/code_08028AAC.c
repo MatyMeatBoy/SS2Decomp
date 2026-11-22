@@ -3021,7 +3021,7 @@ inventory028:
         player028=sub_080020F4(); 
         count028 = 0;
         index028 = 0;
-        var_r1_13 = (u8 *)gUnk_030034E0 + 0x150;
+        var_r1_13 = (u8 *)gUnk_030034E0 + SAVE_FIELD(0x150);
         do {
             if ((*(u16 *)((u8 *)var_r1_13 + 0x0) == 1) && (*(u16 *)((u8 *)var_r1_13 + 0x2) == 0x29)) {
                 count028 += 1;
@@ -3032,7 +3032,7 @@ inventory028:
         saved028=count028; 
         count028 = 0;
         index028 = 0;
-        var_r1_14 = (u8 *)gUnk_030034E0 + 0x2E0;
+        var_r1_14 = (u8 *)gUnk_030034E0 + SAVE_FIELD(0x2E0);
         do {
             if ((*(u16 *)((u8 *)var_r1_14 + 0x0) == 1) && (*(u16 *)((u8 *)var_r1_14 + 0x2) == 0x29)) {
                 count028 += 1;
@@ -3076,12 +3076,12 @@ inventoryDone028:;
         u32 stride028;
         u32 playerRet028=sub_080020F4();
         
-        stride028=0x14C;
+        stride028=PLAYER_SIZE;
         
         playerOffset028=playerRet028;
         playerOffset028 *= stride028;
         temp_r2_2=(void *)(playerOffset028+(u32)gUnk_03003CE0);
-        *(u32 *)((u8 *)temp_r2_2+0x30) |= 1;
+        *(u32 *)((u8 *)temp_r2_2+SAVE_FIELD(0x30)) |= 1;
         }
         sub_0800D0F4();
         temp_r7 = sub_080289C0(0x31, 0xF0, 0x190);

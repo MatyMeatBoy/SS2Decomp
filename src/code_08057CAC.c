@@ -284,7 +284,7 @@ s32 sub_08058094(void)
     register s32 *saved asm("r4");
     total = 0;
     state = &gUnk_030034E0;
-    entry = (u8 *)*state + 0x150;
+    entry = (u8 *)*state + SAVE_FIELD(0x150);
     saved = state;
     i = 24;
     do {
@@ -293,8 +293,8 @@ s32 sub_08058094(void)
         i--;
         entry += 16;
     } while (i >= 0);
-    other = (u8 *)*saved + 0x2E0;
-    temp = *(u16 *)((u8 *)*saved + 0x6A) * 15;
+    other = (u8 *)*saved + SAVE_FIELD(0x2E0);
+    temp = *(u16 *)((u8 *)*saved + SAVE_FIELD(0x6A)) * 15;
     if (temp > 0) {
         j = temp;
         do {
@@ -323,10 +323,10 @@ u32 sub_080580F8(u32 a, u32 b)
     u32 count = 0;
     u32 i = 0;
     u8 *initial = (u8 *)gUnk_030034E0;
-    u16 *first = (u16 *)(initial + 0x2e0);
+    u16 *first = (u16 *)(initial + SAVE_FIELD(0x2e0));
     u8 *base = initial;
     for (; i <= 0x4a; first += 8, base += 16, i++)
-        if (*first == a && *(u16 *)(base + 0x2e2) == b)
+        if (*first == a && *(u16 *)(base + SAVE_FIELD(0x2e2)) == b)
             count++;
     return count;
 }

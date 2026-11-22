@@ -797,14 +797,14 @@ void sub_08090B84(void) {
     p[0] = a;
     b = a + 1;
     p[1] = b;
-    init095_08090B84(a, 0x5008A, 0, -1, 0);
+    init095_08090B84(a, RES_ID(0x5008A), 0, -1, 0);
     a->payload[0] = 0;
     a->frame = 10;
     a->next = 0;
     a->tick = 0;
     a->x = 0x10000;
     a->y = 0x5800;
-    init095_08090B84(b, 0x500BE, 1, -1, 0);
+    init095_08090B84(b, RES_ID(0x500BE), 1, -1, 0);
     b->payload[0] = 1;
     b->frame = 14;
     a[1].next = 0;
@@ -925,13 +925,13 @@ void sub_08090E38(void) {
     variant = r < 0 ? -r : r;
     switch (variant) {
     case 0:
-        init095_08090E38(a, 0x50012, 0, -1, 0);
+        init095_08090E38(a, RES_ID(0x50012), 0, -1, 0);
         break;
     case 1:
-        init095_08090E38(a, 0x50013, 0, -1, 0);
+        init095_08090E38(a, RES_ID(0x50013), 0, -1, 0);
         break;
     case 2:
-        init095_08090E38(a, 0x50014, 0, -1, 0);
+        init095_08090E38(a, RES_ID(0x50014), 0, -1, 0);
         break;
     }
     a->payload[0] = 0;
@@ -954,13 +954,13 @@ void sub_08090E38(void) {
             if (a->x <= 0x8000) {
                 switch (variant) {
                 case 0:
-                    init095_08090E38(a, 0x50015, 0, -1, 0);
+                    init095_08090E38(a, RES_ID(0x50015), 0, -1, 0);
                     break;
                 case 1:
-                    init095_08090E38(a, 0x50016, 0, -1, 0);
+                    init095_08090E38(a, RES_ID(0x50016), 0, -1, 0);
                     break;
                 case 2:
-                    init095_08090E38(a, 0x50017, 0, -1, 0);
+                    init095_08090E38(a, RES_ID(0x50017), 0, -1, 0);
                     break;
                 }
                 done = 0;
@@ -976,13 +976,13 @@ void sub_08090E38(void) {
             if (done != 0) {
                 switch (variant) {
                 case 0:
-                    init095_08090E38(a, 0x50012, 0, -1, 0);
+                    init095_08090E38(a, RES_ID(0x50012), 0, -1, 0);
                     break;
                 case 1:
-                    init095_08090E38(a, 0x50013, 0, -1, 0);
+                    init095_08090E38(a, RES_ID(0x50013), 0, -1, 0);
                     break;
                 case 2:
-                    init095_08090E38(a, 0x50014, 0, -1, 0);
+                    init095_08090E38(a, RES_ID(0x50014), 0, -1, 0);
                     break;
                 }
                 flag = 1;
@@ -1041,10 +1041,10 @@ void sub_080910A8(void) {
     variant = r < 0 ? -r : r;
     switch (variant) {
     case 0:
-        init095_080910A8(a, 0x50022, 0, -1, 0);
+        init095_080910A8(a, RES_ID(0x50022), 0, -1, 0);
         break;
     case 1:
-        init095_080910A8(a, 0x50023, 0, -1, 0);
+        init095_080910A8(a, RES_ID(0x50023), 0, -1, 0);
         break;
     }
     a->payload[0] = 0;
@@ -1067,10 +1067,10 @@ void sub_080910A8(void) {
             if (a->x <= 0x8000) {
                 switch (variant) {
                 case 0:
-                    init095_080910A8(a, 0x50024, 0, -1, 0);
+                    init095_080910A8(a, RES_ID(0x50024), 0, -1, 0);
                     break;
                 case 1:
-                    init095_080910A8(a, 0x50025, 0, -1, 0);
+                    init095_080910A8(a, RES_ID(0x50025), 0, -1, 0);
                     break;
                 }
                 done = 0;
@@ -1086,10 +1086,10 @@ void sub_080910A8(void) {
             if (done != 0) {
                 switch (variant) {
                 case 0:
-                    init095_080910A8(a, 0x50022, 0, -1, 0);
+                    init095_080910A8(a, RES_ID(0x50022), 0, -1, 0);
                     break;
                 case 1:
-                    init095_080910A8(a, 0x50023, 0, -1, 0);
+                    init095_080910A8(a, RES_ID(0x50023), 0, -1, 0);
                     break;
                 }
                 flag = 1;
@@ -1148,10 +1148,10 @@ void sub_080912CC(void) {
     variant = r < 0 ? -r : r;
     switch (variant) {
     case 0:
-        init095_080912CC(a, 0x5001D, 0, -1, 0);
+        init095_080912CC(a, RES_ID(0x5001D), 0, -1, 0);
         break;
     case 1:
-        init095_080912CC(a, 0x5001F, 0, -1, 0);
+        init095_080912CC(a, RES_ID(0x5001F), 0, -1, 0);
         break;
     }
     a->payload[0] = 0;
@@ -1174,10 +1174,10 @@ void sub_080912CC(void) {
             if (a->x <= 0x8000) {
                 switch (variant) {
                 case 0:
-                    init095_080912CC(a, 0x5001E, 0, -1, 0);
+                    init095_080912CC(a, RES_ID(0x5001E), 0, -1, 0);
                     break;
                 case 1:
-                    init095_080912CC(a, 0x50021, 0, -1, 0);
+                    init095_080912CC(a, RES_ID(0x50021), 0, -1, 0);
                     break;
                 }
                 done = 0;
@@ -1193,10 +1193,10 @@ void sub_080912CC(void) {
             if (done != 0) {
                 switch (variant) {
                 case 0:
-                    init095_080912CC(a, 0x5001D, 0, -1, 0);
+                    init095_080912CC(a, RES_ID(0x5001D), 0, -1, 0);
                     break;
                 case 1:
-                    init095_080912CC(a, 0x5001F, 0, -1, 0);
+                    init095_080912CC(a, RES_ID(0x5001F), 0, -1, 0);
                     break;
                 }
                 flag = 1;
@@ -1255,10 +1255,10 @@ void sub_080914F0(void) {
     variant = r < 0 ? -r : r;
     switch (variant) {
     case 0:
-        init096_080914F0(a, 0x5002B, 0, -1, 0);
+        init096_080914F0(a, RES_ID(0x5002B), 0, -1, 0);
         break;
     case 1:
-        init096_080914F0(a, 0x5002A, 0, -1, 0);
+        init096_080914F0(a, RES_ID(0x5002A), 0, -1, 0);
         break;
     }
     a->payload[0] = 0;
@@ -1281,10 +1281,10 @@ void sub_080914F0(void) {
             if (a->x <= 0x8000) {
                 switch (variant) {
                 case 0:
-                    init096_080914F0(a, 0x5002C, 0, -1, 0);
+                    init096_080914F0(a, RES_ID(0x5002C), 0, -1, 0);
                     break;
                 case 1:
-                    init096_080914F0(a, 0x5002D, 0, -1, 0);
+                    init096_080914F0(a, RES_ID(0x5002D), 0, -1, 0);
                     break;
                 }
                 done = 0;
@@ -1300,10 +1300,10 @@ void sub_080914F0(void) {
             if (done != 0) {
                 switch (variant) {
                 case 0:
-                    init096_080914F0(a, 0x5002B, 0, -1, 0);
+                    init096_080914F0(a, RES_ID(0x5002B), 0, -1, 0);
                     break;
                 case 1:
-                    init096_080914F0(a, 0x5002A, 0, -1, 0);
+                    init096_080914F0(a, RES_ID(0x5002A), 0, -1, 0);
                     break;
                 }
                 flag = 1;
@@ -1360,10 +1360,10 @@ void sub_08091714(void) {
     variant = r < 0 ? -r : r;
     switch (variant) {
     case 0:
-        init096_08091714(a, 0x50030, 0, -1, 0);
+        init096_08091714(a, RES_ID(0x50030), 0, -1, 0);
         break;
     case 1:
-        init096_08091714(a, 0x50031, 0, -1, 0);
+        init096_08091714(a, RES_ID(0x50031), 0, -1, 0);
         break;
     }
     a->payload[0] = 0;
@@ -1386,10 +1386,10 @@ void sub_08091714(void) {
             if (a->x <= 0x8000) {
                 switch (variant) {
                 case 0:
-                    init096_08091714(a, 0x50033, 0, -1, 0);
+                    init096_08091714(a, RES_ID(0x50033), 0, -1, 0);
                     break;
                 case 1:
-                    init096_08091714(a, 0x50032, 0, -1, 0);
+                    init096_08091714(a, RES_ID(0x50032), 0, -1, 0);
                     break;
                 }
                 done = 0;
@@ -1405,10 +1405,10 @@ void sub_08091714(void) {
             if (done != 0) {
                 switch (variant) {
                 case 0:
-                    init096_08091714(a, 0x50030, 0, -1, 0);
+                    init096_08091714(a, RES_ID(0x50030), 0, -1, 0);
                     break;
                 case 1:
-                    init096_08091714(a, 0x50031, 0, -1, 0);
+                    init096_08091714(a, RES_ID(0x50031), 0, -1, 0);
                     break;
                 }
                 flag = 1;
@@ -1465,10 +1465,10 @@ void sub_08091938(void) {
     variant = r < 0 ? -r : r;
     switch (variant) {
     case 0:
-        init096_08091938(a, 0x50035, 0, -1, 0);
+        init096_08091938(a, RES_ID(0x50035), 0, -1, 0);
         break;
     case 1:
-        init096_08091938(a, 0x50037, 0, -1, 0);
+        init096_08091938(a, RES_ID(0x50037), 0, -1, 0);
         break;
     }
     a->payload[0] = 0;
@@ -1491,10 +1491,10 @@ void sub_08091938(void) {
             if (a->x <= 0x8000) {
                 switch (variant) {
                 case 0:
-                    init096_08091938(a, 0x50036, 0, -1, 0);
+                    init096_08091938(a, RES_ID(0x50036), 0, -1, 0);
                     break;
                 case 1:
-                    init096_08091938(a, 0x50038, 0, -1, 0);
+                    init096_08091938(a, RES_ID(0x50038), 0, -1, 0);
                     break;
                 }
                 done = 0;
@@ -1510,10 +1510,10 @@ void sub_08091938(void) {
             if (done != 0) {
                 switch (variant) {
                 case 0:
-                    init096_08091938(a, 0x50035, 0, -1, 0);
+                    init096_08091938(a, RES_ID(0x50035), 0, -1, 0);
                     break;
                 case 1:
-                    init096_08091938(a, 0x50037, 0, -1, 0);
+                    init096_08091938(a, RES_ID(0x50037), 0, -1, 0);
                     break;
                 }
                 flag = 1;
@@ -1567,7 +1567,7 @@ void sub_08091B5C(void) {
     a = (struct Anim096_08091B5C *)(heap096_08091B5C = (u32)sub_08001494(0x44));
     random096();
     variant = 0;
-    init096_08091B5C(a, 0x50027, 0, -1, variant);
+    init096_08091B5C(a, RES_ID(0x50027), 0, -1, variant);
     a->payload[0] = variant;
     a->frame = 10;
     a->next = variant;
@@ -1587,7 +1587,7 @@ void sub_08091B5C(void) {
             a->x -= 0x100;
             if (a->x <= 0x8000) {
                 if (variant == 0)
-                    init096_08091B5C(a, 0x50028, 0, -1, 0);
+                    init096_08091B5C(a, RES_ID(0x50028), 0, -1, 0);
                 flag = 0;
                 a->payload[0] = 0;
                 a->frame = 10;
@@ -1599,7 +1599,7 @@ void sub_08091B5C(void) {
         case 1:
             if (done != 0) {
                 if (variant == 0)
-                    init096_08091B5C(a, 0x50027, 0, -1, 0);
+                    init096_08091B5C(a, RES_ID(0x50027), 0, -1, 0);
                 flag = 1;
                 a->frame = 10;
                 *next = 0;
@@ -1651,7 +1651,7 @@ void sub_08091CF8(void) {
     a = (struct Anim096_08091CF8 *)(heap096_08091CF8 = (u32)sub_08001494(0x44));
     random096();
     variant = 0;
-    init096_08091CF8(a, 0x50019, 0, -1, variant);
+    init096_08091CF8(a, RES_ID(0x50019), 0, -1, variant);
     a->payload[0] = variant;
     a->frame = 10;
     a->next = variant;
@@ -1671,7 +1671,7 @@ void sub_08091CF8(void) {
             a->x -= 0x100;
             if (a->x <= 0x8000) {
                 if (variant == 0)
-                    init096_08091CF8(a, 0x5001A, 0, -1, 0);
+                    init096_08091CF8(a, RES_ID(0x5001A), 0, -1, 0);
                 flag = 0;
                 a->payload[0] = 0;
                 a->frame = 10;
@@ -1683,7 +1683,7 @@ void sub_08091CF8(void) {
         case 1:
             if (done != 0) {
                 if (variant == 0)
-                    init096_08091CF8(a, 0x50019, 0, -1, 0);
+                    init096_08091CF8(a, RES_ID(0x50019), 0, -1, 0);
                 flag = 1;
                 a->frame = 10;
                 *next = 0;

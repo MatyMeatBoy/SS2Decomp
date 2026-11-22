@@ -25,7 +25,7 @@ import region_symbols
 
 LITERAL = re.compile(r'(?<![\w.])(0[xX][0-9a-fA-F]+|[1-9][0-9]*)(?![\w.])')
 MACROS = ('PLAYER_FIELD', 'SAVE_FIELD')
-WRAPPED = re.compile(r'\b(?:PLAYER_FIELD|SAVE_FIELD)\s*\($')
+WRAPPED = re.compile(r'\b(?:PLAYER_FIELD|SAVE_FIELD|RES_ID)\s*\($')
 PLAYER_STRIDE = 0x14C
 ENEMY_STRIDE = 0x2E0
 SAVE_LIMIT = 0x1000  # save-record offsets go past the player record size
@@ -72,6 +72,10 @@ def definition_span(text, name):
     return None
 
 
+def is_resource(value):
+    return value >> 16 in (5, 6, 8) and (value & 0xFFFF) >= 4
+
+
 def code_literals(body):
     """[(start, end, value)] of integer literals outside comments/strings, not yet wrapped."""
     result, index = [], 0
@@ -81,7 +85,7 @@ def code_literals(body):
         value = int(match[1], 0)
         if WRAPPED.search(masked[:match.start()].rstrip()[-20:]):
             continue
-        if 0x0A <= value <= SAVE_LIMIT or value in SIZES:
+        if 0x0A <= value <= SAVE_LIMIT or value in SIZES or is_resource(value):
             result.append((match.start(), match.end(), value))
     return result
 
@@ -162,6 +166,8 @@ def search(checker, module, name, address, log):
         for index, (_, _, value) in enumerate(literals):
             if value in SIZES:
                 options.setdefault((SIZES[value], value), []).append(index)
+            if is_resource(value):
+                options.setdefault(('RES_ID', value), []).append(index)
             if value <= SAVE_LIMIT:
                 for macro in (('SAVE_FIELD', 'PLAYER_FIELD') if save_first else MACROS):
                     if macro == 'PLAYER_FIELD' and value >= PLAYER_STRIDE:

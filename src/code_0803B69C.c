@@ -273,9 +273,9 @@ void sub_0803C008(void) {
     register s32 total asm("r3");
     register s32 n asm("r1");
     struct T39C008Item *item;
-    offset=sub_080020F4();offset*=0x14C;
+    offset=sub_080020F4();offset*=PLAYER_SIZE;
     p=(u8 *)gUnk_03003CE0+offset;
-    *(u32 *)(p+0x30)|=1;
+    *(u32 *)(p+SAVE_FIELD(0x30))|=1;
     sub_0800D0F4();
     one=sub_08002164();
     if(one==1) {
@@ -293,10 +293,10 @@ while(!sub_0805EEFC((void *)msg)) sub_080003F0(); } while(sub_0805EF14((u8 *)msg
 msg=sub_0805DF38(1,15,2,0,-2,0x1401E4);
 while(!sub_0805EEFC((void *)msg)) sub_080003F0();
             if(sub_0805EF14((u8 *)msg)==1) {
-                total=0;gpLoad=(u8 **)&gUnk_030034E0;base=*gpLoad;firstOff=0x150;asm("" : "+r"(firstOff));item=(struct T39C008Item *)(base+firstOff);gp=gpLoad;n=24;
+                total=0;gpLoad=(u8 **)&gUnk_030034E0;base=*gpLoad;firstOff=SAVE_FIELD(0x150);asm("" : "+r"(firstOff));item=(struct T39C008Item *)(base+firstOff);gp=gpLoad;n=24;
                 do {if(item->id==10) total+=item->count; n--;item++;} while(n>=0);
-                base=*gp;item=(struct T39C008Item *)(base+0x2E0);
-                count=15 * *(u16 *)(base+0x6A);
+                base=*gp;item=(struct T39C008Item *)(base+SAVE_FIELD(0x2E0));
+                count=15 * *(u16 *)(base+SAVE_FIELD(0x6A));
                 if(count>0) {n=count;do {if(item->id==10) total+=item->count; n--;item++;} while(n);}
                 if(total>99) {
                     while(sub_0805F184()) sub_080003F0();
@@ -323,9 +323,9 @@ while(!sub_0805EEFC((void *)msg)) {if(sub_0800CDF8()) {sub_0805EFBC();break;} su
 while(sub_0805EF90()) sub_080003F0();
 msg=sub_0805DF38(1,15,2,0,-1,0x1401F5);
 while(!sub_0805EEFC((void *)msg)) {if(sub_0800CDF8()) {sub_0805EFBC();break;} sub_080003F0();} }
-    offset=sub_080020F4();offset*=0x14C;
+    offset=sub_080020F4();offset*=PLAYER_SIZE;
     p=(u8 *)gUnk_03003CE0+offset;
-    *(u32 *)(p+0x30)&=~1;
+    *(u32 *)(p+SAVE_FIELD(0x30))&=~1;
     sub_0800D108();
 }
 extern void sub_0803C4C0(void);
@@ -458,8 +458,8 @@ void sub_0803C698(s32 arg0) {
  register u8 **gp asm("r4");
  struct T39C698Item *item;
  u32 i,valid;
- offset=sub_080020F4();offset*=0x14C;p=(u8 *)gUnk_03003CE0+offset;
- *(u32 *)(p+0x30)|=1;sub_0800D0F4();sub_0802939C(arg0,2);
+ offset=sub_080020F4();offset*=PLAYER_SIZE;p=(u8 *)gUnk_03003CE0+offset;
+ *(u32 *)(p+SAVE_FIELD(0x30))|=1;sub_0800D0F4();sub_0802939C(arg0,2);
  while(sub_0805F184()) sub_080003F0();
 while(sub_0805EF90()) sub_080003F0();
 firstMsg=sub_0805DF38(1,15,2,0,-1,0x140292);
@@ -499,11 +499,11 @@ msg=sub_0805DF38(1,15,2,0,-2,0x14029F);
 while(!sub_0805EEFC((void *)msg))sub_080003F0(); answer=sub_0805EF14((u8 *)msg);break;
  }
  if(answer!=0) {
-  total=0;gpLoad=(u8 **)&gUnk_030034E0;base=*gpLoad;firstOff=0x150;asm("" : "+r"(firstOff));item=(struct T39C698Item *)(base+firstOff);gp=gpLoad;
+  total=0;gpLoad=(u8 **)&gUnk_030034E0;base=*gpLoad;firstOff=SAVE_FIELD(0x150);asm("" : "+r"(firstOff));item=(struct T39C698Item *)(base+firstOff);gp=gpLoad;
   next=level+1;n=24;
   do {if(item->id==10)total+=item->count;n--;item++;}while(n>=0);
-  base=*gp;item=(struct T39C698Item *)(base+0x2E0);
-  count=15 * *(u16 *)(base+0x6A);
+  base=*gp;item=(struct T39C698Item *)(base+SAVE_FIELD(0x2E0));
+  count=15 * *(u16 *)(base+SAVE_FIELD(0x6A));
   if(count>0){n=count;do {if(item->id==10)total+=item->count;n--;item++;}while(n);}
   if(total>=(s32)(100*next)) {
    valid=t39_c698_valid();
@@ -530,8 +530,8 @@ while(sub_0805EF90()) sub_080003F0();
 msg=sub_0805DF38(1,15,2,0,-1,0x140293);
 while(!sub_0805EEFC((void *)msg)) {if(sub_0800CDF8()) {sub_0805EFBC();break;} sub_080003F0();}}
  sub_0802939C(arg0,0);
- offset=sub_080020F4();offset*=0x14C;p=(u8 *)gUnk_03003CE0+offset;
- *(u32 *)(p+0x30)&=~1;sub_0800D108();
+ offset=sub_080020F4();offset*=PLAYER_SIZE;p=(u8 *)gUnk_03003CE0+offset;
+ *(u32 *)(p+SAVE_FIELD(0x30))&=~1;sub_0800D108();
 }
 /* [ConfirmProgressStageAdvance] Sets player flag1, faces entity and picks yes/no message0x1404EE..4F7 from
  * highest progress bit256..1/default. Confirmation ORs next bit into mode-selected progress word; noninitial

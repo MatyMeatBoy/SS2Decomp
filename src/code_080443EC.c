@@ -1904,7 +1904,7 @@ void sub_0804819C(void) {
         var_r3_2 = 0;
         var_r2_2 = 0;
         yp=(s32 *)&pos[1];
-        var_r1_2 = t47CItems + 0x150;
+        var_r1_2 = t47CItems + SAVE_FIELD(0x150);
         do {
             if ((*(u16 *)var_r1_2 == 1) && (*(u16 *)(var_r1_2+2) == 0x22)) {
                 var_r3_2 += 1;
@@ -1915,7 +1915,7 @@ void sub_0804819C(void) {
         savedCount=var_r3_2;
         var_r3_3 = 0;
         var_r2_3 = 0;
-        var_r1_3 = t47CItems + 0x2E0;
+        var_r1_3 = t47CItems + SAVE_FIELD(0x2E0);
         do {
             if ((*(u16 *)var_r1_3 == 1) && (*(u16 *)(var_r1_3+2) == 0x22)) {
                 var_r3_3 += 1;
@@ -1936,8 +1936,8 @@ void sub_0804819C(void) {
                 sub_08006CB4(0xC4U);
             }
         }
-        temp_r2 = (0x14C * sub_080020F4()) + t47CActors;
-        *(u32 *)(temp_r2+0x30) = (s32) (*(u32 *)(temp_r2+0x30) | 1);
+        temp_r2 = (PLAYER_SIZE * sub_080020F4()) + t47CActors;
+        *(u32 *)(temp_r2+PLAYER_FIELD(0x30)) = (s32) (*(u32 *)(temp_r2+PLAYER_FIELD(0x30)) | 1);
         sub_0800D0F4();
         step=0x400;
         temp_r6_2 = (s16) t47CCamera[64];
@@ -2036,7 +2036,7 @@ test66:
                 *(u16 *)(var_r2+12) = zero;
             }
             var_r3 += 1;
-            stride=0x2E0;var_r2+=stride;
+            stride=ENEMY_SIZE;var_r2+=stride;
         } while (var_r3 <= 4U);
         sub_08019F04();
         var_r1=t47CTest8(t47CState);
@@ -3364,12 +3364,12 @@ void sub_08049DC4(void) {
         else { loaded=(s32)t48State; off=0x1B8; asm("" : "+r" (off)); selected = (u8 *)loaded+off; }
         loaded=*selected;  flag = (loaded >> 5) & mask; 
         other = sub_080020F4();
-        count=0; i=0; loaded=(s32)t48Items;  off1=0x150;  p=(struct T48Item *)((u8 *)loaded+off1);
+        count=0; i=0; loaded=(s32)t48Items;  off1=SAVE_FIELD(0x150);  p=(struct T48Item *)((u8 *)loaded+off1);
         do {
             if (t48id(p)==1 && p->kind==0x2A) count++;
             p++; i++;
         } while(i<=24);
-        saved=count; count2=0;  j=0; bits=flag|other;  loaded=(s32)t48Items;  off=0x2E0;  q=(struct T48Item *)((u8 *)loaded+off);
+        saved=count; count2=0;  j=0; bits=flag|other;  loaded=(s32)t48Items;  off=SAVE_FIELD(0x2E0);  q=(struct T48Item *)((u8 *)loaded+off);
         do {
             if (t48id(q)==1 && q->kind==0x2A) count2++;
             q++; j++;
@@ -3665,7 +3665,7 @@ void t48implB(u32 arg0) {
                 t48waitB(0x28);
         sub_080290E4(1, 2);
         if (sub_080020F4() == 0) { u8 *pad;
-            {s32 count;u32 i;struct T48ItemB *p;u8 **slot;u8 *base;u32 off;count=0;i=0;pad=sp8.pad;slot=&t48itemsB;base=*slot;off=0x150;p=(struct T48ItemB *)(base+off);do{if(t48idB(p)==1&&p->unk2==35)count++;p++;i++;}while(i<=24);var_r3=count;}var_r3_2=t48countSecondB(0x2E0,74);
+            {s32 count;u32 i;struct T48ItemB *p;u8 **slot;u8 *base;u32 off;count=0;i=0;pad=sp8.pad;slot=&t48itemsB;base=*slot;off=SAVE_FIELD(0x150);p=(struct T48ItemB *)(base+off);do{if(t48idB(p)==1&&p->unk2==35)count++;p++;i++;}while(i<=24);var_r3=count;}var_r3_2=t48countSecondB(SAVE_FIELD(0x2E0),74);
             if (sub_0800CE30() != 0) {
                 var_r0 = t48stateB+0x1C5;
             } else {
@@ -3713,7 +3713,7 @@ block_108:
         sub_0802949C(1, 0);
         return;
     case 6:
-        obj=t48objB;off6=0x2E0;sub_08019EB8(*(u16 *)(obj+off6+2), 3);
+        obj=t48objB;off6=ENEMY_SIZE;sub_08019EB8(*(u16 *)(obj+off6+2), 3);
         sub_0802949C(2, 0);
         return;
     }

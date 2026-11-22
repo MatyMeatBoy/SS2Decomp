@@ -1044,7 +1044,7 @@ void sub_080698D4(struct StatusPosition69 *pos)
     kind=pos->kind;
     x=pos->x;
     y=pos->y;
-    statusInit69(&obj,0x5008C,8,-1,0);
+    statusInit69(&obj,RES_ID(0x5008C),8,-1,0);
     obj.style[0]=7;
     obj.style[1]=8;
     switch(kind-1U) {
@@ -6503,7 +6503,7 @@ void sub_08073CF4(u32 *arg0)
     s32 paused;
     u16 animation;
 
-    init076CF4(&sprite, 0x5008C, 1, -1, 0);
+    init076CF4(&sprite, RES_ID(0x5008C), 1, -1, 0);
     sprite.f1C = 7;
     sprite.f1D = 8;
     sub_08000AF0(23, (void *)sprite.fC, 2);

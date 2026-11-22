@@ -2234,7 +2234,7 @@ void t65_popupImplementation(u32 packed,u32 arg)
     register s16 *yPtr asm("r5");
     u32 done;
     u32 i;
-    {register u32 resource asm("r4")=0x50130;
+    {register u32 resource asm("r4")=RES_ID(0x50130);
     register void *table asm("r9");
     register struct T65Popup *descriptor asm("sl");
     u32 style;s32 mode;register void *base asm("r2");

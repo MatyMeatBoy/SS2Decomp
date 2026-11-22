@@ -1033,7 +1033,7 @@ s32 sub_08089500(u8 *arg0) {
         p->state = 0;
         players090[idx].flags = (players090[idx].flags & 0xFFFFDFDB) | 2;
         sub_0802996C();
-        spriteInit090(sprite, 0x5008C, 8, -1, 0);
+        spriteInit090(sprite, RES_ID(0x5008C), 8, -1, 0);
         sub_08000AF0(0x17, (void *)sprite[3], 2);
         p->b68 = 1;
         sub_0806617C();
@@ -1047,7 +1047,7 @@ s32 sub_08089500(u8 *arg0) {
     while (sub_0800BA6C() == 0)
         sub_080003F0();
     {
-        u8 *q = (0x14C * idx) + playerCoord89500;
+        u8 *q = (PLAYER_SIZE * idx) + playerCoord89500;
         sub_0800AD04(q, q + 4, sub_0800CCCC());
     }
     if (sub_0800CF10() != 0) {
