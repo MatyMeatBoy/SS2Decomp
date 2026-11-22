@@ -163,6 +163,8 @@ def regional_dims(layout, kind=None):
             return None
         # Pads between the previous real member (or start) and this one take up the difference.
         between = [item for item in pads if (previous[0] + previous[1] if previous else 0) <= item[1] < offset]
+        if name == '<end>' and not between and getattr(kind, 'partial', False):
+            break  # a prefix view: the compiler sizes the tail
         eu_gap = sum(item[2] for item in between)
         usa_gap = target - usa_offset
         if between:
@@ -196,8 +198,18 @@ def regional_dims(layout, kind=None):
     return new or None
 
 
-def player_views(text):
-    """[(struct name, {dim span: expression})] for rewritable 0x14C-byte structs of text."""
+def save_field(offset):
+    return offset if offset < 0x0A else offset + 10 if offset < 0x10 else offset + 12
+
+
+PARTIAL = (('PLAYER_FIELD', usa_field, 0x14C), ('SAVE_FIELD', save_field, 0x1000),
+           ('ENEMY_FIELD', enemy_field, 0x2E0))
+
+
+def player_views(text, partial=False):
+    """[(view key, {dim span: expression}, partial)] for rewritable record structs of text: structs of
+    exactly a record size, and with partial=True also smaller structs read as a prefix view of a
+    player, save or enemy record (their end maps through the field macro)."""
     sizes, views = {}, []
     for name, start, end in struct_definitions(text):
         try:
@@ -205,10 +217,19 @@ def player_views(text):
         except Layout:
             continue
         sizes[name] = size
+        kinds = []
         if size[0] in RECORDS:
-            dims = regional_dims(layout, RECORDS[size[0]])
+            kinds.append((name, RECORDS[size[0]], False))
+        elif partial:
+            for field, mapping, limit in PARTIAL:
+                if size[0] <= limit and mapping(size[0]) != size[0]:
+                    kind = Record(size[0], mapping(size[0]), field, '%s(0x%X)' % (field, size[0]), mapping)
+                    kind.partial = True
+                    kinds.append(('%s as %s' % (name, field), kind, True))
+        for key, kind, is_partial in kinds:
+            dims = regional_dims(layout, kind)
             if dims:
-                views.append((name, {(start + a, start + b): expr for (a, b), expr in dims.items()}))
+                views.append((key, {(start + a, start + b): expr for (a, b), expr in dims.items()}, is_partial))
     return views
 
 
@@ -257,6 +278,8 @@ def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     parser.add_argument('--region', choices=('usa',), default='usa')
     parser.add_argument('--dry-run', action='store_true')
+    parser.add_argument('--partial', action='store_true',
+                        help='also try smaller structs as prefix views (kept only with an exact gain)')
     parser.add_argument('modules', nargs='*')
     args = parser.parse_args(argv)
     checker = Checker(args.region)
@@ -268,10 +291,10 @@ def main(argv=None):
         tried, baseline = set(), None
         while True:
             text = path.read_text(encoding='utf-8')
-            candidate = next((item for item in player_views(text) if item[0] not in tried), None)
+            candidate = next((item for item in player_views(text, args.partial) if item[0] not in tried), None)
             if candidate is None:
                 break
-            name, dims = candidate
+            name, dims, is_partial = candidate
             tried.add(name)
             if args.dry_run:
                 print('%s: struct %s: %s' % (module, name, '; '.join(dims.values())))
@@ -291,7 +314,7 @@ def main(argv=None):
                 sum(scores.values()) >= sum(baseline.values())
             closer = 0 if scores is None else sum(1 for f in scores if scores[f] < baseline.get(f, 1 << 30))
             gained = 0 if scores is None else sum(1 for f in scores if scores[f] == 0 and baseline.get(f) != 0)
-            if lost or not closer:
+            if lost or not closer or (is_partial and not gained):
                 path.write_text(text, encoding='utf-8')
                 print('%s: struct %s: %s' % (module, name, 'no build' if scores is None else
                                              'loses functions' if lost else 'no gain'))

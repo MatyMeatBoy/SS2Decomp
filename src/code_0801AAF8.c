@@ -2282,16 +2282,16 @@ s32 sub_0801DF80(void) {
  * does not subtract damage, clear flags or transition the player state. */
 s32 sub_0801DF8C(void) {
     u8 *p = (u8 *) &gUnk_03003CE0[sub_080020F4()];
-    u32 flags = *(u32 *) (p + 0x30);
+    u32 flags = *(u32 *) (p + PLAYER_FIELD(0x30));
     s32 r4;
 
     if (!(flags & 0x100000)) {
         r4 = 0;
-        if (*(u16 *) (p + 0x20) == 0xB) {
+        if (*(u16 *) (p + PLAYER_FIELD(0x20)) == PLAYER_FIELD(0xB)) {
             r4 = 1;
-        } else if (*(s16 *) (p + 0xC4) == 0) {
+        } else if (*(s16 *) (p + PLAYER_FIELD(0xC4)) == 0) {
             r4 = 1;
-        } else if ((s16) (*(u16 *) (p + 0xC4) - *(u16 *) (p + 0x88)) <= 0) {
+        } else if ((s16) (*(u16 *) (p + PLAYER_FIELD(0xC4)) - *(u16 *) (p + PLAYER_FIELD(0x88))) <= 0) {
             r4 = 1;
         } else if (flags & 0x2000) {
             r4 = 1;

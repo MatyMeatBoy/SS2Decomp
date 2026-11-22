@@ -374,9 +374,9 @@ test:
 }
 struct ItemSlot { u16 type; u16 pad; u32 count; u32 c; u32 d; };
 struct ItemTable {
-    u8 pad[0x6A];
+    u8 pad[SAVE_FIELD(0x6A)];
     u16 rows;
-    u8 pad2[0x150 - 0x6C];
+    u8 pad2[SAVE_FIELD(0x150) - SAVE_FIELD(0x6C)];
     struct ItemSlot field[25];
     struct ItemSlot stash[25];
 };

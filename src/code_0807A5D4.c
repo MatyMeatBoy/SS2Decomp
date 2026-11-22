@@ -63,7 +63,7 @@ struct MgrA5D4 {
     u8 sprite[0x68];
     u32 f620;
 };
-struct PlayerA5D4 { u8 pad[0x30]; u32 flags; u8 pad34[4]; s16 stat[4]; u8 pad40[0x20]; u16 f60, f62; u8 pad64[0x14C - 0x64]; };
+struct PlayerA5D4 { u8 pad[PLAYER_FIELD(0x30)]; u32 flags; u8 pad34[PLAYER_FIELD(0x38) - PLAYER_FIELD(0x34)]; s16 stat[4]; u8 pad40[PLAYER_FIELD(0x60) - PLAYER_FIELD(0x40)]; u16 f60, f62; u8 pad64[PLAYER_SIZE - PLAYER_FIELD(0x64)]; };
 struct StageA5D4 { u8 pad[0x1FA]; u16 value; };
 struct IndexA5D4 { u8 pad[0x14A]; u16 value; };
 union BgA5D4 { u32 word; u16 half[2]; };

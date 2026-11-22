@@ -979,7 +979,7 @@ void sub_08096640(struct Body99640 *arg0)
     }
 }
 extern u16 shakeScale99 asm("gUnk_0300029C");
-struct ShakeView99 { u8 pad[0x18]; u16 vertical; };
+struct ShakeView99 { u8 pad[SAVE_FIELD(0x18)]; u16 vertical; };
 extern struct ShakeView99 *shakeView99 asm("gUnk_030034E0");
 extern struct Task *shakeTask99 asm("gUnk_03000298");
 extern void shakeOffset99(u32, s32) asm("sub_0800BB80");

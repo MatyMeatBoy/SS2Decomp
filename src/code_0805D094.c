@@ -65,8 +65,8 @@ s32 sub_0805D190(void) {
  * inferred. */
 s32 sub_0805D1E0(void) {
     u8 *base=(u8 *)gUnk_030034E0;
-    if(*(u16 *)(base+0x140)==6) *(u8 *)(base+0x149)=1;
-    else *(u8 *)(base+0x149)=0;
+    if(*(u16 *)(base+SAVE_FIELD(0x140))==6) *(u8 *)(base+SAVE_FIELD(0x149))=1;
+    else *(u8 *)(base+SAVE_FIELD(0x149))=0;
 }
 /* [CanEquipHeadgearItem] Returns 0 for null, kind other than 4, or nonzero item byte +8. Resolves category D,
  * requires the class permission bit in record halfword +0xA2 indexed by the low byte of 1DE60, then requires

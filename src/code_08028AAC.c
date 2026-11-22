@@ -354,7 +354,7 @@ done:
 }
 struct Actor029174 { u32 id; u8 p4[0x20]; u16 f24; u8 p26[6]; u16 f2C, f2E, f30, f32, f34; u8 p36[2]; u16 f38; u8 p3A[0x36]; };
 struct State029174 { u8 p0[0x7A4]; struct Actor029174 actors[15]; };
-struct Enemy029174 { u8 p0[0xC]; u16 fC, fE; u8 p10[0x5A]; u16 f6A, f6C, f6E, f70, f72; u8 p74[0x26C]; };
+struct Enemy029174 { u8 p0[0xC]; u16 fC, fE; u8 p10[0x5A]; u16 f6A, f6C, f6E, f70, f72; u8 p74[ENEMY_SIZE - 0x74]; };
 struct Player029174 { u8 p0[0x10]; u16 f10; u8 p12[0xE]; u16 f20, f22; u8 p24[0x92]; u16 fB6; u8 pB8[2]; u16 fBA, fBC, fBE, fC0; u8 pC2[0x8A]; };
 extern struct State029174 *state029174 asm("gUnk_03005CF4");
 extern struct Enemy029174 *enemies029174 asm("gUnk_030056F4");
@@ -836,20 +836,20 @@ void sub_08029A7C(u32 action,u32 amount,s32 argument)
  u8 result[8]; u8 *res; u8 *player; u32 flags; s32 handle; u16 kind;
  player=(u8*)&gUnk_03003CE0[sub_080020F4()];
  if(sub_0800CDF8()==0 && sub_08058DB0()==0){
-  kind=H_A7(player,0x20);
-  if(kind!=14 && player[0x68]!=0 && kind!=11){
-   flags=W_A7(player,0x30)&0x2000;
-   if(flags==0 && kind!=10){
-    amount=scaleA7C(amount,H_A7(player,0x5A),200);
+  kind=H_A7(player,PLAYER_FIELD(0x20));
+  if(kind!=14 && player[PLAYER_FIELD(0x68)]!=0 && kind!=PLAYER_FIELD(11)){
+   flags=W_A7(player,PLAYER_FIELD(0x30))&0x2000;
+   if(flags==0 && kind!=PLAYER_FIELD(10)){
+    amount=scaleA7C(amount,H_A7(player,PLAYER_FIELD(0x5A)),200);
     res=result;
-    initA7C(result,player+0x4C,argument,action,H_A7(player,0));
+    initA7C(result,player+PLAYER_FIELD(0x4C),argument,action,H_A7(player,0));
     handle=sub_0801E164(player,0);
     if(handle)sub_0801DB94(H_A7(player,0),(void*)handle,res[1]);
-    amount=valueA7C(action,amount,player+0x4C);
-    H_A7(player,0x20)=10; H_A7(player,0x88)+=amount;
-    W_A7(player,0x110)=flags; H_A7(player,0xC8)=flags; H_A7(player,0xCA)=flags; W_A7(player,0xE0)=flags;
-    if(H_A7(player,0xC)==8)sub_0805865C(0x4B); else sub_0805865C(H_A7(player,0xC)+0x45);
-    runA7C(player+0x4C,amount,argument,0,H_A7(player,0),action);
+    amount=valueA7C(action,amount,player+PLAYER_FIELD(0x4C));
+    H_A7(player,PLAYER_FIELD(0x20))=PLAYER_FIELD(10); H_A7(player,PLAYER_FIELD(0x88))+=amount;
+    W_A7(player,PLAYER_FIELD(0x110))=flags; H_A7(player,PLAYER_FIELD(0xC8))=flags; H_A7(player,PLAYER_FIELD(0xCA))=flags; W_A7(player,PLAYER_FIELD(0xE0))=flags;
+    if(H_A7(player,PLAYER_FIELD(0xC))==8)sub_0805865C(0x4B); else sub_0805865C(H_A7(player,PLAYER_FIELD(0xC))+0x45);
+    runA7C(player+PLAYER_FIELD(0x4C),amount,argument,0,H_A7(player,0),action);
    }
   }
  }
@@ -913,19 +913,19 @@ void sub_08029CEC(u32 action,u32 amount,s32 argument)
  u8 result[8]; u8 *res; u8 *player; u32 flags; s32 handle; u16 kind;
  player=(u8*)&gUnk_03003CE0[sub_080020F4()];
  if(sub_0800CDF8()==0 && sub_08058DB0()==0){
-  kind=H_CE(player,0x20);
-  if(kind!=14 && player[0x68]!=0 && kind!=11){
-   flags=W_CE(player,0x30)&0x2000;
-   if(flags==0 && kind!=10){
+  kind=H_CE(player,PLAYER_FIELD(0x20));
+  if(kind!=14 && player[PLAYER_FIELD(0x68)]!=0 && kind!=PLAYER_FIELD(11)){
+   flags=W_CE(player,PLAYER_FIELD(0x30))&0x2000;
+   if(flags==0 && kind!=PLAYER_FIELD(10)){
     res=result;
-    initCEC(result,player+0x4C,argument,action,H_CE(player,0));
+    initCEC(result,player+PLAYER_FIELD(0x4C),argument,action,H_CE(player,0));
     handle=sub_0801E164(player,0);
     if(handle)sub_0801DB94(H_CE(player,0),(void*)handle,res[1]);
-    amount=valueCEC(action,amount,player+0x4C);
-    W_CE(player,0xE0)=action; extraCEC(action,amount,stateCEC+0x24); H_CE(player,0x20)=10; H_CE(player,0x88)+=amount;
-    W_CE(player,0x110)=flags; H_CE(player,0xC8)=flags; H_CE(player,0xCA)=flags;
-    if(H_CE(player,0xC)==8)sub_0805865C(0x4B); else sub_0805865C(H_CE(player,0xC)+0x45);
-    runCEC(player+0x4C,amount,argument,0,H_CE(player,0),action);
+    amount=valueCEC(action,amount,player+PLAYER_FIELD(0x4C));
+    W_CE(player,PLAYER_FIELD(0xE0))=action; extraCEC(action,amount,stateCEC+SAVE_FIELD(0x24)); H_CE(player,PLAYER_FIELD(0x20))=PLAYER_FIELD(10); H_CE(player,PLAYER_FIELD(0x88))+=amount;
+    W_CE(player,PLAYER_FIELD(0x110))=flags; H_CE(player,PLAYER_FIELD(0xC8))=flags; H_CE(player,PLAYER_FIELD(0xCA))=flags;
+    if(H_CE(player,PLAYER_FIELD(0xC))==8)sub_0805865C(0x4B); else sub_0805865C(H_CE(player,PLAYER_FIELD(0xC))+0x45);
+    runCEC(player+PLAYER_FIELD(0x4C),amount,argument,0,H_CE(player,0),action);
    }
   }
  }

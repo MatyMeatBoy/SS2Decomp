@@ -966,7 +966,7 @@ void sub_0801F2CC(u8 *object, u8 *data)
     ((struct Sh20F2CC *)object)->direction = value;
   }
 }
-struct Sh20F320 { u32 alignment; u8 pad[0xCA]; u16 duration; s16 direction; u16 speed; u16 value; };
+struct Sh20F320 { u32 alignment; u8 pad[PLAYER_FIELD(0xCE) - 0x4]; u16 duration; s16 direction; u16 speed; u16 value; };
 struct Sh20F320Data { u8 pad[2]; u8 value; s32 direction:8; };
 /* [ConfigurePlayerKnockbackFromHit] Writes player knockback duration +0xCE; lines 932-939 write speed,
  * magnitude and signed direction. */

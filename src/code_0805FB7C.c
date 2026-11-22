@@ -571,7 +571,7 @@ struct HudPlayer63 {
     u8 pad79[PLAYER_SIZE - PLAYER_FIELD(0x79)];
 };
 struct HudSlot63 { u8 b[0x10]; };
-struct HudMgr63 { u8 pad0[0x68]; u16 sel; u8 pad6A[6]; struct HudSlot63 slots[1]; };
+struct HudMgr63 { u8 pad0[PLAYER_FIELD(0x68)]; u16 sel; u8 pad6A[PLAYER_FIELD(0x70) - PLAYER_FIELD(0x6A)]; struct HudSlot63 slots[1]; };
 struct HudPos63 { s16 x, y; };
 extern struct HudPlayer63 hudPlayers63[] asm("gUnk_03003CE0");
 extern struct HudMgr63 *hudMgr63 asm("gUnk_030034E0");
@@ -1139,7 +1139,7 @@ void sub_0806171C(void *raw,s32 value)
     NumberDraw64(&numberSprite64,screenX-6,screenY-8,4,6);
 }
 /* SS1 player_rise_effect.c (52c0fa73870fab238941e32be7eff172e9bad71f), adapted to SS2 ASM. */
-struct RisePlayer64 { u8 pad0[0x30]; u32 flags; u8 pad34[0x58]; s32 x,y; };
+struct RisePlayer64 { u8 pad0[PLAYER_FIELD(0x30)]; u32 flags; u8 pad34[PLAYER_FIELD(0x8C) - PLAYER_FIELD(0x34)]; s32 x,y; };
 struct RiseSprite64 { u32 base,unused,data; u8 padC[0x10]; u8 attr[24]; };
 extern struct RiseSprite64 riseSprite64 asm("gUnk_03005D80");
 extern u32 riseCoords64(s32,s32,s16 *,s16 *,u32,u32) asm("sub_0800BC08");

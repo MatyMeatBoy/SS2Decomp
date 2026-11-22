@@ -1162,7 +1162,7 @@ finish9F018:
 struct Actor9F4A8 {
     u16 id; u8 pad2[10]; u16 state; u8 padE[6];
     s32 x, y; u8 pad1C[0x34]; u32 serial;
-    u8 pad54[0x286]; u16 paletteOffset;
+    u8 pad54[ENEMY_FIELD(0x2DA) - 0x54]; u16 paletteOffset;
 };
 struct Player9F4A8 {
     u8 pad0[PLAYER_FIELD(0x20)]; u16 state; u8 pad22[PLAYER_FIELD(0x30) - PLAYER_FIELD(0x22)]; u32 flags;
@@ -1785,7 +1785,7 @@ void sub_0809FB6C(void *input)
 #undef I9FB6C
 #undef P9FB6C
 struct Sprite105 {u32 base,pad4,data,palette,pad10,pad14,pad18;u8 payload[24];};
-struct Actor105 {u16 index;u8 pad2[10];u16 state;u8 padE[0x42];u32 serial;u8 pad54[0x286];u16 paletteOffset;};
+struct Actor105 {u16 index;u8 pad2[10];u16 state;u8 padE[0x42];u32 serial;u8 pad54[ENEMY_FIELD(0x2DA) - 0x54];u16 paletteOffset;};
 struct Player105 {u8 p0[PLAYER_FIELD(0x20)];u16 state;u8 p22[PLAYER_FIELD(0x30) - PLAYER_FIELD(0x22)];u32 flags;u8 p34[PLAYER_FIELD(0x68) - PLAYER_FIELD(0x34)];u8 active;u8 p69[PLAYER_FIELD(0x88) - PLAYER_FIELD(0x69)];u16 health;u16 p8A;s32 x,y;u8 p94[PLAYER_FIELD(0xB0) - PLAYER_FIELD(0x94)];u16 motion;u8 pB2[PLAYER_FIELD(0xE4) - PLAYER_FIELD(0xB2)];u32 seen[26];};
 struct Obj105 {u32 p0,p4,p8;s32 y;};
 extern struct Actor105 *actor105 asm("gUnk_0300032C");

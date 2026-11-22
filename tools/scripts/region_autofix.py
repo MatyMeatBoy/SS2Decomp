@@ -204,7 +204,12 @@ def search(checker, module, name, address, log):
                     options.setdefault((macro, value), []).append(index)
         # Greedy over whole values first, then over single occurrences.
         for granularity in ('value', 'single'):
-            moves = list(options.items()) if granularity == 'value' else \
+            # Whole-macro moves first (every candidate literal of one macro at once): offsets of
+            # one record often only match together.
+            whole = {}
+            for (macro, _), indices in options.items():
+                whole.setdefault((macro, None), []).extend(indices)
+            moves = list(whole.items()) + list(options.items()) if granularity == 'value' else \
                 [((macro, value), [index]) for (macro, value), indices in options.items() for index in indices]
             improved = True
             while improved and best:

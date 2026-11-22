@@ -192,13 +192,13 @@ s32 sub_08021FE0(s32 *arg0, s32 *arg1, u16 *arg2, u16 *arg3) {
  * reaches it after player-active/state/flag checks, scene predicates and inclusive21FE0 overlap on one
  * alternate branch. */
 void sub_08022028(u8 *arg0, u8 *arg1, u16 arg2) {
-    ArcTan2((s16)((*(s32 *)(arg1 + 0x8C) - *(s32 *)(arg0 + 0)) << 8 >> 16),
-            (s16)((*(s32 *)(arg1 + 0x90) - *(s32 *)(arg0 + 4)) << 8 >> 16));
-    *(u16 *)(arg1 + 0xCC) = 0;
-    *(u16 *)(arg1 + 0xD0) = 0;
-    *(u16 *)(arg1 + 0xCE) = 0;
-    *(u16 *)(arg1 + 0x88) += arg2;
-    *(u16 *)(arg1 + 0x20) = 0xA;
+    ArcTan2((s16)((*(s32 *)(arg1 + PLAYER_FIELD(0x8C)) - *(s32 *)(arg0 + 0)) << 8 >> 16),
+            (s16)((*(s32 *)(arg1 + PLAYER_FIELD(0x90)) - *(s32 *)(arg0 + 4)) << 8 >> 16));
+    *(u16 *)(arg1 + PLAYER_FIELD(0xCC)) = 0;
+    *(u16 *)(arg1 + PLAYER_FIELD(0xD0)) = 0;
+    *(u16 *)(arg1 + PLAYER_FIELD(0xCE)) = 0;
+    *(u16 *)(arg1 + PLAYER_FIELD(0x88)) += arg2;
+    *(u16 *)(arg1 + PLAYER_FIELD(0x20)) = PLAYER_FIELD(0xA);
 }
 /* [StartWorldSprite14Task] Scans32 effect mask bits for first clear slot, allocates0x400 stack, installs
  * world-sprite14 callback, controlword0x46 and null destructor; packs arithmetic-shifted x/y into one

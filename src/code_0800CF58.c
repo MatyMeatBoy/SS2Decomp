@@ -5475,7 +5475,7 @@ void sub_080135C4(u16 id) {
     t6_tasks135[id].f24 = 0;
     t6_start135(&t6_tasks135[id], &t6_players135[id]);
 }
-struct Team6State137A0 { u8 pad[0x100]; u16 a, b; u8 c[12]; u16 d, e; u8 f[12]; u16 g, h; u8 j[12]; };
+struct Team6State137A0 { u8 pad[PLAYER_FIELD(0x100)]; u16 a, b; u8 c[12]; u16 d, e; u8 f[12]; u16 g, h; u8 j[12]; };
 extern struct Team6State137A0 *team6_state137A0 asm("gUnk_030034E0");
 /* [ClearSelectedEquipmentRecord] Writes zero type/id halfwords plus12 bytes at local save100/110/120 for
  * selectors0/1/2 respectively. */
