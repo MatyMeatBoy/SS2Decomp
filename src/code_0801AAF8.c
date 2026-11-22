@@ -788,25 +788,25 @@ struct BA74Job {
 };
 struct BA74Unit {
     u16 f0;
-    u8 pad2[0xA];
+    u8 pad2[PLAYER_FIELD(0xC) - PLAYER_FIELD(0x2)];
     u16 fC;
-    u8 padE[2];
+    u8 padE[PLAYER_FIELD(0x10) - PLAYER_FIELD(0xE)];
     u16 f10;
-    u8 pad12[0x1E];
+    u8 pad12[PLAYER_FIELD(0x30) - PLAYER_FIELD(0x12)];
     u32 f30;
     struct BA74Ent *f34;
-    u8 pad38[0x2C];
+    u8 pad38[PLAYER_FIELD(0x64) - PLAYER_FIELD(0x38)];
     u16 f64;
     u8 f66;
     u8 pad67;
     u8 f68;
-    u8 pad69[0x23];
+    u8 pad69[PLAYER_FIELD(0x8C) - PLAYER_FIELD(0x69)];
     s32 f8C[0x29];
-    u8 pad130[2];
+    u8 pad130[PLAYER_FIELD(0x132) - PLAYER_FIELD(0x130)];
     u16 f132;
-    u8 pad134[4];
+    u8 pad134[PLAYER_FIELD(0x138) - PLAYER_FIELD(0x134)];
     struct BA74Job *f138;
-    u8 pad13C[0xC];
+    u8 pad13C[PLAYER_FIELD(0x148) - PLAYER_FIELD(0x13C)];
     struct BA74Pos *f148;
 };
 struct BA74Cls { u8 pad0[8]; s16 f8; u8 padA[0x16]; };
@@ -1844,7 +1844,7 @@ break;
 return 0;
 }
 
-struct RescueD34CRecord { u8 pad[0x10]; u16 kind; u8 tail[0x13a]; };
+struct RescueD34CRecord { u8 pad[PLAYER_FIELD(0x10)]; u16 kind; u8 tail[PLAYER_SIZE - PLAYER_FIELD(0x12)]; };
 extern struct RescueD34CRecord rescueD34CRecords[] asm("gUnk_03003CE0");
 extern u8 *rescueD34CCurrent asm("gUnk_030034E0");
 /* [GetClassActionCappedValue] Maps saved class8 to6, switches local runtime action kind and class to selected

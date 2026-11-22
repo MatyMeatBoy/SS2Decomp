@@ -69,12 +69,12 @@ void sub_08015464(void)
         
     }
     while (initial == 0 && p->state == 5) {
-        u32 *counter = (u32 *)((u8 *)p + 0xDC);
-            switch (*(u16 *)((u8 *)p + 0xB2)) {
+        u32 *counter = (u32 *)((u8 *)p + PLAYER_FIELD(0xDC));
+            switch (*(u16 *)((u8 *)p + PLAYER_FIELD(0xB2))) {
             case 2:
             case 5:
             case 7:
-                if (*(u16 *)((u8 *)p + 0xB4) == 1)
+                if (*(u16 *)((u8 *)p + PLAYER_FIELD(0xB4)) == 1)
                     (*counter)++;
                 break;
             }

@@ -6407,8 +6407,8 @@ void sub_08014C8C(void) {
     next = 0x50;
     step = 1;
     while (p->wB6 == 0 && p->state == 5) {
-        u16 *type = (u16 *)((u8 *)p + 0xB2);
-        u32 *counter = (u32 *)((u8 *)p + 0xDC);
+        u16 *type = (u16 *)((u8 *)p + PLAYER_FIELD(0xB2));
+        u32 *counter = (u32 *)((u8 *)p + PLAYER_FIELD(0xDC));
             if (next != *type && *type == step) {
                 next = *type;
                 (*counter)++;
@@ -6610,10 +6610,10 @@ void sub_08015150(void)
 {
     struct PlayerW12 *p = (struct PlayerW12 *)&gUnk_03003CE0[sub_080020F4()];
     while (p->wB6 == 0 && p->state == 5) {
-        u32 *counter = (u32 *)((u8 *)p + 0xDC);
-            u16 type = *(u16 *)((u8 *)p + 0xB2);
+        u32 *counter = (u32 *)((u8 *)p + PLAYER_FIELD(0xDC));
+            u16 type = *(u16 *)((u8 *)p + PLAYER_FIELD(0xB2));
             if (type == 1 || type == 4 || type == 5) {
-                if (*(u16 *)((u8 *)p + 0xB4) == 0)
+                if (*(u16 *)((u8 *)p + PLAYER_FIELD(0xB4)) == 0)
                     (*counter)++;
             }
             sub_080003F0();
@@ -6692,13 +6692,13 @@ void sub_080152CC(void)
                              (s32 *)&p->pos8C, p->w1C, direction, 0);
         sub_08013CEC((u8 *)p);
         {
-            u32 type = *(u16 *)((u8 *)p + 0xB2);
+            u32 type = *(u16 *)((u8 *)p + PLAYER_FIELD(0xB2));
             switch (type) {
             case 1:
             case 3:
                 
-                if (type == 3 && *(u16 *)((u8 *)p + 0xB4) == 1)
-                    (*(u32 *)((u8 *)p + 0xDC))++;
+                if (type == 3 && *(u16 *)((u8 *)p + PLAYER_FIELD(0xB4)) == 1)
+                    (*(u32 *)((u8 *)p + PLAYER_FIELD(0xDC)))++;
                 break;
             }
         }

@@ -2857,7 +2857,7 @@ void sub_0807854C(u32 who, u32 b)
 }
 struct Spr85F4 { u32 f0, f4, f8, fC; u8 pad10[12]; u8 f1C, f1D; u8 pad1E[22]; };
 struct Pos85F4 { u16 h0; u16 h2; };
-struct Ply85F4 { u8 pad0[0x30]; u32 flags; u8 pad34[0x34]; u8 team; u8 pad69[0x23]; s32 x, y; u8 pad94[0xB4]; struct Pos85F4 *pos; };
+struct Ply85F4 { u8 pad0[PLAYER_FIELD(0x30)]; u32 flags; u8 pad34[PLAYER_FIELD(0x68) - PLAYER_FIELD(0x34)]; u8 team; u8 pad69[PLAYER_FIELD(0x8C) - PLAYER_FIELD(0x69)]; s32 x, y; u8 pad94[PLAYER_FIELD(0x148) - PLAYER_FIELD(0x94)]; struct Pos85F4 *pos; };
 struct Ene85F4 { u16 id; u8 pad2[6]; s16 dir; u8 padA[2]; u16 state; u8 padE[6]; s32 x, y; u8 pad1C[0x4E]; u16 wait; u8 pad6C[0xE]; u16 f7A; u8 pad7C[0x160]; u8 active; u8 pad1DD[0x20]; u8 f1FD; u8 pad1FE[0x2D]; u8 threshold; u16 f22C; u8 pad22E[0xAA]; u16 f2D8, f2DA; u8 pad2DC[4]; };
 struct Off85F4 { s16 x, y; };
 extern struct Ply85F4 p85F4[] asm("gUnk_03003CE0");
