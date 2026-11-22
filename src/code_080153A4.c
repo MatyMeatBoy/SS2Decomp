@@ -419,10 +419,10 @@ void sub_08015C38(void) {
 void sub_08015C5C(s32 arg0, s32 arg1) {
     void *temp_r2;
 
-    temp_r2 = (&((struct Sz332 *)&gUnk_03003CE0)[sub_080020F4()]);
-    M2C_FIELD(temp_r2, s32 *, 0x9C) = arg0;
-    M2C_FIELD((temp_r2 + 0x9C), s32 *, 4) = arg1;
-    M2C_FIELD(temp_r2, s32 *, 0x30) = (s32) (M2C_FIELD(temp_r2, s32 *, 0x30) | 0x24);
+    temp_r2 = &gUnk_03003CE0[sub_080020F4()];
+    M2C_FIELD(temp_r2, s32 *, PLAYER_FIELD(0x9C)) = arg0;
+    M2C_FIELD((temp_r2 + PLAYER_FIELD(0x9C)), s32 *, 4) = arg1;
+    M2C_FIELD(temp_r2, s32 *, PLAYER_FIELD(0x30)) = (s32) (M2C_FIELD(temp_r2, s32 *, PLAYER_FIELD(0x30)) | 0x24);
 }
 /* [SetLocalPlayerSpriteHideFlag] Queries the local player index, selects the 0x14C-byte runtime record, ORs
  * 0x80000 into its full 32-bit flags at +0x30 and then calls EnqueueLinkPlayerFlags. Preserves other flag bits

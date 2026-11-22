@@ -71,12 +71,13 @@ struct LevelEntry {
 };
 
 // Character / party member (array gUnk_03003CE0, 0x14C bytes each)
+// Offsets are EU; USA moves them through PLAYER_FIELD (include/region.h).
 struct Player {
-    char unk_0[0x20];
+    char unk_0[PLAYER_FIELD(0x20)];
     u16 state;              // 0x20
-    char unk_22[0xE];
+    char unk_22[PLAYER_FIELD(0x30) - PLAYER_FIELD(0x22)];
     u32 flags;              // 0x30
-    char unk_34[0x14C - 0x34];
+    char unk_34[PLAYER_SIZE - PLAYER_FIELD(0x34)];
 };
 
 // placeholder structs: array element of N bytes

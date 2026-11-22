@@ -53,9 +53,9 @@ SHA-256 values are pinned in `tools/config/rom_regions.json`.
 
 ## Coverage and limitations
 
-The verified USA build contains 1,265 compiler-backed C intervals (16 same-address
-EU, 1,245 relocated EU, 4 region-only) totaling 165,792 bytes; Japan contains
-1,270 (16, 1,227 and 27) totaling 164,410 bytes. Consult each generated report for the actual current counts, canonical EU symbols, addresses,
+The verified USA build contains 1,329 compiler-backed C intervals (16 same-address
+EU, 1,309 relocated EU, 4 region-only) totaling 187,424 bytes; Japan contains
+1,272 (16, 1,229 and 27) totaling 164,414 bytes. Consult each generated report for the actual current counts, canonical EU symbols, addresses,
 sizes and per-function hashes. The admitted intervals include complete function
 literal pools. Top-level assembly and `INCLUDE_ASM` fallbacks receive no C credit.
 
@@ -157,7 +157,28 @@ addresses only, never ROM bytes.
 
 Functions that are not listed still come from the reference ROM. Their code
 differs from EU, for example through 16-bit text handling, the 0x454-byte
-enemy records or the Japanese player layout.
+enemy records or the regional player layouts.
+
+## Regional layouts in shared EU sources
+
+The regional build compiles every `src/*.c` a second time with `-DREGION_USA`
+or `-DREGION_JP` (`build/regions/<region>/variant`, EU link order, Makefile
+variable `REGION_CPPFLAGS`). `region_symbols.py` pairs and `region_build.py`
+relocates the functions of that build, so a layout difference written once in
+the shared source moves every function that uses it. The EU build defines
+neither macro and must stay byte-identical (`make compare`).
+
+`include/region.h` holds the differences, as EU-offset mapping macros:
+
+| Macro | EU | USA |
+| --- | --- | --- |
+| `PLAYER_SIZE` | 0x14C | 0x158 |
+| `PLAYER_FIELD(o)` | `o` | `o` below 0x0C, `o + 10` below 0x2A, then `o + 12` (flags +0x30 -> +0x3C) |
+
+`struct Player` is written with these macros. Raw offsets into a player record
+must be written `PLAYER_FIELD(0x9C)`, its stride `PLAYER_SIZE`, so the USA
+build sees the USA layout. Japan is not described yet (player 0x154 bytes,
+flags at +0x38).
 
 ## Region-only C sources
 

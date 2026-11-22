@@ -135,13 +135,23 @@ def self_contained(fragment, relocations, symbols):
     return not (tokens & set(symbols)) - allowed
 
 
-def derive(rom):
-    eu_rom = (ROOT / 'baserom.gba').read_bytes()
+def derive(rom, region):
+    """Pairs the -DREGION_<REGION> build of the EU sources (region_build.variant_build) with the
+    regional ROM; keys are translated to EU addresses by name."""
     target_rom = Path(rom).read_bytes()
     rom_end = region_build.ROM_BASE + len(target_rom)
-    symbols, fragments = region_build.linked_symbols_and_fragments(ROOT / 'shiningsoul2_eu.elf',
-                                                                   ROOT / 'build/src')
-    relocations = object_relocations(sorted((ROOT / 'build/src').glob('*.o')))
+    eu_symbols, eu_fragments = region_build.linked_symbols_and_fragments(ROOT / 'shiningsoul2_eu.elf',
+                                                                         ROOT / 'build/src')
+    elf, assembly, symbols, fragments = region_build.variant_build(region)
+    eu_rom = elf.with_suffix('.gba').read_bytes()
+    relocations = object_relocations(sorted(assembly.glob('*.o')))
+    eu_addresses = {fragment.name: fragment.address for fragment in eu_fragments}
+    # EU functions the regional build already takes unchanged at their EU address.
+    shared = {fragment.name for fragment in eu_fragments if len(fragment.data) >= 8 and target_rom[
+        fragment.address - region_build.ROM_BASE:][:len(fragment.data)] == fragment.data}
+
+    def same(fragment, address):
+        return fragment.name in shared and address == eu_addresses[fragment.name]
     placed, needs = {}, {}
     delta = 0
     placed_end = region_build.ROM_BASE
@@ -175,9 +185,7 @@ def derive(rom):
             delta = address - fragment.address
         if found is None:
             continue
-        same = address == fragment.address and \
-            target_rom[address - region_build.ROM_BASE:][:len(fragment.data)] == fragment.data
-        if same:
+        if same(fragment, address):
             continue
         placed[fragment.name] = address
         needs[fragment.name] = found
@@ -193,8 +201,7 @@ def derive(rom):
             continue
         address = next(iter(called[fragment.name])) & ~1
         found = resolve(fragment, relocs, symbols, eu_rom, target_rom, address)
-        if found is not None and not (address == fragment.address and target_rom[
-                address - region_build.ROM_BASE:][:len(fragment.data)] == fragment.data):
+        if found is not None and not same(fragment, address):
             placed[fragment.name] = address
             needs[fragment.name] = found
     # The running delta misses functions after a run of regional differences; retry each remaining
@@ -216,8 +223,7 @@ def derive(rom):
             high = placed[neighbours[-1]] if index < len(ordered) else rom_end
             if address in candidates or not low <= address or address + len(fragment.data) > high:
                 continue
-            if address == fragment.address and target_rom[address - region_build.ROM_BASE:][
-                    :len(fragment.data)] == fragment.data:
+            if same(fragment, address):
                 continue
             found = resolve(fragment, relocs, symbols, eu_rom, target_rom, address)
             if found is not None:
@@ -247,10 +253,16 @@ def derive(rom):
             break
         for name in dropped:
             del placed[name]
-    referenced = {symbols[item] for name in placed for item in needs[name]}
-    eu_addresses = {name: fragment.address for fragment in fragments for name in (fragment.name,)}
+    table = {}
+    for name in placed:
+        for item in needs[name]:
+            if item not in eu_symbols:
+                raise RegionError('%s: %s is not an EU symbol' % (name, item))
+            value = next(iter(values[symbols[item]]))
+            if table.setdefault(eu_symbols[item], value) != value:
+                raise RegionError('EU symbol 0x%08X has two regional values' % eu_symbols[item])
     return ({eu_addresses[name]: placed[name] for name in sorted(placed, key=placed.get)},
-            {value: next(iter(values[value])) for value in sorted(referenced)})
+            dict(sorted(table.items())))
 
 
 def main(argv=None):
@@ -263,7 +275,7 @@ def main(argv=None):
     try:
         identity = verify_rom(rom, args.region)
         verify_rom(ROOT / 'baserom.gba', 'eu')
-        placed, symbols = derive(rom)
+        placed, symbols = derive(rom, args.region)
     except (RegionError, OSError) as exc:
         parser.exit(1, '%s\n' % exc)
     table = {

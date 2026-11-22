@@ -3,6 +3,7 @@
 
 #include "gba/gba.h"
 #include "m2c_macros.h"
+#include "region.h"
 #include "m4a.h"
 #include "structs.h"
 #include "variables.h"

@@ -19,7 +19,9 @@ CC1       := tools/agbcc/bin/agbcc
 
 ASFLAGS   := -mcpu=arm7tdmi -I .
 NM_FLAGS  :=
-CPPFLAGS  := -nostdinc -I tools/agbcc/include -iquote include -undef -std=gnu17 $(NM_FLAGS)
+# Regional builds (tools/scripts/region_build.py) compile the EU sources once more with -DREGION_USA/-DREGION_JP.
+REGION_CPPFLAGS :=
+CPPFLAGS  := -nostdinc -I tools/agbcc/include -iquote include -undef -std=gnu17 $(NM_FLAGS) $(REGION_CPPFLAGS)
 CC1FLAGS  := -mthumb-interwork -Wimplicit -Wparentheses -O2 -fhex-asm -fprologue-bugfix
 
 SHELL     := /bin/bash -o pipefail

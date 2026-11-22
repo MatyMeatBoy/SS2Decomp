@@ -4,6 +4,7 @@ import argparse
 from dataclasses import dataclass
 import hashlib
 import json
+import os
 from pathlib import Path
 import re
 import shutil
@@ -184,6 +185,22 @@ def linked_symbols_and_fragments(elf_path, assembly_dir):
     return symbols, fragments
 
 
+def variant_build(region):
+    """Build the EU sources once more with -DREGION_USA / -DREGION_JP, in the EU link order.
+
+    Shared C can describe a regional layout difference under #ifdef REGION_<REGION> (for example
+    the 0x158-byte USA player record). Relocated functions are taken from this build; without such
+    blocks it is byte-identical to EU. Returns (elf, assembly dir, linked symbols, fragments).
+    """
+    work = 'build/regions/%s/variant' % region
+    run(['make', 'REGION=eu', 'BUILD=' + work, 'NAME=%s/shiningsoul2' % work, 'NM_FLAGS=',
+         'REGION_CPPFLAGS=-DREGION_%s' % region.upper(), '-j%d' % (os.cpu_count() or 1), 'all'],
+        ROOT / ('build/regions/%s/variant.log' % region))
+    elf, assembly = ROOT / work / 'shiningsoul2.elf', ROOT / work / 'src'
+    symbols, fragments = linked_symbols_and_fragments(elf, assembly)
+    return elf, assembly, symbols, fragments
+
+
 REGION_SYMBOL = re.compile(r'(?P<region>usa|jp)_(?P<kind>sub|gUnk)_(?P<address>[0-9A-F]{8})')
 GAME_CC1 = ['tools/agbcc/bin/agbcc', '-mthumb-interwork', '-Wimplicit', '-Wparentheses', '-O2',
             '-fhex-asm', '-fprologue-bugfix']
@@ -245,14 +262,15 @@ def region_only_fragments(region, target_rom, out, prefix='arm-none-eabi-'):
     return fragments, symbols, references & called
 
 
-def relocated_fragments(region, fragments, selected, target_rom, eu_symbols):
+def relocated_fragments(region, fragments, selected, target_rom, eu_symbols, variant=()):
     """EU C functions that a regional ROM keeps with identical code at another address.
 
     tools/config/region_symbols_<region>.json (written by region_symbols.py) maps the EU address
     of each such function to its regional address, and the EU value of every symbol it references
     to the regional value. The EU compiler assembly is reused unchanged except that those references
     (and the function's own label) are renamed into a __<region>_ namespace, so the EU values stay
-    available to same-address fragments. Returns (fragments, symbols, called names).
+    available to same-address fragments. The assembly comes from the -DREGION_<REGION> build
+    (variant_build) when one is given. Returns (fragments, symbols, called names).
     """
     path = ROOT / 'tools/config' / ('region_symbols_%s.json' % region)
     if not path.exists():
@@ -263,6 +281,7 @@ def relocated_fragments(region, fragments, selected, target_rom, eu_symbols):
     functions = {int(eu, 16): int(value, 16) for eu, value in table['functions'].items()}
     values = {int(eu, 16): int(value, 16) for eu, value in table['symbols'].items()}
     by_address = {fragment.address: fragment for fragment in fragments}
+    regional_form = {fragment.name: fragment for fragment in variant}
     taken = {fragment.name for fragment in selected}
     prefix = '__%s_' % region
     result, symbols, called = [], {}, set()
@@ -272,6 +291,7 @@ def relocated_fragments(region, fragments, selected, target_rom, eu_symbols):
             raise RegionError('%s places 0x%08X, which is not an EU C function' % (path.name, eu))
         if fragment.name in taken:
             continue
+        fragment = regional_form.get(fragment.name, fragment)
         tokens = set(re.findall(r'(?<![\w.$])' + IDENTIFIER, fragment.assembly))
         renamed = {name for name in tokens if name in eu_symbols}
         for name in renamed - {fragment.name}:
@@ -333,8 +353,9 @@ def build(region, rom, out, output, prefix='arm-none-eabi-'):
     selected = select_fragments(fragments, eu_data, target_data)
     if not selected:
         raise RegionError('No verified shared C intervals; refusing a reference-only output')
+    variant = variant_build(region)[3]
     relocated, relocated_symbols, relocated_calls = relocated_fragments(region, fragments, selected,
-                                                                       target_data, symbols)
+                                                                       target_data, symbols, variant)
     regional, regional_symbols, regional_refs = region_only_fragments(region, target_data, out, prefix)
     regional_symbols = {**relocated_symbols, **regional_symbols}
     for name, value in regional_symbols.items():
