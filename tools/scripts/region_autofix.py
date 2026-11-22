@@ -76,6 +76,34 @@ def definition_span(text, name):
     return None
 
 
+def helper_spans(text, body, depth=2):
+    """Spans of the inline functions and function-like macros of text that body uses (the
+    literals of a function often live in such helpers)."""
+    spans, seen, pending = [], set(), [(body, depth)]
+    while pending:
+        chunk, level = pending.pop()
+        for word in set(re.findall(r'\b[A-Za-z_]\w*\b', chunk)) - seen:
+            seen.add(word)
+            span = None
+            macro = re.search(r'(?m)^[ \t]*#[ \t]*define[ \t]+%s\(' % re.escape(word), text)
+            if macro:
+                end = macro.start()
+                while True:
+                    line_end = text.find('\n', end)
+                    line_end = len(text) if line_end < 0 else line_end
+                    if not text[end:line_end].rstrip().endswith('\\'):
+                        break
+                    end = line_end + 1
+                span = (macro.start(), line_end)
+            elif re.search(r'(?m)^[^\n;#{}]*\binline\b[^\n;{}]*\b%s\s*\(' % re.escape(word), text):
+                span = definition_span(text, word)
+            if span and span not in spans:
+                spans.append(span)
+                if level > 1:
+                    pending.append((text[span[0]:span[1]], level - 1))
+    return spans
+
+
 def is_resource(value):
     return value >> 16 in (5, 6, 8) and (value & 0xFFFF) >= 4
 
@@ -168,8 +196,12 @@ def search(checker, module, name, address, log):
     if span is None:
         log('%s: definition not found in %s' % (name, path.name))
         return False
-    head, body, tail = original[:span[0]], original[span[0]:span[1]], original[span[1]:]
-    literals = code_literals(body)
+    function_body = original[span[0]:span[1]]
+    spans = [span] + [item for item in helper_spans(original, function_body)
+                      if item[1] <= span[0] or item[0] >= span[1]]
+    head, body, tail = '', original, ''
+    literals = [item for item in code_literals(original)
+                if any(start <= item[0] and item[1] <= end for start, end in spans)]
 
     applied = False
 
@@ -184,7 +216,7 @@ def search(checker, module, name, address, log):
             log('%s: %s before rewriting, skipped' % (name, 'no build' if best is None else 'equal'))
             return False
         start = best
-        save_first = 'gUnk_030034E0' in body
+        save_first = 'gUnk_030034E0' in function_body
         enemy = True  # enemy records often arrive as plain pointers; exactness decides
         options = {}
         for index, (_, _, value) in enumerate(literals):

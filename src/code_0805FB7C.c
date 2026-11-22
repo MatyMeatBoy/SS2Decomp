@@ -2137,8 +2137,8 @@ static inline u16 t65_readLevel(u16 *p) {register u16 *p1 asm("r1")=p; return *p
 static inline void t65_flags(void) {
  u32 id=sub_080020F4();
  u8 *base=(u8 *)t65_players;
- u32 offset=0x14C;
- offset*=id; base+=0x30; offset+=(u32)base;
+ u32 offset=PLAYER_SIZE;
+ offset*=id; base+=PLAYER_FIELD(0x30); offset+=(u32)base;
  { u32 *p=(u32 *)offset; *p &= ~0x80; }
 }
 static inline u16 t65_width(struct T65Pair *p) {register struct T65Pair *p1 asm("r1")=p; return p1->x;}

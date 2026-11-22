@@ -169,7 +169,7 @@ static inline void SetMode53A80(u32 m)
 static inline void Clr53A80(u8 *p)
 {
     u32 i;
-    for (i = 0; i <= 4; i++, p += 0x2E0)
+    for (i = 0; i <= 4; i++, p += ENEMY_SIZE)
         if ((gM030056FC & (1 << i)) && *(u16 *)(p + 0xC) == 0xC)
             *(u16 *)(p + 0xC) = 0;
 }
@@ -963,7 +963,7 @@ static inline void Walk56(u32 x, u32 y, u32 a, u32 b)
     b <<= 16;
     packed = (a >> 16) | b;
     entry = (u8 *)&gUnk_03003CE0[sub_080020F4()];
-    while (sub_08021FE0(entry + 0x8C, pos, &result, &packed) == 0)
+    while (sub_08021FE0(entry + PLAYER_FIELD(0x8C), pos, &result, &packed) == 0)
         sub_080003F0();
 }
 /* [RunRepeatingRegionDamage] Waits until local player intersects table-selected rectangle, calls29CEC with
@@ -997,8 +997,8 @@ static inline s32 Walk98(u32 x, u32 y, u32 a, u32 b)
     b <<= 16;
     packed = (a >> 16) | b;
     entry = (u8 *)&gUnk_03003CE0[sub_080020F4()];
-    while (sub_08021FE0(entry + 0x8C, pos, &result, &packed) == 0 ||
-           !(*(u16 *)(entry + 0x14) & 1)) {
+    while (sub_08021FE0(entry + PLAYER_FIELD(0x8C), pos, &result, &packed) == 0 ||
+           !(*(u16 *)(entry + PLAYER_FIELD(0x14)) & 1)) {
         if (sub_08058608()) return 0;
         sub_080003F0();
     }

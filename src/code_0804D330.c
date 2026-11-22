@@ -4177,7 +4177,7 @@ static inline void SetMode53A80(u32 m)
 static inline void Clr53A80(u8 *p)
 {
     u32 i;
-    for (i = 0; i <= 4; i++, p += 0x2E0)
+    for (i = 0; i <= 4; i++, p += ENEMY_SIZE)
         if ((gM030056FC & (1 << i)) && *(u16 *)(p + 0xC) == 0xC)
             *(u16 *)(p + 0xC) = 0;
 }
