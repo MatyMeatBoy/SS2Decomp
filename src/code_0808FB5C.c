@@ -201,9 +201,9 @@ s32 sub_0808FE04(s32 arg)
         sub_08056FB8(0,0);
         p=(u8 *)sub_080020F4();
         base=playersFE0495;
-        stride=0x14C;
+        stride=PLAYER_SIZE;
         p=(u8 *)((u32)p*stride+(u32)base);
-        p+=0x68;
+        p+=PLAYER_FIELD(0x68);
         zero=0;
         one=1;
         *p=one;
@@ -212,13 +212,13 @@ s32 sub_0808FE04(s32 arg)
         state->f36=zero;
         index=sub_080020F4();
         index*=stride;
-        p=base+0x30;
+        p=base+PLAYER_FIELD(0x30);
         flags=(u32 *)(index+(u32)p);
         *flags&=~2;
         p=(u8 *)((u32)sub_080020F4()*stride+(u32)base);
-        *(u16 *)(p+0x20)=zero;
+        *(u16 *)(p+PLAYER_FIELD(0x20))=zero;
         p=(u8 *)((u32)sub_080020F4()*stride+(u32)base);
-        *(u16 *)(p+0x1C)=4;
+        *(u16 *)(p+PLAYER_FIELD(0x1C))=4;
         state=*pp;
         state->f30=one;
         state->f24=one;

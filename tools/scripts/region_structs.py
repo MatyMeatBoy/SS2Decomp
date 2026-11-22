@@ -25,6 +25,19 @@ import region_symbols
 from region_autofix import Checker
 
 EU_SIZE, USA_SIZE = 0x14C, 0x158
+
+
+class Record:
+    def __init__(self, eu_size, usa_size, field, size, mapping):
+        self.eu_size, self.usa_size, self.field, self.size, self.map = eu_size, usa_size, field, size, mapping
+
+
+def enemy_field(offset):
+    return offset
+
+
+# Record kinds by EU size: player record and enemy actor record (include/region.h).
+RECORDS = {0x14C: None, 0x2E0: None}
 PAD = re.compile(r'^(pad|unk|gap|tail|fill|rest|_)', re.I)
 BASE = {'u8': 1, 's8': 1, 'char': 1, 'bool8': 1, 'vu8': 1, 'vs8': 1,
         'u16': 2, 's16': 2, 'short': 2, 'vu16': 2, 'vs16': 2, 'bool16': 2,
@@ -34,6 +47,10 @@ BASE = {'u8': 1, 's8': 1, 'char': 1, 'bool8': 1, 'vu8': 1, 'vs8': 1,
 
 def usa_field(offset):
     return offset if offset < 0x0C else offset + 10 if offset < 0x2A else offset + 12
+
+
+RECORDS[0x14C] = Record(0x14C, 0x158, 'PLAYER_FIELD', 'PLAYER_SIZE', usa_field)
+RECORDS[0x2E0] = Record(0x2E0, 0x454, 'ENEMY_FIELD', 'ENEMY_SIZE', enemy_field)
 
 
 def strip_comments(text):
@@ -129,18 +146,19 @@ def struct_definitions(text):
     return found
 
 
-def regional_dims(layout):
-    """{dim span: new expression} so that real members move by PLAYER_FIELD, or None."""
+def regional_dims(layout, kind=None):
+    """{dim span: new expression} so that real members move by the record's field macro, or None."""
+    kind = kind or RECORDS[0x14C]
     real = [item for item in layout if not item[6]]
     pads = [item for item in layout if item[6]]
     if not pads:
         return None
     new, usa_offset = {}, 0
     previous = None  # (EU offset, size) of the previous real member
-    for name, offset, size, align, span, element, is_pad in layout + [('<end>', EU_SIZE, 0, 1, None, 1, False)]:
+    for name, offset, size, align, span, element, is_pad in layout + [('<end>', kind.eu_size, 0, 1, None, 1, False)]:
         if is_pad:
             continue
-        target = USA_SIZE if name == '<end>' else usa_field(offset)
+        target = kind.usa_size if name == '<end>' else kind.map(offset)
         if target % align:
             return None
         # Pads between the previous real member (or start) and this one take up the difference.
@@ -159,9 +177,14 @@ def regional_dims(layout):
                 start = '0'
             else:
                 end = previous[0] + previous[1]
-                start = 'PLAYER_FIELD(0x%X)' % end if usa_field(end) == usa_field(previous[0]) + previous[1] \
-                    else '(PLAYER_FIELD(0x%X) + 0x%X)' % (previous[0], previous[1])
-            stop = 'PLAYER_SIZE' if name == '<end>' else 'PLAYER_FIELD(0x%X)' % offset
+                field = kind.field if kind.map(end) != end or kind.map(previous[0]) != previous[0] else None
+                if field is None:
+                    start = '0x%X' % end
+                else:
+                    start = '%s(0x%X)' % (field, end) if kind.map(end) == kind.map(previous[0]) + previous[1] \
+                        else '(%s(0x%X) + 0x%X)' % (field, previous[0], previous[1])
+            stop = kind.size if name == '<end>' else ('%s(0x%X)' % (kind.field, offset)
+                                                     if kind.map(offset) != offset else '0x%X' % offset)
             expr = stop if start == '0' else '%s - %s' % (stop, start)
             if pad[5] != 1:
                 expr = '(%s) / %d' % (expr, pad[5])
@@ -182,8 +205,8 @@ def player_views(text):
         except Layout:
             continue
         sizes[name] = size
-        if size[0] == EU_SIZE:
-            dims = regional_dims(layout)
+        if size[0] in RECORDS:
+            dims = regional_dims(layout, RECORDS[size[0]])
             if dims:
                 views.append((name, {(start + a, start + b): expr for (a, b), expr in dims.items()}))
     return views
@@ -217,6 +240,7 @@ def module_scores(checker, module, table):
 
 
 def addresses(region):
+    target_rom = (ROOT / load_profiles()[region]['filename']).read_bytes()
     symbols, fragments, eu_address, relocations, placed, keys = region_diff.candidates(region)
     known = dict(placed)
     table = {}
@@ -224,7 +248,8 @@ def addresses(region):
         eu = eu_address.get(fragment.name)
         if eu is None:
             continue
-        table[fragment.name] = [known[eu]] if eu in known else region_diff.guesses(fragment, eu, placed, keys)
+        table[fragment.name] = [known[eu]] if eu in known else region_diff.guesses(
+            fragment, eu, placed, keys, relocations.get(fragment.name), target_rom)
     return table
 
 
@@ -240,7 +265,8 @@ def main(argv=None):
     total = 0
     for path in paths:
         module = path.stem
-        if '0X14C' not in path.read_text(encoding='utf-8').upper():
+        upper = path.read_text(encoding='utf-8').upper()
+        if '0X14C' not in upper and '0X2E0' not in upper:
             continue
         tried, baseline = set(), None
         while True:

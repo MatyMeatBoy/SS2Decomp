@@ -1300,7 +1300,7 @@ void sub_080169C8(void) {
     *word1 = zero;
     *word2 = zero;
 }
-struct Obj16A7C { u8 pad0[0x2C]; s32 owner; u8 pad30[0x7A - 0x30]; u16 flags; u8 pad7C[0x2E0 - 0x7C]; };
+struct Obj16A7C { u8 pad0[0x2C]; s32 owner; u8 pad30[0x7A - 0x30]; u16 flags; u8 pad7C[ENEMY_SIZE - 0x7C]; };
 struct Rec16A7C { s32 owner; u8 kind; u8 pad[3]; };
 extern struct Obj16A7C *objects16A7C asm("gUnk_030056F4");
 extern u32 active16A7C asm("gUnk_030056FC");
@@ -2211,7 +2211,7 @@ s32 sub_08017E34(s32 *arg0) {
     if (result < n) {
         base = gUnk_03003E28;
         do {
-            u8 *p = *(u8 **) (base + i * 0x14C);
+            u8 *p = *(u8 **) (base + i * PLAYER_SIZE);
             if (!(((u32) (p[4] << 0x1A) >> 0x1A) & 0x20) && (u16) (buf.a + 0x3F) <= 0x16A) {
                 if (*pb > -0x40) {
                     if (*pb <= 0xC7) {
@@ -2226,7 +2226,7 @@ s32 sub_08017E34(s32 *arg0) {
 }
 struct T015ERect { u32 x:16; u32 y:16; };
 struct T015EPos { u16 x, y; u8 flags:6; u8 rest:2; };
-struct T015EPlayer { u8 pad[0x148]; struct T015EPos *pos; };
+struct T015EPlayer { u8 pad[PLAYER_FIELD(0x148)]; struct T015EPos *pos; };
 extern struct T015EPlayer T015EPlayers[] asm("gUnk_03003CE0");
 extern s32 T015ETest(s32 *, void *, s32 *, u32 *) asm("sub_08021FE0");
 /* [ShouldKeepEnemyActive] Enemy flags 0x7A bit 6 forces true. */

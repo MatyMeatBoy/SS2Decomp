@@ -850,7 +850,7 @@ again:
 }
 struct PlF4445 { u8 p0[0x30]; u32 flags; u8 p34[0x58]; s32 f8C; u8 p90[0x8E]; u16 f11E; u8 p120[0x2C]; };
 struct ItemF4445 { u16 kind, value; u8 pad[12]; };
-struct RecF4445 { u16 f0, f2; u8 pad[0x2DC]; };
+struct RecF4445 { u16 f0, f2; u8 pad[ENEMY_SIZE - 0x4]; };
 struct CmdF4445 { u16 kind, value; u8 data[12]; };
 extern struct PlF4445 playersF4445[] asm("gUnk_03003CE0");
 extern u8 *invF4445 asm("gUnk_030034E0");
@@ -1289,7 +1289,7 @@ void sub_0804778C(void) {
  struct Task778C *t; u32 n; u32 j; u8 *p; s32 flag; register s32 mask asm("r4"); register s32 offset asm("r1"); struct Player *player; u32 cb; u32 one; register u32 *bits asm("r5"); u32 zero; s32 raw; s32 bit;
  mask=1;flag=bool778C(state778C,0);
  if(flag) goto already;
- offset=sub_080020F4();offset*=0x14C;player=(struct Player *)((u8 *)gUnk_03003CE0+offset);player->flags |= mask;
+ offset=sub_080020F4();offset*=PLAYER_SIZE;player=(struct Player *)((u8 *)gUnk_03003CE0+offset);player->flags |= mask;
  sub_0800D0F4();
  step=0x400; sx=((struct Camera778C *)&gUnk_03003170)->x; sy=((struct Camera778C *)&gUnk_03003170)->y;
  i=0; py=&out[1]; tx.all=0; ty.all=0xFF880000;
@@ -1313,7 +1313,7 @@ void sub_0804778C(void) {
  while(sub_0801AAE0()==0)sub_080003F0();
  }
  p=gUnk_030056F4;j=0;bits=(u32 *)&gUnk_030056FC;one=1;zero=0;
- do {bit=one<<j;raw=*bits;raw &= bit;if((raw)&&*(u16 *)(p+0xC)==0xC)*(u16 *)(p+0xC)=zero;j++;raw=0x2E0;p+=raw;}while(j<=4);
+ do {bit=one<<j;raw=*bits;raw &= bit;if((raw)&&*(u16 *)(p+0xC)==0xC)*(u16 *)(p+0xC)=zero;j++;raw=ENEMY_SIZE;p+=raw;}while(j<=4);
  sub_08019F04();
  end:;
 }
@@ -1439,7 +1439,7 @@ done2:
     one=1; zero=0;
     do {
         if (((one<<j) & *mask) && *(u16 *)(p2+12)==12) *(u16 *)(p2+12)=zero;
-        j++; stride=0x2E0; p2+=stride;
+        j++; stride=ENEMY_SIZE; p2+=stride;
     } while (j<=4);
     sub_08019F04();
 }
@@ -1452,7 +1452,7 @@ extern u8 t47BActors[] asm("gUnk_03003CE0");
 extern void sub_08019EB8(u16,s32);
 extern void sub_0802949C(s32,s32);
 void t47B2C(s32 arg0) asm("sub_08047B2C");
-struct T47BPlayer { u16 f0,id; u8 pad[0x2DC]; };
+struct T47BPlayer { u16 f0,id; u8 pad[ENEMY_SIZE - 0x4]; };
 extern struct T47BPlayer *t47BPlayerRows asm("gUnk_030056F4");
 void t47B2C(s32 arg0) asm("sub_08047B2C");
 /* [RunTwelveMessageCameraSequence] Case0 waits, moves actor selector1, shows messages0x140000..00B with
@@ -1561,8 +1561,8 @@ test31:
             sub_080003F0();
             var_r4_3 += step;
         } while (var_r4_3 <= 0x400);
-        temp_r2 = (0x14C * sub_080020F4()) + t47BActors;
-        *(u32 *)(temp_r2+0x30) = (s32) (*(u32 *)(temp_r2+0x30) & ~1);
+        temp_r2 = (PLAYER_SIZE * sub_080020F4()) + t47BActors;
+        *(u32 *)(temp_r2+PLAYER_FIELD(0x30)) = (s32) (*(u32 *)(temp_r2+PLAYER_FIELD(0x30)) & ~1);
         sub_0800D108();
         goto test36;
 yield36:
@@ -3406,8 +3406,8 @@ static inline void t48musicE(u32 track) { register u32 v asm("r1")=track;  gUnk_
  * increment34, starts song11, sets scene halfword+4 bit5 and unlocks. */
 void sub_08049EBC(void) {
  s32 off; u16 n; s32 v; u32 req; u8 *p; register s32 idx asm("r2"); s32 mask; u8 *gp; register u8 *gp2 asm("r2"); u32 word; u32 req3; register u32 hv asm("r1");
- idx=sub_080020F4()*0x14C;  p=(u8 *)gUnk_03003CE0+idx;
- *(u32 *)(p+0x30)|=1;
+ idx=sub_080020F4()*PLAYER_SIZE;  p=(u8 *)gUnk_03003CE0+idx;
+ *(u32 *)(p+PLAYER_FIELD(0x30))|=1;
  sub_0800D0F4();
  if(sub_08002164()==1) off=0;
  else switch(sub_080020F4()) { case 0: off=-12; break; case 1: off=12; break; case 2: off=-36; break; case 3: off=36; break; }
@@ -3425,7 +3425,7 @@ void sub_08049EBC(void) {
  t48moveE(34,0,0);
  t48musicE(11);
  hv=*(u16 *)(t48stateE+4);  word=hv|32;  *(u16 *)(t48stateE+4)=word;
- idx=sub_080020F4()*0x14C;  p=(u8 *)gUnk_03003CE0+idx; *(u32 *)(p+0x30)&=~1;
+ idx=sub_080020F4()*PLAYER_SIZE;  p=(u8 *)gUnk_03003CE0+idx; *(u32 *)(p+PLAYER_FIELD(0x30))&=~1;
  sub_0800D108();
 }
 
@@ -3464,13 +3464,13 @@ void sub_0804A188(void){
  u32 bit;u8 *player;u8 *base;register u32 one asm("r4");register s32 *flags asm("r5"); u8 *p; u32 i; u32 shifted; register u32 stride asm("r0");
  base=t48stateA;one=1;bit=t48boolA(base,one); asm("" : "+r"(bit));
  if(!bit){
- player=(u8 *)gUnk_03003CE0+0x14c*sub_080020F4();*(u32 *)(player+0x30)|=one;sub_0800D0F4();*(u32 *)(t48stateA+0x38)|=one;
+ player=(u8 *)gUnk_03003CE0+PLAYER_SIZE*sub_080020F4();*(u32 *)(player+PLAYER_FIELD(0x30))|=one;sub_0800D0F4();*(u32 *)(t48stateA+0x38)|=one;
  t48moveA(0x400,0,-60);t48taskA(sub_0804A478,0);t48waitA(2);t48modeA();t48musicA(196);
 return;
 }
 
  t48modeA();sub_0802A080(140,130,200,100);t48taskA(sub_0804A89C,5);t48taskA(sub_0804A89C,6);t48waitA(30);
- p=t48objA;i=0;flags=&gUnk_030056FC;do{shifted=1<<i;if((*flags&shifted)&&*(u16 *)(p+12)==12)*(u16 *)(p+12)=0;i++;stride=0x2E0;p+=stride;}while(i<=4);sub_08019F04();return;
+ p=t48objA;i=0;flags=&gUnk_030056FC;do{shifted=1<<i;if((*flags&shifted)&&*(u16 *)(p+12)==12)*(u16 *)(p+12)=0;i++;stride=ENEMY_SIZE;p+=stride;}while(i<=4);sub_08019F04();return;
 
 }
 
@@ -3546,7 +3546,7 @@ void sub_0804A478(void){
 struct T48SlotB {s32 id;u8 pad[0x32];u16 unk36;u8 tail[0x38];};
 struct T48ItemB {u16 unk0,unk2;u8 pad[12];};
 struct T48ReqB {u16 unk0,unk2;u8 pad[12];};
-struct T48PlayerB {u8 pad[0x30];u32 unk30;u8 tail[0x118];};
+struct T48PlayerB {u8 pad[PLAYER_FIELD(0x30)];u32 unk30;u8 tail[PLAYER_SIZE - PLAYER_FIELD(0x34)];};
 extern u8 *t48stateB asm("gUnk_03005CF4");
 extern u8 *t48itemsB asm("gUnk_030034E0");
 extern u8 *t48objB asm("gUnk_030056F4");
@@ -4598,7 +4598,7 @@ void sub_0804BEF8(u32 arg0)
     sub_0800D0F4();
     count = 0;
     i = 0;
-    p = (u16 *)(t49_itemsBEF8 + 0x150);
+    p = (u16 *)(t49_itemsBEF8 + SAVE_FIELD(0x150));
     do {
         if (p[0] == 1 && p[1] == 0x22) count++;
         p += 8;
@@ -5411,7 +5411,7 @@ checkFirst: if(i<=29){
     entry=gUnk_030056F4;idx=0;entryFlags=&gUnk_030056FC;held=1;zero=0;
 entryLoop:
     if((*entryFlags & (bitTemp=held<<idx)) && *(u16 *)(entry+0xC)==0xC) *(u16 *)(entry+0xC)=zero;
-    idx++;entry+=0x2E0;
+    idx++;entry+=ENEMY_SIZE;
     if(idx<=4)goto entryLoop;
     sub_08019F04();
 }

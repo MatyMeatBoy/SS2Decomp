@@ -556,19 +556,19 @@ void sub_0805FFBC(s32 x, s32 y, struct ItemName63 *item, s32 flags)
     textFF63(buf, off + x, y);
 }
 struct HudPlayer63 {
-    u8 pad0[0x20];
+    u8 pad0[PLAYER_FIELD(0x20)];
     u16 state;
-    u8 pad22[2];
+    u8 pad22[PLAYER_FIELD(0x24) - PLAYER_FIELD(0x22)];
     s16 f24;
     s16 f26;
-    u8 pad28[8];
+    u8 pad28[PLAYER_FIELD(0x30) - PLAYER_FIELD(0x28)];
     u32 flags;
-    u8 pad34[0x34];
+    u8 pad34[PLAYER_FIELD(0x68) - PLAYER_FIELD(0x34)];
     u8 f68;
-    u8 pad69[0xE];
+    u8 pad69[PLAYER_FIELD(0x77) - PLAYER_FIELD(0x69)];
     u8 count;
     u8 f78;
-    u8 pad79[0x14C - 0x79];
+    u8 pad79[PLAYER_SIZE - PLAYER_FIELD(0x79)];
 };
 struct HudSlot63 { u8 b[0x10]; };
 struct HudMgr63 { u8 pad0[0x68]; u16 sel; u8 pad6A[6]; struct HudSlot63 slots[1]; };
@@ -1454,7 +1454,7 @@ extern u8 *saveData64 asm("gUnk_03004210");
 struct SaveFile64 { u8 pad[0xD8]; u16 hD8, hDA; u16 h[10]; u8 padF0[0x1DC-0xF0]; struct SaveItem64 items[16]; struct SaveEntry64 ent[8]; };
 extern u8 *saveStats64 asm("gUnk_03005CF4");
 extern u8 *saveItems64 asm("gUnk_03005D58");
-struct SavePlayer64 { u8 pad0[0x2C]; u16 f2C,f2E; u8 pad30[0xC2-0x30]; u16 fC2,fC4,fC6; u8 padC8[0x14C-0xC8]; };
+struct SavePlayer64 { u8 pad0[PLAYER_FIELD(0x2C)]; u16 f2C,f2E; u8 pad30[PLAYER_FIELD(0xC2) - PLAYER_FIELD(0x30)]; u16 fC2,fC4,fC6; u8 padC8[PLAYER_SIZE - PLAYER_FIELD(0xC8)]; };
 extern struct SavePlayer64 savePlayers64[] asm("gUnk_03003CE0");
 extern u8 savePlayerPtr64[] asm("gUnk_03003D14");
 extern u8 saveMap64[] asm("gUnk_03003170");
@@ -2437,7 +2437,7 @@ cleanup:
 #undef T65C_W
 #undef T65C_ENTITY
 struct T65BPopup { u32 base, unk4; u8 *data; u32 sound, resource, style, mode; u8 palette[24]; };
-struct T65BPlayer { u8 pad0[0x14]; u16 buttons; u8 pad16[10]; u16 state, substate; u8 pad24[12]; u32 flags; u8 pad34[0x114]; u8 *entity; };
+struct T65BPlayer { u8 pad0[PLAYER_FIELD(0x14)]; u16 buttons; u8 pad16[PLAYER_FIELD(0x20) - PLAYER_FIELD(0x16)]; u16 state, substate; u8 pad24[PLAYER_FIELD(0x30) - PLAYER_FIELD(0x24)]; u32 flags; u8 pad34[PLAYER_FIELD(0x148) - PLAYER_FIELD(0x34)]; u8 *entity; };
 extern struct T65BPlayer t65B_players[] asm("gUnk_03003CE0");
 extern u8 t65B_resources[] asm("gUnk_08518938");
 extern u16 t65B_blocked asm("gUnk_03003200");
@@ -2801,8 +2801,8 @@ void sub_08063E30(void)
 #undef T65E_H
 #undef T65E_ENTITY
 struct Chr441 { u32 kind:4; u32 kindHi:28; u32 lo:11; u32 level:8; u32 cls:5; u32 hi:8; };
-struct PL441 { u8 pad0[0x20]; u16 state; u8 pad22[0xE]; u32 flags; u8 pad34[0x34]; u8 b68; u8 pad69[0x5D]; u16 hC6; u8 padC8[0x80]; struct Chr441 *chr; };
-struct PE441 { struct Chr441 *chr; u8 pad[0x148]; };
+struct PL441 { u8 pad0[PLAYER_FIELD(0x20)]; u16 state; u8 pad22[PLAYER_FIELD(0x30) - PLAYER_FIELD(0x22)]; u32 flags; u8 pad34[PLAYER_FIELD(0x68) - PLAYER_FIELD(0x34)]; u8 b68; u8 pad69[PLAYER_FIELD(0xC6) - PLAYER_FIELD(0x69)]; u16 hC6; u8 padC8[PLAYER_FIELD(0x148) - PLAYER_FIELD(0xC8)]; struct Chr441 *chr; };
+struct PE441 { struct Chr441 *chr; u8 pad[PLAYER_SIZE - 0x4]; };
 struct TS441 { u8 pad0[0x7C]; s16 scrollX; s16 scrollY; u8 pad80[0xC]; u16 curLevel; u16 pad8E; u16 f90; };
 struct Obj441 { s32 f0, f4, f8, fC, f10, f14, f18; u8 data[16]; };
 struct Pop441 { s32 base, unk4, data, sound, resource, style, mode; u8 palette[24]; };

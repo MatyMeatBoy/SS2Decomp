@@ -40,9 +40,9 @@ void sub_0803B720(s32 arg0) {
     register s32 raw asm("r0");
     s32 shifted;
     register u32 one asm("r0");
-    offset=sub_080020F4();offset*=0x14C;
+    offset=sub_080020F4();offset*=PLAYER_SIZE;
     p=(u8 *)gUnk_03003CE0+offset;
-    *(u32 *)(p+0x30)|=1;
+    *(u32 *)(p+PLAYER_FIELD(0x30))|=1;
     sub_0800D0F4();
     sub_0802949C(arg0,0);
     if(sub_0800CE30()) flags=*(u32 *)((u8 *)gUnk_03005CF4+0x7C);
@@ -148,9 +148,9 @@ void sub_0803B720(s32 arg0) {
         }
     }
     sub_08029788(arg0);
-    offset=sub_080020F4();offset*=0x14C;
+    offset=sub_080020F4();offset*=PLAYER_SIZE;
     p=(u8 *)gUnk_03003CE0+offset;
-    *(u32 *)(p+0x30)&=~1;
+    *(u32 *)(p+PLAYER_FIELD(0x30))&=~1;
     sub_0800D108();
 }
 extern void sub_0805990C(void);
@@ -1765,7 +1765,7 @@ void sub_0803EE88(void) {
     struct Player *temp_r2;
     struct Player *temp_r2_2;
 
-    offset=sub_080020F4();offset*=0x14C;temp_r2=(struct Player *)((u8 *)gUnk_03003CE0+offset);
+    offset=sub_080020F4();offset*=PLAYER_SIZE;temp_r2=(struct Player *)((u8 *)gUnk_03003CE0+offset);
     temp_r2->flags = (s32) (temp_r2->flags | 1);
     sub_0800D0F4();
     temp_r0 = sub_080289C0(0x20, 0x78, 0x141);
@@ -1872,7 +1872,7 @@ loop_38:
     }
     finalFlags=*var_r2_3;finalOne=1;finalOne |= finalFlags;*var_r2_3=finalOne;
     sub_0802A228(0, 0);
-    offset=sub_080020F4();offset*=0x14C;temp_r2_2=(struct Player *)((u8 *)gUnk_03003CE0+offset);
+    offset=sub_080020F4();offset*=PLAYER_SIZE;temp_r2_2=(struct Player *)((u8 *)gUnk_03003CE0+offset);
     temp_r2_2->flags = (s32) (temp_r2_2->flags & ~1);
     sub_0800D108();
 }
@@ -1915,8 +1915,8 @@ void sub_0803F18C(s32 arg0) {
         sub_08028D98(0, 0, -0x12C, 0x12C);
         break;
     }
-    q = (u8 *)gUnk_03003CE0 + sub_080020F4() * 0x14C;
-    *(u16 *)(q + 0x20) = 0;
+    q = (u8 *)gUnk_03003CE0 + sub_080020F4() * PLAYER_SIZE;
+    *(u16 *)(q + PLAYER_FIELD(0x20)) = 0;
 }
 /* [RunActorAnimationSoundTriplet] Three29174(arg,16) requests each conditionally start85, followed after10
  * by29174(arg,10); countdowns58,58,40. */
@@ -2530,7 +2530,7 @@ void sub_080400D4(void) {
     s32 step;
     u16 n;
     u32 task; s32 result; struct Player *p; s32 player; register s32 offset asm("r2");
-    offset = sub_080020F4(); offset *= 0x14C; p = (struct Player *)((u8 *)gUnk_03003CE0 + offset); p->flags |= 1;
+    offset = sub_080020F4(); offset *= PLAYER_SIZE; p = (struct Player *)((u8 *)gUnk_03003CE0 + offset); p->flags |= 1;
     sub_0800D0F4();
     result = sub_080020F4(); player = result;
     if (result == 1) goto case1;
@@ -2579,7 +2579,7 @@ endSwitch:
         sub_080003F0();
     }
     sub_0800CFA4();
-    offset = sub_080020F4(); offset *= 0x14C; p = (struct Player *)((u8 *)gUnk_03003CE0 + offset); p->flags &= ~1;
+    offset = sub_080020F4(); offset *= PLAYER_SIZE; p = (struct Player *)((u8 *)gUnk_03003CE0 + offset); p->flags &= ~1;
     sub_0800D108();
     gUnk_03003CE0[sub_080020F4()].state = 0;
 }

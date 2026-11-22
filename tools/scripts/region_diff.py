@@ -38,7 +38,10 @@ def candidates(region):
     return symbols, fragments, eu_address, relocations, placed, keys
 
 
-def guesses(fragment, eu, placed, keys):
+def guesses(fragment, eu, placed, keys, relocs=None, target_rom=None, radius=0x100):
+    """Regional addresses to try for fragment: the shift of the placed neighbours and, given the
+    regional ROM, every nearby address where the function's leading bytes recur (literal pools
+    of the functions in between may have changed size)."""
     index = bisect.bisect_left(keys, eu)
     result = []
     for item in (index - 1, index):
@@ -46,7 +49,27 @@ def guesses(fragment, eu, placed, keys):
             address = fragment.address + placed[item][1] - placed[item][0]
             if address not in result:
                 result.append(address)
-    return result or [fragment.address]
+    result = result or [fragment.address]
+    if target_rom is None:
+        return result
+    segments = region_symbols.masked_segments(len(fragment.data), relocs or [])
+    if not segments:
+        return result
+    first, end = segments[0]
+    needle = fragment.data[first:min(end, first + 6)]
+    if len(needle) < 4:
+        return result
+    extra = []
+    for base in result:
+        low = max(0, base - radius - region_build.ROM_BASE + first)
+        high = base + radius - region_build.ROM_BASE + first + len(needle)
+        position = target_rom.find(needle, low, high)
+        while position >= 0:
+            address = position - first + region_build.ROM_BASE
+            if not address & 1 and address not in result and address not in extra:
+                extra.append(address)
+            position = target_rom.find(needle, position + 2, high)
+    return result + extra
 
 
 def difference(fragment, relocs, target_rom, address):
@@ -86,7 +109,8 @@ def main(argv=None):
         if fragment is None:
             raise SystemExit('%s is not a C function' % args.func)
         relocs = relocations.get(fragment.name, [])
-        options = [args.address] if args.address else guesses(fragment, eu_address[fragment.name], placed, keys)
+        options = [args.address] if args.address else guesses(fragment, eu_address[fragment.name], placed, keys,
+                                                               relocs, target_rom)
         address = min(options, key=lambda item: difference(fragment, relocs, target_rom, item))
         data = target_rom[address - region_build.ROM_BASE:][:len(fragment.data)]
         print('%s: EU 0x%08X, %s 0x%08X, %d bytes, %d differing halfwords outside relocations%s'
@@ -106,7 +130,7 @@ def main(argv=None):
         if eu == fragment.address and target_rom[eu - region_build.ROM_BASE:][:len(fragment.data)] == fragment.data:
             continue  # same address and bytes: taken unchanged
         relocs = relocations[fragment.name]
-        best = min(guesses(fragment, eu, placed, keys),
+        best = min(guesses(fragment, eu, placed, keys, relocs, target_rom),
                    key=lambda item: difference(fragment, relocs, target_rom, item))
         rows.append((difference(fragment, relocs, target_rom, best), len(fragment.data), fragment.name,
                      fragment.module, best))

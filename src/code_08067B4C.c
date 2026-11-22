@@ -26,7 +26,7 @@ u32 sub_08067B50(void)
     *(u32 *)(entry + 4) = 1;
     entry[0] = 0x82;
     source = (u8 *)gUnk_030034E0;
-    *(u32 *)(entry + 8) = *(u16 *)(source + 0xA) | ((u32)*(u16 *)(source + 0xC) << 16);
+    *(u32 *)(entry + 8) = *(u16 *)(source + SAVE_FIELD(0xA)) | ((u32)*(u16 *)(source + SAVE_FIELD(0xC)) << 16);
     entry[1] = 1;
     (*count)++;
     return 1;

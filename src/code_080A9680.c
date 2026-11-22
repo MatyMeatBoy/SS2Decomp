@@ -5225,7 +5225,7 @@ void sub_080B2454(void)
 struct Task0B24B8 { u32 f0, f4, f8, fC, f10, f14, f18, f1C, f20, f24; };
 struct Actor0B24B8 { u16 f0; u8 pad2[0xA]; u16 fC; u8 padE[0x2CA]; u16 f2D8, f2DA; };
 struct Pos0B24B8 { u16 x; u16 y; };
-struct Player0B24B8 { u8 pad0[0x148]; struct Pos0B24B8 *pos; };
+struct Player0B24B8 { u8 pad0[PLAYER_FIELD(0x148)]; struct Pos0B24B8 *pos; };
 struct Point0B24B8 { s32 x, y; };
 extern struct Task0B24B8 *taskA0B24B8 asm("gUnk_030007B0");
 extern struct Task0B24B8 *taskB0B24B8 asm("gUnk_030007B4");

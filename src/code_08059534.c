@@ -479,7 +479,7 @@ void sub_0805A088(u32 arg)
     pos[1] = 0xE100;
     packed = 0x0028000A;
     entry = (u8 *)&((struct PlayerW12 *)gUnk_03003CE0)[sub_080020F4()];
-    while (sub_08021FE0(entry + 0x8C, pos, &result, &packed) == 0)
+    while (sub_08021FE0(entry + PLAYER_FIELD(0x8C), pos, &result, &packed) == 0)
         sub_080003F0();
     sub_08068070((u32)sub_0804BC38, arg);
 }
@@ -501,10 +501,10 @@ loop:
     {
         u8 *base = *map;
         u8 *slot = base + i * 16;
-        u32 offset = 0x150;
+        u32 offset = SAVE_FIELD(0x150);
         u16 *status = (u16 *)(slot + offset);
         if (*status == 1) {
-            offset = 0x152;
+            offset = SAVE_FIELD(0x152);
             slot += offset;
             if (*(u16 *)slot == 0x22) {
                 remaining--;

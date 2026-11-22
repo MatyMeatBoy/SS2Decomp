@@ -4,7 +4,7 @@ extern void sub_0805E0C4(void);
 extern void sub_0805D854(void);
 extern void sub_0805B688(void);
 extern u32 gUnk_03005D60;
-struct PlayerReset61 {u8 pad[0xC6];u16 reset;u8 tail[0x84];};
+struct PlayerReset61 {u8 pad[PLAYER_FIELD(0xC6)];u16 reset;u8 tail[PLAYER_SIZE - PLAYER_FIELD(0xC8)];};
 extern struct PlayerReset61 gReset61[] asm("gUnk_03003CE0");
 struct Player61 { u8 pad[0x38]; s16 limit; u8 rest[0x112]; };
 extern struct Player61 gParty61[] asm("gUnk_03003CE0");
@@ -27,38 +27,38 @@ extern u8 gUnk_03005D6C;
  * remove the item. No useful return-value contract is established by the original body. */
 s32 sub_0805D094(void) {
     u8 *base=(u8 *)gUnk_030034E0;
-    if(*(u16 *)(base+0x100)==4) {
-        if(sub_0805D210(base+0x100)!=0) M2C_FIELD((void *)gUnk_030034E0,u8 *,0x109)=1;
-        else M2C_FIELD((void *)gUnk_030034E0,u8 *,0x109)=0;
-    } else *(u8 *)(base+0x109)=0;
+    if(*(u16 *)(base+SAVE_FIELD(0x100))==4) {
+        if(sub_0805D210(base+SAVE_FIELD(0x100))!=0) M2C_FIELD((void *)gUnk_030034E0,u8 *,SAVE_FIELD(0x109))=1;
+        else M2C_FIELD((void *)gUnk_030034E0,u8 *,SAVE_FIELD(0x109))=0;
+    } else *(u8 *)(base+SAVE_FIELD(0x109))=0;
 }
 /* [RefreshBodyEquipmentActivation] For the equipped record at manager +0x110, writes activation byte +9 to 1
  * exactly when its kind is 3 and validator 0805D278 accepts it; otherwise writes zero. Does not copy, swap or
  * remove the item. No useful return-value contract is established by the original body. */
 s32 sub_0805D0E8(void) {
     u8 *base=(u8 *)gUnk_030034E0;
-    if(*(u16 *)(base+0x110)==3) {
-        if(sub_0805D278(base+0x110)!=0) M2C_FIELD((void *)gUnk_030034E0,u8 *,0x119)=1;
-        else M2C_FIELD((void *)gUnk_030034E0,u8 *,0x119)=0;
-    } else *(u8 *)(base+0x119)=0;
+    if(*(u16 *)(base+SAVE_FIELD(0x110))==3) {
+        if(sub_0805D278(base+SAVE_FIELD(0x110))!=0) M2C_FIELD((void *)gUnk_030034E0,u8 *,SAVE_FIELD(0x119))=1;
+        else M2C_FIELD((void *)gUnk_030034E0,u8 *,SAVE_FIELD(0x119))=0;
+    } else *(u8 *)(base+SAVE_FIELD(0x119))=0;
 }
 /* [RefreshGloveActivation] For the equipped record at manager +0x120, writes activation byte +9 to 1 exactly
  * when its kind is 5 and validator 0805D2E0 accepts it; otherwise writes zero. Does not copy, swap or remove
  * the item. No useful return-value contract is established by the original body. */
 s32 sub_0805D13C(void) {
     u8 *base=(u8 *)gUnk_030034E0;
-    if(*(u16 *)(base+0x120)==5) {
-        if(sub_0805D2E0(base+0x120)!=0) M2C_FIELD((void *)gUnk_030034E0,u8 *,0x129)=1;
-        else M2C_FIELD((void *)gUnk_030034E0,u8 *,0x129)=0;
-    } else *(u8 *)(base+0x129)=0;
+    if(*(u16 *)(base+SAVE_FIELD(0x120))==5) {
+        if(sub_0805D2E0(base+SAVE_FIELD(0x120))!=0) M2C_FIELD((void *)gUnk_030034E0,u8 *,SAVE_FIELD(0x129))=1;
+        else M2C_FIELD((void *)gUnk_030034E0,u8 *,SAVE_FIELD(0x129))=0;
+    } else *(u8 *)(base+SAVE_FIELD(0x129))=0;
 }
 /* [UpdateTypeSevenActivation] Saved record+0x130 type7 sets activation byte+0x13A to1; otherwise clears that
  * byte and local runtime halfword+0xC6. Function has signed return declaration but no C return expression; no
  * status return contract claimed. */
 s32 sub_0805D190(void) {
     u8 *base=(u8 *)gUnk_030034E0;
-    if(*(u16 *)(base+0x130)==7) *(u8 *)(base+0x13A)=1;
-    else { gReset61[sub_080020F4()].reset=0; M2C_FIELD((void *)gUnk_030034E0,u8 *,0x13A)=0; }
+    if(*(u16 *)(base+SAVE_FIELD(0x130))==7) *(u8 *)(base+SAVE_FIELD(0x13A))=1;
+    else { gReset61[sub_080020F4()].reset=0; M2C_FIELD((void *)gUnk_030034E0,u8 *,SAVE_FIELD(0x13A))=0; }
 }
 /* [RefreshRingActivation] Sets equipped manager +0x140 record activation byte +9 to 1 when its kind is 6,
  * otherwise zero. No class, requirement or broken-item check is made here; no useful return contract is
@@ -181,7 +181,7 @@ s32 sub_0805D3D4(void) {
 
     var_r3 = 0;
     var_r2 = 0;
-    var_r1 = gUnk_030034E0 + 0x150;
+    var_r1 = gUnk_030034E0 + SAVE_FIELD(0x150);
     do {
         if (M2C_FIELD(var_r1, u16 *, 0) == 0xA) {
             var_r3 += M2C_FIELD(var_r1, s32 *, 4);
@@ -318,7 +318,7 @@ s32 sub_0805D548(s32 arg0) {
     void *var_r1;
 
     var_r2 = 0;
-    var_r1 = gUnk_030034E0 + 0x150;
+    var_r1 = gUnk_030034E0 + SAVE_FIELD(0x150);
 loop_1:
     if ((M2C_FIELD(var_r1, u16 *, 0) == 1) && (M2C_FIELD(var_r1, u16 *, 2) == arg0)) {
         return (s32) var_r2;
@@ -339,7 +339,7 @@ void sub_0805D580(u32 index)
   if (index <= 0x18)
   {
     new_var2 = gUnk_030034E0;
-    new_var = (s8 *) ((((u8 *) new_var2) + (8 * (2 * index))) + 0x150);
+    new_var = (s8 *) ((((u8 *) new_var2) + (8 * (2 * index))) + SAVE_FIELD(0x150));
     *((u16 *) (new_var + 0)) = 0;
   }
 }
@@ -354,7 +354,7 @@ u32 sub_0805D5A0(void) {
     u32 i;
     u32 result;
     u8 *entry;
-    for(j=0,entry=(u8 *)gUnk_030034E0+0x150;j<=24;entry+=16,j++)
+    for(j=0,entry=(u8 *)gUnk_030034E0+SAVE_FIELD(0x150);j<=24;entry+=16,j++)
         if(*(u16 *)entry==10) total+=*(u32 *)(entry+4);
     result=total>>1;
     for(i=0;i<=24;i++) {
@@ -363,7 +363,7 @@ u32 sub_0805D5A0(void) {
         
         base+=offset;
         
-        if(*(u16 *)(base+0x150)==10) sub_0805D580(i);
+        if(*(u16 *)(base+SAVE_FIELD(0x150))==10) sub_0805D580(i);
     }
     return result;
 }
@@ -378,7 +378,7 @@ s32 sub_0805D5F4(s32 start) {
     s32 index;
     s32 bestValue;
     if(bestIndex<0) bestIndex=0;
-    entry=(u8 *)gUnk_030034E0+(bestIndex*16+0x150);
+    entry=(u8 *)gUnk_030034E0+(bestIndex*16+SAVE_FIELD(0x150));
     bestValue=-1;
     for(index=bestIndex;index<=24;index++,entry+=16)
         if(*(u16 *)entry==10) {

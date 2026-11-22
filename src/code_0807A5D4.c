@@ -915,28 +915,28 @@ void sub_0807BD78(u32 kind, u32 index)
     case 0: {
         u8 *base = (u8 *)gUnk_030034E0;
         u32 offset = index * 16;
-        *(u16 *)(base + offset + 0x150) = 0;
+        *(u16 *)(base + offset + SAVE_FIELD(0x150)) = 0;
         break; }
     case 1: {
         u8 *base = (u8 *)gUnk_030034E0;
         u8 *dest = base + index * 16;
-        *(u16 *)(dest + 0x70) = 0;
-        if (index == *(u16 *)(base + 0x68)) sub_0805AD78(index);
+        *(u16 *)(dest + SAVE_FIELD(0x70)) = 0;
+        if (index == *(u16 *)(base + SAVE_FIELD(0x68))) sub_0805AD78(index);
         break; }
     case 2:
-        *(u16 *)((u8 *)gUnk_030034E0 + 0x100) = 0;
+        *(u16 *)((u8 *)gUnk_030034E0 + SAVE_FIELD(0x100)) = 0;
         sub_0805D094(); break;
     case 3:
-        *(u16 *)((u8 *)gUnk_030034E0 + 0x120) = 0;
+        *(u16 *)((u8 *)gUnk_030034E0 + SAVE_FIELD(0x120)) = 0;
         sub_0805D13C(); break;
     case 4:
-        *(u16 *)((u8 *)gUnk_030034E0 + 0x110) = 0;
+        *(u16 *)((u8 *)gUnk_030034E0 + SAVE_FIELD(0x110)) = 0;
         sub_0805D0E8(); break;
     case 5:
-        *(u16 *)((u8 *)gUnk_030034E0 + 0x130) = 0;
+        *(u16 *)((u8 *)gUnk_030034E0 + SAVE_FIELD(0x130)) = 0;
         sub_0805D190(); break;
     case 6:
-        *(u16 *)((u8 *)gUnk_030034E0 + 0x140) = 0;
+        *(u16 *)((u8 *)gUnk_030034E0 + SAVE_FIELD(0x140)) = 0;
         sub_0805D1E0(); break;
     case 11: case 13: case 16:
         { u8 *base = (u8 *)gUnk_03006440;

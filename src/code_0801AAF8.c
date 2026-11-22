@@ -2257,7 +2257,7 @@ void sub_0801DF08(void) {
     *(u16 *) (p + 0x20) = 0;
     *(u32 *) (p + 0x30) = 0x40;
 }
-struct MonDF4C { u16 f0; u16 id; u8 pad[0x2DC]; };
+struct MonDF4C { u16 f0; u16 id; u8 pad[ENEMY_SIZE - 0x4]; };
 extern struct MonDF4C *monstersDF4C asm("gUnk_030056F4");
 /* [ScanActorIds] Searches five records using u32 loop index. */
 void sub_0801DF4C(u32 id)
@@ -2321,15 +2321,15 @@ void sub_0801E024(void *arg0) {
     u16 temp_r7;
     u8 temp_r8;
 
-    temp_r7 = M2C_FIELD(arg0, u16 *, 0x64);
-    temp_r8 = M2C_FIELD(arg0, u8 *, 0x66);
-    sub_0801BA74(arg0, 0, arg0 + 0x38, arg0 + 0x58, gUnk_030034E0 + 0x30);
-    if ((s32) M2C_FIELD(arg0, s16 *, 0xC4) > (s32) (s16) M2C_FIELD(arg0, u16 *, 0x62)) {
-        M2C_FIELD(arg0, s16 *, 0xC4) = (s16) M2C_FIELD(arg0, u16 *, 0x62);
+    temp_r7 = M2C_FIELD(arg0, u16 *, SAVE_FIELD(0x64));
+    temp_r8 = M2C_FIELD(arg0, u8 *, SAVE_FIELD(0x66));
+    sub_0801BA74(arg0, 0, arg0 + SAVE_FIELD(0x38), arg0 + SAVE_FIELD(0x58), gUnk_030034E0 + SAVE_FIELD(0x30));
+    if ((s32) M2C_FIELD(arg0, s16 *, SAVE_FIELD(0xC4)) > (s32) (s16) M2C_FIELD(arg0, u16 *, SAVE_FIELD(0x62))) {
+        M2C_FIELD(arg0, s16 *, SAVE_FIELD(0xC4)) = (s16) M2C_FIELD(arg0, u16 *, SAVE_FIELD(0x62));
     }
-    if ((temp_r7 != M2C_FIELD(arg0, u16 *, 0x64)) || (temp_r8 != M2C_FIELD(arg0, u8 *, 0x66))) {
+    if ((temp_r7 != M2C_FIELD(arg0, u16 *, SAVE_FIELD(0x64))) || (temp_r8 != M2C_FIELD(arg0, u8 *, SAVE_FIELD(0x66)))) {
         sub_0806617C();
-        sub_0805AD78(M2C_FIELD(gUnk_030034E0, u16 *, 0x68));
+        sub_0805AD78(M2C_FIELD(gUnk_030034E0, u16 *, SAVE_FIELD(0x68)));
     }
 }
 /* [GetSavedPlayerPaletteIndex] Reads save-record halfword 0xC. */

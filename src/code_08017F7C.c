@@ -14,7 +14,7 @@ extern const u8 gUnk_080B9AD0[];
 
 struct T015Rect { u32 x:16; u32 y:16; };
 struct T015Pos { u16 x, y; u8 flags:6; u8 rest:2; };
-struct T015Player { u8 pad[0x148]; struct T015Pos *pos; };
+struct T015Player { u8 pad[PLAYER_FIELD(0x148)]; struct T015Pos *pos; };
 extern struct T015Player T015Players[] asm("gUnk_03003CE0");
 extern s32 T015Test(s32 *, void *, s32 *, u32 *) asm("sub_08021FE0");
 /* [IsSpawnPositionInAnyPlayerActivationBox] Tests the supplied Q8 position against the packed positions of all
@@ -839,7 +839,7 @@ void *sub_08019BF8(u16 id)
     u32 *flags = (u32 *)&gUnk_030056FC;
     u32 one = 1;
     u32 mask = *flags;
-    for (; i < 5; i++, entry += 0x2E0)
+    for (; i < 5; i++, entry += ENEMY_SIZE)
         if ((mask & (one << i)) != 0 && *(u16 *)(entry + 2) == id)
             return entry;
     return 0;
@@ -856,7 +856,7 @@ u32 sub_08019C3C(void)
         u32 i = 0;
         u32 one = 1;
         u32 mask = gUnk_030056FC;
-        u32 step = 0x2E0;
+        u32 step = ENEMY_SIZE;
         u8 *entry = base + 0x4A;
         do {
             if ((mask & (one << i)) && *(s16 *)(entry + 0x12) - *(u16 *)entry > 0)

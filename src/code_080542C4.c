@@ -1259,13 +1259,13 @@ u32 sub_08056D80(s16 *pos, u16 rx, u16 ry)
         return 0;
     for (i = 0; i < n; i++) {
         u8 *p = (u8 *)&gUnk_03003CE0[i];
-        struct Bits56D80 *b = *(struct Bits56D80 **)(p + 0x148);
+        struct Bits56D80 *b = *(struct Bits56D80 **)(p + PLAYER_FIELD(0x148));
         s32 d;
         s32 e;
         f = b->f;
         if (f & 0x20)
             continue;
-        if (*(u32 *)(p + 0x30) & 0x2000)
+        if (*(u32 *)(p + PLAYER_FIELD(0x30)) & 0x2000)
             continue;
         {
             u32 bx = b->x;

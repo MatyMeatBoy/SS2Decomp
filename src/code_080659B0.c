@@ -165,7 +165,7 @@ void ss2_08065BD0(s32 index, s32 frames)
     if (frames != -1) {
         do {
             if (sub_0800CC98() == 0) {
-                data = *(u16 **)(player + 0x148);
+                data = *(u16 **)(player + PLAYER_FIELD(0x148));
                 sub_0800BC08(data[0] >> 4, (u32)(data[1] << 20) >> 20, &x, &y, 0x30, 1);
                 draw66(player + 2, x - sub_0801A638(player + 2) * 4, y - 0x30);
             }
@@ -268,7 +268,7 @@ u32 sub_08065D50(void)
     gUnk_03006338++;
     return 1;
 }
-struct Root67Player10 {u8 pad[0x10];u16 w10;u8 pad2[0x14C-0x12];};
+struct Root67Player10 {u8 pad[PLAYER_FIELD(0x10)];u16 w10;u8 pad2[PLAYER_SIZE - PLAYER_FIELD(0x12)];};
 /* [TryEnqueueLocalWeaponSubtypeUpdate] Rejects outgoing count greater than 49 before searching existing
  * records. Otherwise scans the current count of 0x88-byte entries for the first whose word+4 is exactly 1 and
  * tag is 0x83. If found, overwrites only entry+8 (payload word 0) with the zero-extended local player
@@ -464,7 +464,7 @@ u32 queuePlayerBlob067(void)
           register u32 limit asm("r1") = n;
           do {
             if (*(u32 *)(p + 4) == 1 && p[0] == 0x8E) {
-                CpuSet(root67Payload + sub_080020F4() * 0x14C, p + 8, 0x0400000C);
+                CpuSet(root67Payload + sub_080020F4() * PLAYER_SIZE, p + 8, 0x0400000C);
                 goto done;
             }
           i++; p += 0x88;
@@ -473,7 +473,7 @@ u32 queuePlayerBlob067(void)
         p = (u8 *)(uintptr_t)gUnk_03006300 + gUnk_03006338 * 0x88;
         *(u32 *)(p + 4) = 1;
         *p = 0x8E;
-        CpuSet(root67Payload + sub_080020F4() * 0x14C, p + 8, 0x0400000C);
+        CpuSet(root67Payload + sub_080020F4() * PLAYER_SIZE, p + 8, 0x0400000C);
         p[1] = 6;
         gUnk_03006338++;
     done:
@@ -501,7 +501,7 @@ u32 queuePlayerState067(void)
           register u32 limit asm("r1") = n;
           do {
             if (*(u32 *)(p + 4) == 1 && p[0] == 0x8F) {
-                CpuSet(root67Player38Payload + sub_080020F4() * 0x14C, p + 8, 0x04000008);
+                CpuSet(root67Player38Payload + sub_080020F4() * PLAYER_SIZE, p + 8, 0x04000008);
                 goto done;
             }
           i++; p += 0x88;
@@ -510,7 +510,7 @@ u32 queuePlayerState067(void)
         p = (u8 *)(uintptr_t)gUnk_03006300 + gUnk_03006338 * 0x88;
         *(u32 *)(p + 4) = 1;
         *p = 0x8F;
-        CpuSet(root67Player38Payload + sub_080020F4() * 0x14C, p + 8, 0x04000008);
+        CpuSet(root67Player38Payload + sub_080020F4() * PLAYER_SIZE, p + 8, 0x04000008);
         p[1] = 4;
         gUnk_03006338++;
     done:

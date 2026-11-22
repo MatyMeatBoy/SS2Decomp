@@ -2057,22 +2057,22 @@ void sub_0808F6A8(void)
 /* Player (0x14C bytes) view with the fields used by the map warp handlers below */
 struct F9E0Vec { s32 x, y; };
 struct F9E0P {
-    u8 pad0[0x1C];
+    u8 pad0[PLAYER_FIELD(0x1C)];
     u16 w1C;
     u16 pad1E;
     u16 state;
-    u8 pad22[0xE];
+    u8 pad22[PLAYER_FIELD(0x30) - PLAYER_FIELD(0x22)];
     u32 flags;
-    u8 pad34[0x2C];
+    u8 pad34[PLAYER_FIELD(0x60) - PLAYER_FIELD(0x34)];
     u16 a60[2];
-    u8 pad64[4];
+    u8 pad64[PLAYER_FIELD(0x68) - PLAYER_FIELD(0x64)];
     u8 b68;
-    u8 pad69[0x23];
+    u8 pad69[PLAYER_FIELD(0x8C) - PLAYER_FIELD(0x69)];
     struct F9E0Vec pos;
     struct F9E0Vec pos2;
-    u8 pad9C[0x26];
+    u8 pad9C[PLAYER_FIELD(0xC2) - PLAYER_FIELD(0x9C)];
     u16 aC2[2];
-    u8 padC6[0x14C - 0xC6];
+    u8 padC6[PLAYER_SIZE - PLAYER_FIELD(0xC6)];
 };
 extern struct F9E0P F9E0pl[] asm("gUnk_03003CE0");
 extern u8 F9E0pos[] asm("gUnk_03003D6C");
@@ -2123,7 +2123,7 @@ u32 sub_0808F700(u16 *arg)
             sub_080003F0();
         sub_0805D518();
         gUnk_03003170.pad76 = 0x20;
-        { struct F9E0Vec *q = (struct F9E0Vec *)(F9E0pos + idx * 0x14C); F700_AD04(&q->x, &q->y, sub_0800CCCC()); }
+        { struct F9E0Vec *q = (struct F9E0Vec *)(F9E0pos + idx * PLAYER_SIZE); F700_AD04(&q->x, &q->y, sub_0800CCCC()); }
         *(u16 *)(*(u8 **)&gUnk_03005CF4 + 0x10) = 1;
         sub_0805A66C();
         i = 0;
@@ -2219,7 +2219,7 @@ u32 sub_0808F9E0(u16 *arg)
         while (sub_0800BA6C() == 0)
             sub_080003F0();
         gUnk_03003170.pad76 = 0x20;
-        { struct F9E0Vec *q = (struct F9E0Vec *)(F9E0pos + idx * 0x14C); F9E0_AD04(&q->x, &q->y, sub_0800CCCC()); }
+        { struct F9E0Vec *q = (struct F9E0Vec *)(F9E0pos + idx * PLAYER_SIZE); F9E0_AD04(&q->x, &q->y, sub_0800CCCC()); }
         *(u16 *)(*(u8 **)&gUnk_03005CF4 + 0x10) = 1;
         sub_08056E38();
         if (*(u16 *)(*(u8 **)&gUnk_03005CF4 + 0x36) & 0x8000)

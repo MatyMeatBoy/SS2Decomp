@@ -208,18 +208,18 @@ s32 sub_0801E4CC(u8 *arg0, s32 arg1) {
     if (flags & 0x2000) {
         return 0;
     }
-    n = *(s32 *) (arg0 + 0x20);
+    n = *(s32 *) (arg0 + SAVE_FIELD(0x20));
     if ((u32) n > 0xC6) {
         return 0;
     }
-    *(s32 *) (arg0 + 0x1C) += arg1;
+    *(s32 *) (arg0 + SAVE_FIELD(0x1C)) += arg1;
     limit = gUnk_0848FF54[n];
-    if (*(u32 *) (arg0 + 0x1C) < limit) {
+    if (*(u32 *) (arg0 + SAVE_FIELD(0x1C)) < limit) {
         return 0;
     }
-    *(s32 *) (arg0 + 0x20) = n + 1;
-    *(u16 *) (arg0 + 0x1A) += 4;
-    *(u16 *) (arg0 + 0x30) += 1;
+    *(s32 *) (arg0 + SAVE_FIELD(0x20)) = n + 1;
+    *(u16 *) (arg0 + SAVE_FIELD(0x1A)) += 4;
+    *(u16 *) (arg0 + PLAYER_FIELD(0x30)) += 1;
     sub_08061830(&gUnk_03003CE0[sub_080020F4()]);
     return 1;
 }
@@ -487,7 +487,7 @@ s32 sub_0801E5B0(struct Atk5B0 *atk, struct Tgt5B0 *tgt, u8 *record, s32 noCrit)
     return result;
 }
 struct Pos988 { u16 a; u8 b, c; };
-struct Tgt988 { u16 id; u8 pad2[0x1E]; u16 kind; u8 pad22[0x38]; u16 defense; u8 pad5C[0x20]; u16 resist[6]; u8 pad88[0xC0]; struct Pos988 *pos; };
+struct Tgt988 { u16 id; u8 pad2[PLAYER_FIELD(0x20) - 0x2]; u16 kind; u8 pad22[PLAYER_FIELD(0x5A) - PLAYER_FIELD(0x22)]; u16 defense; u8 pad5C[PLAYER_FIELD(0x7C) - PLAYER_FIELD(0x5C)]; u16 resist[6]; u8 pad88[PLAYER_FIELD(0x148) - PLAYER_FIELD(0x88)]; struct Pos988 *pos; };
 /* [ComputePlayerAttackPlayerDamage] Critical roll and feedback choose divisor 100/200; nonzero noCrit selects
  * 1000. */
 s32 sub_0801E988(struct Atk5B0 *atk, struct Tgt988 *tgt, u8 *record, s32 noCrit)

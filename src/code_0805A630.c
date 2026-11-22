@@ -191,7 +191,7 @@ search:
 void sub_0805A874(const u32 *args, u32 mode)
 {
     extern u8 playerPositions[] asm("gUnk_03003D6C");
-    u8 *state = playerPositions + sub_080020F4() * 0x14C;
+    u8 *state = playerPositions + sub_080020F4() * PLAYER_SIZE;
     u32 data[4];
     u32 callback;
     u32 value;
@@ -280,7 +280,7 @@ void sub_0805A994(u32 index, u32 a, u32 b)
             do { sub_080003F0(); } while ((*savedFlags & savedBit) == 0);
         }
     }
-    entry = (u8 *)gUnk_030056F4 + index * 0x2E0;
+    entry = (u8 *)gUnk_030056F4 + index * ENEMY_SIZE;
     *(u32 *)(entry + 0x38) = a;
     *(u32 *)(entry + 0x3C) = b;
     *(u32 *)(entry + 0x30) = 0;
@@ -1136,11 +1136,11 @@ struct B688Shape {
 };
 struct B688Player {
     u16 id;
-    u8 pad2[0x1E];
+    u8 pad2[PLAYER_FIELD(0x20) - 0x2];
     u16 state;
-    u8 pad22[0xE];
+    u8 pad22[PLAYER_FIELD(0x30) - PLAYER_FIELD(0x22)];
     u32 flags;
-    u8 pad34[0x114];
+    u8 pad34[PLAYER_FIELD(0x148) - PLAYER_FIELD(0x34)];
     struct B688Shape *shape;
 };
 struct B688Obj { u8 pad0[0xA0]; u16 kind; u8 padA2[2]; u32 hitMask; u8 gfx; };
@@ -2515,7 +2515,7 @@ block_32:
 s32 sub_0805CFA0(void) {
     u32 i;
     u8 *p;
-    for(i=0,p=(u8 *)gUnk_030034E0+0x150;i<=24;p+=16,i++) if(*(u16 *)p==0) return i;
+    for(i=0,p=(u8 *)gUnk_030034E0+SAVE_FIELD(0x150);i<=24;p+=16,i++) if(*(u16 *)p==0) return i;
     return -1;
 }
 /* [FindFirstEmptyStashSlotInFirst25] Returns the first kind-zero entry index among only the first 25 stash
@@ -2532,7 +2532,7 @@ s32 sub_0805CFCC(void) {
 void sub_0805CFF8(u8 index, const struct Entry61 *src)
 {
     if(index>24) index=0;
-    *(struct Entry61 *)((u8 *)gUnk_030034E0+0x150+index*16)=*src;
+    *(struct Entry61 *)((u8 *)gUnk_030034E0+SAVE_FIELD(0x150)+index*16)=*src;
 }
 /* [CopyItemToStashSlot] Narrows the index to one byte. If index is at least manager halfword +0x6A times 15,
  * substitutes zero, then copies all 16 bytes to stash +0x2E0 + index*16. A zero configured count still writes
@@ -2551,5 +2551,5 @@ u32 sub_0805D064(const struct Entry61 *src,u32 index) {
     struct Entry61 *dst;
     register u32 offset asm("r0");
     
-    switch(*(const u16 *)src) { case 2: dst=(void *)gUnk_030034E0;  offset=savedIndex*16;  dst=(void *)((u8 *)dst+offset);  dst=(void *)((u8 *)dst+0x70); *dst=*src; return 1; default:return 0; }
+    switch(*(const u16 *)src) { case 2: dst=(void *)gUnk_030034E0;  offset=savedIndex*16;  dst=(void *)((u8 *)dst+offset);  dst=(void *)((u8 *)dst+SAVE_FIELD(0x70)); *dst=*src; return 1; default:return 0; }
 }

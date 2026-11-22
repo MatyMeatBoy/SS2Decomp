@@ -1165,10 +1165,10 @@ struct Actor9F4A8 {
     u8 pad54[0x286]; u16 paletteOffset;
 };
 struct Player9F4A8 {
-    u8 pad0[0x20]; u16 state; u8 pad22[14]; u32 flags;
-    u8 pad34[0x34]; u8 active; u8 pad69[0x1F];
-    u16 health, pad8A; s32 x,y; u8 pad94[0x1C];
-    u16 motion; u8 padB2[0x32]; u32 seen[26];
+    u8 pad0[PLAYER_FIELD(0x20)]; u16 state; u8 pad22[PLAYER_FIELD(0x30) - PLAYER_FIELD(0x22)]; u32 flags;
+    u8 pad34[PLAYER_FIELD(0x68) - PLAYER_FIELD(0x34)]; u8 active; u8 pad69[PLAYER_FIELD(0x88) - PLAYER_FIELD(0x69)];
+    u16 health, pad8A; s32 x,y; u8 pad94[PLAYER_FIELD(0xB0) - PLAYER_FIELD(0x94)];
+    u16 motion; u8 padB2[PLAYER_FIELD(0xE4) - PLAYER_FIELD(0xB2)]; u32 seen[26];
 };
 struct Sprite9F4A8 { u32 base,pad4,data,palette,pad10,pad14,pad18; u8 payload[24]; };
 struct DrawObj9F4A8 { u32 pad0[3]; s32 y; };
@@ -1897,7 +1897,7 @@ void sub_080A05B4(u32 kind,void *done)
     *(u32 *)((u8 *)sub_0800048C() + 8) = timer;
 }
 struct EntryA099C { u8 pad[8]; u16 unk8, unkA; u8 rest[20]; };
-struct PlayerA099C { u8 pad[0x8C]; u32 x, y, xx, yy; u8 rest[0xB0]; };
+struct PlayerA099C { u8 pad[PLAYER_FIELD(0x8C)]; u32 x, y, xx, yy; u8 rest[PLAYER_SIZE - PLAYER_FIELD(0x9C)]; };
 extern struct PlayerA099C gPlayersA099C[] asm("gUnk_03003CE0");
 extern u8 gFlagA099C asm("gUnk_03000338");
 extern u8 gFlag2A099C asm("gUnk_03000339");
@@ -1986,10 +1986,10 @@ struct ActorA0B44 {
 struct PosA0B44 { u16 x, y; };
 typedef struct { s32 x, y; } VecA0B44;
 struct PlayerA0B44 {
-    u8 pad0[0x20]; u16 state; u8 pad22[14]; u32 flags;
-    u8 pad34[0x34]; u8 active; u8 pad69[0x23];
-    s32 x, y; u8 pad94[0x1C];
-    u16 motion; u8 padB2[0x32]; u32 seen[25]; struct PosA0B44 *pos;
+    u8 pad0[PLAYER_FIELD(0x20)]; u16 state; u8 pad22[PLAYER_FIELD(0x30) - PLAYER_FIELD(0x22)]; u32 flags;
+    u8 pad34[PLAYER_FIELD(0x68) - PLAYER_FIELD(0x34)]; u8 active; u8 pad69[PLAYER_FIELD(0x8C) - PLAYER_FIELD(0x69)];
+    s32 x, y; u8 pad94[PLAYER_FIELD(0xB0) - PLAYER_FIELD(0x94)];
+    u16 motion; u8 padB2[PLAYER_FIELD(0xE4) - PLAYER_FIELD(0xB2)]; u32 seen[25]; struct PosA0B44 *pos;
 };
 struct SpriteA0B44 { u32 base, pad4, data, palette, pad10, pad14, pad18; u8 payload[24]; };
 struct DrawA0B44 { u32 pad0[3]; s32 y; };

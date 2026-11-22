@@ -543,10 +543,10 @@ u32 sub_08088B6C(u8 *tbl, u32 arg1)
     u16 zero;
     for (i = 1, zero = 0; i <= 3; i++) {
         e = (u16 *)(tbl + (*(u16 *)((u8 *)gUnk_03005CF4 + 0x36) * 36 + 4) + i * 8);
-        d = (*(s32 *)(p + 0x8C) >> 11) - e[0];
+        d = (*(s32 *)(p + PLAYER_FIELD(0x8C)) >> 11) - e[0];
         if (d < 0)
             d = -d;
-        if (d <= 1 && (*(s32 *)(p + 0x90) >> 11) == e[1]) {
+        if (d <= 1 && (*(s32 *)(p + PLAYER_FIELD(0x90)) >> 11) == e[1]) {
             sub_08015ED4();
             sub_0801ABE8(3);
             sub_0800BB40();
@@ -566,19 +566,19 @@ u32 sub_08088B6C(u8 *tbl, u32 arg1)
 }
 struct Pos090 { s32 x, y; };
 struct Player090 {
-    u8 pad0[0x1C];
+    u8 pad0[PLAYER_FIELD(0x1C)];
     u16 w1C;                /* 0x1C */
     u16 pad1E;
     u16 state;              /* 0x20 */
     u16 w22;                /* 0x22 */
-    u8 pad24[0xC];
+    u8 pad24[PLAYER_FIELD(0x30) - PLAYER_FIELD(0x24)];
     u32 flags;              /* 0x30 */
-    u8 pad34[0x34];
+    u8 pad34[PLAYER_FIELD(0x68) - PLAYER_FIELD(0x34)];
     u8 b68;                 /* 0x68 */
-    u8 pad69[0x23];
+    u8 pad69[PLAYER_FIELD(0x8C) - PLAYER_FIELD(0x69)];
     struct Pos090 pos8C;    /* 0x8C */
     struct Pos090 pos94;    /* 0x94 */
-    u8 pad9C[0x14C - 0x9C];
+    u8 pad9C[PLAYER_SIZE - PLAYER_FIELD(0x9C)];
 };
 extern struct Player090 players090[] asm("gUnk_03003CE0");
 struct Warp090 { u16 x, y; };
@@ -636,7 +636,7 @@ s32 sub_08088C24(u8 *arg0) {
         while (sub_0800BA6C() == 0)
             sub_080003F0();
         {
-            u8 *q = (0x14C * idx) + playerCoord88C24;
+            u8 *q = (PLAYER_SIZE * idx) + playerCoord88C24;
             sub_0800AD04(q, q + 4, sub_0800CCCC());
         }
         {
@@ -644,7 +644,7 @@ s32 sub_08088C24(u8 *arg0) {
             *(u16 *)(gs + 0x10) = 1;
             *(u16 *)(gs + 0x1C) = 1;
         }
-        *(u32 *)((0x14C * idx) + (playerCoord88C24 - 0x5C)) &= 0x2000;
+        *(u32 *)((PLAYER_SIZE * idx) + (playerCoord88C24 - 0x5C)) &= 0x2000;
         sub_08067D74();
         sub_08057624(0xA);
         sub_08057328(0, callback2B8A4_090);
@@ -747,7 +747,7 @@ s32 sub_08088F30(u8 *arg0) {
         while (sub_0800BA6C() == 0)
             sub_080003F0();
         {
-            u8 *q = (0x14C * i) + playerCoord88F30;
+            u8 *q = (PLAYER_SIZE * i) + playerCoord88F30;
             sub_0800AD04(q, q + 4, sub_0800CCCC());
         }
         {
@@ -877,7 +877,7 @@ s32 sub_08089204(u8 *arg0) {
             sub_080003F0();
         gUnk_03003170.pad76 = 0x20;
         {
-            u8 *q = (0x14C * idx) + playerCoord89204;
+            u8 *q = (PLAYER_SIZE * idx) + playerCoord89204;
             sub_0800AD04(q, q + 4, sub_0800CCCC());
         }
         {
@@ -939,7 +939,7 @@ s32 sub_08089384(u8 *arg0) {
         while (sub_0800BA6C() == 0)
             sub_080003F0();
         {
-            u8 *q = (0x14C * idx) + playerCoord89384;
+            u8 *q = (PLAYER_SIZE * idx) + playerCoord89384;
             sub_0800AD04(q, q + 4, sub_0800CCCC());
         }
         sub_08057328(0, callback2C674_090);
@@ -4020,11 +4020,11 @@ void sub_0808D0B0(void) {
  * equality, no local build or runtime test. */
 void sub_0808D0C4(void)
 {
-    u8 *state = (u8 *)gUnk_03003CE0 + sub_080020F4() * 0x14C;
-    if ((*(u32 *)(state + 0x30) & 0x4000) == 0) {
+    u8 *state = (u8 *)gUnk_03003CE0 + sub_080020F4() * PLAYER_SIZE;
+    if ((*(u32 *)(state + PLAYER_FIELD(0x30)) & 0x4000) == 0) {
         do {
             sub_08057624(1);
-        } while ((*(u32 *)(state + 0x30) & 0x4000) == 0);
+        } while ((*(u32 *)(state + PLAYER_FIELD(0x30)) & 0x4000) == 0);
     }
     sub_08057DD0(0x78, 0x14A, 0x78, 0x50, (u32)sub_0808C020, 0);
 }

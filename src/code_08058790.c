@@ -63,7 +63,7 @@ u32 sub_08058844(void)
 {
     u32 count = 0;
     u32 i = 0;
-    u8 *base = (u8 *)gUnk_030034E0 + 0xC10;
+    u8 *base = (u8 *)gUnk_030034E0 + SAVE_FIELD(0xC10);
     for (; i <= 0x90; i++)
         if (base[i] != 0) count++;
     if (count == 0x91) return 1;
@@ -309,7 +309,7 @@ void sub_08058C08(u16 arg0, u16 arg1)
 }
 /* [SelectAndActivateWeaponSlot] Writes supplied halfword to inventory manager+0x68. */
 void sub_08058C74(s16 arg0) {
-    M2C_FIELD(gUnk_030034E0, s16 *, 0x68) = arg0;
+    M2C_FIELD(gUnk_030034E0, s16 *, SAVE_FIELD(0x68)) = arg0;
     sub_0805AD78();
 }
 /* [StartTrackedSongUnlessMultiplayer] When multiplayer-world-scene bit 1 is clear and mute/status word

@@ -5476,7 +5476,7 @@ void sub_080284F4_v(struct Ent0284F4 *e)
     e->id = 0;
 }
 struct Pos028830 { u16 x; u16 y; };
-struct Ply028830 { u8 pad0[0x148]; struct Pos028830 *pos; };
+struct Ply028830 { u8 pad0[PLAYER_FIELD(0x148)]; struct Pos028830 *pos; };
 struct Box028830 { s32 a, b; };
 struct Arg028830 { struct Box028830 box; u32 c; s32 d, e; };
 extern struct Ply028830 players028830[] asm("gUnk_03003CE0");

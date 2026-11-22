@@ -1004,7 +1004,7 @@ void sub_08029F54(s32 x,s32 y,u32 low,s32 high,volatile u32 callback)
     index=0;
     base=refsF54;
     while(index<sub_08002164()) {
-        reference=(struct RefF54 *)(index*0x14C+(u32)base);
+        reference=(struct RefF54 *)(index*PLAYER_SIZE+(u32)base);
         player.x=reference->position->x<<8;
         player.y=reference->position->y<<8;
         hit=overlapF54(&player,&center,&mask,&range);
@@ -1089,7 +1089,7 @@ void sub_0802A080(s32 x,s32 y,u32 low,s32 high)
         wait=1;
         index=0;
         while(index<sub_08002164()) {
-            reference=(struct RefA080 *)(index*0x14C+(u32)base);
+            reference=(struct RefA080 *)(index*PLAYER_SIZE+(u32)base);
             player.x=reference->position->x<<8;
             player.y=reference->position->y<<8;
             flag=reference->position->flags; flag&=0x20;
@@ -1530,7 +1530,7 @@ void sub_0802A7DC(void)
   ;
   (&gUnk_03003CE0[sub_080020F4()])->flags |= 2;
   sub_08067D74();
-  *((u32 *) (((u8 *) (&gUnk_03003CE0[sub_080020F4()])) + 0x8C)) = 0x12C00;
+  *((u32 *) (((u8 *) (&gUnk_03003CE0[sub_080020F4()])) + PLAYER_FIELD(0x8C))) = 0x12C00;
   for (wait = 10; wait; wait--)
   {
     sub_080003F0();
@@ -3265,7 +3265,7 @@ void sub_0802C144(void) {
     void (*callback)(void);
     struct Player *player;
     register u32 offset asm("r2");
-    offset = 0x14C * sub_080020F4();
+    offset = PLAYER_SIZE * sub_080020F4();
     
     player = (struct Player *)(offset + (u32)gUnk_03003CE0);
     
@@ -3313,7 +3313,7 @@ check:
         sub_080003F0();
     }
 done:
-    offset = 0x14C * sub_080020F4();
+    offset = PLAYER_SIZE * sub_080020F4();
     
     player = (struct Player *)(offset + (u32)gUnk_03003CE0);
     
@@ -6824,7 +6824,7 @@ void sub_0802F578(void)
     u32 dialog;
     u32 value;
     offset = sub_080020F4();
-    offset *= 0x14C;
+    offset *= PLAYER_SIZE;
     p = (struct Player *)((u8 *)gUnk_03003CE0 + offset);
     p->flags |= 1;
     sub_0800D0F4();
@@ -6945,7 +6945,7 @@ void sub_0802F578(void)
         }
     }
     offset = sub_080020F4();
-    offset *= 0x14C;
+    offset *= PLAYER_SIZE;
     p = (struct Player *)((u8 *)gUnk_03003CE0 + offset);
     p->flags &= ~1;
     sub_0800D108();
@@ -6972,7 +6972,7 @@ void sub_0802FA80(void)
     u32 dialog;
     u32 value;
     offset = sub_080020F4();
-    offset *= 0x14C;
+    offset *= PLAYER_SIZE;
     p = (struct Player *)((u8 *)gUnk_03003CE0 + offset);
     p->flags |= 1;
     sub_0800D0F4();
@@ -7069,7 +7069,7 @@ void sub_0802FA80(void)
         }
     }
     offset = sub_080020F4();
-    offset *= 0x14C;
+    offset *= PLAYER_SIZE;
     p = (struct Player *)((u8 *)gUnk_03003CE0 + offset);
     p->flags &= ~1;
     sub_0800D108();

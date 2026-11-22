@@ -3,7 +3,7 @@
 extern void sub_08019EB8(u16,s32);
 extern void sub_0802949C(s32,s32);
 extern void cameraMove50D3(s16,s16) asm("sub_0800BB80");
-struct Entity50D3 {u16 f0,kind;u8 pad[0x2DC];};
+struct Entity50D3 {u16 f0,kind;u8 pad[ENEMY_SIZE - 0x4];};
 extern struct Entity50D3 *entities50D3 asm("gUnk_030056F4");
 struct Task50D3 {u32 f0,f4,f8,fC,f10,f14,f18,f1C,f20,f24;};
 extern void taskStart50D3(void *,u32) asm("sub_08000274");
@@ -1927,7 +1927,7 @@ after:
         break;
     }
 }
-struct PlayerFB0C { u8 pad[0x30]; u32 flags; u8 tail[0x14C-0x34]; };
+struct PlayerFB0C { u8 pad[PLAYER_FIELD(0x30)]; u32 flags; u8 tail[PLAYER_SIZE - PLAYER_FIELD(0x34)]; };
 struct StateFB0C { u8 pad[4]; u16 flags; };
 extern struct PlayerFB0C playersFB0C[] asm("gUnk_03003CE0");
 extern struct StateFB0C *stateFB0C asm("gUnk_03005CF4");
@@ -1986,7 +1986,7 @@ while (sub_0805EEFC((void *) temp_r4) == 0) sub_080003F0();
     sub_0800D108();
 }
 
-struct PlayerFC3C { u8 pad[0x30]; u32 flags; u8 tail[0x14C-0x34]; };
+struct PlayerFC3C { u8 pad[PLAYER_FIELD(0x30)]; u32 flags; u8 tail[PLAYER_SIZE - PLAYER_FIELD(0x34)]; };
 struct StateFC3C { u8 pad[4]; u16 flags; u8 pad6[0x38-6]; u32 eventFlags; };
 extern struct PlayerFC3C playersFC3C[] asm("gUnk_03003CE0");
 extern struct StateFC3C *stateFC3C asm("gUnk_03005CF4");
@@ -2146,7 +2146,7 @@ while (sub_0805EEFC((void *) handle) == 0) sub_080003F0();
     sub_0800D108();
 }
 
-struct PlayerFF04 { u8 pad[0x30]; u32 flags; u8 tail[0x14C-0x34]; };
+struct PlayerFF04 { u8 pad[PLAYER_FIELD(0x30)]; u32 flags; u8 tail[PLAYER_SIZE - PLAYER_FIELD(0x34)]; };
 struct EntityFF04 { u8 pad[0xC]; u16 state; u8 tail[0x2E0-0xE]; };
 struct StateFF04 { u8 pad[0x38]; u32 events; };
 extern struct PlayerFF04 playersFF04[] asm("gUnk_03003CE0");
@@ -2361,7 +2361,7 @@ done:
     return;
 }
 
-struct Player502DC { u8 pad[0x30]; u32 flags; u8 tail[0x14C-0x34]; };
+struct Player502DC { u8 pad[PLAYER_FIELD(0x30)]; u32 flags; u8 tail[PLAYER_SIZE - PLAYER_FIELD(0x34)]; };
 struct Slot502DC { s32 id; u8 pad[0x32]; u16 state; u8 tail[0x38]; };
 struct State502DC { u8 pad0[4]; u16 flags; u8 pad6[0x7A4-6]; struct Slot502DC slots[15]; };
 extern struct State502DC *state502DC asm("gUnk_03005CF4");
@@ -2395,7 +2395,7 @@ after1:
         else wait = 1;
     } while (wait != 0);
     offset = sub_080020F4();
-    offset *= 0x14C;
+    offset *= PLAYER_SIZE;
     player = (struct Player502DC *)((u8 *)players502DC + offset);
     player->flags |= 1;
     sub_0800D0F4();
@@ -2441,7 +2441,7 @@ after3:
     }
     if (slot != 0) slot->state = 4;
     offset = sub_080020F4();
-    offset *= 0x14C;
+    offset *= PLAYER_SIZE;
     player = (struct Player502DC *)((u8 *)players502DC + offset);
     player->flags &= ~1;
     sub_0800D108();
@@ -2593,7 +2593,7 @@ after:
     } while (i <= 4);
     sub_08019F04();
 }
-struct PlayerF50688 { u8 pad[0x30]; u32 flags; u8 tail[0x14C-0x34]; };
+struct PlayerF50688 { u8 pad[PLAYER_FIELD(0x30)]; u32 flags; u8 tail[PLAYER_SIZE - PLAYER_FIELD(0x34)]; };
 struct SlotF50688 { s32 id; u8 pad[0x32]; u16 state; u8 tail[0x38]; };
 struct StateF50688 { u8 pad[4]; u16 flags; u8 pad6[0x38-6]; u32 eventFlags; u8 pad3C[0x7A4-0x3C]; struct SlotF50688 slots[15]; };
 extern struct PlayerF50688 playersF50688[] asm("gUnk_03003CE0");
@@ -2772,7 +2772,7 @@ while (sub_0805EEFC((void *) handle) == 0) sub_080003F0();
     sub_0800D108();
 }
 
-struct Player509A8 { u8 pad[0x30]; u32 flags; u8 tail[0x14C-0x34]; };
+struct Player509A8 { u8 pad[PLAYER_FIELD(0x30)]; u32 flags; u8 tail[PLAYER_SIZE - PLAYER_FIELD(0x34)]; };
 struct Entity509A8 { u8 pad[0xC]; u16 state; u8 tail[0x2E0-0xE]; };
 struct Task509A8 { u32 f0,f4,flags; void (*callback)(void); u8 *stack; u32 f14,f18,f1C; u8 *memory; u32 data; };
 struct State509A8 { u8 pad0[0x38]; u32 events; u8 pad3C[0xE34-0x3C]; struct Task509A8 tasks[30]; };
@@ -2873,7 +2873,7 @@ while ((temp_r0_2 = sub_08001494(0x400U), var_r4->memory = temp_r0_2, temp_r0_2 
     }
     var_r9 = var_r0_2;
     if (var_r0_2 != 0) goto already;
-    flag0=sub_080020F4(); a1=0x14C; a1 *= flag0;
+    flag0=sub_080020F4(); a1=PLAYER_SIZE; a1 *= flag0;
     a0=(s32 *)players509A8; temp_r1=(struct Player509A8 *)(a1+(u32)a0);
     temp_r1->flags |= initialOne;
     sub_0800D0F4();
@@ -3024,7 +3024,7 @@ while (sub_0801AAE0() == 0) sub_080003F0();
                 var_r2_2->state = entityZero;
             }
             var_r3_2 += 1;
-            a1=0x2E0; var_r2_2=(struct Entity509A8 *)((u8 *)var_r2_2+a1);
+            a1=ENEMY_SIZE; var_r2_2=(struct Entity509A8 *)((u8 *)var_r2_2+a1);
         } while (var_r3_2 <= 4U);
         sub_08019F04();
         return;
@@ -3055,12 +3055,12 @@ while (sub_0801AAE0() == 0) sub_080003F0();
                 var_r2->state = entityZero;
             }
             var_r3 += 1;
-            flag0=0x2E0; var_r2=(struct Entity509A8 *)((u8 *)var_r2+flag0);
+            flag0=ENEMY_SIZE; var_r2=(struct Entity509A8 *)((u8 *)var_r2+flag0);
         } while (var_r3 <= 4U);
         sub_08019F04();
         return;
     }
-struct T53Entity0E48 { u16 f0,id; u8 pad[8]; u16 state; u8 tail[0x2D2]; };
+struct T53Entity0E48 { u16 f0,id; u8 pad[8]; u16 state; u8 tail[ENEMY_SIZE - 0xE]; };
 extern struct T53Entity0E48 *t53_entities0E48 asm("gUnk_030056F4");
 struct T53Task0E48 { u32 f0, f4, flags, callback, stack, f14, f18, f1C, memory, arg; };
 extern u8 *t53_gs0E48 asm("gUnk_03005CF4");
@@ -3270,7 +3270,7 @@ void sub_08051A78(void)
     pos.y=0x5800;
     pos.packed=0x180010;
     p=&gUnk_03003CE0[sub_080020F4()];
-    while(!t53_transformA78((u8 *)p+0x8C,&pos.x,&pos.zero,&pos.packed))sub_080003F0();
+    while(!t53_transformA78((u8 *)p+PLAYER_FIELD(0x8C),&pos.x,&pos.zero,&pos.packed))sub_080003F0();
     {struct Player *q=&gUnk_03003CE0[sub_080020F4()];
     value=q->flags;
     one=1;
@@ -3386,7 +3386,7 @@ check:
             sub_080003F0();
             sub_080003F0();
 }
-struct T53EntityCE4 { u16 f0,id; u8 pad[8]; u16 state; u8 tail[0x2D2]; };
+struct T53EntityCE4 { u16 f0,id; u8 pad[8]; u16 state; u8 tail[ENEMY_SIZE - 0xE]; };
 extern struct T53EntityCE4 *t53_entitiesCE4 asm("gUnk_030056F4");
 static inline void t53_clearCE4(u16 one)
 {
@@ -3945,7 +3945,7 @@ void sub_08053120(s32 arg0)
         break;
     }
 }
-struct P31C4 { u8 pad[0x64]; u16 state; u8 rest[0x14C - 0x66]; };
+struct P31C4 { u8 pad[PLAYER_FIELD(0x64)]; u16 state; u8 rest[PLAYER_SIZE - PLAYER_FIELD(0x66)]; };
 extern struct P31C4 t53_players31C4[] asm("gUnk_03003CE0");
 static inline u8 t53_busy31C4(void)
 {

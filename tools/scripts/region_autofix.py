@@ -28,6 +28,7 @@ MACROS = ('PLAYER_FIELD', 'SAVE_FIELD')
 WRAPPED = re.compile(r'\b(?:PLAYER_FIELD|SAVE_FIELD)\s*\($')
 PLAYER_STRIDE = 0x14C
 ENEMY_STRIDE = 0x2E0
+SAVE_LIMIT = 0x1000  # save-record offsets go past the player record size
 SIZES = {PLAYER_STRIDE: 'PLAYER_SIZE', ENEMY_STRIDE: 'ENEMY_SIZE'}
 
 
@@ -80,7 +81,7 @@ def code_literals(body):
         value = int(match[1], 0)
         if WRAPPED.search(masked[:match.start()].rstrip()[-20:]):
             continue
-        if 0x0A <= value <= PLAYER_STRIDE or value == ENEMY_STRIDE:
+        if 0x0A <= value <= SAVE_LIMIT or value in SIZES:
             result.append((match.start(), match.end(), value))
     return result
 
@@ -163,6 +164,8 @@ def search(checker, module, name, address, log):
                 options.setdefault((SIZES[value], value), []).append(index)
             else:
                 for macro in (('SAVE_FIELD', 'PLAYER_FIELD') if save_first else MACROS):
+                    if macro == 'PLAYER_FIELD' and value >= PLAYER_STRIDE:
+                        continue
                     options.setdefault((macro, value), []).append(index)
         # Greedy over whole values first, then over single occurrences.
         for granularity in ('value', 'single'):
@@ -230,7 +233,7 @@ def main(argv=None):
         if eu == fragment.address and target_rom[eu - region_build.ROM_BASE:][:len(fragment.data)] == fragment.data:
             continue
         relocs = relocations[fragment.name]
-        address = min(region_diff.guesses(fragment, eu, placed, keys),
+        address = min(region_diff.guesses(fragment, eu, placed, keys, relocs, target_rom),
                       key=lambda item: region_diff.difference(fragment, relocs, target_rom, item))
         diff = region_diff.difference(fragment, relocs, target_rom, address)
         if diff and (args.funcs or diff <= args.max_diff):

@@ -338,10 +338,10 @@ u32 sub_0805813C(u32 a, u32 b)
     u32 count = 0;
     u32 i = 0;
     u8 *initial = (u8 *)gUnk_030034E0;
-    u16 *first = (u16 *)(initial + 0x150);
+    u16 *first = (u16 *)(initial + SAVE_FIELD(0x150));
     u8 *base = initial;
     for (; i <= 0x18; first += 8, base += 16, i++)
-        if (*first == a && *(u16 *)(base + 0x152) == b)
+        if (*first == a && *(u16 *)(base + SAVE_FIELD(0x152)) == b)
             count++;
     return count;
 }
@@ -381,10 +381,10 @@ void sub_080581E4(u32 a, u32 b, u32 count)
         u32 address = gUnk_030034E0;
         u32 offset = i * 16;
         u8 *base = (u8 *)(address + offset);
-        if (*(u16 *)(base + 0x150) == a && *(u16 *)(base + 0x152) == b) {
+        if (*(u16 *)(base + SAVE_FIELD(0x150)) == a && *(u16 *)(base + SAVE_FIELD(0x152)) == b) {
             count--;
-            *(u16 *)(base + 0x150) = 0;
-            *(u16 *)(base + 0x152) = 0;
+            *(u16 *)(base + SAVE_FIELD(0x150)) = 0;
+            *(u16 *)(base + SAVE_FIELD(0x152)) = 0;
             if (!count)
                 break;
         }
@@ -462,7 +462,7 @@ void sub_08058334(u32 x, u32 y, u16 a, u16 b, u32 callback)
     u32 pos[2];
     u32 info;
     u32 packed;
-    u8 *player = (u8 *)&gUnk_03003D6C + sub_080020F4() * 0x14C;
+    u8 *player = (u8 *)&gUnk_03003D6C + sub_080020F4() * PLAYER_SIZE;
     info = 0x00200018;
     pos[0] = x << 8;
     pos[1] = y << 8;
@@ -554,7 +554,7 @@ void sub_08058498(u32 x, u32 y, u32 a, u32 b)
     packed = (a >> 16) | b;
     entry = &((struct PlayerW12 *)gUnk_03003CE0)[sub_080020F4()];
     while (sub_08021FE0(&entry->pos8C, pos, &result, &packed) == 0 ||
-           !(*(u16 *)((u8 *)entry + 0x14) & 1)) {
+           !(*(u16 *)((u8 *)entry + PLAYER_FIELD(0x14)) & 1)) {
         if (sub_08058608()) return;
         sub_080003F0();
     }
@@ -702,7 +702,7 @@ void sub_080586EC(u32 index, u32 x, u32 y)
         sub_080003F0();
         ready = gUnk_030056FC & (1u << index);
     }
-    entry = (u8 *)gUnk_030056F4 + index * 0x2E0;
+    entry = (u8 *)gUnk_030056F4 + index * ENEMY_SIZE;
     *(u32 *)(entry + 0x30) = x;
     *(u32 *)(entry + 0x34) = y;
     *(u32 *)(entry + 0x38) = 0;

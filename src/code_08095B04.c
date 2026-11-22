@@ -183,7 +183,7 @@ s32 sub_08095E70(struct Motion95 *p, s16 x, s16 y)
     return (u8)p->unk8;
 }
 struct TargetF10 { u16 x, y; };
-struct PlayerF10 { u8 pad[0x148]; struct TargetF10 *target; };
+struct PlayerF10 { u8 pad[PLAYER_FIELD(0x148)]; struct TargetF10 *target; };
 extern struct PlayerF10 playersF10[] asm("gUnk_03003CE0");
 extern s32 angleF10(s16, s16) asm("ArcTan2");
 /* [SetActorFacingTowardPlayerPacket] Uses the same octant/facing conversion as sub_08095E70, with target
@@ -365,7 +365,7 @@ s8 motionStart99(struct MotionStart99 *arg0, u32 arg1, u32 arg2, u32 arg3) {
 }
 
 struct NearEntity99 { u8 pad[0x14]; s32 x, y; };
-struct NearPlayer99 { u8 pad[0x30]; u32 flags; u8 pad34[0x114]; u16 *target; };
+struct NearPlayer99 { u8 pad[PLAYER_FIELD(0x30)]; u32 flags; u8 pad34[PLAYER_FIELD(0x148) - PLAYER_FIELD(0x34)]; u16 *target; };
 extern struct NearPlayer99 nearPlayers99[] asm("gUnk_03003CE0");
 /* [SelectPlayerByAscendingDistanceWithinLimit] Builds player distance/index pairs from packet coordinates
  * relative to actor +0x14/+0x18, sorts squared distances ascending and compares the first Sqrt result,
@@ -662,7 +662,7 @@ s32 sub_08096394(s32 inputX, s32 inputY)
             flags = player->flags;
             if (flags & 0x2000) goto skip;
             if (flags & 0x40002) goto skip;
-            temp7 = 0x148;
+            temp7 = PLAYER_FIELD(0x148);
             asm("" : "+r"(temp7));
             temp0 = (u32)player + temp7;
             
@@ -681,7 +681,7 @@ s32 sub_08096394(s32 inputX, s32 inputY)
         skip:
             distance += 2;
             i++;
-            temp7 = 0x14C;
+            temp7 = PLAYER_SIZE;
             
             player = (void *)((u32)player + temp7);
         } while (i < count);
@@ -788,7 +788,7 @@ s32 sub_08096494(s32 inputX, s32 inputY)
             flags = player->flags;
             if (flags & 0x2000) goto skip;
             if (flags & 0x40002) goto skip;
-            temp7 = 0x148;
+            temp7 = PLAYER_FIELD(0x148);
             asm("" : "+r"(temp7));
             temp0 = (u32)player + temp7;
             
@@ -807,7 +807,7 @@ s32 sub_08096494(s32 inputX, s32 inputY)
         skip:
             distance += 2;
             i++;
-            temp7 = 0x14C;
+            temp7 = PLAYER_SIZE;
             
             player = (void *)((u32)player + temp7);
         } while (i < count);
@@ -859,7 +859,7 @@ s32 sub_08096494(s32 inputX, s32 inputY)
     }
     return entries[1];
 }
-struct SelectPlayer99 { u8 pad[0x30]; u32 flags; u8 pad34[0x114]; u8 *target; };
+struct SelectPlayer99 { u8 pad[PLAYER_FIELD(0x30)]; u32 flags; u8 pad34[PLAYER_FIELD(0x148) - PLAYER_FIELD(0x34)]; u8 *target; };
 extern struct SelectPlayer99 selectPlayers99[] asm("gUnk_03003CE0");
 /* [SelectPlayerInAlternatingOrder] Uses the low bit of counter array 0x03000290 at the supplied byte index to
  * choose one of two player visitation orders. Rejects flags 0x2000/0x40002 and packet state nibble 11 while
@@ -899,7 +899,7 @@ s32 sub_08096594(u8 arg0)
             case 3: selected = 2; break;
             }
         }
-        offset = selected * 0x14C;
+        offset = selected * PLAYER_SIZE;
         player = (void *)(offset + (u32)base);
         flags = player->flags;
         if (flags & 0x2000) goto next;
@@ -912,7 +912,7 @@ s32 sub_08096594(u8 arg0)
  done:
     return selected;
 }
-struct Body99640 {u16 index;u8 pad2[10];u16 state;u8 padE[6];s32 x,y;u8 pad1C[0x212];u8 radiusX,radiusY;u8 tail[0xB0];};
+struct Body99640 {u16 index;u8 pad2[10];u16 state;u8 padE[6];s32 x,y;u8 pad1C[0x212];u8 radiusX,radiusY;u8 tail[ENEMY_SIZE - 0x230];};
 extern struct Body99640 *bodies99640 asm("gUnk_030056F4");
 extern u32 active99640 asm("gUnk_030056FC");
 extern s16 sine99640[] asm("gUnk_080B9704");
@@ -2008,7 +2008,7 @@ s32 sub_08097A74(void *arg0, void *arg1, s32 arg2, s16 arg3) {
     s8 temp_r5;
     void *temp_r0;
 
-    temp_r0 = M2C_FIELD(arg1, void **, 0x148);
+    temp_r0 = M2C_FIELD(arg1, void **, PLAYER_FIELD(0x148));
     temp_r5 = sub_08096060(arg0, (u16) M2C_FIELD(temp_r0, u16 *, 0) >> 4, (u32) (M2C_FIELD(temp_r0, u16 *, 2) << 0x14) >> 0x14, arg3);
     if (temp_r5 != 0) {
         M2C_FIELD(arg0, u16 *, 8) = sub_08013E90(arg2, arg0 + 0x14, M2C_FIELD(arg0, u16 *, 8), 0, 0);
@@ -2134,7 +2134,7 @@ void sub_08097C6C(void)
     if (obj != 0) {
         if (obj[2] != 0) {
             u32 *dst = (u32 *)gUnk_030034E0;
-            *(u16 *)((u8 *)dst + 0x18) = ss2ScaleSave;
+            *(u16 *)((u8 *)dst + SAVE_FIELD(0x18)) = ss2ScaleSave;
             sub_080003A8((u32)obj);
         }
         sub_08001538((u32)gUnk_03000298);
@@ -2164,7 +2164,7 @@ void sub_08097CA8(u16 value)
     *(u32 *)(task + 0x24) = 0;
     *(u32 *)(task + 8) = 0x4C;
     sub_08000274_(task, (u32)(s32)(s16)value, 0);
-    ss2ScaleSave = *(u16 *)((u8 *)gUnk_030034E0 + 0x18);
+    ss2ScaleSave = *(u16 *)((u8 *)gUnk_030034E0 + SAVE_FIELD(0x18));
 }
 /* [SetBg2EffectTransformPosition] Stores the low 16 bits of two inputs at transform 0x030002A0 +4/+6. BG2
  * affine consumers add these position fields to the separate offset fields. */
