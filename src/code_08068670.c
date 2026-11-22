@@ -327,7 +327,7 @@ s32 sub_08068A00(struct Position68 pos, u8 *attack) {
     }
     temp_r2 = M2C_FIELD(attack, u32 *, 0x0);
     if (temp_r2 <= 3U) {
-        sourcePlayer = (0x14C * temp_r2) + (u8 *)gUnk_03003CE0;
+        sourcePlayer = (PLAYER_SIZE * temp_r2) + (u8 *)gUnk_03003CE0;
     } else {
         sourceEnemy = (u8 *)gUnk_030056F4 + ((temp_r2 * 0x2E0) + 0xFFFFF480);
     }
@@ -498,7 +498,7 @@ remoteDone:
 
             } else {
 loop_69:
-                targetPlayerAlly = (0x14C * playerIndexAlly) + (u8 *)gUnk_03003CE0;
+                targetPlayerAlly = (PLAYER_SIZE * playerIndexAlly) + (u8 *)gUnk_03003CE0;
                 targetStatus68 = targetPlayerAlly + 0x68;
                 sourceStatus = sourcePlayer + 0x68;
                 temp_r2_3 = *targetStatus68;
@@ -584,7 +584,7 @@ allyDone:
 
             } else {
 loop_105:
-                targetPlayerEnemy = (0x14C * playerIndexEnemy) + (u8 *)gUnk_03003CE0;
+                targetPlayerEnemy = (PLAYER_SIZE * playerIndexEnemy) + (u8 *)gUnk_03003CE0;
                 temp_r1 = M2C_FIELD(targetPlayerEnemy, u32 *, 0x30);
                 id=0x2000; id &= temp_r1;
                 if (id) goto nextEnemyPlayer;

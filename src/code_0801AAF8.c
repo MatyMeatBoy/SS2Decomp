@@ -2096,7 +2096,7 @@ void sub_0801DB94(s32 owner,void *record,s32 status)
     register u32 random;
     u32 duration;
     s32 hp;
-    if((u32)owner<=3) player=(u8 *)gUnk_03003CE0+(u32)owner*0x14C;
+    if((u32)owner<=3) player=(u8 *)gUnk_03003CE0+(u32)owner*PLAYER_SIZE;
     else monster=(u8 *)gUnk_030056F4+((u32)owner*0x2E0-0xB80);
     entry->category=100;
     switch((u32)status-1) {

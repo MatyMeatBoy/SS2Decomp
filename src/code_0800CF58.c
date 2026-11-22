@@ -3926,7 +3926,7 @@ retry63_1_done:
                             }
                             ((struct PlayerD368 *)arg0)->f110 = (u32) sp1A8;
                             } else {
-                                temp_r1_45 = (0x14C * temp_r2_48) + (u8 *)&d368_gUnk_03003CE0;
+                                temp_r1_45 = (PLAYER_SIZE * temp_r2_48) + (u8 *)&d368_gUnk_03003CE0;
                                 temp_r1_44 = M2C_FIELD(temp_r1_45, u8 *, 0x68);
                                 if ((temp_r1_44 != 0) && (temp_r1_44 == ((struct PlayerD368 *)arg0)->f68)) {
                                     ((struct LByteD368 { u8 b0, b1, b2, b3; u16 w; } *)&localRecord)->w = ((struct PlayerD368 *)arg0)->f38;
@@ -4709,7 +4709,7 @@ animationClassDoneD368:
                     }
                     var_r4_11 = 0;
                     for (sp128 = 0; sp128 < d368_sub_08002164(); sp128++) {
-                        u8 *plD = (u8 *)&d368_gUnk_03003CE0; temp_r1_56 = 0x14C * sp128;
+                        u8 *plD = (u8 *)&d368_gUnk_03003CE0; temp_r1_56 = PLAYER_SIZE * sp128;
                         temp_r2_63 = *(void **)(temp_r1_56 + ((u8 *)&d368_gUnk_03003CE0 + 0x148));
                         if ((((u32) ((u32) M2C_FIELD(temp_r2_63, u8 *, 0) << 0x1C) >> 0x1C) == 0xE) && (*(u16 *)(temp_r1_56 + plD + 0xB6) != 0)) {
                             if (((u8) M2C_FIELD(temp_r2_63, u8 *, 6) >> 3) == 6) {

@@ -123,7 +123,7 @@ u32 sub_0805D2E0(void *arg0) {
         temp_r4 = sub_08007290(M2C_FIELD(arg0, u16 *, 2) | 0xE0000);
         if ((((s32) M2C_FIELD(temp_r4, u16 *, 0xA2) >> sub_0801DE60()) & 1) != 0) {
             player = sub_080020F4();
-            limitPtr = (s16 *)((u8 *)gUnk_03003CE0 + player * 0x14C);
+            limitPtr = (s16 *)((u8 *)gUnk_03003CE0 + player * PLAYER_SIZE);
             resourceValue = *(u8 *)((u8 *)temp_r4 + 0xA1);
             limit = *(s16 *)((u8 *)limitPtr + 0x38);
             if (resourceValue <= limit) {

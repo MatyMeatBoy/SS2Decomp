@@ -81,7 +81,7 @@ def is_resource(value):
 
 
 def code_literals(body):
-    text = 'sub_08007290' in body or 'Text' in body or 'text' in body
+    text = True  # text pointers go by many names; exactness decides
     """[(start, end, value)] of integer literals outside comments/strings, not yet wrapped."""
     result, index = [], 0
     masked = re.sub(r'/\*.*?\*/|//[^\n]*|"(?:\\.|[^"\\])*"|\'(?:\\.|[^\'\\])*\'',

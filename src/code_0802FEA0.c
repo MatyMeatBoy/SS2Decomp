@@ -1120,7 +1120,7 @@ void sub_08031FF8(void)
     register u8 *p asm("r1");
     s32 mask;
 
-    ((struct Player *)(sub_080020F4() * 0x14C + (u32)gUnk_03003CE0))->flags |= 1;
+    ((struct Player *)(sub_080020F4() * PLAYER_SIZE + (u32)gUnk_03003CE0))->flags |= 1;
     sub_0800D0F4();
     count = 0;
     i = 0;
@@ -1280,7 +1280,7 @@ void sub_08031FF8(void)
             }
         }
     }
-    ((struct Player *)(sub_080020F4() * 0x14C + (u32)gUnk_03003CE0))->flags &= ~1;
+    ((struct Player *)(sub_080020F4() * PLAYER_SIZE + (u32)gUnk_03003CE0))->flags &= ~1;
     sub_0800D108();
 }
 struct Msg598 { u16 a, b; u8 data[12]; };
@@ -1518,7 +1518,7 @@ extern void sub_0805990C(void); void sub_08032DE4(u32 arg0) {
  u8 *slot; u32 actor; u8 **itemsbase; u32 v1;
  u32 off; register s32 raw asm("r0"); u32 zero;
  u8 *selected;
- {struct Player *p; register u32 idx asm("r2");idx=sub_080020F4();idx*=0x14C;p=(struct Player *)((u8 *)gUnk_03003CE0+idx);p->flags|=1;}
+ {struct Player *p; register u32 idx asm("r2");idx=sub_080020F4();idx*=PLAYER_SIZE;p=(struct Player *)((u8 *)gUnk_03003CE0+idx);p->flags|=1;}
  sub_0800D0F4();sub_0802949C(arg,0);
  if(sub_0800CE30()) {raw=(s32)(state32DE4+0x80);v1=16;raw=*(u32 *)raw;}
  else {raw=(s32)state32DE4;v1=16;raw=*(u32 *)(raw+0x78);}
@@ -1544,7 +1544,7 @@ extern void sub_0805990C(void); void sub_08032DE4(u32 arg0) {
  found=find32DE4(actor);
  if(found) *(u16 *)(found+0x42)=flag;
  } else if(arg) {actor=arg-1;if(actor<=4){u8 **base=(u8 **)&gUnk_030056F4;raw=actor*0x2E0;base=(u8 **)((u8 *)*base+raw);sub_08019EB8(*(u16 *)((u8 *)base+2),3);}}
- else {raw=sub_080020F4()*0x14C;{u8 *base=(u8 *)gUnk_03003CE0;raw+=(s32)base;v1=0x11E;raw+=v1;*(u16 *)raw=flag;}}
+ else {raw=sub_080020F4()*PLAYER_SIZE;{u8 *base=(u8 *)gUnk_03003CE0;raw+=(s32)base;v1=0x11E;raw+=v1;*(u16 *)raw=flag;}}
  sub_08068070((u32)sub_0805990C,1);
  while(sub_0805F184())sub_080003F0();
  while(sub_0805EF90())sub_080003F0();
@@ -1572,7 +1572,7 @@ unavailable:
  task=sub_0805DF38(1,15,2,0,-1,0x14021F);
  while(!sub_0805EEFC((void *)task)){if(sub_0800CDF8()){sub_0805EFBC();break;}sub_080003F0();}
 done:
- {struct Player *p;register u32 idx asm("r2");idx=sub_080020F4();idx*=0x14C;p=(struct Player *)((u8 *)gUnk_03003CE0+idx);p->flags &= ~1;}sub_0800D108();
+ {struct Player *p;register u32 idx asm("r2");idx=sub_080020F4();idx*=PLAYER_SIZE;p=(struct Player *)((u8 *)gUnk_03003CE0+idx);p->flags &= ~1;}sub_0800D108();
 }
 extern u8 *state33198 asm("gUnk_03005CF4");
 struct Cmd33198 { u16 kind, value; u8 data[12]; };
@@ -3797,7 +3797,7 @@ static inline u32 t36ALock(u32 idx) {
 static inline u32 t36AMask(u32 *p) { register u32 m asm("r1")=0x100000;  return *p & m; }
 static inline void t36ASet80(void) { register u32 *p asm("r1")=(u32 *)(t36AState+0x80); u32 m=0x100000;  *p |= m; }
 static inline void t36ASet78(void) { u8 *p=t36AState; u32 m=0x100000;  *(u32 *)(p+0x78) |= m; }
-static inline void t36APose(u32 idx, u32 value) { u32 scaled=idx*0x14C; u8 *p; u32 off;  p=(u8 *)gUnk_03003CE0+scaled;  off=0x11E;  *(u16 *)(p+off)=value; }
+static inline void t36APose(u32 idx, u32 value) { u32 scaled=idx*PLAYER_SIZE; u8 *p; u32 off;  p=(u8 *)gUnk_03003CE0+scaled;  off=0x11E;  *(u16 *)(p+off)=value; }
 static inline void t36AOtherPose(u32 idx) { u8 **pp=&t36AOther; u32 off; u8 *p;  off=idx*0x2E0;  p=*pp; p=p+off;  sub_08019EB8(*(u16 *)(p+2), 3); }
 static inline u32 t36ACount(u32 n) { return n; }
 static inline void t36AEmitMany(struct T36ACmd *p,u32 n) { u32 i=0; do { t36AEmit(p); i++; } while (i<n); }
@@ -4643,7 +4643,7 @@ void sub_08038D18(u32 arg){
  register u8 *data asm("r6");u32 left;u32 j;u8 **inventory;u32 zero;
  u32 a;register u32 b asm("r2");struct Cmd38D18 *c;u32 n;
  u32 dialog;
- raw=sub_080020F4();offset=0x14C;offset*=raw;p=(struct Player *)((u8 *)gUnk_03003CE0+offset);raw=p->flags;one=1;raw|=one;p->flags=raw;
+ raw=sub_080020F4();offset=PLAYER_SIZE;offset*=raw;p=(struct Player *)((u8 *)gUnk_03003CE0+offset);raw=p->flags;one=1;raw|=one;p->flags=raw;
  sub_0800D0F4();
  if(sub_0800CE30()){raw=(s32)state38D18;off1=0x1C4;selected=(u8 *)raw+off1;}else{raw=(s32)state38D18;off3=0x1B8;selected=(u8 *)raw+off3;}
  raw=*selected;raw>>=5;raw&=one;if(raw)goto progressed;
@@ -4657,7 +4657,7 @@ void sub_08038D18(u32 arg){
  actor=arg;flag=3;
  if(actor>0x100000){found=find38D18(actor);if(found)*(u16 *)(found+0x42)=flag;}
  else if(arg){actor=arg-1;if(actor<=4){register u8 **base asm("r1")=(u8 **)&gUnk_030056F4;raw=actor*0x2E0;base=(u8 **)((u8 *)*base+raw);sub_08019EB8(*(u16 *)((u8 *)base+2),3);}}
- else{raw=sub_080020F4()*0x14C;{register u8 *base asm("r1")=(u8 *)gUnk_03003CE0;raw+=(s32)base;off1=0x11E;raw+=off1;*(u16 *)raw=flag;}}
+ else{raw=sub_080020F4()*PLAYER_SIZE;{register u8 *base asm("r1")=(u8 *)gUnk_03003CE0;raw+=(s32)base;off1=0x11E;raw+=off1;*(u16 *)raw=flag;}}
  data=cmd.data;
  while(sub_0805F184())sub_080003F0();while(sub_0805EF90())sub_080003F0();
  dialog=sub_0805DF38(1,15,2,0,-1,0x14022D);
@@ -4721,7 +4721,7 @@ idle:
  dialog=sub_0805DF38(1,15,2,0,-1,0x140230);
  while(!sub_0805EEFC((void *)dialog)){if(sub_0800CDF8()){sub_0805EFBC();break;}sub_080003F0();}
 done:
- {struct Player *v;register u32 index asm("r2");index=sub_080020F4();index*=0x14C;v=(struct Player *)((u8 *)gUnk_03003CE0+index);v->flags &=~1;}sub_0800D108();
+ {struct Player *v;register u32 index asm("r2");index=sub_080020F4();index*=PLAYER_SIZE;v=(struct Player *)((u8 *)gUnk_03003CE0+index);v->flags &=~1;}sub_0800D108();
 }
 
 extern u8 *state392B4 asm("gUnk_03005CF4");
@@ -4746,7 +4746,7 @@ void sub_080392B4(u32 arg){
  register s16 *data asm("r6");s16 *out;u32 value;register u32 kind asm("r6");u32 sends;register u32 left asm("r4");u32 j;u8 **inventory;register u32 zero asm("r5");
  u32 a;u32 b;struct Cmd392B4 *c;u32 n;
  u8 **inventoryFirst;u32 dialog;u32 callback;
- {struct Player *v;register u32 index asm("r2");index=sub_080020F4();index*=0x14C;v=(struct Player *)((u8 *)gUnk_03003CE0+index);v->flags |=1;}
+ {struct Player *v;register u32 index asm("r2");index=sub_080020F4();index*=PLAYER_SIZE;v=(struct Player *)((u8 *)gUnk_03003CE0+index);v->flags |=1;}
  sub_0800D0F4();sub_0802949C(arg,0);
  if(sub_0800CE30()){raw=(s32)state392B4;raw+=0x80;off1=8;raw=*(u32 *)raw;}else{raw=(s32)state392B4;off1=8;raw=*(u32 *)(raw+0x78);}raw &=off1;if(raw)goto enabled;
  while(sub_0805F184())sub_080003F0();while(sub_0805EF90())sub_080003F0();
@@ -4766,7 +4766,7 @@ enabled:
  actor=arg;flag=3;
  if(actor>0x100000){found=find392B4(actor);if(found)*(u16 *)(found+0x42)=flag;}
  else if(arg){actor=arg-1;if(actor<=4){register u8 **base asm("r1")=(u8 **)&gUnk_030056F4;raw=actor*0x2E0;base=(u8 **)((u8 *)*base+raw);sub_08019EB8(*(u16 *)((u8 *)base+2),3);}}
- else{raw=sub_080020F4()*0x14C;{register u8 *base asm("r1")=(u8 *)gUnk_03003CE0;raw+=(s32)base;off1=0x11E;raw+=off1;*(u16 *)raw=flag;}}
+ else{raw=sub_080020F4()*PLAYER_SIZE;{register u8 *base asm("r1")=(u8 *)gUnk_03003CE0;raw+=(s32)base;off1=0x11E;raw+=off1;*(u16 *)raw=flag;}}
 
  while(sub_0805F184())sub_080003F0();dialog=sub_0805DF38(1,15,2,0,-2,0x140265);
  while(!sub_0805EEFC((void *)dialog))sub_080003F0();flag=sub_0805EF14((u8 *)dialog);if(!flag)goto rejected;
@@ -4852,7 +4852,7 @@ idle:
  dialog=sub_0805DF38(1,15,2,0,-1,0x140263);
  while(!sub_0805EEFC((void *)dialog)){if(sub_0800CDF8()){sub_0805EFBC();break;}sub_080003F0();}
 done:
- {struct Player *v;register u32 index asm("r2");index=sub_080020F4();index*=0x14C;v=(struct Player *)((u8 *)gUnk_03003CE0+index);v->flags &=~1;}sub_0800D108();
+ {struct Player *v;register u32 index asm("r2");index=sub_080020F4();index*=PLAYER_SIZE;v=(struct Player *)((u8 *)gUnk_03003CE0+index);v->flags &=~1;}sub_0800D108();
 }
 extern u8 *state399E4 asm("gUnk_03005CF4");
 /* [RunGalicDialogue] Sets local player flags bit 0 (input suppression), calls BeginLocalPlayerEventLock and
@@ -5364,7 +5364,7 @@ static inline void t38_setAE6C(u32 arg) {
         idx=arg-1;
         if(idx<5) {address=(u8 **)&gUnk_030056F4;off=idx*0x2E0;entry=*address;entry+=off;sub_08019EB8(*(u16 *)(entry+2),3);}
     }
-    else {register u32 off asm("r0");off=sub_080020F4()*0x14C;p=(u8 *)gUnk_03003CE0+off;*(u16 *)(p+0x11E)=value;}
+    else {register u32 off asm("r0");off=sub_080020F4()*PLAYER_SIZE;p=(u8 *)gUnk_03003CE0+off;*(u16 *)(p+0x11E)=value;}
 }
 static inline u32 t38_getFirstAE6C(u32 mask) {
     u8 *base;
@@ -5392,7 +5392,7 @@ void sub_0803AE6C(u32 arg0) {
     register u32 endOffset asm("r2");
 
     {register u32 off asm("r1");u32 bits;u8 *base;
-    off=0x14C * sub_080020F4();base=(u8 *)gUnk_03003CE0;temp_r1=(u8 *)off;temp_r1+= (u32)base;
+    off=PLAYER_SIZE * sub_080020F4();base=(u8 *)gUnk_03003CE0;temp_r1=(u8 *)off;temp_r1+= (u32)base;
     bits=*(u32 *)(temp_r1+0x30);one=1;bits|=one;*(u32 *)(temp_r1+0x30)=bits;}
     sub_0800D0F4();
     var_r4=t38_getFirstAE6C(one);

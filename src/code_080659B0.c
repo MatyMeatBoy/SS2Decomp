@@ -947,7 +947,7 @@ extern u8 *gRxMiscP asm("gUnk_03006440");
 extern u8 gRxByteA asm("gUnk_0300636C");
 extern u8 gRxByteB asm("gUnk_03006224");
 extern u8 gRxByteC asm("gUnk_03006228");
-#define RX_PL(i) ((u8 *)gUnk_03003CE0 + (i) * 0x14C)
+#define RX_PL(i) ((u8 *)gUnk_03003CE0 + (i) * PLAYER_SIZE)
 struct RxRec { u8 p0[4]; u8 kind:6; };
 struct RxBlk32 { u32 w[8]; };
 struct RxPlayer {

@@ -1503,7 +1503,7 @@ void sub_08016D40(u8 *object, u16 arg) {
         *(s32 *)(object + 0x24) = *(s32 *)(source + 0x14) >> 8;
         *(s32 *)(object + 0x28) = *(s32 *)(source + 0x18) >> 8;
     } else {
-        source = (u8 *)gUnk_03003CE0 + (object[0x1FC] >> 4) * 0x14C;
+        source = (u8 *)gUnk_03003CE0 + (object[0x1FC] >> 4) * PLAYER_SIZE;
         packed = (u16 *volatile *)(source + 0x148);
         *(s32 *)(object + 0x24) = (*packed)[0] >> 4;
         *(s32 *)(object + 0x28) = ((u32)(*packed)[1] << 20) >> 20;
