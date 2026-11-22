@@ -913,7 +913,7 @@ void sub_0801F1C4(void *position, u8 *object, u16 amount)
         if (check & 0x80)
             *(u32 *)&packet &= 0xFF00FFFF;
     }
-    if (*(u32 *)(object + 0x210) == 0xFF)
+    if (*(u32 *)(object + ENEMY_FIELD(0x210)) == 0xFF)
         *(u32 *)&packet &= 0xFF00FFFF;
     sub_0801F2CC(object, (u8 *)&packet);
     {
@@ -927,7 +927,7 @@ void sub_0801F1C4(void *position, u8 *object, u16 amount)
         u16 *flags = (u16 *)(object + 0x5A);
         u32 players = (u32)gUnk_03003CE0;
         
-        *flags |= 1 << *(u16 *)(players + selected * 0x14C);
+        *flags |= 1 << *(u16 *)(players + selected * PLAYER_SIZE);
     }
     sub_080660EC(&packet);
 }

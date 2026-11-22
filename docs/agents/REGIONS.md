@@ -175,6 +175,7 @@ neither macro and must stay byte-identical (`make compare`).
 | `PLAYER_SIZE` | 0x14C | 0x158 |
 | `PLAYER_FIELD(o)` | `o` | `o` below 0x0C, `o + 10` below 0x2A, then `o + 12` (flags +0x30 -> +0x3C) |
 | `ENEMY_SIZE` | 0x2E0 | 0x454 (enemy actor records at `*gUnk_030056F4`) |
+| `ENEMY_FIELD(o)` | o | o below 0x206, else o + 0x174 (USA inserts 0x174 bytes at enemy +0x206) |
 | `RES_ID(id)` | id | id - 4 (resource ids that USA numbers 4 lower, e.g. 0x5008C; not every archive 5 id moves, so only verified uses) |
 | `TEXT_HEADER` | 2 | 4 (header before the string of a text record from `sub_08007290`) |
 | `SAVE_FIELD(o)` | `o` | character save record (`gUnk_030034E0`): `o` below 0x0A, `o + 10` below 0x10, then `o + 12` |

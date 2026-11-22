@@ -25,7 +25,7 @@ import region_symbols
 
 LITERAL = re.compile(r'(?<![\w.])(0[xX][0-9a-fA-F]+|[1-9][0-9]*)(?![\w.])')
 MACROS = ('PLAYER_FIELD', 'SAVE_FIELD')
-WRAPPED = re.compile(r'\b(?:PLAYER_FIELD|SAVE_FIELD|RES_ID)\s*\($')
+WRAPPED = re.compile(r'\b(?:PLAYER_FIELD|SAVE_FIELD|RES_ID|ENEMY_FIELD)\s*\($')
 PLAYER_STRIDE = 0x14C
 ENEMY_STRIDE = 0x2E0
 SAVE_LIMIT = 0x1000  # save-record offsets go past the player record size
@@ -166,6 +166,7 @@ def search(checker, module, name, address, log):
             return False
         start = best
         save_first = 'gUnk_030034E0' in body
+        enemy = True  # enemy records often arrive as plain pointers; exactness decides
         options = {}
         for index, (_, _, value) in enumerate(literals):
             if value in SIZES:
@@ -175,6 +176,8 @@ def search(checker, module, name, address, log):
                 continue
             if is_resource(value):
                 options.setdefault(('RES_ID', value), []).append(index)
+            if enemy and 0x206 <= value < ENEMY_STRIDE:
+                options.setdefault(('ENEMY_FIELD', value), []).append(index)
             if value <= SAVE_LIMIT:
                 for macro in (('SAVE_FIELD', 'PLAYER_FIELD') if save_first else MACROS):
                     if macro == 'PLAYER_FIELD' and value >= PLAYER_STRIDE:

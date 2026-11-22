@@ -33,7 +33,7 @@ class Record:
 
 
 def enemy_field(offset):
-    return offset
+    return offset if offset < 0x206 else offset + 0x174
 
 
 # Record kinds by EU size: player record and enemy actor record (include/region.h).

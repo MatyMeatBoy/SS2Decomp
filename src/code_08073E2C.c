@@ -967,7 +967,7 @@ struct Arg5778 { u32 who; u32 slot; u16 target; u16 pad; u32 fC; u32 count; u32 
 struct Spr5778 { u32 f0, f4, f8, fC; u8 pad10[16]; u8 f20; u8 pad21[19]; };
 struct Ent5778 { u16 xRaw, yRaw; };
 struct Ply5778 { u16 id; u8 pad2[0x1E]; u16 state; u8 pad22[4]; u16 f26; u8 pad28[8]; u32 flags; u8 pad34[6]; s16 power; u8 pad3C[0x2C]; u8 team; u8 pad69[0x23]; s32 x, y; u8 pad94[0x1E]; u16 ready; u8 padB4[0x28]; u32 serial; u8 padE0[0x18]; u32 hist[0x14]; struct Ent5778 *entity; };
-struct Ene5778 { u16 id; u16 f2; u8 pad4[8]; u16 state; u8 padE[6]; s32 x, y; u8 pad1C[0x38]; u32 serial; u16 owner, hitMask; u8 pad5C[0x180]; u8 team; u8 pad1DD[0x29]; s16 power; u8 pad208[0x26]; u8 w, h; u8 pad230[0xB0]; };
+struct Ene5778 { u16 id; u16 f2; u8 pad4[8]; u16 state; u8 padE[6]; s32 x, y; u8 pad1C[0x38]; u32 serial; u16 owner, hitMask; u8 pad5C[0x180]; u8 team; u8 pad1DD[ENEMY_FIELD(0x206) - 0x1DD]; s16 power; u8 pad208[ENEMY_FIELD(0x22E) - ENEMY_FIELD(0x208)]; u8 w, h; u8 pad230[ENEMY_SIZE - ENEMY_FIELD(0x230)]; };
 struct Box5778 { u32 w:16; u32 h:16; };
 struct Pos5778 { s32 x, y; };
 extern struct Ply5778 p5778[] asm("gUnk_03003CE0");
@@ -2858,7 +2858,7 @@ void sub_0807854C(u32 who, u32 b)
 struct Spr85F4 { u32 f0, f4, f8, fC; u8 pad10[12]; u8 f1C, f1D; u8 pad1E[22]; };
 struct Pos85F4 { u16 h0; u16 h2; };
 struct Ply85F4 { u8 pad0[PLAYER_FIELD(0x30)]; u32 flags; u8 pad34[PLAYER_FIELD(0x68) - PLAYER_FIELD(0x34)]; u8 team; u8 pad69[PLAYER_FIELD(0x8C) - PLAYER_FIELD(0x69)]; s32 x, y; u8 pad94[PLAYER_FIELD(0x148) - PLAYER_FIELD(0x94)]; struct Pos85F4 *pos; };
-struct Ene85F4 { u16 id; u8 pad2[6]; s16 dir; u8 padA[2]; u16 state; u8 padE[6]; s32 x, y; u8 pad1C[0x4E]; u16 wait; u8 pad6C[0xE]; u16 f7A; u8 pad7C[0x160]; u8 active; u8 pad1DD[0x20]; u8 f1FD; u8 pad1FE[0x2D]; u8 threshold; u16 f22C; u8 pad22E[0xAA]; u16 f2D8, f2DA; u8 pad2DC[4]; };
+struct Ene85F4 { u16 id; u8 pad2[6]; s16 dir; u8 padA[2]; u16 state; u8 padE[6]; s32 x, y; u8 pad1C[0x4E]; u16 wait; u8 pad6C[0xE]; u16 f7A; u8 pad7C[0x160]; u8 active; u8 pad1DD[0x20]; u8 f1FD; u8 pad1FE[ENEMY_FIELD(0x22B) - 0x1FE]; u8 threshold; u16 f22C; u8 pad22E[ENEMY_FIELD(0x2D8) - ENEMY_FIELD(0x22E)]; u16 f2D8, f2DA; u8 pad2DC[ENEMY_SIZE - ENEMY_FIELD(0x2DC)]; };
 struct Off85F4 { s16 x, y; };
 extern struct Ply85F4 p85F4[] asm("gUnk_03003CE0");
 extern struct Ene85F4 *e85F4Base asm("gUnk_030056F4");
@@ -2909,7 +2909,7 @@ void sub_080785F4(u32 who, u32 arg)
 
     local = (u16)sub_080020F4();
     e = &e85F4Base[who];
-    init85F4(&spr, 0x500AF, 0, 0x80000000, 0);
+    init85F4(&spr, RES_ID(0x500AF), 0, 0x80000000, 0);
     spr.f1C = sub_08019D7C(e->f2D8, e->f2DA);
     if (e->f1FD == 0x14) {
         kind = 0;
@@ -4020,15 +4020,15 @@ u32 sub_0807A124(void)
     u8 *p = sub_08001494(sz);
     u8 *q = sub_08001494(sz);
     u32 r;
-    memcpy(p, (void *)gUnk_030034E0, 0xCA4);
+    memcpy(p, (void *)gUnk_030034E0, SAVE_FIELD(0xCA4));
     memcpy(q, gUnk_03004210, 0x51C);
-    p[0xCA4] = Sum_A124(p, 0xCA4);
+    p[SAVE_FIELD(0xCA4)] = Sum_A124(p, SAVE_FIELD(0xCA4));
     q[0x51C] = Sum_A124(q, 0x51C);
-    sub_08001B14(*(u16 *)(gUnk_030034E0 + 0xE), p);
-    r = (u16)sub_08001B14(*(u16 *)(gUnk_030034E0 + 0xE) + 8, q);
+    sub_08001B14(*(u16 *)(gUnk_030034E0 + SAVE_FIELD(0xE)), p);
+    r = (u16)sub_08001B14(*(u16 *)(gUnk_030034E0 + SAVE_FIELD(0xE)) + 8, q);
     if (r == 0) {
-        r = sub_08001B54(*(u16 *)(gUnk_030034E0 + 0xE), p);
-        r |= sub_08001B54(*(u16 *)(gUnk_030034E0 + 0xE) + 8, q);
+        r = sub_08001B54(*(u16 *)(gUnk_030034E0 + SAVE_FIELD(0xE)), p);
+        r |= sub_08001B54(*(u16 *)(gUnk_030034E0 + SAVE_FIELD(0xE)) + 8, q);
         if (r == 0) {
             sub_08001538((s32)p);
             sub_08001538((s32)q);

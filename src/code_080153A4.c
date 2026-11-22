@@ -1106,7 +1106,7 @@ found:
     if (slot < 0)
         return 0;
     poolFlags014 |= 1 << slot;
-    object = poolObjects014 + slot * 0x2E0;
+    object = poolObjects014 + slot * ENEMY_SIZE;
     zero = 0;
     *(u16 *)object = slot;
     *(u32 *)(object + 0x50) = (slot + 4) << 24;
@@ -2243,9 +2243,9 @@ s32 sub_08017EC8(u8 *arg0)
     u32 high;
     if (*(u16 *)(arg0 + 0x7A) & 0x40) return 1;
     size = 0x014001E0;
-    lo = arg0 + 0x22E;
+    lo = arg0 + ENEMY_FIELD(0x22E);
     
-    high = arg0[0x22F] << 16;
+    high = arg0[ENEMY_FIELD(0x22F)] << 16;
     
     rect = *lo | high;
     found = 0;

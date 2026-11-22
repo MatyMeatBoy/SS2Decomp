@@ -874,16 +874,16 @@ void sub_08029B98(s32 index,u32 action,u32 amount,u32 argument,u16 arg4,u16 arg5
 {
  struct ResultB98 result; struct ResultB98 *res; struct ResultB98 *res1; u8 *object; void *handle;
  if(((u32)gUnk_030056FC & (1<<index))==0)return;
- object=(u8*)gUnk_030056F4+index*0x2E0;
+ object=(u8*)gUnk_030056F4+index*ENEMY_SIZE;
  if(object[0x1DC] && H_B9(object,0xC)!=11 && H_B9(object,0xC)!=10){
   amount=scaleB98(amount,H_B9(object,0x1CE),200);
-  if(object[0x226]!=3){
+  if(object[ENEMY_FIELD(0x226)]!=3){
    res1=&result;
-   initB98(&result,object+0x218,argument,action,H_B9(object,0)+4);
+   initB98(&result,object+ENEMY_FIELD(0x218),argument,action,H_B9(object,0)+4);
    handle=lookupB98(object,0);
    if(handle)sub_0801DB94(H_B9(object,0)+4,handle,res1->b);
   }
-  amount=valueB98(action,amount,object+0x218);
+  amount=valueB98(action,amount,object+ENEMY_FIELD(0x218));
   H_B9(object,0xC)=10;
   res=&result;
   res->value=amount;res->a=H_B9(object,2);res->c=arg4;res->d=arg5;
@@ -891,7 +891,7 @@ void sub_08029B98(s32 index,u32 action,u32 amount,u32 argument,u16 arg4,u16 arg5
   H_B9(object,0x58)=sub_080020F4(); H_B9(object,0x4A)=amount;W_B9(object,0x4C)=amount;
   H_B9(object,0x5A)|=1<<sub_080020F4();
   finishB98(&result);
-  if(object[0x226]!=3)runB98(object+0x218,res->value,argument,index,index+4,action);
+  if(object[ENEMY_FIELD(0x226)]!=3)runB98(object+ENEMY_FIELD(0x218),res->value,argument,index,index+4,action);
  }
 }
 #define H_CE(p,n) (*(u16*)((p)+(n)))
@@ -948,25 +948,25 @@ void sub_08029E0C(s32 index,u32 action,u32 amount,u32 argument,u16 arg4,u16 arg5
 {
  u8 zero; struct ResultE0C result; struct ResultE0C *res; struct ResultE0C *res1; u8 *object; void *handle;
  if(((u32)gUnk_030056FC & (1<<index))==0)return;
- object=(u8*)gUnk_030056F4+index*0x2E0;
+ object=(u8*)gUnk_030056F4+index*ENEMY_SIZE;
  if(object[0x1DC] && H_E0(object,0xC)!=11 && H_E0(object,0xC)!=10){
-  if(object[0x226]!=3){
+  if(object[ENEMY_FIELD(0x226)]!=3){
    res1=&result;
-   initE0C(&result,object+0x218,argument,action,H_E0(object,0)+4);
+   initE0C(&result,object+ENEMY_FIELD(0x218),argument,action,H_E0(object,0)+4);
    handle=lookupE0C(object,0);
    if(handle)sub_0801DB94(H_E0(object,0)+4,handle,res1->b);
   }
-  amount=valueE0C(action,amount,object+0x218);
+  amount=valueE0C(action,amount,object+ENEMY_FIELD(0x218));
   zero=0;
   H_E0(object,0xC)=10+zero; H_E0(object,0x4A)=amount; W_E0(object,0x4C)=amount;
   res=&result;
   res->value=amount;res->c=arg4;res->a=H_E0(object,2);res->d=arg5;
   if(res->c&0x80)res->c=zero;
-  if(W_E0(object,0x210)==0xFF)res->c=zero;
+  if(W_E0(object,ENEMY_FIELD(0x210))==0xFF)res->c=zero;
   sub_0801F2CC(object,(u8*)&result);
   H_E0(object,0x58)=sub_080020F4();
   finishE0C(&result);
-  if(object[0x226]!=3)runE0C(object+0x218,res->value,argument,index,index+4,action);
+  if(object[ENEMY_FIELD(0x226)]!=3)runE0C(object+ENEMY_FIELD(0x218),res->value,argument,index,index+4,action);
  }
 }
 struct PackedF54 {u16 low:4;u16 x:12;u16 y:12;u16 high:4;u8 flags:6;u8 unused:2;};

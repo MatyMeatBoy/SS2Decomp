@@ -1200,7 +1200,7 @@ void sub_08069BBC(u32 a, u32 b)
 struct Z069S {u32 f0,f4,f8,fC;u8 pad10[12];u8 f1C,f1D;u8 pad1E[22];};
 struct Z069A {u32 player,bit,target,value,f10,level;};
 struct Z069P {u16 id;u8 pad2[PLAYER_FIELD(0x20) - 0x2];u16 state;u8 pad22[PLAYER_FIELD(0x30) - PLAYER_FIELD(0x22)];u32 flags;u8 pad34[PLAYER_FIELD(0x68) - PLAYER_FIELD(0x34)];u8 team;u8 pad69[PLAYER_FIELD(0xC2) - PLAYER_FIELD(0x69)];u16 resource;u8 padC4[PLAYER_FIELD(0xDC) - PLAYER_FIELD(0xC4)];u32 counter;u8 padE0[PLAYER_FIELD(0xE4) - PLAYER_FIELD(0xE0)];u32 ehist[5];u32 phist[4];u8 pad108[PLAYER_FIELD(0x148) - PLAYER_FIELD(0x108)];u16 *sprite;};
-struct Z069E {u16 id,target;u8 pad4[4];s16 dir;u8 padA[2];u16 state;u8 padE[6];s32 x,y;u8 pad1C[52];u32 counter,lastHit;u16 owner;u8 pad5A[4];u16 resource;u8 pad60[10];u16 wait;u8 pad6C[368];u8 active;u8 pad1DD[78];u8 threshold;u8 pad22C[180];};
+struct Z069E {u16 id,target;u8 pad4[4];s16 dir;u8 padA[2];u16 state;u8 padE[6];s32 x,y;u8 pad1C[52];u32 counter,lastHit;u16 owner;u8 pad5A[4];u16 resource;u8 pad60[10];u16 wait;u8 pad6C[368];u8 active;u8 pad1DD[ENEMY_FIELD(0x22B) - 0x1DD];u8 threshold;u8 pad22C[ENEMY_SIZE - ENEMY_FIELD(0x22C)];};
 struct Z069Off {s16 x,y;};
 extern struct Z069P z069P[] asm("gUnk_03003CE0");
 extern u8 *z069EBase asm("gUnk_030056F4");
@@ -1869,7 +1869,7 @@ void sub_0806ABC0(struct T071A *arg) {
 struct Y073S {u32 f0,f4,f8,fC;u8 pad10[12];u8 f1C,f1D;u8 pad1E[22];};
 struct Y073A {u32 player,bit,target,value,f10,level;};
 struct Y073P {u16 id;u8 pad2[PLAYER_FIELD(0x20) - 0x2];u16 state;u8 pad22[PLAYER_FIELD(0x30) - PLAYER_FIELD(0x22)];u32 flags;u8 pad34[PLAYER_FIELD(0x68) - PLAYER_FIELD(0x34)];u8 team;u8 pad69[PLAYER_FIELD(0xB6) - PLAYER_FIELD(0x69)];u16 fB6;u8 padB8[PLAYER_FIELD(0xC2) - PLAYER_FIELD(0xB8)];u16 resource;u8 padC4[PLAYER_FIELD(0x148) - PLAYER_FIELD(0xC4)];u8 *sprite;};
-struct Y073E {u16 id,target;u8 pad4[4];s16 dir;u8 padA[2];u16 state;u8 padE[6];s32 x,y;u8 pad1C[66];u16 resource;u8 pad60[10];u16 wait;u8 pad6C[368];u8 active;u8 pad1DD[78];u8 threshold;u8 pad22C[180];};
+struct Y073E {u16 id,target;u8 pad4[4];s16 dir;u8 padA[2];u16 state;u8 padE[6];s32 x,y;u8 pad1C[66];u16 resource;u8 pad60[10];u16 wait;u8 pad6C[368];u8 active;u8 pad1DD[ENEMY_FIELD(0x22B) - 0x1DD];u8 threshold;u8 pad22C[ENEMY_SIZE - ENEMY_FIELD(0x22C)];};
 struct Y073R {s16 x,y;};
 extern struct Y073P y073P[] asm("gUnk_03003CE0");
 extern u8 *y073EBase asm("gUnk_030056F4");
@@ -2105,7 +2105,7 @@ void sub_0806B3C4(struct Y073A *arg) {
 }
 struct SprBE { u32 f0, f4, f8, fC; u8 pad10[12]; u8 f1C, f1D; u8 pad1E[22]; };
 struct PlyBE { u16 id; u8 pad2[PLAYER_FIELD(0x20) - 0x2]; u16 state; u8 pad22[PLAYER_FIELD(0xB2) - PLAYER_FIELD(0x22)]; u16 ready; u8 padB4[PLAYER_FIELD(0xC2) - PLAYER_FIELD(0xB4)]; u16 resource; u8 padC4[PLAYER_FIELD(0xDC) - PLAYER_FIELD(0xC4)]; s32 hits; u8 padE0[PLAYER_FIELD(0x148) - PLAYER_FIELD(0xE0)]; u16 *sprite; };
-struct EneBE { u16 id; u16 uid; u8 p4[4]; s16 dir; u8 pA[2]; u16 state; u8 pE[6]; s32 x, y; u8 p1C[0x34]; s32 hits; u8 p54[0xA]; u16 resource; u8 p60[0xA]; u16 wait; u8 p6C[0x1BF]; u8 threshold; u8 p22C[0xB4]; };
+struct EneBE { u16 id; u16 uid; u8 p4[4]; s16 dir; u8 pA[2]; u16 state; u8 pE[6]; s32 x, y; u8 p1C[0x34]; s32 hits; u8 p54[0xA]; u16 resource; u8 p60[0xA]; u16 wait; u8 p6C[ENEMY_FIELD(0x22B) - 0x6C]; u8 threshold; u8 p22C[ENEMY_SIZE - ENEMY_FIELD(0x22C)]; };
 struct ArgBE { u32 player, bit; u16 target; u8 pA[2]; u32 value, f10, level; };
 struct CtlBE { u8 p0[4]; u16 h4; };
 extern struct PlyBE pBE[] asm("gUnk_03003CE0");
@@ -2362,7 +2362,7 @@ void sub_0806BE24(struct ArgBE *arg)
 }
 struct SprC568 { u32 f0, f4, f8, fC; u8 pad10[12]; u8 f1C, f1D; u8 pad1E[22]; };
 struct PlyC568 { u16 id; u8 pad2[PLAYER_FIELD(0x20) - 0x2]; u16 state; u8 pad22[PLAYER_FIELD(0x68) - PLAYER_FIELD(0x22)]; u8 team; u8 pad69[PLAYER_FIELD(0xB2) - PLAYER_FIELD(0x69)]; u16 fB2; u8 padB4[PLAYER_FIELD(0xB6) - PLAYER_FIELD(0xB4)]; u16 fB6; u8 padB8[PLAYER_FIELD(0xC2) - PLAYER_FIELD(0xB8)]; u16 resource; u8 padC4[PLAYER_FIELD(0x148) - PLAYER_FIELD(0xC4)]; u16 *sprite; };
-struct EneC568 { u16 id; u8 pad2[6]; s16 dir; u8 padA[2]; u16 state; u8 padE[6]; s32 x, y; u8 pad1C[0x3C]; u16 f58; u8 pad5A[4]; u16 resource; u8 pad60[10]; u16 wait; u8 pad6C[0x170]; u8 active; u8 pad1DD[0x4E]; u8 threshold; u8 pad22C[0xB4]; };
+struct EneC568 { u16 id; u8 pad2[6]; s16 dir; u8 padA[2]; u16 state; u8 padE[6]; s32 x, y; u8 pad1C[0x3C]; u16 f58; u8 pad5A[4]; u16 resource; u8 pad60[10]; u16 wait; u8 pad6C[0x170]; u8 active; u8 pad1DD[ENEMY_FIELD(0x22B) - 0x1DD]; u8 threshold; u8 pad22C[ENEMY_SIZE - ENEMY_FIELD(0x22C)]; };
 struct RangeC568 { s16 x, y; };
 struct ArgC568 { u32 player, bit, target, value, f10, level; };
 extern struct PlyC568 pC568[] asm("gUnk_03003CE0");
@@ -5650,7 +5650,7 @@ end:
 struct T39Pos { u16 h0; u16 h2; };
 struct T39Rng { s16 x, y; };
 struct T39Pl { u16 h0; u8 p2[PLAYER_FIELD(0x20) - 0x2]; u16 state; u8 p22[PLAYER_FIELD(0x4C) - PLAYER_FIELD(0x22)]; u8 b4C[0x68 - 0x4C]; u8 team; u8 p69[PLAYER_FIELD(0xB2) - PLAYER_FIELD(0x69)]; u16 ready; u8 pB4[PLAYER_FIELD(0xB6) - PLAYER_FIELD(0xB4)]; u16 done; u8 pB8[PLAYER_FIELD(0xC2) - PLAYER_FIELD(0xB8)]; u16 hp; u8 pC4[PLAYER_FIELD(0x148) - PLAYER_FIELD(0xC4)]; struct T39Pos *pos; u8 p14C[0x14C - 0x14C]; };
-struct T39En { u16 h0; u8 p2[0xC - 2]; u16 state; u8 pE[0x14 - 0xE]; s32 x; s32 y; u8 p1C[0x1DC - 0x1C]; u8 alive; u8 p1DD[0x218 - 0x1DD]; u8 b218[0x2E0 - 0x218]; };
+struct T39En { u16 h0; u8 p2[0xC - 2]; u16 state; u8 pE[0x14 - 0xE]; s32 x; s32 y; u8 p1C[0x1DC - 0x1C]; u8 alive; u8 p1DD[ENEMY_FIELD(0x218) - 0x1DD]; u8 b218[0x2E0 - 0x218]; };
 struct T39Arg { u32 owner; u32 bit; u32 mode; s32 fC; u8 p10[4]; u32 w14; };
 struct T39Desc { u32 f0; u32 f4; u32 f8; u32 fC; u8 p10[0xC]; u8 f1C; u8 f1D; u8 p1E[0x34 - 0x1E]; };
 extern struct T39Pl gT39Players[] asm("gUnk_03003CE0");

@@ -2262,8 +2262,8 @@ alloc6:
     task->f24=0;
     sub_08000274(task,6);
 end6:
-    index=sub_080020F4(); scale=0x14C;offset=index;offset*=scale;actor=t47DActors+offset;
-    *(u32 *)(actor+0x30)&=~1;
+    index=sub_080020F4(); scale=PLAYER_SIZE;offset=index;offset*=scale;actor=t47DActors+offset;
+    *(u32 *)(actor+PLAYER_FIELD(0x30))&=~1;
     sub_0800D108();
     timer=60;
     goto wait65;
@@ -2277,15 +2277,15 @@ done65:
     p=t47DPlayers; j=0;mask=&t47DMask;one=1;zero=0;
     do {
         if(((one<<j)&*mask) && *(u16 *)(p+12)==12) *(u16 *)(p+12)=zero;
-        j++;stride=0x2E0;p+=stride;
+        j++;stride=ENEMY_SIZE;p+=stride;
     }while(j<=4);
     sub_08019F04();
     return;
 other:
     sub_08068070((u32)sub_08059954,7);
     if(saved!=0 && sub_08000470((u32)saved)!=0) sub_080003A8((s32)saved);
-    index=sub_080020F4(); scale=0x14C;offset=index;offset*=scale;actor=t47DActors+offset;
-    *(u32 *)(actor+0x30)|=1;
+    index=sub_080020F4(); scale=PLAYER_SIZE;offset=index;offset*=scale;actor=t47DActors+offset;
+    *(u32 *)(actor+PLAYER_FIELD(0x30))|=1;
     sub_0800D0F4();
     timer=1;
     goto wait77;
@@ -2336,15 +2336,15 @@ done91:
     else currentFlag=1;
     if(currentFlag!=0) goto start1;
     sub_08068070((u32)sub_08059954,3);
-    index=sub_080020F4(); scale=0x14C;offset=index;offset*=scale;actor=t47DActors+offset;
-    *(u32 *)(actor+0x30)|=1;
+    index=sub_080020F4(); scale=PLAYER_SIZE;offset=index;offset*=scale;actor=t47DActors+offset;
+    *(u32 *)(actor+PLAYER_FIELD(0x30))|=1;
     sub_0800D0F4();
     while(sub_0805F184()!=0)sub_080003F0();
     while(sub_0805EF90()!=0)sub_080003F0();
     dialog=sub_0805DF38(1,15,2,0,45,0x14002F);
     while(sub_0805EEFC((void *)dialog)==0)sub_080003F0();
-    index=sub_080020F4(); scale=0x14C;offset=index;offset*=scale;actor=t47DActors+offset;
-    *(u32 *)(actor+0x30)&=~1;
+    index=sub_080020F4(); scale=PLAYER_SIZE;offset=index;offset*=scale;actor=t47DActors+offset;
+    *(u32 *)(actor+PLAYER_FIELD(0x30))&=~1;
     sub_0800D108();
     timer=60;
     goto wait107;

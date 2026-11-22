@@ -2899,7 +2899,7 @@ void sub_080AE1B4(void)
     s16 count;
     s32 allocation[4];
     u8 *actor;
-    { register u32 zero asm("r4"); register u32 stride asm("ip"); register u8 *cnt asm("r7"); register u32 *hist asm("r6"); i=0;  cnt=&count114E;  stride=0x14c;  hist=(u32 *)history114E; asm("" : : "r"(hist)); zero=0;  do { for (j=0;j<=4;j++) *(u32 *)((u8 *)history114E+i*stride+j*4)=zero; i++; } while(i<=3); }
+    { register u32 zero asm("r4"); register u32 stride asm("ip"); register u8 *cnt asm("r7"); register u32 *hist asm("r6"); i=0;  cnt=&count114E;  stride=PLAYER_SIZE;  hist=(u32 *)history114E; asm("" : : "r"(hist)); zero=0;  do { for (j=0;j<=4;j++) *(u32 *)((u8 *)history114E+i*stride+j*4)=zero; i++; } while(i<=3); }
     count114E=sub_08002164();
     sub_080AF2BC();
     for (i=0;i<count114E;i++) sub_080AF350(i);
@@ -2920,8 +2920,8 @@ void sub_080AE1B4(void)
     if (!(gUnk_03003CE0[sub_080020F4()].flags&0x2000)) {
         for (i=0;i<count114E;i++) {
             if (*(u16 *)(entries114E[i].actor+0x5A)) {
-                if (sub_0800CE30()==1) *(s32 *)(entries114E[i].actor+0x214)=0x55;
-                else *(s32 *)(entries114E[i].actor+0x214)=0x28;
+                if (sub_0800CE30()==1) *(s32 *)(entries114E[i].actor+ENEMY_FIELD(0x214))=0x55;
+                else *(s32 *)(entries114E[i].actor+ENEMY_FIELD(0x214))=0x28;
                 allocation[i]=sub_0801E46C((void *)gUnk_030034E0,entries114E[i].actor+0x204);
             }
         }

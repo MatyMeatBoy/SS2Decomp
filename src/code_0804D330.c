@@ -2290,7 +2290,7 @@ while (sub_0805EEFC((void *) temp_r4) == 0) sub_080003F0();
                 var_r2_3->state = entityZero;
             }
             var_r3_3 += 1;
-            flag0=0x2E0; var_r2_3=(struct EntityFF04 *)((u8 *)var_r2_3+flag0);
+            flag0=ENEMY_SIZE; var_r2_3=(struct EntityFF04 *)((u8 *)var_r2_3+flag0);
         } while (var_r3_3 <= 4U);
         } else {
         temp_r2_3 = &playersFF04[sub_080020F4()];
@@ -2312,7 +2312,7 @@ while (sub_0805EEFC((void *) temp_r4) == 0) sub_080003F0();
                 var_r2_2->state = entityZero;
             }
             var_r3_2 += 1;
-            a1=0x2E0; var_r2_2=(struct EntityFF04 *)((u8 *)var_r2_2+a1);
+            a1=ENEMY_SIZE; var_r2_2=(struct EntityFF04 *)((u8 *)var_r2_2+a1);
         } while (var_r3_2 <= 4U);
         }
     sub_08019F04();
@@ -2352,7 +2352,7 @@ while (sub_0801AAE0() == 0) sub_080003F0();
                 var_r2->state = entityZero;
             }
             var_r3 += 1;
-            flag0=0x2E0; var_r2=(struct EntityFF04 *)((u8 *)var_r2+flag0);
+            flag0=ENEMY_SIZE; var_r2=(struct EntityFF04 *)((u8 *)var_r2+flag0);
         } while (var_r3 <= 4U);
         sub_08019F04();
 

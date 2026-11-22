@@ -8,7 +8,8 @@
 // Player record (array gUnk_03003CE0): EU 0x14C bytes, USA 0x158. USA inserts 10 bytes
 // before EU +0x0C and keeps the u32 flags word (EU +0x30, USA +0x3C) aligned.
 // PLAYER_FIELD(o) maps an EU offset to the regional one.
-// Enemy actor records (array at *gUnk_030056F4): EU 0x2E0 bytes, USA 0x454 (ENEMY_SIZE).
+// Enemy actor records (array at *gUnk_030056F4): EU 0x2E0 bytes, USA 0x454 (ENEMY_SIZE). USA inserts
+// 0x174 bytes at EU +0x206 (inside the block at +0x204); ENEMY_FIELD(o) maps EU offsets.
 // Character save record (pointer gUnk_030034E0): USA inserts 10 bytes before EU +0x0A and
 // keeps the word-aligned block at EU +0x10 (USA +0x1C) aligned. SAVE_FIELD(o) maps EU offsets.
 // Resource ids (archive << 16 | entry): many USA archive 5/6/8 entries are numbered 4 lower
@@ -19,6 +20,7 @@
 #define PLAYER_FIELD(o) ((o) < 0x0C ? (o) : (o) < 0x2A ? (o) + 10 : (o) + 12)
 #define SAVE_FIELD(o) ((o) < 0x0A ? (o) : (o) < 0x10 ? (o) + 10 : (o) + 12)
 #define ENEMY_SIZE 0x454
+#define ENEMY_FIELD(o) ((o) < 0x206 ? (o) : (o) + 0x174)
 #define RES_ID(id) ((id) - 4)
 #define TEXT_HEADER 4
 #else
@@ -26,6 +28,7 @@
 #define PLAYER_FIELD(o) (o)
 #define SAVE_FIELD(o) (o)
 #define ENEMY_SIZE 0x2E0
+#define ENEMY_FIELD(o) (o)
 #define RES_ID(id) (id)
 #define TEXT_HEADER 2
 #endif

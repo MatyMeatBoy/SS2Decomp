@@ -5757,11 +5757,11 @@ void sub_08013CEC(u8 *arg0)
     u32 hit;
     s32 busy;
     *(u32 *)&size = 0x00100010;
-    if (*(u32 *)(arg0 + 0x30) & 0x20)
+    if (*(u32 *)(arg0 + PLAYER_FIELD(0x30)) & 0x20)
         return;
     busy = sub_0800CCCC();
-    pos = (s32 *)(arg0 + 0x8C);
-    if (busy == 0 && !(*(u32 *)(arg0 + 0x30) & 0x40000)) {
+    pos = (s32 *)(arg0 + PLAYER_FIELD(0x8C));
+    if (busy == 0 && !(*(u32 *)(arg0 + PLAYER_FIELD(0x30)) & 0x40000)) {
         e = gUnk_030056F4;
         i = 0;
         do {
@@ -5769,51 +5769,51 @@ void sub_08013CEC(u8 *arg0)
                 goto next;
             if ((u16)(*(u16 *)(e + 0xC) - 0xB) <= 1)
                 goto next;
-            box.w = e[0x22E];
+            box.w = e[ENEMY_FIELD(0x22E)];
             if (box.w == 0)
                 goto next;
-            box.h = e[0x22F];
+            box.h = e[ENEMY_FIELD(0x22F)];
             if (test13CEC(pos, (s32 *)(e + 0x14), &size, &box) == 0)
                 goto next;
             hit = 0;
-            switch (*(s16 *)(arg0 + 0x1C)) {
+            switch (*(s16 *)(arg0 + PLAYER_FIELD(0x1C))) {
             case 0:
-                if (*(s32 *)(arg0 + 0x90) < *(s32 *)(e + 0x18)) hit = 1;
+                if (*(s32 *)(arg0 + PLAYER_FIELD(0x90)) < *(s32 *)(e + 0x18)) hit = 1;
                 break;
             case 1:
-                if (*(s32 *)(arg0 + 0x90) < *(s32 *)(e + 0x18) && *pos > *(s32 *)(e + 0x14)) hit = 1;
+                if (*(s32 *)(arg0 + PLAYER_FIELD(0x90)) < *(s32 *)(e + 0x18) && *pos > *(s32 *)(e + 0x14)) hit = 1;
                 break;
             case 2:
                 if (*pos > *(s32 *)(e + 0x14)) hit = 1;
                 break;
             case 3:
-                if (*(s32 *)(arg0 + 0x90) > *(s32 *)(e + 0x18) && *pos > *(s32 *)(e + 0x14)) hit = 1;
+                if (*(s32 *)(arg0 + PLAYER_FIELD(0x90)) > *(s32 *)(e + 0x18) && *pos > *(s32 *)(e + 0x14)) hit = 1;
                 break;
             case 4:
-                if (*(s32 *)(arg0 + 0x90) > *(s32 *)(e + 0x18)) hit = 1;
+                if (*(s32 *)(arg0 + PLAYER_FIELD(0x90)) > *(s32 *)(e + 0x18)) hit = 1;
                 break;
             case 5:
-                if (*(s32 *)(arg0 + 0x90) > *(s32 *)(e + 0x18) && *pos < *(s32 *)(e + 0x14)) hit = 1;
+                if (*(s32 *)(arg0 + PLAYER_FIELD(0x90)) > *(s32 *)(e + 0x18) && *pos < *(s32 *)(e + 0x14)) hit = 1;
                 break;
             case 6:
                 if (*pos < *(s32 *)(e + 0x14)) hit = 1;
                 break;
             case 7:
-                if (*(s32 *)(arg0 + 0x90) < *(s32 *)(e + 0x18) && *pos < *(s32 *)(e + 0x14)) hit = 1;
+                if (*(s32 *)(arg0 + PLAYER_FIELD(0x90)) < *(s32 *)(e + 0x18) && *pos < *(s32 *)(e + 0x14)) hit = 1;
                 break;
             }
             if (hit) {
-                *pos = *(s32 *)(arg0 + 0x94);
-                *(s32 *)(arg0 + 0x90) = *(s32 *)(arg0 + 0x98);
+                *pos = *(s32 *)(arg0 + PLAYER_FIELD(0x94));
+                *(s32 *)(arg0 + PLAYER_FIELD(0x90)) = *(s32 *)(arg0 + PLAYER_FIELD(0x98));
             }
         next:
             i = (u16)(i + 1);
-            e += 0x2E0;
+            e += ENEMY_SIZE;
         } while (i <= 4);
     }
     if (blk13CEC(pos)) {
-        *pos = *(s32 *)(arg0 + 0x94);
-        *(s32 *)(arg0 + 0x90) = *(s32 *)(arg0 + 0x98);
+        *pos = *(s32 *)(arg0 + PLAYER_FIELD(0x94));
+        *(s32 *)(arg0 + PLAYER_FIELD(0x90)) = *(s32 *)(arg0 + PLAYER_FIELD(0x98));
     }
 }
 /* [MovePositionWithMapCollision] Computes sine-based candidate using divisor304 for vertical directions0/4
