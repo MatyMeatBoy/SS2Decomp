@@ -4892,7 +4892,7 @@ s32 sub_08027B50(s32 arg0) {
 skip:
         level = sub_080020F4();
         base = gUnk_03003CE0;
-        offset = 0x14C * level;
+        offset = PLAYER_SIZE * level;
         flags = (s32 *)&base->flags;
         p = (s32 *)(offset + (u32)flags);
         *p &= ~2;

@@ -31,6 +31,7 @@ ENEMY_STRIDE = 0x2E0
 SAVE_LIMIT = 0x1000  # save-record offsets go past the player record size
 PAIR_LIMIT = 4  # try pairs of value moves when this close
 PAIR_OPTIONS = 24
+SEARCH = 0x400  # bytes around the guessed address searched for an exact match
 WHOLE = ('PLAYER_SIZE', 'ENEMY_SIZE', 'TEXT_HEADER')
 SIZES = {PLAYER_STRIDE: 'PLAYER_SIZE', ENEMY_STRIDE: 'ENEMY_SIZE'}
 
@@ -135,11 +136,29 @@ class Checker:
             start, size = int(symbol[0]['st_value']) & ~1, int(symbol[0]['st_size'])
             data = text.data()[start:start + size]
         relocs = region_symbols.object_relocations([obj]).get(name, [])
-        target = self.target[address - region_build.ROM_BASE:][:size]
-        if len(target) != size:
-            return None
-        return sum(1 for a, b in region_symbols.masked_segments(size, relocs)
-                   for offset in range(a, b, 2) if target[offset:offset + 2] != data[offset:offset + 2])
+        segments = region_symbols.masked_segments(size, relocs)
+
+        def at(start):
+            target = self.target[start:][:size]
+            if len(target) != size:
+                return None
+            return sum(1 for a, b in segments for offset in range(a, b, 2)
+                       if target[offset:offset + 2] != data[offset:offset + 2])
+        best = at(address - region_build.ROM_BASE)
+        if best and segments:
+            # The guessed address can be off when literal pools or stride code changed size;
+            # accept an exact match of the rewritten function nearby.
+            first, end = max(segments, key=lambda seg: seg[1] - seg[0])
+            if end - first >= 8:
+                base = address - region_build.ROM_BASE
+                low, high = max(0, base - SEARCH + first), base + SEARCH + end
+                position = self.target.find(data[first:end], low, high)
+                while position >= 0:
+                    start = position - first
+                    if not start & 1 and start != base and at(start) == 0:
+                        return 0
+                    position = self.target.find(data[first:end], position + 1, high)
+        return best
 
 
 def search(checker, module, name, address, log):

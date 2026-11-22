@@ -1051,7 +1051,7 @@ void sub_0802A01C(void)
       *((u16 *) (p + 0x7A)) &= 0xFFF7;
     }
     i++;
-    p += 0x2E0;
+    p += ENEMY_SIZE;
   }
   while (i <= 4);
 }

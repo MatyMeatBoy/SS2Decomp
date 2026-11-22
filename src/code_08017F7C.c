@@ -1339,11 +1339,11 @@ void sub_0801A388(u32 index)
         u8 state1FD;
         u8 pad3[3];
         u8 state201;
-        u8 pad4[0xDE];
+        u8 pad4[ENEMY_SIZE - 0x202];
     };
     extern struct Entity *entities asm("gUnk_030056F4");
     struct Entity *base = entities;
-    struct Entity *entry = (struct Entity *)(index * 0x2E0 + (u32)base);
+    struct Entity *entry = (struct Entity *)(index * ENEMY_SIZE + (u32)base);
     entry->flags |= 4;
     entry->state201 = 0;
     entities[index].state1FD = 0xFF;

@@ -137,7 +137,7 @@ u32 sub_0805D2E0(void *arg0) {
  * 99999; otherwise 0. It does not accept an empty bag slot as a substitute and does not check stash stacks. */
 u32 sub_0805D348(void)
 {
-  u8 *entry = ((u8 *) gUnk_030034E0) + 0x150;
+  u8 *entry = ((u8 *) gUnk_030034E0) + SAVE_FIELD(0x150);
   int i;
   for (i = 0; i <= 0x18; i++, entry += 0x10)
   {

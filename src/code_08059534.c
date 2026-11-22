@@ -602,7 +602,7 @@ void sub_0805A2E4(void)
  * or8. */
 u32 sub_0805A318(void)
 {
-    struct PlayerKinds { u8 pad[0x64]; u16 kind; u8 tail[0xE6]; };
+    struct PlayerKinds { u8 pad[PLAYER_FIELD(0x64)]; u16 kind; u8 tail[0xE6]; };
     u32 count = sub_08002164();
     u32 i;
     for (i = 0; i < count; i++) {

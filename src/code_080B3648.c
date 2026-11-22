@@ -1631,7 +1631,7 @@ void clearTask60F4(void)
         i = 1;
         do {
             if (gMask60F4 & (1 << i))
-                *(u16 *)(gIcons60F4 + i * 0x2E0 + 0x7A) |= 1;
+                *(u16 *)(gIcons60F4 + i * ENEMY_SIZE + 0x7A) |= 1;
             i++;
         } while (i <= 4);
         i = 0;

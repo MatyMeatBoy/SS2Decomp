@@ -2055,14 +2055,14 @@ void c7b8_void(u32 mode)
 
     if (sub_0800CE30()) {
         count = 10;
-        slotsA = (struct C7B8Slot *)(c7b8Map + 0x9D0);
-        slotsB = (struct C7B8Slot *)(c7b8Map + 0xA90);
-        slotsC = (struct C7B8Slot *)(c7b8Map + 0xB50);
+        slotsA = (struct C7B8Slot *)(c7b8Map + SAVE_FIELD(0x9D0));
+        slotsB = (struct C7B8Slot *)(c7b8Map + SAVE_FIELD(0xA90));
+        slotsC = (struct C7B8Slot *)(c7b8Map + SAVE_FIELD(0xB50));
     } else {
         count = 0;
-        slotsA = (struct C7B8Slot *)(c7b8Map + 0x790);
-        slotsB = (struct C7B8Slot *)(c7b8Map + 0x850);
-        slotsC = (struct C7B8Slot *)(c7b8Map + 0x910);
+        slotsA = (struct C7B8Slot *)(c7b8Map + SAVE_FIELD(0x790));
+        slotsB = (struct C7B8Slot *)(c7b8Map + SAVE_FIELD(0x850));
+        slotsC = (struct C7B8Slot *)(c7b8Map + SAVE_FIELD(0x910));
     }
     bits = sub_08057CEC();
     for (i = 1; i <= 9; i++)
