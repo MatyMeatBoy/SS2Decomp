@@ -340,9 +340,9 @@ void sub_0803C3C8(void) {
     u8 *p;
     register u32 offset asm("r2");
     offset = sub_080020F4();
-    offset *= 0x14C;
+    offset *= PLAYER_SIZE;
     p = (u8 *)gUnk_03003CE0 + offset;
-    *(u32 *)(p + 0x30) |= 1;
+    *(u32 *)(p + PLAYER_FIELD(0x30)) |= 1;
     sub_0800D0F4();
     while (sub_0805F184()) sub_080003F0();
     msg = sub_0805DF38(1,15,2,0,-2,0x140203);
@@ -359,9 +359,9 @@ void sub_0803C3C8(void) {
         sub_080003F0();
     }
     offset = sub_080020F4();
-    offset *= 0x14C;
+    offset *= PLAYER_SIZE;
     p = (u8 *)gUnk_03003CE0 + offset;
-    *(u32 *)(p + 0x30) &= ~1;
+    *(u32 *)(p + PLAYER_FIELD(0x30)) &= ~1;
     sub_0800D108();
 }
 /* [StageDialogs517Then516] Locks input, fades screen, closes dialog, positions actor0 at x236 plus multiplayer
@@ -376,9 +376,9 @@ void sub_0803C4C0(void) {
     u8 *p;
     u8 *last;
     s32 mask;
-    offset=sub_080020F4(); offset*=0x14C;
+    offset=sub_080020F4(); offset*=PLAYER_SIZE;
     p=(u8 *)gUnk_03003CE0+offset;
-    *(u32 *)(p+0x30)|=1;
+    *(u32 *)(p+PLAYER_FIELD(0x30))|=1;
     sub_0800D0F4();
     sub_0801AA8C(30);
     while(!sub_0801AAE0()) sub_080003F0();
@@ -414,12 +414,12 @@ void sub_0803C4C0(void) {
         if(sub_0800CDF8()) {sub_0805EFBC();break;}
         sub_080003F0();
     }
-    offset=sub_080020F4();offset*=0x14C;
+    offset=sub_080020F4();offset*=PLAYER_SIZE;
     p=(u8 *)gUnk_03003CE0+offset;
-    *(u32 *)(p+0x30)&=~1;
+    *(u32 *)(p+PLAYER_FIELD(0x30))&=~1;
     sub_0800D108();
-    last=(u8 *)gUnk_03003CE0+0x14C*sub_080020F4();
-    *(u16 *)(last+0x20)=0;
+    last=(u8 *)gUnk_03003CE0+PLAYER_SIZE*sub_080020F4();
+    *(u16 *)(last+PLAYER_FIELD(0x20))=0;
 }
 struct T39C698Item {u16 id,pad;s32 count;u32 a,b;};
 struct T39C698Req {u16 id,kind;u8 data[12];};
@@ -561,8 +561,8 @@ void sub_0803CC50(s32 arg0) {
     u8 *temp_r2;
     u8 *temp_r2_2;
 
-    offset=sub_080020F4();offset*=0x14C;temp_r2=(u8 *)gUnk_03003CE0+offset;
-    *(u32 *)(temp_r2+0x30) = (s32) (*(u32 *)(temp_r2+0x30) | 1);
+    offset=sub_080020F4();offset*=PLAYER_SIZE;temp_r2=(u8 *)gUnk_03003CE0+offset;
+    *(u32 *)(temp_r2+PLAYER_FIELD(0x30)) = (s32) (*(u32 *)(temp_r2+PLAYER_FIELD(0x30)) | 1);
     sub_0800D0F4();
     sub_0802949C(arg0, 0);
     if (sub_0800CE30() != 0) {
@@ -753,8 +753,8 @@ block_119:
         }
     }
     sub_08029788(arg0);
-    offset=sub_080020F4();offset*=0x14C;temp_r2_2=(u8 *)gUnk_03003CE0+offset;
-    *(u32 *)(temp_r2_2+0x30) = (s32) (*(u32 *)(temp_r2_2+0x30) & ~1);
+    offset=sub_080020F4();offset*=PLAYER_SIZE;temp_r2_2=(u8 *)gUnk_03003CE0+offset;
+    *(u32 *)(temp_r2_2+PLAYER_FIELD(0x30)) = (s32) (*(u32 *)(temp_r2_2+PLAYER_FIELD(0x30)) & ~1);
     sub_0800D108();
 }
 
@@ -772,9 +772,9 @@ void sub_0803D1F8(s32 arg0) {
  u32 field;
  register u32 raw asm("r2");
  register u32 mask asm("r0");
- offset=sub_080020F4(); offset*=0x14C;
+ offset=sub_080020F4(); offset*=PLAYER_SIZE;
  p=(u8 *)gUnk_03003CE0+offset;
- *(u32 *)(p+0x30)|=1;
+ *(u32 *)(p+PLAYER_FIELD(0x30))|=1;
  sub_0800D0F4(); sub_0802949C(arg0,0);
  while(sub_0805F184()!=0) sub_080003F0();
  dialog=sub_0805DF38(1,15,2,0,-2,0x1404F8);
@@ -797,9 +797,9 @@ void sub_0803D1F8(s32 arg0) {
  if(!(gUnk_030027D0&0x20)) sub_08006D08(0x32);
  }
  sub_08029788(arg0);
- offset=sub_080020F4(); offset*=0x14C;
+ offset=sub_080020F4(); offset*=PLAYER_SIZE;
  p=(u8 *)gUnk_03003CE0+offset;
- *(u32 *)(p+0x30)&=~1;
+ *(u32 *)(p+PLAYER_FIELD(0x30))&=~1;
  sub_0800D108();
 }
 extern void sub_0802949C(s32, s32);
@@ -814,9 +814,9 @@ void sub_0803D36C(s32 arg0) {
     u8 *state;
     u32 field;
     offset = sub_080020F4();
-    offset *= 0x14C;
+    offset *= PLAYER_SIZE;
     p = (u8 *)gUnk_03003CE0 + offset;
-    *(u32 *)(p + 0x30) |= 1;
+    *(u32 *)(p + PLAYER_FIELD(0x30)) |= 1;
     sub_0800D0F4();
     sub_0802949C(arg0, 0);
     while (sub_0805F184() != 0) sub_080003F0();
@@ -837,9 +837,9 @@ void sub_0803D36C(s32 arg0) {
     }
     sub_08029788(arg0);
     offset = sub_080020F4();
-    offset *= 0x14C;
+    offset *= PLAYER_SIZE;
     p = (u8 *)gUnk_03003CE0 + offset;
-    *(u32 *)(p + 0x30) &= ~1;
+    *(u32 *)(p + PLAYER_FIELD(0x30)) &= ~1;
     sub_0800D108();
 }
 
@@ -860,9 +860,9 @@ void sub_0803D454(s32 arg0) {
  u32 flags;
 
 
- offset=sub_080020F4(); offset*=0x14C;
+ offset=sub_080020F4(); offset*=PLAYER_SIZE;
  p=(u8 *)gUnk_03003CE0+offset;
- *(u32 *)(p+0x30)|=1;
+ *(u32 *)(p+PLAYER_FIELD(0x30))|=1;
  sub_0800D0F4(); sub_0802949C(arg0,0);
  while(sub_0805F184()!=0) sub_080003F0();
  dialog=sub_0805DF38(1,15,2,0,-2,0x1404FB);
@@ -923,9 +923,9 @@ void sub_0803D454(s32 arg0) {
 end:
  sub_0805C7B8(0);
  sub_08029788(arg0);
- offset=sub_080020F4(); offset*=0x14C;
+ offset=sub_080020F4(); offset*=PLAYER_SIZE;
  p=(u8 *)gUnk_03003CE0+offset;
- *(u32 *)(p+0x30)&=~1;
+ *(u32 *)(p+PLAYER_FIELD(0x30))&=~1;
  sub_0800D108();
 }
 struct CmdD99C {u16 one,kind; u8 data[12];};
@@ -2606,7 +2606,7 @@ void sub_080402F4(void) {
     s32 step;
     u16 n;
     u32 task; s32 result; struct Player *p; s32 player; register s32 offset asm("r2");
-    offset = sub_080020F4(); offset *= 0x14C; p = (struct Player *)((u8 *)gUnk_03003CE0 + offset); p->flags |= 1;
+    offset = sub_080020F4(); offset *= PLAYER_SIZE; p = (struct Player *)((u8 *)gUnk_03003CE0 + offset); p->flags |= 1;
     sub_0800D0F4();
     result = sub_080020F4(); player = result;
     if (result == 1) goto case1;
@@ -2623,7 +2623,7 @@ case2: sub_08028AAC(0, 0x54, 0x80, 0); goto endSwitch;
 case3: sub_08028AAC(0, 0x9C, 0x80, 0);
 endSwitch:
     sub_080290E4(0, 4);
-    offset = sub_080020F4(); offset *= 0x14C; p = (struct Player *)((u8 *)gUnk_03003CE0 + offset); p->flags &= ~2;
+    offset = sub_080020F4(); offset *= PLAYER_SIZE; p = (struct Player *)((u8 *)gUnk_03003CE0 + offset); p->flags &= ~2;
     sub_08067D74();
     n = 2; py = &out[1]; px2 = &out[2]; py2 = &out[3];
     goto poll402F4; while (n != 0) { poll402F4: sub_080003F0(); if (sub_080021A8()) break; n--; }
@@ -2658,7 +2658,7 @@ endSwitch:
         camera402F4((s16)out[2], (s16)out[3]);
         sub_080003F0();
     }
-    offset = sub_080020F4(); offset *= 0x14C; p = (struct Player *)((u8 *)gUnk_03003CE0 + offset); p->flags &= ~1;
+    offset = sub_080020F4(); offset *= PLAYER_SIZE; p = (struct Player *)((u8 *)gUnk_03003CE0 + offset); p->flags &= ~1;
     sub_0800D108();
 }
 extern void camera40530(s32, s32) asm("sub_0800BB80");
@@ -2679,7 +2679,7 @@ void sub_08040530(void) {
     s32 step;
     u16 n;
     u32 task; s32 result; struct Player *p; s32 player; register s32 offset asm("r2");
-    offset = sub_080020F4(); offset *= 0x14C; p = (struct Player *)((u8 *)gUnk_03003CE0 + offset); p->flags |= 1;
+    offset = sub_080020F4(); offset *= PLAYER_SIZE; p = (struct Player *)((u8 *)gUnk_03003CE0 + offset); p->flags |= 1;
     sub_0800D0F4();
     result = sub_080020F4(); player = result;
     if (result == 1) goto case1;
@@ -2696,7 +2696,7 @@ case2: sub_08028AAC(0, 0x54, 0x80, 0); goto endSwitch;
 case3: sub_08028AAC(0, 0x9C, 0x80, 0);
 endSwitch:
     sub_080290E4(0, 4);
-    offset = sub_080020F4(); offset *= 0x14C; p = (struct Player *)((u8 *)gUnk_03003CE0 + offset); p->flags &= ~2;
+    offset = sub_080020F4(); offset *= PLAYER_SIZE; p = (struct Player *)((u8 *)gUnk_03003CE0 + offset); p->flags &= ~2;
     sub_08067D74();
     n = 2; py = &out[1]; px2 = &out[2]; py2 = &out[3];
     goto poll40530; while (n != 0) { poll40530: sub_080003F0(); if (sub_080021A8()) break; n--; }
@@ -2731,7 +2731,7 @@ endSwitch:
         camera40530((s16)out[2], (s16)out[3]);
         sub_080003F0();
     }
-    offset = sub_080020F4(); offset *= 0x14C; p = (struct Player *)((u8 *)gUnk_03003CE0 + offset); p->flags &= ~1;
+    offset = sub_080020F4(); offset *= PLAYER_SIZE; p = (struct Player *)((u8 *)gUnk_03003CE0 + offset); p->flags &= ~1;
     sub_0800D108();
 }
 extern void t42_camera(s32,s32) asm("sub_0800BB80");
@@ -2827,7 +2827,7 @@ void sub_0804076C(s32 arg0) {
     struct Player *temp_r2_3;
 
     sp38 = arg0;
-    temp_r2 = (struct Player *)((0x14C * sub_080020F4()) + (u8 *)gUnk_03003CE0);
+    temp_r2 = (struct Player *)((PLAYER_SIZE * sub_080020F4()) + (u8 *)gUnk_03003CE0);
     temp_r2->flags = (s32) (temp_r2->flags | 1);
     sub_0800D0F4();
     temp_r0 = sub_080020F4();
@@ -2838,7 +2838,7 @@ void sub_0804076C(s32 arg0) {
     case 3: sub_08028AAC(0,0x9C,0x80,0); break;
     }
     sub_080290E4(0, 4);
-    temp_r2_2 = (struct Player *)((0x14C * sub_080020F4()) + (u8 *)gUnk_03003CE0);
+    temp_r2_2 = (struct Player *)((PLAYER_SIZE * sub_080020F4()) + (u8 *)gUnk_03003CE0);
     temp_r2_2->flags = (s32) (temp_r2_2->flags & ~2);
     sub_08067D74();
     var_r4 = 2;
@@ -3158,7 +3158,7 @@ loop_174:
         sub_080003F0();
         var_r4_9 += stepFinal;
     } while (var_r4_9 <= 0x400);
-    temp_r2_3 = (struct Player *)((0x14C * sub_080020F4()) + (u8 *)gUnk_03003CE0);
+    temp_r2_3 = (struct Player *)((PLAYER_SIZE * sub_080020F4()) + (u8 *)gUnk_03003CE0);
     temp_r2_3->flags = (s32) (temp_r2_3->flags & ~1);
     sub_0800D108();
 }
@@ -3707,8 +3707,8 @@ void sub_08041B7C(s32 arg0) {
     u8 *temp_r2_2;
     u8 *temp_r2_3;
 
-    temp_r2 = (0x14C * sub_080020F4()) + (u8 *)gUnk_03003CE0;
-    *(s32 *)(temp_r2 + 0x30) = (s32) (*(s32 *)(temp_r2 + 0x30) | 1);
+    temp_r2 = (PLAYER_SIZE * sub_080020F4()) + (u8 *)gUnk_03003CE0;
+    *(s32 *)(temp_r2 + PLAYER_FIELD(0x30)) = (s32) (*(s32 *)(temp_r2 + PLAYER_FIELD(0x30)) | 1);
     sub_0800D0F4();
     t43_schedule1b7c(sub_080020F4());
     sub_080290E4(0, 4);
@@ -3725,8 +3725,8 @@ void sub_08041B7C(s32 arg0) {
         if (selected != 0) *((u8 *)gUnk_03005CF4+0x1BE)=0;
         else *((u8 *)gUnk_03005CF4+0x1B2)=selected;
     }
-    temp_r2_2 = (0x14C * sub_080020F4()) + (u8 *)gUnk_03003CE0;
-    *(s32 *)(temp_r2_2 + 0x30) = (s32) (*(s32 *)(temp_r2_2 + 0x30) & ~2);
+    temp_r2_2 = (PLAYER_SIZE * sub_080020F4()) + (u8 *)gUnk_03003CE0;
+    *(s32 *)(temp_r2_2 + PLAYER_FIELD(0x30)) = (s32) (*(s32 *)(temp_r2_2 + PLAYER_FIELD(0x30)) & ~2);
     sub_08067D74();
     var_r4 = 2;
     while (var_r4 != 0) {
@@ -3758,8 +3758,8 @@ void sub_08041B7C(s32 arg0) {
         sub_080003F0();
     }
     t43_move1b7c(34,0,0);
-    temp_r2_3 = (0x14C * sub_080020F4()) + (u8 *)gUnk_03003CE0;
-    *(s32 *)(temp_r2_3 + 0x30) &= ~1;
+    temp_r2_3 = (PLAYER_SIZE * sub_080020F4()) + (u8 *)gUnk_03003CE0;
+    *(s32 *)(temp_r2_3 + PLAYER_FIELD(0x30)) &= ~1;
     sub_0800D108();
 }
 struct T43Tile { u8 pad[0x80]; s16 x,y; };
@@ -3804,13 +3804,13 @@ void sub_08041E8C(void) {
     u8 *temp_r2_2;
     u8 *temp_r2_3;
 
-    temp_r2 = (0x14C * sub_080020F4()) + (u8 *)gUnk_03003CE0;
-    *(s32 *)(temp_r2 + 0x30) = (s32) (*(s32 *)(temp_r2 + 0x30) | 1);
+    temp_r2 = (PLAYER_SIZE * sub_080020F4()) + (u8 *)gUnk_03003CE0;
+    *(s32 *)(temp_r2 + PLAYER_FIELD(0x30)) = (s32) (*(s32 *)(temp_r2 + PLAYER_FIELD(0x30)) | 1);
     sub_0800D0F4();
     t43_schedule1e8c(sub_080020F4());
     sub_080290E4(0, 4);
-    temp_r2_2 = (0x14C * sub_080020F4()) + (u8 *)gUnk_03003CE0;
-    *(s32 *)(temp_r2_2 + 0x30) = (s32) (*(s32 *)(temp_r2_2 + 0x30) & ~2);
+    temp_r2_2 = (PLAYER_SIZE * sub_080020F4()) + (u8 *)gUnk_03003CE0;
+    *(s32 *)(temp_r2_2 + PLAYER_FIELD(0x30)) = (s32) (*(s32 *)(temp_r2_2 + PLAYER_FIELD(0x30)) & ~2);
     sub_08067D74();
     var_r4 = 2;
     while (var_r4 != 0) {
@@ -3842,8 +3842,8 @@ void sub_08041E8C(void) {
         sub_080003F0();
     }
     t43_move1e8c(34,0,0);
-    temp_r2_3 = (0x14C * sub_080020F4()) + (u8 *)gUnk_03003CE0;
-    *(s32 *)(temp_r2_3 + 0x30) = (s32) (*(s32 *)(temp_r2_3 + 0x30) & ~1);
+    temp_r2_3 = (PLAYER_SIZE * sub_080020F4()) + (u8 *)gUnk_03003CE0;
+    *(s32 *)(temp_r2_3 + PLAYER_FIELD(0x30)) = (s32) (*(s32 *)(temp_r2_3 + PLAYER_FIELD(0x30)) & ~1);
     sub_0800D108();
 }
 struct T43Tile20c8 { u8 pad[0x80]; s16 x,y; };
@@ -3889,8 +3889,8 @@ void sub_080420C8(void) {
     u8 *temp_r2_2;
     u8 *temp_r2_3;
 
-    temp_r2 = (0x14C * sub_080020F4()) + (u8 *)gUnk_03003CE0;
-    *(s32 *)(temp_r2 + 0x30) = (s32) (*(s32 *)(temp_r2 + 0x30) | 1);
+    temp_r2 = (PLAYER_SIZE * sub_080020F4()) + (u8 *)gUnk_03003CE0;
+    *(s32 *)(temp_r2 + PLAYER_FIELD(0x30)) = (s32) (*(s32 *)(temp_r2 + PLAYER_FIELD(0x30)) | 1);
     sub_0800D0F4();
     switch (sub_080020F4()) {
     case 0: sub_08028AAC(0,0x6C,0x80,0); break;
@@ -3899,8 +3899,8 @@ void sub_080420C8(void) {
     case 3: sub_08028AAC(0,0x9C,0x80,0); break;
     }
     sub_080290E4(0, 4);
-    temp_r2_2 = (0x14C * sub_080020F4()) + (u8 *)gUnk_03003CE0;
-    *(s32 *)(temp_r2_2 + 0x30) = (s32) (*(s32 *)(temp_r2_2 + 0x30) & ~2);
+    temp_r2_2 = (PLAYER_SIZE * sub_080020F4()) + (u8 *)gUnk_03003CE0;
+    *(s32 *)(temp_r2_2 + PLAYER_FIELD(0x30)) = (s32) (*(s32 *)(temp_r2_2 + PLAYER_FIELD(0x30)) & ~2);
     sub_08067D74();
     var_r4 = 2;
     while (var_r4 != 0) {
@@ -3942,8 +3942,8 @@ void sub_080420C8(void) {
     }
     }
     t43_move20c8(34,0,0);
-    temp_r2_3 = (0x14C * sub_080020F4()) + (u8 *)gUnk_03003CE0;
-    *(s32 *)(temp_r2_3 + 0x30) = (s32) (*(s32 *)(temp_r2_3 + 0x30) & ~1);
+    temp_r2_3 = (PLAYER_SIZE * sub_080020F4()) + (u8 *)gUnk_03003CE0;
+    *(s32 *)(temp_r2_3 + PLAYER_FIELD(0x30)) = (s32) (*(s32 *)(temp_r2_3 + PLAYER_FIELD(0x30)) & ~1);
     sub_0800D108();
 }
 struct T43Tile2390 { u8 pad[0x80]; s16 x,y; };
@@ -3988,13 +3988,13 @@ void sub_08042390(void) {
     u8 *temp_r2_2;
     u8 *temp_r2_3;
 
-    temp_r2 = (0x14C * sub_080020F4()) + (u8 *)gUnk_03003CE0;
-    *(s32 *)(temp_r2 + 0x30) = (s32) (*(s32 *)(temp_r2 + 0x30) | 1);
+    temp_r2 = (PLAYER_SIZE * sub_080020F4()) + (u8 *)gUnk_03003CE0;
+    *(s32 *)(temp_r2 + PLAYER_FIELD(0x30)) = (s32) (*(s32 *)(temp_r2 + PLAYER_FIELD(0x30)) | 1);
     sub_0800D0F4();
     t43_schedule2390(sub_080020F4());
     sub_080290E4(0, 4);
-    temp_r2_2 = (0x14C * sub_080020F4()) + (u8 *)gUnk_03003CE0;
-    *(s32 *)(temp_r2_2 + 0x30) = (s32) (*(s32 *)(temp_r2_2 + 0x30) & ~2);
+    temp_r2_2 = (PLAYER_SIZE * sub_080020F4()) + (u8 *)gUnk_03003CE0;
+    *(s32 *)(temp_r2_2 + PLAYER_FIELD(0x30)) = (s32) (*(s32 *)(temp_r2_2 + PLAYER_FIELD(0x30)) & ~2);
     sub_08067D74();
     var_r4 = 2;
     while (var_r4 != 0) {
@@ -4026,8 +4026,8 @@ void sub_08042390(void) {
         sub_080003F0();
     }
     t43_move2390(34,0,0);
-    temp_r2_3 = (0x14C * sub_080020F4()) + (u8 *)gUnk_03003CE0;
-    *(s32 *)(temp_r2_3 + 0x30) = (s32) (*(s32 *)(temp_r2_3 + 0x30) & ~1);
+    temp_r2_3 = (PLAYER_SIZE * sub_080020F4()) + (u8 *)gUnk_03003CE0;
+    *(s32 *)(temp_r2_3 + PLAYER_FIELD(0x30)) = (s32) (*(s32 *)(temp_r2_3 + PLAYER_FIELD(0x30)) & ~1);
     sub_0800D108();
 }
 struct T43Slot25cc { s32 id; u8 p04[0x14]; u16 f18,f1a; u8 p1c[0x1a]; u16 f36; u32 f38,f3c,f40; void (*f44)(void); u8 p48[0x28]; };
@@ -4098,13 +4098,13 @@ void sub_080425CC(s32 arg0) {
     u8 *temp_r2_2;
     u8 *temp_r2_3;
 
-    temp_r2 = (0x14C * sub_080020F4()) + (u8 *)gUnk_03003CE0;
-    *(s32 *)(temp_r2 + 0x30) = (s32) (*(s32 *)(temp_r2 + 0x30) | 1);
+    temp_r2 = (PLAYER_SIZE * sub_080020F4()) + (u8 *)gUnk_03003CE0;
+    *(s32 *)(temp_r2 + PLAYER_FIELD(0x30)) = (s32) (*(s32 *)(temp_r2 + PLAYER_FIELD(0x30)) | 1);
     sub_0800D0F4();
     t43_schedule25cc(sub_080020F4());
     sub_080290E4(0, 4);
-    temp_r2_2 = (0x14C * sub_080020F4()) + (u8 *)gUnk_03003CE0;
-    *(s32 *)(temp_r2_2 + 0x30) = (s32) (*(s32 *)(temp_r2_2 + 0x30) & ~2);
+    temp_r2_2 = (PLAYER_SIZE * sub_080020F4()) + (u8 *)gUnk_03003CE0;
+    *(s32 *)(temp_r2_2 + PLAYER_FIELD(0x30)) = (s32) (*(s32 *)(temp_r2_2 + PLAYER_FIELD(0x30)) & ~2);
     sub_08067D74();
     var_r4 = 2;
     while (var_r4 != 0) {
@@ -4152,8 +4152,8 @@ void sub_080425CC(s32 arg0) {
     }
     t43_move25cc(34,0,0);
     { register u32 value asm("r4")=2; *t43_select25cc()=value; }
-    temp_r2_3 = (0x14C * sub_080020F4()) + (u8 *)gUnk_03003CE0;
-    *(s32 *)(temp_r2_3 + 0x30) &= ~1;
+    temp_r2_3 = (PLAYER_SIZE * sub_080020F4()) + (u8 *)gUnk_03003CE0;
+    *(s32 *)(temp_r2_3 + PLAYER_FIELD(0x30)) &= ~1;
     sub_0800D108();
 }
 struct T43Slot2938 { s32 id; u8 p04[0x14]; u16 f18,f1a; u8 p1c[0x1a]; u16 f36; u32 f38,f3c,f40; void (*f44)(void); u8 p48[0x28]; };
@@ -4228,8 +4228,8 @@ void sub_08042938(s32 arg0) {
     u8 *temp_r2;
     u8 *temp_r2_2;
 
-    temp_r2 = (0x14C * sub_080020F4()) + (u8 *)gUnk_03003CE0;
-    *(s32 *)(temp_r2 + 0x30) = (s32) (*(s32 *)(temp_r2 + 0x30) | 1);
+    temp_r2 = (PLAYER_SIZE * sub_080020F4()) + (u8 *)gUnk_03003CE0;
+    *(s32 *)(temp_r2 + PLAYER_FIELD(0x30)) = (s32) (*(s32 *)(temp_r2 + PLAYER_FIELD(0x30)) | 1);
     sub_0800D0F4();
     t43_schedule2938(sub_080020F4());
     sub_080290E4(0, 4);
@@ -4242,8 +4242,8 @@ void sub_08042938(s32 arg0) {
     }
     t43_callback2938(temp_r4, sub_080308B4);
     { register u32 value asm("r4") = 1; *t43_select2938() = value; }
-    temp_r2_2 = (0x14C * sub_080020F4()) + (u8 *)gUnk_03003CE0;
-    *(s32 *)(temp_r2_2 + 0x30) = (s32) (*(s32 *)(temp_r2_2 + 0x30) & ~2);
+    temp_r2_2 = (PLAYER_SIZE * sub_080020F4()) + (u8 *)gUnk_03003CE0;
+    *(s32 *)(temp_r2_2 + PLAYER_FIELD(0x30)) = (s32) (*(s32 *)(temp_r2_2 + PLAYER_FIELD(0x30)) & ~2);
     sub_08067D74();
     var_r4 = 2;
     while (var_r4 != 0) {
@@ -4493,8 +4493,8 @@ void sub_08042BB0(void) {
         t43_flag2bb0((u8 *)var_r2_14, 0x10);
     }
     t43_callback2bb0(temp_r4_5, sub_080443EC);
-    temp_r2 = (0x14C * sub_080020F4()) + (u8 *)gUnk_03003CE0;
-    *(s32 *)(temp_r2 + 0x30) = (s32) (*(s32 *)(temp_r2 + 0x30) | 1);
+    temp_r2 = (PLAYER_SIZE * sub_080020F4()) + (u8 *)gUnk_03003CE0;
+    *(s32 *)(temp_r2 + PLAYER_FIELD(0x30)) = (s32) (*(s32 *)(temp_r2 + PLAYER_FIELD(0x30)) | 1);
     sub_0800D0F4();
     { register s32 index asm("r1")=sub_080020F4();
     switch (index) {
@@ -4505,8 +4505,8 @@ void sub_08042BB0(void) {
     }
     }
     sub_080290E4(0, 4);
-    temp_r2_2 = (0x14C * sub_080020F4()) + (u8 *)gUnk_03003CE0;
-    *(s32 *)(temp_r2_2 + 0x30) = (s32) (*(s32 *)(temp_r2_2 + 0x30) & ~2);
+    temp_r2_2 = (PLAYER_SIZE * sub_080020F4()) + (u8 *)gUnk_03003CE0;
+    *(s32 *)(temp_r2_2 + PLAYER_FIELD(0x30)) = (s32) (*(s32 *)(temp_r2_2 + PLAYER_FIELD(0x30)) & ~2);
     sub_08067D74();
     var_r4_3 = 2;
     while (var_r4_3 != 0) {
@@ -4615,8 +4615,8 @@ void sub_08042BB0(void) {
     while (sub_0801AAE0() == 0) sub_080003F0();
     t43_move2bb0(34,0,0);
     t43_task2bb0(sub_080435C4);
-    temp_r2_3 = (0x14C * sub_080020F4()) + (u8 *)gUnk_03003CE0;
-    *(s32 *)(temp_r2_3 + 0x30) = (s32) (*(s32 *)(temp_r2_3 + 0x30) & ~1);
+    temp_r2_3 = (PLAYER_SIZE * sub_080020F4()) + (u8 *)gUnk_03003CE0;
+    *(s32 *)(temp_r2_3 + PLAYER_FIELD(0x30)) = (s32) (*(s32 *)(temp_r2_3 + PLAYER_FIELD(0x30)) & ~1);
     sub_0800D108();
     {
         u32 *base = (u32 *)&gUnk_03005CF4;
@@ -4684,10 +4684,10 @@ loop:
         value |= mode;
         config = value;
     }
-    player = players35C4 + sub_080020F4() * 0x14C;
-    while (move35C4(player + 0x8C, &position, statePtr, configPtr) == 0)
+    player = players35C4 + sub_080020F4() * PLAYER_SIZE;
+    while (move35C4(player + PLAYER_FIELD(0x8C), &position, statePtr, configPtr) == 0)
         sub_080003F0();
-    sub_08028D98(0, 0, (s16)(0xED - (*(s32 *)(heights + sub_080020F4() * 0x14C) >> 8)), 0);
+    sub_08028D98(0, 0, (s16)(0xED - (*(s32 *)(heights + sub_080020F4() * PLAYER_SIZE) >> 8)), 0);
     goto loop;
 }
 void callback5990C44(u32) asm("sub_0805990C");
@@ -4712,13 +4712,13 @@ void sub_08043664_ptr(void *arg0)
     s32 raw;
     u32 message,id;
     index=sub_080020F4();
-    stride=0x14C;
+    stride=PLAYER_SIZE;
     stride*=index;
     playerFirst=players44+stride;
-    flags=*(u32 *)(playerFirst+0x30);
+    flags=*(u32 *)(playerFirst+PLAYER_FIELD(0x30));
     one=1;
     flags|=one;
-    *(u32 *)(playerFirst+0x30)=flags;
+    *(u32 *)(playerFirst+PLAYER_FIELD(0x30))=flags;
     sub_0800D0F4();
     if(sub_0800CE30()) flag=state44+0x1C6;
     else flag=state44+0x1BA;
@@ -4761,8 +4761,8 @@ void sub_08043664_ptr(void *arg0)
             }
         }
     }
-    player=players44+0x14C*sub_080020F4();
-    *(u32 *)(player+0x30)&=~1;
+    player=players44+PLAYER_SIZE*sub_080020F4();
+    *(u32 *)(player+PLAYER_FIELD(0x30))&=~1;
     sub_0800D108();
 }
 extern u8 *state44 asm("gUnk_03005CF4");
@@ -4860,10 +4860,10 @@ void sub_08043A4C(void)
     bit &= one;
     if (bit == 0) {
         offset = sub_080020F4();
-        multiplier = 0x14C;
+        multiplier = PLAYER_SIZE;
         offset *= multiplier;
         player = players44 + offset;
-        *(u32 *)(player + 0x30) |= 1;
+        *(u32 *)(player + PLAYER_FIELD(0x30)) |= 1;
         sub_0800D0F4();
         while (sub_0805F184()) sub_080003F0();
         while (sub_0805EF90()) sub_080003F0();
@@ -4873,10 +4873,10 @@ void sub_08043A4C(void)
             sub_080003F0();
         }
         offset = sub_080020F4();
-        multiplier = 0x14C;
+        multiplier = PLAYER_SIZE;
         offset *= multiplier;
         player = players44 + offset;
-        *(u32 *)(player + 0x30) &= ~1;
+        *(u32 *)(player + PLAYER_FIELD(0x30)) &= ~1;
         sub_0800D108();
     }
 }
@@ -4903,10 +4903,10 @@ void sub_08043B20(void)
     bit &= one;
     if (bit == 0) {
         offset = sub_080020F4();
-        multiplier = 0x14C;
+        multiplier = PLAYER_SIZE;
         offset *= multiplier;
         player = players44 + offset;
-        *(u32 *)(player + 0x30) |= 1;
+        *(u32 *)(player + PLAYER_FIELD(0x30)) |= 1;
         sub_0800D0F4();
         while (sub_0805F184()) sub_080003F0();
         while (sub_0805EF90()) sub_080003F0();
@@ -4916,10 +4916,10 @@ void sub_08043B20(void)
             sub_080003F0();
         }
         offset = sub_080020F4();
-        multiplier = 0x14C;
+        multiplier = PLAYER_SIZE;
         offset *= multiplier;
         player = players44 + offset;
-        *(u32 *)(player + 0x30) &= ~1;
+        *(u32 *)(player + PLAYER_FIELD(0x30)) &= ~1;
         sub_0800D108();
     }
 }
@@ -4946,10 +4946,10 @@ void sub_08043BF4(void)
     bit &= one;
     if (bit == 0) {
         offset = sub_080020F4();
-        multiplier = 0x14C;
+        multiplier = PLAYER_SIZE;
         offset *= multiplier;
         player = players44 + offset;
-        *(u32 *)(player + 0x30) |= 1;
+        *(u32 *)(player + PLAYER_FIELD(0x30)) |= 1;
         sub_0800D0F4();
         while (sub_0805F184()) sub_080003F0();
         while (sub_0805EF90()) sub_080003F0();
@@ -4959,10 +4959,10 @@ void sub_08043BF4(void)
             sub_080003F0();
         }
         offset = sub_080020F4();
-        multiplier = 0x14C;
+        multiplier = PLAYER_SIZE;
         offset *= multiplier;
         player = players44 + offset;
-        *(u32 *)(player + 0x30) &= ~1;
+        *(u32 *)(player + PLAYER_FIELD(0x30)) &= ~1;
         sub_0800D108();
     }
 }
@@ -4989,10 +4989,10 @@ void sub_08043CC8(void)
     bit &= one;
     if (bit == 0) {
         offset = sub_080020F4();
-        multiplier = 0x14C;
+        multiplier = PLAYER_SIZE;
         offset *= multiplier;
         player = players44 + offset;
-        *(u32 *)(player + 0x30) |= 1;
+        *(u32 *)(player + PLAYER_FIELD(0x30)) |= 1;
         sub_0800D0F4();
         while (sub_0805F184()) sub_080003F0();
         while (sub_0805EF90()) sub_080003F0();
@@ -5002,10 +5002,10 @@ void sub_08043CC8(void)
             sub_080003F0();
         }
         offset = sub_080020F4();
-        multiplier = 0x14C;
+        multiplier = PLAYER_SIZE;
         offset *= multiplier;
         player = players44 + offset;
-        *(u32 *)(player + 0x30) &= ~1;
+        *(u32 *)(player + PLAYER_FIELD(0x30)) &= ~1;
         sub_0800D108();
     }
 }
@@ -5032,10 +5032,10 @@ void sub_08043D9C(void)
     bit &= one;
     if (bit == 0) {
         offset = sub_080020F4();
-        multiplier = 0x14C;
+        multiplier = PLAYER_SIZE;
         offset *= multiplier;
         player = players44 + offset;
-        *(u32 *)(player + 0x30) |= 1;
+        *(u32 *)(player + PLAYER_FIELD(0x30)) |= 1;
         sub_0800D0F4();
         while (sub_0805F184()) sub_080003F0();
         while (sub_0805EF90()) sub_080003F0();
@@ -5045,10 +5045,10 @@ void sub_08043D9C(void)
             sub_080003F0();
         }
         offset = sub_080020F4();
-        multiplier = 0x14C;
+        multiplier = PLAYER_SIZE;
         offset *= multiplier;
         player = players44 + offset;
-        *(u32 *)(player + 0x30) &= ~1;
+        *(u32 *)(player + PLAYER_FIELD(0x30)) &= ~1;
         sub_0800D108();
     }
 }
@@ -5075,10 +5075,10 @@ void sub_08043E70(void)
     bit &= one;
     if (bit == 0) {
         offset = sub_080020F4();
-        multiplier = 0x14C;
+        multiplier = PLAYER_SIZE;
         offset *= multiplier;
         player = players44 + offset;
-        *(u32 *)(player + 0x30) |= 1;
+        *(u32 *)(player + PLAYER_FIELD(0x30)) |= 1;
         sub_0800D0F4();
         while (sub_0805F184()) sub_080003F0();
         while (sub_0805EF90()) sub_080003F0();
@@ -5088,10 +5088,10 @@ void sub_08043E70(void)
             sub_080003F0();
         }
         offset = sub_080020F4();
-        multiplier = 0x14C;
+        multiplier = PLAYER_SIZE;
         offset *= multiplier;
         player = players44 + offset;
-        *(u32 *)(player + 0x30) &= ~1;
+        *(u32 *)(player + PLAYER_FIELD(0x30)) &= ~1;
         sub_0800D108();
     }
 }
@@ -5118,10 +5118,10 @@ void sub_08043F44(void)
     bit &= one;
     if (bit == 0) {
         offset = sub_080020F4();
-        multiplier = 0x14C;
+        multiplier = PLAYER_SIZE;
         offset *= multiplier;
         player = players44 + offset;
-        *(u32 *)(player + 0x30) |= 1;
+        *(u32 *)(player + PLAYER_FIELD(0x30)) |= 1;
         sub_0800D0F4();
         while (sub_0805F184()) sub_080003F0();
         while (sub_0805EF90()) sub_080003F0();
@@ -5131,10 +5131,10 @@ void sub_08043F44(void)
             sub_080003F0();
         }
         offset = sub_080020F4();
-        multiplier = 0x14C;
+        multiplier = PLAYER_SIZE;
         offset *= multiplier;
         player = players44 + offset;
-        *(u32 *)(player + 0x30) &= ~1;
+        *(u32 *)(player + PLAYER_FIELD(0x30)) &= ~1;
         sub_0800D108();
     }
 }
@@ -5161,10 +5161,10 @@ void sub_08044018(void)
     bit &= one;
     if (bit == 0) {
         offset = sub_080020F4();
-        multiplier = 0x14C;
+        multiplier = PLAYER_SIZE;
         offset *= multiplier;
         player = players44 + offset;
-        *(u32 *)(player + 0x30) |= 1;
+        *(u32 *)(player + PLAYER_FIELD(0x30)) |= 1;
         sub_0800D0F4();
         while (sub_0805F184()) sub_080003F0();
         while (sub_0805EF90()) sub_080003F0();
@@ -5174,10 +5174,10 @@ void sub_08044018(void)
             sub_080003F0();
         }
         offset = sub_080020F4();
-        multiplier = 0x14C;
+        multiplier = PLAYER_SIZE;
         offset *= multiplier;
         player = players44 + offset;
-        *(u32 *)(player + 0x30) &= ~1;
+        *(u32 *)(player + PLAYER_FIELD(0x30)) &= ~1;
         sub_0800D108();
     }
 }
@@ -5204,10 +5204,10 @@ void sub_080440EC(void)
     bit &= one;
     if (bit == 0) {
         offset = sub_080020F4();
-        multiplier = 0x14C;
+        multiplier = PLAYER_SIZE;
         offset *= multiplier;
         player = players44 + offset;
-        *(u32 *)(player + 0x30) |= 1;
+        *(u32 *)(player + PLAYER_FIELD(0x30)) |= 1;
         sub_0800D0F4();
         while (sub_0805F184()) sub_080003F0();
         while (sub_0805EF90()) sub_080003F0();
@@ -5217,10 +5217,10 @@ void sub_080440EC(void)
             sub_080003F0();
         }
         offset = sub_080020F4();
-        multiplier = 0x14C;
+        multiplier = PLAYER_SIZE;
         offset *= multiplier;
         player = players44 + offset;
-        *(u32 *)(player + 0x30) &= ~1;
+        *(u32 *)(player + PLAYER_FIELD(0x30)) &= ~1;
         sub_0800D108();
     }
 }
@@ -5253,13 +5253,13 @@ void sub_080441C0(void)
     bit &= one;
     if (bit != 0) return;
     index = sub_080020F4();
-    stride = 0x14C;
+    stride = PLAYER_SIZE;
     stride *= index;
     playerFirst = players44 + stride;
-    flags = *(u32 *)(playerFirst + 0x30);
+    flags = *(u32 *)(playerFirst + PLAYER_FIELD(0x30));
     one2 = 1;
     flags |= one2;
-    *(u32 *)(playerFirst + 0x30) = flags;
+    *(u32 *)(playerFirst + PLAYER_FIELD(0x30)) = flags;
     sub_0800D0F4();
     if (sub_0800CE30())
         flag = state44 + 0x1C5;
@@ -5287,10 +5287,10 @@ void sub_080441C0(void)
         }
     }
     offset = sub_080020F4();
-    multiplier = 0x14C;
+    multiplier = PLAYER_SIZE;
     offset *= multiplier;
     player = players44 + offset;
-    *(u32 *)(player + 0x30) &= ~1;
+    *(u32 *)(player + PLAYER_FIELD(0x30)) &= ~1;
     sub_0800D108();
 }
 /* [ShowEventGatedMessage534] Selects advanced+0x1C6 or normal+0x1BA and tests bit4, equivalent to event28 in
@@ -5316,10 +5316,10 @@ void sub_08044318(void)
     bit &= one;
     if (bit == 0) {
         offset = sub_080020F4();
-        multiplier = 0x14C;
+        multiplier = PLAYER_SIZE;
         offset *= multiplier;
         player = players44 + offset;
-        *(u32 *)(player + 0x30) |= 1;
+        *(u32 *)(player + PLAYER_FIELD(0x30)) |= 1;
         sub_0800D0F4();
         while (sub_0805F184()) sub_080003F0();
         while (sub_0805EF90()) sub_080003F0();
@@ -5329,10 +5329,10 @@ void sub_08044318(void)
             sub_080003F0();
         }
         offset = sub_080020F4();
-        multiplier = 0x14C;
+        multiplier = PLAYER_SIZE;
         offset *= multiplier;
         player = players44 + offset;
-        *(u32 *)(player + 0x30) &= ~1;
+        *(u32 *)(player + PLAYER_FIELD(0x30)) &= ~1;
         sub_0800D108();
     }
 }

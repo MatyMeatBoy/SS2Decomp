@@ -27,6 +27,8 @@ LITERAL = re.compile(r'(?<![\w.])(0[xX][0-9a-fA-F]+|[1-9][0-9]*)(?![\w.])')
 MACROS = ('PLAYER_FIELD', 'SAVE_FIELD')
 WRAPPED = re.compile(r'\b(?:PLAYER_FIELD|SAVE_FIELD)\s*\($')
 PLAYER_STRIDE = 0x14C
+ENEMY_STRIDE = 0x2E0
+SIZES = {PLAYER_STRIDE: 'PLAYER_SIZE', ENEMY_STRIDE: 'ENEMY_SIZE'}
 
 
 def function_span(text, name):
@@ -78,7 +80,7 @@ def code_literals(body):
         value = int(match[1], 0)
         if WRAPPED.search(masked[:match.start()].rstrip()[-20:]):
             continue
-        if 0x0A <= value <= PLAYER_STRIDE:
+        if 0x0A <= value <= PLAYER_STRIDE or value == ENEMY_STRIDE:
             result.append((match.start(), match.end(), value))
     return result
 
@@ -91,7 +93,7 @@ def rewrite(body, literals, choice):
         if macro is None:
             continue
         out.append(body[cursor:start])
-        out.append('PLAYER_SIZE' if macro == 'PLAYER_SIZE' else '%s(%s)' % (macro, body[start:end]))
+        out.append(macro if macro.endswith('_SIZE') else '%s(%s)' % (macro, body[start:end]))
         cursor = end
     out.append(body[cursor:])
     return ''.join(out)
@@ -157,8 +159,8 @@ def search(checker, module, name, address, log):
         save_first = 'gUnk_030034E0' in body
         options = {}
         for index, (_, _, value) in enumerate(literals):
-            if value == PLAYER_STRIDE:
-                options.setdefault(('PLAYER_SIZE', value), []).append(index)
+            if value in SIZES:
+                options.setdefault((SIZES[value], value), []).append(index)
             else:
                 for macro in (('SAVE_FIELD', 'PLAYER_FIELD') if save_first else MACROS):
                     options.setdefault((macro, value), []).append(index)
@@ -191,8 +193,8 @@ def search(checker, module, name, address, log):
             path.write_text(head + rewrite(body, literals, best_choice) + tail, encoding='utf-8')
             applied = True
             log('%s: fixed (%d -> 0) with %s' % (name, start, ', '.join(sorted(
-                {'%s(0x%X)' % (best_choice[i], literals[i][2]) if best_choice[i] != 'PLAYER_SIZE'
-                 else 'PLAYER_SIZE' for i in best_choice}))))
+                {'%s(0x%X)' % (best_choice[i], literals[i][2]) if not best_choice[i].endswith('_SIZE')
+                 else best_choice[i] for i in best_choice}))))
             return True
         log('%s: best %d (from %d), not applied' % (name, best, start))
         return False

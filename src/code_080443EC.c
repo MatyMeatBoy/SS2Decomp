@@ -27,10 +27,10 @@ void sub_080443EC(void)
     bit &= one;
     if (bit == 0) {
         offset = sub_080020F4();
-        multiplier = 0x14C;
+        multiplier = PLAYER_SIZE;
         offset *= multiplier;
         player = players44 + offset;
-        *(u32 *)(player + 0x30) |= 1;
+        *(u32 *)(player + PLAYER_FIELD(0x30)) |= 1;
         sub_0800D0F4();
         while (sub_0805F184()) sub_080003F0();
         while (sub_0805EF90()) sub_080003F0();
@@ -40,10 +40,10 @@ void sub_080443EC(void)
             sub_080003F0();
         }
         offset = sub_080020F4();
-        multiplier = 0x14C;
+        multiplier = PLAYER_SIZE;
         offset *= multiplier;
         player = players44 + offset;
-        *(u32 *)(player + 0x30) &= ~1;
+        *(u32 *)(player + PLAYER_FIELD(0x30)) &= ~1;
         sub_0800D108();
     }
 }

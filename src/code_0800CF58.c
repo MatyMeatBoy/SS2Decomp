@@ -163,9 +163,9 @@ s32 sub_0800D1B0(void) {
     s32 idx;
     u8 *pl;
     idx = sub_080020F4();
-    pl = (u8 *) gUnk_03003CE0 + idx * 0x14C;
+    pl = (u8 *) gUnk_03003CE0 + idx * PLAYER_SIZE;
     r4 = 0;
-    if (pl[0x68] == 0 || (*(u32 *) (pl + 0x30) & 0x400) || *(u16 *) (pl + 0x20) == 0xC || sub_08058DB0() || sub_0800D11C() || sub_0800CCCC() || sub_0800CDF8()) {
+    if (pl[PLAYER_FIELD(0x68)] == 0 || (*(u32 *) (pl + PLAYER_FIELD(0x30)) & 0x400) || *(u16 *) (pl + PLAYER_FIELD(0x20)) == 0xC || sub_08058DB0() || sub_0800D11C() || sub_0800CCCC() || sub_0800CDF8()) {
         r4 = 1;
     }
     if (sub_0800CF80() != 0 && sub_08056E50() != 0) {
@@ -225,15 +225,15 @@ block_x:
     }
 block_a:
     p = gUnk_030034E0;
-    if (*(u16 *) (p + 0x50) != 0) {
-        u16 v = sub_0801E0AC(p + 0x30, 7);
+    if (*(u16 *) (p + SAVE_FIELD(0x50)) != 0) {
+        u16 v = sub_0801E0AC(p + SAVE_FIELD(0x30), 7);
         sub_08067FE0(7, v);
     }
     return;
 block_c:
     p = gUnk_030034E0;
-    if (*(u16 *) (p + 0x4C) != 0) {
-        u16 v = sub_0801E0AC(p + 0x30, 6);
+    if (*(u16 *) (p + SAVE_FIELD(0x4C)) != 0) {
+        u16 v = sub_0801E0AC(p + SAVE_FIELD(0x30), 6);
         sub_08067FE0(6, v);
     }
 }
@@ -5692,27 +5692,27 @@ s32 sub_08013BC0(u8 *arg0) {
     s32 m;
     r = sub_0800D1B0();
     if (r == 0) {
-        p = (u16 *)(arg0 + 0xC4);
-        q = (u16 *)(arg0 + 0x88);
+        p = (u16 *)(arg0 + PLAYER_FIELD(0xC4));
+        q = (u16 *)(arg0 + PLAYER_FIELD(0x88));
         *p = *p - *q;
-        s = (u16 *)(arg0 + 0x8A);
+        s = (u16 *)(arg0 + PLAYER_FIELD(0x8A));
         *p = *p - *s;
         *q = r;
         *s = r;
         m = *(s16 *)p & 0x8000;
         if (m != 0 || *(s16 *)p == 0) {
-            if ((*(u32 *)(arg0 + 0x30) & 0x100000) == 0) {
+            if ((*(u32 *)(arg0 + PLAYER_FIELD(0x30)) & 0x100000) == 0) {
                 *p = 0;
                 return 1;
             }
             *p = 1;
             return 0;
         }
-        *(u32 *)(arg0 + 0xE0) = m;
+        *(u32 *)(arg0 + PLAYER_FIELD(0xE0)) = m;
         return 0;
     } else {
-        *(u16 *)(arg0 + 0x88) = 0;
-        *(u16 *)(arg0 + 0x8A) = 0;
+        *(u16 *)(arg0 + PLAYER_FIELD(0x88)) = 0;
+        *(u16 *)(arg0 + PLAYER_FIELD(0x8A)) = 0;
     }
     return 0;
 }
@@ -5874,31 +5874,31 @@ void sub_080140AC(u8 *arg0) {
     u16 t;
     s32 v;
     s16 r;
-    if ((*(u16 *)(arg0 + 0xC8)) != 0) {
-        sub_08013E90((*(s16 *)(arg0 + 0xCC)), arg0 + 0x8C, (*(u16 *)(arg0 + 0xCA)), (u16)sub_0800CCCC(), 0);
-        (*(u16 *)(arg0 + 0xC8))--;
+    if ((*(u16 *)(arg0 + PLAYER_FIELD(0xC8))) != 0) {
+        sub_08013E90((*(s16 *)(arg0 + PLAYER_FIELD(0xCC))), arg0 + PLAYER_FIELD(0x8C), (*(u16 *)(arg0 + PLAYER_FIELD(0xCA))), (u16)sub_0800CCCC(), 0);
+        (*(u16 *)(arg0 + PLAYER_FIELD(0xC8)))--;
     }
-    if ((*(u16 *)(arg0 + 0xCE)) != 0) {
-        sub_08013E90((*(s16 *)(arg0 + 0xD2)), arg0 + 0x8C, (*(u16 *)(arg0 + 0xD0)), (u16)sub_0800CCCC(), 0);
-        v = (*(u16 *)(arg0 + 0xCE)) - 1;
-        (*(u16 *)(arg0 + 0xCE)) = v;
+    if ((*(u16 *)(arg0 + PLAYER_FIELD(0xCE))) != 0) {
+        sub_08013E90((*(s16 *)(arg0 + PLAYER_FIELD(0xD2))), arg0 + PLAYER_FIELD(0x8C), (*(u16 *)(arg0 + PLAYER_FIELD(0xD0))), (u16)sub_0800CCCC(), 0);
+        v = (*(u16 *)(arg0 + PLAYER_FIELD(0xCE))) - 1;
+        (*(u16 *)(arg0 + PLAYER_FIELD(0xCE))) = v;
         t = (u16)v;
         if (t == 0) {
-            if ((*(s16 *)(arg0 + 0xD4)) != 0) {
-                (*(u16 *)(arg0 + 0xCE)) = (*(s16 *)(arg0 + 0xD4)) / 2;
-                if ((*(u16 *)(arg0 + 0xCE)) > 3) (*(u16 *)(arg0 + 0xCE)) = 4;
-                (*(s16 *)(arg0 + 0xD4)) = t;
+            if ((*(s16 *)(arg0 + PLAYER_FIELD(0xD4))) != 0) {
+                (*(u16 *)(arg0 + PLAYER_FIELD(0xCE))) = (*(s16 *)(arg0 + PLAYER_FIELD(0xD4))) / 2;
+                if ((*(u16 *)(arg0 + PLAYER_FIELD(0xCE))) > 3) (*(u16 *)(arg0 + PLAYER_FIELD(0xCE))) = 4;
+                (*(s16 *)(arg0 + PLAYER_FIELD(0xD4))) = t;
                 r = 0x200;
                 goto end;
             }
-        } else if ((*(s16 *)(arg0 + 0xD4)) != 0) {
+        } else if ((*(s16 *)(arg0 + PLAYER_FIELD(0xD4))) != 0) {
             return;
         }
-        (*(s16 *)(arg0 + 0xD2)) = (u16)(*(s16 *)(arg0 + 0xD2)) << 16 >> 17;
-        if ((*(s16 *)(arg0 + 0xD2)) <= 0x3F) {
+        (*(s16 *)(arg0 + PLAYER_FIELD(0xD2))) = (u16)(*(s16 *)(arg0 + PLAYER_FIELD(0xD2))) << 16 >> 17;
+        if ((*(s16 *)(arg0 + PLAYER_FIELD(0xD2))) <= 0x3F) {
             r = 0x40;
 end:
-            (*(s16 *)(arg0 + 0xD2)) = r;
+            (*(s16 *)(arg0 + PLAYER_FIELD(0xD2))) = r;
         }
     }
 }
