@@ -4867,7 +4867,7 @@ void sub_080399E4(u32 arg0) {
  u32 off;
  register s32 flag asm("r1");
  u32 dialog;
- {struct Player *p;register u32 idx asm("r2");idx=sub_080020F4();idx*=0x14C;p=(struct Player *)((u8 *)gUnk_03003CE0+idx);p->flags |= 1;}
+ {struct Player *p;register u32 idx asm("r2");idx=sub_080020F4();idx*=PLAYER_SIZE;p=(struct Player *)((u8 *)gUnk_03003CE0+idx);p->flags |= 1;}
  sub_0800D0F4();sub_0802949C(arg,0);
  if(sub_0800CE30()) field=*(u32 *)(state399E4+0x7C);
  else field=*(u32 *)(state399E4+0x74);
@@ -4946,7 +4946,7 @@ void sub_080399E4(u32 arg0) {
  while(!sub_0805EEFC((void *)dialog)){if(sub_0800CDF8()){sub_0805EFBC();break;}sub_080003F0();}
  }
  sub_08029788(arg);
- {struct Player *p;register u32 idx asm("r2");idx=sub_080020F4();idx*=0x14C;p=(struct Player *)((u8 *)gUnk_03003CE0+idx);p->flags &= ~1;}
+ {struct Player *p;register u32 idx asm("r2");idx=sub_080020F4();idx*=PLAYER_SIZE;p=(struct Player *)((u8 *)gUnk_03003CE0+idx);p->flags &= ~1;}
  sub_0800D108();
 }
 extern u8 *state39F00 asm("gUnk_03005CF4");

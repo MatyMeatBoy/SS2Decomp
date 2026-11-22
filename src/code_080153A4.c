@@ -94,7 +94,7 @@ void sub_08015464(void)
 
 
 extern struct Task tasks15[] asm("gUnk_03003C40");
-struct PlrKind15 { u8 pad0[0xC]; u16 sub; u8 padE[2]; u16 kind; u8 pad12[0x14C - 0x12]; };
+struct PlrKind15 { u8 pad0[PLAYER_FIELD(0xC)]; u16 sub; u8 padE[PLAYER_FIELD(0x10) - PLAYER_FIELD(0xE)]; u16 kind; u8 pad12[PLAYER_SIZE - PLAYER_FIELD(0x12)]; };
 extern struct PlrKind15 kinds15[] asm("gUnk_03003CE0");
 void sub_080156FC();
 void sub_080152CC();
@@ -550,11 +550,11 @@ void sub_08015E3C(u8 *arg0, s32 arg1) {
     u16 *p;
     s32 r1;
 
-    r3 = (u16)(*(s8 *)(arg0 + 0x6C) * 10 + gUnk_0847ACE8[arg1]);
+    r3 = (u16)(*(s8 *)(arg0 + PLAYER_FIELD(0x6C)) * 10 + gUnk_0847ACE8[arg1]);
     if ((s16)r3 < 0) {
         r3 = 0;
     }
-    p = (u16 *)(arg0 + 0xC2);
+    p = (u16 *)(arg0 + PLAYER_FIELD(0xC2));
     r1 = *p - (s16)r3;
     *p = r1;
     if ((s16)r1 < 0) {
@@ -568,7 +568,7 @@ extern u16 gUnk_0847ACE8[];
  * represents an affordable index-zero tier. Does not spend energy or validate the player pointer. */
 u32 sub_08015E84(u8 *arg0)
 {
-    register s32 signedByte asm("r2") = (s8)arg0[0x6C];
+    register s32 signedByte asm("r2") = (s8)arg0[PLAYER_FIELD(0x6C)];
     register s32 half asm("r1");
     
     half = signedByte * 5;
@@ -580,7 +580,7 @@ u32 sub_08015E84(u8 *arg0)
         s16 *value;
         table += 7;
         
-        value = (s16 *)(arg0 + 0xC2);
+        value = (s16 *)(arg0 + PLAYER_FIELD(0xC2));
         for (; i >= 0; table--, i--) {
             u16 threshold = delta + *table;
             s32 current;
@@ -1340,7 +1340,7 @@ void sub_08016A7C(s32 owner)
 }
 struct Pos16B30 { u32 kind:4; u32 x:12; u32 y:12; u32 pad2:4; u32 f4:6; u32 f4b:2; };
 struct Dist16B30 { s32 dist; s32 index; };
-struct Plr16B30 { u16 id; u8 pad2[0x2E]; u32 flags; u8 pad34[0x30]; u16 kind; u8 pad66[0xE2]; struct Pos16B30 *pos; };
+struct Plr16B30 { u16 id; u8 pad2[PLAYER_FIELD(0x30) - PLAYER_FIELD(0x2)]; u32 flags; u8 pad34[PLAYER_FIELD(0x64) - PLAYER_FIELD(0x34)]; u16 kind; u8 pad66[PLAYER_FIELD(0x148) - PLAYER_FIELD(0x66)]; struct Pos16B30 *pos; };
 extern struct Plr16B30 players16B30[] asm("gUnk_03003CE0");
 /* [SelectNearestPlayerForEnemy] Uses a four-entry local distance/index array with loops bounded by participant
  * count 02164, without a count clamp. Origin is enemy live Q8 coordinates+0x14/+0x18 shifted8; candidate

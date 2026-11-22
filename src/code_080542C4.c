@@ -1026,7 +1026,7 @@ void sub_0805664C(s32 arg0)
     spawn56(sub_0805664C, arg0);
     }
 }
-struct StatePlayer567D4 { u8 pad[0x11E]; u16 state; u8 tail[0x2C]; };
+struct StatePlayer567D4 { u8 pad[PLAYER_FIELD(0x11E)]; u16 state; u8 tail[PLAYER_SIZE - PLAYER_FIELD(0x120)]; };
 extern struct StatePlayer567D4 statePlayers567D4[] asm("gUnk_03003CE0");
 struct Item567D4 { u16 item, kind; u8 rest[12]; };
 struct Inv567D4 { u8 pad[0x150]; struct Item567D4 slots[25]; };

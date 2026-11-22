@@ -64,7 +64,7 @@ void sub_08073E2C_v(u32 a, u32 b, u32 c, u32 d)
     gMask3E2C |= 1 << i;
 }
 struct Pos076EE8 { u16 x; u16 y; };
-struct Ply076EE8 { u16 f0; u8 pad2[0x66]; u8 team; u8 pad69[0x23]; s32 x; s32 y; u8 pad94[0xB4]; struct Pos076EE8 *pos; };
+struct Ply076EE8 { u16 f0; u8 pad2[PLAYER_FIELD(0x68) - PLAYER_FIELD(0x2)]; u8 team; u8 pad69[PLAYER_FIELD(0x8C) - PLAYER_FIELD(0x69)]; s32 x; s32 y; u8 pad94[PLAYER_FIELD(0x148) - PLAYER_FIELD(0x94)]; struct Pos076EE8 *pos; };
 struct Ene076EE8 { u8 pad0[2]; u16 f2; u8 pad4[8]; u16 state; u8 padE[6]; s32 x; s32 y; u8 pad1C[0x40]; s16 hp; u8 pad5E[0x17E]; u8 alive; u8 pad1DD[0x103]; };
 extern struct Ply076EE8 players076EE8[] asm("gUnk_03003CE0");
 extern struct Ene076EE8 *enemies076EE8 asm("gUnk_030056F4");
@@ -2576,7 +2576,7 @@ void sub_08077D04(u32 who, u32 b)
     gMasks7D04[who] |= 1 << i;
 }
 struct Spr7DAC { u32 f0, f4, f8, fC; u8 pad10[12]; u8 f1C, f1D; u8 pad1E[22]; };
-struct Ply7DAC { u8 pad0[0x20]; u16 state; u8 pad22[0xE]; u32 flags; u8 pad34[6]; s16 f3A; u8 pad3C[0x2C]; u8 team; u8 pad69[5]; u8 f6E; u8 pad6F[0x19]; u16 f88, f8A; s32 x, y; u8 pad94[0x50]; u32 hist[11]; u32 f110; u8 pad114[0x34]; u8 *sprite; };
+struct Ply7DAC { u8 pad0[PLAYER_FIELD(0x20)]; u16 state; u8 pad22[PLAYER_FIELD(0x30) - PLAYER_FIELD(0x22)]; u32 flags; u8 pad34[PLAYER_FIELD(0x3A) - PLAYER_FIELD(0x34)]; s16 f3A; u8 pad3C[PLAYER_FIELD(0x68) - PLAYER_FIELD(0x3C)]; u8 team; u8 pad69[PLAYER_FIELD(0x6E) - PLAYER_FIELD(0x69)]; u8 f6E; u8 pad6F[PLAYER_FIELD(0x88) - PLAYER_FIELD(0x6F)]; u16 f88, f8A; s32 x, y; u8 pad94[PLAYER_FIELD(0xE4) - PLAYER_FIELD(0x94)]; u32 hist[11]; u32 f110; u8 pad114[PLAYER_FIELD(0x148) - PLAYER_FIELD(0x114)]; u8 *sprite; };
 struct Ene7DAC { u16 id; u8 f2; u8 pad3[5]; s16 dir; u8 padA[2]; u16 state; u8 padE[6]; s32 x, y; u8 pad1C[0x2E]; u16 f4A; u32 f4C; u32 f50; u32 f54; u16 f58, f5A; u8 pad5C[6]; u16 f62; u8 pad64[6]; u16 wait; u8 pad6C[0xE]; u16 f7A; u16 f7C, f7E; u8 pad80[0x15C]; u8 active; u8 pad1DD[0x29]; s16 f206; u8 pad208[0x23]; u8 threshold; u16 f22C; u8 pad22E[0xAA]; u16 f2D8, f2DA; u8 pad2DC[4]; };
 struct Tbl7DAC { u8 pad0[0x2C]; u32 anim; u8 pad30[0x28]; };
 struct Pkt7DAC { u8 kind:8; u8 val:8; u8 b2:8; s8 b3:8; u32 dmg:16; u32 rest:16; };
@@ -3086,7 +3086,7 @@ void sub_08078B24(u32 who, u32 b)
     gMasks7D04[who] |= 1 << i;
 }
 struct AttrBCC { u32 kind:4; u32 x:12; u32 y:12; u32 pad:4; u32 flags:6; u32 pad2:4; u32 on:1; u32 power:8; u32 pad3:13; };
-struct PlayerBCC { u16 id; u8 pad02[0x1e]; u16 state; u8 pad22[0xe]; u32 flags; u8 pad34[0x34]; u8 team; u8 pad69[0x1f]; u16 hp; u8 pad8a[2]; s32 pos[2]; u8 pad94[0x2e]; u16 unkC2; s16 unkC4; u8 padc6[0x32]; s32 tags[15]; u16 unk134; u8 pad136[0x12]; struct AttrBCC *attr; };
+struct PlayerBCC { u16 id; u8 pad02[PLAYER_FIELD(0x20) - PLAYER_FIELD(0x2)]; u16 state; u8 pad22[PLAYER_FIELD(0x30) - PLAYER_FIELD(0x22)]; u32 flags; u8 pad34[PLAYER_FIELD(0x68) - PLAYER_FIELD(0x34)]; u8 team; u8 pad69[PLAYER_FIELD(0x88) - PLAYER_FIELD(0x69)]; u16 hp; u8 pad8a[PLAYER_FIELD(0x8C) - PLAYER_FIELD(0x8A)]; s32 pos[2]; u8 pad94[PLAYER_FIELD(0xC2) - PLAYER_FIELD(0x94)]; u16 unkC2; s16 unkC4; u8 padc6[PLAYER_FIELD(0xF8) - PLAYER_FIELD(0xC6)]; s32 tags[15]; u16 unk134; u8 pad136[PLAYER_FIELD(0x148) - PLAYER_FIELD(0x136)]; struct AttrBCC *attr; };
 struct SpriteBCC { u32 f0, f4, f8; void *fC; u8 pad10[12]; u8 unk1C, unk1D; u8 pad1e[22]; };
 struct EnemyBCC { u16 id; u8 unk2; u8 pad03[9]; u16 state; u8 pad0e[6]; s32 pos[2]; u8 pad1c[0x2e]; u16 hp; u32 dmg; u8 pad50[4]; s32 tag; u16 unk58, unk5A; s16 unk5C; u8 pad5e[4]; u16 unk62; u8 pad64[0x18]; u16 unk7C; s16 unk7E; u8 pad80[0x15c]; u8 team; u8 pad1dd[0x51]; u8 w, h; u8 pad230[0xb0]; };
 struct BoxBCC { u16 w, h; };

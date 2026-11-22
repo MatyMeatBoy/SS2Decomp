@@ -555,7 +555,7 @@ void sub_0804534C(void) {
     u32 a;
     u32 b;
     register struct Cmd534C45 *c asm("r0");
-    {struct Player *p;register u32 idx asm("r2");idx=sub_080020F4();idx*=0x14C;p=(struct Player *)((u8 *)gUnk_03003CE0+idx);p->flags |= 1;}
+    {struct Player *p;register u32 idx asm("r2");idx=sub_080020F4();idx*=PLAYER_SIZE;p=(struct Player *)((u8 *)gUnk_03003CE0+idx);p->flags |= 1;}
     sub_0800D0F4();
     while (sub_0805F184()) sub_080003F0();
     dlg = sub_0805DF38(1, 15, 2, 0, -2, 0x14021C);
@@ -594,7 +594,7 @@ void sub_0804534C(void) {
         FX534C45(next2, check2);
     }
 done:
-    {struct Player *p;register u32 idx asm("r2");idx=sub_080020F4();idx*=0x14C;p=(struct Player *)((u8 *)gUnk_03003CE0+idx);p->flags &= ~1;}
+    {struct Player *p;register u32 idx asm("r2");idx=sub_080020F4();idx*=PLAYER_SIZE;p=(struct Player *)((u8 *)gUnk_03003CE0+idx);p->flags &= ~1;}
     sub_0800D108();
 }
 /* [TrackEvent20EntityPosition] Reads1B9/1C5 bit4 and calls28AAC with duration0 in both branches; one-count
@@ -790,7 +790,7 @@ void sub_08045B68(u32 arg0) {
     } while (!bit3B6845(st, one)); }
     sub_0805EFBC();
     do { sub_080003F0(); } while (sub_0805F184());
-    { struct Player *pp = (struct Player *)(sub_080020F4() * 0x14C + (u32)gUnk_03003CE0); pp->flags |= 1; }
+    { struct Player *pp = (struct Player *)(sub_080020F4() * PLAYER_SIZE + (u32)gUnk_03003CE0); pp->flags |= 1; }
     sub_0800D0F4();
     fxB6845();
     sub_08068070((u32)cb9968B6845, 0x10);
@@ -819,7 +819,7 @@ void sub_08045B68(u32 arg0) {
     sub_08028AAC(id, 0x78, 0xF0, 0x28);
     a = find2B6845(id);
     if (a) *(u16 *)((u8 *)a + 0x36) = 4;
-    {struct Player *p;register u32 idx asm("r2");idx=sub_080020F4();idx*=0x14C;p=(struct Player *)((u8 *)gUnk_03003CE0+idx);p->flags &= ~1;}
+    {struct Player *p;register u32 idx asm("r2");idx=sub_080020F4();idx*=PLAYER_SIZE;p=(struct Player *)((u8 *)gUnk_03003CE0+idx);p->flags &= ~1;}
     sub_0800D108();
 }
 extern void callback5E3845(void) asm("sub_0803898C");

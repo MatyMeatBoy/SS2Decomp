@@ -398,8 +398,8 @@ s32 sub_08058240(void)
 {
     u32 i = sub_080020F4();
     u8 *base = (u8 *)gUnk_03003CE0;
-    i *= 0x14C;
-    base += 0x8C;
+    i *= PLAYER_SIZE;
+    base += PLAYER_FIELD(0x8C);
     return *(s32 *)(i + (u32)base) >> 8;
 }
 /* [GetLocalPlayerWorldPixelY] Queries the local player index, selects its 0x14C-byte runtime record at
@@ -409,8 +409,8 @@ s32 sub_08058260(void)
 {
     u32 i = sub_080020F4();
     u8 *base = (u8 *)gUnk_03003CE0;
-    i *= 0x14C;
-    base += 0x90;
+    i *= PLAYER_SIZE;
+    base += PLAYER_FIELD(0x90);
     return *(s32 *)(i + (u32)base) >> 8;
 }
 /* [ResetActiveEnemyScriptStates] Scans exactly5 slots, only active and state12 records get state0. */

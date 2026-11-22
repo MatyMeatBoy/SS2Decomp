@@ -6429,7 +6429,7 @@ void sub_08014C8C(void) {
 
 
 
-struct PlrKind14 { u8 pad0[0x10]; u16 kind; u8 pad12[0x14C - 0x12]; };
+struct PlrKind14 { u8 pad0[PLAYER_FIELD(0x10)]; u16 kind; u8 pad12[PLAYER_SIZE - PLAYER_FIELD(0x12)]; };
 extern struct PlrKind14 kinds14[] asm("gUnk_03003CE0");
 extern struct Task tasks14[] asm("gUnk_03003C40");
 /* [StartClassZeroChargedAttack] Normalized class0 charge starter dispatches weapon kinds1/3 to
@@ -6471,29 +6471,29 @@ void sub_08014D60(void)
 struct Info14 { u32 kind:4; u32 mid:24; u32 top:4; u32 lo:14; u32 level:3; u32 power:3; u32 hi:12; };
 struct Plr14 {
     u16 id;
-    u8 pad2[0x10];
+    u8 pad2[PLAYER_FIELD(0x12) - PLAYER_FIELD(0x2)];
     u16 keys;
-    u8 pad14[8];
+    u8 pad14[PLAYER_FIELD(0x1C) - PLAYER_FIELD(0x14)];
     s16 dir;
-    u8 pad1E[2];
+    u8 pad1E[PLAYER_FIELD(0x20) - PLAYER_FIELD(0x1E)];
     u16 state;
-    u8 pad22[2];
+    u8 pad22[PLAYER_FIELD(0x24) - PLAYER_FIELD(0x22)];
     s16 w24;
     u16 w26;
     u16 w28;
-    u8 pad2A[6];
+    u8 pad2A[PLAYER_FIELD(0x30) - (PLAYER_FIELD(0x28) + 0x2)];
     u32 flags;
-    u8 pad34[0xB0 - 0x34];
+    u8 pad34[PLAYER_FIELD(0xB0) - PLAYER_FIELD(0x34)];
     u16 wB0;
     u16 wB2;
     u16 wB4;
     u16 wB6;
     u16 wB8;
-    u8 padBA[0xDC - 0xBA];
+    u8 padBA[PLAYER_FIELD(0xDC) - PLAYER_FIELD(0xBA)];
     s32 counterDC;
-    u8 padE0[0x122 - 0xE0];
+    u8 padE0[PLAYER_FIELD(0x122) - PLAYER_FIELD(0xE0)];
     u16 w122;
-    u8 pad124[0x144 - 0x124];
+    u8 pad124[PLAYER_FIELD(0x144) - PLAYER_FIELD(0x124)];
     struct Info14 *pos;
     struct Info14 *info;
 };
@@ -6633,7 +6633,7 @@ void sub_08015150(void)
 
 extern void sub_08015090(void);
 extern void sub_08015150(void);
-struct View151E {u8 pad0[16];u16 mode;u8 pad12[14];u16 state;u8 pad22[14];u32 flags;u8 pad34[0x118];};
+struct View151E {u8 pad0[PLAYER_FIELD(0x10)];u16 mode;u8 pad12[PLAYER_FIELD(0x20) - PLAYER_FIELD(0x12)];u16 state;u8 pad22[PLAYER_FIELD(0x30) - PLAYER_FIELD(0x22)];u32 flags;u8 pad34[PLAYER_SIZE - PLAYER_FIELD(0x34)];};
 extern struct View151E players151E[] asm("gUnk_03003CE0");
 /* [StartClassThreeChargedAttack] Normalized class3 charge starter selects scaled lunge for kind2 and hit
  * counter for kind4, returning for other kinds. Duplicate task triggers guarded state reset; otherwise

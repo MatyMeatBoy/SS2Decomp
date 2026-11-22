@@ -3190,7 +3190,7 @@ void sub_0806CDF0(void *arg0)
 
 }
 struct T072D4Effect { s16 timer; u16 owner, kind, level, a, b, c, d; u8 pad[24]; };
-struct T072D4Player { u8 pad0[0x20]; u16 state; u8 pad22[2]; u16 x24, x26; u8 pad28[12]; struct T072D4Effect *effects; u8 pad38[0x2c]; u16 mode; u8 pad66[2]; u8 team; u8 pad69[0x4b]; u16 wait; u8 padB6[12]; s16 resource; u8 padC4[0x84]; u16 *sprite; };
+struct T072D4Player { u8 pad0[PLAYER_FIELD(0x20)]; u16 state; u8 pad22[PLAYER_FIELD(0x24) - PLAYER_FIELD(0x22)]; u16 x24, x26; u8 pad28[PLAYER_FIELD(0x34) - PLAYER_FIELD(0x28)]; struct T072D4Effect *effects; u8 pad38[PLAYER_FIELD(0x64) - PLAYER_FIELD(0x38)]; u16 mode; u8 pad66[PLAYER_FIELD(0x68) - PLAYER_FIELD(0x66)]; u8 team; u8 pad69[PLAYER_FIELD(0xB4) - PLAYER_FIELD(0x69)]; u16 wait; u8 padB6[PLAYER_FIELD(0xC2) - PLAYER_FIELD(0xB6)]; s16 resource; u8 padC4[PLAYER_FIELD(0x148) - PLAYER_FIELD(0xC4)]; u16 *sprite; };
 struct T072D4Args { u32 player, bit, f8, value, f10, level; };
 extern struct T072D4Player t072D4Players[] asm("gUnk_03003CE0");
 extern u32 t072D4Flags[] asm("gUnk_030063E0");
@@ -3348,7 +3348,7 @@ finish:
     t072D4Flags[player] &= ~(1 << bit);
 }
 struct T072Effect { s16 timer; u16 owner, kind, level, a, b, c, d; u8 pad[24]; };
-struct T072Player { u8 pad0[0x20]; u16 state; u8 pad22[2]; u16 x24, x26; u8 pad28[12]; struct T072Effect *effects; u8 pad38[0x2c]; u16 mode; u8 pad66[2]; u8 team; u8 pad69[0x4b]; u16 wait; u8 padB6[12]; s16 resource; u8 padC4[0x84]; u16 *sprite; };
+struct T072Player { u8 pad0[PLAYER_FIELD(0x20)]; u16 state; u8 pad22[PLAYER_FIELD(0x24) - PLAYER_FIELD(0x22)]; u16 x24, x26; u8 pad28[PLAYER_FIELD(0x34) - PLAYER_FIELD(0x28)]; struct T072Effect *effects; u8 pad38[PLAYER_FIELD(0x64) - PLAYER_FIELD(0x38)]; u16 mode; u8 pad66[PLAYER_FIELD(0x68) - PLAYER_FIELD(0x66)]; u8 team; u8 pad69[PLAYER_FIELD(0xB4) - PLAYER_FIELD(0x69)]; u16 wait; u8 padB6[PLAYER_FIELD(0xC2) - PLAYER_FIELD(0xB6)]; s16 resource; u8 padC4[PLAYER_FIELD(0x148) - PLAYER_FIELD(0xC4)]; u16 *sprite; };
 struct T072Args { u32 player, bit, f8, value, f10, level; };
 extern struct T072Player t072Players[] asm("gUnk_03003CE0");
 extern u32 t072Flags[] asm("gUnk_030063E0");
@@ -3503,7 +3503,7 @@ finish:
     t072Flags[player] &= ~(1 << bit);
 }
 struct T072DBEffect { s16 timer; u16 owner, kind, level, a, b, c, d; s16 strength; u8 pad[22]; };
-struct T072DBPlayer { u8 pad0[0x20]; u16 state; u8 pad22[2]; u16 x24, x26; u8 pad28[12]; struct T072DBEffect *effects; u8 pad38[0x2c]; u16 mode; u8 pad66[2]; u8 team; u8 pad69[0x4b]; u16 wait; u16 ready; u8 padB8[10]; s16 resource; u8 padC4[0x84]; u16 *sprite; };
+struct T072DBPlayer { u8 pad0[PLAYER_FIELD(0x20)]; u16 state; u8 pad22[PLAYER_FIELD(0x24) - PLAYER_FIELD(0x22)]; u16 x24, x26; u8 pad28[PLAYER_FIELD(0x34) - PLAYER_FIELD(0x28)]; struct T072DBEffect *effects; u8 pad38[PLAYER_FIELD(0x64) - PLAYER_FIELD(0x38)]; u16 mode; u8 pad66[PLAYER_FIELD(0x68) - PLAYER_FIELD(0x66)]; u8 team; u8 pad69[PLAYER_FIELD(0xB4) - PLAYER_FIELD(0x69)]; u16 wait; u16 ready; u8 padB8[PLAYER_FIELD(0xC2) - PLAYER_FIELD(0xB8)]; s16 resource; u8 padC4[PLAYER_FIELD(0x148) - PLAYER_FIELD(0xC4)]; u16 *sprite; };
 struct T072DBArgs { u32 player, bit, f8, value, f10, level; };
 extern struct T072DBPlayer t072DBPlayers[] asm("gUnk_03003CE0");
 extern u32 t072DBFlags[] asm("gUnk_030063E0");
@@ -3658,7 +3658,7 @@ finish:
     ((u32 *)t072DBFlags)[player] &= ~(1 << bit);
 }
 struct T072DESprite { u32 f0, f4, f8, fC; u8 pad10[12]; u8 f1C, f1D; u8 pad1E[22]; };
-struct T072DEPlayer { u16 id; u8 pad2[0x1e]; u16 state; u8 pad22[0x46]; u8 team; u8 pad69[0x49]; u16 phase, wait, ready; u8 padB8[10]; s16 resource; u8 padC4[24]; u32 counter; u8 padE0[0x64]; u8 *config; u16 *sprite; };
+struct T072DEPlayer { u16 id; u8 pad2[PLAYER_FIELD(0x20) - PLAYER_FIELD(0x2)]; u16 state; u8 pad22[PLAYER_FIELD(0x68) - PLAYER_FIELD(0x22)]; u8 team; u8 pad69[PLAYER_FIELD(0xB2) - PLAYER_FIELD(0x69)]; u16 phase, wait, ready; u8 padB8[PLAYER_FIELD(0xC2) - PLAYER_FIELD(0xB8)]; s16 resource; u8 padC4[PLAYER_FIELD(0xDC) - PLAYER_FIELD(0xC4)]; u32 counter; u8 padE0[PLAYER_FIELD(0x144) - PLAYER_FIELD(0xE0)]; u8 *config; u16 *sprite; };
 struct T072DEEnemy { u16 id; u8 pad2[6]; s16 direction; u8 padA[2]; u16 state; u8 padE[6]; s32 x,y; u8 pad1C[0x42]; s16 resource; u8 pad60[10]; u16 wait; u8 pad6C[0x170]; u8 active; u8 pad1DD[0x4e]; u8 threshold; u8 pad22C[0xb4]; };
 struct T072DEBits { u8 kind:4; u8 r0:4; u8 p1[3]; u32 flags:6; };
 struct T072DEArgs { u32 player, bit, target, value, f10, level; };

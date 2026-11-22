@@ -53,8 +53,8 @@ SHA-256 values are pinned in `tools/config/rom_regions.json`.
 
 ## Coverage and limitations
 
-The verified USA build contains 1,329 compiler-backed C intervals (16 same-address
-EU, 1,309 relocated EU, 4 region-only) totaling 187,424 bytes; Japan contains
+The verified USA build contains 1,364 compiler-backed C intervals (16 same-address
+EU, 1,344 relocated EU, 4 region-only) totaling 197,914 bytes; Japan contains
 1,272 (16, 1,229 and 27) totaling 164,414 bytes. Consult each generated report for the actual current counts, canonical EU symbols, addresses,
 sizes and per-function hashes. The admitted intervals include complete function
 literal pools. Top-level assembly and `INCLUDE_ASM` fallbacks receive no C credit.
@@ -174,11 +174,26 @@ neither macro and must stay byte-identical (`make compare`).
 | --- | --- | --- |
 | `PLAYER_SIZE` | 0x14C | 0x158 |
 | `PLAYER_FIELD(o)` | `o` | `o` below 0x0C, `o + 10` below 0x2A, then `o + 12` (flags +0x30 -> +0x3C) |
+| `SAVE_FIELD(o)` | `o` | character save record (`gUnk_030034E0`): `o` below 0x0A, `o + 10` below 0x10, then `o + 12` |
 
 `struct Player` is written with these macros. Raw offsets into a player record
 must be written `PLAYER_FIELD(0x9C)`, its stride `PLAYER_SIZE`, so the USA
 build sees the USA layout. Japan is not described yet (player 0x154 bytes,
 flags at +0x38).
+
+Tools (USA; each run after `region_symbols.py --region usa`, then rerun it and
+`make REGION=usa compare`):
+
+- `region_diff.py [FUNC]`: unplaced EU C functions ranked by differing
+  halfwords against their guessed USA address, or a disassembly diff of FUNC.
+- `region_autofix.py [--max-diff N] [FUNC...]`: greedy search wrapping integer
+  literals of a function in `PLAYER_FIELD`/`SAVE_FIELD`/`PLAYER_SIZE`; keeps a
+  rewrite only when the variant object equals the USA bytes.
+- `region_structs.py [MODULE...]`: resizes the pad arrays of 0x14C-byte struct
+  views of the player record; keeps a rewrite only when no exact function is
+  lost and the module moves closer to the USA bytes.
+
+The macros are the identity in EU, so these rewrites cannot change the EU ROM.
 
 ## Region-only C sources
 
