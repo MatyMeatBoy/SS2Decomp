@@ -123,26 +123,26 @@ struct V2W12 { s32 x, y; };
 
 // Full view of struct Player (0x14C bytes) used by code_0800CF58 (worker 12)
 struct PlayerW12 {
-    u8 pad0[0x1C];
+    u8 pad0[PLAYER_FIELD(0x1C)];
     u16 w1C;                // 0x1C
-    u8 pad1E[2];
+    u8 pad1E[PLAYER_FIELD(0x20) - PLAYER_FIELD(0x1E)];
     u16 state;              // 0x20
-    u8 pad22[2];
+    u8 pad22[PLAYER_FIELD(0x24) - PLAYER_FIELD(0x22)];
     s16 w24;                // 0x24
     u16 w26;                // 0x26
     u16 w28;                // 0x28
-    u8 pad2A[6];
+    u8 pad2A[PLAYER_FIELD(0x30) - (PLAYER_FIELD(0x28) + 0x2)];
     u32 flags;              // 0x30
-    u8 pad34[0xC];
+    u8 pad34[PLAYER_FIELD(0x40) - PLAYER_FIELD(0x34)];
     s16 w40;                // 0x40
-    u8 pad42[0x4A];
+    u8 pad42[PLAYER_FIELD(0x8C) - PLAYER_FIELD(0x42)];
     struct V2W12 pos8C;     // 0x8C
     struct V2W12 pos94;     // 0x94
-    u8 pad9C[0x1A];
+    u8 pad9C[PLAYER_FIELD(0xB6) - PLAYER_FIELD(0x9C)];
     u16 wB6;                // 0xB6
-    u8 padB8[0x6A];
+    u8 padB8[PLAYER_FIELD(0x122) - PLAYER_FIELD(0xB8)];
     u16 w122;               // 0x122
-    u8 pad124[0x14C - 0x124];
+    u8 pad124[PLAYER_SIZE - PLAYER_FIELD(0x124)];
 };
 
 #endif // GUARD_STRUCTS_H
