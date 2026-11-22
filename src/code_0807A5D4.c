@@ -7854,7 +7854,7 @@ void sub_08085398(void)
  * zero. */
 void sub_080853DC(u32 arg)
 {
-    u8 *base = *(u8 **)0x03006440;
+    u8 *base = *(u8 **)&gUnk_03006440;
     u8 *task = *(u8 **)(base + 0x620);
     u32 memory;
     memory = sub_08001494(0x400);

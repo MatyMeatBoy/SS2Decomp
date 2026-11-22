@@ -353,7 +353,7 @@ u32 sub_08058D4C(u32 key)
 {
   int new_var;
   u32 i;
-  u8 *base = *((u8 **) 0x03005CF4);
+  u8 *base = *((u8 **) &gUnk_03005CF4);
   u8 *entry = base + 0x7A4;
   u32 mask;
   for (i = 0; i <= 0xE; i++, entry += 0x70)

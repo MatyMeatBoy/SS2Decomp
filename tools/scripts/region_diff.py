@@ -117,6 +117,12 @@ def main(argv=None):
               % (fragment.name, eu_address[fragment.name], args.region, address, len(fragment.data),
                  difference(fragment, relocs, target_rom, address),
                  ' (placed)' if eu_address[fragment.name] in done else ''))
+        counted = ['+0x%X: %s -> %s' % (offset, fragment.data[offset:offset + 2][::-1].hex(),
+                                         data[offset:offset + 2][::-1].hex())
+                   for start, end in region_symbols.masked_segments(len(fragment.data), relocs)
+                   for offset in range(start, end, 2) if data[offset:offset + 2] != fragment.data[offset:offset + 2]]
+        if counted:
+            print('counted: ' + ', '.join(counted))
         mine = disassemble(fragment.data, address, args.prefix)
         theirs = disassemble(data, address, args.prefix)
         for line in difflib.unified_diff(mine, theirs, 'variant', args.region, n=2, lineterm=''):

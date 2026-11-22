@@ -365,10 +365,10 @@ void removeAllRingMessages67(s32 needle)
  * Profile pair and entity IDs use one 8-byte chunk; state block uses three. */
 u32 sub_08065FE8(void)
 {
-    u32 *n = (u32 *)0x03006338;
+    u32 *n = (u32 *)&gUnk_03006338;
     u8 *entry;
     if (*n <= 0x31) {
-        entry =  *(u8 **)0x03006300 + *n * 0x88;
+        entry =  *(u8 **)&gUnk_03006300 + *n * 0x88;
         *(u32 *)(entry + 4) = 1;
         entry[0] = 0x85;
         CpuSet((u8 *)gUnk_03005CF4 + 0x22, entry + 8, 0xA);

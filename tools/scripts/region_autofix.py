@@ -162,7 +162,7 @@ def search(checker, module, name, address, log):
         for index, (_, _, value) in enumerate(literals):
             if value in SIZES:
                 options.setdefault((SIZES[value], value), []).append(index)
-            else:
+            if value <= SAVE_LIMIT:
                 for macro in (('SAVE_FIELD', 'PLAYER_FIELD') if save_first else MACROS):
                     if macro == 'PLAYER_FIELD' and value >= PLAYER_STRIDE:
                         continue

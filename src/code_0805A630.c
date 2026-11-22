@@ -254,7 +254,7 @@ done:
  * null. */
 void *sub_0805A960(u32 value)
 {
-    u8 *entry = *(u8 **)0x03005CF4 + 0x7A4;
+    u8 *entry = *(u8 **)&gUnk_03005CF4 + 0x7A4;
     u32 i;
     for (i=0; i<=0xE; i++, entry+=0x70)
         if (*(u32 *)entry == value) return entry;
