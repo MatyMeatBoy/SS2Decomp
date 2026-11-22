@@ -265,9 +265,6 @@ def main(argv=None):
     total = 0
     for path in paths:
         module = path.stem
-        upper = path.read_text(encoding='utf-8').upper()
-        if '0X14C' not in upper and '0X2E0' not in upper:
-            continue
         tried, baseline = set(), None
         while True:
             text = path.read_text(encoding='utf-8')

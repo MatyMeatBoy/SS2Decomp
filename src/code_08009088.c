@@ -1145,7 +1145,7 @@ void sub_0800A34C(u32 music, s32 previous, s32 changed) {
         }
     }
 }
-struct T06PlayerA998 {u8 pad[0x8C];s32 x,y;u8 tail[0xB8];};
+struct T06PlayerA998 {u8 pad[PLAYER_FIELD(0x8C)];s32 x,y;u8 tail[PLAYER_SIZE - PLAYER_FIELD(0x94)];};
 struct T06SysA998 {
     u8 pad[0x60];void *header,*allocation;u16 *map0,*map1;
     u16 width0,pad72,width1,pad76,mapW,mapH;s16 scrollX,scrollY;
@@ -2190,15 +2190,15 @@ struct CurBEC0 {
 };
 struct PlayerBEC0 {
     u16 f0;
-    u8 p2[0x1A];
+    u8 p2[PLAYER_FIELD(0x1C) - 0x2];
     u16 f1C;
-    u8 p1E[0x10];
+    u8 p1E[PLAYER_FIELD(0x2E) - PLAYER_FIELD(0x1E)];
     u16 f2E;
-    u8 p30[0x80];
+    u8 p30[PLAYER_FIELD(0xB0) - PLAYER_FIELD(0x30)];
     u16 fB0;
     u16 fB2;
     s16 fB4;
-    u8 pB6[0x8E];
+    u8 pB6[PLAYER_FIELD(0x144) - PLAYER_FIELD(0xB6)];
     struct CurBEC0 *p144;
     struct CurBEC0 *p148;
 };

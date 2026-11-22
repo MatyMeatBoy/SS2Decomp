@@ -728,7 +728,7 @@ extern u16 palette1084D asm("gUnk_03000404");
 extern u8 select1084D asm("gUnk_03000406");
 extern u8 selectSecond1084D asm("gUnk_03000407");
 extern u8 *game1084D asm("gUnk_03005CF4");
-struct Pl4D08 { u8 p0[0x30]; u32 f30; u8 p34[0x58]; s32 x, y, x2, y2; u8 p9C[0x14]; u16 fB0; u8 pB2[0x9A]; };
+struct Pl4D08 { u8 p0[PLAYER_FIELD(0x30)]; u32 f30; u8 p34[PLAYER_FIELD(0x8C) - PLAYER_FIELD(0x34)]; s32 x, y, x2, y2; u8 p9C[PLAYER_FIELD(0xB0) - PLAYER_FIELD(0x9C)]; u16 fB0; u8 pB2[PLAYER_SIZE - PLAYER_FIELD(0xB2)]; };
 extern struct Pl4D08 players1084D[] asm("gUnk_03003CE0");
 extern u8 history1084D[] asm("gUnk_03003DC4");
 extern u8 config1084D[] asm("gUnk_084A8088");

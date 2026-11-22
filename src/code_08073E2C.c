@@ -2269,7 +2269,7 @@ void sub_08077444(u32 who, u32 a, u32 b, u32 c, u32 d)
 }
 struct Spr7508 { u32 f0, f4, f8, fC; u8 pad10[12]; u8 f1C, f1D; u8 pad1E[2]; u8 f20; u8 pad21[19]; };
 struct Ply7508 { u8 pad0[PLAYER_FIELD(0xC)]; u16 fC; u8 padE[PLAYER_FIELD(0x20) - PLAYER_FIELD(0xE)]; u16 state; u8 pad22[PLAYER_FIELD(0x30) - PLAYER_FIELD(0x22)]; u32 flags; u8 pad34[PLAYER_FIELD(0x3A) - PLAYER_FIELD(0x34)]; s16 f3A; u8 pad3C[PLAYER_FIELD(0x68) - PLAYER_FIELD(0x3C)]; u8 team; u8 pad69[PLAYER_FIELD(0x6E) - PLAYER_FIELD(0x69)]; u8 f6E; u8 pad6F[PLAYER_FIELD(0x88) - PLAYER_FIELD(0x6F)]; u16 f88, f8A; s32 x, y; u8 pad94[PLAYER_FIELD(0xE4) - PLAYER_FIELD(0x94)]; u32 hist[11]; u32 f110; u8 pad114[PLAYER_FIELD(0x148) - PLAYER_FIELD(0x114)]; u16 *pos; };
-struct Ene7508 { u16 id; u8 f2; u8 pad3[5]; s16 dir; u8 padA[2]; u16 state; u8 padE[6]; s32 x, y; u8 pad1C[0x2E]; u16 f4A; u32 f4C; u32 f50; u32 f54; u16 f58, f5A; u8 pad5C[6]; u16 f62; u8 pad64[6]; u16 wait; u8 pad6C[0xE]; u16 f7A; u16 f7C, f7E; u8 pad80[0x15C]; u8 active; u8 pad1DD[0x29]; s16 f206; u8 pad208[0x1E]; u8 f226; u8 pad227[4]; u8 threshold; u16 f22C; u8 pad22E[0xAA]; u16 f2D8, f2DA; u8 pad2DC[4]; };
+struct Ene7508 { u16 id; u8 f2; u8 pad3[5]; s16 dir; u8 padA[2]; u16 state; u8 padE[6]; s32 x, y; u8 pad1C[0x2E]; u16 f4A; u32 f4C; u32 f50; u32 f54; u16 f58, f5A; u8 pad5C[6]; u16 f62; u8 pad64[6]; u16 wait; u8 pad6C[0xE]; u16 f7A; u16 f7C, f7E; u8 pad80[0x15C]; u8 active; u8 pad1DD[0x29]; s16 f206; u8 pad208[0x1E]; u8 f226; u8 pad227[4]; u8 threshold; u16 f22C; u8 pad22E[0xAA]; u16 f2D8, f2DA; u8 pad2DC[ENEMY_SIZE - 0x2DC]; };
 struct Tbl7508 { u8 pad0[0x2C]; u32 anim; u8 pad30[0x28]; };
 struct Pkt7508 { u8 kind:8; u8 val:8; u8 b2:8; s8 b3:8; u32 dmg:16; u32 rest:16; };
 extern struct Ply7508 p7508[] asm("gUnk_03003CE0");
@@ -3665,7 +3665,7 @@ void sub_08079888(u32 who, u32 a, u32 b, u32 c, u32 d)
 }
 struct Spr948 { u32 f0, f4, f8, fC; u8 p10[12]; u8 f1C, f1D; u8 p1E[22]; };
 struct Box948 { u16 w, h; };
-struct Pl948 { u8 p0[0x20]; u16 state; u8 p22[0xE]; u32 flags; u8 p34[0x34]; u8 active; u8 p69[0x23]; s32 pos[2]; u8 p94[0x74]; u32 lastHit; u8 p10C[0x40]; };
+struct Pl948 { u8 p0[PLAYER_FIELD(0x20)]; u16 state; u8 p22[PLAYER_FIELD(0x30) - PLAYER_FIELD(0x22)]; u32 flags; u8 p34[PLAYER_FIELD(0x68) - PLAYER_FIELD(0x34)]; u8 active; u8 p69[PLAYER_FIELD(0x8C) - PLAYER_FIELD(0x69)]; s32 pos[2]; u8 p94[PLAYER_FIELD(0x108) - PLAYER_FIELD(0x94)]; u32 lastHit; u8 p10C[PLAYER_SIZE - PLAYER_FIELD(0x10C)]; };
 struct En948 { u8 p0[0x14]; s32 pos[2]; u8 p1C[0x38]; u32 lastHit; u8 p58[0x184]; u8 active; u8 p1DD[0x51]; u8 bw, bh; u8 p230[ENEMY_SIZE - 0x230]; };
 extern struct Pl948 gPl948[] asm("gUnk_03003CE0");
 extern struct En948 *gEn948 asm("gUnk_030056F4");
