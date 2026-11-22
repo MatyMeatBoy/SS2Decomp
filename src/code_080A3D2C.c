@@ -1492,7 +1492,7 @@ s32 sub_080A6258(u8 arg0) {
 end:
     return result;
 }
-struct T109P6510 { u8 p0[0x20]; u16 state; u8 p22[0xE]; u32 flags; u8 p34[0x34]; u8 f68; u8 p69[0x1F]; u16 f88; u8 p8A[2]; s32 x; s32 y; u8 p94[0x1C]; u16 fB0; u8 pB2[0x12]; s16 fC4; u8 pC6[0x1E]; u32 fE4[26]; };
+struct T109P6510 { u8 p0[PLAYER_FIELD(0x20)]; u16 state; u8 p22[PLAYER_FIELD(0x30) - PLAYER_FIELD(0x22)]; u32 flags; u8 p34[PLAYER_FIELD(0x68) - PLAYER_FIELD(0x34)]; u8 f68; u8 p69[PLAYER_FIELD(0x88) - PLAYER_FIELD(0x69)]; u16 f88; u8 p8A[PLAYER_FIELD(0x8C) - PLAYER_FIELD(0x8A)]; s32 x; s32 y; u8 p94[PLAYER_FIELD(0xB0) - PLAYER_FIELD(0x94)]; u16 fB0; u8 pB2[PLAYER_FIELD(0xC4) - PLAYER_FIELD(0xB2)]; s16 fC4; u8 pC6[PLAYER_FIELD(0xE4) - PLAYER_FIELD(0xC6)]; u32 fE4[26]; };
 struct T109Obj6510 { u16 id; u8 p2[10]; u16 fC; u8 pE[6]; s32 x; s32 y; u8 p1C[0x34]; u32 serial; };
 extern struct T109P6510 t109P6510[] asm("gUnk_03003CE0");
 extern struct T109Obj6510 *t109O6510 asm("gUnk_03000400");
@@ -1649,7 +1649,7 @@ s32 sub_080A66E0(u8 *arg0) {
     }
     return result;
 }
-struct T109P68B0 { u8 p0[0x20]; u16 state; u8 p22[0xE]; u32 flags; u8 p34[0x34]; u8 f68; u8 p69[0x1F]; u16 f88; u8 p8A[2]; s32 x; s32 y; u8 p94[0x1C]; u16 fB0; u8 pB2[0x12]; s16 fC4; u8 pC6[0x1E]; u32 fE4[26]; };
+struct T109P68B0 { u8 p0[PLAYER_FIELD(0x20)]; u16 state; u8 p22[PLAYER_FIELD(0x30) - PLAYER_FIELD(0x22)]; u32 flags; u8 p34[PLAYER_FIELD(0x68) - PLAYER_FIELD(0x34)]; u8 f68; u8 p69[PLAYER_FIELD(0x88) - PLAYER_FIELD(0x69)]; u16 f88; u8 p8A[PLAYER_FIELD(0x8C) - PLAYER_FIELD(0x8A)]; s32 x; s32 y; u8 p94[PLAYER_FIELD(0xB0) - PLAYER_FIELD(0x94)]; u16 fB0; u8 pB2[PLAYER_FIELD(0xC4) - PLAYER_FIELD(0xB2)]; s16 fC4; u8 pC6[PLAYER_FIELD(0xE4) - PLAYER_FIELD(0xC6)]; u32 fE4[26]; };
 struct T109Obj68B0 { u16 id; u8 p2[10]; u16 fC; u8 pE[6]; s32 x; s32 y; u8 p1C[0x34]; u32 serial; };
 extern struct T109P68B0 t109P68B0[] asm("gUnk_03003CE0");
 extern struct T109Obj68B0 *t109O68B0 asm("gUnk_03000400");
@@ -1863,7 +1863,7 @@ void sub_080A6BE8_v(u16 cw)
     } while (--n != 0xFFFF);
     *(u32 *)((u8 *)sub_0800048C() + 8) = 0;
 }
-struct Pl705C { u8 p0[0x20]; u16 state; u8 p22[0xE]; u32 flags; u8 p34[0x34]; u8 f68; u8 p69[0x1F]; u16 f88; u8 p8A[2]; s32 x, y; u8 p94[0x1C]; u16 fB0; u8 pB2[0x12]; s16 fC4; u8 pC6[0x1E]; u32 hitIds[25]; u16 *f148; };
+struct Pl705C { u8 p0[PLAYER_FIELD(0x20)]; u16 state; u8 p22[PLAYER_FIELD(0x30) - PLAYER_FIELD(0x22)]; u32 flags; u8 p34[PLAYER_FIELD(0x68) - PLAYER_FIELD(0x34)]; u8 f68; u8 p69[PLAYER_FIELD(0x88) - PLAYER_FIELD(0x69)]; u16 f88; u8 p8A[PLAYER_FIELD(0x8C) - PLAYER_FIELD(0x8A)]; s32 x, y; u8 p94[PLAYER_FIELD(0xB0) - PLAYER_FIELD(0x94)]; u16 fB0; u8 pB2[PLAYER_FIELD(0xC4) - PLAYER_FIELD(0xB2)]; s16 fC4; u8 pC6[PLAYER_FIELD(0xE4) - PLAYER_FIELD(0xC6)]; u32 hitIds[25]; u16 *f148; };
 struct Obj705C { u16 id; u8 p2[10]; u16 fC; u8 pE[6]; s32 x, y; u8 p1C[0x34]; u32 serial; };
 struct Anim705C { u32 f0, f4, f8; u8 *fC; u8 p10[12]; u8 f1C; u8 p1d[0x17]; };
 struct Part705C { s32 x, y, timer; u16 frame, tick; u8 dir, active, p12[2]; };
@@ -2019,7 +2019,7 @@ loop:
 struct Anim756C { u32 f0, f4, f8; u8 *fC; u8 p10[12]; u8 f1C; u8 p1d[0x17]; };
 struct XY756C { s32 x, y; };
 struct Pos756C { u16 x; u16 y : 12; u16 r : 4; u8 z : 6; u8 r2 : 2; };
-struct Pl756C { u8 p0[0x30]; u32 flags; u8 p34[0x58]; s32 x, y; u8 p94[4]; s32 f98; u8 p9C[0xAC]; struct Pos756C *f148; };
+struct Pl756C { u8 p0[PLAYER_FIELD(0x30)]; u32 flags; u8 p34[PLAYER_FIELD(0x8C) - PLAYER_FIELD(0x34)]; s32 x, y; u8 p94[PLAYER_FIELD(0x98) - PLAYER_FIELD(0x94)]; s32 f98; u8 p9C[PLAYER_FIELD(0x148) - PLAYER_FIELD(0x9C)]; struct Pos756C *f148; };
 struct Draw756C { u8 p0[0xC]; s32 fC; };
 struct G3170_756C { u8 p0[0x90]; u16 f90; };
 extern struct Pl756C gPl756C[] asm("gUnk_03003CE0");
@@ -2085,7 +2085,7 @@ void sub_080A756C_v(void)
     animInit756C(&anim0, 0x5000F, 0, -1, 1);
     anim0.f1C = gTile756C;
     loadPal756C(gTile756C + 0x10, anim0.fC, 1);
-    animInit756C(&anim1, 0x50010, 0, -1, 0);
+    animInit756C(&anim1, RES_ID(0x50010), 0, -1, 0);
     fx = 0;
     tick1 = fx;
     frame1 = fx;

@@ -3442,8 +3442,8 @@ struct Info458 { u32 who, i, a, c, d, b; };
 extern u32 gMasks458[] asm("gUnk_030063E0");
 struct Spr458 { u32 f0, f4, f8, fC; u8 p10[12]; u8 f1C, f1D; u8 p1E[22]; };
 struct Box458 { u16 w, h; };
-struct Pl458 { u8 p0[0x20]; u16 state; u8 p22[0xE]; u32 flags; u8 p34[0x34]; u8 active; u8 p69[5]; u8 b6E; u8 p6F[0x1D]; s32 pos[2]; u8 p94[0x74]; u32 lastHit; u8 p10C[0x40]; };
-struct En458 { u8 p0[0x14]; s32 pos[2]; u8 p1C[0x38]; u32 lastHit; u8 p58[0x184]; u8 active; u8 p1DD[0x51]; u8 bw, bh; u8 p230[0xB0]; };
+struct Pl458 { u8 p0[PLAYER_FIELD(0x20)]; u16 state; u8 p22[PLAYER_FIELD(0x30) - PLAYER_FIELD(0x22)]; u32 flags; u8 p34[PLAYER_FIELD(0x68) - PLAYER_FIELD(0x34)]; u8 active; u8 p69[PLAYER_FIELD(0x6E) - PLAYER_FIELD(0x69)]; u8 b6E; u8 p6F[PLAYER_FIELD(0x8C) - PLAYER_FIELD(0x6F)]; s32 pos[2]; u8 p94[PLAYER_FIELD(0x108) - PLAYER_FIELD(0x94)]; u32 lastHit; u8 p10C[PLAYER_SIZE - PLAYER_FIELD(0x10C)]; };
+struct En458 { u8 p0[0x14]; s32 pos[2]; u8 p1C[0x38]; u32 lastHit; u8 p58[0x184]; u8 active; u8 p1DD[0x51]; u8 bw, bh; u8 p230[ENEMY_SIZE - 0x230]; };
 extern struct Pl458 gPl458[] asm("gUnk_03003CE0");
 extern struct En458 *gEn458 asm("gUnk_030056F4");
 extern s32 sub_08065158_458(void *, u32, u32, u32, u32) asm("sub_08065158");
@@ -3666,7 +3666,7 @@ void sub_08079888(u32 who, u32 a, u32 b, u32 c, u32 d)
 struct Spr948 { u32 f0, f4, f8, fC; u8 p10[12]; u8 f1C, f1D; u8 p1E[22]; };
 struct Box948 { u16 w, h; };
 struct Pl948 { u8 p0[0x20]; u16 state; u8 p22[0xE]; u32 flags; u8 p34[0x34]; u8 active; u8 p69[0x23]; s32 pos[2]; u8 p94[0x74]; u32 lastHit; u8 p10C[0x40]; };
-struct En948 { u8 p0[0x14]; s32 pos[2]; u8 p1C[0x38]; u32 lastHit; u8 p58[0x184]; u8 active; u8 p1DD[0x51]; u8 bw, bh; u8 p230[0xB0]; };
+struct En948 { u8 p0[0x14]; s32 pos[2]; u8 p1C[0x38]; u32 lastHit; u8 p58[0x184]; u8 active; u8 p1DD[0x51]; u8 bw, bh; u8 p230[ENEMY_SIZE - 0x230]; };
 extern struct Pl948 gPl948[] asm("gUnk_03003CE0");
 extern struct En948 *gEn948 asm("gUnk_030056F4");
 extern s32 sub_08065158_948(void *, u32, u32, u32, u32) asm("sub_08065158");
@@ -3918,7 +3918,7 @@ s32 sub_08079FD0(s32 arg0) {
     var_r5 = 0x80000;
 loop_1:
     temp_r1 = sub_0806898C(arg0, var_r4) - 1;
-    if (((s32) temp_r1 >= 0) && ((s32) M2C_FIELD(temp_r6, s16 *, 0xC2) >= (s32) temp_r1)) {
+    if (((s32) temp_r1 >= 0) && ((s32) M2C_FIELD(temp_r6, s16 *, PLAYER_FIELD(0xC2)) >= (s32) temp_r1)) {
         return (s32) (var_r5 >> 0x10);
     }
     var_r5 += 0xFFFF0000;
@@ -4106,7 +4106,7 @@ struct Blk30_378 { u32 w[12]; };
 extern struct Save378 *gSave378 asm("gUnk_030034E0");
 struct Opt378 { u32 w0, w4; u8 p8[0x14]; u16 h1C, h1E; u8 p20[0xC]; u32 w2C; };
 extern struct Opt378 *gSave4210_378 asm("gUnk_03004210");
-struct Pl378 { u8 p0[0x58]; struct Blk30_378 b58; u8 p88[0xC4]; };
+struct Pl378 { u8 p0[PLAYER_FIELD(0x58)]; struct Blk30_378 b58; u8 p88[PLAYER_SIZE - PLAYER_FIELD(0x88)]; };
 extern struct Pl378 gPl378[] asm("gUnk_03003CE0");
 extern s32 sub_0807A20C(u8);
 extern void sub_08013850();

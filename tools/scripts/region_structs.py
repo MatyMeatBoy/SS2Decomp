@@ -4,7 +4,7 @@
 Sources describe the 0x14C-byte player record with many local views such as
     struct RemovePlayer019 { u8 pad[0x34]; struct RemoveEntry019 *entries; u8 tail[0x114]; };
 This tool computes the EU layout of each struct of exactly 0x14C bytes, keeps every named member
-and rewrites only the dimensions of its pad arrays (names pad*/unk*/gap*/tail*/fill*/rest*) so
+and rewrites only the dimensions of its pad arrays (names pad*/unk*/gap*/tail*/fill*/rest* or p<hex>) so
 that member o lands at PLAYER_FIELD(o) and the struct is PLAYER_SIZE bytes:
     struct RemovePlayer019 { u8 pad[PLAYER_FIELD(0x34)]; ...; u8 tail[PLAYER_SIZE - PLAYER_FIELD(0x38)]; };
 In the EU build the expressions keep their values. A rewrite is kept only if, in the
@@ -38,7 +38,7 @@ def enemy_field(offset):
 
 # Record kinds by EU size: player record and enemy actor record (include/region.h).
 RECORDS = {0x14C: None, 0x2E0: None}
-PAD = re.compile(r'^(pad|unk|gap|tail|fill|rest|_)', re.I)
+PAD = re.compile(r'^(pad|unk|gap|tail|fill|rest|_|p[0-9A-Fa-f]+$|u[0-9A-Fa-f]+$|x[0-9A-Fa-f]+$)', re.I)
 BASE = {'u8': 1, 's8': 1, 'char': 1, 'bool8': 1, 'vu8': 1, 'vs8': 1,
         'u16': 2, 's16': 2, 'short': 2, 'vu16': 2, 'vs16': 2, 'bool16': 2,
         'u32': 4, 's32': 4, 'int': 4, 'long': 4, 'unsigned': 4, 'signed': 4, 'float': 4,

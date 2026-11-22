@@ -3128,7 +3128,7 @@ test:
 }
 struct C0Anim { s32 res; s32 f4; s32 f8; u8 pad[0x10]; u8 id; u8 pad2[0x17]; };
 struct C0Item {u16 unk0;u8 unk2;u8 unk3;};
-struct C0Player {u8 p0[16];u16 unk10;u8 p12[10];s16 unk1C;u8 p1e[2];u16 state;u8 p22[14];u32 flags;u8 p34[48];u16 unk64;u8 p66[2];u8 unk68;u8 p69[35];s32 unk8C;s32 unk90;u8 p94[180];struct C0Item *unk148;};
+struct C0Player {u8 p0[PLAYER_FIELD(0x10)];u16 unk10;u8 p12[PLAYER_FIELD(0x1C) - PLAYER_FIELD(0x12)];s16 unk1C;u8 p1e[PLAYER_FIELD(0x20) - PLAYER_FIELD(0x1E)];u16 state;u8 p22[PLAYER_FIELD(0x30) - PLAYER_FIELD(0x22)];u32 flags;u8 p34[PLAYER_FIELD(0x64) - PLAYER_FIELD(0x34)];u16 unk64;u8 p66[PLAYER_FIELD(0x68) - PLAYER_FIELD(0x66)];u8 unk68;u8 p69[PLAYER_FIELD(0x8C) - PLAYER_FIELD(0x69)];s32 unk8C;s32 unk90;u8 p94[PLAYER_FIELD(0x148) - PLAYER_FIELD(0x94)];struct C0Item *unk148;};
 
 extern struct C0Player gPlayersC0[] asm("gUnk_03003CE0");
 extern u16 gKeysC0[] asm("gUnk_03001250");

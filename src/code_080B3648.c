@@ -585,7 +585,7 @@ void sub_080B3648(void)
     }
 }
 struct Boss0B44F0 { u16 index; u8 p2[0xA]; u16 state; u8 pE[6]; s32 x, y; u8 p1C[0x34]; u32 hitId; };
-struct Player0B44F0 { u8 p0[0x20]; u16 state; u8 p22[0xE]; u32 flags; u8 p34[0x34]; u8 alive; u8 p69[0x1F]; u16 hp; u8 p8A[2]; s32 x, y; u8 p94[0x1C]; u16 fB0; u8 pB2[0x32]; u32 hitIds[0x1A]; };
+struct Player0B44F0 { u8 p0[PLAYER_FIELD(0x20)]; u16 state; u8 p22[PLAYER_FIELD(0x30) - PLAYER_FIELD(0x22)]; u32 flags; u8 p34[PLAYER_FIELD(0x68) - PLAYER_FIELD(0x34)]; u8 alive; u8 p69[PLAYER_FIELD(0x88) - PLAYER_FIELD(0x69)]; u16 hp; u8 p8A[PLAYER_FIELD(0x8C) - PLAYER_FIELD(0x8A)]; s32 x, y; u8 p94[PLAYER_FIELD(0xB0) - PLAYER_FIELD(0x94)]; u16 fB0; u8 pB2[PLAYER_FIELD(0xE4) - PLAYER_FIELD(0xB2)]; u32 hitIds[0x1A]; };
 extern struct Player0B44F0 players0B44F0[] asm("gUnk_03003CE0");
 extern u16 hit0B44F0(void *, void *) asm("sub_0801ED8C");
 s32 sub_080B44F0_v(struct Boss0B44F0 *b, s32 ox, s32 oy, u16 range) asm("sub_080B44F0");
@@ -628,7 +628,7 @@ s32 sub_080B44F0_v(struct Boss0B44F0 *b, s32 ox, s32 oy, u16 range)
     return hit;
 }
 struct Boss0B4690 { u16 index; u8 p2[6]; s16 f8; u8 pA[2]; u16 state; u8 pE[6]; s32 x, y; u8 p1C[0x34]; u32 hitId; };
-struct Player0B4690 { u8 p0[0x20]; u16 state; u8 p22[0xE]; u32 flags; u8 p34[0x34]; u8 alive; u8 p69[0x1F]; u16 hp; u8 p8A[2]; s32 x, y; u8 p94[0x1C]; u16 fB0; u8 pB2[0x32]; u32 hitIds[0x19]; u16 *f148; };
+struct Player0B4690 { u8 p0[PLAYER_FIELD(0x20)]; u16 state; u8 p22[PLAYER_FIELD(0x30) - PLAYER_FIELD(0x22)]; u32 flags; u8 p34[PLAYER_FIELD(0x68) - PLAYER_FIELD(0x34)]; u8 alive; u8 p69[PLAYER_FIELD(0x88) - PLAYER_FIELD(0x69)]; u16 hp; u8 p8A[PLAYER_FIELD(0x8C) - PLAYER_FIELD(0x8A)]; s32 x, y; u8 p94[PLAYER_FIELD(0xB0) - PLAYER_FIELD(0x94)]; u16 fB0; u8 pB2[PLAYER_FIELD(0xE4) - PLAYER_FIELD(0xB2)]; u32 hitIds[0x19]; u16 *f148; };
 struct Anim0B4690 { s32 w0, w4, w8; u8 *graphics; u8 p10[12]; u8 data[0x18]; };
 struct Vec0B4690 { s32 x, y; };
 struct Task0B4690 { u32 f0, f4, f8; u8 pC[0x1C]; };
@@ -672,7 +672,7 @@ void sub_080B4690(u32 a0, u32 a1)
     idx = a1;
     for (i = 0; i < idx * 48; i++)
         sub_080003F0();
-    init0B4690(&anim, 0x50130, 6, -1, 0);
+    init0B4690(&anim, RES_ID(0x50130), 6, -1, 0);
     sub_08000AF0(0x16, anim.graphics + 0x20, 1);
     anim.data[1] = 6;
     rotation = 0;
@@ -1352,7 +1352,7 @@ void sub_080B4C34(struct Act4C34 *a)
     sub_08067BF8();
     sub_08056E24();
 }
-struct Player0B5B90 { u8 p0[0x20]; u16 state; u8 p22[0xE]; u32 flags; u8 p34[0x34]; u8 b68; u8 p69[0x23]; s32 x, y; u8 p94[0x1C]; u16 wB0; u8 pB2[0x16]; u16 knock, dir, speed; u8 pCE[0x16]; u32 hits[4]; u8 pF4[0x14C - 0xF4]; };
+struct Player0B5B90 { u8 p0[PLAYER_FIELD(0x20)]; u16 state; u8 p22[PLAYER_FIELD(0x30) - PLAYER_FIELD(0x22)]; u32 flags; u8 p34[PLAYER_FIELD(0x68) - PLAYER_FIELD(0x34)]; u8 b68; u8 p69[PLAYER_FIELD(0x8C) - PLAYER_FIELD(0x69)]; s32 x, y; u8 p94[PLAYER_FIELD(0xB0) - PLAYER_FIELD(0x94)]; u16 wB0; u8 pB2[PLAYER_FIELD(0xC8) - PLAYER_FIELD(0xB2)]; u16 knock, dir, speed; u8 pCE[PLAYER_FIELD(0xE4) - PLAYER_FIELD(0xCE)]; u32 hits[4]; u8 pF4[PLAYER_SIZE - PLAYER_FIELD(0xF4)]; };
 struct Boss0B5B90 { u16 slot; u8 p2[0xA]; u16 state; u8 pE[6]; s32 x, y; u8 p1C[0x34]; u32 hitId; u8 p54[8]; s16 active; };
 extern struct Player0B5B90 players0B5B90[] asm("gUnk_03003CE0");
 extern struct Boss0B5B90 *boss0B5B90 asm("gUnk_030007DC");
@@ -1452,7 +1452,7 @@ u32 sub_080B5B90(u8 kind)
 out:
     return ret;
 }
-struct Enemy0B5E64 { u8 p0[0xC]; u16 state; u8 pE[6]; s32 x, y; u8 p1C[0x2E]; u16 hp; u8 p4C[8]; u32 hitId; u8 p58[0x24]; u16 knock, dir, speed; u8 p82[0x25E]; };
+struct Enemy0B5E64 { u8 p0[0xC]; u16 state; u8 pE[6]; s32 x, y; u8 p1C[0x2E]; u16 hp; u8 p4C[8]; u32 hitId; u8 p58[0x24]; u16 knock, dir, speed; u8 p82[ENEMY_SIZE - 0x82]; };
 struct Boss0B5E64 { u8 p0[0xC]; u16 state; u8 pE[6]; s32 x, y; u8 p1C[0x34]; u32 hitId; u8 p54[8]; s16 active; };
 extern struct Enemy0B5E64 *enemies0B5E64 asm("gUnk_030056F4");
 extern u32 activeMask0B5E64 asm("gUnk_030056FC");

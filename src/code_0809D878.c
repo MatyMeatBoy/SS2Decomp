@@ -19,7 +19,7 @@ extern s32 gUnk_03000324;
 #define ID878(p,o) (*(s32 *)((u8 *)(p)+(o)))
 #define PD878(p,o) ((u16 *)((u8 *)(p)+(o)))
 struct SpriteD878 {u32 base,p4,data,palette,p10,p14,p18;u8 payload[24];};
-struct PlayerD878 {u8 p0[0x30];u32 flags;u8 p34[0x118];};
+struct PlayerD878 {u8 p0[PLAYER_FIELD(0x30)];u32 flags;u8 p34[PLAYER_SIZE - PLAYER_FIELD(0x34)];};
 struct PosD878 {s32 x,y;};
 struct ObjD878 {u32 f0,f4,f8;s32 fC;};
 struct ResD878 {u8 p0[4];s16 f4;s16 f6;u8 p8[0xCE];u16 fD6;};
@@ -426,7 +426,7 @@ void sub_0809D878(void *input)
 #undef ID878
 #undef PD878
 union BgE468 { struct { u32 cnt:16; u32 spare:16; } bits; u16 half; };
-struct PlayerE468 {u8 p0[0xC8];u16 timer;s16 direction;u16 speed;u8 pCE[0x7E];};
+struct PlayerE468 {u8 p0[PLAYER_FIELD(0xC8)];u16 timer;s16 direction;u16 speed;u8 pCE[PLAYER_SIZE - PLAYER_FIELD(0xCE)];};
 extern struct PlayerE468 playersE468[] asm("gUnk_03003CE0");
 extern volatile u16 g31EE468 asm("gUnk_0300031E");
 extern u8 g31CE468 asm("gUnk_0300031C");
@@ -1786,7 +1786,7 @@ void sub_0809FB6C(void *input)
 #undef P9FB6C
 struct Sprite105 {u32 base,pad4,data,palette,pad10,pad14,pad18;u8 payload[24];};
 struct Actor105 {u16 index;u8 pad2[10];u16 state;u8 padE[0x42];u32 serial;u8 pad54[0x286];u16 paletteOffset;};
-struct Player105 {u8 p0[0x20];u16 state;u8 p22[14];u32 flags;u8 p34[0x34];u8 active;u8 p69[0x1F];u16 health;u16 p8A;s32 x,y;u8 p94[0x1C];u16 motion;u8 pB2[0x32];u32 seen[26];};
+struct Player105 {u8 p0[PLAYER_FIELD(0x20)];u16 state;u8 p22[PLAYER_FIELD(0x30) - PLAYER_FIELD(0x22)];u32 flags;u8 p34[PLAYER_FIELD(0x68) - PLAYER_FIELD(0x34)];u8 active;u8 p69[PLAYER_FIELD(0x88) - PLAYER_FIELD(0x69)];u16 health;u16 p8A;s32 x,y;u8 p94[PLAYER_FIELD(0xB0) - PLAYER_FIELD(0x94)];u16 motion;u8 pB2[PLAYER_FIELD(0xE4) - PLAYER_FIELD(0xB2)];u32 seen[26];};
 struct Obj105 {u32 p0,p4,p8;s32 y;};
 extern struct Actor105 *actor105 asm("gUnk_0300032C");
 extern u16 variant105 asm("gUnk_03000330");
@@ -2717,7 +2717,7 @@ void sub_080A1208(void *input)
 #undef PA12
 struct ActorA1DA8 { u16 f0; u8 p2[6]; s16 f8; u16 fA, fC; u8 pE[6]; s32 f14, f18; u8 p1C[0x34]; s32 f50; };
 extern struct ActorA1DA8 *gActorA1DA8 asm("gUnk_03000348");
-struct PlayerA1DA8 { u8 p0[0x20]; u16 state; u8 p22[14]; u32 flags; u8 p34[0x34]; u8 f68; u8 p69[0x1F]; u16 f88; u8 p8A[0x26]; u16 fB0; u8 pB2[0x32]; u32 fE4[25]; u16 *f148; };
+struct PlayerA1DA8 { u8 p0[PLAYER_FIELD(0x20)]; u16 state; u8 p22[PLAYER_FIELD(0x30) - PLAYER_FIELD(0x22)]; u32 flags; u8 p34[PLAYER_FIELD(0x68) - PLAYER_FIELD(0x34)]; u8 f68; u8 p69[PLAYER_FIELD(0x88) - PLAYER_FIELD(0x69)]; u16 f88; u8 p8A[PLAYER_FIELD(0xB0) - PLAYER_FIELD(0x8A)]; u16 fB0; u8 pB2[PLAYER_FIELD(0xE4) - PLAYER_FIELD(0xB2)]; u32 fE4[25]; u16 *f148; };
 extern struct PlayerA1DA8 gPlayersA1DA8[] asm("gUnk_03003CE0");
 extern s16 atanA1DA8(s16,s16) asm("ArcTan2");
 extern s16 sub_0801ED8C(void *, void *);
@@ -2813,10 +2813,10 @@ struct ActorA1FF4 { u16 id; u8 p2[6]; s16 facing; u16 pA, state; u8 pE[6]; s32 x
 extern struct ActorA1FF4 *gActorA1FF4 asm("gUnk_03000348");
 struct AnimA1FF4 { u32 f0, f4, f8, fC; u8 p10[12]; u8 attr[24]; };
 struct PlayerA1FF4 {
-    u8 p0[0x20]; u16 state; u8 p22[0xE]; u32 flags;
-    u8 p34[0x34]; u8 active; u8 p69[0x23]; s32 x, y;
-    u8 p94[0x1C]; u16 effect; u8 pB2[0x32];
-    u32 serial[25]; u8 pad[0x14C-0xE4-100];
+    u8 p0[PLAYER_FIELD(0x20)]; u16 state; u8 p22[PLAYER_FIELD(0x30) - PLAYER_FIELD(0x22)]; u32 flags;
+    u8 p34[PLAYER_FIELD(0x68) - PLAYER_FIELD(0x34)]; u8 active; u8 p69[PLAYER_FIELD(0x8C) - PLAYER_FIELD(0x69)]; s32 x, y;
+    u8 p94[PLAYER_FIELD(0xB0) - PLAYER_FIELD(0x94)]; u16 effect; u8 pB2[PLAYER_FIELD(0xE4) - PLAYER_FIELD(0xB2)];
+    u32 serial[25]; u8 pad[PLAYER_SIZE - PLAYER_FIELD(0x148)];
 };
 extern struct PlayerA1FF4 gPlayersA1FF4[] asm("gUnk_03003CE0");
 extern s32 sub_08065158(void *, u32, u16, s32, s32);
@@ -2909,9 +2909,9 @@ struct TargetXYT107 { s32 x, y; };
 extern void t107VelocityPair(struct TargetXYT107,struct TargetXYT107,s32 *) asm("sub_08097978");
 struct Nib107 { u8 lo:4, hi:4; };
 struct PlayerT107C {
-    u8 p0[0x20]; u16 state; u8 p22[0xE]; u32 flags;
-    u8 p34[0x34]; u8 active; u8 p69[0x23]; s32 x, y;
-    u8 p94[0x1C]; u16 effect; u8 pB2[0x32];
+    u8 p0[PLAYER_FIELD(0x20)]; u16 state; u8 p22[PLAYER_FIELD(0x30) - PLAYER_FIELD(0x22)]; u32 flags;
+    u8 p34[PLAYER_FIELD(0x68) - PLAYER_FIELD(0x34)]; u8 active; u8 p69[PLAYER_FIELD(0x8C) - PLAYER_FIELD(0x69)]; s32 x, y;
+    u8 p94[PLAYER_FIELD(0xB0) - PLAYER_FIELD(0x94)]; u16 effect; u8 pB2[PLAYER_FIELD(0xE4) - PLAYER_FIELD(0xB2)];
     u32 serial[25]; u16 *data;
 };
 extern struct PlayerT107C t107PlayersC[] asm("gUnk_03003CE0");

@@ -5536,12 +5536,12 @@ struct Data13850 {
     u8 b1C6[10],b1D0[10];
 };
 struct P13850 {
-    u16 h0; u8 p2[0x10]; u16 h12, h14; u8 p16[6]; u16 h1C; u8 p1E[2]; u16 h20, h22, h24; u8 p26[4]; u16 h2A;
-    u8 p2C[4]; u32 l30; u8 p34[4]; u16 h38, h3A, h3C, h3E, h40; u8 p42[10]; u8 o4C[0xC];
-    u16 h58, h5A; u8 p5C[4]; u16 h60, h62, h64; u8 b66; u8 p67[0x10]; u8 b77, b78; u8 p79[3];
-    u8 o7C[0x10]; u32 l8C, l90; u8 p94[0xC2-0x94]; u16 hC2, hC4, hC6, hC8, hCA; u8 pCC[0xDC-0xCC];
-    u32 lDC; u8 pE0[4]; u32 e4[5]; u32 f8[4]; u8 p108[0x116-0x108]; u16 h116; u8 p118[0x138-0x118];
-    u32 l138; u8 p13C[4]; u32 l140; u32 l144; u8 p148[4];
+    u16 h0; u8 p2[PLAYER_FIELD(0x12) - 0x2]; u16 h12, h14; u8 p16[PLAYER_FIELD(0x1C) - PLAYER_FIELD(0x16)]; u16 h1C; u8 p1E[PLAYER_FIELD(0x20) - PLAYER_FIELD(0x1E)]; u16 h20, h22, h24; u8 p26[PLAYER_FIELD(0x2A) - PLAYER_FIELD(0x26)]; u16 h2A;
+    u8 p2C[PLAYER_FIELD(0x30) - PLAYER_FIELD(0x2C)]; u32 l30; u8 p34[PLAYER_FIELD(0x38) - PLAYER_FIELD(0x34)]; u16 h38, h3A, h3C, h3E, h40; u8 p42[PLAYER_FIELD(0x4C) - PLAYER_FIELD(0x42)]; u8 o4C[0xC];
+    u16 h58, h5A; u8 p5C[PLAYER_FIELD(0x60) - PLAYER_FIELD(0x5C)]; u16 h60, h62, h64; u8 b66; u8 p67[PLAYER_FIELD(0x77) - PLAYER_FIELD(0x67)]; u8 b77, b78; u8 p79[PLAYER_FIELD(0x7C) - PLAYER_FIELD(0x79)];
+    u8 o7C[0x10]; u32 l8C, l90; u8 p94[PLAYER_FIELD(0xC2) - PLAYER_FIELD(0x94)]; u16 hC2, hC4, hC6, hC8, hCA; u8 pCC[PLAYER_FIELD(0xDC) - PLAYER_FIELD(0xCC)];
+    u32 lDC; u8 pE0[PLAYER_FIELD(0xE4) - PLAYER_FIELD(0xE0)]; u32 e4[5]; u32 f8[4]; u8 p108[PLAYER_FIELD(0x116) - PLAYER_FIELD(0x108)]; u16 h116; u8 p118[PLAYER_FIELD(0x138) - PLAYER_FIELD(0x118)];
+    u32 l138; u8 p13C[PLAYER_FIELD(0x140) - PLAYER_FIELD(0x13C)]; u32 l140; u32 l144; u8 p148[PLAYER_SIZE - PLAYER_FIELD(0x148)];
 };
 extern struct P13850 pl13850[] asm("gUnk_03003CE0");
 extern struct State13850 *st13850 asm("gUnk_030034E0");

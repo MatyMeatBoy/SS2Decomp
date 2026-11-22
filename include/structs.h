@@ -23,7 +23,7 @@ struct DmaEntry {
 // placeholder structs: array element of N bytes
 struct Sz24 { u8 b[24]; };
 struct Sz40 { u8 b[40]; };
-struct Sz332 { u8 b[332]; };
+struct Sz332 { u8 b[PLAYER_SIZE]; };
 
 // Tilemap / layer system state (gUnk_03003170)
 struct Layer {

@@ -720,7 +720,7 @@ void sub_08098108(void *input)
 #undef S108
 #undef I108
 #undef P108
-struct Player98F {u8 p0[0x20];u16 state;u8 p22[14];u32 flags;u8 p34[0x34];u8 active;u8 p69[0x1F];u16 angle;u16 p8A;s32 x,y;u8 p94[0x1C];u16 motion;u8 pB2[0x16];u16 timer;s16 direction;u16 speed;u8 pCE[0x16];u32 seen[26];};
+struct Player98F {u8 p0[PLAYER_FIELD(0x20)];u16 state;u8 p22[PLAYER_FIELD(0x30) - PLAYER_FIELD(0x22)];u32 flags;u8 p34[PLAYER_FIELD(0x68) - PLAYER_FIELD(0x34)];u8 active;u8 p69[PLAYER_FIELD(0x88) - PLAYER_FIELD(0x69)];u16 angle;u16 p8A;s32 x,y;u8 p94[PLAYER_FIELD(0xB0) - PLAYER_FIELD(0x94)];u16 motion;u8 pB2[PLAYER_FIELD(0xC8) - PLAYER_FIELD(0xB2)];u16 timer;s16 direction;u16 speed;u8 pCE[PLAYER_FIELD(0xE4) - PLAYER_FIELD(0xCE)];u32 seen[26];};
 struct Entity98F {u16 index;u8 p2[10];u16 state;u8 pE[6];s32 x,y;u8 p1C[0x34];u32 counter;};
 extern struct Player98F players98F[] asm("gUnk_03003CE0");
 extern struct Entity98F *entity98F asm("gUnk_030002D0");
@@ -772,7 +772,7 @@ u8 sub_08098F2C(void)
     if (players98F[sub_080020F4()].timer == 0)
         entity98F->counter++;
 }
-struct Player99468 {u8 p0[0x20];u16 state;u8 p22[14];u32 flags;u8 p34[0x34];u8 active;u8 p69[0x1F];u16 angle;u16 p8A;s32 x,y;u8 p94[0x1C];u16 motion;u8 pB2[0x16];u16 timer;s16 direction;u16 speed;u8 pCE[0x16];u32 seen[26];};
+struct Player99468 {u8 p0[PLAYER_FIELD(0x20)];u16 state;u8 p22[PLAYER_FIELD(0x30) - PLAYER_FIELD(0x22)];u32 flags;u8 p34[PLAYER_FIELD(0x68) - PLAYER_FIELD(0x34)];u8 active;u8 p69[PLAYER_FIELD(0x88) - PLAYER_FIELD(0x69)];u16 angle;u16 p8A;s32 x,y;u8 p94[PLAYER_FIELD(0xB0) - PLAYER_FIELD(0x94)];u16 motion;u8 pB2[PLAYER_FIELD(0xC8) - PLAYER_FIELD(0xB2)];u16 timer;s16 direction;u16 speed;u8 pCE[PLAYER_FIELD(0xE4) - PLAYER_FIELD(0xCE)];u32 seen[26];};
 struct Entity99468 {u16 index;u8 p2[10];u16 state;u8 pE[6];s32 x,y;u8 p1C[0x34];u32 counter;};
 extern struct Player99468 players99468[] asm("gUnk_03003CE0");
 extern struct Entity99468 *entity99468 asm("gUnk_030002D0");
@@ -873,7 +873,7 @@ void sub_08099468(u32 unused, s32 dir)
     vx = gUnk_080B9704[gUnk_085186DC[dir] + 0x40] * 0x180 / 256;
     x = entity99468->x;
     y = entity99468->y;
-    t071Init(&sprite, 0x50130, 5, -1, 0);
+    t071Init(&sprite, RES_ID(0x50130), 5, -1, 0);
     sub_08000AF0(0x15, (void *)(sprite.fC + 0x20), 1);
     sprite.f1D = 5;
     count = 0x10D;
@@ -1428,7 +1428,7 @@ u8 sub_0809A5E0(void)
     }
     return result;
 }
-struct Player834 {u8 p0[0x20];u16 state;u8 p22[14];u32 flags;u8 p34[0x34];u8 active;u8 p69[0x23];s32 x,y;u8 p94[0x1C];u16 motion;u8 pB2[0x32];u32 seen[25];u16 *home;};
+struct Player834 {u8 p0[PLAYER_FIELD(0x20)];u16 state;u8 p22[PLAYER_FIELD(0x30) - PLAYER_FIELD(0x22)];u32 flags;u8 p34[PLAYER_FIELD(0x68) - PLAYER_FIELD(0x34)];u8 active;u8 p69[PLAYER_FIELD(0x8C) - PLAYER_FIELD(0x69)];s32 x,y;u8 p94[PLAYER_FIELD(0xB0) - PLAYER_FIELD(0x94)];u16 motion;u8 pB2[PLAYER_FIELD(0xE4) - PLAYER_FIELD(0xB2)];u32 seen[25];u16 *home;};
 struct Entity834 {u16 index;u8 p2[10];u16 state;u8 pE[6];s32 x,y;u8 p1C[0x34];u32 counter;};
 struct Sprite834 {u32 f0,f4,f8;u8 *fC;u8 pad10[12];u8 f1C[13];u8 f29;u8 pad2A[10];};
 struct Obj834 {u32 f0,f4,f8;s32 fC;};
@@ -1685,7 +1685,7 @@ void sub_0809AE88(u16 arg)
  do { t->f10 = t->f20 + 0x3FC; t->fC = (u32) sub_0809A834; t->f24 = z; t->f8 = 0x46; sub_08000274_2(t, arg); } while (0);
 }
 struct SpriteAEE8 {u32 base,p4,data,palette,p10,p14,p18;u8 payload[24];};
-struct PlayerAEE8 {u8 p0[0x30];u32 flags;u8 p34[0x118];};
+struct PlayerAEE8 {u8 p0[PLAYER_FIELD(0x30)];u32 flags;u8 p34[PLAYER_SIZE - PLAYER_FIELD(0x34)];};
 struct PosAEE8 {s32 x,y;};
 struct OrbitAEE8 {s32 x,y;u8 angle;u8 pad[3];};
 struct ResAEE8 {u8 p0[4];s16 f4;s16 f6;u8 p8[0x22];u8 f2A;u8 f2B;u8 p2C[0xA8];u16 fD4;u16 fD6;};
@@ -2244,7 +2244,7 @@ void sub_0809AEE8(void *input)
 }
 #undef RENDER_AEE8
 struct SprC1B4 { u32 f0, f4, f8, fC; u8 pad10[0xC]; u8 f1C[7]; u8 f23; u8 f24; u8 pad25[0xF]; };
-struct PlayerC1B4 { u8 p0[0x20]; u16 state; u8 p22[0xe]; u32 flags; u8 p34[0x34]; u8 f68; u8 p69[0x23]; s32 x, y; u8 p94[0x1c]; u16 fb0; u8 pb2[0x32]; u32 fe4[26]; };
+struct PlayerC1B4 { u8 p0[PLAYER_FIELD(0x20)]; u16 state; u8 p22[PLAYER_FIELD(0x30) - PLAYER_FIELD(0x22)]; u32 flags; u8 p34[PLAYER_FIELD(0x68) - PLAYER_FIELD(0x34)]; u8 f68; u8 p69[PLAYER_FIELD(0x8C) - PLAYER_FIELD(0x69)]; s32 x, y; u8 p94[PLAYER_FIELD(0xB0) - PLAYER_FIELD(0x94)]; u16 fb0; u8 pb2[PLAYER_FIELD(0xE4) - PLAYER_FIELD(0xB2)]; u32 fe4[26]; };
 struct ObjC1B4 { u16 f0; u8 p2[6]; s16 f8; u16 fa, fc; u8 pe[6]; s32 x, y; u8 p1c[0x34]; s32 f50; };
 extern struct PlayerC1B4 playersC1B4[] asm("gUnk_03003CE0");
 extern struct ObjC1B4 *objC1B4 asm("gUnk_030002EC");
@@ -2578,7 +2578,7 @@ end:
         currentTask->f8 = 0;
     }
 }
-struct PlayerC8F4 { u8 p0[0x20]; u16 state; u8 p22[0xe]; u32 flags; u8 p34[0x34]; u8 f68; u8 p69[0x1f]; u16 f88; u8 p8a[2]; s32 x, y; u8 p94[0x1c]; u16 fb0; u8 pb2[0x16]; u16 fc8, fca, fcc; u8 pce[0x16]; u32 fe4[26]; };
+struct PlayerC8F4 { u8 p0[PLAYER_FIELD(0x20)]; u16 state; u8 p22[PLAYER_FIELD(0x30) - PLAYER_FIELD(0x22)]; u32 flags; u8 p34[PLAYER_FIELD(0x68) - PLAYER_FIELD(0x34)]; u8 f68; u8 p69[PLAYER_FIELD(0x88) - PLAYER_FIELD(0x69)]; u16 f88; u8 p8a[PLAYER_FIELD(0x8C) - PLAYER_FIELD(0x8A)]; s32 x, y; u8 p94[PLAYER_FIELD(0xB0) - PLAYER_FIELD(0x94)]; u16 fb0; u8 pb2[PLAYER_FIELD(0xC8) - PLAYER_FIELD(0xB2)]; u16 fc8, fca, fcc; u8 pce[PLAYER_FIELD(0xE4) - PLAYER_FIELD(0xCE)]; u32 fe4[26]; };
 extern struct PlayerC8F4 playersC8F4[] asm("gUnk_03003CE0");
 extern u16 atanC8F4(s16, s16) asm("ArcTan2");
 extern u16 hitC8F4(void *, void *) asm("sub_0801ED8C");
@@ -2951,7 +2951,7 @@ out:
     } while (0);
 }
 struct PosD374 { u16 x, y; };
-struct PlayerD374 { u8 p0[0x20]; u16 state; u8 p22[0xe]; u32 flags; u8 p34[0x34]; u8 f68; u8 p69[0x1f]; u16 f88; u8 p8a[0x26]; u16 fb0; u8 pb2[0x32]; u32 fe4[25]; struct PosD374 *pos; };
+struct PlayerD374 { u8 p0[PLAYER_FIELD(0x20)]; u16 state; u8 p22[PLAYER_FIELD(0x30) - PLAYER_FIELD(0x22)]; u32 flags; u8 p34[PLAYER_FIELD(0x68) - PLAYER_FIELD(0x34)]; u8 f68; u8 p69[PLAYER_FIELD(0x88) - PLAYER_FIELD(0x69)]; u16 f88; u8 p8a[PLAYER_FIELD(0xB0) - PLAYER_FIELD(0x8A)]; u16 fb0; u8 pb2[PLAYER_FIELD(0xE4) - PLAYER_FIELD(0xB2)]; u32 fe4[25]; struct PosD374 *pos; };
 struct ObjectD374 { u16 f0; u8 p2[6]; s16 f8; u16 fa, fc; u8 pe[6]; s32 x,y; u8 p1c[0x34]; s32 f50; };
 extern struct PlayerD374 playersD374[] asm("gUnk_03003CE0");
 extern u16 sqrtD374(s32) asm("Sqrt");

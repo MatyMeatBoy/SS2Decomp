@@ -4650,7 +4650,7 @@ void t6f_sub_0805865C(s32) asm("sub_0805865C");
 s32 t6f_sub_08058DB0() asm("sub_08058DB0");
 s32 t6f_sub_0806898C(s32, s32) asm("sub_0806898C");
 struct T6fPos { u32 kind : 4; u32 x : 12; u32 y : 12; u32 dir : 4; u32 f4 : 6; };
-struct T6fPl { u16 id; u8 p2[0x20 - 2]; u16 state; u8 p22[0x30 - 0x22]; u32 flags; u8 p34[0x68 - 0x34]; u8 team; u8 p69[0xC2 - 0x69]; u16 hp; u8 pC4[0xDC - 0xC4]; s32 hits; u8 pE0[0x148 - 0xE0]; struct T6fPos *pos; };
+struct T6fPl { u16 id; u8 p2[PLAYER_FIELD(0x20) - 0x2]; u16 state; u8 p22[PLAYER_FIELD(0x30) - PLAYER_FIELD(0x22)]; u32 flags; u8 p34[PLAYER_FIELD(0x68) - PLAYER_FIELD(0x34)]; u8 team; u8 p69[PLAYER_FIELD(0xC2) - PLAYER_FIELD(0x69)]; u16 hp; u8 pC4[PLAYER_FIELD(0xDC) - PLAYER_FIELD(0xC4)]; s32 hits; u8 pE0[PLAYER_FIELD(0x148) - PLAYER_FIELD(0xE0)]; struct T6fPos *pos; };
 struct T6fEn { u16 id; u16 uid; u8 p4[8 - 4]; s16 dir; u8 pA[0xC - 0xA]; u16 state; u8 pE[0x14 - 0xE]; s32 x; s32 y; u8 p1C[0x50 - 0x1C]; s32 hits; u8 p54[0x5A - 0x54]; u16 hitMask; u8 p5C[0x5E - 0x5C]; u16 mp; u8 p60[0x6A - 0x60]; u16 h6A; u8 p6C[0x1DC - 0x6C]; u8 alive; u8 p1DD[0x22B - 0x1DD]; u8 b22B; u8 p22C[0x2E0 - 0x22C]; };
 struct T6fArg { u32 owner; s32 bit; u16 target; u8 pA[2]; s32 kind; u8 p10[4]; s32 level; };
 struct T6fDesc { u32 f0; u32 f4; u32 f8; u32 fC; u8 p10[0xC]; u8 f1C; u8 f1D; u8 p1E[0x34 - 0x1E]; };
@@ -5649,7 +5649,7 @@ end:
 }
 struct T39Pos { u16 h0; u16 h2; };
 struct T39Rng { s16 x, y; };
-struct T39Pl { u16 h0; u8 p2[0x20 - 2]; u16 state; u8 p22[0x4C - 0x22]; u8 b4C[0x68 - 0x4C]; u8 team; u8 p69[0xB2 - 0x69]; u16 ready; u8 pB4[2]; u16 done; u8 pB8[0xC2 - 0xB8]; u16 hp; u8 pC4[0x148 - 0xC4]; struct T39Pos *pos; u8 p14C[0x14C - 0x14C]; };
+struct T39Pl { u16 h0; u8 p2[PLAYER_FIELD(0x20) - 0x2]; u16 state; u8 p22[PLAYER_FIELD(0x4C) - PLAYER_FIELD(0x22)]; u8 b4C[0x68 - 0x4C]; u8 team; u8 p69[PLAYER_FIELD(0xB2) - PLAYER_FIELD(0x69)]; u16 ready; u8 pB4[PLAYER_FIELD(0xB6) - PLAYER_FIELD(0xB4)]; u16 done; u8 pB8[PLAYER_FIELD(0xC2) - PLAYER_FIELD(0xB8)]; u16 hp; u8 pC4[PLAYER_FIELD(0x148) - PLAYER_FIELD(0xC4)]; struct T39Pos *pos; u8 p14C[0x14C - 0x14C]; };
 struct T39En { u16 h0; u8 p2[0xC - 2]; u16 state; u8 pE[0x14 - 0xE]; s32 x; s32 y; u8 p1C[0x1DC - 0x1C]; u8 alive; u8 p1DD[0x218 - 0x1DD]; u8 b218[0x2E0 - 0x218]; };
 struct T39Arg { u32 owner; u32 bit; u32 mode; s32 fC; u8 p10[4]; u32 w14; };
 struct T39Desc { u32 f0; u32 f4; u32 f8; u32 fC; u8 p10[0xC]; u8 f1C; u8 f1D; u8 p1E[0x34 - 0x1E]; };
@@ -5904,8 +5904,8 @@ void sub_08072390(struct T39Arg *arg0) {
 }
 struct T75Pos { u16 h0; u16 h2; };
 struct T75Rng { s16 x, y; };
-struct T75Pl { u8 p0[0x20]; u16 state; u8 p22[0x3C - 0x22]; s16 s3C; u8 p3E[0x48 - 0x3E]; s32 w48; u8 p4C[0x68 - 0x4C]; u8 team; u8 p69[0xB2 - 0x69]; u16 ready; u8 pB4[2]; u16 done; u8 pB8[0xC2 - 0xB8]; u16 hp; u8 pC4[0x148 - 0xC4]; struct T75Pos *pos; };
-struct T75En { u8 p0[0xC]; u16 state; u8 pE[0x14 - 0xE]; s32 x; s32 y; u8 p1C[0x208 - 0x1C]; s16 s208; u8 p20A[0x214 - 0x20A]; s32 w214; u8 p218[0x2E0 - 0x218]; };
+struct T75Pl { u8 p0[PLAYER_FIELD(0x20)]; u16 state; u8 p22[PLAYER_FIELD(0x3C) - PLAYER_FIELD(0x22)]; s16 s3C; u8 p3E[PLAYER_FIELD(0x48) - PLAYER_FIELD(0x3E)]; s32 w48; u8 p4C[PLAYER_FIELD(0x68) - PLAYER_FIELD(0x4C)]; u8 team; u8 p69[PLAYER_FIELD(0xB2) - PLAYER_FIELD(0x69)]; u16 ready; u8 pB4[PLAYER_FIELD(0xB6) - PLAYER_FIELD(0xB4)]; u16 done; u8 pB8[PLAYER_FIELD(0xC2) - PLAYER_FIELD(0xB8)]; u16 hp; u8 pC4[PLAYER_FIELD(0x148) - PLAYER_FIELD(0xC4)]; struct T75Pos *pos; };
+struct T75En { u8 p0[0xC]; u16 state; u8 pE[0x14 - 0xE]; s32 x; s32 y; u8 p1C[0x208 - 0x1C]; s16 s208; u8 p20A[0x214 - 0x20A]; s32 w214; u8 p218[ENEMY_SIZE - 0x218]; };
 struct T75Arg { u32 owner; u32 bit; u32 mode; s32 fC; u8 p10[4]; u16 level; };
 struct T75Desc { u32 f0; u32 f4; u32 f8; u32 fC; u8 p10[0xC]; u8 f1C; u8 f1D; u8 p1E[0x34 - 0x1E]; };
 struct T75Eff { u16 h0; u16 h2; u16 h4; u16 h6; };

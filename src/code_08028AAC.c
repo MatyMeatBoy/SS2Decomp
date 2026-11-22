@@ -533,8 +533,8 @@ void sub_0802939C_v(u32 target, u16 val)
 struct Vec02949C { s32 x, y; };
 struct ActorPos02949C { u32 id; u8 p4[4]; struct Vec02949C pos; u8 p10[0x14]; s16 dir; u16 goal; u8 p28[0x48]; };
 struct State02949C { u8 p0[0x7A4]; struct ActorPos02949C actors[15]; };
-struct EnemyPos02949C { u8 p0[8]; s16 dir; u16 goal; u8 pC[8]; struct Vec02949C pos; u8 p1C[0x2C4]; };
-struct PlayerPos02949C { u8 p0[0x1C]; s16 dir; u16 goal; u8 p20[0x6C]; struct Vec02949C pos; u8 p94[0xB8]; };
+struct EnemyPos02949C { u8 p0[8]; s16 dir; u16 goal; u8 pC[8]; struct Vec02949C pos; u8 p1C[ENEMY_SIZE - 0x1C]; };
+struct PlayerPos02949C { u8 p0[PLAYER_FIELD(0x1C)]; s16 dir; u16 goal; u8 p20[PLAYER_FIELD(0x8C) - PLAYER_FIELD(0x20)]; struct Vec02949C pos; u8 p94[PLAYER_SIZE - PLAYER_FIELD(0x94)]; };
 extern struct State02949C *state02949C asm("gUnk_03005CF4");
 extern struct EnemyPos02949C *enemies02949C asm("gUnk_030056F4");
 extern struct PlayerPos02949C players02949C[] asm("gUnk_03003CE0");
@@ -686,8 +686,8 @@ void sub_0802949C(u32 who, u32 toward)
 }
 struct Actor029788 { u32 id; u8 p4[0x20]; s16 dir; u16 goal; u8 p28[0x48]; };
 struct State029788 { u8 p0[0x7A4]; struct Actor029788 actors[15]; };
-struct Enemy029788 { u8 p0[8]; s16 dir; u8 pA[0x2D6]; };
-struct Player029788 { u8 p0[0x1C]; s16 dir; u16 goal; u8 p20[0x12C]; };
+struct Enemy029788 { u8 p0[8]; s16 dir; u8 pA[ENEMY_SIZE - 0xA]; };
+struct Player029788 { u8 p0[PLAYER_FIELD(0x1C)]; s16 dir; u16 goal; u8 p20[PLAYER_SIZE - PLAYER_FIELD(0x20)]; };
 extern struct State029788 *state029788 asm("gUnk_03005CF4");
 extern struct Enemy029788 *enemies029788 asm("gUnk_030056F4");
 extern struct Player029788 players029788[] asm("gUnk_03003CE0");

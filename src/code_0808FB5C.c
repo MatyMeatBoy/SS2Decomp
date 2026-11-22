@@ -105,7 +105,7 @@ u32 sub_0808FBDC(u32 arg0)
     return 0;
 }
 struct State8FC5095 {u8 p0[0x10];u16 mode;u8 p12[0x12];u16 w24;u8 p26[0xA];u16 w30;u8 p32[4];u16 w36;};
-struct Player8FC5095 {u8 p0[0x20];u16 state;u8 p22[0xE];u32 flags;u8 rest[0x118];};
+struct Player8FC5095 {u8 p0[PLAYER_FIELD(0x20)];u16 state;u8 p22[PLAYER_FIELD(0x30) - PLAYER_FIELD(0x22)];u32 flags;u8 rest[PLAYER_SIZE - PLAYER_FIELD(0x34)];};
 struct Display8FC5095 {u8 pad[0x8C];u16 x;};
 extern struct State8FC5095 *state8FC5095 asm("gUnk_03005CF4");
 extern struct Player8FC5095 players8FC5095[] asm("gUnk_03003CE0");
@@ -347,7 +347,7 @@ u32 sub_0809007C(u32 arg)
     return 0;
 }
 struct State9011C95 { u8 p0[0x10];u16 mode;u8 p12[0x12];u16 w24;u8 p26[0xA];u16 w30;u8 p32[4];u16 w36;u8 p38[0x3C];u32 flags; };
-struct Player9011C95 {u8 p0[0x20];u16 state;u8 p22[0xE];u32 flags;u8 rest[0x118];};
+struct Player9011C95 {u8 p0[PLAYER_FIELD(0x20)];u16 state;u8 p22[PLAYER_FIELD(0x30) - PLAYER_FIELD(0x22)];u32 flags;u8 rest[PLAYER_SIZE - PLAYER_FIELD(0x34)];};
 extern struct State9011C95 *state9011C95 asm("gUnk_03005CF4");
 extern struct Player9011C95 players9011C95[] asm("gUnk_03003CE0");
 /* [UpdateSceneExitDestination] Calls common initialization when scene +0x10 is zero; otherwise tests the

@@ -4630,7 +4630,7 @@ check_loop_115:
 }
 
 struct T025Packet277 { u16 f0, f2; s32 f4; u8 p8[8]; };
-struct T025Player277 { u8 p0[0x2C]; u16 unk2C, unk2E; u8 p30[0x74]; s32 unkA4, unkA8; u8 pAC[0xA0]; };
+struct T025Player277 { u8 p0[PLAYER_FIELD(0x2C)]; u16 unk2C, unk2E; u8 p30[PLAYER_FIELD(0xA4) - PLAYER_FIELD(0x30)]; s32 unkA4, unkA8; u8 pAC[PLAYER_SIZE - PLAYER_FIELD(0xAC)]; };
 extern struct T025Player277 t025Players277[] asm("gUnk_03003CE0");
 struct T025State277 { u16 f0; u8 p2[2]; u16 f4; u8 p6[6]; u16 fC; u8 pE[2]; u16 f10; u8 p12[10]; u16 f1C; u8 p1E[4]; u16 f22[11]; s32 f38, f3C, f40, f44, f48; u8 p4C[0x71C-0x4C]; u16 *f71C; };
 extern struct T025State277 *t025State277 asm("gUnk_03005CF4");
@@ -5362,7 +5362,7 @@ struct Ent0284F4 {
     u32 f44;
 };
 struct Kind0284F4 { u32 res; u32 kind; };
-struct Ply0284F4 { u8 p0[0x14]; u16 f14; u8 p16[6]; s16 dir; u8 p1E[0x12]; u32 f30; u8 p34[0x58]; struct Pt0284F4 pos; u8 p94[0xB8]; };
+struct Ply0284F4 { u8 p0[PLAYER_FIELD(0x14)]; u16 f14; u8 p16[PLAYER_FIELD(0x1C) - PLAYER_FIELD(0x16)]; s16 dir; u8 p1E[PLAYER_FIELD(0x30) - PLAYER_FIELD(0x1E)]; u32 f30; u8 p34[PLAYER_FIELD(0x8C) - PLAYER_FIELD(0x34)]; struct Pt0284F4 pos; u8 p94[PLAYER_SIZE - PLAYER_FIELD(0x94)]; };
 struct State0284F4 { u8 p0[4]; u16 f4; };
 struct Loc0284F4 { s16 sx, sy; u16 u, v; struct Pt0284F4 pos; struct Size0284F4 size; s32 done; };
 extern struct Kind0284F4 kinds0284F4[] asm("gUnk_084B19F0");
@@ -5430,7 +5430,7 @@ void sub_080284F4_v(struct Ent0284F4 *e)
         e->f40 = done;
     }
     animA.data[kinds0284F4[e->f4].kind] = e->f40;
-    animInit0284F4(&animB, 0x50010, e->f40, -1, 0);
+    animInit0284F4(&animB, RES_ID(0x50010), e->f40, -1, 0);
     while (e->f36 != 4) {
         if (!(p->f30 & 0x2000) && (p->f14 & 1) && !(u8)((state0284F4->f4 >> 7) & 1) && e->f44 != 0) {
             pos = p->pos;
