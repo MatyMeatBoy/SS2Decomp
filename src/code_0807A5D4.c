@@ -958,31 +958,31 @@ void sub_0807BEA0(u32 kind, u32 index, struct Copy7BEA0 *item)
         { u8 *base = (u8 *)gUnk_030034E0;
         u32 offset = index * 16;
         base += offset;
-        base += 0x150;
+        base += SAVE_FIELD(0x150);
         *(struct Copy7BEA0 *)base = *item; } break;
     case 1:
         { u8 *base = (u8 *)gUnk_030034E0;
         u32 offset = index * 16;
         base += offset;
-        base += 0x70;
+        base += SAVE_FIELD(0x70);
         *(struct Copy7BEA0 *)base = *item; }
-        if (index == *(u16 *)((u8 *)gUnk_030034E0 + 0x68)) sub_0805AD78(index);
+        if (index == *(u16 *)((u8 *)gUnk_030034E0 + SAVE_FIELD(0x68))) sub_0805AD78(index);
         break;
     case 2:
-        *(struct Copy7BEA0 *)((u8 *)gUnk_030034E0 + 0x100) = *item;
+        *(struct Copy7BEA0 *)((u8 *)gUnk_030034E0 + SAVE_FIELD(0x100)) = *item;
         sub_0805D094(); break;
     case 3:
-        *(struct Copy7BEA0 *)((u8 *)gUnk_030034E0 + 0x120) = *item;
+        *(struct Copy7BEA0 *)((u8 *)gUnk_030034E0 + SAVE_FIELD(0x120)) = *item;
         sub_0805D13C(); break;
     case 4:
-        *(struct Copy7BEA0 *)((u8 *)gUnk_030034E0 + 0x110) = *item;
+        *(struct Copy7BEA0 *)((u8 *)gUnk_030034E0 + SAVE_FIELD(0x110)) = *item;
         sub_0805D0E8(); break;
     case 5:
-        *(struct Copy7BEA0 *)((u8 *)gUnk_030034E0 + 0x130) = *item;
-        *(u16 *)((u8 *)gUnk_030034E0 + 0x136) = 0;
+        *(struct Copy7BEA0 *)((u8 *)gUnk_030034E0 + SAVE_FIELD(0x130)) = *item;
+        *(u16 *)((u8 *)gUnk_030034E0 + SAVE_FIELD(0x136)) = 0;
         sub_0805D190(); break;
     case 6:
-        *(struct Copy7BEA0 *)((u8 *)gUnk_030034E0 + 0x140) = *item;
+        *(struct Copy7BEA0 *)((u8 *)gUnk_030034E0 + SAVE_FIELD(0x140)) = *item;
         sub_0805D1E0(); break;
     case 13: case 16:
         { u8 *base = (u8 *)gUnk_03006440;

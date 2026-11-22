@@ -2973,11 +2973,11 @@ s32 sub_0809D374(struct ObjectD374 *o) {
     u32 angle, direction, rem;
     
     indexD374 = sub_080020F4();
-    scaledIndexD374 = indexD374 * 0x14C;
+    scaledIndexD374 = indexD374 * PLAYER_SIZE;
     /* Share the position-slot base across both player lookups. */
-    positionBaseD374 += 0x148;
+    positionBaseD374 += PLAYER_FIELD(0x148);
     px = (*(struct PosD374 **)(positionBaseD374 + scaledIndexD374))->x >> 4;
-    py = (u32)(*(struct PosD374 **)(positionBaseD374 + sub_080020F4() * 0x14C))->y << 20;
+    py = (u32)(*(struct PosD374 **)(positionBaseD374 + sub_080020F4() * PLAYER_SIZE))->y << 20;
     px -= (s16)x;
     py = (py >> 20) - (s16)y;
     dx = px;

@@ -3117,7 +3117,7 @@ loop:
     }
     sub_08057624(1);
 test:
-    sub_0801A3D0(text + 2, 9, 0x12);
+    sub_0801A3D0(text + TEXT_HEADER, 9, 0x12);
     flag = gFlagC020;
     if (flag == 0) goto loop;
     sub_08015C5C(sub_08058240(), 0x16C);

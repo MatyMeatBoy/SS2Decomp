@@ -3504,7 +3504,7 @@ void sub_080263B4(void) {
     text = t24_call08007290_080263B4(0x1403D3);
     {
         u32 index = sub_080020F4();
-        u32 stride = 0x14C;
+        u32 stride = PLAYER_SIZE;
         
         stride *= index;
         {
@@ -3514,7 +3514,7 @@ void sub_080263B4(void) {
         }
     }
 
-    sub_08065158(&sprite, 0x5000D, 0xE, -1, zero);
+    sub_08065158(&sprite, RES_ID(0x5000D), 0xE, -1, zero);
     sub_08000AF0(0x1EU, sprite.fC + 0x1E0, 1U);
     sprite.f2B = 0xE;
     t24_state080263B4->unk4 = (u16) (0x100 | t24_state080263B4->unk4);
@@ -3542,7 +3542,7 @@ loop_2:
                 if (var_r0_2 <= 0xF) {
                     if ((sub_0800CCCC() != 0) && (t24_scene080263B4.scene == 0)) {
                         temp_r6->flags |= 0x800000;
-                        temp_r4 = text + 2;
+                        temp_r4 = text + TEXT_HEADER;
                         sub_0801A3D0(temp_r4, (u16) (0xF - ((u32) t24_call0801A638_080263B4(temp_r4) >> 1)), 0x12);
                         temp_r2 = temp_r6->flags;
                         temp_r4_2 = 0x400 & temp_r2;
@@ -3780,7 +3780,7 @@ void sub_08026858(void) {
     text = t24_call08007290_08026858(0x1403D4);
     {
         u32 index = sub_080020F4();
-        u32 stride = 0x14C;
+        u32 stride = PLAYER_SIZE;
 
         stride *= index;
         {
@@ -3790,7 +3790,7 @@ void sub_08026858(void) {
         }
     }
 
-    sub_08065158(&sprite, 0x5000D, 0xE, -1, var_sl);
+    sub_08065158(&sprite, RES_ID(0x5000D), 0xE, -1, var_sl);
     sub_08000AF0(0x1EU, sprite.fC + 0x1E0, 1U);
     sprite.f2B = 0xE;
     if (sub_0800CF48() != 0) {
@@ -3855,7 +3855,7 @@ poll_input:
             }
             if (var_r0_2 <= 0xF) {
                 if ((sub_0800CCCC() != 0) && (t24_scene08026858.scene == 0x13)) {
-                    temp_r4 = text + 2;
+                    temp_r4 = text + TEXT_HEADER;
                     sub_0801A3D0(temp_r4, (u16) (0xF - ((u32) t24_call0801A638_08026858(temp_r4) >> 1)), 0x12);
                     temp_r2 = temp_r6->flags;
                     temp_r4_2 = 0x400 & temp_r2;

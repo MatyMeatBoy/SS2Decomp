@@ -1551,9 +1551,9 @@ void sub_0801CC10(u32 arg0, s32 arg1)
   u16 dy;
   s16 *c;
   s16 *c1;
-  x = (*((s32 *) (p + 0x8C))) << 5;
-  y = ((u32) ((*((s32 *) (p + 0x90))) << 5)) >> 16;
-  t = *((u16 **) (q + 0x148));
+  x = (*((s32 *) (p + PLAYER_FIELD(0x8C)))) << 5;
+  y = ((u32) ((*((s32 *) (p + PLAYER_FIELD(0x90)))) << 5)) >> 16;
+  t = *((u16 **) (q + PLAYER_FIELD(0x148)));
   t0 = t[0];
   dy = ((u32) (t[1] << 20)) >> 23;
   d = (x >> 16) - (t0 >> 7);
@@ -1570,7 +1570,7 @@ void sub_0801CC10(u32 arg0, s32 arg1)
   dy = d;
   if (p == q)
   {
-    c1 = (s16 *) (p + 0xC4);
+    c1 = (s16 *) (p + PLAYER_FIELD(0xC4));
     c = c1;
     dx = *((u16 *) c1);
     if (((s16) dx) > 0)
@@ -1581,14 +1581,14 @@ void sub_0801CC10(u32 arg0, s32 arg1)
   else
   {
     ;
-    if (((((s16) dx) <= 13) && (((s16) dy) <= 9)) && ((*((s16 *) (p + 0xC4))) > 0))
+    if (((((s16) dx) <= 13) && (((s16) dy) <= 9)) && ((*((s16 *) (p + PLAYER_FIELD(0xC4)))) > 0))
     {
-      *((u16 *) ((s16 *) (p + 0xC4))) = (*((u16 *) ((s16 *) (p + 0xC4)))) + arg1;
+      *((u16 *) ((s16 *) (p + PLAYER_FIELD(0xC4)))) = (*((u16 *) ((s16 *) (p + PLAYER_FIELD(0xC4))))) + arg1;
     }
   }
-  if ((*((s16 *) (p + 0xC4))) > (*((s16 *) (p + 0x62))))
+  if ((*((s16 *) (p + PLAYER_FIELD(0xC4)))) > (*((s16 *) (p + PLAYER_FIELD(0x62)))))
   {
-    *((u16 *) ((s16 *) (p + 0xC4))) = *((u16 *) (p + 0x62));
+    *((u16 *) ((s16 *) (p + PLAYER_FIELD(0xC4)))) = *((u16 *) (p + PLAYER_FIELD(0x62)));
   }
 }
 struct RescueCCC8Record { u8 pad[0x10]; u16 kind; u8 tail[0x13a]; };

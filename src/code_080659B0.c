@@ -63,12 +63,12 @@ void sub_08065A1C(u32 a, s32 frames)
 {
     s32 color = 15;
     s32 text = sub_08007290(0x140000 | a);
-    s32 offset = -((u32)sub_0801A638((u8 *)(text + 2)) >> 1);
+    s32 offset = -((u32)sub_0801A638((u8 *)(text + TEXT_HEADER)) >> 1);
     frames--;
     if (frames != -1) {
         do {
             if (sub_0805F184() == 0 && sub_0800CC98() == 0)
-                sub_0801A3D0(text + 2, offset + 15, color);
+                sub_0801A3D0(text + TEXT_HEADER, offset + 15, color);
             sub_080003F0();
             frames--;
         } while (frames != -1);

@@ -2742,10 +2742,10 @@ void sub_080A1DA8(void)
     x = (u32)(gActorA1DA8->f14 << 8) >> 16;
     y = (u32)(gActorA1DA8->f18 << 8) >> 16;
     positions = (void *)gPlayersA1DA8;
-    offset = 0x14C * sub_080020F4();
-    positions += 0x148;
+    offset = PLAYER_SIZE * sub_080020F4();
+    positions += PLAYER_FIELD(0x148);
     px = **(u16 **)(positions + offset) >> 4;
-    py = (u32)((*(u16 **)(positions + 0x14C * sub_080020F4()))[1] << 20);
+    py = (u32)((*(u16 **)(positions + PLAYER_SIZE * sub_080020F4()))[1] << 20);
     deltaX = px - (s16)x;
     deltaY = (py >> 20) - (s16)y;
     dx = deltaX;

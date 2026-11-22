@@ -29,6 +29,9 @@ WRAPPED = re.compile(r'\b(?:PLAYER_FIELD|SAVE_FIELD|RES_ID)\s*\($')
 PLAYER_STRIDE = 0x14C
 ENEMY_STRIDE = 0x2E0
 SAVE_LIMIT = 0x1000  # save-record offsets go past the player record size
+PAIR_LIMIT = 4  # try pairs of value moves when this close
+PAIR_OPTIONS = 24
+WHOLE = ('PLAYER_SIZE', 'ENEMY_SIZE', 'TEXT_HEADER')
 SIZES = {PLAYER_STRIDE: 'PLAYER_SIZE', ENEMY_STRIDE: 'ENEMY_SIZE'}
 
 
@@ -77,6 +80,7 @@ def is_resource(value):
 
 
 def code_literals(body):
+    text = 'sub_08007290' in body or 'Text' in body or 'text' in body
     """[(start, end, value)] of integer literals outside comments/strings, not yet wrapped."""
     result, index = [], 0
     masked = re.sub(r'/\*.*?\*/|//[^\n]*|"(?:\\.|[^"\\])*"|\'(?:\\.|[^\'\\])*\'',
@@ -85,7 +89,7 @@ def code_literals(body):
         value = int(match[1], 0)
         if WRAPPED.search(masked[:match.start()].rstrip()[-20:]):
             continue
-        if 0x0A <= value <= SAVE_LIMIT or value in SIZES or is_resource(value):
+        if 0x0A <= value <= SAVE_LIMIT or value in SIZES or is_resource(value) or (text and value == 2):
             result.append((match.start(), match.end(), value))
     return result
 
@@ -98,7 +102,7 @@ def rewrite(body, literals, choice):
         if macro is None:
             continue
         out.append(body[cursor:start])
-        out.append(macro if macro.endswith('_SIZE') else '%s(%s)' % (macro, body[start:end]))
+        out.append(macro if macro in WHOLE else '%s(%s)' % (macro, body[start:end]))
         cursor = end
     out.append(body[cursor:])
     return ''.join(out)
@@ -166,6 +170,9 @@ def search(checker, module, name, address, log):
         for index, (_, _, value) in enumerate(literals):
             if value in SIZES:
                 options.setdefault((SIZES[value], value), []).append(index)
+            if value == 2:
+                options.setdefault(('TEXT_HEADER', value), []).append(index)
+                continue
             if is_resource(value):
                 options.setdefault(('RES_ID', value), []).append(index)
             if value <= SAVE_LIMIT:
@@ -198,11 +205,30 @@ def search(checker, module, name, address, log):
                                 break
                     if not best:
                         break
+        # Pairs of whole-value moves for near misses that need two macros at once
+        # (e.g. PLAYER_SIZE stride plus PLAYER_FIELD base, each worse alone).
+        values = list(options.items())
+        if best and best <= PAIR_LIMIT and len(values) <= PAIR_OPTIONS:
+            for first in range(len(values)):
+                for second in range(first + 1, len(values)):
+                    trial = dict(best_choice)
+                    for (macro, _), indices in (values[first], values[second]):
+                        for index in indices:
+                            trial[index] = macro
+                    if trial == best_choice:
+                        continue
+                    score = evaluate(trial)
+                    if score is not None and score < best:
+                        best, best_choice = score, trial
+                        if not best:
+                            break
+                if not best:
+                    break
         if best == 0:
             path.write_text(head + rewrite(body, literals, best_choice) + tail, encoding='utf-8')
             applied = True
             log('%s: fixed (%d -> 0) with %s' % (name, start, ', '.join(sorted(
-                {'%s(0x%X)' % (best_choice[i], literals[i][2]) if not best_choice[i].endswith('_SIZE')
+                {'%s(0x%X)' % (best_choice[i], literals[i][2]) if not best_choice[i] in WHOLE
                  else best_choice[i] for i in best_choice}))))
             return True
         log('%s: best %d (from %d), not applied' % (name, best, start))
