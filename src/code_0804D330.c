@@ -613,7 +613,7 @@ found1:
     one=1; zero=0;
 entry_loop:
     if ((*entryFlags & (bitTemp=one<<var_r3)) && *(u16 *)(entry+0xC)==0xC) *(u16 *)(entry+0xC)=zero;
-    var_r3++; entry+=0x2E0;
+    var_r3++; entry+=ENEMY_SIZE;
     if(var_r3<=4)goto entry_loop;
     sub_08019F04();
     ((struct HalfDD *)gUnk_03005CF4)->flags |= 32;
@@ -2588,7 +2588,7 @@ after:
         bit = one << i;
         if ((*bits & bit) && entity->state == 12) entity->state = zero;
         i++;
-        stride = 0x2E0;
+        stride = ENEMY_SIZE;
         entity = (struct Entity505C8 *)((u8 *)entity + stride);
     } while (i <= 4);
     sub_08019F04();
@@ -4280,7 +4280,7 @@ void sub_08053C5C(void)
     base = gUnk_030056F4;
     sub_08019EB8(*(u16 *)(base + 2), 3);
     base = gUnk_030056F4;
-    nextOffset = 0x2E0;
+    nextOffset = ENEMY_SIZE;
     base += nextOffset;
     sub_08019EB8(*(u16 *)(base + 2), 3);
     if (!(gUnk_030027D0 & 0x20))
@@ -4296,7 +4296,7 @@ void sub_08053C5C(void)
         if ((*flags & (one << i)) && *(u16 *)(entity + 0xC) == 12)
             *(u16 *)(entity + 0xC) = zero;
         i++;
-        stride = 0x2E0;
+        stride = ENEMY_SIZE;
         entity += stride;
     } while (i <= 4);
     sub_08019F04();

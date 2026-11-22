@@ -200,7 +200,7 @@ void sub_0801ACB8(void)
     u16 *selected;
     templates = (struct S17Stats32 *)gUnk_0848FA48;
     
-    *(struct S17Stats32 *)(state + 0x10) = templates[*(u16 *)(state + 0xA)];
+    *(struct S17Stats32 *)(state + SAVE_FIELD(0x10)) = templates[*(u16 *)(state + SAVE_FIELD(0xA))];
     switch (sub_0801DE60()) {
     case 0:
         sub_0805D064(gUnk_0848FB84, 0);
@@ -300,11 +300,11 @@ void sub_0801ACB8(void)
     sub_0805D190();
     sub_0805D1E0();
     i = 0;
-    selected = (u16 *)(state + 0x68);
-    energy = (s16 *)(player + 0xC2);
-    maxEnergy = (s16 *)(player + 0x60);
-    hp = (s16 *)(player + 0xC4);
-    maxHp = (s16 *)(player + 0x62);
+    selected = (u16 *)(state + SAVE_FIELD(0x68));
+    energy = (s16 *)(player + SAVE_FIELD(0xC2));
+    maxEnergy = (s16 *)(player + SAVE_FIELD(0x60));
+    hp = (s16 *)(player + SAVE_FIELD(0xC4));
+    maxHp = (s16 *)(player + SAVE_FIELD(0x62));
     do {
         *(u32 *)&effect.value = 0;
         effect.id = gUnk_0848FB68[i].id;
@@ -316,8 +316,8 @@ void sub_0801ACB8(void)
     } while (i <= 4);
     sub_0805CFF8(0x18, gUnk_0848FB7C);
     switch (sub_0802A9B0()) {
-    case 0: *(u16 *)(state + 0x12) += 5; break;
-    case 1: *(u16 *)(state + 0x24) += 30; break;
+    case 0: *(u16 *)(state + SAVE_FIELD(0x12)) += 5; break;
+    case 1: *(u16 *)(state + SAVE_FIELD(0x24)) += 30; break;
     case 2:
         effect.type = 6;
         effect.id = 0x5E;
@@ -336,10 +336,10 @@ void sub_0801ACB8(void)
         effect.b7 = 0;
         sub_0805AB20(&effect);
         break;
-    case 4: *(u16 *)(state + 0x10) += 5; break;
-    case 5: *(u16 *)(state + 0x26) += 30; break;
-    case 6: *(u16 *)(state + 0x16) += 5; break;
-    case 7: *(u16 *)(state + 0x2E) += 30; break;
+    case 4: *(u16 *)(state + SAVE_FIELD(0x10)) += 5; break;
+    case 5: *(u16 *)(state + SAVE_FIELD(0x26)) += 30; break;
+    case 6: *(u16 *)(state + SAVE_FIELD(0x16)) += 5; break;
+    case 7: *(u16 *)(state + SAVE_FIELD(0x2E)) += 30; break;
     case 8:
         effect.type = 4;
         effect.id = 0x95;
@@ -349,8 +349,8 @@ void sub_0801ACB8(void)
         effect.b7 = 0;
         sub_0805AB20(&effect);
         break;
-    case 9: *(u16 *)(state + 0x2A) += 30; break;
-    case 10: *(u16 *)(state + 0x2C) += 30; break;
+    case 9: *(u16 *)(state + SAVE_FIELD(0x2A)) += 30; break;
+    case 10: *(u16 *)(state + SAVE_FIELD(0x2C)) += 30; break;
     case 11:
         effect.type = 6;
         effect.id = 0x5F;
@@ -361,8 +361,8 @@ void sub_0801ACB8(void)
         sub_0805AB20(&effect);
         break;
     case 12:
-        *(u16 *)(state + 0x14) += 5;
-        *(u16 *)(state + 0x28) += 30;
+        *(u16 *)(state + SAVE_FIELD(0x14)) += 5;
+        *(u16 *)(state + SAVE_FIELD(0x28)) += 30;
         break;
     }
     *selected = 0;

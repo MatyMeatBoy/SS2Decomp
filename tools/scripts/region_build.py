@@ -366,7 +366,15 @@ def build(region, rom, out, output, prefix='arm-none-eabi-'):
     selected = validate_intervals(selected + relocated + regional, len(target_data))
     layout, gaps = render_layout(rom, identity['size'], selected)
     defined = {item.name for item in selected}
-    thumb_targets = thumb_call_targets((regional_refs | relocated_calls) - defined, symbols)
+    calls = (regional_refs | relocated_calls) - defined
+    # A .thumb_set symbol is a Thumb entry for BL but a .word of it loses the Thumb bit, so BL
+    # targets that are also used as data are called through a separate <name>__bl alias.
+    data_refs = set(re.findall(r'^\s*\.word\s+(' + IDENTIFIER + r')\s*$', layout, re.M))
+    for name in sorted(calls & data_refs):
+        layout = re.sub(r'(?m)^(\s*bl\s+)%s(\s*)$' % re.escape(name), r'\g<1>%s__bl\g<2>' % name, layout)
+        symbols[name + '__bl'] = symbols[name]
+    calls = {name + '__bl' if name in data_refs else name for name in calls}
+    thumb_targets = thumb_call_targets(calls, symbols)
     layout += thumb_targets
     set_names = set(re.findall(r'^\.thumb_set (\S+),', thumb_targets, re.M))
     assembly_path, script_path = out / 'layout.s', out / 'layout.ld'

@@ -419,7 +419,7 @@ void sub_08058280(void)
     u8 *entry = (u8 *)gUnk_030056F4;
     u32 i;
     s32 mask;
-    for (i = 0; i <= 4; i++, entry += 0x2E0) {
+    for (i = 0; i <= 4; i++, entry += ENEMY_SIZE) {
         mask = gUnk_030056FC & (1u << i);
         if (mask && *(u16 *)(entry + 0xC) == 0xC)
             *(u16 *)(entry + 0xC) = 0;

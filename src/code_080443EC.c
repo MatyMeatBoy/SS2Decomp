@@ -3540,7 +3540,7 @@ void sub_0804A478(void){
  t48waitK(1);sub_0805EFBC();do{sub_080003F0();}while(sub_0805F184());t48moveK(102,0,0);
  t48taskK(sub_0804A89C,5);t48taskK(sub_0804A89C,6);t48waitK(30);
  if(sub_0800CB9C()==0){if(!(gUnk_030027D0&32)){gUnk_03005CF8=2;sub_08006CB4(2);}}else sub_080586B4(0);
- p=t48objK;i=0;flags=&gUnk_030056FC;do{shifted=1<<i;if((*flags&shifted)&&*(u16 *)(p+12)==12)*(u16 *)(p+12)=0;i++;stride=0x2E0;p+=stride;}while(i<=4);sub_08019F04();
+ p=t48objK;i=0;flags=&gUnk_030056FC;do{shifted=1<<i;if((*flags&shifted)&&*(u16 *)(p+12)==12)*(u16 *)(p+12)=0;i++;stride=ENEMY_SIZE;p+=stride;}while(i<=4);sub_08019F04();
 }
 
 struct T48SlotB {s32 id;u8 pad[0x32];u16 unk36;u8 tail[0x38];};

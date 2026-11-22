@@ -5724,11 +5724,11 @@ void sub_08013C3C(u8 *arg0) {
     u16 i = 0;
     u32 one = 1;
     u32 lim = 0x800;
-    u8 *base = arg0 + 0x126;
+    u8 *base = arg0 + PLAYER_FIELD(0x126);
     do {
         if (((gUnk_03002344 & one) == (i & one)) && (gUnk_030056FC & (one << i))) {
-            u16 a = ArcTan2((*(s32 *)(p + 0x14) - *(s32 *)(arg0 + 0x8C)) << 8 >> 16,
-                            (*(s32 *)(p + 0x18) - *(s32 *)(arg0 + 0x90)) << 8 >> 16);
+            u16 a = ArcTan2((*(s32 *)(p + 0x14) - *(s32 *)(arg0 + PLAYER_FIELD(0x8C))) << 8 >> 16,
+                            (*(s32 *)(p + 0x18) - *(s32 *)(arg0 + PLAYER_FIELD(0x90))) << 8 >> 16);
             if ((a & 0xFFF) > lim) {
                 *(u16 *)(base + (i << 1)) = (a >> 12) + 1;
             } else {
@@ -5737,7 +5737,7 @@ void sub_08013C3C(u8 *arg0) {
             *(u16 *)(base + (i << 1)) &= 0xF;
         }
         i++;
-        p += 0x2E0;
+        p += ENEMY_SIZE;
     } while (i <= 4);
 }
 struct Box13CEC { u32 w:16; u32 h:16; };

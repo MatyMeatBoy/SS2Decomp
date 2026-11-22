@@ -973,7 +973,7 @@ u32 sub_08019DE0(u32 value)
     u32 *pf = (u32 *)&gUnk_030056FC;
     u32 one = 1;
     s32 flags = *pf;
-    for (; i <= 4; i++, entry += 0x2E0) {
+    for (; i <= 4; i++, entry += ENEMY_SIZE) {
         if (((one << i) & flags) && *(u32 *)(entry + 0x2C) == value) return 1;
     }
     return 0;
@@ -1004,7 +1004,7 @@ s32 sub_08019E30(s32 arg0)
       var_r4 |= temp_r1;
     }
     var_r2 += 1;
-    var_r3 += 0x2E0;
+    var_r3 += ENEMY_SIZE;
   }
   while (var_r2 <= 4U);
   return var_r4;
@@ -1040,7 +1040,7 @@ void sub_08019EB8(u16 key, u16 value)
     goto test;
 loop:
     i++;
-    entry += 0x2E0;
+    entry += ENEMY_SIZE;
     if (i > 4) goto end;
     bit = 1 << i;
 test:
@@ -1076,7 +1076,7 @@ loop:
         }
     }
     i++;
-    player += 0x2E0;
+    player += ENEMY_SIZE;
     if (i <= 4) goto loop;
 }
 /* [ScaleActorStatPairForPlayerCount] Uses the connected-player count from sub_08002164 to index three-word
@@ -1143,7 +1143,7 @@ void sub_0801A050(u16 key)
     asm("" : "+r"(z));
     zero = z; }
     asm("" : : "r"(zero));
-    for (; i <= 4; i++, entry += 0x2E0) {
+    for (; i <= 4; i++, entry += ENEMY_SIZE) {
         s32 bit = one << i;
         if ((*flags & bit) && *(u16 *)(entry + 2) == key) {
             *(u16 *)(entry + 0x7A) |= one;
@@ -1171,7 +1171,7 @@ void sub_0801A0BC(u16 key, u16 value)
     i = 0;
     flags = &gUnk_030056FC;
     one = 1;
-    for (; i <= 4; i++, entry += 0x2E0) {
+    for (; i <= 4; i++, entry += ENEMY_SIZE) {
         s32 bit = one << i;
         if ((*flags & bit) && *(u16 *)(entry + 2) == key) {
             entry[0x1DC] = value;
