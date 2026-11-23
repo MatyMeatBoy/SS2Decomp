@@ -4789,7 +4789,11 @@ static inline void t44_markActor(u32 actor)
 {
     u8 *slot;
     u32 record;
+#ifdef REGION_USA
+    register u32 key asm("r1")=actor;
+#else
     register u32 key asm("r2")=actor;
+#endif
     u16 one=1;
     if(actor>0x100000U) {
         slot=t44_findSlot(key);
@@ -4799,7 +4803,7 @@ static inline void t44_markActor(u32 actor)
         if(record<=4){u8 **address=(u8 **)&records44; u32 off=record*ENEMY_SIZE; u8 *entry=*address; entry+=off; sub_08019EB8(*(u16 *)(entry+2),1);}
     } else {
         u8 *player=players44+PLAYER_SIZE*sub_080020F4();
-        *(u16 *)(player+0x11E)=one;
+        *(u16 *)(player+PLAYER_FIELD(0x11E))=one;
     }
 }
 /* [RunActor41TimedAnimationSequence] Finds first active actor resource0x41 among15 slots (returns handle0 if
@@ -4832,7 +4836,7 @@ void sub_08043850(void)
     sub_0802926C(actor,7);
     sub_0802A7DC();
     player=players44+PLAYER_SIZE*sub_080020F4();
-    *(u32 *)(player+0x30)|=1;
+    *(u32 *)(player+PLAYER_FIELD(0x30))|=1;
     sub_0800D0F4();
 }
 extern u8 *state44 asm("gUnk_03005CF4");
