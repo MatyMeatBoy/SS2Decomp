@@ -943,7 +943,7 @@ extern u8 stacks1641C[] asm("gUnk_030046EC");
 extern void taskMain1641C(void) asm("sub_0801801C");
 extern void startTask1641C(void *, void *) asm("sub_08000274");
 extern void cpuset1641C(const void *, void *, u32) asm("CpuSet");
-struct Plr1641C { u8 pad0[0x2C]; u16 w2C; u8 pad2E[0x14C - 0x2E]; };
+struct Plr1641C { u8 pad0[PLAYER_FIELD(0x2C)]; u16 w2C; u8 pad2E[PLAYER_SIZE - PLAYER_FIELD(0x2D) - 1]; };
 extern struct Plr1641C players1641C[] asm("gUnk_03003CE0");
 /* [TryCreateEnemyFromSpawnState] Returns0 if all five bits of actor mask 030056FC are occupied. Searches slots
  * ascending normally, descending underCDC0; on success marks one slot and initializes its 0x2E0-byte actor in

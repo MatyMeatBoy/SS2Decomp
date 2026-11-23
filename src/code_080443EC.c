@@ -113,7 +113,7 @@ struct GrantM44 {s16 type,id;u8 payload[12];};
 struct CurrencyM44 {s16 type;u16 padding;s32 amount;u8 extra[8];};
 extern const struct Trade44 trades44[] asm("gUnk_084B1C50");
 extern u8 *state5E8 asm("gUnk_03005CF4");
-struct Player44 { u8 pad[0x30]; u32 flags; u8 pad2[0x11E - 0x34]; u16 mark; u8 pad3[0x14C-0x120]; };
+struct Player44 { u8 pad[PLAYER_FIELD(0x30)]; u32 flags; u8 pad2[0x11E - 0x34]; u16 mark; u8 pad3[PLAYER_SIZE-PLAYER_FIELD(0x120)]; };
 extern struct Player44 players5E8[] asm("gUnk_03003CE0");
 struct Rec44 { u16 a, id; u8 pad[ENEMY_SIZE - 4]; };
 extern struct Rec44 *records5E8 asm("gUnk_030056F4");

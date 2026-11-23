@@ -4916,7 +4916,7 @@ struct T025World27C {
     struct T025Effect27C effects[10]; u8 p6F4[0x1E4C - 0x6F4]; u32 f1E4C; struct T025Slot27C f1E50[4];
 };
 struct T025Sprite27C { u32 f0; u32 f4; u8 *f8; u32 fC; u8 p10[0xC]; u8 f1C[0x18]; };
-struct T025Player27C { u8 p0[0x2C]; u16 f2C; u8 p2E[0x14C - 0x2E]; };
+struct T025Player27C { u8 p0[PLAYER_FIELD(0x2C)]; u16 f2C; u8 p2E[PLAYER_SIZE - PLAYER_FIELD(0x2D) - 1]; };
 extern struct T025World27C *t025World27C asm("gUnk_03005CF4");
 extern struct T025Resource27C t025Resources27C[] asm("gUnk_0849E760");
 extern struct T025Config27C t025Configs27C[] asm("gUnk_084B1860");

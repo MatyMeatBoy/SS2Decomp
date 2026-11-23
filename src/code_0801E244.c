@@ -1157,7 +1157,7 @@ extern u8 *scene02099 asm("gUnk_03005CF4");
 extern void damage02099(u32,u32,u8) asm("sub_08028368");
 struct Size02099 { u32 width:16; u32 height:16; };
 struct Item02099 { s32 x,y; u8 pad8[8]; u16 hp; u16 f12; u16 state; u8 pad16[10]; u8 *data; };
-struct Player02099 { u8 pad0[0x58]; u16 power; u8 pad5A[0x14C-0x5A]; };
+struct Player02099 { u8 pad0[PLAYER_FIELD(0x58)]; u16 power; u8 pad5A[PLAYER_SIZE-PLAYER_FIELD(0x5A)]; };
 extern struct Player02099 gPl02099[] asm("gUnk_03003CE0");
 static inline s32 coll02099(s32 *pos,struct Item02099 *item,u16 *box,struct Size02099 *sz)
 {

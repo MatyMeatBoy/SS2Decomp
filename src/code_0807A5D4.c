@@ -707,7 +707,7 @@ struct Stage7B7B4 { u8 pad[0x1FA]; u16 value; };
 struct Index7B7B4 { u8 pad[0x14A]; u16 value; };
 extern struct Stage7B7B4 stage7B7B4 asm("gUnk_03001F40");
 extern struct Index7B7B4 *index7B7B4 asm("gUnk_03005CF4");
-struct Player7B7B4 { u8 pad[0x30]; u32 flags; u8 pad34[0x30]; u16 f64; u8 pad66[0x14C - 0x66]; };
+struct Player7B7B4 { u8 pad[PLAYER_FIELD(0x30)]; u32 flags; u8 pad34[0x30]; u16 f64; u8 pad66[PLAYER_SIZE - PLAYER_FIELD(0x66)]; };
 extern struct Player7B7B4 players7B7B4[] asm("gUnk_03003CE0");
 extern struct Mgr7B7B4 *mgr7B7B4 asm("gUnk_03006440");
 extern u16 table7B7B4Stage[] asm("gUnk_084EBD38");
