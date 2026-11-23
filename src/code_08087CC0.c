@@ -1603,7 +1603,7 @@ s32 sub_0808A294(u8 *table)
         playerOffset = sub_080020F4();
         playerBase = playersA29491;
 #ifdef REGION_USA
-        {register u8 *xf asm("r3");register u8 *yf asm("r1");register u8 *b12 asm("ip")=playerBase;playerOffset *= PLAYER_SIZE;xf=b12+PLAYER_FIELD(0x8C);xf=(u8 *)((u32)playerOffset+(u32)xf);*(u32 *)xf=(u32)position[0]<<8;yf=b12+PLAYER_FIELD(0x90);yf=(u8 *)((u32)playerOffset+(u32)yf);*(u32 *)yf=(u32)position[1]<<8;{register u8 *dst asm("r0")=b12;dst+=PLAYER_FIELD(0x94);playerOffset+=(u32)dst;}*(struct PosA29491 *)playerOffset=*(struct PosA29491 *)xf;}
+        {register u8 *xf asm("r3");register u8 *yf asm("r1");u8 *b12=playerBase;playerOffset *= PLAYER_SIZE;xf=b12+PLAYER_FIELD(0x8C);xf=(u8 *)((u32)playerOffset+(u32)xf);*(u32 *)xf=(u32)position[0]<<8;yf=b12+PLAYER_FIELD(0x90);yf=(u8 *)((u32)playerOffset+(u32)yf);*(u32 *)yf=(u32)position[1]<<8;{register u8 *dst asm("r0")=b12;dst+=PLAYER_FIELD(0x94);playerOffset+=(u32)dst;}*(struct PosA29491 *)playerOffset=*(struct PosA29491 *)xf;}
 #else
         playerOffset *= PLAYER_SIZE;
         field = playerBase;
@@ -1855,7 +1855,7 @@ s32 sub_0808A744(u8 *table)
         playerOffset = sub_080020F4();
         playerBase = playersA74491;
 #ifdef REGION_USA
-        {register u8 *xf asm("r3");register u8 *yf asm("r1");register u8 *b12 asm("ip")=playerBase;playerOffset *= PLAYER_SIZE;xf=b12+PLAYER_FIELD(0x8C);xf=(u8 *)((u32)playerOffset+(u32)xf);*(u32 *)xf=(u32)position[0]<<8;yf=b12+PLAYER_FIELD(0x90);yf=(u8 *)((u32)playerOffset+(u32)yf);*(u32 *)yf=(u32)position[1]<<8;{register u8 *dst asm("r0")=b12;dst+=PLAYER_FIELD(0x94);playerOffset+=(u32)dst;}*(struct PosA74491 *)playerOffset=*(struct PosA74491 *)xf;}
+        {register u8 *xf asm("r3");register u8 *yf asm("r1");u8 *b12=playerBase;playerOffset *= PLAYER_SIZE;xf=b12+PLAYER_FIELD(0x8C);xf=(u8 *)((u32)playerOffset+(u32)xf);*(u32 *)xf=(u32)position[0]<<8;yf=b12+PLAYER_FIELD(0x90);yf=(u8 *)((u32)playerOffset+(u32)yf);*(u32 *)yf=(u32)position[1]<<8;{register u8 *dst asm("r0")=b12;dst+=PLAYER_FIELD(0x94);playerOffset+=(u32)dst;}*(struct PosA74491 *)playerOffset=*(struct PosA74491 *)xf;}
 #else
         playerOffset *= PLAYER_SIZE;
         field = playerBase;
@@ -1998,7 +1998,7 @@ s32 sub_0808A984(u8 *table)
         playerOffset = sub_080020F4();
         playerBase = playersA98491;
 #ifdef REGION_USA
-        {register u8 *xf asm("r3");register u8 *yf asm("r1");register u8 *b12 asm("ip")=playerBase;playerOffset *= PLAYER_SIZE;xf=b12+PLAYER_FIELD(0x8C);xf=(u8 *)((u32)playerOffset+(u32)xf);*(u32 *)xf=(u32)position[0]<<8;yf=b12+PLAYER_FIELD(0x90);yf=(u8 *)((u32)playerOffset+(u32)yf);*(u32 *)yf=(u32)position[1]<<8;{register u8 *dst asm("r0")=b12;dst+=PLAYER_FIELD(0x94);playerOffset+=(u32)dst;}*(struct PosA98491 *)playerOffset=*(struct PosA98491 *)xf;}
+        {register u8 *xf asm("r3");register u8 *yf asm("r1");u8 *b12=playerBase;playerOffset *= PLAYER_SIZE;xf=b12+PLAYER_FIELD(0x8C);xf=(u8 *)((u32)playerOffset+(u32)xf);*(u32 *)xf=(u32)position[0]<<8;yf=b12+PLAYER_FIELD(0x90);yf=(u8 *)((u32)playerOffset+(u32)yf);*(u32 *)yf=(u32)position[1]<<8;{register u8 *dst asm("r0")=b12;dst+=PLAYER_FIELD(0x94);playerOffset+=(u32)dst;}*(struct PosA98491 *)playerOffset=*(struct PosA98491 *)xf;}
 #else
         playerOffset *= PLAYER_SIZE;
         field = playerBase;
