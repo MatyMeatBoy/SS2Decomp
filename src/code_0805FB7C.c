@@ -292,7 +292,7 @@ void sub_0805FFBC(s32 x, s32 y, struct ItemName63 *item, s32 flags)
     switch (item->kind) {
     case 1:
         res = resFF63(item->id | 0x100000);
-        name = res + gUnk_03003470 * 31;
+        name = res + gUnk_03003470 * 31 * sizeof(TextChar);
         broken = 0;
         level = 0;
         grade = 0;
@@ -303,7 +303,7 @@ void sub_0805FFBC(s32 x, s32 y, struct ItemName63 *item, s32 flags)
     case 2:
     {
         u8 *r = resFF63(item->id | 0xB0000);
-        name = r + gUnk_03003470 * 31;
+        name = r + gUnk_03003470 * 31 * sizeof(TextChar);
         broken = item->broken;
         level = item->level;
         grade = item->grade;
@@ -314,7 +314,7 @@ void sub_0805FFBC(s32 x, s32 y, struct ItemName63 *item, s32 flags)
         break;
     }
     case 3:
-        name = resFF63(item->id | 0xC0000) + gUnk_03003470 * 31;
+        name = resFF63(item->id | 0xC0000) + gUnk_03003470 * 31 * sizeof(TextChar);
         broken = item->broken;
         level = item->level;
         grade = item->grade;
@@ -322,7 +322,7 @@ void sub_0805FFBC(s32 x, s32 y, struct ItemName63 *item, s32 flags)
             suffix = resFF63((item->suffix - 1) | 0x130000);
         break;
     case 4:
-        name = resFF63(item->id | 0xD0000) + gUnk_03003470 * 31;
+        name = resFF63(item->id | 0xD0000) + gUnk_03003470 * 31 * sizeof(TextChar);
         broken = item->broken;
         level = item->level;
         grade = item->grade;
@@ -330,14 +330,14 @@ void sub_0805FFBC(s32 x, s32 y, struct ItemName63 *item, s32 flags)
             suffix = resFF63((item->suffix - 1) | 0x130000);
         break;
     case 7:
-        name = resFF63(item->id | 0x110000) + gUnk_03003470 * 31;
+        name = resFF63(item->id | 0x110000) + gUnk_03003470 * 31 * sizeof(TextChar);
         broken = 0;
         level = 0;
         break;
     case 5:
     {
         u8 *r = resFF63(item->id | 0xE0000);
-        name = r + gUnk_03003470 * 31;
+        name = r + gUnk_03003470 * 31 * sizeof(TextChar);
         broken = item->broken;
         level = item->level;
         grade = item->grade;
@@ -348,13 +348,13 @@ void sub_0805FFBC(s32 x, s32 y, struct ItemName63 *item, s32 flags)
             suffix = resFF63((item->suffix - 1) | 0x130000);
         break;
     case 6:
-        name = resFF63(item->id | 0xF0000) + gUnk_03003470 * 31;
+        name = resFF63(item->id | 0xF0000) + gUnk_03003470 * 31 * sizeof(TextChar);
         broken = 0;
         level = 0;
         grade = 0;
         break;
     case 9:
-        name = resFF63(item->id | 0x150000) + gUnk_03003470 * 31;
+        name = resFF63(item->id | 0x150000) + gUnk_03003470 * 31 * sizeof(TextChar);
         break;
     case 10:
         if (sub_0800CC98() == 0) {
@@ -381,11 +381,11 @@ void sub_0805FFBC(s32 x, s32 y, struct ItemName63 *item, s32 flags)
             out[1] = 0;
             name = numeric;
         } else {
-            name = resFF63(0x160000) + gUnk_03003470 * 31;
+            name = resFF63(0x160000) + gUnk_03003470 * 31 * sizeof(TextChar);
         }
         break;
     case 8:
-        name = resFF63(item->id | 0x120000) + gUnk_03003470 * 31;
+        name = resFF63(item->id | 0x120000) + gUnk_03003470 * 31 * sizeof(TextChar);
         break;
     default:
     clear:
