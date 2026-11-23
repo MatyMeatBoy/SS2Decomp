@@ -2259,8 +2259,8 @@ s32 sub_0808AD90(u8 *input)
         sub_08056E78();
         {struct StateAD9091 **st;struct StateAD9091 **r=&stateAD9091;struct StateAD9091 *p;
          u32 one;u8 *base;u32 stride;st=r;p=*r;one=1;p->row=one;
-         {register s32 idx asm("r2")=sub_080020F4();u8 *p;base=playersAD9091;stride=PLAYER_SIZE;idx*=stride;p=base+0x30;idx+=(u32)p;*(u32 *)idx &= ~2;}
-         {s32 idx=sub_080020F4();idx*=stride;idx+=(u32)base;*(u16 *)(idx+0x20)=result;}
+         {register s32 idx asm("r2")=sub_080020F4();u8 *p;base=playersAD9091;stride=PLAYER_SIZE;idx*=stride;p=base+PLAYER_FIELD(0x30);idx+=(u32)p;*(u32 *)idx &= ~2;}
+         {s32 idx=sub_080020F4();idx*=stride;idx+=(u32)base;*(u16 *)(idx+PLAYER_FIELD(0x20))=result;}
          {struct StateAD9091 **r=st;struct StateAD9091 *p=*r;*(u16 *)((u8 *)p+0x30)=one;*(u16 *)((u8 *)p+0x24)=one;}}
         return 1;
     }
