@@ -21,6 +21,8 @@
 // which is where SAVE_FIELD's 10-byte shift comes from.
 // Encoded text strings are TextChar (u8 EU, u16 USA); control codes are TEXT_CTRL(0xFD) etc.
 // (EU 0xFD, USA 0xFFFD).
+// Enemy data records (stats such as level/experience): ENEMY_DATA_FIELD (USA +0x174, the same
+// insertion as ENEMY_FIELD's block).
 // Equipment records of archives 0xC/0xD/0xE: EQUIP_FIELD (USA +0xDC); the level requirement
 // at EQUIP_FIELD(0xA0) is an EquipLevel (u8 EU, u16 USA).
 // Text records (sub_08007290): the string starts after a 2-byte EU, 4-byte USA header (TEXT_HEADER).
@@ -40,6 +42,7 @@ typedef u16 NameChar;
 typedef u16 TextChar;
 #define TEXT_CTRL(c) (0xFF00 | (c))
 #define EQUIP_FIELD(o) ((o) + 0xDC)
+#define ENEMY_DATA_FIELD(o) ((o) + 0x174)
 typedef u16 EquipLevel;
 #else
 #define PLAYER_SIZE 0x14C
@@ -57,6 +60,7 @@ typedef u8 NameChar;
 typedef u8 TextChar;
 #define TEXT_CTRL(c) (c)
 #define EQUIP_FIELD(o) (o)
+#define ENEMY_DATA_FIELD(o) (o)
 typedef u8 EquipLevel;
 #endif
 

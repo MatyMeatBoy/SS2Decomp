@@ -1088,8 +1088,17 @@ void sub_08019F60(s16 *data)
     struct Rate { u32 a, b, c; };
     extern const struct Rate rates[] asm("gUnk_0848FA0C");
     u32 index = sub_08002164();
+#ifdef REGION_USA
+    s16 *third = (s16 *)((u8 *)data + ENEMY_DATA_FIELD(6));
+    *third = *third * rates[index].a / 100;
+    if (index > 1) {
+        s16 *first = (s16 *)((u8 *)data + ENEMY_DATA_FIELD(0));
+        *first = (*first + 2) * rates[index].b / 100;
+    }
+#else
     data[3] = data[3] * rates[index].a / 100;
     if (index > 1) data[0] = (data[0] + 2) * rates[index].b / 100;
+#endif
 }
 /* [HasFreeEnemySpawnRequestSlot] Checks only bits 0 and 1 of request mask 03005724 and returns exactly 1 when
  * either is clear, otherwise 0. It does not reserve a slot or inspect the separate five-enemy actor mask

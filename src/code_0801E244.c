@@ -160,8 +160,6 @@ u16 sub_0801E438(s32 arg0, u32 arg1)
  * exceeds limit, otherwise 3 * enemy word, multiplied by 10 when byte +0x22 is 3.
  * AddExperienceAndAdvanceOneLevel's evidence records that the matched actor defeat/loot path computes its
  * reward through this function before adding it. The exact meaning of the enemy fields is not claimed. */
-/* The USA enemy record carries the same 0x174-byte insertion as the enemy entity block (ENEMY_FIELD). */
-#define E46C_FIELD(o) (ENEMY_FIELD(0x206) - 0x206 + (o))
 s32 sub_0801E46C(void *arg0, void *arg1) {
     s32 temp_r1;
     s32 temp_r1_2;
@@ -171,7 +169,7 @@ s32 sub_0801E46C(void *arg0, void *arg1) {
     s32 var_r1;
 
     sub_080020F4();
-    temp_r3 = M2C_FIELD(arg1, s32 *, E46C_FIELD(0x10));
+    temp_r3 = M2C_FIELD(arg1, s32 *, ENEMY_DATA_FIELD(0x10));
     temp_r1 = M2C_FIELD(arg0, s32 *, SAVE_FIELD(0x20));
     temp_r2 = temp_r1 + 1;
     var_r0 = temp_r2 * 3;
@@ -184,7 +182,7 @@ s32 sub_0801E46C(void *arg0, void *arg1) {
     } else {
         var_r1 = temp_r3 * 3;
     }
-    if (M2C_FIELD(arg1, u8 *, E46C_FIELD(0x22)) == 3) {
+    if (M2C_FIELD(arg1, u8 *, ENEMY_DATA_FIELD(0x22)) == 3) {
         var_r1 *= 10;
     }
     return var_r1;
