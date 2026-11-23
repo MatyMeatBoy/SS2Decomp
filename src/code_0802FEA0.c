@@ -1536,15 +1536,19 @@ extern void sub_0805990C(void); void sub_08032DE4(u32 arg0) {
  task=sub_0805DF38(1,15,2,0,-1,0x140220);
  while(!sub_0805EEFC((void *)task)){if(sub_0800CDF8()){sub_0805EFBC();break;}sub_080003F0();}
  if(sub_080020F4()) goto done;
- count=0;i=0;raw=(s32)items32DE4;flag=0x150;item=(struct Item32DE4 *)(raw+flag);
+ count=0;i=0;raw=(s32)items32DE4;flag=SAVE_FIELD(0x150);item=(struct Item32DE4 *)(raw+flag);
  do {if(load32DE4(&item->kind)==1 && item->id==0x29)count++;item++;i++;}while(i<=24);
  if(count<=0)goto done;
  sub_08028D98(arg,0,-3,3);sub_08028D98(arg,0,3,3);
  actor=arg;flag=3;if(actor>0x100000) {
  found=find32DE4(actor);
  if(found) *(u16 *)(found+0x42)=flag;
- } else if(arg) {actor=arg-1;if(actor<=4){u8 **base=(u8 **)&gUnk_030056F4;raw=actor*0x2E0;base=(u8 **)((u8 *)*base+raw);sub_08019EB8(*(u16 *)((u8 *)base+2),3);}}
- else {raw=sub_080020F4()*PLAYER_SIZE;{u8 *base=(u8 *)gUnk_03003CE0;raw+=(s32)base;v1=0x11E;raw+=v1;*(u16 *)raw=flag;}}
+#ifdef REGION_USA
+ } else if(arg) {actor=arg-1;if(actor<=4){u8 **table=(u8 **)&gUnk_030056F4;u32 eo=actor*ENEMY_SIZE;u8 *e=*table;e+=eo;sub_08019EB8(*(u16 *)(e+2),3);}}
+#else
+ } else if(arg) {actor=arg-1;if(actor<=4){u8 **base=(u8 **)&gUnk_030056F4;raw=actor*ENEMY_SIZE;base=(u8 **)((u8 *)*base+raw);sub_08019EB8(*(u16 *)((u8 *)base+2),3);}}
+#endif
+ else {raw=sub_080020F4()*PLAYER_SIZE;{u8 *base=(u8 *)gUnk_03003CE0;raw+=(s32)base;v1=PLAYER_FIELD(0x11E);raw+=v1;*(u16 *)raw=flag;}}
  sub_08068070((u32)sub_0805990C,1);
  while(sub_0805F184())sub_080003F0();
  while(sub_0805EF90())sub_080003F0();
@@ -1552,7 +1556,7 @@ extern void sub_0805990C(void); void sub_08032DE4(u32 arg0) {
  while(!sub_0805EEFC((void *)task)){if(sub_0800CDF8()){sub_0805EFBC();break;}sub_080003F0();}
  left=1;j=0;itemsbase=&items32DE4;zero=0;
  loopRemove:raw=(s32)*itemsbase;slot=(u8 *)raw+j*16;
- if(*(u16 *)(slot+0x150)!=1 || *(u16 *)(slot+0x152)!=0x29 || (left--,*(u16 *)(slot+0x150)=zero,*(u16 *)(slot+0x152)=zero,left!=0)) {j++;if(j<=24)goto loopRemove;}
+ if(*(u16 *)(slot+SAVE_FIELD(0x150))!=1 || *(u16 *)(slot+SAVE_FIELD(0x152))!=0x29 || (left--,*(u16 *)(slot+SAVE_FIELD(0x150))=zero,*(u16 *)(slot+SAVE_FIELD(0x152))=zero,left!=0)) {j++;if(j<=24)goto loopRemove;}
  goto done;
  stateOne:
  while(sub_0805F184())sub_080003F0();
