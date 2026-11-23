@@ -1730,112 +1730,112 @@ s32 sub_0801D028(u16 arg0) {
  u16 kind;
  u8 cls, v;
  u8 *q, *item;
- kind = *(u16 *)(rescueD028Current + 0xa);
+ kind = *(u16 *)(rescueD028Current + SAVE_FIELD(0xa));
  if (kind == 8) kind = 6;
  cls = kind;
  switch (cls) {
 case 0:
  switch (arg0) {
-case 1: return *(u16 *)(rescueD028Current + 52);
-case 2: return *(u16 *)(rescueD028Current + 56);
-case 3: return *(u16 *)(rescueD028Current + 60);
+case 1: return *(u16 *)(rescueD028Current + SAVE_FIELD(52));
+case 2: return *(u16 *)(rescueD028Current + SAVE_FIELD(56));
+case 3: return *(u16 *)(rescueD028Current + SAVE_FIELD(60));
 }
 break;
 case 2:
  switch (arg0) {
-case 7: return *(u16 *)(rescueD028Current + 52);
-case 3: return *(u16 *)(rescueD028Current + 56);
+case 7: return *(u16 *)(rescueD028Current + SAVE_FIELD(52));
+case 3: return *(u16 *)(rescueD028Current + SAVE_FIELD(56));
 case 9:
-q = rescueD028Current + *(u16 *)(rescueD028Current + 0x68) * 0x10;
- if (q[0x79] == 0) item = 0;
- else item = (u8 *)sub_08007290(*(u16 *)(q + 0x72) | 0xb0000);
- if (ITEM_KIND(item) == 9) v = item[0xa7]; else v = 0;
-if (v == 7) return *(u16 *)(rescueD028Current + 0x48);
+q = rescueD028Current + *(u16 *)(rescueD028Current + SAVE_FIELD(0x68)) * 0x10;
+ if (q[SAVE_FIELD(0x79)] == 0) item = 0;
+ else item = (u8 *)sub_08007290(*(u16 *)(q + SAVE_FIELD(0x72)) | 0xb0000);
+ if (ITEM_KIND(item) == 9) v = item[ITEM_FIELD(0xa7)]; else v = 0;
+if (v == 7) return *(u16 *)(rescueD028Current + SAVE_FIELD(0x48));
 break;
 }
 break;
 case 3:
  switch (arg0) {
-case 2: return *(u16 *)(rescueD028Current + 52);
-case 4: return *(u16 *)(rescueD028Current + 56);
+case 2: return *(u16 *)(rescueD028Current + SAVE_FIELD(52));
+case 4: return *(u16 *)(rescueD028Current + SAVE_FIELD(56));
 }
 break;
 case 1:
  switch (arg0) {
-case 5: return *(u16 *)(rescueD028Current + 52);
+case 5: return *(u16 *)(rescueD028Current + SAVE_FIELD(52));
 case 9:
-q = rescueD028Current + *(u16 *)(rescueD028Current + 0x68) * 0x10;
- if (q[0x79] == 0) item = 0;
- else item = (u8 *)sub_08007290(*(u16 *)(q + 0x72) | 0xb0000);
- if (ITEM_KIND(item) == 9) v = item[0xa7]; else v = 0;
+q = rescueD028Current + *(u16 *)(rescueD028Current + SAVE_FIELD(0x68)) * 0x10;
+ if (q[SAVE_FIELD(0x79)] == 0) item = 0;
+ else item = (u8 *)sub_08007290(*(u16 *)(q + SAVE_FIELD(0x72)) | 0xb0000);
+ if (ITEM_KIND(item) == 9) v = item[ITEM_FIELD(0xa7)]; else v = 0;
 switch (v) {
-case 1: return *(u16 *)(rescueD028Current + 56);
-case 2: return *(u16 *)(rescueD028Current + 60);
-case 3: return *(u16 *)(rescueD028Current + 64);
-case 4: return *(u16 *)(rescueD028Current + 68);
-case 5: return *(u16 *)(rescueD028Current + 72);
-case 6: return *(u16 *)(rescueD028Current + 76);
+case 1: return *(u16 *)(rescueD028Current + SAVE_FIELD(56));
+case 2: return *(u16 *)(rescueD028Current + SAVE_FIELD(60));
+case 3: return *(u16 *)(rescueD028Current + SAVE_FIELD(64));
+case 4: return *(u16 *)(rescueD028Current + SAVE_FIELD(68));
+case 5: return *(u16 *)(rescueD028Current + SAVE_FIELD(72));
+case 6: return *(u16 *)(rescueD028Current + SAVE_FIELD(76));
 }
 break;
 }
 break;
 case 6:
  switch (arg0) {
-case 5: return *(u16 *)(rescueD028Current + 52);
+case 5: return *(u16 *)(rescueD028Current + SAVE_FIELD(52));
 case 9:
-q = rescueD028Current + *(u16 *)(rescueD028Current + 0x68) * 0x10;
- if (q[0x79] == 0) item = 0;
- else item = (u8 *)sub_08007290(*(u16 *)(q + 0x72) | 0xb0000);
- if (ITEM_KIND(item) == 9) v = item[0xa7]; else v = 0;
+q = rescueD028Current + *(u16 *)(rescueD028Current + SAVE_FIELD(0x68)) * 0x10;
+ if (q[SAVE_FIELD(0x79)] == 0) item = 0;
+ else item = (u8 *)sub_08007290(*(u16 *)(q + SAVE_FIELD(0x72)) | 0xb0000);
+ if (ITEM_KIND(item) == 9) v = item[ITEM_FIELD(0xa7)]; else v = 0;
 switch (v) {
-case 13: return *(u16 *)(rescueD028Current + 56);
-case 14: return *(u16 *)(rescueD028Current + 60);
-case 15: return *(u16 *)(rescueD028Current + 64);
-case 16: return *(u16 *)(rescueD028Current + 68);
-case 17: return *(u16 *)(rescueD028Current + 72);
-case 18: return *(u16 *)(rescueD028Current + 76);
+case 13: return *(u16 *)(rescueD028Current + SAVE_FIELD(56));
+case 14: return *(u16 *)(rescueD028Current + SAVE_FIELD(60));
+case 15: return *(u16 *)(rescueD028Current + SAVE_FIELD(64));
+case 16: return *(u16 *)(rescueD028Current + SAVE_FIELD(68));
+case 17: return *(u16 *)(rescueD028Current + SAVE_FIELD(72));
+case 18: return *(u16 *)(rescueD028Current + SAVE_FIELD(76));
 }
 break;
 }
 break;
 case 4:
  switch (arg0) {
-case 5: return *(u16 *)(rescueD028Current + 52);
-case 4: return *(u16 *)(rescueD028Current + 56);
+case 5: return *(u16 *)(rescueD028Current + SAVE_FIELD(52));
+case 4: return *(u16 *)(rescueD028Current + SAVE_FIELD(56));
 case 9:
-q = rescueD028Current + *(u16 *)(rescueD028Current + 0x68) * 0x10;
- if (q[0x79] == 0) item = 0;
- else item = (u8 *)sub_08007290(*(u16 *)(q + 0x72) | 0xb0000);
- if (ITEM_KIND(item) == 9) v = item[0xa7]; else v = 0;
+q = rescueD028Current + *(u16 *)(rescueD028Current + SAVE_FIELD(0x68)) * 0x10;
+ if (q[SAVE_FIELD(0x79)] == 0) item = 0;
+ else item = (u8 *)sub_08007290(*(u16 *)(q + SAVE_FIELD(0x72)) | 0xb0000);
+ if (ITEM_KIND(item) == 9) v = item[ITEM_FIELD(0xa7)]; else v = 0;
 switch (v) {
-case 8: return *(u16 *)(rescueD028Current + 60);
-case 9: return *(u16 *)(rescueD028Current + 64);
-case 10: return *(u16 *)(rescueD028Current + 68);
-case 11: return *(u16 *)(rescueD028Current + 72);
-case 12: return *(u16 *)(rescueD028Current + 76);
+case 8: return *(u16 *)(rescueD028Current + SAVE_FIELD(60));
+case 9: return *(u16 *)(rescueD028Current + SAVE_FIELD(64));
+case 10: return *(u16 *)(rescueD028Current + SAVE_FIELD(68));
+case 11: return *(u16 *)(rescueD028Current + SAVE_FIELD(72));
+case 12: return *(u16 *)(rescueD028Current + SAVE_FIELD(76));
 }
 break;
 }
 break;
 case 5:
  switch (arg0) {
-case 6: return *(u16 *)(rescueD028Current + 52);
-case 8: return *(u16 *)(rescueD028Current + 56);
+case 6: return *(u16 *)(rescueD028Current + SAVE_FIELD(52));
+case 8: return *(u16 *)(rescueD028Current + SAVE_FIELD(56));
 }
 break;
 case 7:
  switch (arg0) {
-case 1: return *(u16 *)(rescueD028Current + 52);
-case 8: return *(u16 *)(rescueD028Current + 56);
+case 1: return *(u16 *)(rescueD028Current + SAVE_FIELD(52));
+case 8: return *(u16 *)(rescueD028Current + SAVE_FIELD(56));
 case 9:
-q = rescueD028Current + *(u16 *)(rescueD028Current + 0x68) * 0x10;
- if (q[0x79] == 0) item = 0;
- else item = (u8 *)sub_08007290(*(u16 *)(q + 0x72) | 0xb0000);
- if (ITEM_KIND(item) == 9) v = item[0xa7]; else v = 0;
+q = rescueD028Current + *(u16 *)(rescueD028Current + SAVE_FIELD(0x68)) * 0x10;
+ if (q[SAVE_FIELD(0x79)] == 0) item = 0;
+ else item = (u8 *)sub_08007290(*(u16 *)(q + SAVE_FIELD(0x72)) | 0xb0000);
+ if (ITEM_KIND(item) == 9) v = item[ITEM_FIELD(0xa7)]; else v = 0;
 switch (v) {
-case 19: return *(u16 *)(rescueD028Current + 64);
-case 21: return *(u16 *)(rescueD028Current + 68);
-case 20: return *(u16 *)(rescueD028Current + 72);
+case 19: return *(u16 *)(rescueD028Current + SAVE_FIELD(64));
+case 21: return *(u16 *)(rescueD028Current + SAVE_FIELD(68));
+case 20: return *(u16 *)(rescueD028Current + SAVE_FIELD(72));
 }
 break;
 }

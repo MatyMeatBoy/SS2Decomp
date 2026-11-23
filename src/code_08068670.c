@@ -889,13 +889,13 @@ void sub_080694AC(struct HitAttack69 *arg0) {
     temp_r2_2 = arg0->target;
     if (temp_r2_2 <= 3U) {
         var_r7 = (PLAYER_SIZE * temp_r2_2) + hitPlayers69;
-        var_sl = (u8 *)(0x7C+(u32)var_r7);
+        var_sl = (u8 *)(PLAYER_FIELD(0x7C)+(u32)var_r7);
         var_r4 = 8;
-        (*(u32 *)((u8 *)(var_r7)+0x110)) = 0;
-        var_r0 = var_r7 + 0x68;
+        (*(u32 *)((u8 *)(var_r7)+SAVE_FIELD(0x110))) = 0;
+        var_r0 = var_r7 + SAVE_FIELD(0x68);
     } else {
         { u8 **base; register u32 offset asm("r0"); base=&hitEnemies69; offset=temp_r2_2*ENEMY_SIZE; offset-=(4 * ENEMY_SIZE); var_r5=(u8 *)((u32)*base+offset); }
-        var_sl = var_r5 + 0x218;
+        var_sl = var_r5 + ENEMY_FIELD(0x218);
         var_r4 = 1;
         var_r0 = var_r5 + 0x1DC;
     }
@@ -910,26 +910,26 @@ void sub_080694AC(struct HitAttack69 *arg0) {
         }
     }
     if (arg0->kind == 0xC) {
-        if ((*(u32 *)((u8 *)(var_r5)+0x210)) == 0xFF) {
+        if ((*(u32 *)((u8 *)(var_r5)+ENEMY_FIELD(0x210))) == 0xFF) {
             packet.control.word &= 0xFF00FFFF;
         } else {
             packet.control.word = (packet.control.word & 0xFF00FFFF) | 0x100000;
         }
         if ((u32) arg0->attacker <= 3U) {
             if ((u32) arg0->target <= 3U) {
-                temp_r2_3 = (*(u32 *)((u8 *)(var_r7)+0x148));
-                var_r0_2 = (s16)(((u16) (*(u16 *)((u8 *)(temp_r2_3)+0x0)) >> 4) - ((s32) (*(u32 *)((u8 *)(var_r8)+0x8C)) >> 8));
-                var_r1 = (((u32) ((*(u16 *)((u8 *)(temp_r2_3)+0x2)) << 0x14) >> 0x14) - ((s32) (*(u32 *)((u8 *)(var_r8)+0x90)) >> 8)) << 0x10;
+                temp_r2_3 = (*(u32 *)((u8 *)(var_r7)+SAVE_FIELD(0x148)));
+                var_r0_2 = (s16)(((u16) (*(u16 *)((u8 *)(temp_r2_3)+0x0)) >> 4) - ((s32) (*(u32 *)((u8 *)(var_r8)+SAVE_FIELD(0x8C))) >> 8));
+                var_r1 = (((u32) ((*(u16 *)((u8 *)(temp_r2_3)+0x2)) << 0x14) >> 0x14) - ((s32) (*(u32 *)((u8 *)(var_r8)+SAVE_FIELD(0x90))) >> 8)) << 0x10;
             } else {
-                var_r0_2 = (s16) ((s32) (((*(u32 *)((u8 *)(var_r5)+0x14)) - (*(u32 *)((u8 *)(var_r8)+0x8C))) << 8) >> 0x10);
-                { register u32 *base asm("r2"); base=(u32 *)(var_r8+0x90); var_r1_2=*(u32 *)(var_r5+0x18); var_r2=*base; }
+                var_r0_2 = (s16) ((s32) (((*(u32 *)((u8 *)(var_r5)+0x14)) - (*(u32 *)((u8 *)(var_r8)+SAVE_FIELD(0x8C)))) << 8) >> 0x10);
+                { register u32 *base asm("r2"); base=(u32 *)(var_r8+SAVE_FIELD(0x90)); var_r1_2=*(u32 *)(var_r5+0x18); var_r2=*base; }
                 
                 goto block_27;
             }
         } else {
             if ((u32) arg0->target <= 3U) {
-                var_r0_2 = (s16) ((s32) (((*(u32 *)((u8 *)(var_r7)+0x8C)) - (*(u32 *)((u8 *)(var_r9)+0x14))) << 8) >> 0x10);
-                { u32 *source; u32 *target; source=(u32 *)(var_r7+0x90); target=(u32 *)(var_r8+0x90); var_r1_2=*source; var_r2=*target; }
+                var_r0_2 = (s16) ((s32) (((*(u32 *)((u8 *)(var_r7)+SAVE_FIELD(0x8C))) - (*(u32 *)((u8 *)(var_r9)+0x14))) << 8) >> 0x10);
+                { u32 *source; u32 *target; source=(u32 *)(var_r7+SAVE_FIELD(0x90)); target=(u32 *)(var_r8+SAVE_FIELD(0x90)); var_r1_2=*source; var_r2=*target; }
             } else {
                 var_r0_2 = (s16) ((s32) (((*(u32 *)((u8 *)(var_r5)+0x14)) - (*(u32 *)((u8 *)(var_r9)+0x14))) << 8) >> 0x10);
                 var_r1_2 = (*(u32 *)((u8 *)(var_r5)+0x18));
@@ -947,8 +947,8 @@ block_27:
     if ((u32) arg0->target <= 3U) {
         packet.control.bits.who=*(u8 *)var_r7;
         if (arg0->target == sub_080020F4()) {
-            (*(u16 *)((u8 *)(var_r7)+0x20)) = 0xA;
-            (*(u16 *)((u8 *)(var_r7)+0x88)) = (u16) (packet.value.half[0] + (*(u16 *)((u8 *)(var_r7)+0x88)));
+            (*(u16 *)((u8 *)(var_r7)+PLAYER_FIELD(0x20))) = 0xA;
+            (*(u16 *)((u8 *)(var_r7)+SAVE_FIELD(0x88))) = (u16) (packet.value.half[0] + (*(u16 *)((u8 *)(var_r7)+SAVE_FIELD(0x88))));
             sub_0801F320(var_r7, (u8 *) &packet);
         }
         hitStatus69(&packet, var_sl, (u16) arg0->level, hitTable69[arg0->kind].effect, (s32) (u16) arg0->target);
@@ -956,10 +956,10 @@ block_27:
             packet.control.byte[1] = 0U;
         }
         if ((u32) arg0->attacker <= 3U) {
-            { u32 index; u8 *base; index=*(u16 *)var_r8; index<<=2; base=var_r7+0xF8;  base+=index; var_r1_3=(s32 *)base; }
-            var_r0_4 = (*(u32 *)((u8 *)(var_r8)+0xDC));
+            { u32 index; u8 *base; index=*(u16 *)var_r8; index<<=2; base=var_r7+SAVE_FIELD(0xF8);  base+=index; var_r1_3=(s32 *)base; }
+            var_r0_4 = (*(u32 *)((u8 *)(var_r8)+SAVE_FIELD(0xDC)));
         } else {
-            { u32 index; register u8 *base asm("r1"); index=*(u16 *)var_r9; index<<=2; base=var_r7+0xE4;  base+=index; var_r1_3=(s32 *)base; }
+            { u32 index; register u8 *base asm("r1"); index=*(u16 *)var_r9; index<<=2; base=var_r7+SAVE_FIELD(0xE4);  base+=index; var_r1_3=(s32 *)base; }
             var_r0_4 = (*(u32 *)((u8 *)(var_r9)+0x50));
         }
         *var_r1_3 = var_r0_4;
@@ -976,8 +976,8 @@ block_27:
         }
         temp_r4_2 = (u16) (*(u16 *)((u8 *)(var_r7)+0x0));
         if (temp_r4_2 == sub_080020F4()) {
-            (*(u32 *)((u8 *)(var_r7)+0xE0)) = (s32) hitTable69[arg0->kind].effect;
-            hitRecover69(packet.control.byte[1], packet.value.half[0], hitStats69 + 0x24);
+            (*(u32 *)((u8 *)(var_r7)+SAVE_FIELD(0xE0))) = (s32) hitTable69[arg0->kind].effect;
+            hitRecover69(packet.control.byte[1], packet.value.half[0], hitStats69 + SAVE_FIELD(0x24));
         }
     } else {
         (*(u16 *)((u8 *)(var_r5)+0xC)) = 0xA;
@@ -986,7 +986,7 @@ block_27:
         (*(u32 *)((u8 *)(var_r5)+0x4C)) = record->value.half[0];
         sub_0801F2CC(var_r5,(u8 *)record); }
         if ((u32) arg0->attacker <= 3U) {
-            var_r0_3 = (*(u32 *)((u8 *)(var_r8)+0xDC));
+            var_r0_3 = (*(u32 *)((u8 *)(var_r8)+SAVE_FIELD(0xDC)));
         } else {
             { register u8 *source asm("r1"); source=var_r9; asm("" : "+r"(source)); var_r0_3=*(u32 *)(source+0x50); }
         }
@@ -997,7 +997,7 @@ block_27:
         if (arg0->kind == 0x12) {
             packet.control.byte[1] = 0U;
         }
-        { register u32 stateOffset asm("r2"); register u8 *stateAddress asm("r0"); stateOffset=0x226; asm("" : "+r"(stateOffset)); stateAddress=var_r5+stateOffset; 
+        { register u32 stateOffset asm("r2"); register u8 *stateAddress asm("r0"); stateOffset=ENEMY_FIELD(0x226); asm("" : "+r"(stateOffset)); stateAddress=var_r5+stateOffset; 
         if (*stateAddress != 3) {
             temp_r0 = sub_0801E244((s32) var_r5, (s32) packet.control.byte[1]);
             if (temp_r0 != 0) {
