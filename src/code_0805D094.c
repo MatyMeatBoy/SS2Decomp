@@ -6,7 +6,7 @@ extern void sub_0805B688(void);
 extern u32 gUnk_03005D60;
 struct PlayerReset61 {u8 pad[PLAYER_FIELD(0xC6)];u16 reset;u8 tail[PLAYER_SIZE - PLAYER_FIELD(0xC8)];};
 extern struct PlayerReset61 gReset61[] asm("gUnk_03003CE0");
-struct Player61 { u8 pad[0x38]; s16 limit; u8 rest[0x112]; };
+struct Player61 { u8 pad[PLAYER_FIELD(0x38)]; s16 limit; u8 rest[PLAYER_SIZE - PLAYER_FIELD(0x3A)]; };
 extern struct Player61 gParty61[] asm("gUnk_03003CE0");
 extern u32 sub_0805D2E0(void *);
 extern u32 sub_0805D278(void *);
@@ -75,15 +75,19 @@ s32 sub_0805D1E0(void) {
 u32 sub_0805D210(void *state) {
     u8 *resource;
     s32 offset;
+#ifdef REGION_USA
+    register struct Player61 *player asm("r0");
+#else
     register struct Player61 *player asm("r1");
+#endif
     if(state!=0 && *(u16 *)state==4 && M2C_FIELD(state,u8 *,8)==0) {
         resource=(u8 *)sub_08007290(M2C_FIELD(state,u16 *,2)|0xD0000);
-        if((*(u16 *)(resource+0xA2)>>sub_0801DE60())&1) {
+        if((*(u16 *)(resource+EQUIP_FIELD(0xA2))>>sub_0801DE60())&1) {
             offset=sizeof(struct Player61)*sub_080020F4();
             asm volatile("" : "+r" (offset));
             player=(void *)((u8 *)gParty61+offset);
             
-            if(resource[0xA0]<=player->limit) return 1;
+            if(*(EquipLevel *)(resource+EQUIP_FIELD(0xA0))<=player->limit) return 1;
         }
     }
     return 0;
@@ -95,15 +99,19 @@ u32 sub_0805D210(void *state) {
 u32 sub_0805D278(void *state) {
     u8 *resource;
     s32 offset;
+#ifdef REGION_USA
+    register struct Player61 *player asm("r0");
+#else
     register struct Player61 *player asm("r1");
+#endif
     if(state!=0 && *(u16 *)state==3 && M2C_FIELD(state,u8 *,8)==0) {
         resource=(u8 *)sub_08007290(M2C_FIELD(state,u16 *,2)|0xC0000);
-        if((*(u16 *)(resource+0xA2)>>sub_0801DE60())&1) {
+        if((*(u16 *)(resource+EQUIP_FIELD(0xA2))>>sub_0801DE60())&1) {
             offset=sizeof(struct Player61)*sub_080020F4();
             asm volatile("" : "+r" (offset));
             player=(void *)((u8 *)gParty61+offset);
             
-            if(resource[0xA0]<=player->limit) return 1;
+            if(*(EquipLevel *)(resource+EQUIP_FIELD(0xA0))<=player->limit) return 1;
         }
     }
     return 0;

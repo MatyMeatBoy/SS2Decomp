@@ -19,6 +19,8 @@
 // move by 0xD8 (ITEM_FIELD) and the EU u8 kind at +0x9B is a u16 at USA +0x174 (ITEM_KIND).
 // Character names (save +0, ten characters) are NameChar strings: bytes in EU, halfwords in USA,
 // which is where SAVE_FIELD's 10-byte shift comes from.
+// Equipment records of archives 0xC/0xD/0xE: EQUIP_FIELD (USA +0xDC); the level requirement
+// at EQUIP_FIELD(0xA0) is an EquipLevel (u8 EU, u16 USA).
 // Text records (sub_08007290): the string starts after a 2-byte EU, 4-byte USA header (TEXT_HEADER).
 #ifdef REGION_USA
 #define PLAYER_SIZE 0x158
@@ -33,6 +35,8 @@
 typedef u16 ItemKind;
 #define ITEM_KIND(r) (*(ItemKind *)((u8 *)(r) + ITEM_KIND_OFF))
 typedef u16 NameChar;
+#define EQUIP_FIELD(o) ((o) + 0xDC)
+typedef u16 EquipLevel;
 #else
 #define PLAYER_SIZE 0x14C
 #define PLAYER_FIELD(o) (o)
@@ -46,6 +50,8 @@ typedef u16 NameChar;
 typedef u8 ItemKind;
 #define ITEM_KIND(r) (*(ItemKind *)((u8 *)(r) + ITEM_KIND_OFF))
 typedef u8 NameChar;
+#define EQUIP_FIELD(o) (o)
+typedef u8 EquipLevel;
 #endif
 
 #endif // GUARD_REGION_H
