@@ -115,7 +115,7 @@ extern const struct Trade44 trades44[] asm("gUnk_084B1C50");
 extern u8 *state5E8 asm("gUnk_03005CF4");
 struct Player44 { u8 pad[0x30]; u32 flags; u8 pad2[0x11E - 0x34]; u16 mark; u8 pad3[0x14C-0x120]; };
 extern struct Player44 players5E8[] asm("gUnk_03003CE0");
-struct Rec44 { u16 a, id; u8 pad[0x2DC]; };
+struct Rec44 { u16 a, id; u8 pad[ENEMY_SIZE - 4]; };
 extern struct Rec44 *records5E8 asm("gUnk_030056F4");
 extern struct Inv44 *inventory5E8 asm("gUnk_030034E0");
 extern u32 audioFlags5E8 asm("gUnk_030027D0");
@@ -2403,7 +2403,7 @@ done107:
 }
 
 struct T47ETask { u32 f0,f4,f8,fC,f10,f14,f18,f1C,f20,f24; };
-struct T47EPlayer { u16 f0,id; u8 pad[0x2DC]; };
+struct T47EPlayer { u16 f0,id; u8 pad[ENEMY_SIZE - 4]; };
 extern u8 *t47EState asm("gUnk_03005CF4");
 extern struct T47EPlayer *t47EPlayers asm("gUnk_030056F4");
 extern u8 t47EActors[] asm("gUnk_03003CE0");
@@ -3886,7 +3886,7 @@ done:
         break;
     }
 }
-struct T49EntityB100 { u8 pad[12]; u16 state; u8 padE[0x22]; u32 x, y; void *callback; u32 arg; u8 tail[0x2A0]; };
+struct T49EntityB100 { u8 pad[12]; u16 state; u8 padE[0x22]; u32 x, y; void *callback; u32 arg; u8 tail[ENEMY_SIZE - 0x40]; };
 extern struct T49EntityB100 *t49_entitiesB100 asm("gUnk_030056F4");
 extern u8 *t49_gsB100 asm("gUnk_03005CF4");
 extern void t49_cbB100(void) asm("sub_0804B32C");
@@ -4409,7 +4409,7 @@ extern u8 *t49_gsBC38 asm("gUnk_03005CF4");
 extern void t49_taskBC38(void) asm("sub_0805A874");
 void sub_0804BEF8(u32 arg0);
 struct T49EntryBC38 { u32 id, kind; u8 pad[0x3A]; u16 state; u8 tail[0x2C]; };
-struct T49EntityBC38 { u16 f0,id; u8 pad[0x2DC]; };
+struct T49EntityBC38 { u16 f0,id; u8 pad[ENEMY_SIZE - 4]; };
 extern struct T49EntityBC38 *t49_entitiesBC38 asm("gUnk_030056F4");
 static inline void t49_lockBC38(void)
 { struct Player *p = &gUnk_03003CE0[sub_080020F4()]; p->flags |= 1; }

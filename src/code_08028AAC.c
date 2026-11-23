@@ -10,7 +10,7 @@ typedef struct { s32 x, y; } Vec028AAC;
 struct Actor028AAC { u32 id; u8 p4[4]; Vec028AAC pos, target; u8 p18[0x58]; };
 struct Obj028AAC { Vec028AAC pos; u8 p8[0x12]; u16 f1A, f1C; u8 p1E[6]; };
 struct State028AAC { u8 p0[0x7A4]; struct Actor028AAC actors[15]; };
-struct Enemy028AAC { u8 p0[0x14]; Vec028AAC pos, prev, target; u8 p2C[0x2B4]; };
+struct Enemy028AAC { u8 p0[0x14]; Vec028AAC pos, prev, target; u8 p2C[ENEMY_SIZE - 0x2C]; };
 struct Player028AAC { u8 p0[0x8C]; Vec028AAC pos, prev, target; u8 pA4[0xA8]; };
 extern struct State028AAC *state028AAC asm("gUnk_03005CF4");
 extern struct Enemy028AAC *enemies028AAC asm("gUnk_030056F4");
@@ -151,7 +151,7 @@ typedef struct { s32 x, y; } Vec028D98;
 struct Actor028D98 { u32 id; u8 p4[4]; Vec028D98 pos, target; u8 p18[0x58]; };
 struct Obj028D98 { Vec028D98 pos; u8 p8[0x12]; u16 f1A, f1C; u8 p1E[6]; };
 struct State028D98 { u8 p0[0x7A4]; struct Actor028D98 actors[15]; };
-struct Enemy028D98 { u8 p0[0x14]; Vec028D98 pos, prev, target; u8 p2C[0x2B4]; };
+struct Enemy028D98 { u8 p0[0x14]; Vec028D98 pos, prev, target; u8 p2C[ENEMY_SIZE - 0x2C]; };
 struct Player028D98 { u8 p0[0x8C]; Vec028D98 pos, prev, target; u8 pA4[0xA8]; };
 extern struct State028D98 *state028D98 asm("gUnk_03005CF4");
 extern struct Enemy028D98 *enemies028D98 asm("gUnk_030056F4");
@@ -288,7 +288,7 @@ void sub_08028D98_v(u32 who, s32 ax, s32 ay, s32 af)
     }
 }
 extern u8 *scene026E4 asm("gUnk_03005CF4");
-struct Monster026E4 {u8 pad[8];u16 value;u8 tail[0x2D6];};
+struct Monster026E4 {u8 pad[8];u16 value;u8 tail[ENEMY_SIZE - 0xA];};
 extern struct Monster026E4 *monsters026E4 asm("gUnk_030056F4");
 struct Player026E4 {u8 pad[PLAYER_FIELD(0x1C)];u16 value;u8 tail[PLAYER_SIZE - PLAYER_FIELD(0x1E)];};
 extern struct Player026E4 players026E4[] asm("gUnk_03003CE0");

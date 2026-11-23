@@ -1951,7 +1951,7 @@ void t21_20D40(s32 arg0, s32 arg1)
 struct T21Anim20E08 { u32 a; u32 unused; u32 b; void *palette; u8 pad[12]; u8 sprite[24]; };
 struct T21Player20E08 { u16 *position; u8 pad[PLAYER_SIZE - 4]; };
 extern struct T21Player20E08 t21_players20E08[] asm("gUnk_03003E28");
-struct T21Entity20E08 { u8 pad[0x14]; s32 x, y; u8 tail[0x2C4]; };
+struct T21Entity20E08 { u8 pad[0x14]; s32 x, y; u8 tail[ENEMY_SIZE - 0x1C]; };
 extern struct T21Entity20E08 *t21_entities20E08 asm("gUnk_030056F4");
 extern s32 t21_init20E08(void *, u32, s32, s32, s32) asm("sub_08065158");
 extern void t21_7870(s32, s32, s32, s32, u32, void *, u32, u32) asm("sub_08007870");
@@ -2047,7 +2047,7 @@ void t21_20F74(s32 arg0, s32 arg1)
 struct T21Anim210A8 { u32 a; u32 unused; u32 b; void *palette; u8 pad[12]; u8 sprite[24]; };
 struct T21Player210A8 { u8 pad[PLAYER_FIELD(0x148)]; u16 *position; };
 extern struct T21Player210A8 t21_players210A8[] asm("gUnk_03003CE0");
-struct T21Entity210A8 { u8 pad[0x14]; s32 x, y; u8 tail[0x2C4]; };
+struct T21Entity210A8 { u8 pad[0x14]; s32 x, y; u8 tail[ENEMY_SIZE - 0x1C]; };
 extern struct T21Entity210A8 *t21_entities210A8 asm("gUnk_030056F4");
 extern s32 t21_init210A8(void *, u32, s32, s32, s32) asm("sub_08065158");
 void t21_210A8(u32 arg0, s32 arg1) asm("sub_080210A8");
@@ -2144,7 +2144,7 @@ void t21_21214(u32 arg0, u32 arg1)
 struct T21Anim2133C { u32 a; u32 unused; u32 b; void *palette; u8 pad[12]; u8 sprite[24]; };
 struct T21Player2133C { u8 pad[PLAYER_FIELD(0x148)]; u16 *position; };
 extern struct T21Player2133C t21_players2133C[] asm("gUnk_03003CE0");
-struct T21Entity2133C { u8 pad[0x14]; s32 x, y; u8 tail[0x2C4]; };
+struct T21Entity2133C { u8 pad[0x14]; s32 x, y; u8 tail[ENEMY_SIZE - 0x1C]; };
 extern struct T21Entity2133C *t21_entities2133C asm("gUnk_030056F4");
 extern s32 t21_init2133C(void *, u32, s32, s32, s32) asm("sub_08065158");
 void t21_2133C(u32 arg0, s32 arg1) asm("sub_0802133C");
@@ -2193,7 +2193,7 @@ void t21_2133C(u32 arg0, s32 arg1)
 struct T21Anim21490 { u32 a; u32 unused; u32 b; void *palette; u8 pad[12]; u8 sprite[24]; };
 struct T21Player21490 { u8 pad[PLAYER_FIELD(0x148)]; u16 *position; };
 extern struct T21Player21490 t21_players21490[] asm("gUnk_03003CE0");
-struct T21Entity21490 { u8 pad[0x14]; s32 x, y; u8 tail[0x2C4]; };
+struct T21Entity21490 { u8 pad[0x14]; s32 x, y; u8 tail[ENEMY_SIZE - 0x1C]; };
 extern struct T21Entity21490 *t21_entities21490 asm("gUnk_030056F4");
 extern s32 t21_init21490(void *, u32, s32, s32, s32) asm("sub_08065158");
 void t21_21490(u32 arg0, s32 arg1) asm("sub_08021490");
@@ -2314,7 +2314,7 @@ void t21_216BC(s32 arg0, s32 arg1)
 struct T21Anim217D8 { u32 a; u32 unused; u32 b; void *palette; u8 pad[12]; u8 sprite[24]; };
 struct T21Player217D8 { u8 pad[PLAYER_FIELD(0x148)]; u16 *position; };
 extern struct T21Player217D8 t21_players217D8[] asm("gUnk_03003CE0");
-struct T21Entity217D8 { u8 pad[0x14]; s32 x, y; u8 tail[0x2C4]; };
+struct T21Entity217D8 { u8 pad[0x14]; s32 x, y; u8 tail[ENEMY_SIZE - 0x1C]; };
 extern struct T21Entity217D8 *t21_entities217D8 asm("gUnk_030056F4");
 extern s32 t21_init217D8(void *, u32, s32, s32, s32) asm("sub_08065158");
 void t21_217D8(u32 arg0, s32 arg1) asm("sub_080217D8");
@@ -2378,7 +2378,7 @@ void t21_217D8(u32 arg0, s32 arg1)
 struct T21Anim21960 { u32 a; u32 unused; u32 b; void *palette; u8 pad[12]; u8 sprite[24]; };
 struct T21Player21960 { u8 pad[PLAYER_FIELD(0x148)]; u16 *position; };
 extern struct T21Player21960 t21_players21960[] asm("gUnk_03003CE0");
-struct T21Entity21960 { u8 pad[0x14]; s32 x, y; u8 tail[0x2C4]; };
+struct T21Entity21960 { u8 pad[0x14]; s32 x, y; u8 tail[ENEMY_SIZE - 0x1C]; };
 extern struct T21Entity21960 *t21_entities21960 asm("gUnk_030056F4");
 extern s32 t21_init21960(void *, u32, s32, s32, s32) asm("sub_08065158");
 void t21_21960(u32 arg0, s32 arg1) asm("sub_08021960");
