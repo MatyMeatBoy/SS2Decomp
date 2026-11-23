@@ -1086,7 +1086,11 @@ while(sub_0805F184())sub_080003F0();while(sub_0805EF90())sub_080003F0();task=sub
  actor=arg;flag=3;if(arg>0x100000) {
  found=find46490(actor);
  if(found) *(u16 *)(found+0x42)=flag;
+#ifdef REGION_USA
+ } else if(arg) {actor=arg-1;if(actor<=4){u8 **table=(u8 **)&gUnk_030056F4;u32 eo=actor*ENEMY_SIZE;u8 *e=*table;e+=eo;sub_08019EB8(*(u16 *)(e+2),3);}}
+#else
  } else if(arg) {actor=arg-1;if(actor<=4){u8 **base=(u8 **)&gUnk_030056F4;raw=actor*ENEMY_SIZE;base=(u8 **)((u8 *)*base+raw);sub_08019EB8(*(u16 *)((u8 *)base+2),3);}}
+#endif
  else {raw=sub_080020F4()*PLAYER_SIZE;{u8 *base=(u8 *)gUnk_03003CE0;raw+=(s32)base;v1=PLAYER_FIELD(0x11E);raw+=v1;*(u16 *)raw=flag;}}
 while(sub_0805F184())sub_080003F0();task=sub_0805DF38(1,15,2,0,-2,0x1402AB);while(!sub_0805EEFC((void *)task))sub_080003F0();flag=sub_0805EF14((u8 *)task);if(flag){data=cmd.data;
 while(sub_0805F184())sub_080003F0();while(sub_0805EF90())sub_080003F0();task=sub_0805DF38(1,15,2,0,-1,0x1402AD);while(!sub_0805EEFC((void *)task)){if(sub_0800CDF8()){sub_0805EFBC();break;}sub_080003F0();}
@@ -1149,7 +1153,11 @@ while(sub_0805F184())sub_080003F0();while(sub_0805EF90())sub_080003F0();task=sub
  actor=arg;flag=3;if(arg>0x100000) {
  found=find469DC(actor);
  if(found) *(u16 *)(found+0x42)=flag;
+#ifdef REGION_USA
+ } else if(arg) {actor=arg-1;if(actor<=4){u8 **table=(u8 **)&gUnk_030056F4;u32 eo=actor*ENEMY_SIZE;u8 *e=*table;e+=eo;sub_08019EB8(*(u16 *)(e+2),3);}}
+#else
  } else if(arg) {actor=arg-1;if(actor<=4){u8 **base=(u8 **)&gUnk_030056F4;raw=actor*ENEMY_SIZE;base=(u8 **)((u8 *)*base+raw);sub_08019EB8(*(u16 *)((u8 *)base+2),3);}}
+#endif
  else {raw=sub_080020F4()*PLAYER_SIZE;{u8 *base=(u8 *)gUnk_03003CE0;raw+=(s32)base;v1=PLAYER_FIELD(0x11E);raw+=v1;*(u16 *)raw=flag;}}
 while(sub_0805F184())sub_080003F0();task=sub_0805DF38(1,15,2,0,-2,0x1402B4);while(!sub_0805EEFC((void *)task))sub_080003F0();flag=sub_0805EF14((u8 *)task);if(flag){data=cmd.data;
 while(sub_0805F184())sub_080003F0();while(sub_0805EF90())sub_080003F0();task=sub_0805DF38(1,15,2,0,-1,0x1402B6);while(!sub_0805EEFC((void *)task)){if(sub_0800CDF8()){sub_0805EFBC();break;}sub_080003F0();}
@@ -1212,7 +1220,11 @@ while(sub_0805F184())sub_080003F0();while(sub_0805EF90())sub_080003F0();task=sub
  actor=arg;flag=3;if(arg>0x100000) {
  found=find46F28(actor);
  if(found) *(u16 *)(found+0x42)=flag;
+#ifdef REGION_USA
+ } else if(arg) {actor=arg-1;if(actor<=4){u8 **table=(u8 **)&gUnk_030056F4;u32 eo=actor*ENEMY_SIZE;u8 *e=*table;e+=eo;sub_08019EB8(*(u16 *)(e+2),3);}}
+#else
  } else if(arg) {actor=arg-1;if(actor<=4){u8 **base=(u8 **)&gUnk_030056F4;raw=actor*ENEMY_SIZE;base=(u8 **)((u8 *)*base+raw);sub_08019EB8(*(u16 *)((u8 *)base+2),3);}}
+#endif
  else {raw=sub_080020F4()*PLAYER_SIZE;{u8 *base=(u8 *)gUnk_03003CE0;raw+=(s32)base;v1=PLAYER_FIELD(0x11E);raw+=v1;*(u16 *)raw=flag;}}
 while(sub_0805F184())sub_080003F0();task=sub_0805DF38(1,15,2,0,-2,0x1402BD);while(!sub_0805EEFC((void *)task))sub_080003F0();flag=sub_0805EF14((u8 *)task);if(flag){data=cmd.data;
 while(sub_0805F184())sub_080003F0();while(sub_0805EF90())sub_080003F0();task=sub_0805DF38(1,15,2,0,-1,0x1402BF);while(!sub_0805EEFC((void *)task)){if(sub_0800CDF8()){sub_0805EFBC();break;}sub_080003F0();}

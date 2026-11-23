@@ -213,7 +213,11 @@ while(!sub_0805EEFC((void *)msg)) {if(sub_0800CDF8()) {sub_0805EFBC();break;} su
   do {if(t39_bc3c_id((u8 *)item)==1&&item->kind==0x30) total++;item++;idx++;} while(idx<=24);
   if(total>0 && sub_080020F4()==0) {
    id=arg0;mode=3;if(id>0x100000) {slot=t39_bc3c_find(id);if(slot)slot->state=mode;}
+#ifdef REGION_USA
+   else if(arg0) {id=arg0-1;if(id<=4){entityGlobal=(u8 **)&gUnk_030056F4;entityOffset=id*ENEMY_SIZE;base1=*entityGlobal;base1+=entityOffset;sub_08019EB8(*(u16 *)(base1+2),3);}}
+#else
    else if(arg0) {id=arg0-1;if(id<=4){entityGlobal=(u8 **)&gUnk_030056F4;entityOffset=id*ENEMY_SIZE;base1=*entityGlobal+entityOffset;sub_08019EB8(*(u16 *)(base1+2),3);}}
+#endif
    else {entityOffset=sub_080020F4()*PLAYER_SIZE;base0=(u8 *)gUnk_03003CE0+entityOffset;mul=PLAYER_FIELD(0x11E);*(u16 *)(base0+mul)=mode;}
    dat=req.data;while(sub_0805F184()) sub_080003F0();
 while(sub_0805EF90()) sub_080003F0();

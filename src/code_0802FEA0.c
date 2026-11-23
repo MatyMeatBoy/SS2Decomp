@@ -4660,7 +4660,11 @@ void sub_08038D18(u32 arg){
  if(sub_080020F4())goto other;
  actor=arg;flag=3;
  if(actor>0x100000){found=find38D18(actor);if(found)*(u16 *)(found+0x42)=flag;}
+#ifdef REGION_USA
+ else if(arg){actor=arg-1;if(actor<=4){u8 **table=(u8 **)&gUnk_030056F4;u32 eo=actor*ENEMY_SIZE;u8 *e=*table;e+=eo;sub_08019EB8(*(u16 *)(e+2),3);}}
+#else
  else if(arg){actor=arg-1;if(actor<=4){register u8 **base asm("r1")=(u8 **)&gUnk_030056F4;raw=actor*ENEMY_SIZE;base=(u8 **)((u8 *)*base+raw);sub_08019EB8(*(u16 *)((u8 *)base+2),3);}}
+#endif
  else{raw=sub_080020F4()*PLAYER_SIZE;{register u8 *base asm("r1")=(u8 *)gUnk_03003CE0;raw+=(s32)base;off1=PLAYER_FIELD(0x11E);raw+=off1;*(u16 *)raw=flag;}}
  data=cmd.data;
  while(sub_0805F184())sub_080003F0();while(sub_0805EF90())sub_080003F0();
@@ -4769,7 +4773,11 @@ enabled:
  if(sub_080020F4())goto other;
  actor=arg;flag=3;
  if(actor>0x100000){found=find392B4(actor);if(found)*(u16 *)(found+0x42)=flag;}
+#ifdef REGION_USA
+ else if(arg){actor=arg-1;if(actor<=4){u8 **table=(u8 **)&gUnk_030056F4;u32 eo=actor*ENEMY_SIZE;u8 *e=*table;e+=eo;sub_08019EB8(*(u16 *)(e+2),3);}}
+#else
  else if(arg){actor=arg-1;if(actor<=4){register u8 **base asm("r1")=(u8 **)&gUnk_030056F4;raw=actor*ENEMY_SIZE;base=(u8 **)((u8 *)*base+raw);sub_08019EB8(*(u16 *)((u8 *)base+2),3);}}
+#endif
  else{raw=sub_080020F4()*PLAYER_SIZE;{register u8 *base asm("r1")=(u8 *)gUnk_03003CE0;raw+=(s32)base;off1=PLAYER_FIELD(0x11E);raw+=off1;*(u16 *)raw=flag;}}
 
  while(sub_0805F184())sub_080003F0();dialog=sub_0805DF38(1,15,2,0,-2,0x140265);
