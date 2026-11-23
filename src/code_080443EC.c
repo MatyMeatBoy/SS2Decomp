@@ -4428,7 +4428,11 @@ static inline struct T49EntryBC38 *t49_findBC38(u32 actor)
 static inline void t49_stateBC38(u32 actor)
 {
     register u32 current asm("r5")=actor;
+#ifdef REGION_USA
+    register u32 savedActor asm("r1")=current;
+#else
     register u32 savedActor asm("r2")=current;
+#endif
     u16 state;
     struct T49EntryBC38 *p;
     state=3;
@@ -4439,7 +4443,11 @@ static inline void t49_stateBC38(u32 actor)
         u32 index=current-1;
         if(index<=4) {
             struct T49EntityBC38 **table=&t49_entitiesBC38;
+#ifdef REGION_USA
+            u32 offset=index*ENEMY_SIZE;
+#else
             register u32 offset asm("r0")=index*ENEMY_SIZE;
+#endif
             struct T49EntityBC38 *entity=*table;
             entity=(struct T49EntityBC38 *)((u8 *)entity+offset);
             sub_08019EB8(entity->id,3);
