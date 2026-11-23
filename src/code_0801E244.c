@@ -1427,7 +1427,7 @@ next:
     } while(index<refreshed);
     return result;
 }
-struct Sh20FD64 { u8 pad0[0x62]; s16 amount; u8 pad64[4]; u8 enabled; u8 rate; u8 pad6A[0x20]; u16 accumulator; u8 pad8C[0x50]; u32 current; u32 pending; u8 padE4[0x28]; u32 previous; };
+struct Sh20FD64 { u8 pad0[PLAYER_FIELD(0x62)]; s16 amount; u8 pad64[4]; u8 enabled; u8 rate; u8 pad6A[0x20]; u16 accumulator; u8 pad8C[0x50]; u32 current; u32 pending; u8 padE4[0x28]; u32 previous; };
 /* [QueueAttackHealthCost] Requires differing current/previous sequence and nonzero player team. */
 void sub_0801FD64(void *arg0)
 {
