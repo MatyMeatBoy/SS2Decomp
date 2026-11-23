@@ -113,7 +113,11 @@ void sub_08001B78(void)
     sub_08001AA4();
     sub_0805F1B0();
     sub_08092094();
+#ifdef REGION_USA
+    gUnk_03003470 = 1; /* USA starts with this state set */
+#else
     gUnk_03003470 = 0;
+#endif
     sub_080003F0();
     sub_080003F0();
     sub_080003F0();

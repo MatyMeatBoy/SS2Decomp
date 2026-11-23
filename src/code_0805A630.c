@@ -569,43 +569,43 @@ s32 impl_0805AD78(u32 index)
     u8 *playerBase;
     u8 **owner;
     u8 *table;
-    for (; i < players[sub_080020F4() * PLAYER_SIZE + 0x77]; i++) {
+    for (; i < players[sub_080020F4() * PLAYER_SIZE + SAVE_FIELD(0x77)]; i++) {
         u8 *slot = mapItems;
         slot = slot + i * 0x10;
-        slot += 0x79;
+        slot += SAVE_FIELD(0x79);
         *slot = 0;
     }
     owner = &mapItems;
     table = *owner;
     offset = index * 0x10;
     item = table + offset;
-    if (*(u16 *)(item + 0x70) == 2) {
-        valid = sub_0805AE34(table + (offset + 0x70));
+    if (*(u16 *)(item + SAVE_FIELD(0x70)) == 2) {
+        valid = sub_0805AE34(table + (offset + SAVE_FIELD(0x70)));
         if (valid) {
             u8 *resource;
             u8 *slot = *owner;
             slot += offset;
-            slot += 0x79;
+            slot += SAVE_FIELD(0x79);
             *slot = 1;
-            resource = (u8 *)sub_08007290(*(u16 *)(mapItems + offset + 0x72) | 0xB0000);
+            resource = (u8 *)sub_08007290(*(u16 *)(mapItems + offset + SAVE_FIELD(0x72)) | 0xB0000);
             player = sub_080020F4();
             playerBase = (u8 *)gUnk_03003CE0;
             player *= PLAYER_SIZE;
             states = (u8 *)player + (u32)playerBase;
-            *(u16 *)(states + 0x10) = resource[0x9B];
+            *(u16 *)(states + PLAYER_FIELD(0x10)) = ITEM_KIND(resource);
         } else {
             player = sub_080020F4();
             playerBase = (u8 *)gUnk_03003CE0;
             player *= PLAYER_SIZE;
             states = (u8 *)player + (u32)playerBase;
-            *(u16 *)(states + 0x10) = valid;
+            *(u16 *)(states + PLAYER_FIELD(0x10)) = valid;
         }
     } else {
         player = sub_080020F4();
         playerBase = (u8 *)gUnk_03003CE0;
         player *= PLAYER_SIZE;
         states = (u8 *)player + (u32)playerBase;
-        *(u16 *)(states + 0x10) = 0;
+        *(u16 *)(states + PLAYER_FIELD(0x10)) = 0;
     }
     return sub_08065DAC();
 }
@@ -1680,7 +1680,7 @@ s32 sub_0805C208(void *arg0, s32 arg1)
     switch (slot->type) {
     case 2:
         o0 = (u8 *)sub_08007290(slot->arg | 0xB0000);
-        if (o0[0x9B] == 9) {
+        if (ITEM_KIND(o0) == 9) {
             table = (struct C208Range *)gUnk_08478044;
             r = sub_080008C8();
             asm("" : : "r"(r));

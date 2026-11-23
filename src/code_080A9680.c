@@ -3734,7 +3734,7 @@ void sub_080AF3F4_v(struct ActF3F4 *a)
     a->f1FE = 2;
     id = 0xB3;
     res->f28 = id;
-    sfx = objF3F4(0xB0000 | id)[0x9B];
+    sfx = ITEM_KIND(objF3F4(0xB0000 | id));
     res->f24 = 2;
     ((u8 *)a)[0x22B] = 0;
     a->f50 = 1;
@@ -4201,7 +4201,7 @@ void sub_080B0288_v(struct Act0288 *a)
     a->f1FE = 2;
     id = 0xB3;
     res->f28 = id;
-    sfx = obj0288(0xB0000 | id)[0x9B];
+    sfx = ITEM_KIND(obj0288(0xB0000 | id));
     res->f24 = 2;
     ((u8 *)a)[0x22B] = 0;
     a->f50 = 1;
@@ -4583,7 +4583,7 @@ void sub_080B0FC4_v(struct Act0288 *a)
     a->f1FE = 3;
     id = 0xB3;
     res->f28 = id;
-    sfx = obj0288(0xB0000 | id)[0x9B];
+    sfx = ITEM_KIND(obj0288(0xB0000 | id));
     res->f24 = 2;
     *((u8 *)res + 0x27) = 0;
     a->f50 = 1;

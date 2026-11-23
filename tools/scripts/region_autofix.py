@@ -25,7 +25,7 @@ import region_symbols
 
 LITERAL = re.compile(r'(?<![\w.])(0[xX][0-9a-fA-F]+|[1-9][0-9]*)[uUlL]*(?![\w.])')
 MACROS = ('PLAYER_FIELD', 'SAVE_FIELD')
-WRAPPED = re.compile(r'\b(?:PLAYER_FIELD|SAVE_FIELD|RES_ID|ENEMY_FIELD)\s*\($')
+WRAPPED = re.compile(r'\b(?:PLAYER_FIELD|SAVE_FIELD|RES_ID|ENEMY_FIELD|ITEM_FIELD)\s*\($')
 PLAYER_STRIDE = 0x14C
 ENEMY_STRIDE = 0x2E0
 SAVE_LIMIT = 0x1000  # save-record offsets go past the player record size
@@ -189,7 +189,7 @@ class Checker:
         return best
 
 
-def search(checker, module, name, address, log):
+def search(checker, module, name, address, log, apply_best=False):
     path = ROOT / 'src' / (module + '.c')
     original = path.read_text(encoding='utf-8')
     span = function_span(original, name)
@@ -217,6 +217,7 @@ def search(checker, module, name, address, log):
             return False
         start = best
         save_first = 'gUnk_030034E0' in function_body
+        item = re.search(r'0[xX][bB]0000|ITEM_KIND', function_body) is not None  # item data records
         enemy = True  # enemy records often arrive as plain pointers; exactness decides
         options = {}
         for index, (_, _, value) in enumerate(literals):
@@ -227,6 +228,8 @@ def search(checker, module, name, address, log):
                 continue
             if is_resource(value):
                 options.setdefault(('RES_ID', value), []).append(index)
+            if item and 0x9C <= value < 0x100:
+                options.setdefault(('ITEM_FIELD', value), []).append(index)
             if enemy and 0x206 <= value < ENEMY_STRIDE:
                 options.setdefault(('ENEMY_FIELD', value), []).append(index)
             if value <= SAVE_LIMIT:
@@ -290,7 +293,10 @@ def search(checker, module, name, address, log):
                 {'%s(0x%X)' % (best_choice[i], literals[i][2]) if not best_choice[i] in WHOLE
                  else best_choice[i] for i in best_choice}))))
             return True
-        log('%s: best %d (from %d), not applied%s' % (name, best, start, ''.join(
+        if apply_best and best is not None and best < start:
+            path.write_text(head + rewrite(body, literals, best_choice) + tail, encoding='utf-8')
+            applied = True
+        log('%s: best %d (from %d), %s%s' % (name, best, start, 'applied' if applied else 'not applied', ''.join(
             ' with %s at line %d' % (best_choice[i] if best_choice[i] in WHOLE else '%s(0x%X)' % (best_choice[i], literals[i][2]),
                                      original.count('\n', 0, literals[i][0]) + 1) for i in sorted(best_choice))))
         return False
@@ -306,6 +312,7 @@ def main(argv=None):
     parser.add_argument('--max-diff', type=int, default=8)
     parser.add_argument('--max-size', type=int, default=4096)
     parser.add_argument('--dry-run', action='store_true')
+    parser.add_argument('--apply-best', action='store_true', help='also keep the best non-exact rewrite')
     parser.add_argument('funcs', nargs='*')
     args = parser.parse_args(argv)
     if args.region != 'usa':
@@ -337,7 +344,7 @@ def main(argv=None):
         if args.dry_run:
             print('%4d %-40s %-16s 0x%08X' % (diff, name, module, address))
             continue
-        fixed += search(checker, module, name, address, print)
+        fixed += search(checker, module, name, address, print, args.apply_best)
     if not args.dry_run:
         print('%d of %d functions rewritten' % (fixed, len(rows)))
 

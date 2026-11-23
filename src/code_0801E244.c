@@ -753,7 +753,7 @@ u32 sub_0801ED8C(void *arg0, void *arg1)
   { u32 hi = 0x8000; hi |= result; return hi; }
   return result;
 }
-struct CombatCtx019 { u8 pad[0x14]; u16 resist[6]; u8 pad20[8]; u16 key; };
+struct CombatCtx019 { u8 pad[ENEMY_FIELD(0x218) - 0x204]; u16 resist[6]; u8 pad20[8]; u16 key; };
 struct CombatActor019 { u8 pad[0x1CC]; u16 attack,defense; u8 pad1D0[0x34]; struct CombatCtx019 ctx; };
 /* [ComputeElementalAttackDamage] Loads unsigned 16-bit attack and defense from actor +0x1CC/+0x1CE. Casts
  * NextRandom32 to u16 before modulo 50, then adds 100 for variance. Computes signed division of the low-32-bit
@@ -789,7 +789,7 @@ s32 sub_0801EF14(void *arg0,void *arg1)
         firstDamage=quotient/10U;
     }
     if(!firstDamage) firstDamage=1;
-    element=*(u16 *)(record+0xBC);
+    element=*(u16 *)(record+ITEM_FIELD(0xBC));
     damage=firstDamage;
     resists=dst->ctx.resist;
     switch(element-1U) {
@@ -846,7 +846,7 @@ s32 sub_0801F024(u8 *obj, u16 dir, s32 *pos, s32 *target, u32 w, u32 h)
     s32 box[2];
     struct SizeF024 size;
     struct SizeF024 other;
-    u8 kind = obj[0x9B];
+    ItemKind kind = ITEM_KIND(obj);
     if (kind == 3)
         goto check2;
     if (kind == 8) {
@@ -859,17 +859,17 @@ check2:
     other.w = w;
     other.h = h;
     box[1] = pos[1] - 0x400;
-    box[0] = pos[0] + sinF024[dirF024[dir] * 16 + 0x40] * obj[0xA5];
-    box[1] += sinF024[dirF024[dir] * 16] * obj[0xA5];
-    size.w = size.h = obj[0xA6];
+    box[0] = pos[0] + sinF024[dirF024[dir] * 16 + 0x40] * obj[ITEM_FIELD(0xA5)];
+    box[1] += sinF024[dirF024[dir] * 16] * obj[ITEM_FIELD(0xA5)];
+    size.w = size.h = obj[ITEM_FIELD(0xA6)];
     if (overlapF024(box, target, (u16 *)&size, (u16 *)&other))
         return 1;
-    if (obj[0x9B] == 9)
+    if (ITEM_KIND(obj) == 9)
         return 0;
     box[1] = pos[1] - 0x400;
-    box[0] = pos[0] + sinF024[dirF024[dir] * 16 + 0x40] * obj[0xA7];
-    box[1] += sinF024[dirF024[dir] * 16] * obj[0xA7];
-    size.w = size.h = obj[0xA8];
+    box[0] = pos[0] + sinF024[dirF024[dir] * 16 + 0x40] * obj[ITEM_FIELD(0xA7)];
+    box[1] += sinF024[dirF024[dir] * 16] * obj[ITEM_FIELD(0xA7)];
+    size.w = size.h = obj[ITEM_FIELD(0xA8)];
     if (overlapF024(box, target, (u16 *)&size, (u16 *)&other))
         return 1;
     return 0;
@@ -1720,7 +1720,7 @@ echeck:
             sub_0805865C(0x55);
         }
     } else {
-        switch(tmpl[0x9B]) {
+        switch(ITEM_KIND(tmpl)) {
         case 8: if((u8)sub_0801DE60()==7) continue; (*(u32 *)(qh+(*(u16 *)p<<2)))=*id2; break;
         case 3: if((u8)sub_0801DE60()==2) continue; (*(u32 *)(qh+(*(u16 *)p<<2)))=*id2; break;
         default: (*(u32 *)(qh+(*(u16 *)p<<2)))=*id2; break;
@@ -1790,7 +1790,7 @@ void sub_08020680(u8 *e)
         if(*(u16 *)(e+0x6C)!=1) return;
     }
     atk=atk20680(*(u16 *)(e+0x22C)|0xB0000);
-    if(atk[0x9B]==7) return;
+    if(ITEM_KIND(atk)==7) return;
     if(e[0x201]&(u8)mode) {
         if(sub_08002204()==0) return;
         i=0;

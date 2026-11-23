@@ -531,7 +531,7 @@ s32 sub_0801B58C(u8 *item, s32 stats, u16 value, u16 kind)
     register s32 factor asm("r4");
     switch (kind) {
     case 0:
-        switch (item[0x9B]) {
+        switch (ITEM_KIND(item)) {
         case 2:
             factor = ((s32 (*)(s32, s32))sub_0801E0AC)(stats, 1);
             value = ((s32 (*)(s32, s32))sub_0801E0AC)(stats, 1) + ((s16)value * ((u16)factor + 10)) / 10;
@@ -547,17 +547,17 @@ s32 sub_0801B58C(u8 *item, s32 stats, u16 value, u16 kind)
         }
         break;
     case 3:
-        if (item[0x9B] == 2) {
+        if (ITEM_KIND(item) == 2) {
             factor = ((s32 (*)(s32, s32))sub_0801E0AC)(stats, 0);
             value = ((s32 (*)(s32, s32))sub_0801E0AC)(stats, 0) + ((s16)value * ((u16)factor + 10)) / 10;
-        } else if (item[0x9B] == 4) {
+        } else if (ITEM_KIND(item) == 4) {
             factor = ((s32 (*)(s32, s32))sub_0801E0AC)(stats, 1);
             value = ((s32 (*)(s32, s32))sub_0801E0AC)(stats, 1) + ((s16)value * ((u16)factor + 10)) / 10;
         }
         break;
     case 2:
-        if (item[0x9B] != 3) {
-            if (item[0x9B] == 7) {
+        if (ITEM_KIND(item) != 3) {
+            if (ITEM_KIND(item) == 7) {
                 factor = ((s32 (*)(s32, s32))sub_0801E0AC)(stats, 0);
                 value = ((s32 (*)(s32, s32))sub_0801E0AC)(stats, 0) + ((s16)value * ((u16)factor + 10)) / 10;
             }
@@ -567,34 +567,34 @@ s32 sub_0801B58C(u8 *item, s32 stats, u16 value, u16 kind)
         }
         break;
     case 5:
-        if (item[0x9B] == 6) {
+        if (ITEM_KIND(item) == 6) {
             factor = ((s32 (*)(s32, s32))sub_0801E0AC)(stats, 0);
             value = ((s32 (*)(s32, s32))sub_0801E0AC)(stats, 0) + ((s16)value * ((u16)factor + 10)) / 10;
-        } else if (item[0x9B] == 8) {
+        } else if (ITEM_KIND(item) == 8) {
             factor = ((s32 (*)(s32, s32))sub_0801E0AC)(stats, 1);
             value = ((s32 (*)(s32, s32))sub_0801E0AC)(stats, 1) + ((s16)value * ((u16)factor + 10)) / 10;
         }
         break;
     case 4:
-        if (item[0x9B] == 4) {
+        if (ITEM_KIND(item) == 4) {
             factor = ((s32 (*)(s32, s32))sub_0801E0AC)(stats, 1);
             value = ((s32 (*)(s32, s32))sub_0801E0AC)(stats, 1) + ((s16)value * ((u16)factor * 8 + 100)) / 100;
-        } else if (item[0x9B] == 5) {
+        } else if (ITEM_KIND(item) == 5) {
             factor = ((s32 (*)(s32, s32))sub_0801E0AC)(stats, 0);
             value = ((s32 (*)(s32, s32))sub_0801E0AC)(stats, 0) + ((s16)value * ((u16)factor + 10)) / 10;
         }
         break;
     case 7:
-        if (item[0x9B] == 1) {
+        if (ITEM_KIND(item) == 1) {
             factor = ((s32 (*)(s32, s32))sub_0801E0AC)(stats, 0);
             value = ((s32 (*)(s32, s32))sub_0801E0AC)(stats, 0) + ((s16)value * ((u16)factor + 10)) / 10;
-        } else if (item[0x9B] == 8) {
+        } else if (ITEM_KIND(item) == 8) {
             factor = ((s32 (*)(s32, s32))sub_0801E0AC)(stats, 1);
             value = ((s32 (*)(s32, s32))sub_0801E0AC)(stats, 1) + ((s16)value * ((u16)factor + 10)) / 10;
         }
         break;
     case 1: case 6: case 8:
-        if (item[0x9B] == 5) {
+        if (ITEM_KIND(item) == 5) {
             factor = ((s32 (*)(s32, s32))sub_0801E0AC)(stats, 0);
             value = ((s32 (*)(s32, s32))sub_0801E0AC)(stats, 0) + ((s16)value * ((u16)factor + 10)) / 10;
         }
@@ -1096,7 +1096,7 @@ void BA74_StatsCalc(struct BA74Unit *arg0, struct BA74Sel *arg1, struct BA74Stat
                         arg0->f64 = job->fD4 + 10;
                         arg0->f66 = job->fD6;
                         t2 = (u8 *)sub_08007290(job->f28 | 0xB0000);
-                        arg0->f10 = t2[0x9B];
+                        arg0->f10 = ITEM_KIND(t2);
                         t3 = 0;
                         t4 = 0;
                         t5 = 0;
@@ -1178,7 +1178,7 @@ void BA74_StatsCalc(struct BA74Unit *arg0, struct BA74Sel *arg1, struct BA74Stat
     }
     arg3->f0 += arg2->f0;
     if (t3 != 0) {
-        v = t3[0x9B];
+        v = ITEM_KIND(t3);
         sub_0801DE60();
         bonus += BA74_def(v, arg4, 4, 3);
         if (arg1 != 0 && arg1->type == 3)
@@ -1186,14 +1186,14 @@ void BA74_StatsCalc(struct BA74Unit *arg0, struct BA74Sel *arg1, struct BA74Stat
         else
             bonus += gBA74Save->slots[10].bonus;
     }
-    if (t2 != 0 && t2[0x9B] == 9) {
+    if (t2 != 0 && ITEM_KIND(t2) == 9) {
         if (arg1 != 0 && arg1->type == 2)
             bonus += arg1->bonus;
         else
             bonus += gBA74Save->slots[gBA74Save->f68].bonus;
     }
     if (t4 != 0) {
-        v = t4[0x9B];
+        v = ITEM_KIND(t4);
         sub_0801DE60();
         bonus += BA74_def(v, arg4, 4, 3);
         if (arg1 != 0 && arg1->type == 4)
@@ -1203,11 +1203,11 @@ void BA74_StatsCalc(struct BA74Unit *arg0, struct BA74Sel *arg1, struct BA74Stat
     }
     if (t5 != 0) {
         if (t5[0xA0] != 0) {
-            v = t5[0x9B];
+            v = ITEM_KIND(t5);
             sub_0801DE60();
             bonus += BA74_def(v, arg4, 3, 2);
         } else {
-            v = t5[0x9B];
+            v = ITEM_KIND(t5);
             sub_0801DE60();
             bonus += BA74_def(v, arg4, 4, 3);
         }
@@ -1625,7 +1625,7 @@ case 9:
 q = rescueCCC8Current + *(u16 *)(rescueCCC8Current + 0x68) * 0x10;
  if (q[0x79] == 0) item = 0;
  else item = (u8 *)sub_08007290(*(u16 *)(q + 0x72) | 0xb0000);
- if (item[0x9b] == 9) v = item[0xa7]; else v = 0;
+ if (ITEM_KIND(item) == 9) v = item[0xa7]; else v = 0;
 if (v == 7) return *(u16 *)(rescueCCC8Current + 0x48);
 break;
 }
@@ -1643,7 +1643,7 @@ case 9:
 q = rescueCCC8Current + *(u16 *)(rescueCCC8Current + 0x68) * 0x10;
  if (q[0x79] == 0) item = 0;
  else item = (u8 *)sub_08007290(*(u16 *)(q + 0x72) | 0xb0000);
- if (item[0x9b] == 9) v = item[0xa7]; else v = 0;
+ if (ITEM_KIND(item) == 9) v = item[0xa7]; else v = 0;
 switch (v) {
 case 1: return *(u16 *)(rescueCCC8Current + 56);
 case 2: return *(u16 *)(rescueCCC8Current + 60);
@@ -1662,7 +1662,7 @@ case 9:
 q = rescueCCC8Current + *(u16 *)(rescueCCC8Current + 0x68) * 0x10;
  if (q[0x79] == 0) item = 0;
  else item = (u8 *)sub_08007290(*(u16 *)(q + 0x72) | 0xb0000);
- if (item[0x9b] == 9) v = item[0xa7]; else v = 0;
+ if (ITEM_KIND(item) == 9) v = item[0xa7]; else v = 0;
 switch (v) {
 case 13: return *(u16 *)(rescueCCC8Current + 56);
 case 14: return *(u16 *)(rescueCCC8Current + 60);
@@ -1682,7 +1682,7 @@ case 9:
 q = rescueCCC8Current + *(u16 *)(rescueCCC8Current + 0x68) * 0x10;
  if (q[0x79] == 0) item = 0;
  else item = (u8 *)sub_08007290(*(u16 *)(q + 0x72) | 0xb0000);
- if (item[0x9b] == 9) v = item[0xa7]; else v = 0;
+ if (ITEM_KIND(item) == 9) v = item[0xa7]; else v = 0;
 switch (v) {
 case 8: return *(u16 *)(rescueCCC8Current + 60);
 case 9: return *(u16 *)(rescueCCC8Current + 64);
@@ -1707,7 +1707,7 @@ case 9:
 q = rescueCCC8Current + *(u16 *)(rescueCCC8Current + 0x68) * 0x10;
  if (q[0x79] == 0) item = 0;
  else item = (u8 *)sub_08007290(*(u16 *)(q + 0x72) | 0xb0000);
- if (item[0x9b] == 9) v = item[0xa7]; else v = 0;
+ if (ITEM_KIND(item) == 9) v = item[0xa7]; else v = 0;
 switch (v) {
 case 19: return *(u16 *)(rescueCCC8Current + 64);
 case 21: return *(u16 *)(rescueCCC8Current + 68);
@@ -1749,7 +1749,7 @@ case 9:
 q = rescueD028Current + *(u16 *)(rescueD028Current + 0x68) * 0x10;
  if (q[0x79] == 0) item = 0;
  else item = (u8 *)sub_08007290(*(u16 *)(q + 0x72) | 0xb0000);
- if (item[0x9b] == 9) v = item[0xa7]; else v = 0;
+ if (ITEM_KIND(item) == 9) v = item[0xa7]; else v = 0;
 if (v == 7) return *(u16 *)(rescueD028Current + 0x48);
 break;
 }
@@ -1767,7 +1767,7 @@ case 9:
 q = rescueD028Current + *(u16 *)(rescueD028Current + 0x68) * 0x10;
  if (q[0x79] == 0) item = 0;
  else item = (u8 *)sub_08007290(*(u16 *)(q + 0x72) | 0xb0000);
- if (item[0x9b] == 9) v = item[0xa7]; else v = 0;
+ if (ITEM_KIND(item) == 9) v = item[0xa7]; else v = 0;
 switch (v) {
 case 1: return *(u16 *)(rescueD028Current + 56);
 case 2: return *(u16 *)(rescueD028Current + 60);
@@ -1786,7 +1786,7 @@ case 9:
 q = rescueD028Current + *(u16 *)(rescueD028Current + 0x68) * 0x10;
  if (q[0x79] == 0) item = 0;
  else item = (u8 *)sub_08007290(*(u16 *)(q + 0x72) | 0xb0000);
- if (item[0x9b] == 9) v = item[0xa7]; else v = 0;
+ if (ITEM_KIND(item) == 9) v = item[0xa7]; else v = 0;
 switch (v) {
 case 13: return *(u16 *)(rescueD028Current + 56);
 case 14: return *(u16 *)(rescueD028Current + 60);
@@ -1806,7 +1806,7 @@ case 9:
 q = rescueD028Current + *(u16 *)(rescueD028Current + 0x68) * 0x10;
  if (q[0x79] == 0) item = 0;
  else item = (u8 *)sub_08007290(*(u16 *)(q + 0x72) | 0xb0000);
- if (item[0x9b] == 9) v = item[0xa7]; else v = 0;
+ if (ITEM_KIND(item) == 9) v = item[0xa7]; else v = 0;
 switch (v) {
 case 8: return *(u16 *)(rescueD028Current + 60);
 case 9: return *(u16 *)(rescueD028Current + 64);
@@ -1831,7 +1831,7 @@ case 9:
 q = rescueD028Current + *(u16 *)(rescueD028Current + 0x68) * 0x10;
  if (q[0x79] == 0) item = 0;
  else item = (u8 *)sub_08007290(*(u16 *)(q + 0x72) | 0xb0000);
- if (item[0x9b] == 9) v = item[0xa7]; else v = 0;
+ if (ITEM_KIND(item) == 9) v = item[0xa7]; else v = 0;
 switch (v) {
 case 19: return *(u16 *)(rescueD028Current + 64);
 case 21: return *(u16 *)(rescueD028Current + 68);
@@ -1878,7 +1878,7 @@ case 9:
 q = rescueD34CCurrent + *(u16 *)(rescueD34CCurrent + 0x68) * 0x10;
  if (q[0x79] == 0) item = 0;
  else item = (u8 *)sub_08007290(*(u16 *)(q + 0x72) | 0xb0000);
- if (item[0x9b] == 9) v = item[0xa7]; else v = 0;
+ if (ITEM_KIND(item) == 9) v = item[0xa7]; else v = 0;
 if (v == 7) return *(u16 *)(cap + 0xac) < *(u16 *)(rescueD34CCurrent + 0x48) ? *(u16 *)(cap + 0xac) : *(u16 *)(rescueD34CCurrent + 0x48);
 break;
 }
@@ -1896,7 +1896,7 @@ case 9:
 q = rescueD34CCurrent + *(u16 *)(rescueD34CCurrent + 0x68) * 0x10;
  if (q[0x79] == 0) item = 0;
  else item = (u8 *)sub_08007290(*(u16 *)(q + 0x72) | 0xb0000);
- if (item[0x9b] == 9) v = item[0xa7]; else v = 0;
+ if (ITEM_KIND(item) == 9) v = item[0xa7]; else v = 0;
 switch (v) {
 case 1: return *(u16 *)(cap + 0xac) < *(u16 *)(rescueD34CCurrent + 56) ? *(u16 *)(cap + 0xac) : *(u16 *)(rescueD34CCurrent + 56);
 case 2: return *(u16 *)(cap + 0xac) < *(u16 *)(rescueD34CCurrent + 60) ? *(u16 *)(cap + 0xac) : *(u16 *)(rescueD34CCurrent + 60);
@@ -1915,7 +1915,7 @@ case 9:
 q = rescueD34CCurrent + *(u16 *)(rescueD34CCurrent + 0x68) * 0x10;
  if (q[0x79] == 0) item = 0;
  else item = (u8 *)sub_08007290(*(u16 *)(q + 0x72) | 0xb0000);
- if (item[0x9b] == 9) v = item[0xa7]; else v = 0;
+ if (ITEM_KIND(item) == 9) v = item[0xa7]; else v = 0;
 switch (v) {
 case 13: return *(u16 *)(cap + 0xac) < *(u16 *)(rescueD34CCurrent + 56) ? *(u16 *)(cap + 0xac) : *(u16 *)(rescueD34CCurrent + 56);
 case 14: return *(u16 *)(cap + 0xac) < *(u16 *)(rescueD34CCurrent + 60) ? *(u16 *)(cap + 0xac) : *(u16 *)(rescueD34CCurrent + 60);
@@ -1935,7 +1935,7 @@ case 9:
 q = rescueD34CCurrent + *(u16 *)(rescueD34CCurrent + 0x68) * 0x10;
  if (q[0x79] == 0) item = 0;
  else item = (u8 *)sub_08007290(*(u16 *)(q + 0x72) | 0xb0000);
- if (item[0x9b] == 9) v = item[0xa7]; else v = 0;
+ if (ITEM_KIND(item) == 9) v = item[0xa7]; else v = 0;
 switch (v) {
 case 8: return *(u16 *)(cap + 0xac) < *(u16 *)(rescueD34CCurrent + 60) ? *(u16 *)(cap + 0xac) : *(u16 *)(rescueD34CCurrent + 60);
 case 9: return *(u16 *)(cap + 0xac) < *(u16 *)(rescueD34CCurrent + 64) ? *(u16 *)(cap + 0xac) : *(u16 *)(rescueD34CCurrent + 64);
@@ -1960,7 +1960,7 @@ case 9:
 q = rescueD34CCurrent + *(u16 *)(rescueD34CCurrent + 0x68) * 0x10;
  if (q[0x79] == 0) item = 0;
  else item = (u8 *)sub_08007290(*(u16 *)(q + 0x72) | 0xb0000);
- if (item[0x9b] == 9) v = item[0xa7]; else v = 0;
+ if (ITEM_KIND(item) == 9) v = item[0xa7]; else v = 0;
 switch (v) {
 case 19: return *(u16 *)(cap + 0xac) < *(u16 *)(rescueD34CCurrent + 64) ? *(u16 *)(cap + 0xac) : *(u16 *)(rescueD34CCurrent + 64);
 case 21: return *(u16 *)(cap + 0xac) < *(u16 *)(rescueD34CCurrent + 68) ? *(u16 *)(cap + 0xac) : *(u16 *)(rescueD34CCurrent + 68);

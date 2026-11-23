@@ -4753,7 +4753,7 @@ block_46:
                 sp254 = 0;
                 break;
             }
-            switch (*(u8 *)(sp240 + 0x9B)) {
+            switch (ITEM_KIND(sp240)) {
             default:
                         temp_r4_8 = gUnk_030034E0 + 0x30;
                         temp_r6_3 = (*((u8 *)((u8 *)(sp240) + (0x9C))));
@@ -4819,9 +4819,9 @@ block_46:
                             *++var_r6 = 0x51;
                         }
                         if ((*((u16 *)((u8 *)(sp240) + (0xAC)))) == 7) {
-                            FMT815F4(var_r8_12, var_r6 + 1, ((*(u8 *)(sp240 + 0x9B) * 2) + 0x32A) | 0x140000, (s32) (*((u16 *)((u8 *)(sp240) + (0xAC)))));
+                            FMT815F4(var_r8_12, var_r6 + 1, ((ITEM_KIND(sp240) * 2) + 0x32A) | 0x140000, (s32) (*((u16 *)((u8 *)(sp240) + (0xAC)))));
                         } else {
-                            FMT815F4(var_r8_12, var_r6 + 1, ((*(u8 *)(sp240 + 0x9B) * 2) + 0x329) | 0x140000, (s32) (*((u16 *)((u8 *)(sp240) + (0xAC)))));
+                            FMT815F4(var_r8_12, var_r6 + 1, ((ITEM_KIND(sp240) * 2) + 0x329) | 0x140000, (s32) (*((u16 *)((u8 *)(sp240) + (0xAC)))));
                         }
                         sub_0801A3D0(text85, (u16) (0xF - ((u32) sub_0801A638(text85) >> 1)), 5U);
                         if (sp258 == 0) {
@@ -4853,10 +4853,10 @@ block_46:
                 sp254 = 0;
             } else {
                 temp_r4 = gUnk_030034E0 + 0x30;
-                temp_r5 = (*((u8 *)((u8 *)(sp244) + (0x9B))));
+                temp_r5 = ITEM_KIND(sp244);
                 sp25C = (u32) local815F4_sub_0801E378(temp_r4, (u16) temp_r5, sub_0801DE60());
-                sp25C = (u32) (u16) (sp25C - (*((u8 *)((u8 *)(sp244) + (0x9B)))));
-                FMT1_815F4(var_r8_2, (text85), 0x140329, (*((u8 *)((u8 *)(sp244) + (0x9B)))) + (*((u8 *)((u8 *)(sp23C) + (6)))), var_r6);
+                sp25C = (u32) (u16) (sp25C - ITEM_KIND(sp244));
+                FMT1_815F4(var_r8_2, (text85), 0x140329, ITEM_KIND(sp244) + (*((u8 *)((u8 *)(sp23C) + (6)))), var_r6);
                 (*((u8 *)((u8 *)(var_r6) + (0)))) = 0x51;
                 if (sp25C != 0) {
                     *++var_r6 = 0x51;
@@ -4895,10 +4895,10 @@ block_46:
                 break;
             }
             temp_r4_3 = gUnk_030034E0 + 0x30;
-            temp_r5_3 = (*((u8 *)((u8 *)(sp248) + (0x9B))));
+            temp_r5_3 = ITEM_KIND(sp248);
             sp25C = (u32) local815F4_sub_0801E378(temp_r4_3, (u16) temp_r5_3, sub_0801DE60());
-            sp25C = (u32) (u16) (sp25C - (*((u8 *)((u8 *)(sp248) + (0x9B)))));
-            FMT1_815F4(var_r8_5, (text85), 0x140329, (*((u8 *)((u8 *)(sp248) + (0x9B)))) + (*((u8 *)((u8 *)(sp23C) + (6)))), var_r6);
+            sp25C = (u32) (u16) (sp25C - ITEM_KIND(sp248));
+            FMT1_815F4(var_r8_5, (text85), 0x140329, ITEM_KIND(sp248) + (*((u8 *)((u8 *)(sp23C) + (6)))), var_r6);
             (*((u8 *)((u8 *)(var_r6) + (0)))) = 0x51;
             if (sp25C != 0) {
                 *++var_r6 = 0x51;
@@ -4938,12 +4938,12 @@ block_46:
             if ((*((u8 *)((u8 *)(sp24C) + (0xA0)))) != 0) {
                 temp_r4_4 = gUnk_030034E0 + 0x30;
                 var_r6 = sp24C + 0x9B;
-                temp_r5_5 = (*((u8 *)((u8 *)(sp24C) + (0x9B))));
+                temp_r5_5 = ITEM_KIND(sp24C);
                 sp25C = local815F4_sub_0801E3D8(temp_r4_4, (u16) temp_r5_5, sub_0801DE60());
             } else {
                 temp_r4_5 = gUnk_030034E0 + 0x30;
                 var_r6 = sp24C + 0x9B;
-                temp_r5_6 = (*((u8 *)((u8 *)(sp24C) + (0x9B))));
+                temp_r5_6 = ITEM_KIND(sp24C);
                 sp25C = local815F4_sub_0801E378(temp_r4_5, (u16) temp_r5_6, sub_0801DE60());
             }
             sp25C = (u32) (u16) (sp25C - *var_r6);
@@ -7194,7 +7194,7 @@ resultTwo8441C:
       { u32 address;
       address = sub_08007290(result->subtype | 0xB0000);
       *(u32 *)(stack + 0x64) = address;
-      if (*(u8 *)(address + 0x9B) != 9) goto resultTwoOrdinary8441C;
+      if (ITEM_KIND(address) != 9) goto resultTwoOrdinary8441C;
       { register struct Record8441C *p asm("r3") = third;
         switch ((s32)p->type) {
         case 2: case 3: case 4: case 5: goto permittedFour8441C;
