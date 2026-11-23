@@ -1664,7 +1664,7 @@ s32 sub_0808A380(u8 *table)
         playerOffset = sub_080020F4();
         playerBase = playersA38091;
 #ifdef REGION_USA
-        {register u8 *xf asm("r3");register u8 *yf asm("r1");register u8 *b12 asm("ip")=playerBase;playerOffset *= PLAYER_SIZE;xf=b12+PLAYER_FIELD(0x8C);xf=(u8 *)((u32)playerOffset+(u32)xf);*(u32 *)xf=(u32)position[0]<<8;yf=b12+PLAYER_FIELD(0x90);yf=(u8 *)((u32)playerOffset+(u32)yf);*(u32 *)yf=(u32)position[1]<<8;{register u8 *dst asm("r0")=b12;dst+=PLAYER_FIELD(0x94);playerOffset+=(u32)dst;}*(struct PosA38091 *)playerOffset=*(struct PosA38091 *)xf;}
+        {register u8 *xf asm("r3");register u8 *yf asm("r1");u8 *b12=playerBase;playerOffset *= PLAYER_SIZE;xf=b12+PLAYER_FIELD(0x8C);xf=(u8 *)((u32)playerOffset+(u32)xf);*(u32 *)xf=(u32)position[0]<<8;yf=b12+PLAYER_FIELD(0x90);yf=(u8 *)((u32)playerOffset+(u32)yf);*(u32 *)yf=(u32)position[1]<<8;{register u8 *dst asm("r0")=b12;dst+=PLAYER_FIELD(0x94);playerOffset+=(u32)dst;}*(struct PosA38091 *)playerOffset=*(struct PosA38091 *)xf;}
 #else
         playerOffset *= PLAYER_SIZE;
         field = playerBase;
@@ -1695,7 +1695,7 @@ s32 sub_0808A380(u8 *table)
     checkBase = playersA38091;
     checkStride = PLAYER_SIZE;
     checkOffset *= checkStride;
-    checkBase += 0x90;
+    checkBase += PLAYER_FIELD(0x90);
     if ((*(s32 *)(checkOffset + (u32)checkBase) >> 11) > 0x25) {
         sub_08015ED4();
         sub_0801ABE8(3);
@@ -1917,7 +1917,7 @@ s32 sub_0808A830(u8 *table)
         playerOffset = sub_080020F4();
         playerBase = playersA83091;
 #ifdef REGION_USA
-        {register u8 *xf asm("r3");register u8 *yf asm("r1");register u8 *b12 asm("ip")=playerBase;playerOffset *= PLAYER_SIZE;xf=b12+PLAYER_FIELD(0x8C);xf=(u8 *)((u32)playerOffset+(u32)xf);*(u32 *)xf=(u32)position[0]<<8;yf=b12+PLAYER_FIELD(0x90);yf=(u8 *)((u32)playerOffset+(u32)yf);*(u32 *)yf=(u32)position[1]<<8;{register u8 *dst asm("r0")=b12;dst+=PLAYER_FIELD(0x94);playerOffset+=(u32)dst;}*(struct PosA83091 *)playerOffset=*(struct PosA83091 *)xf;}
+        {register u8 *xf asm("r3");register u8 *yf asm("r1");u8 *b12=playerBase;playerOffset *= PLAYER_SIZE;xf=b12+PLAYER_FIELD(0x8C);xf=(u8 *)((u32)playerOffset+(u32)xf);*(u32 *)xf=(u32)position[0]<<8;yf=b12+PLAYER_FIELD(0x90);yf=(u8 *)((u32)playerOffset+(u32)yf);*(u32 *)yf=(u32)position[1]<<8;{register u8 *dst asm("r0")=b12;dst+=PLAYER_FIELD(0x94);playerOffset+=(u32)dst;}*(struct PosA83091 *)playerOffset=*(struct PosA83091 *)xf;}
 #else
         playerOffset *= PLAYER_SIZE;
         field = playerBase;
@@ -1948,7 +1948,7 @@ s32 sub_0808A830(u8 *table)
     checkBase = playersA83091;
     checkStride = PLAYER_SIZE;
     checkOffset *= checkStride;
-    checkBase += 0x90;
+    checkBase += PLAYER_FIELD(0x90);
     if ((*(s32 *)(checkOffset + (u32)checkBase) >> 11) > 0x25) {
         sub_08015EF8();
         sub_0801ABE8(3);
