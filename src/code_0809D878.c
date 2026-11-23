@@ -176,7 +176,7 @@ void sub_0809D878(void *input)
     do {
         entry = 0;
         do {
-            *(u32 *)((u8 *)seenD878 + entry * 4 + player * 0x14C) = 0;
+            *(u32 *)((u8 *)seenD878 + entry * 4 + player * PLAYER_SIZE) = 0;
             entry++;
         } while (entry <= 4);
         player++;
@@ -1108,7 +1108,7 @@ void sub_0809F018(u16 kind)
                 u32 playerOffset = sub_080020F4();
                 s32 effectY = (pos.y >> 8) + 12;
                 register s32 *playerYBase asm("r3");
-                playerOffset *= 0x14C;
+                playerOffset *= PLAYER_SIZE;
                 
                 playerYBase = (s32 *)playersY9F018;
                 
@@ -1141,7 +1141,7 @@ void sub_0809F018(u16 kind)
             pl[sub_080020F4()].motion=0xFFFE;
             player=sub_080020F4();actor=actor9F018;
             {
-                u32 offset = actor->id * 4 + player * 0x14C;
+                u32 offset = actor->id * 4 + player * PLAYER_SIZE;
                 u8 *base = (u8 *)pl + 0xE4;
                 
                 *(u32 *)(offset + (u32)base) = actor->serial++;
@@ -1599,7 +1599,7 @@ void sub_0809FB6C(void *input)
     do {
         entry=0;
         do {
-            *(u32 *)((u8 *)seen9FB6C + entry * 4 + player * 0x14C) = 0;
+            *(u32 *)((u8 *)seen9FB6C + entry * 4 + player * PLAYER_SIZE) = 0;
             entry++;
         } while(entry<=4);
         player++;
@@ -2173,7 +2173,7 @@ void sub_080A0B44(void)
             player = sub_080020F4();
             actor = *ref;
             seenByteOffset = actor->id << 2;
-            seenByteOffset += player * 0x14C;
+            seenByteOffset += player * PLAYER_SIZE;
             
             playerBase += 0xE4;
             *(u32 *)(seenByteOffset + (u32)playerBase) = actor->serial++;
@@ -2490,7 +2490,7 @@ void sub_080A1208(void *input)
     do {
         entry = 0;
         do {
-            *(u32 *)((u8 *)seenD878 + entry * 4 + player * 0x14C) = 0;
+            *(u32 *)((u8 *)seenD878 + entry * 4 + player * PLAYER_SIZE) = 0;
             entry++;
         } while (entry <= 4);
         player++;

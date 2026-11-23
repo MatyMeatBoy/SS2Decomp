@@ -1399,7 +1399,7 @@ loop_5:
             baseAddress = (u32)rescueC8F0Records;
             srcEdge18 = temp_r0_3;
             asm("" : : "r"(srcEdge18));
-            temp_r2 = 0x14C * srcEdge18;
+            temp_r2 = PLAYER_SIZE * srcEdge18;
             temp_r1_2 = (u8 *)(temp_r2 + baseAddress);
             temp_r0_6 = (*(u16 *)(temp_r1_2 + 0xC));
             switch (temp_r0_6) {                    /* switch 1; irregular */
@@ -1993,7 +1993,7 @@ void sub_0801D7AC(s32 source, s32 target, u32 kind, s32 value) {
  volatile u16 zero;
  u32 subtype, mask;
  u8 *entity;
- p = (struct RescueD7ACRecord *)(baseAddress + source * 0x14c);
+ p = (struct RescueD7ACRecord *)(baseAddress + source * PLAYER_SIZE);
  switch (p->state) {
 case 0:
 if (rescueD7ACRecords[target].team != p->team) return;

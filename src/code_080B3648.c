@@ -755,11 +755,11 @@ void sub_080B4690(u32 a0, u32 a1)
     tasks0B4690[idx].f8 = 0;
 }
 struct B4A7CPlayer {
-    u8 pad0[0x20]; u16 state; u8 pad22[0x30 - 0x22];
-    u32 flags; u8 pad34[0x68 - 0x34]; u8 active;
-    u8 pad69[0x8C - 0x69]; s32 x, y;
-    u8 pad94[0xC8 - 0x94]; u16 time, result, delay;
-    u8 tail[0x14C - 0xCE];
+    u8 pad0[PLAYER_FIELD(0x20)]; u16 state; u8 pad22[PLAYER_FIELD(0x30) - PLAYER_FIELD(0x22)];
+    u32 flags; u8 pad34[PLAYER_FIELD(0x68) - PLAYER_FIELD(0x34)]; u8 active;
+    u8 pad69[PLAYER_FIELD(0x8C) - PLAYER_FIELD(0x69)]; s32 x, y;
+    u8 pad94[PLAYER_FIELD(0xC8) - PLAYER_FIELD(0x94)]; u16 time, result, delay;
+    u8 tail[PLAYER_SIZE - PLAYER_FIELD(0xCE)];
 };
 extern struct B4A7CPlayer playersB4A7C[] asm("gUnk_03003CE0");
 extern u8 sub_08095FC8(s32, s32, s32, s32);
@@ -788,20 +788,20 @@ void sub_080B4A7C(struct B4A7CTarget target)
     if (player->state == 0xC) return;
     index = sub_080020F4();
     player = &players[index];
-    field = (u8 *)players + 0x30;
-    if (*(u32 *)(field + index * 0x14C) & 0x2000) return;
+    field = (u8 *)players + PLAYER_FIELD(0x30);
+    if (*(u32 *)(field + index * PLAYER_SIZE) & 0x2000) return;
     index = sub_080020F4();
     player = &players[index];
     if (!player->active) return;
     targetIndex = sub_080020F4();
     index = sub_080020F4();
     player = &players[index];
-    field = (u8 *)players + 0x8C;
-    x = *(s32 *)(field + index * 0x14C) >> 8;
+    field = (u8 *)players + PLAYER_FIELD(0x8C);
+    x = *(s32 *)(field + index * PLAYER_SIZE) >> 8;
     index = sub_080020F4();
     player = &players[index];
-    field = (u8 *)players + 0x90;
-    y = *(s32 *)(field + index * 0x14C) >> 8;
+    field = (u8 *)players + PLAYER_FIELD(0x90);
+    y = *(s32 *)(field + index * PLAYER_SIZE) >> 8;
     players[targetIndex].result = sub_08095FC8(x, y, target.x >> 8, target.y >> 8);
     index = sub_080020F4();
     player = &players[index];
@@ -1032,7 +1032,7 @@ void sub_080B4C34(struct Act4C34 *a)
     pres = &res->fD6;
     for (i = 0; i <= 3; i++)
         for (j = 0; j <= 4; j++)
-            *(u32 *)(i * 0x14C + j * 4 + (u32)gHist4C34) = 0;
+            *(u32 *)(i * PLAYER_SIZE + j * 4 + (u32)gHist4C34) = 0;
     gAct4C34->f1FD = 3;
     gAct4C34->f1FE = 3;
     gAct4C34->f1FC_lo = gAct4C34->f0;

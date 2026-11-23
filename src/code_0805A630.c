@@ -569,7 +569,7 @@ s32 impl_0805AD78(u32 index)
     u8 *playerBase;
     u8 **owner;
     u8 *table;
-    for (; i < players[sub_080020F4() * 0x14C + 0x77]; i++) {
+    for (; i < players[sub_080020F4() * PLAYER_SIZE + 0x77]; i++) {
         u8 *slot = mapItems;
         slot = slot + i * 0x10;
         slot += 0x79;
@@ -590,20 +590,20 @@ s32 impl_0805AD78(u32 index)
             resource = (u8 *)sub_08007290(*(u16 *)(mapItems + offset + 0x72) | 0xB0000);
             player = sub_080020F4();
             playerBase = (u8 *)gUnk_03003CE0;
-            player *= 0x14C;
+            player *= PLAYER_SIZE;
             states = (u8 *)player + (u32)playerBase;
             *(u16 *)(states + 0x10) = resource[0x9B];
         } else {
             player = sub_080020F4();
             playerBase = (u8 *)gUnk_03003CE0;
-            player *= 0x14C;
+            player *= PLAYER_SIZE;
             states = (u8 *)player + (u32)playerBase;
             *(u16 *)(states + 0x10) = valid;
         }
     } else {
         player = sub_080020F4();
         playerBase = (u8 *)gUnk_03003CE0;
-        player *= 0x14C;
+        player *= PLAYER_SIZE;
         states = (u8 *)player + (u32)playerBase;
         *(u16 *)(states + 0x10) = 0;
     }
@@ -1513,7 +1513,7 @@ s32 sub_0805BD5C(u16 *item, s32 level)
             goto fail;
         bd5cMap->stat12++;
     } else if (kind == 9) {
-        if (bd5cMap->stat16 > 332)
+        if (bd5cMap->stat16 > PLAYER_SIZE)
             goto fail;
         bd5cMap->stat16++;
     } else if (kind == 8) {

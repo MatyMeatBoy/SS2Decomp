@@ -344,7 +344,7 @@ matched:
             *(u16 *)((u8 *)*monsterAddress+offset+8)=savedValue;
         }
     } else {
-        playerIndex=sub_080020F4()*0x14C;
+        playerIndex=sub_080020F4()*PLAYER_SIZE;
         playerBase=players026E4;
         
         ((struct Player026E4 *)(playerIndex+(u32)playerBase))->value=savedValue;
@@ -355,7 +355,7 @@ done:
 struct Actor029174 { u32 id; u8 p4[0x20]; u16 f24; u8 p26[6]; u16 f2C, f2E, f30, f32, f34; u8 p36[2]; u16 f38; u8 p3A[0x36]; };
 struct State029174 { u8 p0[0x7A4]; struct Actor029174 actors[15]; };
 struct Enemy029174 { u8 p0[0xC]; u16 fC, fE; u8 p10[0x5A]; u16 f6A, f6C, f6E, f70, f72; u8 p74[ENEMY_SIZE - 0x74]; };
-struct Player029174 { u8 p0[0x10]; u16 f10; u8 p12[0xE]; u16 f20, f22; u8 p24[0x92]; u16 fB6; u8 pB8[2]; u16 fBA, fBC, fBE, fC0; u8 pC2[0x8A]; };
+struct Player029174 { u8 p0[PLAYER_FIELD(0x10)]; u16 f10; u8 p12[PLAYER_FIELD(0x20) - PLAYER_FIELD(0x12)]; u16 f20, f22; u8 p24[PLAYER_FIELD(0xB6) - PLAYER_FIELD(0x24)]; u16 fB6; u8 pB8[PLAYER_FIELD(0xBA) - PLAYER_FIELD(0xB8)]; u16 fBA, fBC, fBE, fC0; u8 pC2[PLAYER_SIZE - PLAYER_FIELD(0xC2)]; };
 extern struct State029174 *state029174 asm("gUnk_03005CF4");
 extern struct Enemy029174 *enemies029174 asm("gUnk_030056F4");
 extern struct Player029174 players029174[] asm("gUnk_03003CE0");

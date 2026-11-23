@@ -1073,7 +1073,7 @@ void sub_0801F374(u8 *source,u8 *target,u8 *attack,s32 flags)
     }
     if(packet.power==3) sub_08021E44(*(u16 *)target+4,1);
     packet.player=*(u16 *)(target+2);
-    { u32 i=sub_080020F4(); u16 *p=(u16 *)(target+0x5A); u8 *pl=players02074; *p|=1<<*(u16 *)(pl+i*0x14C); }
+    { u32 i=sub_080020F4(); u16 *p=(u16 *)(target+0x5A); u8 *pl=players02074; *p|=1<<*(u16 *)(pl+i*PLAYER_SIZE); }
 
     *(u32 *)(target+0x54)=*(u32 *)(source+0xDC);
     *(u16 *)(target+0x4A)+=packet.amount&0x7FFF;
@@ -1691,7 +1691,7 @@ echeck:
         }
     }
     if(*team<=2) return;
-    {u32 st=0x14C; for(q=playersFDD0,i=0,qh=q+0xF8,qt=q+0x68;i<sub_08002164() && sub_0800CD8C()==0;i++,qh+=st,qt+=st,q+=st) {
+    {u32 st=PLAYER_SIZE; for(q=playersFDD0,i=0,qh=q+0xF8,qt=q+0x68;i<sub_08002164() && sub_0800CD8C()==0;i++,qh+=st,qt+=st,q+=st) {
     if(q==p) continue;
     t=*qt;
     if(t<=2) continue;
@@ -1831,7 +1831,7 @@ void sub_08020680(u8 *e)
         }
         return;
     }
-    p=players20680+0x14C*sub_080020F4();
+    p=players20680+PLAYER_SIZE*sub_080020F4();
     if(mode&*(u32 *)(p+0x30)) return;
     if(*(u32 *)(p+0x30)&0x2000) return;
     if(*(u32 *)(p+0x30)&0x400) return;
@@ -1981,7 +1981,7 @@ void t21_20E08(u32 arg0, s32 arg1)
         state = sub_08065370(&data, 8, (s32)&a, (s32)&b, state);
         if (sub_0800CC98() == 0 && sub_0800CD8C() == 0 && sub_0800CCCC() == 0) {
     if (arg0 <= 3) {
-        playerAddr = arg0 * 0x14C;
+        playerAddr = arg0 * PLAYER_SIZE;
         playerAddr += (u32)t21_players20E08;
         pos = *(u16 **)playerAddr;
         px = pos[0] >> 4;

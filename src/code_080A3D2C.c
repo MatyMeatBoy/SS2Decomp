@@ -269,7 +269,7 @@ void sub_080A3D2C_v(u16 idx)
         dropEnd3D2C(gData3D2C, h);
     }
 }
-struct Player1084520 {u8 pad0[0x20];u16 state;u8 pad22[14];u32 flags;u8 pad34[52];u8 active;u8 pad69[31];u16 timer;u8 pad8A[2];s32 x,y;u8 pad94[28];u16 fB0;u8 padB2[22];u16 fC8,fCA,fCC;u8 padCE[22];u32 history[5];u8 padF8[84];};
+struct Player1084520 {u8 pad0[PLAYER_FIELD(0x20)];u16 state;u8 pad22[PLAYER_FIELD(0x30) - PLAYER_FIELD(0x22)];u32 flags;u8 pad34[PLAYER_FIELD(0x68) - PLAYER_FIELD(0x34)];u8 active;u8 pad69[PLAYER_FIELD(0x88) - PLAYER_FIELD(0x69)];u16 timer;u8 pad8A[PLAYER_FIELD(0x8C) - PLAYER_FIELD(0x8A)];s32 x,y;u8 pad94[PLAYER_FIELD(0xB0) - PLAYER_FIELD(0x94)];u16 fB0;u8 padB2[PLAYER_FIELD(0xC8) - PLAYER_FIELD(0xB2)];u16 fC8,fCA,fCC;u8 padCE[PLAYER_FIELD(0xE4) - PLAYER_FIELD(0xCE)];u32 history[5];u8 padF8[PLAYER_SIZE - PLAYER_FIELD(0xF8)];};
 extern struct Player1084520 players1084520[] asm("gUnk_03003CE0");
 extern u8 x1084520[] asm("gUnk_03003D6C");
 extern u8 *object1084520 asm("gUnk_03000364");
@@ -297,7 +297,7 @@ void sub_080A4520(void) {
         u32 i = sub_080020F4();
         s32 x = (s32)(*(s32 *)((u8 *)(object1084520) + (0x14))) >> 8;
         asm("" : "+r"(x) : "r"(players1084520));
-        temp_r4 = x - ((s32)(*(s32 *)((u8 *)(x1084520 + 0x14C * i) + (0))) >> 8);
+        temp_r4 = x - ((s32)(*(s32 *)((u8 *)(x1084520 + PLAYER_SIZE * i) + (0))) >> 8);
     }
     temp_r4_2 = (s16) temp_r4;
     temp_r1 = ((s32) (*(s32 *)((u8 *)(object1084520) + (0x18))) >> 8) - ((s32) players1084520[sub_080020F4()].y >> 8);
@@ -334,17 +334,17 @@ void sub_080A4520(void) {
             register u8 *base asm("r7") = (u8 *)players1084520;
             u32 t;
             
-            i *= 0x14c;
+            i *= PLAYER_SIZE;
             
             i += (u32)base;
             
-            i += 0x88;
+            i += PLAYER_FIELD(0x88);
             t = *(u16 *)i;
             
             *(u16 *)i = d + t;
         }
         players1084520[sub_080020F4()].history[(*(u16 *)((u8 *)(object1084520) + (0)))] = (*(u32 *)((u8 *)(object1084520) + (0x50)));
-        temp_r4_4 = ((s32) (*(s32 *)((u8 *)(x1084520+0x14C*sub_080020F4()) + (0))) >> 8) - ((s32) (*(s32 *)((u8 *)(object1084520) + (0x14))) >> 8);
+        temp_r4_4 = ((s32) (*(s32 *)((u8 *)(x1084520+PLAYER_SIZE*sub_080020F4()) + (0))) >> 8) - ((s32) (*(s32 *)((u8 *)(object1084520) + (0x14))) >> 8);
         new_var = (((s32) players1084520[sub_080020F4()].y >> 8) - ((s32) (*(s32 *)((u8 *)(object1084520) + (0x18))) >> 8));
         temp_r0 = (u32)angle1084520((s16) temp_r4_4, (s16) new_var) << 0x10;
         {
@@ -366,13 +366,13 @@ void sub_080A4520(void) {
             register u8 *base asm("r2") = (u8 *)players1084520;
             u8 *p;
             
-            i *= 0x14C;
+            i *= PLAYER_SIZE;
             
             i += (u32)base;
             
             p = (u8 *)i;
             dir = var_r4 - 2;
-            var_r0 = (s16 *)(p + 0xCA);
+            var_r0 = (s16 *)(p + PLAYER_FIELD(0xCA));
         }
         goto store;
 zero:
@@ -381,12 +381,12 @@ zero:
             register u8 *base asm("r2") = (u8 *)players1084520;
             u8 *p;
             
-            i *= 0x14C;
+            i *= PLAYER_SIZE;
             
             i += (u32)base;
             
             p = (u8 *)i;
-            var_r0 = (s16 *)(p + 0xCA);
+            var_r0 = (s16 *)(p + PLAYER_FIELD(0xCA));
         }
         dir = 6;
         goto store;
@@ -396,12 +396,12 @@ one:
             register u8 *base asm("r2") = (u8 *)players1084520;
             u8 *p;
             
-            i *= 0x14C;
+            i *= PLAYER_SIZE;
             
             i += (u32)base;
             
             p = (u8 *)i;
-            var_r0 = (s16 *)(p + 0xCA);
+            var_r0 = (s16 *)(p + PLAYER_FIELD(0xCA));
         }
         dir = 7;
 store:
@@ -851,7 +851,7 @@ void sub_080A4D08(struct Act4D08 *arg0) {
     palIndex = &res->fD6;
     for (i = 0; i <= 3; i++)
         for (j = 0; j <= 4; j++)
-            F_1084D(history1084D+j*4+i*0x14C,u32,0) = 0;
+            F_1084D(history1084D+j*4+i*PLAYER_SIZE,u32,0) = 0;
     select1084D = 0xFF;
     selectSecond1084D = 0xFF;
     sub_08097FE4();
@@ -2681,7 +2681,7 @@ void sub_080A8164_v(struct Act8164 *a)
     a->f50 = 1;
     for (i = 0; i <= 3; i++)
         for (j = 0; j <= 4; j++)
-            *(s32 *)(gHist8164 + j * 4 + i * 0x14C) = 0;
+            *(s32 *)(gHist8164 + j * 4 + i * PLAYER_SIZE) = 0;
     sub_08097FE4();
     sub_08097A4C();
     sub_080A9818();
@@ -3029,7 +3029,7 @@ void sub_080A8164_v(struct Act8164 *a)
     sub_08067BF8();
     sub_08056E24();
 }
-struct PlayerHit111 { u8 pad0[0x20]; u16 state; u8 pad22[0xE]; u32 flags; u8 pad34[0x34]; u8 active; u8 pad69[0x23]; s32 x,y; u8 pad94[0x34]; u16 lock, direction, power; u8 padCE[0x16]; s32 previous[0x1A]; };
+struct PlayerHit111 { u8 pad0[PLAYER_FIELD(0x20)]; u16 state; u8 pad22[PLAYER_FIELD(0x30) - PLAYER_FIELD(0x22)]; u32 flags; u8 pad34[PLAYER_FIELD(0x68) - PLAYER_FIELD(0x34)]; u8 active; u8 pad69[PLAYER_FIELD(0x8C) - PLAYER_FIELD(0x69)]; s32 x,y; u8 pad94[PLAYER_FIELD(0xC8) - PLAYER_FIELD(0x94)]; u16 lock, direction, power; u8 padCE[PLAYER_FIELD(0xE4) - PLAYER_FIELD(0xCE)]; s32 previous[0x1A]; };
 extern struct PlayerHit111 hitPlayers111[] asm("gUnk_03003CE0");
 extern u8 *hitObject111 asm("gUnk_0300041C");
 /* [PushPlayerFromObjectHorizontally] Within distance 19, after object/player lifecycle, timer, pause and
@@ -3049,12 +3049,12 @@ void sub_080A8F90(void)
     ix = sub_080020F4();
     objX = hitObject111;
     base = hitPlayers111;
-    ix *= 0x14C;
+    ix *= PLAYER_SIZE;
     px = &base->x;
     dx = (u32)((*(s32 *)(objX + 0x14) - *(s32 *)((u8 *)px + ix)) << 8) >> 16;
     iy = sub_080020F4();
     objY = hitObject111;
-    iy *= 0x14C;
+    iy *= PLAYER_SIZE;
     py = &base->y;
     dy = (*(s32 *)(objY + 0x18) - *(s32 *)((u8 *)py + iy)) << 8;
     if (Sqrt((s16)dx * (s16)dx + (dy >> 16) * (dy >> 16)) > 19) return;
@@ -3064,7 +3064,7 @@ void sub_080A8F90(void)
     if (sub_0800CD8C() != 0) return;
     if (sub_0800CCCC() != 0) return;
     if (*(u16 *)(hitObject111 + 0xC) == 11) return;
-    iflags = 0x14C * sub_080020F4();
+    iflags = PLAYER_SIZE * sub_080020F4();
     flags = &base->flags;
     if (*(u32 *)((u8 *)flags + iflags) & 0x2000) return;
     if (base[sub_080020F4()].active == 0) return;
@@ -3074,11 +3074,11 @@ void sub_080A8F90(void)
     itable = sub_080020F4();
     objTable = hitObject111;
     offset = *(u16 *)objTable * 4;
-    itable *= 0x14C;
+    itable *= PLAYER_SIZE;
     offset += itable;
     table = base->previous;
     if (*(s32 *)((u8 *)table + offset) == *(s32 *)(objTable + 0x50)) return;
-    icmp = 0x14C * sub_080020F4();
+    icmp = PLAYER_SIZE * sub_080020F4();
     if (*(s32 *)((u8 *)px + icmp) <= *(s32 *)(hitObject111 + 0x14)) {
         target = (s16 *)&base[sub_080020F4()].direction;
         direction = 1;
@@ -3090,7 +3090,7 @@ void sub_080A8F90(void)
     hitPlayers111[sub_080020F4()].power = 0x400;
     hitPlayers111[sub_080020F4()].lock = 8;
 }
-struct PlayerHit2111 { u8 pad0[0x20]; u16 state; u8 pad22[0xE]; u32 flags; u8 pad34[0x34]; u8 active; u8 pad69[0x23]; s32 x,y; u8 pad94[0x1C]; u16 hit; u8 padB2[0x16]; u16 lock, direction, power; u8 padCE[0x16]; s32 previous[0x1A]; };
+struct PlayerHit2111 { u8 pad0[PLAYER_FIELD(0x20)]; u16 state; u8 pad22[PLAYER_FIELD(0x30) - PLAYER_FIELD(0x22)]; u32 flags; u8 pad34[PLAYER_FIELD(0x68) - PLAYER_FIELD(0x34)]; u8 active; u8 pad69[PLAYER_FIELD(0x8C) - PLAYER_FIELD(0x69)]; s32 x,y; u8 pad94[PLAYER_FIELD(0xB0) - PLAYER_FIELD(0x94)]; u16 hit; u8 padB2[PLAYER_FIELD(0xC8) - PLAYER_FIELD(0xB2)]; u16 lock, direction, power; u8 padCE[PLAYER_FIELD(0xE4) - PLAYER_FIELD(0xCE)]; s32 previous[0x1A]; };
 extern struct PlayerHit2111 hitPlayers2111[] asm("gUnk_03003CE0");
 extern u8 *hitObject2111 asm("gUnk_0300041C");
 extern s16 hitOffsets111[] asm("gUnk_080B9704");
@@ -3118,10 +3118,10 @@ void sub_080A9100(void)
     y += hitOffsets111[0x70] << 5;
     ix = sub_080020F4();
     base = hitPlayers2111;
-    ix *= 0x14C;
+    ix *= PLAYER_SIZE;
     px = &base->x;
     dx = (u32)((x - *(s32 *)((u8 *)px + ix)) << 8) >> 16;
-    iy = 0x14C * sub_080020F4();
+    iy = PLAYER_SIZE * sub_080020F4();
     py = &base->y;
     dy = (y - *(s32 *)((u8 *)py + iy)) << 8;
     if (Sqrt((s16)dx * (s16)dx + (dy >> 16) * (dy >> 16)) > 19) return;
@@ -3130,7 +3130,7 @@ void sub_080A9100(void)
     if (sub_0800CD8C() != 0) return;
     if (sub_0800CCCC() != 0) return;
     if (*(u16 *)(hitObject2111 + 0xC) == 11) return;
-    iflags = 0x14C * sub_080020F4();
+    iflags = PLAYER_SIZE * sub_080020F4();
     flags = &base->flags;
     if (*(u32 *)((u8 *)flags + iflags) & 0x2000) return;
     if (base[sub_080020F4()].active == 0) return;
@@ -3140,7 +3140,7 @@ void sub_080A9100(void)
     itable = sub_080020F4();
     objTable = hitObject2111;
     offset = *(u16 *)objTable * 4;
-    itable *= 0x14C;
+    itable *= PLAYER_SIZE;
     offset += itable;
     table = base->previous;
     if (*(s32 *)((u8 *)table + offset) == *(s32 *)(objTable + 0x50)) return;
@@ -3152,7 +3152,7 @@ void sub_080A9100(void)
     saveIndex = sub_080020F4();
     saveObj = hitObject2111;
     saveOffset = *(u16 *)saveObj * 4;
-    saveIndex *= 0x14C;
+    saveIndex *= PLAYER_SIZE;
     saveOffset += saveIndex;
     saveTable = hitPlayers2111->previous;
     saveDst = (s32 *)((u8 *)saveTable + saveOffset);
@@ -3163,7 +3163,7 @@ void sub_080A9100(void)
     hitPlayers2111[sub_080020F4()].power = 0x400;
     hitPlayers2111[sub_080020F4()].lock = 0x50;
 }
-struct PlayerEffect111 { u8 pad0[0x20]; u16 state; u8 pad22[0xE]; u32 flags; u8 pad34[0x34]; u8 active; u8 pad69[0x23]; s32 x,y; u8 pad94[0x1C]; u16 hit; u8 padB2[0x16]; u16 lock, direction, power; u8 padCE[0x16]; s32 previous[0x1A]; };
+struct PlayerEffect111 { u8 pad0[PLAYER_FIELD(0x20)]; u16 state; u8 pad22[PLAYER_FIELD(0x30) - PLAYER_FIELD(0x22)]; u32 flags; u8 pad34[PLAYER_FIELD(0x68) - PLAYER_FIELD(0x34)]; u8 active; u8 pad69[PLAYER_FIELD(0x8C) - PLAYER_FIELD(0x69)]; s32 x,y; u8 pad94[PLAYER_FIELD(0xB0) - PLAYER_FIELD(0x94)]; u16 hit; u8 padB2[PLAYER_FIELD(0xC8) - PLAYER_FIELD(0xB2)]; u16 lock, direction, power; u8 padCE[PLAYER_FIELD(0xE4) - PLAYER_FIELD(0xCE)]; s32 previous[0x1A]; };
 extern struct PlayerEffect111 effectPlayers111[] asm("gUnk_03003CE0");
 extern u8 *effectObject111 asm("gUnk_0300041C");
 struct SpriteEffect111 { s32 f0, f4, f8, fC, f10, f14, f18; u8 bytes[0x18]; };
@@ -3231,21 +3231,21 @@ void sub_080A92C0_(u32 argument)
         if (testEffect111(pos, area, 0x18) != 0) break;
         ix = sub_080020F4();
         base = effectPlayers111;
-        ix *= 0x14C;
+        ix *= PLAYER_SIZE;
         px = &base->x;
         dx = (u32)((pos.x - *(s32 *)((u8 *)px + ix)) << 8) >> 16;
-        iy = 0x14C * sub_080020F4();
+        iy = PLAYER_SIZE * sub_080020F4();
         py = &base->y;
         dy = (pos.y - *(s32 *)((u8 *)py + iy)) << 8;
         distance = Sqrt((s16)dx * (s16)dx + (dy >> 16) * (dy >> 16));
         if (hit == 0 && distance <= 11 && sub_0800CDF8() == 0 && sub_0800CD8C() == 0 && sub_0800CCCC() == 0 && *(u16 *)(effectObject111 + 0xC) != 11) {
-            iflags = 0x14C * sub_080020F4();
+            iflags = PLAYER_SIZE * sub_080020F4();
             flags = &base->flags;
             if ((*(u32 *)((u8 *)flags + iflags) & 0x2000) == 0 && base[sub_080020F4()].active != 0 && base[sub_080020F4()].state != 14 && base[sub_080020F4()].state != 11 && base[sub_080020F4()].state != 12) {
                 itable = sub_080020F4();
                 objTable = effectObject111;
                 offset = *(u16 *)objTable * 4;
-                itable *= 0x14C;
+                itable *= PLAYER_SIZE;
                 offset += itable;
                 table = base->previous;
                 if (*(s32 *)((u8 *)table + offset) != *(s32 *)(objTable + 0x50)) {
@@ -3255,7 +3255,7 @@ void sub_080A92C0_(u32 argument)
                     saveIndex = sub_080020F4();
                     saveObj = effectObject111;
                     saveOffset = *(u16 *)saveObj * 4;
-                    saveIndex *= 0x14C;
+                    saveIndex *= PLAYER_SIZE;
                     saveOffset += saveIndex;
                     saveTable = effectPlayers111->previous;
                     saveDst = (s32 *)((u8 *)saveTable + saveOffset);
@@ -3268,7 +3268,7 @@ void sub_080A92C0_(u32 argument)
         }
         if (sub_0800CCCC() == 0 && sub_0800CC98() == 0 && sub_0800CD8C() == 0 && (zero = sub_0800CD34()) == 0) {
             screenEffect111((pos.x << 8) >> 16, (pos.y << 8) >> 16, &screenX, &screenY, zero, zero);
-            sub_08000AF0(gUnk_03000420 + 0x10, (u8 *)sprite.fC + (*(u16 *)(effectObject111 + 0x2DA) << 5), 1);
+            sub_08000AF0(gUnk_03000420 + 0x10, (u8 *)sprite.fC + (*(u16 *)(effectObject111 + ENEMY_FIELD(0x2DA)) << 5), 1);
             animateEffect111(&sprite, 3, &frame, &tick, zero);
             layer = (u8)sub_0800BC44(*(s32 *)(effectObject111 + 0x14) >> 8, *(s32 *)(effectObject111 + 0x18) >> 8, 0);
             if (kind != 0)

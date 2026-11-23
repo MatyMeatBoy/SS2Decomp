@@ -324,7 +324,7 @@ void sub_0807A5D4_v(void)
                         sub_0805865C(0x62);
                         break;
                     case 3:
-                        if (saved.v[3] > 332)
+                        if (saved.v[3] > PLAYER_SIZE)
                             break;
                         stats.v[3]++;
                         saved.v[3]++;
@@ -5254,7 +5254,7 @@ void sub_08082BB0_u32(u32 arg0) asm("sub_08082BB0");
  * current/held items or detailed record view, refreshes signed stat preview and inventory contents, with
  * variant-specific collection background updates. */
 void sub_08082BB0_u32(u32 arg0) {
-    struct PlayerWords82BB0 { u8 pad[0x8C]; u32 w8C, w90; u8 tail[0x14C - 0x94]; };
+    struct PlayerWords82BB0 { u8 pad[0x8C]; u32 w8C, w90; u8 tail[PLAYER_SIZE - 0x94]; };
     extern struct PlayerWords82BB0 players82BB0[] asm("gUnk_03003CE0");
     extern u32 sub_08001108_word82BB0(u32) asm("sub_08001108");
     struct Index82BB0 { u8 pad[0x14A]; u16 value; };

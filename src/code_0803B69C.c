@@ -1378,7 +1378,7 @@ void sub_0803E510(s32 arg0) {
     u8 *p;
     u32 dialog;
     offset = sub_080020F4();
-    offset *= 0x14C;
+    offset *= PLAYER_SIZE;
     p = (u8 *)gUnk_03003CE0 + offset;
     *(u32 *)(p + 0x30) |= 1;
     sub_0800D0F4();
@@ -1396,7 +1396,7 @@ void sub_0803E510(s32 arg0) {
     }
     sub_08029788(arg0);
     offset = sub_080020F4();
-    offset *= 0x14C;
+    offset *= PLAYER_SIZE;
     p = (u8 *)gUnk_03003CE0 + offset;
     *(u32 *)(p + 0x30) &= ~1;
     sub_0800D108();
@@ -1703,7 +1703,7 @@ setReadyE638:
         if(playerIndexE638<5) {addressE638=(u8 **)&gUnk_030056F4;offE638=playerIndexE638*0x2E0;entryE638=*addressE638;entryE638+=offE638;sub_08019EB8(*(u16 *)(entryE638+2),3);}
     } else {
         register u32 offE638 asm("r0");
-        offE638=sub_080020F4()*0x14C;
+        offE638=sub_080020F4()*PLAYER_SIZE;
         setResultE638=(u8 *)gUnk_03003CE0+offE638;
         *(u16 *)(setResultE638+0x11E)=setValueE638;
     }
@@ -4798,7 +4798,7 @@ static inline void t44_markActor(u32 actor)
         record=actor-1;
         if(record<=4){u8 **address=(u8 **)&records44; u32 off=record*0x2E0; u8 *entry=*address; entry+=off; sub_08019EB8(*(u16 *)(entry+2),1);}
     } else {
-        u8 *player=players44+0x14C*sub_080020F4();
+        u8 *player=players44+PLAYER_SIZE*sub_080020F4();
         *(u16 *)(player+0x11E)=one;
     }
 }
@@ -4831,7 +4831,7 @@ void sub_08043850(void)
     for(timer=250;timer!=0;timer--){sub_080003F0();if(sub_080021A8())break;}
     sub_0802926C(actor,7);
     sub_0802A7DC();
-    player=players44+0x14C*sub_080020F4();
+    player=players44+PLAYER_SIZE*sub_080020F4();
     *(u32 *)(player+0x30)|=1;
     sub_0800D0F4();
 }

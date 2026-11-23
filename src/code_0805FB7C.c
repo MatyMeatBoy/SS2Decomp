@@ -1528,7 +1528,7 @@ if (savePlayers64[sub_080020F4()].f2E == 0){
                 {u8 *d=saveData64; u32 o; u8 *s;  o=var_r5*2; d+=0xDC; d+=o; s=saveStats64+0x22; *(u16*)d=*(u16*)(s+o);}
                 var_r5 += 1;
             } while (var_r5 <= 9U);
-            {register u8 *pp asm("r6"); var_r5=0; pp=savePlayerPtr64;  var_r4_2=0; do { *(struct SaveEntry64 *)(saveData64+var_r4_2+0x3DC)=*(struct SaveEntry64 *)(var_r4_2+*(u32 *)(pp+0x14C*sub_080020F4())); var_r4_2+=40; var_r5++; } while(var_r5<=7);}
+            {register u8 *pp asm("r6"); var_r5=0; pp=savePlayerPtr64;  var_r4_2=0; do { *(struct SaveEntry64 *)(saveData64+var_r4_2+0x3DC)=*(struct SaveEntry64 *)(var_r4_2+*(u32 *)(pp+PLAYER_SIZE*sub_080020F4())); var_r4_2+=40; var_r5++; } while(var_r5<=7);}
         }
 } else {
             data=saveData64;stats=saveStats64;
@@ -1548,7 +1548,7 @@ if (savePlayers64[sub_080020F4()].f2E == 0){
                 {u8 *d=saveData64; u32 o; u8 *s;  o=var_r5*2; d+=0xDC; d+=o; s=saveStats64+0x22; *(u16*)d=*(u16*)(s+o);}
                 var_r5 += 1;
             } while (var_r5 <= 9U);
-            {register u8 *pp asm("r6"); var_r5=0; pp=savePlayerPtr64;  var_r4=0; do { *(struct SaveEntry64 *)(saveData64+var_r4+0x3DC)=*(struct SaveEntry64 *)(var_r4+*(u32 *)(pp+0x14C*sub_080020F4())); var_r4+=40; var_r5++; } while(var_r5<=7);}
+            {register u8 *pp asm("r6"); var_r5=0; pp=savePlayerPtr64;  var_r4=0; do { *(struct SaveEntry64 *)(saveData64+var_r4+0x3DC)=*(struct SaveEntry64 *)(var_r4+*(u32 *)(pp+PLAYER_SIZE*sub_080020F4())); var_r4+=40; var_r5++; } while(var_r5<=7);}
         }
         if (saveWrite64() == 0) {
             sub_08006BF8();
@@ -1624,7 +1624,7 @@ while(sub_0801AAE0() == 0) sub_080003F0();
                 {u8 *d=saveData64; u8 *s=saveStats64; *(u32*)(d+0xC)=*(u32*)(s+0x7C); *(u32*)(d+0x10)=*(u32*)(s+0x80);}
                 var_r5 = 0;
                 do {
-                    {u8 *d=saveData64+0x14C; u8 *s; d+=var_r5; s=saveStats64+0x1BC; *d=s[var_r5];}
+                    {u8 *d=saveData64+PLAYER_SIZE; u8 *s; d+=var_r5; s=saveStats64+0x1BC; *d=s[var_r5];}
                     var_r5 += 1;
                 } while (var_r5 <= 6U);
                 var_r5 = 0;
@@ -2495,7 +2495,7 @@ void t65B_impl(s32 index)
     u8 *palettePtr;
     register struct T65BPlayer *player asm("r8");
     {
-        u32 stride65 = 0x14C;
+        u32 stride65 = PLAYER_SIZE;
         register u32 idx65 asm("r2");
         register u32 product65 asm("r1");
         

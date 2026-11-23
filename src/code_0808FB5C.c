@@ -421,7 +421,7 @@ u32 sub_0809021C(u32 arg0)
     return 0;
 }
 struct State9029095 { u8 p0[0x10];u16 mode;u8 p12[0x12];u16 w24;u8 p26[0xA];u16 w30;u8 p32[4];u16 w36; };
-struct Player9029095 {u8 p0[0x1C];u16 action;u8 p1E[2];u16 state;u8 p22[0xE];u32 flags;u8 p34[0x34];u8 active;u8 rest[0xE3];};
+struct Player9029095 {u8 p0[PLAYER_FIELD(0x1C)];u16 action;u8 p1E[PLAYER_FIELD(0x20) - PLAYER_FIELD(0x1E)];u16 state;u8 p22[PLAYER_FIELD(0x30) - PLAYER_FIELD(0x22)];u32 flags;u8 p34[PLAYER_FIELD(0x68) - PLAYER_FIELD(0x34)];u8 active;u8 rest[PLAYER_SIZE - PLAYER_FIELD(0x69)];};
 extern struct State9029095 *state9029095 asm("gUnk_03005CF4");
 extern struct Player9029095 players9029095[] asm("gUnk_03003CE0");
 /* [UpdateMapZeroExitReset] Initialization branch calls common scene initializer. */
@@ -435,11 +435,11 @@ u32 sub_08090290(u32 arg)
         sub_080570DC(1);
         sub_08056FB8(0,0);
         firstIndex=sub_080020F4(); base=players9029095; 
-        { struct Player9029095 *player=(struct Player9029095 *)(firstIndex*0x14C+(u32)base);
+        { struct Player9029095 *player=(struct Player9029095 *)(firstIndex*PLAYER_SIZE+(u32)base);
           u8 *active=&player->active;  zero=0;one=1;*active=one; }
         sub_08056E78();
         (*holder)->w36=zero;
-        { register u32 offset asm("r2"); u8 *flagsBase; offset=sub_080020F4()*0x14C;  flagsBase=(u8 *)base+0x30;  offset+=(u32)flagsBase; *(u32 *)offset&=~2; }
+        { register u32 offset asm("r2"); u8 *flagsBase; offset=sub_080020F4()*PLAYER_SIZE;  flagsBase=(u8 *)base+PLAYER_FIELD(0x30);  offset+=(u32)flagsBase; *(u32 *)offset&=~2; }
         base[sub_080020F4()].state=zero;
         base[sub_080020F4()].action=4;
         { struct State9029095 *finalState=*holder; finalState->w30=one; finalState->w24=one; }

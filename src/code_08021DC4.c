@@ -4402,7 +4402,7 @@ check_loop_11:
             t025State270->f3C = (s32) t025State270->f98;
             restoreId = sub_080020F4();
             restoreBase = t025Players270;
-            restoreStride = 0x14C;
+            restoreStride = PLAYER_SIZE;
             temp_r2_4 = (u8 *)restoreBase + restoreId * restoreStride;
             M2C_FIELD(temp_r2_4, struct V2W12 *, 0xA4) = M2C_FIELD(t025State270, struct V2W12 *, 0xA0);
             temp_r4_3 = sub_080020F4();
@@ -4484,7 +4484,7 @@ check_loop_33:
     }
     flagIndex = sub_080020F4();
     flagBase = (u8 *)t025Players270;
-    flagOffset = 0x14C;
+    flagOffset = PLAYER_SIZE;
     flagOffset *= flagIndex;
     flagBase += 0x30;
     flagTarget = (s32 *)(flagOffset + (u32)flagBase);
@@ -4598,14 +4598,14 @@ check_loop_85:
     t025State270->f2 = (s16) t025State270->f40;
     temp_r0 = sub_080020F4();
     endBase = t025Players270;
-    temp_r1 = temp_r0 * 0x14C;
+    temp_r1 = temp_r0 * PLAYER_SIZE;
     endFlags = (s32 *)&endBase->flags;
     temp_r1_9 = (s32 *)(temp_r1 + (u32)endFlags);
     temp_r0 = *temp_r1_9;
     endMask = 0x2000;
     *temp_r1_9 = temp_r0 & endMask;
     endBase[sub_080020F4()].unk2A = (s16) t025State270->f40;
-    if (!(*(s32 *)((u32)endFlags + sub_080020F4() * 0x14C) & endMask)) {
+    if (!(*(s32 *)((u32)endFlags + sub_080020F4() * PLAYER_SIZE) & endMask)) {
         endBase[sub_080020F4()].unk68 = 1;
     }
     sub_08015C38();

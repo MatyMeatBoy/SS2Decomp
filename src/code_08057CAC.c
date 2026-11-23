@@ -238,7 +238,7 @@ found:
         return;
     } else {
         u32 index = sub_080020F4();
-        index *= 0x14C;
+        index *= PLAYER_SIZE;
         target = (u16 *)(index + (u32)gUnk_03003CE0);
         target = (u16 *)((u8 *)target + 0x11E);
     }

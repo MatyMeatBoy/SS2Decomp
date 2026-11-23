@@ -1291,11 +1291,11 @@ restart:
             break;
         case 0xD:
             if (peer != sub_080020F4())
-                CpuSet(d, gRxPl58 + peer * 0x14C, 0x0400000C);
+                CpuSet(d, gRxPl58 + peer * PLAYER_SIZE, 0x0400000C);
             break;
         case 0xE:
             if (peer != sub_080020F4())
-                CpuSet(d, gRxPl38 + peer * 0x14C, 0x04000008);
+                CpuSet(d, gRxPl38 + peer * PLAYER_SIZE, 0x04000008);
             break;
         case 0xF:
             *(u32 *)(gRxGameState + 0x38) |= d[0];

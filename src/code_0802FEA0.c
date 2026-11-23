@@ -3778,7 +3778,7 @@ static inline u32 t36ATest(u8 *p, u32 one) { s32 v = *p;  return (v >> 7) & one;
 static inline u32 t36AHalf(u16 *p) { u32 v = *p;  return v; }
 static inline void t36AInit(struct T36ACmd *pp, u32 aa, u32 bb) { register struct T36ACmd *p asm("r0"); register u32 a asm("r1")=aa; u32 b=bb; asm("" : "+r"(a), "+r"(b)); p=pp;  p->unk0=a; p->unk2=b; }
 static inline u32 t36ALock(u32 idx) {
- u32 off = idx * 0x14C;
+ u32 off = idx * PLAYER_SIZE;
  u32 base;
  struct Player *p;
  u32 flags;
@@ -5450,7 +5450,7 @@ void sub_0803AE6C(u32 arg0) {
     sub_08029788(arg0);
     sub_0802939C(arg0, 3);
     endOffset = sub_080020F4();
-    endOffset *= 0x14C;
+    endOffset *= PLAYER_SIZE;
     temp_r2_2 = (u8 *)gUnk_03003CE0 + endOffset;
     (*(u32 *)(temp_r2_2 + 0x30)) = (s32) ((*(u32 *)(temp_r2_2 + 0x30)) & ~1);
     sub_0800D108();

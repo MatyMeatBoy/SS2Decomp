@@ -1132,17 +1132,17 @@ void sub_080567D4(s32 id)
             ybase = -(-ybase + 1) + 1;
             do {
                 Wait567D4();
-                x = *(s32 *)(xbase + sub_080020F4() * 0x14C) >> 8;
-                y = *(s32 *)(ybase + sub_080020F4() * 0x14C) >> 8;
+                x = *(s32 *)(xbase + sub_080020F4() * PLAYER_SIZE) >> 8;
+                y = *(s32 *)(ybase + sub_080020F4() * PLAYER_SIZE) >> 8;
             } while (x >= gates567D4[id].x - hw && x <= gates567D4[id].x + hw
                   && y >= gates567D4[id].y - hh && y <= gates567D4[id].y + hh);
         }
         do {
             Wait567D4();
-            x = *(s32 *)(playerX567D4 + sub_080020F4() * 0x14C) >> 8;
+            x = *(s32 *)(playerX567D4 + sub_080020F4() * PLAYER_SIZE) >> 8;
             /* The Y base goes through a pointer local, which puts it in r7 like ROM. */
             flags = playerY567D4;
-            y = *(s32 *)(flags + sub_080020F4() * 0x14C) >> 8;
+            y = *(s32 *)(flags + sub_080020F4() * PLAYER_SIZE) >> 8;
         } while (x < gates567D4[id].x - hw || x > gates567D4[id].x + hw
               || y < gates567D4[id].y - hh || y > gates567D4[id].y + hh);
         ret = sub_0800CCCC();

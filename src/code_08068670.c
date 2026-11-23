@@ -676,7 +676,7 @@ s32 sub_08068F9C(struct Attack69 *a,s32 target)
     u32 index;
     u16 *special;
     index=a->attacker;
-    if(index<=3) value=((struct AttackPlayer69 *)(index*0x14C+(u32)attackPlayers69))->value;
+    if(index<=3) value=((struct AttackPlayer69 *)(index*PLAYER_SIZE+(u32)attackPlayers69))->value;
     else { u32 address; u8 **base; base=&attackEnemies69; address=index*0x2E0; address+=(u32)*base; address-=0x978; value=*(s16 *)address; }
     random=sub_080008C8()%20U+100;
     if(a->kind!=19) {
@@ -882,13 +882,13 @@ void sub_080694AC(struct HitAttack69 *arg0) {
     packet.control.word &= 0xFFFF00FF;
     temp_r2 = arg0->attacker;
     if (temp_r2 <= 3U) {
-        var_r8 = (0x14C * temp_r2) + hitPlayers69;
+        var_r8 = (PLAYER_SIZE * temp_r2) + hitPlayers69;
     } else {
         var_r9 = hitEnemies69 + ((temp_r2 * 0x2E0) + 0xFFFFF480);
     }
     temp_r2_2 = arg0->target;
     if (temp_r2_2 <= 3U) {
-        var_r7 = (0x14C * temp_r2_2) + hitPlayers69;
+        var_r7 = (PLAYER_SIZE * temp_r2_2) + hitPlayers69;
         var_sl = (u8 *)(0x7C+(u32)var_r7);
         var_r4 = 8;
         (*(u32 *)((u8 *)(var_r7)+0x110)) = 0;

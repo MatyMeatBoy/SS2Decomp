@@ -223,7 +223,7 @@ static inline void mark5E8(u32 target)
         u32 i = target - 1;
         if (i <= 4) { register u8 **base asm("r1") = (u8 **)&records5E8; s32 raw = i * 0x2E0; base = (u8 **)((u8 *)*base + raw); rec5E8(*(u16 *)((u8 *)base + 2), 3); }
     } else {
-        s32 raw = sub_080020F4() * 0x14C;
+        s32 raw = sub_080020F4() * PLAYER_SIZE;
         s32 v1;
         { u8 *base = (u8 *)players5E8; raw += (s32)base; v1 = 0x11E; raw += v1; *(u16 *)raw = v; }
     }
@@ -241,7 +241,7 @@ static inline void mark2_5E8(u32 target)
         u32 i = target - 1;
         if (i <= 4) { register u8 **base asm("r1") = (u8 **)&records5E8; s32 raw = i * 0x2E0; base = (u8 **)((u8 *)*base + raw); rec5E8(*(u16 *)((u8 *)base + 2), 3); }
     } else {
-        s32 raw = sub_080020F4() * 0x14C;
+        s32 raw = sub_080020F4() * PLAYER_SIZE;
         s32 v1;
         { u8 *base = (u8 *)players5E8; raw += (s32)base; v1 = 0x11E; raw += v1; *(u16 *)raw = v; }
     }
@@ -258,7 +258,7 @@ void sub_080445E8(s32 arg0, u32 arg1)
     u32 count, i;
     s32 result;
 
-    { u8 *pl = (u8 *)players5E8 + sub_080020F4() * 0x14C; *(u32 *)(pl + 0x30) |= 1; }
+    { u8 *pl = (u8 *)players5E8 + sub_080020F4() * PLAYER_SIZE; *(u32 *)(pl + 0x30) |= 1; }
     sub_0800D0F4();
     second = sub_080020F4();
     if (second == 0)
@@ -303,7 +303,7 @@ void sub_080445E8(s32 arg0, u32 arg1)
         break;
     }
 end:
-    { u8 *pl = (u8 *)players5E8 + sub_080020F4() * 0x14C; *(u32 *)(pl + 0x30) &= ~1; }
+    { u8 *pl = (u8 *)players5E8 + sub_080020F4() * PLAYER_SIZE; *(u32 *)(pl + 0x30) &= ~1; }
     sub_0800D108();
 }
 struct Actor566045 { u32 id; u8 p4[0x14]; u16 x, y; u8 p1C[0x20]; u32 flags; u8 p40[4]; u32 callback; u8 p48[0x28]; };
@@ -848,7 +848,7 @@ again:
     if (a) { a->x = x; a->y = y; a->flags |= 0x10; }
     setcb566045(st, id, (u32)callback5E3845);
 }
-struct PlF4445 { u8 p0[0x30]; u32 flags; u8 p34[0x58]; s32 f8C; u8 p90[0x8E]; u16 f11E; u8 p120[0x2C]; };
+struct PlF4445 { u8 p0[PLAYER_FIELD(0x30)]; u32 flags; u8 p34[PLAYER_FIELD(0x8C) - PLAYER_FIELD(0x34)]; s32 f8C; u8 p90[PLAYER_FIELD(0x11E) - PLAYER_FIELD(0x90)]; u16 f11E; u8 p120[PLAYER_SIZE - PLAYER_FIELD(0x120)]; };
 struct ItemF4445 { u16 kind, value; u8 pad[12]; };
 struct RecF4445 { u16 f0, f2; u8 pad[ENEMY_SIZE - 0x4]; };
 struct CmdF4445 { u16 kind, value; u8 data[12]; };
@@ -904,7 +904,7 @@ static inline void setlvF4445(u32 id, u16 v) {
             sub_08019EB8(((struct RecF4445 *)(*table + offset))->f2, v);
         }
     } else {
-        ((struct PlF4445 *)(sub_080020F4() * 0x14C + (u32)playersF4445))->f11E = level;
+        ((struct PlF4445 *)(sub_080020F4() * PLAYER_SIZE + (u32)playersF4445))->f11E = level;
     }
 }
 /* [RunHamasanDialogue] Sets local player flags bit 0 (input suppression) and BeginLocalPlayerEventLock. Plays
@@ -927,7 +927,7 @@ void sub_08045F44(u32 inputId) {
     struct ItemF4445 *it;
     struct Actor566045 *ap;
 
-    ((struct PlF4445 *)(sub_080020F4() * 0x14C + (u32)playersF4445))->flags |= 1;
+    ((struct PlF4445 *)(sub_080020F4() * PLAYER_SIZE + (u32)playersF4445))->flags |= 1;
     sub_0800D0F4();
     { s32 coord = playersF4445[sub_080020F4()].f8C; a = coord >> 8; }
     if (a > 0x1E7) sub_08029174(id, 6);
@@ -2443,7 +2443,7 @@ void t47EScript(u32 arg0) {
 
     switch (arg0) {
     case 0:
-        temp_r2 = (0x14C * sub_080020F4()) + t47EActors;
+        temp_r2 = (PLAYER_SIZE * sub_080020F4()) + t47EActors;
         *(u32 *)(temp_r2+0x30) = (s32) (*(u32 *)(temp_r2+0x30) & ~1);
         sub_0800D108();
         xp=(s32 *)&frame.pos[1];
@@ -3291,7 +3291,7 @@ test377:
             sub_080003F0();
             var_r4_8 += step;
         } while (var_r4_8 <= 0x400);
-        temp_r2_2 = (0x14C * sub_080020F4()) + t47EActors;
+        temp_r2_2 = (PLAYER_SIZE * sub_080020F4()) + t47EActors;
         *(u32 *)(temp_r2_2+0x30) = (s32) (*(u32 *)(temp_r2_2+0x30) & ~1);
         sub_0800D108();
         var_r2 = (u8 *)t47EPlayers;
@@ -4446,7 +4446,7 @@ static inline void t49_stateBC38(u32 actor)
         }
     } else {
         u32 index=sub_080020F4();
-        u32 stride=0x14C;
+        u32 stride=PLAYER_SIZE;
         u8 *player;
         u8 *players;
         u32 offset;

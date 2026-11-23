@@ -387,7 +387,7 @@ void sub_08098108(void *input)
     do {
         entry = 0;
         do {
-            *(u32 *)((u8 *)seen108 + entry * 4 + player * 0x14C) = 0;
+            *(u32 *)((u8 *)seen108 + entry * 4 + player * PLAYER_SIZE) = 0;
             entry++;
         } while (entry <= 4);
         player++;
@@ -1119,7 +1119,7 @@ void sub_08099838(void *input)
     do {
         entry = 0;
         do {
-            *(u32 *)((u8 *)seen99 + entry * 4 + player * 0x14C) = 0;
+            *(u32 *)((u8 *)seen99 + entry * 4 + player * PLAYER_SIZE) = 0;
             entry++;
         } while (entry <= 4);
         player++;
@@ -1402,7 +1402,7 @@ u8 sub_0809A5E0(void)
         players102A5[sub_080020F4()].motion = 0xFFFE;
         id = sub_080020F4();
         players102A5[id].angle += delta102A5(entity102A5, &players102A5[sub_080020F4()]);
-        { s32 i; u32 index; u32 *dest; u32 n; struct Entity102A5 *e; i=sub_080020F4(); e=entity102A5; index=e->index; index<<=2;  index+=i*0x14c;  dest=(u32 *)((u8 *)players102A5+0xe4+index); n=e->counter;  *dest=n; e->counter=n+1; }
+        { s32 i; u32 index; u32 *dest; u32 n; struct Entity102A5 *e; i=sub_080020F4(); e=entity102A5; index=e->index; index<<=2;  index+=i*PLAYER_SIZE;  dest=(u32 *)((u8 *)players102A5+0xe4+index); n=e->counter;  *dest=n; e->counter=n+1; }
         dx = (x102A5[sub_080020F4()*83] - entity102A5->x) >> 8;
         dy = (players102A5[sub_080020F4()].y - entity102A5->y) >> 8;
         a = ArcTan2(dx, dy);
@@ -1857,7 +1857,7 @@ void sub_0809AEE8(void *input)
     do {
         j = 0;
         do {
-            *(u32 *)((u8 *)seenAEE8 + j * 4 + i * 0x14C) = 0;
+            *(u32 *)((u8 *)seenAEE8 + j * 4 + i * PLAYER_SIZE) = 0;
             j++;
         } while (j <= 4);
         i++;
@@ -2339,7 +2339,7 @@ void sub_0809C1B4(u16 arg0)
     taskC1B4()->f8 = 0;
 }
 struct PosC4E8 { u16 x, y; };
-struct PlayerC4E8 { u8 p0[0x20]; u16 state; u8 p22[0xe]; u32 flags; u8 p34[0x34]; u8 f68; u8 p69[0x23]; s32 x, y; u8 p94[0x1c]; u16 fb0; u8 pb2[0x32]; u32 fe4[25]; struct PosC4E8 *pos; };
+struct PlayerC4E8 { u8 p0[PLAYER_FIELD(0x20)]; u16 state; u8 p22[PLAYER_FIELD(0x30) - PLAYER_FIELD(0x22)]; u32 flags; u8 p34[PLAYER_FIELD(0x68) - PLAYER_FIELD(0x34)]; u8 f68; u8 p69[PLAYER_FIELD(0x8C) - PLAYER_FIELD(0x69)]; s32 x, y; u8 p94[PLAYER_FIELD(0xB0) - PLAYER_FIELD(0x94)]; u16 fb0; u8 pb2[PLAYER_FIELD(0xE4) - PLAYER_FIELD(0xB2)]; u32 fe4[25]; struct PosC4E8 *pos; };
 extern struct PlayerC4E8 playersC4E8[] asm("gUnk_03003CE0");
 extern struct ObjC1B4 *objC4E8 asm("gUnk_030002EC");
 struct XYC4E8 { s32 x, y; };
@@ -2541,7 +2541,7 @@ void sub_0809C4E8(u16 which)
             u32 playerOffset = sub_080020F4();
             s32 effectY = (pos.y >> 8) + 12;
             register s32 *playerYBase asm("r3");
-            playerOffset *= 0x14C;
+            playerOffset *= PLAYER_SIZE;
             
             playerYBase = (s32 *)playersYC4E8;
             
