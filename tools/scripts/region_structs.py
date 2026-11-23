@@ -126,7 +126,8 @@ def members(body, sizes):
                     dim_span = (base, base + len(inner[0][1]))
             offset = (offset + align - 1) // align * align
             result.append((name, offset, size * count, align, dim_span, element,
-                           bool(PAD.match(name)) and dim_span is not None))
+                           bool(PAD.match(name) or (element == 1 and not stars and len(name) <= 2))
+                           and dim_span is not None))
             offset += size * count
             align_all = max(align_all, align)
             cursor += len(declarator) + 1

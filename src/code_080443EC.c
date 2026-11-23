@@ -108,7 +108,7 @@ struct Trade44 {
     u32 rewardType, rewardId, rewardCount, flag, once;
 };
 struct Slot44 { u16 type, id; u8 pad[12]; };
-struct Inv44 { u8 pad[0x150]; struct Slot44 slots[25]; };
+struct Inv44 { u8 pad[SAVE_FIELD(0x150)]; struct Slot44 slots[25]; };
 struct GrantM44 {s16 type,id;u8 payload[12];};
 struct CurrencyM44 {s16 type;u16 padding;s32 amount;u8 extra[8];};
 extern const struct Trade44 trades44[] asm("gUnk_084B1C50");

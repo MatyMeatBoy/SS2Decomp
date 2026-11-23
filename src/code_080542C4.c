@@ -1029,7 +1029,7 @@ void sub_0805664C(s32 arg0)
 struct StatePlayer567D4 { u8 pad[PLAYER_FIELD(0x11E)]; u16 state; u8 tail[PLAYER_SIZE - PLAYER_FIELD(0x120)]; };
 extern struct StatePlayer567D4 statePlayers567D4[] asm("gUnk_03003CE0");
 struct Item567D4 { u16 item, kind; u8 rest[12]; };
-struct Inv567D4 { u8 pad[0x150]; struct Item567D4 slots[25]; };
+struct Inv567D4 { u8 pad[SAVE_FIELD(0x150)]; struct Item567D4 slots[25]; };
 extern struct Inv567D4 *inv567D4 asm("gUnk_030034E0");
 struct Gate567D4 { u32 x, y, w, h, item, kind, need, flag, bitflag, param, event; };
 extern struct Gate567D4 gates567D4[] asm("gUnk_084B23A8");

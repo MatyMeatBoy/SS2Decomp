@@ -1369,7 +1369,7 @@ taskCheck:
     ((struct PlayerDE84 *)((u8 *)gUnk_03003CE0+PLAYER_SIZE*sub_080020F4()))->value = 0;
 }
 
-struct E510Player { u8 pad[0x20]; u16 value; };
+struct E510Player { u8 pad[PLAYER_FIELD(0x20)]; u16 value; };
 extern void sub_08029174(s32, s32);
 /* [RunActorMessage1257] Sets local-player flag0/event lock, requests player animation0 and actor facing toward
  * selector0. */
@@ -1380,7 +1380,7 @@ void sub_0803E510(s32 arg0) {
     offset = sub_080020F4();
     offset *= PLAYER_SIZE;
     p = (u8 *)gUnk_03003CE0 + offset;
-    *(u32 *)(p + 0x30) |= 1;
+    *(u32 *)(p + PLAYER_FIELD(0x30)) |= 1;
     sub_0800D0F4();
     sub_08029174(0, 0);
     sub_0802949C(arg0, 0);
@@ -1398,7 +1398,7 @@ void sub_0803E510(s32 arg0) {
     offset = sub_080020F4();
     offset *= PLAYER_SIZE;
     p = (u8 *)gUnk_03003CE0 + offset;
-    *(u32 *)(p + 0x30) &= ~1;
+    *(u32 *)(p + PLAYER_FIELD(0x30)) &= ~1;
     sub_0800D108();
     ((struct E510Player *)((u8 *)gUnk_03003CE0 + sub_080020F4() * PLAYER_SIZE))->value = 0;
 }

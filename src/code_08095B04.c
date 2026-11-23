@@ -912,7 +912,7 @@ s32 sub_08096594(u8 arg0)
  done:
     return selected;
 }
-struct Body99640 {u16 index;u8 pad2[10];u16 state;u8 padE[6];s32 x,y;u8 pad1C[0x212];u8 radiusX,radiusY;u8 tail[ENEMY_SIZE - 0x230];};
+struct Body99640 {u16 index;u8 pad2[10];u16 state;u8 padE[6];s32 x,y;u8 pad1C[ENEMY_FIELD(0x22E) - 0x1C];u8 radiusX,radiusY;u8 tail[ENEMY_SIZE - ENEMY_FIELD(0x230)];};
 extern struct Body99640 *bodies99640 asm("gUnk_030056F4");
 extern u32 active99640 asm("gUnk_030056FC");
 extern s16 sine99640[] asm("gUnk_080B9704");

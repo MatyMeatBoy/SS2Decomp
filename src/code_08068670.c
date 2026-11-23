@@ -6336,6 +6336,12 @@ static inline struct Task07386C *task07386C(u32 who, u32 i)
  * player halfword+C2, clamps signed-negative result0, searches8 effect slots stride0x28 for active type6 from
  * same owner or free timer=-1, and installs/upgrades level from player+26 with halfword
  * duration(level*10+40)*60. */
+/* The USA version gives these tasks a 0xC00-byte stack. */
+#ifdef REGION_USA
+#define TASK_STACK_0807386C 0xC00
+#else
+#define TASK_STACK_0807386C 0x800
+#endif
 void sub_0807386C(s32 who, s32 kind, s32 c, s32 d, s32 e)
 {
     struct Ply07356C *player;
@@ -6467,12 +6473,12 @@ void sub_0807386C(s32 who, s32 kind, s32 c, s32 d, s32 e)
         task07386C(who, i)->fC = (u32)callback076072D5C;
         break;
     }
-    mem = sub_08001494(0x800);
+    mem = sub_08001494(TASK_STACK_0807386C);
     t = task07386C(who, i);
     t->f20 = mem;
     if (mem != 0) {
         t->f8 = 0x34;
-        t->f10 = mem + 0x7FC;
+        t->f10 = mem + TASK_STACK_0807386C - 4;
         t->f24 = (u32)sub_0807A120;
         start07686C(t, args07686C[who] + i * 0x18);
         flags07386C[who] |= 1 << i;

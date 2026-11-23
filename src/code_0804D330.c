@@ -1344,7 +1344,7 @@ extern void sub_08029174(s32,s32);
 extern void callback51F128(s32) asm("sub_0804F390");
 struct Task51F1 { u32 f0,f4,f8,fC,f10,f14,f18,f1C,f20,f24; };
 extern void taskStart51F1(void *,u32) asm("sub_08000274");
-struct Player51F1 { u8 a[0x11E]; u16 f11E; u8 b[0x14C-0x120]; };
+struct Player51F1 { u8 a[PLAYER_FIELD(0x11E)]; u16 f11E; u8 b[PLAYER_SIZE-PLAYER_FIELD(0x120)]; };
 extern struct Player51F1 players51F1[] asm("gUnk_03003CE0");
 struct Flag51F1 { u32 pad; u16 flags; };
 /* [StageActor1Dialogue93] Locks input, offsets actor0 by multiplayer position, places actor1(120,240),

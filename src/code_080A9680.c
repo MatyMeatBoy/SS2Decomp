@@ -22,7 +22,7 @@ struct TaskP { u32 f0, f4, f8, fC, f10, f14, f18, f1C, f20, f24; };
 extern u32 gMask030056FC asm("gUnk_030056FC");
 extern u16 gArr03000798[] asm("gUnk_03000798");
 extern u8 *gPtr030007A8 asm("gUnk_030007A8");
-struct E2E0 { u8 b[0x2E0]; };
+struct E2E0 { u8 b[ENEMY_SIZE]; };
 
 void sub_080B2058();
 void sub_080AE420(void);
@@ -2486,7 +2486,7 @@ struct ActorAD534 {
 };
 struct SpriteAD534 { u32 f0, f4, f8; u16 *fC; u8 p10[12]; u8 f1C; };
 struct PosAD534 { s32 x, y; };
-struct E2E0AD534 { u8 b[0x2E0]; };
+struct E2E0AD534 { u8 b[ENEMY_SIZE]; };
 struct PlayerAD534 { u8 p0[0x30]; u32 flags; u8 p34[0x118]; };
 
 extern struct ActorAD534 *actorsAD534[] asm("gUnk_03000448");
@@ -2996,9 +2996,9 @@ struct EntAE420 {
     u16 fA4, fA6, fA8;
     u8 fAA, fAB;
 };
-struct PlAE420 { u8 p0[0xC]; u16 fC, fE; u8 p10[0x28]; u8 f38[0x20]; u8 f58[2]; u16 f5A; u8 p5c[8]; u16 f64; u8 p66[0xE6]; };
+struct PlAE420 { u8 p0[PLAYER_FIELD(0xC)]; u16 fC, fE; u8 p10[PLAYER_FIELD(0x38) - PLAYER_FIELD(0x10)]; u8 f38[0x20]; u8 f58[2]; u16 f5A; u8 p5c[PLAYER_FIELD(0x64) - PLAYER_FIELD(0x5C)]; u16 f64; u8 p66[PLAYER_SIZE - PLAYER_FIELD(0x66)]; };
 struct TblAE420 { u32 a[11]; u32 b[9]; u32 c; u32 d; };
-struct E2E0AE420 { u8 b[0x2E0]; };
+struct E2E0AE420 { u8 b[ENEMY_SIZE]; };
 struct TaskAE420 { u8 p0[8]; u32 f8; };
 struct G3170AE420 { u8 p0[0x90]; u16 f90; };
 struct ObjAE420 { u8 p0[0x9B]; u8 f9B; };

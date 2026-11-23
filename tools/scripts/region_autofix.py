@@ -290,7 +290,9 @@ def search(checker, module, name, address, log):
                 {'%s(0x%X)' % (best_choice[i], literals[i][2]) if not best_choice[i] in WHOLE
                  else best_choice[i] for i in best_choice}))))
             return True
-        log('%s: best %d (from %d), not applied' % (name, best, start))
+        log('%s: best %d (from %d), not applied%s' % (name, best, start, ''.join(
+            ' with %s at line %d' % (best_choice[i] if best_choice[i] in WHOLE else '%s(0x%X)' % (best_choice[i], literals[i][2]),
+                                     original.count('\n', 0, literals[i][0]) + 1) for i in sorted(best_choice))))
         return False
     finally:
         if not applied:

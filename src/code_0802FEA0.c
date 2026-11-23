@@ -1101,7 +1101,7 @@ void sub_08031F28(void)
     sub_0800D108();
 }
 struct Rec1FF8 { u16 a, b; u8 pad[12]; };
-struct Recs1FF8 { u8 pad[0x150]; struct Rec1FF8 r[25]; };
+struct Recs1FF8 { u8 pad[SAVE_FIELD(0x150)]; struct Rec1FF8 r[25]; };
 /* [RunWanbyDialogue] Sets local player flags bit 0 (input suppression) and BeginLocalPlayerEventLock, with no
  * facing change. Counts bag records (character +0x150, 25 slots) with kind 6 and ID 0x59. When
  * LinkCountConnectedPlayers is exactly 1 and at least one exists, it clears the first matching record and
@@ -1124,7 +1124,7 @@ void sub_08031FF8(void)
     sub_0800D0F4();
     count = 0;
     i = 0;
-    e = (u16 *)(gUnk_030034E0 + 0x150);
+    e = (u16 *)(gUnk_030034E0 + SAVE_FIELD(0x150));
     do {
         if (e[0] == 6 && e[1] == 0x59)
             count++;
@@ -2881,7 +2881,7 @@ void sub_08035A88(s32 arg0) {
     }
 }
 struct Cmd35B18 { u16 unk0, unk2; u8 data[12]; };
-struct Inv35B18 { u8 pad[0x150]; u16 unk150, unk152; };
+struct Inv35B18 { u8 pad[SAVE_FIELD(0x150)]; u16 unk150, unk152; };
 extern u8 *inv35B18 asm("gUnk_030034E0");
 extern u8 *state35B18 asm("gUnk_03005CF4");
 extern u32 flags35B18 asm("gUnk_030027D0");
@@ -3323,7 +3323,7 @@ done:
     sub_0800D108();
 }
 struct Cmd368F4 { u16 unk0, unk2; u8 data[12]; };
-struct Inv368F4 { u8 pad[0x150]; u16 unk150, unk152; };
+struct Inv368F4 { u8 pad[SAVE_FIELD(0x150)]; u16 unk150, unk152; };
 extern u8 *inv368F4 asm("gUnk_030034E0");
 extern u8 *state368F4 asm("gUnk_03005CF4");
 extern u32 flags368F4 asm("gUnk_030027D0");

@@ -2194,7 +2194,7 @@ struct PlayerBEC0 {
     u16 f1C;
     u8 p1E[PLAYER_FIELD(0x2E) - PLAYER_FIELD(0x1E)];
     u16 f2E;
-    u8 p30[PLAYER_FIELD(0xB0) - PLAYER_FIELD(0x30)];
+    u8 p30[PLAYER_FIELD(0xB0) - (PLAYER_FIELD(0x2F) + 1)];
     u16 fB0;
     u16 fB2;
     s16 fB4;
@@ -2316,7 +2316,7 @@ void sub_0800BEC0(void)
     regsBEC0[7] = 0;
     regsBEC0[2] = 0;
     regsBEC0[3] = 0;
-    initBEC0(&sprB, 0x500C3, 4, 0xC, 0);
+    initBEC0(&sprB, RES_ID(0x500C3), 4, 0xC, 0);
     sub_080003F0();
     sub_080003F0();
     sub_080003F0();
@@ -2544,7 +2544,7 @@ while (1) {
     if (!((flagsBEC0 >> 8) & 1)) {
         if (sel != 0xFF) {
             s = strBEC0((sel + 0x4A9) | 0x140000);
-            s += 2;
+            s += TEXT_HEADER;
             textBEC0(s, 0xF - lenBEC0(s) / 2, 0x12);
         } else {
             msgBEC0(0x12, 2);

@@ -55,7 +55,7 @@ struct Act3D2C {
 };
 struct Spr3D2C { u32 f0, f4, f8; u8 *palette; u8 pad10[12]; u8 style, paletteId; u8 pad1E[22]; };
 struct Oam3D2C { u32 f0, f4; s32 x, y; };
-struct E2E0_3D2C { u8 b[0x2E0]; };
+struct E2E0_3D2C { u8 b[ENEMY_SIZE]; };
 struct Pl3D2C { u8 p0[0x30]; u32 flags; u8 p34[0x118]; };
 struct G3170_3D2C { u8 p0[0x90]; u16 f90; };
 extern struct Act3D2C *gObj3D2C asm("gUnk_03000364");

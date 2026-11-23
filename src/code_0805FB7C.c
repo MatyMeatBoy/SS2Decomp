@@ -1454,7 +1454,7 @@ extern u8 *saveData64 asm("gUnk_03004210");
 struct SaveFile64 { u8 pad[0xD8]; u16 hD8, hDA; u16 h[10]; u8 padF0[0x1DC-0xF0]; struct SaveItem64 items[16]; struct SaveEntry64 ent[8]; };
 extern u8 *saveStats64 asm("gUnk_03005CF4");
 extern u8 *saveItems64 asm("gUnk_03005D58");
-struct SavePlayer64 { u8 pad0[PLAYER_FIELD(0x2C)]; u16 f2C,f2E; u8 pad30[PLAYER_FIELD(0xC2) - PLAYER_FIELD(0x30)]; u16 fC2,fC4,fC6; u8 padC8[PLAYER_SIZE - PLAYER_FIELD(0xC8)]; };
+struct SavePlayer64 { u8 pad0[PLAYER_FIELD(0x2C)]; u16 f2C,f2E; u8 pad30[PLAYER_FIELD(0xC2) - (PLAYER_FIELD(0x2F) + 1)]; u16 fC2,fC4,fC6; u8 padC8[PLAYER_SIZE - PLAYER_FIELD(0xC8)]; };
 extern struct SavePlayer64 savePlayers64[] asm("gUnk_03003CE0");
 extern u8 savePlayerPtr64[] asm("gUnk_03003D14");
 extern u8 saveMap64[] asm("gUnk_03003170");
@@ -2507,7 +2507,7 @@ void t65B_impl(s32 index)
         player = (struct T65BPlayer *)((u8 *)t65B_players + product65);
     }
     {void *table;
-    u32 resource65=0x5005E;
+    u32 resource65=RES_ID(0x5005E);
     u32 style65;
     s32 mode65;
     struct T65BPopup *descriptor=&draw;
@@ -2534,8 +2534,8 @@ void t65B_impl(s32 index)
         asm("" : : "r"(busy1), "r"(busy2), "r"(busy3), "r"(heightPtr));
     }
     if(first) {
-        u32 lowResource=0x5E;
-        second=sub_08006EE0(0x6005E,table);draw.base=second;
+        u32 lowResource=RES_ID(0x5E);
+        second=sub_08006EE0(RES_ID(0x6005E),table);draw.base=second;
         if(second) {
             lowResource |= 0x80000; 
             mem=sub_08006EE0(lowResource,table);draw.sound=mem;
@@ -2600,7 +2600,7 @@ void t65B_impl(s32 index)
     if (testedIndex == currentPlayer) {
         if ((({register u16 *p asm("r1")=&t65B_blocked;*p;})==0 && ({register s32 *boxArg asm("r0"); u8 *playerArg; s32 *widthArg;
             boxArg=boxPtr; 
-            playerArg=(u8 *)player+0x8C; asm("" : "+r"(playerArg));
+            playerArg=(u8 *)player+PLAYER_FIELD(0x8C); asm("" : "+r"(playerArg));
             widthArg=box+2; 
             t65B_intersect(boxArg,playerArg,widthArg,box+3);})) || ({register u32 prior65 asm("r2")=dialog;asm("" : "+r"(prior65));prior65;}) != 0) {
             if (({register u32 now65 asm("r3")=dialog;now65;}) == 0) {
