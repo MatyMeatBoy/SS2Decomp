@@ -1968,7 +1968,7 @@ void t21_20E08(u32 arg0, s32 arg1)
     u32 playerAddr;
     u16 *pos;
     struct T21Entity20E08 *entity;
-    t21_init20E08(&data, 0x5008C, 1, -1, 0);
+    t21_init20E08(&data, RES_ID(0x5008C), 1, -1, 0);
     sub_08000AF0(23, data.palette, 2);
     data.sprite[0] = 7;
     data.sprite[1] = 8;
@@ -2063,7 +2063,7 @@ void t21_210A8(u32 arg0, s32 arg1)
     u32 shifted, saved;
     u16 *pos;
     struct T21Entity210A8 *entity;
-    t21_init210A8(&data, 0x50074, 1, -1, 0);
+    t21_init210A8(&data, RES_ID(0x50074), 1, -1, 0);
     sub_08000AF0(23, data.palette, 2);
     data.sprite[0] = 7;
     data.sprite[1] = 8;
@@ -2207,7 +2207,7 @@ void t21_21490(u32 arg0, s32 arg1)
     u32 tile, addr;
     u16 *pos;
     struct T21Entity21490 *entity;
-    t21_init21490(&data, 0x5008C, 1, -1, 0);
+    t21_init21490(&data, RES_ID(0x5008C), 1, -1, 0);
     sub_08000AF0(23, data.palette, 2);
     data.sprite[0] = 7;
     data.sprite[1] = 8;
@@ -2338,7 +2338,7 @@ void t21_217D8(u32 arg0, s32 arg1)
     u16 id;
     u16 *pos;
     struct T21Entity217D8 *entity;
-    t21_init217D8(&data, 0x5008C, 1, -1, 0);
+    t21_init217D8(&data, RES_ID(0x5008C), 1, -1, 0);
     data.sprite[0] = 7;
     data.sprite[1] = 8;
     sub_08000AF0(23, data.palette, 2);
@@ -2400,7 +2400,7 @@ void t21_21960(u32 arg0, s32 arg1)
     u32 tile, addr;
     u16 *pos;
     struct T21Entity21960 *entity;
-    t21_init21960(&data, 0x5008C, 1, -1, 0);
+    t21_init21960(&data, RES_ID(0x5008C), 1, -1, 0);
     data.sprite[0] = 7;
     data.sprite[1] = 8;
     sub_08000AF0(23, data.palette, 2);

@@ -208,7 +208,7 @@ out:
  * then call19EB8; selector0 writes player11E. */
 void sub_08057FBC(u32 selector, u32 value)
 {
-    struct PlayerValue { u8 pad[0x11E]; u16 value; u8 tail[0x2C]; };
+    struct PlayerValue { u8 pad[PLAYER_FIELD(0x11E)]; u16 value; u8 tail[0x2C]; };
     u16 *target;
     if (selector > 0x100000) {
         u8 *entry = (u8 *)gUnk_03005CF4 + 0x7A4;
@@ -240,7 +240,7 @@ found:
         u32 index = sub_080020F4();
         index *= PLAYER_SIZE;
         target = (u16 *)(index + (u32)gUnk_03003CE0);
-        target = (u16 *)((u8 *)target + 0x11E);
+        target = (u16 *)((u8 *)target + PLAYER_FIELD(0x11E));
     }
     *target = value;
 }

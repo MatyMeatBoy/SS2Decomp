@@ -2130,7 +2130,7 @@ void sub_0801DB94(s32 owner,void *record,s32 status)
         duration=4;
         goto finish;
     case 5:
-        if((u32)owner<=3) hp=*(s16 *)(player+0x62);
+        if((u32)owner<=3) hp=*(s16 *)(player+PLAYER_FIELD(0x62));
         else hp=*(s16 *)(monster+0x1D6);
         amount=hp/25;
         if(!sub_0800CCCC() && !sub_0800CD34()) sub_0805865C(0x183);
@@ -2141,7 +2141,7 @@ void sub_0801DB94(s32 owner,void *record,s32 status)
         duration=random*60-1;
         goto finish;
     case 6:
-        if((u32)owner<=3) hp=*(s16 *)(player+0x62);
+        if((u32)owner<=3) hp=*(s16 *)(player+PLAYER_FIELD(0x62));
         else hp=*(s16 *)(monster+0x1D6);
         amount=hp*8/100;
         if(!sub_0800CCCC() && !sub_0800CD34()) sub_0805865C(0x183);

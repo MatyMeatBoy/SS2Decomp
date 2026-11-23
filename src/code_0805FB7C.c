@@ -2298,7 +2298,7 @@ extern u32 t65C_position(s32,s32,s16 *,s16 *,u32,u32) asm("sub_0800BC08");
 extern struct DrawNode005 *t65C_overlay(s32,s32,u32,u32,u32,void *,u8 *,u32) asm("sub_08008E74");
 #define T65C_H(p,o) (*(u16 *)((p)+(o)))
 #define T65C_W(p,o) (*(u32 *)((p)+(o)))
-#define T65C_ENTITY(p) (*(u8 **)((p)+0x148))
+#define T65C_ENTITY(p) (*(u8 **)((p)+PLAYER_FIELD(0x148)))
 static inline s32 t65C_init(struct T65CPopup *obj,u32 resource,s32 index,s32 size)
 {
     void *table = t65C_resources;
@@ -2343,7 +2343,7 @@ void t65C_impl(s32 index)
     u32 text;
     s32 zero,cc,z2;
     u8 *p=t65C_players[index].bytes;
-    t65C_init(&label,0x5005E,5,-1);
+    t65C_init(&label,RES_ID(0x5005E),5,-1);
     label.palette[0]=15;
     worldY=((struct Remote65C *)T65C_ENTITY(p))->y;
     worldX=((struct Remote65C *)T65C_ENTITY(p))->x;
@@ -2357,7 +2357,7 @@ void t65C_impl(s32 index)
         h0=heightZero;
     }
     frame=text;
-    t65C_init(&sprite,t65C_resourceTable[T65C_H(p,0x64)].id,0,-1);
+    t65C_init(&sprite,t65C_resourceTable[T65C_H(p,PLAYER_FIELD(0x64))].id,0,-1);
     sprite.palette[0]=T65C_H(p,0);
     zero=sub_0800CF80();
     if (zero) goto cleanup;
@@ -2365,11 +2365,11 @@ void t65C_impl(s32 index)
     text=0x21;
     if (index==sub_080020F4()) {
         sub_0805865C(0x75);
-        T65C_H(p,0x1C)=zero;
+        T65C_H(p,PLAYER_FIELD(0x1C))=zero;
     }
     while (frame<=159) {
     t65C_position((s16)worldX,(s16)worldY,&x,&y,0x30,0);
-    T65C_H(p,0xB6)=t65C_measure(0x21,&w0,&h0,(*(u8 **)((u8 *)&sprite+8)));
+    T65C_H(p,PLAYER_FIELD(0xB6))=t65C_measure(0x21,&w0,&h0,(*(u8 **)((u8 *)&sprite+8)));
     t65C_measure(0,&w1,&h1,label.data);
     t65C_measure(1,&w2,&h2,label.data);
     if (sub_0800CC98()) goto skipDraw;
@@ -2384,19 +2384,19 @@ void t65C_impl(s32 index)
 drawTest:
     if ((((struct Remote65C *)T65C_ENTITY(p))->byte4.region.value&~0x20U)!=t65C_state.area) goto skipDraw;
     sub_08000AF0(0x1F,(void *)label.sound,1);
-    if (T65C_W(p,0x30)&0x2000) {
+    if (T65C_W(p,PLAYER_FIELD(0x30))&0x2000) {
         if (!(t65C_flags&1)) {
             t65C_draw(x,y-frame,text,w0,1,sprite.palette,(*(u8 **)((u8 *)&sprite+8)),sprite.base);
             sub_08000AF0(T65C_H(p,0)+16,(void *)(sprite.sound+0x1C0),1);
         }
     } else {
         t65C_draw(x,y-frame,text,w0,1,sprite.palette,(*(u8 **)((u8 *)&sprite+8)),sprite.base);
-        if (T65C_H(p,0x64)==9) {
+        if (T65C_H(p,PLAYER_FIELD(0x64))==9) {
             sub_08000AF0(T65C_H(p,0)+16,(void *)sprite.sound,1);
         } else {
-            sub_08000AF0(T65C_H(p,0)+16,(void *)(sprite.sound+(p[0x66]<<5)),1);
+            sub_08000AF0(T65C_H(p,0)+16,(void *)(sprite.sound+(p[PLAYER_FIELD(0x66)]<<5)),1);
         }
-        sub_08000AF0(T65C_H(p,0)+16,(void *)(sprite.sound+(p[0x66]<<5)),1);
+        sub_08000AF0(T65C_H(p,0)+16,(void *)(sprite.sound+(p[PLAYER_FIELD(0x66)]<<5)),1);
     }
     t65C_draw(x,y-24-frame,0,w1,1,label.palette,label.data,label.base);
     if (t65C_flags&1) t65C_overlay(x,y,1,w2,3,label.palette,label.data,label.base);
@@ -2411,14 +2411,14 @@ cleanup:
     while ((z2=sub_0800D098())!=0) sub_080003F0();
     if (index!=sub_080020F4()) return;
     sub_0805867C(0x75);
-    p[0x68]=1;
+    p[PLAYER_FIELD(0x68)]=1;
     cc=sub_0800CCCC();
     if (cc) {
-        sub_08056FB8(T65C_H(p,0x2E),T65C_H(p,0x2C));
-        T65C_H(p,0x2E)=z2;T65C_H(p,0x2C)=z2;
+        sub_08056FB8(T65C_H(p,PLAYER_FIELD(0x2E)),T65C_H(p,PLAYER_FIELD(0x2C)));
+        T65C_H(p,PLAYER_FIELD(0x2E))=z2;T65C_H(p,PLAYER_FIELD(0x2C))=z2;
         return;
     }
-    if (T65C_W(p,0x30)&0x2000) {
+    if (T65C_W(p,PLAYER_FIELD(0x30))&0x2000) {
         if (!sub_0800CF80()) {
             sub_08056FB8(0,4);
             T65C_H(t65C_game,0x36)=3;
@@ -2654,7 +2654,7 @@ extern u8 t65E_resources[] asm("gUnk_08518938");
 extern void t65E_bg(u32,u32,u32) asm("sub_080009F8");
 #define T65E_H(p,o) (*(u16 *)((p)+(o)))
 struct T65EEntity { u32 kind:4; u32 kindHi:4; u8 pad[3]; };
-#define T65E_ENTITY(p) (*(struct T65EEntity **)((p)+0x148))
+#define T65E_ENTITY(p) (*(struct T65EEntity **)((p)+PLAYER_FIELD(0x148)))
 static inline s32 t65E_init(struct T65EPopup *obj,u32 resource,s32 index,s32 size)
 {
     void *table = t65E_resources;
@@ -2720,7 +2720,7 @@ void sub_08063E30(void)
     for (playerIndex=0;playerIndex<players;playerIndex++) {
         p=t65E_players[playerIndex].bytes;
         if (T65E_ENTITY(p)->kind==14) {
-            t65E_init(sprites+n,t65E_resourceTable[T65E_H(p,0x64)].id,0,-1);
+            t65E_init(sprites+n,t65E_resourceTable[T65E_H(p,PLAYER_FIELD(0x64))].id,0,-1);
             sprites[n].palette[0]=playerIndex;
             delays[n]=n*10+10;
             velocities[n].x=0;velocities[n].y=0;
@@ -2754,7 +2754,7 @@ void sub_08063E30(void)
                 } else delays[n]--;
                 if (trails[n][4].y<0) finished++;
                 for (j=0;j<5;j++) {
-                    t65E_draw(&sprites[n],trails[n][j].x>>8,trails[n][j].y>>8,T65E_H(p,0xB0),T65E_H(p,0xB2),0);
+                    t65E_draw(&sprites[n],trails[n][j].x>>8,trails[n][j].y>>8,T65E_H(p,PLAYER_FIELD(0xB0)),T65E_H(p,PLAYER_FIELD(0xB2)),0);
                 }
                 n++;
             }
@@ -2780,7 +2780,7 @@ void sub_08063E30(void)
                 /* Dead store kept: it leaves the original unused trail load. */
                 if (trails[n][4].y<0) finished=1;
                 for (j=0;j<5;j++) {
-                    t65E_draw(&sprites[n],trails[n][j].x>>8,trails[n][j].y>>8,T65E_H(p,0xB0),T65E_H(p,0xB2),0);
+                    t65E_draw(&sprites[n],trails[n][j].x>>8,trails[n][j].y>>8,T65E_H(p,PLAYER_FIELD(0xB0)),T65E_H(p,PLAYER_FIELD(0xB2)),0);
                 }
                 n++;
             }
