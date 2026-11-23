@@ -1747,7 +1747,12 @@ void sub_0805EFBC_impl(void)
  * pool or allocate the distinct dialogue-task pool. */
 void sub_0805F020(void)
 {
+#ifdef REGION_USA
+    /* USA has a single language: no language index in the resource id. */
+    void *src = sub_08007290((void *)0x10010003);
+#else
     void *src = sub_08007290((u8 *)(uintptr_t)gUnk_03003470 + 0x10010003);
+#endif
     CpuFastSet(src, (void *)0x06008000, 0x1000);
     {
         u8 *palette=sub_08007290((void *)0x70003);
@@ -1765,7 +1770,11 @@ void sub_0805F020(void)
  * submissions when full, so this routine does not establish unconditional completed hardware upload or a fixed
  * elapsed-video-frame wait. */
 void sub_0805F07C(void) {
+#ifdef REGION_USA
+    sub_08001348(sub_08007290(0x10010003), 0x06008000, 0x4000);
+#else
     sub_08001348(sub_08007290(gUnk_03003470 + 0x10010003), 0x06008000, 0x4000);
+#endif
     sub_08000AF0(0xF, sub_08007290(0x70003) + 0x1E0, 1);
     sub_080003F0();
 }
