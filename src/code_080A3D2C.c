@@ -1405,7 +1405,7 @@ void sub_080A4D08(struct Act4D08 *arg0) {
     sub_080A80D8();
 }
 #undef SET_PLAYER_XY_4D08
-struct T109P6258 { u8 p0[0x20]; u16 state; u8 p22[0xE]; u32 flags; u8 p34[0x34]; u8 f68; u8 p69[0x1F]; u16 f88; u8 p8A[2]; s32 x, y; u8 p94[0x1C]; u16 fB0; u8 pB2[0x12]; s16 fC4; u8 pC6[2]; u16 fC8, fCA, fCC; u8 pCE[0x16]; u32 fE4[26]; };
+struct T109P6258 { u8 p0[PLAYER_FIELD(0x20)]; u16 state; u8 p22[PLAYER_FIELD(0x30) - PLAYER_FIELD(0x22)]; u32 flags; u8 p34[0x34]; u8 f68; u8 p69[0x1F]; u16 f88; u8 p8A[2]; s32 x, y; u8 p94[0x1C]; u16 fB0; u8 pB2[0x12]; s16 fC4; u8 pC6[2]; u16 fC8, fCA, fCC; u8 pCE[0x16]; u32 fE4[26]; };
 struct T109Obj6258 { u16 id; u8 p2[10]; u16 fC; u8 pE[6]; s32 x,y; u8 p1C[0x34]; u32 serial; };
 extern struct T109P6258 t109P6258[] asm("gUnk_03003CE0");
 extern struct T109Obj6258 *t109O6258 asm("gUnk_03000400");
@@ -1433,7 +1433,7 @@ s32 sub_080A6258(u8 arg0) {
     first = sub_080020F4();
     objx = t109O6258->x >> 8;
     base = t109P6258;
-    dx = objx - (t109X6258[first*0x53] >> 8);
+    dx = objx - (t109X6258[first*(PLAYER_SIZE / 4)] >> 8);
     second = sub_080020F4();
     yy = (t109O6258->y >> 8) + 12;
     y = yy - (t109P6258[second].y >> 8);
@@ -1457,7 +1457,7 @@ s32 sub_080A6258(u8 arg0) {
     value88 = t109P6258[i].f88;
     t109P6258[i].f88 = amount + value88;
     t109P6258[sub_080020F4()].fE4[t109O6258->id] = t109O6258->serial++;
-    dx = (t109X6258[sub_080020F4()*0x53] >> 8) - (t109O6258->x >> 8);
+    dx = (t109X6258[sub_080020F4()*(PLAYER_SIZE / 4)] >> 8) - (t109O6258->x >> 8);
     x = dx;
     y = (t109P6258[sub_080020F4()].y >> 8) - (t109O6258->y >> 8);
     angle = (u16)t109Angle6258(x,y);
