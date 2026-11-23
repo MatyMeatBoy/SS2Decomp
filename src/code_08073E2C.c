@@ -4205,10 +4205,14 @@ u32 sub_0807A4B4(struct Sum378 *entries, u8 index)
         flag = &entries->b4;
         save->hA = entries[index].b1;
         save->hC = entries[index].b2;
-        *(u16 *)((u8 *)save + 0xE) = index;
+        *(u16 *)((u8 *)save + SAVE_FIELD(0xE)) = index;
         *flag = 0;
         for (i = 0; i <= 9; i++)
-            ((u8 *)gSave378)[i] = entries[index].name[i];
+#ifdef REGION_USA
+            { register NameChar *dst asm("r0") = (NameChar *)gSave378; register NameChar ch asm("r1"); asm("" : "+r"(dst)); dst += i; ch = entries[index].name[i]; *dst = ch; }
+#else
+            ((NameChar *)gSave378)[i] = entries[index].name[i];
+#endif
         sub_0801ACB8();
     } else {
         if (entries[index].b7 != 0)
