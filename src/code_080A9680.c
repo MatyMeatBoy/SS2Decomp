@@ -905,7 +905,7 @@ void sub_080A9950_v(struct Act9950 *a)
     sub_08067BF8();
     sub_08056E24();
 }
-struct P112A { u8 p0[0x20]; u16 state; u8 p22[14]; u32 flags; u8 p34[0x34]; u8 unk68; u8 p69[0x1f]; u16 unk88; u8 p8a[6]; s32 unk90; u8 p94[0x1c]; u16 unkB0; u8 pb2[0x16]; u16 unkC8,unkCA,unkCC; u8 pce[0x16]; u32 unkE4[0x1a]; };
+struct P112A { u8 p0[PLAYER_FIELD(0x20)]; u16 state; u8 p22[PLAYER_FIELD(0x30) - PLAYER_FIELD(0x22)]; u32 flags; u8 p34[0x34]; u8 unk68; u8 p69[0x1f]; u16 unk88; u8 p8a[6]; s32 unk90; u8 p94[0x1c]; u16 unkB0; u8 pb2[0x16]; u16 unkC8,unkCA,unkCC; u8 pce[0x16]; u32 unkE4[0x1a]; };
 struct O112A { u16 unk0; u8 p2[10]; u16 unkC; u8 pe[6]; s32 unk14,unk18; u8 p1c[0x34]; s32 unk50; };
 extern struct P112A players112A[] asm("gUnk_03003CE0");
 extern s32 x112A asm("gUnk_03003D6C");
@@ -1076,7 +1076,7 @@ s32 sub_080AB054(struct O112A *arg0, s32 arg1, s32 arg2, u32 arg3) {
         idx += (u32)tail;
         
         var_r1 = var_r4 - 2;
-        var_r0 = (s16 *)(idx + 0xCA);
+        var_r0 = (s16 *)(idx + PLAYER_FIELD(0xCA));
         
         goto storeDirection;
 direction0:
@@ -1087,7 +1087,7 @@ direction0:
         
         idx *= word1;
         idx += (u32)tail;
-        var_r0 = (s16 *)(idx + 0xCA);
+        var_r0 = (s16 *)(idx + PLAYER_FIELD(0xCA));
         var_r1 = 6;
         
         goto storeDirection;
@@ -1099,7 +1099,7 @@ direction1:
         
         idx *= word1;
         idx += (u32)tail;
-        var_r0 = (s16 *)(idx + 0xCA);
+        var_r0 = (s16 *)(idx + PLAYER_FIELD(0xCA));
         var_r1 = 7;
         
 storeDirection:
@@ -1838,18 +1838,18 @@ s32 sub_080AC2E8(u8 arg0) {
                 
                 var_r0 = (s16 *)(idx * PLAYER_SIZE + (u32)tail);
                 var_r1 = var_r4 - 2;
-                var_r0 = (s16 *)((u8 *)var_r0 + 0xCA); 
+                var_r0 = (s16 *)((u8 *)var_r0 + PLAYER_FIELD(0xCA)); 
             }
             goto storeDirection;
         }
 direction0:
         idx = sub_080020F4(); tail = players1132; 
-        var_r0 = (s16 *)(idx * PLAYER_SIZE + (u32)tail); var_r0 = (s16 *)((u8 *)var_r0 + 0xCA); var_r1 = 6;
+        var_r0 = (s16 *)(idx * PLAYER_SIZE + (u32)tail); var_r0 = (s16 *)((u8 *)var_r0 + PLAYER_FIELD(0xCA)); var_r1 = 6;
         
         goto storeDirection;
 direction1:
         idx = sub_080020F4(); tail = players1132; 
-        var_r0 = (s16 *)(idx * PLAYER_SIZE + (u32)tail); var_r0 = (s16 *)((u8 *)var_r0 + 0xCA); var_r1 = 7;
+        var_r0 = (s16 *)(idx * PLAYER_SIZE + (u32)tail); var_r0 = (s16 *)((u8 *)var_r0 + PLAYER_FIELD(0xCA)); var_r1 = 7;
         
 storeDirection:
         *var_r0 = var_r1;
@@ -1867,7 +1867,7 @@ done:
 
 
 
-struct P1135 { u8 pad0[0x20]; u16 unk20; u8 pad22[14]; u32 flags; u8 pad34[0x34]; u8 unk68; u8 pad69[0x1f]; u16 unk88; u8 pad8a[2]; s32 unk8C; u8 pad90[0x20]; u16 unkB0; u8 padb2[0x16]; u16 unkC8,unkCA,unkCC; u8 padce[0x16]; u32 unkE4[0x1a]; };
+struct P1135 { u8 pad0[PLAYER_FIELD(0x20)]; u16 unk20; u8 pad22[PLAYER_FIELD(0x30) - PLAYER_FIELD(0x22)]; u32 flags; u8 pad34[0x34]; u8 unk68; u8 pad69[0x1f]; u16 unk88; u8 pad8a[2]; s32 unk8C; u8 pad90[0x20]; u16 unkB0; u8 padb2[0x16]; u16 unkC8,unkCA,unkCC; u8 padce[0x16]; u32 unkE4[0x1a]; };
 struct O1135 { u16 unk0; u8 pad2[10]; u16 unkC; u8 pade[6]; s32 unk14,unk18; u8 pad1c[0x34]; s32 unk50; };
 extern struct P1135 players1135[] asm("gUnk_03003CE0");
 extern struct O1135 *obj1135 asm("gUnk_03000434");
@@ -2003,18 +2003,18 @@ s32 sub_080AC5B4(void) {
                 
                 var_r0 = (s16 *)(idx * PLAYER_SIZE + (u32)tail);
                 var_r1 = var_r4 - 2;
-                var_r0 = (s16 *)((u8 *)var_r0 + 0xCA); 
+                var_r0 = (s16 *)((u8 *)var_r0 + PLAYER_FIELD(0xCA)); 
             }
             goto storeDirection;
         }
 direction0:
         idx = sub_080020F4(); tail = players1135; 
-        var_r0 = (s16 *)(idx * PLAYER_SIZE + (u32)tail); var_r0 = (s16 *)((u8 *)var_r0 + 0xCA); var_r1 = 6;
+        var_r0 = (s16 *)(idx * PLAYER_SIZE + (u32)tail); var_r0 = (s16 *)((u8 *)var_r0 + PLAYER_FIELD(0xCA)); var_r1 = 6;
         
         goto storeDirection;
 direction1:
         idx = sub_080020F4(); tail = players1135; 
-        var_r0 = (s16 *)(idx * PLAYER_SIZE + (u32)tail); var_r0 = (s16 *)((u8 *)var_r0 + 0xCA); var_r1 = 7;
+        var_r0 = (s16 *)(idx * PLAYER_SIZE + (u32)tail); var_r0 = (s16 *)((u8 *)var_r0 + PLAYER_FIELD(0xCA)); var_r1 = 7;
         
 storeDirection:
         *var_r0 = var_r1;
