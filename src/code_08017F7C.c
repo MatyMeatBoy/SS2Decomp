@@ -1585,7 +1585,21 @@ void sub_0801A70C(void)
 /* [DrawScriptGlyphStringAsSprites] Walks bytes until 0xFD or a value above 0xF1, passes frame (u16)(byte - 1)
  * to 65230 using descriptor 03005C60, and advances X by 8 with 16-bit wrap. Byte zero passes frame 65535
  * rather than terminating the string. */
-void sub_0801A764(const u8 *script, u16 x, u16 y)
+#ifdef REGION_USA
+/* USA text is halfword characters: 0xFFFD ends the string, codes with bit 15 set are controls. */
+void sub_0801A764(const TextChar *script, u16 x, u16 y)
+{
+    u32 count;
+    while (*script != 0xFFFD && !(*script & 0x8000)) {
+        /* The ROM reloads the character after the control test. */
+        count = (u16)(*(volatile const TextChar *)script - 1);
+        sub_08065230(gUnk_03005C60, x, y, 0, count);
+        x = (u16)(x + 8);
+        script++;
+    }
+}
+#else
+void sub_0801A764(const TextChar *script, u16 x, u16 y)
 {
     u32 count;
     while (1) {
@@ -1597,6 +1611,7 @@ void sub_0801A764(const u8 *script, u16 x, u16 y)
         script++;
     }
 }
+#endif
 /* Preserve the blend-call argument evaluation order of the original inlines. */
 static inline void blendA16(s32 a, s32 b, s32 c)
 {
