@@ -3858,7 +3858,7 @@ void sub_08080A78(void)
     u32 r;
     u16 buf[8];
 
-    item = INV + 0x150;
+    item = INV + SAVE_FIELD(0x150);
     for (i = 0; i <= 0x18; i++, item += 0x10) {
         mode = 8;
         switch (*(u16 *)item) {
@@ -3879,9 +3879,9 @@ void sub_08080A78(void)
     {
         struct A78Pos { s16 x, y; };
         u32 first;
-        first = (u16)(F16(INV, 0x68) / 3) * 3;
+        first = (u16)(F16(INV, SAVE_FIELD(0x68)) / 3) * 3;
         end = first + 3;
-        item = INV + (first * 0x10 + 0x70);
+        item = INV + (first * 0x10 + SAVE_FIELD(0x70));
         for (i = first; i < end; i++, item += 0x10) {
             mode = 8;
             if (sub_0805AE34(item) == 0)
@@ -3889,7 +3889,7 @@ void sub_08080A78(void)
             if (F32(MGR, 0x1C) == 1 && F32(MGR, 0x20) == i) {
                 if (gUnk_03002344 & 1)
                     sub_0805FC80(((struct A78Pos *)gUnk_084ECBBC)[i - first].x + 0x38, ((struct A78Pos *)gUnk_084ECBBC)[i - first].y + 0x10, item, mode);
-            } else if (F16(INV, 0x68) == i) {
+            } else if (F16(INV, SAVE_FIELD(0x68)) == i) {
                 { s32 x = ((struct A78Pos *)gUnk_084ECBBC)[i - first].x + 0x38; s32 y = ((struct A78Pos *)gUnk_084ECBBC)[i - first].y; s32 sc = *(s32 *)(MGR + 0x74) - 0x10; sub_0805FC80(x, y - sc, item, mode); }
             } else {
                 sub_0805FC80(((struct A78Pos *)gUnk_084ECBBC)[i - first].x + 0x38, ((struct A78Pos *)gUnk_084ECBBC)[i - first].y + 0x10, item, mode);
@@ -3898,7 +3898,7 @@ void sub_08080A78(void)
     }
 
     if (F32(MGR, 0) != 5) {
-        item = INV + 0x100;
+        item = INV + SAVE_FIELD(0x100);
         mode = 0;
         if (sub_0805D210(item) == 0)
             mode = 2;
@@ -3908,7 +3908,7 @@ void sub_08080A78(void)
         } else
             sub_0805FC80(0x40, 0x30 - F32(MGR, 0x7C), item, mode);
 
-        item = INV + 0x120;
+        item = INV + SAVE_FIELD(0x120);
         mode = 0;
         if (sub_0805D2E0(item) == 0)
             mode = 2;
@@ -3918,7 +3918,7 @@ void sub_08080A78(void)
         } else
             sub_0805FC80(0x3C, 0x60 - F32(MGR, 0x8C), item, mode);
 
-        item = INV + 0x110;
+        item = INV + SAVE_FIELD(0x110);
         mode = 0;
         if (sub_0805D278(item) == 0)
             mode = 2;
@@ -3930,22 +3930,22 @@ void sub_08080A78(void)
 
         if (F32(MGR, 0x1C) == 5) {
             if (gUnk_03002344 & 1)
-                sub_0805FC80(0xC, 0x40 - F32(MGR, 0x9C), INV + 0x130, 8);
+                sub_0805FC80(0xC, 0x40 - F32(MGR, 0x9C), INV + SAVE_FIELD(0x130), 8);
         } else
-            sub_0805FC80(0xC, 0x40 - F32(MGR, 0x9C), INV + 0x130, 8);
+            sub_0805FC80(0xC, 0x40 - F32(MGR, 0x9C), INV + SAVE_FIELD(0x130), 8);
 
         if (F32(MGR, 0x1C) == 6) {
             if (gUnk_03002344 & 1)
-                sub_0805FC80(0x10, 0x60 - F32(MGR, 0x94), INV + 0x140, 8);
+                sub_0805FC80(0x10, 0x60 - F32(MGR, 0x94), INV + SAVE_FIELD(0x140), 8);
         } else
-            sub_0805FC80(0x10, 0x60 - F32(MGR, 0x94), INV + 0x140, 8);
+            sub_0805FC80(0x10, 0x60 - F32(MGR, 0x94), INV + SAVE_FIELD(0x140), 8);
     }
 
     if (F32(MGR, 0) == 2) {
-        struct A78Ids { u8 pad[0x56]; u16 ids[3]; };
+        struct A78Ids { u8 pad[SAVE_FIELD(0x56)]; u16 ids[3]; };
         s16 *tx = gUnk_084ECBB0;
         s16 *ty = gUnk_084ECBB2;
-        u32 first = (u16)(F16(INV, 0x54) / 3) * 3;
+        u32 first = (u16)(F16(INV, SAVE_FIELD(0x54)) / 3) * 3;
         end = first + 3;
         for (i = first; i < end; i++) {
             {
@@ -3955,10 +3955,10 @@ void sub_08080A78(void)
                 found = sub_0805D548(((struct A78Ids *)INV)->ids[i] - 1);
                 if (found != -1) {
                     u32 j;
-                    item = INV + (found * 0x10 + 0x150);
+                    item = INV + (found * 0x10 + SAVE_FIELD(0x150));
                     count = 0;
                     for (j = 0; j <= 0x18; j++) {
-                        if (F16(INV, j * 0x10 + 0x150) == 1 && F16(item, 2) == F16(INV, j * 0x10 + 0x152))
+                        if (F16(INV, j * 0x10 + SAVE_FIELD(0x150)) == 1 && F16(item, 2) == F16(INV, j * 0x10 + SAVE_FIELD(0x152)))
                             count++;
                     }
                 } else {
