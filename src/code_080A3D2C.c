@@ -1590,7 +1590,7 @@ s32 sub_080A6510(void)
   return result;
 
 }
-struct T109Player { u8 pad0[0x1C]; s16 f1C; u8 pad1E[0x6E]; s32 x, y, x2, y2; u8 pad9C[0x14]; u16 fB0; u8 padB2[0x9A]; };
+struct T109Player { u8 pad0[PLAYER_FIELD(0x1C)]; s16 f1C; u8 pad1E[PLAYER_FIELD(0x8C) - PLAYER_FIELD(0x1E)]; s32 x, y, x2, y2; u8 pad9C[0x14]; u16 fB0; u8 padB2[PLAYER_SIZE - PLAYER_FIELD(0xB2)]; };
 extern struct T109Player t109Players[] asm("gUnk_03003CE0");
 extern s32 t109X[] asm("gUnk_03003D6C");
 extern s32 t109Origin[2] asm("gUnk_085187B4");
@@ -1627,11 +1627,11 @@ s32 sub_080A66E0(u8 *arg0) {
             i2 = sub_080020F4();
             j = sub_080020F4();
             base = t109Players;
-            t109X[i2 * 0x53] += (t109Targets[mode][j][0] - t109Origin[0]) / 20;
+            t109X[i2 * (PLAYER_SIZE / 4)] += (t109Targets[mode][j][0] - t109Origin[0]) / 20;
             i3 = sub_080020F4();
             t109Players[i3].y += (t109Targets[mode][sub_080020F4()][1] - t109Origin[1]) / 20;
             i4 = sub_080020F4();
-            t109Players[i4].x2 = t109X[sub_080020F4() * 0x53];
+            t109Players[i4].x2 = t109X[sub_080020F4() * (PLAYER_SIZE / 4)];
             i5 = sub_080020F4();
             t109Players[i5].y2 = t109Players[sub_080020F4()].y;
             base[sub_080020F4()].f1C = 5;
