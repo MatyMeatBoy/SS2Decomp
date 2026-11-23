@@ -694,7 +694,7 @@ s32 sub_08068F9C(struct Attack69 *a,s32 target)
 }
 struct Resist69 {s16 a;u8 pad2[4];s16 b;};
 struct EffectPlayer69 {u8 id;u8 pad1[PLAYER_FIELD(0x73) - 0x1];s8 modifier;u8 pad74[PLAYER_FIELD(0xE0) - PLAYER_FIELD(0x74)];u32 state;u8 padE4[PLAYER_SIZE - PLAYER_FIELD(0xE4)];};
-struct EffectEnemy69 {u8 pad0[2];u8 id;u8 pad3[0x223];u8 state;};
+struct EffectEnemy69 {u8 pad0[2];u8 id;u8 pad3[ENEMY_FIELD(0x226)-3];u8 state;};
 struct Payload69 {union {u32 raw;struct {u32 who:8,kind:8,upper:16;} bits;} control;union {u32 raw;struct {u32 value:16,upper:16;} bits;} amount;};
 extern struct EffectPlayer69 effectPlayers69[] asm("gUnk_03003CE0");
 extern u8 *effectEnemies69 asm("gUnk_030056F4");
@@ -703,7 +703,11 @@ extern u32 effectApply69(struct Payload69 *) asm("sub_08067D28");
 extern void effectFeedback69(u32,u32,void *) asm("sub_08069224");
 /* [TryQueueScaledStatusEffect] Kinds1/4 use resistance indices0/3 and distinct probability divisors 25/50; all
  * other kinds return. */
+#ifdef REGION_USA
+void sub_08069080(struct Resist69 *res,u32 magIn,u32 level,u32 unused,u32 target,s32 kind)
+#else
 void sub_08069080(struct Resist69 *res,u16 magnitude,u32 level,u32 unused,u32 target,s32 kind)
+#endif
 {
     /* The original preserves the incoming stack bits outside the fields written. */
     struct Payload69 packet;
@@ -712,6 +716,12 @@ void sub_08069080(struct Resist69 *res,u16 magnitude,u32 level,u32 unused,u32 ta
     u8 who;
     struct EffectEnemy69 *enemy;
     struct EffectPlayer69 *player;
+#ifdef REGION_USA
+    register u32 tgt69 asm("r9") = target;
+    u16 magnitude;
+    magnitude = magIn;
+#define target tgt69
+#endif
     random=sub_080008C8()%100U;
     switch(kind) {
     case 1: probability=(100-res->a)*((level*10)+5)/25U; break;
@@ -746,6 +756,9 @@ afterModify:;
         effectFeedback69(packet.control.bits.kind,magnitude,effectStats69+SAVE_FIELD(0x24));
         player->state=kind;
     }
+#ifdef REGION_USA
+#undef target
+#endif
 }
 /* [TryIncreaseEffectResistanceStat] Returns0 immediately when sub_0800CF80 is nonzero; otherwise RNG unsigned
  * remainder100 and full incoming kind choose signed halfword stats[kind-1], with kinds6/7 sharing stats[5].
