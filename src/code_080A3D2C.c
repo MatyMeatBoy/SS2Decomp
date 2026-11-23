@@ -1751,7 +1751,7 @@ contactDone:
     task = (s32 *)sub_0800048C();
     task[2] = zero;
 }
-struct Pl6BE8 { u8 p0[0x20]; u16 state; u8 p22[0xE]; u32 flags; u8 p34[0x34]; u8 f68; u8 p69[0x1F]; u16 f88; u8 p8A[2]; s32 x, y; u8 p94[0x1C]; u16 fB0; u8 pB2[0x32]; u32 hitIds[26]; };
+struct Pl6BE8 { u8 p0[PLAYER_FIELD(0x20)]; u16 state; u8 p22[PLAYER_FIELD(0x30) - PLAYER_FIELD(0x22)]; u32 flags; u8 p34[0x34]; u8 f68; u8 p69[0x1F]; u16 f88; u8 p8A[2]; s32 x, y; u8 p94[0x1C]; u16 fB0; u8 pB2[0x32]; u32 hitIds[26]; };
 struct Obj6BE8 { u16 id; u8 p2[10]; u16 fC; u8 pE[6]; s32 x, y; u8 p1C[0x34]; u32 serial; };
 struct Anim6BE8 { u32 f0, f4, f8; u8 *fC; u8 p10[12]; u8 f1C; u8 p1d[0x17]; };
 struct Part6BE8 { s32 x, y, speed; u16 frame, tick; u8 dir, timer, hit, delay; };
