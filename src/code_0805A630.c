@@ -539,13 +539,18 @@ u32 sub_0805AD18(void)
     extern u8 *mapObjects asm("gUnk_030034E0");
     u8 *state = (u8 *)&((struct PlayerW12 *)gUnk_03003CE0)[sub_080020F4()];
     register u32 id asm("r0");
-    if (*(u16 *)(state + 0xC) != *(u16 *)(state + 0x64)) {
-        id = *(u16 *)(*(u32 *)(state + 0x138) + 0x28);
+    if (*(u16 *)(state + PLAYER_FIELD(0xC)) != *(u16 *)(state + PLAYER_FIELD(0x64))) {
+#ifdef REGION_USA
+        /* The record behind player +0x138 keeps this id at +0x19C in USA (+0x28 in EU). */
+        id = *(u16 *)(*(u32 *)(state + PLAYER_FIELD(0x138)) + 0x19C);
+#else
+        id = *(u16 *)(*(u32 *)(state + PLAYER_FIELD(0x138)) + 0x28);
+#endif
     } else {
-        u8 *entry = mapObjects + *(u16 *)(mapObjects + 0x68) * 0x10;
-        if (*(u8 *)(entry + 0x79) == 0)
+        u8 *entry = mapObjects + *(u16 *)(mapObjects + SAVE_FIELD(0x68)) * 0x10;
+        if (*(u8 *)(entry + SAVE_FIELD(0x79)) == 0)
             return 0;
-        id = *(u16 *)(entry + 0x72);
+        id = *(u16 *)(entry + SAVE_FIELD(0x72));
     }
     id |= 0xB0000;
     return sub_08007290(id);
