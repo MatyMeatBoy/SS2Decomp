@@ -251,6 +251,23 @@ void sub_08065CA8(void)
 }
 /* [EnqueueLinkPlayerName] Matched producer sub_08065D50 enqueues tag 0x81 in the 0x88-byte link queue; 2
  * eight-byte chunks. Payload: bytes+0..9 = current save record+0..9. */
+#ifdef REGION_USA
+u32 sub_08065D50(void)
+{
+    u8 *entry;
+    if (gUnk_03006338 <= 0x31) {
+        entry = (u8 *)(uintptr_t)gUnk_03006300 + gUnk_03006338 * 0x88;
+        *(u32 *)(entry + 4) = 1;
+        entry[0] = 0x81;
+        /* USA names are ten halfword characters, copied as five words. */
+        CpuSet((void *)gUnk_030034E0, entry + 8, 0x04000005);
+        entry[1] = 3;
+        gUnk_03006338++;
+        return 1;
+    }
+    return 0;
+}
+#else
 u32 sub_08065D50(void)
 {
     u8 *entry;
@@ -268,6 +285,7 @@ u32 sub_08065D50(void)
     gUnk_03006338++;
     return 1;
 }
+#endif
 struct Root67Player10 {u8 pad[PLAYER_FIELD(0x10)];u16 w10;u8 pad2[PLAYER_SIZE - PLAYER_FIELD(0x12)];};
 /* [TryEnqueueLocalWeaponSubtypeUpdate] Rejects outgoing count greater than 49 before searching existing
  * records. Otherwise scans the current count of 0x88-byte entries for the first whose word+4 is exactly 1 and
