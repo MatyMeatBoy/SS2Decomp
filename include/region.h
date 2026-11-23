@@ -19,7 +19,8 @@
 // move by 0xD8 (ITEM_FIELD) and the EU u8 kind at +0x9B is a u16 at USA +0x174 (ITEM_KIND).
 // Character names (save +0, ten characters) are NameChar strings: bytes in EU, halfwords in USA,
 // which is where SAVE_FIELD's 10-byte shift comes from.
-// Encoded text strings are TextChar (u8 EU, u16 USA; USA ends with 0xFFFD, EU with 0xFD).
+// Encoded text strings are TextChar (u8 EU, u16 USA); control codes are TEXT_CTRL(0xFD) etc.
+// (EU 0xFD, USA 0xFFFD).
 // Equipment records of archives 0xC/0xD/0xE: EQUIP_FIELD (USA +0xDC); the level requirement
 // at EQUIP_FIELD(0xA0) is an EquipLevel (u8 EU, u16 USA).
 // Text records (sub_08007290): the string starts after a 2-byte EU, 4-byte USA header (TEXT_HEADER).
@@ -37,6 +38,7 @@ typedef u16 ItemKind;
 #define ITEM_KIND(r) (*(ItemKind *)((u8 *)(r) + ITEM_KIND_OFF))
 typedef u16 NameChar;
 typedef u16 TextChar;
+#define TEXT_CTRL(c) (0xFF00 | (c))
 #define EQUIP_FIELD(o) ((o) + 0xDC)
 typedef u16 EquipLevel;
 #else
@@ -53,6 +55,7 @@ typedef u8 ItemKind;
 #define ITEM_KIND(r) (*(ItemKind *)((u8 *)(r) + ITEM_KIND_OFF))
 typedef u8 NameChar;
 typedef u8 TextChar;
+#define TEXT_CTRL(c) (c)
 #define EQUIP_FIELD(o) (o)
 typedef u8 EquipLevel;
 #endif

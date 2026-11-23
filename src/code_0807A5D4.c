@@ -7659,25 +7659,25 @@ extern u32 digits850C0[] asm("gUnk_084EBD5C");
  * No destination-capacity check or bounded search for a missing source terminator; no claim of ASCII output.
  * Complete original configured body and literal use audited against EU ROM; copied verified-main ELF equality
  * is static corroboration, not a new build or runtime test. */
-u8 *sub_080850C0(u8 *src, u16 value, u8 *dst)
+TextChar *sub_080850C0(TextChar *src, u16 value, TextChar *dst)
 {
     u16 n;
-    u8 c;
-    u8 *next;
+    TextChar c;
+    TextChar *next;
     src += 2;
     n = 0;
-    while ((c = *src) != 0xFD) {
-        if (c == 0xF7) {
+    while ((c = *src) != TEXT_CTRL(0xFD)) {
+        if (c == TEXT_CTRL(0xF7)) {
             s32 number = value;
             u32 *divisor = digits850C0;
-            u8 *out = dst + n;
+            TextChar *out = dst + n;
             u32 started = 0;
             u16 i = 0;
             next = src + 1;
             do {
                 u32 ch = sub_08000498(&number, *divisor) + 0x41;
                 *out = ch;
-                if (started != 0 || (u8)ch != 0x41 || i == 5) {
+                if (started != 0 || (TextChar)ch != 0x41 || i == 5) {
                     out++;
                     started = 1;
                     n++;
@@ -7692,7 +7692,7 @@ u8 *sub_080850C0(u8 *src, u16 value, u8 *dst)
         }
         src = next;
     }
-    dst[n] = 0xFD;
+    dst[n] = TEXT_CTRL(0xFD);
     return dst + (n - 1);
 }
 /* [AllocateSkillMenuEffectTaskPool] No input or meaningful return. Repeatedly allocates 200 bytes, storing
