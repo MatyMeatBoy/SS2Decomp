@@ -1260,7 +1260,7 @@ s32 sub_08089AE4(u8 *table)
         sub_0800CCDC();
         {u8 *base; register u8 *px asm("r1"); register u32 stride asm("r5");
 #ifdef REGION_USA
-        offset=sub_080020F4();base=players9AE491;stride=PLAYER_SIZE;offset*=stride;{register u8 *xf asm("r3");u8 *yf;xf=base+PLAYER_FIELD(0x8C);xf=(u8 *)((u32)offset+(u32)xf);*(u32 *)xf=(u32)position[0]<<8;yf=base+PLAYER_FIELD(0x90);yf=(u8 *)((u32)offset+(u32)yf);*(u32 *)yf=(u32)position[1]<<8;{register u8 *dst asm("r0")=base;dst+=PLAYER_FIELD(0x94);offset+=(u32)dst;}*(struct Pos9AE491 *)offset=*(struct Pos9AE491 *)xf;}
+        offset=sub_080020F4();base=players9AE491;stride=PLAYER_SIZE;{register u8 *xf asm("r3");register u8 *yf asm("r1");register u8 *b12 asm("ip")=base;offset*=stride;xf=b12+PLAYER_FIELD(0x8C);xf=(u8 *)((u32)offset+(u32)xf);*(u32 *)xf=(u32)position[0]<<8;yf=b12+PLAYER_FIELD(0x90);yf=(u8 *)((u32)offset+(u32)yf);*(u32 *)yf=(u32)position[1]<<8;{register u8 *dst asm("r0")=b12;dst+=PLAYER_FIELD(0x94);offset+=(u32)dst;}*(struct Pos9AE491 *)offset=*(struct Pos9AE491 *)xf;}
 #else
         offset=sub_080020F4();base=players9AE491;stride=PLAYER_SIZE;offset*=stride;px=base+0x8C;px=(u8 *)((u32)offset+(u32)px);
         *(u32 *)px=(u32)position[0]<<8;
@@ -1337,7 +1337,7 @@ s32 sub_08089CA0(u8 *table)
         sub_0800CCDC();
         {u8 *base; register u8 *px asm("r1"); u32 stride;
 #ifdef REGION_USA
-        offset=sub_080020F4();base=players9CA091;stride=PLAYER_SIZE;offset*=stride;{register u8 *xf asm("r3");u8 *yf;xf=base+PLAYER_FIELD(0x8C);xf=(u8 *)((u32)offset+(u32)xf);*(u32 *)xf=(u32)position[0]<<8;yf=base+PLAYER_FIELD(0x90);yf=(u8 *)((u32)offset+(u32)yf);*(u32 *)yf=(u32)position[1]<<8;{register u8 *dst asm("r0")=base;dst+=PLAYER_FIELD(0x94);offset+=(u32)dst;}*(struct Pos9CA091 *)offset=*(struct Pos9CA091 *)xf;}
+        offset=sub_080020F4();base=players9CA091;stride=PLAYER_SIZE;{register u8 *xf asm("r3");register u8 *yf asm("r1");register u8 *b12 asm("ip")=base;offset*=stride;xf=b12+PLAYER_FIELD(0x8C);xf=(u8 *)((u32)offset+(u32)xf);*(u32 *)xf=(u32)position[0]<<8;yf=b12+PLAYER_FIELD(0x90);yf=(u8 *)((u32)offset+(u32)yf);*(u32 *)yf=(u32)position[1]<<8;{register u8 *dst asm("r0")=b12;dst+=PLAYER_FIELD(0x94);offset+=(u32)dst;}*(struct Pos9CA091 *)offset=*(struct Pos9CA091 *)xf;}
 #else
         offset=sub_080020F4();base=players9CA091;stride=PLAYER_SIZE;offset*=stride;px=base+0x8C;px=(u8 *)((u32)offset+(u32)px);
         *(u32 *)px=(u32)position[0]<<8;
@@ -2037,7 +2037,7 @@ s32 sub_0808AA70(u8 *table)
         sub_0800CCDC();
         {u8 *base; register u8 *px asm("r1");
 #ifdef REGION_USA
-        offset=sub_080020F4();base=playersAA7091;offset*=PLAYER_SIZE;{register u8 *xf asm("r3");u8 *yf;xf=base+PLAYER_FIELD(0x8C);xf=(u8 *)((u32)offset+(u32)xf);*(u32 *)xf=(u32)position[0]<<8;yf=base+PLAYER_FIELD(0x90);yf=(u8 *)((u32)offset+(u32)yf);*(u32 *)yf=(u32)position[1]<<8;{register u8 *dst asm("r0")=base;dst+=PLAYER_FIELD(0x94);offset+=(u32)dst;}*(struct PosAA7091 *)offset=*(struct PosAA7091 *)xf;}}
+        offset=sub_080020F4();base=playersAA7091;{register u8 *xf asm("r3");register u8 *yf asm("r1");register u8 *b12 asm("ip")=base;offset*=PLAYER_SIZE;xf=b12+PLAYER_FIELD(0x8C);xf=(u8 *)((u32)offset+(u32)xf);*(u32 *)xf=(u32)position[0]<<8;yf=b12+PLAYER_FIELD(0x90);yf=(u8 *)((u32)offset+(u32)yf);*(u32 *)yf=(u32)position[1]<<8;{register u8 *dst asm("r0")=b12;dst+=PLAYER_FIELD(0x94);offset+=(u32)dst;}*(struct PosAA7091 *)offset=*(struct PosAA7091 *)xf;}}
 #else
         offset=sub_080020F4();base=playersAA7091;offset*=PLAYER_SIZE;px=base+0x8C;px=(u8 *)((u32)offset+(u32)px);
         *(u32 *)px=(u32)position[0]<<8;
@@ -2115,7 +2115,7 @@ s32 sub_0808AC08(u8 *input)
         sub_0800CCDC();
         {u8 *base; register u8 *px asm("r1");
 #ifdef REGION_USA
-        offset=sub_080020F4();base=playersAC0891;offset*=PLAYER_SIZE;{register u8 *xf asm("r3");u8 *yf;xf=base+PLAYER_FIELD(0x8C);xf=(u8 *)((u32)offset+(u32)xf);*(u32 *)xf=(u32)position[0]<<8;yf=base+PLAYER_FIELD(0x90);yf=(u8 *)((u32)offset+(u32)yf);*(u32 *)yf=(u32)position[1]<<8;{register u8 *dst asm("r0")=base;dst+=PLAYER_FIELD(0x94);offset+=(u32)dst;}*(struct PosAC0891 *)offset=*(struct PosAC0891 *)xf;}}
+        offset=sub_080020F4();base=playersAC0891;{register u8 *xf asm("r3");register u8 *yf asm("r1");register u8 *b12 asm("ip")=base;offset*=PLAYER_SIZE;xf=b12+PLAYER_FIELD(0x8C);xf=(u8 *)((u32)offset+(u32)xf);*(u32 *)xf=(u32)position[0]<<8;yf=b12+PLAYER_FIELD(0x90);yf=(u8 *)((u32)offset+(u32)yf);*(u32 *)yf=(u32)position[1]<<8;{register u8 *dst asm("r0")=b12;dst+=PLAYER_FIELD(0x94);offset+=(u32)dst;}*(struct PosAC0891 *)offset=*(struct PosAC0891 *)xf;}}
 #else
         offset=sub_080020F4();base=playersAC0891;offset*=PLAYER_SIZE;px=base+0x8C;px=(u8 *)((u32)offset+(u32)px);
         *(u32 *)px=(u32)position[0]<<8;
