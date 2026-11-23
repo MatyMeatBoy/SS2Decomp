@@ -6588,7 +6588,7 @@ extern void sub_0802939C(s32, s32);
 extern void sub_0802F424(s32);
 struct TaskP30F2 { u32 f0, f4, f8, fC, f10, f14, f18, f1C, f20, f24; };
 extern void taskStart30F2(void *, u32) asm("sub_08000274");
-struct Entry30F2 { u8 pad[12]; u16 state; u8 end[0x2E0 - 14]; };
+struct Entry30F2 { u8 pad[12]; u16 state; u8 end[ENEMY_SIZE - 14]; };
 /* [RunObjectThirtyThreeRelease] Clears mode-selected byte mask0x8, sets player flag1 and creates kind0x21;
  * transitions, signals0x09999000, runs timed animation/message0x1401F9 sequence and starts helper task
  * from30-slot pool with allocation retry. Full pool skips helper. Clears player flag1, resets active actor

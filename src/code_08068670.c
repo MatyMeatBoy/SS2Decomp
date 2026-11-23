@@ -5663,7 +5663,7 @@ end:
 struct T39Pos { u16 h0; u16 h2; };
 struct T39Rng { s16 x, y; };
 struct T39Pl { u16 h0; u8 p2[PLAYER_FIELD(0x20) - 0x2]; u16 state; u8 p22[PLAYER_FIELD(0x4C) - PLAYER_FIELD(0x22)]; u8 b4C[0x68 - 0x4C]; u8 team; u8 p69[PLAYER_FIELD(0xB2) - PLAYER_FIELD(0x69)]; u16 ready; u8 pB4[PLAYER_FIELD(0xB6) - PLAYER_FIELD(0xB4)]; u16 done; u8 pB8[PLAYER_FIELD(0xC2) - PLAYER_FIELD(0xB8)]; u16 hp; u8 pC4[PLAYER_FIELD(0x148) - PLAYER_FIELD(0xC4)]; struct T39Pos *pos; u8 p14C[0x14C - 0x14C]; };
-struct T39En { u16 h0; u8 p2[0xC - 2]; u16 state; u8 pE[0x14 - 0xE]; s32 x; s32 y; u8 p1C[0x1DC - 0x1C]; u8 alive; u8 p1DD[ENEMY_FIELD(0x218) - 0x1DD]; u8 b218[0x2E0 - 0x218]; };
+struct T39En { u16 h0; u8 p2[0xC - 2]; u16 state; u8 pE[0x14 - 0xE]; s32 x; s32 y; u8 p1C[0x1DC - 0x1C]; u8 alive; u8 p1DD[ENEMY_FIELD(0x218) - 0x1DD]; u8 b218[ENEMY_SIZE - ENEMY_FIELD(0x218)]; };
 struct T39Arg { u32 owner; u32 bit; u32 mode; s32 fC; u8 p10[4]; u32 w14; };
 struct T39Desc { u32 f0; u32 f4; u32 f8; u32 fC; u8 p10[0xC]; u8 f1C; u8 f1D; u8 p1E[0x34 - 0x1E]; };
 extern struct T39Pl gT39Players[] asm("gUnk_03003CE0");

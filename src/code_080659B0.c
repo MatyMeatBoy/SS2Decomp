@@ -1014,12 +1014,13 @@ struct RxEnt {
     u8 p8C[0x1FC - 0x8C];
     struct RxV2 { u32 a; u8 b0, b1, b2, b3; } f1FC;
     u16 f204;
+    u8 gap206[ENEMY_FIELD(0x206) - 0x206];
     u16 f206;
     u16 f208;
     s16 f20A;
     u8 p20C[0x226 - 0x20C];
     u8 f226;
-    u8 p227[0x2E0 - 0x227];
+    u8 p227[ENEMY_SIZE - ENEMY_FIELD(0x227)];
 };
 extern struct RxEnt *gRxEnts asm("gUnk_030056F4");
 extern u8 gRxPl58[] asm("gUnk_03003D38");

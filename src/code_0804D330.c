@@ -2147,7 +2147,7 @@ while (sub_0805EEFC((void *) handle) == 0) sub_080003F0();
 }
 
 struct PlayerFF04 { u8 pad[PLAYER_FIELD(0x30)]; u32 flags; u8 tail[PLAYER_SIZE - PLAYER_FIELD(0x34)]; };
-struct EntityFF04 { u8 pad[0xC]; u16 state; u8 tail[0x2E0-0xE]; };
+struct EntityFF04 { u8 pad[0xC]; u16 state; u8 tail[ENEMY_SIZE-0xE]; };
 struct StateFF04 { u8 pad[0x38]; u32 events; };
 extern struct PlayerFF04 playersFF04[] asm("gUnk_03003CE0");
 extern struct EntityFF04 *entitiesFF04 asm("gUnk_030056F4");
@@ -2538,7 +2538,7 @@ after:
     }
 }
 struct State505C8 { u8 pad[0x38]; u32 flags; };
-struct Entity505C8 { u8 pad[0xC]; u16 state; u8 tail[0x2E0-0xE]; };
+struct Entity505C8 { u8 pad[0xC]; u16 state; u8 tail[ENEMY_SIZE-0xE]; };
 extern struct State505C8 *state505C8 asm("gUnk_03005CF4");
 extern struct Entity505C8 *entities505C8 asm("gUnk_030056F4");
 /* [ResetEnemiesAfterConditionalDelay] Body's flags4 test gates30-signal wait; final five-slot active-mask scan
@@ -2773,7 +2773,7 @@ while (sub_0805EEFC((void *) handle) == 0) sub_080003F0();
 }
 
 struct Player509A8 { u8 pad[PLAYER_FIELD(0x30)]; u32 flags; u8 tail[PLAYER_SIZE - PLAYER_FIELD(0x34)]; };
-struct Entity509A8 { u8 pad[0xC]; u16 state; u8 tail[0x2E0-0xE]; };
+struct Entity509A8 { u8 pad[0xC]; u16 state; u8 tail[ENEMY_SIZE-0xE]; };
 struct Task509A8 { u32 f0,f4,flags; void (*callback)(void); u8 *stack; u32 f14,f18,f1C; u8 *memory; u32 data; };
 struct State509A8 { u8 pad0[0x38]; u32 events; u8 pad3C[0xE34-0x3C]; struct Task509A8 tasks[30]; };
 extern struct Player509A8 players509A8[] asm("gUnk_03003CE0");
@@ -4167,7 +4167,7 @@ extern u32 gW03005CF8 asm("gUnk_03005CF8");
 extern u32 gW030027D0 asm("gUnk_030027D0");
 extern u8 *gP030056F4 asm("gUnk_030056F4");
 extern u32 gM030056FC asm("gUnk_030056FC");
-struct E2E0a { u8 b[0xC]; u16 hC; u8 r[0x2E0 - 0xE]; };
+struct E2E0a { u8 b[0xC]; u16 hC; u8 r[ENEMY_SIZE - 0xE]; };
 static inline void SetMode53A80(u32 m)
 {
     gW03005CF8 = m;

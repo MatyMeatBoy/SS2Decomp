@@ -159,7 +159,7 @@ extern u32 gW03005CF8 asm("gUnk_03005CF8");
 extern u32 gW030027D0 asm("gUnk_030027D0");
 extern u8 *gP030056F4 asm("gUnk_030056F4");
 extern u32 gM030056FC asm("gUnk_030056FC");
-struct E2E0a { u8 b[0xC]; u16 hC; u8 r[0x2E0 - 0xE]; };
+struct E2E0a { u8 b[0xC]; u16 hC; u8 r[ENEMY_SIZE - 0xE]; };
 static inline void SetMode53A80(u32 m)
 {
     gW03005CF8 = m;
