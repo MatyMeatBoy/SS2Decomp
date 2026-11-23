@@ -912,7 +912,7 @@ struct Act4C34 {
     u16 f202;
     struct Res4C34 res;
 };
-struct Pl4C34 { u8 p0[0xC]; u16 fC; u8 pe[0x22]; u32 flags; u8 p34[0x114]; u16 *f148; };
+struct Pl4C34 { u8 p0[PLAYER_FIELD(0xC)]; u16 fC; u8 pe[PLAYER_FIELD(0x30) - PLAYER_FIELD(0xE)]; u32 flags; u8 p34[PLAYER_FIELD(0x148) - PLAYER_FIELD(0x34)]; u16 *f148; };
 struct XY4C34 { s32 x, y; };
 struct G5CF4_4C34 { u8 p0[0x720]; u32 f720; };
 

@@ -1149,7 +1149,7 @@ struct ActB2F8 {
     u16 f2D8, f2DA;
 };
 struct AnimB2F8 { u32 f0, f4, f8; u8 *fC; u8 p10[12]; u8 f1C; u8 p1d[0x17]; };
-struct PlB2F8 { u8 p0[0x30]; u32 flags; u8 p34[0x114]; u16 *f148; };
+struct PlB2F8 { u8 p0[PLAYER_FIELD(0x30)]; u32 flags; u8 p34[PLAYER_FIELD(0x148) - PLAYER_FIELD(0x34)]; u16 *f148; };
 
 extern struct ActB2F8 *gActB2F8 asm("gUnk_03000434");
 extern u16 gTileB2F8 asm("gUnk_03000438");
@@ -2487,7 +2487,7 @@ struct ActorAD534 {
 struct SpriteAD534 { u32 f0, f4, f8; u16 *fC; u8 p10[12]; u8 f1C; };
 struct PosAD534 { s32 x, y; };
 struct E2E0AD534 { u8 b[ENEMY_SIZE]; };
-struct PlayerAD534 { u8 p0[0x30]; u32 flags; u8 p34[0x118]; };
+struct PlayerAD534 { u8 p0[PLAYER_FIELD(0x30)]; u32 flags; u8 p34[PLAYER_SIZE - PLAYER_FIELD(0x34)]; };
 
 extern struct ActorAD534 *actorsAD534[] asm("gUnk_03000448");
 extern struct SpriteAD534 spriteAD534 asm("gUnk_03000458");
@@ -3634,7 +3634,7 @@ struct ActF3F4 {
     struct ResF3F4 res;
 };
 struct AnimF3F4 { u32 f0, f4, f8; u8 *fC; u8 p10[12]; u8 f1C; u8 p1d[0x17]; };
-struct PlF3F4 { u8 p0[0xC]; u16 fC; u8 pe[0x22]; u32 flags; u8 p34[0x118]; };
+struct PlF3F4 { u8 p0[PLAYER_FIELD(0xC)]; u16 fC; u8 pe[PLAYER_FIELD(0x30) - PLAYER_FIELD(0xE)]; u32 flags; u8 p34[PLAYER_SIZE - PLAYER_FIELD(0x34)]; };
 struct HistF3F4 { s32 h[5]; u8 rest[0x138]; };
 
 extern struct ActF3F4 *gCurF3F4 asm("gUnk_03000788");
@@ -4104,7 +4104,7 @@ struct Act0288 {
     struct Res0288 res;
 };
 struct Anim0288 { u32 f0, f4, f8; u8 *fC; u8 p10[12]; u8 f1C; u8 p1d[0x17]; };
-struct Pl0288 { u8 p0[0xC]; u16 fC; u8 pe[0x22]; u32 flags; u8 p34[0x118]; };
+struct Pl0288 { u8 p0[PLAYER_FIELD(0xC)]; u16 fC; u8 pe[PLAYER_FIELD(0x30) - PLAYER_FIELD(0xE)]; u32 flags; u8 p34[PLAYER_SIZE - PLAYER_FIELD(0x34)]; };
 struct Hist0288 { s32 h[5]; u8 rest[0x138]; };
 
 extern struct Act0288 *gCur0288 asm("gUnk_03000788");
@@ -5171,7 +5171,7 @@ void sub_080B236C(u32 a, u32 b)
     second = b;
     sub_08000274_4(taskArg, first, second, z);
 }
-struct Ene0B23C8 { u8 pad0[0x7A]; u16 flags; u8 pad7C[0x264]; };
+struct Ene0B23C8 { u8 pad0[0x7A]; u16 flags; u8 pad7C[ENEMY_SIZE - 0x7C]; };
 extern struct Ene0B23C8 *enemies0B23C8 asm("gUnk_030056F4");
 /* [SetEnemySlots1To4Flag0] Other enemy consumers test this bit together with scene-exit predicate to gate
  * action; exact mask name avoids claiming universal removal or forced stop. */

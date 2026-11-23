@@ -3082,7 +3082,7 @@ struct EntA27 {
 };
 struct AuxA27 { u8 p0[4]; s16 f4, f6; u8 p8[0xce]; u16 fD6; };
 struct AnimA27 { u32 f0, f4, f8, fC; u8 pad10[12]; u8 attr[24]; };
-struct PlayerA27 { u8 p0[0x30]; u32 flags; u8 p34[0x118]; };
+struct PlayerA27 { u8 p0[PLAYER_FIELD(0x30)]; u32 flags; u8 p34[PLAYER_SIZE - PLAYER_FIELD(0x34)]; };
 struct GlobA27 { u8 p0[0x720]; s32 f720; };
 extern struct EntA27 *selfA27 asm("gUnk_03000364");
 extern struct EntA27 *otherA27 asm("gUnk_03000368");

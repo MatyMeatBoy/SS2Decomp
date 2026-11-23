@@ -239,8 +239,8 @@ extern void sub_0809975C(void);
 extern void sub_080997C0(u16,u16);
 #endif
 struct Sprite108 {u32 base,p4,data,palette,p10,p14,p18;u8 payload[24];};
-struct Player108 {u8 p0[0x30];u32 flags;u8 p34[0x118];};
-struct Spr108 {u8 *sprite;u8 p4[0x148];};
+struct Player108 {u8 p0[PLAYER_FIELD(0x30)];u32 flags;u8 p34[PLAYER_SIZE - PLAYER_FIELD(0x34)];};
+struct Spr108 {u8 *sprite;u8 p4[PLAYER_SIZE - 0x4];};
 struct Actor108 {
     u16 f0; u16 f2; u8 p4[4]; u16 f8; u8 pA[2]; u16 state; u8 pE[6];
     s32 x; s32 y; u8 p1C[0x30]; s32 damage; s32 f50; u8 p54[6]; u16 f5A; u16 f5C; u16 f5E;

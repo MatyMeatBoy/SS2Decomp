@@ -1591,7 +1591,7 @@ void sub_0801CC10(u32 arg0, s32 arg1)
     *((u16 *) ((s16 *) (p + PLAYER_FIELD(0xC4)))) = *((u16 *) (p + PLAYER_FIELD(0x62)));
   }
 }
-struct RescueCCC8Record { u8 pad[0x10]; u16 kind; u8 tail[0x13a]; };
+struct RescueCCC8Record { u8 pad[PLAYER_FIELD(0x10)]; u16 kind; u8 tail[PLAYER_SIZE - PLAYER_FIELD(0x12)]; };
 extern struct RescueCCC8Record rescueCCC8Records[] asm("gUnk_03003CE0");
 extern u8 *rescueCCC8Current asm("gUnk_030034E0");
 /* [ReadLocalPlayerActionSkillLevel] Reads a class-mapped raw skill-level halfword from the current character

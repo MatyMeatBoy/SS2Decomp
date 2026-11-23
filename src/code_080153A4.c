@@ -1594,7 +1594,7 @@ void sub_08016ECC_u16(u16 arg0)
   }
 }
 struct Pos16F28 { u32 kind:4; u32 x:12; u32 y:12; u32 pad2:4; u32 f4:6; u32 f4b:2; };
-struct Plr16F28 { u8 pad0[0x148]; struct Pos16F28 *pos; };
+struct Plr16F28 { u8 pad0[PLAYER_FIELD(0x148)]; struct Pos16F28 *pos; };
 extern struct Plr16F28 players16F28[] asm("gUnk_03003CE0");
 struct Roll16F28 { u8 result; u8 chance; u8 pad[2]; };
 struct AI16F28 {
