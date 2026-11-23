@@ -329,7 +329,7 @@ s32 sub_08068A00(struct Position68 pos, u8 *attack) {
     if (temp_r2 <= 3U) {
         sourcePlayer = (PLAYER_SIZE * temp_r2) + (u8 *)gUnk_03003CE0;
     } else {
-        sourceEnemy = (u8 *)gUnk_030056F4 + ((temp_r2 * ENEMY_SIZE) + 0xFFFFF480);
+        sourceEnemy = (u8 *)gUnk_030056F4 + ((temp_r2 * ENEMY_SIZE) - 4 * ENEMY_SIZE);
     }
     hitFlags = 0;
     temp_r0 = M2C_FIELD(attack, u32 *, 0xC);
@@ -677,7 +677,7 @@ s32 sub_08068F9C(struct Attack69 *a,s32 target)
     u16 *special;
     index=a->attacker;
     if(index<=3) value=((struct AttackPlayer69 *)(index*PLAYER_SIZE+(u32)attackPlayers69))->value;
-    else { u32 address; u8 **base; base=&attackEnemies69; address=index*ENEMY_SIZE; address+=(u32)*base; address-=0x978; value=*(s16 *)address; }
+    else { u32 address; u8 **base; base=&attackEnemies69; address=index*ENEMY_SIZE; address+=(u32)*base; address-=4*ENEMY_SIZE-ENEMY_FIELD(0x208); value=*(s16 *)address; }
     random=sub_080008C8()%20U+100;
     if(a->kind!=19) {
         root=attackRoot69(value+15);
@@ -743,7 +743,7 @@ afterModify:;
     { register u32 word asm("r1"); word=packet.amount.raw&0xFFFF0000; word|=magnitude; packet.amount.raw=word; }
     effectApply69(&packet);
     if(target==sub_080020F4() && !sub_0800CF80()) {
-        effectFeedback69(packet.control.bits.kind,magnitude,effectStats69+0x24);
+        effectFeedback69(packet.control.bits.kind,magnitude,effectStats69+SAVE_FIELD(0x24));
         player->state=kind;
     }
 }
@@ -822,7 +822,7 @@ divide:
     if(target==sub_080020F4() || (sub_0800CF80() && target<=3))
         probability=((u32)probability*resistPlayers69[target].modifier)/100U;
     out[1]=((u32)probability>random)?kind:0;
-    if(target>3 && *(u8 *)((u32)resistEnemies69+target*ENEMY_SIZE-0x95A)==3) out[1]=0;
+    if(target>3 && *(u8 *)((u32)resistEnemies69+target*ENEMY_SIZE-(4*ENEMY_SIZE-ENEMY_FIELD(0x226)))==3) out[1]=0;
 }
 struct HitAttack69 {u32 attacker,unk4,target,kind,power,level;};
 struct HitPacket69 {union {u32 word;u8 byte[4];struct {u32 who:8,kind:8,flags:8; s32 direction:8;} bits;} control;union {u32 word;u16 half[2];struct {u32 amount:16,upper:16;} bits;} value;};
@@ -884,7 +884,7 @@ void sub_080694AC(struct HitAttack69 *arg0) {
     if (temp_r2 <= 3U) {
         var_r8 = (PLAYER_SIZE * temp_r2) + hitPlayers69;
     } else {
-        var_r9 = hitEnemies69 + ((temp_r2 * ENEMY_SIZE) + 0xFFFFF480);
+        var_r9 = hitEnemies69 + ((temp_r2 * ENEMY_SIZE) - 4 * ENEMY_SIZE);
     }
     temp_r2_2 = arg0->target;
     if (temp_r2_2 <= 3U) {
@@ -1266,7 +1266,7 @@ void sub_08069C44(struct Z069A *arg) {
         p=&z069P[player];
         saved=p->counter;
     } else {
-        enemy=(struct Z069E *)(z069EBase+(player*ENEMY_SIZE+0xFFFFF480));
+        enemy=(struct Z069E *)(z069EBase+(player*ENEMY_SIZE-4*ENEMY_SIZE));
         while(enemy->wait<enemy->threshold) {
             if(sub_08056E90()!=0 || sub_0800BA6C()==0 || enemy->state==10 || enemy->state==11) {
                 z069F[player]&=~(1<<bit);
@@ -1423,7 +1423,7 @@ void sub_0806A19C(struct Z069A *arg) {
     if(player<=3) {
         p=&z069P[player];
     } else {
-        enemy=(struct Z069E *)(z069EBase+(player*ENEMY_SIZE+0xFFFFF480));
+        enemy=(struct Z069E *)(z069EBase+(player*ENEMY_SIZE-4*ENEMY_SIZE));
         while(enemy->wait<enemy->threshold) {
             if(sub_08056E90()!=0 || sub_0800BA6C()==0 || enemy->state==10 || enemy->state==11) {
                 z069F[player]&=~(1<<bit);
@@ -1465,10 +1465,10 @@ void sub_0806A19C(struct Z069A *arg) {
     if((local==player || player>3) && sub_0800CCCC()==0 && sub_0800CD34()==0) sub_0805865C(level+0x115);
     retarget:
         if(level<=5) {
-            z069Init(&sprite,0x50091,8,-1,0);
+            z069Init(&sprite,RES_ID(0x50091),8,-1,0);
             level=(u16)(level-1);
         } else {
-            z069Init(&sprite,0x5008E,8,-1,0);
+            z069Init(&sprite,RES_ID(0x5008E),8,-1,0);
             level=(u16)(level-6);
         }
         sprite.f1C=7; sprite.f1D=8;
@@ -1555,7 +1555,7 @@ end:
 }
 struct T070Sprite { u32 f0, f4, f8, fC; u8 pad10[12]; u8 f1C, f1D; u8 pad1E[22]; };
 struct T070Player { u8 pad0[PLAYER_FIELD(0x20)]; u16 state; u8 pad22[PLAYER_FIELD(0x30) - PLAYER_FIELD(0x22)]; u32 flags; u8 pad34[PLAYER_FIELD(0x8C) - PLAYER_FIELD(0x34)]; s32 x,y; u8 pad94[PLAYER_FIELD(0xC2) - PLAYER_FIELD(0x94)]; u16 resource; u8 padC4[PLAYER_FIELD(0xDC) - PLAYER_FIELD(0xC4)]; u32 counter; u8 padE0[PLAYER_FIELD(0x148) - PLAYER_FIELD(0xE0)]; u16 *sprite; };
-struct T070Enemy { u8 pad0[20]; s32 x,y; u8 pad1C[52]; u32 counter; u8 pad54[10]; u16 resource; u8 pad60[640]; };
+struct T070Enemy { u8 pad0[20]; s32 x,y; u8 pad1C[52]; u32 counter; u8 pad54[10]; u16 resource; u8 pad60[ENEMY_SIZE - 0x60]; };
 struct T070Args { u32 player, bit, target, value, f10, level; };
 extern struct T070Player t070Players[] asm("gUnk_03003CE0");
 extern struct T070Enemy *t070Enemies asm("gUnk_030056F4");
@@ -1601,7 +1601,7 @@ void sub_0806A88C(struct T070Args *arg) {
     local=sub_080020F4();
     player=arg->player; bit=arg->bit; level=(u16)arg->level; initialLevel=level;
     if(player<=3) p=&t070Players[player];
-    else enemy=(struct T070Enemy *)((u8 *)t070Enemies+(player*ENEMY_SIZE+0xFFFFF480));
+    else enemy=(struct T070Enemy *)((u8 *)t070Enemies+(player*ENEMY_SIZE-4*ENEMY_SIZE));
     frame=0; phase=0; counter=0;
     if(sub_080020F4()!=player) {
         if(player>3) {
@@ -1621,7 +1621,7 @@ void sub_0806A88C(struct T070Args *arg) {
         if((s16)costPlayer->resource<0) costPlayer->resource=counter;
     }
     if(sub_080020F4()==player && sub_0800CCCC()==0 && sub_0800CD34()==0) sub_0805865C(0x169);
-    t070Init(&sprite,0x5008C,8,-1,0);
+    t070Init(&sprite,RES_ID(0x5008C),8,-1,0);
     sprite.f1C=7; sprite.f1D=8;
     frame=0;phase=0;timeout=0xB4;
     for (;;) {
@@ -1660,7 +1660,7 @@ finish:
 struct T071S {u32 f0,f4,f8,fC;u8 pad10[12];u8 f1C,f1D;u8 pad1E[22];};
 struct T071A {u32 player,bit,target,value,f10,level;};
 struct T071P {u16 id;u8 pad2[30];u16 state;u8 pad22[14];u32 flags;u8 pad34[52];u8 team;u8 pad69[89];u16 resource;u8 padC4[24];u32 counter;u8 padE0[4];u32 ehist[5];u32 phist[4];u8 pad108[64];u16 *sprite;};
-struct T071E {u16 id,target;u8 pad4[4];s16 dir;u8 padA[2];u16 state;u8 padE[6];s32 x,y;u8 pad1C[52];u32 counter,lastHit;u16 owner;u8 pad5A[4];u16 resource;u8 pad60[10];u16 wait;u8 pad6C[368];u8 active;u8 pad1DD[78];u8 threshold;u8 pad22C[180];};
+struct T071E {u16 id,target;u8 pad4[4];s16 dir;u8 padA[2];u16 state;u8 padE[6];s32 x,y;u8 pad1C[52];u32 counter,lastHit;u16 owner;u8 pad5A[4];u16 resource;u8 pad60[10];u16 wait;u8 pad6C[368];u8 active;u8 pad1DD[ENEMY_FIELD(0x22B) - 0x1DD];u8 threshold;u8 pad22C[ENEMY_SIZE - ENEMY_FIELD(0x22C)];};
 extern struct T071P t071P[] asm("gUnk_03003CE0");
 extern u8 *t071EBase asm("gUnk_030056F4");
 extern u32 t071EMask asm("gUnk_030056FC");
@@ -1745,7 +1745,7 @@ void sub_0806ABC0(struct T071A *arg) {
         dir=((u8 *)p->sprite)[3]>>4;
         angle=tbl[dir];
     } else {
-        enemy=(struct T071E *)(t071EBase+(player*ENEMY_SIZE+0xFFFFF480));
+        enemy=(struct T071E *)(t071EBase+(player*ENEMY_SIZE-4*ENEMY_SIZE));
         x=enemy->x; y=enemy->y;
         dir=(u16)enemy->dir;
         angle=tbl[enemy->dir];
@@ -1930,7 +1930,7 @@ void sub_0806B3C4(struct Y073A *arg) {
     local=(u16)sub_080020F4();
     player=arg->player; bit=arg->bit; level=(u16)arg->level;
     if(player<=3) p=&y073P[player];
-    else enemy=(struct Y073E *)(y073EBase+(player*ENEMY_SIZE+0xFFFFF480));
+    else enemy=(struct Y073E *)(y073EBase+(player*ENEMY_SIZE-4*ENEMY_SIZE));
     if(local!=player) {
         if(player>3) {
             costBase=y073Cost;
@@ -2015,7 +2015,7 @@ void sub_0806B3C4(struct Y073A *arg) {
             }
         }
     }
-    y073Init(&sprite,0x50074,8,-1,0);
+    y073Init(&sprite,RES_ID(0x50074),8,-1,0);
     sprite.f1C=7; sprite.f1D=8;
     if(level>6) level=6;
     if(nhits==0) {
@@ -2177,7 +2177,7 @@ void sub_0806BE24(struct ArgBE *arg)
         p = &pBE[player];
         off = player * 4;
     } else {
-        e = (struct EneBE *)(eBEBase + (player * ENEMY_SIZE + 0xFFFFF480));
+        e = (struct EneBE *)(eBEBase + (player * ENEMY_SIZE - 4 * ENEMY_SIZE));
         {u16 *wp = &e->wait; u8 *tp = &e->threshold; u16 w = *wp; off = player * 4; if (w <= *tp) do {
             if (sub_08056E90() != 0 || sub_0800BA6C() == 0 || e->state == 10 || e->state == 11) {
                 *(u32 *)(off + (u8 *)fBE) &= ~(1 << bit);
@@ -2272,7 +2272,7 @@ void sub_0806BE24(struct ArgBE *arg)
             sub_0805865C(level + 0x123);
     }
     cool = 0;
-    initBE(&spr, 0x50097, 8, -1, 0);
+    initBE(&spr, RES_ID(0x50097), 8, -1, 0);
     spr.f1C = 7;
     spr.f1D = 8;
     for (;;) {
@@ -2430,7 +2430,7 @@ void sub_0806C568(struct ArgC568 *arg)
     if (player <= 3) {
         p = &pC568[player];
     } else {
-        e = (struct EneC568 *)(eC568Base + (player * ENEMY_SIZE + 0xFFFFF480));
+        e = (struct EneC568 *)(eC568Base + (player * ENEMY_SIZE - 4 * ENEMY_SIZE));
         while (e->wait < e->threshold) {
             if (sub_08056E90() != 0 || sub_0800BA6C() == 0 || e->state == 10 || e->state == 11) {
                 fC568[player] &= ~(1 << bit);
@@ -2587,7 +2587,7 @@ void sub_0806C568(struct ArgC568 *arg)
         level = 6;
     if (local == player && sub_0800CCCC() == 0 && sub_0800CD34() == 0)
         sub_0805865C(level + 0x155);
-    initC568(&desc, 0x5009E, 8, -1, 0);
+    initC568(&desc, RES_ID(0x5009E), 8, -1, 0);
     desc.f1C = 7;
     desc.f1D = 8;
     if (nhit == 0) {
@@ -2815,7 +2815,7 @@ void sub_0806CDF0(void *arg0)
     sp28 = temp_r0 * 4;
     goto block_12;
   }
-  var_r7 = gUnk_030056F4 + ((temp_r0 * ENEMY_SIZE) + 0xFFFFF480);
+  var_r7 = gUnk_030056F4 + ((temp_r0 * ENEMY_SIZE) - 4 * ENEMY_SIZE);
   {
     u16 *ap = (u16 *) (((u8 *) var_r7) + 0x6A);
     u8 *bp = ((u8 *) var_r7) + 0x22B;
@@ -3894,7 +3894,7 @@ struct ArgE7D4 { u32 player, bit, target, value, f10, level; };
 struct SprE7D4 { u32 f0, f4, f8, fC; u8 pad10[12]; u8 f1C, f1D; u8 pad1E[22]; };
 struct SprBitsE7D4 { u8 lo:4; u8 hi:4; u8 b1, b2, b3; u8 b4:6; u8 b4hi:2; };
 struct PlyE7D4 { u16 id; u8 pad2[PLAYER_FIELD(0x20) - 0x2]; u16 state; u8 pad22[PLAYER_FIELD(0x68) - PLAYER_FIELD(0x22)]; u8 team; u8 pad69[PLAYER_FIELD(0xB2) - PLAYER_FIELD(0x69)]; u16 fB2; u8 padB4[PLAYER_FIELD(0xB6) - PLAYER_FIELD(0xB4)]; u16 fB6; u8 padB8[PLAYER_FIELD(0xC2) - PLAYER_FIELD(0xB8)]; u16 resource; u8 padC4[PLAYER_FIELD(0x148) - PLAYER_FIELD(0xC4)]; u16 *sprite; };
-struct EneE7D4 { u16 id; u8 pad2[6]; s16 dir; u8 padA[2]; u16 state; u8 padE[6]; s32 x, y; u8 pad1C[0x42]; u16 resource; u8 pad60[10]; u16 wait; u8 pad6C[0x170]; u8 team; u8 pad1DD[0x4E]; u8 threshold; u8 pad22C[2]; u8 w, h; u8 pad230[0xB0]; };
+struct EneE7D4 { u16 id; u8 pad2[6]; s16 dir; u8 padA[2]; u16 state; u8 padE[6]; s32 x, y; u8 pad1C[0x42]; u16 resource; u8 pad60[10]; u16 wait; u8 pad6C[0x170]; u8 team; u8 pad1DD[ENEMY_FIELD(0x22B) - 0x1DD]; u8 threshold; u8 pad22C[2]; u8 w, h; u8 pad230[ENEMY_SIZE - ENEMY_FIELD(0x230)]; };
 struct BoxE7D4 { u32 w:16; u32 h:16; };
 struct PosE7D4 { s32 x, y; };
 extern struct PlyE7D4 pE7D4[] asm("gUnk_03003CE0");
@@ -3963,7 +3963,7 @@ void sub_0806E7D4(struct ArgE7D4 *arg)
     if (player <= 3) {
         p = &pE7D4[player];
     } else {
-        e = (struct EneE7D4 *)(eE7D4Base + (player * ENEMY_SIZE + 0xFFFFF480));
+        e = (struct EneE7D4 *)(eE7D4Base + (player * ENEMY_SIZE - 4 * ENEMY_SIZE));
         while (e->wait < e->threshold) {
             if (sub_08056E90() != 0 || sub_0800BA6C() == 0 || e->state == 10 || e->state == 11) {
                 fE7D4[player] &= ~(1 << bit);
@@ -4065,7 +4065,7 @@ void sub_0806E7D4(struct ArgE7D4 *arg)
     }
     if ((local == player || player > 3) && sub_0800CCCC() == 0 && sub_0800CD34() == 0)
         sub_0805865C(level + 0x140);
-    initE7D4(&spr, 0x5008B, 8, -1, 0);
+    initE7D4(&spr, RES_ID(0x5008B), 8, -1, 0);
     spr.f1C = 7;
     spr.f1D = 8;
     if (level > 6)
@@ -4179,7 +4179,7 @@ void sub_0806E7D4(struct ArgE7D4 *arg)
 struct ArgF0CC { u32 player, bit, target, value, f10, level; };
 struct SprF0CC { u32 f0, f4, f8, fC; u8 pad10[12]; u8 f1C, f1D; u8 pad1E[22]; };
 struct PlyF0CC { u16 id; u8 pad2[PLAYER_FIELD(0x20) - 0x2]; u16 state; u8 pad22[PLAYER_FIELD(0x30) - PLAYER_FIELD(0x22)]; u32 flags; u8 pad34[PLAYER_FIELD(0x62) - PLAYER_FIELD(0x34)]; s16 maxhp; u8 pad64[PLAYER_FIELD(0x68) - PLAYER_FIELD(0x64)]; u8 team; u8 pad69[PLAYER_FIELD(0x7C) - PLAYER_FIELD(0x69)]; u8 f7C[0x10]; s32 x8C, y90; u8 pad94[PLAYER_FIELD(0xC2) - PLAYER_FIELD(0x94)]; u16 resource; u16 hp; u8 padC6[PLAYER_FIELD(0xDC) - PLAYER_FIELD(0xC6)]; u32 fDC; u8 padE0[PLAYER_FIELD(0x148) - PLAYER_FIELD(0xE0)]; u16 *sprite; };
-struct EneF0CC { u16 id; u16 f2; u8 pad4[4]; u16 dir; u8 padA[2]; u16 state; u8 padE[6]; s32 x, y; u8 pad1C[0x40]; u16 hp; u16 resource; u8 pad60[10]; u16 wait; u8 pad6C[0x16A]; s16 maxhp; u8 pad1D8[4]; u8 team; u8 pad1DD[0x3B]; u8 f218[0x13]; u8 threshold; u8 pad22C[0xB4]; };
+struct EneF0CC { u16 id; u16 f2; u8 pad4[4]; u16 dir; u8 padA[2]; u16 state; u8 padE[6]; s32 x, y; u8 pad1C[0x40]; u16 hp; u16 resource; u8 pad60[10]; u16 wait; u8 pad6C[0x16A]; s16 maxhp; u8 pad1D8[4]; u8 team; u8 pad1DD[ENEMY_FIELD(0x218) - 0x1DD]; u8 f218[0x13]; u8 threshold; u8 pad22C[ENEMY_SIZE - ENEMY_FIELD(0x22C)]; };
 struct OffF0CC { s16 x, y; };
 struct PosF0CC { s32 x, y; };
 extern struct PlyF0CC pF0CC[] asm("gUnk_03003CE0");
@@ -4276,7 +4276,7 @@ void sub_0806F0CC(struct ArgF0CC *arg)
     if (player <= 3) {
         p = &pF0CC[player];
     } else {
-        e = (struct EneF0CC *)(eF0CCBase + (player * ENEMY_SIZE + 0xFFFFF480));
+        e = (struct EneF0CC *)(eF0CCBase + (player * ENEMY_SIZE - 4 * ENEMY_SIZE));
         while (e->wait < e->threshold) {
             if (sub_08056E90() != 0 || sub_0800BA6C() == 0 || e->state == 10 || e->state == 11) {
                 fF0CC[player] &= ~(1 << bit);
@@ -4375,7 +4375,7 @@ void sub_0806F0CC(struct ArgF0CC *arg)
     }
     x += sinF0CC[(s16)angle + 0x40] * 4;
     y += sinF0CC[(s16)angle] * 4;
-    initF0CC(&spr, 0x500D0, 8, -1, 0);
+    initF0CC(&spr, RES_ID(0x500D0), 8, -1, 0);
     spr.f1C = 7;
     spr.f1D = 8;
     frame = 0;
@@ -5782,7 +5782,7 @@ void sub_08072390(struct T39Arg *arg0) {
             }
         }
     }
-    t39Init(&desc, 0x5008D, 8, -1, 0);
+    t39Init(&desc, RES_ID(0x5008D), 8, -1, 0);
     desc.f1C = 7;
     desc.f1D = 8;
     if ((myId == owner || owner > 3) && sub_0800CCCC() == 0 && sub_0800CD34() == 0)
