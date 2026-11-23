@@ -1819,6 +1819,18 @@ void sub_080B6448(u32 a, u32 b)
 }
 /* [FlagFourActorEntries] ORs bit 0 into halfword +0x7A of actor-array entries 1 through 4 at stride 0x2E0;
  * does not test the connected-entry mask. */
+#ifdef REGION_USA
+void sub_080B64A4(void)
+{
+    register void *volatile *base asm("r5");
+    u8 i;
+    asm("" : : : "r4", "r6");
+    i = 1;
+    base = &gUnk_030056F4;
+    for (i = 1; i <= 4; i++)
+        *(u16 *)((u8 *)*base + i * ENEMY_SIZE + 0x7A) |= 1;
+}
+#else
 void sub_080B64A4(void)
 {
     register void *volatile *base asm("r4");
@@ -1829,3 +1841,4 @@ void sub_080B64A4(void)
     for (i = 1; i <= 4; i++)
         *(u16 *)((u8 *)*base + i * ENEMY_SIZE + 0x7A) |= 1;
 }
+#endif
