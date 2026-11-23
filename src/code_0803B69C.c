@@ -1442,7 +1442,11 @@ void sub_0803E638(void) {
     s32 out[4];
     u8 *setPointerE638;
     u8 *setResultE638;
+#ifdef REGION_USA
+    register u32 setKeyE638 asm("r1");
+#else
     register u32 setKeyE638 asm("r2");
+#endif
     u32 setValueE638;
     u32 setIndexE638;
 
