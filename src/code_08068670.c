@@ -650,7 +650,7 @@ nextEnemyPlayer:
     return (s32) hitFlags;
 }
 struct Attack69 {u32 attacker,unk4,unk8,kind,power,level;};
-struct AttackPlayer69 {u8 pad0[0x3C];s16 value;u8 pad3E[0x14C-0x3E];};
+struct AttackPlayer69 {u8 pad0[PLAYER_FIELD(0x3C)];s16 value;u8 pad3E[PLAYER_SIZE-PLAYER_FIELD(0x3E)];};
 struct AttackTable69 {s16 power;u16 effect;u8 pad4[20];};
 extern struct AttackPlayer69 attackPlayers69[] asm("gUnk_03003CE0");
 extern u8 *attackEnemies69 asm("gUnk_030056F4");
