@@ -3828,7 +3828,11 @@ void t36AScript(u32 input) {
     s32 var_r4;
     struct Player *temp_r1;
     u32 temp_r2;
+#ifdef REGION_USA
+    register u32 actorKey asm("r1");
+#else
     u32 actorKey;
+#endif
     u32 temp_r4;
     u32 temp_r4_2;
     u32 temp_r4_3;
