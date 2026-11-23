@@ -826,7 +826,7 @@ void sub_08060DB0(s32 index)
     sub_08000274(&tasks63[index], index);
 }
 struct HudSlotE63 { u16 kind; u16 id; u8 pad4[0xC]; };
-struct HudMgrE63 { u8 pad0[0x54]; u16 sel; u16 list[0x7D]; struct HudSlotE63 bag[25]; };
+struct HudMgrE63 { u8 pad0[SAVE_FIELD(0x54)]; u16 sel; u16 list[0x7D]; struct HudSlotE63 bag[25]; };
 extern struct HudMgrE63 *hudMgrE63 asm("gUnk_030034E0");
 extern u16 hudFrameE63[4][8] asm("gUnk_084EBDC8");
 extern struct HudPos63 hudPosE63[] asm("gUnk_084EBE08");
