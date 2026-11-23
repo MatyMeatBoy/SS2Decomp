@@ -1274,7 +1274,11 @@ void sub_080169C8(void) {
         task = (u8 *)&gUnk_03004220 + taskOffset;
         if (sub_08000470((u32)task) != 0) {
             sub_080003A8((s32)task);
+#ifdef REGION_USA
+            { u8 *base = gP030056F4; u32 off = i * ENEMY_SIZE; object = (u8 *)(off + (u32)base); }
+#else
             object = (u8 *)(objectOffset + (u32)gP030056F4);
+#endif
             *(u16 *)(object + 0x5C) = 0;
             *(u16 *)(object + 0xC) = 11;
             sound169C8(object[0x86], object[0x84], 3);
