@@ -2808,7 +2808,7 @@ struct Obj441 { s32 f0, f4, f8, fC, f10, f14, f18; u8 data[16]; };
 struct Pop441 { s32 base, unk4, data, sound, resource, style, mode; u8 palette[24]; };
 struct Res441 { u32 b0:8; u32 b1:8; u32 b2:8; s32 b3:8; u16 h4; u16 h6; };
 struct Ene441 { u16 h0; u16 h2; u8 pad4[8]; u16 hC; u8 padE[0x3C]; u16 h4A; u32 w4C; u8 pad50[8]; u16 h58; u16 h5A; u8 pad5C[6]; u16 h62; u8 pad64[0x18]; u16 h7C; u16 h7E;
-    u8 pad80[0x14E]; s16 h1CE; u8 pad1D0[0xC]; u8 b1DC; u8 pad1DD[0x3B]; u8 b218[0xE]; u8 b226; };
+    u8 pad80[0x14E]; s16 h1CE; u8 pad1D0[0xC]; u8 b1DC; u8 pad1DD[ENEMY_FIELD(0x218) - 0x1DD]; u8 b218[0xE]; u8 b226; };
 struct Tbl441 { u16 a; u16 b; };
 extern struct PL441 pl441[] asm("gUnk_03003CE0");
 extern struct PE441 pe441[] asm("gUnk_03003E28");
@@ -2984,7 +2984,7 @@ void BattleResult441(u16 *arg0, u32 arg1)
         ts441.scrollY = sy;
         sub_0805F07C();
         f441_sub_08000AF0(obj441.f14 + 0x10, obj441.fC + (obj441.f14 << 5), obj441.f18);
-        init441(&obj, 0x5008C, 0, -1);
+        init441(&obj, RES_ID(0x5008C), 0, -1);
         f441_sub_08000AF0(0x17, obj.sound, 2);
         f441_sub_0801A6D4(0);
         f441_sub_0801A664(0, 0x14);
