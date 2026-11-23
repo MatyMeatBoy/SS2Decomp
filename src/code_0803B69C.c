@@ -3210,7 +3210,11 @@ void sub_08041030(s32 arg0, s32 arg1) {
     register void (*cbInit)(void) asm("r5");
     s32 *var_r0;
     register void (*cbFinal)(void) asm("r4");
+#ifdef REGION_USA
+    register s32 rawPose asm("r1");
+#else
     register s32 rawPose asm("r2");
+#endif
     u16 poseVal;
     s32 *var_r0_3;
     s32 *var_r0_5;

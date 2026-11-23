@@ -144,19 +144,25 @@ static inline u32 ask5E8(u16 id)
 static inline u8 *find5E8(u32 actor)
 {
     u8 *p;
+#ifdef REGION_USA
+    register u32 key asm("r1") = actor;
+#else
+#define key actor
+#endif
     register u32 i asm("r3");
     s32 raw = (s32)state5E8;
     u32 off = 0x7A4;
     p = (u8 *)raw + off;
     i = 0;
     do {
-        if (*(u32 *)p == actor) return p;
+        if (*(u32 *)p == key) return p;
         i++;
         p += 0x70;
     } while (i <= 14);
     sub_080003F0();
     return NULL;
 }
+#undef key
 static inline u32 count5E8(u32 type, u32 id)
 {
     u32 count = 0;
@@ -215,13 +221,20 @@ static inline void mark5E8(u32 target)
     u32 actor = target;
     u16 v;
     
+#ifdef REGION_USA
+    asm("" : "+r"(actor));
+#endif
     v = 3;
     if (target > 0x100000) {
         u8 *p = find5E8(actor);
         if (p) *(u16 *)(p + 0x42) = v;
     } else if (target != 0) {
         u32 i = target - 1;
+#ifdef REGION_USA
+        if (i <= 4) { u8 **table = (u8 **)&records5E8; u32 off = i * ENEMY_SIZE; u8 *e = *table; e += off; rec5E8(*(u16 *)(e + 2), 3); }
+#else
         if (i <= 4) { register u8 **base asm("r1") = (u8 **)&records5E8; s32 raw = i * ENEMY_SIZE; base = (u8 **)((u8 *)*base + raw); rec5E8(*(u16 *)((u8 *)base + 2), 3); }
+#endif
     } else {
         s32 raw = sub_080020F4() * PLAYER_SIZE;
         s32 v1;
@@ -239,7 +252,11 @@ static inline void mark2_5E8(u32 target)
         if (p) *(u16 *)(p + 0x42) = v;
     } else if (target != 0) {
         u32 i = target - 1;
+#ifdef REGION_USA
+        if (i <= 4) { u8 **table = (u8 **)&records5E8; u32 off = i * ENEMY_SIZE; u8 *e = *table; e += off; rec5E8(*(u16 *)(e + 2), 3); }
+#else
         if (i <= 4) { register u8 **base asm("r1") = (u8 **)&records5E8; s32 raw = i * ENEMY_SIZE; base = (u8 **)((u8 *)*base + raw); rec5E8(*(u16 *)((u8 *)base + 2), 3); }
+#endif
     } else {
         s32 raw = sub_080020F4() * PLAYER_SIZE;
         s32 v1;
