@@ -4215,7 +4215,7 @@ static inline u32 t36CTest6(u8 *p) { register s32 v asm("r0")=*p; s32 shifted; u
 static inline u32 t36CAvailable(void) { s32 v=sub_0805CFA0(); register u32 ok asm("r1")=1; if(v<0)ok=0; return ok; }
 static inline u32 t36CCount(u32 n) { return n; }
 static inline void t36CInit(struct T36CCmd *pp,u32 aa,u32 bb) { struct T36CCmd *p; register u32 a asm("r1")=aa; u32 b=bb; asm("" : "+r"(a), "+r"(b)); p=pp;  p->unk0=a; p->unk2=b; }
-static inline u8 *t36CInvBase(u8 *base) { register u8 *p asm("r0")=base; u32 off;  off=0xC10; return p+off; }
+static inline u8 *t36CInvBase(u8 *base) { register u8 *p asm("r0")=base; u32 off;  off=SAVE_FIELD(0xC10); return p+off; }
 /* [HandleFullMarkerSetReward] Sets player flag1 and faces entity; tests145 saved marker bytes, mode-selected
  * completion bits and local player index. Host with all markers and no completion bit shows113 then, if
  * capacity helper succeeds, attempts inventory insertion of descriptor6:0x1E, requests callback5990C(0x26),

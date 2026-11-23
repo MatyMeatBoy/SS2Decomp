@@ -4366,7 +4366,7 @@ static inline void bind53E(void (*cb)(s32), s16 mask, s16 slot)
     if ((gUnk_030056FC & m) == 0) {
         do { sub_080003F0(); } while ((gUnk_030056FC & mask) == 0);
     }
-    e = gP030056F4 + i * 0x2E0;
+    e = gP030056F4 + i * ENEMY_SIZE;
     *(void (**)(s32))(e + 0x38) = f;
     *(u32 *)(e + 0x3C) = m;
     *(u32 *)(e + 0x30) = 0;
