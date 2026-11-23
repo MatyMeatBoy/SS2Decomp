@@ -301,6 +301,15 @@ def relocated_fragments(region, fragments, selected, target_rom, eu_symbols, var
         assembly = re.sub(r'(?<![\w.$])(' + IDENTIFIER + r')',
                           lambda match: prefix + match[1] if match[1] in renamed else match[1],
                           fragment.assembly)
+        # Thumb PC-relative loads cannot reach an external symbol; pin those labels (pool words the
+        # assembler resolved inside the EU object) relative to the start of the layout section.
+        pinned = set(re.findall(r'^\s*(?:ldr\s+\w+,|adr\s+\w+,)\s*(' + re.escape(prefix) + IDENTIFIER + r')\b',
+                                assembly, re.M))
+        pinned &= {prefix + name for name in renamed - {fragment.name}}
+        for name in sorted(pinned):
+            local = '.Lpin_' + name
+            assembly = re.sub(r'(?<![\w.$])' + re.escape(name) + r'(?![\w$])', local, assembly)
+            assembly = '.set %s, __region_rom_start + 0x%X\n' % (local, symbols[name] - ROM_BASE) + assembly
         called |= set(re.findall(r'^\s*bl\s+(' + IDENTIFIER + r')\s*$', assembly, re.M))
         offset = address - ROM_BASE
         result.append(Fragment(prefix + fragment.name, address,

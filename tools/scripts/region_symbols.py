@@ -121,18 +121,28 @@ def resolve(fragment, relocations, symbols, eu_rom, target_rom, address):
             target = bl_target(target_rom, address + offset)
             if eu_target is None or target is None:
                 return None
-            needs[name].add((target - (eu_target - (symbols[name] & ~1))) | (symbols[name] & 1))
+            needs[name].add((target - (eu_target - (symbols[name] & ~1))) | 1)  # ARMv4T BL only reaches Thumb
         else:
             return None
+    # References the assembler resolved inside the EU object (pool labels, branches into a
+    # neighbouring asm block) are PC-relative: matching bytes pin them to the same shift.
+    for name in internal_references(fragment, relocations, symbols):
+        needs[name].add((symbols[name] + address - fragment.address) & 0xFFFFFFFF)
     return needs
 
 
-def self_contained(fragment, relocations, symbols):
-    """Only symbols reached through relocations can be remapped; a reference the assembler resolved
-    inside the EU object (e.g. a pool label of a neighbouring asm block) cannot be moved."""
+def internal_references(fragment, relocations, symbols):
+    """Symbols the fragment reaches without a relocation (the assembler resolved them inside the EU
+    object, e.g. a pool label of a neighbouring asm block)."""
     tokens = set(re.findall(r'(?<![\w.$])' + region_build.IDENTIFIER, fragment.assembly))
     allowed = {fragment.name} | {name for _, _, name in relocations if name}
-    return not (tokens & set(symbols)) - allowed
+    return (tokens & set(symbols)) - allowed
+
+
+def self_contained(fragment, relocations, symbols):
+    """Fragments with internal references are placeable: resolve() pins those symbols to the
+    fragment's own shift, and the conflict check rejects placements that disagree."""
+    return True
 
 
 def derive(rom, region):
