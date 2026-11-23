@@ -3797,7 +3797,7 @@ static inline u32 t36ALock(u32 idx) {
 static inline u32 t36AMask(u32 *p) { register u32 m asm("r1")=0x100000;  return *p & m; }
 static inline void t36ASet80(void) { register u32 *p asm("r1")=(u32 *)(t36AState+0x80); u32 m=0x100000;  *p |= m; }
 static inline void t36ASet78(void) { u8 *p=t36AState; u32 m=0x100000;  *(u32 *)(p+0x78) |= m; }
-static inline void t36APose(u32 idx, u32 value) { u32 scaled=idx*PLAYER_SIZE; u8 *p; u32 off;  p=(u8 *)gUnk_03003CE0+scaled;  off=0x11E;  *(u16 *)(p+off)=value; }
+static inline void t36APose(u32 idx, u32 value) { u32 scaled=idx*PLAYER_SIZE; u8 *p; u32 off;  p=(u8 *)gUnk_03003CE0+scaled;  off=PLAYER_FIELD(0x11E);  *(u16 *)(p+off)=value; }
 static inline void t36AOtherPose(u32 idx) { u8 **pp=&t36AOther; u32 off; u8 *p;  off=idx*ENEMY_SIZE;  p=*pp; p=p+off;  sub_08019EB8(*(u16 *)(p+2), 3); }
 static inline u32 t36ACount(u32 n) { return n; }
 static inline void t36AEmitMany(struct T36ACmd *p,u32 n) { u32 i=0; do { t36AEmit(p); i++; } while (i<n); }
@@ -3881,7 +3881,7 @@ set78:
         }
         var_r3 = 0;
         var_r2 = 0;
-        var_r1 = (struct T36AItem *)(t36AInventory + 0x150);
+        var_r1 = (struct T36AItem *)(t36AInventory + SAVE_FIELD(0x150));
         do {
             if ((t36AHalf(&var_r1->unk0) == 1) && (var_r1->unk2 == 0x2D)) {
                 var_r3 += 1;
@@ -3931,7 +3931,7 @@ actor_done:
             zero = 0;
 loop_57:
             temp_r1_2 = t36AItemAddr(*inventory, var_r3_3);
-            if (((*(u16 *)(temp_r1_2 + 0x150)) != 1) || ((*(u16 *)(temp_r1_2 + 0x152)) != 0x2D) || (var_r4 -= 1, (*(u16 *)(temp_r1_2 + 0x150)) = zero, (*(u16 *)(temp_r1_2 + 0x152)) = zero, (var_r4 != 0))) {
+            if (((*(u16 *)(temp_r1_2 + SAVE_FIELD(0x150))) != 1) || ((*(u16 *)(temp_r1_2 + SAVE_FIELD(0x152))) != 0x2D) || (var_r4 -= 1, (*(u16 *)(temp_r1_2 + SAVE_FIELD(0x150))) = zero, (*(u16 *)(temp_r1_2 + SAVE_FIELD(0x152))) = zero, (var_r4 != 0))) {
                 var_r3_3 += 1;
                 if (var_r3_3 <= 0x18U) {
                     goto loop_57;
@@ -5352,7 +5352,11 @@ static inline u8 *t38_findAE6C(u32 arg) {
 }
 static inline void t38_setAE6C(u32 arg) {
     u32 value;
+#ifdef REGION_USA
+    register u32 key asm("r1")=arg;
+#else
     register u32 key asm("r2")=arg;
+#endif
     u8 *p;
     u32 idx;
     value=3;
@@ -5364,7 +5368,7 @@ static inline void t38_setAE6C(u32 arg) {
         idx=arg-1;
         if(idx<5) {address=(u8 **)&gUnk_030056F4;off=idx*ENEMY_SIZE;entry=*address;entry+=off;sub_08019EB8(*(u16 *)(entry+2),3);}
     }
-    else {register u32 off asm("r0");off=sub_080020F4()*PLAYER_SIZE;p=(u8 *)gUnk_03003CE0+off;*(u16 *)(p+0x11E)=value;}
+    else {register u32 off asm("r0");off=sub_080020F4()*PLAYER_SIZE;p=(u8 *)gUnk_03003CE0+off;*(u16 *)(p+PLAYER_FIELD(0x11E))=value;}
 }
 static inline u32 t38_getFirstAE6C(u32 mask) {
     u8 *base;
@@ -5393,7 +5397,7 @@ void sub_0803AE6C(u32 arg0) {
 
     {register u32 off asm("r1");u32 bits;u8 *base;
     off=PLAYER_SIZE * sub_080020F4();base=(u8 *)gUnk_03003CE0;temp_r1=(u8 *)off;temp_r1+= (u32)base;
-    bits=*(u32 *)(temp_r1+0x30);one=1;bits|=one;*(u32 *)(temp_r1+0x30)=bits;}
+    bits=*(u32 *)(temp_r1+PLAYER_FIELD(0x30));one=1;bits|=one;*(u32 *)(temp_r1+PLAYER_FIELD(0x30))=bits;}
     sub_0800D0F4();
     var_r4=t38_getFirstAE6C(one);
     var_r0=t38_getAE6C(0x100);
@@ -5452,7 +5456,7 @@ void sub_0803AE6C(u32 arg0) {
     endOffset = sub_080020F4();
     endOffset *= PLAYER_SIZE;
     temp_r2_2 = (u8 *)gUnk_03003CE0 + endOffset;
-    (*(u32 *)(temp_r2_2 + 0x30)) = (s32) ((*(u32 *)(temp_r2_2 + 0x30)) & ~1);
+    (*(u32 *)(temp_r2_2 + PLAYER_FIELD(0x30))) = (s32) ((*(u32 *)(temp_r2_2 + PLAYER_FIELD(0x30))) & ~1);
     sub_0800D108();
 }
 /* [ShowProgressionDialogue321] Locks input and selects cancellable message0x14014C when progression

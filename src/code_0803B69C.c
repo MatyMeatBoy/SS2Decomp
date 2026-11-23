@@ -1512,10 +1512,10 @@ void sub_0803E638(void) {
     u8 *temp_r2;
     u8 *var_r1_3;
 
-    initZero=0;*(u16 *)(gConfigE638+0x68)=initZero;
+    initZero=0;*(u16 *)(gConfigE638+PLAYER_FIELD(0x68))=initZero;
     sub_0805AD78(0);
     offset=sub_080020F4();offset*=PLAYER_SIZE;temp_r2=(u8 *)gUnk_03003CE0+offset;
-    *(u32 *)(temp_r2+0x30) = (s32) (*(u32 *)(temp_r2+0x30) | 1);
+    *(u32 *)(temp_r2+PLAYER_FIELD(0x30)) = (s32) (*(u32 *)(temp_r2+PLAYER_FIELD(0x30)) | 1);
     sub_0800D0F4();
     sub_0800CF90();
     var_r4 = 1;
@@ -1541,7 +1541,7 @@ void sub_0803E638(void) {
     case 2:sub_08028AAC(0,0x24,0x14A,0);sub_080290E4(0,6);break;
     case 3:sub_08028AAC(0,0x2F,0x141,0);sub_080290E4(0,6);break;
     }
-    playerOffset=sub_080020F4();playerBase=(u8 *)gUnk_03003CE0;offset=PLAYER_SIZE;playerOffset*=offset;playerBase+=0x90;playerOffset+=(u32)playerBase;
+    playerOffset=sub_080020F4();playerBase=(u8 *)gUnk_03003CE0;offset=PLAYER_SIZE;playerOffset*=offset;playerBase+=PLAYER_FIELD(0x90);playerOffset+=(u32)playerBase;
     temp_r0_3=(*(s32 *)playerOffset>>8)-0x93;
     sp1C = temp_r0_3;
     temp_r0_3=-temp_r0_3;
@@ -1705,7 +1705,7 @@ setReadyE638:
         register u32 offE638 asm("r0");
         offE638=sub_080020F4()*PLAYER_SIZE;
         setResultE638=(u8 *)gUnk_03003CE0+offE638;
-        *(u16 *)(setResultE638+0x11E)=setValueE638;
+        *(u16 *)(setResultE638+PLAYER_FIELD(0x11E))=setValueE638;
     }
     sub_0802939C(temp_r0, 0x11);
     sub_08028D98(temp_r0, 0x24, 0, 4);

@@ -4454,7 +4454,7 @@ static inline void t49_stateBC38(u32 actor)
         players=(u8 *)gUnk_03003CE0;
         index+=(u32)players;
         player=(u8 *)index;
-        offset=0x11E;
+        offset=PLAYER_FIELD(0x11E);
         player+=offset;
         *(u16 *)player=state;
     }
