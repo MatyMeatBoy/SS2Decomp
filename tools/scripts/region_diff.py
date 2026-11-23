@@ -69,6 +69,18 @@ def guesses(fragment, eu, placed, keys, relocs=None, target_rom=None, radius=0x1
             if not address & 1 and address not in result and address not in extra:
                 extra.append(address)
             position = target_rom.find(needle, position + 2, high)
+    # Neighbours may be shifted differently (a regional block moved): also try every place in the
+    # whole ROM where one of the longest unrelocated runs recurs.
+    for start, end in sorted(segments, key=lambda seg: seg[0] - seg[1])[:3]:
+        needle = fragment.data[start:min(end, start + 16)]
+        if len(needle) < 8:
+            continue
+        position, count = target_rom.find(needle), 0
+        while position >= 0 and count < 20:
+            address = position - start + region_build.ROM_BASE
+            if not address & 1 and address not in result and address not in extra:
+                extra.append(address)
+            position, count = target_rom.find(needle, position + 2), count + 1
     return result + extra
 
 
