@@ -120,6 +120,25 @@ u32 sub_0805D278(void *state) {
  * requires the class permission bit in record halfword +0xA2 indexed by the low byte of 1DE60, then requires
  * record byte +0xA1 not exceed signed local-player halfword +0x38. Returns 1 only when all tests pass. The
  * player field is not renamed as an unrelated stat. */
+#ifdef REGION_USA
+/* USA glove records (archive E) keep the class bits at +0x182 and a halfword level at +0x180. */
+u32 sub_0805D2E0(void *state) {
+    u8 *resource;
+    s32 offset;
+    register struct Player61 *player asm("r0");
+    if(state!=0 && *(u16 *)state==5 && M2C_FIELD(state,u8 *,8)==0) {
+        resource=(u8 *)sub_08007290(M2C_FIELD(state,u16 *,2)|0xE0000);
+        if((*(u16 *)(resource+0x182)>>sub_0801DE60())&1) {
+            offset=sizeof(struct Player61)*sub_080020F4();
+            asm volatile("" : "+r" (offset));
+            player=(void *)((u8 *)gParty61+offset);
+            
+            if(*(u16 *)(resource+0x180)<=player->limit) return 1;
+        }
+    }
+    return 0;
+}
+#else
 u32 sub_0805D2E0(void *arg0) {
     s32 temp_r4;
     s32 player;
@@ -141,6 +160,7 @@ u32 sub_0805D2E0(void *arg0) {
     }
     return 0U;
 }
+#endif
 /* [HasNonfullBagCurrencyStack] Returns 1 if any of the 25 bag records is kind 10 with unsigned count at most
  * 99999; otherwise 0. It does not accept an empty bag slot as a substitute and does not check stash stacks. */
 u32 sub_0805D348(void)
