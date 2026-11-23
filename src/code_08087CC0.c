@@ -1268,7 +1268,7 @@ s32 sub_08089AE4(u8 *table)
         {u8 *p;offset+=(u32)base;p=(u8 *)offset;*(struct Pos9AE491 *)(p+0x94)=*(struct Pos9AE491 *)(p+0x8C);}
 #endif
         sub_0800CCDC();
-        {u32 *flags;s32 index=myId;index*=stride;base+=0x30;index+=(u32)base;flags=(u32 *)index;*flags &= 0x2000;}}
+        {u32 *flags;s32 index=myId;index*=stride;base+=PLAYER_FIELD(0x30);index+=(u32)base;flags=(u32 *)index;*flags &= 0x2000;}}
         sub_08067D74();
         sub_08009930(0, 6);
         while (sub_0800BA6C() == 0)
@@ -1344,7 +1344,7 @@ s32 sub_08089CA0(u8 *table)
         px=base+0x90;px=(u8 *)((u32)offset+(u32)px);*(u32 *)px=(u32)position[1]<<8;
         {u8 *p;struct Pos9CA091 *dest;offset+=(u32)base;p=(u8 *)offset;dest=(struct Pos9CA091 *)(p+0x94);*dest=*(struct Pos9CA091 *)(p+0x8C);}
 #endif
-        {u32 *flags;s32 index=myId;index*=stride;base+=0x30;index+=(u32)base;flags=(u32 *)index;*flags &= 0x2000;}}
+        {u32 *flags;s32 index=myId;index*=stride;base+=PLAYER_FIELD(0x30);index+=(u32)base;flags=(u32 *)index;*flags &= 0x2000;}}
         sub_08067D74();
         sub_08009930(0, 0xD);
         while (sub_0800BA6C() == 0)
