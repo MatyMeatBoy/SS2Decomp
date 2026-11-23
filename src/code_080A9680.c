@@ -1657,7 +1657,7 @@ void sub_080AC214(s32 arg0)
 
 
 
-struct P1132 { u8 pad0[0x20]; u16 unk20; u8 pad22[14]; u32 flags; u8 pad34[0x34]; u8 unk68; u8 pad69[0x1f]; u16 unk88; u8 pad8a[2]; s32 unk8C,unk90; u8 pad94[0x1c]; u16 unkB0; u8 padb2[0x16]; u16 unkC8,unkCA,unkCC; u8 padce[0x16]; u32 unkE4[0x1a]; };
+struct P1132 { u8 pad0[PLAYER_FIELD(0x20)]; u16 unk20; u8 pad22[PLAYER_FIELD(0x30) - PLAYER_FIELD(0x22)]; u32 flags; u8 pad34[0x34]; u8 unk68; u8 pad69[0x1f]; u16 unk88; u8 pad8a[2]; s32 unk8C,unk90; u8 pad94[0x1c]; u16 unkB0; u8 padb2[0x16]; u16 unkC8,unkCA,unkCC; u8 padce[0x16]; u32 unkE4[0x1a]; };
 struct O1132 { u16 unk0; u8 pad2[10]; u16 unkC; u8 pade[6]; s32 unk14,unk18; u8 pad1c[0x34]; s32 unk50; };
 extern struct P1132 players1132[] asm("gUnk_03003CE0");
 extern struct O1132 *obj1132 asm("gUnk_03000434");
@@ -1726,7 +1726,7 @@ s32 sub_080AC2E8(u8 arg0) {
     initialBase = players1132;
     initialStride = PLAYER_SIZE;
     indexWord = idx * initialStride;
-    angle = (u32)initialBase + 0x8C;
+    angle = (u32)initialBase + PLAYER_FIELD(0x8C);
     
     indexWord += angle;
     
