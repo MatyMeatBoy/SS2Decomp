@@ -4654,14 +4654,14 @@ void sub_08038D18(u32 arg){
  while(sub_0805F184())sub_080003F0();while(sub_0805EF90())sub_080003F0();
  dialog=sub_0805DF38(1,15,2,0,-1,0x14022C);
  while(!sub_0805EEFC((void *)dialog)){if(sub_0800CDF8()){sub_0805EFBC();break;}sub_080003F0();}
- count=0;i=0;{u8 *v;v=items38D18;one=0x150;item=v+one;}
+ count=0;i=0;{u8 *v;v=items38D18;one=SAVE_FIELD(0x150);item=v+one;}
  do{if(*(u16 *)item==1 && *(u16 *)(item+2)==0x2A)count++;item+=16;i++;}while(i<=24);
  if(count<=0)goto done;
  if(sub_080020F4())goto other;
  actor=arg;flag=3;
  if(actor>0x100000){found=find38D18(actor);if(found)*(u16 *)(found+0x42)=flag;}
  else if(arg){actor=arg-1;if(actor<=4){register u8 **base asm("r1")=(u8 **)&gUnk_030056F4;raw=actor*ENEMY_SIZE;base=(u8 **)((u8 *)*base+raw);sub_08019EB8(*(u16 *)((u8 *)base+2),3);}}
- else{raw=sub_080020F4()*PLAYER_SIZE;{register u8 *base asm("r1")=(u8 *)gUnk_03003CE0;raw+=(s32)base;off1=0x11E;raw+=off1;*(u16 *)raw=flag;}}
+ else{raw=sub_080020F4()*PLAYER_SIZE;{register u8 *base asm("r1")=(u8 *)gUnk_03003CE0;raw+=(s32)base;off1=PLAYER_FIELD(0x11E);raw+=off1;*(u16 *)raw=flag;}}
  data=cmd.data;
  while(sub_0805F184())sub_080003F0();while(sub_0805EF90())sub_080003F0();
  dialog=sub_0805DF38(1,15,2,0,-1,0x14022D);
@@ -4669,9 +4669,9 @@ void sub_08038D18(u32 arg){
  left=1;j=0;inventory=&items38D18;zero=0;
  do{
  u8 *slot;register u8 *v asm("r0");u32 k;u16 *kind;
- v=*inventory;slot=v+j*16;k=0x150;kind=(u16 *)(slot+k);
+ v=*inventory;slot=v+j*16;k=SAVE_FIELD(0x150);kind=(u16 *)(slot+k);
  if(*kind!=1)goto next;
- {u16 *value;k=0x152;value=(u16 *)(slot+k);if(*value!=0x2A)goto next;left--;*kind=zero;*value=zero;if(!left)goto removed;}
+ {u16 *value;k=SAVE_FIELD(0x152);value=(u16 *)(slot+k);if(*value!=0x2A)goto next;left--;*kind=zero;*value=zero;if(!left)goto removed;}
 next:j++;
  }while(j<=24);
 removed:
@@ -4763,14 +4763,14 @@ enabled:
  while(sub_0805F184())sub_080003F0();while(sub_0805EF90())sub_080003F0();
  dialog=sub_0805DF38(1,15,2,0,-1,0x140264);
  while(!sub_0805EEFC((void *)dialog)){if(sub_0800CDF8()){sub_0805EFBC();break;}sub_080003F0();}
- count=0;i=0;{u8 *v;v=items392B4;one=0x150;item=v+one;}
+ count=0;i=0;{u8 *v;v=items392B4;one=SAVE_FIELD(0x150);item=v+one;}
  do{if(*(u16 *)item==1 && *(u16 *)(item+2)==0x2F)count++;item+=16;i++;}while(i<=24);
  if(count<=0)goto done;
  if(sub_080020F4())goto other;
  actor=arg;flag=3;
  if(actor>0x100000){found=find392B4(actor);if(found)*(u16 *)(found+0x42)=flag;}
  else if(arg){actor=arg-1;if(actor<=4){register u8 **base asm("r1")=(u8 **)&gUnk_030056F4;raw=actor*ENEMY_SIZE;base=(u8 **)((u8 *)*base+raw);sub_08019EB8(*(u16 *)((u8 *)base+2),3);}}
- else{raw=sub_080020F4()*PLAYER_SIZE;{register u8 *base asm("r1")=(u8 *)gUnk_03003CE0;raw+=(s32)base;off1=0x11E;raw+=off1;*(u16 *)raw=flag;}}
+ else{raw=sub_080020F4()*PLAYER_SIZE;{register u8 *base asm("r1")=(u8 *)gUnk_03003CE0;raw+=(s32)base;off1=PLAYER_FIELD(0x11E);raw+=off1;*(u16 *)raw=flag;}}
 
  while(sub_0805F184())sub_080003F0();dialog=sub_0805DF38(1,15,2,0,-2,0x140265);
  while(!sub_0805EEFC((void *)dialog))sub_080003F0();flag=sub_0805EF14((u8 *)dialog);if(!flag)goto rejected;
@@ -4781,9 +4781,9 @@ enabled:
 inventoryFirst=&items392B4;zero=0;
  do{
  u8 *slot;register u8 *v asm("r0");u32 k;u16 *kind;
- v=*inventoryFirst;slot=v+j*16;k=0x150;kind=(u16 *)(slot+k);
+ v=*inventoryFirst;slot=v+j*16;k=SAVE_FIELD(0x150);kind=(u16 *)(slot+k);
  if(*kind!=1)goto next;
- {u16 *value;k=0x152;value=(u16 *)(slot+k);if(*value!=0x2F)goto next;left--;*kind=zero;*value=zero;if(!left)goto removed;}
+ {u16 *value;k=SAVE_FIELD(0x152);value=(u16 *)(slot+k);if(*value!=0x2F)goto next;left--;*kind=zero;*value=zero;if(!left)goto removed;}
 next:j++;
  }while(j<=24);
 removed: sub_08068070(callback,4);goto done;
@@ -4796,9 +4796,9 @@ rejected:
  left=1;j=0;inventory=&items392B4;zero=0;
  do{
  u8 *slot;register u8 *v asm("r0");u32 k;u16 *kind;
- v=*inventory;slot=v+j*16;k=0x150;kind=(u16 *)(slot+k);
+ v=*inventory;slot=v+j*16;k=SAVE_FIELD(0x150);kind=(u16 *)(slot+k);
  if(*kind!=1)goto nextA;
- {u16 *value;k=0x152;value=(u16 *)(slot+k);if(*value!=0x2F)goto nextA;left--;*kind=zero;*value=zero;if(!left)goto removedA;}
+ {u16 *value;k=SAVE_FIELD(0x152);value=(u16 *)(slot+k);if(*value!=0x2F)goto nextA;left--;*kind=zero;*value=zero;if(!left)goto removedA;}
 nextA:j++;
  }while(j<=24);
 removedA: value=3000;sends=0;out=data;kind=10;
@@ -4812,9 +4812,9 @@ modeB:
  left=1;j=0;inventory=&items392B4;zero=0;
  do{
  u8 *slot;register u8 *v asm("r0");u32 k;u16 *kind;
- v=*inventory;slot=v+j*16;k=0x150;kind=(u16 *)(slot+k);
+ v=*inventory;slot=v+j*16;k=SAVE_FIELD(0x150);kind=(u16 *)(slot+k);
  if(*kind!=1)goto nextB;
- {u16 *value;k=0x152;value=(u16 *)(slot+k);if(*value!=0x2F)goto nextB;left--;*kind=zero;*value=zero;if(!left)goto removedB;}
+ {u16 *value;k=SAVE_FIELD(0x152);value=(u16 *)(slot+k);if(*value!=0x2F)goto nextB;left--;*kind=zero;*value=zero;if(!left)goto removedB;}
 nextB:j++;
  }while(j<=24);
 removedB: value=10000;sends=0;out=data;kind=10;

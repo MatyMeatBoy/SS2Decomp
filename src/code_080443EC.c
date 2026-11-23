@@ -225,7 +225,7 @@ static inline void mark5E8(u32 target)
     } else {
         s32 raw = sub_080020F4() * PLAYER_SIZE;
         s32 v1;
-        { u8 *base = (u8 *)players5E8; raw += (s32)base; v1 = 0x11E; raw += v1; *(u16 *)raw = v; }
+        { u8 *base = (u8 *)players5E8; raw += (s32)base; v1 = PLAYER_FIELD(0x11E); raw += v1; *(u16 *)raw = v; }
     }
 }
 static inline void mark2_5E8(u32 target)
@@ -243,7 +243,7 @@ static inline void mark2_5E8(u32 target)
     } else {
         s32 raw = sub_080020F4() * PLAYER_SIZE;
         s32 v1;
-        { u8 *base = (u8 *)players5E8; raw += (s32)base; v1 = 0x11E; raw += v1; *(u16 *)raw = v; }
+        { u8 *base = (u8 *)players5E8; raw += (s32)base; v1 = PLAYER_FIELD(0x11E); raw += v1; *(u16 *)raw = v; }
     }
 }
 
@@ -258,7 +258,7 @@ void sub_080445E8(s32 arg0, u32 arg1)
     u32 count, i;
     s32 result;
 
-    { u8 *pl = (u8 *)players5E8 + sub_080020F4() * PLAYER_SIZE; *(u32 *)(pl + 0x30) |= 1; }
+    { u8 *pl = (u8 *)players5E8 + sub_080020F4() * PLAYER_SIZE; *(u32 *)(pl + PLAYER_FIELD(0x30)) |= 1; }
     sub_0800D0F4();
     second = sub_080020F4();
     if (second == 0)
@@ -303,7 +303,7 @@ void sub_080445E8(s32 arg0, u32 arg1)
         break;
     }
 end:
-    { u8 *pl = (u8 *)players5E8 + sub_080020F4() * PLAYER_SIZE; *(u32 *)(pl + 0x30) &= ~1; }
+    { u8 *pl = (u8 *)players5E8 + sub_080020F4() * PLAYER_SIZE; *(u32 *)(pl + PLAYER_FIELD(0x30)) &= ~1; }
     sub_0800D108();
 }
 struct Actor566045 { u32 id; u8 p4[0x14]; u16 x, y; u8 p1C[0x20]; u32 flags; u8 p40[4]; u32 callback; u8 p48[0x28]; };
@@ -888,7 +888,11 @@ static inline u32 countF4445(u32 n) { return n; }
 }
 static inline void setlvF4445(u32 id, u16 v) {
     struct Actor566045 *ap;
+#ifdef REGION_USA
+    register u32 key asm("r1") = id;
+#else
     register u32 key asm("r2") = id;
+#endif
     u32 level;
     
     level = v;
@@ -1042,7 +1046,7 @@ void sub_08046490(u32 arg0){
  u8 *data; u32 task; u8 *entity; u8 *found; u32 j; s32 left; u8 *slot; u32 actor; u8 **itemsbase; register u32 v1 asm("r1"); u32 v2; u8 *cmdaddr; u8 *dataptr; u32 off; u32 n;
  register s32 raw asm("r0"); register u32 zero asm("r5");
  s32 b2; s32 b3; s32 b4; s32 b5;register s32 bit asm("r0");u32 off4;u32 off1;register s32 savedCount asm("r6");register s32 playerIndex asm("r5");
- {u32 stride; u8 *base;struct Player *p;register u32 idx asm("r2");register s32 pos asm("r6"); idx=sub_080020F4();stride=PLAYER_SIZE;idx*=stride;base=(u8 *)gUnk_03003CE0;p=(struct Player *)(idx+(u32)base);p->flags|=1;sub_0800D0F4();raw=sub_080020F4()*stride;base+=0x8C;raw=*(s32 *)(raw+(u32)base);pos=raw>>8;if(pos>0x1CD)sub_08029174(arg,6);else sub_08029174(arg,2); }
+ {u32 stride; u8 *base;struct Player *p;register u32 idx asm("r2");register s32 pos asm("r6"); idx=sub_080020F4();stride=PLAYER_SIZE;idx*=stride;base=(u8 *)gUnk_03003CE0;p=(struct Player *)(idx+(u32)base);p->flags|=1;sub_0800D0F4();raw=sub_080020F4()*stride;base+=PLAYER_FIELD(0x8C);raw=*(s32 *)(raw+(u32)base);pos=raw>>8;if(pos>0x1CD)sub_08029174(arg,6);else sub_08029174(arg,2); }
  if(sub_0800CE30()) {raw=(s32)state46490;off1=0x1C7;selected=(u8 *)raw+off1;}else {raw=(s32)state46490;off=0x1BB;selected=(u8 *)raw+off;}
  raw=*selected;b2=raw>>2;bit=1;b2 &= bit;
  if(sub_0800CE30()) {raw=(s32)state46490;off4=0x1C7;selected=(u8 *)raw+off4;}else {raw=(s32)state46490;off1=0x1BB;selected=(u8 *)raw+off1;}
@@ -1059,19 +1063,19 @@ while(sub_0805F184())sub_080003F0();while(sub_0805EF90())sub_080003F0();task=sub
 goto finish;}
  exchange:
 while(sub_0805F184())sub_080003F0();while(sub_0805EF90())sub_080003F0();task=sub_0805DF38(1,15,2,0,-1,0x1402AA);while(!sub_0805EEFC((void *)task)){if(sub_0800CDF8()){sub_0805EFBC();break;}sub_080003F0();}
- count=0;i=0;item=(struct Item46490 *)(items46490+0x150);
+ count=0;i=0;item=(struct Item46490 *)(items46490+SAVE_FIELD(0x150));
  do {if(load46490(&item->kind)==3 && item->id==0x15)count++;item++;i++;}while(i<=24);
  savedCount=count;playerIndex=sub_080020F4();if(savedCount && !playerIndex){
  actor=arg;flag=3;if(arg>0x100000) {
  found=find46490(actor);
  if(found) *(u16 *)(found+0x42)=flag;
  } else if(arg) {actor=arg-1;if(actor<=4){u8 **base=(u8 **)&gUnk_030056F4;raw=actor*ENEMY_SIZE;base=(u8 **)((u8 *)*base+raw);sub_08019EB8(*(u16 *)((u8 *)base+2),3);}}
- else {raw=sub_080020F4()*PLAYER_SIZE;{u8 *base=(u8 *)gUnk_03003CE0;raw+=(s32)base;v1=0x11E;raw+=v1;*(u16 *)raw=flag;}}
+ else {raw=sub_080020F4()*PLAYER_SIZE;{u8 *base=(u8 *)gUnk_03003CE0;raw+=(s32)base;v1=PLAYER_FIELD(0x11E);raw+=v1;*(u16 *)raw=flag;}}
 while(sub_0805F184())sub_080003F0();task=sub_0805DF38(1,15,2,0,-2,0x1402AB);while(!sub_0805EEFC((void *)task))sub_080003F0();flag=sub_0805EF14((u8 *)task);if(flag){data=cmd.data;
 while(sub_0805F184())sub_080003F0();while(sub_0805EF90())sub_080003F0();task=sub_0805DF38(1,15,2,0,-1,0x1402AD);while(!sub_0805EEFC((void *)task)){if(sub_0800CDF8()){sub_0805EFBC();break;}sub_080003F0();}
  left=1;j=0;itemsbase=&items46490;zero=0;
  loopRemove:raw=(s32)*itemsbase;slot=(u8 *)raw+j*16;
- if(*(u16 *)(slot+0x150)!=3 || *(u16 *)(slot+0x152)!=0x15 || (left--,*(u16 *)(slot+0x150)=zero,*(u16 *)(slot+0x152)=zero,left!=0)) {j++;if(j<=24)goto loopRemove;}
+ if(*(u16 *)(slot+SAVE_FIELD(0x150))!=3 || *(u16 *)(slot+SAVE_FIELD(0x152))!=0x15 || (left--,*(u16 *)(slot+SAVE_FIELD(0x150))=zero,*(u16 *)(slot+SAVE_FIELD(0x152))=zero,left!=0)) {j++;if(j<=24)goto loopRemove;}
 
  v1=1;v2=0x1E;cmdaddr=(u8 *)&cmd;*(u16 *)cmdaddr=v1;*(u16 *)(cmdaddr+2)=v2;
  n=0;dataptr=data;v2=0;do{dataptr[n]=v2;n++;}while(n<=11);
@@ -1105,7 +1109,7 @@ void sub_080469DC(u32 arg0){
  u8 *data; u32 task; u8 *entity; u8 *found; u32 j; s32 left; u8 *slot; u32 actor; u8 **itemsbase; register u32 v1 asm("r1"); u32 v2; u8 *cmdaddr; u8 *dataptr; u32 off; u32 n;
  register s32 raw asm("r0"); register u32 zero asm("r5");
  s32 b2; s32 b3; s32 b4; s32 b5;register s32 bit asm("r0");u32 off4;u32 off1;register s32 savedCount asm("r6");register s32 playerIndex asm("r5");
- {u32 stride; u8 *base;struct Player *p;register u32 idx asm("r2");register s32 pos asm("r6"); idx=sub_080020F4();stride=PLAYER_SIZE;idx*=stride;base=(u8 *)gUnk_03003CE0;p=(struct Player *)(idx+(u32)base);p->flags|=1;sub_0800D0F4();raw=sub_080020F4()*stride;base+=0x8C;raw=*(s32 *)(raw+(u32)base);pos=raw>>8;if(pos>0x224)sub_08029174(arg,5);else sub_08029174(arg,3); }
+ {u32 stride; u8 *base;struct Player *p;register u32 idx asm("r2");register s32 pos asm("r6"); idx=sub_080020F4();stride=PLAYER_SIZE;idx*=stride;base=(u8 *)gUnk_03003CE0;p=(struct Player *)(idx+(u32)base);p->flags|=1;sub_0800D0F4();raw=sub_080020F4()*stride;base+=PLAYER_FIELD(0x8C);raw=*(s32 *)(raw+(u32)base);pos=raw>>8;if(pos>0x224)sub_08029174(arg,5);else sub_08029174(arg,3); }
  if(sub_0800CE30()) {raw=(s32)state469DC;off1=0x1C7;selected=(u8 *)raw+off1;}else {raw=(s32)state469DC;off=0x1BB;selected=(u8 *)raw+off;}
  raw=*selected;b2=raw>>2;bit=1;b2 &= bit;
  if(sub_0800CE30()) {raw=(s32)state469DC;off4=0x1C7;selected=(u8 *)raw+off4;}else {raw=(s32)state469DC;off1=0x1BB;selected=(u8 *)raw+off1;}
@@ -1122,19 +1126,19 @@ while(sub_0805F184())sub_080003F0();while(sub_0805EF90())sub_080003F0();task=sub
 goto finish;}
  exchange:
 while(sub_0805F184())sub_080003F0();while(sub_0805EF90())sub_080003F0();task=sub_0805DF38(1,15,2,0,-1,0x1402B3);while(!sub_0805EEFC((void *)task)){if(sub_0800CDF8()){sub_0805EFBC();break;}sub_080003F0();}
- count=0;i=0;item=(struct Item469DC *)(items469DC+0x150);
+ count=0;i=0;item=(struct Item469DC *)(items469DC+SAVE_FIELD(0x150));
  do {if(load469DC(&item->kind)==4 && item->id==3)count++;item++;i++;}while(i<=24);
  savedCount=count;playerIndex=sub_080020F4();if(savedCount && !playerIndex){
  actor=arg;flag=3;if(arg>0x100000) {
  found=find469DC(actor);
  if(found) *(u16 *)(found+0x42)=flag;
  } else if(arg) {actor=arg-1;if(actor<=4){u8 **base=(u8 **)&gUnk_030056F4;raw=actor*ENEMY_SIZE;base=(u8 **)((u8 *)*base+raw);sub_08019EB8(*(u16 *)((u8 *)base+2),3);}}
- else {raw=sub_080020F4()*PLAYER_SIZE;{u8 *base=(u8 *)gUnk_03003CE0;raw+=(s32)base;v1=0x11E;raw+=v1;*(u16 *)raw=flag;}}
+ else {raw=sub_080020F4()*PLAYER_SIZE;{u8 *base=(u8 *)gUnk_03003CE0;raw+=(s32)base;v1=PLAYER_FIELD(0x11E);raw+=v1;*(u16 *)raw=flag;}}
 while(sub_0805F184())sub_080003F0();task=sub_0805DF38(1,15,2,0,-2,0x1402B4);while(!sub_0805EEFC((void *)task))sub_080003F0();flag=sub_0805EF14((u8 *)task);if(flag){data=cmd.data;
 while(sub_0805F184())sub_080003F0();while(sub_0805EF90())sub_080003F0();task=sub_0805DF38(1,15,2,0,-1,0x1402B6);while(!sub_0805EEFC((void *)task)){if(sub_0800CDF8()){sub_0805EFBC();break;}sub_080003F0();}
  left=1;j=0;itemsbase=&items469DC;zero=0;
  loopRemove:raw=(s32)*itemsbase;slot=(u8 *)raw+j*16;
- if(*(u16 *)(slot+0x150)!=4 || *(u16 *)(slot+0x152)!=3 || (left--,*(u16 *)(slot+0x150)=zero,*(u16 *)(slot+0x152)=zero,left!=0)) {j++;if(j<=24)goto loopRemove;}
+ if(*(u16 *)(slot+SAVE_FIELD(0x150))!=4 || *(u16 *)(slot+SAVE_FIELD(0x152))!=3 || (left--,*(u16 *)(slot+SAVE_FIELD(0x150))=zero,*(u16 *)(slot+SAVE_FIELD(0x152))=zero,left!=0)) {j++;if(j<=24)goto loopRemove;}
 
  v1=1;v2=0x1E;cmdaddr=(u8 *)&cmd;*(u16 *)cmdaddr=v1;*(u16 *)(cmdaddr+2)=v2;
  n=0;dataptr=data;v2=0;do{dataptr[n]=v2;n++;}while(n<=11);
@@ -1168,7 +1172,7 @@ void sub_08046F28(u32 arg0){
  u8 *data; u32 task; u8 *entity; u8 *found; u32 j; s32 left; u8 *slot; u32 actor; u8 **itemsbase; register u32 v1 asm("r1"); u32 v2; u8 *cmdaddr; u8 *dataptr; u32 off; u32 n;
  register s32 raw asm("r0"); register u32 zero asm("r5");
  s32 b2; s32 b3; s32 b4; s32 b5;register s32 bit asm("r0");u32 off4;u32 off1;register s32 savedCount asm("r6");register s32 playerIndex asm("r5");
- {u32 stride; u8 *base;struct Player *p;register u32 idx asm("r2");register s32 pos asm("r6"); idx=sub_080020F4();stride=PLAYER_SIZE;idx*=stride;base=(u8 *)gUnk_03003CE0;p=(struct Player *)(idx+(u32)base);p->flags|=1;sub_0800D0F4();raw=sub_080020F4()*stride;base+=0x8C;raw=*(s32 *)(raw+(u32)base);pos=raw>>8;if(pos>0x1AF)sub_08029174(arg,6);else sub_08029174(arg,2); }
+ {u32 stride; u8 *base;struct Player *p;register u32 idx asm("r2");register s32 pos asm("r6"); idx=sub_080020F4();stride=PLAYER_SIZE;idx*=stride;base=(u8 *)gUnk_03003CE0;p=(struct Player *)(idx+(u32)base);p->flags|=1;sub_0800D0F4();raw=sub_080020F4()*stride;base+=PLAYER_FIELD(0x8C);raw=*(s32 *)(raw+(u32)base);pos=raw>>8;if(pos>0x1AF)sub_08029174(arg,6);else sub_08029174(arg,2); }
  if(sub_0800CE30()) {raw=(s32)state46F28;off1=0x1C7;selected=(u8 *)raw+off1;}else {raw=(s32)state46F28;off=0x1BB;selected=(u8 *)raw+off;}
  raw=*selected;b2=raw>>2;bit=1;b2 &= bit;
  if(sub_0800CE30()) {raw=(s32)state46F28;off4=0x1C7;selected=(u8 *)raw+off4;}else {raw=(s32)state46F28;off1=0x1BB;selected=(u8 *)raw+off1;}
@@ -1185,19 +1189,19 @@ while(sub_0805F184())sub_080003F0();while(sub_0805EF90())sub_080003F0();task=sub
 goto finish;}
  exchange:
 while(sub_0805F184())sub_080003F0();while(sub_0805EF90())sub_080003F0();task=sub_0805DF38(1,15,2,0,-1,0x1402BC);while(!sub_0805EEFC((void *)task)){if(sub_0800CDF8()){sub_0805EFBC();break;}sub_080003F0();}
- count=0;i=0;item=(struct Item46F28 *)(items46F28+0x150);
+ count=0;i=0;item=(struct Item46F28 *)(items46F28+SAVE_FIELD(0x150));
  do {if(load46F28(&item->kind)==2 && item->id==0x38)count++;item++;i++;}while(i<=24);
  savedCount=count;playerIndex=sub_080020F4();if(savedCount && !playerIndex){
  actor=arg;flag=3;if(arg>0x100000) {
  found=find46F28(actor);
  if(found) *(u16 *)(found+0x42)=flag;
  } else if(arg) {actor=arg-1;if(actor<=4){u8 **base=(u8 **)&gUnk_030056F4;raw=actor*ENEMY_SIZE;base=(u8 **)((u8 *)*base+raw);sub_08019EB8(*(u16 *)((u8 *)base+2),3);}}
- else {raw=sub_080020F4()*PLAYER_SIZE;{u8 *base=(u8 *)gUnk_03003CE0;raw+=(s32)base;v1=0x11E;raw+=v1;*(u16 *)raw=flag;}}
+ else {raw=sub_080020F4()*PLAYER_SIZE;{u8 *base=(u8 *)gUnk_03003CE0;raw+=(s32)base;v1=PLAYER_FIELD(0x11E);raw+=v1;*(u16 *)raw=flag;}}
 while(sub_0805F184())sub_080003F0();task=sub_0805DF38(1,15,2,0,-2,0x1402BD);while(!sub_0805EEFC((void *)task))sub_080003F0();flag=sub_0805EF14((u8 *)task);if(flag){data=cmd.data;
 while(sub_0805F184())sub_080003F0();while(sub_0805EF90())sub_080003F0();task=sub_0805DF38(1,15,2,0,-1,0x1402BF);while(!sub_0805EEFC((void *)task)){if(sub_0800CDF8()){sub_0805EFBC();break;}sub_080003F0();}
  left=1;j=0;itemsbase=&items46F28;zero=0;
  loopRemove:raw=(s32)*itemsbase;slot=(u8 *)raw+j*16;
- if(*(u16 *)(slot+0x150)!=2 || *(u16 *)(slot+0x152)!=0x38 || (left--,*(u16 *)(slot+0x150)=zero,*(u16 *)(slot+0x152)=zero,left!=0)) {j++;if(j<=24)goto loopRemove;}
+ if(*(u16 *)(slot+SAVE_FIELD(0x150))!=2 || *(u16 *)(slot+SAVE_FIELD(0x152))!=0x38 || (left--,*(u16 *)(slot+SAVE_FIELD(0x150))=zero,*(u16 *)(slot+SAVE_FIELD(0x152))=zero,left!=0)) {j++;if(j<=24)goto loopRemove;}
 
  v1=1;v2=0x1E;cmdaddr=(u8 *)&cmd;*(u16 *)cmdaddr=v1;*(u16 *)(cmdaddr+2)=v2;
  n=0;dataptr=data;v2=0;do{dataptr[n]=v2;n++;}while(n<=11);
@@ -1240,21 +1244,21 @@ void sub_08047474(u32 arg0) {
  while(sub_0805EF90())sub_080003F0();
  task=sub_0805DF38(1,15,2,0,-1,0x14022B);
  while(!sub_0805EEFC((void *)task)){if(sub_0800CDF8()){sub_0805EFBC();break;}sub_080003F0();}
- count=0;i=0;item=(struct Item47474 *)(items47474+0x150);
+ count=0;i=0;item=(struct Item47474 *)(items47474+SAVE_FIELD(0x150));
  do {if(load47474(&item->kind)==1 && item->id==0x2A)count++;item++;i++;}while(i<=24);
  if(count>0) {
  actor=arg;flag=3;if(actor>0x100000) {
  found=find47474(actor);data=cmd.data;
  if(found) *(u16 *)(found+0x42)=flag;
  } else if(arg) {actor=arg-1;data=cmd.data;if(actor<=4){u8 **base=(u8 **)&gUnk_030056F4;raw=actor*ENEMY_SIZE;base=(u8 **)((u8 *)*base+raw);sub_08019EB8(*(u16 *)((u8 *)base+2),3);}}
- else {raw=sub_080020F4()*PLAYER_SIZE;{u8 *base=(u8 *)gUnk_03003CE0;raw+=(s32)base;v1=0x11E;raw+=v1;*(u16 *)raw=flag;}data=cmd.data;}
+ else {raw=sub_080020F4()*PLAYER_SIZE;{u8 *base=(u8 *)gUnk_03003CE0;raw+=(s32)base;v1=PLAYER_FIELD(0x11E);raw+=v1;*(u16 *)raw=flag;}data=cmd.data;}
  while(sub_0805F184())sub_080003F0();
  while(sub_0805EF90())sub_080003F0();
  task=sub_0805DF38(1,15,2,0,-1,0x14022D);
  while(!sub_0805EEFC((void *)task)){if(sub_0800CDF8()){sub_0805EFBC();break;}sub_080003F0();}
  left=1;j=0;itemsbase=&items47474;zero=0;
  loopRemove:raw=(s32)*itemsbase;slot=(u8 *)raw+j*16;
- if(*(u16 *)(slot+0x150)!=1 || *(u16 *)(slot+0x152)!=0x2A || (left--,*(u16 *)(slot+0x150)=zero,*(u16 *)(slot+0x152)=zero,left!=0)) {j++;if(j<=24)goto loopRemove;}
+ if(*(u16 *)(slot+SAVE_FIELD(0x150))!=1 || *(u16 *)(slot+SAVE_FIELD(0x152))!=0x2A || (left--,*(u16 *)(slot+SAVE_FIELD(0x150))=zero,*(u16 *)(slot+SAVE_FIELD(0x152))=zero,left!=0)) {j++;if(j<=24)goto loopRemove;}
 
  v1=1;v2=0x2B;cmdaddr=(u8 *)&cmd;*(u16 *)cmdaddr=v1;*(u16 *)(cmdaddr+2)=v2;
  n=0;dataptr=data;v2=0;do{dataptr[n]=v2;n++;}while(n<=11);
