@@ -53,8 +53,8 @@ SHA-256 values are pinned in `tools/config/rom_regions.json`.
 
 ## Coverage and limitations
 
-The verified USA build contains 1,819 compiler-backed C intervals (16 same-address
-EU, 1,799 relocated EU, 4 region-only) totaling 447,638 bytes; Japan contains
+The verified USA build contains 1,820 compiler-backed C intervals (16 same-address
+EU, 1,800 relocated EU, 4 region-only) totaling 447,958 bytes; Japan contains
 1,272 (16, 1,229 and 27) totaling 164,414 bytes. Consult each generated report for the actual current counts, canonical EU symbols, addresses,
 sizes and per-function hashes. The admitted intervals include complete function
 literal pools. Top-level assembly and `INCLUDE_ASM` fallbacks receive no C credit.
@@ -179,6 +179,8 @@ neither macro and must stay byte-identical (`make compare`).
 | `RES_ID(id)` | id | id - 4 (resource ids that USA numbers 4 lower, e.g. 0x5008C; not every archive 5 id moves, so only verified uses) |
 | `TEXT_HEADER` | 2 | 4 (header before the string of a text record from `sub_08007290`) |
 | `SAVE_FIELD(o)` | `o` | character save record (`gUnk_030034E0`): `o` below 0x0A, `o + 10` below 0x10, then `o + 12` |
+| `NameChar` | u8 | u16 (the ten-character name at save +0; source of `SAVE_FIELD`'s first shift) |
+| `ITEM_FIELD(o)`, `ITEM_KIND(r)` | `o`, u8 at +0x9B | `o + 0xD8`, u16 at +0x174 (item records of archive 0xB) |
 
 `struct Player` is written with these macros. Raw offsets into a player record
 must be written `PLAYER_FIELD(0x9C)`, its stride `PLAYER_SIZE`, so the USA

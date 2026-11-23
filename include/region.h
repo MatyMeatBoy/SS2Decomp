@@ -17,6 +17,8 @@
 // (EU 0x5008C = USA 0x50088), but not all of them; RES_ID(id) marks the uses verified per function.
 // Item data records (archive 0xB, sub_08007290): the USA name area is longer; fields from EU +0x9C
 // move by 0xD8 (ITEM_FIELD) and the EU u8 kind at +0x9B is a u16 at USA +0x174 (ITEM_KIND).
+// Character names (save +0, ten characters) are NameChar strings: bytes in EU, halfwords in USA,
+// which is where SAVE_FIELD's 10-byte shift comes from.
 // Text records (sub_08007290): the string starts after a 2-byte EU, 4-byte USA header (TEXT_HEADER).
 #ifdef REGION_USA
 #define PLAYER_SIZE 0x158
@@ -30,6 +32,7 @@
 #define ITEM_KIND_OFF 0x174
 typedef u16 ItemKind;
 #define ITEM_KIND(r) (*(ItemKind *)((u8 *)(r) + ITEM_KIND_OFF))
+typedef u16 NameChar;
 #else
 #define PLAYER_SIZE 0x14C
 #define PLAYER_FIELD(o) (o)
@@ -42,6 +45,7 @@ typedef u16 ItemKind;
 #define ITEM_KIND_OFF 0x9B
 typedef u8 ItemKind;
 #define ITEM_KIND(r) (*(ItemKind *)((u8 *)(r) + ITEM_KIND_OFF))
+typedef u8 NameChar;
 #endif
 
 #endif // GUARD_REGION_H

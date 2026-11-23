@@ -4099,8 +4099,14 @@ s32 sub_0807A2E0(u8 a)
     sub_08001538((s32)q);
     return 1;
 }
-struct Save378 { u32 w0; u8 p4[6]; u16 hA, hC; u8 pE[0xE]; u32 w1C, w20; u8 p24[8]; u32 w2C; };
-struct Sum378 { u8 valid, b1, b2, b3, b4, b5, b6, b7; u32 w8; u16 hC, hE; u8 name[12]; u32 a1C[8]; u32 a3C[12]; };
+struct Save378 { u32 w0; u8 p4[SAVE_FIELD(0xA) - 4]; u16 hA, hC; u8 pE[SAVE_FIELD(0x1C) - SAVE_FIELD(0xE)]; u32 w1C, w20; u8 p24[8]; u32 w2C; };
+struct Sum378 { u8 valid, b1, b2, b3, b4, b5, b6, b7; u32 w8; u16 hC, hE;
+#ifdef REGION_USA
+    NameChar name[10];
+#else
+    NameChar name[12];
+#endif
+    u32 a1C[8]; u32 a3C[12]; };
 struct Blk20_378 { u32 w[8]; };
 struct Blk30_378 { u32 w[12]; };
 extern struct Save378 *gSave378 asm("gUnk_030034E0");
@@ -4131,7 +4137,7 @@ u32 sub_0807A378(struct Sum378 *e)
     do {
         if (sub_0807A20C(i) == 0) {
             vu16 z = 0;
-            CpuSet_378((void *)&z, e, 0x01000036);
+            CpuSet_378((void *)&z, e, 0x01000000 | sizeof(struct Sum378) / 2);
             i++;
         } else {
             struct Save378 *s;
@@ -4164,12 +4170,12 @@ u32 sub_0807A378(struct Sum378 *e)
             }
             sub_0801E024(&gPl378[sub_080020F4()]);
             sub_0801DD9C();
-            *(struct Blk20_378 *)e->a1C = *(struct Blk20_378 *)((u8 *)gSave378 + 0x10);
+            *(struct Blk20_378 *)e->a1C = *(struct Blk20_378 *)((u8 *)gSave378 + SAVE_FIELD(0x10));
             *(struct Blk30_378 *)e->a3C = gPl378[sub_080020F4()].b58;
             j = 0;
             i++;
             do {
-                e->name[j] = ((u8 *)gSave378)[j];
+                { u32 off = j * sizeof(NameChar); e->name[j] = *(NameChar *)((u8 *)gSave378 + off); }
                 j++;
             } while (j <= 9);
         }
