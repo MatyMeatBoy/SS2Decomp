@@ -799,7 +799,7 @@ void sub_08029788_v(u32 target)
         } while (p->dir != goal);
     }
 }
-struct P96C { u16 id; u8 pad2[0x2E]; u32 flags; u8 pad34[0x2C]; u16 f60; u16 f62; u8 pad64[4]; u8 f68; u8 pad69[0x59]; u16 fC2; u16 fC4; u8 tail[0x14C-0xC6]; };
+struct P96C { u16 id; u8 pad2[PLAYER_FIELD(0x30) - 2]; u32 flags; u8 pad34[0x2C]; u16 f60; u16 f62; u8 pad64[4]; u8 f68; u8 pad69[0x59]; u16 fC2; u16 fC4; u8 tail[PLAYER_SIZE - PLAYER_FIELD(0xC6)]; };
 extern struct P96C players96C[] asm("gUnk_03003CE0");
 #define DRAIN_96C(n) p=&players96C[index]; do { h=(void*)sub_0801E1D8(p,n,100); if(h) {sub_0801DB94(p->id,h,0); asm("":"+r"(h));} } while(h)
 /* [RestoreLocalPlayerVitals] Copies local player maximum fields+0x62 and+0x60 to current HP+0xC4 and MP+0xC2,
