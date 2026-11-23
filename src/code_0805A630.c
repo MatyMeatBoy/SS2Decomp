@@ -654,38 +654,38 @@ u32 sub_0805AE94(u8 *item)
     u32 multiplier = 10;
     switch (*(u16 *)item) {
     case 1:
-        value = *(u32 *)((u8 *)sub_08007290(*(u16 *)(item + 2) | 0x100000) + 0x9C);
+        value = *(u32 *)((u8 *)sub_08007290(*(u16 *)(item + 2) | 0x100000) + ITEM_FIELD(0x9C));
         break;
     case 2:
-        value = *(u32 *)((u8 *)sub_08007290(*(u16 *)(item + 2) | 0xB0000) + 0xA0);
+        value = *(u32 *)((u8 *)sub_08007290(*(u16 *)(item + 2) | 0xB0000) + ITEM_FIELD(0xA0));
         flag = item[8]; level = item[6]; quality = item[7];
         if (*(u16 *)(item + 4) != 0)
-            multiplier = *(u16 *)((u8 *)sub_08007290((*(u16 *)(item + 4) - 1) | 0x130000) + 0x9C);
+            multiplier = *(u16 *)((u8 *)sub_08007290((*(u16 *)(item + 4) - 1) | 0x130000) + ITEM_FIELD(0x9C));
         break;
     case 3:
-        value = *(u32 *)((u8 *)sub_08007290(*(u16 *)(item + 2) | 0xC0000) + 0x9C);
+        value = *(u32 *)((u8 *)sub_08007290(*(u16 *)(item + 2) | 0xC0000) + EQUIP_FIELD(0x9C));
         flag = item[8]; level = item[6]; quality = item[7];
         if (*(u16 *)(item + 4) != 0)
-            multiplier = *(u16 *)((u8 *)sub_08007290((*(u16 *)(item + 4) - 1) | 0x130000) + 0x9C);
+            multiplier = *(u16 *)((u8 *)sub_08007290((*(u16 *)(item + 4) - 1) | 0x130000) + ITEM_FIELD(0x9C));
         break;
     case 4:
-        value = *(u32 *)((u8 *)sub_08007290(*(u16 *)(item + 2) | 0xD0000) + 0x9C);
+        value = *(u32 *)((u8 *)sub_08007290(*(u16 *)(item + 2) | 0xD0000) + EQUIP_FIELD(0x9C));
         flag = item[8]; level = item[6]; quality = item[7];
         if (*(u16 *)(item + 4) != 0)
-            multiplier = *(u16 *)((u8 *)sub_08007290((*(u16 *)(item + 4) - 1) | 0x130000) + 0x9C);
+            multiplier = *(u16 *)((u8 *)sub_08007290((*(u16 *)(item + 4) - 1) | 0x130000) + ITEM_FIELD(0x9C));
         break;
     case 7:
-        value = *(u32 *)((u8 *)sub_08007290(*(u16 *)(item + 2) | 0x110000) + 0x9C);
+        value = *(u32 *)((u8 *)sub_08007290(*(u16 *)(item + 2) | 0x110000) + ITEM_FIELD(0x9C));
         flag = 0; level = 0;
         break;
     case 5:
-        value = *(u32 *)((u8 *)sub_08007290(*(u16 *)(item + 2) | 0xE0000) + 0x9C);
+        value = *(u32 *)((u8 *)sub_08007290(*(u16 *)(item + 2) | 0xE0000) + EQUIP_FIELD(0x9C));
         flag = item[8]; level = item[6]; quality = item[7];
         if (*(u16 *)(item + 4) != 0)
-            multiplier = *(u16 *)((u8 *)sub_08007290((*(u16 *)(item + 4) - 1) | 0x130000) + 0x9C);
+            multiplier = *(u16 *)((u8 *)sub_08007290((*(u16 *)(item + 4) - 1) | 0x130000) + ITEM_FIELD(0x9C));
         break;
     case 6:
-        value = *(u32 *)((u8 *)sub_08007290(*(u16 *)(item + 2) | 0xF0000) + 0x9C);
+        value = *(u32 *)((u8 *)sub_08007290(*(u16 *)(item + 2) | 0xF0000) + ITEM_FIELD(0x9C));
         flag = 0; level = 0; quality = 0;
         break;
     case 9:
@@ -702,7 +702,7 @@ u32 sub_0805AE94(u8 *item)
         value = *(u32 *)(item + 4);
         break;
     case 8:
-        value = *(u16 *)((u8 *)sub_08007290(*(u16 *)(item + 2) | 0x120000) + 0x9C);
+        value = *(u16 *)((u8 *)sub_08007290(*(u16 *)(item + 2) | 0x120000) + ITEM_FIELD(0x9C));
         break;
     }
     if (flag != 0)
@@ -726,7 +726,7 @@ u32 sub_0805B068(const u8 *item)
     switch (*(u16 *)item) {
     case 2:
         resource = (u8 *)sub_08007290(*(u16 *)(item + 2) | 0xB0000);
-        value = *(u32 *)(resource + 0xA0);
+        value = *(u32 *)(resource + ITEM_FIELD(0xA0));
         break;
     case 3:
         id = *(u16 *)(item + 2);
@@ -742,7 +742,7 @@ u32 sub_0805B068(const u8 *item)
 common:
         id |= category;
         resource = (u8 *)sub_08007290(id);
-        value = *(u32 *)(resource + 0x9C);
+        value = *(u32 *)(resource + EQUIP_FIELD(0x9C));
         break;
     }
     divisor = 10;
