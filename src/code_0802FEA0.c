@@ -3798,7 +3798,7 @@ static inline u32 t36AMask(u32 *p) { register u32 m asm("r1")=0x100000;  return 
 static inline void t36ASet80(void) { register u32 *p asm("r1")=(u32 *)(t36AState+0x80); u32 m=0x100000;  *p |= m; }
 static inline void t36ASet78(void) { u8 *p=t36AState; u32 m=0x100000;  *(u32 *)(p+0x78) |= m; }
 static inline void t36APose(u32 idx, u32 value) { u32 scaled=idx*PLAYER_SIZE; u8 *p; u32 off;  p=(u8 *)gUnk_03003CE0+scaled;  off=0x11E;  *(u16 *)(p+off)=value; }
-static inline void t36AOtherPose(u32 idx) { u8 **pp=&t36AOther; u32 off; u8 *p;  off=idx*0x2E0;  p=*pp; p=p+off;  sub_08019EB8(*(u16 *)(p+2), 3); }
+static inline void t36AOtherPose(u32 idx) { u8 **pp=&t36AOther; u32 off; u8 *p;  off=idx*ENEMY_SIZE;  p=*pp; p=p+off;  sub_08019EB8(*(u16 *)(p+2), 3); }
 static inline u32 t36ACount(u32 n) { return n; }
 static inline void t36AEmitMany(struct T36ACmd *p,u32 n) { u32 i=0; do { t36AEmit(p); i++; } while (i<n); }
 static inline u8 *t36AItemAddr(u8 *base,u32 idx) { u8 *p=base; u32 off;  off=idx*16;  return p+off; }
@@ -4656,7 +4656,7 @@ void sub_08038D18(u32 arg){
  if(sub_080020F4())goto other;
  actor=arg;flag=3;
  if(actor>0x100000){found=find38D18(actor);if(found)*(u16 *)(found+0x42)=flag;}
- else if(arg){actor=arg-1;if(actor<=4){register u8 **base asm("r1")=(u8 **)&gUnk_030056F4;raw=actor*0x2E0;base=(u8 **)((u8 *)*base+raw);sub_08019EB8(*(u16 *)((u8 *)base+2),3);}}
+ else if(arg){actor=arg-1;if(actor<=4){register u8 **base asm("r1")=(u8 **)&gUnk_030056F4;raw=actor*ENEMY_SIZE;base=(u8 **)((u8 *)*base+raw);sub_08019EB8(*(u16 *)((u8 *)base+2),3);}}
  else{raw=sub_080020F4()*PLAYER_SIZE;{register u8 *base asm("r1")=(u8 *)gUnk_03003CE0;raw+=(s32)base;off1=0x11E;raw+=off1;*(u16 *)raw=flag;}}
  data=cmd.data;
  while(sub_0805F184())sub_080003F0();while(sub_0805EF90())sub_080003F0();
@@ -4765,7 +4765,7 @@ enabled:
  if(sub_080020F4())goto other;
  actor=arg;flag=3;
  if(actor>0x100000){found=find392B4(actor);if(found)*(u16 *)(found+0x42)=flag;}
- else if(arg){actor=arg-1;if(actor<=4){register u8 **base asm("r1")=(u8 **)&gUnk_030056F4;raw=actor*0x2E0;base=(u8 **)((u8 *)*base+raw);sub_08019EB8(*(u16 *)((u8 *)base+2),3);}}
+ else if(arg){actor=arg-1;if(actor<=4){register u8 **base asm("r1")=(u8 **)&gUnk_030056F4;raw=actor*ENEMY_SIZE;base=(u8 **)((u8 *)*base+raw);sub_08019EB8(*(u16 *)((u8 *)base+2),3);}}
  else{raw=sub_080020F4()*PLAYER_SIZE;{register u8 *base asm("r1")=(u8 *)gUnk_03003CE0;raw+=(s32)base;off1=0x11E;raw+=off1;*(u16 *)raw=flag;}}
 
  while(sub_0805F184())sub_080003F0();dialog=sub_0805DF38(1,15,2,0,-2,0x140265);
@@ -5362,7 +5362,7 @@ static inline void t38_setAE6C(u32 arg) {
         u8 *entry;
         u32 off;
         idx=arg-1;
-        if(idx<5) {address=(u8 **)&gUnk_030056F4;off=idx*0x2E0;entry=*address;entry+=off;sub_08019EB8(*(u16 *)(entry+2),3);}
+        if(idx<5) {address=(u8 **)&gUnk_030056F4;off=idx*ENEMY_SIZE;entry=*address;entry+=off;sub_08019EB8(*(u16 *)(entry+2),3);}
     }
     else {register u32 off asm("r0");off=sub_080020F4()*PLAYER_SIZE;p=(u8 *)gUnk_03003CE0+off;*(u16 *)(p+0x11E)=value;}
 }

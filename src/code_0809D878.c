@@ -3486,7 +3486,7 @@ void t107MainD(void)
     s32 *p;
 
     maskA35 |= 2;
-    entA35 = (struct EntA35 *)(poolA35 + 0x2E0);
+    entA35 = (struct EntA35 *)(poolA35 + ENEMY_SIZE);
     sub_0801A0A4(entA35);
     setupA35(entA35, srcA35, 1);
     aux = (struct AuxA35 *)((u8 *)entA35 + 0x204);

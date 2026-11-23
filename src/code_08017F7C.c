@@ -1213,7 +1213,7 @@ u32 sub_0801A1C8(u8 *obj, s32 *distance)
     u8 **base = (u8 **)&gUnk_030056F4;
     u32 offset = 0;
     s32 *flags = &gUnk_030056FC;
-    for (; i <= 4; offset += 0x2E0, i++) {
+    for (; i <= 4; offset += ENEMY_SIZE, i++) {
         s32 bit = 1 << i;
         if (*flags & bit) {
             u8 *other = *base + offset;

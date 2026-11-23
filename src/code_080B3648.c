@@ -38,7 +38,7 @@ struct ActB3648 {
     u16 f202;
     struct ResB3648 res;
 };
-struct E2E0B3648 { u8 b[0x2E0]; };
+struct E2E0B3648 { u8 b[ENEMY_SIZE]; };
 struct AnimB3648 { u32 f0, f4, f8; u8 *fC; u8 p10[12]; u8 f1C; u8 p1d[0x17]; };
 struct XYB3648 { s32 x, y; };
 struct PlB3648 { u8 p0[0x30]; u32 flags; u8 p34[0x114]; u16 *f148; };
@@ -1827,5 +1827,5 @@ void sub_080B64A4(void)
     i = 1;
     base = &gUnk_030056F4;
     for (i = 1; i <= 4; i++)
-        *(u16 *)((u8 *)*base + i * 0x2E0 + 0x7A) |= 1;
+        *(u16 *)((u8 *)*base + i * ENEMY_SIZE + 0x7A) |= 1;
 }

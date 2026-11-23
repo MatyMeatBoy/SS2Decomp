@@ -230,7 +230,7 @@ found:
         selector--;
         if (selector <= 4) {
             void **address = &gUnk_030056F4;
-            u32 offset = selector * 0x2E0;
+            u32 offset = selector * ENEMY_SIZE;
             u8 *slot = *address;
             slot += offset;
             sub_08019EB8(*(u16 *)(slot + 2), (u16)value);

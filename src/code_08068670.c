@@ -329,7 +329,7 @@ s32 sub_08068A00(struct Position68 pos, u8 *attack) {
     if (temp_r2 <= 3U) {
         sourcePlayer = (PLAYER_SIZE * temp_r2) + (u8 *)gUnk_03003CE0;
     } else {
-        sourceEnemy = (u8 *)gUnk_030056F4 + ((temp_r2 * 0x2E0) + 0xFFFFF480);
+        sourceEnemy = (u8 *)gUnk_030056F4 + ((temp_r2 * ENEMY_SIZE) + 0xFFFFF480);
     }
     hitFlags = 0;
     temp_r0 = M2C_FIELD(attack, u32 *, 0xC);
@@ -356,7 +356,7 @@ loop_15:
         if (!(enemyActive & (1 << enemyIndex))) {
 
         } else {
-            targetEnemy = (u8 *)gUnk_030056F4 + (enemyIndex * 0x2E0);
+            targetEnemy = (u8 *)gUnk_030056F4 + (enemyIndex * ENEMY_SIZE);
             if (M2C_FIELD(targetEnemy, u8 *, 0x1DC) == 0) {
 
             } else if (M2C_FIELD(targetEnemy, u16 *, 0xC) == 0xB) {
@@ -677,7 +677,7 @@ s32 sub_08068F9C(struct Attack69 *a,s32 target)
     u16 *special;
     index=a->attacker;
     if(index<=3) value=((struct AttackPlayer69 *)(index*PLAYER_SIZE+(u32)attackPlayers69))->value;
-    else { u32 address; u8 **base; base=&attackEnemies69; address=index*0x2E0; address+=(u32)*base; address-=0x978; value=*(s16 *)address; }
+    else { u32 address; u8 **base; base=&attackEnemies69; address=index*ENEMY_SIZE; address+=(u32)*base; address-=0x978; value=*(s16 *)address; }
     random=sub_080008C8()%20U+100;
     if(a->kind!=19) {
         root=attackRoot69(value+15);
@@ -734,7 +734,7 @@ afterModify:;
     if(target<=3) {
         player=&effectPlayers69[target];who=player->id;
     } else {
-        { u8 **base; u32 offset; base=&effectEnemies69; offset=target*0x2E0; offset-=0xB80; enemy=(struct EffectEnemy69 *)((u32)*base+offset); }
+        { u8 **base; u32 offset; base=&effectEnemies69; offset=target*ENEMY_SIZE; offset-=(4 * ENEMY_SIZE); enemy=(struct EffectEnemy69 *)((u32)*base+offset); }
         
         if(enemy->state==3)return;
         who=enemy->id;
@@ -822,7 +822,7 @@ divide:
     if(target==sub_080020F4() || (sub_0800CF80() && target<=3))
         probability=((u32)probability*resistPlayers69[target].modifier)/100U;
     out[1]=((u32)probability>random)?kind:0;
-    if(target>3 && *(u8 *)((u32)resistEnemies69+target*0x2E0-0x95A)==3) out[1]=0;
+    if(target>3 && *(u8 *)((u32)resistEnemies69+target*ENEMY_SIZE-0x95A)==3) out[1]=0;
 }
 struct HitAttack69 {u32 attacker,unk4,target,kind,power,level;};
 struct HitPacket69 {union {u32 word;u8 byte[4];struct {u32 who:8,kind:8,flags:8; s32 direction:8;} bits;} control;union {u32 word;u16 half[2];struct {u32 amount:16,upper:16;} bits;} value;};
@@ -884,7 +884,7 @@ void sub_080694AC(struct HitAttack69 *arg0) {
     if (temp_r2 <= 3U) {
         var_r8 = (PLAYER_SIZE * temp_r2) + hitPlayers69;
     } else {
-        var_r9 = hitEnemies69 + ((temp_r2 * 0x2E0) + 0xFFFFF480);
+        var_r9 = hitEnemies69 + ((temp_r2 * ENEMY_SIZE) + 0xFFFFF480);
     }
     temp_r2_2 = arg0->target;
     if (temp_r2_2 <= 3U) {
@@ -894,7 +894,7 @@ void sub_080694AC(struct HitAttack69 *arg0) {
         (*(u32 *)((u8 *)(var_r7)+0x110)) = 0;
         var_r0 = var_r7 + 0x68;
     } else {
-        { u8 **base; register u32 offset asm("r0"); base=&hitEnemies69; offset=temp_r2_2*0x2E0; offset-=0xB80; var_r5=(u8 *)((u32)*base+offset); }
+        { u8 **base; register u32 offset asm("r0"); base=&hitEnemies69; offset=temp_r2_2*ENEMY_SIZE; offset-=(4 * ENEMY_SIZE); var_r5=(u8 *)((u32)*base+offset); }
         var_sl = var_r5 + 0x218;
         var_r4 = 1;
         var_r0 = var_r5 + 0x1DC;
@@ -1266,7 +1266,7 @@ void sub_08069C44(struct Z069A *arg) {
         p=&z069P[player];
         saved=p->counter;
     } else {
-        enemy=(struct Z069E *)(z069EBase+(player*0x2E0+0xFFFFF480));
+        enemy=(struct Z069E *)(z069EBase+(player*ENEMY_SIZE+0xFFFFF480));
         while(enemy->wait<enemy->threshold) {
             if(sub_08056E90()!=0 || sub_0800BA6C()==0 || enemy->state==10 || enemy->state==11) {
                 z069F[player]&=~(1<<bit);
@@ -1300,7 +1300,7 @@ void sub_08069C44(struct Z069A *arg) {
         if(i>=count) target=0xFFFF;
     } else {
         for(i=0;i<=4;i++) {
-            e=(struct Z069E *)(z069EBase+i*0x2E0);
+            e=(struct Z069E *)(z069EBase+i*ENEMY_SIZE);
             if((z069EMask&(1<<i)) && e->target==target) break;
         }
         if(i>4) target=0xFFFF;
@@ -1423,7 +1423,7 @@ void sub_0806A19C(struct Z069A *arg) {
     if(player<=3) {
         p=&z069P[player];
     } else {
-        enemy=(struct Z069E *)(z069EBase+(player*0x2E0+0xFFFFF480));
+        enemy=(struct Z069E *)(z069EBase+(player*ENEMY_SIZE+0xFFFFF480));
         while(enemy->wait<enemy->threshold) {
             if(sub_08056E90()!=0 || sub_0800BA6C()==0 || enemy->state==10 || enemy->state==11) {
                 z069F[player]&=~(1<<bit);
@@ -1479,7 +1479,7 @@ void sub_0806A19C(struct Z069A *arg) {
             if(i>=count) target=0xFFFF;
         } else {
             for(i=0;i<=4;i++) {
-                e=(struct Z069E *)(z069EBase+i*0x2E0);
+                e=(struct Z069E *)(z069EBase+i*ENEMY_SIZE);
                 if((z069EMask&(1<<i)) && e->target==target) break;
             }
             if(i>4) target=0xFFFF;
@@ -1601,7 +1601,7 @@ void sub_0806A88C(struct T070Args *arg) {
     local=sub_080020F4();
     player=arg->player; bit=arg->bit; level=(u16)arg->level; initialLevel=level;
     if(player<=3) p=&t070Players[player];
-    else enemy=(struct T070Enemy *)((u8 *)t070Enemies+(player*0x2E0+0xFFFFF480));
+    else enemy=(struct T070Enemy *)((u8 *)t070Enemies+(player*ENEMY_SIZE+0xFFFFF480));
     frame=0; phase=0; counter=0;
     if(sub_080020F4()!=player) {
         if(player>3) {
@@ -1732,7 +1732,7 @@ void sub_0806ABC0(struct T071A *arg) {
         if(i>=count) target=0xFFFF;
     } else {
         for(i=0;i<=4;i++) {
-            enemy=(struct T071E *)(t071EBase+i*0x2E0);
+            enemy=(struct T071E *)(t071EBase+i*ENEMY_SIZE);
             if((t071EMask&(1<<i)) && enemy->target==target) break;
         }
         if(i>4) target=0xFFFF;
@@ -1745,7 +1745,7 @@ void sub_0806ABC0(struct T071A *arg) {
         dir=((u8 *)p->sprite)[3]>>4;
         angle=tbl[dir];
     } else {
-        enemy=(struct T071E *)(t071EBase+(player*0x2E0+0xFFFFF480));
+        enemy=(struct T071E *)(t071EBase+(player*ENEMY_SIZE+0xFFFFF480));
         x=enemy->x; y=enemy->y;
         dir=(u16)enemy->dir;
         angle=tbl[enemy->dir];
@@ -1802,7 +1802,7 @@ void sub_0806ABC0(struct T071A *arg) {
         if(target>3) {
             for(i=0;i<=4;i++) {
                 if(!(t071EMask&(1<<i))) continue;
-                e=(struct T071E *)(t071EBase+i*0x2E0);
+                e=(struct T071E *)(t071EBase+i*ENEMY_SIZE);
                 if(!e->active) continue;
                 dx=(u32)(e->x-x)>>8;
                 dy=(u32)(e->y-y)>>8;
@@ -1930,7 +1930,7 @@ void sub_0806B3C4(struct Y073A *arg) {
     local=(u16)sub_080020F4();
     player=arg->player; bit=arg->bit; level=(u16)arg->level;
     if(player<=3) p=&y073P[player];
-    else enemy=(struct Y073E *)(y073EBase+(player*0x2E0+0xFFFFF480));
+    else enemy=(struct Y073E *)(y073EBase+(player*ENEMY_SIZE+0xFFFFF480));
     if(local!=player) {
         if(player>3) {
             costBase=y073Cost;
@@ -1999,7 +1999,7 @@ void sub_0806B3C4(struct Y073A *arg) {
         } else {
             for(i=0;i<=4;i++) {
                 if(!(y073EMask&(1<<i))) continue;
-                e=(struct Y073E *)(y073EBase+i*0x2E0);
+                e=(struct Y073E *)(y073EBase+i*ENEMY_SIZE);
                 if(e->state==11) continue;
                 if(!e->active) continue;
                 dx=(u32)(e->x-x)>>8;
@@ -2066,7 +2066,7 @@ void sub_0806B3C4(struct Y073A *arg) {
                 }
             } else {
                 for(i=0;i<count;i++) {
-                    e=(struct Y073E *)(y073EBase+targets[i]*0x2E0);
+                    e=(struct Y073E *)(y073EBase+targets[i]*ENEMY_SIZE);
                     y073Coords((s16)(e->x>>8),(s16)(e->y>>8),&dx,&dy,0x30,0);
                     shade=sub_0800BC44(x>>8,y>>8,0);
                     if(delay[i]==0) {
@@ -2177,7 +2177,7 @@ void sub_0806BE24(struct ArgBE *arg)
         p = &pBE[player];
         off = player * 4;
     } else {
-        e = (struct EneBE *)(eBEBase + (player * 0x2E0 + 0xFFFFF480));
+        e = (struct EneBE *)(eBEBase + (player * ENEMY_SIZE + 0xFFFFF480));
         {u16 *wp = &e->wait; u8 *tp = &e->threshold; u16 w = *wp; off = player * 4; if (w <= *tp) do {
             if (sub_08056E90() != 0 || sub_0800BA6C() == 0 || e->state == 10 || e->state == 11) {
                 *(u32 *)(off + (u8 *)fBE) &= ~(1 << bit);
@@ -2230,7 +2230,7 @@ void sub_0806BE24(struct ArgBE *arg)
             target = 0xFFFF;
     } else {
         for (i = 0; i <= 4; i++) {
-            e2 = (struct EneBE *)(eBEBase + i * 0x2E0);
+            e2 = (struct EneBE *)(eBEBase + i * ENEMY_SIZE);
             if ((eBEMask & (1 << i)) && e2->uid == target)
                 break;
         }
@@ -2430,7 +2430,7 @@ void sub_0806C568(struct ArgC568 *arg)
     if (player <= 3) {
         p = &pC568[player];
     } else {
-        e = (struct EneC568 *)(eC568Base + (player * 0x2E0 + 0xFFFFF480));
+        e = (struct EneC568 *)(eC568Base + (player * ENEMY_SIZE + 0xFFFFF480));
         while (e->wait < e->threshold) {
             if (sub_08056E90() != 0 || sub_0800BA6C() == 0 || e->state == 10 || e->state == 11) {
                 fC568[player] &= ~(1 << bit);
@@ -2561,7 +2561,7 @@ void sub_0806C568(struct ArgC568 *arg)
             for (i = 0; i <= 4; i++) {
                 if (!((1 << i) & eC568Mask))
                     continue;
-                e2 = (struct EneC568 *)(eC568Base + i * 0x2E0);
+                e2 = (struct EneC568 *)(eC568Base + i * ENEMY_SIZE);
                 if (e2->state == 11)
                     continue;
                 if (e2->active == 0)
@@ -2621,7 +2621,7 @@ void sub_0806C568(struct ArgC568 *arg)
                 }
             } else {
                 for (i = 0; i < count; i++) {
-                    e2 = (struct EneC568 *)(eC568Base + targets[i] * 0x2E0);
+                    e2 = (struct EneC568 *)(eC568Base + targets[i] * ENEMY_SIZE);
                     coordsC568((s16)(e2->x >> 8), (s16)(e2->y >> 8), &dx, &dy, 0x30, 0);
                     shade = sub_0800BC44(e2->x >> 8, e2->y >> 8, 0);
                     if (timers[i] == 0) {
@@ -2659,7 +2659,7 @@ void sub_0806C568(struct ArgC568 *arg)
             }
         } else {
             for (i = 0; i < count; i++) {
-                e2 = (struct EneC568 *)(eC568Base + targets[i] * 0x2E0);
+                e2 = (struct EneC568 *)(eC568Base + targets[i] * ENEMY_SIZE);
                 if (local == player) {
                     arg->target = e2->id + 4;
                     sendC568(arg);
@@ -2815,7 +2815,7 @@ void sub_0806CDF0(void *arg0)
     sp28 = temp_r0 * 4;
     goto block_12;
   }
-  var_r7 = gUnk_030056F4 + ((temp_r0 * 0x2E0) + 0xFFFFF480);
+  var_r7 = gUnk_030056F4 + ((temp_r0 * ENEMY_SIZE) + 0xFFFFF480);
   {
     u16 *ap = (u16 *) (((u8 *) var_r7) + 0x6A);
     u8 *bp = ((u8 *) var_r7) + 0x22B;
@@ -2926,7 +2926,7 @@ void sub_0806CDF0(void *arg0)
       if (t071EMask & (1 << var_r5_2))
       {
         {
-          s32 o = var_r5_2 * 0x2E0;
+          s32 o = var_r5_2 * ENEMY_SIZE;
           temp_r4_4 = *pg + o;
         }
         var_r5_4 = 0x18;
@@ -3145,7 +3145,7 @@ void sub_0806CDF0(void *arg0)
         {
           if ((t071EMask & (1 << var_r5_4)) && ((*(sp0 + var_r5_4)) == (var_r5_4 + 4)))
           {
-            temp_r4_4 = gUnk_030056F4 + (var_r5_4 * 0x2E0);
+            temp_r4_4 = gUnk_030056F4 + (var_r5_4 * ENEMY_SIZE);
             temp_r2 = (u16) (((s32) (t71Heal[sp10] * 0x78)) / ((s32) (sp4[var_r5_4] + 0x78)));
             {
               u16 *hp = (u16 *) (((u8 *) temp_r4_4) + 0x5C);
@@ -3963,7 +3963,7 @@ void sub_0806E7D4(struct ArgE7D4 *arg)
     if (player <= 3) {
         p = &pE7D4[player];
     } else {
-        e = (struct EneE7D4 *)(eE7D4Base + (player * 0x2E0 + 0xFFFFF480));
+        e = (struct EneE7D4 *)(eE7D4Base + (player * ENEMY_SIZE + 0xFFFFF480));
         while (e->wait < e->threshold) {
             if (sub_08056E90() != 0 || sub_0800BA6C() == 0 || e->state == 10 || e->state == 11) {
                 fE7D4[player] &= ~(1 << bit);
@@ -4049,7 +4049,7 @@ void sub_0806E7D4(struct ArgE7D4 *arg)
             for (i = 0; i <= 4; i++) {
                 if (!(eE7D4Mask & (1 << i)))
                     continue;
-                e2 = (struct EneE7D4 *)(eE7D4Base + i * 0x2E0);
+                e2 = (struct EneE7D4 *)(eE7D4Base + i * ENEMY_SIZE);
                 if (e2->state == 11)
                     continue;
                 if (e2->team == 0)
@@ -4128,7 +4128,7 @@ void sub_0806E7D4(struct ArgE7D4 *arg)
                 }
             } else {
                 for (i = 0; i < count; i++) {
-                    e2 = (struct EneE7D4 *)(eE7D4Base + hits[i] * 0x2E0);
+                    e2 = (struct EneE7D4 *)(eE7D4Base + hits[i] * ENEMY_SIZE);
                     coordsE7D4((s16)(e2->x >> 8), (s16)(e2->y >> 8), &dx, &dy, 0x30, 0);
                     shadeB = sub_0800BC44(e2->x >> 8, e2->y >> 8, 0);
                     if (delay[i] == 0) {
@@ -4276,7 +4276,7 @@ void sub_0806F0CC(struct ArgF0CC *arg)
     if (player <= 3) {
         p = &pF0CC[player];
     } else {
-        e = (struct EneF0CC *)(eF0CCBase + (player * 0x2E0 + 0xFFFFF480));
+        e = (struct EneF0CC *)(eF0CCBase + (player * ENEMY_SIZE + 0xFFFFF480));
         while (e->wait < e->threshold) {
             if (sub_08056E90() != 0 || sub_0800BA6C() == 0 || e->state == 10 || e->state == 11) {
                 fF0CC[player] &= ~(1 << bit);
@@ -4326,7 +4326,7 @@ void sub_0806F0CC(struct ArgF0CC *arg)
             target = 0xFFFF;
     } else {
         for (i = 0; i <= 4; i++) {
-            e2 = (struct EneF0CC *)(eF0CCBase + i * 0x2E0);
+            e2 = (struct EneF0CC *)(eF0CCBase + i * ENEMY_SIZE);
             if (!(eF0CCMask & (1 << i)))
                 continue;
             if (e2->f2 == target)
@@ -4395,7 +4395,7 @@ void sub_0806F0CC(struct ArgF0CC *arg)
             for (i = 0; i <= 4; i++) {
                 if (!(eF0CCMask & (1 << i)))
                     continue;
-                e3 = (struct EneF0CC *)(eF0CCBase + i * 0x2E0);
+                e3 = (struct EneF0CC *)(eF0CCBase + i * ENEMY_SIZE);
                 if (e3->team == 0)
                     continue;
                 dx = (u32)(e3->x - x) >> 8;
@@ -4651,7 +4651,7 @@ s32 t6f_sub_08058DB0() asm("sub_08058DB0");
 s32 t6f_sub_0806898C(s32, s32) asm("sub_0806898C");
 struct T6fPos { u32 kind : 4; u32 x : 12; u32 y : 12; u32 dir : 4; u32 f4 : 6; };
 struct T6fPl { u16 id; u8 p2[PLAYER_FIELD(0x20) - 0x2]; u16 state; u8 p22[PLAYER_FIELD(0x30) - PLAYER_FIELD(0x22)]; u32 flags; u8 p34[PLAYER_FIELD(0x68) - PLAYER_FIELD(0x34)]; u8 team; u8 p69[PLAYER_FIELD(0xC2) - PLAYER_FIELD(0x69)]; u16 hp; u8 pC4[PLAYER_FIELD(0xDC) - PLAYER_FIELD(0xC4)]; s32 hits; u8 pE0[PLAYER_FIELD(0x148) - PLAYER_FIELD(0xE0)]; struct T6fPos *pos; };
-struct T6fEn { u16 id; u16 uid; u8 p4[8 - 4]; s16 dir; u8 pA[0xC - 0xA]; u16 state; u8 pE[0x14 - 0xE]; s32 x; s32 y; u8 p1C[0x50 - 0x1C]; s32 hits; u8 p54[0x5A - 0x54]; u16 hitMask; u8 p5C[0x5E - 0x5C]; u16 mp; u8 p60[0x6A - 0x60]; u16 h6A; u8 p6C[0x1DC - 0x6C]; u8 alive; u8 p1DD[0x22B - 0x1DD]; u8 b22B; u8 p22C[0x2E0 - 0x22C]; };
+struct T6fEn { u16 id; u16 uid; u8 p4[8 - 4]; s16 dir; u8 pA[0xC - 0xA]; u16 state; u8 pE[0x14 - 0xE]; s32 x; s32 y; u8 p1C[0x50 - 0x1C]; s32 hits; u8 p54[0x5A - 0x54]; u16 hitMask; u8 p5C[0x5E - 0x5C]; u16 mp; u8 p60[0x6A - 0x60]; u16 h6A; u8 p6C[0x1DC - 0x6C]; u8 alive; u8 p1DD[ENEMY_FIELD(0x22B) - 0x1DD]; u8 b22B; u8 p22C[ENEMY_SIZE - ENEMY_FIELD(0x22C)]; };
 struct T6fArg { u32 owner; s32 bit; u16 target; u8 pA[2]; s32 kind; u8 p10[4]; s32 level; };
 struct T6fDesc { u32 f0; u32 f4; u32 f8; u32 fC; u8 p10[0xC]; u8 f1C; u8 f1D; u8 p1E[0x34 - 0x1E]; };
 struct T6fTile { u8 p0[0x8C]; u16 h8C; };

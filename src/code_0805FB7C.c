@@ -3055,7 +3055,7 @@ void BattleResult441(u16 *arg0, u32 arg1)
         if (*arg0 == sub_080020F4()) {
             i = 0;
             do {
-                if ((eneMask441 & (1 << i)) && (e = (struct Ene441 *)(ene441 + i * 0x2E0), e->b1DC != 0)) {
+                if ((eneMask441 & (1 << i)) && (e = (struct Ene441 *)(ene441 + i * ENEMY_SIZE), e->b1DC != 0)) {
                     switch (arg1) {
                     default:
                         f441_sub_08069388(&res, e->b218, tblB441[classes[*arg0]].a, type, e->h0 + 4);
@@ -3102,7 +3102,7 @@ void BattleResult441(u16 *arg0, u32 arg1)
             i = 0;
             do {
                 if (eneMask441 & (1 << i)) {
-                    e = (struct Ene441 *)(ene441 + i * 0x2E0);
+                    e = (struct Ene441 *)(ene441 + i * ENEMY_SIZE);
                     e->h5A |= mask;
                 }
                 i++;

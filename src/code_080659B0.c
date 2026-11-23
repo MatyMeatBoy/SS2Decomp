@@ -600,6 +600,7 @@ u32 sub_080663A4(u32 index)
     entry = root67Entries + count * 0x88;
     *(u32 *)(entry + 4) = 1;
     entry[0] = 0x92;
+    /* EU stride on purpose: the USA form is usa_sub_08067CA4 (src/regions/usa). */
     { u8 *base = root67Sources;
       source = (u8 *)(index * 0x2E0 + (u32)base); }
     *(u32 *)(entry + 8) = *(u16 *)(source + 2);

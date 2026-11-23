@@ -169,8 +169,8 @@ s32 sub_0801E46C(void *arg0, void *arg1) {
     s32 var_r1;
 
     sub_080020F4();
-    temp_r3 = M2C_FIELD(arg1, s32 *, 0x10);
-    temp_r1 = M2C_FIELD(arg0, s32 *, 0x20);
+    temp_r3 = M2C_FIELD(arg1, s32 *, PLAYER_FIELD(0x10));
+    temp_r1 = M2C_FIELD(arg0, s32 *, PLAYER_FIELD(0x20));
     temp_r2 = temp_r1 + 1;
     var_r0 = temp_r2 * 3;
     temp_r1_2 = temp_r1 + 0xD;
@@ -182,8 +182,8 @@ s32 sub_0801E46C(void *arg0, void *arg1) {
     } else {
         var_r1 = temp_r3 * 3;
     }
-    if (M2C_FIELD(arg1, u8 *, 0x22) == 3) {
-        var_r1 *= 0xA;
+    if (M2C_FIELD(arg1, u8 *, PLAYER_FIELD(0x22)) == 3) {
+        var_r1 *= PLAYER_FIELD(0xA);
     }
     return var_r1;
 }
@@ -1642,7 +1642,7 @@ void sub_0801FDD0(u8 *p)
     goto echeck;
 eloop:
         if(!(maskFDD0&(1<<i))) goto enext;
-        e=enemiesFDD0+i*0x2E0;
+        e=enemiesFDD0+i*ENEMY_SIZE;
         if((u16)(*(u16 *)(e+0xC)-11)<=1) goto enext;
         id=(u32 *)(p+0xDC);
         ok=*id!=*(u32 *)(e+0x54);
@@ -1798,7 +1798,7 @@ void sub_08020680(u8 *e)
         for(;i<5;i++) {
             if(i==*(u16 *)e) continue;
             if(!(mask20680&(1<<i))) continue;
-            t=enemies20680+i*0x2E0;
+            t=enemies20680+i*ENEMY_SIZE;
             if((u16)(*(u16 *)(t+0xC)-11)<=1) continue;
             ok=*(u32 *)(e+0x50)!=*(u32 *)(t+0x54);
             if(*(s16 *)(t+0x5C)-*(u16 *)(t+0x4A)<=0) ok=0;
@@ -1988,9 +1988,9 @@ void t21_20E08(u32 arg0, s32 arg1)
         py = (u32)(pos[1] << 20) >> 20;
     } else {
         entity = t21_entities20E08;
-        addr = arg0 * 0x2E0;
+        addr = arg0 * ENEMY_SIZE;
         addr += (u32)entity;
-        addr -= 0xB80;
+        addr -= (4 * ENEMY_SIZE);
         px = *(s32 *)(addr + 0x14) >> 8;
         py = *(s32 *)(addr + 0x18) >> 8;
     }
@@ -2085,9 +2085,9 @@ void t21_210A8(u32 arg0, s32 arg1)
         py = (u32)(pos[1] << 20) >> 20;
     } else {
         entity = t21_entities210A8;
-        addr = arg0 * 0x2E0;
+        addr = arg0 * ENEMY_SIZE;
         addr += (u32)entity;
-        addr -= 0xB80;
+        addr -= (4 * ENEMY_SIZE);
         px = *(s32 *)(addr + 0x14) >> 8;
         py = *(s32 *)(addr + 0x18) >> 8;
     }
@@ -2158,7 +2158,7 @@ void t21_2133C(u32 arg0, s32 arg1)
     u32 tile, addr;
     u16 *pos;
     struct T21Entity2133C *entity;
-    t21_init2133C(&data, 0x5008C, 1, -1, 0);
+    t21_init2133C(&data, RES_ID(0x5008C), 1, -1, 0);
     data.sprite[0] = 7;
     data.sprite[1] = 8;
     sub_08000AF0(23, data.palette, 2);
@@ -2171,9 +2171,9 @@ void t21_2133C(u32 arg0, s32 arg1)
         py = (u32)(pos[1] << 20) >> 20;
     } else {
         entity = t21_entities2133C;
-        addr = arg0 * 0x2E0;
+        addr = arg0 * ENEMY_SIZE;
         addr += (u32)entity;
-        addr -= 0xB80;
+        addr -= (4 * ENEMY_SIZE);
         px = *(s32 *)(addr + 0x14) >> 8;
         py = *(s32 *)(addr + 0x18) >> 8;
     }
@@ -2224,9 +2224,9 @@ void t21_21490(u32 arg0, s32 arg1)
         py = (u32)(pos[1] << 20) >> 20;
     } else {
         entity = t21_entities21490;
-        addr = arg0 * 0x2E0;
+        addr = arg0 * ENEMY_SIZE;
         addr += (u32)entity;
-        addr -= 0xB80;
+        addr -= (4 * ENEMY_SIZE);
         px = *(s32 *)(addr + 0x14) >> 8;
         py = *(s32 *)(addr + 0x18) >> 8;
     }
@@ -2351,9 +2351,9 @@ void t21_217D8(u32 arg0, s32 arg1)
         py = (u32)(pos[1] << 20) >> 20;
     } else {
         entity = t21_entities217D8;
-        addr = index * 0x2E0;
+        addr = index * ENEMY_SIZE;
         addr += (u32)entity;
-        addr -= 0xB80;
+        addr -= (4 * ENEMY_SIZE);
         px = *(s32 *)(addr + 0x14) >> 8;
         py = *(s32 *)(addr + 0x18) >> 8;
     }
@@ -2413,9 +2413,9 @@ void t21_21960(u32 arg0, s32 arg1)
         py = (u32)(pos[1] << 20) >> 20;
     } else {
         entity = t21_entities21960;
-        addr = index * 0x2E0;
+        addr = index * ENEMY_SIZE;
         addr += (u32)entity;
-        addr -= 0xB80;
+        addr -= (4 * ENEMY_SIZE);
         px = *(s32 *)(addr + 0x14) >> 8;
         py = *(s32 *)(addr + 0x18) >> 8;
     }

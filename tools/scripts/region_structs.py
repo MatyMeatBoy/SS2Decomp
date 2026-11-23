@@ -207,11 +207,29 @@ PARTIAL = (('PLAYER_FIELD', usa_field, 0x14C), ('SAVE_FIELD', save_field, 0x1000
            ('ENEMY_FIELD', enemy_field, 0x2E0))
 
 
+_HEADER_SIZES = None
+
+
+def header_sizes():
+    """Sizes of the structs defined in include/*.h (members of module structs may use them)."""
+    global _HEADER_SIZES
+    if _HEADER_SIZES is None:
+        _HEADER_SIZES = {}
+        for path in sorted((ROOT / 'include').glob('*.h')):
+            text = path.read_text(encoding='utf-8', errors='replace')
+            for name, start, end in struct_definitions(text):
+                try:
+                    _HEADER_SIZES[name] = members(text[start:end], _HEADER_SIZES)[1]
+                except Exception:
+                    continue
+    return _HEADER_SIZES
+
+
 def player_views(text, partial=False):
     """[(view key, {dim span: expression}, partial)] for rewritable record structs of text: structs of
     exactly a record size, and with partial=True also smaller structs read as a prefix view of a
     player, save or enemy record (their end maps through the field macro)."""
-    sizes, views = {}, []
+    sizes, views = dict(header_sizes()), []
     for name, start, end in struct_definitions(text):
         try:
             layout, size = members(text[start:end], sizes)

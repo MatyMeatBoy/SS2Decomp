@@ -1284,7 +1284,7 @@ void sub_0805B688(u16 who, u16 itemId)
             for (; i <= 4; i++) {
                 if (((u32)gUnk_030056FC & (1 << i)) == 0)
                     continue;
-                enemy = b688Enemies + i * 0x2E0;
+                enemy = b688Enemies + i * ENEMY_SIZE;
                 if (*(u16 *)(enemy + 0xC) == 0xC)
                     continue;
                 if (enemy[0x1DC] == 0 && !(obj->hitMask & 0x3C))

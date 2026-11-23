@@ -101,32 +101,32 @@ void sub_080152CC();
 struct Info15 { u32 kind:4; u32 mid:24; u32 top:4; u32 lo:14; u32 level:3; u32 hi:15; };
 struct Plr15 {
     u16 id;
-    u8 pad2[0x1A];
+    u8 pad2[PLAYER_FIELD(0x1C) - 0x2];
     u16 w1C;
-    u8 pad1E[2];
+    u8 pad1E[PLAYER_FIELD(0x20) - PLAYER_FIELD(0x1E)];
     u16 state;
-    u8 pad22[2];
+    u8 pad22[PLAYER_FIELD(0x24) - PLAYER_FIELD(0x22)];
     s16 w24;
     u16 w26;
     u16 w28;
-    u8 pad2A[6];
+    u8 pad2A[PLAYER_FIELD(0x30) - (PLAYER_FIELD(0x28) + 0x2)];
     u32 flags;
-    u8 pad34[0xC];
+    u8 pad34[PLAYER_FIELD(0x40) - PLAYER_FIELD(0x34)];
     s16 w40;
-    u8 pad42[0x4A];
+    u8 pad42[PLAYER_FIELD(0x8C) - PLAYER_FIELD(0x42)];
     struct V2W12 pos8C;
     struct V2W12 pos94;
-    u8 pad9C[0xB0 - 0x9C];
+    u8 pad9C[PLAYER_FIELD(0xB0) - PLAYER_FIELD(0x9C)];
     u16 wB0;
     u16 wB2;
     u16 wB4;
     u16 wB6;
     u16 wB8;
-    u8 padBA[0xDC - 0xBA];
+    u8 padBA[PLAYER_FIELD(0xDC) - PLAYER_FIELD(0xBA)];
     s32 counterDC;
-    u8 padE0[0x122 - 0xE0];
+    u8 padE0[PLAYER_FIELD(0x122) - PLAYER_FIELD(0xE0)];
     u16 w122;
-    u8 pad124[0x148 - 0x124];
+    u8 pad124[PLAYER_FIELD(0x148) - PLAYER_FIELD(0x124)];
     struct Info15 *info;
 };
 extern struct Plr15 players15[] asm("gUnk_03003CE0");
@@ -701,7 +701,7 @@ void sub_08016114(void)
     p = gP030056F4;
     i = 0;
     z = 0;
-    for (; i <= 4; i++, p += 0x2E0) {
+    for (; i <= 4; i++, p += ENEMY_SIZE) {
         sub_0807A064(i + 4);
         *(u16 *)(p + 0) = z;
         *(u16 *)(p + 8) = z;
@@ -1279,7 +1279,7 @@ void sub_080169C8(void) {
             *(u16 *)(object + 0xC) = 11;
             sound169C8(object[0x86], object[0x84], 3);
         }
-        objectOffset += 0x2E0; taskOffset += 0x28; i++;
+        objectOffset += ENEMY_SIZE; taskOffset += 0x28; i++;
     } while (i <= 4);
     j = 0; secondBase = &gUnk_030056F0; secondOffset = 0;
     do {
@@ -1499,7 +1499,7 @@ void sub_08016D40(u8 *object, u16 arg) {
     u32 count;
     u16 *counter;
     if (object[0x201] & 2) {
-        source = gP030056F4 + (object[0x1FC] >> 4) * 0x2E0;
+        source = gP030056F4 + (object[0x1FC] >> 4) * ENEMY_SIZE;
         *(s32 *)(object + 0x24) = *(s32 *)(source + 0x14) >> 8;
         *(s32 *)(object + 0x28) = *(s32 *)(source + 0x18) >> 8;
     } else {
@@ -1778,7 +1778,7 @@ void sub_08016F28(struct Obj16F28 *self)
                         u32 r;
                         struct Obj16F28 **objsp = &objs16F28;
                         tx = -1;
-                        for (i = 0, off = 0; i <= 4; off += 0x2E0, i++) {
+                        for (i = 0, off = 0; i <= 4; off += ENEMY_SIZE, i++) {
                             struct Obj16F28 *o;
                             if ((used16F28 & (1 << i)) && (o = (struct Obj16F28 *)((u8 *)*objsp + off)) != self) {
                                 s32 dx = (o->x - self->x) >> 8;
@@ -1868,7 +1868,7 @@ void sub_08016F28(struct Obj16F28 *self)
                         i = 0;
                         usedp = &used16F28;
                         objsp = &objs16F28;
-                        for (off = 0; i <= 4; off += 0x2E0, i++) {
+                        for (off = 0; i <= 4; off += ENEMY_SIZE, i++) {
                             if (self->id != i && (*usedp & (1 << i))) {
                                 e = (struct Obj16F28 *)((u8 *)*objsp + off);
                                 if (self->dir == e->dir) {
@@ -2125,7 +2125,7 @@ void sub_08017C6C(struct T015CEntity *p) {
     if (!radiusraw || p->active==0xFF) goto next;
     baseptr=&T015CEntities;
     index=(s32)cursorraw >> 16;
-    offset=index*0x2E0;
+    offset=index*ENEMY_SIZE;
     base=*baseptr;
     q=(struct T015CEntity *)((u8 *)base+offset);
     flagptr=&gUnk_030056FC;

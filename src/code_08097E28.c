@@ -981,7 +981,7 @@ check:
     sub_08000274_3((u32)t, a, b);
 }
 struct Sprite99 {u32 base,p4,data,palette,p10,p14,p18;u8 payload[24];};
-struct Player99 {u8 p0[0x30];u32 flags;u8 p34[0x118];};
+struct Player99 {u8 p0[PLAYER_FIELD(0x30)];u32 flags;u8 p34[PLAYER_SIZE - PLAYER_FIELD(0x34)];};
 struct Spr99 {u8 *sprite;u8 p4[0x148];};
 struct Actor99 {
     u16 f0; u16 f2; u8 p4[4]; u16 f8; u8 pA[2]; u16 state; u8 pE[6];
@@ -1954,7 +1954,7 @@ void sub_0809AEE8(void *input)
                             shake = 0;
                             orbitDone = 0;
                             for (i = 0; i <= 1; i++) {
-                                allies[i] = (struct ActorAEE8 *)(poolAEE8 + (i * 0x2E0 + 0x8A0));
+                                allies[i] = (struct ActorAEE8 *)(poolAEE8 + (i * ENEMY_SIZE + 0x8A0));
                                 activeAEE8 |= 1 << (i + 3);
                                 sub_0801A0A4(allies[i]);
 { struct ActorAEE8 *a = allies[i];
@@ -2736,7 +2736,7 @@ void sub_0809CC2C_(u8 idx)
 
 
     palNo = 6;
-    ent = (struct EntCC2C *)(entsCC2C + (idx * 0x2e0 + 0x2e0));
+    ent = (struct EntCC2C *)(entsCC2C + (idx * ENEMY_SIZE + ENEMY_SIZE));
     sub_0801A0A4(ent);
     maskCC2C |= 1 << (idx + 1);
     tblCC2C[idx] = ent;

@@ -5565,7 +5565,7 @@ block_61:
         mode_index82BB0 = *(s32 *)((u8 *)manager82BB0 + 0x44);
         mode_offset82BB0 = mode_index82BB0 * 0xF0;
         
-        mode_offset82BB0 += 0x2E0;
+        mode_offset82BB0 += ENEMY_SIZE;
         
         { s32 slot82BB0 = (s32)*mode_slot82BB0; register s32 sum82BB0 asm("r0") = slot82BB0; sum82BB0 = slot82BB0 + mode_offset82BB0; sub_080852CC(sum82BB0); }
         break;
@@ -5771,7 +5771,7 @@ block_61:
     case 6:
         for (var_r6 = 0; var_r6 < (u32)(*(u16 *)((u8 *)bank82BB0 + 0x6A) * 0xF); var_r6++) {
             temp_r1_6 = (u8 *)bank82BB0;
-            var_r8 = 0x2E0;
+            var_r8 = ENEMY_SIZE;
             temp_r2_2 = var_r6 * 0x10;
             temp_r1_7 = temp_r1_6 + temp_r2_2;
             asm("" : "+r"(temp_r1_7) : "r"(var_r8));

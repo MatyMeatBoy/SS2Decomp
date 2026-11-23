@@ -2054,7 +2054,7 @@ if ((kind & mask) == 4) {
  } else {
  for (j = 0; j < 5; j++) {
  if (rescueD7ACMask & (1 << j)) {
- entity = (u8 *)(j * 0x2e0 + rescueD7ACEntities);
+ entity = (u8 *)(j * ENEMY_SIZE + rescueD7ACEntities);
  if (subtype == *(u16 *)(entity + 2)) {
  slot = (struct RescueD7ACSlot *)(entity + 0x8c);
  for (i = 0; i < 8; i++, slot++) {
@@ -2097,7 +2097,7 @@ void sub_0801DB94(s32 owner,void *record,s32 status)
     u32 duration;
     s32 hp;
     if((u32)owner<=3) player=(u8 *)gUnk_03003CE0+(u32)owner*PLAYER_SIZE;
-    else monster=(u8 *)gUnk_030056F4+((u32)owner*0x2E0-0xB80);
+    else monster=(u8 *)gUnk_030056F4+((u32)owner*ENEMY_SIZE-(4 * ENEMY_SIZE));
     entry->category=100;
     switch((u32)status-1) {
     case 0:

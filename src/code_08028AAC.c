@@ -339,7 +339,7 @@ matched:
         key--;
         if(key<=4) {
             monsterAddress=&monsters026E4;
-            offset=key*0x2E0;
+            offset=key*ENEMY_SIZE;
             
             *(u16 *)((u8 *)*monsterAddress+offset+8)=savedValue;
         }
