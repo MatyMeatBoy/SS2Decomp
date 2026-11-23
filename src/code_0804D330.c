@@ -3298,7 +3298,7 @@ void sub_08051A78(void)
     t53_unlockA78();
     sub_0800D108();
 }
-struct T53EntityBFC { u16 f0,id; u8 pad[8]; u16 state; u8 tail[0x2D2]; };
+struct T53EntityBFC { u16 f0,id; u8 pad[8]; u16 state; u8 tail[ENEMY_SIZE - 0xE]; };
 extern struct T53EntityBFC *t53_entitiesBFC asm("gUnk_030056F4");
 extern u8 *t53_gsBFC asm("gUnk_03005CF4");
 static inline void t53_waitBFC(u16 value)
