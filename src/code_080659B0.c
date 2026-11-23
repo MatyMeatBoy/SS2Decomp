@@ -1034,7 +1034,7 @@ struct RxGs {
 extern struct RxGs *gRxGs asm("gUnk_03005CF4");
 struct RxGs2 { u8 p0[0x1B0]; struct { u8 a[7]; u8 b[5]; } grp[2]; };
 extern struct RxGs2 *gRxGs2 asm("gUnk_03005CF4");
-#define RX_ENT(i) (gRxEntities + (i) * 0x2E0)
+#define RX_ENT(i) (gRxEntities + (i) * ENEMY_SIZE)
 #define RX_ENQ(tag, chunks, e) \
     do { \
         if (gRxQueueCount < 0x32) { \

@@ -267,7 +267,7 @@ s32 sub_0807414C(struct Ply076EE8 *player, u16 width, u32 range)
     return e->f2;
 }
 struct Position076398 {u16 x,y;};
-struct Player076398 {u16 id;u8 pad2[0x66];u8 team;u8 pad69[0xDF];struct Position076398 *position;};
+struct Player076398 {u16 id;u8 pad2[PLAYER_FIELD(0x68)-2];u8 team;u8 pad69[PLAYER_FIELD(0x148)-PLAYER_FIELD(0x69)];struct Position076398 *position;u8 pad14C[PLAYER_SIZE-PLAYER_FIELD(0x14C)];};
 extern struct Player076398 players076398[] asm("gUnk_03003CE0");
 extern u8 *enemies076398 asm("gUnk_030056F4");
 #define F_076398(p,t,o) (*(t*)((u8*)(p)+(o)))
@@ -298,11 +298,11 @@ s32 nearest076398(u32 inputSelf,u32 inputExcluded,s32 x,s32 y,s32 range)
         index=0;
         if(index<count){
             {
-                u32 stride=0x14C;
+                u32 stride=PLAYER_SIZE;
                 u32 base=(u32)players076398;
-                selfTeam=(u8*)(self*stride+base)+0x68;
-                position=(struct Position076398**)(base+0x148);
-                team=(u8*)(base+0x68);
+                selfTeam=(u8*)(self*stride+base)+PLAYER_FIELD(0x68);
+                position=(struct Position076398**)(base+PLAYER_FIELD(0x148));
+                team=(u8*)(base+PLAYER_FIELD(0x68));
             }
             do{
                 if(self!=index && *selfTeam!=*team && *team!=0){
@@ -319,7 +319,7 @@ s32 nearest076398(u32 inputSelf,u32 inputExcluded,s32 x,s32 y,s32 range)
                     }
                 }
                 {
-                    register u32 step asm("r2")=0x14C;
+                    register u32 step asm("r2")=PLAYER_SIZE;
                     position=(struct Position076398**)((u8*)position+step);
                     team+=step;
                 }
@@ -330,7 +330,7 @@ s32 nearest076398(u32 inputSelf,u32 inputExcluded,s32 x,s32 y,s32 range)
         if(nearest!=-1U){
             register u32 chosen asm("r3")=nearest;
             register u32 address asm("r0");
-            chosen*=0x14C;
+            chosen*=PLAYER_SIZE;
             asm("" : "+r"(chosen));
             address=chosen;
             asm("" : "+r"(address));
@@ -363,7 +363,7 @@ s32 nearest076398(u32 inputSelf,u32 inputExcluded,s32 x,s32 y,s32 range)
                 }
             }
         }
-        offset+=0x2E0;
+        offset+=ENEMY_SIZE;
         index++;
     }
     while(index<=4);
@@ -374,7 +374,7 @@ s32 nearest076398(u32 inputSelf,u32 inputExcluded,s32 x,s32 y,s32 range)
             u32 selected=nearest;
             register u32 offset asm("r0");
             u32 object;
-            offset=nearest*0x2E0;
+            offset=nearest*ENEMY_SIZE;
             object=(u32)*address+offset;
             result=F_076398(object,u16,2);
             goto finish;
