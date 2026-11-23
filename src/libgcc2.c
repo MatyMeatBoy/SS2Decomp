@@ -354,7 +354,7 @@ __udiv_w_sdiv (USItype *rp __attribute__ ((__unused__)),
 #endif
 
 #ifdef L_udivmoddi4
-static const UQItype __clz_tab[] =
+const UQItype __clz_tab[] =
 {
   0,1,2,2,3,3,3,3,4,4,4,4,4,4,4,4,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,
   6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,

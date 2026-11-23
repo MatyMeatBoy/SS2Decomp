@@ -33,7 +33,7 @@ from elftools.elf.elffile import ELFFile
 from rom_regions import ROOT, RegionError, load_profiles, verify_rom
 import region_build
 
-ABS32, THM_CALL, THM_PC22 = 2, 10, 30
+ABS32, THM_CALL, THM_PC22, THM_JUMP11, THM_JUMP8 = 2, 10, 30, 102, 103
 WINDOW = 0x4000
 MIN_SIZE = 8
 
@@ -84,6 +84,20 @@ def bl_target(rom, address):
     return address + 4 + offset
 
 
+def branch_target(rom, address, kind):
+    """Target of a Thumb B (JUMP11) or conditional B (JUMP8) at address, or None."""
+    (half,) = struct.unpack_from('<H', rom, address - region_build.ROM_BASE)
+    if kind == THM_JUMP11 and half & 0xF800 == 0xE000:
+        offset = (half & 0x7FF) << 1
+        offset -= 0x1000 if offset & 0x800 else 0
+    elif kind == THM_JUMP8 and half & 0xF000 == 0xD000 and half & 0x0F00 < 0x0E00:
+        offset = (half & 0xFF) << 1
+        offset -= 0x200 if offset & 0x100 else 0
+    else:
+        return None
+    return address + 4 + offset
+
+
 def masked_segments(size, relocations):
     masked = sorted(offset for offset, _, _ in relocations)
     segments, cursor = [], 0
@@ -122,6 +136,15 @@ def resolve(fragment, relocations, symbols, eu_rom, target_rom, address):
             if eu_target is None or target is None:
                 return None
             needs[name].add((target - (eu_target - (symbols[name] & ~1))) | 1)  # ARMv4T BL only reaches Thumb
+        elif kind in (THM_JUMP11, THM_JUMP8) and name is not None:
+            eu_target = branch_target(eu_rom, fragment.address + offset, kind)
+            target = branch_target(target_rom, address + offset, kind)
+            # masked_segments hides 4 bytes; the halfword after a 2-byte branch must still match.
+            tail = slice(offset + 2, offset + 4)
+            if eu_target is None or target is None or (offset + 2 < len(data) and all(
+                    item[0] != offset + 2 for item in relocations) and data[tail] != fragment.data[tail]):
+                return None
+            needs[name].add((target - (eu_target - (symbols[name] & ~1))) | (symbols[name] & 1))
         else:
             return None
     # References the assembler resolved inside the EU object (pool labels, branches into a
