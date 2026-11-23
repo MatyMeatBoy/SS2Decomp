@@ -2234,14 +2234,14 @@ void sub_0801DE98(void *arg0) {
 u32 sub_0801DEB8(void)
 {
     u8 *table = (u8 *)gUnk_030034E0;
-    u8 *item = table + *(u16 *)(table + 0x68) * 0x10;
+    u8 *item = table + *(u16 *)(table + SAVE_FIELD(0x68)) * 0x10;
     u8 *resource;
-    if (item[0x79] == 0)
+    if (item[SAVE_FIELD(0x79)] == 0)
         resource = 0;
     else
-        resource = (u8 *)sub_08007290(*(u16 *)(item + 0x72) | 0xB0000);
-    if (resource[0x9B] == 9)
-        return resource[0xA7];
+        resource = (u8 *)sub_08007290(*(u16 *)(item + SAVE_FIELD(0x72)) | 0xB0000);
+    if (ITEM_KIND(resource) == 9)
+        return resource[ITEM_FIELD(0xA7)];
     return 0;
 }
 /* [RestoreLocalPlayerVitalState] Copies maximum health 0x62 to current health 0xC4. */

@@ -40,7 +40,7 @@ extern s32 *gUnk_03000448[];
 extern s32 *gUnk_030004D0;
 extern s32 gUnk_030056FC;
 
-struct Player111 { u8 pad0[0x20]; u16 state; u8 pad22[0xE]; u32 flags; u8 pad34[0x34]; u8 active; u8 pad69[0x23]; s32 x, y, oldX, oldY; u8 pad9C[0x2C]; u16 lock; u8 padCA[0x82]; };
+struct Player111 { u8 pad0[PLAYER_FIELD(0x20)]; u16 state; u8 pad22[PLAYER_FIELD(0x30) - PLAYER_FIELD(0x22)]; u32 flags; u8 pad34[PLAYER_FIELD(0x68) - PLAYER_FIELD(0x34)]; u8 active; u8 pad69[PLAYER_FIELD(0x8C) - PLAYER_FIELD(0x69)]; s32 x, y, oldX, oldY; u8 pad9C[PLAYER_FIELD(0xC8) - PLAYER_FIELD(0x9C)]; u16 lock; u8 padCA[PLAYER_SIZE - PLAYER_FIELD(0xCA)]; };
 extern struct Player111 players111[] asm("gUnk_03003CE0");
 extern s32 *object111 asm("gUnk_0300041C");
 /* [RestorePlayerOnObjectIntersection] Rejects locked/inactive or excluded-state players, constructs player and

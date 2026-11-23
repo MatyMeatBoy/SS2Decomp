@@ -191,9 +191,9 @@ s32 sub_0801E46C(void *arg0, void *arg1) {
  * accumulated experience word+0x1C.1E4CC uses these same fields/table when awarding experience and advancing
  * level. */
 s32 sub_0801E4B0(void) {
-    s32 *p = (s32 *) gUnk_030034E0;
-    s32 idx = p[8];
-    return gUnk_0848FF54[idx] - p[7];
+    u8 *p = (u8 *) gUnk_030034E0;
+    s32 idx = *(s32 *)(p + SAVE_FIELD(0x20));
+    return gUnk_0848FF54[idx] - *(s32 *)(p + SAVE_FIELD(0x1C));
 }
 /* [AddExperienceAndAdvanceOneLevel] Rejects when local runtime player flags contain0x2000 or unsigned saved
  * level>198. Adds supplied amount to experience+0x1C; if threshold table value reached, increments level once,
@@ -635,7 +635,7 @@ s32 sub_0801E988(struct Atk5B0 *atk, struct Tgt988 *tgt, u8 *record, s32 noCrit)
         return fin;
     }
 }
-struct CombatCtxD8C { u8 pad[0x14]; u16 resist[6]; u8 pad20[8]; u16 key; };
+struct CombatCtxD8C { u8 pad[ENEMY_FIELD(0x218) - 0x204]; u16 resist[6]; u8 pad20[8]; u16 key; };
 struct CombatActorD8C { u8 pad[0x1CC]; u16 attack,defense; s16 evade; u8 pad1D2[0x32]; struct CombatCtxD8C ctx; };
 struct TargetD8C { u8 pad[0xC]; u16 kind; u8 padE[0x6E]; u16 resist[6]; u8 pad88[0x4A]; u16 f5A_dummy; };
 static inline s32 inl_ED8C(u16 arg0, u16 arg1, u32 arg2) {
@@ -674,10 +674,10 @@ u32 sub_0801ED8C(void *arg0, void *arg1)
     struct CombatCtxD8C *ctx = &src->ctx;
     record = (u8 *) sub_08007290(ctx->key | 0xB0000);
   }
-  defense = *((u16 *) (dst + 0x5A));
+  defense = *((u16 *) (dst + PLAYER_FIELD(0x5A)));
   if (((s32) (sub_080008C8() & 0x7F)) <= (src->evade + 1))
   {
-    sub_0802247C(*((u32 *) (dst + 0x8C)), *((u32 *) (dst + 0x90)));
+    sub_0802247C(*((u32 *) (dst + PLAYER_FIELD(0x8C))), *((u32 *) (dst + PLAYER_FIELD(0x90))));
     divisor = 100;
   }
   else
@@ -685,9 +685,9 @@ u32 sub_0801ED8C(void *arg0, void *arg1)
     divisor = 200;
   }
   firstDamage = inl_ED8C(src->attack, defense, divisor);
-  element = *((u16 *) (record + 0xBC));
+  element = *((u16 *) (record + ITEM_FIELD(0xBC)));
   damage = firstDamage;
-  resists = (u16 *) (dst + 0x7C);
+  resists = (u16 *) (dst + PLAYER_FIELD(0x7C));
   switch (element - 1U)
   {
     case 0:
@@ -739,13 +739,13 @@ u32 sub_0801ED8C(void *arg0, void *arg1)
       sub_0805865C(0x27);
     }
     else
-      if ((*((u16 *) (dst + 0xC))) == 8)
+      if ((*((u16 *) (dst + PLAYER_FIELD(0xC)))) == 8)
     {
       sub_0805865C(0x4B);
     }
     else
     {
-      sub_0805865C((*((u16 *) (dst + 0xC))) + 0x45);
+      sub_0805865C((*((u16 *) (dst + PLAYER_FIELD(0xC)))) + 0x45);
     }
     return (u16)result;
   }
