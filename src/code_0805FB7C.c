@@ -3527,7 +3527,7 @@ void sub_080655CC(s32 x, s32 y, u16 *data, s32 align)
         default: return;
         }
         offset = 0;
-        text = base + gUnk_03003470 * 31;
+        text = base + gUnk_03003470 * 31 * sizeof(TextChar);
         if (align < 0)
             offset = -(((u32)sub_0801A638((u8 *)text) * 13) >> 1);
         { s32 t = (s16)offset; textDraw66(text, (u16)(t + x), (u16)y); }
