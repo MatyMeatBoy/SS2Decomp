@@ -311,6 +311,10 @@ def search(checker, module, name, address, log, apply_best=False):
         checker.compile(module)
 
 
+# Rewrites that match a regional twin elsewhere and displace correctly placed neighbours.
+SKIP = {'sub_080663A4'}  # USA usa_sub_08067CA4 keeps the EU stride far from this function
+
+
 def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     parser.add_argument('--region', choices=('usa', 'jp'), default='usa')
@@ -332,6 +336,8 @@ def main(argv=None):
         if eu is None or eu in done or fragment.name not in relocations:
             continue
         if args.funcs and fragment.name not in args.funcs:
+            continue
+        if fragment.name in SKIP and fragment.name not in args.funcs:
             continue
         if len(fragment.data) > args.max_size:
             continue
