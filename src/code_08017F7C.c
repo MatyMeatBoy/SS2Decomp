@@ -1205,6 +1205,37 @@ void sub_0801A120(u8 *obj, u32 value, u16 offset)
  * coordinate differences right by 8, computes integer Sqrt distance, truncates it to u16 and selects the first
  * strictly smallest distance below 65535. Returns the slot and writes distance, or returns 0xFF without
  * writing distance when none qualifies. */
+#ifdef REGION_USA
+u32 sub_0801A1C8(u8 *obj, s32 *distance)
+{
+    s32 nearest = 0xFFFF;
+    s32 selected = -1;
+    u32 i = 0;
+    s32 *flags = &gUnk_030056FC;
+    u8 **base = (u8 **)&gUnk_030056F4;
+    for (; i <= 4; i++) {
+        s32 bit = 1 << i;
+        if (*flags & bit) {
+            u8 *other = *base + i * ENEMY_SIZE;
+            if (other != obj) {
+                s32 dx = (*(s32 *)(other + 0x14) - *(s32 *)(obj + 0x14)) >> 8;
+                s32 dy = (*(s32 *)(other + 0x18) - *(s32 *)(obj + 0x18)) >> 8;
+                u32 length = (u16)Sqrt(dx * dx + dy * dy);
+                if (nearest > (s32)length) {
+                    nearest = length;
+                    selected = i;
+                }
+            }
+        }
+    }
+    {
+        u32 result;
+        if (selected != -1) { *distance = nearest; result = (u16)selected; }
+        else result = 0xFF;
+        return result;
+    }
+}
+#else
 u32 sub_0801A1C8(u8 *obj, s32 *distance)
 {
     s32 nearest = 0xFFFF;
@@ -1235,6 +1266,7 @@ u32 sub_0801A1C8(u8 *obj, s32 *distance)
         return result;
     }
 }
+#endif
 /* [FindFreeActorSlot] Returns the first clear bit index from 0 through 4 in actor activity bitmap 0x030056FC,
  * or -1 if all slots are occupied. It does not allocate or initialize the slot. */
 s32 sub_0801A270(void)
