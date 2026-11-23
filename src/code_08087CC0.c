@@ -3138,7 +3138,7 @@ extern u8 *gStateC0 asm("gUnk_03005CF4");
 extern u8 gPortraitC0[] asm("gUnk_08479140");
 extern u8 gCoordsC0[] asm("gUnk_084F0C30");
 extern u8 gCoordsThirdC0[] asm("gUnk_084F0C34");
-struct C0Slot { struct C0Item *item; u8 pad[0x148]; };
+struct C0Slot { struct C0Item *item; u8 pad[PLAYER_SIZE - 4]; };
 extern struct C0Slot gSlotsC0[] asm("gUnk_03003E28");
 /* Seat coordinates: [category][seat in category][x, y, z]. */
 extern u16 gSeatPosC0[][3][3] asm("gUnk_084F0C30");

@@ -950,7 +950,7 @@ void sub_08045F44(u32 inputId) {
             u8 *entry;
             count = 0;
             k = 0;
-            entry = invF4445 + 0x150;
+            entry = invF4445 + SAVE_FIELD(0x150);
             do {
                 if (*(u16 *)entry == 5 && *(u16 *)(entry + 2) == 0xA6)
                     count++;
@@ -987,10 +987,10 @@ void sub_08045F44(u32 inputId) {
                     
                     scaled = i * 16;
                     e = base + scaled;
-                    if (*(u16 *)(e + 0x150) == 5 && *(u16 *)(e + 0x152) == 0xA6) {
+                    if (*(u16 *)(e + SAVE_FIELD(0x150)) == 5 && *(u16 *)(e + SAVE_FIELD(0x152)) == 0xA6) {
                         n--;
-                        *(u16 *)(e + 0x150) = clear;
-                        *(u16 *)(e + 0x152) = clear;
+                        *(u16 *)(e + SAVE_FIELD(0x150)) = clear;
+                        *(u16 *)(e + SAVE_FIELD(0x152)) = clear;
                         if (n == 0) goto removedItem;
                     }
                 }

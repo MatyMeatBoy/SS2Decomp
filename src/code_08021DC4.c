@@ -3080,12 +3080,12 @@ alloc:
 
 
 struct T24Net25890 { u16 unk0, unk2; u8 unk4:6; u8 pad5[2]; u8 unk7; };
-struct T24Player25890 { u8 pad0[PLAYER_FIELD(0x14)]; u16 unk14; u8 pad16[PLAYER_FIELD(0x20) - PLAYER_FIELD(0x16)]; u16 state; s16 unk22; u16 unk24; s16 unk26; u8 pad28[PLAYER_FIELD(0x2E) - PLAYER_FIELD(0x28)]; s16 unk2E; u32 flags; u8 pad34[PLAYER_FIELD(0x8C) - PLAYER_FIELD(0x34)]; s32 unk8C, unk90; u8 pad94[PLAYER_FIELD(0xD8) - PLAYER_FIELD(0x94)]; u32 unkD8; u8 padDC[PLAYER_FIELD(0x148) - PLAYER_FIELD(0xDC)]; struct T24Net25890 *net; };
+struct T24Player25890 { u8 pad0[PLAYER_FIELD(0x14)]; u16 unk14; u8 pad16[PLAYER_FIELD(0x20) - PLAYER_FIELD(0x16)]; u16 state; s16 unk22; u16 unk24; s16 unk26; u8 pad28[PLAYER_FIELD(0x2E) - PLAYER_FIELD(0x28)]; s16 unk2E; u8 gap30[PLAYER_FIELD(0x30) - PLAYER_FIELD(0x2F) - 1]; u32 flags; u8 pad34[PLAYER_FIELD(0x8C) - PLAYER_FIELD(0x34)]; s32 unk8C, unk90; u8 pad94[PLAYER_FIELD(0xD8) - PLAYER_FIELD(0x94)]; u32 unkD8; u8 padDC[PLAYER_FIELD(0x148) - PLAYER_FIELD(0xDC)]; struct T24Net25890 *net; };
 struct T24Sprite25890 { u32 f0,f4,f8,fC; u8 pad10[12]; u8 payload[5]; u8 byte21,byte22,byte23; u8 pad24[16]; };
 struct T24State25890 { u16 unk0,pad2,unk4; u8 pad6[0x3A]; u32 unk40; u8 pad44[0x184]; u8 grid[20][5]; u8 pad22C[0x4F0]; u32 unk71C; };
 extern struct T24Player25890 t24_players25890[] asm("gUnk_03003CE0");
-extern struct { u32 flags; u8 pad[0x148]; } t24_playerFlags25890[] asm("gUnk_03003D10");
-extern struct { struct T24Net25890 *net; u8 pad[0x148]; } t24_playerNets25890[] asm("gUnk_03003E28");
+extern struct { u32 flags; u8 pad[PLAYER_SIZE - 4]; } t24_playerFlags25890[] asm("gUnk_03003D10");
+extern struct { struct T24Net25890 *net; u8 pad[PLAYER_SIZE - 4]; } t24_playerNets25890[] asm("gUnk_03003E28");
 extern struct T24State25890 *t24_state25890 asm("gUnk_03005CF4");
 extern struct { u8 pad[0x8C]; u16 curLevel; } t24_scene25890 asm("gUnk_03003170");
 extern u16 t24_keys25890 asm("gUnk_03001324");
@@ -3134,7 +3134,7 @@ void t24_gate25890(u16 *arg0) {
     ready = 0;
     text = t24_text25890(0x1403D2);
     player = &t24_players25890[sub_080020F4()];
-    sub_08065158(&sprite, 0x500D1, 0xE, -1, ready);
+    sub_08065158(&sprite, RES_ID(0x500D1), 0xE, -1, ready);
     if (t24_state25890->unk0 == 0x15) {
         sub_08000AF0(0x14, (void *)(sprite.fC + 0xC0), 2);
         sprite.byte22 = 4;
@@ -3243,7 +3243,7 @@ void t24_gate25890(u16 *arg0) {
                         u8 *s;
 
                         player->flags = flags | 0x800000;
-                        s = text + 2;
+                        s = text + TEXT_HEADER;
                         sub_0801A3D0(s, (u16)(0xF - (t24_width25890(s) >> 1)), 0x12);
                         if (player->unk14 & 1) {
                             player->flags = (player->flags | 0x403) & 0xFF7FFFFF;

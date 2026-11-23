@@ -929,7 +929,7 @@ end:
  sub_0800D108();
 }
 struct CmdD99C {u16 one,kind; u8 data[12];};
-struct PlayerD99C {u8 pad[32];u16 value;};
+struct PlayerD99C {u8 pad[PLAYER_FIELD(0x20)];u16 value;};
 struct TaskD99C {u32 f0,f4,f8,fC;void *f10;u32 f14,f18,f1C;u8 *f20;u32 f24;};
 extern u8 *gStateD99C asm("gUnk_03005CF4");
 extern s32 sub_0801AB24(void);
@@ -992,7 +992,7 @@ void sub_0803D99C(void) {
 
 
     offset=sub_080020F4(); offset*=PLAYER_SIZE; temp_r2=(u8 *)gUnk_03003CE0+offset;
-    *(u32 *)(temp_r2+0x30) = (s32) (*(u32 *)(temp_r2+0x30) | 1);
+    *(u32 *)(temp_r2+PLAYER_FIELD(0x30)) = (s32) (*(u32 *)(temp_r2+PLAYER_FIELD(0x30)) | 1);
     sub_0800D0F4();
     temp_r5 = sub_080289C0(0x6000D, 0x101, 0x4E);
     var_r2_2=findD99C(temp_r5);
@@ -1023,7 +1023,7 @@ void sub_0803D99C(void) {
     }
     sub_08028AAC(0, (u16)var_r4, 0x52, 0);
     offset=sub_080020F4(); offset*=PLAYER_SIZE; temp_r2_2=(u8 *)gUnk_03003CE0+offset;
-    *(u32 *)(temp_r2_2+0x30) = (s32) (*(u32 *)(temp_r2_2+0x30) & ~2);
+    *(u32 *)(temp_r2_2+PLAYER_FIELD(0x30)) = (s32) (*(u32 *)(temp_r2_2+PLAYER_FIELD(0x30)) & ~2);
     sub_08067D74();
     sub_080290E4(0, 0);
     sub_08029174(0, 0x25);
@@ -1117,7 +1117,7 @@ taskCheck:
     } while (var_r1_3 <= 0xBU);
     while(sub_08067B9C(0x3B00U, 0x7D00U, &cmd) == 0) sub_080003F0();
     offset=sub_080020F4(); offset*=PLAYER_SIZE; temp_r2_3=(u8 *)gUnk_03003CE0+offset;
-    *(u32 *)(temp_r2_3+0x30) = (s32) (*(u32 *)(temp_r2_3+0x30) & ~1);
+    *(u32 *)(temp_r2_3+PLAYER_FIELD(0x30)) = (s32) (*(u32 *)(temp_r2_3+PLAYER_FIELD(0x30)) & ~1);
     sub_0800D108();
     ((struct PlayerD99C *)((u8 *)gUnk_03003CE0+PLAYER_SIZE*sub_080020F4()))->value=0;
 }

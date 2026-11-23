@@ -2285,7 +2285,7 @@ void t65_popupImplementation(u32 packed,u32 arg)
     *(u32 *)((u8 *)sub_0800048C()+8)=0;
 }
 struct T65CPopup { u32 base, unk4; u8 *data; u32 sound, resource, style, mode; u8 palette[24]; };
-struct T65CPlayer { u8 bytes[0x14C]; };
+struct T65CPlayer { u8 bytes[PLAYER_SIZE]; };
 struct T65CResource { u32 id; u8 pad[84]; };
 struct T65CState { u8 pad[0x90]; u16 area; };
 extern struct T65CPlayer t65C_players[] asm("gUnk_03003CE0");
@@ -2641,7 +2641,7 @@ finish:
     sub_0800CF34();
 }
 struct T65EPopup { u32 base, unk4; u8 *data; u32 sound, resource, style, mode; u8 palette[24]; };
-struct T65EPlayer { u8 bytes[0x14C]; };
+struct T65EPlayer { u8 bytes[PLAYER_SIZE]; };
 struct T65EResource { u32 id; u8 pad[84]; };
 struct T65EPoint { s32 x,y; };
 struct T65EVideo { u16 h0,h2,h4,h6,h8,hA,hC,hE; };
@@ -3733,7 +3733,7 @@ void sub_08065918(u32 a, u32 b)
         sub_08000274(&gUnk_030061E0, a, b);
     }
 }
-struct P148 { u8 pad[0x148]; u8 *p; };
+struct P148 { u8 pad[PLAYER_FIELD(0x148)]; u8 *p; };
 extern struct P148 gP148[] asm("gUnk_03003CE0");
 /* [HasCoordinatedAttackParticipant] Scans the counted player list and returns exactly 1 on the first player
  * whose packet pointer +0x148 references a byte with low nibble 0xE, otherwise 0. Does not query task

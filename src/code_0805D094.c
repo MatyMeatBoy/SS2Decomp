@@ -951,7 +951,7 @@ extern void sub_08065264(void *, s32, s32, u16, u16);
 extern s32 anim0C4(void *, u16, u16 *, u16 *, s32) asm("sub_08065370");
 extern u16 keys0C4 asm("gUnk_03001324");
 /* Party entries are 0x14C bytes; the name starts at gUnk_03003CE0 + 2. */
-struct Party0C4 { u8 name[0x14C]; };
+struct Party0C4 { u8 name[PLAYER_SIZE]; };
 extern struct Party0C4 party0C4[] asm("gUnk_03003CE2");
 extern u8 name1C4[] asm("gUnk_03003E2E");
 extern u8 name2C4[] asm("gUnk_03003F7A");

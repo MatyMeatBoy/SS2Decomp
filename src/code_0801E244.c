@@ -1733,7 +1733,7 @@ struct Packet20680 {u32 player:8;u32 power:8;u32 impulse:8;u32 direction:8;u32 a
 extern u8 *inv20680 asm("gUnk_030034E0");
 extern u8 players20680[] asm("gUnk_03003CE0");
 struct PH20680 {u8 pad[0xE4]; u32 hist[8];};
-struct P20680 {u16 id; u8 pad[0x14A];};
+struct P20680 {u16 id; u8 pad[PLAYER_SIZE - 2];};
 extern struct P20680 plArr20680[] asm("gUnk_03003CE0");
 extern u8 *enemies20680 asm("gUnk_030056F4");
 extern u32 mask20680 asm("gUnk_030056FC");
@@ -1947,7 +1947,7 @@ void t21_20D40(s32 arg0, s32 arg1)
     gUnk_03005CE4 &= ~(1 << arg1);
 }
 struct T21Anim20E08 { u32 a; u32 unused; u32 b; void *palette; u8 pad[12]; u8 sprite[24]; };
-struct T21Player20E08 { u16 *position; u8 pad[0x148]; };
+struct T21Player20E08 { u16 *position; u8 pad[PLAYER_SIZE - 4]; };
 extern struct T21Player20E08 t21_players20E08[] asm("gUnk_03003E28");
 struct T21Entity20E08 { u8 pad[0x14]; s32 x, y; u8 tail[0x2C4]; };
 extern struct T21Entity20E08 *t21_entities20E08 asm("gUnk_030056F4");
