@@ -2248,14 +2248,14 @@ u32 sub_0801DEB8(void)
 void sub_0801DF08(void) {
     u8 *p = (u8 *) &gUnk_03003CE0[sub_080020F4()];
 
-    u16 v = *(u16 *) (p + 0x62);
-    *(u16 *) (p + 0xC4) = v;
+    u16 v = *(u16 *) (p + PLAYER_FIELD(0x62));
+    *(u16 *) (p + PLAYER_FIELD(0xC4)) = v;
     if (sub_0801DE60() == 1) {
-        u16 w = *(u16 *) (p + 0x60);
-        *(u16 *) (p + 0xC2) = w;
+        u16 w = *(u16 *) (p + PLAYER_FIELD(0x60));
+        *(u16 *) (p + PLAYER_FIELD(0xC2)) = w;
     }
-    *(u16 *) (p + 0x20) = 0;
-    *(u32 *) (p + 0x30) = 0x40;
+    *(u16 *) (p + PLAYER_FIELD(0x20)) = 0;
+    *(u32 *) (p + PLAYER_FIELD(0x30)) = 0x40;
 }
 struct MonDF4C { u16 f0; u16 id; u8 pad[ENEMY_SIZE - 0x4]; };
 extern struct MonDF4C *monstersDF4C asm("gUnk_030056F4");

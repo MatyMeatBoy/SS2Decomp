@@ -244,6 +244,11 @@ def search(checker, module, name, address, log, apply_best=False):
             whole = {}
             for (macro, _), indices in options.items():
                 whole.setdefault((macro, None), []).extend(indices)
+                # Offset-like literals only (after '+' or '['): stored values stay as they are.
+                offsets = [index for index in indices
+                           if re.search(r'[+\[]\s*$', body[max(0, literals[index][0] - 8):literals[index][0]])]
+                if offsets:
+                    whole.setdefault((macro, 'offsets'), []).extend(offsets)
             moves = list(whole.items()) + list(options.items()) if granularity == 'value' else \
                 [((macro, value), [index]) for (macro, value), indices in options.items() for index in indices]
             improved = True

@@ -290,7 +290,7 @@ void sub_08028D98_v(u32 who, s32 ax, s32 ay, s32 af)
 extern u8 *scene026E4 asm("gUnk_03005CF4");
 struct Monster026E4 {u8 pad[8];u16 value;u8 tail[0x2D6];};
 extern struct Monster026E4 *monsters026E4 asm("gUnk_030056F4");
-struct Player026E4 {u8 pad[0x1C];u16 value;u8 tail[0x12E];};
+struct Player026E4 {u8 pad[PLAYER_FIELD(0x1C)];u16 value;u8 tail[PLAYER_SIZE - PLAYER_FIELD(0x1E)];};
 extern struct Player026E4 players026E4[] asm("gUnk_03003CE0");
 void task026E4(u32,u32) asm("sub_080290E4");
 /* [SetSceneEntityFacing] Writes direction at actor +0x24, enemy +8, or local player +0x1C. Actor path requests
