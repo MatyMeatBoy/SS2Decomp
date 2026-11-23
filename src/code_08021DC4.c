@@ -2316,9 +2316,9 @@ void sub_080245CC(struct Input245CC *arg0) {
     spC0 = 0;
     local245CC_gUnk_03005CF0 = 0;
     if ((spC8 == 0) && (spA4 != 0)) {
-        local245CC_sub_08065158(&sp44, 0x5014FU, 0xC, -1, 0);
+        local245CC_sub_08065158(&sp44, RES_ID(0x5014FU), 0xC, -1, 0);
     } else {
-        local245CC_sub_08065158(&sp44, 0x50150U, 0xC, -1, 0);
+        local245CC_sub_08065158(&sp44, RES_ID(0x50150U), 0xC, -1, 0);
     }
     sp88 = local245CC_sub_08007290(0x1403D1U);
     temp_r8 = &local245CC_gUnk_03003CE0[local245CC_sub_080020F4()];
@@ -2449,7 +2449,7 @@ block_39:
                                 temp_r8->flags = temp_r1 | 0x800000;
                             }
                             if (local245CC_sub_0805F184() == 0) {
-                                temp_r4 = sp88 + 2;
+                                temp_r4 = sp88 + TEXT_HEADER;
                                 local245CC_sub_0801A3D0(temp_r4, (u16) (0xF - (local245CC_sub_0801A638(temp_r4) >> 1)), 0x12);
                             }
                             if (1 & temp_r8->w14) {
@@ -2872,7 +2872,7 @@ block_276:
                                 temp_r8->flags = temp_r1_9 | 0x800000;
                             }
                             if (local245CC_sub_0805F184() == 0) {
-                                temp_r4_2 = sp88 + 2;
+                                temp_r4_2 = sp88 + TEXT_HEADER;
                                 local245CC_sub_0801A3D0(temp_r4_2, (u16) (0xF - (local245CC_sub_0801A638(temp_r4_2) >> 1)), 0x12);
                             }
                             if (1 & temp_r8->w14) {

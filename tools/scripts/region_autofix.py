@@ -23,7 +23,7 @@ import region_build
 import region_diff
 import region_symbols
 
-LITERAL = re.compile(r'(?<![\w.])(0[xX][0-9a-fA-F]+|[1-9][0-9]*)(?![\w.])')
+LITERAL = re.compile(r'(?<![\w.])(0[xX][0-9a-fA-F]+|[1-9][0-9]*)[uUlL]*(?![\w.])')
 MACROS = ('PLAYER_FIELD', 'SAVE_FIELD')
 WRAPPED = re.compile(r'\b(?:PLAYER_FIELD|SAVE_FIELD|RES_ID|ENEMY_FIELD)\s*\($')
 PLAYER_STRIDE = 0x14C
