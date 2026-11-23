@@ -1598,7 +1598,7 @@ struct Plr16F28 { u8 pad0[0x148]; struct Pos16F28 *pos; };
 extern struct Plr16F28 players16F28[] asm("gUnk_03003CE0");
 struct Roll16F28 { u8 result; u8 chance; u8 pad[2]; };
 struct AI16F28 {
-    u8 pad0[0x10];
+    u8 pad0[ENEMY_FIELD(0x214) - 0x204];
     s32 f10;                 /* 0x214 */
     u8 pad14[0xC];
     u16 f20;                 /* 0x224 */
@@ -1608,8 +1608,14 @@ struct AI16F28 {
     u16 hp4C;                /* 0x250 */
     u16 f4E;                 /* 0x252 */
     struct Roll16F28 tables[11][3]; /* 0x254 */
-    u8 pad2D8[8];
+    u8 pad2D8[ENEMY_SIZE - ENEMY_FIELD(0x2D8)];
 };
+/* USA indexes enemy slots by multiplying (ENEMY_SIZE no longer strength-reduced); EU walks an offset. */
+#ifdef REGION_USA
+#define OBJ16F28_AT(objsp, i, off) ((i) * ENEMY_SIZE + (u32)*(objsp))
+#else
+#define OBJ16F28_AT(objsp, i, off) ((u8 *)*(objsp) + (off))
+#endif
 struct Obj16F28 {
     u16 id;
     u16 f2;
@@ -1656,7 +1662,7 @@ struct GS16F28 { u8 pad0[0xC]; u16 fC; };
 extern struct GS16F28 *gs16F28 asm("gUnk_03005CF4");
 extern u32 used16F28 asm("gUnk_030056FC");
 extern struct Obj16F28 *objs16F28 asm("gUnk_030056F4");
-struct Lead16F28 { u8 pad0[0x20]; s32 f20; };
+struct Lead16F28 { u8 pad0[SAVE_FIELD(0x20)]; s32 f20; };
 extern struct Lead16F28 *lead16F28 asm("gUnk_030034E0");
 extern u8 dirs16F28[] asm("gUnk_084790B4");
 extern u8 dirIdx16F28[] asm("gUnk_084790C4");
@@ -1784,7 +1790,7 @@ void sub_08016F28(struct Obj16F28 *self)
                         tx = -1;
                         for (i = 0, off = 0; i <= 4; off += ENEMY_SIZE, i++) {
                             struct Obj16F28 *o;
-                            if ((used16F28 & (1 << i)) && (o = (struct Obj16F28 *)((u8 *)*objsp + off)) != self) {
+                            if ((used16F28 & (1 << i)) && (o = (struct Obj16F28 *)OBJ16F28_AT(objsp, i, off)) != self) {
                                 s32 dx = (o->x - self->x) >> 8;
                                 s32 dy = (o->y - self->y) >> 8;
                                 u16 d = Sqrt(dx * dx + dy * dy);
@@ -1874,7 +1880,7 @@ void sub_08016F28(struct Obj16F28 *self)
                         objsp = &objs16F28;
                         for (off = 0; i <= 4; off += ENEMY_SIZE, i++) {
                             if (self->id != i && (*usedp & (1 << i))) {
-                                e = (struct Obj16F28 *)((u8 *)*objsp + off);
+                                e = (struct Obj16F28 *)OBJ16F28_AT(objsp, i, off);
                                 if (self->dir == e->dir) {
                                     self->dir++;
                                     if (self->dir > 15)
