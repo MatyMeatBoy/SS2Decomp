@@ -237,9 +237,12 @@ def derive(rom, region):
     # need them.
     while True:
         ordered = sorted(placed, key=placed.get)
-        for first, second in zip(ordered, ordered[1:]):
-            if placed[second] < placed[first] + sizes[first]:
-                raise RegionError('Overlapping placements: %s and %s' % (first, second))
+        overlapping = {name for first, second in zip(ordered, ordered[1:])
+                       if placed[second] < placed[first] + sizes[first] for name in (first, second)}
+        if overlapping:  # ambiguous: neither placement can be trusted
+            for name in overlapping:
+                del placed[name]
+            continue
         # Keyed by EU value, so aliases of one EU symbol must agree too.
         values = defaultdict(set)
         for name, address in placed.items():
