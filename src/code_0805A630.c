@@ -1939,7 +1939,7 @@ u32 sub_0805C4FC(u8 *out, u32 count, u32 category)
     return 1;
 }
 struct DropC620 { u16 type, val; u32 hi; };
-struct ExC620 { u8 pad[0x2C]; struct DropC620 drops[3]; };
+struct ExC620 { u8 pad[ENEMY_DATA_FIELD(0x2C)]; struct DropC620 drops[3]; };
 /* [GenerateActorDropRecord] Zeros16 output bytes, tries three cumulative configured drop intervals using
  * a16-bit random roll and returns1 on a permitted configured result. Otherwise clamps entity player-index
  * field, rolls against player/player-count chance and optionally calls category generator with mode-dependent
@@ -1970,14 +1970,14 @@ u32 sub_0805C620(u8 *entity, u16 *out)
                 out[0] = extra->drops[i].type;
                 out[1] = extra->drops[i].val;
                 if (extra->drops[i].type == 9)
-                    out[2] = *(u32 *)(entity + 0x214);
+                    out[2] = *(u32 *)(entity + ENEMY_FIELD(0x214));
                 break;
             }
             low = (u16)(extra->drops[i].hi + 1);
         }
     }
     if (out[0] != 0) {
-        if (out[0] == 10 && !(entity[0x227] & 1)) {
+        if (out[0] == 10 && !(entity[ENEMY_FIELD(0x227)] & 1)) {
             out[0] = 0;
             out[1] = 0;
             return 0;
@@ -1988,7 +1988,7 @@ u32 sub_0805C620(u8 *entity, u16 *out)
     ok = 0;
     if (*(u16 *)(entity + 0x58) > 3)
         *(u16 *)(entity + 0x58) = 0;
-    { u8 (*pb)[] = &c620Players; low = (*pb)[4 * (83 * *(u16 *)(entity + 0x58)) + 0x74]; }
+    { u8 (*pb)[] = &c620Players; low = (*pb)[4 * ((PLAYER_SIZE / 4) * *(u16 *)(entity + 0x58)) + PLAYER_FIELD(0x74)]; }
     switch (sub_08002164()) {
     case 1: low = (u16)(low + 0x10); break;
     case 2: low = (u16)(low + 0x15); break;
@@ -2013,9 +2013,9 @@ u32 sub_0805C620(u8 *entity, u16 *out)
     ok = sub_0805C4FC((u8 *)out, category, 0);
 tail:
     if (out[0] == 9) {
-        out[2] = *(u32 *)(entity + 0x214);
+        out[2] = *(u32 *)(entity + ENEMY_FIELD(0x214));
     } else if (out[0] == 10) {
-        if (!(entity[0x227] & 1)) {
+        if (!(entity[ENEMY_FIELD(0x227)] & 1)) {
             out[0] = 0;
             out[1] = 0;
             return 0;
