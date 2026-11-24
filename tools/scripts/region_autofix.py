@@ -322,8 +322,17 @@ def main(argv=None):
     parser.add_argument('--max-size', type=int, default=4096)
     parser.add_argument('--dry-run', action='store_true')
     parser.add_argument('--apply-best', action='store_true', help='also keep the best non-exact rewrite')
+    parser.add_argument('--addresses', help='file of "NAME 0xADDR" lines overriding the guessed regional address')
     parser.add_argument('funcs', nargs='*')
     args = parser.parse_args(argv)
+    known = {}
+    if args.addresses:
+        for line in open(args.addresses):
+            words = line.split()
+            names = [word for word in words if word.startswith('sub_')]
+            values = [word for word in words if word.startswith('0x')]
+            if names and values:
+                known[names[0]] = int(values[-1], 16)
     if args.region != 'usa':
         parser.exit(1, 'Only the USA layout is described in include/region.h\n')
     target_rom = (ROOT / load_profiles()[args.region]['filename']).read_bytes()
@@ -344,8 +353,10 @@ def main(argv=None):
         if eu == fragment.address and target_rom[eu - region_build.ROM_BASE:][:len(fragment.data)] == fragment.data:
             continue
         relocs = relocations[fragment.name]
-        address = min(region_diff.guesses(fragment, eu, placed, keys, relocs, target_rom),
-                      key=lambda item: region_diff.difference(fragment, relocs, target_rom, item))
+        guesses = region_diff.guesses(fragment, eu, placed, keys, relocs, target_rom)
+        if fragment.name in known:
+            guesses = [known[fragment.name]]
+        address = min(guesses, key=lambda item: region_diff.difference(fragment, relocs, target_rom, item))
         diff = region_diff.difference(fragment, relocs, target_rom, address)
         if diff and (args.funcs or diff <= args.max_diff):
             rows.append((diff, fragment.name, fragment.module, address))
