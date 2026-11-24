@@ -1420,6 +1420,57 @@ static inline void FlushRows16(u32 index, u32 count)
  * queues64bytes fromfont+glyph*128 toVRAM0600B000+uploadcursor via01348, writes two consecutive maptiles and
  * advancescursor64. This proves256slotstride128 and used64B per glyph; byte0 maps255, not a Cstring
  * terminator. No full script encoding map claimed. */
+#ifdef REGION_USA
+void sub_0801A3D0(const TextChar *script, u16 x, u32 row)
+{
+    register u32 column asm("sl") = x;
+    volatile u32 savedRow = (u16)row;
+    u16 tile;
+    FlushRows16((u16)row, 2);
+    tile = (gUnk_03005C54 >> 5) + 0x180;
+    while (1) {
+        register u32 scratch asm("r1");
+        u32 xOffset;
+        register u32 rowOffset asm("r3");
+        register u32 rowLoad asm("r2");
+        u16 *map;
+        register u32 mapBaseNext asm("r2");
+        u32 glyph;
+        u8 *font;
+        if (*script == TEXT_CTRL(0xFD)) break;
+        if (*script & 0x8000) break;
+        scratch = (u32)(*script - 1) << 16;
+        { u32 page = scratch >> 24; font = (u8 *)gUnk_03005CA0[page]; }
+        glyph = 0xFF0000;
+        glyph &= scratch;
+        xOffset = column * 2;
+        rowLoad = savedRow;
+        rowOffset = rowLoad * 64;
+        rowOffset = xOffset + rowOffset;
+        scratch = (u32)gUnk_03005740;
+        map = (u16 *)(rowOffset + scratch);
+        {
+            u16 oldTile = tile++;
+            scratch = 0xF000;
+            *map = oldTile | scratch;
+        }
+        scratch = savedRow + 1;
+        scratch *= 64;
+        xOffset += scratch;
+        mapBaseNext = (u32)gUnk_03005740;
+        xOffset += mapBaseNext;
+        {
+            u16 oldTile = tile++;
+            scratch = 0xF000;
+            *(u16 *)xOffset = oldTile | scratch;
+        }
+        sub_08001348(font + (glyph >> 9), (void *)(0x0600B000 + gUnk_03005C54), 64);
+        gUnk_03005C54 += 64;
+        column = (u16)(column + 1);
+        script++;
+    }
+}
+#else
 void sub_0801A3D0(const u8 *script, u16 x, u32 row)
 {
     register u32 column asm("sl") = x;
@@ -1469,6 +1520,7 @@ void sub_0801A3D0(const u8 *script, u16 x, u32 row)
         script++;
     }
 }
+#endif
 /* [UnusedNoOpStub4] Lines 1338-1340 define an empty variadic function between glyph tile queuing and text
  * initialization. */
 void sub_0801A500(u32 a, u32 b, u32 c, ...)
