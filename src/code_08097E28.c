@@ -1402,7 +1402,7 @@ u8 sub_0809A5E0(void)
         players102A5[sub_080020F4()].motion = 0xFFFE;
         id = sub_080020F4();
         players102A5[id].angle += delta102A5(entity102A5, &players102A5[sub_080020F4()]);
-        { s32 i; u32 index; u32 *dest; u32 n; struct Entity102A5 *e; i=sub_080020F4(); e=entity102A5; index=e->index; index<<=2;  index+=i*PLAYER_SIZE;  dest=(u32 *)((u8 *)players102A5+0xe4+index); n=e->counter;  *dest=n; e->counter=n+1; }
+        { s32 i; u32 index; u32 *dest; u32 n; struct Entity102A5 *e; i=sub_080020F4(); e=entity102A5; index=e->index; index<<=2;  index+=i*PLAYER_SIZE;  dest=(u32 *)((u8 *)players102A5+PLAYER_FIELD(0xe4)+index); n=e->counter;  *dest=n; e->counter=n+1; }
         dx = (x102A5[sub_080020F4()*(PLAYER_SIZE / 4)] - entity102A5->x) >> 8;
         dy = (players102A5[sub_080020F4()].y - entity102A5->y) >> 8;
         a = ArcTan2(dx, dy);
