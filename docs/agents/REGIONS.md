@@ -53,8 +53,8 @@ SHA-256 values are pinned in `tools/config/rom_regions.json`.
 
 ## Coverage and limitations
 
-The verified USA build contains 1,858 compiler-backed C intervals (16 same-address
-EU, 1,838 relocated EU, 4 region-only) totaling 466,506 bytes; Japan contains
+The verified USA build contains 1,859 compiler-backed C intervals (16 same-address
+EU, 1,839 relocated EU, 4 region-only) totaling 467,190 bytes; Japan contains
 1,272 (16, 1,229 and 27) totaling 164,414 bytes. Consult each generated report for the actual current counts, canonical EU symbols, addresses,
 sizes and per-function hashes. The admitted intervals include complete function
 literal pools. Top-level assembly and `INCLUDE_ASM` fallbacks receive no C credit.
@@ -185,6 +185,7 @@ neither macro and must stay byte-identical (`make compare`).
 | `TextChar` | u8 (ends 0xFD) | u16 (ends 0xFFFD, bit 15 = control) |
 | `TEXT_CTRL(c)` | `c` | `0xFF00 | c` (text control codes) |
 | `ENEMY_DATA_FIELD(o)` | `o` | `o + 0x174` (enemy data records: level, experience, ...) |
+| `GLOVE_SIZE` | 0xB8 | `EQUIP_FIELD(0xB8) + 4` (archive 0xE records) |
 
 `struct Player` is written with these macros. Raw offsets into a player record
 must be written `PLAYER_FIELD(0x9C)`, its stride `PLAYER_SIZE`, so the USA

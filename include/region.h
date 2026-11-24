@@ -42,6 +42,7 @@ typedef u16 NameChar;
 typedef u16 TextChar;
 #define TEXT_CTRL(c) (0xFF00 | (c))
 #define EQUIP_FIELD(o) ((o) + 0xDC)
+#define GLOVE_SIZE (EQUIP_FIELD(0xB8) + 4)
 #define ENEMY_DATA_FIELD(o) ((o) + 0x174)
 typedef u16 EquipLevel;
 #else
@@ -60,6 +61,7 @@ typedef u8 NameChar;
 typedef u8 TextChar;
 #define TEXT_CTRL(c) (c)
 #define EQUIP_FIELD(o) (o)
+#define GLOVE_SIZE 0xB8
 #define ENEMY_DATA_FIELD(o) (o)
 typedef u8 EquipLevel;
 #endif

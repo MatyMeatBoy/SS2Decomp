@@ -170,16 +170,33 @@ s32 sub_08006EE0(s32 value, s32 *archive)
     case 9: resource = (u8 *)header + header->offsets[3]; break;
     case 0: case 1: case 2: case 3: case 4: case 5: case 6:
         resource = (u8 *)header + header->offsets[kind]; break;
-    case 11: resource = gUnk_084506D0 + 0xC4 * (value & 0xFFFF); break;
-    case 12: resource = gUnk_08434738 + 0xB8 * (value & 0xFFFF); break;
-    case 13: resource = gUnk_0843B8C8 + 0xB8 * (value & 0xFFFF); break;
-    case 14: resource = gUnk_08442498 + 0xB8 * (value & 0xFFFF); break;
-    case 15: resource = gUnk_084303B8 + 0xB4 * (value & 0xFFFF); break;
-    case 16: resource = gUnk_0844A820 + 0xAC * (value & 0xFFFF); break;
-    case 17: resource = gUnk_0844EB50 + 0xB0 * (value & 0xFFFF); break;
-    case 18: resource = gUnk_0842A6D4 + 0xA4 * (value & 0xFFFF); break;
-    case 19: resource = gUnk_084742BC + 0xB0 * (value & 0xFFFF); break;
+    case 11: resource = gUnk_084506D0 + ITEM_FIELD(0xC4) * (value & 0xFFFF); break;
+    case 12: resource = gUnk_08434738 + EQUIP_FIELD(0xB8) * (value & 0xFFFF); break;
+    case 13: resource = gUnk_0843B8C8 + EQUIP_FIELD(0xB8) * (value & 0xFFFF); break;
+    case 14: resource = gUnk_08442498 + GLOVE_SIZE * (value & 0xFFFF); break;
+    case 15: resource = gUnk_084303B8 + ITEM_FIELD(0xB4) * (value & 0xFFFF); break;
+    case 16: resource = gUnk_0844A820 + ITEM_FIELD(0xAC) * (value & 0xFFFF); break;
+    case 17: resource = gUnk_0844EB50 + ITEM_FIELD(0xB0) * (value & 0xFFFF); break;
+    case 18: resource = gUnk_0842A6D4 + ITEM_FIELD(0xA4) * (value & 0xFFFF); break;
+    case 19: resource = gUnk_084742BC + ITEM_FIELD(0xB0) * (value & 0xFFFF); break;
     case 20:
+#ifdef REGION_USA
+        /* USA has a sixth text table, without an EU counterpart. */
+        {
+            u8 **table;
+            switch ((u32)gUnk_03003470) {
+            case 0: table = gUnk_0838AFF0; break;
+            case 1: table = gUnk_084009A4; break;
+            case 2: table = gUnk_08428C38; break;
+            case 3: table = gUnk_083D8AEC; break;
+            case 4: table = gUnk_083B0B4C; break;
+            case 5: table = (u8 **)0x083DB468; break;
+            default: goto done20;
+            }
+            resource = table[value & 0xFFFF];
+        }
+    done20:
+#else
         switch ((u32)gUnk_03003470) {
         case 0: resource = gUnk_0838AFF0[value & 0xFFFF]; break;
         case 1: resource = gUnk_084009A4[value & 0xFFFF]; break;
@@ -187,8 +204,9 @@ s32 sub_08006EE0(s32 value, s32 *archive)
         case 4: resource = gUnk_083B0B4C[value & 0xFFFF]; break;
         case 3: resource = gUnk_083D8AEC[value & 0xFFFF]; break;
         }
+#endif
         break;
-    case 21: resource = gUnk_0842A38C + 0xA8 * (value & 0xFFFF); break;
+    case 21: resource = gUnk_0842A38C + ITEM_FIELD(0xA8) * (value & 0xFFFF); break;
     case 22: resource = gUnk_0847838C; break;
     default: return 0;
     }
