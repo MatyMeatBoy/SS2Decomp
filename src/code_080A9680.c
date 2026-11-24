@@ -73,8 +73,8 @@ s32 sub_080A9680(void)
     idxY = PLAYER_SIZE * sub_080020F4();
     py = &base->y;
     playerLine[1] = *(s32 *)((u8 *)py + idxY) >> 8;
-    playerLine[2] = (px[0x53 * sub_080020F4()] + 0xC00) >> 8;
-    playerLine[3] = (py[0x53 * sub_080020F4()] - 0x800) >> 8;
+    playerLine[2] = (px[(PLAYER_SIZE / 4) * sub_080020F4()] + 0xC00) >> 8;
+    playerLine[3] = (py[(PLAYER_SIZE / 4) * sub_080020F4()] - 0x800) >> 8;
     objectLine[0] = (object111[5] - 0x4000) >> 8;
     objectLine[1] = (object111[6] - 0x2000) >> 8;
     objectLine[2] = (object111[5] + 0x4000) >> 8;
