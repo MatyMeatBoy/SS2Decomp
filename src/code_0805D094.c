@@ -903,6 +903,9 @@ slot_found:
     task[0x70]=index;
     M2C_FIELD(task,u32 *,0x28)=sub_0805D720(0,14,27,3);
     if(duration==-2) {
+#ifdef REGION_USA
+        sub_08065158(task+0x2C,0x50002,0,0x80000000,0);
+#else
         switch(gUnk_03003470) {
         case 0: sub_08065158(task+0x2C,0x50002,0,0x80000000,0); break;
         case 1: sub_08065158(task+0x2C,0x5015B,0,0x80000000,0); break;
@@ -910,6 +913,7 @@ slot_found:
         case 3: sub_08065158(task+0x2C,0x5015D,0,0x80000000,0); break;
         case 4: sub_08065158(task+0x2C,0x5015E,0,0x80000000,0); break;
         }
+#endif
     } else if(duration>0) duration=140;
     if(M2C_FIELD(task,u32 *,0x28)==0) return 0;
     address=task+0x69;
