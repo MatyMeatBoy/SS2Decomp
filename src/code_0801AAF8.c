@@ -1344,11 +1344,11 @@ u8 pad1D0[45];
 u8 field1FD;
 u8 pad1FE[3];
 u8 field201;
-u8 pad202[2];
+u8 pad202[2 + (ENEMY_FIELD(0x206) - 0x206)];
 u16 field204;
-u8 pad206[32];
+u8 pad206[ENEMY_FIELD(0x226) - ENEMY_FIELD(0x206)];
 u8 field226;
-u8 pad227[181];
+u8 pad227[ENEMY_FIELD(0x2DC) - ENEMY_FIELD(0x227)];
 u16 * link;
 };
 struct RescueC8F0Slot { s16 timer; u16 source, kind, value; u8 pad[0x10]; s32 scale; u8 tail[0xc]; };
@@ -1367,7 +1367,14 @@ void sub_0801C8F0(struct RescueC8F0Entity *arg0) {
     s16 *var_r1;
     s16 temp_r1;
     s32 var_r0_2;
+#ifdef REGION_USA
+    s32 temp_r0;
+    register s32 value4A asm("r4");
+#define VALUE4A_C8F0 value4A
+#else
+#define VALUE4A_C8F0 temp_r0
     register s32 temp_r0 asm("r4");
+#endif
     s32 temp_r0_5;
     s32 temp_r2;
     u32 baseAddress;
@@ -1381,21 +1388,38 @@ void sub_0801C8F0(struct RescueC8F0Entity *arg0) {
     u32 temp_r0_9;
     register u32 clampZero18 asm("r1");
     u32 temp_r0_4;
+#ifdef REGION_USA
+    register u32 var_r6 asm("r7");
+#else
     u32 var_r6;
-    u8 temp_r0_2;
+#endif
+    ItemKind temp_r0_2;
     u8 **temp_r1_3;
     u8 *temp_r1_2;
     u8 *temp_r6;
+#ifdef REGION_USA
+    register struct RescueC8F0Slot *var_r5 asm("r5");
+#else
     struct RescueC8F0Slot *var_r5;
+#endif
 
-    temp_r6 = (u8 *)arg0 + 0x204;
+#ifdef REGION_USA
+    temp_r0 = sub_08007290((*(u16 *)((u8 *)&arg0->field204 + 0x28)) | 0xB0000);
+    sub_0801B264((void *)(temp_r0 + ITEM_FIELD(0xB0)), &arg0->field204, (void *)((u8 *)arg0 + 0x1CC));
+#else
+    temp_r6 = (u8 *)&arg0->field204;
     temp_r0 = sub_08007290((*(u16 *)(temp_r6 + 0x28)) | 0xB0000);
-    sub_0801B264((void *)(temp_r0 + 0xB0), temp_r6, (void *)((u8 *)arg0 + 0x1CC));
-    temp_r0_2 = (*(u8 *)(temp_r0 + 0x9C));
+    sub_0801B264((void *)(temp_r0 + ITEM_FIELD(0xB0)), temp_r6, (void *)((u8 *)arg0 + 0x1CC));
+#endif
+    temp_r0_2 = (*(ItemKind *)(temp_r0 + ITEM_KIND_OFF + sizeof(ItemKind)));
     zero = 0;
     arg0->field1CC = (u16) temp_r0_2;
     arg0->field1CC += arg0->field204;
+#ifdef REGION_USA
+    arg0->field1CE = (u16) (*(u16 *)((u8 *)&arg0->field204 + 0xA));
+#else
     arg0->field1CE = (u16) (*(u16 *)(temp_r6 + 0xA));
+#endif
     arg0->status = zero;
     if (2 & arg0->field201) {
         arg0->status = 8;
@@ -1418,13 +1442,13 @@ loop_5:
             asm("" : : "r"(srcEdge18));
             temp_r2 = PLAYER_SIZE * srcEdge18;
             temp_r1_2 = (u8 *)(temp_r2 + baseAddress);
-            temp_r0_6 = (*(u16 *)(temp_r1_2 + 0xC));
+            temp_r0_6 = (*(u16 *)(temp_r1_2 + PLAYER_FIELD(0xC)));
             switch (temp_r0_6) {                    /* switch 1; irregular */
             case 3:                                 /* switch 1 */
                 temp_r0_7 = var_r5->kind;
                 switch (temp_r0_7) {                /* switch 2; irregular */
                 case 4:                             /* switch 2 */
-                    temp_r0_8 = (*(u16 *)(temp_r1_2 + 0x10));
+                    temp_r0_8 = (*(u16 *)(temp_r1_2 + PLAYER_FIELD(0x10)));
                     switch (temp_r0_8) {            /* switch 3; irregular */
                     case 2:                         /* switch 3 */
                         var_r2 = &arg0->field1CE;
@@ -1445,7 +1469,7 @@ loop_5:
                     }
                     break;
                 case 6:                             /* switch 2 */
-                    temp_r1_3 = (u8 **)(baseAddress + 0x148);
+                    temp_r1_3 = (u8 **)(baseAddress + PLAYER_FIELD(0x148));
                     temp_r1_3 = (u8 **)(temp_r2 + (u32)temp_r1_3);
                     pos[0] = ((u16) (*(u16 *)(*temp_r1_3)) >> 4) << 8;
                     pos[1] = (u32) ((*(u16 *)(*temp_r1_3 + 2)) << 0x14) >> 0xC;
@@ -1499,8 +1523,8 @@ loop_5:
                 break;
             case 4:                                 /* switch 4 */
                 arg0->status = 0xC;
-                var_r0 = (s32) (arg0->link[1] << 0x10) >> 0x11;
-                var_r1 = (s16 *)((u8 *)arg0 + 0x206);
+                var_r0 = (s32) (*(u16 *)((u8 *)arg0->link + ENEMY_DATA_FIELD(2)) << 0x10) >> 0x11;
+                var_r1 = (s16 *)((u8 *)arg0 + ENEMY_FIELD(0x206));
                 *var_r1 = (s16)var_r0; goto processed;
             case 5:
                 arg0->status = 0xD;
@@ -1522,16 +1546,16 @@ block_52:
                 }
                 break;
             case 0:                                 /* switch 4 */
-                if ((var_r5->timer == 0) && ((var_r1_2 = arg0->limit5C), (temp_r0 = (s32)&arg0->value4A), (var_r1_2 -= *(u16 *)temp_r0) > 0) && (arg0->state != 0xB) && (arg0->field66 == 0)) {
+                if ((var_r5->timer == 0) && ((var_r1_2 = arg0->limit5C), (VALUE4A_C8F0 = (s32)&arg0->value4A), (var_r1_2 -= *(u16 *)VALUE4A_C8F0) > 0) && (arg0->state != 0xB) && (arg0->field66 == 0)) {
                     sub_08021DC4(arg0->id + 4);
-                    *(u16 *)temp_r0 += var_r5->value;
+                    *(u16 *)VALUE4A_C8F0 += var_r5->value;
                     arg0->value4C = (s32) var_r5->value;
                 }
                 break;
             case 3:                                 /* switch 4 */
-                if ((var_r5->timer == 0) && ((var_r1_2 = arg0->limit5C), (temp_r0 = (s32)&arg0->value4A), (var_r1_2 -= *(u16 *)temp_r0) > 0) && (arg0->state != 0xB) && (arg0->field66 == 0)) {
+                if ((var_r5->timer == 0) && ((var_r1_2 = arg0->limit5C), (VALUE4A_C8F0 = (s32)&arg0->value4A), (var_r1_2 -= *(u16 *)VALUE4A_C8F0) > 0) && (arg0->state != 0xB) && (arg0->field66 == 0)) {
                     sub_08022180(arg0->id + 4);
-                    *(u16 *)temp_r0 += var_r5->value;
+                    *(u16 *)VALUE4A_C8F0 += var_r5->value;
                     arg0->value4C = (s32) var_r5->value;
                     var_r1 = (s16 *)&arg0->status;
                     var_r0 = 0xB;
@@ -1541,9 +1565,18 @@ block_52:
             }
         }
 processed:
+#ifdef REGION_USA
+        {
+            u16 previousTimer = var_r5->timer;
+            if (var_r5->timer != -2) {
+                var_r5->timer = (s16) (previousTimer - 1);
+            }
+        }
+#else
         if (var_r5->timer != -2) {
             var_r5->timer = (s16) ((u16) var_r5->timer - 1);
         }
+#endif
     }
     var_r6 += 1;
     var_r5++;
