@@ -2071,7 +2071,11 @@ if ((kind & mask) == 4) {
  } else {
  for (j = 0; j < 5; j++) {
  if (rescueD7ACMask & (1 << j)) {
+#ifdef REGION_USA
+ { u8 *base = (u8 *)rescueD7ACEntities; entity = (u8 *)(j * ENEMY_SIZE + (u32)base); }
+#else
  entity = (u8 *)(j * ENEMY_SIZE + rescueD7ACEntities);
+#endif
  if (subtype == *(u16 *)(entity + 2)) {
  slot = (struct RescueD7ACSlot *)(entity + 0x8c);
  for (i = 0; i < 8; i++, slot++) {
