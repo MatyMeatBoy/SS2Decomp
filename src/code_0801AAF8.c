@@ -633,7 +633,9 @@ struct S17ItemC4 { u8 data[ITEM_FIELD(0xC4)]; };
 struct S17ItemB8 { u8 data[EQUIP_FIELD(0xB8)]; };
 #ifdef REGION_USA
 struct S17ItemGlove { u8 data[EQUIP_FIELD(0xB8) + 4]; }; /* USA glove records are 4 bytes longer */
+#define S17_GLOVE_FIELD(o) (EQUIP_FIELD(o) + 4)
 #else
+#define S17_GLOVE_FIELD(o) (o)
 struct S17ItemGlove { u8 data[0xB8]; };
 #endif
 struct S17ItemB4 { u8 data[ITEM_FIELD(0xB4)]; };
@@ -689,7 +691,13 @@ s32 sub_0801B74C(struct S17Set *set, struct S17ItemC4 *a, struct S17ItemB8 *b, s
     return 0;
 }
 
+#ifdef REGION_USA
+struct S17SetEntry { u8 data[0x18C]; };
+#define S17_SET_BONUS 0x180
+#else
 struct S17SetEntry { u8 data[0x150]; };
+#define S17_SET_BONUS 0x144
+#endif
 extern struct S17SetEntry gUnk_08490120[];
 struct S17State { u8 pad[0x5B4]; struct S17SetEntry *active; };
 extern struct S17State *s17_state asm("gUnk_03006440");
@@ -704,52 +712,52 @@ s32 sub_0801B8A8(struct S17ItemC4 *a, struct S17ItemB8 *b, struct S17ItemB8 *c, 
 
     if (s17_state)
         s17_state->active = 0;
-    if (a && *(u16 *)(a->data + 0xC2)) {
-        set = &gUnk_08490120[*(u16 *)(a->data + 0xC2)];
+    if (a && *(u16 *)(a->data + ITEM_FIELD(0xC2))) {
+        set = &gUnk_08490120[*(u16 *)(a->data + ITEM_FIELD(0xC2))];
         if (sub_0801B74C((struct S17Set *)set, a, b, c, d, e, f)) {
             if (s17_state)
                 s17_state->active = set;
-            return (s32)(set->data + 0x144);
+            return (s32)(set->data + S17_SET_BONUS);
         }
     }
-    if (b && *(u16 *)(b->data + 0xB4)) {
-        set = &gUnk_08490120[*(u16 *)(b->data + 0xB4)];
+    if (b && *(u16 *)(b->data + EQUIP_FIELD(0xB4))) {
+        set = &gUnk_08490120[*(u16 *)(b->data + EQUIP_FIELD(0xB4))];
         if (sub_0801B74C((struct S17Set *)set, a, b, c, d, e, f)) {
             if (s17_state)
                 s17_state->active = set;
-            return (s32)(set->data + 0x144);
+            return (s32)(set->data + S17_SET_BONUS);
         }
     }
-    if (c && *(u16 *)(c->data + 0xB4)) {
-        set = &gUnk_08490120[*(u16 *)(c->data + 0xB4)];
+    if (c && *(u16 *)(c->data + EQUIP_FIELD(0xB4))) {
+        set = &gUnk_08490120[*(u16 *)(c->data + EQUIP_FIELD(0xB4))];
         if (sub_0801B74C((struct S17Set *)set, a, b, c, d, e, f)) {
             if (s17_state)
                 s17_state->active = set;
-            return (s32)(set->data + 0x144);
+            return (s32)(set->data + S17_SET_BONUS);
         }
     }
-    if (d && *(u16 *)(d->data + 0xB4)) {
-        set = &gUnk_08490120[*(u16 *)(d->data + 0xB4)];
+    if (d && *(u16 *)(d->data + S17_GLOVE_FIELD(0xB4))) {
+        set = &gUnk_08490120[*(u16 *)(d->data + S17_GLOVE_FIELD(0xB4))];
         if (sub_0801B74C((struct S17Set *)set, a, b, c, d, e, f)) {
             if (s17_state)
                 s17_state->active = set;
-            return (s32)(set->data + 0x144);
+            return (s32)(set->data + S17_SET_BONUS);
         }
     }
-    if (e && *(u16 *)(e->data + 0xB0)) {
-        set = &gUnk_08490120[*(u16 *)(e->data + 0xB0)];
+    if (e && *(u16 *)(e->data + ITEM_FIELD(0xB0))) {
+        set = &gUnk_08490120[*(u16 *)(e->data + ITEM_FIELD(0xB0))];
         if (sub_0801B74C((struct S17Set *)set, a, b, c, d, e, f)) {
             if (s17_state)
                 s17_state->active = set;
-            return (s32)(set->data + 0x144);
+            return (s32)(set->data + S17_SET_BONUS);
         }
     }
-    if (f && *(u16 *)(f->data + 0xAC)) {
-        set = &gUnk_08490120[*(u16 *)(f->data + 0xAC)];
+    if (f && *(u16 *)(f->data + ITEM_FIELD(0xAC))) {
+        set = &gUnk_08490120[*(u16 *)(f->data + ITEM_FIELD(0xAC))];
         if (sub_0801B74C((struct S17Set *)set, a, b, c, d, e, f)) {
             if (s17_state)
                 s17_state->active = set;
-            return (s32)(set->data + 0x144);
+            return (s32)(set->data + S17_SET_BONUS);
         }
     }
     return 0;
