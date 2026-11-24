@@ -1400,6 +1400,42 @@ extern void drawA644(u8*,s32,u32) asm("sub_0801A3D0");
  * zero-terminated substitution bytes at 03003CE2. OriginalA67E..684 preincrementvalue>5
  * meansoneencodedbyte/actionevery7outeriterations;FE180-yieldpause021A8can
  * shorten;postFDunconditional180-yieldholdthen clear(15,4),oneyield. */
+#ifdef REGION_USA
+void sub_0802A644(s32 id)
+{
+ TextChar text[4][0x20]; TextChar *stream,*line; u32 row,column,tick,i,y;  u16 wait; u16 nameIndex; NameChar *names;
+ stream=(TextChar *)((u8*)sub_08007290(0x140000|id)+TEXT_HEADER);
+ row=0;column=0;tick=0;nameIndex=0;text[0][0]=TEXT_CTRL(0xFD);names=(NameChar *)nameA644;text[1][0]=TEXT_CTRL(0xFD);
+ while(*stream!=TEXT_CTRL(0xFD)){
+  if(tick++>5){
+   if(*stream==TEXT_CTRL(0xFF)){
+    column=0;row++;
+    if(row>1){text[0][0]=TEXT_CTRL(0xFD);text[1][0]=TEXT_CTRL(0xFD);row=0;}
+    else text[row][0]=TEXT_CTRL(0xFD);
+    stream++;
+   } else if(*stream==TEXT_CTRL(0xFC)){
+    text[row][column]=names[nameIndex];column++;text[row][column]=TEXT_CTRL(0xFD);
+    nameIndex++;
+    if(names[nameIndex]==0){stream++;nameIndex=0;column--;}
+   } else if(*stream==TEXT_CTRL(0xFE)){
+    text[0][0]=TEXT_CTRL(0xFD);text[1][0]=TEXT_CTRL(0xFD);row=0;column=0;stream+=3;
+    for(wait=180;wait;wait--){sub_080003F0();if(sub_080021A8())break;}
+   } else {
+    text[row][column]=*stream;stream++;column++;text[row][column]=TEXT_CTRL(0xFD);
+   }
+   tick=0;
+  }
+  for(i=0;i<=1;i++)drawA644((u8 *)text[i],1,(u16)(i*2+15));
+  sub_080003F0();
+ }
+ tick=179;
+ do{
+  i=0;if(i<row){y=0xF0000;line=text[0];do{drawA644((u8 *)line,1,y>>16);y+=0x20000;line+=0x20;i++;}while(i<row);} 
+  sub_080003F0();
+ }while(--tick!=-1);
+ clearA644(15,4);sub_080003F0();
+}
+#else
 void sub_0802A644(s32 id)
 {
  u8 text[0x80]; u8 *stream,*line; u32 row,column,tick,i,y;  u16 wait; u8 nameIndex; u8 *names;
@@ -1434,6 +1470,7 @@ void sub_0802A644(s32 id)
  }while(--tick!=-1);
  clearA644(15,4);sub_080003F0();
 }
+#endif
 extern void sub_080009F8(s32,s32,s32);
 extern void sub_0801AA8C(s32);
 extern void sub_0801AB90(s32);
