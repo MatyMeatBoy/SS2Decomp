@@ -2757,7 +2757,11 @@ block_6:
         var_r6 = times[temp_r2];
     }
     
+#ifdef REGION_USA
+    { register u32 zero asm("r0") = 0; asm("" : "+r"(zero)); sp38 = zero; }
+#else
     sp38 = 0;
+#endif
     switch (temp_r2) {                              /* switch 2 */
     case 0:                                         /* switch 2 */
         var_r1_2 = &gUnk_084AA9E0;
