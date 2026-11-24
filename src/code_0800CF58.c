@@ -5419,10 +5419,10 @@ block_1788:
  * +0x34 -> 8 x 0x28 byte slots, +0xAC -> 0x100 byte buffer, +0x13C/+0x140 -> local player template data,
  * +0x144 -> this slot's link SEND block (sub_08002118), +0x148 -> RECV block (sub_08002238).
  * The entity runs as task sub_0800D368 (per-player update), stack 0x680 (remote) or gUnk_03003590 (local). */
-struct T6Template135C4 { u8 pad[10]; u16 fA, fC; };
+struct T6Template135C4 { u8 pad[SAVE_FIELD(0xA)]; u16 fA, fC; };
 extern struct T6Template135C4 *t6_template135 asm("gUnk_030034E0");
 struct T6Slot135 { u16 f0; u8 pad[6]; u8 f8[0x20]; };
-struct T6Player135 { u16 f0; u8 f2; u8 pad3[PLAYER_FIELD(0xC) - 0x3]; u16 fC, fE; u8 pad10[PLAYER_FIELD(0x20) - PLAYER_FIELD(0x10)]; u16 f20; u8 pad22[PLAYER_FIELD(0x34) - PLAYER_FIELD(0x22)]; struct T6Slot135 *f34; u8 pad38[PLAYER_FIELD(0xAC) - PLAYER_FIELD(0x38)]; void *fAC; u8 padB0[PLAYER_FIELD(0x136) - PLAYER_FIELD(0xB0)]; u16 f136; u8 pad138[PLAYER_FIELD(0x13C) - PLAYER_FIELD(0x138)]; void *f13C; void *f140; void *f144, *f148; };
+struct T6Player135 { u16 f0; NameChar f2; u8 pad3[PLAYER_FIELD(0xC) - 2 - sizeof(NameChar)]; u16 fC, fE; u8 pad10[PLAYER_FIELD(0x20) - PLAYER_FIELD(0x10)]; u16 f20; u8 pad22[PLAYER_FIELD(0x34) - PLAYER_FIELD(0x22)]; struct T6Slot135 *f34; u8 pad38[PLAYER_FIELD(0xAC) - PLAYER_FIELD(0x38)]; void *fAC; u8 padB0[PLAYER_FIELD(0x136) - PLAYER_FIELD(0xB0)]; u16 f136; u8 pad138[PLAYER_FIELD(0x13C) - PLAYER_FIELD(0x138)]; void *f13C; void *f140; void *f144, *f148; };
 extern struct T6Player135 t6_players135[] asm("gUnk_03003CE0");
 struct T6Task135 { u32 f0, f4, f8; void (*fC)(void); u8 *f10; u32 f14, f18, f1C; void *f20; u32 f24; };
 extern struct T6Task135 t6_tasks135[] asm("gUnk_030034F0");
@@ -5448,7 +5448,7 @@ void sub_080135C4(u16 id) {
         stack = sub_08001494(0x680);
         t6_tasks135[id].f20 = stack;
         t6_players135[id].f13C = 0;
-        pl->f2 = 0xFE;
+        pl->f2 = TEXT_CTRL(0xFE);
     } else {
         t6_players135[id].f140 = t6_template135;
         pl->f20 = 0;
