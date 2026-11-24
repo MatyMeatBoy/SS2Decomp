@@ -1296,7 +1296,7 @@ s32 sub_08089AE4(u8 *table)
     }
     player = players9AE491 + sub_080020F4() * PLAYER_SIZE;
 #ifdef REGION_USA
-    exitIndex=1;zero=0;
+    exitIndex=1;
 #else
     exitIndex=1;zero=0;
 #endif
@@ -1317,7 +1317,11 @@ s32 sub_08089AE4(u8 *table)
             else if (exitIndex == 2)
                 state9AE491->row = exitIndex;
             {struct State9AE491 *p=state9AE491;
+#ifdef REGION_USA
+            p->destination=exit->destination;p->script=scripts9AE491[exit->destination];p->step=0;p->active=0;}
+#else
             p->destination=exit->destination;p->script=scripts9AE491[exit->destination];p->step=zero;p->active=zero;}
+#endif
             return 1;
         }
     }

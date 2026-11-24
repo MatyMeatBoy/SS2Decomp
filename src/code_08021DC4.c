@@ -745,7 +745,11 @@ void sub_080226A4(void) {
         i=0;
         do { t22_players[selected].f34[i]=t22_gs->inv[i]; i++; } while(i<=7);
         { register u16 *seqPtr asm("r4"); u32 next;
+#ifdef REGION_USA
+        t22_seq=1; i=0; { register struct T22Save226A4 **cache asm("r5")=&t22_save226A4; asm("" : : "r"(cache)); { register struct T22Save226A4 **c2 asm("ip")=cache; asm("" : : "r"(c2)); } } seqPtr=&t22_seq;
+#else
         t22_seq=1; i=0; { register struct T22Save226A4 **savedAddr asm("r7")=&t22_save226A4;  { register struct T22Save226A4 **cache asm("ip")=&t22_save226A4; asm("" : : "r"(cache)); } } seqPtr=&t22_seq; 
+#endif
         do {
             t22_items226A4[i]=t22_save226A4->items[i];
             item=(struct T22Item226A4 *)((i<<5)+(u32)t22_items226A4);
