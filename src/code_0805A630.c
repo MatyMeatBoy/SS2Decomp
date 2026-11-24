@@ -1149,7 +1149,7 @@ struct B688Player {
     u8 pad34[PLAYER_FIELD(0x148) - PLAYER_FIELD(0x34)];
     struct B688Shape *shape;
 };
-struct B688Obj { u8 pad0[0xA0]; u16 kind; u8 padA2[2]; u32 hitMask; u8 gfx; };
+struct B688Obj { u8 pad0[ITEM_FIELD(0xA0)]; u16 kind; u8 padA2[2]; u32 hitMask; u8 gfx; };
 extern struct B688Player b688Players[] asm("gUnk_03003CE0");
 extern u8 *b688Map asm("gUnk_030034E0");
 extern u8 *b688Enemies asm("gUnk_030056F4");
@@ -1202,7 +1202,7 @@ void sub_0805B688(u16 who, u16 itemId)
 
     player = &b688Players[who];
     me = (u16)sub_080020F4();
-    b688_sub_08065158(&anim, 0x500F1, 0, 0x80000000, 0);
+    b688_sub_08065158(&anim, RES_ID(0x500F1), 0, 0x80000000, 0);
     lvl = player->shape->power;
     item.kind = 1;
     item.id = itemId;
@@ -1221,7 +1221,7 @@ void sub_0805B688(u16 who, u16 itemId)
     x += ((gUnk_080B9704[(s16)angle + 0x40] << 1) * speed) / 10;
     y += ((gUnk_080B9704[(s16)angle] << 1) * speed) / 10;
     if (sub_0801DE60() == 0)
-        power = sub_0801E0AC((s32)(b688Map + 0x30), 5);
+        power = sub_0801E0AC((s32)(b688Map + SAVE_FIELD(0x30)), 5);
     else
         power = 0;
 
@@ -1296,11 +1296,11 @@ void sub_0805B688(u16 who, u16 itemId)
                     continue;
                 {
                     struct B688Size *es;
-                    u8 w = enemy[0x22E];
+                    u8 w = enemy[ENEMY_FIELD(0x22E)];
 
                     es = enemySize;
                     es->w = w;
-                    es->h = enemy[0x22F];
+                    es->h = enemy[ENEMY_FIELD(0x22F)];
                     if (!b688_sub_08021FE0(&pos, enemy + 0x14, &size, es))
                         continue;
                 }
@@ -1312,7 +1312,7 @@ void sub_0805B688(u16 who, u16 itemId)
                 if (!ok)
                     continue;
                 if (enemy[0x1DC] == 0) {
-                    switch (enemy[0x226]) {
+                    switch (enemy[ENEMY_FIELD(0x226)]) {
                     case 4:
                         if (!(obj->hitMask & 4))
                             continue;
