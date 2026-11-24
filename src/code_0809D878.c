@@ -866,13 +866,13 @@ s32 sub_0809EF84(void)
 struct Packed9F018 { u16 x,y; };
 union Tail9F018 { u32 seen[26]; struct {u32 pad[25]; struct Packed9F018 *visual;} remote; };
 struct Player9F018 {
-    u8 p0[0x20]; u16 state; u8 p22[14]; u32 flags;
-    u8 p34[0x34]; u8 active; u8 p69[0x1F]; u16 health,p8A;
-    s32 x,y; u8 p94[0x1C]; u16 motion; u8 pB2[0x32]; union Tail9F018 tail;
+    u8 p0[PLAYER_FIELD(0x20)]; u16 state; u8 p22[PLAYER_FIELD(0x30) - PLAYER_FIELD(0x22)]; u32 flags;
+    u8 p34[PLAYER_FIELD(0x68) - PLAYER_FIELD(0x34)]; u8 active; u8 p69[PLAYER_FIELD(0x88) - PLAYER_FIELD(0x69)]; u16 health,p8A;
+    s32 x,y; u8 p94[PLAYER_FIELD(0xB0) - PLAYER_FIELD(0x94)]; u16 motion; u8 pB2[PLAYER_FIELD(0xE4) - PLAYER_FIELD(0xB2)]; union Tail9F018 tail;
 };
 struct Actor9F018 {
     u16 id; u8 p2[10]; u16 state; u8 pE[6]; s32 x,y;
-    u8 p1C[0x34]; u32 serial; u8 p54[0x286]; u16 paletteOffset;
+    u8 p1C[0x34]; u32 serial; u8 p54[ENEMY_FIELD(0x2DA) - 0x54]; u16 paletteOffset;
 };
 struct Sprite9F018 {u32 base,p4,data,palette,p10,p14,p18;u8 payload[24];};
 struct Draw9F018 {u32 p0[3];s32 y;};
@@ -1142,7 +1142,7 @@ void sub_0809F018(u16 kind)
             player=sub_080020F4();actor=actor9F018;
             {
                 u32 offset = actor->id * 4 + player * PLAYER_SIZE;
-                u8 *base = (u8 *)pl + 0xE4;
+                u8 *base = (u8 *)pl + PLAYER_FIELD(0xE4);
                 
                 *(u32 *)(offset + (u32)base) = actor->serial++;
             }
