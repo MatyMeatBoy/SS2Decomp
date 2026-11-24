@@ -730,8 +730,13 @@ void sub_080226A4(void) {
         t22_gs->f36=0;
         asm("" : : "r"(t22_players));
         selected=player;
+#ifdef REGION_USA
+        t22_players[selected].fA4=t22_gs->fA0;
+        pl=&t22_players[selected];
+#else
         pl=&t22_players[selected];
         pl->fA4=t22_gs->fA0;
+#endif
         pl->f2E=t22_gs->f8C;
         pl->f2C=t22_gs->f8E;
         pl->fC4=t22_gs->f90;
