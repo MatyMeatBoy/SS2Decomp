@@ -1672,7 +1672,7 @@ finish:
 }
 struct T071S {u32 f0,f4,f8,fC;u8 pad10[12];u8 f1C,f1D;u8 pad1E[22];};
 struct T071A {u32 player,bit,target,value,f10,level;};
-struct T071P {u16 id;u8 pad2[30];u16 state;u8 pad22[14];u32 flags;u8 pad34[52];u8 team;u8 pad69[89];u16 resource;u8 padC4[24];u32 counter;u8 padE0[4];u32 ehist[5];u32 phist[4];u8 pad108[64];u16 *sprite;};
+struct T071P {u16 id;u8 pad2[PLAYER_FIELD(0x20)-2];u16 state;u8 pad22[PLAYER_FIELD(0x30)-PLAYER_FIELD(0x22)];u32 flags;u8 pad34[52];u8 team;u8 pad69[89];u16 resource;u8 padC4[24];u32 counter;u8 padE0[4];u32 ehist[5];u32 phist[4];u8 pad108[64];u16 *sprite;u8 pad14C[PLAYER_SIZE-PLAYER_FIELD(0x14C)];};
 struct T071E {u16 id,target;u8 pad4[4];s16 dir;u8 padA[2];u16 state;u8 padE[6];s32 x,y;u8 pad1C[52];u32 counter,lastHit;u16 owner;u8 pad5A[4];u16 resource;u8 pad60[10];u16 wait;u8 pad6C[368];u8 active;u8 pad1DD[ENEMY_FIELD(0x22B) - 0x1DD];u8 threshold;u8 pad22C[ENEMY_SIZE - ENEMY_FIELD(0x22C)];};
 extern struct T071P t071P[] asm("gUnk_03003CE0");
 extern u8 *t071EBase asm("gUnk_030056F4");
@@ -1793,13 +1793,13 @@ void sub_0806ABC0(struct T071A *arg) {
     x+=t071Sin[((s16)angle)+0x40]*4;
     y+=t071Sin[((s16)angle)]*4;
     if(level<=4) {
-        x071Init(&sprite,0x50051,8,-1,0);
+        x071Init(&sprite,RES_ID(0x50051),8,-1,0);
         level=(u16)(level-1);
     } else if(level<=6) {
-        x071Init(&sprite,0x50054,8,-1,0);
+        x071Init(&sprite,RES_ID(0x50054),8,-1,0);
         level=(u16)(level-5);
     } else {
-        x071Init(&sprite,0x5005F,8,-1,0);
+        x071Init(&sprite,RES_ID(0x5005F),8,-1,0);
         level=(u16)(level-7);
     }
     level=(u16)(level<<3);

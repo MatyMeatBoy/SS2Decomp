@@ -3490,7 +3490,7 @@ void sub_08079458(struct Info458 *info)
     i = info->i;
     phase = 0;
     frame = 0;
-    sub_08065158_458(&spr, 0x500AF, 0, 0x80000000, 0);
+    sub_08065158_458(&spr, RES_ID(0x500AF), 0, 0x80000000, 0);
     switch (info->c) {
     case 0:
         timer = 0xB4;
