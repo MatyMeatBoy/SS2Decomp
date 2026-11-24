@@ -1503,7 +1503,11 @@ void sub_08016D40(u8 *object, u16 arg) {
     u32 count;
     u16 *counter;
     if (object[0x201] & 2) {
+#ifdef REGION_USA
+        { u8 **bp = &gP030056F4; u32 off = object[0x1FC] >> 4; off *= ENEMY_SIZE; source = *bp + off; }
+#else
         source = gP030056F4 + (object[0x1FC] >> 4) * ENEMY_SIZE;
+#endif
         *(s32 *)(object + 0x24) = *(s32 *)(source + 0x14) >> 8;
         *(s32 *)(object + 0x28) = *(s32 *)(source + 0x18) >> 8;
     } else {
