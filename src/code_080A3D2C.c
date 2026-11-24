@@ -473,7 +473,7 @@ void sub_080A47A0_v(void)
             pos.y += *(s16 *)((u8 *)gOffY47A0 + k);
         }
         gSpr47A0[gSide47A0].style = gPal47A0;
-        sub_08000AF0(gPal47A0 + 0x10, gSpr47A0[gSide47A0].palette + (*(u16 *)(res + 0xD6) << 5), 1);
+        sub_08000AF0(gPal47A0 + 0x10, gSpr47A0[gSide47A0].palette + (*(u16 *)(res + ENEMY_DATA_FIELD(0xD6)) << 5), 1);
         {
             s32 t = sub_0800CD8C();
             if (t == 0)
@@ -1659,7 +1659,7 @@ extern s32 t109Init68B0(void *,s32,u16,s32,s32) asm("sub_08065158");
 extern u32 t109Screen68B0(s32,s32,s16 *,s16 *,s32,s32) asm("sub_0800BC08");
 extern s32 t109Draw68B0(s16,s16,s32,u16,s32,void *,s32,s32) asm("sub_08007870");
 extern s32 t109Anim68B0(void *,s32,u16 *,u16 *,s32) asm("sub_08065370");
-extern u32 t109Serial68B0[][83] asm("gUnk_03003DC4");
+extern u32 t109Serial68B0[][PLAYER_SIZE / 4] asm("gUnk_03003DC4");
 extern void t109Run68B0(u16) asm("sub_080A68B0");
 /* [RunAcceleratingFallingProjectile] Uses a halfword argument to delay launch by argument times 17 with a byte
  * wait counter; after launch optionally drifts x by 0xC0, increases y velocity by 18, conditionally draws and
@@ -1732,7 +1732,7 @@ contactDone:
                 zero = sub_0800CD34();
                 if (zero == 0) {
                     t109Screen68B0((s32)(pos[0]<<8)>>16,(s32)(pos[1]<<8)>>16,&outX,&outY,zero,zero);
-                    sub_08000AF0(t109Index68B0+16,*(u8 **)(sprite+0xC)+(*(u16 *)(resource+0xD6)<<5),1);
+                    sub_08000AF0(t109Index68B0+16,*(u8 **)(sprite+0xC)+(*(u16 *)(resource+ENEMY_DATA_FIELD(0xD6))<<5),1);
                     t109Anim68B0(sprite,2,&frame,&tick,1);
                     t109Draw68B0(outX,outY,2,frame,zero,sprite+0x1C,*(s32 *)(sprite+8),*(s32 *)sprite);
                 }

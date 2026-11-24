@@ -33,7 +33,7 @@ struct ActorD878 {
 extern struct ActorD878 *actorD878 asm("gUnk_03000310");
 extern u16 paletteD878 asm("gUnk_03000314");
 extern u32 activeD878 asm("gUnk_030056FC");
-extern u32 seenD878[][83] asm("gUnk_03003DC4");
+extern u32 seenD878[][PLAYER_SIZE / 4] asm("gUnk_03003DC4");
 extern struct PlayerD878 playersD878[] asm("gUnk_03003CE0");
 extern void *inventoryD878 asm("gUnk_030034E0");
 extern u8 *stateD878 asm("gUnk_03005CF4");
@@ -1503,7 +1503,7 @@ struct PlayerFB6 { u8 p0[0x30]; u32 flags; u8 p34[0x118]; };
 extern struct PlayerFB6 playersFB6[] asm("gUnk_03003CE0");
 extern u16 palette9FB6C asm("gUnk_03000330");
 extern u32 active9FB6C asm("gUnk_030056FC");
-extern u32 seen9FB6C[][83] asm("gUnk_03003DC4");
+extern u32 seen9FB6C[][PLAYER_SIZE / 4] asm("gUnk_03003DC4");
 extern u8 players9FB6C[] asm("gUnk_03003CE0");
 extern void *inventory9FB6C asm("gUnk_030034E0");
 extern u8 config9FB6C[] asm("gUnk_084A3EB0");
@@ -2875,11 +2875,11 @@ void sub_080A1FF4(void *unused, u16 direction)
                 gPlayersA1FF4[sub_080020F4()].state != 14 &&
                 gPlayersA1FF4[sub_080020F4()].state != 11 &&
                 gPlayersA1FF4[sub_080020F4()].state != 12 &&
-                *(u32 *)((u8 *)&gPlayersA1FF4[sub_080020F4()] + 0xE4 + gActorA1FF4->id * 4) != gActorA1FF4->serial) {
+                *(u32 *)((u8 *)&gPlayersA1FF4[sub_080020F4()] + PLAYER_FIELD(0xE4) + gActorA1FF4->id * 4) != gActorA1FF4->serial) {
                 if (sub_0800CE30() == 1) sub_08029CEC(0, 60, 2);
                 else sub_08029CEC(0, 30, 2);
                 gPlayersA1FF4[sub_080020F4()].effect = 0xFFFE;
-                *(u32 *)((u8 *)&gPlayersA1FF4[sub_080020F4()] + 0xE4 + gActorA1FF4->id * 4) = gActorA1FF4->serial++;
+                *(u32 *)((u8 *)&gPlayersA1FF4[sub_080020F4()] + PLAYER_FIELD(0xE4) + gActorA1FF4->id * 4) = gActorA1FF4->serial++;
                 hit = 1;
             }
         }

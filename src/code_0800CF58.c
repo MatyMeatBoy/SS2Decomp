@@ -526,7 +526,7 @@ void sub_0800D368(void *arg0) {
     extern u8 byteTable6410D368[] asm("gUnk_03006410");
     extern u8 actorByteState315D368[] asm("gUnk_03006430");
     extern struct PlayerD368 effectOwnerTableD368[] asm("gUnk_03003CE0");
-    extern u32 ownerWords366D368[][83] asm("gUnk_03003CE0");
+    extern u32 ownerWords366D368[][PLAYER_SIZE / 4] asm("gUnk_03003CE0");
     extern const u16 effectThresholdTableD368[] asm("gUnk_0847ACF8");
     extern const u8 directionTableD368[] asm("gUnk_084790B4");
     extern const s16 colorWaveTableD368[] asm("gUnk_080B9704");

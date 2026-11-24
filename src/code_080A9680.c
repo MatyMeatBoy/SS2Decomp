@@ -2884,7 +2884,7 @@ void sub_080AE184(void)
 }
 struct Entry114E {u8 *actor; u8 pad[0xA8];};
 extern struct Entry114E entries114E[] asm("gUnk_030004D0");
-extern u32 history114E[][83] asm("gUnk_03003DC4");
+extern u32 history114E[][PLAYER_SIZE / 4] asm("gUnk_03003DC4");
 extern u8 count114E asm("gUnk_03000780");
 extern void sub_080AF2BC(void);
 extern void sub_080AF350(u8);
@@ -5236,7 +5236,7 @@ extern u16 slot0B24B8 asm("gUnk_030007C8");
 extern u8 dir0B24B8 asm("gUnk_030007CA");
 extern u8 tracking0B24B8 asm("gUnk_030007CB");
 extern u8 pointing0B24B8 asm("gUnk_030007CC");
-extern u32 history0B24B8[4][83] asm("gUnk_03003DC4");
+extern u32 history0B24B8[4][PLAYER_SIZE / 4] asm("gUnk_03003DC4");
 extern struct Player0B24B8 players0B24B8[] asm("gUnk_03003CE0");
 extern u16 alloc0B24B8(u16, u16) asm("sub_08016E04");
 extern s32 who0B24B8(s32) asm("sub_08096594");
