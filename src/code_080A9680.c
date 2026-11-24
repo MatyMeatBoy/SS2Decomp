@@ -2768,7 +2768,7 @@ s32 sub_080ADE30(struct Entity114DE *entity102A5)
     u16 a, lo;
     s32 id;
 
-    dx = (entity102A5->x - x114DE[({ s32 i=sub_080020F4(); asm("" : : "r"(players114DE)); i; })*83]) >> 8;
+    dx = (entity102A5->x - x114DE[({ s32 i=sub_080020F4(); asm("" : : "r"(players114DE)); i; })*(PLAYER_SIZE / 4)]) >> 8;
     dy = (entity102A5->y - players114DE[sub_080020F4()].y) >> 8;
     if (Sqrt(dx * dx + dy * dy) <= 0x0F && sub_0800CDF8() == 0 && sub_0800CCCC() == 0 && sub_0800CD8C() == 0
         && entity102A5->state != 0xE && entity102A5->state != 0xB && entity102A5->state != 0xA
@@ -2781,7 +2781,7 @@ s32 sub_080ADE30(struct Entity114DE *entity102A5)
         id = sub_080020F4();
         players114DE[id].angle += delta114DE(entity102A5, &players114DE[sub_080020F4()]);
         { s32 i; u32 index; u32 *dest; u32 n; i=sub_080020F4(); index=entity102A5->index; index <<= 2;  index += i*PLAYER_SIZE;  dest=(u32 *)((u8 *)players114DE+0xe4+index); n=entity102A5->counter;  *dest=n; entity102A5->counter=n+1; }
-        dx = (x114DE[sub_080020F4()*83] - entity102A5->x) >> 8;
+        dx = (x114DE[sub_080020F4()*(PLAYER_SIZE / 4)] - entity102A5->x) >> 8;
         dy = (players114DE[sub_080020F4()].y - entity102A5->y) >> 8;
         a = ArcTan2(dx, dy);
         lo = a << 3;

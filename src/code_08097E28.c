@@ -1391,7 +1391,7 @@ u8 sub_0809A5E0(void)
     u16 a, lo;
     s32 id;
 
-    { s32 k; struct Entity102A5 *e; k=sub_080020F4(); e=entity102A5;  asm("" : : "r"(players102A5)); dx=(e->x-x102A5[k*83])>>8; }
+    { s32 k; struct Entity102A5 *e; k=sub_080020F4(); e=entity102A5;  asm("" : : "r"(players102A5)); dx=(e->x-x102A5[k*(PLAYER_SIZE / 4)])>>8; }
     dy = (entity102A5->y - players102A5[sub_080020F4()].y) >> 8;
     if (Sqrt(dx * dx + dy * dy) <= 0x2F && sub_0800CDF8() == 0 && sub_0800CCCC() == 0 && sub_0800CD8C() == 0
         && entity102A5->state != 0xB && !(players102A5[sub_080020F4()].flags & 0x2000)
@@ -1403,7 +1403,7 @@ u8 sub_0809A5E0(void)
         id = sub_080020F4();
         players102A5[id].angle += delta102A5(entity102A5, &players102A5[sub_080020F4()]);
         { s32 i; u32 index; u32 *dest; u32 n; struct Entity102A5 *e; i=sub_080020F4(); e=entity102A5; index=e->index; index<<=2;  index+=i*PLAYER_SIZE;  dest=(u32 *)((u8 *)players102A5+0xe4+index); n=e->counter;  *dest=n; e->counter=n+1; }
-        dx = (x102A5[sub_080020F4()*83] - entity102A5->x) >> 8;
+        dx = (x102A5[sub_080020F4()*(PLAYER_SIZE / 4)] - entity102A5->x) >> 8;
         dy = (players102A5[sub_080020F4()].y - entity102A5->y) >> 8;
         a = ArcTan2(dx, dy);
         lo = a << 3;
