@@ -210,13 +210,13 @@ void sub_0808D654(u8 *arg0) {
         u8 *hold = arg0 + 0x68;
         s32 val;
         *(u16 *)hold = zero;
-        val = *(s16 *)(temp_r4 + 6);
+        val = *(s16 *)(temp_r4 + ENEMY_DATA_FIELD(6));
         asm volatile("" : : "r"(hold) : "memory");
         temp_r0 = val * 3;
     }
     (*(s16 *)(arg0 + 0x1D6)) = temp_r0;
     (*(s16 *)(arg0 + 0x5C)) = temp_r0;
-    temp_r0_2 = *(s16 *)(temp_r4 + 4);
+    temp_r0_2 = *(s16 *)(temp_r4 + ENEMY_DATA_FIELD(4));
     scaledStat = temp_r0_2 * 2;
     temp_r0_2 *= 8;
     temp_r0_2 += scaledStat;
