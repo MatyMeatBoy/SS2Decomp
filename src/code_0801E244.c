@@ -1179,12 +1179,12 @@ s32 sub_0801F99C(s32 *pos, u16 *box)
     item=(struct Item02099 *)(scene02099+0x58C);
     for(index=0;index<*(u32 *)(scene02099+0x48);index++,item++) {
         if((u16)(item->state-10)<=2) continue;
-        if(item->data[6]&3) continue;
-        size.width=*(u16 *)(item->data+0xC);
-        size.height=*(u16 *)(item->data+0xE);
+        if(item->data[ENEMY_DATA_FIELD(6)]&3) continue;
+        size.width=*(u16 *)(item->data+ENEMY_DATA_FIELD(0xC));
+        size.height=*(u16 *)(item->data+ENEMY_DATA_FIELD(0xE));
         if(coll02099(pos,item,box,&size)) {
             power=gPl02099[sub_080020F4()].power;
-            defense=*(u16 *)(item->data+2);
+            defense=*(u16 *)(item->data+ENEMY_DATA_FIELD(2));
             random=((((u16)sub_080008C8()%50U)<<16)+0x640000)>>16;
             dm=(u16)((u16)((s32)(random*((s32)(power*power*10)/(s32)(power+defense)))/100)/10U);
             if(dm==0) dm=1;
@@ -1245,14 +1245,14 @@ s32 sub_0801FB14(void *arg0, void *arg1, s32 damage)
     if(index<count) do {
         if((u16)(*(u16 *)(item+0x14)-10)<=2) goto next;
         data=*(u8 **)(item+0x20);
-        if(data[6]&3) goto next;
+        if(data[ENEMY_DATA_FIELD(6)]&3) goto next;
 
-        width=*(u16 *)(data+0xC);
+        width=*(u16 *)(data+ENEMY_DATA_FIELD(0xC));
         keepMask=0xFFFF0000;
         sizeWord=size.word;
         sizeWord=(sizeWord&keepMask)|width;
         size.word=sizeWord;
-        heightBits=(u32)*(u16 *)(*(u8 **)(item+0x20)+0xE)<<16;
+        heightBits=(u32)*(u16 *)(*(u8 **)(item+0x20)+ENEMY_DATA_FIELD(0xE))<<16;
         keepMask=0xFFFF;
         sizeWord=(sizeWord&keepMask)|heightBits;
         size.word=sizeWord;
@@ -1321,7 +1321,11 @@ s32 sub_0801FC34(void *arg0, void *arg1, s32 damage)
 {
     union Size02034 size;
     u8 *item;
+#ifdef REGION_USA
+    register u8 *position asm("sl") = arg0;
+#else
     u8 *position = arg0;
+#endif
     register s32 result asm("r0") = (s32)position;
     u16 *bounds = arg1;
     s32 savedDamage = damage;
@@ -1352,20 +1356,26 @@ s32 sub_0801FC34(void *arg0, void *arg1, s32 damage)
     if(index<initialCount) do {
         if((u16)(*(u16 *)(item+0x14)-10)<=2) goto next;
         data=*(u8 **)(item+0x20);
-        if(data[6]&1) goto next;
-        width=*(u16 *)(data+0xC);
+        if(data[ENEMY_DATA_FIELD(6)]&1) goto next;
+        width=*(u16 *)(data+ENEMY_DATA_FIELD(0xC));
         keepMask=0xFFFF0000;
         sizeWord=size.word;
         sizeWord=(sizeWord&keepMask)|width;
         size.word=sizeWord;
-        heightBits=(u32)*(u16 *)(*(u8 **)(item+0x20)+0xE)<<16;
+        heightBits=(u32)*(u16 *)(*(u8 **)(item+0x20)+ENEMY_DATA_FIELD(0xE))<<16;
         keepMask=0xFFFF;
         sizeWord=(sizeWord&keepMask)|heightBits;
         size.word=sizeWord;
         sizePtr=&size;
         {
+#ifdef REGION_USA
+            register s32 *coordinates asm("r2");
+            rawX=((s32 *)position)[0]-*(s32 *)item;
+            coordinates = (s32 *)position;
+#else
             register s32 *coordinates asm("r2") = (s32 *)position;
             rawX=coordinates[0]-*(s32 *)item;
+#endif
             rawY=coordinates[1];
             {
                 register s32 otherY asm("r2") = *(s32 *)(item+4);
