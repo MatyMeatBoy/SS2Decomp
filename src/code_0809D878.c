@@ -2886,7 +2886,7 @@ void sub_080A1FF4(void *unused, u16 direction)
         if (sub_0800CCCC() == 0 && sub_0800CC98() == 0 && sub_0800CD8C() == 0) {
             s32 zero = sub_0800CD34();
             if (zero == 0) {
-            sub_08000AF0(gUnk_0300034C + 0x10, anim.fC + (*(u16 *)(aux + 0xD6) << 5), 1);
+            sub_08000AF0(gUnk_0300034C + 0x10, anim.fC + (*(u16 *)(aux + ENEMY_DATA_FIELD(0xD6)) << 5), 1);
             sub_0800BC08((x << 8) >> 16, (y << 8) >> 16, &screenX, &screenY, zero, zero);
             sub_08065370(&anim, 8, (s32)&tile, (s32)&extra, 1);
             sub_08007870(screenX, screenY, 8, tile, zero, anim.attr, anim.f8, anim.f0);
@@ -2994,7 +2994,7 @@ void sub_080A230C(void *unused, u16 delay)
             zero = sub_0800CC98();
             if (zero == 0) {
                 sub_08065370(&anim, 8, (s32)&tile, (s32)&extra, 1);
-                sub_08000AF0(gUnk_0300034C + 0x10, anim.fC + (*(u16 *)(aux + 0xD6) << 5), 1);
+                sub_08000AF0(gUnk_0300034C + 0x10, anim.fC + (*(u16 *)(aux + ENEMY_DATA_FIELD(0xD6)) << 5), 1);
                 anim.attr[0] = gUnk_0300034C;
                 t107CCall0800BC08((pos.x << 8) >> 16, (pos.y << 8) >> 16, &screenX, &screenY, zero, zero);
                 t107CCall08007870(screenX, screenY, 8, tile, zero, anim.attr, anim.f8, anim.f0);
