@@ -2481,7 +2481,7 @@ void t47EScript(u32 arg0) {
     switch (arg0) {
     case 0:
         temp_r2 = (PLAYER_SIZE * sub_080020F4()) + t47EActors;
-        *(u32 *)(temp_r2+0x30) = (s32) (*(u32 *)(temp_r2+0x30) & ~1);
+        *(u32 *)(temp_r2+PLAYER_FIELD(0x30)) = (s32) (*(u32 *)(temp_r2+PLAYER_FIELD(0x30)) & ~1);
         sub_0800D108();
         xp=(s32 *)&frame.pos[1];
         goto test4;
@@ -3329,7 +3329,7 @@ test377:
             var_r4_8 += step;
         } while (var_r4_8 <= 0x400);
         temp_r2_2 = (PLAYER_SIZE * sub_080020F4()) + t47EActors;
-        *(u32 *)(temp_r2_2+0x30) = (s32) (*(u32 *)(temp_r2_2+0x30) & ~1);
+        *(u32 *)(temp_r2_2+PLAYER_FIELD(0x30)) = (s32) (*(u32 *)(temp_r2_2+PLAYER_FIELD(0x30)) & ~1);
         sub_0800D108();
         var_r2 = (u8 *)t47EPlayers;
         var_r3 = 0;mask=&t47EMask;one=1;zero=0;
@@ -3904,7 +3904,11 @@ static inline void t49_bindB100(void *callback, u32 arg, s16 index)
     u32 i;
     s32 slot = index;
     u32 offset;
+#ifdef REGION_USA
+    register struct T49EntityB100 **table asm("r2");
+#else
     register struct T49EntityB100 **table asm("r1");
+#endif
     struct T49EntityB100 *entity;
     s32 *bits;
     u32 one;
