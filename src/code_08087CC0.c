@@ -1239,7 +1239,11 @@ s32 sub_08089AE4(u8 *table)
     const u16 *position;
     u8 *player;
     s32 *coordinates;
+#ifdef REGION_USA
+    register const struct Exit9AE491 *exit asm("r5");
+#else
     register const struct Exit9AE491 *exit asm("r6");
+#endif
     u32 exitIndex;
     u32 zero;
     s32 difference;
@@ -1258,9 +1262,13 @@ s32 sub_08089AE4(u8 *table)
         myId = sub_080020F4();
         {register u32 delta asm("r0")=state9AE491->row*0x24;delta+=4;position=(u16 *)(table+delta);}
         sub_0800CCDC();
-        {u8 *base; register u8 *px asm("r1"); register u32 stride asm("r5");
 #ifdef REGION_USA
-        offset=sub_080020F4();base=players9AE491;stride=PLAYER_SIZE;{register u8 *xf asm("r3");register u8 *yf asm("r1");register u8 *b12 asm("ip")=base;offset*=stride;xf=b12+PLAYER_FIELD(0x8C);xf=(u8 *)((u32)offset+(u32)xf);*(u32 *)xf=(u32)position[0]<<8;yf=b12+PLAYER_FIELD(0x90);yf=(u8 *)((u32)offset+(u32)yf);*(u32 *)yf=(u32)position[1]<<8;{register u8 *dst asm("r0")=b12;dst+=PLAYER_FIELD(0x94);offset+=(u32)dst;}*(struct Pos9AE491 *)offset=*(struct Pos9AE491 *)xf;}
+        {u8 *base; register u8 *px asm("r1"); register u32 stride asm("r4");
+#else
+        {u8 *base; register u8 *px asm("r1"); register u32 stride asm("r5");
+#endif
+#ifdef REGION_USA
+        offset=sub_080020F4();base=players9AE491;stride=PLAYER_SIZE;{register u8 *xf asm("r3");register u8 *yf asm("r1");u8 *b12=base;offset*=stride;xf=b12+PLAYER_FIELD(0x8C);xf=(u8 *)((u32)offset+(u32)xf);*(u32 *)xf=(u32)position[0]<<8;yf=b12+PLAYER_FIELD(0x90);yf=(u8 *)((u32)offset+(u32)yf);*(u32 *)yf=(u32)position[1]<<8;{register u8 *dst asm("r0")=b12;dst+=PLAYER_FIELD(0x94);offset+=(u32)dst;}*(struct Pos9AE491 *)offset=*(struct Pos9AE491 *)xf;}
 #else
         offset=sub_080020F4();base=players9AE491;stride=PLAYER_SIZE;offset*=stride;px=base+0x8C;px=(u8 *)((u32)offset+(u32)px);
         *(u32 *)px=(u32)position[0]<<8;
@@ -1268,7 +1276,11 @@ s32 sub_08089AE4(u8 *table)
         {u8 *p;offset+=(u32)base;p=(u8 *)offset;*(struct Pos9AE491 *)(p+0x94)=*(struct Pos9AE491 *)(p+0x8C);}
 #endif
         sub_0800CCDC();
+#ifdef REGION_USA
+        {u32 *flags;s32 index=myId;index*=stride;{u8 *fb=base;fb+=PLAYER_FIELD(0x30);index+=(u32)fb;}flags=(u32 *)index;*flags &= 0x2000;}}
+#else
         {u32 *flags;s32 index=myId;index*=stride;base+=PLAYER_FIELD(0x30);index+=(u32)base;flags=(u32 *)index;*flags &= 0x2000;}}
+#endif
         sub_08067D74();
         sub_08009930(0, 6);
         while (sub_0800BA6C() == 0)
@@ -1283,7 +1295,11 @@ s32 sub_08089AE4(u8 *table)
         return 0;
     }
     player = players9AE491 + sub_080020F4() * PLAYER_SIZE;
+#ifdef REGION_USA
     exitIndex=1;zero=0;
+#else
+    exitIndex=1;zero=0;
+#endif
     for (; exitIndex <= 3; exitIndex++) {
         {register u32 row asm("r0")=state9AE491->row*0x24;register u32 col asm("r1");row+=4;row=(u32)table+row;col=exitIndex*8;exit=(const struct Exit9AE491 *)(row+col);}
         difference = (*(s32 *)(player + PLAYER_FIELD(0x8C)) >> 11) - exit->x;
