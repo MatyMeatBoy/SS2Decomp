@@ -1035,65 +1035,65 @@ void sub_0801F374(u8 *source,u8 *target,u8 *attack,s32 flags)
         packet.impulse=0;
         packet.direction=0;
     } else {
-        *(u16 *)(target+0xC)=10;
+        *(u16 *)(target+ENEMY_FIELD(0xC))=10;
         packet.amount=amount02074(source,target,attack,0);
-        packet.impulse=attack[0xA9];
-        packet.impulse+=source[0x72];
-        packet.impulse-=*(u32 *)(target+0x210);
+        packet.impulse=attack[ITEM_FIELD(0xA9)];
+        packet.impulse+=source[PLAYER_FIELD(0x72)];
+        packet.impulse-=*(u32 *)(target+ENEMY_FIELD(0x210));
         if(packet.impulse&0x80) packet.impulse=0;
-        if(*(u32 *)(target+0x210)==0xFF) packet.impulse=0;
-        angle=ArcTan2((s32)((*(s32 *)(target+0x14)-*(s32 *)(source+0x8C))<<8)>>16,(s32)((*(s32 *)(target+0x18)-*(s32 *)(source+0x90))<<8)>>16);
+        if(*(u32 *)(target+ENEMY_FIELD(0x210))==0xFF) packet.impulse=0;
+        angle=ArcTan2((s32)((*(s32 *)(target+ENEMY_FIELD(0x14))-*(s32 *)(source+PLAYER_FIELD(0x8C)))<<8)>>16,(s32)((*(s32 *)(target+ENEMY_FIELD(0x18))-*(s32 *)(source+PLAYER_FIELD(0x90)))<<8)>>16);
         packet.direction=directions02074[angle>>12];
-        if(*(u16 *)(source+0x20)==5 && *(u16 *)(source+0x10)==8)
-            packet.amount=(s32)(packet.amount*(((u32)(*(u32 *)(*(u8 **)(source+0x148)+4)<<15)>>29)+5))/10;
-        if(target[0x226]==1 && source[0x76]!=0)
-            packet.amount=(s32)(packet.amount*source[0x76])/10;
-        if(target[0x226]==2 && source[0x75]!=0)
-            packet.amount=(s32)(packet.amount*source[0x75])/10;
-        if(*(u16 *)(source+0xC)==2) {
-            if(target[0x226]==1)
-                packet.amount=(s32)(packet.amount*((u16)sub_0801E0AC((s32)(inventory02074+0x30),4)*4+10))/10;
-            chance=(s32)(100*sub_0801E0AC((s32)(inventory02074+0x30),3))/((s16)(*(s16 *)(target+0x208)/5)+50);
+        if(*(u16 *)(source+PLAYER_FIELD(0x20))==5 && *(u16 *)(source+PLAYER_FIELD(0x10))==8)
+            packet.amount=(s32)(packet.amount*(((u32)(*(u32 *)(*(u8 **)(source+PLAYER_FIELD(0x148))+4)<<15)>>29)+5))/10;
+        if(target[ENEMY_FIELD(0x226)]==1 && source[PLAYER_FIELD(0x76)]!=0)
+            packet.amount=(s32)(packet.amount*source[PLAYER_FIELD(0x76)])/10;
+        if(target[ENEMY_FIELD(0x226)]==2 && source[PLAYER_FIELD(0x75)]!=0)
+            packet.amount=(s32)(packet.amount*source[PLAYER_FIELD(0x75)])/10;
+        if(*(u16 *)(source+PLAYER_FIELD(0xC))==2) {
+            if(target[ENEMY_FIELD(0x226)]==1)
+                packet.amount=(s32)(packet.amount*((u16)sub_0801E0AC((s32)(inventory02074+SAVE_FIELD(0x30)),4)*4+10))/10;
+            chance=(s32)(100*sub_0801E0AC((s32)(inventory02074+SAVE_FIELD(0x30)),3))/((s16)(*(s16 *)(target+ENEMY_FIELD(0x208))/5)+50);
             if((u32)chance>sub_080008C8()%100U) {
                 critical=1;
                 sub_0805865C(0x132);
             }
         }
-        *(u16 *)(source+0xC4)+=(s32)((dealt=packet.amount)*(s8)source[0x6A])/100;
-        *(u16 *)(source+0xC2)+=((s32)(dealt*(s8)source[0x6B])/100)*10;
-        if(*(s16 *)(source+0xC4)>*(s16 *)(source+0x62)) *(u16 *)(source+0xC4)=*(u16 *)(source+0x62);
-        if(*(s16 *)(source+0xC2)>*(s16 *)(source+0x60)) *(u16 *)(source+0xC2)=*(u16 *)(source+0x60);
+        *(u16 *)(source+PLAYER_FIELD(0xC4))+=(s32)((dealt=packet.amount)*(s8)source[PLAYER_FIELD(0x6A)])/100;
+        *(u16 *)(source+PLAYER_FIELD(0xC2))+=((s32)(dealt*(s8)source[PLAYER_FIELD(0x6B)])/100)*10;
+        if(*(s16 *)(source+PLAYER_FIELD(0xC4))>*(s16 *)(source+PLAYER_FIELD(0x62))) *(u16 *)(source+PLAYER_FIELD(0xC4))=*(u16 *)(source+PLAYER_FIELD(0x62));
+        if(*(s16 *)(source+PLAYER_FIELD(0xC2))>*(s16 *)(source+PLAYER_FIELD(0x60))) *(u16 *)(source+PLAYER_FIELD(0xC2))=*(u16 *)(source+PLAYER_FIELD(0x60));
     }
-    hit02074(&packet,target+0x218,0,*(u16 *)(attack+0xBC),(u16)(*(u16 *)target+4));
+    hit02074(&packet,target+ENEMY_FIELD(0x218),0,*(u16 *)(attack+ITEM_FIELD(0xBC)),(u16)(*(u16 *)target+ENEMY_FIELD(4)));
     status=sub_0801E244((s32)target,packet.power);
-    if(status!=0) sub_0801DB94(*(u16 *)target+4,(void *)status,packet.power);
+    if(status!=0) sub_0801DB94(*(u16 *)target+ENEMY_FIELD(4),(void *)status,packet.power);
     else {
         other=lookup02074(target,0);
-        if(other!=0) sub_0801DB94(*(u16 *)target+4,other,packet.power);
+        if(other!=0) sub_0801DB94(*(u16 *)target+ENEMY_FIELD(4),other,packet.power);
     }
-    if(packet.power==3) sub_08021E44(*(u16 *)target+4,1);
-    packet.player=*(u16 *)(target+2);
-    { u32 i=sub_080020F4(); u16 *p=(u16 *)(target+0x5A); u8 *pl=players02074; *p|=1<<*(u16 *)(pl+i*PLAYER_SIZE); }
+    if(packet.power==3) sub_08021E44(*(u16 *)target+ENEMY_FIELD(4),1);
+    packet.player=*(u16 *)(target+ENEMY_FIELD(2));
+    { u32 i=sub_080020F4(); u16 *p=(u16 *)(target+ENEMY_FIELD(0x5A)); u8 *pl=players02074; *p|=1<<*(u16 *)(pl+i*PLAYER_SIZE); }
 
-    *(u32 *)(target+0x54)=*(u32 *)(source+0xDC);
-    *(u16 *)(target+0x4A)+=packet.amount&0x7FFF;
-    *(u32 *)(target+0x4C)=packet.amount;
-    { u8 pw=packet.power; *(u16 *)(target+0x62)=pw; }
-    if(target[0x226]!=3) {
-        *(u16 *)(target+0x6C)=0;
-        *(u16 *)(target+0x6A)=0;
-        {u16 *q=(u16 *)(target+0x68); u16 k=0xFFFE; *q=k;}
+    *(u32 *)(target+ENEMY_FIELD(0x54))=*(u32 *)(source+PLAYER_FIELD(0xDC));
+    *(u16 *)(target+ENEMY_FIELD(0x4A))+=packet.amount&0x7FFF;
+    *(u32 *)(target+ENEMY_FIELD(0x4C))=packet.amount;
+    { u8 pw=packet.power; *(u16 *)(target+ENEMY_FIELD(0x62))=pw; }
+    if(target[ENEMY_FIELD(0x226)]!=3) {
+        *(u16 *)(target+ENEMY_FIELD(0x6C))=0;
+        *(u16 *)(target+ENEMY_FIELD(0x6A))=0;
+        {u16 *q=(u16 *)(target+ENEMY_FIELD(0x68)); u16 k=0xFFFE; *q=k;}
 
     }
     sub_0801F2CC(target,(u8 *)&packet);
-    { u16 sid=*(u16 *)source; *(u16 *)(target+0x58)=sid; }
+    { u16 sid=*(u16 *)source; *(u16 *)(target+ENEMY_FIELD(0x58))=sid; }
     notify02074(&packet);
-    display02074(target+0x218,*(u16 *)(target+0x4A),0,*(u16 *)source,*(u16 *)target+4,*(u16 *)(attack+0xBC));
-    if(*(u16 *)(source+0xC)==5) {
-        chance=sub_0801E0AC((s32)(inventory02074+0x30),6);
-        if((u32)chance>(sub_080008C8()&0x3F)) status02074(*(u16 *)(target+2),6);
+    display02074(target+ENEMY_FIELD(0x218),*(u16 *)(target+ENEMY_FIELD(0x4A)),0,*(u16 *)source,*(u16 *)target+ENEMY_FIELD(4),*(u16 *)(attack+ITEM_FIELD(0xBC)));
+    if(*(u16 *)(source+PLAYER_FIELD(0xC))==5) {
+        chance=sub_0801E0AC((s32)(inventory02074+SAVE_FIELD(0x30)),6);
+        if((u32)chance>(sub_080008C8()&0x3F)) status02074(*(u16 *)(target+ENEMY_FIELD(2)),6);
     }
-    if(critical) critical02074(*(u16 *)(target+2));
+    if(critical) critical02074(*(u16 *)(target+ENEMY_FIELD(2)));
 }
 extern u8 directions02079[] asm("gUnk_084790B4");
 extern u16 amount02079(void *,void *,void *,s32) asm("sub_0801E988");
@@ -1122,27 +1122,27 @@ void sub_0801F79C(u8 *source,u8 *target,u8 *attack,s32 flags)
         packet.direction=0;
     } else {
         packet.amount=amount02079(source,target,attack,0);
-        packet.impulse=attack[0xA9];
-        position=*(u8 **)(target+0x148);
-        angle=ArcTan2((s16)((*(u16 *)position>>4)-(*(s32 *)(source+0x8C)>>8)),(s16)(((u32)((u32)*(u16 *)(position+2)<<20)>>20)-(*(s32 *)(source+0x90)>>8)));
+        packet.impulse=attack[ITEM_FIELD(0xA9)];
+        position=*(u8 **)(target+PLAYER_FIELD(0x148));
+        angle=ArcTan2((s16)((*(u16 *)position>>4)-(*(s32 *)(source+PLAYER_FIELD(0x8C))>>8)),(s16)(((u32)((u32)*(u16 *)(position+2)<<20)>>20)-(*(s32 *)(source+PLAYER_FIELD(0x90))>>8)));
         packet.direction=directions02079[angle>>12];
-        if(*(u16 *)(source+0x20)==5 && *(u16 *)(source+0x10)==8)
-            packet.amount=(s32)(packet.amount*(((u32)(*(u32 *)(*(u8 **)(source+0x148)+4)<<15)>>29)+5))/10;
+        if(*(u16 *)(source+PLAYER_FIELD(0x20))==5 && *(u16 *)(source+PLAYER_FIELD(0x10))==8)
+            packet.amount=(s32)(packet.amount*(((u32)(*(u32 *)(*(u8 **)(source+PLAYER_FIELD(0x148))+4)<<15)>>29)+5))/10;
     }
     packetAddress=&packet;
-    display=target+0x4C;
-    hit02079(packetAddress,display,1,*(u16 *)(attack+0xBC),*(u16 *)target);
-    *(u16 *)(source+0xC4)+=(s32)((packetAddress->amount&0xFFFF7FFF)*(s8)source[0x6A])/100;
-    *(u16 *)(source+0xC2)+=((s32)((packetAddress->amount&0xFFFF7FFF)*((s32)((u32)source[0x6B]<<24)>>24))/100)*10;
-    if(*(s16 *)(source+0xC4)>*(s16 *)(source+0x62)) *(u16 *)(source+0xC4)=*(u16 *)(source+0x62);
-    if(*(s16 *)(source+0xC2)>*(s16 *)(source+0x60)) *(u16 *)(source+0xC2)=*(u16 *)(source+0x60);
+    display=target+PLAYER_FIELD(0x4C);
+    hit02079(packetAddress,display,1,*(u16 *)(attack+ITEM_FIELD(0xBC)),*(u16 *)target);
+    *(u16 *)(source+PLAYER_FIELD(0xC4))+=(s32)((packetAddress->amount&0xFFFF7FFF)*(s8)source[PLAYER_FIELD(0x6A)])/100;
+    *(u16 *)(source+PLAYER_FIELD(0xC2))+=((s32)((packetAddress->amount&0xFFFF7FFF)*((s32)((u32)source[PLAYER_FIELD(0x6B)]<<24)>>24))/100)*10;
+    if(*(s16 *)(source+PLAYER_FIELD(0xC4))>*(s16 *)(source+PLAYER_FIELD(0x62))) *(u16 *)(source+PLAYER_FIELD(0xC4))=*(u16 *)(source+PLAYER_FIELD(0x62));
+    if(*(s16 *)(source+PLAYER_FIELD(0xC2))>*(s16 *)(source+PLAYER_FIELD(0x60))) *(u16 *)(source+PLAYER_FIELD(0xC2))=*(u16 *)(source+PLAYER_FIELD(0x60));
     historyIndex=*(u16 *)source*4;
-    history=(u32 *)(target+0xF8);
+    history=(u32 *)(target+PLAYER_FIELD(0xF8));
     
-    *(u32 *)((u8 *)history+historyIndex)=*(u32 *)(source+0xDC);
+    *(u32 *)((u8 *)history+historyIndex)=*(u32 *)(source+PLAYER_FIELD(0xDC));
     packetAddress->player=*(u16 *)target;
     notify02079(packetAddress);
-    display02079(display,packetAddress->amount&0x7FFF,0,*(u16 *)source,*(u16 *)target,*(u16 *)(attack+0xBC));
+    display02079(display,packetAddress->amount&0x7FFF,0,*(u16 *)source,*(u16 *)target,*(u16 *)(attack+ITEM_FIELD(0xBC)));
 }
 
 
