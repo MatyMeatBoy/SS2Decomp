@@ -1889,10 +1889,13 @@ void sub_0805F1B0_void(void) asm("sub_0805F1B0");
  * sequence, and on any null stops only that asset setup. Success optionally uploads palette, sets
  * identity16-entry remap and initializes bounds. Invalid selector leaves selected asset unchanged. */
 void sub_0805F1B0_void(void) {
-    load62(0x5000B,&asset62_03006040,9,-1,&gUnk_08518938);
+    load62(RES_ID(0x5000B),&asset62_03006040,9,-1,&gUnk_08518938);
     load62(0x50003,&asset62_03006074,9,-1,&gUnk_08518938);
     load62(0x50004,&asset62_030060A8,9,-1,&gUnk_08518938);
     load62(0x50005,&asset62_030060DC,9,-1,&gUnk_08518938);
+#ifdef REGION_USA
+    load62(0x50006,&asset62_03005D80,9,4,&gUnk_08518938);
+#else
     switch(gUnk_03003470) {
     case 0:
         load62(0x50006,&asset62_03005D80,9,4,&gUnk_08518938);
@@ -1910,17 +1913,18 @@ void sub_0805F1B0_void(void) {
         load62(0x5000a,&asset62_03005D80,9,4,&gUnk_08518938);
         break;
     }
-    load62(0x500A3,&asset62_03005DC0,9,-1,&gUnk_08518938);
-    load62(0x500A1,&asset62_03005DF4,9,-1,&gUnk_08518938);
-    load62(0x500A4,&asset62_03005E28,9,-1,&gUnk_08518938);
-    load62(0x500A2,&asset62_03005E5C,9,-1,&gUnk_08518938);
-    load62(0x500DB,&asset62_03005E90,9,-1,&gUnk_08518938);
-    load62(0x500DC,&asset62_03005EC4,9,-1,&gUnk_08518938);
-    load62(0x500DE,&asset62_03005EF8,9,-1,&gUnk_08518938);
-    load62(0x500DD,&asset62_03005F2C,9,-1,&gUnk_08518938);
-    load62(0x500BD,&asset62_03005F60,9,-1,&gUnk_08518938);
-    load62(0x500AF,&asset62_03005F94,9,-1,&gUnk_08518938);
-    load62(0x500F1,&asset62_03005FC8,9,-1,&gUnk_08518938);
+#endif
+    load62(RES_ID(0x500A3),&asset62_03005DC0,9,-1,&gUnk_08518938);
+    load62(RES_ID(0x500A1),&asset62_03005DF4,9,-1,&gUnk_08518938);
+    load62(RES_ID(0x500A4),&asset62_03005E28,9,-1,&gUnk_08518938);
+    load62(RES_ID(0x500A2),&asset62_03005E5C,9,-1,&gUnk_08518938);
+    load62(RES_ID(0x500DB),&asset62_03005E90,9,-1,&gUnk_08518938);
+    load62(RES_ID(0x500DC),&asset62_03005EC4,9,-1,&gUnk_08518938);
+    load62(RES_ID(0x500DE),&asset62_03005EF8,9,-1,&gUnk_08518938);
+    load62(RES_ID(0x500DD),&asset62_03005F2C,9,-1,&gUnk_08518938);
+    load62(RES_ID(0x500BD),&asset62_03005F60,9,-1,&gUnk_08518938);
+    load62(RES_ID(0x500AF),&asset62_03005F94,9,-1,&gUnk_08518938);
+    load62(RES_ID(0x500F1),&asset62_03005FC8,9,-1,&gUnk_08518938);
 }
 struct NumAsset63 { u32 f0, f4, f8; u8 data[40]; };
 extern struct NumAsset63 numAssets63[] asm("gUnk_03006040");
