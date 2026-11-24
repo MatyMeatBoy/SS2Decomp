@@ -1842,7 +1842,7 @@ fail:
     return 0;
 }
 struct AnimF1E4 { s32 w0, w4, w8; u8 *graphics; u8 p10[12]; u8 data[24]; };
-struct DataF1E4 { u8 p0[4]; s16 f4, f6; };
+struct DataF1E4 { u8 p0[ENEMY_DATA_FIELD(4)]; s16 f4, f6; };
 struct EntF1E4 {
     u16 f0; u8 p2[0xA]; u16 fC; u8 pE[6]; s32 x, y; u8 p1C[0x30]; s32 f4C; u8 p50[0xC];
     s16 f5C, f5E; u8 p60[8]; u16 f68, f6A, f6C; u8 p6E[0x166];
@@ -1894,7 +1894,7 @@ void sub_0808F1E4_v(struct EntF1E4 *e)
     data = &e->data;
     resetF1E4();
     limit = 0xFFFF;
-    while ((slot = allocF1E4(0x5012F, 0)) == limit) {
+    while ((slot = allocF1E4(RES_ID(0x5012F), 0)) == limit) {
         e->fC = 11;
         if (sub_0800CB78() != 0 || sub_08056E90() != 0) {
             activeF1E4 &= ~(1 << e->f0);
@@ -1924,7 +1924,7 @@ void sub_0808F1E4_v(struct EntF1E4 *e)
         thinkF1E4(e);
         switch (e->fC) {
         case 0:
-            initF1E4(&anim, 0x5012F, slot, -1, 0);
+            initF1E4(&anim, RES_ID(0x5012F), slot, -1, 0);
             e->f68 = 0;
             break;
         case 10:
