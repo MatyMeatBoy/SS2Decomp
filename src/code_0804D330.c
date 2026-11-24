@@ -1023,7 +1023,21 @@ void sub_0804EABC(void) {
                 waitOne = 1;
                 do { sub_080003F0(); } while (!(*waitFlags & waitOne));
             }
+#ifdef REGION_USA
+            {
+                u8 **table = (u8 **)&entities51EA;
+                u32 eo = ENEMY_SIZE;
+                u32 idx = 0;
+                u8 *e;
+                asm("" : "+r"(idx));
+                eo *= idx;
+                e = *table;
+                e += eo;
+                entity = (struct Entity51EA *)e;
+            }
+#else
             entity = entities51EA;
+#endif
             entity->f38 = var_r7;
             entity->f3C = fieldOne;
             zero = 0;
