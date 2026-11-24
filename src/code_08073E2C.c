@@ -3705,7 +3705,7 @@ void sub_08079888(u32 who, u32 a, u32 b, u32 c, u32 d)
 struct Spr948 { u32 f0, f4, f8, fC; u8 p10[12]; u8 f1C, f1D; u8 p1E[22]; };
 struct Box948 { u16 w, h; };
 struct Pl948 { u8 p0[PLAYER_FIELD(0x20)]; u16 state; u8 p22[PLAYER_FIELD(0x30) - PLAYER_FIELD(0x22)]; u32 flags; u8 p34[PLAYER_FIELD(0x68) - PLAYER_FIELD(0x34)]; u8 active; u8 p69[PLAYER_FIELD(0x8C) - PLAYER_FIELD(0x69)]; s32 pos[2]; u8 p94[PLAYER_FIELD(0x108) - PLAYER_FIELD(0x94)]; u32 lastHit; u8 p10C[PLAYER_SIZE - PLAYER_FIELD(0x10C)]; };
-struct En948 { u8 p0[0x14]; s32 pos[2]; u8 p1C[0x38]; u32 lastHit; u8 p58[0x184]; u8 active; u8 p1DD[0x51]; u8 bw, bh; u8 p230[ENEMY_SIZE - 0x230]; };
+struct En948 { u8 p0[0x14]; s32 pos[2]; u8 p1C[0x38]; u32 lastHit; u8 p58[0x184]; u8 active; u8 p1DD[ENEMY_FIELD(0x22E) - 0x1DD]; u8 bw, bh; u8 p230[ENEMY_SIZE - ENEMY_FIELD(0x230)]; };
 extern struct Pl948 gPl948[] asm("gUnk_03003CE0");
 extern struct En948 *gEn948 asm("gUnk_030056F4");
 extern s32 sub_08065158_948(void *, u32, u32, u32, u32) asm("sub_08065158");
@@ -3744,7 +3744,7 @@ void sub_08079948(struct Info9888 *info)
     frame = 0;
     size = 0x00180020;
     counter = 0x88800000;
-    sub_08065158_948(&spr, 0x500AF, 0, 0x80000000, 0);
+    sub_08065158_948(&spr, RES_ID(0x500AF), 0, 0x80000000, 0);
     if (sub_0800CCCC() == 0 && sub_0800CD34() == 0)
         sub_0805865C(0x35);
     timer = 4;
@@ -3753,7 +3753,7 @@ void sub_08079948(struct Info9888 *info)
             sub_08007870_948(dx, dy, 8, frame, shade, &spr.f1C, spr.f8, spr.f0);
         sub_080003F0();
     } while (timer-- != 0);
-    sub_08065158_948(&spr, 0x5008C, 0, 0x80000000, 0);
+    sub_08065158_948(&spr, RES_ID(0x5008C), 0, 0x80000000, 0);
     sub_08000AF0(0x17, (void *)spr.fC, 2);
     spr.f1C = 7;
     spr.f1D = 8;
