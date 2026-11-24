@@ -99,7 +99,9 @@ void sub_08009138(s32 *arg0, s32 arg1) {
     } else sub_08000AF0(0,palette,15);
     if (gUnk_03003170.curLevel == 4 && sub_0800CDC0()) sub_080009C0(0x1b00,0,1);
     else if (gUnk_03003170.curLevel != 13) sub_080009C0(0x1f00,0,1);
-    sub_08001538(alloc);
+#ifndef REGION_USA
+    sub_08001538(alloc); /* USA no longer frees this stale pointer */
+#endif
     done9138 = 0;
     sub_080003F0();
 }
