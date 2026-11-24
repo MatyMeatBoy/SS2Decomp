@@ -54,7 +54,7 @@ SHA-256 values are pinned in `tools/config/rom_regions.json`.
 ## Coverage and limitations
 
 The verified USA build contains 1,882 compiler-backed C intervals (16 same-address
-EU, 1,862 relocated EU, 4 region-only) totaling 484,092 bytes; Japan contains
+EU, 1,863 relocated EU, 3 region-only) totaling 484,092 bytes; Japan contains
 1,272 (16, 1,229 and 27) totaling 164,414 bytes. Consult each generated report for the actual current counts, canonical EU symbols, addresses,
 sizes and per-function hashes. The admitted intervals include complete function
 literal pools. Top-level assembly and `INCLUDE_ASM` fallbacks receive no C credit.
@@ -226,17 +226,19 @@ Naming is the address, as for `sub_`/`gUnk_` in EU:
 
 The report lists these intervals separately as `region_only_functions`.
 
-USA (AU2E) currently has four region-only functions in
+USA (AU2E) currently has three region-only functions in
 `src/regions/usa/usa_only.c`, found by aligning the ordered EU and USA function
 lists (link order is preserved; 2029 of 2033 USA functions pair with an EU
 function):
 
 | USA address | Size | EU relation |
 | --- | ---: | --- |
-| `0801A1C8` | 0x32 | 16-bit-text form of `CountRenderableScriptGlyphs` (`sub_0801A638`); USA text uses halfword glyphs ending in `0xFFFD` |
 | `0805E02C` | 0x1B0 | No EU counterpart; unreferenced dialogue-task starter with caller-supplied window layout |
 | `08067CA4` | 0x5C | `EnqueueLinkEntityPosition` (`sub_080663A4`) moved in link order; USA enemy records are 0x454 bytes (EU 0x2E0) |
 | `080813D8` | 0xC0 | 16-bit-text form of `ExpandEncodedTextUnsignedNumberToken` (`sub_080850C0`) |
+
+The 16-bit-text form of `CountRenderableScriptGlyphs` (USA `0801A1C8`) is the
+`REGION_USA` branch of `sub_0801A638` itself, since it keeps the EU link position.
 
 Most other USA functions differ from EU only in literal-pool addresses; they
 are built from the EU source through the relocation table described in

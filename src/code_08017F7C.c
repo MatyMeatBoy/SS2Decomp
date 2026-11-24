@@ -1596,6 +1596,19 @@ void sub_0801A62C(void) {
 }
 /* [CountRenderableScriptGlyphs] Counts bytes until 0xFD or a value above 0xF1. Zero counts as a glyph; this is
  * not a zero-terminated string length. */
+#ifdef REGION_USA
+/* USA 16-bit text: stops at 0xFFFD or any control halfword (bit 15 set). */
+s32 sub_0801A638(u8 *text)
+{
+    TextChar *p = (TextChar *)text;
+    u32 n = 0;
+    while (*p != TEXT_CTRL(0xFD) && !(*p & 0x8000)) {
+        n++;
+        p++;
+    }
+    return n;
+}
+#else
 s32 sub_0801A638(u8 *p)
 {
     s32 n = 0;
@@ -1608,6 +1621,7 @@ s32 sub_0801A638(u8 *p)
     }
     return n;
 }
+#endif
 /* [UpdateSharedHalfwordMinimum] Body compares (u32)global > arg0, then conditionally stores(u16)arg0. This is
  * unsigned minimum update, not signed clamp or unconditional truncation. */
 void sub_0801A650(u32 arg0)
