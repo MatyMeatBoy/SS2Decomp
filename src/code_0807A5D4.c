@@ -163,6 +163,9 @@ void sub_0807A5D4_v(void)
     sub_0800903C(4, 0x38, 1, 10, 7, 0);
     sub_08000AF0(0xE, (void *)(sub_08007290(0x70003) + 0x1C0), 1);
     stageA5D4.value = tableA5D4Stage[indexA5D4->value];
+#ifdef REGION_USA
+    sub_08065158(mgrA5D4->sprite, 0x50006, 0, -1, 0); /* single language */
+#else
     switch (gUnk_03003470) {
     case 0: sub_08065158(mgrA5D4->sprite, 0x50006, 0, -1, 0); break;
     case 1: sub_08065158(mgrA5D4->sprite, 0x50007, 0, -1, 0); break;
@@ -170,6 +173,7 @@ void sub_0807A5D4_v(void)
     case 3: sub_08065158(mgrA5D4->sprite, 0x50009, 0, -1, 0); break;
     case 4: sub_08065158(mgrA5D4->sprite, 0x5000A, 0, -1, 0); break;
     }
+#endif
     sub_08000990(0, 1);
     sub_080009C0(0x1F00, 0, 1);
     bg.word = (bg.word & 0xFFFF0000) | 0x1D01;
@@ -772,6 +776,9 @@ void sub_0807B7B4_v(void)
     sub_0800B650(0x40000004, 0x1F, 0x06000000, 0, 0xE);
     sub_08000AF0(0xE, (void *)(sub_08007290(0x70003) + 0x1C0), 1);
     stage7B7B4.value = table7B7B4Stage[index7B7B4->value];
+#ifdef REGION_USA
+    sub_08065158(mgr7B7B4->f5B8, 0x50006, 0, -1, 0); /* single language */
+#else
     switch (gUnk_03003470) {
     case 0: sub_08065158(mgr7B7B4->f5B8, 0x50006, 0, -1, 0); break;
     case 1: sub_08065158(mgr7B7B4->f5B8, 0x50007, 0, -1, 0); break;
@@ -779,6 +786,7 @@ void sub_0807B7B4_v(void)
     case 3: sub_08065158(mgr7B7B4->f5B8, 0x50009, 0, -1, 0); break;
     case 4: sub_08065158(mgr7B7B4->f5B8, 0x5000A, 0, -1, 0); break;
     }
+#endif
     sub_08000990(0, 1);
     bg.word = (bg.word & 0xFFFF0000) | 0x1D03;
     sub_08000AA8(1, bg.half);
@@ -5396,6 +5404,9 @@ void sub_08082BB0_u32(u32 arg0) {
     }
     stage82BB0.value = table82BB0Stage[index82BB0->value];
     sub_0800B650(0x10, 0x1F, 0x06000000, 0U, 0xEU);
+#ifdef REGION_USA
+    sub_08065158(((u8 *)manager82BB0) + 0x5B8, 0x50006, 0, -1, 0); /* single language */
+#else
     switch (gUnk_03003470) {
     case 0: sub_08065158(((u8 *)manager82BB0) + 0x5B8, 0x50006, 0, -1, 0); break;
     case 1: sub_08065158(((u8 *)manager82BB0) + 0x5B8, 0x50007, 0, -1, 0); break;
@@ -5403,6 +5414,7 @@ void sub_08082BB0_u32(u32 arg0) {
     case 3: sub_08065158(((u8 *)manager82BB0) + 0x5B8, 0x50009, 0, -1, 0); break;
     case 4: sub_08065158(((u8 *)manager82BB0) + 0x5B8, 0x5000A, 0, -1, 0); break;
     }
+#endif
     sub_08065158(((u8 *)manager82BB0) + 0x5EC, 0x5007A, 0, -1, 0);
     sub_08000AF0(0x1EU, (*(s32 *)((u8 *)(((u8 *)manager82BB0)) + 0x5F8)), 1U);
     (*(u8 *)((u8 *)(((u8 *)manager82BB0)) + 0x608)) = 0xE;

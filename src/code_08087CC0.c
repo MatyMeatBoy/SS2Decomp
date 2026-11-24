@@ -2720,6 +2720,9 @@ void sub_0808B978(void) {
     asm("" : "=r"(var_r9), "=r"(entry_r7), "=r"(saved_reg_r8));
 
     var_r7 = entry_r7;
+#ifdef REGION_USA
+    sub_08065158(&sp4, 0x50006, 0, -1, 0); /* single language */
+#else
     switch (gUnk_03003470) {                        /* switch 1 */
     case 0:                                         /* switch 1 */
         var_r1 = 0x50006;
@@ -2739,6 +2742,7 @@ block_6:
         sub_08065158(&sp4, 0x5000A, 0, -1, 0);
         break;
     }
+#endif
     sub_0800CF58();
     sub_08057934();
     sub_08028AAC(0, 0x79, 0x1BE, 0);
