@@ -53,8 +53,8 @@ SHA-256 values are pinned in `tools/config/rom_regions.json`.
 
 ## Coverage and limitations
 
-The verified USA build contains 1,884 compiler-backed C intervals (16 same-address
-EU, 1,865 relocated EU, 3 region-only) totaling 485,156 bytes; Japan contains
+The verified USA build contains 1,885 compiler-backed C intervals (16 same-address
+EU, 1,866 relocated EU, 3 region-only) totaling 486,228 bytes; Japan contains
 1,272 (16, 1,229 and 27) totaling 164,414 bytes. Consult each generated report for the actual current counts, canonical EU symbols, addresses,
 sizes and per-function hashes. The admitted intervals include complete function
 literal pools. Top-level assembly and `INCLUDE_ASM` fallbacks receive no C credit.

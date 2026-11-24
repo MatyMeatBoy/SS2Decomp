@@ -3478,7 +3478,7 @@ extern u32 gMasks458[] asm("gUnk_030063E0");
 struct Spr458 { u32 f0, f4, f8, fC; u8 p10[12]; u8 f1C, f1D; u8 p1E[22]; };
 struct Box458 { u16 w, h; };
 struct Pl458 { u8 p0[PLAYER_FIELD(0x20)]; u16 state; u8 p22[PLAYER_FIELD(0x30) - PLAYER_FIELD(0x22)]; u32 flags; u8 p34[PLAYER_FIELD(0x68) - PLAYER_FIELD(0x34)]; u8 active; u8 p69[PLAYER_FIELD(0x6E) - PLAYER_FIELD(0x69)]; u8 b6E; u8 p6F[PLAYER_FIELD(0x8C) - PLAYER_FIELD(0x6F)]; s32 pos[2]; u8 p94[PLAYER_FIELD(0x108) - PLAYER_FIELD(0x94)]; u32 lastHit; u8 p10C[PLAYER_SIZE - PLAYER_FIELD(0x10C)]; };
-struct En458 { u8 p0[0x14]; s32 pos[2]; u8 p1C[0x38]; u32 lastHit; u8 p58[0x184]; u8 active; u8 p1DD[0x51]; u8 bw, bh; u8 p230[ENEMY_SIZE - 0x230]; };
+struct En458 { u8 p0[0x14]; s32 pos[2]; u8 p1C[0x38]; u32 lastHit; u8 p58[0x184]; u8 active; u8 p1DD[ENEMY_FIELD(0x22E) - 0x1DD]; u8 bw, bh; u8 p230[ENEMY_SIZE - ENEMY_FIELD(0x230)]; };
 extern struct Pl458 gPl458[] asm("gUnk_03003CE0");
 extern struct En458 *gEn458 asm("gUnk_030056F4");
 extern s32 sub_08065158_458(void *, u32, u32, u32, u32) asm("sub_08065158");
@@ -3509,7 +3509,11 @@ void sub_08079458(struct Info458 *info)
     u16 dmg;
     u32 k, who, i, big, local;
     u8 *obj;
+#ifdef REGION_USA
+    register s32 timer asm("sl");
+#else
     s32 timer;
+#endif
 
     u32 shade;
     u16 j;
@@ -3576,7 +3580,7 @@ void sub_08079458(struct Info458 *info)
         big = 1;
         break;
     }
-    k = obj[0xA8];
+    k = obj[ITEM_FIELD(0xA8)];
     asm(""::"r"(pp));
     asm(""::"r"(pp));
     asm(""::"r"(pp));
