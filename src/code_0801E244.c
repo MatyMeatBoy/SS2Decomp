@@ -595,9 +595,9 @@ s32 sub_0801E988(struct Atk5B0 *atk, struct Tgt988 *tgt, u8 *record, s32 noCrit)
         power = (u16)atk->base;
     }
     result = inl_08021C74(power, defense, divisor);
-    if (ctx[*(u16 *)(ctx + 0x68) * 16 + 0x79] == 1) {
+    if (ctx[*(u16 *)(ctx+SAVE_FIELD(0x68)) * 16 + SAVE_FIELD(0x79)] == 1) {
         {
-            u32 fw = inl_08021D00(*(u16 *)(record + 0xBC), result, (u8 *)tgt, 0x7C);
+            u32 fw = inl_08021D00(*(u16 *)(record+ITEM_FIELD(0xBC)), result, (u8 *)tgt, PLAYER_FIELD(0x7C));
             asm("" : "+r"(fw));
             fw <<= 16;
             result = fw >> 16;
@@ -607,13 +607,13 @@ s32 sub_0801E988(struct Atk5B0 *atk, struct Tgt988 *tgt, u8 *record, s32 noCrit)
     }
     if (atk->type == 5)
         result = inl_08021CE4(result, 10);
-    if (!sub_0801DE60() && *(u16 *)(combat5B0 + 0x4C) && tgt->kind == 2) {
+    if (!sub_0801DE60() && *(u16 *)(combat5B0+SAVE_FIELD(0x4C)) && tgt->kind == 2) {
         u32 cur = result;
-        result = inl_08021CE4(cur, sub_0801E0AC((s32)(combat5B0 + 0x30), 6) * 2 + 10);
+        result = inl_08021CE4(cur, sub_0801E0AC((s32)(combat5B0+SAVE_FIELD(0x30)), 6) * 2 + 10);
     }
-    if (sub_0801DE60() == 3 && *(u16 *)(combat5B0 + 0x44))
-        notify5B0((tgt->id << 8) | 4, sub_0801E0AC((s32)(combat5B0 + 0x30), 4));
-    if (sub_0801DE60() == 7 && *(u16 *)(combat5B0 + 0x50)) {
+    if (sub_0801DE60() == 3 && *(u16 *)(combat5B0+SAVE_FIELD(0x44)))
+        notify5B0((tgt->id << 8) | 4, sub_0801E0AC((s32)(combat5B0+SAVE_FIELD(0x30)), 4));
+    if (sub_0801DE60() == 7 && *(u16 *)(combat5B0+SAVE_FIELD(0x50))) {
         if ((s16)atk->dir > 4)
             a = atk->dir - 8;
         else
@@ -626,7 +626,7 @@ s32 sub_0801E988(struct Atk5B0 *atk, struct Tgt988 *tgt, u8 *record, s32 noCrit)
         if (d < 0)
             d = -d;
         if (d <= 1)
-            result = (u16)((s16)result * (sub_0801E0AC((s32)(combat5B0 + 0x30), 7) * 3 + 10) / 10);
+            result = (u16)((s16)result * (sub_0801E0AC((s32)(combat5B0+SAVE_FIELD(0x30)), 7) * 3 + 10) / 10);
     }
     {
         register s32 fin asm("r5") = (u16)((s16)result / 4);
