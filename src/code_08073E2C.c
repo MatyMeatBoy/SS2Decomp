@@ -119,14 +119,22 @@ u16 sub_08073EE8(u16 width, s32 range)
                 d = diffEE8(angEE8(dx, dy), dirEE8(&player->pos));
                 {
                     /* The ROM reloads the spilled limits into r2/r3 here. */
+#ifdef REGION_USA
+                    register u32 w asm("r3") = width;
+#else
                     register u32 w asm("r2") = width;
+#endif
                     asm("" : "+r"(w));
                     if (d > (s32)w)
                         continue;
                 }
                 dist = Sqrt(dx * dx + dy * dy);
                 {
+#ifdef REGION_USA
+                    register u32 rg asm("r1") = range;
+#else
                     register u32 rg asm("r3") = range;
+#endif
                     asm("" : "+r"(rg));
                     if (rg <= dist)
                         continue;
@@ -145,10 +153,22 @@ u16 sub_08073EE8(u16 width, s32 range)
     best = 0xFFFF;
     nearest = -1;
     i = 0;
+#ifndef REGION_USA
     offset = 0;
+#endif
     do {
         if (active076EE8 & (1 << i)) {
+#ifdef REGION_USA
+            {
+                u8 **table = (u8 **)&enemies076EE8;
+                u32 eo = i * ENEMY_SIZE;
+                u8 *p = *table;
+                p += eo;
+                e = (struct Ene076EE8 *)p;
+            }
+#else
             e = (struct Ene076EE8 *)((u8 *)enemies076EE8 + offset);
+#endif
             if (e->state != 11 && e->hp != 0 && e->alive != 0) {
                 dx = (e->x - player->x) >> 8;
                 dy = (e->y - player->y) >> 8;
@@ -162,7 +182,9 @@ u16 sub_08073EE8(u16 width, s32 range)
                 }
             }
         }
+#ifndef REGION_USA
         offset += sizeof(struct Ene076EE8);
+#endif
         i++;
     } while (i <= 4);
     if (nearest == -1)
@@ -277,7 +299,11 @@ extern u32 active076398 asm("gUnk_030056FC");
 s32 nearest076398(u32 inputSelf,u32 inputExcluded,s32 x,s32 y,s32 range)
 {
     u32 self=(u16)inputSelf;
+#ifdef REGION_USA
+    register u32 best asm("r8"),nearest asm("sl"),index asm("r4");
+#else
     register u32 best asm("r9"),nearest asm("r8"),index asm("r4");
+#endif
     u32 count;
     u8 **enemyAddress;
     u8 *team;
@@ -352,7 +378,16 @@ s32 nearest076398(u32 inputSelf,u32 inputExcluded,s32 x,s32 y,s32 range)
     offset=0;
     do{
         if(active076398 & (1<<index)){
+#ifdef REGION_USA
+            {
+                u8 **table=&enemies076398;
+                u32 eo=index*ENEMY_SIZE;
+                enemy=*table;
+                enemy+=eo;
+            }
+#else
             enemy=*enemyAddress+offset;
+#endif
             if(F_076398(enemy,u16,2)!=inputExcluded && F_076398(enemy,u16,0xC)!=11 && F_076398(enemy,s16,0x5C)!=0 && enemy[0x1DC]!=0){
                 dx=(F_076398(enemy,s32,0x14)-x)>>8;
                 dy=(F_076398(enemy,s32,0x18)-y)>>8;
