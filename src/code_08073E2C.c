@@ -768,7 +768,7 @@ void sub_08075088(u32 who, u32 slot)
 
     spd = 2;
     local = sub_080020F4();
-    init5088(&spr, 0x5008C, 8, -1, 0);
+    init5088(&spr, RES_ID(0x5008C), 8, -1, 0);
     spr.palette[0] = 7;
     spr.palette[1] = 8;
     p = &p5088[who];
@@ -785,7 +785,7 @@ void sub_08075088(u32 who, u32 slot)
         p->flags |= 1;
         serial = p->serial++;
         dmg = rand5088() % 50;
-        dmg = dmg + (u16)sub_0801E0AC((s32)party5088 + 0x30, 5) * 50;
+        dmg = dmg + (u16)sub_0801E0AC((s32)party5088 + SAVE_FIELD(0x30), 5) * 50;
     }
     while (1) {
         count = 0;

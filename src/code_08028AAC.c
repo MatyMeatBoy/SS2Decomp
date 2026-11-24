@@ -1548,6 +1548,48 @@ void sub_0802A7DC(void)
  * contain byte 0xFD at exactly that length. Returns the first matched resource index 0..12, or -1. Does not
  * hash/randomize a name, change stats itself, enforce a maximum name length or validate resource
  * pointers/terminators. */
+#ifdef REGION_USA
+s32 sub_0802A9B0(void) {
+    u32 var_r5 = 0x533;
+    register TextChar **seqAddr asm("r6");
+    register TextChar **globalAddr asm("r0");
+    TextChar *seq;
+    s32 var_r7;
+    TextChar *attrs;
+    register s32 var_r3 asm("r3");
+    register TextChar temp_r2 asm("r2");
+    register u32 endMark asm("r8") = TEXT_CTRL(0xFF);
+    register u32 nameEnd asm("r9") = TEXT_CTRL(0xFD);
+    register u32 off asm("r1");
+    do {
+        u8 *temp_r0 = (u8 *)sub_08007290(0x140000 | var_r5);
+        attrs = (TextChar *)(temp_r0 + TEXT_HEADER);
+        var_r7 = 1;
+        var_r3 = 0;
+        temp_r2 = *(TextChar *)(temp_r0 + TEXT_HEADER);
+        if (temp_r2 != endMark) {
+            globalAddr = (TextChar **)&gUnk_030034E0;
+            seq = *globalAddr;
+            seqAddr = globalAddr;
+            if (temp_r2 != seq[0]) goto block_9;
+            do {
+                var_r3++;
+                off = var_r3 * sizeof(TextChar);
+                temp_r2 = *(TextChar *)(off + (u32)attrs);
+                if (temp_r2 == endMark) break;
+                if (temp_r2 != *(TextChar *)((u8 *)*seqAddr + off)) {
+                    var_r7 = 0;
+                    break;
+                }
+            } while (1);
+        }
+        if (var_r7 != 0) { u32 g = *(u32 *)&gUnk_030034E0; off = var_r3 * sizeof(TextChar); if (*(TextChar *)(g + off) == nameEnd) return var_r5 - 0x533; }
+block_9:
+        var_r5++;
+    } while (var_r5 <= 0x53F);
+    return -1;
+}
+#else
 s32 sub_0802A9B0(void) {
     u32 var_r5 = 0x533;
     register u8 **seqAddr asm("r6");
@@ -1586,6 +1628,7 @@ block_9:
     } while (var_r5 <= 0x53F);
     return -1;
 }
+#endif
 extern u8 *stateAA28 asm("gUnk_03005CF4");
 /* Second name for the same slot: keeps the relocation but stops CSE with stateAA28. */
 extern u8 *sceneAA28 asm("gUnk_03005CF4");
