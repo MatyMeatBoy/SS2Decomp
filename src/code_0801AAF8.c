@@ -629,11 +629,20 @@ void sub_0801B720(s16 *p, s16 delta) {
     p[4] = p[4] - delta;
     p[5] = p[5] - delta;
 }
-struct S17ItemC4 { u8 data[0xC4]; };
-struct S17ItemB8 { u8 data[0xB8]; };
-struct S17ItemB4 { u8 data[0xB4]; };
-struct S17ItemB0 { u8 data[0xB0]; };
+struct S17ItemC4 { u8 data[ITEM_FIELD(0xC4)]; };
+struct S17ItemB8 { u8 data[EQUIP_FIELD(0xB8)]; };
+#ifdef REGION_USA
+struct S17ItemGlove { u8 data[EQUIP_FIELD(0xB8) + 4]; }; /* USA glove records are 4 bytes longer */
+#else
+struct S17ItemGlove { u8 data[0xB8]; };
+#endif
+struct S17ItemB4 { u8 data[ITEM_FIELD(0xB4)]; };
+struct S17ItemB0 { u8 data[ITEM_FIELD(0xB0)]; };
+#ifdef REGION_USA
+struct S17Set { u8 pad[0x174]; u16 slots[6]; }; /* USA set names are halfword text */
+#else
 struct S17Set { u8 pad[0x136]; u16 slots[6]; };
+#endif
 /* [MatchesEquipmentSetRequirements] Checks six required resource-index halfwords at set record +0x136. Value
  * 65535 ignores that requirement; otherwise the corresponding supplied resource pointer must be nonnull and
  * its resource-array index must equal the requirement. Returns exactly 1 when every required position matches,
@@ -661,7 +670,7 @@ s32 sub_0801B74C(struct S17Set *set, struct S17ItemC4 *a, struct S17ItemB8 *b, s
                     matched++;
                 break;
             case 3:
-                if (d && d - (struct S17ItemB8 *)sub_08007290(0xE0000) == set->slots[i])
+                if (d && (struct S17ItemGlove *)d - (struct S17ItemGlove *)sub_08007290(0xE0000) == set->slots[i])
                     matched++;
                 break;
             case 4:
