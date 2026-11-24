@@ -1742,7 +1742,7 @@ echeck:
 struct Packet20680 {u32 player:8;u32 power:8;u32 impulse:8;u32 direction:8;u32 amount:16;u32 unused:16;};
 extern u8 *inv20680 asm("gUnk_030034E0");
 extern u8 players20680[] asm("gUnk_03003CE0");
-struct PH20680 {u8 pad[0xE4]; u32 hist[8];};
+struct PH20680 {u8 pad[PLAYER_FIELD(0xE4)]; u32 hist[8];};
 struct P20680 {u16 id; u8 pad[PLAYER_SIZE - 2];};
 extern struct P20680 plArr20680[] asm("gUnk_03003CE0");
 extern u8 *enemies20680 asm("gUnk_030056F4");
@@ -1792,110 +1792,110 @@ void sub_08020680(u8 *e)
     if(sub_0800D11C()!=0) return;
     if(sub_0801AC78()==0) return;
     if(sub_08065AE8()!=0) return;
-    if(*(u16 *)(e+0x228)==0xFFFF && sub_0800CCCC()==0) mode=2; else mode=*(u16 *)(e+0xC);
-    switch(e[0x1FD]){case 19: case 20: return;}
+    if(*(u16 *)(e+ENEMY_FIELD(0x228))==0xFFFF && sub_0800CCCC()==0) mode=2; else mode=*(u16 *)(e+ENEMY_FIELD(0xC));
+    switch(e[ENEMY_FIELD(0x1FD)]){case 19: case 20: return;}
     if(mode!=2) return;
-    if(*(u16 *)(e+0x228)!=0xFFFF) {
-        if(*(u16 *)(e+0x6A)!=*(u16 *)(e+0x228)) return;
-        if(*(u16 *)(e+0x6C)!=1) return;
+    if(*(u16 *)(e+ENEMY_FIELD(0x228))!=0xFFFF) {
+        if(*(u16 *)(e+ENEMY_FIELD(0x6A))!=*(u16 *)(e+ENEMY_FIELD(0x228))) return;
+        if(*(u16 *)(e+ENEMY_FIELD(0x6C))!=1) return;
     }
-    atk=atk20680(*(u16 *)(e+0x22C)|0xB0000);
+    atk=atk20680(*(u16 *)(e+ENEMY_FIELD(0x22C))|0xB0000);
     if(ITEM_KIND(atk)==7) return;
-    if(e[0x201]&(u8)mode) {
+    if(e[ENEMY_FIELD(0x201)]&(u8)mode) {
         if(sub_08002204()==0) return;
         i=0;
-        disp=e+0x218;
+        disp=e+ENEMY_FIELD(0x218);
         for(;i<5;i++) {
             if(i==*(u16 *)e) continue;
             if(!(mask20680&(1<<i))) continue;
             t=enemies20680+i*ENEMY_SIZE;
-            if((u16)(*(u16 *)(t+0xC)-11)<=1) continue;
-            ok=*(u32 *)(e+0x50)!=*(u32 *)(t+0x54);
-            if(*(s16 *)(t+0x5C)-*(u16 *)(t+0x4A)<=0) ok=0;
-            if(t[0x1DC]==0) ok=0;
+            if((u16)(*(u16 *)(t+ENEMY_FIELD(0xC))-11)<=1) continue;
+            ok=*(u32 *)(e+ENEMY_FIELD(0x50))!=*(u32 *)(t+ENEMY_FIELD(0x54));
+            if(*(s16 *)(t+ENEMY_FIELD(0x5C))-*(u16 *)(t+ENEMY_FIELD(0x4A))<=0) ok=0;
+            if(t[ENEMY_FIELD(0x1DC)]==0) ok=0;
             if(!ok) continue;
-            if(test20680(atk,*(u16 *)(e+8),e+0x14,t+0x14,t[0x22E],t[0x22F])==0) continue;
-            if(!roll20680((s16 *)(e+0x206),(s16 *)(t+0x206))) continue;
+            if(test20680(atk,*(u16 *)(e+ENEMY_FIELD(8)),e+ENEMY_FIELD(0x14),t+ENEMY_FIELD(0x14),t[ENEMY_FIELD(0x22E)],t[ENEMY_FIELD(0x22F)])==0) continue;
+            if(!roll20680((s16 *)(e+ENEMY_FIELD(0x206)),(s16 *)(t+ENEMY_FIELD(0x206)))) continue;
             sub_0805865C(0x1A);
             packet.amount=amtA20680(e,t);
-            packet.power=atk[0xBC];
-            packet.impulse=atk[0xA9];
-            packet.impulse-=*(u32 *)(t+0x210);
+            packet.power=atk[ITEM_FIELD(0xBC)];
+            packet.impulse=atk[ITEM_FIELD(0xA9)];
+            packet.impulse-=*(u32 *)(t+ENEMY_FIELD(0x210));
             if(packet.impulse&0x80) packet.impulse=0;
-            if(*(u32 *)(t+0x210)==0xFF) packet.impulse=0;
-            angle=ArcTan2((s32)((*(s32 *)(t+0x14)-*(s32 *)(e+0x14))<<8)>>16,(s32)((*(s32 *)(t+0x18)-*(s32 *)(e+0x18))<<8)>>16);
+            if(*(u32 *)(t+ENEMY_FIELD(0x210))==0xFF) packet.impulse=0;
+            angle=ArcTan2((s32)((*(s32 *)(t+ENEMY_FIELD(0x14))-*(s32 *)(e+ENEMY_FIELD(0x14)))<<8)>>16,(s32)((*(s32 *)(t+ENEMY_FIELD(0x18))-*(s32 *)(e+ENEMY_FIELD(0x18)))<<8)>>16);
             packet.direction=dirs20680[angle>>12];
-            *(u16 *)(t+0xC)=10;
-            *(u32 *)(t+0x54)=*(u32 *)(e+0x50);
-            packet.player=t[2];
-            *(u16 *)(t+0x4A)+=packet.amount;
-            *(u32 *)(t+0x4C)=packet.amount;
-            {u16 *a=(u16 *)(t+0x68); u16 v=0xFFFE; *a=v;}
-            hit20680(&packet,disp,0,*(u16 *)(atk+0xBC),(u16)(*(u16 *)e+4));
-            {u8 pw=packet.power; *(u16 *)(t+0x62)=pw;}
+            *(u16 *)(t+ENEMY_FIELD(0xC))=10;
+            *(u32 *)(t+ENEMY_FIELD(0x54))=*(u32 *)(e+ENEMY_FIELD(0x50));
+            packet.player=t[ENEMY_FIELD(2)];
+            *(u16 *)(t+ENEMY_FIELD(0x4A))+=packet.amount;
+            *(u32 *)(t+ENEMY_FIELD(0x4C))=packet.amount;
+            {u16 *a=(u16 *)(t+ENEMY_FIELD(0x68)); u16 v=0xFFFE; *a=v;}
+            hit20680(&packet,disp,0,*(u16 *)(atk+ITEM_FIELD(0xBC)),(u16)(*(u16 *)e+ENEMY_FIELD(4)));
+            {u8 pw=packet.power; *(u16 *)(t+ENEMY_FIELD(0x62))=pw;}
             apply20680(t,&packet);
-            {u16 sid=*(u16 *)e; *(u16 *)(t+0x58)=sid;}
-            *(u16 *)(t+0x5A)|=1<<plArr20680[sub_080020F4()].id;
+            {u16 sid=*(u16 *)e; *(u16 *)(t+ENEMY_FIELD(0x58))=sid;}
+            *(u16 *)(t+ENEMY_FIELD(0x5A))|=1<<plArr20680[sub_080020F4()].id;
             notify20680(&packet);
-            disp20680(disp,packet.amount,0,*(u16 *)e+4,*(u16 *)e+4,*(u16 *)(atk+0xBC));
+            disp20680(disp,packet.amount,0,*(u16 *)e+ENEMY_FIELD(4),*(u16 *)e+ENEMY_FIELD(4),*(u16 *)(atk+ITEM_FIELD(0xBC)));
         }
         return;
     }
     p=players20680+PLAYER_SIZE*sub_080020F4();
-    if(mode&*(u32 *)(p+0x30)) return;
-    if(*(u32 *)(p+0x30)&0x2000) return;
-    if(*(u32 *)(p+0x30)&0x400) return;
+    if(mode&*(u32 *)(p+PLAYER_FIELD(0x30))) return;
+    if(*(u32 *)(p+PLAYER_FIELD(0x30))&0x2000) return;
+    if(*(u32 *)(p+PLAYER_FIELD(0x30))&0x400) return;
     if(sub_08058DB0()!=0) return;
-    if(*(s16 *)(p+0x114)!=0) return;
-    if(p[0x68]==0) return;
-    if((u16)(*(u16 *)(p+0x20)-10)<=1) return;
-    if(*(u16 *)(p+0x20)==13) return;
-    if(*(u16 *)(p+0x20)==12) return;
-    if(*(u16 *)(p+0x20)==14) return;
+    if(*(s16 *)(p+PLAYER_FIELD(0x114))!=0) return;
+    if(p[PLAYER_FIELD(0x68)]==0) return;
+    if((u16)(*(u16 *)(p+PLAYER_FIELD(0x20))-10)<=1) return;
+    if(*(u16 *)(p+PLAYER_FIELD(0x20))==13) return;
+    if(*(u16 *)(p+PLAYER_FIELD(0x20))==12) return;
+    if(*(u16 *)(p+PLAYER_FIELD(0x20))==14) return;
     if(sub_0800CCCC()!=0) return;
-    ok=((struct PH20680 *)p)->hist[*(u16 *)e]!=*(u32 *)(e+0x50);
-    hist=(u32 *)(p+0xE4);
+    ok=((struct PH20680 *)p)->hist[*(u16 *)e]!=*(u32 *)(e+ENEMY_FIELD(0x50));
+    hist=(u32 *)(p+PLAYER_FIELD(0xE4));
     if(!ok) return;
-    atk=atk20680(*(u16 *)(e+0x22C)|0xB0000);
-    if(test20680(atk,*(u16 *)(e+8),e+0x14,p+0x8C,16,16)==0) return;
-    if(roll20680((s16 *)(e+0x206),(s16 *)(p+0x3A))) {
+    atk=atk20680(*(u16 *)(e+ENEMY_FIELD(0x22C))|0xB0000);
+    if(test20680(atk,*(u16 *)(e+ENEMY_FIELD(8)),e+ENEMY_FIELD(0x14),p+PLAYER_FIELD(0x8C),16,16)==0) return;
+    if(roll20680((s16 *)(e+ENEMY_FIELD(0x206)),(s16 *)(p+PLAYER_FIELD(0x3A)))) {
         r=sub_080008C8()%100;
-        if(p[0x6E]==0 || r>=p[0x6E]) {
-            *(u16 *)(p+0x20)=10;
-            {u16 *a=(u16 *)(p+0xB0); u16 v=0xFFFE; *a=v;}
+        if(p[PLAYER_FIELD(0x6E)]==0 || r>=p[PLAYER_FIELD(0x6E)]) {
+            *(u16 *)(p+PLAYER_FIELD(0x20))=10;
+            {u16 *a=(u16 *)(p+PLAYER_FIELD(0xB0)); u16 v=0xFFFE; *a=v;}
             dmg=amtB20680(e,p);
             if(dmg&0x8000) {
                 sub_0805865C(0x27);
                 dmg&=0x7FFF;
             } else {
                 sub_0805865C(0x1A);
-                {u16 w=*(u16 *)(p+0xC); if(w==8) sub_0805865C(0x4B);
+                {u16 w=*(u16 *)(p+PLAYER_FIELD(0xC)); if(w==8) sub_0805865C(0x4B);
                 else sub_0805865C(w+0x45);}
             }
-            *(u16 *)(p+0x88)+=dmg;
-            hist[*(u16 *)e]=*(u32 *)(e+0x50);
-            *(u32 *)(p+0x110)=*(u16 *)e+5;
-            packet.impulse=atk[0xA9];
+            *(u16 *)(p+PLAYER_FIELD(0x88))+=dmg;
+            hist[*(u16 *)e]=*(u32 *)(e+ENEMY_FIELD(0x50));
+            *(u32 *)(p+PLAYER_FIELD(0x110))=*(u16 *)e+ENEMY_FIELD(5);
+            packet.impulse=atk[ITEM_FIELD(0xA9)];
             applyB20680(p,&packet);
-            {u16 a8=*(u16 *)(e+8); *(u16 *)(p+0xD0)=a8;}
-            hit20680(&packet,p+0x4C,0,*(u16 *)(atk+0xBC),*(u16 *)p);
-            *(u32 *)(p+0xE0)=packet.power;
-            exp20680(packet.power,dmg,inv20680+0x24);
+            {u16 a8=*(u16 *)(e+ENEMY_FIELD(8)); *(u16 *)(p+PLAYER_FIELD(0xD0))=a8;}
+            hit20680(&packet,p+PLAYER_FIELD(0x4C),0,*(u16 *)(atk+ITEM_FIELD(0xBC)),*(u16 *)p);
+            *(u32 *)(p+PLAYER_FIELD(0xE0))=packet.power;
+            exp20680(packet.power,dmg,inv20680+SAVE_FIELD(0x24));
             st=statA20680(p,packet.power);
             if(st!=0) stat20680(*(u16 *)p,st,packet.power);
             else {
                 st=statB20680(p,0);
                 if(st!=0) stat20680(*(u16 *)p,st,packet.power);
             }
-            disp20680(p+0x4C,dmg,0,*(u16 *)e+4,*(u16 *)p,*(u16 *)(atk+0xBC));
+            disp20680(p+PLAYER_FIELD(0x4C),dmg,0,*(u16 *)e+ENEMY_FIELD(4),*(u16 *)p,*(u16 *)(atk+ITEM_FIELD(0xBC)));
             return;
         }
-        counter20680(*(u32 *)(p+0x8C),*(u32 *)(p+0x90));
+        counter20680(*(u32 *)(p+PLAYER_FIELD(0x8C)),*(u32 *)(p+PLAYER_FIELD(0x90)));
         dmg=amtB20680(e,p);
         if(dmg&0x8000) dmg&=0x7FFF;
         {
             /* Original keeps the counter address in r0, the sum in r1 and zz live in r4. */
-            register u16 *hp asm("r0") = (u16 *)(p+0x8A);
+            register u16 *hp asm("r0") = (u16 *)(p+PLAYER_FIELD(0x8A));
             register u32 v asm("r1");
             register u32 cur asm("r2") = *hp;
             if (dmg>>2) v = cur + (dmg>>2);
@@ -1904,29 +1904,29 @@ void sub_08020680(u8 *e)
             asm("" : "+r"(zz));
             *hp = v;
         }
-        hist[*(u16 *)e]=*(u32 *)(e+0x50);
-        *(u32 *)(p+0x110)=*(u16 *)e+5;
+        hist[*(u16 *)e]=*(u32 *)(e+ENEMY_FIELD(0x50));
+        *(u32 *)(p+PLAYER_FIELD(0x110))=*(u16 *)e+ENEMY_FIELD(5);
         sub_0805865C(0x164);
         r=sub_080008C8()%100;
-        if(p[0x6F]==0 || r>p[0x6F]) return;
+        if(p[PLAYER_FIELD(0x6F)]==0 || r>p[PLAYER_FIELD(0x6F)]) return;
         packet.amount=dmg-(dmg>>2);
         packet.power=zz;
         packet.impulse=zz;
         packet.direction=zz;
-        *(u16 *)(e+0xC)=10;
-        *(u32 *)(e+0x54)=*(u32 *)(p+0xDC);
-        packet.player=*(u16 *)(e+2);
-        *(u16 *)(e+0x4A)+=packet.amount;
-        *(u32 *)(e+0x4C)=packet.amount;
-        {u8 pw=packet.power; *(u16 *)(e+0x62)=pw;}
+        *(u16 *)(e+ENEMY_FIELD(0xC))=10;
+        *(u32 *)(e+ENEMY_FIELD(0x54))=*(u32 *)(p+PLAYER_FIELD(0xDC));
+        packet.player=*(u16 *)(e+ENEMY_FIELD(2));
+        *(u16 *)(e+ENEMY_FIELD(0x4A))+=packet.amount;
+        *(u32 *)(e+ENEMY_FIELD(0x4C))=packet.amount;
+        {u8 pw=packet.power; *(u16 *)(e+ENEMY_FIELD(0x62))=pw;}
         apply20680(e,&packet);
-        {u16 sid=*(u16 *)p; *(u16 *)(e+0x58)=sid;}
-        *(u16 *)(e+0x5A)|=1<<*(u16 *)p;
-        if(e[0x226]!=3) {u16 *a=(u16 *)(e+0x68); u16 v=0xFFFE; *a=v;}
+        {u16 sid=*(u16 *)p; *(u16 *)(e+ENEMY_FIELD(0x58))=sid;}
+        *(u16 *)(e+ENEMY_FIELD(0x5A))|=1<<*(u16 *)p;
+        if(e[ENEMY_FIELD(0x226)]!=3) {u16 *a=(u16 *)(e+ENEMY_FIELD(0x68)); u16 v=0xFFFE; *a=v;}
         asm("" : : "r"(zz));
         notify20680(&packet);
     } else {
-        ((struct PH20680 *)p)->hist[*(u16 *)e]=*(u32 *)(e+0x50);
+        ((struct PH20680 *)p)->hist[*(u16 *)e]=*(u32 *)(e+ENEMY_FIELD(0x50));
         sub_0805865C(0x55);
     }
 }
