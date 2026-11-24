@@ -262,6 +262,32 @@ def derive(rom, region):
             if found is not None:
                 candidates.append(address)
                 result = found
+        if not candidates and len(fragment.data) >= MIN_SIZE:
+            # Twins elsewhere in the ROM defeat the window search; scan the gap between the placed
+            # neighbours and keep the match whose shift is closest to theirs (the whole-ROM hash
+            # check still rejects a wrong choice).
+            low = placed[neighbours[0]] + sizes[neighbours[0]] if index > 0 else region_build.ROM_BASE
+            high = placed[neighbours[-1]] if index < len(ordered) else rom_end
+            shifts = [placed[name] - by_name[name].address for name in neighbours]
+            segments = masked_segments(len(fragment.data), relocs)
+            hits = []
+            if segments and shifts:
+                first, end = max(segments, key=lambda seg: seg[1] - seg[0])
+                needle = fragment.data[first:end]
+                position = target_rom.find(needle, low - region_build.ROM_BASE + first,
+                                           high - region_build.ROM_BASE)
+                while position >= 0:
+                    address = position - first + region_build.ROM_BASE
+                    if not address & 1 and address + len(fragment.data) <= high and not same(fragment, address):
+                        found = resolve(fragment, relocs, symbols, eu_rom, target_rom, address)
+                        if found is not None:
+                            distance = min(abs(address - fragment.address - shift) for shift in shifts)
+                            hits.append((distance, address, found))
+                    position = target_rom.find(needle, position + 1, high - region_build.ROM_BASE)
+            hits.sort(key=lambda hit: hit[0])
+            if hits and (len(hits) == 1 or hits[0][0] < hits[1][0]):
+                candidates.append(hits[0][1])
+                result = hits[0][2]
         if len(candidates) == 1:
             placed[fragment.name] = candidates[0]
             needs[fragment.name] = result
