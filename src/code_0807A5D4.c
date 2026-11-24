@@ -4112,42 +4112,42 @@ void sub_080811E0(u8 *arg0) {
   var_r1=*(u8 **)(manager811+0xf0);
   switch(*(u16 *)var_r1) {
   case 1:
-   sub_0801BA74(arg0,0,sp4,sp24,(s32)(bank811+0x30));
+   sub_0801BA74(arg0,0,sp4,sp24,(s32)(bank811+SAVE_FIELD(0x30)));
    var_r0=*(u16 *)(*(u8 **)(manager811+0xf0)+2);
    switch(var_r0) {case 8:sp4[0]++;break;case 9:sp4[1]++;break;case 10:sp4[3]++;break;case 11:sp4[2]++;break;}
    break;
   case 2:case 3:case 4:case 5:
    if (*((u8 *)var_r1+8)==0) {
-    sub_0801BA74(arg0,(s32)var_r1,sp4,sp24,(s32)(bank811+0x30));
+    sub_0801BA74(arg0,(s32)var_r1,sp4,sp24,(s32)(bank811+SAVE_FIELD(0x30)));
    } else {
-    sub_0801BA74(arg0,0,sp4,sp24,(s32)(bank811+0x30));
+    sub_0801BA74(arg0,0,sp4,sp24,(s32)(bank811+SAVE_FIELD(0x30)));
    }
    break;
   default:
-   sub_0801BA74(arg0,(s32)*(u8 **)(manager811+0xf0),sp4,sp24,(s32)(bank811+0x30));break;
+   sub_0801BA74(arg0,(s32)*(u8 **)(manager811+0xf0),sp4,sp24,(s32)(bank811+SAVE_FIELD(0x30)));break;
   }
  } else {
   var_r1=manager811+0xf4;
   switch(*(u16 *)var_r1) {
   case 2:case 3:case 4:case 5:
    if(manager811[0xfc]==0) {
-    sub_0801BA74(arg0,(s32)var_r1,sp4,sp24,(s32)(bank811+0x30));
+    sub_0801BA74(arg0,(s32)var_r1,sp4,sp24,(s32)(bank811+SAVE_FIELD(0x30)));
    } else {
-    sub_0801BA74(arg0,0,sp4,sp24,(s32)(bank811+0x30));
+    sub_0801BA74(arg0,0,sp4,sp24,(s32)(bank811+SAVE_FIELD(0x30)));
    }
    break;
   case 1:
-   sub_0801BA74(arg0,0,sp4,sp24,(s32)(bank811+0x30));
+   sub_0801BA74(arg0,0,sp4,sp24,(s32)(bank811+SAVE_FIELD(0x30)));
    var_r0=*(u16 *)(manager811+0xf6);
    switch(var_r0) {case 8:sp4[0]++;break;case 9:sp4[1]++;break;case 10:sp4[3]++;break;case 11:sp4[2]++;break;}
    break;
   default:
-   sub_0801BA74(arg0,(s32)(manager811+0xf4),sp4,sp24,(s32)(bank811+0x30));break;
+   sub_0801BA74(arg0,(s32)(manager811+0xf4),sp4,sp24,(s32)(bank811+SAVE_FIELD(0x30)));break;
   }
  }
 draw:
     temp_r1 = sp24[0].first;
-    temp_r0_3 = *(s16 *)(arg0+0x58);
+    temp_r0_3 = *(s16 *)(arg0+PLAYER_FIELD(0x58));
     if ((s32) temp_r1 > (s32) temp_r0_3) {
         var_r3 = 2;
     } else {
@@ -4157,7 +4157,7 @@ draw:
         }
     }
     sub_0805FB7C(6, 0xE, sp24[0].first, var_r3);
-    temp_r1_2 = *(s16 *)(arg0+0x5A);
+    temp_r1_2 = *(s16 *)(arg0+PLAYER_FIELD(0x5A));
     temp_r0_4 = (s16) sp24[0].second;
     if ((s32) temp_r0_4 > (s32) temp_r1_2) {
         var_r3_2 = 2;
@@ -4169,7 +4169,7 @@ draw:
     }
     sub_0805FB7C(6, 0xF, (s16) sp24[0].second, var_r3_2);
     temp_r1_3 = sp24[9].first;
-    temp_r0_5 = *(s16 *)(arg0+0x7C);
+    temp_r0_5 = *(s16 *)(arg0+PLAYER_FIELD(0x7C));
     if ((s32) temp_r1_3 > (s32) temp_r0_5) {
         var_r3_3 = 2;
     } else {
@@ -4180,7 +4180,7 @@ draw:
     }
     sub_0805FB7C(0x16, 0xE, sp24[9].first, var_r3_3);
     temp_r1_4 = (s16) sp24[9].second;
-    temp_r0_6 = *(s16 *)(arg0+0x7E);
+    temp_r0_6 = *(s16 *)(arg0+PLAYER_FIELD(0x7E));
     if ((s32) temp_r1_4 > (s32) temp_r0_6) {
         var_r3_4 = 2;
     } else {
@@ -4191,7 +4191,7 @@ draw:
     }
     sub_0805FB7C(0x16, 0xF, (s16) sp24[9].second, var_r3_4);
     temp_r1_5 = sp24[10].first;
-    temp_r0_7 = *(s16 *)(arg0+0x80);
+    temp_r0_7 = *(s16 *)(arg0+PLAYER_FIELD(0x80));
     if ((s32) temp_r1_5 > (s32) temp_r0_7) {
         var_r3_5 = 2;
     } else {
@@ -4202,7 +4202,7 @@ draw:
     }
     sub_0805FB7C(0x16, 0x10, sp24[10].first, var_r3_5);
     temp_r1_6 = (s16) sp24[10].second;
-    temp_r0_8 = *(s16 *)(arg0+0x82);
+    temp_r0_8 = *(s16 *)(arg0+PLAYER_FIELD(0x82));
     if ((s32) temp_r1_6 > (s32) temp_r0_8) {
         var_r3_6 = 2;
     } else {
@@ -4213,7 +4213,7 @@ draw:
     }
     sub_0805FB7C(0x1D, 0xE, (s16) sp24[10].second, var_r3_6);
     temp_r1_7 = sp24[11].first;
-    temp_r0_9 = *(s16 *)(arg0+0x84);
+    temp_r0_9 = *(s16 *)(arg0+PLAYER_FIELD(0x84));
     if ((s32) temp_r1_7 > (s32) temp_r0_9) {
         var_r3_7 = 2;
     } else {
@@ -4224,7 +4224,7 @@ draw:
     }
     sub_0805FB7C(0x1D, 0xF, sp24[11].first, var_r3_7);
     temp_r1_8 = (s16) sp24[11].second;
-    temp_r0_10 = *(s16 *)(arg0+0x86);
+    temp_r0_10 = *(s16 *)(arg0+PLAYER_FIELD(0x86));
     if ((s32) temp_r1_8 > (s32) temp_r0_10) {
         var_r3_8 = 2;
     } else {
@@ -4235,7 +4235,7 @@ draw:
     }
     sub_0805FB7C(0x1D, 0x10, (s16) sp24[11].second, var_r3_8);
     temp_r1_9 = (s16) sp4[0];
-    temp_r0_11 = *(s16 *)(arg0+0x38);
+    temp_r0_11 = *(s16 *)(arg0+PLAYER_FIELD(0x38));
     if ((s32) temp_r1_9 > (s32) temp_r0_11) {
         var_r3_9 = 2;
     } else {
@@ -4246,7 +4246,7 @@ draw:
     }
     sub_0805FB7C(0xF, 0xE, (s16) sp4[0], var_r3_9);
     temp_r1_10 = (s16) sp4[3];
-    temp_r0_12 = *(s16 *)(arg0+0x3E);
+    temp_r0_12 = *(s16 *)(arg0+PLAYER_FIELD(0x3E));
     if ((s32) temp_r1_10 > (s32) temp_r0_12) {
         var_r3_10 = 2;
     } else {
@@ -4257,7 +4257,7 @@ draw:
     }
     sub_0805FB7C(6, 0x10, (s16) sp4[3], var_r3_10);
     temp_r1_11 = (s16) sp4[2];
-    temp_r0_13 = *(s16 *)(arg0+0x3C);
+    temp_r0_13 = *(s16 *)(arg0+PLAYER_FIELD(0x3C));
     if ((s32) temp_r1_11 > (s32) temp_r0_13) {
         var_r3_11 = 2;
     } else {
@@ -4267,8 +4267,17 @@ draw:
         }
     }
     sub_0805FB7C(0xF, 0x10, (s16) sp4[2], var_r3_11);
+#ifdef REGION_USA
+    {
+        s16 *stats = sp4;
+        s16 *field = (s16 *)(arg0+PLAYER_FIELD(0x3A));
+        temp_r1_12 = stats[1];
+        temp_r0_14 = *field;
+    }
+#else
     temp_r1_12 = (s16) sp4[1];
-    temp_r0_14 = *(s16 *)(arg0+0x3A);
+    temp_r0_14 = *(s16 *)(arg0+PLAYER_FIELD(0x3A));
+#endif
     if ((s32) temp_r1_12 > (s32) temp_r0_14) {
         var_r3_12 = 2;
     } else {
