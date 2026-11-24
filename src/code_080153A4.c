@@ -808,11 +808,11 @@ struct Obj1623C {
     u8 pad200;
     u8 b201;
     u8 pad202[2];
-    u8 data[0xD8];
+    u8 data[ENEMY_DATA_FIELD(0xD8)];
 };
 struct Gs1623C { u8 pad0[0x40]; u32 f40; };
 extern struct Gs1623C *gs1623C asm("gUnk_03005CF4");
-extern u8 tables1623C[][0xD8] asm("gUnk_0847AD3C");
+extern u8 tables1623C[][ENEMY_DATA_FIELD(0xD8)] asm("gUnk_0847AD3C");
 extern void cpuset1623C(const void *, void *, u32) asm("CpuSet");
 extern void memcpy1623C(void *, const void *, u32) asm("memcpy");
 /* [InitializeActorFromSceneDefinition] Uses indexed scene entry flags low12bits minus1 (plus0xC5 in alternate
@@ -836,7 +836,7 @@ void sub_0801623C(struct Obj1623C *obj, struct Src1623C *src, u32 idx)
     obj->x24 = entry[1].x << 3;
     obj->y28 = entry[1].y << 3;
     obj->src = src;
-    memcpy1623C(obj->data, table, 0xD8);
+    memcpy1623C(obj->data, table, ENEMY_DATA_FIELD(0xD8));
     obj->w8 = entry[1].wE;
     obj->w84 = 0;
     obj->w5A = 0;
