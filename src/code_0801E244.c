@@ -288,8 +288,8 @@ void sub_0801E594(void *arg0)
   }
   while (i <= 7);
 }
-struct Atk5B0 { u8 pad0[0x10]; u16 kind; u8 pad12[0xA]; u16 dir; u8 pad1E[2]; u16 type; u8 pad22[4]; u16 skill; u16 magic; u8 pad2A[6]; u32 flags; u8 pad34[8]; u16 bonus; u8 pad3E[0x1A]; s16 base; u8 pad5A[2]; s16 evade; u8 pad5E[0x54]; u16 level; u8 padB4[0x6E]; u16 mind; u8 pad124[0x1C]; u8 *ctx; };
-struct Tgt5B0 { u8 pad0[2]; u16 id; u8 pad4[4]; u16 dir; u8 padA[2]; u16 kind; u8 padE[6]; s32 x, y; u8 pad1C[0x1B2]; u16 defense; u8 pad1D0[0x48]; u16 resist[6]; };
+struct Atk5B0 { u8 pad0[PLAYER_FIELD(0x10)]; u16 kind; u8 pad12[PLAYER_FIELD(0x1C) - (PLAYER_FIELD(0x11) + 1)]; u16 dir; u8 pad1E[PLAYER_FIELD(0x20) - (PLAYER_FIELD(0x1D) + 1)]; u16 type; u8 pad22[PLAYER_FIELD(0x26) - (PLAYER_FIELD(0x21) + 1)]; u16 skill; u16 magic; u8 pad2A[PLAYER_FIELD(0x30) - (PLAYER_FIELD(0x29) + 1)]; u32 flags; u8 pad34[PLAYER_FIELD(0x3C) - (PLAYER_FIELD(0x33) + 1)]; u16 bonus; u8 pad3E[PLAYER_FIELD(0x58) - (PLAYER_FIELD(0x3D) + 1)]; s16 base; u8 pad5A[PLAYER_FIELD(0x5C) - (PLAYER_FIELD(0x59) + 1)]; s16 evade; u8 pad5E[PLAYER_FIELD(0xB2) - (PLAYER_FIELD(0x5D) + 1)]; u16 level; u8 padB4[PLAYER_FIELD(0x122) - (PLAYER_FIELD(0xB3) + 1)]; u16 mind; u8 pad124[PLAYER_FIELD(0x140) - (PLAYER_FIELD(0x123) + 1)]; u8 *ctx; };
+struct Tgt5B0 { u8 pad0[ENEMY_FIELD(0x2)]; u16 id; u8 pad4[ENEMY_FIELD(0x8) - (ENEMY_FIELD(0x3) + 1)]; u16 dir; u8 padA[ENEMY_FIELD(0xC) - (ENEMY_FIELD(0x9) + 1)]; u16 kind; u8 padE[ENEMY_FIELD(0x14) - (ENEMY_FIELD(0xD) + 1)]; s32 x; s32 y; u8 pad1C[ENEMY_FIELD(0x1CE) - (ENEMY_FIELD(0x1B) + 1)]; u16 defense; u8 pad1D0[ENEMY_FIELD(0x218) - (ENEMY_FIELD(0x1CF) + 1)]; u16 resist[6]; };
 extern u8 *combat5B0 asm("gUnk_030034E0");
 extern u32 notify5B0(u16, u16) asm("sub_08067FE0");
 static inline s32 inl_08021C74(u16 arg0, u16 arg1, u16 arg2) {
@@ -452,9 +452,9 @@ s32 sub_0801E5B0(struct Atk5B0 *atk, struct Tgt5B0 *tgt, u8 *record, s32 noCrit)
         power = (u16)atk->base;
     }
     result = inl_08021C74(power, defense, divisor);
-    if (ctx[*(u16 *)(ctx + 0x68) * 16 + 0x79] == 1) {
+    if (ctx[*(u16 *)(ctx+SAVE_FIELD(0x68)) * 16 + SAVE_FIELD(0x79)] == 1) {
         {
-            u32 fw = inl_08021D00(*(u16 *)(record + 0xBC), result, (u8 *)tgt, 0x218);
+            u32 fw = inl_08021D00(*(u16 *)(record+ITEM_FIELD(0xBC)), result, (u8 *)tgt, ENEMY_FIELD(0x218));
             asm("" : "+r"(fw));
             fw <<= 16;
             result = fw >> 16;
@@ -462,14 +462,14 @@ s32 sub_0801E5B0(struct Atk5B0 *atk, struct Tgt5B0 *tgt, u8 *record, s32 noCrit)
                 result = 1;
         }
     }
-    if (!sub_0801DE60() && *(u16 *)(combat5B0 + 0x4C) && tgt->kind == 2) {
+    if (!sub_0801DE60() && *(u16 *)(combat5B0+SAVE_FIELD(0x4C)) && tgt->kind == 2) {
         u32 cur = result;
-        result = inl_08021CE4(cur, sub_0801E0AC((s32)(combat5B0 + 0x30), 6) * 2 + 10);
+        result = inl_08021CE4(cur, sub_0801E0AC((s32)(combat5B0+SAVE_FIELD(0x30)), 6) * 2 + 10);
         sub_0805865C(0x27);
     }
-    if (sub_0801DE60() == 3 && *(u16 *)(combat5B0 + 0x44))
-        notify5B0((tgt->id << 8) | 4, sub_0801E0AC((s32)(combat5B0 + 0x30), 4));
-    if (sub_0801DE60() == 7 && *(u16 *)(combat5B0 + 0x50)) {
+    if (sub_0801DE60() == 3 && *(u16 *)(combat5B0+SAVE_FIELD(0x44)))
+        notify5B0((tgt->id << 8) | 4, sub_0801E0AC((s32)(combat5B0+SAVE_FIELD(0x30)), 4));
+    if (sub_0801DE60() == 7 && *(u16 *)(combat5B0+SAVE_FIELD(0x50))) {
         if ((s16)atk->dir > 4)
             a = atk->dir - 8;
         else
@@ -482,7 +482,7 @@ s32 sub_0801E5B0(struct Atk5B0 *atk, struct Tgt5B0 *tgt, u8 *record, s32 noCrit)
         if (d < 0)
             d = -d;
         if (d <= 1)
-            result = (u16)((s16)result * (sub_0801E0AC((s32)(combat5B0 + 0x30), 7) * 3 + 10) / 10);
+            result = (u16)((s16)result * (sub_0801E0AC((s32)(combat5B0+SAVE_FIELD(0x30)), 7) * 3 + 10) / 10);
     }
     return result;
 }
