@@ -1332,7 +1332,11 @@ s32 sub_08089CA0(u8 *table)
     const u16 *position;
     u8 *player;
     s32 *coordinates;
+#ifdef REGION_USA
+    register const struct Exit9CA091 *exit asm("r5");
+#else
     register const struct Exit9CA091 *exit asm("r4");
+#endif
     u32 exitIndex;
     register u32 zero asm("r8");
     s32 difference;
@@ -1351,7 +1355,11 @@ s32 sub_08089CA0(u8 *table)
         myId = sub_080020F4();
         {register u32 delta asm("r0")=state9CA091->row*0x24;delta+=4;position=(u16 *)(table+delta);}
         sub_0800CCDC();
+#ifdef REGION_USA
+        {u8 *base; register u8 *px asm("r1"); register u32 stride asm("r4");
+#else
         {u8 *base; register u8 *px asm("r1"); u32 stride;
+#endif
 #ifdef REGION_USA
         offset=sub_080020F4();base=players9CA091;stride=PLAYER_SIZE;{register u8 *xf asm("r3");register u8 *yf asm("r1");register u8 *b12 asm("ip")=base;offset*=stride;xf=b12+PLAYER_FIELD(0x8C);xf=(u8 *)((u32)offset+(u32)xf);*(u32 *)xf=(u32)position[0]<<8;yf=b12+PLAYER_FIELD(0x90);yf=(u8 *)((u32)offset+(u32)yf);*(u32 *)yf=(u32)position[1]<<8;{register u8 *dst asm("r0")=b12;dst+=PLAYER_FIELD(0x94);offset+=(u32)dst;}*(struct Pos9CA091 *)offset=*(struct Pos9CA091 *)xf;}
 #else
