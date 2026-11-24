@@ -5078,7 +5078,11 @@ icons:
 struct Icon82960 { u16 unk0; s16 unk2; u32 zero; u8 flag; u8 pad[7]; };
 struct Stat82960 { volatile u16 unk0; u16 unk2; };
 struct Manager82960 { u8 pad[0x74]; struct { s32 y; s32 pad; } entries[6]; };
+#ifdef REGION_USA
+struct Record82960 { u16 names[6][31]; u16 items[6]; struct Stat82960 stats[3]; };
+#else
 struct Record82960 { u16 names[5][31]; u16 items[6]; u16 pad; struct Stat82960 stats[3]; };
+#endif
 /* [DrawLocalizedEquipmentSetSummary] r0 record pointer; null returns with no drawing. Draws title
  * resource0x1403EC at row3, localized record name selected by global0x03003470 (31 halfwords per language),
  * truncating each character to byte, ending at low-byte zero or after31 characters then0xFD. Draws six
@@ -5086,6 +5090,167 @@ struct Record82960 { u16 names[5][31]; u16 items[6]; u16 pad; struct Stat82960 s
  * mapping2,4,3,5,6,7, centered icon row with manager animation offsets. Scans three4-byte modifiers at+0x144,
  * excluding type0/41, selects positive/negative text resource from signed value bit15, draws absolute u16
  * magnitude via0x08081518 with layout based on total valid modifiers. */
+#ifdef REGION_USA
+void sub_08082960(struct Record82960 *arg0) {
+    s32 var_r4;
+    u32 var_r5;
+    u32 var_r6;
+    u32 first_byte;
+    u32 stat_y;
+    s32 icon_x;
+    struct Icon82960 sp4;
+    TextChar sp14[40];
+    s16 var_r0;
+    s32 var_r3;
+    s32 var_r3_2;
+    s32 var_r3_3;
+    s32 temp_r2;
+    s32 temp_r2_2;
+    s32 var_r0_2;
+    u32 work1;
+
+    u32 temp_r0;
+    u32 temp_r0_2;
+    u16 temp_r0_3;
+    u16 temp_r0_4;
+    TextChar *var_r2;
+
+    if (arg0 == 0) {
+        return;
+    }
+    temp_r2_2 = sub_08007290(0x1403EC);
+    var_r4 = temp_r2_2 + TEXT_HEADER;
+    sub_0801A3D0(((u8 *)var_r4), (u16) (0xF - ((u32) sub_0801A638(((u8 *)var_r4)) >> 1)), 3);
+    var_r2 = sp14;
+    var_r5 = 0;
+    temp_r0 = arg0->names[gUnk_03003470][0];
+    *var_r2 = temp_r0;
+    asm("" : "+r"(temp_r0));
+    first_byte = temp_r0 << 16;
+    var_r4 = (s32)var_r2;
+    if (first_byte != 0) {
+        do {
+            var_r5++;
+            var_r2++;
+            if (var_r5 > 30) break;
+            temp_r0_2 = arg0->names[gUnk_03003470][var_r5];
+            *var_r2 = temp_r0_2;
+            asm("" : "+r"(temp_r0_2));
+        } while ((u16)temp_r0_2 != 0);
+    }
+    *var_r2 = TEXT_CTRL(0xFD);
+    sub_0801A3D0(((u8 *)var_r4), (u16) (0xF - ((u32) sub_0801A638(((u8 *)var_r4)) >> 1)), 0x12);
+    var_r4 = 0;
+    var_r5 = 0;
+    var_r3 = 0x8000;
+    var_r2 = (TextChar *)arg0->items;
+    do {
+        work1 = *(u16 *)var_r2;
+        var_r0_2 = var_r3 & work1;
+        asm("" : "+r"(work1), "+r"(var_r0_2));
+        if (!var_r0_2) {
+            var_r4 += 1;
+        }
+        var_r2 += 2 / sizeof(TextChar);
+        var_r5 += 1;
+    } while (var_r5 <= 5U);
+    sp4.zero = 0;
+    sp4.flag = 0;
+    var_r6 = 0;
+    var_r5 = 0;
+    do {
+        temp_r2 = var_r5 * 2;
+        if (!(0x8000 & arg0->items[var_r5])) {
+            switch (var_r5) {
+            case 0: sp4.unk0 = 2; break;
+            case 2: sp4.unk0 = 3; break;
+            case 1: sp4.unk0 = 4; break;
+            case 3: sp4.unk0 = 5; break;
+            case 4: sp4.unk0 = 6; break;
+            case 5: sp4.unk0 = 7; break;
+            }
+            sp4.unk2 = (u16) arg0->items[var_r5];
+            icon_x = (var_r6 * 0x10) + 0x80;
+            sub_0805FC80(icon_x - (var_r4 * 8), 0x38 - ((struct Manager82960 *)gUnk_03006440)->entries[var_r5].y, &sp4, 0);
+            var_r6 += 1;
+        }
+        var_r5 += 1;
+    } while (var_r5 <= 5U);
+    var_r4 = (s32)arg0->stats;
+    var_r6 = 0;
+    var_r5 = 0;
+    if (((struct Stat82960 *)var_r4) != NULL) {
+        work1 = (u32)var_r4;
+loop_24:
+        temp_r0_3 = *(u16 *)work1;
+        if ((temp_r0_3 != 0) && (temp_r0_3 != 0x29)) {
+            var_r6 += 1;
+        }
+        work1 += 4;
+        var_r5 += 1;
+        if ((var_r5 <= 2U) && (((struct Stat82960 *)var_r4) != NULL)) {
+            goto loop_24;
+        }
+        var_r5 = 0;
+        if (((struct Stat82960 *)var_r4) != NULL) {
+do {
+loop_30:
+            temp_r0_4 = ((struct Stat82960 *)var_r4)->unk0;
+            if ((temp_r0_4 != 0) && (temp_r0_4 != 0x29)) {
+                var_r0_2 = ((struct Stat82960 *)var_r4)->unk2;
+                temp_r2_2 = 0x8000;
+                work1 = temp_r2_2;
+                asm("" : "+r"(temp_r2_2), "+&r"(work1));
+                if (var_r0_2 & work1) {
+                    var_r0_2 = ((struct Stat82960 *)var_r4)->unk0 * 2;
+                    var_r3 = 0x2C4;
+                    asm("" : "+r"(var_r3), "+r"(var_r0_2));
+                    var_r0_2 += var_r3;
+                } else {
+                    var_r0_2 = ((struct Stat82960 *)var_r4)->unk0 * 2;
+                    work1 = 0x2C3;
+
+                    var_r0_2 += work1;
+                }
+                work1 = 0x140000;
+                var_r0_2 |= work1;
+                temp_r2_2 = sub_08007290(var_r0_2);
+                switch (var_r6) {                 /* switch 2; irregular */
+                case 1:                             /* switch 2 */
+                    var_r3 = (s16) ((struct Stat82960 *)var_r4)->unk2;
+                    if ((s32) var_r3 < 0) {
+                        var_r3 = 0 - var_r3;
+                    }
+                    sub_08081518(0xF, 0xBU, temp_r2_2, (u16) var_r3, var_r6);
+                    break;
+                case 2:                             /* switch 2 */
+                    stat_y = (u32) ((var_r5 << 0x11) + 0xA0000) >> 0x10;
+                    var_r3_2 = (s16) ((struct Stat82960 *)var_r4)->unk2;
+                    if ((s32) var_r3_2 < 0) {
+                        var_r3_2 = 0 - var_r3_2;
+                    }
+                    sub_08081518(0xF, stat_y, temp_r2_2, (u16) var_r3_2, 1U);
+                    break;
+                case 3:                             /* switch 2 */
+                    stat_y = (u32) ((var_r5 << 0x11) + 0x90000) >> 0x10;
+                    var_r3_3 = (s16) ((struct Stat82960 *)var_r4)->unk2;
+                    if ((s32) var_r3_3 < 0) {
+                        var_r3_3 = 0 - var_r3_3;
+                    }
+                    sub_08081518(0xF, stat_y, temp_r2_2, (u16) var_r3_3, 1U);
+                    break;
+                }
+            }
+            } while (0);
+    var_r4 += 4;
+            var_r5 += 1;
+            if ((var_r5 <= 2U) && (((struct Stat82960 *)var_r4) != NULL)) {
+                goto loop_30;
+            }
+        }
+    }
+}
+#else
 void sub_08082960(struct Record82960 *arg0) {
     s32 var_r4;
     u32 var_r5;
@@ -5244,6 +5409,7 @@ loop_30:
         }
     }
 }
+#endif
 
 
 
