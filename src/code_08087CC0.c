@@ -3717,6 +3717,9 @@ void sub_0808CB58(void) {
     register s32 *countBase asm("r8");
 
 
+#ifdef REGION_USA
+    sub_08065158(anim, 0x50006, 0, -1, 0); /* single language */
+#else
     switch ((u32)gUnk_03003470) {
     case 0: sub_08065158(anim, 0x50006, 0, -1, 0); break;
     case 1: sub_08065158(anim, 0x50007, 0, -1, 0); break;
@@ -3724,6 +3727,7 @@ void sub_0808CB58(void) {
     case 3: sub_08065158(anim, 0x50009, 0, -1, 0); break;
     case 4: sub_08065158(anim, 0x5000A, 0, -1, 0); break;
     }
+#endif
     sub_0800CF58();
     sub_08028AAC(0, 0x79, 0x1BE, 0);
     sub_080290E4(0, 4);
@@ -3736,12 +3740,12 @@ void sub_0808CB58(void) {
     var_r4 = 0;
     players = (u8 *)gUnk_03003CE0;
     stride = PLAYER_SIZE;
-    var_r5 = players + 0x68;
+    var_r5 = players + PLAYER_FIELD(0x68);
     while ((var_r4 < sub_08002164()) && (sub_080020F4() != var_r4)) {
         {
             u32 off = stride * sub_080020F4();
             asm("" : "+r"(off));
-            if (*((u8 *)(off + (u32)players) + 0x68) == *var_r5) {
+            if (*((u8 *)(off + (u32)players) + PLAYER_FIELD(0x68)) == *var_r5) {
                 var_r6 += 1;
             }
         }
@@ -3749,10 +3753,10 @@ void sub_0808CB58(void) {
         var_r4 += 1;
     }
     players2 = (u8 *)gUnk_03003CE0;
-    if (*((players2 + PLAYER_SIZE * sub_080020F4()) + 0x68) != 0) {
+    if (*((players2 + PLAYER_SIZE * sub_080020F4()) + PLAYER_FIELD(0x68)) != 0) {
         table = gUnk_084F0C8A;
         {
-            register s32 idx asm("r1") = *((players2 + PLAYER_SIZE * sub_080020F4()) + 0x68);
+            register s32 idx asm("r1") = *((players2 + PLAYER_SIZE * sub_080020F4()) + PLAYER_FIELD(0x68));
             
             tableIndex = idx - 3;
         }
@@ -3765,7 +3769,7 @@ void sub_0808CB58(void) {
             temp_r5 = *(u16 *)addr;
         }
         {
-            s32 idx = *((players2 + PLAYER_SIZE * sub_080020F4()) + 0x68);
+            s32 idx = *((players2 + PLAYER_SIZE * sub_080020F4()) + PLAYER_FIELD(0x68));
             
             idx -= 3;
             
@@ -3783,7 +3787,7 @@ void sub_0808CB58(void) {
         }
         sub_08028AAC(0, temp_r5, tableY, 0);
         {
-            register s32 idx asm("r1") = *((players2 + PLAYER_SIZE * sub_080020F4()) + 0x68);
+            register s32 idx asm("r1") = *((players2 + PLAYER_SIZE * sub_080020F4()) + PLAYER_FIELD(0x68));
             
             tableIndex = idx - 3;
         }
@@ -3808,7 +3812,7 @@ void sub_0808CB58(void) {
         u8 *base = (u8 *)gUnk_03003CE0;
         
         var_r6_2 = sp5C;
-        var_r5_2 = base + 0x68;
+        var_r5_2 = base + PLAYER_FIELD(0x68);
     }
     while (var_r4 < sub_08002164()) {
         *var_r6_2 = (s32) *var_r5_2;
@@ -3859,12 +3863,12 @@ loop_27:
             
             offset = PLAYER_SIZE * var_r4;
             
-            ptr = base + 0x148;
+            ptr = base + PLAYER_FIELD(0x148);
             
             ptr = (u8 *)(offset + (u32)ptr);
             
             if (((u32) (**(u8 **)ptr << 0x1C) >> 0x1C) != 0xB) {
-                ptr = base + 0x30;
+                ptr = base + PLAYER_FIELD(0x30);
                 
                 ptr = (u8 *)(offset + (u32)ptr);
                 
@@ -3875,7 +3879,7 @@ loop_27:
                         asm("" : "+r"(address));
                         team = (u8 *)address;
                         
-                        team += 0x68;
+                        team += PLAYER_FIELD(0x68);
                         temp_r0 = *team;
                     }
                     if (temp_r0 != 0) {
@@ -3952,14 +3956,14 @@ check_player:
                 
                 ptr = base;
                 
-                ptr += 0x30;
+                ptr += PLAYER_FIELD(0x30);
                 
                 ptr = (u8 *)(offset + (u32)ptr);
                 
                 if (*(u32 *)ptr & 0x2000) goto next_player;
                 ptr = (u8 *)(offset + (u32)base);
                 
-                ptr += 0x68;
+                ptr += PLAYER_FIELD(0x68);
                 if (*ptr == 0) goto next_player;
             }
 found_player:
@@ -3984,7 +3988,7 @@ found_player:
             
             base = (u8 *)gUnk_03003CE0;
             
-            *(base + index * PLAYER_SIZE + 0x68) = 0;
+            *(base + index * PLAYER_SIZE + PLAYER_FIELD(0x68)) = 0;
         }
         sub_0806617C();
         while (sub_0805EEFC((void *)var_sl) == 0) sub_080003F0();
@@ -4015,7 +4019,7 @@ found_player:
             
             offset = index * PLAYER_SIZE;
             
-            base += 0x30;
+            base += PLAYER_FIELD(0x30);
             
             target = (s32 *)(offset + (u32)base);
             
