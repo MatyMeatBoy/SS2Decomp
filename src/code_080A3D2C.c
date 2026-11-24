@@ -442,7 +442,11 @@ void sub_080A47A0_v(void)
     u8 *res;
     struct XY47A0 pos;
     u8 f;
+#ifdef REGION_USA
+    register u32 animation asm("r8");
+#else
     u8 animation;
+#endif
     u8 mode;
     s32 z;
     struct Oam47A0 *o;
@@ -457,9 +461,13 @@ void sub_080A47A0_v(void)
             goto wait;
         }
         if (gSide47A0 == 1)
-            animation = f + 5;
+            animation = (u8)(f + 5);
         else {
+#ifdef REGION_USA
+            vu8 *frame = &gFrame47A0;
+#else
             register vu8 *frame asm("r0") = &gFrame47A0;
+#endif
             animation = *frame;
         }
         pos.x = *(s32 *)(gObj47A0 + 0x14);
