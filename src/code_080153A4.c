@@ -932,7 +932,7 @@ struct Obj1641C {
     u8 pad200;
     u8 f201;            /* 0x201 */
     u16 f202;           /* 0x202 */
-    u8 data[0xD8];      /* 0x204 */
+    u8 data[ENEMY_DATA_FIELD(0xD8)];      /* 0x204 */
     u8 *src;            /* 0x2DC */
 };
 extern u32 poolFlags1641C asm("gUnk_030056FC");
@@ -990,9 +990,9 @@ found:
     index = (src->flags & 0xFFF) - 1;
     if (sub_0800CE30() != 0)
         index += 0xC5;
-    data = table1641C + index * 0xD8;
-    if ((src->f10 & 0x80) && ((s8 *)data)[0x47] != 0)
-        data += 0xD8;
+    data = table1641C + index * ENEMY_DATA_FIELD(0xD8);
+    if ((src->f10 & 0x80) && ((s8 *)data)[ENEMY_DATA_FIELD(0x47)] != 0)
+        data += ENEMY_DATA_FIELD(0xD8);
     obj->src = data;
     obj->id = slot;
     zero8 = 0;
@@ -1008,7 +1008,7 @@ found:
     obj->f28 = src->y << 3;
     obj->prev = obj->pos;
     obj->f2C = src->f14;
-    memcpy(obj->data, data, 0xD8);
+    memcpy(obj->data, data, ENEMY_DATA_FIELD(0xD8));
     obj->f8 = src->f8;
     obj->f84 = src->f10 & 0xFF7F;
     obj->f86 = src->f12;
