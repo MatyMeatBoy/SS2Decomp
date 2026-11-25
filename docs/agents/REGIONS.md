@@ -203,6 +203,12 @@ Tools (USA; each run after `region_symbols.py --region usa`, then rerun it and
 - `region_structs.py [MODULE...]`: resizes the pad arrays of 0x14C-byte struct
   views of the player record; keeps a rewrite only when no exact function is
   lost and the module moves closer to the USA bytes.
+- `region_autofix.py --addresses FILE`: overrides the guessed address with
+  `NAME 0xADDR` lines (the guess is often wrong after a run of unplaced
+  functions; pair them with the function starts in the regional gap instead).
+- `region_permute.py FUNC ADDR [--time S] [--jobs N]`: decomp-permuter against
+  the regional bytes of FUNC for register/stack-slot near misses of the same
+  size; transfer the winning change into an `#ifdef REGION_USA` block by hand.
 
 The macros are the identity in EU, so these rewrites cannot change the EU ROM.
 
