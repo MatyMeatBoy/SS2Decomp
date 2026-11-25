@@ -1839,7 +1839,7 @@ void sub_080A6BE8_v(u16 cw)
                 { s32 t = p[i].speed + 0x20; p[i].speed = t - i; }
             }
             if (sub_0800CCCC() == 0 && sub_0800CC98() == 0 && sub_0800CD8C() == 0 && (z = sub_0800CD34()) == 0) {
-                loadPal6BE8(gTile6BE8 + 0x10, anim.fC + *(u16 *)(res + 0xD6) * 32, 1);
+                loadPal6BE8(gTile6BE8 + 0x10, anim.fC + *(u16 *)(res + (ENEMY_FIELD(0x2DA) - 0x204)) * 32, 1);
                 proj6BE8((s16)(p[i].x >> 8), (s16)(p[i].y >> 8), &sx, &sy, z, z);
                 anim6BE8(&anim, p[i].dir + 5, &p[i].frame, &p[i].tick, 1);
                 draw6BE8(sx, sy, p[i].dir + 5, p[i].frame, z, &anim.f1C, anim.f8, anim.f0);
@@ -1976,7 +1976,7 @@ void sub_080A705C_v(void)
                 }
             }
             if (sub_0800CCCC() == 0 && sub_0800CC98() == 0 && sub_0800CD8C() == 0 && (z = sub_0800CD34()) == 0) {
-                loadPal705C(gTile705C + 0x10, anim.fC + *(u16 *)(res + 0xD6) * 32, 1);
+                loadPal705C(gTile705C + 0x10, anim.fC + *(u16 *)(res + (ENEMY_FIELD(0x2DA) - 0x204)) * 32, 1);
                 proj705C((s16)(p[i].x >> 8), (s16)(p[i].y >> 8), &sx, &sy, z, z);
                 anim705C(&anim, p[i].dir + 5, &p[i].frame, &p[i].tick, 1);
                 draw705C(sx, sy, p[i].dir + 5, p[i].frame, z, &anim.f1C, anim.f8, anim.f0);
