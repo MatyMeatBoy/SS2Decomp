@@ -1954,7 +1954,7 @@ void sub_0809AEE8(void *input)
                             shake = 0;
                             orbitDone = 0;
                             for (i = 0; i <= 1; i++) {
-                                allies[i] = (struct ActorAEE8 *)(poolAEE8 + (i * ENEMY_SIZE + 0x8A0));
+                                allies[i] = (struct ActorAEE8 *)(poolAEE8 + (i * ENEMY_SIZE + 3 * ENEMY_SIZE));
                                 activeAEE8 |= 1 << (i + 3);
                                 sub_0801A0A4(allies[i]);
 { struct ActorAEE8 *a = allies[i];
