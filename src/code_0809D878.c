@@ -18,6 +18,11 @@ extern s32 gUnk_03000324;
 #define SD878(p,o) (*(s16 *)((u8 *)(p)+(o)))
 #define ID878(p,o) (*(s32 *)((u8 *)(p)+(o)))
 #define PD878(p,o) ((u16 *)((u8 *)(p)+(o)))
+#ifdef REGION_USA
+#define PAL_D878 (*PD878(resource, ENEMY_DATA_FIELD(0xD6)))
+#else
+#define PAL_D878 (*pal)
+#endif
 struct SpriteD878 {u32 base,p4,data,palette,p10,p14,p18;u8 payload[24];};
 struct PlayerD878 {u8 p0[PLAYER_FIELD(0x30)];u32 flags;u8 p34[PLAYER_SIZE - PLAYER_FIELD(0x34)];};
 struct PosD878 {s32 x,y;};
@@ -72,7 +77,7 @@ extern void sub_0809FA64(u16);
     if (sub_0800CCCC() == 0 && sub_0800CC98() == 0 && sub_0800CD8C() == 0) { \
         zero = sub_0800CD34(); \
         if (zero == 0) { \
-            sub_08000AF0(paletteD878 + 0x10, (u8 *)sprite.palette + (*pal << 5), 1); \
+            sub_08000AF0(paletteD878 + 0x10, (u8 *)sprite.palette + (PAL_D878 << 5), 1); \
             priority = sub_0800BC44(actorD878->x >> 8, actorD878->y >> 8, 0); \
             sprite.payload[0] = paletteD878; \
             animD878(&sprite, actorD878->anim, &actorD878->frame, &actorD878->tick, zero); \
@@ -108,7 +113,9 @@ void sub_0809D878(void *input)
     s32 finished;
     u16 *frame;
     u16 *tick;
+#ifndef REGION_USA
     u16 *pal;
+#endif
     struct ActorD878 *actor;
     u16 *animation;
     s32 mode;
@@ -142,8 +149,8 @@ void sub_0809D878(void *input)
     }
     initD878(&sprite, 0x50007, paletteD878, -1, 1);
     sprite.payload[0] = paletteD878;
-    actor->f5C = actor->f1D6 = SD878(resource, 6) * 3;
-    value = SD878(resource, 4) * 2;
+    actor->f5C = actor->f1D6 = SD878(resource, ENEMY_DATA_FIELD(6)) * 3;
+    value = SD878(resource, ENEMY_DATA_FIELD(4)) * 2;
     actor->f5E = actor->f1D4 = (value * 4 + value) * 2;
     actor->phase = 2;
     actor->next = 2;
@@ -172,7 +179,9 @@ void sub_0809D878(void *input)
     tick = &actor->tick;
     frame = &actor->frame;
     animation = &actor->anim;
+#ifndef REGION_USA
     pal = PD878(resource, 0xD6);
+#endif
     do {
         entry = 0;
         do {
@@ -310,7 +319,7 @@ void sub_0809D878(void *input)
             actorD878->tick = 0;
             actorD878->frame = 0;
         }
-        sub_08000AF0(paletteD878 + 0x10, (u8 *)sprite.palette + (*pal << 5), 1);
+        sub_08000AF0(paletteD878 + 0x10, (u8 *)sprite.palette + (PAL_D878 << 5), 1);
         if (sub_08098004() & 1)
             priority = sub_08097FF8();
         else
@@ -364,7 +373,7 @@ void sub_0809D878(void *input)
         if (sub_0800CCCC() == 0 && sub_0800CC98() == 0) {
             zero = sub_0800CD34();
             if (zero == 0) {
-                sub_08000AF0(paletteD878 + 0x10, (u8 *)sprite.palette + (*pal << 5), 1);
+                sub_08000AF0(paletteD878 + 0x10, (u8 *)sprite.palette + (PAL_D878 << 5), 1);
                 priority = sub_0800BC44(actorD878->x >> 8, actorD878->y >> 8, 0);
                 sprite.payload[0] = paletteD878;
                 animD878(&sprite, actorD878->anim, &actorD878->frame, &actorD878->tick, zero);
@@ -392,7 +401,7 @@ void sub_0809D878(void *input)
         RENDER_D878();
     playersD878[sub_080020F4()].flags &= ~1;
     soundD878(0xD);
-    transitionD878(actorD878, &sprite, *pal, paletteD878);
+    transitionD878(actorD878, &sprite, PAL_D878, paletteD878);
     if (!(playersD878[sub_080020F4()].flags & 0x2000) && actorD878->f5A != 0) {
         reward = rewardD878(inventoryD878, resource);
         floatingOffset = 0x1D;
