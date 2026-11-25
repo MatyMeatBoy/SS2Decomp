@@ -3146,7 +3146,12 @@ extern s32 s1E46CA27(void *, void *) asm("sub_0801E46C");
 extern s32 s1E4CCA27(void *, s32) asm("sub_0801E4CC");
 extern void s6171CA27(void *, s32) asm("sub_0806171C");
 
-#define TAIL_A27()                                                                                         {                                                                                                          s32 z;                                                                                                 playersA27[sub_080020F4()].flags |= 1;                                                                 if (sub_0800CCCC() == 0 && sub_0800CC98() == 0 && sub_0800CD8C() == 0 && (z = sub_0800CD34()) == 0) {             sub_08000AF0(tileA27 + 0x10, (void *)(animsA27[0].fC + *pD6 * 32), 1);                                pal = sub_0800BC44(selfA27->x >> 8, selfA27->y >> 8, 0);                                               selfA27->f6E = animA27(&animsA27[0], selfA27->f68, &selfA27->f6A, &selfA27->f6C, 1);                   coordsA27((s16)(selfA27->x >> 8), (s16)(selfA27->y >> 8), &sx, &sy, z, z);                             drawA27(sx, sy, selfA27->f68, selfA27->f6A, pal, animsA27[0].attr, animsA27[0].f8, animsA27[0].f0);         }                                                                                                      yieldA27();                                                                                        }
+#ifdef REGION_USA
+#define D6_A27 (aux->fD6)
+#else
+#define D6_A27 (*pD6)
+#endif
+#define TAIL_A27()                                                                                         {                                                                                                          s32 z;                                                                                                 playersA27[sub_080020F4()].flags |= 1;                                                                 if (sub_0800CCCC() == 0 && sub_0800CC98() == 0 && sub_0800CD8C() == 0 && (z = sub_0800CD34()) == 0) {             sub_08000AF0(tileA27 + 0x10, (void *)(animsA27[0].fC + D6_A27 * 32), 1);                                pal = sub_0800BC44(selfA27->x >> 8, selfA27->y >> 8, 0);                                               selfA27->f6E = animA27(&animsA27[0], selfA27->f68, &selfA27->f6A, &selfA27->f6C, 1);                   coordsA27((s16)(selfA27->x >> 8), (s16)(selfA27->y >> 8), &sx, &sy, z, z);                             drawA27(sx, sy, selfA27->f68, selfA27->f6A, pal, animsA27[0].attr, animsA27[0].f8, animsA27[0].f0);         }                                                                                                      yieldA27();                                                                                        }
 
 /* [RunPatternedAttachmentEncounter] Places main actor at fixed position, restores field+0x5C to999 on hits,
  * and alternates timed pursuit/contact with event-selected15-byte configurations for one primary attachment
@@ -3162,7 +3167,9 @@ void sub_080A27B8(struct EntA27 *self)
     u16 flash;
     u16 wait8;
     u16 wait4;
+#ifndef REGION_USA
     u16 *pD6;
+#endif
     s16 shake;
     u8 pal;
     u16 t;
@@ -3223,7 +3230,9 @@ void sub_080A27B8(struct EntA27 *self)
     selfA27->f202 = selfA27->f2;
     selfA27->f200 = 0xFF;
     s67C18A27();
+#ifndef REGION_USA
     pD6 = &aux->fD6;
+#endif
     while (s67C08A27() == 0)
         yieldA27();
     s6849CA27(s67BF8A27());
@@ -3356,7 +3365,7 @@ void sub_080A27B8(struct EntA27 *self)
             }
         }
         animsA27[modeA27].attr[0] = tileA27;
-        sub_08000AF0(tileA27 + 0x10, (void *)(animsA27[modeA27].fC + *pD6 * 32), 1);
+        sub_08000AF0(tileA27 + 0x10, (void *)(animsA27[modeA27].fC + D6_A27 * 32), 1);
         if (sub_0800CD8C() == 0)
             selfA27->f6E = animA27(&animsA27[modeA27], 0, &selfA27->f6A, &selfA27->f6C, 1);
         if (sub_08098004() & 1)
@@ -3372,7 +3381,7 @@ void sub_080A27B8(struct EntA27 *self)
         }
         if (modeA27 != 0 && sub_0800CCCC() == 0 && sub_0800CC98() == 0 && sub_0800CD34() == 0) {
             animsA27[1].attr[0] = tileA27;
-            sub_08000AF0(tileA27 + 0x10, (void *)(animsA27[1].fC + *pD6 * 32), 1);
+            sub_08000AF0(tileA27 + 0x10, (void *)(animsA27[1].fC + D6_A27 * 32), 1);
             p = drawA27(sx, sy - 1, 0x11, 0, pal, animsA27[1].attr, animsA27[1].f8, animsA27[1].f0);
             p[3] = sy;
         }
@@ -3415,7 +3424,7 @@ void sub_080A27B8(struct EntA27 *self)
     sub_080A4B10();
     sub_080A4A54();
     s58688A27(0xD);
-    s970CCA27(selfA27, animsA27, *pD6, tileA27);
+    s970CCA27(selfA27, animsA27, D6_A27, tileA27);
     if (!(playersA27[sub_080020F4()].flags & 0x2000) && otherA27->f5A != 0) {
         h = s1E46CA27(heapA27, aux);
         shake = 0x1D;
