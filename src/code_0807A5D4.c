@@ -4298,6 +4298,105 @@ extern void sub_0801A3D0(u8 *, u32, u32);
  * final digit; copies other bytes until0xFD. Builds local32-byte text, u16 length with no bounds validation,
  * terminates0xFD and draws via0x0801A3D0 at u16(x-(width>>1)) when centered, else x. No text-capacity check or
  * bounded search for a missing source terminator; not ASCII formatting. */
+#ifdef REGION_USA
+void sub_08081518(u32 arg0, u32 arg1, u8 *arg2, u32 arg3, volatile s32 arg4)
+{
+    struct {
+        TextChar text[30];
+        s32 number;
+        u32 x;
+        u32 y;
+        /* Preserve the two caller-clobbered pointers in the original spill slots. */
+        TextChar *volatile source;
+        s32 *volatile num;
+    } frame;
+    register u32 savedNumber asm("r9");
+    register u32 length asm("r8");
+    register TextChar *source asm("r2");
+    s32 *num;
+    register u32 token asm("r3");
+    TextChar *out;
+    u16 digit;
+    register s32 *divisor asm("r6");
+    u32 started;
+    u16 offset;
+    
+    frame.x = (u16)arg0;
+    frame.y = (u16)arg1;
+    savedNumber = (u16)arg3;
+    source = (TextChar *)(arg2 + TEXT_HEADER);
+    length = 0;
+    token = *source;
+    if (token != TEXT_CTRL(0xFD)) {
+        u32 end = TEXT_CTRL(0xFD);
+    do {
+    if (token == ({ register u32 code asm("r1") = TEXT_CTRL(0xF7); code; })) {
+        register u32 numberCopy asm("r4") = savedNumber;
+        asm("" : "+r"(numberCopy));
+        frame.number = numberCopy;
+        divisor = decimalDivisors8518;
+        out = frame.text + length;
+        started = 0;
+        digit = 0;
+        num = &frame.number;
+        source++;
+        do {
+            u32 value;
+            s32 denominator = *divisor;
+            s32 *callNum = num;
+            asm("" : "+r"(denominator), "+r"(callNum));
+            frame.source = source;
+            frame.num = num;
+            value = sub_08000498(callNum, denominator) + 0x41;
+            *out = value;
+            source = frame.source;
+            num = frame.num;
+            asm("" : "+r"(divisor), "+r"(out));
+            if (started || (TextChar)value != 0x41 || digit == 5) {
+                out++;
+                started = 1;
+                length = (u16)(length + 1);
+            }
+            {
+                u32 nextDigit = digit + 1;
+                digit = (u16)nextDigit;
+            }
+            divisor++;
+        } while (digit <= 5);
+    } else {
+        u32 oldLength = length;
+        length = (u16)(oldLength + 1);
+        frame.text[oldLength] = token;
+        source++;
+    }
+    token = *source;
+    } while (token != end);
+    }
+    { register u32 len asm("r2") = length; register u32 t3 asm("r3"); asm("" : "=r"(t3)); frame.text[len] = TEXT_CTRL(0xFD); asm("" : : "r"(len), "r"(t3)); }
+    {
+        u32 mask = 1;
+        register u32 flags asm("r1");
+        
+        flags = arg4;
+        flags &= mask;
+        if (flags)
+            offset = -((u32)sub_0801A638((u8 *)frame.text) >> 1);
+        else
+            offset = 0;
+    }
+    {
+        /* A byte offset keeps agbcc's base/offset operand order; never dereferenced. */
+        register u8 *xCopy asm("r2") = (u8 *)frame.x;
+        u32 drawX;
+        TextChar *drawText;
+        asm("" : "+r"(xCopy));
+        drawX = (u16)(u32)(xCopy + offset);
+        drawText = frame.text;
+        asm("" : "+r"(drawText) : "r"(drawX));
+        sub_0801A3D0((u8 *)drawText, drawX, frame.y);
+    }
+}
+#else
 void sub_08081518(u32 arg0, u32 arg1, u8 *arg2, u32 arg3, volatile s32 arg4)
 {
     struct {
@@ -4401,6 +4500,7 @@ checkToken:
         sub_0801A3D0(drawText, drawX, frame.y);
     }
 }
+#endif
 extern u8 text85[] asm("gUnk_03000128");
 extern u8 table85[] asm("gUnk_08479140");
 extern u32 divisors85[] asm("gUnk_084EBD5C");
