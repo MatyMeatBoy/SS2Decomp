@@ -336,7 +336,7 @@ void sub_080A9950_v(struct Act9950 *a)
     gMask9950 |= 2;
     gA9950 = (struct Act9950 *)((base = gBase9950) + ENEMY_SIZE);
     res = (struct Res9950 *)a->res;
-    resA = (struct Res9950 *)(base + 0x4E4);
+    resA = (struct Res9950 *)(base + ENEMY_SIZE + 0x204);
     setup9950(a, gImg9950, 0);
     setup9950(gA9950, gImg9950, 1);
     initRes9950(resA);
@@ -346,7 +346,7 @@ void sub_080A9950_v(struct Act9950 *a)
     {
         struct Act9950 *g;
         u16 one;
-        base[0x50B] = one = 1;
+        base[ENEMY_SIZE + ENEMY_FIELD(0x22B)] = one = 1;
         g = gA9950;
         g->f0 = one;
         g->f2 = 5;
