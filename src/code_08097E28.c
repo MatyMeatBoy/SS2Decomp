@@ -295,7 +295,7 @@ extern u32 screenS108(s16,s16,s16 *,s16 *,s32,s32) asm("sub_0800BC08");
     if (sub_0800CCCC() == 0 && sub_0800CC98() == 0) { \
         zero = sub_0800CD34(); \
         if (zero == 0) { \
-            sub_08000AF0(palette108 + 0x10, (u8 *)sprite->palette + (*P108(resource, 0xD6) << 5), 1); \
+            sub_08000AF0(palette108 + 0x10, (u8 *)sprite->palette + (*P108(resource, ENEMY_DATA_FIELD(0xD6)) << 5), 1); \
             priority = sub_0800BC44(actor108->x >> 8, actor108->y >> 8, 0); \
             actor108->f6E = anim108(sprite, actor108->anim, &actor108->frame, &actor108->tick, 1); \
             screenS108((actor108->x << 8) >> 16, (actor108->y << 8) >> 16, &sx, &sy, zero, zero); \
@@ -368,8 +368,8 @@ void sub_08098108(void *input)
     actor->tick = 0;
     actor->frame = 0;
     actor->anim = 0;
-    actor->f5C = actor->f1D6 = S108(resource, 6) * 3;
-    value = S108(resource, 4) * 2;
+    actor->f5C = actor->f1D6 = S108(resource, ENEMY_DATA_FIELD(6)) * 3;
+    value = S108(resource, ENEMY_DATA_FIELD(4)) * 2;
     actor->f5E = actor->f1D4 = (value * 4 + value) * 2;
     actor->state = 0;
     mode = 0;
@@ -609,7 +609,7 @@ void sub_08098108(void *input)
             actor108->frame = 0;
         }
         sprite->payload[0] = palette108;
-        sub_08000AF0(palette108 + 0x10, (u8 *)sprite->palette + (*P108(resource, 0xD6) << 5), 1);
+        sub_08000AF0(palette108 + 0x10, (u8 *)sprite->palette + (*P108(resource, ENEMY_DATA_FIELD(0xD6)) << 5), 1);
         if (sub_08098004() & 1)
             priority = sub_08097FF8();
         else
@@ -664,7 +664,7 @@ void sub_08098108(void *input)
         if (sub_0800CCCC() == 0 && sub_0800CC98() == 0) {
             zero = sub_0800CD34();
             if (zero == 0) {
-                sub_08000AF0(palette108 + 0x10, (u8 *)sprite->palette + (*P108(resource, 0xD6) << 5), 1);
+                sub_08000AF0(palette108 + 0x10, (u8 *)sprite->palette + (*P108(resource, ENEMY_DATA_FIELD(0xD6)) << 5), 1);
                 priority = sub_0800BC44(actor108->x >> 8, actor108->y >> 8, 0);
                 actor108->f6E = anim108(sprite, actor108->anim, &actor108->frame, &actor108->tick, 1);
                 screen108((actor108->x << 8) >> 16, (actor108->y << 8) >> 16, &sx, &sy, zero, zero);
@@ -692,7 +692,7 @@ void sub_08098108(void *input)
         RENDER_108();
     players108[sub_080020F4()].flags &= ~1;
     sound108(0xD);
-    transition108(actor108, sprite, *P108(resource, 0xD6), palette108);
+    transition108(actor108, sprite, *P108(resource, ENEMY_DATA_FIELD(0xD6)), palette108);
     if (!(players108[sub_080020F4()].flags & 0x2000) && actor108->f5A != 0) {
         reward = reward108(inventory108, resource);
         floatingOffset = 0x1D;
@@ -1035,7 +1035,7 @@ extern void quake99(u32) asm("sub_08097CA8");
 extern void spawn99(u32) asm("sub_0809AE88");
 extern void start99(void) asm("sub_0809AE24");
 extern void end99(void) asm("sub_0809AE50");
-#define PAL99 (*P99(resource, 0xD6))
+#define PAL99 (*P99(resource, ENEMY_DATA_FIELD(0xD6)))
 
 #define RENDER_99() {     s32 zero;     players99[sub_080020F4()].flags |= 1;     if (sub_0800CCCC() == 0 && sub_0800CC98() == 0) {         zero = sub_0800CD34();         if (zero == 0) {             sub_08000AF0(palette99 + 0x10, (u8 *)sprite->palette + (PAL99 << 5), 1);             priority = sub_0800BC44(actor99->x >> 8, actor99->y >> 8, 0);             actor99->f6E = anim99(sprite, 0, &actor99->frame, &actor99->tick, 1);             screen99((actor99->x << 8) >> 16, (actor99->y << 8) >> 16, &sx, &sy, zero, zero);             draw99(sx, sy, actor99->anim, actor99->frame, priority, sprite->payload, sprite->data, sprite->base);             if (blink99 & 1)                 draw99(sx, sy - 1, 0x18, 0, priority, sprite->payload, sprite->data, sprite->base);         }     }     sub_080003F0(); }
 
@@ -1100,8 +1100,8 @@ void sub_08099838(void *input)
     actor->tick = 0;
     actor->frame = 0;
     actor->anim = 0;
-    actor->f5C = actor->f1D6 = S99(resource, 6) * 3;
-    value = S99(resource, 4) * 2;
+    actor->f5C = actor->f1D6 = S99(resource, ENEMY_DATA_FIELD(6)) * 3;
+    value = S99(resource, ENEMY_DATA_FIELD(4)) * 2;
     actor->f5E = actor->f1D4 = (value * 4 + value) * 2;
     actor->state = 0;
     mode = 0;

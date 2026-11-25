@@ -180,7 +180,7 @@ void sub_0809D878(void *input)
     frame = &actor->frame;
     animation = &actor->anim;
 #ifndef REGION_USA
-    pal = PD878(resource, 0xD6);
+    pal = PD878(resource, ENEMY_DATA_FIELD(0xD6));
 #endif
     do {
         entry = 0;
@@ -1544,7 +1544,7 @@ extern s32 sound9FB6C(s32) asm("sub_08058688");
 #define END_RENDER9FB6C() { \
     actor9FB6C->f6E=anim9FB6C(&sprite,actor9FB6C->f68,&actor9FB6C->f6A,&actor9FB6C->f6C,1); \
     screen9FB6C((s32)(actor9FB6C->x<<8)>>16,(s32)(actor9FB6C->y<<8)>>16,&sx,&sy,zero,zero); \
-    sub_08000AF0(palette9FB6C+16,sprite.palette+(H9FB6C(resource,0xD6)<<5),1); \
+    sub_08000AF0(palette9FB6C+16,sprite.palette+(H9FB6C(resource, ENEMY_DATA_FIELD(0xD6))<<5),1); \
     draw9FB6C(sx,sy,actor9FB6C->f68,actor9FB6C->f6A,2,sprite.payload,sprite.data,sprite.base); \
 }
 
@@ -1594,8 +1594,8 @@ void sub_0809FB6C(void *input)
     }
     init9FB6C(&sprite,0x50009,palette9FB6C,-1,1);
     sprite.payload[0]=palette9FB6C;
-    actor->f5C=actor->f1D6=S9FB6C(resource,6)*3;
-    actor->f5E=actor->f1D4=(S9FB6C(resource,4)<<1)*10;
+    actor->f5C=actor->f1D6=S9FB6C(resource, ENEMY_DATA_FIELD(6))*3;
+    actor->f5E=actor->f1D4=(S9FB6C(resource, ENEMY_DATA_FIELD(4))<<1)*10;
     actor->fC=0;
     floatingTimer=0;flash=0;
     actor->f6C=0; actor->f6A=0; actor->f68=0;
@@ -1705,11 +1705,11 @@ void sub_0809FB6C(void *input)
             u32 old=flash;
             flash=old-1;
             if((old&1) && sub_0800CCCC()==0 && sub_0800CC98()==0 && sub_0800CD34()==0) {
-                sub_08000AF0(palette9FB6C+16,sprite.palette+(H9FB6C(resource,0xD6)<<5),1);
+                sub_08000AF0(palette9FB6C+16,sprite.palette+(H9FB6C(resource, ENEMY_DATA_FIELD(0xD6))<<5),1);
                 draw9FB6C(sx,sy,*animation,*frame,priority,sprite.payload,sprite.data,sprite.base);
             }
         } else if(sub_0800CCCC()==0 && sub_0800CC98()==0 && sub_0800CD34()==0) {
-            sub_08000AF0(palette9FB6C+16,sprite.palette+(H9FB6C(resource,0xD6)<<5),1);
+            sub_08000AF0(palette9FB6C+16,sprite.palette+(H9FB6C(resource, ENEMY_DATA_FIELD(0xD6))<<5),1);
             draw9FB6C(sx,sy,*animation,*frame,priority,sprite.payload,sprite.data,sprite.base);
         }
         value=actor->f4C;
@@ -1762,7 +1762,7 @@ void sub_0809FB6C(void *input)
     soundStop9FB6C(0);sub_080A10AC();
     if(sub_0800CCCC()==0 && sub_0800CC98()==0 && sub_0800CD8C()==0 && sub_0800CD34()==0) {
         sound9FB6C(13);
-        transition9FB6C(actor9FB6C,&sprite,H9FB6C(resource,0xD6),palette9FB6C,2);
+        transition9FB6C(actor9FB6C,&sprite,H9FB6C(resource, ENEMY_DATA_FIELD(0xD6)),palette9FB6C,2);
     }
     if(!(playersFB6[sub_080020F4()].flags&0x2000) && actor9FB6C->f5A!=0) {
         reward=reward9FB6C(inventory9FB6C,resource);
