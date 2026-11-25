@@ -150,10 +150,21 @@ u16 sub_08073EE8(u16 width, s32 range)
             return cand->f0;
         }
     }
+#ifdef REGION_USA
+    {
+        register u32 reset asm("r3") = 0xFFFF;
+        register u32 none asm("r0");
+        asm("" : "+r"(reset));
+        best = reset;
+        none = -1;
+        asm("" : "+r"(none));
+        nearest = none;
+    }
+    i = 0;
+#else
     best = 0xFFFF;
     nearest = -1;
     i = 0;
-#ifndef REGION_USA
     offset = 0;
 #endif
     do {
