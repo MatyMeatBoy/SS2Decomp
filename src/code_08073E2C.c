@@ -787,6 +787,12 @@ void sub_08075088(u32 who, u32 slot)
     u16 done[3];
     u16 cnt[3];
     s16 sx, sy;
+#ifdef REGION_USA
+    struct Ene5088 **eAddr;
+#define E5088 (*eAddr)
+#else
+#define E5088 e
+#endif
     struct Ply5088 *p;
     u16 i;
     u16 serial;
@@ -857,9 +863,13 @@ void sub_08075088(u32 who, u32 slot)
                         continue;
                     e->dmg = dmg;
                     hit5088(e->id, 1, dmg, 1, 0x20, dirIdx);
-                    e->owner = who;
+                    
+#ifdef REGION_USA
+                    eAddr = &e;
+#endif
+                    E5088->owner = who;
                     e->serial = serial;
-                    e->hitMask |= 1 << local;
+                    E5088->hitMask |= 1 << local;
                 }
             }
             if (done[i] != 0)
@@ -873,6 +883,7 @@ out:
     if (local == who && !sub_0800CC98() && !sub_0800CE68() && !sub_0800CD8C())
         p->flags &= ~1;
     m5088[who] &= ~(1 << slot);
+#undef E5088
 }
 struct Task5494 { u32 f0, f4, f8, fC, f10, f14, f18, f1C, f20, f24; };
 extern u32 gMasks5494[] asm("gUnk_030063E0");
