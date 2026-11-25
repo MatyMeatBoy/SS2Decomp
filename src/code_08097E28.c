@@ -2653,7 +2653,7 @@ struct SprCC2C { u32 f0, f4, f8, fC; u8 pad10[0xC]; u8 f1C[7]; u8 f23; u8 f24; u
 struct PosCC2C { u16 x, y; };
 struct XYCC2C { u32 x, y; };
 struct PlayerCC2C { u8 p0[PLAYER_FIELD(0x30)]; u32 flags; u8 p34[PLAYER_FIELD(0x148) - PLAYER_FIELD(0x34)]; struct PosCC2C *pos; };
-struct SubCC2C { u8 p0[4]; s16 f4, f6; u8 p8[0xce]; u16 fd6; };
+struct SubCC2C { u8 p0[ENEMY_FIELD(0x208) - 0x204]; s16 f4, f6; u8 p8[0xce]; u16 fd6; };
 struct EntCC2C {
     u16 f0, f2; u8 p4[4]; u16 f8; u8 pa[2]; u16 fc; u8 pe[6];
     s32 x, y; u8 p1c[0x2c]; u16 f48; u8 p4a[2]; s32 f4c; s32 f50, f54;
