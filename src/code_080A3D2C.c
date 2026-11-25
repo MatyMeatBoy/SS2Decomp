@@ -1840,7 +1840,11 @@ void sub_080A6BE8_v(u16 cw)
             }
             if (sub_0800CCCC() == 0 && sub_0800CC98() == 0 && sub_0800CD8C() == 0 && (z = sub_0800CD34()) == 0) {
                 loadPal6BE8(gTile6BE8 + 0x10, anim.fC + *(u16 *)(res + (ENEMY_FIELD(0x2DA) - 0x204)) * 32, 1);
+#ifdef REGION_USA
+                { s32 *zAddr; proj6BE8((s16)(p[i].x >> 8), (s16)(p[i].y >> 8), &sx, &sy, z, *(zAddr = &z)); }
+#else
                 proj6BE8((s16)(p[i].x >> 8), (s16)(p[i].y >> 8), &sx, &sy, z, z);
+#endif
                 anim6BE8(&anim, p[i].dir + 5, &p[i].frame, &p[i].tick, 1);
                 draw6BE8(sx, sy, p[i].dir + 5, p[i].frame, z, &anim.f1C, anim.f8, anim.f0);
             }
