@@ -207,7 +207,11 @@ static inline s32 diff414C(u32 a, u16 b) {
 static inline s32 diffB414C(u32 a, u16 b) {
  u16 angle = (a >> 12) - b; s32 d;
  { s32 t = (s16)angle; if (t > 8) angle = t - 16; }
+#ifdef REGION_USA
+ { register s32 t asm("r0") = (s16)angle; s32 low = -8; asm("" : "+r"(low)); if (t < low) { t += 16; angle = t; } }
+#else
  { register s32 t asm("r0") = (s16)angle; if (t < -8) { t += 16; angle = t; } } 
+#endif
  d = (s16)angle; if (d < 0) d = -d;
  return d; }
 /* [SelectPlayerFacingConeTarget] Selects a facing-cone target for a supplied player pointer. Uses that player
@@ -237,7 +241,11 @@ s32 sub_0807414C(struct Ply076EE8 *player, u16 width, u32 range)
                 d = diffB414C(ang414C(dx, dy), dir414C(&player->pos));
                 {
                     /* The ROM reloads the spilled limits into r2/r1/r2 here. */
+#ifdef REGION_USA
+                    register u32 w asm("r1") = width;
+#else
                     register u32 w asm("r2") = width;
+#endif
                     asm("" : "+r"(w));
                     if (d > (s32)w)
                         continue;
@@ -381,9 +389,7 @@ s32 nearest076398(u32 inputSelf,u32 inputExcluded,s32 x,s32 y,s32 range)
 #ifdef REGION_USA
             {
                 u8 **table=&enemies076398;
-                u32 eo=index*ENEMY_SIZE;
-                enemy=*table;
-                enemy+=eo;
+                u32 eo=index*ENEMY_SIZE; u8 *b=*table; enemy=b+eo;
             }
 #else
             enemy=*enemyAddress+offset;
@@ -407,11 +413,17 @@ s32 nearest076398(u32 inputSelf,u32 inputExcluded,s32 x,s32 y,s32 range)
         if(nearest!=-1U){
             u8 **address=&enemies076398;
             u32 selected=nearest;
+#ifdef REGION_USA
+            u32 eo=nearest*ENEMY_SIZE; u8 *object=*address+eo;
+            enemy=object;
+            result=F_076398(enemy,u16,2);
+#else
             register u32 offset asm("r0");
             u32 object;
             offset=nearest*ENEMY_SIZE;
             object=(u32)*address+offset;
             result=F_076398(object,u16,2);
+#endif
             goto finish;
         }
         result=0xFF;
@@ -3134,7 +3146,7 @@ void sub_08078B24(u32 who, u32 b)
 struct AttrBCC { u32 kind:4; u32 x:12; u32 y:12; u32 pad:4; u32 flags:6; u32 pad2:4; u32 on:1; u32 power:8; u32 pad3:13; };
 struct PlayerBCC { u16 id; u8 pad02[PLAYER_FIELD(0x20) - PLAYER_FIELD(0x2)]; u16 state; u8 pad22[PLAYER_FIELD(0x30) - PLAYER_FIELD(0x22)]; u32 flags; u8 pad34[PLAYER_FIELD(0x68) - PLAYER_FIELD(0x34)]; u8 team; u8 pad69[PLAYER_FIELD(0x88) - PLAYER_FIELD(0x69)]; u16 hp; u8 pad8a[PLAYER_FIELD(0x8C) - PLAYER_FIELD(0x8A)]; s32 pos[2]; u8 pad94[PLAYER_FIELD(0xC2) - PLAYER_FIELD(0x94)]; u16 unkC2; s16 unkC4; u8 padc6[PLAYER_FIELD(0xF8) - PLAYER_FIELD(0xC6)]; s32 tags[15]; u16 unk134; u8 pad136[PLAYER_FIELD(0x148) - PLAYER_FIELD(0x136)]; struct AttrBCC *attr; };
 struct SpriteBCC { u32 f0, f4, f8; void *fC; u8 pad10[12]; u8 unk1C, unk1D; u8 pad1e[22]; };
-struct EnemyBCC { u16 id; u8 unk2; u8 pad03[9]; u16 state; u8 pad0e[6]; s32 pos[2]; u8 pad1c[0x2e]; u16 hp; u32 dmg; u8 pad50[4]; s32 tag; u16 unk58, unk5A; s16 unk5C; u8 pad5e[4]; u16 unk62; u8 pad64[0x18]; u16 unk7C; s16 unk7E; u8 pad80[0x15c]; u8 team; u8 pad1dd[0x51]; u8 w, h; u8 pad230[ENEMY_SIZE - 0x230]; };
+struct EnemyBCC { u16 id; u8 unk2; u8 pad03[9]; u16 state; u8 pad0e[6]; s32 pos[2]; u8 pad1c[0x2e]; u16 hp; u32 dmg; u8 pad50[4]; s32 tag; u16 unk58, unk5A; s16 unk5C; u8 pad5e[4]; u16 unk62; u8 pad64[0x18]; u16 unk7C; s16 unk7E; u8 pad80[0x15c]; u8 team; u8 pad1dd[ENEMY_FIELD(0x22E) - 0x1DD]; u8 w, h; u8 pad230[ENEMY_SIZE - ENEMY_FIELD(0x230)]; };
 struct BoxBCC { u16 w, h; };
 struct VecBCC { s32 x, y; };
 struct PacketBCC { u8 player:8; u8 power:8; u8 impulse:8; s8 direction:8; u32 amount:16; u32 unused:16; };
@@ -3190,7 +3202,7 @@ void sub_08078BCC(s32 who, s32 bit)
     s32 mode; /* constant 0, rematerialized as `movs r3, #0; cmp r3, #0` */
 
     local = sub_080020F4();
-    initBCC(&spr, 0x500A9, 8, -1, 0);
+    initBCC(&spr, RES_ID(0x500A9), 8, -1, 0);
     spr.unk1C = 7;
     spr.unk1D = 8;
     for (i = 0; i < 2; i++)
