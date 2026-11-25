@@ -2457,7 +2457,7 @@ void sub_080AC844_v(struct ActC844 *a)
     }
     sub_08056E24();
 }
-struct ResAD534 { u8 p0[4]; s16 f4, f6; };
+struct ResAD534 { u8 p0[ENEMY_FIELD(0x208) - 0x204]; s16 f4, f6; };
 struct ActorAD534 {
     u16 f0, f2;
     u8 p4[4];
