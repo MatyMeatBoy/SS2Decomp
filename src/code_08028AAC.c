@@ -105,8 +105,13 @@ void sub_08028AAC_v(u32 who, s32 ax, s32 ay, s32 af)
         if (frames != 0) {
             t = 0;
             step = 0x400 / frames;
+#ifdef REGION_USA
+            (&enemies028AAC[who])->target.x = x << 8;
+            (&enemies028AAC[who])->target.y = y << 8;
+#else
             e->target.x = x << 8;
             e->target.y = y << 8;
+#endif
             s = e->pos;
             do {
                 lerp028AAC(&e->pos.x, s.x, e->target.x, t);
