@@ -190,18 +190,47 @@ void sub_0808D654(u8 *arg0) {
     register u32 temp_r9 asm("r9");
     u8 *temp_r4;
     u16 *palette;
+#ifdef REGION_USA
+    register u32 zero asm("r4");
+#else
     register u32 zero asm("r5");
+#endif
     u16 *paletteInit;
 
     sub_0801623C(arg0, gUnk_084A1910, 3);
+#ifdef REGION_USA
+    temp_r0 = (u16)((*(u16 *)(arg0 + 0x2)) + (*(u16 *)(arg0 + 0x0)));
+#else
     temp_r0 = (*(u16 *)(arg0 + 0x0)) + (*(u16 *)(arg0 + 0x2));
+#endif
     zero = 0;
     (*(u16 *)(arg0 + 0x2)) = temp_r0;
+#ifdef REGION_USA
+    temp_r4 = arg0 + 0x204;
+#else
     {
         register u32 off asm("r2") = 0x204;
         asm("" : "+r"(off));
         temp_r4 = arg0 + off;
     }
+#endif
+#ifdef REGION_USA
+    sub_08019F60(temp_r4);
+    *(u16 *)(arg0 + 0x6C) = zero;
+    paletteInit = (u16 *)(arg0 + 0x6A);
+    *paletteInit = zero;
+    *(u16 *)(arg0 + 0x68) = zero;
+    temp_r0 = *(s16 *)(temp_r4 + ENEMY_DATA_FIELD(6)) * 3;
+    (*(s16 *)(arg0 + 0x1D6)) = temp_r0;
+    (*(s16 *)(arg0 + 0x5C)) = temp_r0;
+    temp_r0_2 = *(s16 *)(temp_r4 + ENEMY_DATA_FIELD(4));
+    scaledStat = temp_r0_2 * 2;
+    temp_r0_2 *= 8;
+    temp_r0_2 += scaledStat;
+    temp_r0_2 *= 2;
+    (*(s16 *)(arg0 + 0x1D4)) = temp_r0_2;
+    (*(s16 *)(arg0 + 0x5E)) = temp_r0_2;
+#else
     sub_08019F60(temp_r4);
     (*(u16 *)(arg0 + 0x6C)) = zero;
     paletteInit = (u16 *)(arg0 + 0x6A);
@@ -223,6 +252,7 @@ void sub_0808D654(u8 *arg0) {
     temp_r0_2 *= 2;
     (*(s16 *)(arg0 + 0x1D4)) = temp_r0_2;
     (*(s16 *)(arg0 + 0x5E)) = temp_r0_2;
+#endif
     (*(u16 *)(arg0 + 0xC)) = zero;
     var_sl = zero;
     flashing = 0;
@@ -237,7 +267,7 @@ loop_60:
         temp_r4_2 = (*(u16 *)(arg0 + 0xC));
         switch (temp_r4_2) {                        /* irregular */
         case 0:
-            d654InitAnimation(anim, 0x5005D, 5, -1, temp_r4_2);
+            d654InitAnimation(anim, RES_ID(0x5005D), 5, -1, temp_r4_2);
             (*(u16 *)(arg0 + 0x68)) = temp_r4_2;
             break;
         case 10:
