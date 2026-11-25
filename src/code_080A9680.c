@@ -1560,7 +1560,11 @@ void sub_080AB2F8_v(struct ActB2F8 *a)
         gPlB2F8[sub_080020F4()].flags |= 1;
         gActB2F8->f6E = animB2F8(sl, 0, &gActB2F8->f6A, &gActB2F8->f6C, 1);
         if (sub_0800CCCC() == 0 && sub_0800CC98() == 0 && sub_0800CD34() == 0) {
+#ifdef REGION_USA
+            loadPalB2F8(gTileB2F8 + 0x10, sl->fC - -(res->fD6 * 32), 1);
+#else
             loadPalB2F8(gTileB2F8 + 0x10, sl->fC + res->fD6 * 32, 1);
+#endif
             prio = prioB2F8(gActB2F8->f14 >> 8, gActB2F8->f18 >> 8, 0);
             projB2F8((s16)(gActB2F8->f14 >> 8), (s16)(gActB2F8->f18 >> 8), &sx, &sy, 0, 0);
             drawB2F8(sx, sy, 0, gActB2F8->f6A, prio, &sl->f1C, sl->f8, sl->f0);
