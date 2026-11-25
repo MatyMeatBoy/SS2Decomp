@@ -3059,7 +3059,7 @@ void sub_080AE420_v(u32 idx)
     s32 n28;
     s32 mode;
     u16 lastAnim;
-    u8 x34;
+    ItemKind x34;
     u16 kind;
     u16 flash;
     u16 hitTimer;
@@ -3101,7 +3101,7 @@ void sub_080AE420_v(u32 idx)
     gEntAE420[idx].fA6 = 4;
     gEntAE420[idx].fA8 = p->fE;
     cpuSetAE420(p->f58, a->f1CC, 0x18);
-    cpuSetAE420(p->f38, res, 0x10);
+    cpuSetAE420(p->f38, (u8 *)res + ENEMY_DATA_FIELD(0), 0x10);
     a0A4AE420(a);
     a->f1DC = 4;
     a->f5E = a->f1D4;
@@ -3212,7 +3212,7 @@ void sub_080AE420_v(u32 idx)
         gEntAE420[idx].fAA = 0x1E;
         break;
     }
-    x34 = objAE420(res->f28 | 0xB0000)->f9B;
+    x34 = ITEM_KIND(objAE420(res->f28 | 0xB0000));
     animInitAE420(&gEntAE420[idx].anim[0], gTblAE420[kind].a[x34], gEntAE420[idx].fA6, -1, 0);
     animInitAE420(&gEntAE420[idx].anim[1], gTblAE420[kind].b[x34], gEntAE420[idx].fA6, -1, 0);
     gEntAE420[idx].anim[0].f1C = gEntAE420[idx].fA6;
