@@ -4548,7 +4548,7 @@ void sub_080B0FC4_v(struct Act0288 *a)
     struct Anim0288 *sl;
     struct Res0288 *res;
     s32 lastHit;
-    u8 sfx;
+    ItemKind sfx;
     s32 animState;
     u16 lastAnim;
     s32 flag;
@@ -4573,7 +4573,7 @@ void sub_080B0FC4_v(struct Act0288 *a)
     setup0288(a, gImgB0FC4, 0);
     initRes0288(res);
     a0A40288(a);
-    { u16 *t = &gTileB0FC4; *t = allocB0FC4(*(u16 *)((u8 *)a + 0x2D8), 0); }
+    { u16 *t = &gTileB0FC4; *t = allocB0FC4(*(u16 *)((u8 *)a + ENEMY_FIELD(0x2D8)), 0); }
     while (gTileB0FC4 == 0xFFFF) {
         a->fC = 11;
         if (sub_0800CB78() || sub_08056E90()) {
@@ -4582,9 +4582,9 @@ void sub_080B0FC4_v(struct Act0288 *a)
         }
         sub_080003F0();
     }
-    animInit0288(&anim[0], 0x50089, gTileB0FC4, -1, 0);
-    animInit0288(&anim[1], 0x50087, gTileB0FC4, -1, 0);
-    animInit0288(&anim[2], 0x50088, gTileB0FC4, -1, 0);
+    animInit0288(&anim[0], RES_ID(0x50089), gTileB0FC4, -1, 0);
+    animInit0288(&anim[1], RES_ID(0x50087), gTileB0FC4, -1, 0);
+    animInit0288(&anim[2], RES_ID(0x50088), gTileB0FC4, -1, 0);
     a->f5C = a->f1D6 = res->f6 * 3;
     { s32 t = res->f4 * 2; a->f5E = a->f1D4 = ((res->f4 << 3) + t) * 2; }
     a->fC = 0;
@@ -4594,11 +4594,15 @@ void sub_080B0FC4_v(struct Act0288 *a)
     hitTimer = 0;
     a->f1FD = 3;
     a->f1FE = 3;
+#ifdef REGION_USA
+    { u16 *f = &res->f28; id = 0xB3; *f = id; }
+#else
     id = 0xB3;
     res->f28 = id;
+#endif
     sfx = ITEM_KIND(obj0288(0xB0000 | id));
     res->f24 = 2;
-    *((u8 *)res + 0x27) = 0;
+    *((u8 *)res + (ENEMY_FIELD(0x22B) - 0x204)) = 0;
     a->f50 = 1;
     for (i = 0; i <= 3; i++)
         for (j = 0; j <= 4; j++)
