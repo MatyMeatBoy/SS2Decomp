@@ -2387,6 +2387,11 @@ void sub_080A11B4(void)
 #define SA12(p,o) (*(s16 *)((u8 *)(p)+(o)))
 #define IA12(p,o) (*(s32 *)((u8 *)(p)+(o)))
 #define PA12(p,o) ((u16 *)((u8 *)(p)+(o)))
+#ifdef REGION_USA
+#define PAL_A12 (*PA12(resource, ENEMY_DATA_FIELD(0xD6)))
+#else
+#define PAL_A12 (*pal)
+#endif
 extern struct ActorD878 *actorA12 asm("gUnk_03000348");
 extern u16 paletteA12 asm("gUnk_0300034C");
 extern u8 configA12[] asm("gUnk_084A5CA8");
@@ -2401,7 +2406,7 @@ extern void sub_080A2720(u8 mode, u16 arg);
     if (sub_0800CCCC() == 0 && sub_0800CC98() == 0 && sub_0800CD8C() == 0) { \
         zero = sub_0800CD34(); \
         if (zero == 0) { \
-            sub_08000AF0(paletteA12 + 0x10, (u8 *)sprite->palette + (*pal << 5), 1); \
+            sub_08000AF0(paletteA12 + 0x10, (u8 *)sprite->palette + (PAL_A12 << 5), 1); \
             priority = sub_0800BC44(actorA12->x >> 8, actorA12->y >> 8, 0); \
             actorA12->f6E = animD878(sprite, actorA12->anim, &actorA12->frame, &actorA12->tick, 1); \
             screenD878((actorA12->x << 8) >> 16, (actorA12->y << 8) >> 16, &sx, &sy, zero, zero); \
@@ -2432,7 +2437,9 @@ void sub_080A1208(void *input)
     u16 chase;
     u16 elapsed;
     s16 floatingOffset;
+#ifndef REGION_USA
     u16 *pal;
+#endif
     u16 *frame;
     u16 *tick;
     s32 finished;
@@ -2471,8 +2478,8 @@ void sub_080A1208(void *input)
     actor->tick = 0;
     actor->frame = 0;
     actor->anim = 0;
-    actor->f5C = actor->f1D6 = SA12(resource, 6) * 3;
-    value = SA12(resource, 4) * 2;
+    actor->f5C = actor->f1D6 = SA12(resource, ENEMY_DATA_FIELD(6)) * 3;
+    value = SA12(resource, ENEMY_DATA_FIELD(4)) * 2;
     actor->f5E = actor->f1D4 = (value * 4 + value) * 2;
     actor->state = 0;
     mode = 0;
@@ -2486,7 +2493,9 @@ void sub_080A1208(void *input)
     tick = &actor->tick;
     frame = &actor->frame;
     animation = &actor->anim;
-    pal = PA12(resource, 0xD6);
+#ifndef REGION_USA
+    pal = PA12(resource, ENEMY_DATA_FIELD(0xD6));
+#endif
     do {
         entry = 0;
         do {
@@ -2605,7 +2614,7 @@ void sub_080A1208(void *input)
             actorA12->frame = 0;
         }
         sprite->payload[0] = paletteA12;
-        sub_08000AF0(paletteA12 + 0x10, (u8 *)sprite->palette + (*pal << 5), 1);
+        sub_08000AF0(paletteA12 + 0x10, (u8 *)sprite->palette + (PAL_A12 << 5), 1);
         if (sub_08098004() & 1)
             priority = sub_08097FF8();
         else
@@ -2659,7 +2668,7 @@ void sub_080A1208(void *input)
         if (sub_0800CCCC() == 0 && sub_0800CC98() == 0) {
             zero = sub_0800CD34();
             if (zero == 0) {
-                sub_08000AF0(paletteA12 + 0x10, (u8 *)sprite->palette + (*pal << 5), 1);
+                sub_08000AF0(paletteA12 + 0x10, (u8 *)sprite->palette + (PAL_A12 << 5), 1);
                 priority = sub_0800BC44(actorA12->x >> 8, actorA12->y >> 8, 0);
                 actorA12->f6E = animD878(sprite, actorA12->anim, &actorA12->frame, &actorA12->tick, 1);
                 screenD878((actorA12->x << 8) >> 16, (actorA12->y << 8) >> 16, &sx, &sy, zero, zero);
@@ -2687,7 +2696,7 @@ void sub_080A1208(void *input)
         RENDER_A12();
     playersD878[sub_080020F4()].flags &= ~1;
     soundD878(0xD);
-    transitionD878(actorA12, sprite, *pal, paletteA12);
+    transitionD878(actorA12, sprite, PAL_A12, paletteA12);
     if (!(playersD878[sub_080020F4()].flags & 0x2000) && actorA12->f5A != 0) {
         reward = rewardD878(inventoryD878, resource);
         floatingOffset = 0x1D;
