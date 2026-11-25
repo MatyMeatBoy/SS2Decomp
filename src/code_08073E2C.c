@@ -207,7 +207,11 @@ extern struct Ply076EE8 players07614C[] asm("gUnk_03003CE0");
 extern struct Ene076EE8 *enemies07614C asm("gUnk_030056F4");
 extern u32 active07614C asm("gUnk_030056FC");
 extern u16 directions07614C[] asm("gUnk_0849E730");
+#ifdef REGION_USA
+static inline u16 dir414C(struct Pos076EE8 **pos) { register u16 *table asm("r2") = directions07614C; return table[((u8 *)*pos)[3] >> 4]; }
+#else
 static inline u16 dir414C(struct Pos076EE8 **pos) { return directions07614C[((u8 *)*pos)[3] >> 4]; }
+#endif
 static inline u32 ang414C(s32 dx, s32 dy) { return (u16)ArcTan2(dx, dy) + 0x400; }
 static inline s32 diff414C(u32 a, u16 b) {
  u16 angle = (a >> 12) - b; s32 d;
@@ -215,16 +219,22 @@ static inline s32 diff414C(u32 a, u16 b) {
  { s32 t = (s16)angle; if (t < -8) angle = t + 16; } 
  d = (s16)angle; if (d < 0) d = -d;
  return d; }
+#ifdef REGION_USA
+static inline s32 diffB414C(u32 a, u16 b) {
+ register u32 bb asm("r1") = b; u16 angle = (a >> 12) - bb; s32 d;
+ { s32 t = (s16)angle; if (t > 8) angle = t - 16; }
+ { register s32 t asm("r0") = (s16)angle; register s32 low asm("r3") = -8; if (t < low) { t += 16; angle = t; } }
+ asm("" : : "r"(bb));
+ d = (s16)angle; if (d < 0) d = -d;
+ return d; }
+#else
 static inline s32 diffB414C(u32 a, u16 b) {
  u16 angle = (a >> 12) - b; s32 d;
  { s32 t = (s16)angle; if (t > 8) angle = t - 16; }
-#ifdef REGION_USA
- { register s32 t asm("r0") = (s16)angle; s32 low = -8; asm("" : "+r"(low)); if (t < low) { t += 16; angle = t; } }
-#else
  { register s32 t asm("r0") = (s16)angle; if (t < -8) { t += 16; angle = t; } } 
-#endif
  d = (s16)angle; if (d < 0) d = -d;
  return d; }
+#endif
 /* [SelectPlayerFacingConeTarget] Selects a facing-cone target for a supplied player pointer. Uses that player
  * packet position/facing via +0x148, unlike the local-live-coordinate sibling 73EE8. Applies the same
  * battle-enabled differently grouped nonzero-peer priority, then five-enemy fallback, returning player ID,
