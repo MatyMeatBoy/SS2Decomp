@@ -3696,7 +3696,7 @@ void sub_080AF3F4_v(struct ActF3F4 *a)
     s16 sx, sy;
     struct ResF3F4 *res;
     s32 lastHit;
-    u8 sfx;
+    ItemKind sfx;
     s32 animState;
     u16 lastAnim;
     s32 flag;
@@ -3720,9 +3720,9 @@ void sub_080AF3F4_v(struct ActF3F4 *a)
     setupF3F4(a, gImgF3F4, 0);
     initResF3F4(res);
     a0A4F3F4(a);
-    animInitF3F4(&anim[0], 0x50089, 5, -1, 0);
-    animInitF3F4(&anim[1], 0x50087, 5, -1, 0);
-    animInitF3F4(&anim[2], 0x50088, 5, -1, 0);
+    animInitF3F4(&anim[0], RES_ID(0x50089), 5, -1, 0);
+    animInitF3F4(&anim[1], RES_ID(0x50087), 5, -1, 0);
+    animInitF3F4(&anim[2], RES_ID(0x50088), 5, -1, 0);
     a->f5C = a->f1D6 = res->f6 * 3;
     { s32 t = res->f4 * 2; a->f5E = a->f1D4 = ((res->f4 << 3) + t) * 2; }
     a->fC = 0;
@@ -3732,11 +3732,15 @@ void sub_080AF3F4_v(struct ActF3F4 *a)
     hitTimer = 0;
     a->f1FD = 2;
     a->f1FE = 2;
+#ifdef REGION_USA
+    { u16 *f = &res->f28; id = 0xB3; *f = id; }
+#else
     id = 0xB3;
     res->f28 = id;
+#endif
     sfx = ITEM_KIND(objF3F4(0xB0000 | id));
     res->f24 = 2;
-    ((u8 *)a)[0x22B] = 0;
+    ((u8 *)a)[ENEMY_FIELD(0x22B)] = 0;
     a->f50 = 1;
     for (i = 0; i <= 3; i++)
         for (j = 0; j <= 4; j++)
@@ -5808,9 +5812,13 @@ void sub_080B280C(void)
             break;
     }
     mask280C &= ~(1 << actor280C->f0);
+#ifdef REGION_USA
+    { u32 z; ((u8 *)actor280C)[ENEMY_FIELD(0x22E)] = z = 0; ((u8 *)actor280C)[ENEMY_FIELD(0x22F)] = z; sel = z; }
+#else
     ((u8 *)actor280C)[0x22E] = 0;
     ((u8 *)actor280C)[0x22F] = 0;
     sel = 0;
+#endif
     a4 = actor280C;
     a4->f68 = dir;
     a4->f6C = 0;
