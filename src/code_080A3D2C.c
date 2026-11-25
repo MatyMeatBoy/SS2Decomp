@@ -776,6 +776,11 @@ extern u32 h1084D05DF38(u32,u32,u32,u32,u32,u32) asm("sub_0805DF38");
  * scaled stats, link barriers and mode-dependent state machine: entrance, timed waits, horizontal passes,
  * captured-player relocation/contact damage, eight falling shots, two turning volleys and optional
  * twelve-target attack. Renders shadow/hit flash/damage, checks death, or scene-exit enters same ending path. */
+#ifdef REGION_USA
+#define D6_4D08 (res->fD6)
+#else
+#define D6_4D08 (*palIndex)
+#endif
 void sub_080A4D08(struct Act4D08 *arg0) {
     struct Sprite1084D sprite;
     s8 hitFlag;
@@ -797,7 +802,9 @@ void sub_080A4D08(struct Act4D08 *arg0) {
     s32 shadow;
     s32 healed;
     s32 dead;
+#ifndef REGION_USA
     u16 *palIndex;
+#endif
     s16 i, j;
     u16 timer;
     u16 state;
@@ -856,7 +863,9 @@ void sub_080A4D08(struct Act4D08 *arg0) {
     healed = 0;
     shadow = 1;
     arg0->f50 = animLoop;
+#ifndef REGION_USA
     palIndex = &res->fD6;
+#endif
     for (i = 0; i <= 3; i++)
         for (j = 0; j <= 4; j++)
             F_1084D(history1084D+j*4+i*PLAYER_SIZE,u32,0) = 0;
@@ -1273,7 +1282,7 @@ void sub_080A4D08(struct Act4D08 *arg0) {
                 mode = sub_08097FF8();
             else
                 mode = sub_0800BC44(arg0->f14 >> 8, arg0->f18 >> 8, 0);
-            sub_08000AF0(palette1084D + 0x10, sprite.palette + (*palIndex << 5), 1);
+            sub_08000AF0(palette1084D + 0x10, sprite.palette + (D6_4D08 << 5), 1);
             h1084D00BC08((s16)(arg0->f14 >> 8), (s16)(arg0->f18 >> 8), &sx, &sy, 0, 0);
             psx = &sx;
             if (flash != 0) {
@@ -1334,7 +1343,7 @@ void sub_080A4D08(struct Act4D08 *arg0) {
         players1084D[sub_080020F4()].f30 |= 1;
         if (sub_0800CCCC() == 0 && sub_0800CC98() == 0 && (zero = sub_0800CD34()) == 0) {
             arg0->f6E = h1084D065370(&sprite, arg0->f68, &arg0->f6A, &arg0->f6C, animLoop);
-            sub_08000AF0(palette1084D + 0x10, sprite.palette + (*palIndex << 5), 1);
+            sub_08000AF0(palette1084D + 0x10, sprite.palette + (D6_4D08 << 5), 1);
             mode = sub_0800BC44(object1084D->f14 >> 8, object1084D->f18 >> 8, 0);
             h1084D00BC08((s16)(object1084D->f14 >> 8), (s16)(object1084D->f18 >> 8), &sx, &sy, zero, (void *)zero);
             h1084D007870(sx, sy, object1084D->f68, object1084D->f6A, mode, &sprite.f1C, sprite.f8, sprite.f0);
@@ -1352,7 +1361,7 @@ void sub_080A4D08(struct Act4D08 *arg0) {
         players1084D[sub_080020F4()].f30 |= 1;
         if (sub_0800CCCC() == 0 && sub_0800CC98() == 0 && sub_0800CD8C() == 0 && (zero2 = sub_0800CD34()) == 0) {
             arg0->f6E = h1084D065370(&sprite, arg0->f68, &arg0->f6A, &arg0->f6C, animLoop);
-            sub_08000AF0(palette1084D + 0x10, sprite.palette + (*palIndex << 5), 1);
+            sub_08000AF0(palette1084D + 0x10, sprite.palette + (D6_4D08 << 5), 1);
             mode = sub_0800BC44(object1084D->f14 >> 8, object1084D->f18 >> 8, 0);
             h1084D00BC08((s16)(object1084D->f14 >> 8), (s16)(object1084D->f18 >> 8), &sx, &sy, zero2, (void *)zero2);
             h1084D007870(sx, sy, object1084D->f68, object1084D->f6A, mode, &sprite.f1C, sprite.f8, sprite.f0);
@@ -1364,7 +1373,7 @@ void sub_080A4D08(struct Act4D08 *arg0) {
         players1084D[sub_080020F4()].f30 |= 1;
         if (sub_0800CCCC() == 0 && sub_0800CC98() == 0 && sub_0800CD8C() == 0 && (zero2 = sub_0800CD34()) == 0) {
             arg0->f6E = h1084D065370(&sprite, arg0->f68, &arg0->f6A, &arg0->f6C, animLoop);
-            sub_08000AF0(palette1084D + 0x10, sprite.palette + (*palIndex << 5), 1);
+            sub_08000AF0(palette1084D + 0x10, sprite.palette + (D6_4D08 << 5), 1);
             mode = sub_0800BC44(object1084D->f14 >> 8, object1084D->f18 >> 8, 0);
             h1084D00BC08((s16)(object1084D->f14 >> 8), (s16)(object1084D->f18 >> 8), &sx, &sy, zero2, (void *)zero2);
             h1084D007870(sx, sy, object1084D->f68, object1084D->f6A, mode, &sprite.f1C, sprite.f8, sprite.f0);
@@ -1378,7 +1387,7 @@ void sub_080A4D08(struct Act4D08 *arg0) {
         players1084D[sub_080020F4()].f30 |= 1;
         if (sub_0800CCCC() == 0 && sub_0800CC98() == 0 && sub_0800CD8C() == 0 && (zero2 = sub_0800CD34()) == 0) {
             arg0->f6E = h1084D065370(&sprite, arg0->f68, &arg0->f6A, &arg0->f6C, animLoop);
-            sub_08000AF0(palette1084D + 0x10, sprite.palette + (*palIndex << 5), 1);
+            sub_08000AF0(palette1084D + 0x10, sprite.palette + (D6_4D08 << 5), 1);
             mode = sub_0800BC44(object1084D->f14 >> 8, object1084D->f18 >> 8, 0);
             h1084D00BC08((s16)(object1084D->f14 >> 8), (s16)(object1084D->f18 >> 8), &sx, &sy, zero2, (void *)zero2);
             h1084D007870(sx, sy, object1084D->f68, object1084D->f6A, mode, &sprite.f1C, sprite.f8, sprite.f0);
@@ -1388,7 +1397,7 @@ void sub_080A4D08(struct Act4D08 *arg0) {
     players1084D[sub_080020F4()].f30 &= ~1;
     sub_0805867C(0x1A1);
     h1084D058688(0xD);
-    h1084D0970CC(object1084D, &sprite, *palIndex, palette1084D);
+    h1084D0970CC(object1084D, &sprite, D6_4D08, palette1084D);
     if (!(players1084D[sub_080020F4()].f30 & 0x2000) && object1084D->f5A != 0) {
         dropFx = sub_0801E46C((void *) gUnk_030034E0, res);
         shake = 0x1D;
