@@ -246,7 +246,7 @@ struct Actor108 {
     s32 x; s32 y; u8 p1C[0x30]; s32 damage; s32 f50; u8 p54[6]; u16 f5A; u16 f5C; u16 f5E;
     u8 p60[8]; u16 anim; u16 frame; u16 tick; u16 f6E; u8 p70[0x164]; u16 f1D4; u16 f1D6;
     u8 p1D8[0x24]; u8 lo:4; u8 hi:4; u8 phase; u8 next; u8 p1FF; u8 f200; u8 p201; u16 f202;
-    u8 res[0xD4]; u16 f2D8; u16 f2DA;
+    u8 res[ENEMY_FIELD(0x2D8) - 0x204]; u16 f2D8; u16 f2DA;
 };
 #define S108(p,o) (*(s16 *)((u8 *)(p)+(o)))
 #define I108(p,o) (*(s32 *)((u8 *)(p)+(o)))
@@ -988,7 +988,7 @@ struct Actor99 {
     s32 x; s32 y; u8 p1C[0x30]; s32 damage; s32 f50; u8 p54[6]; u16 f5A; u16 f5C; u16 f5E;
     u8 p60[8]; u16 anim; u16 frame; u16 tick; u16 f6E; u8 p70[0x164]; u16 f1D4; u16 f1D6;
     u8 p1D8[0x24]; u8 lo:4; u8 hi:4; u8 phase; u8 next; u8 p1FF; u8 f200; u8 p201; u16 f202;
-    u8 res[0xD4]; u16 f2D8; u16 f2DA;
+    u8 res[ENEMY_FIELD(0x2D8) - 0x204]; u16 f2D8; u16 f2DA;
 };
 #define S99(p,o) (*(s16 *)((u8 *)(p)+(o)))
 #define I99(p,o) (*(s32 *)((u8 *)(p)+(o)))
@@ -1688,7 +1688,7 @@ struct SpriteAEE8 {u32 base,p4,data,palette,p10,p14,p18;u8 payload[24];};
 struct PlayerAEE8 {u8 p0[PLAYER_FIELD(0x30)];u32 flags;u8 p34[PLAYER_SIZE - PLAYER_FIELD(0x34)];};
 struct PosAEE8 {s32 x,y;};
 struct OrbitAEE8 {s32 x,y;u8 angle;u8 pad[3];};
-struct ResAEE8 {u8 p0[4];s16 f4;s16 f6;u8 p8[0x22];u8 f2A;u8 f2B;u8 p2C[0xA8];u16 fD4;u16 fD6;};
+struct ResAEE8 {u8 p0[ENEMY_FIELD(0x208) - 0x204];s16 f4;s16 f6;u8 p8[0x22];u8 f2A;u8 f2B;u8 p2C[0xA8];u16 fD4;u16 fD6;};
 struct ActorAEE8 {
     u16 f0; u16 f2; u8 p4[4]; u16 f8; u8 pA[2]; u16 state; u8 pE[2]; u16 f10; u8 p12[2];
     s32 x; s32 y; u8 p1C[0x2C]; u16 f48; u16 f4A; s32 damage; s32 f50; s32 f54; u8 p58[2]; u16 f5A; u16 f5C; u16 f5E;
@@ -2652,7 +2652,7 @@ void sub_0809C8F4_(struct ObjC1B4 *o)
 struct SprCC2C { u32 f0, f4, f8, fC; u8 pad10[0xC]; u8 f1C[7]; u8 f23; u8 f24; u8 pad25[0xF]; };
 struct PosCC2C { u16 x, y; };
 struct XYCC2C { u32 x, y; };
-struct PlayerCC2C { u8 p0[0x30]; u32 flags; u8 p34[0x114]; struct PosCC2C *pos; };
+struct PlayerCC2C { u8 p0[PLAYER_FIELD(0x30)]; u32 flags; u8 p34[PLAYER_FIELD(0x148) - PLAYER_FIELD(0x34)]; struct PosCC2C *pos; };
 struct SubCC2C { u8 p0[4]; s16 f4, f6; u8 p8[0xce]; u16 fd6; };
 struct EntCC2C {
     u16 f0, f2; u8 p4[4]; u16 f8; u8 pa[2]; u16 fc; u8 pe[6];

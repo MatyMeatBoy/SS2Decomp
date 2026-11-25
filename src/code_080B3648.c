@@ -10,7 +10,7 @@ struct TaskP { u32 f0, f4, f8, fC, f10, f14, f18, f1C, f20, f24; };
 void sub_080B5F94(void);
 void sub_080B6178(void);
 
-struct ResB3648 { u8 p0[4]; s16 f4, f6; u8 p8[0x22]; u8 f2A, f2B; u8 p2C[0xAA]; u16 fD6; };
+struct ResB3648 { u8 p0[ENEMY_FIELD(0x208) - 0x204]; s16 f4, f6; u8 p8[0x22]; u8 f2A, f2B; u8 p2C[0xAA]; u16 fD6; };
 struct ActB3648 {
     u16 f0, f2;
     u8 p4[4];
@@ -41,7 +41,7 @@ struct ActB3648 {
 struct E2E0B3648 { u8 b[ENEMY_SIZE]; };
 struct AnimB3648 { u32 f0, f4, f8; u8 *fC; u8 p10[12]; u8 f1C; u8 p1d[0x17]; };
 struct XYB3648 { s32 x, y; };
-struct PlB3648 { u8 p0[0x30]; u32 flags; u8 p34[0x114]; u16 *f148; };
+struct PlB3648 { u8 p0[PLAYER_FIELD(0x30)]; u32 flags; u8 p34[PLAYER_FIELD(0x148) - PLAYER_FIELD(0x34)]; u16 *f148; };
 struct DrawB3648 { u8 p0[0xC]; s32 fC; };
 struct G3170B3648 { u8 p0[0x90]; u16 f90; };
 
@@ -886,7 +886,7 @@ void sub_080B4BB8(u8 a, u16 arg)
   }
  do { t->f10 = t->f20 + 0x3FC; t->fC = (u32) sub_080B4690; t->f24 = z; t->f8 = arg + 0x40; sub_08000274_3((u32)t, a, arg); } while (0);
 }
-struct Res4C34 { u8 p0[4]; s16 f4, f6; u8 p8[0x1F]; u8 f27; u8 p28[2]; u8 f2A, f2B; u8 p2C[0xA8]; u16 fD4, fD6; };
+struct Res4C34 { u8 p0[ENEMY_FIELD(0x208) - 0x204]; s16 f4, f6; u8 p8[0x1F]; u8 f27; u8 p28[2]; u8 f2A, f2B; u8 p2C[0xA8]; u16 fD4, fD6; };
 struct Act4C34 {
     u16 f0, f2;
     u8 p4[4];

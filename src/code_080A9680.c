@@ -201,7 +201,7 @@ s32 sub_080A9910(struct V *a, struct V *b, struct V *c)
     v2.y = c->y - a->y;
     r = v1.x * v2.y - v1.y * v2.x; res = 1; if (r <= 0) { res = 0; if (r < 0) res--; } return res;
 }
-struct Res9950 { u8 p0[4]; s16 f4, f6; u8 p8[0x1F]; u8 f27; u8 p28[0xAE]; u16 fD6; };
+struct Res9950 { u8 p0[ENEMY_FIELD(0x208) - 0x204]; s16 f4, f6; u8 p8[0x1F]; u8 f27; u8 p28[0xAE]; u16 fD6; };
 struct Act9950 {
     u16 f0, f2;
     u8 p4[4];
@@ -226,11 +226,11 @@ struct Act9950 {
     u8 f1FD, f1FE, p1ff;
     u8 f200, p201;
     u16 f202;
-    u8 res[0xD4];
+    u8 res[ENEMY_FIELD(0x2D8) - 0x204];
     u16 f2D8, f2DA;
 };
 struct Anim9950 { u32 f0, f4, f8; u8 *fC; u8 p10[12]; u8 f1C; u8 p1d[0x17]; };
-struct Pl9950 { u8 p0[0x30]; u32 flags; u8 p34[0x114]; u16 *f148; };
+struct Pl9950 { u8 p0[PLAYER_FIELD(0x30)]; u32 flags; u8 p34[PLAYER_FIELD(0x148) - PLAYER_FIELD(0x34)]; u16 *f148; };
 struct Pose9950 { u8 animA, dirA, animB, dirB, flag; };
 struct Map9950 { u8 p0[0x90]; u16 f90; };
 struct XY9950 { s32 x, y; };
@@ -1122,7 +1122,7 @@ void sub_080AB2D8(void) {
     gUnk_030056FC = 0;
     sub_08016ECC(gUnk_03000430);
 }
-struct ResB2F8 { u8 p0[4]; s16 f4, f6; u8 p8[0xCE]; u16 fD6; };
+struct ResB2F8 { u8 p0[ENEMY_FIELD(0x208) - 0x204]; s16 f4, f6; u8 p8[0xCE]; u16 fD6; };
 struct ActB2F8 {
     u16 f0, f2;
     u8 p4[4];
@@ -1145,7 +1145,7 @@ struct ActB2F8 {
     u8 f1FC_hi : 4;
     u8 f1FD, f1FE, p1ff;
     u8 p200[4];
-    u8 res[0xD4];
+    u8 res[ENEMY_FIELD(0x2D8) - 0x204];
     u16 f2D8, f2DA;
 };
 struct AnimB2F8 { u32 f0, f4, f8; u8 *fC; u8 p10[12]; u8 f1C; u8 p1d[0x17]; };
@@ -2037,7 +2037,7 @@ void sub_080AC81C(void)
     gUnk_030056FC = 0;
     sub_08016ECC(gUnk_03000438);
 }
-struct ResC844 { u8 p0[4]; s16 f4, f6; u8 p8[0xCE]; u16 fD6; };
+struct ResC844 { u8 p0[ENEMY_FIELD(0x208) - 0x204]; s16 f4, f6; u8 p8[0xCE]; u16 fD6; };
 struct ActC844 {
     u16 f0, f2;
     u8 p4[4];
@@ -2061,12 +2061,12 @@ struct ActC844 {
     u8 f1FD, f1FE, p1ff;
     u8 f200, p201;
     u16 f202;
-    u8 res[0xD4];
+    u8 res[ENEMY_FIELD(0x2D8) - 0x204];
     u16 f2D8, f2DA;
 };
 struct SprC844 { u32 f0, f4, f8; u8 *fC; u8 p10[12]; u8 f1C; };
 struct PosC844 { s32 x, y; };
-struct PlC844 { u8 p0[0x30]; u32 flags; u8 p34[0x118]; };
+struct PlC844 { u8 p0[PLAYER_FIELD(0x30)]; u32 flags; u8 p34[PLAYER_SIZE - PLAYER_FIELD(0x34)]; };
 
 extern struct ActC844 *gCurC844 asm("gUnk_03000440");
 extern struct ActC844 *gActsC844[] asm("gUnk_03000448");
@@ -2941,7 +2941,7 @@ void sub_080AE1B4(void)
     sub_08056E24();
 }
 struct ResAE420 {
-    u8 p0[6];
+    u8 p0[ENEMY_FIELD(0x20A) - 0x204];
     s16 f6;
     u8 p8[2];
     u16 fA;
@@ -3607,7 +3607,7 @@ void sub_080AF3C4(void)
     *m &= ~(1 << (*new_var));
   }
 }
-struct ResF3F4 { u8 p0[4]; s16 f4, f6; u8 p8[0x1C]; u16 f24; u8 p26[2]; u16 f28; };
+struct ResF3F4 { u8 p0[ENEMY_FIELD(0x208) - 0x204]; s16 f4, f6; u8 p8[0x1C]; u16 f24; u8 p26[2]; u16 f28; };
 struct ActF3F4 {
     u16 f0, f2;
     u8 p4[4];
@@ -4077,7 +4077,7 @@ void sub_080AF3F4_v(struct ActF3F4 *a)
     }
     sub_08056E24();
 }
-struct Res0288 { u8 p0[4]; s16 f4, f6; u8 p8[0x1C]; u16 f24; u8 p26[2]; u16 f28; };
+struct Res0288 { u8 p0[ENEMY_FIELD(0x208) - 0x204]; s16 f4, f6; u8 p8[0x1C]; u16 f24; u8 p26[2]; u16 f28; };
 struct Act0288 {
     u16 f0, f2;
     u8 p4[4];
@@ -5358,7 +5358,7 @@ void sub_080B2780(void) {
     gUnk_030056FC = 0;
     sub_08016ECC(gUnk_030007C8);
 }
-struct Res280C { u8 p0[4]; s16 f4, f6; u8 p8[0xCE]; u16 fD6; };
+struct Res280C { u8 p0[ENEMY_FIELD(0x208) - 0x204]; s16 f4, f6; u8 p8[0xCE]; u16 fD6; };
 struct Actor280C {
     u16 f0, f2;
     u8 p4[4];
@@ -5387,7 +5387,7 @@ struct Actor280C {
 struct Spr280C { s32 f0, f4, f8, fC; u8 p10[12]; u8 f1C; u8 p1d[0x17]; };
 struct Pos280C { s32 x, y; };
 struct Tile280C { u16 pad : 4; u16 x : 12; u16 y : 12; u16 pad2 : 4; };
-struct Player280C { u8 p0[0x30]; u32 flags; u8 p34[0x114]; struct Tile280C *f148; };
+struct Player280C { u8 p0[PLAYER_FIELD(0x30)]; u32 flags; u8 p34[PLAYER_FIELD(0x148) - PLAYER_FIELD(0x34)]; struct Tile280C *f148; };
 
 extern struct Actor280C *actor280C asm("gUnk_030007B8");
 extern struct Actor280C *other280C asm("gUnk_030007BC");

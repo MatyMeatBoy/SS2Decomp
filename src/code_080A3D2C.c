@@ -27,7 +27,7 @@ extern s32 gUnk_03000408;
 void sub_080A68B0(void);
 extern s32 gUnk_0300040C;
 
-struct Res3D2C { u8 p0[4]; s16 f4, f6; u8 p8[0x22]; u8 f2A, f2B; u8 p2C[0xAA]; u16 fD6; };
+struct Res3D2C { u8 p0[ENEMY_FIELD(0x208) - 0x204]; s16 f4, f6; u8 p8[0x22]; u8 f2A, f2B; u8 p2C[0xAA]; u16 fD6; };
 struct Act3D2C {
     u16 f0, f2;
     u8 p4[8];
@@ -56,7 +56,7 @@ struct Act3D2C {
 struct Spr3D2C { u32 f0, f4, f8; u8 *palette; u8 pad10[12]; u8 style, paletteId; u8 pad1E[22]; };
 struct Oam3D2C { u32 f0, f4; s32 x, y; };
 struct E2E0_3D2C { u8 b[ENEMY_SIZE]; };
-struct Pl3D2C { u8 p0[0x30]; u32 flags; u8 p34[0x118]; };
+struct Pl3D2C { u8 p0[PLAYER_FIELD(0x30)]; u32 flags; u8 p34[PLAYER_SIZE - PLAYER_FIELD(0x34)]; };
 struct G3170_3D2C { u8 p0[0x90]; u16 f90; };
 extern struct Act3D2C *gObj3D2C asm("gUnk_03000364");
 extern struct Act3D2C *gActs3D2C[] asm("gUnk_03000370");
@@ -704,7 +704,7 @@ void sub_080A4CFC(s8 arg0) {
     gUnk_030003F0 = arg0;
 }
 struct Sprite1084D {u32 f0,f4,f8;u8 *palette;u8 pad10[12];u8 f1C,f1D;u8 pad1E[22];};
-struct Res4D08 { u8 p0[4]; s16 f4, f6; u8 p8[0xCC]; u16 fD4, fD6; };
+struct Res4D08 { u8 p0[ENEMY_FIELD(0x208) - 0x204]; s16 f4, f6; u8 p8[0xCC]; u16 fD4, fD6; };
 struct Act4D08 {
     u16 f0, f2;
     u8 p4[4];
@@ -2538,7 +2538,7 @@ void sub_080A8114(void)
     *(u32 *)(entry + 0x24) = 0;
     sub_08000274_(entry, 0, 0);
 }
-struct Res8164 { u8 p0[4]; s16 f4, f6; u8 p8[0x22]; u8 f2A, f2B; u8 p2C[0xA8]; u16 fD4, fD6; };
+struct Res8164 { u8 p0[ENEMY_FIELD(0x208) - 0x204]; s16 f4, f6; u8 p8[0x22]; u8 f2A, f2B; u8 p2C[0xA8]; u16 fD4, fD6; };
 struct Act8164 {
     u16 f0, f2;
     u8 p4[4];
@@ -2566,7 +2566,7 @@ struct Act8164 {
 };
 struct Anim8164 { u32 f0, f4, f8; u8 *fC; u8 p10[12]; u8 f1C; u8 p1d[0x17]; };
 struct XY8164 { s32 x, y; };
-struct Pl8164 { u8 p0[0x30]; u32 flags; u8 p34[0x118]; };
+struct Pl8164 { u8 p0[PLAYER_FIELD(0x30)]; u32 flags; u8 p34[PLAYER_SIZE - PLAYER_FIELD(0x34)]; };
 struct Draw8164 { u8 p0[8]; s32 f8, fC; };
 extern struct Act8164 *gCur8164 asm("gUnk_0300041C");
 extern u16 gTile8164 asm("gUnk_03000420");
