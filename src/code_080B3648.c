@@ -950,7 +950,7 @@ static inline s32 ABS4C34(s32 x) { if (x < 0) x = -x; return x; }
         s32 z;                                                                                         \
         gPl4C34[sub_080020F4()].flags |= 1;                                                            \
         if (sub_0800CCCC() == 0 && sub_0800CC98() == 0 && sub_0800CD8C() == 0 && (z = sub_0800CD34()) == 0) { \
-            loadPalB3648(gTile4C34 + 0x10, anim.fC + *pres * 32, 1);                                   \
+            loadPalB3648(gTile4C34 + 0x10, anim.fC + D6_4C34 * 32, 1);                                   \
             b = prioB3648(gAct4C34->f14 >> 8, gAct4C34->f18 >> 8, 0);                                  \
             gAct4C34->f6E = animB3648(&anim, gAct4C34->f68, &gAct4C34->f6A, &gAct4C34->f6C, 1);        \
             projB3648((s16)(gAct4C34->f14 >> 8), (s16)(gAct4C34->f18 >> 8), &sx, &sy, z, z);    \
@@ -967,6 +967,11 @@ static inline s32 ABS4C34(s32 x) { if (x < 0) x = -x; return x; }
  * animation/damage feedback. On death/session/area exit clears its active bit, stops the auxiliary task,
  * dispatches remote full-HP damage, synchronizes the completion token, shows resource0x1400A7 and runs
  * transition/reward feedback when eligible; finally synchronizes and marks the encounter finished. */
+#ifdef REGION_USA
+#define D6_4C34 (res->fD6)
+#else
+#define D6_4C34 (*pres)
+#endif
 void sub_080B4C34(struct Act4C34 *a)
 {
     struct AnimB3648 anim;
@@ -988,7 +993,9 @@ void sub_080B4C34(struct Act4C34 *a)
     u8 cooldown;
     u8 cycle;
     u8 cycle2;
+#ifndef REGION_USA
     u16 *pres;
+#endif
     s16 i, j;
     s16 cnt;
     u8 b;
@@ -1029,7 +1036,9 @@ void sub_080B4C34(struct Act4C34 *a)
     save22E = gAct4C34->res.f2A;
     save22F = gAct4C34->res.f2B;
     gAct4C34->f50 = 1;
+#ifndef REGION_USA
     pres = &res->fD6;
+#endif
     for (i = 0; i <= 3; i++)
         for (j = 0; j <= 4; j++)
             *(u32 *)(i * PLAYER_SIZE + j * 4 + (u32)gHist4C34) = 0;
@@ -1278,7 +1287,7 @@ void sub_080B4C34(struct Act4C34 *a)
                 cooldown = 0;
             }
         }
-        loadPalB3648(gTile4C34 + 0x10, anim.fC + *pres * 32, 1);
+        loadPalB3648(gTile4C34 + 0x10, anim.fC + D6_4C34 * 32, 1);
         if (bgFlagB3648() & 1)
             b = bgPrioB3648();
         else
@@ -1336,7 +1345,7 @@ void sub_080B4C34(struct Act4C34 *a)
     gGame4C34->f720 = msg4C34(1, 14, 0x19, 2, 0x3C, 0x1400A7);
     while (msgDone4C34(gGame4C34->f720) == 0)
         REDRAW4C34();
-    dropB3648(gAct4C34, &anim, *pres, gTile4C34);
+    dropB3648(gAct4C34, &anim, D6_4C34, gTile4C34);
     if (!(gPl4C34[sub_080020F4()].flags & 0x2000) && gAct4C34->f5A != 0) {
         h = dropFxB3648(gDataB3648, res);
         for (shake = 0x1D; shake != -1; shake--) {
