@@ -4157,10 +4157,18 @@ void sub_0806E7D4(struct ArgE7D4 *arg)
                             spawnE7D4(e2->x, e2->y, player, 15, level);
                         }
                         if (sub_0800CC98() == 0 && sub_0800CD8C() == 0 && sub_0800CCCC() == 0) {
+#ifdef REGION_USA
+                            u32 levelFour = 4;
+#else
+#define levelFour 4
+#endif
                             if (!(flagsE7D4 & 1))
                                 palE7D4(0x17, spr.fC, 2);
-                            if (gUnk_03003170.curLevel == 4 && sub_0800CDC0())
+                            if (gUnk_03003170.curLevel == levelFour && sub_0800CDC0())
                                 shadeB = 0;
+#ifndef REGION_USA
+#undef levelFour
+#endif
                             if (sub_0800CB9C() != 0) {
                                 /* The ROM keeps the parity mask in r1 and the frame flags in r2. */
                                 u32 f = flagsE7D4;
