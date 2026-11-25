@@ -5710,6 +5710,22 @@ void sub_08072390(struct T39Arg *arg0) {
     u32 pal;
     u16 n;
     u32 myId, owner, bit, hi;
+#ifdef REGION_USA
+    struct T39Pl *p;
+    struct T39Pos *pos;
+    struct T39En *e;
+    u32 lv;
+    u32 i;
+    struct T39Pl **pAddr;
+    u16 count;
+    u32 num;
+    s32 dx;
+    s16 idx;
+    u32 raw;
+    s32 dy;
+    u16 chance;
+#define P39 (*pAddr)
+#else
     struct T39Pl *p;
     struct T39En *e;
     struct T39Pos *pos;
@@ -5722,6 +5738,8 @@ void sub_08072390(struct T39Arg *arg0) {
     s16 idx;
     u32 raw;
     u16 chance;
+#define P39 p
+#endif
 
     { u16 t = sub_080020F4(); myId = t; }
     owner = arg0->owner;
@@ -5842,6 +5860,9 @@ void sub_08072390(struct T39Arg *arg0) {
                     p = &gT39Players[*tp];
                     t39Coords(p->pos->h0 >> 4, (u32)(p->pos->h2 << 20) >> 20, &x, &y, 0x30, 0);
                     { u8 c = sub_0800BC44(sx >> 8, sy >> 8, 0); pal = c; }
+#ifdef REGION_USA
+                    pAddr = &p;
+#endif
                     if (delays[i] == 0) {
                         heights[i] -= speeds[i];
                         speeds[i] += 0x20;
@@ -5850,12 +5871,12 @@ void sub_08072390(struct T39Arg *arg0) {
                             delays[i] = 0xF0;
                             heights[i] = 10;
                             if (myId == *tp) {
-                                arg0->mode = p->h0;
+                                arg0->mode = P39->h0;
                                 chance = gT39Chances[arg0->w14];
                                 if (chance >= sub_080008C8() % 100)
-                                    t39PlHit(3, t39Calc(arg0, p->b4C), 100);
+                                    t39PlHit(3, t39Calc(arg0, P39->b4C), 100);
                                 else
-                                    t39PlHit(gT39Kinds[0xE5], t39Calc(arg0, p->b4C), kind);
+                                    t39PlHit(gT39Kinds[0xE5], t39Calc(arg0, P39->b4C), kind);
                                 if (sub_0800CCCC() == 0 && sub_0800CD34() == 0)
                                     sub_0805865C(0x1A);
                             }
@@ -5922,6 +5943,7 @@ void sub_08072390(struct T39Arg *arg0) {
     while (player->done == 0)
         sub_080003F0();
     gT39Flags[owner] &= ~(1 << bit);
+#undef P39
 }
 struct T75Pos { u16 h0; u16 h2; };
 struct T75Rng { s16 x, y; };
