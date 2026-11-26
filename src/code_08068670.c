@@ -3102,7 +3102,7 @@ void sub_0806CDF0(void *arg0)
               else
               {
                 var_r1_2 = (s16) var_r6->f62; if (var_r1_2 < 0) var_r1_2 += 3; var_r1_2 >>= 2;
-                var_r0_6 = ((u8 *) var_r6) + 0xC4;
+                var_r0_6 = ((u8 *) var_r6) + PLAYER_FIELD(0xC4);
               }
               *var_r0_6 = var_r1_2;
               temp_r0_8 = var_r6->f20;
@@ -3119,27 +3119,27 @@ void sub_0806CDF0(void *arg0)
               switch (temp_r0_9)
               {
                 case 0:
-                  *((u16 *) (((u8 *) t71Save) + 0x24)) = (u16) ((*((u16 *) (((u8 *) t71Save) + 0x24))) + 1);
+                  *((u16 *) (((u8 *) t71Save) + SAVE_FIELD(0x24))) = (u16) ((*((u16 *) (((u8 *) t71Save) + SAVE_FIELD(0x24)))) + 1);
                   break;
 
                 case 1:
-                  *((u16 *) (((u8 *) t71Save) + 0x26)) = (u16) ((*((u16 *) (((u8 *) t71Save) + 0x26))) + 1);
+                  *((u16 *) (((u8 *) t71Save) + SAVE_FIELD(0x26))) = (u16) ((*((u16 *) (((u8 *) t71Save) + SAVE_FIELD(0x26)))) + 1);
                   break;
 
                 case 2:
-                  *((u16 *) (((u8 *) t71Save) + 0x28)) = (u16) ((*((u16 *) (((u8 *) t71Save) + 0x28))) + 1);
+                  *((u16 *) (((u8 *) t71Save) + SAVE_FIELD(0x28))) = (u16) ((*((u16 *) (((u8 *) t71Save) + SAVE_FIELD(0x28)))) + 1);
                   break;
 
                 case 3:
-                  *((u16 *) (((u8 *) t71Save) + 0x2A)) = (u16) ((*((u16 *) (((u8 *) t71Save) + 0x2A))) + 1);
+                  *((u16 *) (((u8 *) t71Save) + SAVE_FIELD(0x2A))) = (u16) ((*((u16 *) (((u8 *) t71Save) + SAVE_FIELD(0x2A)))) + 1);
                   break;
 
                 case 4:
-                  *((u16 *) (((u8 *) t71Save) + 0x2C)) = (u16) ((*((u16 *) (((u8 *) t71Save) + 0x2C))) + 1);
+                  *((u16 *) (((u8 *) t71Save) + SAVE_FIELD(0x2C))) = (u16) ((*((u16 *) (((u8 *) t71Save) + SAVE_FIELD(0x2C)))) + 1);
                   break;
 
                 case 5:
-                  *((u16 *) (((u8 *) t71Save) + 0x2E)) = (u16) ((*((u16 *) (((u8 *) t71Save) + 0x2E))) + 1);
+                  *((u16 *) (((u8 *) t71Save) + SAVE_FIELD(0x2E))) = (u16) ((*((u16 *) (((u8 *) t71Save) + SAVE_FIELD(0x2E)))) + 1);
                   break;
 
               }
