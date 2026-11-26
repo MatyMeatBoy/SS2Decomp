@@ -2344,9 +2344,9 @@ void sub_0808AFA4(const u16 *pos)
 struct SprAF91 { u8 p0[0xC]; u8 *data; u8 p10[0xC]; u8 flags; u8 p1D[0x17]; };
 struct RecAF91 { u16 type; u16 val; u32 time; u8 b8; u8 b9; u8 pad[6]; };
 struct TypeAF91 { u16 a; u16 b; };
-struct EntryAF91 { u8 pad[0xD4]; u16 obj; u16 pal; };
+struct EntryAF91 { u8 pad[ENEMY_DATA_FIELD(0xD4)]; u16 obj; u16 pal; };
 struct ObjAF91 { u32 gfx[22]; };
-struct PlayerAF91 { u8 p0[0x10]; u16 h10; u8 p12[0x52]; u16 h64; u8 b66; u8 p67[0xE5]; };
+struct PlayerAF91 { u8 p0[PLAYER_FIELD(0x10)]; u16 h10; u8 p12[PLAYER_FIELD(0x64) - PLAYER_FIELD(0x12)]; u16 h64; u8 b66; u8 p67[PLAYER_SIZE - PLAYER_FIELD(0x67)]; };
 struct StateAF91 { u8 p0[0x36]; u16 h36; u8 p38[8]; u32 w40; u8 p44[0x18]; struct RecAF91 rec; };
 
 extern u16 heldAF91 asm("gUnk_03001308");
@@ -2436,7 +2436,7 @@ void sub_0808AFE8_v(void)
         struct StageStateViewAF91 { u8 prefix[0x14A]; u16 stage; };
         ((struct StageSaveViewAF91 *)saveAF91)->stage = stagesAF91[((struct StageStateViewAF91 *)stateAF91)->stage];
     }
-    sub_08065158(&anim, 0x50067, 9, -1, 0);
+    sub_08065158(&anim, RES_ID(0x50067), 9, -1, 0);
     sprite = (void *)sub_080653CC();
     sub_080009F8(0x200, 0, 1);
     sub_080009C0(0x1D00, 0, 1);
@@ -2597,7 +2597,7 @@ void sub_0808AFE8_v(void)
                 detailRow = (struct RecAF91 *)((u8 *)records + ((sel + selectionStride) << 4));
                 sub_0805FFBC(0xF, 0x12, &detailRow[col], 0x80000000);
             } else {
-                text = (u8 *)sub_08007290((sel + 0x49F) | 0x140000) + 2;
+                text = (u8 *)sub_08007290((sel + 0x49F) | 0x140000) + TEXT_HEADER;
                 sub_0801A3D0(text, 0xF - ((u32)sub_0801A638(text) >> 1), 0x12);
             }
             switch (sel) {
@@ -2651,7 +2651,7 @@ done:
         sub_0805FB7C(2, 8, sub_08058900(sel) / 3600, 0);
         sub_0805FB7C(5, 8, sub_08058900(sel) % 3600 / 60, 0);
         sub_0805FB7C(8, 8, sub_08058934(sel), 0);
-        text = (u8 *)sub_08007290((sel + 0x49F) | 0x140000) + 2;
+        text = (u8 *)sub_08007290((sel + 0x49F) | 0x140000) + TEXT_HEADER;
         sub_0801A3D0(text, 0xF - ((u32)sub_0801A638(text) >> 1), 0x12);
         switch (sel) {
         case 0: tbl = data084AA9E8AF91; break;
