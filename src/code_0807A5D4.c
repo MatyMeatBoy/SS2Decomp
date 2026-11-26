@@ -831,7 +831,7 @@ void sub_0807B7B4_v(void)
         mgr7B7B4->f52 = 0;
         mgr7B7B4->f68 = 5;
         mgr7B7B4->f6A = 100;
-        lastLevel = *(u16 *)(gUnk_030034E0 + 0x68);
+        lastLevel = *(u16 *)(gUnk_030034E0 + SAVE_FIELD(0x68));
         lastCount = 0xFFFFFF;
         for (i = 0; i <= 5; i++) {
             mgr7B7B4->rows[i].a = 0;
@@ -849,7 +849,7 @@ void sub_0807B7B4_v(void)
                 }
                 if (lastCount != players7B7B4[sub_080020F4()].f64
                     || mgr7B7B4->f6A != mgr7B7B4->f4
-                    || lastLevel != *(u16 *)(gUnk_030034E0 + 0x68)) {
+                    || lastLevel != *(u16 *)(gUnk_030034E0 + SAVE_FIELD(0x68))) {
                     if (mgr7B7B4->f68++ > 5) {
                         if (mgr7B7B4->f1C == 0x16) {
                             if (mgr7B7B4->f18 != 7) {
@@ -861,7 +861,7 @@ void sub_0807B7B4_v(void)
                         } else {
                             sub_0805FFBC(0xF, 0x12, &mgr7B7B4->fF4, 0x80000000);
                         }
-                        lastLevel = *(u16 *)(gUnk_030034E0 + 0x68);
+                        lastLevel = *(u16 *)(gUnk_030034E0 + SAVE_FIELD(0x68));
                         sub_080811E0(player);
                         mgr7B7B4->f68 = 0;
                         mgr7B7B4->f6A = mgr7B7B4->f4;

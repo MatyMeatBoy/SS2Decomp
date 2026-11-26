@@ -5903,14 +5903,14 @@ end:
     }
 }
 struct Actor14170 {
-    u8 pad0[0x10];
+    u8 pad0[PLAYER_FIELD(0x10)];
     u16 f10;
-    u8 pad12[0xE];
+    u8 pad12[PLAYER_FIELD(0x20) - PLAYER_FIELD(0x12)];
     u16 f20;
     u8 pad22[0x2];
     u16 f24;
     u16 f26;
-    u8 pad28[0x8];
+    u8 pad28[PLAYER_FIELD(0x30) - PLAYER_FIELD(0x28)];
     u32 f30;
     u8 pad34[0x2C];
     s16 f60;
@@ -5985,10 +5985,14 @@ void hud14170(struct Actor14170 *arg0)
     s32 hcur;
     register s32 v asm("r3");
 
-    t071Init(spr1, 0x50061, 0, 0x80000000, 0);
-    t071Init(spr2, 0x50060, 0, 0x80000000, 0);
+    t071Init(spr1, RES_ID(0x50061), 0, 0x80000000, 0);
+    t071Init(spr2, RES_ID(0x50060), 0, 0x80000000, 0);
     pal = sub_08007290(0x40000002);
+#ifdef REGION_USA
+    gfx = sub_08007290(0x10010003);
+#else
     gfx = sub_08007290(gUnk_03003470 + 0x10010003);
+#endif
     sub_080653CC();
     buf1 = sub_08001494(0xA0);
     buf2 = sub_08001494(0xA0);
@@ -6137,10 +6141,10 @@ void hud14170(struct Actor14170 *arg0)
         }
 
         i = (s16)dx3 != arg0->fC6;
-        stats = (u32 *)sub_08007290(*(u16 *)(gSave14170 + 0x132) | 0x110000);
-        if ((s16)mx3 != stats[0xA0 / 4] + arg0->f79)
+        stats = (u32 *)sub_08007290(*(u16 *)(gSave14170 + SAVE_FIELD(0x132)) | 0x110000);
+        if ((s16)mx3 != stats[ITEM_FIELD(0xA0) / 4] + arg0->f79)
             i = 1;
-        if (arg0->fC6 >= stats[0xA0 / 4] + arg0->f79) {
+        if (arg0->fC6 >= stats[ITEM_FIELD(0xA0) / 4] + arg0->f79) {
             fade -= 8;
             fade &= 0xFF;
             color.r = (u32)(fade * 0xF00) >> 16;
@@ -6164,13 +6168,13 @@ void hud14170(struct Actor14170 *arg0)
                    loaded value in r3. */
                 s16 *p = &arg0->fC6;
                 v = *p;
-                if (v > stats[0xA0 / 4] + arg0->f79) {
+                if (v > stats[ITEM_FIELD(0xA0) / 4] + arg0->f79) {
                     p = &arg0->fC6;
-                    *p = stats[0xA0 / 4] + arg0->f79;
+                    *p = stats[ITEM_FIELD(0xA0) / 4] + arg0->f79;
                 }
             }
             cur = dx3 = arg0->fC6;
-            max = stats[0xA0 / 4]; max += arg0->f79; mx3 = max;
+            max = stats[ITEM_FIELD(0xA0) / 4]; max += arg0->f79; mx3 = max;
             v = dx3;
             if (cur <= 0)
                 v = 0;
