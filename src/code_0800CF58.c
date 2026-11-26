@@ -5504,10 +5504,10 @@ void sub_080137A0(u32 arg0) {
 }
 struct Rec13850 { u16 a, b; u8 c[12]; };
 struct State13850 {
-    u8 b0[10];
+    NameChar b0[10];
     u16 wA;
     u16 wC;
-    u16 padE;
+    u8 padE[SAVE_FIELD(0x10) - SAVE_FIELD(0xE)];
     u16 w10, w12, w14, w16, w18, w1A;
     u8 pad1C[8];
     u8 o24[0xC];
@@ -5557,7 +5557,7 @@ void sub_08013850(void)
     u32 i, j, k;
     sub_08001538((s32)st13850);
     sub_08001538((s32)dt13850);
-    st13850 = sub_08001494(0xCA4);
+    st13850 = sub_08001494(SAVE_FIELD(0xCA4));
     dt13850 = sub_08001494(0x51C);
     s = st13850;
     for (i = 0; i < 4; i++) {
@@ -5595,7 +5595,7 @@ void sub_08013850(void)
         p->l90 = 0;
         p->lDC = 0;
         p->h116 = 0;
-        *(u16 *)((u8 *)p + 0x88) = 0;
+        *(u16 *)((u8 *)p + PLAYER_FIELD(0x88)) = 0;
         p->l140 = 0;
         p->l144 = 0;
         p->l138 = 0;
