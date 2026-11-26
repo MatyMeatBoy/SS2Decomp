@@ -1486,7 +1486,7 @@ struct Arg61A4 { u32 who; u32 slot; u16 target; u16 pad; u32 fC; s32 n; u32 flag
 struct Spr61A4 { u32 base, unused4; void *data; void *paletteResource; u32 resource, style; s32 mode; u8 palette[16]; s16 scale, step, upper, lower; };
 struct Ent61A4 { u16 xRaw, yRaw; };
 struct Ply61A4 { u16 id; u8 pad2[PLAYER_FIELD(0x20) - 2]; u16 state; u8 pad22[4]; u16 f26; u16 f28; u8 pad2A[PLAYER_FIELD(0x30) - PLAYER_FIELD(0x2A)]; u32 flags; u8 pad34[6]; s16 power; u8 pad3C[0x2C]; u8 team; u8 pad69[0x23]; s32 x, y; u8 pad94[0x1E]; u16 ready; u8 padB4[0x28]; u32 serial; u8 padE0[0x18]; u32 hist[0xA]; u16 f120; u16 f122; u8 pad124[0x24]; struct Ent61A4 *entity;  u8 pad14C[PLAYER_SIZE - PLAYER_FIELD(0x14C)];};
-struct Ene61A4 { u16 id; u16 f2; u8 pad4[8]; u16 state; u8 padE[6]; s32 x, y; u8 pad1C[0x2E]; u16 dmg; u8 pad4C[8]; u32 serial; u16 owner, hitMask; s16 hp; u8 pad5E[0x17E]; u8 team; u8 pad1DD[0x29]; s16 power; u8 pad208[0x26]; u8 w, h; u8 pad230[ENEMY_SIZE - 0x230]; };
+struct Ene61A4 { u16 id; u16 f2; u8 pad4[8]; u16 state; u8 padE[6]; s32 x, y; u8 pad1C[0x2E]; u16 dmg; u8 pad4C[8]; u32 serial; u16 owner, hitMask; s16 hp; u8 pad5E[0x17E]; u8 team; u8 pad1DD[ENEMY_FIELD(0x206) - 0x1DD]; s16 power; u8 pad208[ENEMY_FIELD(0x22E) - ENEMY_FIELD(0x208)]; u8 w, h; u8 pad230[ENEMY_SIZE - ENEMY_FIELD(0x230)]; };
 struct Box61A4 { u32 w:16; u32 h:16; };
 struct Pos61A4 { s32 x, y; };
 extern struct Ply61A4 p61A4[] asm("gUnk_03003CE0");
@@ -1937,7 +1937,7 @@ struct Arg6BA0 { u32 who; u32 slot; u16 target; u16 pad; u32 fC; u16 f10; u16 sp
 struct Spr6BA0 { u32 base, unused4; void *data; void *paletteResource; u32 resource, style; s32 mode; u8 palette[16]; s16 scale, step, upper, lower; };
 struct Ent6BA0 { u16 xRaw, yRaw; };
 struct Ply6BA0 { u16 id; u8 pad2[PLAYER_FIELD(0x20) - 2]; u16 state; u8 pad22[4]; u16 f26; u8 pad28[PLAYER_FIELD(0x30) - PLAYER_FIELD(0x28)]; u32 flags; u8 pad34[6]; s16 power; u8 pad3C[0x2C]; u8 team; u8 pad69[0x23]; s32 x, y; u8 pad94[0x1E]; u16 ready; u8 padB4[0x28]; u32 serial; u8 padE0[0x18]; u32 hist[0x13]; struct Ent6BA0 *entity2; struct Ent6BA0 *entity;  u8 pad14C[PLAYER_SIZE - PLAYER_FIELD(0x14C)];};
-struct Ene6BA0 { u16 id; u16 f2; u8 pad4[8]; u16 state; u8 padE[6]; s32 x, y; u8 pad1C[0x2E]; u16 dmg; u8 pad4C[8]; u32 serial; u16 owner, hitMask; s16 hp; u8 pad5E[0x17E]; u8 team; u8 pad1DD[0x29]; s16 power; u8 pad208[0x26]; u8 w, h; u8 pad230[ENEMY_SIZE - 0x230]; };
+struct Ene6BA0 { u16 id; u16 f2; u8 pad4[8]; u16 state; u8 padE[6]; s32 x, y; u8 pad1C[0x2E]; u16 dmg; u8 pad4C[8]; u32 serial; u16 owner, hitMask; s16 hp; u8 pad5E[0x17E]; u8 team; u8 pad1DD[ENEMY_FIELD(0x206) - 0x1DD]; s16 power; u8 pad208[ENEMY_FIELD(0x22E) - ENEMY_FIELD(0x208)]; u8 w, h; u8 pad230[ENEMY_SIZE - ENEMY_FIELD(0x230)]; };
 struct Box6BA0 { u32 w:16; u32 h:16; };
 struct Pos6BA0 { s32 x, y; };
 extern struct Ply6BA0 p6BA0[] asm("gUnk_03003CE0");

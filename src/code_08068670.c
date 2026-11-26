@@ -3672,7 +3672,7 @@ finish:
 }
 struct T072DESprite { u32 f0, f4, f8, fC; u8 pad10[12]; u8 f1C, f1D; u8 pad1E[22]; };
 struct T072DEPlayer { u16 id; u8 pad2[PLAYER_FIELD(0x20) - PLAYER_FIELD(0x2)]; u16 state; u8 pad22[PLAYER_FIELD(0x68) - PLAYER_FIELD(0x22)]; u8 team; u8 pad69[PLAYER_FIELD(0xB2) - PLAYER_FIELD(0x69)]; u16 phase, wait, ready; u8 padB8[PLAYER_FIELD(0xC2) - PLAYER_FIELD(0xB8)]; s16 resource; u8 padC4[PLAYER_FIELD(0xDC) - PLAYER_FIELD(0xC4)]; u32 counter; u8 padE0[PLAYER_FIELD(0x144) - PLAYER_FIELD(0xE0)]; u8 *config; u16 *sprite; };
-struct T072DEEnemy { u16 id; u8 pad2[6]; s16 direction; u8 padA[2]; u16 state; u8 padE[6]; s32 x,y; u8 pad1C[0x42]; s16 resource; u8 pad60[10]; u16 wait; u8 pad6C[0x170]; u8 active; u8 pad1DD[0x4e]; u8 threshold; u8 pad22C[0xb4]; };
+struct T072DEEnemy { u16 id; u8 pad2[6]; s16 direction; u8 padA[2]; u16 state; u8 padE[6]; s32 x,y; u8 pad1C[0x42]; s16 resource; u8 pad60[10]; u16 wait; u8 pad6C[0x170]; u8 active; u8 pad1DD[ENEMY_FIELD(0x22B) - 0x1DD]; u8 threshold; u8 pad22C[ENEMY_SIZE - ENEMY_FIELD(0x22C)]; };
 struct T072DEBits { u8 kind:4; u8 r0:4; u8 p1[3]; u32 flags:6; };
 struct T072DEArgs { u32 player, bit, target, value, f10, level; };
 extern struct T072DEPlayer t072DEPlayers[] asm("gUnk_03003CE0");
@@ -5948,7 +5948,7 @@ void sub_08072390(struct T39Arg *arg0) {
 struct T75Pos { u16 h0; u16 h2; };
 struct T75Rng { s16 x, y; };
 struct T75Pl { u8 p0[PLAYER_FIELD(0x20)]; u16 state; u8 p22[PLAYER_FIELD(0x3C) - PLAYER_FIELD(0x22)]; s16 s3C; u8 p3E[PLAYER_FIELD(0x48) - PLAYER_FIELD(0x3E)]; s32 w48; u8 p4C[PLAYER_FIELD(0x68) - PLAYER_FIELD(0x4C)]; u8 team; u8 p69[PLAYER_FIELD(0xB2) - PLAYER_FIELD(0x69)]; u16 ready; u8 pB4[PLAYER_FIELD(0xB6) - PLAYER_FIELD(0xB4)]; u16 done; u8 pB8[PLAYER_FIELD(0xC2) - PLAYER_FIELD(0xB8)]; u16 hp; u8 pC4[PLAYER_FIELD(0x148) - PLAYER_FIELD(0xC4)]; struct T75Pos *pos; };
-struct T75En { u8 p0[0xC]; u16 state; u8 pE[0x14 - 0xE]; s32 x; s32 y; u8 p1C[0x208 - 0x1C]; s16 s208; u8 p20A[0x214 - 0x20A]; s32 w214; u8 p218[ENEMY_SIZE - 0x218]; };
+struct T75En { u8 p0[0xC]; u16 state; u8 pE[0x14 - 0xE]; s32 x; s32 y; u8 p1C[ENEMY_FIELD(0x208) - 0x1C]; s16 s208; u8 p20A[ENEMY_FIELD(0x214) - ENEMY_FIELD(0x20A)]; s32 w214; u8 p218[ENEMY_SIZE - ENEMY_FIELD(0x218)]; };
 struct T75Arg { u32 owner; u32 bit; u32 mode; s32 fC; u8 p10[4]; u16 level; };
 struct T75Desc { u32 f0; u32 f4; u32 f8; u32 fC; u8 p10[0xC]; u8 f1C; u8 f1D; u8 p1E[0x34 - 0x1E]; };
 struct T75Eff { u16 h0; u16 h2; u16 h4; u16 h6; };
