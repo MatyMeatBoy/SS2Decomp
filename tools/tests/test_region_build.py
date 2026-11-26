@@ -190,14 +190,14 @@ class RegionOnlySourceTests(unittest.TestCase):
             region_build.thumb_call_targets({'missing_function'}, symbols)
 
     def test_region_only_sources_live_outside_the_eu_build(self):
-        sources = sorted((region_build.ROOT / 'src/regions/usa').glob('*.c'))
-        self.assertTrue(sources)
-        for source in sources:
-            text = source.read_text(encoding='utf-8')
-            for name in re.findall(r'^\w[\w \*]*?\b(\w+)\s*\([^;{]*\)\s*$\n\{', text, re.M):
-                with self.subTest(source=source.name, name=name):
-                    self.assertIsNotNone(region_build.region_symbol_address(name, 'usa'))
-
+        for region in ('usa', 'jp'):
+            sources = sorted((region_build.ROOT / 'src/regions' / region).glob('*.c'))
+            self.assertTrue(sources, region)
+            for source in sources:
+                text = source.read_text(encoding='utf-8')
+                for name in re.findall(r'^\w[\w \*]*?\b(\w+)\s*\([^;{]*\)\s*$\n\{', text, re.M):
+                    with self.subTest(region=region, source=source.name, name=name):
+                        self.assertIsNotNone(region_build.region_symbol_address(name, region))
 
 if __name__ == '__main__':
     unittest.main()
