@@ -1797,6 +1797,28 @@ extern u32 language096F asm("gUnk_03003470");
  * until zero/0xFD. Each branch copies at most 255 bytes. On ordinary termination writes 0xFD; hitting that
  * copy limit returns without appending a terminator. This is not a Unicode decoder or a universal
  * interpretation of the mode global. */
+#ifdef REGION_USA
+/* USA: a single ASCII-to-TextChar path (no language mode); digits map to +0x11. */
+s32 sub_08091F9C(u8 *input,u8 *out)
+{
+    s8 *source=(s8 *)input;
+    TextChar *output=(TextChar *)out;
+    u8 count=0;
+    while(*source!=0){
+        u32 c=*(u8 *)source;
+        if(*source==0x20) *output=0x51;
+        else if((u8)(c-0x41)<=0x19) *output=*source-0x40;
+        else if((u8)(c-0x61)<=0x19) *output=*source-0x40;
+        else if((u8)(c-0x30)<=9) *output=*source+0x11;
+        else break;
+        source++;output++;count++;
+        if(count>0xFE) goto done;
+    }
+    *output=TEXT_CTRL(0xFD);
+done:
+    return (u8)(count-1);
+}
+#else
 s32 sub_08091F9C(u8 *source,u8 *output)
 {
     u32 mode;
@@ -1857,6 +1879,7 @@ done:
 
     return (u8)(count-1);
 }
+#endif
 
 
 
