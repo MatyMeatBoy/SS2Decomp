@@ -1518,7 +1518,11 @@ if (savePlayers64[sub_080020F4()].f2E == 0){
             *(u32 *)(dp+0x28) = *(u32 *)(stats+0x38);}
             (*(u16 *)((u8 *)(saveData64)+0x1C)) = (u16) savePlayers64[sub_080020F4()].f2E;
             (*(u16 *)((u8 *)(saveData64)+0x1E)) = (u16) savePlayers64[sub_080020F4()].f2C;
-{u32 id=sub_080020F4(); u8 *d=saveData64; u8 *p=(u8 *)&savePlayers64[id]; *(struct SavePair64 *)(d+0x30)=*(struct SavePair64 *)(p+0xA4);}
+#ifdef REGION_USA
+{u32 id=sub_080020F4(); u8 *d=saveData64; *(struct SavePair64 *)(d+0x30)=*(struct SavePair64 *)(id*PLAYER_SIZE+((u8 *)savePlayers64+PLAYER_FIELD(0xA4)));}
+#else
+{u32 id=sub_080020F4(); u8 *d=saveData64; u8 *p=(u8 *)&savePlayers64[id]; *(struct SavePair64 *)(d+0x30)=*(struct SavePair64 *)(p+PLAYER_FIELD(0xA4));}
+#endif
             (*(u16 *)((u8 *)(saveData64)+0x20)) = (u16) savePlayers64[sub_080020F4()].fC4;
             (*(u16 *)((u8 *)(saveData64)+0x22)) = (u16) savePlayers64[sub_080020F4()].fC2;
             {u32 id=sub_080020F4(); u8 *d=saveData64; *(u16*)(d+0x24)=savePlayers64[id].fC6; *(u32*)(d+0x2C)=saveFlags64 & 0xFFFFFEFF;}
@@ -1540,7 +1544,11 @@ if (savePlayers64[sub_080020F4()].f2E == 0){
             (*(u16 *)((u8 *)(saveData64)+0x20)) = (u16) savePlayers64[sub_080020F4()].fC4;
             (*(u16 *)((u8 *)(saveData64)+0x22)) = (u16) savePlayers64[sub_080020F4()].fC2;
             (*(u16 *)((u8 *)(saveData64)+0x24)) = (u16) savePlayers64[sub_080020F4()].fC6;
-{u32 id=sub_080020F4(); u8 *d=saveData64; u8 *p=(u8 *)&savePlayers64[id]; *(struct SavePair64 *)(d+0x30)=*(struct SavePair64 *)(p+0x8C);}
+#ifdef REGION_USA
+{u32 id=sub_080020F4(); u8 *d=saveData64; *(struct SavePair64 *)(d+0x30)=*(struct SavePair64 *)(id*PLAYER_SIZE+((u8 *)savePlayers64+PLAYER_FIELD(0x8C)));}
+#else
+{u32 id=sub_080020F4(); u8 *d=saveData64; u8 *p=(u8 *)&savePlayers64[id]; *(struct SavePair64 *)(d+0x30)=*(struct SavePair64 *)(p+PLAYER_FIELD(0x8C));}
+#endif
             (*(u32 *)((u8 *)(saveData64)+0x2C)) = (s32) (saveFlags64 & 0xFFFFFEFF);
             var_r5=0; do { {u8 *d = saveData64;  ((struct SaveFile64 *)d)->items[var_r5]=((struct SaveItem64 *)saveItems64)[var_r5];} var_r5++; } while(var_r5<=15);
             var_r5 = 0;
@@ -1624,7 +1632,7 @@ while(sub_0801AAE0() == 0) sub_080003F0();
                 {u8 *d=saveData64; u8 *s=saveStats64; *(u32*)(d+0xC)=*(u32*)(s+0x7C); *(u32*)(d+0x10)=*(u32*)(s+0x80);}
                 var_r5 = 0;
                 do {
-                    {u8 *d=saveData64+PLAYER_SIZE; u8 *s; d+=var_r5; s=saveStats64+0x1BC; *d=s[var_r5];}
+                    {u8 *d=saveData64+0x14C; u8 *s; d+=var_r5; s=saveStats64+0x1BC; *d=s[var_r5];}
                     var_r5 += 1;
                 } while (var_r5 <= 6U);
                 var_r5 = 0;
