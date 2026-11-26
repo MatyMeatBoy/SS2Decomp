@@ -7100,7 +7100,7 @@ void sub_0808441C(u16 *param_1, u32 *param_2)
     }
     classification = sub_08084200(*(u8 **)(stack + 0x5C));
     if (classification == 0) goto LAB_0808481c;
-    if (((u32)sub_080008C8() & 0xFFFF) > *(u32 *)((u32)gUnk_030034E0 + 0x6C)) goto LAB_0808481c;
+    if (((u32)sub_080008C8() & 0xFFFF) > *(u32 *)((u32)gUnk_030034E0 + SAVE_FIELD(0x6C))) goto LAB_0808481c;
     {
       register struct Record8441C *input asm("r6") = *(struct Record8441C **)(stack + 0x5C);
       
@@ -7345,7 +7345,7 @@ inventoryFirst8441C:
         register u32 baseOffset asm("r5");
         source += byteOffset;
         destination = result;
-        baseOffset = 0x790;
+        baseOffset = SAVE_FIELD(0x790);
         asm("" : "+r"(destination), "+r"(baseOffset));
         source += baseOffset;
         *destination = *(struct Record8441C *)source;
@@ -7355,9 +7355,9 @@ inventoryFirst8441C:
         } while (result->type == 0);
         { u32 loaded = sub_08007290(result->subtype | 0xB0000);
           *(u32 *)(stack + 0x64) = loaded;
-          if (*(u16 *)(loaded + 0xBC) != 0) goto finalize8441C; }
+          if (*(u16 *)(loaded + ITEM_FIELD(0xBC)) != 0) goto finalize8441C; }
         if (*(u16 *)((u8 *)result + 6) != 0) goto finalize8441C;
-        if (*(u16 *)(*(volatile u32 *)(stack + 0x64) + 0xB0) != 0) goto finalize8441C;
+        if (*(u16 *)(*(volatile u32 *)(stack + 0x64) + ITEM_FIELD(0xB0)) != 0) goto finalize8441C;
         goto secondAttribute8441C;
 inventorySecond8441C:
         {
@@ -7372,7 +7372,7 @@ inventorySecond8441C:
         register u32 baseOffset asm("r5");
         source += byteOffset;
         destination = inventoryResult;
-        baseOffset = 0x850;
+        baseOffset = SAVE_FIELD(0x850);
         asm("" : "+r"(destination), "+r"(baseOffset));
         source += baseOffset;
         *destination = *(struct Record8441C *)source;
@@ -7385,12 +7385,24 @@ inventorySecond8441C:
           *(u32 *)(stack + 0x68) = sub_08007290(result->subtype | 0xC0000);
         asm("" : : : "memory");
           if ((*(u32 *)((u8 *)result + 4) & 0xFFFFFF) != 0) goto finalize8441C;
-          if (*(u16 *)(*(u32 *)(stack + 0x68) + 0xA4) != 0) goto finalize8441C;
+          if (*(u16 *)(*(u32 *)(stack + 0x68) + EQUIP_FIELD(0xA4)) != 0) goto finalize8441C;
         } else {
+#ifdef REGION_USA
+          if (result->type == 4) {
+            *(u32 *)(stack + 0x6C) = sub_08007290(result->subtype | 0xD0000);
+            if ((*(u32 *)((u8 *)result + 4) & 0xFFFFFF) != 0) goto finalize8441C;
+            if (*(u16 *)(*(u32 *)(stack + 0x6C) + EQUIP_FIELD(0xA4)) != 0) goto finalize8441C;
+          } else {
+            *(u32 *)(stack + 0x70) = sub_08007290(result->subtype | 0xE0000);
+            if ((*(u32 *)((u8 *)result + 4) & 0xFFFFFF) != 0) goto finalize8441C;
+            if (*(u16 *)(*(u32 *)(stack + 0x6C) + EQUIP_FIELD(0xA4)) != 0) goto finalize8441C;
+          }
+#else
           if (result->type == 4) *(u32 *)(stack + 0x6C) = sub_08007290(result->subtype | 0xD0000);
           else *(u32 *)(stack + 0x70) = sub_08007290(result->subtype | 0xE0000);
           if ((*(u32 *)((u8 *)result + 4) & 0xFFFFFF) != 0) goto finalize8441C;
-          if (*(u16 *)(*(u32 *)(stack + 0x6C) + 0xA4) != 0) goto finalize8441C;
+          if (*(u16 *)(*(u32 *)(stack + 0x6C) + EQUIP_FIELD(0xA4)) != 0) goto finalize8441C;
+#endif
         }
         goto thirdValue8441C;
       }
@@ -7407,7 +7419,7 @@ inventorySecond8441C:
     default: break;
     }
 secondAttribute8441C:
-    if (((u32)sub_080008C8() & 0xFFFF) <= *(u32 *)((u32)gUnk_030034E0 + 0x6C)) {
+    if (((u32)sub_080008C8() & 0xFFFF) <= *(u32 *)((u32)gUnk_030034E0 + SAVE_FIELD(0x6C))) {
       register struct Record8441C *attributeRecord asm("r0") = second;
       s32 attributeType;
       attributeType = attributeRecord->type;
@@ -7457,7 +7469,7 @@ thirdValue8441C:
       {
         u32 random = (u32)sub_080008C8() & 0xFFFF;
         u32 limit;
-        limit = *(u32 *)((u32)gUnk_030034E0 + 0x6C);
+        limit = *(u32 *)((u32)gUnk_030034E0 + SAVE_FIELD(0x6C));
         chance = 0;
         if (random <= limit) chance = 1;
       }
@@ -7683,7 +7695,7 @@ weightStore8441C:
         sum += factor;
         global = stateAddress;
         
-        multiplier = *(u32 *)(*global + 0x6C);
+        multiplier = *(u32 *)(*global + SAVE_FIELD(0x6C));
         asm("" : : "r"(values));
         sum *= multiplier;
         score = (sum >> 18) + 3;
@@ -7744,33 +7756,33 @@ afterBonus8441C:
     }
     if (result->type == 2) {
       *(u32 *)(stack + 0x64) = sub_08007290(result->subtype | 0xB0000);
-      if (*(u8 *)(*(u32 *)(stack + 0x64) + 0x9B) == 9) result->byte6 = 0;
+      if (ITEM_KIND(*(u32 *)(stack + 0x64)) == 9) result->byte6 = 0;
     }
     if (result->byte6 > 19) result->byte6 = 20;
     switch (result->type) {
     case 2:
       randomIndex = 0;
-      if (*(u16 *)(*(u32 *)(stack + 0x64) + 0xB0) != 0) goto clearByIndex8441C;
+      if (*(u16 *)(*(u32 *)(stack + 0x64) + ITEM_FIELD(0xB0)) != 0) goto clearByIndex8441C;
 scanProperty2:
       randomIndex++;
       if (randomIndex > 2) goto copyOutput8441C;
-      if (({ register u32 offset asm("r0") = randomIndex << 2; register u8 *properties asm("r3");  properties = *(u8 **)(stack + 0x64);  *(u16 *)(properties + offset + 0xB0); }) == 0) goto scanProperty2;
+      if (({ register u32 offset asm("r0") = randomIndex << 2; register u8 *properties asm("r3");  properties = *(u8 **)(stack + 0x64);  *(u16 *)(properties + offset + ITEM_FIELD(0xB0)); }) == 0) goto scanProperty2;
       goto clearByZero8441C;
     case 3:
       randomIndex = 0;
-      if (*(u16 *)(*(u32 *)(stack + 0x68) + 0xA4) != 0) goto clearByIndex8441C;
+      if (*(u16 *)(*(u32 *)(stack + 0x68) + EQUIP_FIELD(0xA4)) != 0) goto clearByIndex8441C;
 scanProperty3:
       randomIndex++;
       if (randomIndex > 2) goto copyOutput8441C;
-      if (({ register u32 offset asm("r0") = randomIndex << 2; register u8 *properties asm("r4");  properties = *(u8 **)(stack + 0x68);  *(u16 *)(properties + offset + 0xA4); }) == 0) goto scanProperty3;
+      if (({ register u32 offset asm("r0") = randomIndex << 2; register u8 *properties asm("r4");  properties = *(u8 **)(stack + 0x68);  *(u16 *)(properties + offset + EQUIP_FIELD(0xA4)); }) == 0) goto scanProperty3;
       goto clearByZero8441C;
     case 4:
       randomIndex = 0;
-      if (*(u16 *)(*(u32 *)(stack + 0x6C) + 0xA4) != 0) goto clearByIndex8441C;
+      if (*(u16 *)(*(u32 *)(stack + 0x6C) + EQUIP_FIELD(0xA4)) != 0) goto clearByIndex8441C;
 scanProperty4:
       randomIndex++;
       if (randomIndex > 2) goto copyOutput8441C;
-      if (({ register u32 offset asm("r0") = randomIndex << 2; register u8 *properties asm("r6");  properties = *(u8 **)(stack + 0x6C);  *(u16 *)(properties + offset + 0xA4); }) == 0) goto scanProperty4;
+      if (({ register u32 offset asm("r0") = randomIndex << 2; register u8 *properties asm("r6");  properties = *(u8 **)(stack + 0x6C);  *(u16 *)(properties + offset + EQUIP_FIELD(0xA4)); }) == 0) goto scanProperty4;
       goto clearByZero8441C;
     case 5:
       randomIndex = 0;
@@ -7782,7 +7794,7 @@ clearByIndex8441C:
 scanProperty5:
       randomIndex++;
       if (randomIndex > 2) goto copyOutput8441C;
-      if (({ register u32 offset asm("r0") = randomIndex << 2; register u8 *properties asm("r1");  properties = *(u8 **)(stack + 0x70);  *(u16 *)(properties + offset + 0xA4); }) == 0) goto scanProperty5;
+      if (({ register u32 offset asm("r0") = randomIndex << 2; register u8 *properties asm("r1");  properties = *(u8 **)(stack + 0x70);  *(u16 *)(properties + offset + EQUIP_FIELD(0xA4)); }) == 0) goto scanProperty5;
       goto clearByZero8441C;
 clearByZero8441C:
       result->value = 0;
@@ -7825,10 +7837,10 @@ copyOutput8441C:
       { register u32 *input asm("r1") = *(u32 *volatile *)(stack + 0x5C);
         
         firstPrice += input[13]; }
-      firstPrice = *(u32 *)(state + 0x6C) + firstPrice / 10;
+      firstPrice = *(u32 *)(state + SAVE_FIELD(0x6C)) + firstPrice / 10;
       firstPrice -= outputPrice / 10;
-      *(u32 *)(state + 0x6C) = firstPrice;
-      if ((s32)firstPrice < 0) *(u32 *)(state + 0x6C) = 0;
+      *(u32 *)(state + SAVE_FIELD(0x6C)) = firstPrice;
+      if ((s32)firstPrice < 0) *(u32 *)(state + SAVE_FIELD(0x6C)) = 0;
       {
         register u32 *address asm("r2") = globalAddress;
         u8 *current;
@@ -7836,10 +7848,10 @@ copyOutput8441C:
         register u32 maximum asm("r2");
         asm("" : "+r"(address));
         current = (u8 *)*address;
-        value = *(s32 *)(current + 0x6C);
+        value = *(s32 *)(current + SAVE_FIELD(0x6C));
         maximum = 0xFFFF;
         
-        if (value > (s32)maximum) *(u32 *)(current + 0x6C) = maximum;
+        if (value > (s32)maximum) *(u32 *)(current + SAVE_FIELD(0x6C)) = maximum;
       }
     }
 }
