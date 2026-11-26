@@ -1434,23 +1434,23 @@ void sub_0805B688(u16 who, u16 itemId)
 }
 struct BD5CPlayer {
     u16 id;
-    u8 pad2[0x1E];
+    u8 pad2[PLAYER_FIELD(0x20) - 2];
     u16 state;
     u16 f22;
-    u8 pad24[0xC];
+    u8 pad24[PLAYER_FIELD(0x30) - PLAYER_FIELD(0x24)];
     u32 flags;
-    u8 pad34[0x2C];
+    u8 pad34[PLAYER_FIELD(0x60) - PLAYER_FIELD(0x34)];
     s16 maxMp;
     s16 maxHp;
     u16 f64;
     u8 pad66[2];
     u8 f68;
-    u8 pad69[0x59];
+    u8 pad69[PLAYER_FIELD(0xC2) - PLAYER_FIELD(0x69)];
     s16 mp;
     s16 hp;
-    u8 padC6[0x86];
+    u8 padC6[PLAYER_SIZE - PLAYER_FIELD(0xC6)];
 };
-struct BD5CMap { u8 pad0[0x10]; s16 stat10; s16 stat12; s16 stat14; s16 stat16; };
+struct BD5CMap { u8 pad0[SAVE_FIELD(0x10)]; s16 stat10; s16 stat12; s16 stat14; s16 stat16; };
 extern struct BD5CPlayer bd5cPlayers[] asm("gUnk_03003CE0");
 extern struct BD5CMap *bd5cMap asm("gUnk_030034E0");
 extern u32 sub_080665B0(u32);
@@ -1464,9 +1464,15 @@ extern void sub_08074DE8(u32, s32);
 s32 sub_0805BD5C(u16 *item, s32 level)
 {
     struct BD5CPlayer *player;
+#ifdef REGION_USA
+    register u32 kind asm("r9");
+    u32 zero;
+    register u8 *obj asm("r8");
+#else
     u8 *obj;
     u32 zero;
     u16 kind;
+#endif
     s32 amount;
     u8 *p;
 
@@ -1483,10 +1489,10 @@ s32 sub_0805BD5C(u16 *item, s32 level)
     if (item[0] != 1)
         return 0;
     obj = (u8 *)sub_08007290(item[1] | 0x100000);
-    kind = *(u16 *)(obj + 0xA0);
+    kind = *(u16 *)(obj + ITEM_FIELD(0xA0));
     if (kind == 1 || kind == 0x13) {
         amount = level * 40 + 100;
-        amount = *(u16 *)(obj + 0xA2) * amount / 100;
+        amount = *(u16 *)(obj + ITEM_FIELD(0xA2)) * amount / 100;
         if (player->hp >= player->maxHp)
             goto fail;
         player->hp += amount;
@@ -1494,7 +1500,7 @@ s32 sub_0805BD5C(u16 *item, s32 level)
             player->hp = player->maxHp;
         else if (player->hp < 0)
             player->hp = zero;
-        if (*(u16 *)(obj + 0xA2) != 0)
+        if (*(u16 *)(obj + ITEM_FIELD(0xA2)) != 0)
             sub_08074DE8(player->id, 8);
         if ((player->flags & 0x20000) && player->hp >= player->maxHp >> 1)
             player->flags &= ~0x20000;
@@ -1503,7 +1509,7 @@ s32 sub_0805BD5C(u16 *item, s32 level)
         if (player->mp >= player->maxMp)
             goto fail;
         amount = level * 40 + 100;
-        amount = *(u16 *)(obj + 0xA2) * amount / 100;
+        amount = *(u16 *)(obj + ITEM_FIELD(0xA2)) * amount / 100;
         player->mp += amount * 10;
         if (player->maxMp < player->mp)
             player->mp = player->maxMp;
@@ -1519,7 +1525,7 @@ s32 sub_0805BD5C(u16 *item, s32 level)
             goto fail;
         bd5cMap->stat12++;
     } else if (kind == 9) {
-        if (bd5cMap->stat16 > PLAYER_SIZE)
+        if (bd5cMap->stat16 > 332)
             goto fail;
         bd5cMap->stat16++;
     } else if (kind == 8) {
@@ -1612,14 +1618,14 @@ s32 sub_0805BD5C(u16 *item, s32 level)
         sub_0805865C(0x61);
         return 0;
     } else if (kind == 0x10) {
-        sub_080665B0(*(u16 *)(obj + 0xA2));
+        sub_080665B0(*(u16 *)(obj + ITEM_FIELD(0xA2)));
         return 0;
     } else if (kind == 0x11) {
         player->mp = player->maxMp;
         player->hp = player->maxHp;
     } else if (kind == 0x12) {
         amount = level * 40 + 100;
-        amount = *(u16 *)(obj + 0xA2) * amount / 100;
+        amount = *(u16 *)(obj + ITEM_FIELD(0xA2)) * amount / 100;
         if (player->hp >= player->maxHp)
             goto fail;
         player->hp += amount;
@@ -1627,7 +1633,7 @@ s32 sub_0805BD5C(u16 *item, s32 level)
             player->hp = player->maxHp;
         else if (player->hp < 0)
             player->hp = 0;
-        if (*(u16 *)(obj + 0xA2) != 0)
+        if (*(u16 *)(obj + ITEM_FIELD(0xA2)) != 0)
             sub_08074DE8(player->id, 8);
         if ((player->flags & 0x20000) && player->hp >= player->maxHp >> 1)
             player->flags &= ~0x20000;
