@@ -547,6 +547,64 @@ extern struct EntityC467 *entitiesC467 asm("gUnk_030056F4");
  * returns 1 without count growth. Otherwise appends a status 1/tag 0x91/one-chunk record, copies
  * actor+0x1FC..0x203, increments count and returns 1. It does not update status 2 records, validate the
  * signed/full-width slot index or copy world coordinates. */
+#ifdef REGION_USA
+u32 sub_080662C4(s32 index)
+{
+    register s32 idx asm("r9") = index;
+    register struct PacketC467 *p asm("r5");
+    register u32 n asm("r2");
+    register u32 i asm("r4");
+    register void *payload asm("r1");
+    register struct EntityC467 *ent asm("r3");
+    register u32 rawOffset asm("r0");
+    register u32 *countAddr asm("r8");
+    register struct EntityC467 **entityAddr asm("sl");
+    { u32 *c=(u32 *)&gUnk_03006338; n=*c; countAddr=c; }
+    if(n>49)return 0;
+    p=packetsC467;
+    i=0;
+    { register struct EntityC467 **t asm("r3"); t=&entitiesC467; asm("" : "+r"(t)); entityAddr=t; }
+    if(i<n) {
+    volatile u32 offset;
+
+    register u32 limit asm("r6");
+    register struct PacketC467 *scan asm("r2");
+    register struct EntityC467 **loopAddr asm("ip");
+    { register u32 o asm("r7")=idx*ENEMY_SIZE; offset=o; }
+    limit=n;scan=p;
+    loopAddr=entityAddr;
+    
+    do {
+        if(scan->active==1 && scan->tag==0x91) {
+            payload=&p->payload;
+            { register struct EntityC467 **addr asm("r3")=loopAddr;
+              register u32 base asm("r0")=(u32)*addr; register u32 off asm("r7")=offset; ent=(struct EntityC467 *)(off+base); }
+            if(scan->payload.id==ent->id) {
+            CpuSet(ent->velocity,payload,0x04000002);
+            return 1;
+            }
+        }
+        i++;scan++;p++;
+    }while(i<limit);
+    }
+    rawOffset=*countAddr*0x88;
+    { register struct PacketC467 **qaddr asm("r2")=&packetsC467;
+      register u32 qbase asm("r1")=(u32)*qaddr; p=(struct PacketC467 *)(qbase+rawOffset); }
+    p->active=1;p->tag=0x91;
+    {
+        u32 entityOffset;
+        register u32 payloadOffset asm("r7");
+        entityOffset=idx*ENEMY_SIZE;
+        { register struct EntityC467 **a2 asm("r3")=entityAddr; rawOffset=(u32)*a2+entityOffset; }
+        payloadOffset=0x1FC;asm("" : "+r"(payloadOffset));rawOffset+=payloadOffset;
+        payload=&p->payload;
+        CpuSet((void *)rawOffset,payload,0x04000002);
+    }
+    p->length=1;
+    { register u32 *c asm("r1") = countAddr; (*c)++; }
+    return 1;
+}
+#else
 u32 sub_080662C4(s32 idx)
 {
     struct PacketC467 *p;
@@ -577,7 +635,7 @@ u32 sub_080662C4(s32 idx)
             payload=&p->payload;
             { register struct EntityC467 **addr asm("r3")=entityAddr;
               ent=(struct EntityC467 *)(offset+(u32)*addr); }
-            if(scan->payload.id==ent->id) {
+            if(scan->payload.id==({ register u32 eid asm("r7") = ent->id; eid; })) {
             CpuSet(ent->velocity,payload,0x04000002);
             return 1;
             }
@@ -604,6 +662,7 @@ u32 sub_080662C4(s32 idx)
     {u32 *finishCount=&gUnk_03006338;asm("" : : "l"(finishCount) : "r0","r1","r2","r3","r4","r5","r6");(*finishCount)++;}
     return 1;
 }
+#endif
 extern volatile u32 root67Count asm("gUnk_03006338");
 extern u8 *root67Entries asm("gUnk_03006300");
 extern u8 *root67Sources asm("gUnk_030056F4");
@@ -971,15 +1030,16 @@ struct RxRec { u8 p0[4]; u8 kind:6; };
 struct RxBlk32 { u32 w[8]; };
 struct RxPlayer {
     u8 p0[2];
-    u8 name[10];
+    NameChar name[10];
     u16 fC;
     u16 fE;
     u16 f10;
-    u8 p12[0xE];
+    u8 p12[PLAYER_FIELD(0x20) - PLAYER_FIELD(0x12)];
     u16 f20;
-    u8 p22[0xA];
+    u8 p22[PLAYER_FIELD(0x2C) - PLAYER_FIELD(0x22)];
     u16 f2C;
     u16 f2E;
+    u8 p30[PLAYER_FIELD(0x30) - PLAYER_FIELD(0x2F) - 1];
     u32 f30;
     u8 p34[4];
     u8 f38[0x20];
@@ -1006,6 +1066,7 @@ struct RxPlayer {
     u16 f11E;
     u8 p120[0x148 - 0x120];
     struct RxRec *f148;
+    u8 p14C[PLAYER_SIZE - PLAYER_FIELD(0x14C)];
 };
 extern struct RxPlayer gRxPlayers[] asm("gUnk_03003CE0");
 struct RxEnt {
@@ -1153,11 +1214,15 @@ restart:
         sub_0800224C();
         switch (tag - 0x81) {
         case 0: /* profile: 10 bytes -> Player+2 */
+#ifdef REGION_USA
+            CpuSet(d, gRxPlayers[peer].name, 10);
+#else
             {
                 u8 *src = (u8 *)d;
                 for (j = 0; j < 10; j++)
                     gRxPlayers[peer].name[j] = src[j];
             }
+#endif
             break;
         case 1: /* two u16 at Player+0xC; remote also +0x64/+0x66 */
             gRxPlayers[peer].fC = d[0];
@@ -1494,25 +1559,25 @@ restart:
                 u8 *item = (u8 *)x_sub_08007290((d[0] & 0xFFFF) | 0x100000);
                 u8 *effect;
                 s32 limit;
-                switch (*(u16 *)(item + 0xA0) - 1) {
+                switch (*(u16 *)(item + ITEM_FIELD(0xA0)) - 1) {
                 case 0:
                 case 18:
-                    limit = (s32)((d[1] * 40 + 100) * *(u16 *)(item + 0xA2)) / 100;
+                    limit = (s32)((d[1] * 40 + 100) * *(u16 *)(item + ITEM_FIELD(0xA2))) / 100;
                     *(u16 *)(target + 0x5C) += limit;
-                    if (*(s16 *)(target + 0x5C) > *(s16 *)(target + 0x20A) * 3)
-                        *(u16 *)(target + 0x5C) = *(s16 *)(target + 0x20A) * 3;
+                    if (*(s16 *)(target + 0x5C) > *(s16 *)(target + ENEMY_DATA_FIELD(0x20A)) * 3)
+                        *(u16 *)(target + 0x5C) = *(s16 *)(target + ENEMY_DATA_FIELD(0x20A)) * 3;
                     break;
                 case 5:
-                    *(u16 *)(target + 0x204) += *(u16 *)(item + 0xA2);
+                    *(u16 *)(target + ENEMY_DATA_FIELD(0x204)) += *(u16 *)(item + ITEM_FIELD(0xA2));
                     break;
                 case 6:
-                    *(u16 *)(target + 0x206) += *(u16 *)(item + 0xA2);
+                    *(u16 *)(target + ENEMY_DATA_FIELD(0x206)) += *(u16 *)(item + ITEM_FIELD(0xA2));
                     break;
                 case 8:
-                    *(u16 *)(target + 0x20A) += *(u16 *)(item + 0xA2);
+                    *(u16 *)(target + ENEMY_DATA_FIELD(0x20A)) += *(u16 *)(item + ITEM_FIELD(0xA2));
                     break;
                 case 7:
-                    *(u16 *)(target + 0x208) += *(u16 *)(item + 0xA2);
+                    *(u16 *)(target + ENEMY_DATA_FIELD(0x208)) += *(u16 *)(item + ITEM_FIELD(0xA2));
                     break;
                 case 9:
                     effect = (u8 *)x_sub_0801E104(target, 0);
@@ -1573,9 +1638,16 @@ restart:
                 pls = gRxPlayers;
                 off = 0;
                 dur = 0x168;
+#ifdef REGION_USA
+                for (; i < 5; i++) {
+                    struct RxEnt *ent; u8 *b;
+                    if ((gRxEntityMask & (1 << i)) && (b = (u8 *)gRxEnts, d[0] == (ent = (struct RxEnt *)(ENEMY_SIZE * i + (u32)b))->f2)) {
+                        struct RxEff *effect = (struct RxEff *)x_sub_0801E104(ent, d[1]);
+#else
                 for (; i < 5; off += sizeof(struct RxEnt), i++) {
                     if ((gRxEntityMask & (1 << i)) && d[0] == ((struct RxEnt *)(off + (u32)gRxEnts))->f2) {
                         struct RxEff *effect = (struct RxEff *)x_sub_0801E104((struct RxEnt *)(off + (u32)gRxEnts), d[1]);
+#endif
                         if (effect != 0) {
                             effect->f4 = d[1];
                             effect->f2 = peer;
@@ -1617,12 +1689,12 @@ restart:
                 sub_0806617C();
                 x_sub_08022200(*(u16 *)&gRxPlayers[myId], gRxPlayers[myId].fE0);
                 switch (gRxPlayers[myId].fE0 - 1) {
-                case 0: *(u16 *)(gRxProfile + 0x24) += 1; break;
-                case 1: *(u16 *)(gRxProfile + 0x26) += 1; break;
-                case 2: *(u16 *)(gRxProfile + 0x28) += 1; break;
-                case 3: *(u16 *)(gRxProfile + 0x2A) += 1; break;
-                case 4: *(u16 *)(gRxProfile + 0x2C) += 1; break;
-                case 5: *(u16 *)(gRxProfile + 0x2E) += 1; break;
+                case 0: *(u16 *)(gRxProfile + SAVE_FIELD(0x24)) += 1; break;
+                case 1: *(u16 *)(gRxProfile + SAVE_FIELD(0x26)) += 1; break;
+                case 2: *(u16 *)(gRxProfile + SAVE_FIELD(0x28)) += 1; break;
+                case 3: *(u16 *)(gRxProfile + SAVE_FIELD(0x2A)) += 1; break;
+                case 4: *(u16 *)(gRxProfile + SAVE_FIELD(0x2C)) += 1; break;
+                case 5: *(u16 *)(gRxProfile + SAVE_FIELD(0x2E)) += 1; break;
                 }
             }
             x_sub_0805865C(0x91);
