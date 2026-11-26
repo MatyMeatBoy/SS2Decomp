@@ -2831,7 +2831,7 @@ void sub_0806CDF0(void *arg0)
   var_r7 = gUnk_030056F4 + ((temp_r0 * ENEMY_SIZE) - 4 * ENEMY_SIZE);
   {
     u16 *ap = (u16 *) (((u8 *) var_r7) + 0x6A);
-    u8 *bp = ((u8 *) var_r7) + 0x22B;
+    u8 *bp = ((u8 *) var_r7) + ENEMY_FIELD(0x22B);
     u32 a = *ap;
     temp_r2_2 = temp_r0 * 4;
     sp28 = temp_r2_2;
@@ -2847,7 +2847,7 @@ void sub_0806CDF0(void *arg0)
       }
 
       sub_080003F0();
-      if (((u32) (*((u16 *) (((u8 *) var_r7) + 0x6A)))) >= ((u32) (*((u8 *) (((u8 *) var_r7) + 0x22B)))))
+      if (((u32) (*((u16 *) (((u8 *) var_r7) + 0x6A)))) >= ((u32) (*((u8 *) (((u8 *) var_r7) + ENEMY_FIELD(0x22B))))))
       {
         goto block_12;
       }
@@ -2939,8 +2939,14 @@ void sub_0806CDF0(void *arg0)
       if (t071EMask & (1 << var_r5_2))
       {
         {
+#ifdef REGION_USA
+          typeof(pg) table = &gUnk_030056F4;
+          s32 o = var_r5_2 * ENEMY_SIZE;
+          temp_r4_4 = *table + o;
+#else
           s32 o = var_r5_2 * ENEMY_SIZE;
           temp_r4_4 = *pg + o;
+#endif
         }
         var_r5_4 = 0x18;
         {
