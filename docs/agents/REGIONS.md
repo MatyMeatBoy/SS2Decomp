@@ -53,9 +53,9 @@ SHA-256 values are pinned in `tools/config/rom_regions.json`.
 
 ## Coverage and limitations
 
-The initial verified USA and Japan builds each contain 16 compiler-backed C
-intervals totaling 1,364 bytes, with 16,775,852 reference bytes. Consult each
-generated report for the actual current counts, canonical EU symbols, addresses,
+The verified USA build contains 1,257 compiler-backed C intervals (16 same-address
+EU, 1,237 relocated EU, 4 region-only) totaling 165,148 bytes; Japan contains
+1,250 (16, 1,207 and 27) totaling 162,924 bytes. Consult each generated report for the actual current counts, canonical EU symbols, addresses,
 sizes and per-function hashes. The admitted intervals include complete function
 literal pools. Top-level assembly and `INCLUDE_ASM` fallbacks receive no C credit.
 
@@ -110,11 +110,53 @@ normal delivery gates still apply. Never copy generated reports or ROMs into Git
 source hash earns no data credit until revalidated. The bars measure source
 reconstruction, not semantic naming, decoded assets or estimated remaining time.
 
-Regional RAM and game-code changes do not follow one global offset. This initial
-builder therefore admits only complete, exact same-address functions. It retains
-the normal compiler flags and never patches generated opcodes or invents region
-globals. Broader source reuse requires verified per-symbol addresses, data layouts
-and ABI contracts; interior-byte anchors alone are not callable entry points.
+Regional RAM and game-code changes do not follow one global offset. The builder
+admits complete, exact same-address functions, relocated EU functions through an
+explicit per-symbol table (below) and region-only sources. It retains the normal
+compiler flags and never patches generated opcodes. Interior-byte anchors alone
+are not callable entry points.
+
+The progress receipts in `regional_progress.json` still admit only same-address
+intervals; counting relocated and region-only functions there is a separate
+change.
+
+## Relocated EU functions
+
+USA and Japan keep the EU link order, so most EU functions are the same machine
+code at another address: only relocated words (literal-pool addresses and BL
+targets) differ. `tools/config/region_symbols_<region>.json` is the regional
+symbol table for those functions:
+
+- `functions`: EU address of an EU C function -> regional address where the
+  regional build places it;
+- `symbols`: EU value -> regional value of every symbol those functions
+  reference (functions keep the Thumb bit).
+
+Keys are EU addresses, so renaming functions or globals does not invalidate the
+tables. The regional build reuses the normal EU compiler assembly for each listed
+function, renames its references into a `__<region>_` namespace, resolves them
+from the table and requires the whole ROM to match. The report lists them as
+`relocated_functions`.
+
+Regenerate the tables after a normal EU `make compare`:
+
+```sh
+python3 tools/scripts/region_symbols.py --region usa
+python3 tools/scripts/region_symbols.py --region jp
+```
+
+`region_symbols.py` pairs each EU C function with the regional address where all
+non-relocated bytes are identical (tracking the running address shift, with a
+unique-match search nearby and a pass for functions located by their callers' BL
+targets). It then solves each relocation for the regional value of its symbol.
+A symbol with two different regional values is dropped, together with every
+function that needs it. Functions whose assembly uses a symbol the assembler
+resolved inside the EU object (no relocation) are skipped. The tables hold
+addresses only, never ROM bytes.
+
+Functions that are not listed still come from the reference ROM. Their code
+differs from EU, for example through 16-bit text handling, the 0x454-byte
+enemy records or the Japanese player layout.
 
 ## Region-only C sources
 
@@ -148,8 +190,9 @@ function):
 | `08067CA4` | 0x5C | `EnqueueLinkEntityPosition` (`sub_080663A4`) moved in link order; USA enemy records are 0x454 bytes (EU 0x2E0) |
 | `080813D8` | 0xC0 | 16-bit-text form of `ExpandEncodedTextUnsignedNumberToken` (`sub_080850C0`) |
 
-Most other USA functions differ from EU only in literal-pool addresses and
-regional constants; they need regional symbol addresses, not new source.
+Most other USA functions differ from EU only in literal-pool addresses; they
+are built from the EU source through the relocation table described in
+[Relocated EU functions](#relocated-eu-functions).
 
 Japan (AU2J) has 27 region-only functions in `src/regions/jp/jp_only.c`. The
 same alignment pairs 2006 of 2035 Japanese functions with an EU function; of
