@@ -2061,7 +2061,7 @@ void sub_08016F28(struct Obj16F28 *self)
         break;
     }
 }
-struct T015CEntity { u16 id; u8 pad2[0xA]; u16 kind; u8 padE[6]; s32 x,y; u8 pad1C[0x5A]; u16 cursor; u8 pad78[2]; u16 flags; u8 pad7C[0x194]; u32 active; u8 pad214[0x1A]; u8 radius; };
+struct T015CEntity { u16 id; u8 pad2[0xA]; u16 kind; u8 padE[6]; s32 x,y; u8 pad1C[0x5A]; u16 cursor; u8 pad78[2]; u16 flags; u8 pad7C[ENEMY_FIELD(0x210) - 0x7C]; u32 active; u8 pad214[ENEMY_FIELD(0x22E) - ENEMY_FIELD(0x214)]; u8 radius; };
 extern struct T015CEntity *T015CEntities asm("gUnk_030056F4");
 extern u8 T015CDirections[] asm("gUnk_084790B4");
 extern u8 T015CAngles[] asm("gUnk_0849E730");

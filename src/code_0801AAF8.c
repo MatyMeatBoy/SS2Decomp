@@ -766,11 +766,32 @@ s32 sub_0801B8A8(struct S17ItemC4 *a, struct S17ItemB8 *b, struct S17ItemB8 *c, 
 struct BA74Res { s16 v[6]; };
 struct BA74Stats { s16 f0, f2, f4, f6; s16 f8; u16 fA[5]; struct BA74Res res; };
 struct BA74Slot { u16 f0; u16 id; u16 sub; u8 bonus; u8 f7; u8 broken; u8 valid; u8 padA[6]; };
+/* Archive 0xE records grow by 0xE0 in USA (C/D: 0xDC). */
+#ifdef REGION_USA
+#define EQUIP_E_FIELD(o) ((o) + 0xE0)
+#else
+#define EQUIP_E_FIELD(o) (o)
+#endif
+#ifdef REGION_USA
+#define T5_FLAG_BA74 (*(u32 *)(t5 + EQUIP_FIELD(0xA0)))
+#else
+#define T5_FLAG_BA74 (t5[0xA0])
+#endif
+#ifdef REGION_USA
+#define ITEM_LV_BA74(r) (*(s16 *)((u8 *)(r) + ITEM_KIND_OFF + 2))
+#else
+#define ITEM_LV_BA74(r) (((u8 *)(r))[0x9C])
+#endif
+#ifdef REGION_USA
+#define KIND_S_BA74(r) (*(s16 *)((u8 *)(r) + ITEM_KIND_OFF))
+#else
+#define KIND_S_BA74(r) ITEM_KIND(r)
+#endif
 struct BA74Save {
-    u8 pad0[0xA];
+    NameChar pad0[0xA];
     u16 fA;
     u16 fC;
-    u8 padE[2];
+    u8 padE[SAVE_FIELD(0x10) - SAVE_FIELD(0xE)];
     struct BA74Stats stats;
     u8 pad30[0x24];
     u16 f54;
@@ -792,6 +813,7 @@ struct BA74Mod {
 struct BA74Ent { s16 f0; u16 f2; u16 f4; u16 f6; s16 f8, fA, fC, fE; u16 f10; u8 pad12[0xA]; s16 f1C; u8 pad1E[0xA]; };
 struct BA74Pos { u16 f0; u16 f2; };
 struct BA74Job {
+    u8 pre[ENEMY_DATA_FIELD(0)];
     s16 f0, f2, f4, f6;
     u16 f8;
     u16 fA;
@@ -881,7 +903,11 @@ void BA74_StatsCalc(struct BA74Unit *arg0, struct BA74Sel *arg1, struct BA74Stat
     s32 w;
     struct BA74Save *p;
     u8 *sub;
+#ifdef REGION_USA
+    s32 v;
+#else
     u16 v;
+#endif
     s32 x;
     struct BA74Ent *e;
     s32 tmp;
@@ -982,9 +1008,9 @@ void BA74_StatsCalc(struct BA74Unit *arg0, struct BA74Sel *arg1, struct BA74Stat
             sub = (u8 *)sub_08007290((arg1->sub - 1) | 0x130000);
         else
             sub = 0;
-        arg3->f6 = t2[0xA4];
-        sub_0801B264(t2 + 0xB0, (u16 *)arg2, (u8 *)arg3);
-        sub_0801B264(sub + 0xA0, (u16 *)arg2, (u8 *)arg3);
+        arg3->f6 = t2[ITEM_FIELD(0xA4)];
+        sub_0801B264(t2 + ITEM_FIELD(0xB0), (u16 *)arg2, (u8 *)arg3);
+        sub_0801B264(sub + ITEM_FIELD(0xA0), (u16 *)arg2, (u8 *)arg3);
     }
     if (t3 != 0) {
         if (arg1 == 0 || arg1->type != 3) {
@@ -996,8 +1022,8 @@ void BA74_StatsCalc(struct BA74Unit *arg0, struct BA74Sel *arg1, struct BA74Stat
             sub = (u8 *)sub_08007290((arg1->sub - 1) | 0x130000);
         else
             sub = 0;
-        sub_0801B264(t3 + 0xA4, (u16 *)arg2, (u8 *)arg3);
-        sub_0801B264(sub + 0xA0, (u16 *)arg2, (u8 *)arg3);
+        sub_0801B264(t3 + EQUIP_FIELD(0xA4), (u16 *)arg2, (u8 *)arg3);
+        sub_0801B264(sub + ITEM_FIELD(0xA0), (u16 *)arg2, (u8 *)arg3);
     }
     if (t4 != 0) {
         if (arg1 == 0 || arg1->type != 4) {
@@ -1009,8 +1035,8 @@ void BA74_StatsCalc(struct BA74Unit *arg0, struct BA74Sel *arg1, struct BA74Stat
             sub = (u8 *)sub_08007290((arg1->sub - 1) | 0x130000);
         else
             sub = 0;
-        sub_0801B264(t4 + 0xA4, (u16 *)arg2, (u8 *)arg3);
-        sub_0801B264(sub + 0xA0, (u16 *)arg2, (u8 *)arg3);
+        sub_0801B264(t4 + EQUIP_FIELD(0xA4), (u16 *)arg2, (u8 *)arg3);
+        sub_0801B264(sub + ITEM_FIELD(0xA0), (u16 *)arg2, (u8 *)arg3);
     }
     if (t5 != 0) {
         if (arg1 == 0 || arg1->type != 5) {
@@ -1022,16 +1048,16 @@ void BA74_StatsCalc(struct BA74Unit *arg0, struct BA74Sel *arg1, struct BA74Stat
             sub = (u8 *)sub_08007290((arg1->sub - 1) | 0x130000);
         else
             sub = 0;
-        sub_0801B264(t5 + 0xA4, (u16 *)arg2, (u8 *)arg3);
-        sub_0801B264(sub + 0xA0, (u16 *)arg2, (u8 *)arg3);
-        if (t5[0xA0] != 0) {
+        sub_0801B264(t5 + EQUIP_E_FIELD(0xA4), (u16 *)arg2, (u8 *)arg3);
+        sub_0801B264(sub + ITEM_FIELD(0xA0), (u16 *)arg2, (u8 *)arg3);
+        if (T5_FLAG_BA74 != 0) {
             w = arg3->f15;
             sub_0801DE60();
             arg3->f16 += BA74_atk(w, arg4);
         }
     }
     if (t6 != 0)
-        sub_0801B264(t6 + 0xA0, (u16 *)arg2, (u8 *)arg3);
+        sub_0801B264(t6 + ITEM_FIELD(0xA0), (u16 *)arg2, (u8 *)arg3);
 
     halve = 0;
     arg0->f132 = 0;
@@ -1117,7 +1143,7 @@ void BA74_StatsCalc(struct BA74Unit *arg0, struct BA74Sel *arg1, struct BA74Stat
                         t3 = 0;
                         t4 = 0;
                         t5 = 0;
-                        arg3->f6 = t2[0xA4];
+                        arg3->f6 = t2[ITEM_FIELD(0xA4)];
                         bonus += job->fA;
                         arg2->f0 += job->f0;
                         arg2->f2 += job->f2 >> 1;
@@ -1187,7 +1213,11 @@ void BA74_StatsCalc(struct BA74Unit *arg0, struct BA74Sel *arg1, struct BA74Stat
     if (tmp != 0)
         sub_0801B264((void *)tmp, (u16 *)arg2, (u8 *)arg3);
     if (t2 != 0) {
-        arg3->f0 += ((u16 (*)(u8 *, s32, u16, u16))sub_0801B58C)(t2, arg4, t2[0x9C], sub_0801DE60());
+#ifdef REGION_USA
+        arg3->f0 += ((u16 (*)(u8 *, s32, s32, u16))sub_0801B58C)(t2, arg4, ITEM_LV_BA74(t2), sub_0801DE60());
+#else
+        arg3->f0 += ((u16 (*)(u8 *, s32, u16, u16))sub_0801B58C)(t2, arg4, ITEM_LV_BA74(t2), sub_0801DE60());
+#endif
         if (arg1 != 0 && arg1->type == 2)
             arg3->f0 += arg1->bonus;
         else
@@ -1195,7 +1225,7 @@ void BA74_StatsCalc(struct BA74Unit *arg0, struct BA74Sel *arg1, struct BA74Stat
     }
     arg3->f0 += arg2->f0;
     if (t3 != 0) {
-        v = ITEM_KIND(t3);
+        v = KIND_S_BA74(t3);
         sub_0801DE60();
         bonus += BA74_def(v, arg4, 4, 3);
         if (arg1 != 0 && arg1->type == 3)
@@ -1210,7 +1240,7 @@ void BA74_StatsCalc(struct BA74Unit *arg0, struct BA74Sel *arg1, struct BA74Stat
             bonus += gBA74Save->slots[gBA74Save->f68].bonus;
     }
     if (t4 != 0) {
-        v = ITEM_KIND(t4);
+        v = KIND_S_BA74(t4);
         sub_0801DE60();
         bonus += BA74_def(v, arg4, 4, 3);
         if (arg1 != 0 && arg1->type == 4)
@@ -1219,12 +1249,12 @@ void BA74_StatsCalc(struct BA74Unit *arg0, struct BA74Sel *arg1, struct BA74Stat
             bonus += gBA74Save->slots[9].bonus;
     }
     if (t5 != 0) {
-        if (t5[0xA0] != 0) {
-            v = ITEM_KIND(t5);
+        if (T5_FLAG_BA74 != 0) {
+            v = KIND_S_BA74(t5);
             sub_0801DE60();
             bonus += BA74_def(v, arg4, 3, 2);
         } else {
-            v = ITEM_KIND(t5);
+            v = KIND_S_BA74(t5);
             sub_0801DE60();
             bonus += BA74_def(v, arg4, 4, 3);
         }
@@ -1245,6 +1275,10 @@ void BA74_StatsCalc(struct BA74Unit *arg0, struct BA74Sel *arg1, struct BA74Stat
     if (arg2->f4 <= 0)
         arg2->f4 = 0;
     arg3->fA += arg2->f6 * 3;
+#ifdef REGION_USA
+    if ((s16)arg3->fA > 998)
+        arg3->fA = 999;
+#endif
     {
         s32 t = arg2->f4;
         s32 u = t << 1;
@@ -1270,8 +1304,8 @@ void BA74_StatsCalc(struct BA74Unit *arg0, struct BA74Sel *arg1, struct BA74Stat
     }
     if (t2 != 0) {
         arg3->f6 -= arg2->f2 / 20;
-        if (arg3->f6 < t2[0xA4] >> 1)
-            arg3->f6 = t2[0xA4] >> 1;
+        if (arg3->f6 < t2[ITEM_FIELD(0xA4)] >> 1)
+            arg3->f6 = t2[ITEM_FIELD(0xA4)] >> 1;
     }
     if (halve & 1) {
         arg3->f2 >>= 1;

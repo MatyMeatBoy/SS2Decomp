@@ -4275,7 +4275,7 @@ block_32:
 }
 struct T025Block270 { u32 w[10]; };
 struct T025Packet270 { u16 f0, f2; s32 f4; u8 p8[8]; };
-struct T025Player270 { u16 unk0; u8 p2[0x1A]; u16 unk1C; u8 p1E[2]; u16 unk20, unk22; u8 p24[6]; u16 unk2A; u8 p2C[4]; u32 flags; void *unk34; u8 p38[0x30]; u8 unk68; u8 p69[0x23]; struct V2W12 pos8C,pos94; u8 p9C[8]; struct V2W12 posA4; u8 pAC[0x16]; u16 unkC2,unkC4,unkC6; u8 pC8[0x80]; void *unk148; };
+struct T025Player270 { u16 unk0; u8 p2[PLAYER_FIELD(0x1C) - 2]; u16 unk1C; u8 p1E[2]; u16 unk20, unk22; u8 p24[6]; u16 unk2A; u8 p2C[PLAYER_FIELD(0x30) - PLAYER_FIELD(0x2C)]; u32 flags; void *unk34; u8 p38[0x30]; u8 unk68; u8 p69[0x23]; struct V2W12 pos8C,pos94; u8 p9C[8]; struct V2W12 posA4; u8 pAC[0x16]; u16 unkC2,unkC4,unkC6; u8 pC8[0x80]; void *unk148; };
 struct T025State270 { u16 f0,f2,f4; u8 p6[6]; u16 fC; u8 pE[2]; u16 f10; u8 p12[0x10]; u16 f22[11]; s32 f38,f3C,f40,f44,f48; u8 p4C[4]; s32 f50; u8 p54[0x18]; s32 f6C,f70; u8 p74[0x1C]; u16 f90,f92,f94; u8 p96[2]; s32 f98,f9C,fA0,fA4; u8 pA8[0xA0]; u16 f148; u8 p14A[0x5D2]; u16 *f71C; };
 extern struct T025State270 *t025State270 asm("gUnk_03005CF4");
 extern struct T025Player270 t025Players270[] asm("gUnk_03003CE0");

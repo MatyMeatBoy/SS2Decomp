@@ -1333,10 +1333,10 @@ void sub_08069C44(struct Z069A *arg) {
     x+=z069Sin[((s16)angle)+0x40]*4;
     y+=z069Sin[((s16)angle)]*4;
     if(level<=5) {
-        z069Init(&sprite,0x50049,8,-1,0);
+        z069Init(&sprite,RES_ID(0x50049),8,-1,0);
         level=(u16)(level-1);
     } else {
-        z069Init(&sprite,0x50048,8,-1,0);
+        z069Init(&sprite,RES_ID(0x50048),8,-1,0);
         level=(u16)(level-6);
     }
     level=(u16)(level<<3);
