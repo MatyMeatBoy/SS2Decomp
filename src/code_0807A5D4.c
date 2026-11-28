@@ -762,7 +762,11 @@ void sub_0807B7B4_v(void)
 
     mgr7B7B4->f0 = 2;
     sub_080009F8(0x1F00, 0, 1);
+#ifdef REGION_USA
+    player = (struct Player *)&players7B7B4[sub_080020F4()];
+#else
     player = &gUnk_03003CE0[sub_080020F4()];
+#endif
     gUnk_03001250[1] = 0;
     gUnk_03001250[0] = 0;
     gUnk_03001250[3] = 0;
@@ -855,7 +859,7 @@ void sub_0807B7B4_v(void)
                             if (mgr7B7B4->f18 != 7) {
                                 sub_0805FFBC(0xF, 0x12, mgr7B7B4->fF0, 0x80000000);
                             } else {
-                                text = (u8 *)sub_08007290(table7B7B4Text[mgr7B7B4->f4] | 0x140000) + 2;
+                                text = (u8 *)sub_08007290(table7B7B4Text[mgr7B7B4->f4] | 0x140000) + TEXT_HEADER;
                                 sub_0801A3D0(text, (u16)(15 - ((u32)sub_0801A638(text) >> 1)), 0x12);
                             }
                         } else {
