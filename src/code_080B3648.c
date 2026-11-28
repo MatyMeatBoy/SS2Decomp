@@ -10,7 +10,7 @@ struct TaskP { u32 f0, f4, f8, fC, f10, f14, f18, f1C, f20, f24; };
 void sub_080B5F94(void);
 void sub_080B6178(void);
 
-struct ResB3648 { u8 p0[4]; s16 f4, f6; u8 p8[0x22]; u8 f2A, f2B; u8 p2C[0xAA]; u16 fD6; };
+struct ResB3648 { u8 p0[ENEMY_FIELD(0x208) - 0x204]; s16 f4, f6; u8 p8[0x22]; u8 f2A, f2B; u8 p2C[0xAA]; u16 fD6; };
 struct ActB3648 {
     u16 f0, f2;
     u8 p4[4];
@@ -38,10 +38,10 @@ struct ActB3648 {
     u16 f202;
     struct ResB3648 res;
 };
-struct E2E0B3648 { u8 b[0x2E0]; };
+struct E2E0B3648 { u8 b[ENEMY_SIZE]; };
 struct AnimB3648 { u32 f0, f4, f8; u8 *fC; u8 p10[12]; u8 f1C; u8 p1d[0x17]; };
 struct XYB3648 { s32 x, y; };
-struct PlB3648 { u8 p0[0x30]; u32 flags; u8 p34[0x114]; u16 *f148; };
+struct PlB3648 { u8 p0[PLAYER_FIELD(0x30)]; u32 flags; u8 p34[PLAYER_FIELD(0x148) - PLAYER_FIELD(0x34)]; u16 *f148; };
 struct DrawB3648 { u8 p0[0xC]; s32 fC; };
 struct G3170B3648 { u8 p0[0x90]; u16 f90; };
 
@@ -107,6 +107,9 @@ void sub_080B3648(void)
     struct { s16 x, y; } pos;
     struct XYB3648 tgt;
     struct XYB3648 off;
+#ifdef REGION_USA
+    struct ResB3648 *res;
+#endif
     s32 lastHit;
     s32 yoff;
     u16 tile;
@@ -125,7 +128,9 @@ void sub_080B3648(void)
     u8 hitflag;
     s32 once;
     s32 active;
+#ifndef REGION_USA
     struct ResB3648 *res;
+#endif
     struct ActB3648 *a;
     u8 b;
     u8 c;
@@ -585,7 +590,7 @@ void sub_080B3648(void)
     }
 }
 struct Boss0B44F0 { u16 index; u8 p2[0xA]; u16 state; u8 pE[6]; s32 x, y; u8 p1C[0x34]; u32 hitId; };
-struct Player0B44F0 { u8 p0[0x20]; u16 state; u8 p22[0xE]; u32 flags; u8 p34[0x34]; u8 alive; u8 p69[0x1F]; u16 hp; u8 p8A[2]; s32 x, y; u8 p94[0x1C]; u16 fB0; u8 pB2[0x32]; u32 hitIds[0x1A]; };
+struct Player0B44F0 { u8 p0[PLAYER_FIELD(0x20)]; u16 state; u8 p22[PLAYER_FIELD(0x30) - PLAYER_FIELD(0x22)]; u32 flags; u8 p34[PLAYER_FIELD(0x68) - PLAYER_FIELD(0x34)]; u8 alive; u8 p69[PLAYER_FIELD(0x88) - PLAYER_FIELD(0x69)]; u16 hp; u8 p8A[PLAYER_FIELD(0x8C) - PLAYER_FIELD(0x8A)]; s32 x, y; u8 p94[PLAYER_FIELD(0xB0) - PLAYER_FIELD(0x94)]; u16 fB0; u8 pB2[PLAYER_FIELD(0xE4) - PLAYER_FIELD(0xB2)]; u32 hitIds[0x1A]; };
 extern struct Player0B44F0 players0B44F0[] asm("gUnk_03003CE0");
 extern u16 hit0B44F0(void *, void *) asm("sub_0801ED8C");
 s32 sub_080B44F0_v(struct Boss0B44F0 *b, s32 ox, s32 oy, u16 range) asm("sub_080B44F0");
@@ -628,7 +633,7 @@ s32 sub_080B44F0_v(struct Boss0B44F0 *b, s32 ox, s32 oy, u16 range)
     return hit;
 }
 struct Boss0B4690 { u16 index; u8 p2[6]; s16 f8; u8 pA[2]; u16 state; u8 pE[6]; s32 x, y; u8 p1C[0x34]; u32 hitId; };
-struct Player0B4690 { u8 p0[0x20]; u16 state; u8 p22[0xE]; u32 flags; u8 p34[0x34]; u8 alive; u8 p69[0x1F]; u16 hp; u8 p8A[2]; s32 x, y; u8 p94[0x1C]; u16 fB0; u8 pB2[0x32]; u32 hitIds[0x19]; u16 *f148; };
+struct Player0B4690 { u8 p0[PLAYER_FIELD(0x20)]; u16 state; u8 p22[PLAYER_FIELD(0x30) - PLAYER_FIELD(0x22)]; u32 flags; u8 p34[PLAYER_FIELD(0x68) - PLAYER_FIELD(0x34)]; u8 alive; u8 p69[PLAYER_FIELD(0x88) - PLAYER_FIELD(0x69)]; u16 hp; u8 p8A[PLAYER_FIELD(0x8C) - PLAYER_FIELD(0x8A)]; s32 x, y; u8 p94[PLAYER_FIELD(0xB0) - PLAYER_FIELD(0x94)]; u16 fB0; u8 pB2[PLAYER_FIELD(0xE4) - PLAYER_FIELD(0xB2)]; u32 hitIds[0x19]; u16 *f148; };
 struct Anim0B4690 { s32 w0, w4, w8; u8 *graphics; u8 p10[12]; u8 data[0x18]; };
 struct Vec0B4690 { s32 x, y; };
 struct Task0B4690 { u32 f0, f4, f8; u8 pC[0x1C]; };
@@ -672,7 +677,7 @@ void sub_080B4690(u32 a0, u32 a1)
     idx = a1;
     for (i = 0; i < idx * 48; i++)
         sub_080003F0();
-    init0B4690(&anim, 0x50130, 6, -1, 0);
+    init0B4690(&anim, RES_ID(0x50130), 6, -1, 0);
     sub_08000AF0(0x16, anim.graphics + 0x20, 1);
     anim.data[1] = 6;
     rotation = 0;
@@ -755,11 +760,11 @@ void sub_080B4690(u32 a0, u32 a1)
     tasks0B4690[idx].f8 = 0;
 }
 struct B4A7CPlayer {
-    u8 pad0[0x20]; u16 state; u8 pad22[0x30 - 0x22];
-    u32 flags; u8 pad34[0x68 - 0x34]; u8 active;
-    u8 pad69[0x8C - 0x69]; s32 x, y;
-    u8 pad94[0xC8 - 0x94]; u16 time, result, delay;
-    u8 tail[0x14C - 0xCE];
+    u8 pad0[PLAYER_FIELD(0x20)]; u16 state; u8 pad22[PLAYER_FIELD(0x30) - PLAYER_FIELD(0x22)];
+    u32 flags; u8 pad34[PLAYER_FIELD(0x68) - PLAYER_FIELD(0x34)]; u8 active;
+    u8 pad69[PLAYER_FIELD(0x8C) - PLAYER_FIELD(0x69)]; s32 x, y;
+    u8 pad94[PLAYER_FIELD(0xC8) - PLAYER_FIELD(0x94)]; u16 time, result, delay;
+    u8 tail[PLAYER_SIZE - PLAYER_FIELD(0xCE)];
 };
 extern struct B4A7CPlayer playersB4A7C[] asm("gUnk_03003CE0");
 extern u8 sub_08095FC8(s32, s32, s32, s32);
@@ -788,20 +793,20 @@ void sub_080B4A7C(struct B4A7CTarget target)
     if (player->state == 0xC) return;
     index = sub_080020F4();
     player = &players[index];
-    field = (u8 *)players + 0x30;
-    if (*(u32 *)(field + index * 0x14C) & 0x2000) return;
+    field = (u8 *)players + PLAYER_FIELD(0x30);
+    if (*(u32 *)(field + index * PLAYER_SIZE) & 0x2000) return;
     index = sub_080020F4();
     player = &players[index];
     if (!player->active) return;
     targetIndex = sub_080020F4();
     index = sub_080020F4();
     player = &players[index];
-    field = (u8 *)players + 0x8C;
-    x = *(s32 *)(field + index * 0x14C) >> 8;
+    field = (u8 *)players + PLAYER_FIELD(0x8C);
+    x = *(s32 *)(field + index * PLAYER_SIZE) >> 8;
     index = sub_080020F4();
     player = &players[index];
-    field = (u8 *)players + 0x90;
-    y = *(s32 *)(field + index * 0x14C) >> 8;
+    field = (u8 *)players + PLAYER_FIELD(0x90);
+    y = *(s32 *)(field + index * PLAYER_SIZE) >> 8;
     players[targetIndex].result = sub_08095FC8(x, y, target.x >> 8, target.y >> 8);
     index = sub_080020F4();
     player = &players[index];
@@ -886,7 +891,7 @@ void sub_080B4BB8(u8 a, u16 arg)
   }
  do { t->f10 = t->f20 + 0x3FC; t->fC = (u32) sub_080B4690; t->f24 = z; t->f8 = arg + 0x40; sub_08000274_3((u32)t, a, arg); } while (0);
 }
-struct Res4C34 { u8 p0[4]; s16 f4, f6; u8 p8[0x1F]; u8 f27; u8 p28[2]; u8 f2A, f2B; u8 p2C[0xA8]; u16 fD4, fD6; };
+struct Res4C34 { u8 p0[ENEMY_FIELD(0x208) - 0x204]; s16 f4, f6; u8 p8[0x1F]; u8 f27; u8 p28[2]; u8 f2A, f2B; u8 p2C[0xA8]; u16 fD4, fD6; };
 struct Act4C34 {
     u16 f0, f2;
     u8 p4[4];
@@ -912,7 +917,7 @@ struct Act4C34 {
     u16 f202;
     struct Res4C34 res;
 };
-struct Pl4C34 { u8 p0[0xC]; u16 fC; u8 pe[0x22]; u32 flags; u8 p34[0x114]; u16 *f148; };
+struct Pl4C34 { u8 p0[PLAYER_FIELD(0xC)]; u16 fC; u8 pe[PLAYER_FIELD(0x30) - PLAYER_FIELD(0xE)]; u32 flags; u8 p34[PLAYER_FIELD(0x148) - PLAYER_FIELD(0x34)]; u16 *f148; };
 struct XY4C34 { s32 x, y; };
 struct G5CF4_4C34 { u8 p0[0x720]; u32 f720; };
 
@@ -950,7 +955,7 @@ static inline s32 ABS4C34(s32 x) { if (x < 0) x = -x; return x; }
         s32 z;                                                                                         \
         gPl4C34[sub_080020F4()].flags |= 1;                                                            \
         if (sub_0800CCCC() == 0 && sub_0800CC98() == 0 && sub_0800CD8C() == 0 && (z = sub_0800CD34()) == 0) { \
-            loadPalB3648(gTile4C34 + 0x10, anim.fC + *pres * 32, 1);                                   \
+            loadPalB3648(gTile4C34 + 0x10, anim.fC + D6_4C34 * 32, 1);                                   \
             b = prioB3648(gAct4C34->f14 >> 8, gAct4C34->f18 >> 8, 0);                                  \
             gAct4C34->f6E = animB3648(&anim, gAct4C34->f68, &gAct4C34->f6A, &gAct4C34->f6C, 1);        \
             projB3648((s16)(gAct4C34->f14 >> 8), (s16)(gAct4C34->f18 >> 8), &sx, &sy, z, z);    \
@@ -967,6 +972,11 @@ static inline s32 ABS4C34(s32 x) { if (x < 0) x = -x; return x; }
  * animation/damage feedback. On death/session/area exit clears its active bit, stops the auxiliary task,
  * dispatches remote full-HP damage, synchronizes the completion token, shows resource0x1400A7 and runs
  * transition/reward feedback when eligible; finally synchronizes and marks the encounter finished. */
+#ifdef REGION_USA
+#define D6_4C34 (res->fD6)
+#else
+#define D6_4C34 (*pres)
+#endif
 void sub_080B4C34(struct Act4C34 *a)
 {
     struct AnimB3648 anim;
@@ -988,7 +998,9 @@ void sub_080B4C34(struct Act4C34 *a)
     u8 cooldown;
     u8 cycle;
     u8 cycle2;
+#ifndef REGION_USA
     u16 *pres;
+#endif
     s16 i, j;
     s16 cnt;
     u8 b;
@@ -1029,10 +1041,12 @@ void sub_080B4C34(struct Act4C34 *a)
     save22E = gAct4C34->res.f2A;
     save22F = gAct4C34->res.f2B;
     gAct4C34->f50 = 1;
+#ifndef REGION_USA
     pres = &res->fD6;
+#endif
     for (i = 0; i <= 3; i++)
         for (j = 0; j <= 4; j++)
-            *(u32 *)(i * 0x14C + j * 4 + (u32)gHist4C34) = 0;
+            *(u32 *)(i * PLAYER_SIZE + j * 4 + (u32)gHist4C34) = 0;
     gAct4C34->f1FD = 3;
     gAct4C34->f1FE = 3;
     gAct4C34->f1FC_lo = gAct4C34->f0;
@@ -1278,7 +1292,7 @@ void sub_080B4C34(struct Act4C34 *a)
                 cooldown = 0;
             }
         }
-        loadPalB3648(gTile4C34 + 0x10, anim.fC + *pres * 32, 1);
+        loadPalB3648(gTile4C34 + 0x10, anim.fC + D6_4C34 * 32, 1);
         if (bgFlagB3648() & 1)
             b = bgPrioB3648();
         else
@@ -1336,7 +1350,7 @@ void sub_080B4C34(struct Act4C34 *a)
     gGame4C34->f720 = msg4C34(1, 14, 0x19, 2, 0x3C, 0x1400A7);
     while (msgDone4C34(gGame4C34->f720) == 0)
         REDRAW4C34();
-    dropB3648(gAct4C34, &anim, *pres, gTile4C34);
+    dropB3648(gAct4C34, &anim, D6_4C34, gTile4C34);
     if (!(gPl4C34[sub_080020F4()].flags & 0x2000) && gAct4C34->f5A != 0) {
         h = dropFxB3648(gDataB3648, res);
         for (shake = 0x1D; shake != -1; shake--) {
@@ -1352,7 +1366,7 @@ void sub_080B4C34(struct Act4C34 *a)
     sub_08067BF8();
     sub_08056E24();
 }
-struct Player0B5B90 { u8 p0[0x20]; u16 state; u8 p22[0xE]; u32 flags; u8 p34[0x34]; u8 b68; u8 p69[0x23]; s32 x, y; u8 p94[0x1C]; u16 wB0; u8 pB2[0x16]; u16 knock, dir, speed; u8 pCE[0x16]; u32 hits[4]; u8 pF4[0x14C - 0xF4]; };
+struct Player0B5B90 { u8 p0[PLAYER_FIELD(0x20)]; u16 state; u8 p22[PLAYER_FIELD(0x30) - PLAYER_FIELD(0x22)]; u32 flags; u8 p34[PLAYER_FIELD(0x68) - PLAYER_FIELD(0x34)]; u8 b68; u8 p69[PLAYER_FIELD(0x8C) - PLAYER_FIELD(0x69)]; s32 x, y; u8 p94[PLAYER_FIELD(0xB0) - PLAYER_FIELD(0x94)]; u16 wB0; u8 pB2[PLAYER_FIELD(0xC8) - PLAYER_FIELD(0xB2)]; u16 knock, dir, speed; u8 pCE[PLAYER_FIELD(0xE4) - PLAYER_FIELD(0xCE)]; u32 hits[4]; u8 pF4[PLAYER_SIZE - PLAYER_FIELD(0xF4)]; };
 struct Boss0B5B90 { u16 slot; u8 p2[0xA]; u16 state; u8 pE[6]; s32 x, y; u8 p1C[0x34]; u32 hitId; u8 p54[8]; s16 active; };
 extern struct Player0B5B90 players0B5B90[] asm("gUnk_03003CE0");
 extern struct Boss0B5B90 *boss0B5B90 asm("gUnk_030007DC");
@@ -1452,7 +1466,7 @@ u32 sub_080B5B90(u8 kind)
 out:
     return ret;
 }
-struct Enemy0B5E64 { u8 p0[0xC]; u16 state; u8 pE[6]; s32 x, y; u8 p1C[0x2E]; u16 hp; u8 p4C[8]; u32 hitId; u8 p58[0x24]; u16 knock, dir, speed; u8 p82[0x25E]; };
+struct Enemy0B5E64 { u8 p0[0xC]; u16 state; u8 pE[6]; s32 x, y; u8 p1C[0x2E]; u16 hp; u8 p4C[8]; u32 hitId; u8 p58[0x24]; u16 knock, dir, speed; u8 p82[ENEMY_SIZE - 0x82]; };
 struct Boss0B5E64 { u8 p0[0xC]; u16 state; u8 pE[6]; s32 x, y; u8 p1C[0x34]; u32 hitId; u8 p54[8]; s16 active; };
 extern struct Enemy0B5E64 *enemies0B5E64 asm("gUnk_030056F4");
 extern u32 activeMask0B5E64 asm("gUnk_030056FC");
@@ -1631,7 +1645,7 @@ void clearTask60F4(void)
         i = 1;
         do {
             if (gMask60F4 & (1 << i))
-                *(u16 *)(gIcons60F4 + i * 0x2E0 + 0x7A) |= 1;
+                *(u16 *)(gIcons60F4 + i * ENEMY_SIZE + 0x7A) |= 1;
             i++;
         } while (i <= 4);
         i = 0;
@@ -1819,6 +1833,18 @@ void sub_080B6448(u32 a, u32 b)
 }
 /* [FlagFourActorEntries] ORs bit 0 into halfword +0x7A of actor-array entries 1 through 4 at stride 0x2E0;
  * does not test the connected-entry mask. */
+#ifdef REGION_USA
+void sub_080B64A4(void)
+{
+    register void *volatile *base asm("r5");
+    u8 i;
+    asm("" : : : "r4", "r6");
+    i = 1;
+    base = &gUnk_030056F4;
+    for (i = 1; i <= 4; i++)
+        *(u16 *)((u8 *)*base + i * ENEMY_SIZE + 0x7A) |= 1;
+}
+#else
 void sub_080B64A4(void)
 {
     register void *volatile *base asm("r4");
@@ -1827,5 +1853,6 @@ void sub_080B64A4(void)
     i = 1;
     base = &gUnk_030056F4;
     for (i = 1; i <= 4; i++)
-        *(u16 *)((u8 *)*base + i * 0x2E0 + 0x7A) |= 1;
+        *(u16 *)((u8 *)*base + i * ENEMY_SIZE + 0x7A) |= 1;
 }
+#endif

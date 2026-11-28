@@ -14,7 +14,7 @@ extern const u8 gUnk_080B9AD0[];
 
 struct T015Rect { u32 x:16; u32 y:16; };
 struct T015Pos { u16 x, y; u8 flags:6; u8 rest:2; };
-struct T015Player { u8 pad[0x148]; struct T015Pos *pos; };
+struct T015Player { u8 pad[PLAYER_FIELD(0x148)]; struct T015Pos *pos; };
 extern struct T015Player T015Players[] asm("gUnk_03003CE0");
 extern s32 T015Test(s32 *, void *, s32 *, u32 *) asm("sub_08021FE0");
 /* [IsSpawnPositionInAnyPlayerActivationBox] Tests the supplied Q8 position against the packed positions of all
@@ -839,7 +839,7 @@ void *sub_08019BF8(u16 id)
     u32 *flags = (u32 *)&gUnk_030056FC;
     u32 one = 1;
     u32 mask = *flags;
-    for (; i < 5; i++, entry += 0x2E0)
+    for (; i < 5; i++, entry += ENEMY_SIZE)
         if ((mask & (one << i)) != 0 && *(u16 *)(entry + 2) == id)
             return entry;
     return 0;
@@ -856,7 +856,7 @@ u32 sub_08019C3C(void)
         u32 i = 0;
         u32 one = 1;
         u32 mask = gUnk_030056FC;
-        u32 step = 0x2E0;
+        u32 step = ENEMY_SIZE;
         u8 *entry = base + 0x4A;
         do {
             if ((mask & (one << i)) && *(s16 *)(entry + 0x12) - *(u16 *)entry > 0)
@@ -973,7 +973,7 @@ u32 sub_08019DE0(u32 value)
     u32 *pf = (u32 *)&gUnk_030056FC;
     u32 one = 1;
     s32 flags = *pf;
-    for (; i <= 4; i++, entry += 0x2E0) {
+    for (; i <= 4; i++, entry += ENEMY_SIZE) {
         if (((one << i) & flags) && *(u32 *)(entry + 0x2C) == value) return 1;
     }
     return 0;
@@ -1004,7 +1004,7 @@ s32 sub_08019E30(s32 arg0)
       var_r4 |= temp_r1;
     }
     var_r2 += 1;
-    var_r3 += 0x2E0;
+    var_r3 += ENEMY_SIZE;
   }
   while (var_r2 <= 4U);
   return var_r4;
@@ -1040,7 +1040,7 @@ void sub_08019EB8(u16 key, u16 value)
     goto test;
 loop:
     i++;
-    entry += 0x2E0;
+    entry += ENEMY_SIZE;
     if (i > 4) goto end;
     bit = 1 << i;
 test:
@@ -1076,7 +1076,7 @@ loop:
         }
     }
     i++;
-    player += 0x2E0;
+    player += ENEMY_SIZE;
     if (i <= 4) goto loop;
 }
 /* [ScaleActorStatPairForPlayerCount] Uses the connected-player count from sub_08002164 to index three-word
@@ -1088,8 +1088,17 @@ void sub_08019F60(s16 *data)
     struct Rate { u32 a, b, c; };
     extern const struct Rate rates[] asm("gUnk_0848FA0C");
     u32 index = sub_08002164();
+#ifdef REGION_USA
+    s16 *third = (s16 *)((u8 *)data + ENEMY_DATA_FIELD(6));
+    *third = *third * rates[index].a / 100;
+    if (index > 1) {
+        s16 *first = (s16 *)((u8 *)data + ENEMY_DATA_FIELD(0));
+        *first = (*first + 2) * rates[index].b / 100;
+    }
+#else
     data[3] = data[3] * rates[index].a / 100;
     if (index > 1) data[0] = (data[0] + 2) * rates[index].b / 100;
+#endif
 }
 /* [HasFreeEnemySpawnRequestSlot] Checks only bits 0 and 1 of request mask 03005724 and returns exactly 1 when
  * either is clear, otherwise 0. It does not reserve a slot or inspect the separate five-enemy actor mask
@@ -1143,7 +1152,7 @@ void sub_0801A050(u16 key)
     asm("" : "+r"(z));
     zero = z; }
     asm("" : : "r"(zero));
-    for (; i <= 4; i++, entry += 0x2E0) {
+    for (; i <= 4; i++, entry += ENEMY_SIZE) {
         s32 bit = one << i;
         if ((*flags & bit) && *(u16 *)(entry + 2) == key) {
             *(u16 *)(entry + 0x7A) |= one;
@@ -1171,7 +1180,7 @@ void sub_0801A0BC(u16 key, u16 value)
     i = 0;
     flags = &gUnk_030056FC;
     one = 1;
-    for (; i <= 4; i++, entry += 0x2E0) {
+    for (; i <= 4; i++, entry += ENEMY_SIZE) {
         s32 bit = one << i;
         if ((*flags & bit) && *(u16 *)(entry + 2) == key) {
             entry[0x1DC] = value;
@@ -1205,6 +1214,37 @@ void sub_0801A120(u8 *obj, u32 value, u16 offset)
  * coordinate differences right by 8, computes integer Sqrt distance, truncates it to u16 and selects the first
  * strictly smallest distance below 65535. Returns the slot and writes distance, or returns 0xFF without
  * writing distance when none qualifies. */
+#ifdef REGION_USA
+u32 sub_0801A1C8(u8 *obj, s32 *distance)
+{
+    s32 nearest = 0xFFFF;
+    s32 selected = -1;
+    u32 i = 0;
+    s32 *flags = &gUnk_030056FC;
+    u8 **base = (u8 **)&gUnk_030056F4;
+    for (; i <= 4; i++) {
+        s32 bit = 1 << i;
+        if (*flags & bit) {
+            u8 *other = *base + i * ENEMY_SIZE;
+            if (other != obj) {
+                s32 dx = (*(s32 *)(other + 0x14) - *(s32 *)(obj + 0x14)) >> 8;
+                s32 dy = (*(s32 *)(other + 0x18) - *(s32 *)(obj + 0x18)) >> 8;
+                u32 length = (u16)Sqrt(dx * dx + dy * dy);
+                if (nearest > (s32)length) {
+                    nearest = length;
+                    selected = i;
+                }
+            }
+        }
+    }
+    {
+        u32 result;
+        if (selected != -1) { *distance = nearest; result = (u16)selected; }
+        else result = 0xFF;
+        return result;
+    }
+}
+#else
 u32 sub_0801A1C8(u8 *obj, s32 *distance)
 {
     s32 nearest = 0xFFFF;
@@ -1213,7 +1253,7 @@ u32 sub_0801A1C8(u8 *obj, s32 *distance)
     u8 **base = (u8 **)&gUnk_030056F4;
     u32 offset = 0;
     s32 *flags = &gUnk_030056FC;
-    for (; i <= 4; offset += 0x2E0, i++) {
+    for (; i <= 4; offset += ENEMY_SIZE, i++) {
         s32 bit = 1 << i;
         if (*flags & bit) {
             u8 *other = *base + offset;
@@ -1235,6 +1275,7 @@ u32 sub_0801A1C8(u8 *obj, s32 *distance)
         return result;
     }
 }
+#endif
 /* [FindFreeActorSlot] Returns the first clear bit index from 0 through 4 in actor activity bitmap 0x030056FC,
  * or -1 if all slots are occupied. It does not allocate or initialize the slot. */
 s32 sub_0801A270(void)
@@ -1339,11 +1380,11 @@ void sub_0801A388(u32 index)
         u8 state1FD;
         u8 pad3[3];
         u8 state201;
-        u8 pad4[0xDE];
+        u8 pad4[ENEMY_SIZE - 0x202];
     };
     extern struct Entity *entities asm("gUnk_030056F4");
     struct Entity *base = entities;
-    struct Entity *entry = (struct Entity *)(index * 0x2E0 + (u32)base);
+    struct Entity *entry = (struct Entity *)(index * ENEMY_SIZE + (u32)base);
     entry->flags |= 4;
     entry->state201 = 0;
     entities[index].state1FD = 0xFF;
@@ -1379,6 +1420,57 @@ static inline void FlushRows16(u32 index, u32 count)
  * queues64bytes fromfont+glyph*128 toVRAM0600B000+uploadcursor via01348, writes two consecutive maptiles and
  * advancescursor64. This proves256slotstride128 and used64B per glyph; byte0 maps255, not a Cstring
  * terminator. No full script encoding map claimed. */
+#ifdef REGION_USA
+void sub_0801A3D0(const TextChar *script, u16 x, u32 row)
+{
+    register u32 column asm("sl") = x;
+    volatile u32 savedRow = (u16)row;
+    u16 tile;
+    FlushRows16((u16)row, 2);
+    tile = (gUnk_03005C54 >> 5) + 0x180;
+    while (1) {
+        register u32 scratch asm("r1");
+        u32 xOffset;
+        register u32 rowOffset asm("r3");
+        register u32 rowLoad asm("r2");
+        u16 *map;
+        register u32 mapBaseNext asm("r2");
+        u32 glyph;
+        u8 *font;
+        if (*script == TEXT_CTRL(0xFD)) break;
+        if (*script & 0x8000) break;
+        scratch = (u32)(*script - 1) << 16;
+        { u32 page = scratch >> 24; font = (u8 *)gUnk_03005CA0[page]; }
+        glyph = 0xFF0000;
+        glyph &= scratch;
+        xOffset = column * 2;
+        rowLoad = savedRow;
+        rowOffset = rowLoad * 64;
+        rowOffset = xOffset + rowOffset;
+        scratch = (u32)gUnk_03005740;
+        map = (u16 *)(rowOffset + scratch);
+        {
+            u16 oldTile = tile++;
+            scratch = 0xF000;
+            *map = oldTile | scratch;
+        }
+        scratch = savedRow + 1;
+        scratch *= 64;
+        xOffset += scratch;
+        mapBaseNext = (u32)gUnk_03005740;
+        xOffset += mapBaseNext;
+        {
+            u16 oldTile = tile++;
+            scratch = 0xF000;
+            *(u16 *)xOffset = oldTile | scratch;
+        }
+        sub_08001348(font + (glyph >> 9), (void *)(0x0600B000 + gUnk_03005C54), 64);
+        gUnk_03005C54 += 64;
+        column = (u16)(column + 1);
+        script++;
+    }
+}
+#else
 void sub_0801A3D0(const u8 *script, u16 x, u32 row)
 {
     register u32 column asm("sl") = x;
@@ -1428,6 +1520,7 @@ void sub_0801A3D0(const u8 *script, u16 x, u32 row)
         script++;
     }
 }
+#endif
 /* [UnusedNoOpStub4] Lines 1338-1340 define an empty variadic function between glyph tile queuing and text
  * initialization. */
 void sub_0801A500(u32 a, u32 b, u32 c, ...)
@@ -1503,6 +1596,19 @@ void sub_0801A62C(void) {
 }
 /* [CountRenderableScriptGlyphs] Counts bytes until 0xFD or a value above 0xF1. Zero counts as a glyph; this is
  * not a zero-terminated string length. */
+#ifdef REGION_USA
+/* USA 16-bit text: stops at 0xFFFD or any control halfword (bit 15 set). */
+s32 sub_0801A638(u8 *text)
+{
+    TextChar *p = (TextChar *)text;
+    u32 n = 0;
+    while (*p != TEXT_CTRL(0xFD) && !(*p & 0x8000)) {
+        n++;
+        p++;
+    }
+    return n;
+}
+#else
 s32 sub_0801A638(u8 *p)
 {
     s32 n = 0;
@@ -1515,6 +1621,7 @@ s32 sub_0801A638(u8 *p)
     }
     return n;
 }
+#endif
 /* [UpdateSharedHalfwordMinimum] Body compares (u32)global > arg0, then conditionally stores(u16)arg0. This is
  * unsigned minimum update, not signed clamp or unconditional truncation. */
 void sub_0801A650(u32 arg0)
@@ -1564,7 +1671,7 @@ void sub_0801A6D4(u32 mode)
     u32 resource;
     switch (mode) {
     case 0: resource = 0x80006; goto load;
-    case 1: resource = 0x8004A;
+    case 1: resource = RES_ID(0x8004A);
 load:
         base = (u8 *)sub_08006EE0(resource, (void *)&gUnk_08518938);
     }
@@ -1580,12 +1687,26 @@ void sub_0801A70C(void)
     count = sub_08007164(4);
     for (i = 0; i < count; i++)
         gUnk_03005CA0[i] = sub_08007290(i | 0x40000);
-    sub_08065158(gUnk_03005C60, 0x5004A, 0, -1, 0);
+    sub_08065158(gUnk_03005C60, RES_ID(0x5004A), 0, -1, 0);
 }
 /* [DrawScriptGlyphStringAsSprites] Walks bytes until 0xFD or a value above 0xF1, passes frame (u16)(byte - 1)
  * to 65230 using descriptor 03005C60, and advances X by 8 with 16-bit wrap. Byte zero passes frame 65535
  * rather than terminating the string. */
-void sub_0801A764(const u8 *script, u16 x, u16 y)
+#ifdef REGION_USA
+/* USA text is halfword characters: 0xFFFD ends the string, codes with bit 15 set are controls. */
+void sub_0801A764(const TextChar *script, u16 x, u16 y)
+{
+    u32 count;
+    while (*script != 0xFFFD && !(*script & 0x8000)) {
+        /* The ROM reloads the character after the control test. */
+        count = (u16)(*(volatile const TextChar *)script - 1);
+        sub_08065230(gUnk_03005C60, x, y, 0, count);
+        x = (u16)(x + 8);
+        script++;
+    }
+}
+#else
+void sub_0801A764(const TextChar *script, u16 x, u16 y)
 {
     u32 count;
     while (1) {
@@ -1597,6 +1718,7 @@ void sub_0801A764(const u8 *script, u16 x, u16 y)
         script++;
     }
 }
+#endif
 /* Preserve the blend-call argument evaluation order of the original inlines. */
 static inline void blendA16(s32 a, s32 b, s32 c)
 {

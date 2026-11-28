@@ -64,8 +64,8 @@ void sub_08073E2C_v(u32 a, u32 b, u32 c, u32 d)
     gMask3E2C |= 1 << i;
 }
 struct Pos076EE8 { u16 x; u16 y; };
-struct Ply076EE8 { u16 f0; u8 pad2[0x66]; u8 team; u8 pad69[0x23]; s32 x; s32 y; u8 pad94[0xB4]; struct Pos076EE8 *pos; };
-struct Ene076EE8 { u8 pad0[2]; u16 f2; u8 pad4[8]; u16 state; u8 padE[6]; s32 x; s32 y; u8 pad1C[0x40]; s16 hp; u8 pad5E[0x17E]; u8 alive; u8 pad1DD[0x103]; };
+struct Ply076EE8 { u16 f0; u8 pad2[PLAYER_FIELD(0x68) - PLAYER_FIELD(0x2)]; u8 team; u8 pad69[PLAYER_FIELD(0x8C) - PLAYER_FIELD(0x69)]; s32 x; s32 y; u8 pad94[PLAYER_FIELD(0x148) - PLAYER_FIELD(0x94)]; struct Pos076EE8 *pos; };
+struct Ene076EE8 { u8 pad0[2]; u16 f2; u8 pad4[8]; u16 state; u8 padE[6]; s32 x; s32 y; u8 pad1C[0x40]; s16 hp; u8 pad5E[0x17E]; u8 alive; u8 pad1DD[ENEMY_SIZE - 0x1DD]; };
 extern struct Ply076EE8 players076EE8[] asm("gUnk_03003CE0");
 extern struct Ene076EE8 *enemies076EE8 asm("gUnk_030056F4");
 extern u16 directions076EE8[] asm("gUnk_0849E730");
@@ -119,14 +119,22 @@ u16 sub_08073EE8(u16 width, s32 range)
                 d = diffEE8(angEE8(dx, dy), dirEE8(&player->pos));
                 {
                     /* The ROM reloads the spilled limits into r2/r3 here. */
+#ifdef REGION_USA
+                    register u32 w asm("r3") = width;
+#else
                     register u32 w asm("r2") = width;
+#endif
                     asm("" : "+r"(w));
                     if (d > (s32)w)
                         continue;
                 }
                 dist = Sqrt(dx * dx + dy * dy);
                 {
+#ifdef REGION_USA
+                    register u32 rg asm("r1") = range;
+#else
                     register u32 rg asm("r3") = range;
+#endif
                     asm("" : "+r"(rg));
                     if (rg <= dist)
                         continue;
@@ -142,13 +150,36 @@ u16 sub_08073EE8(u16 width, s32 range)
             return cand->f0;
         }
     }
+#ifdef REGION_USA
+    {
+        register u32 reset asm("r3") = 0xFFFF;
+        register u32 none asm("r0");
+        asm("" : "+r"(reset));
+        best = reset;
+        none = -1;
+        asm("" : "+r"(none));
+        nearest = none;
+    }
+    i = 0;
+#else
     best = 0xFFFF;
     nearest = -1;
     i = 0;
     offset = 0;
+#endif
     do {
         if (active076EE8 & (1 << i)) {
+#ifdef REGION_USA
+            {
+                u8 **table = (u8 **)&enemies076EE8;
+                u32 eo = i * ENEMY_SIZE;
+                u8 *p = *table;
+                p += eo;
+                e = (struct Ene076EE8 *)p;
+            }
+#else
             e = (struct Ene076EE8 *)((u8 *)enemies076EE8 + offset);
+#endif
             if (e->state != 11 && e->hp != 0 && e->alive != 0) {
                 dx = (e->x - player->x) >> 8;
                 dy = (e->y - player->y) >> 8;
@@ -162,7 +193,9 @@ u16 sub_08073EE8(u16 width, s32 range)
                 }
             }
         }
+#ifndef REGION_USA
         offset += sizeof(struct Ene076EE8);
+#endif
         i++;
     } while (i <= 4);
     if (nearest == -1)
@@ -174,7 +207,11 @@ extern struct Ply076EE8 players07614C[] asm("gUnk_03003CE0");
 extern struct Ene076EE8 *enemies07614C asm("gUnk_030056F4");
 extern u32 active07614C asm("gUnk_030056FC");
 extern u16 directions07614C[] asm("gUnk_0849E730");
+#ifdef REGION_USA
+static inline u16 dir414C(struct Pos076EE8 **pos) { register u16 *table asm("r2") = directions07614C; return table[((u8 *)*pos)[3] >> 4]; }
+#else
 static inline u16 dir414C(struct Pos076EE8 **pos) { return directions07614C[((u8 *)*pos)[3] >> 4]; }
+#endif
 static inline u32 ang414C(s32 dx, s32 dy) { return (u16)ArcTan2(dx, dy) + 0x400; }
 static inline s32 diff414C(u32 a, u16 b) {
  u16 angle = (a >> 12) - b; s32 d;
@@ -182,12 +219,22 @@ static inline s32 diff414C(u32 a, u16 b) {
  { s32 t = (s16)angle; if (t < -8) angle = t + 16; } 
  d = (s16)angle; if (d < 0) d = -d;
  return d; }
+#ifdef REGION_USA
+static inline s32 diffB414C(u32 a, u16 b) {
+ register u32 bb asm("r1") = b; u16 angle = (a >> 12) - bb; s32 d;
+ { s32 t = (s16)angle; if (t > 8) angle = t - 16; }
+ { register s32 t asm("r0") = (s16)angle; register s32 low asm("r3") = -8; if (t < low) { t += 16; angle = t; } }
+ asm("" : : "r"(bb));
+ d = (s16)angle; if (d < 0) d = -d;
+ return d; }
+#else
 static inline s32 diffB414C(u32 a, u16 b) {
  u16 angle = (a >> 12) - b; s32 d;
  { s32 t = (s16)angle; if (t > 8) angle = t - 16; }
  { register s32 t asm("r0") = (s16)angle; if (t < -8) { t += 16; angle = t; } } 
  d = (s16)angle; if (d < 0) d = -d;
  return d; }
+#endif
 /* [SelectPlayerFacingConeTarget] Selects a facing-cone target for a supplied player pointer. Uses that player
  * packet position/facing via +0x148, unlike the local-live-coordinate sibling 73EE8. Applies the same
  * battle-enabled differently grouped nonzero-peer priority, then five-enemy fallback, returning player ID,
@@ -215,7 +262,11 @@ s32 sub_0807414C(struct Ply076EE8 *player, u16 width, u32 range)
                 d = diffB414C(ang414C(dx, dy), dir414C(&player->pos));
                 {
                     /* The ROM reloads the spilled limits into r2/r1/r2 here. */
+#ifdef REGION_USA
+                    register u32 w asm("r1") = width;
+#else
                     register u32 w asm("r2") = width;
+#endif
                     asm("" : "+r"(w));
                     if (d > (s32)w)
                         continue;
@@ -267,7 +318,7 @@ s32 sub_0807414C(struct Ply076EE8 *player, u16 width, u32 range)
     return e->f2;
 }
 struct Position076398 {u16 x,y;};
-struct Player076398 {u16 id;u8 pad2[0x66];u8 team;u8 pad69[0xDF];struct Position076398 *position;};
+struct Player076398 {u16 id;u8 pad2[PLAYER_FIELD(0x68)-2];u8 team;u8 pad69[PLAYER_FIELD(0x148)-PLAYER_FIELD(0x69)];struct Position076398 *position;u8 pad14C[PLAYER_SIZE-PLAYER_FIELD(0x14C)];};
 extern struct Player076398 players076398[] asm("gUnk_03003CE0");
 extern u8 *enemies076398 asm("gUnk_030056F4");
 #define F_076398(p,t,o) (*(t*)((u8*)(p)+(o)))
@@ -277,7 +328,11 @@ extern u32 active076398 asm("gUnk_030056FC");
 s32 nearest076398(u32 inputSelf,u32 inputExcluded,s32 x,s32 y,s32 range)
 {
     u32 self=(u16)inputSelf;
+#ifdef REGION_USA
+    register u32 best asm("r8"),nearest asm("sl"),index asm("r4");
+#else
     register u32 best asm("r9"),nearest asm("r8"),index asm("r4");
+#endif
     u32 count;
     u8 **enemyAddress;
     u8 *team;
@@ -298,11 +353,11 @@ s32 nearest076398(u32 inputSelf,u32 inputExcluded,s32 x,s32 y,s32 range)
         index=0;
         if(index<count){
             {
-                u32 stride=0x14C;
+                u32 stride=PLAYER_SIZE;
                 u32 base=(u32)players076398;
-                selfTeam=(u8*)(self*stride+base)+0x68;
-                position=(struct Position076398**)(base+0x148);
-                team=(u8*)(base+0x68);
+                selfTeam=(u8*)(self*stride+base)+PLAYER_FIELD(0x68);
+                position=(struct Position076398**)(base+PLAYER_FIELD(0x148));
+                team=(u8*)(base+PLAYER_FIELD(0x68));
             }
             do{
                 if(self!=index && *selfTeam!=*team && *team!=0){
@@ -319,7 +374,7 @@ s32 nearest076398(u32 inputSelf,u32 inputExcluded,s32 x,s32 y,s32 range)
                     }
                 }
                 {
-                    register u32 step asm("r2")=0x14C;
+                    register u32 step asm("r2")=PLAYER_SIZE;
                     position=(struct Position076398**)((u8*)position+step);
                     team+=step;
                 }
@@ -330,7 +385,7 @@ s32 nearest076398(u32 inputSelf,u32 inputExcluded,s32 x,s32 y,s32 range)
         if(nearest!=-1U){
             register u32 chosen asm("r3")=nearest;
             register u32 address asm("r0");
-            chosen*=0x14C;
+            chosen*=PLAYER_SIZE;
             asm("" : "+r"(chosen));
             address=chosen;
             asm("" : "+r"(address));
@@ -352,7 +407,14 @@ s32 nearest076398(u32 inputSelf,u32 inputExcluded,s32 x,s32 y,s32 range)
     offset=0;
     do{
         if(active076398 & (1<<index)){
+#ifdef REGION_USA
+            {
+                u8 **table=&enemies076398;
+                u32 eo=index*ENEMY_SIZE; u8 *b=*table; enemy=b+eo;
+            }
+#else
             enemy=*enemyAddress+offset;
+#endif
             if(F_076398(enemy,u16,2)!=inputExcluded && F_076398(enemy,u16,0xC)!=11 && F_076398(enemy,s16,0x5C)!=0 && enemy[0x1DC]!=0){
                 dx=(F_076398(enemy,s32,0x14)-x)>>8;
                 dy=(F_076398(enemy,s32,0x18)-y)>>8;
@@ -363,7 +425,7 @@ s32 nearest076398(u32 inputSelf,u32 inputExcluded,s32 x,s32 y,s32 range)
                 }
             }
         }
-        offset+=0x2E0;
+        offset+=ENEMY_SIZE;
         index++;
     }
     while(index<=4);
@@ -372,11 +434,17 @@ s32 nearest076398(u32 inputSelf,u32 inputExcluded,s32 x,s32 y,s32 range)
         if(nearest!=-1U){
             u8 **address=&enemies076398;
             u32 selected=nearest;
+#ifdef REGION_USA
+            u32 eo=nearest*ENEMY_SIZE; u8 *object=*address+eo;
+            enemy=object;
+            result=F_076398(enemy,u16,2);
+#else
             register u32 offset asm("r0");
             u32 object;
-            offset=nearest*0x2E0;
+            offset=nearest*ENEMY_SIZE;
             object=(u32)*address+offset;
             result=F_076398(object,u16,2);
+#endif
             goto finish;
         }
         result=0xFF;
@@ -386,8 +454,8 @@ s32 nearest076398(u32 inputSelf,u32 inputExcluded,s32 x,s32 y,s32 range)
 }
 struct EffectSprite77 { u32 base, unused4; void *data; void *paletteResource; u32 resource, style; s32 mode; u8 palette[16]; s16 scale, step, upper, lower; };
 struct EffectEntity77 { u16 xRaw,yRaw; };
-struct EffectPlayer77 { u8 pad[0x148]; struct EffectEntity77 *entity; };
-struct EffectEnemy77 { u8 pad[0x14]; s32 x,y; u8 rest[0x2C4]; };
+struct EffectPlayer77 { u8 pad[PLAYER_FIELD(0x148)]; struct EffectEntity77 *entity; };
+struct EffectEnemy77 { u8 pad[0x14]; s32 x,y; u8 rest[ENEMY_SIZE - 0x1C]; };
 extern struct EffectPlayer77 effectPlayers77[] asm("gUnk_03003CE0");
 extern struct EffectEnemy77 *effectEnemies77 asm("gUnk_030056F4");
 extern u32 effectMasks77[] asm("gUnk_030063E0");
@@ -413,7 +481,7 @@ void sub_08074530(u32 who,u32 slot)
     struct EffectEnemy77 *enemy;
     u16 done;
     frame=0;timer=0;
-    effectInit77(&sprite,0x5008C,8,-1,0);
+    effectInit77(&sprite,RES_ID(0x5008C),8,-1,0);
     sprite.palette[0]=7;sprite.palette[1]=8;
     done=0;
     if(who<4) player=&effectPlayers77[who];
@@ -450,7 +518,7 @@ void sub_080746A4(u32 who,u32 slot)
     struct EffectEnemy77 *enemy;
     u16 done;
     frame=0;timer=0;
-    effectInit77(&sprite,0x5008C,8,-1,0);
+    effectInit77(&sprite,RES_ID(0x5008C),8,-1,0);
     sprite.palette[0]=7;sprite.palette[1]=8;
     done=0;
     if(who<4) player=&effectPlayers77[who];
@@ -487,7 +555,7 @@ void sub_08074818(u32 who,u32 slot)
     struct EffectEnemy77 *enemy;
     u16 done;
     frame=0;timer=0;
-    effectInit77(&sprite,0x5008C,8,-1,0);
+    effectInit77(&sprite,RES_ID(0x5008C),8,-1,0);
     sprite.palette[0]=7;sprite.palette[1]=8;
     done=0;
     if(who<4) player=&effectPlayers77[who];
@@ -524,7 +592,7 @@ void sub_0807498C(u32 who,u32 slot)
     struct EffectEnemy77 *enemy;
     u16 done;
     frame=0;timer=0;
-    effectInit77(&sprite,0x5008C,8,-1,0);
+    effectInit77(&sprite,RES_ID(0x5008C),8,-1,0);
     sprite.palette[0]=7;sprite.palette[1]=8;
     done=0;
     if(who<4) player=&effectPlayers77[who];
@@ -561,7 +629,7 @@ void sub_08074B00(u32 who,u32 slot)
     struct EffectEnemy77 *enemy;
     u16 done;
     frame=0;timer=0;
-    effectInit77(&sprite,0x5008C,8,-1,0);
+    effectInit77(&sprite,RES_ID(0x5008C),8,-1,0);
     sprite.palette[0]=7;sprite.palette[1]=8;
     done=0;
     if(who<4) player=&effectPlayers77[who];
@@ -597,7 +665,7 @@ void sub_08074C74(u32 who,u32 slot)
     struct EffectEnemy77 *enemy;
     u16 done;
     frame=0;timer=0;
-    effectInit77(&sprite,0x5008D,8,-1,0);
+    effectInit77(&sprite,RES_ID(0x5008D),8,-1,0);
     sprite.palette[0]=7;sprite.palette[1]=8;
     done=0;
     if(who<4) player=&effectPlayers77[who];
@@ -716,8 +784,8 @@ void sub_08074DE8(u32 who, s32 type)
 }
 struct Spr5088 { u32 base, unused4; void *data; void *paletteResource; u32 resource, style; s32 mode; u8 palette[16]; s16 scale, step, upper, lower; };
 struct Ent5088 { u16 xRaw, yRaw; };
-struct Ply5088 { u8 pad0[0x20]; u16 state; u8 pad22[0xE]; u32 flags; u8 pad34[0xA8]; u32 serial; u8 padE0[0x68]; struct Ent5088 *entity; };
-struct Ene5088 { u16 id; u8 pad2[0xA]; u16 state; u8 padE[6]; s32 x, y; u8 pad1C[0x30]; u32 dmg; u32 f50; u32 serial; u16 owner, hitMask; u8 pad5C[0x284]; };
+struct Ply5088 { u8 pad0[PLAYER_FIELD(0x20)]; u16 state; u8 pad22[PLAYER_FIELD(0x30) - PLAYER_FIELD(0x22)]; u32 flags; u8 pad34[PLAYER_FIELD(0xDC) - PLAYER_FIELD(0x34)]; u32 serial; u8 padE0[PLAYER_FIELD(0x148) - PLAYER_FIELD(0xE0)]; struct Ent5088 *entity; };
+struct Ene5088 { u16 id; u8 pad2[0xA]; u16 state; u8 padE[6]; s32 x, y; u8 pad1C[0x30]; u32 dmg; u32 f50; u32 serial; u16 owner, hitMask; u8 pad5C[ENEMY_SIZE - 0x5C]; };
 extern struct Ply5088 p5088[] asm("gUnk_03003CE0");
 extern struct Ene5088 *e5088Base asm("gUnk_030056F4");
 extern u32 e5088Mask asm("gUnk_030056FC");
@@ -752,6 +820,12 @@ void sub_08075088(u32 who, u32 slot)
     u16 done[3];
     u16 cnt[3];
     s16 sx, sy;
+#ifdef REGION_USA
+    struct Ene5088 **eAddr;
+#define E5088 (*eAddr)
+#else
+#define E5088 e
+#endif
     struct Ply5088 *p;
     u16 i;
     u16 serial;
@@ -768,7 +842,7 @@ void sub_08075088(u32 who, u32 slot)
 
     spd = 2;
     local = sub_080020F4();
-    init5088(&spr, 0x5008C, 8, -1, 0);
+    init5088(&spr, RES_ID(0x5008C), 8, -1, 0);
     spr.palette[0] = 7;
     spr.palette[1] = 8;
     p = &p5088[who];
@@ -785,7 +859,7 @@ void sub_08075088(u32 who, u32 slot)
         p->flags |= 1;
         serial = p->serial++;
         dmg = rand5088() % 50;
-        dmg = dmg + (u16)sub_0801E0AC((s32)party5088 + 0x30, 5) * 50;
+        dmg = dmg + (u16)sub_0801E0AC((s32)party5088 + SAVE_FIELD(0x30), 5) * 50;
     }
     while (1) {
         count = 0;
@@ -822,9 +896,13 @@ void sub_08075088(u32 who, u32 slot)
                         continue;
                     e->dmg = dmg;
                     hit5088(e->id, 1, dmg, 1, 0x20, dirIdx);
-                    e->owner = who;
+                    
+#ifdef REGION_USA
+                    eAddr = &e;
+#endif
+                    E5088->owner = who;
                     e->serial = serial;
-                    e->hitMask |= 1 << local;
+                    E5088->hitMask |= 1 << local;
                 }
             }
             if (done[i] != 0)
@@ -838,6 +916,7 @@ out:
     if (local == who && !sub_0800CC98() && !sub_0800CE68() && !sub_0800CD8C())
         p->flags &= ~1;
     m5088[who] &= ~(1 << slot);
+#undef E5088
 }
 struct Task5494 { u32 f0, f4, f8, fC, f10, f14, f18, f1C, f20, f24; };
 extern u32 gMasks5494[] asm("gUnk_030063E0");
@@ -884,7 +963,7 @@ void sub_08075494(u32 who)
     gMasks5494[who] |= 1 << i;
 }
 struct EffectBits77 { u32 kind:4; u32 x:12; u32 y:12; u32 pad:4; u32 low:5; u32 flag:1; };
-struct EffectHolder77 { u8 pad[0x148]; struct EffectBits77 *entity; };
+struct EffectHolder77 { u8 pad[PLAYER_FIELD(0x148)]; struct EffectBits77 *entity; };
 /* [RunPlayerVanishAnimationAndTemporaryVisibilityEffect] Complete original 08075520..080756EC reviewed. ABI r0
  * player index/r1 task bit; waits while packed entity kind low4 is10, then advances resource5008D animation8
  * at the live player position. Once animation completes, sets player word +30 bit18 (0x40000) for current
@@ -900,7 +979,7 @@ void sub_08075520(u32 who,u32 slot)
     u16 done,i;
     u8 visible;
     frame=0;timer=0;
-    effectInit77(&sprite,0x5008D,8,-1,0);
+    effectInit77(&sprite,RES_ID(0x5008D),8,-1,0);
     sprite.palette[0]=7;sprite.palette[1]=8;
     done=0;
     player=(struct EffectHolder77 *)&gUnk_03003CE0[who];
@@ -966,8 +1045,8 @@ void sub_080756EC(u32 who)
 struct Arg5778 { u32 who; u32 slot; u16 target; u16 pad; u32 fC; u32 count; u32 flags; };
 struct Spr5778 { u32 f0, f4, f8, fC; u8 pad10[16]; u8 f20; u8 pad21[19]; };
 struct Ent5778 { u16 xRaw, yRaw; };
-struct Ply5778 { u16 id; u8 pad2[0x1E]; u16 state; u8 pad22[4]; u16 f26; u8 pad28[8]; u32 flags; u8 pad34[6]; s16 power; u8 pad3C[0x2C]; u8 team; u8 pad69[0x23]; s32 x, y; u8 pad94[0x1E]; u16 ready; u8 padB4[0x28]; u32 serial; u8 padE0[0x18]; u32 hist[0x14]; struct Ent5778 *entity; };
-struct Ene5778 { u16 id; u16 f2; u8 pad4[8]; u16 state; u8 padE[6]; s32 x, y; u8 pad1C[0x38]; u32 serial; u16 owner, hitMask; u8 pad5C[0x180]; u8 team; u8 pad1DD[0x29]; s16 power; u8 pad208[0x26]; u8 w, h; u8 pad230[0xB0]; };
+struct Ply5778 { u16 id; u8 pad2[PLAYER_FIELD(0x20) - 2]; u16 state; u8 pad22[4]; u16 f26; u8 pad28[PLAYER_FIELD(0x30) - PLAYER_FIELD(0x28)]; u32 flags; u8 pad34[6]; s16 power; u8 pad3C[0x2C]; u8 team; u8 pad69[0x23]; s32 x, y; u8 pad94[0x1E]; u16 ready; u8 padB4[0x28]; u32 serial; u8 padE0[0x18]; u32 hist[0x14]; struct Ent5778 *entity;  u8 pad14C[PLAYER_SIZE - PLAYER_FIELD(0x14C)];};
+struct Ene5778 { u16 id; u16 f2; u8 pad4[8]; u16 state; u8 padE[6]; s32 x, y; u8 pad1C[0x38]; u32 serial; u16 owner, hitMask; u8 pad5C[0x180]; u8 team; u8 pad1DD[ENEMY_FIELD(0x206) - 0x1DD]; s16 power; u8 pad208[ENEMY_FIELD(0x22E) - ENEMY_FIELD(0x208)]; u8 w, h; u8 pad230[ENEMY_SIZE - ENEMY_FIELD(0x230)]; };
 struct Box5778 { u32 w:16; u32 h:16; };
 struct Pos5778 { s32 x, y; };
 extern struct Ply5778 p5778[] asm("gUnk_03003CE0");
@@ -1406,8 +1485,8 @@ void sub_080760E8(u32 who, u32 a, u32 b, u32 c)
 struct Arg61A4 { u32 who; u32 slot; u16 target; u16 pad; u32 fC; s32 n; u32 flags; };
 struct Spr61A4 { u32 base, unused4; void *data; void *paletteResource; u32 resource, style; s32 mode; u8 palette[16]; s16 scale, step, upper, lower; };
 struct Ent61A4 { u16 xRaw, yRaw; };
-struct Ply61A4 { u16 id; u8 pad2[0x1E]; u16 state; u8 pad22[4]; u16 f26; u16 f28; u8 pad2A[6]; u32 flags; u8 pad34[6]; s16 power; u8 pad3C[0x2C]; u8 team; u8 pad69[0x23]; s32 x, y; u8 pad94[0x1E]; u16 ready; u8 padB4[0x28]; u32 serial; u8 padE0[0x18]; u32 hist[0xA]; u16 f120; u16 f122; u8 pad124[0x24]; struct Ent61A4 *entity; };
-struct Ene61A4 { u16 id; u16 f2; u8 pad4[8]; u16 state; u8 padE[6]; s32 x, y; u8 pad1C[0x2E]; u16 dmg; u8 pad4C[8]; u32 serial; u16 owner, hitMask; s16 hp; u8 pad5E[0x17E]; u8 team; u8 pad1DD[0x29]; s16 power; u8 pad208[0x26]; u8 w, h; u8 pad230[0xB0]; };
+struct Ply61A4 { u16 id; u8 pad2[PLAYER_FIELD(0x20) - 2]; u16 state; u8 pad22[4]; u16 f26; u16 f28; u8 pad2A[PLAYER_FIELD(0x30) - PLAYER_FIELD(0x2A)]; u32 flags; u8 pad34[6]; s16 power; u8 pad3C[0x2C]; u8 team; u8 pad69[0x23]; s32 x, y; u8 pad94[0x1E]; u16 ready; u8 padB4[0x28]; u32 serial; u8 padE0[0x18]; u32 hist[0xA]; u16 f120; u16 f122; u8 pad124[0x24]; struct Ent61A4 *entity;  u8 pad14C[PLAYER_SIZE - PLAYER_FIELD(0x14C)];};
+struct Ene61A4 { u16 id; u16 f2; u8 pad4[8]; u16 state; u8 padE[6]; s32 x, y; u8 pad1C[0x2E]; u16 dmg; u8 pad4C[8]; u32 serial; u16 owner, hitMask; s16 hp; u8 pad5E[0x17E]; u8 team; u8 pad1DD[ENEMY_FIELD(0x206) - 0x1DD]; s16 power; u8 pad208[ENEMY_FIELD(0x22E) - ENEMY_FIELD(0x208)]; u8 w, h; u8 pad230[ENEMY_SIZE - ENEMY_FIELD(0x230)]; };
 struct Box61A4 { u32 w:16; u32 h:16; };
 struct Pos61A4 { s32 x, y; };
 extern struct Ply61A4 p61A4[] asm("gUnk_03003CE0");
@@ -1772,7 +1851,7 @@ void sub_080761A4_c(struct Arg61A4 *arg)
 }
 struct TaskA88 { u32 f0, f4, f8, fC, f10, f14, f18, f1C, f20, f24; };
 struct InfoA88 { u32 who, i, a, pad, c, b; };
-struct PlayerA88 { u8 pad[0x20]; u16 state; u8 pad22[6]; u16 f28; u8 pad2a[0xf8]; u16 f122; u8 pad124[0x28]; };
+struct PlayerA88 { u8 pad[PLAYER_FIELD(0x20)]; u16 state; u8 pad22[PLAYER_FIELD(0x28) - PLAYER_FIELD(0x22)]; u16 f28; u8 pad2a[PLAYER_FIELD(0x122) - (PLAYER_FIELD(0x28) + 0x2)]; u16 f122; u8 pad124[PLAYER_SIZE - PLAYER_FIELD(0x124)]; };
 extern u32 masksA88[] asm("gUnk_030063E0");
 extern u8 *listsA88[] asm("gUnk_030063B0");
 extern u8 *infoA88[] asm("gUnk_03006380");
@@ -1857,8 +1936,8 @@ set_b:
 struct Arg6BA0 { u32 who; u32 slot; u16 target; u16 pad; u32 fC; u16 f10; u16 spread; u32 flags; };
 struct Spr6BA0 { u32 base, unused4; void *data; void *paletteResource; u32 resource, style; s32 mode; u8 palette[16]; s16 scale, step, upper, lower; };
 struct Ent6BA0 { u16 xRaw, yRaw; };
-struct Ply6BA0 { u16 id; u8 pad2[0x1E]; u16 state; u8 pad22[4]; u16 f26; u8 pad28[8]; u32 flags; u8 pad34[6]; s16 power; u8 pad3C[0x2C]; u8 team; u8 pad69[0x23]; s32 x, y; u8 pad94[0x1E]; u16 ready; u8 padB4[0x28]; u32 serial; u8 padE0[0x18]; u32 hist[0x13]; struct Ent6BA0 *entity2; struct Ent6BA0 *entity; };
-struct Ene6BA0 { u16 id; u16 f2; u8 pad4[8]; u16 state; u8 padE[6]; s32 x, y; u8 pad1C[0x2E]; u16 dmg; u8 pad4C[8]; u32 serial; u16 owner, hitMask; s16 hp; u8 pad5E[0x17E]; u8 team; u8 pad1DD[0x29]; s16 power; u8 pad208[0x26]; u8 w, h; u8 pad230[0xB0]; };
+struct Ply6BA0 { u16 id; u8 pad2[PLAYER_FIELD(0x20) - 2]; u16 state; u8 pad22[4]; u16 f26; u8 pad28[PLAYER_FIELD(0x30) - PLAYER_FIELD(0x28)]; u32 flags; u8 pad34[6]; s16 power; u8 pad3C[0x2C]; u8 team; u8 pad69[0x23]; s32 x, y; u8 pad94[0x1E]; u16 ready; u8 padB4[0x28]; u32 serial; u8 padE0[0x18]; u32 hist[0x13]; struct Ent6BA0 *entity2; struct Ent6BA0 *entity;  u8 pad14C[PLAYER_SIZE - PLAYER_FIELD(0x14C)];};
+struct Ene6BA0 { u16 id; u16 f2; u8 pad4[8]; u16 state; u8 padE[6]; s32 x, y; u8 pad1C[0x2E]; u16 dmg; u8 pad4C[8]; u32 serial; u16 owner, hitMask; s16 hp; u8 pad5E[0x17E]; u8 team; u8 pad1DD[ENEMY_FIELD(0x206) - 0x1DD]; s16 power; u8 pad208[ENEMY_FIELD(0x22E) - ENEMY_FIELD(0x208)]; u8 w, h; u8 pad230[ENEMY_SIZE - ENEMY_FIELD(0x230)]; };
 struct Box6BA0 { u32 w:16; u32 h:16; };
 struct Pos6BA0 { s32 x, y; };
 extern struct Ply6BA0 p6BA0[] asm("gUnk_03003CE0");
@@ -2268,8 +2347,8 @@ void sub_08077444(u32 who, u32 a, u32 b, u32 c, u32 d)
     gMasks7444[who] |= 1 << i;
 }
 struct Spr7508 { u32 f0, f4, f8, fC; u8 pad10[12]; u8 f1C, f1D; u8 pad1E[2]; u8 f20; u8 pad21[19]; };
-struct Ply7508 { u8 pad0[0xC]; u16 fC; u8 padE[0x12]; u16 state; u8 pad22[0xE]; u32 flags; u8 pad34[6]; s16 f3A; u8 pad3C[0x2C]; u8 team; u8 pad69[5]; u8 f6E; u8 pad6F[0x19]; u16 f88, f8A; s32 x, y; u8 pad94[0x50]; u32 hist[11]; u32 f110; u8 pad114[0x34]; u16 *pos; };
-struct Ene7508 { u16 id; u8 f2; u8 pad3[5]; s16 dir; u8 padA[2]; u16 state; u8 padE[6]; s32 x, y; u8 pad1C[0x2E]; u16 f4A; u32 f4C; u32 f50; u32 f54; u16 f58, f5A; u8 pad5C[6]; u16 f62; u8 pad64[6]; u16 wait; u8 pad6C[0xE]; u16 f7A; u16 f7C, f7E; u8 pad80[0x15C]; u8 active; u8 pad1DD[0x29]; s16 f206; u8 pad208[0x1E]; u8 f226; u8 pad227[4]; u8 threshold; u16 f22C; u8 pad22E[0xAA]; u16 f2D8, f2DA; u8 pad2DC[4]; };
+struct Ply7508 { u8 pad0[PLAYER_FIELD(0xC)]; u16 fC; u8 padE[PLAYER_FIELD(0x20) - PLAYER_FIELD(0xE)]; u16 state; u8 pad22[PLAYER_FIELD(0x30) - PLAYER_FIELD(0x22)]; u32 flags; u8 pad34[PLAYER_FIELD(0x3A) - PLAYER_FIELD(0x34)]; s16 f3A; u8 pad3C[PLAYER_FIELD(0x68) - PLAYER_FIELD(0x3C)]; u8 team; u8 pad69[PLAYER_FIELD(0x6E) - PLAYER_FIELD(0x69)]; u8 f6E; u8 pad6F[PLAYER_FIELD(0x88) - PLAYER_FIELD(0x6F)]; u16 f88, f8A; s32 x, y; u8 pad94[PLAYER_FIELD(0xE4) - PLAYER_FIELD(0x94)]; u32 hist[11]; u32 f110; u8 pad114[PLAYER_FIELD(0x148) - PLAYER_FIELD(0x114)]; u16 *pos; };
+struct Ene7508 { u16 id; u8 f2; u8 pad3[5]; s16 dir; u8 padA[2]; u16 state; u8 padE[6]; s32 x, y; u8 pad1C[0x2E]; u16 f4A; u32 f4C; u32 f50; u32 f54; u16 f58, f5A; u8 pad5C[6]; u16 f62; u8 pad64[6]; u16 wait; u8 pad6C[0xE]; u16 f7A; u16 f7C, f7E; u8 pad80[0x15C]; u8 active; u8 pad1DD[ENEMY_FIELD(0x206) - 0x1DD]; s16 f206; u8 pad208[ENEMY_FIELD(0x226) - ENEMY_FIELD(0x208)]; u8 f226; u8 pad227[4]; u8 threshold; u16 f22C; u8 pad22E[ENEMY_FIELD(0x2D8) - ENEMY_FIELD(0x22E)]; u16 f2D8, f2DA; u8 pad2DC[ENEMY_SIZE - ENEMY_FIELD(0x2DC)]; };
 struct Tbl7508 { u8 pad0[0x2C]; u32 anim; u8 pad30[0x28]; };
 struct Pkt7508 { u8 kind:8; u8 val:8; u8 b2:8; s8 b3:8; u32 dmg:16; u32 rest:16; };
 extern struct Ply7508 p7508[] asm("gUnk_03003CE0");
@@ -2334,12 +2413,12 @@ void sub_08077508(u32 who, u32 arg)
     if (e->f226 != 3) {
         init7508(&spr, tbl7508[e->f2D8 + 10].anim, 0, -1, 0);
         spr.f1C = sub_08019D7C(e->f2D8, e->f2DA);
-        if (tbl7508[e->f2D8 + 10].anim == 0x500C0)
+        if (tbl7508[e->f2D8 + 10].anim == RES_ID(0x500C0))
             pal = 0x10;
         else
             pal = 8;
     } else {
-        init7508(&spr, 0x5001E, 0, -1, 0);
+        init7508(&spr, RES_ID(0x5001E), 0, -1, 0);
         spr.f20 = who;
         pal = 0x40;
     }
@@ -2487,7 +2566,7 @@ void sub_08077508(u32 who, u32 arg)
                     if (sub_08002204() != 0) {
                         te->state = 10;
                         pkt.dmg = dmgE7508(e, te);
-                        pkt.val = cfg[0xBC];
+                        pkt.val = cfg[ITEM_FIELD(0xBC)];
                         pkt.b2 = 0;
                         pkt.b3 = 0;
                         te->f54 = e->f50;
@@ -2576,8 +2655,8 @@ void sub_08077D04(u32 who, u32 b)
     gMasks7D04[who] |= 1 << i;
 }
 struct Spr7DAC { u32 f0, f4, f8, fC; u8 pad10[12]; u8 f1C, f1D; u8 pad1E[22]; };
-struct Ply7DAC { u8 pad0[0x20]; u16 state; u8 pad22[0xE]; u32 flags; u8 pad34[6]; s16 f3A; u8 pad3C[0x2C]; u8 team; u8 pad69[5]; u8 f6E; u8 pad6F[0x19]; u16 f88, f8A; s32 x, y; u8 pad94[0x50]; u32 hist[11]; u32 f110; u8 pad114[0x34]; u8 *sprite; };
-struct Ene7DAC { u16 id; u8 f2; u8 pad3[5]; s16 dir; u8 padA[2]; u16 state; u8 padE[6]; s32 x, y; u8 pad1C[0x2E]; u16 f4A; u32 f4C; u32 f50; u32 f54; u16 f58, f5A; u8 pad5C[6]; u16 f62; u8 pad64[6]; u16 wait; u8 pad6C[0xE]; u16 f7A; u16 f7C, f7E; u8 pad80[0x15C]; u8 active; u8 pad1DD[0x29]; s16 f206; u8 pad208[0x23]; u8 threshold; u16 f22C; u8 pad22E[0xAA]; u16 f2D8, f2DA; u8 pad2DC[4]; };
+struct Ply7DAC { u8 pad0[PLAYER_FIELD(0x20)]; u16 state; u8 pad22[PLAYER_FIELD(0x30) - PLAYER_FIELD(0x22)]; u32 flags; u8 pad34[PLAYER_FIELD(0x3A) - PLAYER_FIELD(0x34)]; s16 f3A; u8 pad3C[PLAYER_FIELD(0x68) - PLAYER_FIELD(0x3C)]; u8 team; u8 pad69[PLAYER_FIELD(0x6E) - PLAYER_FIELD(0x69)]; u8 f6E; u8 pad6F[PLAYER_FIELD(0x88) - PLAYER_FIELD(0x6F)]; u16 f88, f8A; s32 x, y; u8 pad94[PLAYER_FIELD(0xE4) - PLAYER_FIELD(0x94)]; u32 hist[11]; u32 f110; u8 pad114[PLAYER_FIELD(0x148) - PLAYER_FIELD(0x114)]; u8 *sprite; };
+struct Ene7DAC { u16 id; u8 f2; u8 pad3[5]; s16 dir; u8 padA[2]; u16 state; u8 padE[6]; s32 x, y; u8 pad1C[0x2E]; u16 f4A; u32 f4C; u32 f50; u32 f54; u16 f58, f5A; u8 pad5C[6]; u16 f62; u8 pad64[6]; u16 wait; u8 pad6C[0xE]; u16 f7A; u16 f7C, f7E; u8 pad80[0x15C]; u8 active; u8 pad1DD[ENEMY_FIELD(0x206) - 0x1DD]; s16 f206; u8 pad208[ENEMY_FIELD(0x22B) - ENEMY_FIELD(0x208)]; u8 threshold; u16 f22C; u8 pad22E[ENEMY_FIELD(0x2D8) - ENEMY_FIELD(0x22E)]; u16 f2D8, f2DA; u8 pad2DC[ENEMY_SIZE - ENEMY_FIELD(0x2DC)]; };
 struct Tbl7DAC { u8 pad0[0x2C]; u32 anim; u8 pad30[0x28]; };
 struct Pkt7DAC { u8 kind:8; u8 val:8; u8 b2:8; s8 b3:8; u32 dmg:16; u32 rest:16; };
 extern struct Ply7DAC p7DAC[] asm("gUnk_03003CE0");
@@ -2645,7 +2724,7 @@ void sub_08077DAC(u32 who, u32 arg)
     e = &e7DACBase[who];
     init7DAC(&spr, tbl7DAC[e->f2D8 + 10].anim, 0, -1, 0);
     spr.f1C = sub_08019D7C(e->f2D8, e->f2DA);
-    if (tbl7DAC[e->f2D8 + 10].anim == 0x500C0)
+    if (tbl7DAC[e->f2D8 + 10].anim == RES_ID(0x500C0))
         pal = 0x10;
     else
         pal = 8;
@@ -2761,7 +2840,7 @@ void sub_08077DAC(u32 who, u32 arg)
             if (roll7DAC(e->f206, te->f206) != 0) {
                 te->state = 10;
                 pkt.dmg = dmgE7DAC(e, te);
-                pkt.val = cfg[0xBC];
+                pkt.val = cfg[ITEM_FIELD(0xBC)];
                 pkt.b2 = 0;
                 pkt.b3 = 0;
                 te->f54 = e->f50;
@@ -2857,8 +2936,8 @@ void sub_0807854C(u32 who, u32 b)
 }
 struct Spr85F4 { u32 f0, f4, f8, fC; u8 pad10[12]; u8 f1C, f1D; u8 pad1E[22]; };
 struct Pos85F4 { u16 h0; u16 h2; };
-struct Ply85F4 { u8 pad0[0x30]; u32 flags; u8 pad34[0x34]; u8 team; u8 pad69[0x23]; s32 x, y; u8 pad94[0xB4]; struct Pos85F4 *pos; };
-struct Ene85F4 { u16 id; u8 pad2[6]; s16 dir; u8 padA[2]; u16 state; u8 padE[6]; s32 x, y; u8 pad1C[0x4E]; u16 wait; u8 pad6C[0xE]; u16 f7A; u8 pad7C[0x160]; u8 active; u8 pad1DD[0x20]; u8 f1FD; u8 pad1FE[0x2D]; u8 threshold; u16 f22C; u8 pad22E[0xAA]; u16 f2D8, f2DA; u8 pad2DC[4]; };
+struct Ply85F4 { u8 pad0[PLAYER_FIELD(0x30)]; u32 flags; u8 pad34[PLAYER_FIELD(0x68) - PLAYER_FIELD(0x34)]; u8 team; u8 pad69[PLAYER_FIELD(0x8C) - PLAYER_FIELD(0x69)]; s32 x, y; u8 pad94[PLAYER_FIELD(0x148) - PLAYER_FIELD(0x94)]; struct Pos85F4 *pos; };
+struct Ene85F4 { u16 id; u8 pad2[6]; s16 dir; u8 padA[2]; u16 state; u8 padE[6]; s32 x, y; u8 pad1C[0x4E]; u16 wait; u8 pad6C[0xE]; u16 f7A; u8 pad7C[0x160]; u8 active; u8 pad1DD[0x20]; u8 f1FD; u8 pad1FE[ENEMY_FIELD(0x22B) - 0x1FE]; u8 threshold; u16 f22C; u8 pad22E[ENEMY_FIELD(0x2D8) - ENEMY_FIELD(0x22E)]; u16 f2D8, f2DA; u8 pad2DC[ENEMY_SIZE - ENEMY_FIELD(0x2DC)]; };
 struct Off85F4 { s16 x, y; };
 extern struct Ply85F4 p85F4[] asm("gUnk_03003CE0");
 extern struct Ene85F4 *e85F4Base asm("gUnk_030056F4");
@@ -2909,7 +2988,7 @@ void sub_080785F4(u32 who, u32 arg)
 
     local = (u16)sub_080020F4();
     e = &e85F4Base[who];
-    init85F4(&spr, 0x500AF, 0, 0x80000000, 0);
+    init85F4(&spr, RES_ID(0x500AF), 0, 0x80000000, 0);
     spr.f1C = sub_08019D7C(e->f2D8, e->f2DA);
     if (e->f1FD == 0x14) {
         kind = 0;
@@ -3086,9 +3165,9 @@ void sub_08078B24(u32 who, u32 b)
     gMasks7D04[who] |= 1 << i;
 }
 struct AttrBCC { u32 kind:4; u32 x:12; u32 y:12; u32 pad:4; u32 flags:6; u32 pad2:4; u32 on:1; u32 power:8; u32 pad3:13; };
-struct PlayerBCC { u16 id; u8 pad02[0x1e]; u16 state; u8 pad22[0xe]; u32 flags; u8 pad34[0x34]; u8 team; u8 pad69[0x1f]; u16 hp; u8 pad8a[2]; s32 pos[2]; u8 pad94[0x2e]; u16 unkC2; s16 unkC4; u8 padc6[0x32]; s32 tags[15]; u16 unk134; u8 pad136[0x12]; struct AttrBCC *attr; };
+struct PlayerBCC { u16 id; u8 pad02[PLAYER_FIELD(0x20) - PLAYER_FIELD(0x2)]; u16 state; u8 pad22[PLAYER_FIELD(0x30) - PLAYER_FIELD(0x22)]; u32 flags; u8 pad34[PLAYER_FIELD(0x68) - PLAYER_FIELD(0x34)]; u8 team; u8 pad69[PLAYER_FIELD(0x88) - PLAYER_FIELD(0x69)]; u16 hp; u8 pad8a[PLAYER_FIELD(0x8C) - PLAYER_FIELD(0x8A)]; s32 pos[2]; u8 pad94[PLAYER_FIELD(0xC2) - PLAYER_FIELD(0x94)]; u16 unkC2; s16 unkC4; u8 padc6[PLAYER_FIELD(0xF8) - PLAYER_FIELD(0xC6)]; s32 tags[15]; u16 unk134; u8 pad136[PLAYER_FIELD(0x148) - PLAYER_FIELD(0x136)]; struct AttrBCC *attr; };
 struct SpriteBCC { u32 f0, f4, f8; void *fC; u8 pad10[12]; u8 unk1C, unk1D; u8 pad1e[22]; };
-struct EnemyBCC { u16 id; u8 unk2; u8 pad03[9]; u16 state; u8 pad0e[6]; s32 pos[2]; u8 pad1c[0x2e]; u16 hp; u32 dmg; u8 pad50[4]; s32 tag; u16 unk58, unk5A; s16 unk5C; u8 pad5e[4]; u16 unk62; u8 pad64[0x18]; u16 unk7C; s16 unk7E; u8 pad80[0x15c]; u8 team; u8 pad1dd[0x51]; u8 w, h; u8 pad230[0xb0]; };
+struct EnemyBCC { u16 id; u8 unk2; u8 pad03[9]; u16 state; u8 pad0e[6]; s32 pos[2]; u8 pad1c[0x2e]; u16 hp; u32 dmg; u8 pad50[4]; s32 tag; u16 unk58, unk5A; s16 unk5C; u8 pad5e[4]; u16 unk62; u8 pad64[0x18]; u16 unk7C; s16 unk7E; u8 pad80[0x15c]; u8 team; u8 pad1dd[ENEMY_FIELD(0x22E) - 0x1DD]; u8 w, h; u8 pad230[ENEMY_SIZE - ENEMY_FIELD(0x230)]; };
 struct BoxBCC { u16 w, h; };
 struct VecBCC { s32 x, y; };
 struct PacketBCC { u8 player:8; u8 power:8; u8 impulse:8; s8 direction:8; u32 amount:16; u32 unused:16; };
@@ -3144,7 +3223,7 @@ void sub_08078BCC(s32 who, s32 bit)
     s32 mode; /* constant 0, rematerialized as `movs r3, #0; cmp r3, #0` */
 
     local = sub_080020F4();
-    initBCC(&spr, 0x500A9, 8, -1, 0);
+    initBCC(&spr, RES_ID(0x500A9), 8, -1, 0);
     spr.unk1C = 7;
     spr.unk1D = 8;
     for (i = 0; i < 2; i++)
@@ -3442,8 +3521,8 @@ struct Info458 { u32 who, i, a, c, d, b; };
 extern u32 gMasks458[] asm("gUnk_030063E0");
 struct Spr458 { u32 f0, f4, f8, fC; u8 p10[12]; u8 f1C, f1D; u8 p1E[22]; };
 struct Box458 { u16 w, h; };
-struct Pl458 { u8 p0[0x20]; u16 state; u8 p22[0xE]; u32 flags; u8 p34[0x34]; u8 active; u8 p69[5]; u8 b6E; u8 p6F[0x1D]; s32 pos[2]; u8 p94[0x74]; u32 lastHit; u8 p10C[0x40]; };
-struct En458 { u8 p0[0x14]; s32 pos[2]; u8 p1C[0x38]; u32 lastHit; u8 p58[0x184]; u8 active; u8 p1DD[0x51]; u8 bw, bh; u8 p230[0xB0]; };
+struct Pl458 { u8 p0[PLAYER_FIELD(0x20)]; u16 state; u8 p22[PLAYER_FIELD(0x30) - PLAYER_FIELD(0x22)]; u32 flags; u8 p34[PLAYER_FIELD(0x68) - PLAYER_FIELD(0x34)]; u8 active; u8 p69[PLAYER_FIELD(0x6E) - PLAYER_FIELD(0x69)]; u8 b6E; u8 p6F[PLAYER_FIELD(0x8C) - PLAYER_FIELD(0x6F)]; s32 pos[2]; u8 p94[PLAYER_FIELD(0x108) - PLAYER_FIELD(0x94)]; u32 lastHit; u8 p10C[PLAYER_SIZE - PLAYER_FIELD(0x10C)]; };
+struct En458 { u8 p0[0x14]; s32 pos[2]; u8 p1C[0x38]; u32 lastHit; u8 p58[0x184]; u8 active; u8 p1DD[ENEMY_FIELD(0x22E) - 0x1DD]; u8 bw, bh; u8 p230[ENEMY_SIZE - ENEMY_FIELD(0x230)]; };
 extern struct Pl458 gPl458[] asm("gUnk_03003CE0");
 extern struct En458 *gEn458 asm("gUnk_030056F4");
 extern s32 sub_08065158_458(void *, u32, u32, u32, u32) asm("sub_08065158");
@@ -3474,7 +3553,11 @@ void sub_08079458(struct Info458 *info)
     u16 dmg;
     u32 k, who, i, big, local;
     u8 *obj;
+#ifdef REGION_USA
+    register s32 timer asm("sl");
+#else
     s32 timer;
+#endif
 
     u32 shade;
     u16 j;
@@ -3490,7 +3573,7 @@ void sub_08079458(struct Info458 *info)
     i = info->i;
     phase = 0;
     frame = 0;
-    sub_08065158_458(&spr, 0x500AF, 0, 0x80000000, 0);
+    sub_08065158_458(&spr, RES_ID(0x500AF), 0, 0x80000000, 0);
     switch (info->c) {
     case 0:
         timer = 0xB4;
@@ -3541,7 +3624,7 @@ void sub_08079458(struct Info458 *info)
         big = 1;
         break;
     }
-    k = obj[0xA8];
+    k = obj[ITEM_FIELD(0xA8)];
     asm(""::"r"(pp));
     asm(""::"r"(pp));
     asm(""::"r"(pp));
@@ -3665,8 +3748,8 @@ void sub_08079888(u32 who, u32 a, u32 b, u32 c, u32 d)
 }
 struct Spr948 { u32 f0, f4, f8, fC; u8 p10[12]; u8 f1C, f1D; u8 p1E[22]; };
 struct Box948 { u16 w, h; };
-struct Pl948 { u8 p0[0x20]; u16 state; u8 p22[0xE]; u32 flags; u8 p34[0x34]; u8 active; u8 p69[0x23]; s32 pos[2]; u8 p94[0x74]; u32 lastHit; u8 p10C[0x40]; };
-struct En948 { u8 p0[0x14]; s32 pos[2]; u8 p1C[0x38]; u32 lastHit; u8 p58[0x184]; u8 active; u8 p1DD[0x51]; u8 bw, bh; u8 p230[0xB0]; };
+struct Pl948 { u8 p0[PLAYER_FIELD(0x20)]; u16 state; u8 p22[PLAYER_FIELD(0x30) - PLAYER_FIELD(0x22)]; u32 flags; u8 p34[PLAYER_FIELD(0x68) - PLAYER_FIELD(0x34)]; u8 active; u8 p69[PLAYER_FIELD(0x8C) - PLAYER_FIELD(0x69)]; s32 pos[2]; u8 p94[PLAYER_FIELD(0x108) - PLAYER_FIELD(0x94)]; u32 lastHit; u8 p10C[PLAYER_SIZE - PLAYER_FIELD(0x10C)]; };
+struct En948 { u8 p0[0x14]; s32 pos[2]; u8 p1C[0x38]; u32 lastHit; u8 p58[0x184]; u8 active; u8 p1DD[ENEMY_FIELD(0x22E) - 0x1DD]; u8 bw, bh; u8 p230[ENEMY_SIZE - ENEMY_FIELD(0x230)]; };
 extern struct Pl948 gPl948[] asm("gUnk_03003CE0");
 extern struct En948 *gEn948 asm("gUnk_030056F4");
 extern s32 sub_08065158_948(void *, u32, u32, u32, u32) asm("sub_08065158");
@@ -3705,7 +3788,7 @@ void sub_08079948(struct Info9888 *info)
     frame = 0;
     size = 0x00180020;
     counter = 0x88800000;
-    sub_08065158_948(&spr, 0x500AF, 0, 0x80000000, 0);
+    sub_08065158_948(&spr, RES_ID(0x500AF), 0, 0x80000000, 0);
     if (sub_0800CCCC() == 0 && sub_0800CD34() == 0)
         sub_0805865C(0x35);
     timer = 4;
@@ -3714,7 +3797,7 @@ void sub_08079948(struct Info9888 *info)
             sub_08007870_948(dx, dy, 8, frame, shade, &spr.f1C, spr.f8, spr.f0);
         sub_080003F0();
     } while (timer-- != 0);
-    sub_08065158_948(&spr, 0x5008C, 0, 0x80000000, 0);
+    sub_08065158_948(&spr, RES_ID(0x5008C), 0, 0x80000000, 0);
     sub_08000AF0(0x17, (void *)spr.fC, 2);
     spr.f1C = 7;
     spr.f1D = 8;
@@ -3840,7 +3923,7 @@ void sub_08079D84(struct Info9888 *info, u32 packed)
     s32 y;
     u8 k;
     sub_080020F4();
-    sub_08065158_5(&s, 0x5008C, 1, -1, 0);
+    sub_08065158_5(&s, RES_ID(0x5008C), 1, -1, 0);
     sub_08000AF0(0x17, (void *)s.fC, 2);
     s.b1C[0] = 7;
     s.b1C[1] = 8;
@@ -3918,7 +4001,7 @@ s32 sub_08079FD0(s32 arg0) {
     var_r5 = 0x80000;
 loop_1:
     temp_r1 = sub_0806898C(arg0, var_r4) - 1;
-    if (((s32) temp_r1 >= 0) && ((s32) M2C_FIELD(temp_r6, s16 *, 0xC2) >= (s32) temp_r1)) {
+    if (((s32) temp_r1 >= 0) && ((s32) M2C_FIELD(temp_r6, s16 *, PLAYER_FIELD(0xC2)) >= (s32) temp_r1)) {
         return (s32) (var_r5 >> 0x10);
     }
     var_r5 += 0xFFFF0000;
@@ -3986,7 +4069,7 @@ void sub_0807A0E0(void *arg0)
 {
     u8 *p = (u8 *)&gUnk_03003CE0[sub_080020F4()];
     u16 d = sub_0806898C(M2C_FIELD(arg0, s32 *, 0xC), M2C_FIELD(arg0, s32 *, 0x14)) - 1;
-    u16 *f = (u16 *)(p + 0xC2);
+    u16 *f = (u16 *)(p + PLAYER_FIELD(0xC2));
     u32 n = *f - d;
     *f = n;
     if ((s16)n < 0)
@@ -4020,15 +4103,15 @@ u32 sub_0807A124(void)
     u8 *p = sub_08001494(sz);
     u8 *q = sub_08001494(sz);
     u32 r;
-    memcpy(p, (void *)gUnk_030034E0, 0xCA4);
+    memcpy(p, (void *)gUnk_030034E0, SAVE_FIELD(0xCA4));
     memcpy(q, gUnk_03004210, 0x51C);
-    p[0xCA4] = Sum_A124(p, 0xCA4);
+    p[SAVE_FIELD(0xCA4)] = Sum_A124(p, SAVE_FIELD(0xCA4));
     q[0x51C] = Sum_A124(q, 0x51C);
-    sub_08001B14(*(u16 *)(gUnk_030034E0 + 0xE), p);
-    r = (u16)sub_08001B14(*(u16 *)(gUnk_030034E0 + 0xE) + 8, q);
+    sub_08001B14(*(u16 *)(gUnk_030034E0 + SAVE_FIELD(0xE)), p);
+    r = (u16)sub_08001B14(*(u16 *)(gUnk_030034E0 + SAVE_FIELD(0xE)) + 8, q);
     if (r == 0) {
-        r = sub_08001B54(*(u16 *)(gUnk_030034E0 + 0xE), p);
-        r |= sub_08001B54(*(u16 *)(gUnk_030034E0 + 0xE) + 8, q);
+        r = sub_08001B54(*(u16 *)(gUnk_030034E0 + SAVE_FIELD(0xE)), p);
+        r |= sub_08001B54(*(u16 *)(gUnk_030034E0 + SAVE_FIELD(0xE)) + 8, q);
         if (r == 0) {
             sub_08001538((s32)p);
             sub_08001538((s32)q);
@@ -4062,8 +4145,8 @@ s32 sub_0807A20C(u8 a)
     u8 *q = sub_08001494(sz);
     sub_08001B04_4(a, 0, p, sz);
     sub_08001B04_4(a + 8, 0, q, sz);
-    if (p[0xCA4] == Sum_A20C(p, 0xCA4) && q[0x51C] == Sum_A20C(q, 0x51C)) {
-        memcpy((void *)gUnk_030034E0, p, 0xCA4);
+    if (p[SAVE_FIELD(0xCA4)] == Sum_A20C(p, SAVE_FIELD(0xCA4)) && q[0x51C] == Sum_A20C(q, 0x51C)) {
+        memcpy((void *)gUnk_030034E0, p, SAVE_FIELD(0xCA4));
         memcpy(gUnk_03004210, q, 0x51C);
         sub_08001538((s32)p);
         sub_08001538((s32)q);
@@ -4081,13 +4164,13 @@ s32 sub_0807A20C(u8 a)
  * verification call follows. These buffers do not establish that every byte of each full flash sector is zero. */
 s32 sub_0807A2E0(u8 a)
 {
-    u8 *p = sub_08001494(0xCA8);
+    u8 *p = sub_08001494(SAVE_FIELD(0xCA8));
     u8 *q = sub_08001494(0x520);
     u8 *t;
     u32 i;
-    for (t = p, i = 0; i <= 0xCA7; i++)
+    for (t = p, i = 0; i <= SAVE_FIELD(0xCA7); i++)
         *t++ = 0;
-    p[0xCA4] = 0;
+    p[SAVE_FIELD(0xCA4)] = 0;
     while ((u16)sub_08001B14(a, p))
         ;
     for (t = q, i = 0; i <= 0x51F; i++)
@@ -4099,14 +4182,20 @@ s32 sub_0807A2E0(u8 a)
     sub_08001538((s32)q);
     return 1;
 }
-struct Save378 { u32 w0; u8 p4[6]; u16 hA, hC; u8 pE[0xE]; u32 w1C, w20; u8 p24[8]; u32 w2C; };
-struct Sum378 { u8 valid, b1, b2, b3, b4, b5, b6, b7; u32 w8; u16 hC, hE; u8 name[12]; u32 a1C[8]; u32 a3C[12]; };
+struct Save378 { u32 w0; u8 p4[SAVE_FIELD(0xA) - 4]; u16 hA, hC; u8 pE[SAVE_FIELD(0x1C) - SAVE_FIELD(0xE)]; u32 w1C, w20; u8 p24[8]; u32 w2C; };
+struct Sum378 { u8 valid, b1, b2, b3, b4, b5, b6, b7; u32 w8; u16 hC, hE;
+#ifdef REGION_USA
+    NameChar name[10];
+#else
+    NameChar name[12];
+#endif
+    u32 a1C[8]; u32 a3C[12]; };
 struct Blk20_378 { u32 w[8]; };
 struct Blk30_378 { u32 w[12]; };
 extern struct Save378 *gSave378 asm("gUnk_030034E0");
 struct Opt378 { u32 w0, w4; u8 p8[0x14]; u16 h1C, h1E; u8 p20[0xC]; u32 w2C; };
 extern struct Opt378 *gSave4210_378 asm("gUnk_03004210");
-struct Pl378 { u8 p0[0x58]; struct Blk30_378 b58; u8 p88[0xC4]; };
+struct Pl378 { u8 p0[PLAYER_FIELD(0x58)]; struct Blk30_378 b58; u8 p88[PLAYER_SIZE - PLAYER_FIELD(0x88)]; };
 extern struct Pl378 gPl378[] asm("gUnk_03003CE0");
 extern s32 sub_0807A20C(u8);
 extern void sub_08013850();
@@ -4131,7 +4220,7 @@ u32 sub_0807A378(struct Sum378 *e)
     do {
         if (sub_0807A20C(i) == 0) {
             vu16 z = 0;
-            CpuSet_378((void *)&z, e, 0x01000036);
+            CpuSet_378((void *)&z, e, 0x01000000 | sizeof(struct Sum378) / 2);
             i++;
         } else {
             struct Save378 *s;
@@ -4164,12 +4253,12 @@ u32 sub_0807A378(struct Sum378 *e)
             }
             sub_0801E024(&gPl378[sub_080020F4()]);
             sub_0801DD9C();
-            *(struct Blk20_378 *)e->a1C = *(struct Blk20_378 *)((u8 *)gSave378 + 0x10);
+            *(struct Blk20_378 *)e->a1C = *(struct Blk20_378 *)((u8 *)gSave378 + SAVE_FIELD(0x10));
             *(struct Blk30_378 *)e->a3C = gPl378[sub_080020F4()].b58;
             j = 0;
             i++;
             do {
-                e->name[j] = ((u8 *)gSave378)[j];
+                { u32 off = j * sizeof(NameChar); e->name[j] = *(NameChar *)((u8 *)gSave378 + off); }
                 j++;
             } while (j <= 9);
         }
@@ -4199,10 +4288,14 @@ u32 sub_0807A4B4(struct Sum378 *entries, u8 index)
         flag = &entries->b4;
         save->hA = entries[index].b1;
         save->hC = entries[index].b2;
-        *(u16 *)((u8 *)save + 0xE) = index;
+        *(u16 *)((u8 *)save + SAVE_FIELD(0xE)) = index;
         *flag = 0;
         for (i = 0; i <= 9; i++)
-            ((u8 *)gSave378)[i] = entries[index].name[i];
+#ifdef REGION_USA
+            { register NameChar *dst asm("r0") = (NameChar *)gSave378; register NameChar ch asm("r1"); asm("" : "+r"(dst)); dst += i; ch = entries[index].name[i]; *dst = ch; }
+#else
+            ((NameChar *)gSave378)[i] = entries[index].name[i];
+#endif
         sub_0801ACB8();
     } else {
         if (entries[index].b7 != 0)
@@ -4243,10 +4336,10 @@ static inline u8 Sum_A56C(const u8 *data, u32 length)
  * unchecked. */
 u32 sub_0807A56C(u8 sector)
 {
-    u32 sz = 0xCA8;
+    u32 sz = SAVE_FIELD(0xCA8);
     u8 *data = (u8 *)sub_08001494(sz);
     sub_08001B04_4(sector, 0, data, sz);
-    if (data[0xCA4] != Sum_A56C(data, 0xCA4)) {
+    if (data[SAVE_FIELD(0xCA4)] != Sum_A56C(data, SAVE_FIELD(0xCA4))) {
         sub_08001538(data);
         return 0;
     }

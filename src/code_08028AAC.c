@@ -10,8 +10,8 @@ typedef struct { s32 x, y; } Vec028AAC;
 struct Actor028AAC { u32 id; u8 p4[4]; Vec028AAC pos, target; u8 p18[0x58]; };
 struct Obj028AAC { Vec028AAC pos; u8 p8[0x12]; u16 f1A, f1C; u8 p1E[6]; };
 struct State028AAC { u8 p0[0x7A4]; struct Actor028AAC actors[15]; };
-struct Enemy028AAC { u8 p0[0x14]; Vec028AAC pos, prev, target; u8 p2C[0x2B4]; };
-struct Player028AAC { u8 p0[0x8C]; Vec028AAC pos, prev, target; u8 pA4[0xA8]; };
+struct Enemy028AAC { u8 p0[0x14]; Vec028AAC pos, prev, target; u8 p2C[ENEMY_SIZE - 0x2C]; };
+struct Player028AAC { u8 p0[PLAYER_FIELD(0x8C)]; Vec028AAC pos, prev, target; u8 pA4[PLAYER_SIZE - PLAYER_FIELD(0xA4)]; };
 extern struct State028AAC *state028AAC asm("gUnk_03005CF4");
 extern struct Enemy028AAC *enemies028AAC asm("gUnk_030056F4");
 extern struct Player028AAC players028AAC[] asm("gUnk_03003CE0");
@@ -105,8 +105,13 @@ void sub_08028AAC_v(u32 who, s32 ax, s32 ay, s32 af)
         if (frames != 0) {
             t = 0;
             step = 0x400 / frames;
+#ifdef REGION_USA
+            (&enemies028AAC[who])->target.x = x << 8;
+            (&enemies028AAC[who])->target.y = y << 8;
+#else
             e->target.x = x << 8;
             e->target.y = y << 8;
+#endif
             s = e->pos;
             do {
                 lerp028AAC(&e->pos.x, s.x, e->target.x, t);
@@ -151,8 +156,8 @@ typedef struct { s32 x, y; } Vec028D98;
 struct Actor028D98 { u32 id; u8 p4[4]; Vec028D98 pos, target; u8 p18[0x58]; };
 struct Obj028D98 { Vec028D98 pos; u8 p8[0x12]; u16 f1A, f1C; u8 p1E[6]; };
 struct State028D98 { u8 p0[0x7A4]; struct Actor028D98 actors[15]; };
-struct Enemy028D98 { u8 p0[0x14]; Vec028D98 pos, prev, target; u8 p2C[0x2B4]; };
-struct Player028D98 { u8 p0[0x8C]; Vec028D98 pos, prev, target; u8 pA4[0xA8]; };
+struct Enemy028D98 { u8 p0[0x14]; Vec028D98 pos, prev, target; u8 p2C[ENEMY_SIZE - 0x2C]; };
+struct Player028D98 { u8 p0[PLAYER_FIELD(0x8C)]; Vec028D98 pos, prev, target; u8 pA4[PLAYER_SIZE - PLAYER_FIELD(0xA4)]; };
 extern struct State028D98 *state028D98 asm("gUnk_03005CF4");
 extern struct Enemy028D98 *enemies028D98 asm("gUnk_030056F4");
 extern struct Player028D98 players028D98[] asm("gUnk_03003CE0");
@@ -288,9 +293,9 @@ void sub_08028D98_v(u32 who, s32 ax, s32 ay, s32 af)
     }
 }
 extern u8 *scene026E4 asm("gUnk_03005CF4");
-struct Monster026E4 {u8 pad[8];u16 value;u8 tail[0x2D6];};
+struct Monster026E4 {u8 pad[8];u16 value;u8 tail[ENEMY_SIZE - 0xA];};
 extern struct Monster026E4 *monsters026E4 asm("gUnk_030056F4");
-struct Player026E4 {u8 pad[0x1C];u16 value;u8 tail[0x12E];};
+struct Player026E4 {u8 pad[PLAYER_FIELD(0x1C)];u16 value;u8 tail[PLAYER_SIZE - PLAYER_FIELD(0x1E)];};
 extern struct Player026E4 players026E4[] asm("gUnk_03003CE0");
 void task026E4(u32,u32) asm("sub_080290E4");
 /* [SetSceneEntityFacing] Writes direction at actor +0x24, enemy +8, or local player +0x1C. Actor path requests
@@ -339,12 +344,12 @@ matched:
         key--;
         if(key<=4) {
             monsterAddress=&monsters026E4;
-            offset=key*0x2E0;
+            offset=key*ENEMY_SIZE;
             
             *(u16 *)((u8 *)*monsterAddress+offset+8)=savedValue;
         }
     } else {
-        playerIndex=sub_080020F4()*0x14C;
+        playerIndex=sub_080020F4()*PLAYER_SIZE;
         playerBase=players026E4;
         
         ((struct Player026E4 *)(playerIndex+(u32)playerBase))->value=savedValue;
@@ -354,8 +359,8 @@ done:
 }
 struct Actor029174 { u32 id; u8 p4[0x20]; u16 f24; u8 p26[6]; u16 f2C, f2E, f30, f32, f34; u8 p36[2]; u16 f38; u8 p3A[0x36]; };
 struct State029174 { u8 p0[0x7A4]; struct Actor029174 actors[15]; };
-struct Enemy029174 { u8 p0[0xC]; u16 fC, fE; u8 p10[0x5A]; u16 f6A, f6C, f6E, f70, f72; u8 p74[0x26C]; };
-struct Player029174 { u8 p0[0x10]; u16 f10; u8 p12[0xE]; u16 f20, f22; u8 p24[0x92]; u16 fB6; u8 pB8[2]; u16 fBA, fBC, fBE, fC0; u8 pC2[0x8A]; };
+struct Enemy029174 { u8 p0[0xC]; u16 fC, fE; u8 p10[0x5A]; u16 f6A, f6C, f6E, f70, f72; u8 p74[ENEMY_SIZE - 0x74]; };
+struct Player029174 { u8 p0[PLAYER_FIELD(0x10)]; u16 f10; u8 p12[PLAYER_FIELD(0x20) - PLAYER_FIELD(0x12)]; u16 f20, f22; u8 p24[PLAYER_FIELD(0xB6) - PLAYER_FIELD(0x24)]; u16 fB6; u8 pB8[PLAYER_FIELD(0xBA) - PLAYER_FIELD(0xB8)]; u16 fBA, fBC, fBE, fC0; u8 pC2[PLAYER_SIZE - PLAYER_FIELD(0xC2)]; };
 extern struct State029174 *state029174 asm("gUnk_03005CF4");
 extern struct Enemy029174 *enemies029174 asm("gUnk_030056F4");
 extern struct Player029174 players029174[] asm("gUnk_03003CE0");
@@ -533,8 +538,8 @@ void sub_0802939C_v(u32 target, u16 val)
 struct Vec02949C { s32 x, y; };
 struct ActorPos02949C { u32 id; u8 p4[4]; struct Vec02949C pos; u8 p10[0x14]; s16 dir; u16 goal; u8 p28[0x48]; };
 struct State02949C { u8 p0[0x7A4]; struct ActorPos02949C actors[15]; };
-struct EnemyPos02949C { u8 p0[8]; s16 dir; u16 goal; u8 pC[8]; struct Vec02949C pos; u8 p1C[0x2C4]; };
-struct PlayerPos02949C { u8 p0[0x1C]; s16 dir; u16 goal; u8 p20[0x6C]; struct Vec02949C pos; u8 p94[0xB8]; };
+struct EnemyPos02949C { u8 p0[8]; s16 dir; u16 goal; u8 pC[8]; struct Vec02949C pos; u8 p1C[ENEMY_SIZE - 0x1C]; };
+struct PlayerPos02949C { u8 p0[PLAYER_FIELD(0x1C)]; s16 dir; u16 goal; u8 p20[PLAYER_FIELD(0x8C) - PLAYER_FIELD(0x20)]; struct Vec02949C pos; u8 p94[PLAYER_SIZE - PLAYER_FIELD(0x94)]; };
 extern struct State02949C *state02949C asm("gUnk_03005CF4");
 extern struct EnemyPos02949C *enemies02949C asm("gUnk_030056F4");
 extern struct PlayerPos02949C players02949C[] asm("gUnk_03003CE0");
@@ -686,8 +691,8 @@ void sub_0802949C(u32 who, u32 toward)
 }
 struct Actor029788 { u32 id; u8 p4[0x20]; s16 dir; u16 goal; u8 p28[0x48]; };
 struct State029788 { u8 p0[0x7A4]; struct Actor029788 actors[15]; };
-struct Enemy029788 { u8 p0[8]; s16 dir; u8 pA[0x2D6]; };
-struct Player029788 { u8 p0[0x1C]; s16 dir; u16 goal; u8 p20[0x12C]; };
+struct Enemy029788 { u8 p0[8]; s16 dir; u8 pA[ENEMY_SIZE - 0xA]; };
+struct Player029788 { u8 p0[PLAYER_FIELD(0x1C)]; s16 dir; u16 goal; u8 p20[PLAYER_SIZE - PLAYER_FIELD(0x20)]; };
 extern struct State029788 *state029788 asm("gUnk_03005CF4");
 extern struct Enemy029788 *enemies029788 asm("gUnk_030056F4");
 extern struct Player029788 players029788[] asm("gUnk_03003CE0");
@@ -799,7 +804,7 @@ void sub_08029788_v(u32 target)
         } while (p->dir != goal);
     }
 }
-struct P96C { u16 id; u8 pad2[0x2E]; u32 flags; u8 pad34[0x2C]; u16 f60; u16 f62; u8 pad64[4]; u8 f68; u8 pad69[0x59]; u16 fC2; u16 fC4; u8 tail[0x14C-0xC6]; };
+struct P96C { u16 id; u8 pad2[PLAYER_FIELD(0x30) - 2]; u32 flags; u8 pad34[0x2C]; u16 f60; u16 f62; u8 pad64[4]; u8 f68; u8 pad69[0x59]; u16 fC2; u16 fC4; u8 tail[PLAYER_SIZE - PLAYER_FIELD(0xC6)]; };
 extern struct P96C players96C[] asm("gUnk_03003CE0");
 #define DRAIN_96C(n) p=&players96C[index]; do { h=(void*)sub_0801E1D8(p,n,100); if(h) {sub_0801DB94(p->id,h,0); asm("":"+r"(h));} } while(h)
 /* [RestoreLocalPlayerVitals] Copies local player maximum fields+0x62 and+0x60 to current HP+0xC4 and MP+0xC2,
@@ -836,20 +841,20 @@ void sub_08029A7C(u32 action,u32 amount,s32 argument)
  u8 result[8]; u8 *res; u8 *player; u32 flags; s32 handle; u16 kind;
  player=(u8*)&gUnk_03003CE0[sub_080020F4()];
  if(sub_0800CDF8()==0 && sub_08058DB0()==0){
-  kind=H_A7(player,0x20);
-  if(kind!=14 && player[0x68]!=0 && kind!=11){
-   flags=W_A7(player,0x30)&0x2000;
-   if(flags==0 && kind!=10){
-    amount=scaleA7C(amount,H_A7(player,0x5A),200);
+  kind=H_A7(player,PLAYER_FIELD(0x20));
+  if(kind!=14 && player[PLAYER_FIELD(0x68)]!=0 && kind!=PLAYER_FIELD(11)){
+   flags=W_A7(player,PLAYER_FIELD(0x30))&0x2000;
+   if(flags==0 && kind!=PLAYER_FIELD(10)){
+    amount=scaleA7C(amount,H_A7(player,PLAYER_FIELD(0x5A)),200);
     res=result;
-    initA7C(result,player+0x4C,argument,action,H_A7(player,0));
+    initA7C(result,player+PLAYER_FIELD(0x4C),argument,action,H_A7(player,0));
     handle=sub_0801E164(player,0);
     if(handle)sub_0801DB94(H_A7(player,0),(void*)handle,res[1]);
-    amount=valueA7C(action,amount,player+0x4C);
-    H_A7(player,0x20)=10; H_A7(player,0x88)+=amount;
-    W_A7(player,0x110)=flags; H_A7(player,0xC8)=flags; H_A7(player,0xCA)=flags; W_A7(player,0xE0)=flags;
-    if(H_A7(player,0xC)==8)sub_0805865C(0x4B); else sub_0805865C(H_A7(player,0xC)+0x45);
-    runA7C(player+0x4C,amount,argument,0,H_A7(player,0),action);
+    amount=valueA7C(action,amount,player+PLAYER_FIELD(0x4C));
+    H_A7(player,PLAYER_FIELD(0x20))=PLAYER_FIELD(10); H_A7(player,PLAYER_FIELD(0x88))+=amount;
+    W_A7(player,PLAYER_FIELD(0x110))=flags; H_A7(player,PLAYER_FIELD(0xC8))=flags; H_A7(player,PLAYER_FIELD(0xCA))=flags; W_A7(player,PLAYER_FIELD(0xE0))=flags;
+    if(H_A7(player,PLAYER_FIELD(0xC))==8)sub_0805865C(0x4B); else sub_0805865C(H_A7(player,PLAYER_FIELD(0xC))+0x45);
+    runA7C(player+PLAYER_FIELD(0x4C),amount,argument,0,H_A7(player,0),action);
    }
   }
  }
@@ -874,16 +879,16 @@ void sub_08029B98(s32 index,u32 action,u32 amount,u32 argument,u16 arg4,u16 arg5
 {
  struct ResultB98 result; struct ResultB98 *res; struct ResultB98 *res1; u8 *object; void *handle;
  if(((u32)gUnk_030056FC & (1<<index))==0)return;
- object=(u8*)gUnk_030056F4+index*0x2E0;
+ object=(u8*)gUnk_030056F4+index*ENEMY_SIZE;
  if(object[0x1DC] && H_B9(object,0xC)!=11 && H_B9(object,0xC)!=10){
   amount=scaleB98(amount,H_B9(object,0x1CE),200);
-  if(object[0x226]!=3){
+  if(object[ENEMY_FIELD(0x226)]!=3){
    res1=&result;
-   initB98(&result,object+0x218,argument,action,H_B9(object,0)+4);
+   initB98(&result,object+ENEMY_FIELD(0x218),argument,action,H_B9(object,0)+4);
    handle=lookupB98(object,0);
    if(handle)sub_0801DB94(H_B9(object,0)+4,handle,res1->b);
   }
-  amount=valueB98(action,amount,object+0x218);
+  amount=valueB98(action,amount,object+ENEMY_FIELD(0x218));
   H_B9(object,0xC)=10;
   res=&result;
   res->value=amount;res->a=H_B9(object,2);res->c=arg4;res->d=arg5;
@@ -891,7 +896,7 @@ void sub_08029B98(s32 index,u32 action,u32 amount,u32 argument,u16 arg4,u16 arg5
   H_B9(object,0x58)=sub_080020F4(); H_B9(object,0x4A)=amount;W_B9(object,0x4C)=amount;
   H_B9(object,0x5A)|=1<<sub_080020F4();
   finishB98(&result);
-  if(object[0x226]!=3)runB98(object+0x218,res->value,argument,index,index+4,action);
+  if(object[ENEMY_FIELD(0x226)]!=3)runB98(object+ENEMY_FIELD(0x218),res->value,argument,index,index+4,action);
  }
 }
 #define H_CE(p,n) (*(u16*)((p)+(n)))
@@ -913,19 +918,19 @@ void sub_08029CEC(u32 action,u32 amount,s32 argument)
  u8 result[8]; u8 *res; u8 *player; u32 flags; s32 handle; u16 kind;
  player=(u8*)&gUnk_03003CE0[sub_080020F4()];
  if(sub_0800CDF8()==0 && sub_08058DB0()==0){
-  kind=H_CE(player,0x20);
-  if(kind!=14 && player[0x68]!=0 && kind!=11){
-   flags=W_CE(player,0x30)&0x2000;
-   if(flags==0 && kind!=10){
+  kind=H_CE(player,PLAYER_FIELD(0x20));
+  if(kind!=14 && player[PLAYER_FIELD(0x68)]!=0 && kind!=PLAYER_FIELD(11)){
+   flags=W_CE(player,PLAYER_FIELD(0x30))&0x2000;
+   if(flags==0 && kind!=PLAYER_FIELD(10)){
     res=result;
-    initCEC(result,player+0x4C,argument,action,H_CE(player,0));
+    initCEC(result,player+PLAYER_FIELD(0x4C),argument,action,H_CE(player,0));
     handle=sub_0801E164(player,0);
     if(handle)sub_0801DB94(H_CE(player,0),(void*)handle,res[1]);
-    amount=valueCEC(action,amount,player+0x4C);
-    W_CE(player,0xE0)=action; extraCEC(action,amount,stateCEC+0x24); H_CE(player,0x20)=10; H_CE(player,0x88)+=amount;
-    W_CE(player,0x110)=flags; H_CE(player,0xC8)=flags; H_CE(player,0xCA)=flags;
-    if(H_CE(player,0xC)==8)sub_0805865C(0x4B); else sub_0805865C(H_CE(player,0xC)+0x45);
-    runCEC(player+0x4C,amount,argument,0,H_CE(player,0),action);
+    amount=valueCEC(action,amount,player+PLAYER_FIELD(0x4C));
+    W_CE(player,PLAYER_FIELD(0xE0))=action; extraCEC(action,amount,stateCEC+SAVE_FIELD(0x24)); H_CE(player,PLAYER_FIELD(0x20))=PLAYER_FIELD(10); H_CE(player,PLAYER_FIELD(0x88))+=amount;
+    W_CE(player,PLAYER_FIELD(0x110))=flags; H_CE(player,PLAYER_FIELD(0xC8))=flags; H_CE(player,PLAYER_FIELD(0xCA))=flags;
+    if(H_CE(player,PLAYER_FIELD(0xC))==8)sub_0805865C(0x4B); else sub_0805865C(H_CE(player,PLAYER_FIELD(0xC))+0x45);
+    runCEC(player+PLAYER_FIELD(0x4C),amount,argument,0,H_CE(player,0),action);
    }
   }
  }
@@ -948,25 +953,25 @@ void sub_08029E0C(s32 index,u32 action,u32 amount,u32 argument,u16 arg4,u16 arg5
 {
  u8 zero; struct ResultE0C result; struct ResultE0C *res; struct ResultE0C *res1; u8 *object; void *handle;
  if(((u32)gUnk_030056FC & (1<<index))==0)return;
- object=(u8*)gUnk_030056F4+index*0x2E0;
+ object=(u8*)gUnk_030056F4+index*ENEMY_SIZE;
  if(object[0x1DC] && H_E0(object,0xC)!=11 && H_E0(object,0xC)!=10){
-  if(object[0x226]!=3){
+  if(object[ENEMY_FIELD(0x226)]!=3){
    res1=&result;
-   initE0C(&result,object+0x218,argument,action,H_E0(object,0)+4);
+   initE0C(&result,object+ENEMY_FIELD(0x218),argument,action,H_E0(object,0)+4);
    handle=lookupE0C(object,0);
    if(handle)sub_0801DB94(H_E0(object,0)+4,handle,res1->b);
   }
-  amount=valueE0C(action,amount,object+0x218);
+  amount=valueE0C(action,amount,object+ENEMY_FIELD(0x218));
   zero=0;
   H_E0(object,0xC)=10+zero; H_E0(object,0x4A)=amount; W_E0(object,0x4C)=amount;
   res=&result;
   res->value=amount;res->c=arg4;res->a=H_E0(object,2);res->d=arg5;
   if(res->c&0x80)res->c=zero;
-  if(W_E0(object,0x210)==0xFF)res->c=zero;
+  if(W_E0(object,ENEMY_FIELD(0x210))==0xFF)res->c=zero;
   sub_0801F2CC(object,(u8*)&result);
   H_E0(object,0x58)=sub_080020F4();
   finishE0C(&result);
-  if(object[0x226]!=3)runE0C(object+0x218,res->value,argument,index,index+4,action);
+  if(object[ENEMY_FIELD(0x226)]!=3)runE0C(object+ENEMY_FIELD(0x218),res->value,argument,index,index+4,action);
  }
 }
 struct PackedF54 {u16 low:4;u16 x:12;u16 y:12;u16 high:4;u8 flags:6;u8 unused:2;};
@@ -1004,7 +1009,7 @@ void sub_08029F54(s32 x,s32 y,u32 low,s32 high,volatile u32 callback)
     index=0;
     base=refsF54;
     while(index<sub_08002164()) {
-        reference=(struct RefF54 *)(index*0x14C+(u32)base);
+        reference=(struct RefF54 *)(index*PLAYER_SIZE+(u32)base);
         player.x=reference->position->x<<8;
         player.y=reference->position->y<<8;
         hit=overlapF54(&player,&center,&mask,&range);
@@ -1051,7 +1056,7 @@ void sub_0802A01C(void)
       *((u16 *) (p + 0x7A)) &= 0xFFF7;
     }
     i++;
-    p += 0x2E0;
+    p += ENEMY_SIZE;
   }
   while (i <= 4);
 }
@@ -1089,7 +1094,7 @@ void sub_0802A080(s32 x,s32 y,u32 low,s32 high)
         wait=1;
         index=0;
         while(index<sub_08002164()) {
-            reference=(struct RefA080 *)(index*0x14C+(u32)base);
+            reference=(struct RefA080 *)(index*PLAYER_SIZE+(u32)base);
             player.x=reference->position->x<<8;
             player.y=reference->position->y<<8;
             flag=reference->position->flags; flag&=0x20;
@@ -1400,6 +1405,42 @@ extern void drawA644(u8*,s32,u32) asm("sub_0801A3D0");
  * zero-terminated substitution bytes at 03003CE2. OriginalA67E..684 preincrementvalue>5
  * meansoneencodedbyte/actionevery7outeriterations;FE180-yieldpause021A8can
  * shorten;postFDunconditional180-yieldholdthen clear(15,4),oneyield. */
+#ifdef REGION_USA
+void sub_0802A644(s32 id)
+{
+ TextChar text[4][0x20]; TextChar *stream,*line; u32 row,column,tick,i,y;  u16 wait; u16 nameIndex; NameChar *names;
+ stream=(TextChar *)((u8*)sub_08007290(0x140000|id)+TEXT_HEADER);
+ row=0;column=0;tick=0;nameIndex=0;text[0][0]=TEXT_CTRL(0xFD);names=(NameChar *)nameA644;text[1][0]=TEXT_CTRL(0xFD);
+ while(*stream!=TEXT_CTRL(0xFD)){
+  if(tick++>5){
+   if(*stream==TEXT_CTRL(0xFF)){
+    column=0;row++;
+    if(row>1){text[0][0]=TEXT_CTRL(0xFD);text[1][0]=TEXT_CTRL(0xFD);row=0;}
+    else text[row][0]=TEXT_CTRL(0xFD);
+    stream++;
+   } else if(*stream==TEXT_CTRL(0xFC)){
+    text[row][column]=names[nameIndex];column++;text[row][column]=TEXT_CTRL(0xFD);
+    nameIndex++;
+    if(names[nameIndex]==0){stream++;nameIndex=0;column--;}
+   } else if(*stream==TEXT_CTRL(0xFE)){
+    text[0][0]=TEXT_CTRL(0xFD);text[1][0]=TEXT_CTRL(0xFD);row=0;column=0;stream+=3;
+    for(wait=180;wait;wait--){sub_080003F0();if(sub_080021A8())break;}
+   } else {
+    text[row][column]=*stream;stream++;column++;text[row][column]=TEXT_CTRL(0xFD);
+   }
+   tick=0;
+  }
+  for(i=0;i<=1;i++)drawA644((u8 *)text[i],1,(u16)(i*2+15));
+  sub_080003F0();
+ }
+ tick=179;
+ do{
+  i=0;if(i<row){y=0xF0000;line=text[0];do{drawA644((u8 *)line,1,y>>16);y+=0x20000;line+=0x20;i++;}while(i<row);} 
+  sub_080003F0();
+ }while(--tick!=-1);
+ clearA644(15,4);sub_080003F0();
+}
+#else
 void sub_0802A644(s32 id)
 {
  u8 text[0x80]; u8 *stream,*line; u32 row,column,tick,i,y;  u16 wait; u8 nameIndex; u8 *names;
@@ -1434,6 +1475,7 @@ void sub_0802A644(s32 id)
  }while(--tick!=-1);
  clearA644(15,4);sub_080003F0();
 }
+#endif
 extern void sub_080009F8(s32,s32,s32);
 extern void sub_0801AA8C(s32);
 extern void sub_0801AB90(s32);
@@ -1530,7 +1572,7 @@ void sub_0802A7DC(void)
   ;
   (&gUnk_03003CE0[sub_080020F4()])->flags |= 2;
   sub_08067D74();
-  *((u32 *) (((u8 *) (&gUnk_03003CE0[sub_080020F4()])) + 0x8C)) = 0x12C00;
+  *((u32 *) (((u8 *) (&gUnk_03003CE0[sub_080020F4()])) + PLAYER_FIELD(0x8C))) = 0x12C00;
   for (wait = 10; wait; wait--)
   {
     sub_080003F0();
@@ -1548,6 +1590,48 @@ void sub_0802A7DC(void)
  * contain byte 0xFD at exactly that length. Returns the first matched resource index 0..12, or -1. Does not
  * hash/randomize a name, change stats itself, enforce a maximum name length or validate resource
  * pointers/terminators. */
+#ifdef REGION_USA
+s32 sub_0802A9B0(void) {
+    u32 var_r5 = 0x533;
+    register TextChar **seqAddr asm("r6");
+    register TextChar **globalAddr asm("r0");
+    TextChar *seq;
+    s32 var_r7;
+    TextChar *attrs;
+    register s32 var_r3 asm("r3");
+    register TextChar temp_r2 asm("r2");
+    register u32 endMark asm("r8") = TEXT_CTRL(0xFF);
+    register u32 nameEnd asm("r9") = TEXT_CTRL(0xFD);
+    register u32 off asm("r1");
+    do {
+        u8 *temp_r0 = (u8 *)sub_08007290(0x140000 | var_r5);
+        attrs = (TextChar *)(temp_r0 + TEXT_HEADER);
+        var_r7 = 1;
+        var_r3 = 0;
+        temp_r2 = *(TextChar *)(temp_r0 + TEXT_HEADER);
+        if (temp_r2 != endMark) {
+            globalAddr = (TextChar **)&gUnk_030034E0;
+            seq = *globalAddr;
+            seqAddr = globalAddr;
+            if (temp_r2 != seq[0]) goto block_9;
+            do {
+                var_r3++;
+                off = var_r3 * sizeof(TextChar);
+                temp_r2 = *(TextChar *)(off + (u32)attrs);
+                if (temp_r2 == endMark) break;
+                if (temp_r2 != *(TextChar *)((u8 *)*seqAddr + off)) {
+                    var_r7 = 0;
+                    break;
+                }
+            } while (1);
+        }
+        if (var_r7 != 0) { u32 g = *(u32 *)&gUnk_030034E0; off = var_r3 * sizeof(TextChar); if (*(TextChar *)(g + off) == nameEnd) return var_r5 - 0x533; }
+block_9:
+        var_r5++;
+    } while (var_r5 <= 0x53F);
+    return -1;
+}
+#else
 s32 sub_0802A9B0(void) {
     u32 var_r5 = 0x533;
     register u8 **seqAddr asm("r6");
@@ -1586,6 +1670,7 @@ block_9:
     } while (var_r5 <= 0x53F);
     return -1;
 }
+#endif
 extern u8 *stateAA28 asm("gUnk_03005CF4");
 /* Second name for the same slot: keeps the relocation but stops CSE with stateAA28. */
 extern u8 *sceneAA28 asm("gUnk_03005CF4");
@@ -3021,7 +3106,7 @@ inventory028:
         player028=sub_080020F4(); 
         count028 = 0;
         index028 = 0;
-        var_r1_13 = (u8 *)gUnk_030034E0 + 0x150;
+        var_r1_13 = (u8 *)gUnk_030034E0 + SAVE_FIELD(0x150);
         do {
             if ((*(u16 *)((u8 *)var_r1_13 + 0x0) == 1) && (*(u16 *)((u8 *)var_r1_13 + 0x2) == 0x29)) {
                 count028 += 1;
@@ -3032,7 +3117,7 @@ inventory028:
         saved028=count028; 
         count028 = 0;
         index028 = 0;
-        var_r1_14 = (u8 *)gUnk_030034E0 + 0x2E0;
+        var_r1_14 = (u8 *)gUnk_030034E0 + SAVE_FIELD(0x2E0);
         do {
             if ((*(u16 *)((u8 *)var_r1_14 + 0x0) == 1) && (*(u16 *)((u8 *)var_r1_14 + 0x2) == 0x29)) {
                 count028 += 1;
@@ -3076,12 +3161,12 @@ inventoryDone028:;
         u32 stride028;
         u32 playerRet028=sub_080020F4();
         
-        stride028=0x14C;
+        stride028=PLAYER_SIZE;
         
         playerOffset028=playerRet028;
         playerOffset028 *= stride028;
         temp_r2_2=(void *)(playerOffset028+(u32)gUnk_03003CE0);
-        *(u32 *)((u8 *)temp_r2_2+0x30) |= 1;
+        *(u32 *)((u8 *)temp_r2_2+SAVE_FIELD(0x30)) |= 1;
         }
         sub_0800D0F4();
         temp_r7 = sub_080289C0(0x31, 0xF0, 0x190);
@@ -3265,7 +3350,7 @@ void sub_0802C144(void) {
     void (*callback)(void);
     struct Player *player;
     register u32 offset asm("r2");
-    offset = 0x14C * sub_080020F4();
+    offset = PLAYER_SIZE * sub_080020F4();
     
     player = (struct Player *)(offset + (u32)gUnk_03003CE0);
     
@@ -3313,7 +3398,7 @@ check:
         sub_080003F0();
     }
 done:
-    offset = 0x14C * sub_080020F4();
+    offset = PLAYER_SIZE * sub_080020F4();
     
     player = (struct Player *)(offset + (u32)gUnk_03003CE0);
     
@@ -4057,8 +4142,8 @@ loop_238:
         sub_080003F0();
 checkWait238:
         if(sub_0801AAE0()==0) goto loop_238;
-        temp_r2 = (void *)(0x14C * sub_080020F4() + (u32)gUnk_03003CE0);
-        *(u32 *)((u8 *)temp_r2 + 0x30) = (s32) (*(u32 *)((u8 *)temp_r2 + 0x30) & ~1);
+        temp_r2 = (void *)(PLAYER_SIZE * sub_080020F4() + (u32)gUnk_03003CE0);
+        *(u32 *)((u8 *)temp_r2 + PLAYER_FIELD(0x30)) = (s32) (*(u32 *)((u8 *)temp_r2 + PLAYER_FIELD(0x30)) & ~1);
         sub_0800D108();
         return;
     }
@@ -6588,7 +6673,7 @@ extern void sub_0802939C(s32, s32);
 extern void sub_0802F424(s32);
 struct TaskP30F2 { u32 f0, f4, f8, fC, f10, f14, f18, f1C, f20, f24; };
 extern void taskStart30F2(void *, u32) asm("sub_08000274");
-struct Entry30F2 { u8 pad[12]; u16 state; u8 end[0x2E0 - 14]; };
+struct Entry30F2 { u8 pad[12]; u16 state; u8 end[ENEMY_SIZE - 14]; };
 /* [RunObjectThirtyThreeRelease] Clears mode-selected byte mask0x8, sets player flag1 and creates kind0x21;
  * transitions, signals0x09999000, runs timed animation/message0x1401F9 sequence and starts helper task
  * from30-slot pool with allocation retry. Full pool skips helper. Clears player flag1, resets active actor
@@ -6824,7 +6909,7 @@ void sub_0802F578(void)
     u32 dialog;
     u32 value;
     offset = sub_080020F4();
-    offset *= 0x14C;
+    offset *= PLAYER_SIZE;
     p = (struct Player *)((u8 *)gUnk_03003CE0 + offset);
     p->flags |= 1;
     sub_0800D0F4();
@@ -6945,7 +7030,7 @@ void sub_0802F578(void)
         }
     }
     offset = sub_080020F4();
-    offset *= 0x14C;
+    offset *= PLAYER_SIZE;
     p = (struct Player *)((u8 *)gUnk_03003CE0 + offset);
     p->flags &= ~1;
     sub_0800D108();
@@ -6972,7 +7057,7 @@ void sub_0802FA80(void)
     u32 dialog;
     u32 value;
     offset = sub_080020F4();
-    offset *= 0x14C;
+    offset *= PLAYER_SIZE;
     p = (struct Player *)((u8 *)gUnk_03003CE0 + offset);
     p->flags |= 1;
     sub_0800D0F4();
@@ -7069,7 +7154,7 @@ void sub_0802FA80(void)
         }
     }
     offset = sub_080020F4();
-    offset *= 0x14C;
+    offset *= PLAYER_SIZE;
     p = (struct Player *)((u8 *)gUnk_03003CE0 + offset);
     p->flags &= ~1;
     sub_0800D108();

@@ -200,7 +200,7 @@ void sub_0801ACB8(void)
     u16 *selected;
     templates = (struct S17Stats32 *)gUnk_0848FA48;
     
-    *(struct S17Stats32 *)(state + 0x10) = templates[*(u16 *)(state + 0xA)];
+    *(struct S17Stats32 *)(state + SAVE_FIELD(0x10)) = templates[*(u16 *)(state + SAVE_FIELD(0xA))];
     switch (sub_0801DE60()) {
     case 0:
         sub_0805D064(gUnk_0848FB84, 0);
@@ -300,11 +300,11 @@ void sub_0801ACB8(void)
     sub_0805D190();
     sub_0805D1E0();
     i = 0;
-    selected = (u16 *)(state + 0x68);
-    energy = (s16 *)(player + 0xC2);
-    maxEnergy = (s16 *)(player + 0x60);
-    hp = (s16 *)(player + 0xC4);
-    maxHp = (s16 *)(player + 0x62);
+    selected = (u16 *)(state + SAVE_FIELD(0x68));
+    energy = (s16 *)(player + SAVE_FIELD(0xC2));
+    maxEnergy = (s16 *)(player + SAVE_FIELD(0x60));
+    hp = (s16 *)(player + SAVE_FIELD(0xC4));
+    maxHp = (s16 *)(player + SAVE_FIELD(0x62));
     do {
         *(u32 *)&effect.value = 0;
         effect.id = gUnk_0848FB68[i].id;
@@ -316,8 +316,8 @@ void sub_0801ACB8(void)
     } while (i <= 4);
     sub_0805CFF8(0x18, gUnk_0848FB7C);
     switch (sub_0802A9B0()) {
-    case 0: *(u16 *)(state + 0x12) += 5; break;
-    case 1: *(u16 *)(state + 0x24) += 30; break;
+    case 0: *(u16 *)(state + SAVE_FIELD(0x12)) += 5; break;
+    case 1: *(u16 *)(state + SAVE_FIELD(0x24)) += 30; break;
     case 2:
         effect.type = 6;
         effect.id = 0x5E;
@@ -336,10 +336,10 @@ void sub_0801ACB8(void)
         effect.b7 = 0;
         sub_0805AB20(&effect);
         break;
-    case 4: *(u16 *)(state + 0x10) += 5; break;
-    case 5: *(u16 *)(state + 0x26) += 30; break;
-    case 6: *(u16 *)(state + 0x16) += 5; break;
-    case 7: *(u16 *)(state + 0x2E) += 30; break;
+    case 4: *(u16 *)(state + SAVE_FIELD(0x10)) += 5; break;
+    case 5: *(u16 *)(state + SAVE_FIELD(0x26)) += 30; break;
+    case 6: *(u16 *)(state + SAVE_FIELD(0x16)) += 5; break;
+    case 7: *(u16 *)(state + SAVE_FIELD(0x2E)) += 30; break;
     case 8:
         effect.type = 4;
         effect.id = 0x95;
@@ -349,8 +349,8 @@ void sub_0801ACB8(void)
         effect.b7 = 0;
         sub_0805AB20(&effect);
         break;
-    case 9: *(u16 *)(state + 0x2A) += 30; break;
-    case 10: *(u16 *)(state + 0x2C) += 30; break;
+    case 9: *(u16 *)(state + SAVE_FIELD(0x2A)) += 30; break;
+    case 10: *(u16 *)(state + SAVE_FIELD(0x2C)) += 30; break;
     case 11:
         effect.type = 6;
         effect.id = 0x5F;
@@ -361,8 +361,8 @@ void sub_0801ACB8(void)
         sub_0805AB20(&effect);
         break;
     case 12:
-        *(u16 *)(state + 0x14) += 5;
-        *(u16 *)(state + 0x28) += 30;
+        *(u16 *)(state + SAVE_FIELD(0x14)) += 5;
+        *(u16 *)(state + SAVE_FIELD(0x28)) += 30;
         break;
     }
     *selected = 0;
@@ -531,7 +531,7 @@ s32 sub_0801B58C(u8 *item, s32 stats, u16 value, u16 kind)
     register s32 factor asm("r4");
     switch (kind) {
     case 0:
-        switch (item[0x9B]) {
+        switch (ITEM_KIND(item)) {
         case 2:
             factor = ((s32 (*)(s32, s32))sub_0801E0AC)(stats, 1);
             value = ((s32 (*)(s32, s32))sub_0801E0AC)(stats, 1) + ((s16)value * ((u16)factor + 10)) / 10;
@@ -547,17 +547,17 @@ s32 sub_0801B58C(u8 *item, s32 stats, u16 value, u16 kind)
         }
         break;
     case 3:
-        if (item[0x9B] == 2) {
+        if (ITEM_KIND(item) == 2) {
             factor = ((s32 (*)(s32, s32))sub_0801E0AC)(stats, 0);
             value = ((s32 (*)(s32, s32))sub_0801E0AC)(stats, 0) + ((s16)value * ((u16)factor + 10)) / 10;
-        } else if (item[0x9B] == 4) {
+        } else if (ITEM_KIND(item) == 4) {
             factor = ((s32 (*)(s32, s32))sub_0801E0AC)(stats, 1);
             value = ((s32 (*)(s32, s32))sub_0801E0AC)(stats, 1) + ((s16)value * ((u16)factor + 10)) / 10;
         }
         break;
     case 2:
-        if (item[0x9B] != 3) {
-            if (item[0x9B] == 7) {
+        if (ITEM_KIND(item) != 3) {
+            if (ITEM_KIND(item) == 7) {
                 factor = ((s32 (*)(s32, s32))sub_0801E0AC)(stats, 0);
                 value = ((s32 (*)(s32, s32))sub_0801E0AC)(stats, 0) + ((s16)value * ((u16)factor + 10)) / 10;
             }
@@ -567,34 +567,34 @@ s32 sub_0801B58C(u8 *item, s32 stats, u16 value, u16 kind)
         }
         break;
     case 5:
-        if (item[0x9B] == 6) {
+        if (ITEM_KIND(item) == 6) {
             factor = ((s32 (*)(s32, s32))sub_0801E0AC)(stats, 0);
             value = ((s32 (*)(s32, s32))sub_0801E0AC)(stats, 0) + ((s16)value * ((u16)factor + 10)) / 10;
-        } else if (item[0x9B] == 8) {
+        } else if (ITEM_KIND(item) == 8) {
             factor = ((s32 (*)(s32, s32))sub_0801E0AC)(stats, 1);
             value = ((s32 (*)(s32, s32))sub_0801E0AC)(stats, 1) + ((s16)value * ((u16)factor + 10)) / 10;
         }
         break;
     case 4:
-        if (item[0x9B] == 4) {
+        if (ITEM_KIND(item) == 4) {
             factor = ((s32 (*)(s32, s32))sub_0801E0AC)(stats, 1);
             value = ((s32 (*)(s32, s32))sub_0801E0AC)(stats, 1) + ((s16)value * ((u16)factor * 8 + 100)) / 100;
-        } else if (item[0x9B] == 5) {
+        } else if (ITEM_KIND(item) == 5) {
             factor = ((s32 (*)(s32, s32))sub_0801E0AC)(stats, 0);
             value = ((s32 (*)(s32, s32))sub_0801E0AC)(stats, 0) + ((s16)value * ((u16)factor + 10)) / 10;
         }
         break;
     case 7:
-        if (item[0x9B] == 1) {
+        if (ITEM_KIND(item) == 1) {
             factor = ((s32 (*)(s32, s32))sub_0801E0AC)(stats, 0);
             value = ((s32 (*)(s32, s32))sub_0801E0AC)(stats, 0) + ((s16)value * ((u16)factor + 10)) / 10;
-        } else if (item[0x9B] == 8) {
+        } else if (ITEM_KIND(item) == 8) {
             factor = ((s32 (*)(s32, s32))sub_0801E0AC)(stats, 1);
             value = ((s32 (*)(s32, s32))sub_0801E0AC)(stats, 1) + ((s16)value * ((u16)factor + 10)) / 10;
         }
         break;
     case 1: case 6: case 8:
-        if (item[0x9B] == 5) {
+        if (ITEM_KIND(item) == 5) {
             factor = ((s32 (*)(s32, s32))sub_0801E0AC)(stats, 0);
             value = ((s32 (*)(s32, s32))sub_0801E0AC)(stats, 0) + ((s16)value * ((u16)factor + 10)) / 10;
         }
@@ -629,11 +629,22 @@ void sub_0801B720(s16 *p, s16 delta) {
     p[4] = p[4] - delta;
     p[5] = p[5] - delta;
 }
-struct S17ItemC4 { u8 data[0xC4]; };
-struct S17ItemB8 { u8 data[0xB8]; };
-struct S17ItemB4 { u8 data[0xB4]; };
-struct S17ItemB0 { u8 data[0xB0]; };
+struct S17ItemC4 { u8 data[ITEM_FIELD(0xC4)]; };
+struct S17ItemB8 { u8 data[EQUIP_FIELD(0xB8)]; };
+#ifdef REGION_USA
+struct S17ItemGlove { u8 data[EQUIP_FIELD(0xB8) + 4]; }; /* USA glove records are 4 bytes longer */
+#define S17_GLOVE_FIELD(o) (EQUIP_FIELD(o) + 4)
+#else
+#define S17_GLOVE_FIELD(o) (o)
+struct S17ItemGlove { u8 data[0xB8]; };
+#endif
+struct S17ItemB4 { u8 data[ITEM_FIELD(0xB4)]; };
+struct S17ItemB0 { u8 data[ITEM_FIELD(0xB0)]; };
+#ifdef REGION_USA
+struct S17Set { u8 pad[0x174]; u16 slots[6]; }; /* USA set names are halfword text */
+#else
 struct S17Set { u8 pad[0x136]; u16 slots[6]; };
+#endif
 /* [MatchesEquipmentSetRequirements] Checks six required resource-index halfwords at set record +0x136. Value
  * 65535 ignores that requirement; otherwise the corresponding supplied resource pointer must be nonnull and
  * its resource-array index must equal the requirement. Returns exactly 1 when every required position matches,
@@ -661,7 +672,7 @@ s32 sub_0801B74C(struct S17Set *set, struct S17ItemC4 *a, struct S17ItemB8 *b, s
                     matched++;
                 break;
             case 3:
-                if (d && d - (struct S17ItemB8 *)sub_08007290(0xE0000) == set->slots[i])
+                if (d && (struct S17ItemGlove *)d - (struct S17ItemGlove *)sub_08007290(0xE0000) == set->slots[i])
                     matched++;
                 break;
             case 4:
@@ -680,7 +691,13 @@ s32 sub_0801B74C(struct S17Set *set, struct S17ItemC4 *a, struct S17ItemB8 *b, s
     return 0;
 }
 
+#ifdef REGION_USA
+struct S17SetEntry { u8 data[0x18C]; };
+#define S17_SET_BONUS 0x180
+#else
 struct S17SetEntry { u8 data[0x150]; };
+#define S17_SET_BONUS 0x144
+#endif
 extern struct S17SetEntry gUnk_08490120[];
 struct S17State { u8 pad[0x5B4]; struct S17SetEntry *active; };
 extern struct S17State *s17_state asm("gUnk_03006440");
@@ -695,52 +712,52 @@ s32 sub_0801B8A8(struct S17ItemC4 *a, struct S17ItemB8 *b, struct S17ItemB8 *c, 
 
     if (s17_state)
         s17_state->active = 0;
-    if (a && *(u16 *)(a->data + 0xC2)) {
-        set = &gUnk_08490120[*(u16 *)(a->data + 0xC2)];
+    if (a && *(u16 *)(a->data + ITEM_FIELD(0xC2))) {
+        set = &gUnk_08490120[*(u16 *)(a->data + ITEM_FIELD(0xC2))];
         if (sub_0801B74C((struct S17Set *)set, a, b, c, d, e, f)) {
             if (s17_state)
                 s17_state->active = set;
-            return (s32)(set->data + 0x144);
+            return (s32)(set->data + S17_SET_BONUS);
         }
     }
-    if (b && *(u16 *)(b->data + 0xB4)) {
-        set = &gUnk_08490120[*(u16 *)(b->data + 0xB4)];
+    if (b && *(u16 *)(b->data + EQUIP_FIELD(0xB4))) {
+        set = &gUnk_08490120[*(u16 *)(b->data + EQUIP_FIELD(0xB4))];
         if (sub_0801B74C((struct S17Set *)set, a, b, c, d, e, f)) {
             if (s17_state)
                 s17_state->active = set;
-            return (s32)(set->data + 0x144);
+            return (s32)(set->data + S17_SET_BONUS);
         }
     }
-    if (c && *(u16 *)(c->data + 0xB4)) {
-        set = &gUnk_08490120[*(u16 *)(c->data + 0xB4)];
+    if (c && *(u16 *)(c->data + EQUIP_FIELD(0xB4))) {
+        set = &gUnk_08490120[*(u16 *)(c->data + EQUIP_FIELD(0xB4))];
         if (sub_0801B74C((struct S17Set *)set, a, b, c, d, e, f)) {
             if (s17_state)
                 s17_state->active = set;
-            return (s32)(set->data + 0x144);
+            return (s32)(set->data + S17_SET_BONUS);
         }
     }
-    if (d && *(u16 *)(d->data + 0xB4)) {
-        set = &gUnk_08490120[*(u16 *)(d->data + 0xB4)];
+    if (d && *(u16 *)(d->data + S17_GLOVE_FIELD(0xB4))) {
+        set = &gUnk_08490120[*(u16 *)(d->data + S17_GLOVE_FIELD(0xB4))];
         if (sub_0801B74C((struct S17Set *)set, a, b, c, d, e, f)) {
             if (s17_state)
                 s17_state->active = set;
-            return (s32)(set->data + 0x144);
+            return (s32)(set->data + S17_SET_BONUS);
         }
     }
-    if (e && *(u16 *)(e->data + 0xB0)) {
-        set = &gUnk_08490120[*(u16 *)(e->data + 0xB0)];
+    if (e && *(u16 *)(e->data + ITEM_FIELD(0xB0))) {
+        set = &gUnk_08490120[*(u16 *)(e->data + ITEM_FIELD(0xB0))];
         if (sub_0801B74C((struct S17Set *)set, a, b, c, d, e, f)) {
             if (s17_state)
                 s17_state->active = set;
-            return (s32)(set->data + 0x144);
+            return (s32)(set->data + S17_SET_BONUS);
         }
     }
-    if (f && *(u16 *)(f->data + 0xAC)) {
-        set = &gUnk_08490120[*(u16 *)(f->data + 0xAC)];
+    if (f && *(u16 *)(f->data + ITEM_FIELD(0xAC))) {
+        set = &gUnk_08490120[*(u16 *)(f->data + ITEM_FIELD(0xAC))];
         if (sub_0801B74C((struct S17Set *)set, a, b, c, d, e, f)) {
             if (s17_state)
                 s17_state->active = set;
-            return (s32)(set->data + 0x144);
+            return (s32)(set->data + S17_SET_BONUS);
         }
     }
     return 0;
@@ -749,11 +766,26 @@ s32 sub_0801B8A8(struct S17ItemC4 *a, struct S17ItemB8 *b, struct S17ItemB8 *c, 
 struct BA74Res { s16 v[6]; };
 struct BA74Stats { s16 f0, f2, f4, f6; s16 f8; u16 fA[5]; struct BA74Res res; };
 struct BA74Slot { u16 f0; u16 id; u16 sub; u8 bonus; u8 f7; u8 broken; u8 valid; u8 padA[6]; };
+#ifdef REGION_USA
+#define T5_FLAG_BA74 (*(u32 *)(t5 + EQUIP_FIELD(0xA0)))
+#else
+#define T5_FLAG_BA74 (t5[0xA0])
+#endif
+#ifdef REGION_USA
+#define ITEM_LV_BA74(r) (*(s16 *)((u8 *)(r) + ITEM_KIND_OFF + 2))
+#else
+#define ITEM_LV_BA74(r) (((u8 *)(r))[0x9C])
+#endif
+#ifdef REGION_USA
+#define KIND_S_BA74(r) (*(s16 *)((u8 *)(r) + ITEM_KIND_OFF))
+#else
+#define KIND_S_BA74(r) ITEM_KIND(r)
+#endif
 struct BA74Save {
-    u8 pad0[0xA];
+    NameChar pad0[0xA];
     u16 fA;
     u16 fC;
-    u8 padE[2];
+    u8 padE[SAVE_FIELD(0x10) - SAVE_FIELD(0xE)];
     struct BA74Stats stats;
     u8 pad30[0x24];
     u16 f54;
@@ -775,6 +807,7 @@ struct BA74Mod {
 struct BA74Ent { s16 f0; u16 f2; u16 f4; u16 f6; s16 f8, fA, fC, fE; u16 f10; u8 pad12[0xA]; s16 f1C; u8 pad1E[0xA]; };
 struct BA74Pos { u16 f0; u16 f2; };
 struct BA74Job {
+    u8 pre[ENEMY_DATA_FIELD(0)];
     s16 f0, f2, f4, f6;
     u16 f8;
     u16 fA;
@@ -788,25 +821,25 @@ struct BA74Job {
 };
 struct BA74Unit {
     u16 f0;
-    u8 pad2[0xA];
+    u8 pad2[PLAYER_FIELD(0xC) - PLAYER_FIELD(0x2)];
     u16 fC;
-    u8 padE[2];
+    u8 padE[PLAYER_FIELD(0x10) - PLAYER_FIELD(0xE)];
     u16 f10;
-    u8 pad12[0x1E];
+    u8 pad12[PLAYER_FIELD(0x30) - PLAYER_FIELD(0x12)];
     u32 f30;
     struct BA74Ent *f34;
-    u8 pad38[0x2C];
+    u8 pad38[PLAYER_FIELD(0x64) - PLAYER_FIELD(0x38)];
     u16 f64;
     u8 f66;
     u8 pad67;
     u8 f68;
-    u8 pad69[0x23];
+    u8 pad69[PLAYER_FIELD(0x8C) - PLAYER_FIELD(0x69)];
     s32 f8C[0x29];
-    u8 pad130[2];
+    u8 pad130[PLAYER_FIELD(0x132) - PLAYER_FIELD(0x130)];
     u16 f132;
-    u8 pad134[4];
+    u8 pad134[PLAYER_FIELD(0x138) - PLAYER_FIELD(0x134)];
     struct BA74Job *f138;
-    u8 pad13C[0xC];
+    u8 pad13C[PLAYER_FIELD(0x148) - PLAYER_FIELD(0x13C)];
     struct BA74Pos *f148;
 };
 struct BA74Cls { u8 pad0[8]; s16 f8; u8 padA[0x16]; };
@@ -864,7 +897,11 @@ void BA74_StatsCalc(struct BA74Unit *arg0, struct BA74Sel *arg1, struct BA74Stat
     s32 w;
     struct BA74Save *p;
     u8 *sub;
+#ifdef REGION_USA
+    s32 v;
+#else
     u16 v;
+#endif
     s32 x;
     struct BA74Ent *e;
     s32 tmp;
@@ -965,9 +1002,9 @@ void BA74_StatsCalc(struct BA74Unit *arg0, struct BA74Sel *arg1, struct BA74Stat
             sub = (u8 *)sub_08007290((arg1->sub - 1) | 0x130000);
         else
             sub = 0;
-        arg3->f6 = t2[0xA4];
-        sub_0801B264(t2 + 0xB0, (u16 *)arg2, (u8 *)arg3);
-        sub_0801B264(sub + 0xA0, (u16 *)arg2, (u8 *)arg3);
+        arg3->f6 = t2[ITEM_FIELD(0xA4)];
+        sub_0801B264(t2 + ITEM_FIELD(0xB0), (u16 *)arg2, (u8 *)arg3);
+        sub_0801B264(sub + ITEM_FIELD(0xA0), (u16 *)arg2, (u8 *)arg3);
     }
     if (t3 != 0) {
         if (arg1 == 0 || arg1->type != 3) {
@@ -979,8 +1016,8 @@ void BA74_StatsCalc(struct BA74Unit *arg0, struct BA74Sel *arg1, struct BA74Stat
             sub = (u8 *)sub_08007290((arg1->sub - 1) | 0x130000);
         else
             sub = 0;
-        sub_0801B264(t3 + 0xA4, (u16 *)arg2, (u8 *)arg3);
-        sub_0801B264(sub + 0xA0, (u16 *)arg2, (u8 *)arg3);
+        sub_0801B264(t3 + EQUIP_FIELD(0xA4), (u16 *)arg2, (u8 *)arg3);
+        sub_0801B264(sub + ITEM_FIELD(0xA0), (u16 *)arg2, (u8 *)arg3);
     }
     if (t4 != 0) {
         if (arg1 == 0 || arg1->type != 4) {
@@ -992,8 +1029,8 @@ void BA74_StatsCalc(struct BA74Unit *arg0, struct BA74Sel *arg1, struct BA74Stat
             sub = (u8 *)sub_08007290((arg1->sub - 1) | 0x130000);
         else
             sub = 0;
-        sub_0801B264(t4 + 0xA4, (u16 *)arg2, (u8 *)arg3);
-        sub_0801B264(sub + 0xA0, (u16 *)arg2, (u8 *)arg3);
+        sub_0801B264(t4 + EQUIP_FIELD(0xA4), (u16 *)arg2, (u8 *)arg3);
+        sub_0801B264(sub + ITEM_FIELD(0xA0), (u16 *)arg2, (u8 *)arg3);
     }
     if (t5 != 0) {
         if (arg1 == 0 || arg1->type != 5) {
@@ -1005,16 +1042,16 @@ void BA74_StatsCalc(struct BA74Unit *arg0, struct BA74Sel *arg1, struct BA74Stat
             sub = (u8 *)sub_08007290((arg1->sub - 1) | 0x130000);
         else
             sub = 0;
-        sub_0801B264(t5 + 0xA4, (u16 *)arg2, (u8 *)arg3);
-        sub_0801B264(sub + 0xA0, (u16 *)arg2, (u8 *)arg3);
-        if (t5[0xA0] != 0) {
+        sub_0801B264(t5 + EQUIP_E_FIELD(0xA4), (u16 *)arg2, (u8 *)arg3);
+        sub_0801B264(sub + ITEM_FIELD(0xA0), (u16 *)arg2, (u8 *)arg3);
+        if (T5_FLAG_BA74 != 0) {
             w = arg3->f15;
             sub_0801DE60();
             arg3->f16 += BA74_atk(w, arg4);
         }
     }
     if (t6 != 0)
-        sub_0801B264(t6 + 0xA0, (u16 *)arg2, (u8 *)arg3);
+        sub_0801B264(t6 + ITEM_FIELD(0xA0), (u16 *)arg2, (u8 *)arg3);
 
     halve = 0;
     arg0->f132 = 0;
@@ -1096,11 +1133,11 @@ void BA74_StatsCalc(struct BA74Unit *arg0, struct BA74Sel *arg1, struct BA74Stat
                         arg0->f64 = job->fD4 + 10;
                         arg0->f66 = job->fD6;
                         t2 = (u8 *)sub_08007290(job->f28 | 0xB0000);
-                        arg0->f10 = t2[0x9B];
+                        arg0->f10 = ITEM_KIND(t2);
                         t3 = 0;
                         t4 = 0;
                         t5 = 0;
-                        arg3->f6 = t2[0xA4];
+                        arg3->f6 = t2[ITEM_FIELD(0xA4)];
                         bonus += job->fA;
                         arg2->f0 += job->f0;
                         arg2->f2 += job->f2 >> 1;
@@ -1170,7 +1207,11 @@ void BA74_StatsCalc(struct BA74Unit *arg0, struct BA74Sel *arg1, struct BA74Stat
     if (tmp != 0)
         sub_0801B264((void *)tmp, (u16 *)arg2, (u8 *)arg3);
     if (t2 != 0) {
-        arg3->f0 += ((u16 (*)(u8 *, s32, u16, u16))sub_0801B58C)(t2, arg4, t2[0x9C], sub_0801DE60());
+#ifdef REGION_USA
+        arg3->f0 += ((u16 (*)(u8 *, s32, s32, u16))sub_0801B58C)(t2, arg4, ITEM_LV_BA74(t2), sub_0801DE60());
+#else
+        arg3->f0 += ((u16 (*)(u8 *, s32, u16, u16))sub_0801B58C)(t2, arg4, ITEM_LV_BA74(t2), sub_0801DE60());
+#endif
         if (arg1 != 0 && arg1->type == 2)
             arg3->f0 += arg1->bonus;
         else
@@ -1178,7 +1219,7 @@ void BA74_StatsCalc(struct BA74Unit *arg0, struct BA74Sel *arg1, struct BA74Stat
     }
     arg3->f0 += arg2->f0;
     if (t3 != 0) {
-        v = t3[0x9B];
+        v = KIND_S_BA74(t3);
         sub_0801DE60();
         bonus += BA74_def(v, arg4, 4, 3);
         if (arg1 != 0 && arg1->type == 3)
@@ -1186,14 +1227,14 @@ void BA74_StatsCalc(struct BA74Unit *arg0, struct BA74Sel *arg1, struct BA74Stat
         else
             bonus += gBA74Save->slots[10].bonus;
     }
-    if (t2 != 0 && t2[0x9B] == 9) {
+    if (t2 != 0 && ITEM_KIND(t2) == 9) {
         if (arg1 != 0 && arg1->type == 2)
             bonus += arg1->bonus;
         else
             bonus += gBA74Save->slots[gBA74Save->f68].bonus;
     }
     if (t4 != 0) {
-        v = t4[0x9B];
+        v = KIND_S_BA74(t4);
         sub_0801DE60();
         bonus += BA74_def(v, arg4, 4, 3);
         if (arg1 != 0 && arg1->type == 4)
@@ -1202,12 +1243,12 @@ void BA74_StatsCalc(struct BA74Unit *arg0, struct BA74Sel *arg1, struct BA74Stat
             bonus += gBA74Save->slots[9].bonus;
     }
     if (t5 != 0) {
-        if (t5[0xA0] != 0) {
-            v = t5[0x9B];
+        if (T5_FLAG_BA74 != 0) {
+            v = KIND_S_BA74(t5);
             sub_0801DE60();
             bonus += BA74_def(v, arg4, 3, 2);
         } else {
-            v = t5[0x9B];
+            v = KIND_S_BA74(t5);
             sub_0801DE60();
             bonus += BA74_def(v, arg4, 4, 3);
         }
@@ -1228,6 +1269,10 @@ void BA74_StatsCalc(struct BA74Unit *arg0, struct BA74Sel *arg1, struct BA74Stat
     if (arg2->f4 <= 0)
         arg2->f4 = 0;
     arg3->fA += arg2->f6 * 3;
+#ifdef REGION_USA
+    if ((s16)arg3->fA > 998)
+        arg3->fA = 999;
+#endif
     {
         s32 t = arg2->f4;
         s32 u = t << 1;
@@ -1253,8 +1298,8 @@ void BA74_StatsCalc(struct BA74Unit *arg0, struct BA74Sel *arg1, struct BA74Stat
     }
     if (t2 != 0) {
         arg3->f6 -= arg2->f2 / 20;
-        if (arg3->f6 < t2[0xA4] >> 1)
-            arg3->f6 = t2[0xA4] >> 1;
+        if (arg3->f6 < t2[ITEM_FIELD(0xA4)] >> 1)
+            arg3->f6 = t2[ITEM_FIELD(0xA4)] >> 1;
     }
     if (halve & 1) {
         arg3->f2 >>= 1;
@@ -1327,11 +1372,11 @@ u8 pad1D0[45];
 u8 field1FD;
 u8 pad1FE[3];
 u8 field201;
-u8 pad202[2];
+u8 pad202[2 + (ENEMY_FIELD(0x206) - 0x206)];
 u16 field204;
-u8 pad206[32];
+u8 pad206[ENEMY_FIELD(0x226) - ENEMY_FIELD(0x206)];
 u8 field226;
-u8 pad227[181];
+u8 pad227[ENEMY_FIELD(0x2DC) - ENEMY_FIELD(0x227)];
 u16 * link;
 };
 struct RescueC8F0Slot { s16 timer; u16 source, kind, value; u8 pad[0x10]; s32 scale; u8 tail[0xc]; };
@@ -1350,7 +1395,14 @@ void sub_0801C8F0(struct RescueC8F0Entity *arg0) {
     s16 *var_r1;
     s16 temp_r1;
     s32 var_r0_2;
+#ifdef REGION_USA
+    s32 temp_r0;
+    register s32 value4A asm("r4");
+#define VALUE4A_C8F0 value4A
+#else
+#define VALUE4A_C8F0 temp_r0
     register s32 temp_r0 asm("r4");
+#endif
     s32 temp_r0_5;
     s32 temp_r2;
     u32 baseAddress;
@@ -1364,21 +1416,38 @@ void sub_0801C8F0(struct RescueC8F0Entity *arg0) {
     u32 temp_r0_9;
     register u32 clampZero18 asm("r1");
     u32 temp_r0_4;
+#ifdef REGION_USA
+    register u32 var_r6 asm("r7");
+#else
     u32 var_r6;
-    u8 temp_r0_2;
+#endif
+    ItemKind temp_r0_2;
     u8 **temp_r1_3;
     u8 *temp_r1_2;
     u8 *temp_r6;
+#ifdef REGION_USA
+    register struct RescueC8F0Slot *var_r5 asm("r5");
+#else
     struct RescueC8F0Slot *var_r5;
+#endif
 
-    temp_r6 = (u8 *)arg0 + 0x204;
+#ifdef REGION_USA
+    temp_r0 = sub_08007290((*(u16 *)((u8 *)&arg0->field204 + 0x28)) | 0xB0000);
+    sub_0801B264((void *)(temp_r0 + ITEM_FIELD(0xB0)), &arg0->field204, (void *)((u8 *)arg0 + 0x1CC));
+#else
+    temp_r6 = (u8 *)&arg0->field204;
     temp_r0 = sub_08007290((*(u16 *)(temp_r6 + 0x28)) | 0xB0000);
-    sub_0801B264((void *)(temp_r0 + 0xB0), temp_r6, (void *)((u8 *)arg0 + 0x1CC));
-    temp_r0_2 = (*(u8 *)(temp_r0 + 0x9C));
+    sub_0801B264((void *)(temp_r0 + ITEM_FIELD(0xB0)), temp_r6, (void *)((u8 *)arg0 + 0x1CC));
+#endif
+    temp_r0_2 = (*(ItemKind *)(temp_r0 + ITEM_KIND_OFF + sizeof(ItemKind)));
     zero = 0;
     arg0->field1CC = (u16) temp_r0_2;
     arg0->field1CC += arg0->field204;
+#ifdef REGION_USA
+    arg0->field1CE = (u16) (*(u16 *)((u8 *)&arg0->field204 + 0xA));
+#else
     arg0->field1CE = (u16) (*(u16 *)(temp_r6 + 0xA));
+#endif
     arg0->status = zero;
     if (2 & arg0->field201) {
         arg0->status = 8;
@@ -1399,15 +1468,15 @@ loop_5:
             baseAddress = (u32)rescueC8F0Records;
             srcEdge18 = temp_r0_3;
             asm("" : : "r"(srcEdge18));
-            temp_r2 = 0x14C * srcEdge18;
+            temp_r2 = PLAYER_SIZE * srcEdge18;
             temp_r1_2 = (u8 *)(temp_r2 + baseAddress);
-            temp_r0_6 = (*(u16 *)(temp_r1_2 + 0xC));
+            temp_r0_6 = (*(u16 *)(temp_r1_2 + PLAYER_FIELD(0xC)));
             switch (temp_r0_6) {                    /* switch 1; irregular */
             case 3:                                 /* switch 1 */
                 temp_r0_7 = var_r5->kind;
                 switch (temp_r0_7) {                /* switch 2; irregular */
                 case 4:                             /* switch 2 */
-                    temp_r0_8 = (*(u16 *)(temp_r1_2 + 0x10));
+                    temp_r0_8 = (*(u16 *)(temp_r1_2 + PLAYER_FIELD(0x10)));
                     switch (temp_r0_8) {            /* switch 3; irregular */
                     case 2:                         /* switch 3 */
                         var_r2 = &arg0->field1CE;
@@ -1428,7 +1497,7 @@ loop_5:
                     }
                     break;
                 case 6:                             /* switch 2 */
-                    temp_r1_3 = (u8 **)(baseAddress + 0x148);
+                    temp_r1_3 = (u8 **)(baseAddress + PLAYER_FIELD(0x148));
                     temp_r1_3 = (u8 **)(temp_r2 + (u32)temp_r1_3);
                     pos[0] = ((u16) (*(u16 *)(*temp_r1_3)) >> 4) << 8;
                     pos[1] = (u32) ((*(u16 *)(*temp_r1_3 + 2)) << 0x14) >> 0xC;
@@ -1482,8 +1551,8 @@ loop_5:
                 break;
             case 4:                                 /* switch 4 */
                 arg0->status = 0xC;
-                var_r0 = (s32) (arg0->link[1] << 0x10) >> 0x11;
-                var_r1 = (s16 *)((u8 *)arg0 + 0x206);
+                var_r0 = (s32) (*(u16 *)((u8 *)arg0->link + ENEMY_DATA_FIELD(2)) << 0x10) >> 0x11;
+                var_r1 = (s16 *)((u8 *)arg0 + ENEMY_FIELD(0x206));
                 *var_r1 = (s16)var_r0; goto processed;
             case 5:
                 arg0->status = 0xD;
@@ -1505,16 +1574,16 @@ block_52:
                 }
                 break;
             case 0:                                 /* switch 4 */
-                if ((var_r5->timer == 0) && ((var_r1_2 = arg0->limit5C), (temp_r0 = (s32)&arg0->value4A), (var_r1_2 -= *(u16 *)temp_r0) > 0) && (arg0->state != 0xB) && (arg0->field66 == 0)) {
+                if ((var_r5->timer == 0) && ((var_r1_2 = arg0->limit5C), (VALUE4A_C8F0 = (s32)&arg0->value4A), (var_r1_2 -= *(u16 *)VALUE4A_C8F0) > 0) && (arg0->state != 0xB) && (arg0->field66 == 0)) {
                     sub_08021DC4(arg0->id + 4);
-                    *(u16 *)temp_r0 += var_r5->value;
+                    *(u16 *)VALUE4A_C8F0 += var_r5->value;
                     arg0->value4C = (s32) var_r5->value;
                 }
                 break;
             case 3:                                 /* switch 4 */
-                if ((var_r5->timer == 0) && ((var_r1_2 = arg0->limit5C), (temp_r0 = (s32)&arg0->value4A), (var_r1_2 -= *(u16 *)temp_r0) > 0) && (arg0->state != 0xB) && (arg0->field66 == 0)) {
+                if ((var_r5->timer == 0) && ((var_r1_2 = arg0->limit5C), (VALUE4A_C8F0 = (s32)&arg0->value4A), (var_r1_2 -= *(u16 *)VALUE4A_C8F0) > 0) && (arg0->state != 0xB) && (arg0->field66 == 0)) {
                     sub_08022180(arg0->id + 4);
-                    *(u16 *)temp_r0 += var_r5->value;
+                    *(u16 *)VALUE4A_C8F0 += var_r5->value;
                     arg0->value4C = (s32) var_r5->value;
                     var_r1 = (s16 *)&arg0->status;
                     var_r0 = 0xB;
@@ -1524,9 +1593,18 @@ block_52:
             }
         }
 processed:
+#ifdef REGION_USA
+        {
+            u16 previousTimer = var_r5->timer;
+            if (var_r5->timer != -2) {
+                var_r5->timer = (s16) (previousTimer - 1);
+            }
+        }
+#else
         if (var_r5->timer != -2) {
             var_r5->timer = (s16) ((u16) var_r5->timer - 1);
         }
+#endif
     }
     var_r6 += 1;
     var_r5++;
@@ -1551,9 +1629,9 @@ void sub_0801CC10(u32 arg0, s32 arg1)
   u16 dy;
   s16 *c;
   s16 *c1;
-  x = (*((s32 *) (p + 0x8C))) << 5;
-  y = ((u32) ((*((s32 *) (p + 0x90))) << 5)) >> 16;
-  t = *((u16 **) (q + 0x148));
+  x = (*((s32 *) (p + PLAYER_FIELD(0x8C)))) << 5;
+  y = ((u32) ((*((s32 *) (p + PLAYER_FIELD(0x90)))) << 5)) >> 16;
+  t = *((u16 **) (q + PLAYER_FIELD(0x148)));
   t0 = t[0];
   dy = ((u32) (t[1] << 20)) >> 23;
   d = (x >> 16) - (t0 >> 7);
@@ -1570,7 +1648,7 @@ void sub_0801CC10(u32 arg0, s32 arg1)
   dy = d;
   if (p == q)
   {
-    c1 = (s16 *) (p + 0xC4);
+    c1 = (s16 *) (p + PLAYER_FIELD(0xC4));
     c = c1;
     dx = *((u16 *) c1);
     if (((s16) dx) > 0)
@@ -1581,17 +1659,17 @@ void sub_0801CC10(u32 arg0, s32 arg1)
   else
   {
     ;
-    if (((((s16) dx) <= 13) && (((s16) dy) <= 9)) && ((*((s16 *) (p + 0xC4))) > 0))
+    if (((((s16) dx) <= 13) && (((s16) dy) <= 9)) && ((*((s16 *) (p + PLAYER_FIELD(0xC4)))) > 0))
     {
-      *((u16 *) ((s16 *) (p + 0xC4))) = (*((u16 *) ((s16 *) (p + 0xC4)))) + arg1;
+      *((u16 *) ((s16 *) (p + PLAYER_FIELD(0xC4)))) = (*((u16 *) ((s16 *) (p + PLAYER_FIELD(0xC4))))) + arg1;
     }
   }
-  if ((*((s16 *) (p + 0xC4))) > (*((s16 *) (p + 0x62))))
+  if ((*((s16 *) (p + PLAYER_FIELD(0xC4)))) > (*((s16 *) (p + PLAYER_FIELD(0x62)))))
   {
-    *((u16 *) ((s16 *) (p + 0xC4))) = *((u16 *) (p + 0x62));
+    *((u16 *) ((s16 *) (p + PLAYER_FIELD(0xC4)))) = *((u16 *) (p + PLAYER_FIELD(0x62)));
   }
 }
-struct RescueCCC8Record { u8 pad[0x10]; u16 kind; u8 tail[0x13a]; };
+struct RescueCCC8Record { u8 pad[PLAYER_FIELD(0x10)]; u16 kind; u8 tail[PLAYER_SIZE - PLAYER_FIELD(0x12)]; };
 extern struct RescueCCC8Record rescueCCC8Records[] asm("gUnk_03003CE0");
 extern u8 *rescueCCC8Current asm("gUnk_030034E0");
 /* [ReadLocalPlayerActionSkillLevel] Reads a class-mapped raw skill-level halfword from the current character
@@ -1606,112 +1684,112 @@ s32 sub_0801CCC8(void) {
  u8 cls, v;
  u8 *q, *item;
  p = &rescueCCC8Records[sub_080020F4()];
- kind = *(u16 *)(rescueCCC8Current + 0xa);
+ kind = *(u16 *)(rescueCCC8Current + SAVE_FIELD(0xa));
  if (kind == 8) kind = 6;
  cls = kind;
  switch (cls) {
 case 0:
  switch (p->kind) {
-case 1: return *(u16 *)(rescueCCC8Current + 52);
-case 2: return *(u16 *)(rescueCCC8Current + 56);
-case 3: return *(u16 *)(rescueCCC8Current + 60);
+case 1: return *(u16 *)(rescueCCC8Current + SAVE_FIELD(52));
+case 2: return *(u16 *)(rescueCCC8Current + SAVE_FIELD(56));
+case 3: return *(u16 *)(rescueCCC8Current + SAVE_FIELD(60));
 }
 break;
 case 2:
  switch (p->kind) {
-case 7: return *(u16 *)(rescueCCC8Current + 52);
-case 3: return *(u16 *)(rescueCCC8Current + 56);
+case 7: return *(u16 *)(rescueCCC8Current + SAVE_FIELD(52));
+case 3: return *(u16 *)(rescueCCC8Current + SAVE_FIELD(56));
 case 9:
-q = rescueCCC8Current + *(u16 *)(rescueCCC8Current + 0x68) * 0x10;
- if (q[0x79] == 0) item = 0;
- else item = (u8 *)sub_08007290(*(u16 *)(q + 0x72) | 0xb0000);
- if (item[0x9b] == 9) v = item[0xa7]; else v = 0;
-if (v == 7) return *(u16 *)(rescueCCC8Current + 0x48);
+q = rescueCCC8Current + *(u16 *)(rescueCCC8Current + SAVE_FIELD(0x68)) * 0x10;
+ if (q[SAVE_FIELD(0x79)] == 0) item = 0;
+ else item = (u8 *)sub_08007290(*(u16 *)(q + SAVE_FIELD(0x72)) | 0xb0000);
+ if (ITEM_KIND(item) == 9) v = item[ITEM_FIELD(0xa7)]; else v = 0;
+if (v == 7) return *(u16 *)(rescueCCC8Current + SAVE_FIELD(0x48));
 break;
 }
 break;
 case 3:
  switch (p->kind) {
-case 2: return *(u16 *)(rescueCCC8Current + 52);
-case 4: return *(u16 *)(rescueCCC8Current + 56);
+case 2: return *(u16 *)(rescueCCC8Current + SAVE_FIELD(52));
+case 4: return *(u16 *)(rescueCCC8Current + SAVE_FIELD(56));
 }
 break;
 case 1:
  switch (p->kind) {
-case 5: return *(u16 *)(rescueCCC8Current + 52);
+case 5: return *(u16 *)(rescueCCC8Current + SAVE_FIELD(52));
 case 9:
-q = rescueCCC8Current + *(u16 *)(rescueCCC8Current + 0x68) * 0x10;
- if (q[0x79] == 0) item = 0;
- else item = (u8 *)sub_08007290(*(u16 *)(q + 0x72) | 0xb0000);
- if (item[0x9b] == 9) v = item[0xa7]; else v = 0;
+q = rescueCCC8Current + *(u16 *)(rescueCCC8Current + SAVE_FIELD(0x68)) * 0x10;
+ if (q[SAVE_FIELD(0x79)] == 0) item = 0;
+ else item = (u8 *)sub_08007290(*(u16 *)(q + SAVE_FIELD(0x72)) | 0xb0000);
+ if (ITEM_KIND(item) == 9) v = item[ITEM_FIELD(0xa7)]; else v = 0;
 switch (v) {
-case 1: return *(u16 *)(rescueCCC8Current + 56);
-case 2: return *(u16 *)(rescueCCC8Current + 60);
-case 3: return *(u16 *)(rescueCCC8Current + 64);
-case 4: return *(u16 *)(rescueCCC8Current + 68);
-case 5: return *(u16 *)(rescueCCC8Current + 72);
-case 6: return *(u16 *)(rescueCCC8Current + 76);
+case 1: return *(u16 *)(rescueCCC8Current + SAVE_FIELD(56));
+case 2: return *(u16 *)(rescueCCC8Current + SAVE_FIELD(60));
+case 3: return *(u16 *)(rescueCCC8Current + SAVE_FIELD(64));
+case 4: return *(u16 *)(rescueCCC8Current + SAVE_FIELD(68));
+case 5: return *(u16 *)(rescueCCC8Current + SAVE_FIELD(72));
+case 6: return *(u16 *)(rescueCCC8Current + SAVE_FIELD(76));
 }
 break;
 }
 break;
 case 6:
  switch (p->kind) {
-case 5: return *(u16 *)(rescueCCC8Current + 52);
+case 5: return *(u16 *)(rescueCCC8Current + SAVE_FIELD(52));
 case 9:
-q = rescueCCC8Current + *(u16 *)(rescueCCC8Current + 0x68) * 0x10;
- if (q[0x79] == 0) item = 0;
- else item = (u8 *)sub_08007290(*(u16 *)(q + 0x72) | 0xb0000);
- if (item[0x9b] == 9) v = item[0xa7]; else v = 0;
+q = rescueCCC8Current + *(u16 *)(rescueCCC8Current + SAVE_FIELD(0x68)) * 0x10;
+ if (q[SAVE_FIELD(0x79)] == 0) item = 0;
+ else item = (u8 *)sub_08007290(*(u16 *)(q + SAVE_FIELD(0x72)) | 0xb0000);
+ if (ITEM_KIND(item) == 9) v = item[ITEM_FIELD(0xa7)]; else v = 0;
 switch (v) {
-case 13: return *(u16 *)(rescueCCC8Current + 56);
-case 14: return *(u16 *)(rescueCCC8Current + 60);
-case 15: return *(u16 *)(rescueCCC8Current + 64);
-case 16: return *(u16 *)(rescueCCC8Current + 68);
-case 17: return *(u16 *)(rescueCCC8Current + 72);
-case 18: return *(u16 *)(rescueCCC8Current + 76);
+case 13: return *(u16 *)(rescueCCC8Current + SAVE_FIELD(56));
+case 14: return *(u16 *)(rescueCCC8Current + SAVE_FIELD(60));
+case 15: return *(u16 *)(rescueCCC8Current + SAVE_FIELD(64));
+case 16: return *(u16 *)(rescueCCC8Current + SAVE_FIELD(68));
+case 17: return *(u16 *)(rescueCCC8Current + SAVE_FIELD(72));
+case 18: return *(u16 *)(rescueCCC8Current + SAVE_FIELD(76));
 }
 break;
 }
 break;
 case 4:
  switch (p->kind) {
-case 5: return *(u16 *)(rescueCCC8Current + 52);
-case 4: return *(u16 *)(rescueCCC8Current + 56);
+case 5: return *(u16 *)(rescueCCC8Current + SAVE_FIELD(52));
+case 4: return *(u16 *)(rescueCCC8Current + SAVE_FIELD(56));
 case 9:
-q = rescueCCC8Current + *(u16 *)(rescueCCC8Current + 0x68) * 0x10;
- if (q[0x79] == 0) item = 0;
- else item = (u8 *)sub_08007290(*(u16 *)(q + 0x72) | 0xb0000);
- if (item[0x9b] == 9) v = item[0xa7]; else v = 0;
+q = rescueCCC8Current + *(u16 *)(rescueCCC8Current + SAVE_FIELD(0x68)) * 0x10;
+ if (q[SAVE_FIELD(0x79)] == 0) item = 0;
+ else item = (u8 *)sub_08007290(*(u16 *)(q + SAVE_FIELD(0x72)) | 0xb0000);
+ if (ITEM_KIND(item) == 9) v = item[ITEM_FIELD(0xa7)]; else v = 0;
 switch (v) {
-case 8: return *(u16 *)(rescueCCC8Current + 60);
-case 9: return *(u16 *)(rescueCCC8Current + 64);
-case 10: return *(u16 *)(rescueCCC8Current + 68);
-case 11: return *(u16 *)(rescueCCC8Current + 72);
-case 12: return *(u16 *)(rescueCCC8Current + 76);
+case 8: return *(u16 *)(rescueCCC8Current + SAVE_FIELD(60));
+case 9: return *(u16 *)(rescueCCC8Current + SAVE_FIELD(64));
+case 10: return *(u16 *)(rescueCCC8Current + SAVE_FIELD(68));
+case 11: return *(u16 *)(rescueCCC8Current + SAVE_FIELD(72));
+case 12: return *(u16 *)(rescueCCC8Current + SAVE_FIELD(76));
 }
 break;
 }
 break;
 case 5:
  switch (p->kind) {
-case 6: return *(u16 *)(rescueCCC8Current + 52);
-case 8: return *(u16 *)(rescueCCC8Current + 56);
+case 6: return *(u16 *)(rescueCCC8Current + SAVE_FIELD(52));
+case 8: return *(u16 *)(rescueCCC8Current + SAVE_FIELD(56));
 }
 break;
 case 7:
  switch (p->kind) {
-case 1: return *(u16 *)(rescueCCC8Current + 52);
-case 8: return *(u16 *)(rescueCCC8Current + 56);
+case 1: return *(u16 *)(rescueCCC8Current + SAVE_FIELD(52));
+case 8: return *(u16 *)(rescueCCC8Current + SAVE_FIELD(56));
 case 9:
-q = rescueCCC8Current + *(u16 *)(rescueCCC8Current + 0x68) * 0x10;
- if (q[0x79] == 0) item = 0;
- else item = (u8 *)sub_08007290(*(u16 *)(q + 0x72) | 0xb0000);
- if (item[0x9b] == 9) v = item[0xa7]; else v = 0;
+q = rescueCCC8Current + *(u16 *)(rescueCCC8Current + SAVE_FIELD(0x68)) * 0x10;
+ if (q[SAVE_FIELD(0x79)] == 0) item = 0;
+ else item = (u8 *)sub_08007290(*(u16 *)(q + SAVE_FIELD(0x72)) | 0xb0000);
+ if (ITEM_KIND(item) == 9) v = item[ITEM_FIELD(0xa7)]; else v = 0;
 switch (v) {
-case 19: return *(u16 *)(rescueCCC8Current + 64);
-case 21: return *(u16 *)(rescueCCC8Current + 68);
-case 20: return *(u16 *)(rescueCCC8Current + 72);
+case 19: return *(u16 *)(rescueCCC8Current + SAVE_FIELD(64));
+case 21: return *(u16 *)(rescueCCC8Current + SAVE_FIELD(68));
+case 20: return *(u16 *)(rescueCCC8Current + SAVE_FIELD(72));
 }
 break;
 }
@@ -1730,112 +1808,112 @@ s32 sub_0801D028(u16 arg0) {
  u16 kind;
  u8 cls, v;
  u8 *q, *item;
- kind = *(u16 *)(rescueD028Current + 0xa);
+ kind = *(u16 *)(rescueD028Current + SAVE_FIELD(0xa));
  if (kind == 8) kind = 6;
  cls = kind;
  switch (cls) {
 case 0:
  switch (arg0) {
-case 1: return *(u16 *)(rescueD028Current + 52);
-case 2: return *(u16 *)(rescueD028Current + 56);
-case 3: return *(u16 *)(rescueD028Current + 60);
+case 1: return *(u16 *)(rescueD028Current + SAVE_FIELD(52));
+case 2: return *(u16 *)(rescueD028Current + SAVE_FIELD(56));
+case 3: return *(u16 *)(rescueD028Current + SAVE_FIELD(60));
 }
 break;
 case 2:
  switch (arg0) {
-case 7: return *(u16 *)(rescueD028Current + 52);
-case 3: return *(u16 *)(rescueD028Current + 56);
+case 7: return *(u16 *)(rescueD028Current + SAVE_FIELD(52));
+case 3: return *(u16 *)(rescueD028Current + SAVE_FIELD(56));
 case 9:
-q = rescueD028Current + *(u16 *)(rescueD028Current + 0x68) * 0x10;
- if (q[0x79] == 0) item = 0;
- else item = (u8 *)sub_08007290(*(u16 *)(q + 0x72) | 0xb0000);
- if (item[0x9b] == 9) v = item[0xa7]; else v = 0;
-if (v == 7) return *(u16 *)(rescueD028Current + 0x48);
+q = rescueD028Current + *(u16 *)(rescueD028Current + SAVE_FIELD(0x68)) * 0x10;
+ if (q[SAVE_FIELD(0x79)] == 0) item = 0;
+ else item = (u8 *)sub_08007290(*(u16 *)(q + SAVE_FIELD(0x72)) | 0xb0000);
+ if (ITEM_KIND(item) == 9) v = item[ITEM_FIELD(0xa7)]; else v = 0;
+if (v == 7) return *(u16 *)(rescueD028Current + SAVE_FIELD(0x48));
 break;
 }
 break;
 case 3:
  switch (arg0) {
-case 2: return *(u16 *)(rescueD028Current + 52);
-case 4: return *(u16 *)(rescueD028Current + 56);
+case 2: return *(u16 *)(rescueD028Current + SAVE_FIELD(52));
+case 4: return *(u16 *)(rescueD028Current + SAVE_FIELD(56));
 }
 break;
 case 1:
  switch (arg0) {
-case 5: return *(u16 *)(rescueD028Current + 52);
+case 5: return *(u16 *)(rescueD028Current + SAVE_FIELD(52));
 case 9:
-q = rescueD028Current + *(u16 *)(rescueD028Current + 0x68) * 0x10;
- if (q[0x79] == 0) item = 0;
- else item = (u8 *)sub_08007290(*(u16 *)(q + 0x72) | 0xb0000);
- if (item[0x9b] == 9) v = item[0xa7]; else v = 0;
+q = rescueD028Current + *(u16 *)(rescueD028Current + SAVE_FIELD(0x68)) * 0x10;
+ if (q[SAVE_FIELD(0x79)] == 0) item = 0;
+ else item = (u8 *)sub_08007290(*(u16 *)(q + SAVE_FIELD(0x72)) | 0xb0000);
+ if (ITEM_KIND(item) == 9) v = item[ITEM_FIELD(0xa7)]; else v = 0;
 switch (v) {
-case 1: return *(u16 *)(rescueD028Current + 56);
-case 2: return *(u16 *)(rescueD028Current + 60);
-case 3: return *(u16 *)(rescueD028Current + 64);
-case 4: return *(u16 *)(rescueD028Current + 68);
-case 5: return *(u16 *)(rescueD028Current + 72);
-case 6: return *(u16 *)(rescueD028Current + 76);
+case 1: return *(u16 *)(rescueD028Current + SAVE_FIELD(56));
+case 2: return *(u16 *)(rescueD028Current + SAVE_FIELD(60));
+case 3: return *(u16 *)(rescueD028Current + SAVE_FIELD(64));
+case 4: return *(u16 *)(rescueD028Current + SAVE_FIELD(68));
+case 5: return *(u16 *)(rescueD028Current + SAVE_FIELD(72));
+case 6: return *(u16 *)(rescueD028Current + SAVE_FIELD(76));
 }
 break;
 }
 break;
 case 6:
  switch (arg0) {
-case 5: return *(u16 *)(rescueD028Current + 52);
+case 5: return *(u16 *)(rescueD028Current + SAVE_FIELD(52));
 case 9:
-q = rescueD028Current + *(u16 *)(rescueD028Current + 0x68) * 0x10;
- if (q[0x79] == 0) item = 0;
- else item = (u8 *)sub_08007290(*(u16 *)(q + 0x72) | 0xb0000);
- if (item[0x9b] == 9) v = item[0xa7]; else v = 0;
+q = rescueD028Current + *(u16 *)(rescueD028Current + SAVE_FIELD(0x68)) * 0x10;
+ if (q[SAVE_FIELD(0x79)] == 0) item = 0;
+ else item = (u8 *)sub_08007290(*(u16 *)(q + SAVE_FIELD(0x72)) | 0xb0000);
+ if (ITEM_KIND(item) == 9) v = item[ITEM_FIELD(0xa7)]; else v = 0;
 switch (v) {
-case 13: return *(u16 *)(rescueD028Current + 56);
-case 14: return *(u16 *)(rescueD028Current + 60);
-case 15: return *(u16 *)(rescueD028Current + 64);
-case 16: return *(u16 *)(rescueD028Current + 68);
-case 17: return *(u16 *)(rescueD028Current + 72);
-case 18: return *(u16 *)(rescueD028Current + 76);
+case 13: return *(u16 *)(rescueD028Current + SAVE_FIELD(56));
+case 14: return *(u16 *)(rescueD028Current + SAVE_FIELD(60));
+case 15: return *(u16 *)(rescueD028Current + SAVE_FIELD(64));
+case 16: return *(u16 *)(rescueD028Current + SAVE_FIELD(68));
+case 17: return *(u16 *)(rescueD028Current + SAVE_FIELD(72));
+case 18: return *(u16 *)(rescueD028Current + SAVE_FIELD(76));
 }
 break;
 }
 break;
 case 4:
  switch (arg0) {
-case 5: return *(u16 *)(rescueD028Current + 52);
-case 4: return *(u16 *)(rescueD028Current + 56);
+case 5: return *(u16 *)(rescueD028Current + SAVE_FIELD(52));
+case 4: return *(u16 *)(rescueD028Current + SAVE_FIELD(56));
 case 9:
-q = rescueD028Current + *(u16 *)(rescueD028Current + 0x68) * 0x10;
- if (q[0x79] == 0) item = 0;
- else item = (u8 *)sub_08007290(*(u16 *)(q + 0x72) | 0xb0000);
- if (item[0x9b] == 9) v = item[0xa7]; else v = 0;
+q = rescueD028Current + *(u16 *)(rescueD028Current + SAVE_FIELD(0x68)) * 0x10;
+ if (q[SAVE_FIELD(0x79)] == 0) item = 0;
+ else item = (u8 *)sub_08007290(*(u16 *)(q + SAVE_FIELD(0x72)) | 0xb0000);
+ if (ITEM_KIND(item) == 9) v = item[ITEM_FIELD(0xa7)]; else v = 0;
 switch (v) {
-case 8: return *(u16 *)(rescueD028Current + 60);
-case 9: return *(u16 *)(rescueD028Current + 64);
-case 10: return *(u16 *)(rescueD028Current + 68);
-case 11: return *(u16 *)(rescueD028Current + 72);
-case 12: return *(u16 *)(rescueD028Current + 76);
+case 8: return *(u16 *)(rescueD028Current + SAVE_FIELD(60));
+case 9: return *(u16 *)(rescueD028Current + SAVE_FIELD(64));
+case 10: return *(u16 *)(rescueD028Current + SAVE_FIELD(68));
+case 11: return *(u16 *)(rescueD028Current + SAVE_FIELD(72));
+case 12: return *(u16 *)(rescueD028Current + SAVE_FIELD(76));
 }
 break;
 }
 break;
 case 5:
  switch (arg0) {
-case 6: return *(u16 *)(rescueD028Current + 52);
-case 8: return *(u16 *)(rescueD028Current + 56);
+case 6: return *(u16 *)(rescueD028Current + SAVE_FIELD(52));
+case 8: return *(u16 *)(rescueD028Current + SAVE_FIELD(56));
 }
 break;
 case 7:
  switch (arg0) {
-case 1: return *(u16 *)(rescueD028Current + 52);
-case 8: return *(u16 *)(rescueD028Current + 56);
+case 1: return *(u16 *)(rescueD028Current + SAVE_FIELD(52));
+case 8: return *(u16 *)(rescueD028Current + SAVE_FIELD(56));
 case 9:
-q = rescueD028Current + *(u16 *)(rescueD028Current + 0x68) * 0x10;
- if (q[0x79] == 0) item = 0;
- else item = (u8 *)sub_08007290(*(u16 *)(q + 0x72) | 0xb0000);
- if (item[0x9b] == 9) v = item[0xa7]; else v = 0;
+q = rescueD028Current + *(u16 *)(rescueD028Current + SAVE_FIELD(0x68)) * 0x10;
+ if (q[SAVE_FIELD(0x79)] == 0) item = 0;
+ else item = (u8 *)sub_08007290(*(u16 *)(q + SAVE_FIELD(0x72)) | 0xb0000);
+ if (ITEM_KIND(item) == 9) v = item[ITEM_FIELD(0xa7)]; else v = 0;
 switch (v) {
-case 19: return *(u16 *)(rescueD028Current + 64);
-case 21: return *(u16 *)(rescueD028Current + 68);
-case 20: return *(u16 *)(rescueD028Current + 72);
+case 19: return *(u16 *)(rescueD028Current + SAVE_FIELD(64));
+case 21: return *(u16 *)(rescueD028Current + SAVE_FIELD(68));
+case 20: return *(u16 *)(rescueD028Current + SAVE_FIELD(72));
 }
 break;
 }
@@ -1844,7 +1922,7 @@ break;
 return 0;
 }
 
-struct RescueD34CRecord { u8 pad[0x10]; u16 kind; u8 tail[0x13a]; };
+struct RescueD34CRecord { u8 pad[PLAYER_FIELD(0x10)]; u16 kind; u8 tail[PLAYER_SIZE - PLAYER_FIELD(0x12)]; };
 extern struct RescueD34CRecord rescueD34CRecords[] asm("gUnk_03003CE0");
 extern u8 *rescueD34CCurrent asm("gUnk_030034E0");
 /* [GetClassActionCappedValue] Maps saved class8 to6, switches local runtime action kind and class to selected
@@ -1859,112 +1937,112 @@ s32 sub_0801D34C(void) {
  u8 *q, *item;
  p = &rescueD34CRecords[sub_080020F4()];
  cap = (u8 *)sub_0805AD18();
- kind = *(u16 *)(rescueD34CCurrent + 0xa);
+ kind = *(u16 *)(rescueD34CCurrent+SAVE_FIELD(0xa));
  if (kind == 8) kind = 6;
  cls = kind;
  switch (cls) {
 case 0:
  switch (p->kind) {
-case 1: return *(u16 *)(rescueD34CCurrent + 52);
-case 2: return *(u16 *)(rescueD34CCurrent + 56);
-case 3: return *(u16 *)(rescueD34CCurrent + 60);
+case 1: return *(u16 *)(rescueD34CCurrent+SAVE_FIELD(52));
+case 2: return *(u16 *)(rescueD34CCurrent+SAVE_FIELD(56));
+case 3: return *(u16 *)(rescueD34CCurrent+SAVE_FIELD(60));
 }
 break;
 case 2:
  switch (p->kind) {
-case 7: return *(u16 *)(rescueD34CCurrent + 52);
-case 3: return *(u16 *)(rescueD34CCurrent + 56);
+case 7: return *(u16 *)(rescueD34CCurrent+SAVE_FIELD(52));
+case 3: return *(u16 *)(rescueD34CCurrent+SAVE_FIELD(56));
 case 9:
-q = rescueD34CCurrent + *(u16 *)(rescueD34CCurrent + 0x68) * 0x10;
- if (q[0x79] == 0) item = 0;
- else item = (u8 *)sub_08007290(*(u16 *)(q + 0x72) | 0xb0000);
- if (item[0x9b] == 9) v = item[0xa7]; else v = 0;
-if (v == 7) return *(u16 *)(cap + 0xac) < *(u16 *)(rescueD34CCurrent + 0x48) ? *(u16 *)(cap + 0xac) : *(u16 *)(rescueD34CCurrent + 0x48);
+q = rescueD34CCurrent + *(u16 *)(rescueD34CCurrent+SAVE_FIELD(0x68)) * 0x10;
+ if (q[SAVE_FIELD(0x79)] == 0) item = 0;
+ else item = (u8 *)sub_08007290(*(u16 *)(q + SAVE_FIELD(0x72)) | 0xb0000);
+ if (ITEM_KIND(item) == 9) v = item[ITEM_FIELD(0xa7)]; else v = 0;
+if (v == 7) return *(u16 *)(cap + ITEM_FIELD(0xac)) < *(u16 *)(rescueD34CCurrent+SAVE_FIELD(0x48)) ? *(u16 *)(cap + ITEM_FIELD(0xac)) : *(u16 *)(rescueD34CCurrent+SAVE_FIELD(0x48));
 break;
 }
 break;
 case 3:
  switch (p->kind) {
-case 2: return *(u16 *)(rescueD34CCurrent + 52);
-case 4: return *(u16 *)(rescueD34CCurrent + 56);
+case 2: return *(u16 *)(rescueD34CCurrent+SAVE_FIELD(52));
+case 4: return *(u16 *)(rescueD34CCurrent+SAVE_FIELD(56));
 }
 break;
 case 1:
  switch (p->kind) {
-case 5: return *(u16 *)(rescueD34CCurrent + 52);
+case 5: return *(u16 *)(rescueD34CCurrent+SAVE_FIELD(52));
 case 9:
-q = rescueD34CCurrent + *(u16 *)(rescueD34CCurrent + 0x68) * 0x10;
- if (q[0x79] == 0) item = 0;
- else item = (u8 *)sub_08007290(*(u16 *)(q + 0x72) | 0xb0000);
- if (item[0x9b] == 9) v = item[0xa7]; else v = 0;
+q = rescueD34CCurrent + *(u16 *)(rescueD34CCurrent+SAVE_FIELD(0x68)) * 0x10;
+ if (q[SAVE_FIELD(0x79)] == 0) item = 0;
+ else item = (u8 *)sub_08007290(*(u16 *)(q + SAVE_FIELD(0x72)) | 0xb0000);
+ if (ITEM_KIND(item) == 9) v = item[ITEM_FIELD(0xa7)]; else v = 0;
 switch (v) {
-case 1: return *(u16 *)(cap + 0xac) < *(u16 *)(rescueD34CCurrent + 56) ? *(u16 *)(cap + 0xac) : *(u16 *)(rescueD34CCurrent + 56);
-case 2: return *(u16 *)(cap + 0xac) < *(u16 *)(rescueD34CCurrent + 60) ? *(u16 *)(cap + 0xac) : *(u16 *)(rescueD34CCurrent + 60);
-case 3: return *(u16 *)(cap + 0xac) < *(u16 *)(rescueD34CCurrent + 64) ? *(u16 *)(cap + 0xac) : *(u16 *)(rescueD34CCurrent + 64);
-case 4: return *(u16 *)(cap + 0xac) < *(u16 *)(rescueD34CCurrent + 68) ? *(u16 *)(cap + 0xac) : *(u16 *)(rescueD34CCurrent + 68);
-case 5: return *(u16 *)(cap + 0xac) < *(u16 *)(rescueD34CCurrent + 72) ? *(u16 *)(cap + 0xac) : *(u16 *)(rescueD34CCurrent + 72);
-case 6: return *(u16 *)(cap + 0xac) < *(u16 *)(rescueD34CCurrent + 76) ? *(u16 *)(cap + 0xac) : *(u16 *)(rescueD34CCurrent + 76);
+case 1: return *(u16 *)(cap + ITEM_FIELD(0xac)) < *(u16 *)(rescueD34CCurrent+SAVE_FIELD(56)) ? *(u16 *)(cap + ITEM_FIELD(0xac)) : *(u16 *)(rescueD34CCurrent+SAVE_FIELD(56));
+case 2: return *(u16 *)(cap + ITEM_FIELD(0xac)) < *(u16 *)(rescueD34CCurrent+SAVE_FIELD(60)) ? *(u16 *)(cap + ITEM_FIELD(0xac)) : *(u16 *)(rescueD34CCurrent+SAVE_FIELD(60));
+case 3: return *(u16 *)(cap + ITEM_FIELD(0xac)) < *(u16 *)(rescueD34CCurrent+SAVE_FIELD(64)) ? *(u16 *)(cap + ITEM_FIELD(0xac)) : *(u16 *)(rescueD34CCurrent+SAVE_FIELD(64));
+case 4: return *(u16 *)(cap + ITEM_FIELD(0xac)) < *(u16 *)(rescueD34CCurrent+SAVE_FIELD(68)) ? *(u16 *)(cap + ITEM_FIELD(0xac)) : *(u16 *)(rescueD34CCurrent+SAVE_FIELD(68));
+case 5: return *(u16 *)(cap + ITEM_FIELD(0xac)) < *(u16 *)(rescueD34CCurrent+SAVE_FIELD(72)) ? *(u16 *)(cap + ITEM_FIELD(0xac)) : *(u16 *)(rescueD34CCurrent+SAVE_FIELD(72));
+case 6: return *(u16 *)(cap + ITEM_FIELD(0xac)) < *(u16 *)(rescueD34CCurrent+SAVE_FIELD(76)) ? *(u16 *)(cap + ITEM_FIELD(0xac)) : *(u16 *)(rescueD34CCurrent+SAVE_FIELD(76));
 }
 break;
 }
 break;
 case 6:
  switch (p->kind) {
-case 5: return *(u16 *)(rescueD34CCurrent + 52);
+case 5: return *(u16 *)(rescueD34CCurrent+SAVE_FIELD(52));
 case 9:
-q = rescueD34CCurrent + *(u16 *)(rescueD34CCurrent + 0x68) * 0x10;
- if (q[0x79] == 0) item = 0;
- else item = (u8 *)sub_08007290(*(u16 *)(q + 0x72) | 0xb0000);
- if (item[0x9b] == 9) v = item[0xa7]; else v = 0;
+q = rescueD34CCurrent + *(u16 *)(rescueD34CCurrent+SAVE_FIELD(0x68)) * 0x10;
+ if (q[SAVE_FIELD(0x79)] == 0) item = 0;
+ else item = (u8 *)sub_08007290(*(u16 *)(q + SAVE_FIELD(0x72)) | 0xb0000);
+ if (ITEM_KIND(item) == 9) v = item[ITEM_FIELD(0xa7)]; else v = 0;
 switch (v) {
-case 13: return *(u16 *)(cap + 0xac) < *(u16 *)(rescueD34CCurrent + 56) ? *(u16 *)(cap + 0xac) : *(u16 *)(rescueD34CCurrent + 56);
-case 14: return *(u16 *)(cap + 0xac) < *(u16 *)(rescueD34CCurrent + 60) ? *(u16 *)(cap + 0xac) : *(u16 *)(rescueD34CCurrent + 60);
-case 15: return *(u16 *)(cap + 0xac) < *(u16 *)(rescueD34CCurrent + 64) ? *(u16 *)(cap + 0xac) : *(u16 *)(rescueD34CCurrent + 64);
-case 16: return *(u16 *)(cap + 0xac) < *(u16 *)(rescueD34CCurrent + 68) ? *(u16 *)(cap + 0xac) : *(u16 *)(rescueD34CCurrent + 68);
-case 17: return *(u16 *)(cap + 0xac) < *(u16 *)(rescueD34CCurrent + 72) ? *(u16 *)(cap + 0xac) : *(u16 *)(rescueD34CCurrent + 72);
-case 18: return *(u16 *)(cap + 0xac) < *(u16 *)(rescueD34CCurrent + 76) ? *(u16 *)(cap + 0xac) : *(u16 *)(rescueD34CCurrent + 76);
+case 13: return *(u16 *)(cap + ITEM_FIELD(0xac)) < *(u16 *)(rescueD34CCurrent+SAVE_FIELD(56)) ? *(u16 *)(cap + ITEM_FIELD(0xac)) : *(u16 *)(rescueD34CCurrent+SAVE_FIELD(56));
+case 14: return *(u16 *)(cap + ITEM_FIELD(0xac)) < *(u16 *)(rescueD34CCurrent+SAVE_FIELD(60)) ? *(u16 *)(cap + ITEM_FIELD(0xac)) : *(u16 *)(rescueD34CCurrent+SAVE_FIELD(60));
+case 15: return *(u16 *)(cap + ITEM_FIELD(0xac)) < *(u16 *)(rescueD34CCurrent+SAVE_FIELD(64)) ? *(u16 *)(cap + ITEM_FIELD(0xac)) : *(u16 *)(rescueD34CCurrent+SAVE_FIELD(64));
+case 16: return *(u16 *)(cap + ITEM_FIELD(0xac)) < *(u16 *)(rescueD34CCurrent+SAVE_FIELD(68)) ? *(u16 *)(cap + ITEM_FIELD(0xac)) : *(u16 *)(rescueD34CCurrent+SAVE_FIELD(68));
+case 17: return *(u16 *)(cap + ITEM_FIELD(0xac)) < *(u16 *)(rescueD34CCurrent+SAVE_FIELD(72)) ? *(u16 *)(cap + ITEM_FIELD(0xac)) : *(u16 *)(rescueD34CCurrent+SAVE_FIELD(72));
+case 18: return *(u16 *)(cap + ITEM_FIELD(0xac)) < *(u16 *)(rescueD34CCurrent+SAVE_FIELD(76)) ? *(u16 *)(cap + ITEM_FIELD(0xac)) : *(u16 *)(rescueD34CCurrent+SAVE_FIELD(76));
 }
 break;
 }
 break;
 case 4:
  switch (p->kind) {
-case 5: return *(u16 *)(rescueD34CCurrent + 52);
-case 4: return *(u16 *)(rescueD34CCurrent + 56);
+case 5: return *(u16 *)(rescueD34CCurrent+SAVE_FIELD(52));
+case 4: return *(u16 *)(rescueD34CCurrent+SAVE_FIELD(56));
 case 9:
-q = rescueD34CCurrent + *(u16 *)(rescueD34CCurrent + 0x68) * 0x10;
- if (q[0x79] == 0) item = 0;
- else item = (u8 *)sub_08007290(*(u16 *)(q + 0x72) | 0xb0000);
- if (item[0x9b] == 9) v = item[0xa7]; else v = 0;
+q = rescueD34CCurrent + *(u16 *)(rescueD34CCurrent+SAVE_FIELD(0x68)) * 0x10;
+ if (q[SAVE_FIELD(0x79)] == 0) item = 0;
+ else item = (u8 *)sub_08007290(*(u16 *)(q + SAVE_FIELD(0x72)) | 0xb0000);
+ if (ITEM_KIND(item) == 9) v = item[ITEM_FIELD(0xa7)]; else v = 0;
 switch (v) {
-case 8: return *(u16 *)(cap + 0xac) < *(u16 *)(rescueD34CCurrent + 60) ? *(u16 *)(cap + 0xac) : *(u16 *)(rescueD34CCurrent + 60);
-case 9: return *(u16 *)(cap + 0xac) < *(u16 *)(rescueD34CCurrent + 64) ? *(u16 *)(cap + 0xac) : *(u16 *)(rescueD34CCurrent + 64);
-case 10: return *(u16 *)(cap + 0xac) < *(u16 *)(rescueD34CCurrent + 68) ? *(u16 *)(cap + 0xac) : *(u16 *)(rescueD34CCurrent + 68);
-case 11: return *(u16 *)(cap + 0xac) < *(u16 *)(rescueD34CCurrent + 72) ? *(u16 *)(cap + 0xac) : *(u16 *)(rescueD34CCurrent + 72);
-case 12: return *(u16 *)(cap + 0xac) < *(u16 *)(rescueD34CCurrent + 76) ? *(u16 *)(cap + 0xac) : *(u16 *)(rescueD34CCurrent + 76);
+case 8: return *(u16 *)(cap + ITEM_FIELD(0xac)) < *(u16 *)(rescueD34CCurrent+SAVE_FIELD(60)) ? *(u16 *)(cap + ITEM_FIELD(0xac)) : *(u16 *)(rescueD34CCurrent+SAVE_FIELD(60));
+case 9: return *(u16 *)(cap + ITEM_FIELD(0xac)) < *(u16 *)(rescueD34CCurrent+SAVE_FIELD(64)) ? *(u16 *)(cap + ITEM_FIELD(0xac)) : *(u16 *)(rescueD34CCurrent+SAVE_FIELD(64));
+case 10: return *(u16 *)(cap + ITEM_FIELD(0xac)) < *(u16 *)(rescueD34CCurrent+SAVE_FIELD(68)) ? *(u16 *)(cap + ITEM_FIELD(0xac)) : *(u16 *)(rescueD34CCurrent+SAVE_FIELD(68));
+case 11: return *(u16 *)(cap + ITEM_FIELD(0xac)) < *(u16 *)(rescueD34CCurrent+SAVE_FIELD(72)) ? *(u16 *)(cap + ITEM_FIELD(0xac)) : *(u16 *)(rescueD34CCurrent+SAVE_FIELD(72));
+case 12: return *(u16 *)(cap + ITEM_FIELD(0xac)) < *(u16 *)(rescueD34CCurrent+SAVE_FIELD(76)) ? *(u16 *)(cap + ITEM_FIELD(0xac)) : *(u16 *)(rescueD34CCurrent+SAVE_FIELD(76));
 }
 break;
 }
 break;
 case 5:
  switch (p->kind) {
-case 6: return *(u16 *)(rescueD34CCurrent + 52);
-case 8: return *(u16 *)(rescueD34CCurrent + 56);
+case 6: return *(u16 *)(rescueD34CCurrent+SAVE_FIELD(52));
+case 8: return *(u16 *)(rescueD34CCurrent+SAVE_FIELD(56));
 }
 break;
 case 7:
  switch (p->kind) {
-case 1: return *(u16 *)(rescueD34CCurrent + 52);
-case 8: return *(u16 *)(rescueD34CCurrent + 56);
+case 1: return *(u16 *)(rescueD34CCurrent+SAVE_FIELD(52));
+case 8: return *(u16 *)(rescueD34CCurrent+SAVE_FIELD(56));
 case 9:
-q = rescueD34CCurrent + *(u16 *)(rescueD34CCurrent + 0x68) * 0x10;
- if (q[0x79] == 0) item = 0;
- else item = (u8 *)sub_08007290(*(u16 *)(q + 0x72) | 0xb0000);
- if (item[0x9b] == 9) v = item[0xa7]; else v = 0;
+q = rescueD34CCurrent + *(u16 *)(rescueD34CCurrent+SAVE_FIELD(0x68)) * 0x10;
+ if (q[SAVE_FIELD(0x79)] == 0) item = 0;
+ else item = (u8 *)sub_08007290(*(u16 *)(q + SAVE_FIELD(0x72)) | 0xb0000);
+ if (ITEM_KIND(item) == 9) v = item[ITEM_FIELD(0xa7)]; else v = 0;
 switch (v) {
-case 19: return *(u16 *)(cap + 0xac) < *(u16 *)(rescueD34CCurrent + 64) ? *(u16 *)(cap + 0xac) : *(u16 *)(rescueD34CCurrent + 64);
-case 21: return *(u16 *)(cap + 0xac) < *(u16 *)(rescueD34CCurrent + 68) ? *(u16 *)(cap + 0xac) : *(u16 *)(rescueD34CCurrent + 68);
-case 20: return *(u16 *)(cap + 0xac) < *(u16 *)(rescueD34CCurrent + 72) ? *(u16 *)(cap + 0xac) : *(u16 *)(rescueD34CCurrent + 72);
+case 19: return *(u16 *)(cap + ITEM_FIELD(0xac)) < *(u16 *)(rescueD34CCurrent+SAVE_FIELD(64)) ? *(u16 *)(cap + ITEM_FIELD(0xac)) : *(u16 *)(rescueD34CCurrent+SAVE_FIELD(64));
+case 21: return *(u16 *)(cap + ITEM_FIELD(0xac)) < *(u16 *)(rescueD34CCurrent+SAVE_FIELD(68)) ? *(u16 *)(cap + ITEM_FIELD(0xac)) : *(u16 *)(rescueD34CCurrent+SAVE_FIELD(68));
+case 20: return *(u16 *)(cap + ITEM_FIELD(0xac)) < *(u16 *)(rescueD34CCurrent+SAVE_FIELD(72)) ? *(u16 *)(cap + ITEM_FIELD(0xac)) : *(u16 *)(rescueD34CCurrent+SAVE_FIELD(72));
 }
 break;
 }
@@ -1974,7 +2052,7 @@ return 0;
 }
 
 struct RescueD7ACSlot { s16 timer; u16 source, kind, value; u8 pad[0x20]; };
-struct RescueD7ACRecord { u8 pad0[0xc]; u16 state; u8 padE[0x26]; struct RescueD7ACSlot *slots; u8 pad38[0x30]; u8 team; u8 tail[0xe3]; };
+struct RescueD7ACRecord { u8 pad0[PLAYER_FIELD(0xC)]; u16 state; u8 padE[PLAYER_FIELD(0x34) - PLAYER_FIELD(0xE)]; struct RescueD7ACSlot *slots; u8 pad38[PLAYER_FIELD(0x68) - PLAYER_FIELD(0x38)]; u8 team; u8 tail[PLAYER_SIZE - PLAYER_FIELD(0x69)]; };
 extern struct RescueD7ACRecord rescueD7ACRecords[] asm("gUnk_03003CE0");
 extern u32 rescueD7ACEntities asm("gUnk_030056F4");
 extern u32 rescueD7ACMask asm("gUnk_030056FC");
@@ -1993,7 +2071,7 @@ void sub_0801D7AC(s32 source, s32 target, u32 kind, s32 value) {
  volatile u16 zero;
  u32 subtype, mask;
  u8 *entity;
- p = (struct RescueD7ACRecord *)(baseAddress + source * 0x14c);
+ p = (struct RescueD7ACRecord *)(baseAddress + source * PLAYER_SIZE);
  switch (p->state) {
 case 0:
 if (rescueD7ACRecords[target].team != p->team) return;
@@ -2054,7 +2132,11 @@ if ((kind & mask) == 4) {
  } else {
  for (j = 0; j < 5; j++) {
  if (rescueD7ACMask & (1 << j)) {
- entity = (u8 *)(j * 0x2e0 + rescueD7ACEntities);
+#ifdef REGION_USA
+ { u8 *base = (u8 *)rescueD7ACEntities; entity = (u8 *)(j * ENEMY_SIZE + (u32)base); }
+#else
+ entity = (u8 *)(j * ENEMY_SIZE + rescueD7ACEntities);
+#endif
  if (subtype == *(u16 *)(entity + 2)) {
  slot = (struct RescueD7ACSlot *)(entity + 0x8c);
  for (i = 0; i < 8; i++, slot++) {
@@ -2096,8 +2178,8 @@ void sub_0801DB94(s32 owner,void *record,s32 status)
     register u32 random;
     u32 duration;
     s32 hp;
-    if((u32)owner<=3) player=(u8 *)gUnk_03003CE0+(u32)owner*0x14C;
-    else monster=(u8 *)gUnk_030056F4+((u32)owner*0x2E0-0xB80);
+    if((u32)owner<=3) player=(u8 *)gUnk_03003CE0+(u32)owner*PLAYER_SIZE;
+    else monster=(u8 *)gUnk_030056F4+((u32)owner*ENEMY_SIZE-(4 * ENEMY_SIZE));
     entry->category=100;
     switch((u32)status-1) {
     case 0:
@@ -2130,7 +2212,7 @@ void sub_0801DB94(s32 owner,void *record,s32 status)
         duration=4;
         goto finish;
     case 5:
-        if((u32)owner<=3) hp=*(s16 *)(player+0x62);
+        if((u32)owner<=3) hp=*(s16 *)(player+PLAYER_FIELD(0x62));
         else hp=*(s16 *)(monster+0x1D6);
         amount=hp/25;
         if(!sub_0800CCCC() && !sub_0800CD34()) sub_0805865C(0x183);
@@ -2141,7 +2223,7 @@ void sub_0801DB94(s32 owner,void *record,s32 status)
         duration=random*60-1;
         goto finish;
     case 6:
-        if((u32)owner<=3) hp=*(s16 *)(player+0x62);
+        if((u32)owner<=3) hp=*(s16 *)(player+PLAYER_FIELD(0x62));
         else hp=*(s16 *)(monster+0x1D6);
         amount=hp*8/100;
         if(!sub_0800CCCC() && !sub_0800CD34()) sub_0805865C(0x183);
@@ -2168,32 +2250,32 @@ void sub_0801DD9C(void) {
  * via CpuSet, eight 32-bit units. Does not recalculate effective player stats, validate the pointer or
  * synchronize any appearance changes. */
 void sub_0801DDB8(s32 arg0) {
-    CpuSet(gUnk_030034E0 + 0x10, arg0, 0x04000008);
+    CpuSet(gUnk_030034E0 + SAVE_FIELD(0x10), arg0, 0x04000008);
 }
 /* [CopyCharacterBaseStatsFromBuffer] Copies 32 bytes from the supplied buffer into current character save
  * +0x10 via CpuSet, eight 32-bit units. Does not validate field values, recalculate the runtime player or
  * update the save storage on its own. */
 void sub_0801DDD4(s32 arg0) {
-    CpuSet(arg0, gUnk_030034E0 + 0x10, 0x04000008);
+    CpuSet(arg0, gUnk_030034E0 + SAVE_FIELD(0x10), 0x04000008);
 }
 /* [CopyLocalPlayerEffectiveAttributesToBuffer] Copies the local runtime player 32-byte effective attribute
  * block at player +0x38 to the caller buffer. Selects player using 020F4 and stride 0x14C; CpuSet uses eight
  * words. Does not fetch the save base block or recalculate attributes before copying them. */
 void sub_0801DDF0(void *arg0) {
-    CpuSet(gUnk_03003D18 + sub_080020F4() * 0x14C, arg0, 0x04000008);
+    CpuSet(gUnk_03003D18 + sub_080020F4() * PLAYER_SIZE, arg0, 0x04000008);
 }
 /* [CopyLocalPlayerDerivedStatsToBuffer] Copies the entire local runtime player 48-byte derived-parameter block
  * at player +0x58 to the supplied buffer. Selects player using 020F4 and stride 0x14C; CpuSet uses 24
  * halfwords. Performs no recalculation or field filtering before the transfer. */
 void sub_0801DE18(void *arg0) {
-    CpuSet(gUnk_03003D38 + sub_080020F4() * 0x14C, arg0, 0x18);
+    CpuSet(gUnk_03003D38 + sub_080020F4() * PLAYER_SIZE, arg0, 0x18);
 }
 /* [CopyLocalPlayerDerivedStatsFromBuffer] Copies 48 bytes from the supplied buffer into the local runtime
  * player derived-parameter block at +0x58. Selects player using 020F4 and stride 0x14C; CpuSet uses 24
  * halfwords. Does not validate individual values, clamp current energy/health against new maxima, recalculate
  * attributes or enqueue appearance synchronization. */
 void sub_0801DE3C(void *arg0) {
-    CpuSet(arg0, gUnk_03003D38 + sub_080020F4() * 0x14C, 0x18);
+    CpuSet(arg0, gUnk_03003D38 + sub_080020F4() * PLAYER_SIZE, 0x18);
 }
 /* [GetNormalizedCharacterClassIndex] Reads character save halfword+0xA and maps8 to6, returning other values
  * truncated tou8. Consumers5D210/5D278/5D2E0 use result to select class bit in equipment-permission mask,
@@ -2201,7 +2283,7 @@ void sub_0801DE3C(void *arg0) {
 u8 sub_0801DE60(void)
 {
   u16 temp_r0;
-  temp_r0 = *((u16 *) (((s8 *) gUnk_030034E0) + 0xA));
+  temp_r0 = *((u16 *) (((s8 *) gUnk_030034E0) + SAVE_FIELD(0xA)));
   if (temp_r0 != 8)
   {
     return (u8) temp_r0;
@@ -2220,44 +2302,44 @@ u8 sub_0801DE60(void)
  * consumes its entries. */
 void sub_0801DE78(void *arg0) {
     struct S36 { u32 w[9]; } *dst = arg0;
-    struct S36 *src = (struct S36 *) ((u8 *) gUnk_030034E0 + 0x30);
+    struct S36 *src = (struct S36 *) ((u8 *) gUnk_030034E0 + SAVE_FIELD(0x30));
     *dst = *src;
 }
 /* [CopyCharacterSkillTableFromBuffer] Copies36 bytes from caller buffer to current character save+0x30;
  * inverse data transfer of1DE78. Does not recalculate derived stats or validate individual skill values. */
 void sub_0801DE98(void *arg0) {
     struct S36 { u32 w[9]; } *src = arg0;
-    struct S36 *dst = (struct S36 *) ((u8 *) gUnk_030034E0 + 0x30);
+    struct S36 *dst = (struct S36 *) ((u8 *) gUnk_030034E0 + SAVE_FIELD(0x30));
     *dst = *src;
 }
 /* [GetEquippedItemAbilityId] Uses selected equipment slot at save offset 0x68 and item stride 16. */
 u32 sub_0801DEB8(void)
 {
     u8 *table = (u8 *)gUnk_030034E0;
-    u8 *item = table + *(u16 *)(table + 0x68) * 0x10;
+    u8 *item = table + *(u16 *)(table + SAVE_FIELD(0x68)) * 0x10;
     u8 *resource;
-    if (item[0x79] == 0)
+    if (item[SAVE_FIELD(0x79)] == 0)
         resource = 0;
     else
-        resource = (u8 *)sub_08007290(*(u16 *)(item + 0x72) | 0xB0000);
-    if (resource[0x9B] == 9)
-        return resource[0xA7];
+        resource = (u8 *)sub_08007290(*(u16 *)(item + SAVE_FIELD(0x72)) | 0xB0000);
+    if (ITEM_KIND(resource) == 9)
+        return resource[ITEM_FIELD(0xA7)];
     return 0;
 }
 /* [RestoreLocalPlayerVitalState] Copies maximum health 0x62 to current health 0xC4. */
 void sub_0801DF08(void) {
     u8 *p = (u8 *) &gUnk_03003CE0[sub_080020F4()];
 
-    u16 v = *(u16 *) (p + 0x62);
-    *(u16 *) (p + 0xC4) = v;
+    u16 v = *(u16 *) (p + PLAYER_FIELD(0x62));
+    *(u16 *) (p + PLAYER_FIELD(0xC4)) = v;
     if (sub_0801DE60() == 1) {
-        u16 w = *(u16 *) (p + 0x60);
-        *(u16 *) (p + 0xC2) = w;
+        u16 w = *(u16 *) (p + PLAYER_FIELD(0x60));
+        *(u16 *) (p + PLAYER_FIELD(0xC2)) = w;
     }
-    *(u16 *) (p + 0x20) = 0;
-    *(u32 *) (p + 0x30) = 0x40;
+    *(u16 *) (p + PLAYER_FIELD(0x20)) = 0;
+    *(u32 *) (p + PLAYER_FIELD(0x30)) = 0x40;
 }
-struct MonDF4C { u16 f0; u16 id; u8 pad[0x2DC]; };
+struct MonDF4C { u16 f0; u16 id; u8 pad[ENEMY_SIZE - 0x4]; };
 extern struct MonDF4C *monstersDF4C asm("gUnk_030056F4");
 /* [ScanActorIds] Searches five records using u32 loop index. */
 void sub_0801DF4C(u32 id)
@@ -2282,16 +2364,16 @@ s32 sub_0801DF80(void) {
  * does not subtract damage, clear flags or transition the player state. */
 s32 sub_0801DF8C(void) {
     u8 *p = (u8 *) &gUnk_03003CE0[sub_080020F4()];
-    u32 flags = *(u32 *) (p + 0x30);
+    u32 flags = *(u32 *) (p + PLAYER_FIELD(0x30));
     s32 r4;
 
     if (!(flags & 0x100000)) {
         r4 = 0;
-        if (*(u16 *) (p + 0x20) == 0xB) {
+        if (*(u16 *) (p + PLAYER_FIELD(0x20)) == PLAYER_FIELD(0xB)) {
             r4 = 1;
-        } else if (*(s16 *) (p + 0xC4) == 0) {
+        } else if (*(s16 *) (p + PLAYER_FIELD(0xC4)) == 0) {
             r4 = 1;
-        } else if ((s16) (*(u16 *) (p + 0xC4) - *(u16 *) (p + 0x88)) <= 0) {
+        } else if ((s16) (*(u16 *) (p + PLAYER_FIELD(0xC4)) - *(u16 *) (p + PLAYER_FIELD(0x88))) <= 0) {
             r4 = 1;
         } else if (flags & 0x2000) {
             r4 = 1;
@@ -2321,20 +2403,20 @@ void sub_0801E024(void *arg0) {
     u16 temp_r7;
     u8 temp_r8;
 
-    temp_r7 = M2C_FIELD(arg0, u16 *, 0x64);
-    temp_r8 = M2C_FIELD(arg0, u8 *, 0x66);
-    sub_0801BA74(arg0, 0, arg0 + 0x38, arg0 + 0x58, gUnk_030034E0 + 0x30);
-    if ((s32) M2C_FIELD(arg0, s16 *, 0xC4) > (s32) (s16) M2C_FIELD(arg0, u16 *, 0x62)) {
-        M2C_FIELD(arg0, s16 *, 0xC4) = (s16) M2C_FIELD(arg0, u16 *, 0x62);
+    temp_r7 = M2C_FIELD(arg0, u16 *, SAVE_FIELD(0x64));
+    temp_r8 = M2C_FIELD(arg0, u8 *, SAVE_FIELD(0x66));
+    sub_0801BA74(arg0, 0, arg0 + SAVE_FIELD(0x38), arg0 + SAVE_FIELD(0x58), gUnk_030034E0 + SAVE_FIELD(0x30));
+    if ((s32) M2C_FIELD(arg0, s16 *, SAVE_FIELD(0xC4)) > (s32) (s16) M2C_FIELD(arg0, u16 *, SAVE_FIELD(0x62))) {
+        M2C_FIELD(arg0, s16 *, SAVE_FIELD(0xC4)) = (s16) M2C_FIELD(arg0, u16 *, SAVE_FIELD(0x62));
     }
-    if ((temp_r7 != M2C_FIELD(arg0, u16 *, 0x64)) || (temp_r8 != M2C_FIELD(arg0, u8 *, 0x66))) {
+    if ((temp_r7 != M2C_FIELD(arg0, u16 *, SAVE_FIELD(0x64))) || (temp_r8 != M2C_FIELD(arg0, u8 *, SAVE_FIELD(0x66)))) {
         sub_0806617C();
-        sub_0805AD78(M2C_FIELD(gUnk_030034E0, u16 *, 0x68));
+        sub_0805AD78(M2C_FIELD(gUnk_030034E0, u16 *, SAVE_FIELD(0x68)));
     }
 }
 /* [GetSavedPlayerPaletteIndex] Reads save-record halfword 0xC. */
 u16 sub_0801E0A0(void) {
-    return M2C_FIELD(gUnk_030034E0, u16 *, 0xC);
+    return M2C_FIELD(gUnk_030034E0, u16 *, SAVE_FIELD(0xC));
 }
 /* [ReadEffectiveIndexedSkillLevel] Reads halfword at skill-table base+4+((u16)index)*4 and maps stored7 to8.
  * Numerous class-specific attack/defense calculations in1BA74 and1E378/1E3D8 consume it as skill level. No
@@ -2421,7 +2503,7 @@ s32 sub_0801E164(void *arg0, s32 arg1)
   s16 temp_r0;
   u32 var_r1;
   void *var_r2;
-  var_r2 = *((void **) (((s8 *) arg0) + 0x34));
+  var_r2 = *((void **) (((s8 *) arg0) + PLAYER_FIELD(0x34)));
   var_r1 = 0;
  do { loop_1: temp_r0 = *((s16 *) (((s8 *) var_r2) + 0)); if ((temp_r0 == (-1)) || (((temp_r0 == (-2)) && ((*((u16 *) (((s8 *) var_r2) + 4))) == arg1)) && ((*((u16 *) (((s8 *) arg0) + 0))) == (*((u16 *) (((s8 *) var_r2) + 2)))))) { return (s32) var_r2; } var_r1 += 1; var_r2 += 0x28; if (var_r1 > 7U) { return 0; } } while (0);
   goto loop_1;
@@ -2429,7 +2511,7 @@ s32 sub_0801E164(void *arg0, s32 arg1)
 /* [FindPlayerStatusEffectByKey] Scans eight records through actor+0x34; requires counter not-1, supplied key
  * at+4 and status category100 at+2. Returns first match or null. */
 void *sub_0801E1A4(u8 *arg0, s32 arg1) {
-    u8 *p = *(u8 **) (arg0 + 0x34);
+    u8 *p = *(u8 **) (arg0 + PLAYER_FIELD(0x34));
     u32 i = 0;
 
     do {
@@ -2448,7 +2530,7 @@ s32 sub_0801E1D8(void *arg0, s32 arg1, s32 arg2)
   u32 var_r1;
   int new_var;
   void *var_r3;
-  var_r3 = *((void **) (((s8 *) arg0) + 0x34));
+  var_r3 = *((void **) (((s8 *) arg0) + PLAYER_FIELD(0x34)));
   var_r1 = 0;
   new_var = -1;
   loop_1:

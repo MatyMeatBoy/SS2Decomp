@@ -201,6 +201,83 @@ extern void spriteDrawMenu000(void *,s32,s32,u32,s32) asm("sub_08065230");
  * waits once and wakes scheduler signal 0x14. The original map is 0,2,1,3,4. A preserved navigation-history
  * register can be read before a directional path initializes it; no general navigation-state initialization
  * fix or elapsed-time guarantee is inferred. */
+#ifdef REGION_USA
+/* USA: no language selection; a second title screen (0x4A) is shown and faded instead. */
+void sub_0800232C(void) {
+    s32 sp38;
+    s32 temp_r0;
+    u32 zero;
+    u32 configValue;
+    u32 i;
+
+    temp_r0 = sub_0801AB24();
+    if (temp_r0 == 0) {
+        sub_08000A34(1, 0, 0, 0, temp_r0);
+        sub_080009F8(0xF00, 0, 0);
+        sub_080009C0(0x200, 0, 0);
+        sp38 = (sp38 & 0xFFFF0000) | 0x1C08;
+        sub_08000AA8(0U, (u16 *) &sp38);
+        configValue=0x1D03;
+        *(u16 *)&sp38 = configValue;
+        sub_08000AA8(1U, (u16 *) &sp38);
+        sub_0800BCDC(0x4B, 1, 0x06000000, 0U, 0x10U);
+        sub_08000940();
+        sub_0801AB90(0x14);
+    } else {
+        sub_08000A34(1, 0, 0, 0, 1);
+        sub_080009F8(0xF00, 0, 1);
+        sub_080009C0(0x200, 0, 1);
+        zero=0;
+        configValue=0x1C08;
+        *(u16 *)&sp38 = configValue;
+        sub_08000AA8(0U, (u16 *) &sp38);
+        configValue=0x1D03;
+        *(u16 *)&sp38 = configValue;
+        sub_08000AA8(1U, (u16 *) &sp38);
+        sub_0800BCDC(0x4B, 1, 0x06000000, 0U, 0x10U);
+        screen000[2] = zero;
+        screen000[3] = zero;
+        if (sub_0801AB24() == 2) {
+            sub_0801AB90(6);
+        } else {
+            sub_0801AB50(6);
+        }
+    }
+    while (sub_0801AAE0() == 0) {
+        sub_080920A0();
+        sub_080003F0();
+    }
+    i = 0;
+    do {
+        sub_080920A0();
+        sub_080003F0();
+        i += 1;
+    } while (i <= 0xB3U);
+    sub_0801AA8C(0x1E);
+    while (sub_0801AAE0() == 0) {
+        sub_080920A0();
+        sub_080003F0();
+    }
+    sub_0800BCDC(0x4A, 1, 0x06000000, 0U, 0x10U);
+    screen000[2] = 0;
+    screen000[3] = 0;
+    sub_0801AA34(6);
+    while (sub_0801AAE0() == 0) {
+        sub_080003F0();
+    }
+    i = 0;
+    do {
+        sub_080003F0();
+        i += 1;
+    } while (i <= 0xB3U);
+    sub_0801AA8C(0x1E);
+    while (sub_0801AAE0() == 0) {
+        sub_080003F0();
+    }
+    sub_080003F0();
+    sub_08000420(0x14);
+}
+#else
 void sub_0800232C(void) {
     u32 sprite[13];
     s32 sp38;
@@ -379,6 +456,7 @@ block_46:
     sub_080003F0();
     sub_08000420(0x14);
 }
+#endif
 /* [StartLanguageSelectionTask] Allocates one 0x400-byte stack, configures task 030027E0 with callback 0232C,
  * zero destructor and callback argument zero, then starts it. No scheduled-task check or allocation-failure
  * guard is present. Task field +8 is set to1; no priority scale or delayed start is inferred. */
@@ -406,6 +484,147 @@ extern void bg2694(u16, u32 *) asm("sub_08000AA8");
  * title/menu resources, stores mode selection03002838. Mode0 stops cable session and starts loopback; mode1
  * uses cable session; both start save-slot screen065B0. Modes2/3 invoke88914/920E4. Exact visible option
  * strings remain unverified. */
+#ifdef REGION_USA
+void sub_08002694(void)
+{
+    u8 anim[0xA4]; /* USA: larger title animation object */
+    u16 frame, tick;
+    struct { u32 lo:16; u32 hi:16; } cnt;
+    u16 i;
+    s32 running, started, link;
+
+    sub_080003F0();
+    sub_08006E64(1);
+    for (;;) {
+        sub_080003F4(0x14);
+        if (*(u8 *)&gUnk_0300129C & 0x80)
+            sub_08000940();
+        if (sub_08002228() != 0)
+            sub_080020E0();
+        while (sub_08002228() != 0)
+            sub_080003F0();
+        if (sub_08002228() == 0)
+            sub_0800208C(1);
+        link = 0;
+        sub_080013F8();
+        sub_080003F0();
+        sub_080003F0();
+        sub_080003F0();
+        sub_080003F0();
+        sub_08000A34(1, 0, 0, 0, link);
+        sub_080009F8(0xF00, 0, 1);
+        sub_080009C0(0x1200, 0, 1);
+        cnt.lo = 0x1C08;
+        bg2694(0, (u32 *)&cnt);
+        cnt.lo = 0x1D00;
+        bg2694(1, (u32 *)&cnt);
+        gUnk_03001250[0] = link;
+        gUnk_03001250[1] = link;
+        gUnk_03001250[2] = link;
+        gUnk_03001250[3] = link;
+        gUnk_03001250[4] = link;
+        gUnk_03001250[5] = link;
+        gUnk_03001250[6] = link;
+        gUnk_03001250[7] = link;
+        sub_0800BCDC(0x37, 1, 0x06000000, 0, 0x10);
+        init2694(anim, 0x50000, 0xE, 1, 0); /* single language */
+        sub_080003F0();
+        sub_080003F0();
+        gUnk_03002838 = 0;
+        running = 1;
+        started = 0;
+        frame = 0;
+        tick = 0;
+        sub_08006C70(0xC5);
+        for (i = 0; i <= 0x13; i++)
+            sub_080003F0();
+        if (sub_0801AB24() == 0)
+            sub_0801AA34(6);
+        else
+            sub_0801AB50(6);
+        while (running != 0) {
+            if (started != 0) {
+                if (gUnk_03001308 & 0x80) {
+                    sub_08006D08(0xE);
+                    gUnk_03002838 = 1;
+                    goto draw;
+                }
+                if (gUnk_03001308 & 0x40) {
+                    i = 0;
+                    sub_08006D08(0xE);
+                    gUnk_03002838 = i;
+                    goto draw;
+                }
+                if (*(u16 *)&gUnk_03001324 & 1) {
+                    if ((gUnk_0300130C & 8) && sub_08092080() != 0) {
+                        gUnk_03002838 = 3;
+                        sub_08006D08(0xF);
+                        goto done;
+                    }
+                    sub_08006D08(0xF);
+                    running = 0;
+                }
+            } else if (*(u16 *)&gUnk_03001324 & 8) {
+                started = 1;
+                sub_08006D08(0xF);
+            }
+        draw:
+            if (started != 0) {
+                draw2694(anim, 0x78, 0x82, 0, gUnk_03002838);
+            } else {
+                anim2694(anim, 4, &frame, &tick, 1);
+                draw2694(anim, 0x78, 0x88, 4, frame);
+            }
+            sub_080003F0();
+        }
+    done:
+        sub_08006C30(2);
+        if (started != 0) {
+            frame = 0;
+            tick = 0;
+        }
+        sub_0801ABE8(3);
+        while (sub_0801AAE0() == 0) {
+            if (started != 0) {
+                if (link == 0) {
+                    anim2694(anim, gUnk_03002838 + 1, &frame, &tick, 1);
+                    draw2694(anim, 0x78, 0x64, gUnk_03002838 + 1, frame);
+                } else {
+                    draw2694(anim, 0x78, 0x64, 0, gUnk_03002838);
+                }
+            } else {
+                anim2694(anim, 4, &frame, &tick, 1);
+                draw2694(anim, 0x78, 0x70, 4, frame);
+            }
+            draw2694(anim, 0x78, 0x5A, 3, 0);
+            sub_080003F0();
+        }
+        sub_08065204(anim);
+        sub_0805F07C();
+        switch (gUnk_03002838) {
+        case 0:
+            if (sub_08002228() != 0)
+                sub_080020E0();
+            while (sub_08002228() != 0)
+                sub_080003F0();
+            sub_0800208C(0);
+            sub_080065B0();
+            break;
+        case 1:
+            if (sub_08002228() == 0)
+                sub_0800208C(1);
+            sub_080065B0();
+            break;
+        case 2:
+            sub_08088914();
+            break;
+        case 3:
+            sub_080920E4();
+            break;
+        }
+    }
+}
+#else
 void sub_08002694(void)
 {
     u8 anim[0x34];
@@ -562,6 +781,7 @@ void sub_08002694(void)
         }
     }
 }
+#endif
 /* [StartTitleModeSelectionTask] Allocates0x200-byte stack, registers task03002810 callback02694. */
 void sub_08002A54(void)
 {
@@ -630,7 +850,11 @@ struct Save2B70 {
     u8 pad8[4];
     u16 fC;
     u8 padE[2];
+#ifdef REGION_USA
+    NameChar name[10];
+#else
     u8 name[0xC];
+#endif
     s16 f1C;
     s16 f1E;
     s16 f20;
@@ -779,11 +1003,11 @@ void sub_08002B70_(void)
     vu16 *w;
     u32 c;
 
-    memcpy2B70(cursor, cursor2B70, 2);
+    memcpy2B70(cursor, cursor2B70, 2 * sizeof(TextChar));
     sub_08002AA0();
     sub_080003F0();
     sub_080003F0();
-    saves = alloc2B70(0x360);
+    saves = alloc2B70(8 * sizeof(struct Save2B70));
     all = loadAll2B70(saves);
     winOpen2B70(3);
     state = 0;
@@ -810,6 +1034,9 @@ void sub_08002B70_(void)
     memcpy2B70(objA, blank2B70(), 0x34);
     cx = tx = pos2B70[slot].x;
     cy = ty = pos2B70[slot].y;
+#ifdef REGION_USA
+    init2B70(objB, 0x50002, 0, 0x80000000, 0); /* single language */
+#else
     switch (mode2B70) {
     case 0:
         init2B70(objB, 0x50002, 0, 0x80000000, 0);
@@ -827,6 +1054,7 @@ void sub_08002B70_(void)
         init2B70(objB, 0x5015E, 0, 0x80000000, 0);
         break;
     }
+#endif
     oldMode = vmode2B70(0x88);
     oldHandler = handler2B70((u32)sub_08006694);
     sub_08000D8C();
@@ -844,9 +1072,15 @@ void sub_08002B70_(void)
                 clear2B70(0x11, 2);
                 break;
             }
-            text2B70(msg2B70(0x140445) + 2, 1, 0x11);
+#ifdef REGION_USA
+            text2B70(msg2B70(0x140445) + TEXT_HEADER, 2, 0x11);
+            if (blink)
+                text2B70(cursor, 0x1B, 0x11);
+#else
+            text2B70(msg2B70(0x140445) + TEXT_HEADER, 1, 0x11);
             if (blink)
                 text2B70(cursor, 0x1C, 0x11);
+#endif
             if (blinkTimer++ < 0x1E)
                 blink = 1;
             else if (blinkTimer > 0x1D)
@@ -955,9 +1189,9 @@ void sub_08002B70_(void)
                 ty = pos2B70[slot].y;
             }
             if (saves[slot].used == 0)
-                text2B70(msg2B70(0x140449) + 2, 1, 0x11);
+                text2B70(msg2B70(0x140449) + TEXT_HEADER, 1, 0x11);
             else
-                text2B70(msgB2B70(0x14044A) + 2, 1, 0x11);
+                text2B70(msgB2B70(0x14044A) + TEXT_HEADER, 1, 0x11);
             break;
         case 2:
             if (rep2B70 & 0x20) {
@@ -992,7 +1226,7 @@ void sub_08002B70_(void)
                 draw2B70(objB, 0x88, 0x78, 5, noFrame);
                 drawB2B70(objB, 0x68, 0x78, 4, yesFrame);
             }
-            text2B70(msg2B70(0x140446) + 2, 2, 0x11);
+            text2B70(msg2B70(0x140446) + TEXT_HEADER, 2, 0x11);
             break;
         case 3:
             if (rep2B70 & 0x20) {
@@ -1023,7 +1257,7 @@ void sub_08002B70_(void)
                 draw2B70(objB, 0x88, 0x78, 5, noFrame);
                 drawB2B70(objB, 0x68, 0x78, 4, yesFrame);
             }
-            text2B70(msg2B70(0x140447) + 2, 2, 0x11);
+            text2B70(msg2B70(0x140447) + TEXT_HEADER, 2, 0x11);
             break;
         case 4:
             sub_08006C14();
@@ -1039,7 +1273,7 @@ void sub_08002B70_(void)
         case 5:
             if (keys2B70 != 0)
                 state = 1;
-            text2B70(msg2B70(0x140448) + 2, 2, 0x11);
+            text2B70(msg2B70(0x140448) + TEXT_HEADER, 2, 0x11);
             if (blink)
                 text2B70(cursor, 0x1B, 0x11);
             if (blinkTimer++ < 0x1E)
@@ -1056,7 +1290,7 @@ void sub_08002B70_(void)
                 str = msg2B70(0x14044C);
             else
                 str = msgB2B70(0x14044B);
-            text2B70(str + 2, 2, 0x11);
+            text2B70(str + TEXT_HEADER, 2, 0x11);
             if (rep2B70 & 0x20) {
                 if (yes == 1)
                     se2B70(0xE);
@@ -2578,6 +2812,223 @@ void menu5B(struct Menu5B *) asm("sub_08005B88");
  * signals0x25A112EBF. Base cancel restores callbacks and restarts02B70 using unchecked0x1000 allocation
  * without signaling or updating record. Subchoice confirm restores callbacks; direct base confirmation does
  * not locally restore them. */
+#ifdef REGION_USA
+void menu5B(struct Menu5B *arg) {
+    u16 sp4[2], sp8[2];
+    u8 spC[0x34], sp40[0x34], sp74[4];
+    TextChar sp78[33];
+    s32 sel, prev;
+    u32 timer;
+    s32 scroll;
+    u32 count, pos;
+    s32 x, y, tx, ty;
+    u32 vblank;
+    u8 vcount;
+    s32 state;
+    u8 side;
+    s32 dy, dx;
+    TextChar *p, *d; register TextChar *buf asm("r4");
+    u32 i, j, n, row;
+    s32 r, d1, d2;
+
+    copy5B(sp74, &data5B, 2 * sizeof(TextChar));
+    sprite5B(sp40, 0x50002, 0, -1, 0);
+    sprite5B(spC, 0x50006, 0, -1, 0);
+    mode5B(0);
+    gUnk_03001250[1] = 0;
+    gUnk_03001250[0] = 0;
+    gUnk_03001250[3] = 0;
+    gUnk_03001250[2] = 0;
+    gUnk_03001250[5] = 0;
+    gUnk_03001250[4] = 0;
+    gUnk_03001250[7] = 0;
+    gUnk_03001250[6] = 0;
+    fade5B(0, 0x13);
+    reg5B(0xE00, 0, 1);
+    start5B(3);
+    sel = 0;
+    prev = 10;
+    {
+        u16 *b, *a;
+        a = sp4;
+        b = sp8;
+        b[0] = sel;
+        a[0] = sel;
+        b[1] = sel;
+        a[1] = sel;
+        asm("" : : "r"(a));
+    }
+    scroll = 0;
+    timer = 0;
+    pos = 0;
+    ty = 0x3C;
+    tx = 0x18;
+    x = 0x18;
+    y = 0x3C;
+    side = arg->f7;
+    state = 0;
+    vcount = (u8)sub_08001108(0x6E);
+    vblank = sub_0800115C((u32)sub_080066A8);
+    sub_08000D8C();
+    do {
+        r = sub_0801AAE0();
+        if (r == 0)
+            pressed5B = r;
+        switch (state) {
+        case 0:
+            if (pressed5B == 1) {
+                if (sel == 1) {
+                    if (arg->f5 == 0) {
+                        state = 3;
+                        side = 0;
+                    } else {
+                        state = 1;
+                        ty = 0x62;
+                        tx = 0x3C;
+                    }
+                } else {
+                    state = 3;
+                }
+                sub_0805865C(0xF);
+            } else if (sel == 1 && (pressed5B & 0x40)) {
+                sub_0805865C(0xE);
+                ty = 0x3C;
+                sel = 0;
+            } else if (sel == 0 && (pressed5B & 0x80)) {
+                sub_0805865C(0xE);
+                ty = 0x52;
+                sel = 1;
+            } else if (pressed5B == 2) {
+                sub_0805865C(0x10);
+                sub_0801ABE8(6);
+                while (sub_0801AAE0() == 0)
+                    sub_080003F0();
+                if (sub_08000470((u32)&task5B) != 0)
+                    sub_080003A8((s32)&task5B);
+                {
+                    u32 stack = (u32)sub_08001494(0x1000);
+                    task5B.fC = (u32)callback5B;
+                    task5B.f10 = stack + 0xFFC;
+                    task5B.f20 = stack;
+                    task5B.f8 = 1;
+                    task5B.f24 = 0;
+                }
+                sub_08000274(&task5B, 0);
+                sub_08000E48();
+                sub_0800115C(vblank);
+                sub_08001108(vcount);
+                fade5B(0, 0x14);
+                sub_080003F0();
+                return;
+            }
+            break;
+        case 1:
+            if (keys5B & 0x20) {
+                if (sel == 1 && side == 1)
+                    sub_0805865C(0xE);
+                side = 0;
+            } else if (keys5B & 0x10) {
+                if (sel == 1 && side == 0)
+                    sub_0805865C(0xE);
+                side = 1;
+            } else if (pressed5B == 1) {
+                state = 3;
+                sub_0805865C(0xF);
+                fade5B(0, 0xA);
+                sub_08000E48();
+                vblank = sub_0800115C(vblank);
+                sub_08001108(vcount);
+                reg5B(0x200, 0, 1);
+            } else if (pressed5B == 2) {
+                state = 0;
+                tx = 0x18;
+                sub_0805865C(0x10);
+                ty = 0x52;
+                if (sel == 0)
+                    ty = 0x3C;
+            }
+            break;
+        }
+        if (arg->f5 != 0) {
+            sub_08065230(spC, 0x50, 0x64, 0x26, side != 0);
+            sub_08065230(spC, 0x78, 0x64, 0x27, side == 0);
+        }
+        buf = sp78;
+        dy = ty - y;
+        dx = tx - x;
+        if (prev != sel) {
+            count = 0;
+            scroll = 0;
+            timer = 0;
+            pos = 0;
+            gUnk_03003474 = 0;
+            d = buf;
+            { u32 fill = TEXT_CTRL(0xFD);
+            for (n = 0; n <= 0x1F; n++)
+                d[n] = fill; }
+            p = (TextChar *)resource5B((sel + 0x451) | 0x140000);
+            p = (TextChar *)((u8 *)p + TEXT_HEADER);
+            prev = sel;
+        }
+        if (timer++ > 2) {
+            timer = 0;
+            if (*p == TEXT_CTRL(0xFF))
+                p++;
+            if (*p == TEXT_CTRL(0xFE))
+                p += 3;
+            if (*p == TEXT_CTRL(0xFD)) {
+                p = resource5B((sel + 0x451) | 0x140000);
+                p += 2;
+            }
+            { register TextChar *q asm("r0") = &buf[pos]; *q = *p++; }
+            if (++pos > 0x1F) {
+                pos = 0;
+                sp78[32] = TEXT_CTRL(0xFD);
+                scroll = 1;
+            }
+        }
+        if (scroll != 0) {
+            gUnk_03003474++;
+            if (++count > 7) {
+                count = 0;
+                timer = 10;
+            } else {
+                timer = 0;
+            }
+        }
+        text5B((u8 *)buf, 0, 0xE);
+        y += dy / 2;
+        d1 = ty - y;
+        if (d1 < 0)
+            d1 = -d1;
+        if (d1 <= 1)
+            y = ty;
+        x += dx / 2;
+        d2 = tx - x;
+        if (d2 < 0)
+            d2 = -d2;
+        if (d2 <= 1)
+            x = tx;
+        sub_08065230(spC, x, y, 0x15, 0);
+        text5B(resource5B(0x14044D) + TEXT_HEADER, 4, 6);
+        text5B(resource5B(0x14044E) + TEXT_HEADER, 4, 9);
+        sub_080003F0();
+    } while (state != 3);
+    sub_0801ABE8(6);
+    while (sub_0801AAE0() == 0)
+        sub_080003F0();
+    fade5B(0, 0x14);
+    sub_080003F0();
+    fade5B(0, 0x14);
+    sub_080003F0();
+    if (sel == 0)
+        arg->f6 = 0;
+    else
+        arg->f6 = 1;
+    arg->f7 = side;
+    finish5B(0x25A112EBFULL);
+}
+#else
 void menu5B(struct Menu5B *arg) {
     u16 sp4[2], sp8[2];
     u8 spC[0x34], sp40[0x34], sp74[4], sp78[33], sp9C[36];
@@ -2809,6 +3260,7 @@ void menu5B(struct Menu5B *arg) {
     arg->f7 = side;
     finish5B(0x25A112EBFULL);
 }
+#endif
 extern u16 pressed6C asm("gUnk_03001324");
 extern void finish6C(unsigned long long) asm("sub_08000420");
 struct Menu6C { u8 pad[5], f5, f6, f7; };
@@ -2834,6 +3286,221 @@ void menu6C(struct Menu6C *) asm("sub_0800608C");
  * exit writes record+6=1 and signals0x25A112EBF. Base cancel restores callbacks and restarts02B70 with
  * unchecked0x1000 allocation; no signal or record update. Normal direct base confirmation does not locally
  * restore callbacks. */
+#ifdef REGION_USA
+void menu6C(struct Menu6C *arg) {
+    u16 sp4[2], sp8[2];
+    u8 spC[0x34], sp40[0x34], sp74[4];
+    TextChar sp78[33];
+    s32 sel, prev;
+    u32 timer;
+    s32 scroll;
+    u32 count, pos;
+    s32 x, y, tx, ty;
+    u32 vblank;
+    u8 vcount;
+    s32 state;
+    u8 side;
+    s32 dy, dx;
+    TextChar *p, *d; register TextChar *buf asm("r4");
+    u32 i, j, n, row;
+    s32 r, d1, d2;
+
+    copy6C(sp74, &data6C, 2 * sizeof(TextChar));
+    sprite6C(sp40, 0x50002, 0, -1, 0);
+    sprite6C(spC, 0x50006, 0, -1, 0);
+    mode6C(0);
+    gUnk_03001250[1] = 0;
+    gUnk_03001250[0] = 0;
+    gUnk_03001250[3] = 0;
+    gUnk_03001250[2] = 0;
+    gUnk_03001250[5] = 0;
+    gUnk_03001250[4] = 0;
+    gUnk_03001250[7] = 0;
+    gUnk_03001250[6] = 0;
+    fade6C(0, 0x13);
+    reg6C(0xE00, 0, 1);
+    start6C(3);
+    sel = 0;
+    prev = 10;
+    {
+        u16 *b, *a;
+        a = sp4;
+        b = sp8;
+        b[0] = sel;
+        a[0] = sel;
+        b[1] = sel;
+        a[1] = sel;
+        asm("" : : "r"(a));
+    }
+    scroll = 0;
+    timer = 0;
+    pos = 0;
+    ty = 0x52;
+    tx = 0x18;
+    x = 0x18;
+    y = 0x52;
+    side = arg->f7;
+    state = 0;
+    sel = 1;
+    vcount = (u8)sub_08001108(0x6E);
+    vblank = sub_0800115C((u32)sub_080066A8);
+    sub_08000D8C();
+    do {
+        r = sub_0801AAE0();
+        if (r == 0)
+            pressed6C = r;
+        switch (state) {
+        case 0:
+            if (pressed6C == 1) {
+                if (sel == 1) {
+                    if (arg->f5 == 0) {
+                        state = 3;
+                    } else {
+                        state = 1;
+                        ty = 0x62;
+                        tx = 0x3C;
+                    }
+                } else {
+                    state = 3;
+                }
+                sub_0805865C(0xF);
+            } else if (pressed6C == 2) {
+                sub_0805865C(0x10);
+                sub_0801ABE8(6);
+                while (sub_0801AAE0() == 0)
+                    sub_080003F0();
+                sub_08000E48();
+                sub_0800115C(vblank);
+                sub_08001108(vcount);
+                if (sub_08000470((u32)&task6C) != 0)
+                    sub_080003A8((s32)&task6C);
+                {
+                    u32 stack = (u32)sub_08001494(0x1000);
+                    task6C.fC = (u32)callback6C;
+                    task6C.f10 = stack + 0xFFC;
+                    task6C.f20 = stack;
+                    task6C.f8 = 1;
+                    task6C.f24 = 0;
+                }
+                sub_08000274(&task6C, 0);
+                fade6C(0, 0x14);
+                sub_080003F0();
+                return;
+            }
+            break;
+        case 1:
+            if (keys6C & 0x20) {
+                if (sel == 1 && side == 1)
+                    sub_0805865C(0xE);
+                side = 0;
+            } else if (keys6C & 0x10) {
+                if (sel == 1 && side == 0)
+                    sub_0805865C(0xE);
+                side = 1;
+            } else if (pressed6C == 1) {
+                state = 3;
+                side = 0;
+                sub_0805865C(0xF);
+                fade6C(0, 0xA);
+                sub_08000E48();
+                vblank = sub_0800115C(vblank);
+                sub_08001108(vcount);
+                reg6C(0x200, 0, 1);
+            } else if (pressed6C == 2) {
+                state = 0;
+                tx = 0x18;
+                sub_0805865C(0x10);
+                ty = 0x52;
+            }
+            break;
+        }
+        if (arg->f5 != 0) {
+            sub_08065230(spC, 0x50, 0x64, 0x26, side != 0);
+            sub_08065230(spC, 0x78, 0x64, 0x27, side == 0);
+        }
+        buf = sp78;
+        dy = ty - y;
+        dx = tx - x;
+        if (prev != sel) {
+            count = 0;
+            scroll = 0;
+            timer = 0;
+            pos = 0;
+            gUnk_03003474 = 0;
+            d = buf;
+            { u32 fill = TEXT_CTRL(0xFD);
+            for (n = 0; n <= 0x1F; n++)
+                d[n] = fill; }
+            p = (TextChar *)resource6C(0x140453);
+            p = (TextChar *)((u8 *)p + TEXT_HEADER);
+            prev = sel;
+        }
+        if (timer++ > 2) {
+            timer = 0;
+            if (*p == TEXT_CTRL(0xFF))
+                p++;
+            if (*p == TEXT_CTRL(0xFE))
+                p += 3;
+            if (*p == TEXT_CTRL(0xFD)) {
+                p = (TextChar *)resource6C(0x140453);
+                p = (TextChar *)((u8 *)p + TEXT_HEADER);
+            }
+            { register TextChar *q asm("r0") = &buf[pos]; *q = *p++; }
+            if (++pos > 0x1F) {
+                pos = 0;
+                sp78[32] = TEXT_CTRL(0xFD);
+                scroll = 1;
+            }
+        }
+        if (scroll != 0) {
+            gUnk_03003474++;
+            if (++count > 7) {
+                count = 0;
+                timer = 10;
+            } else {
+                timer = 0;
+            }
+        }
+        text6C((u8 *)buf, 0, 0xE);
+        y += dy / 2;
+        d1 = ty - y;
+        if (d1 < 0)
+            d1 = -d1;
+        if (d1 <= 1)
+            y = ty;
+        x += dx / 2;
+        d2 = tx - x;
+        if (d2 < 0)
+            d2 = -d2;
+        if (d2 <= 1)
+            x = tx;
+        sub_08065230(spC, x, y, 0x15, 0);
+        text6C(resource6C(0x14044F) + TEXT_HEADER, 4, 6);
+        text6C(resource6C(0x140450) + TEXT_HEADER, 4, 9);
+        sub_080003F0();
+    } while (state != 3);
+    sub_0801ABE8(6);
+    while (sub_0801AAE0() == 0)
+        sub_080003F0();
+    gUnk_03001250[1] = 0;
+    gUnk_03001250[0] = 0;
+    gUnk_03001250[3] = 0;
+    gUnk_03001250[2] = 0;
+    gUnk_03001250[5] = 0;
+    gUnk_03001250[4] = 0;
+    gUnk_03001250[7] = 0;
+    gUnk_03001250[6] = 0;
+    fade6C(0, 0x14);
+    sub_080003F0();
+    fade6C(0, 0x14);
+    sub_080003F0();
+    if (sel == 0)
+        arg->f6 = 0;
+    else
+        arg->f6 = 1;
+    finish6C(0x25A112EBFULL);
+}
+#else
 void menu6C(struct Menu6C *arg) {
     u16 sp4[2], sp8[2];
     u8 spC[0x34], sp40[0x34], sp74[4], sp78[33], sp9C[36];
@@ -3063,6 +3730,7 @@ void menu6C(struct Menu6C *arg) {
         arg->f6 = 1;
     finish6C(0x25A112EBFULL);
 }
+#endif
 /* [ReleasePaletteDimmingHold] Writes zero to the entire shared palette-dimming hold word 0300001C. This
  * releases the post-dimming wait in task 05A24; it does not cancel the task or interrupt its earlier factor
  * loop, and it does not itself restore palette bytes. */

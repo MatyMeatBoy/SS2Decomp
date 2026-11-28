@@ -159,7 +159,7 @@ extern u32 gW03005CF8 asm("gUnk_03005CF8");
 extern u32 gW030027D0 asm("gUnk_030027D0");
 extern u8 *gP030056F4 asm("gUnk_030056F4");
 extern u32 gM030056FC asm("gUnk_030056FC");
-struct E2E0a { u8 b[0xC]; u16 hC; u8 r[0x2E0 - 0xE]; };
+struct E2E0a { u8 b[0xC]; u16 hC; u8 r[ENEMY_SIZE - 0xE]; };
 static inline void SetMode53A80(u32 m)
 {
     gW03005CF8 = m;
@@ -169,7 +169,7 @@ static inline void SetMode53A80(u32 m)
 static inline void Clr53A80(u8 *p)
 {
     u32 i;
-    for (i = 0; i <= 4; i++, p += 0x2E0)
+    for (i = 0; i <= 4; i++, p += ENEMY_SIZE)
         if ((gM030056FC & (1 << i)) && *(u16 *)(p + 0xC) == 0xC)
             *(u16 *)(p + 0xC) = 0;
 }
@@ -963,7 +963,7 @@ static inline void Walk56(u32 x, u32 y, u32 a, u32 b)
     b <<= 16;
     packed = (a >> 16) | b;
     entry = (u8 *)&gUnk_03003CE0[sub_080020F4()];
-    while (sub_08021FE0(entry + 0x8C, pos, &result, &packed) == 0)
+    while (sub_08021FE0(entry + PLAYER_FIELD(0x8C), pos, &result, &packed) == 0)
         sub_080003F0();
 }
 /* [RunRepeatingRegionDamage] Waits until local player intersects table-selected rectangle, calls29CEC with
@@ -997,8 +997,8 @@ static inline s32 Walk98(u32 x, u32 y, u32 a, u32 b)
     b <<= 16;
     packed = (a >> 16) | b;
     entry = (u8 *)&gUnk_03003CE0[sub_080020F4()];
-    while (sub_08021FE0(entry + 0x8C, pos, &result, &packed) == 0 ||
-           !(*(u16 *)(entry + 0x14) & 1)) {
+    while (sub_08021FE0(entry + PLAYER_FIELD(0x8C), pos, &result, &packed) == 0 ||
+           !(*(u16 *)(entry + PLAYER_FIELD(0x14)) & 1)) {
         if (sub_08058608()) return 0;
         sub_080003F0();
     }
@@ -1026,10 +1026,10 @@ void sub_0805664C(s32 arg0)
     spawn56(sub_0805664C, arg0);
     }
 }
-struct StatePlayer567D4 { u8 pad[0x11E]; u16 state; u8 tail[0x2C]; };
+struct StatePlayer567D4 { u8 pad[PLAYER_FIELD(0x11E)]; u16 state; u8 tail[PLAYER_SIZE - PLAYER_FIELD(0x120)]; };
 extern struct StatePlayer567D4 statePlayers567D4[] asm("gUnk_03003CE0");
 struct Item567D4 { u16 item, kind; u8 rest[12]; };
-struct Inv567D4 { u8 pad[0x150]; struct Item567D4 slots[25]; };
+struct Inv567D4 { u8 pad[SAVE_FIELD(0x150)]; struct Item567D4 slots[25]; };
 extern struct Inv567D4 *inv567D4 asm("gUnk_030034E0");
 struct Gate567D4 { u32 x, y, w, h, item, kind, need, flag, bitflag, param, event; };
 extern struct Gate567D4 gates567D4[] asm("gUnk_084B23A8");
@@ -1132,17 +1132,17 @@ void sub_080567D4(s32 id)
             ybase = -(-ybase + 1) + 1;
             do {
                 Wait567D4();
-                x = *(s32 *)(xbase + sub_080020F4() * 0x14C) >> 8;
-                y = *(s32 *)(ybase + sub_080020F4() * 0x14C) >> 8;
+                x = *(s32 *)(xbase + sub_080020F4() * PLAYER_SIZE) >> 8;
+                y = *(s32 *)(ybase + sub_080020F4() * PLAYER_SIZE) >> 8;
             } while (x >= gates567D4[id].x - hw && x <= gates567D4[id].x + hw
                   && y >= gates567D4[id].y - hh && y <= gates567D4[id].y + hh);
         }
         do {
             Wait567D4();
-            x = *(s32 *)(playerX567D4 + sub_080020F4() * 0x14C) >> 8;
+            x = *(s32 *)(playerX567D4 + sub_080020F4() * PLAYER_SIZE) >> 8;
             /* The Y base goes through a pointer local, which puts it in r7 like ROM. */
             flags = playerY567D4;
-            y = *(s32 *)(flags + sub_080020F4() * 0x14C) >> 8;
+            y = *(s32 *)(flags + sub_080020F4() * PLAYER_SIZE) >> 8;
         } while (x < gates567D4[id].x - hw || x > gates567D4[id].x + hw
               || y < gates567D4[id].y - hh || y > gates567D4[id].y + hh);
         ret = sub_0800CCCC();
@@ -1259,13 +1259,13 @@ u32 sub_08056D80(s16 *pos, u16 rx, u16 ry)
         return 0;
     for (i = 0; i < n; i++) {
         u8 *p = (u8 *)&gUnk_03003CE0[i];
-        struct Bits56D80 *b = *(struct Bits56D80 **)(p + 0x148);
+        struct Bits56D80 *b = *(struct Bits56D80 **)(p + PLAYER_FIELD(0x148));
         s32 d;
         s32 e;
         f = b->f;
         if (f & 0x20)
             continue;
-        if (*(u32 *)(p + 0x30) & 0x2000)
+        if (*(u32 *)(p + PLAYER_FIELD(0x30)) & 0x2000)
             continue;
         {
             u32 bx = b->x;

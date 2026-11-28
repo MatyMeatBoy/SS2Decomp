@@ -36,7 +36,7 @@ void sub_0802FEA0(s32 arg)
     u32 dialog;
     u32 value;
     offset = sub_080020F4();
-    offset *= 0x14C;
+    offset *= PLAYER_SIZE;
     p = (struct Player *)((u8 *)gUnk_03003CE0 + offset);
     p->flags |= 1;
     sub_0800D0F4();
@@ -181,7 +181,7 @@ void sub_0802FEA0(s32 arg)
     }
     sub_08029788(arg);
     offset = sub_080020F4();
-    offset *= 0x14C;
+    offset *= PLAYER_SIZE;
     p = (struct Player *)((u8 *)gUnk_03003CE0 + offset);
     p->flags &= ~1;
     sub_0800D108();
@@ -206,7 +206,7 @@ void sub_08030480(s32 arg)
     u32 dialog;
     u32 value;
     offset = sub_080020F4();
-    offset *= 0x14C;
+    offset *= PLAYER_SIZE;
     p = (struct Player *)((u8 *)gUnk_03003CE0 + offset);
     p->flags |= 1;
     sub_0800D0F4();
@@ -305,7 +305,7 @@ void sub_08030480(s32 arg)
     }
     sub_08029788(arg);
     offset = sub_080020F4();
-    offset *= 0x14C;
+    offset *= PLAYER_SIZE;
     p = (struct Player *)((u8 *)gUnk_03003CE0 + offset);
     p->flags &= ~1;
     sub_0800D108();
@@ -324,7 +324,7 @@ void sub_080308B4(void)
     u32 dialog;
     register u32 value asm("r4");
     offset = sub_080020F4();
-    offset *= 0x14C;
+    offset *= PLAYER_SIZE;
     p = (struct Player *)((u8 *)gUnk_03003CE0 + offset);
     p->flags |= 1;
     sub_0800D0F4();
@@ -382,7 +382,7 @@ void sub_080308B4(void)
         break;
     }
     offset = sub_080020F4();
-    offset *= 0x14C;
+    offset *= PLAYER_SIZE;
     p = (struct Player *)((u8 *)gUnk_03003CE0 + offset);
     p->flags &= ~1;
     sub_0800D108();
@@ -402,7 +402,7 @@ void sub_08030B28(s32 arg)
     u32 dialog;
     u32 value;
     offset = sub_080020F4();
-    offset *= 0x14C;
+    offset *= PLAYER_SIZE;
     p = (struct Player *)((u8 *)gUnk_03003CE0 + offset);
     p->flags |= 1;
     sub_0800D0F4();
@@ -500,7 +500,7 @@ void sub_08030B28(s32 arg)
         }
     }
     offset = sub_080020F4();
-    offset *= 0x14C;
+    offset *= PLAYER_SIZE;
     p = (struct Player *)((u8 *)gUnk_03003CE0 + offset);
     p->flags &= ~1;
     sub_0800D108();
@@ -517,7 +517,7 @@ void sub_08030F54(void)
     u32 dialog;
     s32 v;
 
-    ((struct Player *)(sub_080020F4() * 0x14C + (u32)gUnk_03003CE0))->flags |= 1;
+    ((struct Player *)(sub_080020F4() * PLAYER_SIZE + (u32)gUnk_03003CE0))->flags |= 1;
     sub_0800D0F4();
     if (sub_0800CE30())
         field = *(u32 *)(gUnk_03005CF4 + 0x7C);
@@ -645,7 +645,7 @@ void sub_08030F54(void)
             sub_080003F0();
         }
     }
-    ((struct Player *)(sub_080020F4() * 0x14C + (u32)gUnk_03003CE0))->flags &= ~1;
+    ((struct Player *)(sub_080020F4() * PLAYER_SIZE + (u32)gUnk_03003CE0))->flags &= ~1;
     sub_0800D108();
 }
 extern u8 *state32 asm("gUnk_03005CF4");
@@ -665,13 +665,13 @@ void sub_0803145C(void)
     s32 raw;
     s32 one;
     firstIndex = sub_080020F4();
-    stride = 0x14C;
+    stride = PLAYER_SIZE;
     stride *= firstIndex;
     firstPlayer = players32 + stride;
-    flags = *(u32 *)(firstPlayer + 0x30);
+    flags = *(u32 *)(firstPlayer + PLAYER_FIELD(0x30));
     one = 1;
     flags |= one;
-    *(u32 *)(firstPlayer + 0x30) = flags;
+    *(u32 *)(firstPlayer + PLAYER_FIELD(0x30)) = flags;
     sub_0800D0F4();
     if (sub_0800CE30()) flag = state32 + 0x1C6;
     else flag = state32 + 0x1BA;
@@ -696,10 +696,10 @@ void sub_0803145C(void)
         }
     }
     lastOffset = sub_080020F4();
-    stride = 0x14C;
+    stride = PLAYER_SIZE;
     lastOffset *= stride;
     player = players32 + lastOffset;
-    *(u32 *)(player + 0x30) &= ~1;
+    *(u32 *)(player + PLAYER_FIELD(0x30)) &= ~1;
     sub_0800D108();
 }
 /* [ShowEvent26Messages369And370] 1BA/1C6 bit2 selects resources140171/140172; both branches wait busy slots
@@ -717,13 +717,13 @@ void sub_08031580(void)
     s32 raw;
     s32 one;
     firstIndex = sub_080020F4();
-    stride = 0x14C;
+    stride = PLAYER_SIZE;
     stride *= firstIndex;
     firstPlayer = players32 + stride;
-    flags = *(u32 *)(firstPlayer + 0x30);
+    flags = *(u32 *)(firstPlayer + PLAYER_FIELD(0x30));
     one = 1;
     flags |= one;
-    *(u32 *)(firstPlayer + 0x30) = flags;
+    *(u32 *)(firstPlayer + PLAYER_FIELD(0x30)) = flags;
     sub_0800D0F4();
     if (sub_0800CE30()) flag = state32 + 0x1C6;
     else flag = state32 + 0x1BA;
@@ -748,10 +748,10 @@ void sub_08031580(void)
         }
     }
     lastOffset = sub_080020F4();
-    stride = 0x14C;
+    stride = PLAYER_SIZE;
     lastOffset *= stride;
     player = players32 + lastOffset;
-    *(u32 *)(player + 0x30) &= ~1;
+    *(u32 *)(player + PLAYER_FIELD(0x30)) &= ~1;
     sub_0800D108();
 }
 /* [RunAzieDialogue] Sets local player flags bit 0 (input suppression), calls BeginLocalPlayerEventLock and
@@ -765,7 +765,7 @@ void sub_080316A4(s32 arg)
 {
     u32 dialog;
 
-    ((struct Player *)(sub_080020F4() * 0x14C + (u32)gUnk_03003CE0))->flags |= 1;
+    ((struct Player *)(sub_080020F4() * PLAYER_SIZE + (u32)gUnk_03003CE0))->flags |= 1;
     sub_0800D0F4();
     sub_0802949C(arg, 0);
     while (sub_0805F184())
@@ -812,7 +812,7 @@ void sub_080316A4(s32 arg)
         }
     }
     sub_08029788(arg);
-    ((struct Player *)(sub_080020F4() * 0x14C + (u32)gUnk_03003CE0))->flags &= ~1;
+    ((struct Player *)(sub_080020F4() * PLAYER_SIZE + (u32)gUnk_03003CE0))->flags &= ~1;
     sub_0800D108();
 }
 #define MENU_FLAGS_VALUE_31() (sub_0800CE30() ? *(u8 *)(gUnk_03005CF4 + 0x1C5) : *(u8 *)(gUnk_03005CF4 + 0x1B9))
@@ -863,7 +863,7 @@ void sub_0803188C(void)
     sub_0800CE54();
     while (!sub_0801AAE0())
         sub_080003F0();
-    ((struct Player *)(sub_080020F4() * 0x14C + (u32)gUnk_03003CE0))->flags &= ~1;
+    ((struct Player *)(sub_080020F4() * PLAYER_SIZE + (u32)gUnk_03003CE0))->flags &= ~1;
     sub_0800D108();
 }
 /* [OpenCollectionMenu6PreservingCamera] Locks local player and scene input; conditionally consumes menu flag
@@ -912,7 +912,7 @@ void sub_080319F0(void)
     sub_0800CE54();
     while (!sub_0801AAE0())
         sub_080003F0();
-    ((struct Player *)(sub_080020F4() * 0x14C + (u32)gUnk_03003CE0))->flags &= ~1;
+    ((struct Player *)(sub_080020F4() * PLAYER_SIZE + (u32)gUnk_03003CE0))->flags &= ~1;
     sub_0800D108();
 }
 /* [OpenCollectionMenu1PreservingCamera] Locks local player and scene input; conditionally consumes menu flag
@@ -961,7 +961,7 @@ void sub_08031B54(void)
     sub_0800CE54();
     while (!sub_0801AAE0())
         sub_080003F0();
-    ((struct Player *)(sub_080020F4() * 0x14C + (u32)gUnk_03003CE0))->flags &= ~1;
+    ((struct Player *)(sub_080020F4() * PLAYER_SIZE + (u32)gUnk_03003CE0))->flags &= ~1;
     sub_0800D108();
 }
 extern u8 gS03003170[] asm("gUnk_03003170");
@@ -1101,7 +1101,7 @@ void sub_08031F28(void)
     sub_0800D108();
 }
 struct Rec1FF8 { u16 a, b; u8 pad[12]; };
-struct Recs1FF8 { u8 pad[0x150]; struct Rec1FF8 r[25]; };
+struct Recs1FF8 { u8 pad[SAVE_FIELD(0x150)]; struct Rec1FF8 r[25]; };
 /* [RunWanbyDialogue] Sets local player flags bit 0 (input suppression) and BeginLocalPlayerEventLock, with no
  * facing change. Counts bag records (character +0x150, 25 slots) with kind 6 and ID 0x59. When
  * LinkCountConnectedPlayers is exactly 1 and at least one exists, it clears the first matching record and
@@ -1120,11 +1120,11 @@ void sub_08031FF8(void)
     register u8 *p asm("r1");
     s32 mask;
 
-    ((struct Player *)(sub_080020F4() * 0x14C + (u32)gUnk_03003CE0))->flags |= 1;
+    ((struct Player *)(sub_080020F4() * PLAYER_SIZE + (u32)gUnk_03003CE0))->flags |= 1;
     sub_0800D0F4();
     count = 0;
     i = 0;
-    e = (u16 *)(gUnk_030034E0 + 0x150);
+    e = (u16 *)(gUnk_030034E0 + SAVE_FIELD(0x150));
     do {
         if (e[0] == 6 && e[1] == 0x59)
             count++;
@@ -1280,7 +1280,7 @@ void sub_08031FF8(void)
             }
         }
     }
-    ((struct Player *)(sub_080020F4() * 0x14C + (u32)gUnk_03003CE0))->flags &= ~1;
+    ((struct Player *)(sub_080020F4() * PLAYER_SIZE + (u32)gUnk_03003CE0))->flags &= ~1;
     sub_0800D108();
 }
 struct Msg598 { u16 a, b; u8 data[12]; };
@@ -1430,7 +1430,7 @@ void sub_0803294C(u32 arg0) {
  u32 arg=arg0;
  u32 field;
  u32 dialog;
- {struct Player *p;register u32 idx asm("r2");idx=sub_080020F4();idx*=0x14C;p=(struct Player *)((u8 *)gUnk_03003CE0+idx);p->flags |= 1;}
+ {struct Player *p;register u32 idx asm("r2");idx=sub_080020F4();idx*=PLAYER_SIZE;p=(struct Player *)((u8 *)gUnk_03003CE0+idx);p->flags |= 1;}
  sub_0800D0F4();sub_0802949C(arg,0);
  if(sub_0800CE30()) field=*(u32 *)(state3294C+0x7C);
  else field=*(u32 *)(state3294C+0x74);
@@ -1501,7 +1501,7 @@ void sub_0803294C(u32 arg0) {
  while(!sub_0805EEFC((void *)dialog)){if(sub_0800CDF8()){sub_0805EFBC();break;}sub_080003F0();}
  }
  sub_08029788(arg);
- {struct Player *p;register u32 idx asm("r2");idx=sub_080020F4();idx*=0x14C;p=(struct Player *)((u8 *)gUnk_03003CE0+idx);p->flags &= ~1;}
+ {struct Player *p;register u32 idx asm("r2");idx=sub_080020F4();idx*=PLAYER_SIZE;p=(struct Player *)((u8 *)gUnk_03003CE0+idx);p->flags &= ~1;}
  sub_0800D108();
 }
 struct Item32DE4 { u16 kind,id; u8 data[12]; };
@@ -1518,7 +1518,7 @@ extern void sub_0805990C(void); void sub_08032DE4(u32 arg0) {
  u8 *slot; u32 actor; u8 **itemsbase; u32 v1;
  u32 off; register s32 raw asm("r0"); u32 zero;
  u8 *selected;
- {struct Player *p; register u32 idx asm("r2");idx=sub_080020F4();idx*=0x14C;p=(struct Player *)((u8 *)gUnk_03003CE0+idx);p->flags|=1;}
+ {struct Player *p; register u32 idx asm("r2");idx=sub_080020F4();idx*=PLAYER_SIZE;p=(struct Player *)((u8 *)gUnk_03003CE0+idx);p->flags|=1;}
  sub_0800D0F4();sub_0802949C(arg,0);
  if(sub_0800CE30()) {raw=(s32)(state32DE4+0x80);v1=16;raw=*(u32 *)raw;}
  else {raw=(s32)state32DE4;v1=16;raw=*(u32 *)(raw+0x78);}
@@ -1536,15 +1536,19 @@ extern void sub_0805990C(void); void sub_08032DE4(u32 arg0) {
  task=sub_0805DF38(1,15,2,0,-1,0x140220);
  while(!sub_0805EEFC((void *)task)){if(sub_0800CDF8()){sub_0805EFBC();break;}sub_080003F0();}
  if(sub_080020F4()) goto done;
- count=0;i=0;raw=(s32)items32DE4;flag=0x150;item=(struct Item32DE4 *)(raw+flag);
+ count=0;i=0;raw=(s32)items32DE4;flag=SAVE_FIELD(0x150);item=(struct Item32DE4 *)(raw+flag);
  do {if(load32DE4(&item->kind)==1 && item->id==0x29)count++;item++;i++;}while(i<=24);
  if(count<=0)goto done;
  sub_08028D98(arg,0,-3,3);sub_08028D98(arg,0,3,3);
  actor=arg;flag=3;if(actor>0x100000) {
  found=find32DE4(actor);
  if(found) *(u16 *)(found+0x42)=flag;
- } else if(arg) {actor=arg-1;if(actor<=4){u8 **base=(u8 **)&gUnk_030056F4;raw=actor*0x2E0;base=(u8 **)((u8 *)*base+raw);sub_08019EB8(*(u16 *)((u8 *)base+2),3);}}
- else {raw=sub_080020F4()*0x14C;{u8 *base=(u8 *)gUnk_03003CE0;raw+=(s32)base;v1=0x11E;raw+=v1;*(u16 *)raw=flag;}}
+#ifdef REGION_USA
+ } else if(arg) {actor=arg-1;if(actor<=4){u8 **table=(u8 **)&gUnk_030056F4;u32 eo=actor*ENEMY_SIZE;u8 *e=*table;e+=eo;sub_08019EB8(*(u16 *)(e+2),3);}}
+#else
+ } else if(arg) {actor=arg-1;if(actor<=4){u8 **base=(u8 **)&gUnk_030056F4;raw=actor*ENEMY_SIZE;base=(u8 **)((u8 *)*base+raw);sub_08019EB8(*(u16 *)((u8 *)base+2),3);}}
+#endif
+ else {raw=sub_080020F4()*PLAYER_SIZE;{u8 *base=(u8 *)gUnk_03003CE0;raw+=(s32)base;v1=PLAYER_FIELD(0x11E);raw+=v1;*(u16 *)raw=flag;}}
  sub_08068070((u32)sub_0805990C,1);
  while(sub_0805F184())sub_080003F0();
  while(sub_0805EF90())sub_080003F0();
@@ -1552,7 +1556,7 @@ extern void sub_0805990C(void); void sub_08032DE4(u32 arg0) {
  while(!sub_0805EEFC((void *)task)){if(sub_0800CDF8()){sub_0805EFBC();break;}sub_080003F0();}
  left=1;j=0;itemsbase=&items32DE4;zero=0;
  loopRemove:raw=(s32)*itemsbase;slot=(u8 *)raw+j*16;
- if(*(u16 *)(slot+0x150)!=1 || *(u16 *)(slot+0x152)!=0x29 || (left--,*(u16 *)(slot+0x150)=zero,*(u16 *)(slot+0x152)=zero,left!=0)) {j++;if(j<=24)goto loopRemove;}
+ if(*(u16 *)(slot+SAVE_FIELD(0x150))!=1 || *(u16 *)(slot+SAVE_FIELD(0x152))!=0x29 || (left--,*(u16 *)(slot+SAVE_FIELD(0x150))=zero,*(u16 *)(slot+SAVE_FIELD(0x152))=zero,left!=0)) {j++;if(j<=24)goto loopRemove;}
  goto done;
  stateOne:
  while(sub_0805F184())sub_080003F0();
@@ -1572,7 +1576,7 @@ unavailable:
  task=sub_0805DF38(1,15,2,0,-1,0x14021F);
  while(!sub_0805EEFC((void *)task)){if(sub_0800CDF8()){sub_0805EFBC();break;}sub_080003F0();}
 done:
- {struct Player *p;register u32 idx asm("r2");idx=sub_080020F4();idx*=0x14C;p=(struct Player *)((u8 *)gUnk_03003CE0+idx);p->flags &= ~1;}sub_0800D108();
+ {struct Player *p;register u32 idx asm("r2");idx=sub_080020F4();idx*=PLAYER_SIZE;p=(struct Player *)((u8 *)gUnk_03003CE0+idx);p->flags &= ~1;}sub_0800D108();
 }
 extern u8 *state33198 asm("gUnk_03005CF4");
 struct Cmd33198 { u16 kind, value; u8 data[12]; };
@@ -1611,7 +1615,7 @@ void sub_08033198(void) {
     register u32 b asm("r2");
     u32 dialog;
     first = sub_080020F4();
-    offset = 0x14C;
+    offset = PLAYER_SIZE;
     offset *= first;
     start = (struct Player *)((u8 *)gUnk_03003CE0 + offset);
     first = start->flags;
@@ -1713,7 +1717,7 @@ otherPlayer:
     }
 done:
     last = sub_080020F4();
-    last *= 0x14C;
+    last *= PLAYER_SIZE;
     p = (struct Player *)((u8 *)gUnk_03003CE0 + last);
     p->flags &= ~1;
     sub_0800D108();
@@ -1798,7 +1802,7 @@ void sub_08033650(u32 arg0) {
  register u32 b asm("r2");
  struct Cmd33650 *c;
  u32 dialog;
- {u32 idx; u32 v;register struct Player *p asm("r1");v=sub_080020F4();idx=0x14C;idx*=v;p=(struct Player *)((u8 *)gUnk_03003CE0+idx);v=p->flags;one=1;p->flags=v|one;}
+ {u32 idx; u32 v;register struct Player *p asm("r1");v=sub_080020F4();idx=PLAYER_SIZE;idx*=v;p=(struct Player *)((u8 *)gUnk_03003CE0+idx);v=p->flags;one=1;p->flags=v|one;}
  sub_0800D0F4();sub_0802949C(arg,0);
  arg=sub_080020F4();
  if(sub_0800CE30()){base=state33650;off=0x1C6;}else{base=state33650;off=0x1BA;}
@@ -1879,7 +1883,7 @@ unavailable:
  dialog=sub_0805DF38(1,15,2,0,-1,0x140273);
  while(!sub_0805EEFC((void *)dialog)){if(sub_0800CDF8()){sub_0805EFBC();break;}sub_080003F0();}
 done:
- {struct Player *p;register u32 idx asm("r2");idx=sub_080020F4();idx*=0x14C;p=(struct Player *)((u8 *)gUnk_03003CE0+idx);p->flags &= ~1;}sub_0800D108();
+ {struct Player *p;register u32 idx asm("r2");idx=sub_080020F4();idx*=PLAYER_SIZE;p=(struct Player *)((u8 *)gUnk_03003CE0+idx);p->flags &= ~1;}sub_0800D108();
 }
 /* [ShowLevelDependentMessages424And425] Signed32 save+20 comparison>0xC6 selects resources1401A9/1401A8; both
  * completion loops have suspension escape. */
@@ -1893,7 +1897,7 @@ void sub_08033B3C(void)
   new_var2[1] = new_var2[0];
   new_var2[1]->flags = new_var2[1]->flags | 1;
   sub_0800D0F4();
-  if ((*((s32 *) (gUnk_030034E0 + 0x20))) > 0xC6)
+  if ((*((s32 *) (gUnk_030034E0 + SAVE_FIELD(0x20)))) > 0xC6)
   {
     while (sub_0805F184() != 0)
     {
@@ -1950,7 +1954,7 @@ void sub_08033C40(u32 arg0){
  u8 *data;
  u32 dialog;
  u8 *selected;u32 value;
- {struct Player *p;register u32 idx asm("r2");idx=sub_080020F4();idx*=0x14C;p=(struct Player *)((u8 *)gUnk_03003CE0+idx);p->flags|=1;}
+ {struct Player *p;register u32 idx asm("r2");idx=sub_080020F4();idx*=PLAYER_SIZE;p=(struct Player *)((u8 *)gUnk_03003CE0+idx);p->flags|=1;}
  sub_0800D0F4();
  if(sub_0800CE30()){base=state33C40;field=0x1BF;selected=base+field;}else{off=0x1B3;selected=state33C40+off;}
  switch(*selected){case 0:goto case0;case 1:goto case1;case 2:goto case2;case 3:goto case3;case 4:goto case4;case 5:goto case5;default:goto done;}
@@ -2088,7 +2092,7 @@ case5:
  dialog=sub_0805DF38(1,15,2,0,-1,0x1401C5);
  while(!sub_0805EEFC((void *)dialog)){if(sub_0800CDF8()){sub_0805EFBC();break;}sub_080003F0();}
 done:
- {struct Player *p;register u32 idx asm("r2");idx=sub_080020F4();idx*=0x14C;p=(struct Player *)((u8 *)gUnk_03003CE0+idx);p->flags &= ~1;}sub_0800D108();
+ {struct Player *p;register u32 idx asm("r2");idx=sub_080020F4();idx*=PLAYER_SIZE;p=(struct Player *)((u8 *)gUnk_03003CE0+idx);p->flags &= ~1;}sub_0800D108();
 }
 extern void sub_08029174(s32,s32);
 extern void sub_0802926C(s32,s32);
@@ -2410,13 +2414,13 @@ loop_1:
         value |= highValue;
         frame.bits = value;
     }
-    { u32 index = sub_080020F4(); u32 stride = 0x14c; struct Player *base; stride*=index;  base=gUnk_03003CE0;  temp_r5=(struct Player *)(stride + (u32)base); }
+    { u32 index = sub_080020F4(); u32 stride = PLAYER_SIZE; struct Player *base; stride*=index;  base=gUnk_03003CE0;  temp_r5=(struct Player *)(stride + (u32)base); }
     bits=&frame.bits; 
 goto test3;
 loop_3:
     sub_080003F0();
 test3:
-    if (t034Range((s32 *)((u8 *)temp_r5 + 0x8C), &frame.pos.x, (u16 *)ptr10, (u16 *)bits) == 0) {
+    if (t034Range((s32 *)((u8 *)temp_r5 + PLAYER_FIELD(0x8C)), &frame.pos.x, (u16 *)ptr10, (u16 *)bits) == 0) {
         goto loop_3;
     }
     if (sub_0800CE30() != 0) {
@@ -2881,7 +2885,7 @@ void sub_08035A88(s32 arg0) {
     }
 }
 struct Cmd35B18 { u16 unk0, unk2; u8 data[12]; };
-struct Inv35B18 { u8 pad[0x150]; u16 unk150, unk152; };
+struct Inv35B18 { u8 pad[SAVE_FIELD(0x150)]; u16 unk150, unk152; };
 extern u8 *inv35B18 asm("gUnk_030034E0");
 extern u8 *state35B18 asm("gUnk_03005CF4");
 extern u32 flags35B18 asm("gUnk_030027D0");
@@ -3017,7 +3021,7 @@ while (sub_0805EF90() != 0) { sub_080003F0(); }
 while (sub_0805EEFC((void *) temp_r4_3) == 0) { if (sub_0800CDF8() != 0) { sub_0805EFBC(); break; } sub_080003F0(); }
                 var_r3 = 0;
                 var_r2 = 0;
-                var_r1_2 = (struct Cmd35B18 *)(inv35B18 + 0x150);
+                var_r1_2 = (struct Cmd35B18 *)(inv35B18 + SAVE_FIELD(0x150));
                 do {
                     if ((*(u16 *)var_r1_2 == 8) && (*(u16 *)((u8 *)var_r1_2 + 2) == 6)) {
                         var_r3 += 1;
@@ -3037,9 +3041,9 @@ while (sub_0805EEFC((void *) temp_r4_4) == 0) { sub_080003F0(); }
                         left=3;scan=0;data=sp8.data;inventory=&inv35B18;zero=0;
                         do {
                             u8 *slot; register u8 *v asm("r0"); u32 k; u16 *kind;
-                            v=*inventory;slot=v+scan*16;k=0x150;kind=(u16 *)(slot+k);
+                            v=*inventory;slot=v+scan*16;k=SAVE_FIELD(0x150);kind=(u16 *)(slot+k);
                             if(*kind!=8)goto next1;
-                            { u16 *value; k=0x152;value=(u16 *)(slot+k);if(*value!=6)goto next1;left--;*kind=zero;*value=zero;if(!left)goto removed1; }
+                            { u16 *value; k=SAVE_FIELD(0x152);value=(u16 *)(slot+k);if(*value!=6)goto next1;left--;*kind=zero;*value=zero;if(!left)goto removed1; }
 next1: scan++;
                         }while(scan<=24);
 removed1:
@@ -3071,7 +3075,7 @@ while (sub_0805EF90() != 0) { sub_080003F0(); }
 while (sub_0805EEFC((void *) temp_r4_7) == 0) { if (sub_0800CDF8() != 0) { sub_0805EFBC(); break; } sub_080003F0(); }
                 var_r3_3 = 0;
                 var_r2_2 = 0;
-                var_r1_4 = (struct Cmd35B18 *)(inv35B18 + 0x150);
+                var_r1_4 = (struct Cmd35B18 *)(inv35B18 + SAVE_FIELD(0x150));
                 do {
                     if ((*(u16 *)var_r1_4 == 8) && (*(u16 *)((u8 *)var_r1_4 + 2) == 0x23)) {
                         var_r3_3 += 1;
@@ -3091,9 +3095,9 @@ while (sub_0805EEFC((void *) temp_r4_8) == 0) { sub_080003F0(); }
                         left=3;scan=0;data=sp8.data;inventory=&inv35B18;zero=0;
                         do {
                             u8 *slot; register u8 *v asm("r0"); u32 k; u16 *kind;
-                            v=*inventory;slot=v+scan*16;k=0x150;kind=(u16 *)(slot+k);
+                            v=*inventory;slot=v+scan*16;k=SAVE_FIELD(0x150);kind=(u16 *)(slot+k);
                             if(*kind!=8)goto next2;
-                            { u16 *value; k=0x152;value=(u16 *)(slot+k);if(*value!=0x23)goto next2;left--;*kind=zero;*value=zero;if(!left)goto removed2; }
+                            { u16 *value; k=SAVE_FIELD(0x152);value=(u16 *)(slot+k);if(*value!=0x23)goto next2;left--;*kind=zero;*value=zero;if(!left)goto removed2; }
 next2: scan++;
                         }while(scan<=24);
 removed2:
@@ -3125,7 +3129,7 @@ while (sub_0805EF90() != 0) { sub_080003F0(); }
 while (sub_0805EEFC((void *) temp_r4_11) == 0) { if (sub_0800CDF8() != 0) { sub_0805EFBC(); break; } sub_080003F0(); }
                 var_r3_5 = 0;
                 var_r2_3 = 0;
-                var_r1_6 = (struct Cmd35B18 *)(inv35B18 + 0x150);
+                var_r1_6 = (struct Cmd35B18 *)(inv35B18 + SAVE_FIELD(0x150));
                 do {
                     if ((*(u16 *)var_r1_6 == 8) && (*(u16 *)((u8 *)var_r1_6 + 2) == 0x41)) {
                         var_r3_5 += 1;
@@ -3145,9 +3149,9 @@ while (sub_0805EEFC((void *) temp_r4_12) == 0) { sub_080003F0(); }
                         left=3;scan=0;data=sp8.data;inventory=&inv35B18;zero=0;
                         do {
                             u8 *slot; register u8 *v asm("r0"); u32 k; u16 *kind;
-                            v=*inventory;slot=v+scan*16;k=0x150;kind=(u16 *)(slot+k);
+                            v=*inventory;slot=v+scan*16;k=SAVE_FIELD(0x150);kind=(u16 *)(slot+k);
                             if(*kind!=8)goto next3;
-                            { u16 *value; k=0x152;value=(u16 *)(slot+k);if(*value!=0x41)goto next3;left--;*kind=zero;*value=zero;if(!left)goto removed3; }
+                            { u16 *value; k=SAVE_FIELD(0x152);value=(u16 *)(slot+k);if(*value!=0x41)goto next3;left--;*kind=zero;*value=zero;if(!left)goto removed3; }
 next3: scan++;
                         }while(scan<=24);
 removed3:
@@ -3179,7 +3183,7 @@ while (sub_0805EF90() != 0) { sub_080003F0(); }
 while (sub_0805EEFC((void *) temp_r4_15) == 0) { if (sub_0800CDF8() != 0) { sub_0805EFBC(); break; } sub_080003F0(); }
                 var_r3_7 = 0;
                 var_r2_4 = 0;
-                var_r1_8 = (struct Cmd35B18 *)(inv35B18 + 0x150);
+                var_r1_8 = (struct Cmd35B18 *)(inv35B18 + SAVE_FIELD(0x150));
                 do {
                     if ((*(u16 *)var_r1_8 == 8) && (*(u16 *)((u8 *)var_r1_8 + 2) == 0x59)) {
                         var_r3_7 += 1;
@@ -3199,9 +3203,9 @@ while (sub_0805EEFC((void *) temp_r4_16) == 0) { sub_080003F0(); }
                         left=3;scan=0;data=sp8.data;inventory=&inv35B18;asm("" : "+r"(inventory));zero=0;
                         do {
                             u8 *slot; register u8 *v asm("r0"); u32 k; u16 *kind;
-                            v=*inventory;slot=v+scan*16;k=0x150;kind=(u16 *)(slot+k);
+                            v=*inventory;slot=v+scan*16;k=SAVE_FIELD(0x150);kind=(u16 *)(slot+k);
                             if(*kind!=8)goto next4;
-                            { u16 *value; k=0x152;value=(u16 *)(slot+k);if(*value!=0x59)goto next4;left--;*kind=zero;*value=zero;if(!left)goto removed4; }
+                            { u16 *value; k=SAVE_FIELD(0x152);value=(u16 *)(slot+k);if(*value!=0x59)goto next4;left--;*kind=zero;*value=zero;if(!left)goto removed4; }
 next4: scan++;
                         }while(scan<=24);
 removed4:
@@ -3233,7 +3237,7 @@ while (sub_0805EF90() != 0) { sub_080003F0(); }
 while (sub_0805EEFC((void *) temp_r4_19) == 0) { if (sub_0800CDF8() != 0) { sub_0805EFBC(); break; } sub_080003F0(); }
                 var_r3_9 = 0;
                 var_r2_5 = 0;
-                var_r1_10 = (struct Cmd35B18 *)(inv35B18 + 0x150);
+                var_r1_10 = (struct Cmd35B18 *)(inv35B18 + SAVE_FIELD(0x150));
                 do {
                     if ((*(u16 *)var_r1_10 == 8) && (*(u16 *)((u8 *)var_r1_10 + 2) == 0x6F)) {
                         var_r3_9 += 1;
@@ -3251,9 +3255,9 @@ while (sub_0805EEFC((void *) temp_r4_21) == 0) { sub_080003F0(); }
                         left=3;scan=0;data=sp8.data;inventory=&inv35B18;zero=0;
                         do {
                             u8 *slot; register u8 *v asm("r0"); u32 k; u16 *kind;
-                            v=*inventory;slot=v+scan*16;k=0x150;kind=(u16 *)(slot+k);
+                            v=*inventory;slot=v+scan*16;k=SAVE_FIELD(0x150);kind=(u16 *)(slot+k);
                             if(*kind!=8)goto next5;
-                            { u16 *value; k=0x152;value=(u16 *)(slot+k);if(*value!=0x6F)goto next5;left--;*kind=zero;*value=zero;if(!left)goto removed5; }
+                            { u16 *value; k=SAVE_FIELD(0x152);value=(u16 *)(slot+k);if(*value!=0x6F)goto next5;left--;*kind=zero;*value=zero;if(!left)goto removed5; }
 next5: scan++;
                         }while(scan<=24);
 removed5:
@@ -3323,7 +3327,7 @@ done:
     sub_0800D108();
 }
 struct Cmd368F4 { u16 unk0, unk2; u8 data[12]; };
-struct Inv368F4 { u8 pad[0x150]; u16 unk150, unk152; };
+struct Inv368F4 { u8 pad[SAVE_FIELD(0x150)]; u16 unk150, unk152; };
 extern u8 *inv368F4 asm("gUnk_030034E0");
 extern u8 *state368F4 asm("gUnk_03005CF4");
 extern u32 flags368F4 asm("gUnk_030027D0");
@@ -3460,7 +3464,7 @@ while (sub_0805EF90() != 0) { sub_080003F0(); }
 while (sub_0805EEFC((void *) temp_r4_3) == 0) { if (sub_0800CDF8() != 0) { sub_0805EFBC(); break; } sub_080003F0(); }
                 var_r3 = 0;
                 var_r2 = 0;
-                var_r1_2 = (struct Cmd368F4 *)(inv368F4 + 0x150);
+                var_r1_2 = (struct Cmd368F4 *)(inv368F4 + SAVE_FIELD(0x150));
                 do {
                     if ((*(u16 *)var_r1_2 == 8) && (*(u16 *)((u8 *)var_r1_2 + 2) == 0)) {
                         var_r3 += 1;
@@ -3480,9 +3484,9 @@ while (sub_0805EEFC((void *) temp_r4_4) == 0) { sub_080003F0(); }
                         left=3;scan=0;data=sp8.data;inventoryFirst=&inv368F4;
                         do {
                             u8 *slot; register u8 *v asm("r0"); u32 k; u16 *kind;
-                            v=*inventoryFirst;slot=v+scan*16;k=0x150;kind=(u16 *)(slot+k);
+                            v=*inventoryFirst;slot=v+scan*16;k=SAVE_FIELD(0x150);kind=(u16 *)(slot+k);
                             if(*kind!=8)goto next1;
-                            { register u16 *value asm("r1"); k=0x152;value=(u16 *)(slot+k);k=*value;if(k!=0)goto next1;left--;*kind=k;*value=k;if(!left)goto removed1; }
+                            { register u16 *value asm("r1"); k=SAVE_FIELD(0x152);value=(u16 *)(slot+k);k=*value;if(k!=0)goto next1;left--;*kind=k;*value=k;if(!left)goto removed1; }
 next1: scan++;
                         }while(scan<=24);
 removed1:
@@ -3514,7 +3518,7 @@ while (sub_0805EF90() != 0) { sub_080003F0(); }
 while (sub_0805EEFC((void *) temp_r4_7) == 0) { if (sub_0800CDF8() != 0) { sub_0805EFBC(); break; } sub_080003F0(); }
                 var_r3_3 = 0;
                 var_r2_2 = 0;
-                var_r1_4 = (struct Cmd368F4 *)(inv368F4 + 0x150);
+                var_r1_4 = (struct Cmd368F4 *)(inv368F4 + SAVE_FIELD(0x150));
                 do {
                     if ((*(u16 *)var_r1_4 == 8) && (*(u16 *)((u8 *)var_r1_4 + 2) == 0x2B)) {
                         var_r3_3 += 1;
@@ -3534,9 +3538,9 @@ while (sub_0805EEFC((void *) temp_r4_8) == 0) { sub_080003F0(); }
                         left=3;scan=0;data=sp8.data;inventory=&inv368F4;zero=0;
                         do {
                             u8 *slot; register u8 *v asm("r0"); u32 k; u16 *kind;
-                            v=*inventory;slot=v+scan*16;k=0x150;kind=(u16 *)(slot+k);
+                            v=*inventory;slot=v+scan*16;k=SAVE_FIELD(0x150);kind=(u16 *)(slot+k);
                             if(*kind!=8)goto next2;
-                            { u16 *value; k=0x152;value=(u16 *)(slot+k);if(*value!=0x2B)goto next2;left--;*kind=zero;*value=zero;if(!left)goto removed2; }
+                            { u16 *value; k=SAVE_FIELD(0x152);value=(u16 *)(slot+k);if(*value!=0x2B)goto next2;left--;*kind=zero;*value=zero;if(!left)goto removed2; }
 next2: scan++;
                         }while(scan<=24);
 removed2:
@@ -3568,7 +3572,7 @@ while (sub_0805EF90() != 0) { sub_080003F0(); }
 while (sub_0805EEFC((void *) temp_r4_11) == 0) { if (sub_0800CDF8() != 0) { sub_0805EFBC(); break; } sub_080003F0(); }
                 var_r3_5 = 0;
                 var_r2_3 = 0;
-                var_r1_6 = (struct Cmd368F4 *)(inv368F4 + 0x150);
+                var_r1_6 = (struct Cmd368F4 *)(inv368F4 + SAVE_FIELD(0x150));
                 do {
                     if ((*(u16 *)var_r1_6 == 8) && (*(u16 *)((u8 *)var_r1_6 + 2) == 0x50)) {
                         var_r3_5 += 1;
@@ -3588,9 +3592,9 @@ while (sub_0805EEFC((void *) temp_r4_12) == 0) { sub_080003F0(); }
                         left=3;scan=0;data=sp8.data;inventory=&inv368F4;zero=0;
                         do {
                             u8 *slot; register u8 *v asm("r0"); u32 k; u16 *kind;
-                            v=*inventory;slot=v+scan*16;k=0x150;kind=(u16 *)(slot+k);
+                            v=*inventory;slot=v+scan*16;k=SAVE_FIELD(0x150);kind=(u16 *)(slot+k);
                             if(*kind!=8)goto next3;
-                            { u16 *value; k=0x152;value=(u16 *)(slot+k);if(*value!=0x50)goto next3;left--;*kind=zero;*value=zero;if(!left)goto removed3; }
+                            { u16 *value; k=SAVE_FIELD(0x152);value=(u16 *)(slot+k);if(*value!=0x50)goto next3;left--;*kind=zero;*value=zero;if(!left)goto removed3; }
 next3: scan++;
                         }while(scan<=24);
 removed3:
@@ -3622,7 +3626,7 @@ while (sub_0805EF90() != 0) { sub_080003F0(); }
 while (sub_0805EEFC((void *) temp_r4_15) == 0) { if (sub_0800CDF8() != 0) { sub_0805EFBC(); break; } sub_080003F0(); }
                 var_r3_7 = 0;
                 var_r2_4 = 0;
-                var_r1_8 = (struct Cmd368F4 *)(inv368F4 + 0x150);
+                var_r1_8 = (struct Cmd368F4 *)(inv368F4 + SAVE_FIELD(0x150));
                 do {
                     if ((*(u16 *)var_r1_8 == 8) && (*(u16 *)((u8 *)var_r1_8 + 2) == 0x5C)) {
                         var_r3_7 += 1;
@@ -3642,9 +3646,9 @@ while (sub_0805EEFC((void *) temp_r4_16) == 0) { sub_080003F0(); }
                         left=3;scan=0;data=sp8.data;inventory=&inv368F4;zero=0;
                         do {
                             u8 *slot; register u8 *v asm("r0"); u32 k; u16 *kind;
-                            v=*inventory;slot=v+scan*16;k=0x150;kind=(u16 *)(slot+k);
+                            v=*inventory;slot=v+scan*16;k=SAVE_FIELD(0x150);kind=(u16 *)(slot+k);
                             if(*kind!=8)goto next4;
-                            { u16 *value; k=0x152;value=(u16 *)(slot+k);if(*value!=0x5C)goto next4;left--;*kind=zero;*value=zero;if(!left)goto removed4; }
+                            { u16 *value; k=SAVE_FIELD(0x152);value=(u16 *)(slot+k);if(*value!=0x5C)goto next4;left--;*kind=zero;*value=zero;if(!left)goto removed4; }
 next4: scan++;
                         }while(scan<=24);
 removed4:
@@ -3676,7 +3680,7 @@ while (sub_0805EF90() != 0) { sub_080003F0(); }
 while (sub_0805EEFC((void *) temp_r4_19) == 0) { if (sub_0800CDF8() != 0) { sub_0805EFBC(); break; } sub_080003F0(); }
                 var_r3_9 = 0;
                 var_r2_5 = 0;
-                var_r1_10 = (struct Cmd368F4 *)(inv368F4 + 0x150);
+                var_r1_10 = (struct Cmd368F4 *)(inv368F4 + SAVE_FIELD(0x150));
                 do {
                     if ((*(u16 *)var_r1_10 == 8) && (*(u16 *)((u8 *)var_r1_10 + 2) == 0x65)) {
                         var_r3_9 += 1;
@@ -3694,9 +3698,9 @@ while (sub_0805EEFC((void *) temp_r4_21) == 0) { sub_080003F0(); }
                         left=3;scan=0;data=sp8.data;inventory=&inv368F4;asm("" : "+r"(inventory));zero=0;
                         do {
                             u8 *slot; register u8 *v asm("r0"); u32 k; u16 *kind;
-                            v=*inventory;slot=v+scan*16;k=0x150;kind=(u16 *)(slot+k);
+                            v=*inventory;slot=v+scan*16;k=SAVE_FIELD(0x150);kind=(u16 *)(slot+k);
                             if(*kind!=8)goto next5;
-                            { u16 *value; k=0x152;value=(u16 *)(slot+k);if(*value!=0x65)goto next5;left--;*kind=zero;*value=zero;if(!left)goto removed5; }
+                            { u16 *value; k=SAVE_FIELD(0x152);value=(u16 *)(slot+k);if(*value!=0x65)goto next5;left--;*kind=zero;*value=zero;if(!left)goto removed5; }
 next5: scan++;
                         }while(scan<=24);
 removed5:
@@ -3778,7 +3782,7 @@ static inline u32 t36ATest(u8 *p, u32 one) { s32 v = *p;  return (v >> 7) & one;
 static inline u32 t36AHalf(u16 *p) { u32 v = *p;  return v; }
 static inline void t36AInit(struct T36ACmd *pp, u32 aa, u32 bb) { register struct T36ACmd *p asm("r0"); register u32 a asm("r1")=aa; u32 b=bb; asm("" : "+r"(a), "+r"(b)); p=pp;  p->unk0=a; p->unk2=b; }
 static inline u32 t36ALock(u32 idx) {
- u32 off = idx * 0x14C;
+ u32 off = idx * PLAYER_SIZE;
  u32 base;
  struct Player *p;
  u32 flags;
@@ -3797,8 +3801,8 @@ static inline u32 t36ALock(u32 idx) {
 static inline u32 t36AMask(u32 *p) { register u32 m asm("r1")=0x100000;  return *p & m; }
 static inline void t36ASet80(void) { register u32 *p asm("r1")=(u32 *)(t36AState+0x80); u32 m=0x100000;  *p |= m; }
 static inline void t36ASet78(void) { u8 *p=t36AState; u32 m=0x100000;  *(u32 *)(p+0x78) |= m; }
-static inline void t36APose(u32 idx, u32 value) { u32 scaled=idx*0x14C; u8 *p; u32 off;  p=(u8 *)gUnk_03003CE0+scaled;  off=0x11E;  *(u16 *)(p+off)=value; }
-static inline void t36AOtherPose(u32 idx) { u8 **pp=&t36AOther; u32 off; u8 *p;  off=idx*0x2E0;  p=*pp; p=p+off;  sub_08019EB8(*(u16 *)(p+2), 3); }
+static inline void t36APose(u32 idx, u32 value) { u32 scaled=idx*PLAYER_SIZE; u8 *p; u32 off;  p=(u8 *)gUnk_03003CE0+scaled;  off=PLAYER_FIELD(0x11E);  *(u16 *)(p+off)=value; }
+static inline void t36AOtherPose(u32 idx) { u8 **pp=&t36AOther; u32 off; u8 *p;  off=idx*ENEMY_SIZE;  p=*pp; p=p+off;  sub_08019EB8(*(u16 *)(p+2), 3); }
 static inline u32 t36ACount(u32 n) { return n; }
 static inline void t36AEmitMany(struct T36ACmd *p,u32 n) { u32 i=0; do { t36AEmit(p); i++; } while (i<n); }
 static inline u8 *t36AItemAddr(u8 *base,u32 idx) { u8 *p=base; u32 off;  off=idx*16;  return p+off; }
@@ -3828,7 +3832,11 @@ void t36AScript(u32 input) {
     s32 var_r4;
     struct Player *temp_r1;
     u32 temp_r2;
+#ifdef REGION_USA
+    register u32 actorKey asm("r1");
+#else
     u32 actorKey;
+#endif
     u32 temp_r4;
     u32 temp_r4_2;
     u32 temp_r4_3;
@@ -3881,7 +3889,7 @@ set78:
         }
         var_r3 = 0;
         var_r2 = 0;
-        var_r1 = (struct T36AItem *)(t36AInventory + 0x150);
+        var_r1 = (struct T36AItem *)(t36AInventory + SAVE_FIELD(0x150));
         do {
             if ((t36AHalf(&var_r1->unk0) == 1) && (var_r1->unk2 == 0x2D)) {
                 var_r3 += 1;
@@ -3931,7 +3939,7 @@ actor_done:
             zero = 0;
 loop_57:
             temp_r1_2 = t36AItemAddr(*inventory, var_r3_3);
-            if (((*(u16 *)(temp_r1_2 + 0x150)) != 1) || ((*(u16 *)(temp_r1_2 + 0x152)) != 0x2D) || (var_r4 -= 1, (*(u16 *)(temp_r1_2 + 0x150)) = zero, (*(u16 *)(temp_r1_2 + 0x152)) = zero, (var_r4 != 0))) {
+            if (((*(u16 *)(temp_r1_2 + SAVE_FIELD(0x150))) != 1) || ((*(u16 *)(temp_r1_2 + SAVE_FIELD(0x152))) != 0x2D) || (var_r4 -= 1, (*(u16 *)(temp_r1_2 + SAVE_FIELD(0x150))) = zero, (*(u16 *)(temp_r1_2 + SAVE_FIELD(0x152))) = zero, (var_r4 != 0))) {
                 var_r3_3 += 1;
                 if (var_r3_3 <= 0x18U) {
                     goto loop_57;
@@ -3992,7 +4000,7 @@ loop_57:
 }
 
 
-struct T36Player { u8 pad0[0x20]; u16 unk20; u8 pad22[14]; u32 unk30; u8 pad34[0x118]; };
+struct T36Player { u8 pad0[PLAYER_FIELD(0x20)]; u16 unk20; u8 pad22[PLAYER_FIELD(0x30) - PLAYER_FIELD(0x22)]; u32 unk30; u8 pad34[PLAYER_SIZE - PLAYER_FIELD(0x34)]; };
 struct T36Task { u32 f0, f4, unk8, unkC; u8 *unk10; u32 f14, f18, f1c; u8 *unk20; u32 unk24; };
 struct T36Actor { s32 id; u8 pad4[0x40]; u32 unk44; u8 pad48[0x28]; };
 extern struct T36Player t36Players[] asm("gUnk_03003CE0");
@@ -4215,7 +4223,7 @@ static inline u32 t36CTest6(u8 *p) { register s32 v asm("r0")=*p; s32 shifted; u
 static inline u32 t36CAvailable(void) { s32 v=sub_0805CFA0(); register u32 ok asm("r1")=1; if(v<0)ok=0; return ok; }
 static inline u32 t36CCount(u32 n) { return n; }
 static inline void t36CInit(struct T36CCmd *pp,u32 aa,u32 bb) { struct T36CCmd *p; register u32 a asm("r1")=aa; u32 b=bb; asm("" : "+r"(a), "+r"(b)); p=pp;  p->unk0=a; p->unk2=b; }
-static inline u8 *t36CInvBase(u8 *base) { register u8 *p asm("r0")=base; u32 off;  off=0xC10; return p+off; }
+static inline u8 *t36CInvBase(u8 *base) { register u8 *p asm("r0")=base; u32 off;  off=SAVE_FIELD(0xC10); return p+off; }
 /* [HandleFullMarkerSetReward] Sets player flag1 and faces entity; tests145 saved marker bytes, mode-selected
  * completion bits and local player index. Host with all markers and no completion bit shows113 then, if
  * capacity helper succeeds, attempts inventory insertion of descriptor6:0x1E, requests callback5990C(0x26),
@@ -4535,7 +4543,7 @@ void sub_0803898C(s32 arg) {
     register u32 last asm("r2");
     struct Player *p;
     u32 dialog;
-    first=sub_080020F4(); offset=0x14C; offset*=first;
+    first=sub_080020F4(); offset=PLAYER_SIZE; offset*=first;
     start=(struct Player *)((u8 *)gUnk_03003CE0+offset);
     first=start->flags; one=1; first|=one; start->flags=first;
     sub_0800D0F4(); sub_0802949C(arg,0);
@@ -4615,7 +4623,7 @@ other:
     }
 done:
     sub_08029788(arg);
-    last=sub_080020F4(); last*=0x14C;
+    last=sub_080020F4(); last*=PLAYER_SIZE;
     p=(struct Player *)((u8 *)gUnk_03003CE0+last); p->flags &= ~1;
     sub_0800D108();
 }
@@ -4643,21 +4651,25 @@ void sub_08038D18(u32 arg){
  register u8 *data asm("r6");u32 left;u32 j;u8 **inventory;u32 zero;
  u32 a;register u32 b asm("r2");struct Cmd38D18 *c;u32 n;
  u32 dialog;
- raw=sub_080020F4();offset=0x14C;offset*=raw;p=(struct Player *)((u8 *)gUnk_03003CE0+offset);raw=p->flags;one=1;raw|=one;p->flags=raw;
+ raw=sub_080020F4();offset=PLAYER_SIZE;offset*=raw;p=(struct Player *)((u8 *)gUnk_03003CE0+offset);raw=p->flags;one=1;raw|=one;p->flags=raw;
  sub_0800D0F4();
  if(sub_0800CE30()){raw=(s32)state38D18;off1=0x1C4;selected=(u8 *)raw+off1;}else{raw=(s32)state38D18;off3=0x1B8;selected=(u8 *)raw+off3;}
  raw=*selected;raw>>=5;raw&=one;if(raw)goto progressed;
  while(sub_0805F184())sub_080003F0();while(sub_0805EF90())sub_080003F0();
  dialog=sub_0805DF38(1,15,2,0,-1,0x14022C);
  while(!sub_0805EEFC((void *)dialog)){if(sub_0800CDF8()){sub_0805EFBC();break;}sub_080003F0();}
- count=0;i=0;{u8 *v;v=items38D18;one=0x150;item=v+one;}
+ count=0;i=0;{u8 *v;v=items38D18;one=SAVE_FIELD(0x150);item=v+one;}
  do{if(*(u16 *)item==1 && *(u16 *)(item+2)==0x2A)count++;item+=16;i++;}while(i<=24);
  if(count<=0)goto done;
  if(sub_080020F4())goto other;
  actor=arg;flag=3;
  if(actor>0x100000){found=find38D18(actor);if(found)*(u16 *)(found+0x42)=flag;}
- else if(arg){actor=arg-1;if(actor<=4){register u8 **base asm("r1")=(u8 **)&gUnk_030056F4;raw=actor*0x2E0;base=(u8 **)((u8 *)*base+raw);sub_08019EB8(*(u16 *)((u8 *)base+2),3);}}
- else{raw=sub_080020F4()*0x14C;{register u8 *base asm("r1")=(u8 *)gUnk_03003CE0;raw+=(s32)base;off1=0x11E;raw+=off1;*(u16 *)raw=flag;}}
+#ifdef REGION_USA
+ else if(arg){actor=arg-1;if(actor<=4){u8 **table=(u8 **)&gUnk_030056F4;u32 eo=actor*ENEMY_SIZE;u8 *e=*table;e+=eo;sub_08019EB8(*(u16 *)(e+2),3);}}
+#else
+ else if(arg){actor=arg-1;if(actor<=4){register u8 **base asm("r1")=(u8 **)&gUnk_030056F4;raw=actor*ENEMY_SIZE;base=(u8 **)((u8 *)*base+raw);sub_08019EB8(*(u16 *)((u8 *)base+2),3);}}
+#endif
+ else{raw=sub_080020F4()*PLAYER_SIZE;{register u8 *base asm("r1")=(u8 *)gUnk_03003CE0;raw+=(s32)base;off1=PLAYER_FIELD(0x11E);raw+=off1;*(u16 *)raw=flag;}}
  data=cmd.data;
  while(sub_0805F184())sub_080003F0();while(sub_0805EF90())sub_080003F0();
  dialog=sub_0805DF38(1,15,2,0,-1,0x14022D);
@@ -4665,9 +4677,9 @@ void sub_08038D18(u32 arg){
  left=1;j=0;inventory=&items38D18;zero=0;
  do{
  u8 *slot;register u8 *v asm("r0");u32 k;u16 *kind;
- v=*inventory;slot=v+j*16;k=0x150;kind=(u16 *)(slot+k);
+ v=*inventory;slot=v+j*16;k=SAVE_FIELD(0x150);kind=(u16 *)(slot+k);
  if(*kind!=1)goto next;
- {u16 *value;k=0x152;value=(u16 *)(slot+k);if(*value!=0x2A)goto next;left--;*kind=zero;*value=zero;if(!left)goto removed;}
+ {u16 *value;k=SAVE_FIELD(0x152);value=(u16 *)(slot+k);if(*value!=0x2A)goto next;left--;*kind=zero;*value=zero;if(!left)goto removed;}
 next:j++;
  }while(j<=24);
 removed:
@@ -4721,7 +4733,7 @@ idle:
  dialog=sub_0805DF38(1,15,2,0,-1,0x140230);
  while(!sub_0805EEFC((void *)dialog)){if(sub_0800CDF8()){sub_0805EFBC();break;}sub_080003F0();}
 done:
- {struct Player *v;register u32 index asm("r2");index=sub_080020F4();index*=0x14C;v=(struct Player *)((u8 *)gUnk_03003CE0+index);v->flags &=~1;}sub_0800D108();
+ {struct Player *v;register u32 index asm("r2");index=sub_080020F4();index*=PLAYER_SIZE;v=(struct Player *)((u8 *)gUnk_03003CE0+index);v->flags &=~1;}sub_0800D108();
 }
 
 extern u8 *state392B4 asm("gUnk_03005CF4");
@@ -4746,7 +4758,7 @@ void sub_080392B4(u32 arg){
  register s16 *data asm("r6");s16 *out;u32 value;register u32 kind asm("r6");u32 sends;register u32 left asm("r4");u32 j;u8 **inventory;register u32 zero asm("r5");
  u32 a;u32 b;struct Cmd392B4 *c;u32 n;
  u8 **inventoryFirst;u32 dialog;u32 callback;
- {struct Player *v;register u32 index asm("r2");index=sub_080020F4();index*=0x14C;v=(struct Player *)((u8 *)gUnk_03003CE0+index);v->flags |=1;}
+ {struct Player *v;register u32 index asm("r2");index=sub_080020F4();index*=PLAYER_SIZE;v=(struct Player *)((u8 *)gUnk_03003CE0+index);v->flags |=1;}
  sub_0800D0F4();sub_0802949C(arg,0);
  if(sub_0800CE30()){raw=(s32)state392B4;raw+=0x80;off1=8;raw=*(u32 *)raw;}else{raw=(s32)state392B4;off1=8;raw=*(u32 *)(raw+0x78);}raw &=off1;if(raw)goto enabled;
  while(sub_0805F184())sub_080003F0();while(sub_0805EF90())sub_080003F0();
@@ -4759,14 +4771,18 @@ enabled:
  while(sub_0805F184())sub_080003F0();while(sub_0805EF90())sub_080003F0();
  dialog=sub_0805DF38(1,15,2,0,-1,0x140264);
  while(!sub_0805EEFC((void *)dialog)){if(sub_0800CDF8()){sub_0805EFBC();break;}sub_080003F0();}
- count=0;i=0;{u8 *v;v=items392B4;one=0x150;item=v+one;}
+ count=0;i=0;{u8 *v;v=items392B4;one=SAVE_FIELD(0x150);item=v+one;}
  do{if(*(u16 *)item==1 && *(u16 *)(item+2)==0x2F)count++;item+=16;i++;}while(i<=24);
  if(count<=0)goto done;
  if(sub_080020F4())goto other;
  actor=arg;flag=3;
  if(actor>0x100000){found=find392B4(actor);if(found)*(u16 *)(found+0x42)=flag;}
- else if(arg){actor=arg-1;if(actor<=4){register u8 **base asm("r1")=(u8 **)&gUnk_030056F4;raw=actor*0x2E0;base=(u8 **)((u8 *)*base+raw);sub_08019EB8(*(u16 *)((u8 *)base+2),3);}}
- else{raw=sub_080020F4()*0x14C;{register u8 *base asm("r1")=(u8 *)gUnk_03003CE0;raw+=(s32)base;off1=0x11E;raw+=off1;*(u16 *)raw=flag;}}
+#ifdef REGION_USA
+ else if(arg){actor=arg-1;if(actor<=4){u8 **table=(u8 **)&gUnk_030056F4;u32 eo=actor*ENEMY_SIZE;u8 *e=*table;e+=eo;sub_08019EB8(*(u16 *)(e+2),3);}}
+#else
+ else if(arg){actor=arg-1;if(actor<=4){register u8 **base asm("r1")=(u8 **)&gUnk_030056F4;raw=actor*ENEMY_SIZE;base=(u8 **)((u8 *)*base+raw);sub_08019EB8(*(u16 *)((u8 *)base+2),3);}}
+#endif
+ else{raw=sub_080020F4()*PLAYER_SIZE;{register u8 *base asm("r1")=(u8 *)gUnk_03003CE0;raw+=(s32)base;off1=PLAYER_FIELD(0x11E);raw+=off1;*(u16 *)raw=flag;}}
 
  while(sub_0805F184())sub_080003F0();dialog=sub_0805DF38(1,15,2,0,-2,0x140265);
  while(!sub_0805EEFC((void *)dialog))sub_080003F0();flag=sub_0805EF14((u8 *)dialog);if(!flag)goto rejected;
@@ -4777,9 +4793,9 @@ enabled:
 inventoryFirst=&items392B4;zero=0;
  do{
  u8 *slot;register u8 *v asm("r0");u32 k;u16 *kind;
- v=*inventoryFirst;slot=v+j*16;k=0x150;kind=(u16 *)(slot+k);
+ v=*inventoryFirst;slot=v+j*16;k=SAVE_FIELD(0x150);kind=(u16 *)(slot+k);
  if(*kind!=1)goto next;
- {u16 *value;k=0x152;value=(u16 *)(slot+k);if(*value!=0x2F)goto next;left--;*kind=zero;*value=zero;if(!left)goto removed;}
+ {u16 *value;k=SAVE_FIELD(0x152);value=(u16 *)(slot+k);if(*value!=0x2F)goto next;left--;*kind=zero;*value=zero;if(!left)goto removed;}
 next:j++;
  }while(j<=24);
 removed: sub_08068070(callback,4);goto done;
@@ -4792,9 +4808,9 @@ rejected:
  left=1;j=0;inventory=&items392B4;zero=0;
  do{
  u8 *slot;register u8 *v asm("r0");u32 k;u16 *kind;
- v=*inventory;slot=v+j*16;k=0x150;kind=(u16 *)(slot+k);
+ v=*inventory;slot=v+j*16;k=SAVE_FIELD(0x150);kind=(u16 *)(slot+k);
  if(*kind!=1)goto nextA;
- {u16 *value;k=0x152;value=(u16 *)(slot+k);if(*value!=0x2F)goto nextA;left--;*kind=zero;*value=zero;if(!left)goto removedA;}
+ {u16 *value;k=SAVE_FIELD(0x152);value=(u16 *)(slot+k);if(*value!=0x2F)goto nextA;left--;*kind=zero;*value=zero;if(!left)goto removedA;}
 nextA:j++;
  }while(j<=24);
 removedA: value=3000;sends=0;out=data;kind=10;
@@ -4808,9 +4824,9 @@ modeB:
  left=1;j=0;inventory=&items392B4;zero=0;
  do{
  u8 *slot;register u8 *v asm("r0");u32 k;u16 *kind;
- v=*inventory;slot=v+j*16;k=0x150;kind=(u16 *)(slot+k);
+ v=*inventory;slot=v+j*16;k=SAVE_FIELD(0x150);kind=(u16 *)(slot+k);
  if(*kind!=1)goto nextB;
- {u16 *value;k=0x152;value=(u16 *)(slot+k);if(*value!=0x2F)goto nextB;left--;*kind=zero;*value=zero;if(!left)goto removedB;}
+ {u16 *value;k=SAVE_FIELD(0x152);value=(u16 *)(slot+k);if(*value!=0x2F)goto nextB;left--;*kind=zero;*value=zero;if(!left)goto removedB;}
 nextB:j++;
  }while(j<=24);
 removedB: value=10000;sends=0;out=data;kind=10;
@@ -4852,7 +4868,7 @@ idle:
  dialog=sub_0805DF38(1,15,2,0,-1,0x140263);
  while(!sub_0805EEFC((void *)dialog)){if(sub_0800CDF8()){sub_0805EFBC();break;}sub_080003F0();}
 done:
- {struct Player *v;register u32 index asm("r2");index=sub_080020F4();index*=0x14C;v=(struct Player *)((u8 *)gUnk_03003CE0+index);v->flags &=~1;}sub_0800D108();
+ {struct Player *v;register u32 index asm("r2");index=sub_080020F4();index*=PLAYER_SIZE;v=(struct Player *)((u8 *)gUnk_03003CE0+index);v->flags &=~1;}sub_0800D108();
 }
 extern u8 *state399E4 asm("gUnk_03005CF4");
 /* [RunGalicDialogue] Sets local player flags bit 0 (input suppression), calls BeginLocalPlayerEventLock and
@@ -4867,7 +4883,7 @@ void sub_080399E4(u32 arg0) {
  u32 off;
  register s32 flag asm("r1");
  u32 dialog;
- {struct Player *p;register u32 idx asm("r2");idx=sub_080020F4();idx*=0x14C;p=(struct Player *)((u8 *)gUnk_03003CE0+idx);p->flags |= 1;}
+ {struct Player *p;register u32 idx asm("r2");idx=sub_080020F4();idx*=PLAYER_SIZE;p=(struct Player *)((u8 *)gUnk_03003CE0+idx);p->flags |= 1;}
  sub_0800D0F4();sub_0802949C(arg,0);
  if(sub_0800CE30()) field=*(u32 *)(state399E4+0x7C);
  else field=*(u32 *)(state399E4+0x74);
@@ -4946,7 +4962,7 @@ void sub_080399E4(u32 arg0) {
  while(!sub_0805EEFC((void *)dialog)){if(sub_0800CDF8()){sub_0805EFBC();break;}sub_080003F0();}
  }
  sub_08029788(arg);
- {struct Player *p;register u32 idx asm("r2");idx=sub_080020F4();idx*=0x14C;p=(struct Player *)((u8 *)gUnk_03003CE0+idx);p->flags &= ~1;}
+ {struct Player *p;register u32 idx asm("r2");idx=sub_080020F4();idx*=PLAYER_SIZE;p=(struct Player *)((u8 *)gUnk_03003CE0+idx);p->flags &= ~1;}
  sub_0800D108();
 }
 extern u8 *state39F00 asm("gUnk_03005CF4");
@@ -4980,14 +4996,14 @@ void sub_08039F00(s32 arg) {
  u32 a; register u32 b asm("r2");
  struct Cmd39F00 *c;
  u32 dialog;
- {struct Player *p; register u32 index asm("r2"); index=sub_080020F4();index*=0x14C;p=(struct Player *)((u8 *)gUnk_03003CE0+index);p->flags |=1;}
+ {struct Player *p; register u32 index asm("r2"); index=sub_080020F4();index*=PLAYER_SIZE;p=(struct Player *)((u8 *)gUnk_03003CE0+index);p->flags |=1;}
  sub_0800D0F4(); sub_08028AAC(arg,0x6F,0xDD,0);sub_0802949C(arg,0);
  player=sub_080020F4();
  if(sub_0800CE30()){base=state39F00;off=0x1BD;}else{base=state39F00;off=0x1B1;}
  {register u32 v asm("r0");v=base[off];asm("" : "+r"(v));total=v;}
  if(total>9) goto complete;
  if(player) goto other;
- count=0;idx=0;{u8 *v;u32 n;v=inv39F00;n=0x150;item=v+n;}
+ count=0;idx=0;{u8 *v;u32 n;v=inv39F00;n=SAVE_FIELD(0x150);item=v+n;}
  do {if(*(u16 *)item==1 && *(u16 *)(item+2)==0x2E) count++;item+=16;idx++;}while(idx<=24);
  saved=count; if(saved<=0) goto missing;
  while(sub_0805F184())sub_080003F0();
@@ -5002,9 +5018,9 @@ void sub_08039F00(s32 arg) {
  left=saved;scan=0;inventory=&inv39F00;zero=0;
  do {
   u8 *slot;u8 *v;u32 n;u16 *kind;
-  v=*inventory;slot=v+scan*16;n=0x150;kind=(u16 *)(slot+n);
+  v=*inventory;slot=v+scan*16;n=SAVE_FIELD(0x150);kind=(u16 *)(slot+n);
   if(*kind!=1)goto next;
-  {u16 *value;n=0x152;value=(u16 *)(slot+n);if(*value!=0x2E)goto next;left--;*kind=zero;*value=zero;if(left==0)goto removed;}
+  {u16 *value;n=SAVE_FIELD(0x152);value=(u16 *)(slot+n);if(*value!=0x2E)goto next;left--;*kind=zero;*value=zero;if(left==0)goto removed;}
 next: scan++;
  }while(scan<=24);
 removed:
@@ -5038,7 +5054,7 @@ modeB:
  dialog=sub_0805DF38(1,15,2,0,-1,0x140260);
  while(!sub_0805EEFC((void *)dialog)){if(sub_0800CDF8()){sub_0805EFBC();break;}sub_080003F0();}
 rewardDone:
- {struct Player *p; register u32 index asm("r2"); index=sub_080020F4();index*=0x14C;p=(struct Player *)((u8 *)gUnk_03003CE0+index);p->flags &=~1;}
+ {struct Player *p; register u32 index asm("r2"); index=sub_080020F4();index*=PLAYER_SIZE;p=(struct Player *)((u8 *)gUnk_03003CE0+index);p->flags &=~1;}
  sub_0800D108();
  goto end;
 rejected:
@@ -5078,7 +5094,7 @@ complete:
  while(!sub_0805EEFC((void *)dialog)){if(sub_0800CDF8()){sub_0805EFBC();break;}sub_080003F0();}
  }
 done:
- {struct Player *p; register u32 index asm("r2"); index=sub_080020F4();index*=0x14C;p=(struct Player *)((u8 *)gUnk_03003CE0+index);p->flags &=~1;}
+ {struct Player *p; register u32 index asm("r2"); index=sub_080020F4();index*=PLAYER_SIZE;p=(struct Player *)((u8 *)gUnk_03003CE0+index);p->flags &=~1;}
  sub_0800D108();
 end:;
 }
@@ -5090,9 +5106,9 @@ void sub_0803A460(s32 arg0) {
     u8 *p;
     u32 flags;
     u32 msg;
-    offset=sub_080020F4();offset*=0x14C;
+    offset=sub_080020F4();offset*=PLAYER_SIZE;
     p=(u8 *)gUnk_03003CE0+offset;
-    *(u32 *)(p+0x30)|=1;
+    *(u32 *)(p+PLAYER_FIELD(0x30))|=1;
     sub_0800D0F4();
     sub_0802949C(arg0,0);
     if(sub_0800CE30()) flags=*(u32 *)((u8 *)gUnk_03005CF4+0x7C);
@@ -5186,9 +5202,9 @@ void sub_0803A460(s32 arg0) {
             sub_080003F0();
         }
     }
-    offset=sub_080020F4();offset*=0x14C;
+    offset=sub_080020F4();offset*=PLAYER_SIZE;
     p=(u8 *)gUnk_03003CE0+offset;
-    *(u32 *)(p+0x30)&=~1;
+    *(u32 *)(p+PLAYER_FIELD(0x30))&=~1;
     sub_0800D108();
 }
 /* [ShowCompletionDialogs293] Locks local player/input and displays one cancellable message140125..14012F
@@ -5199,9 +5215,9 @@ void sub_0803A8F0(void) {
     u8 *p;
     u32 flags;
     u32 msg;
-    offset=sub_080020F4();offset*=0x14C;
+    offset=sub_080020F4();offset*=PLAYER_SIZE;
     p=(u8 *)gUnk_03003CE0+offset;
-    *(u32 *)(p+0x30)|=1;
+    *(u32 *)(p+PLAYER_FIELD(0x30))|=1;
     sub_0800D0F4();
     if(sub_0800CE30()) flags=*(u32 *)((u8 *)gUnk_03005CF4+0x7C);
     else flags=*(u32 *)((u8 *)gUnk_03005CF4+0x74);
@@ -5294,9 +5310,9 @@ void sub_0803A8F0(void) {
             sub_080003F0();
         }
     }
-    offset=sub_080020F4();offset*=0x14C;
+    offset=sub_080020F4();offset*=PLAYER_SIZE;
     p=(u8 *)gUnk_03003CE0+offset;
-    *(u32 *)(p+0x30)&=~1;
+    *(u32 *)(p+PLAYER_FIELD(0x30))&=~1;
     sub_0800D108();
 }
 /* [RunSceneMessages290And291] Begins local-player event/input lock and waits for free dialogue/text slots. */
@@ -5305,9 +5321,9 @@ void sub_0803AD74(void) {
     u32 msg;
     register u32 offset asm("r2");
     offset = sub_080020F4();
-    offset *= 0x14C;
+    offset *= PLAYER_SIZE;
     p = (u8 *)gUnk_03003CE0 + offset;
-    *(u32 *)(p + 0x30) |= 1;
+    *(u32 *)(p + PLAYER_FIELD(0x30)) |= 1;
     sub_0800D0F4();
     while (sub_0805F184() != 0) sub_080003F0();
     while (sub_0805EF90() != 0) sub_080003F0();
@@ -5330,9 +5346,9 @@ void sub_0803AD74(void) {
         sub_080003F0();
     }
     offset = sub_080020F4();
-    offset *= 0x14C;
+    offset *= PLAYER_SIZE;
     p = (u8 *)gUnk_03003CE0 + offset;
-    *(u32 *)(p + 0x30) &= ~1;
+    *(u32 *)(p + PLAYER_FIELD(0x30)) &= ~1;
     sub_0800D108();
 }
 static inline u32 t38_getAE6C(u32 mask) {
@@ -5352,7 +5368,11 @@ static inline u8 *t38_findAE6C(u32 arg) {
 }
 static inline void t38_setAE6C(u32 arg) {
     u32 value;
+#ifdef REGION_USA
+    register u32 key asm("r1")=arg;
+#else
     register u32 key asm("r2")=arg;
+#endif
     u8 *p;
     u32 idx;
     value=3;
@@ -5362,9 +5382,9 @@ static inline void t38_setAE6C(u32 arg) {
         u8 *entry;
         u32 off;
         idx=arg-1;
-        if(idx<5) {address=(u8 **)&gUnk_030056F4;off=idx*0x2E0;entry=*address;entry+=off;sub_08019EB8(*(u16 *)(entry+2),3);}
+        if(idx<5) {address=(u8 **)&gUnk_030056F4;off=idx*ENEMY_SIZE;entry=*address;entry+=off;sub_08019EB8(*(u16 *)(entry+2),3);}
     }
-    else {register u32 off asm("r0");off=sub_080020F4()*0x14C;p=(u8 *)gUnk_03003CE0+off;*(u16 *)(p+0x11E)=value;}
+    else {register u32 off asm("r0");off=sub_080020F4()*PLAYER_SIZE;p=(u8 *)gUnk_03003CE0+off;*(u16 *)(p+PLAYER_FIELD(0x11E))=value;}
 }
 static inline u32 t38_getFirstAE6C(u32 mask) {
     u8 *base;
@@ -5392,8 +5412,8 @@ void sub_0803AE6C(u32 arg0) {
     register u32 endOffset asm("r2");
 
     {register u32 off asm("r1");u32 bits;u8 *base;
-    off=0x14C * sub_080020F4();base=(u8 *)gUnk_03003CE0;temp_r1=(u8 *)off;temp_r1+= (u32)base;
-    bits=*(u32 *)(temp_r1+0x30);one=1;bits|=one;*(u32 *)(temp_r1+0x30)=bits;}
+    off=PLAYER_SIZE * sub_080020F4();base=(u8 *)gUnk_03003CE0;temp_r1=(u8 *)off;temp_r1+= (u32)base;
+    bits=*(u32 *)(temp_r1+PLAYER_FIELD(0x30));one=1;bits|=one;*(u32 *)(temp_r1+PLAYER_FIELD(0x30))=bits;}
     sub_0800D0F4();
     var_r4=t38_getFirstAE6C(one);
     var_r0=t38_getAE6C(0x100);
@@ -5450,9 +5470,9 @@ void sub_0803AE6C(u32 arg0) {
     sub_08029788(arg0);
     sub_0802939C(arg0, 3);
     endOffset = sub_080020F4();
-    endOffset *= 0x14C;
+    endOffset *= PLAYER_SIZE;
     temp_r2_2 = (u8 *)gUnk_03003CE0 + endOffset;
-    (*(u32 *)(temp_r2_2 + 0x30)) = (s32) ((*(u32 *)(temp_r2_2 + 0x30)) & ~1);
+    (*(u32 *)(temp_r2_2 + PLAYER_FIELD(0x30))) = (s32) ((*(u32 *)(temp_r2_2 + PLAYER_FIELD(0x30))) & ~1);
     sub_0800D108();
 }
 /* [ShowProgressionDialogue321] Locks input and selects cancellable message0x14014C when progression
@@ -5468,9 +5488,9 @@ void sub_0803B194(void) {
     register s32 raw asm("r0");
     s32 shifted;
     register u32 one asm("r0");
-    offset=sub_080020F4();offset*=0x14C;
+    offset=sub_080020F4();offset*=PLAYER_SIZE;
     p=(u8 *)gUnk_03003CE0+offset;
-    *(u32 *)(p+0x30)|=1;
+    *(u32 *)(p+PLAYER_FIELD(0x30))|=1;
     sub_0800D0F4();
     if(sub_0800CE30()) flags=*(u32 *)((u8 *)gUnk_03005CF4+0x7C);
     else flags=*(u32 *)((u8 *)gUnk_03005CF4+0x74);
@@ -5574,8 +5594,8 @@ void sub_0803B194(void) {
             sub_080003F0();
         }
     }
-    offset=sub_080020F4();offset*=0x14C;
+    offset=sub_080020F4();offset*=PLAYER_SIZE;
     p=(u8 *)gUnk_03003CE0+offset;
-    *(u32 *)(p+0x30)&=~1;
+    *(u32 *)(p+PLAYER_FIELD(0x30))&=~1;
     sub_0800D108();
 }

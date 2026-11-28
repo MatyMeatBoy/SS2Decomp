@@ -26,7 +26,7 @@ u32 sub_08067B50(void)
     *(u32 *)(entry + 4) = 1;
     entry[0] = 0x82;
     source = (u8 *)gUnk_030034E0;
-    *(u32 *)(entry + 8) = *(u16 *)(source + 0xA) | ((u32)*(u16 *)(source + 0xC) << 16);
+    *(u32 *)(entry + 8) = *(u16 *)(source + SAVE_FIELD(0xA)) | ((u32)*(u16 *)(source + SAVE_FIELD(0xC)) << 16);
     entry[1] = 1;
     (*count)++;
     return 1;
@@ -83,10 +83,10 @@ s32 sub_08067C18(void) {
 u32 sub_08067C28(const u32 *arg0)
 {
     u8 *entry;
-    u32 *n = (u32 *)0x03006338;
+    u32 *n = (u32 *)&gUnk_03006338;
     if (*n > 0x31)
         return 0;
-    entry =  *(u8 **)0x03006300 + *n * 0x88;
+    entry =  *(u8 **)&gUnk_03006300 + *n * 0x88;
     *(u32 *)(entry + 4) = 1;
     entry[0] = 0x87;
     *(u32 *)(entry + 8) = *arg0;
@@ -132,10 +132,10 @@ s32 sub_08067CA8(s32 arg0)
 u32 sub_08067CE8(void *arg0)
 {
     u8 *entry;
-    u32 *n = (u32 *)0x03006338;
+    u32 *n = (u32 *)&gUnk_03006338;
     if (*n > 0x31)
         return 0;
-    entry =  *(u8 **)0x03006300 + *n * 0x88;
+    entry =  *(u8 **)&gUnk_03006300 + *n * 0x88;
     *(u32 *)(entry + 4) = 1;
     entry[0] = 0xB0;
     *(void **)(entry + 8) = arg0;
@@ -148,9 +148,9 @@ u32 sub_08067CE8(void *arg0)
 u32 sub_08067D28(const void *source)
 {
     u8 *entry;
-    u32 *count = (u32 *)0x03006338;
+    u32 *count = (u32 *)&gUnk_03006338;
     if (*count <= 0x31) {
-        entry = *(u8 **)0x03006300 + *count * 0x88;
+        entry = *(u8 **)&gUnk_03006300 + *count * 0x88;
         *(u32 *)(entry + 4) = 1;
         entry[0] = 0x8B;
         CpuSet(source, entry + 8, 0x04000002);
@@ -335,10 +335,10 @@ u32 sub_08067FE0(u16 value, u16 handle)
  * enqueue else0, no coalescing/wait. One8-byte chunk declared but only4bytes initialized. */
 u32 sub_08068030(u32 value)
 {
-    u32 *count = (u32 *)0x03006338;
+    u32 *count = (u32 *)&gUnk_03006338;
     u8 *entry;
     if (*count > 0x31) return 0;
-    entry = *(u8 **)0x03006300 + *count * 0x88;
+    entry = *(u8 **)&gUnk_03006300 + *count * 0x88;
     *(u32 *)(entry + 4) = 1;
     entry[0] = 0xA1;
     *(u32 *)(entry + 8) = value;
@@ -348,20 +348,20 @@ u32 sub_08068030(u32 value)
 }
 /* [EnqueueLinkSceneCallbackTask] Enqueues tag 0xA3, one 8-byte chunk: payload word 0=a(callback), word
  * 1=b(argument). */
-u32 sub_08068070(u32 a, u32 b) { u32 *n=(u32 *)0x03006338; u8 *e; if(*n>0x31)return 0; e=*(u8 **)0x03006300+*n*0x88; *(u32 *)(e+4)=1;e[0]=0xA3;*(u32 *)(e+8)=a;*(u32 *)(e+0xC)=b;e[1]=1;(*n)++;return 1; }
+u32 sub_08068070(u32 a, u32 b) { u32 *n=(u32 *)&gUnk_03006338; u8 *e; if(*n>0x31)return 0; e=*(u8 **)&gUnk_03006300+*n*0x88; *(u32 *)(e+4)=1;e[0]=0xA3;*(u32 *)(e+8)=a;*(u32 *)(e+0xC)=b;e[1]=1;(*n)++;return 1; }
 /* [TryEnqueueEnemyEffectByKey] Returns 0 when outgoing count exceeds 49. Otherwise writes a 0x88-byte queue
  * record with tag 0xA2, word+4=1, the complete first argument at entry+8 (payload word 0) and complete second
  * argument at entry+0xC (payload word 1), chunk count 1, then increments count and returns 1. These two words
  * fill one eight-byte wire chunk. The producer does not narrow either value or synchronously modify an enemy. */
-u32 sub_080680B4(u32 a, u32 b) { u32 *n=(u32 *)0x03006338; u8 *e; if(*n>0x31)return 0; e=*(u8 **)0x03006300+*n*0x88; *(u32 *)(e+4)=1;e[0]=0xA2;*(u32 *)(e+8)=a;*(u32 *)(e+0xC)=b;e[1]=1;(*n)++;return 1; }
+u32 sub_080680B4(u32 a, u32 b) { u32 *n=(u32 *)&gUnk_03006338; u8 *e; if(*n>0x31)return 0; e=*(u8 **)&gUnk_03006300+*n*0x88; *(u32 *)(e+4)=1;e[0]=0xA2;*(u32 *)(e+8)=a;*(u32 *)(e+0xC)=b;e[1]=1;(*n)++;return 1; }
 /* [EnqueueLinkEligiblePlayerCentroidAreaAttack] Matched producer enqueues tag 0xA5 after 0CFF0 gate and 0CFC8
  * update. It writes caller value but receiver does not use that payload. */
 u32 sub_080680F8(u32 value)
 {
     u8 *entry;
-    u32 *count = (u32 *)0x03006338;
+    u32 *count = (u32 *)&gUnk_03006338;
     if (*count <= 0x31 && sub_0800CFF0() == 0) {
-        entry = *(u8 **)0x03006300 + *count * 0x88;
+        entry = *(u8 **)&gUnk_03006300 + *count * 0x88;
         sub_0800CFC8();
         *(u32 *)(entry + 4) = 1;
         entry[0] = 0xA5;
@@ -381,9 +381,9 @@ u32 sub_080680F8(u32 value)
 u32 sub_08068144(u32 value)
 {
     u8 *entry;
-    u32 *count = (u32 *)0x03006338;
+    u32 *count = (u32 *)&gUnk_03006338;
     if (*count <= 0x31 && sub_0800CFF0() == 0) {
-        entry = *(u8 **)0x03006300 + *count * 0x88;
+        entry = *(u8 **)&gUnk_03006300 + *count * 0x88;
         *(u32 *)(entry + 4) = 1;
         entry[0] = 0xA7;
         *(u32 *)(entry + 8) = value;
@@ -398,9 +398,9 @@ u32 sub_08068144(u32 value)
 s32 sub_0806818C(u32 arg0, u32 arg1, u32 arg2, u32 arg3, u32 arg4)
 {
     u8 *entry;
-    u32 *count = (u32 *)0x03006338;
+    u32 *count = (u32 *)&gUnk_03006338;
     if (*count <= 0x31 && sub_0800CFF0() == 0) {
-        entry = *(u8 **)0x03006300 + *count * 0x88;
+        entry = *(u8 **)&gUnk_03006300 + *count * 0x88;
         *(u32 *)(entry + 4) = 1;
         entry[0] = 0xA8;
         *(u32 *)(entry + 8) = (arg1 << 16) | arg0;
@@ -423,9 +423,9 @@ s32 sub_0806818C(u32 arg0, u32 arg1, u32 arg2, u32 arg3, u32 arg4)
 u32 sub_080681F4(u32 callback)
 {
     u8 *entry;
-    u32 *count = (u32 *)0x03006338;
+    u32 *count = (u32 *)&gUnk_03006338;
     if (*count <= 0x31 && sub_0800CFF0() == 0) {
-        entry = *(u8 **)0x03006300 + *count * 0x88;
+        entry = *(u8 **)&gUnk_03006300 + *count * 0x88;
         *(u32 *)(entry + 4) = 1;
         entry[0] = 0xA9;
         *(u32 *)(entry + 8) = callback;
@@ -554,7 +554,7 @@ s32 sub_080683DC(s32 callback)
  * No parent, peer, enemy ID, sentinel or action-range validation occurs here. It initializes only the first
  * four payload bytes of the eight-byte chunk; the trailing word is not promised zero. Enqueue success is not a
  * delivery or synchronization guarantee. */
-u32 sub_08068450(u8 value) { u32 *n=(u32 *)0x03006338; u8 *e; if(*n>0x31)return 0; e=*(u8 **)0x03006300+*n*0x88; *(u32 *)(e+4)=1;e[0]=0xAC;*(u32 *)(e+8)=value;e[1]=1;(*n)++;return 1; }
+u32 sub_08068450(u8 value) { u32 *n=(u32 *)&gUnk_03006338; u8 *e; if(*n>0x31)return 0; e=*(u8 **)&gUnk_03006300+*n*0x88; *(u32 *)(e+4)=1;e[0]=0xAC;*(u32 *)(e+8)=value;e[1]=1;(*n)++;return 1; }
 /* [GetSharedEnemyActionChoice] Returns the unsigned byte latch 0300636C unchanged, without clearing or
  * consuming it. It is one shared global latch, not a per-player or per-enemy queue. Value 0xFF is the waiting
  * sentinel in the inspected enemy consumers; this getter accepts every stored byte and imposes no global
@@ -573,7 +573,7 @@ u32 sub_0806849C(u32 a)
 }
 /* [EnqueueLinkByte173] Checks queue count <=49, appends active tag 0xAD entry at stride 0x88, zero-extends u8
  * payload, sets chunk count one and increments the queue. */
-u32 sub_080684A8(u8 value) { u32 *n=(u32 *)0x03006338; u8 *e; if(*n>0x31)return 0; e=*(u8 **)0x03006300+*n*0x88; *(u32 *)(e+4)=1;e[0]=0xAD;*(u32 *)(e+8)=value;e[1]=1;(*n)++;return 1; }
+u32 sub_080684A8(u8 value) { u32 *n=(u32 *)&gUnk_03006338; u8 *e; if(*n>0x31)return 0; e=*(u8 **)&gUnk_03006300+*n*0x88; *(u32 *)(e+4)=1;e[0]=0xAD;*(u32 *)(e+8)=value;e[1]=1;(*n)++;return 1; }
 /* [GetReceivedLinkByte173] Returns u8 global 03006224. */
 u8 sub_080684E8(void) {
     return gUnk_03006224;
@@ -585,7 +585,7 @@ unsigned int sub_080684F4(void)
 }
 /* [EnqueueLinkByte174] Checks queue count <=49, appends active tag 0xAE entry at stride 0x88, zero-extends u8
  * payload, sets chunk count one and increments the queue. */
-u32 sub_08068500(u8 value) { u32 *n=(u32 *)0x03006338; u8 *e; if(*n>0x31)return 0; e=*(u8 **)0x03006300+*n*0x88; *(u32 *)(e+4)=1;e[0]=0xAE;*(u32 *)(e+8)=value;e[1]=1;(*n)++;return 1; }
+u32 sub_08068500(u8 value) { u32 *n=(u32 *)&gUnk_03006338; u8 *e; if(*n>0x31)return 0; e=*(u8 **)&gUnk_03006300+*n*0x88; *(u32 *)(e+4)=1;e[0]=0xAE;*(u32 *)(e+8)=value;e[1]=1;(*n)++;return 1; }
 /* [GetReceivedLinkByte174] Returns u8 global 03006228. */
 u8 sub_08068540(void) {
     return gUnk_03006228;

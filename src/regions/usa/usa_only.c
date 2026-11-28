@@ -25,18 +25,6 @@ extern u32 usaResolveMainResourceById(u32) asm("usa_sub_08006E34");
 extern void usaTaskDialogueScriptWindow(void) asm("usa_sub_0805E1DC");
 extern u32 sub_08000498(s32 *, u32);
 
-/* [CountRenderableScriptGlyphs16] USA 16-bit-text form of EU CountRenderableScriptGlyphs (sub_0801A638):
- * counts halfwords until the 0xFFFD terminator or any control halfword with bit 15 set. */
-u32 usa_sub_0801A1C8(u16 *text)
-{
-    u32 n = 0;
-    while (*text != 0xFFFD && !(*text & 0x8000)) {
-        n++;
-        text++;
-    }
-    return n;
-}
-
 /* [StartDialogueTaskAtLayout] Unreferenced in the USA ROM. Like EU StartFixedLayoutDialogueTask, but the
  * window position and size are arguments (height scaled by 13/8) and the stack is 0x1000 bytes without a retry
  * loop. The row-table pointer stored at task+0x64 for modes 2/3/4/7 is computed from four locals that the

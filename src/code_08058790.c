@@ -63,7 +63,7 @@ u32 sub_08058844(void)
 {
     u32 count = 0;
     u32 i = 0;
-    u8 *base = (u8 *)gUnk_030034E0 + 0xC10;
+    u8 *base = (u8 *)gUnk_030034E0 + SAVE_FIELD(0xC10);
     for (; i <= 0x90; i++)
         if (base[i] != 0) count++;
     if (count == 0x91) return 1;
@@ -234,7 +234,7 @@ u32 sub_08058A80(void)
 /* [HasConnectedPlayerAppearance6Or8] Scans connected-player count with0x14C-byte records and tests+64 for6/8. */
 u32 sub_08058AD0(void)
 {
-    struct Player { u8 pad[0x64]; u16 state; u8 rest[0xE6]; };
+    struct Player { u8 pad[PLAYER_FIELD(0x64)]; u16 state; u8 rest[0xE6]; };
     u32 count = sub_08002164();
     u32 i;
     for (i = 0; i < count; i++)
@@ -309,7 +309,7 @@ void sub_08058C08(u16 arg0, u16 arg1)
 }
 /* [SelectAndActivateWeaponSlot] Writes supplied halfword to inventory manager+0x68. */
 void sub_08058C74(s16 arg0) {
-    M2C_FIELD(gUnk_030034E0, s16 *, 0x68) = arg0;
+    M2C_FIELD(gUnk_030034E0, s16 *, SAVE_FIELD(0x68)) = arg0;
     sub_0805AD78();
 }
 /* [StartTrackedSongUnlessMultiplayer] When multiplayer-world-scene bit 1 is clear and mute/status word
@@ -353,7 +353,7 @@ u32 sub_08058D4C(u32 key)
 {
   int new_var;
   u32 i;
-  u8 *base = *((u8 **) 0x03005CF4);
+  u8 *base = *((u8 **) &gUnk_03005CF4);
   u8 *entry = base + 0x7A4;
   u32 mask;
   for (i = 0; i <= 0xE; i++, entry += 0x70)
@@ -392,7 +392,7 @@ s32 sub_08058D98(s32 value)
 /* [HasCoordinatedAttackState] Normalizes the coordinated-attack phase query to boolean. */
 s32 sub_08058DB0(void)
 {
-    struct Player { u8 *item; u8 pad[0x148]; };
+    struct Player { u8 *item; u8 pad[PLAYER_FIELD(0x148)]; };
     s32 value = sub_0800CD8C();
     u32 found = (u32)(value | -value) >> 31;
     u8 *players = (u8 *)gUnk_03003CE0;
@@ -400,7 +400,7 @@ s32 sub_08058DB0(void)
     if (((struct PlayerW12 *)players)[sub_080020F4()].state == 0xE)
         found = 1;
     i = 0;
-    players += 0x148;
+    players += PLAYER_FIELD(0x148);
     for (; i < sub_08002164(); i++) {
         u32 kind = *(u8 *)((struct Player *)players)[i].item;
         if ((kind << 28) >> 28 == 0xE) {
@@ -412,7 +412,7 @@ s32 sub_08058DB0(void)
 }
 /* [GetLocalCharacterLevel] Returns save-record word at offset 0x20. */
 s32 sub_08058E08(void) {
-    return M2C_FIELD(gUnk_030034E0, s32 *, 0x20);
+    return M2C_FIELD(gUnk_030034E0, s32 *, SAVE_FIELD(0x20));
 }
 /* [AcquireSceneCallbackGuard] Sets bit arg of guard mask scene state +0x6C, the mask
  * StartGuardedSceneCallbackTask tests and sets and ReleaseSceneCallbackGuard clears. It starts no task. */

@@ -4,9 +4,9 @@ extern void sub_0805E0C4(void);
 extern void sub_0805D854(void);
 extern void sub_0805B688(void);
 extern u32 gUnk_03005D60;
-struct PlayerReset61 {u8 pad[0xC6];u16 reset;u8 tail[0x84];};
+struct PlayerReset61 {u8 pad[PLAYER_FIELD(0xC6)];u16 reset;u8 tail[PLAYER_SIZE - PLAYER_FIELD(0xC8)];};
 extern struct PlayerReset61 gReset61[] asm("gUnk_03003CE0");
-struct Player61 { u8 pad[0x38]; s16 limit; u8 rest[0x112]; };
+struct Player61 { u8 pad[PLAYER_FIELD(0x38)]; s16 limit; u8 rest[PLAYER_SIZE - PLAYER_FIELD(0x3A)]; };
 extern struct Player61 gParty61[] asm("gUnk_03003CE0");
 extern u32 sub_0805D2E0(void *);
 extern u32 sub_0805D278(void *);
@@ -27,46 +27,46 @@ extern u8 gUnk_03005D6C;
  * remove the item. No useful return-value contract is established by the original body. */
 s32 sub_0805D094(void) {
     u8 *base=(u8 *)gUnk_030034E0;
-    if(*(u16 *)(base+0x100)==4) {
-        if(sub_0805D210(base+0x100)!=0) M2C_FIELD((void *)gUnk_030034E0,u8 *,0x109)=1;
-        else M2C_FIELD((void *)gUnk_030034E0,u8 *,0x109)=0;
-    } else *(u8 *)(base+0x109)=0;
+    if(*(u16 *)(base+SAVE_FIELD(0x100))==4) {
+        if(sub_0805D210(base+SAVE_FIELD(0x100))!=0) M2C_FIELD((void *)gUnk_030034E0,u8 *,SAVE_FIELD(0x109))=1;
+        else M2C_FIELD((void *)gUnk_030034E0,u8 *,SAVE_FIELD(0x109))=0;
+    } else *(u8 *)(base+SAVE_FIELD(0x109))=0;
 }
 /* [RefreshBodyEquipmentActivation] For the equipped record at manager +0x110, writes activation byte +9 to 1
  * exactly when its kind is 3 and validator 0805D278 accepts it; otherwise writes zero. Does not copy, swap or
  * remove the item. No useful return-value contract is established by the original body. */
 s32 sub_0805D0E8(void) {
     u8 *base=(u8 *)gUnk_030034E0;
-    if(*(u16 *)(base+0x110)==3) {
-        if(sub_0805D278(base+0x110)!=0) M2C_FIELD((void *)gUnk_030034E0,u8 *,0x119)=1;
-        else M2C_FIELD((void *)gUnk_030034E0,u8 *,0x119)=0;
-    } else *(u8 *)(base+0x119)=0;
+    if(*(u16 *)(base+SAVE_FIELD(0x110))==3) {
+        if(sub_0805D278(base+SAVE_FIELD(0x110))!=0) M2C_FIELD((void *)gUnk_030034E0,u8 *,SAVE_FIELD(0x119))=1;
+        else M2C_FIELD((void *)gUnk_030034E0,u8 *,SAVE_FIELD(0x119))=0;
+    } else *(u8 *)(base+SAVE_FIELD(0x119))=0;
 }
 /* [RefreshGloveActivation] For the equipped record at manager +0x120, writes activation byte +9 to 1 exactly
  * when its kind is 5 and validator 0805D2E0 accepts it; otherwise writes zero. Does not copy, swap or remove
  * the item. No useful return-value contract is established by the original body. */
 s32 sub_0805D13C(void) {
     u8 *base=(u8 *)gUnk_030034E0;
-    if(*(u16 *)(base+0x120)==5) {
-        if(sub_0805D2E0(base+0x120)!=0) M2C_FIELD((void *)gUnk_030034E0,u8 *,0x129)=1;
-        else M2C_FIELD((void *)gUnk_030034E0,u8 *,0x129)=0;
-    } else *(u8 *)(base+0x129)=0;
+    if(*(u16 *)(base+SAVE_FIELD(0x120))==5) {
+        if(sub_0805D2E0(base+SAVE_FIELD(0x120))!=0) M2C_FIELD((void *)gUnk_030034E0,u8 *,SAVE_FIELD(0x129))=1;
+        else M2C_FIELD((void *)gUnk_030034E0,u8 *,SAVE_FIELD(0x129))=0;
+    } else *(u8 *)(base+SAVE_FIELD(0x129))=0;
 }
 /* [UpdateTypeSevenActivation] Saved record+0x130 type7 sets activation byte+0x13A to1; otherwise clears that
  * byte and local runtime halfword+0xC6. Function has signed return declaration but no C return expression; no
  * status return contract claimed. */
 s32 sub_0805D190(void) {
     u8 *base=(u8 *)gUnk_030034E0;
-    if(*(u16 *)(base+0x130)==7) *(u8 *)(base+0x13A)=1;
-    else { gReset61[sub_080020F4()].reset=0; M2C_FIELD((void *)gUnk_030034E0,u8 *,0x13A)=0; }
+    if(*(u16 *)(base+SAVE_FIELD(0x130))==7) *(u8 *)(base+SAVE_FIELD(0x13A))=1;
+    else { gReset61[sub_080020F4()].reset=0; M2C_FIELD((void *)gUnk_030034E0,u8 *,SAVE_FIELD(0x13A))=0; }
 }
 /* [RefreshRingActivation] Sets equipped manager +0x140 record activation byte +9 to 1 when its kind is 6,
  * otherwise zero. No class, requirement or broken-item check is made here; no useful return contract is
  * inferred. */
 s32 sub_0805D1E0(void) {
     u8 *base=(u8 *)gUnk_030034E0;
-    if(*(u16 *)(base+0x140)==6) *(u8 *)(base+0x149)=1;
-    else *(u8 *)(base+0x149)=0;
+    if(*(u16 *)(base+SAVE_FIELD(0x140))==6) *(u8 *)(base+SAVE_FIELD(0x149))=1;
+    else *(u8 *)(base+SAVE_FIELD(0x149))=0;
 }
 /* [CanEquipHeadgearItem] Returns 0 for null, kind other than 4, or nonzero item byte +8. Resolves category D,
  * requires the class permission bit in record halfword +0xA2 indexed by the low byte of 1DE60, then requires
@@ -75,15 +75,19 @@ s32 sub_0805D1E0(void) {
 u32 sub_0805D210(void *state) {
     u8 *resource;
     s32 offset;
+#ifdef REGION_USA
+    register struct Player61 *player asm("r0");
+#else
     register struct Player61 *player asm("r1");
+#endif
     if(state!=0 && *(u16 *)state==4 && M2C_FIELD(state,u8 *,8)==0) {
         resource=(u8 *)sub_08007290(M2C_FIELD(state,u16 *,2)|0xD0000);
-        if((*(u16 *)(resource+0xA2)>>sub_0801DE60())&1) {
+        if((*(u16 *)(resource+EQUIP_FIELD(0xA2))>>sub_0801DE60())&1) {
             offset=sizeof(struct Player61)*sub_080020F4();
             asm volatile("" : "+r" (offset));
             player=(void *)((u8 *)gParty61+offset);
             
-            if(resource[0xA0]<=player->limit) return 1;
+            if(*(EquipLevel *)(resource+EQUIP_FIELD(0xA0))<=player->limit) return 1;
         }
     }
     return 0;
@@ -95,15 +99,19 @@ u32 sub_0805D210(void *state) {
 u32 sub_0805D278(void *state) {
     u8 *resource;
     s32 offset;
+#ifdef REGION_USA
+    register struct Player61 *player asm("r0");
+#else
     register struct Player61 *player asm("r1");
+#endif
     if(state!=0 && *(u16 *)state==3 && M2C_FIELD(state,u8 *,8)==0) {
         resource=(u8 *)sub_08007290(M2C_FIELD(state,u16 *,2)|0xC0000);
-        if((*(u16 *)(resource+0xA2)>>sub_0801DE60())&1) {
+        if((*(u16 *)(resource+EQUIP_FIELD(0xA2))>>sub_0801DE60())&1) {
             offset=sizeof(struct Player61)*sub_080020F4();
             asm volatile("" : "+r" (offset));
             player=(void *)((u8 *)gParty61+offset);
             
-            if(resource[0xA0]<=player->limit) return 1;
+            if(*(EquipLevel *)(resource+EQUIP_FIELD(0xA0))<=player->limit) return 1;
         }
     }
     return 0;
@@ -112,6 +120,25 @@ u32 sub_0805D278(void *state) {
  * requires the class permission bit in record halfword +0xA2 indexed by the low byte of 1DE60, then requires
  * record byte +0xA1 not exceed signed local-player halfword +0x38. Returns 1 only when all tests pass. The
  * player field is not renamed as an unrelated stat. */
+#ifdef REGION_USA
+/* USA glove records (archive E) keep the class bits at +0x182 and a halfword level at +0x180. */
+u32 sub_0805D2E0(void *state) {
+    u8 *resource;
+    s32 offset;
+    register struct Player61 *player asm("r0");
+    if(state!=0 && *(u16 *)state==5 && M2C_FIELD(state,u8 *,8)==0) {
+        resource=(u8 *)sub_08007290(M2C_FIELD(state,u16 *,2)|0xE0000);
+        if((*(u16 *)(resource+0x182)>>sub_0801DE60())&1) {
+            offset=sizeof(struct Player61)*sub_080020F4();
+            asm volatile("" : "+r" (offset));
+            player=(void *)((u8 *)gParty61+offset);
+            
+            if(*(u16 *)(resource+0x180)<=player->limit) return 1;
+        }
+    }
+    return 0;
+}
+#else
 u32 sub_0805D2E0(void *arg0) {
     s32 temp_r4;
     s32 player;
@@ -123,7 +150,7 @@ u32 sub_0805D2E0(void *arg0) {
         temp_r4 = sub_08007290(M2C_FIELD(arg0, u16 *, 2) | 0xE0000);
         if ((((s32) M2C_FIELD(temp_r4, u16 *, 0xA2) >> sub_0801DE60()) & 1) != 0) {
             player = sub_080020F4();
-            limitPtr = (s16 *)((u8 *)gUnk_03003CE0 + player * 0x14C);
+            limitPtr = (s16 *)((u8 *)gUnk_03003CE0 + player * PLAYER_SIZE);
             resourceValue = *(u8 *)((u8 *)temp_r4 + 0xA1);
             limit = *(s16 *)((u8 *)limitPtr + 0x38);
             if (resourceValue <= limit) {
@@ -133,11 +160,12 @@ u32 sub_0805D2E0(void *arg0) {
     }
     return 0U;
 }
+#endif
 /* [HasNonfullBagCurrencyStack] Returns 1 if any of the 25 bag records is kind 10 with unsigned count at most
  * 99999; otherwise 0. It does not accept an empty bag slot as a substitute and does not check stash stacks. */
 u32 sub_0805D348(void)
 {
-  u8 *entry = ((u8 *) gUnk_030034E0) + 0x150;
+  u8 *entry = ((u8 *) gUnk_030034E0) + SAVE_FIELD(0x150);
   int i;
   for (i = 0; i <= 0x18; i++, entry += 0x10)
   {
@@ -181,7 +209,7 @@ s32 sub_0805D3D4(void) {
 
     var_r3 = 0;
     var_r2 = 0;
-    var_r1 = gUnk_030034E0 + 0x150;
+    var_r1 = gUnk_030034E0 + SAVE_FIELD(0x150);
     do {
         if (M2C_FIELD(var_r1, u16 *, 0) == 0xA) {
             var_r3 += M2C_FIELD(var_r1, s32 *, 4);
@@ -200,7 +228,7 @@ s32 sub_0805D404(void) {
 
     var_r3 = 0;
     var_r2 = 0;
-    var_r1 = gUnk_030034E0 + 0x2E0;
+    var_r1 = gUnk_030034E0 + SAVE_FIELD(0x2E0);
     do {
         if (M2C_FIELD(var_r1, u16 *, 0) == 0xA) {
             var_r3 += M2C_FIELD(var_r1, s32 *, 4);
@@ -318,7 +346,7 @@ s32 sub_0805D548(s32 arg0) {
     void *var_r1;
 
     var_r2 = 0;
-    var_r1 = gUnk_030034E0 + 0x150;
+    var_r1 = gUnk_030034E0 + SAVE_FIELD(0x150);
 loop_1:
     if ((M2C_FIELD(var_r1, u16 *, 0) == 1) && (M2C_FIELD(var_r1, u16 *, 2) == arg0)) {
         return (s32) var_r2;
@@ -339,7 +367,7 @@ void sub_0805D580(u32 index)
   if (index <= 0x18)
   {
     new_var2 = gUnk_030034E0;
-    new_var = (s8 *) ((((u8 *) new_var2) + (8 * (2 * index))) + 0x150);
+    new_var = (s8 *) ((((u8 *) new_var2) + (8 * (2 * index))) + SAVE_FIELD(0x150));
     *((u16 *) (new_var + 0)) = 0;
   }
 }
@@ -354,7 +382,7 @@ u32 sub_0805D5A0(void) {
     u32 i;
     u32 result;
     u8 *entry;
-    for(j=0,entry=(u8 *)gUnk_030034E0+0x150;j<=24;entry+=16,j++)
+    for(j=0,entry=(u8 *)gUnk_030034E0+SAVE_FIELD(0x150);j<=24;entry+=16,j++)
         if(*(u16 *)entry==10) total+=*(u32 *)(entry+4);
     result=total>>1;
     for(i=0;i<=24;i++) {
@@ -363,7 +391,7 @@ u32 sub_0805D5A0(void) {
         
         base+=offset;
         
-        if(*(u16 *)(base+0x150)==10) sub_0805D580(i);
+        if(*(u16 *)(base+SAVE_FIELD(0x150))==10) sub_0805D580(i);
     }
     return result;
 }
@@ -378,7 +406,7 @@ s32 sub_0805D5F4(s32 start) {
     s32 index;
     s32 bestValue;
     if(bestIndex<0) bestIndex=0;
-    entry=(u8 *)gUnk_030034E0+(bestIndex*16+0x150);
+    entry=(u8 *)gUnk_030034E0+(bestIndex*16+SAVE_FIELD(0x150));
     bestValue=-1;
     for(index=bestIndex;index<=24;index++,entry+=16)
         if(*(u16 *)entry==10) {
@@ -406,10 +434,10 @@ s32 sub_0805D650(s32 arg0) {
     if (var_r4 < 0) {
         var_r4 = 0;
     }
-    var_r3 = (u8 *)gUnk_030034E0 + ((var_r4 * 0x10) + 0x2E0);
+    var_r3 = (u8 *)gUnk_030034E0 + ((var_r4 * 0x10) + SAVE_FIELD(0x2E0));
     var_r5 = -1;
     var_r2 = var_r4;
-    temp_r0 = M2C_FIELD((void *)gUnk_030034E0,u16 *,0x6A) * 0xF;
+    temp_r0 = M2C_FIELD((void *)gUnk_030034E0,u16 *,SAVE_FIELD(0x6A)) * 0xF;
     
     if (var_r4 < temp_r0) {
         s32 excluded=100000;
@@ -875,6 +903,9 @@ slot_found:
     task[0x70]=index;
     M2C_FIELD(task,u32 *,0x28)=sub_0805D720(0,14,27,3);
     if(duration==-2) {
+#ifdef REGION_USA
+        sub_08065158(task+0x2C,0x50002,0,0x80000000,0);
+#else
         switch(gUnk_03003470) {
         case 0: sub_08065158(task+0x2C,0x50002,0,0x80000000,0); break;
         case 1: sub_08065158(task+0x2C,0x5015B,0,0x80000000,0); break;
@@ -882,6 +913,7 @@ slot_found:
         case 3: sub_08065158(task+0x2C,0x5015D,0,0x80000000,0); break;
         case 4: sub_08065158(task+0x2C,0x5015E,0,0x80000000,0); break;
         }
+#endif
     } else if(duration>0) duration=140;
     if(M2C_FIELD(task,u32 *,0x28)==0) return 0;
     address=task+0x69;
@@ -951,7 +983,7 @@ extern void sub_08065264(void *, s32, s32, u16, u16);
 extern s32 anim0C4(void *, u16, u16 *, u16 *, s32) asm("sub_08065370");
 extern u16 keys0C4 asm("gUnk_03001324");
 /* Party entries are 0x14C bytes; the name starts at gUnk_03003CE0 + 2. */
-struct Party0C4 { u8 name[0x14C]; };
+struct Party0C4 { u8 name[PLAYER_SIZE]; };
 extern struct Party0C4 party0C4[] asm("gUnk_03003CE2");
 extern u8 name1C4[] asm("gUnk_03003E2E");
 extern u8 name2C4[] asm("gUnk_03003F7A");
@@ -1719,7 +1751,12 @@ void sub_0805EFBC_impl(void)
  * pool or allocate the distinct dialogue-task pool. */
 void sub_0805F020(void)
 {
+#ifdef REGION_USA
+    /* USA has a single language: no language index in the resource id. */
+    void *src = sub_08007290((void *)0x10010003);
+#else
     void *src = sub_08007290((u8 *)(uintptr_t)gUnk_03003470 + 0x10010003);
+#endif
     CpuFastSet(src, (void *)0x06008000, 0x1000);
     {
         u8 *palette=sub_08007290((void *)0x70003);
@@ -1737,7 +1774,11 @@ void sub_0805F020(void)
  * submissions when full, so this routine does not establish unconditional completed hardware upload or a fixed
  * elapsed-video-frame wait. */
 void sub_0805F07C(void) {
+#ifdef REGION_USA
+    sub_08001348(sub_08007290(0x10010003), 0x06008000, 0x4000);
+#else
     sub_08001348(sub_08007290(gUnk_03003470 + 0x10010003), 0x06008000, 0x4000);
+#endif
     sub_08000AF0(0xF, sub_08007290(0x70003) + 0x1E0, 1);
     sub_080003F0();
 }
@@ -1848,10 +1889,13 @@ void sub_0805F1B0_void(void) asm("sub_0805F1B0");
  * sequence, and on any null stops only that asset setup. Success optionally uploads palette, sets
  * identity16-entry remap and initializes bounds. Invalid selector leaves selected asset unchanged. */
 void sub_0805F1B0_void(void) {
-    load62(0x5000B,&asset62_03006040,9,-1,&gUnk_08518938);
+    load62(RES_ID(0x5000B),&asset62_03006040,9,-1,&gUnk_08518938);
     load62(0x50003,&asset62_03006074,9,-1,&gUnk_08518938);
     load62(0x50004,&asset62_030060A8,9,-1,&gUnk_08518938);
     load62(0x50005,&asset62_030060DC,9,-1,&gUnk_08518938);
+#ifdef REGION_USA
+    load62(0x50006,&asset62_03005D80,9,4,&gUnk_08518938);
+#else
     switch(gUnk_03003470) {
     case 0:
         load62(0x50006,&asset62_03005D80,9,4,&gUnk_08518938);
@@ -1869,17 +1913,18 @@ void sub_0805F1B0_void(void) {
         load62(0x5000a,&asset62_03005D80,9,4,&gUnk_08518938);
         break;
     }
-    load62(0x500A3,&asset62_03005DC0,9,-1,&gUnk_08518938);
-    load62(0x500A1,&asset62_03005DF4,9,-1,&gUnk_08518938);
-    load62(0x500A4,&asset62_03005E28,9,-1,&gUnk_08518938);
-    load62(0x500A2,&asset62_03005E5C,9,-1,&gUnk_08518938);
-    load62(0x500DB,&asset62_03005E90,9,-1,&gUnk_08518938);
-    load62(0x500DC,&asset62_03005EC4,9,-1,&gUnk_08518938);
-    load62(0x500DE,&asset62_03005EF8,9,-1,&gUnk_08518938);
-    load62(0x500DD,&asset62_03005F2C,9,-1,&gUnk_08518938);
-    load62(0x500BD,&asset62_03005F60,9,-1,&gUnk_08518938);
-    load62(0x500AF,&asset62_03005F94,9,-1,&gUnk_08518938);
-    load62(0x500F1,&asset62_03005FC8,9,-1,&gUnk_08518938);
+#endif
+    load62(RES_ID(0x500A3),&asset62_03005DC0,9,-1,&gUnk_08518938);
+    load62(RES_ID(0x500A1),&asset62_03005DF4,9,-1,&gUnk_08518938);
+    load62(RES_ID(0x500A4),&asset62_03005E28,9,-1,&gUnk_08518938);
+    load62(RES_ID(0x500A2),&asset62_03005E5C,9,-1,&gUnk_08518938);
+    load62(RES_ID(0x500DB),&asset62_03005E90,9,-1,&gUnk_08518938);
+    load62(RES_ID(0x500DC),&asset62_03005EC4,9,-1,&gUnk_08518938);
+    load62(RES_ID(0x500DE),&asset62_03005EF8,9,-1,&gUnk_08518938);
+    load62(RES_ID(0x500DD),&asset62_03005F2C,9,-1,&gUnk_08518938);
+    load62(RES_ID(0x500BD),&asset62_03005F60,9,-1,&gUnk_08518938);
+    load62(RES_ID(0x500AF),&asset62_03005F94,9,-1,&gUnk_08518938);
+    load62(RES_ID(0x500F1),&asset62_03005FC8,9,-1,&gUnk_08518938);
 }
 struct NumAsset63 { u32 f0, f4, f8; u8 data[40]; };
 extern struct NumAsset63 numAssets63[] asm("gUnk_03006040");

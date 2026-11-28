@@ -99,7 +99,9 @@ void sub_08009138(s32 *arg0, s32 arg1) {
     } else sub_08000AF0(0,palette,15);
     if (gUnk_03003170.curLevel == 4 && sub_0800CDC0()) sub_080009C0(0x1b00,0,1);
     else if (gUnk_03003170.curLevel != 13) sub_080009C0(0x1f00,0,1);
-    sub_08001538(alloc);
+#ifndef REGION_USA
+    sub_08001538(alloc); /* USA no longer frees this stale pointer */
+#endif
     done9138 = 0;
     sub_080003F0();
 }
@@ -1145,7 +1147,7 @@ void sub_0800A34C(u32 music, s32 previous, s32 changed) {
         }
     }
 }
-struct T06PlayerA998 {u8 pad[0x8C];s32 x,y;u8 tail[0xB8];};
+struct T06PlayerA998 {u8 pad[PLAYER_FIELD(0x8C)];s32 x,y;u8 tail[PLAYER_SIZE - PLAYER_FIELD(0x94)];};
 struct T06SysA998 {
     u8 pad[0x60];void *header,*allocation;u16 *map0,*map1;
     u16 width0,pad72,width1,pad76,mapW,mapH;s16 scrollX,scrollY;
@@ -2190,15 +2192,15 @@ struct CurBEC0 {
 };
 struct PlayerBEC0 {
     u16 f0;
-    u8 p2[0x1A];
+    u8 p2[PLAYER_FIELD(0x1C) - 0x2];
     u16 f1C;
-    u8 p1E[0x10];
+    u8 p1E[PLAYER_FIELD(0x2E) - PLAYER_FIELD(0x1E)];
     u16 f2E;
-    u8 p30[0x80];
+    u8 p30[PLAYER_FIELD(0xB0) - (PLAYER_FIELD(0x2F) + 1)];
     u16 fB0;
     u16 fB2;
     s16 fB4;
-    u8 pB6[0x8E];
+    u8 pB6[PLAYER_FIELD(0x144) - PLAYER_FIELD(0xB6)];
     struct CurBEC0 *p144;
     struct CurBEC0 *p148;
 };
@@ -2316,7 +2318,7 @@ void sub_0800BEC0(void)
     regsBEC0[7] = 0;
     regsBEC0[2] = 0;
     regsBEC0[3] = 0;
-    initBEC0(&sprB, 0x500C3, 4, 0xC, 0);
+    initBEC0(&sprB, RES_ID(0x500C3), 4, 0xC, 0);
     sub_080003F0();
     sub_080003F0();
     sub_080003F0();
@@ -2544,7 +2546,7 @@ while (1) {
     if (!((flagsBEC0 >> 8) & 1)) {
         if (sel != 0xFF) {
             s = strBEC0((sel + 0x4A9) | 0x140000);
-            s += 2;
+            s += TEXT_HEADER;
             textBEC0(s, 0xF - lenBEC0(s) / 2, 0x12);
         } else {
             msgBEC0(0x12, 2);

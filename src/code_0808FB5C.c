@@ -105,7 +105,7 @@ u32 sub_0808FBDC(u32 arg0)
     return 0;
 }
 struct State8FC5095 {u8 p0[0x10];u16 mode;u8 p12[0x12];u16 w24;u8 p26[0xA];u16 w30;u8 p32[4];u16 w36;};
-struct Player8FC5095 {u8 p0[0x20];u16 state;u8 p22[0xE];u32 flags;u8 rest[0x118];};
+struct Player8FC5095 {u8 p0[PLAYER_FIELD(0x20)];u16 state;u8 p22[PLAYER_FIELD(0x30) - PLAYER_FIELD(0x22)];u32 flags;u8 rest[PLAYER_SIZE - PLAYER_FIELD(0x34)];};
 struct Display8FC5095 {u8 pad[0x8C];u16 x;};
 extern struct State8FC5095 *state8FC5095 asm("gUnk_03005CF4");
 extern struct Player8FC5095 players8FC5095[] asm("gUnk_03003CE0");
@@ -201,9 +201,9 @@ s32 sub_0808FE04(s32 arg)
         sub_08056FB8(0,0);
         p=(u8 *)sub_080020F4();
         base=playersFE0495;
-        stride=0x14C;
+        stride=PLAYER_SIZE;
         p=(u8 *)((u32)p*stride+(u32)base);
-        p+=0x68;
+        p+=PLAYER_FIELD(0x68);
         zero=0;
         one=1;
         *p=one;
@@ -212,13 +212,13 @@ s32 sub_0808FE04(s32 arg)
         state->f36=zero;
         index=sub_080020F4();
         index*=stride;
-        p=base+0x30;
+        p=base+PLAYER_FIELD(0x30);
         flags=(u32 *)(index+(u32)p);
         *flags&=~2;
         p=(u8 *)((u32)sub_080020F4()*stride+(u32)base);
-        *(u16 *)(p+0x20)=zero;
+        *(u16 *)(p+PLAYER_FIELD(0x20))=zero;
         p=(u8 *)((u32)sub_080020F4()*stride+(u32)base);
-        *(u16 *)(p+0x1C)=4;
+        *(u16 *)(p+PLAYER_FIELD(0x1C))=4;
         state=*pp;
         state->f30=one;
         state->f24=one;
@@ -347,7 +347,7 @@ u32 sub_0809007C(u32 arg)
     return 0;
 }
 struct State9011C95 { u8 p0[0x10];u16 mode;u8 p12[0x12];u16 w24;u8 p26[0xA];u16 w30;u8 p32[4];u16 w36;u8 p38[0x3C];u32 flags; };
-struct Player9011C95 {u8 p0[0x20];u16 state;u8 p22[0xE];u32 flags;u8 rest[0x118];};
+struct Player9011C95 {u8 p0[PLAYER_FIELD(0x20)];u16 state;u8 p22[PLAYER_FIELD(0x30) - PLAYER_FIELD(0x22)];u32 flags;u8 rest[PLAYER_SIZE - PLAYER_FIELD(0x34)];};
 extern struct State9011C95 *state9011C95 asm("gUnk_03005CF4");
 extern struct Player9011C95 players9011C95[] asm("gUnk_03003CE0");
 /* [UpdateSceneExitDestination] Calls common initialization when scene +0x10 is zero; otherwise tests the
@@ -421,7 +421,7 @@ u32 sub_0809021C(u32 arg0)
     return 0;
 }
 struct State9029095 { u8 p0[0x10];u16 mode;u8 p12[0x12];u16 w24;u8 p26[0xA];u16 w30;u8 p32[4];u16 w36; };
-struct Player9029095 {u8 p0[0x1C];u16 action;u8 p1E[2];u16 state;u8 p22[0xE];u32 flags;u8 p34[0x34];u8 active;u8 rest[0xE3];};
+struct Player9029095 {u8 p0[PLAYER_FIELD(0x1C)];u16 action;u8 p1E[PLAYER_FIELD(0x20) - PLAYER_FIELD(0x1E)];u16 state;u8 p22[PLAYER_FIELD(0x30) - PLAYER_FIELD(0x22)];u32 flags;u8 p34[PLAYER_FIELD(0x68) - PLAYER_FIELD(0x34)];u8 active;u8 rest[PLAYER_SIZE - PLAYER_FIELD(0x69)];};
 extern struct State9029095 *state9029095 asm("gUnk_03005CF4");
 extern struct Player9029095 players9029095[] asm("gUnk_03003CE0");
 /* [UpdateMapZeroExitReset] Initialization branch calls common scene initializer. */
@@ -435,11 +435,11 @@ u32 sub_08090290(u32 arg)
         sub_080570DC(1);
         sub_08056FB8(0,0);
         firstIndex=sub_080020F4(); base=players9029095; 
-        { struct Player9029095 *player=(struct Player9029095 *)(firstIndex*0x14C+(u32)base);
+        { struct Player9029095 *player=(struct Player9029095 *)(firstIndex*PLAYER_SIZE+(u32)base);
           u8 *active=&player->active;  zero=0;one=1;*active=one; }
         sub_08056E78();
         (*holder)->w36=zero;
-        { register u32 offset asm("r2"); u8 *flagsBase; offset=sub_080020F4()*0x14C;  flagsBase=(u8 *)base+0x30;  offset+=(u32)flagsBase; *(u32 *)offset&=~2; }
+        { register u32 offset asm("r2"); u8 *flagsBase; offset=sub_080020F4()*PLAYER_SIZE;  flagsBase=(u8 *)base+PLAYER_FIELD(0x30);  offset+=(u32)flagsBase; *(u32 *)offset&=~2; }
         base[sub_080020F4()].state=zero;
         base[sub_080020F4()].action=4;
         { struct State9029095 *finalState=*holder; finalState->w30=one; finalState->w24=one; }
@@ -797,14 +797,14 @@ void sub_08090B84(void) {
     p[0] = a;
     b = a + 1;
     p[1] = b;
-    init095_08090B84(a, 0x5008A, 0, -1, 0);
+    init095_08090B84(a, RES_ID(0x5008A), 0, -1, 0);
     a->payload[0] = 0;
     a->frame = 10;
     a->next = 0;
     a->tick = 0;
     a->x = 0x10000;
     a->y = 0x5800;
-    init095_08090B84(b, 0x500BE, 1, -1, 0);
+    init095_08090B84(b, RES_ID(0x500BE), 1, -1, 0);
     b->payload[0] = 1;
     b->frame = 14;
     a[1].next = 0;
@@ -925,13 +925,13 @@ void sub_08090E38(void) {
     variant = r < 0 ? -r : r;
     switch (variant) {
     case 0:
-        init095_08090E38(a, 0x50012, 0, -1, 0);
+        init095_08090E38(a, RES_ID(0x50012), 0, -1, 0);
         break;
     case 1:
-        init095_08090E38(a, 0x50013, 0, -1, 0);
+        init095_08090E38(a, RES_ID(0x50013), 0, -1, 0);
         break;
     case 2:
-        init095_08090E38(a, 0x50014, 0, -1, 0);
+        init095_08090E38(a, RES_ID(0x50014), 0, -1, 0);
         break;
     }
     a->payload[0] = 0;
@@ -954,13 +954,13 @@ void sub_08090E38(void) {
             if (a->x <= 0x8000) {
                 switch (variant) {
                 case 0:
-                    init095_08090E38(a, 0x50015, 0, -1, 0);
+                    init095_08090E38(a, RES_ID(0x50015), 0, -1, 0);
                     break;
                 case 1:
-                    init095_08090E38(a, 0x50016, 0, -1, 0);
+                    init095_08090E38(a, RES_ID(0x50016), 0, -1, 0);
                     break;
                 case 2:
-                    init095_08090E38(a, 0x50017, 0, -1, 0);
+                    init095_08090E38(a, RES_ID(0x50017), 0, -1, 0);
                     break;
                 }
                 done = 0;
@@ -976,13 +976,13 @@ void sub_08090E38(void) {
             if (done != 0) {
                 switch (variant) {
                 case 0:
-                    init095_08090E38(a, 0x50012, 0, -1, 0);
+                    init095_08090E38(a, RES_ID(0x50012), 0, -1, 0);
                     break;
                 case 1:
-                    init095_08090E38(a, 0x50013, 0, -1, 0);
+                    init095_08090E38(a, RES_ID(0x50013), 0, -1, 0);
                     break;
                 case 2:
-                    init095_08090E38(a, 0x50014, 0, -1, 0);
+                    init095_08090E38(a, RES_ID(0x50014), 0, -1, 0);
                     break;
                 }
                 flag = 1;
@@ -1041,10 +1041,10 @@ void sub_080910A8(void) {
     variant = r < 0 ? -r : r;
     switch (variant) {
     case 0:
-        init095_080910A8(a, 0x50022, 0, -1, 0);
+        init095_080910A8(a, RES_ID(0x50022), 0, -1, 0);
         break;
     case 1:
-        init095_080910A8(a, 0x50023, 0, -1, 0);
+        init095_080910A8(a, RES_ID(0x50023), 0, -1, 0);
         break;
     }
     a->payload[0] = 0;
@@ -1067,10 +1067,10 @@ void sub_080910A8(void) {
             if (a->x <= 0x8000) {
                 switch (variant) {
                 case 0:
-                    init095_080910A8(a, 0x50024, 0, -1, 0);
+                    init095_080910A8(a, RES_ID(0x50024), 0, -1, 0);
                     break;
                 case 1:
-                    init095_080910A8(a, 0x50025, 0, -1, 0);
+                    init095_080910A8(a, RES_ID(0x50025), 0, -1, 0);
                     break;
                 }
                 done = 0;
@@ -1086,10 +1086,10 @@ void sub_080910A8(void) {
             if (done != 0) {
                 switch (variant) {
                 case 0:
-                    init095_080910A8(a, 0x50022, 0, -1, 0);
+                    init095_080910A8(a, RES_ID(0x50022), 0, -1, 0);
                     break;
                 case 1:
-                    init095_080910A8(a, 0x50023, 0, -1, 0);
+                    init095_080910A8(a, RES_ID(0x50023), 0, -1, 0);
                     break;
                 }
                 flag = 1;
@@ -1148,10 +1148,10 @@ void sub_080912CC(void) {
     variant = r < 0 ? -r : r;
     switch (variant) {
     case 0:
-        init095_080912CC(a, 0x5001D, 0, -1, 0);
+        init095_080912CC(a, RES_ID(0x5001D), 0, -1, 0);
         break;
     case 1:
-        init095_080912CC(a, 0x5001F, 0, -1, 0);
+        init095_080912CC(a, RES_ID(0x5001F), 0, -1, 0);
         break;
     }
     a->payload[0] = 0;
@@ -1174,10 +1174,10 @@ void sub_080912CC(void) {
             if (a->x <= 0x8000) {
                 switch (variant) {
                 case 0:
-                    init095_080912CC(a, 0x5001E, 0, -1, 0);
+                    init095_080912CC(a, RES_ID(0x5001E), 0, -1, 0);
                     break;
                 case 1:
-                    init095_080912CC(a, 0x50021, 0, -1, 0);
+                    init095_080912CC(a, RES_ID(0x50021), 0, -1, 0);
                     break;
                 }
                 done = 0;
@@ -1193,10 +1193,10 @@ void sub_080912CC(void) {
             if (done != 0) {
                 switch (variant) {
                 case 0:
-                    init095_080912CC(a, 0x5001D, 0, -1, 0);
+                    init095_080912CC(a, RES_ID(0x5001D), 0, -1, 0);
                     break;
                 case 1:
-                    init095_080912CC(a, 0x5001F, 0, -1, 0);
+                    init095_080912CC(a, RES_ID(0x5001F), 0, -1, 0);
                     break;
                 }
                 flag = 1;
@@ -1255,10 +1255,10 @@ void sub_080914F0(void) {
     variant = r < 0 ? -r : r;
     switch (variant) {
     case 0:
-        init096_080914F0(a, 0x5002B, 0, -1, 0);
+        init096_080914F0(a, RES_ID(0x5002B), 0, -1, 0);
         break;
     case 1:
-        init096_080914F0(a, 0x5002A, 0, -1, 0);
+        init096_080914F0(a, RES_ID(0x5002A), 0, -1, 0);
         break;
     }
     a->payload[0] = 0;
@@ -1281,10 +1281,10 @@ void sub_080914F0(void) {
             if (a->x <= 0x8000) {
                 switch (variant) {
                 case 0:
-                    init096_080914F0(a, 0x5002C, 0, -1, 0);
+                    init096_080914F0(a, RES_ID(0x5002C), 0, -1, 0);
                     break;
                 case 1:
-                    init096_080914F0(a, 0x5002D, 0, -1, 0);
+                    init096_080914F0(a, RES_ID(0x5002D), 0, -1, 0);
                     break;
                 }
                 done = 0;
@@ -1300,10 +1300,10 @@ void sub_080914F0(void) {
             if (done != 0) {
                 switch (variant) {
                 case 0:
-                    init096_080914F0(a, 0x5002B, 0, -1, 0);
+                    init096_080914F0(a, RES_ID(0x5002B), 0, -1, 0);
                     break;
                 case 1:
-                    init096_080914F0(a, 0x5002A, 0, -1, 0);
+                    init096_080914F0(a, RES_ID(0x5002A), 0, -1, 0);
                     break;
                 }
                 flag = 1;
@@ -1360,10 +1360,10 @@ void sub_08091714(void) {
     variant = r < 0 ? -r : r;
     switch (variant) {
     case 0:
-        init096_08091714(a, 0x50030, 0, -1, 0);
+        init096_08091714(a, RES_ID(0x50030), 0, -1, 0);
         break;
     case 1:
-        init096_08091714(a, 0x50031, 0, -1, 0);
+        init096_08091714(a, RES_ID(0x50031), 0, -1, 0);
         break;
     }
     a->payload[0] = 0;
@@ -1386,10 +1386,10 @@ void sub_08091714(void) {
             if (a->x <= 0x8000) {
                 switch (variant) {
                 case 0:
-                    init096_08091714(a, 0x50033, 0, -1, 0);
+                    init096_08091714(a, RES_ID(0x50033), 0, -1, 0);
                     break;
                 case 1:
-                    init096_08091714(a, 0x50032, 0, -1, 0);
+                    init096_08091714(a, RES_ID(0x50032), 0, -1, 0);
                     break;
                 }
                 done = 0;
@@ -1405,10 +1405,10 @@ void sub_08091714(void) {
             if (done != 0) {
                 switch (variant) {
                 case 0:
-                    init096_08091714(a, 0x50030, 0, -1, 0);
+                    init096_08091714(a, RES_ID(0x50030), 0, -1, 0);
                     break;
                 case 1:
-                    init096_08091714(a, 0x50031, 0, -1, 0);
+                    init096_08091714(a, RES_ID(0x50031), 0, -1, 0);
                     break;
                 }
                 flag = 1;
@@ -1465,10 +1465,10 @@ void sub_08091938(void) {
     variant = r < 0 ? -r : r;
     switch (variant) {
     case 0:
-        init096_08091938(a, 0x50035, 0, -1, 0);
+        init096_08091938(a, RES_ID(0x50035), 0, -1, 0);
         break;
     case 1:
-        init096_08091938(a, 0x50037, 0, -1, 0);
+        init096_08091938(a, RES_ID(0x50037), 0, -1, 0);
         break;
     }
     a->payload[0] = 0;
@@ -1491,10 +1491,10 @@ void sub_08091938(void) {
             if (a->x <= 0x8000) {
                 switch (variant) {
                 case 0:
-                    init096_08091938(a, 0x50036, 0, -1, 0);
+                    init096_08091938(a, RES_ID(0x50036), 0, -1, 0);
                     break;
                 case 1:
-                    init096_08091938(a, 0x50038, 0, -1, 0);
+                    init096_08091938(a, RES_ID(0x50038), 0, -1, 0);
                     break;
                 }
                 done = 0;
@@ -1510,10 +1510,10 @@ void sub_08091938(void) {
             if (done != 0) {
                 switch (variant) {
                 case 0:
-                    init096_08091938(a, 0x50035, 0, -1, 0);
+                    init096_08091938(a, RES_ID(0x50035), 0, -1, 0);
                     break;
                 case 1:
-                    init096_08091938(a, 0x50037, 0, -1, 0);
+                    init096_08091938(a, RES_ID(0x50037), 0, -1, 0);
                     break;
                 }
                 flag = 1;
@@ -1567,7 +1567,7 @@ void sub_08091B5C(void) {
     a = (struct Anim096_08091B5C *)(heap096_08091B5C = (u32)sub_08001494(0x44));
     random096();
     variant = 0;
-    init096_08091B5C(a, 0x50027, 0, -1, variant);
+    init096_08091B5C(a, RES_ID(0x50027), 0, -1, variant);
     a->payload[0] = variant;
     a->frame = 10;
     a->next = variant;
@@ -1587,7 +1587,7 @@ void sub_08091B5C(void) {
             a->x -= 0x100;
             if (a->x <= 0x8000) {
                 if (variant == 0)
-                    init096_08091B5C(a, 0x50028, 0, -1, 0);
+                    init096_08091B5C(a, RES_ID(0x50028), 0, -1, 0);
                 flag = 0;
                 a->payload[0] = 0;
                 a->frame = 10;
@@ -1599,7 +1599,7 @@ void sub_08091B5C(void) {
         case 1:
             if (done != 0) {
                 if (variant == 0)
-                    init096_08091B5C(a, 0x50027, 0, -1, 0);
+                    init096_08091B5C(a, RES_ID(0x50027), 0, -1, 0);
                 flag = 1;
                 a->frame = 10;
                 *next = 0;
@@ -1651,7 +1651,7 @@ void sub_08091CF8(void) {
     a = (struct Anim096_08091CF8 *)(heap096_08091CF8 = (u32)sub_08001494(0x44));
     random096();
     variant = 0;
-    init096_08091CF8(a, 0x50019, 0, -1, variant);
+    init096_08091CF8(a, RES_ID(0x50019), 0, -1, variant);
     a->payload[0] = variant;
     a->frame = 10;
     a->next = variant;
@@ -1671,7 +1671,7 @@ void sub_08091CF8(void) {
             a->x -= 0x100;
             if (a->x <= 0x8000) {
                 if (variant == 0)
-                    init096_08091CF8(a, 0x5001A, 0, -1, 0);
+                    init096_08091CF8(a, RES_ID(0x5001A), 0, -1, 0);
                 flag = 0;
                 a->payload[0] = 0;
                 a->frame = 10;
@@ -1683,7 +1683,7 @@ void sub_08091CF8(void) {
         case 1:
             if (done != 0) {
                 if (variant == 0)
-                    init096_08091CF8(a, 0x50019, 0, -1, 0);
+                    init096_08091CF8(a, RES_ID(0x50019), 0, -1, 0);
                 flag = 1;
                 a->frame = 10;
                 *next = 0;
@@ -1797,6 +1797,28 @@ extern u32 language096F asm("gUnk_03003470");
  * until zero/0xFD. Each branch copies at most 255 bytes. On ordinary termination writes 0xFD; hitting that
  * copy limit returns without appending a terminator. This is not a Unicode decoder or a universal
  * interpretation of the mode global. */
+#ifdef REGION_USA
+/* USA: a single ASCII-to-TextChar path (no language mode); digits map to +0x11. */
+s32 sub_08091F9C(u8 *input,u8 *out)
+{
+    s8 *source=(s8 *)input;
+    TextChar *output=(TextChar *)out;
+    u8 count=0;
+    while(*source!=0){
+        u32 c=*(u8 *)source;
+        if(*source==0x20) *output=0x51;
+        else if((u8)(c-0x41)<=0x19) *output=*source-0x40;
+        else if((u8)(c-0x61)<=0x19) *output=*source-0x40;
+        else if((u8)(c-0x30)<=9) *output=*source+0x11;
+        else break;
+        source++;output++;count++;
+        if(count>0xFE) goto done;
+    }
+    *output=TEXT_CTRL(0xFD);
+done:
+    return (u8)(count-1);
+}
+#else
 s32 sub_08091F9C(u8 *source,u8 *output)
 {
     u32 mode;
@@ -1857,6 +1879,7 @@ done:
 
     return (u8)(count-1);
 }
+#endif
 
 
 

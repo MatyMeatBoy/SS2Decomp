@@ -190,18 +190,47 @@ void sub_0808D654(u8 *arg0) {
     register u32 temp_r9 asm("r9");
     u8 *temp_r4;
     u16 *palette;
+#ifdef REGION_USA
+    register u32 zero asm("r4");
+#else
     register u32 zero asm("r5");
+#endif
     u16 *paletteInit;
 
     sub_0801623C(arg0, gUnk_084A1910, 3);
+#ifdef REGION_USA
+    temp_r0 = (u16)((*(u16 *)(arg0 + 0x2)) + (*(u16 *)(arg0 + 0x0)));
+#else
     temp_r0 = (*(u16 *)(arg0 + 0x0)) + (*(u16 *)(arg0 + 0x2));
+#endif
     zero = 0;
     (*(u16 *)(arg0 + 0x2)) = temp_r0;
+#ifdef REGION_USA
+    temp_r4 = arg0 + 0x204;
+#else
     {
         register u32 off asm("r2") = 0x204;
         asm("" : "+r"(off));
         temp_r4 = arg0 + off;
     }
+#endif
+#ifdef REGION_USA
+    sub_08019F60(temp_r4);
+    *(u16 *)(arg0 + 0x6C) = zero;
+    paletteInit = (u16 *)(arg0 + 0x6A);
+    *paletteInit = zero;
+    *(u16 *)(arg0 + 0x68) = zero;
+    temp_r0 = *(s16 *)(temp_r4 + ENEMY_DATA_FIELD(6)) * 3;
+    (*(s16 *)(arg0 + 0x1D6)) = temp_r0;
+    (*(s16 *)(arg0 + 0x5C)) = temp_r0;
+    temp_r0_2 = *(s16 *)(temp_r4 + ENEMY_DATA_FIELD(4));
+    scaledStat = temp_r0_2 * 2;
+    temp_r0_2 *= 8;
+    temp_r0_2 += scaledStat;
+    temp_r0_2 *= 2;
+    (*(s16 *)(arg0 + 0x1D4)) = temp_r0_2;
+    (*(s16 *)(arg0 + 0x5E)) = temp_r0_2;
+#else
     sub_08019F60(temp_r4);
     (*(u16 *)(arg0 + 0x6C)) = zero;
     paletteInit = (u16 *)(arg0 + 0x6A);
@@ -210,19 +239,20 @@ void sub_0808D654(u8 *arg0) {
         u8 *hold = arg0 + 0x68;
         s32 val;
         *(u16 *)hold = zero;
-        val = *(s16 *)(temp_r4 + 6);
+        val = *(s16 *)(temp_r4 + ENEMY_DATA_FIELD(6));
         asm volatile("" : : "r"(hold) : "memory");
         temp_r0 = val * 3;
     }
     (*(s16 *)(arg0 + 0x1D6)) = temp_r0;
     (*(s16 *)(arg0 + 0x5C)) = temp_r0;
-    temp_r0_2 = *(s16 *)(temp_r4 + 4);
+    temp_r0_2 = *(s16 *)(temp_r4 + ENEMY_DATA_FIELD(4));
     scaledStat = temp_r0_2 * 2;
     temp_r0_2 *= 8;
     temp_r0_2 += scaledStat;
     temp_r0_2 *= 2;
     (*(s16 *)(arg0 + 0x1D4)) = temp_r0_2;
     (*(s16 *)(arg0 + 0x5E)) = temp_r0_2;
+#endif
     (*(u16 *)(arg0 + 0xC)) = zero;
     var_sl = zero;
     flashing = 0;
@@ -237,7 +267,7 @@ loop_60:
         temp_r4_2 = (*(u16 *)(arg0 + 0xC));
         switch (temp_r4_2) {                        /* irregular */
         case 0:
-            d654InitAnimation(anim, 0x5005D, 5, -1, temp_r4_2);
+            d654InitAnimation(anim, RES_ID(0x5005D), 5, -1, temp_r4_2);
             (*(u16 *)(arg0 + 0x68)) = temp_r4_2;
             break;
         case 10:
@@ -510,7 +540,7 @@ void sub_0808DB38(u32 arg)
     u32 pr;
     s32 *sprite;
 
-    sub_08065158(anim, 0x50122, 0, -1, 0);
+    sub_08065158(anim, RES_ID(0x50122), 0, -1, 0);
     sub_08000AF0(0x15, (void *)anim[3], 1);
     *(u8 *)&anim[7] = 5;
     switch (arg) {
@@ -552,7 +582,7 @@ void sub_0808DB38(u32 arg)
             if (sub_0800CCCC() == 0) sub_0805865C(0x2E);
             sound = 0;
         }
-        if (hit && (height >> 8) <= 7 && sub_08021FE0(pos, (u8 *)player + 0x8C, &size, &box)) {
+        if (hit && (height >> 8) <= 7 && sub_08021FE0(pos, (u8 *)player + PLAYER_FIELD(0x8C), &size, &box)) {
             hit = 0;
             sub_08029A7C(0, 0x10, 1);
         }
@@ -568,7 +598,7 @@ void sub_0808DB38(u32 arg)
         sub_080003F0();
     }
     if (!sub_0800CCCC()) sub_0805865C(0x29);
-    sub_08065158(anim, 0x50053, 0, -1, 0);
+    sub_08065158(anim, RES_ID(0x50053), 0, -1, 0);
     a1 = 0;
     a0 = 0;
     while (!sub_08065370(anim, 6, (s32)&a0, (s32)&a1, 0)) {
@@ -1073,7 +1103,7 @@ void sub_0808E530_v(u32 arg)
     s32 vis;
 
     if (sub_0800CCCC() == 0) {
-        initE530(sprite, 0x500F1, 0, -1, 0);
+        initE530(sprite, RES_ID(0x500F1), 0, -1, 0);
         switch ((arg >> 16) & 0xFF) {
         case 0:
             frame = 14;
@@ -1842,7 +1872,7 @@ fail:
     return 0;
 }
 struct AnimF1E4 { s32 w0, w4, w8; u8 *graphics; u8 p10[12]; u8 data[24]; };
-struct DataF1E4 { u8 p0[4]; s16 f4, f6; };
+struct DataF1E4 { u8 p0[ENEMY_DATA_FIELD(4)]; s16 f4, f6; };
 struct EntF1E4 {
     u16 f0; u8 p2[0xA]; u16 fC; u8 pE[6]; s32 x, y; u8 p1C[0x30]; s32 f4C; u8 p50[0xC];
     s16 f5C, f5E; u8 p60[8]; u16 f68, f6A, f6C; u8 p6E[0x166];
@@ -1894,7 +1924,7 @@ void sub_0808F1E4_v(struct EntF1E4 *e)
     data = &e->data;
     resetF1E4();
     limit = 0xFFFF;
-    while ((slot = allocF1E4(0x5012F, 0)) == limit) {
+    while ((slot = allocF1E4(RES_ID(0x5012F), 0)) == limit) {
         e->fC = 11;
         if (sub_0800CB78() != 0 || sub_08056E90() != 0) {
             activeF1E4 &= ~(1 << e->f0);
@@ -1924,7 +1954,7 @@ void sub_0808F1E4_v(struct EntF1E4 *e)
         thinkF1E4(e);
         switch (e->fC) {
         case 0:
-            initF1E4(&anim, 0x5012F, slot, -1, 0);
+            initF1E4(&anim, RES_ID(0x5012F), slot, -1, 0);
             e->f68 = 0;
             break;
         case 10:
@@ -2057,22 +2087,22 @@ void sub_0808F6A8(void)
 /* Player (0x14C bytes) view with the fields used by the map warp handlers below */
 struct F9E0Vec { s32 x, y; };
 struct F9E0P {
-    u8 pad0[0x1C];
+    u8 pad0[PLAYER_FIELD(0x1C)];
     u16 w1C;
     u16 pad1E;
     u16 state;
-    u8 pad22[0xE];
+    u8 pad22[PLAYER_FIELD(0x30) - PLAYER_FIELD(0x22)];
     u32 flags;
-    u8 pad34[0x2C];
+    u8 pad34[PLAYER_FIELD(0x60) - PLAYER_FIELD(0x34)];
     u16 a60[2];
-    u8 pad64[4];
+    u8 pad64[PLAYER_FIELD(0x68) - PLAYER_FIELD(0x64)];
     u8 b68;
-    u8 pad69[0x23];
+    u8 pad69[PLAYER_FIELD(0x8C) - PLAYER_FIELD(0x69)];
     struct F9E0Vec pos;
     struct F9E0Vec pos2;
-    u8 pad9C[0x26];
+    u8 pad9C[PLAYER_FIELD(0xC2) - PLAYER_FIELD(0x9C)];
     u16 aC2[2];
-    u8 padC6[0x14C - 0xC6];
+    u8 padC6[PLAYER_SIZE - PLAYER_FIELD(0xC6)];
 };
 extern struct F9E0P F9E0pl[] asm("gUnk_03003CE0");
 extern u8 F9E0pos[] asm("gUnk_03003D6C");
@@ -2123,7 +2153,7 @@ u32 sub_0808F700(u16 *arg)
             sub_080003F0();
         sub_0805D518();
         gUnk_03003170.pad76 = 0x20;
-        { struct F9E0Vec *q = (struct F9E0Vec *)(F9E0pos + idx * 0x14C); F700_AD04(&q->x, &q->y, sub_0800CCCC()); }
+        { struct F9E0Vec *q = (struct F9E0Vec *)(F9E0pos + idx * PLAYER_SIZE); F700_AD04(&q->x, &q->y, sub_0800CCCC()); }
         *(u16 *)(*(u8 **)&gUnk_03005CF4 + 0x10) = 1;
         sub_0805A66C();
         i = 0;
@@ -2219,7 +2249,7 @@ u32 sub_0808F9E0(u16 *arg)
         while (sub_0800BA6C() == 0)
             sub_080003F0();
         gUnk_03003170.pad76 = 0x20;
-        { struct F9E0Vec *q = (struct F9E0Vec *)(F9E0pos + idx * 0x14C); F9E0_AD04(&q->x, &q->y, sub_0800CCCC()); }
+        { struct F9E0Vec *q = (struct F9E0Vec *)(F9E0pos + idx * PLAYER_SIZE); F9E0_AD04(&q->x, &q->y, sub_0800CCCC()); }
         *(u16 *)(*(u8 **)&gUnk_03005CF4 + 0x10) = 1;
         sub_08056E38();
         if (*(u16 *)(*(u8 **)&gUnk_03005CF4 + 0x36) & 0x8000)

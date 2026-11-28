@@ -748,7 +748,7 @@ s32 sub_0801DF8C(void);
 u32 sub_08067D74();
 s32 sub_08016C88(s32 arg0, s32 arg1, s32 arg2, s32 arg3, u16 arg4);
 u32 sub_08019DE0(u32 value);
-void sub_0801A764(const u8 *script, u16 x, u16 y);
+void sub_0801A764(const TextChar *script, u16 x, u16 y);
 void sub_0805A874();
 s32 sub_08028830();
 void sub_0805A9F4();

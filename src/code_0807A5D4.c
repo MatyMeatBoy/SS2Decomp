@@ -63,7 +63,7 @@ struct MgrA5D4 {
     u8 sprite[0x68];
     u32 f620;
 };
-struct PlayerA5D4 { u8 pad[0x30]; u32 flags; u8 pad34[4]; s16 stat[4]; u8 pad40[0x20]; u16 f60, f62; u8 pad64[0x14C - 0x64]; };
+struct PlayerA5D4 { u8 pad[PLAYER_FIELD(0x30)]; u32 flags; u8 pad34[PLAYER_FIELD(0x38) - PLAYER_FIELD(0x34)]; s16 stat[4]; u8 pad40[PLAYER_FIELD(0x60) - PLAYER_FIELD(0x40)]; u16 f60, f62; u8 pad64[PLAYER_SIZE - PLAYER_FIELD(0x64)]; };
 struct StageA5D4 { u8 pad[0x1FA]; u16 value; };
 struct IndexA5D4 { u8 pad[0x14A]; u16 value; };
 union BgA5D4 { u32 word; u16 half[2]; };
@@ -163,6 +163,9 @@ void sub_0807A5D4_v(void)
     sub_0800903C(4, 0x38, 1, 10, 7, 0);
     sub_08000AF0(0xE, (void *)(sub_08007290(0x70003) + 0x1C0), 1);
     stageA5D4.value = tableA5D4Stage[indexA5D4->value];
+#ifdef REGION_USA
+    sub_08065158(mgrA5D4->sprite, 0x50006, 0, -1, 0); /* single language */
+#else
     switch (gUnk_03003470) {
     case 0: sub_08065158(mgrA5D4->sprite, 0x50006, 0, -1, 0); break;
     case 1: sub_08065158(mgrA5D4->sprite, 0x50007, 0, -1, 0); break;
@@ -170,6 +173,7 @@ void sub_0807A5D4_v(void)
     case 3: sub_08065158(mgrA5D4->sprite, 0x50009, 0, -1, 0); break;
     case 4: sub_08065158(mgrA5D4->sprite, 0x5000A, 0, -1, 0); break;
     }
+#endif
     sub_08000990(0, 1);
     sub_080009C0(0x1F00, 0, 1);
     bg.word = (bg.word & 0xFFFF0000) | 0x1D01;
@@ -324,7 +328,7 @@ void sub_0807A5D4_v(void)
                         sub_0805865C(0x62);
                         break;
                     case 3:
-                        if (saved.v[3] > 332)
+                        if (saved.v[3] > PLAYER_SIZE)
                             break;
                         stats.v[3]++;
                         saved.v[3]++;
@@ -707,7 +711,7 @@ struct Stage7B7B4 { u8 pad[0x1FA]; u16 value; };
 struct Index7B7B4 { u8 pad[0x14A]; u16 value; };
 extern struct Stage7B7B4 stage7B7B4 asm("gUnk_03001F40");
 extern struct Index7B7B4 *index7B7B4 asm("gUnk_03005CF4");
-struct Player7B7B4 { u8 pad[0x30]; u32 flags; u8 pad34[0x30]; u16 f64; u8 pad66[0x14C - 0x66]; };
+struct Player7B7B4 { u8 pad[PLAYER_FIELD(0x30)]; u32 flags; u8 pad34[0x30]; u16 f64; u8 pad66[PLAYER_SIZE - PLAYER_FIELD(0x66)]; };
 extern struct Player7B7B4 players7B7B4[] asm("gUnk_03003CE0");
 extern struct Mgr7B7B4 *mgr7B7B4 asm("gUnk_03006440");
 extern u16 table7B7B4Stage[] asm("gUnk_084EBD38");
@@ -758,7 +762,11 @@ void sub_0807B7B4_v(void)
 
     mgr7B7B4->f0 = 2;
     sub_080009F8(0x1F00, 0, 1);
+#ifdef REGION_USA
+    player = (struct Player *)&players7B7B4[sub_080020F4()];
+#else
     player = &gUnk_03003CE0[sub_080020F4()];
+#endif
     gUnk_03001250[1] = 0;
     gUnk_03001250[0] = 0;
     gUnk_03001250[3] = 0;
@@ -772,6 +780,9 @@ void sub_0807B7B4_v(void)
     sub_0800B650(0x40000004, 0x1F, 0x06000000, 0, 0xE);
     sub_08000AF0(0xE, (void *)(sub_08007290(0x70003) + 0x1C0), 1);
     stage7B7B4.value = table7B7B4Stage[index7B7B4->value];
+#ifdef REGION_USA
+    sub_08065158(mgr7B7B4->f5B8, 0x50006, 0, -1, 0); /* single language */
+#else
     switch (gUnk_03003470) {
     case 0: sub_08065158(mgr7B7B4->f5B8, 0x50006, 0, -1, 0); break;
     case 1: sub_08065158(mgr7B7B4->f5B8, 0x50007, 0, -1, 0); break;
@@ -779,6 +790,7 @@ void sub_0807B7B4_v(void)
     case 3: sub_08065158(mgr7B7B4->f5B8, 0x50009, 0, -1, 0); break;
     case 4: sub_08065158(mgr7B7B4->f5B8, 0x5000A, 0, -1, 0); break;
     }
+#endif
     sub_08000990(0, 1);
     bg.word = (bg.word & 0xFFFF0000) | 0x1D03;
     sub_08000AA8(1, bg.half);
@@ -823,7 +835,7 @@ void sub_0807B7B4_v(void)
         mgr7B7B4->f52 = 0;
         mgr7B7B4->f68 = 5;
         mgr7B7B4->f6A = 100;
-        lastLevel = *(u16 *)(gUnk_030034E0 + 0x68);
+        lastLevel = *(u16 *)(gUnk_030034E0 + SAVE_FIELD(0x68));
         lastCount = 0xFFFFFF;
         for (i = 0; i <= 5; i++) {
             mgr7B7B4->rows[i].a = 0;
@@ -841,19 +853,19 @@ void sub_0807B7B4_v(void)
                 }
                 if (lastCount != players7B7B4[sub_080020F4()].f64
                     || mgr7B7B4->f6A != mgr7B7B4->f4
-                    || lastLevel != *(u16 *)(gUnk_030034E0 + 0x68)) {
+                    || lastLevel != *(u16 *)(gUnk_030034E0 + SAVE_FIELD(0x68))) {
                     if (mgr7B7B4->f68++ > 5) {
                         if (mgr7B7B4->f1C == 0x16) {
                             if (mgr7B7B4->f18 != 7) {
                                 sub_0805FFBC(0xF, 0x12, mgr7B7B4->fF0, 0x80000000);
                             } else {
-                                text = (u8 *)sub_08007290(table7B7B4Text[mgr7B7B4->f4] | 0x140000) + 2;
+                                text = (u8 *)sub_08007290(table7B7B4Text[mgr7B7B4->f4] | 0x140000) + TEXT_HEADER;
                                 sub_0801A3D0(text, (u16)(15 - ((u32)sub_0801A638(text) >> 1)), 0x12);
                             }
                         } else {
                             sub_0805FFBC(0xF, 0x12, &mgr7B7B4->fF4, 0x80000000);
                         }
-                        lastLevel = *(u16 *)(gUnk_030034E0 + 0x68);
+                        lastLevel = *(u16 *)(gUnk_030034E0 + SAVE_FIELD(0x68));
                         sub_080811E0(player);
                         mgr7B7B4->f68 = 0;
                         mgr7B7B4->f6A = mgr7B7B4->f4;
@@ -915,28 +927,28 @@ void sub_0807BD78(u32 kind, u32 index)
     case 0: {
         u8 *base = (u8 *)gUnk_030034E0;
         u32 offset = index * 16;
-        *(u16 *)(base + offset + 0x150) = 0;
+        *(u16 *)(base + offset + SAVE_FIELD(0x150)) = 0;
         break; }
     case 1: {
         u8 *base = (u8 *)gUnk_030034E0;
         u8 *dest = base + index * 16;
-        *(u16 *)(dest + 0x70) = 0;
-        if (index == *(u16 *)(base + 0x68)) sub_0805AD78(index);
+        *(u16 *)(dest + SAVE_FIELD(0x70)) = 0;
+        if (index == *(u16 *)(base + SAVE_FIELD(0x68))) sub_0805AD78(index);
         break; }
     case 2:
-        *(u16 *)((u8 *)gUnk_030034E0 + 0x100) = 0;
+        *(u16 *)((u8 *)gUnk_030034E0 + SAVE_FIELD(0x100)) = 0;
         sub_0805D094(); break;
     case 3:
-        *(u16 *)((u8 *)gUnk_030034E0 + 0x120) = 0;
+        *(u16 *)((u8 *)gUnk_030034E0 + SAVE_FIELD(0x120)) = 0;
         sub_0805D13C(); break;
     case 4:
-        *(u16 *)((u8 *)gUnk_030034E0 + 0x110) = 0;
+        *(u16 *)((u8 *)gUnk_030034E0 + SAVE_FIELD(0x110)) = 0;
         sub_0805D0E8(); break;
     case 5:
-        *(u16 *)((u8 *)gUnk_030034E0 + 0x130) = 0;
+        *(u16 *)((u8 *)gUnk_030034E0 + SAVE_FIELD(0x130)) = 0;
         sub_0805D190(); break;
     case 6:
-        *(u16 *)((u8 *)gUnk_030034E0 + 0x140) = 0;
+        *(u16 *)((u8 *)gUnk_030034E0 + SAVE_FIELD(0x140)) = 0;
         sub_0805D1E0(); break;
     case 11: case 13: case 16:
         { u8 *base = (u8 *)gUnk_03006440;
@@ -958,31 +970,31 @@ void sub_0807BEA0(u32 kind, u32 index, struct Copy7BEA0 *item)
         { u8 *base = (u8 *)gUnk_030034E0;
         u32 offset = index * 16;
         base += offset;
-        base += 0x150;
+        base += SAVE_FIELD(0x150);
         *(struct Copy7BEA0 *)base = *item; } break;
     case 1:
         { u8 *base = (u8 *)gUnk_030034E0;
         u32 offset = index * 16;
         base += offset;
-        base += 0x70;
+        base += SAVE_FIELD(0x70);
         *(struct Copy7BEA0 *)base = *item; }
-        if (index == *(u16 *)((u8 *)gUnk_030034E0 + 0x68)) sub_0805AD78(index);
+        if (index == *(u16 *)((u8 *)gUnk_030034E0 + SAVE_FIELD(0x68))) sub_0805AD78(index);
         break;
     case 2:
-        *(struct Copy7BEA0 *)((u8 *)gUnk_030034E0 + 0x100) = *item;
+        *(struct Copy7BEA0 *)((u8 *)gUnk_030034E0 + SAVE_FIELD(0x100)) = *item;
         sub_0805D094(); break;
     case 3:
-        *(struct Copy7BEA0 *)((u8 *)gUnk_030034E0 + 0x120) = *item;
+        *(struct Copy7BEA0 *)((u8 *)gUnk_030034E0 + SAVE_FIELD(0x120)) = *item;
         sub_0805D13C(); break;
     case 4:
-        *(struct Copy7BEA0 *)((u8 *)gUnk_030034E0 + 0x110) = *item;
+        *(struct Copy7BEA0 *)((u8 *)gUnk_030034E0 + SAVE_FIELD(0x110)) = *item;
         sub_0805D0E8(); break;
     case 5:
-        *(struct Copy7BEA0 *)((u8 *)gUnk_030034E0 + 0x130) = *item;
-        *(u16 *)((u8 *)gUnk_030034E0 + 0x136) = 0;
+        *(struct Copy7BEA0 *)((u8 *)gUnk_030034E0 + SAVE_FIELD(0x130)) = *item;
+        *(u16 *)((u8 *)gUnk_030034E0 + SAVE_FIELD(0x136)) = 0;
         sub_0805D190(); break;
     case 6:
-        *(struct Copy7BEA0 *)((u8 *)gUnk_030034E0 + 0x140) = *item;
+        *(struct Copy7BEA0 *)((u8 *)gUnk_030034E0 + SAVE_FIELD(0x140)) = *item;
         sub_0805D1E0(); break;
     case 13: case 16:
         { u8 *base = (u8 *)gUnk_03006440;
@@ -1023,10 +1035,10 @@ loop:
     i = 0;
     ptr1 = inventory2;
     base = (u8 *)*ptr1;
-    count = (u32 *)(base + 0x154);
+    count = (u32 *)(base + SAVE_FIELD(0x154));
     cursor = (u8 *)*ptr1;
     do {
-        register u32 fieldOffset asm("r7") = 0x150;
+        register u32 fieldOffset asm("r7") = SAVE_FIELD(0x150);
         if (*(u16 *)(cursor + fieldOffset) == 10) {
             u32 value = *count;
             if (value < minimum) { selected = i; minimum = value; }
@@ -1042,7 +1054,7 @@ loop:
             ptr1 = inventory;
             item = (u32 *)*ptr1;
             value = selected * 16;
-            item = (u32 *)((u8 *)item + 0x154);
+            item = (u32 *)((u8 *)item + SAVE_FIELD(0x154));
             item = (u32 *)((u8 *)item + value);
             value = *item - amount;
             *item = value;
@@ -1053,7 +1065,7 @@ loop:
             ptr7 = inventory2;
             base = (u8 *)*ptr7;
             index = selected * 16;
-            base += 0x154;
+            base += SAVE_FIELD(0x154);
             base += index;
             amount -= *(u32 *)base;
             sub_0805D580(selected);
@@ -1061,7 +1073,7 @@ loop:
         }
     } else {
         selected = 75;
-        if (*(u32 *)gUnk_03006440 != 4) { ptr7 = inventory; base = (u8 *)*ptr7; cursor = base + 0x2E0; }
+        if (*(u32 *)gUnk_03006440 != 4) { ptr7 = inventory; base = (u8 *)*ptr7; cursor = base + SAVE_FIELD(0x2E0); }
         else { offset = 0x104; cursor = (u8 *)gUnk_03006440 + offset; }
         i = 0;
         do {
@@ -1208,7 +1220,7 @@ static inline void Drop82P(vu32 *z, struct Mgr82 **g) { *z = 0; CpuSet((void *)z
 /* Drop82PH: CpuSet's destination is the held pointer already in a register (ROM: mov r1, r9); z remains the zero source. */
 static inline void Drop82PH(vu32 *z, struct Item82 *h, struct Mgr82 **g) { *z = 0; CpuSet((void *)z, h, 0x05000004); (*g)->heldFrom = 0x16; (*g)->heldIdx = 0; }
 #define REFRESH82() { sub_0805AD78(gInv82->equip); sub_0805D094(); sub_0805D0E8(); sub_0805D13C(); }
-struct Player82 { u8 pad[0x77]; u8 f77; u8 f78; u8 pad79[0x8C - 0x79]; s32 f8C; s32 f90; u8 pad94[0xC6 - 0x94]; u16 fC6; u8 rest[0x14C - 0xC8]; };
+struct Player82 { u8 pad[PLAYER_FIELD(0x77)]; u8 f77; u8 f78; u8 pad79[PLAYER_FIELD(0x8C) - PLAYER_FIELD(0x79)]; s32 f8C; s32 f90; u8 pad94[PLAYER_FIELD(0xC6) - PLAYER_FIELD(0x94)]; u16 fC6; u8 rest[PLAYER_SIZE - PLAYER_FIELD(0xC8)]; };
 extern struct Player82 gPlayers82[] asm("gUnk_03003CE0");
 /* Second name for the gMgr82 slot: GCC does not merge it with gMgr82, but it still assembles to a gUnk_03006440 relocation like the ROM. */
 extern struct Mgr82 *gMgr82Slot082 asm("gUnk_03006440");
@@ -3858,7 +3870,7 @@ void sub_08080A78(void)
     u32 r;
     u16 buf[8];
 
-    item = INV + 0x150;
+    item = INV + SAVE_FIELD(0x150);
     for (i = 0; i <= 0x18; i++, item += 0x10) {
         mode = 8;
         switch (*(u16 *)item) {
@@ -3879,9 +3891,9 @@ void sub_08080A78(void)
     {
         struct A78Pos { s16 x, y; };
         u32 first;
-        first = (u16)(F16(INV, 0x68) / 3) * 3;
+        first = (u16)(F16(INV, SAVE_FIELD(0x68)) / 3) * 3;
         end = first + 3;
-        item = INV + (first * 0x10 + 0x70);
+        item = INV + (first * 0x10 + SAVE_FIELD(0x70));
         for (i = first; i < end; i++, item += 0x10) {
             mode = 8;
             if (sub_0805AE34(item) == 0)
@@ -3889,7 +3901,7 @@ void sub_08080A78(void)
             if (F32(MGR, 0x1C) == 1 && F32(MGR, 0x20) == i) {
                 if (gUnk_03002344 & 1)
                     sub_0805FC80(((struct A78Pos *)gUnk_084ECBBC)[i - first].x + 0x38, ((struct A78Pos *)gUnk_084ECBBC)[i - first].y + 0x10, item, mode);
-            } else if (F16(INV, 0x68) == i) {
+            } else if (F16(INV, SAVE_FIELD(0x68)) == i) {
                 { s32 x = ((struct A78Pos *)gUnk_084ECBBC)[i - first].x + 0x38; s32 y = ((struct A78Pos *)gUnk_084ECBBC)[i - first].y; s32 sc = *(s32 *)(MGR + 0x74) - 0x10; sub_0805FC80(x, y - sc, item, mode); }
             } else {
                 sub_0805FC80(((struct A78Pos *)gUnk_084ECBBC)[i - first].x + 0x38, ((struct A78Pos *)gUnk_084ECBBC)[i - first].y + 0x10, item, mode);
@@ -3898,7 +3910,7 @@ void sub_08080A78(void)
     }
 
     if (F32(MGR, 0) != 5) {
-        item = INV + 0x100;
+        item = INV + SAVE_FIELD(0x100);
         mode = 0;
         if (sub_0805D210(item) == 0)
             mode = 2;
@@ -3908,7 +3920,7 @@ void sub_08080A78(void)
         } else
             sub_0805FC80(0x40, 0x30 - F32(MGR, 0x7C), item, mode);
 
-        item = INV + 0x120;
+        item = INV + SAVE_FIELD(0x120);
         mode = 0;
         if (sub_0805D2E0(item) == 0)
             mode = 2;
@@ -3918,7 +3930,7 @@ void sub_08080A78(void)
         } else
             sub_0805FC80(0x3C, 0x60 - F32(MGR, 0x8C), item, mode);
 
-        item = INV + 0x110;
+        item = INV + SAVE_FIELD(0x110);
         mode = 0;
         if (sub_0805D278(item) == 0)
             mode = 2;
@@ -3930,22 +3942,22 @@ void sub_08080A78(void)
 
         if (F32(MGR, 0x1C) == 5) {
             if (gUnk_03002344 & 1)
-                sub_0805FC80(0xC, 0x40 - F32(MGR, 0x9C), INV + 0x130, 8);
+                sub_0805FC80(0xC, 0x40 - F32(MGR, 0x9C), INV + SAVE_FIELD(0x130), 8);
         } else
-            sub_0805FC80(0xC, 0x40 - F32(MGR, 0x9C), INV + 0x130, 8);
+            sub_0805FC80(0xC, 0x40 - F32(MGR, 0x9C), INV + SAVE_FIELD(0x130), 8);
 
         if (F32(MGR, 0x1C) == 6) {
             if (gUnk_03002344 & 1)
-                sub_0805FC80(0x10, 0x60 - F32(MGR, 0x94), INV + 0x140, 8);
+                sub_0805FC80(0x10, 0x60 - F32(MGR, 0x94), INV + SAVE_FIELD(0x140), 8);
         } else
-            sub_0805FC80(0x10, 0x60 - F32(MGR, 0x94), INV + 0x140, 8);
+            sub_0805FC80(0x10, 0x60 - F32(MGR, 0x94), INV + SAVE_FIELD(0x140), 8);
     }
 
     if (F32(MGR, 0) == 2) {
-        struct A78Ids { u8 pad[0x56]; u16 ids[3]; };
+        struct A78Ids { u8 pad[SAVE_FIELD(0x56)]; u16 ids[3]; };
         s16 *tx = gUnk_084ECBB0;
         s16 *ty = gUnk_084ECBB2;
-        u32 first = (u16)(F16(INV, 0x54) / 3) * 3;
+        u32 first = (u16)(F16(INV, SAVE_FIELD(0x54)) / 3) * 3;
         end = first + 3;
         for (i = first; i < end; i++) {
             {
@@ -3955,10 +3967,10 @@ void sub_08080A78(void)
                 found = sub_0805D548(((struct A78Ids *)INV)->ids[i] - 1);
                 if (found != -1) {
                     u32 j;
-                    item = INV + (found * 0x10 + 0x150);
+                    item = INV + (found * 0x10 + SAVE_FIELD(0x150));
                     count = 0;
                     for (j = 0; j <= 0x18; j++) {
-                        if (F16(INV, j * 0x10 + 0x150) == 1 && F16(item, 2) == F16(INV, j * 0x10 + 0x152))
+                        if (F16(INV, j * 0x10 + SAVE_FIELD(0x150)) == 1 && F16(item, 2) == F16(INV, j * 0x10 + SAVE_FIELD(0x152)))
                             count++;
                     }
                 } else {
@@ -4104,42 +4116,42 @@ void sub_080811E0(u8 *arg0) {
   var_r1=*(u8 **)(manager811+0xf0);
   switch(*(u16 *)var_r1) {
   case 1:
-   sub_0801BA74(arg0,0,sp4,sp24,(s32)(bank811+0x30));
+   sub_0801BA74(arg0,0,sp4,sp24,(s32)(bank811+SAVE_FIELD(0x30)));
    var_r0=*(u16 *)(*(u8 **)(manager811+0xf0)+2);
    switch(var_r0) {case 8:sp4[0]++;break;case 9:sp4[1]++;break;case 10:sp4[3]++;break;case 11:sp4[2]++;break;}
    break;
   case 2:case 3:case 4:case 5:
    if (*((u8 *)var_r1+8)==0) {
-    sub_0801BA74(arg0,(s32)var_r1,sp4,sp24,(s32)(bank811+0x30));
+    sub_0801BA74(arg0,(s32)var_r1,sp4,sp24,(s32)(bank811+SAVE_FIELD(0x30)));
    } else {
-    sub_0801BA74(arg0,0,sp4,sp24,(s32)(bank811+0x30));
+    sub_0801BA74(arg0,0,sp4,sp24,(s32)(bank811+SAVE_FIELD(0x30)));
    }
    break;
   default:
-   sub_0801BA74(arg0,(s32)*(u8 **)(manager811+0xf0),sp4,sp24,(s32)(bank811+0x30));break;
+   sub_0801BA74(arg0,(s32)*(u8 **)(manager811+0xf0),sp4,sp24,(s32)(bank811+SAVE_FIELD(0x30)));break;
   }
  } else {
   var_r1=manager811+0xf4;
   switch(*(u16 *)var_r1) {
   case 2:case 3:case 4:case 5:
    if(manager811[0xfc]==0) {
-    sub_0801BA74(arg0,(s32)var_r1,sp4,sp24,(s32)(bank811+0x30));
+    sub_0801BA74(arg0,(s32)var_r1,sp4,sp24,(s32)(bank811+SAVE_FIELD(0x30)));
    } else {
-    sub_0801BA74(arg0,0,sp4,sp24,(s32)(bank811+0x30));
+    sub_0801BA74(arg0,0,sp4,sp24,(s32)(bank811+SAVE_FIELD(0x30)));
    }
    break;
   case 1:
-   sub_0801BA74(arg0,0,sp4,sp24,(s32)(bank811+0x30));
+   sub_0801BA74(arg0,0,sp4,sp24,(s32)(bank811+SAVE_FIELD(0x30)));
    var_r0=*(u16 *)(manager811+0xf6);
    switch(var_r0) {case 8:sp4[0]++;break;case 9:sp4[1]++;break;case 10:sp4[3]++;break;case 11:sp4[2]++;break;}
    break;
   default:
-   sub_0801BA74(arg0,(s32)(manager811+0xf4),sp4,sp24,(s32)(bank811+0x30));break;
+   sub_0801BA74(arg0,(s32)(manager811+0xf4),sp4,sp24,(s32)(bank811+SAVE_FIELD(0x30)));break;
   }
  }
 draw:
     temp_r1 = sp24[0].first;
-    temp_r0_3 = *(s16 *)(arg0+0x58);
+    temp_r0_3 = *(s16 *)(arg0+PLAYER_FIELD(0x58));
     if ((s32) temp_r1 > (s32) temp_r0_3) {
         var_r3 = 2;
     } else {
@@ -4149,7 +4161,7 @@ draw:
         }
     }
     sub_0805FB7C(6, 0xE, sp24[0].first, var_r3);
-    temp_r1_2 = *(s16 *)(arg0+0x5A);
+    temp_r1_2 = *(s16 *)(arg0+PLAYER_FIELD(0x5A));
     temp_r0_4 = (s16) sp24[0].second;
     if ((s32) temp_r0_4 > (s32) temp_r1_2) {
         var_r3_2 = 2;
@@ -4161,7 +4173,7 @@ draw:
     }
     sub_0805FB7C(6, 0xF, (s16) sp24[0].second, var_r3_2);
     temp_r1_3 = sp24[9].first;
-    temp_r0_5 = *(s16 *)(arg0+0x7C);
+    temp_r0_5 = *(s16 *)(arg0+PLAYER_FIELD(0x7C));
     if ((s32) temp_r1_3 > (s32) temp_r0_5) {
         var_r3_3 = 2;
     } else {
@@ -4172,7 +4184,7 @@ draw:
     }
     sub_0805FB7C(0x16, 0xE, sp24[9].first, var_r3_3);
     temp_r1_4 = (s16) sp24[9].second;
-    temp_r0_6 = *(s16 *)(arg0+0x7E);
+    temp_r0_6 = *(s16 *)(arg0+PLAYER_FIELD(0x7E));
     if ((s32) temp_r1_4 > (s32) temp_r0_6) {
         var_r3_4 = 2;
     } else {
@@ -4183,7 +4195,7 @@ draw:
     }
     sub_0805FB7C(0x16, 0xF, (s16) sp24[9].second, var_r3_4);
     temp_r1_5 = sp24[10].first;
-    temp_r0_7 = *(s16 *)(arg0+0x80);
+    temp_r0_7 = *(s16 *)(arg0+PLAYER_FIELD(0x80));
     if ((s32) temp_r1_5 > (s32) temp_r0_7) {
         var_r3_5 = 2;
     } else {
@@ -4194,7 +4206,7 @@ draw:
     }
     sub_0805FB7C(0x16, 0x10, sp24[10].first, var_r3_5);
     temp_r1_6 = (s16) sp24[10].second;
-    temp_r0_8 = *(s16 *)(arg0+0x82);
+    temp_r0_8 = *(s16 *)(arg0+PLAYER_FIELD(0x82));
     if ((s32) temp_r1_6 > (s32) temp_r0_8) {
         var_r3_6 = 2;
     } else {
@@ -4205,7 +4217,7 @@ draw:
     }
     sub_0805FB7C(0x1D, 0xE, (s16) sp24[10].second, var_r3_6);
     temp_r1_7 = sp24[11].first;
-    temp_r0_9 = *(s16 *)(arg0+0x84);
+    temp_r0_9 = *(s16 *)(arg0+PLAYER_FIELD(0x84));
     if ((s32) temp_r1_7 > (s32) temp_r0_9) {
         var_r3_7 = 2;
     } else {
@@ -4216,7 +4228,7 @@ draw:
     }
     sub_0805FB7C(0x1D, 0xF, sp24[11].first, var_r3_7);
     temp_r1_8 = (s16) sp24[11].second;
-    temp_r0_10 = *(s16 *)(arg0+0x86);
+    temp_r0_10 = *(s16 *)(arg0+PLAYER_FIELD(0x86));
     if ((s32) temp_r1_8 > (s32) temp_r0_10) {
         var_r3_8 = 2;
     } else {
@@ -4227,7 +4239,7 @@ draw:
     }
     sub_0805FB7C(0x1D, 0x10, (s16) sp24[11].second, var_r3_8);
     temp_r1_9 = (s16) sp4[0];
-    temp_r0_11 = *(s16 *)(arg0+0x38);
+    temp_r0_11 = *(s16 *)(arg0+PLAYER_FIELD(0x38));
     if ((s32) temp_r1_9 > (s32) temp_r0_11) {
         var_r3_9 = 2;
     } else {
@@ -4238,7 +4250,7 @@ draw:
     }
     sub_0805FB7C(0xF, 0xE, (s16) sp4[0], var_r3_9);
     temp_r1_10 = (s16) sp4[3];
-    temp_r0_12 = *(s16 *)(arg0+0x3E);
+    temp_r0_12 = *(s16 *)(arg0+PLAYER_FIELD(0x3E));
     if ((s32) temp_r1_10 > (s32) temp_r0_12) {
         var_r3_10 = 2;
     } else {
@@ -4249,7 +4261,7 @@ draw:
     }
     sub_0805FB7C(6, 0x10, (s16) sp4[3], var_r3_10);
     temp_r1_11 = (s16) sp4[2];
-    temp_r0_13 = *(s16 *)(arg0+0x3C);
+    temp_r0_13 = *(s16 *)(arg0+PLAYER_FIELD(0x3C));
     if ((s32) temp_r1_11 > (s32) temp_r0_13) {
         var_r3_11 = 2;
     } else {
@@ -4259,8 +4271,17 @@ draw:
         }
     }
     sub_0805FB7C(0xF, 0x10, (s16) sp4[2], var_r3_11);
+#ifdef REGION_USA
+    {
+        s16 *stats = sp4;
+        s16 *field = (s16 *)(arg0+PLAYER_FIELD(0x3A));
+        temp_r1_12 = stats[1];
+        temp_r0_14 = *field;
+    }
+#else
     temp_r1_12 = (s16) sp4[1];
-    temp_r0_14 = *(s16 *)(arg0+0x3A);
+    temp_r0_14 = *(s16 *)(arg0+PLAYER_FIELD(0x3A));
+#endif
     if ((s32) temp_r1_12 > (s32) temp_r0_14) {
         var_r3_12 = 2;
     } else {
@@ -4281,6 +4302,105 @@ extern void sub_0801A3D0(u8 *, u32, u32);
  * final digit; copies other bytes until0xFD. Builds local32-byte text, u16 length with no bounds validation,
  * terminates0xFD and draws via0x0801A3D0 at u16(x-(width>>1)) when centered, else x. No text-capacity check or
  * bounded search for a missing source terminator; not ASCII formatting. */
+#ifdef REGION_USA
+void sub_08081518(u32 arg0, u32 arg1, u8 *arg2, u32 arg3, volatile s32 arg4)
+{
+    struct {
+        TextChar text[30];
+        s32 number;
+        u32 x;
+        u32 y;
+        /* Preserve the two caller-clobbered pointers in the original spill slots. */
+        TextChar *volatile source;
+        s32 *volatile num;
+    } frame;
+    register u32 savedNumber asm("r9");
+    register u32 length asm("r8");
+    register TextChar *source asm("r2");
+    s32 *num;
+    register u32 token asm("r3");
+    TextChar *out;
+    u16 digit;
+    register s32 *divisor asm("r6");
+    u32 started;
+    u16 offset;
+    
+    frame.x = (u16)arg0;
+    frame.y = (u16)arg1;
+    savedNumber = (u16)arg3;
+    source = (TextChar *)(arg2 + TEXT_HEADER);
+    length = 0;
+    token = *source;
+    if (token != TEXT_CTRL(0xFD)) {
+        u32 end = TEXT_CTRL(0xFD);
+    do {
+    if (token == ({ register u32 code asm("r1") = TEXT_CTRL(0xF7); code; })) {
+        register u32 numberCopy asm("r4") = savedNumber;
+        asm("" : "+r"(numberCopy));
+        frame.number = numberCopy;
+        divisor = decimalDivisors8518;
+        out = frame.text + length;
+        started = 0;
+        digit = 0;
+        num = &frame.number;
+        source++;
+        do {
+            u32 value;
+            s32 denominator = *divisor;
+            s32 *callNum = num;
+            asm("" : "+r"(denominator), "+r"(callNum));
+            frame.source = source;
+            frame.num = num;
+            value = sub_08000498(callNum, denominator) + 0x41;
+            *out = value;
+            source = frame.source;
+            num = frame.num;
+            asm("" : "+r"(divisor), "+r"(out));
+            if (started || (TextChar)value != 0x41 || digit == 5) {
+                out++;
+                started = 1;
+                length = (u16)(length + 1);
+            }
+            {
+                u32 nextDigit = digit + 1;
+                digit = (u16)nextDigit;
+            }
+            divisor++;
+        } while (digit <= 5);
+    } else {
+        u32 oldLength = length;
+        length = (u16)(oldLength + 1);
+        frame.text[oldLength] = token;
+        source++;
+    }
+    token = *source;
+    } while (token != end);
+    }
+    { register u32 len asm("r2") = length; register u32 t3 asm("r3"); asm("" : "=r"(t3)); frame.text[len] = TEXT_CTRL(0xFD); asm("" : : "r"(len), "r"(t3)); }
+    {
+        u32 mask = 1;
+        register u32 flags asm("r1");
+        
+        flags = arg4;
+        flags &= mask;
+        if (flags)
+            offset = -((u32)sub_0801A638((u8 *)frame.text) >> 1);
+        else
+            offset = 0;
+    }
+    {
+        /* A byte offset keeps agbcc's base/offset operand order; never dereferenced. */
+        register u8 *xCopy asm("r2") = (u8 *)frame.x;
+        u32 drawX;
+        TextChar *drawText;
+        asm("" : "+r"(xCopy));
+        drawX = (u16)(u32)(xCopy + offset);
+        drawText = frame.text;
+        asm("" : "+r"(drawText) : "r"(drawX));
+        sub_0801A3D0((u8 *)drawText, drawX, frame.y);
+    }
+}
+#else
 void sub_08081518(u32 arg0, u32 arg1, u8 *arg2, u32 arg3, volatile s32 arg4)
 {
     struct {
@@ -4384,6 +4504,7 @@ checkToken:
         sub_0801A3D0(drawText, drawX, frame.y);
     }
 }
+#endif
 extern u8 text85[] asm("gUnk_03000128");
 extern u8 table85[] asm("gUnk_08479140");
 extern u32 divisors85[] asm("gUnk_084EBD5C");
@@ -4753,7 +4874,7 @@ block_46:
                 sp254 = 0;
                 break;
             }
-            switch (*(u8 *)(sp240 + 0x9B)) {
+            switch (ITEM_KIND(sp240)) {
             default:
                         temp_r4_8 = gUnk_030034E0 + 0x30;
                         temp_r6_3 = (*((u8 *)((u8 *)(sp240) + (0x9C))));
@@ -4819,9 +4940,9 @@ block_46:
                             *++var_r6 = 0x51;
                         }
                         if ((*((u16 *)((u8 *)(sp240) + (0xAC)))) == 7) {
-                            FMT815F4(var_r8_12, var_r6 + 1, ((*(u8 *)(sp240 + 0x9B) * 2) + 0x32A) | 0x140000, (s32) (*((u16 *)((u8 *)(sp240) + (0xAC)))));
+                            FMT815F4(var_r8_12, var_r6 + 1, ((ITEM_KIND(sp240) * 2) + 0x32A) | 0x140000, (s32) (*((u16 *)((u8 *)(sp240) + (0xAC)))));
                         } else {
-                            FMT815F4(var_r8_12, var_r6 + 1, ((*(u8 *)(sp240 + 0x9B) * 2) + 0x329) | 0x140000, (s32) (*((u16 *)((u8 *)(sp240) + (0xAC)))));
+                            FMT815F4(var_r8_12, var_r6 + 1, ((ITEM_KIND(sp240) * 2) + 0x329) | 0x140000, (s32) (*((u16 *)((u8 *)(sp240) + (0xAC)))));
                         }
                         sub_0801A3D0(text85, (u16) (0xF - ((u32) sub_0801A638(text85) >> 1)), 5U);
                         if (sp258 == 0) {
@@ -4853,10 +4974,10 @@ block_46:
                 sp254 = 0;
             } else {
                 temp_r4 = gUnk_030034E0 + 0x30;
-                temp_r5 = (*((u8 *)((u8 *)(sp244) + (0x9B))));
+                temp_r5 = ITEM_KIND(sp244);
                 sp25C = (u32) local815F4_sub_0801E378(temp_r4, (u16) temp_r5, sub_0801DE60());
-                sp25C = (u32) (u16) (sp25C - (*((u8 *)((u8 *)(sp244) + (0x9B)))));
-                FMT1_815F4(var_r8_2, (text85), 0x140329, (*((u8 *)((u8 *)(sp244) + (0x9B)))) + (*((u8 *)((u8 *)(sp23C) + (6)))), var_r6);
+                sp25C = (u32) (u16) (sp25C - ITEM_KIND(sp244));
+                FMT1_815F4(var_r8_2, (text85), 0x140329, ITEM_KIND(sp244) + (*((u8 *)((u8 *)(sp23C) + (6)))), var_r6);
                 (*((u8 *)((u8 *)(var_r6) + (0)))) = 0x51;
                 if (sp25C != 0) {
                     *++var_r6 = 0x51;
@@ -4895,10 +5016,10 @@ block_46:
                 break;
             }
             temp_r4_3 = gUnk_030034E0 + 0x30;
-            temp_r5_3 = (*((u8 *)((u8 *)(sp248) + (0x9B))));
+            temp_r5_3 = ITEM_KIND(sp248);
             sp25C = (u32) local815F4_sub_0801E378(temp_r4_3, (u16) temp_r5_3, sub_0801DE60());
-            sp25C = (u32) (u16) (sp25C - (*((u8 *)((u8 *)(sp248) + (0x9B)))));
-            FMT1_815F4(var_r8_5, (text85), 0x140329, (*((u8 *)((u8 *)(sp248) + (0x9B)))) + (*((u8 *)((u8 *)(sp23C) + (6)))), var_r6);
+            sp25C = (u32) (u16) (sp25C - ITEM_KIND(sp248));
+            FMT1_815F4(var_r8_5, (text85), 0x140329, ITEM_KIND(sp248) + (*((u8 *)((u8 *)(sp23C) + (6)))), var_r6);
             (*((u8 *)((u8 *)(var_r6) + (0)))) = 0x51;
             if (sp25C != 0) {
                 *++var_r6 = 0x51;
@@ -4938,12 +5059,12 @@ block_46:
             if ((*((u8 *)((u8 *)(sp24C) + (0xA0)))) != 0) {
                 temp_r4_4 = gUnk_030034E0 + 0x30;
                 var_r6 = sp24C + 0x9B;
-                temp_r5_5 = (*((u8 *)((u8 *)(sp24C) + (0x9B))));
+                temp_r5_5 = ITEM_KIND(sp24C);
                 sp25C = local815F4_sub_0801E3D8(temp_r4_4, (u16) temp_r5_5, sub_0801DE60());
             } else {
                 temp_r4_5 = gUnk_030034E0 + 0x30;
                 var_r6 = sp24C + 0x9B;
-                temp_r5_6 = (*((u8 *)((u8 *)(sp24C) + (0x9B))));
+                temp_r5_6 = ITEM_KIND(sp24C);
                 sp25C = local815F4_sub_0801E378(temp_r4_5, (u16) temp_r5_6, sub_0801DE60());
             }
             sp25C = (u32) (u16) (sp25C - *var_r6);
@@ -5070,7 +5191,11 @@ icons:
 struct Icon82960 { u16 unk0; s16 unk2; u32 zero; u8 flag; u8 pad[7]; };
 struct Stat82960 { volatile u16 unk0; u16 unk2; };
 struct Manager82960 { u8 pad[0x74]; struct { s32 y; s32 pad; } entries[6]; };
+#ifdef REGION_USA
+struct Record82960 { u16 names[6][31]; u16 items[6]; struct Stat82960 stats[3]; };
+#else
 struct Record82960 { u16 names[5][31]; u16 items[6]; u16 pad; struct Stat82960 stats[3]; };
+#endif
 /* [DrawLocalizedEquipmentSetSummary] r0 record pointer; null returns with no drawing. Draws title
  * resource0x1403EC at row3, localized record name selected by global0x03003470 (31 halfwords per language),
  * truncating each character to byte, ending at low-byte zero or after31 characters then0xFD. Draws six
@@ -5078,6 +5203,167 @@ struct Record82960 { u16 names[5][31]; u16 items[6]; u16 pad; struct Stat82960 s
  * mapping2,4,3,5,6,7, centered icon row with manager animation offsets. Scans three4-byte modifiers at+0x144,
  * excluding type0/41, selects positive/negative text resource from signed value bit15, draws absolute u16
  * magnitude via0x08081518 with layout based on total valid modifiers. */
+#ifdef REGION_USA
+void sub_08082960(struct Record82960 *arg0) {
+    s32 var_r4;
+    u32 var_r5;
+    u32 var_r6;
+    u32 first_byte;
+    u32 stat_y;
+    s32 icon_x;
+    struct Icon82960 sp4;
+    TextChar sp14[40];
+    s16 var_r0;
+    s32 var_r3;
+    s32 var_r3_2;
+    s32 var_r3_3;
+    s32 temp_r2;
+    s32 temp_r2_2;
+    s32 var_r0_2;
+    u32 work1;
+
+    u32 temp_r0;
+    u32 temp_r0_2;
+    u16 temp_r0_3;
+    u16 temp_r0_4;
+    TextChar *var_r2;
+
+    if (arg0 == 0) {
+        return;
+    }
+    temp_r2_2 = sub_08007290(0x1403EC);
+    var_r4 = temp_r2_2 + TEXT_HEADER;
+    sub_0801A3D0(((u8 *)var_r4), (u16) (0xF - ((u32) sub_0801A638(((u8 *)var_r4)) >> 1)), 3);
+    var_r2 = sp14;
+    var_r5 = 0;
+    temp_r0 = arg0->names[gUnk_03003470][0];
+    *var_r2 = temp_r0;
+    asm("" : "+r"(temp_r0));
+    first_byte = temp_r0 << 16;
+    var_r4 = (s32)var_r2;
+    if (first_byte != 0) {
+        do {
+            var_r5++;
+            var_r2++;
+            if (var_r5 > 30) break;
+            temp_r0_2 = arg0->names[gUnk_03003470][var_r5];
+            *var_r2 = temp_r0_2;
+            asm("" : "+r"(temp_r0_2));
+        } while ((u16)temp_r0_2 != 0);
+    }
+    *var_r2 = TEXT_CTRL(0xFD);
+    sub_0801A3D0(((u8 *)var_r4), (u16) (0xF - ((u32) sub_0801A638(((u8 *)var_r4)) >> 1)), 0x12);
+    var_r4 = 0;
+    var_r5 = 0;
+    var_r3 = 0x8000;
+    var_r2 = (TextChar *)arg0->items;
+    do {
+        work1 = *(u16 *)var_r2;
+        var_r0_2 = var_r3 & work1;
+        asm("" : "+r"(work1), "+r"(var_r0_2));
+        if (!var_r0_2) {
+            var_r4 += 1;
+        }
+        var_r2 += 2 / sizeof(TextChar);
+        var_r5 += 1;
+    } while (var_r5 <= 5U);
+    sp4.zero = 0;
+    sp4.flag = 0;
+    var_r6 = 0;
+    var_r5 = 0;
+    do {
+        temp_r2 = var_r5 * 2;
+        if (!(0x8000 & arg0->items[var_r5])) {
+            switch (var_r5) {
+            case 0: sp4.unk0 = 2; break;
+            case 2: sp4.unk0 = 3; break;
+            case 1: sp4.unk0 = 4; break;
+            case 3: sp4.unk0 = 5; break;
+            case 4: sp4.unk0 = 6; break;
+            case 5: sp4.unk0 = 7; break;
+            }
+            sp4.unk2 = (u16) arg0->items[var_r5];
+            icon_x = (var_r6 * 0x10) + 0x80;
+            sub_0805FC80(icon_x - (var_r4 * 8), 0x38 - ((struct Manager82960 *)gUnk_03006440)->entries[var_r5].y, &sp4, 0);
+            var_r6 += 1;
+        }
+        var_r5 += 1;
+    } while (var_r5 <= 5U);
+    var_r4 = (s32)arg0->stats;
+    var_r6 = 0;
+    var_r5 = 0;
+    if (((struct Stat82960 *)var_r4) != NULL) {
+        work1 = (u32)var_r4;
+loop_24:
+        temp_r0_3 = *(u16 *)work1;
+        if ((temp_r0_3 != 0) && (temp_r0_3 != 0x29)) {
+            var_r6 += 1;
+        }
+        work1 += 4;
+        var_r5 += 1;
+        if ((var_r5 <= 2U) && (((struct Stat82960 *)var_r4) != NULL)) {
+            goto loop_24;
+        }
+        var_r5 = 0;
+        if (((struct Stat82960 *)var_r4) != NULL) {
+do {
+loop_30:
+            temp_r0_4 = ((struct Stat82960 *)var_r4)->unk0;
+            if ((temp_r0_4 != 0) && (temp_r0_4 != 0x29)) {
+                var_r0_2 = ((struct Stat82960 *)var_r4)->unk2;
+                temp_r2_2 = 0x8000;
+                work1 = temp_r2_2;
+                asm("" : "+r"(temp_r2_2), "+&r"(work1));
+                if (var_r0_2 & work1) {
+                    var_r0_2 = ((struct Stat82960 *)var_r4)->unk0 * 2;
+                    var_r3 = 0x2C4;
+                    asm("" : "+r"(var_r3), "+r"(var_r0_2));
+                    var_r0_2 += var_r3;
+                } else {
+                    var_r0_2 = ((struct Stat82960 *)var_r4)->unk0 * 2;
+                    work1 = 0x2C3;
+
+                    var_r0_2 += work1;
+                }
+                work1 = 0x140000;
+                var_r0_2 |= work1;
+                temp_r2_2 = sub_08007290(var_r0_2);
+                switch (var_r6) {                 /* switch 2; irregular */
+                case 1:                             /* switch 2 */
+                    var_r3 = (s16) ((struct Stat82960 *)var_r4)->unk2;
+                    if ((s32) var_r3 < 0) {
+                        var_r3 = 0 - var_r3;
+                    }
+                    sub_08081518(0xF, 0xBU, temp_r2_2, (u16) var_r3, var_r6);
+                    break;
+                case 2:                             /* switch 2 */
+                    stat_y = (u32) ((var_r5 << 0x11) + 0xA0000) >> 0x10;
+                    var_r3_2 = (s16) ((struct Stat82960 *)var_r4)->unk2;
+                    if ((s32) var_r3_2 < 0) {
+                        var_r3_2 = 0 - var_r3_2;
+                    }
+                    sub_08081518(0xF, stat_y, temp_r2_2, (u16) var_r3_2, 1U);
+                    break;
+                case 3:                             /* switch 2 */
+                    stat_y = (u32) ((var_r5 << 0x11) + 0x90000) >> 0x10;
+                    var_r3_3 = (s16) ((struct Stat82960 *)var_r4)->unk2;
+                    if ((s32) var_r3_3 < 0) {
+                        var_r3_3 = 0 - var_r3_3;
+                    }
+                    sub_08081518(0xF, stat_y, temp_r2_2, (u16) var_r3_3, 1U);
+                    break;
+                }
+            }
+            } while (0);
+    var_r4 += 4;
+            var_r5 += 1;
+            if ((var_r5 <= 2U) && (((struct Stat82960 *)var_r4) != NULL)) {
+                goto loop_30;
+            }
+        }
+    }
+}
+#else
 void sub_08082960(struct Record82960 *arg0) {
     s32 var_r4;
     u32 var_r5;
@@ -5236,6 +5522,7 @@ loop_30:
         }
     }
 }
+#endif
 
 
 
@@ -5254,7 +5541,7 @@ void sub_08082BB0_u32(u32 arg0) asm("sub_08082BB0");
  * current/held items or detailed record view, refreshes signed stat preview and inventory contents, with
  * variant-specific collection background updates. */
 void sub_08082BB0_u32(u32 arg0) {
-    struct PlayerWords82BB0 { u8 pad[0x8C]; u32 w8C, w90; u8 tail[0x14C - 0x94]; };
+    struct PlayerWords82BB0 { u8 pad[0x8C]; u32 w8C, w90; u8 tail[PLAYER_SIZE - 0x94]; };
     extern struct PlayerWords82BB0 players82BB0[] asm("gUnk_03003CE0");
     extern u32 sub_08001108_word82BB0(u32) asm("sub_08001108");
     struct Index82BB0 { u8 pad[0x14A]; u16 value; };
@@ -5396,6 +5683,9 @@ void sub_08082BB0_u32(u32 arg0) {
     }
     stage82BB0.value = table82BB0Stage[index82BB0->value];
     sub_0800B650(0x10, 0x1F, 0x06000000, 0U, 0xEU);
+#ifdef REGION_USA
+    sub_08065158(((u8 *)manager82BB0) + 0x5B8, 0x50006, 0, -1, 0); /* single language */
+#else
     switch (gUnk_03003470) {
     case 0: sub_08065158(((u8 *)manager82BB0) + 0x5B8, 0x50006, 0, -1, 0); break;
     case 1: sub_08065158(((u8 *)manager82BB0) + 0x5B8, 0x50007, 0, -1, 0); break;
@@ -5403,6 +5693,7 @@ void sub_08082BB0_u32(u32 arg0) {
     case 3: sub_08065158(((u8 *)manager82BB0) + 0x5B8, 0x50009, 0, -1, 0); break;
     case 4: sub_08065158(((u8 *)manager82BB0) + 0x5B8, 0x5000A, 0, -1, 0); break;
     }
+#endif
     sub_08065158(((u8 *)manager82BB0) + 0x5EC, 0x5007A, 0, -1, 0);
     sub_08000AF0(0x1EU, (*(s32 *)((u8 *)(((u8 *)manager82BB0)) + 0x5F8)), 1U);
     (*(u8 *)((u8 *)(((u8 *)manager82BB0)) + 0x608)) = 0xE;
@@ -5565,7 +5856,7 @@ block_61:
         mode_index82BB0 = *(s32 *)((u8 *)manager82BB0 + 0x44);
         mode_offset82BB0 = mode_index82BB0 * 0xF0;
         
-        mode_offset82BB0 += 0x2E0;
+        mode_offset82BB0 += ENEMY_SIZE;
         
         { s32 slot82BB0 = (s32)*mode_slot82BB0; register s32 sum82BB0 asm("r0") = slot82BB0; sum82BB0 = slot82BB0 + mode_offset82BB0; sub_080852CC(sum82BB0); }
         break;
@@ -5771,7 +6062,7 @@ block_61:
     case 6:
         for (var_r6 = 0; var_r6 < (u32)(*(u16 *)((u8 *)bank82BB0 + 0x6A) * 0xF); var_r6++) {
             temp_r1_6 = (u8 *)bank82BB0;
-            var_r8 = 0x2E0;
+            var_r8 = ENEMY_SIZE;
             temp_r2_2 = var_r6 * 0x10;
             temp_r1_7 = temp_r1_6 + temp_r2_2;
             asm("" : "+r"(temp_r1_7) : "r"(var_r8));
@@ -6813,7 +7104,7 @@ void sub_0808441C(u16 *param_1, u32 *param_2)
     }
     classification = sub_08084200(*(u8 **)(stack + 0x5C));
     if (classification == 0) goto LAB_0808481c;
-    if (((u32)sub_080008C8() & 0xFFFF) > *(u32 *)((u32)gUnk_030034E0 + 0x6C)) goto LAB_0808481c;
+    if (((u32)sub_080008C8() & 0xFFFF) > *(u32 *)((u32)gUnk_030034E0 + SAVE_FIELD(0x6C))) goto LAB_0808481c;
     {
       register struct Record8441C *input asm("r6") = *(struct Record8441C **)(stack + 0x5C);
       
@@ -7058,7 +7349,7 @@ inventoryFirst8441C:
         register u32 baseOffset asm("r5");
         source += byteOffset;
         destination = result;
-        baseOffset = 0x790;
+        baseOffset = SAVE_FIELD(0x790);
         asm("" : "+r"(destination), "+r"(baseOffset));
         source += baseOffset;
         *destination = *(struct Record8441C *)source;
@@ -7068,9 +7359,9 @@ inventoryFirst8441C:
         } while (result->type == 0);
         { u32 loaded = sub_08007290(result->subtype | 0xB0000);
           *(u32 *)(stack + 0x64) = loaded;
-          if (*(u16 *)(loaded + 0xBC) != 0) goto finalize8441C; }
+          if (*(u16 *)(loaded + ITEM_FIELD(0xBC)) != 0) goto finalize8441C; }
         if (*(u16 *)((u8 *)result + 6) != 0) goto finalize8441C;
-        if (*(u16 *)(*(volatile u32 *)(stack + 0x64) + 0xB0) != 0) goto finalize8441C;
+        if (*(u16 *)(*(volatile u32 *)(stack + 0x64) + ITEM_FIELD(0xB0)) != 0) goto finalize8441C;
         goto secondAttribute8441C;
 inventorySecond8441C:
         {
@@ -7085,7 +7376,7 @@ inventorySecond8441C:
         register u32 baseOffset asm("r5");
         source += byteOffset;
         destination = inventoryResult;
-        baseOffset = 0x850;
+        baseOffset = SAVE_FIELD(0x850);
         asm("" : "+r"(destination), "+r"(baseOffset));
         source += baseOffset;
         *destination = *(struct Record8441C *)source;
@@ -7098,12 +7389,24 @@ inventorySecond8441C:
           *(u32 *)(stack + 0x68) = sub_08007290(result->subtype | 0xC0000);
         asm("" : : : "memory");
           if ((*(u32 *)((u8 *)result + 4) & 0xFFFFFF) != 0) goto finalize8441C;
-          if (*(u16 *)(*(u32 *)(stack + 0x68) + 0xA4) != 0) goto finalize8441C;
+          if (*(u16 *)(*(u32 *)(stack + 0x68) + EQUIP_FIELD(0xA4)) != 0) goto finalize8441C;
         } else {
+#ifdef REGION_USA
+          if (result->type == 4) {
+            *(u32 *)(stack + 0x6C) = sub_08007290(result->subtype | 0xD0000);
+            if ((*(u32 *)((u8 *)result + 4) & 0xFFFFFF) != 0) goto finalize8441C;
+            if (*(u16 *)(*(u32 *)(stack + 0x6C) + EQUIP_FIELD(0xA4)) != 0) goto finalize8441C;
+          } else {
+            *(u32 *)(stack + 0x70) = sub_08007290(result->subtype | 0xE0000);
+            if ((*(u32 *)((u8 *)result + 4) & 0xFFFFFF) != 0) goto finalize8441C;
+            if (*(u16 *)(*(u32 *)(stack + 0x6C) + EQUIP_FIELD(0xA4)) != 0) goto finalize8441C;
+          }
+#else
           if (result->type == 4) *(u32 *)(stack + 0x6C) = sub_08007290(result->subtype | 0xD0000);
           else *(u32 *)(stack + 0x70) = sub_08007290(result->subtype | 0xE0000);
           if ((*(u32 *)((u8 *)result + 4) & 0xFFFFFF) != 0) goto finalize8441C;
-          if (*(u16 *)(*(u32 *)(stack + 0x6C) + 0xA4) != 0) goto finalize8441C;
+          if (*(u16 *)(*(u32 *)(stack + 0x6C) + EQUIP_FIELD(0xA4)) != 0) goto finalize8441C;
+#endif
         }
         goto thirdValue8441C;
       }
@@ -7120,7 +7423,7 @@ inventorySecond8441C:
     default: break;
     }
 secondAttribute8441C:
-    if (((u32)sub_080008C8() & 0xFFFF) <= *(u32 *)((u32)gUnk_030034E0 + 0x6C)) {
+    if (((u32)sub_080008C8() & 0xFFFF) <= *(u32 *)((u32)gUnk_030034E0 + SAVE_FIELD(0x6C))) {
       register struct Record8441C *attributeRecord asm("r0") = second;
       s32 attributeType;
       attributeType = attributeRecord->type;
@@ -7170,7 +7473,7 @@ thirdValue8441C:
       {
         u32 random = (u32)sub_080008C8() & 0xFFFF;
         u32 limit;
-        limit = *(u32 *)((u32)gUnk_030034E0 + 0x6C);
+        limit = *(u32 *)((u32)gUnk_030034E0 + SAVE_FIELD(0x6C));
         chance = 0;
         if (random <= limit) chance = 1;
       }
@@ -7194,7 +7497,7 @@ resultTwo8441C:
       { u32 address;
       address = sub_08007290(result->subtype | 0xB0000);
       *(u32 *)(stack + 0x64) = address;
-      if (*(u8 *)(address + 0x9B) != 9) goto resultTwoOrdinary8441C;
+      if (ITEM_KIND(address) != 9) goto resultTwoOrdinary8441C;
       { register struct Record8441C *p asm("r3") = third;
         switch ((s32)p->type) {
         case 2: case 3: case 4: case 5: goto permittedFour8441C;
@@ -7396,7 +7699,7 @@ weightStore8441C:
         sum += factor;
         global = stateAddress;
         
-        multiplier = *(u32 *)(*global + 0x6C);
+        multiplier = *(u32 *)(*global + SAVE_FIELD(0x6C));
         asm("" : : "r"(values));
         sum *= multiplier;
         score = (sum >> 18) + 3;
@@ -7457,33 +7760,33 @@ afterBonus8441C:
     }
     if (result->type == 2) {
       *(u32 *)(stack + 0x64) = sub_08007290(result->subtype | 0xB0000);
-      if (*(u8 *)(*(u32 *)(stack + 0x64) + 0x9B) == 9) result->byte6 = 0;
+      if (ITEM_KIND(*(u32 *)(stack + 0x64)) == 9) result->byte6 = 0;
     }
     if (result->byte6 > 19) result->byte6 = 20;
     switch (result->type) {
     case 2:
       randomIndex = 0;
-      if (*(u16 *)(*(u32 *)(stack + 0x64) + 0xB0) != 0) goto clearByIndex8441C;
+      if (*(u16 *)(*(u32 *)(stack + 0x64) + ITEM_FIELD(0xB0)) != 0) goto clearByIndex8441C;
 scanProperty2:
       randomIndex++;
       if (randomIndex > 2) goto copyOutput8441C;
-      if (({ register u32 offset asm("r0") = randomIndex << 2; register u8 *properties asm("r3");  properties = *(u8 **)(stack + 0x64);  *(u16 *)(properties + offset + 0xB0); }) == 0) goto scanProperty2;
+      if (({ register u32 offset asm("r0") = randomIndex << 2; register u8 *properties asm("r3");  properties = *(u8 **)(stack + 0x64);  *(u16 *)(properties + offset + ITEM_FIELD(0xB0)); }) == 0) goto scanProperty2;
       goto clearByZero8441C;
     case 3:
       randomIndex = 0;
-      if (*(u16 *)(*(u32 *)(stack + 0x68) + 0xA4) != 0) goto clearByIndex8441C;
+      if (*(u16 *)(*(u32 *)(stack + 0x68) + EQUIP_FIELD(0xA4)) != 0) goto clearByIndex8441C;
 scanProperty3:
       randomIndex++;
       if (randomIndex > 2) goto copyOutput8441C;
-      if (({ register u32 offset asm("r0") = randomIndex << 2; register u8 *properties asm("r4");  properties = *(u8 **)(stack + 0x68);  *(u16 *)(properties + offset + 0xA4); }) == 0) goto scanProperty3;
+      if (({ register u32 offset asm("r0") = randomIndex << 2; register u8 *properties asm("r4");  properties = *(u8 **)(stack + 0x68);  *(u16 *)(properties + offset + EQUIP_FIELD(0xA4)); }) == 0) goto scanProperty3;
       goto clearByZero8441C;
     case 4:
       randomIndex = 0;
-      if (*(u16 *)(*(u32 *)(stack + 0x6C) + 0xA4) != 0) goto clearByIndex8441C;
+      if (*(u16 *)(*(u32 *)(stack + 0x6C) + EQUIP_FIELD(0xA4)) != 0) goto clearByIndex8441C;
 scanProperty4:
       randomIndex++;
       if (randomIndex > 2) goto copyOutput8441C;
-      if (({ register u32 offset asm("r0") = randomIndex << 2; register u8 *properties asm("r6");  properties = *(u8 **)(stack + 0x6C);  *(u16 *)(properties + offset + 0xA4); }) == 0) goto scanProperty4;
+      if (({ register u32 offset asm("r0") = randomIndex << 2; register u8 *properties asm("r6");  properties = *(u8 **)(stack + 0x6C);  *(u16 *)(properties + offset + EQUIP_FIELD(0xA4)); }) == 0) goto scanProperty4;
       goto clearByZero8441C;
     case 5:
       randomIndex = 0;
@@ -7495,7 +7798,7 @@ clearByIndex8441C:
 scanProperty5:
       randomIndex++;
       if (randomIndex > 2) goto copyOutput8441C;
-      if (({ register u32 offset asm("r0") = randomIndex << 2; register u8 *properties asm("r1");  properties = *(u8 **)(stack + 0x70);  *(u16 *)(properties + offset + 0xA4); }) == 0) goto scanProperty5;
+      if (({ register u32 offset asm("r0") = randomIndex << 2; register u8 *properties asm("r1");  properties = *(u8 **)(stack + 0x70);  *(u16 *)(properties + offset + EQUIP_FIELD(0xA4)); }) == 0) goto scanProperty5;
       goto clearByZero8441C;
 clearByZero8441C:
       result->value = 0;
@@ -7538,10 +7841,10 @@ copyOutput8441C:
       { register u32 *input asm("r1") = *(u32 *volatile *)(stack + 0x5C);
         
         firstPrice += input[13]; }
-      firstPrice = *(u32 *)(state + 0x6C) + firstPrice / 10;
+      firstPrice = *(u32 *)(state + SAVE_FIELD(0x6C)) + firstPrice / 10;
       firstPrice -= outputPrice / 10;
-      *(u32 *)(state + 0x6C) = firstPrice;
-      if ((s32)firstPrice < 0) *(u32 *)(state + 0x6C) = 0;
+      *(u32 *)(state + SAVE_FIELD(0x6C)) = firstPrice;
+      if ((s32)firstPrice < 0) *(u32 *)(state + SAVE_FIELD(0x6C)) = 0;
       {
         register u32 *address asm("r2") = globalAddress;
         u8 *current;
@@ -7549,10 +7852,10 @@ copyOutput8441C:
         register u32 maximum asm("r2");
         asm("" : "+r"(address));
         current = (u8 *)*address;
-        value = *(s32 *)(current + 0x6C);
+        value = *(s32 *)(current + SAVE_FIELD(0x6C));
         maximum = 0xFFFF;
         
-        if (value > (s32)maximum) *(u32 *)(current + 0x6C) = maximum;
+        if (value > (s32)maximum) *(u32 *)(current + SAVE_FIELD(0x6C)) = maximum;
       }
     }
 }
@@ -7659,25 +7962,25 @@ extern u32 digits850C0[] asm("gUnk_084EBD5C");
  * No destination-capacity check or bounded search for a missing source terminator; no claim of ASCII output.
  * Complete original configured body and literal use audited against EU ROM; copied verified-main ELF equality
  * is static corroboration, not a new build or runtime test. */
-u8 *sub_080850C0(u8 *src, u16 value, u8 *dst)
+TextChar *sub_080850C0(TextChar *src, u16 value, TextChar *dst)
 {
     u16 n;
-    u8 c;
-    u8 *next;
+    TextChar c;
+    TextChar *next;
     src += 2;
     n = 0;
-    while ((c = *src) != 0xFD) {
-        if (c == 0xF7) {
+    while ((c = *src) != TEXT_CTRL(0xFD)) {
+        if (c == TEXT_CTRL(0xF7)) {
             s32 number = value;
             u32 *divisor = digits850C0;
-            u8 *out = dst + n;
+            TextChar *out = dst + n;
             u32 started = 0;
             u16 i = 0;
             next = src + 1;
             do {
                 u32 ch = sub_08000498(&number, *divisor) + 0x41;
                 *out = ch;
-                if (started != 0 || (u8)ch != 0x41 || i == 5) {
+                if (started != 0 || (TextChar)ch != 0x41 || i == 5) {
                     out++;
                     started = 1;
                     n++;
@@ -7692,7 +7995,7 @@ u8 *sub_080850C0(u8 *src, u16 value, u8 *dst)
         }
         src = next;
     }
-    dst[n] = 0xFD;
+    dst[n] = TEXT_CTRL(0xFD);
     return dst + (n - 1);
 }
 /* [AllocateSkillMenuEffectTaskPool] No input or meaningful return. Repeatedly allocates 200 bytes, storing
@@ -7854,7 +8157,7 @@ void sub_08085398(void)
  * zero. */
 void sub_080853DC(u32 arg)
 {
-    u8 *base = *(u8 **)0x03006440;
+    u8 *base = *(u8 **)&gUnk_03006440;
     u8 *task = *(u8 **)(base + 0x620);
     u32 memory;
     memory = sub_08001494(0x400);
@@ -8743,7 +9046,7 @@ void sub_08086860(void)
     sub_08057624(5);
     sub_08001538((s32)buf);
     gUnk_03001250[7] = 200;
-    obj86860(obj, 0x5011F, 0, 2, 0);
+    obj86860(obj, RES_ID(0x5011F), 0, 2, 0);
     sub_0805865C(0x172);
     sub_0805865C(0x171);
     sub_0805865C(0x178);
@@ -9007,7 +9310,7 @@ dropped:
     sub_0805865C(0x177);
     sub_0801AA8C(0x1E);
     sub_08057624(0x3C);
-    obj86860(obj, 0x5011E, 0, 2, 0);
+    obj86860(obj, RES_ID(0x5011E), 0, 2, 0);
     sub_0800B650(0x45, 0x1E, 0x06000000, 0, 0xF);
     sub_0801AA34(0x1E);
     i = 1;

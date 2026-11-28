@@ -191,7 +191,7 @@ search:
 void sub_0805A874(const u32 *args, u32 mode)
 {
     extern u8 playerPositions[] asm("gUnk_03003D6C");
-    u8 *state = playerPositions + sub_080020F4() * 0x14C;
+    u8 *state = playerPositions + sub_080020F4() * PLAYER_SIZE;
     u32 data[4];
     u32 callback;
     u32 value;
@@ -254,7 +254,7 @@ done:
  * null. */
 void *sub_0805A960(u32 value)
 {
-    u8 *entry = *(u8 **)0x03005CF4 + 0x7A4;
+    u8 *entry = *(u8 **)&gUnk_03005CF4 + 0x7A4;
     u32 i;
     for (i=0; i<=0xE; i++, entry+=0x70)
         if (*(u32 *)entry == value) return entry;
@@ -280,7 +280,7 @@ void sub_0805A994(u32 index, u32 a, u32 b)
             do { sub_080003F0(); } while ((*savedFlags & savedBit) == 0);
         }
     }
-    entry = (u8 *)gUnk_030056F4 + index * 0x2E0;
+    entry = (u8 *)gUnk_030056F4 + index * ENEMY_SIZE;
     *(u32 *)(entry + 0x38) = a;
     *(u32 *)(entry + 0x3C) = b;
     *(u32 *)(entry + 0x30) = 0;
@@ -374,9 +374,9 @@ test:
 }
 struct ItemSlot { u16 type; u16 pad; u32 count; u32 c; u32 d; };
 struct ItemTable {
-    u8 pad[0x6A];
+    u8 pad[SAVE_FIELD(0x6A)];
     u16 rows;
-    u8 pad2[0x150 - 0x6C];
+    u8 pad2[SAVE_FIELD(0x150) - SAVE_FIELD(0x6C)];
     struct ItemSlot field[25];
     struct ItemSlot stash[25];
 };
@@ -539,13 +539,18 @@ u32 sub_0805AD18(void)
     extern u8 *mapObjects asm("gUnk_030034E0");
     u8 *state = (u8 *)&((struct PlayerW12 *)gUnk_03003CE0)[sub_080020F4()];
     register u32 id asm("r0");
-    if (*(u16 *)(state + 0xC) != *(u16 *)(state + 0x64)) {
-        id = *(u16 *)(*(u32 *)(state + 0x138) + 0x28);
+    if (*(u16 *)(state + PLAYER_FIELD(0xC)) != *(u16 *)(state + PLAYER_FIELD(0x64))) {
+#ifdef REGION_USA
+        /* The record behind player +0x138 keeps this id at +0x19C in USA (+0x28 in EU). */
+        id = *(u16 *)(*(u32 *)(state + PLAYER_FIELD(0x138)) + 0x19C);
+#else
+        id = *(u16 *)(*(u32 *)(state + PLAYER_FIELD(0x138)) + 0x28);
+#endif
     } else {
-        u8 *entry = mapObjects + *(u16 *)(mapObjects + 0x68) * 0x10;
-        if (*(u8 *)(entry + 0x79) == 0)
+        u8 *entry = mapObjects + *(u16 *)(mapObjects + SAVE_FIELD(0x68)) * 0x10;
+        if (*(u8 *)(entry + SAVE_FIELD(0x79)) == 0)
             return 0;
-        id = *(u16 *)(entry + 0x72);
+        id = *(u16 *)(entry + SAVE_FIELD(0x72));
     }
     id |= 0xB0000;
     return sub_08007290(id);
@@ -569,43 +574,43 @@ s32 impl_0805AD78(u32 index)
     u8 *playerBase;
     u8 **owner;
     u8 *table;
-    for (; i < players[sub_080020F4() * 0x14C + 0x77]; i++) {
+    for (; i < players[sub_080020F4() * PLAYER_SIZE + SAVE_FIELD(0x77)]; i++) {
         u8 *slot = mapItems;
         slot = slot + i * 0x10;
-        slot += 0x79;
+        slot += SAVE_FIELD(0x79);
         *slot = 0;
     }
     owner = &mapItems;
     table = *owner;
     offset = index * 0x10;
     item = table + offset;
-    if (*(u16 *)(item + 0x70) == 2) {
-        valid = sub_0805AE34(table + (offset + 0x70));
+    if (*(u16 *)(item + SAVE_FIELD(0x70)) == 2) {
+        valid = sub_0805AE34(table + (offset + SAVE_FIELD(0x70)));
         if (valid) {
             u8 *resource;
             u8 *slot = *owner;
             slot += offset;
-            slot += 0x79;
+            slot += SAVE_FIELD(0x79);
             *slot = 1;
-            resource = (u8 *)sub_08007290(*(u16 *)(mapItems + offset + 0x72) | 0xB0000);
+            resource = (u8 *)sub_08007290(*(u16 *)(mapItems + offset + SAVE_FIELD(0x72)) | 0xB0000);
             player = sub_080020F4();
             playerBase = (u8 *)gUnk_03003CE0;
-            player *= 0x14C;
+            player *= PLAYER_SIZE;
             states = (u8 *)player + (u32)playerBase;
-            *(u16 *)(states + 0x10) = resource[0x9B];
+            *(u16 *)(states + PLAYER_FIELD(0x10)) = ITEM_KIND(resource);
         } else {
             player = sub_080020F4();
             playerBase = (u8 *)gUnk_03003CE0;
-            player *= 0x14C;
+            player *= PLAYER_SIZE;
             states = (u8 *)player + (u32)playerBase;
-            *(u16 *)(states + 0x10) = valid;
+            *(u16 *)(states + PLAYER_FIELD(0x10)) = valid;
         }
     } else {
         player = sub_080020F4();
         playerBase = (u8 *)gUnk_03003CE0;
-        player *= 0x14C;
+        player *= PLAYER_SIZE;
         states = (u8 *)player + (u32)playerBase;
-        *(u16 *)(states + 0x10) = 0;
+        *(u16 *)(states + PLAYER_FIELD(0x10)) = 0;
     }
     return sub_08065DAC();
 }
@@ -620,14 +625,15 @@ u32 sub_0805AE34(const u8 *item)
     u32 state;
     u32 raw;
     u32 needed;
-    register u8 *kind asm("r1");
+    register ItemKind *kind asm("r1");
     if (item == 0 || *(u16 *)item != 2 || item[8] != 0) goto reject;
     resource = (u8 *)sub_08007290(*(u16 *)(item + 2) | 0xB0000);
     state = sub_0801DE60();
-    if (((*(u16 *)(resource + 0xAE) >> (u8)state) & 1) == 0) goto reject;
-    kind = resource + 0x9B;
+    if (((*(u16 *)(resource + ITEM_FIELD(0xAE)) >> (u8)state) & 1) == 0) goto reject;
+    kind = (ItemKind *)(resource + ITEM_KIND_OFF);
     if (*kind == 9) goto accept;
-    resource += 0xAC;
+    asm("" ::: "r2");
+    resource += ITEM_FIELD(0xAC);
     raw = sub_0801D028();
     needed = *(u16 *)resource;
     if (needed > (u16)raw) goto reject;
@@ -653,38 +659,38 @@ u32 sub_0805AE94(u8 *item)
     u32 multiplier = 10;
     switch (*(u16 *)item) {
     case 1:
-        value = *(u32 *)((u8 *)sub_08007290(*(u16 *)(item + 2) | 0x100000) + 0x9C);
+        value = *(u32 *)((u8 *)sub_08007290(*(u16 *)(item + 2) | 0x100000) + ITEM_FIELD(0x9C));
         break;
     case 2:
-        value = *(u32 *)((u8 *)sub_08007290(*(u16 *)(item + 2) | 0xB0000) + 0xA0);
+        value = *(u32 *)((u8 *)sub_08007290(*(u16 *)(item + 2) | 0xB0000) + ITEM_FIELD(0xA0));
         flag = item[8]; level = item[6]; quality = item[7];
         if (*(u16 *)(item + 4) != 0)
-            multiplier = *(u16 *)((u8 *)sub_08007290((*(u16 *)(item + 4) - 1) | 0x130000) + 0x9C);
+            multiplier = *(u16 *)((u8 *)sub_08007290((*(u16 *)(item + 4) - 1) | 0x130000) + ITEM_FIELD(0x9C));
         break;
     case 3:
-        value = *(u32 *)((u8 *)sub_08007290(*(u16 *)(item + 2) | 0xC0000) + 0x9C);
+        value = *(u32 *)((u8 *)sub_08007290(*(u16 *)(item + 2) | 0xC0000) + EQUIP_FIELD(0x9C));
         flag = item[8]; level = item[6]; quality = item[7];
         if (*(u16 *)(item + 4) != 0)
-            multiplier = *(u16 *)((u8 *)sub_08007290((*(u16 *)(item + 4) - 1) | 0x130000) + 0x9C);
+            multiplier = *(u16 *)((u8 *)sub_08007290((*(u16 *)(item + 4) - 1) | 0x130000) + ITEM_FIELD(0x9C));
         break;
     case 4:
-        value = *(u32 *)((u8 *)sub_08007290(*(u16 *)(item + 2) | 0xD0000) + 0x9C);
+        value = *(u32 *)((u8 *)sub_08007290(*(u16 *)(item + 2) | 0xD0000) + EQUIP_FIELD(0x9C));
         flag = item[8]; level = item[6]; quality = item[7];
         if (*(u16 *)(item + 4) != 0)
-            multiplier = *(u16 *)((u8 *)sub_08007290((*(u16 *)(item + 4) - 1) | 0x130000) + 0x9C);
+            multiplier = *(u16 *)((u8 *)sub_08007290((*(u16 *)(item + 4) - 1) | 0x130000) + ITEM_FIELD(0x9C));
         break;
     case 7:
-        value = *(u32 *)((u8 *)sub_08007290(*(u16 *)(item + 2) | 0x110000) + 0x9C);
+        value = *(u32 *)((u8 *)sub_08007290(*(u16 *)(item + 2) | 0x110000) + ITEM_FIELD(0x9C));
         flag = 0; level = 0;
         break;
     case 5:
-        value = *(u32 *)((u8 *)sub_08007290(*(u16 *)(item + 2) | 0xE0000) + 0x9C);
+        value = *(u32 *)((u8 *)sub_08007290(*(u16 *)(item + 2) | 0xE0000) + EQUIP_FIELD(0x9C));
         flag = item[8]; level = item[6]; quality = item[7];
         if (*(u16 *)(item + 4) != 0)
-            multiplier = *(u16 *)((u8 *)sub_08007290((*(u16 *)(item + 4) - 1) | 0x130000) + 0x9C);
+            multiplier = *(u16 *)((u8 *)sub_08007290((*(u16 *)(item + 4) - 1) | 0x130000) + ITEM_FIELD(0x9C));
         break;
     case 6:
-        value = *(u32 *)((u8 *)sub_08007290(*(u16 *)(item + 2) | 0xF0000) + 0x9C);
+        value = *(u32 *)((u8 *)sub_08007290(*(u16 *)(item + 2) | 0xF0000) + ITEM_FIELD(0x9C));
         flag = 0; level = 0; quality = 0;
         break;
     case 9:
@@ -701,7 +707,7 @@ u32 sub_0805AE94(u8 *item)
         value = *(u32 *)(item + 4);
         break;
     case 8:
-        value = *(u16 *)((u8 *)sub_08007290(*(u16 *)(item + 2) | 0x120000) + 0x9C);
+        value = *(u16 *)((u8 *)sub_08007290(*(u16 *)(item + 2) | 0x120000) + ITEM_FIELD(0x9C));
         break;
     }
     if (flag != 0)
@@ -725,7 +731,7 @@ u32 sub_0805B068(const u8 *item)
     switch (*(u16 *)item) {
     case 2:
         resource = (u8 *)sub_08007290(*(u16 *)(item + 2) | 0xB0000);
-        value = *(u32 *)(resource + 0xA0);
+        value = *(u32 *)(resource + ITEM_FIELD(0xA0));
         break;
     case 3:
         id = *(u16 *)(item + 2);
@@ -741,7 +747,7 @@ u32 sub_0805B068(const u8 *item)
 common:
         id |= category;
         resource = (u8 *)sub_08007290(id);
-        value = *(u32 *)(resource + 0x9C);
+        value = *(u32 *)(resource + EQUIP_FIELD(0x9C));
         break;
     }
     divisor = 10;
@@ -770,7 +776,7 @@ u32 sub_0805B0F0(void)
     u32 secondOffset;
     map = &mapObjects;
     base = *map;
-    firstOffset = 0x150;
+    firstOffset = SAVE_FIELD(0x150);
     entry = base + firstOffset;
     do {
         if (*(u16 *)entry == 0xA) first += *(u32 *)(entry + 4);
@@ -780,7 +786,7 @@ u32 sub_0805B0F0(void)
     i = 0;
     map = &mapObjects;
     base = *map;
-    secondOffset = 0x2E0;
+    secondOffset = SAVE_FIELD(0x2E0);
     entry = base + secondOffset;
     do {
         if (*(u16 *)entry == 0xA) second += *(u32 *)(entry + 4);
@@ -1136,14 +1142,14 @@ struct B688Shape {
 };
 struct B688Player {
     u16 id;
-    u8 pad2[0x1E];
+    u8 pad2[PLAYER_FIELD(0x20) - 0x2];
     u16 state;
-    u8 pad22[0xE];
+    u8 pad22[PLAYER_FIELD(0x30) - PLAYER_FIELD(0x22)];
     u32 flags;
-    u8 pad34[0x114];
+    u8 pad34[PLAYER_FIELD(0x148) - PLAYER_FIELD(0x34)];
     struct B688Shape *shape;
 };
-struct B688Obj { u8 pad0[0xA0]; u16 kind; u8 padA2[2]; u32 hitMask; u8 gfx; };
+struct B688Obj { u8 pad0[ITEM_FIELD(0xA0)]; u16 kind; u8 padA2[2]; u32 hitMask; u8 gfx; };
 extern struct B688Player b688Players[] asm("gUnk_03003CE0");
 extern u8 *b688Map asm("gUnk_030034E0");
 extern u8 *b688Enemies asm("gUnk_030056F4");
@@ -1196,7 +1202,7 @@ void sub_0805B688(u16 who, u16 itemId)
 
     player = &b688Players[who];
     me = (u16)sub_080020F4();
-    b688_sub_08065158(&anim, 0x500F1, 0, 0x80000000, 0);
+    b688_sub_08065158(&anim, RES_ID(0x500F1), 0, 0x80000000, 0);
     lvl = player->shape->power;
     item.kind = 1;
     item.id = itemId;
@@ -1215,7 +1221,7 @@ void sub_0805B688(u16 who, u16 itemId)
     x += ((gUnk_080B9704[(s16)angle + 0x40] << 1) * speed) / 10;
     y += ((gUnk_080B9704[(s16)angle] << 1) * speed) / 10;
     if (sub_0801DE60() == 0)
-        power = sub_0801E0AC((s32)(b688Map + 0x30), 5);
+        power = sub_0801E0AC((s32)(b688Map + SAVE_FIELD(0x30)), 5);
     else
         power = 0;
 
@@ -1283,18 +1289,18 @@ void sub_0805B688(u16 who, u16 itemId)
             for (; i <= 4; i++) {
                 if (((u32)gUnk_030056FC & (1 << i)) == 0)
                     continue;
-                enemy = b688Enemies + i * 0x2E0;
+                enemy = b688Enemies + i * ENEMY_SIZE;
                 if (*(u16 *)(enemy + 0xC) == 0xC)
                     continue;
                 if (enemy[0x1DC] == 0 && !(obj->hitMask & 0x3C))
                     continue;
                 {
                     struct B688Size *es;
-                    u8 w = enemy[0x22E];
+                    u8 w = enemy[ENEMY_FIELD(0x22E)];
 
                     es = enemySize;
                     es->w = w;
-                    es->h = enemy[0x22F];
+                    es->h = enemy[ENEMY_FIELD(0x22F)];
                     if (!b688_sub_08021FE0(&pos, enemy + 0x14, &size, es))
                         continue;
                 }
@@ -1306,7 +1312,7 @@ void sub_0805B688(u16 who, u16 itemId)
                 if (!ok)
                     continue;
                 if (enemy[0x1DC] == 0) {
-                    switch (enemy[0x226]) {
+                    switch (enemy[ENEMY_FIELD(0x226)]) {
                     case 4:
                         if (!(obj->hitMask & 4))
                             continue;
@@ -1428,23 +1434,23 @@ void sub_0805B688(u16 who, u16 itemId)
 }
 struct BD5CPlayer {
     u16 id;
-    u8 pad2[0x1E];
+    u8 pad2[PLAYER_FIELD(0x20) - 2];
     u16 state;
     u16 f22;
-    u8 pad24[0xC];
+    u8 pad24[PLAYER_FIELD(0x30) - PLAYER_FIELD(0x24)];
     u32 flags;
-    u8 pad34[0x2C];
+    u8 pad34[PLAYER_FIELD(0x60) - PLAYER_FIELD(0x34)];
     s16 maxMp;
     s16 maxHp;
     u16 f64;
     u8 pad66[2];
     u8 f68;
-    u8 pad69[0x59];
+    u8 pad69[PLAYER_FIELD(0xC2) - PLAYER_FIELD(0x69)];
     s16 mp;
     s16 hp;
-    u8 padC6[0x86];
+    u8 padC6[PLAYER_SIZE - PLAYER_FIELD(0xC6)];
 };
-struct BD5CMap { u8 pad0[0x10]; s16 stat10; s16 stat12; s16 stat14; s16 stat16; };
+struct BD5CMap { u8 pad0[SAVE_FIELD(0x10)]; s16 stat10; s16 stat12; s16 stat14; s16 stat16; };
 extern struct BD5CPlayer bd5cPlayers[] asm("gUnk_03003CE0");
 extern struct BD5CMap *bd5cMap asm("gUnk_030034E0");
 extern u32 sub_080665B0(u32);
@@ -1458,9 +1464,15 @@ extern void sub_08074DE8(u32, s32);
 s32 sub_0805BD5C(u16 *item, s32 level)
 {
     struct BD5CPlayer *player;
+#ifdef REGION_USA
+    register u32 kind asm("r9");
+    u32 zero;
+    register u8 *obj asm("r8");
+#else
     u8 *obj;
     u32 zero;
     u16 kind;
+#endif
     s32 amount;
     u8 *p;
 
@@ -1477,10 +1489,10 @@ s32 sub_0805BD5C(u16 *item, s32 level)
     if (item[0] != 1)
         return 0;
     obj = (u8 *)sub_08007290(item[1] | 0x100000);
-    kind = *(u16 *)(obj + 0xA0);
+    kind = *(u16 *)(obj + ITEM_FIELD(0xA0));
     if (kind == 1 || kind == 0x13) {
         amount = level * 40 + 100;
-        amount = *(u16 *)(obj + 0xA2) * amount / 100;
+        amount = *(u16 *)(obj + ITEM_FIELD(0xA2)) * amount / 100;
         if (player->hp >= player->maxHp)
             goto fail;
         player->hp += amount;
@@ -1488,7 +1500,7 @@ s32 sub_0805BD5C(u16 *item, s32 level)
             player->hp = player->maxHp;
         else if (player->hp < 0)
             player->hp = zero;
-        if (*(u16 *)(obj + 0xA2) != 0)
+        if (*(u16 *)(obj + ITEM_FIELD(0xA2)) != 0)
             sub_08074DE8(player->id, 8);
         if ((player->flags & 0x20000) && player->hp >= player->maxHp >> 1)
             player->flags &= ~0x20000;
@@ -1497,7 +1509,7 @@ s32 sub_0805BD5C(u16 *item, s32 level)
         if (player->mp >= player->maxMp)
             goto fail;
         amount = level * 40 + 100;
-        amount = *(u16 *)(obj + 0xA2) * amount / 100;
+        amount = *(u16 *)(obj + ITEM_FIELD(0xA2)) * amount / 100;
         player->mp += amount * 10;
         if (player->maxMp < player->mp)
             player->mp = player->maxMp;
@@ -1606,14 +1618,14 @@ s32 sub_0805BD5C(u16 *item, s32 level)
         sub_0805865C(0x61);
         return 0;
     } else if (kind == 0x10) {
-        sub_080665B0(*(u16 *)(obj + 0xA2));
+        sub_080665B0(*(u16 *)(obj + ITEM_FIELD(0xA2)));
         return 0;
     } else if (kind == 0x11) {
         player->mp = player->maxMp;
         player->hp = player->maxHp;
     } else if (kind == 0x12) {
         amount = level * 40 + 100;
-        amount = *(u16 *)(obj + 0xA2) * amount / 100;
+        amount = *(u16 *)(obj + ITEM_FIELD(0xA2)) * amount / 100;
         if (player->hp >= player->maxHp)
             goto fail;
         player->hp += amount;
@@ -1621,7 +1633,7 @@ s32 sub_0805BD5C(u16 *item, s32 level)
             player->hp = player->maxHp;
         else if (player->hp < 0)
             player->hp = 0;
-        if (*(u16 *)(obj + 0xA2) != 0)
+        if (*(u16 *)(obj + ITEM_FIELD(0xA2)) != 0)
             sub_08074DE8(player->id, 8);
         if ((player->flags & 0x20000) && player->hp >= player->maxHp >> 1)
             player->flags &= ~0x20000;
@@ -1679,7 +1691,7 @@ s32 sub_0805C208(void *arg0, s32 arg1)
     switch (slot->type) {
     case 2:
         o0 = (u8 *)sub_08007290(slot->arg | 0xB0000);
-        if (o0[0x9B] == 9) {
+        if (ITEM_KIND(o0) == 9) {
             table = (struct C208Range *)gUnk_08478044;
             r = sub_080008C8();
             asm("" : : "r"(r));
@@ -1933,7 +1945,7 @@ u32 sub_0805C4FC(u8 *out, u32 count, u32 category)
     return 1;
 }
 struct DropC620 { u16 type, val; u32 hi; };
-struct ExC620 { u8 pad[0x2C]; struct DropC620 drops[3]; };
+struct ExC620 { u8 pad[ENEMY_DATA_FIELD(0x2C)]; struct DropC620 drops[3]; };
 /* [GenerateActorDropRecord] Zeros16 output bytes, tries three cumulative configured drop intervals using
  * a16-bit random roll and returns1 on a permitted configured result. Otherwise clamps entity player-index
  * field, rolls against player/player-count chance and optionally calls category generator with mode-dependent
@@ -1964,14 +1976,14 @@ u32 sub_0805C620(u8 *entity, u16 *out)
                 out[0] = extra->drops[i].type;
                 out[1] = extra->drops[i].val;
                 if (extra->drops[i].type == 9)
-                    out[2] = *(u32 *)(entity + 0x214);
+                    out[2] = *(u32 *)(entity + ENEMY_FIELD(0x214));
                 break;
             }
             low = (u16)(extra->drops[i].hi + 1);
         }
     }
     if (out[0] != 0) {
-        if (out[0] == 10 && !(entity[0x227] & 1)) {
+        if (out[0] == 10 && !(entity[ENEMY_FIELD(0x227)] & 1)) {
             out[0] = 0;
             out[1] = 0;
             return 0;
@@ -1982,7 +1994,7 @@ u32 sub_0805C620(u8 *entity, u16 *out)
     ok = 0;
     if (*(u16 *)(entity + 0x58) > 3)
         *(u16 *)(entity + 0x58) = 0;
-    { u8 (*pb)[] = &c620Players; low = (*pb)[4 * (83 * *(u16 *)(entity + 0x58)) + 0x74]; }
+    { u8 (*pb)[] = &c620Players; low = (*pb)[4 * ((PLAYER_SIZE / 4) * *(u16 *)(entity + 0x58)) + PLAYER_FIELD(0x74)]; }
     switch (sub_08002164()) {
     case 1: low = (u16)(low + 0x10); break;
     case 2: low = (u16)(low + 0x15); break;
@@ -2007,9 +2019,9 @@ u32 sub_0805C620(u8 *entity, u16 *out)
     ok = sub_0805C4FC((u8 *)out, category, 0);
 tail:
     if (out[0] == 9) {
-        out[2] = *(u32 *)(entity + 0x214);
+        out[2] = *(u32 *)(entity + ENEMY_FIELD(0x214));
     } else if (out[0] == 10) {
-        if (!(entity[0x227] & 1)) {
+        if (!(entity[ENEMY_FIELD(0x227)] & 1)) {
             out[0] = 0;
             out[1] = 0;
             return 0;
@@ -2055,14 +2067,14 @@ void c7b8_void(u32 mode)
 
     if (sub_0800CE30()) {
         count = 10;
-        slotsA = (struct C7B8Slot *)(c7b8Map + 0x9D0);
-        slotsB = (struct C7B8Slot *)(c7b8Map + 0xA90);
-        slotsC = (struct C7B8Slot *)(c7b8Map + 0xB50);
+        slotsA = (struct C7B8Slot *)(c7b8Map + SAVE_FIELD(0x9D0));
+        slotsB = (struct C7B8Slot *)(c7b8Map + SAVE_FIELD(0xA90));
+        slotsC = (struct C7B8Slot *)(c7b8Map + SAVE_FIELD(0xB50));
     } else {
         count = 0;
-        slotsA = (struct C7B8Slot *)(c7b8Map + 0x790);
-        slotsB = (struct C7B8Slot *)(c7b8Map + 0x850);
-        slotsC = (struct C7B8Slot *)(c7b8Map + 0x910);
+        slotsA = (struct C7B8Slot *)(c7b8Map + SAVE_FIELD(0x790));
+        slotsB = (struct C7B8Slot *)(c7b8Map + SAVE_FIELD(0x850));
+        slotsC = (struct C7B8Slot *)(c7b8Map + SAVE_FIELD(0x910));
     }
     bits = sub_08057CEC();
     for (i = 1; i <= 9; i++)
@@ -2515,7 +2527,7 @@ block_32:
 s32 sub_0805CFA0(void) {
     u32 i;
     u8 *p;
-    for(i=0,p=(u8 *)gUnk_030034E0+0x150;i<=24;p+=16,i++) if(*(u16 *)p==0) return i;
+    for(i=0,p=(u8 *)gUnk_030034E0+SAVE_FIELD(0x150);i<=24;p+=16,i++) if(*(u16 *)p==0) return i;
     return -1;
 }
 /* [FindFirstEmptyStashSlotInFirst25] Returns the first kind-zero entry index among only the first 25 stash
@@ -2524,7 +2536,7 @@ s32 sub_0805CFA0(void) {
 s32 sub_0805CFCC(void) {
     u32 i;
     u8 *p;
-    for(i=0,p=(u8 *)gUnk_030034E0+0x2E0;i<=24;p+=16,i++) if(*(u16 *)p==0) return i;
+    for(i=0,p=(u8 *)gUnk_030034E0+SAVE_FIELD(0x2E0);i<=24;p+=16,i++) if(*(u16 *)p==0) return i;
     return -1;
 }
 /* [CopyItemToBagSlot] Narrows the supplied index to one byte, substitutes index zero when greater than 24, and
@@ -2532,16 +2544,16 @@ s32 sub_0805CFCC(void) {
 void sub_0805CFF8(u8 index, const struct Entry61 *src)
 {
     if(index>24) index=0;
-    *(struct Entry61 *)((u8 *)gUnk_030034E0+0x150+index*16)=*src;
+    *(struct Entry61 *)((u8 *)gUnk_030034E0+SAVE_FIELD(0x150)+index*16)=*src;
 }
 /* [CopyItemToStashSlot] Narrows the index to one byte. If index is at least manager halfword +0x6A times 15,
  * substitutes zero, then copies all 16 bytes to stash +0x2E0 + index*16. A zero configured count still writes
  * slot zero. No null, empty-slot check or independent physical-capacity clamp. */
 void sub_0805D028(u8 index,const struct Entry61 *src) {
     u8 *base=(u8 *)gUnk_030034E0;
-    s32 count=*(u16 *)(base+0x6A);
+    s32 count=*(u16 *)(base+SAVE_FIELD(0x6A));
     if(index>=count*15) index=0;
-    *(struct Entry61 *)(base+index*16+0x2E0)=*src;
+    *(struct Entry61 *)(base+index*16+SAVE_FIELD(0x2E0))=*src;
 }
 /* [CopyWeaponItemToSelectionSlot] Accepts only kind-2 items, copies all 16 bytes into manager +0x70 + index*16
  * and returns 1; otherwise returns 0. Does not validate index, select the slot or refresh activation. Weapon
@@ -2551,5 +2563,5 @@ u32 sub_0805D064(const struct Entry61 *src,u32 index) {
     struct Entry61 *dst;
     register u32 offset asm("r0");
     
-    switch(*(const u16 *)src) { case 2: dst=(void *)gUnk_030034E0;  offset=savedIndex*16;  dst=(void *)((u8 *)dst+offset);  dst=(void *)((u8 *)dst+0x70); *dst=*src; return 1; default:return 0; }
+    switch(*(const u16 *)src) { case 2: dst=(void *)gUnk_030034E0;  offset=savedIndex*16;  dst=(void *)((u8 *)dst+offset);  dst=(void *)((u8 *)dst+SAVE_FIELD(0x70)); *dst=*src; return 1; default:return 0; }
 }

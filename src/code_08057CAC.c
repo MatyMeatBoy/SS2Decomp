@@ -208,7 +208,7 @@ out:
  * then call19EB8; selector0 writes player11E. */
 void sub_08057FBC(u32 selector, u32 value)
 {
-    struct PlayerValue { u8 pad[0x11E]; u16 value; u8 tail[0x2C]; };
+    struct PlayerValue { u8 pad[PLAYER_FIELD(0x11E)]; u16 value; u8 tail[0x2C]; };
     u16 *target;
     if (selector > 0x100000) {
         u8 *entry = (u8 *)gUnk_03005CF4 + 0x7A4;
@@ -230,7 +230,7 @@ found:
         selector--;
         if (selector <= 4) {
             void **address = &gUnk_030056F4;
-            u32 offset = selector * 0x2E0;
+            u32 offset = selector * ENEMY_SIZE;
             u8 *slot = *address;
             slot += offset;
             sub_08019EB8(*(u16 *)(slot + 2), (u16)value);
@@ -238,9 +238,9 @@ found:
         return;
     } else {
         u32 index = sub_080020F4();
-        index *= 0x14C;
+        index *= PLAYER_SIZE;
         target = (u16 *)(index + (u32)gUnk_03003CE0);
-        target = (u16 *)((u8 *)target + 0x11E);
+        target = (u16 *)((u8 *)target + PLAYER_FIELD(0x11E));
     }
     *target = value;
 }
@@ -284,7 +284,7 @@ s32 sub_08058094(void)
     register s32 *saved asm("r4");
     total = 0;
     state = &gUnk_030034E0;
-    entry = (u8 *)*state + 0x150;
+    entry = (u8 *)*state + SAVE_FIELD(0x150);
     saved = state;
     i = 24;
     do {
@@ -293,8 +293,8 @@ s32 sub_08058094(void)
         i--;
         entry += 16;
     } while (i >= 0);
-    other = (u8 *)*saved + 0x2E0;
-    temp = *(u16 *)((u8 *)*saved + 0x6A) * 15;
+    other = (u8 *)*saved + SAVE_FIELD(0x2E0);
+    temp = *(u16 *)((u8 *)*saved + SAVE_FIELD(0x6A)) * 15;
     if (temp > 0) {
         j = temp;
         do {
@@ -323,10 +323,10 @@ u32 sub_080580F8(u32 a, u32 b)
     u32 count = 0;
     u32 i = 0;
     u8 *initial = (u8 *)gUnk_030034E0;
-    u16 *first = (u16 *)(initial + 0x2e0);
+    u16 *first = (u16 *)(initial + SAVE_FIELD(0x2e0));
     u8 *base = initial;
     for (; i <= 0x4a; first += 8, base += 16, i++)
-        if (*first == a && *(u16 *)(base + 0x2e2) == b)
+        if (*first == a && *(u16 *)(base + SAVE_FIELD(0x2e2)) == b)
             count++;
     return count;
 }
@@ -338,10 +338,10 @@ u32 sub_0805813C(u32 a, u32 b)
     u32 count = 0;
     u32 i = 0;
     u8 *initial = (u8 *)gUnk_030034E0;
-    u16 *first = (u16 *)(initial + 0x150);
+    u16 *first = (u16 *)(initial + SAVE_FIELD(0x150));
     u8 *base = initial;
     for (; i <= 0x18; first += 8, base += 16, i++)
-        if (*first == a && *(u16 *)(base + 0x152) == b)
+        if (*first == a && *(u16 *)(base + SAVE_FIELD(0x152)) == b)
             count++;
     return count;
 }
@@ -381,10 +381,10 @@ void sub_080581E4(u32 a, u32 b, u32 count)
         u32 address = gUnk_030034E0;
         u32 offset = i * 16;
         u8 *base = (u8 *)(address + offset);
-        if (*(u16 *)(base + 0x150) == a && *(u16 *)(base + 0x152) == b) {
+        if (*(u16 *)(base + SAVE_FIELD(0x150)) == a && *(u16 *)(base + SAVE_FIELD(0x152)) == b) {
             count--;
-            *(u16 *)(base + 0x150) = 0;
-            *(u16 *)(base + 0x152) = 0;
+            *(u16 *)(base + SAVE_FIELD(0x150)) = 0;
+            *(u16 *)(base + SAVE_FIELD(0x152)) = 0;
             if (!count)
                 break;
         }
@@ -398,8 +398,8 @@ s32 sub_08058240(void)
 {
     u32 i = sub_080020F4();
     u8 *base = (u8 *)gUnk_03003CE0;
-    i *= 0x14C;
-    base += 0x8C;
+    i *= PLAYER_SIZE;
+    base += PLAYER_FIELD(0x8C);
     return *(s32 *)(i + (u32)base) >> 8;
 }
 /* [GetLocalPlayerWorldPixelY] Queries the local player index, selects its 0x14C-byte runtime record at
@@ -409,8 +409,8 @@ s32 sub_08058260(void)
 {
     u32 i = sub_080020F4();
     u8 *base = (u8 *)gUnk_03003CE0;
-    i *= 0x14C;
-    base += 0x90;
+    i *= PLAYER_SIZE;
+    base += PLAYER_FIELD(0x90);
     return *(s32 *)(i + (u32)base) >> 8;
 }
 /* [ResetActiveEnemyScriptStates] Scans exactly5 slots, only active and state12 records get state0. */
@@ -419,7 +419,7 @@ void sub_08058280(void)
     u8 *entry = (u8 *)gUnk_030056F4;
     u32 i;
     s32 mask;
-    for (i = 0; i <= 4; i++, entry += 0x2E0) {
+    for (i = 0; i <= 4; i++, entry += ENEMY_SIZE) {
         mask = gUnk_030056FC & (1u << i);
         if (mask && *(u16 *)(entry + 0xC) == 0xC)
             *(u16 *)(entry + 0xC) = 0;
@@ -462,7 +462,7 @@ void sub_08058334(u32 x, u32 y, u16 a, u16 b, u32 callback)
     u32 pos[2];
     u32 info;
     u32 packed;
-    u8 *player = (u8 *)&gUnk_03003D6C + sub_080020F4() * 0x14C;
+    u8 *player = (u8 *)&gUnk_03003D6C + sub_080020F4() * PLAYER_SIZE;
     info = 0x00200018;
     pos[0] = x << 8;
     pos[1] = y << 8;
@@ -554,7 +554,7 @@ void sub_08058498(u32 x, u32 y, u32 a, u32 b)
     packed = (a >> 16) | b;
     entry = &((struct PlayerW12 *)gUnk_03003CE0)[sub_080020F4()];
     while (sub_08021FE0(&entry->pos8C, pos, &result, &packed) == 0 ||
-           !(*(u16 *)((u8 *)entry + 0x14) & 1)) {
+           !(*(u16 *)((u8 *)entry + PLAYER_FIELD(0x14)) & 1)) {
         if (sub_08058608()) return;
         sub_080003F0();
     }
@@ -702,7 +702,7 @@ void sub_080586EC(u32 index, u32 x, u32 y)
         sub_080003F0();
         ready = gUnk_030056FC & (1u << index);
     }
-    entry = (u8 *)gUnk_030056F4 + index * 0x2E0;
+    entry = (u8 *)gUnk_030056F4 + index * ENEMY_SIZE;
     *(u32 *)(entry + 0x30) = x;
     *(u32 *)(entry + 0x34) = y;
     *(u32 *)(entry + 0x38) = 0;

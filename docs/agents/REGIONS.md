@@ -53,9 +53,9 @@ SHA-256 values are pinned in `tools/config/rom_regions.json`.
 
 ## Coverage and limitations
 
-The verified USA build contains 1,257 compiler-backed C intervals (16 same-address
-EU, 1,237 relocated EU, 4 region-only) totaling 165,148 bytes; Japan contains
-1,250 (16, 1,207 and 27) totaling 162,924 bytes. Consult each generated report for the actual current counts, canonical EU symbols, addresses,
+The verified USA build contains 1,942 compiler-backed C intervals (16 same-address
+EU, 1,923 relocated EU, 3 region-only) totaling 612,872 bytes; Japan contains
+1,272 (16, 1,229 and 27) totaling 164,414 bytes. Consult each generated report for the actual current counts, canonical EU symbols, addresses,
 sizes and per-function hashes. The admitted intervals include complete function
 literal pools. Top-level assembly and `INCLUDE_ASM` fallbacks receive no C credit.
 
@@ -148,7 +148,8 @@ python3 tools/scripts/region_symbols.py --region jp
 `region_symbols.py` pairs each EU C function with the regional address where all
 non-relocated bytes are identical (tracking the running address shift, with a
 unique-match search nearby and a pass for functions located by their callers' BL
-targets). It then solves each relocation for the regional value of its symbol.
+targets, and a pass that retries the shift of the placed functions on either
+side). It then solves each relocation for the regional value of its symbol.
 A symbol with two different regional values is dropped, together with every
 function that needs it. Functions whose assembly uses a symbol the assembler
 resolved inside the EU object (no relocation) are skipped. The tables hold
@@ -156,7 +157,60 @@ addresses only, never ROM bytes.
 
 Functions that are not listed still come from the reference ROM. Their code
 differs from EU, for example through 16-bit text handling, the 0x454-byte
-enemy records or the Japanese player layout.
+enemy records or the regional player layouts.
+
+## Regional layouts in shared EU sources
+
+The regional build compiles every `src/*.c` a second time with `-DREGION_USA`
+or `-DREGION_JP` (`build/regions/<region>/variant`, EU link order, Makefile
+variable `REGION_CPPFLAGS`). `region_symbols.py` pairs and `region_build.py`
+relocates the functions of that build, so a layout difference written once in
+the shared source moves every function that uses it. The EU build defines
+neither macro and must stay byte-identical (`make compare`).
+
+`include/region.h` holds the differences, as EU-offset mapping macros:
+
+| Macro | EU | USA |
+| --- | --- | --- |
+| `PLAYER_SIZE` | 0x14C | 0x158 |
+| `PLAYER_FIELD(o)` | `o` | `o` below 0x0C, `o + 10` below 0x30, then `o + 12` (+0x2E -> +0x38, flags +0x30 -> +0x3C) |
+| `ENEMY_SIZE` | 0x2E0 | 0x454 (enemy actor records at `*gUnk_030056F4`) |
+| `ENEMY_FIELD(o)` | o | o below 0x206, else o + 0x174 (USA inserts 0x174 bytes at enemy +0x206) |
+| `RES_ID(id)` | id | id - 4 (resource ids that USA numbers 4 lower, e.g. 0x5008C; not every archive 5 id moves, so only verified uses) |
+| `TEXT_HEADER` | 2 | 4 (header before the string of a text record from `sub_08007290`) |
+| `SAVE_FIELD(o)` | `o` | character save record (`gUnk_030034E0`): `o` below 0x0A, `o + 10` below 0x10, then `o + 12` |
+| `NameChar` | u8 | u16 (the ten-character name at save +0; source of `SAVE_FIELD`'s first shift) |
+| `ITEM_FIELD(o)`, `ITEM_KIND(r)` | `o`, u8 at +0x9B | `o + 0xD8`, u16 at +0x174 (item records of archive 0xB) |
+| `EQUIP_FIELD(o)`, `EquipLevel` | `o`, u8 | `o + 0xDC`, u16 (equipment records of archives 0xC/0xD/0xE; glove class/level fields differ, see `sub_0805D2E0`) |
+| `TextChar` | u8 (ends 0xFD) | u16 (ends 0xFFFD, bit 15 = control) |
+| `TEXT_CTRL(c)` | `c` | `0xFF00 | c` (text control codes) |
+| `ENEMY_DATA_FIELD(o)` | `o` | `o + 0x174` (enemy data records: level, experience, ...) |
+| `GLOVE_SIZE` | 0xB8 | `EQUIP_FIELD(0xB8) + 4` (archive 0xE records) |
+
+`struct Player` is written with these macros. Raw offsets into a player record
+must be written `PLAYER_FIELD(0x9C)`, its stride `PLAYER_SIZE`, so the USA
+build sees the USA layout. Japan is not described yet (player 0x154 bytes,
+flags at +0x38).
+
+Tools (USA; each run after `region_symbols.py --region usa`, then rerun it and
+`make REGION=usa compare`):
+
+- `region_diff.py [FUNC]`: unplaced EU C functions ranked by differing
+  halfwords against their guessed USA address, or a disassembly diff of FUNC.
+- `region_autofix.py [--max-diff N] [FUNC...]`: greedy search wrapping integer
+  literals of a function in `PLAYER_FIELD`/`SAVE_FIELD`/`PLAYER_SIZE`; keeps a
+  rewrite only when the variant object equals the USA bytes.
+- `region_structs.py [MODULE...]`: resizes the pad arrays of 0x14C-byte struct
+  views of the player record; keeps a rewrite only when no exact function is
+  lost and the module moves closer to the USA bytes.
+- `region_autofix.py --addresses FILE`: overrides the guessed address with
+  `NAME 0xADDR` lines (the guess is often wrong after a run of unplaced
+  functions; pair them with the function starts in the regional gap instead).
+- `region_permute.py FUNC ADDR [--time S] [--jobs N]`: decomp-permuter against
+  the regional bytes of FUNC for register/stack-slot near misses of the same
+  size; transfer the winning change into an `#ifdef REGION_USA` block by hand.
+
+The macros are the identity in EU, so these rewrites cannot change the EU ROM.
 
 ## Region-only C sources
 
@@ -178,17 +232,19 @@ Naming is the address, as for `sub_`/`gUnk_` in EU:
 
 The report lists these intervals separately as `region_only_functions`.
 
-USA (AU2E) currently has four region-only functions in
+USA (AU2E) currently has three region-only functions in
 `src/regions/usa/usa_only.c`, found by aligning the ordered EU and USA function
 lists (link order is preserved; 2029 of 2033 USA functions pair with an EU
 function):
 
 | USA address | Size | EU relation |
 | --- | ---: | --- |
-| `0801A1C8` | 0x32 | 16-bit-text form of `CountRenderableScriptGlyphs` (`sub_0801A638`); USA text uses halfword glyphs ending in `0xFFFD` |
 | `0805E02C` | 0x1B0 | No EU counterpart; unreferenced dialogue-task starter with caller-supplied window layout |
 | `08067CA4` | 0x5C | `EnqueueLinkEntityPosition` (`sub_080663A4`) moved in link order; USA enemy records are 0x454 bytes (EU 0x2E0) |
 | `080813D8` | 0xC0 | 16-bit-text form of `ExpandEncodedTextUnsignedNumberToken` (`sub_080850C0`) |
+
+The 16-bit-text form of `CountRenderableScriptGlyphs` (USA `0801A1C8`) is the
+`REGION_USA` branch of `sub_0801A638` itself, since it keeps the EU link position.
 
 Most other USA functions differ from EU only in literal-pool addresses; they
 are built from the EU source through the relocation table described in

@@ -18,22 +18,27 @@ extern s32 gUnk_03000324;
 #define SD878(p,o) (*(s16 *)((u8 *)(p)+(o)))
 #define ID878(p,o) (*(s32 *)((u8 *)(p)+(o)))
 #define PD878(p,o) ((u16 *)((u8 *)(p)+(o)))
+#ifdef REGION_USA
+#define PAL_D878 (*PD878(resource, ENEMY_DATA_FIELD(0xD6)))
+#else
+#define PAL_D878 (*pal)
+#endif
 struct SpriteD878 {u32 base,p4,data,palette,p10,p14,p18;u8 payload[24];};
-struct PlayerD878 {u8 p0[0x30];u32 flags;u8 p34[0x118];};
+struct PlayerD878 {u8 p0[PLAYER_FIELD(0x30)];u32 flags;u8 p34[PLAYER_SIZE - PLAYER_FIELD(0x34)];};
 struct PosD878 {s32 x,y;};
 struct ObjD878 {u32 f0,f4,f8;s32 fC;};
-struct ResD878 {u8 p0[4];s16 f4;s16 f6;u8 p8[0xCE];u16 fD6;};
+struct ResD878 {u8 p0[ENEMY_FIELD(0x208) - 0x204];s16 f4;s16 f6;u8 p8[0xCE];u16 fD6;};
 struct ActorD878 {
     u16 f0; u16 f2; u8 p4[4]; u16 f8; u8 pA[2]; u16 state; u8 pE[6];
     s32 x; s32 y; u8 p1C[0x30]; s32 damage; s32 f50; u8 p54[6]; u16 f5A; u16 f5C; u16 f5E;
     u8 p60[8]; u16 anim; u16 frame; u16 tick; u16 f6E; u8 p70[0x164]; u16 f1D4; u16 f1D6;
     u8 p1D8[0x24]; u8 lo:4; u8 hi:4; u8 phase; u8 next; u8 p1FF; u8 f200; u8 p201; u16 f202;
-    u8 res[0xD4]; u16 f2D8; u16 f2DA;
+    u8 res[ENEMY_FIELD(0x2D8) - 0x204]; u16 f2D8; u16 f2DA;
 };
 extern struct ActorD878 *actorD878 asm("gUnk_03000310");
 extern u16 paletteD878 asm("gUnk_03000314");
 extern u32 activeD878 asm("gUnk_030056FC");
-extern u32 seenD878[][83] asm("gUnk_03003DC4");
+extern u32 seenD878[][PLAYER_SIZE / 4] asm("gUnk_03003DC4");
 extern struct PlayerD878 playersD878[] asm("gUnk_03003CE0");
 extern void *inventoryD878 asm("gUnk_030034E0");
 extern u8 *stateD878 asm("gUnk_03005CF4");
@@ -72,7 +77,7 @@ extern void sub_0809FA64(u16);
     if (sub_0800CCCC() == 0 && sub_0800CC98() == 0 && sub_0800CD8C() == 0) { \
         zero = sub_0800CD34(); \
         if (zero == 0) { \
-            sub_08000AF0(paletteD878 + 0x10, (u8 *)sprite.palette + (*pal << 5), 1); \
+            sub_08000AF0(paletteD878 + 0x10, (u8 *)sprite.palette + (PAL_D878 << 5), 1); \
             priority = sub_0800BC44(actorD878->x >> 8, actorD878->y >> 8, 0); \
             sprite.payload[0] = paletteD878; \
             animD878(&sprite, actorD878->anim, &actorD878->frame, &actorD878->tick, zero); \
@@ -108,7 +113,9 @@ void sub_0809D878(void *input)
     s32 finished;
     u16 *frame;
     u16 *tick;
+#ifndef REGION_USA
     u16 *pal;
+#endif
     struct ActorD878 *actor;
     u16 *animation;
     s32 mode;
@@ -142,8 +149,8 @@ void sub_0809D878(void *input)
     }
     initD878(&sprite, 0x50007, paletteD878, -1, 1);
     sprite.payload[0] = paletteD878;
-    actor->f5C = actor->f1D6 = SD878(resource, 6) * 3;
-    value = SD878(resource, 4) * 2;
+    actor->f5C = actor->f1D6 = SD878(resource, ENEMY_DATA_FIELD(6)) * 3;
+    value = SD878(resource, ENEMY_DATA_FIELD(4)) * 2;
     actor->f5E = actor->f1D4 = (value * 4 + value) * 2;
     actor->phase = 2;
     actor->next = 2;
@@ -172,11 +179,13 @@ void sub_0809D878(void *input)
     tick = &actor->tick;
     frame = &actor->frame;
     animation = &actor->anim;
-    pal = PD878(resource, 0xD6);
+#ifndef REGION_USA
+    pal = PD878(resource, ENEMY_DATA_FIELD(0xD6));
+#endif
     do {
         entry = 0;
         do {
-            *(u32 *)((u8 *)seenD878 + entry * 4 + player * 0x14C) = 0;
+            *(u32 *)((u8 *)seenD878 + entry * 4 + player * PLAYER_SIZE) = 0;
             entry++;
         } while (entry <= 4);
         player++;
@@ -310,7 +319,7 @@ void sub_0809D878(void *input)
             actorD878->tick = 0;
             actorD878->frame = 0;
         }
-        sub_08000AF0(paletteD878 + 0x10, (u8 *)sprite.palette + (*pal << 5), 1);
+        sub_08000AF0(paletteD878 + 0x10, (u8 *)sprite.palette + (PAL_D878 << 5), 1);
         if (sub_08098004() & 1)
             priority = sub_08097FF8();
         else
@@ -364,7 +373,7 @@ void sub_0809D878(void *input)
         if (sub_0800CCCC() == 0 && sub_0800CC98() == 0) {
             zero = sub_0800CD34();
             if (zero == 0) {
-                sub_08000AF0(paletteD878 + 0x10, (u8 *)sprite.palette + (*pal << 5), 1);
+                sub_08000AF0(paletteD878 + 0x10, (u8 *)sprite.palette + (PAL_D878 << 5), 1);
                 priority = sub_0800BC44(actorD878->x >> 8, actorD878->y >> 8, 0);
                 sprite.payload[0] = paletteD878;
                 animD878(&sprite, actorD878->anim, &actorD878->frame, &actorD878->tick, zero);
@@ -392,7 +401,7 @@ void sub_0809D878(void *input)
         RENDER_D878();
     playersD878[sub_080020F4()].flags &= ~1;
     soundD878(0xD);
-    transitionD878(actorD878, &sprite, *pal, paletteD878);
+    transitionD878(actorD878, &sprite, PAL_D878, paletteD878);
     if (!(playersD878[sub_080020F4()].flags & 0x2000) && actorD878->f5A != 0) {
         reward = rewardD878(inventoryD878, resource);
         floatingOffset = 0x1D;
@@ -426,7 +435,7 @@ void sub_0809D878(void *input)
 #undef ID878
 #undef PD878
 union BgE468 { struct { u32 cnt:16; u32 spare:16; } bits; u16 half; };
-struct PlayerE468 {u8 p0[0xC8];u16 timer;s16 direction;u16 speed;u8 pCE[0x7E];};
+struct PlayerE468 {u8 p0[PLAYER_FIELD(0xC8)];u16 timer;s16 direction;u16 speed;u8 pCE[PLAYER_SIZE - PLAYER_FIELD(0xCE)];};
 extern struct PlayerE468 playersE468[] asm("gUnk_03003CE0");
 extern volatile u16 g31EE468 asm("gUnk_0300031E");
 extern u8 g31CE468 asm("gUnk_0300031C");
@@ -866,13 +875,13 @@ s32 sub_0809EF84(void)
 struct Packed9F018 { u16 x,y; };
 union Tail9F018 { u32 seen[26]; struct {u32 pad[25]; struct Packed9F018 *visual;} remote; };
 struct Player9F018 {
-    u8 p0[0x20]; u16 state; u8 p22[14]; u32 flags;
-    u8 p34[0x34]; u8 active; u8 p69[0x1F]; u16 health,p8A;
-    s32 x,y; u8 p94[0x1C]; u16 motion; u8 pB2[0x32]; union Tail9F018 tail;
+    u8 p0[PLAYER_FIELD(0x20)]; u16 state; u8 p22[PLAYER_FIELD(0x30) - PLAYER_FIELD(0x22)]; u32 flags;
+    u8 p34[PLAYER_FIELD(0x68) - PLAYER_FIELD(0x34)]; u8 active; u8 p69[PLAYER_FIELD(0x88) - PLAYER_FIELD(0x69)]; u16 health,p8A;
+    s32 x,y; u8 p94[PLAYER_FIELD(0xB0) - PLAYER_FIELD(0x94)]; u16 motion; u8 pB2[PLAYER_FIELD(0xE4) - PLAYER_FIELD(0xB2)]; union Tail9F018 tail;
 };
 struct Actor9F018 {
     u16 id; u8 p2[10]; u16 state; u8 pE[6]; s32 x,y;
-    u8 p1C[0x34]; u32 serial; u8 p54[0x286]; u16 paletteOffset;
+    u8 p1C[0x34]; u32 serial; u8 p54[ENEMY_FIELD(0x2DA) - 0x54]; u16 paletteOffset;
 };
 struct Sprite9F018 {u32 base,p4,data,palette,p10,p14,p18;u8 payload[24];};
 struct Draw9F018 {u32 p0[3];s32 y;};
@@ -1108,7 +1117,7 @@ void sub_0809F018(u16 kind)
                 u32 playerOffset = sub_080020F4();
                 s32 effectY = (pos.y >> 8) + 12;
                 register s32 *playerYBase asm("r3");
-                playerOffset *= 0x14C;
+                playerOffset *= PLAYER_SIZE;
                 
                 playerYBase = (s32 *)playersY9F018;
                 
@@ -1141,8 +1150,8 @@ void sub_0809F018(u16 kind)
             pl[sub_080020F4()].motion=0xFFFE;
             player=sub_080020F4();actor=actor9F018;
             {
-                u32 offset = actor->id * 4 + player * 0x14C;
-                u8 *base = (u8 *)pl + 0xE4;
+                u32 offset = actor->id * 4 + player * PLAYER_SIZE;
+                u8 *base = (u8 *)pl + PLAYER_FIELD(0xE4);
                 
                 *(u32 *)(offset + (u32)base) = actor->serial++;
             }
@@ -1162,13 +1171,13 @@ finish9F018:
 struct Actor9F4A8 {
     u16 id; u8 pad2[10]; u16 state; u8 padE[6];
     s32 x, y; u8 pad1C[0x34]; u32 serial;
-    u8 pad54[0x286]; u16 paletteOffset;
+    u8 pad54[ENEMY_FIELD(0x2DA) - 0x54]; u16 paletteOffset;
 };
 struct Player9F4A8 {
-    u8 pad0[0x20]; u16 state; u8 pad22[14]; u32 flags;
-    u8 pad34[0x34]; u8 active; u8 pad69[0x1F];
-    u16 health, pad8A; s32 x,y; u8 pad94[0x1C];
-    u16 motion; u8 padB2[0x32]; u32 seen[26];
+    u8 pad0[PLAYER_FIELD(0x20)]; u16 state; u8 pad22[PLAYER_FIELD(0x30) - PLAYER_FIELD(0x22)]; u32 flags;
+    u8 pad34[PLAYER_FIELD(0x68) - PLAYER_FIELD(0x34)]; u8 active; u8 pad69[PLAYER_FIELD(0x88) - PLAYER_FIELD(0x69)];
+    u16 health, pad8A; s32 x,y; u8 pad94[PLAYER_FIELD(0xB0) - PLAYER_FIELD(0x94)];
+    u16 motion; u8 padB2[PLAYER_FIELD(0xE4) - PLAYER_FIELD(0xB2)]; u32 seen[26];
 };
 struct Sprite9F4A8 { u32 base,pad4,data,palette,pad10,pad14,pad18; u8 payload[24]; };
 struct DrawObj9F4A8 { u32 pad0[3]; s32 y; };
@@ -1495,15 +1504,15 @@ struct EntFB6 {
     u8 p70[0x164]; u16 f1D4, f1D6; u8 p1D8[0x24];
     u8 lo:4; u8 hi:4;
     u8 f1FD, f1FE, p1FF; u8 f200; u8 p201; u16 f202;
-    u8 res[0xd4]; u16 f2D8, f2DA;
+    u8 res[ENEMY_FIELD(0x2D8) - 0x204]; u16 f2D8, f2DA;
 };
-struct AuxFB6 { u8 p0[4]; s16 f4, f6; u8 p8[0xce]; u16 fD6; };
+struct AuxFB6 { u8 p0[ENEMY_FIELD(0x208) - 0x204]; s16 f4, f6; u8 p8[0xce]; u16 fD6; };
 extern struct EntFB6 *actor9FB6C asm("gUnk_0300032C");
-struct PlayerFB6 { u8 p0[0x30]; u32 flags; u8 p34[0x118]; };
+struct PlayerFB6 { u8 p0[PLAYER_FIELD(0x30)]; u32 flags; u8 p34[PLAYER_SIZE - PLAYER_FIELD(0x34)]; };
 extern struct PlayerFB6 playersFB6[] asm("gUnk_03003CE0");
 extern u16 palette9FB6C asm("gUnk_03000330");
 extern u32 active9FB6C asm("gUnk_030056FC");
-extern u32 seen9FB6C[][83] asm("gUnk_03003DC4");
+extern u32 seen9FB6C[][PLAYER_SIZE / 4] asm("gUnk_03003DC4");
 extern u8 players9FB6C[] asm("gUnk_03003CE0");
 extern void *inventory9FB6C asm("gUnk_030034E0");
 extern u8 config9FB6C[] asm("gUnk_084A3EB0");
@@ -1535,7 +1544,7 @@ extern s32 sound9FB6C(s32) asm("sub_08058688");
 #define END_RENDER9FB6C() { \
     actor9FB6C->f6E=anim9FB6C(&sprite,actor9FB6C->f68,&actor9FB6C->f6A,&actor9FB6C->f6C,1); \
     screen9FB6C((s32)(actor9FB6C->x<<8)>>16,(s32)(actor9FB6C->y<<8)>>16,&sx,&sy,zero,zero); \
-    sub_08000AF0(palette9FB6C+16,sprite.palette+(H9FB6C(resource,0xD6)<<5),1); \
+    sub_08000AF0(palette9FB6C+16,sprite.palette+(H9FB6C(resource, ENEMY_DATA_FIELD(0xD6))<<5),1); \
     draw9FB6C(sx,sy,actor9FB6C->f68,actor9FB6C->f6A,2,sprite.payload,sprite.data,sprite.base); \
 }
 
@@ -1585,8 +1594,8 @@ void sub_0809FB6C(void *input)
     }
     init9FB6C(&sprite,0x50009,palette9FB6C,-1,1);
     sprite.payload[0]=palette9FB6C;
-    actor->f5C=actor->f1D6=S9FB6C(resource,6)*3;
-    actor->f5E=actor->f1D4=(S9FB6C(resource,4)<<1)*10;
+    actor->f5C=actor->f1D6=S9FB6C(resource, ENEMY_DATA_FIELD(6))*3;
+    actor->f5E=actor->f1D4=(S9FB6C(resource, ENEMY_DATA_FIELD(4))<<1)*10;
     actor->fC=0;
     floatingTimer=0;flash=0;
     actor->f6C=0; actor->f6A=0; actor->f68=0;
@@ -1599,7 +1608,7 @@ void sub_0809FB6C(void *input)
     do {
         entry=0;
         do {
-            *(u32 *)((u8 *)seen9FB6C + entry * 4 + player * 0x14C) = 0;
+            *(u32 *)((u8 *)seen9FB6C + entry * 4 + player * PLAYER_SIZE) = 0;
             entry++;
         } while(entry<=4);
         player++;
@@ -1696,11 +1705,11 @@ void sub_0809FB6C(void *input)
             u32 old=flash;
             flash=old-1;
             if((old&1) && sub_0800CCCC()==0 && sub_0800CC98()==0 && sub_0800CD34()==0) {
-                sub_08000AF0(palette9FB6C+16,sprite.palette+(H9FB6C(resource,0xD6)<<5),1);
+                sub_08000AF0(palette9FB6C+16,sprite.palette+(H9FB6C(resource, ENEMY_DATA_FIELD(0xD6))<<5),1);
                 draw9FB6C(sx,sy,*animation,*frame,priority,sprite.payload,sprite.data,sprite.base);
             }
         } else if(sub_0800CCCC()==0 && sub_0800CC98()==0 && sub_0800CD34()==0) {
-            sub_08000AF0(palette9FB6C+16,sprite.palette+(H9FB6C(resource,0xD6)<<5),1);
+            sub_08000AF0(palette9FB6C+16,sprite.palette+(H9FB6C(resource, ENEMY_DATA_FIELD(0xD6))<<5),1);
             draw9FB6C(sx,sy,*animation,*frame,priority,sprite.payload,sprite.data,sprite.base);
         }
         value=actor->f4C;
@@ -1753,7 +1762,7 @@ void sub_0809FB6C(void *input)
     soundStop9FB6C(0);sub_080A10AC();
     if(sub_0800CCCC()==0 && sub_0800CC98()==0 && sub_0800CD8C()==0 && sub_0800CD34()==0) {
         sound9FB6C(13);
-        transition9FB6C(actor9FB6C,&sprite,H9FB6C(resource,0xD6),palette9FB6C,2);
+        transition9FB6C(actor9FB6C,&sprite,H9FB6C(resource, ENEMY_DATA_FIELD(0xD6)),palette9FB6C,2);
     }
     if(!(playersFB6[sub_080020F4()].flags&0x2000) && actor9FB6C->f5A!=0) {
         reward=reward9FB6C(inventory9FB6C,resource);
@@ -1785,8 +1794,8 @@ void sub_0809FB6C(void *input)
 #undef I9FB6C
 #undef P9FB6C
 struct Sprite105 {u32 base,pad4,data,palette,pad10,pad14,pad18;u8 payload[24];};
-struct Actor105 {u16 index;u8 pad2[10];u16 state;u8 padE[0x42];u32 serial;u8 pad54[0x286];u16 paletteOffset;};
-struct Player105 {u8 p0[0x20];u16 state;u8 p22[14];u32 flags;u8 p34[0x34];u8 active;u8 p69[0x1F];u16 health;u16 p8A;s32 x,y;u8 p94[0x1C];u16 motion;u8 pB2[0x32];u32 seen[26];};
+struct Actor105 {u16 index;u8 pad2[10];u16 state;u8 padE[0x42];u32 serial;u8 pad54[ENEMY_FIELD(0x2DA) - 0x54];u16 paletteOffset;};
+struct Player105 {u8 p0[PLAYER_FIELD(0x20)];u16 state;u8 p22[PLAYER_FIELD(0x30) - PLAYER_FIELD(0x22)];u32 flags;u8 p34[PLAYER_FIELD(0x68) - PLAYER_FIELD(0x34)];u8 active;u8 p69[PLAYER_FIELD(0x88) - PLAYER_FIELD(0x69)];u16 health;u16 p8A;s32 x,y;u8 p94[PLAYER_FIELD(0xB0) - PLAYER_FIELD(0x94)];u16 motion;u8 pB2[PLAYER_FIELD(0xE4) - PLAYER_FIELD(0xB2)];u32 seen[26];};
 struct Obj105 {u32 p0,p4,p8;s32 y;};
 extern struct Actor105 *actor105 asm("gUnk_0300032C");
 extern u16 variant105 asm("gUnk_03000330");
@@ -1897,7 +1906,7 @@ void sub_080A05B4(u32 kind,void *done)
     *(u32 *)((u8 *)sub_0800048C() + 8) = timer;
 }
 struct EntryA099C { u8 pad[8]; u16 unk8, unkA; u8 rest[20]; };
-struct PlayerA099C { u8 pad[0x8C]; u32 x, y, xx, yy; u8 rest[0xB0]; };
+struct PlayerA099C { u8 pad[PLAYER_FIELD(0x8C)]; u32 x, y, xx, yy; u8 rest[PLAYER_SIZE - PLAYER_FIELD(0x9C)]; };
 extern struct PlayerA099C gPlayersA099C[] asm("gUnk_03003CE0");
 extern u8 gFlagA099C asm("gUnk_03000338");
 extern u8 gFlag2A099C asm("gUnk_03000339");
@@ -1986,10 +1995,10 @@ struct ActorA0B44 {
 struct PosA0B44 { u16 x, y; };
 typedef struct { s32 x, y; } VecA0B44;
 struct PlayerA0B44 {
-    u8 pad0[0x20]; u16 state; u8 pad22[14]; u32 flags;
-    u8 pad34[0x34]; u8 active; u8 pad69[0x23];
-    s32 x, y; u8 pad94[0x1C];
-    u16 motion; u8 padB2[0x32]; u32 seen[25]; struct PosA0B44 *pos;
+    u8 pad0[PLAYER_FIELD(0x20)]; u16 state; u8 pad22[PLAYER_FIELD(0x30) - PLAYER_FIELD(0x22)]; u32 flags;
+    u8 pad34[PLAYER_FIELD(0x68) - PLAYER_FIELD(0x34)]; u8 active; u8 pad69[PLAYER_FIELD(0x8C) - PLAYER_FIELD(0x69)];
+    s32 x, y; u8 pad94[PLAYER_FIELD(0xB0) - PLAYER_FIELD(0x94)];
+    u16 motion; u8 padB2[PLAYER_FIELD(0xE4) - PLAYER_FIELD(0xB2)]; u32 seen[25]; struct PosA0B44 *pos;
 };
 struct SpriteA0B44 { u32 base, pad4, data, palette, pad10, pad14, pad18; u8 payload[24]; };
 struct DrawA0B44 { u32 pad0[3]; s32 y; };
@@ -2173,7 +2182,7 @@ void sub_080A0B44(void)
             player = sub_080020F4();
             actor = *ref;
             seenByteOffset = actor->id << 2;
-            seenByteOffset += player * 0x14C;
+            seenByteOffset += player * PLAYER_SIZE;
             
             playerBase += 0xE4;
             *(u32 *)(seenByteOffset + (u32)playerBase) = actor->serial++;
@@ -2387,6 +2396,11 @@ void sub_080A11B4(void)
 #define SA12(p,o) (*(s16 *)((u8 *)(p)+(o)))
 #define IA12(p,o) (*(s32 *)((u8 *)(p)+(o)))
 #define PA12(p,o) ((u16 *)((u8 *)(p)+(o)))
+#ifdef REGION_USA
+#define PAL_A12 (*PA12(resource, ENEMY_DATA_FIELD(0xD6)))
+#else
+#define PAL_A12 (*pal)
+#endif
 extern struct ActorD878 *actorA12 asm("gUnk_03000348");
 extern u16 paletteA12 asm("gUnk_0300034C");
 extern u8 configA12[] asm("gUnk_084A5CA8");
@@ -2401,7 +2415,7 @@ extern void sub_080A2720(u8 mode, u16 arg);
     if (sub_0800CCCC() == 0 && sub_0800CC98() == 0 && sub_0800CD8C() == 0) { \
         zero = sub_0800CD34(); \
         if (zero == 0) { \
-            sub_08000AF0(paletteA12 + 0x10, (u8 *)sprite->palette + (*pal << 5), 1); \
+            sub_08000AF0(paletteA12 + 0x10, (u8 *)sprite->palette + (PAL_A12 << 5), 1); \
             priority = sub_0800BC44(actorA12->x >> 8, actorA12->y >> 8, 0); \
             actorA12->f6E = animD878(sprite, actorA12->anim, &actorA12->frame, &actorA12->tick, 1); \
             screenD878((actorA12->x << 8) >> 16, (actorA12->y << 8) >> 16, &sx, &sy, zero, zero); \
@@ -2432,7 +2446,9 @@ void sub_080A1208(void *input)
     u16 chase;
     u16 elapsed;
     s16 floatingOffset;
+#ifndef REGION_USA
     u16 *pal;
+#endif
     u16 *frame;
     u16 *tick;
     s32 finished;
@@ -2471,8 +2487,8 @@ void sub_080A1208(void *input)
     actor->tick = 0;
     actor->frame = 0;
     actor->anim = 0;
-    actor->f5C = actor->f1D6 = SA12(resource, 6) * 3;
-    value = SA12(resource, 4) * 2;
+    actor->f5C = actor->f1D6 = SA12(resource, ENEMY_DATA_FIELD(6)) * 3;
+    value = SA12(resource, ENEMY_DATA_FIELD(4)) * 2;
     actor->f5E = actor->f1D4 = (value * 4 + value) * 2;
     actor->state = 0;
     mode = 0;
@@ -2486,11 +2502,13 @@ void sub_080A1208(void *input)
     tick = &actor->tick;
     frame = &actor->frame;
     animation = &actor->anim;
-    pal = PA12(resource, 0xD6);
+#ifndef REGION_USA
+    pal = PA12(resource, ENEMY_DATA_FIELD(0xD6));
+#endif
     do {
         entry = 0;
         do {
-            *(u32 *)((u8 *)seenD878 + entry * 4 + player * 0x14C) = 0;
+            *(u32 *)((u8 *)seenD878 + entry * 4 + player * PLAYER_SIZE) = 0;
             entry++;
         } while (entry <= 4);
         player++;
@@ -2605,7 +2623,7 @@ void sub_080A1208(void *input)
             actorA12->frame = 0;
         }
         sprite->payload[0] = paletteA12;
-        sub_08000AF0(paletteA12 + 0x10, (u8 *)sprite->palette + (*pal << 5), 1);
+        sub_08000AF0(paletteA12 + 0x10, (u8 *)sprite->palette + (PAL_A12 << 5), 1);
         if (sub_08098004() & 1)
             priority = sub_08097FF8();
         else
@@ -2659,7 +2677,7 @@ void sub_080A1208(void *input)
         if (sub_0800CCCC() == 0 && sub_0800CC98() == 0) {
             zero = sub_0800CD34();
             if (zero == 0) {
-                sub_08000AF0(paletteA12 + 0x10, (u8 *)sprite->palette + (*pal << 5), 1);
+                sub_08000AF0(paletteA12 + 0x10, (u8 *)sprite->palette + (PAL_A12 << 5), 1);
                 priority = sub_0800BC44(actorA12->x >> 8, actorA12->y >> 8, 0);
                 actorA12->f6E = animD878(sprite, actorA12->anim, &actorA12->frame, &actorA12->tick, 1);
                 screenD878((actorA12->x << 8) >> 16, (actorA12->y << 8) >> 16, &sx, &sy, zero, zero);
@@ -2687,7 +2705,7 @@ void sub_080A1208(void *input)
         RENDER_A12();
     playersD878[sub_080020F4()].flags &= ~1;
     soundD878(0xD);
-    transitionD878(actorA12, sprite, *pal, paletteA12);
+    transitionD878(actorA12, sprite, PAL_A12, paletteA12);
     if (!(playersD878[sub_080020F4()].flags & 0x2000) && actorA12->f5A != 0) {
         reward = rewardD878(inventoryD878, resource);
         floatingOffset = 0x1D;
@@ -2717,7 +2735,7 @@ void sub_080A1208(void *input)
 #undef PA12
 struct ActorA1DA8 { u16 f0; u8 p2[6]; s16 f8; u16 fA, fC; u8 pE[6]; s32 f14, f18; u8 p1C[0x34]; s32 f50; };
 extern struct ActorA1DA8 *gActorA1DA8 asm("gUnk_03000348");
-struct PlayerA1DA8 { u8 p0[0x20]; u16 state; u8 p22[14]; u32 flags; u8 p34[0x34]; u8 f68; u8 p69[0x1F]; u16 f88; u8 p8A[0x26]; u16 fB0; u8 pB2[0x32]; u32 fE4[25]; u16 *f148; };
+struct PlayerA1DA8 { u8 p0[PLAYER_FIELD(0x20)]; u16 state; u8 p22[PLAYER_FIELD(0x30) - PLAYER_FIELD(0x22)]; u32 flags; u8 p34[PLAYER_FIELD(0x68) - PLAYER_FIELD(0x34)]; u8 f68; u8 p69[PLAYER_FIELD(0x88) - PLAYER_FIELD(0x69)]; u16 f88; u8 p8A[PLAYER_FIELD(0xB0) - PLAYER_FIELD(0x8A)]; u16 fB0; u8 pB2[PLAYER_FIELD(0xE4) - PLAYER_FIELD(0xB2)]; u32 fE4[25]; u16 *f148; };
 extern struct PlayerA1DA8 gPlayersA1DA8[] asm("gUnk_03003CE0");
 extern s16 atanA1DA8(s16,s16) asm("ArcTan2");
 extern s16 sub_0801ED8C(void *, void *);
@@ -2742,10 +2760,10 @@ void sub_080A1DA8(void)
     x = (u32)(gActorA1DA8->f14 << 8) >> 16;
     y = (u32)(gActorA1DA8->f18 << 8) >> 16;
     positions = (void *)gPlayersA1DA8;
-    offset = 0x14C * sub_080020F4();
-    positions += 0x148;
+    offset = PLAYER_SIZE * sub_080020F4();
+    positions += PLAYER_FIELD(0x148);
     px = **(u16 **)(positions + offset) >> 4;
-    py = (u32)((*(u16 **)(positions + 0x14C * sub_080020F4()))[1] << 20);
+    py = (u32)((*(u16 **)(positions + PLAYER_SIZE * sub_080020F4()))[1] << 20);
     deltaX = px - (s16)x;
     deltaY = (py >> 20) - (s16)y;
     dx = deltaX;
@@ -2813,10 +2831,10 @@ struct ActorA1FF4 { u16 id; u8 p2[6]; s16 facing; u16 pA, state; u8 pE[6]; s32 x
 extern struct ActorA1FF4 *gActorA1FF4 asm("gUnk_03000348");
 struct AnimA1FF4 { u32 f0, f4, f8, fC; u8 p10[12]; u8 attr[24]; };
 struct PlayerA1FF4 {
-    u8 p0[0x20]; u16 state; u8 p22[0xE]; u32 flags;
-    u8 p34[0x34]; u8 active; u8 p69[0x23]; s32 x, y;
-    u8 p94[0x1C]; u16 effect; u8 pB2[0x32];
-    u32 serial[25]; u8 pad[0x14C-0xE4-100];
+    u8 p0[PLAYER_FIELD(0x20)]; u16 state; u8 p22[PLAYER_FIELD(0x30) - PLAYER_FIELD(0x22)]; u32 flags;
+    u8 p34[PLAYER_FIELD(0x68) - PLAYER_FIELD(0x34)]; u8 active; u8 p69[PLAYER_FIELD(0x8C) - PLAYER_FIELD(0x69)]; s32 x, y;
+    u8 p94[PLAYER_FIELD(0xB0) - PLAYER_FIELD(0x94)]; u16 effect; u8 pB2[PLAYER_FIELD(0xE4) - PLAYER_FIELD(0xB2)];
+    u32 serial[25]; u8 pad[PLAYER_SIZE - PLAYER_FIELD(0x148)];
 };
 extern struct PlayerA1FF4 gPlayersA1FF4[] asm("gUnk_03003CE0");
 extern s32 sub_08065158(void *, u32, u16, s32, s32);
@@ -2875,18 +2893,18 @@ void sub_080A1FF4(void *unused, u16 direction)
                 gPlayersA1FF4[sub_080020F4()].state != 14 &&
                 gPlayersA1FF4[sub_080020F4()].state != 11 &&
                 gPlayersA1FF4[sub_080020F4()].state != 12 &&
-                *(u32 *)((u8 *)&gPlayersA1FF4[sub_080020F4()] + 0xE4 + gActorA1FF4->id * 4) != gActorA1FF4->serial) {
+                *(u32 *)((u8 *)&gPlayersA1FF4[sub_080020F4()] + PLAYER_FIELD(0xE4) + gActorA1FF4->id * 4) != gActorA1FF4->serial) {
                 if (sub_0800CE30() == 1) sub_08029CEC(0, 60, 2);
                 else sub_08029CEC(0, 30, 2);
                 gPlayersA1FF4[sub_080020F4()].effect = 0xFFFE;
-                *(u32 *)((u8 *)&gPlayersA1FF4[sub_080020F4()] + 0xE4 + gActorA1FF4->id * 4) = gActorA1FF4->serial++;
+                *(u32 *)((u8 *)&gPlayersA1FF4[sub_080020F4()] + PLAYER_FIELD(0xE4) + gActorA1FF4->id * 4) = gActorA1FF4->serial++;
                 hit = 1;
             }
         }
         if (sub_0800CCCC() == 0 && sub_0800CC98() == 0 && sub_0800CD8C() == 0) {
             s32 zero = sub_0800CD34();
             if (zero == 0) {
-            sub_08000AF0(gUnk_0300034C + 0x10, anim.fC + (*(u16 *)(aux + 0xD6) << 5), 1);
+            sub_08000AF0(gUnk_0300034C + 0x10, anim.fC + (*(u16 *)(aux + ENEMY_DATA_FIELD(0xD6)) << 5), 1);
             sub_0800BC08((x << 8) >> 16, (y << 8) >> 16, &screenX, &screenY, zero, zero);
             sub_08065370(&anim, 8, (s32)&tile, (s32)&extra, 1);
             sub_08007870(screenX, screenY, 8, tile, zero, anim.attr, anim.f8, anim.f0);
@@ -2909,9 +2927,9 @@ struct TargetXYT107 { s32 x, y; };
 extern void t107VelocityPair(struct TargetXYT107,struct TargetXYT107,s32 *) asm("sub_08097978");
 struct Nib107 { u8 lo:4, hi:4; };
 struct PlayerT107C {
-    u8 p0[0x20]; u16 state; u8 p22[0xE]; u32 flags;
-    u8 p34[0x34]; u8 active; u8 p69[0x23]; s32 x, y;
-    u8 p94[0x1C]; u16 effect; u8 pB2[0x32];
+    u8 p0[PLAYER_FIELD(0x20)]; u16 state; u8 p22[PLAYER_FIELD(0x30) - PLAYER_FIELD(0x22)]; u32 flags;
+    u8 p34[PLAYER_FIELD(0x68) - PLAYER_FIELD(0x34)]; u8 active; u8 p69[PLAYER_FIELD(0x8C) - PLAYER_FIELD(0x69)]; s32 x, y;
+    u8 p94[PLAYER_FIELD(0xB0) - PLAYER_FIELD(0x94)]; u16 effect; u8 pB2[PLAYER_FIELD(0xE4) - PLAYER_FIELD(0xB2)];
     u32 serial[25]; u16 *data;
 };
 extern struct PlayerT107C t107PlayersC[] asm("gUnk_03003CE0");
@@ -2994,7 +3012,7 @@ void sub_080A230C(void *unused, u16 delay)
             zero = sub_0800CC98();
             if (zero == 0) {
                 sub_08065370(&anim, 8, (s32)&tile, (s32)&extra, 1);
-                sub_08000AF0(gUnk_0300034C + 0x10, anim.fC + (*(u16 *)(aux + 0xD6) << 5), 1);
+                sub_08000AF0(gUnk_0300034C + 0x10, anim.fC + (*(u16 *)(aux + ENEMY_DATA_FIELD(0xD6)) << 5), 1);
                 anim.attr[0] = gUnk_0300034C;
                 t107CCall0800BC08((pos.x << 8) >> 16, (pos.y << 8) >> 16, &screenX, &screenY, zero, zero);
                 t107CCall08007870(screenX, screenY, 8, tile, zero, anim.attr, anim.f8, anim.f0);
@@ -3078,11 +3096,11 @@ struct EntA27 {
     u8 p70[0x164]; s16 f1D4, f1D6; u8 p1D8[0x24];
     u8 lo:4; u8 hi:4;
     u8 f1FD, f1FE, p1FF; u8 f200; u8 p201; u16 f202;
-    u8 p204[0x2a]; s8 f22E, f22F; u8 p230[0xa8]; u16 f2D8, f2DA;
+    u8 p204[ENEMY_FIELD(0x22E) - 0x204]; s8 f22E, f22F; u8 p230[ENEMY_FIELD(0x2D8) - ENEMY_FIELD(0x230)]; u16 f2D8, f2DA;
 };
-struct AuxA27 { u8 p0[4]; s16 f4, f6; u8 p8[0xce]; u16 fD6; };
+struct AuxA27 { u8 p0[ENEMY_FIELD(0x208) - 0x204]; s16 f4, f6; u8 p8[0xce]; u16 fD6; };
 struct AnimA27 { u32 f0, f4, f8, fC; u8 pad10[12]; u8 attr[24]; };
-struct PlayerA27 { u8 p0[0x30]; u32 flags; u8 p34[0x118]; };
+struct PlayerA27 { u8 p0[PLAYER_FIELD(0x30)]; u32 flags; u8 p34[PLAYER_SIZE - PLAYER_FIELD(0x34)]; };
 struct GlobA27 { u8 p0[0x720]; s32 f720; };
 extern struct EntA27 *selfA27 asm("gUnk_03000364");
 extern struct EntA27 *otherA27 asm("gUnk_03000368");
@@ -3137,7 +3155,12 @@ extern s32 s1E46CA27(void *, void *) asm("sub_0801E46C");
 extern s32 s1E4CCA27(void *, s32) asm("sub_0801E4CC");
 extern void s6171CA27(void *, s32) asm("sub_0806171C");
 
-#define TAIL_A27()                                                                                         {                                                                                                          s32 z;                                                                                                 playersA27[sub_080020F4()].flags |= 1;                                                                 if (sub_0800CCCC() == 0 && sub_0800CC98() == 0 && sub_0800CD8C() == 0 && (z = sub_0800CD34()) == 0) {             sub_08000AF0(tileA27 + 0x10, (void *)(animsA27[0].fC + *pD6 * 32), 1);                                pal = sub_0800BC44(selfA27->x >> 8, selfA27->y >> 8, 0);                                               selfA27->f6E = animA27(&animsA27[0], selfA27->f68, &selfA27->f6A, &selfA27->f6C, 1);                   coordsA27((s16)(selfA27->x >> 8), (s16)(selfA27->y >> 8), &sx, &sy, z, z);                             drawA27(sx, sy, selfA27->f68, selfA27->f6A, pal, animsA27[0].attr, animsA27[0].f8, animsA27[0].f0);         }                                                                                                      yieldA27();                                                                                        }
+#ifdef REGION_USA
+#define D6_A27 (aux->fD6)
+#else
+#define D6_A27 (*pD6)
+#endif
+#define TAIL_A27()                                                                                         {                                                                                                          s32 z;                                                                                                 playersA27[sub_080020F4()].flags |= 1;                                                                 if (sub_0800CCCC() == 0 && sub_0800CC98() == 0 && sub_0800CD8C() == 0 && (z = sub_0800CD34()) == 0) {             sub_08000AF0(tileA27 + 0x10, (void *)(animsA27[0].fC + D6_A27 * 32), 1);                                pal = sub_0800BC44(selfA27->x >> 8, selfA27->y >> 8, 0);                                               selfA27->f6E = animA27(&animsA27[0], selfA27->f68, &selfA27->f6A, &selfA27->f6C, 1);                   coordsA27((s16)(selfA27->x >> 8), (s16)(selfA27->y >> 8), &sx, &sy, z, z);                             drawA27(sx, sy, selfA27->f68, selfA27->f6A, pal, animsA27[0].attr, animsA27[0].f8, animsA27[0].f0);         }                                                                                                      yieldA27();                                                                                        }
 
 /* [RunPatternedAttachmentEncounter] Places main actor at fixed position, restores field+0x5C to999 on hits,
  * and alternates timed pursuit/contact with event-selected15-byte configurations for one primary attachment
@@ -3153,7 +3176,9 @@ void sub_080A27B8(struct EntA27 *self)
     u16 flash;
     u16 wait8;
     u16 wait4;
+#ifndef REGION_USA
     u16 *pD6;
+#endif
     s16 shake;
     u8 pal;
     u16 t;
@@ -3214,7 +3239,9 @@ void sub_080A27B8(struct EntA27 *self)
     selfA27->f202 = selfA27->f2;
     selfA27->f200 = 0xFF;
     s67C18A27();
+#ifndef REGION_USA
     pD6 = &aux->fD6;
+#endif
     while (s67C08A27() == 0)
         yieldA27();
     s6849CA27(s67BF8A27());
@@ -3347,7 +3374,7 @@ void sub_080A27B8(struct EntA27 *self)
             }
         }
         animsA27[modeA27].attr[0] = tileA27;
-        sub_08000AF0(tileA27 + 0x10, (void *)(animsA27[modeA27].fC + *pD6 * 32), 1);
+        sub_08000AF0(tileA27 + 0x10, (void *)(animsA27[modeA27].fC + D6_A27 * 32), 1);
         if (sub_0800CD8C() == 0)
             selfA27->f6E = animA27(&animsA27[modeA27], 0, &selfA27->f6A, &selfA27->f6C, 1);
         if (sub_08098004() & 1)
@@ -3363,7 +3390,7 @@ void sub_080A27B8(struct EntA27 *self)
         }
         if (modeA27 != 0 && sub_0800CCCC() == 0 && sub_0800CC98() == 0 && sub_0800CD34() == 0) {
             animsA27[1].attr[0] = tileA27;
-            sub_08000AF0(tileA27 + 0x10, (void *)(animsA27[1].fC + *pD6 * 32), 1);
+            sub_08000AF0(tileA27 + 0x10, (void *)(animsA27[1].fC + D6_A27 * 32), 1);
             p = drawA27(sx, sy - 1, 0x11, 0, pal, animsA27[1].attr, animsA27[1].f8, animsA27[1].f0);
             p[3] = sy;
         }
@@ -3406,7 +3433,7 @@ void sub_080A27B8(struct EntA27 *self)
     sub_080A4B10();
     sub_080A4A54();
     s58688A27(0xD);
-    s970CCA27(selfA27, animsA27, *pD6, tileA27);
+    s970CCA27(selfA27, animsA27, D6_A27, tileA27);
     if (!(playersA27[sub_080020F4()].flags & 0x2000) && otherA27->f5A != 0) {
         h = s1E46CA27(heapA27, aux);
         shake = 0x1D;
@@ -3434,9 +3461,9 @@ struct EntA35 {
     u8 p70[0x164]; s16 f1D4, f1D6; u8 p1D8[0x24];
     u8 lo:4; u8 hi:4;
     u8 f1FD, f1FE, p1FF; u8 f200; u8 p201; u16 f202;
-    u8 p204[0x2a]; s8 f22E, f22F;
+    u8 p204[ENEMY_FIELD(0x22E) - 0x204]; s8 f22E, f22F;
 };
-struct AuxA35 { u8 p0[4]; s16 f4, f6; u8 p8[0xce]; u16 fD6; };
+struct AuxA35 { u8 p0[ENEMY_FIELD(0x208) - 0x204]; s16 f4, f6; u8 p8[0xce]; u16 fD6; };
 struct AnimA35 { u32 f0, f4, f8, fC; u8 pad10[12]; u8 attr[24]; };
 struct TileA35 { u8 p[0x90]; u16 f90; };
 extern struct EntA35 *mainA35 asm("gUnk_03000364");
@@ -3486,7 +3513,7 @@ void t107MainD(void)
     s32 *p;
 
     maskA35 |= 2;
-    entA35 = (struct EntA35 *)(poolA35 + 0x2E0);
+    entA35 = (struct EntA35 *)(poolA35 + ENEMY_SIZE);
     sub_0801A0A4(entA35);
     setupA35(entA35, srcA35, 1);
     aux = (struct AuxA35 *)((u8 *)entA35 + 0x204);

@@ -192,13 +192,13 @@ s32 sub_08021FE0(s32 *arg0, s32 *arg1, u16 *arg2, u16 *arg3) {
  * reaches it after player-active/state/flag checks, scene predicates and inclusive21FE0 overlap on one
  * alternate branch. */
 void sub_08022028(u8 *arg0, u8 *arg1, u16 arg2) {
-    ArcTan2((s16)((*(s32 *)(arg1 + 0x8C) - *(s32 *)(arg0 + 0)) << 8 >> 16),
-            (s16)((*(s32 *)(arg1 + 0x90) - *(s32 *)(arg0 + 4)) << 8 >> 16));
-    *(u16 *)(arg1 + 0xCC) = 0;
-    *(u16 *)(arg1 + 0xD0) = 0;
-    *(u16 *)(arg1 + 0xCE) = 0;
-    *(u16 *)(arg1 + 0x88) += arg2;
-    *(u16 *)(arg1 + 0x20) = 0xA;
+    ArcTan2((s16)((*(s32 *)(arg1 + PLAYER_FIELD(0x8C)) - *(s32 *)(arg0 + 0)) << 8 >> 16),
+            (s16)((*(s32 *)(arg1 + PLAYER_FIELD(0x90)) - *(s32 *)(arg0 + 4)) << 8 >> 16));
+    *(u16 *)(arg1 + PLAYER_FIELD(0xCC)) = 0;
+    *(u16 *)(arg1 + PLAYER_FIELD(0xD0)) = 0;
+    *(u16 *)(arg1 + PLAYER_FIELD(0xCE)) = 0;
+    *(u16 *)(arg1 + PLAYER_FIELD(0x88)) += arg2;
+    *(u16 *)(arg1 + PLAYER_FIELD(0x20)) = PLAYER_FIELD(0xA);
 }
 /* [StartWorldSprite14Task] Scans32 effect mask bits for first clear slot, allocates0x400 stack, installs
  * world-sprite14 callback, controlword0x46 and null destructor; packs arithmetic-shifted x/y into one
@@ -612,7 +612,7 @@ struct T22Copy32 { u32 w[8]; };
 struct T22Copy40 { u32 w[10]; };
 struct T22TaskRec { u32 a,b,c; };
 extern struct T22State226A4 *t22_gs asm("gUnk_03005CF4");
-struct T22Player226A4 { u8 pad0[0x2C]; u16 f2C,f2E; u8 pad30[4]; struct T22Inv226A4 *f34; u8 pad38[0x54]; s32 f8C,f90; u8 pad94[16]; struct T22Copy8 fA4; u8 padAC[0x16]; u16 fC2,fC4,fC6; u8 padC8[0x84]; };
+struct T22Player226A4 { u8 pad0[PLAYER_FIELD(0x2C)]; u16 f2C,f2E; u8 pad30[PLAYER_FIELD(0x34) - (PLAYER_FIELD(0x2F) + 1)]; struct T22Inv226A4 *f34; u8 pad38[PLAYER_FIELD(0x8C) - PLAYER_FIELD(0x38)]; s32 f8C,f90; u8 pad94[PLAYER_FIELD(0xA4) - PLAYER_FIELD(0x94)]; struct T22Copy8 fA4; u8 padAC[PLAYER_FIELD(0xC2) - PLAYER_FIELD(0xAC)]; u16 fC2,fC4,fC6; u8 padC8[PLAYER_SIZE - PLAYER_FIELD(0xC8)]; };
 extern struct T22Player226A4 t22_players[] asm("gUnk_03003CE0");
 extern struct T22TaskRec t22_tasks[] asm("gUnk_03005700");
 extern u16 t22_seq asm("gUnk_03005D5C");
@@ -730,8 +730,13 @@ void sub_080226A4(void) {
         t22_gs->f36=0;
         asm("" : : "r"(t22_players));
         selected=player;
+#ifdef REGION_USA
+        t22_players[selected].fA4=t22_gs->fA0;
+        pl=&t22_players[selected];
+#else
         pl=&t22_players[selected];
         pl->fA4=t22_gs->fA0;
+#endif
         pl->f2E=t22_gs->f8C;
         pl->f2C=t22_gs->f8E;
         pl->fC4=t22_gs->f90;
@@ -740,7 +745,11 @@ void sub_080226A4(void) {
         i=0;
         do { t22_players[selected].f34[i]=t22_gs->inv[i]; i++; } while(i<=7);
         { register u16 *seqPtr asm("r4"); u32 next;
+#ifdef REGION_USA
+        t22_seq=1; i=0; { register struct T22Save226A4 **cache asm("r5")=&t22_save226A4; asm("" : : "r"(cache)); { register struct T22Save226A4 **c2 asm("ip")=cache; asm("" : : "r"(c2)); } } seqPtr=&t22_seq;
+#else
         t22_seq=1; i=0; { register struct T22Save226A4 **savedAddr asm("r7")=&t22_save226A4;  { register struct T22Save226A4 **cache asm("ip")=&t22_save226A4; asm("" : : "r"(cache)); } } seqPtr=&t22_seq; 
+#endif
         do {
             t22_items226A4[i]=t22_save226A4->items[i];
             item=(struct T22Item226A4 *)((i<<5)+(u32)t22_items226A4);
@@ -1553,7 +1562,7 @@ struct Slot23A3C { u16 active; u8 pad[6]; };
 struct Area23A3C { s16 x, y; u16 w, h; struct Slot23A3C slots[5]; u16 mode; };
 struct State23A3C { u16 mode, pad2, pad4, pad6, sequence, count; u8 padC[0x1BC]; u8 states[0x55C]; s32 entries[32]; };
 struct Pos23A3C { u16 x; u16 pad:3, y:9, pad2:4; u8 f4:6; };
-struct Unit23A3C { u8 pad[0x30]; u32 flags; u8 pad34[0x114]; struct Pos23A3C *pos; };
+struct Unit23A3C { u8 pad[PLAYER_FIELD(0x30)]; u32 flags; u8 pad34[PLAYER_FIELD(0x148) - PLAYER_FIELD(0x34)]; struct Pos23A3C *pos; };
 extern struct State23A3C *state23A3C asm("gUnk_03005CF4");
 extern struct Unit23A3C units23A3C[] asm("gUnk_03003CE0");
 extern u32 gUnk_03002344;
@@ -1911,16 +1920,16 @@ struct Ent2413C {
     u32 b7hi:3;
 };
 struct Player2413C {
-    u8 pad0[0x20];
+    u8 pad0[PLAYER_FIELD(0x20)];
     u16 state;
-    u8 pad22[2];
+    u8 pad22[PLAYER_FIELD(0x24) - PLAYER_FIELD(0x22)];
     s16 w24;
     s16 w26;
-    u8 pad28[8];
+    u8 pad28[PLAYER_FIELD(0x30) - PLAYER_FIELD(0x28)];
     u32 flags;
-    u8 pad34[0x34];
+    u8 pad34[PLAYER_FIELD(0x68) - PLAYER_FIELD(0x34)];
     u8 b68;
-    u8 pad69[0x148 - 0x69];
+    u8 pad69[PLAYER_FIELD(0x148) - PLAYER_FIELD(0x69)];
     struct Ent2413C *ent;
 };
 extern struct Player2413C gPlayers2413C[] asm("gUnk_03003CE0");
@@ -2115,7 +2124,7 @@ void sub_08024538(s32 arg0) {
         (void)sub_08057624(1);
     }
     if (sub_0800CF80() == 0) {
-        *((u8 *)p + 0x68) = 1;
+        *((u8 *)p + PLAYER_FIELD(0x68)) = 1;
     }
     while (sub_0806617C() == 0) {
         (void)sub_08057624(1);
@@ -2130,7 +2139,7 @@ void sub_08024538(s32 arg0) {
 struct Task245CC { u8 bytes[0x28]; };
 struct Remote245CC { u16 x,y; u8 flags,p5,p6,flags7; };
 struct Input245CC { u16 x,y,destination,flags; };
-struct Player245CC { u8 pad0[0x14]; u16 w14; u8 pad16[10]; u16 state; s16 w22,w24,w26; u8 pad28[8]; u32 flags; u8 pad34[0x58]; s32 x,y; u8 pad94[0x3a]; s16 wCE; u8 padD0[8]; s32 wD8; u8 padDC[0x6c]; struct Remote245CC *remote; };
+struct Player245CC { u8 pad0[PLAYER_FIELD(0x14)]; u16 w14; u8 pad16[PLAYER_FIELD(0x20) - PLAYER_FIELD(0x16)]; u16 state; s16 w22,w24,w26; u8 pad28[PLAYER_FIELD(0x30) - PLAYER_FIELD(0x28)]; u32 flags; u8 pad34[PLAYER_FIELD(0x8C) - PLAYER_FIELD(0x34)]; s32 x,y; u8 pad94[PLAYER_FIELD(0xCE) - PLAYER_FIELD(0x94)]; s16 wCE; u8 padD0[PLAYER_FIELD(0xD8) - PLAYER_FIELD(0xD0)]; s32 wD8; u8 padDC[PLAYER_FIELD(0x148) - PLAYER_FIELD(0xDC)]; struct Remote245CC *remote; };
 struct State245CC { u16 mode,p2,flags; u8 p6[0x3a]; s32 destination; u32 transition; u8 p48[0x180]; u8 states[100]; };
 struct Map245CC { u8 p0[14]; u16 wE; };
 struct Level245CC { u8 p0[0x8c]; u16 curLevel; u8 p8e[2]; u16 f90; u8 p92[0x1e]; struct Map245CC *map; };
@@ -2316,9 +2325,9 @@ void sub_080245CC(struct Input245CC *arg0) {
     spC0 = 0;
     local245CC_gUnk_03005CF0 = 0;
     if ((spC8 == 0) && (spA4 != 0)) {
-        local245CC_sub_08065158(&sp44, 0x5014FU, 0xC, -1, 0);
+        local245CC_sub_08065158(&sp44, RES_ID(0x5014FU), 0xC, -1, 0);
     } else {
-        local245CC_sub_08065158(&sp44, 0x50150U, 0xC, -1, 0);
+        local245CC_sub_08065158(&sp44, RES_ID(0x50150U), 0xC, -1, 0);
     }
     sp88 = local245CC_sub_08007290(0x1403D1U);
     temp_r8 = &local245CC_gUnk_03003CE0[local245CC_sub_080020F4()];
@@ -2449,7 +2458,7 @@ block_39:
                                 temp_r8->flags = temp_r1 | 0x800000;
                             }
                             if (local245CC_sub_0805F184() == 0) {
-                                temp_r4 = sp88 + 2;
+                                temp_r4 = sp88 + TEXT_HEADER;
                                 local245CC_sub_0801A3D0(temp_r4, (u16) (0xF - (local245CC_sub_0801A638(temp_r4) >> 1)), 0x12);
                             }
                             if (1 & temp_r8->w14) {
@@ -2872,7 +2881,7 @@ block_276:
                                 temp_r8->flags = temp_r1_9 | 0x800000;
                             }
                             if (local245CC_sub_0805F184() == 0) {
-                                temp_r4_2 = sp88 + 2;
+                                temp_r4_2 = sp88 + TEXT_HEADER;
                                 local245CC_sub_0801A3D0(temp_r4_2, (u16) (0xF - (local245CC_sub_0801A638(temp_r4_2) >> 1)), 0x12);
                             }
                             if (1 & temp_r8->w14) {
@@ -3080,12 +3089,12 @@ alloc:
 
 
 struct T24Net25890 { u16 unk0, unk2; u8 unk4:6; u8 pad5[2]; u8 unk7; };
-struct T24Player25890 { u8 pad0[0x14]; u16 unk14; u8 pad16[10]; u16 state; s16 unk22; u16 unk24; s16 unk26; u8 pad28[6]; s16 unk2E; u32 flags; u8 pad34[0x58]; s32 unk8C, unk90; u8 pad94[0x44]; u32 unkD8; u8 padDC[0x6C]; struct T24Net25890 *net; };
+struct T24Player25890 { u8 pad0[PLAYER_FIELD(0x14)]; u16 unk14; u8 pad16[PLAYER_FIELD(0x20) - PLAYER_FIELD(0x16)]; u16 state; s16 unk22; u16 unk24; s16 unk26; u8 pad28[PLAYER_FIELD(0x2E) - PLAYER_FIELD(0x28)]; s16 unk2E; u8 gap30[PLAYER_FIELD(0x30) - PLAYER_FIELD(0x2F) - 1]; u32 flags; u8 pad34[PLAYER_FIELD(0x8C) - PLAYER_FIELD(0x34)]; s32 unk8C, unk90; u8 pad94[PLAYER_FIELD(0xD8) - PLAYER_FIELD(0x94)]; u32 unkD8; u8 padDC[PLAYER_FIELD(0x148) - PLAYER_FIELD(0xDC)]; struct T24Net25890 *net; };
 struct T24Sprite25890 { u32 f0,f4,f8,fC; u8 pad10[12]; u8 payload[5]; u8 byte21,byte22,byte23; u8 pad24[16]; };
 struct T24State25890 { u16 unk0,pad2,unk4; u8 pad6[0x3A]; u32 unk40; u8 pad44[0x184]; u8 grid[20][5]; u8 pad22C[0x4F0]; u32 unk71C; };
 extern struct T24Player25890 t24_players25890[] asm("gUnk_03003CE0");
-extern struct { u32 flags; u8 pad[0x148]; } t24_playerFlags25890[] asm("gUnk_03003D10");
-extern struct { struct T24Net25890 *net; u8 pad[0x148]; } t24_playerNets25890[] asm("gUnk_03003E28");
+extern struct { u32 flags; u8 pad[PLAYER_SIZE - 4]; } t24_playerFlags25890[] asm("gUnk_03003D10");
+extern struct { struct T24Net25890 *net; u8 pad[PLAYER_SIZE - 4]; } t24_playerNets25890[] asm("gUnk_03003E28");
 extern struct T24State25890 *t24_state25890 asm("gUnk_03005CF4");
 extern struct { u8 pad[0x8C]; u16 curLevel; } t24_scene25890 asm("gUnk_03003170");
 extern u16 t24_keys25890 asm("gUnk_03001324");
@@ -3134,7 +3143,7 @@ void t24_gate25890(u16 *arg0) {
     ready = 0;
     text = t24_text25890(0x1403D2);
     player = &t24_players25890[sub_080020F4()];
-    sub_08065158(&sprite, 0x500D1, 0xE, -1, ready);
+    sub_08065158(&sprite, RES_ID(0x500D1), 0xE, -1, ready);
     if (t24_state25890->unk0 == 0x15) {
         sub_08000AF0(0x14, (void *)(sprite.fC + 0xC0), 2);
         sprite.byte22 = 4;
@@ -3243,7 +3252,7 @@ void t24_gate25890(u16 *arg0) {
                         u8 *s;
 
                         player->flags = flags | 0x800000;
-                        s = text + 2;
+                        s = text + TEXT_HEADER;
                         sub_0801A3D0(s, (u16)(0xF - (t24_width25890(s) >> 1)), 0x12);
                         if (player->unk14 & 1) {
                             player->flags = (player->flags | 0x403) & 0xFF7FFFFF;
@@ -3441,7 +3450,7 @@ void sub_08026338(void *arg) {
     sub_08000274((M2C_UNK *) (base + off), (s32) arg);
 }
 struct T24Net080263B4 { u16 unk0, unk2; u8 pad4[3]; u8 unk7; };
-struct T24Player080263B4 { u8 pad0[0x14]; u16 unk14; u8 pad16[10]; u16 state; u8 pad22[14]; u32 flags; u8 pad34[0x58]; u32 unk8C, unk90; u8 pad94[0x44]; u32 unkD8; u8 padDC[0x6C]; struct T24Net080263B4 *net; };
+struct T24Player080263B4 { u8 pad0[PLAYER_FIELD(0x14)]; u16 unk14; u8 pad16[PLAYER_FIELD(0x20) - PLAYER_FIELD(0x16)]; u16 state; u8 pad22[PLAYER_FIELD(0x30) - PLAYER_FIELD(0x22)]; u32 flags; u8 pad34[PLAYER_FIELD(0x8C) - PLAYER_FIELD(0x34)]; u32 unk8C, unk90; u8 pad94[PLAYER_FIELD(0xD8) - PLAYER_FIELD(0x94)]; u32 unkD8; u8 padDC[PLAYER_FIELD(0x148) - PLAYER_FIELD(0xDC)]; struct T24Net080263B4 *net; };
 struct T24Sprite080263B4 { u32 f0, f4, f8, fC; u8 pad10[12]; u8 payload[15]; u8 f2B; u8 pad2C[8]; };
 struct T24State080263B4 { u32 f0; u16 unk4; u8 pad6[0x3A]; u32 unk40; u8 pad44[0x184]; u8 grid[100]; };
 extern struct T24Player080263B4 t24_players080263B4[] asm("gUnk_03003CE0");
@@ -3504,7 +3513,7 @@ void sub_080263B4(void) {
     text = t24_call08007290_080263B4(0x1403D3);
     {
         u32 index = sub_080020F4();
-        u32 stride = 0x14C;
+        u32 stride = PLAYER_SIZE;
         
         stride *= index;
         {
@@ -3514,7 +3523,7 @@ void sub_080263B4(void) {
         }
     }
 
-    sub_08065158(&sprite, 0x5000D, 0xE, -1, zero);
+    sub_08065158(&sprite, RES_ID(0x5000D), 0xE, -1, zero);
     sub_08000AF0(0x1EU, sprite.fC + 0x1E0, 1U);
     sprite.f2B = 0xE;
     t24_state080263B4->unk4 = (u16) (0x100 | t24_state080263B4->unk4);
@@ -3542,7 +3551,7 @@ loop_2:
                 if (var_r0_2 <= 0xF) {
                     if ((sub_0800CCCC() != 0) && (t24_scene080263B4.scene == 0)) {
                         temp_r6->flags |= 0x800000;
-                        temp_r4 = text + 2;
+                        temp_r4 = text + TEXT_HEADER;
                         sub_0801A3D0(temp_r4, (u16) (0xF - ((u32) t24_call0801A638_080263B4(temp_r4) >> 1)), 0x12);
                         temp_r2 = temp_r6->flags;
                         temp_r4_2 = 0x400 & temp_r2;
@@ -3722,7 +3731,7 @@ void sub_080267DC(void) {
     sub_08000274((M2C_UNK *) (base + off), (s32) sub_0805A6A0);
 }
 struct T24Net08026858 { u16 unk0, unk2; u8 pad4[3]; u8 unk7; };
-struct T24Player08026858 { u8 pad0[0x14]; u16 unk14; u8 pad16[10]; u16 state; u8 pad22[14]; u32 flags; u8 pad34[0x58]; u32 unk8C, unk90; u8 pad94[0x44]; u32 unkD8; u8 padDC[0x6C]; struct T24Net08026858 *net; };
+struct T24Player08026858 { u8 pad0[PLAYER_FIELD(0x14)]; u16 unk14; u8 pad16[PLAYER_FIELD(0x20) - PLAYER_FIELD(0x16)]; u16 state; u8 pad22[PLAYER_FIELD(0x30) - PLAYER_FIELD(0x22)]; u32 flags; u8 pad34[PLAYER_FIELD(0x8C) - PLAYER_FIELD(0x34)]; u32 unk8C, unk90; u8 pad94[PLAYER_FIELD(0xD8) - PLAYER_FIELD(0x94)]; u32 unkD8; u8 padDC[PLAYER_FIELD(0x148) - PLAYER_FIELD(0xDC)]; struct T24Net08026858 *net; };
 struct T24Sprite08026858 { u32 f0, f4, f8, fC; u8 pad10[12]; u8 payload[15]; u8 f2B; u8 pad2C[8]; };
 struct T24State08026858 { u32 f0; u16 unk4; u8 pad6[0x3A]; u32 unk40; u8 pad44[0x184]; u8 grid[100]; };
 extern struct T24Player08026858 t24_players08026858[] asm("gUnk_03003CE0");
@@ -3780,7 +3789,7 @@ void sub_08026858(void) {
     text = t24_call08007290_08026858(0x1403D4);
     {
         u32 index = sub_080020F4();
-        u32 stride = 0x14C;
+        u32 stride = PLAYER_SIZE;
 
         stride *= index;
         {
@@ -3790,7 +3799,7 @@ void sub_08026858(void) {
         }
     }
 
-    sub_08065158(&sprite, 0x5000D, 0xE, -1, var_sl);
+    sub_08065158(&sprite, RES_ID(0x5000D), 0xE, -1, var_sl);
     sub_08000AF0(0x1EU, sprite.fC + 0x1E0, 1U);
     sprite.f2B = 0xE;
     if (sub_0800CF48() != 0) {
@@ -3855,7 +3864,7 @@ poll_input:
             }
             if (var_r0_2 <= 0xF) {
                 if ((sub_0800CCCC() != 0) && (t24_scene08026858.scene == 0x13)) {
-                    temp_r4 = text + 2;
+                    temp_r4 = text + TEXT_HEADER;
                     sub_0801A3D0(temp_r4, (u16) (0xF - ((u32) t24_call0801A638_08026858(temp_r4) >> 1)), 0x12);
                     temp_r2 = temp_r6->flags;
                     temp_r4_2 = 0x400 & temp_r2;
@@ -4266,7 +4275,7 @@ block_32:
 }
 struct T025Block270 { u32 w[10]; };
 struct T025Packet270 { u16 f0, f2; s32 f4; u8 p8[8]; };
-struct T025Player270 { u16 unk0; u8 p2[0x1A]; u16 unk1C; u8 p1E[2]; u16 unk20, unk22; u8 p24[6]; u16 unk2A; u8 p2C[4]; u32 flags; void *unk34; u8 p38[0x30]; u8 unk68; u8 p69[0x23]; struct V2W12 pos8C,pos94; u8 p9C[8]; struct V2W12 posA4; u8 pAC[0x16]; u16 unkC2,unkC4,unkC6; u8 pC8[0x80]; void *unk148; };
+struct T025Player270 { u16 unk0; u8 p2[PLAYER_FIELD(0x1C) - 2]; u16 unk1C; u8 p1E[2]; u16 unk20, unk22; u8 p24[6]; u16 unk2A; u8 p2C[PLAYER_FIELD(0x30) - PLAYER_FIELD(0x2C)]; u32 flags; void *unk34; u8 p38[0x30]; u8 unk68; u8 p69[0x23]; struct V2W12 pos8C,pos94; u8 p9C[8]; struct V2W12 posA4; u8 pAC[0x16]; u16 unkC2,unkC4,unkC6; u8 pC8[0x80]; void *unk148; };
 struct T025State270 { u16 f0,f2,f4; u8 p6[6]; u16 fC; u8 pE[2]; u16 f10; u8 p12[0x10]; u16 f22[11]; s32 f38,f3C,f40,f44,f48; u8 p4C[4]; s32 f50; u8 p54[0x18]; s32 f6C,f70; u8 p74[0x1C]; u16 f90,f92,f94; u8 p96[2]; s32 f98,f9C,fA0,fA4; u8 pA8[0xA0]; u16 f148; u8 p14A[0x5D2]; u16 *f71C; };
 extern struct T025State270 *t025State270 asm("gUnk_03005CF4");
 extern struct T025Player270 t025Players270[] asm("gUnk_03003CE0");
@@ -4402,7 +4411,7 @@ check_loop_11:
             t025State270->f3C = (s32) t025State270->f98;
             restoreId = sub_080020F4();
             restoreBase = t025Players270;
-            restoreStride = 0x14C;
+            restoreStride = PLAYER_SIZE;
             temp_r2_4 = (u8 *)restoreBase + restoreId * restoreStride;
             M2C_FIELD(temp_r2_4, struct V2W12 *, 0xA4) = M2C_FIELD(t025State270, struct V2W12 *, 0xA0);
             temp_r4_3 = sub_080020F4();
@@ -4484,7 +4493,7 @@ check_loop_33:
     }
     flagIndex = sub_080020F4();
     flagBase = (u8 *)t025Players270;
-    flagOffset = 0x14C;
+    flagOffset = PLAYER_SIZE;
     flagOffset *= flagIndex;
     flagBase += 0x30;
     flagTarget = (s32 *)(flagOffset + (u32)flagBase);
@@ -4598,14 +4607,14 @@ check_loop_85:
     t025State270->f2 = (s16) t025State270->f40;
     temp_r0 = sub_080020F4();
     endBase = t025Players270;
-    temp_r1 = temp_r0 * 0x14C;
+    temp_r1 = temp_r0 * PLAYER_SIZE;
     endFlags = (s32 *)&endBase->flags;
     temp_r1_9 = (s32 *)(temp_r1 + (u32)endFlags);
     temp_r0 = *temp_r1_9;
     endMask = 0x2000;
     *temp_r1_9 = temp_r0 & endMask;
     endBase[sub_080020F4()].unk2A = (s16) t025State270->f40;
-    if (!(*(s32 *)((u32)endFlags + sub_080020F4() * 0x14C) & endMask)) {
+    if (!(*(s32 *)((u32)endFlags + sub_080020F4() * PLAYER_SIZE) & endMask)) {
         endBase[sub_080020F4()].unk68 = 1;
     }
     sub_08015C38();
@@ -4630,7 +4639,7 @@ check_loop_115:
 }
 
 struct T025Packet277 { u16 f0, f2; s32 f4; u8 p8[8]; };
-struct T025Player277 { u8 p0[0x2C]; u16 unk2C, unk2E; u8 p30[0x74]; s32 unkA4, unkA8; u8 pAC[0xA0]; };
+struct T025Player277 { u8 p0[PLAYER_FIELD(0x2C)]; u16 unk2C, unk2E; u8 p30[PLAYER_FIELD(0xA4) - (PLAYER_FIELD(0x2F) + 1)]; s32 unkA4, unkA8; u8 pAC[PLAYER_SIZE - PLAYER_FIELD(0xAC)]; };
 extern struct T025Player277 t025Players277[] asm("gUnk_03003CE0");
 struct T025State277 { u16 f0; u8 p2[2]; u16 f4; u8 p6[6]; u16 fC; u8 pE[2]; u16 f10; u8 p12[10]; u16 f1C; u8 p1E[4]; u16 f22[11]; s32 f38, f3C, f40, f44, f48; u8 p4C[0x71C-0x4C]; u16 *f71C; };
 extern struct T025State277 *t025State277 asm("gUnk_03005CF4");
@@ -4892,7 +4901,7 @@ s32 sub_08027B50(s32 arg0) {
 skip:
         level = sub_080020F4();
         base = gUnk_03003CE0;
-        offset = 0x14C * level;
+        offset = PLAYER_SIZE * level;
         flags = (s32 *)&base->flags;
         p = (s32 *)(offset + (u32)flags);
         *p &= ~2;
@@ -4916,7 +4925,7 @@ struct T025World27C {
     struct T025Effect27C effects[10]; u8 p6F4[0x1E4C - 0x6F4]; u32 f1E4C; struct T025Slot27C f1E50[4];
 };
 struct T025Sprite27C { u32 f0; u32 f4; u8 *f8; u32 fC; u8 p10[0xC]; u8 f1C[0x18]; };
-struct T025Player27C { u8 p0[0x2C]; u16 f2C; u8 p2E[0x14C - 0x2E]; };
+struct T025Player27C { u8 p0[PLAYER_FIELD(0x2C)]; u16 f2C; u8 p2E[PLAYER_SIZE - PLAYER_FIELD(0x2D) - 1]; };
 extern struct T025World27C *t025World27C asm("gUnk_03005CF4");
 extern struct T025Resource27C t025Resources27C[] asm("gUnk_0849E760");
 extern struct T025Config27C t025Configs27C[] asm("gUnk_084B1860");
@@ -5362,7 +5371,7 @@ struct Ent0284F4 {
     u32 f44;
 };
 struct Kind0284F4 { u32 res; u32 kind; };
-struct Ply0284F4 { u8 p0[0x14]; u16 f14; u8 p16[6]; s16 dir; u8 p1E[0x12]; u32 f30; u8 p34[0x58]; struct Pt0284F4 pos; u8 p94[0xB8]; };
+struct Ply0284F4 { u8 p0[PLAYER_FIELD(0x14)]; u16 f14; u8 p16[PLAYER_FIELD(0x1C) - PLAYER_FIELD(0x16)]; s16 dir; u8 p1E[PLAYER_FIELD(0x30) - PLAYER_FIELD(0x1E)]; u32 f30; u8 p34[PLAYER_FIELD(0x8C) - PLAYER_FIELD(0x34)]; struct Pt0284F4 pos; u8 p94[PLAYER_SIZE - PLAYER_FIELD(0x94)]; };
 struct State0284F4 { u8 p0[4]; u16 f4; };
 struct Loc0284F4 { s16 sx, sy; u16 u, v; struct Pt0284F4 pos; struct Size0284F4 size; s32 done; };
 extern struct Kind0284F4 kinds0284F4[] asm("gUnk_084B19F0");
@@ -5430,7 +5439,7 @@ void sub_080284F4_v(struct Ent0284F4 *e)
         e->f40 = done;
     }
     animA.data[kinds0284F4[e->f4].kind] = e->f40;
-    animInit0284F4(&animB, 0x50010, e->f40, -1, 0);
+    animInit0284F4(&animB, RES_ID(0x50010), e->f40, -1, 0);
     while (e->f36 != 4) {
         if (!(p->f30 & 0x2000) && (p->f14 & 1) && !(u8)((state0284F4->f4 >> 7) & 1) && e->f44 != 0) {
             pos = p->pos;
@@ -5476,7 +5485,7 @@ void sub_080284F4_v(struct Ent0284F4 *e)
     e->id = 0;
 }
 struct Pos028830 { u16 x; u16 y; };
-struct Ply028830 { u8 pad0[0x148]; struct Pos028830 *pos; };
+struct Ply028830 { u8 pad0[PLAYER_FIELD(0x148)]; struct Pos028830 *pos; };
 struct Box028830 { s32 a, b; };
 struct Arg028830 { struct Box028830 box; u32 c; s32 d, e; };
 extern struct Ply028830 players028830[] asm("gUnk_03003CE0");
