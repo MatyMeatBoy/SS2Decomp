@@ -484,6 +484,147 @@ extern void bg2694(u16, u32 *) asm("sub_08000AA8");
  * title/menu resources, stores mode selection03002838. Mode0 stops cable session and starts loopback; mode1
  * uses cable session; both start save-slot screen065B0. Modes2/3 invoke88914/920E4. Exact visible option
  * strings remain unverified. */
+#ifdef REGION_USA
+void sub_08002694(void)
+{
+    u8 anim[0xA4]; /* USA: larger title animation object */
+    u16 frame, tick;
+    struct { u32 lo:16; u32 hi:16; } cnt;
+    u16 i;
+    s32 running, started, link;
+
+    sub_080003F0();
+    sub_08006E64(1);
+    for (;;) {
+        sub_080003F4(0x14);
+        if (*(u8 *)&gUnk_0300129C & 0x80)
+            sub_08000940();
+        if (sub_08002228() != 0)
+            sub_080020E0();
+        while (sub_08002228() != 0)
+            sub_080003F0();
+        if (sub_08002228() == 0)
+            sub_0800208C(1);
+        link = 0;
+        sub_080013F8();
+        sub_080003F0();
+        sub_080003F0();
+        sub_080003F0();
+        sub_080003F0();
+        sub_08000A34(1, 0, 0, 0, link);
+        sub_080009F8(0xF00, 0, 1);
+        sub_080009C0(0x1200, 0, 1);
+        cnt.lo = 0x1C08;
+        bg2694(0, (u32 *)&cnt);
+        cnt.lo = 0x1D00;
+        bg2694(1, (u32 *)&cnt);
+        gUnk_03001250[0] = link;
+        gUnk_03001250[1] = link;
+        gUnk_03001250[2] = link;
+        gUnk_03001250[3] = link;
+        gUnk_03001250[4] = link;
+        gUnk_03001250[5] = link;
+        gUnk_03001250[6] = link;
+        gUnk_03001250[7] = link;
+        sub_0800BCDC(0x37, 1, 0x06000000, 0, 0x10);
+        init2694(anim, 0x50000, 0xE, 1, 0); /* single language */
+        sub_080003F0();
+        sub_080003F0();
+        gUnk_03002838 = 0;
+        running = 1;
+        started = 0;
+        frame = 0;
+        tick = 0;
+        sub_08006C70(0xC5);
+        for (i = 0; i <= 0x13; i++)
+            sub_080003F0();
+        if (sub_0801AB24() == 0)
+            sub_0801AA34(6);
+        else
+            sub_0801AB50(6);
+        while (running != 0) {
+            if (started != 0) {
+                if (gUnk_03001308 & 0x80) {
+                    sub_08006D08(0xE);
+                    gUnk_03002838 = 1;
+                    goto draw;
+                }
+                if (gUnk_03001308 & 0x40) {
+                    i = 0;
+                    sub_08006D08(0xE);
+                    gUnk_03002838 = i;
+                    goto draw;
+                }
+                if (*(u16 *)&gUnk_03001324 & 1) {
+                    if ((gUnk_0300130C & 8) && sub_08092080() != 0) {
+                        gUnk_03002838 = 3;
+                        sub_08006D08(0xF);
+                        goto done;
+                    }
+                    sub_08006D08(0xF);
+                    running = 0;
+                }
+            } else if (*(u16 *)&gUnk_03001324 & 8) {
+                started = 1;
+                sub_08006D08(0xF);
+            }
+        draw:
+            if (started != 0) {
+                draw2694(anim, 0x78, 0x82, 0, gUnk_03002838);
+            } else {
+                anim2694(anim, 4, &frame, &tick, 1);
+                draw2694(anim, 0x78, 0x88, 4, frame);
+            }
+            sub_080003F0();
+        }
+    done:
+        sub_08006C30(2);
+        if (started != 0) {
+            frame = 0;
+            tick = 0;
+        }
+        sub_0801ABE8(3);
+        while (sub_0801AAE0() == 0) {
+            if (started != 0) {
+                if (link == 0) {
+                    anim2694(anim, gUnk_03002838 + 1, &frame, &tick, 1);
+                    draw2694(anim, 0x78, 0x64, gUnk_03002838 + 1, frame);
+                } else {
+                    draw2694(anim, 0x78, 0x64, 0, gUnk_03002838);
+                }
+            } else {
+                anim2694(anim, 4, &frame, &tick, 1);
+                draw2694(anim, 0x78, 0x70, 4, frame);
+            }
+            draw2694(anim, 0x78, 0x5A, 3, 0);
+            sub_080003F0();
+        }
+        sub_08065204(anim);
+        sub_0805F07C();
+        switch (gUnk_03002838) {
+        case 0:
+            if (sub_08002228() != 0)
+                sub_080020E0();
+            while (sub_08002228() != 0)
+                sub_080003F0();
+            sub_0800208C(0);
+            sub_080065B0();
+            break;
+        case 1:
+            if (sub_08002228() == 0)
+                sub_0800208C(1);
+            sub_080065B0();
+            break;
+        case 2:
+            sub_08088914();
+            break;
+        case 3:
+            sub_080920E4();
+            break;
+        }
+    }
+}
+#else
 void sub_08002694(void)
 {
     u8 anim[0x34];
@@ -640,6 +781,7 @@ void sub_08002694(void)
         }
     }
 }
+#endif
 /* [StartTitleModeSelectionTask] Allocates0x200-byte stack, registers task03002810 callback02694. */
 void sub_08002A54(void)
 {
