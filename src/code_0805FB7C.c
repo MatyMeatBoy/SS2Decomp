@@ -192,12 +192,15 @@ void sub_0805FC80(struct IconPosition63 pos, u16 *item, u32 flags)
         break;
     }
     if (mode & 1) {
-        /* Preserve the ROM's coordinate lifetimes and narrowing order. */
 #ifdef REGION_USA
-        register s32 rawX asm("r0");
+        s32 rawY;
+        s32 cameraX;
+        s32 camera = sub_0800CCCC();
+        worldX = pos.x >> 8;
+        cameraX = (s16)worldX;
 #else
+        /* Preserve the ROM's coordinate lifetimes and narrowing order. */
         register s32 rawX asm("r2");
-#endif
         s32 rawY;
         s32 cameraX;
         s32 camera = sub_0800CCCC();
@@ -206,6 +209,7 @@ void sub_0805FC80(struct IconPosition63 pos, u16 *item, u32 flags)
         rawX >>= 8;
         worldX = rawX;
         cameraX = (s16)rawX;
+#endif
         
         rawY = pos.y;
         asm("" : : "r"(rawY));
