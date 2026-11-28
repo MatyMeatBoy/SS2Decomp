@@ -555,7 +555,7 @@ u32 sub_080662C4(s32 index)
     register u32 n asm("r2");
     register u32 i asm("r4");
     register void *payload asm("r1");
-    register struct EntityC467 *ent asm("r3");
+    struct EntityC467 *ent;
     register u32 rawOffset asm("r0");
     register u32 *countAddr asm("r8");
     register struct EntityC467 **entityAddr asm("sl");
@@ -565,7 +565,7 @@ u32 sub_080662C4(s32 index)
     i=0;
     { register struct EntityC467 **t asm("r3"); t=&entitiesC467; asm("" : "+r"(t)); entityAddr=t; }
     if(i<n) {
-    volatile u32 offset;
+    u32 offset;
 
     register u32 limit asm("r6");
     register struct PacketC467 *scan asm("r2");
@@ -575,14 +575,15 @@ u32 sub_080662C4(s32 index)
     loopAddr=entityAddr;
     
     do {
+        u32 t;
         if(scan->active==1 && scan->tag==0x91) {
             payload=&p->payload;
             { register struct EntityC467 **addr asm("r3")=loopAddr;
-              register u32 base asm("r0")=(u32)*addr; register u32 off asm("r7")=offset; ent=(struct EntityC467 *)(off+base); }
-            if(scan->payload.id==ent->id) {
+              register u32 base asm("r0")=(u32)*addr; t=offset; ent=(struct EntityC467 *)(t+base); }
+            { register u32 a asm("r0")=scan->payload.id; t=ent->id; if(a==t) {
             CpuSet(ent->velocity,payload,0x04000002);
             return 1;
-            }
+            } }
         }
         i++;scan++;p++;
     }while(i<limit);
