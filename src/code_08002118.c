@@ -850,7 +850,11 @@ struct Save2B70 {
     u8 pad8[4];
     u16 fC;
     u8 padE[2];
+#ifdef REGION_USA
+    NameChar name[10];
+#else
     u8 name[0xC];
+#endif
     s16 f1C;
     s16 f1E;
     s16 f20;
@@ -999,11 +1003,11 @@ void sub_08002B70_(void)
     vu16 *w;
     u32 c;
 
-    memcpy2B70(cursor, cursor2B70, 2);
+    memcpy2B70(cursor, cursor2B70, 2 * sizeof(TextChar));
     sub_08002AA0();
     sub_080003F0();
     sub_080003F0();
-    saves = alloc2B70(0x360);
+    saves = alloc2B70(8 * sizeof(struct Save2B70));
     all = loadAll2B70(saves);
     winOpen2B70(3);
     state = 0;
@@ -1030,6 +1034,9 @@ void sub_08002B70_(void)
     memcpy2B70(objA, blank2B70(), 0x34);
     cx = tx = pos2B70[slot].x;
     cy = ty = pos2B70[slot].y;
+#ifdef REGION_USA
+    init2B70(objB, 0x50002, 0, 0x80000000, 0); /* single language */
+#else
     switch (mode2B70) {
     case 0:
         init2B70(objB, 0x50002, 0, 0x80000000, 0);
@@ -1047,6 +1054,7 @@ void sub_08002B70_(void)
         init2B70(objB, 0x5015E, 0, 0x80000000, 0);
         break;
     }
+#endif
     oldMode = vmode2B70(0x88);
     oldHandler = handler2B70((u32)sub_08006694);
     sub_08000D8C();
@@ -1064,9 +1072,15 @@ void sub_08002B70_(void)
                 clear2B70(0x11, 2);
                 break;
             }
-            text2B70(msg2B70(0x140445) + 2, 1, 0x11);
+#ifdef REGION_USA
+            text2B70(msg2B70(0x140445) + TEXT_HEADER, 2, 0x11);
+            if (blink)
+                text2B70(cursor, 0x1B, 0x11);
+#else
+            text2B70(msg2B70(0x140445) + TEXT_HEADER, 1, 0x11);
             if (blink)
                 text2B70(cursor, 0x1C, 0x11);
+#endif
             if (blinkTimer++ < 0x1E)
                 blink = 1;
             else if (blinkTimer > 0x1D)
@@ -1175,9 +1189,9 @@ void sub_08002B70_(void)
                 ty = pos2B70[slot].y;
             }
             if (saves[slot].used == 0)
-                text2B70(msg2B70(0x140449) + 2, 1, 0x11);
+                text2B70(msg2B70(0x140449) + TEXT_HEADER, 1, 0x11);
             else
-                text2B70(msgB2B70(0x14044A) + 2, 1, 0x11);
+                text2B70(msgB2B70(0x14044A) + TEXT_HEADER, 1, 0x11);
             break;
         case 2:
             if (rep2B70 & 0x20) {
@@ -1212,7 +1226,7 @@ void sub_08002B70_(void)
                 draw2B70(objB, 0x88, 0x78, 5, noFrame);
                 drawB2B70(objB, 0x68, 0x78, 4, yesFrame);
             }
-            text2B70(msg2B70(0x140446) + 2, 2, 0x11);
+            text2B70(msg2B70(0x140446) + TEXT_HEADER, 2, 0x11);
             break;
         case 3:
             if (rep2B70 & 0x20) {
@@ -1243,7 +1257,7 @@ void sub_08002B70_(void)
                 draw2B70(objB, 0x88, 0x78, 5, noFrame);
                 drawB2B70(objB, 0x68, 0x78, 4, yesFrame);
             }
-            text2B70(msg2B70(0x140447) + 2, 2, 0x11);
+            text2B70(msg2B70(0x140447) + TEXT_HEADER, 2, 0x11);
             break;
         case 4:
             sub_08006C14();
@@ -1259,7 +1273,7 @@ void sub_08002B70_(void)
         case 5:
             if (keys2B70 != 0)
                 state = 1;
-            text2B70(msg2B70(0x140448) + 2, 2, 0x11);
+            text2B70(msg2B70(0x140448) + TEXT_HEADER, 2, 0x11);
             if (blink)
                 text2B70(cursor, 0x1B, 0x11);
             if (blinkTimer++ < 0x1E)
@@ -1276,7 +1290,7 @@ void sub_08002B70_(void)
                 str = msg2B70(0x14044C);
             else
                 str = msgB2B70(0x14044B);
-            text2B70(str + 2, 2, 0x11);
+            text2B70(str + TEXT_HEADER, 2, 0x11);
             if (rep2B70 & 0x20) {
                 if (yes == 1)
                     se2B70(0xE);
