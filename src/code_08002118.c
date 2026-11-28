@@ -201,6 +201,83 @@ extern void spriteDrawMenu000(void *,s32,s32,u32,s32) asm("sub_08065230");
  * waits once and wakes scheduler signal 0x14. The original map is 0,2,1,3,4. A preserved navigation-history
  * register can be read before a directional path initializes it; no general navigation-state initialization
  * fix or elapsed-time guarantee is inferred. */
+#ifdef REGION_USA
+/* USA: no language selection; a second title screen (0x4A) is shown and faded instead. */
+void sub_0800232C(void) {
+    s32 sp38;
+    s32 temp_r0;
+    u32 zero;
+    u32 configValue;
+    u32 i;
+
+    temp_r0 = sub_0801AB24();
+    if (temp_r0 == 0) {
+        sub_08000A34(1, 0, 0, 0, temp_r0);
+        sub_080009F8(0xF00, 0, 0);
+        sub_080009C0(0x200, 0, 0);
+        sp38 = (sp38 & 0xFFFF0000) | 0x1C08;
+        sub_08000AA8(0U, (u16 *) &sp38);
+        configValue=0x1D03;
+        *(u16 *)&sp38 = configValue;
+        sub_08000AA8(1U, (u16 *) &sp38);
+        sub_0800BCDC(0x4B, 1, 0x06000000, 0U, 0x10U);
+        sub_08000940();
+        sub_0801AB90(0x14);
+    } else {
+        sub_08000A34(1, 0, 0, 0, 1);
+        sub_080009F8(0xF00, 0, 1);
+        sub_080009C0(0x200, 0, 1);
+        zero=0;
+        configValue=0x1C08;
+        *(u16 *)&sp38 = configValue;
+        sub_08000AA8(0U, (u16 *) &sp38);
+        configValue=0x1D03;
+        *(u16 *)&sp38 = configValue;
+        sub_08000AA8(1U, (u16 *) &sp38);
+        sub_0800BCDC(0x4B, 1, 0x06000000, 0U, 0x10U);
+        screen000[2] = zero;
+        screen000[3] = zero;
+        if (sub_0801AB24() == 2) {
+            sub_0801AB90(6);
+        } else {
+            sub_0801AB50(6);
+        }
+    }
+    while (sub_0801AAE0() == 0) {
+        sub_080920A0();
+        sub_080003F0();
+    }
+    i = 0;
+    do {
+        sub_080920A0();
+        sub_080003F0();
+        i += 1;
+    } while (i <= 0xB3U);
+    sub_0801AA8C(0x1E);
+    while (sub_0801AAE0() == 0) {
+        sub_080920A0();
+        sub_080003F0();
+    }
+    sub_0800BCDC(0x4A, 1, 0x06000000, 0U, 0x10U);
+    screen000[2] = 0;
+    screen000[3] = 0;
+    sub_0801AA34(6);
+    while (sub_0801AAE0() == 0) {
+        sub_080003F0();
+    }
+    i = 0;
+    do {
+        sub_080003F0();
+        i += 1;
+    } while (i <= 0xB3U);
+    sub_0801AA8C(0x1E);
+    while (sub_0801AAE0() == 0) {
+        sub_080003F0();
+    }
+    sub_080003F0();
+    sub_08000420(0x14);
+}
+#else
 void sub_0800232C(void) {
     u32 sprite[13];
     s32 sp38;
@@ -379,6 +456,7 @@ block_46:
     sub_080003F0();
     sub_08000420(0x14);
 }
+#endif
 /* [StartLanguageSelectionTask] Allocates one 0x400-byte stack, configures task 030027E0 with callback 0232C,
  * zero destructor and callback argument zero, then starts it. No scheduled-task check or allocation-failure
  * guard is present. Task field +8 is set to1; no priority scale or delayed start is inferred. */
