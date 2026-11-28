@@ -107,6 +107,9 @@ void sub_080B3648(void)
     struct { s16 x, y; } pos;
     struct XYB3648 tgt;
     struct XYB3648 off;
+#ifdef REGION_USA
+    struct ResB3648 *res;
+#endif
     s32 lastHit;
     s32 yoff;
     u16 tile;
@@ -125,7 +128,9 @@ void sub_080B3648(void)
     u8 hitflag;
     s32 once;
     s32 active;
+#ifndef REGION_USA
     struct ResB3648 *res;
+#endif
     struct ActB3648 *a;
     u8 b;
     u8 c;
