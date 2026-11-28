@@ -42,6 +42,8 @@ typedef u16 NameChar;
 typedef u16 TextChar;
 #define TEXT_CTRL(c) (0xFF00 | (c))
 #define EQUIP_FIELD(o) ((o) + 0xDC)
+/* Archive 0xE records: fields from 0xA4 on sit 0xE0 later (0xA0 widens to a word at +0xDC). */
+#define EQUIP_E_FIELD(o) ((o) + 0xE0)
 #define GLOVE_SIZE (EQUIP_FIELD(0xB8) + 4)
 #define ENEMY_DATA_FIELD(o) ((o) + 0x174)
 typedef u16 EquipLevel;
@@ -61,6 +63,7 @@ typedef u8 NameChar;
 typedef u8 TextChar;
 #define TEXT_CTRL(c) (c)
 #define EQUIP_FIELD(o) (o)
+#define EQUIP_E_FIELD(o) (o)
 #define GLOVE_SIZE 0xB8
 #define ENEMY_DATA_FIELD(o) (o)
 typedef u8 EquipLevel;

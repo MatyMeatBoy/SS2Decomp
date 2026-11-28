@@ -766,12 +766,6 @@ s32 sub_0801B8A8(struct S17ItemC4 *a, struct S17ItemB8 *b, struct S17ItemB8 *c, 
 struct BA74Res { s16 v[6]; };
 struct BA74Stats { s16 f0, f2, f4, f6; s16 f8; u16 fA[5]; struct BA74Res res; };
 struct BA74Slot { u16 f0; u16 id; u16 sub; u8 bonus; u8 f7; u8 broken; u8 valid; u8 padA[6]; };
-/* Archive 0xE records grow by 0xE0 in USA (C/D: 0xDC). */
-#ifdef REGION_USA
-#define EQUIP_E_FIELD(o) ((o) + 0xE0)
-#else
-#define EQUIP_E_FIELD(o) (o)
-#endif
 #ifdef REGION_USA
 #define T5_FLAG_BA74 (*(u32 *)(t5 + EQUIP_FIELD(0xA0)))
 #else

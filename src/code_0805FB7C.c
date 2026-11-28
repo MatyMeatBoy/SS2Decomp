@@ -105,7 +105,7 @@ void sub_0805FC80(struct IconPosition63 pos, u16 *item, u32 flags)
     default:
         return;
     case 1:
-        descriptor = (u8 *)sub_08007290(entry[1] | 0x100000) + 0xA8;
+        descriptor = (u8 *)sub_08007290(entry[1] | 0x100000) + ITEM_FIELD(0xA8);
         packed = *(u16 *)descriptor;
         frame = *descriptor;
         group = packed >> 8;
@@ -113,7 +113,7 @@ void sub_0805FC80(struct IconPosition63 pos, u16 *item, u32 flags)
     case 2: {
         u16 packed2;
         resource = (u8 *)sub_08007290(entry[1] | 0xB0000);
-        icon = resource + 0xBE;
+        icon = resource + ITEM_FIELD(0xBE);
         packed2 = *(u16 *)icon;
         frame = *icon;
         group = packed2 >> 8;
@@ -122,12 +122,12 @@ void sub_0805FC80(struct IconPosition63 pos, u16 *item, u32 flags)
             alternate++;
         } else {
             overlay = ((u8 *)entry)[7];
-            if (overlay == 0) overlay = *(u16 *)(resource + 0xBC);
+            if (overlay == 0) overlay = *(u16 *)(resource + ITEM_FIELD(0xBC));
         }
         break;
     }
     case 3:
-        descriptor = (u8 *)sub_08007290(entry[1] | 0xC0000) + 0xB0;
+        descriptor = (u8 *)sub_08007290(entry[1] | 0xC0000) + EQUIP_FIELD(0xB0);
         packed = *(u16 *)descriptor;
         frame = *descriptor;
         group = packed >> 8;
@@ -139,7 +139,7 @@ void sub_0805FC80(struct IconPosition63 pos, u16 *item, u32 flags)
         }
         break;
     case 4:
-        descriptor = (u8 *)sub_08007290(entry[1] | 0xD0000) + 0xB0;
+        descriptor = (u8 *)sub_08007290(entry[1] | 0xD0000) + EQUIP_FIELD(0xB0);
         packed = *(u16 *)descriptor;
         frame = *descriptor;
         group = packed >> 8;
@@ -151,7 +151,7 @@ void sub_0805FC80(struct IconPosition63 pos, u16 *item, u32 flags)
         }
         break;
     case 5:
-        descriptor = (u8 *)sub_08007290(entry[1] | 0xE0000) + 0xB0;
+        descriptor = (u8 *)sub_08007290(entry[1] | 0xE0000) + EQUIP_E_FIELD(0xB0);
         packed = *(u16 *)descriptor;
         frame = *descriptor;
         group = packed >> 8;
@@ -161,31 +161,31 @@ void sub_0805FC80(struct IconPosition63 pos, u16 *item, u32 flags)
         }
         break;
     case 7:
-        descriptor = (u8 *)sub_08007290(entry[1] | 0x110000) + 0xA8;
+        descriptor = (u8 *)sub_08007290(entry[1] | 0x110000) + ITEM_FIELD(0xA8);
         packed = *(u16 *)descriptor;
         frame = *descriptor;
         group = packed >> 8;
         break;
     case 6:
-        descriptor = (u8 *)sub_08007290(entry[1] | 0xF0000) + 0xAC;
+        descriptor = (u8 *)sub_08007290(entry[1] | 0xF0000) + ITEM_FIELD(0xAC);
         packed = *(u16 *)descriptor;
         frame = *descriptor;
         group = packed >> 8;
         break;
     case 9:
-        descriptor = (u8 *)sub_08007290(entry[1] | 0x150000) + 0xA0;
+        descriptor = (u8 *)sub_08007290(entry[1] | 0x150000) + ITEM_FIELD(0xA0);
         packed = *(u32 *)descriptor;
         frame = *descriptor;
         group = packed >> 8;
         break;
     case 10:
-        descriptor = (u8 *)sub_08007290(0x160000) + 0x9C;
+        descriptor = (u8 *)sub_08007290(0x160000) + ITEM_FIELD(0x9C);
         packed = *(u32 *)descriptor;
         frame = *descriptor;
         group = packed >> 8;
         break;
     case 8:
-        descriptor = (u8 *)sub_08007290(entry[1] | 0x120000) + 0xA0;
+        descriptor = (u8 *)sub_08007290(entry[1] | 0x120000) + ITEM_FIELD(0xA0);
         packed = *(u16 *)descriptor;
         frame = *descriptor;
         group = packed >> 8;
@@ -193,7 +193,11 @@ void sub_0805FC80(struct IconPosition63 pos, u16 *item, u32 flags)
     }
     if (mode & 1) {
         /* Preserve the ROM's coordinate lifetimes and narrowing order. */
+#ifdef REGION_USA
+        register s32 rawX asm("r0");
+#else
         register s32 rawX asm("r2");
+#endif
         s32 rawY;
         s32 cameraX;
         s32 camera = sub_0800CCCC();
